@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.514355315816948;
+    $Self->{Completeness}        = 0.508267309679642;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -1427,7 +1427,7 @@ sub Data {
         'In case you would have further questions we would be glad to answer them.' =>
             'Kama una maswali zaidi tungependa kuyajibu.',
         'Install Package' => 'Sanikisha kifueushi',
-        'Upgrade Package' => '',
+        'Update Package' => '',
         'Continue' => 'Endelea',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             'Tafadhali hakikisha hifadhidata yako inakubali vifurushi vya ukubwa zaidi ya MB %s (kwa sasa inakubali vifurush hadi MB %s). Tafadhali kubaliana na mipangilio ya Upeo mkubwa_ulioruhusiwa_wa kifurushi ya hifadhidata yako ili kuzuia makosa.',
@@ -1436,11 +1436,10 @@ sub Data {
         'Cloud services are currently disabled.' => '',
         'OTRS Verify™ can not continue!' => '',
         'Enable cloud services' => '',
-        'Upgrade all installed packages' => '',
+        'Update all installed packages' => '',
         'Online Repository' => 'Hifadhi ya mtandaoni',
         'Action' => 'Kitendo',
         'Module documentation' => 'Moduli za nyaraka',
-        'Upgrade' => 'Kuboresha',
         'Local Repository' => 'Hifadhi ya ndani',
         'This package is verified by OTRSverify (tm)' => 'Kifurushi hiki kimethibitishwa na OTRSthibitisha (tm)',
         'Uninstall' => 'Sakinusha',
@@ -1950,6 +1949,7 @@ sub Data {
             'Kuna japo parameta moja imepotea kwa ajili ya uunganishaji. Tafadhali iangalie.',
         'Result format' => 'Umbizo la matokeo',
         'Run Query' => 'Endesha ulizo.',
+        '%s Results' => '',
         'Query is executed.' => 'Ulizo linatekelezwa.',
 
         # Template: AdminService
@@ -2417,8 +2417,8 @@ sub Data {
         'Undo & close' => '',
 
         # Template: AgentInfo
-        'Info' => 'Taarifa',
         'To accept some news, a license or some changes.' => 'Kukubali baadhi ya taarifa, lleseni au baadhi ya mabadiliko.',
+        'Yes, accepted.' => '',
 
         # Template: AgentLinkObject
         'Manage links for %s' => '',
@@ -2624,6 +2624,7 @@ sub Data {
         # Template: AgentTicketHistory
         'History of %s%s%s' => '',
         'Filter for history items' => '',
+        'Expand/collapse all' => '',
         'Article' => 'Makala',
 
         # Template: AgentTicketMerge
@@ -3417,6 +3418,14 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminCommunicationLog.pm
         'Invalid CommunicationID ' => '',
+        'All communications' => '',
+        'Last 1 hour' => '',
+        'Last 3 hours' => '',
+        'Last 6 hours' => '',
+        'Last 12 hours' => '',
+        'Last 24 hours' => '',
+        'Last week' => '',
+        'Last month' => '',
         'Invalid StartTime: %s!' => '',
         'Successful' => '',
         'Processing' => '',
@@ -3427,6 +3436,7 @@ sub Data {
         'sorted ascending' => '',
         'Trace' => '',
         'Debug' => 'Eua',
+        'Info' => 'Taarifa',
         'Warn' => '',
         'days' => 'Siku',
         'day' => 'Siku',
@@ -3437,6 +3447,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer company updated!' => 'Kampuni ya mteja imesasishwa!',
+        'Dynamic field %s not found!' => '',
+        'Unable to set value for dynamic field %s!' => '',
         'Customer Company %s already exists!' => '',
         'Customer company added!' => 'Kampuni ya mteja imeongezwa!',
 
@@ -3841,6 +3853,7 @@ sub Data {
         'Impossible to delete relation!' => '',
         'Certificate %s could not be read!' => '',
         'Needed Fingerprint' => '',
+        'Handle Private Certificate Relations' => '',
 
         # Perl Module: Kernel/Modules/AdminSalutation.pm
         'Salutation added!' => '',
@@ -3955,7 +3968,7 @@ sub Data {
         'No permissions!' => '',
 
         # Perl Module: Kernel/Modules/AgentAppointmentList.pm
-        '+%d more' => '',
+        '+%s more' => '',
 
         # Perl Module: Kernel/Modules/AgentCustomerSearch.pm
         'Customer History' => '',
@@ -3984,6 +3997,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
         'Param Group is required!' => '',
+        'Updated user preferences' => '',
         'System was unable to deploy your changes.' => '',
         'Setting not found!' => '',
         'This feature is part of the %s Please contact us at %s for an upgrade.' =>
@@ -4397,6 +4411,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
         'Upgrade to OTRS Business Solution™' => '',
         'Re-install Package' => '',
+        'Upgrade' => 'Kuboresha',
         'Re-install' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
@@ -4529,6 +4544,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '',
+        'Please verify your license data!' => '',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
             'Leseni ya %s inakaribia kuisha. Tafadhali fanya mkataba na %s kufanya upya mkataba.',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
@@ -4548,6 +4564,7 @@ sub Data {
         'Online Customer: %s' => 'Mteja wa mtandaoni: %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
+        'System maintenance is active!' => '',
         'A system maintenance period will start at: ' => '',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
@@ -4755,9 +4772,8 @@ sub Data {
         'File is not installed!' => '',
         'File is different!' => '',
         'Can\'t read file!' => '',
-        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
-            '<br> Kama unaendelea kusaniki kifurishi hiki, mambo yafuatayo yanaweza kutokea! <br><br>&nbsp;-usalama
-Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo yanayosababishwa na kufanya kazi na kifurushi hayajausishwa kwneye makataba wa huduma wa OTRS.',
+        '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -4822,6 +4838,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'State Type Historic' => '',
         'Historic Time Range' => '',
         'Number' => 'Namba',
+        'Last Changed' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => '',
@@ -5081,8 +5098,8 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
         'Ticket Search Index Module' => '',
-        'You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
-            'Una zaidi ya makala 50,000 na unapaswa kutumia mandharinyuma DB tuli.Angalia Manyo ya kiongozi (kuboresha utendaji) kwa taarifa zaidi.',
+        'The indexing process forces the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
         'Orphaned Records In ticket_lock_index Table' => 'Rekodi zilizoachwa katika jedwali la Kielezo_Cha kufunga_Tiketi',
@@ -5503,6 +5520,8 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Reset option is required!' => '',
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?' =>
             '',
+        'Keys with values can\'t be renamed. Please remove this key/value pair instead and re-add it afterwards.' =>
+            '',
         'Unlock setting.' => '',
 
         # JS File: Core.Agent.Admin.SystemMaintenance
@@ -5574,6 +5593,8 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
             '',
         'Sorry, but you can\'t disable all methods for this notification.' =>
+            '',
+        'Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.' =>
             '',
         'An unknown error occurred. Please contact the administrator.' =>
             '',
@@ -5693,12 +5714,13 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Sorry, you can only upload one file here.' => '',
         'Sorry, you can only upload %s files.' => '',
         'Please only select at most %s files for upload.' => '',
-        'The following files are not allowed to be uploaded' => '',
-        'The following files exceed the maximum allowed size per file of %s and were not uploaded' =>
+        'The following files are not allowed to be uploaded: %s' => '',
+        'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s' =>
             '',
-        'The following files were already uploaded and have not been uploaded again' =>
+        'The following files were already uploaded and have not been uploaded again: %s' =>
             '',
-        'No space left for the following files' => '',
+        'No space left for the following files: %s' => '',
+        'Available space %s of %s.' => '',
         'Upload information' => '',
         'An unknown error occurred when deleting the attachment. Please try again. If the error persists, please contact your system administrator.' =>
             '',
@@ -5832,6 +5854,8 @@ Thanks for your help!
             '',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Moduli ya kiolesura cha wakala ya kuangalia barua pepe zinazoingia katika mandhari iliyokuzwa ya tiketi kama kibonye cha S/MIME kipo na kweli.',
+        'Agent interface notification module to see the number of incomplete working days for the user.' =>
+            '',
         'Agent interface notification module to see the number of locked tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Agent interface notification module to see the number of tickets an agent is responsible for. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -6191,10 +6215,21 @@ Mfano:
         'Default display type for sender (From) names in AgentTicketZoom and CustomerTicketZoom.' =>
             '',
         'Default loop protection module.' => 'Moduli ya kulinda kitanzi chaguo-msingi.',
+        'Default name for new actions.' => '',
+        'Default name for new projects.' => '',
         'Default queue ID used by the system in the agent interface.' => 'Kitambulisho cha foleni chaguo-msingi kinachotumika na mfumo katika kiolesura cha wakala.',
+        'Default setting for date end.' => '',
+        'Default setting for date start.' => '',
+        'Default setting for description.' => '',
+        'Default setting for leave days.' => '',
+        'Default setting for overtime.' => '',
+        'Default setting for the standard weekly hours.' => '',
         'Default skin for the agent interface (slim version).' => 'Gamba chaguo-msingi kwa jili ya kiolesura cha wakala (toleo jembamba).',
         'Default skin for the agent interface.' => 'Gamba chaguo-msingi kwa ajili ya kiolesura cha wakala.',
         'Default skin for the customer interface.' => '',
+        'Default status for new actions.' => '',
+        'Default status for new projects.' => '',
+        'Default status for new users.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             'Kitambulisho cha tiketi chaguo-msingi kinachotumika na mfumo katika kiolesura cha wakala.',
         'Default ticket ID used by the system in the customer interface.' =>
@@ -6217,6 +6252,8 @@ Mfano:
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             'Inafafanua siku ya kwanza ya wiki kwa kichagua tarehe kama ilivyoonyeshwa kwenye kalenda.',
         'Define the start day of the week for the date picker.' => 'Inafafanua siku ya kwanza ya wiki kwa kichagua tarehe.',
+        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information.' =>
+            '',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
             '',
         'Define which columns are shown in the linked appointment widget (LinkObject::ViewMode = "complex"). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
@@ -6819,6 +6856,8 @@ Mfano:
         'Defines the postmaster default queue.' => 'Inafafanua foleni chaguo msingi ya mkuu wa posta.',
         'Defines the priority in which the information is logged and presented.' =>
             'Inafafanua kipaumbele ambacho taarifa zinawekwa batli na kuwasilishwa.',
+        'Defines the projects for which a remark is required. If the RegExp matches on the project, you have to insert a remark too. The RegExp use the smx parameter.' =>
+            '',
         'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" shows only the queues which are assigned to system addresses) in the customer interface.' =>
@@ -6927,6 +6966,8 @@ Mfano:
             'Itaamua kama orodha za foleni zinaaowezekana kuhamisha tiketi zionyeshwe katika orodha kunjuzi au katika window mpya ya kiolesura cha wakala. Kama "Window Mpya" imewekwa unaweza kuongeza kidokezo cha kuhamisha katika tiketi.',
         'Determines if the statistics module may generate ticket lists.' =>
             'Inaamua kaam moduli ya takwimu inaweza kutengeneza orodha za tiketi.',
+        'Determines if the statistics module may generate time accounting information.' =>
+            '',
         'Determines the next possible ticket states, after the creation of a new email ticket in the agent interface.' =>
             'Itaamua hali ya tiketi inayowezekana  ifuatayo, baada ya kutengeneza tiketi ya barua pepe mpya katika kiolesura cha wakala.',
         'Determines the next possible ticket states, after the creation of a new phone ticket in the agent interface.' =>
@@ -6975,6 +7016,7 @@ Mfano:
             '',
         'Down' => 'Chini',
         'Dropdown' => 'Kunjuzi',
+        'Dutch' => '',
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Dynamic Fields Checkbox Backend GUI' => 'GUI ya mazingira ya nyuma ya kisanduku tiki cha uga zenye nguvu',
@@ -7056,6 +7098,8 @@ Mfano:
         'Edit Customer Users.' => '',
         'Edit appointment' => '',
         'Edit customer company' => 'Hariri kampuni ya mteja ',
+        'Edit time accounting settings.' => '',
+        'Edit time record.' => '',
         'Email Addresses' => 'Anwani za barua pepe',
         'Email Outbound' => '',
         'Email Resend' => '',
@@ -7148,8 +7192,6 @@ Mfano:
         'Filter for debugging Transitions. Note: More filters can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
             'Chuja kwa ajili ya mipito ya ueuaji.Angalizo: Vichuja zaidi vinaweza kuongezwa katika umbizo <OTRS_TICKET_Attribute> mfano <OTRS_TICKET_Priority>.',
         'Filter incoming emails.' => 'Chuja barua pepe zinazoingia.',
-        'Filter stop words from article search index, turned on by default. If turned off, search index will store unfiltered text.' =>
-            '',
         'Finnish' => '',
         'First Christmas Day' => 'Siku ya kwanza ya krisimasi.',
         'First Queue' => '',
@@ -7160,7 +7202,10 @@ Mfano:
         'FirstResponseInMin' => 'Jibu la kwanza katika dakika',
         'Firstname Lastname' => 'Jina kwanza Jina la mwisho',
         'Firstname Lastname (UserLogin)' => 'Jina kwanza Jina la mwisho(Kuingia kwa mtumiaji) ',
+        'For how many days ago you can insert working units.' => '',
         'For these state types the ticket numbers are striked through in the link table.' =>
+            '',
+        'Force the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
             '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             'Inalazimisha usimbaji wa barua pepe zinatoka nje (7bit|8bit|quoted-printable|base64).',
@@ -7187,7 +7232,6 @@ Mfano:
             '',
         'Frontend module registration for the agent interface.' => 'Usajili wa moduli ya mazingira ya mbele kwa ajili ya kiolesura cha wakala.',
         'Frontend module registration for the customer interface.' => 'Usajili wa moduli ya mazingira ya mbele kwa ajili ya kiolesura cha mteja.',
-        'Frontend theme' => 'Dhima ya mazingira ya mbele',
         'Full value' => '',
         'Fulltext index regex filters to remove parts of the text.' => 'Regex ya kielezo cha nakala kamili inachuja kuondoa sehemu za makala.',
         'Fulltext search' => '',
@@ -7328,14 +7372,24 @@ Mfano:
             'Kama imezeshwa, OTRS itawasilisha mafaili yote ya JavaScript katika umbo dogo.',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'Kama imewezeshwa, Simu ya tiketi na barua pepe ya tiketi zitafunguliwa katika windows mpya.',
+        'If enabled, only users that has added working time to the selected project are shown.' =>
+            '',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
             '',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Kama imewezeshwa, mapitio mbalimbali (dashibodi, Mandhari iliyofungwa, Mandhari ya foleni) itaonyeshwa upya otomatiki baada ya muda uliobainishwa.',
+        'If enabled, the dropdown elements in the edit screen are changed to modernized autocompletion fields.' =>
+            '',
+        'If enabled, the filter for the previous projects can be used instead two list of projects (last and all ones). It could be used only if TimeAccounting::EnableAutoCompletion is enabled.' =>
+            '',
+        'If enabled, the filter for the previous projects is active by default if there are the previous projects. It could be used only if EnableAutoCompletion and TimeAccounting::UseFilter are enabled.' =>
+            '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             'Kama imewezeshwa,ngazi ya kwanza ya menyu kuu itafunguka katika uambaaji wa juu wa kipanya (badala ya kubofya tu)',
+        'If enabled, the user is allowed to enter "on vacation leave", "on sick leave" and "on overtime leave" to multiple dates at once.' =>
+            '',
         'If enabled, users that haven\'t selected a time zone yet will be notified to do so. Note: Notification will not be shown if (1) user has not yet selected a time zone and (2) OTRSTimeZone and UserDefaultTimeZone do match and (3) are not set to UTC.' =>
             '',
         'If no SendmailNotificationEnvelopeFrom is specified, this setting makes it possible to use the email\'s from address instead of an empty envelope sender (required in certain mail server configurations).' =>
@@ -7499,6 +7553,10 @@ Mfano:
             'Namba ya upeo wa juu wa tiketi zitakazo onyeshwa katika matokeo katika kiolesura cha mteja.',
         'Maximum number of tickets to be displayed in the result of this operation.' =>
             'Namba ya upeo wa juu wa tiketi zitakazo onyeshwa katika matokeo ya mchakato huu.',
+        'Maximum number of working days after which the working units have to be inserted.' =>
+            '',
+        'Maximum number of working days without working units entry after which a warning will be shown.' =>
+            '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'Ukubwa wa upeo wa juu (katika herufi) wa jedwali la taarifa za mteja katika mandhari iliyokuzwa ya tiketi.',
         'Medium' => 'Wastani',
@@ -7561,7 +7619,6 @@ Mfano:
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
             'Jina la huduma maalum. Huduma maalum ni uchaguzi wa huduma wa huduma zako unazozipendelea na zinazeweza kuchaguliwa katika mipangilio ya mapendeleo.',
         'NameX' => 'Jina X',
-        'Nederlands' => '',
         'New Ticket' => 'Tiketi mpya',
         'New Tickets' => 'Tiketi mpya',
         'New Window' => '',
@@ -7617,6 +7674,7 @@ Mfano:
         'Overview of all open Tickets.' => 'Marejeo ya Tiketi zilizo wazi ',
         'Overview of all open tickets.' => '',
         'Overview of customer tickets.' => '',
+        'Overview.' => '',
         'PGP Key' => 'Ufunguo wa PGP',
         'PGP Key Management' => 'Usimamizi wa kibonye cha PGP',
         'PGP Keys' => 'Funguo za PGP',
@@ -7728,6 +7786,7 @@ Mfano:
         'ProcessID' => 'Kitambulisho cha mchakato',
         'Processes & Automation' => '',
         'Product News' => 'Habari za bidhaa',
+        'Project time reporting.' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             'Ulinzi dhidi ya CSRF (Cross Site Request Forgery) kutumia (Kwa taarifa zaidi anaglia http://en.wikipedia.org/wiki/Cross-site_request_forgery).',
         'Provides a matrix overview of the tickets per state per queue' =>
@@ -7743,6 +7802,10 @@ Mfano:
         'Refresh interval' => 'muda wa kuonyesha',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
+        'Regular expressions for constraining action list according to selected project. Key contains regular expression for project(s), content contains regular expressions for action(s).' =>
+            '',
+        'Regular expressions for constraining project list according to user groups. Key contains regular expression for project(s), content contains comma separated list of groups.' =>
+            '',
         'Reminder Tickets' => 'Tiketi za kikumbuhso',
         'Removed subscription for user "%s".' => 'Toa kujiunga kwa mtumiaji "%s".',
         'Removes old system configuration deployments (Sunday mornings).' =>
@@ -7754,6 +7817,7 @@ Mfano:
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             'Inabadilisha anwani ya barua pepe ya  mtumaji wa mwanzo naya  mteja wa katika kutunga jibu katika skrini ya kutunga tiketi ya kiolesura cha wakala.',
+        'Reporting' => '',
         'Reports' => '',
         'Reports (OTRS Business Solution™)' => '',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
@@ -8223,8 +8287,6 @@ Mfano:
             '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'Inaonyesha chaguo la mmiliki katika simu na tiketi za barua pepe katika kiolesura cha wakala.',
-        'Shows colors for different article types in the article table.' =>
-            'Inaonyesha rangi kwa ajili ya aina makala mbalimbali katika jedwali la makala.',
         'Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer.' =>
             'Inaonyesha tiketi za historia za mteja katika simu ya tiketi ya wakala, Barua pepe za tiketi za wakala na mteja wa tiketi za wakala.',
         'Shows either the last customer article\'s subject or the ticket title in the small format overview.' =>
@@ -8240,7 +8302,6 @@ Mfano:
             'Inaonyesha makala zilizopangwa kawaida au kinyume, katika ukuzwaji wa tiketi katika kiolesura cha wakala.',
         'Shows the customer user information (phone and email) in the compose screen.' =>
             'Inaonyesha taarifa za mtumiaji wa mteja (simu na barua pepe) katika skrini ya kutunga.',
-        'Shows the customer user\'s info in the ticket zoom view.' => 'Inaonyesha taarifa za mtumiaji za mteja katika mandhari ya kuona yaliyokuzwa ya tiketi.',
         'Shows the message of the day (MOTD) in the agent dashboard. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
@@ -8311,6 +8372,8 @@ Mfano:
             '',
         'Specifies if an agent should receive email notification of his own actions.' =>
             'Inabainisha kama wakala apokee taarifa ya barua pepe kwa ajili ya matendo yake.',
+        'Specifies if working hours can be inserted without start and end times.' =>
+            '',
         'Specifies the directory to store the data in, if "FS" was selected for ArticleStorage.' =>
             '',
         'Specifies the directory where SSL certificates are stored.' => 'Inabainisha mpangilio orodha ambapo vyeti cha SSL vimehifadhiwa.',
@@ -8441,7 +8504,10 @@ Mfano:
         'This is the default orange - black skin.' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'Moduli hii na fomula saidizi yake PreRun() zitatendewa kazi, kama zikikataliwa, kwa kila ombi. Moduli hii iatumika kuangalia michaguo ya mtumiaji au kuonyesha taarifa kuhusu programu-tumizi mpya.',
+        'This module forces inserts in TimeAccounting.' => '',
         'This module is part of the admin area of OTRS.' => '',
+        'This notification module gives a warning if there are too many incomplete working days.' =>
+            '',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             'Chaguo hili linafafanua uga wenye nguvu ambao kitambulisho cha kipengele halisi cha shughuli wa usimamizi wa mchakato kinahifadhiwa.',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
@@ -8494,10 +8560,19 @@ Mfano:
         'Ticket zoom view.' => '',
         'TicketNumber' => 'Namba ya tiketi',
         'Tickets.' => '',
+        'Time Accounting' => '',
+        'Time accounting edit.' => '',
+        'Time accounting overview.' => '',
+        'Time accounting reporting.' => '',
+        'Time accounting settings.' => '',
+        'Time accounting view.' => '',
+        'Time accounting.' => '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             'Muda katika sekunde ambao unaongezwa kwneye muda halisi kama hali ya kusubiri ikiwekwa (chaguo-msingi: 86400 = siku 1).',
         'To accept login information, such as an EULA or license.' => '',
         'To download attachments.' => '',
+        'To use if some actions reduced the working hours (for example, if only half of the traveling time is paid Key => traveling; Content => 50).' =>
+            '',
         'To view HTML attachments.' => '',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             'Inageuza onyesho la orodha ya vifaa vya nyongeza ya vipengele vya OTRS  katika msimamizi wa kifurushi.',
@@ -8601,6 +8676,11 @@ Mfano:
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',
         ' ...show less',
+        '%s B',
+        '%s GB',
+        '%s KB',
+        '%s MB',
+        '%s TB',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
@@ -8636,6 +8716,7 @@ Mfano:
         'Attachments',
         'Aug',
         'August',
+        'Available space %s of %s.',
         'Basic information',
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?',
         'Calendar',
@@ -8754,6 +8835,7 @@ Mfano:
         'Jun',
         'June',
         'Just this occurrence',
+        'Keys with values can\'t be renamed. Please remove this key/value pair instead and re-add it afterwards.',
         'Less',
         'Link',
         'Loading, please wait...',
@@ -8781,7 +8863,7 @@ Mfano:
         'No matches found.',
         'No package information available.',
         'No sort applied, ',
-        'No space left for the following files',
+        'No space left for the following files: %s',
         'Not available',
         'Notice',
         'Notification',
@@ -8799,6 +8881,7 @@ Mfano:
         'Please either turn some off first or increase the limit in configuration.',
         'Please enter at least one search value or * to find anything.',
         'Please enter at least one search word to find anything.',
+        'Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.',
         'Please only select at most %s files for upload.',
         'Please only select one file for upload.',
         'Please remove the following words from your search as they cannot be searched for:',
@@ -8883,9 +8966,9 @@ Mfano:
         'Th',
         'The browser you are using is too old.',
         'The deployment is already running.',
-        'The following files are not allowed to be uploaded',
-        'The following files exceed the maximum allowed size per file of %s and were not uploaded',
-        'The following files were already uploaded and have not been uploaded again',
+        'The following files are not allowed to be uploaded: %s',
+        'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s',
+        'The following files were already uploaded and have not been uploaded again: %s',
         'The item you\'re currently viewing is part of a not-yet-deployed configuration setting, which makes it impossible to edit it in its current state. Please wait until the setting has been deployed. If you\'re unsure what to do next, please contact your system administrator.',
         'The key must not be empty.',
         'The mail could not be sent',
@@ -8942,12 +9025,14 @@ Mfano:
         'Yes',
         'You can either have the affected settings updated automatically to reflect the changes you just made or do it on your own by pressing \'update manually\'.',
         'You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built.',
+        'You have undeployed settings, would you like to deploy them?',
         'activate to apply a descending sort',
         'activate to apply an ascending sort',
         'activate to remove the sort',
         'and %s more...',
         'day',
         'month',
+        'more',
         'no',
         'none',
         'or',

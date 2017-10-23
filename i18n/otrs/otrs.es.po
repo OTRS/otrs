@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2017-10-09 16:06+0000\n"
-"PO-Revision-Date: 2017-10-09 16:24+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2017-10-13 19:28+0000\n"
+"Last-Translator: Антон Протченко :3 <a_protchenko@hotmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/otrs/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1223,27 +1223,27 @@ msgstr "Vista detallada de la %s comunicación iniciada en %s"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail View"
-msgstr ""
+msgstr "Vista Detallada"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Show only entries with specific priority and higher:"
-msgstr ""
+msgstr "Mostrar solo entradas de prioridad específica ó más alta:"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Communication Log Overview (%s)"
-msgstr ""
+msgstr "La Visión General del Registro de Comunicación (%s)"
 
 #. Template: AdminCommunicationLogZoom
 msgid "No communication objects found."
-msgstr ""
+msgstr "No se encontraron los objetos de comunicación"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Communication Log Details"
-msgstr ""
+msgstr "los Detalles del Registro de Comunicación"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Please select an entry from the list."
-msgstr ""
+msgstr "Favor, seleccione una entrada de la lista."
 
 #. Template: AdminCustomerCompany
 msgid "Customer Management"
@@ -1291,7 +1291,7 @@ msgstr "Por favor, observe"
 
 #. Template: AdminCustomerCompany
 msgid "This customer backend is read only!"
-msgstr ""
+msgstr "Éste processador adicional del cliente es solo lectura!"
 
 #. Template: AdminCustomerGroup
 msgid "Manage Customer-Group Relations"
@@ -1326,7 +1326,7 @@ msgstr "Estos grupos se asignan automáticamente a todos los clientes."
 msgid ""
 "You can manage these groups via the configuration setting "
 "\"CustomerGroupCompanyAlwaysGroups\"."
-msgstr ""
+msgstr "Puedes administrar estos grupos mediante los ajustes de configuración \"CustomerGroupCompanyAlwaysGroups\"."
 
 #. Template: AdminCustomerGroup
 msgid "Filter for Groups"
@@ -1444,7 +1444,7 @@ msgstr "Cambiar a cliente"
 msgid ""
 "This customer backend is read only, but the customer user preferences can be"
 " changed!"
-msgstr ""
+msgstr "Éste processador adicional del Cliente es solo lectura, pero las preferencias del Cliente pueden ser cambiados."
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."
@@ -1468,19 +1468,19 @@ msgstr "La sintaxis de esta dirección de correo es incorrecta"
 
 #. Template: AdminCustomerUser
 msgid "This CustomerID is invalid."
-msgstr ""
+msgstr "Identificación del Cliente no es válido"
 
 #. Template: AdminCustomerUser
 msgid "Effective Permissions for Customer User"
-msgstr ""
+msgstr "Los Permisos Efectivos para el Cliente"
 
 #. Template: AdminCustomerUser
 msgid "Group Permissions"
-msgstr ""
+msgstr "Permisos del Grupo"
 
 #. Template: AdminCustomerUser
 msgid "This customer user has no group permissions."
-msgstr ""
+msgstr "Éste Cliente no tiene permisos del grupo."
 
 #. Template: AdminCustomerUser
 msgid ""
@@ -1488,11 +1488,11 @@ msgid ""
 "matrix takes into account all inherited permissions (e.g. via customer "
 "groups). Note: The table does not consider changes made to this form without"
 " submitting it."
-msgstr ""
+msgstr "La tabla de arriba demuestra los permisos efectivos del grupo para el Cliente. El matriz toma en cuenta todos los permisos heredadas (ej. mediante los grupos del Cliente). Nota: La tabla no toma en cuenta los cambios hechos a esta forma sin presentarlos."
 
 #. Template: AdminCustomerUser
 msgid "Customer Access"
-msgstr ""
+msgstr "el Acceso de Cliente"
 
 #. Template: AdminCustomerUser
 msgid "Customer"
@@ -1500,7 +1500,7 @@ msgstr "Cliente"
 
 #. Template: AdminCustomerUser
 msgid "This customer user has no customer access."
-msgstr ""
+msgstr "Éste Cliente no tiene el acceso de Cliente"
 
 #. Template: AdminCustomerUser
 msgid ""
@@ -1508,15 +1508,15 @@ msgid ""
 "permission context. The matrix takes into account all inherited access (e.g."
 " via customer groups). Note: The table does not consider changes made to "
 "this form without submitting it."
-msgstr ""
+msgstr "La tabla de arriba demuestra el acceso autorizado de cliente para el Cliente por el contexto de permisos. La matriz toma en cuenta todos los accesos heredados (ej. mediante los grupos de cliente). Nota: La tabla no toma en cuenta los cambios hechos a esta forma sin presentarlos."
 
 #. Template: AdminCustomerUserCustomer
 msgid "Manage Customer User-Customer Relations"
-msgstr ""
+msgstr "Administrar la relación Usuario del Cliente-Cliente"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Select the customer user:customer relations."
-msgstr ""
+msgstr "Seleccionar la relación Usuario del Cliente:Cliente."
 
 #. Template: AdminCustomerUserCustomer
 msgid "Customer Users"
@@ -1524,11 +1524,11 @@ msgstr "Clientes"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer Relations for Customer User"
-msgstr ""
+msgstr "Cambiar las Relaciones del Cliente por las Relaciónes del Usuario del Cliente"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer User Relations for Customer"
-msgstr ""
+msgstr "Cambiar las Relaciones del Usuario del Cliente por las Relaciónes del Cliente"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Toggle active state for all"
@@ -1544,21 +1544,21 @@ msgstr "Conmutar el estado activo a %s"
 
 #. Template: AdminCustomerUserGroup
 msgid "Manage Customer User-Group Relations"
-msgstr ""
+msgstr "Administrar las Relaciones Usuario del Cliente-Grupo"
 
 #. Template: AdminCustomerUserGroup
 msgid ""
 "Just use this feature if you want to define group permissions for customer "
 "users."
-msgstr ""
+msgstr "Usa este elemento sí quieres definir los permisos de grupo para los usuarios del cliente."
 
 #. Template: AdminCustomerUserGroup
 msgid "Edit Customer User Default Groups"
-msgstr ""
+msgstr "Editar los Grupos del Usuario del Cliente Por Defecto"
 
 #. Template: AdminCustomerUserGroup
 msgid "These groups are automatically assigned to all customer users."
-msgstr ""
+msgstr "Éstos grupos son automaticamente asignados a todos los usuarios del cliente."
 
 #. Template: AdminCustomerUserGroup
 msgid ""
@@ -1568,21 +1568,21 @@ msgstr "Puede gestionar estos grupos mediante el ajuste de configuración «Cust
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
-msgstr ""
+msgstr "Seleccionar los permisos Usuario del Cliente - Grupo."
 
 #. Template: AdminCustomerUserGroup
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets"
 " will not be available for the customer user)."
-msgstr ""
+msgstr "Sí no está seleccionado nada, entónces no habrá permisos en éste grupo (tickets no serán disponibles para el usuario del cliente)."
 
 #. Template: AdminCustomerUserGroup
 msgid "Customer User Default Groups:"
-msgstr ""
+msgstr "Grupos del Usuario del Cliente por Defecto:"
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer User-Services Relations"
-msgstr ""
+msgstr "Administrar las Relaciones Usuario del Cliente-Servicios"
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
@@ -1606,21 +1606,21 @@ msgstr "Añadir un nuevo campo al objeto"
 
 #. Template: AdminDynamicField
 msgid "Filter for Dynamic Fields"
-msgstr ""
+msgstr "Filtrar por Campos dinámicos"
 
 #. Template: AdminDynamicField
 msgid "Filter for dynamic fields"
-msgstr ""
+msgstr "Filtrar por Campos dinámicos"
 
 #. Template: AdminDynamicField
 msgid "More Business Fields"
-msgstr ""
+msgstr "Más Campos de Negocio"
 
 #. Template: AdminDynamicField
 msgid ""
 "Would you like to benefit from additional dynamic field types for "
 "businesses? Upgrade to %s to get access to the following field types:"
-msgstr ""
+msgstr "Quieres beneficiarse de los tipos adicionales de campo dinámico para negocios? Actualisa a %s para obtener el acceso a los siguientes tipos de campos:"
 
 #. Template: AdminDynamicField
 msgid "Database"
@@ -1629,17 +1629,17 @@ msgstr "Base de datos"
 #. Template: AdminDynamicField
 msgid ""
 "Use external databases as configurable data sources for this dynamic field."
-msgstr ""
+msgstr "Usa los bases de datos externos cómo los fuentes configurables de datos para éste campo dinámico."
 
 #. Template: AdminDynamicField
 msgid "Web service"
-msgstr ""
+msgstr "Servicio Web"
 
 #. Template: AdminDynamicField
 msgid ""
 "External web services can be configured as data sources for this dynamic "
 "field."
-msgstr ""
+msgstr "Servicios Web externos pueden ser configurados como las fuentes de datos para éste campo dinámico."
 
 #. Template: AdminDynamicField
 msgid "Contact with data"
@@ -1647,7 +1647,7 @@ msgstr "Contacto con los datos"
 
 #. Template: AdminDynamicField
 msgid "This feature allows to add (multiple) contacts with data to tickets."
-msgstr ""
+msgstr "Este elemento permite agregar (multiplicar) contactos con datos a los Tickets."
 
 #. Template: AdminDynamicField
 msgid ""
@@ -1728,7 +1728,7 @@ msgstr "Éste es el orden en que se mostrará este campo en las pantallas en las
 msgid ""
 "Is not possible to invalidate this entry, all config settings have to be "
 "changed beforehand."
-msgstr ""
+msgstr "No es posible invalidar esta entrada, todos los ajustes de configuración deben ser cambiados antes."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field type"
@@ -1748,7 +1748,7 @@ msgstr "Este campo está protegido y no se puede borrar."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This dynamic field is used in the following config settings:"
-msgstr ""
+msgstr "Este campo dinámico está usado en los siguientes ajustes de configuración:"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field Settings"
@@ -1939,7 +1939,7 @@ msgstr "Añadir RegEx"
 
 #. Template: AdminEmail
 msgid "Admin Message"
-msgstr ""
+msgstr "Mensaje de Administrador"
 
 #. Template: AdminEmail
 msgid ""

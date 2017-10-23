@@ -5,7 +5,7 @@
 # Gerald Rook <rook@retail.nl>, 2017
 # Michael Goossens <themastergamernl@gmail.com>, 2016
 # Niels Dimmers <niels@nielsdimmers.nl>, 2016
-# Peter van Beugen <peter@tda.nl>, 2015
+# Peter van Beugen <peter@tda.nl>, 2015,2017
 # Sander G. <transifex@sander.goudswaard.com>, 2015-2016
 # Sjoerd de Bruin <sjoerddebruin@me.com>, 2016
 # Tim Janssen <timjanssen88@outlook.com>, 2017
@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2017-10-09 16:06+0000\n"
-"PO-Revision-Date: 2017-10-09 16:24+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2017-10-11 12:00+0000\n"
+"Last-Translator: Peter van Beugen <peter@tda.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/otrs/OTRS/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -139,7 +139,7 @@ msgstr "Bewerk ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
-msgstr ""
+msgstr "Bewerkt ACL"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -188,7 +188,7 @@ msgstr "Toon of verberg de inhoud"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "Bewerk ACL-informatie"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -200,7 +200,7 @@ msgstr "Stop met filters na match"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
+msgstr "Bewerk ACL-structuur"
 
 #. Template: AdminACLEdit
 msgid "Save settings"
@@ -208,7 +208,7 @@ msgstr "Instellingen opslaan"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
-msgstr ""
+msgstr "ACL Opslaan"
 
 #. Template: AdminACLEdit
 msgid "Save"
@@ -238,15 +238,15 @@ msgstr "Maak een nieuwe ACL aan. Na het aanmaken kunt u de eigenschappen aanpass
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Management"
-msgstr ""
+msgstr "Kalender beheer"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Calendar"
-msgstr ""
+msgstr "Kalender toevoegen"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Edit Calendar"
-msgstr ""
+msgstr "Kalender bewerken"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Go back"
@@ -254,19 +254,19 @@ msgstr "Ga terug"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
-msgstr ""
+msgstr "Kalender overzicht"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add new Calendar"
-msgstr ""
+msgstr "Nieuwe kalender toevoegen"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Appointments"
-msgstr ""
+msgstr "Afspraken importeren"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Import"
-msgstr ""
+msgstr "Kalender import"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -281,15 +281,15 @@ msgstr "Overschrijf bestaande records"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Upload calendar configuration"
-msgstr ""
+msgstr "Upload kalender configuratie"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
-msgstr ""
+msgstr "Importeer kalender"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
-msgstr ""
+msgstr "Filter voor kalenders"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -333,19 +333,19 @@ msgstr "Downloaden"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Export calendar"
-msgstr ""
+msgstr "Exporteer kalender"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Download calendar"
-msgstr ""
+msgstr "Download kalender"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Copy public calendar URL"
-msgstr ""
+msgstr "Kopieer publieke kalender URL"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar"
@@ -353,23 +353,23 @@ msgstr "Kalender"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar name"
-msgstr ""
+msgstr "Kalender naam"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar with same name already exists."
-msgstr ""
+msgstr "Er bestaat al een kalender met deze naam."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Color"
-msgstr ""
+msgstr "Kleur"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Permission group"
-msgstr ""
+msgstr "Permissie groep"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Ticket Appointments"
-msgstr ""
+msgstr "Ticket afspraken"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Rule"
@@ -389,7 +389,7 @@ msgstr "Begindatum"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "End date"
-msgstr ""
+msgstr "Einddatum"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -754,7 +754,7 @@ msgstr "Aanvullende ontvanger e-mailadres"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
-msgstr ""
+msgstr "Article zichtbaar voor klant"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
@@ -869,7 +869,7 @@ msgstr "Voor de eerste vijf regels van het e-mail bericht."
 
 #. Template: AdminAutoResponse
 msgid "To get the name of the ticket's customer user (if given)."
-msgstr ""
+msgstr "Om de naam van de klant te verkrijgen (indien gegeven)"
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -1230,15 +1230,15 @@ msgstr ""
 
 #. Template: AdminCustomerCompany
 msgid "Customer Management"
-msgstr "Beheer klanten"
+msgstr "Beheer bedrijven"
 
 #. Template: AdminCustomerCompany
 msgid "Add Customer"
-msgstr "Klant toevoegen"
+msgstr "Bedrijf toevoegen"
 
 #. Template: AdminCustomerCompany
 msgid "Edit Customer"
-msgstr "Klant bewerken"
+msgstr "Bedrijf bewerken"
 
 #. Template: AdminCustomerCompany
 msgid "Search"
@@ -1266,7 +1266,7 @@ msgstr "Typ om te zoeken naar klanten."
 
 #. Template: AdminCustomerCompany
 msgid "Customer ID"
-msgstr "Klant ID"
+msgstr "Bedrijfs ID"
 
 #. Template: AdminCustomerCompany
 msgid "Please note"
@@ -1274,11 +1274,11 @@ msgstr "Let op"
 
 #. Template: AdminCustomerCompany
 msgid "This customer backend is read only!"
-msgstr ""
+msgstr "Deze bedrijven backend is read only!"
 
 #. Template: AdminCustomerGroup
 msgid "Manage Customer-Group Relations"
-msgstr "Beheer Klant - Groep koppelingen"
+msgstr "Beheer Bedrijf - Groep koppelingen"
 
 #. Template: AdminCustomerGroup
 msgid "Notice"
@@ -1299,7 +1299,7 @@ msgstr "Inschakelen"
 
 #. Template: AdminCustomerGroup
 msgid "Edit Customer Default Groups"
-msgstr "Bewerk standaard groepen voor klanten"
+msgstr "Bewerk standaard groepen voor bedrijven"
 
 #. Template: AdminCustomerGroup
 msgid "These groups are automatically assigned to all customers."
@@ -1309,7 +1309,7 @@ msgstr "Deze groepen worden toegewezen aan alle klanten."
 msgid ""
 "You can manage these groups via the configuration setting "
 "\"CustomerGroupCompanyAlwaysGroups\"."
-msgstr ""
+msgstr "U kunt deze groepen beheren via de optie \"CustomerGroupAlwaysGroups\"."
 
 #. Template: AdminCustomerGroup
 msgid "Filter for Groups"
@@ -1317,7 +1317,7 @@ msgstr "Filter op groepen"
 
 #. Template: AdminCustomerGroup
 msgid "Select the customer:group permissions."
-msgstr "Selecteer de permissies voor klant:groep."
+msgstr "Selecteer de permissies voor bedrijf:groep."
 
 #. Template: AdminCustomerGroup
 msgid ""
@@ -1331,7 +1331,7 @@ msgstr "Zoekresultaat"
 
 #. Template: AdminCustomerGroup
 msgid "Customers"
-msgstr "Klanten"
+msgstr "Bedrijven"
 
 #. Template: AdminCustomerGroup
 msgid "Groups"
@@ -1339,11 +1339,11 @@ msgstr "Groepen"
 
 #. Template: AdminCustomerGroup
 msgid "Change Group Relations for Customer"
-msgstr "Bewerk gekoppelde groepen voor klant"
+msgstr "Bewerk gekoppelde groepen voor bedrijf"
 
 #. Template: AdminCustomerGroup
 msgid "Change Customer Relations for Group"
-msgstr "Bewerk gekoppelde klanten voor groep"
+msgstr "Bewerk gekoppelde bedrijven voor groep"
 
 #. Template: AdminCustomerGroup
 msgid "Toggle %s Permission for all"
@@ -1451,11 +1451,11 @@ msgstr "De syntax van dit e-mailadres klopt niet."
 
 #. Template: AdminCustomerUser
 msgid "This CustomerID is invalid."
-msgstr ""
+msgstr "Dit CustomerID (bedrijf) is ongeldig."
 
 #. Template: AdminCustomerUser
 msgid "Effective Permissions for Customer User"
-msgstr ""
+msgstr "Effectieve machtigingen voor klanten"
 
 #. Template: AdminCustomerUser
 msgid "Group Permissions"
@@ -1475,7 +1475,7 @@ msgstr ""
 
 #. Template: AdminCustomerUser
 msgid "Customer Access"
-msgstr ""
+msgstr "Bedrijf toegang"
 
 #. Template: AdminCustomerUser
 msgid "Customer"
@@ -1483,7 +1483,7 @@ msgstr "Klant"
 
 #. Template: AdminCustomerUser
 msgid "This customer user has no customer access."
-msgstr ""
+msgstr "Deze klant heeft geen toegang vanuit het bedrijf."
 
 #. Template: AdminCustomerUser
 msgid ""

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2017-10-09 16:06+0000\n"
-"PO-Revision-Date: 2017-10-09 16:24+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2017-10-22 17:25+0000\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -6918,7 +6918,7 @@ msgstr "Sablon hozzáadása"
 msgid ""
 "A template is a default text which helps your agents to write faster "
 "tickets, answers or forwards."
-msgstr "A sablon egy olyan alapértelmezett szöveg, amely segíti az ügyintézőket a gyorsabb jegyek, válaszok vagy továbbítások írásakor."
+msgstr "A sablon egy olyan alapértelmezett szöveg, amely segít az ügyintézőknek a jegyek, válaszok vagy továbbítások gyorsabb írásában."
 
 #. Template: AdminTemplate
 msgid "Don't forget to add new templates to queues."
@@ -9455,7 +9455,7 @@ msgstr "Jelszó ismétlése"
 
 #. Template: InstallerDBmssql
 msgid "Generated password"
-msgstr "Generált jelszó"
+msgstr "Előállított jelszó"
 
 #. Template: InstallerDBmysql
 msgid "Passwords do not match"
@@ -10141,15 +10141,15 @@ msgstr "Megjelenítés"
 
 #. JS Template: FormDraftAddDialog
 msgid "Draft title"
-msgstr ""
+msgstr "Piszkozat címe"
 
 #. JS Template: ArticleViewSettingsDialog
 msgid "Article display"
-msgstr ""
+msgstr "Bejegyzés megjelenítés"
 
 #. JS Template: FormDraftDeleteDialog
 msgid "Do you really want to delete \"%s\"?"
-msgstr ""
+msgstr "Valóban törölni szeretné a következőt: „%s”?"
 
 #. JS Template: FormDraftDeleteDialog
 msgid "Confirm"
@@ -10157,27 +10157,27 @@ msgstr "Megerősítés"
 
 #. JS Template: WidgetLoading
 msgid "Loading, please wait..."
-msgstr ""
+msgstr "Betöltés, kérem várjon…"
 
 #. JS Template: UploadContainer
 msgid "Click to select files or just drop them here."
-msgstr ""
+msgstr "Kattintson a fájlok kijelöléséhez, vagy egyszerűen dobja ide azokat."
 
 #. JS Template: UploadContainer
 msgid "Click to select a file or just drop it here."
-msgstr ""
+msgstr "Kattintson egy fájl kijelöléséhez, vagy egyszerűen dobja ide azt."
 
 #. JS Template: UploadContainer
 msgid "Uploading..."
-msgstr ""
+msgstr "Feltöltés…"
 
 #. JS Template: InformationDialog
 msgid "Process state"
-msgstr ""
+msgstr "Folyamat állapota"
 
 #. JS Template: InformationDialog
 msgid "Running"
-msgstr ""
+msgstr "Fut"
 
 #. JS Template: InformationDialog
 msgid "Finished"
@@ -10185,7 +10185,7 @@ msgstr "Befejezve"
 
 #. JS Template: InformationDialog
 msgid "No package information available."
-msgstr ""
+msgstr "Nem érhetők el csomaginformációk."
 
 #. JS Template: AddButton
 msgid "Add new entry"
@@ -10197,19 +10197,19 @@ msgstr "Kulcs hozzáadása"
 
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
-msgstr ""
+msgstr "Üzembe állítás megjegyzése…"
 
 #. JS Template: DialogDeployment
 msgid "Deploying, please wait..."
-msgstr ""
+msgstr "Üzembe állítás, kérem várjon…"
 
 #. JS Template: DialogDeployment
 msgid "Preparing to deploy, please wait..."
-msgstr "Az üzembe állítás előkészítése, kérem várjon…"
+msgstr "Előkészítés az üzembe állításhoz, kérem várjon…"
 
 #. JS Template: DialogDeployment
 msgid "Deploy now"
-msgstr ""
+msgstr "Üzembe állítás most"
 
 #. JS Template: DialogDeployment
 msgid "Close"
@@ -10217,42 +10217,42 @@ msgstr "Lezárás"
 
 #. JS Template: DialogDeployment
 msgid "Try again"
-msgstr ""
+msgstr "Próbálja újra"
 
 #. JS Template: DialogReset
 msgid "Reset options"
-msgstr ""
+msgstr "Lehetőségek visszaállítása"
 
 #. JS Template: DialogReset
 msgid "Reset setting on global level."
-msgstr ""
+msgstr "Beállítás visszaállítása globális szinten."
 
 #. JS Template: DialogReset
 msgid "Reset globally"
-msgstr ""
+msgstr "Visszaállítás globálisan"
 
 #. JS Template: DialogReset
 msgid "Remove all user changes."
-msgstr ""
+msgstr "Az összes felhasználói változtatás eltávolítása."
 
 #. JS Template: DialogReset
 msgid "Reset locally"
-msgstr ""
+msgstr "Visszaállítás lokálisan"
 
 #. JS Template: DialogReset
 msgid "user(s) have modified this setting."
-msgstr ""
+msgstr "felhasználó módosította ezt a beállítást."
 
 #. JS Template: DialogReset
 msgid "Do you really want to reset this setting to it's default value?"
-msgstr ""
+msgstr "Valóban vissza szeretné állítani ezt a beállítást az alapértelmezett értékére?"
 
 #. JS Template: HelpDialog
 msgid ""
 "You can use the category selection to limit the navigation tree below to "
 "entries from the selected category. As soon as you select the category, the "
 "tree will be re-built."
-msgstr ""
+msgstr "Használhatja a kategóriaválasztást a lenti navigációs fának a kijelölt kategóriából származó bejegyzésekre való korlátozásához. Amint kiválasztja a kategóriát, a fa újraépítésre kerül."
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Database Backend"
@@ -16904,7 +16904,7 @@ msgid ""
 "ACL module that allows closing parent tickets only if all its children are "
 "already closed (\"State\" shows which states are not available for the "
 "parent ticket until all child tickets are closed)."
-msgstr "Egy ACL modul, amely csak akkor engedélyezi a szülőjegyek lezárását, ha már minden gyermekjegyük le van zárva (az „Állapot” jelzi, hogy mely állapotok nem érhetők el a szülőjegyhez, amíg minden gyermekjegy le nincs zárva)."
+msgstr "Egy ACL modul, amely csak akkor engedélyezi a szülőjegyek lezárását, ha már minden gyermekjegyük le van zárva (a „State” azt jelzi, hogy mely állapotok nem érhetők el a szülőjegyhez, amíg minden gyermekjegy le nincs zárva)."
 
 #. SysConfig
 msgid "Access Control Lists (ACL)"
@@ -16921,7 +16921,7 @@ msgstr "A legrégebbi jegyet tartalmazó várólista villogási mechanizmusát a
 
 #. SysConfig
 msgid "Activates lost password feature for agents, in the agent interface."
-msgstr "Elfelejtett jelszó szolgáltatását aktivál az ügyintézőknek az ügyintézői felületen."
+msgstr "Elfelejtett jelszó szolgáltatást aktivál az ügyintézőknek az ügyintézői felületen."
 
 #. SysConfig
 msgid "Activates lost password feature for customers."
@@ -18035,7 +18035,7 @@ msgstr "Azt szabályozza, hogy az automatikus kiegészítés mező legyen-e hasz
 msgid ""
 "Controls if the ticket and article seen flags are removed when a ticket is "
 "archived."
-msgstr "Azt szabályozza, hogy a jegy és a bejegyzés látható jelzői el legyenek-e távolítva a jegy archiválásakor."
+msgstr "Azt szabályozza, hogy a jegy és a bejegyzés olvasottság jelzői el legyenek-e távolítva a jegy archiválásakor."
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."
@@ -19593,13 +19593,13 @@ msgstr "Meghatározza az alapértelmezett jegytípust."
 msgid ""
 "Defines the default used Frontend-Module if no Action parameter given in the"
 " url on the agent interface."
-msgstr "Meghatározza az alapértelmezetten használt előtétprogram-modult, ha nincs művelet paraméter megadva az URL-ben az ügyintézői felületen."
+msgstr "Meghatározza az alapértelmezetten használt előtétprogram-modult, ha nincs Action paraméter megadva az URL-ben az ügyintézői felületen."
 
 #. SysConfig
 msgid ""
 "Defines the default used Frontend-Module if no Action parameter given in the"
 " url on the customer interface."
-msgstr "Meghatározza az alapértelmezetten használt előtétprogram-modult, ha nincs művelet paraméter megadva az URL-ben az ügyfélfelületen."
+msgstr "Meghatározza az alapértelmezetten használt előtétprogram-modult, ha nincs Action paraméter megadva az URL-ben az ügyfélfelületen."
 
 #. SysConfig
 msgid ""
@@ -20599,7 +20599,7 @@ msgid ""
 "Defines the viewable locks of a ticket. NOTE: When you change this setting, "
 "make sure to delete the cache in order to use the new value. Default: "
 "unlock, tmp_lock."
-msgstr "Meghatározza egy jegy látható zárait. MEGJEGYZÉS: ha megváltoztatja ezt a beállítást, akkor győződjön meg arról, hogy törölte-e a gyorsítótárat annak érdekében, hogy használhassa az új értéket. Alapértelmezett: zárolatlan, átmenetileg zárolt."
+msgstr "Meghatározza egy jegy látható zárait. MEGJEGYZÉS: ha megváltoztatja ezt a beállítást, akkor győződjön meg arról, hogy törölte-e a gyorsítótárat annak érdekében, hogy használhassa az új értéket. Alapértelmezett: unlock, tmp_lock."
 
 #. SysConfig
 msgid ""
@@ -20723,7 +20723,7 @@ msgstr "Meghatározza, hogy a lehetséges várólisták listája, amelybe a jegy
 
 #. SysConfig
 msgid "Determines if the statistics module may generate ticket lists."
-msgstr "Meghatározza, hogy a statisztika modul generálhat-e jegylistákat."
+msgstr "Meghatározza, hogy a statisztika modul előállíthat-e jegylistákat."
 
 #. SysConfig
 msgid ""
@@ -22547,7 +22547,7 @@ msgstr "Az ügyfél-információs tábla (telefon vagy e-mail) legnagyobb méret
 
 #. SysConfig
 msgid "Max size (in rows) of the informed agents box in the agent interface."
-msgstr "A tájékoztatott ügyintézők doboz legnagyobb mérete (sorokban) az ügyintézői felületen."
+msgstr "Az értesített ügyintézők doboz legnagyobb mérete (sorokban) az ügyintézői felületen."
 
 #. SysConfig
 msgid "Max size (in rows) of the involved agents box in the agent interface."
@@ -23921,7 +23921,7 @@ msgstr "Kiválasztja a jegyszám-előállító modult. Az „AutoIncrement” n�
 
 #. SysConfig
 msgid "Send new outgoing mail from this ticket"
-msgstr "Új kimenő levél küldése erről a jegyről"
+msgstr "Új kimenő levél küldése ebből a jegyből"
 
 #. SysConfig
 msgid "Send notifications to users."
@@ -25754,25 +25754,25 @@ msgstr "Egy jegy azonosítója, például Ticket#, Call#, MyTicket#. Az alapért
 msgid ""
 "The logo shown in the header of the agent interface for the skin "
 "\"default\". See \"AgentLogo\" for further description."
-msgstr "Az ügyintézői felület fejlécében megjelenített logó az „alapértelmezett” felszínnél. További leírásért nézze meg az „AgentLogo” bejegyzést."
+msgstr "Az ügyintézői felület fejlécében megjelenített logó az „Alapértelmezett” felszínnél. További leírásért nézze meg az „AgentLogo” beállítást."
 
 #. SysConfig
 msgid ""
 "The logo shown in the header of the agent interface for the skin \"ivory\". "
 "See \"AgentLogo\" for further description."
-msgstr "Az ügyintézői felület fejlécében megjelenített logó az „ivory” felszínnél. További leírásért nézze meg az „AgentLogo” bejegyzést."
+msgstr "Az ügyintézői felület fejlécében megjelenített logó az „Elefántcsont” felszínnél. További leírásért nézze meg az „AgentLogo” beállítást."
 
 #. SysConfig
 msgid ""
 "The logo shown in the header of the agent interface for the skin \"ivory-"
 "slim\". See \"AgentLogo\" for further description."
-msgstr "Az ügyintézői felület fejlécében megjelenített logó az „ivory-slim” felszínnél. További leírásért nézze meg az „AgentLogo” bejegyzést."
+msgstr "Az ügyintézői felület fejlécében megjelenített logó az „Elefántcsont (karcsú)” felszínnél. További leírásért nézze meg az „AgentLogo” beállítást."
 
 #. SysConfig
 msgid ""
 "The logo shown in the header of the agent interface for the skin \"slim\". "
 "See \"AgentLogo\" for further description."
-msgstr "Az ügyintézői felület fejlécében megjelenített logó a „slim” felszínnél. További leírásért nézze meg az „AgentLogo” bejegyzést."
+msgstr "Az ügyintézői felület fejlécében megjelenített logó az „Alapértelmezett (karcsú)” felszínnél. További leírásért nézze meg az „AgentLogo” beállítást."
 
 #. SysConfig
 msgid ""
@@ -26158,7 +26158,7 @@ msgstr "Jegyek feloldása, amelyek átlépték a feloldási időkorlátjukat."
 #. SysConfig
 msgid ""
 "Unlock tickets whenever a note is added and the owner is out of office."
-msgstr "Jegyek feloldása, amikor egy jegyzetet adnak hozzá és a tulajdonos házon kívül van."
+msgstr "Jegyek feloldása, amikor egy jegyzetet adnak hozzá és a tulajdonos irodán kívül van."
 
 #. SysConfig
 msgid "Unlocked ticket."

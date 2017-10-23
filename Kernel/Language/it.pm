@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.479206542543936;
+    $Self->{Completeness}        = 0.477609369617637;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -150,7 +150,7 @@ sub Data {
             '',
         'Queues' => 'Code',
         'Please select a valid queue.' => 'Si prega di selezionare una coda valida.',
-        'Search attributes' => '',
+        'Search attributes' => 'Attributi di ricerca',
         'Add entry' => 'Aggiungi entry',
         'Add' => 'Aggiungi',
         'Define rules for creating automatic appointments in this calendar based on ticket data.' =>
@@ -176,8 +176,8 @@ sub Data {
         'Edit Notification' => 'Modifica notifica',
         'Add notification' => 'Aggiungi notifica',
         'Export Notifications' => 'Esportazione notifiche',
-        'Filter for Notifications' => '',
-        'Filter for notifications' => '',
+        'Filter for Notifications' => 'Filtro per notifiche',
+        'Filter for notifications' => 'Filtro per notifiche',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
             '',
         'Overwrite existing notifications?' => 'Vuoi sovrascrivere le notifiche esistenti?',
@@ -328,7 +328,7 @@ sub Data {
         'Time range' => 'Intervallo temporale',
         'Show only communication logs created in specific time range.' =>
             '',
-        'Filter for communications' => '',
+        'Filter for communications' => 'Filtro per le comunicazioni',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             '',
         'You can change the sort and order of the columns by clicking on the column header.' =>
@@ -352,12 +352,12 @@ sub Data {
         'Average processing time' => '',
         'List of communications (%s)' => '',
         'Settings' => 'Impostazioni',
-        'Entries per page' => '',
+        'Entries per page' => 'Voci per pagina',
         'No communications found.' => '',
         '%s s' => '%s s',
 
         # Template: AdminCommunicationLogAccounts
-        'Account Status' => '',
+        'Account Status' => 'Stato account',
         'Back' => 'Precedente',
         'Filter for accounts' => 'Filtro per gli account',
         'Filter for log entries' => '',
@@ -404,7 +404,7 @@ sub Data {
         'total' => 'totale',
         'Please enter a search term to look for customers.' => 'Inserire una chiave di ricerca per i clienti.',
         'Customer ID' => 'ID Cliente',
-        'Please note' => '',
+        'Please note' => 'Nota',
         'This customer backend is read only!' => '',
 
         # Template: AdminCustomerGroup
@@ -516,7 +516,7 @@ sub Data {
         'Web service' => 'Servizio web',
         'External web services can be configured as data sources for this dynamic field.' =>
             '',
-        'Contact with data' => '',
+        'Contact with data' => 'Contatto con dati',
         'This feature allows to add (multiple) contacts with data to tickets.' =>
             '',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
@@ -898,11 +898,11 @@ sub Data {
         # Template: AdminGenericInterfaceInvokerEvent
         'GenericInterface Invoker Event Settings for Web Service %s' => '',
         'Go back to' => 'Torna indietro a',
-        'Delete all conditions' => '',
+        'Delete all conditions' => 'Elimina tutte le condizioni',
         'Do you really want to delete all the conditions for this event?' =>
             '',
         'General Settings' => 'Impostazioni generali',
-        'Event type' => '',
+        'Event type' => 'Tipo di evento',
         'Conditions' => 'Condizioni',
         'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => 'Tipo del collegamento tra le Condizioni',
@@ -937,24 +937,24 @@ sub Data {
         'Do you really want to delete this key mapping?' => 'Vuoi davvero eliminare questa mappatura?',
 
         # Template: AdminGenericInterfaceMappingXSLT
-        'General Shortcuts' => '',
-        'MacOS Shortcuts' => '',
+        'General Shortcuts' => 'Scorciatoie generiche',
+        'MacOS Shortcuts' => 'Scorciatoie MacOS',
         'Comment code' => '',
         'Uncomment code' => '',
         'Auto format code' => '',
         'Expand/Collapse code block' => '',
-        'Find' => '',
-        'Find next' => '',
-        'Find previous' => '',
+        'Find' => 'Trova',
+        'Find next' => 'Trova successivo',
+        'Find previous' => 'Trova precedente',
         'Find and replace' => '',
         'Find and replace all' => '',
         'XSLT Mapping' => '',
-        'XSLT stylesheet' => '',
+        'XSLT stylesheet' => 'Foglio di stile XSLT',
         'The entered data is not a valid XSLT style sheet.' => '',
         'Here you can add or modify your XSLT mapping code.' => '',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
             '',
-        'Data includes' => '',
+        'Data includes' => 'Certificato client',
         'Select one or more sets of data that were created at earlier request/response stages to be included in mappable data.' =>
             '',
         'These sets will appear in the data structure at \'/DataInclude/<DataSetName>\' (see debugger output of actual requests for details).' =>
@@ -1059,7 +1059,7 @@ sub Data {
         'Client Certificate Key' => '',
         'The full path and name of the SSL client certificate key file (if not already included in certificate file).' =>
             '',
-        'e.g. /opt/otrs/var/certificates/SOAP/key.pem' => '',
+        'e.g. /opt/otrs/var/certificates/SOAP/key.pem' => 'ad es. /opt/otrs/var/certificates/SOAP/key.pem',
         'Client Certificate Key Password' => '',
         'The password to open the SSL certificate if the key is encrypted.' =>
             '',
@@ -1081,7 +1081,7 @@ sub Data {
         'The default HTTP command to use for the requests.' => 'Il comando HTTP predefinito da utilizzare per le richieste.',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
-        'e.g. https://local.otrs.com:8000/Webservice/Example' => '',
+        'e.g. https://local.otrs.com:8000/Webservice/Example' => 'ad es. https://local.otrs.com:8000/Webservice/Example',
         'Set SOAPAction' => '',
         'Set to "Yes" in order to send a filled SOAPAction header.' => '',
         'Set to "No" in order to send an empty SOAPAction header.' => '',
@@ -1251,10 +1251,10 @@ sub Data {
         'Administration Overview' => '',
         'Filter for Items' => '',
         'Filter' => 'Filtro',
-        'Favorites' => '',
+        'Favorites' => 'Preferiti',
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             '',
-        'Links' => '',
+        'Links' => 'Collegamenti',
         'View the admin manual on Github' => '',
         'No Matches' => '',
         'Sorry, your search didn\'t match any items.' => '',
@@ -1432,7 +1432,7 @@ sub Data {
         'In case you would have further questions we would be glad to answer them.' =>
             'Nel caso dovessi avere altre domande, saremo felici di risponderti.',
         'Install Package' => 'Installa pacchetto',
-        'Upgrade Package' => '',
+        'Update Package' => '',
         'Continue' => 'Continua',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             '',
@@ -1441,11 +1441,10 @@ sub Data {
         'Cloud services are currently disabled.' => '',
         'OTRS Verify™ can not continue!' => 'OTRS Verify™ non può continuare!',
         'Enable cloud services' => 'Abilita i servizi cloud',
-        'Upgrade all installed packages' => '',
+        'Update all installed packages' => '',
         'Online Repository' => 'Archivio Online',
         'Action' => 'Azione',
         'Module documentation' => 'Documentazione sul modulo',
-        'Upgrade' => 'Aggiorna',
         'Local Repository' => 'Archivio Locale',
         'This package is verified by OTRSverify (tm)' => 'Questo pacchetto è verificato da OTRSverify (tm)',
         'Uninstall' => 'Disinstalla',
@@ -1955,6 +1954,7 @@ sub Data {
             'C\'è almeno un parametro mancante per il binding. Controlla.',
         'Result format' => 'Formato dei risultati',
         'Run Query' => 'Esegui query',
+        '%s Results' => '',
         'Query is executed.' => 'La query è eseguita.',
 
         # Template: AdminService
@@ -2422,8 +2422,8 @@ sub Data {
         'Undo & close' => 'Annulla e chiudi',
 
         # Template: AgentInfo
-        'Info' => 'Informazioni',
         'To accept some news, a license or some changes.' => 'Accettare delle news, una licenza o dei cambiamenti.',
+        'Yes, accepted.' => '',
 
         # Template: AgentLinkObject
         'Manage links for %s' => '',
@@ -2629,6 +2629,7 @@ sub Data {
         # Template: AgentTicketHistory
         'History of %s%s%s' => '',
         'Filter for history items' => '',
+        'Expand/collapse all' => '',
         'Article' => 'Articolo',
 
         # Template: AgentTicketMerge
@@ -3422,6 +3423,14 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminCommunicationLog.pm
         'Invalid CommunicationID ' => '',
+        'All communications' => '',
+        'Last 1 hour' => '',
+        'Last 3 hours' => '',
+        'Last 6 hours' => '',
+        'Last 12 hours' => '',
+        'Last 24 hours' => '',
+        'Last week' => '',
+        'Last month' => '',
         'Invalid StartTime: %s!' => '',
         'Successful' => '',
         'Processing' => '',
@@ -3432,6 +3441,7 @@ sub Data {
         'sorted ascending' => 'ordine crescente',
         'Trace' => '',
         'Debug' => 'Debug',
+        'Info' => 'Informazioni',
         'Warn' => '',
         'days' => 'giorni',
         'day' => 'giorno',
@@ -3442,6 +3452,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer company updated!' => 'Azienda del cliente aggiornata!',
+        'Dynamic field %s not found!' => '',
+        'Unable to set value for dynamic field %s!' => '',
         'Customer Company %s already exists!' => '',
         'Customer company added!' => 'Azienda del cliente aggiunta!',
 
@@ -3846,6 +3858,7 @@ sub Data {
         'Impossible to delete relation!' => '',
         'Certificate %s could not be read!' => '',
         'Needed Fingerprint' => '',
+        'Handle Private Certificate Relations' => '',
 
         # Perl Module: Kernel/Modules/AdminSalutation.pm
         'Salutation added!' => '',
@@ -3960,7 +3973,7 @@ sub Data {
         'No permissions!' => '',
 
         # Perl Module: Kernel/Modules/AgentAppointmentList.pm
-        '+%d more' => '',
+        '+%s more' => '',
 
         # Perl Module: Kernel/Modules/AgentCustomerSearch.pm
         'Customer History' => 'Storico utente',
@@ -3989,6 +4002,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
         'Param Group is required!' => '',
+        'Updated user preferences' => '',
         'System was unable to deploy your changes.' => '',
         'Setting not found!' => '',
         'This feature is part of the %s Please contact us at %s for an upgrade.' =>
@@ -4402,6 +4416,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
         'Upgrade to OTRS Business Solution™' => '',
         'Re-install Package' => '',
+        'Upgrade' => 'Aggiorna',
         'Re-install' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
@@ -4534,6 +4549,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s Aggiorna a %s ora! %s',
+        'Please verify your license data!' => '',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
             'La tua licenza %s sta per scadere. Contatta %s per rinnovare il tuo contratto.',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
@@ -4553,6 +4569,7 @@ sub Data {
         'Online Customer: %s' => 'Clienti collegati: %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
+        'System maintenance is active!' => '',
         'A system maintenance period will start at: ' => 'Un periodo di manutenzione del sistema inizierà alle:',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
@@ -4760,8 +4777,8 @@ sub Data {
         'File is not installed!' => '',
         'File is different!' => '',
         'Can\'t read file!' => '',
-        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
-            '<br>Se prosegui con l\'installazione di questo pacchetto, si potrebbero verificare le seguenti problematiche!<br><br>&nbsp;-Problemi di sicurezza<br>&nbsp;-Problemi di stabilità<br>&nbsp;-Problemi prestazionali<br><br>Eventuali problemi derivanti dall\'uso di questo pacchetto non sono coperti dai contratti di servizio di OTRS!<br><br>',
+        '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -4826,6 +4843,7 @@ sub Data {
         'State Type Historic' => '',
         'Historic Time Range' => '',
         'Number' => 'Numero',
+        'Last Changed' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => '',
@@ -5085,7 +5103,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
         'Ticket Search Index Module' => '',
-        'You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
+        'The indexing process forces the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
@@ -5507,6 +5525,8 @@ sub Data {
         'Reset option is required!' => '',
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?' =>
             '',
+        'Keys with values can\'t be renamed. Please remove this key/value pair instead and re-add it afterwards.' =>
+            '',
         'Unlock setting.' => '',
 
         # JS File: Core.Agent.Admin.SystemMaintenance
@@ -5579,6 +5599,8 @@ sub Data {
             '',
         'Sorry, but you can\'t disable all methods for this notification.' =>
             'Spiacenti, ma non puoi disabilitare tutti i metodi per questa notifica.',
+        'Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.' =>
+            '',
         'An unknown error occurred. Please contact the administrator.' =>
             '',
 
@@ -5617,7 +5639,7 @@ sub Data {
 
         # JS File: Core.Agent
         'Slide the navigation bar' => '',
-        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'Please turn off Compatibility Mode in Internet Explorer!' => 'Disattiva la modalità di compatibilità in Internet Explorer!',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Questa funzionalità è parte di %s. Contattaci su %s per un aggiornamento.',
         'Find out more' => '',
@@ -5697,12 +5719,13 @@ sub Data {
         'Sorry, you can only upload one file here.' => '',
         'Sorry, you can only upload %s files.' => '',
         'Please only select at most %s files for upload.' => '',
-        'The following files are not allowed to be uploaded' => '',
-        'The following files exceed the maximum allowed size per file of %s and were not uploaded' =>
+        'The following files are not allowed to be uploaded: %s' => '',
+        'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s' =>
             '',
-        'The following files were already uploaded and have not been uploaded again' =>
+        'The following files were already uploaded and have not been uploaded again: %s' =>
             '',
-        'No space left for the following files' => '',
+        'No space left for the following files: %s' => '',
+        'Available space %s of %s.' => '',
         'Upload information' => '',
         'An unknown error occurred when deleting the attachment. Please try again. If the error persists, please contact your system administrator.' =>
             '',
@@ -5836,6 +5859,8 @@ Thanks for your help!
             '',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Modulo dell\'interfaccia degli operatori per controllare le email in entrata nella visualizzazione ticket zoom se S/MIME è disponibile e attivo.',
+        'Agent interface notification module to see the number of incomplete working days for the user.' =>
+            '',
         'Agent interface notification module to see the number of locked tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Agent interface notification module to see the number of tickets an agent is responsible for. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -6192,10 +6217,21 @@ Thanks for your help!
         'Default display type for sender (From) names in AgentTicketZoom and CustomerTicketZoom.' =>
             '',
         'Default loop protection module.' => 'Modulo di default per la protezione dei loop',
+        'Default name for new actions.' => '',
+        'Default name for new projects.' => '',
         'Default queue ID used by the system in the agent interface.' => 'ID predefinito della coda usato dal sistema nell\'interfaccia degli operatori.',
+        'Default setting for date end.' => '',
+        'Default setting for date start.' => '',
+        'Default setting for description.' => '',
+        'Default setting for leave days.' => '',
+        'Default setting for overtime.' => '',
+        'Default setting for the standard weekly hours.' => '',
         'Default skin for the agent interface (slim version).' => '',
         'Default skin for the agent interface.' => 'Tema predefinito per l\'interfaccia dell\'operatore.',
         'Default skin for the customer interface.' => 'Tema predefinito per l\'interfaccia del cliente.',
+        'Default status for new actions.' => '',
+        'Default status for new projects.' => '',
+        'Default status for new users.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             'Ticket ID predefinito usato dal sistema nell\'interfaccia operatori.',
         'Default ticket ID used by the system in the customer interface.' =>
@@ -6218,6 +6254,8 @@ Thanks for your help!
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '',
         'Define the start day of the week for the date picker.' => 'Definire il giorno di inizio settimana per il selezionatore di date.',
+        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information.' =>
+            '',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
             '',
         'Define which columns are shown in the linked appointment widget (LinkObject::ViewMode = "complex"). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
@@ -6820,6 +6858,8 @@ Thanks for your help!
         'Defines the postmaster default queue.' => '',
         'Defines the priority in which the information is logged and presented.' =>
             '',
+        'Defines the projects for which a remark is required. If the RegExp matches on the project, you have to insert a remark too. The RegExp use the smx parameter.' =>
+            '',
         'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" shows only the queues which are assigned to system addresses) in the customer interface.' =>
@@ -6928,6 +6968,8 @@ Thanks for your help!
             '',
         'Determines if the statistics module may generate ticket lists.' =>
             '',
+        'Determines if the statistics module may generate time accounting information.' =>
+            '',
         'Determines the next possible ticket states, after the creation of a new email ticket in the agent interface.' =>
             '',
         'Determines the next possible ticket states, after the creation of a new phone ticket in the agent interface.' =>
@@ -6976,6 +7018,7 @@ Thanks for your help!
             '',
         'Down' => 'Giù',
         'Dropdown' => 'Menu a tendina',
+        'Dutch' => '',
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Dynamic Fields Checkbox Backend GUI' => '',
@@ -7057,6 +7100,8 @@ Thanks for your help!
         'Edit Customer Users.' => '',
         'Edit appointment' => '',
         'Edit customer company' => '',
+        'Edit time accounting settings.' => '',
+        'Edit time record.' => '',
         'Email Addresses' => 'Indirizzi Email',
         'Email Outbound' => 'Posta in uscita',
         'Email Resend' => '',
@@ -7149,8 +7194,6 @@ Thanks for your help!
         'Filter for debugging Transitions. Note: More filters can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
             '',
         'Filter incoming emails.' => 'Filtra email in ingresso',
-        'Filter stop words from article search index, turned on by default. If turned off, search index will store unfiltered text.' =>
-            '',
         'Finnish' => 'Finlandese',
         'First Christmas Day' => 'Natale',
         'First Queue' => 'Prima coda',
@@ -7161,7 +7204,10 @@ Thanks for your help!
         'FirstResponseInMin' => '',
         'Firstname Lastname' => 'Nome Cognome',
         'Firstname Lastname (UserLogin)' => 'Nome Cognome (Utente)',
+        'For how many days ago you can insert working units.' => '',
         'For these state types the ticket numbers are striked through in the link table.' =>
+            '',
+        'Force the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
             '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             'Forza la codifica dei messaggi di posta in uscita (7bit|8bit|quoted-printable|base64).',
@@ -7188,7 +7234,6 @@ Thanks for your help!
             '',
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
-        'Frontend theme' => 'Tema per l\'interfaccia',
         'Full value' => 'Valore completo',
         'Fulltext index regex filters to remove parts of the text.' => '',
         'Fulltext search' => 'Ricerca testo completo',
@@ -7329,13 +7374,23 @@ Thanks for your help!
             '',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             '',
+        'If enabled, only users that has added working time to the selected project are shown.' =>
+            '',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
             '',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             '',
+        'If enabled, the dropdown elements in the edit screen are changed to modernized autocompletion fields.' =>
+            '',
+        'If enabled, the filter for the previous projects can be used instead two list of projects (last and all ones). It could be used only if TimeAccounting::EnableAutoCompletion is enabled.' =>
+            '',
+        'If enabled, the filter for the previous projects is active by default if there are the previous projects. It could be used only if EnableAutoCompletion and TimeAccounting::UseFilter are enabled.' =>
+            '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
+            '',
+        'If enabled, the user is allowed to enter "on vacation leave", "on sick leave" and "on overtime leave" to multiple dates at once.' =>
             '',
         'If enabled, users that haven\'t selected a time zone yet will be notified to do so. Note: Notification will not be shown if (1) user has not yet selected a time zone and (2) OTRSTimeZone and UserDefaultTimeZone do match and (3) are not set to UTC.' =>
             '',
@@ -7500,6 +7555,10 @@ Thanks for your help!
             '',
         'Maximum number of tickets to be displayed in the result of this operation.' =>
             '',
+        'Maximum number of working days after which the working units have to be inserted.' =>
+            '',
+        'Maximum number of working days without working units entry after which a warning will be shown.' =>
+            '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
         'Medium' => 'Medio',
@@ -7562,7 +7621,6 @@ Thanks for your help!
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
             '',
         'NameX' => 'NomeX',
-        'Nederlands' => 'Olandese',
         'New Ticket' => 'Nuovo ticket',
         'New Tickets' => 'Nuovi ticket',
         'New Window' => 'Nuova finestra',
@@ -7618,6 +7676,7 @@ Thanks for your help!
         'Overview of all open Tickets.' => 'Vista Globale di tutte le richieste aperte.',
         'Overview of all open tickets.' => '',
         'Overview of customer tickets.' => '',
+        'Overview.' => '',
         'PGP Key' => 'Chiave PGP',
         'PGP Key Management' => 'Gestione chiavi PGP',
         'PGP Keys' => 'Chiavi PGP',
@@ -7729,6 +7788,7 @@ Thanks for your help!
         'ProcessID' => 'ID processo',
         'Processes & Automation' => '',
         'Product News' => 'Notizie sul prodotto',
+        'Project time reporting.' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Provides a matrix overview of the tickets per state per queue' =>
@@ -7744,6 +7804,10 @@ Thanks for your help!
         'Refresh interval' => 'Intervallo di aggiornamento',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
+        'Regular expressions for constraining action list according to selected project. Key contains regular expression for project(s), content contains regular expressions for action(s).' =>
+            '',
+        'Regular expressions for constraining project list according to user groups. Key contains regular expression for project(s), content contains comma separated list of groups.' =>
+            '',
         'Reminder Tickets' => 'Tickets di promemoria',
         'Removed subscription for user "%s".' => 'Rimossa sottoscrizione per l\'utente "%s".',
         'Removes old system configuration deployments (Sunday mornings).' =>
@@ -7755,6 +7819,7 @@ Thanks for your help!
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',
+        'Reporting' => '',
         'Reports' => 'Resoconti',
         'Reports (OTRS Business Solution™)' => 'Resoconti (OTRS Business Solution™)',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
@@ -8223,8 +8288,6 @@ Thanks for your help!
             '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             '',
-        'Shows colors for different article types in the article table.' =>
-            '',
         'Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer.' =>
             '',
         'Shows either the last customer article\'s subject or the ticket title in the small format overview.' =>
@@ -8240,7 +8303,6 @@ Thanks for your help!
             '',
         'Shows the customer user information (phone and email) in the compose screen.' =>
             '',
-        'Shows the customer user\'s info in the ticket zoom view.' => '',
         'Shows the message of the day (MOTD) in the agent dashboard. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
@@ -8310,6 +8372,8 @@ Thanks for your help!
         'Spanish stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Specifies if an agent should receive email notification of his own actions.' =>
+            '',
+        'Specifies if working hours can be inserted without start and end times.' =>
             '',
         'Specifies the directory to store the data in, if "FS" was selected for ArticleStorage.' =>
             '',
@@ -8441,7 +8505,10 @@ Thanks for your help!
         'This is the default orange - black skin.' => 'Questo è il tema arancione - nero predefinito.',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '',
+        'This module forces inserts in TimeAccounting.' => '',
         'This module is part of the admin area of OTRS.' => '',
+        'This notification module gives a warning if there are too many incomplete working days.' =>
+            '',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             '',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
@@ -8494,10 +8561,19 @@ Thanks for your help!
         'Ticket zoom view.' => '',
         'TicketNumber' => 'NumeroTicket',
         'Tickets.' => 'Ticket',
+        'Time Accounting' => '',
+        'Time accounting edit.' => '',
+        'Time accounting overview.' => '',
+        'Time accounting reporting.' => '',
+        'Time accounting settings.' => '',
+        'Time accounting view.' => '',
+        'Time accounting.' => '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
         'To accept login information, such as an EULA or license.' => 'Per accettare le informazioni di accesso, come un EULA o una licenza.',
         'To download attachments.' => 'Per scaricare gli allegati.',
+        'To use if some actions reduced the working hours (for example, if only half of the traveling time is paid Key => traveling; Content => 50).' =>
+            '',
         'To view HTML attachments.' => '',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
@@ -8601,6 +8677,11 @@ Thanks for your help!
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',
         ' ...show less',
+        '%s B',
+        '%s GB',
+        '%s KB',
+        '%s MB',
+        '%s TB',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
@@ -8636,6 +8717,7 @@ Thanks for your help!
         'Attachments',
         'Aug',
         'August',
+        'Available space %s of %s.',
         'Basic information',
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?',
         'Calendar',
@@ -8754,6 +8836,7 @@ Thanks for your help!
         'Jun',
         'June',
         'Just this occurrence',
+        'Keys with values can\'t be renamed. Please remove this key/value pair instead and re-add it afterwards.',
         'Less',
         'Link',
         'Loading, please wait...',
@@ -8781,7 +8864,7 @@ Thanks for your help!
         'No matches found.',
         'No package information available.',
         'No sort applied, ',
-        'No space left for the following files',
+        'No space left for the following files: %s',
         'Not available',
         'Notice',
         'Notification',
@@ -8799,6 +8882,7 @@ Thanks for your help!
         'Please either turn some off first or increase the limit in configuration.',
         'Please enter at least one search value or * to find anything.',
         'Please enter at least one search word to find anything.',
+        'Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.',
         'Please only select at most %s files for upload.',
         'Please only select one file for upload.',
         'Please remove the following words from your search as they cannot be searched for:',
@@ -8883,9 +8967,9 @@ Thanks for your help!
         'Th',
         'The browser you are using is too old.',
         'The deployment is already running.',
-        'The following files are not allowed to be uploaded',
-        'The following files exceed the maximum allowed size per file of %s and were not uploaded',
-        'The following files were already uploaded and have not been uploaded again',
+        'The following files are not allowed to be uploaded: %s',
+        'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s',
+        'The following files were already uploaded and have not been uploaded again: %s',
         'The item you\'re currently viewing is part of a not-yet-deployed configuration setting, which makes it impossible to edit it in its current state. Please wait until the setting has been deployed. If you\'re unsure what to do next, please contact your system administrator.',
         'The key must not be empty.',
         'The mail could not be sent',
@@ -8942,12 +9026,14 @@ Thanks for your help!
         'Yes',
         'You can either have the affected settings updated automatically to reflect the changes you just made or do it on your own by pressing \'update manually\'.',
         'You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built.',
+        'You have undeployed settings, would you like to deploy them?',
         'activate to apply a descending sort',
         'activate to apply an ascending sort',
         'activate to remove the sort',
         'and %s more...',
         'day',
         'month',
+        'more',
         'no',
         'none',
         'or',

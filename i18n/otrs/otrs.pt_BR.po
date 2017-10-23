@@ -3,6 +3,7 @@
 # Adonai Silveira Canez <adonaicanez@gmail.com>, 2015-2016
 # Alexandre Costa <alexandrecostacps@gmail.com>, 2015
 # Cleberson Balbino Rosa <cleberson.balbino@gmail.com>, 2015
+# Cleber Souza <eu@clebersouza.com.br>, 2017
 # Daniel Cristian <danielcristian.ce@gmail.com>, 2016
 # Davi Albergaria <davialbergaria@gmail.com>, 2016
 # Diego Fialho Rodrigues <dfialho84@gmail.com>, 2015
@@ -27,6 +28,7 @@
 # MBaeta <matheus.baeta@otrs.com>, 2014-2015,2017
 # MBaeta <matheus.baeta@otrs.com>, 2014
 # Murilo Moreira de Oliveira <murilo.moreira@gmail.com>, 2014-2016
+# Otonwallace Moreira Silva <otonwallace@outlook.com>, 2017
 # Rangel Perez Sardinha <rangel@hsg.com.br>, 2016
 # Ricardo von Staa <ricardo.von.staa@otrs.com>, 2017
 # Ronaldo Richieri <ronaldo@complemento.net.br>, 2015,2017
@@ -36,8 +38,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2017-10-09 16:06+0000\n"
-"PO-Revision-Date: 2017-10-09 16:24+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2017-10-23 11:20+0000\n"
+"Last-Translator: Cleber Souza <eu@clebersouza.com.br>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/otrs/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -511,11 +513,11 @@ msgstr "Exportar notificações"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for Notifications"
-msgstr ""
+msgstr "Filtro para Notificações"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for notifications"
-msgstr ""
+msgstr "Filtro para notificações"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -776,7 +778,7 @@ msgstr "Caixa de endereço de e-mail adicional"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
-msgstr ""
+msgstr "Artigo visível para o cliente"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
@@ -827,7 +829,7 @@ msgstr "Filtrar por Anexos"
 
 #. Template: AdminAttachment
 msgid "Filter for attachments"
-msgstr ""
+msgstr "Filtro para anexos"
 
 #. Template: AdminAttachment
 msgid "Filename"
@@ -867,7 +869,7 @@ msgstr "Filtrar por Autorrespostas"
 
 #. Template: AdminAutoResponse
 msgid "Filter for auto responses"
-msgstr ""
+msgstr "Filtro para respostas automáticas"
 
 #. Template: AdminAutoResponse
 msgid "Response"
@@ -1024,11 +1026,11 @@ msgstr "Serviços de nuvem disponíveis"
 
 #. Template: AdminCommunicationLog
 msgid "Communication Log"
-msgstr ""
+msgstr "Log de Comunicação"
 
 #. Template: AdminCommunicationLog
 msgid "Time range"
-msgstr ""
+msgstr "Período de tempo"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
@@ -1036,7 +1038,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
-msgstr ""
+msgstr "Filtro para comunicações"
 
 #. Template: AdminCommunicationLog
 msgid ""
@@ -1082,23 +1084,23 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with warnings: %s"
-msgstr ""
+msgstr "Número de contas com avisos:%s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing communications"
-msgstr ""
+msgstr "Falha nas comunicações"
 
 #. Template: AdminCommunicationLog
 msgid "No communication problems"
-msgstr ""
+msgstr "Sem problemas de comunicação"
 
 #. Template: AdminCommunicationLog
 msgid "No communication logs"
-msgstr ""
+msgstr "Sem logs de comunicação"
 
 #. Template: AdminCommunicationLog
 msgid "Number of reported problems: %s"
-msgstr ""
+msgstr "Número de problemas relatados:%s"
 
 #. Template: AdminCommunicationLog
 msgid "Open communications"
@@ -1114,7 +1116,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Average processing time"
-msgstr ""
+msgstr "Tempo médio de processamento"
 
 #. Template: AdminCommunicationLog
 msgid "List of communications (%s)"
@@ -1126,7 +1128,7 @@ msgstr "Configurações"
 
 #. Template: AdminCommunicationLog
 msgid "Entries per page"
-msgstr ""
+msgstr "Entradas por página"
 
 #. Template: AdminCommunicationLog
 msgid "No communications found."
@@ -1134,11 +1136,11 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "%s s"
-msgstr ""
+msgstr "%s s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account Status"
-msgstr ""
+msgstr "Status da Conta"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Back"
@@ -1146,21 +1148,21 @@ msgstr "Voltar"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
-msgstr ""
+msgstr "Filtro para contas"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for log entries"
-msgstr ""
+msgstr "Filtro para entradas de log"
 
 #. Template: AdminCommunicationLogAccounts
 msgid ""
 "You can change the sort and order of those columns by clicking on the column"
 " header."
-msgstr ""
+msgstr "Você pode alterar o tipo e a ordem dessas colunas, clicando no cabeçalho da coluna."
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account status for: %s"
-msgstr ""
+msgstr "Status da conta para: %s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Status"
@@ -1168,7 +1170,7 @@ msgstr "Estado"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account"
-msgstr ""
+msgstr "Conta"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Edit"
@@ -1176,11 +1178,11 @@ msgstr "Editar"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "No accounts found."
-msgstr ""
+msgstr "Nenhuma conta encontrada."
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Communication Log Details (%s)"
-msgstr ""
+msgstr "Detalhes do log de comunicação (%s)"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Direction"
@@ -1200,11 +1202,11 @@ msgstr ""
 
 #. Template: AdminCommunicationLogCommunications
 msgid "Duration"
-msgstr ""
+msgstr "Duração"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "Priority"
@@ -26159,7 +26161,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Tweak the system as you wish."
-msgstr ""
+msgstr "Ajuste o sistema como você deseja."
 
 #. SysConfig
 msgid ""
@@ -26198,7 +26200,7 @@ msgstr "Próximos Eventos"
 msgid ""
 "Update Ticket \"Seen\" flag if every article got seen or a new Article got "
 "created."
-msgstr ""
+msgstr "Atualize o chamado sinalizado como \"Visto\" se todos os artigo foram vistos ou um novo artigo foi criado."
 
 #. SysConfig
 msgid "Update time"
@@ -26247,7 +26249,7 @@ msgstr "ÚltimoNome"
 
 #. SysConfig
 msgid "Users, Groups & Roles"
-msgstr ""
+msgstr "Usuários, Grupos & Funções"
 
 #. SysConfig
 msgid "Uses richtext for viewing and editing ticket notification."
@@ -26265,7 +26267,7 @@ msgstr "Vietnamita"
 
 #. SysConfig
 msgid "View all attachments of the current ticket"
-msgstr ""
+msgstr "Ver todos os anexos do chamado atual"
 
 #. SysConfig
 msgid "View performance benchmark results."
@@ -26365,13 +26367,13 @@ msgstr "Seu e-mail com um número de chamado \"<OTRS_TICKET>\" está agrupado co
 msgid ""
 "Your queue selection of your preferred queues. You also get notified about "
 "those queues via email if enabled."
-msgstr ""
+msgstr "Sua seleção de fila favoritas. Você também é notificado sobre essas filas por e-mail se ativado."
 
 #. SysConfig
 msgid ""
 "Your service selection of your preferred services. You also get notified "
 "about those services via email if enabled."
-msgstr ""
+msgstr "Sua seleção de serviços favoritos. Você também é notificado sobre esses serviços via e-mail se ativado."
 
 #. SysConfig
 msgid "Zoom"

@@ -1,12 +1,13 @@
 # 
 # Translators:
 # Markus Hynnä <markus.hynna@mynamaki.fi>, 2015
+# Niko Heikura <niko.heikura@partners.neste.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2017-10-09 16:06+0000\n"
-"PO-Revision-Date: 2017-10-09 16:24+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2017-10-20 10:55+0000\n"
+"Last-Translator: Niko Heikura <niko.heikura@partners.neste.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/otrs/OTRS/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16,7 +17,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "ACL Management"
-msgstr ""
+msgstr "Pääsylistojen hallinta"
 
 #. Template: AdminACL
 msgid "Actions"
@@ -24,27 +25,27 @@ msgstr "Toimenpiteet"
 
 #. Template: AdminACL
 msgid "Create New ACL"
-msgstr ""
+msgstr "Luo uusi pääsylista"
 
 #. Template: AdminACL
 msgid "Deploy ACLs"
-msgstr ""
+msgstr "Ota käyttöön pääsylistat"
 
 #. Template: AdminACL
 msgid "Export ACLs"
-msgstr ""
+msgstr "Vie pääsylistat"
 
 #. Template: AdminACL
 msgid "Filter for ACLs"
-msgstr ""
+msgstr "Suodata pääsylistoja"
 
 #. Template: AdminACL
 msgid "Just start typing to filter..."
-msgstr ""
+msgstr "Kirjoita suodattaaksesi..."
 
 #. Template: AdminACL
 msgid "Configuration Import"
-msgstr ""
+msgstr "Tuo konfiguraatio"
 
 #. Template: AdminACL
 msgid ""
@@ -58,7 +59,7 @@ msgstr "Tämä kenttä on pakollinen."
 
 #. Template: AdminACL
 msgid "Overwrite existing ACLs?"
-msgstr ""
+msgstr "Päällekirjoita nykyiset pääsylistat?"
 
 #. Template: AdminACL
 msgid "Upload ACL configuration"
@@ -66,7 +67,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "Import ACL configuration(s)"
-msgstr ""
+msgstr "Tuo pääsylistojen konfiguraatio(t)"
 
 #. Template: AdminACL
 msgid "Description"
@@ -87,7 +88,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "ACLs"
-msgstr ""
+msgstr "Pääsylistat"
 
 #. Template: AdminACL
 msgid ""
@@ -98,7 +99,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "ACL name"
-msgstr ""
+msgstr "Pääsylistan nimi"
 
 #. Template: AdminACL
 msgid "Comment"
@@ -130,7 +131,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
-msgstr ""
+msgstr "Muokkaa pääsylistaa"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -138,11 +139,11 @@ msgstr "Mene yleisnäkymään"
 
 #. Template: AdminACLEdit
 msgid "Delete ACL"
-msgstr ""
+msgstr "Poista pääsylista"
 
 #. Template: AdminACLEdit
 msgid "Delete Invalid ACL"
-msgstr ""
+msgstr "Poista virheellinen pääsylista"
 
 #. Template: AdminACLEdit
 msgid "Match settings"
@@ -157,7 +158,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Change settings"
-msgstr ""
+msgstr "Muuta asetuksia"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -167,19 +168,19 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Check the official"
-msgstr ""
+msgstr "Tarkista virallinen"
 
 #. Template: AdminACLEdit
 msgid "documentation"
-msgstr ""
+msgstr "dokumentaatio"
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
-msgstr ""
+msgstr "Näytä tai piilota sisältö"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "Muokkaa pääsylistan tietoja"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -191,15 +192,15 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
+msgstr "Muokkaa pääsylistan rakennetta"
 
 #. Template: AdminACLEdit
 msgid "Save settings"
-msgstr ""
+msgstr "Tallenna asetukset"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
-msgstr ""
+msgstr "Tallenna pääsylista"
 
 #. Template: AdminACLEdit
 msgid "Save"
@@ -211,7 +212,7 @@ msgstr "tai"
 
 #. Template: AdminACLEdit
 msgid "Save and finish"
-msgstr ""
+msgstr "Tallenna ja lopeta"
 
 #. Template: AdminACLEdit
 msgid "Cancel"
@@ -219,7 +220,7 @@ msgstr "Peruuta"
 
 #. Template: AdminACLEdit
 msgid "Do you really want to delete this ACL?"
-msgstr ""
+msgstr "Haluatko varmasti poistaa pääsylistan?"
 
 #. Template: AdminACLNew
 msgid ""
@@ -229,19 +230,19 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Management"
-msgstr ""
+msgstr "Kalenterien hallinta"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Calendar"
-msgstr ""
+msgstr "Lisää kalenteri"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Edit Calendar"
-msgstr ""
+msgstr "Muokkaa kalenteria"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Go back"
-msgstr ""
+msgstr "Palaa"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
@@ -249,15 +250,15 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add new Calendar"
-msgstr ""
+msgstr "Luo uusi kalenteri"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Appointments"
-msgstr ""
+msgstr "Tuo tapaamiset"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Import"
-msgstr ""
+msgstr "Kalenterin tuonti"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -272,15 +273,15 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Upload calendar configuration"
-msgstr ""
+msgstr "Lähetä kalenterikonfiguraatio"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
-msgstr ""
+msgstr "Tuo kalenteri"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
-msgstr ""
+msgstr "Suodata kalentereita"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -324,15 +325,15 @@ msgstr "Lataa"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "URL"
-msgstr ""
+msgstr "Osoite"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Export calendar"
-msgstr ""
+msgstr "Vie kalenteri"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Download calendar"
-msgstr ""
+msgstr "Lataa kalenteri"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Copy public calendar URL"
@@ -344,15 +345,15 @@ msgstr "Kalenteri"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar name"
-msgstr ""
+msgstr "Kalenterin nimi"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar with same name already exists."
-msgstr ""
+msgstr "Samanniminen kalenteri on jo olemassa."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Color"
-msgstr ""
+msgstr "Väri"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Permission group"
@@ -364,7 +365,7 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Rule"
-msgstr ""
+msgstr "Sääntö"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Remove this entry"
@@ -376,11 +377,11 @@ msgstr "Poista"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Start date"
-msgstr ""
+msgstr "Aloituspäivämäärä"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "End date"
-msgstr ""
+msgstr "Lopetuspäivämäärä"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -416,7 +417,7 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Rule"
-msgstr ""
+msgstr "Lisää sääntö"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Submit"
@@ -452,11 +453,11 @@ msgstr ""
 
 #. Template: AdminAppointmentImport
 msgid "Upload calendar"
-msgstr ""
+msgstr "Lähetä kalenteri"
 
 #. Template: AdminAppointmentImport
 msgid "Import appointments"
-msgstr ""
+msgstr "Tuo tapaamiset"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Notification Management"
@@ -464,7 +465,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add Notification"
-msgstr ""
+msgstr "Lisää ilmoitus"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
@@ -472,19 +473,19 @@ msgstr "Muokkaa huomautusta"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add notification"
-msgstr ""
+msgstr "Lisää ilmoitus"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
-msgstr ""
+msgstr "Vie ilmoitukset"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for Notifications"
-msgstr ""
+msgstr "Suodata ilmoituksia"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for notifications"
-msgstr ""
+msgstr "Suodata ilmoituksia"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -495,15 +496,15 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
-msgstr ""
+msgstr "Päällekirjoita nykyiset ilmoitukset?"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upload Notification configuration"
-msgstr ""
+msgstr "Lähetä ilmoitusten konfiguraatio"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Import Notification configuration"
-msgstr ""
+msgstr "Tuo ilmoitusten konfiguraatio"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "List"
@@ -515,7 +516,7 @@ msgstr "Poista"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Delete this notification"
-msgstr ""
+msgstr "Poista tämä ilmoitus"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Show in agent preferences"
@@ -568,19 +569,19 @@ msgstr "Sijainti"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Team"
-msgstr ""
+msgstr "Ryhmä"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Resource"
-msgstr ""
+msgstr "Resurssi"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Recipients"
-msgstr ""
+msgstr "Vastaanottajat"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to"
-msgstr ""
+msgstr "Lähetä"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to these agents"
@@ -604,7 +605,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Once per day"
-msgstr ""
+msgstr "Päivittäin"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -647,7 +648,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "This feature is currently not available."
-msgstr ""
+msgstr "Tämä ominaisuus ei ole tällä hetkellä saatavilla."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upgrade to %s"
@@ -667,7 +668,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Text"
-msgstr ""
+msgstr "Ilmoitusteksti"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -697,7 +698,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Save Changes"
-msgstr ""
+msgstr "Tallenna muutokset"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Tag Reference"
@@ -737,7 +738,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Example notification"
-msgstr ""
+msgstr "Ilmoitusesimerkki"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
@@ -888,7 +889,7 @@ msgstr ""
 
 #. Template: AdminAutoResponse
 msgid "Options of ticket dynamic fields internal key values"
-msgstr ""
+msgstr "Tiketin dynaamisten kenttien sisäisten avainten arvojen asetukset"
 
 #. Template: AdminAutoResponse
 msgid ""
@@ -1632,11 +1633,11 @@ msgstr ""
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields List"
-msgstr ""
+msgstr "Dynaamisten kenttien lista"
 
 #. Template: AdminDynamicField
 msgid "Dynamic fields per page"
-msgstr ""
+msgstr "Dynaamisia kenttiä sivulla"
 
 #. Template: AdminDynamicField
 msgid "Label"
@@ -1656,7 +1657,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
-msgstr ""
+msgstr "Dynaamiset kentät"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Go back to overview"
@@ -2015,7 +2016,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Automatic Execution (Multiple Tickets)"
-msgstr ""
+msgstr "Automaattinen suoritus (monta tikettiä)"
 
 #. Template: AdminGenericAgent
 msgid "Execution Schedule"
@@ -2045,7 +2046,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Event Based Execution (Single Ticket)"
-msgstr ""
+msgstr "Tapahtumakohtainen suoritus (yksi tiketti)"
 
 #. Template: AdminGenericAgent
 msgid "Event Triggers"
@@ -2177,7 +2178,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed"
-msgstr ""
+msgstr "Tiketti viimeksi muutettu"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed between"
@@ -2193,7 +2194,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Ticket changed"
-msgstr ""
+msgstr "Tiketti muutettu"
 
 #. Template: AdminGenericAgent
 msgid "Ticket changed between"
@@ -2945,7 +2946,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Fields"
-msgstr ""
+msgstr "Kentät"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Add a new Field"
@@ -8377,7 +8378,7 @@ msgstr ""
 
 #. Template: AgentTicketOverviewMedium
 msgid "Select this ticket"
-msgstr ""
+msgstr "Valitse tämä tiketti"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Sender"
@@ -8425,11 +8426,11 @@ msgstr ""
 
 #. Template: AgentTicketPhone
 msgid "Split Into New Phone Ticket"
-msgstr ""
+msgstr "Jaa uuteen puhelintikettiin"
 
 #. Template: AgentTicketPhone
 msgid "Save Chat Into New Phone Ticket"
-msgstr ""
+msgstr "Tallenna keskustelu uutena puhelintikettinä"
 
 #. Template: AgentTicketPhone
 msgid "Create New Phone Ticket"
@@ -8789,7 +8790,7 @@ msgstr "Lukitus"
 
 #. Template: TicketInformation
 msgid "%s Ticket(s)"
-msgstr ""
+msgstr "%s tiketti(ä)"
 
 #. Template: TicketInformation
 msgid "Accounted time"
@@ -9168,11 +9169,11 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
-msgstr ""
+msgstr "Tiketin kentät"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Dynamic fields"
-msgstr ""
+msgstr "Dynaamiset kentät"
 
 #. Template: Error
 msgid ""
@@ -10684,7 +10685,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Fields configuration is not valid"
-msgstr ""
+msgstr "Kenttien konfiguraatio on virheellinen"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Objects configuration is not valid"
@@ -10810,11 +10811,11 @@ msgstr "Arkistoimattomat tiketit"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "archive tickets"
-msgstr ""
+msgstr "arkistoi tiketit"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "restore tickets from archive"
-msgstr ""
+msgstr "palauta tiketit arkistosta"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Need Profile!"
@@ -12277,7 +12278,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "No TicketID is given!"
-msgstr ""
+msgstr "TicketID:tä ei ole annettu!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "You need %s permissions!"
@@ -12485,7 +12486,7 @@ msgstr "Minun lukitut tiketit"
 
 #. Perl Module: Kernel/Modules/AgentTicketMerge.pm
 msgid "Can't merge ticket with itself!"
-msgstr ""
+msgstr "Tikettiä ei voida yhdistää itsensä kanssa!"
 
 #. Perl Module: Kernel/Modules/AgentTicketMove.pm
 msgid "You need move permissions!"
@@ -12527,7 +12528,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketPrint.pm
 msgid "Need TicketID!"
-msgstr ""
+msgstr "Tarvitaan TicketID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get ActivityDialogEntityID \"%s\"!"
@@ -12800,7 +12801,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Locked"
-msgstr ""
+msgstr "Tiketti lukittu"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Pending Time Set"
@@ -12816,7 +12817,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Created"
-msgstr ""
+msgstr "Tiketti luotu"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Type Updated"
@@ -12892,7 +12893,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Unlocked"
-msgstr ""
+msgstr "Tiketti avattu"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Email"
@@ -12904,7 +12905,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Merged"
-msgstr ""
+msgstr "Tiketti yhdistetty"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Phone Call"
@@ -13126,7 +13127,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Create a new ticket!"
-msgstr ""
+msgstr "Luo uusi tiketti!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "SecureMode active!"
@@ -14005,7 +14006,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
 msgid "Locked Tickets New"
-msgstr ""
+msgstr "Uudet lukitut tiketit"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
 msgid "Locked Tickets Reminder Reached"
@@ -14041,7 +14042,7 @@ msgstr "Seuraajana yhteensä tiketissä"
 
 #. Perl Module: Kernel/Output/PDF/Ticket.pm
 msgid "Ticket Dynamic Fields"
-msgstr ""
+msgstr "Tiketin dynaamiset kentät"
 
 #. Perl Module: Kernel/System/ACL/DB/ACL.pm
 msgid ""
@@ -14906,7 +14907,7 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "Tickets Per Month (avg)"
-msgstr ""
+msgstr "Tikettejä kuukaudessa (keskimäärin)"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
@@ -15077,7 +15078,7 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
 msgid "Open Tickets"
-msgstr ""
+msgstr "Avoimet tiketit"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
@@ -15529,7 +15530,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "New ticket created by customer."
-msgstr ""
+msgstr "Asiakkaan luoma uusi tiketti."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "closed successful"
@@ -15615,7 +15616,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "new ticket"
-msgstr ""
+msgstr "uusi tiketti"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
@@ -15689,7 +15690,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "default reply (after new ticket has been created)"
-msgstr ""
+msgstr "vakiovastaus (uuden tiketin luomisen jälkeen)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "default reject (after follow-up and rejected of a closed ticket)"
@@ -18126,7 +18127,7 @@ msgstr "Luo ja hallinnoi verkkopalveluita."
 
 #. SysConfig
 msgid "Create new Ticket."
-msgstr ""
+msgstr "Luo uusi tiketti."
 
 #. SysConfig
 msgid "Create new appointment."

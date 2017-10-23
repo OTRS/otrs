@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.641552114146511;
+    $Self->{Completeness}        = 0.633999311057527;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1423,7 +1423,7 @@ sub Data {
         'In case you would have further questions we would be glad to answer them.' =>
             'Sekiranya anda mempunya sebarang pertanyaan kami sedia menjawabnya.',
         'Install Package' => 'Pasang Pakej',
-        'Upgrade Package' => '',
+        'Update Package' => '',
         'Continue' => 'Sambung',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             'Sila pastikan pangkalan data anda menerima pakej melebihi saiz %s MB (buat masa ini ia hanya menerima pakej sehingga %s MB). Sila sesuaikan tetapan max_paket_dibenarkan pada pangkalan data anda agar tidak terdapat ralat.',
@@ -1432,11 +1432,10 @@ sub Data {
         'Cloud services are currently disabled.' => 'Servis-servis awan tidak dibolehkan buat sementara.',
         'OTRS Verify™ can not continue!' => 'OTRS Verify™ tidak boleh diteruskan.',
         'Enable cloud services' => 'Bolehkan servis-servis awan',
-        'Upgrade all installed packages' => '',
+        'Update all installed packages' => '',
         'Online Repository' => 'repositori talian',
         'Action' => 'Tindakan',
         'Module documentation' => 'dokumentasi modul',
-        'Upgrade' => 'Kemaskini',
         'Local Repository' => 'Direktori tempatan',
         'This package is verified by OTRSverify (tm)' => 'Pakej ini disahkan oleh OTRSverify (tm)',
         'Uninstall' => 'Nyah-pasang',
@@ -1946,6 +1945,7 @@ sub Data {
             'Terdapat sekurang-kurangnya satu parameter yang hilang untuk mengikat. Sila semak.',
         'Result format' => 'format Keputusan',
         'Run Query' => 'Jalankan Query',
+        '%s Results' => '',
         'Query is executed.' => 'Pertanyaan dilaksanakan',
 
         # Template: AdminService
@@ -2413,8 +2413,8 @@ sub Data {
         'Undo & close' => 'Buat semula & tutup',
 
         # Template: AgentInfo
-        'Info' => 'Info',
         'To accept some news, a license or some changes.' => 'Untuk menerima beberapa berita, lesen atau beberapa perubahan.',
+        'Yes, accepted.' => '',
 
         # Template: AgentLinkObject
         'Manage links for %s' => '',
@@ -2620,6 +2620,7 @@ sub Data {
         # Template: AgentTicketHistory
         'History of %s%s%s' => 'Sejarah bagi %s%s%s',
         'Filter for history items' => '',
+        'Expand/collapse all' => '',
         'Article' => 'Artikel',
 
         # Template: AgentTicketMerge
@@ -3413,6 +3414,14 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminCommunicationLog.pm
         'Invalid CommunicationID ' => '',
+        'All communications' => '',
+        'Last 1 hour' => '',
+        'Last 3 hours' => '',
+        'Last 6 hours' => '',
+        'Last 12 hours' => '',
+        'Last 24 hours' => '',
+        'Last week' => '',
+        'Last month' => '',
         'Invalid StartTime: %s!' => '',
         'Successful' => '',
         'Processing' => '',
@@ -3423,6 +3432,7 @@ sub Data {
         'sorted ascending' => '',
         'Trace' => '',
         'Debug' => '',
+        'Info' => 'Info',
         'Warn' => '',
         'days' => 'beberapa hari',
         'day' => 'hari',
@@ -3433,6 +3443,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer company updated!' => 'Syarikat pelanggan dikemaskini!',
+        'Dynamic field %s not found!' => '',
+        'Unable to set value for dynamic field %s!' => '',
         'Customer Company %s already exists!' => 'Syarikat Pengguna %s telah wujud!',
         'Customer company added!' => 'Syarikat pelanggan ditambah!',
 
@@ -3837,6 +3849,7 @@ sub Data {
         'Impossible to delete relation!' => '',
         'Certificate %s could not be read!' => '',
         'Needed Fingerprint' => '',
+        'Handle Private Certificate Relations' => '',
 
         # Perl Module: Kernel/Modules/AdminSalutation.pm
         'Salutation added!' => '',
@@ -3951,7 +3964,7 @@ sub Data {
         'No permissions!' => '',
 
         # Perl Module: Kernel/Modules/AgentAppointmentList.pm
-        '+%d more' => '',
+        '+%s more' => '',
 
         # Perl Module: Kernel/Modules/AgentCustomerSearch.pm
         'Customer History' => 'Sejarah pelanggan',
@@ -3980,6 +3993,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
         'Param Group is required!' => '',
+        'Updated user preferences' => '',
         'System was unable to deploy your changes.' => '',
         'Setting not found!' => '',
         'This feature is part of the %s Please contact us at %s for an upgrade.' =>
@@ -4393,6 +4407,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
         'Upgrade to OTRS Business Solution™' => '',
         'Re-install Package' => '',
+        'Upgrade' => 'Kemaskini',
         'Re-install' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
@@ -4525,6 +4540,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s Naik taraf ke %s sekarang! %s',
+        'Please verify your license data!' => '',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
             'Lesen untuk %s anda hampir tamat tempoh. Sila telefon %s untuk memperbaharui kontrak anda!',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
@@ -4544,6 +4560,7 @@ sub Data {
         'Online Customer: %s' => 'Pelanggan dalam talian: %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
+        'System maintenance is active!' => '',
         'A system maintenance period will start at: ' => 'Tempoh penyelenggaraan sistem akan bermula pada:',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
@@ -4751,8 +4768,8 @@ sub Data {
         'File is not installed!' => '',
         'File is different!' => '',
         'Can\'t read file!' => '',
-        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
-            '<br>Jika anda teruskan untuk memasang pakej ini, isu berikut mungkin berlaku!<br><br>&nbsp;-Masalah keselamatan<br>&nbsp;-Masalah kestabilan<br>&nbsp;-Masalah prestasi<br><br>Sila ambil perhatian bahawa isu yang disebabkan oleh bekerja dengan pakej ini tidak diliputi oleh kontrak perkhidmatan OTRS!<br><br>',
+        '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -4817,6 +4834,7 @@ sub Data {
         'State Type Historic' => 'Sejarah Jenis Keadaan',
         'Historic Time Range' => 'Julat Masa Bersejarah',
         'Number' => 'Nombor',
+        'Last Changed' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => '',
@@ -5076,8 +5094,8 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
         'Ticket Search Index Module' => 'Modul Indeks Carian Tiket',
-        'You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
-            'Anda mempunyai lebih daripada 50,000 tiket dan harus menggunakan backend StaticDB. Lihat manual admin (Penalaan Prestasi) untuk maklumat lanjut.',
+        'The indexing process forces the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
         'Orphaned Records In ticket_lock_index Table' => 'Rekod piatu dalam Jadual ticket_lock_index',
@@ -5498,6 +5516,8 @@ sub Data {
         'Reset option is required!' => '',
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?' =>
             '',
+        'Keys with values can\'t be renamed. Please remove this key/value pair instead and re-add it afterwards.' =>
+            '',
         'Unlock setting.' => '',
 
         # JS File: Core.Agent.Admin.SystemMaintenance
@@ -5570,6 +5590,8 @@ sub Data {
             'Maaf, tetapi anda tidak boleh mematikan semua kaedah untuk pemberitahuan yang ditanda sebagai mandatori.',
         'Sorry, but you can\'t disable all methods for this notification.' =>
             'Maaf, tetapi anda tidak boleh mematikan semua kaedah untuk pemberitahuan ini.',
+        'Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.' =>
+            '',
         'An unknown error occurred. Please contact the administrator.' =>
             '',
 
@@ -5688,12 +5710,13 @@ sub Data {
         'Sorry, you can only upload one file here.' => '',
         'Sorry, you can only upload %s files.' => '',
         'Please only select at most %s files for upload.' => '',
-        'The following files are not allowed to be uploaded' => '',
-        'The following files exceed the maximum allowed size per file of %s and were not uploaded' =>
+        'The following files are not allowed to be uploaded: %s' => '',
+        'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s' =>
             '',
-        'The following files were already uploaded and have not been uploaded again' =>
+        'The following files were already uploaded and have not been uploaded again: %s' =>
             '',
-        'No space left for the following files' => '',
+        'No space left for the following files: %s' => '',
+        'Available space %s of %s.' => '',
         'Upload information' => '',
         'An unknown error occurred when deleting the attachment. Please try again. If the error persists, please contact your system administrator.' =>
             '',
@@ -5840,6 +5863,8 @@ dalaman.',
             '',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Interface modul ejen untuk menyemak emel masuk di dalam Paparan-Besar-Tiket jika kunci S/MIME tersedia dan betul.',
+        'Agent interface notification module to see the number of incomplete working days for the user.' =>
+            '',
         'Agent interface notification module to see the number of locked tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Agent interface notification module to see the number of tickets an agent is responsible for. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -6196,10 +6221,21 @@ dalaman.',
         'Default display type for sender (From) names in AgentTicketZoom and CustomerTicketZoom.' =>
             'Jenis paparan default untuk nama penghantar (Daripada) dalam AgentTicketZoom dan CustomerTicketZoom.',
         'Default loop protection module.' => 'Modul perlindungan lingkaran asal.',
+        'Default name for new actions.' => '',
+        'Default name for new projects.' => '',
         'Default queue ID used by the system in the agent interface.' => 'Barisan ID asal yang digunakan sistem di dalam paparan ejen.',
+        'Default setting for date end.' => '',
+        'Default setting for date start.' => '',
+        'Default setting for description.' => '',
+        'Default setting for leave days.' => '',
+        'Default setting for overtime.' => '',
+        'Default setting for the standard weekly hours.' => '',
         'Default skin for the agent interface (slim version).' => 'Kulit default untuk antaramuka agen (versi kurus).',
         'Default skin for the agent interface.' => 'Kulit default untuk antaramuka agen.',
         'Default skin for the customer interface.' => 'Kulit default untuk antaramuka pelanggan.',
+        'Default status for new actions.' => '',
+        'Default status for new projects.' => '',
+        'Default status for new users.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             'Tiket ID asal digunakan oleh sistem di dalam paparan ejen.',
         'Default ticket ID used by the system in the customer interface.' =>
@@ -6222,6 +6258,8 @@ dalaman.',
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             'Menentukan hari permulaan minggu untuk pemilih tarikh untuk kalendar yang ditunjukkan.',
         'Define the start day of the week for the date picker.' => 'Menetukan hari permulaan mingguan untuk pemilih tarikh.',
+        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information.' =>
+            '',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
             '',
         'Define which columns are shown in the linked appointment widget (LinkObject::ViewMode = "complex"). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
@@ -6825,6 +6863,8 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Defines the postmaster default queue.' => 'Mentakrifkan aturan postmaster default.',
         'Defines the priority in which the information is logged and presented.' =>
             'Mentakrifkan keutamaan di mana maklumat direkod dan dibentangkan.',
+        'Defines the projects for which a remark is required. If the RegExp matches on the project, you have to insert a remark too. The RegExp use the smx parameter.' =>
+            '',
         'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             'Mentakrifkan sasaran penerima tiket telefon dan penghantar tiket emel ("Giliran" menunjukkan semua barisan, "Alamat sistem" memaparkan semua alamat sistem) dalam antara muka ejen.',
         'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" shows only the queues which are assigned to system addresses) in the customer interface.' =>
@@ -6933,6 +6973,8 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             'Menentukan jika senarai aturan yang mungkin untuk dipindahkan ke tiket perlu dipamerkan dalam senarai dropdown atau dalam window yang baru dalam paparan ejen.',
         'Determines if the statistics module may generate ticket lists.' =>
             'Menentukan jika modul statistik boleh menjana senarai tiket.',
+        'Determines if the statistics module may generate time accounting information.' =>
+            '',
         'Determines the next possible ticket states, after the creation of a new email ticket in the agent interface.' =>
             'Menetukan status tiket kemungkinan yang seterusnya, selepas penciptaan tiket emel baru dalam paparan ejen.',
         'Determines the next possible ticket states, after the creation of a new phone ticket in the agent interface.' =>
@@ -6981,6 +7023,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             '',
         'Down' => 'Bawah',
         'Dropdown' => 'Dropdown',
+        'Dutch' => '',
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             'Kata-kata hentian Belanda bagi indeks teks penuh. Kata-kata ini akan dikeluarkan daripada indeks carian.',
         'Dynamic Fields Checkbox Backend GUI' => 'GUI Backend Checkbox Medan Dinamik',
@@ -7062,6 +7105,8 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Edit Customer Users.' => '',
         'Edit appointment' => '',
         'Edit customer company' => 'Edit syarikat pelanggan',
+        'Edit time accounting settings.' => '',
+        'Edit time record.' => '',
         'Email Addresses' => 'Alamat emel',
         'Email Outbound' => '',
         'Email Resend' => '',
@@ -7154,8 +7199,6 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Filter for debugging Transitions. Note: More filters can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
             'Tapisan untuk nyahpepijat Peralihan: Lebih sifat tiket boleh ditambah dalam format <OTRS_TICKET_Attribute> contoh: <OTRS_TICKET_Priority>.',
         'Filter incoming emails.' => 'Penapis emel masuk.',
-        'Filter stop words from article search index, turned on by default. If turned off, search index will store unfiltered text.' =>
-            '',
         'Finnish' => 'Bahasa Finland',
         'First Christmas Day' => 'Hari Pertama Natal',
         'First Queue' => 'Barisan Pertama',
@@ -7166,7 +7209,10 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'FirstResponseInMin' => 'FirstResponseInMin',
         'Firstname Lastname' => 'Namapertama Namaakhir',
         'Firstname Lastname (UserLogin)' => 'Namapertama, Namaakhir (LogmasukPengguna)',
+        'For how many days ago you can insert working units.' => '',
         'For these state types the ticket numbers are striked through in the link table.' =>
+            '',
+        'Force the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
             '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             'Memaksa pengekodan emel keluar (7bit|8bit|quoted-printable|base64).',
@@ -7193,7 +7239,6 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             '',
         'Frontend module registration for the agent interface.' => 'Pendaftaran modul frontend untuk paparan ejen.',
         'Frontend module registration for the customer interface.' => 'Pendaftaran modul frontend untuk paparan pelanggan.',
-        'Frontend theme' => 'Tema frontend',
         'Full value' => 'Nilai penuh',
         'Fulltext index regex filters to remove parts of the text.' => 'Teks penuh indeks penapis ungkapan biasa untuk mengeluarkan bahagian-bahagian teks.',
         'Fulltext search' => 'Carian teks penuh',
@@ -7334,14 +7379,24 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             'Jika diakifkan, OTRS akan menghantar kesemua fail JavaScript dalam bentuk yang dikecilkan.',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'Jika diaktifkan, TicketPhone dan TicketEmail akan di buka di tingkap yang baru.',
+        'If enabled, only users that has added working time to the selected project are shown.' =>
+            '',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
             '',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             'Jika dibolehkan, pelanggan boleh mencari untuk tiket dalam semua servis (tanpa menghiraukan apakah servis yang diatur kepada pelanggan).',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Jika diaktifkan, overviews yang berbeza (Dashboard, LockedView, QueueView) akan direfresh secara automatik selepas masa yang tertentu.',
+        'If enabled, the dropdown elements in the edit screen are changed to modernized autocompletion fields.' =>
+            '',
+        'If enabled, the filter for the previous projects can be used instead two list of projects (last and all ones). It could be used only if TimeAccounting::EnableAutoCompletion is enabled.' =>
+            '',
+        'If enabled, the filter for the previous projects is active by default if there are the previous projects. It could be used only if EnableAutoCompletion and TimeAccounting::UseFilter are enabled.' =>
+            '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             'Jika diaktifkan, tahap pertama menu utama akan dibuka pada saat tetikus diatasnya (dan bukannya hanya dengan klik).',
+        'If enabled, the user is allowed to enter "on vacation leave", "on sick leave" and "on overtime leave" to multiple dates at once.' =>
+            '',
         'If enabled, users that haven\'t selected a time zone yet will be notified to do so. Note: Notification will not be shown if (1) user has not yet selected a time zone and (2) OTRSTimeZone and UserDefaultTimeZone do match and (3) are not set to UTC.' =>
             '',
         'If no SendmailNotificationEnvelopeFrom is specified, this setting makes it possible to use the email\'s from address instead of an empty envelope sender (required in certain mail server configurations).' =>
@@ -7505,6 +7560,10 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             'Jumlah tiket untuk dipamerkan dalam hasil carian dalam paparan pelanggan.',
         'Maximum number of tickets to be displayed in the result of this operation.' =>
             'Jumlah tiket maksimum untuk dipamerkan di keputusan operasi ini.',
+        'Maximum number of working days after which the working units have to be inserted.' =>
+            '',
+        'Maximum number of working days without working units entry after which a warning will be shown.' =>
+            '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'Saiz maksimum (dalam aksara) dari jadual maklumat pelanggan dalam paparan zum tiket.',
         'Medium' => 'Sederhana',
@@ -7567,7 +7626,6 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
             'Nama servis tersuai. Servis tersuai ialah pemilihan servis pada aturan yang anda inginkan dan boleh dipilih dalam tetapan pilihan.',
         'NameX' => 'NamaX',
-        'Nederlands' => 'Belanda',
         'New Ticket' => 'Tiket Baru',
         'New Tickets' => 'Tiket Baru',
         'New Window' => 'Tetingkap Baru',
@@ -7623,6 +7681,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Overview of all open Tickets.' => 'Overview kesemua Tiket terbuka.',
         'Overview of all open tickets.' => '',
         'Overview of customer tickets.' => '',
+        'Overview.' => '',
         'PGP Key' => 'Kunci PGP',
         'PGP Key Management' => 'Pengurusan Kunci PGP',
         'PGP Keys' => 'Kunci PGP',
@@ -7734,6 +7793,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'ProcessID' => 'IDProses',
         'Processes & Automation' => '',
         'Product News' => 'Berita produk',
+        'Project time reporting.' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             'Perlindungan terhadap eksploitasi CSRF (Pemalsuan Permintaan Laman Silang)(untuk lebih maklumat lihat http://en.wikipedia.org/wiki/Cross-site_request_forgery).',
         'Provides a matrix overview of the tickets per state per queue' =>
@@ -7749,6 +7809,10 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Refresh interval' => 'Tempoh selang refresh',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
+        'Regular expressions for constraining action list according to selected project. Key contains regular expression for project(s), content contains regular expressions for action(s).' =>
+            '',
+        'Regular expressions for constraining project list according to user groups. Key contains regular expression for project(s), content contains comma separated list of groups.' =>
+            '',
         'Reminder Tickets' => 'Peringatan Tiket',
         'Removed subscription for user "%s".' => 'Langgan Pengguna "%s" yang diadakan.',
         'Removes old system configuration deployments (Sunday mornings).' =>
@@ -7760,6 +7824,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             'Menggantikan pengganti asal dengan alamat emel pelanggan semasa pada jawapan dikarang dalam skrin karang tiket dari paparan ejen.',
+        'Reporting' => '',
         'Reports' => 'Laporan',
         'Reports (OTRS Business Solution™)' => 'Proses (Penyelesaian Bisnes OTRS™)',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
@@ -8228,8 +8293,6 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'Menunjukkan pemilihan pemilik dalam tiket telefon dan emel dalam paparan ejen.',
-        'Shows colors for different article types in the article table.' =>
-            'Menunjukkan warna untuk jenis artikel berbeza dalam jadual artikel.',
         'Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer.' =>
             'Menunjukkan sejarah tiket pelanggan dalam AgentTicketPhone, AgentTicketEmail dan AgentTicketCustomer.',
         'Shows either the last customer article\'s subject or the ticket title in the small format overview.' =>
@@ -8245,7 +8308,6 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             'Menunjukkan aritkel disusun seperti biasa atau terbalik, dibawah tiket zum dalam paparan ejen.',
         'Shows the customer user information (phone and email) in the compose screen.' =>
             'Menunjukkan maklumat pelanggan pengguna (telefon dan emel) dalam skrin karang.',
-        'Shows the customer user\'s info in the ticket zoom view.' => 'Menunjukkan maklumat pelanggan pengguna dalam paparan zum tiket.',
         'Shows the message of the day (MOTD) in the agent dashboard. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
@@ -8316,6 +8378,8 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             'Perkataan berhenti Sepanyol untuk indeks teks penuh. Perkataan ini akan dibuang dari indeks carian.',
         'Specifies if an agent should receive email notification of his own actions.' =>
             'Tentukan jika ejen sepatutnya menerima notifikasi emel dari tindakannya sendiri.',
+        'Specifies if working hours can be inserted without start and end times.' =>
+            '',
         'Specifies the directory to store the data in, if "FS" was selected for ArticleStorage.' =>
             '',
         'Specifies the directory where SSL certificates are stored.' => 'Tentukan direktori dimana perakuan SSL disimpan.',
@@ -8446,7 +8510,10 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'This is the default orange - black skin.' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'Modul ini dan fungsi PreRun() akan dilaksanankan, jika ditakrifkan, untuk setiap permintaan. Modul ini berguna untuk semak beberapa pilihan pengguna atau untuk mempamerkan berita mengenai aplikasi baru.',
+        'This module forces inserts in TimeAccounting.' => '',
         'This module is part of the admin area of OTRS.' => '',
+        'This notification module gives a warning if there are too many incomplete working days.' =>
+            '',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             'Pilihan ini mentakrifkan medan dinamik di mana id entiti aktiviti Pengurusan Proses disimpan.',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
@@ -8499,10 +8566,19 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Ticket zoom view.' => 'pandangan zum tiket',
         'TicketNumber' => 'NomborTiket',
         'Tickets.' => 'Tiket-tiket',
+        'Time Accounting' => '',
+        'Time accounting edit.' => '',
+        'Time accounting overview.' => '',
+        'Time accounting reporting.' => '',
+        'Time accounting settings.' => '',
+        'Time accounting view.' => '',
+        'Time accounting.' => '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             'Masa dalam saat yang dapat menambah ke masa sebenar jika menetapkan keadaan tertangguh (default: 86400 = 1 hari).',
         'To accept login information, such as an EULA or license.' => '',
         'To download attachments.' => 'untuk memuat turun lampiran',
+        'To use if some actions reduced the working hours (for example, if only half of the traveling time is paid Key => traveling; Content => 50).' =>
+            '',
         'To view HTML attachments.' => '',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             'Bertukar-tukar paparan senarai OTRS FeatureAddons dalam PackageManager.',
@@ -8606,6 +8682,11 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',
         ' ...show less',
+        '%s B',
+        '%s GB',
+        '%s KB',
+        '%s MB',
+        '%s TB',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
@@ -8641,6 +8722,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Attachments',
         'Aug',
         'August',
+        'Available space %s of %s.',
         'Basic information',
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?',
         'Calendar',
@@ -8759,6 +8841,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Jun',
         'June',
         'Just this occurrence',
+        'Keys with values can\'t be renamed. Please remove this key/value pair instead and re-add it afterwards.',
         'Less',
         'Link',
         'Loading, please wait...',
@@ -8786,7 +8869,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'No matches found.',
         'No package information available.',
         'No sort applied, ',
-        'No space left for the following files',
+        'No space left for the following files: %s',
         'Not available',
         'Notice',
         'Notification',
@@ -8804,6 +8887,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Please either turn some off first or increase the limit in configuration.',
         'Please enter at least one search value or * to find anything.',
         'Please enter at least one search word to find anything.',
+        'Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.',
         'Please only select at most %s files for upload.',
         'Please only select one file for upload.',
         'Please remove the following words from your search as they cannot be searched for:',
@@ -8888,9 +8972,9 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Th',
         'The browser you are using is too old.',
         'The deployment is already running.',
-        'The following files are not allowed to be uploaded',
-        'The following files exceed the maximum allowed size per file of %s and were not uploaded',
-        'The following files were already uploaded and have not been uploaded again',
+        'The following files are not allowed to be uploaded: %s',
+        'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s',
+        'The following files were already uploaded and have not been uploaded again: %s',
         'The item you\'re currently viewing is part of a not-yet-deployed configuration setting, which makes it impossible to edit it in its current state. Please wait until the setting has been deployed. If you\'re unsure what to do next, please contact your system administrator.',
         'The key must not be empty.',
         'The mail could not be sent',
@@ -8947,12 +9031,14 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Yes',
         'You can either have the affected settings updated automatically to reflect the changes you just made or do it on your own by pressing \'update manually\'.',
         'You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built.',
+        'You have undeployed settings, would you like to deploy them?',
         'activate to apply a descending sort',
         'activate to apply an ascending sort',
         'activate to remove the sort',
         'and %s more...',
         'day',
         'month',
+        'more',
         'no',
         'none',
         'or',

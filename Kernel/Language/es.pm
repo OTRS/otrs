@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.647120236645206;
+    $Self->{Completeness}        = 0.646400275576989;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -383,12 +383,12 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => 'Vista detallada de la %s comunicación iniciada en %s',
-        'Detail View' => '',
-        'Show only entries with specific priority and higher:' => '',
-        'Communication Log Overview (%s)' => '',
-        'No communication objects found.' => '',
-        'Communication Log Details' => '',
-        'Please select an entry from the list.' => '',
+        'Detail View' => 'Vista Detallada',
+        'Show only entries with specific priority and higher:' => 'Mostrar solo entradas de prioridad específica ó más alta:',
+        'Communication Log Overview (%s)' => 'La Visión General del Registro de Comunicación (%s)',
+        'No communication objects found.' => 'No se encontraron los objetos de comunicación',
+        'Communication Log Details' => 'los Detalles del Registro de Comunicación',
+        'Please select an entry from the list.' => 'Favor, seleccione una entrada de la lista.',
 
         # Template: AdminCustomerCompany
         'Customer Management' => 'Gestión de clientes',
@@ -402,7 +402,7 @@ sub Data {
         'Please enter a search term to look for customers.' => 'Introduzca un término de búsqueda para buscar clientes.',
         'Customer ID' => 'ID del cliente',
         'Please note' => 'Por favor, observe',
-        'This customer backend is read only!' => '',
+        'This customer backend is read only!' => 'Éste processador adicional del cliente es solo lectura!',
 
         # Template: AdminCustomerGroup
         'Manage Customer-Group Relations' => 'Gestionar las relaciones Cliente-Grupo',
@@ -414,7 +414,7 @@ sub Data {
         'Edit Customer Default Groups' => 'Editar los Grupos Predeterminados de los Clientes',
         'These groups are automatically assigned to all customers.' => 'Estos grupos se asignan automáticamente a todos los clientes.',
         'You can manage these groups via the configuration setting "CustomerGroupCompanyAlwaysGroups".' =>
-            '',
+            'Puedes administrar estos grupos mediante los ajustes de configuración "CustomerGroupCompanyAlwaysGroups".',
         'Filter for Groups' => 'Filtrar por Grupos',
         'Select the customer:group permissions.' => 'Seleccionar los permisos cliente:grupo',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
@@ -448,7 +448,7 @@ sub Data {
         'Login as' => 'Conectarse como',
         'Switch to customer' => 'Cambiar a cliente',
         'This customer backend is read only, but the customer user preferences can be changed!' =>
-            '',
+            'Éste processador adicional del Cliente es solo lectura, pero las preferencias del Cliente pueden ser cambiados.',
         'This field is required and needs to be a valid email address.' =>
             'Este campo es obligatorio y tiene que ser una dirección de correo electrónico válida.',
         'This email address is not allowed due to the system configuration.' =>
@@ -457,44 +457,44 @@ sub Data {
         'DNS problem, please check your configuration and the error log.' =>
             'Problema con el DNS. Por favor, verifique su configuración y el registro de errores.',
         'The syntax of this email address is incorrect.' => 'La sintaxis de esta dirección de correo es incorrecta',
-        'This CustomerID is invalid.' => '',
-        'Effective Permissions for Customer User' => '',
-        'Group Permissions' => '',
-        'This customer user has no group permissions.' => '',
+        'This CustomerID is invalid.' => 'Identificación del Cliente no es válido',
+        'Effective Permissions for Customer User' => 'Los Permisos Efectivos para el Cliente',
+        'Group Permissions' => 'Permisos del Grupo',
+        'This customer user has no group permissions.' => 'Éste Cliente no tiene permisos del grupo.',
         'Table above shows effective group permissions for the customer user. The matrix takes into account all inherited permissions (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it.' =>
-            '',
-        'Customer Access' => '',
+            'La tabla de arriba demuestra los permisos efectivos del grupo para el Cliente. El matriz toma en cuenta todos los permisos heredadas (ej. mediante los grupos del Cliente). Nota: La tabla no toma en cuenta los cambios hechos a esta forma sin presentarlos.',
+        'Customer Access' => 'el Acceso de Cliente',
         'Customer' => 'Cliente',
-        'This customer user has no customer access.' => '',
+        'This customer user has no customer access.' => 'Éste Cliente no tiene el acceso de Cliente',
         'Table above shows granted customer access for the customer user by permission context. The matrix takes into account all inherited access (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it.' =>
-            '',
+            'La tabla de arriba demuestra el acceso autorizado de cliente para el Cliente por el contexto de permisos. La matriz toma en cuenta todos los accesos heredados (ej. mediante los grupos de cliente). Nota: La tabla no toma en cuenta los cambios hechos a esta forma sin presentarlos.',
 
         # Template: AdminCustomerUserCustomer
-        'Manage Customer User-Customer Relations' => '',
-        'Select the customer user:customer relations.' => '',
+        'Manage Customer User-Customer Relations' => 'Administrar la relación Usuario del Cliente-Cliente',
+        'Select the customer user:customer relations.' => 'Seleccionar la relación Usuario del Cliente:Cliente.',
         'Customer Users' => 'Clientes',
-        'Change Customer Relations for Customer User' => '',
-        'Change Customer User Relations for Customer' => '',
+        'Change Customer Relations for Customer User' => 'Cambiar las Relaciones del Cliente por las Relaciónes del Usuario del Cliente',
+        'Change Customer User Relations for Customer' => 'Cambiar las Relaciones del Usuario del Cliente por las Relaciónes del Cliente',
         'Toggle active state for all' => 'Conmutar el estado activo a todos',
         'Active' => 'Activo',
         'Toggle active state for %s' => 'Conmutar el estado activo a %s',
 
         # Template: AdminCustomerUserGroup
-        'Manage Customer User-Group Relations' => '',
+        'Manage Customer User-Group Relations' => 'Administrar las Relaciones Usuario del Cliente-Grupo',
         'Just use this feature if you want to define group permissions for customer users.' =>
-            '',
-        'Edit Customer User Default Groups' => '',
+            'Usa este elemento sí quieres definir los permisos de grupo para los usuarios del cliente.',
+        'Edit Customer User Default Groups' => 'Editar los Grupos del Usuario del Cliente Por Defecto',
         'These groups are automatically assigned to all customer users.' =>
-            '',
+            'Éstos grupos son automaticamente asignados a todos los usuarios del cliente.',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Puede gestionar estos grupos mediante el ajuste de configuración «CustomerGroupAlwaysGroups».',
-        'Select the customer user - group permissions.' => '',
+        'Select the customer user - group permissions.' => 'Seleccionar los permisos Usuario del Cliente - Grupo.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
-            '',
-        'Customer User Default Groups:' => '',
+            'Sí no está seleccionado nada, entónces no habrá permisos en éste grupo (tickets no serán disponibles para el usuario del cliente).',
+        'Customer User Default Groups:' => 'Grupos del Usuario del Cliente por Defecto:',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Services Relations' => '',
+        'Manage Customer User-Services Relations' => 'Administrar las Relaciones Usuario del Cliente-Servicios',
         'Edit default services' => 'Editar los servicios predeterminados',
         'Filter for Services' => 'Filtro para los servicios',
         'Services' => 'Servicios',
@@ -502,20 +502,20 @@ sub Data {
         # Template: AdminDynamicField
         'Dynamic Fields Management' => 'Gestión de Campos Dinámicos',
         'Add new field for object' => 'Añadir un nuevo campo al objeto',
-        'Filter for Dynamic Fields' => '',
-        'Filter for dynamic fields' => '',
-        'More Business Fields' => '',
+        'Filter for Dynamic Fields' => 'Filtrar por Campos dinámicos',
+        'Filter for dynamic fields' => 'Filtrar por Campos dinámicos',
+        'More Business Fields' => 'Más Campos de Negocio',
         'Would you like to benefit from additional dynamic field types for businesses? Upgrade to %s to get access to the following field types:' =>
-            '',
+            'Quieres beneficiarse de los tipos adicionales de campo dinámico para negocios? Actualisa a %s para obtener el acceso a los siguientes tipos de campos:',
         'Database' => 'Base de datos',
         'Use external databases as configurable data sources for this dynamic field.' =>
-            '',
-        'Web service' => '',
+            'Usa los bases de datos externos cómo los fuentes configurables de datos para éste campo dinámico.',
+        'Web service' => 'Servicio Web',
         'External web services can be configured as data sources for this dynamic field.' =>
-            '',
+            'Servicios Web externos pueden ser configurados como las fuentes de datos para éste campo dinámico.',
         'Contact with data' => 'Contacto con los datos',
         'This feature allows to add (multiple) contacts with data to tickets.' =>
-            '',
+            'Este elemento permite agregar (multiplicar) contactos con datos a los Tickets.',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
             'Para añadir un nuevo campo, seleccione el tipo de campo de la lista de objetos, el objeto define los limites del campo y no puede ser cambiado despues de la creación del campo.',
         'Dynamic Fields List' => 'Lista de Campos Dinámicos',
@@ -542,13 +542,13 @@ sub Data {
         'This is the order in which this field will be shown on the screens where is active.' =>
             'Éste es el orden en que se mostrará este campo en las pantallas en las que esté activo.',
         'Is not possible to invalidate this entry, all config settings have to be changed beforehand.' =>
-            '',
+            'No es posible invalidar esta entrada, todos los ajustes de configuración deben ser cambiados antes.',
         'Field type' => 'Tipo de campo',
         'Object type' => 'Tipo de objeto',
         'Internal field' => 'Campo interno',
         'This field is protected and can\'t be deleted.' => 'Este campo está protegido y no se puede borrar.',
         'This dynamic field is used in the following config settings:' =>
-            '',
+            'Este campo dinámico está usado en los siguientes ajustes de configuración:',
         'Field Settings' => 'Ajustes del campo',
         'Default value' => 'Valor predeterminado',
         'This is the default value for this field.' => 'Éste es valor predeterminado para este campo.',
@@ -609,7 +609,7 @@ sub Data {
         'Add RegEx' => 'Añadir RegEx',
 
         # Template: AdminEmail
-        'Admin Message' => '',
+        'Admin Message' => 'Mensaje de Administrador',
         'With this module, administrators can send messages to agents, group or role members.' =>
             'Con este módulo, los administradores pueden enviar mensajes a los agentes y miembros de grupos o roles.',
         'Create Administrative Message' => 'Crear mensaje administrativo',
@@ -1429,7 +1429,7 @@ sub Data {
         'In case you would have further questions we would be glad to answer them.' =>
             'En caso de que tenga alguna duda estaremos encantados de responderla.',
         'Install Package' => 'Instalar Paquete',
-        'Upgrade Package' => '',
+        'Update Package' => '',
         'Continue' => 'Continuar',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             'Por favor asegúrese de que su base de datos acepta paquetes mayores a % MB en tamaño (actualmente sólo acepta paquetes hasta % MB). Por favor adapte la configuración max_allowed_packet de su base de datos para prevenir errores.',
@@ -1438,11 +1438,10 @@ sub Data {
         'Cloud services are currently disabled.' => 'Los servicios en la nube se encuentran dehabilitados.',
         'OTRS Verify™ can not continue!' => '¡OTRS Verify™ no puede continuar!',
         'Enable cloud services' => 'Habilitar servicios en la Nube',
-        'Upgrade all installed packages' => '',
+        'Update all installed packages' => '',
         'Online Repository' => 'Repositorio en línea',
         'Action' => 'Acción',
         'Module documentation' => 'Módulo de documentación',
-        'Upgrade' => 'Actualizar',
         'Local Repository' => 'Repositorio Local',
         'This package is verified by OTRSverify (tm)' => 'Este paquete está verificado por OTRSverify (tm)',
         'Uninstall' => 'Desinstalar',
@@ -1952,6 +1951,7 @@ sub Data {
             'Hay por lo menos un parámetro que falta para la unión. Compruébelo por favor.',
         'Result format' => 'Formato resultado',
         'Run Query' => 'Ejecutar Consulta',
+        '%s Results' => '',
         'Query is executed.' => 'Consulta se ejecuta.',
 
         # Template: AdminService
@@ -2419,8 +2419,8 @@ sub Data {
         'Undo & close' => 'Deshacer y cerrar',
 
         # Template: AgentInfo
-        'Info' => 'Información',
         'To accept some news, a license or some changes.' => 'Para aceptar algunas noticias, una licencia o algunos cambios.',
+        'Yes, accepted.' => '',
 
         # Template: AgentLinkObject
         'Manage links for %s' => '',
@@ -2626,6 +2626,7 @@ sub Data {
         # Template: AgentTicketHistory
         'History of %s%s%s' => 'Histórico de %s%s%s',
         'Filter for history items' => '',
+        'Expand/collapse all' => '',
         'Article' => 'Artículo',
 
         # Template: AgentTicketMerge
@@ -3419,6 +3420,14 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminCommunicationLog.pm
         'Invalid CommunicationID ' => '',
+        'All communications' => '',
+        'Last 1 hour' => '',
+        'Last 3 hours' => '',
+        'Last 6 hours' => '',
+        'Last 12 hours' => '',
+        'Last 24 hours' => '',
+        'Last week' => '',
+        'Last month' => '',
         'Invalid StartTime: %s!' => '',
         'Successful' => '',
         'Processing' => '',
@@ -3429,6 +3438,7 @@ sub Data {
         'sorted ascending' => 'orden ascendente',
         'Trace' => '',
         'Debug' => 'depurar',
+        'Info' => 'Información',
         'Warn' => '',
         'days' => 'días',
         'day' => 'día',
@@ -3439,6 +3449,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer company updated!' => '¡Empresa del cliente actualizada!',
+        'Dynamic field %s not found!' => '',
+        'Unable to set value for dynamic field %s!' => '',
         'Customer Company %s already exists!' => '¡La Empresa del cliente %s ya existe!',
         'Customer company added!' => '¡Empresa del cliente añadida!',
 
@@ -3843,6 +3855,7 @@ sub Data {
         'Impossible to delete relation!' => 'Imposible eliminar relación!',
         'Certificate %s could not be read!' => 'El Certificado %s no se puede leer!',
         'Needed Fingerprint' => 'Huella requerida',
+        'Handle Private Certificate Relations' => '',
 
         # Perl Module: Kernel/Modules/AdminSalutation.pm
         'Salutation added!' => '¡Saludo añadido!',
@@ -3957,7 +3970,7 @@ sub Data {
         'No permissions!' => '¡No tiene permisos!',
 
         # Perl Module: Kernel/Modules/AgentAppointmentList.pm
-        '+%d more' => '+%d más',
+        '+%s more' => '',
 
         # Perl Module: Kernel/Modules/AgentCustomerSearch.pm
         'Customer History' => 'Historial del Cliente',
@@ -3986,6 +3999,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
         'Param Group is required!' => 'Se requiere Grupo de parámetros!',
+        'Updated user preferences' => '',
         'System was unable to deploy your changes.' => '',
         'Setting not found!' => '',
         'This feature is part of the %s Please contact us at %s for an upgrade.' =>
@@ -4399,6 +4413,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
         'Upgrade to OTRS Business Solution™' => '',
         'Re-install Package' => '',
+        'Upgrade' => 'Actualizar',
         'Re-install' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
@@ -4531,6 +4546,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s ¡Actualizar ahora a %s! %s',
+        'Please verify your license data!' => '',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
             'La licencia de su %s esta por expirar. ¡Por favor contactese con %s para renovar su contrato!',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
@@ -4550,6 +4566,7 @@ sub Data {
         'Online Customer: %s' => 'Cliente conectado: %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
+        'System maintenance is active!' => '',
         'A system maintenance period will start at: ' => 'El periodo de mantenimiento de sistema comenzará a las:',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
@@ -4758,8 +4775,8 @@ sub Data {
         'File is not installed!' => '¡El archivo no esta instalado!',
         'File is different!' => '¡El archivo es diferente!',
         'Can\'t read file!' => '¡El archivo no se puede leer!',
-        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
-            '<br>Si continúa e instala este paquete, se podrían producir los siguientes problemas<br><br>&nbsp;-Problemas de seguridad<br>&nbsp;-Problemas de estabilidad<br>&nbsp;-Problemas de rendimiento<br><br>Tenga en cuenta que los problemas causados por usar este paquete no están cubiertos por los contratos de servicio de OTRS.<br><br>',
+        '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -4824,6 +4841,7 @@ sub Data {
         'State Type Historic' => 'Estado Tipo Histórico',
         'Historic Time Range' => 'Rango Tiempo Histórico',
         'Number' => 'Número',
+        'Last Changed' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => 'Promedio de la solución',
@@ -5083,8 +5101,8 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
         'Ticket Search Index Module' => 'Módulo Índice Búsqueda de Ticket',
-        'You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
-            'Usted tiene más de 50.000 artículos y debería usar el backend StaticDB. Ver el manual admin (Optimización del Rendimiento) para más información.',
+        'The indexing process forces the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
         'Orphaned Records In ticket_lock_index Table' => 'Registros Huérfanos En La Tabla ticket_lock_index',
@@ -5505,6 +5523,8 @@ sub Data {
         'Reset option is required!' => '',
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?' =>
             '',
+        'Keys with values can\'t be renamed. Please remove this key/value pair instead and re-add it afterwards.' =>
+            '',
         'Unlock setting.' => '',
 
         # JS File: Core.Agent.Admin.SystemMaintenance
@@ -5577,6 +5597,8 @@ sub Data {
             'Disculpe, pero no puede deshabilitar todos los métodos para las notificación marcadas como obligatorias.',
         'Sorry, but you can\'t disable all methods for this notification.' =>
             'Disculpe, pero no puede deshabilitar todos los métodos para esta notificación.',
+        'Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.' =>
+            '',
         'An unknown error occurred. Please contact the administrator.' =>
             '',
 
@@ -5695,12 +5717,13 @@ sub Data {
         'Sorry, you can only upload one file here.' => '',
         'Sorry, you can only upload %s files.' => '',
         'Please only select at most %s files for upload.' => '',
-        'The following files are not allowed to be uploaded' => '',
-        'The following files exceed the maximum allowed size per file of %s and were not uploaded' =>
+        'The following files are not allowed to be uploaded: %s' => '',
+        'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s' =>
             '',
-        'The following files were already uploaded and have not been uploaded again' =>
+        'The following files were already uploaded and have not been uploaded again: %s' =>
             '',
-        'No space left for the following files' => '',
+        'No space left for the following files: %s' => '',
+        'Available space %s of %s.' => '',
         'Upload information' => '',
         'An unknown error occurred when deleting the attachment. Please try again. If the error persists, please contact your system administrator.' =>
             '',
@@ -5847,6 +5870,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
 El control del acceso adicional para demostrar o no demostrar éste enlace puede ser hecha por usar el "Grupo" Clave y el Contenido como "rw:group1;move_into:group2". ',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Módulo de la interfaz de agente para comprobar los correos entrantes en la Vista-Zoom-Ticket si la clave S/MIME está disponible y es verdadera.',
+        'Agent interface notification module to see the number of incomplete working days for the user.' =>
+            '',
         'Agent interface notification module to see the number of locked tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'El módulo de interfaz de agente para ver el número de los tickets bloqueados.
 El control del acceso adicional para demostrar o no demostrar éste enlace puede ser hecha por usar el "Grupo" Clave y el Contenido como "rw:group1;move_into:group2". ',
@@ -6207,10 +6232,21 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Default display type for sender (From) names in AgentTicketZoom and CustomerTicketZoom.' =>
             'Tipo de pantalla por defecto para nombres del remitente (De) en AgenteTicketZoom y ClienteTicketZoom.',
         'Default loop protection module.' => 'Módulo protección bucle por defecto.',
+        'Default name for new actions.' => '',
+        'Default name for new projects.' => '',
         'Default queue ID used by the system in the agent interface.' => 'ID cola por defecto usada por el sistema en la interfaz de agente.',
+        'Default setting for date end.' => '',
+        'Default setting for date start.' => '',
+        'Default setting for description.' => '',
+        'Default setting for leave days.' => '',
+        'Default setting for overtime.' => '',
+        'Default setting for the standard weekly hours.' => '',
         'Default skin for the agent interface (slim version).' => 'Apariencia por defecto para la interfaz de agente (versión slim).',
         'Default skin for the agent interface.' => 'Apariencia por defecto para la interfaz de agente.',
         'Default skin for the customer interface.' => 'Apariencia por defecto para la interfaz de cliente.',
+        'Default status for new actions.' => '',
+        'Default status for new projects.' => '',
+        'Default status for new users.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             'ID ticket por defecto usada por el sistema en la interfaz de agente.',
         'Default ticket ID used by the system in the customer interface.' =>
@@ -6233,6 +6269,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             'Definir el día de inicio de la semana para el selector de fecha para el calendario indicado.',
         'Define the start day of the week for the date picker.' => 'Definir el día de inicio de la semana para el selector de fecha.',
+        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information.' =>
+            '',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
             '',
         'Define which columns are shown in the linked appointment widget (LinkObject::ViewMode = "complex"). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
@@ -6835,6 +6873,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Defines the postmaster default queue.' => '',
         'Defines the priority in which the information is logged and presented.' =>
             '',
+        'Defines the projects for which a remark is required. If the RegExp matches on the project, you have to insert a remark too. The RegExp use the smx parameter.' =>
+            '',
         'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" shows only the queues which are assigned to system addresses) in the customer interface.' =>
@@ -6943,6 +6983,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Determines if the statistics module may generate ticket lists.' =>
             '',
+        'Determines if the statistics module may generate time accounting information.' =>
+            '',
         'Determines the next possible ticket states, after the creation of a new email ticket in the agent interface.' =>
             '',
         'Determines the next possible ticket states, after the creation of a new phone ticket in the agent interface.' =>
@@ -6991,6 +7033,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Down' => 'Abajo',
         'Dropdown' => '',
+        'Dutch' => '',
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             'Palabras vacías en holandés para el índice de texto completo. Estas palabras serán eliminadas del índice de búsqueda.',
         'Dynamic Fields Checkbox Backend GUI' => '',
@@ -7072,6 +7115,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Edit Customer Users.' => '',
         'Edit appointment' => 'Editar cita',
         'Edit customer company' => 'Editar la Empresa del cliente',
+        'Edit time accounting settings.' => '',
+        'Edit time record.' => '',
         'Email Addresses' => 'Direcciones de Correo',
         'Email Outbound' => 'Email Saliente',
         'Email Resend' => '',
@@ -7164,8 +7209,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Filter for debugging Transitions. Note: More filters can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
             '',
         'Filter incoming emails.' => 'Filtrar emails entrantes.',
-        'Filter stop words from article search index, turned on by default. If turned off, search index will store unfiltered text.' =>
-            '',
         'Finnish' => 'Finlandés',
         'First Christmas Day' => 'Navidad',
         'First Queue' => 'Primera Cola',
@@ -7176,7 +7219,10 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'FirstResponseInMin' => 'PrimeraRespuestaEnMin',
         'Firstname Lastname' => 'Nombre Apellidos',
         'Firstname Lastname (UserLogin)' => 'Nombre Apellidos (LoginUsuario) ',
+        'For how many days ago you can insert working units.' => '',
         'For these state types the ticket numbers are striked through in the link table.' =>
+            '',
+        'Force the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
             '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             '',
@@ -7203,7 +7249,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
-        'Frontend theme' => 'Tema de la interfaz',
         'Full value' => 'Valor completo',
         'Fulltext index regex filters to remove parts of the text.' => '',
         'Fulltext search' => 'Búsqueda de texto completo',
@@ -7344,13 +7389,23 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             '',
+        'If enabled, only users that has added working time to the selected project are shown.' =>
+            '',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
             '',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Si se habilita, las diferentes vistas generales (panel principal, vista de bloqueados, vista de colas) se actualizarán automáticamente tras el tiempo indicado.',
+        'If enabled, the dropdown elements in the edit screen are changed to modernized autocompletion fields.' =>
+            '',
+        'If enabled, the filter for the previous projects can be used instead two list of projects (last and all ones). It could be used only if TimeAccounting::EnableAutoCompletion is enabled.' =>
+            '',
+        'If enabled, the filter for the previous projects is active by default if there are the previous projects. It could be used only if EnableAutoCompletion and TimeAccounting::UseFilter are enabled.' =>
+            '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
+            '',
+        'If enabled, the user is allowed to enter "on vacation leave", "on sick leave" and "on overtime leave" to multiple dates at once.' =>
             '',
         'If enabled, users that haven\'t selected a time zone yet will be notified to do so. Note: Notification will not be shown if (1) user has not yet selected a time zone and (2) OTRSTimeZone and UserDefaultTimeZone do match and (3) are not set to UTC.' =>
             '',
@@ -7515,6 +7570,10 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Maximum number of tickets to be displayed in the result of this operation.' =>
             'Número máximo de tickets que se mostrarán en el resultado de esta operación.',
+        'Maximum number of working days after which the working units have to be inserted.' =>
+            '',
+        'Maximum number of working days without working units entry after which a warning will be shown.' =>
+            '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
         'Medium' => 'Mediano',
@@ -7577,7 +7636,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
             '',
         'NameX' => 'Nombre X',
-        'Nederlands' => 'Neerlandés',
         'New Ticket' => 'Nuevo Ticket',
         'New Tickets' => 'Tickets Nuevos ',
         'New Window' => 'Nueva Ventana',
@@ -7633,6 +7691,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Overview of all open Tickets.' => 'Vista general de todos los Tickets abiertos.',
         'Overview of all open tickets.' => 'Vista general de todos los tickets abiertos.',
         'Overview of customer tickets.' => 'Visión general de los tickets del cliente.',
+        'Overview.' => '',
         'PGP Key' => 'Clave PGP',
         'PGP Key Management' => 'Administración de la Clave PGP',
         'PGP Keys' => 'Claves PGP',
@@ -7744,6 +7803,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'ProcessID' => 'ID de Proceso',
         'Processes & Automation' => '',
         'Product News' => 'Noticias de productos',
+        'Project time reporting.' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Provides a matrix overview of the tickets per state per queue' =>
@@ -7759,6 +7819,10 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Refresh interval' => 'Intervalo de actualización',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
+        'Regular expressions for constraining action list according to selected project. Key contains regular expression for project(s), content contains regular expressions for action(s).' =>
+            '',
+        'Regular expressions for constraining project list according to user groups. Key contains regular expression for project(s), content contains comma separated list of groups.' =>
+            '',
         'Reminder Tickets' => 'Tickets Recordatorio',
         'Removed subscription for user "%s".' => 'Eliminada suscripción para el usuario «%s».',
         'Removes old system configuration deployments (Sunday mornings).' =>
@@ -7770,6 +7834,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',
+        'Reporting' => '',
         'Reports' => 'Reportes',
         'Reports (OTRS Business Solution™)' => 'Reportes (OTRS Business Solution™)',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
@@ -8238,8 +8303,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             '',
-        'Shows colors for different article types in the article table.' =>
-            'Muestra colores para los diferentes tipos de artículos en la Vista General de Artículos,',
         'Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer.' =>
             '',
         'Shows either the last customer article\'s subject or the ticket title in the small format overview.' =>
@@ -8255,7 +8318,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Shows the customer user information (phone and email) in the compose screen.' =>
             '',
-        'Shows the customer user\'s info in the ticket zoom view.' => '',
         'Shows the message of the day (MOTD) in the agent dashboard. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
@@ -8325,6 +8387,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Spanish stop words for fulltext index. These words will be removed from the search index.' =>
             'Palabras vacías en español para el índice de texto completo. Estas palabras serán eliminadas del índice de búsqueda.',
         'Specifies if an agent should receive email notification of his own actions.' =>
+            '',
+        'Specifies if working hours can be inserted without start and end times.' =>
             '',
         'Specifies the directory to store the data in, if "FS" was selected for ArticleStorage.' =>
             '',
@@ -8456,7 +8520,10 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'This is the default orange - black skin.' => 'Este es el aspecto predeterminado naranja - negro.',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '',
+        'This module forces inserts in TimeAccounting.' => '',
         'This module is part of the admin area of OTRS.' => 'Este módulo es parte del área de administración del OTRS.',
+        'This notification module gives a warning if there are too many incomplete working days.' =>
+            '',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             '',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
@@ -8509,10 +8576,19 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Ticket zoom view.' => '',
         'TicketNumber' => 'Número de Ticket',
         'Tickets.' => 'Tickets.',
+        'Time Accounting' => '',
+        'Time accounting edit.' => '',
+        'Time accounting overview.' => '',
+        'Time accounting reporting.' => '',
+        'Time accounting settings.' => '',
+        'Time accounting view.' => '',
+        'Time accounting.' => '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
         'To accept login information, such as an EULA or license.' => '',
         'To download attachments.' => 'Para descargar archivos adjuntos.',
+        'To use if some actions reduced the working hours (for example, if only half of the traveling time is paid Key => traveling; Content => 50).' =>
+            '',
         'To view HTML attachments.' => '',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
@@ -8616,6 +8692,11 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',
         ' ...show less',
+        '%s B',
+        '%s GB',
+        '%s KB',
+        '%s MB',
+        '%s TB',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
@@ -8651,6 +8732,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Attachments',
         'Aug',
         'August',
+        'Available space %s of %s.',
         'Basic information',
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?',
         'Calendar',
@@ -8769,6 +8851,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Jun',
         'June',
         'Just this occurrence',
+        'Keys with values can\'t be renamed. Please remove this key/value pair instead and re-add it afterwards.',
         'Less',
         'Link',
         'Loading, please wait...',
@@ -8796,7 +8879,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'No matches found.',
         'No package information available.',
         'No sort applied, ',
-        'No space left for the following files',
+        'No space left for the following files: %s',
         'Not available',
         'Notice',
         'Notification',
@@ -8814,6 +8897,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Please either turn some off first or increase the limit in configuration.',
         'Please enter at least one search value or * to find anything.',
         'Please enter at least one search word to find anything.',
+        'Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.',
         'Please only select at most %s files for upload.',
         'Please only select one file for upload.',
         'Please remove the following words from your search as they cannot be searched for:',
@@ -8898,9 +8982,9 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Th',
         'The browser you are using is too old.',
         'The deployment is already running.',
-        'The following files are not allowed to be uploaded',
-        'The following files exceed the maximum allowed size per file of %s and were not uploaded',
-        'The following files were already uploaded and have not been uploaded again',
+        'The following files are not allowed to be uploaded: %s',
+        'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s',
+        'The following files were already uploaded and have not been uploaded again: %s',
         'The item you\'re currently viewing is part of a not-yet-deployed configuration setting, which makes it impossible to edit it in its current state. Please wait until the setting has been deployed. If you\'re unsure what to do next, please contact your system administrator.',
         'The key must not be empty.',
         'The mail could not be sent',
@@ -8957,12 +9041,14 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Yes',
         'You can either have the affected settings updated automatically to reflect the changes you just made or do it on your own by pressing \'update manually\'.',
         'You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built.',
+        'You have undeployed settings, would you like to deploy them?',
         'activate to apply a descending sort',
         'activate to apply an ascending sort',
         'activate to remove the sort',
         'and %s more...',
         'day',
         'month',
+        'more',
         'no',
         'none',
         'or',

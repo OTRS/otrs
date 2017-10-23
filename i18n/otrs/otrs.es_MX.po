@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2017-10-09 16:06+0000\n"
-"PO-Revision-Date: 2017-10-09 16:24+0000\n"
+"PO-Revision-Date: 2017-10-23 11:40+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/otrs/OTRS/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -3686,15 +3686,15 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add Web Service"
-msgstr ""
+msgstr "Añadir un Servicio Web"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Edit Web Service"
-msgstr ""
+msgstr "Editar un Servicio Web"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone Web Service"
-msgstr ""
+msgstr "Clonar un Servicio Web"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The name must be unique."
@@ -3706,7 +3706,7 @@ msgstr "Clon"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Export Web Service"
-msgstr ""
+msgstr "Exportar un Servicio Web"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import web service"
@@ -3732,7 +3732,7 @@ msgstr "Importar"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration History"
-msgstr ""
+msgstr "Historial de Configuración"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete web service"
@@ -3744,7 +3744,7 @@ msgstr "¿Realmente desea eliminar este web service?"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Ready-to-run Web Services"
-msgstr ""
+msgstr "Servicios Web Listos-para-correr"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -3816,7 +3816,7 @@ msgstr "Transporte de Red"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Error Handling Modules"
-msgstr ""
+msgstr "Módulos de manejo de errores"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -3827,11 +3827,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Backend"
-msgstr ""
+msgstr "Backend"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add error handling module"
-msgstr ""
+msgstr "Añadir un módulo de manejo de errores"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -14099,35 +14099,35 @@ msgstr "La sesión ha caducado. Por favor, conéctese nuevamente."
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
 msgid "PGP sign only"
-msgstr ""
+msgstr "Solo firmar con PGP"
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
 msgid "PGP encrypt only"
-msgstr ""
+msgstr "Solo encriptar con PGP"
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
 msgid "SMIME sign only"
-msgstr ""
+msgstr "Solo firmar con SMIME"
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
 msgid "SMIME encrypt only"
-msgstr ""
+msgstr "Solo encryptor con SMIME"
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
 msgid "PGP and SMIME not enabled."
-msgstr ""
+msgstr "PGP y SMIME no están habilitados."
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
 msgid "Skip notification delivery"
-msgstr ""
+msgstr "Omitir entrega de notificación"
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
 msgid "Send unsigned notification"
-msgstr ""
+msgstr "Enviar notificación sin firmar"
 
 #. Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
 msgid "Send unencrypted notification"
-msgstr ""
+msgstr "Enviar notificación sin encriptar. "
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "Configuration Options Reference"
@@ -14779,7 +14779,7 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/ArticleSearchIndexStatus.pm
 msgid "Indexed Articles"
-msgstr ""
+msgstr "Artículos Indexados."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/ArticlesPerCommunicationChannel.pm
@@ -25584,7 +25584,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Stable"
-msgstr ""
+msgstr "Estable."
 
 #. SysConfig
 msgid ""
@@ -25920,47 +25920,47 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Close."
-msgstr ""
+msgstr "Cerrar Ticket."
 
 #. SysConfig
 msgid "Ticket Compose Bounce Email."
-msgstr ""
+msgstr "Componer Rebote de Correo Electrónico de Ticket."
 
 #. SysConfig
 msgid "Ticket Compose email Answer."
-msgstr ""
+msgstr "Componer Respuesta de Correo Electrónico de Ticket."
 
 #. SysConfig
 msgid "Ticket Customer."
-msgstr ""
+msgstr "Cliente de Ticket."
 
 #. SysConfig
 msgid "Ticket Forward Email."
-msgstr ""
+msgstr "Reenviar Correo Electrónico del Ticket."
 
 #. SysConfig
 msgid "Ticket FreeText."
-msgstr ""
+msgstr "Textos Libres del Ticket."
 
 #. SysConfig
 msgid "Ticket History."
-msgstr ""
+msgstr "Historia del Ticket."
 
 #. SysConfig
 msgid "Ticket Lock."
-msgstr ""
+msgstr "Bloqueo de Ticket."
 
 #. SysConfig
 msgid "Ticket Merge."
-msgstr ""
+msgstr "Combinación de Tickets."
 
 #. SysConfig
 msgid "Ticket Move."
-msgstr ""
+msgstr "Mover Ticket."
 
 #. SysConfig
 msgid "Ticket Note."
-msgstr ""
+msgstr "Nota de Ticket."
 
 #. SysConfig
 msgid "Ticket Notifications"
@@ -26157,12 +26157,12 @@ msgstr "Ucraniano"
 
 #. SysConfig
 msgid "Unlock tickets that are past their unlock timeout."
-msgstr ""
+msgstr "Desbloquear tickets que han sobrepasado su tiempo de desbloqueo."
 
 #. SysConfig
 msgid ""
 "Unlock tickets whenever a note is added and the owner is out of office."
-msgstr ""
+msgstr "Desbloquear tickets cuando una nota es añadida y el propietario se encuentra fuera de la oficina."
 
 #. SysConfig
 msgid "Unlocked ticket."
@@ -26197,11 +26197,11 @@ msgstr "Actualiza el acelerador de índice de ticket."
 
 #. SysConfig
 msgid "Upload your PGP key."
-msgstr ""
+msgstr "Subir su llave PGP."
 
 #. SysConfig
 msgid "Upload your S/MIME certificate."
-msgstr ""
+msgstr "Subir su certificado S/MIME."
 
 #. SysConfig
 msgid ""
@@ -26229,7 +26229,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Users, Groups & Roles"
-msgstr ""
+msgstr "Usuarios, Grupos & Roles"
 
 #. SysConfig
 msgid "Uses richtext for viewing and editing ticket notification."
@@ -26285,7 +26285,7 @@ msgstr "Web Services"
 
 #. SysConfig
 msgid "Web View"
-msgstr ""
+msgstr "Vista web"
 
 #. SysConfig
 msgid ""
@@ -26409,7 +26409,7 @@ msgstr "teléfono"
 
 #. SysConfig
 msgid "responsible"
-msgstr ""
+msgstr "responsable"
 
 #. SysConfig
 msgid "reverse"
@@ -26417,4 +26417,4 @@ msgstr "revertir"
 
 #. SysConfig
 msgid "stats"
-msgstr ""
+msgstr "estadísticas"

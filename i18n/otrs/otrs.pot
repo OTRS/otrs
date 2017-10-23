@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-10-09 16:29+0000\n"
+"POT-Creation-Date: 2017-10-23 12:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4243,7 +4243,7 @@ msgid "Install Package"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Upgrade Package"
+msgid "Update Package"
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -4275,7 +4275,7 @@ msgid "Enable cloud services"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Upgrade all installed packages"
+msgid "Update all installed packages"
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -4288,10 +4288,6 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "Module documentation"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Upgrade"
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -5843,6 +5839,10 @@ msgid "Run Query"
 msgstr ""
 
 #. Template: AdminSelectBox
+msgid "%s Results"
+msgstr ""
+
+#. Template: AdminSelectBox
 msgid "Query is executed."
 msgstr ""
 
@@ -7155,11 +7155,11 @@ msgid "Undo & close"
 msgstr ""
 
 #. Template: AgentInfo
-msgid "Info"
+msgid "To accept some news, a license or some changes."
 msgstr ""
 
 #. Template: AgentInfo
-msgid "To accept some news, a license or some changes."
+msgid "Yes, accepted."
 msgstr ""
 
 #. Template: AgentLinkObject
@@ -7744,6 +7744,10 @@ msgstr ""
 
 #. Template: AgentTicketHistory
 msgid "Filter for history items"
+msgstr ""
+
+#. Template: AgentTicketHistory
+msgid "Expand/collapse all"
 msgstr ""
 
 #. Template: AgentTicketHistory
@@ -9875,6 +9879,38 @@ msgid "Invalid CommunicationID "
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "All communications"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last 1 hour"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last 3 hours"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last 6 hours"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last 12 hours"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last 24 hours"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last week"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last month"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid StartTime: %s!"
 msgstr ""
 
@@ -9915,6 +9951,10 @@ msgid "Debug"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Info"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Warn"
 msgstr ""
 
@@ -9944,6 +9984,14 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company updated!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
+msgid "Dynamic field %s not found!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
+msgid "Unable to set value for dynamic field %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
@@ -11110,6 +11158,10 @@ msgstr ""
 msgid "Needed Fingerprint"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminSMIME.pm
+msgid "Handle Private Certificate Relations"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminSalutation.pm
 msgid "Salutation added!"
 msgstr ""
@@ -11415,7 +11467,7 @@ msgid "No permissions!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentAppointmentList.pm
-msgid "+%d more"
+msgid "+%s more"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentCustomerSearch.pm
@@ -11488,6 +11540,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Param Group is required!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentPreferences.pm
+msgid "Updated user preferences"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
@@ -12623,6 +12679,10 @@ msgid "Re-install Package"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
+msgid "Upgrade"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Re-install"
 msgstr ""
 
@@ -12947,6 +13007,10 @@ msgid "%s Upgrade to %s now! %s"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+msgid "Please verify your license data!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "The license for your %s is about to expire. Please make contact with %s to renew your contract!"
 msgstr ""
 
@@ -12968,6 +13032,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/CustomerOnline.pm
 msgid "Online Customer: %s"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
+msgid "System maintenance is active!"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
@@ -13411,7 +13479,7 @@ msgid "Can't read file!"
 msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
-msgid "<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>"
+msgid "<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>"
 msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
@@ -13604,6 +13672,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Number"
+msgstr ""
+
+#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+msgid "Last Changed"
 msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
@@ -14163,7 +14235,7 @@ msgid "Ticket Search Index Module"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
-msgid "You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information."
+msgid "The indexing process forces the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
@@ -15227,6 +15299,10 @@ msgid "By restoring this deployment all settings will be reverted to the value t
 msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
+msgid "Keys with values can't be renamed. Please remove this key/value pair instead and re-add it afterwards."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Unlock setting."
 msgstr ""
 
@@ -15384,6 +15460,10 @@ msgstr ""
 
 #. JS File: Core.Agent.Preferences
 msgid "Sorry, but you can't disable all methods for this notification."
+msgstr ""
+
+#. JS File: Core.Agent.Preferences
+msgid "Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen."
 msgstr ""
 
 #. JS File: Core.Agent.Preferences
@@ -15635,19 +15715,23 @@ msgid "Please only select at most %s files for upload."
 msgstr ""
 
 #. JS File: Core.UI
-msgid "The following files are not allowed to be uploaded"
+msgid "The following files are not allowed to be uploaded: %s"
 msgstr ""
 
 #. JS File: Core.UI
-msgid "The following files exceed the maximum allowed size per file of %s and were not uploaded"
+msgid "The following files exceed the maximum allowed size per file of %s and were not uploaded: %s"
 msgstr ""
 
 #. JS File: Core.UI
-msgid "The following files were already uploaded and have not been uploaded again"
+msgid "The following files were already uploaded and have not been uploaded again: %s"
 msgstr ""
 
 #. JS File: Core.UI
-msgid "No space left for the following files"
+msgid "No space left for the following files: %s"
+msgstr ""
+
+#. JS File: Core.UI
+msgid "Available space %s of %s."
 msgstr ""
 
 #. JS File: Core.UI
@@ -16023,6 +16107,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true."
+msgstr ""
+
+#. SysConfig
+msgid "Agent interface notification module to see the number of incomplete working days for the user."
 msgstr ""
 
 #. SysConfig
@@ -17042,7 +17130,39 @@ msgid "Default loop protection module."
 msgstr ""
 
 #. SysConfig
+msgid "Default name for new actions."
+msgstr ""
+
+#. SysConfig
+msgid "Default name for new projects."
+msgstr ""
+
+#. SysConfig
 msgid "Default queue ID used by the system in the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Default setting for date end."
+msgstr ""
+
+#. SysConfig
+msgid "Default setting for date start."
+msgstr ""
+
+#. SysConfig
+msgid "Default setting for description."
+msgstr ""
+
+#. SysConfig
+msgid "Default setting for leave days."
+msgstr ""
+
+#. SysConfig
+msgid "Default setting for overtime."
+msgstr ""
+
+#. SysConfig
+msgid "Default setting for the standard weekly hours."
 msgstr ""
 
 #. SysConfig
@@ -17055,6 +17175,18 @@ msgstr ""
 
 #. SysConfig
 msgid "Default skin for the customer interface."
+msgstr ""
+
+#. SysConfig
+msgid "Default status for new actions."
+msgstr ""
+
+#. SysConfig
+msgid "Default status for new projects."
+msgstr ""
+
+#. SysConfig
+msgid "Default status for new users."
 msgstr ""
 
 #. SysConfig
@@ -17111,6 +17243,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
+msgstr ""
+
+#. SysConfig
+msgid "Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information."
 msgstr ""
 
 #. SysConfig
@@ -18410,6 +18546,10 @@ msgid "Defines the priority in which the information is logged and presented."
 msgstr ""
 
 #. SysConfig
+msgid "Defines the projects for which a remark is required. If the RegExp matches on the project, you have to insert a remark too. The RegExp use the smx parameter."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the recipient target of the phone ticket and the sender of the email ticket (\"Queue\" shows all queues, \"System address\" displays all system addresses) in the agent interface."
 msgstr ""
 
@@ -18670,6 +18810,10 @@ msgid "Determines if the statistics module may generate ticket lists."
 msgstr ""
 
 #. SysConfig
+msgid "Determines if the statistics module may generate time accounting information."
+msgstr ""
+
+#. SysConfig
 msgid "Determines the next possible ticket states, after the creation of a new email ticket in the agent interface."
 msgstr ""
 
@@ -18771,6 +18915,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Dropdown"
+msgstr ""
+
+#. SysConfig
+msgid "Dutch"
 msgstr ""
 
 #. SysConfig
@@ -18967,6 +19115,14 @@ msgstr ""
 
 #. SysConfig
 msgid "Edit customer company"
+msgstr ""
+
+#. SysConfig
+msgid "Edit time accounting settings."
+msgstr ""
+
+#. SysConfig
+msgid "Edit time record."
 msgstr ""
 
 #. SysConfig
@@ -19218,10 +19374,6 @@ msgid "Filter incoming emails."
 msgstr ""
 
 #. SysConfig
-msgid "Filter stop words from article search index, turned on by default. If turned off, search index will store unfiltered text."
-msgstr ""
-
-#. SysConfig
 msgid "Finnish"
 msgstr ""
 
@@ -19262,7 +19414,15 @@ msgid "Firstname Lastname (UserLogin)"
 msgstr ""
 
 #. SysConfig
+msgid "For how many days ago you can insert working units."
+msgstr ""
+
+#. SysConfig
 msgid "For these state types the ticket numbers are striked through in the link table."
+msgstr ""
+
+#. SysConfig
+msgid "Force the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches."
 msgstr ""
 
 #. SysConfig
@@ -19327,10 +19487,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Frontend module registration for the customer interface."
-msgstr ""
-
-#. SysConfig
-msgid "Frontend theme"
 msgstr ""
 
 #. SysConfig
@@ -19686,6 +19842,10 @@ msgid "If enabled, TicketPhone and TicketEmail will be open in new windows."
 msgstr ""
 
 #. SysConfig
+msgid "If enabled, only users that has added working time to the selected project are shown."
+msgstr ""
+
+#. SysConfig
 msgid "If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache."
 msgstr ""
 
@@ -19698,7 +19858,23 @@ msgid "If enabled, the different overviews (Dashboard, LockedView, QueueView) wi
 msgstr ""
 
 #. SysConfig
+msgid "If enabled, the dropdown elements in the edit screen are changed to modernized autocompletion fields."
+msgstr ""
+
+#. SysConfig
+msgid "If enabled, the filter for the previous projects can be used instead two list of projects (last and all ones). It could be used only if TimeAccounting::EnableAutoCompletion is enabled."
+msgstr ""
+
+#. SysConfig
+msgid "If enabled, the filter for the previous projects is active by default if there are the previous projects. It could be used only if EnableAutoCompletion and TimeAccounting::UseFilter are enabled."
+msgstr ""
+
+#. SysConfig
 msgid "If enabled, the first level of the main menu opens on mouse hover (instead of click only)."
+msgstr ""
+
+#. SysConfig
+msgid "If enabled, the user is allowed to enter \"on vacation leave\", \"on sick leave\" and \"on overtime leave\" to multiple dates at once."
 msgstr ""
 
 #. SysConfig
@@ -20186,6 +20362,14 @@ msgid "Maximum number of tickets to be displayed in the result of this operation
 msgstr ""
 
 #. SysConfig
+msgid "Maximum number of working days after which the working units have to be inserted."
+msgstr ""
+
+#. SysConfig
+msgid "Maximum number of working days without working units entry after which a warning will be shown."
+msgstr ""
+
+#. SysConfig
 msgid "Maximum size (in characters) of the customer information table in the ticket zoom view."
 msgstr ""
 
@@ -20351,10 +20535,6 @@ msgstr ""
 
 #. SysConfig
 msgid "NameX"
-msgstr ""
-
-#. SysConfig
-msgid "Nederlands"
 msgstr ""
 
 #. SysConfig
@@ -20527,6 +20707,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Overview of customer tickets."
+msgstr ""
+
+#. SysConfig
+msgid "Overview."
 msgstr ""
 
 #. SysConfig
@@ -20834,6 +21018,10 @@ msgid "Product News"
 msgstr ""
 
 #. SysConfig
+msgid "Project time reporting."
+msgstr ""
+
+#. SysConfig
 msgid "Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
 
@@ -20874,6 +21062,14 @@ msgid "Registers a log module, that can be used to log communication related inf
 msgstr ""
 
 #. SysConfig
+msgid "Regular expressions for constraining action list according to selected project. Key contains regular expression for project(s), content contains regular expressions for action(s)."
+msgstr ""
+
+#. SysConfig
+msgid "Regular expressions for constraining project list according to user groups. Key contains regular expression for project(s), content contains comma separated list of groups."
+msgstr ""
+
+#. SysConfig
 msgid "Reminder Tickets"
 msgstr ""
 
@@ -20899,6 +21095,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Replaces the original sender with current customer's email address on compose answer in the ticket compose screen of the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Reporting"
 msgstr ""
 
 #. SysConfig
@@ -21986,10 +22186,6 @@ msgid "Shows an owner selection in phone and email tickets in the agent interfac
 msgstr ""
 
 #. SysConfig
-msgid "Shows colors for different article types in the article table."
-msgstr ""
-
-#. SysConfig
 msgid "Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer."
 msgstr ""
 
@@ -22019,10 +22215,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Shows the customer user information (phone and email) in the compose screen."
-msgstr ""
-
-#. SysConfig
-msgid "Shows the customer user's info in the ticket zoom view."
 msgstr ""
 
 #. SysConfig
@@ -22195,6 +22387,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Specifies if an agent should receive email notification of his own actions."
+msgstr ""
+
+#. SysConfig
+msgid "Specifies if working hours can be inserted without start and end times."
 msgstr ""
 
 #. SysConfig
@@ -22518,7 +22714,15 @@ msgid "This module and its PreRun() function will be executed, if defined, for e
 msgstr ""
 
 #. SysConfig
+msgid "This module forces inserts in TimeAccounting."
+msgstr ""
+
+#. SysConfig
 msgid "This module is part of the admin area of OTRS."
+msgstr ""
+
+#. SysConfig
+msgid "This notification module gives a warning if there are too many incomplete working days."
 msgstr ""
 
 #. SysConfig
@@ -22710,6 +22914,34 @@ msgid "Tickets."
 msgstr ""
 
 #. SysConfig
+msgid "Time Accounting"
+msgstr ""
+
+#. SysConfig
+msgid "Time accounting edit."
+msgstr ""
+
+#. SysConfig
+msgid "Time accounting overview."
+msgstr ""
+
+#. SysConfig
+msgid "Time accounting reporting."
+msgstr ""
+
+#. SysConfig
+msgid "Time accounting settings."
+msgstr ""
+
+#. SysConfig
+msgid "Time accounting view."
+msgstr ""
+
+#. SysConfig
+msgid "Time accounting."
+msgstr ""
+
+#. SysConfig
 msgid "Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day)."
 msgstr ""
 
@@ -22719,6 +22951,10 @@ msgstr ""
 
 #. SysConfig
 msgid "To download attachments."
+msgstr ""
+
+#. SysConfig
+msgid "To use if some actions reduced the working hours (for example, if only half of the traveling time is paid Key => traveling; Content => 50)."
 msgstr ""
 
 #. SysConfig

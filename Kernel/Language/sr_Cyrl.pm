@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 1;
+    $Self->{Completeness}        = 0.987426799862211;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1424,7 +1424,7 @@ sub Data {
         'In case you would have further questions we would be glad to answer them.' =>
             'У случају да имате додтана питања, биће нам задовољство да одговоримо на њих.',
         'Install Package' => 'Инсталирај пакет',
-        'Upgrade Package' => 'Унапреди пакет',
+        'Update Package' => '',
         'Continue' => 'Настави',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             'Молимо вас да будете сигурни да ваша база података прихвата пакете величине преко %s MB (тренутно прихвата само пакете до %s MB). Молимо вас да прилагодите подешавања \'max_allowed_packet\' на вашој бази података, да би сте избегли грешке.',
@@ -1433,11 +1433,10 @@ sub Data {
         'Cloud services are currently disabled.' => 'Сервиси у облаку су тренутно деактивирани.',
         'OTRS Verify™ can not continue!' => 'OTRS Verify™ не може да настави!',
         'Enable cloud services' => 'Активирај сервисе у облаку',
-        'Upgrade all installed packages' => 'Унапреди све инсталиране пакете',
+        'Update all installed packages' => '',
         'Online Repository' => 'Мрежно спремиште',
         'Action' => 'Акција',
         'Module documentation' => 'Документација модула',
-        'Upgrade' => 'Ажурирање',
         'Local Repository' => 'Локално спремиште',
         'This package is verified by OTRSverify (tm)' => 'Овај пакет је верификован од стране OTRSverify (tm)',
         'Uninstall' => 'Деинсталирај',
@@ -1947,6 +1946,7 @@ sub Data {
             'Најмање један параметар недостаје за повезивање. Молимо проверите.',
         'Result format' => 'Формат резултата',
         'Run Query' => 'Покрени упит',
+        '%s Results' => '',
         'Query is executed.' => 'Упит је извршен.',
 
         # Template: AdminService
@@ -2414,8 +2414,8 @@ sub Data {
         'Undo & close' => 'Одустани & затвори',
 
         # Template: AgentInfo
-        'Info' => 'Инфо',
         'To accept some news, a license or some changes.' => 'Да би прихватили неке вести, дозволе или неке промене.',
+        'Yes, accepted.' => '',
 
         # Template: AgentLinkObject
         'Manage links for %s' => 'Уреди везе за %s',
@@ -2621,6 +2621,7 @@ sub Data {
         # Template: AgentTicketHistory
         'History of %s%s%s' => 'Историјат од %s%s%s',
         'Filter for history items' => 'Филтер за ставке историјата',
+        'Expand/collapse all' => '',
         'Article' => 'Чланак',
 
         # Template: AgentTicketMerge
@@ -3414,6 +3415,14 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminCommunicationLog.pm
         'Invalid CommunicationID ' => 'Неважећи CommunicationID',
+        'All communications' => '',
+        'Last 1 hour' => '',
+        'Last 3 hours' => '',
+        'Last 6 hours' => '',
+        'Last 12 hours' => '',
+        'Last 24 hours' => '',
+        'Last week' => '',
+        'Last month' => '',
         'Invalid StartTime: %s!' => 'Неважећи StartTime: %s!',
         'Successful' => 'Успешно',
         'Processing' => 'У процесу',
@@ -3424,6 +3433,7 @@ sub Data {
         'sorted ascending' => 'сортирано растуће',
         'Trace' => 'Испитивање',
         'Debug' => 'Отклањање неисправности',
+        'Info' => 'Инфо',
         'Warn' => 'Упозорење',
         'days' => 'дани',
         'day' => 'дан',
@@ -3434,6 +3444,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer company updated!' => 'Ажурирана фирма клијента!',
+        'Dynamic field %s not found!' => '',
+        'Unable to set value for dynamic field %s!' => '',
         'Customer Company %s already exists!' => 'Клијентска фирма %s већ постоји!',
         'Customer company added!' => 'Додата фирма клијента!',
 
@@ -3838,6 +3850,7 @@ sub Data {
         'Impossible to delete relation!' => 'Немогуће брисање везе!',
         'Certificate %s could not be read!' => 'Сертификат %s није могуће прочитати!',
         'Needed Fingerprint' => 'Неопходан Fingerprint',
+        'Handle Private Certificate Relations' => '',
 
         # Perl Module: Kernel/Modules/AdminSalutation.pm
         'Salutation added!' => 'Поздрав додат!',
@@ -3952,7 +3965,7 @@ sub Data {
         'No permissions!' => 'Без дозволе!',
 
         # Perl Module: Kernel/Modules/AgentAppointmentList.pm
-        '+%d more' => '+%d више',
+        '+%s more' => '',
 
         # Perl Module: Kernel/Modules/AgentCustomerSearch.pm
         'Customer History' => 'Историјат клијента',
@@ -3981,6 +3994,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
         'Param Group is required!' => 'Неопходан параметар групе! ',
+        'Updated user preferences' => '',
         'System was unable to deploy your changes.' => 'Систем није успео да распореди ваше промене.',
         'Setting not found!' => 'Подешавање није пронађено!',
         'This feature is part of the %s Please contact us at %s for an upgrade.' =>
@@ -4394,6 +4408,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
         'Upgrade to OTRS Business Solution™' => 'Унапредите на OTRS Business Solution™',
         'Re-install Package' => 'Инсталирај поново пакет',
+        'Upgrade' => 'Ажурирање',
         'Re-install' => 'Инсталирај поново',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
@@ -4526,6 +4541,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s ажурирајте на %s сада! %s',
+        'Please verify your license data!' => '',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
             'Лиценца за ваш %s истиче ускоро. Молимо да контактирате %s ради обнове уговора!',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
@@ -4545,6 +4561,7 @@ sub Data {
         'Online Customer: %s' => 'Клијент на вези: %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
+        'System maintenance is active!' => '',
         'A system maintenance period will start at: ' => 'Период одржавања система ће отпочети у:',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
@@ -4752,8 +4769,8 @@ sub Data {
         'File is not installed!' => 'Датотека није инсталирана!',
         'File is different!' => 'Датотека је различита!',
         'Can\'t read file!' => 'Немогуће читање датотеке!',
-        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
-            '<br>Ако наставите да инсталирате овај пакет, могу се јавити следећи проблеми!<br><br>&nbsp;- Безбедносни проблеми<br>&nbsp;- Проблеми стабилности<br>&nbsp;- Проблеми у перформансама<br><br>Напомињемо да проблеми настали услед рада са овим пакетом нису покривени OTRS сервисним уговором!<br><br>',
+        '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -4818,6 +4835,7 @@ sub Data {
         'State Type Historic' => 'Историјат типа статуса',
         'Historic Time Range' => 'Временски опсег историјата',
         'Number' => 'Број',
+        'Last Changed' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => 'Просечно време решења',
@@ -5077,8 +5095,8 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
         'Ticket Search Index Module' => 'Модул за индексну претрагу тикета',
-        'You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
-            'Имате више од 50.000 чланака и треба да користите StaticDB модул. Погледајте администраторско упутство (Подешавање перформанси) за више информација.',
+        'The indexing process forces the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
         'Orphaned Records In ticket_lock_index Table' => 'Напуштени записи у ticket_lock_index табели',
@@ -5499,6 +5517,8 @@ sub Data {
         'Reset option is required!' => 'Поништавање је обавезно!',
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?' =>
             'Обнављањем овог распореда сва подешавања ће бити враћена на вредност коју су имала у време распореда. Да ли стварно желите да наставите?',
+        'Keys with values can\'t be renamed. Please remove this key/value pair instead and re-add it afterwards.' =>
+            '',
         'Unlock setting.' => 'Откључај подешавање.',
 
         # JS File: Core.Agent.Admin.SystemMaintenance
@@ -5571,6 +5591,8 @@ sub Data {
             'Извините али не можете искључити све методе за обавештења означена као обавезна.',
         'Sorry, but you can\'t disable all methods for this notification.' =>
             'Извините али не можете искључити све методе за ово обавештење.',
+        'Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.' =>
+            '',
         'An unknown error occurred. Please contact the administrator.' =>
             'Догодила се непозната грешка. Молимо контактирајте администратора.',
 
@@ -5689,12 +5711,13 @@ sub Data {
         'Sorry, you can only upload one file here.' => 'Жао нам је, овде можете отпремити само једну датотеку.',
         'Sorry, you can only upload %s files.' => 'Жао намо је, можете отпремити само %s датотеке(а).',
         'Please only select at most %s files for upload.' => 'Молимо да изаберете највише %s датотеке(а) за отпремање.',
-        'The following files are not allowed to be uploaded' => 'Није дозвољено отпремање следећих датотека',
-        'The following files exceed the maximum allowed size per file of %s and were not uploaded' =>
-            'Следеће датотеке премашују највећу дозвољену величину од %s и нису биле отпремљене',
-        'The following files were already uploaded and have not been uploaded again' =>
-            'Следеће датотеке су већ биле отпремљене и нису додате поново',
-        'No space left for the following files' => 'За следеће датотеке нема више места',
+        'The following files are not allowed to be uploaded: %s' => '',
+        'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s' =>
+            '',
+        'The following files were already uploaded and have not been uploaded again: %s' =>
+            '',
+        'No space left for the following files: %s' => '',
+        'Available space %s of %s.' => '',
         'Upload information' => 'Информације о отпремању',
         'An unknown error occurred when deleting the attachment. Please try again. If the error persists, please contact your system administrator.' =>
             'Догодила се непозната грешка приликом брисања прилога. Молимо покушајте поново. Ако се грешка поново, молимо контактирајте вашег администратора.',
@@ -5839,6 +5862,8 @@ Thanks for your help!
             'Модул интерфејса оператера за приступ профилима претраживања преко линије за навигацију. Додатна контрола приказа ове везе може се постићи коришћењем кључа "Group" са садржајем "rw:group1;move_into:group2".',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Модул интерфејса оператера за проверу долазних порука у детаљном прегледу тикета ако S/MIME-кључ постоји и доступан је.',
+        'Agent interface notification module to see the number of incomplete working days for the user.' =>
+            '',
         'Agent interface notification module to see the number of locked tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'Модул интерфејса оператера за приказ броја закључаних тикета. Додатна контрола приказа ове везе може се постићи коришћењем кључа "Group" са садржајем "rw:group1;move_into:group2".',
         'Agent interface notification module to see the number of tickets an agent is responsible for. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -6195,10 +6220,21 @@ Thanks for your help!
         'Default display type for sender (From) names in AgentTicketZoom and CustomerTicketZoom.' =>
             'Подразумевани тип приказа за имена (Од) пошиљаоца на детаљном приказу тикета у интерфејсу оператера и клијента.',
         'Default loop protection module.' => 'Подразумевани модул заштите од петље.',
+        'Default name for new actions.' => '',
+        'Default name for new projects.' => '',
         'Default queue ID used by the system in the agent interface.' => 'Подразумевани ID реда који користи систем у интерфејсу оператера.',
+        'Default setting for date end.' => '',
+        'Default setting for date start.' => '',
+        'Default setting for description.' => '',
+        'Default setting for leave days.' => '',
+        'Default setting for overtime.' => '',
+        'Default setting for the standard weekly hours.' => '',
         'Default skin for the agent interface (slim version).' => 'Подразумевани изглед окружења за интерфејс оператера (слаба верзија).',
         'Default skin for the agent interface.' => 'Подразумевани изглед окружења за интерфејс оператера.',
         'Default skin for the customer interface.' => 'Подразумевани изглед окружења за интерфејс клијента.',
+        'Default status for new actions.' => '',
+        'Default status for new projects.' => '',
+        'Default status for new users.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             'Подразумевани ID тикета који користи систем у интерфејсу оператера.',
         'Default ticket ID used by the system in the customer interface.' =>
@@ -6221,6 +6257,8 @@ Thanks for your help!
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             'Дефиниши први дан у недељи за избор датума за наведени календар.',
         'Define the start day of the week for the date picker.' => 'Дефиниши први дан у недељи за избор датума.',
+        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information.' =>
+            '',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
             'Дефинише који сервис ће бити коришћен за аватар сличице оператера у заглављу и детаљном приказу тикета. Ако је одабран \'Ни један\', биће приказани иницијали оператера. Молимо обратите пажњу да ће одабиром једне од опција, шифрована имејл адреса корисника бити прослеђена екстерном сервису.',
         'Define which columns are shown in the linked appointment widget (LinkObject::ViewMode = "complex"). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
@@ -6823,6 +6861,8 @@ Thanks for your help!
         'Defines the postmaster default queue.' => 'Дефинише подразумевани ред постмастера.',
         'Defines the priority in which the information is logged and presented.' =>
             'Дефинише приоритет по ком се информације бележе и приказују.',
+        'Defines the projects for which a remark is required. If the RegExp matches on the project, you have to insert a remark too. The RegExp use the smx parameter.' =>
+            '',
         'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             'Одређује циљног примаоца тикета позива и пошиљаоца имејл тикета ("Ред" приказује све редове, "Системска адреса" приказује све системске адресе) у интерфејсу оператера.',
         'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" shows only the queues which are assigned to system addresses) in the customer interface.' =>
@@ -6931,6 +6971,8 @@ Thanks for your help!
             'Одређује да ли листа могућих редова за премештање у тикет треба да буде приказана у падајућој листи или у новом прозору у интерфејсу оператера. Ако је подешен "Нови прозор" можете додавати напомене о премештању у тикет.',
         'Determines if the statistics module may generate ticket lists.' =>
             'Одређује да ли модул статистике може генерисати листе тикета.',
+        'Determines if the statistics module may generate time accounting information.' =>
+            '',
         'Determines the next possible ticket states, after the creation of a new email ticket in the agent interface.' =>
             'Одређује следећи могући статус тикета, након креирања новог имејл тикета у интерфејсу оператера.',
         'Determines the next possible ticket states, after the creation of a new phone ticket in the agent interface.' =>
@@ -6979,6 +7021,7 @@ Thanks for your help!
             'Приказује број свих тикета са истим ID клијента као тренутни тикет у детаљном прегледу тикета.',
         'Down' => 'Доле',
         'Dropdown' => 'Падајући',
+        'Dutch' => '',
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             'Холандске зауставне речи за индекс претраге комплетног текста. Ове речи ће бити уклоњене из индекса претраге.',
         'Dynamic Fields Checkbox Backend GUI' => 'Графички интерфејс динамичког поља за потврду',
@@ -7060,6 +7103,8 @@ Thanks for your help!
         'Edit Customer Users.' => 'Уреди клијенте кориснике.',
         'Edit appointment' => 'Измена термина',
         'Edit customer company' => 'Измени фирму клијента',
+        'Edit time accounting settings.' => '',
+        'Edit time record.' => '',
         'Email Addresses' => 'Имејл адресе',
         'Email Outbound' => 'Одлазни имејл',
         'Email Resend' => 'Пошаљи поново имејл',
@@ -7152,8 +7197,6 @@ Thanks for your help!
         'Filter for debugging Transitions. Note: More filters can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
             'Филтер за отклањање грешака код транзиција. Напомена: филтери могу бити додати у формату <OTRS_TICKET_Attribute> нпр. <OTRS_TICKET_Priority>.',
         'Filter incoming emails.' => 'Филтрирање долазних порука.',
-        'Filter stop words from article search index, turned on by default. If turned off, search index will store unfiltered text.' =>
-            'Филтер кључних речи за индекс претраге чланака, подразумевано укључен. Уколико га искључите, индекс ће чувати нефилтриран текст.',
         'Finnish' => 'Фински',
         'First Christmas Day' => 'Први дан Божића',
         'First Queue' => 'Први ред',
@@ -7164,8 +7207,11 @@ Thanks for your help!
         'FirstResponseInMin' => 'FirstResponseInMin',
         'Firstname Lastname' => 'Име Презиме',
         'Firstname Lastname (UserLogin)' => 'Име Презиме (Корисничко име)',
+        'For how many days ago you can insert working units.' => '',
         'For these state types the ticket numbers are striked through in the link table.' =>
             'За ове типове стања бројеви тикета ће бити прецртани у табели веза.',
+        'Force the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
+            '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             'Намеће шифрирање одлазних имејлова (7bit|8bit|quoted-printable|base64).',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
@@ -7191,7 +7237,6 @@ Thanks for your help!
             'Регистрација модула интерфејса (приказ личних омиљених као поднавигација администраторског менија).',
         'Frontend module registration for the agent interface.' => 'Регистрација модула приступа за интерфејс оператера.',
         'Frontend module registration for the customer interface.' => 'Регистрација модула приступа за интерфејс клијента.',
-        'Frontend theme' => 'Изглед приступног система',
         'Full value' => 'Цела вредност',
         'Fulltext index regex filters to remove parts of the text.' => 'Текст индекс филтери (регуларни изрази) за уклањање делова текста.',
         'Fulltext search' => 'Текст за претрагу',
@@ -7332,14 +7377,24 @@ Thanks for your help!
             'Уколико је укључено, OTRS ће испоручити све JavaScript датотеке у смањеној форми.',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'Ако је активирано, тикети позива и имејл тикети ће бити отворени у новом прозору.',
+        'If enabled, only users that has added working time to the selected project are shown.' =>
+            '',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
             'Ако је активирано, ознака OTRS верзије ће бити уклоњена из веб интерфејса, HTTP заглавља и X-Headers у одлазним имејл порукама. НАПОМЕНА: ако мењате ову опцију, молимо да осигурате брисање кеша.',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             'Ако је активирано, клијент може претраживати тикете у свим сервисима (без обзира на то који сервиси су додељени клијенту).',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Ако је активиринао, различити прегледи (контролна табла, закључавање, редови) ће се аутоматски освежити после задатог времена.',
+        'If enabled, the dropdown elements in the edit screen are changed to modernized autocompletion fields.' =>
+            '',
+        'If enabled, the filter for the previous projects can be used instead two list of projects (last and all ones). It could be used only if TimeAccounting::EnableAutoCompletion is enabled.' =>
+            '',
+        'If enabled, the filter for the previous projects is active by default if there are the previous projects. It could be used only if EnableAutoCompletion and TimeAccounting::UseFilter are enabled.' =>
+            '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             'Ако је активирано, први ниво главног менија се отвара на прелаз миша (уместо само на клик).',
+        'If enabled, the user is allowed to enter "on vacation leave", "on sick leave" and "on overtime leave" to multiple dates at once.' =>
+            '',
         'If enabled, users that haven\'t selected a time zone yet will be notified to do so. Note: Notification will not be shown if (1) user has not yet selected a time zone and (2) OTRSTimeZone and UserDefaultTimeZone do match and (3) are not set to UTC.' =>
             'Уколико је укључено, корисници који још нису одабрали временску зону биће обавештени о томе. Напомена: обавештење неће бити приказано уколико (1) корисник још није одабрао временску зону и (2) OTRSTimeZone и UserDefaultTimeZone се подударају и (3) нису постављена на UTC.',
         'If no SendmailNotificationEnvelopeFrom is specified, this setting makes it possible to use the email\'s from address instead of an empty envelope sender (required in certain mail server configurations).' =>
@@ -7503,6 +7558,10 @@ Thanks for your help!
             'Максимални број тикета који ће бити приказани у резултату претраге у интерфејсу клијента.',
         'Maximum number of tickets to be displayed in the result of this operation.' =>
             'Максимални број тикета који ће бити приказани у резултату ове операције.',
+        'Maximum number of working days after which the working units have to be inserted.' =>
+            '',
+        'Maximum number of working days without working units entry after which a warning will be shown.' =>
+            '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'Максимална дужина (у знацима) клијентске инфо табеле на детаљном прегледу тикета.',
         'Medium' => 'Средње',
@@ -7565,7 +7624,6 @@ Thanks for your help!
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
             'Назив наменске услуге. Наменска услуга је избор услуга по вашој жељи и може се изабрати у подешавањима.',
         'NameX' => 'ИмеХ',
-        'Nederlands' => 'Холандски',
         'New Ticket' => 'Нови тикет',
         'New Tickets' => 'Нови тикети',
         'New Window' => 'Нови прозор',
@@ -7621,6 +7679,7 @@ Thanks for your help!
         'Overview of all open Tickets.' => 'Преглед свих отворених тикета.',
         'Overview of all open tickets.' => 'Преглед свих отворених тикета.',
         'Overview of customer tickets.' => 'Преглед клијентских тикета.',
+        'Overview.' => '',
         'PGP Key' => 'PGP кључ',
         'PGP Key Management' => 'Управљање PGP кључем',
         'PGP Keys' => 'PGP кључеви',
@@ -7732,6 +7791,7 @@ Thanks for your help!
         'ProcessID' => 'ID процеса',
         'Processes & Automation' => 'Процеси & аутоматизација',
         'Product News' => 'Новости о производу',
+        'Project time reporting.' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             'Заштита од CSRF експлоатације (Cross Site Request Forgery, за више информација погледајте http://en.wikipedia.org/wiki/Cross-site_request_forgery).',
         'Provides a matrix overview of the tickets per state per queue' =>
@@ -7747,6 +7807,10 @@ Thanks for your help!
         'Refresh interval' => 'Интервал освежавања',
         'Registers a log module, that can be used to log communication related information.' =>
             'Региструје лог модул за логовање информација у вези комуникација.',
+        'Regular expressions for constraining action list according to selected project. Key contains regular expression for project(s), content contains regular expressions for action(s).' =>
+            '',
+        'Regular expressions for constraining project list according to user groups. Key contains regular expression for project(s), content contains comma separated list of groups.' =>
+            '',
         'Reminder Tickets' => 'Тикети подсетника',
         'Removed subscription for user "%s".' => 'Претплата за корисника "%s" je искључена.',
         'Removes old system configuration deployments (Sunday mornings).' =>
@@ -7758,6 +7822,7 @@ Thanks for your help!
             'Обнавља постојеће SMIME сертификате из извора клијената. Напомена: SMIME и SMIME::FetchFromCustomer морају бити активни у конфигурацији и извор клијената мора бити подешен за преузимање UserSMIMECertificate атрибута.',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             'Замењује оригиналног пошиљаоца са имејл адресом актуелног клијента при креирању одговора у прозору за писање одговора интерфејса оператера.',
+        'Reporting' => '',
         'Reports' => 'Извештаји',
         'Reports (OTRS Business Solution™)' => 'Извештаји (OTRS Business Solution™)',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
@@ -8226,8 +8291,6 @@ Thanks for your help!
             'Приказује све клијентске идентификаторе у пољу вишеструког избора (није корисно ако имате много клијентских идентификатора).',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'Приказује избор власника за тикете позива и имејл тикете у интерфејсу оператера.',
-        'Shows colors for different article types in the article table.' =>
-            'Приказује боје за разне типове чланака у табели чланака.',
         'Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer.' =>
             'Приказује историјат тикета клијента у AgentTicketPhone, AgentTicketEmail и AgentTicketCustomer.',
         'Shows either the last customer article\'s subject or the ticket title in the small format overview.' =>
@@ -8243,7 +8306,6 @@ Thanks for your help!
             'Приказује чланке сортирано нормално или обрнуто, на детаљном приказу тикета у интерфејсу оператера.',
         'Shows the customer user information (phone and email) in the compose screen.' =>
             'Приказује податке о клијенту кориснику (број телефона и имејл) на екрану писања одговора.',
-        'Shows the customer user\'s info in the ticket zoom view.' => 'Приказује информације о клијенту на детаљном прегледу тикета.',
         'Shows the message of the day (MOTD) in the agent dashboard. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             'Приказује данашњу поруку на контролној табли у интерфејсу оператера. "Group" се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). "Default" одређује да ли је додатак подразумевано активиран или да је неопходно да га корисник мануелно активира. "Mandatory" одређује да ли је додатак увек приказан и не може бити искључен од стране оператера.',
         'Shows the message of the day on login screen of the agent interface.' =>
@@ -8314,6 +8376,8 @@ Thanks for your help!
             'Шпанске зауставне речи за индекс претрагу комплетног текста. Ове речи ће бити уклоњене из индекса претраге.',
         'Specifies if an agent should receive email notification of his own actions.' =>
             'Дефинише да ли оператер треба да добије имејл обавештење за своје акције.',
+        'Specifies if working hours can be inserted without start and end times.' =>
+            '',
         'Specifies the directory to store the data in, if "FS" was selected for ArticleStorage.' =>
             'Одређује директоријум за складиштење података ако је "FS" изабран за ArticleStorage.',
         'Specifies the directory where SSL certificates are stored.' => 'Одређује директоријум где се SSL сертификати складиште.',
@@ -8444,7 +8508,10 @@ Thanks for your help!
         'This is the default orange - black skin.' => 'Ово је подразумевани наранџасто-црни изглед.',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'Уколико је укључен, овај модул и његова PreRun() функција биће  извршени приликом сваког захтева. Користи се за проверу опција корисника и приказ вести о апликацији.',
+        'This module forces inserts in TimeAccounting.' => '',
         'This module is part of the admin area of OTRS.' => 'Овај модул је део OTRS административног простора.',
+        'This notification module gives a warning if there are too many incomplete working days.' =>
+            '',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             'Ова опција одређује динамичко поље у које се смешта ID ентитета активности управљања процесима.',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
@@ -8497,10 +8564,19 @@ Thanks for your help!
         'Ticket zoom view.' => 'Детаљни преглед тикета.',
         'TicketNumber' => 'Број тикета',
         'Tickets.' => 'Тикети.',
+        'Time Accounting' => '',
+        'Time accounting edit.' => '',
+        'Time accounting overview.' => '',
+        'Time accounting reporting.' => '',
+        'Time accounting settings.' => '',
+        'Time accounting view.' => '',
+        'Time accounting.' => '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             'Време у секундама које се додаје на тренутно време ако се поставља статус на чекању (подразумевано: 86400 = 1 дан).',
         'To accept login information, such as an EULA or license.' => 'Прихватање информација приликом пријављивања, нпр. EULA изјава или лиценца.',
         'To download attachments.' => 'За преузимање прилога.',
+        'To use if some actions reduced the working hours (for example, if only half of the traveling time is paid Key => traveling; Content => 50).' =>
+            '',
         'To view HTML attachments.' => 'За преглед HTML прилога.',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             'Искључује/укључује приказ листе пакета за проширење могућности у екрану за управљање пакетима.',
@@ -8604,6 +8680,11 @@ Thanks for your help!
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',
         ' ...show less',
+        '%s B',
+        '%s GB',
+        '%s KB',
+        '%s MB',
+        '%s TB',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
@@ -8639,6 +8720,7 @@ Thanks for your help!
         'Attachments',
         'Aug',
         'August',
+        'Available space %s of %s.',
         'Basic information',
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?',
         'Calendar',
@@ -8757,6 +8839,7 @@ Thanks for your help!
         'Jun',
         'June',
         'Just this occurrence',
+        'Keys with values can\'t be renamed. Please remove this key/value pair instead and re-add it afterwards.',
         'Less',
         'Link',
         'Loading, please wait...',
@@ -8784,7 +8867,7 @@ Thanks for your help!
         'No matches found.',
         'No package information available.',
         'No sort applied, ',
-        'No space left for the following files',
+        'No space left for the following files: %s',
         'Not available',
         'Notice',
         'Notification',
@@ -8802,6 +8885,7 @@ Thanks for your help!
         'Please either turn some off first or increase the limit in configuration.',
         'Please enter at least one search value or * to find anything.',
         'Please enter at least one search word to find anything.',
+        'Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.',
         'Please only select at most %s files for upload.',
         'Please only select one file for upload.',
         'Please remove the following words from your search as they cannot be searched for:',
@@ -8886,9 +8970,9 @@ Thanks for your help!
         'Th',
         'The browser you are using is too old.',
         'The deployment is already running.',
-        'The following files are not allowed to be uploaded',
-        'The following files exceed the maximum allowed size per file of %s and were not uploaded',
-        'The following files were already uploaded and have not been uploaded again',
+        'The following files are not allowed to be uploaded: %s',
+        'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s',
+        'The following files were already uploaded and have not been uploaded again: %s',
         'The item you\'re currently viewing is part of a not-yet-deployed configuration setting, which makes it impossible to edit it in its current state. Please wait until the setting has been deployed. If you\'re unsure what to do next, please contact your system administrator.',
         'The key must not be empty.',
         'The mail could not be sent',
@@ -8945,12 +9029,14 @@ Thanks for your help!
         'Yes',
         'You can either have the affected settings updated automatically to reflect the changes you just made or do it on your own by pressing \'update manually\'.',
         'You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built.',
+        'You have undeployed settings, would you like to deploy them?',
         'activate to apply a descending sort',
         'activate to apply an ascending sort',
         'activate to remove the sort',
         'and %s more...',
         'day',
         'month',
+        'more',
         'no',
         'none',
         'or',

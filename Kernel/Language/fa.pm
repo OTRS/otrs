@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.734644162171568;
+    $Self->{Completeness}        = 0.726145366861867;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -1429,7 +1429,7 @@ sub Data {
         'In case you would have further questions we would be glad to answer them.' =>
             'در مورد شما می سوال بیشتر دارند ما خوشحال خواهد بود به آنها پاسخ دهد.',
         'Install Package' => 'نصب بسته',
-        'Upgrade Package' => '',
+        'Update Package' => '',
         'Continue' => 'ادامه',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             'لطفا مطمئن شوید که پایگاه داده خود را بسته بر می پذیرد %s MB در اندازه (در حال حاضر تنها بسته می پذیرد تا %s MB). لطفا تنظیمات max_allowed_packet از پایگاه داده خود را به منظور جلوگیری از اشتباهات وفق دهند.',
@@ -1438,11 +1438,10 @@ sub Data {
         'Cloud services are currently disabled.' => 'خدمات ابر در حال حاضر غیر فعال است.',
         'OTRS Verify™ can not continue!' => 'OTRS تایید ™ نمی تواند ادامه دهد.',
         'Enable cloud services' => 'فعال کردن سرویس های ابری',
-        'Upgrade all installed packages' => '',
+        'Update all installed packages' => '',
         'Online Repository' => 'مخزن آنلاین بسته‌ها',
         'Action' => 'فعالیت',
         'Module documentation' => 'مستندات ماژول',
-        'Upgrade' => 'ارتقاء',
         'Local Repository' => 'مخزن محلی بسته‌ها',
         'This package is verified by OTRSverify (tm)' => 'این بسته توسط OTRSverify تایید (TM)',
         'Uninstall' => 'حذف بسته',
@@ -1952,6 +1951,7 @@ sub Data {
             'حداقل یک پارامتر برای اجرا وجود ندارد. لطفا آن را کنترل نمایید.',
         'Result format' => 'قالب نتیجه',
         'Run Query' => 'اجرای کوئری',
+        '%s Results' => '',
         'Query is executed.' => 'پرس و جو اجرا است.',
 
         # Template: AdminService
@@ -2419,8 +2419,8 @@ sub Data {
         'Undo & close' => 'عملیات را برگردان و پنجره را ببند',
 
         # Template: AgentInfo
-        'Info' => 'اطلاعات',
         'To accept some news, a license or some changes.' => 'برای پذیرش برخی اخبار، یک گواهینامه یا برخی تغییرات.',
+        'Yes, accepted.' => '',
 
         # Template: AgentLinkObject
         'Manage links for %s' => '',
@@ -2626,6 +2626,7 @@ sub Data {
         # Template: AgentTicketHistory
         'History of %s%s%s' => 'تاریخ %s %s %s',
         'Filter for history items' => '',
+        'Expand/collapse all' => '',
         'Article' => 'نوشته',
 
         # Template: AgentTicketMerge
@@ -3419,6 +3420,14 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminCommunicationLog.pm
         'Invalid CommunicationID ' => '',
+        'All communications' => '',
+        'Last 1 hour' => '',
+        'Last 3 hours' => '',
+        'Last 6 hours' => '',
+        'Last 12 hours' => '',
+        'Last 24 hours' => '',
+        'Last week' => '',
+        'Last month' => '',
         'Invalid StartTime: %s!' => '',
         'Successful' => '',
         'Processing' => '',
@@ -3429,6 +3438,7 @@ sub Data {
         'sorted ascending' => 'مرتب شده صعودی',
         'Trace' => '',
         'Debug' => 'اشکال زدایی',
+        'Info' => 'اطلاعات',
         'Warn' => '',
         'days' => 'روز',
         'day' => 'روز',
@@ -3439,6 +3449,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer company updated!' => 'شرکت مشترک به روز شد.',
+        'Dynamic field %s not found!' => '',
+        'Unable to set value for dynamic field %s!' => '',
         'Customer Company %s already exists!' => 'ضوابط شرکت %s قبل وجود دارد!',
         'Customer company added!' => 'شرکت مشترک افزوده شد.',
 
@@ -3843,6 +3855,7 @@ sub Data {
         'Impossible to delete relation!' => '  حذف رابطه غیر ممکن است!',
         'Certificate %s could not be read!' => 'گواهی %s نمی تواند خوانده شود!',
         'Needed Fingerprint' => 'اثر انگشت مورد نیاز',
+        'Handle Private Certificate Relations' => '',
 
         # Perl Module: Kernel/Modules/AdminSalutation.pm
         'Salutation added!' => 'سلام اضافه شده است!',
@@ -3957,7 +3970,7 @@ sub Data {
         'No permissions!' => '',
 
         # Perl Module: Kernel/Modules/AgentAppointmentList.pm
-        '+%d more' => '',
+        '+%s more' => '',
 
         # Perl Module: Kernel/Modules/AgentCustomerSearch.pm
         'Customer History' => 'تاریخچه اشتراک',
@@ -3986,6 +3999,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
         'Param Group is required!' => 'PARAM گروه مورد نیاز است!',
+        'Updated user preferences' => '',
         'System was unable to deploy your changes.' => '',
         'Setting not found!' => '',
         'This feature is part of the %s Please contact us at %s for an upgrade.' =>
@@ -4399,6 +4413,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
         'Upgrade to OTRS Business Solution™' => '',
         'Re-install Package' => '',
+        'Upgrade' => 'ارتقاء',
         'Re-install' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
@@ -4531,6 +4546,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s ارتقا به %s در حال حاضر! %s',
+        'Please verify your license data!' => '',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
             'مجوز %s شما رو به پایان است. لطفا برای بستن قرارداد مجدد با  %s تماس بگیرید.',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
@@ -4550,6 +4566,7 @@ sub Data {
         'Online Customer: %s' => 'مشترک فعال: %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
+        'System maintenance is active!' => '',
         'A system maintenance period will start at: ' => 'دوره تعمیر و نگهداری سیستم شروع خواهد شد در: ',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
@@ -4757,8 +4774,8 @@ sub Data {
         'File is not installed!' => 'فایل نصب نشده است!',
         'File is different!' => 'فایل متفاوت است!',
         'Can\'t read file!' => 'نمی توانید فایل خوانده شده!',
-        '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
-            '<br> اگر شما به نصب این بسته ادامه بدهید، موارد زیر ممکن است رخ دهد لرزه و nbsp؛  -مشکلات امنییتی  <BR> & nbsp؛  مشکلات ایستایی  <BR> & nbsp؛  مشکلات عملکرد لرزه ،لطفا توجه داشته باشید که مسائلی که با کار کردن با این بسته ایجاد می شود توسط قرارداد خدمات OTRS تحت پوشش نیست! لرزه',
+        '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -4823,6 +4840,7 @@ sub Data {
         'State Type Historic' => 'نوع تاریخی ایالتی',
         'Historic Time Range' => 'تاریخی محدوده زمانی',
         'Number' => 'عدد',
+        'Last Changed' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => 'راه حل میانگین',
@@ -5082,8 +5100,8 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
         'Ticket Search Index Module' => 'درخواست جستجوی شاخص ماژول',
-        'You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
-            'شما باید بیش از 50،000 مقاله و باید از باطن StaticDB استفاده کنید. کتابچه راهنمای کاربر مدیر (تنظیم عملکرد) را برای اطلاعات بیشتر ببینید.',
+        'The indexing process forces the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
         'Orphaned Records In ticket_lock_index Table' => 'سوابق یتیم در جدول ticket_lock_index',
@@ -5504,6 +5522,8 @@ sub Data {
         'Reset option is required!' => '',
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?' =>
             '',
+        'Keys with values can\'t be renamed. Please remove this key/value pair instead and re-add it afterwards.' =>
+            '',
         'Unlock setting.' => '',
 
         # JS File: Core.Agent.Admin.SystemMaintenance
@@ -5576,6 +5596,8 @@ sub Data {
             'با عرض پوزش، اما شما می توانید از تمام روش برای اطلاعیه مشخص شده به عنوان اجباری را غیر فعال کنید.',
         'Sorry, but you can\'t disable all methods for this notification.' =>
             'با عرض پوزش، اما شما می توانید از تمام روش برای این اطلاع رسانی را غیر فعال کنید.',
+        'Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.' =>
+            '',
         'An unknown error occurred. Please contact the administrator.' =>
             '',
 
@@ -5694,12 +5716,13 @@ sub Data {
         'Sorry, you can only upload one file here.' => '',
         'Sorry, you can only upload %s files.' => '',
         'Please only select at most %s files for upload.' => '',
-        'The following files are not allowed to be uploaded' => '',
-        'The following files exceed the maximum allowed size per file of %s and were not uploaded' =>
+        'The following files are not allowed to be uploaded: %s' => '',
+        'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s' =>
             '',
-        'The following files were already uploaded and have not been uploaded again' =>
+        'The following files were already uploaded and have not been uploaded again: %s' =>
             '',
-        'No space left for the following files' => '',
+        'No space left for the following files: %s' => '',
+        'Available space %s of %s.' => '',
         'Upload information' => '',
         'An unknown error occurred when deleting the attachment. Please try again. If the error persists, please contact your system administrator.' =>
             '',
@@ -5844,6 +5867,8 @@ Thanks for your help!
             'عامل ماژول رابط برای دسترسی به پروفایل جستجو از طریق نوار منو. کنترل دسترسی اضافی برای نشان دادن یا این لینک نشان می دهد را نمی توان با استفاده از کلید \ "گروه " و محتوا مانند \ ":؛: GROUP2 \ move_into GROUP1 RW" انجام می شود.',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'ماژول واسط کارشناس برای کنترل ایمیل‌های وارده در نمای نمایش کامل درخواست در صورتی که کلید S/MIME موجود و صحیح باشد.',
+        'Agent interface notification module to see the number of incomplete working days for the user.' =>
+            '',
         'Agent interface notification module to see the number of locked tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'عامل ماژول اطلاع رسانی رابط برای دیدن تعدادی از بلیط قفل شده است. کنترل دسترسی اضافی برای نشان دادن یا این لینک نشان می دهد را نمی توان با استفاده از کلید \ "گروه " و محتوا مانند \ ":؛: GROUP2 \ move_into GROUP1 RW" انجام می شود.',
         'Agent interface notification module to see the number of tickets an agent is responsible for. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -6200,10 +6225,21 @@ Thanks for your help!
         'Default display type for sender (From) names in AgentTicketZoom and CustomerTicketZoom.' =>
             'نوع صفحه نمایش به طور پیش فرض برای فرستنده (از) نام در AgentTicketZoom و CustomerTicketZoom.',
         'Default loop protection module.' => 'ماژول جلوگیری از تشکیل حلقه پیش‌فرض',
+        'Default name for new actions.' => '',
+        'Default name for new projects.' => '',
         'Default queue ID used by the system in the agent interface.' => 'شناسه پیش‌فرض صف استفاده شده برای سیستم در واسط کاربری کارشناس',
+        'Default setting for date end.' => '',
+        'Default setting for date start.' => '',
+        'Default setting for description.' => '',
+        'Default setting for leave days.' => '',
+        'Default setting for overtime.' => '',
+        'Default setting for the standard weekly hours.' => '',
         'Default skin for the agent interface (slim version).' => 'پوست به طور پیش فرض برای رابط عامل (نسخه باریک).',
         'Default skin for the agent interface.' => 'پوست به طور پیش فرض برای رابط عامل.',
         'Default skin for the customer interface.' => 'پوست به طور پیش فرض برای رابط مشتری.',
+        'Default status for new actions.' => '',
+        'Default status for new projects.' => '',
+        'Default status for new users.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             'ID درخواست به طور پیش فرض استفاده شده توسط سیستم در رابط عامل.',
         'Default ticket ID used by the system in the customer interface.' =>
@@ -6226,6 +6262,8 @@ Thanks for your help!
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             'تعریف روز شروع هفته را برای جمع کننده اطلاعات تقویم نشان داد.',
         'Define the start day of the week for the date picker.' => 'تعریف روز شروع هفته برای جمع کننده اطلاعات.',
+        'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information.' =>
+            '',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
             '',
         'Define which columns are shown in the linked appointment widget (LinkObject::ViewMode = "complex"). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
@@ -6828,6 +6866,8 @@ Thanks for your help!
         'Defines the postmaster default queue.' => 'تعریف می کند  به طور پیش فرض صف رئيس پست را.',
         'Defines the priority in which the information is logged and presented.' =>
             'تعریف می کند که اولویت است که در آن اطلاعات وارد شده و ارائه شده است.',
+        'Defines the projects for which a remark is required. If the RegExp matches on the project, you have to insert a remark too. The RegExp use the smx parameter.' =>
+            '',
         'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             'تعریف می کند که هدف دریافت کننده بلیط تلفن و فرستنده بلیط ایمیل (\ "صف " را نشان می دهد تمام صف، \ "آدرس سیستم " تمام آدرس های سیستم) در رابط عامل.',
         'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" shows only the queues which are assigned to system addresses) in the customer interface.' =>
@@ -6936,6 +6976,8 @@ Thanks for your help!
             'تعیین اگر لیستی از صف ممکن به حرکت به بلیط به باید در یک لیست کشویی یا در یک پنجره جدید در رابط عامل نمایش داده میشود. اگر \ "پنجره جدید " قرار است شما می توانید یک یادداشت حرکت بلیط برای اضافه کنید.',
         'Determines if the statistics module may generate ticket lists.' =>
             'تعیین  ماژول آمار ممکن است لیست درخواست تولید کند.',
+        'Determines if the statistics module may generate time accounting information.' =>
+            '',
         'Determines the next possible ticket states, after the creation of a new email ticket in the agent interface.' =>
             'تعیین حالات درخواست ممکن بعدی، پس از ایجاد یک درخواست ایمیل جدید در رابط عامل.',
         'Determines the next possible ticket states, after the creation of a new phone ticket in the agent interface.' =>
@@ -6984,6 +7026,7 @@ Thanks for your help!
             '',
         'Down' => 'پائین',
         'Dropdown' => 'رها کردن',
+        'Dutch' => '',
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             'کلمات توقف هلندی شاخص متن. این کلمات از صفحه اول جستجو حذف خواهند شد.',
         'Dynamic Fields Checkbox Backend GUI' => 'رابط کاربری گرافیکی پویا زمینه جعبه بخش مدیریت',
@@ -7065,6 +7108,8 @@ Thanks for your help!
         'Edit Customer Users.' => 'ویرایش کاربران مشتری',
         'Edit appointment' => '',
         'Edit customer company' => 'ویرایش شرکت مشتری',
+        'Edit time accounting settings.' => '',
+        'Edit time record.' => '',
         'Email Addresses' => 'آدرس‌های ایمیل',
         'Email Outbound' => 'عازم ناحیه دور دست ایمیل',
         'Email Resend' => '',
@@ -7157,8 +7202,6 @@ Thanks for your help!
         'Filter for debugging Transitions. Note: More filters can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
             'فیلتر برای اشکال زدایی انتقال. توجه: بیشتر فیلتر را می توان در قالب <OTRS_TICKET_Attribute> به عنوان مثال <OTRS_TICKET_Priority> اضافه شده است.',
         'Filter incoming emails.' => 'فیلتر ایمیل‌های ورودی',
-        'Filter stop words from article search index, turned on by default. If turned off, search index will store unfiltered text.' =>
-            '',
         'Finnish' => 'فنلاندی',
         'First Christmas Day' => 'روز اول کریسمس',
         'First Queue' => 'صف نخست',
@@ -7169,7 +7212,10 @@ Thanks for your help!
         'FirstResponseInMin' => 'FirstResponseInMin',
         'Firstname Lastname' => 'نام نام خانوادگی',
         'Firstname Lastname (UserLogin)' => 'نام نام خانوادگی (صفحهی)',
+        'For how many days ago you can insert working units.' => '',
         'For these state types the ticket numbers are striked through in the link table.' =>
+            '',
+        'Force the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
             '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             'را پشتیبانی می کند نیروهای ایمیل های ارسالی (7bit | 8bit های | نقل قابل چاپ | از base64).',
@@ -7196,7 +7242,6 @@ Thanks for your help!
             '',
         'Frontend module registration for the agent interface.' => 'ظاهر ثبت نام ماژول برای رابط عامل.',
         'Frontend module registration for the customer interface.' => 'ظاهر ثبت نام ماژول برای رابط مشتری.',
-        'Frontend theme' => 'طرح زمینه واسط',
         'Full value' => 'ارزش کامل',
         'Fulltext index regex filters to remove parts of the text.' => 'متن فیلتر شاخص عبارت منظم به حذف بخش هایی از متن.',
         'Fulltext search' => 'جستجوی متن',
@@ -7337,14 +7382,24 @@ Thanks for your help!
             'اگر فعال باشد، OTRS تمام فایل های جاوا اسکریپت را در فرم های Minified ارائه کرده است.',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'اگر فعال باشد، TicketPhone و TicketEmail در پنجره جدید باز خواهد شد.',
+        'If enabled, only users that has added working time to the selected project are shown.' =>
+            '',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
             'اگر فعال باشد، نسخه برچسب OTRS خواهد شد از Webinterface، هدر HTTP و X-هدر از ایمیل های خروجی حذف خواهند شد. توجه: اگر شما این گزینه را تغییر دهید، لطفا مطمئن شوید که به حذف کش.',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             'اگر فعال باشد، مشتری می تواند برای درخواست در همه خدمات (بدون در نظر گرفتن اینکه چه خدماتی به مشتری اختصاص داده) جستجو کنید.',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'اگر فعال باشد، مروری مختلف (داشبورد، LockedView، QueueView) به طور خودکار پس از زمان مشخص را تازه کنید.',
+        'If enabled, the dropdown elements in the edit screen are changed to modernized autocompletion fields.' =>
+            '',
+        'If enabled, the filter for the previous projects can be used instead two list of projects (last and all ones). It could be used only if TimeAccounting::EnableAutoCompletion is enabled.' =>
+            '',
+        'If enabled, the filter for the previous projects is active by default if there are the previous projects. It could be used only if EnableAutoCompletion and TimeAccounting::UseFilter are enabled.' =>
+            '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             'اگر فعال باشد، در سطح اول از منوی اصلی باز می شود بر روی موس (به جای تنها کلیک کنید).',
+        'If enabled, the user is allowed to enter "on vacation leave", "on sick leave" and "on overtime leave" to multiple dates at once.' =>
+            '',
         'If enabled, users that haven\'t selected a time zone yet will be notified to do so. Note: Notification will not be shown if (1) user has not yet selected a time zone and (2) OTRSTimeZone and UserDefaultTimeZone do match and (3) are not set to UTC.' =>
             '',
         'If no SendmailNotificationEnvelopeFrom is specified, this setting makes it possible to use the email\'s from address instead of an empty envelope sender (required in certain mail server configurations).' =>
@@ -7508,6 +7563,10 @@ Thanks for your help!
             'حداکثر تعداد درخواست در نتیجه یک جستجو در رابط مشتری نمایش داده می شود.',
         'Maximum number of tickets to be displayed in the result of this operation.' =>
             'حداکثر تعداد درخواست در نتیجه این کار نمایش داده می شود.',
+        'Maximum number of working days after which the working units have to be inserted.' =>
+            '',
+        'Maximum number of working days without working units entry after which a warning will be shown.' =>
+            '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'حداکثر اندازه (در شخصیت) از جدول اطلاعات مربوط به مشتری در نظر زوم بلیط.',
         'Medium' => 'متوسط',
@@ -7570,7 +7629,6 @@ Thanks for your help!
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
             'نام خدمات سفارشی. خدمات سفارشی انتخاب خدمات خدمات مورد نظر خود را است و می تواند در تنظیمات تنظیمات انتخاب شده است.',
         'NameX' => 'NameX',
-        'Nederlands' => 'هلند',
         'New Ticket' => 'درخواست جدید',
         'New Tickets' => 'درخواست‌های جدید',
         'New Window' => 'پنجره جدید',
@@ -7626,6 +7684,7 @@ Thanks for your help!
         'Overview of all open Tickets.' => 'نمایی کلی از تمام درخواست‌های باز',
         'Overview of all open tickets.' => 'نمای کلی از تمام درخواست باز.',
         'Overview of customer tickets.' => 'بررسی اجمالی از  درخواست مشتری .',
+        'Overview.' => '',
         'PGP Key' => 'کلید PGP',
         'PGP Key Management' => 'PGP مدیریت کلید',
         'PGP Keys' => 'کلیدهای PGP',
@@ -7737,6 +7796,7 @@ Thanks for your help!
         'ProcessID' => 'ProcessID',
         'Processes & Automation' => '',
         'Product News' => 'اخبار محصولات',
+        'Project time reporting.' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             'محافظت در برابر CSRF (صلیب سایت درخواست جعل) سوء استفاده (برای اطلاعات بیشتر http://en.wikipedia.org/wiki/Cross-site_request_forgery را ببینید).',
         'Provides a matrix overview of the tickets per state per queue' =>
@@ -7752,6 +7812,10 @@ Thanks for your help!
         'Refresh interval' => 'بارگذاری مجدد ورودی',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
+        'Regular expressions for constraining action list according to selected project. Key contains regular expression for project(s), content contains regular expressions for action(s).' =>
+            '',
+        'Regular expressions for constraining project list according to user groups. Key contains regular expression for project(s), content contains comma separated list of groups.' =>
+            '',
         'Reminder Tickets' => 'درخواست‌های یادآوری شده',
         'Removed subscription for user "%s".' => 'عضویت حذف شده برای کاربر"%s".',
         'Removes old system configuration deployments (Sunday mornings).' =>
@@ -7763,6 +7827,7 @@ Thanks for your help!
             'تجدید گواهی SMIME موجود از باطن مشتری می باشد. توجه: SMIME و SMIME :: FetchFromCustomer نیاز به فعال بودن در SysConfig و باطن مشتری نیاز به پیکربندی به بهانه ویژگی UserSMIMECertificate.',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             'جایگزین فرستنده اصلی با آدرس ایمیل مشتری فعلی در پاسخ نوشتن در صفحه نوشتن بلیط رابط عامل.',
+        'Reporting' => '',
         'Reports' => 'گزارشات',
         'Reports (OTRS Business Solution™)' => 'گزارش (OTRS کسب و کار راه حل ™)',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
@@ -8231,8 +8296,6 @@ Thanks for your help!
             '',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'انتخاب صاحب در تلفن و ایمیل بلیط در رابط عامل نشان می دهد.',
-        'Shows colors for different article types in the article table.' =>
-            'رنگ برای انواع مقاله های مختلف در جدول مقاله نشان می دهد.',
         'Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer.' =>
             'نشان می دهد بلیط تاریخ مشتری در AgentTicketPhone، AgentTicketEmail و AgentTicketCustomer.',
         'Shows either the last customer article\'s subject or the ticket title in the small format overview.' =>
@@ -8248,7 +8311,6 @@ Thanks for your help!
             'مقالات طبقه بندی شده اند به طور معمول یا در جهت معکوس، تحت زوم بلیط در رابط عامل نشان می دهد.',
         'Shows the customer user information (phone and email) in the compose screen.' =>
             'اطلاعات کاربر با مشتری (تلفن و ایمیل) در صفحه نوشتن را نشان می دهد.',
-        'Shows the customer user\'s info in the ticket zoom view.' => 'اطلاعات کاربر مشتری در نظر زوم بلیط نشان می دهد.',
         'Shows the message of the day (MOTD) in the agent dashboard. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
@@ -8319,6 +8381,8 @@ Thanks for your help!
             'کلمات توقف اسپانیایی برای شاخص متن. این کلمات از صفحه اول جستجو حذف خواهند شد.',
         'Specifies if an agent should receive email notification of his own actions.' =>
             'مشخص میکند که آیا یک عامل باید ایمیل برای اطلاع از اقدامات خود را دریافت خواهید کرد.',
+        'Specifies if working hours can be inserted without start and end times.' =>
+            '',
         'Specifies the directory to store the data in, if "FS" was selected for ArticleStorage.' =>
             '',
         'Specifies the directory where SSL certificates are stored.' => 'دایرکتوری که در آن گواهینامه های SSL ذخیره می شود را مشخص میکند.',
@@ -8449,7 +8513,10 @@ Thanks for your help!
         'This is the default orange - black skin.' => 'پوست سیاه و سفید - این به طور پیش فرض نارنجی است.',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'این ماژول و عملکرد PreRun () آن اجرا خواهد شد، اگر تعریف شده است، برای هر درخواست. این ماژول مفید است که برای بررسی برخی از گزینه های کاربران و یا برای نمایش اخبار در مورد برنامه های جدید.',
+        'This module forces inserts in TimeAccounting.' => '',
         'This module is part of the admin area of OTRS.' => 'این ماژول بخشی از بخش مدیریت OTRS موجود است.',
+        'This notification module gives a warning if there are too many incomplete working days.' =>
+            '',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             'این گزینه زمینه پویا که در آن یک مدیریت فرآیند نهاد فعالیت شناسه ذخیره شده است تعریف می کند.',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
@@ -8502,10 +8569,19 @@ Thanks for your help!
         'Ticket zoom view.' => 'نمایش زوم درخواست',
         'TicketNumber' => 'شماره درخواست',
         'Tickets.' => 'درخواست',
+        'Time Accounting' => '',
+        'Time accounting edit.' => '',
+        'Time accounting overview.' => '',
+        'Time accounting reporting.' => '',
+        'Time accounting settings.' => '',
+        'Time accounting view.' => '',
+        'Time accounting.' => '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             'زمان در ثانیه است که می شود به زمان واقعی اضافه شده است اگر تنظیم یک انتظار دولت (به طور پیش فرض: 86،400 = 1 روز).',
         'To accept login information, such as an EULA or license.' => 'برای قبول اطلاعات ورود به سیستم، مانند EULA یا مجوز.',
         'To download attachments.' => 'برای دانلود فایل پیوست کنید.',
+        'To use if some actions reduced the working hours (for example, if only half of the traveling time is paid Key => traveling; Content => 50).' =>
+            '',
         'To view HTML attachments.' => '',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             'نمایش پستی از لیست FeatureAddons OTRS در سامانه مدیریت بسته.',
@@ -8609,6 +8685,11 @@ Thanks for your help!
     $Self->{JavaScriptStrings} = [
         ' ...and %s more',
         ' ...show less',
+        '%s B',
+        '%s GB',
+        '%s KB',
+        '%s MB',
+        '%s TB',
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
@@ -8644,6 +8725,7 @@ Thanks for your help!
         'Attachments',
         'Aug',
         'August',
+        'Available space %s of %s.',
         'Basic information',
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?',
         'Calendar',
@@ -8762,6 +8844,7 @@ Thanks for your help!
         'Jun',
         'June',
         'Just this occurrence',
+        'Keys with values can\'t be renamed. Please remove this key/value pair instead and re-add it afterwards.',
         'Less',
         'Link',
         'Loading, please wait...',
@@ -8789,7 +8872,7 @@ Thanks for your help!
         'No matches found.',
         'No package information available.',
         'No sort applied, ',
-        'No space left for the following files',
+        'No space left for the following files: %s',
         'Not available',
         'Notice',
         'Notification',
@@ -8807,6 +8890,7 @@ Thanks for your help!
         'Please either turn some off first or increase the limit in configuration.',
         'Please enter at least one search value or * to find anything.',
         'Please enter at least one search word to find anything.',
+        'Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.',
         'Please only select at most %s files for upload.',
         'Please only select one file for upload.',
         'Please remove the following words from your search as they cannot be searched for:',
@@ -8891,9 +8975,9 @@ Thanks for your help!
         'Th',
         'The browser you are using is too old.',
         'The deployment is already running.',
-        'The following files are not allowed to be uploaded',
-        'The following files exceed the maximum allowed size per file of %s and were not uploaded',
-        'The following files were already uploaded and have not been uploaded again',
+        'The following files are not allowed to be uploaded: %s',
+        'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s',
+        'The following files were already uploaded and have not been uploaded again: %s',
         'The item you\'re currently viewing is part of a not-yet-deployed configuration setting, which makes it impossible to edit it in its current state. Please wait until the setting has been deployed. If you\'re unsure what to do next, please contact your system administrator.',
         'The key must not be empty.',
         'The mail could not be sent',
@@ -8950,12 +9034,14 @@ Thanks for your help!
         'Yes',
         'You can either have the affected settings updated automatically to reflect the changes you just made or do it on your own by pressing \'update manually\'.',
         'You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built.',
+        'You have undeployed settings, would you like to deploy them?',
         'activate to apply a descending sort',
         'activate to apply an ascending sort',
         'activate to remove the sort',
         'and %s more...',
         'day',
         'month',
+        'more',
         'no',
         'none',
         'or',

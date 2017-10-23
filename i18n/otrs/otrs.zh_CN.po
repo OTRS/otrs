@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2017-10-09 16:06+0000\n"
-"PO-Revision-Date: 2017-10-09 16:24+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2017-10-18 00:31+0000\n"
+"Last-Translator: 汇民 王 <whuim@qq.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -284,7 +284,7 @@ msgstr "你可以在这里上传一个配置文件来导入一个日历到系统
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Overwrite existing entities"
-msgstr "覆盖已存在的流程"
+msgstr "覆盖现有条目"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Upload calendar configuration"
@@ -511,7 +511,7 @@ msgstr "在这里你可以上传一个配置文件以便导入预约通知，必
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
-msgstr "覆盖已存在的通知?"
+msgstr "覆盖现有的通知吗?"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upload Notification configuration"
@@ -4667,7 +4667,7 @@ msgstr "启用云服务"
 
 #. Template: AdminPackageManager
 msgid "Upgrade all installed packages"
-msgstr "升级所有软件包"
+msgstr "升级所有已安装的软件包"
 
 #. Template: AdminPackageManager
 msgid "Online Repository"
@@ -4891,7 +4891,7 @@ msgstr "过滤邮箱管理员过滤器"
 msgid ""
 "To dispatch or filter incoming emails based on email headers. Matching using"
 " Regular Expressions is also possible."
-msgstr "基于邮件头标记的分派或过滤。可以使用正则表达式进行匹配。"
+msgstr "基于邮件标头标记的分派或过滤。可以使用正则表达式进行匹配。"
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -4903,7 +4903,7 @@ msgstr "如果你只想匹配某个邮件地址，可以在From、To或Cc中使�
 msgid ""
 "If you use Regular Expressions, you also can use the matched value in () as "
 "[***] in the 'Set' action."
-msgstr "如果你使用了正则表达式，你可以取出()中匹配的值(需采用[***]这种格式)，在设置邮件头的值时使用。"
+msgstr "如果你使用了正则表达式，你可以取出()中匹配的值(需采用[***]这种格式)，在设置邮件标头的值时使用。"
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -4949,11 +4949,11 @@ msgstr "求反"
 
 #. Template: AdminPostMasterFilter
 msgid "Set Email Headers"
-msgstr "设置邮件头"
+msgstr "设置邮件标头"
 
 #. Template: AdminPostMasterFilter
 msgid "Set email header"
-msgstr "设置邮件头"
+msgstr "设置邮件标头"
 
 #. Template: AdminPostMasterFilter
 msgid "with value"
@@ -4965,7 +4965,7 @@ msgstr "该字段需要输入文字。"
 
 #. Template: AdminPostMasterFilter
 msgid "Header"
-msgstr "信息头"
+msgstr "标头"
 
 #. Template: AdminPriority
 msgid "Priority Management"
@@ -7501,7 +7501,7 @@ msgstr "仪表板"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "New Appointment"
-msgstr "新的预约"
+msgstr "新建预约"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "Tomorrow"
@@ -7692,7 +7692,7 @@ msgstr "我负责的工单"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Queues"
-msgstr "我队列中的工单"
+msgstr "我的队列中的工单"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
@@ -10148,15 +10148,15 @@ msgstr "显示"
 
 #. JS Template: FormDraftAddDialog
 msgid "Draft title"
-msgstr ""
+msgstr "草稿标题"
 
 #. JS Template: ArticleViewSettingsDialog
 msgid "Article display"
-msgstr ""
+msgstr "信件显示"
 
 #. JS Template: FormDraftDeleteDialog
 msgid "Do you really want to delete \"%s\"?"
-msgstr ""
+msgstr "你确定要删除“%s”吗？"
 
 #. JS Template: FormDraftDeleteDialog
 msgid "Confirm"
@@ -10164,27 +10164,27 @@ msgstr "确认"
 
 #. JS Template: WidgetLoading
 msgid "Loading, please wait..."
-msgstr ""
+msgstr "加载中，请稍候..."
 
 #. JS Template: UploadContainer
 msgid "Click to select files or just drop them here."
-msgstr ""
+msgstr "单击以选择文件或将文件拖放到这里。"
 
 #. JS Template: UploadContainer
 msgid "Click to select a file or just drop it here."
-msgstr ""
+msgstr "单击以选择一个文件或将文件拖放到这里。"
 
 #. JS Template: UploadContainer
 msgid "Uploading..."
-msgstr ""
+msgstr "上传中..."
 
 #. JS Template: InformationDialog
 msgid "Process state"
-msgstr ""
+msgstr "流程状态"
 
 #. JS Template: InformationDialog
 msgid "Running"
-msgstr ""
+msgstr "正在运行"
 
 #. JS Template: InformationDialog
 msgid "Finished"
@@ -10192,7 +10192,7 @@ msgstr "完成"
 
 #. JS Template: InformationDialog
 msgid "No package information available."
-msgstr ""
+msgstr "没有可用的软件包信息。"
 
 #. JS Template: AddButton
 msgid "Add new entry"
@@ -10204,11 +10204,11 @@ msgstr "添加键"
 
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
-msgstr ""
+msgstr "部署注释..."
 
 #. JS Template: DialogDeployment
 msgid "Deploying, please wait..."
-msgstr ""
+msgstr "正在部署，请稍候..."
 
 #. JS Template: DialogDeployment
 msgid "Preparing to deploy, please wait..."
@@ -10216,7 +10216,7 @@ msgstr "准备部署，请稍候..."
 
 #. JS Template: DialogDeployment
 msgid "Deploy now"
-msgstr ""
+msgstr "现在部署"
 
 #. JS Template: DialogDeployment
 msgid "Close"
@@ -10224,42 +10224,42 @@ msgstr "关闭"
 
 #. JS Template: DialogDeployment
 msgid "Try again"
-msgstr ""
+msgstr "重试"
 
 #. JS Template: DialogReset
 msgid "Reset options"
-msgstr ""
+msgstr "重置选项"
 
 #. JS Template: DialogReset
 msgid "Reset setting on global level."
-msgstr ""
+msgstr "在全局级别重置设置。"
 
 #. JS Template: DialogReset
 msgid "Reset globally"
-msgstr ""
+msgstr "全局重置"
 
 #. JS Template: DialogReset
 msgid "Remove all user changes."
-msgstr ""
+msgstr "移除所有的用户更改。"
 
 #. JS Template: DialogReset
 msgid "Reset locally"
-msgstr ""
+msgstr "本地重置"
 
 #. JS Template: DialogReset
 msgid "user(s) have modified this setting."
-msgstr ""
+msgstr "用户已经修改过此设置。"
 
 #. JS Template: DialogReset
 msgid "Do you really want to reset this setting to it's default value?"
-msgstr ""
+msgstr "你确定要重置这个设置到它的默认值吗？"
 
 #. JS Template: HelpDialog
 msgid ""
 "You can use the category selection to limit the navigation tree below to "
 "entries from the selected category. As soon as you select the category, the "
 "tree will be re-built."
-msgstr ""
+msgstr "可以使用类别选择来将导航树限制在选择的类别中。一旦选择了某个类别，导航树将被重新构建。"
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Database Backend"
@@ -15521,11 +15521,11 @@ msgstr "所有挂起提醒的工单的状态类型（默认：可查看）。"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "pending auto"
-msgstr "自动挂起"
+msgstr "等待自动"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "All 'pending auto *' state types (default: viewable)."
-msgstr "所有挂起等待成功/失败关闭的工单的状态类型（默认：可查看）。"
+msgstr "所有等待自动成功/失败关闭的工单的状态类型（默认：可查看）。"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "removed"
@@ -19010,7 +19010,7 @@ msgstr "定义IP正则表达式以访问本地的软件仓库。您需要启用�
 msgid ""
 "Defines the PostMaster header to be used on the filter for keeping the "
 "current state of the ticket."
-msgstr "定义在过滤器中用来保持工单的当前状态的邮件头。"
+msgstr "定义在过滤器中用来保持工单的当前状态的邮件标头。"
 
 #. SysConfig
 msgid "Defines the URL CSS path."
@@ -25745,7 +25745,7 @@ msgid ""
 "Subject' and no ticket number. In the latter case you should verify that the"
 " setting PostMaster::CheckFollowUpModule###0200-References is activated to "
 "recognize followups based on email headers."
-msgstr "邮件主题的格式，“左”代表'[TicketHook#:12345] Some Subject'，“右”代表'Some Subject [TicketHook#:12345]'，“无”代表'Some Subject'（没有工单编号）。如果设置为“无”，您应该验证设置PostMaster::CheckFollowUpModule###0200-References是激活的，以识别邮件头的跟进。"
+msgstr "邮件主题的格式，“左”代表'[TicketHook#:12345] Some Subject'，“右”代表'Some Subject [TicketHook#:12345]'，“无”代表'Some Subject'（没有工单编号）。如果设置为“无”，您应该验证设置PostMaster::CheckFollowUpModule###0200-References是激活的，以识别邮件标头的跟进。"
 
 #. SysConfig
 msgid "The headline shown in the customer interface."
