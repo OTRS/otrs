@@ -52,10 +52,10 @@ sub CheckAccess {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # check if module is registered
-    return if !$ConfigObject->Get('Frontend::Module')->{AgentTicketPhone};
+    return if !$ConfigObject->Get('Frontend::Module')->{AgentSplitSelection};
 
     # check Acl
-    return if !$Param{AclActionLookup}->{AgentTicketPhone};
+    return if !$Param{AclActionLookup}->{AgentSplitSelection};
 
     return 1;
 }

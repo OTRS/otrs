@@ -3030,8 +3030,42 @@ sub NavigationBar {
         Value => $NavbarOrderItems,
     );
 
+    my $FrontendSearch = $ConfigObject->Get('Frontend::Search') || {};
+
+    my $SearchAdded;
+
     # show search icon if any search router is configured
-    if ( IsHashRefWithData( $ConfigObject->Get('Frontend::Search') ) ) {
+    if ( IsHashRefWithData($FrontendSearch) ) {
+
+        KEY:
+        for my $Key ( sort keys %{$FrontendSearch} ) {
+            next KEY if !IsHashRefWithData( $FrontendSearch->{$Key} );
+
+            for my $Regex ( sort keys %{ $FrontendSearch->{$Key} } ) {
+                next KEY if !$Regex;
+
+                # Check if regex matches current action.
+                if ( $Self->{Action} =~ m{$Regex}g ) {
+
+                    # Extract Action from the configuration.
+                    my ($Action) = $FrontendSearch->{$Key}->{$Regex} =~ m{Action=(.*?)(;.*)?$};
+
+                    # Do not show Search icon if action is not registered.
+                    next KEY if !$Config->{$Action};
+
+                    $Self->Block(
+                        Name => 'SearchIcon',
+                    );
+
+                    $SearchAdded = 1;
+                    last KEY;
+                }
+            }
+        }
+    }
+
+    # If Search icon is not added, check if AgentTicketSearch is enabled and add it.
+    if ( !$SearchAdded && $Config->{AgentTicketSearch} ) {
         $Self->Block(
             Name => 'SearchIcon',
         );
@@ -3040,7 +3074,7 @@ sub NavigationBar {
     # create & return output
     my $Output = $Self->Output(
         TemplateFile => 'AgentNavigationBar',
-        Data         => \%Param
+        Data         => \%Param,
     );
 
     # run nav bar output modules
