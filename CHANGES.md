@@ -1,4 +1,6 @@
-#6.0.0.beta5 2017-??-??
+#6.0.0.rc1 2017-??-??
+
+#6.0.0.beta5 2017-11-01
  - 2017-10-23 Updated translations, thanks to all translators.
  - 2017-10-23 Fixed bug#[13248](https://bugs.otrs.org/show_bug.cgi?id=13248) - Wrong use of DateTime Object in Stats.
  - 2017-10-23 Fixed bug#[12822](https://bugs.otrs.org/show_bug.cgi?id=12822) - SysConfig should make better use of white space.
