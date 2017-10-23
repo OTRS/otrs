@@ -32,7 +32,7 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'source-path',
-        Description => "Specify the location of the web service YAML configuration file",
+        Description => "Specify the location of the web service YAML configuration file.",
         Required    => 1,
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,

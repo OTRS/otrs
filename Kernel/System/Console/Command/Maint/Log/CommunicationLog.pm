@@ -32,7 +32,7 @@ sub Configure {
     $Self->AddOption(
         Name => 'purge',
         Description =>
-            'Purges successful communications older than a week and all communications older than a month. These durations are specified in sysconfig.',
+            'Purge successful communications older than a week and all communications older than a month. These durations are specified in SysConfig.',
         Required => 0,
         HasValue => 0,
     );

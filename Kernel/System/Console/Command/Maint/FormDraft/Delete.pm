@@ -23,7 +23,7 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Deletes draft entries.');
+    $Self->Description('Delete draft entries.');
     $Self->AddOption(
         Name        => 'expired',
         Description => 'Delete only drafts which are expired by TTL.',

@@ -30,17 +30,17 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Rebuilds the article search index for needed articles.');
+    $Self->Description('Rebuild the article search index for needed articles.');
     $Self->AddOption(
         Name        => 'children',
-        Description => "Specify the number of child processes to be used for indexing (Default: 4, Maximum: 20).",
+        Description => "Specify the number of child processes to be used for indexing (default: 4, maximum: 20).",
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/^\d+$/smx,
     );
     $Self->AddOption(
         Name        => 'limit',
-        Description => "Maximum number of ArticleIDs to process (Default: 20000).",
+        Description => "Maximum number of ArticleIDs to process (default: 20000).",
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/^\d+$/smx,

@@ -23,7 +23,7 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Prints a ticket and its articles to the console.');
+    $Self->Description('Print a ticket and its articles to the console.');
     $Self->AddOption(
         Name        => 'article-limit',
         Description => "Maximum number of articles to print.",

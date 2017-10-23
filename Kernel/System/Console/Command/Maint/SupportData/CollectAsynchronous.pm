@@ -20,7 +20,7 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Collects certain support data asynchronously.');
+    $Self->Description('Collect certain support data asynchronously.');
 
     return;
 }

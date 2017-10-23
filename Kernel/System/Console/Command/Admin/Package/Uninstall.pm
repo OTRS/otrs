@@ -23,7 +23,7 @@ sub Configure {
     $Self->Description('Uninstall an OTRS package.');
     $Self->AddOption(
         Name        => 'force',
-        Description => 'Force package Uninstallation even if validation fails.',
+        Description => 'Force package uninstallation even if validation fails.',
         Required    => 0,
         HasValue    => 0,
     );

@@ -20,7 +20,7 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Sync registered communication channels in the system.');
+    $Self->Description('Synchronize registered communication channels in the system.');
 
     return;
 }

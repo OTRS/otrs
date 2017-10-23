@@ -23,7 +23,7 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Fetch SMIME certificates from customer backends.');
+    $Self->Description('Fetch S/MIME certificates from customer backends.');
     $Self->AddOption(
         Name => 'add-all',
         Description =>
@@ -34,7 +34,7 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'email',
-        Description => "Only gets a certificate for the specified email address.",
+        Description => "Only get a certificate for the specified email address.",
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,
@@ -46,13 +46,13 @@ sub Configure {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    $Self->Print("<yellow>Fetching customer SMIME certificates...</yellow>\n");
+    $Self->Print("<yellow>Fetching customer S/MIME certificates...</yellow>\n");
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my $StopExecution;
     if ( !$ConfigObject->Get('SMIME') ) {
-        $Self->Print("'SMIME' is not activated in SysConfig, can't continue!\n");
+        $Self->Print("'S/MIME' is not activated in SysConfig, can't continue!\n");
         $StopExecution = 1;
     }
     elsif ( !$ConfigObject->Get('SMIME::FetchFromCustomer') ) {
@@ -67,7 +67,7 @@ sub Run {
 
     my $CryptObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
     if ( !$CryptObject ) {
-        $Self->PrintError("SMIME environment its not working!\n");
+        $Self->PrintError("S/MIME environment is not working!\n");
         $Self->Print("<red>Fail.</red>\n");
         return $Self->ExitCodeError();
     }
@@ -126,7 +126,7 @@ sub Run {
 
         next LOGIN if !$CustomerUser{UserSMIMECertificate};
 
-        $Self->Print("  Searching SMIME certificates for <yellow>$Login</yellow>...");
+        $Self->Print("  Searching S/MIME certificates for <yellow>$Login</yellow>...");
 
         if ( $ListOfCertificates->{ $CustomerUser{UserSMIMECertificate} } ) {
             $Self->Print(" Already added\n");

@@ -21,7 +21,7 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Executes unit tests.');
+    $Self->Description('Execute unit tests.');
     $Self->AddOption(
         Name => 'test',
         Description =>
@@ -46,7 +46,7 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'submit-url',
-        Description => "Send unit test results to a server (url).",
+        Description => "Send unit test results to a server (URL).",
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,

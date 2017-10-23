@@ -24,7 +24,7 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Triggers ticket escalation events and notification events for escalation.');
+    $Self->Description('Trigger ticket escalation events and notification events for escalation.');
 
     return;
 }

@@ -24,7 +24,7 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Refresh existing Keys for new ones from the LDAP.');
+    $Self->Description('Refresh existing keys for new ones from the LDAP.');
     $Self->AddOption(
         Name        => 'verbose',
         Description => "Print detailed command output.",
@@ -33,7 +33,7 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'force',
-        Description => "Execute even if SMIME is not enabled in SysConfig.",
+        Description => "Execute even if S/MIME is not enabled in SysConfig.",
         Required    => 0,
         HasValue    => 0,
         ValueRegex  => qr/.*/smx,
@@ -48,14 +48,14 @@ sub Configure {
     $Self->AddOption(
         Name => 'add-all',
         Description =>
-            "Add all found Certs from the LDAP into the system within the predefined search limit in customer backed (This operation might take some time).",
+            "Add all found certificates from the LDAP into the system within the predefined search limit in customer backed (this operation might take some time).",
         Required   => 0,
         HasValue   => 0,
         ValueRegex => qr/.*/smx,
     );
     $Self->AddOption(
         Name        => 'email',
-        Description => "Only gets a certificate for the specified email address.",
+        Description => "Only get a certificate for the specified email address.",
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,
@@ -78,7 +78,7 @@ sub PreRun {
 
     my $SMIMEActivated = $ConfigObject->Get('SMIME');
     if ( !$SMIMEActivated ) {
-        die "SMIME is not activated in SysConfig!\n";
+        die "S/MIME is not activated in SysConfig!\n";
     }
 
     my $Message = $Kernel::OM->Get('Kernel::System::Crypt::SMIME')->Check();
@@ -87,7 +87,7 @@ sub PreRun {
 
     my $SMIMESyncActivated = $ConfigObject->Get('SMIME::FetchFromCustomer');
     if ( !$SMIMESyncActivated ) {
-        die "'SMIME from LDAP' Sync is not activated in SysConfig!\n";
+        die "'S/MIME from LDAP' synchronization is not activated in SysConfig!\n";
     }
 
     my $CryptObject;
@@ -95,7 +95,7 @@ sub PreRun {
         $CryptObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
     };
     if ( !$CryptObject ) {
-        die "No SMIME support!.\n"
+        die "No S/MIME support!.\n"
     }
 
     return;
@@ -110,7 +110,7 @@ sub Run {
     my $DetailLevel = $Self->GetOption('verbose') ? 'Details' : 'ShortDetails';
 
     if ( $DetailLevel ne 'Details' ) {
-        $Self->Print("<yellow>$Count) Refreshing SMIME Keys...</yellow>\n");
+        $Self->Print("<yellow>$Count) Refreshing S/MIME keys...</yellow>\n");
         $Count++;
     }
 
@@ -132,7 +132,7 @@ sub Run {
         }
 
         if ( $DetailLevel ne 'Details' ) {
-            $Self->Print("<yellow>$Count) '$Emailaddress' is a valid Email ($ValidEmail)</yellow>\n");
+            $Self->Print("<yellow>$Count) '$Emailaddress' is a valid email ($ValidEmail)</yellow>\n");
             $Count++;
         }
         my @Files = $CryptObject->FetchFromCustomer(
@@ -249,7 +249,7 @@ sub Run {
                 )
         );
         if ( $DetailLevel ne 'Details' ) {
-            $Self->Print("<yellow>$Count) Get All Users to check them...</yellow>\n");
+            $Self->Print("<yellow>$Count) Get all users to check them...</yellow>\n");
         }
         for my $Login ( sort keys %CustomerUsers ) {
             my %CustomerUser = $CustomerUserObject->CustomerUserDataGet(

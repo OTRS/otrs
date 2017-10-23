@@ -21,7 +21,7 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Converts all MySQL database tables to InnoDB.');
+    $Self->Description('Convert all MySQL database tables to InnoDB.');
     $Self->AddOption(
         Name        => 'force',
         Description => "Actually do the migration now.",

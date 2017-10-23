@@ -23,7 +23,7 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Renew existing SMIME certificates from customer back-ends.');
+    $Self->Description('Renew existing S/MIME certificates from customer backends.');
 
     return;
 }
@@ -31,13 +31,13 @@ sub Configure {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    $Self->Print("<yellow>Renewing existing customer SMIME certificates...</yellow>\n");
+    $Self->Print("<yellow>Renewing existing customer S/MIME certificates...</yellow>\n");
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my $StopExecution;
     if ( !$ConfigObject->Get('SMIME') ) {
-        $Self->Print("'SMIME' is not activated in SysConfig, can't continue!\n");
+        $Self->Print("'S/MIME' is not activated in SysConfig, can't continue!\n");
         $StopExecution = 1;
     }
     elsif ( !$ConfigObject->Get('SMIME::FetchFromCustomer') ) {
@@ -52,7 +52,7 @@ sub Run {
 
     my $CryptObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
     if ( !$CryptObject ) {
-        $Self->PrintError("SMIME environment its not working!\n");
+        $Self->PrintError("S/MIME environment is not working!\n");
         $Self->Print("<red>Fail.</red>\n");
         return $Self->ExitCodeError();
     }
@@ -95,7 +95,7 @@ sub Run {
                 Filename    => $Filename,
             );
 
-            $Self->Print("  Found new SMIME certificates for <yellow>$UserLogins[0]</yellow> ...\n");
+            $Self->Print("  Found new S/MIME certificates for <yellow>$UserLogins[0]</yellow> ...\n");
             $Self->Print("    Added certificate $CertificateAttributes{Fingerprint} (<yellow>$Filename</yellow>)\n")
         }
     }

@@ -50,7 +50,7 @@ sub Configure {
     $Self->AddOption(
         Name => 'generate-po',
         Description =>
-            "Generate PO (translation content) files. This is only needed if a module is not yet available in transifex to force initial creation of the gettext files.",
+            "Generate PO (translation content) files. This is only needed if a module is not yet available in Transifex to force initial creation of the gettext files.",
         Required => 0,
         HasValue => 0,
     );

@@ -20,11 +20,11 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Deletes Generic Interface debug log entries.');
+    $Self->Description('Delete Generic Interface debug log entries.');
 
     $Self->AddOption(
         Name        => 'created-before-days',
-        Description => "Removed debug log entries created more than ... days ago.",
+        Description => "Remove debug log entries created more than ... days ago.",
         Required    => 1,
         HasValue    => 1,
         ValueRegex  => qr/^\d+$/smx,

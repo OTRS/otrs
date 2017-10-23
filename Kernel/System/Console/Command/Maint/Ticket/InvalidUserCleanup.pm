@@ -26,7 +26,7 @@ sub Configure {
     my ( $Self, %Param ) = @_;
 
     $Self->Description(
-        'Deletes ticket/article seen flags and ticket watcher entries of users which have been invalid for more than a month, and unlocks tickets by invalid agents immedately.'
+        'Delete ticket/article seen flags and ticket watcher entries of users which have been invalid for more than a month, and unlocks tickets by invalid agents immedately.'
     );
     $Self->AddOption(
         Name        => 'micro-sleep',

@@ -24,7 +24,7 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Runs a benchmark over the available cache backends.');
+    $Self->Description('Run a benchmark over the available cache backends.');
 
     return;
 }

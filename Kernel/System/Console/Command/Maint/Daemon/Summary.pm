@@ -22,7 +22,7 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Shows a summary of one or all daemon modules.');
+    $Self->Description('Show a summary of one or all daemon modules.');
 
     $Self->AddArgument(
         Name        => 'daemon-name',

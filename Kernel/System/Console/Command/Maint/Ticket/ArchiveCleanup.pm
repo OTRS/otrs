@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Deletes ticket/article seen flags and ticket watcher entries for archived tickets.');
+    $Self->Description('Delete ticket/article seen flags and ticket watcher entries for archived tickets.');
     $Self->AddOption(
         Name        => 'micro-sleep',
         Description => "Specify microseconds to sleep after every ticket to reduce system load (e.g. 1000).",

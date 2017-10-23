@@ -28,7 +28,7 @@ sub Configure {
     $Self->Description('Generate statistics widgets for the dashboard.');
     $Self->AddOption(
         Name        => 'number',
-        Description => "Stats number (as shown on overview in AgentStats).",
+        Description => "Statistic number as shown in the overview of AgentStats.",
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/\d+/smx,

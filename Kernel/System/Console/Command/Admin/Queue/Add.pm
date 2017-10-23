@@ -74,7 +74,7 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'update-time',
-        Description => 'Ticket update in minutes for the new queue.',
+        Description => 'Ticket update time in minutes for the new queue.',
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/\d/smx,

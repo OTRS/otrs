@@ -21,7 +21,7 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Updates the password for an agent.');
+    $Self->Description('Update the password for an agent.');
     $Self->AddArgument(
         Name        => 'user',
         Description => "Specify the user login of the agent to be updated.",

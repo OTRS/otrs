@@ -36,21 +36,21 @@ sub Configure {
 
     $Self->AddOption(
         Name        => 'show-deployment-info',
-        Description => 'Shows package and files status (package deployment info).',
+        Description => 'Show package and files status (package deployment info).',
         Required    => 0,
         HasValue    => 0,
     );
 
     $Self->AddOption(
         Name        => 'show-verification-info',
-        Description => 'Shows package OTRS Verify™ status.',
+        Description => 'Show package OTRS Verify™ status.',
         Required    => 0,
         HasValue    => 0,
     );
 
     $Self->AddOption(
         Name        => 'delete-verification-cache',
-        Description => 'Deletes OTRS Verify™ cache, so verification info is fetch again from OTRS group servers.',
+        Description => 'Delete OTRS Verify™ cache, so verification info is fetch again from OTRS group servers.',
         Required    => 0,
         HasValue    => 0,
     );

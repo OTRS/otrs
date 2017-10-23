@@ -72,7 +72,7 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'separator',
-        Description => "Defines the separator in case of CSV as target format (defaults to ';').",
+        Description => "Define the separator in case of CSV as target format (defaults to ';').",
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,
@@ -80,7 +80,7 @@ sub Configure {
     $Self->AddOption(
         Name => 'with-header',
         Description =>
-            "Adds a heading line consisting of statistics title and creation date in case of Excel or CSV as output format.",
+            "Add a heading line consisting of statistics title and creation date in case of Excel or CSV as output format.",
         Required   => 0,
         HasValue   => 0,
         ValueRegex => qr/.*/smx,
