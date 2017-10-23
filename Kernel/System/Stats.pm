@@ -3252,12 +3252,11 @@ sub _GenerateDynamicStats {
                 my $TimeStop  = $Xvalue->{Values}{TimeStop};
                 if ( $ValueSeries{$Row}{$TimeStop} && $ValueSeries{$Row}{$TimeStart} ) {
 
-                    my $DTObject = $Kernel::OM->Create('Kernel::System::DateTime');
-
-                    my $CellStartTime        = $DTObject->Clone()->Set( String => $Cell->{TimeStart} );
-                    my $CellStopTime         = $DTObject->Clone()->Set( String => $Cell->{TimeStop} );
-                    my $ValueSeriesStartTime = $DTObject->Clone()->Set( String => $ValueSeries{$Row}{$TimeStart} );
-                    my $ValueSeriesStopTime  = $DTObject->Clone()->Set( String => $ValueSeries{$Row}{$TimeStop} );
+                    my $CellStartTime = $Self->_TimeStamp2DateTime( TimeStamp => $Cell->{TimeStart} );
+                    my $CellStopTime  = $Self->_TimeStamp2DateTime( TimeStamp => $Cell->{TimeStop} );
+                    my $ValueSeriesStartTime
+                        = $Self->_TimeStamp2DateTime( TimeStamp => $ValueSeries{$Row}{$TimeStart} );
+                    my $ValueSeriesStopTime = $Self->_TimeStamp2DateTime( TimeStamp => $ValueSeries{$Row}{$TimeStop} );
 
                     if ( $CellStopTime > $ValueSeriesStopTime || $CellStartTime < $ValueSeriesStartTime ) {
                         next CELL;
@@ -3396,11 +3395,8 @@ sub _GenerateDynamicStats {
     );
 
     my $DateTimeObject      = $Kernel::OM->Create('Kernel::System::DateTime');
-    my $CheckTimeStopObject = $Kernel::OM->Create(
-        'Kernel::System::DateTime',
-        ObjectParams => {
-            String => $CheckTimeStop,
-        },
+    my $CheckTimeStopObject = $Self->_TimeStamp2DateTime(
+        TimeStamp => $CheckTimeStop,
     );
 
     if ( $CheckTimeStopObject > $DateTimeObject ) {
@@ -4363,6 +4359,24 @@ sub _HumanReadableAgeGet {
         $AgeStrg .= $MinuteDsc;
     }
     return $AgeStrg;
+}
+
+=head2 _TimeStamp2DateTime
+
+Return a datetime object from a timestamp.
+
+=cut
+
+sub _TimeStamp2DateTime {
+    my ( $Self, %Param, ) = @_;
+
+    my $TimeStamp = $Param{TimeStamp};
+    return $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => $TimeStamp,
+        },
+    );
 }
 
 1;
