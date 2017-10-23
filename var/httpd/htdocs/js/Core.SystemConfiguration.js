@@ -1325,12 +1325,12 @@ var Core = Core || {};
             }
             else {
                 // Show all AddArrayItem and AddHashKey buttons.
-                $Structure.find("> .AddArrayItem, > .AddHashKey").show();
+                $Structure.find("> .AddArrayItem:not(.Hidden), > .AddHashKey:not(.Hidden)").show();
             }
         }
         else {
             // Show all AddArrayItem and AddHashKey buttons.
-            $Structure.find("> .AddArrayItem, > .AddHashKey").show();
+            $Structure.find("> .AddArrayItem:not(.Hidden), > .AddHashKey:not(.Hidden)").show();
         }
     }
 

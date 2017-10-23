@@ -822,6 +822,37 @@ Core.Agent.Admin = Core.Agent.Admin || {};
             return false;
         });
 
+        // show a custom title tooltip for disabled keys to let users understand why some keys cant be edited
+        $('.SettingsList').on('mouseenter', 'input.Key[readonly]', function() {
+            $(this).data('original-title', $(this).attr('title'));
+            $(this).attr('title', Core.Language.Translate('Keys with values can\'t be renamed. Please remove this key/value pair instead and re-add it afterwards.'));
+        });
+        $('.SettingsList').on('mouseleave', 'input.Key[readonly]', function() {
+            var OriginalTitle = $(this).data('original-title');
+            if (OriginalTitle) {
+                $(this).attr('title', $(this).data('original-title'));
+                $(this).removeData('original-title');
+            }
+        });
+
+        // toggle hidden checkboxes on click of WorkingHoursItems
+        $('.ContentColumn').on('click', '.WorkingHoursItem', function() {
+
+            var $CheckboxObj = $(this).find('input[type=checkbox]');
+            if (!$(this).closest('.WidgetSimple.Setting').hasClass('IsLockedByMe')) {
+                return false;
+            }
+
+            if ($CheckboxObj.prop('checked')) {
+                $(this).removeClass('Checked');
+                $CheckboxObj.prop('checked', false);
+            }
+            else {
+                $(this).addClass('Checked');
+                $CheckboxObj.prop('checked', true);
+            }
+        });
+
         Core.UI.Table.InitTableFilter($('#FilterDeployments'), $('#Deployments'));
     };
 
@@ -918,6 +949,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
                 if ($Widget.hasClass('MenuExpanded')) {
                     $Widget.find('.WidgetMessage.Bottom').show();
                 }
+
                 Core.App.Publish('SystemConfiguration.SettingListUpdate');
             }
         );
@@ -1032,7 +1064,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
                 $Widget.addClass('IsLockedByMe');
 
                 // focus the first visible input field
-                $Widget.find('input[type=text]:visible').first().focus();
+                $Widget.find('input[type=text]:not(.InputField_Search):visible').first().focus();
 
                 Core.App.Publish('SystemConfiguration.SettingListUpdate');
             }

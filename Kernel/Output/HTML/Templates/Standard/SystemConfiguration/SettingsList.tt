@@ -42,7 +42,7 @@
                 <p class="HeaderMessage">
                 <span class="Right">[% Setting.XMLFilename %]</span>&nbsp;&nbsp;
                 [% IF Env("Action") != 'AdminSystemConfigurationGroup' %]
-                    <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationGroup;RootNavigation=[% Setting.Navigation | uri %]">[% Setting.Navigation | html %]</a>
+                    <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationGroup;RootNavigation=[% Setting.Navigation | uri %]" target="_blank">[% Setting.Navigation | html %] &nbsp;<i class="fa fa-external-link"></i></a>
                 [% END %]
                 [% IF Setting.Locked == 1 %]
                     <span>[% Translate("%s (%s) is currently working on this setting.", Setting.User.UserFullname, Setting.User.UserEmail) | html %]</span>

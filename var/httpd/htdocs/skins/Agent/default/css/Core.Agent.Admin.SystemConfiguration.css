@@ -213,8 +213,13 @@ h2.SearchResults {
 .SettingContent {
     padding: 3px 10px;
 }
+
 .HashItem .Key {
     float: left;
+}
+
+.SettingContent .DatepickerIcon {
+    margin-top: 7px;
 }
 
 /**
@@ -596,7 +601,9 @@ h2.SearchResults {
     transition: all ease 0.2s;
 }
 
-.WidgetSimple.Setting:not(.IsDisabled) .SettingEnable {
+.WidgetSimple.Setting:not(.IsDisabled) .SettingEnable,
+.WidgetSimple.Setting.MenuExpanded .SettingEnable,
+.WidgetSimple.Setting.MenuExpanded .SettingEdit {
     display: none;
 }
 
@@ -610,6 +617,7 @@ h2.SearchResults {
 .Compare .WidgetSimple.Setting > .Content:hover .SettingWrapper,
 .Compare .WidgetSimple.Setting.HasOverlay .SettingWrapper,
 .WidgetSimple.Setting.IsLockedByMe > .Content:hover .SettingWrapper,
+.WidgetSimple.Setting.MenuExpanded:not(.HasOverlay) > .Content:hover .SettingWrapper,
 .WidgetSimple.Setting.IsLockedByAnotherUser > .Content:hover .SettingWrapper {
     opacity: 1;
 }
@@ -623,12 +631,17 @@ h2.SearchResults {
 
 .WidgetSimple.Setting .SettingEdit button,
 .WidgetSimple.Setting .SettingEnable button {
-    top: 50%;
-    left: 49%;
     height: 26px;
-    margin-top: -13px;
-    position: absolute;
-    margin-left: -30px;
+}
+
+/* To have the edit/enable button really centered both vertically and horizontally (independent from text lengths),
+    we just add a pseudo element inside the container which has 50% height minus half the height of the button - voila. */
+
+.WidgetSimple.Setting .SettingEdit:before,
+.WidgetSimple.Setting .SettingEnable:before {
+    display: block;
+    content: "";
+    height: calc(50% - 13px);
 }
 
 .WidgetSimple.Setting.IsReadonly .SettingEdit,
@@ -650,6 +663,23 @@ h2.SearchResults {
 .WidgetSimple.Setting .SettingContainer {
     max-height: 285px;
     overflow-y: hidden;
+}
+
+.WidgetSimple.Setting:not(.IsLockedByMe):not(.MenuExpanded) .SettingContainer > fieldset {
+    position: relative;
+}
+
+.WidgetSimple.Setting:not(.IsLockedByMe):not(.MenuExpanded) .SettingContainer > fieldset:before {
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: calc(285px - 20px);
+    height: 20px;
+    z-index: 100;
+    background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(244,243,244,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(244,243,244,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(244,243,244,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    width: 100%;
 }
 
 .WidgetSimple.Setting.IsLockedByMe .SettingContainer,
@@ -703,7 +733,8 @@ h2.SearchResults {
 
 .WidgetSimple.Setting .SettingWrapper > .SettingDescription {
     border-left: 1px solid #ccc;
-    width: 40%;
+    width: 20%;
+    min-width: 159px;
     padding-left: 20px;
     line-height: 150%;
     padding-top: 4px;
@@ -899,6 +930,36 @@ h2.SearchResults {
     display: inline-block;
 }
 
+.ArrayItem > .SettingContent {
+    width: calc(100% - 16px); /* 100% minus the width of the button on the right minus the padding of combined 6px */
+}
+
+.ArrayItem > .SettingContent > div.InputField_Container,
+.ArrayItem > .SettingContent > div.InputField_Container > div.InputField_InputContainer,
+.ArrayItem > .SettingContent > input[type=text]:first-child:last-child,
+.Setting > .SettingContent > input[type=text]:first-child:last-of-type {
+    width: 100%;
+}
+
+.ArrayItem > .SettingContent > div.InputField_Container > div.InputField_InputContainer > .InputField_Search,
+.HashItem > .SettingContent > div.InputField_Container > div.InputField_InputContainer > .InputField_Search,
+.HashItem .HashItem > .SettingContent > div.InputField_Container > div.InputField_InputContainer > .InputField_Search {
+    width: 100% !important;
+}
+
+.HashItem > .SettingContent > div.InputField_Container {
+    width: calc(100% - 20px);
+}
+
+.HashItem .HashItem > .SettingContent > div.InputField_Container {
+    width: calc(100% - 20px);
+}
+
+.HashItem > .SettingContent > div.InputField_Container > div.InputField_InputContainer,
+.HashItem .HashItem > .SettingContent > div.InputField_Container > div.InputField_InputContainer {
+    width: 100%;
+}
+
 .IsLockedByMe .Array > .ArrayItem,
 .Comparing .Array > .ArrayItem {
     display: block;
@@ -1050,11 +1111,11 @@ h2.SearchResults {
 }
 
 .ArrayItem .SettingContent textarea {
-    width: 97%;
+    width: 100%;
 }
 
 .HashItem .SettingContent textarea {
-    max-width: 87%;
+    width: calc(100% - 20px);
 }
 
 .ArrayItem + .ArrayItem,
@@ -1073,10 +1134,9 @@ h2.SearchResults {
 .SettingContent input[type=password],
 .SettingContent .InputField_Search,
 .Setting input.Key {
-    border: none;
-    background: none;
-    box-shadow: none;
     text-overflow: ellipsis;
+    min-width: 200px;
+    color: #333;
 }
 
 .IsLockedByMe .SettingContent input[type=text],
@@ -1088,6 +1148,15 @@ h2.SearchResults {
     border: 1px solid #C9C9C9;
     border-top-color: #C0C0C0;
     text-overflow: inherit;
+    min-width: 200px;
+}
+
+.IsLockedByMe .SettingContent input[type=text][readonly],
+.IsLockedByMe .SettingContent input[type=password][readonly],
+.IsLockedByMe .SettingContent .InputField_Search[readonly],
+.IsLockedByMe .Setting input.Key[readonly] {
+    background-color: #eee;
+    cursor: no-drop;
 }
 
 .Hash .SettingContent input[type=text],
@@ -1104,7 +1173,7 @@ h2.SearchResults {
 .HashItem .SettingContent input[type=text],
 .HashItem .SettingContent input[type=password],
 .HashItem .SettingContent .InputField_Search {
-    width: 84%;
+    width: calc(100% - 30px)
 }
 
 .Setting > .SettingContent > .Type_String {
@@ -1121,31 +1190,79 @@ h2.SearchResults {
     font-size: inherit;
 }
 
-.SettingContent input.VacationDays {
-    width: 80%;
-    margin-left: 5px;
-}
-
+.SettingContent input.VacationDays,
 .SettingContent input.VacationDaysOneTime {
-    width: 60%;
+    width: 50%;
+    margin-left: 5px;
 }
 
 .SettingContent span.TimeZoneText {
     margin-left: 10px;
 }
 
+.SettingContent .WorkingHoursDayName {
+    float: left;
+    width: 15px;
+    text-align: right;
+    line-height: 30px;
+    margin-right: 5px;
+    font-weight: bold;
+    border-right: 1px solid #ccc;
+    padding-right: 10px;
+}
+
 .SettingContent .WorkingHoursItem {
     float:left;
     display: table;
+    margin-bottom: 2px;
+    margin-right: 2px;
 }
-.SettingContent .WorkingHoursItem label {
+
+.SettingContent .WorkingHoursItem > div {
     display: table-row;
+}
+
+.SettingContent .WorkingHoursItem > div > div {
+    display: table-cell;
     text-align: center;
+    width: 25px;
+    background: #eee;
+    line-height: 30px;
+    box-sizing: border-box;
 }
-.SettingContent .WorkingHours {
-    display: table-row;
-    width: 100%;
-    margin: 2px 10px 2px 0px;
+
+.IsLockedByMe .SettingContent .WorkingHoursItem > div > div:hover {
+    cursor: pointer;
+    background: #ddd;
+}
+
+.SettingContent .WorkingHoursItem.Checked > div > div {
+    background: #ddd;
+}
+
+.IsLockedByMe .SettingContent .WorkingHoursItem.Checked > div > div {
+    overflow: hidden;
+    position: relative;
+}
+
+.IsLockedByMe .SettingContent .WorkingHoursItem.Checked > div > div:before {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 10px;
+    transform: rotate(30deg);
+    top: -4px;
+    right: -9px;
+    background: #5BAD5B;
+}
+
+.SettingContent .WorkingHoursItem > div > div input {
+    display: none;
+}
+
+.SettingContent .WorkingHoursItem label {
+    display: block;
+    text-align: center;
 }
 
 .SettingContent .BadEffectiveValue p {
@@ -1194,6 +1311,11 @@ h2.SearchResults {
     padding: 0px;
     display: inline-block;
     margin-left: 5px;
+    min-width: calc(100% - 220px); /* full width minus key + arrow width */
+}
+
+.HashItem .HashItem .SettingContent {
+    width: calc(100% - 220px);
 }
 
 .HashItem .SettingContent > .Array,
@@ -1437,7 +1559,7 @@ h2.SearchResults {
         padding-left: 10px;
     }
 
-    .WidgetSimple.Setting .Content {
+    .WidgetSimple.Setting div.Content {
         padding-bottom: 35px !important;
     }
 
