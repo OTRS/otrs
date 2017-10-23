@@ -7112,8 +7112,8 @@
         <Navigation>Frontend::Customer::View::TicketMessage</Navigation>
         <Value>
             <Item ValueType="Select" SelectedID="Queue">
-                <Item ValueType="Option" Value="Queue">Queue</Item>
-                <Item ValueType="Option" Value="SystemAddress">SystemAddress</Item>
+                <Item ValueType="Option" Value="Queue" Translatable="1">Queue</Item>
+                <Item ValueType="Option" Value="SystemAddress" Translatable="1">System address</Item>
             </Item>
         </Value>
     </Setting>

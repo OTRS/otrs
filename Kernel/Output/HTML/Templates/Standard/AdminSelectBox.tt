@@ -107,7 +107,7 @@
 [% RenderBlockStart("Result") %]
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Data.MatchesFound | html %] [% Translate("Results") | html %]</h2>
+                <h2>[% Translate("%s Results", Data.MatchesFound) | html %]</h2>
             </div>
             <div class="Content">
                 <table class="DataTable" id="Results">

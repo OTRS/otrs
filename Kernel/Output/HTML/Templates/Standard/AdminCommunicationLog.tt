@@ -240,12 +240,12 @@
                     <thead>
                         <tr>
 [% RenderBlockStart("TableHeader") %]
-                            <th class="DashboardHeader OverviewHeader [% Data.CSS | html %]" title="[% Data.Title | html %]">
-                                <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.HeaderLink %];SortBy=[% Data.SortByName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title | html %]">
+                            <th class="DashboardHeader OverviewHeader [% Data.CSS | html %]" title="[% Translate(Data.Title) | html %]">
+                                <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.HeaderLink %];SortBy=[% Data.SortByName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Translate(Data.Title) | html %]">
                                 [% IF Data.HeaderName == 'Direction' %]
                                     <i class="fa fa-exchange"></i>
                                 [% ELSE %]
-                                    [% Data.HeaderName | html %]
+                                    [% Translate(Data.HeaderName) | html %]
                                 [% END %]
                                 </a>
                             </th>

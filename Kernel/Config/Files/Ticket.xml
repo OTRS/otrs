@@ -8512,8 +8512,8 @@
         <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
             <Option SelectedID="Queue">
-                <Item Key="Queue">Queue</Item>
-                <Item Key="SystemAddress">SystemAddress</Item>
+                <Item Key="Queue" Translatable="1">Queue</Item>
+                <Item Key="SystemAddress" Translatable="1">System address</Item>
             </Option>
         </Setting>
     </ConfigItem>

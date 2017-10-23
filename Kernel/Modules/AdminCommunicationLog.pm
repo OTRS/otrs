@@ -57,14 +57,14 @@ sub Run {
     }
 
     my %TimeRanges = (
-        0       => 'All communications',
-        3600    => 'Last 1 hour',
-        10800   => 'Last 3 hours',
-        21600   => 'Last 6 hours',
-        43200   => 'Last 12 hours',
-        86400   => 'Last 24 hours',
-        604800  => 'Last week',
-        2593000 => 'Last month',
+        0       => Translatable('All communications'),
+        3600    => Translatable('Last 1 hour'),
+        10800   => Translatable('Last 3 hours'),
+        21600   => Translatable('Last 6 hours'),
+        43200   => Translatable('Last 12 hours'),
+        86400   => Translatable('Last 24 hours'),
+        604800  => Translatable('Last week'),
+        2593000 => Translatable('Last month'),
     );
 
     $GetParam{TimeRanges} = \%TimeRanges;

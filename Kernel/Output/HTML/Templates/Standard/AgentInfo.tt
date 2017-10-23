@@ -12,14 +12,14 @@
     <div class="W33pc CenterBox SpacingTopLarge SpacingBottomLarge">
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate("Info") | html %]</h2>
+                <h2>[% Translate("Information") | html %]</h2>
             </div>
             <div class="Content">
                 <h4>
                     [% Translate("To accept some news, a license or some changes.") | html %]
                 </h4>
                 <p>
-                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Accept=1">Yes, accepted.</a>
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Accept=1">[% Translate("Yes, accepted.") | html %]</a>
                 </p>
             </div>
         </div>
