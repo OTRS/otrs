@@ -28,6 +28,8 @@ my $ElementReadOnly = sub {
         }
     }
 
+    $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#$Param{Element}').length" );
+
     $Param{UnitTestObject}->Is(
         $Selenium->execute_script(
             "return \$('#$Param{Element}.ReadOnlyValue').length;"
