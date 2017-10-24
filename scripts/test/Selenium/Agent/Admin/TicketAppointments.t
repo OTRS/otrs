@@ -97,6 +97,20 @@ $Selenium->RunTest(
             $DynamicField->{DynamicFieldID} = $DynamicFieldID;
         }
 
+        my $SchedulerDBObject = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
+
+        # Remove scheduled tasks from DB, as they may interfere with tests run later.
+        my @AllTasks = $SchedulerDBObject->TaskList();
+        for my $Task (@AllTasks) {
+            my $Success = $SchedulerDBObject->TaskDelete(
+                TaskID => $Task->{TaskID},
+            );
+            $Self->True(
+                $Success,
+                "TaskDelete - Removed scheduled task $Task->{TaskID}",
+            );
+        }
+
         my $Home           = $ConfigObject->Get('Home');
         my $Daemon         = $Home . '/bin/otrs.Daemon.pl';
         my $DaemonExitCode = 1;
@@ -272,7 +286,7 @@ $Selenium->RunTest(
             "ValueSet - $DynamicFields[1]->{DynamicFieldID} for ticket $TicketID",
         );
 
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # Change resolution (desktop mode).
         $Selenium->set_window_size( 768, 1050 );
@@ -313,6 +327,7 @@ $Selenium->RunTest(
         );
 
         my $AppointmentObject = $Kernel::OM->Get('Kernel::System::Calendar::Appointment');
+        my $CacheObject       = $Kernel::OM->Get('Kernel::System::Cache');
 
         my $SleepTime = 2;
 
@@ -510,7 +525,7 @@ $Selenium->RunTest(
             sleep $SleepTime;
 
             # Make sure the cache is correct.
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+            $CacheObject->CleanUp(
                 Type => "AppointmentList$Calendar{CalendarID}",
             );
 
@@ -550,7 +565,7 @@ $Selenium->RunTest(
                 sleep $SleepTime;
 
                 # Make sure the cache is correct.
-                $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+                $CacheObject->CleanUp(
                     Type => 'Ticket',
                 );
 
@@ -595,7 +610,7 @@ $Selenium->RunTest(
             sleep $SleepTime;
 
             # Make sure the cache is correct.
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+            $CacheObject->CleanUp(
                 Type => "AppointmentList$Calendar{CalendarID}",
             );
 
@@ -676,7 +691,7 @@ $Selenium->RunTest(
 
         # Make sure cache is correct.
         for my $Cache (qw(Calendar Ticket Queue Group)) {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => $Cache );
+            $CacheObject->CleanUp( Type => $Cache );
         }
     },
 );

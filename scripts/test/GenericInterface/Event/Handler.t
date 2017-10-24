@@ -15,7 +15,7 @@ use vars (qw($Self));
 
 use URI::Escape();
 
-# get config object
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # unregister other ticket handlers
@@ -40,12 +40,7 @@ $Self->Is(
     "Event handler added to config",
 );
 
-# helper object
-
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-my $Home = $ConfigObject->Get('Home');
-
+my $Home   = $ConfigObject->Get('Home');
 my $Daemon = $Home . '/bin/otrs.Daemon.pl';
 
 # get daemon status (stop if necessary to reload configuration with planner daemon disabled)
@@ -92,6 +87,20 @@ $Self->True(
 
 if ( $CurrentDaemonStatus !~ m{Daemon not running}i ) {
     die "Daemon could not be stopped.";
+}
+
+my $SchedulerDBObject = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
+
+# Remove scheduled tasks from DB, as they may interfere with tests run later.
+my @AllTasks = $SchedulerDBObject->TaskList();
+for my $Task (@AllTasks) {
+    my $Success = $SchedulerDBObject->TaskDelete(
+        TaskID => $Task->{TaskID},
+    );
+    $Self->True(
+        $Success,
+        "TaskDelete - Removed scheduled task $Task->{TaskID}",
+    );
 }
 
 my @Tests = (
@@ -416,10 +425,9 @@ my @Tests = (
 );
 
 # get needed objects
-my $WebserviceObject  = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
-my $DebugLogObject    = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog');
-my $TaskWorkerObject  = $Kernel::OM->Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker');
-my $SchedulerDBObject = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
+my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+my $DebugLogObject   = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog');
+my $TaskWorkerObject = $Kernel::OM->Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker');
 
 my $RandomID = $HelperObject->GetRandomID();
 
