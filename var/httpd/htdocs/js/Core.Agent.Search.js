@@ -474,7 +474,12 @@ Core.Agent.Search = (function (TargetNS) {
                 Core.Form.Validate.Init();
                 Core.Form.Validate.SetSubmitFunction($('#SearchForm'), function (Form) {
                     Form.submit();
-                    ShowWaitingDialog();
+
+                    // Show only a waiting dialog for Normal results mode, because this result
+                    //  will return the HTML in the same window.
+                    if ($('#SearchForm #ResultForm').val() === 'Normal') {
+                        ShowWaitingDialog();
+                    }
                 });
 
                 // load profile
