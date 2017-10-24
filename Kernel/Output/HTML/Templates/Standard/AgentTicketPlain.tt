@@ -11,7 +11,7 @@
     <div class="Header">
         <h1>[% Translate("View Email Plain Text for %s%s%s", Config('Ticket::Hook'), Config('Ticket::HookDivider'), Data.TicketNumber) | html %] &mdash; [% Data.Title | html %]</h1>
         <p>
-            <a class="CancelClosePopup" href="#">[% Translate("Close dialog") | html %]</a>
+            <a class="CancelClosePopup" href="#">[% Translate("Close this dialog") | html %]</a>
         </p>
     </div>
 

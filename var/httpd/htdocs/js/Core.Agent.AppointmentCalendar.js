@@ -795,7 +795,7 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
                     },
                     {
                         Type: 'Close',
-                        Label: Core.Language.Translate('Close')
+                        Label: Core.Language.Translate('Close this dialog')
                     }
                 ]
             });
@@ -929,7 +929,7 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
                     },
                     {
                         Type: 'Close',
-                        Label: Core.Language.Translate('Close'),
+                        Label: Core.Language.Translate('Close this dialog'),
                         Function: function() {
                             Core.UI.Dialog.CloseDialog($('.Dialog:visible'));
                             AppointmentData.RevertFunc();

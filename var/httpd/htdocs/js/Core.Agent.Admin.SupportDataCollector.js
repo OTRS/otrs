@@ -57,7 +57,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
                     true,
                     [
                         {
-                            Label: Core.Language.Translate('Close'),
+                            Label: Core.Language.Translate('Close this dialog'),
                             Class: 'Primary',
                             Function: function () {
                                 Core.UI.Dialog.CloseDialog($('.SendUpdateResultDialog'));
@@ -100,7 +100,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
                         true,
                         [
                             {
-                                Label: Core.Language.Translate('Close'),
+                                Label: Core.Language.Translate('Close this dialog'),
                                 Class: 'Primary',
                                 Function: function () {
                                     Core.UI.Dialog.CloseDialog($('.NoSupportBunle'));
@@ -119,7 +119,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
                         true,
                         [
                             {
-                                Label: Core.Language.Translate("Close"),
+                                Label: Core.Language.Translate("Close this dialog"),
                                 Class: 'Primary',
                                 Function: function () {
                                     Core.UI.Dialog.CloseDialog($('#SupportBundleOptionsDialog'));

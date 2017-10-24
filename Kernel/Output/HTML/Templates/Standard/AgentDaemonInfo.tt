@@ -23,5 +23,5 @@
     <div class="Clear Spacing"></div>
 </div>
 <div class="ContentFooter Center">
-    <button id="DaemonFormCancel" class="Primary CallForAction" value="Close"><span><i class="fa fa-times"></i>[% Translate("Close dialog") | html %]</span></button>
+    <button id="DaemonFormCancel" class="Primary CallForAction" value="Close"><span><i class="fa fa-times"></i>[% Translate("Close this dialog") | html %]</span></button>
 </div>

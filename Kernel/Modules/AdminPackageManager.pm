@@ -549,7 +549,9 @@ sub Run {
         );
 
         if ( !$Package ) {
-            return $LayoutObject->ErrorScreen( Message => 'No such package!' );
+            return $LayoutObject->ErrorScreen(
+                Message => Translatable('No such package!'),
+            );
         }
         elsif ( substr( $Package, 0, length('ErrorMessage:') ) eq 'ErrorMessage:' ) {
 
@@ -1358,7 +1360,7 @@ sub Run {
 
         my %PackageList;
         if ( IsArrayRefWithData($InstalledPackages) ) {
-            my $DefaultStatus        = 'Not Started';
+            my $DefaultStatus        = Translatable('Not Started');
             my $DefaultStatusDisplay = $LayoutObject->{LanguageObject}->Translate($DefaultStatus);
             for my $Package ( @{$InstalledPackages} ) {
                 $PackageList{ $Package->{Name} } = {
@@ -1490,7 +1492,7 @@ sub Run {
     $Frontend{SourceList} = $LayoutObject->BuildSelection(
         Data        => { %List, %RepositoryRoot, %{$RepositoryCloudList}, },
         Name        => 'Source',
-        Title       => 'Repository List',
+        Title       => Translatable('Repository List'),
         Max         => 40,
         Translation => 0,
         SelectedID  => $Source,

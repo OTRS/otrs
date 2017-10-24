@@ -33,7 +33,7 @@ Core.UI.Dialog = (function (Namespace) {
                         Buttons: [
                             {
                                 Type: 'Close',
-                                Label: Core.Language.Translate("Close dialog"),
+                                Label: Core.Language.Translate("Close this dialog"),
                                 Function: function() {
                                     Core.UI.Dialog.CloseDialog($('.Dialog:visible'));
                                     return false;
@@ -61,7 +61,7 @@ Core.UI.Dialog = (function (Namespace) {
                         Buttons: [
                             {
                                 Type: 'Close',
-                                Label: Core.Language.Translate("Close dialog"),
+                                Label: Core.Language.Translate("Close this dialog"),
                                 Function: function() {
                                     Core.UI.Dialog.CloseDialog($('.Dialog:visible'));
                                     return false;

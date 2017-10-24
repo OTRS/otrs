@@ -13,7 +13,7 @@
             [% Translate("Manage links for %s", Data.SourceObjectLong) | html %]
         </h1>
         <p>
-            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Close" id="LinkAddCloseLink">[% Translate("Close dialog") | html %]</a>
+            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Close" id="LinkAddCloseLink">[% Translate("Close this dialog") | html %]</a>
         </p>
     </div>
     <div class="Content">

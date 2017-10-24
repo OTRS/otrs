@@ -13,7 +13,7 @@
             [% Translate("History of %s%s%s", Config('Ticket::Hook'), Config('Ticket::HookDivider'), Data.TicketNumber) | html %] &mdash; [% Data.Title | html %]
         </h1>
         <p>
-            <a href="#" class="CancelClosePopup">[% Translate("Close dialog") | html %]</a>
+            <a href="#" class="CancelClosePopup">[% Translate("Close this dialog") | html %]</a>
         </p>
     </div>
 

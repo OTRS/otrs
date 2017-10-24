@@ -383,7 +383,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             Core.UI.Dialog.ShowContentDialog(ArticleViewSettingsDialogHTML, Core.Language.Translate('Settings'), '10px', 'Center', true,
                 [
                     {
-                        Label: Core.Language.Translate('Close'),
+                        Label: Core.Language.Translate('Close this dialog'),
                         Type: 'Close'
                     }
                 ], true);
@@ -545,7 +545,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                 Buttons: [
                     {
                         Type: 'Close',
-                        Label: Core.Language.Translate("Close dialog"),
+                        Label: Core.Language.Translate("Close this dialog"),
                         Function: function() {
                             Core.UI.Dialog.CloseDialog($('.Dialog:visible'));
                             Core.Form.EnableForm($('form[name="compose"]'));
