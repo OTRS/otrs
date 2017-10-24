@@ -94,6 +94,20 @@ if ( $CurrentDaemonStatus !~ m{Daemon not running}i ) {
     die "Daemon could not be stopped.";
 }
 
+my $SchedulerDBObject = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
+
+# Remove scheduled tasks from DB, as they may interfere with tests run later.
+my @AllTasks = $SchedulerDBObject->TaskList();
+for my $Task (@AllTasks) {
+    my $Success = $SchedulerDBObject->TaskDelete(
+        TaskID => $Task->{TaskID},
+    );
+    $Self->True(
+        $Success,
+        "TaskDelete - Removed scheduled task $Task->{TaskID}",
+    );
+}
+
 my @Tests = (
     {
         Name             => 'Synchronous event call',
@@ -287,7 +301,6 @@ my @Tests = (
 my $WebserviceObject  = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 my $DebugLogObject    = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog');
 my $TaskWorkerObject  = $Kernel::OM->Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker');
-my $SchedulerDBObject = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
 
 my $RandomID = $HelperObject->GetRandomID();
 
