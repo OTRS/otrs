@@ -1001,6 +1001,10 @@ sub Redirect {
         my $HttpType = $Self->{ConfigObject}->Get('HttpType');
         $Param{Redirect} = $HttpType . '://' . $Host . $Param{Redirect};
     }
+
+    # Sanitize redirect URL to avoid tampering.
+    $Param{Redirect} =~ s{\$L?Q?(:?Env|Config|Data)}{}smxg;
+
     my $Output = $Cookies
         . $Self->Output(
         TemplateFile => 'Redirect',
