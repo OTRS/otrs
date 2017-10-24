@@ -1392,6 +1392,9 @@ Migrate the configs effective values to the new format for OTRS 6.
             'GeneralCatalogPreferences###Permissions',
             'Loader::Agent::CommonJS###100-GeneralCatalog'
         ],
+        PackageLookupNewConfigName => {
+            'Ticket::EventModulePost###999-GenericInterface' => 'Ticket::EventModulePost###9900-GenericInterface',
+        },
         ReturnMigratedSettingsCounts => 1,                          # (optional) returns an array with counts of un/successful migrated settings
     );
 
@@ -1524,7 +1527,8 @@ sub MigrateConfigEffectiveValues {
                         # check and convert config name if it has been renamed in OTRS 6
                         # otherwise it will use the given old name
                         $NewSettingKey = _LookupNewConfigName(
-                            OldName => $NewSettingKey,
+                            OldName                    => $NewSettingKey,
+                            PackageLookupNewConfigName => $Param{PackageLookupNewConfigName},
                         );
 
                         # skip settings which are not in the given package settings
@@ -1598,7 +1602,6 @@ sub MigrateConfigEffectiveValues {
 
                     # get the effective value from the OTRS 5 config
                     my $OTRS5EffectiveValue = $OTRS5Config{$SettingName}->{$SettingKeyFirstLevel};
-
                     # build the new setting key
                     my $NewSettingKey = $SettingName . '###' . $SettingKeyFirstLevel;
 
@@ -1610,13 +1613,16 @@ sub MigrateConfigEffectiveValues {
                     # check and convert config name if it has been renamed in OTRS 6
                     # otherwise it will use the given old name
                     $NewSettingKey = _LookupNewConfigName(
-                        OldName => $NewSettingKey,
+                        OldName                    => $NewSettingKey,
+                        PackageLookupNewConfigName => $Param{PackageLookupNewConfigName},
                     );
 
                     # skip settings which are not in the given package settings
                     if ( %PackageSettingLookup && !$PackageSettingLookup{$NewSettingKey} ) {
                         next SETTINGKEYFIRSTLEVEL;
                     }
+
+
 
                     # try to get the default setting from OTRS 6 for the modified setting name
                     my %OTRS6Setting = $SysConfigObject->SettingGet(
@@ -1748,7 +1754,7 @@ sub MigrateConfigEffectiveValues {
                 next SETTINGNAME;
             }
 
-            my $OTRS5EffectiveValue = $OTRS5Config{$NewSettingName};
+            my $OTRS5EffectiveValue = $OTRS5Config{$SettingName};
 
             # the ticket number generator random is dropped from OTRS 6, enforce that DateChecksum is set instead
             if (
@@ -2220,6 +2226,8 @@ sub _LookupNewConfigName {
 
         # Moved and renamed config setting from OTRSBusiness.xml to Framework.xml
         'ChatEngine::CustomerOnlineThreshold' => 'SessionCustomerOnlineThreshold',
+
+        %{ $Param{PackageLookupNewConfigName} // {} },
     );
 
     # get the new name if found, otherwise use the given old name

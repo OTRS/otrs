@@ -480,6 +480,8 @@ $Self->{'Ticket::EventModulePost'}->{'098-ArticleSearchIndex'} =  {
 $Self->{'Frontend::NotifyModule'}->{'800-Daemon-Check'} =  {
   'Module' => 'Kernel::Output::HTML::Notification::DaemonCheck'
 };
+# renamed setting in package to 'SessionAgentOnlineThreshold'
+$Self->{'ChatEngine::AgentOnlineThreshold'} =  '10';
 # deleted
 delete $Self->{'PreferencesGroups'}->{'SpellDict'};
 # calendar

@@ -102,8 +102,52 @@ for my $Settings ( @{$PreModifiedSettings} ) {
     );
 }
 
-# migrate
+# migrate package setting
 my $Success = $Kernel::OM->Get('Kernel::System::SysConfig::Migration')->MigrateConfigEffectiveValues(
+    FileClass => $TestFileClass,
+    FilePath  => $TestLocation,
+    PackageSettings => [
+        'SessionAgentOnlineThreshold',
+    ],
+    PackageLookupNewConfigName => {
+        'SessionAgentOnlineThreshold' => 'ChatEngine::AgentOnlineThreshold'
+    },
+    ReturnMigratedSettingsCounts => 1,
+);
+
+$Self->True(
+    $Success,
+    "Config was successfully migrated from otrs5 to 6."
+);
+
+# RebuildConfig
+my $Rebuild = $SysConfigObject->ConfigurationDeploy(
+    Comments => "UnitTest Configuration Rebuild",
+    Force    => 1,
+    UserID   => 1,
+);
+
+$Self->True(
+    $Rebuild,
+    "Setting Deploy was successfull."
+);
+
+my %ValueOld = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet( Name => 'ChatEngine::AgentOnlineThreshold' );
+my %ValueNew = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet( Name => 'SessionAgentOnlineThreshold' );
+
+$Self->False(
+    $ValueOld{EffectiveValue},
+    "TEST ChatEngine::AgentOnlineThreshold: ChatEngine::AgentOnlineThreshold is invalid.",
+);
+
+$Self->Is(
+    $ValueNew{EffectiveValue},
+    10,
+    "TEST SessionAgentOnlineThreshold: Value for SessionAgentOnlineThreshold is correct",
+);
+
+# migrate
+$Success = $Kernel::OM->Get('Kernel::System::SysConfig::Migration')->MigrateConfigEffectiveValues(
     FileClass                    => $TestFileClass,
     FilePath                     => $TestLocation,
     ReturnMigratedSettingsCounts => 1,
@@ -123,7 +167,7 @@ if ( ref $Success eq 'HASH' ) {
         {
             Name        => 'AllSettingsCount',
             IsValue     => $AllSettingsCount,
-            ShouldValue => 46,
+            ShouldValue => 47,
         },
         {
             Name        => 'MissingSettings',
@@ -154,7 +198,7 @@ else {
 }
 
 # RebuildConfig
-my $Rebuild = $SysConfigObject->ConfigurationDeploy(
+$Rebuild = $SysConfigObject->ConfigurationDeploy(
     Comments => "UnitTest Configuration Rebuild",
     Force    => 1,
     UserID   => 1,
@@ -202,16 +246,16 @@ for my $TestData (@Tests) {
     next TESTS if !$TestData->{TestType};
 
     if ( $TestData->{TestType} eq 'Renaming' ) {
-        my $ValueOld = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet( Name => $TestData->{OldName} );
-        my $ValueNew = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet( Name => $TestData->{NewName} );
+        my %ValueOld = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet( Name => $TestData->{OldName} );
+        my %ValueNew = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet( Name => $TestData->{NewName} );
 
         $Self->False(
-            $ValueOld,
+            $ValueOld{EffectiveValue},
             "TEST $TestData->{Name}: $TestData->{OldName} is invalid.",
         );
 
         $Self->True(
-            $ValueNew,
+            $ValueNew{EffectiveValue},
             "TEST $TestData->{Name}: Value for $TestData->{NewName} found.",
         );
     }
