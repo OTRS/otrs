@@ -160,6 +160,7 @@ $Self->True(
 if ( ref $Success eq 'HASH' ) {
 
     my $AllSettingsCount      = $Success->{AllSettingsCount};
+    my $DisabledSettingsCount = $Success->{DisabledSettingsCount};
     my @MissingSettings       = @{ $Success->{MissingSettings} };
     my @UnsuccessfullSettings = @{ $Success->{UnsuccessfullSettings} };
 
@@ -170,9 +171,14 @@ if ( ref $Success eq 'HASH' ) {
             ShouldValue => 47,
         },
         {
+            Name        => 'DisabledSettingsCount',
+            IsValue     => $DisabledSettingsCount,
+            ShouldValue => 3,
+        },
+        {
             Name        => 'MissingSettings',
             IsValue     => scalar @MissingSettings,
-            ShouldValue => 1,
+            ShouldValue => 2,
         },
         {
             Name        => 'UnsuccessfullSettings',
@@ -229,6 +235,21 @@ my @Tests = (
         OldName  => 'CustomerCompany::EventModulePost###110-UpdateTickets',
         NewName  => 'CustomerCompany::EventModulePost###2300-UpdateTickets',
     },
+    {
+        TestType => 'Disabled',
+        Name     => 'Disabled Setting',
+        Key      => 'PreferencesGroups###Comment',
+    },
+    {
+        TestType => 'Disabled',
+        Name     => 'Disabled renamed setting',
+        Key      => 'Ticket::EventModulePost###9700-GenericAgent',
+    },
+    {
+        TestType => 'Disabled',
+        Name     => 'Disabled setting with two sub levels',
+        Key      => 'Ticket::Frontend::AgentTicketSearch###Defaults###Fulltext',
+    },
 
     # There are other renamed settings, this are included AllSetings,
     #   and should not add any results in the MissingSettings above.
@@ -266,6 +287,15 @@ for my $TestData (@Tests) {
             $Setting{EffectiveValue},
             $TestData->{ChangedValue},
             "TEST $TestData->{Name}: Value was changed before migration an not touched."
+        );
+    }
+    elsif ( $TestData->{TestType} eq 'Disabled' ) {
+        my %Setting = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet( Name => $TestData->{Key} );
+
+        $Self->Is(
+            $Setting{IsValid},
+            0,
+            "TEST $TestData->{Name}: Setting is disabled."
         );
     }
 }

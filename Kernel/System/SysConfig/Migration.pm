@@ -1431,6 +1431,21 @@ sub MigrateConfigEffectiveValues {
     $Kernel::OM->Get('Kernel::System::Main')->Require( $Param{FileClass} );
     $Param{FileClass}->Load( \%OTRS5Config );
 
+    my $OTRS5ConfigFileContentList = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+        Location => $Param{FilePath},
+        Result   => 'ARRAY',
+    );
+
+    my %DisabledOTRS5Config;
+    for my $Line ( @{$OTRS5ConfigFileContentList} ) {
+
+        # Check if the line starts with a delete.
+        if ( $Line =~ m{ \A delete[ ]\$Self->(.+);}xms ) {
+            my $DisabledSettingString = '$DisabledOTRS5Config' . $1 . ' = {}';
+            eval $DisabledSettingString;    ## no critic
+        }
+    }
+
     # get all OTRS 6 default settings
     my @DefaultSettings = $SysConfigObject->ConfigurationList();
 
@@ -1567,26 +1582,11 @@ sub MigrateConfigEffectiveValues {
                             next SETTINGKEYSECONDLEVEL;
                         }
 
-                        # lock the setting
-                        my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
-                            Name   => $NewSettingKey,
-                            Force  => 1,
-                            UserID => 1,
-                        );
-
-                        # update the setting
-                        %Result = $SysConfigObject->SettingUpdate(
-                            Name              => $NewSettingKey,
-                            IsValid           => 1,
-                            EffectiveValue    => $OTRS5EffectiveValue,
-                            ExclusiveLockGUID => $ExclusiveLockGUID,
-                            NoValidation      => 1,
-                            UserID            => 1,
-                        );
-
-                        # unlock the setting again
-                        $SysConfigObject->SettingUnlock(
-                            Name => $NewSettingKey,
+                        # update the setting.
+                        %Result = $Self->_SettingUpdate(
+                            Name           => $NewSettingKey,
+                            IsValid        => 1,
+                            EffectiveValue => $OTRS5EffectiveValue,
                         );
 
                         if ( !$Result{Success} ) {
@@ -1602,6 +1602,7 @@ sub MigrateConfigEffectiveValues {
 
                     # get the effective value from the OTRS 5 config
                     my $OTRS5EffectiveValue = $OTRS5Config{$SettingName}->{$SettingKeyFirstLevel};
+
                     # build the new setting key
                     my $NewSettingKey = $SettingName . '###' . $SettingKeyFirstLevel;
 
@@ -1621,8 +1622,6 @@ sub MigrateConfigEffectiveValues {
                     if ( %PackageSettingLookup && !$PackageSettingLookup{$NewSettingKey} ) {
                         next SETTINGKEYFIRSTLEVEL;
                     }
-
-
 
                     # try to get the default setting from OTRS 6 for the modified setting name
                     my %OTRS6Setting = $SysConfigObject->SettingGet(
@@ -1688,26 +1687,11 @@ sub MigrateConfigEffectiveValues {
                         next SETTINGKEYFIRSTLEVEL;
                     }
 
-                    # lock the setting
-                    my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
-                        Name   => $NewSettingKey,
-                        Force  => 1,
-                        UserID => 1,
-                    );
-
-                    # update the setting
-                    %Result = $SysConfigObject->SettingUpdate(
-                        Name              => $NewSettingKey,
-                        IsValid           => 1,
-                        EffectiveValue    => $OTRS5EffectiveValue,
-                        ExclusiveLockGUID => $ExclusiveLockGUID,
-                        NoValidation      => 1,
-                        UserID            => 1,
-                    );
-
-                    # unlock the setting again
-                    $SysConfigObject->SettingUnlock(
-                        Name => $NewSettingKey,
+                    # update the setting.
+                    %Result = $Self->_SettingUpdate(
+                        Name           => $NewSettingKey,
+                        IsValid        => 1,
+                        EffectiveValue => $OTRS5EffectiveValue,
                     );
 
                     if ( !$Result{Success} ) {
@@ -1779,26 +1763,11 @@ sub MigrateConfigEffectiveValues {
                 next SETTINGNAME;
             }
 
-            # lock the setting
-            my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
-                Name   => $NewSettingName,
-                Force  => 1,
-                UserID => 1,
-            );
-
-            # update the setting
-            %Result = $SysConfigObject->SettingUpdate(
-                Name              => $NewSettingName,
-                IsValid           => 1,
-                EffectiveValue    => $OTRS5EffectiveValue,
-                ExclusiveLockGUID => $ExclusiveLockGUID,
-                NoValidation      => 1,
-                UserID            => 1,
-            );
-
-            # unlock the setting again
-            $SysConfigObject->SettingUnlock(
-                Name => $NewSettingName,
+            # update the setting.
+            %Result = $Self->_SettingUpdate(
+                Name           => $NewSettingName,
+                IsValid        => 1,
+                EffectiveValue => $OTRS5EffectiveValue,
             );
 
             if ( !$Result{Success} ) {
@@ -1808,6 +1777,159 @@ sub MigrateConfigEffectiveValues {
         }
     }
 
+    my $DisabledSettingsCount;
+
+    # Set all settings which are disabled in OTRS 5 to disabled.
+    DISABLEDSETTINGNAME:
+    for my $DisabledSettingName ( sort keys %DisabledOTRS5Config ) {
+
+        # Check if this OTRS5 setting has subhashes in the name.
+        if ( $SettingsWithSubLevels{$DisabledSettingName} ) {
+
+            SETTINGKEYFIRSTLEVEL:
+            for my $SettingKeyFirstLevel ( sort keys %{ $DisabledOTRS5Config{$DisabledSettingName} } ) {
+
+                # There is a second level in the config setting.
+                # Example: Ticket::Frontend::AgentTicketZoom###Widgets###0100-TicketInformation
+                if (
+                    $SettingsWithSubLevels{$DisabledSettingName}->{$SettingKeyFirstLevel}
+                    && IsHashRefWithData( $SettingsWithSubLevels{$DisabledSettingName}->{$SettingKeyFirstLevel} )
+                    && IsHashRefWithData( $DisabledOTRS5Config{$DisabledSettingName}->{$SettingKeyFirstLevel} )
+                    )
+                {
+
+                    SETTINGKEYSECONDLEVEL:
+                    for my $SettingKeySecondLevel (
+                        sort keys %{ $DisabledOTRS5Config{$DisabledSettingName}->{$SettingKeyFirstLevel} }
+                        )
+                    {
+
+                        # build the new setting key
+                        my $NewSettingKey
+                            = $DisabledSettingName . '###' . $SettingKeyFirstLevel . '###' . $SettingKeySecondLevel;
+
+                        # check and convert config name if it has been renamed in OTRS 6
+                        # otherwise it will use the given old name
+                        $NewSettingKey = _LookupNewConfigName(
+                            OldName                    => $NewSettingKey,
+                            PackageLookupNewConfigName => $Param{PackageLookupNewConfigName},
+                        );
+
+                        # try to get the default setting from OTRS 6 for the modified setting name
+                        my %OTRS6Setting = $SysConfigObject->SettingGet(
+                            Name  => $NewSettingKey,
+                            NoLog => 1,
+                        );
+
+                        # skip settings which already have been modified in the meantime
+                        next SETTINGKEYFIRSTLEVEL if $OTRS6Setting{ModifiedID};
+
+                        # skip this setting if it is a readonly setting
+                        next SETTINGKEYFIRSTLEVEL if $OTRS6Setting{IsReadonly};
+
+                        # log if there is a setting that can not be found in OTRS 6 (might come from packages)
+                        if ( !%OTRS6Setting ) {
+                            push @MissingSettings, $NewSettingKey;
+                            next SETTINGKEYFIRSTLEVEL;
+                        }
+
+                        # Disable the setting.
+                        my %Result = $Self->_SettingUpdate(
+                            Name    => $NewSettingKey,
+                            IsValid => 0,
+                        );
+
+                        if ( !$Result{Success} ) {
+                            push @UnsuccessfullSettings, $NewSettingKey;
+                            next SETTINGKEYFIRSTLEVEL;
+                        }
+                    }
+                }
+                else {
+
+                    # build the new setting key
+                    my $NewSettingKey = $DisabledSettingName . '###' . $SettingKeyFirstLevel;
+
+                    # check and convert config name if it has been renamed in OTRS 6
+                    # otherwise it will use the given old name
+                    $NewSettingKey = _LookupNewConfigName(
+                        OldName                    => $NewSettingKey,
+                        PackageLookupNewConfigName => $Param{PackageLookupNewConfigName},
+                    );
+
+                    # try to get the default setting from OTRS 6 for the modified setting name
+                    my %OTRS6Setting = $SysConfigObject->SettingGet(
+                        Name  => $NewSettingKey,
+                        NoLog => 1,
+                    );
+
+                    # skip settings which already have been modified in the meantime
+                    next SETTINGKEYFIRSTLEVEL if $OTRS6Setting{ModifiedID};
+
+                    # skip this setting if it is a readonly setting
+                    next SETTINGKEYFIRSTLEVEL if $OTRS6Setting{IsReadonly};
+
+                    # log if there is a setting that can not be found in OTRS 6 (might come from packages)
+                    if ( !%OTRS6Setting ) {
+                        push @MissingSettings, $NewSettingKey;
+                        next SETTINGKEYFIRSTLEVEL;
+                    }
+
+                    # Disable the setting.
+                    my %Result = $Self->_SettingUpdate(
+                        Name    => $NewSettingKey,
+                        IsValid => 0,
+                    );
+
+                    if ( !$Result{Success} ) {
+                        push @UnsuccessfullSettings, $NewSettingKey;
+                        next SETTINGKEYFIRSTLEVEL;
+                    }
+                }
+            }
+        }
+        else {
+
+            # check and convert config name if it has been renamed in OTRS 6
+            # otherwise it will use the given old name
+            my $NewSettingKey = _LookupNewConfigName(
+                OldName                    => $DisabledSettingName,
+                PackageLookupNewConfigName => $Param{PackageLookupNewConfigName},
+            );
+
+            # try to get the default setting from OTRS 6 for the modified setting name
+            my %OTRS6Setting = $SysConfigObject->SettingGet(
+                Name  => $NewSettingKey,
+                NoLog => 1,
+            );
+
+            # skip settings which already have been modified in the meantime
+            next SETTINGKEYFIRSTLEVEL if $OTRS6Setting{ModifiedID};
+
+            # skip this setting if it is a readonly setting
+            next SETTINGKEYFIRSTLEVEL if $OTRS6Setting{IsReadonly};
+
+            # log if there is a setting that can not be found in OTRS 6 (might come from packages)
+            if ( !%OTRS6Setting ) {
+                push @MissingSettings, $NewSettingKey;
+                next SETTINGKEYFIRSTLEVEL;
+            }
+
+            # Disable the setting.
+            my %Result = $Self->_SettingUpdate(
+                Name    => $NewSettingKey,
+                IsValid => 0,
+            );
+
+            if ( !$Result{Success} ) {
+                push @UnsuccessfullSettings, $NewSettingKey;
+                next SETTINGKEYFIRSTLEVEL;
+            }
+        }
+
+        $DisabledSettingsCount++;
+    }
+
     # do not print the following status output if not wanted
     return 1 if $Param{NoOutput};
 
@@ -1815,6 +1937,7 @@ sub MigrateConfigEffectiveValues {
 
     print "\n";
     print "        - AllSettingsCount: " . $AllSettingsCount . "\n";
+    print "        - DisabledCount: " . $DisabledSettingsCount . "\n";
     print "        - MissingCount: " . scalar @MissingSettings . "\n";
     print "        - UnsuccessfullCount: " . scalar @UnsuccessfullSettings . "\n\n";
 
@@ -1835,6 +1958,7 @@ sub MigrateConfigEffectiveValues {
     if ( $Param{ReturnMigratedSettingsCounts} ) {
         return {
             AllSettingsCount      => $AllSettingsCount,
+            DisabledSettingsCount => $DisabledSettingsCount,
             MissingSettings       => \@MissingSettings,
             UnsuccessfullSettings => \@UnsuccessfullSettings,
         };
@@ -2511,6 +2635,58 @@ sub _MigrateFrontendModuleSetting {
 
     return 1;
 }
+
+=head2 _SettingUpdate()
+
+This method locks provided settings(by force), updates them and unlock the setting.
+
+    my %Result = $SysConfigMigrationObject->_SettingUpdate(
+        Name           => 'Setting::Name',
+        IsValid        => 1,                         # (optional) 1 or 0, modified 0
+        EffectiveValue => $SettingEffectiveValue,    # (optional)
+    );
+
+Returns:
+
+    %Result = (
+        Success => 1,        # or false in case of an error
+        Error   => undef,    # error message
+    );
+
+=cut
+
+sub _SettingUpdate {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Param{Name};
+
+    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+    # lock the setting
+    my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+        Name   => $Param{Name},
+        Force  => 1,
+        UserID => 1,
+    );
+
+    # Disable the setting.
+    my %Result = $SysConfigObject->SettingUpdate(
+        Name              => $Param{Name},
+        IsValid           => $Param{IsValid},
+        EffectiveValue    => $Param{EffectiveValue},
+        ExclusiveLockGUID => $ExclusiveLockGUID,
+        NoValidation      => 1,
+        UserID            => 1,
+    );
+
+    # unlock the setting again
+    $SysConfigObject->SettingUnlock(
+        Name => $Param{Name},
+    );
+
+    return %Result;
+}
+
 
 1;
 

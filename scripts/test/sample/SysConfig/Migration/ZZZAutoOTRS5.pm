@@ -116,6 +116,8 @@ $Self->{'Ticket::Frontend::CustomerTicketSearch'}->{'SearchCSVDynamicField'} =  
 $Self->{'Ticket::Frontend::CustomerTicketSearch'}->{'DynamicField'} =  {};
 $Self->{'Ticket::Frontend::AgentTicketSearch'}->{'SearchCSVDynamicField'} =  {};
 $Self->{'Ticket::Frontend::AgentTicketSearch'}->{'Defaults'}->{'DynamicField'} =  {};
+# disable a setting with two sub levels
+delete $Self->{'Ticket::Frontend::AgentTicketSearch'}->{'Defaults'}->{'Fulltext'};
 $Self->{'Ticket::Frontend::CustomerTicketZoom'}->{'FollowUpDynamicField'} =  {};
 # hash with module
 $Self->{'DynamicFields::Driver'}->{'Multiselect'} =  {
@@ -482,6 +484,8 @@ $Self->{'Frontend::NotifyModule'}->{'800-Daemon-Check'} =  {
 };
 # renamed setting in package to 'SessionAgentOnlineThreshold'
 $Self->{'ChatEngine::AgentOnlineThreshold'} =  '10';
+# disabled
+delete $Self->{'PreferencesGroups'}->{'Comment'};
 # deleted
 delete $Self->{'PreferencesGroups'}->{'SpellDict'};
 # calendar
@@ -638,11 +642,7 @@ $Self->{'Frontend::NotifyModule'}->{'500-OutofOffice-Check'} =  {
 $Self->{'Frontend::NotifyModule'}->{'600-SystemMaintenance-Check'} =  {
   'Module' => 'Kernel::Output::HTML::Notification::SystemMaintenanceCheck'
 };
-$Self->{'Ticket::EventModulePost'}->{'900-GenericAgent'} =  {
-  'Event' => '',
-  'Module' => 'Kernel::System::Ticket::Event::GenericAgent',
-  'Transaction' => '1'
-};
+delete $Self->{'Ticket::EventModulePost'}->{'900-GenericAgent'};
 $Self->{'Frontend::ToolBarModule'}->{'1-Ticket::AgentTicketQueue'} =  {
   'AccessKey' => 'q',
   'Action' => 'AgentTicketQueue',
