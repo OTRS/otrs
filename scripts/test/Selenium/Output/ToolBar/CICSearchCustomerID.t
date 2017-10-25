@@ -115,10 +115,14 @@ $Selenium->RunTest(
             JavaScript => "return typeof(\$) === 'function' &&  \$('tbody a:contains($TestCustomerLogin)').length;"
         );
 
-        # verify search
         $Self->True(
             $Selenium->execute_script("return \$('tbody a:contains($TestCustomerLogin)').length;"),
             "Search by CustomerID success - found $TestCustomerLogin",
+        );
+
+        $Self->True(
+            $Selenium->find_element( '#CustomerInformationCenterHeading', 'css' ),
+            "Check heading for CustomerInformationCenter",
         );
 
         # get DB object
