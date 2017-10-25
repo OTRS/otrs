@@ -64,7 +64,14 @@ $Selenium->RunTest(
             ),
             'Check for opened alert text',
         );
-        $Selenium->find_element( '#DialogButton2', 'css' )->VerifiedClick();
+
+        # Close dialog.
+        $Selenium->find_element( '#DialogButton2', 'css' )->click();
+
+        # Wait until modal dialog has closed.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length'
+        );
 
         # Wait until all AJAX calls finished.
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
@@ -100,6 +107,11 @@ JAVASCRIPT
         # Wait until all AJAX calls finished.
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
+        # Wait until modal dialog has open.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal").length'
+        );
+
         # Now check if we see a connection error popup.
         $Self->Is(
             $Selenium->execute_script("return \$('#AjaxErrorDialogInner .NoConnection:visible').length"),
@@ -120,6 +132,11 @@ JAVASCRIPT
         # Wait until all AJAX calls finished.
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
+        # Wait until modal dialog has open.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal").length'
+        );
+
         # The dialog should show the re-established message now.
         $Self->Is(
             $Selenium->execute_script("return \$('#AjaxErrorDialogInner .ConnectionReEstablished:visible').length"),
@@ -128,8 +145,9 @@ JAVASCRIPT
         );
 
         # Close the dialog.
-        $Selenium->execute_script(
-            "\$('.Dialog:visible').find('.ContentFooter').find('button:nth-child(2)').trigger('click')"
+        $Selenium->find_element( '#DialogButton2', 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length'
         );
 
         # Trigger faked ajax request again.
@@ -139,6 +157,11 @@ JAVASCRIPT
         # Wait until all AJAX calls finished.
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
+        # Wait until modal dialog has open.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal").length'
+        );
+
         # Now check if we see a connection error popup.
         $Self->Is(
             $Selenium->execute_script("return \$('#AjaxErrorDialogInner .NoConnection:visible').length"),
@@ -147,8 +170,9 @@ JAVASCRIPT
         );
 
         # Now we close the dialog manually.
-        $Selenium->execute_script(
-            "\$('.Dialog:visible').find('.ContentFooter').find('button:nth-child(2)').trigger('click')"
+        $Selenium->find_element( '#DialogButton2', 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length'
         );
 
         # The dialog should be gone.
@@ -165,6 +189,11 @@ JAVASCRIPT
         # Wait until all AJAX calls finished.
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
+        # Wait until modal dialog has open.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal").length'
+        );
+
         # The dialog should show the re-established message now.
         $Self->Is(
             $Selenium->execute_script("return \$('#AjaxErrorDialogInner .ConnectionReEstablished:visible').length"),
@@ -172,7 +201,7 @@ JAVASCRIPT
             "ConnectionReEstablished dialog visible"
         );
 
-        # Vreate a test ticket to see if the dialogs work in popups, too.
+        # Create a test ticket to see if the dialogs work in popups, too.
         my $TestCustomerUser = $Helper->TestCustomerUserCreate(
         ) || die "Did not get test customer user";
 
@@ -204,7 +233,7 @@ JAVASCRIPT
 
         # Open the owner change dialog.
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketOwner' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketOwner' )]")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
@@ -225,6 +254,11 @@ JAVASCRIPT
         # Wait until all AJAX calls finished.
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
+        # Wait until modal dialog has open.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal").length'
+        );
+
         # Now check if we see a connection error popup.
         $Self->Is(
             $Selenium->execute_script("return \$('#AjaxErrorDialogInner .NoConnection:visible').length"),
@@ -239,13 +273,27 @@ JAVASCRIPT
         # Wait until all AJAX calls finished.
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
+        # Wait until modal dialog has open.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal").length'
+        );
+
         # The dialog should show the re-established message now.
         $Self->Is(
             $Selenium->execute_script("return \$('#AjaxErrorDialogInner .ConnectionReEstablished:visible').length"),
             1,
             "ConnectionReEstablished dialog visible"
         );
-        $Selenium->close();
+
+        $Selenium->find_element( '#DialogButton2', 'css' )->click();
+
+        # Wait until modal dialog has closed.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length'
+        );
+
+        $Selenium->find_element( '.CancelClosePopup', 'css' )->click();
+        $Selenium->WaitFor( WindowCount => 1 );
 
         # Delete created test tickets.
         my $Success = $TicketObject->TicketDelete(
