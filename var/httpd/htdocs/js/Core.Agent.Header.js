@@ -39,7 +39,7 @@ Core.Agent.Header = (function (TargetNS) {
 
         // Initialize auto complete searches
         Core.Agent.CustomerInformationCenterSearch.InitAutocomplete($('#ToolBarCICSearchCustomerID'), "SearchCustomerID");
-        Core.Agent.CustomerInformationCenterSearch.InitAutocomplete($('#ToolBarCICSearchCustomerUser'), "SearchCustomerUser");
+        Core.Agent.CustomerUserInformationCenterSearch.InitAutocomplete($('#ToolBarCICSearchCustomerUser'), "SearchCustomerUser");
 
         // Initialize full text search
         Core.Agent.Search.InitToolbarFulltextSearch();
