@@ -298,9 +298,9 @@ my @Tests = (
 );
 
 # get needed objects
-my $WebserviceObject  = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
-my $DebugLogObject    = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog');
-my $TaskWorkerObject  = $Kernel::OM->Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker');
+my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+my $DebugLogObject   = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog');
+my $TaskWorkerObject = $Kernel::OM->Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker');
 
 my $RandomID = $HelperObject->GetRandomID();
 
