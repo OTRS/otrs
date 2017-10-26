@@ -174,13 +174,13 @@ SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OT
 [% RenderBlockEnd("ProcessRow") %]
 [% RenderBlockStart("ProcessNoDataRow") %]
                         <tr>
-                            <td colspan="4">
+                            <td colspan="6">
                                 [% Translate("No data found.") | html %]
                             </td>
                         </tr>
 [% RenderBlockEnd("ProcessNoDataRow") %]
                         <tr class="FilterMessage Hidden">
-                            <td colspan="4">[% Translate("No matches found.") | html %]</td>
+                            <td colspan="6">[% Translate("No matches found.") | html %]</td>
                         </tr>
                     </tbody>
                 </table>

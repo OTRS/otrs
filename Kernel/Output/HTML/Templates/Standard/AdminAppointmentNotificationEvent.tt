@@ -32,24 +32,6 @@
 
     [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
 
-    [% BreadcrumbPath = [
-            {
-                Name => Translate('Appointment Notification Management'),
-                Link => Env("Action"),
-            },
-        ]
-    %]
-
-    [% SWITCH Data.Action %]
-        [% CASE 'Add' %]
-            [% BreadcrumbPath.push({ Name => Translate("Add Notification"),}) %]
-        [% CASE 'Change' %]
-            [% USE EditTitle = String(Translate("Edit Notification")) %]
-            [% BreadcrumbPath.push({ Name => EditTitle.append( ': ', Data.Name ) }) %]
-    [% END %]
-
-    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
-
     <div class="Clear"></div>
     <div class="SidebarColumn">
 [% RenderBlockStart("ActionList") %]

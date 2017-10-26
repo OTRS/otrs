@@ -65,6 +65,13 @@
                             <td>[% Data.Message | html %]</td>
                         </tr>
 [% RenderBlockEnd("Row") %]
+[% RenderBlockStart("AdminLogNoDataRow") %]
+                        <tr>
+                            <td colspan="4">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("AdminLogNoDataRow") %]
                         <tr class="FilterMessage Hidden">
                             <td colspan="4">[% Translate("No matches found.") | html %]</td>
                         </tr>
