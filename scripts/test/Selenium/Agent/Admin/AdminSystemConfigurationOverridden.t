@@ -108,9 +108,8 @@ $Selenium->RunTest(
         );
 
         $Selenium->execute_script(
-            "\$('a#Frontend\\\\:\\\\:Agent\\\\:\\\\:View\\\\:\\\\:TicketQueue_anchor:eq(0)').scrollIntoView(true);",
+            "\$('a#Frontend\\\\:\\\\:Agent\\\\:\\\\:View\\\\:\\\\:TicketQueue_anchor').click()",
         );
-        $Selenium->find_element( "a#Frontend\\:\\:Agent\\:\\:View\\:\\:TicketQueue_anchor", "css" )->click();
 
         $Selenium->WaitFor(
             JavaScript => 'return $(".fa-exclamation-triangle").length',
