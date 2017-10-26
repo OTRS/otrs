@@ -12,20 +12,17 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get needed objects
         my $Helper           = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
-        # define needed variable
         my $RandomID = $Helper->GetRandomID();
 
-        # create test webservice
+        # Create test web service.
         my $WebserviceID = $WebserviceObject->WebserviceAdd(
             Config => {
                 Debugger => {
@@ -38,17 +35,16 @@ $Selenium->RunTest(
                     },
                 },
             },
-            Name    => "Selenium $RandomID webservice",
+            Name    => "Selenium $RandomID web service",
             ValidID => 1,
             UserID  => 1,
         );
-
         $Self->True(
             $WebserviceID,
-            "Webservice ID $WebserviceID is created"
+            "Web service ID $WebserviceID is created"
         );
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -59,55 +55,57 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to AdminGenericInterfaceWebservice screen
+        # Navigate to AdminGenericInterfaceWebservice screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericInterfaceWebservice");
 
-        # click on created webservice
+        # Click on created web service.
         $Selenium->find_element("//a[contains(\@href, 'WebserviceID=$WebserviceID')]")->VerifiedClick();
 
-        # select 'HTTP::SOAP' as provider network transport
+        # Select 'HTTP::SOAP' as provider network transport.
         $Selenium->execute_script(
             "\$('#ProviderTransportList').val('HTTP::SOAP').trigger('redraw.InputField').trigger('change');"
         );
 
-        # select 'HTTP::SOAP' as requester network transport
+        # Select 'HTTP::SOAP' as requester network transport.
         $Selenium->execute_script(
             "\$('#RequesterTransportList').val('HTTP::SOAP').trigger('redraw.InputField').trigger('change');"
         );
 
-        # click on 'Save'
+        # Click on 'Save'.
         $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#ProviderTransportProperties").length'
+        );
 
-        # click to configure provider network transport
-        $Selenium->find_element("//button[\@id='ProviderTransportProperties']")->VerifiedClick();
+        # Click to configure provider network transport.
+        $Selenium->find_element( "#ProviderTransportProperties", 'css' )->VerifiedClick();
 
-        # verify screen
+        # Verify screen.
         for my $ID (
             qw(NameSpace RequestNameScheme RequestNameFreeText ResponseNameScheme ResponseNameFreeText MaxLength )
             )
         {
+            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#$ID').length" );
             $Selenium->find_element( "#$ID", 'css' )->is_enabled();
         }
 
-        # verify URL
+        # Verify URL.
         $Self->True(
             $Selenium->get_current_url()
                 =~ /CommunicationType=Provider;Action=AdminGenericInterfaceTransportHTTPSOAP;Subaction=Add/,
             "Current URL on Add action is correct"
         );
 
-        # verify requester and response free text fields are hidden with default selected options
-        # change option and verify JS successfully removed Hidden class and fields are shown
+        # Verify requester and response free text fields are hidden with default selected options.
+        # Change option and verify JS successfully removed Hidden class and fields are shown.
         for my $Field (qw(Request Response)) {
             my $SelectField = $Field . 'NameFreeTextField';
-            $Self->Is(
+            $Self->True(
                 $Selenium->execute_script(
-                    "return \$('.$SelectField').hasClass('Hidden')"
+                    "return \$('.$SelectField.Hidden').length === 1"
                 ),
-                1,
                 "$SelectField name free text field is hidden",
             );
 
@@ -116,28 +114,29 @@ $Selenium->RunTest(
                 "\$('#$OptionField').val('Append').trigger('redraw.InputField').trigger('change');"
             );
 
-            $Self->Is(
+            $Self->True(
                 $Selenium->execute_script(
-                    "return \$('.$SelectField').hasClass('Hidden')"
+                    "return \$('.$SelectField.Hidden').length === 0"
                 ),
-                0,
                 "$SelectField name free text field is shown",
             );
         }
 
-        # click to 'Save' and verify client side validation for missing fields
-        $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
+        # Click to 'Save' and verify client side validation for missing fields.
+        $Selenium->find_element("//button[\@value='Save and continue']")->click();
         for my $ValidationField (qw( NameSpace RequestNameFreeText ResponseNameFreeText MaxLength)) {
-            $Self->Is(
+            $Selenium->WaitFor(
+                JavaScript => "return typeof(\$) === 'function' && \$('#$ValidationField.Error').length === 1"
+            );
+            $Self->True(
                 $Selenium->execute_script(
-                    "return \$('#$ValidationField').hasClass('Error')"
+                    "return \$('#$ValidationField.Error').length === 1"
                 ),
-                1,
                 "Client side validation for missing field $ValidationField is successful",
             );
         }
 
-        # input fields
+        # Input fields.
         my %ProviderInputData = (
             NameSpace            => 'ProviderName' . $RandomID,
             RequestNameFreeText  => 'RequestName' . $RandomID,
@@ -148,39 +147,53 @@ $Selenium->RunTest(
             $Selenium->find_element( "#$InputField", 'css' )->send_keys( $ProviderInputData{$InputField} );
         }
 
-        # add two sort level options
-        $Selenium->find_element("//input[\@name='Element']")->send_keys('SortLevel1');
-        $Selenium->find_element("//button[\@class='CallForAction']")->VerifiedClick();
-        $Selenium->find_element("//input[\@name='Element']")->send_keys('SortLevel2');
-        $Selenium->find_element("//button[\@class='CallForAction']")->VerifiedClick();
+        my @SortLevelOptions = ( 'SortLevel1', 'SortSubLevel1', 'SortLevel2' );
 
-        # add one sub level of first options
-        $Selenium->execute_script("\$(\$('.SortableList').find('li')[1]).find('.Icon').click()");
-        $Selenium->execute_script(
-            "\$(\$('.SortableList').find('li')[1]).find('ul').find('.Element').val('SortSubLevel1')"
+        # Add two sort level options.
+        $Selenium->find_element("//input[\@name='Element']")->send_keys("$SortLevelOptions[0]");
+        $Selenium->find_element("//button[\@class='CallForAction']")->click();
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('.SortableList input.SortLevel1').length  && \$('input[name=Element]').val() == ''"
         );
 
-        # click on 'Save'
+        $Selenium->find_element("//input[\@name='Element']")->send_keys("$SortLevelOptions[2]");
+        $Selenium->find_element("//button[\@class='CallForAction']")->click();
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('.SortableList input.SortLevel2').length  && \$('input[name=Element]').val() == ''"
+        );
+
+        # Add one sub level of first options.
+        $Selenium->execute_script("\$('.SortableList li:eq(1) .Icon').click()");
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('.SortableList li:eq(1) ul .Element').length"
+        );
+        $Selenium->execute_script(
+            "\$('.SortableList li:eq(1) ul .Element').val('$SortLevelOptions[1]')"
+        );
+
+        # Click on 'Save'.
         $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
 
-        # verify URL is changed while we are on the same screen
+        # Verify URL is changed while we are on the same screen.
         $Self->True(
             $Selenium->get_current_url() =~ /Action=AdminGenericInterfaceTransportHTTPSOAP;Subaction=Change/,
             "Current URL after 'Save' button click is correct"
         );
 
-        # verify saved fields
+        # Verify saved fields.
         for my $VerifyField ( sort keys %ProviderInputData ) {
             $Self->Is(
                 $Selenium->find_element( "#$VerifyField", 'css' )->get_value(),
                 $ProviderInputData{$VerifyField},
-                "Inputed value for $VerifyField field is correct"
+                "Input value for $VerifyField field is correct"
             );
         }
 
-        # verify saved sort options
+        # Verify saved sort options.
         my $Count = 1;
-        for my $VerifySort (qw(SortLevel1 SortSubLevel1 SortLevel2)) {
+        for my $VerifySort (@SortLevelOptions) {
             $Self->Is(
                 $Selenium->execute_script("return \$('.SortableList li:eq($Count)').find('.Element').val()"),
                 $VerifySort,
@@ -190,43 +203,46 @@ $Selenium->RunTest(
             $Count++;
         }
 
-        # try to delete option level that contains sub level, expecting error
+        # Try to delete option level that contains sub level, expecting error.
         $Selenium->execute_script("\$(\$('.SortableList').find('li')[1]).children('span').children('strong').click()");
+        $Selenium->WaitFor( AlertPresent => 1 );
         $Selenium->accept_alert();
 
-        # click on 'Save and finish' verify JS redirection
+        # Click on 'Save and finish' to verify JS redirection.
         $Selenium->find_element("//button[\@value='Save and finish']")->VerifiedClick();
         $Self->True(
             $Selenium->get_current_url() =~ /Action=AdminGenericInterfaceWebservice/,
             "Click on 'Save and finish' button - JS is successful"
         );
 
-        # click to configure requester network transport
+        # Click to configure requester network transport.
         $Selenium->find_element("//button[\@id='RequesterTransportProperties']")->VerifiedClick();
 
-        # verify screen
+        # Verify screen.
         for my $ID (
             qw( Endpoint NameSpace RequestNameScheme RequestNameFreeText ResponseNameScheme ResponseNameFreeText Encoding
             SOAPAction SOAPActionSeparator Authentication User Password SSLProxy SSLProxyUser SSLProxyPassword
             UseSSL SSLP12Certificate SSLP12Password SSLCAFile SSLCADir)
             )
         {
+            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#$ID').length" );
             $Selenium->find_element( "#$ID", 'css' )->is_enabled();
         }
 
-        # verify URL
+        # Verify URL.
         $Self->True(
             $Selenium->get_current_url()
                 =~ /CommunicationType=Requester;Action=AdminGenericInterfaceTransportHTTPSOAP;Subaction=Add/,
             "Current URL on Add action is correct"
         );
 
-        # change SOAP action field to No
+        # Change SOAP action field to No.
         $Selenium->execute_script(
             "\$('#SOAPAction').val('No').trigger('redraw.InputField').trigger('change');"
         );
 
- # verify certain fields are Hidden with default options, select appropriate option to trigger JS to remove Hidden class
+        # Verify certain fields are Hidden with default options,
+        # select appropriate option to trigger JS to remove Hidden class.
         my @RequesterJSFields = (
             {
                 CheckField  => 'RequestNameFreeTextField',
@@ -281,19 +297,21 @@ $Selenium->RunTest(
             );
         }
 
-        # click to 'Save' and verify client side validation for missing fields
+        # Click to 'Save' and verify client side validation for missing fields.
         $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
         for my $ValidationField (qw( Endpoint NameSpace RequestNameFreeText SSLP12Certificate SSLP12Password )) {
-            $Self->Is(
+            $Selenium->WaitFor(
+                JavaScript => "return typeof(\$) === 'function' && \$('#$ValidationField.Error').length === 1"
+            );
+            $Self->True(
                 $Selenium->execute_script(
-                    "return \$('#$ValidationField').hasClass('Error')"
+                    "return \$('#$ValidationField.Error').length === 1"
                 ),
-                1,
                 "Client side validation for missing field $ValidationField is successful",
             );
         }
 
-        # input fields
+        # Input fields.
         my %RequesterInputData = (
             Endpoint             => 'http://local.otrs.com:8000/Selenium/' . $RandomID,
             NameSpace            => 'http://www.otrs.com/GenericInterface/' . $RandomID,
@@ -315,42 +333,42 @@ $Selenium->RunTest(
             $Selenium->find_element( "#$InputField", 'css' )->send_keys( $RequesterInputData{$InputField} );
         }
 
-        # click on 'Save'
+        # Click on 'Save'.
         $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
 
-        # verify URL is changed while we are on the same screen
+        # Verify URL is changed while we are on the same screen.
         $Self->True(
             $Selenium->get_current_url() =~ /Action=AdminGenericInterfaceTransportHTTPSOAP;Subaction=Change/,
             "Current URL after 'Save' button click is correct"
         );
 
-        # verify saved fields
+        # Verify saved fields.
         for my $VerifyField ( sort keys %RequesterInputData ) {
             $Self->Is(
                 $Selenium->find_element( "#$VerifyField", 'css' )->get_value(),
                 $RequesterInputData{$VerifyField},
-                "Inputed value for $VerifyField field is correct"
+                "Input value for $VerifyField field is correct"
             );
         }
 
-        # click on 'Save and finish' verify JS redirection
+        # Click on 'Save and finish' to verify JS redirection.
         $Selenium->find_element("//button[\@value='Save and finish']")->VerifiedClick();
         $Self->True(
             $Selenium->get_current_url() =~ /Action=AdminGenericInterfaceWebservice/,
             "Click on 'Save and finish' button - JS is successful"
         );
 
-        # delete test created webservice
+        # Delete test created web service.
         my $Success = $WebserviceObject->WebserviceDelete(
             ID     => $WebserviceID,
             UserID => 1,
         );
         $Self->True(
             $Success,
-            "Webservice ID $WebserviceID is deleted"
+            "Web service ID $WebserviceID is deleted"
         );
 
-        # make sure cache is correct
+        # Make sure cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Webservice' );
 
     }
