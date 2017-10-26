@@ -126,7 +126,7 @@
 [% RenderBlockEnd("ProcessRow") %]
 [% RenderBlockStart("ProcessNoDataRow") %]
                         <tr>
-                            <td colspan="4">
+                            <td colspan="6">
                                 [% Translate("No data found.") | html %]
                             </td>
                         </tr>

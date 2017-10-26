@@ -63,6 +63,14 @@ sub Run {
         );
     }
 
+    # print no data found message
+    if ( !@Message ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'AdminLogNoDataRow',
+            Data => {},
+        );
+    }
+
     # create & return output
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminLog',

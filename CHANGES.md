@@ -1,4 +1,5 @@
 #4.0.26 2017-??-??
+ - 2017-10-26 Fixed bug#[13244](https://bugs.otrs.org/show_bug.cgi?id=13244) - Visibility issues when hovering over "No data found." row.
  - 2017-10-24 Fixed bug#[12832](https://bugs.otrs.org/show_bug.cgi?id=12832) - Sort options for SOAP will not be saved.
  - 2017-10-13 Fixed bug#[13065](https://bugs.otrs.org/show_bug.cgi?id=13065) - Creation of note by Transition Action not working if no Article has been created before.
  - 2017-10-13 Fixed bug#[13092](https://bugs.otrs.org/show_bug.cgi?id=13092) - ChangeTime of target ticket not updated on ticket merge.
