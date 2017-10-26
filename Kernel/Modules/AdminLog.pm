@@ -16,7 +16,7 @@ our $ObjectManagerDisabled = 1;
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
+    # Allocate new hash for object.
     my $Self = {%Param};
     bless( $Self, $Type );
 
@@ -28,17 +28,17 @@ sub Run {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # print form
+    # Print form.
     my $Output = $LayoutObject->Header();
     $Output .= $LayoutObject->NavigationBar();
 
-    # get log data
+    # Get log data.
     my $Log = $Kernel::OM->Get('Kernel::System::Log')->GetLog( Limit => 400 ) || '';
 
-    # split data to lines
+    # Split data to lines.
     my @Message = split /\n/, $Log;
 
-    # create table
+    # Create table.
     ROW:
     for my $Row (@Message) {
 
@@ -60,7 +60,15 @@ sub Run {
         );
     }
 
-    # create & return output
+    # Print no data found message.
+    if ( !@Message ) {
+        $LayoutObject->Block(
+            Name => 'AdminLogNoDataRow',
+            Data => {},
+        );
+    }
+
+    # Create & return output.
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminLog',
         Data         => \%Param,

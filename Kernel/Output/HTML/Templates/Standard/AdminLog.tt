@@ -55,6 +55,13 @@ $('#HideHint').bind('click', function(){
                             <td>[% Data.Message | html %]</td>
                         </tr>
 [% RenderBlockEnd("Row") %]
+[% RenderBlockStart("AdminLogNoDataRow") %]
+                        <tr>
+                            <td colspan="4">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("AdminLogNoDataRow") %]
                     </tbody>
                 </table>
             </div>
