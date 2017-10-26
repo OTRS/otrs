@@ -641,8 +641,8 @@ sub Run {
                 @TicketIDsArray = $TicketObject->TicketSearch(
                     Result => 'ARRAY',
                     %TicketSearch,
-                    %ColumnFilter,
                     %{ $TicketSearchSummary{ $Self->{Filter} } },
+                    %ColumnFilter,
                     Limit => $Self->{PageShown} + $Self->{StartHit} - 1,
                 );
             }
@@ -724,8 +724,8 @@ sub Run {
                     $Summary->{$Type} = $TicketObject->TicketSearch(
                         Result => 'COUNT',
                         %TicketSearch,
-                        %ColumnFilter,
                         %{ $TicketSearchSummary{$Type} },
+                        %ColumnFilter,
                     );
                 }
             }
