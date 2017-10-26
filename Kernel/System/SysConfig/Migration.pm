@@ -1436,13 +1436,15 @@ sub MigrateConfigEffectiveValues {
         Result   => 'ARRAY',
     );
 
-    my %DisabledOTRS5Config;
+    my @DisabledOTRS5Config;
     for my $Line ( @{$OTRS5ConfigFileContentList} ) {
 
         # Check if the line starts with a delete.
-        if ( $Line =~ m{ \A delete[ ]\$Self->(.+);}xms ) {
-            my $DisabledSettingString = '$DisabledOTRS5Config' . $1 . ' = {}';
-            eval $DisabledSettingString;    ## no critic
+        if ( $Line =~ m{ \A delete[ ]\$Self->\{(.+)\};}xms ) {
+            my $DisabledSettingString = $1;
+            $DisabledSettingString =~ s{['"]}{}xmsg;
+            $DisabledSettingString =~ s{\}->\{}{###}xmsg;
+            push @DisabledOTRS5Config, $DisabledSettingString;
         }
     }
 
@@ -1777,154 +1779,51 @@ sub MigrateConfigEffectiveValues {
         }
     }
 
-    my $DisabledSettingsCount;
+    my $DisabledSettingsCount = 0;
 
     # Set all settings which are disabled in OTRS 5 to disabled.
     DISABLEDSETTINGNAME:
-    for my $DisabledSettingName ( sort keys %DisabledOTRS5Config ) {
+    for my $DisabledSettingKey (@DisabledOTRS5Config) {
 
-        # Check if this OTRS5 setting has subhashes in the name.
-        if ( $SettingsWithSubLevels{$DisabledSettingName} ) {
+        # Check and convert config name if it has been renamed in OTRS 6
+        #   otherwise it will use the given old name.
+        my $NewSettingKey = _LookupNewConfigName(
+            OldName                    => $DisabledSettingKey,
+            PackageLookupNewConfigName => $Param{PackageLookupNewConfigName},
+        );
 
-            SETTINGKEYFIRSTLEVEL:
-            for my $SettingKeyFirstLevel ( sort keys %{ $DisabledOTRS5Config{$DisabledSettingName} } ) {
-
-                # There is a second level in the config setting.
-                # Example: Ticket::Frontend::AgentTicketZoom###Widgets###0100-TicketInformation
-                if (
-                    $SettingsWithSubLevels{$DisabledSettingName}->{$SettingKeyFirstLevel}
-                    && IsHashRefWithData( $SettingsWithSubLevels{$DisabledSettingName}->{$SettingKeyFirstLevel} )
-                    && IsHashRefWithData( $DisabledOTRS5Config{$DisabledSettingName}->{$SettingKeyFirstLevel} )
-                    )
-                {
-
-                    SETTINGKEYSECONDLEVEL:
-                    for my $SettingKeySecondLevel (
-                        sort keys %{ $DisabledOTRS5Config{$DisabledSettingName}->{$SettingKeyFirstLevel} }
-                        )
-                    {
-
-                        # build the new setting key
-                        my $NewSettingKey
-                            = $DisabledSettingName . '###' . $SettingKeyFirstLevel . '###' . $SettingKeySecondLevel;
-
-                        # check and convert config name if it has been renamed in OTRS 6
-                        # otherwise it will use the given old name
-                        $NewSettingKey = _LookupNewConfigName(
-                            OldName                    => $NewSettingKey,
-                            PackageLookupNewConfigName => $Param{PackageLookupNewConfigName},
-                        );
-
-                        # try to get the default setting from OTRS 6 for the modified setting name
-                        my %OTRS6Setting = $SysConfigObject->SettingGet(
-                            Name  => $NewSettingKey,
-                            NoLog => 1,
-                        );
-
-                        # skip settings which already have been modified in the meantime
-                        next SETTINGKEYFIRSTLEVEL if $OTRS6Setting{ModifiedID};
-
-                        # skip this setting if it is a readonly setting
-                        next SETTINGKEYFIRSTLEVEL if $OTRS6Setting{IsReadonly};
-
-                        # log if there is a setting that can not be found in OTRS 6 (might come from packages)
-                        if ( !%OTRS6Setting ) {
-                            push @MissingSettings, $NewSettingKey;
-                            next SETTINGKEYFIRSTLEVEL;
-                        }
-
-                        # Disable the setting.
-                        my %Result = $Self->_SettingUpdate(
-                            Name    => $NewSettingKey,
-                            IsValid => 0,
-                        );
-
-                        if ( !$Result{Success} ) {
-                            push @UnsuccessfullSettings, $NewSettingKey;
-                            next SETTINGKEYFIRSTLEVEL;
-                        }
-                    }
-                }
-                else {
-
-                    # build the new setting key
-                    my $NewSettingKey = $DisabledSettingName . '###' . $SettingKeyFirstLevel;
-
-                    # check and convert config name if it has been renamed in OTRS 6
-                    # otherwise it will use the given old name
-                    $NewSettingKey = _LookupNewConfigName(
-                        OldName                    => $NewSettingKey,
-                        PackageLookupNewConfigName => $Param{PackageLookupNewConfigName},
-                    );
-
-                    # try to get the default setting from OTRS 6 for the modified setting name
-                    my %OTRS6Setting = $SysConfigObject->SettingGet(
-                        Name  => $NewSettingKey,
-                        NoLog => 1,
-                    );
-
-                    # skip settings which already have been modified in the meantime
-                    next SETTINGKEYFIRSTLEVEL if $OTRS6Setting{ModifiedID};
-
-                    # skip this setting if it is a readonly setting
-                    next SETTINGKEYFIRSTLEVEL if $OTRS6Setting{IsReadonly};
-
-                    # log if there is a setting that can not be found in OTRS 6 (might come from packages)
-                    if ( !%OTRS6Setting ) {
-                        push @MissingSettings, $NewSettingKey;
-                        next SETTINGKEYFIRSTLEVEL;
-                    }
-
-                    # Disable the setting.
-                    my %Result = $Self->_SettingUpdate(
-                        Name    => $NewSettingKey,
-                        IsValid => 0,
-                    );
-
-                    if ( !$Result{Success} ) {
-                        push @UnsuccessfullSettings, $NewSettingKey;
-                        next SETTINGKEYFIRSTLEVEL;
-                    }
-                }
-            }
+        # Skip settings which are not in the given package settings.
+        if ( %PackageSettingLookup && !$PackageSettingLookup{$NewSettingKey} ) {
+            next DISABLEDSETTINGNAME;
         }
-        else {
 
-            # check and convert config name if it has been renamed in OTRS 6
-            # otherwise it will use the given old name
-            my $NewSettingKey = _LookupNewConfigName(
-                OldName                    => $DisabledSettingName,
-                PackageLookupNewConfigName => $Param{PackageLookupNewConfigName},
-            );
+        # Try to get the default setting from OTRS 6 for the modified setting name.
+        my %OTRS6Setting = $SysConfigObject->SettingGet(
+            Name  => $NewSettingKey,
+            NoLog => 1,
+        );
 
-            # try to get the default setting from OTRS 6 for the modified setting name
-            my %OTRS6Setting = $SysConfigObject->SettingGet(
-                Name  => $NewSettingKey,
-                NoLog => 1,
-            );
+        # Skip settings which already have been modified in the meantime.
+        next DISABLEDSETTINGNAME if $OTRS6Setting{ModifiedID};
 
-            # skip settings which already have been modified in the meantime
-            next SETTINGKEYFIRSTLEVEL if $OTRS6Setting{ModifiedID};
+        # Skip this setting if it is a readonly setting.
+        next DISABLEDSETTINGNAME if $OTRS6Setting{IsReadonly};
 
-            # skip this setting if it is a readonly setting
-            next SETTINGKEYFIRSTLEVEL if $OTRS6Setting{IsReadonly};
+        # Log if there is a setting that can not be found in OTRS 6 (might come from packages).
+        if ( !%OTRS6Setting ) {
+            push @MissingSettings, $NewSettingKey;
+            next DISABLEDSETTINGNAME;
+        }
 
-            # log if there is a setting that can not be found in OTRS 6 (might come from packages)
-            if ( !%OTRS6Setting ) {
-                push @MissingSettings, $NewSettingKey;
-                next SETTINGKEYFIRSTLEVEL;
-            }
+        # Disable the setting.
+        my %Result = $Self->_SettingUpdate(
+            Name    => $NewSettingKey,
+            IsValid => 0,
+        );
 
-            # Disable the setting.
-            my %Result = $Self->_SettingUpdate(
-                Name    => $NewSettingKey,
-                IsValid => 0,
-            );
-
-            if ( !$Result{Success} ) {
-                push @UnsuccessfullSettings, $NewSettingKey;
-                next SETTINGKEYFIRSTLEVEL;
-            }
+        if ( !$Result{Success} ) {
+            push @UnsuccessfullSettings, $NewSettingKey;
+            next DISABLEDSETTINGNAME;
         }
 
         $DisabledSettingsCount++;
