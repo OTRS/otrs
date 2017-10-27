@@ -50,7 +50,40 @@ for my $Module (qw(StaticDB RuntimeDB)) {
         'TicketCreate()',
     );
 
+    # Create article without useful body for indexing.
     my $ArticleID = $TicketObject->ArticleCreate(
+        TicketID       => $TicketID,
+        ArticleType    => 'note-internal',
+        SenderType     => 'agent',
+        From           => 'Some Agent <email@example.com>',
+        To             => 'Some Customer <customer@example.com>',
+        Subject        => 'mountain ocean water',
+        Body           => 'and again after',                        # just stop words to be filtered out
+        ContentType    => 'text/plain; charset=ISO-8859-15',
+        HistoryType    => 'OwnerUpdate',
+        HistoryComment => 'Some free text!',
+        UserID         => 1,
+        NoAgentNotify  => 1,
+    );
+    $Self->True(
+        $ArticleID,
+        'ArticleCreate()'
+    );
+
+    my %TicketIDs = $TicketObject->TicketSearch(
+        FullTextIndex => 1,
+        Subject       => '%mountain%',
+        Result        => 'HASH',
+        Limit         => 100,
+        UserID        => 1,
+        Permission    => 'rw',
+    );
+    $Self->True(
+        $TicketIDs{$TicketID},
+        'TicketSearch() (HASH:Subject)'
+    );
+
+    $ArticleID = $TicketObject->ArticleCreate(
         TicketID    => $TicketID,
         ArticleType => 'note-internal',
         SenderType  => 'agent',
@@ -71,7 +104,7 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
     );
 
     # search
-    my %TicketIDs = $TicketObject->TicketSearch(
+    %TicketIDs = $TicketObject->TicketSearch(
         Subject    => '%short%',
         Result     => 'HASH',
         Limit      => 100,
