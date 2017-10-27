@@ -7596,8 +7596,8 @@
                 <Item Key="Key" Translatable="1">Show this screen after I created a new ticket</Item>
                 <Item Key="Data">
                     <Hash>
-                        <Item Key="">CreateTicket</Item>
-                        <Item Key="AgentTicketZoom">TicketZoom</Item>
+                        <Item Key="" Translatable="1">Create Ticket</Item>
+                        <Item Key="AgentTicketZoom" Translatable="1">Ticket Zoom</Item>
                     </Hash>
                 </Item>
                 <Item Key="DataSelected"></Item>
