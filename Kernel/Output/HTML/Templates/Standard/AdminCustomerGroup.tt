@@ -37,10 +37,9 @@
                 <ul class="ActionList">
                     <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="Action" value="AdminSystemConfiguration"/>
-                        <input type="hidden" name="Subaction" value="Edit"/>
-                        <input type="hidden" name="SysConfigGroup" value="Framework"/>
-                        <input type="hidden" name="SysConfigSubGroup" value="Frontend::Customer"/>
-                        <h3>[% Translate("This feature is disabled!") | html %]</h3>
+                        <input type="hidden" name="Subaction" value="View"/>
+                        <input type="hidden" name="Setting" value="CustomerGroupSupport"/>
+                        <h3><span class="Warning">[% Translate("This feature is disabled!") | html %]<span></h3>
                         <fieldset>
                             <p class="FieldExplanation">
                                 [% Translate("Just use this feature if you want to define group permissions for customers.") | html %]
@@ -91,7 +90,7 @@
 [% RenderBlockEnd("Search") %]
 [% RenderBlockStart("AlwaysGroupsConfig") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Frontend::Customer" class="CallForAction Fullsize Center"><span><i class="fa fa-edit"></i>[% Translate("Edit Customer Default Groups") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration;Subaction=View;Setting=CustomerGroupCompanyAlwaysGroups" class="CallForAction Fullsize Center"><span><i class="fa fa-edit"></i>[% Translate("Edit Customer Default Groups") | html %]</span></a>
                         <p class="FieldExplanation">
                             [% Translate("These groups are automatically assigned to all customers.") | html %]
                             [% Translate("You can manage these groups via the configuration setting \"CustomerGroupCompanyAlwaysGroups\".") | html %]

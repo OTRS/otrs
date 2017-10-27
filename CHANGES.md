@@ -1,4 +1,5 @@
 #6.0.0.rc1 2017-??-??
+ - 2017-10-27 Fixed links to SysConfig items in AdminCustomerUserGroup and AdminCustomerGroup screen, thanks to urbalazs.
  - 2017-10-27 Fixed bug#[13264](https://bugs.otrs.org/show_bug.cgi?id=13264) - Hash of select items are not working properly in SysConfig.
  - 2017-10-26 Fixed bug#[13263](https://bugs.otrs.org/show_bug.cgi?id=13263) - Fatal error after click on breadcrumb in agent preferences.
  - 2017-10-25 Fixed bug#[13265](https://bugs.otrs.org/show_bug.cgi?id=13265) - Disabled sysconfig settings are active after migration (if the setting is active as default).
