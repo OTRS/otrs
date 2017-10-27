@@ -1,4 +1,5 @@
 #5.0.24 2017-??-??
+ - 2017-10-27 Fixed bug#[13162](https://bugs.otrs.org/show_bug.cgi?id=13162) - In the settings of Agent's personal profile drop down field of "Screen after new ticket" view is in English.
  - 2017-10-27 Fixed bug#[13167](https://bugs.otrs.org/show_bug.cgi?id=13167) - Unnecessary error message for invalid month in SysConfig.
  - 2017-10-27 Fixed bug#[13222](https://bugs.otrs.org/show_bug.cgi?id=13222) - Missing QueueID in AgentTicketPhone causes ACL error during the creation of a ticket.
  - 2017-10-26 Fixed bug#[13212](https://bugs.otrs.org/show_bug.cgi?id=13212) - Queue filter in dashboard not working for "Tickets in My Queues".

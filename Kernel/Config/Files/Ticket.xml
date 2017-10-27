@@ -7650,8 +7650,8 @@
                 <Item Key="Key" Translatable="1">Screen</Item>
                 <Item Key="Data">
                     <Hash>
-                        <Item Key="0">CreateTicket</Item>
-                        <Item Key="AgentTicketZoom">TicketZoom</Item>
+                        <Item Key="0" Translatable="1">Create Ticket</Item>
+                        <Item Key="AgentTicketZoom" Translatable="1">Ticket Zoom</Item>
                     </Hash>
                 </Item>
                 <Item Key="DataSelected"></Item>
