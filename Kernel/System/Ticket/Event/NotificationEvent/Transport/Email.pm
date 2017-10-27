@@ -600,13 +600,16 @@ sub SecurityOptionsGet {
             Search => $NotificationSenderEmail,
         );
 
-        # take just valid keys
+        # Take just valid keys.
         @SignKeys = grep { $_->{Status} eq 'good' } @SignKeys;
 
         # get public keys
         @EncryptKeys = $PGPObject->PublicKeySearch(
             Search => $Param{Recipient}->{UserEmail},
         );
+
+        # Take just valid keys.
+        @EncryptKeys = grep { $_->{Status} eq 'good' } @EncryptKeys;
 
         # Get PGP method (Detached or In-line).
         if ( !$Kernel::OM->Get('Kernel::Output::HTML::Layout')->{BrowserRichText} ) {

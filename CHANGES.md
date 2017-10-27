@@ -1,4 +1,5 @@
 #6.0.0.rc1 2017-??-??
+ - 2017-10-27 Fixed bug#[13061](https://bugs.otrs.org/show_bug.cgi?id=13061) - PGP Agent Notification with expired certificate results in unencrypted message.
  - 2017-10-27 Fixed bug#[13259](https://bugs.otrs.org/show_bug.cgi?id=13259) - Problem when enabling all setting.
  - 2017-10-27 Fixed bug#[10946](https://bugs.otrs.org/show_bug.cgi?id=10946) - Stats Restrictions : 'Created in Queue' together with ' Close Time' doesn' work.
  - 2017-10-27 Fixed links to SysConfig items in AdminCustomerUserGroup and AdminCustomerGroup screen, thanks to urbalazs.
