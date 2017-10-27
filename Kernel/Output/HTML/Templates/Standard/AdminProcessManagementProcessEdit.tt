@@ -242,15 +242,12 @@
             </div>
 
             <div class="WidgetSimple ScreenXL">
-                <div class="Header Expanded">
-                    <div class="WidgetAction Toggle">
-                        <a href="#" title="[% Translate("Save settings") | html %]"></a>
-                    </div>
+                <div class="Header">
                     <h2>[% Translate("Save Activities, Activity Dialogs and Transitions") | html %]</h2>
                 </div>
                 <div class="Content">
                     <fieldset class="TableLike">
-                        <div class="Field SpacingTop SaveButtons">
+                        <div class="Field SaveButtons">
                             <button class="CallForAction Primary" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
                             [% Translate("or") | html %]
                             <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>

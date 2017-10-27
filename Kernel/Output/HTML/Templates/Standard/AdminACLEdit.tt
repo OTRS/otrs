@@ -222,10 +222,7 @@
             </div>
 
             <div class="WidgetSimple ScreenXL">
-                <div class="Header Expanded">
-                    <div class="WidgetAction Toggle">
-                        <a href="#" title="[% Translate("Save settings") | html %]"></a>
-                    </div>
+                <div class="Header">
                     <h2>[% Translate("Save ACL") | html %]</h2>
                 </div>
                 <div class="Content">

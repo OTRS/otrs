@@ -30,10 +30,6 @@ a.Print span {
     background: url(../img/icons/printer.png) no-repeat 5px center;
 }
 
-.SaveButtons {
-    margin-top: 30px;
-}
-
 .Icon {
     display: block;
     height: 16px;
