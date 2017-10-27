@@ -1198,6 +1198,8 @@ generates the HTML for the page begin in the Agent interface.
         ShowToolbarItems  => 0,                      # (optional) default 1 (0|1)
         ShowPrefLink      => 0,                      # (optional) default 1 (0|1)
         ShowLogoutButton  => 0,                      # (optional) default 1 (0|1)
+
+        DisableIFrameOriginRestricted => 1,          # (optional, default 0) - suppress X-Frame-Options header.
     );
 
 =cut

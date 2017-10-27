@@ -13,7 +13,7 @@ Content-Disposition: [% Data.ContentDisposition %]
 X-Powered-By: [% Config("Product") %] [% Config("Version") %] (https://www.otrs.com/)
 [% END -%]
 X-UA-Compatible: IE=edge,chrome=1
-[% IF !Config("DisableIFrameOriginRestricted") -%]
+[% IF !Config("DisableIFrameOriginRestricted") && !Data.DisableIFrameOriginRestricted -%]
 X-Frame-Options: SAMEORIGIN
 [% END -%]
 [% IF Data.XLoginHeader -%]
