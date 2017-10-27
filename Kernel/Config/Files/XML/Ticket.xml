@@ -4885,7 +4885,7 @@
                 <Item Key="Name" Translatable="1">Status view</Item>
                 <Item Key="Link">Action=AgentTicketStatusView</Item>
                 <Item Key="Action">AgentTicketStatusView</Item>
-                <Item Key="AccessKey">S</Item>
+                <Item Key="AccessKey"></Item>
                 <Item Key="CssClass">StatusView</Item>
                 <Item Key="Icon">fa fa-list-ol</Item>
                 <Item Key="Priority">1010020</Item>
@@ -7564,7 +7564,7 @@
                 <Item Key="NavBar">Ticket</Item>
                 <Item Key="Type"></Item>
                 <Item Key="Block"></Item>
-                <Item Key="AccessKey">O</Item>
+                <Item Key="AccessKey">i</Item>
                 <Item Key="Prio">105</Item>
             </Hash>
         </Value>
@@ -10353,7 +10353,7 @@
                 <Item Key="NavBar">Ticket</Item>
                 <Item Key="Type">Submenu</Item>
                 <Item Key="Block"></Item>
-                <Item Key="AccessKey">M</Item>
+                <Item Key="AccessKey">t</Item>
                 <Item Key="Prio">120</Item>
             </Hash>
         </Value>

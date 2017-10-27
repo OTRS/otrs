@@ -8801,7 +8801,7 @@ via the Preferences button after logging in.
                 <Item Key="NavBar">Customers</Item>
                 <Item Key="Type"></Item>
                 <Item Key="Block">ItemArea</Item>
-                <Item Key="AccessKey">u</Item>
+                <Item Key="AccessKey">y</Item>
                 <Item Key="Prio">55</Item>
             </Hash>
         </Value>

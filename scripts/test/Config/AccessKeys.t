@@ -10,81 +10,72 @@ use strict;
 use warnings;
 use utf8;
 
+use Kernel::System::VariableCheck qw(:all);
+
 use vars (qw($Self));
 
-# get config object
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# check used accesskeys in agent frontend
-my %UsedAccessKeysAgent;
-
-# frontend and toolbar modules
-my %AgentModules = (
-    %{ $ConfigObject->Get('Frontend::Module') },
-    %{ $ConfigObject->Get('Frontend::ToolBarModule') }
+# Get all frontend modules with access key definitions.
+my @Modules = $SysConfigObject->ConfigurationSearch(
+    Search           => 'AccessKey',
+    Category         => 'All',
+    IncludeInvisible => 1,
 );
 
-ACCESSKEYSAGENT:
-for my $AgentModule ( sort keys %AgentModules ) {
+# Check used access keys.
+my %UsedAccessKeys;
 
-    # check navbar items
-    if ( $AgentModules{$AgentModule}->{NavBar} && @{ $AgentModules{$AgentModule}->{NavBar} } ) {
+my $Error;
 
-        NAVBARITEMS:
-        for my $NavBar ( sort @{ $AgentModules{$AgentModule}->{NavBar} } ) {
-
-            my $NavBarKey  = $NavBar->{AccessKey} || '';
-            my $NavBarName = $NavBar->{Name}      || '';
-            next NAVBARITEMS if !$NavBarKey;
-
-            $Self->False(
-                defined $UsedAccessKeysAgent{$NavBarKey},
-                "[AGENT FRONTEND] Check if access key already exists for access key '$NavBarKey' ($NavBarName)",
-            );
-
-            $UsedAccessKeysAgent{$NavBarKey} = 1;
-        }
-    }
-
-    my $AccessKey = $AgentModules{$AgentModule}->{AccessKey} || '';
-    my $Name      = $AgentModules{$AgentModule}->{Name}      || '';
-
-    next ACCESSKEYSAGENT if !$AccessKey;
-
-    $Self->False(
-        defined $UsedAccessKeysAgent{$AccessKey},
-        "[AGENT FRONTEND] Check if access key already exists for access key '$AccessKey' ($Name)",
+MODULE:
+for my $Module (@Modules) {
+    my %SysConfig = $SysConfigObject->SettingGet(
+        Name => $Module,
     );
 
-    $UsedAccessKeysAgent{$AccessKey} = 1;
-}
+    next MODULE if !IsHashRefWithData( $SysConfig{DefaultValue} );
+    next MODULE if !defined $SysConfig{DefaultValue}->{AccessKey};
+    next MODULE if !length $SysConfig{DefaultValue}->{AccessKey};
 
-# check used accesskeys in customer frontend
-my %UsedAccessKeysCustomer;
+    my $AccessKey      = $SysConfig{DefaultValue}->{AccessKey};
+    my $AccessKeyLower = lc $AccessKey;
 
-# frontend and toolbar modules
-my %CustomerModules = %{ $ConfigObject->Get('CustomerFrontend::Module') };
+    my $Name = $SysConfig{DefaultValue}->{Link} || $SysConfig{DefaultValue}->{Module} || '';
+    my $Frontend;
 
-ACCESSKEYSCUSTOMER:
-for my $CustomerModule ( sort keys %CustomerModules ) {
-
-    next ACCESSKEYSCUSTOMER if !$CustomerModules{$CustomerModule}->{NavBar};
-    next ACCESSKEYSCUSTOMER if !@{ $CustomerModules{$CustomerModule}->{NavBar} };
-
-    NAVBARITEMS:
-    for my $NavBar ( sort @{ $CustomerModules{$CustomerModule}->{NavBar} } ) {
-
-        my $NavBarKey = $NavBar->{AccessKey} || '';
-
-        next NAVBARITEMS if !$NavBarKey;
-
-        $Self->False(
-            defined $UsedAccessKeysCustomer{$NavBarKey},
-            "[CUSTOMER FRONTEND] Check if access key already exists for access key '$NavBarKey'",
-        );
-
-        $UsedAccessKeysCustomer{$NavBarKey} = 1;
+    if ( $Module =~ /CustomerFrontend/i ) {
+        $Frontend = 'CUSTOMER FRONTEND';
     }
+    elsif ( $Module =~ /PublicFrontend/i ) {
+        $Frontend = 'PUBLIC FRONTEND';
+    }
+    else {
+        $Frontend = 'AGENT FRONTEND';
+    }
+
+    $Self->False(
+        $UsedAccessKeys{$Frontend}->{$AccessKeyLower},
+        "[$Frontend] Check if access key '$AccessKey' already exists ($Name)",
+    );
+
+    if ( !$Error && $UsedAccessKeys{$Frontend}->{$AccessKeyLower} ) {
+        if ( !$Error ) {
+            $Error = 1;
+        }
+
+        next MODULE;
+    }
+
+    $UsedAccessKeys{$Frontend}->{$AccessKeyLower} = $Name;
 }
+
+$Self->False(
+    $Error,
+    "List of all defined access keys: \n"
+        . $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => \%UsedAccessKeys )
+);
 
 1;

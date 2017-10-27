@@ -9135,7 +9135,7 @@ via the Preferences button after logging in.
                     <NavBar>Customers</NavBar>
                     <Type></Type>
                     <Block>ItemArea</Block>
-                    <AccessKey>u</AccessKey>
+                    <AccessKey>y</AccessKey>
                     <Prio>55</Prio>
                 </NavBar>
                 <Loader>
