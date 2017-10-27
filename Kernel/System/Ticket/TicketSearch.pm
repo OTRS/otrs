@@ -501,8 +501,20 @@ sub TicketSearch {
         my %Registry = ();
         my $Index    = 0;
 
+        # Column alias mapping.
+        my %Alias = (
+            CreatedStates     => 'CreatedStateIDs',
+            CreatedQueues     => 'CreatedQueueIDs',
+            CreatedPriorities => 'CreatedPriorityIDs',
+            CreatedTypes      => 'CreatedTypeIDs',
+        );
+
         return sub {
             my $Column = shift;
+
+            # Check if the column is an alias, otherwise use it.
+            $Column = $Alias{$Column} || $Column;
+
             if ( !$Registry{$Column} ) {
                 $Registry{$Column} = 'th' . $Index++;
             }
