@@ -761,6 +761,8 @@ sub Run {
         }
 
         my ( $NewQueueID, $To ) = split( /\|\|/, $Dest );
+        $GetParam{QueueID} = $NewQueueID;
+
         my $CustomerUser = $Self->{ParamObject}->GetParam( Param => 'CustomerUser' )
             || $Self->{ParamObject}->GetParam( Param => 'PreSelectedCustomerUser' )
             || $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' )
