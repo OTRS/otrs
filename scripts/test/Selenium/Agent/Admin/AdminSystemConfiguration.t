@@ -653,7 +653,10 @@ my @Tests = (
                 Click => '.Update',
             },
             {
-                Select => 'select',
+                Select => '.ArrayItem:nth-of-type(2) select',
+            },
+            {
+                ElementValue => 'option-2',
             },
         ],
         ExpectedResult => [
@@ -2262,7 +2265,10 @@ my @Tests = (
                 Click => '.Update',
             },
             {
-                Select => 'input',
+                Select => 'select',
+            },
+            {
+                ElementValue => 'female',
             },
         ],
         ExpectedResult => {
@@ -2314,7 +2320,10 @@ my @Tests = (
                 Click => '.Update',
             },
             {
-                Select => 'input',
+                Select => 'select',
+            },
+            {
+                ElementValue => 'male',
             },
         ],
         ExpectedResult => {
@@ -2657,6 +2666,9 @@ my @Tests = (
             },
             {
                 Select => 'select',
+            },
+            {
+                ElementValue => 'option-2',
             },
         ],
         ExpectedResult => 'option-2',
