@@ -511,7 +511,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
         });
 
         $('#EditAll').on('click', function() {
-            $('.Setting:not(.IsLockedByAnotherUser):not(.IsLockedByMe):visible').find('a.SettingEdit').trigger('click');
+            $('.Setting:not(.IsDisabled):not(.IsLockedByAnotherUser):not(.IsLockedByMe):visible').find('a.SettingEdit').trigger('click');
             return false;
         });
 
