@@ -2198,20 +2198,14 @@ sub _SearchParamsGet {
     # define filter attributes
     my @MyQueues = $QueueObject->GetAllCustomQueues(
         UserID => $Self->{UserID},
-    );
-    if ( !@MyQueues ) {
-        @MyQueues = (999_999);
-    }
+    ) || (999_999);
 
     # get all queues the agent is allowed to see (for my services)
     my %ViewableQueues = $QueueObject->GetAllQueues(
         UserID => $Self->{UserID},
         Type   => 'ro',
     );
-    my @ViewableQueueIDs = sort keys %ViewableQueues;
-    if ( !@ViewableQueueIDs ) {
-        @ViewableQueueIDs = (999_999);
-    }
+    my @ViewableQueueIDs = sort keys %ViewableQueues || (999_999);
 
     # get the custom services from agent preferences
     # set the service ids to an array of non existing service ids (0)
