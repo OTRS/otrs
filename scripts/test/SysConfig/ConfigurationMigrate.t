@@ -104,8 +104,8 @@ for my $Settings ( @{$PreModifiedSettings} ) {
 
 # migrate package setting
 my $Success = $Kernel::OM->Get('Kernel::System::SysConfig::Migration')->MigrateConfigEffectiveValues(
-    FileClass => $TestFileClass,
-    FilePath  => $TestLocation,
+    FileClass       => $TestFileClass,
+    FilePath        => $TestLocation,
     PackageSettings => [
         'SessionAgentOnlineThreshold',
     ],
