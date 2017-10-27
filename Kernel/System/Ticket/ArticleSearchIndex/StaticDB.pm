@@ -64,8 +64,11 @@ sub ArticleIndexBuild {
         Bind => [ \$Article{ArticleID}, ],
     );
 
-    # return if no content exists
-    return 1 if !$Article{Body};
+    # We do not skip the indexing process, if (just) body is empty, to have the rest of the fields still searchable.
+    #   Please see bug#13241 for more information.
+    if ( !$Article{Body} ) {
+        $Article{Body} = ' ';
+    }
 
     # insert search index
     $DBObject->Do(
