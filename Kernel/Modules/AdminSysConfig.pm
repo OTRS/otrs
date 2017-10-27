@@ -636,7 +636,7 @@ sub Run {
                     my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
                         SystemTime => $TimeObject->SystemTime(),
                     );
-                    $Content{$Y}->{''}->{''} = '-new-';
+                    $Content{$Y}->{''}->{''} = $LayoutObject->{LanguageObject}->Translate('-new-');
                     $Anker = $ItemHash{Name};
                 }
 
@@ -684,7 +684,10 @@ sub Run {
                         SystemTime => $TimeObject->SystemTime(),
                     );
 
-                    $Content{$M}->{''} = '-new-';
+                    # Leading zero in the month can result in an error, please see bug#13167 for more information.
+                    $M = int $M;
+
+                    $Content{$M}->{''} = $LayoutObject->{LanguageObject}->Translate('-new-');
                     $Anker = $ItemHash{Name};
                 }
 
