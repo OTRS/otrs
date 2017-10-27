@@ -69,7 +69,7 @@ sub Run {
         UserID => $Self->{UserID},
         Type   => 'ro',
     );
-    my @ViewableQueueIDs = sort keys %ViewableQueues;
+    my @ViewableQueueIDs = sort keys %ViewableQueues || (999_999);
 
     # get the custom services
     # set the service ids to an array of non existing service ids (0)
