@@ -1070,6 +1070,20 @@ sub _ParseGPGKeyList {
             $Key{Expires}          = $Fields[6] || 'never';
             $Key{Identifier}       = $Fields[9];
             $Key{IdentifierMaster} = $Fields[9];
+
+            if ( $Key{Expires} eq 'never' || $Key{Status} ne 'good' ) {
+                next LINE;
+            }
+
+            # Status is good, but let's make sure the key isn't expired.
+            my $CurrentSystemTime = $TimeObject->SystemTime();
+            my $ExpiresKeyTime    = $TimeObject->TimeStamp2SystemTime(
+                String => $Key{Expires} . ' 23:59:59',
+            );
+
+            if ( $CurrentSystemTime >= $ExpiresKeyTime ) {
+                $Key{Status} = 'expired';
+            }
         }
 
         # skip anything before we've seen the first key
