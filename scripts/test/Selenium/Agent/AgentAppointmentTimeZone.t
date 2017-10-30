@@ -103,11 +103,11 @@ $Selenium->RunTest(
         #   Use exact date and time from created appointment in order for conversion to be correct.
         my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
         $DateTimeObject->Set(
-            Year    => $Selenium->find_element( 'StartYear',  'name' )->get_value,
-            Month   => $Selenium->find_element( 'StartMonth', 'name' )->get_value,
-            Day     => $Selenium->find_element( 'StartDay',   'name' )->get_value,
-            Hour    => $Selenium->find_element( 'StartHour',   'name' )->get_value,
-            Minute  => $Selenium->find_element( 'StartMinute', 'name' )->get_value,
+            Year    => $Selenium->find_element( 'StartYear',   'name' )->get_value(),
+            Month   => $Selenium->find_element( 'StartMonth',  'name' )->get_value(),
+            Day     => $Selenium->find_element( 'StartDay',    'name' )->get_value(),
+            Hour    => $Selenium->find_element( 'StartHour',   'name' )->get_value(),
+            Minute  => $Selenium->find_element( 'StartMinute', 'name' )->get_value(),
             Seconds => 0,
         );
 
