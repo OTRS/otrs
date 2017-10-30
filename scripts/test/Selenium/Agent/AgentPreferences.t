@@ -13,14 +13,13 @@ use utf8;
 use vars (qw($Self));
 use Kernel::Language;
 
-# get needed objects
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         $Helper->ConfigSettingChange(
             Valid => 1,
@@ -67,8 +66,7 @@ $Selenium->RunTest(
             "Created test notification",
         );
 
-        # get script alias
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # navigate to AgentPreferences screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences");
@@ -107,7 +105,7 @@ JAVASCRIPT
         $Selenium->execute_script($CheckAlertJS);
 
         # we should not be able to submit the form without an alert
-        $Selenium->find_element("//button[\@id='NotificationEventTransportUpdate'][\@type='submit']")->VerifiedClick();
+        $Selenium->find_element( "#NotificationEventTransportUpdate", 'css' )->VerifiedClick();
 
         my $LanguageObject = Kernel::Language->new(
             UserLanguage => $Language,
@@ -122,15 +120,13 @@ JAVASCRIPT
         );
 
         # now enable the checkbox and try to submit again, it should work this time
-        $Selenium->find_element( "//input[\@id='Notification-" . $NotificationID . "-Email-checkbox']" )
-            ->VerifiedClick();
-        $Selenium->find_element("//button[\@id='NotificationEventTransportUpdate'][\@type='submit']")->VerifiedClick();
+        $Selenium->find_element( "#Notification-$NotificationID-Email-checkbox", 'css' )->click();
+        $Selenium->find_element( "#NotificationEventTransportUpdate",            'css' )->VerifiedClick();
 
         $Selenium->execute_script($CheckAlertJS);
 
         # now that the checkbox is checked, it should not be possible to disable it again
-        $Selenium->find_element( "//input[\@id='Notification-" . $NotificationID . "-Email-checkbox']" )
-            ->VerifiedClick();
+        $Selenium->find_element( "#Notification-$NotificationID-Email-checkbox", 'css' )->click();
 
         $Self->Is(
             $Selenium->execute_script("return window.getLastAlert()"),
@@ -157,13 +153,22 @@ JAVASCRIPT
         );
         $Self->Is(
             $Selenium->find_element( '#UserSkin', 'css' )->get_value(),
-            $Kernel::OM->Get('Kernel::Config')->Get('Loader::Agent::DefaultSelectedSkin'),
+            $ConfigObject->Get('Loader::Agent::DefaultSelectedSkin'),
             "#UserSkin stored value",
         );
 
         # edit some of checked stored values
         $Selenium->execute_script("\$('#UserSkin').val('ivory').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element("//button[\@id='UserSkinUpdate'][\@type='submit']")->VerifiedClick();
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#UserSkin').val() === 'ivory'"
+        );
+
+        $Selenium->find_element( "#UserSkinUpdate", 'css' )->VerifiedClick();
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#UserSkin').val() === 'ivory'"
+        );
 
         # check edited values
         $Self->Is(
@@ -182,10 +187,17 @@ JAVASCRIPT
                 "\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');"
             );
 
-            # TODO; It should be improved. There is a problem with redraw InputField
-            sleep 3;
-            $Selenium->execute_script('$("#UserLanguageUpdate").click()');
-            sleep 2;
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('#UserLanguage').val() === '$Language'"
+            );
+
+            $Selenium->find_element( "#UserLanguageUpdate", 'css' )->VerifiedClick();
+
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('#UserLanguage').val() === '$Language'"
+            );
 
             # check edited language value
             $Self->Is(
@@ -219,7 +231,7 @@ JAVASCRIPT
                 })
             ).val('$MaliciousCode').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element("//button[\@id='UserLanguageUpdate'][\@type='submit']")->VerifiedClick();
+        $Selenium->find_element( "#UserLanguageUpdate", 'css' )->VerifiedClick();
 
         # Check if malicious code was sanitized.
         $Self->True(
