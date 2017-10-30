@@ -2198,7 +2198,10 @@ sub _SearchParamsGet {
     # define filter attributes
     my @MyQueues = $QueueObject->GetAllCustomQueues(
         UserID => $Self->{UserID},
-    ) || (999_999);
+    );
+    if ( !@MyQueues ) {
+        @MyQueues = (999_999);
+    }
 
     # get all queues the agent is allowed to see (for my services)
     my %ViewableQueues = $QueueObject->GetAllQueues(
