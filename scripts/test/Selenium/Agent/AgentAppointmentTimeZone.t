@@ -12,13 +12,11 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get needed objects
         my $Helper            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $GroupObject       = $Kernel::OM->Get('Kernel::System::Group');
         my $CalendarObject    = $Kernel::OM->Get('Kernel::System::Calendar');
@@ -39,7 +37,7 @@ $Selenium->RunTest(
 
         my $RandomID = $Helper->GetRandomID();
 
-        # create test group
+        # Create test group.
         my $GroupName = "test-calendar-group-$RandomID";
         my $GroupID   = $GroupObject->GroupAdd(
             Name    => $GroupName,
@@ -47,32 +45,30 @@ $Selenium->RunTest(
             UserID  => 1,
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # change resolution (desktop mode)
+        # Change resolution (desktop mode).
         $Selenium->set_window_size( 768, 1050 );
 
-        # create test user
+        # Create test user.
         my $Language      = 'en';
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups   => [ 'users', $GroupName ],
             Language => $Language,
         ) || die 'Did not get test user';
 
-        # get UserID
+        # Get UserID for later manipulation of preferences.
         my $UserID = $UserObject->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
-        # start test
         $Selenium->Login(
             Type     => 'Agent',
             User     => $TestUserLogin,
             Password => $TestUserLogin,
         );
 
-        # create a test calendar
+        # Create a test calendar.
         my %Calendar = $CalendarObject->CalendarCreate(
             CalendarName => "Calendar-$RandomID",
             Color        => '#3A87AD',
@@ -81,28 +77,20 @@ $Selenium->RunTest(
             ValidID      => 1,
         );
 
-        # go to calendar overview page
+        # Go to calendar overview page.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentCalendarOverview");
 
-        # wait for AJAX to finish
+        # Wait for AJAX to finish.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
 
-        # click on the timeline view for an appointment dialog
+        # Click on the timeline view for an appointment dialog.
         $Selenium->find_element( '.fc-timelineWeek-view .fc-slats td.fc-widget-content:nth-child(5)', 'css' )
             ->VerifiedClick();
 
-        # wait until form and overlay has loaded, if neccessary
+        # Wait until form and overlay has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
 
-        # Create fake date time object for easier time zone conversion later.
-        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-        $DateTimeObject->Set(
-            Hour    => 8,
-            Minute  => 0,
-            Seconds => 0,
-        );
-
-        # enter some data
+        # Enter some data, and put end hour to 18h for nice long appointment.
         $Selenium->find_element( 'Title', 'name' )->send_keys('Time Zone Appointment');
         $Selenium->execute_script(
             "return \$('#CalendarID').val("
@@ -111,45 +99,57 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( 'EndHour', 'name' )->send_keys('18');
 
-        # click on Save
+        # Create fake date time object for easier time zone conversion later.
+        #   Use exact date and time from created appointment in order for conversion to be correct.
+        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+        $DateTimeObject->Set(
+            Year    => $Selenium->find_element( 'StartYear',  'name' )->get_value,
+            Month   => $Selenium->find_element( 'StartMonth', 'name' )->get_value,
+            Day     => $Selenium->find_element( 'StartDay',   'name' )->get_value,
+            Hour    => $Selenium->find_element( 'StartHour',   'name' )->get_value,
+            Minute  => $Selenium->find_element( 'StartMinute', 'name' )->get_value,
+            Seconds => 0,
+        );
+
+        # Click on Save.
         $Selenium->find_element( '#EditFormSubmit', 'css' )->VerifiedClick();
 
-        # wait for dialog to close and AJAX to finish
+        # Wait for dialog to close and AJAX to finish.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length'
         );
 
-        # verify appointment is visible
+        # Cerify appointment is visible.
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('.fc-timeline-event .fc-title').text();"
             ),
             'Time Zone Appointment',
-            'Appointment visible (Calendar Overview)',
+            'Appointment visible (Calendar Overview)'
         );
 
-        # go to agenda overview page
+        # Go to agenda overview page.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentAgendaOverview;Filter=Week");
 
         sleep 1;
 
-        # verify appointment is visible
+        # Verify appointment is visible.
         $Self->True(
             index( $Selenium->get_page_source(), 'Time Zone Appointment' ) > -1,
-            'Appointment visible (Agenda Overview)',
+            'Appointment visible (Agenda Overview)'
         );
 
-        # get appointment id
+        # Get appointment ID.
         my $AppointmentID = $Selenium->execute_script(
             "return \$('.MasterActionLink').data('appointmentId');"
         );
 
-        # get displayed start date
+        # Get displayed start date.
         my $StartDate
             = $Selenium->find_element( "//*[\@id='AppointmentID_$AppointmentID']/td[4]", 'xpath' )->get_text();
 
-        # check start time
+        # Check start time.
         $StartDate =~ /(\d{2}:\d{2}:\d{2})$/;
         my $StartTime = $1;
         $Self->Is(
@@ -159,7 +159,7 @@ $Selenium->RunTest(
                 $DateTimeObject->Get()->{Hour},
                 $DateTimeObject->Get()->{Minute}
             ),
-            'Start time in local time',
+            'Start time in local time'
         );
 
         # Set user's time zone.
@@ -170,24 +170,24 @@ $Selenium->RunTest(
             UserID => $UserID,
         );
 
-        # make sure cache is correct
+        # Make sure cache is correct.
         for my $Cache (qw(Calendar Appointment)) {
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => $Cache );
         }
 
-        # log in again
+        # Log in again.
         $Selenium->Login(
             Type     => 'Agent',
             User     => $TestUserLogin,
             Password => $TestUserLogin,
         );
 
-        # go to agenda overview page again
+        # Go to agenda overview page again.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentAgendaOverview;Filter=Week");
 
         sleep 1;
 
-        # get displayed start date
+        # Get displayed start date.
         my $StartDateTZ
             = $Selenium->find_element( "//*[\@id='AppointmentID_$AppointmentID']/td[4]", 'xpath' )->get_text();
 
@@ -196,7 +196,7 @@ $Selenium->RunTest(
             TimeZone => $UserTimeZone,
         );
 
-        # check start time again
+        # Check start time again.
         $StartDateTZ =~ /(\d{2}:\d{2}:\d{2}\s\(.*?\))$/;
         my $StartTimeTZ = $1;
         $Self->Is(
@@ -207,19 +207,19 @@ $Selenium->RunTest(
                 $DateTimeObject->Get()->{Minute},
                 $UserTimeZone
             ),
-            "Start time in user's time zone",
+            "Start time in user's time zone"
         );
 
-        # go to calendar overview page again
+        # Go to calendar overview page again.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentCalendarOverview");
 
-        # wait for AJAX to finish
+        # Wait for AJAX to finish.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
 
-        # click on an appointment
+        # Click on an appointment.
         $Selenium->find_element( '.fc-timeline-event', 'css' )->VerifiedClick();
 
-        # wait until form and overlay has loaded, if neccessary
+        # Wait until form and overlay has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
 
         # Check start hour.
@@ -230,9 +230,9 @@ $Selenium->RunTest(
             "Start hour in user's time zone",
         );
 
-        # cleanup
+        # Cleanup
 
-        # delete test appointment
+        # Delete test appointment.
         my $Success = $AppointmentObject->AppointmentDelete(
             AppointmentID => $AppointmentID,
             UserID        => $UserID,
@@ -242,7 +242,7 @@ $Selenium->RunTest(
             "Deleted test appointment - $AppointmentID",
         );
 
-        # delete test calendar
+        # Delete test calendar.
         if ( $Calendar{CalendarID} ) {
             my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
                 SQL  => 'DELETE FROM calendar WHERE id = ?',
@@ -254,7 +254,7 @@ $Selenium->RunTest(
             );
         }
 
-        # make sure cache is correct
+        # Make sure cache is correct.
         for my $Cache (qw(Calendar Appointment)) {
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => $Cache );
         }
