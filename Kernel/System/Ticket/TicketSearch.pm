@@ -494,41 +494,20 @@ sub TicketSearch {
         $ArticleTableJoined = 1;
     }
 
-    # Helper function to generate ticket history joins per field.
-    my $TicketHistoryRef = sub {
-
-        # Hide variables in anonymous closure.
-        my %Registry = ();
-        my $Index    = 0;
-
-        # Column alias mapping.
-        my %Alias = (
-            CreatedStates     => 'CreatedStateIDs',
-            CreatedQueues     => 'CreatedQueueIDs',
-            CreatedPriorities => 'CreatedPriorityIDs',
-            CreatedTypes      => 'CreatedTypeIDs',
-        );
-
-        return sub {
-            my $Column = shift;
-
-            # Check if the column is an alias, otherwise use it.
-            $Column = $Alias{$Column} || $Column;
-
-            if ( !$Registry{$Column} ) {
-                $Registry{$Column} = 'th' . $Index++;
-            }
-            return $Registry{$Column};
-        };
-        }
-        ->();
-
     # Use also history table if required
     # Create a inner join for each param and register it.
+    my %TicketHistoryJoins = ();
     ARGUMENT:
     for my $Key ( sort keys %Param ) {
         if ( $Param{$Key} && $Key =~ /^(Ticket(Close|Change)Time(Newer|Older)(Date|Minutes)|Created.+?)/ ) {
-            my $THRef = $TicketHistoryRef->( $Key, );
+            my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
+                Argument => $Key,
+            );
+            return if !$THRef;
+
+            next ARGUMENT if $TicketHistoryJoins{$THRef};
+
+            $TicketHistoryJoins{$THRef} = 1;
             $SQLFrom .= sprintf
                 'INNER JOIN ticket_history %s ON st.id = %s.ticket_id ',
                 $THRef, $THRef,
@@ -647,7 +626,11 @@ sub TicketSearch {
         );
 
         if ($HistoryTypeID) {
-            my $THRef               = $TicketHistoryRef->( 'CreatedTypeIDs', );
+            my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
+                Argument => 'CreatedTypeIDs',
+            );
+            return if !$THRef;
+
             my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
                 Key       => "${ THRef }.type_id",
                 Values    => $Param{CreatedTypeIDs},
@@ -717,7 +700,11 @@ sub TicketSearch {
         );
 
         if ($HistoryTypeID) {
-            my $THRef               = $TicketHistoryRef->( 'CreatedStateIDs', );
+            my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
+                Argument => 'CreatedStateIDs',
+            );
+            return if !$THRef;
+
             my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
                 Key       => "${ THRef }.state_id",
                 Values    => $Param{CreatedStateIDs},
@@ -836,7 +823,11 @@ sub TicketSearch {
         );
 
         if ($HistoryTypeID) {
-            my $THRef               = $TicketHistoryRef->( 'CreatedUserIDs', );
+            my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
+                Argument => 'CreatedUserIDs',
+            );
+            return if !$THRef;
+
             my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
                 Key       => "${ THRef }.create_by",
                 Values    => $Param{CreatedUserIDs},
@@ -931,7 +922,11 @@ sub TicketSearch {
         );
 
         if ($HistoryTypeID) {
-            my $THRef               = $TicketHistoryRef->( 'CreatedQueueIDs', );
+            my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
+                Argument => 'CreatedQueueIDs',
+            );
+            return if !$THRef;
+
             my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
                 Key       => "${ THRef }.queue_id",
                 Values    => $Param{CreatedQueueIDs},
@@ -1167,7 +1162,11 @@ sub TicketSearch {
         );
 
         if ($HistoryTypeID) {
-            my $THRef               = $TicketHistoryRef->( 'CreatedPriorityIDs', );
+            my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
+                Argument => 'CreatedPriorityIDs',
+            );
+            return if !$THRef;
+
             my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
                 Key       => "${ THRef }.priority_id",
                 Values    => $Param{CreatedPriorityIDs},
@@ -1869,7 +1868,11 @@ sub TicketSearch {
         }
         $CompareChangeTimeOlderNewerDate = $Time;
 
-        my $THRef = $TicketHistoryRef->( 'TicketChangeTimeOlderDate', );
+        my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
+            Argument => 'TicketChangeTimeOlderDate',
+        );
+        return if !$THRef;
+
         $SQLExt .= " AND ${ THRef }.create_time <= '"
             . $DBObject->Quote( $Param{TicketChangeTimeOlderDate} ) . "'";
     }
@@ -1911,7 +1914,11 @@ sub TicketSearch {
         # don't execute queries if older/newer date restriction show now valid timeframe
         return if $CompareChangeTimeOlderNewerDate && $Time > $CompareChangeTimeOlderNewerDate;
 
-        my $THRef = $TicketHistoryRef->( 'TicketChangeTimeNewerDate', );
+        my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
+            Argument => 'TicketChangeTimeNewerDate',
+        );
+        return if !$THRef;
+
         $SQLExt .= " AND ${ THRef }.create_time >= '"
             . $DBObject->Quote( $Param{TicketChangeTimeNewerDate} ) . "'";
     }
@@ -2044,7 +2051,10 @@ sub TicketSearch {
     # get tickets closed older than xxxx-xx-xx xx:xx date
     my $CompareCloseTimeOlderNewerDate;
     if ( $Param{TicketCloseTimeOlderDate} ) {
-        my $THRef = $TicketHistoryRef->( 'TicketCloseTimeOlderDate', );
+        my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
+            Argument => 'TicketCloseTimeOlderDate',
+        );
+        return if !$THRef;
 
         # check time format
         if (
@@ -2099,7 +2109,10 @@ sub TicketSearch {
 
     # get tickets closed newer than xxxx-xx-xx xx:xx date
     if ( $Param{TicketCloseTimeNewerDate} ) {
-        my $THRef = $TicketHistoryRef->( 'TicketCloseTimeNewerDate', );
+        my $THRef = $Self->_TicketHistoryReferenceForSearchArgument(
+            Argument => 'TicketCloseTimeNewerDate',
+        );
+        return if !$THRef;
 
         if (
             $Param{TicketCloseTimeNewerDate}
@@ -2453,6 +2466,7 @@ sub TicketSearch {
     my %Tickets;
     my @TicketIDs;
     my $Count;
+
     return if !$DBObject->Prepare(
         SQL   => $SQLSelect . $SQLFrom . $SQLExt,
         Limit => $Limit
@@ -2501,6 +2515,65 @@ sub TicketSearch {
         }
         return @TicketIDs;
     }
+}
+
+=head1 PRIVATE INTERFACE
+
+=head2 _TicketHistoryReferenceForSearchArgument
+
+Returns the ticket history reference to the given search argument.
+
+    my $Self->_TicketHistoryReferenceForSearchArgument(
+        Argument => '...' # argument name
+    );
+
+Result
+    C<undef> - in case the argument is not mapped
+    string   - the ticket history reference name
+
+=cut
+
+sub _TicketHistoryReferenceForSearchArgument {
+    my ( $Self, %Param ) = @_;
+
+    # Column to TicketHistory table reference map
+    my %ArgumentTableMap = (
+
+        # Ticket create columns reference.
+        CreatedStates      => 'th0',
+        CreatedStateIDs    => 'th0',
+        CreatedQueues      => 'th0',
+        CreatedQueueIDs    => 'th0',
+        CreatedPriorities  => 'th0',
+        CreatedPriorityIDs => 'th0',
+        CreatedTypes       => 'th0',
+        CreatedTypeIDs     => 'th0',
+        CreatedUserIDs     => 'th0',
+
+        # Ticket change columns reference.
+        TicketChangeTimeNewerDate     => 'th1',
+        TicketChangeTimeOlderDate     => 'th1',
+        TicketLastChangeTimeNewerDate => 'th1',
+        TicketLastChangeTimeOlderDate => 'th1',
+
+        # Ticket close columns reference.
+        TicketCloseTimeNewerDate => 'th2',
+        TicketCloseTimeOlderDate => 'th2',
+    );
+
+    my $Argument = $Param{Argument};
+
+    # Check if the column is mapped
+    my $Table = $ArgumentTableMap{$Argument};
+    if ( !$Table ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Message  => "TicketSearch :: no table_history map for argument '${ Argument }'",
+            Priority => 'error',
+        );
+        return;
+    }
+
+    return $Table;
 }
 
 1;
