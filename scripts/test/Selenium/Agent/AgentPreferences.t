@@ -131,7 +131,7 @@ $Selenium->RunTest(
             # wait for the ajax call to finish
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return \$('#UserLanguage').closest('.WidgetSimple').hasClass('HasOverlay')"
+                    "return typeof(\$) === 'function' && \$('#UserLanguage').closest('.WidgetSimple').hasClass('HasOverlay')"
             );
             $Selenium->WaitFor(
                 JavaScript =>
@@ -180,7 +180,7 @@ $Selenium->RunTest(
         );
         $Selenium->WaitFor(
             JavaScript =>
-                "return \$('#UserGoogleAuthenticatorSecretKey').closest('.WidgetSimple').find('.WidgetMessage.Error:visible').length"
+                "return typeof(\$) === 'function' && \$('#UserGoogleAuthenticatorSecretKey').closest('.WidgetSimple').find('.WidgetMessage.Error:visible').length"
         );
 
         # wait for the message to disappear again
@@ -255,7 +255,7 @@ $Selenium->RunTest(
         # Wait for the AJAX call to finish.
         $Selenium->WaitFor(
             JavaScript =>
-                "return \$('#UserLanguage').closest('.WidgetSimple').hasClass('HasOverlay')"
+                "return typeof(\$) === 'function' && \$('#UserLanguage').closest('.WidgetSimple').hasClass('HasOverlay')"
         );
         $Selenium->WaitFor(
             JavaScript =>
@@ -318,7 +318,7 @@ JAVASCRIPT
         # wait for the ajax call to finish, an error message should occurr
         $Selenium->WaitFor(
             JavaScript =>
-                "return \$('.NotificationEvent').closest('.WidgetSimple').find('.WidgetMessage.Error:visible').length"
+                "return typeof(\$) === 'function' && \$('.NotificationEvent').closest('.WidgetSimple').find('.WidgetMessage.Error:visible').length"
         );
 
         my $LanguageObject = Kernel::Language->new(
@@ -341,8 +341,7 @@ JAVASCRIPT
         );
 
         # now enable the checkbox and try to submit again, it should work this time
-        $Selenium->find_element( "//input[\@id='Notification-" . $NotificationID . "-Email-checkbox']" )
-            ->VerifiedClick();
+        $Selenium->find_element( "#Notification-$NotificationID-Email-checkbox", 'css' )->click();
 
         $Selenium->execute_script(
             "\$('.NotificationEvent').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
@@ -363,8 +362,7 @@ JAVASCRIPT
         );
 
         # now that the checkbox is checked, it should not be possible to disable it again
-        $Selenium->find_element( "//input[\@id='Notification-" . $NotificationID . "-Email-checkbox']" )
-            ->VerifiedClick();
+        $Selenium->find_element( "#Notification-$NotificationID-Email-checkbox", 'css' )->click();
 
         $Self->Is(
             $Selenium->execute_script("return window.getLastAlert()"),
@@ -411,7 +409,7 @@ JAVASCRIPT
         # wait for the ajax call to finish
         $Selenium->WaitFor(
             JavaScript =>
-                "return \$('#UserSkin').closest('.WidgetSimple').hasClass('HasOverlay')"
+                "return typeof(\$) === 'function' &&  \$('#UserSkin').closest('.WidgetSimple').hasClass('HasOverlay')"
         );
         $Selenium->WaitFor(
             JavaScript =>
