@@ -19,22 +19,19 @@ $Selenium->RunTest(
 
         my $Helper         = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
-        my $GroupObject    = $Kernel::OM->Get('Kernel::System::Group');
         my $CalendarObject = $Kernel::OM->Get('Kernel::System::Calendar');
-        my $UserObject     = $Kernel::OM->Get('Kernel::System::User');
 
         my $RandomID = $Helper->GetRandomID();
 
         # Create test group.
         my $GroupName = "test-calendar-group-$RandomID";
-        my $GroupID   = $GroupObject->GroupAdd(
+        my $GroupID   = $Kernel::OM->Get('Kernel::System::Group')->GroupAdd(
             Name    => $GroupName,
             ValidID => 1,
             UserID  => 1,
         );
 
-        # Get script alias.
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # Create test user.
         my $Language      = 'en';
@@ -44,7 +41,7 @@ $Selenium->RunTest(
         ) || die "Did not get test user";
 
         # Get UserID.
-        my $UserID = $UserObject->UserLookup(
+        my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
@@ -198,8 +195,12 @@ $Selenium->RunTest(
 
         # Delete third appointment master.
         $Selenium->find_element( $AppointmentNames[2], 'link_text' )->click();
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#Title').length && \$('#EditFormDelete').length"
+        );
         $Selenium->find_element( "#EditFormDelete", 'css' )->click();
+
+        $Selenium->WaitFor( AlertPresent => 1 );
         $Selenium->accept_alert();
         $Selenium->WaitFor(
             JavaScript =>
