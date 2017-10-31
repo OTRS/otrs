@@ -152,6 +152,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # test search filter
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Filter").length' );
         $Selenium->find_element( "#Filter", 'css' )->clear();
         $Selenium->find_element( "#Filter", 'css' )->send_keys($ProcessRandom);
 
