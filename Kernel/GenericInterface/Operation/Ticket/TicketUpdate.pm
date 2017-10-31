@@ -2136,6 +2136,7 @@ sub _TicketUpdate {
     for my $Attachment ( @{$AttachmentList} ) {
         my $Result = $Self->CreateAttachment(
             Attachment => $Attachment,
+            TicketID   => $TicketID,
             ArticleID  => $ArticleID || '',
             UserID     => $Param{UserID}
         );
