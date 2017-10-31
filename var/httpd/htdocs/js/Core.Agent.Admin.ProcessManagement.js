@@ -902,9 +902,10 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
             // get start activity and dialogs and store it into hidden fields as JSON string
             StartActivity = TargetNS.ProcessData.Process[ProcessEntityID].StartActivity;
-            $('input[name=StartActivity]').val(StartActivity);
-            $('input[name=StartActivityDialog]').val(TargetNS.ProcessData.Activity[StartActivity].ActivityDialog["1"]);
-
+            if (StartActivity !== '') {
+                $('input[name=StartActivity]').val(StartActivity);
+                $('input[name=StartActivityDialog]').val(TargetNS.ProcessData.Activity[StartActivity].ActivityDialog["1"]);
+            }
             $('#ProcessForm').submit();
             return false;
         });
