@@ -59,10 +59,12 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemConfiguration;");
 
         $Selenium->WaitFor(
-            JavaScript => 'return $("#SysConfigSearch").length',
+            JavaScript => 'return typeof($) === "function" && $("#SysConfigSearch").length && $("#ConfigTree").length',
         );
+
+        $Selenium->find_element( "#SysConfigSearch",      "css" )->clear();
         $Selenium->find_element( "#SysConfigSearch",      "css" )->send_keys("Ticket::Hook");
-        $Selenium->find_element( "button[type='submit']", "css" )->VerifiedClick();
+        $Selenium->find_element( "button[type='submit']", "css" )->click();
         $Selenium->WaitFor(
             JavaScript => 'return $(".fa-exclamation-triangle").length',
         );
@@ -89,7 +91,7 @@ $Selenium->RunTest(
 
         # Use navigation to get to the Frontend::Agent::View::TicketQueue.
         $Selenium->WaitFor(
-            JavaScript => 'return $("li#Frontend > i").length',
+            JavaScript => 'return typeof($) === "function" && $("li#Frontend > i").length',
         );
         $Selenium->find_element( "li#Frontend > i", "css" )->click();
 
@@ -115,9 +117,9 @@ $Selenium->RunTest(
             JavaScript => 'return $(".fa-exclamation-triangle").length',
         );
 
-        my $Message2 = $Selenium->find_element( ".fa-exclamation-triangle", "css" )->get_attribute('title');
+        $Message = $Selenium->find_element( ".fa-exclamation-triangle", "css" )->get_attribute('title');
         $Self->True(
-            $Message2
+            $Message
                 =~ m{^This setting is currently being overridden in Kernel\/Config\/Files\/ZZZZUnitTest\d+.pm and can't thus be changed here!$}
             ? 1
             : 0,
@@ -204,7 +206,7 @@ $Selenium->RunTest(
             );
 
             my $ModificationAllowed = $Selenium->execute_script(
-                'return $(".fa-exclamation-triangle").length === 0',
+                'return typeof($) === "function" && $(".fa-exclamation-triangle").length === 0',
             );
 
             $Self->True(
@@ -218,7 +220,7 @@ $Selenium->RunTest(
             );
 
             my $ModificationNotAllowed = $Selenium->execute_script(
-                'return $(".fa-exclamation-triangle").length === 1',
+                'return typeof($) === "function" && $(".fa-exclamation-triangle").length === 1',
             );
 
             $Self->True(
