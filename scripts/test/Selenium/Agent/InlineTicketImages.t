@@ -204,7 +204,9 @@ my $CheckTicketReplyOrForward = sub {
     $Selenium->switch_to_window( $Handles->[1] );
 
     # Wait without jQuery because it might not be loaded yet.
-    $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ToCustomer").length;' );
+    $Selenium->WaitFor(
+        JavaScript => 'return typeof($) === "function" && $("#ToCustomer").length && $("#submitRichText").length'
+    );
 
     if ( $Action eq 'Forward' ) {
         my $TestCustomer = $Param{TestCustomer};
