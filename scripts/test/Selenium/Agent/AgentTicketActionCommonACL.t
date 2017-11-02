@@ -453,7 +453,7 @@ EOF
 
         # De-select the dynamic field value for the first field.
         $Selenium->execute_script(
-            "return \$('#DynamicField_Field$RandomID').val('').trigger('redraw.InputField').trigger('change');"
+            "\$('#DynamicField_Field$RandomID').val('').trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
@@ -493,7 +493,7 @@ EOF
 
         # Set dynamic field value to non-zero, and wait for AJAX to complete.
         $Selenium->execute_script(
-            "return \$('#DynamicField_Field$RandomID').val('1').trigger('redraw.InputField').trigger('change');"
+            "\$('#DynamicField_Field$RandomID').val('1').trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
@@ -504,7 +504,7 @@ EOF
 
         # Close the ticket.
         $Selenium->execute_script(
-            "return \$('#NewStateID').val('2').trigger('redraw.InputField').trigger('change');"
+            "\$('#NewStateID').val('2').trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->find_element( '#Subject',        'css' )->send_keys('Close');
         $Selenium->find_element( '#RichText',       'css' )->send_keys('Closing...');
