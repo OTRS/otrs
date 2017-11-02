@@ -2748,6 +2748,11 @@ generates a page nav bar
 sub PageNavBar {
     my ( $Self, %Param ) = @_;
 
+    # Sanitize parameters to avoid tampering.
+    for my $Name (qw(StartHit AllHits)) {
+        $Param{$Name} = int($Param{$Name} // 0);
+    }
+
     my $Limit = $Param{Limit} || 0;
     $Param{AllHits}  = 0 if ( !$Param{AllHits} );
     $Param{StartHit} = 0 if ( !$Param{AllHits} );
