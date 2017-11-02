@@ -1543,7 +1543,7 @@ sub MigrateConfigEffectiveValues {
 
                         # check and convert config name if it has been renamed in OTRS 6
                         # otherwise it will use the given old name
-                        $NewSettingKey = _LookupNewConfigName(
+                        $NewSettingKey = $Self->_LookupNewConfigName(
                             OldName                    => $NewSettingKey,
                             PackageLookupNewConfigName => $Param{PackageLookupNewConfigName},
                         );
@@ -1615,7 +1615,7 @@ sub MigrateConfigEffectiveValues {
 
                     # check and convert config name if it has been renamed in OTRS 6
                     # otherwise it will use the given old name
-                    $NewSettingKey = _LookupNewConfigName(
+                    $NewSettingKey = $Self->_LookupNewConfigName(
                         OldName                    => $NewSettingKey,
                         PackageLookupNewConfigName => $Param{PackageLookupNewConfigName},
                     );
@@ -1652,7 +1652,7 @@ sub MigrateConfigEffectiveValues {
                     {
 
                         # migrate (and split) the frontend module settings
-                        my $Result = _MigrateFrontendModuleSetting(
+                        my $Result = $Self->_MigrateFrontendModuleSetting(
                             FrontendModuleName  => $SettingKeyFirstLevel,
                             OTRS5EffectiveValue => $OTRS5EffectiveValue,
                             OTRS6Setting        => \%OTRS6Setting,
@@ -1713,7 +1713,7 @@ sub MigrateConfigEffectiveValues {
 
             # check and convert config name if it has been renamed in OTRS 6
             # otherwise it will use the given old name
-            my $NewSettingName = _LookupNewConfigName(
+            my $NewSettingName = $Self->_LookupNewConfigName(
                 OldName => $SettingName,
             );
 
@@ -1787,7 +1787,7 @@ sub MigrateConfigEffectiveValues {
 
         # Check and convert config name if it has been renamed in OTRS 6
         #   otherwise it will use the given old name.
-        my $NewSettingKey = _LookupNewConfigName(
+        my $NewSettingKey = $Self->_LookupNewConfigName(
             OldName                    => $DisabledSettingKey,
             PackageLookupNewConfigName => $Param{PackageLookupNewConfigName},
         );
@@ -2064,7 +2064,7 @@ Returns:
 =cut
 
 sub _LookupNewConfigName {
-    my (%Param) = @_;
+    my ($Self, %Param) = @_;
 
     # check needed stuff
     if ( !$Param{OldName} ) {
@@ -2314,7 +2314,7 @@ Returns:
 =cut
 
 sub _MigrateFrontendModuleSetting {
-    my (%Param) = @_;
+    my ($Self, %Param) = @_;
 
     # check needed stuff
     for my $Needed (qw(FrontendModuleName OTRS5EffectiveValue OTRS6Setting)) {
