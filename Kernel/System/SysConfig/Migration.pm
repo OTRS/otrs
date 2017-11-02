@@ -2064,7 +2064,7 @@ Returns:
 =cut
 
 sub _LookupNewConfigName {
-    my ($Self, %Param) = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !$Param{OldName} ) {
@@ -2314,7 +2314,7 @@ Returns:
 =cut
 
 sub _MigrateFrontendModuleSetting {
-    my ($Self, %Param) = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Needed (qw(FrontendModuleName OTRS5EffectiveValue OTRS6Setting)) {

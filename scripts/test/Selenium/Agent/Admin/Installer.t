@@ -146,8 +146,10 @@ $Selenium->RunTest(
             # Go to next step of installation (Create Database).
             $Selenium->find_element( '#FormDBSubmit', 'css' )->VerifiedClick();
 
-            $Selenium->WaitFor( JavaScript =>
-                    'return typeof($) === "function" && $(".Header h2").text().trim() === "Create Database (2/4)";' );
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof($) === "function" && $(".Header h2").text().trim() === "Create Database (2/4)";'
+            );
 
             # Verify we are on the second screen.
             $Self->Is(
@@ -165,8 +167,10 @@ $Selenium->RunTest(
             # Go to next step of installation (System Settings).
             $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
-            $Selenium->WaitFor( JavaScript =>
-                    'return typeof($) === "function" && $(".Header h2").text().trim() === "System Settings (3/4)";' );
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof($) === "function" && $(".Header h2").text().trim() === "System Settings (3/4)";'
+            );
 
             # Verify we are on the the third screen.
             $Self->Is(
@@ -178,7 +182,8 @@ $Selenium->RunTest(
             # Go to next step of installation (Mail Configuration).
             $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
-            $Selenium->WaitFor( JavaScript =>
+            $Selenium->WaitFor(
+                JavaScript =>
                     'return typeof($) === "function" && $(".Header h2").text().trim() === "Mail Configuration (3/4)";'
             );
 
@@ -194,8 +199,10 @@ $Selenium->RunTest(
             # Go to last step of installation.
             $Selenium->find_element( '#ButtonSkipMail', 'css' )->VerifiedClick();
 
-            $Selenium->WaitFor( JavaScript =>
-                    'return typeof($) === "function" && $(".Header h2").text().trim() === "Finished (4/4)";' );
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof($) === "function" && $(".Header h2").text().trim() === "Finished (4/4)";'
+            );
 
             # Verify we are on the last screen.
             $Self->Is(
