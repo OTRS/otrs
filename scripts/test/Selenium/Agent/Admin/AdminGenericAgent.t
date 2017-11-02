@@ -177,7 +177,7 @@ $Selenium->RunTest(
 
         # Add test event.
         $Selenium->execute_script(
-            "return \$('#TicketEvent').val('EscalationResponseTimeStart').trigger('redraw.InputField').trigger('change');"
+            "\$('#TicketEvent').val('EscalationResponseTimeStart').trigger('redraw.InputField').trigger('change');"
         );
 
         $Self->Is(
@@ -191,7 +191,7 @@ $Selenium->RunTest(
         # Try to add same event, it should result in an error.
         for my $Event (qw(EscalationResponseTimeNotifyBefore EscalationResponseTimeStart)) {
             $Selenium->execute_script(
-                "return \$('#TicketEvent').val('$Event').trigger('redraw.InputField').trigger('change');"
+                "\$('#TicketEvent').val('$Event').trigger('redraw.InputField').trigger('change');"
             );
         }
 

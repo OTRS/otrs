@@ -228,7 +228,7 @@ $Selenium->RunTest(
 
             # select customer company
             $Selenium->execute_script(
-                "return \$('#CustomerIDs').val('$CustomerIDs[$Count]').trigger('redraw.InputField').trigger('change');"
+                "\$('#CustomerIDs').val('$CustomerIDs[$Count]').trigger('redraw.InputField').trigger('change');"
             );
 
             # wait until new screen has loaded

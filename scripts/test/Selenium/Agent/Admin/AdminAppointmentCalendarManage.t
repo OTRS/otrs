@@ -81,7 +81,7 @@ $Selenium->RunTest(
         $Selenium->find_element( '.SidebarColumn ul.ActionList a#Add',   'css' )->VerifiedClick();
         $Selenium->find_element( 'form#CalendarFrom input#CalendarName', 'css' )->send_keys($CalendarName1);
         $Selenium->execute_script(
-            "return \$('#GroupID').val($GroupID).trigger('redraw.InputField').trigger('change');"
+            "\$('#GroupID').val($GroupID).trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->find_element( 'form#CalendarFrom button#Submit', 'css' )->VerifiedClick();
 
@@ -115,7 +115,7 @@ $Selenium->RunTest(
         $Selenium->find_element( '.SidebarColumn ul.ActionList a#Add',   'css' )->VerifiedClick();
         $Selenium->find_element( 'form#CalendarFrom input#CalendarName', 'css' )->send_keys($CalendarName1);
         $Selenium->execute_script(
-            "return \$('#GroupID').val($GroupID).trigger('redraw.InputField').trigger('change');"
+            "\$('#GroupID').val($GroupID).trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->find_element( 'form#CalendarFrom button#Submit', 'css' )->VerifiedClick();
 
@@ -136,12 +136,12 @@ $Selenium->RunTest(
         $Selenium->find_element( '.WidgetSimple.Collapsed .WidgetAction.Toggle a', 'css' )->VerifiedClick();
         $Selenium->find_element( '#AddRuleButton',                                 'css' )->VerifiedClick();
         $Selenium->execute_script(
-            "return \$('#QueueID_1').val('$QueueID').trigger('redraw.InputField').trigger('change');"
+            "\$('#QueueID_1').val('$QueueID').trigger('redraw.InputField').trigger('change');"
         );
 
         # Add title as search parameter.
         $Selenium->execute_script(
-            "return \$('#SearchParams').val('Title').trigger('redraw.InputField').trigger('change');"
+            "\$('#SearchParams').val('Title').trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->find_element( '.AddButton',                      'css' )->VerifiedClick();
         $Selenium->find_element( '#SearchParam_1_Title',            'css' )->send_keys('Test*');
@@ -191,7 +191,7 @@ $Selenium->RunTest(
 
         # Set it to invalid-temporarily.
         $Selenium->execute_script(
-            "return \$('#ValidID').val(3).trigger('redraw.InputField').trigger('change');"
+            "\$('#ValidID').val(3).trigger('redraw.InputField').trigger('change');"
         );
 
         # Verify rule has been stored properly.
