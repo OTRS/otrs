@@ -2387,7 +2387,13 @@ sub _MigrateFrontendModuleSetting {
     # ###########################################################################
     # migrate the NavBar settings
     # ###########################################################################
-    if ( $Param{OTRS5EffectiveValue}->{NavBar} ) {
+
+    # Skip navbar items if name is empty.
+    my @OTRS5NavBar = grep {
+        defined $_->{Name} && length $_->{Name}
+    } @{ $Param{OTRS5EffectiveValue}->{NavBar} || [] };
+
+    if (@OTRS5NavBar) {
 
         # get all OTRS 6 default settings
         my @DefaultSettings = $SysConfigObject->ConfigurationList();
@@ -2403,7 +2409,7 @@ sub _MigrateFrontendModuleSetting {
         my @SearchResult = grep { $_->{Name} =~ m{$Search} } @DefaultSettings;
 
         # check that the number of navbar settings is the same in OTRS 5 and 6 for this frontend module
-        if ( @SearchResult && scalar @SearchResult == scalar @{ $Param{OTRS5EffectiveValue}->{NavBar} } ) {
+        if ( @SearchResult && scalar @SearchResult == scalar @OTRS5NavBar ) {
 
             my $Counter = 0;
             for my $NavBarSetting (@SearchResult) {
@@ -2428,9 +2434,8 @@ sub _MigrateFrontendModuleSetting {
                 $OTRS6NavBarSetting{EffectiveValue}->{GroupRo} = \@GroupRo;
 
                 # take NavBar settings from OTRS 5
-                for my $Attribute ( sort keys %{ $Param{OTRS5EffectiveValue}->{NavBar}->[$Counter] } ) {
-                    $OTRS6NavBarSetting{EffectiveValue}->{$Attribute}
-                        = $Param{OTRS5EffectiveValue}->{NavBar}->[$Counter]->{$Attribute};
+                for my $Attribute ( sort keys %{ $OTRS5NavBar[$Counter] } ) {
+                    $OTRS6NavBarSetting{EffectiveValue}->{$Attribute} = $OTRS5NavBar[$Counter]->{$Attribute};
                 }
 
                 # lock the setting

@@ -1,4 +1,5 @@
 #6.0.0.rc1 2017-??-??
+ - 2017-11-02 Fixed bug#[13278](https://bugs.otrs.org/show_bug.cgi?id=13278) - Considering invalid 'navbar' items in sysconfig migration while upgrading a package from otrs5.
  - 2017-10-27 Fixed bug#[12886](https://bugs.otrs.org/show_bug.cgi?id=12886) - AccessKeys not working.
  - 2017-10-27 Fixed bug#[13254](https://bugs.otrs.org/show_bug.cgi?id=13254) - Delete icon of Attachment is not displayed on mobile view.
  - 2017-10-27 Fixed bug#[13061](https://bugs.otrs.org/show_bug.cgi?id=13061) - PGP Agent Notification with expired certificate results in unencrypted message.
