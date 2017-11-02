@@ -293,6 +293,10 @@ JAVASCRIPT
 
         # wait until the new for has been loaded and the "normal" Save button shows up
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SubmitAndContinue').length" );
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
 
         # click 'Save and Finish'
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
