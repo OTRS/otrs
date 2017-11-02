@@ -1229,13 +1229,18 @@ sub Run {
             # set the object ID (TicketID or ArticleID) depending on the field configration
             my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
 
-            # set the value
-            my $Success = $DynamicFieldBackendObject->ValueSet(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                ObjectID           => $ObjectID,
-                Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
-                UserID             => $Self->{UserID},
-            );
+            # set dynamic field; when ObjectType=Article and no article will be created ignore
+            # this dynamic field
+            if ($ObjectID) {
+
+                # set the value
+                $DynamicFieldBackendObject->ValueSet(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    ObjectID           => $ObjectID,
+                    Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
+                    UserID             => $Self->{UserID},
+                );
+            }
         }
     }
 
