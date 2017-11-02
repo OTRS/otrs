@@ -76,6 +76,11 @@ $Selenium->RunTest(
             "Ticket priority checked - 3 normal",
         );
 
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("ul.Actions li#nav-Priority a.AsPopup.PopupType_TicketAction").length;'
+        );
+
         # click on 'Priority' and switch window
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPriority;TicketID=$TicketID' )]")
             ->VerifiedClick();
