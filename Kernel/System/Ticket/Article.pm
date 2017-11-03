@@ -11,6 +11,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 use warnings;
 
+use Mail::Address;
 use POSIX qw(ceil);
 
 use Kernel::System::EmailParser;
@@ -3405,6 +3406,9 @@ sub SendAutoResponse {
         return;
     }
 
+    # Format sender because it maybe contains comma or other special symbols (see bug#13130).
+    my $From = Mail::Address->new( $AutoResponse{SenderRealname} // '', $AutoResponse{SenderAddress} );
+
     # send email
     my $ArticleID = $Self->ArticleSend(
         ArticleType    => 'email-external',
@@ -3412,7 +3416,7 @@ sub SendAutoResponse {
         TicketID       => $Param{TicketID},
         HistoryType    => $HistoryType,
         HistoryComment => "\%\%$AutoReplyAddresses",
-        From           => "$AutoResponse{SenderRealname} <$AutoResponse{SenderAddress}>",
+        From           => $From->format(),
         To             => $AutoReplyAddresses,
         Cc             => $Cc,
         Charset        => $AutoResponse{Charset},

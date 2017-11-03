@@ -50,9 +50,11 @@ $Self->True(
 
 # add system address
 my $SystemAddressNameRand0 = 'unittest' . int rand 1000000;
+my $SystemAddressEmail     = $SystemAddressNameRand0 . '@example.com';
+my $SystemAddressRealname  = "$SystemAddressNameRand0, $SystemAddressNameRand0";
 my $SystemAddressID        = $SystemAddressObject->SystemAddressAdd(
-    Name     => $SystemAddressNameRand0 . '@example.com',
-    Realname => $SystemAddressNameRand0,
+    Name     => $SystemAddressEmail,
+    Realname => $SystemAddressRealname,
     ValidID  => 1,
     QueueID  => 1,
     Comment  => 'Some Comment',
@@ -317,18 +319,24 @@ $Self->IsDeeply(
     'Check AutoResponse recipients.'
 );
 
+# Check From header line if it was quoted correctly, please see bug#13130 for more information.
+$Self->True(
+    ( ${ $Emails->[0]->{Header} } =~ m{^From:\s+"$SystemAddressRealname"}sm ) // 0,
+    'Check From header line quoting'
+);
+
 my %Address = $AutoResponseObject->AutoResponseGetByTypeQueueID(
     QueueID => 1,
     Type    => 'auto reply',
 );
 $Self->Is(
     $Address{Address} || '',
-    $SystemAddressNameRand0 . '@example.com',
+    $SystemAddressEmail,
     'AutoResponseGetByTypeQueueID() - Address',
 );
 $Self->Is(
     $Address{Realname} || '',
-    $SystemAddressNameRand0,
+    $SystemAddressRealname,
     'AutoResponseGetByTypeQueueID() - Realname',
 );
 
