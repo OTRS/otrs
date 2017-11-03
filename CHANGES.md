@@ -299,6 +299,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.24 2017-??-??
+ - 2017-11-03 Fixed bug#[11165](https://bugs.otrs.org/show_bug.cgi?id=11165) - Agent list for Owner and Responsible fields in bulk screen is different.
  - 2017-11-03 Fixed bug#[13130](https://bugs.otrs.org/show_bug.cgi?id=13130) - Broken From-Header in auto response.
  - 2017-10-27 Fixed bug#[13241](https://bugs.otrs.org/show_bug.cgi?id=13241) - Index for fulltext search not created when body empty or contains only stopwords.
  - 2017-10-27 Fixed bug#[13142](https://bugs.otrs.org/show_bug.cgi?id=13142) - Error The given param 'QueueIDs' is invalid or an empty array reference!.
