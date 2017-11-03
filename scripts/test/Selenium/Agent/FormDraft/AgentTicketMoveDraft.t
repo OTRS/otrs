@@ -298,6 +298,11 @@ $Selenium->RunTest(
             my $ID           = $FormDraftCase->{Fields}->{$FieldValue}->{ID};
             my $UpdatedValue = $FormDraftCase->{Fields}->{$FieldValue}->{Update};
 
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('#$ID').val() == $UpdatedValue;"
+            );
+
             $Self->Is(
                 $Selenium->execute_script("return \$('#$ID').val()"),
                 $UpdatedValue,
