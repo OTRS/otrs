@@ -1207,7 +1207,7 @@ sub CheckDBRequirements {
 
         # Set max_allowed_packet.
         my $MySQLMaxAllowedPacket            = 0;
-        my $MySQLMaxAllowedPacketRecommended = 20;
+        my $MySQLMaxAllowedPacketRecommended = 64;
 
         my $Data = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'max_allowed_packet'");
         $MySQLMaxAllowedPacket = $Data->[0]->[1] / 1024 / 1024;

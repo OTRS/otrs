@@ -1741,7 +1741,7 @@ sub Run {
             );
 
             my $MaxAllowedPacket            = 0;
-            my $MaxAllowedPacketRecommended = 20;
+            my $MaxAllowedPacketRecommended = 64;
             while ( my @Data = $DBObject->FetchrowArray() ) {
                 if ( $Data[1] ) {
                     $MaxAllowedPacket = $Data[1] / 1024 / 1024;

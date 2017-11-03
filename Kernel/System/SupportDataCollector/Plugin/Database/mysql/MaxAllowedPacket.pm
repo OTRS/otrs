@@ -38,14 +38,14 @@ sub Run {
 
         if (
             !$Row[1]
-            || $Row[1] < 1024 * 1024 * 20
+            || $Row[1] < 1024 * 1024 * 64
             )
         {
             $Self->AddResultProblem(
                 Label => Translatable('Maximum Query Size'),
                 Value => $Row[1] / 1024 / 1024 . ' MB',
                 Message =>
-                    Translatable("The setting 'max_allowed_packet' must be higher than 20 MB."),
+                    Translatable("The setting 'max_allowed_packet' must be higher than 64 MB."),
             );
         }
         else {
