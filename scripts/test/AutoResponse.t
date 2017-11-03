@@ -86,9 +86,11 @@ $Self->True(
 
 # add system address
 my $SystemAddressNameRand = 'SystemAddress' . $HelperObject->GetRandomID();
+my $SystemAddressEmail    = $SystemAddressNameRand . '@example.com';
+my $SystemAddressRealname = "$SystemAddressNameRand, $SystemAddressNameRand";
 my $SystemAddressID       = $SystemAddressObject->SystemAddressAdd(
-    Name     => $SystemAddressNameRand . '@example.com',
-    Realname => $SystemAddressNameRand,
+    Name     => $SystemAddressEmail,
+    Realname => $SystemAddressRealname,
     ValidID  => 1,
     QueueID  => $QueueID,
     Comment  => 'Some Comment',
@@ -128,11 +130,11 @@ for my $TypeID ( sort keys %AutoResponseType ) {
             ContentType => 'text/html',
             ValidID     => 2,
         },
-        ExpextedData => {
+        ExpectedData => {
             AutoResponseID => '',
-            Address        => $SystemAddressNameRand . '@example.com',
-            Realname       => $SystemAddressNameRand,
-            }
+            Address        => $SystemAddressEmail,
+            Realname       => $SystemAddressRealname,
+        },
     );
 
     # add auto response
@@ -142,7 +144,7 @@ for my $TypeID ( sort keys %AutoResponseType ) {
     );
 
     # this will be used later to test function AutoResponseGetByTypeQueueID()
-    $Tests{ExpextedData}{AutoResponseID} = $AutoResponseID;
+    $Tests{ExpectedData}{AutoResponseID} = $AutoResponseID;
 
     $Self->True(
         $AutoResponseID,
@@ -216,7 +218,7 @@ for my $TypeID ( sort keys %AutoResponseType ) {
     for my $Item (qw/AutoResponseID Address Realname/) {
         $Self->Is(
             $AutoResponseData{$Item} || '',
-            $Tests{ExpextedData}{$Item},
+            $Tests{ExpectedData}{$Item},
             "AutoResponseGetByTypeQueueID() - $Item",
         );
     }
@@ -316,6 +318,12 @@ for my $TypeID ( sort keys %AutoResponseType ) {
                 'otrs@example.com'
             ],
             'Check AutoResponse recipients.'
+        );
+
+        # Check From header line if it was quoted correctly, please see bug#13130 for more information.
+        $Self->True(
+            ( $MailQueueElement->{Message}->{Header} =~ m{^From:\s+"$Tests{ExpectedData}->{Realname}"}sm ) // 0,
+            'Check From header line quoting'
         );
     }
 
