@@ -130,7 +130,8 @@ sub Run {
             Valid => 1
         );
 
-        # Put only possible rw agents to owner list.
+        # Put only possible 'owner' and 'rw' agents to owner list.
+        my %OwnerGroupsMembers;
         if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
             my %AllGroupsMembersNew;
             my @QueueIDs;
@@ -153,7 +154,7 @@ sub Run {
                 my $GroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $QueueID );
                 my %GroupMember = $Self->{GroupObject}->GroupMemberList(
                     GroupID => $GroupID,
-                    Type    => 'rw',
+                    Type    => 'owner',
                     Result  => 'HASH',
                 );
                 USER_ID:
@@ -161,14 +162,17 @@ sub Run {
                     next USER_ID if !$AllGroupsMembers{$UserID};
                     $AllGroupsMembersNew{$UserID} = $AllGroupsMembers{$UserID};
                 }
-                %AllGroupsMembers = %AllGroupsMembersNew;
+                %OwnerGroupsMembers = %AllGroupsMembersNew;
             }
+        }
+        else {
+            %OwnerGroupsMembers = %AllGroupsMembers;
         }
 
         my @JSONData = (
             {
                 Name         => 'OwnerID',
-                Data         => \%AllGroupsMembers,
+                Data         => \%OwnerGroupsMembers,
                 PossibleNone => 1,
             }
         );
@@ -178,9 +182,50 @@ sub Run {
             && $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}")->{Responsible}
             )
         {
+
+            my %ResponsibleGroupsMembers;
+            if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
+                my %AllGroupsMembersNew;
+                my @QueueIDs;
+
+                if ($QueueID) {
+                    push @QueueIDs, $QueueID;
+                }
+                else {
+                    my @TicketIDs = grep {$_} $Self->{ParamObject}->GetArray( Param => 'TicketID' );
+                    for my $TicketID (@TicketIDs) {
+                        my %Ticket = $Self->{TicketObject}->TicketGet(
+                            TicketID      => $TicketID,
+                            DynamicFields => 0,
+                        );
+                        push @QueueIDs, $Ticket{QueueID};
+                    }
+                }
+
+                # Put only possible 'responsible' and 'rw' agents to responsible list.
+                for my $QueueID (@QueueIDs) {
+                    my $GroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $QueueID );
+                    my %GroupMember = $Self->{GroupObject}->GroupMemberList(
+                        GroupID => $GroupID,
+                        Type    => 'responsible',
+                        Result  => 'HASH',
+                    );
+
+                    USER_ID:
+                    for my $UserID ( sort keys %GroupMember ) {
+                        next USER_ID if !$AllGroupsMembers{$UserID};
+                        $AllGroupsMembersNew{$UserID} = $AllGroupsMembers{$UserID};
+                    }
+                    %ResponsibleGroupsMembers = %AllGroupsMembersNew;
+                }
+            }
+            else {
+                %ResponsibleGroupsMembers = %AllGroupsMembers;
+            }
+
             push @JSONData, {
                 Name         => 'ResponsibleID',
-                Data         => \%AllGroupsMembers,
+                Data         => \%ResponsibleGroupsMembers,
                 PossibleNone => 1,
             };
         }
@@ -989,7 +1034,7 @@ sub _Mask {
             Valid => 1
         );
 
-        # only put possible rw agents to possible owner list
+        # Put only possible 'owner' and 'rw' agents to owner list.
         if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
             my %AllGroupsMembersNew;
             for my $TicketID ( @{ $Param{TicketIDs} } ) {
@@ -1000,7 +1045,7 @@ sub _Mask {
                 my $GroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
                 my %GroupMember = $Self->{GroupObject}->GroupMemberList(
                     GroupID => $GroupID,
-                    Type    => 'rw',
+                    Type    => 'owner',
                     Result  => 'HASH',
                 );
                 USER_ID:
@@ -1031,7 +1076,7 @@ sub _Mask {
             Valid => 1
         );
 
-        # only put possible rw agents to possible owner list
+        # Put only possible 'responsible' and 'rw' agents to responsible list.
         if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
             my %AllGroupsMembersNew;
             for my $TicketID ( @{ $Param{TicketIDs} } ) {
@@ -1042,7 +1087,7 @@ sub _Mask {
                 my $GroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
                 my %GroupMember = $Self->{GroupObject}->GroupMemberList(
                     GroupID => $GroupID,
-                    Type    => 'rw',
+                    Type    => 'responsible',
                     Result  => 'HASH',
                 );
                 USER_ID:
