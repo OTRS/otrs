@@ -336,6 +336,10 @@ sub _TasksGet {
             Message => 'Refresh configuration cache another time',
             Module  => 'RebuildConfig',
         },
+        {
+            Message => 'Check SysConfig consistency',
+            Module  => 'SysConfigCheck',
+        },
     );
 
     return @Tasks;
