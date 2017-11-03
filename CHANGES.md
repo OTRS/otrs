@@ -1,4 +1,5 @@
 #6.0.0.rc1 2017-??-??
+ - 2017-11-03 Fixed bug#[13280](https://bugs.otrs.org/show_bug.cgi?id=13280) - Rebuild config fails for seemingly valid XML file.
  - 2017-11-02 Fixed Need ObjectID! error on AgentTicketMove with article dynamic field, thanks to Pawel Boguslawski.
  - 2017-11-02 Fixed bug#[13278](https://bugs.otrs.org/show_bug.cgi?id=13278) - Considering invalid 'navbar' items in sysconfig migration while upgrading a package from otrs5.
  - 2017-10-27 Fixed bug#[12886](https://bugs.otrs.org/show_bug.cgi?id=12886) - AccessKeys not working.

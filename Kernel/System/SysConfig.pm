@@ -2510,7 +2510,7 @@ sub ConfigurationXML2DB {
         }
 
         # Check otrs_config Init attribute.
-        $$ConfigFile =~ m{^<otrs_config.*?init="(.*?)"}gsmx;
+        $$ConfigFile =~ m{<otrs_config.*?init="(.*?)"}gsmx;
         my $InitValue = $1;
 
         # Check if InitValue is Valid.

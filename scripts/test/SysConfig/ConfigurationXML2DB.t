@@ -62,6 +62,69 @@ my @Tests = (
         ExpectedResult => undef,
     },
     {
+        Description => 'Load ugly XML',
+        Config      => {
+            UserID    => 1,
+            Directory => "$ConfigObject->{Home}/scripts/test/sample/SysConfig/XMLUgly/",
+        },
+        ExpectedResult => [
+            {
+                'CreateBy'                 => 1,
+                'ChangeBy'                 => 1,
+                'UserModificationPossible' => '0',
+                'UserPreferencesGroup'     => '',
+                'Description'              => 'The identifier for a ticket.',
+                'EffectiveValue'           => 'Ticket#',
+                'UserModificationActive'   => '0',
+                'ExclusiveLockGUID'        => '0',
+                'ExclusiveLockUserID'      => undef,
+                'HasConfigLevel'           => '100',
+                'IsDirty'                  => '1',
+                'IsInvisible'              => '0',
+                'IsReadonly'               => '0',
+                'IsRequired'               => '1',
+                'IsValid'                  => '1',
+                'Name'                     => 'Ticket::Hook',
+                'Navigation'               => 'Core::Ticket',
+                'XMLFilename'              => 'Sample.xml',
+                'XMLContentParsed'         => {
+                    'Description' => [
+                        {
+                            'Content'      => 'The identifier for a ticket.',
+                            'Translatable' => '1',
+                        },
+                    ],
+                    'Name'       => 'Ticket::Hook',
+                    'Navigation' => [
+                        {
+                            'Content' => 'Core::Ticket',
+                        },
+                    ],
+                    'Required' => '1',
+                    'Valid'    => '1',
+                    'Value'    => [
+                        {
+                            'Item' => [
+                                {
+                                    'Content'    => 'Ticket#',
+                                    'ValueRegex' => '',
+                                    'ValueType'  => 'String',
+                                },
+                            ],
+                        },
+                    ],
+                },
+                'XMLContentRaw' => '<Setting Name="Ticket::Hook" Required="1" Valid="1">
+        <Description Translatable="1">The identifier for a ticket.</Description>
+        <Navigation>Core::Ticket</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">Ticket#</Item>
+        </Value>
+    </Setting>'
+            },
+        ],
+    },
+    {
         Description => 'Load sample XML file',
         Config      => {
             UserID    => 1,
