@@ -79,9 +79,11 @@ $Self->True(
 
 # add system address
 my $SystemAddressNameRand = 'SystemAddress' . $HelperObject->GetRandomID();
+my $SystemAddressEmail    = $SystemAddressNameRand . '@example.com';
+my $SystemAddressRealname = "$SystemAddressNameRand, $SystemAddressNameRand";
 my $SystemAddressID       = $SystemAddressObject->SystemAddressAdd(
-    Name     => $SystemAddressNameRand . '@example.com',
-    Realname => $SystemAddressNameRand,
+    Name     => $SystemAddressEmail,
+    Realname => $SystemAddressRealname,
     ValidID  => 1,
     QueueID  => $QueueID,
     Comment  => 'Some Comment',
@@ -193,13 +195,13 @@ my %Address = $AutoResponseObject->AutoResponseGetByTypeQueueID(
 );
 $Self->Is(
     $Address{Address} || '',
-    $SystemAddressNameRand . '@example.com',
-    'AutoResponseGetByTypeQueueID() - Address',
+    $SystemAddressEmail,
+    'AutoResponseGetByTypeQueueID() - Address'
 );
 $Self->Is(
     $Address{Realname} || '',
-    $SystemAddressNameRand,
-    'AutoResponseGetByTypeQueueID() - Realname',
+    $SystemAddressRealname,
+    'AutoResponseGetByTypeQueueID() - Realname'
 );
 
 # get ticket object
@@ -284,6 +286,12 @@ $Self->IsDeeply(
         'otrs@example.com'
     ],
     'Check AutoResponse recipients.'
+);
+
+# Check From header line if it was quoted correctly, please see bug#13130 for more information.
+$Self->True(
+    ( ${ $Emails->[0]->{Header} } =~ m{^From:\s+"$SystemAddressRealname"}sm ) // 0,
+    'Check From header line quoting'
 );
 
 $AutoResponseQueue = $AutoResponseObject->AutoResponseQueue(

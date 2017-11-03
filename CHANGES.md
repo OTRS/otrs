@@ -1,4 +1,5 @@
 #5.0.24 2017-??-??
+ - 2017-11-03 Fixed bug#[13130](https://bugs.otrs.org/show_bug.cgi?id=13130) - Broken From-Header in auto response.
  - 2017-10-27 Fixed bug#[13241](https://bugs.otrs.org/show_bug.cgi?id=13241) - Index for fulltext search not created when body empty or contains only stopwords.
  - 2017-10-27 Fixed bug#[13142](https://bugs.otrs.org/show_bug.cgi?id=13142) - Error The given param 'QueueIDs' is invalid or an empty array reference!.
  - 2017-10-27 Fixed bug#[13061](https://bugs.otrs.org/show_bug.cgi?id=13061) - PGP Agent Notification with expired certificate results in unencrypted message.
