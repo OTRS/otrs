@@ -66,7 +66,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#SysConfigSearch",      "css" )->send_keys("Ticket::Hook");
         $Selenium->find_element( "button[type='submit']", "css" )->click();
         $Selenium->WaitFor(
-            JavaScript => 'return $(".fa-exclamation-triangle").length',
+            JavaScript => 'return typeof($) === "function" && $(".fa-exclamation-triangle").length',
         );
 
         my $Message = $Selenium->find_element( ".fa-exclamation-triangle", "css" )->get_attribute('title');
