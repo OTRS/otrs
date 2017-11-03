@@ -199,11 +199,6 @@ sub Run {
 
         my $RootNavigation = $ParamObject->GetParam( Param => 'RootNavigation' ) || '';
 
-        # Get path structure to show in the bread crumbs
-        my @Path = $SysConfigObject->SettingNavigationToPath(
-            Navigation => $RootNavigation,
-        );
-
         # Get navigation tree
         my %Tree = $SysConfigObject->ConfigurationNavigationTree();
 
@@ -388,15 +383,17 @@ sub Run {
     # direct link
     elsif ( $Self->{Subaction} eq 'View' ) {
 
-        my $View = $ParamObject->GetParam( Param => 'Setting' ) || '';
+        my $SettingName = $ParamObject->GetParam( Param => 'Setting' ) || '';
         my @SettingList;
 
-        if ($View) {
+        if ($SettingName) {
+
+            # URL-decode setting name, just in case. Please see bug#13271 for more information.
+            $SettingName = URI::Escape::uri_unescape($SettingName);
 
             my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
-            my %Setting = $SysConfigObject->SettingGet(
-                Name            => $View,
+            my %Setting         = $SysConfigObject->SettingGet(
+                Name            => $SettingName,
                 OverriddenInXML => 1,
                 UserID          => $Self->{UserID},
             );
@@ -418,7 +415,7 @@ sub Run {
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSystemConfigurationView',
             Data         => {
-                View        => $View,
+                View        => $SettingName,
                 SettingList => \@SettingList,
                 %OutputData,
                 OTRSBusinessIsInstalled => $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled(),
