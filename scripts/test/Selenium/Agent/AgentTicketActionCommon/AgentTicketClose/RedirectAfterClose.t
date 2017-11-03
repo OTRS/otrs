@@ -148,12 +148,12 @@ $Selenium->RunTest(
             }
             else {
                 $Self->True(
-                    $Selenium->execute_script("return \$('h1:contains(TestTicket#::)')"),
+                    $Selenium->execute_script("return \$('h1:contains(TestTicket#::)').length"),
                     "Ticket::Hook and Ticket::HookDivider found",
                 );
 
                 $Self->True(
-                    $Selenium->execute_script("return \$('h1:contains($TitleRandom)')"),
+                    $Selenium->execute_script("return \$('h1:contains($TitleRandom)').length"),
                     "Ticket $TitleRandom found",
                 );
             }

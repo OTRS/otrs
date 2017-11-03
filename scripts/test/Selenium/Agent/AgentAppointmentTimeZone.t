@@ -93,7 +93,7 @@ $Selenium->RunTest(
         # Enter some data, and put end hour to 18h for nice long appointment.
         $Selenium->find_element( 'Title', 'name' )->send_keys('Time Zone Appointment');
         $Selenium->execute_script(
-            "return \$('#CalendarID').val("
+            "\$('#CalendarID').val("
                 . $Calendar{CalendarID}
                 . ").trigger('redraw.InputField').trigger('change');"
         );

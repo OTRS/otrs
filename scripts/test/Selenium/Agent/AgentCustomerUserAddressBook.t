@@ -733,7 +733,7 @@ $Selenium->RunTest(
                     for my $CustomerUserLogin ( @{ $SubTest->{ExcludeSearchResultCustomerUser} } ) {
 
                         $Self->True(
-                            $Selenium->execute_script("return \$('input[value=\"$CustomerUserLogin\"]:disabled');"),
+                            $Selenium->execute_script("return \$('input[value=\"$CustomerUserLogin\"]:disabled').length;"),
                             "CustomerUser $CustomerUserLogin is disabled on result page",
                         );
                     }
