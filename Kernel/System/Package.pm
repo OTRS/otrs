@@ -807,10 +807,10 @@ sub PackageUpgrade {
 
     if ( !$Installed ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Package is not installed, can\'t upgrade!',
+            Priority => 'notice',
+            Message  => 'Package is not installed, try a installation!',
         );
-        return;
+        return $Self->PackageInstall(%Param);
     }
 
     # write permission check
