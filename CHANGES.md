@@ -1,4 +1,5 @@
 #6.0.0.rc1 2017-??-??
+- 2017-11-06 Fixed bug#[13206](https://bugs.otrs.org/show_bug.cgi?id=13206) - Dashboard does not detect expired sessions.
  - 2017-11-03 Fixed bug#[13279](https://bugs.otrs.org/show_bug.cgi?id=13279) - Problem with rebuilding config after migration.
  - 2017-11-03 Submit with Ctrl/CMD + Enter in textareas, thanks to Perleone.
  - 2017-11-03 Fixed bug#[13261](https://bugs.otrs.org/show_bug.cgi?id=13261) - Limit hit when installing ITSM package on MySQL.
