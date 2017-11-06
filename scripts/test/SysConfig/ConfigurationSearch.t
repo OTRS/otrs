@@ -42,7 +42,9 @@ return if !$DBObject->Prepare(
             sd.xml_filename IN (
                 'Calendar.xml' ,'CloudServices.xml', 'Daemon.xml', 'Framework.xml', 'GenericInterface.xml',
                 'ProcessManagement.xml', 'Ticket.xml'
-            )",
+            )
+            AND is_invisible != '1'
+        ",
 );
 
 my $OTRSFreeSettings;
