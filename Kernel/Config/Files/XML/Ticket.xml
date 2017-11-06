@@ -13170,4 +13170,317 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::Article::Actions###Internal" Required="1" Valid="1">
+        <Description Translatable="1">Defines available article actions for Internal articles.</Description>
+        <Navigation>Frontend::Agent::View::TicketZoom::ArticleAction</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Hash>
+                        <Item Key="Module"></Item>
+                        <Item Key="Prio"></Item>
+                        <Item Key="Valid"></Item>
+                    </Hash>
+                </DefaultItem>
+                <Item Key="AgentTicketCompose">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketCompose</Item>
+                        <Item Key="Prio">100</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketForward">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketForward</Item>
+                        <Item Key="Prio">200</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketBounce">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketBounce</Item>
+                        <Item Key="Prio">300</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketPhone">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketPhone</Item>
+                        <Item Key="Prio">400</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketPrint">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketPrint</Item>
+                        <Item Key="Prio">500</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketPlain">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketPlain</Item>
+                        <Item Key="Prio">600</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="MarkAsImportant">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::MarkAsImportant</Item>
+                        <Item Key="Prio">700</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketNote">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketNote</Item>
+                        <Item Key="Prio">800</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::Article::Actions###Phone" Required="1" Valid="1">
+        <Description Translatable="1">Defines available article actions for Phone articles.</Description>
+        <Navigation>Frontend::Agent::View::TicketZoom::ArticleAction</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Hash>
+                        <Item Key="Module"></Item>
+                        <Item Key="Prio"></Item>
+                        <Item Key="Valid"></Item>
+                    </Hash>
+                </DefaultItem>
+                <Item Key="AgentTicketCompose">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketCompose</Item>
+                        <Item Key="Prio">100</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketForward">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketForward</Item>
+                        <Item Key="Prio">200</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketBounce">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketBounce</Item>
+                        <Item Key="Prio">300</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketPhone">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketPhone</Item>
+                        <Item Key="Prio">400</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketPrint">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketPrint</Item>
+                        <Item Key="Prio">500</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketPlain">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketPlain</Item>
+                        <Item Key="Prio">600</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="MarkAsImportant">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::MarkAsImportant</Item>
+                        <Item Key="Prio">700</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketNote">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketNote</Item>
+                        <Item Key="Prio">800</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::Article::Actions###Email" Required="1" Valid="1">
+        <Description Translatable="1">Defines available article actions for Email articles.</Description>
+        <Navigation>Frontend::Agent::View::TicketZoom::ArticleAction</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Hash>
+                        <Item Key="Module"></Item>
+                        <Item Key="Prio"></Item>
+                        <Item Key="Valid"></Item>
+                    </Hash>
+                </DefaultItem>
+                <Item Key="AgentTicketCompose">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketCompose</Item>
+                        <Item Key="Prio">100</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketForward">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketForward</Item>
+                        <Item Key="Prio">200</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketBounce">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketBounce</Item>
+                        <Item Key="Prio">300</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketPhone">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketPhone</Item>
+                        <Item Key="Prio">400</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketPrint">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketPrint</Item>
+                        <Item Key="Prio">500</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketMessageLog">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketMessageLog</Item>
+                        <Item Key="Prio">550</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketPlain">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketPlain</Item>
+                        <Item Key="Prio">600</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="MarkAsImportant">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::MarkAsImportant</Item>
+                        <Item Key="Prio">700</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketNote">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketNote</Item>
+                        <Item Key="Prio">800</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketEmailResend">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketEmailResend</Item>
+                        <Item Key="Prio">900</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::Article::Actions###Chat" Required="1" Valid="1">
+        <Description Translatable="1">Defines available article actions for Chat articles.</Description>
+        <Navigation>Frontend::Agent::View::TicketZoom::ArticleAction</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Hash>
+                        <Item Key="Module"></Item>
+                        <Item Key="Prio"></Item>
+                        <Item Key="Valid"></Item>
+                    </Hash>
+                </DefaultItem>
+                <Item Key="AgentTicketPrint">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketPrint</Item>
+                        <Item Key="Prio">500</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="MarkAsImportant">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::MarkAsImportant</Item>
+                        <Item Key="Prio">700</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketForward">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketForward</Item>
+                        <Item Key="Prio">200</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketCompose">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketCompose</Item>
+                        <Item Key="Prio">100</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::Article::Actions###Invalid" Required="1" Valid="1">
+        <Description Translatable="1">Defines available article actions for invalid articles.</Description>
+        <Navigation>Frontend::Agent::View::TicketZoom::ArticleAction</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Hash>
+                        <Item Key="Module"></Item>
+                        <Item Key="Prio"></Item>
+                        <Item Key="Valid"></Item>
+                    </Hash>
+                </DefaultItem>
+                <Item Key="ReinstallPackageLink">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::ReinstallPackageLink</Item>
+                        <Item Key="Prio">200</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="GetHelpLink">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::GetHelpLink</Item>
+                        <Item Key="Prio">100</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::RedirectAfterCloseDisabled" Required="1" Valid="1" UserModificationActive="1" UserModificationPossible="1">
+        <Description Translatable="1">Disables the redirection to the last screen overview / dashboard after a ticket is created.</Description>
+        <Navigation>Frontend::Agent</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::UserDefaultQueue" Required="0" Valid="0" UserModificationActive="1" UserModificationPossible="1">
+        <Description Translatable="1">Defines the default queue for new tickets in the agent interface.</Description>
+        <Navigation>Frontend::Agent</Navigation>
+        <Value>
+            <Item ValueType="Entity" ValueEntityType="Queue" ValueRegex="">Postmaster</Item>
+        </Value>
+    </Setting>
 </otrs_config>

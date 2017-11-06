@@ -12747,4 +12747,142 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="AgentPreferencesGroups" Required="1" Valid="1">
+        <Description Translatable="1">Defines groups for preferences items.</Description>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem>
+                    <Hash>
+                        <Item Key="Key"></Item>
+                        <Item Key="Name"></Item>
+                        <Item Key="Description"></Item>
+                        <Item Key="Icon"></Item>
+                        <Item Key="Prio"></Item>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="Key">UserProfile</Item>
+                        <Item Key="Name" Translatable="1">User Profile</Item>
+                        <Item Key="Description" Translatable="1">Change your password and more.</Item>
+                        <Item Key="Icon">fa-user</Item>
+                        <Item Key="Prio">1000</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
+                        <Item Key="Key">NotificationSettings</Item>
+                        <Item Key="Name" Translatable="1">Notification Settings</Item>
+                        <Item Key="Description" Translatable="1">Choose which notifications would you like to receive.</Item>
+                        <Item Key="Icon">fa-envelope</Item>
+                        <Item Key="Prio">1001</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
+                        <Item Key="Key">Miscellaneous</Item>
+                        <Item Key="Name" Translatable="1">Miscellaneous</Item>
+                        <Item Key="Description" Translatable="1">Tweak the system as you wish.</Item>
+                        <Item Key="Icon">fa-cog</Item>
+                        <Item Key="Prio">1002</Item>
+                    </Hash>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="SystemConfiguration::MaximumDeployments" Required="1" Valid="1" Invisible="1">
+        <Description Translatable="1">Defines how many deployments the system should keep.</Description>
+        <Navigation>Core</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^\d+$">20</Item>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerUser::Frontend::AgentCustomerUserAddressBook###SearchParameters" Required="1" Valid="1">
+        <Description Translatable="1">Defines the search parameters for the AgentCustomerUserAddressBook screen. With the setting 'CustomerTicketTextField' the values for the recipient field can be specified.</Description>
+        <Navigation>Frontend::Agent::View::CustomerUserSearch</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Hash>
+                        <Item Key="SearchLimit">10000</Item>
+                        <Item Key="PageShown">50</Item>
+                        <Item Key="CustomerTicketTextField">UserMailString</Item>
+                        <Item Key="SortBy::Default">UserLogin</Item>
+                        <Item Key="Order::Default">Up</Item>
+                    </Hash>
+                </DefaultItem>
+                <Item Key="Email">
+                    <Hash>
+                        <Item Key="SearchLimit">10000</Item>
+                        <Item Key="PageShown">50</Item>
+                        <Item Key="CustomerTicketTextField">UserMailString</Item>
+                        <Item Key="SortBy::Default">UserLogin</Item>
+                        <Item Key="Order::Default">Up</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerUser::Frontend::AgentCustomerUserAddressBook###DefaultFields" Required="1" Valid="1">
+        <Description Translatable="1">Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix 'CustomerCompany_' must be added.</Description>
+        <Navigation>Frontend::Agent::View::CustomerUserSearch</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Array>
+                        <Item>UserLogin</Item>
+                        <Item>UserFirstname</Item>
+                        <Item>UserLastname</Item>
+                        <Item>UserEmail</Item>
+                        <Item>UserCustomerID</Item>
+                    </Array>
+                </DefaultItem>
+                <Item Key="Email">
+                    <Array>
+                        <Item>UserLogin</Item>
+                        <Item>UserFirstname</Item>
+                        <Item>UserLastname</Item>
+                        <Item>UserEmail</Item>
+                        <Item>UserCustomerID</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerUser::Frontend::AgentCustomerUserAddressBook###ShowColumns" Required="1" Valid="1">
+        <Description Translatable="1">Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen.</Description>
+        <Navigation>Frontend::Agent::View::CustomerUserSearch</Navigation>
+        <Value>
+            <Hash>
+                <DefaultItem>
+                    <Array>
+                        <Item>UserFirstname</Item>
+                        <Item>UserLastname</Item>
+                        <Item>UserLogin</Item>
+                        <Item>UserEmail</Item>
+                        <Item>UserCustomerID</Item>
+                    </Array>
+                </DefaultItem>
+                <Item Key="Email">
+                    <Array>
+                        <Item>UserFirstname</Item>
+                        <Item>UserLastname</Item>
+                        <Item>UserLogin</Item>
+                        <Item>UserEmail</Item>
+                        <Item>UserCustomerID</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="AutoloadPerlPackages###1000-Test" Required="0" Valid="0">
+        <Description Translatable="1">Example package autoload configuration.</Description>
+        <Navigation>Core::Autoload</Navigation>
+        <Value>
+            <Array>
+                <Item ValueType="String">Kernel::Autoload::Test</Item>
+            </Array>
+        </Value>
+    </Setting>
 </otrs_config>
