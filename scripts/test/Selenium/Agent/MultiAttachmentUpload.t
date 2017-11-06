@@ -212,6 +212,7 @@ $Selenium->RunTest(
 
                 # Accept alert.
                 $Selenium->accept_alert();
+                sleep 1;
 
                 # Remove the existing files.
                 for my $DeleteExtension (qw(doc pdf)) {
@@ -230,7 +231,7 @@ $Selenium->RunTest(
                     # Wait until attachment is deleted.
                     $Selenium->WaitFor(
                         JavaScript =>
-                            'return typeof($) === "function" && !$(".fa.fa-spinner.fa-spin:visible").length'
+                            "return typeof(\$) === 'function' && !\$('.AttachmentList tbody tr td.Filename:contains(\"Test1.$DeleteExtension\")').length"
                     );
 
                     # Check if deleted.
@@ -305,7 +306,7 @@ $Selenium->RunTest(
                 # Wait until attachment is deleted.
                 $Selenium->WaitFor(
                     JavaScript =>
-                        'return typeof($) === "function" && !$(".fa.fa-spinner.fa-spin:visible").length'
+                        "return typeof(\$) === 'function' && !\$('.AttachmentList tbody tr td.Filename:contains(\"Test1.pdf\")').length"
                 );
 
                 # Check if deleted.
@@ -402,7 +403,7 @@ $Selenium->RunTest(
                     # Wait until attachment is deleted.
                     $Selenium->WaitFor(
                         JavaScript =>
-                            'return typeof($) === "function" && !$(".fa.fa-spinner.fa-spin:visible").length'
+                            "return typeof(\$) === 'function' && !\$('.AttachmentList tbody tr td.Filename:contains(\"Main-Test1.$DeleteExtension\")').length"
                     );
 
                     # Check if deleted.
@@ -558,7 +559,7 @@ $Selenium->RunTest(
                     # Wait until attachment is deleted.
                     $Selenium->WaitFor(
                         JavaScript =>
-                            'return typeof($) === "function" && !$(".fa.fa-spinner.fa-spin:visible").length'
+                            "return typeof(\$) === 'function' && !\$('.AttachmentList tbody tr td.Filename:contains(\"Main-Test1.$DeleteExtension\")').length"
                     );
 
                     # Check if deleted.
@@ -594,6 +595,9 @@ $Selenium->RunTest(
             $Success,
             "Ticket ID $TicketID is deleted"
         );
+
+        # Make sure the cache is correct.
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
     }
 );
 
