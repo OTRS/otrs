@@ -112,7 +112,7 @@ $Selenium->RunTest(
         }
 
         # Refresh the user online widget.
-        $Selenium->execute_script("\$('#Dashboard0400-UserOnline-box .ActionMenu').show();"),
+        $Selenium->execute_script("\$('#Dashboard0400-UserOnline-box .ActionMenu').show();");
         $Selenium->find_element( "#Dashboard0400-UserOnline-box .WidgetAction.Refresh a", "css" )->click();
 
         # We should now have been be redirected to the login screen.
