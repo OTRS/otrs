@@ -46,10 +46,11 @@ my %Options = (
     Verbose        => 0,
 );
 Getopt::Long::GetOptions(
-    'help',            \$Options{Help},
-    'non-interactive', \$Options{NonInteractive},
-    'timing',          \$Options{Timing},
-    'verbose',         \$Options{Verbose},
+    'help',                      \$Options{Help},
+    'non-interactive',           \$Options{NonInteractive},
+    'cleanup-orphaned-articles', \$Options{CleanupOrphanedArticles},
+    'timing',                    \$Options{Timing},
+    'verbose',                   \$Options{Verbose},
 );
 
 {
@@ -61,10 +62,11 @@ Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 
 Usage: $0
     Options are as follows:
-        --help              display this help
-        --non-interactive   skip interactive input and display steps to execute after script has been executed
-        --timing            shows how much time is consumed on each task execution in the script
-        --verbose           shows details on some migration steps, not just failing.
+        --help                          display this help
+        --non-interactive               skip interactive input and display steps to execute after script has been executed
+        --cleanup-orphaned-articles     delete orphaned article data if no corresponding ticket exists anymore (can only be used with non-interactive)
+        --timing                        shows how much time is consumed on each task execution in the script
+        --verbose                       shows details on some migration steps, not just failing.
 
 EOF
         exit 1;
@@ -77,6 +79,11 @@ Cannot run this program as root.
 Please run it as the 'otrs' user or with the help of su:
     su -c \"$0\" -s /bin/bash otrs
 ";
+    }
+
+    # Allow cleanup-orphaned-articles only if also non-interactive is set.
+    if ( $Options{CleanupOrphanedArticles} && !$Options{NonInteractive} ) {
+        $Options{CleanupOrphanedArticles} = 0;
     }
 
     $Kernel::OM->Create('scripts::DBUpdateTo6')->Run(

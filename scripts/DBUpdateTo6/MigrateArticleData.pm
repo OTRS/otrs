@@ -486,18 +486,24 @@ sub CheckPreviousRequirement {
 
             print "        Error: Found $Count orphaned entries in $OrphanedEntryCheck->{Table} table ...\n";
 
-            # In interactive mode we ask the user what he wants to do.
-            if ($InteractiveMode) {
+            # Only in interactive mode or if the CleanupOrphanedArticles parameter is active
+            if ( $InteractiveMode || $Param{CommandlineOptions}->{CleanupOrphanedArticles} ) {
 
-                # Ask the user and get the answer.
-                print '        Do you want to automatically delete the entries from the database now? [Y]es/[N]o: ';
-                my $Answer = <>;
+                my $Answer = '';
+
+                # In interactive mode we ask the user what he wants to do.
+                if ( !$Param{CommandlineOptions}->{CleanupOrphanedArticles} ) {
+
+                    # Ask the user and get the answer.
+                    print '        Do you want to automatically delete the entries from the database now? [Y]es/[N]o: ';
+                    $Answer = <>;
+                }
 
                 # Remove white space from input.
                 $Answer =~ s{\s}{}smx;
 
                 # Fix the problem automatically.
-                if ( $Answer =~ m{^y}i ) {
+                if ( $Answer =~ m{^y}i || $Param{CommandlineOptions}->{CleanupOrphanedArticles} ) {
 
                     # Delete the orphaned entries.
                     for my $SQL ( @{ $OrphanedEntryCheck->{DeleteSQL} } ) {
@@ -517,7 +523,7 @@ sub CheckPreviousRequirement {
 
                     # Everything was deleted automatically.
                     if ( !$Count ) {
-                        print "        Done.\n\n";
+                        print "        Fixing... Done.\n\n";
                         next ORPHANEDENTRYCHECK;
                     }
 
