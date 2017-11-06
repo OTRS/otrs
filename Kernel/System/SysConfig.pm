@@ -4364,7 +4364,7 @@ sub ConfigurationCategoriesGet {
     # Set framework files.
     my %Result = (
         All => {
-            DisplayName => 'All Settings',
+            DisplayName => Translatable('All Settings'),
             Files       => [],
         },
         OTRSFree => {
