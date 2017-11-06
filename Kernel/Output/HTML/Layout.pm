@@ -2390,9 +2390,9 @@ sub Permission {
     # No access restriction?
     if (
         ref $Config->{GroupRo} eq 'ARRAY'
-        && @{ $Config->{GroupRo} }
+        && !scalar @{ $Config->{GroupRo} }
         && ref $Config->{Group} eq 'ARRAY'
-        && @{ $Config->{Group} }
+        && !scalar @{ $Config->{Group} }
         )
     {
         return 1;
