@@ -66,6 +66,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#SysConfigSearch",      "css" )->send_keys("Ticket::Hook");
         $Selenium->find_element( "button[type='submit']", "css" )->click();
         $Selenium->WaitFor(
+            Time       => 300,
             JavaScript => 'return typeof($) === "function" && $(".fa-exclamation-triangle").length',
         );
 

@@ -136,7 +136,7 @@ $Selenium->RunTest(
 
             $Selenium->find_element( '#ButtonCheckDB', 'css' )->VerifiedClick();
             $Selenium->WaitFor(
-                Time       => 60,
+                Time       => 300,
                 JavaScript => 'return typeof($) === "function" && $(".Result:visible").length === 1;'
             );
 
@@ -150,7 +150,7 @@ $Selenium->RunTest(
             $Selenium->find_element( '#FormDBSubmit', 'css' )->VerifiedClick();
 
             $Selenium->WaitFor(
-                Time => 60,
+                Time => 300,
                 JavaScript =>
                     'return typeof($) === "function" && $(".Header h2").text().trim() === "Create Database (2/4)";'
             );
@@ -172,7 +172,7 @@ $Selenium->RunTest(
             $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
             $Selenium->WaitFor(
-                Time => 60,
+                Time => 300,
                 JavaScript =>
                     'return typeof($) === "function" && $(".Header h2").text().trim() === "System Settings (3/4)";'
             );
@@ -188,7 +188,7 @@ $Selenium->RunTest(
             $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
             $Selenium->WaitFor(
-                Time => 90,
+                Time => 300,
                 JavaScript =>
                     'return typeof($) === "function" && $(".Header h2").text().trim() === "Mail Configuration (3/4)";'
             );
@@ -208,7 +208,7 @@ $Selenium->RunTest(
             $Selenium->find_element( '#ButtonSkipMail', 'css' )->VerifiedClick();
 
             $Selenium->WaitFor(
-                Time => 60,
+                Time => 300,
                 JavaScript =>
                     'return typeof($) === "function" && $(".Header h2").text().trim() === "Finished (4/4)";'
             );
