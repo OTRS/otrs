@@ -2750,7 +2750,7 @@ sub PageNavBar {
 
     # Sanitize parameters to avoid tampering.
     for my $Name (qw(StartHit AllHits)) {
-        $Param{$Name} = int($Param{$Name} // 0);
+        $Param{$Name} = int( $Param{$Name} // 0 );
     }
 
     my $Limit = $Param{Limit} || 0;
