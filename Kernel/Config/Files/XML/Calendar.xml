@@ -471,7 +471,7 @@
         </Value>
     </Setting>
     <Setting Name="AppointmentCalendar::Import::RecurringMonthsLimit" Required="1" Valid="1">
-        <Description Translatable="1">OTRS doesn't support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next n months (120 months/10 years by default).</Description>
+        <Description Translatable="1">OTRS doesn't support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).</Description>
         <Navigation>Core::AppointmentCalendar</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+$">120</Item>

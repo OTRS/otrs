@@ -181,7 +181,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::NumberGenerator::CheckSystemID" Required="1" Valid="1">
-        <Description Translatable="1">Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).</Description>
+        <Description Translatable="1">Checks the SystemID in ticket number detection for follow-ups ( If inactive, SystemID will be changed after using the system).</Description>
         <Navigation>Core::Ticket</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
@@ -392,7 +392,7 @@
         </Value>
     </Setting>
     <Setting Name="DynamicFieldFromCustomerUser::Mapping" Required="0" Valid="0">
-        <Description Translatable="1">Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn't be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.</Description>
+        <Description Translatable="1">Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn't be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting.</Description>
         <Navigation>Core::Ticket</Navigation>
         <Value>
             <Hash>
@@ -401,7 +401,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser" Required="0" Valid="0">
-        <Description Translatable="1">This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.</Description>
+        <Description Translatable="1">This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.</Description>
         <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
@@ -1580,7 +1580,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::ZoomAttachmentDisplayCount" Required="1" Valid="1">
-        <Description Translatable="1">Shows a count of icons in the ticket zoom, if the article has attachments.</Description>
+        <Description Translatable="1">Shows a count of attachments in the ticket zoom, if the article has attachments.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
             <Item ValueType="Select" SelectedID="20">
@@ -2025,7 +2025,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketStatusView###ViewableTicketsPage" Required="1" Valid="1">
-        <Description Translatable="1">Shows all open tickets (even if they are locked) in the status view of the agent interface.</Description>
+        <Description Translatable="1">Number of tickets to be displayed in each page.</Description>
         <Navigation>Frontend::Agent::View::TicketStatus</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+$">50</Item>
@@ -3235,7 +3235,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketClose###Title" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
-        <Description Translatable="1">Shows the title fields in the close ticket screen of the agent interface.</Description>
+        <Description Translatable="1">Shows the title field in the close ticket screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -3443,7 +3443,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketNote###Title" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
-        <Description Translatable="1">Shows the title fields in the ticket note screen of the agent interface.</Description>
+        <Description Translatable="1">Shows the title field in the ticket note screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -3650,7 +3650,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketOwner###Title" Required="0" Valid="1">
-        <Description Translatable="1">Shows the title fields in the ticket owner screen of a zoomed ticket in the agent interface.</Description>
+        <Description Translatable="1">Shows the title field in the ticket owner screen of a zoomed ticket in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketOwner</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -3856,7 +3856,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPending###Title" Required="0" Valid="1">
-        <Description Translatable="1">Shows the title fields in the ticket pending screen of a zoomed ticket in the agent interface.</Description>
+        <Description Translatable="1">Shows the title field in the ticket pending screen of a zoomed ticket in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketPending</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -4063,7 +4063,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPriority###Title" Required="0" Valid="1">
-        <Description Translatable="1">Shows the title fields in the ticket priority screen of a zoomed ticket in the agent interface.</Description>
+        <Description Translatable="1">Shows the title field in the ticket priority screen of a zoomed ticket in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketPriority</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -4270,7 +4270,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketResponsible###Title" Required="0" Valid="1">
-        <Description Translatable="1">Shows the title fields in the ticket responsible screen of the agent interface.</Description>
+        <Description Translatable="1">Shows the title field in the ticket responsible screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketResponsible</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
@@ -4333,7 +4333,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketBulk###StateType" Required="1" Valid="1">
-        <Description Translatable="1">Defines the next state of a ticket after adding a note, in the ticket bulk screen of the agent interface.</Description>
+        <Description Translatable="1">Defines the next state of a ticket, in the ticket bulk screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketBulk</Navigation>
         <Value>
             <Array>
@@ -4345,7 +4345,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketBulk###StateDefault" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
-        <Description Translatable="1">Defines the default next state of a ticket after adding a note, in the ticket bulk screen of the agent interface.</Description>
+        <Description Translatable="1">Defines the default next state of a ticket, in the ticket bulk screen of the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketBulk</Navigation>
         <Value>
             <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">open</Item>
@@ -5644,7 +5644,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::OverviewMenuModule###001-Sort" Required="0" Valid="1">
-        <Description Translatable="1">Shows a select of ticket attributes to order the queue view ticket list. The possible selections can be configured via 'TicketOverviewMenuSort###SortAttributes'.</Description>
+        <Description Translatable="1">This setting shows the sorting attributes in all overview screen, not only in queue view.</Description>
         <Navigation>Frontend::Agent::TicketOverview::MenuModule</Navigation>
         <Value>
             <Hash>
@@ -6311,7 +6311,7 @@
         </Value>
     </Setting>
     <Setting Name="OnlyValuesOnTicket" Required="1" Valid="1">
-        <Description Translatable="1">Defines if the values for filters should be retrieved from all available tickets. If set to "Yes", only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.</Description>
+        <Description Translatable="1">Defines if the values for filters should be retrieved from all available tickets. If active, only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.</Description>
         <Navigation>Frontend::Agent::View::Dashboard::TicketFilters</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
@@ -11306,7 +11306,7 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="AutoResponseForWebTickets" Required="1" Valid="1">
-        <Description Translatable="1">If this option is set to 'Yes', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to 'No', no autoresponses will be sent.</Description>
+        <Description Translatable="1">If this option is active, tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is inactive, no autoresponses will be sent.</Description>
         <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>

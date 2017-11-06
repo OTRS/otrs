@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="2.0" init="Framework">
     <Setting Name="SecureMode" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.</Description>
+        <Description Translatable="1">Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If inactive, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not inactive, it also disables the GenericAgent, PackageManager and SQL Box.</Description>
         <Navigation>Core</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -478,7 +478,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeShowAlwaysLong" Required="1" Valid="1">
-        <Description Translatable="1">Shows time in long format (days, hours, minutes), if set to "Yes"; or in short format (days, hours), if set to "No".</Description>
+        <Description Translatable="1">Shows time in long format (days, hours, minutes), if active; or in short format (days, hours), if inactive.</Description>
         <Navigation>Core::Time</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -958,7 +958,7 @@
         </Value>
     </Setting>
     <Setting Name="SessionCheckRemoteIP" Required="1" Valid="1">
-        <Description Translatable="1">Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.</Description>
+        <Description Translatable="1">Turns on the remote ip address check. It should not be active if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.</Description>
         <Navigation>Core::Session</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
@@ -1945,7 +1945,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeVacationDays" Required="1" Valid="1">
-        <Description Translatable="1">Adds the permanent vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the permanent vacation days.</Description>
         <Navigation>Core::Time</Navigation>
         <Value>
             <Item ValueType="VacationDays">
@@ -1959,7 +1959,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeVacationDaysOneTime" Required="1" Valid="1">
-        <Description Translatable="1">Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the one time vacation days.</Description>
         <Navigation>Core::Time</Navigation>
         <Value>
             <Item ValueType="VacationDaysOneTime">
@@ -2480,7 +2480,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeVacationDays::Calendar1" Required="1" Valid="1">
-        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar.</Description>
         <Navigation>Core::Time::Calendar1</Navigation>
         <Value>
             <Item ValueType="VacationDays">
@@ -2494,7 +2494,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeVacationDaysOneTime::Calendar1" Required="1" Valid="1">
-        <Description Translatable="1">Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the one time vacation days for the indicated calendar.</Description>
         <Navigation>Core::Time::Calendar1</Navigation>
         <Value>
             <Item ValueType="VacationDaysOneTime">
@@ -3015,7 +3015,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeVacationDays::Calendar2" Required="1" Valid="1">
-        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar.</Description>
         <Navigation>Core::Time::Calendar2</Navigation>
         <Value>
             <Item ValueType="VacationDays">
@@ -3029,7 +3029,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeVacationDaysOneTime::Calendar2" Required="1" Valid="1">
-        <Description Translatable="1">Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the one time vacation days for the indicated calendar.</Description>
         <Navigation>Core::Time::Calendar2</Navigation>
         <Value>
             <Item ValueType="VacationDaysOneTime">
@@ -3550,7 +3550,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeVacationDays::Calendar3" Required="1" Valid="1">
-        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar.</Description>
         <Navigation>Core::Time::Calendar3</Navigation>
         <Value>
             <Item ValueType="VacationDays">
@@ -3564,7 +3564,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeVacationDaysOneTime::Calendar3" Required="1" Valid="1">
-        <Description Translatable="1">Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the one time vacation days for the indicated calendar.</Description>
         <Navigation>Core::Time::Calendar3</Navigation>
         <Value>
             <Item ValueType="VacationDaysOneTime">
@@ -4085,7 +4085,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeVacationDays::Calendar4" Required="1" Valid="1">
-        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar.</Description>
         <Navigation>Core::Time::Calendar4</Navigation>
         <Value>
             <Item ValueType="VacationDays">
@@ -4099,7 +4099,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeVacationDaysOneTime::Calendar4" Required="1" Valid="1">
-        <Description Translatable="1">Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the one time vacation days for the indicated calendar.</Description>
         <Navigation>Core::Time::Calendar4</Navigation>
         <Value>
             <Item ValueType="VacationDaysOneTime">
@@ -4620,7 +4620,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeVacationDays::Calendar5" Required="1" Valid="1">
-        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar.</Description>
         <Navigation>Core::Time::Calendar5</Navigation>
         <Value>
             <Item ValueType="VacationDays">
@@ -4634,7 +4634,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeVacationDaysOneTime::Calendar5" Required="1" Valid="1">
-        <Description Translatable="1">Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the one time vacation days for the indicated calendar.</Description>
         <Navigation>Core::Time::Calendar5</Navigation>
         <Value>
             <Item ValueType="VacationDaysOneTime">
@@ -5155,7 +5155,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeVacationDays::Calendar6" Required="1" Valid="1">
-        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar.</Description>
         <Navigation>Core::Time::Calendar6</Navigation>
         <Value>
             <Item ValueType="VacationDays">
@@ -5169,7 +5169,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeVacationDaysOneTime::Calendar6" Required="1" Valid="1">
-        <Description Translatable="1">Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the one time vacation days for the indicated calendar.</Description>
         <Navigation>Core::Time::Calendar6</Navigation>
         <Value>
             <Item ValueType="VacationDaysOneTime">
@@ -5690,7 +5690,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeVacationDays::Calendar7" Required="1" Valid="1">
-        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar.</Description>
         <Navigation>Core::Time::Calendar7</Navigation>
         <Value>
             <Item ValueType="VacationDays">
@@ -5704,7 +5704,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeVacationDaysOneTime::Calendar7" Required="1" Valid="1">
-        <Description Translatable="1">Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the one time vacation days for the indicated calendar.</Description>
         <Navigation>Core::Time::Calendar7</Navigation>
         <Value>
             <Item ValueType="VacationDaysOneTime">
@@ -6225,7 +6225,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeVacationDays::Calendar8" Required="1" Valid="1">
-        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar.</Description>
         <Navigation>Core::Time::Calendar8</Navigation>
         <Value>
             <Item ValueType="VacationDays">
@@ -6239,7 +6239,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeVacationDaysOneTime::Calendar8" Required="1" Valid="1">
-        <Description Translatable="1">Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the one time vacation days for the indicated calendar.</Description>
         <Navigation>Core::Time::Calendar8</Navigation>
         <Value>
             <Item ValueType="VacationDaysOneTime">
@@ -6760,7 +6760,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeVacationDays::Calendar9" Required="1" Valid="1">
-        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the permanent vacation days for the indicated calendar.</Description>
         <Navigation>Core::Time::Calendar9</Navigation>
         <Value>
             <Item ValueType="VacationDays">
@@ -6774,7 +6774,7 @@
         </Value>
     </Setting>
     <Setting Name="TimeVacationDaysOneTime::Calendar9" Required="1" Valid="1">
-        <Description Translatable="1">Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
+        <Description Translatable="1">Adds the one time vacation days for the indicated calendar.</Description>
         <Navigation>Core::Time::Calendar9</Navigation>
         <Value>
             <Item ValueType="VacationDaysOneTime">
@@ -6919,7 +6919,7 @@
         </Value>
     </Setting>
     <Setting Name="DemoSystem" Required="1" Valid="1">
-        <Description Translatable="1">Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.</Description>
+        <Description Translatable="1">Runs the system in "Demo" mode. If active, agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.</Description>
         <Navigation>Core</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -7298,7 +7298,7 @@
         </Value>
     </Setting>
     <Setting Name="PGP::TrustedNetwork" Required="0" Valid="1">
-        <Description Translatable="1">Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.</Description>
+        <Description Translatable="1">Activate this if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.</Description>
         <Navigation>Core::Crypt::PGP</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -7398,7 +7398,7 @@
         </Value>
     </Setting>
     <Setting Name="NotificationBodyLostPasswordToken" Required="1" Valid="1">
-        <Description Translatable="1">Defines the body text for notification mails sent to agents, with token about new requested password (after using this link the new password will be sent).</Description>
+        <Description Translatable="1">Defines the body text for notification mails sent to agents, with token about new requested password.</Description>
         <Navigation>Frontend::Agent</Navigation>
         <Value>
             <Item ValueType="Textarea">Hi &lt;OTRS_USERFIRSTNAME&gt;,
@@ -7422,7 +7422,7 @@ If you did not request a new password, please ignore this email.
         </Value>
     </Setting>
     <Setting Name="NotificationBodyLostPassword" Required="1" Valid="1">
-        <Description Translatable="1">Defines the body text for notification mails sent to agents, about new password (after using this link the new password will be sent).</Description>
+        <Description Translatable="1">Defines the body text for notification mails sent to agents, about new password.</Description>
         <Navigation>Frontend::Agent</Navigation>
         <Value>
             <Item ValueType="Textarea">Hi &lt;OTRS_USERFIRSTNAME&gt;,
@@ -7998,7 +7998,7 @@ You can log in via the following URL:
         </Value>
     </Setting>
     <Setting Name="CustomerPanelBodyLostPasswordToken" Required="1" Valid="1">
-        <Description Translatable="1">Defines the body text for notification mails sent to customers, with token about new requested password (after using this link the new password will be sent).</Description>
+        <Description Translatable="1">Defines the body text for notification mails sent to customers, with token about new requested password.</Description>
         <Navigation>Frontend::Customer</Navigation>
         <Value>
             <Item ValueType="Textarea">Hi &lt;OTRS_USERFIRSTNAME&gt;,
@@ -8022,7 +8022,7 @@ If you did not request a new password, please ignore this email.
         </Value>
     </Setting>
     <Setting Name="CustomerPanelBodyLostPassword" Required="1" Valid="1">
-        <Description Translatable="1">Defines the body text for notification mails sent to customers, about new password (after using this link the new password will be sent).</Description>
+        <Description Translatable="1">Defines the body text for notification mails sent to customers, about new password.</Description>
         <Navigation>Frontend::Customer</Navigation>
         <Value>
             <Item ValueType="Textarea">Hi &lt;OTRS_USERFIRSTNAME&gt;,
@@ -12258,7 +12258,7 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="TimeShowCompleteDescription" Required="1" Valid="1">
-        <Description Translatable="1">Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".</Description>
+        <Description Translatable="1">Shows time use complete description (days, hours, minutes), if active; or just first letter (d, h, m), if inactive.</Description>
         <Navigation>Core::Time</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -12375,14 +12375,14 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="Cache::InMemory" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Should the cache data be held in memory?</Description>
+        <Description Translatable="1">If active the cache data be held in memory.</Description>
         <Navigation>Core::Cache</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Cache::InBackend" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Should the cache data be stored in the selected cache backend?</Description>
+        <Description Translatable="1">If active the cache data will be stored in cache backend.</Description>
         <Navigation>Core::Cache</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
