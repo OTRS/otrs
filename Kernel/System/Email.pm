@@ -815,18 +815,72 @@ Bounce an email
 sub Bounce {
     my ( $Self, %Param ) = @_;
 
+    # determine backend name
+    my $BackendName = '';
+    if ( ref( $Self->{Backend} ) =~ m{::([^:]+)$}xms ) {
+        $BackendName = $1;
+    }
+
+    # start a new outgoing communication
+    my $CommunicationLogObject = $Kernel::OM->Create(
+        'Kernel::System::CommunicationLog',
+        ObjectParams => {
+            Transport   => 'Email',
+            Direction   => 'Outgoing',
+            AccountType => $BackendName,
+        },
+    );
+
+    $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
+
+    $CommunicationLogObject->ObjectLog(
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::Email',
+        Value         => 'Building message for bounce.',
+    );
+
+    my $SendSuccess = sub {
+        return {
+            Success => 1,
+            @_,
+        };
+    };
+
+    my $SendError = sub {
+        my %Param = @_;
+
+        $CommunicationLogObject->ObjectLog(
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::Email',
+            Value         => "Errors occurred during message bounce: $Param{ErrorMessage}",
+        );
+
+        $CommunicationLogObject->ObjectLogStop(
+            ObjectLogType => 'Message',
+            Status        => 'Failed',
+        );
+
+        $CommunicationLogObject->CommunicationStop( Status => 'Failed' );
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => $Param{ErrorMessage},
+        );
+
+        return {
+            Success => 0,
+            %Param,
+        };
+    };
+
     # check needed stuff
     for (qw(From To Email)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!"
+            return $SendError->(
+                ErrorMessage => "Need $_!",
             );
-
-            return {
-                Success      => 0,
-                ErrorMessage => "Need $_",
-            };
         }
     }
 
@@ -855,10 +909,11 @@ sub Bounce {
         $BodyAsString .= $_ . "\n";
     }
     my $HeaderAsString = $HeaderObject->as_string();
+    my $OldMessageID   = $HeaderObject->get('Message-ID') || '??';
+    my $Subject        = $HeaderObject->get('Subject');
 
     # debug
     if ( $Self->{Debug} > 1 ) {
-        my $OldMessageID = $HeaderObject->get('Message-ID') || '??';
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "Bounced email to '$Param{To}' from '$RealFrom'. "
@@ -866,23 +921,58 @@ sub Bounce {
         );
     }
 
-    my $SentResult = $Self->{Backend}->Send(
-        From                   => $RealFrom,
-        ToArray                => [ $Param{To} ],
-        Header                 => \$HeaderAsString,
-        Body                   => \$BodyAsString,
-        CommunicationLogObject => $Param{CommunicationLogObject},
+    $CommunicationLogObject->ObjectLog(
+        ObjectLogType => 'Message',
+        Priority      => 'Info',
+        Key           => 'Kernel::System::Email',
+        Value         => "Queuing message for delivery.",
     );
 
-    return $SentResult if !$SentResult->{Success};
-
-    return {
-        Success => 1,
-        Data    => {
+    # Save it to the queue
+    my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
+    my $MailQueued      = $MailQueueObject->Create(
+        ArticleID => $Param{ArticleID},
+        MessageID => $MessageID,
+        Sender    => $RealFrom,
+        Recipient => [ $Param{To} ],
+        Message   => {
             Header => $HeaderAsString,
             Body   => $BodyAsString,
         },
-    };
+        CommunicationLogObject => $CommunicationLogObject,
+    );
+
+    if ( !$MailQueued ) {
+        return $SendError->(
+            ErrorMessage => sprintf(
+                "Error while queueing email to '%s' from '%s'. Subject => '%s';",
+                $Param{To},
+                $RealFrom,
+                $Subject,
+            ),
+        );
+    }
+
+    $CommunicationLogObject->ObjectLog(
+        ObjectLogType => 'Message',
+        Priority      => 'Info',
+        Key           => 'Kernel::System::Email',
+        Value         => 'Successfully bounced message '
+            . sprintf(
+            "(%sTo: '%s', From: '%s', Subject: '%s').",
+            ("MessageID: ${ OldMessageID }"),
+            $Param{To},
+            $RealFrom,
+            $Subject,
+            ),
+    );
+
+    return $SendSuccess->(
+        Data => {
+            Header => $HeaderAsString,
+            Body   => $BodyAsString,
+        },
+    );
 }
 
 =begin Internal:
