@@ -300,7 +300,7 @@ Core.AJAX = (function (TargetNS) {
             OldUrl = location.href,
             NewUrl = Core.Config.Get('Baselink') + "RequestedURL=" + encodeURIComponent(OldUrl);
 
-        if (Headers.match(/X-OTRS-Login: /)) {
+        if (Headers.match(/X-OTRS-Login: /i)) {
             location.href = NewUrl;
             return true;
         }
