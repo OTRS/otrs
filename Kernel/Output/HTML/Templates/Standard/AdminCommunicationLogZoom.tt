@@ -130,14 +130,12 @@
                             </td>
                             <td class="Direction">
                                 [% IF Data.Direction == 'Incoming' %]
-                                <span class=" Direction Incoming" title="[% Data.Direction | html %]">
+                                <span class="Direction Incoming" title="[% Data.Direction | html %]">
                                     <i class="fa fa-long-arrow-left"></i>
-                                    <i class="fa fa-square-o"></i>
                                 </span>
                                 [% ELSE %]
-                                <span class=" Direction Outgoing" title="[% Data.Direction | html %]">
+                                <span class="Direction Outgoing" title="[% Data.Direction | html %]">
                                     <i class="fa fa-long-arrow-right"></i>
-                                    <i class="fa fa-square-o"></i>
                                 </span>
                                 [% END %]
                             </td>
