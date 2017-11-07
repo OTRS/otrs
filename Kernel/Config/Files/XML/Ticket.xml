@@ -7870,6 +7870,8 @@
                     <Array>
                         <Item>Core.UI.AllocationList.js</Item>
                         <Item>Core.Agent.TableFilters.js</Item>
+                        <Item>Core.Agent.Overview.js</Item>
+                        <Item>Core.Agent.TicketSplit.js</Item>
                     </Array>
                 </Item>
             </Hash>
@@ -7953,6 +7955,8 @@
                     <Array>
                         <Item>Core.UI.AllocationList.js</Item>
                         <Item>Core.Agent.TableFilters.js</Item>
+                        <Item>Core.Agent.Overview.js</Item>
+                        <Item>Core.Agent.TicketSplit.js</Item>
                     </Array>
                 </Item>
             </Hash>
