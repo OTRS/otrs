@@ -1623,6 +1623,7 @@ sub _ShowOverview {
         $Key =~ s{^.*/([^/]+)$}{$1}smx;
         my $Value = $Key;
         $Value =~ s{^(.+).yml}{$1}smx;
+        $Value =~ s{_}{ }smxg;
         $ExampleProcessData{$Key} = $Value;
     }
 
