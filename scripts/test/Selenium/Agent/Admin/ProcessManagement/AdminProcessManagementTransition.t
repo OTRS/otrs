@@ -12,65 +12,72 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # create test user and login
+        # Create test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
 
+        my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+            UserLogin => $TestUserLogin,
+        );
+
+        my $ProcessRandom    = 'Process' . $Helper->GetRandomID();
+        my $TransitionRandom = 'Transition' . $Helper->GetRandomID();
+
+        # Login as test user.
         $Selenium->Login(
             Type     => 'Agent',
             User     => $TestUserLogin,
             Password => $TestUserLogin,
         );
 
-        # get test user ID
-        my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-            UserLogin => $TestUserLogin,
-        );
-
-        # define needed variables
-        my $ProcessRandom    = 'Process' . $Helper->GetRandomID();
-        my $TransitionRandom = 'Transition' . $Helper->GetRandomID();
-
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # go to AdminProcessManagement screen
+        # Go to AdminProcessManagement screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
 
-        # create new test Process
+        # create new test Process.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessNew' )]")->VerifiedClick();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
+
         $Selenium->find_element( "#Name",        'css' )->send_keys($ProcessRandom);
         $Selenium->find_element( "#Description", 'css' )->send_keys("Selenium Test Process");
         $Selenium->find_element( "#Submit",      'css' )->VerifiedClick();
 
-        # click on Transitions dropdown
-        $Selenium->find_element( "Transitions", 'link_text' )->VerifiedClick();
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("a.AsBlock:contains(Transitions)").length'
+        );
 
-        # wait to toggle element
-        sleep 1;
+        # Click on Transitions dropdown.
+        $Selenium->find_element( "Transitions", 'link_text' )->click();
 
-        # click on "Create New Transition"
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionNew' )]")->click();
+        # Wait to toggle element.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("a[href*=\'Subaction=TransitionNew\']:visible").length'
+        );
 
-        # switch to pop up window
+        # Click on "Create New Transition".
+        $Selenium->execute_script(
+            "\$('a[href*=\"Subaction=TransitionNew\"]').trigger('click')"
+        );
+
+        # Switch to pop up window.
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until form has loaded, if necessary
+        # Wait until form has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
-        # check AdminProcessManagementTransition screen
+        # Check AdminProcessManagementTransition screen.
         for my $ID (
             qw(Name OverallConditionLinking ConditionLinking[_INDEX_] ConditionFieldName[1][1]
             ConditionFieldType[_INDEX_][_FIELDINDEX_] ConditionFieldValue[1][1] ConditionAdd)
@@ -90,9 +97,11 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # check client side validation
+        # Check client side validation.
         $Selenium->find_element( "#Name",   'css' )->clear();
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#Submit", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name.Error").length' );
+
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
@@ -101,7 +110,7 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
-        # input fields and submit
+        # Input fields and submit.
         my $TransitionFieldName = "Field" . $Helper->GetRandomID();
         my $TransitionValueName = "Value" . $Helper->GetRandomID();
         $Selenium->find_element( "#Name", 'css' )->send_keys($TransitionRandom);
@@ -118,29 +127,29 @@ $Selenium->RunTest(
         $Selenium->find_element(".//*[\@id='ConditionFieldValue[1][1]']")->send_keys($TransitionValueName);
         $Selenium->find_element( "#Submit", 'css' )->click();
 
-        # switch back to main window
+        # Switch back to main window.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        sleep 1;
-
-        # check for created test Transition using filter on AdminProcessManagement screen
+        # Check for created test Transition using filter on AdminProcessManagement screen.
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('ul#Transitions li:contains($TransitionRandom)').length"
+                "return typeof(\$) === 'function' && \$('#Transitions li:contains($TransitionRandom)').length"
         );
-        $Selenium->find_element( "Transitions",       'link_text' )->VerifiedClick();
+        $Selenium->find_element( "Transitions", 'link_text' )->click();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#TransitionFilter:visible").length' );
+
         $Selenium->find_element( "#TransitionFilter", 'css' )->send_keys($TransitionRandom);
 
-        # wait for filter to kick in
-        sleep 1;
+        # Wait for filter to kick in.
+        sleep 2;
 
         $Self->True(
             $Selenium->find_element("//*[text()=\"$TransitionRandom\"]")->is_displayed(),
             "$TransitionRandom transition found on page",
         );
 
-        # get test TransitionID
+        # Get test TransitionID.
         my $DBObject         = $Kernel::OM->Get('Kernel::System::DB');
         my $TransitionQuoted = $DBObject->Quote($TransitionRandom);
         $DBObject->Prepare(
@@ -152,7 +161,7 @@ $Selenium->RunTest(
             $TransitionID = $Row[0];
         }
 
-        # go to edit test Transition screen
+        # Go to edit test Transition screen.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionEdit;ID=$TransitionID' )]")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
@@ -161,7 +170,7 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name').length" );
 
-        # check stored value
+        # Check stored value.
         $Self->Is(
             $Selenium->find_element( "#Name", 'css' )->get_value(),
             $TransitionRandom,
@@ -193,7 +202,7 @@ $Selenium->RunTest(
             "ConditionFieldValue stored value",
         );
 
-        # edit test Transition values
+        # Edit test Transition values.
         my $TransitionFieldNameEdit = $TransitionFieldName . "edit";
         my $TransitionValueNameEdit = $TransitionValueName . "edit";
 
@@ -209,37 +218,26 @@ $Selenium->RunTest(
             ->send_keys($TransitionValueNameEdit);
         $Selenium->find_element( "#Submit", 'css' )->click();
 
-        # return to main window
+        # Return to main window.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        sleep 1;
-
-        # check for edited test Transition using filter on AdminProcessManagement screen
-        my $TransitionRandomEdit = $TransitionRandom . "edit";
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#TransitionFilter").length' );
-        $Selenium->find_element( "Transitions",       'link_text' )->VerifiedClick();
-        $Selenium->find_element( "#TransitionFilter", 'css' )->send_keys($TransitionRandomEdit);
-
-        # wait for filter to kick in
-        sleep 1;
-
-        $Self->True(
-            $Selenium->find_element("//*[text()=\"$TransitionRandomEdit\"]")->is_displayed(),
-            "Edited $TransitionRandomEdit transition found on page",
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('a[href*=\"Subaction=TransitionEdit;ID=$TransitionID\"]').length"
         );
 
-        # go to edit test ActivityDialog screen again
+        # Go to edit test ActivityDialog screen again.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionEdit;ID=$TransitionID' )]")->click();
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name').length" );
 
-        # check edited values
+        # Check edited values.
         $Self->Is(
             $Selenium->find_element( "#Name", 'css' )->get_value(),
-            $TransitionRandomEdit,
+            $TransitionRandom . 'edit',
             "#Name updated value",
         );
         $Self->Is(
@@ -258,14 +256,15 @@ $Selenium->RunTest(
             "ConditionFieldValue updated value",
         );
 
-        # return to main window
+        # Return to main window.
         $Selenium->close();
+        $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # get process id and return to overview afterwards
+        # Get process id and return to overview afterwards.
         my $ProcessID = $Selenium->execute_script('return $("#ProcessDelete").data("id")') || undef;
 
-        # delete test transition
+        # Delete test transition.
         my $Success = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition')->TransitionDelete(
             ID     => $TransitionID,
             UserID => $TestUserID,
@@ -276,7 +275,7 @@ $Selenium->RunTest(
             "Transition is deleted - $TransitionID",
         );
 
-        # delete test process
+        # Delete test process.
         $Success = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process')->ProcessDelete(
             ID     => $ProcessID,
             UserID => $TestUserID,
@@ -287,18 +286,18 @@ $Selenium->RunTest(
             "Process is deleted - $ProcessID",
         );
 
-        # navigate to AdminProcessManagement screen again
+        # Navigate to AdminProcessManagement screen again.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
 
-        # synchronize process after deleting test process
+        # Synchronize process after deleting test process.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        # make sure cache is correct
-        for my $Cache (
-            qw( ProcessManagement_Process ProcessManagement_Transition  )
-            )
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+        # Make sure the cache is correct.
+        for my $Cache (qw(ProcessManagement_Process ProcessManagement_Transition))
         {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => $Cache );
+            $CacheObject->CleanUp( Type => $Cache );
         }
 
     }
