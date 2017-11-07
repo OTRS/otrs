@@ -165,6 +165,10 @@ $Selenium->RunTest(
 
         # Submit.
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".TicketZoom").length;'
+        );
 
         my $Url = $Selenium->get_current_url();
 
