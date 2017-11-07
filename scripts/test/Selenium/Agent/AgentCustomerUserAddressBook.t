@@ -734,7 +734,8 @@ $Selenium->RunTest(
 
                         $Self->True(
                             $Selenium->execute_script(
-                                "return \$('input[value=\"$CustomerUserLogin\"]:disabled').length;"),
+                                "return \$('input[value=\"$CustomerUserLogin\"]:disabled').length;"
+                            ),
                             "CustomerUser $CustomerUserLogin is disabled on result page",
                         );
                     }

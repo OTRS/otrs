@@ -104,7 +104,7 @@ $Selenium->RunTest(
 
         # Kill the session of the current user and see what happens - this needs to cause a redirect to login.
         my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
-        my @Sessions = $SessionObject->GetAllSessionIDs();
+        my @Sessions      = $SessionObject->GetAllSessionIDs();
         for my $SessionID (@Sessions) {
             $SessionObject->RemoveSessionID(
                 SessionID => $SessionID
