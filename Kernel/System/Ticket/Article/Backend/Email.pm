@@ -390,7 +390,6 @@ sub ArticleBounce {
         From         => $Param{From},
         To           => $Param{To},
         Email        => $Email,
-        ArticleID    => $Param{ArticleID},
     );
 
     return if !$BounceSent->{Success};

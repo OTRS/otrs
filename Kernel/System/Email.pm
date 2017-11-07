@@ -931,7 +931,6 @@ sub Bounce {
     # Save it to the queue
     my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
     my $MailQueued      = $MailQueueObject->Create(
-        ArticleID => $Param{ArticleID},
         MessageID => $MessageID,
         Sender    => $RealFrom,
         Recipient => [ $Param{To} ],
