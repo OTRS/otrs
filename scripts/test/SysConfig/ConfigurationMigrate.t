@@ -250,6 +250,25 @@ my @Tests = (
         Name     => 'Disabled setting with two sub levels',
         Key      => 'Ticket::Frontend::AgentTicketSearch###Defaults###Fulltext',
     },
+    {
+        TestType       => 'EffectiveValue',
+        Name           => 'Effective Value',
+        Key            => 'Frontend::NavigationModule###AdminDynamicField',
+        EffectiveValue => {
+            'Block' => 'Ticket',
+            'Description' => 'Create and manage dynamic fields (other description).',
+            'Group' => [
+                'admin',
+                'users',
+            ],
+            'GroupRo' => [],
+            'IconBig' => 'fa-align-left',
+            'IconSmall' => '',
+            'Module' => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
+            'Name' => 'Dynamic Fields',
+            'Prio' => '1000',
+        },
+    },
 
     # There are other renamed settings, this are included AllSetings,
     #   and should not add any results in the MissingSettings above.
@@ -296,6 +315,15 @@ for my $TestData (@Tests) {
             $Setting{IsValid},
             0,
             "TEST $TestData->{Name}: Setting is disabled."
+        );
+    }
+    elsif ( $TestData->{TestType} eq 'EffectiveValue' ) {
+        my %Setting = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet( Name => $TestData->{Key} );
+
+        $Self->IsDeeply(
+            $Setting{EffectiveValue},
+            $TestData->{EffectiveValue},
+            "TEST $TestData->{Name}: Check effective value."
         );
     }
 }

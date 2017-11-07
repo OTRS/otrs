@@ -166,7 +166,8 @@ $Self->{'PreferencesGroups'}->{'DynamicFieldsOverviewPageShown'} =  {
 $Self->{'Frontend::Module'}->{'AdminDynamicField'} =  {
   'Description' => 'This module is part of the admin area of OTRS.',
   'Group' => [
-    'admin'
+    'admin',
+    'users'
   ],
   'Loader' => {
     'CSS' => [
@@ -178,7 +179,7 @@ $Self->{'Frontend::Module'}->{'AdminDynamicField'} =  {
   },
   'NavBarModule' => {
     'Block' => 'Ticket',
-    'Description' => 'Create and manage dynamic fields.',
+    'Description' => 'Create and manage dynamic fields (other description).',
     'Module' => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
     'Name' => 'Dynamic Fields',
     'Prio' => '1000'
