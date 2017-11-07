@@ -4814,7 +4814,7 @@ sub _ConfigurationDeploy {
 
     # if this is a Packageupgrade and if there is a ZZZAutoOTRS5.pm file in the backup location
     # (this file has been copied there during the migration from OTRS 5 to OTRS 6)
-    if ( $Param{Action} eq 'PackageUpgrade' && -e $OTRS5ConfigFile ) {
+    if ( ( IsHashRefWithData( $Self->{MergedPackages} ) || $Param{Action} eq 'PackageUpgrade' ) && -e $OTRS5ConfigFile ) {
 
         # delete categories cache
         $Kernel::OM->Get('Kernel::System::Cache')->Delete(
