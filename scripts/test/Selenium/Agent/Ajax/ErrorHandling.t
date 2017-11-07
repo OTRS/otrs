@@ -22,8 +22,7 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        my $Helper     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         my $Language      = 'de';
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -31,7 +30,7 @@ $Selenium->RunTest(
             Groups   => [ 'admin', 'users' ],
         ) || die "Did not get test user";
 
-        my $TestUserID = $UserObject->UserLookup(
+        my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
@@ -51,7 +50,6 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor( JavaScript => "return \$('.CommunicationError:visible').length" );
 
-        # Get language object.
         my $LanguageObject = Kernel::Language->new(
             UserLanguage => $Language,
         );
@@ -98,11 +96,11 @@ window.AjaxOriginal = \$.ajax;
     Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("Error during AJAX communication. Status: " + Status + ", Error: " + Error, 'ConnectionError'));
     return false;
 };
+\$.ajax();
 JAVASCRIPT
-        $Selenium->execute_script($AjaxOverloadJSError);
 
         # Trigger faked ajax request.
-        $Selenium->execute_script('return $.ajax();');
+        $Selenium->execute_script($AjaxOverloadJSError);
 
         # Wait until all AJAX calls finished.
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
@@ -123,11 +121,11 @@ JAVASCRIPT
         my $AjaxOverloadJSSuccess = <<"JAVASCRIPT";
 \$.ajax = window.AjaxOriginal;
 Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), null, function () {}, 'html');
+\$.ajax();
 JAVASCRIPT
-        $Selenium->execute_script($AjaxOverloadJSSuccess);
 
         # Trigger faked ajax request.
-        $Selenium->execute_script('return $.ajax();');
+        $Selenium->execute_script($AjaxOverloadJSSuccess);
 
         # Wait until all AJAX calls finished.
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
@@ -152,7 +150,6 @@ JAVASCRIPT
 
         # Trigger faked ajax request again.
         $Selenium->execute_script($AjaxOverloadJSError);
-        $Selenium->execute_script('return $.ajax();');
 
         # Wait until all AJAX calls finished.
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
@@ -184,7 +181,6 @@ JAVASCRIPT
 
         # Now act as if the connection had been re-established.
         $Selenium->execute_script($AjaxOverloadJSSuccess);
-        $Selenium->execute_script('return $.ajax();');
 
         # Wait until all AJAX calls finished.
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
@@ -249,7 +245,6 @@ JAVASCRIPT
 
         # Trigger faked ajax request again.
         $Selenium->execute_script($AjaxOverloadJSError);
-        $Selenium->execute_script('return $.ajax();');
 
         # Wait until all AJAX calls finished.
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
@@ -268,7 +263,6 @@ JAVASCRIPT
 
         # Now act as if the connection had been re-established.
         $Selenium->execute_script($AjaxOverloadJSSuccess);
-        $Selenium->execute_script('return $.ajax();');
 
         # Wait until all AJAX calls finished.
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
@@ -313,6 +307,9 @@ JAVASCRIPT
             $Success,
             "Ticket with ticket ID $TicketID is deleted"
         );
+
+        # Make sure the cache is correct.
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
     }
 );
 
