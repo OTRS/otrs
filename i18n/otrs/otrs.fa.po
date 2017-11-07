@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-10-09 16:06+0000\n"
-"PO-Revision-Date: 2017-10-09 16:24+0000\n"
+"POT-Creation-Date: 2017-11-07 00:18+0000\n"
+"PO-Revision-Date: 2017-11-07 00:23+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Persian (http://www.transifex.com/otrs/OTRS/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -195,10 +195,6 @@ msgstr "توقف بعد از تطبیق"
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
 msgstr ""
-
-#. Template: AdminACLEdit
-msgid "Save settings"
-msgstr "ذخیره تنظیمات"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
@@ -4618,7 +4614,7 @@ msgid "Install Package"
 msgstr "نصب بسته"
 
 #. Template: AdminPackageManager
-msgid "Upgrade Package"
+msgid "Update Package"
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -4653,7 +4649,7 @@ msgid "Enable cloud services"
 msgstr "فعال کردن سرویس های ابری"
 
 #. Template: AdminPackageManager
-msgid "Upgrade all installed packages"
+msgid "Update all installed packages"
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -4667,10 +4663,6 @@ msgstr "فعالیت"
 #. Template: AdminPackageManager
 msgid "Module documentation"
 msgstr "مستندات ماژول"
-
-#. Template: AdminPackageManager
-msgid "Upgrade"
-msgstr "ارتقاء"
 
 #. Template: AdminPackageManager
 msgid "Local Repository"
@@ -6230,8 +6222,8 @@ msgid "S/MIME Certificate"
 msgstr "گواهینامه S/MIME"
 
 #. Template: AdminSMIMECertRead
-msgid "Close dialog"
-msgstr "بستن گفتگوی"
+msgid "Close this dialog"
+msgstr "بستن این پنجره"
 
 #. Template: AdminSMIMECertRead
 msgid "Certificate Details"
@@ -6333,6 +6325,10 @@ msgstr "قالب نتیجه"
 #. Template: AdminSelectBox
 msgid "Run Query"
 msgstr "اجرای کوئری"
+
+#. Template: AdminSelectBox
+msgid "%s Results"
+msgstr ""
 
 #. Template: AdminSelectBox
 msgid "Query is executed."
@@ -6676,6 +6672,26 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Help"
+msgstr ""
+
+#. Template: AdminSystemConfigurationDeployment
+msgid ""
+"This is an overview of all settings which will be part of the deployment if "
+"you start it now. You can compare each setting to its former state by "
+"clicking the icon on the top right."
+msgstr ""
+
+#. Template: AdminSystemConfigurationDeployment
+msgid ""
+"To exclude certain settings from a deployment, click the checkbox on the "
+"header bar of a setting."
+msgstr ""
+
+#. Template: AdminSystemConfigurationDeployment
+msgid ""
+"By default, you will only deploy settings which you changed on your own. If "
+"you'd like to deploy settings changed by other users, too, please click the "
+"link on top of the screen to enter the advanced deployment mode."
 msgstr ""
 
 #. Template: AdminSystemConfigurationDeployment
@@ -7515,6 +7531,10 @@ msgid "in"
 msgstr "در"
 
 #. Template: AgentDashboardCommon
+msgid "Save settings"
+msgstr "ذخیره تنظیمات"
+
+#. Template: AgentDashboardCommon
 msgid "Close this widget"
 msgstr "بستن این ویجت"
 
@@ -7710,12 +7730,12 @@ msgid "Undo & close"
 msgstr "عملیات را برگردان و پنجره را ببند"
 
 #. Template: AgentInfo
-msgid "Info"
-msgstr "اطلاعات"
-
-#. Template: AgentInfo
 msgid "To accept some news, a license or some changes."
 msgstr "برای پذیرش برخی اخبار، یک گواهینامه یا برخی تغییرات."
+
+#. Template: AgentInfo
+msgid "Yes, accepted."
+msgstr ""
 
 #. Template: AgentLinkObject
 msgid "Manage links for %s"
@@ -8319,6 +8339,10 @@ msgstr "تاریخ %s %s %s"
 
 #. Template: AgentTicketHistory
 msgid "Filter for history items"
+msgstr ""
+
+#. Template: AgentTicketHistory
+msgid "Expand/collapse all"
 msgstr ""
 
 #. Template: AgentTicketHistory
@@ -10546,6 +10570,38 @@ msgid "Invalid CommunicationID "
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "All communications"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last 1 hour"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last 3 hours"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last 6 hours"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last 12 hours"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last 24 hours"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last week"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last month"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid StartTime: %s!"
 msgstr ""
 
@@ -10586,6 +10642,10 @@ msgid "Debug"
 msgstr "اشکال زدایی"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Info"
+msgstr "اطلاعات"
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Warn"
 msgstr ""
 
@@ -10616,6 +10676,14 @@ msgstr "ثانیه"
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company updated!"
 msgstr "شرکت مشترک به روز شد."
+
+#. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
+msgid "Dynamic field %s not found!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
+msgid "Unable to set value for dynamic field %s!"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer Company %s already exists!"
@@ -11351,6 +11419,10 @@ msgid ""
 msgstr "بسته توسط گروه OTRS تایید نشده است! توصیه نمی شود از این بسته استفاده کنید ."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Not Started"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Updated"
 msgstr ""
 
@@ -11396,6 +11468,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package could not be upgraded"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Repository List"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -11830,6 +11906,10 @@ msgstr "گواهی %s نمی تواند خوانده شود!"
 msgid "Needed Fingerprint"
 msgstr "اثر انگشت مورد نیاز"
 
+#. Perl Module: Kernel/Modules/AdminSMIME.pm
+msgid "Handle Private Certificate Relations"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminSalutation.pm
 msgid "Salutation added!"
 msgstr "سلام اضافه شده است!"
@@ -12139,7 +12219,7 @@ msgid "No permissions!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentAppointmentList.pm
-msgid "+%d more"
+msgid "+%s more"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentCustomerSearch.pm
@@ -12213,6 +12293,10 @@ msgstr "هدف %s نمی تواند با جسم دیگر  لینک شود!"
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Param Group is required!"
 msgstr "PARAM گروه مورد نیاز است!"
+
+#. Perl Module: Kernel/Modules/AgentPreferences.pm
+msgid "Updated user preferences"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to deploy your changes."
@@ -13386,6 +13470,10 @@ msgid "Re-install Package"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
+msgid "Upgrade"
+msgstr "ارتقاء"
+
+#. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Re-install"
 msgstr ""
 
@@ -13718,6 +13806,10 @@ msgid "%s Upgrade to %s now! %s"
 msgstr "%s ارتقا به %s در حال حاضر! %s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+msgid "Please verify your license data!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
@@ -13746,6 +13838,11 @@ msgstr ""
 #. Perl Module: Kernel/Output/HTML/Notification/CustomerOnline.pm
 msgid "Online Customer: %s"
 msgstr "مشترک فعال: %s"
+
+#. Perl Module:
+#. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
+msgid "System maintenance is active!"
+msgstr ""
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
@@ -14227,12 +14324,12 @@ msgstr "نمی توانید فایل خوانده شده!"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
-"<br>If you continue to install this package, the following issues may "
-"occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability "
-"problems<br>&nbsp;-Performance problems<br><br>Please note that issues that "
-"are caused by working with this package are not covered by OTRS service "
-"contracts!<br><br>"
-msgstr "<br> اگر شما به نصب این بسته ادامه بدهید، موارد زیر ممکن است رخ دهد لرزه و nbsp؛  -مشکلات امنییتی  <BR> & nbsp؛  مشکلات ایستایی  <BR> & nbsp؛  مشکلات عملکرد لرزه ،لطفا توجه داشته باشید که مسائلی که با کار کردن با این بسته ایجاد می شود توسط قرارداد خدمات OTRS تحت پوشش نیست! لرزه"
+"<p>If you continue to install this package, the following issues may "
+"occur:</p><ul><li>Security problems</li><li>Stability "
+"problems</li><li>Performance problems</li></ul><p>Please note that issues "
+"that are caused by working with this package are not covered by OTRS service"
+" contracts.</p>"
+msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -14426,6 +14523,10 @@ msgstr "تاریخی محدوده زمانی"
 msgid "Number"
 msgstr "عدد"
 
+#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+msgid "Last Changed"
+msgstr ""
+
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average"
 msgstr "راه حل میانگین"
@@ -14598,8 +14699,8 @@ msgstr "حداکثر اندازه پرس و جو"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
-msgid "The setting 'max_allowed_packet' must be higher than 20 MB."
-msgstr "تنظیمات 'max_allowed_packet باید بالاتر از 20 مگابایت باشد."
+msgid "The setting 'max_allowed_packet' must be higher than 64 MB."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
@@ -15095,9 +15196,11 @@ msgstr "درخواست جستجوی شاخص ماژول"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
 msgid ""
-"You have more than 50,000 articles and should use the StaticDB backend. See "
-"admin manual (Performance Tuning) for more information."
-msgstr "شما باید بیش از 50،000 مقاله و باید از باطن StaticDB استفاده کنید. کتابچه راهنمای کاربر مدیر (تنظیم عملکرد) را برای اطلاعات بیشتر ببینید."
+"The indexing process forces the storage of the original article text in the "
+"article search index, without executing filters or applying stop word lists."
+" This will increase the size of the search index and thus may slow down "
+"fulltext searches."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
@@ -15333,6 +15436,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Missing key %s!"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "All Settings"
 msgstr ""
 
 #. Perl Module: Kernel/System/SysConfig/BaseValueType.pm
@@ -16272,6 +16379,12 @@ msgid ""
 msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
+msgid ""
+"Keys with values can't be renamed. Please remove this key/value pair instead"
+" and re-add it afterwards."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Unlock setting."
 msgstr ""
 
@@ -16442,6 +16555,12 @@ msgid "Sorry, but you can't disable all methods for this notification."
 msgstr "با عرض پوزش، اما شما می توانید از تمام روش برای این اطلاع رسانی را غیر فعال کنید."
 
 #. JS File: Core.Agent.Preferences
+msgid ""
+"Please note that at least one of the settings you have changed requires a "
+"page reload. Click here to reload the current screen."
+msgstr ""
+
+#. JS File: Core.Agent.Preferences
 msgid "An unknown error occurred. Please contact the administrator."
 msgstr ""
 
@@ -16539,10 +16658,6 @@ msgstr "خطای اتصال"
 #. JS File: Core.App
 msgid "Reload page"
 msgstr "بارگذاری مجدد صفحه"
-
-#. JS File: Core.App
-msgid "Close this dialog"
-msgstr "بستن این پنجره"
 
 #. JS File: Core.App
 msgid "Communication error"
@@ -16699,22 +16814,27 @@ msgid "Please only select at most %s files for upload."
 msgstr ""
 
 #. JS File: Core.UI
-msgid "The following files are not allowed to be uploaded"
+msgid "The following files are not allowed to be uploaded: %s"
 msgstr ""
 
 #. JS File: Core.UI
 msgid ""
 "The following files exceed the maximum allowed size per file of %s and were "
-"not uploaded"
+"not uploaded: %s"
 msgstr ""
 
 #. JS File: Core.UI
 msgid ""
-"The following files were already uploaded and have not been uploaded again"
+"The following files were already uploaded and have not been uploaded again: "
+"%s"
 msgstr ""
 
 #. JS File: Core.UI
-msgid "No space left for the following files"
+msgid "No space left for the following files: %s"
+msgstr ""
+
+#. JS File: Core.UI
+msgid "Available space %s of %s."
 msgstr ""
 
 #. JS File: Core.UI
@@ -16910,6 +17030,12 @@ msgstr "AccountedTime"
 
 #. SysConfig
 msgid ""
+"Activate this if you trust in all your public and private pgp keys, even if "
+"they are not certified with a trusted signature."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Activates a blinking mechanism of the queue that contains the oldest ticket."
 msgstr "مکانیزم چشمک زدن را برای صف درخواستی که شامل قدیمی‌ترین درخواست می‌باشد فعال می‌کند."
 
@@ -17022,28 +17148,20 @@ msgid ""
 msgstr "می افزاید: مشتریان به آدرس ایمیل به گیرندگان در صفحه نوشتن بلیط رابط عامل. آدرس مشتریان ایمیل اضافه خواهد شد در صورتی که نوع مقاله ایمیل داخلی است."
 
 #. SysConfig
-msgid ""
-"Adds the one time vacation days for the indicated calendar. Please use "
-"single digit pattern for numbers from 1 to 9 (instead of 01 - 09)."
-msgstr "می افزاید: یک بار روز تعطیلات برای تقویم نشان داد. لطفا الگوی تک رقمی برای شماره 9 (- 09 به جای 01) استفاده از 1."
+msgid "Adds the one time vacation days for the indicated calendar."
+msgstr ""
 
 #. SysConfig
-msgid ""
-"Adds the one time vacation days. Please use single digit pattern for numbers"
-" from 1 to 9 (instead of 01 - 09)."
-msgstr "یک روز تعطیلی موقتی می‌افزاید. لطفا از الگوی عددی واحدی از ۱ تا ۹ استفاده نمایید (به جای 01 - 09 )"
+msgid "Adds the one time vacation days."
+msgstr ""
 
 #. SysConfig
-msgid ""
-"Adds the permanent vacation days for the indicated calendar. Please use "
-"single digit pattern for numbers from 1 to 9 (instead of 01 - 09)."
-msgstr "می افزاید: روز تعطیلات دائمی برای تقویم نشان داد. لطفا الگوی تک رقمی برای شماره 9 (- 09 به جای 01) استفاده از 1."
+msgid "Adds the permanent vacation days for the indicated calendar."
+msgstr ""
 
 #. SysConfig
-msgid ""
-"Adds the permanent vacation days. Please use single digit pattern for "
-"numbers from 1 to 9 (instead of 01 - 09)."
-msgstr "یک روز تعطیلی دائمی می‌افزاید. لطفا از الگوی عددی واحدی از ۱ تا ۹ استفاده نمایید (به جای 01 - 09 )"
+msgid "Adds the permanent vacation days."
+msgstr ""
 
 #. SysConfig
 msgid "Admin"
@@ -17768,9 +17886,9 @@ msgstr "چک اگر یک ایمیل پیگیری بلیط های موجود به
 
 #. SysConfig
 msgid ""
-"Checks the SystemID in ticket number detection for follow-ups (use \"No\" if"
-" SystemID has been changed after using the system)."
-msgstr "چک سیستم را در بلیط تشخیص شماره برای پیگیری (استفاده از \\ \"بدون \" اگر سیستم را پس از استفاده از سیستم تغییر داده شده است)."
+"Checks the SystemID in ticket number detection for follow-ups ( If inactive,"
+" SystemID will be changed after using the system)."
+msgstr ""
 
 #. SysConfig
 msgid "Checks the availability of OTRS Business Solution™ for this system."
@@ -18038,6 +18156,10 @@ msgstr "تبدیل ایمیل های HTML و به پیام های متنی."
 #. SysConfig
 msgid "Create New process ticket."
 msgstr "ساختن درخواست روند جدید."
+
+#. SysConfig
+msgid "Create Ticket"
+msgstr ""
 
 #. SysConfig
 msgid "Create a new calendar appointment linked to this ticket"
@@ -18397,8 +18519,9 @@ msgid ""
 "set/updated manually by the agent. They mustn't be enabled for "
 "AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, "
 "they would have precedence over the automatically set values. To use this "
-"mapping, you have to also activate the next setting below."
-msgstr "تعریف یک نگاشت بین متغیرهای داده های کاربر و ضوابط (کیبورد) و زمینه های پویا یک بلیط (مقادیر). هدف این است که برای ذخیره اطلاعات کاربران به مشتریان در زمینه های پویا بلیط. زمینه پویا باید در سیستم می شود و باید برای AgentTicketFreeText را فعال کنید، به طوری که آنها می تواند مجموعه ای / دستی توسط عامل به روز شد. آنها باید برای AgentTicketPhone، AgentTicketEmail و AgentTicketCustomer فعال نیست. اگر آنها بود، آنها مقدم بر ارزش به طور خودکار تنظیم است. برای استفاده از این نقشه، شما باید به هم تنظیمات بعدی زیر را فعال کنید."
+"mapping, you have to also activate the "
+"Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18439,6 +18562,13 @@ msgstr "تعریف روز شروع هفته را برای جمع کننده اط
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
 msgstr "تعریف روز شروع هفته برای جمع کننده اطلاعات."
+
+#. SysConfig
+msgid ""
+"Define which avatar default image should be used for the current agent if no"
+" gravatar is assigned to the mail address of the agent. Check "
+"http://gravatar.com/site/implement/images/ for further information."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18944,10 +19074,10 @@ msgstr "تعریف می کند در صورتی که رمز قبلا معتبر �
 #. SysConfig
 msgid ""
 "Defines if the values for filters should be retrieved from all available "
-"tickets. If set to \"Yes\", only values which are actually used in any "
-"ticket will be available for filtering. Please note: The list of customers "
-"will always be retrieved like this."
-msgstr "تعریف می کند اگر مقادیر فیلتر باید از تمام بلیط در دسترس بازیابی. اگر به \\ \"بله \"، فقط مقادیر که در واقع هر بلیط در مورد استفاده برای فیلتر در دسترس خواهد بود. لطفا توجه داشته باشید: لیست مشتریان همیشه مثل این خواهد بازیابی شود."
+"tickets. If active, only values which are actually used in any ticket will "
+"be available for filtering. Please note: The list of customers will always "
+"be retrieved like this."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -19040,15 +19170,14 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to agents, about new "
-"password (after using this link the new password will be sent)."
-msgstr "تعریف می کند که متن برای ایمیل اطلاع رسانی فرستاده شده به عوامل، در مورد کلمه عبور جدید (پس از استفاده از این لینک رمز عبور جدید ارسال خواهد شد)."
+"password."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to agents, with token "
-"about new requested password (after using this link the new password will be"
-" sent)."
-msgstr "تعریف می کند که متن برای ایمیل اطلاع رسانی فرستاده شده به عوامل، با رمز در مورد رمز عبور جدید درخواست (پس از استفاده از این لینک رمز عبور جدید ارسال خواهد شد)."
+"about new requested password."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -19059,15 +19188,14 @@ msgstr "تعریف می کند که متن برای ایمیل اطلاع رسا
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to customers, about new "
-"password (after using this link the new password will be sent)."
-msgstr "تعریف می کند که متن برای ایمیل اطلاع رسانی ارسال شده به مشتریان، در مورد کلمه عبور جدید (پس از استفاده از این لینک رمز عبور جدید ارسال خواهد شد)."
+"password."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to customers, with token "
-"about new requested password (after using this link the new password will be"
-" sent)."
-msgstr "تعریف می کند که متن برای ایمیل اطلاع رسانی به مشتریان ارسال با رمز در مورد رمز عبور جدید درخواست (پس از استفاده از این لینک رمز عبور جدید ارسال خواهد شد)."
+"about new requested password."
+msgstr ""
 
 #. SysConfig
 msgid "Defines the body text for rejected emails."
@@ -19183,12 +19311,6 @@ msgstr "تعریف می کند که دولت بعدی به طور پیش فرض 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the "
-"ticket bulk screen of the agent interface."
-msgstr "تعریف می کند که دولت بعدی به طور پیش فرض یک بلیط پس از اضافه کردن یک یادداشت، در روی صفحه نمایش فله بلیط رابط عامل."
-
-#. SysConfig
-msgid ""
-"Defines the default next state of a ticket after adding a note, in the "
 "ticket free text screen of the agent interface."
 msgstr "تعریف می کند که دولت بعدی به طور پیش فرض یک بلیط پس از اضافه کردن یک یادداشت، در بلیط صفحه نمایش های متنی رایگان از رابط عامل."
 
@@ -19245,6 +19367,12 @@ msgid ""
 "Defines the default next state of a ticket if it is composed / answered in "
 "the ticket compose screen of the agent interface."
 msgstr "تعریف می کند که به طور پیش فرض حالت بعدی یک بلیط اگر آن تشکیل شده است از / پاسخ در صفحه نوشتن بلیط رابط عامل."
+
+#. SysConfig
+msgid ""
+"Defines the default next state of a ticket, in the ticket bulk screen of the"
+" agent interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -20144,12 +20272,6 @@ msgstr "تعریف می کند که دولت بعدی یک بلیط پس از ا
 
 #. SysConfig
 msgid ""
-"Defines the next state of a ticket after adding a note, in the ticket bulk "
-"screen of the agent interface."
-msgstr "تعریف می کند که دولت بعدی یک بلیط پس از اضافه کردن یک یادداشت، در روی صفحه نمایش فله بلیط رابط عامل."
-
-#. SysConfig
-msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket free "
 "text screen of the agent interface."
 msgstr "تعریف می کند که دولت بعدی یک بلیط پس از اضافه کردن یک یادداشت، در بلیط صفحه نمایش های متنی رایگان از رابط عامل."
@@ -20195,6 +20317,12 @@ msgid ""
 "Defines the next state of a ticket after being moved to another queue, in "
 "the move ticket screen of the agent interface."
 msgstr "تعریف می کند که دولت بعدی یک بلیط پس از به صف دیگری نقل مکان کرد، در روی صفحه نمایش بلیط حرکت از رابط عامل."
+
+#. SysConfig
+msgid ""
+"Defines the next state of a ticket, in the ticket bulk screen of the agent "
+"interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -20839,11 +20967,11 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Disables the web installer (http://yourhost.example.com/otrs/installer.pl), "
-"to prevent the system from being hijacked. If set to \"No\", the system can "
-"be reinstalled and the current basic configuration will be used to pre-"
-"populate the questions within the installer script. If not active, it also "
+"to prevent the system from being hijacked. If inactive, the system can be "
+"reinstalled and the current basic configuration will be used to pre-populate"
+" the questions within the installer script. If not inactive, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
-msgstr "غیر فعال نصب وب سایت (http://yourhost.example.com/otrs/installer.pl)، برای جلوگیری از این سیستم از ربوده شده است. اگر به \\ \"بدون \"، سیستم را می توان دوباره نصب و پیکربندی اولیه فعلی استفاده می شود به قبل از جمعیت سوالات در اسکریپت نصب. اگر فعال است، آن را نیز غیر فعال GenericAgent، سامانه مدیریت بسته و SQL جعبه."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -20876,6 +21004,10 @@ msgstr "پائین"
 #. SysConfig
 msgid "Dropdown"
 msgstr "رها کردن"
+
+#. SysConfig
+msgid "Dutch"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -21418,12 +21550,6 @@ msgid "Filter incoming emails."
 msgstr "فیلتر ایمیل‌های ورودی"
 
 #. SysConfig
-msgid ""
-"Filter stop words from article search index, turned on by default. If turned"
-" off, search index will store unfiltered text."
-msgstr ""
-
-#. SysConfig
 msgid "Finnish"
 msgstr "فنلاندی"
 
@@ -21467,6 +21593,13 @@ msgstr "نام نام خانوادگی (صفحهی)"
 msgid ""
 "For these state types the ticket numbers are striked through in the link "
 "table."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Force the storage of the original article text in the article search index, "
+"without executing filters or applying stop word lists. This will increase "
+"the size of the search index and thus may slow down fulltext searches."
 msgstr ""
 
 #. SysConfig
@@ -21548,10 +21681,6 @@ msgstr "ظاهر ثبت نام ماژول برای رابط عامل."
 #. SysConfig
 msgid "Frontend module registration for the customer interface."
 msgstr "ظاهر ثبت نام ماژول برای رابط مشتری."
-
-#. SysConfig
-msgid "Frontend theme"
-msgstr "طرح زمینه واسط"
 
 #. SysConfig
 msgid "Full value"
@@ -21941,6 +22070,14 @@ msgid ""
 msgstr "اگر \\ \"فایل \" برای LogModule انتخاب شد، یک فایل تاریخچه ثبت باید مشخص شود. اگر فایل وجود ندارد، از آن خواهد شد توسط سیستم ایجاد شده است."
 
 #. SysConfig
+msgid "If active the cache data be held in memory."
+msgstr ""
+
+#. SysConfig
+msgid "If active the cache data will be stored in cache backend."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "If active, none of the regular expressions may match the user's email "
 "address to allow registration."
@@ -22071,10 +22208,10 @@ msgstr "اگر تعیین شود، این آدرس به عنوان فرستند�
 
 #. SysConfig
 msgid ""
-"If this option is set to 'Yes', tickets created via the web interface, via "
+"If this option is active, tickets created via the web interface, via "
 "Customers or Agents, will receive an autoresponse if configured. If this "
-"option is set to 'No', no autoresponses will be sent."
-msgstr "اگر این گزینه را به 'بله'، بلیط ایجاد شده از طریق رابط وب، از طریق مشتریان و یا عوامل، یک خودکار یکطرفه صورت پیکربندی دریافت خواهید کرد. اگر این گزینه را به مجموعه \"نه\"، هیچ autoresponses ارسال خواهد شد."
+"option is inactive, no autoresponses will be sent."
+msgstr ""
 
 #. SysConfig
 msgid "If this regex matches, no message will be send by the autoresponder."
@@ -22809,10 +22946,6 @@ msgid "NameX"
 msgstr "NameX"
 
 #. SysConfig
-msgid "Nederlands"
-msgstr "هلند"
-
-#. SysConfig
 msgid "New Ticket"
 msgstr "درخواست جدید"
 
@@ -22899,6 +23032,10 @@ msgid ""
 msgstr "تعداد بلیط در هر صفحه از یک نتیجه جستجو در رابط مشتری نمایش داده می شود."
 
 #. SysConfig
+msgid "Number of tickets to be displayed in each page."
+msgstr ""
+
+#. SysConfig
 msgid "OTRS Group Services"
 msgstr ""
 
@@ -22918,7 +23055,7 @@ msgid ""
 "OTRS doesn't support recurring Appointments without end date or number of "
 "iterations. During import process, it might happen that ICS file contains "
 "such Appointments. Instead, system creates all Appointments in the past, "
-"plus Appointments for the next n months (120 months/10 years by default)."
+"plus Appointments for the next N months (120 months/10 years by default)."
 msgstr ""
 
 #. SysConfig
@@ -23767,11 +23904,11 @@ msgstr "اجرا می شود جستجو کلمات اولیه از کاربرا�
 
 #. SysConfig
 msgid ""
-"Runs the system in \"Demo\" mode. If set to \"Yes\", agents can change "
-"preferences, such as selection of language and theme via the agent web "
-"interface. These changes are only valid for the current session. It will not"
-" be possible for agents to change their passwords."
-msgstr "اجرا می شود سیستم در \\ \"نسخه ی نمایشی \" حالت. اگر به \\ \"بله \"، عوامل می توانید تنظیمات از قبیل انتخاب زبان و از طریق رابط وب عامل را تغییر دهید. این تغییرات تنها برای جلسه فعلی معتبر هستند. این ممکن نخواهد بود برای عوامل به تغییر کلمه عبور خود را."
+"Runs the system in \"Demo\" mode. If active, agents can change preferences, "
+"such as selection of language and theme via the agent web interface. These "
+"changes are only valid for the current session. It will not be possible for "
+"agents to change their passwords."
+msgstr ""
 
 #. SysConfig
 msgid "Russian"
@@ -24041,12 +24178,6 @@ msgstr ""
 #. SysConfig
 msgid "Set this ticket to pending"
 msgstr "قرارادادن این درخواست در لیست انتظار"
-
-#. SysConfig
-msgid ""
-"Set this to yes if you trust in all your public and private pgp keys, even "
-"if they are not certified with a trusted signature."
-msgstr "با تنظیم این بله اگر شما در تمام کلید PGP عمومی و خصوصی خود را اعتماد، حتی اگر آنها را با یک امضا اعتماد تایید شده است."
 
 #. SysConfig
 msgid "Sets if SLA must be selected by the agent."
@@ -24681,14 +24812,6 @@ msgid "Shared Secret"
 msgstr "راز مشترک"
 
 #. SysConfig
-msgid "Should the cache data be held in memory?"
-msgstr "باید داده های کش در حافظه برگزار می شود؟"
-
-#. SysConfig
-msgid "Should the cache data be stored in the selected cache backend?"
-msgstr "باید داده های کش در انتخاب کش باطن ذخیره می شود؟"
-
-#. SysConfig
 msgid ""
 "Show a responsible selection in phone and email tickets in the agent "
 "interface."
@@ -24720,8 +24843,9 @@ msgstr "نمایش تاریخ بلیط"
 
 #. SysConfig
 msgid ""
-"Shows a count of icons in the ticket zoom, if the article has attachments."
-msgstr "نشان می دهد یک تعداد از آیکون در زوم بلیط، اگر مقاله پیوست دارد."
+"Shows a count of attachments in the ticket zoom, if the article has "
+"attachments."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -25109,13 +25233,6 @@ msgstr "یک پیش نمایش کلی بلیط (- نشان می دهد نیز م
 
 #. SysConfig
 msgid ""
-"Shows a select of ticket attributes to order the queue view ticket list. The"
-" possible selections can be configured via "
-"'TicketOverviewMenuSort###SortAttributes'."
-msgstr "را نشان می دهد را انتخاب کنید از ویژگی های بلیط به سفارش لیست بلیط نمایش صف. انتخاب ممکن را می توان از طریق 'TicketOverviewMenuSort ### SortAttributes، پیکربندی شده است."
-
-#. SysConfig
-msgid ""
 "Shows a teaser link in the menu for the ticket attachment view of OTRS "
 "Business Solution™."
 msgstr ""
@@ -25133,12 +25250,6 @@ msgid ""
 "Shows all open tickets (even if they are locked) in the escalation view of "
 "the agent interface."
 msgstr "نشان می دهد تمام بلیط باز (حتی اگر آنها قفل شده است) در نظر تشدید رابط عامل."
-
-#. SysConfig
-msgid ""
-"Shows all open tickets (even if they are locked) in the status view of the "
-"agent interface."
-msgstr "نشان می دهد تمام بلیط باز (حتی اگر آنها قفل شده است) در نظر وضعیت رابط عامل."
 
 #. SysConfig
 msgid "Shows all the articles of the ticket (expanded) in the zoom view."
@@ -25160,10 +25271,6 @@ msgstr ""
 msgid ""
 "Shows an owner selection in phone and email tickets in the agent interface."
 msgstr "انتخاب صاحب در تلفن و ایمیل بلیط در رابط عامل نشان می دهد."
-
-#. SysConfig
-msgid "Shows colors for different article types in the article table."
-msgstr "رنگ برای انواع مقاله های مختلف در جدول مقاله نشان می دهد."
 
 #. SysConfig
 msgid ""
@@ -25210,10 +25317,6 @@ msgstr "مقالات طبقه بندی شده اند به طور معمول یا
 msgid ""
 "Shows the customer user information (phone and email) in the compose screen."
 msgstr "اطلاعات کاربر با مشتری (تلفن و ایمیل) در صفحه نوشتن را نشان می دهد."
-
-#. SysConfig
-msgid "Shows the customer user's info in the ticket zoom view."
-msgstr "اطلاعات کاربر مشتری در نظر زوم بلیط نشان می دهد."
 
 #. SysConfig
 msgid ""
@@ -25288,54 +25391,54 @@ msgstr "گزینه های اولویت بلیط در بلیط صفحه نمای�
 
 #. SysConfig
 msgid ""
+"Shows the title field in the close ticket screen of the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Shows the title field in the ticket free text screen of the agent interface."
 msgstr "قسمت عنوان در بلیط صفحه نمایش های متنی رایگان از رابط عامل نشان می دهد."
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the close ticket screen of the agent interface."
-msgstr "زمینه عنوان در صفحه بلیط نزدیک رابط عامل نشان می دهد."
+"Shows the title field in the ticket note screen of the agent interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the ticket note screen of the agent interface."
-msgstr "زمینه عنوان در روی صفحه نمایش توجه داشته باشید بلیط رابط عامل نشان می دهد."
-
-#. SysConfig
-msgid ""
-"Shows the title fields in the ticket owner screen of a zoomed ticket in the "
+"Shows the title field in the ticket owner screen of a zoomed ticket in the "
 "agent interface."
-msgstr "زمینه عنوان در صفحه نمایش صاحب بلیط یک بلیط بزرگنمایی در رابط عامل را نشان می دهد."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the ticket pending screen of a zoomed ticket in "
+"Shows the title field in the ticket pending screen of a zoomed ticket in the"
+" agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows the title field in the ticket priority screen of a zoomed ticket in "
 "the agent interface."
-msgstr " در صفحه تعیین اولویت درخواست در انتظار یک درخواست زوم شده در رابط عامل را نشان می دهد."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the ticket priority screen of a zoomed ticket in "
-"the agent interface."
-msgstr "درصفحه ی تعیین اولویت درخواست مربوط به کارشناس را نمایش دهید."
-
-#. SysConfig
-msgid ""
-"Shows the title fields in the ticket responsible screen of the agent "
+"Shows the title field in the ticket responsible screen of the agent "
 "interface."
-msgstr "درصفحه ی تعیین اولویت درخواست مربوط به کارشناس فیلد عنوان را نمایش دهید."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows time in long format (days, hours, minutes), if set to \"Yes\"; or in "
-"short format (days, hours), if set to \"No\"."
-msgstr "زمان را نشان می دهد در فرمت های طولانی (روز، ساعت، دقیقه)، اگر به \\ \"بله \"؛ و یا در قالب کوتاه (روز، ساعت)، اگر به \\ \"بدون \"."
+"Shows time in long format (days, hours, minutes), if active; or in short "
+"format (days, hours), if inactive."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows time use complete description (days, hours, minutes), if set to "
-"\"Yes\"; or just first letter (d, h, m), if set to \"No\"."
-msgstr "نشان می دهد استفاده از زمان توضیحات کامل (روز، ساعت، دقیقه)، اگر به \\ \"بله \"؛ یا فقط حرف اول (D، H، M)، اگر به \\ \"بدون \"."
+"Shows time use complete description (days, hours, minutes), if active; or "
+"just first letter (d, h, m), if inactive."
+msgstr ""
 
 #. SysConfig
 msgid "Signatures"
@@ -25829,8 +25932,9 @@ msgstr "طرح زمینه"
 #. SysConfig
 msgid ""
 "This event module stores attributes from CustomerUser as DynamicFields "
-"tickets. Please see the setting above for how to configure the mapping."
-msgstr "این رویداد های ماژول ویژگی هایی از CustomerUser به عنوان بلیط DynamicFields. لطفا تنظیمات بالا برای نحوه پیکربندی نقشه برداری."
+"tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to"
+" configure the mapping."
+msgstr ""
 
 #. SysConfig
 msgid "This is a Description for Comment on Framework."
@@ -25902,6 +26006,12 @@ msgstr "این تنظیم امکان را به نادیده گرفتن ساخت�
 
 #. SysConfig
 msgid "This setting is deprecated. Set OTRSTimeZone instead."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"This setting shows the sorting attributes in all overview screen, not only "
+"in queue view."
 msgstr ""
 
 #. SysConfig
@@ -25999,6 +26109,10 @@ msgstr "درخواست به عهده دارد."
 #. SysConfig
 msgid "Ticket Watcher"
 msgstr "نگهبان درخواست"
+
+#. SysConfig
+msgid "Ticket Zoom"
+msgstr ""
 
 #. SysConfig
 msgid "Ticket Zoom."
@@ -26124,10 +26238,10 @@ msgstr "روشن کشیدن و رها کردن برای ناوبری اصلی."
 
 #. SysConfig
 msgid ""
-"Turns on the remote ip address check. It should be set to \"No\" if the "
+"Turns on the remote ip address check. It should not be active if the "
 "application is used, for example, via a proxy farm or a dialup connection, "
 "because the remote ip address is mostly different for the requests."
-msgstr "تبدیل بر روی چک آدرس IP از راه دور. این باید به مجموعه \\ \"بدون \" اگر برنامه استفاده می شود، به عنوان مثال، از طریق یک مزرعه پروکسی و یا یک اتصال مودم، چون آدرس IP از راه دور بیشتر برای درخواست های مختلف است."
+msgstr ""
 
 #. SysConfig
 msgid "Tweak the system as you wish."

@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-10-09 16:06+0000\n"
-"PO-Revision-Date: 2017-10-09 16:24+0000\n"
+"POT-Creation-Date: 2017-11-07 00:18+0000\n"
+"PO-Revision-Date: 2017-11-07 00:23+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Malay (http://www.transifex.com/otrs/OTRS/language/ms/)\n"
 "MIME-Version: 1.0\n"
@@ -193,10 +193,6 @@ msgstr "Berhenti selepas perlawanan"
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
 msgstr ""
-
-#. Template: AdminACLEdit
-msgid "Save settings"
-msgstr "Simpan tetapan"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
@@ -4616,7 +4612,7 @@ msgid "Install Package"
 msgstr "Pasang Pakej"
 
 #. Template: AdminPackageManager
-msgid "Upgrade Package"
+msgid "Update Package"
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -4651,7 +4647,7 @@ msgid "Enable cloud services"
 msgstr "Bolehkan servis-servis awan"
 
 #. Template: AdminPackageManager
-msgid "Upgrade all installed packages"
+msgid "Update all installed packages"
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -4665,10 +4661,6 @@ msgstr "Tindakan"
 #. Template: AdminPackageManager
 msgid "Module documentation"
 msgstr "dokumentasi modul"
-
-#. Template: AdminPackageManager
-msgid "Upgrade"
-msgstr "Kemaskini"
 
 #. Template: AdminPackageManager
 msgid "Local Repository"
@@ -6228,8 +6220,8 @@ msgid "S/MIME Certificate"
 msgstr "Sijil S/MIME"
 
 #. Template: AdminSMIMECertRead
-msgid "Close dialog"
-msgstr "dialog penutup"
+msgid "Close this dialog"
+msgstr "Tutup dialog ini"
 
 #. Template: AdminSMIMECertRead
 msgid "Certificate Details"
@@ -6331,6 +6323,10 @@ msgstr "format Keputusan"
 #. Template: AdminSelectBox
 msgid "Run Query"
 msgstr "Jalankan Query"
+
+#. Template: AdminSelectBox
+msgid "%s Results"
+msgstr ""
 
 #. Template: AdminSelectBox
 msgid "Query is executed."
@@ -6674,6 +6670,26 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Help"
+msgstr ""
+
+#. Template: AdminSystemConfigurationDeployment
+msgid ""
+"This is an overview of all settings which will be part of the deployment if "
+"you start it now. You can compare each setting to its former state by "
+"clicking the icon on the top right."
+msgstr ""
+
+#. Template: AdminSystemConfigurationDeployment
+msgid ""
+"To exclude certain settings from a deployment, click the checkbox on the "
+"header bar of a setting."
+msgstr ""
+
+#. Template: AdminSystemConfigurationDeployment
+msgid ""
+"By default, you will only deploy settings which you changed on your own. If "
+"you'd like to deploy settings changed by other users, too, please click the "
+"link on top of the screen to enter the advanced deployment mode."
 msgstr ""
 
 #. Template: AdminSystemConfigurationDeployment
@@ -7513,6 +7529,10 @@ msgid "in"
 msgstr "dalam"
 
 #. Template: AgentDashboardCommon
+msgid "Save settings"
+msgstr "Simpan tetapan"
+
+#. Template: AgentDashboardCommon
 msgid "Close this widget"
 msgstr "Tutup widget ini"
 
@@ -7708,12 +7728,12 @@ msgid "Undo & close"
 msgstr "Buat semula & tutup"
 
 #. Template: AgentInfo
-msgid "Info"
-msgstr "Info"
-
-#. Template: AgentInfo
 msgid "To accept some news, a license or some changes."
 msgstr "Untuk menerima beberapa berita, lesen atau beberapa perubahan."
+
+#. Template: AgentInfo
+msgid "Yes, accepted."
+msgstr ""
 
 #. Template: AgentLinkObject
 msgid "Manage links for %s"
@@ -8317,6 +8337,10 @@ msgstr "Sejarah bagi %s%s%s"
 
 #. Template: AgentTicketHistory
 msgid "Filter for history items"
+msgstr ""
+
+#. Template: AgentTicketHistory
+msgid "Expand/collapse all"
 msgstr ""
 
 #. Template: AgentTicketHistory
@@ -10544,6 +10568,38 @@ msgid "Invalid CommunicationID "
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "All communications"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last 1 hour"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last 3 hours"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last 6 hours"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last 12 hours"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last 24 hours"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last week"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last month"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid StartTime: %s!"
 msgstr ""
 
@@ -10584,6 +10640,10 @@ msgid "Debug"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Info"
+msgstr "Info"
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Warn"
 msgstr ""
 
@@ -10614,6 +10674,14 @@ msgstr "saat"
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company updated!"
 msgstr "Syarikat pelanggan dikemaskini!"
+
+#. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
+msgid "Dynamic field %s not found!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
+msgid "Unable to set value for dynamic field %s!"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer Company %s already exists!"
@@ -11349,6 +11417,10 @@ msgid ""
 msgstr "Pakej tidak disahkan oleh Kumpulan OTRS! Ia adalah disyorkan untuk tidak menggunakan pakej ini."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Not Started"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Updated"
 msgstr ""
 
@@ -11394,6 +11466,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package could not be upgraded"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Repository List"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -11828,6 +11904,10 @@ msgstr ""
 msgid "Needed Fingerprint"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminSMIME.pm
+msgid "Handle Private Certificate Relations"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminSalutation.pm
 msgid "Salutation added!"
 msgstr ""
@@ -12137,7 +12217,7 @@ msgid "No permissions!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentAppointmentList.pm
-msgid "+%d more"
+msgid "+%s more"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentCustomerSearch.pm
@@ -12210,6 +12290,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Param Group is required!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentPreferences.pm
+msgid "Updated user preferences"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
@@ -13384,6 +13468,10 @@ msgid "Re-install Package"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
+msgid "Upgrade"
+msgstr "Kemaskini"
+
+#. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Re-install"
 msgstr ""
 
@@ -13716,6 +13804,10 @@ msgid "%s Upgrade to %s now! %s"
 msgstr "%s Naik taraf ke %s sekarang! %s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+msgid "Please verify your license data!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
@@ -13744,6 +13836,11 @@ msgstr ""
 #. Perl Module: Kernel/Output/HTML/Notification/CustomerOnline.pm
 msgid "Online Customer: %s"
 msgstr "Pelanggan dalam talian: %s"
+
+#. Perl Module:
+#. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
+msgid "System maintenance is active!"
+msgstr ""
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
@@ -14225,12 +14322,12 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
-"<br>If you continue to install this package, the following issues may "
-"occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability "
-"problems<br>&nbsp;-Performance problems<br><br>Please note that issues that "
-"are caused by working with this package are not covered by OTRS service "
-"contracts!<br><br>"
-msgstr "<br>Jika anda teruskan untuk memasang pakej ini, isu berikut mungkin berlaku!<br><br>&nbsp;-Masalah keselamatan<br>&nbsp;-Masalah kestabilan<br>&nbsp;-Masalah prestasi<br><br>Sila ambil perhatian bahawa isu yang disebabkan oleh bekerja dengan pakej ini tidak diliputi oleh kontrak perkhidmatan OTRS!<br><br>"
+"<p>If you continue to install this package, the following issues may "
+"occur:</p><ul><li>Security problems</li><li>Stability "
+"problems</li><li>Performance problems</li></ul><p>Please note that issues "
+"that are caused by working with this package are not covered by OTRS service"
+" contracts.</p>"
+msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -14424,6 +14521,10 @@ msgstr "Julat Masa Bersejarah"
 msgid "Number"
 msgstr "Nombor"
 
+#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+msgid "Last Changed"
+msgstr ""
+
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average"
 msgstr ""
@@ -14596,8 +14697,8 @@ msgstr "Saiz Query Maksimum"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
-msgid "The setting 'max_allowed_packet' must be higher than 20 MB."
-msgstr "Tetapan 'paket_dibenarkan_maksimum' mestilah tinggi daripada 20 MB."
+msgid "The setting 'max_allowed_packet' must be higher than 64 MB."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
@@ -15093,9 +15194,11 @@ msgstr "Modul Indeks Carian Tiket"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
 msgid ""
-"You have more than 50,000 articles and should use the StaticDB backend. See "
-"admin manual (Performance Tuning) for more information."
-msgstr "Anda mempunyai lebih daripada 50,000 tiket dan harus menggunakan backend StaticDB. Lihat manual admin (Penalaan Prestasi) untuk maklumat lanjut."
+"The indexing process forces the storage of the original article text in the "
+"article search index, without executing filters or applying stop word lists."
+" This will increase the size of the search index and thus may slow down "
+"fulltext searches."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
@@ -15331,6 +15434,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Missing key %s!"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "All Settings"
 msgstr ""
 
 #. Perl Module: Kernel/System/SysConfig/BaseValueType.pm
@@ -16270,6 +16377,12 @@ msgid ""
 msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
+msgid ""
+"Keys with values can't be renamed. Please remove this key/value pair instead"
+" and re-add it afterwards."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Unlock setting."
 msgstr ""
 
@@ -16440,6 +16553,12 @@ msgid "Sorry, but you can't disable all methods for this notification."
 msgstr "Maaf, tetapi anda tidak boleh mematikan semua kaedah untuk pemberitahuan ini."
 
 #. JS File: Core.Agent.Preferences
+msgid ""
+"Please note that at least one of the settings you have changed requires a "
+"page reload. Click here to reload the current screen."
+msgstr ""
+
+#. JS File: Core.Agent.Preferences
 msgid "An unknown error occurred. Please contact the administrator."
 msgstr ""
 
@@ -16537,10 +16656,6 @@ msgstr ""
 #. JS File: Core.App
 msgid "Reload page"
 msgstr ""
-
-#. JS File: Core.App
-msgid "Close this dialog"
-msgstr "Tutup dialog ini"
 
 #. JS File: Core.App
 msgid "Communication error"
@@ -16697,22 +16812,27 @@ msgid "Please only select at most %s files for upload."
 msgstr ""
 
 #. JS File: Core.UI
-msgid "The following files are not allowed to be uploaded"
+msgid "The following files are not allowed to be uploaded: %s"
 msgstr ""
 
 #. JS File: Core.UI
 msgid ""
 "The following files exceed the maximum allowed size per file of %s and were "
-"not uploaded"
+"not uploaded: %s"
 msgstr ""
 
 #. JS File: Core.UI
 msgid ""
-"The following files were already uploaded and have not been uploaded again"
+"The following files were already uploaded and have not been uploaded again: "
+"%s"
 msgstr ""
 
 #. JS File: Core.UI
-msgid "No space left for the following files"
+msgid "No space left for the following files: %s"
+msgstr ""
+
+#. JS File: Core.UI
+msgid "Available space %s of %s."
 msgstr ""
 
 #. JS File: Core.UI
@@ -16908,6 +17028,12 @@ msgstr "MasaDipertanggungjawab"
 
 #. SysConfig
 msgid ""
+"Activate this if you trust in all your public and private pgp keys, even if "
+"they are not certified with a trusted signature."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Activates a blinking mechanism of the queue that contains the oldest ticket."
 msgstr "Mengaktifkan mekanisma berkelip untuk barisan yang mengandungi tiket yang terlama."
 
@@ -17020,28 +17146,20 @@ msgid ""
 msgstr "Menambah alamat e-mel pelanggan kepada penerima dalam skrin gubahan tiket bagi antara muka ejen. Alamat e-mel pelanggan tidak akan ditambah jika jenis artikel itu adalah e-mel\ndalaman."
 
 #. SysConfig
-msgid ""
-"Adds the one time vacation days for the indicated calendar. Please use "
-"single digit pattern for numbers from 1 to 9 (instead of 01 - 09)."
-msgstr "Tambah satu percutian hari masa untuk menunjukkan kalendar. Sila menggunakan corak digit tunggal bagi nombor 1-9 (bukannya 01-09)."
+msgid "Adds the one time vacation days for the indicated calendar."
+msgstr ""
 
 #. SysConfig
-msgid ""
-"Adds the one time vacation days. Please use single digit pattern for numbers"
-" from 1 to 9 (instead of 01 - 09)."
-msgstr "Tambah satu hari masa percutian. Sila menggunakan corak digit tunggal bagi nombor 1-9 (bukannya 01-09)."
+msgid "Adds the one time vacation days."
+msgstr ""
 
 #. SysConfig
-msgid ""
-"Adds the permanent vacation days for the indicated calendar. Please use "
-"single digit pattern for numbers from 1 to 9 (instead of 01 - 09)."
-msgstr "Menambah hari bercuti tetap untuk menunjukkan kalendar. Sila menggunakan corak digit tunggal bagi nombor 1-9 (bukannya 01-09)."
+msgid "Adds the permanent vacation days for the indicated calendar."
+msgstr ""
 
 #. SysConfig
-msgid ""
-"Adds the permanent vacation days. Please use single digit pattern for "
-"numbers from 1 to 9 (instead of 01 - 09)."
-msgstr "Menambah hari bercuti tetap. Sila menggunakan corak digit tunggal bagi nombor 1-9 (bukannya 01-09)."
+msgid "Adds the permanent vacation days."
+msgstr ""
 
 #. SysConfig
 msgid "Admin"
@@ -17766,9 +17884,9 @@ msgstr "Memeriksa jika emel adalah susulan kepada tiket yang sedia ada dengan me
 
 #. SysConfig
 msgid ""
-"Checks the SystemID in ticket number detection for follow-ups (use \"No\" if"
-" SystemID has been changed after using the system)."
-msgstr "Menyemak IDSistem di dalam pengesanan nombor tiket untuk susulan (guna \"Tidak\" jika IDSistem telah diubah selepas menggunakan sistem)."
+"Checks the SystemID in ticket number detection for follow-ups ( If inactive,"
+" SystemID will be changed after using the system)."
+msgstr ""
 
 #. SysConfig
 msgid "Checks the availability of OTRS Business Solution™ for this system."
@@ -18035,6 +18153,10 @@ msgstr "Menukarkan mel HTML ke dalam mesej teks."
 
 #. SysConfig
 msgid "Create New process ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Create Ticket"
 msgstr ""
 
 #. SysConfig
@@ -18395,8 +18517,9 @@ msgid ""
 "set/updated manually by the agent. They mustn't be enabled for "
 "AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, "
 "they would have precedence over the automatically set values. To use this "
-"mapping, you have to also activate the next setting below."
-msgstr "Tentukan pemetaan antara pembolehubah data pengguna pelanggan (kunci) dan bidang-bidang dinamik tiket (nilai-nilai). Tujuannya adalah untuk menyimpan data pengguna pelanggan dalam tiket bidang dinamik. Bidang dinamik perlu hadir dalam sistem dan patut diaktifkan untuk AgentTicketFreeText, supaya mereka boleh ditetapkan/dikemaskini secara manual oleh ejen. Mereka tidak boleh diaktifkan untuk AgentTicketPhone, AgentTicketEmail dan AgentTicketCustomer. Jikalau mereka, mereka akan mempunyai keutamaan ke atas nilai-nilai yang ditetapkan secara automatik. Untuk menggunakan pemetaan ini, anda perlu juga mengaktifkan tetapan seterusnya di bawah."
+"mapping, you have to also activate the "
+"Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18437,6 +18560,13 @@ msgstr "Menentukan hari permulaan minggu untuk pemilih tarikh untuk kalendar yan
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
 msgstr "Menetukan hari permulaan mingguan untuk pemilih tarikh."
+
+#. SysConfig
+msgid ""
+"Define which avatar default image should be used for the current agent if no"
+" gravatar is assigned to the mail address of the agent. Check "
+"http://gravatar.com/site/implement/images/ for further information."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18942,9 +19072,9 @@ msgstr "Mentakrifkan jika cara yang sebelum ini sah perlu diterima untuk pengesa
 #. SysConfig
 msgid ""
 "Defines if the values for filters should be retrieved from all available "
-"tickets. If set to \"Yes\", only values which are actually used in any "
-"ticket will be available for filtering. Please note: The list of customers "
-"will always be retrieved like this."
+"tickets. If active, only values which are actually used in any ticket will "
+"be available for filtering. Please note: The list of customers will always "
+"be retrieved like this."
 msgstr ""
 
 #. SysConfig
@@ -19038,15 +19168,14 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to agents, about new "
-"password (after using this link the new password will be sent)."
-msgstr "Mentakrifkan teks badan untuk mel pemberitahuan dihantar kepada ejen, tentang kata laluan baru (selepas guna pautan ini kata laluan baru akan dihantar)."
+"password."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to agents, with token "
-"about new requested password (after using this link the new password will be"
-" sent)."
-msgstr "Mentakrifkan teks badan untuk mel pemberitahuan dihantar kepada ejen, dengan token tentang kata laluan baru yang diminta (selepas guna pautan ini kata laluan baru akan dihantar)."
+"about new requested password."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -19057,15 +19186,14 @@ msgstr "Mentakrifkan teks badan untuk mel pemberitahuan dihantar kepada pelangga
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to customers, about new "
-"password (after using this link the new password will be sent)."
-msgstr "Mentakrifkan teks badan untuk mel pemberitahuan dihantar kepada pelanggan, tentang kata laluan baru (selepas guna pautan ini kata laluan baru akan dihantar)."
+"password."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to customers, with token "
-"about new requested password (after using this link the new password will be"
-" sent)."
-msgstr "Mentakrifkan teks badan untuk mel pemberitahuan dihantar kepada pelanggan, dengan token tentang kata lauan baru yang diminta (selepas guna pautan ini kata laluan baru akan dihantar)."
+"about new requested password."
+msgstr ""
 
 #. SysConfig
 msgid "Defines the body text for rejected emails."
@@ -19181,12 +19309,6 @@ msgstr "Mentakrifkan asal keadaan seterusnya dari tiket selepas menambah nota, d
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the "
-"ticket bulk screen of the agent interface."
-msgstr "Mentakrifkan asal keadaan seterusnya dari tiket selepas menambah nota, dalam skrin pukal tiket dari paparan ejen."
-
-#. SysConfig
-msgid ""
-"Defines the default next state of a ticket after adding a note, in the "
 "ticket free text screen of the agent interface."
 msgstr "Mentakrifkan asal keadaan seterusnya dari tiket selepas menambah nota, dalam skrin teks percuma tiket dari paparan ejen."
 
@@ -19243,6 +19365,12 @@ msgid ""
 "Defines the default next state of a ticket if it is composed / answered in "
 "the ticket compose screen of the agent interface."
 msgstr "Mentakrifkan asal keadaan seterusnya dari tiket jika ia digubah / dijawab dalam skrin gubah tiket dari paparan ejen."
+
+#. SysConfig
+msgid ""
+"Defines the default next state of a ticket, in the ticket bulk screen of the"
+" agent interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -20142,12 +20270,6 @@ msgstr "Mentakrifkan status tiket seterusnya selepas menambah satu nota, dalam s
 
 #. SysConfig
 msgid ""
-"Defines the next state of a ticket after adding a note, in the ticket bulk "
-"screen of the agent interface."
-msgstr "Mentakrifkan status tiket seterusnya selepas menambah satu nota, dalam skrin tiket pukal dari paparan ejen."
-
-#. SysConfig
-msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket free "
 "text screen of the agent interface."
 msgstr "Mentakrifkan status tiket seterusnya selepas menambah satu nota, dalam skrin tiket bebas teks dari paparan ejen."
@@ -20193,6 +20315,12 @@ msgid ""
 "Defines the next state of a ticket after being moved to another queue, in "
 "the move ticket screen of the agent interface."
 msgstr "Mentakrifkan status tiket seterusnya selepas dipindahkan ke aturan yang lain, dalam skrin pindah tiket dari paparan ejen."
+
+#. SysConfig
+msgid ""
+"Defines the next state of a ticket, in the ticket bulk screen of the agent "
+"interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -20837,11 +20965,11 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Disables the web installer (http://yourhost.example.com/otrs/installer.pl), "
-"to prevent the system from being hijacked. If set to \"No\", the system can "
-"be reinstalled and the current basic configuration will be used to pre-"
-"populate the questions within the installer script. If not active, it also "
+"to prevent the system from being hijacked. If inactive, the system can be "
+"reinstalled and the current basic configuration will be used to pre-populate"
+" the questions within the installer script. If not inactive, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
-msgstr "Melumpuhkan pemasang web (http://yourhost.example.com/otrs/installer.pl), untuk mengelakkan sistem dari dirampas. Jika ditetapkan kepada \"No\", sistem boleh dipasang semula dan konfigurasi asas semasa akan digunakan untuk pra-isian soalan-soalan dalam skrip pemasang. Jika tidak aktif, ia juga melumpuhkan GenericAgent, PackageManager dan SQL Box."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -20874,6 +21002,10 @@ msgstr "Bawah"
 #. SysConfig
 msgid "Dropdown"
 msgstr "Dropdown"
+
+#. SysConfig
+msgid "Dutch"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -21416,12 +21548,6 @@ msgid "Filter incoming emails."
 msgstr "Penapis emel masuk."
 
 #. SysConfig
-msgid ""
-"Filter stop words from article search index, turned on by default. If turned"
-" off, search index will store unfiltered text."
-msgstr ""
-
-#. SysConfig
 msgid "Finnish"
 msgstr "Bahasa Finland"
 
@@ -21465,6 +21591,13 @@ msgstr "Namapertama, Namaakhir (LogmasukPengguna)"
 msgid ""
 "For these state types the ticket numbers are striked through in the link "
 "table."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Force the storage of the original article text in the article search index, "
+"without executing filters or applying stop word lists. This will increase "
+"the size of the search index and thus may slow down fulltext searches."
 msgstr ""
 
 #. SysConfig
@@ -21546,10 +21679,6 @@ msgstr "Pendaftaran modul frontend untuk paparan ejen."
 #. SysConfig
 msgid "Frontend module registration for the customer interface."
 msgstr "Pendaftaran modul frontend untuk paparan pelanggan."
-
-#. SysConfig
-msgid "Frontend theme"
-msgstr "Tema frontend"
 
 #. SysConfig
 msgid "Full value"
@@ -21939,6 +22068,14 @@ msgid ""
 msgstr "Jika \"file\" dipilih untuk LogModule, suatu logfile mesti ditentukan. Jika fail tersebut tidak wujud, ia akan dicipta oleh sistem."
 
 #. SysConfig
+msgid "If active the cache data be held in memory."
+msgstr ""
+
+#. SysConfig
+msgid "If active the cache data will be stored in cache backend."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "If active, none of the regular expressions may match the user's email "
 "address to allow registration."
@@ -22069,10 +22206,10 @@ msgstr "Jika ditetapkan, alamat ini digunakan sebagai sampul surat penghantar da
 
 #. SysConfig
 msgid ""
-"If this option is set to 'Yes', tickets created via the web interface, via "
+"If this option is active, tickets created via the web interface, via "
 "Customers or Agents, will receive an autoresponse if configured. If this "
-"option is set to 'No', no autoresponses will be sent."
-msgstr "Jika pilihan ini diset kepada 'Ya', tiket dicipta melalui antaramuka web, melalui Pelanggan atau Agen, akan menerima respon automatik jika dikonfigurasi. Jika pilihan ini diset kepada 'Tidak', tiada respon automatik akan dihantar."
+"option is inactive, no autoresponses will be sent."
+msgstr ""
 
 #. SysConfig
 msgid "If this regex matches, no message will be send by the autoresponder."
@@ -22807,10 +22944,6 @@ msgid "NameX"
 msgstr "NamaX"
 
 #. SysConfig
-msgid "Nederlands"
-msgstr "Belanda"
-
-#. SysConfig
 msgid "New Ticket"
 msgstr "Tiket Baru"
 
@@ -22897,6 +23030,10 @@ msgid ""
 msgstr "Jumlah tiket yang akan dipamerkan dalam setiap halaman dari hasil carian dalam paparan pelanggan."
 
 #. SysConfig
+msgid "Number of tickets to be displayed in each page."
+msgstr ""
+
+#. SysConfig
 msgid "OTRS Group Services"
 msgstr ""
 
@@ -22916,7 +23053,7 @@ msgid ""
 "OTRS doesn't support recurring Appointments without end date or number of "
 "iterations. During import process, it might happen that ICS file contains "
 "such Appointments. Instead, system creates all Appointments in the past, "
-"plus Appointments for the next n months (120 months/10 years by default)."
+"plus Appointments for the next N months (120 months/10 years by default)."
 msgstr ""
 
 #. SysConfig
@@ -23765,11 +23902,11 @@ msgstr "Menjalankan carian wildcard awal daripada pengguna pelanggan yang sedia 
 
 #. SysConfig
 msgid ""
-"Runs the system in \"Demo\" mode. If set to \"Yes\", agents can change "
-"preferences, such as selection of language and theme via the agent web "
-"interface. These changes are only valid for the current session. It will not"
-" be possible for agents to change their passwords."
-msgstr "Menjalankan sistem dalam mod \"Demo\". Jika ditetapkan kepada \"Yes\", ejen boleh menukar pilihan, seperti pemilihan bahasa dan tema melalui antara muka web ejen. Perubahan ini hanya sah untuk sesi semasa. Ia tidak akan mungkin bagi ejen untuk menukar kata laluan mereka."
+"Runs the system in \"Demo\" mode. If active, agents can change preferences, "
+"such as selection of language and theme via the agent web interface. These "
+"changes are only valid for the current session. It will not be possible for "
+"agents to change their passwords."
+msgstr ""
 
 #. SysConfig
 msgid "Russian"
@@ -24039,12 +24176,6 @@ msgstr ""
 #. SysConfig
 msgid "Set this ticket to pending"
 msgstr "Tetapkan tiket ini kepada tergantung"
-
-#. SysConfig
-msgid ""
-"Set this to yes if you trust in all your public and private pgp keys, even "
-"if they are not certified with a trusted signature."
-msgstr "Tetapkan ini kepada yes jika anda percaya dalam kesemua kunci pgp public dan private anda, walaupun jika mereka tidak diakui dengan tanda tangan yang dipercayai."
 
 #. SysConfig
 msgid "Sets if SLA must be selected by the agent."
@@ -24679,14 +24810,6 @@ msgid "Shared Secret"
 msgstr "Rahsia Dikongsi"
 
 #. SysConfig
-msgid "Should the cache data be held in memory?"
-msgstr ""
-
-#. SysConfig
-msgid "Should the cache data be stored in the selected cache backend?"
-msgstr "Patutkah data cache disimpan dalam bahagian belakang cache yang terpilih?"
-
-#. SysConfig
 msgid ""
 "Show a responsible selection in phone and email tickets in the agent "
 "interface."
@@ -24718,8 +24841,9 @@ msgstr "Tunjuk sejarah tiket"
 
 #. SysConfig
 msgid ""
-"Shows a count of icons in the ticket zoom, if the article has attachments."
-msgstr "Menunjukkan kiraan ikon dalam tiket zum, jika artikel mempunyai lampiran."
+"Shows a count of attachments in the ticket zoom, if the article has "
+"attachments."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -25107,13 +25231,6 @@ msgstr "Menunjukkan previu overview tiket (CustomerInfo => 1 - tunjuk juga maklu
 
 #. SysConfig
 msgid ""
-"Shows a select of ticket attributes to order the queue view ticket list. The"
-" possible selections can be configured via "
-"'TicketOverviewMenuSort###SortAttributes'."
-msgstr "Menunjukkan sifat-sifat tiket pilihan untuk menyusun paparan aturan senarai tiket. Pilihan yang mungkin boleh dikonfigurasi melalui 'TicketOverviewMenuSort###SortAttributes'."
-
-#. SysConfig
-msgid ""
 "Shows a teaser link in the menu for the ticket attachment view of OTRS "
 "Business Solution™."
 msgstr ""
@@ -25131,12 +25248,6 @@ msgid ""
 "Shows all open tickets (even if they are locked) in the escalation view of "
 "the agent interface."
 msgstr "Menunjukkan kesemua tiket terbuka (walaupuan jika mereka dikunci) dalam paparan labungan dari paparan ejen."
-
-#. SysConfig
-msgid ""
-"Shows all open tickets (even if they are locked) in the status view of the "
-"agent interface."
-msgstr "Menunjukkan kesemua tiket terbuka (walaupuan jika mereka dikunci) dalam paparan status dari paparan ejen."
 
 #. SysConfig
 msgid "Shows all the articles of the ticket (expanded) in the zoom view."
@@ -25158,10 +25269,6 @@ msgstr ""
 msgid ""
 "Shows an owner selection in phone and email tickets in the agent interface."
 msgstr "Menunjukkan pemilihan pemilik dalam tiket telefon dan emel dalam paparan ejen."
-
-#. SysConfig
-msgid "Shows colors for different article types in the article table."
-msgstr "Menunjukkan warna untuk jenis artikel berbeza dalam jadual artikel."
 
 #. SysConfig
 msgid ""
@@ -25208,10 +25315,6 @@ msgstr "Menunjukkan aritkel disusun seperti biasa atau terbalik, dibawah tiket z
 msgid ""
 "Shows the customer user information (phone and email) in the compose screen."
 msgstr "Menunjukkan maklumat pelanggan pengguna (telefon dan emel) dalam skrin karang."
-
-#. SysConfig
-msgid "Shows the customer user's info in the ticket zoom view."
-msgstr "Menunjukkan maklumat pelanggan pengguna dalam paparan zum tiket."
 
 #. SysConfig
 msgid ""
@@ -25286,54 +25389,54 @@ msgstr "Menunjukkan pilihan keutamaan tiket dalam skrin tanggungjawab tiket dari
 
 #. SysConfig
 msgid ""
+"Shows the title field in the close ticket screen of the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Shows the title field in the ticket free text screen of the agent interface."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the close ticket screen of the agent interface."
-msgstr "Menunjukkan medan tajuk dari skrin tiket tertutup dari paparan ejen."
+"Shows the title field in the ticket note screen of the agent interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the ticket note screen of the agent interface."
-msgstr "Menunjukkan medan tajuk dari skrin nota tiketdari paparan ejen."
-
-#. SysConfig
-msgid ""
-"Shows the title fields in the ticket owner screen of a zoomed ticket in the "
+"Shows the title field in the ticket owner screen of a zoomed ticket in the "
 "agent interface."
-msgstr "Menunjukkan medan tajuk dari skrin pemilik tiket dari tiket dizum dalam paparan ejen."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the ticket pending screen of a zoomed ticket in "
+"Shows the title field in the ticket pending screen of a zoomed ticket in the"
+" agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows the title field in the ticket priority screen of a zoomed ticket in "
 "the agent interface."
-msgstr "Menunjukkan medan tajuk dari skrin tiket tertangguh dari tiket dizum dalam paparan ejen."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the ticket priority screen of a zoomed ticket in "
-"the agent interface."
-msgstr "Menunjukkan medan tajuk dari skrin keutamaan tiket dari tiket dizum dalam paparan ejen."
-
-#. SysConfig
-msgid ""
-"Shows the title fields in the ticket responsible screen of the agent "
+"Shows the title field in the ticket responsible screen of the agent "
 "interface."
-msgstr "Menunjukkan medan tajuk dari skrin tanggungjawab tiket dari paparan ejen."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows time in long format (days, hours, minutes), if set to \"Yes\"; or in "
-"short format (days, hours), if set to \"No\"."
-msgstr "Menunjukkan masa format panjang (hari, jam, minit), jika tetapkan ke \"Yes\"; atau format pendek (hari, jam), jika tetapkan ke \"No\"."
+"Shows time in long format (days, hours, minutes), if active; or in short "
+"format (days, hours), if inactive."
+msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows time use complete description (days, hours, minutes), if set to "
-"\"Yes\"; or just first letter (d, h, m), if set to \"No\"."
-msgstr "Menunjukkan masa menggunakan deskripsi lengkap (hari, jam, minit), jika tetapkan ke \"Yes\"; atau hanya huruf pertama (d, h, m), jika tetapkan ke \"No\"."
+"Shows time use complete description (days, hours, minutes), if active; or "
+"just first letter (d, h, m), if inactive."
+msgstr ""
 
 #. SysConfig
 msgid "Signatures"
@@ -25827,8 +25930,9 @@ msgstr "Tema"
 #. SysConfig
 msgid ""
 "This event module stores attributes from CustomerUser as DynamicFields "
-"tickets. Please see the setting above for how to configure the mapping."
-msgstr "Modul acara ini menyimpan sifat-sifat dari PenggunaPelanggan sebagai tiket MedanDinamik. Sila lihat tetapan di atas untuk bagaimana mengkonfigurasi pemetaan."
+"tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to"
+" configure the mapping."
+msgstr ""
 
 #. SysConfig
 msgid "This is a Description for Comment on Framework."
@@ -25900,6 +26004,12 @@ msgstr "Tetapan ini membolehkan anda untuk mengatasi senarai negara yang dibina 
 
 #. SysConfig
 msgid "This setting is deprecated. Set OTRSTimeZone instead."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"This setting shows the sorting attributes in all overview screen, not only "
+"in queue view."
 msgstr ""
 
 #. SysConfig
@@ -25996,6 +26106,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Watcher"
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Zoom"
 msgstr ""
 
 #. SysConfig
@@ -26122,10 +26236,10 @@ msgstr "Aktifkan tarik dan lepas untuk navigasi utama."
 
 #. SysConfig
 msgid ""
-"Turns on the remote ip address check. It should be set to \"No\" if the "
+"Turns on the remote ip address check. It should not be active if the "
 "application is used, for example, via a proxy farm or a dialup connection, "
 "because the remote ip address is mostly different for the requests."
-msgstr "Menghidupkan penyemak alamat ip jauh. Ia sepatutnya ditetapkan ke \"No\", jika aplikasi tersebtu digunakan, sebagai contoh, melalui ladang proksi atau sambungan dialup, kerana alamat ip jauh kebanyakannya erbeza untuk permintaan tersebut."
+msgstr ""
 
 #. SysConfig
 msgid "Tweak the system as you wish."

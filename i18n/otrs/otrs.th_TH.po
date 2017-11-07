@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-10-09 16:06+0000\n"
-"PO-Revision-Date: 2017-10-09 16:24+0000\n"
+"POT-Creation-Date: 2017-11-07 00:18+0000\n"
+"PO-Revision-Date: 2017-11-07 00:23+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/otrs/OTRS/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -193,10 +193,6 @@ msgstr "หยุดหลังจากจับคู่แล้ว"
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
 msgstr ""
-
-#. Template: AdminACLEdit
-msgid "Save settings"
-msgstr "บันทึกการตั้งค่า"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
@@ -4616,7 +4612,7 @@ msgid "Install Package"
 msgstr "ติดตั้งแพคเกจ"
 
 #. Template: AdminPackageManager
-msgid "Upgrade Package"
+msgid "Update Package"
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -4651,7 +4647,7 @@ msgid "Enable cloud services"
 msgstr "เปิดใช้บริการคลาวด์"
 
 #. Template: AdminPackageManager
-msgid "Upgrade all installed packages"
+msgid "Update all installed packages"
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -4665,10 +4661,6 @@ msgstr "การดำเนินการ"
 #. Template: AdminPackageManager
 msgid "Module documentation"
 msgstr "เอกสารของโมดูล"
-
-#. Template: AdminPackageManager
-msgid "Upgrade"
-msgstr "อัพเกรด"
 
 #. Template: AdminPackageManager
 msgid "Local Repository"
@@ -6228,8 +6220,8 @@ msgid "S/MIME Certificate"
 msgstr "ใบรับรอง S/MIME"
 
 #. Template: AdminSMIMECertRead
-msgid "Close dialog"
-msgstr ""
+msgid "Close this dialog"
+msgstr "ปิดไดอะล็อกนี้"
 
 #. Template: AdminSMIMECertRead
 msgid "Certificate Details"
@@ -6331,6 +6323,10 @@ msgstr "รูปแบบผลลัพท์"
 #. Template: AdminSelectBox
 msgid "Run Query"
 msgstr "รันคำสั่ง"
+
+#. Template: AdminSelectBox
+msgid "%s Results"
+msgstr ""
 
 #. Template: AdminSelectBox
 msgid "Query is executed."
@@ -6674,6 +6670,26 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Help"
+msgstr ""
+
+#. Template: AdminSystemConfigurationDeployment
+msgid ""
+"This is an overview of all settings which will be part of the deployment if "
+"you start it now. You can compare each setting to its former state by "
+"clicking the icon on the top right."
+msgstr ""
+
+#. Template: AdminSystemConfigurationDeployment
+msgid ""
+"To exclude certain settings from a deployment, click the checkbox on the "
+"header bar of a setting."
+msgstr ""
+
+#. Template: AdminSystemConfigurationDeployment
+msgid ""
+"By default, you will only deploy settings which you changed on your own. If "
+"you'd like to deploy settings changed by other users, too, please click the "
+"link on top of the screen to enter the advanced deployment mode."
 msgstr ""
 
 #. Template: AdminSystemConfigurationDeployment
@@ -7513,6 +7529,10 @@ msgid "in"
 msgstr "ใน"
 
 #. Template: AgentDashboardCommon
+msgid "Save settings"
+msgstr "บันทึกการตั้งค่า"
+
+#. Template: AgentDashboardCommon
 msgid "Close this widget"
 msgstr "ปิดเครื่องมือนี้"
 
@@ -7708,12 +7728,12 @@ msgid "Undo & close"
 msgstr "เลิกทำและปิด"
 
 #. Template: AgentInfo
-msgid "Info"
-msgstr "ข้อมูล"
-
-#. Template: AgentInfo
 msgid "To accept some news, a license or some changes."
 msgstr "ในการรับข่าว ใบอนุญาตหรือการเปลี่ยนแปลงบางอย่าง"
+
+#. Template: AgentInfo
+msgid "Yes, accepted."
+msgstr ""
 
 #. Template: AgentLinkObject
 msgid "Manage links for %s"
@@ -8317,6 +8337,10 @@ msgstr ""
 
 #. Template: AgentTicketHistory
 msgid "Filter for history items"
+msgstr ""
+
+#. Template: AgentTicketHistory
+msgid "Expand/collapse all"
 msgstr ""
 
 #. Template: AgentTicketHistory
@@ -10544,6 +10568,38 @@ msgid "Invalid CommunicationID "
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "All communications"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last 1 hour"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last 3 hours"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last 6 hours"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last 12 hours"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last 24 hours"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last week"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Last month"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid StartTime: %s!"
 msgstr ""
 
@@ -10584,6 +10640,10 @@ msgid "Debug"
 msgstr "การแก้ปัญหา"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
+msgid "Info"
+msgstr "ข้อมูล"
+
+#. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Warn"
 msgstr ""
 
@@ -10614,6 +10674,14 @@ msgstr "วินาที"
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company updated!"
 msgstr "อัปเดตลูกค้าบริษัทแล้ว!"
+
+#. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
+msgid "Dynamic field %s not found!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
+msgid "Unable to set value for dynamic field %s!"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer Company %s already exists!"
@@ -11349,6 +11417,10 @@ msgid ""
 msgstr "แพคเกจยังไม่ได้รับการตรวจสอบโดยกลุ่ม OTRS! ขอแนะนำไม่ให้ใช้แพคเกจนี้"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Not Started"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Updated"
 msgstr ""
 
@@ -11394,6 +11466,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package could not be upgraded"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Repository List"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -11828,6 +11904,10 @@ msgstr "ไม่สามารถอ่านหนังสือรับร
 msgid "Needed Fingerprint"
 msgstr "ลายนิ้วมือที่ต้องการ"
 
+#. Perl Module: Kernel/Modules/AdminSMIME.pm
+msgid "Handle Private Certificate Relations"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminSalutation.pm
 msgid "Salutation added!"
 msgstr "เพิ่มคำขึ้นต้น!"
@@ -12137,7 +12217,7 @@ msgid "No permissions!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentAppointmentList.pm
-msgid "+%d more"
+msgid "+%s more"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentCustomerSearch.pm
@@ -12211,6 +12291,10 @@ msgstr "ออบเจคนี้ %s ไม่สามารถเชื่�
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Param Group is required!"
 msgstr "ต้องระบุกลุ่มพารามิเตอร์!"
+
+#. Perl Module: Kernel/Modules/AgentPreferences.pm
+msgid "Updated user preferences"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to deploy your changes."
@@ -13384,6 +13468,10 @@ msgid "Re-install Package"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
+msgid "Upgrade"
+msgstr "อัพเกรด"
+
+#. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Re-install"
 msgstr ""
 
@@ -13716,6 +13804,10 @@ msgid "%s Upgrade to %s now! %s"
 msgstr "%s อัพเกรดเป็น %s ในขณะนี้! %s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
+msgid "Please verify your license data!"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
@@ -13744,6 +13836,11 @@ msgstr ""
 #. Perl Module: Kernel/Output/HTML/Notification/CustomerOnline.pm
 msgid "Online Customer: %s"
 msgstr "ลูกค้าออนไลน์:%s"
+
+#. Perl Module:
+#. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
+msgid "System maintenance is active!"
+msgstr ""
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
@@ -14225,12 +14322,12 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
-"<br>If you continue to install this package, the following issues may "
-"occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability "
-"problems<br>&nbsp;-Performance problems<br><br>Please note that issues that "
-"are caused by working with this package are not covered by OTRS service "
-"contracts!<br><br>"
-msgstr "<br>หากคุณยังคงติดตั้งแพคเกจนี้ ปัญหาต่อไปนี้อาจเกิดขึ้น!<br><br>&nbsp;-  ปัญหาด้านความปลอดภัย<br>&nbsp;- ปัญหาความเสถียรภาพ<br>&nbsp;-ปัญหาประสิทธิภาพการทำงาน<br><br>โปรดทราบว่าปัญหาที่เกิดจากการทำงานร่วมกับแพคเกจนี้จะไม่ครอบคลุมตามสัญญาการให้การบริการของ OTRS!<br><br>"
+"<p>If you continue to install this package, the following issues may "
+"occur:</p><ul><li>Security problems</li><li>Stability "
+"problems</li><li>Performance problems</li></ul><p>Please note that issues "
+"that are caused by working with this package are not covered by OTRS service"
+" contracts.</p>"
+msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -14424,6 +14521,10 @@ msgstr "ช่วงเวลาของประวัติ"
 msgid "Number"
 msgstr "หมายเลข"
 
+#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+msgid "Last Changed"
+msgstr ""
+
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average"
 msgstr ""
@@ -14596,8 +14697,8 @@ msgstr "ขนาดสูงสุดของ Query"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
-msgid "The setting 'max_allowed_packet' must be higher than 20 MB."
-msgstr "การตั้งค่า innodb_log_file_size ต้องมีขนาดมากกว่า 20 MB"
+msgid "The setting 'max_allowed_packet' must be higher than 64 MB."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
@@ -15093,9 +15194,11 @@ msgstr "โมดูลการค้นหาตั๋วดัชนี"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
 msgid ""
-"You have more than 50,000 articles and should use the StaticDB backend. See "
-"admin manual (Performance Tuning) for more information."
-msgstr "คุณมีบทความมากกว่า50,000 บทความและควรใช้แบ็กเอนด์ StaticDB ดูคู่มือผู้ดูแลระบบ (ปรับแต่งประสิทธิภาพ) สำหรับข้อมูลเพิ่มเติม"
+"The indexing process forces the storage of the original article text in the "
+"article search index, without executing filters or applying stop word lists."
+" This will increase the size of the search index and thus may slow down "
+"fulltext searches."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
@@ -15331,6 +15434,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Missing key %s!"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "All Settings"
 msgstr ""
 
 #. Perl Module: Kernel/System/SysConfig/BaseValueType.pm
@@ -16270,6 +16377,12 @@ msgid ""
 msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
+msgid ""
+"Keys with values can't be renamed. Please remove this key/value pair instead"
+" and re-add it afterwards."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Unlock setting."
 msgstr ""
 
@@ -16440,6 +16553,12 @@ msgid "Sorry, but you can't disable all methods for this notification."
 msgstr "ขออภัยคุณไม่สามารถปิดการใช้งานวิธีการทั้งหมดสำหรับการแจ้งเตือนนี้"
 
 #. JS File: Core.Agent.Preferences
+msgid ""
+"Please note that at least one of the settings you have changed requires a "
+"page reload. Click here to reload the current screen."
+msgstr ""
+
+#. JS File: Core.Agent.Preferences
 msgid "An unknown error occurred. Please contact the administrator."
 msgstr ""
 
@@ -16537,10 +16656,6 @@ msgstr ""
 #. JS File: Core.App
 msgid "Reload page"
 msgstr ""
-
-#. JS File: Core.App
-msgid "Close this dialog"
-msgstr "ปิดไดอะล็อกนี้"
 
 #. JS File: Core.App
 msgid "Communication error"
@@ -16697,22 +16812,27 @@ msgid "Please only select at most %s files for upload."
 msgstr ""
 
 #. JS File: Core.UI
-msgid "The following files are not allowed to be uploaded"
+msgid "The following files are not allowed to be uploaded: %s"
 msgstr ""
 
 #. JS File: Core.UI
 msgid ""
 "The following files exceed the maximum allowed size per file of %s and were "
-"not uploaded"
+"not uploaded: %s"
 msgstr ""
 
 #. JS File: Core.UI
 msgid ""
-"The following files were already uploaded and have not been uploaded again"
+"The following files were already uploaded and have not been uploaded again: "
+"%s"
 msgstr ""
 
 #. JS File: Core.UI
-msgid "No space left for the following files"
+msgid "No space left for the following files: %s"
+msgstr ""
+
+#. JS File: Core.UI
+msgid "Available space %s of %s."
 msgstr ""
 
 #. JS File: Core.UI
@@ -16908,6 +17028,12 @@ msgstr "AccountedTime"
 
 #. SysConfig
 msgid ""
+"Activate this if you trust in all your public and private pgp keys, even if "
+"they are not certified with a trusted signature."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Activates a blinking mechanism of the queue that contains the oldest ticket."
 msgstr "เปิดใช้งานกลไกการกระพริบของคิวที่มีตั๋วที่เก่าที่สุด"
 
@@ -17020,28 +17146,20 @@ msgid ""
 msgstr "เพิ่มที่อยู่อีเมลของลูกค้าไปยังผู้รับในหน้าจอเขียนตั๋วของอินเตอร์เฟซตัวแทน ที่อยู่อีเมลของลูกค้าจะไม่ถูกเพิ่มถ้าพิมพ์บทความเป็นอีเมลภายใน"
 
 #. SysConfig
-msgid ""
-"Adds the one time vacation days for the indicated calendar. Please use "
-"single digit pattern for numbers from 1 to 9 (instead of 01 - 09)."
-msgstr "เพิ่มวันหยุดครั้งหนึ่งสำหรับปฏิทินตามที่ระบุไว้ กรุณาใช้รูปแบบตัวเลขหลักเดียวสำหรับตัวเลข 1-9 (แทน 01-09)"
+msgid "Adds the one time vacation days for the indicated calendar."
+msgstr ""
 
 #. SysConfig
-msgid ""
-"Adds the one time vacation days. Please use single digit pattern for numbers"
-" from 1 to 9 (instead of 01 - 09)."
-msgstr "เพิ่มวันหยุดครั้งหนึ่ง กรุณาใช้รูปแบบตัวเลขหลักเดียวสำหรับตัวเลข 1-9 (แทน 01-09)"
+msgid "Adds the one time vacation days."
+msgstr ""
 
 #. SysConfig
-msgid ""
-"Adds the permanent vacation days for the indicated calendar. Please use "
-"single digit pattern for numbers from 1 to 9 (instead of 01 - 09)."
-msgstr "เพิ่มวันหยุดถาวรสำหรับปฏิทินตามที่ระบุไว้ กรุณาใช้รูปแบบตัวเลขหลักเดียวสำหรับตัวเลข 1-9 (แทน 01-09)"
+msgid "Adds the permanent vacation days for the indicated calendar."
+msgstr ""
 
 #. SysConfig
-msgid ""
-"Adds the permanent vacation days. Please use single digit pattern for "
-"numbers from 1 to 9 (instead of 01 - 09)."
-msgstr "เพิ่มวันหยุดถาวร กรุณาใช้รูปแบบตัวเลขหลักเดียวสำหรับตัวเลข 1-9 (แทน 01-09)"
+msgid "Adds the permanent vacation days."
+msgstr ""
 
 #. SysConfig
 msgid "Admin"
@@ -17766,9 +17884,9 @@ msgstr "ตรวจสอบ หากอีเมลนั้นๆคือ�
 
 #. SysConfig
 msgid ""
-"Checks the SystemID in ticket number detection for follow-ups (use \"No\" if"
-" SystemID has been changed after using the system)."
-msgstr "ตรวจสอบ SystemID  ในการตรวจจับจำนวนตั๋วสำหรับการติดตาม (ใช้ \"ไม่\" ถ้า SystemID  มีการเปลี่ยนแปลงหลังการใช้ระบบ)"
+"Checks the SystemID in ticket number detection for follow-ups ( If inactive,"
+" SystemID will be changed after using the system)."
+msgstr ""
 
 #. SysConfig
 msgid "Checks the availability of OTRS Business Solution™ for this system."
@@ -18036,6 +18154,10 @@ msgstr "แปลงอีเมล HTML เป็นข้อความ"
 #. SysConfig
 msgid "Create New process ticket."
 msgstr "สร้างตั๋วกระบวนการใหม่"
+
+#. SysConfig
+msgid "Create Ticket"
+msgstr ""
 
 #. SysConfig
 msgid "Create a new calendar appointment linked to this ticket"
@@ -18395,8 +18517,9 @@ msgid ""
 "set/updated manually by the agent. They mustn't be enabled for "
 "AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, "
 "they would have precedence over the automatically set values. To use this "
-"mapping, you have to also activate the next setting below."
-msgstr "กำหนดแผนที่ระหว่างตัวแปรข้อมูลของลูกค้าผู้ใช้ล(คีย์) และฟิลด์แบบไดนามิกของตั๋ว (ค่า )จุดประสงค์ในการจัดเก็บข้อมูลของลูกค้าผู้ใช้ในฟิลด์แบบไดนามิกของตั๋ว ฟิลด์แบบไดนามิกจะต้องนำเสนอในระบบและควรจะมีการเปิดใช้งานสำหรับ AgentTicketFreeText, เพื่อให้พวกเขาสามารถตั้งค่า / อัพเดตด้วยตนเองโดยเอเย่นต์ พวกเขาจะต้องไม่ถูกเปิดใช้งานสำหรับ AgentTicketPhone, AgentTicketEmail และ AgentTicketCustomer หากพวกเขาถูกเปิดใช้งาน พวกเขาจะมีความสำคัญมากกว่าค่าที่ตั้งค่าโดยอัตโนมัติ ในการใช้งานแผนที่นี้คุณต้องเปิดใช้การตั้งค่ายังครั้งต่อไปดังต่อไปนี้"
+"mapping, you have to also activate the "
+"Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18437,6 +18560,13 @@ msgstr "กำหนดวันเริ่มต้นของสัปดา
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
 msgstr "กำหนดวันเริ่มต้นของสัปดาห์สำหรับตัวเลือกวัน"
+
+#. SysConfig
+msgid ""
+"Define which avatar default image should be used for the current agent if no"
+" gravatar is assigned to the mail address of the agent. Check "
+"http://gravatar.com/site/implement/images/ for further information."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18942,10 +19072,10 @@ msgstr "กำหนดหากสัญลักษณ์ที่ถูกต
 #. SysConfig
 msgid ""
 "Defines if the values for filters should be retrieved from all available "
-"tickets. If set to \"Yes\", only values which are actually used in any "
-"ticket will be available for filtering. Please note: The list of customers "
-"will always be retrieved like this."
-msgstr "กำหนดถ้าค่าสำหรับฟิลเตอร์ควรจะดึงมาจากตั๋วที่มีอยู่ทั้งหมด ถ้าตั้งค่าเป็น \"ใช่\" เฉพาะค่าที่ใช้จริงในการออกตั๋วใด ๆ จะสามารถใช้ได้สำหรับการกรอง โปรดทราบ: รายการของลูกค้าจะถูกดึงมาอย่างนี้"
+"tickets. If active, only values which are actually used in any ticket will "
+"be available for filtering. Please note: The list of customers will always "
+"be retrieved like this."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -19038,15 +19168,14 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to agents, about new "
-"password (after using this link the new password will be sent)."
-msgstr "กำหนดข้อความในส่วนเนื้อความสำหรับการแจ้งเตือนอีเมลที่ส่งให้กับเอเย่นต์เกี่ยวกับรหัสผ่านใหม่ (หลังจากที่ใช้การเชื่อมโยงนี้รหัสผ่านใหม่จะถูกส่งไป)"
+"password."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to agents, with token "
-"about new requested password (after using this link the new password will be"
-" sent)."
-msgstr "กำหนดข้อความในส่วนเนื้อความสำหรับการแจ้งเตือนอีเมลที่ส่งให้กับเอเย่นต์พร้อมกับสัญลักษณ์เกี่ยวกับรหัสผ่านใหม่ที่ถูกร้องขอ(หลังจากที่ใช้การเชื่อมโยงนี้รหัสผ่านใหม่จะถูกส่งไป)"
+"about new requested password."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -19057,15 +19186,14 @@ msgstr "กำหนดข้อความในส่วนเนื้อค
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to customers, about new "
-"password (after using this link the new password will be sent)."
-msgstr "กำหนดข้อความในส่วนเนื้อความสำหรับการแจ้งเตือนอีเมลที่ส่งให้กับลูกค้าเกี่ยวกับรหัสผ่านใหม่ (หลังจากที่ใช้การเชื่อมโยงนี้รหัสผ่านใหม่จะถูกส่งไป)"
+"password."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to customers, with token "
-"about new requested password (after using this link the new password will be"
-" sent)."
-msgstr "กำหนดข้อความในส่วนเนื้อความสำหรับการแจ้งเตือนอีเมลที่ส่งให้กับลูกค้าพร้อมกับสัญลักษณ์เกี่ยวกับรหัสผ่านใหม่ที่ถูกร้องขอ(หลังจากที่ใช้การเชื่อมโยงนี้รหัสผ่านใหม่จะถูกส่งไป)"
+"about new requested password."
+msgstr ""
 
 #. SysConfig
 msgid "Defines the body text for rejected emails."
@@ -19181,12 +19309,6 @@ msgstr "กำหนดค่าเริ่มต้นของสถานภ
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the "
-"ticket bulk screen of the agent interface."
-msgstr "กำหนดค่าเริ่มต้นของสถานภาพถัดไปของตั๋วหลังจากเพิ่มโน้ตในหน้าจอตั๋วที่เป็นกลุ่มในอินเตอร์เฟซของเอเย่นต์"
-
-#. SysConfig
-msgid ""
-"Defines the default next state of a ticket after adding a note, in the "
 "ticket free text screen of the agent interface."
 msgstr "กำหนดค่าเริ่มต้นของสถานภาพถัดไปของตั๋วหลังจากเพิ่มโน้ตในหน้าจอตั๋วข้อความฟรีในอินเตอร์เฟซของเอเย่นต์"
 
@@ -19243,6 +19365,12 @@ msgid ""
 "Defines the default next state of a ticket if it is composed / answered in "
 "the ticket compose screen of the agent interface."
 msgstr "กำหนดค่าเริ่มต้นของสถานภาพถัดไปของตั๋วหากมันคือ\nเงียบ / ตอบ ในหน้าจอตั๋วการเขียนในอินเตอร์เฟซของเอเย่นต์"
+
+#. SysConfig
+msgid ""
+"Defines the default next state of a ticket, in the ticket bulk screen of the"
+" agent interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -20142,12 +20270,6 @@ msgstr "กำหนดสถานภาพถัดไปของตั๋ว
 
 #. SysConfig
 msgid ""
-"Defines the next state of a ticket after adding a note, in the ticket bulk "
-"screen of the agent interface."
-msgstr "กำหนดสถานภาพถัดไปของตั๋วหลังจากเพิ่มโน้ตในหน้าจอตั๋วที่เป็นกลุ่มในอินเตอร์เฟซของเอเย่นต์"
-
-#. SysConfig
-msgid ""
 "Defines the next state of a ticket after adding a note, in the ticket free "
 "text screen of the agent interface."
 msgstr "กำหนดสถานภาพถัดไปของตั๋วหลังจากเพิ่มโน้ตในหน้าจอตั๋วข้อความฟรีในอินเตอร์เฟซของเอเย่นต์"
@@ -20193,6 +20315,12 @@ msgid ""
 "Defines the next state of a ticket after being moved to another queue, in "
 "the move ticket screen of the agent interface."
 msgstr "กำหนดสถานภาพถัดไปของตั๋วหลังจากถูกย้ายไปยังคิวอื่นในหน้าจอตั๋วที่ถูกย้ายในอินเตอร์เฟซของเอเย่นต์"
+
+#. SysConfig
+msgid ""
+"Defines the next state of a ticket, in the ticket bulk screen of the agent "
+"interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -20837,11 +20965,11 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Disables the web installer (http://yourhost.example.com/otrs/installer.pl), "
-"to prevent the system from being hijacked. If set to \"No\", the system can "
-"be reinstalled and the current basic configuration will be used to pre-"
-"populate the questions within the installer script. If not active, it also "
+"to prevent the system from being hijacked. If inactive, the system can be "
+"reinstalled and the current basic configuration will be used to pre-populate"
+" the questions within the installer script. If not inactive, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
-msgstr "ปิดใช้งานการติดตั้งเว็บ (http://yourhost.example.com/otrs/installer.pl) เพื่อป้องกันระบบจากการถูกแย่งชิง ถ้าตั้งค่าเป็น \"ไม่\" ระบบสามารถติดตั้งและการกำหนดค่าพื้นฐานในปัจจุบันจะถูกนำมาใช้เพื่อเติมคำถามภายในสคริปต์ติดตั้ง ถ้าไม่ได้ใช้งานก็จะปิดการใช้งาน GenericAgent, PackageManager และกล่อง SQL"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -20874,6 +21002,10 @@ msgstr "ลง"
 #. SysConfig
 msgid "Dropdown"
 msgstr "ดรอปดาวน์"
+
+#. SysConfig
+msgid "Dutch"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -21416,12 +21548,6 @@ msgid "Filter incoming emails."
 msgstr "ตัวกรองอีเมลขาเข้า"
 
 #. SysConfig
-msgid ""
-"Filter stop words from article search index, turned on by default. If turned"
-" off, search index will store unfiltered text."
-msgstr ""
-
-#. SysConfig
 msgid "Finnish"
 msgstr "ภาษาฟินแลนด์"
 
@@ -21465,6 +21591,13 @@ msgstr "ชื่อนามสกุล (ผู้ใช้เข้าสู�
 msgid ""
 "For these state types the ticket numbers are striked through in the link "
 "table."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Force the storage of the original article text in the article search index, "
+"without executing filters or applying stop word lists. This will increase "
+"the size of the search index and thus may slow down fulltext searches."
 msgstr ""
 
 #. SysConfig
@@ -21546,10 +21679,6 @@ msgstr "การลงทะเบียนโมดูล Frontend สำห�
 #. SysConfig
 msgid "Frontend module registration for the customer interface."
 msgstr "การลงทะเบียนโมดูล Frontend สำหรับอินเตอร์เฟซลูกค้า"
-
-#. SysConfig
-msgid "Frontend theme"
-msgstr "ธีม Frontend"
 
 #. SysConfig
 msgid "Full value"
@@ -21939,6 +22068,14 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "If active the cache data be held in memory."
+msgstr ""
+
+#. SysConfig
+msgid "If active the cache data will be stored in cache backend."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "If active, none of the regular expressions may match the user's email "
 "address to allow registration."
@@ -22069,9 +22206,9 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"If this option is set to 'Yes', tickets created via the web interface, via "
+"If this option is active, tickets created via the web interface, via "
 "Customers or Agents, will receive an autoresponse if configured. If this "
-"option is set to 'No', no autoresponses will be sent."
+"option is inactive, no autoresponses will be sent."
 msgstr ""
 
 #. SysConfig
@@ -22807,10 +22944,6 @@ msgid "NameX"
 msgstr "NameX"
 
 #. SysConfig
-msgid "Nederlands"
-msgstr "Nederlands"
-
-#. SysConfig
 msgid "New Ticket"
 msgstr "ตั๋วใหม่"
 
@@ -22897,6 +23030,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Number of tickets to be displayed in each page."
+msgstr ""
+
+#. SysConfig
 msgid "OTRS Group Services"
 msgstr ""
 
@@ -22916,7 +23053,7 @@ msgid ""
 "OTRS doesn't support recurring Appointments without end date or number of "
 "iterations. During import process, it might happen that ICS file contains "
 "such Appointments. Instead, system creates all Appointments in the past, "
-"plus Appointments for the next n months (120 months/10 years by default)."
+"plus Appointments for the next N months (120 months/10 years by default)."
 msgstr ""
 
 #. SysConfig
@@ -23765,10 +23902,10 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Runs the system in \"Demo\" mode. If set to \"Yes\", agents can change "
-"preferences, such as selection of language and theme via the agent web "
-"interface. These changes are only valid for the current session. It will not"
-" be possible for agents to change their passwords."
+"Runs the system in \"Demo\" mode. If active, agents can change preferences, "
+"such as selection of language and theme via the agent web interface. These "
+"changes are only valid for the current session. It will not be possible for "
+"agents to change their passwords."
 msgstr ""
 
 #. SysConfig
@@ -24039,12 +24176,6 @@ msgstr ""
 #. SysConfig
 msgid "Set this ticket to pending"
 msgstr "เซตตั๋วนี้ในที่รอดำเนินการ"
-
-#. SysConfig
-msgid ""
-"Set this to yes if you trust in all your public and private pgp keys, even "
-"if they are not certified with a trusted signature."
-msgstr ""
 
 #. SysConfig
 msgid "Sets if SLA must be selected by the agent."
@@ -24679,14 +24810,6 @@ msgid "Shared Secret"
 msgstr "ความลับที่ใช้ร่วมกัน"
 
 #. SysConfig
-msgid "Should the cache data be held in memory?"
-msgstr ""
-
-#. SysConfig
-msgid "Should the cache data be stored in the selected cache backend?"
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Show a responsible selection in phone and email tickets in the agent "
 "interface."
@@ -24718,7 +24841,8 @@ msgstr "แสดงประวัติตั๋ว"
 
 #. SysConfig
 msgid ""
-"Shows a count of icons in the ticket zoom, if the article has attachments."
+"Shows a count of attachments in the ticket zoom, if the article has "
+"attachments."
 msgstr ""
 
 #. SysConfig
@@ -25107,13 +25231,6 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows a select of ticket attributes to order the queue view ticket list. The"
-" possible selections can be configured via "
-"'TicketOverviewMenuSort###SortAttributes'."
-msgstr ""
-
-#. SysConfig
-msgid ""
 "Shows a teaser link in the menu for the ticket attachment view of OTRS "
 "Business Solution™."
 msgstr ""
@@ -25130,12 +25247,6 @@ msgstr ""
 msgid ""
 "Shows all open tickets (even if they are locked) in the escalation view of "
 "the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"Shows all open tickets (even if they are locked) in the status view of the "
-"agent interface."
 msgstr ""
 
 #. SysConfig
@@ -25157,10 +25268,6 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Shows an owner selection in phone and email tickets in the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid "Shows colors for different article types in the article table."
 msgstr ""
 
 #. SysConfig
@@ -25207,10 +25314,6 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Shows the customer user information (phone and email) in the compose screen."
-msgstr ""
-
-#. SysConfig
-msgid "Shows the customer user's info in the ticket zoom view."
 msgstr ""
 
 #. SysConfig
@@ -25286,53 +25389,53 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Shows the title field in the close ticket screen of the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Shows the title field in the ticket free text screen of the agent interface."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the close ticket screen of the agent interface."
+"Shows the title field in the ticket note screen of the agent interface."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the ticket note screen of the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"Shows the title fields in the ticket owner screen of a zoomed ticket in the "
+"Shows the title field in the ticket owner screen of a zoomed ticket in the "
 "agent interface."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the ticket pending screen of a zoomed ticket in "
+"Shows the title field in the ticket pending screen of a zoomed ticket in the"
+" agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows the title field in the ticket priority screen of a zoomed ticket in "
 "the agent interface."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows the title fields in the ticket priority screen of a zoomed ticket in "
-"the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"Shows the title fields in the ticket responsible screen of the agent "
+"Shows the title field in the ticket responsible screen of the agent "
 "interface."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows time in long format (days, hours, minutes), if set to \"Yes\"; or in "
-"short format (days, hours), if set to \"No\"."
+"Shows time in long format (days, hours, minutes), if active; or in short "
+"format (days, hours), if inactive."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows time use complete description (days, hours, minutes), if set to "
-"\"Yes\"; or just first letter (d, h, m), if set to \"No\"."
+"Shows time use complete description (days, hours, minutes), if active; or "
+"just first letter (d, h, m), if inactive."
 msgstr ""
 
 #. SysConfig
@@ -25827,7 +25930,8 @@ msgstr "ตีม"
 #. SysConfig
 msgid ""
 "This event module stores attributes from CustomerUser as DynamicFields "
-"tickets. Please see the setting above for how to configure the mapping."
+"tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to"
+" configure the mapping."
 msgstr ""
 
 #. SysConfig
@@ -25900,6 +26004,12 @@ msgstr ""
 
 #. SysConfig
 msgid "This setting is deprecated. Set OTRSTimeZone instead."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"This setting shows the sorting attributes in all overview screen, not only "
+"in queue view."
 msgstr ""
 
 #. SysConfig
@@ -25996,6 +26106,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Watcher"
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Zoom"
 msgstr ""
 
 #. SysConfig
@@ -26122,7 +26236,7 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Turns on the remote ip address check. It should be set to \"No\" if the "
+"Turns on the remote ip address check. It should not be active if the "
 "application is used, for example, via a proxy farm or a dialup connection, "
 "because the remote ip address is mostly different for the requests."
 msgstr ""

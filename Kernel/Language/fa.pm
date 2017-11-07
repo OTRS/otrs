@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.726145366861867;
+    $Self->{Completeness}        = 0.724406720942318;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -88,7 +88,6 @@ sub Data {
         'Name' => 'نام',
         'Stop after match' => 'توقف بعد از تطبیق',
         'Edit ACL Structure' => '',
-        'Save settings' => 'ذخیره تنظیمات',
         'Save ACL' => 'ذخیره ACL',
         'Save' => 'ذخیره',
         'or' => 'یا',
@@ -1915,7 +1914,7 @@ sub Data {
 
         # Template: AdminSMIMECertRead
         'S/MIME Certificate' => 'گواهینامه S/MIME',
-        'Close dialog' => 'بستن گفتگوی',
+        'Close this dialog' => 'بستن این پنجره',
         'Certificate Details' => '',
 
         # Template: AdminSalutation
@@ -2064,6 +2063,12 @@ sub Data {
         # Template: AdminSystemConfigurationDeployment
         'Changes Deployment' => '',
         'Help' => '',
+        'This is an overview of all settings which will be part of the deployment if you start it now. You can compare each setting to its former state by clicking the icon on the top right.' =>
+            '',
+        'To exclude certain settings from a deployment, click the checkbox on the header bar of a setting.' =>
+            '',
+        'By default, you will only deploy settings which you changed on your own. If you\'d like to deploy settings changed by other users, too, please click the link on top of the screen to enter the advanced deployment mode.' =>
+            '',
         'A deployment has just been restored, which means that all affected setting have been reverted to the state from the selected deployment.' =>
             '',
         'Please review the changed settings and deploy afterwards.' => '',
@@ -2342,6 +2347,7 @@ sub Data {
         'in' => 'در',
 
         # Template: AgentDashboardCommon
+        'Save settings' => 'ذخیره تنظیمات',
         'Close this widget' => 'بستن این ویجت',
         'more' => 'بیشتر',
         'Available Columns' => 'ستون در دسترس',
@@ -3688,6 +3694,7 @@ sub Data {
         'Package has locally modified files.' => 'بسته بندی به صورت محلی فایل های اصلاح شده.',
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
             'بسته توسط گروه OTRS تایید نشده است! توصیه نمی شود از این بسته استفاده کنید .',
+        'Not Started' => '',
         'Updated' => '',
         'Already up-to-date' => '',
         'Installed' => '',
@@ -3700,6 +3707,7 @@ sub Data {
         'Dependencies fail to upgrade or install' => '',
         'Package could not be installed' => '',
         'Package could not be upgraded' => '',
+        'Repository List' => '',
         'No packages or no new packages found in selected repository.' =>
             'هیچ بسته و یا بدون بسته های جدید در مخزن انتخاب شده است.',
         'Package not verified due a communication issue with verification server!' =>
@@ -4906,8 +4914,8 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'حداکثر اندازه پرس و جو',
-        'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
-            'تنظیمات \'max_allowed_packet باید بالاتر از 20 مگابایت باشد.',
+        'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
         'Query Cache Size' => 'جستجوهای کش اندازه',
@@ -5185,6 +5193,7 @@ sub Data {
         'Could not update modified setting!' => '',
         'Setting could not be unlocked!' => '',
         'Missing key %s!' => '',
+        'All Settings' => '',
 
         # Perl Module: Kernel/System/SysConfig/BaseValueType.pm
         'Default' => 'پیش فرض',
@@ -5648,7 +5657,6 @@ sub Data {
         'Error: Browser Check failed!' => '',
         'Connection error' => 'خطای اتصال',
         'Reload page' => 'بارگذاری مجدد صفحه',
-        'Close this dialog' => 'بستن این پنجره',
         'Communication error' => '',
 
         # JS File: Core.Debug
@@ -5802,6 +5810,8 @@ Thanks for your help!
             'ماژول ACL فقط زمانی که تمام درخواست‌های فرزند بسته شده باشد، اجازه بستن درخواست‌های والد را می‌دهد. ("وضعیت" نان می‌دهد که کدام وضعیت‌ها برای درخواست والدتا زمانی که تمام درخواست‌های فرزند بسته شده است، در دسترس می‌باشد.)',
         'Access Control Lists (ACL)' => 'فهرست سطخ دسترسی (ACL)',
         'AccountedTime' => 'AccountedTime',
+        'Activate this if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
+            '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'مکانیزم چشمک زدن را برای صف درخواستی که شامل قدیمی‌ترین درخواست می‌باشد فعال می‌کند.',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -5835,14 +5845,11 @@ Thanks for your help!
             'پسوند سال و ماه به فایل ثبت وقایع می‌افزاید. برای هر ماه یک فایل ساخته خواهد شد.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             'می افزاید: مشتریان به آدرس ایمیل به گیرندگان در صفحه نوشتن بلیط رابط عامل. آدرس مشتریان ایمیل اضافه خواهد شد در صورتی که نوع مقاله ایمیل داخلی است.',
-        'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
-            'می افزاید: یک بار روز تعطیلات برای تقویم نشان داد. لطفا الگوی تک رقمی برای شماره 9 (- 09 به جای 01) استفاده از 1.',
-        'Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
-            'یک روز تعطیلی موقتی می‌افزاید. لطفا از الگوی عددی واحدی از ۱ تا ۹ استفاده نمایید (به جای 01 - 09 )',
-        'Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
-            'می افزاید: روز تعطیلات دائمی برای تقویم نشان داد. لطفا الگوی تک رقمی برای شماره 9 (- 09 به جای 01) استفاده از 1.',
-        'Adds the permanent vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
-            'یک روز تعطیلی دائمی می‌افزاید. لطفا از الگوی عددی واحدی از ۱ تا ۹ استفاده نمایید (به جای 01 - 09 )',
+        'Adds the one time vacation days for the indicated calendar.' => '',
+        'Adds the one time vacation days.' => '',
+        'Adds the permanent vacation days for the indicated calendar.' =>
+            '',
+        'Adds the permanent vacation days.' => '',
         'Admin' => 'مدیریت سیستم',
         'Admin Area.' => 'بخش مدیریت.',
         'Admin Notification' => 'اعلام مدیر سیستم',
@@ -5867,8 +5874,6 @@ Thanks for your help!
             'عامل ماژول رابط برای دسترسی به پروفایل جستجو از طریق نوار منو. کنترل دسترسی اضافی برای نشان دادن یا این لینک نشان می دهد را نمی توان با استفاده از کلید \ "گروه " و محتوا مانند \ ":؛: GROUP2 \ move_into GROUP1 RW" انجام می شود.',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'ماژول واسط کارشناس برای کنترل ایمیل‌های وارده در نمای نمایش کامل درخواست در صورتی که کلید S/MIME موجود و صحیح باشد.',
-        'Agent interface notification module to see the number of incomplete working days for the user.' =>
-            '',
         'Agent interface notification module to see the number of locked tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'عامل ماژول اطلاع رسانی رابط برای دیدن تعدادی از بلیط قفل شده است. کنترل دسترسی اضافی برای نشان دادن یا این لینک نشان می دهد را نمی توان با استفاده از کلید \ "گروه " و محتوا مانند \ ":؛: GROUP2 \ move_into GROUP1 RW" انجام می شود.',
         'Agent interface notification module to see the number of tickets an agent is responsible for. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -6063,8 +6068,8 @@ Thanks for your help!
         'Checks for queued outgoing emails to be sent.' => '',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'چک اگر یک ایمیل پیگیری بلیط های موجود به با جستجو در موضوع برای یک تعداد بلیط معتبر است.',
-        'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
-            'چک سیستم را در بلیط تشخیص شماره برای پیگیری (استفاده از \ "بدون " اگر سیستم را پس از استفاده از سیستم تغییر داده شده است).',
+        'Checks the SystemID in ticket number detection for follow-ups ( If inactive, SystemID will be changed after using the system).' =>
+            '',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
             'چک در دسترس بودن OTRS کسب و کار راه حل ™ برای این سیستم.',
         'Checks the entitlement status of OTRS Business Solution™.' => 'چک وضعیت استحقاق OTRS کسب و کار راه حل ™.',
@@ -6144,6 +6149,7 @@ Thanks for your help!
             'کنترل اگر پرچم درخواست و مقاله دیده شود آنها حذف می شوند زمانیکه یک بلیط بایگانی شده است.',
         'Converts HTML mails into text messages.' => 'تبدیل ایمیل های HTML و به پیام های متنی.',
         'Create New process ticket.' => 'ساختن درخواست روند جدید.',
+        'Create Ticket' => '',
         'Create a new calendar appointment linked to this ticket' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'ساخت و مدیریت توافقات سطح سرویس (SLA)',
         'Create and manage agents.' => 'ساخت و مدیریت کارشناسان',
@@ -6225,21 +6231,10 @@ Thanks for your help!
         'Default display type for sender (From) names in AgentTicketZoom and CustomerTicketZoom.' =>
             'نوع صفحه نمایش به طور پیش فرض برای فرستنده (از) نام در AgentTicketZoom و CustomerTicketZoom.',
         'Default loop protection module.' => 'ماژول جلوگیری از تشکیل حلقه پیش‌فرض',
-        'Default name for new actions.' => '',
-        'Default name for new projects.' => '',
         'Default queue ID used by the system in the agent interface.' => 'شناسه پیش‌فرض صف استفاده شده برای سیستم در واسط کاربری کارشناس',
-        'Default setting for date end.' => '',
-        'Default setting for date start.' => '',
-        'Default setting for description.' => '',
-        'Default setting for leave days.' => '',
-        'Default setting for overtime.' => '',
-        'Default setting for the standard weekly hours.' => '',
         'Default skin for the agent interface (slim version).' => 'پوست به طور پیش فرض برای رابط عامل (نسخه باریک).',
         'Default skin for the agent interface.' => 'پوست به طور پیش فرض برای رابط عامل.',
         'Default skin for the customer interface.' => 'پوست به طور پیش فرض برای رابط مشتری.',
-        'Default status for new actions.' => '',
-        'Default status for new projects.' => '',
-        'Default status for new users.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             'ID درخواست به طور پیش فرض استفاده شده توسط سیستم در رابط عامل.',
         'Default ticket ID used by the system in the customer interface.' =>
@@ -6249,8 +6244,8 @@ Thanks for your help!
             'تعریف عملیات که در آن یک دکمه تنظیمات در دسترس است در اشیاء مرتبط ویجت (LinkObject :: ViewMode = \ "پیچیده "). لطفا توجه داشته باشید که این اقدامات باید در بر داشت زیر JS و CSS فایل های ثبت نام کرده اند: Core.AllocationList.css، Core.UI.AllocationList.js، Core.UI.Table.Sort.js، Core.Agent.TableFilters.js.',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'تعریف یک فیلتر برای خروجی HTML برای اضافه کردن لینک پشت یک رشته تعریف شده است. عنصر تصویر اجازه می دهد تا دو نوع ورودی. در یک بار نام یک تصویر (به عنوان مثال faq.png). در این مورد مسیر تصویر OTRS استفاده خواهد شد. احتمال و امکان دوم است برای قرار دادن لینک به تصویر.',
-        'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
-            'تعریف یک نگاشت بین متغیرهای داده های کاربر و ضوابط (کیبورد) و زمینه های پویا یک بلیط (مقادیر). هدف این است که برای ذخیره اطلاعات کاربران به مشتریان در زمینه های پویا بلیط. زمینه پویا باید در سیستم می شود و باید برای AgentTicketFreeText را فعال کنید، به طوری که آنها می تواند مجموعه ای / دستی توسط عامل به روز شد. آنها باید برای AgentTicketPhone، AgentTicketEmail و AgentTicketCustomer فعال نیست. اگر آنها بود، آنها مقدم بر ارزش به طور خودکار تنظیم است. برای استفاده از این نقشه، شما باید به هم تنظیمات بعدی زیر را فعال کنید.',
+        'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting.' =>
+            '',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'تعریف نام زمینه پویا برای زمان پایان. این فیلد به صورت دستی به سیستم به عنوان بلیط افزود: \ "تاریخ / زمان " و باید در صفحه نمایش ایجاد بلیط و / یا در هر صفحه نمایش عمل بلیط دیگر فعال شود.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
@@ -6412,8 +6407,8 @@ Thanks for your help!
             '',
         'Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.' =>
             'تعریف می کند در صورتی که رمز قبلا معتبر باید برای احراز هویت پذیرفته شده است. این است که کمی کمتر امن اما کاربران می دهد 30 ثانیه به زمان بیشتری برای وارد کنید رمز عبور یک بار خود را.',
-        'Defines if the values for filters should be retrieved from all available tickets. If set to "Yes", only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.' =>
-            'تعریف می کند اگر مقادیر فیلتر باید از تمام بلیط در دسترس بازیابی. اگر به \ "بله "، فقط مقادیر که در واقع هر بلیط در مورد استفاده برای فیلتر در دسترس خواهد بود. لطفا توجه داشته باشید: لیست مشتریان همیشه مثل این خواهد بازیابی شود.',
+        'Defines if the values for filters should be retrieved from all available tickets. If active, only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.' =>
+            '',
         'Defines if time accounting is mandatory in the agent interface. If activated, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
             'تعریف می کند اگر حسابداری هم در رابط عامل الزامی است. اگر فعال شود، یک یادداشت باید برای همه اقدامات بلیط وارد (مهم نیست اگر توجه داشته باشید خود را به عنوان فعال پیکربندی و یا برای صفحه نمایش عمل بلیط فردی در اصل الزامی است).',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
@@ -6441,16 +6436,16 @@ Thanks for your help!
             'تعریف می کند کلید تنظیمات عامل که در آن کلید رمز مشترک ذخیره شده است.',
         'Defines the available steps in time selections. Select "Minute" to be able to select all minutes of one hour from 1-59. Select "30 Minutes" to only make full and half hours available.' =>
             '',
-        'Defines the body text for notification mails sent to agents, about new password (after using this link the new password will be sent).' =>
-            'تعریف می کند که متن برای ایمیل اطلاع رسانی فرستاده شده به عوامل، در مورد کلمه عبور جدید (پس از استفاده از این لینک رمز عبور جدید ارسال خواهد شد).',
-        'Defines the body text for notification mails sent to agents, with token about new requested password (after using this link the new password will be sent).' =>
-            'تعریف می کند که متن برای ایمیل اطلاع رسانی فرستاده شده به عوامل، با رمز در مورد رمز عبور جدید درخواست (پس از استفاده از این لینک رمز عبور جدید ارسال خواهد شد).',
+        'Defines the body text for notification mails sent to agents, about new password.' =>
+            '',
+        'Defines the body text for notification mails sent to agents, with token about new requested password.' =>
+            '',
         'Defines the body text for notification mails sent to customers, about new account.' =>
             'تعریف می کند که متن برای ایمیل اطلاع رسانی ارسال شده به مشتریان، در مورد حساب کاربری جدید.',
-        'Defines the body text for notification mails sent to customers, about new password (after using this link the new password will be sent).' =>
-            'تعریف می کند که متن برای ایمیل اطلاع رسانی ارسال شده به مشتریان، در مورد کلمه عبور جدید (پس از استفاده از این لینک رمز عبور جدید ارسال خواهد شد).',
-        'Defines the body text for notification mails sent to customers, with token about new requested password (after using this link the new password will be sent).' =>
-            'تعریف می کند که متن برای ایمیل اطلاع رسانی به مشتریان ارسال با رمز در مورد رمز عبور جدید درخواست (پس از استفاده از این لینک رمز عبور جدید ارسال خواهد شد).',
+        'Defines the body text for notification mails sent to customers, about new password.' =>
+            '',
+        'Defines the body text for notification mails sent to customers, with token about new requested password.' =>
+            '',
         'Defines the body text for rejected emails.' => 'تعریف می کند که متن برای ایمیل را رد کرد.',
         'Defines the calendar width in percent. Default is 95%.' => 'پهنای تقویم در درصد است. به طور پیش فرض 95٪ است.',
         'Defines the column to store the keys for the preferences table.' =>
@@ -6485,8 +6480,6 @@ Thanks for your help!
             'تعریف می کند که به طور پیش فرض حالت بعدی یک بلیط از مشتری پیگیری در رابط مشتری برای.',
         'Defines the default next state of a ticket after adding a note, in the close ticket screen of the agent interface.' =>
             'تعریف می کند که دولت بعدی به طور پیش فرض یک بلیط پس از اضافه کردن یک یادداشت، در روی صفحه نمایش بلیط نزدیک رابط عامل.',
-        'Defines the default next state of a ticket after adding a note, in the ticket bulk screen of the agent interface.' =>
-            'تعریف می کند که دولت بعدی به طور پیش فرض یک بلیط پس از اضافه کردن یک یادداشت، در روی صفحه نمایش فله بلیط رابط عامل.',
         'Defines the default next state of a ticket after adding a note, in the ticket free text screen of the agent interface.' =>
             'تعریف می کند که دولت بعدی به طور پیش فرض یک بلیط پس از اضافه کردن یک یادداشت، در بلیط صفحه نمایش های متنی رایگان از رابط عامل.',
         'Defines the default next state of a ticket after adding a note, in the ticket note screen of the agent interface.' =>
@@ -6507,6 +6500,8 @@ Thanks for your help!
             'تعریف می کند که به طور پیش فرض بعدی دولت یک بلیط پس از پیام ارسال شده است، در صفحه نمایش خروجی ایمیل از رابط عامل.',
         'Defines the default next state of a ticket if it is composed / answered in the ticket compose screen of the agent interface.' =>
             'تعریف می کند که به طور پیش فرض حالت بعدی یک بلیط اگر آن تشکیل شده است از / پاسخ در صفحه نوشتن بلیط رابط عامل.',
+        'Defines the default next state of a ticket, in the ticket bulk screen of the agent interface.' =>
+            '',
         'Defines the default note body text for phone tickets in the ticket phone inbound screen of the agent interface.' =>
             'تعریف می کند که به طور پیش فرض متن توجه داشته باشید بدن برای بلیط تلفن در گوشی بلیط صفحه نمایش بین المللی به درون رابط عامل.',
         'Defines the default note body text for phone tickets in the ticket phone outbound screen of the agent interface.' =>
@@ -6798,8 +6793,6 @@ Thanks for your help!
             'تعریف می کند که حالت ممکن بعدی برای بلیط مشتری در رابط مشتری.',
         'Defines the next state of a ticket after adding a note, in the close ticket screen of the agent interface.' =>
             'تعریف می کند که دولت بعدی یک بلیط پس از اضافه کردن یک یادداشت، در روی صفحه نمایش بلیط نزدیک رابط عامل.',
-        'Defines the next state of a ticket after adding a note, in the ticket bulk screen of the agent interface.' =>
-            'تعریف می کند که دولت بعدی یک بلیط پس از اضافه کردن یک یادداشت، در روی صفحه نمایش فله بلیط رابط عامل.',
         'Defines the next state of a ticket after adding a note, in the ticket free text screen of the agent interface.' =>
             'تعریف می کند که دولت بعدی یک بلیط پس از اضافه کردن یک یادداشت، در بلیط صفحه نمایش های متنی رایگان از رابط عامل.',
         'Defines the next state of a ticket after adding a note, in the ticket note screen of the agent interface.' =>
@@ -6816,6 +6809,8 @@ Thanks for your help!
             'تعریف می کند که دولت بعدی یک بلیط پس از منعکس، در صفحه نمایش گزاف گویی بلیط رابط عامل.',
         'Defines the next state of a ticket after being moved to another queue, in the move ticket screen of the agent interface.' =>
             'تعریف می کند که دولت بعدی یک بلیط پس از به صف دیگری نقل مکان کرد، در روی صفحه نمایش بلیط حرکت از رابط عامل.',
+        'Defines the next state of a ticket, in the ticket bulk screen of the agent interface.' =>
+            '',
         'Defines the number of character per line used in case an HTML article preview replacement on TemplateGenerator for EventNotifications.' =>
             'تعریف تعداد کاراکتر در هر خط مورد استفاده در مورد یک HTML جایگزینی پیش نمایش مقاله در TemplateGenerator برای EventNotifications.',
         'Defines the number of days to keep the daemon log files.' => 'تعریف تعداد روز برای حفظ فایل ورود به سیستم شبح.',
@@ -6866,8 +6861,6 @@ Thanks for your help!
         'Defines the postmaster default queue.' => 'تعریف می کند  به طور پیش فرض صف رئيس پست را.',
         'Defines the priority in which the information is logged and presented.' =>
             'تعریف می کند که اولویت است که در آن اطلاعات وارد شده و ارائه شده است.',
-        'Defines the projects for which a remark is required. If the RegExp matches on the project, you have to insert a remark too. The RegExp use the smx parameter.' =>
-            '',
         'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             'تعریف می کند که هدف دریافت کننده بلیط تلفن و فرستنده بلیط ایمیل (\ "صف " را نشان می دهد تمام صف، \ "آدرس سیستم " تمام آدرس های سیستم) در رابط عامل.',
         'Defines the recipient target of the tickets ("Queue" shows all queues, "SystemAddress" shows only the queues which are assigned to system addresses) in the customer interface.' =>
@@ -6976,8 +6969,6 @@ Thanks for your help!
             'تعیین اگر لیستی از صف ممکن به حرکت به بلیط به باید در یک لیست کشویی یا در یک پنجره جدید در رابط عامل نمایش داده میشود. اگر \ "پنجره جدید " قرار است شما می توانید یک یادداشت حرکت بلیط برای اضافه کنید.',
         'Determines if the statistics module may generate ticket lists.' =>
             'تعیین  ماژول آمار ممکن است لیست درخواست تولید کند.',
-        'Determines if the statistics module may generate time accounting information.' =>
-            '',
         'Determines the next possible ticket states, after the creation of a new email ticket in the agent interface.' =>
             'تعیین حالات درخواست ممکن بعدی، پس از ایجاد یک درخواست ایمیل جدید در رابط عامل.',
         'Determines the next possible ticket states, after the creation of a new phone ticket in the agent interface.' =>
@@ -7014,8 +7005,8 @@ Thanks for your help!
             'غیر فعال ارتباط بین این سیستم و سرور OTRS گروه فراهم می کند که خدمات ابر. اگر فعال، برخی از قابلیت های می شود مانند ثبت نام سیستم از دست داده، داده ها پشتیبانی از ارسال، به روز رسانی و استفاده از OTRS کسب و کار راه حل ™، OTRS تایید ™، OTRS اخبار و محصولات اخبار داشبورد ویجتها، در میان دیگران.',
         'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
             '',
-        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
-            'غیر فعال نصب وب سایت (http://yourhost.example.com/otrs/installer.pl)، برای جلوگیری از این سیستم از ربوده شده است. اگر به \ "بدون "، سیستم را می توان دوباره نصب و پیکربندی اولیه فعلی استفاده می شود به قبل از جمعیت سوالات در اسکریپت نصب. اگر فعال است، آن را نیز غیر فعال GenericAgent، سامانه مدیریت بسته و SQL جعبه.',
+        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If inactive, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not inactive, it also disables the GenericAgent, PackageManager and SQL Box.' =>
+            '',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
             'نمایش اخطار و جلوگیری از جستجو زمانی که با استفاده از کلمات در درون جستجوی متن هست.',
         'Display communication log entries.' => '',
@@ -7108,8 +7099,6 @@ Thanks for your help!
         'Edit Customer Users.' => 'ویرایش کاربران مشتری',
         'Edit appointment' => '',
         'Edit customer company' => 'ویرایش شرکت مشتری',
-        'Edit time accounting settings.' => '',
-        'Edit time record.' => '',
         'Email Addresses' => 'آدرس‌های ایمیل',
         'Email Outbound' => 'عازم ناحیه دور دست ایمیل',
         'Email Resend' => '',
@@ -7212,7 +7201,6 @@ Thanks for your help!
         'FirstResponseInMin' => 'FirstResponseInMin',
         'Firstname Lastname' => 'نام نام خانوادگی',
         'Firstname Lastname (UserLogin)' => 'نام نام خانوادگی (صفحهی)',
-        'For how many days ago you can insert working units.' => '',
         'For these state types the ticket numbers are striked through in the link table.' =>
             '',
         'Force the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
@@ -7356,6 +7344,8 @@ Thanks for your help!
             '',
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             'اگر \ "فایل " برای LogModule انتخاب شد، یک فایل تاریخچه ثبت باید مشخص شود. اگر فایل وجود ندارد، از آن خواهد شد توسط سیستم ایجاد شده است.',
+        'If active the cache data be held in memory.' => '',
+        'If active the cache data will be stored in cache backend.' => '',
         'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
             'اگر فعال، هیچ یک از عبارات منظم ممکن است آدرس ایمیل کاربر اجازه می دهد تا ثبت نام مطابقت.',
         'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
@@ -7382,24 +7372,14 @@ Thanks for your help!
             'اگر فعال باشد، OTRS تمام فایل های جاوا اسکریپت را در فرم های Minified ارائه کرده است.',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'اگر فعال باشد، TicketPhone و TicketEmail در پنجره جدید باز خواهد شد.',
-        'If enabled, only users that has added working time to the selected project are shown.' =>
-            '',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
             'اگر فعال باشد، نسخه برچسب OTRS خواهد شد از Webinterface، هدر HTTP و X-هدر از ایمیل های خروجی حذف خواهند شد. توجه: اگر شما این گزینه را تغییر دهید، لطفا مطمئن شوید که به حذف کش.',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             'اگر فعال باشد، مشتری می تواند برای درخواست در همه خدمات (بدون در نظر گرفتن اینکه چه خدماتی به مشتری اختصاص داده) جستجو کنید.',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'اگر فعال باشد، مروری مختلف (داشبورد، LockedView، QueueView) به طور خودکار پس از زمان مشخص را تازه کنید.',
-        'If enabled, the dropdown elements in the edit screen are changed to modernized autocompletion fields.' =>
-            '',
-        'If enabled, the filter for the previous projects can be used instead two list of projects (last and all ones). It could be used only if TimeAccounting::EnableAutoCompletion is enabled.' =>
-            '',
-        'If enabled, the filter for the previous projects is active by default if there are the previous projects. It could be used only if EnableAutoCompletion and TimeAccounting::UseFilter are enabled.' =>
-            '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             'اگر فعال باشد، در سطح اول از منوی اصلی باز می شود بر روی موس (به جای تنها کلیک کنید).',
-        'If enabled, the user is allowed to enter "on vacation leave", "on sick leave" and "on overtime leave" to multiple dates at once.' =>
-            '',
         'If enabled, users that haven\'t selected a time zone yet will be notified to do so. Note: Notification will not be shown if (1) user has not yet selected a time zone and (2) OTRSTimeZone and UserDefaultTimeZone do match and (3) are not set to UTC.' =>
             '',
         'If no SendmailNotificationEnvelopeFrom is specified, this setting makes it possible to use the email\'s from address instead of an empty envelope sender (required in certain mail server configurations).' =>
@@ -7408,8 +7388,8 @@ Thanks for your help!
             'اگر تعیین شود، این آدرس به عنوان هدر فرستنده پاکت در اطلاعیه های خروجی استفاده می شود. اگر هیچ آدرس مشخص شده باشد، هدر فرستنده پاکت خالی است (مگر اینکه SendmailNotificationEnvelopeFrom :: FallbackToEmailFrom تنظیم شده است).',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             'اگر تعیین شود، این آدرس به عنوان فرستنده پاکت در پیام های خروجی استفاده می شود (اطلاعیه - پایین را ببینید). اگر هیچ آدرس مشخص شده باشد، فرستنده پاکت برابر به صف آدرس ایمیل است.',
-        'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
-            'اگر این گزینه را به \'بله\'، بلیط ایجاد شده از طریق رابط وب، از طریق مشتریان و یا عوامل، یک خودکار یکطرفه صورت پیکربندی دریافت خواهید کرد. اگر این گزینه را به مجموعه "نه"، هیچ autoresponses ارسال خواهد شد.',
+        'If this option is active, tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is inactive, no autoresponses will be sent.' =>
+            '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             'اگر این عبارت منظم مسابقات، هیچ پیام خواهد شد توسط پاسخگوی خودکار ارسال می کند.',
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
@@ -7563,10 +7543,6 @@ Thanks for your help!
             'حداکثر تعداد درخواست در نتیجه یک جستجو در رابط مشتری نمایش داده می شود.',
         'Maximum number of tickets to be displayed in the result of this operation.' =>
             'حداکثر تعداد درخواست در نتیجه این کار نمایش داده می شود.',
-        'Maximum number of working days after which the working units have to be inserted.' =>
-            '',
-        'Maximum number of working days without working units entry after which a warning will be shown.' =>
-            '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'حداکثر اندازه (در شخصیت) از جدول اطلاعات مربوط به مشتری در نظر زوم بلیط.',
         'Medium' => 'متوسط',
@@ -7653,11 +7629,12 @@ Thanks for your help!
             'تعداد بلیط در هر صفحه از یک نتیجه جستجو در رابط عامل نمایش داده شود.',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'تعداد بلیط در هر صفحه از یک نتیجه جستجو در رابط مشتری نمایش داده می شود.',
+        'Number of tickets to be displayed in each page.' => '',
         'OTRS Group Services' => '',
         'OTRS News' => 'اخبار سامانه پشتیبانی',
         'OTRS can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             'OTRS می توانید یک یا چند پایگاه داده آینه فقط خواندنی برای عملیات گران قیمت مانند جستجو و یا آمار نسل متن استفاده کنید. در اینجا شما می توانید DSN برای پایگاه داده آینه اول را مشخص کنید.',
-        'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next n months (120 months/10 years by default).' =>
+        'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             '',
         'Open Tickets / Need to be answered' => 'درخواست‌های باز / درخواست‌های نیازمند به پاسخ',
         'Open an external link!' => '',
@@ -7684,7 +7661,6 @@ Thanks for your help!
         'Overview of all open Tickets.' => 'نمایی کلی از تمام درخواست‌های باز',
         'Overview of all open tickets.' => 'نمای کلی از تمام درخواست باز.',
         'Overview of customer tickets.' => 'بررسی اجمالی از  درخواست مشتری .',
-        'Overview.' => '',
         'PGP Key' => 'کلید PGP',
         'PGP Key Management' => 'PGP مدیریت کلید',
         'PGP Keys' => 'کلیدهای PGP',
@@ -7796,7 +7772,6 @@ Thanks for your help!
         'ProcessID' => 'ProcessID',
         'Processes & Automation' => '',
         'Product News' => 'اخبار محصولات',
-        'Project time reporting.' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             'محافظت در برابر CSRF (صلیب سایت درخواست جعل) سوء استفاده (برای اطلاعات بیشتر http://en.wikipedia.org/wiki/Cross-site_request_forgery را ببینید).',
         'Provides a matrix overview of the tickets per state per queue' =>
@@ -7812,10 +7787,6 @@ Thanks for your help!
         'Refresh interval' => 'بارگذاری مجدد ورودی',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
-        'Regular expressions for constraining action list according to selected project. Key contains regular expression for project(s), content contains regular expressions for action(s).' =>
-            '',
-        'Regular expressions for constraining project list according to user groups. Key contains regular expression for project(s), content contains comma separated list of groups.' =>
-            '',
         'Reminder Tickets' => 'درخواست‌های یادآوری شده',
         'Removed subscription for user "%s".' => 'عضویت حذف شده برای کاربر"%s".',
         'Removes old system configuration deployments (Sunday mornings).' =>
@@ -7827,7 +7798,6 @@ Thanks for your help!
             'تجدید گواهی SMIME موجود از باطن مشتری می باشد. توجه: SMIME و SMIME :: FetchFromCustomer نیاز به فعال بودن در SysConfig و باطن مشتری نیاز به پیکربندی به بهانه ویژگی UserSMIMECertificate.',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             'جایگزین فرستنده اصلی با آدرس ایمیل مشتری فعلی در پاسخ نوشتن در صفحه نوشتن بلیط رابط عامل.',
-        'Reporting' => '',
         'Reports' => 'گزارشات',
         'Reports (OTRS Business Solution™)' => 'گزارش (OTRS کسب و کار راه حل ™)',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
@@ -7884,8 +7854,8 @@ Thanks for your help!
             'اجرا می شود جستجو کلمات اولیه این شرکت مشتری های موجود در هنگام دسترسی به ماژول AdminCustomerCompany است.',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             'اجرا می شود جستجو کلمات اولیه از کاربران مشتری های موجود در هنگام دسترسی به ماژول AdminCustomerUser است.',
-        'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
-            'اجرا می شود سیستم در \ "نسخه ی نمایشی " حالت. اگر به \ "بله "، عوامل می توانید تنظیمات از قبیل انتخاب زبان و از طریق رابط وب عامل را تغییر دهید. این تغییرات تنها برای جلسه فعلی معتبر هستند. این ممکن نخواهد بود برای عوامل به تغییر کلمه عبور خود را.',
+        'Runs the system in "Demo" mode. If active, agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
+            '',
         'Russian' => 'روسی',
         'S/MIME Certificates' => 'گواهینامه‌های S/MIME',
         'SMS' => 'پیامک',
@@ -7959,8 +7929,6 @@ Thanks for your help!
         'Set the minimum log level. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages. The order of log levels is: \'debug\', \'info\', \'notice\' and \'error\'.' =>
             '',
         'Set this ticket to pending' => 'قرارادادن این درخواست در لیست انتظار',
-        'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
-            'با تنظیم این بله اگر شما در تمام کلید PGP عمومی و خصوصی خود را اعتماد، حتی اگر آنها را با یک امضا اعتماد تایید شده است.',
         'Sets if SLA must be selected by the agent.' => 'مجموعه SLA باید توسط کارشناس انتخاب شود.',
         'Sets if SLA must be selected by the customer.' => 'مجموعه SLA باید توسط مشتری انتخاب شود.',
         'Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
@@ -8171,9 +8139,6 @@ Thanks for your help!
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
             'ایست (در ثانیه) برای دریافت بسته را تنظیم میکند. رونویسی \ "WebUserAgent :: اتمام مهلت ".',
         'Shared Secret' => 'راز مشترک',
-        'Should the cache data be held in memory?' => 'باید داده های کش در حافظه برگزار می شود؟',
-        'Should the cache data be stored in the selected cache backend?' =>
-            'باید داده های کش در انتخاب کش باطن ذخیره می شود؟',
         'Show a responsible selection in phone and email tickets in the agent interface.' =>
             'نمایش یک انتخاب مسئول در تلفن و ایمیل بلیط در رابط عامل.',
         'Show article as rich text even if rich text writing is disabled.' =>
@@ -8183,8 +8148,8 @@ Thanks for your help!
         'Show the current queue in the customer interface.' => 'نمایش صف فعلی در رابط مشتری.',
         'Show the history for this ticket' => 'نشان دادن تاریخ این بلیط برای',
         'Show the ticket history' => 'نمایش تاریخ بلیط',
-        'Shows a count of icons in the ticket zoom, if the article has attachments.' =>
-            'نشان می دهد یک تعداد از آیکون در زوم بلیط، اگر مقاله پیوست دارد.',
+        'Shows a count of attachments in the ticket zoom, if the article has attachments.' =>
+            '',
         'Shows a link in the menu for creating a calendar appointment linked to the ticket directly from the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -8278,16 +8243,12 @@ Thanks for your help!
             'یک لیست از تمام عوامل ممکن است (تمام عوامل با مجوز توجه داشته باشید صف / بلیط) به تعیین که باید در مورد این یادداشت مطلع، در بلیط صفحه نمایش مسئول رابط عامل نشان می دهد.',
         'Shows a preview of the ticket overview (CustomerInfo => 1 - shows also Customer-Info, CustomerInfoMaxSize max. size in characters of Customer-Info).' =>
             'یک پیش نمایش کلی بلیط (- نشان می دهد نیز مشتری اطلاعات، CustomerInfoMaxSize حداکثر اندازه در شخصیت مشتری اطلاعات. CustomerInfo => 1) نشان می دهد.',
-        'Shows a select of ticket attributes to order the queue view ticket list. The possible selections can be configured via \'TicketOverviewMenuSort###SortAttributes\'.' =>
-            'را نشان می دهد را انتخاب کنید از ویژگی های بلیط به سفارش لیست بلیط نمایش صف. انتخاب ممکن را می توان از طریق \'TicketOverviewMenuSort ### SortAttributes، پیکربندی شده است.',
         'Shows a teaser link in the menu for the ticket attachment view of OTRS Business Solution™.' =>
             '',
         'Shows all both ro and rw queues in the queue view.' => 'همه هر دو صف RO و RW در نظر صف نشان می دهد.',
         'Shows all both ro and rw tickets in the service view.' => 'همه هر دو بلیط RO و RW در نظر خدمات.',
         'Shows all open tickets (even if they are locked) in the escalation view of the agent interface.' =>
             'نشان می دهد تمام بلیط باز (حتی اگر آنها قفل شده است) در نظر تشدید رابط عامل.',
-        'Shows all open tickets (even if they are locked) in the status view of the agent interface.' =>
-            'نشان می دهد تمام بلیط باز (حتی اگر آنها قفل شده است) در نظر وضعیت رابط عامل.',
         'Shows all the articles of the ticket (expanded) in the zoom view.' =>
             'تمام مقالات بلیط (استایرن) در نظر زوم را نشان می دهد.',
         'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
@@ -8335,24 +8296,24 @@ Thanks for your help!
             'گزینه های اولویت بلیط در صفحه نمایش اولویت بلیط یک بلیط بزرگنمایی در رابط عامل را نشان می دهد.',
         'Shows the ticket priority options in the ticket responsible screen of the agent interface.' =>
             'گزینه های اولویت بلیط در بلیط صفحه نمایش مسئول رابط عامل نشان می دهد.',
+        'Shows the title field in the close ticket screen of the agent interface.' =>
+            '',
         'Shows the title field in the ticket free text screen of the agent interface.' =>
             'قسمت عنوان در بلیط صفحه نمایش های متنی رایگان از رابط عامل نشان می دهد.',
-        'Shows the title fields in the close ticket screen of the agent interface.' =>
-            'زمینه عنوان در صفحه بلیط نزدیک رابط عامل نشان می دهد.',
-        'Shows the title fields in the ticket note screen of the agent interface.' =>
-            'زمینه عنوان در روی صفحه نمایش توجه داشته باشید بلیط رابط عامل نشان می دهد.',
-        'Shows the title fields in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            'زمینه عنوان در صفحه نمایش صاحب بلیط یک بلیط بزرگنمایی در رابط عامل را نشان می دهد.',
-        'Shows the title fields in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            ' در صفحه تعیین اولویت درخواست در انتظار یک درخواست زوم شده در رابط عامل را نشان می دهد.',
-        'Shows the title fields in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            'درصفحه ی تعیین اولویت درخواست مربوط به کارشناس را نمایش دهید.',
-        'Shows the title fields in the ticket responsible screen of the agent interface.' =>
-            'درصفحه ی تعیین اولویت درخواست مربوط به کارشناس فیلد عنوان را نمایش دهید.',
-        'Shows time in long format (days, hours, minutes), if set to "Yes"; or in short format (days, hours), if set to "No".' =>
-            'زمان را نشان می دهد در فرمت های طولانی (روز، ساعت، دقیقه)، اگر به \ "بله "؛ و یا در قالب کوتاه (روز، ساعت)، اگر به \ "بدون ".',
-        'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
-            'نشان می دهد استفاده از زمان توضیحات کامل (روز، ساعت، دقیقه)، اگر به \ "بله "؛ یا فقط حرف اول (D، H، M)، اگر به \ "بدون ".',
+        'Shows the title field in the ticket note screen of the agent interface.' =>
+            '',
+        'Shows the title field in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Shows the title field in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Shows the title field in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'Shows the title field in the ticket responsible screen of the agent interface.' =>
+            '',
+        'Shows time in long format (days, hours, minutes), if active; or in short format (days, hours), if inactive.' =>
+            '',
+        'Shows time use complete description (days, hours, minutes), if active; or just first letter (d, h, m), if inactive.' =>
+            '',
         'Signatures' => 'امضاء',
         'Simple' => 'ساده',
         'Skin' => 'پوسته',
@@ -8381,8 +8342,6 @@ Thanks for your help!
             'کلمات توقف اسپانیایی برای شاخص متن. این کلمات از صفحه اول جستجو حذف خواهند شد.',
         'Specifies if an agent should receive email notification of his own actions.' =>
             'مشخص میکند که آیا یک عامل باید ایمیل برای اطلاع از اقدامات خود را دریافت خواهید کرد.',
-        'Specifies if working hours can be inserted without start and end times.' =>
-            '',
         'Specifies the directory to store the data in, if "FS" was selected for ArticleStorage.' =>
             '',
         'Specifies the directory where SSL certificates are stored.' => 'دایرکتوری که در آن گواهینامه های SSL ذخیره می شود را مشخص میکند.',
@@ -8504,8 +8463,8 @@ Thanks for your help!
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'متن در آغاز موضوع هنگامی که یک ایمیل فرستاده است، به عنوان مثال FW، FWD، یا WG.',
         'Theme' => 'طرح زمینه',
-        'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
-            'این رویداد های ماژول ویژگی هایی از CustomerUser به عنوان بلیط DynamicFields. لطفا تنظیمات بالا برای نحوه پیکربندی نقشه برداری.',
+        'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
+            '',
         'This is a Description for Comment on Framework.' => '',
         'This is a Description for DynamicField on Framework.' => '',
         'This is the default orange - black skin for the customer interface.' =>
@@ -8513,10 +8472,7 @@ Thanks for your help!
         'This is the default orange - black skin.' => 'پوست سیاه و سفید - این به طور پیش فرض نارنجی است.',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             'این ماژول و عملکرد PreRun () آن اجرا خواهد شد، اگر تعریف شده است، برای هر درخواست. این ماژول مفید است که برای بررسی برخی از گزینه های کاربران و یا برای نمایش اخبار در مورد برنامه های جدید.',
-        'This module forces inserts in TimeAccounting.' => '',
         'This module is part of the admin area of OTRS.' => 'این ماژول بخشی از بخش مدیریت OTRS موجود است.',
-        'This notification module gives a warning if there are too many incomplete working days.' =>
-            '',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             'این گزینه زمینه پویا که در آن یک مدیریت فرآیند نهاد فعالیت شناسه ذخیره شده است تعریف می کند.',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
@@ -8530,6 +8486,8 @@ Thanks for your help!
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             'این تنظیم امکان را به نادیده گرفتن ساخته شده است در لیست کشور با لیست خود را از کشور است. این امر به ویژه مفید است اگر شما فقط می خواهید به استفاده از یک گروه را انتخاب کنید کوچکی از کشورها.',
         'This setting is deprecated. Set OTRSTimeZone instead.' => '',
+        'This setting shows the sorting attributes in all overview screen, not only in queue view.' =>
+            '',
         'This will allow the system to send text messages via SMS.' => 'این اجازه خواهد داد به سیستم برای ارسال پیام های متنی از طریق SMS.',
         'Ticket Close.' => 'درخواست نزدیک ',
         'Ticket Compose Bounce Email.' => 'درخواست نوشتن پرش ایمیل.',
@@ -8554,6 +8512,7 @@ Thanks for your help!
         'Ticket Queue Overview' => 'بررسی اجمالی صف درخواست',
         'Ticket Responsible.' => 'درخواست به عهده دارد.',
         'Ticket Watcher' => 'نگهبان درخواست',
+        'Ticket Zoom' => '',
         'Ticket Zoom.' => 'درخواست زوم.',
         'Ticket bulk module.' => 'درخواست ماژول انبوه ',
         'Ticket event module that triggers the escalation stop events.' =>
@@ -8569,19 +8528,10 @@ Thanks for your help!
         'Ticket zoom view.' => 'نمایش زوم درخواست',
         'TicketNumber' => 'شماره درخواست',
         'Tickets.' => 'درخواست',
-        'Time Accounting' => '',
-        'Time accounting edit.' => '',
-        'Time accounting overview.' => '',
-        'Time accounting reporting.' => '',
-        'Time accounting settings.' => '',
-        'Time accounting view.' => '',
-        'Time accounting.' => '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             'زمان در ثانیه است که می شود به زمان واقعی اضافه شده است اگر تنظیم یک انتظار دولت (به طور پیش فرض: 86،400 = 1 روز).',
         'To accept login information, such as an EULA or license.' => 'برای قبول اطلاعات ورود به سیستم، مانند EULA یا مجوز.',
         'To download attachments.' => 'برای دانلود فایل پیوست کنید.',
-        'To use if some actions reduced the working hours (for example, if only half of the traveling time is paid Key => traveling; Content => 50).' =>
-            '',
         'To view HTML attachments.' => '',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             'نمایش پستی از لیست FeatureAddons OTRS در سامانه مدیریت بسته.',
@@ -8598,8 +8548,8 @@ Thanks for your help!
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             'خاموش می شود اعتبار گواهی SSL، برای مثال اگر شما استفاده از یک پروکسی HTTPS شفاف است. با پذیرش خطر عواقب آن استفاده کنید!',
         'Turns on drag and drop for the main navigation.' => 'روشن کشیدن و رها کردن برای ناوبری اصلی.',
-        'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
-            'تبدیل بر روی چک آدرس IP از راه دور. این باید به مجموعه \ "بدون " اگر برنامه استفاده می شود، به عنوان مثال، از طریق یک مزرعه پروکسی و یا یک اتصال مودم، چون آدرس IP از راه دور بیشتر برای درخواست های مختلف است.',
+        'Turns on the remote ip address check. It should not be active if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
+            '',
         'Tweak the system as you wish.' => '',
         'Type of daemon log rotation to use: Choose \'OTRS\' to let OTRS system to handle the file rotation, or choose \'External\' to use a 3rd party rotation mechanism (i.e. logrotate). Note: External rotation mechanism requires its own and independent configuration.' =>
             '',
@@ -8739,7 +8689,6 @@ Thanks for your help!
         'Click to select files or just drop them here.',
         'Clone web service',
         'Close',
-        'Close dialog',
         'Close preview',
         'Close this dialog',
         'Communication error',

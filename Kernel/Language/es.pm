@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.646400275576989;
+    $Self->{Completeness}        = 0.652866793694786;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -88,7 +88,6 @@ sub Data {
         'Name' => 'Nombre',
         'Stop after match' => 'Parar al coincidir',
         'Edit ACL Structure' => 'Editar estructura de la ACL',
-        'Save settings' => 'Guardar configuraciones',
         'Save ACL' => 'Guardar ACL',
         'Save' => 'Guardar',
         'or' => 'o',
@@ -628,8 +627,8 @@ sub Data {
         'Edit job' => 'Editar el trabajo',
         'Add job' => 'Añadir trabajo',
         'Run job' => 'Ejecutar el trabajo',
-        'Filter for Generic Agent Jobs' => '',
-        'Filter for generic agent jobs' => '',
+        'Filter for Generic Agent Jobs' => 'Filtro para Trabajos de Agente genérico',
+        'Filter for generic agent jobs' => 'Filtro para trabajos de agente genérico',
         'Last run' => 'Última ejecución',
         'Run Now!' => '¡Ejecutar ahora!',
         'Delete this task' => 'Borrar esta tarea',
@@ -637,7 +636,7 @@ sub Data {
         'Job Settings' => 'Ajustes del trabajo',
         'Job name' => 'Nombre del trabajo',
         'The name you entered already exists.' => 'El nombre introducido ya existe.',
-        'Automatic Execution (Multiple Tickets)' => '',
+        'Automatic Execution (Multiple Tickets)' => 'Ejecución automática (Múltiples tickets)',
         'Execution Schedule' => 'Planificación de la ejecución',
         'Schedule minutes' => 'Minutos para la planificación',
         'Schedule hours' => 'Horas para planificación',
@@ -646,7 +645,7 @@ sub Data {
             'Actualmente este trabajo de agente genérico no se ejecutará automáticamente.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
             '¡Para habilitar la ejecución automática, seleccione al menos un valor de minutos, horas y días!',
-        'Event Based Execution (Single Ticket)' => '',
+        'Event Based Execution (Single Ticket)' => 'Ejecución basada en eventos (Ticket simple)',
         'Event Triggers' => 'Disparadores del evento',
         'List of all configured events' => 'Lista de todos los eventos configurados',
         'Delete this event' => 'Borrar este evento',
@@ -656,11 +655,11 @@ sub Data {
             'Si se dispara un evento de ticket, se aplicará el filtro de tickets para combrobar si el ticket coincide. Sólo entonces se ejecuta el trabajo sobre ese ticket.',
         'Do you really want to delete this event trigger?' => '¿Realmente desea eliminar este disparador de evento?',
         'Add Event Trigger' => 'Añadir disparador de evento',
-        'To add a new event select the event object and event name' => '',
+        'To add a new event select the event object and event name' => 'Para añadir un nuevo evento, seleccione el objeto del evento y el nombre del evento',
         'Select Tickets' => 'Seleccionar Ticket',
         '(e. g. 10*5155 or 105658*)' => '(ej: 10*5155 o 105658*)',
         '(e. g. 234321)' => '(ej: 234321)',
-        'Customer user ID' => '',
+        'Customer user ID' => 'Id usuario del cliente',
         '(e. g. U5150)' => '(ej: U5150)',
         'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Búsqueda de texto completo en un artículo (ej. «Mar*in» o «Baue*»).',
         'To' => 'Para',
@@ -719,14 +718,14 @@ sub Data {
         'new owner' => 'nuevo propietario',
         'new responsible' => 'nuevo responsable',
         'Set new ticket lock' => 'Establecer nuevo bloqueo de ticket',
-        'New customer user ID' => '',
+        'New customer user ID' => 'Nuevo ID usuario del cliente',
         'New customer ID' => 'Nuevo ID de cliente',
         'New title' => 'Nuevo título',
         'New type' => 'Nuevo tipo',
         'New Dynamic Field Values' => 'Nuevos valores de campo dinámico',
         'Archive selected tickets' => 'Archivar los tickets seleccionados',
         'Add Note' => 'Añadir una nota',
-        'Visible for customer' => '',
+        'Visible for customer' => 'Visible para el cliente',
         'Time units' => 'Unidades de tiempo',
         'Execute Ticket Commands' => 'Ejecutar Comandos del Ticket',
         'Send agent/customer notifications on changes' => 'Enviar notificaciones al agente/cliente cuando haya cambios',
@@ -750,7 +749,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Web Service Management' => 'Gestión Servicio Web InterfazGenerica',
-        'Web Service Management' => '',
+        'Web Service Management' => 'Gestión de servicios web',
         'Debugger' => 'Depurador',
         'Go back to web service' => 'Volver al servicio web',
         'Clear' => 'Limpiar',
@@ -758,7 +757,7 @@ sub Data {
             '¿Realmente desea limpiar el registro de depuración de este servicio web?',
         'Request List' => 'Lista de solicitudes',
         'Time' => 'Fecha y hora',
-        'Communication ID' => '',
+        'Communication ID' => 'ID de comunicación',
         'Remote IP' => 'IP remota',
         'Loading' => 'Cargando',
         'Select a single request to see its details.' => 'Seleccione una única solicitud para ver sus detalles.',
@@ -770,29 +769,29 @@ sub Data {
         'Refresh' => 'Actualizar',
 
         # Template: AdminGenericInterfaceErrorHandlingDefault
-        'Add ErrorHandling' => '',
-        'Edit ErrorHandling' => '',
-        'Do you really want to delete this error handling module?' => '',
+        'Add ErrorHandling' => 'Añadir gestor de errores',
+        'Edit ErrorHandling' => 'Editar gestor de errores',
+        'Do you really want to delete this error handling module?' => '¿Está seguro de querer eliminar este módulo de gestión de errores?',
         'All configuration data will be lost.' => 'Se perderán todos los datos de configuración.',
-        'General options' => '',
+        'General options' => 'Opciones generales',
         'The name can be used to distinguish different error handling configurations.' =>
-            '',
+            'El nombre puede usarse para distinguir diferentes configuraciones de la gestión de errores.',
         'Please provide a unique name for this web service.' => 'Por favor, proporcione un nombre único para este servicio web.',
-        'Error handling module backend' => '',
+        'Error handling module backend' => 'Processador adicional del módulo de gestión de errores',
         'This OTRS error handling backend module will be called internally to process the error handling mechanism.' =>
-            '',
-        'Processing options' => '',
+            'Este módulo de processador adicional será llamado internamente para procesar el mecanismo de gestión de errores',
+        'Processing options' => 'Opciones de procesamiento',
         'Configure filters to control error handling module execution.' =>
-            '',
+            'Configurar filtros para controlar la ejecución del módulo de gestión de errores.',
         'Only requests matching all configured filters (if any) will trigger module execution.' =>
-            '',
-        'Operation filter' => '',
-        'Only execute error handling module for selected operations.' => '',
+            'Solo las peticiones que coincidan con todos los filtros configurados (si los hay) activarán la ejecución del módulo.',
+        'Operation filter' => 'Filtro de operación',
+        'Only execute error handling module for selected operations.' => 'Sólo ejecutar el módulo de gestión de errores para las operaciones seleccionadas.',
         'Note: Operation is undetermined for errors occuring while receiving incoming request data. Filters involving this error stage should not use operation filter.' =>
-            '',
-        'Invoker filter' => '',
-        'Only execute error handling module for selected invokers.' => '',
-        'Error message content filter' => '',
+            'Nota: Operación es indeterminada por errores ocurridos mientras se recibían los datos de solicitud, demanda entrantes. Los filtros involucrados en este estado de error no deben usar el filtro de operación.',
+        'Invoker filter' => 'Filtro invocador',
+        'Only execute error handling module for selected invokers.' => 'Solo ejecutar el módulo de gestión de errores para los invocadores seleccionados.',
+        'Error message content filter' => 'Filtro de contenido de mensaje de error',
         'Enter a regular expression to restrict which error messages should cause error handling module execution.' =>
             '',
         'Error message subject and data (as seen in the debugger error entry) will considered for a match.' =>
@@ -1915,7 +1914,7 @@ sub Data {
 
         # Template: AdminSMIMECertRead
         'S/MIME Certificate' => 'Certificado S/MIME',
-        'Close dialog' => 'Cerrar dialogo',
+        'Close this dialog' => 'Cerrar este diálogo',
         'Certificate Details' => '',
 
         # Template: AdminSalutation
@@ -2064,6 +2063,12 @@ sub Data {
         # Template: AdminSystemConfigurationDeployment
         'Changes Deployment' => '',
         'Help' => '',
+        'This is an overview of all settings which will be part of the deployment if you start it now. You can compare each setting to its former state by clicking the icon on the top right.' =>
+            '',
+        'To exclude certain settings from a deployment, click the checkbox on the header bar of a setting.' =>
+            '',
+        'By default, you will only deploy settings which you changed on your own. If you\'d like to deploy settings changed by other users, too, please click the link on top of the screen to enter the advanced deployment mode.' =>
+            '',
         'A deployment has just been restored, which means that all affected setting have been reverted to the state from the selected deployment.' =>
             '',
         'Please review the changed settings and deploy afterwards.' => '',
@@ -2342,6 +2347,7 @@ sub Data {
         'in' => 'en',
 
         # Template: AgentDashboardCommon
+        'Save settings' => 'Guardar configuraciones',
         'Close this widget' => 'Cerrar este widget',
         'more' => 'más',
         'Available Columns' => 'Columnas disponibles',
@@ -3688,6 +3694,7 @@ sub Data {
         'Package has locally modified files.' => 'El paquete tiene archivos modificados localmente. ',
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
             '¡Paquete no verificado por el grupo OTRS! Se recomienda que no use este paquete.',
+        'Not Started' => '',
         'Updated' => '',
         'Already up-to-date' => '',
         'Installed' => '',
@@ -3700,6 +3707,7 @@ sub Data {
         'Dependencies fail to upgrade or install' => '',
         'Package could not be installed' => '',
         'Package could not be upgraded' => '',
+        'Repository List' => '',
         'No packages or no new packages found in selected repository.' =>
             'No hay paquetes ó ningún paquete encontrado en el repositorio seleccionado.',
         'Package not verified due a communication issue with verification server!' =>
@@ -4907,8 +4915,8 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'Tamaño Máximo de la Consulta',
-        'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
-            'El ajuste \'max_allowed_packet\' debe ser mayor de 20 MB,',
+        'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
         'Query Cache Size' => 'Tamaño de la Cache de la Consulta',
@@ -5186,6 +5194,7 @@ sub Data {
         'Could not update modified setting!' => '',
         'Setting could not be unlocked!' => '',
         'Missing key %s!' => '',
+        'All Settings' => '',
 
         # Perl Module: Kernel/System/SysConfig/BaseValueType.pm
         'Default' => 'Predeterminado',
@@ -5649,7 +5658,6 @@ sub Data {
         'Error: Browser Check failed!' => '',
         'Connection error' => 'Error de conexión ',
         'Reload page' => 'Recargar página',
-        'Close this dialog' => 'Cerrar este diálogo',
         'Communication error' => '',
 
         # JS File: Core.Debug
@@ -5803,6 +5811,8 @@ Tu Equipo de Soporte
             'Módulo ACL que permite el cierre de tickets padre sólo si todos sus hijos ya están cerrados ("Estado" muestra que estados no están disponibles para ticket padre hasta que todas las entradas de sus hijos están cerradas).',
         'Access Control Lists (ACL)' => 'Listas de Control de Acceso (ACL)',
         'AccountedTime' => 'Tiempo Registrado',
+        'Activate this if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
+            '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'Activa un mecanismo de parpadeo de la cola que contiene el ticket más antiguo.',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -5836,14 +5846,11 @@ Tu Equipo de Soporte
             'Añade un sufijo con el año y mes actual para el archivo de registro de OTRS. Se creará un archivo de registro para cada mes .',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             'Añade direcciones de correo electrónico de clientes  a los destinatarios en la pantalla de composición de ticket de la interfaz del agente. No se añadirá la dirección de correo electrónico de los clientes si el tipo de artículo es email-interno.',
-        'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
-            'Añade los días de vacaciones en un tiempo para el calendario indicado . Por favor, utilice el patrón de un solo dígito para los números del 1 al 9 (en lugar de 01 - 09 ).',
-        'Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
-            'Añade los días de vacaciones en un tiempo. Por favor, utilice el patrón de un solo dígito para los números del 1 al 9 (en lugar de 01 - 09 ).',
-        'Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
-            'Añade los días de vacaciones permanentes para el calendario indicado . Por favor, utilice el patrón de un solo dígito para los números del 1 al 9 (en lugar de 01 - 09 ).',
-        'Adds the permanent vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
-            'Añade los días de vacaciones permanentes. Por favor, utilice el patrón de un solo dígito para los números del 1 al 9 (en lugar de 01 - 09 ).',
+        'Adds the one time vacation days for the indicated calendar.' => '',
+        'Adds the one time vacation days.' => '',
+        'Adds the permanent vacation days for the indicated calendar.' =>
+            '',
+        'Adds the permanent vacation days.' => '',
         'Admin' => 'Admin',
         'Admin Area.' => 'Área de administración.',
         'Admin Notification' => 'Notificación del administrador',
@@ -5870,8 +5877,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
 El control del acceso adicional para demostrar o no demostrar éste enlace puede ser hecha por usar el "Grupo" Clave y el Contenido como "rw:group1;move_into:group2". ',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Módulo de la interfaz de agente para comprobar los correos entrantes en la Vista-Zoom-Ticket si la clave S/MIME está disponible y es verdadera.',
-        'Agent interface notification module to see the number of incomplete working days for the user.' =>
-            '',
         'Agent interface notification module to see the number of locked tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'El módulo de interfaz de agente para ver el número de los tickets bloqueados.
 El control del acceso adicional para demostrar o no demostrar éste enlace puede ser hecha por usar el "Grupo" Clave y el Contenido como "rw:group1;move_into:group2". ',
@@ -6070,8 +6075,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Checks for queued outgoing emails to be sent.' => '',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Comprueba si un E-Mail es un seguimiento a un ticket existente búscando en el tema por un número de ticket válido.',
-        'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
-            'Comprueba la ID del sistema  en la detección de número de ticket para seguimientos (usar "No" si la ID del sistema ha sido cambiado después de usar el sistema).',
+        'Checks the SystemID in ticket number detection for follow-ups ( If inactive, SystemID will be changed after using the system).' =>
+            '',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
             'Comprueba la disponibilidad de OTRS Business Solution™ para este sistema.',
         'Checks the entitlement status of OTRS Business Solution™.' => 'Comprueba el estado de la autorización de OTRS Business Solution™.',
@@ -6151,6 +6156,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             'Controla si se quitan las banderas de las entradas y el artículo visto cuando un ticket se archiva.',
         'Converts HTML mails into text messages.' => 'Convierte correos HTML en mensajes de texto.',
         'Create New process ticket.' => 'Crear nuevo ticket de proceso.',
+        'Create Ticket' => '',
         'Create a new calendar appointment linked to this ticket' => 'Crear una nueva cita de calendario vinculada a este ticket',
         'Create and manage Service Level Agreements (SLAs).' => 'Crea y gestiona Acuerdos de Nivel de Servicio (SLAs).',
         'Create and manage agents.' => 'Crea y gestiona agentes.',
@@ -6232,21 +6238,10 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Default display type for sender (From) names in AgentTicketZoom and CustomerTicketZoom.' =>
             'Tipo de pantalla por defecto para nombres del remitente (De) en AgenteTicketZoom y ClienteTicketZoom.',
         'Default loop protection module.' => 'Módulo protección bucle por defecto.',
-        'Default name for new actions.' => '',
-        'Default name for new projects.' => '',
         'Default queue ID used by the system in the agent interface.' => 'ID cola por defecto usada por el sistema en la interfaz de agente.',
-        'Default setting for date end.' => '',
-        'Default setting for date start.' => '',
-        'Default setting for description.' => '',
-        'Default setting for leave days.' => '',
-        'Default setting for overtime.' => '',
-        'Default setting for the standard weekly hours.' => '',
         'Default skin for the agent interface (slim version).' => 'Apariencia por defecto para la interfaz de agente (versión slim).',
         'Default skin for the agent interface.' => 'Apariencia por defecto para la interfaz de agente.',
         'Default skin for the customer interface.' => 'Apariencia por defecto para la interfaz de cliente.',
-        'Default status for new actions.' => '',
-        'Default status for new projects.' => '',
-        'Default status for new users.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
             'ID ticket por defecto usada por el sistema en la interfaz de agente.',
         'Default ticket ID used by the system in the customer interface.' =>
@@ -6256,8 +6251,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             'Define los Acciones dónde el botón de ajustes está disponible en el widget del objeto vinculado (LinkObject::ViewMode = "complex"). Favor téngase en cuenta que éstos Acciones deben registrar los siguientes JS y CSS archivos: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Definir un filtro para la salida html para agregar enlaces detrás de un string definido. El elemento Imagen permite dos tipos de entrada. Al mismo tiempo el nombre de una imagen (por ejemplo faq.png ). En este caso se utilizará la ruta de la imagen OTRS. La segunda posibilidad es insertar el enlace a la imagen.',
-        'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
-            'Definir un mapeo entre las variables de los datos de usuario cliente (claves) y campos dinámicos de un ticket (valores). El propósito es almacenar datos de usuario cliente en campos dinámicos de ticket. Los campos dinámicos deben estar presentes en el sistema y debe ser habilitado para AgenteTicketTextoLibre , por lo que se pueden ajustar / modificar manualmente por el agente. No deben estar habilitados para AgenteTicketTelefonico, AgenteTicketEmail y AgenteTicketCliente. Si lo fueran, tendrían prioridad sobre los valores establecidos de forma automática. Para utilizar este mapeo, usted tiene también que activar el siguiente ajuste de abajo.',
+        'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting.' =>
+            '',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Definir el nombre del campo dinámico para la hora de finalización. Este campo tiene que ser añadido manualmente al sistema como Ticket: "Fecha / Hora" y debe ser activado en las pantallas de creación de ticket y / o en otras pantallas de acción de ticket.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
@@ -6419,7 +6414,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.' =>
             '',
-        'Defines if the values for filters should be retrieved from all available tickets. If set to "Yes", only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.' =>
+        'Defines if the values for filters should be retrieved from all available tickets. If active, only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.' =>
             '',
         'Defines if time accounting is mandatory in the agent interface. If activated, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
             '',
@@ -6448,15 +6443,15 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Defines the available steps in time selections. Select "Minute" to be able to select all minutes of one hour from 1-59. Select "30 Minutes" to only make full and half hours available.' =>
             '',
-        'Defines the body text for notification mails sent to agents, about new password (after using this link the new password will be sent).' =>
+        'Defines the body text for notification mails sent to agents, about new password.' =>
             '',
-        'Defines the body text for notification mails sent to agents, with token about new requested password (after using this link the new password will be sent).' =>
+        'Defines the body text for notification mails sent to agents, with token about new requested password.' =>
             '',
         'Defines the body text for notification mails sent to customers, about new account.' =>
             '',
-        'Defines the body text for notification mails sent to customers, about new password (after using this link the new password will be sent).' =>
+        'Defines the body text for notification mails sent to customers, about new password.' =>
             '',
-        'Defines the body text for notification mails sent to customers, with token about new requested password (after using this link the new password will be sent).' =>
+        'Defines the body text for notification mails sent to customers, with token about new requested password.' =>
             '',
         'Defines the body text for rejected emails.' => 'Define el cuerpo del texto para los emails rechazados.',
         'Defines the calendar width in percent. Default is 95%.' => 'Define el ancho del calendario en porcentaje. El valor predeterminado es 95%.',
@@ -6492,8 +6487,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Defines the default next state of a ticket after adding a note, in the close ticket screen of the agent interface.' =>
             '',
-        'Defines the default next state of a ticket after adding a note, in the ticket bulk screen of the agent interface.' =>
-            '',
         'Defines the default next state of a ticket after adding a note, in the ticket free text screen of the agent interface.' =>
             '',
         'Defines the default next state of a ticket after adding a note, in the ticket note screen of the agent interface.' =>
@@ -6513,6 +6506,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Defines the default next state of a ticket after the message has been sent, in the email outbound screen of the agent interface.' =>
             '',
         'Defines the default next state of a ticket if it is composed / answered in the ticket compose screen of the agent interface.' =>
+            '',
+        'Defines the default next state of a ticket, in the ticket bulk screen of the agent interface.' =>
             '',
         'Defines the default note body text for phone tickets in the ticket phone inbound screen of the agent interface.' =>
             '',
@@ -6805,8 +6800,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Defines the next state of a ticket after adding a note, in the close ticket screen of the agent interface.' =>
             '',
-        'Defines the next state of a ticket after adding a note, in the ticket bulk screen of the agent interface.' =>
-            '',
         'Defines the next state of a ticket after adding a note, in the ticket free text screen of the agent interface.' =>
             '',
         'Defines the next state of a ticket after adding a note, in the ticket note screen of the agent interface.' =>
@@ -6822,6 +6815,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Defines the next state of a ticket after being bounced, in the ticket bounce screen of the agent interface.' =>
             '',
         'Defines the next state of a ticket after being moved to another queue, in the move ticket screen of the agent interface.' =>
+            '',
+        'Defines the next state of a ticket, in the ticket bulk screen of the agent interface.' =>
             '',
         'Defines the number of character per line used in case an HTML article preview replacement on TemplateGenerator for EventNotifications.' =>
             '',
@@ -6872,8 +6867,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Defines the postmaster default queue.' => '',
         'Defines the priority in which the information is logged and presented.' =>
-            '',
-        'Defines the projects for which a remark is required. If the RegExp matches on the project, you have to insert a remark too. The RegExp use the smx parameter.' =>
             '',
         'Defines the recipient target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
@@ -6983,8 +6976,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Determines if the statistics module may generate ticket lists.' =>
             '',
-        'Determines if the statistics module may generate time accounting information.' =>
-            '',
         'Determines the next possible ticket states, after the creation of a new email ticket in the agent interface.' =>
             '',
         'Determines the next possible ticket states, after the creation of a new phone ticket in the agent interface.' =>
@@ -7021,7 +7012,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
             '',
-        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
+        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If inactive, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not inactive, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
             '',
@@ -7115,8 +7106,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Edit Customer Users.' => '',
         'Edit appointment' => 'Editar cita',
         'Edit customer company' => 'Editar la Empresa del cliente',
-        'Edit time accounting settings.' => '',
-        'Edit time record.' => '',
         'Email Addresses' => 'Direcciones de Correo',
         'Email Outbound' => 'Email Saliente',
         'Email Resend' => '',
@@ -7219,7 +7208,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'FirstResponseInMin' => 'PrimeraRespuestaEnMin',
         'Firstname Lastname' => 'Nombre Apellidos',
         'Firstname Lastname (UserLogin)' => 'Nombre Apellidos (LoginUsuario) ',
-        'For how many days ago you can insert working units.' => '',
         'For these state types the ticket numbers are striked through in the link table.' =>
             '',
         'Force the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
@@ -7363,6 +7351,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             '',
+        'If active the cache data be held in memory.' => '',
+        'If active the cache data will be stored in cache backend.' => '',
         'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
             '',
         'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
@@ -7389,23 +7379,13 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             '',
-        'If enabled, only users that has added working time to the selected project are shown.' =>
-            '',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
             '',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Si se habilita, las diferentes vistas generales (panel principal, vista de bloqueados, vista de colas) se actualizarán automáticamente tras el tiempo indicado.',
-        'If enabled, the dropdown elements in the edit screen are changed to modernized autocompletion fields.' =>
-            '',
-        'If enabled, the filter for the previous projects can be used instead two list of projects (last and all ones). It could be used only if TimeAccounting::EnableAutoCompletion is enabled.' =>
-            '',
-        'If enabled, the filter for the previous projects is active by default if there are the previous projects. It could be used only if EnableAutoCompletion and TimeAccounting::UseFilter are enabled.' =>
-            '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
-            '',
-        'If enabled, the user is allowed to enter "on vacation leave", "on sick leave" and "on overtime leave" to multiple dates at once.' =>
             '',
         'If enabled, users that haven\'t selected a time zone yet will be notified to do so. Note: Notification will not be shown if (1) user has not yet selected a time zone and (2) OTRSTimeZone and UserDefaultTimeZone do match and (3) are not set to UTC.' =>
             '',
@@ -7415,7 +7395,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             '',
-        'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
+        'If this option is active, tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is inactive, no autoresponses will be sent.' =>
             '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             '',
@@ -7570,10 +7550,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Maximum number of tickets to be displayed in the result of this operation.' =>
             'Número máximo de tickets que se mostrarán en el resultado de esta operación.',
-        'Maximum number of working days after which the working units have to be inserted.' =>
-            '',
-        'Maximum number of working days without working units entry after which a warning will be shown.' =>
-            '',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
         'Medium' => 'Mediano',
@@ -7660,12 +7636,13 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
+        'Number of tickets to be displayed in each page.' => '',
         'OTRS Group Services' => '',
         'OTRS News' => 'Noticias de OTRS',
         'OTRS can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
-        'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next n months (120 months/10 years by default).' =>
-            'OTRS no admite citas recurrentes sin fecha de finalización o sin número de iteraciones. Durante el proceso de importación, puede ocurrir que el archivo ICS contenga dichas citas. En su lugar, el sistema crea todas las citas en el pasado, además de citas para los próximos n meses (120 meses / 10 años por defecto).',
+        'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
+            '',
         'Open Tickets / Need to be answered' => 'Tickets Abiertos / Que necesitan de una respuesta',
         'Open an external link!' => '',
         'Open tickets (customer user)' => 'Tickets abiertos (usuario cliente)',
@@ -7691,7 +7668,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Overview of all open Tickets.' => 'Vista general de todos los Tickets abiertos.',
         'Overview of all open tickets.' => 'Vista general de todos los tickets abiertos.',
         'Overview of customer tickets.' => 'Visión general de los tickets del cliente.',
-        'Overview.' => '',
         'PGP Key' => 'Clave PGP',
         'PGP Key Management' => 'Administración de la Clave PGP',
         'PGP Keys' => 'Claves PGP',
@@ -7803,7 +7779,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'ProcessID' => 'ID de Proceso',
         'Processes & Automation' => '',
         'Product News' => 'Noticias de productos',
-        'Project time reporting.' => '',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Provides a matrix overview of the tickets per state per queue' =>
@@ -7819,10 +7794,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Refresh interval' => 'Intervalo de actualización',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
-        'Regular expressions for constraining action list according to selected project. Key contains regular expression for project(s), content contains regular expressions for action(s).' =>
-            '',
-        'Regular expressions for constraining project list according to user groups. Key contains regular expression for project(s), content contains comma separated list of groups.' =>
-            '',
         'Reminder Tickets' => 'Tickets Recordatorio',
         'Removed subscription for user "%s".' => 'Eliminada suscripción para el usuario «%s».',
         'Removes old system configuration deployments (Sunday mornings).' =>
@@ -7834,7 +7805,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',
-        'Reporting' => '',
         'Reports' => 'Reportes',
         'Reports (OTRS Business Solution™)' => 'Reportes (OTRS Business Solution™)',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
@@ -7891,7 +7861,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
-        'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
+        'Runs the system in "Demo" mode. If active, agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
             '',
         'Russian' => 'Ruso',
         'S/MIME Certificates' => 'Certificados S/MIME',
@@ -7966,8 +7936,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Set the minimum log level. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages. The order of log levels is: \'debug\', \'info\', \'notice\' and \'error\'.' =>
             '',
         'Set this ticket to pending' => 'Poner este ticket en pendiente',
-        'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
-            '',
         'Sets if SLA must be selected by the agent.' => '',
         'Sets if SLA must be selected by the customer.' => '',
         'Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
@@ -8178,9 +8146,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
             '',
         'Shared Secret' => 'Secreto Compartido',
-        'Should the cache data be held in memory?' => '',
-        'Should the cache data be stored in the selected cache backend?' =>
-            '',
         'Show a responsible selection in phone and email tickets in the agent interface.' =>
             'Mostrar una selección de responsable en tickets telefónicos y por email en la interfaz de agente.',
         'Show article as rich text even if rich text writing is disabled.' =>
@@ -8190,8 +8155,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Show the current queue in the customer interface.' => 'Mostrar la cola actual en la interfaz de usuario.',
         'Show the history for this ticket' => 'Mostrar el historial para este ticket',
         'Show the ticket history' => 'Mostrar el historial del ticket',
-        'Shows a count of icons in the ticket zoom, if the article has attachments.' =>
-            'Muestra una cuenta de iconos en la ampliación del ticket, si el artículo tiene adjuntos.',
+        'Shows a count of attachments in the ticket zoom, if the article has attachments.' =>
+            '',
         'Shows a link in the menu for creating a calendar appointment linked to the ticket directly from the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             'Muestra un vínculo en el menú para crear una cita de calendario vinculada al ticket directo desde  la vista de detalle de ticket de la interface del agente. Adicionalmente se puede hacer in control de acceso para mostrar o no este vínculo usando la Clave "Group" y el Contenido como "rw:group1;move_into:group2". Para agrupar elemento del menú use la Clave "ClusterName" para el Contenido cualquier nombre que desee ver en la interface del usuario. Utilize "ClusterPriority" para configurar el orden de un cierto grupo dentro de la barra de herramientas.',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -8285,15 +8250,11 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Shows a preview of the ticket overview (CustomerInfo => 1 - shows also Customer-Info, CustomerInfoMaxSize max. size in characters of Customer-Info).' =>
             '',
-        'Shows a select of ticket attributes to order the queue view ticket list. The possible selections can be configured via \'TicketOverviewMenuSort###SortAttributes\'.' =>
-            '',
         'Shows a teaser link in the menu for the ticket attachment view of OTRS Business Solution™.' =>
             '',
         'Shows all both ro and rw queues in the queue view.' => '',
         'Shows all both ro and rw tickets in the service view.' => '',
         'Shows all open tickets (even if they are locked) in the escalation view of the agent interface.' =>
-            '',
-        'Shows all open tickets (even if they are locked) in the status view of the agent interface.' =>
             '',
         'Shows all the articles of the ticket (expanded) in the zoom view.' =>
             '',
@@ -8342,23 +8303,23 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Shows the ticket priority options in the ticket responsible screen of the agent interface.' =>
             '',
+        'Shows the title field in the close ticket screen of the agent interface.' =>
+            '',
         'Shows the title field in the ticket free text screen of the agent interface.' =>
             '',
-        'Shows the title fields in the close ticket screen of the agent interface.' =>
+        'Shows the title field in the ticket note screen of the agent interface.' =>
             '',
-        'Shows the title fields in the ticket note screen of the agent interface.' =>
+        'Shows the title field in the ticket owner screen of a zoomed ticket in the agent interface.' =>
             '',
-        'Shows the title fields in the ticket owner screen of a zoomed ticket in the agent interface.' =>
+        'Shows the title field in the ticket pending screen of a zoomed ticket in the agent interface.' =>
             '',
-        'Shows the title fields in the ticket pending screen of a zoomed ticket in the agent interface.' =>
+        'Shows the title field in the ticket priority screen of a zoomed ticket in the agent interface.' =>
             '',
-        'Shows the title fields in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+        'Shows the title field in the ticket responsible screen of the agent interface.' =>
             '',
-        'Shows the title fields in the ticket responsible screen of the agent interface.' =>
+        'Shows time in long format (days, hours, minutes), if active; or in short format (days, hours), if inactive.' =>
             '',
-        'Shows time in long format (days, hours, minutes), if set to "Yes"; or in short format (days, hours), if set to "No".' =>
-            '',
-        'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
+        'Shows time use complete description (days, hours, minutes), if active; or just first letter (d, h, m), if inactive.' =>
             '',
         'Signatures' => 'Firmas',
         'Simple' => 'Simple',
@@ -8387,8 +8348,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Spanish stop words for fulltext index. These words will be removed from the search index.' =>
             'Palabras vacías en español para el índice de texto completo. Estas palabras serán eliminadas del índice de búsqueda.',
         'Specifies if an agent should receive email notification of his own actions.' =>
-            '',
-        'Specifies if working hours can be inserted without start and end times.' =>
             '',
         'Specifies the directory to store the data in, if "FS" was selected for ArticleStorage.' =>
             '',
@@ -8511,7 +8470,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             '',
         'Theme' => 'Tema',
-        'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
+        'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
             '',
         'This is a Description for Comment on Framework.' => '',
         'This is a Description for DynamicField on Framework.' => '',
@@ -8520,10 +8479,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'This is the default orange - black skin.' => 'Este es el aspecto predeterminado naranja - negro.',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '',
-        'This module forces inserts in TimeAccounting.' => '',
         'This module is part of the admin area of OTRS.' => 'Este módulo es parte del área de administración del OTRS.',
-        'This notification module gives a warning if there are too many incomplete working days.' =>
-            '',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             '',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
@@ -8537,6 +8493,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
         'This setting is deprecated. Set OTRSTimeZone instead.' => '',
+        'This setting shows the sorting attributes in all overview screen, not only in queue view.' =>
+            '',
         'This will allow the system to send text messages via SMS.' => 'Esto permitirá al sistema enviar mensajes de texto a través de SMS.',
         'Ticket Close.' => '',
         'Ticket Compose Bounce Email.' => '',
@@ -8561,6 +8519,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Ticket Queue Overview' => 'Resumen de Tickets por Cola',
         'Ticket Responsible.' => 'Responsable del Ticket.',
         'Ticket Watcher' => '',
+        'Ticket Zoom' => '',
         'Ticket Zoom.' => 'Vista detallada del Ticket.',
         'Ticket bulk module.' => '',
         'Ticket event module that triggers the escalation stop events.' =>
@@ -8576,19 +8535,10 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Ticket zoom view.' => '',
         'TicketNumber' => 'Número de Ticket',
         'Tickets.' => 'Tickets.',
-        'Time Accounting' => '',
-        'Time accounting edit.' => '',
-        'Time accounting overview.' => '',
-        'Time accounting reporting.' => '',
-        'Time accounting settings.' => '',
-        'Time accounting view.' => '',
-        'Time accounting.' => '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
         'To accept login information, such as an EULA or license.' => '',
         'To download attachments.' => 'Para descargar archivos adjuntos.',
-        'To use if some actions reduced the working hours (for example, if only half of the traveling time is paid Key => traveling; Content => 50).' =>
-            '',
         'To view HTML attachments.' => '',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
@@ -8605,7 +8555,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
         'Turns on drag and drop for the main navigation.' => '',
-        'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
+        'Turns on the remote ip address check. It should not be active if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             '',
         'Tweak the system as you wish.' => '',
         'Type of daemon log rotation to use: Choose \'OTRS\' to let OTRS system to handle the file rotation, or choose \'External\' to use a 3rd party rotation mechanism (i.e. logrotate). Note: External rotation mechanism requires its own and independent configuration.' =>
@@ -8746,7 +8696,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Click to select files or just drop them here.',
         'Clone web service',
         'Close',
-        'Close dialog',
         'Close preview',
         'Close this dialog',
         'Communication error',

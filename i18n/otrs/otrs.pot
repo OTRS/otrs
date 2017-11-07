@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-10-23 12:44+0000\n"
+"POT-Creation-Date: 2017-11-07 00:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -172,10 +172,6 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
-
-#. Template: AdminACLEdit
-msgid "Save settings"
 msgstr ""
 
 #. Template: AdminACLEdit
@@ -5743,7 +5739,7 @@ msgid "S/MIME Certificate"
 msgstr ""
 
 #. Template: AdminSMIMECertRead
-msgid "Close dialog"
+msgid "Close this dialog"
 msgstr ""
 
 #. Template: AdminSMIMECertRead
@@ -6160,6 +6156,18 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Help"
+msgstr ""
+
+#. Template: AdminSystemConfigurationDeployment
+msgid "This is an overview of all settings which will be part of the deployment if you start it now. You can compare each setting to its former state by clicking the icon on the top right."
+msgstr ""
+
+#. Template: AdminSystemConfigurationDeployment
+msgid "To exclude certain settings from a deployment, click the checkbox on the header bar of a setting."
+msgstr ""
+
+#. Template: AdminSystemConfigurationDeployment
+msgid "By default, you will only deploy settings which you changed on your own. If you'd like to deploy settings changed by other users, too, please click the link on top of the screen to enter the advanced deployment mode."
 msgstr ""
 
 #. Template: AdminSystemConfigurationDeployment
@@ -6964,6 +6972,10 @@ msgstr ""
 
 #. Template: AgentDashboardCalendarOverview
 msgid "in"
+msgstr ""
+
+#. Template: AgentDashboardCommon
+msgid "Save settings"
 msgstr ""
 
 #. Template: AgentDashboardCommon
@@ -10691,6 +10703,10 @@ msgid "Package not verified by the OTRS Group! It is recommended not to use this
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Not Started"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Updated"
 msgstr ""
 
@@ -10736,6 +10752,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package could not be upgraded"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Repository List"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -13827,7 +13847,7 @@ msgid "Maximum Query Size"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
-msgid "The setting 'max_allowed_packet' must be higher than 20 MB."
+msgid "The setting 'max_allowed_packet' must be higher than 64 MB."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
@@ -14432,6 +14452,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Missing key %s!"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "All Settings"
 msgstr ""
 
 #. Perl Module: Kernel/System/SysConfig/BaseValueType.pm
@@ -15563,10 +15587,6 @@ msgid "Reload page"
 msgstr ""
 
 #. JS File: Core.App
-msgid "Close this dialog"
-msgstr ""
-
-#. JS File: Core.App
 msgid "Communication error"
 msgstr ""
 
@@ -15918,6 +15938,10 @@ msgid "AccountedTime"
 msgstr ""
 
 #. SysConfig
+msgid "Activate this if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature."
+msgstr ""
+
+#. SysConfig
 msgid "Activates a blinking mechanism of the queue that contains the oldest ticket."
 msgstr ""
 
@@ -16018,19 +16042,19 @@ msgid "Adds customers email addresses to recipients in the ticket compose screen
 msgstr ""
 
 #. SysConfig
-msgid "Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09)."
+msgid "Adds the one time vacation days for the indicated calendar."
 msgstr ""
 
 #. SysConfig
-msgid "Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09)."
+msgid "Adds the one time vacation days."
 msgstr ""
 
 #. SysConfig
-msgid "Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09)."
+msgid "Adds the permanent vacation days for the indicated calendar."
 msgstr ""
 
 #. SysConfig
-msgid "Adds the permanent vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09)."
+msgid "Adds the permanent vacation days."
 msgstr ""
 
 #. SysConfig
@@ -16107,10 +16131,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true."
-msgstr ""
-
-#. SysConfig
-msgid "Agent interface notification module to see the number of incomplete working days for the user."
 msgstr ""
 
 #. SysConfig
@@ -16626,7 +16646,7 @@ msgid "Checks if an E-Mail is a followup to an existing ticket by searching the 
 msgstr ""
 
 #. SysConfig
-msgid "Checks the SystemID in ticket number detection for follow-ups (use \"No\" if SystemID has been changed after using the system)."
+msgid "Checks the SystemID in ticket number detection for follow-ups ( If inactive, SystemID will be changed after using the system)."
 msgstr ""
 
 #. SysConfig
@@ -16843,6 +16863,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Create New process ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Create Ticket"
 msgstr ""
 
 #. SysConfig
@@ -17130,39 +17154,7 @@ msgid "Default loop protection module."
 msgstr ""
 
 #. SysConfig
-msgid "Default name for new actions."
-msgstr ""
-
-#. SysConfig
-msgid "Default name for new projects."
-msgstr ""
-
-#. SysConfig
 msgid "Default queue ID used by the system in the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid "Default setting for date end."
-msgstr ""
-
-#. SysConfig
-msgid "Default setting for date start."
-msgstr ""
-
-#. SysConfig
-msgid "Default setting for description."
-msgstr ""
-
-#. SysConfig
-msgid "Default setting for leave days."
-msgstr ""
-
-#. SysConfig
-msgid "Default setting for overtime."
-msgstr ""
-
-#. SysConfig
-msgid "Default setting for the standard weekly hours."
 msgstr ""
 
 #. SysConfig
@@ -17175,18 +17167,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Default skin for the customer interface."
-msgstr ""
-
-#. SysConfig
-msgid "Default status for new actions."
-msgstr ""
-
-#. SysConfig
-msgid "Default status for new projects."
-msgstr ""
-
-#. SysConfig
-msgid "Default status for new users."
 msgstr ""
 
 #. SysConfig
@@ -17210,7 +17190,7 @@ msgid "Define a filter for html output to add links behind a defined string. The
 msgstr ""
 
 #. SysConfig
-msgid "Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn't be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below."
+msgid "Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn't be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting."
 msgstr ""
 
 #. SysConfig
@@ -17582,7 +17562,7 @@ msgid "Defines if the previously valid token should be accepted for authenticati
 msgstr ""
 
 #. SysConfig
-msgid "Defines if the values for filters should be retrieved from all available tickets. If set to \"Yes\", only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this."
+msgid "Defines if the values for filters should be retrieved from all available tickets. If active, only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this."
 msgstr ""
 
 #. SysConfig
@@ -17654,11 +17634,11 @@ msgid "Defines the available steps in time selections. Select \"Minute\" to be a
 msgstr ""
 
 #. SysConfig
-msgid "Defines the body text for notification mails sent to agents, about new password (after using this link the new password will be sent)."
+msgid "Defines the body text for notification mails sent to agents, about new password."
 msgstr ""
 
 #. SysConfig
-msgid "Defines the body text for notification mails sent to agents, with token about new requested password (after using this link the new password will be sent)."
+msgid "Defines the body text for notification mails sent to agents, with token about new requested password."
 msgstr ""
 
 #. SysConfig
@@ -17666,11 +17646,11 @@ msgid "Defines the body text for notification mails sent to customers, about new
 msgstr ""
 
 #. SysConfig
-msgid "Defines the body text for notification mails sent to customers, about new password (after using this link the new password will be sent)."
+msgid "Defines the body text for notification mails sent to customers, about new password."
 msgstr ""
 
 #. SysConfig
-msgid "Defines the body text for notification mails sent to customers, with token about new requested password (after using this link the new password will be sent)."
+msgid "Defines the body text for notification mails sent to customers, with token about new requested password."
 msgstr ""
 
 #. SysConfig
@@ -17754,10 +17734,6 @@ msgid "Defines the default next state of a ticket after adding a note, in the cl
 msgstr ""
 
 #. SysConfig
-msgid "Defines the default next state of a ticket after adding a note, in the ticket bulk screen of the agent interface."
-msgstr ""
-
-#. SysConfig
 msgid "Defines the default next state of a ticket after adding a note, in the ticket free text screen of the agent interface."
 msgstr ""
 
@@ -17795,6 +17771,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the default next state of a ticket if it is composed / answered in the ticket compose screen of the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the default next state of a ticket, in the ticket bulk screen of the agent interface."
 msgstr ""
 
 #. SysConfig
@@ -18402,10 +18382,6 @@ msgid "Defines the next state of a ticket after adding a note, in the close tick
 msgstr ""
 
 #. SysConfig
-msgid "Defines the next state of a ticket after adding a note, in the ticket bulk screen of the agent interface."
-msgstr ""
-
-#. SysConfig
 msgid "Defines the next state of a ticket after adding a note, in the ticket free text screen of the agent interface."
 msgstr ""
 
@@ -18435,6 +18411,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the next state of a ticket after being moved to another queue, in the move ticket screen of the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the next state of a ticket, in the ticket bulk screen of the agent interface."
 msgstr ""
 
 #. SysConfig
@@ -18543,10 +18523,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the priority in which the information is logged and presented."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the projects for which a remark is required. If the RegExp matches on the project, you have to insert a remark too. The RegExp use the smx parameter."
 msgstr ""
 
 #. SysConfig
@@ -18810,10 +18786,6 @@ msgid "Determines if the statistics module may generate ticket lists."
 msgstr ""
 
 #. SysConfig
-msgid "Determines if the statistics module may generate time accounting information."
-msgstr ""
-
-#. SysConfig
 msgid "Determines the next possible ticket states, after the creation of a new email ticket in the agent interface."
 msgstr ""
 
@@ -18886,7 +18858,7 @@ msgid "Disables the redirection to the last screen overview / dashboard after a 
 msgstr ""
 
 #. SysConfig
-msgid "Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to \"No\", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box."
+msgid "Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If inactive, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not inactive, it also disables the GenericAgent, PackageManager and SQL Box."
 msgstr ""
 
 #. SysConfig
@@ -19115,14 +19087,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Edit customer company"
-msgstr ""
-
-#. SysConfig
-msgid "Edit time accounting settings."
-msgstr ""
-
-#. SysConfig
-msgid "Edit time record."
 msgstr ""
 
 #. SysConfig
@@ -19411,10 +19375,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Firstname Lastname (UserLogin)"
-msgstr ""
-
-#. SysConfig
-msgid "For how many days ago you can insert working units."
 msgstr ""
 
 #. SysConfig
@@ -19786,6 +19746,14 @@ msgid "If \"file\" was selected for LogModule, a logfile must be specified. If t
 msgstr ""
 
 #. SysConfig
+msgid "If active the cache data be held in memory."
+msgstr ""
+
+#. SysConfig
+msgid "If active the cache data will be stored in cache backend."
+msgstr ""
+
+#. SysConfig
 msgid "If active, none of the regular expressions may match the user's email address to allow registration."
 msgstr ""
 
@@ -19842,10 +19810,6 @@ msgid "If enabled, TicketPhone and TicketEmail will be open in new windows."
 msgstr ""
 
 #. SysConfig
-msgid "If enabled, only users that has added working time to the selected project are shown."
-msgstr ""
-
-#. SysConfig
 msgid "If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache."
 msgstr ""
 
@@ -19858,23 +19822,7 @@ msgid "If enabled, the different overviews (Dashboard, LockedView, QueueView) wi
 msgstr ""
 
 #. SysConfig
-msgid "If enabled, the dropdown elements in the edit screen are changed to modernized autocompletion fields."
-msgstr ""
-
-#. SysConfig
-msgid "If enabled, the filter for the previous projects can be used instead two list of projects (last and all ones). It could be used only if TimeAccounting::EnableAutoCompletion is enabled."
-msgstr ""
-
-#. SysConfig
-msgid "If enabled, the filter for the previous projects is active by default if there are the previous projects. It could be used only if EnableAutoCompletion and TimeAccounting::UseFilter are enabled."
-msgstr ""
-
-#. SysConfig
 msgid "If enabled, the first level of the main menu opens on mouse hover (instead of click only)."
-msgstr ""
-
-#. SysConfig
-msgid "If enabled, the user is allowed to enter \"on vacation leave\", \"on sick leave\" and \"on overtime leave\" to multiple dates at once."
 msgstr ""
 
 #. SysConfig
@@ -19894,7 +19842,7 @@ msgid "If set, this address is used as envelope sender in outgoing messages (not
 msgstr ""
 
 #. SysConfig
-msgid "If this option is set to 'Yes', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to 'No', no autoresponses will be sent."
+msgid "If this option is active, tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is inactive, no autoresponses will be sent."
 msgstr ""
 
 #. SysConfig
@@ -20362,14 +20310,6 @@ msgid "Maximum number of tickets to be displayed in the result of this operation
 msgstr ""
 
 #. SysConfig
-msgid "Maximum number of working days after which the working units have to be inserted."
-msgstr ""
-
-#. SysConfig
-msgid "Maximum number of working days without working units entry after which a warning will be shown."
-msgstr ""
-
-#. SysConfig
 msgid "Maximum size (in characters) of the customer information table in the ticket zoom view."
 msgstr ""
 
@@ -20614,6 +20554,10 @@ msgid "Number of tickets to be displayed in each page of a search result in the 
 msgstr ""
 
 #. SysConfig
+msgid "Number of tickets to be displayed in each page."
+msgstr ""
+
+#. SysConfig
 msgid "OTRS Group Services"
 msgstr ""
 
@@ -20626,7 +20570,7 @@ msgid "OTRS can use one or more readonly mirror databases for expensive operatio
 msgstr ""
 
 #. SysConfig
-msgid "OTRS doesn't support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next n months (120 months/10 years by default)."
+msgid "OTRS doesn't support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default)."
 msgstr ""
 
 #. SysConfig
@@ -20707,10 +20651,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Overview of customer tickets."
-msgstr ""
-
-#. SysConfig
-msgid "Overview."
 msgstr ""
 
 #. SysConfig
@@ -21018,10 +20958,6 @@ msgid "Product News"
 msgstr ""
 
 #. SysConfig
-msgid "Project time reporting."
-msgstr ""
-
-#. SysConfig
 msgid "Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
 
@@ -21062,14 +20998,6 @@ msgid "Registers a log module, that can be used to log communication related inf
 msgstr ""
 
 #. SysConfig
-msgid "Regular expressions for constraining action list according to selected project. Key contains regular expression for project(s), content contains regular expressions for action(s)."
-msgstr ""
-
-#. SysConfig
-msgid "Regular expressions for constraining project list according to user groups. Key contains regular expression for project(s), content contains comma separated list of groups."
-msgstr ""
-
-#. SysConfig
 msgid "Reminder Tickets"
 msgstr ""
 
@@ -21095,10 +21023,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Replaces the original sender with current customer's email address on compose answer in the ticket compose screen of the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid "Reporting"
 msgstr ""
 
 #. SysConfig
@@ -21234,7 +21158,7 @@ msgid "Runs an initial wildcard search of the existing customer users when acces
 msgstr ""
 
 #. SysConfig
-msgid "Runs the system in \"Demo\" mode. If set to \"Yes\", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords."
+msgid "Runs the system in \"Demo\" mode. If active, agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords."
 msgstr ""
 
 #. SysConfig
@@ -21463,10 +21387,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Set this ticket to pending"
-msgstr ""
-
-#. SysConfig
-msgid "Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature."
 msgstr ""
 
 #. SysConfig
@@ -21918,14 +21838,6 @@ msgid "Shared Secret"
 msgstr ""
 
 #. SysConfig
-msgid "Should the cache data be held in memory?"
-msgstr ""
-
-#. SysConfig
-msgid "Should the cache data be stored in the selected cache backend?"
-msgstr ""
-
-#. SysConfig
 msgid "Show a responsible selection in phone and email tickets in the agent interface."
 msgstr ""
 
@@ -21954,7 +21866,7 @@ msgid "Show the ticket history"
 msgstr ""
 
 #. SysConfig
-msgid "Shows a count of icons in the ticket zoom, if the article has attachments."
+msgid "Shows a count of attachments in the ticket zoom, if the article has attachments."
 msgstr ""
 
 #. SysConfig
@@ -22146,10 +22058,6 @@ msgid "Shows a preview of the ticket overview (CustomerInfo => 1 - shows also Cu
 msgstr ""
 
 #. SysConfig
-msgid "Shows a select of ticket attributes to order the queue view ticket list. The possible selections can be configured via 'TicketOverviewMenuSort###SortAttributes'."
-msgstr ""
-
-#. SysConfig
 msgid "Shows a teaser link in the menu for the ticket attachment view of OTRS Business Solution™."
 msgstr ""
 
@@ -22163,10 +22071,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Shows all open tickets (even if they are locked) in the escalation view of the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid "Shows all open tickets (even if they are locked) in the status view of the agent interface."
 msgstr ""
 
 #. SysConfig
@@ -22266,39 +22170,39 @@ msgid "Shows the ticket priority options in the ticket responsible screen of the
 msgstr ""
 
 #. SysConfig
+msgid "Shows the title field in the close ticket screen of the agent interface."
+msgstr ""
+
+#. SysConfig
 msgid "Shows the title field in the ticket free text screen of the agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Shows the title fields in the close ticket screen of the agent interface."
+msgid "Shows the title field in the ticket note screen of the agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Shows the title fields in the ticket note screen of the agent interface."
+msgid "Shows the title field in the ticket owner screen of a zoomed ticket in the agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Shows the title fields in the ticket owner screen of a zoomed ticket in the agent interface."
+msgid "Shows the title field in the ticket pending screen of a zoomed ticket in the agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Shows the title fields in the ticket pending screen of a zoomed ticket in the agent interface."
+msgid "Shows the title field in the ticket priority screen of a zoomed ticket in the agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Shows the title fields in the ticket priority screen of a zoomed ticket in the agent interface."
+msgid "Shows the title field in the ticket responsible screen of the agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Shows the title fields in the ticket responsible screen of the agent interface."
+msgid "Shows time in long format (days, hours, minutes), if active; or in short format (days, hours), if inactive."
 msgstr ""
 
 #. SysConfig
-msgid "Shows time in long format (days, hours, minutes), if set to \"Yes\"; or in short format (days, hours), if set to \"No\"."
-msgstr ""
-
-#. SysConfig
-msgid "Shows time use complete description (days, hours, minutes), if set to \"Yes\"; or just first letter (d, h, m), if set to \"No\"."
+msgid "Shows time use complete description (days, hours, minutes), if active; or just first letter (d, h, m), if inactive."
 msgstr ""
 
 #. SysConfig
@@ -22387,10 +22291,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Specifies if an agent should receive email notification of his own actions."
-msgstr ""
-
-#. SysConfig
-msgid "Specifies if working hours can be inserted without start and end times."
 msgstr ""
 
 #. SysConfig
@@ -22690,7 +22590,7 @@ msgid "Theme"
 msgstr ""
 
 #. SysConfig
-msgid "This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping."
+msgid "This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping."
 msgstr ""
 
 #. SysConfig
@@ -22714,15 +22614,7 @@ msgid "This module and its PreRun() function will be executed, if defined, for e
 msgstr ""
 
 #. SysConfig
-msgid "This module forces inserts in TimeAccounting."
-msgstr ""
-
-#. SysConfig
 msgid "This module is part of the admin area of OTRS."
-msgstr ""
-
-#. SysConfig
-msgid "This notification module gives a warning if there are too many incomplete working days."
 msgstr ""
 
 #. SysConfig
@@ -22759,6 +22651,10 @@ msgstr ""
 
 #. SysConfig
 msgid "This setting is deprecated. Set OTRSTimeZone instead."
+msgstr ""
+
+#. SysConfig
+msgid "This setting shows the sorting attributes in all overview screen, not only in queue view."
 msgstr ""
 
 #. SysConfig
@@ -22858,6 +22754,10 @@ msgid "Ticket Watcher"
 msgstr ""
 
 #. SysConfig
+msgid "Ticket Zoom"
+msgstr ""
+
+#. SysConfig
 msgid "Ticket Zoom."
 msgstr ""
 
@@ -22914,34 +22814,6 @@ msgid "Tickets."
 msgstr ""
 
 #. SysConfig
-msgid "Time Accounting"
-msgstr ""
-
-#. SysConfig
-msgid "Time accounting edit."
-msgstr ""
-
-#. SysConfig
-msgid "Time accounting overview."
-msgstr ""
-
-#. SysConfig
-msgid "Time accounting reporting."
-msgstr ""
-
-#. SysConfig
-msgid "Time accounting settings."
-msgstr ""
-
-#. SysConfig
-msgid "Time accounting view."
-msgstr ""
-
-#. SysConfig
-msgid "Time accounting."
-msgstr ""
-
-#. SysConfig
 msgid "Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day)."
 msgstr ""
 
@@ -22951,10 +22823,6 @@ msgstr ""
 
 #. SysConfig
 msgid "To download attachments."
-msgstr ""
-
-#. SysConfig
-msgid "To use if some actions reduced the working hours (for example, if only half of the traveling time is paid Key => traveling; Content => 50)."
 msgstr ""
 
 #. SysConfig
@@ -23002,7 +22870,7 @@ msgid "Turns on drag and drop for the main navigation."
 msgstr ""
 
 #. SysConfig
-msgid "Turns on the remote ip address check. It should be set to \"No\" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests."
+msgid "Turns on the remote ip address check. It should not be active if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests."
 msgstr ""
 
 #. SysConfig
