@@ -152,7 +152,7 @@ $Selenium->RunTest(
         # Wait until attachment is deleted.
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $(".fa.fa-spinner.fa-spin:visible").length === 0;'
+                'return typeof($) === "function" && !$(".AttachmentList tbody tr:contains(Main-Test1.txt)").length'
         );
 
         # Submit.
@@ -161,6 +161,7 @@ $Selenium->RunTest(
             JavaScript =>
                 'return typeof($) === "function" && $(".TicketZoom").length;'
         );
+        sleep 2;
 
         my $Url = $Selenium->get_current_url();
 
@@ -262,11 +263,20 @@ $Selenium->RunTest(
             "Process deleted - $Process->{Name},",
         );
 
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
         # Delete test ticket.
-        $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
+        $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => $TestUserID,
         );
+        if ( !$Success ) {
+            sleep 3;
+            $Success = $TicketObject->TicketDelete(
+                TicketID => $TicketID,
+                UserID   => $TestUserID,
+            );
+        }
         $Self->True(
             $Success,
             "Delete ticket - $TicketID"
