@@ -281,7 +281,7 @@ $Selenium->RunTest(
             sleep 3;
             $Success = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
-                UserID   => 1,
+                UserID   => $TestUserID,
             );
         }
         $Self->True(
