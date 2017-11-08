@@ -1554,7 +1554,7 @@ sub StatsRun {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Needed!"
+                Message  => "Need $Needed!",
             );
             return;
         }
@@ -1654,7 +1654,7 @@ sub StatsResultCacheCompute {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Needed!"
+                Message  => "Need $Needed!",
             );
             return;
         }
@@ -1745,7 +1745,7 @@ sub StatsResultCacheGet {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Needed!"
+                Message  => "Need $Needed!",
             );
             return;
         }
@@ -1909,7 +1909,7 @@ sub StatsInstall {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Needed!"
+                Message  => "Need $Needed!",
             );
             return;
         }
@@ -1920,11 +1920,6 @@ sub StatsInstall {
 
     # start AutomaticSampleImport if no stats are installed
     $Self->GetStatsList(
-        UserID => $Param{UserID},
-    );
-
-    # cleanup stats
-    $Self->StatsCleanUp(
         UserID => $Param{UserID},
     );
 
@@ -1975,6 +1970,10 @@ uninstalls stats
     my $Result = $StatsObject->StatsUninstall(
         FilePrefix => 'FAQ',  # (optional)
         UserID     => $UserID,
+        ObjectNames = [
+            'Ticket',
+            'TicketList'
+        ],
     );
 
 =cut
@@ -1986,7 +1985,7 @@ sub StatsUninstall {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Needed!"
+                Message  => "Need $Needed!",
             );
             return;
         }
@@ -2021,7 +2020,8 @@ sub StatsUninstall {
 
     # cleanup stats
     $Self->StatsCleanUp(
-        UserID => $Param{UserID},
+        ObjectNames => $Param{ObjectNames},
+        UserID      => $Param{UserID},
     );
 
     return 1;
@@ -2031,7 +2031,13 @@ sub StatsUninstall {
 
 removed stats with not existing backend file
 
-    my $Result = $StatsObject->StatsCleanUp();
+    my $Result = $StatsObject->StatsCleanUp(
+        UserID => 1,
+
+        ObjectNames => [ 'Ticket', 'TicketList' ],
+        or
+        CheckAllObjects => 1,
+    );
 
 =cut
 
@@ -2042,10 +2048,18 @@ sub StatsCleanUp {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Needed!"
+                Message  => "Need $Needed!",
             );
             return;
         }
+    }
+
+    if ( !$Param{CheckAllObjects} && !IsArrayRefWithData($Param{ObjectNames}) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need ObjectNames or the CheckAllObjects parameter!",
+        );
+        return;
     }
 
     # get a list of all stats
@@ -2059,6 +2073,11 @@ sub StatsCleanUp {
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
+    my %LookupObjectNames;
+    if ( !$Param{CheckAllObjects} ) {
+        %LookupObjectNames = map { $_ => 1 } @{ $Param{ObjectNames} };
+    }
+
     STATSID:
     for my $StatsID ( @{$ListRef} ) {
 
@@ -2068,10 +2087,17 @@ sub StatsCleanUp {
             NoObjectAttributes => 1,
         );
 
-        next STATSID if $HashRef
-            && ref $HashRef eq 'HASH'
-            && $HashRef->{ObjectModule}
-            && $MainObject->Require( $HashRef->{ObjectModule} );
+        # Cleanup only files given in ObjectNames.
+        if ( !$Param{CheckAllObjects} ) {
+
+            my $ObjectName = [ split( m{::}, $HashRef->{ObjectModule} ) ]->[-1];
+
+            next STATSID if !$LookupObjectNames{$ObjectName};
+        }
+
+        if ( IsHashRefWithData($HashRef) && $HashRef->{ObjectModule} && $MainObject->Require( $HashRef->{ObjectModule} ) ) {
+            next STATSID;
+        }
 
         # delete stats
         $Self->StatsDelete(
@@ -3707,7 +3733,7 @@ sub _SetResultCache {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Needed!"
+                Message  => "Need $Needed!",
             );
             return;
         }
@@ -3796,7 +3822,7 @@ sub _AutomaticSampleImport {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Needed!"
+                Message  => "Need $Needed!",
             );
             return;
         }

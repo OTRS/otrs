@@ -511,9 +511,87 @@ $Self->True(
     'StatsDelete() delete import stat',
 );
 
+# Some Stats Cleanup tests.
+my $StatCleanupID1 = $StatsObject->StatsAdd(
+    UserID => 1,
+);
+my $StatCleanupID2 = $StatsObject->StatsAdd(
+    UserID => 1,
+);
+
+$Update = $StatsObject->StatsUpdate(
+    StatID => $StatCleanupID1,
+    Hash   => {
+        Title        => 'TestTitle from UnitTest.pl',
+        Description  => 'some Description',
+        Object       => 'Ticket',
+        Format       => 'CSV',
+        ObjectModule => 'Kernel::System::Stats::Dynamic::Ticket',
+        Permission   => '1',
+        StatType     => 'dynamic',
+        SumCol       => '1',
+        SumRow       => '1',
+        Valid        => '1',
+    },
+    UserID => 1,
+);
+$Self->True(
+    $Update,
+    'StatsUpdate() Update StatCleanupID1',
+);
+
+$Update = $StatsObject->StatsUpdate(
+    StatID => $StatCleanupID2,
+    Hash   => {
+        Title        => 'TestTitle from UnitTest.pl with not existing object module',
+        Description  => 'some Description',
+        Object       => 'Ticket',
+        Format       => 'CSV',
+        ObjectModule => 'Kernel::System::Stats::Dynamic::TicketNotExists',
+        Permission   => '1',
+        StatType     => 'dynamic',
+        SumCol       => '1',
+        SumRow       => '1',
+        Valid        => '1',
+    },
+    UserID => 1,
+);
+$Self->True(
+    $Update,
+    'StatsUpdate() Update StatCleanupID2',
+);
+
 # try the clean up function
 $Result = $StatsObject->StatsCleanUp(
-    UserID => 1,
+    UserID      => 1,
+    ObjectNames => [
+        'Ticket',
+        'TicketNotExists',
+    ],
+);
+$Self->True(
+    $Result,
+    'StatsCleanUp() - clean up TicketNotExists stats',
+);
+
+my $StatCleanup = $StatsObject->StatsGet( StatID => $StatCleanupID1 );
+
+$Self->True(
+    $StatCleanup,
+    'StatsCleanUp() - statistic for Ticket object exists',
+);
+
+$StatCleanup = $StatsObject->StatsGet( StatID => $StatCleanupID2 );
+
+$Self->False(
+    $StatCleanup,
+    'StatsCleanUp() - statistic for  TicketNotExists object no longer exists',
+);
+
+# try the clean up function
+$Result = $StatsObject->StatsCleanUp(
+    UserID          => 1,
+    CheckAllObjects => 1,
 );
 $Self->True(
     $Result,
