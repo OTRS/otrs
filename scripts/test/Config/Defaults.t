@@ -27,8 +27,7 @@ and cause wrong test failures.
 =cut
 
 # Get list of installed config XML files
-# TODO: Update $Directory to /Kernel/Config/Files/XML/ when ToBeMerged.xml is merged.
-my $Directory   = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/Kernel/Config/Files/";
+my $Directory   = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/Kernel/Config/Files/XML";
 my @ConfigFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
     Directory => $Directory,
     Filter    => "*.xml",
