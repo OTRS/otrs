@@ -75,7 +75,7 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
 
         # Wait until form has loaded, if necessary.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#TransitionForm #Name").length' );
 
         # Check AdminProcessManagementTransition screen.
         for my $ID (
@@ -98,13 +98,15 @@ $Selenium->RunTest(
         }
 
         # Check client side validation.
-        $Selenium->find_element( "#Name",   'css' )->clear();
-        $Selenium->find_element( "#Submit", 'css' )->click();
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name.Error").length' );
+        $Selenium->find_element( "#TransitionForm #Name", 'css' )->clear();
+        $Selenium->find_element( "#Submit",               'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#TransitionForm #Name.Error").length'
+        );
 
         $Self->Is(
             $Selenium->execute_script(
-                "return \$('#Name').hasClass('Error')"
+                "return \$('#TransitionForm #Name').hasClass('Error')"
             ),
             '1',
             'Client side validation correctly detected missing input value',
@@ -113,7 +115,7 @@ $Selenium->RunTest(
         # Input fields and submit.
         my $TransitionFieldName = "Field" . $Helper->GetRandomID();
         my $TransitionValueName = "Value" . $Helper->GetRandomID();
-        $Selenium->find_element( "#Name", 'css' )->send_keys($TransitionRandom);
+        $Selenium->find_element( "#TransitionForm #Name", 'css' )->send_keys($TransitionRandom);
         $Selenium->execute_script(
             "\$('#OverallConditionLinking').val('or').trigger('redraw.InputField').trigger('change');"
         );
@@ -125,6 +127,44 @@ $Selenium->RunTest(
             "\$('#ConditionLinking[_INDEX_]').val('String').trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->find_element(".//*[\@id='ConditionFieldValue[1][1]']")->send_keys($TransitionValueName);
+
+        # Try to remove Field, expecting JS error.
+        $Selenium->find_element("//a[\@title='Remove this Field']")->click();
+        $Selenium->WaitFor(
+            AlertPresent => 1,
+        );
+        $Self->True(
+            $Selenium->accept_alert(),
+            "Unable to remove only field - JS is success"
+        );
+        sleep 1;
+
+        # Add new Field.
+        $Selenium->find_element("//a[\@title='Add a new Field']")->click();
+
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#ConditionFieldName\\\\[1\\\\]\\\\[2\\\\]").length'
+        );
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#ConditionFieldValue\\\\[1\\\\]\\\\[2\\\\]").length'
+        );
+
+        $Selenium->find_element(".//*[\@id='ConditionFieldName[1][2]']")->send_keys( $TransitionFieldName . '2' );
+        $Selenium->find_element(".//*[\@id='ConditionFieldValue[1][2]']")->send_keys( $TransitionValueName . '2' );
+
+        # Add new Condition and input fields.
+        $Selenium->find_element( "#ConditionAdd", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#ConditionFieldName\\\\[2\\\\]\\\\[1\\\\]").length'
+        );
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#ConditionFieldValue\\\\[2\\\\]\\\\[1\\\\]").length'
+        );
+
+        $Selenium->find_element(".//*[\@id='ConditionFieldName[2][1]']")->send_keys( $TransitionFieldName . '22' );
+        $Selenium->find_element(".//*[\@id='ConditionFieldValue[2][1]']")->send_keys( $TransitionValueName . '22' );
+
+        # Submit form.
         $Selenium->find_element( "#Submit", 'css' )->click();
 
         # Switch back to main window.
@@ -168,11 +208,11 @@ $Selenium->RunTest(
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#TransitionForm #Name').length" );
 
         # Check stored value.
         $Self->Is(
-            $Selenium->find_element( "#Name", 'css' )->get_value(),
+            $Selenium->find_element( "#TransitionForm #Name", 'css' )->get_value(),
             $TransitionRandom,
             "#Name stored value",
         );
@@ -206,7 +246,7 @@ $Selenium->RunTest(
         my $TransitionFieldNameEdit = $TransitionFieldName . "edit";
         my $TransitionValueNameEdit = $TransitionValueName . "edit";
 
-        $Selenium->find_element( "#Name", 'css' )->send_keys("edit");
+        $Selenium->find_element( "#TransitionForm #Name", 'css' )->send_keys("edit");
         $Selenium->execute_script(
             "\$('#OverallConditionLinking').val('and').trigger('redraw.InputField').trigger('change');"
         );
@@ -216,6 +256,23 @@ $Selenium->RunTest(
         $Selenium->find_element(".//*[\@id='ConditionFieldValue[1][$TransitionFieldName]']")->clear();
         $Selenium->find_element(".//*[\@id='ConditionFieldValue[1][$TransitionFieldName]']")
             ->send_keys($TransitionValueNameEdit);
+
+        # Remove Conditions, expecting JS error on last Condition removal.
+        $Selenium->find_element("//a[\@name='ConditionRemove[2]']")->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && !$("#Condition\\\\[2\\\\]").length'
+        );
+
+        $Selenium->find_element("//a[\@name='ConditionRemove[1]']")->click();
+        $Selenium->WaitFor(
+            AlertPresent => 1,
+        );
+        $Self->True(
+            $Selenium->accept_alert(),
+            "Unable to remove only condition - JS is success"
+        );
+        sleep 1;
+
         $Selenium->find_element( "#Submit", 'css' )->click();
 
         # Return to main window.
@@ -232,11 +289,11 @@ $Selenium->RunTest(
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#TransitionForm #Name').length" );
 
         # Check edited values.
         $Self->Is(
-            $Selenium->find_element( "#Name", 'css' )->get_value(),
+            $Selenium->find_element( "#TransitionForm #Name", 'css' )->get_value(),
             $TransitionRandom . 'edit',
             "#Name updated value",
         );
