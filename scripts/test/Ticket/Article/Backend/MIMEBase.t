@@ -249,6 +249,9 @@ for my $ChannelName (qw(Email Phone Internal)) {
         $ArticleHash{ArticleID} = $ArticleID;
         delete $ArticleHash{MessageID};
 
+        # Remove existing article from the mail queue, so it doesn't interfere with later tests.
+        $Kernel::OM->Get('Kernel::System::MailQueue')->Delete( ArticleID => $ArticleID );
+
         # Get article data again.
         %Article = $ArticleBackendObject->ArticleGet(
             TicketID  => $TicketID,
