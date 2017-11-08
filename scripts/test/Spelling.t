@@ -39,6 +39,15 @@ if ( !-e $SpellCheckerBin ) {
     }
 }
 
+# Check if spell checker has been disabled.
+elsif ( $SpellCheckerBin eq '/bin/false' ) {
+    $Self->True(
+        1,
+        'Spell checker disabled, skipping test...'
+    );
+    return 1;
+}
+
 # test for check spelling
 my $LongText =
     '
