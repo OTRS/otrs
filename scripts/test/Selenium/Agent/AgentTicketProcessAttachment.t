@@ -157,10 +157,9 @@ $Selenium->RunTest(
         # Delete the attachment.
         $Selenium->find_element( "#AttachmentDeleteButton1", 'css' )->VerifiedClick();
 
-        # Check if there is no attachment.
-        $Self->False(
-            $Selenium->execute_script("return \$('#AttachmentDeleteButton1').length"),
-            "There is no attachment"
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("button[type=submit]").length;'
         );
 
         # Submit.
@@ -169,6 +168,7 @@ $Selenium->RunTest(
             JavaScript =>
                 'return typeof($) === "function" && $(".TicketZoom").length;'
         );
+        sleep 2;
 
         my $Url = $Selenium->get_current_url();
 
@@ -270,11 +270,20 @@ $Selenium->RunTest(
             "Process deleted - $Process->{Name},",
         );
 
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
         # Delete test ticket.
-        $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
+        $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => $TestUserID,
         );
+        if ( !$Success ) {
+            sleep 3;
+            $Success = $TicketObject->TicketDelete(
+                TicketID => $TicketID,
+                UserID   => 1,
+            );
+        }
         $Self->True(
             $Success,
             "Delete ticket - $TicketID"
