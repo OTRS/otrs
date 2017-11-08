@@ -227,11 +227,13 @@ sub Check {
         # if crypted, decrypt it
         # remember that it was crypted!
 
-        # write email to fs
+        # Get plain article/email from filesystem storage.
         my $Message = $ArticleBackendObject->ArticlePlain(
             ArticleID => $Self->{ArticleID},
             UserID    => $Self->{UserID},
         );
+        return if !$Message;
+
         my $Parser = MIME::Parser->new();
         $Parser->decode_headers(0);
         $Parser->extract_nested_messages(0);
