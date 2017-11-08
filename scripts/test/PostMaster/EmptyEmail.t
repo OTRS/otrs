@@ -15,13 +15,6 @@ use vars (qw($Self));
 
 use Kernel::System::PostMaster;
 
-# get needed objects
-my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
-my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
-my $MainObject           = $Kernel::OM->Get('Kernel::System::Main');
-
-# get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase  => 1,
@@ -30,15 +23,23 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
 for my $Backend (qw(DB FS)) {
 
-    $ConfigObject->Set(
+    # Change the article storage backend.
+    $Helper->ConfigSettingChange(
         Key   => 'Ticket::Article::Backend::MIMEBase::ArticleStorage',
-        Value => 'Kernel::System::Ticket::ArticleStorage' . $Backend,
+        Value => 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorage' . $Backend,
     );
 
+    # Re-create article backend object for every run, in order to reflect the article storage backend change.
+    my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
+
     my $Location = $ConfigObject->Get('Home')
-        . "/scripts/test/sample/EmailParser/EmptyEmail.eml";
+        . '/scripts/test/sample/EmailParser/EmptyEmail.eml';
 
     my $ContentRef = $MainObject->FileRead(
         Location => $Location,
@@ -77,13 +78,13 @@ for my $Backend (qw(DB FS)) {
 
     $Self->True(
         $TicketID,
-        "$Backend - Ticket created",
+        "$Backend - Ticket created"
     );
 
     my @ArticleIDs = map { $_->{ArticleID} } $ArticleObject->ArticleList( TicketID => $TicketID );
     $Self->True(
         $ArticleIDs[0],
-        "$Backend - Article created",
+        "$Backend - Article created"
     );
 
     my %Article = $ArticleBackendObject->ArticleGet(
@@ -94,7 +95,7 @@ for my $Backend (qw(DB FS)) {
     $Self->Is(
         $Article{Body} // '',    # Oracle stores '' as undef.
         '',
-        "Empty article body found"
+        'Empty article body found'
     );
 
     my %Attachments = $ArticleBackendObject->ArticleAttachmentIndex(
@@ -111,7 +112,7 @@ for my $Backend (qw(DB FS)) {
             'Filename'           => 'Łatwa sprawa.txt',
             'FilesizeRaw'        => 0
         },
-        "$Backend - Attachment filename",
+        "$Backend - Attachment filename"
     );
 }
 
