@@ -2010,7 +2010,7 @@ sub StatsUninstall {
         );
 
         my $Stat = $Self->StatsGet(
-            StatID             => {$StatsIDRef},
+            StatID             => ${$StatsIDRef},
             NoObjectAttributes => 1,
         );
 
