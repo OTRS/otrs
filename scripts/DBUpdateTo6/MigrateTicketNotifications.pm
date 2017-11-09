@@ -134,18 +134,18 @@ sub Run {
             $UpdateNeeded = 1;
         }
 
-        # check for transport-based NotificationArticleTypeIDs and convert them to IsVisibleForCustomer entries
-        if (
-            $NotificationEventList{$NotificationEventID}->{Data}->{NotificationArticleTypeID}
-            && $NotificationEventList{$NotificationEventID}->{Data}->{NotificationArticleTypeID}->[0] == 3
-            )
-        {
+        # Check for transport-based NotificationArticleTypeIDs and convert them to IsVisibleForCustomer entries.
+        if ( $NotificationEventList{$NotificationEventID}->{Data}->{NotificationArticleTypeID} ) {
+
+            if ( $NotificationEventList{$NotificationEventID}->{Data}->{NotificationArticleTypeID}->[0] == 3 ) {
+                $NotificationEventList{$NotificationEventID}->{Data}->{IsVisibleForCustomer} = ['on'];
+            }
             delete $NotificationEventList{$NotificationEventID}->{Data}->{NotificationArticleTypeID};
-            $NotificationEventList{$NotificationEventID}->{Data}->{IsVisibleForCustomer} = ['on'];
+
             $UpdateNeeded = 1;
         }
 
-        # update notification entries if needed
+        # Update notification entries if needed.
         if ($UpdateNeeded) {
             $NotificationEventObject->NotificationUpdate(
                 %{ $NotificationEventList{$NotificationEventID} },
