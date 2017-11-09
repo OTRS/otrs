@@ -1970,10 +1970,6 @@ uninstalls stats
     my $Result = $StatsObject->StatsUninstall(
         FilePrefix => 'FAQ',  # (optional)
         UserID     => $UserID,
-        ObjectNames = [
-            'Ticket',
-            'TicketList'
-        ],
     );
 
 =cut
@@ -2003,6 +1999,8 @@ sub StatsUninstall {
         Filter    => $Param{FilePrefix} . '*.xml.installed',
     );
 
+    my @UninstalledObjectNames;
+
     # delete the stats
     for my $File ( sort @StatsFileList ) {
 
@@ -2011,6 +2009,17 @@ sub StatsUninstall {
             Location => $File,
         );
 
+        my $Stat = $Self->StatsGet(
+            StatID             => {$StatsIDRef},
+            NoObjectAttributes => 1,
+        );
+
+        # Add object name from the deleted statistic to the uninstalled object names.
+        if ( $Stat->{ObjectModule} ) {
+            my $ObjectName = [ split( m{::}, $Stat->{ObjectModule} ) ]->[-1];
+            push @UninstalledObjectNames, $ObjectName;
+        }
+
         # delete stats
         $Self->StatsDelete(
             StatID => ${$StatsIDRef},
@@ -2018,11 +2027,13 @@ sub StatsUninstall {
         );
     }
 
-    # cleanup stats
-    $Self->StatsCleanUp(
-        ObjectNames => $Param{ObjectNames},
-        UserID      => $Param{UserID},
-    );
+    # Cleanup for all uninstalled object names.
+    if (@UninstalledObjectNames) {
+        $Self->StatsCleanUp(
+            ObjectNames => \@UninstalledObjectNames,
+            UserID      => $Param{UserID},
+        );
+    }
 
     return 1;
 }
@@ -2054,7 +2065,7 @@ sub StatsCleanUp {
         }
     }
 
-    if ( !$Param{CheckAllObjects} && !IsArrayRefWithData($Param{ObjectNames}) ) {
+    if ( !$Param{CheckAllObjects} && !IsArrayRefWithData( $Param{ObjectNames} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need ObjectNames or the CheckAllObjects parameter!",
@@ -2095,7 +2106,12 @@ sub StatsCleanUp {
             next STATSID if !$LookupObjectNames{$ObjectName};
         }
 
-        if ( IsHashRefWithData($HashRef) && $HashRef->{ObjectModule} && $MainObject->Require( $HashRef->{ObjectModule} ) ) {
+        if (
+            IsHashRefWithData($HashRef)
+            && $HashRef->{ObjectModule}
+            && $MainObject->Require( $HashRef->{ObjectModule} )
+            )
+        {
             next STATSID;
         }
 
