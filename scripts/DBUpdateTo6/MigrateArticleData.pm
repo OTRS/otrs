@@ -484,7 +484,7 @@ sub CheckPreviousRequirement {
 
             print "\n" if !$Verbose && !$Index;
 
-            print "        Error: Found $Count orphaned entries in $OrphanedEntryCheck->{Table} table ...\n";
+            print "        Found $Count orphaned entries in $OrphanedEntryCheck->{Table} table ...\n";
 
             # Only in interactive mode or if the CleanupOrphanedArticles parameter is active.
             if ( $InteractiveMode || $Param{CommandlineOptions}->{CleanupOrphanedArticles} ) {
