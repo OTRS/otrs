@@ -1809,6 +1809,9 @@ sub MigrateConfigEffectiveValues {
         # Skip this setting if it is a readonly setting.
         next DISABLEDSETTINGNAME if $OTRS6Setting{IsReadonly};
 
+        # Skip this setting if it is a required setting.
+        next DISABLEDSETTINGNAME if $OTRS6Setting{IsRequired};
+
         # Log if there is a setting that can not be found in OTRS 6 (might come from packages).
         if ( !%OTRS6Setting ) {
             push @MissingSettings, $NewSettingKey;
