@@ -1185,7 +1185,8 @@ sub Run {
             );
         }
 
-        $ArticleID = $ArticleObject->ArticleCreate(
+        my $InternalArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
+        $ArticleID = $InternalArticleBackendObject->ArticleCreate(
             TicketID             => $Self->{TicketID},
             IsVisibleForCustomer => 0,
             SenderType           => 'agent',
@@ -1205,7 +1206,7 @@ sub Run {
 
         # write attachments
         for my $Attachment (@AttachmentData) {
-            $ArticleObject->ArticleWriteAttachment(
+            $InternalArticleBackendObject->ArticleWriteAttachment(
                 %{$Attachment},
                 ArticleID => $ArticleID,
                 UserID    => $Self->{UserID},

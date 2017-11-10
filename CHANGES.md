@@ -1,4 +1,5 @@
 #6.0.1 2017-??-??
+ - 2017-11-10 Fixed bug#[13320](https://bugs.otrs.org/show_bug.cgi?id=13320) - Internal Server Error in agent ticket move with Ticket::Frontend::MoveType type 'form' and with add article.
  - 2017-11-09 Fixed bug#[13315](https://bugs.otrs.org/show_bug.cgi?id=13315) - Problem with sending ticket notifications after the migration, because of existing 'NotificationArticleTypeID'.
  - 2017-11-08 Fixed bug#[13300](https://bugs.otrs.org/show_bug.cgi?id=13300) - Problem with the StatsCleanUp functionality during the package upgrade.
  - 2017-11-08 Fixed bug#[13292](https://bugs.otrs.org/show_bug.cgi?id=13292) - Internal Server Error in ticket screens with missing articles in the file system.

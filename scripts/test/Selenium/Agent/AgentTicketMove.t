@@ -28,6 +28,36 @@ $Selenium->RunTest(
             Value => 'link'
         );
 
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketMove###Note',
+            Value => '1'
+        );
+
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketMove###NoteMandatory',
+            Value => '1'
+        );
+
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketMove###Subject',
+            Value => 'test subject'
+        );
+
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketMove###Body',
+            Value => 'test body'
+        );
+
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Frontend::RichText',
+            Value => '0'
+        );
+
         # create two test queues to use as 'Junk' and 'Delete' queue
         my @QueueNames;
         my @QueueIDs;
@@ -240,6 +270,18 @@ $Selenium->RunTest(
             Valid => 1,
             Key   => 'Ticket::Frontend::MoveType',
             Value => 'form'
+        );
+
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketMove###Note',
+            Value => '0'
+        );
+
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketMove###NoteMandatory',
+            Value => '0'
         );
 
         # Reload the page, to get the new sys config option.
