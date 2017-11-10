@@ -746,8 +746,7 @@ sub MigrateXMLStructure {
                 $Setting =~ s{
                     Name=(.*?)\#\#\#(|FollowUp|ProcessWidget|SearchOverview|SearchCSV)DynamicField\"(.*?)
                     <Setting>(\s+)<Hash>(\s+)<\/Hash>
-                }
-                     {Name=$1$Hashtag$2DynamicField"$3<Value>$ReplacementString}gsmx;    #"
+                }{Name=$1$Hashtag$2DynamicField"$3<Value>$ReplacementString}gsmx;
 
                 # DefaultColumns
                 $ReplacementString =~ s{\n\t\t\t<Hash>\n}{\n\t<Hash>\n};
@@ -759,13 +758,12 @@ sub MigrateXMLStructure {
                 $Setting =~ s{
                     Name=(.*?)\#\#\#DefaultColumns\"(.*?)
                     <Setting>(\s+)<Hash>(\s+)<Item\sKey=\"Age\">2</Item>
-                }
-                     {Name=$1$DefaultColumnsHashtag"$2<Value>$ReplacementString}gsmx;    #"
+                }{Name=$1$DefaultColumnsHashtag"$2<Value>$ReplacementString}gsmx;
+
                 $Setting =~ s{
                     Name=(.*?)DefaultOverviewColumns\"(.*?)
                     <Setting>(\s+)<Hash>(\s+)<Item\sKey=\"Age\">2</Item>
-                }
-                     {Name=$1DefaultOverviewColumns"$2<Value>$ReplacementString}gsmx;    #"
+                }{Name=$1DefaultOverviewColumns"$2<Value>$ReplacementString}gsmx;
 
                 # AgentCustomerInformationCenter-||DashboardBackend
                 my $BackendReplacement = "<Item Key=\"DefaultColumns\">" .
