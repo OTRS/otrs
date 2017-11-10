@@ -50,6 +50,7 @@ if ( !-e $ConfigObject->Get('PGP::Bin') ) {
             Value => '/opt/local/bin/gpg'
         );
     }
+
     # Try to guess using system 'which'
     else {    # try to guess
         my $GPGBin = `which gpg`;

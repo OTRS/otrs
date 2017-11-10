@@ -130,7 +130,7 @@ if ($Help) {
     print " otrs.CheckModules.pl [-list|all]\n\n";
     print "Options:\n";
     printf " %-22s - %s", '[-list]', 'Return an install command with all required packages.' . "\n";
-    printf " %-22s - %s", '[-all]', 'Return all required, optional and bundled packages of OTRS.' . "\n\n";
+    printf " %-22s - %s", '[-all]',  'Return all required, optional and bundled packages of OTRS.' . "\n\n";
     exit 1;
 }
 

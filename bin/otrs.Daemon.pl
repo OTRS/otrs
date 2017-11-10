@@ -157,7 +157,8 @@ sub PrintUsage {
     $UsageText .= " otrs.Daemon.pl action [--debug] [--force]\n";
     $UsageText .= "\nOptions:\n";
     $UsageText .= sprintf " %-22s - %s", '[--debug]', 'Run the daemon in debug mode.' . "\n";
-    $UsageText .= sprintf " %-22s - %s", '[--force]', 'Reduce the time the main daemon waits other daemons to stop.' . "\n";
+    $UsageText .= sprintf " %-22s - %s", '[--force]',
+        'Reduce the time the main daemon waits other daemons to stop.' . "\n";
     $UsageText .= "\nActions:\n";
     $UsageText .= sprintf " %-22s - %s", 'start', 'Start the daemon process.' . "\n";
     $UsageText .= sprintf " %-22s - %s", 'stop', 'Stop the daemon process.' . "\n";

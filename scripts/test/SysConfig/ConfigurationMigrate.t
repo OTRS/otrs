@@ -255,18 +255,18 @@ my @Tests = (
         Name           => 'Effective Value',
         Key            => 'Frontend::NavigationModule###AdminDynamicField',
         EffectiveValue => {
-            'Block' => 'Ticket',
+            'Block'       => 'Ticket',
             'Description' => 'Create and manage dynamic fields (other description).',
-            'Group' => [
+            'Group'       => [
                 'admin',
                 'users',
             ],
-            'GroupRo' => [],
-            'IconBig' => 'fa-align-left',
+            'GroupRo'   => [],
+            'IconBig'   => 'fa-align-left',
             'IconSmall' => '',
-            'Module' => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
-            'Name' => 'Dynamic Fields',
-            'Prio' => '1000',
+            'Module'    => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
+            'Name'      => 'Dynamic Fields',
+            'Prio'      => '1000',
         },
     },
 
