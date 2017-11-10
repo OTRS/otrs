@@ -774,13 +774,18 @@ sub NotificationImport {
         };
     }
 
-    # Check if notification message in any language has more characters than limit (4000 characters).
+    # Check notification message length for every language.
     for my $Language ( sort keys %{ $NotificationData->[0]->{Message} } ) {
-        if ( length $NotificationData->[0]->{Message}->{$Language}->{Body} > 4000 ) {
+        my $Check = $Self->NotificationBodyCheck(
+            Content => $NotificationData->[0]->{Message}->{$Language}->{Body},
+            UserID  => $Param{UserID},
+        );
+
+        if ( !$Check ) {
             return {
                 Success => 0,
                 Message =>
-                    Translatable("Imported notification has body text with more than 4000 characters."),
+                    Translatable('Imported notification has body text with more than 4000 characters.'),
             };
         }
     }
@@ -838,6 +843,50 @@ sub NotificationImport {
         UpdatedNotifications => join( ', ', @UpdatedNotifications ) || '',
         NotificationErrors   => join( ', ', @NotificationErrors ) || '',
     };
+}
+
+=head2 NotificationBodyCheck()
+
+Check if body has a proper length depending on DB type.
+
+    my $Ok = $NotificationEventObject->NotificationBodyCheck(
+        Content => $BodyContent, # mandatory
+        UserID  => 1,            # mandatory
+    );
+
+=cut
+
+sub NotificationBodyCheck {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    if ( !$Param{Content} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Content!",
+        );
+        return;
+    }
+
+    my $DBType = $Kernel::OM->Get('Kernel::System::DB')->{'DB::Type'};
+
+    # Body field length in the database is strictly set to 4000 characters for both PostgreSQL and Oracle backends.
+    #   Since this restriction was not enforced for MySQL previously, it was possible to enter longer texts in the
+    #   table. Because of this, we must now for reasons on backwards compatibility limit the body size only for those
+    #   backends, at least until the next major version and planned field size change.
+    #   Please see both bug#12843 (original semi-reverted fix) and bug#13281 for more information.
+    if (
+        (
+            $DBType eq 'postgresql'
+            || $DBType eq 'oracle'
+        )
+        && length $Param{Content} > 4000
+        )
+    {
+        return 0;
+    }
+
+    return 1;
 }
 
 1;
