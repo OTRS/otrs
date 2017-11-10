@@ -51,21 +51,26 @@ my ( $Help, $DryRun, $SkipArticleDir, @SkipRegex, $OtrsUserID, $WebGroupID, $Adm
 
 sub PrintUsage {
     print <<EOF;
-bin/otrs.SetPermissions.pl - set OTRS file permissions
-Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 
-Usage: otrs.SetPermissions.pl
-    [--otrs-user=<OTRS_USER>]       # OTRS user, defaults to 'otrs'
-    [--web-group=<WEB_GROUP>]       # web server group ('_www', 'www-data' or similar), tries to find a default
-    [--admin-group=<ADMIN_GROUP>]   # admin group, defaults to 'root'
-    [--skip-article-dir]            # Skip var/article as it might take too long on some systems.
-    [--skip-regex="..."]            # Add another skip regex like "^/var/my/directory".
-                                    # Paths start with / but are relative to the OTRS directory.
-                                    # --skip-regex can be specified multiple times.
-    [--dry-run]                     # only report, don't change
-    [--help]
+Set OTRS file permissions.
 
-Example: otrs.SetPermissions.pl --web-group=www-data
+Usage:
+ otrs.SetPermissions.pl [--otrs-user=<OTRS_USER>] [--web-group=<WEB_GROUP>] [--admin-group=<ADMIN_GROUP>] [--skip-article-dir] [--skip-regex="REGEX"] [--dry-run]
+
+Options:
+ [--otrs-user=<OTRS_USER>]     - OTRS user, defaults to 'otrs'.
+ [--web-group=<WEB_GROUP>]     - Web server group ('_www', 'www-data' or similar), try to find a default.
+ [--admin-group=<ADMIN_GROUP>] - Admin group, defaults to 'root'.
+ [--skip-article-dir]          - Skip var/article as it might take too long on some systems.
+ [--skip-regex="REGEX"]        - Add another skip regex like "^/var/my/directory". Paths start with / but are relative to the OTRS directory. --skip-regex can be specified multiple times.
+ [--dry-run]                   - Only report, don't change.
+ [--help]                      - Display help for this command.
+
+Help:
+Using this script without any options it will try to detect the correct user and group settings needed for your setup.
+
+ otrs.SetPermissions.pl
+
 EOF
     return;
 }

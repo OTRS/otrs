@@ -38,9 +38,19 @@ my $DB     = '';
 my $DBDump = '';
 getopt( 'hbd', \%Opts );
 if ( exists $Opts{h} ) {
-    print "restore.pl - restore script\n";
-    print "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
-    print "usage: restore.pl -b /data_backup/<TIME>/ -d /opt/otrs/\n";
+    print <<EOF;
+
+Restore an OTRS system from backup.
+
+Usage:
+ restore.pl -b /data_backup/<TIME>/ -d /opt/otrs/
+
+Options:
+ -b                     - Directory of the backup files.
+ -d                     - Target OTRS home directory.
+ [-h]                   - Display help for this command.
+
+EOF
     exit 1;
 }
 if ( !$Opts{b} ) {

@@ -34,8 +34,7 @@ use Fcntl qw(:flock);
 
 use Kernel::System::ObjectManager;
 
-print STDOUT "otrs.Daemon.pl - the OTRS daemon\n";
-print STDOUT "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n\n";
+print STDOUT "\nManage the OTRS daemon process.\n\n";
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
@@ -155,20 +154,23 @@ else {
 
 sub PrintUsage {
     my $UsageText = "Usage:\n";
-    $UsageText .= " otrs.Daemon.pl <ACTION> [--debug] [--force]\n";
+    $UsageText .= " otrs.Daemon.pl action [--debug] [--force]\n";
+    $UsageText .= "\nOptions:\n";
+    $UsageText .= sprintf " %-22s - %s", '[--debug]', 'Run the daemon in debug mode.' . "\n";
+    $UsageText .= sprintf " %-22s - %s", '[--force]', 'Reduce the time the main daemon waits other daemons to stop.' . "\n";
     $UsageText .= "\nActions:\n";
-    $UsageText .= sprintf " %-30s - %s", 'start', 'Starts the daemon process' . "\n";
-    $UsageText .= sprintf " %-30s - %s", 'stop', 'Stops the daemon process' . "\n";
-    $UsageText .= sprintf " %-30s - %s", 'status', 'Shows daemon process current state' . "\n";
-    $UsageText .= sprintf " %-30s - %s", 'help', 'Shows this help screen' . "\n";
-    $UsageText .= "\nNote:\n";
+    $UsageText .= sprintf " %-22s - %s", 'start', 'Start the daemon process.' . "\n";
+    $UsageText .= sprintf " %-22s - %s", 'stop', 'Stop the daemon process.' . "\n";
+    $UsageText .= sprintf " %-22s - %s", 'status', 'Show daemon process current state.' . "\n";
+    $UsageText .= sprintf " %-22s - %s", 'help', 'Display help for this command.' . "\n";
+    $UsageText .= "\nHelp:\n";
     $UsageText
-        .= " In debug mode if a daemon module is specified the debug mode will be activated only for that daemon.\n";
-    $UsageText .= " Debug information is stored in the daemon log files localed under: $LogDir\n";
+        .= "In debug mode if a daemon module is specified the debug mode will be activated only for that daemon.\n";
+    $UsageText .= "Debug information is stored in the daemon log files localed under: $LogDir\n";
     $UsageText .= "\n otrs.Daemon.pl start --debug SchedulerTaskWorker SchedulerCronTaskManager\n\n";
     $UsageText
-        .= "\n Forced stop reduces the time the main daemon waits other daemons to stop from normal 30 seconds to 5.\n";
-    $UsageText .= "\n otrs.Daemon.pl stop --force\n\n";
+        .= "Forced stop reduces the time the main daemon waits other daemons to stop from normal 30 seconds to 5.\n";
+    $UsageText .= "\n otrs.Daemon.pl stop --force\n";
     print STDOUT "$UsageText\n";
 
     return 1;

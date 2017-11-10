@@ -42,10 +42,20 @@ my %Compare;
 my %Opts;
 getopt( 'abd', \%Opts );
 if ( exists $Opts{h} || !keys %Opts ) {
-    print "otrs.CheckSum.pl - OTRS check sum\n";
-    print "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
-    print
-        "usage: otrs.CheckSum.pl -a create|compare [-b /path/to/ARCHIVE] [-d /path/to/framework]\n";
+    print <<EOF;
+
+Create or compare OTRS file checksum information.
+
+Usage:
+ otrs.CheckSum.pl -a create|compare [-b /path/to/ARCHIVE] [-d /path/to/framework]
+
+Options:
+ -a                     - Specify the action (create|compare).
+ [-b]                   - Specify the path to archive.
+ [-d]                   - Specify the path to OTRS framework.
+ [-h]                   - Display help for this command.
+
+EOF
     exit 1;
 }
 

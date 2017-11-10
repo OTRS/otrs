@@ -39,9 +39,33 @@ my $DB          = '';
 my $DBDump      = '';
 getopt( 'hcrtd', \%Opts );
 if ( exists $Opts{h} ) {
-    print "backup.pl - backup script\n";
-    print "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
-    print "usage: backup.pl -d /data_backup_dir/ [-c gzip|bzip2] [-r 30] [-t fullbackup|nofullbackup|dbonly]\n";
+    print <<EOF;
+
+Backup an OTRS system.
+
+Usage:
+ backup.pl -d /data_backup_dir/ [-c gzip|bzip2] [-r DAYS] [-t fullbackup|nofullbackup|dbonly]
+
+Options:
+ -d                     - Directory where the backup files should place to.
+ [-c]                   - Select the compression method (gzip|bzip2). Default: gzip.
+ [-r DAYS]              - Remove backups which are more than DAYS days old.
+ [-t]                   - Specify which data will be saved (fullbackup|nofullbackup|dbonly). Default: fullbackup.
+ [-h]                   - Display help for this command.
+
+Help:
+Using -t fullbackup saves the database and the whole OTRS home directory (except /var/tmp and cache directories).
+Using -t nofullbackup saves only the database, /Kernel/Config* and /var directories.
+With -t dbonly only the database will be saved.
+
+Output:
+ Config.tar.gz          - Backup of /Kernel/Config* configuration files.
+ Application.tar.gz     - Backup of application file system (in case of full backup).
+ VarDir.tar.gz          - Backup of /var directory (in case of no full backup).
+ DataDir.tar.gz         - Backup of article files.
+ DatabaseBackup.sql.gz  - Database dump.
+
+EOF
     exit 1;
 }
 

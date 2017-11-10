@@ -40,11 +40,25 @@ use Kernel::System::ObjectManager;
 my %Opts;
 getopt( 'qtd', \%Opts );
 if ( $Opts{h} ) {
-    print "otrs.PostMaster.pl - OTRS cmd postmaster\n";
-    print "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
-    print
-        "usage: otrs.PostMaster.pl -q <QUEUE> -t <TRUSTED> (default is trusted, use '-t 0' to disable trusted mode)\n";
-    print "\notrs.PostMaster.pl is deprecated, please use console command 'Maint::PostMaster::Read' instead.\n\n";
+    print <<EOF;
+
+Read incoming email from STDIN.
+
+Usage:
+ otrs.PostMaster.pl -q <QUEUE> -t <TRUSTED>
+
+Options:
+ [-d]                   - Set debug mode.
+ [-q] <QUEUE>           - Preselect a target queue by name.
+ [-t] <TRUSTED>         - Default is trusted, use '-t 0' to disable trusted mode. This will cause X-OTRS email headers to be ignored.
+ [-h]                   - Display help for this command.
+
+Help:
+DEPRECATED. This console command is deprecated, please use 'Maint::PostMaster::Read' instead.
+
+ otrs.Console.pl Maint::PostMaster::Read [--target-queue ...] [--untrusted]
+
+EOF
     exit 1;
 }
 if ( !$Opts{d} ) {
