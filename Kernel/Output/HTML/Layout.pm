@@ -2314,7 +2314,7 @@ sub NoPermission {
 
     if ( !$Param{Message} ) {
         $Param{Message} = $Self->{LanguageObject}->Translate(
-            'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:'
+            "This ticket does not exist, or you don't have permissions to access it in its current state. You can take one of the following actions:"
         );
     }
 

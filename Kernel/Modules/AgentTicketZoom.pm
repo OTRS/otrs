@@ -257,7 +257,7 @@ sub Run {
     # error screen, don't show ticket
     return $LayoutObject->NoPermission(
         Message => Translatable(
-            "We are sorry, you do not have permissions anymore to access this ticket in its current state."
+            "This ticket does not exist, or you don't have permissions to access it in its current state."
         ),
         WithHeader => $Self->{Subaction} && $Self->{Subaction} eq 'ArticleUpdate' ? 'no' : 'yes',
     ) if !$Access;

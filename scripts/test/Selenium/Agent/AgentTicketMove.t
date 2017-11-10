@@ -216,8 +216,7 @@ $Selenium->RunTest(
         # test bug #11854 ( http://bugs.otrs.org/show_bug.cgi?id=11854 )
         # ACL restriction on queue which is destination queue for 'Spam' menu in AgentTicketZoom
         # get error message
-        my $ErrorMessage
-            = 'We are sorry, you do not have permissions anymore to access this ticket in its current state';
+        my $ErrorMessage = "This ticket does not exist, or you don't have permissions to access it in its current state.";
 
         # click on 'Delete' and check for ACL error message
         $Selenium->find_element("//a[contains(\@title, 'Delete this ticket')]")->VerifiedClick();
