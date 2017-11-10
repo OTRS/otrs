@@ -50,6 +50,17 @@ if ( !-e $ConfigObject->Get('PGP::Bin') ) {
             Value => '/opt/local/bin/gpg'
         );
     }
+    # Try to guess using system 'which'
+    else {    # try to guess
+        my $GPGBin = `which gpg`;
+        chomp $GPGBin;
+        if ($GPGBin) {
+            $ConfigObject->Set(
+                Key   => 'PGP::Bin',
+                Value => $GPGBin,
+            );
+        }
+    }
 }
 
 # create local crypt object
@@ -102,7 +113,7 @@ my %Check = (
     },
 );
 
-my $TestText = 'hello1234567890öäüß';
+my $TestText = 'hello1234567890Ã¤Ã¶Ã¼Ã„Ã–Ãœâ‚¬';
 my $Home     = $ConfigObject->Get('Home');
 
 # delete existing keys to have a cleaned test environment

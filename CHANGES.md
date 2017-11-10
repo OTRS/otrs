@@ -2,6 +2,7 @@
  - 2017-11-09 Fixed bug#[13315](https://bugs.otrs.org/show_bug.cgi?id=13315) - Problem with sending ticket notifications after the migration, because of existing 'NotificationArticleTypeID'.
  - 2017-11-08 Fixed bug#[13300](https://bugs.otrs.org/show_bug.cgi?id=13300) - Problem with the StatsCleanUp functionality during the package upgrade.
  - 2017-11-08 Fixed bug#[13292](https://bugs.otrs.org/show_bug.cgi?id=13292) - Internal Server Error in ticket screens with missing articles in the file system.
+ - 2017-10-25 Fixed bug#[12392](https://bugs.otrs.org/show_bug.cgi?id=12392) - [thirdparty] gnupg 2.1 not working.
 
 #6.0.0.rc1 2017-11-14
  - 2017-11-06 Updated translations, thanks to all translators.

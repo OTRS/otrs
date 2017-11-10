@@ -33,6 +33,30 @@ $Selenium->RunTest(
         # get config object
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+        # check if gpg is located there
+        if ( !-e $ConfigObject->Get('PGP::Bin') ) {
+
+            # maybe it's a mac with macport
+            if ( -e '/opt/local/bin/gpg' ) {
+                $ConfigObject->Set(
+                    Key   => 'PGP::Bin',
+                    Value => '/opt/local/bin/gpg'
+                );
+            }
+
+            # Try to guess using system 'which'
+            else {    # try to guess
+                my $GPGBin = `which gpg`;
+                chomp $GPGBin;
+                if ($GPGBin) {
+                    $ConfigObject->Set(
+                        Key   => 'PGP::Bin',
+                        Value => $GPGBin,
+                    );
+                }
+            }
+        }
+
         # create test PGP path and set it in sysConfig
         my $PGPPath = $ConfigObject->Get('Home') . "/var/tmp/pgp";
         mkpath( [$PGPPath], 0, 0770 );    ## no critic
@@ -45,7 +69,8 @@ $Selenium->RunTest(
 
         # create test user and login
         my $TestUserLogin = $Helper->TestCustomerUserCreate(
-            Groups => ['admin'],
+            Groups   => ['admin'],
+            Language => 'en'
         ) || die "Did not get test user";
 
         $Selenium->Login(
@@ -66,18 +91,23 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserPGPKeyUpdate", 'css' )->VerifiedClick();
 
         # check for update PGP preference key on screen
+        my $Success = 0;
+        if ( $Selenium->get_page_source() =~ /(1024-38677C3B\.pub)/xms ) {
+            $Success = 1 if $1;
+        }
+
         $Self->True(
-            index( $Selenium->get_page_source(), 'imported: 1 gpg' ) > -1,
+            $Success,
             'Customer preference PGP key - updated'
         ) || die "Imported string not found";
 
         # remove test PGP path
-        my $Success = rmtree( [$PGPPath] );
+        $Success = rmtree( [$PGPPath] );
         $Self->True(
             $Success,
             "Directory deleted - '$PGPPath'",
         );
-    }
+        }
 );
 
 1;
