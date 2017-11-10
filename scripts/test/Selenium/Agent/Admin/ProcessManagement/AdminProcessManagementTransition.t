@@ -281,7 +281,7 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('a[href*=\"Subaction=TransitionEdit;ID=$TransitionID\"]').length"
+                "return typeof(\$) === 'function' && \$('a[href*=\"Subaction=TransitionEdit;ID=$TransitionID\"]:visible').length"
         );
 
         # Go to edit test ActivityDialog screen again.
@@ -317,6 +317,8 @@ $Selenium->RunTest(
         $Selenium->close();
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
+
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#ProcessDelete').length" );
 
         # Get process id and return to overview afterwards.
         my $ProcessID = $Selenium->execute_script('return $("#ProcessDelete").data("id")') || undef;
