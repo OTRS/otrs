@@ -1,4 +1,5 @@
 #5.0.24 2017-??-??
+ - 2017-11-10 Fixed bug#[13281](https://bugs.otrs.org/show_bug.cgi?id=13281) - Not possible to add more than 4000 character in ticket notification texts.
  - 2017-11-10 Fixed bug#[12392](https://bugs.otrs.org/show_bug.cgi?id=12392) - [thirdparty] gnupg 2.1 not working.
  - 2017-11-06 Fixed bug#[13206](https://bugs.otrs.org/show_bug.cgi?id=13206) - Dashboard does not detect expired sessions.
  - 2017-11-03 Fixed bug#[11165](https://bugs.otrs.org/show_bug.cgi?id=11165) - Agent list for Owner and Responsible fields in bulk screen is different.

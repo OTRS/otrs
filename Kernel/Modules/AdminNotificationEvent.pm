@@ -129,12 +129,17 @@ sub Run {
                 ContentType => $ContentType,
             };
 
+            my $Check = $NotificationEventObject->NotificationBodyCheck(
+                Content => $Body,
+                UserID  => $Self->{UserID},
+            );
+
             # set server error flag if field is empty
             if ( !$Subject ) {
                 $GetParam{ $LanguageID . '_SubjectServerError' } = "ServerError";
                 $Error = 1;
             }
-            if ( !$Body || length $Body > 4000 ) {
+            if ( !$Body || !$Check ) {
                 $GetParam{ $LanguageID . '_BodyServerError' } = "ServerError";
                 $Error = 1;
             }
@@ -344,12 +349,17 @@ sub Run {
                 ContentType => $ContentType,
             };
 
+            my $Check = $NotificationEventObject->NotificationBodyCheck(
+                Content => $Body,
+                UserID  => $Self->{UserID},
+            );
+
             # set server error flag if field is empty
             if ( !$Subject ) {
                 $GetParam{ $LanguageID . '_SubjectServerError' } = "ServerError";
                 $Error = 1;
             }
-            if ( !$Body || length $Body > 4000 ) {
+            if ( !$Body || !$Check ) {
                 $GetParam{ $LanguageID . '_BodyServerError' } = "ServerError";
                 $Error = 1;
             }
