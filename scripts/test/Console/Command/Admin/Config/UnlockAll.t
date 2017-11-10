@@ -13,7 +13,7 @@ use utf8;
 
 use vars (qw($Self));
 
-my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::SysConifg::UnlockAll');
+my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Config::UnlockAll');
 
 my ( $Result, $ExitCode );
 {
@@ -22,5 +22,11 @@ my ( $Result, $ExitCode );
     $ExitCode = $CommandObject->Execute();
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Result );
 }
+
+$Self->Is(
+    $ExitCode,
+    0,
+    "Successful exit code"
+);
 
 1;

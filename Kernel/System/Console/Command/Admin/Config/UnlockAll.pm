@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::Console::Command::Admin::SysConifg::UnlockAll;
+package Kernel::System::Console::Command::Admin::Config::UnlockAll;
 
 use strict;
 use warnings;
