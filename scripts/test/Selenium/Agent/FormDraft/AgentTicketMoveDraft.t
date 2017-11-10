@@ -118,9 +118,17 @@ $Selenium->RunTest(
 
         # Select FormDraft values.
         for my $Field ( sort keys %{ $FormDraftCase->{Fields} } ) {
+            my $ID    = $FormDraftCase->{Fields}->{$Field}->{ID};
+            my $Value = $FormDraftCase->{Fields}->{$Field}->{Value};
+
             $Selenium->execute_script(
-                "\$('#$FormDraftCase->{Fields}->{$Field}->{ID}').val('$FormDraftCase->{Fields}->{$Field}->{Value}').trigger('redraw.InputField').trigger('change');"
+                "\$('#$ID').val('$Value').trigger('redraw.InputField').trigger('change');"
             );
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('#$ID').val() == '$Value'"
+            );
+            sleep 2;
         }
 
         # Create FormDraft and submit.
@@ -155,14 +163,26 @@ $Selenium->RunTest(
         # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#submitRichText").length;'
+                'return typeof($) === "function" && $("#FormDraftSave").length;'
         );
 
         # Select FormDraft values.
         for my $Field ( sort keys %{ $FormDraftCase->{Fields} } ) {
-            $Selenium->execute_script(
-                "\$('#$FormDraftCase->{Fields}->{$Field}->{ID}').val('$FormDraftCase->{Fields}->{$Field}->{Value}').trigger('redraw.InputField').trigger('change');"
+            my $ID    = $FormDraftCase->{Fields}->{$Field}->{ID};
+            my $Value = $FormDraftCase->{Fields}->{$Field}->{Value};
+
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('#$ID').length"
             );
+            $Selenium->execute_script(
+                "\$('#$ID').val('$Value').trigger('redraw.InputField').trigger('change');"
+            );
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('#$ID').val() == '$Value'"
+            );
+            sleep 2;
         }
 
         # Try to create FormDraft with same name, expecting error.
@@ -185,6 +205,7 @@ $Selenium->RunTest(
 
         # Accept alert.
         $Selenium->accept_alert();
+        sleep 1;
 
         # Close screen and switch back window.
         $Selenium->close();
@@ -227,7 +248,7 @@ $Selenium->RunTest(
         # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#submitRichText").length;'
+                'return typeof($) === "function" && $("#FormDraftUpdate").length;'
         );
 
         # Make sure that draft loaded notification is present.
@@ -248,8 +269,9 @@ $Selenium->RunTest(
         # Verify FormDraft values.
         for my $FieldValue ( sort keys %{ $FormDraftCase->{Fields} } ) {
 
-            my $ID    = $FormDraftCase->{Fields}->{$FieldValue}->{ID};
-            my $Value = $FormDraftCase->{Fields}->{$FieldValue}->{Value};
+            my $ID     = $FormDraftCase->{Fields}->{$FieldValue}->{ID};
+            my $Value  = $FormDraftCase->{Fields}->{$FieldValue}->{Value};
+            my $Update = $FormDraftCase->{Fields}->{$FieldValue}->{Update};
 
             $Self->Is(
                 $Selenium->execute_script("return \$('#$ID').val()"),
@@ -258,8 +280,13 @@ $Selenium->RunTest(
             );
 
             $Selenium->execute_script(
-                "\$('#$ID').val('$FormDraftCase->{Fields}->{$FieldValue}->{Update}').trigger('redraw.InputField').trigger('change');"
+                "\$('#$ID').val('$Update').trigger('redraw.InputField').trigger('change');"
             );
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('#$ID').val() == '$Update'"
+            );
+            sleep 2;
         }
 
         $Selenium->find_element( "#FormDraftUpdate", 'css' )->click();
@@ -270,6 +297,11 @@ $Selenium->RunTest(
 
         # Refresh screen.
         $Selenium->VerifiedRefresh();
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('a[href*=\"Action=AgentTicket$FormDraftCase->{Module};TicketID=$TicketID;LoadFormDraft=1\"]').length"
+        );
 
         # Click on test created FormDraft and switch window.
         $Selenium->find_element(
