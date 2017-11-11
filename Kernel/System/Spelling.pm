@@ -160,6 +160,7 @@ sub Check {
 
     # set dict
     if ( $Param{SpellLanguage} ) {
+
         # Sanitize to avoid tampering - whitelist allowed characters.
         $Param{SpellLanguage} =~ s{[^a-zA-Z0-9_-]}{}smxg;
         $Self->{SpellChecker} .= " -d $Param{SpellLanguage}";
