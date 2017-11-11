@@ -307,6 +307,8 @@ var/processes/examples/Start_RMA_pre.pm
 var/processes/examples/Travel_expense.yml
 var/processes/examples/Travel_expense_post.pm
 var/processes/examples/Travel_expense_pre.pm
+var/processes/examples/Service_*.pm
+var/processes/examples/Service_*.yml
 var/thirdparty/phantomjs
 var/webservices/examples/BugzillaConnector.yml
 var/webservices/examples/BugzillaConnector_post.pm
