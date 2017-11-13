@@ -1,4 +1,7 @@
-#4.0.26 2017-??-??
+#4.0.27 ????-??-??
+
+#4.0.26 2017-11-21
+ - 2017-11-08 Improved handling of spell checker.
  - 2017-11-06 Fixed bug#[13206](https://bugs.otrs.org/show_bug.cgi?id=13206) - Dashboard does not detect expired sessions.
  - 2017-11-03 Fixed bug#[11165](https://bugs.otrs.org/show_bug.cgi?id=11165) - Agent list for Owner and Responsible fields in bulk screen is different.
  - 2017-11-03 Fixed bug#[13130](https://bugs.otrs.org/show_bug.cgi?id=13130) - Broken From-Header in auto response.
