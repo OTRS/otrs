@@ -11,6 +11,8 @@ package Kernel::System::PostMaster::Filter::NewTicketReject;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(:all);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
@@ -53,11 +55,31 @@ sub Run {
     my @Set;
     if ( $Param{JobConfig} && ref $Param{JobConfig} eq 'HASH' ) {
         %Config = %{ $Param{JobConfig} };
-        if ( $Config{Match} ) {
+
+        if ( IsArrayRefWithData( $Config{Match} ) ) {
             @Match = @{ $Config{Match} };
         }
-        if ( $Config{Set} ) {
+        elsif ( IsHashRefWithData( $Config{Match} ) ) {
+
+            for my $Key ( sort keys %{ $Config{Match} } ) {
+                push @Match, {
+                    Key   => $Key,
+                    Value => $Config{Match}->{$Key},
+                };
+            }
+        }
+
+        if ( IsArrayRefWithData( $Config{Set} ) ) {
             @Set = @{ $Config{Set} };
+        }
+        elsif ( IsHashRefWithData( $Config{Set} ) ) {
+
+            for my $Key ( sort keys %{ $Config{Set} } ) {
+                push @Set, {
+                    Key   => $Key,
+                    Value => $Config{Set}->{$Key},
+                };
+            }
         }
     }
 

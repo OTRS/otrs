@@ -11,6 +11,8 @@ package Kernel::System::PostMaster::Filter::CMD;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(:all);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
@@ -40,8 +42,18 @@ sub Run {
     my @Set;
     if ( $Param{JobConfig} && ref( $Param{JobConfig} ) eq 'HASH' ) {
         %Config = %{ $Param{JobConfig} };
-        if ( $Config{Set} ) {
+
+        if ( IsArrayRefWithData( $Config{Set} ) ) {
             @Set = @{ $Config{Set} };
+        }
+        elsif ( IsHashRefWithData( $Config{Set} ) ) {
+
+            for my $Key ( sort keys %{ $Config{Set} } ) {
+                push @Set, {
+                    Key   => $Key,
+                    Value => $Config{Set}->{$Key},
+                };
+            }
         }
     }
 

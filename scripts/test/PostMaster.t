@@ -1303,13 +1303,129 @@ Some Content in Body
             DynamicField_TicketFreeText6 => 'Text6#1',
         },
     },
+    {
+        Name  => '#3 - X-Envelope-To Test with old post master format',
+        Email => 'From: Sender <sender@example.com>
+To: Some Name <recipient@example.com>
+X-Envelope-To: Some XEnvelopeTo Name <xenvelopeto@example.com>
+Subject: some subject
+
+Some Content in Body
+',
+        Match => {
+            'X-Envelope-To' => 'xenvelopeto@example.com'
+        },
+        Set => {
+            'X-OTRS-Queue'        => 'Misc',
+            'X-OTRS-TicketKey6'   => 'Key6#1',
+            'X-OTRS-TicketValue6' => 'Text6#1',
+        },
+        Check => {
+            Queue                        => 'Misc',
+            DynamicField_TicketFreeKey6  => 'Key6#1',
+            DynamicField_TicketFreeText6 => 'Text6#1',
+        },
+        Type => 'Config',
+    },
+    {
+        Name  => '#4 - X-Envelope-To Test with Kernel::System::PostMaster::Filter::NewTicketReject',
+        Email => 'From: Sender <sender@example.com>
+To: Some Name <recipient@example.com>
+X-Envelope-To: Some XEnvelopeTo Name <xenvelopeto@example.com>
+Subject: some subject
+
+Some Content in Body
+',
+        Module => 'Kernel::System::PostMaster::Filter::NewTicketReject',
+        Match  => [
+            {
+                Key   => 'X-Envelope-To',
+                Value => 'xenvelopeto@example.com',
+            }
+        ],
+        Set => [
+            {
+                Key   => 'X-OTRS-Ignore',
+                Value => 'yes',
+            }
+        ],
+        Check => {
+            ReturnCode => 5,
+        },
+        Type => 'Config',
+    },
+    {
+        Name  => '#4 - X-Envelope-To Test with old post format Kernel::System::PostMaster::Filter::NewTicketReject',
+        Email => 'From: Sender <sender@example.com>
+To: Some Name <recipient@example.com>
+X-Envelope-To: Some XEnvelopeTo Name <xenvelopeto@example.com>
+Subject: some subject
+
+Some Content in Body
+',
+        Module => 'Kernel::System::PostMaster::Filter::NewTicketReject',
+        Match  => {
+            'X-Envelope-To' => 'xenvelopeto@example.com'
+        },
+        Set => {
+            'X-OTRS-Ignore' => 'yes',
+        },
+        Check => {
+            ReturnCode => 5,
+        },
+        Type => 'Config',
+    },
+    {
+        Name  => '#5 - X-Envelope-To Test with Kernel::System::PostMaster::Filter::CMD',
+        Email => 'From: Sender <sender@example.com>
+To: Some Name <recipient@example.com>
+X-Envelope-To: Some XEnvelopeTo Name <xenvelopeto@example.com>
+Subject: some subject
+
+Some Content in Body
+',
+        Module => 'Kernel::System::PostMaster::Filter::CMD',
+        CMD    => 'echo "SPAM"',
+        Set    => [
+            {
+                Key   => 'X-OTRS-Ignore',
+                Value => 'yes',
+            }
+        ],
+        Check => {
+            ReturnCode => 5,
+        },
+        Type => 'Config',
+    },
+    {
+        Name  => '#5 - X-Envelope-To Test with old post format Kernel::System::PostMaster::Filter::CMD',
+        Email => 'From: Sender <sender@example.com>
+To: Some Name <recipient@example.com>
+X-Envelope-To: Some XEnvelopeTo Name <xenvelopeto@example.com>
+Subject: some subject
+
+Some Content in Body
+',
+        Module => 'Kernel::System::PostMaster::Filter::CMD',
+        CMD    => 'echo "SPAM"',
+        Set    => {
+            'X-OTRS-Ignore' => 'yes',
+        },
+        Check => {
+            ReturnCode => 5,
+        },
+        Type => 'Config',
+    },
 );
 
 $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::PostMaster::Filter'] );
 $PostMasterFilter = $Kernel::OM->Get('Kernel::System::PostMaster::Filter');
 
 for my $Test (@Tests) {
+
+    TYPE:
     for my $Type (qw(Config DB)) {
+        next TYPE if $Test->{Type} && $Test->{Type} ne $Type;
 
         if ( $Type eq 'DB' ) {
             $PostMasterFilter->FilterAdd(
@@ -1322,8 +1438,8 @@ for my $Test (@Tests) {
             $ConfigObject->Set(
                 Key   => 'PostMaster::PreFilterModule###' . $Test->{Name},
                 Value => {
-                    %{$Test},
                     Module => 'Kernel::System::PostMaster::Filter::Match',
+                    %{$Test},
                 },
             );
         }
@@ -1339,44 +1455,53 @@ for my $Test (@Tests) {
         }
         $Self->Is(
             $Return[0] || 0,
-            1,
-            "#Filter $Type Run() - NewTicket",
-        );
-        $Self->True(
-            $Return[1] || 0,
-            "#Filter $Type Run() - NewTicket/TicketID",
+            $Test->{Check}->{ReturnCode} || 1,
+            "#Filter $Type Run('$Test->{Name}') - NewTicket",
         );
 
-        # new/clear ticket object
-        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-        my %Ticket = $TicketObject->TicketGet(
-            TicketID      => $Return[1],
-            DynamicFields => 1,
+        my %LookupRejectReturnCode = (
+            4 => 1,    # follow up / close -> reject
+            5 => 1,    # ignored (because of X-OTRS-Ignore header)
         );
 
-        TEST:
-        for my $TestCheck ($Test) {
-            next TEST if !$TestCheck->{Check};
-            for my $Key ( sort keys %{ $TestCheck->{Check} } ) {
-                $Self->Is(
-                    $Ticket{$Key},
-                    $TestCheck->{Check}->{$Key},
-                    "#Filter $Type Run('$TestCheck->{Name}') - $Key",
-                );
+        if ( !$Test->{Check}->{ReturnCode} || !$LookupRejectReturnCode{ $Test->{Check}->{ReturnCode} } ) {
+
+            $Self->True(
+                $Return[1] || 0,
+                "#Filter $Type Run('$Test->{Name}') - NewTicket/TicketID",
+            );
+
+            # new/clear ticket object
+            $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+            my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+            my %Ticket = $TicketObject->TicketGet(
+                TicketID      => $Return[1],
+                DynamicFields => 1,
+            );
+
+            TEST:
+            for my $TestCheck ($Test) {
+                next TEST if !$TestCheck->{Check};
+                for my $Key ( sort keys %{ $TestCheck->{Check} } ) {
+                    $Self->Is(
+                        $Ticket{$Key},
+                        $TestCheck->{Check}->{$Key},
+                        "#Filter $Type Run('$TestCheck->{Name}') - $Key",
+                    );
+                }
             }
-        }
 
-        # delete ticket
-        my $Delete = $TicketObject->TicketDelete(
-            TicketID => $Return[1],
-            UserID   => 1,
-        );
-        $Self->True(
-            $Delete || 0,
-            "#Filter $Type TicketDelete()",
-        );
+            # delete ticket
+            my $Delete = $TicketObject->TicketDelete(
+                TicketID => $Return[1],
+                UserID   => 1,
+            );
+            $Self->True(
+                $Delete || 0,
+                "#Filter $Type TicketDelete()",
+            );
+        }
 
         # remove filter
         for my $Test (@Tests) {
