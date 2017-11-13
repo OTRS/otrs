@@ -215,12 +215,15 @@ $Selenium->RunTest(
 
         # Wait for AJAX to finish.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
+        $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
         # Click on an appointment.
-        $Selenium->find_element( '.fc-timeline-event', 'css' )->VerifiedClick();
+        $Selenium->find_element( '.fc-timeline-event', 'css' )->click();
 
         # Wait until form and overlay has loaded, if necessary.
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('.Dialog').length && \$('#StartHour').length"
+        );
 
         # Check start hour.
         my $StartHourTZ = $Selenium->find_element( 'StartHour', 'name' )->get_value();
