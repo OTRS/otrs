@@ -94,7 +94,7 @@
                     <input type="hidden" name="EditUserID" value="[% Data.EditUserID | html %]"/>
                     <input type="hidden" name="Group" value="[% Data.Group | html %]"/>
 
-                    <div class="WidgetSimple [% IF Data.Block == 'Avatar' && Config("Frontend::AvatarEngine") != 'Local' %]ReadOnly[% ELSE %]IsLockedByMe[% END %] Setting PreferenceClassic">
+                    <div class="WidgetSimple [% IF Data.Block == 'Avatar' && Config("Frontend::AvatarEngine") != 'Local' %]ReadOnly[% END %] IsLockedByMe Setting PreferenceClassic">
                         <div class="Header"><h2><label for="[% Data.PrefKey | html %]">[% Translate(Data.Label) | html %]</label></h2></div>
                         <div class="Content">
                             <div class="SettingWrapper">
@@ -139,7 +139,7 @@
                                     </div>
                                     <div class="Clear"></div>
                                 [% ELSIF Data.AvatarEngine == 'Gravatar' %]
-                                    <div class="Field PreferenceAvatar">
+                                    <div class="Field NoMargin PreferenceAvatar">
                                         <a href="https://www.gravatar.com" target="_blank"><img src="[% Data.Avatar %]" /></a>
                                         [%
                                             SET GravatarLink  = '<a href="https://www.gravatar.com" target="_blank"><i class="fa fa-external-link"></i> gravatar.com</a>';
