@@ -482,7 +482,7 @@ $Selenium->RunTest(
         ) || die;
 
         # select all links
-        $Selenium->find_element( ".Tabs div.Active .SelectAll", "css" )->VerifiedClick();
+        $Selenium->find_element( ".Tabs div.Active .SelectAll", "css" )->click();
 
         # make sure it's selected
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SelectAllLinks0:checked").length' );
@@ -491,7 +491,7 @@ $Selenium->RunTest(
         $Selenium->find_element( ".Tabs div.Active .CallForAction", "css" )->VerifiedClick();
 
         # switch to add links tab
-        $Selenium->find_element("//a[contains(\@href, \'#AddNewLinks' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'#AddNewLinks' )]")->click();
 
         # wait for the add new links tab to show up
         $Selenium->WaitFor(
