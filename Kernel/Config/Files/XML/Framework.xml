@@ -12752,15 +12752,6 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Array>
-                <DefaultItem>
-                    <Hash>
-                        <Item Key="Key"></Item>
-                        <Item Key="Name"></Item>
-                        <Item Key="Description"></Item>
-                        <Item Key="Icon"></Item>
-                        <Item Key="Prio"></Item>
-                    </Hash>
-                </DefaultItem>
                 <Item>
                     <Hash>
                         <Item Key="Key">UserProfile</Item>
