@@ -22,6 +22,13 @@ $Selenium->RunTest(
         my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
         my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
 
+        # Do not check RichText.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Frontend::RichText',
+            Value => 0,
+        );
+
         # Create test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
@@ -144,16 +151,8 @@ $Selenium->RunTest(
             "'Main-Test1.txt' - uploaded"
         );
 
-        # Delete the attachment.
-        $Selenium->execute_script(
-            "\$('.AttachmentList tbody tr:contains(Main-Test1.txt)').find('a.AttachmentDelete').trigger('click')"
-        );
-
-        # Wait until attachment is deleted.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && !$(".AttachmentList tbody tr:contains(Main-Test1.txt)").length'
-        );
+        $Selenium->find_element( "#Subject",  'css' )->send_keys('Test');
+        $Selenium->find_element( "#RichText", 'css' )->send_keys('Test');
 
         # Submit.
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
@@ -161,7 +160,6 @@ $Selenium->RunTest(
             JavaScript =>
                 'return typeof($) === "function" && $(".TicketZoom").length;'
         );
-        sleep 2;
 
         my $Url = $Selenium->get_current_url();
 
