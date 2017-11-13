@@ -452,7 +452,7 @@ $Selenium->RunTest(
         # Click on Delete.
         $Selenium->find_element( '#EditFormDelete', 'css' )->click();
 
-        # Accept alert.
+        $Selenium->WaitFor( AlertPresent => 1 );
         $Selenium->accept_alert();
 
         # Wait for dialog to close and AJAX to finish.
