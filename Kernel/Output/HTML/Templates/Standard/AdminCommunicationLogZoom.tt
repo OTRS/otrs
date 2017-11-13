@@ -7,7 +7,7 @@
 # --
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>
+    <h1 class="InvisibleText">
         [% Translate("Communication Log") | html %] &ndash;
         [% Data.CommunicationLog.StartTime = Data.CommunicationLog.StartTime | Localize("TimeLong") %]
         [% Translate("Detail view for %s communication started at %s", Data.CommunicationLog.Direction.lower, Data.CommunicationLog.StartTime) | html %]
@@ -19,7 +19,7 @@
                 Link => Env("Action"),
             },
             {
-                Name => Translate('Detail View'),
+                Name => Translate("Detail view for %s communication started at %s", Data.CommunicationLog.Direction.lower, Data.CommunicationLog.StartTime),
             },
         ]
     %]
