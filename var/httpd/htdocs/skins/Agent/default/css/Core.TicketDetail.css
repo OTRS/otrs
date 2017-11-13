@@ -353,8 +353,19 @@ div.Headline .Flag {
     border-right-color: transparent;
 }
 
-.Incoming .ArticleBody:before {
+.Incoming .ArticleBody:before,
+.Incoming .ArticleHTML:before {
     right: -20px;
+}
+
+.Outgoing .ArticleBody:before,
+.Outgoing .ArticleHTML:before {
+    left: -20px;
+}
+
+.Outgoing .ArticleBody:after,
+.Outgoing .ArticleHTML:after {
+    left: -26px;
 }
 
 .Incoming.NotVisibleForCustomer .ArticleMailContentHTMLWrapper:after,
