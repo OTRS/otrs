@@ -487,4 +487,22 @@ sub ForbiddenValueTypes {
     return ();
 }
 
+=head2 AddSettingContent()
+
+Checks if a div with class 'SettingContent' should be added when adding new item to an array/hash in some special cases.
+
+    my $AddSettingContent = $ValueTypeObject->AddSettingContent();
+
+Returns:
+
+    my $AddSettingContent = 1;
+
+=cut
+
+sub AddSettingContent {
+    my ( $Self, %Param ) = @_;
+
+    return 1;
+}
+
 1;

@@ -296,7 +296,8 @@ var Core = Core || {};
             ValidationError,
             IsValid,
             UserModificationActive,
-            Item;
+            Item,
+            $InvalidElement;
 
         // if there are still hash items within the current Widget
         // for which a key field has been added but no value has been
@@ -330,11 +331,15 @@ var Core = Core || {};
 
             // run element validation
             if (!Core.Form.Validate.ValidateElement($(this))) {
+
+                // Highlight error
                 ValidationError = 1;
-                Core.Form.Validate.HighlightError($(this), "Error");
+                Core.Form.Validate.HighlightError(this, "Error");
                 $(this).on("change", function() {
-                    Core.Form.Validate.UnHighlightError($(this));
+                    Core.Form.Validate.UnHighlightError(this);
                 });
+
+                // Continue, check for other errors as well.
                 return;
             }
 
@@ -407,6 +412,13 @@ var Core = Core || {};
         });
 
         if (ValidationError) {
+            $InvalidElement = $Widget.find('.Error:first');
+
+            $('html, body').animate({scrollTop: $InvalidElement.offset().top -100 }, 'slow');
+
+            // Focus first error element.
+            $InvalidElement.focus();
+
             return;
         }
 

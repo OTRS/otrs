@@ -384,14 +384,23 @@ sub SettingAddItem {
             "Kernel::System::SysConfig::ValueType::$ValueType",
         );
 
-        $Result{Item} = "<div class='SettingContent'>\n";
+        # Check if ValueType should add SettingContent.
+        my $AddSettingContent = $BackendObject->AddSettingContent();
+
+        if ($AddSettingContent) {
+            $Result{Item} = "<div class='SettingContent'>\n";
+        }
+
         $Result{Item} .= $BackendObject->AddItem(
             Name        => $Setting{Name},
             DefaultItem => $DefaultItem,
             IDSuffix    => $Param{IDSuffix},
             UserID      => $Param{UserID},
         );
-        $Result{Item} .= '</div>';
+
+        if ($AddSettingContent) {
+            $Result{Item} .= '</div>';
+        }
     }
     else {
         $Result{Item} //= '';

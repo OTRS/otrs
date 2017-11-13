@@ -67,6 +67,18 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Frontend::Navigation###AdminCloudServiceSupportDataCollector###002-CloudServices" Required="0" Valid="0">
+        <Description Translatable="1">Main menu item registration.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="FrontendNavigation">
+                    <Hash>
+                    </Hash>
+                </DefaultItem>
+            </Array>
+        </Value>
+    </Setting>
     <!-- SMS -->
     <Setting Name="CloudService::Admin::Module###200-SMS" Required="0" Valid="1">
         <Description Translatable="1">Cloud service admin module registration for the transport layer.</Description>

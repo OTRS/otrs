@@ -1745,21 +1745,23 @@ via the Preferences button after logging in.
             'Core.Agent.TableFilters.js',
         ],
     };
-    $Self->{'Frontend::Navigation'}->{Admin}->{1} = {
-        Group       => [
-            'admin',
-        ],
-        GroupRo     => [],
-        AccessKey   => 'a',
-        Block       => 'ItemArea',
-        Description => '',
-        Link        => 'Action=Admin',
-        LinkOption  => '',
-        Name        => 'Admin',
-        NavBar      => 'Admin',
-        Prio        => '10000',
-        Type        => 'Menu',
-    };
+    $Self->{'Frontend::Navigation'}->{Admin}->{'001-Framework'} = [
+        {
+            Group       => [
+                'admin',
+            ],
+            GroupRo     => [],
+            AccessKey   => 'a',
+            Block       => 'ItemArea',
+            Description => '',
+            Link        => 'Action=Admin',
+            LinkOption  => '',
+            Name        => 'Admin',
+            NavBar      => 'Admin',
+            Prio        => '10000',
+            Type        => 'Menu',
+        },
+    ];
     $Self->{'Frontend::NavigationModule'}->{Admin} = {
         Group       => [
             'admin',

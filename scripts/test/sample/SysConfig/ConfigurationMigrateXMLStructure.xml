@@ -402,6 +402,30 @@ Description
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Module###ModuleNameWithoutNavigation" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>ModuleName Without Navigation</Description>
+                <Title>ModuleNameWithoutNavigation</Title>
+                <NavBarName>Customers</NavBarName>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerFrontend::Module###CustomerModuleNameWithoutNavigation" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Customer ModuleName Without Navigation</Description>
+                <Title>CustomerModuleNameWithoutNavigation</Title>
+                <NavBarName></NavBarName>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Test25" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Convert option with Location attribute.</Description>
         <Group>TestGroup</Group>

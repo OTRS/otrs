@@ -1489,7 +1489,7 @@ sub SettingEffectiveValueCheck {
     if ( $Value->[0]->{Item} || $Value->[0]->{ValueType} ) {
 
         # get ValueType from parent or use default
-        my $ValueType = $Parameters{ValueType} || 'String';
+        my $ValueType = $Parameters{ValueType} || $Value->[0]->{ValueType} || 'String';
 
         # ValueType is defined explicitly(override parent definition)
         if (

@@ -35,9 +35,9 @@ sub Run {
     # check if the registration config is valid
     return if !IsHashRefWithData($FrontendModuleConfig);
     return if !IsHashRefWithData($FrontendNavigationConfig);
-    return if !IsHashRefWithData( $FrontendNavigationConfig->{1} );
+    return if !IsArrayRefWithData( $FrontendNavigationConfig->{'001-Framework'} );
 
-    my $NameForID = $FrontendNavigationConfig->{1}->{Name};
+    my $NameForID = $FrontendNavigationConfig->{'001-Framework'}->[0]->{Name};
     $NameForID =~ s/[ &;]//ig;
 
     # check if the module name is valid

@@ -177,6 +177,19 @@ $Self->{'Frontend::Module'}->{'AdminDynamicField'} =  {
       'Core.Agent.Admin.DynamicField.js'
     ]
   },
+  'NavBar' => [
+    {
+      'AccessKey' => '',
+      'Block' => 'ItemArea',
+      'Description' => 'Changed the dynamic field.',
+      'Link' => 'Action=AdminDynamicField;Nav=Agent',
+      'LinkOption' => '',
+      'Name' => 'Dynamic Field Administration',
+      'NavBar' => 'Ticket',
+      'Prio' => '9000',
+      'Type' => ''
+    }
+  ],
   'NavBarModule' => {
     'Block' => 'Ticket',
     'Description' => 'Create and manage dynamic fields (other description).',
@@ -186,6 +199,58 @@ $Self->{'Frontend::Module'}->{'AdminDynamicField'} =  {
   },
   'NavBarName' => 'Admin',
   'Title' => 'Dynamic Fields GUI'
+};
+# frontend module with disabled nav bar item
+$Self->{'Frontend::Module'}->{'AgentTicketEscalationView'} =  {
+  'Description' => 'Overview of all escalated tickets.',
+  'Loader' => {
+    'CSS' => [
+      'Core.AllocationList.css'
+    ],
+    'JavaScript' => [
+      'Core.UI.AllocationList.js',
+      'Core.Agent.TableFilters.js'
+    ]
+  },
+  'NavBar' => [],
+  'NavBarName' => 'Ticket',
+  'Title' => 'Escalation view'
+};
+# frontend module with already changed nav bar module
+$Self->{'Frontend::Module'}->{'AdminCustomerUser'} =  {
+  'Description' => 'Edit Customer Users.',
+  'Group' => [
+    'admin',
+    'users'
+  ],
+  'GroupRo' => [],
+  'Loader' => {
+    'JavaScript' => [
+      'Core.Agent.TicketAction.js'
+    ]
+  },
+  'NavBar' => [
+    {
+      'AccessKey' => '',
+      'Block' => 'ItemArea',
+      'Description' => 'Changed the description.',
+      'Link' => 'Action=AdminCustomerUser;Nav=Agent',
+      'LinkOption' => '',
+      'Name' => 'Customer User Administration',
+      'NavBar' => 'Customers',
+      'Prio' => '9000',
+      'Type' => ''
+    }
+  ],
+  'NavBarModule' => {
+    'Block' => 'Customer',
+    'Description' => 'Create and manage customer users.',
+    'Module' => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
+    'Name' => 'Customer User',
+    'Prio' => '300'
+  },
+  'NavBarName' => 'Customers',
+  'Title' => 'Customer Users'
 };
 # yes/no
 $Self->{'Ticket::Frontend::ZoomRichTextForce'} =  '1';

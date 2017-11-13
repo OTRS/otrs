@@ -30,12 +30,12 @@ $Selenium->RunTest(
             },
             {
                 Key           => 'Action',
-                ExpectedValue => 'AgentHTMLReference',
+                ExpectedValue => 'AgentTicketPhone',
                 Environment   => 1,
             },
             {
                 Key           => 'Subaction',
-                ExpectedValue => 'Overview',
+                ExpectedValue => undef,
                 Environment   => 1,
             },
             {
@@ -113,7 +113,7 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # go to some dummy page
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentHTMLReference;Subaction=Overview");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketPhone");
 
         for my $Test (@Tests) {
 

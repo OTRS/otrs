@@ -46,6 +46,18 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Frontend::Navigation###AdminProcessManagement###002-ProcessManagement" Required="0" Valid="0">
+        <Description Translatable="1">Main menu item registration.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="FrontendNavigation">
+                    <Hash>
+                    </Hash>
+                </DefaultItem>
+            </Array>
+        </Value>
+    </Setting>
     <Setting Name="Frontend::NavigationModule###AdminProcessManagement" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
@@ -328,29 +340,37 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::Navigation###AgentTicketProcess###1" Required="0" Valid="1">
-        <Description Translatable="1">Main menu for the agent interface.</Description>
+    <Setting Name="Frontend::Navigation###AgentTicketProcess###002-ProcessManagement" Required="0" Valid="1">
+        <Description Translatable="1">Main menu item registration.</Description>
         <Navigation>Frontend::Agent::ModuleRegistration::MainMenu</Navigation>
         <Value>
-            <Hash>
-                <Item Key="Group">
-                    <Array>
-                    </Array>
+            <Array>
+                <DefaultItem ValueType="FrontendNavigation">
+                    <Hash>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="Group">
+                            <Array>
+                            </Array>
+                        </Item>
+                        <Item Key="GroupRo">
+                            <Array>
+                            </Array>
+                        </Item>
+                        <Item Key="Description" Translatable="1">Create New process ticket.</Item>
+                        <Item Key="Name" Translatable="1">New process ticket</Item>
+                        <Item Key="Link">Action=AgentTicketProcess</Item>
+                        <Item Key="LinkOption"></Item>
+                        <Item Key="NavBar">Ticket</Item>
+                        <Item Key="Type"></Item>
+                        <Item Key="Block"></Item>
+                        <Item Key="AccessKey">p</Item>
+                        <Item Key="Prio">220</Item>
+                    </Hash>
                 </Item>
-                <Item Key="GroupRo">
-                    <Array>
-                    </Array>
-                </Item>
-                <Item Key="Description" Translatable="1">Create New process ticket.</Item>
-                <Item Key="Name" Translatable="1">New process ticket</Item>
-                <Item Key="Link">Action=AgentTicketProcess</Item>
-                <Item Key="LinkOption"></Item>
-                <Item Key="NavBar">Ticket</Item>
-                <Item Key="Type"></Item>
-                <Item Key="Block"></Item>
-                <Item Key="AccessKey">p</Item>
-                <Item Key="Prio">220</Item>
-            </Hash>
+            </Array>
         </Value>
     </Setting>
     <Setting Name="Ticket::EventModulePost###9800-TicketProcessTransitions" Required="0" Valid="1">
@@ -493,29 +513,37 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="CustomerFrontend::Navigation###CustomerTicketProcess###1" Required="0" Valid="1">
-        <Description Translatable="1">Main menu for the agent interface.</Description>
+    <Setting Name="CustomerFrontend::Navigation###CustomerTicketProcess###002-ProcessManagement" Required="0" Valid="1">
+        <Description Translatable="1">Main menu item registration.</Description>
         <Navigation>Frontend::Customer::ModuleRegistration::MainMenu</Navigation>
         <Value>
-            <Hash>
-                <Item Key="Group">
-                    <Array>
-                    </Array>
+            <Array>
+                <DefaultItem ValueType="FrontendNavigation">
+                    <Hash>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="Group">
+                            <Array>
+                            </Array>
+                        </Item>
+                        <Item Key="GroupRo">
+                            <Array>
+                            </Array>
+                        </Item>
+                        <Item Key="Description" Translatable="1">Create new process ticket.</Item>
+                        <Item Key="Name" Translatable="1">New process ticket</Item>
+                        <Item Key="Link">Action=CustomerTicketProcess</Item>
+                        <Item Key="LinkOption"></Item>
+                        <Item Key="NavBar">Ticket</Item>
+                        <Item Key="Type">Submenu</Item>
+                        <Item Key="Block"></Item>
+                        <Item Key="AccessKey">o</Item>
+                        <Item Key="Prio">220</Item>
+                    </Hash>
                 </Item>
-                <Item Key="GroupRo">
-                    <Array>
-                    </Array>
-                </Item>
-                <Item Key="Description" Translatable="1">Create new process ticket.</Item>
-                <Item Key="Name" Translatable="1">New process ticket</Item>
-                <Item Key="Link">Action=CustomerTicketProcess</Item>
-                <Item Key="LinkOption"></Item>
-                <Item Key="NavBar">Ticket</Item>
-                <Item Key="Type">Submenu</Item>
-                <Item Key="Block"></Item>
-                <Item Key="AccessKey">o</Item>
-                <Item Key="Prio">220</Item>
-            </Hash>
+            </Array>
         </Value>
     </Setting>
     <Setting Name="CustomerFrontend::NavBarModule###10-CustomerTicketProcesses" Required="0" Valid="1">

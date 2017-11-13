@@ -1127,50 +1127,72 @@ sub Run {
 
         # module permission check for submenu item
         if ( IsHashRefWithData($NavigationConfig) ) {
-            LINKCHECK:
-            for my $Key ( %{$NavigationConfig} ) {
-                next LINKCHECK if $Key !~ m/^\d+$/i;
-                next LINKCHECK if $Param{RequestedURL} !~ m/Subaction/i;
-                if (
-                    $NavigationConfig->{$Key}->{Link} =~ m/Subaction=/i
-                    && $NavigationConfig->{$Key}->{Link} !~ m/$Param{Subaction}/i
-                    )
-                {
-                    next LINKCHECK;
-                }
-                $Param{AccessRo} = 0;
-                $Param{AccessRw} = 0;
 
-                # module permission check for submenu item
-                if (
-                    ref $NavigationConfig->{$Key}->{GroupRo} eq 'ARRAY'
-                    && !scalar @{ $NavigationConfig->{$Key}->{GroupRo} }
-                    && ref $NavigationConfig->{$Key}->{Group} eq 'ARRAY'
-                    && !scalar @{ $NavigationConfig->{$Key}->{Group} }
-                    )
-                {
-                    $Param{AccessRo} = 1;
-                    $Param{AccessRw} = 1;
+            KEY:
+            for my $Key ( sort keys %{$NavigationConfig} ) {
+                next KEY if $Key !~ m/^\d+/i;
+                next KEY if $Param{RequestedURL} !~ m/Subaction/i;
+
+                my @ModuleNavigationConfigs;
+
+                # FIXME: Support both old (HASH) and new (ARRAY of HASH) navigation configurations, for reasons of
+                #   backwards compatibility. Once we are sure everything has been migrated correctly, support for
+                #   HASH-only configuration can be dropped in future major release.
+                if ( IsHashRefWithData( $NavigationConfig->{$Key} ) ) {
+                    push @ModuleNavigationConfigs, $NavigationConfig->{$Key};
                 }
+                elsif ( IsArrayRefWithData( $NavigationConfig->{$Key} ) ) {
+                    push @ModuleNavigationConfigs, @{ $NavigationConfig->{$Key} };
+                }
+
+                # Skip incompatible configuration.
                 else {
+                    next KEY;
+                }
 
-                    ( $Param{AccessRo}, $Param{AccessRw} ) = $Self->_CheckModulePermission(
-                        ModuleReg => $NavigationConfig->{$Key},
-                        %UserData,
-                    );
+                ITEM:
+                for my $Item (@ModuleNavigationConfigs) {
+                    if (
+                        $Item->{Link} =~ m/Subaction=/i
+                        && $Item->{Link} !~ m/$Param{Subaction}/i
+                        )
+                    {
+                        next ITEM;
+                    }
+                    $Param{AccessRo} = 0;
+                    $Param{AccessRw} = 0;
 
-                    if ( !$Param{AccessRo} ) {
+                    # module permission check for submenu item
+                    if (
+                        ref $Item->{GroupRo} eq 'ARRAY'
+                        && !scalar @{ $Item->{GroupRo} }
+                        && ref $Item->{Group} eq 'ARRAY'
+                        && !scalar @{ $Item->{Group} }
+                        )
+                    {
+                        $Param{AccessRo} = 1;
+                        $Param{AccessRw} = 1;
+                    }
+                    else {
 
-                        # new layout object
-                        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-                        $Kernel::OM->Get('Kernel::System::Log')->Log(
-                            Priority => 'error',
-                            Message  => 'No Permission to use this frontend subaction module!'
+                        ( $Param{AccessRo}, $Param{AccessRw} ) = $Self->_CheckModulePermission(
+                            ModuleReg => $Item,
+                            %UserData,
                         );
-                        $LayoutObject->CustomerFatalError(
-                            Comment => Translatable('Please contact the administrator.')
-                        );
-                        return;
+
+                        if ( !$Param{AccessRo} ) {
+
+                            # new layout object
+                            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+                            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                                Priority => 'error',
+                                Message  => 'No Permission to use this frontend subaction module!'
+                            );
+                            $LayoutObject->CustomerFatalError(
+                                Comment => Translatable('Please contact the administrator.')
+                            );
+                            return;
+                        }
                     }
                 }
             }

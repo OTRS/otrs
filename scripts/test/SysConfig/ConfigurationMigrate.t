@@ -15,6 +15,8 @@ use vars (qw($Self));
 
 use Kernel::Config;
 
+use Kernel::System::VariableCheck qw(:all);
+
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase => 1,
@@ -68,6 +70,20 @@ my $PreModifiedSettings = [
         Name           => 'ProductName',
         EffectiveValue => 'UnitTestModified',
     },
+    {
+        Name           => 'Frontend::NavigationModule###AdminCustomerUser',
+        EffectiveValue => {
+            'Name'        => 'Customer User',
+            'Description' => 'Create and manage customer users (changed).',
+            'Group'       => [
+                'admin',
+                'users',
+            ],
+            'Block'  => 'Customer',
+            'Module' => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
+            'Prio'   => '300',
+        },
+    },
 ];
 
 my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
@@ -95,11 +111,21 @@ for my $Settings ( @{$PreModifiedSettings} ) {
     my %Setting = $SysConfigObject->SettingGet(
         Name => $Settings->{Name},
     );
-    $Self->Is(
-        $Setting{EffectiveValue},
-        $Settings->{EffectiveValue},
-        'Test Setting ' . $Setting{Name} . ' was modified.',
-    );
+
+    if ( IsArrayRefWithData( $Settings->{EffectiveValue} ) || IsHashRefWithData( $Settings->{EffectiveValue} ) ) {
+        $Self->IsDeeply(
+            $Setting{EffectiveValue},
+            $Settings->{EffectiveValue},
+            'Test Setting ' . $Setting{Name} . ' was modified.',
+        );
+    }
+    else {
+        $Self->Is(
+            $Setting{EffectiveValue},
+            $Settings->{EffectiveValue},
+            'Test Setting ' . $Setting{Name} . ' was modified.',
+        );
+    }
 }
 
 # migrate package setting
@@ -251,6 +277,11 @@ my @Tests = (
         Key      => 'Ticket::Frontend::AgentTicketSearch###Defaults###Fulltext',
     },
     {
+        TestType => 'Disabled',
+        Name     => 'Disabled nav bar item setting',
+        Key      => 'Frontend::Navigation###AgentTicketEscalationView###002-Ticket',
+    },
+    {
         TestType       => 'EffectiveValue',
         Name           => 'Effective Value',
         Key            => 'Frontend::NavigationModule###AdminDynamicField',
@@ -268,6 +299,53 @@ my @Tests = (
             'Name'      => 'Dynamic Fields',
             'Prio'      => '1000',
         },
+    },
+    {
+        TestType       => 'EffectiveValue',
+        Name           => 'Effective Value',
+        Key            => 'Frontend::Navigation###AdminDynamicField###002-Ticket',
+        EffectiveValue => [
+            {
+                'AccessKey' => '',
+                'Group'     => [
+                    'admin',
+                    'users',
+                ],
+                'GroupRo'     => [],
+                'AccessKey'   => '',
+                'Block'       => 'ItemArea',
+                'Description' => 'Changed the dynamic field.',
+                'Link'        => 'Action=AdminDynamicField;Nav=Agent',
+                'LinkOption'  => '',
+                'Name'        => 'Dynamic Field Administration',
+                'NavBar'      => 'Ticket',
+                'Prio'        => '9000',
+                'Type'        => ''
+            },
+        ],
+    },
+    {
+        TestType       => 'EffectiveValue',
+        Name           => 'Effective Value',
+        Key            => 'Frontend::Navigation###AdminCustomerUser###001-Framework',
+        EffectiveValue => [
+            {
+                'AccessKey' => '',
+                'Group'     => [
+                    'admin',
+                    'users',
+                ],
+                'GroupRo'     => [],
+                'Block'       => 'ItemArea',
+                'Description' => 'Changed the description.',
+                'Link'        => 'Action=AdminCustomerUser;Nav=Agent',
+                'LinkOption'  => '',
+                'Name'        => 'Customer User Administration',
+                'NavBar'      => 'Customers',
+                'Prio'        => '9000',
+                'Type'        => ''
+            },
+        ],
     },
 
     # There are other renamed settings, this are included AllSetings,

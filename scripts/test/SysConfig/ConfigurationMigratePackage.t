@@ -24,15 +24,17 @@ $Kernel::OM->ObjectParamAdd(
 );
 
 # get needed objects
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
+my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->{Home};
 
-my $TestFile        = 'ZZZAutoOTRS5.pm';
-my $TestPath        = $Home . '/scripts/test/sample/SysConfig/Migration/Package/';
-my $TestLocation    = $TestPath . $TestFile;
-my $OTRS5ConfigFile = "$Home/Kernel/Config/Backups/ZZZAutoOTRS5.pm";
+my $TestFile             = 'ZZZAutoOTRS5.pm';
+my $TestPath             = $Home . '/scripts/test/sample/SysConfig/Migration/Package/';
+my $TestLocation         = $TestPath . $TestFile;
+my $OTRS5ConfigFileClass = "Kernel::Config::Backups::ZZZAutoOTRS5";
+my $OTRS5ConfigFile      = "$Home/Kernel/Config/Backups/ZZZAutoOTRS5.pm";
 
 # create backups directory if not existing
 if ( !-d "$Home/Kernel/Config/Backups" ) {
@@ -86,6 +88,30 @@ if ( !-e $Home . '/ARCHIVE' ) {
         $ArchiveFileCreated = 1;
     }
 }
+
+# First simulate a migration for the system and after that the package upgrade.
+my $Success = $Kernel::OM->Get('Kernel::System::SysConfig::Migration')->MigrateConfigEffectiveValues(
+    FileClass                    => $OTRS5ConfigFileClass,
+    FilePath                     => $OTRS5ConfigFile,
+    ReturnMigratedSettingsCounts => 1,
+);
+
+$Self->True(
+    $Success,
+    "Config was successfully migrated from otrs5 to 6."
+);
+
+# RebuildConfig
+my $Rebuild = $SysConfigObject->ConfigurationDeploy(
+    Comments => "UnitTest Configuration Rebuild",
+    Force    => 1,
+    UserID   => 1,
+);
+
+$Self->True(
+    $Rebuild,
+    "Setting Deploy was successfull."
+);
 
 # build a 5.0.1 version of the test package
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Package::Build');
@@ -164,44 +190,137 @@ my @Tests = (
         },
     },
     {
-        Name           => 'Frontend::Navigation###AgentTicketQueue###1',
-        EffectiveValue => {
-            'AccessKey'   => 'o',
-            'Block'       => '',
-            'Description' => 'Overview of all open Tickets. Migrated.',
-            'Group'       => [
-                'admin',
-            ],
-            'GroupRo'    => [],
-            'Link'       => 'Action=AgentTicketQueue',
-            'LinkOption' => '',
-            'Name'       => 'Queue view',
-            'NavBar'     => 'Ticket',
-            'Prio'       => '100',
-            'Type'       => '',
-        },
+        Name           => 'Frontend::Navigation###AgentTicketQueue###002-Ticket',
+        EffectiveValue => [
+            {
+                'AccessKey'   => 'o',
+                'Block'       => '',
+                'Description' => 'Overview of all open Tickets. Migrated.',
+                'Group'       => [
+                    'admin',
+                ],
+                'GroupRo'    => [],
+                'Link'       => 'Action=AgentTicketQueue',
+                'LinkOption' => '',
+                'Name'       => 'Queue view',
+                'NavBar'     => 'Ticket',
+                'Prio'       => '100',
+                'Type'       => '',
+            },
+            {
+                'AccessKey'   => 't',
+                'Block'       => 'ItemArea',
+                'Description' => 'Test Migrated',
+                'Group'       => [
+                    'admin',
+                ],
+                'GroupRo'    => [],
+                'Link'       => 'Action=AgentTicketQueue',
+                'LinkOption' => '',
+                'Name'       => 'Tickets',
+                'NavBar'     => 'Ticket',
+                'Prio'       => '200',
+                'Type'       => 'Menu',
+            },
+        ],
     },
     {
-        Name           => 'Frontend::Navigation###AgentTicketQueue###2',
-        EffectiveValue => {
-            'AccessKey'   => 't',
-            'Block'       => 'ItemArea',
-            'Description' => 'Test Migrated',
-            'Group'       => [
-                'admin',
-            ],
-            'GroupRo'    => [],
-            'Link'       => 'Action=AgentTicketQueue',
-            'LinkOption' => '',
-            'Name'       => 'Tickets',
-            'NavBar'     => 'Ticket',
-            'Prio'       => '200',
-            'Type'       => 'Menu',
-        },
+        Name           => 'Frontend::Navigation###AgentTicketProcess###002-ProcessManagement',
+        EffectiveValue => [
+            {
+                'AccessKey'   => 'p',
+                'Block'       => '',
+                'Description' => 'Create New process ticket.',
+                'Group'       => [],
+                'GroupRo'     => [],
+                'Link'        => 'Action=AgentTicketProcess',
+                'LinkOption'  => '',
+                'Name'        => 'New process ticket',
+                'NavBar'      => 'Ticket',
+                'Prio'        => '220',
+                'Type'        => ''
+            },
+            {
+                'AccessKey'   => 'p',
+                'Block'       => '',
+                'Description' => 'Start new vacation process.',
+                'Group'       => [
+                    'users',
+                ],
+                'GroupRo'    => [],
+                'Link'       => 'Action=AgentTicketProcess;Process=111',
+                'LinkOption' => '',
+                'Name'       => 'Start new vacation process',
+                'NavBar'     => 'Ticket',
+                'Prio'       => '230',
+                'Type'       => ''
+            },
+            {
+                'AccessKey'   => 'p',
+                'Block'       => '',
+                'Description' => 'Start sick process.',
+                'Group'       => [],
+                'GroupRo'     => [
+                    'users',
+                ],
+                'Link'       => 'Action=AgentTicketProcess;Process=999',
+                'LinkOption' => '',
+                'Name'       => 'Start sick process',
+                'NavBar'     => 'Ticket',
+                'Prio'       => '240',
+                'Type'       => ''
+            },
+            {
+                'AccessKey'   => 'p',
+                'Block'       => '',
+                'Description' => 'Start special process.',
+                'Group'       => [],
+                'GroupRo'     => [],
+                'Link'        => 'Action=AgentTicketProcess;Process=555',
+                'LinkOption'  => '',
+                'Name'        => 'Start special process',
+                'NavBar'      => 'Ticket',
+                'Prio'        => '250',
+                'Type'        => ''
+            },
+        ],
+    },
+    {
+        Name           => 'Frontend::Navigation###AgentTicketProcess###003-TestPackage',
+        EffectiveValue => [
+            {
+                'AccessKey'   => 'p',
+                'Block'       => '',
+                'Description' => 'Start new vacation process.',
+                'Group'       => [
+                    'users',
+                ],
+                'GroupRo'    => [],
+                'Link'       => 'Action=AgentTicketProcess;Process=111',
+                'LinkOption' => '',
+                'Name'       => 'Start new vacation process',
+                'NavBar'     => 'Ticket',
+                'Prio'       => '230',
+                'Type'       => ''
+            },
+            {
+                'AccessKey'   => 'p',
+                'Block'       => '',
+                'Description' => 'Start new application for leave process.',
+                'Group'       => [],
+                'GroupRo'     => [
+                    'users',
+                ],
+                'Link'       => 'Action=AgentTicketProcess;Process=999',
+                'LinkOption' => '',
+                'Name'       => 'Start new application for leave process',
+                'NavBar'     => 'Ticket',
+                'Prio'       => '240',
+                'Type'       => ''
+            },
+        ],
     },
 );
-
-my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
 for my $Test (@Tests) {
 

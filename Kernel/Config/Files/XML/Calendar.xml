@@ -66,104 +66,100 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::Navigation###AgentAppointmentCalendarOverview###1" Required="0" Valid="1">
-        <Description Translatable="1">Main menu for the agent interface.</Description>
+    <Setting Name="Frontend::Navigation###AgentAppointmentCalendarOverview###002-Calendar" Required="0" Valid="1">
+        <Description Translatable="1">Main menu item registration.</Description>
         <Navigation>Frontend::Agent::ModuleRegistration::MainMenu</Navigation>
         <Value>
-            <Hash>
-                <Item Key="Group">
-                    <Array>
-                    </Array>
+            <Array>
+                <DefaultItem ValueType="FrontendNavigation">
+                    <Hash>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="Group">
+                            <Array>
+                            </Array>
+                        </Item>
+                        <Item Key="GroupRo">
+                            <Array>
+                            </Array>
+                        </Item>
+                        <Item Key="Description"></Item>
+                        <Item Key="Name" Translatable="1">Calendar</Item>
+                        <Item Key="Link">Action=AgentAppointmentCalendarOverview</Item>
+                        <Item Key="LinkOption"></Item>
+                        <Item Key="NavBar">Calendar</Item>
+                        <Item Key="Type">Menu</Item>
+                        <Item Key="Block">ItemArea</Item>
+                        <Item Key="AccessKey"></Item>
+                        <Item Key="Prio">75</Item>
+                    </Hash>
                 </Item>
-                <Item Key="GroupRo">
-                    <Array>
-                    </Array>
+                <Item>
+                    <Hash>
+                        <Item Key="Group">
+                            <Array>
+                            </Array>
+                        </Item>
+                        <Item Key="GroupRo">
+                            <Array>
+                            </Array>
+                        </Item>
+                        <Item Key="Description" Translatable="1">Appointment Calendar overview page.</Item>
+                        <Item Key="Name" Translatable="1">Calendar Overview</Item>
+                        <Item Key="Link">Action=AgentAppointmentCalendarOverview</Item>
+                        <Item Key="LinkOption"></Item>
+                        <Item Key="NavBar">Calendar</Item>
+                        <Item Key="Type"></Item>
+                        <Item Key="Block">ItemArea</Item>
+                        <Item Key="AccessKey"></Item>
+                        <Item Key="Prio">6000</Item>
+                    </Hash>
                 </Item>
-                <Item Key="Description"></Item>
-                <Item Key="Name" Translatable="1">Calendar</Item>
-                <Item Key="Link">Action=AgentAppointmentCalendarOverview</Item>
-                <Item Key="LinkOption"></Item>
-                <Item Key="NavBar">Calendar</Item>
-                <Item Key="Type">Menu</Item>
-                <Item Key="Block">ItemArea</Item>
-                <Item Key="AccessKey"></Item>
-                <Item Key="Prio">75</Item>
-            </Hash>
-        </Value>
-    </Setting>
-    <Setting Name="Frontend::Navigation###AgentAppointmentCalendarOverview###2" Required="0" Valid="1">
-        <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration::MainMenu</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="Group">
-                    <Array>
-                    </Array>
+                <Item>
+                    <Hash>
+                        <Item Key="Group">
+                            <Array>
+                            </Array>
+                        </Item>
+                        <Item Key="GroupRo">
+                            <Array>
+                            </Array>
+                        </Item>
+                        <Item Key="Description" Translatable="1">Resource Overview (OTRS Business Solution™)</Item>
+                        <Item Key="Name" Translatable="1">Resource Overview (OTRS Business Solution™)</Item>
+                        <Item Key="Link">Action=AgentAppointmentCalendarOverview</Item>
+                        <Item Key="LinkOption">class="OTRSBusinessRequired"</Item>
+                        <Item Key="NavBar">Calendar</Item>
+                        <Item Key="Type"></Item>
+                        <Item Key="Block">ItemArea</Item>
+                        <Item Key="AccessKey"></Item>
+                        <Item Key="Prio">7000</Item>
+                    </Hash>
                 </Item>
-                <Item Key="GroupRo">
-                    <Array>
-                    </Array>
+                <Item>
+                    <Hash>
+                        <Item Key="Group">
+                            <Array>
+                            </Array>
+                        </Item>
+                        <Item Key="GroupRo">
+                            <Array>
+                            </Array>
+                        </Item>
+                        <Item Key="Description" Translatable="1">Create new appointment.</Item>
+                        <Item Key="Name" Translatable="1">New Appointment</Item>
+                        <Item Key="Link">Action=AgentAppointmentCalendarOverview;Subaction=AppointmentCreate</Item>
+                        <Item Key="LinkOption"></Item>
+                        <Item Key="NavBar">Calendar</Item>
+                        <Item Key="Type"></Item>
+                        <Item Key="Block">ItemArea</Item>
+                        <Item Key="AccessKey"></Item>
+                        <Item Key="Prio">8000</Item>
+                    </Hash>
                 </Item>
-                <Item Key="Description" Translatable="1">Appointment Calendar overview page.</Item>
-                <Item Key="Name" Translatable="1">Calendar Overview</Item>
-                <Item Key="Link">Action=AgentAppointmentCalendarOverview</Item>
-                <Item Key="LinkOption"></Item>
-                <Item Key="NavBar">Calendar</Item>
-                <Item Key="Type"></Item>
-                <Item Key="Block">ItemArea</Item>
-                <Item Key="AccessKey"></Item>
-                <Item Key="Prio">6000</Item>
-            </Hash>
-        </Value>
-    </Setting>
-    <Setting Name="Frontend::Navigation###AgentAppointmentCalendarOverview###3" Required="0" Valid="1">
-        <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration::MainMenu</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="Group">
-                    <Array>
-                    </Array>
-                </Item>
-                <Item Key="GroupRo">
-                    <Array>
-                    </Array>
-                </Item>
-                <Item Key="Description" Translatable="1">Resource Overview (OTRS Business Solution™)</Item>
-                <Item Key="Name" Translatable="1">Resource Overview (OTRS Business Solution™)</Item>
-                <Item Key="Link">Action=AgentAppointmentCalendarOverview</Item>
-                <Item Key="LinkOption">class="OTRSBusinessRequired"</Item>
-                <Item Key="NavBar">Calendar</Item>
-                <Item Key="Type"></Item>
-                <Item Key="Block">ItemArea</Item>
-                <Item Key="AccessKey"></Item>
-                <Item Key="Prio">7000</Item>
-            </Hash>
-        </Value>
-    </Setting>
-    <Setting Name="Frontend::Navigation###AgentAppointmentCalendarOverview###4" Required="0" Valid="1">
-        <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration::MainMenu</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="Group">
-                    <Array>
-                    </Array>
-                </Item>
-                <Item Key="GroupRo">
-                    <Array>
-                    </Array>
-                </Item>
-                <Item Key="Description" Translatable="1">Create new appointment.</Item>
-                <Item Key="Name" Translatable="1">New Appointment</Item>
-                <Item Key="Link">Action=AgentAppointmentCalendarOverview;Subaction=AppointmentCreate</Item>
-                <Item Key="LinkOption"></Item>
-                <Item Key="NavBar">Calendar</Item>
-                <Item Key="Type"></Item>
-                <Item Key="Block">ItemArea</Item>
-                <Item Key="AccessKey"></Item>
-                <Item Key="Prio">8000</Item>
-            </Hash>
+            </Array>
         </Value>
     </Setting>
     <Setting Name="Frontend::Module###AgentAppointmentEdit" Required="0" Valid="1">
@@ -206,6 +202,18 @@
                     <Item Key="NavBarName"></Item>
                 </Hash>
             </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Navigation###AgentAppointmentList###002-Calendar" Required="0" Valid="0">
+        <Description Translatable="1">Main menu item registration.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration::MainMenu</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="FrontendNavigation">
+                    <Hash>
+                    </Hash>
+                </DefaultItem>
+            </Array>
         </Value>
     </Setting>
     <Setting Name="Frontend::Module###AgentAppointmentPluginSearch" Required="0" Valid="1">
@@ -272,30 +280,38 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::Navigation###AdminAppointmentCalendarManage###1" Required="0" Valid="1">
-        <Description Translatable="1">Main menu for the agent interface.</Description>
+    <Setting Name="Frontend::Navigation###AdminAppointmentCalendarManage###002-Calendar" Required="0" Valid="1">
+        <Description Translatable="1">Main menu item registration.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
         <Value>
-            <Hash>
-                <Item Key="Group">
-                    <Array>
-                        <Item>admin</Item>
-                    </Array>
+            <Array>
+                <DefaultItem ValueType="FrontendNavigation">
+                    <Hash>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="Group">
+                            <Array>
+                                <Item>admin</Item>
+                            </Array>
+                        </Item>
+                        <Item Key="GroupRo">
+                            <Array>
+                            </Array>
+                        </Item>
+                        <Item Key="Description" Translatable="1">Manage different calendars.</Item>
+                        <Item Key="Name" Translatable="1">Manage Calendars</Item>
+                        <Item Key="Link">Action=AdminAppointmentCalendarManage</Item>
+                        <Item Key="LinkOption"></Item>
+                        <Item Key="NavBar">Calendar</Item>
+                        <Item Key="Type"></Item>
+                        <Item Key="Block">ItemArea</Item>
+                        <Item Key="AccessKey"></Item>
+                        <Item Key="Prio">9000</Item>
+                    </Hash>
                 </Item>
-                <Item Key="GroupRo">
-                    <Array>
-                    </Array>
-                </Item>
-                <Item Key="Description" Translatable="1">Manage different calendars.</Item>
-                <Item Key="Name" Translatable="1">Manage Calendars</Item>
-                <Item Key="Link">Action=AdminAppointmentCalendarManage</Item>
-                <Item Key="LinkOption"></Item>
-                <Item Key="NavBar">Calendar</Item>
-                <Item Key="Type"></Item>
-                <Item Key="Block">ItemArea</Item>
-                <Item Key="AccessKey"></Item>
-                <Item Key="Prio">9000</Item>
-            </Hash>
+            </Array>
         </Value>
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminAppointmentCalendarManage" Required="0" Valid="1">
@@ -652,6 +668,18 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Frontend::Navigation###AdminAppointmentNotificationEvent###002-Calendar" Required="0" Valid="0">
+        <Description Translatable="1">Main menu item registration.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="FrontendNavigation">
+                    <Hash>
+                    </Hash>
+                </DefaultItem>
+            </Array>
+        </Value>
+    </Setting>
     <Setting Name="Frontend::NavigationModule###AdminAppointmentNotificationEvent" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
         <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
@@ -854,29 +882,37 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Frontend::Navigation###AgentAppointmentAgendaOverview###1" Required="0" Valid="1">
-        <Description Translatable="1">Main menu for the agent interface.</Description>
+    <Setting Name="Frontend::Navigation###AgentAppointmentAgendaOverview###002-Calendar" Required="0" Valid="1">
+        <Description Translatable="1">Main menu item registration.</Description>
         <Navigation>Frontend::Agent::ModuleRegistration::MainMenu</Navigation>
         <Value>
-            <Hash>
-                <Item Key="Group">
-                    <Array>
-                    </Array>
+            <Array>
+                <DefaultItem ValueType="FrontendNavigation">
+                    <Hash>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="Group">
+                            <Array>
+                            </Array>
+                        </Item>
+                        <Item Key="GroupRo">
+                            <Array>
+                            </Array>
+                        </Item>
+                        <Item Key="Description" Translatable="1">Overview of all appointments.</Item>
+                        <Item Key="Name" Translatable="1">Agenda Overview</Item>
+                        <Item Key="Link">Action=AgentAppointmentAgendaOverview</Item>
+                        <Item Key="LinkOption"></Item>
+                        <Item Key="NavBar">Calendar</Item>
+                        <Item Key="Type"></Item>
+                        <Item Key="Block">ItemArea</Item>
+                        <Item Key="AccessKey"></Item>
+                        <Item Key="Prio">6500</Item>
+                    </Hash>
                 </Item>
-                <Item Key="GroupRo">
-                    <Array>
-                    </Array>
-                </Item>
-                <Item Key="Description" Translatable="1">Overview of all appointments.</Item>
-                <Item Key="Name" Translatable="1">Agenda Overview</Item>
-                <Item Key="Link">Action=AgentAppointmentAgendaOverview</Item>
-                <Item Key="LinkOption"></Item>
-                <Item Key="NavBar">Calendar</Item>
-                <Item Key="Type"></Item>
-                <Item Key="Block">ItemArea</Item>
-                <Item Key="AccessKey"></Item>
-                <Item Key="Prio">6500</Item>
-            </Hash>
+            </Array>
         </Value>
     </Setting>
     <Setting Name="AgentAppointmentEdit::Location::Link###1-GoogleMaps" Required="0" Valid="1">

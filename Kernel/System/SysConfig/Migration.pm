@@ -11,6 +11,8 @@ package Kernel::System::SysConfig::Migration;
 use strict;
 use warnings;
 
+use List::Util qw(first);
+
 our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
@@ -104,6 +106,8 @@ sub MigrateXMLStructure {
     );
 
     my %NavigationLookup = $Self->NavigationLookupGet();
+
+    my @Frontends;
 
     for my $Setting (@Settings) {
 
@@ -352,28 +356,33 @@ sub MigrateXMLStructure {
             if ( $NavBar && $Setting =~ m{<ConfigItem\s+Name="(.*?)"(.*?)>}gsmx ) {
                 my $Name    = $1;
                 my $Options = $2;
-                my $Index   = 1;
 
                 my @NavBars = split m{<\/NavBar>\s+?<NavBar}, $NavBar;
 
-                my $Navigation = '';
-
                 $Name =~ s{Frontend::Module}{Frontend::Navigation}gsmx;
+                $Name .= '###' . ( $InitToLoaderMapping{$Init} // '005-' ) . $Param{Name};
+
+                my $Navigation = sprintf "%-*s%s", 4, "", "<Setting Name=\"$Name\"$Options>\n";
+                $Navigation .= sprintf "%-*s%s", 8, "",
+                    "<Description Translatable=\"1\">Main menu item registration.</Description>";
+
+                if ( $Setting =~ m{<SubGroup>(.*?)</SubGroup>} ) {
+                    my $NavigationStr = $NavigationLookup{$1} || $1;
+                    $NavigationStr .= "::MainMenu";
+                    $Navigation .= sprintf( "\n%-*s%s", 8, "", "<Navigation>$NavigationStr</Navigation>" );
+                }
+
+                $Navigation .= sprintf( "\n%-*s%s", 8,  "", "<Value>" );
+                $Navigation .= sprintf( "\n%-*s%s", 12, "", "<Array>" );
+                $Navigation .= sprintf( "\n%-*s%s", 16, "", "<DefaultItem ValueType=\"FrontendNavigation\">" );
+                $Navigation .= sprintf( "\n%-*s%s", 20, "", "<Hash>" );
+                $Navigation .= sprintf( "\n%-*s%s", 20, "", "</Hash>" );
+                $Navigation .= sprintf( "\n%-*s%s", 16, "", "</DefaultItem>" );
 
                 for my $NavBarItem (@NavBars) {
 
-                    $Navigation .= sprintf "%-*s%s", 4, "", "<Setting Name=\"$Name###$Index\"$Options>\n";
-                    $Navigation .= sprintf "%-*s%s", 8, "",
-                        "<Description Translatable=\"1\">Main menu for the agent interface.</Description>";
-
-                    if ( $Setting =~ m{<SubGroup>(.*?)</SubGroup>} ) {
-                        my $NavigationStr = $NavigationLookup{$1} || $1;
-                        $NavigationStr .= "::MainMenu";
-                        $Navigation .= sprintf( "\n%-*s%s", 8, "", "<Navigation>$NavigationStr</Navigation>" );
-                    }
-
-                    $Navigation .= sprintf( "\n%-*s%s", 8,  "", "<Value>" );
-                    $Navigation .= sprintf( "\n%-*s%s", 12, "", "<Hash>" );
+                    $Navigation .= sprintf( "\n%-*s%s", 16, "", "<Item>" );
+                    $Navigation .= sprintf( "\n%-*s%s", 20, "", "<Hash>" );
 
                     for my $NavBarTag (qw(Group GroupRo)) {
                         my @Items;
@@ -382,11 +391,11 @@ sub MigrateXMLStructure {
                             push @Items, $1;
                         }
 
-                        $Navigation .= sprintf( "\n%-*s%s", 16, "", "<Item Key=\"$NavBarTag\">" );
-                        $Navigation .= sprintf( "\n%-*s%s", 20, "", "<Array>" );
+                        $Navigation .= sprintf( "\n%-*s%s", 24, "", "<Item Key=\"$NavBarTag\">" );
+                        $Navigation .= sprintf( "\n%-*s%s", 28, "", "<Array>" );
 
                         for my $Value (@Items) {
-                            $Navigation .= sprintf( "\n%-*s%s", 24, "", "<Item>$Value</Item>" );
+                            $Navigation .= sprintf( "\n%-*s%s", 32, "", "<Item>$Value</Item>" );
                         }
 
                         if (
@@ -397,13 +406,13 @@ sub MigrateXMLStructure {
                             # take group items from FrontendModuleReg
                             for my $Value ( @{ $GroupItems{$NavBarTag} } ) {
                                 if ($Value) {
-                                    $Navigation .= sprintf( "\n%-*s%s", 24, "", "<Item>$Value</Item>" );
+                                    $Navigation .= sprintf( "\n%-*s%s", 32, "", "<Item>$Value</Item>" );
                                 }
                             }
                         }
 
-                        $Navigation .= sprintf( "\n%-*s%s", 20, "", "</Array>" );
-                        $Navigation .= sprintf( "\n%-*s%s", 16, "", "</Item>" );
+                        $Navigation .= sprintf( "\n%-*s%s", 28, "", "</Array>" );
+                        $Navigation .= sprintf( "\n%-*s%s", 24, "", "</Item>" );
                     }
 
                     for my $NavBarTag (qw(Description Name Link LinkOption NavBar Type Block AccessKey Prio)) {
@@ -418,19 +427,153 @@ sub MigrateXMLStructure {
                             $Value      = $2;
                         }
                         $Navigation .= sprintf(
-                            "\n%-*s%s", 16, "",
+                            "\n%-*s%s", 24, "",
                             "<Item Key=\"$NavBarTag\"$Attributes>$Value</Item>",
                         );
                     }
 
-                    $Navigation .= sprintf( "\n%-*s%s", 12, "", "</Hash>" );
-                    $Navigation .= sprintf( "\n%-*s%s", 8,  "", "</Value>" );
-                    $Navigation .= sprintf( "\n%-*s%s", 4,  "", "</ConfigItem>\n" );    # We rename ConfigItems later
-
-                    $Index++;
+                    $Navigation .= sprintf( "\n%-*s%s", 20, "", "</Hash>" );
+                    $Navigation .= sprintf( "\n%-*s%s", 16, "", "</Item>" );
                 }
 
+                $Navigation .= sprintf( "\n%-*s%s", 12, "", "</Array>" );
+                $Navigation .= sprintf( "\n%-*s%s", 8,  "", "</Value>" );
+                $Navigation .= sprintf( "\n%-*s%s", 4,  "", "</ConfigItem>\n" );    # We rename ConfigItems later
+
                 $Setting .= "\n" . $Navigation;
+            }
+            elsif ( !$NavBar && $Setting =~ m{<ConfigItem\s+Name="(.*?)"(.*?)>}gsmx ) {
+                my $Name    = $1;
+                my $Options = $2;
+
+                my %NoDefaultNavigationSetting = (
+                    'CustomerFrontend::Module###AjaxAttachment'                             => 1,
+                    'CustomerFrontend::Module###CustomerAccept'                             => 1,
+                    'CustomerFrontend::Module###CustomerChatDownload'                       => 1,
+                    'CustomerFrontend::Module###CustomerDynamicFieldDatabaseDetailedSearch' => 1,
+                    'CustomerFrontend::Module###CustomerDynamicFieldDatabaseDetails'        => 1,
+                    'CustomerFrontend::Module###CustomerDynamicFieldDatabaseSearch'         => 1,
+                    'CustomerFrontend::Module###CustomerTicketArticleContent'               => 1,
+                    'CustomerFrontend::Module###CustomerTicketAttachment'                   => 1,
+                    'CustomerFrontend::Module###CustomerTicketPrint'                        => 1,
+                    'CustomerFrontend::Module###CustomerTicketZoom'                         => 1,
+                    'CustomerFrontend::Module###CustomerVideoChat'                          => 1,
+                    'CustomerFrontend::Module###Login'                                      => 1,
+                    'CustomerFrontend::Module###Logout'                                     => 1,
+                    'CustomerFrontend::Module###PictureUpload'                              => 1,
+                    'Frontend::Module###AdminAppointmentImport'                             => 1,
+                    'Frontend::Module###AdminDynamicFieldCheckbox'                          => 1,
+                    'Frontend::Module###AdminDynamicFieldContactWithData'                   => 1,
+                    'Frontend::Module###AdminDynamicFieldDatabase'                          => 1,
+                    'Frontend::Module###AdminDynamicFieldDateTime'                          => 1,
+                    'Frontend::Module###AdminDynamicFieldDropdown'                          => 1,
+                    'Frontend::Module###AdminDynamicFieldMultiselect'                       => 1,
+                    'Frontend::Module###AdminDynamicFieldText'                              => 1,
+                    'Frontend::Module###AdminDynamicFieldWebService'                        => 1,
+                    'Frontend::Module###AdminGenericInterfaceErrorHandlingDefault'          => 1,
+                    'Frontend::Module###AdminGenericInterfaceErrorHandlingRequestRetry'     => 1,
+                    'Frontend::Module###AdminGenericInterfaceInvokerDefault'                => 1,
+                    'Frontend::Module###AdminGenericInterfaceInvokerEvent'                  => 1,
+                    'Frontend::Module###AdminGenericInterfaceMappingSimple'                 => 1,
+                    'Frontend::Module###AdminGenericInterfaceMappingXSLT'                   => 1,
+                    'Frontend::Module###AdminGenericInterfaceOperationDefault'              => 1,
+                    'Frontend::Module###AdminGenericInterfaceTransportHTTPREST'             => 1,
+                    'Frontend::Module###AdminGenericInterfaceTransportHTTPSOAP'             => 1,
+                    'Frontend::Module###AdminGenericInterfaceWebserviceHistory'             => 1,
+                    'Frontend::Module###AdminInit'                                          => 1,
+                    'Frontend::Module###AdminProcessManagementActivity'                     => 1,
+                    'Frontend::Module###AdminProcessManagementActivityDialog'               => 1,
+                    'Frontend::Module###AdminProcessManagementPath'                         => 1,
+                    'Frontend::Module###AdminProcessManagementTransition'                   => 1,
+                    'Frontend::Module###AdminProcessManagementTransitionAction'             => 1,
+                    'Frontend::Module###AgentAppointmentEdit'                               => 1,
+                    'Frontend::Module###AgentAppointmentPluginSearch'                       => 1,
+                    'Frontend::Module###AgentChatAppend'                                    => 1,
+                    'Frontend::Module###AgentChatAvailability'                              => 1,
+                    'Frontend::Module###AgentChatDownload'                                  => 1,
+                    'Frontend::Module###AgentChatPopup'                                     => 1,
+                    'Frontend::Module###AgentChatPreview'                                   => 1,
+                    'Frontend::Module###AgentContactWithDataSearch'                         => 1,
+                    'Frontend::Module###AgentCustomerSearch'                                => 1,
+                    'Frontend::Module###AgentCustomerSearchSMS'                             => 1,
+                    'Frontend::Module###AgentCustomerUserAddressBook'                       => 1,
+                    'Frontend::Module###AgentCustomerUserInformationCenterSearch'           => 1,
+                    'Frontend::Module###AgentDaemonInfo'                                    => 1,
+                    'Frontend::Module###AgentDynamicFieldDatabaseDetailedSearch'            => 1,
+                    'Frontend::Module###AgentDynamicFieldDatabaseDetails'                   => 1,
+                    'Frontend::Module###AgentDynamicFieldDatabaseSearch'                    => 1,
+                    'Frontend::Module###AgentInfo'                                          => 1,
+                    'Frontend::Module###AgentHTMLReference'                                 => 1,
+                    'Frontend::Module###AgentOTRSBusiness'                                  => 1,
+                    'Frontend::Module###AgentSplitSelection'                                => 1,
+                    'Frontend::Module###AgentTicketArticleContent'                          => 1,
+                    'Frontend::Module###AgentTicketAttachment'                              => 1,
+                    'Frontend::Module###AgentTicketAttachmentView'                          => 1,
+                    'Frontend::Module###AgentTicketBounce'                                  => 1,
+                    'Frontend::Module###AgentTicketBulk'                                    => 1,
+                    'Frontend::Module###AgentTicketClose'                                   => 1,
+                    'Frontend::Module###AgentTicketCompose'                                 => 1,
+                    'Frontend::Module###AgentTicketCustomer'                                => 1,
+                    'Frontend::Module###AgentTicketEmailOutbound'                           => 1,
+                    'Frontend::Module###AgentTicketEmailResend'                             => 1,
+                    'Frontend::Module###AgentTicketForward'                                 => 1,
+                    'Frontend::Module###AgentTicketFreeText'                                => 1,
+                    'Frontend::Module###AgentTicketHistory'                                 => 1,
+                    'Frontend::Module###AgentTicketLock'                                    => 1,
+                    'Frontend::Module###AgentTicketMerge'                                   => 1,
+                    'Frontend::Module###AgentTicketMove'                                    => 1,
+                    'Frontend::Module###AgentTicketNote'                                    => 1,
+                    'Frontend::Module###AgentTicketOwner'                                   => 1,
+                    'Frontend::Module###AgentTicketPending'                                 => 1,
+                    'Frontend::Module###AgentTicketPhoneInbound'                            => 1,
+                    'Frontend::Module###AgentTicketPhoneOutbound'                           => 1,
+                    'Frontend::Module###AgentTicketPlain'                                   => 1,
+                    'Frontend::Module###AgentTicketPrint'                                   => 1,
+                    'Frontend::Module###AgentTicketPriority'                                => 1,
+                    'Frontend::Module###AgentTicketResponsible'                             => 1,
+                    'Frontend::Module###AgentTicketSMSOutbound'                             => 1,
+                    'Frontend::Module###AgentTicketWatcher'                                 => 1,
+                    'Frontend::Module###AgentTicketZoom'                                    => 1,
+                    'Frontend::Module###AgentUserSearch'                                    => 1,
+                    'Frontend::Module###AgentVideoChat'                                     => 1,
+                    'Frontend::Module###AgentZoom'                                          => 1,
+                    'Frontend::Module###AjaxAttachment'                                     => 1,
+                    'Frontend::Module###Login'                                              => 1,
+                    'Frontend::Module###Logout'                                             => 1,
+                    'Frontend::Module###PictureUpload'                                      => 1,
+                    'PublicFrontend::Module###PublicCalendar'                               => 1,
+                    'PublicFrontend::Module###PublicDefault'                                => 1,
+                    'PublicFrontend::Module###PublicRepository'                             => 1,
+                    'PublicFrontend::Module###PublicSupportDataCollector'                   => 1,
+                );
+
+                if ( !$NoDefaultNavigationSetting{$Name} ) {
+
+                    $Name =~ s{Frontend::Module}{Frontend::Navigation}gsmx;
+                    $Name .= '###' . ( $InitToLoaderMapping{$Init} // '005-' ) . $Param{Name};
+
+                    my $Navigation = sprintf "%-*s%s", 4, "", "<Setting Name=\"$Name\" Required=\"0\" Valid=\"0\">\n";
+                    $Navigation .= sprintf "%-*s%s", 8, "",
+                        "<Description Translatable=\"1\">Main menu item registration.</Description>";
+
+                    if ( $Setting =~ m{<SubGroup>(.*?)</SubGroup>} ) {
+                        my $NavigationStr = $NavigationLookup{$1} || $1;
+                        $NavigationStr .= "::MainMenu";
+                        $Navigation .= sprintf( "\n%-*s%s", 8, "", "<Navigation>$NavigationStr</Navigation>" );
+                    }
+
+                    $Navigation .= sprintf( "\n%-*s%s", 8,  "", "<Value>" );
+                    $Navigation .= sprintf( "\n%-*s%s", 12, "", "<Array>" );
+                    $Navigation .= sprintf( "\n%-*s%s", 16, "", "<DefaultItem ValueType=\"FrontendNavigation\">" );
+                    $Navigation .= sprintf( "\n%-*s%s", 20, "", "<Hash>" );
+                    $Navigation .= sprintf( "\n%-*s%s", 20, "", "</Hash>" );
+                    $Navigation .= sprintf( "\n%-*s%s", 16, "", "</DefaultItem>" );
+                    $Navigation .= sprintf( "\n%-*s%s", 12, "", "</Array>" );
+                    $Navigation .= sprintf( "\n%-*s%s", 8,  "", "</Value>" );
+                    $Navigation .= sprintf( "\n%-*s%s", 4, "", "</ConfigItem>\n" );    # We rename ConfigItems later
+
+                    $Setting .= "\n" . $Navigation;
+                }
             }
 
             if ( $NavBarModule && $Setting =~ m{<ConfigItem\s+Name="(.*?)"(.*?)>}gsmx ) {
@@ -1651,6 +1794,7 @@ sub MigrateConfigEffectiveValues {
 
                         # migrate (and split) the frontend module settings
                         my $Result = $Self->_MigrateFrontendModuleSetting(
+                            FrontendSettingName => $SettingName,
                             FrontendModuleName  => $SettingKeyFirstLevel,
                             OTRS5EffectiveValue => $OTRS5EffectiveValue,
                             OTRS6Setting        => \%OTRS6Setting,
@@ -2263,6 +2407,7 @@ sub _LookupNewConfigName {
 Helper function to migrate a frontend module setting from OTRS 5 to OTRS 6.
 
     my $NewName = $SysConfigMigrationObject->_MigrateFrontendModuleSetting(
+        FrontendSettingName => 'Frontend::Module',
         FrontendModuleName  => 'AgentTicketQueue',
         OTRS5EffectiveValue => {
             'Description' => 'Overview of all open Tickets.',
@@ -2318,7 +2463,7 @@ sub _MigrateFrontendModuleSetting {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(FrontendModuleName OTRS5EffectiveValue OTRS6Setting)) {
+    for my $Needed (qw(FrontendSettingName FrontendModuleName OTRS5EffectiveValue OTRS6Setting)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -2386,6 +2531,62 @@ sub _MigrateFrontendModuleSetting {
     return if !$Result{Success};
 
     # ###########################################################################
+    # migrate the NavBarModule settings
+    # ###########################################################################
+    if ( $Param{OTRS5EffectiveValue}->{NavBarModule} ) {
+
+        my $NavBarModuleSettingName = 'Frontend::NavigationModule###' . $Param{FrontendModuleName};
+
+        # try to get the (default) setting from OTRS 6 for the NavBarModule setting
+        my %OTRS6NavBarModuleSetting = $SysConfigObject->SettingGet(
+            Name  => $NavBarModuleSettingName,
+            NoLog => 1,
+        );
+
+        if (
+            %OTRS6NavBarModuleSetting
+            && !$OTRS6NavBarModuleSetting{ModifiedID}
+            && !$OTRS6NavBarModuleSetting{IsReadonly}
+            )
+        {
+
+            # set group settings from OTRS 5
+            $OTRS6NavBarModuleSetting{EffectiveValue}->{Group}   = \@Group;
+            $OTRS6NavBarModuleSetting{EffectiveValue}->{GroupRo} = \@GroupRo;
+
+            # take NavBarModule settings from OTRS 5
+            for my $Attribute ( sort keys %{ $Param{OTRS5EffectiveValue}->{NavBarModule} } ) {
+                $OTRS6NavBarModuleSetting{EffectiveValue}->{$Attribute}
+                    = $Param{OTRS5EffectiveValue}->{NavBarModule}->{$Attribute};
+            }
+
+            # lock the setting
+            my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+                Name   => $NavBarModuleSettingName,
+                Force  => 1,
+                UserID => 1,
+            );
+
+            # update the setting
+            my %Result = $SysConfigObject->SettingUpdate(
+                Name              => $NavBarModuleSettingName,
+                IsValid           => 1,
+                EffectiveValue    => $OTRS6NavBarModuleSetting{EffectiveValue},
+                ExclusiveLockGUID => $ExclusiveLockGUID,
+                NoValidation      => 1,
+                UserID            => 1,
+            );
+
+            # unlock the setting again
+            $SysConfigObject->SettingUnlock(
+                Name => $NavBarModuleSettingName,
+            );
+
+            return if !$Result{Success};
+        }
+    }
+
+    # ###########################################################################
     # migrate the NavBar settings
     # ###########################################################################
 
@@ -2406,136 +2607,104 @@ sub _MigrateFrontendModuleSetting {
         #    CustomerFrontend::Navigation###
         #      PublicFrontend::Navigation###
         #
-        my $Search = 'Frontend::Navigation###' . $Param{FrontendModuleName} . '###';
+        $Param{FrontendSettingName} =~ s{Frontend::Module}{Frontend::Navigation}gsmx;
+
+        my $Search = $Param{FrontendSettingName} . '###' . $Param{FrontendModuleName} . '###';
         my @SearchResult = grep { $_->{Name} =~ m{$Search} } @DefaultSettings;
 
-        # check that the number of navbar settings is the same in OTRS 5 and 6 for this frontend module
-        if ( @SearchResult && scalar @SearchResult == scalar @OTRS5NavBar ) {
+        if ( scalar @SearchResult == 1 ) {
 
-            my $Counter = 0;
-            for my $NavBarSetting (@SearchResult) {
-                my $NavBarSettingName = $NavBarSetting->{Name};
+            # try to get the (default) setting from OTRS 6 for the NavBar setting
+            my %OTRS6NavBarSetting = $SysConfigObject->SettingGet(
+                Name  => $SearchResult[0]->{Name},
+                NoLog => 1,
+            );
 
-                # try to get the (default) setting from OTRS 6 for the NavBar setting
-                my %OTRS6NavBarSetting = $SysConfigObject->SettingGet(
-                    Name  => $NavBarSettingName,
-                    NoLog => 1,
-                );
+            return if !%OTRS6NavBarSetting;
 
-                return if !%OTRS6NavBarSetting;
+            # skip this setting if it has already been modified in the meantime
+            return 1 if $OTRS6NavBarSetting{ModifiedID};
 
-                # skip this setting if it has already been modified in the meantime
-                return 1 if $OTRS6NavBarSetting{ModifiedID};
+            # skip this setting if it is a readonly setting
+            return 1 if $OTRS6NavBarSetting{IsReadonly};
 
-                # skip this setting if it is a readonly setting
-                return 1 if $OTRS6NavBarSetting{IsReadonly};
+            $OTRS6NavBarSetting{EffectiveValue} = [];
 
-                # set group settings from OTRS 5
-                $OTRS6NavBarSetting{EffectiveValue}->{Group}   = \@Group;
-                $OTRS6NavBarSetting{EffectiveValue}->{GroupRo} = \@GroupRo;
+            for my $OTRS5NavBarItem (@OTRS5NavBar) {
 
-                # take NavBar settings from OTRS 5
-                for my $Attribute ( sort keys %{ $OTRS5NavBar[$Counter] } ) {
-                    $OTRS6NavBarSetting{EffectiveValue}->{$Attribute} = $OTRS5NavBar[$Counter]->{$Attribute};
+                if ( !$OTRS5NavBarItem->{Group} ) {
+                    $OTRS5NavBarItem->{Group} = \@Group;
+                }
+                if ( !$OTRS5NavBarItem->{GroupRo} ) {
+                    $OTRS5NavBarItem->{GroupRo} = \@GroupRo;
                 }
 
-                # lock the setting
-                my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
-                    Name   => $NavBarSettingName,
-                    Force  => 1,
-                    UserID => 1,
-                );
-
-                # update the setting
-                my %Result = $SysConfigObject->SettingUpdate(
-                    Name              => $NavBarSettingName,
-                    IsValid           => 1,
-                    EffectiveValue    => $OTRS6NavBarSetting{EffectiveValue},
-                    ExclusiveLockGUID => $ExclusiveLockGUID,
-                    NoValidation      => 1,
-                    UserID            => 1,
-                );
-
-                # unlock the setting again
-                $SysConfigObject->SettingUnlock(
-                    Name => $NavBarSettingName,
-                );
-
-                return if !$Result{Success};
-
-                # increase counter
-                $Counter++;
+                push @{ $OTRS6NavBarSetting{EffectiveValue} }, $OTRS5NavBarItem;
             }
-        }
 
-        # log error
-        else {
-
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message =>
-                    'Different number of navbar settings in OTRS 5 and OTRS 6 for setting Frontend::Navigation###'
-                    . $Param{FrontendModuleName}
-                    . '###...',
+            # Save the updated effective value for the current setting.
+            my %Result = $Self->_SettingUpdate(
+                Name           => $SearchResult[0]->{Name},
+                EffectiveValue => $OTRS6NavBarSetting{EffectiveValue},
+                IsValid        => 1,
+                UserID         => 1,
             );
-            return;
+
+            return if !$Result{Success};
         }
     }
 
-    # ###########################################################################
-    # migrate the NavBarModule settings
-    # ###########################################################################
-    if ( $Param{OTRS5EffectiveValue}->{NavBarModule} ) {
+    # No NavBar entries exists in OTRS 5 config for the frontend modulel, so we disable all nav bar settings
+    #   for this frontend navigation.
+    else {
 
-        my $NavBarModuleSettingName = 'Frontend::NavigationModule###' . $Param{FrontendModuleName};
+        # get all OTRS 6 default settings
+        my @DefaultSettings = $SysConfigObject->ConfigurationList();
 
-        # try to get the (default) setting from OTRS 6 for the NavBarModule setting
-        my %OTRS6NavBarModuleSetting = $SysConfigObject->SettingGet(
-            Name  => $NavBarModuleSettingName,
-            NoLog => 1,
-        );
+        # search for OTRS 6 NavBar settings
+        #
+        # this will find settings like:
+        #            Frontend::Navigation###
+        #    CustomerFrontend::Navigation###
+        #      PublicFrontend::Navigation###
+        #
+        $Param{FrontendSettingName} =~ s{Frontend::Module}{Frontend::Navigation}gsmx;
 
-        return if !%OTRS6NavBarModuleSetting;
+        my $Search = $Param{FrontendSettingName} . '###' . $Param{FrontendModuleName} . '###';
+        my @SearchResult = grep { $_->{Name} =~ m{$Search} } @DefaultSettings;
 
-        # skip this setting if it has already been modified in the meantime
-        return 1 if $OTRS6NavBarModuleSetting{ModifiedID};
+        NAVBARSETTING:
+        for my $NavBarSetting (@SearchResult) {
+            my $NavBarSettingName = $NavBarSetting->{Name};
 
-        # skip this setting if it is a readonly setting
-        return 1 if $OTRS6NavBarModuleSetting{IsReadonly};
+            # try to get the (default) setting from OTRS 6 for the NavBar setting
+            my %OTRS6NavBarSetting = $SysConfigObject->SettingGet(
+                Name  => $NavBarSettingName,
+                NoLog => 1,
+            );
 
-        # set group settings from OTRS 5
-        $OTRS6NavBarModuleSetting{EffectiveValue}->{Group}   = \@Group;
-        $OTRS6NavBarModuleSetting{EffectiveValue}->{GroupRo} = \@GroupRo;
+            next NAVBARSETTING if !%OTRS6NavBarSetting;
 
-        # take NavBarModule settings from OTRS 5
-        for my $Attribute ( sort keys %{ $Param{OTRS5EffectiveValue}->{NavBarModule} } ) {
-            $OTRS6NavBarModuleSetting{EffectiveValue}->{$Attribute}
-                = $Param{OTRS5EffectiveValue}->{NavBarModule}->{$Attribute};
+            # skip this setting if it is already invalid
+            next NAVBARSETTING if !$OTRS6NavBarSetting{IsValid};
+
+            # skip this setting if it has already been modified in the meantime
+            next NAVBARSETTING if $OTRS6NavBarSetting{ModifiedID};
+
+            # skip this setting if it is a readonly setting
+            next NAVBARSETTING if $OTRS6NavBarSetting{IsReadonly};
+
+            # skip this setting if it is a required setting
+            next NAVBARSETTING if $OTRS6NavBarSetting{IsRequired};
+
+            # Disable the setting.
+            my %Result = $Self->_SettingUpdate(
+                Name    => $NavBarSettingName,
+                IsValid => 0,
+            );
+
+            return if !$Result{Success};
         }
-
-        # lock the setting
-        my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
-            Name   => $NavBarModuleSettingName,
-            Force  => 1,
-            UserID => 1,
-        );
-
-        # update the setting
-        my %Result = $SysConfigObject->SettingUpdate(
-            Name              => $NavBarModuleSettingName,
-            IsValid           => 1,
-            EffectiveValue    => $OTRS6NavBarModuleSetting{EffectiveValue},
-            ExclusiveLockGUID => $ExclusiveLockGUID,
-            NoValidation      => 1,
-            UserID            => 1,
-        );
-
-        # unlock the setting again
-        $SysConfigObject->SettingUnlock(
-            Name => $NavBarModuleSettingName,
-        );
-
-        return if !$Result{Success};
     }
 
     return 1;

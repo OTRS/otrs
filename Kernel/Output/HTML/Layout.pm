@@ -2844,30 +2844,53 @@ sub NavigationBar {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # create menu items
+    # Create menu items.
     my %NavBar;
 
-    my $Config               = $ConfigObject->Get('Frontend::Module');
-    my $FrontendModuleConfig = $ConfigObject->Get('Frontend::Navigation');
+    my $FrontendRegistration = $ConfigObject->Get('Frontend::Module');
+    my $FrontendNavigation   = $ConfigObject->Get('Frontend::Navigation');
+
+    my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
     MODULE:
-    for my $Module ( sort keys %{$FrontendModuleConfig} ) {
+    for my $Module ( sort keys %{$FrontendNavigation} ) {
 
-        # skip if module is disabled in Frontend registration
-        next MODULE if !IsHashRefWithData( $Config->{$Module} );
+        # Skip if module is disabled in frontend registration.
+        next MODULE if !IsHashRefWithData( $FrontendRegistration->{$Module} );
 
-        my %Hash = %{ $FrontendModuleConfig->{$Module} };
+        # Top-level frontend navigation configuration should always be a hash.
+        next MODULE if !IsHashRefWithData( $FrontendNavigation->{$Module} );
+
+        my @ModuleNavigationConfigs;
+
+        # Go through all defined navigation configurations for the module and sort them by the key (00#-Module).
+        NAVIGATION_CONFIG:
+        for my $Key ( sort keys %{ $FrontendNavigation->{$Module} || {} } ) {
+            next NAVIGATION_CONFIG if $Key !~ m{^\d+};
+
+            # FIXME: Support both old (HASH) and new (ARRAY of HASH) navigation configurations, for reasons of backwards
+            #   compatibility. Once we are sure everything has been migrated correctly, support for HASH-only
+            #   configuration can be dropped in future major release.
+            if ( IsHashRefWithData( $FrontendNavigation->{$Module}->{$Key} ) ) {
+                push @ModuleNavigationConfigs, $FrontendNavigation->{$Module}->{$Key};
+            }
+            elsif ( IsArrayRefWithData( $FrontendNavigation->{$Module}->{$Key} ) ) {
+                push @ModuleNavigationConfigs, @{ $FrontendNavigation->{$Module}->{$Key} };
+            }
+
+            # Skip incompatible configuration.
+            else {
+                next NAVIGATION_CONFIG;
+            }
+        }
 
         ITEM:
-        for my $Key ( sort keys %Hash ) {
-            next ITEM if $Key !~ m{^\d+$};
-
-            my $Item = $Hash{$Key};
-
+        for my $Item (@ModuleNavigationConfigs) {
             next ITEM if !$Item->{NavBar};
+
             $Item->{CSS} = '';
 
-            # highlight active area link
+            # Highlight active area link.
             if (
                 ( $Item->{Type} && $Item->{Type} eq 'Menu' )
                 && ( $Item->{NavBar} && $Item->{NavBar} eq $Param{Type} )
@@ -2876,25 +2899,25 @@ sub NavigationBar {
                 $Item->{CSS} .= ' Selected';
             }
 
-            # get permissions from module if no permissions are defined for the icon
+            my $InheritPermissions = 0;
+
+            # Inherit permissions from frontend registration if no permissions were defined for the navigation entry.
             if ( !$Item->{GroupRo} && !$Item->{Group} ) {
-                if ( $Hash{GroupRo} ) {
-                    $Item->{GroupRo} = $Hash{GroupRo};
+                if ( $FrontendRegistration->{GroupRo} ) {
+                    $Item->{GroupRo} = $FrontendRegistration->{GroupRo};
                 }
-                if ( $Hash{Group} ) {
-                    $Item->{Group} = $Hash{Group};
+                if ( $FrontendRegistration->{Group} ) {
+                    $Item->{Group} = $FrontendRegistration->{Group};
                 }
+                $InheritPermissions = 1;
             }
 
-            # check shown permission
             my $Shown = 0;
-
-            my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
             PERMISSION:
             for my $Permission (qw(GroupRo Group)) {
 
-                # no access restriction
+                # No access restriction.
                 if (
                     ref $Item->{GroupRo} eq 'ARRAY'
                     && !scalar @{ $Item->{GroupRo} }
@@ -2906,7 +2929,7 @@ sub NavigationBar {
                     last PERMISSION;
                 }
 
-                # array access restriction
+                # Array access restriction.
                 elsif ( $Item->{$Permission} && ref $Item->{$Permission} eq 'ARRAY' ) {
                     GROUP:
                     for my $Group ( @{ $Item->{$Permission} } ) {
@@ -2922,6 +2945,56 @@ sub NavigationBar {
                             last PERMISSION;
                         }
                     }
+                }
+            }
+
+            # If we passed the initial permission check and didn't inherit permissions from the module registration,
+            #   make sure to also check access to the module, since navigation item might be out of sync.
+            if ( $Shown && !$InheritPermissions ) {
+                my $ModulePermission;
+
+                PERMISSION:
+                for my $Permission (qw(GroupRo Group)) {
+
+                    # No access restriction.
+                    if (
+                        ref $FrontendRegistration->{$Module}->{GroupRo} eq 'ARRAY'
+                        && !scalar @{ $FrontendRegistration->{$Module}->{GroupRo} }
+                        && ref $FrontendRegistration->{$Module}->{Group} eq 'ARRAY'
+                        && !scalar @{ $FrontendRegistration->{$Module}->{Group} }
+                        )
+                    {
+
+                        $ModulePermission = 1;
+                        last PERMISSION;
+                    }
+
+                    # Array access restriction.
+                    elsif (
+                        $FrontendRegistration->{$Module}->{$Permission}
+                        && ref $FrontendRegistration->{$Module}->{$Permission} eq 'ARRAY'
+                        )
+                    {
+                        GROUP:
+                        for my $Group ( @{ $FrontendRegistration->{$Module}->{$Permission} } ) {
+                            next GROUP if !$Group;
+                            my $HasPermission = $GroupObject->PermissionCheck(
+                                UserID    => $Self->{UserID},
+                                GroupName => $Group,
+                                Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+
+                            );
+                            if ($HasPermission) {
+                                $ModulePermission = 1;
+                                last PERMISSION;
+                            }
+                        }
+                    }
+                }
+
+                # Hide item if no permission was granted to access the module.
+                if ( !$ModulePermission ) {
+                    $Shown = 0;
                 }
             }
 
@@ -3053,7 +3126,7 @@ sub NavigationBar {
                     my ($Action) = $FrontendSearch->{$Key}->{$Regex} =~ m{Action=(.*?)(;.*)?$};
 
                     # Do not show Search icon if action is not registered.
-                    next KEY if !$Config->{$Action};
+                    next KEY if !$FrontendRegistration->{$Action};
 
                     $Self->Block(
                         Name => 'SearchIcon',
@@ -3067,7 +3140,7 @@ sub NavigationBar {
     }
 
     # If Search icon is not added, check if AgentTicketSearch is enabled and add it.
-    if ( !$SearchAdded && $Config->{AgentTicketSearch} ) {
+    if ( !$SearchAdded && $FrontendRegistration->{AgentTicketSearch} ) {
         $Self->Block(
             Name => 'SearchIcon',
         );
@@ -4148,22 +4221,58 @@ sub CustomerNavigationBar {
     MODULE:
     for my $Module ( sort keys %{$NavigationConfig} ) {
 
-        my %Hash = %{ $NavigationConfig->{$Module} };
+        # Skip if module is disabled in frontend registration.
+        next MODULE if !IsHashRefWithData( $FrontendModule->{$Module} );
+
+        # Top-level frontend navigation configuration should always be a hash.
+        next MODULE if !IsHashRefWithData( $NavigationConfig->{$Module} );
+
+        my @ModuleNavigationConfigs;
+
+        # Go through all defined navigation configurations for the module and sort them by the key (00#-Module).
+        NAVIGATION_CONFIG:
+        for my $Key ( sort keys %{ $NavigationConfig->{$Module} || {} } ) {
+            next NAVIGATION_CONFIG if $Key !~ m{^\d+};
+
+            # FIXME: Support both old (HASH) and new (ARRAY of HASH) navigation configurations, for reasons of backwards
+            #   compatibility. Once we are sure everything has been migrated correctly, support for HASH-only
+            #   configuration can be dropped in future major release.
+            if ( IsHashRefWithData( $NavigationConfig->{$Module}->{$Key} ) ) {
+                push @ModuleNavigationConfigs, $NavigationConfig->{$Module}->{$Key};
+            }
+            elsif ( IsArrayRefWithData( $NavigationConfig->{$Module}->{$Key} ) ) {
+                push @ModuleNavigationConfigs, @{ $NavigationConfig->{$Module}->{$Key} };
+            }
+
+            # Skip incompatible configuration.
+            else {
+                next NAVIGATION_CONFIG;
+            }
+        }
 
         ITEM:
-        for my $Key ( sort keys %Hash ) {
-            my $Item = $Hash{$Key};
+        for my $Item (@ModuleNavigationConfigs) {
+            next ITEM if !$Item->{NavBar};
 
-            next ITEM if !$Item;
+            my $InheritPermissions = 0;
 
-            # check permissions
+            # Inherit permissions from frontend registration if no permissions were defined for the navigation entry.
+            if ( !$Item->{GroupRo} && !$Item->{Group} ) {
+                if ( $FrontendModule->{GroupRo} ) {
+                    $Item->{GroupRo} = $FrontendModule->{GroupRo};
+                }
+                if ( $FrontendModule->{Group} ) {
+                    $Item->{Group} = $FrontendModule->{Group};
+                }
+                $InheritPermissions = 1;
+            }
+
             my $Shown = 0;
 
-            # check shown permission
             PERMISSION:
             for my $Permission (qw(GroupRo Group)) {
 
-                # no access restriction
+                # No access restriction.
                 if (
                     ref $Item->{GroupRo} eq 'ARRAY'
                     && !scalar @{ $Item->{GroupRo} }
@@ -4175,14 +4284,13 @@ sub CustomerNavigationBar {
                     last PERMISSION;
                 }
 
-                # array access restriction
+                # Array access restriction.
                 elsif ( $Item->{$Permission} && ref $Item->{$Permission} eq 'ARRAY' ) {
                     for my $Group ( @{ $Item->{$Permission} } ) {
                         my $HasPermission = $GroupObject->PermissionCheck(
                             UserID    => $Self->{UserID},
                             GroupName => $Group,
                             Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
-
                         );
                         if ($HasPermission) {
                             $Shown = 1;
@@ -4192,27 +4300,76 @@ sub CustomerNavigationBar {
                 }
             }
 
+            # If we passed the initial permission check and didn't inherit permissions from the module registration,
+            #   make sure to also check access to the module, since navigation item might be out of sync.
+            if ( $Shown && !$InheritPermissions ) {
+                my $ModulePermission;
+
+                PERMISSION:
+                for my $Permission (qw(GroupRo Group)) {
+
+                    # No access restriction.
+                    if (
+                        ref $FrontendModule->{$Module}->{GroupRo} eq 'ARRAY'
+                        && !scalar @{ $FrontendModule->{$Module}->{GroupRo} }
+                        && ref $FrontendModule->{$Module}->{Group} eq 'ARRAY'
+                        && !scalar @{ $FrontendModule->{$Module}->{Group} }
+                        )
+                    {
+
+                        $ModulePermission = 1;
+                        last PERMISSION;
+                    }
+
+                    # Array access restriction.
+                    elsif (
+                        $FrontendModule->{$Module}->{$Permission}
+                        && ref $FrontendModule->{$Module}->{$Permission} eq 'ARRAY'
+                        )
+                    {
+                        GROUP:
+                        for my $Group ( @{ $FrontendModule->{$Module}->{$Permission} } ) {
+                            next GROUP if !$Group;
+                            my $HasPermission = $GroupObject->PermissionCheck(
+                                UserID    => $Self->{UserID},
+                                GroupName => $Group,
+                                Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+
+                            );
+                            if ($HasPermission) {
+                                $ModulePermission = 1;
+                                last PERMISSION;
+                            }
+                        }
+                    }
+                }
+
+                # Hide item if no permission was granted to access the module.
+                if ( !$ModulePermission ) {
+                    $Shown = 0;
+                }
+            }
+
             next ITEM if !$Shown;
 
             # set prio of item
-            my $Key = sprintf( "%07d", $Item->{Prio} );
+            my $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
             COUNT:
             for ( 1 .. 51 ) {
                 last COUNT if !$NavBarModule{$Key};
 
                 $Item->{Prio}++;
+                $Key = ( $Item->{Block} || '' ) . sprintf( "%07d", $Item->{Prio} );
             }
 
+            # Show as main menu.
             if ( $Item->{Type} eq 'Menu' ) {
-                $NavBarModule{ sprintf( "%07d", $Item->{Prio} ) } = $Item;
+                $NavBarModule{$Key} = $Item;
             }
 
             # show as sub of main menu
             elsif ( $Item->{Type} eq 'Submenu' ) {
-                $NavBarModule{Sub}->{ $Item->{NavBar} }->{ sprintf( "%07d", $Item->{Prio} ) } = $Item;
-            }
-            else {
-                $NavBarModule{ sprintf( "%07d", $Item->{Prio} ) } = $Item;
+                $NavBarModule{Sub}->{ $Item->{NavBar} }->{$Key} = $Item;
             }
         }
     }

@@ -35,9 +35,9 @@ sub Run {
     # check if the registration config is valid
     return if !IsHashRefWithData($FrontendModuleConfig);
     return if !IsHashRefWithData($FrontendNavigationConfig);
-    return if !IsHashRefWithData( $FrontendNavigationConfig->{1} );
+    return if !IsArrayRefWithData( $FrontendNavigationConfig->{'002-ProcessManagement'} );
 
-    my $NameForID = $FrontendNavigationConfig->{1}->{Name};
+    my $NameForID = $FrontendNavigationConfig->{'002-ProcessManagement'}->[0]->{Name};
     $NameForID =~ s/[ &;]//ig;
 
     # check if the module name is valid
@@ -126,7 +126,7 @@ sub Run {
 
     # frontend module is enabled but there is no selectable process, then remove the menu entry
     my $NavBarName = $FrontendModuleConfig->{NavBarName};
-    my $Priority = sprintf( "%07d", $FrontendNavigationConfig->{1}->{Prio} );
+    my $Priority = sprintf( '%07d', $FrontendNavigationConfig->{'002-ProcessManagement'}->[0]->{Prio} );
 
     my %Return = %{ $Param{NavBar}->{Sub} || {} };
 

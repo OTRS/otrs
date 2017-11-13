@@ -76,10 +76,10 @@ $Selenium->RunTest(
                 =~ m{^This setting is currently being overridden in Kernel\/Config\/Files\/ZZZZUnitTest\d+.pm and can't thus be changed here!$}
             ? 1
             : 0,
-            "Check if setting overrided message is present."
+            "Check if setting overridden message is present."
         );
 
-        # Check if overriden Effective value is displayed.
+        # Check if overridden Effective value is displayed.
         my $Value = $Selenium->find_element( "#Ticket\\:\\:Hook", "css" )->get_value();
         $Self->Is(
             $Value // '',
@@ -88,30 +88,8 @@ $Selenium->RunTest(
         );
 
         # Navigate to AdminSysConfig screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemConfiguration;");
-
-        # Use navigation to get to the Frontend::Agent::View::TicketQueue.
-        $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $("li#Frontend > i").length',
-        );
-        $Selenium->find_element( "li#Frontend > i", "css" )->click();
-
-        $Selenium->WaitFor(
-            JavaScript => 'return $("li#Frontend\\\\:\\\\:Agent > i").length',
-        );
-        $Selenium->find_element( "li#Frontend\\:\\:Agent > i", "css" )->click();
-
-        $Selenium->WaitFor(
-            JavaScript => 'return $("li#Frontend\\\\:\\\\:Agent\\\\:\\\\:View > i").length',
-        );
-        $Selenium->find_element( "li#Frontend\\:\\:Agent\\:\\:View > i", "css" )->click();
-
-        $Selenium->WaitFor(
-            JavaScript => 'return $("a#Frontend\\\\:\\\\:Agent\\\\:\\\\:View\\\\:\\\\:TicketQueue_anchor").length',
-        );
-
-        $Selenium->execute_script(
-            "\$('a#Frontend\\\\:\\\\:Agent\\\\:\\\\:View\\\\:\\\\:TicketQueue_anchor').click()",
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AdminSystemConfigurationGroup;RootNavigation=Frontend::Agent::View::TicketQueue"
         );
 
         $Selenium->WaitFor(
@@ -124,10 +102,10 @@ $Selenium->RunTest(
                 =~ m{^This setting is currently being overridden in Kernel\/Config\/Files\/ZZZZUnitTest\d+.pm and can't thus be changed here!$}
             ? 1
             : 0,
-            "Check if setting overrided message is present (when navigation is used)."
+            "Check if setting overridden message is present (when navigation is used)."
         );
 
-        # Check if overrided Effective value is displayed.
+        # Check if overridden Effective value is displayed.
         my $HashValue1 = $Selenium->find_element(
             "#Ticket\\:\\:Frontend\\:\\:AgentTicketQueue\\#\\#\\#QueueSort_Hash\\#\\#\\#3",
             "css"

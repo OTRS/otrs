@@ -241,6 +241,39 @@
             </Array>
         </Value>
     </Setting>
+    <Setting Name="ExampleArrayFrontendNavigation" Required="1" Valid="1">
+        <Description Translatable="1">Array of FrontendNavigation items.</Description>
+        <Navigation>Sample</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="FrontendNavigation">
+                    <Hash>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="Group">
+                            <Array>
+                            </Array>
+                        </Item>
+                        <Item Key="GroupRo">
+                            <Array>
+                            </Array>
+                        </Item>
+                        <Item Key="Description" Translatable="1">Description</Item>
+                        <Item Key="Name" Translatable="1">Test</Item>
+                        <Item Key="Link">Action=AgentTest;Subaction=Test</Item>
+                        <Item Key="LinkOption"></Item>
+                        <Item Key="NavBar">Customers</Item>
+                        <Item Key="Type"></Item>
+                        <Item Key="Block"></Item>
+                        <Item Key="AccessKey"></Item>
+                        <Item Key="Prio">200</Item>
+                    </Hash>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
     <Setting Name="ExampleArrayPassword" Required="1" Valid="1">
         <Description Translatable="1">Array of Password items.</Description>
         <Navigation>Sample</Navigation>
