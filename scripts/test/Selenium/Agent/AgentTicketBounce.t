@@ -89,8 +89,18 @@ $Selenium->RunTest(
 
         my $Success = $ArticleBackendObject->ArticleWritePlain(
             ArticleID => $ArticleID,
-            Email     => 'Test Email string',
-            UserID    => 1,
+            Email     => <<'EMAIL'
+From: otrs@localhost
+Content-Type: text/plain
+Mime-Version: 1.0
+Subject: Test
+Message-Id: <07731835-A22B-4FF3-AB4D-F1CF5A139F65>
+To: test@localhost
+
+Test Email string
+EMAIL
+            ,
+            UserID => 1,
         );
         $Self->True(
             $Success,

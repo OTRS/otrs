@@ -33,13 +33,39 @@ sub new {
 sub Send {
     my ( $Self, %Param ) = @_;
 
+    my $Class = ref $Self;
+
+    # Get and delete the communication-log object from the Params because all the
+    # other params will be cached (necessary for the unit tests).
+    my $CommunicationLogObject = delete $Param{CommunicationLogObject};
+
+    $CommunicationLogObject->ObjectLog(
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => $Class,
+        Value         => 'Received message for emulated sending without real external connections.',
+    );
+
     # get already stored emails from cache
     my $Emails = $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Key  => $Self->{CacheKey},
         Type => $Self->{CacheType},
     ) // [];
 
-    delete $Param{CommunicationLogObject};
+    # recipient
+    my $ToString = join ', ', @{ $Param{ToArray} };
+
+    $CommunicationLogObject->ObjectLogStart(
+        ObjectLogType => 'Connection',
+    );
+
+    $CommunicationLogObject->ObjectLog(
+        ObjectLogType => 'Connection',
+        Priority      => 'Info',
+        Key           => $Class,
+        Value         => sprintf( "Sending email from '%s' to '%s'.", $Param{From} // '', $ToString ),
+    );
+
     push @{$Emails}, \%Param;
 
     $Kernel::OM->Get('Kernel::System::Cache')->Set(
@@ -47,6 +73,18 @@ sub Send {
         Type  => $Self->{CacheType},
         Value => $Emails,
         TTL   => 60 * 60 * 24,
+    );
+
+    $CommunicationLogObject->ObjectLog(
+        ObjectLogType => 'Connection',
+        Priority      => 'Info',
+        Key           => $Class,
+        Value         => "Email successfully sent!",
+    );
+
+    $CommunicationLogObject->ObjectLogStop(
+        ObjectLogType => 'Connection',
+        Status        => 'Successful',
     );
 
     return {
