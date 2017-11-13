@@ -22,6 +22,13 @@ $Selenium->RunTest(
         my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
         my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
 
+        # Do not check RichText.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Frontend::RichText',
+            Value => 0,
+        );
+
         # Create test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
@@ -154,13 +161,8 @@ $Selenium->RunTest(
             "Validation is executed",
         );
 
-        # Delete the attachment.
-        $Selenium->find_element( "#AttachmentDeleteButton1", 'css' )->VerifiedClick();
-
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $("button[type=submit]").length;'
-        );
+        $Selenium->find_element( "#Subject",  'css' )->send_keys('Test');
+        $Selenium->find_element( "#RichText", 'css' )->send_keys('Test');
 
         # Submit.
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
@@ -168,7 +170,6 @@ $Selenium->RunTest(
             JavaScript =>
                 'return typeof($) === "function" && $(".TicketZoom").length;'
         );
-        sleep 2;
 
         my $Url = $Selenium->get_current_url();
 
