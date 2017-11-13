@@ -239,6 +239,7 @@ scripts/test/Selenium/Agent/AgentTicketAttachmentView.t
 scripts/test/Selenium/Agent/AgentTicketSMS.t
 scripts/test/Selenium/Agent/AgentTicketSMSOutbound.t
 scripts/test/Selenium/Agent/Chat.t
+scripts/test/Selenium/Agent/ChatIntegration.t
 scripts/test/Selenium/Agent/VideoChat.t
 scripts/test/Selenium/Customer/Chat.t
 scripts/test/Selenium/Customer/CustomerDynamicFieldDatabase.t
@@ -247,6 +248,7 @@ scripts/test/Selenium/Customer/VideoChat.t
 scripts/test/Selenium/Output/FilterElementPost/SLASelectionDialog.t
 scripts/test/Selenium/Output/TicketZoom/ContactWithData.t
 scripts/test/Selenium/Public/Chat.t
+scripts/test/Selenium/Public/ChatInclude.t
 scripts/test/SMSTemplate.t
 scripts/test/StatsReport.t
 scripts/test/SysConfig/OTRSBusiness/*
@@ -276,6 +278,7 @@ var/httpd/htdocs/js/Core.Agent.NotificationView.js
 var/httpd/htdocs/js/Core.Agent.TicketSMS.js
 var/httpd/htdocs/js/Core.Agent.TicketAttachmentView.js
 var/httpd/htdocs/js/Core.Customer.TicketMessage.SLASelectionDialog.js
+var/httpd/htdocs/js/test/ChatIncludeExamplePage.html
 var/httpd/htdocs/js/thirdparty/adapter.js-1.4.0/
 var/httpd/htdocs/js/thirdparty/libphonenumber-js/
 var/httpd/htdocs/skins/Agent/business*
