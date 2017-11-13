@@ -721,29 +721,37 @@ sub RequesterPerformRequest {
 
     if ( $ResponseCode !~ m{ \A 20 \d \z }xms ) {
         $ResponseError = $ErrorMessage . " Response code '$ResponseCode'.";
-    }
-
-    if ($ResponseError) {
 
         # log to debugger
         $Self->{DebuggerObject}->Error(
             Summary => $ResponseError,
         );
-        return {
-            Success      => 0,
-            ErrorMessage => $ResponseError,
-        };
     }
 
     my $ResponseContent = $RestClient->responseContent();
     if ( !IsStringWithData($ResponseContent) ) {
 
-        my $ResponseError = $ErrorMessage . ' No content provided.';
+        $ResponseError = $ErrorMessage . ' No content provided.';
 
         # log to debugger
         $Self->{DebuggerObject}->Error(
             Summary => $ResponseError,
         );
+    }
+
+    # else {
+
+    # Send processed data to debugger.
+    $Self->{DebuggerObject}->Debug(
+        Summary => 'JSON data received from remote system',
+        Data    => $ResponseContent,
+    );
+
+    # }
+
+    # Return early in case an error on response.
+    if ($ResponseError) {
+
         return {
             Success      => 0,
             ErrorMessage => $ResponseError,
@@ -774,12 +782,6 @@ sub RequesterPerformRequest {
             );
         }
     }
-
-    # send processed data to debugger
-    $Self->{DebuggerObject}->Debug(
-        Summary => 'JSON data received from remote system',
-        Data    => $ResponseContent,
-    );
 
     $ResponseContent = $EncodeObject->Convert2CharsetInternal(
         Text => $ResponseContent,
