@@ -181,7 +181,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::NumberGenerator::CheckSystemID" Required="1" Valid="1">
-        <Description Translatable="1">Checks the SystemID in ticket number detection for follow-ups (if inactive, SystemID will be changed after using the system).</Description>
+        <Description Translatable="1">Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.</Description>
         <Navigation>Core::Ticket</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
@@ -2011,7 +2011,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::NeedAccountedTime" Required="1" Valid="1">
-        <Description Translatable="1">Defines if time accounting is mandatory in the agent interface. If activated, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).</Description>
+        <Description Translatable="1">Defines if time accounting is mandatory in the agent interface. If enabled, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).</Description>
         <Navigation>Frontend::Agent</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -2464,14 +2464,14 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketFreeText###TicketType" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
-        <Description Translatable="1">Sets the ticket type in the ticket free text screen of the agent interface (Ticket::Type needs to be activated).</Description>
+        <Description Translatable="1">Sets the ticket type in the ticket free text screen of the agent interface (Ticket::Type needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketFreeText###Service" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
-        <Description Translatable="1">Sets the service in the ticket free text screen of the agent interface (Ticket::Service needs to be activated).</Description>
+        <Description Translatable="1">Sets the service in the ticket free text screen of the agent interface (Ticket::Service needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketFreeText</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
@@ -3072,14 +3072,14 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketClose###TicketType" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
-        <Description Translatable="1">Sets the ticket type in the close ticket screen of the agent interface (Ticket::Type needs to be activated).</Description>
+        <Description Translatable="1">Sets the ticket type in the close ticket screen of the agent interface (Ticket::Type needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketClose###Service" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
-        <Description Translatable="1">Sets the service in the close ticket screen of the agent interface (Ticket::Service needs to be activated).</Description>
+        <Description Translatable="1">Sets the service in the close ticket screen of the agent interface (Ticket::Service needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketClose</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -3277,14 +3277,14 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketNote###TicketType" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
-        <Description Translatable="1">Sets the ticket type in the ticket note screen of the agent interface (Ticket::Type needs to be activated).</Description>
+        <Description Translatable="1">Sets the ticket type in the ticket note screen of the agent interface (Ticket::Type needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketNote###Service" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
-        <Description Translatable="1">Sets the service in the ticket note screen of the agent interface (Ticket::Service needs to be activated).</Description>
+        <Description Translatable="1">Sets the service in the ticket note screen of the agent interface (Ticket::Service needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketNote</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -3485,14 +3485,14 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketOwner###TicketType" Required="0" Valid="1">
-        <Description Translatable="1">Sets the ticket type in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated).</Description>
+        <Description Translatable="1">Sets the ticket type in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Type needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketOwner</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketOwner###Service" Required="0" Valid="1">
-        <Description Translatable="1">Sets the service in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated).</Description>
+        <Description Translatable="1">Sets the service in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketOwner</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -3692,14 +3692,14 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPending###TicketType" Required="0" Valid="1">
-        <Description Translatable="1">Sets the ticket type in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated).</Description>
+        <Description Translatable="1">Sets the ticket type in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Type needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketPending</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPending###Service" Required="0" Valid="1">
-        <Description Translatable="1">Sets the service in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated).</Description>
+        <Description Translatable="1">Sets the service in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketPending</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -3898,14 +3898,14 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPriority###TicketType" Required="0" Valid="1">
-        <Description Translatable="1">Sets the ticket type in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated).</Description>
+        <Description Translatable="1">Sets the ticket type in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Type needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketPriority</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPriority###Service" Required="0" Valid="1">
-        <Description Translatable="1">Sets the service in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated).</Description>
+        <Description Translatable="1">Sets the service in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketPriority</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -4105,14 +4105,14 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketResponsible###TicketType" Required="0" Valid="1">
-        <Description Translatable="1">Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).</Description>
+        <Description Translatable="1">Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketResponsible</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketResponsible###Service" Required="0" Valid="1">
-        <Description Translatable="1">Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be activated).</Description>
+        <Description Translatable="1">Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be enabled).</Description>
         <Navigation>Frontend::Agent::View::TicketResponsible</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -4801,7 +4801,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::PendingNotificationNotToResponsible" Required="1" Valid="1">
-        <Description Translatable="1">Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).</Description>
+        <Description Translatable="1">Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).</Description>
         <Navigation>Core::Ticket</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -6311,7 +6311,7 @@
         </Value>
     </Setting>
     <Setting Name="OnlyValuesOnTicket" Required="1" Valid="1">
-        <Description Translatable="1">Defines if the values for filters should be retrieved from all available tickets. If active, only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.</Description>
+        <Description Translatable="1">Defines if the values for filters should be retrieved from all available tickets. If enabled, only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.</Description>
         <Navigation>Frontend::Agent::View::Dashboard::TicketFilters</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
@@ -7211,7 +7211,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketZoom###AttributesView" Required="1" Valid="1">
-        <Description Translatable="1">Shows the activated ticket attributes in the customer interface (0 = Disabled and 1 = Enabled).</Description>
+        <Description Translatable="1">Shows the enabled ticket attributes in the customer interface (0 = Disabled and 1 = Enabled).</Description>
         <Navigation>Frontend::Customer::View::TicketZoom</Navigation>
         <Value>
             <Hash>
@@ -11630,7 +11630,7 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="AutoResponseForWebTickets" Required="1" Valid="1">
-        <Description Translatable="1">If this option is active, tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is inactive, no autoresponses will be sent.</Description>
+        <Description Translatable="1">If this option is enabled, tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is not enabled, no autoresponses will be sent.</Description>
         <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
