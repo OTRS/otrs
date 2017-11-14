@@ -1337,7 +1337,7 @@ Subject: some subject
 Some Content in Body
 ',
         Module => 'Kernel::System::PostMaster::Filter::NewTicketReject',
-        Match => [
+        Match  => [
             {
                 Key   => 'X-Envelope-To',
                 Value => 'xenvelopeto@example.com',
@@ -1364,7 +1364,7 @@ Subject: some subject
 Some Content in Body
 ',
         Module => 'Kernel::System::PostMaster::Filter::NewTicketReject',
-        Match => {
+        Match  => {
             'X-Envelope-To' => 'xenvelopeto@example.com'
         },
         Set => {
@@ -1375,48 +1375,49 @@ Some Content in Body
         },
         Type => 'Config',
     },
-# Test cases are deactivated, because of problems with RHEL/CentOS7 with PostgreSQL
-#     {
-#         Name  => '#5 - X-Envelope-To Test with Kernel::System::PostMaster::Filter::CMD',
-#         Email => 'From: Sender <sender@example.com>
-# To: Some Name <recipient@example.com>
-# X-Envelope-To: Some XEnvelopeTo Name <xenvelopeto@example.com>
-# Subject: some subject
 
-# Some Content in Body
-# ',
-#         Module => 'Kernel::System::PostMaster::Filter::CMD',
-#         CMD => 'echo "SPAM"',
-#         Set => [
-#             {
-#                 Key   => 'X-OTRS-Ignore',
-#                 Value => 'yes',
-#             }
-#         ],
-#         Check => {
-#             ReturnCode => 5,
-#         },
-#         Type => 'Config',
-#     },
-#     {
-#         Name  => '#5 - X-Envelope-To Test with old post format Kernel::System::PostMaster::Filter::CMD',
-#         Email => 'From: Sender <sender@example.com>
-# To: Some Name <recipient@example.com>
-# X-Envelope-To: Some XEnvelopeTo Name <xenvelopeto@example.com>
-# Subject: some subject
+    # Test cases are deactivated, because of problems with RHEL/CentOS7 with PostgreSQL
+    #     {
+    #         Name  => '#5 - X-Envelope-To Test with Kernel::System::PostMaster::Filter::CMD',
+    #         Email => 'From: Sender <sender@example.com>
+    # To: Some Name <recipient@example.com>
+    # X-Envelope-To: Some XEnvelopeTo Name <xenvelopeto@example.com>
+    # Subject: some subject
 
-# Some Content in Body
-# ',
-#         Module => 'Kernel::System::PostMaster::Filter::CMD',
-#         CMD => 'echo "SPAM"',
-#         Set => {
-#             'X-OTRS-Ignore' => 'yes',
-#         },
-#         Check => {
-#             ReturnCode => 5,
-#         },
-#         Type => 'Config',
-#     },
+    # Some Content in Body
+    # ',
+    #         Module => 'Kernel::System::PostMaster::Filter::CMD',
+    #         CMD => 'echo "SPAM"',
+    #         Set => [
+    #             {
+    #                 Key   => 'X-OTRS-Ignore',
+    #                 Value => 'yes',
+    #             }
+    #         ],
+    #         Check => {
+    #             ReturnCode => 5,
+    #         },
+    #         Type => 'Config',
+    #     },
+    #     {
+    #         Name  => '#5 - X-Envelope-To Test with old post format Kernel::System::PostMaster::Filter::CMD',
+    #         Email => 'From: Sender <sender@example.com>
+    # To: Some Name <recipient@example.com>
+    # X-Envelope-To: Some XEnvelopeTo Name <xenvelopeto@example.com>
+    # Subject: some subject
+
+    # Some Content in Body
+    # ',
+    #         Module => 'Kernel::System::PostMaster::Filter::CMD',
+    #         CMD => 'echo "SPAM"',
+    #         Set => {
+    #             'X-OTRS-Ignore' => 'yes',
+    #         },
+    #         Check => {
+    #             ReturnCode => 5,
+    #         },
+    #         Type => 'Config',
+    #     },
 );
 
 $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::PostMaster::Filter'] );
@@ -1461,8 +1462,8 @@ for my $Test (@Tests) {
         );
 
         my %LookupRejectReturnCode = (
-            4 => 1, # follow up / close -> reject
-            5 => 1, # ignored (because of X-OTRS-Ignore header)
+            4 => 1,    # follow up / close -> reject
+            5 => 1,    # ignored (because of X-OTRS-Ignore header)
         );
 
         if ( !$Test->{Check}->{ReturnCode} || !$LookupRejectReturnCode{ $Test->{Check}->{ReturnCode} } ) {
