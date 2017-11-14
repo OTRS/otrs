@@ -225,7 +225,7 @@ $Selenium->RunTest(
         # Try to merge with second test ticket.
         $Selenium->find_element( '#MainTicketNumber', 'css' )->clear();
         $Selenium->find_element( '#MainTicketNumber', 'css' )->send_keys( $TicketNumbers[1] );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$("span.AJAXLoader:visible").length' );
 
         $Self->False(
             $Selenium->execute_script("return \$('li.ui-menu-item:visible').length;"),
