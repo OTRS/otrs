@@ -763,27 +763,26 @@ sub RequesterPerformRequest {
         $ResponseError = $ErrorMessage . " Response code '$ResponseCode'.";
     }
 
-    if ($ResponseError) {
-
-        # Log to debugger.
-        $Self->{DebuggerObject}->Error(
-            Summary => $ResponseError,
-        );
-        return {
-            Success      => 0,
-            ErrorMessage => $ResponseError,
-        };
-    }
-
     my $ResponseContent = $RestClient->responseContent();
     if ( !IsStringWithData($ResponseContent) ) {
 
-        my $ResponseError = $ErrorMessage . ' No content provided.';
+        $ResponseError .= ' No content provided.';
+    }
 
-        # Log to debugger.
+    # Return early in case an error on response.
+    if ($ResponseError) {
+
+        my $ResponseData = 'No content provided.';
+        if ( IsStringWithData($ResponseContent) ) {
+            $ResponseData = "Response content: '$ResponseContent'";
+        }
+
+        # log to debugger
         $Self->{DebuggerObject}->Error(
             Summary => $ResponseError,
+            Data    => $ResponseData,
         );
+
         return {
             Success      => 0,
             ErrorMessage => $ResponseError,
