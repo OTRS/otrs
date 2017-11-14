@@ -1,4 +1,5 @@
 #5.0.25 ????-??-??
+ - 2017-11-14 Fixed bug#[13314](https://bugs.otrs.org/show_bug.cgi?id=13314) - Multiple submit possible for bulk action.
 
 #5.0.24 2017-11-21
  - 2017-11-13 Fixed bug#[13108](https://bugs.otrs.org/show_bug.cgi?id=13108) - Debugger only shows information if HTTP response was 20x.

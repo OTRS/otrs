@@ -25,7 +25,7 @@
                 <div class="Content">
 
 [% RenderBlockStart("Item") %]
-                    <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post" class="Validate">
+                    <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post" class="Validate PreventMultipleSubmits">
                         <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                         <input type="hidden" name="Subaction" value="Update"/>
                         <input type="hidden" name="Group" value="[% Data.Group | html %]"/>

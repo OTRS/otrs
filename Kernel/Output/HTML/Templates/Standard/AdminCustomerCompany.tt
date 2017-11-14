@@ -142,7 +142,7 @@ $('.MasterAction').bind('click', function (Event) {
 [% RenderBlockEnd("HeaderEdit") %]
                 </div>
                 <div class="Content">
-                    <form action="[% Env("CGIHandle") %]"  class="Validate" method="post">
+                    <form action="[% Env("CGIHandle") %]"  class="Validate PreventMultipleSubmits" method="post">
                         <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                         <input type="hidden" name="Subaction" value="[% Data.Action | html %]Action"/>
                         <input type="hidden" name="Nav" value="[% Data.Nav | html %]"/>

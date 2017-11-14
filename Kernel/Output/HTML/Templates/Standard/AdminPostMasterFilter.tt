@@ -113,7 +113,7 @@ $('.FilterDelete').bind('click', function (Event) {
 [% RenderBlockEnd("OverviewResult") %]
 
 [% RenderBlockStart("OverviewUpdate") %]
-        <form action="[% Env("CGIHandle") %]" method="post" class="Validate">
+        <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
             <div class="WidgetSimple">
                 <div class="Header">
 [% RenderBlockStart("HeaderAdd") %]

@@ -85,7 +85,7 @@
             </div>
             <div class="Content">
 
-                <form action="[% Env("CGIHandle") %]" method="post" class="Validate">
+                <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="ServiceSave"/>
                     <input type="hidden" name="ServiceID" value="[% Data.ServiceID | html %]"/>

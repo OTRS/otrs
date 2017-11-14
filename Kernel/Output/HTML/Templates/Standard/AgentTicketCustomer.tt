@@ -33,7 +33,7 @@
 
             <div class="ContentColumn">
                 <div class="Content">
-                    <form action="[% Env("CGIHandle") %]" id="MainForm" method="post" name="compose" class="Validate">
+                    <form action="[% Env("CGIHandle") %]" id="MainForm" method="post" name="compose" class="Validate PreventMultipleSubmits">
                         <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                         <input type="hidden" name="Subaction" value="Update"/>
                         <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>

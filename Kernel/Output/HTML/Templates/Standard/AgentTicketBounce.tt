@@ -7,7 +7,7 @@
 # --
 
 <!-- start bounce form -->
-<form action="[% Env("CGIHandle") %]" method="post" name="bounce" class="Validate">
+<form action="[% Env("CGIHandle") %]" method="post" name="bounce" class="Validate PreventMultipleSubmits">
     <input type="hidden" name="Action"     value="[% Env("Action") %]"/>
     <input type="hidden" name="Subaction"  value="Store"/>
     <input type="hidden" name="QueueID"    value="[% Data.QueueID | html %]"/>
