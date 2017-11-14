@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.724406720942318;
+    $Self->{Completeness}        = 0.724090121317158;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -382,7 +382,6 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '',
-        'Detail View' => '',
         'Show only entries with specific priority and higher:' => '',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
@@ -2420,10 +2419,6 @@ sub Data {
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'تا',
 
-        # Template: AgentHTMLReferencePageLayout
-        'The ticket has been locked' => 'درخواست تحویل گرفته شده است',
-        'Undo & close' => 'عملیات را برگردان و پنجره را ببند',
-
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => 'برای پذیرش برخی اخبار، یک گواهینامه یا برخی تغییرات.',
         'Yes, accepted.' => '',
@@ -2534,6 +2529,8 @@ sub Data {
         'Change Priority of %s%s%s' => 'تغییر اولویت %s %s %s',
         'Change Responsible of %s%s%s' => 'تغییر مسئول %s %s %s',
         'All fields marked with an asterisk (*) are mandatory.' => 'همه فیلدهایی که با ستاره مشخص شده اند (*) الزامی است.',
+        'The ticket has been locked' => 'درخواست تحویل گرفته شده است',
+        'Undo & close' => 'عملیات را برگردان و پنجره را ببند',
         'Ticket Settings' => 'تنظیمات درخواست',
         'Queue invalid.' => '',
         'Service invalid.' => 'سرویس نامعتبر',
@@ -4272,8 +4269,8 @@ sub Data {
         'External Chat' => 'چت خارجی',
         'Queue Changed' => 'صف تغییر',
         'Notification Was Sent' => 'اطلاع رسانی فرستاده شد',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            'ما متاسفیم، شما اجازه ندارد دیگر برای دسترسی به این بلیط در وضعیت فعلی آن است.',
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
+            '',
         'Missing FormDraftID!' => '',
         'Can\'t get for ArticleID %s!' => ' نمی توانم بگیرم ArticleID از %s !',
         'Article filter settings were saved.' => 'تنظیمات فیلتر مقاله ذخیره شدند.',
@@ -4512,8 +4509,8 @@ sub Data {
         'h' => 'h',
         'm' => 'm',
         'd' => 'd',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
-            'ما متاسفیم، شما  دیگر برای دسترسی به این درخواست در وضعیت فعلی آن  اجازه ندارید. شما می توانید یکی از اقدامات زیر را انجام دهید:',
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state. You can take one of the following actions:' =>
+            '',
         'This is a' => 'این یک',
         'email' => 'ایمیل',
         'click here' => 'اینجا کلیک کنید',
@@ -5211,7 +5208,7 @@ sub Data {
         'System was not able to calculate user DateTime in OTRSTimeZone!' =>
             '',
 
-        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendRegistration.pm
+        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
         'Value is not correct! Please, consider updating this module.' =>
             '',
 
@@ -6068,7 +6065,7 @@ Thanks for your help!
         'Checks for queued outgoing emails to be sent.' => '',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'چک اگر یک ایمیل پیگیری بلیط های موجود به با جستجو در موضوع برای یک تعداد بلیط معتبر است.',
-        'Checks the SystemID in ticket number detection for follow-ups ( If inactive, SystemID will be changed after using the system).' =>
+        'Checks the SystemID in ticket number detection for follow-ups (if inactive, SystemID will be changed after using the system).' =>
             '',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
             'چک در دسترس بودن OTRS کسب و کار راه حل ™ برای این سیستم.',
@@ -6080,7 +6077,7 @@ Thanks for your help!
             '',
         'Choose for which kind of ticket changes you want to receive notifications. Please note that you can\'t completely disable notifications marked as mandatory.' =>
             '',
-        'Choose which notifications would you like to receive.' => '',
+        'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'شب کریسمس',
         'Close this ticket' => 'بستن این درخواست ',
         'Closed tickets (customer user)' => 'درخواست های بسته (کاربران مشتری)',
@@ -7271,8 +7268,6 @@ Thanks for your help!
         'Graph: Line Chart' => 'نمودار: نمودار خط',
         'Graph: Stacked Area Chart' => 'نمودار: نمودار محیطی پشتهای',
         'Greek' => 'یونانی',
-        'HTML Reference' => 'HTML مرجع',
-        'HTML Reference.' => 'HTML مرجع.',
         'Hebrew' => 'عبری',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
             'کمک می کند تا به گسترش مقالات خود را جستجو متن کامل (از، به، CC، موضوع و جستجو بدن). در زمان اجرا خواهد جستجو متن کامل بر روی داده های زنده انجام (خوب کار می کند تا 50.000 بلیط). StaticDB همه مقالات نوار و شاخص پس از ایجاد مقاله ساخت، افزایش جستجو متن در حدود 50٪. برای ایجاد یک استفاده شاخص اولیه \ "بن / otrs.Console.pl سیستم maint :: بلیط :: FulltextIndexRebuild ".',
@@ -7494,7 +7489,7 @@ Thanks for your help!
         'Loop protection: no auto-response sent to "%s".' => '',
         'Mail Accounts' => 'حساب های پست الکترونیکی',
         'MailQueue configuration settings.' => '',
-        'Main menu for the agent interface.' => '',
+        'Main menu item registration.' => '',
         'Main menu registration.' => 'ثبت نام منوی اصلی.',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'باعث می شود نرم افزار چک رکورد MX از آدرس های ایمیل قبل از ارسال ایمیل و یا ارسال یک تلفن و یا ایمیل بلیط.',

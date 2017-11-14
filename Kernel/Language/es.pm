@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.652866793694786;
+    $Self->{Completeness}        = 0.652512998266898;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -382,7 +382,6 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => 'Vista detallada de la %s comunicación iniciada en %s',
-        'Detail View' => 'Vista Detallada',
         'Show only entries with specific priority and higher:' => 'Mostrar solo entradas de prioridad específica ó más alta:',
         'Communication Log Overview (%s)' => 'La Visión General del Registro de Comunicación (%s)',
         'No communication objects found.' => 'No se encontraron los objetos de comunicación',
@@ -2420,10 +2419,6 @@ sub Data {
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'hasta',
 
-        # Template: AgentHTMLReferencePageLayout
-        'The ticket has been locked' => 'El ticket ha sido bloqueado',
-        'Undo & close' => 'Deshacer y cerrar',
-
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => 'Para aceptar algunas noticias, una licencia o algunos cambios.',
         'Yes, accepted.' => '',
@@ -2534,6 +2529,8 @@ sub Data {
         'Change Priority of %s%s%s' => 'Cambiar Prioridad de %s%s',
         'Change Responsible of %s%s%s' => 'Cambiar Responsable de %s%s',
         'All fields marked with an asterisk (*) are mandatory.' => 'Todos los campos marcados con un asterisco (*) son obligatorios.',
+        'The ticket has been locked' => 'El ticket ha sido bloqueado',
+        'Undo & close' => 'Deshacer y cerrar',
         'Ticket Settings' => 'Ajustes de los tickets',
         'Queue invalid.' => '',
         'Service invalid.' => 'Servicio no válido',
@@ -4272,8 +4269,8 @@ sub Data {
         'External Chat' => 'Chat externo',
         'Queue Changed' => 'Cola cambiada',
         'Notification Was Sent' => 'Notificación enviada',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            'Lo sentimos, usted ya no tiene permisos para acceder a este ticket en su estado actual.',
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
+            '',
         'Missing FormDraftID!' => '',
         'Can\'t get for ArticleID %s!' => 'No se lo pudo obtener para el ID de Artículo %s!',
         'Article filter settings were saved.' => 'Los ajustes de filtro de artículos fueron guardados.',
@@ -4512,8 +4509,8 @@ sub Data {
         'h' => 'h',
         'm' => 'm',
         'd' => 'd',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
-            'Lo sentimos, ya no tienes permisos para acceder a este ticket en su estado actual. Puede realizar una de las siguientes acciones:',
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state. You can take one of the following actions:' =>
+            '',
         'This is a' => 'Este es un',
         'email' => 'correo',
         'click here' => 'pulse aquí',
@@ -5212,7 +5209,7 @@ sub Data {
         'System was not able to calculate user DateTime in OTRSTimeZone!' =>
             '',
 
-        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendRegistration.pm
+        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
         'Value is not correct! Please, consider updating this module.' =>
             '',
 
@@ -6075,7 +6072,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Checks for queued outgoing emails to be sent.' => '',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Comprueba si un E-Mail es un seguimiento a un ticket existente búscando en el tema por un número de ticket válido.',
-        'Checks the SystemID in ticket number detection for follow-ups ( If inactive, SystemID will be changed after using the system).' =>
+        'Checks the SystemID in ticket number detection for follow-ups (if inactive, SystemID will be changed after using the system).' =>
             '',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
             'Comprueba la disponibilidad de OTRS Business Solution™ para este sistema.',
@@ -6087,7 +6084,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             'Elija el tipo de cambios en las citas par las cuales desea recibir notificaciones.',
         'Choose for which kind of ticket changes you want to receive notifications. Please note that you can\'t completely disable notifications marked as mandatory.' =>
             '',
-        'Choose which notifications would you like to receive.' => '',
+        'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Nochebuena',
         'Close this ticket' => 'Cerrar este ticket',
         'Closed tickets (customer user)' => 'Tickets cerrados (cliente usuario)',
@@ -7024,7 +7021,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Down' => 'Abajo',
         'Dropdown' => '',
-        'Dutch' => '',
+        'Dutch' => 'Holandés ',
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             'Palabras vacías en holandés para el índice de texto completo. Estas palabras serán eliminadas del índice de búsqueda.',
         'Dynamic Fields Checkbox Backend GUI' => '',
@@ -7278,8 +7275,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Graph: Line Chart' => 'Gráfico: Gráfico de líneas',
         'Graph: Stacked Area Chart' => 'Gráfico: Gráfico de áreas apiladas',
         'Greek' => 'Griego',
-        'HTML Reference' => 'Referencia HTML',
-        'HTML Reference.' => 'Referencia HTML.',
         'Hebrew' => 'Hebreo',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
             '',
@@ -7501,7 +7496,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Loop protection: no auto-response sent to "%s".' => '',
         'Mail Accounts' => 'Cuentas de Correo',
         'MailQueue configuration settings.' => '',
-        'Main menu for the agent interface.' => '',
+        'Main menu item registration.' => '',
         'Main menu registration.' => 'Registro del menú principal.',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             '',

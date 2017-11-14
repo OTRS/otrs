@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-11-07 00:26+0000\n"
+"POT-Creation-Date: 2017-11-13 23:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1108,10 +1108,6 @@ msgstr ""
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
-msgstr ""
-
-#. Template: AdminCommunicationLogZoom
-msgid "Detail View"
 msgstr ""
 
 #. Template: AdminCommunicationLogZoom
@@ -7158,14 +7154,6 @@ msgstr ""
 msgid "until"
 msgstr ""
 
-#. Template: AgentHTMLReferencePageLayout
-msgid "The ticket has been locked"
-msgstr ""
-
-#. Template: AgentHTMLReferencePageLayout
-msgid "Undo & close"
-msgstr ""
-
 #. Template: AgentInfo
 msgid "To accept some news, a license or some changes."
 msgstr ""
@@ -7464,6 +7452,14 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "All fields marked with an asterisk (*) are mandatory."
+msgstr ""
+
+#. Template: AgentTicketActionCommon
+msgid "The ticket has been locked"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
+msgid "Undo & close"
 msgstr ""
 
 #. Template: AgentTicketActionCommon
@@ -12307,7 +12303,7 @@ msgid "Notification Was Sent"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "We are sorry, you do not have permissions anymore to access this ticket in its current state."
+msgid "This ticket does not exist, or you don't have permissions to access it in its current state."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
@@ -12911,7 +12907,7 @@ msgid "d"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:"
+msgid "This ticket does not exist, or you don't have permissions to access it in its current state. You can take one of the following actions:"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
@@ -14486,7 +14482,7 @@ msgstr ""
 msgid "System was not able to calculate user DateTime in OTRSTimeZone!"
 msgstr ""
 
-#. Perl Module: Kernel/System/SysConfig/ValueType/FrontendRegistration.pm
+#. Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
 msgid "Value is not correct! Please, consider updating this module."
 msgstr ""
 
@@ -16646,7 +16642,7 @@ msgid "Checks if an E-Mail is a followup to an existing ticket by searching the 
 msgstr ""
 
 #. SysConfig
-msgid "Checks the SystemID in ticket number detection for follow-ups ( If inactive, SystemID will be changed after using the system)."
+msgid "Checks the SystemID in ticket number detection for follow-ups (if inactive, SystemID will be changed after using the system)."
 msgstr ""
 
 #. SysConfig
@@ -16678,7 +16674,7 @@ msgid "Choose for which kind of ticket changes you want to receive notifications
 msgstr ""
 
 #. SysConfig
-msgid "Choose which notifications would you like to receive."
+msgid "Choose which notifications you'd like to receive."
 msgstr ""
 
 #. SysConfig
@@ -19586,14 +19582,6 @@ msgid "Greek"
 msgstr ""
 
 #. SysConfig
-msgid "HTML Reference"
-msgstr ""
-
-#. SysConfig
-msgid "HTML Reference."
-msgstr ""
-
-#. SysConfig
 msgid "Hebrew"
 msgstr ""
 
@@ -20178,7 +20166,7 @@ msgid "MailQueue configuration settings."
 msgstr ""
 
 #. SysConfig
-msgid "Main menu for the agent interface."
+msgid "Main menu item registration."
 msgstr ""
 
 #. SysConfig

@@ -11,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-11-07 00:18+0000\n"
-"PO-Revision-Date: 2017-11-07 00:23+0000\n"
+"POT-Creation-Date: 2017-11-13 23:49+0000\n"
+"PO-Revision-Date: 2017-11-13 23:52+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Czech (http://www.transifex.com/otrs/OTRS/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -121,7 +121,7 @@ msgstr "Exportovat"
 
 #. Template: AdminACL
 msgid "Copy"
-msgstr ""
+msgstr "Kopírovat"
 
 #. Template: AdminACL
 msgid "No data found."
@@ -133,11 +133,11 @@ msgstr "Nenalezena žádná shoda."
 
 #. Template: AdminACLEdit
 msgid "Edit ACL %s"
-msgstr ""
+msgstr "Upravit ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
-msgstr ""
+msgstr "Upravit ACL"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -145,11 +145,11 @@ msgstr "Přejít na přehled"
 
 #. Template: AdminACLEdit
 msgid "Delete ACL"
-msgstr ""
+msgstr "Smazat ACL"
 
 #. Template: AdminACLEdit
 msgid "Delete Invalid ACL"
-msgstr ""
+msgstr "Smazat neplatná ACL"
 
 #. Template: AdminACLEdit
 msgid "Match settings"
@@ -355,7 +355,7 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Color"
-msgstr ""
+msgstr "Barva"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Permission group"
@@ -724,7 +724,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid " e. g."
-msgstr ""
+msgstr "např."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the calendar attribute"
@@ -1196,10 +1196,6 @@ msgstr ""
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
-msgstr ""
-
-#. Template: AdminCommunicationLogZoom
-msgid "Detail View"
 msgstr ""
 
 #. Template: AdminCommunicationLogZoom
@@ -7725,14 +7721,6 @@ msgstr "mimo kancelář"
 msgid "until"
 msgstr "do"
 
-#. Template: AgentHTMLReferencePageLayout
-msgid "The ticket has been locked"
-msgstr "Tiket byl uzamčen"
-
-#. Template: AgentHTMLReferencePageLayout
-msgid "Undo & close"
-msgstr ""
-
 #. Template: AgentInfo
 msgid "To accept some news, a license or some changes."
 msgstr ""
@@ -8050,6 +8038,14 @@ msgstr ""
 #. Template: AgentTicketActionCommon
 msgid "All fields marked with an asterisk (*) are mandatory."
 msgstr "Všechna pole označena hvězdičkou (*) jsou povinná."
+
+#. Template: AgentTicketActionCommon
+msgid "The ticket has been locked"
+msgstr "Tiket byl uzamčen"
+
+#. Template: AgentTicketActionCommon
+msgid "Undo & close"
+msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Ticket Settings"
@@ -11677,15 +11673,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent Interface"
-msgstr ""
+msgstr "Rozhraní Řešitele"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Customer Interface"
-msgstr ""
+msgstr "Rozhraní Zákazníka"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent and Customer Interface"
-msgstr ""
+msgstr "Rozhraní Řešitele a Zákazníka"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Do not show Field"
@@ -12088,15 +12084,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentAppointmentAgendaOverview.pm
 msgid "Month"
-msgstr ""
+msgstr "Měsíc"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentAgendaOverview.pm
 msgid "Week"
-msgstr ""
+msgstr "Týden"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentAgendaOverview.pm
 msgid "Day"
-msgstr ""
+msgstr "Den"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentCalendarOverview.pm
 msgid "All appointments"
@@ -12116,23 +12112,23 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Never"
-msgstr ""
+msgstr "Nikdy"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Every Day"
-msgstr ""
+msgstr "Každý den"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Every Week"
-msgstr ""
+msgstr "Každý týden"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Every Month"
-msgstr ""
+msgstr "Každý měsíc"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Every Year"
-msgstr ""
+msgstr "Každý rok"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Custom"
@@ -12140,19 +12136,19 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Daily"
-msgstr ""
+msgstr "Denně"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Weekly"
-msgstr ""
+msgstr "Týdně"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Monthly"
-msgstr ""
+msgstr "Měsíčně"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Yearly"
-msgstr ""
+msgstr "Ročně"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "every"
@@ -12176,7 +12172,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "No notification"
-msgstr ""
+msgstr "Žádná notifikace"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "%s minute(s) before"
@@ -12256,11 +12252,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Customer Name"
-msgstr ""
+msgstr "Jméno zákazníka"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Customer User Name"
-msgstr ""
+msgstr "Jméno zákaznického uživatele"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Need SourceObject and SourceKey!"
@@ -12308,7 +12304,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Setting not found!"
-msgstr ""
+msgstr "Nastavení nenalezeno!"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "This feature is part of the %s Please contact us at %s for an upgrade."
@@ -13067,7 +13063,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
-"We are sorry, you do not have permissions anymore to access this ticket in "
+"This ticket does not exist, or you don't have permissions to access it in "
 "its current state."
 msgstr ""
 
@@ -13693,7 +13689,7 @@ msgstr "d"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid ""
-"We are sorry, you do not have permissions anymore to access this ticket in "
+"This ticket does not exist, or you don't have permissions to access it in "
 "its current state. You can take one of the following actions:"
 msgstr ""
 
@@ -13958,7 +13954,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
 msgid "Time zone updated successfully!"
-msgstr ""
+msgstr "Nastavení časové zóny bylo úspěšně aktualizováno!"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "invalid"
@@ -15474,7 +15470,7 @@ msgstr ""
 msgid "System was not able to calculate user DateTime in OTRSTimeZone!"
 msgstr ""
 
-#. Perl Module: Kernel/System/SysConfig/ValueType/FrontendRegistration.pm
+#. Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
 msgid "Value is not correct! Please, consider updating this module."
 msgstr ""
 
@@ -17580,7 +17576,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Answer"
-msgstr "Odpověd."
+msgstr "Odpověd"
 
 #. SysConfig
 msgid "Appointment Calendar overview page."
@@ -17890,8 +17886,8 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Checks the SystemID in ticket number detection for follow-ups ( If inactive,"
-" SystemID will be changed after using the system)."
+"Checks the SystemID in ticket number detection for follow-ups (if inactive, "
+"SystemID will be changed after using the system)."
 msgstr ""
 
 #. SysConfig
@@ -17928,7 +17924,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Choose which notifications would you like to receive."
+msgid "Choose which notifications you'd like to receive."
 msgstr ""
 
 #. SysConfig
@@ -21808,7 +21804,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Go to dashboard!"
-msgstr "Navštivte nástěnku."
+msgstr "Navštivte nástěnku!"
 
 #. SysConfig
 msgid "Google Authenticator"
@@ -21828,14 +21824,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Greek"
-msgstr ""
-
-#. SysConfig
-msgid "HTML Reference"
-msgstr ""
-
-#. SysConfig
-msgid "HTML Reference."
 msgstr ""
 
 #. SysConfig
@@ -22594,7 +22582,7 @@ msgid "MailQueue configuration settings."
 msgstr ""
 
 #. SysConfig
-msgid "Main menu for the agent interface."
+msgid "Main menu item registration."
 msgstr ""
 
 #. SysConfig

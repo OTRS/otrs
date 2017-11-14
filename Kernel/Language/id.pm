@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.708990126450719;
+    $Self->{Completeness}        = 0.708665511265165;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -377,7 +377,6 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '',
-        'Detail View' => '',
         'Show only entries with specific priority and higher:' => '',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
@@ -2417,10 +2416,6 @@ bin/otrs.Daemon.pl status\').',
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'Sampai',
 
-        # Template: AgentHTMLReferencePageLayout
-        'The ticket has been locked' => 'Tiket telah dikunci',
-        'Undo & close' => 'Undur & tutup',
-
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => 'Untuk menerima berita, lisensi atau beberapa perubahan.',
         'Yes, accepted.' => '',
@@ -2531,6 +2526,8 @@ bin/otrs.Daemon.pl status\').',
         'Change Priority of %s%s%s' => 'Tukar prioritas dari %s%s%s',
         'Change Responsible of %s%s%s' => 'Ubah tanggung jawab dari %s%s%s',
         'All fields marked with an asterisk (*) are mandatory.' => 'Semua bidang yang ditandai dengan tanda bintang (*) wajib diisi.',
+        'The ticket has been locked' => 'Tiket telah dikunci',
+        'Undo & close' => 'Undur & tutup',
         'Ticket Settings' => 'Pengaturan email',
         'Queue invalid.' => '',
         'Service invalid.' => 'Layanan tidak sah',
@@ -4269,8 +4266,8 @@ bin/otrs.Daemon.pl status\').',
         'External Chat' => 'Obrolan diluar',
         'Queue Changed' => '',
         'Notification Was Sent' => '',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            'Mohon maaf, Anda tidak memiliki izin lagi untuk mengakses tiket ini dalam kondisi saat ini.',
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
+            '',
         'Missing FormDraftID!' => '',
         'Can\'t get for ArticleID %s!' => 'Tidak bisa mendapatkan ArticleID %s!',
         'Article filter settings were saved.' => 'Pengaturan filter artikel telah disimpan',
@@ -4509,8 +4506,8 @@ bin/otrs.Daemon.pl status\').',
         'h' => 'j',
         'm' => 'm',
         'd' => 'h',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
-            'Mohon maaf, Anda tidak memiliki izin lagi untuk mengakses tiket ini dalam kondisi saat ini. Anda dapat mengambil salah satu tindakan berikut:',
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state. You can take one of the following actions:' =>
+            '',
         'This is a' => 'Ini adalah',
         'email' => 'email',
         'click here' => 'klik disini',
@@ -5208,7 +5205,7 @@ bin/otrs.Daemon.pl status\').',
         'System was not able to calculate user DateTime in OTRSTimeZone!' =>
             '',
 
-        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendRegistration.pm
+        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
         'Value is not correct! Please, consider updating this module.' =>
             '',
 
@@ -6066,7 +6063,7 @@ Helpdesk Team Anda
         'Checks for queued outgoing emails to be sent.' => '',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Cek jika E-Mail merupakan tindak lanjut ke tiket yang ada dengan mencari subjek untuk sejumlah tiket yang sah.',
-        'Checks the SystemID in ticket number detection for follow-ups ( If inactive, SystemID will be changed after using the system).' =>
+        'Checks the SystemID in ticket number detection for follow-ups (if inactive, SystemID will be changed after using the system).' =>
             '',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
             'Cek ketersediaan OTRS Business Solution™ untuk sistem ini.',
@@ -6078,7 +6075,7 @@ Helpdesk Team Anda
             '',
         'Choose for which kind of ticket changes you want to receive notifications. Please note that you can\'t completely disable notifications marked as mandatory.' =>
             '',
-        'Choose which notifications would you like to receive.' => '',
+        'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Malam natal',
         'Close this ticket' => 'Tutup tiket ini',
         'Closed tickets (customer user)' => 'Tiket tertutup (customer pengguna)',
@@ -7270,8 +7267,6 @@ Helpdesk Team Anda
         'Graph: Line Chart' => 'Graph: Garis chart',
         'Graph: Stacked Area Chart' => 'Grafik: Tumpukan Bagan Lokasi',
         'Greek' => 'Yunani',
-        'HTML Reference' => 'Referensi HTML',
-        'HTML Reference.' => 'Referensi HTML',
         'Hebrew' => 'Ibrani',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
             'Membantu untuk memperpanjang artikel Anda pencarian teks lengkap (Dari, Untuk, Cc, Subjek dan pencarian Tubuh). Runtime akan melakukan pencarian teks lengkap pada data  (bekerja dengan baik hingga 50.000 tiket). Statis DB akan melucuti semua artikel dan akan membangun indeks setelah pembuatan artikel, meningkatkan pencarian fulltext sekitar 50%. Untuk membuat penggunaan indeks awal "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".',
@@ -7493,7 +7488,7 @@ Helpdesk Team Anda
         'Loop protection: no auto-response sent to "%s".' => '',
         'Mail Accounts' => 'Akun email',
         'MailQueue configuration settings.' => '',
-        'Main menu for the agent interface.' => '',
+        'Main menu item registration.' => '',
         'Main menu registration.' => 'Menu utama untuk pendaftaran ',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'Membuat aplikasi untuk memeriksa catatan MX alamat email sebelum mengirim email   telepon atau email tiket.',

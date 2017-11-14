@@ -18,8 +18,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-11-07 00:18+0000\n"
-"PO-Revision-Date: 2017-11-07 00:23+0000\n"
+"POT-Creation-Date: 2017-11-13 23:49+0000\n"
+"PO-Revision-Date: 2017-11-13 23:52+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Polish (http://www.transifex.com/otrs/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -539,7 +539,7 @@ msgstr "Podpowiedź (etykieta) w preferencjach agenta"
 msgid ""
 "This message will be shown on the agent preferences screen as a tooltip for "
 "this notification."
-msgstr ""
+msgstr "Ten komunikat agent zobaczy na ekranie ustawień jako podpowiedź opisująca te powiadomienie."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Toggle this widget"
@@ -642,7 +642,7 @@ msgstr "Transport"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "At least one method is needed per notification."
-msgstr ""
+msgstr "Wymagana jest przynajmniej jedna metoda na powiadomienie."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Active by default in agent preferences"
@@ -1203,10 +1203,6 @@ msgstr ""
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
-msgstr ""
-
-#. Template: AdminCommunicationLogZoom
-msgid "Detail View"
 msgstr ""
 
 #. Template: AdminCommunicationLogZoom
@@ -7732,14 +7728,6 @@ msgstr "poza biurem"
 msgid "until"
 msgstr "do"
 
-#. Template: AgentHTMLReferencePageLayout
-msgid "The ticket has been locked"
-msgstr "Zgłoszenie zostało zablokowane"
-
-#. Template: AgentHTMLReferencePageLayout
-msgid "Undo & close"
-msgstr "Cofnij i zamknij"
-
 #. Template: AgentInfo
 msgid "To accept some news, a license or some changes."
 msgstr "Aby zaakceptować niektóre wiadomości, licencje lub niektóre zmiany."
@@ -8057,6 +8045,14 @@ msgstr "Zmień odpowiedzialnego dla %s%s%s"
 #. Template: AgentTicketActionCommon
 msgid "All fields marked with an asterisk (*) are mandatory."
 msgstr "Pola oznaczone gwiazdką (*) są wymagane."
+
+#. Template: AgentTicketActionCommon
+msgid "The ticket has been locked"
+msgstr "Zgłoszenie zostało zablokowane"
+
+#. Template: AgentTicketActionCommon
+msgid "Undo & close"
+msgstr "Cofnij i zamknij"
 
 #. Template: AgentTicketActionCommon
 msgid "Ticket Settings"
@@ -13074,7 +13070,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
-"We are sorry, you do not have permissions anymore to access this ticket in "
+"This ticket does not exist, or you don't have permissions to access it in "
 "its current state."
 msgstr ""
 
@@ -13700,9 +13696,9 @@ msgstr "d"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid ""
-"We are sorry, you do not have permissions anymore to access this ticket in "
+"This ticket does not exist, or you don't have permissions to access it in "
 "its current state. You can take one of the following actions:"
-msgstr "Przykro nam, nie posiadasz już uprawnień do tego zgłoszenia w jego obecnym stanie. Możesz wykonać jedną z poniższych czynności:"
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "This is a"
@@ -15481,7 +15477,7 @@ msgstr ""
 msgid "System was not able to calculate user DateTime in OTRSTimeZone!"
 msgstr ""
 
-#. Perl Module: Kernel/System/SysConfig/ValueType/FrontendRegistration.pm
+#. Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
 msgid "Value is not correct! Please, consider updating this module."
 msgstr ""
 
@@ -17897,8 +17893,8 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Checks the SystemID in ticket number detection for follow-ups ( If inactive,"
-" SystemID will be changed after using the system)."
+"Checks the SystemID in ticket number detection for follow-ups (if inactive, "
+"SystemID will be changed after using the system)."
 msgstr ""
 
 #. SysConfig
@@ -17935,7 +17931,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Choose which notifications would you like to receive."
+msgid "Choose which notifications you'd like to receive."
 msgstr ""
 
 #. SysConfig
@@ -21838,14 +21834,6 @@ msgid "Greek"
 msgstr "Grecki"
 
 #. SysConfig
-msgid "HTML Reference"
-msgstr ""
-
-#. SysConfig
-msgid "HTML Reference."
-msgstr ""
-
-#. SysConfig
 msgid "Hebrew"
 msgstr "Hebrajski"
 
@@ -22601,7 +22589,7 @@ msgid "MailQueue configuration settings."
 msgstr ""
 
 #. SysConfig
-msgid "Main menu for the agent interface."
+msgid "Main menu item registration."
 msgstr ""
 
 #. SysConfig

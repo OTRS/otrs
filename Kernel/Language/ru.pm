@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.915988221028928;
+    $Self->{Completeness}        = 0.915944540727903;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -388,7 +388,6 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => 'Подробный просмотр для %s сеанс начат в %s',
-        'Detail View' => 'Подробный просмотр',
         'Show only entries with specific priority and higher:' => 'Показывать записи только с указанным приоритетом и выше:',
         'Communication Log Overview (%s)' => 'Просмотр журнала сеансов связи для:  (%s)',
         'No communication objects found.' => 'Нет объектов сеансов связи.',
@@ -2426,10 +2425,6 @@ sub Data {
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'до',
 
-        # Template: AgentHTMLReferencePageLayout
-        'The ticket has been locked' => 'Заявка была заблокирована',
-        'Undo & close' => 'Отменить и закрыть',
-
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => 'Чтобы принять какие-нибудь новости, лицензию или какие-то изменения.',
         'Yes, accepted.' => '',
@@ -2540,6 +2535,8 @@ sub Data {
         'Change Priority of %s%s%s' => 'Сменить приоритет %s%s%s',
         'Change Responsible of %s%s%s' => 'Изменить ответственного для %s%s%s',
         'All fields marked with an asterisk (*) are mandatory.' => 'Все поля отмеченные (*) являются обязательными',
+        'The ticket has been locked' => 'Заявка была заблокирована',
+        'Undo & close' => 'Отменить и закрыть',
         'Ticket Settings' => 'Настройки заявок',
         'Queue invalid.' => 'Неверная очередь.',
         'Service invalid.' => 'Некорректный сервис.',
@@ -4278,8 +4275,8 @@ sub Data {
         'External Chat' => 'Внешний чат',
         'Queue Changed' => 'Очередь изменена',
         'Notification Was Sent' => 'Уведомление было отправлено',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            'Извините, но у вас больше нет прав на доступ к этой заявке в её текущем состоянии.',
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
+            '',
         'Missing FormDraftID!' => 'Пропущен FormDraftID!',
         'Can\'t get for ArticleID %s!' => 'Невозможно получить %s для ArticleID!',
         'Article filter settings were saved.' => 'Параметры фильтра сообщений/заметок сохранены.',
@@ -4518,8 +4515,8 @@ sub Data {
         'h' => 'ч',
         'm' => 'мин',
         'd' => 'дн',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
-            'Извините, но у вас больше нет прав на доступ к этой заявке в её текущем состоянии. Вы можете предпринять одно из следующих действий:',
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state. You can take one of the following actions:' =>
+            '',
         'This is a' => 'Это',
         'email' => 'email',
         'click here' => 'нажмите здесь',
@@ -4864,11 +4861,11 @@ sub Data {
         'Solution Min Time (affected by escalation configuration)' => 'Минимальное время решения заявки (учитывая настройки эскалации)',
         'Solution Max Time (affected by escalation configuration)' => 'Максимальное время решения заявки (учитывая настройки эскалации)',
         'Solution Working Time Average (affected by escalation configuration)' =>
-            '',
+            'Среднее рабочее время решения заявки (учитывая настройки эскалации)',
         'Solution Min Working Time (affected by escalation configuration)' =>
-            '',
+            'Минимальное рабочее время решения заявки (учитывая настройки эскалации)',
         'Solution Max Working Time (affected by escalation configuration)' =>
-            '',
+            'Максимальное рабочее время решения заявки (учитывая настройки эскалации)',
         'First Response Average (affected by escalation configuration)' =>
             '',
         'First Response Min Time (affected by escalation configuration)' =>
@@ -5217,7 +5214,7 @@ sub Data {
         'System was not able to calculate user DateTime in OTRSTimeZone!' =>
             'Системе не удалось вычислить DateTime пользователя в OTRSTimeZone!',
 
-        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendRegistration.pm
+        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
         'Value is not correct! Please, consider updating this module.' =>
             'Значение неверно! Пожалуйста, подумайте об обновлении этого модуля.',
 
@@ -6074,7 +6071,7 @@ Thanks for your help!
         'Checks for queued outgoing emails to be sent.' => 'Проверить наличие исходящей почты в очереди отправки.',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Проверяет, является ли письмо дополнением к существующей заявке путем поиска в теме письма правильного номера заявки.',
-        'Checks the SystemID in ticket number detection for follow-ups ( If inactive, SystemID will be changed after using the system).' =>
+        'Checks the SystemID in ticket number detection for follow-ups (if inactive, SystemID will be changed after using the system).' =>
             '',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
             'Проверьте доступность OTRS Business Solution™ для этой системы.',
@@ -6086,7 +6083,7 @@ Thanks for your help!
             'Выберите для какого типа изменений мероприятий вы желаете получать уведомления.',
         'Choose for which kind of ticket changes you want to receive notifications. Please note that you can\'t completely disable notifications marked as mandatory.' =>
             'Выберите для какого типа изменений заявок вы будете получать уведомления. Обратите внимание, что нельзя отключить уведомление отмеченное как обязательное.',
-        'Choose which notifications would you like to receive.' => 'Выберите какие  уведомления вы желаете получать . ',
+        'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Сочельник',
         'Close this ticket' => 'Закрыть эту заявку',
         'Closed tickets (customer user)' => 'Закрытые заявки (клиента)',
@@ -7277,8 +7274,6 @@ Thanks for your help!
         'Graph: Line Chart' => 'Диаграммы: Линейный график',
         'Graph: Stacked Area Chart' => 'Диаграммы: области с накоплениями',
         'Greek' => 'Греческий',
-        'HTML Reference' => 'HTML-справочник',
-        'HTML Reference.' => 'HTML-справочник.',
         'Hebrew' => 'Иврит',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
             'Позволяет расширить возможности полнотекстового поиска (в полях From, To, Cc, Subject и Body). Runtime - выполняет поиск по "живым" данным (хорошо работает при количестве заявок до 50.000). StaticDB удаляет все сообщения/заметки и строит индекс после их создания, увеличивая скорость поиска до 50%. Для создания начальных индексов используйте скрипт "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".',
@@ -7500,7 +7495,7 @@ Thanks for your help!
         'Loop protection: no auto-response sent to "%s".' => '',
         'Mail Accounts' => 'Почтовые аккаунты',
         'MailQueue configuration settings.' => '',
-        'Main menu for the agent interface.' => '',
+        'Main menu item registration.' => '',
         'Main menu registration.' => 'ModuleRegistration для главного меню.',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'Включает проверку MX record почтовых адресов клиента до отправки почты или приема почтовой или телефонной заявки.',

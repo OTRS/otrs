@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.206131993764074;
+    $Self->{Completeness}        = 0.210918544194107;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -67,16 +67,16 @@ sub Data {
         'Comment' => 'Komentář',
         'Validity' => 'Platnost',
         'Export' => 'Exportovat',
-        'Copy' => '',
+        'Copy' => 'Kopírovat',
         'No data found.' => 'Data nenalezena.',
         'No matches found.' => 'Nenalezena žádná shoda.',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => '',
-        'Edit ACL' => '',
+        'Edit ACL %s' => 'Upravit ACL %s',
+        'Edit ACL' => 'Upravit ACL',
         'Go to overview' => 'Přejít na přehled',
-        'Delete ACL' => '',
-        'Delete Invalid ACL' => '',
+        'Delete ACL' => 'Smazat ACL',
+        'Delete Invalid ACL' => 'Smazat neplatná ACL',
         'Match settings' => '',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
@@ -136,7 +136,7 @@ sub Data {
         'Calendar' => 'Kalendář',
         'Calendar name' => '',
         'Calendar with same name already exists.' => '',
-        'Color' => '',
+        'Color' => 'Barva',
         'Permission group' => '',
         'Ticket Appointments' => '',
         'Rule' => 'Pravidlo',
@@ -237,7 +237,7 @@ sub Data {
         'You can use the following tags' => '',
         'To get the first 20 character of the appointment title.' => '',
         'To get the appointment attribute' => '',
-        ' e. g.' => '',
+        ' e. g.' => 'např.',
         'To get the calendar attribute' => '',
         'Attributes of the recipient user for the notification' => '',
         'Config options' => '',
@@ -384,7 +384,6 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '',
-        'Detail View' => '',
         'Show only entries with specific priority and higher:' => '',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
@@ -2422,10 +2421,6 @@ sub Data {
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'do',
 
-        # Template: AgentHTMLReferencePageLayout
-        'The ticket has been locked' => 'Tiket byl uzamčen',
-        'Undo & close' => '',
-
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => '',
         'Yes, accepted.' => '',
@@ -2536,6 +2531,8 @@ sub Data {
         'Change Priority of %s%s%s' => '',
         'Change Responsible of %s%s%s' => '',
         'All fields marked with an asterisk (*) are mandatory.' => 'Všechna pole označena hvězdičkou (*) jsou povinná.',
+        'The ticket has been locked' => 'Tiket byl uzamčen',
+        'Undo & close' => '',
         'Ticket Settings' => 'Nastavení tiketů',
         'Queue invalid.' => '',
         'Service invalid.' => 'Služba je neplatná.',
@@ -3778,9 +3775,9 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => '',
         'There was an error updating the ActivityDialog' => '',
         'Edit Activity Dialog "%s"' => '',
-        'Agent Interface' => '',
-        'Customer Interface' => '',
-        'Agent and Customer Interface' => '',
+        'Agent Interface' => 'Rozhraní Řešitele',
+        'Customer Interface' => 'Rozhraní Zákazníka',
+        'Agent and Customer Interface' => 'Rozhraní Řešitele a Zákazníka',
         'Do not show Field' => '',
         'Show Field' => '',
         'Show Field As Mandatory' => '',
@@ -3940,9 +3937,9 @@ sub Data {
         'Change Agent Relations for Group' => '',
 
         # Perl Module: Kernel/Modules/AgentAppointmentAgendaOverview.pm
-        'Month' => '',
-        'Week' => '',
-        'Day' => '',
+        'Month' => 'Měsíc',
+        'Week' => 'Týden',
+        'Day' => 'Den',
 
         # Perl Module: Kernel/Modules/AgentAppointmentCalendarOverview.pm
         'All appointments' => '',
@@ -3951,22 +3948,22 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
         'Appointment not found!' => '',
-        'Never' => '',
-        'Every Day' => '',
-        'Every Week' => '',
-        'Every Month' => '',
-        'Every Year' => '',
+        'Never' => 'Nikdy',
+        'Every Day' => 'Každý den',
+        'Every Week' => 'Každý týden',
+        'Every Month' => 'Každý měsíc',
+        'Every Year' => 'Každý rok',
         'Custom' => '',
-        'Daily' => '',
-        'Weekly' => '',
-        'Monthly' => '',
-        'Yearly' => '',
+        'Daily' => 'Denně',
+        'Weekly' => 'Týdně',
+        'Monthly' => 'Měsíčně',
+        'Yearly' => 'Ročně',
         'every' => '',
         'for %s time(s)' => '',
         'until ...' => '',
         'for ... time(s)' => '',
         'until %s' => '',
-        'No notification' => '',
+        'No notification' => 'Žádná notifikace',
         '%s minute(s) before' => '',
         '%s hour(s) before' => '',
         '%s day(s) before' => '',
@@ -3994,8 +3991,8 @@ sub Data {
         'No preferences for %s!' => '',
         'Can\'t get element data of %s!' => '',
         'Can\'t get filter content data of %s!' => '',
-        'Customer Name' => '',
-        'Customer User Name' => '',
+        'Customer Name' => 'Jméno zákazníka',
+        'Customer User Name' => 'Jméno zákaznického uživatele',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => '',
@@ -4011,7 +4008,7 @@ sub Data {
         'Param Group is required!' => '',
         'Updated user preferences' => '',
         'System was unable to deploy your changes.' => '',
-        'Setting not found!' => '',
+        'Setting not found!' => 'Nastavení nenalezeno!',
         'This feature is part of the %s Please contact us at %s for an upgrade.' =>
             '',
         'System was unable to reset the setting!' => '',
@@ -4274,7 +4271,7 @@ sub Data {
         'External Chat' => '',
         'Queue Changed' => '',
         'Notification Was Sent' => '',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             '',
         'Missing FormDraftID!' => '',
         'Can\'t get for ArticleID %s!' => '',
@@ -4514,7 +4511,7 @@ sub Data {
         'h' => 'h',
         'm' => 'm',
         'd' => 'd',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state. You can take one of the following actions:' =>
             '',
         'This is a' => 'Toto je',
         'email' => 'email',
@@ -4632,7 +4629,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
-        'Time zone updated successfully!' => '',
+        'Time zone updated successfully!' => 'Nastavení časové zóny bylo úspěšně aktualizováno!',
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
         'invalid' => 'neplatný',
@@ -5213,7 +5210,7 @@ sub Data {
         'System was not able to calculate user DateTime in OTRSTimeZone!' =>
             '',
 
-        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendRegistration.pm
+        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
         'Value is not correct! Please, consider updating this module.' =>
             '',
 
@@ -5972,7 +5969,7 @@ Thanks for your help!
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             '',
         'Always show RichText if available' => '',
-        'Answer' => 'Odpověd.',
+        'Answer' => 'Odpověd',
         'Appointment Calendar overview page.' => '',
         'Appointment Notifications' => '',
         'Appointment calendar event module that prepares notification entries for appointments.' =>
@@ -6059,7 +6056,7 @@ Thanks for your help!
         'Checks for queued outgoing emails to be sent.' => '',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             '',
-        'Checks the SystemID in ticket number detection for follow-ups ( If inactive, SystemID will be changed after using the system).' =>
+        'Checks the SystemID in ticket number detection for follow-ups (if inactive, SystemID will be changed after using the system).' =>
             '',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
             '',
@@ -6071,7 +6068,7 @@ Thanks for your help!
             '',
         'Choose for which kind of ticket changes you want to receive notifications. Please note that you can\'t completely disable notifications marked as mandatory.' =>
             '',
-        'Choose which notifications would you like to receive.' => '',
+        'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Štědrý den',
         'Close this ticket' => 'Uzavřít Tiket',
         'Closed tickets (customer user)' => '',
@@ -7256,14 +7253,12 @@ Thanks for your help!
         'Gives end users the possibility to override the separator character for CSV files, defined in the translation files.' =>
             '',
         'Global Search Module.' => '',
-        'Go to dashboard!' => 'Navštivte nástěnku.',
+        'Go to dashboard!' => 'Navštivte nástěnku!',
         'Google Authenticator' => '',
         'Graph: Bar Chart' => '',
         'Graph: Line Chart' => '',
         'Graph: Stacked Area Chart' => '',
         'Greek' => '',
-        'HTML Reference' => '',
-        'HTML Reference.' => '',
         'Hebrew' => '',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
             '',
@@ -7485,7 +7480,7 @@ Thanks for your help!
         'Loop protection: no auto-response sent to "%s".' => '',
         'Mail Accounts' => '',
         'MailQueue configuration settings.' => '',
-        'Main menu for the agent interface.' => '',
+        'Main menu item registration.' => '',
         'Main menu registration.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             '',

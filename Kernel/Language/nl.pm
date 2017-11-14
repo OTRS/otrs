@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.474969686471505;
+    $Self->{Completeness}        = 0.481975736568458;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -118,7 +118,7 @@ sub Data {
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             '',
         'Read only: users can see and export all appointments in the calendar.' =>
-            '',
+            'Alleen lezen: gebruikers kunnen alle activiteiten in deze kalender raadplegen en exporteren.',
         'Move into: users can modify appointments in the calendar, but without changing the calendar selection.' =>
             '',
         'Create: users can create and delete appointments in the calendar.' =>
@@ -144,15 +144,15 @@ sub Data {
         'Start date' => 'Begindatum',
         'End date' => 'Einddatum',
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
-            '',
+            'Gebruik de opties hieronder om te beperken voor welke tickets er automatisch afspraken worden aangemaakt.',
         'Queues' => 'Wachtrijen',
-        'Please select a valid queue.' => '',
-        'Search attributes' => '',
+        'Please select a valid queue.' => 'Selecteer een geldige wachtrij.',
+        'Search attributes' => 'Zoekeigenschappen',
         'Add entry' => 'Sleutel toevoegen',
         'Add' => 'Toevoegen',
         'Define rules for creating automatic appointments in this calendar based on ticket data.' =>
             '',
-        'Add Rule' => '',
+        'Add Rule' => 'Regel toevoegen',
         'Submit' => 'Versturen',
 
         # Template: AdminAppointmentImport
@@ -164,7 +164,7 @@ sub Data {
         'Update existing appointments?' => '',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
             '',
-        'Upload calendar' => '',
+        'Upload calendar' => 'Upload kalender',
         'Import appointments' => '',
 
         # Template: AdminAppointmentNotificationEvent
@@ -173,8 +173,8 @@ sub Data {
         'Edit Notification' => 'Bewerk melding',
         'Add notification' => 'Melding toevoegen',
         'Export Notifications' => 'Meldingen exporteren',
-        'Filter for Notifications' => '',
-        'Filter for notifications' => '',
+        'Filter for Notifications' => 'Filter voor notificaties',
+        'Filter for notifications' => 'Filter voor notificaties',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
             '',
         'Overwrite existing notifications?' => 'Bestaande meldingen overschrijven?',
@@ -192,11 +192,11 @@ sub Data {
         'Event' => 'Gebeurtenis',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
             '',
-        'Appointment Filter' => '',
+        'Appointment Filter' => 'Filter afspraken',
         'Type' => 'Type',
         'Title' => 'Titel',
         'Location' => 'Locatie',
-        'Team' => '',
+        'Team' => 'Team',
         'Resource' => '',
         'Recipients' => 'Ontvangers',
         'Send to' => 'Versturen naar',
@@ -260,11 +260,11 @@ sub Data {
         'Add Attachment' => 'Nieuwe bijlage',
         'Edit Attachment' => 'Bijlage bewerken',
         'Filter for Attachments' => 'Filter op bijlagen',
-        'Filter for attachments' => '',
+        'Filter for attachments' => 'Filter op bijlagen',
         'Filename' => 'Bestandsnaam',
         'Download file' => 'Download bijlage',
         'Delete this attachment' => 'Verwijder bijlage',
-        'Do you really want to delete this attachment?' => '',
+        'Do you really want to delete this attachment?' => 'Ben je zeker dat je deze bijlage wil verwijderen?',
         'Attachment' => 'Bijlage',
 
         # Template: AdminAutoResponse
@@ -272,7 +272,7 @@ sub Data {
         'Add Auto Response' => 'Nieuw automatisch antwoord',
         'Edit Auto Response' => 'Bewerk automatisch antwoord',
         'Filter for Auto Responses' => 'Filter op automatische antwoorden',
-        'Filter for auto responses' => '',
+        'Filter for auto responses' => 'Filter op automatische antwoorden',
         'Response' => 'Antwoord',
         'Auto response from' => 'Automatisch antwoord van',
         'Reference' => 'Referentie',
@@ -321,18 +321,18 @@ sub Data {
         'Available Cloud Services' => 'Beschikbare Cloud Diensten',
 
         # Template: AdminCommunicationLog
-        'Communication Log' => '',
+        'Communication Log' => 'Communicatielog',
         'Time range' => '',
         'Show only communication logs created in specific time range.' =>
             '',
-        'Filter for communications' => '',
+        'Filter for communications' => 'Filter op communicaties',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             '',
         'You can change the sort and order of the columns by clicking on the column header.' =>
             '',
         'If you click on the different entries, you will get redirected to a detailed screen about the message.' =>
             '',
-        'Status for: %s' => '',
+        'Status for: %s' => 'Status van: %s',
         'Failing accounts' => '',
         'Some account problems' => '',
         'No account problems' => '',
@@ -343,28 +343,28 @@ sub Data {
         'No communication problems' => '',
         'No communication logs' => '',
         'Number of reported problems: %s' => '',
-        'Open communications' => '',
+        'Open communications' => 'Open communicaties',
         'No active communications' => '',
         'Number of open communications: %s' => '',
         'Average processing time' => '',
         'List of communications (%s)' => '',
         'Settings' => 'Instellingen',
-        'Entries per page' => '',
+        'Entries per page' => 'Items per pagina',
         'No communications found.' => '',
         '%s s' => '',
 
         # Template: AdminCommunicationLogAccounts
-        'Account Status' => '',
+        'Account Status' => 'Accountstatus',
         'Back' => 'Terug',
-        'Filter for accounts' => '',
-        'Filter for log entries' => '',
+        'Filter for accounts' => 'Filter op accounts',
+        'Filter for log entries' => 'Filter op logitems',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             '',
-        'Account status for: %s' => '',
+        'Account status for: %s' => 'Accountstatus voor: %s',
         'Status' => 'Status',
-        'Account' => '',
+        'Account' => 'Account',
         'Edit' => 'Wijzig',
-        'No accounts found.' => '',
+        'No accounts found.' => 'Geen accounts gevonden.',
         'Communication Log Details (%s)' => '',
         'Direction' => 'Richting',
         'Start Time' => 'Begintijd',
@@ -375,7 +375,7 @@ sub Data {
         'Duration' => '',
 
         # Template: AdminCommunicationLogObjectLog
-        '#' => '',
+        '#' => '#',
         'Priority' => 'Prioriteit',
         'Module' => 'Module',
         'Information' => 'Informatie',
@@ -383,12 +383,11 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '',
-        'Detail View' => '',
         'Show only entries with specific priority and higher:' => '',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
         'Communication Log Details' => '',
-        'Please select an entry from the list.' => '',
+        'Please select an entry from the list.' => 'Selecteer een item uit de lijst.',
 
         # Template: AdminCustomerCompany
         'Customer Management' => 'Beheer bedrijven',
@@ -397,7 +396,7 @@ sub Data {
         'Search' => 'Zoeken',
         'Wildcards like \'*\' are allowed.' => 'Wildcards zijn toegestaan.',
         'Select' => 'Selecteer',
-        'List (only %s shown - more available)' => '',
+        'List (only %s shown - more available)' => 'Lijst (slechts %s getoond - meer beschikbaar)',
         'total' => 'totaal',
         'Please enter a search term to look for customers.' => 'Typ om te zoeken naar klanten.',
         'Customer ID' => 'Bedrijfs ID',
@@ -441,7 +440,7 @@ sub Data {
         'Back to search results' => 'Terug naar zoekresultaat',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             'Klanten zijn nodig om een historie te kunnen inzien en om in te loggen via het klantenscherm.',
-        'List (%s total)' => '',
+        'List (%s total)' => 'Lijst (%s in totaal)',
         'Username' => 'Gebruikersnaam',
         'Email' => 'E-mail',
         'Last Login' => 'Laatst ingelogd',
@@ -940,11 +939,11 @@ sub Data {
         'Uncomment code' => '',
         'Auto format code' => '',
         'Expand/Collapse code block' => '',
-        'Find' => '',
-        'Find next' => '',
-        'Find previous' => '',
-        'Find and replace' => '',
-        'Find and replace all' => '',
+        'Find' => 'Zoek',
+        'Find next' => 'Zoek volgende',
+        'Find previous' => 'Zoek vorige',
+        'Find and replace' => 'Zoek en vervang',
+        'Find and replace all' => 'Zoek en vervang alle',
         'XSLT Mapping' => '',
         'XSLT stylesheet' => '',
         'The entered data is not a valid XSLT style sheet.' => '',
@@ -959,9 +958,9 @@ sub Data {
         'Data key regex filters (before mapping)' => '',
         'Data key regex filters (after mapping)' => '',
         'Regular expressions' => '',
-        'Replace' => '',
-        'Remove regex' => '',
-        'Add regex' => '',
+        'Replace' => 'Vervang',
+        'Remove regex' => 'Regex verwijderen',
+        'Add regex' => 'Regex toevoegen',
         'These filters can be used to transform keys using regular expressions.' =>
             '',
         'The data structure will be traversed recursively and all configured regexes will be applied to all keys.' =>
@@ -1248,7 +1247,7 @@ sub Data {
         'Administration Overview' => '',
         'Filter for Items' => '',
         'Filter' => 'Filter',
-        'Favorites' => '',
+        'Favorites' => 'Favorieten',
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             '',
         'Links' => '',
@@ -1330,7 +1329,7 @@ sub Data {
             'Gefeliciteerd, jouw %s is correct geïnstalleerd en bijgewerkt.',
 
         # Template: AdminOTRSBusinessNotInstalled
-        'Go to the OTRS customer portal' => '',
+        'Go to the OTRS customer portal' => 'Ga naar het OTRS klantenportaal',
         '%s will be available soon. Please check again in a few days.' =>
             '%s komt binnenkort beschikbaar. Kijk over een paar dagen weer.',
         'Please have a look at %s for more information.' => 'Kijk naar %s voor meer informatie.',
@@ -1343,7 +1342,7 @@ sub Data {
         'Package installation requires patch level update of OTRS.' => '',
         'Please visit our customer portal and file a request.' => '',
         'Everything else will be done as part of your contract.' => '',
-        'Your installed OTRS version is %s.' => '',
+        'Your installed OTRS version is %s.' => 'Jouw geÏnstalleerde OTRS-versie is %s.',
         'To install this package, you need to update to OTRS %s or higher.' =>
             '',
         'To install this package, the Maximum OTRS Version is %s.' => '',
@@ -2421,10 +2420,6 @@ sub Data {
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'tot',
 
-        # Template: AgentHTMLReferencePageLayout
-        'The ticket has been locked' => 'Het ticket is vergrendeld',
-        'Undo & close' => 'Ongedaan maken & sluiten',
-
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => 'Om een tekst te tonen, zoals nieuws of een licentie, die de agent moet accepteren.',
         'Yes, accepted.' => '',
@@ -2535,6 +2530,8 @@ sub Data {
         'Change Priority of %s%s%s' => '',
         'Change Responsible of %s%s%s' => '',
         'All fields marked with an asterisk (*) are mandatory.' => 'Alle velden met een asterisk (*) zijn verplicht.',
+        'The ticket has been locked' => 'Het ticket is vergrendeld',
+        'Undo & close' => 'Ongedaan maken & sluiten',
         'Ticket Settings' => 'Ticket instellingen',
         'Queue invalid.' => '',
         'Service invalid.' => 'Service is ongeldig.',
@@ -4273,8 +4270,8 @@ sub Data {
         'External Chat' => '',
         'Queue Changed' => '',
         'Notification Was Sent' => '',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            'Helaas, je hebt niet voldoende rechten om dit ticket te openen in zijn huidige staat.',
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
+            '',
         'Missing FormDraftID!' => '',
         'Can\'t get for ArticleID %s!' => '',
         'Article filter settings were saved.' => '',
@@ -4513,7 +4510,7 @@ sub Data {
         'h' => 'u',
         'm' => 'm',
         'd' => 'd',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state. You can take one of the following actions:' =>
             '',
         'This is a' => 'Dit is een',
         'email' => 'e-mail',
@@ -5212,7 +5209,7 @@ sub Data {
         'System was not able to calculate user DateTime in OTRSTimeZone!' =>
             '',
 
-        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendRegistration.pm
+        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
         'Value is not correct! Please, consider updating this module.' =>
             '',
 
@@ -6069,7 +6066,7 @@ Het Helpdesk Team
         'Checks for queued outgoing emails to be sent.' => '',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             '',
-        'Checks the SystemID in ticket number detection for follow-ups ( If inactive, SystemID will be changed after using the system).' =>
+        'Checks the SystemID in ticket number detection for follow-ups (if inactive, SystemID will be changed after using the system).' =>
             '',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
             '',
@@ -6081,7 +6078,7 @@ Het Helpdesk Team
             '',
         'Choose for which kind of ticket changes you want to receive notifications. Please note that you can\'t completely disable notifications marked as mandatory.' =>
             '',
-        'Choose which notifications would you like to receive.' => '',
+        'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Kerstavond',
         'Close this ticket' => 'Sluit dit ticket',
         'Closed tickets (customer user)' => 'Gesloten tickets (klant gebruiker)',
@@ -7272,8 +7269,6 @@ Het Helpdesk Team
         'Graph: Line Chart' => '',
         'Graph: Stacked Area Chart' => '',
         'Greek' => 'Grieks',
-        'HTML Reference' => '',
-        'HTML Reference.' => '',
         'Hebrew' => 'Hebreeuws',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
             '',
@@ -7495,7 +7490,7 @@ Het Helpdesk Team
         'Loop protection: no auto-response sent to "%s".' => '',
         'Mail Accounts' => '',
         'MailQueue configuration settings.' => '',
-        'Main menu for the agent interface.' => '',
+        'Main menu item registration.' => '',
         'Main menu registration.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             '',
@@ -8147,7 +8142,7 @@ Het Helpdesk Team
         'Show queues even when only locked tickets are in.' => '',
         'Show the current owner in the customer interface.' => '',
         'Show the current queue in the customer interface.' => '',
-        'Show the history for this ticket' => '',
+        'Show the history for this ticket' => 'Toon de geschiedenis van dit ticket',
         'Show the ticket history' => 'Toon de ticket-geschiedenis',
         'Shows a count of attachments in the ticket zoom, if the article has attachments.' =>
             '',

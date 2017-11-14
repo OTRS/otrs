@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.987008487787979;
+    $Self->{Completeness}        = 0.994280762564991;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -377,7 +377,6 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => 'Detailansicht für Verbindung %s, gestartet um %s',
-        'Detail View' => 'Detailansicht',
         'Show only entries with specific priority and higher:' => 'Nur Einträge mit bestimmter Priorität (und höher) anzeigen:',
         'Communication Log Overview (%s)' => 'Verbindungsprotokoll-Übersicht (%s)',
         'No communication objects found.' => 'Keine Verbindungsobjekte gefunden.',
@@ -1423,7 +1422,7 @@ sub Data {
         'In case you would have further questions we would be glad to answer them.' =>
             'Sollten Sie weitere Fragen haben, freuen wir uns, diese zu beantworten.',
         'Install Package' => 'Paket installieren',
-        'Update Package' => '',
+        'Update Package' => 'Paket Aktualisieren',
         'Continue' => 'Weiter',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             'Stellen Sie sicher, dass Ihre Datenbank Pakete über %s MB akzeptiert (Derzeit werden nur Pakete bis %s MB akzeptiert). Bitte passen Sie die Einstellung max_allowed_packet Ihrer Datenbank-Konfiguration an, um Fehler zu vermeiden.',
@@ -1432,7 +1431,7 @@ sub Data {
         'Cloud services are currently disabled.' => 'Cloud-Services sind derzeit deaktiviert.',
         'OTRS Verify™ can not continue!' => 'OTRS Verify™ kann nicht fortgesetzt werden!',
         'Enable cloud services' => 'Cloud-Services aktivieren',
-        'Update all installed packages' => '',
+        'Update all installed packages' => 'Alle installierten Pakete aktualisieren',
         'Online Repository' => 'Online-Verzeichnis',
         'Action' => 'Aktion',
         'Module documentation' => 'Moduldokumentation',
@@ -1945,7 +1944,7 @@ sub Data {
             'Es fehlt mindestens ein Parameter für das Binding. Bitte prüfen.',
         'Result format' => 'Zielformat',
         'Run Query' => 'Anfrage ausführen',
-        '%s Results' => '',
+        '%s Results' => '%s Ergebnisse',
         'Query is executed.' => 'Suchanfrage wird ausgeführt.',
 
         # Template: AdminService
@@ -2059,11 +2058,11 @@ sub Data {
         'Changes Deployment' => 'Inbetriebnahme von Änderungen',
         'Help' => 'Hilfe',
         'This is an overview of all settings which will be part of the deployment if you start it now. You can compare each setting to its former state by clicking the icon on the top right.' =>
-            '',
+            'Hier finden Sie eine Übersicht aller Einstellungen, die in die nächste Inbetriebnahme einfließen würden. Sie können jede Einstellung mit ihrem früheren Stand vergleichen, indem Sie auf das Icon oben rechts klicken.',
         'To exclude certain settings from a deployment, click the checkbox on the header bar of a setting.' =>
-            '',
+            'Um bestimmte Einstellungen aus der Inbetriebnahme auszuschließen, verwenden Sie die Checkbox im Kopfbereich der Einstellung.',
         'By default, you will only deploy settings which you changed on your own. If you\'d like to deploy settings changed by other users, too, please click the link on top of the screen to enter the advanced deployment mode.' =>
-            '',
+            'Standardmäßig werden nur Einstellungen in Betrieb genommen, die sie selbst verändert haben. Falls Sie auch Änderungen von anderen Benutzern in Betrieb nehmen möchten, verwenden Sie bitte den Link zur erweiterten Inbetriebnahme.',
         'A deployment has just been restored, which means that all affected setting have been reverted to the state from the selected deployment.' =>
             'Eine Inbetriebnahme wurde gerade wiederhergestellt. Das bedeutet, dass alle betroffenen Einstellungen auf den Stand zurückgesetzt wurden, in dem sie sich zum Zeitpunkt der gewählten Inbetriebnahme befanden.',
         'Please review the changed settings and deploy afterwards.' => 'Bitte prüfen Sie die geänderten Einstellungen und nehmen Sie sie anschließend in Betrieb.',
@@ -2415,13 +2414,9 @@ sub Data {
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'bis',
 
-        # Template: AgentHTMLReferencePageLayout
-        'The ticket has been locked' => 'Das Ticket wurde gesperrt',
-        'Undo & close' => 'Rückgängig machen und Beenden',
-
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => 'Neuigkeiten, eine Lizenz oder Änderungen bestätigen.',
-        'Yes, accepted.' => '',
+        'Yes, accepted.' => 'Ja, akzeptiert.',
 
         # Template: AgentLinkObject
         'Manage links for %s' => 'Verknüpfungen für %s verwalten',
@@ -2529,6 +2524,8 @@ sub Data {
         'Change Priority of %s%s%s' => 'Priorität von %s%s%s ändern',
         'Change Responsible of %s%s%s' => 'Verantwortlichen von %s%s%s ändern',
         'All fields marked with an asterisk (*) are mandatory.' => 'Alle mit * gekennzeichneten Felder sind Pflichtfelder.',
+        'The ticket has been locked' => 'Das Ticket wurde gesperrt',
+        'Undo & close' => 'Rückgängig machen und Beenden',
         'Ticket Settings' => 'Ticket-Einstellungen',
         'Queue invalid.' => 'Queue ungültig.',
         'Service invalid.' => 'Ungültiger Service',
@@ -2627,7 +2624,7 @@ sub Data {
         # Template: AgentTicketHistory
         'History of %s%s%s' => 'Verlauf von %s%s%s',
         'Filter for history items' => 'Filter für Historieneinträge',
-        'Expand/collapse all' => '',
+        'Expand/collapse all' => 'Alle aus-/einklappen',
         'Article' => 'Artikel',
 
         # Template: AgentTicketMerge
@@ -3421,14 +3418,14 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminCommunicationLog.pm
         'Invalid CommunicationID ' => 'Ungültige VerbindungsID',
-        'All communications' => '',
-        'Last 1 hour' => '',
-        'Last 3 hours' => '',
-        'Last 6 hours' => '',
-        'Last 12 hours' => '',
-        'Last 24 hours' => '',
-        'Last week' => '',
-        'Last month' => '',
+        'All communications' => 'Gesamte Kommunikation',
+        'Last 1 hour' => 'Letzte Stunde',
+        'Last 3 hours' => 'Letzte 3 Stunden',
+        'Last 6 hours' => 'Letzte 6 Stunden',
+        'Last 12 hours' => 'Letzte 12 Stunden',
+        'Last 24 hours' => 'Letzte 24 Stunden',
+        'Last week' => 'Letzte Woche',
+        'Last month' => 'Letzter Monat',
         'Invalid StartTime: %s!' => 'Ungültige StartTime: %s!',
         'Successful' => 'Erfolgreich',
         'Processing' => 'Wird verarbeitet',
@@ -3450,8 +3447,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer company updated!' => 'Kundenfirma aktualisiert!',
-        'Dynamic field %s not found!' => '',
-        'Unable to set value for dynamic field %s!' => '',
+        'Dynamic field %s not found!' => 'Dynamisches Feld 1%s nicht gefunden!',
+        'Unable to set value for dynamic field %s!' => 'Wert für dynamisches Feld 1%s kann nicht gesetzt werden!',
         'Customer Company %s already exists!' => 'Die Kundenfirma %s existiert bereits!',
         'Customer company added!' => 'Kundenfirma hinzugefügt!',
 
@@ -3689,7 +3686,7 @@ sub Data {
         'Package has locally modified files.' => 'Das Paket enthält lokal angepasste Dateien.',
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
             'Paket wurde nicht von der OTRS-Gruppe verifiziert! Es wird empfohlen, dieses Paket nicht zu nutzen.',
-        'Not Started' => '',
+        'Not Started' => 'Nicht gestartet',
         'Updated' => 'Aktualisiert',
         'Already up-to-date' => 'Bereits aktuell',
         'Installed' => 'Installiert',
@@ -3702,7 +3699,7 @@ sub Data {
         'Dependencies fail to upgrade or install' => 'Abhängigkeiten können nicht aktualisiert oder installiert werden',
         'Package could not be installed' => 'Paket konnte nicht installiert werden',
         'Package could not be upgraded' => 'Paket konnte nicht aktualisiert werden',
-        'Repository List' => '',
+        'Repository List' => 'Repository-Liste',
         'No packages or no new packages found in selected repository.' =>
             'Keine (neuen) Pakete im ausgewählten Verzeichnis gefunden.',
         'Package not verified due a communication issue with verification server!' =>
@@ -3858,7 +3855,7 @@ sub Data {
         'Impossible to delete relation!' => 'Beziehung konnte nicht gelöscht werden!',
         'Certificate %s could not be read!' => 'Zertifikat %s konnte nicht gelesen werden!',
         'Needed Fingerprint' => 'Benötige Fingerprint',
-        'Handle Private Certificate Relations' => '',
+        'Handle Private Certificate Relations' => 'Zuordnungen von privaten Zertifikaten verwalten',
 
         # Perl Module: Kernel/Modules/AdminSalutation.pm
         'Salutation added!' => 'Begrüßung hinzugefügt!',
@@ -3973,7 +3970,7 @@ sub Data {
         'No permissions!' => 'Keine Berechtigung!',
 
         # Perl Module: Kernel/Modules/AgentAppointmentList.pm
-        '+%s more' => '',
+        '+%s more' => '%s weitere',
 
         # Perl Module: Kernel/Modules/AgentCustomerSearch.pm
         'Customer History' => 'Kundenhistorie',
@@ -4002,7 +3999,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
         'Param Group is required!' => 'Parameter "Group" wird benötigt!',
-        'Updated user preferences' => '',
+        'Updated user preferences' => 'Benutzereinstellungen aktualisiert',
         'System was unable to deploy your changes.' => 'Das System konnte Ihre Einstellungen nicht in Betrieb nehmen.',
         'Setting not found!' => 'Einstellung nicht gefunden!',
         'This feature is part of the %s Please contact us at %s for an upgrade.' =>
@@ -4267,8 +4264,8 @@ sub Data {
         'External Chat' => 'Chat (extern)',
         'Queue Changed' => 'Queue gewechselt',
         'Notification Was Sent' => 'Benachrichtigung wurde gesendet',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            'Entschuldigung, Sie haben keine Berechtigung, auf dieses Ticket in seinem aktuellen Status zuzugreifen.',
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
+            '',
         'Missing FormDraftID!' => 'Fehlende FormDraftID!',
         'Can\'t get for ArticleID %s!' => 'Konnte Artikel-ID %s nicht ermitteln!',
         'Article filter settings were saved.' => 'Artikelfilter-Einstellungen wurden gespeichert.',
@@ -4507,8 +4504,8 @@ sub Data {
         'h' => 'h',
         'm' => 'm',
         'd' => 'd',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
-            'Entschuldigung, Sie haben keine Berechtigung, auf dieses Ticket in seinem aktuellen Status zuzugreifen. Sie können eine der folgenden Aktionen verwenden:',
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state. You can take one of the following actions:' =>
+            '',
         'This is a' => 'Dies ist eine',
         'email' => 'E-Mail',
         'click here' => 'hier klicken',
@@ -4549,7 +4546,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s Jetzt auf %s upgraden! %s',
-        'Please verify your license data!' => '',
+        'Please verify your license data!' => 'Bitte überprüfen Sie Ihre Lizenzdaten!',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
             'Die Nutzungsvereinbarung für Ihre %s läuft in Kürze aus. Bitte kontaktieren Sie %s, um Ihren Vertrag zu erneuern!',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
@@ -4569,7 +4566,7 @@ sub Data {
         'Online Customer: %s' => 'Online-Kunde: %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
-        'System maintenance is active!' => '',
+        'System maintenance is active!' => 'System Wartung ist aktiv!',
         'A system maintenance period will start at: ' => 'Eine Systemwartungsperiode beginnt um: ',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
@@ -4778,7 +4775,7 @@ sub Data {
         'File is different!' => 'Datei unterschiedlich!',
         'Can\'t read file!' => 'Datei kann nicht gelesen werden!',
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
-            '',
+            '<p>Falls Sie dieses Paket installieren, können folgende Probleme auftreten:</p><ul><li>Sicherheitsprobleme</li><li>Stabilitätsprobleme</li><li>Leistungsprobleme</li></ul><p>Bitte beachten Sie, dass von diesem Paket verursachte Probleme nicht durch OTRS-Serviceverträge abgedeckt sind.</p>',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -4843,7 +4840,7 @@ sub Data {
         'State Type Historic' => 'Statustypchronik',
         'Historic Time Range' => 'Historischer Zeitbereich',
         'Number' => 'Nummer',
-        'Last Changed' => '',
+        'Last Changed' => 'Zuletzt geändert',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => 'Durchschnittliche Lösungszeit',
@@ -4910,7 +4907,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'Maximale Anfragegröße',
         'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
-            '',
+            'Die Einstellung \'max_allowed_packet\' muss größer als 64 MB sein.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
         'Query Cache Size' => 'Größe Abfrage-Cache',
@@ -5104,7 +5101,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
         'Ticket Search Index Module' => 'Ticket-Suchindex-Modul',
         'The indexing process forces the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
-            '',
+            'Der Indizierungsprozess erzwingt die Speicherung der originalen Artikelinhalte im Artikel-Suchindex, ohne dabei Filter und Stopp-Worte anzuwenden. Dadurch wird die Größe des Suchindex erhöht, was Volltextsuchen verlangsamen kann.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
         'Orphaned Records In ticket_lock_index Table' => 'Verwaiste Einträge in der Tabelle ticket_lock_index',
@@ -5188,7 +5185,7 @@ sub Data {
         'Could not update modified setting!' => 'Konnte geänderte Einstellung nicht aktualisieren!',
         'Setting could not be unlocked!' => 'Einstellung konnte nicht freigegeben werden!',
         'Missing key %s!' => 'Fehlender Schlüssel %s!',
-        'All Settings' => '',
+        'All Settings' => 'Alle Einstellungen',
 
         # Perl Module: Kernel/System/SysConfig/BaseValueType.pm
         'Default' => 'Standard',
@@ -5206,7 +5203,7 @@ sub Data {
         'System was not able to calculate user DateTime in OTRSTimeZone!' =>
             'Das Datum und die Uhrzeit des Benutzers konnte in der OTRS-Zeitzone nicht berechnet werden!',
 
-        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendRegistration.pm
+        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
         'Value is not correct! Please, consider updating this module.' =>
             'Wert ist nicht korrekt! Bitte überprüfen Sie das Modul.',
 
@@ -5527,7 +5524,7 @@ sub Data {
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?' =>
             'Bei Wiederherstellung dieser Version werden alle Einstellungen auf den Stand zurückgesetzt, den sie zum Zeitpunkt der jeweiligen Inbetriebnahme hatten. Möchten Sie fortfahren?',
         'Keys with values can\'t be renamed. Please remove this key/value pair instead and re-add it afterwards.' =>
-            '',
+            'Schlüssel mit Werten können nicht umbenannt werden. Bitte entfernen Sie dieses Schlüssel-Wert-Paar und fügen Sie es anschließend erneut hinzu.',
         'Unlock setting.' => 'Einstellung entsperren.',
 
         # JS File: Core.Agent.Admin.SystemMaintenance
@@ -5601,7 +5598,7 @@ sub Data {
         'Sorry, but you can\'t disable all methods for this notification.' =>
             'Entschuldigung, Sie können für diese Benachrichtigung nicht alle Benachrichtigungsmethoden abschalten.',
         'Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.' =>
-            '',
+            'Bitte beachten Sie, dass mindestens eine geänderte Einstellung ein Neuladen benötigt. Klicken Sie hier, um den Bildschirm neu zu laden.',
         'An unknown error occurred. Please contact the administrator.' =>
             'Ein unbekannter Fehler ist aufgetreten. Bitte kontaktieren Sie den Administrator.',
 
@@ -5719,13 +5716,13 @@ sub Data {
         'Sorry, you can only upload one file here.' => 'Sie können hier nur eine Datei hochladen.',
         'Sorry, you can only upload %s files.' => 'Sie können nur %s Datei(en) hochladen.',
         'Please only select at most %s files for upload.' => 'Bitte wählen Sie höchstens %s Datei(en) zum Hochladen aus.',
-        'The following files are not allowed to be uploaded: %s' => '',
+        'The following files are not allowed to be uploaded: %s' => 'Die folgenden Dateien dürfen nicht geändert werden: %s',
         'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s' =>
-            '',
+            'Folgende Dateien überschreiten die Maximalgröße pro Datei (%s) und wurden nicht aktualisiert: %s',
         'The following files were already uploaded and have not been uploaded again: %s' =>
-            '',
-        'No space left for the following files: %s' => '',
-        'Available space %s of %s.' => '',
+            'Folgende Dateien waren bereits hochgeladen und wurden nicht erneut verarbeitet: %s',
+        'No space left for the following files: %s' => 'Kein Speicherplatz verfügbar für folgende Dateien: %s',
+        'Available space %s of %s.' => 'Verfügbarer Platz 1%s von 1%s.',
         'Upload information' => 'Upload-Information',
         'An unknown error occurred when deleting the attachment. Please try again. If the error persists, please contact your system administrator.' =>
             'Beim Löschen des Anhangs ist ein unbekannter Fehler aufgetreten. Bitte versuchen Sie es erneut. Wenn der Fehler weiterhin auftritt, kontaktieren Sie bitte Ihren Systemadministrator.',
@@ -5805,7 +5802,7 @@ Ihr Helpdesk-Team
         'Access Control Lists (ACL)' => 'Access Control Lists (ACL)',
         'AccountedTime' => 'Erfasste Zeit',
         'Activate this if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
-            '',
+            'Aktivieren Sie diese Einstellung, wenn Sie allen öffentlichen und privaten PGP-Schlüsseln vertrauen, selbst wenn diese nicht mit einer vertrauten Signatur signiert wurden.',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'Aktiviert einen Blinkmechanismus der Queue, die das älteste Ticket enthält.',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -5839,11 +5836,11 @@ Ihr Helpdesk-Team
             'Fügt einen Suffix mit dem aktuellen Jahr und Monat in die OTRS-Protokolldatei hinzu. Für jeden Monat wird eine eigene Log-Datei erstellt.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             'Fügt die Kunden E-Mailadresse zu den Empfängern hinzu in der "TicketCompose"-Oberfläche des Agenten-Interface hinzu. Die Kunden E-Mailadresse wird nicht hinzugefügt, wenn der Artikel-Typ \'email an intern\' ist.',
-        'Adds the one time vacation days for the indicated calendar.' => '',
-        'Adds the one time vacation days.' => '',
+        'Adds the one time vacation days for the indicated calendar.' => 'Fügt die einmaligen Urlaubstage für den angegebenen Kalender hinzu.',
+        'Adds the one time vacation days.' => 'Fügt die einmaligen Urlaubstage hinzu.',
         'Adds the permanent vacation days for the indicated calendar.' =>
-            '',
-        'Adds the permanent vacation days.' => '',
+            'Fügt die dauerhaften Urlaubstage für den angegebenen Kalender hinzu.',
+        'Adds the permanent vacation days.' => 'Fügt die dauerhaften Urlaubstage hinzu.',
         'Admin' => 'Admin',
         'Admin Area.' => 'Administratorbereich.',
         'Admin Notification' => 'Admin-Benachrichtigung',
@@ -6062,7 +6059,7 @@ Ihr Helpdesk-Team
         'Checks for queued outgoing emails to be sent.' => 'Prüft auf zu sendende ausgehende E-Mails.',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Prüft, ob eine E-Mail ein Follow-Up zu einem bestehenden Ticket ist, indem der Betreff nach einer gültigen Ticketnummer durchsucht wird.',
-        'Checks the SystemID in ticket number detection for follow-ups ( If inactive, SystemID will be changed after using the system).' =>
+        'Checks the SystemID in ticket number detection for follow-ups (if inactive, SystemID will be changed after using the system).' =>
             '',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
             'Überprüfe die Verfügbarkeit der OTRS Business Solution™ für dieses System.',
@@ -6074,7 +6071,7 @@ Ihr Helpdesk-Team
             'Für welche Veränderungen an Terminen möchten Sie Benachrichtigungen erhalten?',
         'Choose for which kind of ticket changes you want to receive notifications. Please note that you can\'t completely disable notifications marked as mandatory.' =>
             'Legen Sie fest, bei welchen Ticketänderungen Sie benachrichtigt werden möchten. Bitte beachten Sie, dass Sie Benachrichtigungen, die als verpflichtend markiert sind, nicht vollständig abschalten können.',
-        'Choose which notifications would you like to receive.' => 'Legen Sie fest, welche Benachrichtigungen Sie erhalten möchten.',
+        'Choose which notifications you\'d like to receive.' => 'Legen Sie fest, welche Benachrichtigungen Sie erhalten möchten.',
         'Christmas Eve' => 'Heiligabend',
         'Close this ticket' => 'Dieses Ticket schließen',
         'Closed tickets (customer user)' => 'Geschlossene Tickets (Kundenbenutzer)',
@@ -6143,7 +6140,7 @@ Ihr Helpdesk-Team
             'Kontrolliert ob die Ticket- und Artikel "Gesehen"-Fähnchen entfernt werden, wenn ein Ticket archiviert wird.',
         'Converts HTML mails into text messages.' => 'Konvertiert HTML E-Mails in Textnachrichten.',
         'Create New process ticket.' => 'Neues Prozess-Ticket erstellen.',
-        'Create Ticket' => '',
+        'Create Ticket' => 'Ticket erstellen',
         'Create a new calendar appointment linked to this ticket' => 'Erstellt einen neuen Termin in einem Kalender, welcher direkt mit diesem Ticket verknüpft ist',
         'Create and manage Service Level Agreements (SLAs).' => 'Service-Level-Abkommen (SLAs) erzeugen und verwalten.',
         'Create and manage agents.' => 'Agents erzeugen und verwalten.',
@@ -7015,7 +7012,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
             'Zeigt die Anzahl aller Tickets mit derselben Kundennummer wie das aktuelle Ticket in der Ticket-Zoom-Ansicht an.',
         'Down' => 'Ab',
         'Dropdown' => 'Einfachauswahl',
-        'Dutch' => '',
+        'Dutch' => 'Niederländisch',
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             'Niederländische Stoppwörter für den Volltext-Index. Diese Wörter werden vom Suchindex entfernt.',
         'Dynamic Fields Checkbox Backend GUI' => 'Dynamic Fields-Oberfläche für Checkboxen',
@@ -7269,8 +7266,6 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Graph: Line Chart' => 'Diagramm: Linien',
         'Graph: Stacked Area Chart' => 'Diagramm: Gestapelte Ebenen',
         'Greek' => 'Griechisch',
-        'HTML Reference' => 'HTML-Referenz',
-        'HTML Reference.' => 'HTML-Referenz.',
         'Hebrew' => 'Hebräisch',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
             'Hilft beim Erweitern Ihres Artikel-Volltext-Indexes (Von-, An-, Cc-, Betreffs- und Text-Suche). Runtime führt Volltext-Suchen auf Livedaten aus (performant bis 50.000 Tickets). StaticDB erstellt nach der Artikelerstellung einen Index aus den Artikeldaten, wodurch die Geschwindigkeit von Volltextsuchen um rund 50% steigt. Nutzen Sie "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild", um einen initialen Index zu erstellen.',
@@ -7492,7 +7487,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Loop protection: no auto-response sent to "%s".' => 'Loop-Protection! Keine Auto-Antwort versandt an "%s".',
         'Mail Accounts' => 'E-Mailkonten',
         'MailQueue configuration settings.' => 'MailQueue Konfigurationseinstellungen.',
-        'Main menu for the agent interface.' => 'Hauptmenü für die Agentenoberfläche.',
+        'Main menu item registration.' => '',
         'Main menu registration.' => 'Hauptmenü-Registrierung.',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'Überprüft vor dem Senden einer E-Mail oder vor dem übermitteln eines Telefon-Tickets, den MX-Eintrag der E-Mailadresse.',
@@ -8510,7 +8505,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Ticket Queue Overview' => 'Ticket-Übersicht nach Queues',
         'Ticket Responsible.' => 'Ticket-Verantwortlicher.',
         'Ticket Watcher' => 'Ticket-Beobachter.',
-        'Ticket Zoom' => '',
+        'Ticket Zoom' => 'Ticket-Zoom',
         'Ticket Zoom.' => 'Ticket-Detailansicht.',
         'Ticket bulk module.' => 'Ticket-Stapelverarbeitung.',
         'Ticket event module that triggers the escalation stop events.' =>

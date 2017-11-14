@@ -20,8 +20,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-11-07 00:18+0000\n"
-"PO-Revision-Date: 2017-11-07 00:23+0000\n"
+"POT-Creation-Date: 2017-11-13 23:49+0000\n"
+"PO-Revision-Date: 2017-11-13 23:52+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -1206,10 +1206,6 @@ msgstr "没有找到日志条目。"
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
 msgstr "通信%s的详情视图开始于%s"
-
-#. Template: AdminCommunicationLogZoom
-msgid "Detail View"
-msgstr "详情视图"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Show only entries with specific priority and higher:"
@@ -7734,14 +7730,6 @@ msgstr "不在办公室"
 msgid "until"
 msgstr "直到"
 
-#. Template: AgentHTMLReferencePageLayout
-msgid "The ticket has been locked"
-msgstr "工单已锁定"
-
-#. Template: AgentHTMLReferencePageLayout
-msgid "Undo & close"
-msgstr "撤销并关闭"
-
 #. Template: AgentInfo
 msgid "To accept some news, a license or some changes."
 msgstr "接收新闻、许可证或者一些变更信息。"
@@ -8059,6 +8047,14 @@ msgstr "变更工单%s%s%s的负责人"
 #. Template: AgentTicketActionCommon
 msgid "All fields marked with an asterisk (*) are mandatory."
 msgstr "所有带“*”的字段都是强制要求输入的字段."
+
+#. Template: AgentTicketActionCommon
+msgid "The ticket has been locked"
+msgstr "工单已锁定"
+
+#. Template: AgentTicketActionCommon
+msgid "Undo & close"
+msgstr "撤销并关闭"
 
 #. Template: AgentTicketActionCommon
 msgid "Ticket Settings"
@@ -13076,9 +13072,9 @@ msgstr "通知已发送"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
-"We are sorry, you do not have permissions anymore to access this ticket in "
+"This ticket does not exist, or you don't have permissions to access it in "
 "its current state."
-msgstr "抱歉，工单当前状态下你没有权限访问了。"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"
@@ -13702,9 +13698,9 @@ msgstr "天"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid ""
-"We are sorry, you do not have permissions anymore to access this ticket in "
+"This ticket does not exist, or you don't have permissions to access it in "
 "its current state. You can take one of the following actions:"
-msgstr "很抱歉，在这个工单的当前状态下你无权访问。你可以采取下列操作之一："
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "This is a"
@@ -15483,7 +15479,7 @@ msgstr "系统无法在OTRSTimeZone中计算用户的日期！"
 msgid "System was not able to calculate user DateTime in OTRSTimeZone!"
 msgstr "系统无法在OTRSTimeZone中计算用户的日期时间！"
 
-#. Perl Module: Kernel/System/SysConfig/ValueType/FrontendRegistration.pm
+#. Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
 msgid "Value is not correct! Please, consider updating this module."
 msgstr "值不正确！ 请考虑更新这个模块。"
 
@@ -17899,8 +17895,8 @@ msgstr "通过搜索主题中的有效工单号，检查一个邮件是否是跟
 
 #. SysConfig
 msgid ""
-"Checks the SystemID in ticket number detection for follow-ups ( If inactive,"
-" SystemID will be changed after using the system)."
+"Checks the SystemID in ticket number detection for follow-ups (if inactive, "
+"SystemID will be changed after using the system)."
 msgstr ""
 
 #. SysConfig
@@ -17937,8 +17933,8 @@ msgid ""
 msgstr "选择你要接收哪些工单变更的通知消息。 请注意，您不能完全禁用标记为强制性的通知。"
 
 #. SysConfig
-msgid "Choose which notifications would you like to receive."
-msgstr "选择你要接收的通知。"
+msgid "Choose which notifications you'd like to receive."
+msgstr "选择您想要接收的通知。"
 
 #. SysConfig
 msgid "Christmas Eve"
@@ -21020,7 +21016,7 @@ msgstr "下拉选择框"
 
 #. SysConfig
 msgid "Dutch"
-msgstr ""
+msgstr "荷兰语"
 
 #. SysConfig
 msgid ""
@@ -21840,14 +21836,6 @@ msgid "Greek"
 msgstr "希腊语"
 
 #. SysConfig
-msgid "HTML Reference"
-msgstr "HTML引用"
-
-#. SysConfig
-msgid "HTML Reference."
-msgstr "HTML引用。"
-
-#. SysConfig
 msgid "Hebrew"
 msgstr "希伯来语"
 
@@ -22603,8 +22591,8 @@ msgid "MailQueue configuration settings."
 msgstr "邮件队列配置设置。"
 
 #. SysConfig
-msgid "Main menu for the agent interface."
-msgstr "服务人员界面主菜单。"
+msgid "Main menu item registration."
+msgstr ""
 
 #. SysConfig
 msgid "Main menu registration."

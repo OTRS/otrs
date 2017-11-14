@@ -16,6 +16,7 @@
 # Mikhail Papkov <mikhail.papkov@gmail.com>, 2017
 # Nadezhda Zavyalova <nadelorama@gmail.com>, 2015
 # Rasim Kalimullin <neutrino.vm@gmail.com>, 2017
+# Sergey Klimovich <sergei.klimovich@gmail.com>, 2017
 # Sergey Stepanov <Stepanov.SA@bashkortostan.ru>, 2016
 # Shader <shader@dautkom.lv>, 2016
 # Shader <shader@dautkom.lv>, 2017
@@ -32,8 +33,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-11-07 00:18+0000\n"
-"PO-Revision-Date: 2017-11-07 00:23+0000\n"
+"POT-Creation-Date: 2017-11-13 23:49+0000\n"
+"PO-Revision-Date: 2017-11-13 23:52+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -1218,10 +1219,6 @@ msgstr "Нет записей в журнале."
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
 msgstr "Подробный просмотр для %s сеанс начат в %s"
-
-#. Template: AdminCommunicationLogZoom
-msgid "Detail View"
-msgstr "Подробный просмотр"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Show only entries with specific priority and higher:"
@@ -7746,14 +7743,6 @@ msgstr "вне офиса"
 msgid "until"
 msgstr "до"
 
-#. Template: AgentHTMLReferencePageLayout
-msgid "The ticket has been locked"
-msgstr "Заявка была заблокирована"
-
-#. Template: AgentHTMLReferencePageLayout
-msgid "Undo & close"
-msgstr "Отменить и закрыть"
-
 #. Template: AgentInfo
 msgid "To accept some news, a license or some changes."
 msgstr "Чтобы принять какие-нибудь новости, лицензию или какие-то изменения."
@@ -8071,6 +8060,14 @@ msgstr "Изменить ответственного для %s%s%s"
 #. Template: AgentTicketActionCommon
 msgid "All fields marked with an asterisk (*) are mandatory."
 msgstr "Все поля отмеченные (*) являются обязательными"
+
+#. Template: AgentTicketActionCommon
+msgid "The ticket has been locked"
+msgstr "Заявка была заблокирована"
+
+#. Template: AgentTicketActionCommon
+msgid "Undo & close"
+msgstr "Отменить и закрыть"
 
 #. Template: AgentTicketActionCommon
 msgid "Ticket Settings"
@@ -13088,9 +13085,9 @@ msgstr "Уведомление было отправлено"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
-"We are sorry, you do not have permissions anymore to access this ticket in "
+"This ticket does not exist, or you don't have permissions to access it in "
 "its current state."
-msgstr "Извините, но у вас больше нет прав на доступ к этой заявке в её текущем состоянии."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"
@@ -13714,9 +13711,9 @@ msgstr "дн"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid ""
-"We are sorry, you do not have permissions anymore to access this ticket in "
+"This ticket does not exist, or you don't have permissions to access it in "
 "its current state. You can take one of the following actions:"
-msgstr "Извините, но у вас больше нет прав на доступ к этой заявке в её текущем состоянии. Вы можете предпринять одно из следующих действий:"
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "This is a"
@@ -14578,15 +14575,15 @@ msgstr "Максимальное время решения заявки (учи�
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Working Time Average (affected by escalation configuration)"
-msgstr ""
+msgstr "Среднее рабочее время решения заявки (учитывая настройки эскалации)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Min Working Time (affected by escalation configuration)"
-msgstr ""
+msgstr "Минимальное рабочее время решения заявки (учитывая настройки эскалации)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Max Working Time (affected by escalation configuration)"
-msgstr ""
+msgstr "Максимальное рабочее время решения заявки (учитывая настройки эскалации)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Average (affected by escalation configuration)"
@@ -15495,7 +15492,7 @@ msgstr "Системе не удалось вычислить дату поль�
 msgid "System was not able to calculate user DateTime in OTRSTimeZone!"
 msgstr "Системе не удалось вычислить DateTime пользователя в OTRSTimeZone!"
 
-#. Perl Module: Kernel/System/SysConfig/ValueType/FrontendRegistration.pm
+#. Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
 msgid "Value is not correct! Please, consider updating this module."
 msgstr "Значение неверно! Пожалуйста, подумайте об обновлении этого модуля."
 
@@ -17911,8 +17908,8 @@ msgstr "Проверяет, является ли письмо дополнен�
 
 #. SysConfig
 msgid ""
-"Checks the SystemID in ticket number detection for follow-ups ( If inactive,"
-" SystemID will be changed after using the system)."
+"Checks the SystemID in ticket number detection for follow-ups (if inactive, "
+"SystemID will be changed after using the system)."
 msgstr ""
 
 #. SysConfig
@@ -17949,8 +17946,8 @@ msgid ""
 msgstr "Выберите для какого типа изменений заявок вы будете получать уведомления. Обратите внимание, что нельзя отключить уведомление отмеченное как обязательное."
 
 #. SysConfig
-msgid "Choose which notifications would you like to receive."
-msgstr "Выберите какие  уведомления вы желаете получать . "
+msgid "Choose which notifications you'd like to receive."
+msgstr ""
 
 #. SysConfig
 msgid "Christmas Eve"
@@ -21852,14 +21849,6 @@ msgid "Greek"
 msgstr "Греческий"
 
 #. SysConfig
-msgid "HTML Reference"
-msgstr "HTML-справочник"
-
-#. SysConfig
-msgid "HTML Reference."
-msgstr "HTML-справочник."
-
-#. SysConfig
 msgid "Hebrew"
 msgstr "Иврит"
 
@@ -22615,7 +22604,7 @@ msgid "MailQueue configuration settings."
 msgstr ""
 
 #. SysConfig
-msgid "Main menu for the agent interface."
+msgid "Main menu item registration."
 msgstr ""
 
 #. SysConfig

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.19331370171488;
+    $Self->{Completeness}        = 0.197053726169844;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -34,20 +34,20 @@ sub Data {
     $Self->{Translation} = {
 
         # Template: AdminACL
-        'ACL Management' => '',
+        'ACL Management' => 'ACL valdymas',
         'Actions' => 'Veiksmai',
-        'Create New ACL' => '',
-        'Deploy ACLs' => '',
-        'Export ACLs' => '',
-        'Filter for ACLs' => '',
-        'Just start typing to filter...' => '',
-        'Configuration Import' => '',
+        'Create New ACL' => 'Sukurti naują ACL',
+        'Deploy ACLs' => 'Įdiegti ACL\'us',
+        'Export ACLs' => 'Eksportuoti ACL\'us',
+        'Filter for ACLs' => 'Filtruoti ACL\'us',
+        'Just start typing to filter...' => 'Filtruoti, pradėkite rinkti tekstą...',
+        'Configuration Import' => 'Konfigūracijos importas',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             '',
         'This field is required.' => 'Šis laukelis yra būtinas.',
-        'Overwrite existing ACLs?' => '',
-        'Upload ACL configuration' => '',
-        'Import ACL configuration(s)' => '',
+        'Overwrite existing ACLs?' => 'Perrašyti esamas ACL taisykles?',
+        'Upload ACL configuration' => 'Įkelti ACL konfiguraciją',
+        'Import ACL configuration(s)' => 'Importuoti ACL konfiguraciją(-as)',
         'Description' => 'Aprašymas',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
             '',
@@ -56,20 +56,20 @@ sub Data {
         'ACLs' => '',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
-        'ACL name' => '',
+        'ACL name' => 'ACL pavadinimas',
         'Comment' => 'Komentaras',
-        'Validity' => '',
+        'Validity' => 'Galiojimas',
         'Export' => 'Eksportuoti',
         'Copy' => '',
         'No data found.' => 'Nerasta duomenų.',
         'No matches found.' => 'Nerasta atitikmenų.',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => '',
-        'Edit ACL' => '',
+        'Edit ACL %s' => 'Redaguoti ACL',
+        'Edit ACL' => 'Redaguoti ACL',
         'Go to overview' => 'Eiti į peržiūrą',
-        'Delete ACL' => '',
-        'Delete Invalid ACL' => '',
+        'Delete ACL' => 'Ištrinti ACL',
+        'Delete Invalid ACL' => 'Ištrinti negaliojantį ACL',
         'Match settings' => '',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
@@ -135,18 +135,18 @@ sub Data {
         'Rule' => '',
         'Remove this entry' => 'Pašalinti šį įrašą',
         'Remove' => 'Pašalinti',
-        'Start date' => '',
-        'End date' => '',
+        'Start date' => 'Pradžia',
+        'End date' => 'Pabaiga',
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
             '',
         'Queues' => 'Eilės',
-        'Please select a valid queue.' => '',
-        'Search attributes' => '',
+        'Please select a valid queue.' => 'Prašome pasirinkti failą tinkamą eilę.',
+        'Search attributes' => 'Paieškos atributai',
         'Add entry' => 'Pridėti įrašą',
         'Add' => 'Pridėti',
         'Define rules for creating automatic appointments in this calendar based on ticket data.' =>
             '',
-        'Add Rule' => '',
+        'Add Rule' => 'Pridėti taisyklę',
         'Submit' => 'Pateikti',
 
         # Template: AdminAppointmentImport
@@ -377,7 +377,6 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '',
-        'Detail View' => '',
         'Show only entries with specific priority and higher:' => '',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
@@ -2415,10 +2414,6 @@ sub Data {
         # Template: AgentDashboardUserOutOfOffice
         'until' => '',
 
-        # Template: AgentHTMLReferencePageLayout
-        'The ticket has been locked' => 'Triktis buvo užrakinta',
-        'Undo & close' => '',
-
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => 'Kai kurių naujienų priėmimui, licenzijai ar kai kuriems pakeitimams.',
         'Yes, accepted.' => '',
@@ -2529,6 +2524,8 @@ sub Data {
         'Change Priority of %s%s%s' => '',
         'Change Responsible of %s%s%s' => '',
         'All fields marked with an asterisk (*) are mandatory.' => '',
+        'The ticket has been locked' => 'Triktis buvo užrakinta',
+        'Undo & close' => '',
         'Ticket Settings' => 'Trikčių nustatymai',
         'Queue invalid.' => '',
         'Service invalid.' => 'Paslauga negalima',
@@ -4267,7 +4264,7 @@ sub Data {
         'External Chat' => '',
         'Queue Changed' => '',
         'Notification Was Sent' => '',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             '',
         'Missing FormDraftID!' => '',
         'Can\'t get for ArticleID %s!' => '',
@@ -4507,7 +4504,7 @@ sub Data {
         'h' => 'val.',
         'm' => 'm',
         'd' => 'd',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state. You can take one of the following actions:' =>
             '',
         'This is a' => 'Tai yra',
         'email' => 'el. paštas',
@@ -5206,7 +5203,7 @@ sub Data {
         'System was not able to calculate user DateTime in OTRSTimeZone!' =>
             '',
 
-        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendRegistration.pm
+        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
         'Value is not correct! Please, consider updating this module.' =>
             '',
 
@@ -6052,7 +6049,7 @@ Thanks for your help!
         'Checks for queued outgoing emails to be sent.' => '',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             '',
-        'Checks the SystemID in ticket number detection for follow-ups ( If inactive, SystemID will be changed after using the system).' =>
+        'Checks the SystemID in ticket number detection for follow-ups (if inactive, SystemID will be changed after using the system).' =>
             '',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
             '',
@@ -6064,7 +6061,7 @@ Thanks for your help!
             '',
         'Choose for which kind of ticket changes you want to receive notifications. Please note that you can\'t completely disable notifications marked as mandatory.' =>
             '',
-        'Choose which notifications would you like to receive.' => '',
+        'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Kūčios',
         'Close this ticket' => '',
         'Closed tickets (customer user)' => '',
@@ -7255,8 +7252,6 @@ Thanks for your help!
         'Graph: Line Chart' => '',
         'Graph: Stacked Area Chart' => '',
         'Greek' => '',
-        'HTML Reference' => '',
-        'HTML Reference.' => '',
         'Hebrew' => '',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
             '',
@@ -7478,7 +7473,7 @@ Thanks for your help!
         'Loop protection: no auto-response sent to "%s".' => '',
         'Mail Accounts' => '',
         'MailQueue configuration settings.' => '',
-        'Main menu for the agent interface.' => '',
+        'Main menu item registration.' => '',
         'Main menu registration.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             '',

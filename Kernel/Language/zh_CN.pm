@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.987008487787979;
+    $Self->{Completeness}        = 0.986655112651646;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -383,7 +383,6 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '通信%s的详情视图开始于%s',
-        'Detail View' => '详情视图',
         'Show only entries with specific priority and higher:' => '仅显示具有特定和更高优先级的条目：',
         'Communication Log Overview (%s)' => '通信日志概览（%s）',
         'No communication objects found.' => '没有找到通信目标。',
@@ -2421,10 +2420,6 @@ sub Data {
         # Template: AgentDashboardUserOutOfOffice
         'until' => '直到',
 
-        # Template: AgentHTMLReferencePageLayout
-        'The ticket has been locked' => '工单已锁定',
-        'Undo & close' => '撤销并关闭',
-
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => '接收新闻、许可证或者一些变更信息。',
         'Yes, accepted.' => '',
@@ -2535,6 +2530,8 @@ sub Data {
         'Change Priority of %s%s%s' => '变更工单%s%s%s的优先级',
         'Change Responsible of %s%s%s' => '变更工单%s%s%s的负责人',
         'All fields marked with an asterisk (*) are mandatory.' => '所有带“*”的字段都是强制要求输入的字段.',
+        'The ticket has been locked' => '工单已锁定',
+        'Undo & close' => '撤销并关闭',
         'Ticket Settings' => '工单设置',
         'Queue invalid.' => '队列无效。',
         'Service invalid.' => '服务无效。',
@@ -4273,8 +4270,8 @@ sub Data {
         'External Chat' => '外部聊天',
         'Queue Changed' => '队列已变更',
         'Notification Was Sent' => '通知已发送',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            '抱歉，工单当前状态下你没有权限访问了。',
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
+            '',
         'Missing FormDraftID!' => '缺少表单草稿ID！',
         'Can\'t get for ArticleID %s!' => '不能获得ID为“%s”的信件！',
         'Article filter settings were saved.' => '信件过滤器设置已保存。',
@@ -4513,8 +4510,8 @@ sub Data {
         'h' => '时',
         'm' => '分',
         'd' => '天',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
-            '很抱歉，在这个工单的当前状态下你无权访问。你可以采取下列操作之一：',
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state. You can take one of the following actions:' =>
+            '',
         'This is a' => '这是一个',
         'email' => '电子邮件',
         'click here' => '点击这里',
@@ -5212,7 +5209,7 @@ sub Data {
         'System was not able to calculate user DateTime in OTRSTimeZone!' =>
             '系统无法在OTRSTimeZone中计算用户的日期时间！',
 
-        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendRegistration.pm
+        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
         'Value is not correct! Please, consider updating this module.' =>
             '值不正确！ 请考虑更新这个模块。',
 
@@ -6067,7 +6064,7 @@ Thanks for your help!
         'Checks for queued outgoing emails to be sent.' => '检查要发送的排队外发邮件。',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             '通过搜索主题中的有效工单号，检查一个邮件是否是跟进到已存在的工单。',
-        'Checks the SystemID in ticket number detection for follow-ups ( If inactive, SystemID will be changed after using the system).' =>
+        'Checks the SystemID in ticket number detection for follow-ups (if inactive, SystemID will be changed after using the system).' =>
             '',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
             '检查本系统的OTRS商业版可用性。',
@@ -6079,7 +6076,7 @@ Thanks for your help!
             '选择你要接收哪些预约变动的通知消息。',
         'Choose for which kind of ticket changes you want to receive notifications. Please note that you can\'t completely disable notifications marked as mandatory.' =>
             '选择你要接收哪些工单变更的通知消息。 请注意，您不能完全禁用标记为强制性的通知。',
-        'Choose which notifications would you like to receive.' => '选择你要接收的通知。',
+        'Choose which notifications you\'d like to receive.' => '选择您想要接收的通知。',
         'Christmas Eve' => '平安夜',
         'Close this ticket' => '关闭工单',
         'Closed tickets (customer user)' => '已关闭的工单（客户用户）',
@@ -7016,7 +7013,7 @@ Thanks for your help!
             '在工单详情视图中显示与当前工单具有相同的客户ID的所有工单数。',
         'Down' => '下',
         'Dropdown' => '下拉选择框',
-        'Dutch' => '',
+        'Dutch' => '荷兰语',
         'Dutch stop words for fulltext index. These words will be removed from the search index.' =>
             '全文索引的荷兰语停止词。这些词将从搜索索引中移除。',
         'Dynamic Fields Checkbox Backend GUI' => '动态字段复选框后端GUI',
@@ -7270,8 +7267,6 @@ Thanks for your help!
         'Graph: Line Chart' => '图形：折线图',
         'Graph: Stacked Area Chart' => '图形：堆叠面积图',
         'Greek' => '希腊语',
-        'HTML Reference' => 'HTML引用',
-        'HTML Reference.' => 'HTML引用。',
         'Hebrew' => '希伯来语',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
             '帮助您扩展信件全文搜索（From, To, Cc,主题和正文搜索）。运行时对实时数据进行全文搜索（少于50000个工单时工作较好），静态数据库将搜索所有信件，并在信件创建后建立索引，越来越多的全文搜索占用约50%的空间。使用"bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild"来创建初始索引。',
@@ -7493,7 +7488,7 @@ Thanks for your help!
         'Loop protection: no auto-response sent to "%s".' => '环路保护：没有自动响应发送到“％s”。',
         'Mail Accounts' => '邮件帐户',
         'MailQueue configuration settings.' => '邮件队列配置设置。',
-        'Main menu for the agent interface.' => '服务人员界面主菜单。',
+        'Main menu item registration.' => '',
         'Main menu registration.' => '主菜单注册。',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             '在发送邮件或提交电话工单/邮件工单前让系统检查邮件地址的MX记录。',

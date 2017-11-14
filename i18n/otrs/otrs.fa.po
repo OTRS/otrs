@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-11-07 00:18+0000\n"
-"PO-Revision-Date: 2017-11-07 00:23+0000\n"
+"POT-Creation-Date: 2017-11-13 23:49+0000\n"
+"PO-Revision-Date: 2017-11-13 23:52+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Persian (http://www.transifex.com/otrs/OTRS/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -1192,10 +1192,6 @@ msgstr ""
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
-msgstr ""
-
-#. Template: AdminCommunicationLogZoom
-msgid "Detail View"
 msgstr ""
 
 #. Template: AdminCommunicationLogZoom
@@ -7721,14 +7717,6 @@ msgstr "زمان بیرون بودن از محل کار"
 msgid "until"
 msgstr "تا"
 
-#. Template: AgentHTMLReferencePageLayout
-msgid "The ticket has been locked"
-msgstr "درخواست تحویل گرفته شده است"
-
-#. Template: AgentHTMLReferencePageLayout
-msgid "Undo & close"
-msgstr "عملیات را برگردان و پنجره را ببند"
-
 #. Template: AgentInfo
 msgid "To accept some news, a license or some changes."
 msgstr "برای پذیرش برخی اخبار، یک گواهینامه یا برخی تغییرات."
@@ -8046,6 +8034,14 @@ msgstr "تغییر مسئول %s %s %s"
 #. Template: AgentTicketActionCommon
 msgid "All fields marked with an asterisk (*) are mandatory."
 msgstr "همه فیلدهایی که با ستاره مشخص شده اند (*) الزامی است."
+
+#. Template: AgentTicketActionCommon
+msgid "The ticket has been locked"
+msgstr "درخواست تحویل گرفته شده است"
+
+#. Template: AgentTicketActionCommon
+msgid "Undo & close"
+msgstr "عملیات را برگردان و پنجره را ببند"
 
 #. Template: AgentTicketActionCommon
 msgid "Ticket Settings"
@@ -13063,9 +13059,9 @@ msgstr "اطلاع رسانی فرستاده شد"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
-"We are sorry, you do not have permissions anymore to access this ticket in "
+"This ticket does not exist, or you don't have permissions to access it in "
 "its current state."
-msgstr "ما متاسفیم، شما اجازه ندارد دیگر برای دسترسی به این بلیط در وضعیت فعلی آن است."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"
@@ -13689,9 +13685,9 @@ msgstr "d"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid ""
-"We are sorry, you do not have permissions anymore to access this ticket in "
+"This ticket does not exist, or you don't have permissions to access it in "
 "its current state. You can take one of the following actions:"
-msgstr "ما متاسفیم، شما  دیگر برای دسترسی به این درخواست در وضعیت فعلی آن  اجازه ندارید. شما می توانید یکی از اقدامات زیر را انجام دهید:"
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "This is a"
@@ -15470,7 +15466,7 @@ msgstr ""
 msgid "System was not able to calculate user DateTime in OTRSTimeZone!"
 msgstr ""
 
-#. Perl Module: Kernel/System/SysConfig/ValueType/FrontendRegistration.pm
+#. Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
 msgid "Value is not correct! Please, consider updating this module."
 msgstr ""
 
@@ -17886,8 +17882,8 @@ msgstr "چک اگر یک ایمیل پیگیری بلیط های موجود به
 
 #. SysConfig
 msgid ""
-"Checks the SystemID in ticket number detection for follow-ups ( If inactive,"
-" SystemID will be changed after using the system)."
+"Checks the SystemID in ticket number detection for follow-ups (if inactive, "
+"SystemID will be changed after using the system)."
 msgstr ""
 
 #. SysConfig
@@ -17924,7 +17920,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Choose which notifications would you like to receive."
+msgid "Choose which notifications you'd like to receive."
 msgstr ""
 
 #. SysConfig
@@ -21827,14 +21823,6 @@ msgid "Greek"
 msgstr "یونانی"
 
 #. SysConfig
-msgid "HTML Reference"
-msgstr "HTML مرجع"
-
-#. SysConfig
-msgid "HTML Reference."
-msgstr "HTML مرجع."
-
-#. SysConfig
 msgid "Hebrew"
 msgstr "عبری"
 
@@ -22590,7 +22578,7 @@ msgid "MailQueue configuration settings."
 msgstr ""
 
 #. SysConfig
-msgid "Main menu for the agent interface."
+msgid "Main menu item registration."
 msgstr ""
 
 #. SysConfig

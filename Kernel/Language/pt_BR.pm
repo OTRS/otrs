@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.624285466828339;
+    $Self->{Completeness}        = 0.623916811091854;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -382,7 +382,6 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '',
-        'Detail View' => '',
         'Show only entries with specific priority and higher:' => '',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
@@ -2420,10 +2419,6 @@ sub Data {
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'até',
 
-        # Template: AgentHTMLReferencePageLayout
-        'The ticket has been locked' => 'O chamado foi bloqueado',
-        'Undo & close' => 'Desfazer e fechar',
-
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => 'Para aceitar algumas novidades, uma licença ou algumas mudanças.',
         'Yes, accepted.' => '',
@@ -2534,6 +2529,8 @@ sub Data {
         'Change Priority of %s%s%s' => 'Alterar Prioridade de %s%s',
         'Change Responsible of %s%s%s' => 'Alterar Responsável de %s%s',
         'All fields marked with an asterisk (*) are mandatory.' => 'Todos os campos marcados com um asterisco (*) são obrigatórios.',
+        'The ticket has been locked' => 'O chamado foi bloqueado',
+        'Undo & close' => 'Desfazer e fechar',
         'Ticket Settings' => 'Configurações de Chamado',
         'Queue invalid.' => '',
         'Service invalid.' => 'Serviço inválido.',
@@ -4272,8 +4269,8 @@ sub Data {
         'External Chat' => 'Chat Externo',
         'Queue Changed' => 'Fila alterada.',
         'Notification Was Sent' => 'Notificação enviada.',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            'Lamentamos, mas você não tem mais permissão para acessar este chamado em seu estado atual.',
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
+            '',
         'Missing FormDraftID!' => '',
         'Can\'t get for ArticleID %s!' => 'Não foi possível obter o ID da Nota %s!',
         'Article filter settings were saved.' => 'Configuraçãoes de filtro de notas, salvo.',
@@ -4512,8 +4509,8 @@ sub Data {
         'h' => 'h',
         'm' => 'm',
         'd' => 'd',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
-            'Lamentamos, voçê não tem permissões para acessar este Ticket no estado atual. você pode tomar algumas das ações:',
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state. You can take one of the following actions:' =>
+            '',
         'This is a' => 'Este é um',
         'email' => 'e-mail',
         'click here' => 'clique aqui',
@@ -5211,7 +5208,7 @@ sub Data {
         'System was not able to calculate user DateTime in OTRSTimeZone!' =>
             '',
 
-        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendRegistration.pm
+        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
         'Value is not correct! Please, consider updating this module.' =>
             '',
 
@@ -6057,7 +6054,7 @@ Thanks for your help!
         'Checks for queued outgoing emails to be sent.' => '',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             '',
-        'Checks the SystemID in ticket number detection for follow-ups ( If inactive, SystemID will be changed after using the system).' =>
+        'Checks the SystemID in ticket number detection for follow-ups (if inactive, SystemID will be changed after using the system).' =>
             '',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
             '',
@@ -6069,7 +6066,7 @@ Thanks for your help!
             'Escolha para a qual tipo de alterações no compromisso você deseja receber notificações.',
         'Choose for which kind of ticket changes you want to receive notifications. Please note that you can\'t completely disable notifications marked as mandatory.' =>
             '',
-        'Choose which notifications would you like to receive.' => '',
+        'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Véspera de Natal',
         'Close this ticket' => 'Fechar este Chamado',
         'Closed tickets (customer user)' => 'Chamados fechados (usuário cliente)',
@@ -7260,8 +7257,6 @@ Thanks for your help!
         'Graph: Line Chart' => '',
         'Graph: Stacked Area Chart' => '',
         'Greek' => 'Grego',
-        'HTML Reference' => 'Referência HTML',
-        'HTML Reference.' => 'Referência HTML.',
         'Hebrew' => 'Hebreu',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
             '',
@@ -7483,7 +7478,7 @@ Thanks for your help!
         'Loop protection: no auto-response sent to "%s".' => '',
         'Mail Accounts' => 'Contas de E-mail',
         'MailQueue configuration settings.' => '',
-        'Main menu for the agent interface.' => '',
+        'Main menu item registration.' => '',
         'Main menu registration.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             '',

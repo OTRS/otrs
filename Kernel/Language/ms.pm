@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.632080374155552;
+    $Self->{Completeness}        = 0.632235701906412;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -376,7 +376,6 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '',
-        'Detail View' => '',
         'Show only entries with specific priority and higher:' => '',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
@@ -2414,10 +2413,6 @@ sub Data {
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'sehingga',
 
-        # Template: AgentHTMLReferencePageLayout
-        'The ticket has been locked' => 'Tiket telah dikunci',
-        'Undo & close' => 'Buat semula & tutup',
-
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => 'Untuk menerima beberapa berita, lesen atau beberapa perubahan.',
         'Yes, accepted.' => '',
@@ -2528,6 +2523,8 @@ sub Data {
         'Change Priority of %s%s%s' => 'Tukar Kewajipan bagi %s%s%s',
         'Change Responsible of %s%s%s' => ' ',
         'All fields marked with an asterisk (*) are mandatory.' => 'Semua medan bertanda bintang (*) adalah wajib.',
+        'The ticket has been locked' => 'Tiket telah dikunci',
+        'Undo & close' => 'Buat semula & tutup',
         'Ticket Settings' => 'Aturan Tiket',
         'Queue invalid.' => '',
         'Service invalid.' => 'Perkhidmatan tidak sah.',
@@ -4266,8 +4263,8 @@ sub Data {
         'External Chat' => 'Chat Luaran',
         'Queue Changed' => '',
         'Notification Was Sent' => '',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            'Harap maaf, anda tidak mempunyai keizinan lagi untuk mengakses tiket ini dalam keadaan semasa.',
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
+            '',
         'Missing FormDraftID!' => '',
         'Can\'t get for ArticleID %s!' => '',
         'Article filter settings were saved.' => '',
@@ -4506,7 +4503,7 @@ sub Data {
         'h' => 'h',
         'm' => 'm',
         'd' => 'd',
-        'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
+        'This ticket does not exist, or you don\'t have permissions to access it in its current state. You can take one of the following actions:' =>
             '',
         'This is a' => 'Ini adalah',
         'email' => 'emel',
@@ -5205,7 +5202,7 @@ sub Data {
         'System was not able to calculate user DateTime in OTRSTimeZone!' =>
             '',
 
-        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendRegistration.pm
+        # Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
         'Value is not correct! Please, consider updating this module.' =>
             '',
 
@@ -6064,7 +6061,7 @@ dalaman.',
         'Checks for queued outgoing emails to be sent.' => '',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Memeriksa jika emel adalah susulan kepada tiket yang sedia ada dengan mencari subjek untuk nombor tiket yang sah.',
-        'Checks the SystemID in ticket number detection for follow-ups ( If inactive, SystemID will be changed after using the system).' =>
+        'Checks the SystemID in ticket number detection for follow-ups (if inactive, SystemID will be changed after using the system).' =>
             '',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
             'Periksa ketersediaan Penyelesaian Bisnes OTRS™ untuk sistem ini.',
@@ -6076,7 +6073,7 @@ dalaman.',
             '',
         'Choose for which kind of ticket changes you want to receive notifications. Please note that you can\'t completely disable notifications marked as mandatory.' =>
             '',
-        'Choose which notifications would you like to receive.' => '',
+        'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Perayaan Natal',
         'Close this ticket' => 'Tutup tiket ini',
         'Closed tickets (customer user)' => 'Tiket ditutup (pengguna pelanggan)',
@@ -7268,8 +7265,6 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Graph: Line Chart' => '',
         'Graph: Stacked Area Chart' => '',
         'Greek' => 'Yunani',
-        'HTML Reference' => '',
-        'HTML Reference.' => '',
         'Hebrew' => 'Hebrew',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
             'Membantu untuk membesarkan carian arikel teks penuh arikel (Dari, Ke, Cc, Subjek dan Carian badan). Runtime akan menjalankan pencarian teks penuh pada data langsung (ia berfungsi dengan baik untuk sampai ke 50,000 tiket). StaticDB akan melucutkan kesemua artikel dan akan membina indeks selepas penciptaan artikel, menaikkan carian teks penuh kira-kira 50%. Untuk mencipta indeks permulaan, gunakan "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".',
@@ -7491,7 +7486,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Loop protection: no auto-response sent to "%s".' => '',
         'Mail Accounts' => 'Akaun Mel',
         'MailQueue configuration settings.' => '',
-        'Main menu for the agent interface.' => '',
+        'Main menu item registration.' => '',
         'Main menu registration.' => 'Menu utama pendaftaran',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             'Membuatkan aplikasi menyemak rekod MX alamat emel sebelum menghantar emel atau menyerahakan tiket telefon atau emel.',
