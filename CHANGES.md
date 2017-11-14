@@ -1,4 +1,5 @@
 #4.0.27 ????-??-??
+ - 2017-11-14 Fixed bug#[13314](https://bugs.otrs.org/show_bug.cgi?id=13314) - Multiple submit possible for bulk action.
 
 #4.0.26 2017-11-21
  - 2017-11-08 Improved handling of spell checker.

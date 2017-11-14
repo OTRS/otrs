@@ -79,7 +79,7 @@
 [% RenderBlockEnd("OverviewResult") %]
 
 [% RenderBlockStart("OverviewUpdate") %]
-        <form action="[% Env("CGIHandle") %]" method="post"  class="Validate" name="compose">
+        <form action="[% Env("CGIHandle") %]" method="post"  class="Validate PreventMultipleSubmits" name="compose">
             <div class="WidgetSimple">
                 <div class="Header">
 [% RenderBlockStart("HeaderAdd") %]

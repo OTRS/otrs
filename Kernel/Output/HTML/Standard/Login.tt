@@ -177,7 +177,7 @@ X-OTRS-Login: [% Env("Baselink") %]
                     <div class="Content">
                         <p class="Error Center Spacing"></p>
 
-                        <form action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" name="login" class="Validate">
+                        <form action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" name="login" class="Validate PreventMultipleSubmits">
                             <input type="hidden" name="Action" value="Login" />
                             <input type="hidden" name="RequestedURL" value="[% Data.RequestedURL | html %]"/>
                             <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
@@ -236,7 +236,7 @@ X-OTRS-Login: [% Env("Baselink") %]
                     </div>
                     <div class="Content">
                         <p class="Error Center Spacing"></p>
-                        <form action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" class="Validate">
+                        <form action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" class="Validate PreventMultipleSubmits">
                             <input type="hidden" name="Action" value="LostPassword"/>
                             <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
 
