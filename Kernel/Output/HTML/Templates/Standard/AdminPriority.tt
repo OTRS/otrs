@@ -125,7 +125,7 @@
             </div>
             <div class="Content">
 
-                <form id="EntityUpdate" action="[% Env("CGIHandle") %]" method="post" class="Validate">
+                <form id="EntityUpdate" action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="[% Env("Action") %]" />
                     <input type="hidden" name="Subaction" value="[% Data.Action | uri %]Action" />
                     <input type="hidden" name="PriorityID" value="[% Data.PriorityID | html %]" />

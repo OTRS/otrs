@@ -150,7 +150,7 @@
                         <p><strong>[% Translate("Please note") | html %]</strong>: [% Translate("This customer backend is read only!") | html %]</p>
                     </div>
                 [% END %]
-                    <form action="[% Env("CGIHandle") %]" id="edit" class="Validate" method="post">
+                    <form action="[% Env("CGIHandle") %]" id="edit" class="Validate PreventMultipleSubmits" method="post">
                         <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                         <input type="hidden" name="Subaction" value="[% Data.Action | html %]Action"/>
                         <input type="hidden" name="Nav" value="[% Data.Nav | html %]"/>

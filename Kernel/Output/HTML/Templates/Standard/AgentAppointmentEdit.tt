@@ -10,7 +10,7 @@
 
 [% RenderBlockStart("EditMask") %]
 <div class="InnerContent">
-    <form id="EditAppointmentForm" class="Validate">
+    <form id="EditAppointmentForm" class="Validate PreventMultipleSubmits">
         <input type="hidden" id="ChallengeToken" name="ChallengeToken" value="[% Env("UserChallengeToken") | html %]"/>
         <input type="hidden" id="Action" name="Action" value="[% Env("Action") | html %]"/>
         <input type="hidden" id="Subaction" name="Subaction" value="EditAppointment"/>

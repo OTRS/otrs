@@ -161,7 +161,7 @@
 
 [% RenderBlockStart("OverviewUpdate") %]
 
-        <form action="[% Env("CGIHandle") %]" method="post" class="Validate" name="compose" id="NotificationEvent">
+        <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits" name="compose" id="NotificationEvent">
             <div class="WidgetSimple">
                 <div class="Header">
                 [% IF Data.Action == 'Add' %]

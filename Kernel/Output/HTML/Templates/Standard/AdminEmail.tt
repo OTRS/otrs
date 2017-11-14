@@ -45,7 +45,7 @@
 [% RenderBlockEnd("Sent") %]
 
 [% RenderBlockStart("Form") %]
-                <form action="[% Env("CGIHandle") %]" method="post" name="compose" class="Validate">
+                <form action="[% Env("CGIHandle") %]" method="post" name="compose" class="Validate PreventMultipleSubmits">
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="Send"/>
 
