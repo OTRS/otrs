@@ -116,10 +116,10 @@ $Selenium->RunTest(
         );
 
         # test different language scenarios
-        for my $Language (
-            qw(de es ru zh_CN sr_Cyrl en)
-            )
-        {
+        my @Languages = (qw(de es ru zh_CN sr_Cyrl en));
+        my $Count     = 0;
+        for my $Language (@Languages) {
+
             # change AgentPreference language
             $Selenium->execute_script(
                 "\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');"
@@ -147,7 +147,7 @@ $Selenium->RunTest(
 
             # create language object
             my $LanguageObject = Kernel::Language->new(
-                UserLanguage => "$Language",
+                UserLanguage => $Languages[ $Count - 1 ],
             );
 
             # check, if reload notification is shown
@@ -164,6 +164,9 @@ $Selenium->RunTest(
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
 
             # check for correct translation
+            $LanguageObject = Kernel::Language->new(
+                UserLanguage => $Language,
+            );
             for my $String ( 'Change password', 'Language', 'Out Of Office Time' ) {
                 my $Translation = $LanguageObject->Translate($String);
                 $Self->True(
@@ -171,6 +174,8 @@ $Selenium->RunTest(
                     "Test widget '$String' found on screen for language $Language ($Translation)"
                 ) || die;
             }
+
+            $Count++;
         }
 
         # try updating the UserGoogleAuthenticatorSecret (which has a regex validation configured)
