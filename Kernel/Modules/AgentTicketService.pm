@@ -304,6 +304,18 @@ sub Run {
     # otherwise use Preview as default as in LayoutTicket
     $Self->{View} ||= 'Preview';
 
+    # Check if selected view is available.
+    my $Backends = $Self->{ConfigObject}->Get('Ticket::Frontend::Overview');
+    if ( !$Backends->{ $Self->{View} } ) {
+
+        # Try to find fallback, take first configured view mode.
+        KEY:
+        for my $Key ( sort keys %{$Backends} ) {
+            $Self->{View} = $Key;
+            last KEY;
+        }
+    }
+
     # get personal page shown count
     my $PageShownPreferencesKey = 'UserTicketOverview' . $Self->{View} . 'PageShown';
     my $PageShown = $Self->{$PageShownPreferencesKey} || 10;
