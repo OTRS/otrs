@@ -1868,7 +1868,7 @@ sub MigrateConfigEffectiveValues {
                                 = 'Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck';
                         }
 
-                        # Define maping for old to new keys.
+                        # Define mapping for old to new keys.
                         my %Old2NewKeyMapping = (
                             'X-OTRS-ArticleType'          => 'X-OTRS-IsVisibleForCustomer',
                             'X-OTRS-FollowUp-ArticleType' => 'X-OTRS-FollowUp-IsVisibleForCustomer',
