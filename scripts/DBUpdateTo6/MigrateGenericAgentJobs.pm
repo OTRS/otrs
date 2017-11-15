@@ -16,7 +16,6 @@ use parent qw(scripts::DBUpdateTo6::Base);
 our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
-    'Kernel::System::YAML',
 );
 
 =head1 NAME
@@ -114,8 +113,7 @@ Returns 1 on success.
 sub _MigrateArticleTypeToIsVisibleForCustomer {
     my ( $Self, %Param ) = @_;
 
-    my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
-    my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # get the needed ArticleTypeMapping from a YML file
     my $TaskConfig = $Self->GetTaskConfig( Module => 'MigrateArticleData' );

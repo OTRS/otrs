@@ -1,4 +1,5 @@
 #6.0.2 2017-??-??
+ - 2017-11-15 Fixed bug#[13328](https://bugs.otrs.org/show_bug.cgi?id=13328) - Postmaster filter migration for 'X-OTRS-ArticleType' and 'X-OTRS-FollowUp-ArticleType' are not working for sysconfig settings.
  - 2017-11-14 Fixed bug#[13310](https://bugs.otrs.org/show_bug.cgi?id=13310) - Only 15 tickets in ticket lists if overview medium/preview disabled for new agents.
  - 2017-11-14 Fixed bug#[13314](https://bugs.otrs.org/show_bug.cgi?id=13314) - Multiple submit possible for bulk action.
 

@@ -194,7 +194,7 @@ if ( ref $Success eq 'HASH' ) {
         {
             Name        => 'AllSettingsCount',
             IsValue     => $AllSettingsCount,
-            ShouldValue => 47,
+            ShouldValue => 50,
         },
         {
             Name        => 'DisabledSettingsCount',
@@ -346,6 +346,46 @@ my @Tests = (
                 'Type'        => ''
             },
         ],
+    },
+    {
+        TestType       => 'EffectiveValue',
+        Name           => 'Effective Value',
+        Key            => 'PostMaster::PreFilterModule###1-Match',
+        EffectiveValue => {
+            Match => {
+                From => 'noreply@',
+            },
+            Module => 'Kernel::System::PostMaster::Filter::Match',
+            Set => {
+                'X-OTRS-IsVisibleForCustomer'          => '0',
+                'X-OTRS-FollowUp-IsVisibleForCustomer' => '1',
+                'X-OTRS-Ignore'                        => 'yes',
+            },
+        },
+    },
+    {
+        TestType       => 'EffectiveValue',
+        Name           => 'Effective Value',
+        Key            => 'PostMaster::PreCreateFilterModule###000-FollowUpArticleVisibilityCheck',
+        EffectiveValue => {
+            'Module' => 'Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck',
+            'IsVisibleForCustomer'                 => '0',
+            'SenderType'                           => 'customer',
+            'X-OTRS-IsVisibleForCustomer'          => '0',
+            'X-OTRS-FollowUp-IsVisibleForCustomer' => '1',
+        },
+    },
+    {
+        TestType       => 'EffectiveValue',
+        Name           => 'Effective Value',
+        Key            => 'PostMaster::CheckFollowUpModule###0100-Subject',
+        EffectiveValue => {
+            'Module' => 'Kernel::System::PostMaster::FollowUpCheck::Subject',,
+            'IsVisibleForCustomer'                 => '1',
+            'SenderType'                           => 'customer',
+            'X-OTRS-IsVisibleForCustomer'          => '0',
+            'X-OTRS-FollowUp-IsVisibleForCustomer' => '1',
+        },
     },
 
     # There are other renamed settings, this are included AllSetings,

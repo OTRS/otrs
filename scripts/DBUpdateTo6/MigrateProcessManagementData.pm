@@ -159,12 +159,13 @@ sub _MigrateData {
         return;
     }
 
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
+    my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
 
     for my $Data ( @{ $Param{Data} } ) {
 
         # Dump config as string.
-        my $Config = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $Data->{Config} );
+        my $Config = $YAMLObject->Dump( Data => $Data->{Config} );
 
         return if !$DBObject->Do(
             SQL => "

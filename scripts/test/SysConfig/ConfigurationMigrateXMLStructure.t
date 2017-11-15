@@ -31,11 +31,11 @@ my $XMLExpected = $MainObject->FileRead(
     Filename  => 'ConfigurationMigrateXMLStructureResult.xml',
     Mode      => 'utf8',
 );
-my @XMLExpectedSettings = split( '</Setting>', $$XMLExpected );
+my @XMLExpectedSettings = split( '</Setting>', ${$XMLExpected} );
 
 # Migrate
 my $Result = $Kernel::OM->Get('Kernel::System::SysConfig::Migration')->MigrateXMLStructure(
-    Content => $$XML,
+    Content => ${$XML},
     Name    => 'MigrateXMLStructure',
 );
 

@@ -509,4 +509,67 @@ Description
             <String Regex="\d+">4000</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="PostMaster::PreFilterModule###Test35" Required="0" Valid="1">
+        <Description Translatable="1">Test35.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::PostMaster</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::Filter::Match</Item>
+                <Item Key="Match">
+                    <Hash>
+                        <Item Key="From">noreply@</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Set">
+                    <Hash>
+                        <Item Key="X-OTRS-ArticleType">email-internal</Item>
+                        <Item Key="X-OTRS-FollowUp-ArticleType">email-external</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PostMaster::PreCreateFilterModule###Test36" Required="0" Valid="1">
+        <Description Translatable="1">Test36.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::PostMaster</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck</Item>
+                <Item Key="ArticleType" Translatable="1">email-internal</Item>
+                <Item Key="SenderType" Translatable="1">customer</Item>
+                <Item Key="X-OTRS-ArticleType">email-internal</Item>
+                <Item Key="X-OTRS-FollowUp-ArticleType">email-external</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PostMaster::PostFilterModule###Test37" Required="0" Valid="1">
+        <Description Translatable="1">Test37.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::PostMaster</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck</Item>
+                <Item Key="ArticleType" Translatable="1">email-internal</Item>
+                <Item Key="SenderType" Translatable="1">customer</Item>
+                <Item Key="X-OTRS-ArticleType">email-internal</Item>
+                <Item Key="X-OTRS-FollowUp-ArticleType">email-external</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PostMaster::CheckFollowUpModule###Test38" Required="0" Valid="1">
+        <Description Translatable="1">Test38.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::PostMaster</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::FollowUpCheck::Subject</Item>
+                <Item Key="ArticleType" Translatable="1">email-external</Item>
+                <Item Key="SenderType" Translatable="1">customer</Item>
+                <Item Key="X-OTRS-ArticleType">email-internal</Item>
+                <Item Key="X-OTRS-FollowUp-ArticleType">email-external</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
 </otrs_config>

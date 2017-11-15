@@ -11,6 +11,8 @@ package Kernel::System::SysConfig::Migration;
 use strict;
 use warnings;
 
+use parent qw(scripts::DBUpdateTo6::Base);
+
 use List::Util qw(first);
 
 our @ObjectDependencies = (
@@ -978,6 +980,25 @@ sub MigrateXMLStructure {
             }
         }
 
+        # get the needed ArticleTypeMapping from a YML file
+        my $TaskConfig = $Self->GetTaskConfig( Module => 'MigrateArticleData' );
+        my %ArticleTypeMapping = %{ $TaskConfig->{ArticleTypeMapping} };
+
+        # Migrate Postmaster settings for
+        #   PostMaster::PreFilterModule
+        #   PostMaster::PreCreateFilterModule
+        #   PostMaster::PostFilterModule
+        #   PostMaster::CheckFollowUpModule
+        if (
+            $Setting =~ m{ Name="PostMaster::(PreFilter|PreCreateFilter|PostFilter|CheckFollowUp)Module\#\#\# .+ }xms
+            )
+        {
+            $Setting =~ s{<Item Key="X-OTRS-ArticleType">(.*?)</Item>}{<Item Key="X-OTRS-IsVisibleForCustomer">$ArticleTypeMapping{$1}->{Visible}</Item>}g;
+            $Setting =~ s{<Item Key="X-OTRS-FollowUp-ArticleType">(.*?)</Item>}{<Item Key="X-OTRS-FollowUp-IsVisibleForCustomer">$ArticleTypeMapping{$1}->{Visible}</Item>}g;
+            $Setting =~ s{<Item Key="ArticleType"[^>]*>(.*?)</Item>}{<Item Key="IsVisibleForCustomer" Translatable="1">$ArticleTypeMapping{$1}->{Visible}</Item>}g;
+            $Setting =~ s{<Item Key="Module">Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck</Item>}{<Item Key="Module">Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck</Item>}g;
+        }
+
         # Remove Group.
         $Setting =~ s{\s+<Group>(.*?)</Group>}{}gsmx;
 
@@ -1619,6 +1640,10 @@ sub MigrateConfigEffectiveValues {
         }
     }
 
+    # get the needed ArticleTypeMapping from a YML file (needed for Postmaster filter settings later)
+    my $TaskConfig = $Self->GetTaskConfig( Module => 'MigrateArticleData' );
+    my %ArticleTypeMapping = %{ $TaskConfig->{ArticleTypeMapping} };
+
     # build a lookup hash of all given package settings
     my %PackageSettingLookup;
     if ( IsArrayRefWithData( $Param{PackageSettings} ) ) {
@@ -1816,6 +1841,54 @@ sub MigrateConfigEffectiveValues {
 
                         # add new PreferenceGroup key from OTRS 6
                         $OTRS5EffectiveValue->{PreferenceGroup} = $OTRS6Setting{EffectiveValue}->{PreferenceGroup};
+                    }
+
+                    # Migrate Postmaster settings for
+                    #   PostMaster::PreFilterModule
+                    #   PostMaster::PreCreateFilterModule
+                    #   PostMaster::PostFilterModule
+                    #   PostMaster::CheckFollowUpModule
+                    if ( $SettingName =~ m{ \A PostMaster::(PreFilter|PreCreateFilter|PostFilter|CheckFollowUp)Module \z }xms ) {
+
+                        # update no longer existing module.
+                        if ( $OTRS5EffectiveValue->{Module} eq 'Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck' ) {
+                            $OTRS5EffectiveValue->{Module} = 'Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck';
+                        }
+
+                        # Define maping for old to new keys.
+                        my %Old2NewKeyMapping = (
+                            'X-OTRS-ArticleType'          => 'X-OTRS-IsVisibleForCustomer',
+                            'X-OTRS-FollowUp-ArticleType' => 'X-OTRS-FollowUp-IsVisibleForCustomer',
+                            'ArticleType'                 => 'IsVisibleForCustomer',
+                        );
+
+                        OLDKEY:
+                        for my $OldKey ( sort keys %Old2NewKeyMapping ) {
+
+                            my $NewKey = $Old2NewKeyMapping{$OldKey};
+
+                            # Convert subentries below Match and Set.
+                            AREA:
+                            for my $Area (qw(Match Set)) {
+                                next AREA if !IsHashRefWithData($OTRS5EffectiveValue->{$Area});
+                                next AREA if !$OTRS5EffectiveValue->{$Area}->{$OldKey};
+
+                                # Add the new key with the converted value from the old key.
+                                $OTRS5EffectiveValue->{$Area}->{$NewKey} = $ArticleTypeMapping{ $OTRS5EffectiveValue->{$Area}->{$OldKey} }->{Visible};
+
+                                # Delete the old key.
+                                delete $OTRS5EffectiveValue->{$Area}->{$OldKey};
+                            }
+
+                            # Convert direct entries.
+                            next OLDKEY if !$OTRS5EffectiveValue->{$OldKey};
+
+                            # Add the new key with the converted value from the old key.
+                            $OTRS5EffectiveValue->{$NewKey} = $ArticleTypeMapping{ $OTRS5EffectiveValue->{$OldKey} }->{Visible};
+
+                            # Delete the old key.
+                            delete $OTRS5EffectiveValue->{$OldKey};
+                        }
                     }
 
                     # check if the setting value structure from OTRS 5 is still valid on OTRS6
@@ -2386,6 +2459,9 @@ sub _LookupNewConfigName {
 
         'Ticket::Frontend::ArticlePreViewModule###1-SMIME' =>
             'Ticket::Frontend::ArticlePreViewModule###2-SMIME',
+
+        'PostMaster::PreCreateFilterModule###000-FollowUpArticleTypeCheck' =>
+            'PostMaster::PreCreateFilterModule###000-FollowUpArticleVisibilityCheck',
 
         # Moved and renamed config setting from OTRSBusiness.xml to Framework.xml
         'ChatEngine::AgentOnlineThreshold' => 'SessionAgentOnlineThreshold',
