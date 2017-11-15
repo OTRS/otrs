@@ -109,9 +109,12 @@ sub Run {
         },
     );
 
+    # Allow specification of a default directory to limit test execution.
+    my $DefaultDirectory = $Kernel::OM->Get('Kernel::Config')->Get('UnitTest::DefaultDirectory');
+
     my $FunctionResult = $Kernel::OM->Get('Kernel::System::UnitTest')->Run(
         Tests                  => $Self->GetOption('test'),
-        Directory              => $Self->GetOption('directory'),
+        Directory              => $Self->GetOption('directory') || $DefaultDirectory,
         JobID                  => $Self->GetOption('job-id'),
         Scenario               => $Self->GetOption('scenario'),
         SubmitURL              => $Self->GetOption('submit-url'),
