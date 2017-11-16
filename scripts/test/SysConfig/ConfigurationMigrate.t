@@ -356,7 +356,7 @@ my @Tests = (
                 From => 'noreply@',
             },
             Module => 'Kernel::System::PostMaster::Filter::Match',
-            Set => {
+            Set    => {
                 'X-OTRS-IsVisibleForCustomer'          => '0',
                 'X-OTRS-FollowUp-IsVisibleForCustomer' => '1',
                 'X-OTRS-Ignore'                        => 'yes',
@@ -368,10 +368,10 @@ my @Tests = (
         Name           => 'Effective Value',
         Key            => 'PostMaster::PreCreateFilterModule###000-FollowUpArticleVisibilityCheck',
         EffectiveValue => {
-            'Module' => 'Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck',
-            'IsVisibleForCustomer'                 => '0',
-            'SenderType'                           => 'customer',
-            'X-OTRS-IsVisibleForCustomer'          => '0',
+            'Module'                      => 'Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck',
+            'IsVisibleForCustomer'        => '0',
+            'SenderType'                  => 'customer',
+            'X-OTRS-IsVisibleForCustomer' => '0',
             'X-OTRS-FollowUp-IsVisibleForCustomer' => '1',
         },
     },
@@ -380,7 +380,8 @@ my @Tests = (
         Name           => 'Effective Value',
         Key            => 'PostMaster::CheckFollowUpModule###0100-Subject',
         EffectiveValue => {
-            'Module' => 'Kernel::System::PostMaster::FollowUpCheck::Subject',,
+            'Module' => 'Kernel::System::PostMaster::FollowUpCheck::Subject',
+            ,
             'IsVisibleForCustomer'                 => '1',
             'SenderType'                           => 'customer',
             'X-OTRS-IsVisibleForCustomer'          => '0',
