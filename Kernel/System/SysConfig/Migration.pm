@@ -1856,13 +1856,17 @@ sub MigrateConfigEffectiveValues {
                     #   PostMaster::PreCreateFilterModule
                     #   PostMaster::PostFilterModule
                     #   PostMaster::CheckFollowUpModule
-                    if ( $SettingName
-                        =~ m{ \A PostMaster::(PreFilter|PreCreateFilter|PostFilter|CheckFollowUp)Module \z }xms )
+                    if (
+                        $SettingName
+                        =~ m{ \A PostMaster::(PreFilter|PreCreateFilter|PostFilter|CheckFollowUp)Module \z }xms
+                        )
                     {
 
                         # update no longer existing module.
-                        if ( $OTRS5EffectiveValue->{Module} eq
-                            'Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck' )
+                        if (
+                            $OTRS5EffectiveValue->{Module} eq
+                            'Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck'
+                            )
                         {
                             $OTRS5EffectiveValue->{Module}
                                 = 'Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck';
@@ -1944,7 +1948,8 @@ sub MigrateConfigEffectiveValues {
             # check and convert config name if it has been renamed in OTRS 6
             # otherwise it will use the given old name
             my $NewSettingName = $Self->_LookupNewConfigName(
-                OldName => $SettingName,
+                OldName                    => $SettingName,
+                PackageLookupNewConfigName => $Param{PackageLookupNewConfigName},
             );
 
             # skip settings which are not in the given package settings
