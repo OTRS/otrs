@@ -243,6 +243,19 @@ $Selenium->RunTest(
             Hours => 1,
         );
 
+        # Calculate expected UntilTime. It can happen that there is an error of one second overall. Since this is
+        #   acceptable, make sure to divide the calculated value with 100 and floor the result.
+        my $UntilDateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => '2016-01-01 00:00:00',
+            },
+        );
+        my $UntilTimeDelta = $Kernel::OM->Create('Kernel::System::DateTime')->Delta(
+            DateTimeObject => $UntilDateTimeObject,
+        );
+        my $UntilTime = -int( $UntilTimeDelta->{AbsoluteSeconds} / 100 );
+
         # Set dynamic field values.
         my $DynamicField1TimeObject = $Kernel::OM->Create(
             'Kernel::System::DateTime',
@@ -457,16 +470,7 @@ $Selenium->RunTest(
                     EndTime   => '2016-01-01 01:00:00',
                 },
                 UpdateResult => {
-                    UntilTime => -(
-                        $Kernel::OM->Create('Kernel::System::DateTime')->Delta(
-                            DateTimeObject => $Kernel::OM->Create(
-                                'Kernel::System::DateTime',
-                                ObjectParams => {
-                                    String => '2016-01-01 00:00:00',
-                                },
-                            ),
-                            )->{AbsoluteSeconds}
-                    ),
+                    UntilTime => $UntilTime,
                 },
             },
         );
@@ -578,10 +582,9 @@ $Selenium->RunTest(
                 for my $Field ( sort keys %{ $Test->{UpdateResult} || {} } ) {
 
                     # In case of UntilTime, it can happen that there is an error of one second overall. This is
-                    #   acceptable, so in this case, divide the values with 100 and floor the result before comparing.
+                    #   acceptable, so in this case, divide the value with 100 and floor the result before comparing.
                     if ( $Field eq 'UntilTime' ) {
-                        $Ticket{$Field} = sprintf( '%.0f', $Ticket{$Field} / 100 );
-                        $Test->{UpdateResult}->{$Field} = sprintf( '%.0f', $Test->{UpdateResult}->{$Field} / 100 );
+                        $Ticket{$Field} = int( $Ticket{$Field} / 100 );
                     }
 
                     $Self->Is(
