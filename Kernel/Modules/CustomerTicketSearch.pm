@@ -588,8 +588,9 @@ sub Run {
 
                 # Get first article data.
                 my @Articles = $ArticleObject->ArticleList(
-                    TicketID  => $TicketID,
-                    OnlyFirst => 1,
+                    TicketID             => $TicketID,
+                    IsVisibleForCustomer => 1,
+                    OnlyFirst            => 1,
                 );
                 my %Article;
                 for my $Article (@Articles) {
@@ -625,7 +626,8 @@ sub Run {
                 # get whole article (if configured!)
                 if ( $Config->{SearchArticleCSVTree} && $GetParam{ResultForm} eq 'CSV' ) {
                     my @Articles = $ArticleObject->ArticleList(
-                        TicketID => $TicketID,
+                        TicketID             => $TicketID,
+                        IsVisibleForCustomer => 1,
                     );
                     if (@Articles) {
                         for my $Article (@Articles) {
@@ -788,25 +790,28 @@ sub Run {
 
                 # Get last customer article.
                 my @Articles = $ArticleObject->ArticleList(
-                    TicketID   => $TicketID,
-                    SenderType => 'customer',
-                    OnlyLast   => 1,
+                    TicketID             => $TicketID,
+                    SenderType           => 'customer',
+                    IsVisibleForCustomer => 1,
+                    OnlyLast             => 1,
                 );
 
                 # If the ticket has no customer article, get the last agent article.
                 if ( !@Articles ) {
                     @Articles = $ArticleObject->ArticleList(
-                        TicketID   => $TicketID,
-                        SenderType => 'agent',
-                        OnlyLast   => 1,
+                        TicketID             => $TicketID,
+                        SenderType           => 'agent',
+                        IsVisibleForCustomer => 1,
+                        OnlyLast             => 1,
                     );
                 }
 
                 # Finally, if everything failed, get latest article.
                 if ( !@Articles ) {
                     @Articles = $ArticleObject->ArticleList(
-                        TicketID => $TicketID,
-                        OnlyLast => 1,
+                        TicketID             => $TicketID,
+                        IsVisibleForCustomer => 1,
+                        OnlyLast             => 1,
                     );
                 }
 
@@ -1151,25 +1156,28 @@ sub Run {
 
                     # Get last customer article.
                     my @Articles = $ArticleObject->ArticleList(
-                        TicketID   => $TicketID,
-                        SenderType => 'customer',
-                        OnlyLast   => 1,
+                        TicketID             => $TicketID,
+                        SenderType           => 'customer',
+                        IsVisibleForCustomer => 1,
+                        OnlyLast             => 1,
                     );
 
                     # If the ticket has no customer article, get the last agent article.
                     if ( !@Articles ) {
                         @Articles = $ArticleObject->ArticleList(
-                            TicketID   => $TicketID,
-                            SenderType => 'agent',
-                            OnlyLast   => 1,
+                            TicketID             => $TicketID,
+                            SenderType           => 'agent',
+                            IsVisibleForCustomer => 1,
+                            OnlyLast             => 1,
                         );
                     }
 
                     # Finally, if everything failed, get latest article.
                     if ( !@Articles ) {
                         @Articles = $ArticleObject->ArticleList(
-                            TicketID => $TicketID,
-                            OnlyLast => 1,
+                            TicketID             => $TicketID,
+                            IsVisibleForCustomer => 1,
+                            OnlyLast             => 1,
                         );
                     }
 

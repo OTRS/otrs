@@ -113,6 +113,30 @@ $Selenium->RunTest(
             "Ticket ID $TicketID - created",
         );
 
+        my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+            ChannelName => 'Email',
+        );
+
+        # Add test article to the ticket.
+        #   Make it not visible for the customer, but with the sender type of customer, in order to check if it's
+        #   filtered out correctly.
+        my $InternalArticleMessage = 'not for the customer';
+        my $ArticleID              = $ArticleBackendObject->ArticleCreate(
+            TicketID             => $TicketID,
+            IsVisibleForCustomer => 0,
+            SenderType           => 'customer',
+            Subject              => $TitleRandom,
+            Body                 => $InternalArticleMessage,
+            ContentType          => 'text/plain; charset=ISO-8859-15',
+            HistoryType          => 'EmailCustomer',
+            HistoryComment       => 'Some free text!',
+            UserID               => 1,
+        );
+        $Self->True(
+            $ArticleID,
+            "Article is created - ID $ArticleID"
+        );
+
         # get test ticket number
         my %Ticket = $TicketObject->TicketGet(
             TicketID => $TicketID,
@@ -126,6 +150,12 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), $TitleRandom ) > -1,
             "Ticket $TitleRandom found on page",
+        );
+
+        # Check if internal article was not shown.
+        $Self->True(
+            index( $Selenium->get_page_source(), $InternalArticleMessage ) == -1,
+            'Internal article not found on page'
         );
 
         # Check for search profile name.
