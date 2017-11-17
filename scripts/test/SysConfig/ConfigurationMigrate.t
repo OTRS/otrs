@@ -389,6 +389,14 @@ my @Tests = (
         },
     },
 
+    # Check if UTF-8 strings are migrated correctly.
+    {
+        TestType       => 'EffectiveValue',
+        Name           => 'Effective Value',
+        Key            => 'TimeZone::Calendar9Name',
+        EffectiveValue => 'カレンダー9',
+    },
+
     # There are other renamed settings, this are included AllSetings,
     #   and should not add any results in the MissingSettings above.
     {
