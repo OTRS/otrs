@@ -1274,6 +1274,12 @@ var Core = Core || {};
             // setting is valid
             $Widget.find(".Icon .fa-check-circle-o").removeClass("Hidden");
         }
+
+        $Widget.find("input:checkbox")
+        .off("change")
+        .on("change", function() {
+            TargetNS.CheckboxValueSet($(this));
+        });
     }
 
     /**
