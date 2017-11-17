@@ -665,4 +665,63 @@ Description
             <Item ValueType="String" ValueRegex="^\d+$">4000</Item>
         </Value>
     </Setting>
+    <Setting Name="PostMaster::PreFilterModule###Test35" Required="0" Valid="1">
+        <Description Translatable="1">Test35.</Description>
+        <Navigation>Core::Email::PostMaster</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::Filter::Match</Item>
+                <Item Key="Match">
+                    <Hash>
+                        <Item Key="From">noreply@</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Set">
+                    <Hash>
+                        <Item Key="X-OTRS-IsVisibleForCustomer">0</Item>
+                        <Item Key="X-OTRS-FollowUp-IsVisibleForCustomer">1</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="PostMaster::PreCreateFilterModule###Test36" Required="0" Valid="1">
+        <Description Translatable="1">Test36.</Description>
+        <Navigation>Core::Email::PostMaster</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck</Item>
+                <Item Key="IsVisibleForCustomer" Translatable="1">0</Item>
+                <Item Key="SenderType" Translatable="1">customer</Item>
+                <Item Key="X-OTRS-IsVisibleForCustomer">0</Item>
+                <Item Key="X-OTRS-FollowUp-IsVisibleForCustomer">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="PostMaster::PostFilterModule###Test37" Required="0" Valid="1">
+        <Description Translatable="1">Test37.</Description>
+        <Navigation>Core::Email::PostMaster</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck</Item>
+                <Item Key="IsVisibleForCustomer" Translatable="1">0</Item>
+                <Item Key="SenderType" Translatable="1">customer</Item>
+                <Item Key="X-OTRS-IsVisibleForCustomer">0</Item>
+                <Item Key="X-OTRS-FollowUp-IsVisibleForCustomer">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="PostMaster::CheckFollowUpModule###Test38" Required="0" Valid="1">
+        <Description Translatable="1">Test38.</Description>
+        <Navigation>Core::Email::PostMaster</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::FollowUpCheck::Subject</Item>
+                <Item Key="IsVisibleForCustomer" Translatable="1">1</Item>
+                <Item Key="SenderType" Translatable="1">customer</Item>
+                <Item Key="X-OTRS-IsVisibleForCustomer">0</Item>
+                <Item Key="X-OTRS-FollowUp-IsVisibleForCustomer">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
 </otrs_config>

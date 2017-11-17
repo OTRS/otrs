@@ -159,4 +159,43 @@
             </Array>
         </Value>
     </Setting>
+    <Setting Name="PostMaster::PreFilterModule###1-TestPackage-Match" Required="0" Valid="0">
+        <Description Translatable="1">Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.</Description>
+        <Navigation>Core::Email::PostMaster</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::Filter::Match</Item>
+                <Item Key="Match">
+                    <Hash>
+                        <Item Key="From">noreply@</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Set">
+                    <Hash>
+                        <Item Key="X-OTRS-Ignore">yes</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="PostMaster::PreCreateFilterModule###000-TestPackage-FollowUpArticleVisibilityCheck" Required="0" Valid="1">
+        <Description Translatable="1">Module to check if arrived emails should be marked as internal (because of original forwarded internal email). IsVisibleForCustomer and SenderType define the values for the arrived email/article.</Description>
+        <Navigation>Core::Email::PostMaster</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck</Item>
+                <Item Key="IsVisibleForCustomer" Translatable="1">0</Item>
+                <Item Key="SenderType" Translatable="1">customer</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="PostMaster::CheckFollowUpModule###0100-TestPackage-Subject" Required="0" Valid="1">
+        <Description Translatable="1">Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.</Description>
+        <Navigation>Core::Email::PostMaster</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::FollowUpCheck::Subject</Item>
+            </Hash>
+        </Value>
+    </Setting>
 </otrs_config>

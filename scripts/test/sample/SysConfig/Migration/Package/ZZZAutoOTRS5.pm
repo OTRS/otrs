@@ -123,6 +123,32 @@ $Self->{'Frontend::Module'}->{'AgentTicketProcess'} =  {
   'Title' => 'New process ticket'
 };
 
+$Self->{'PostMaster::PreFilterModule'}->{'1-TestPackage-Match'} =  {
+  'Match' => {
+    'From' => 'noreply@'
+  },
+  'Module' => 'Kernel::System::PostMaster::Filter::Match',
+  'Set' => {
+    'X-OTRS-ArticleType' => 'email-internal',
+    'X-OTRS-FollowUp-ArticleType' => 'email-external',
+    'X-OTRS-Ignore' => 'yes'
+  },
+};
+$Self->{'PostMaster::PreCreateFilterModule'}->{'000-TestPackage-FollowUpArticleVisibilityCheck'} =  {
+  'ArticleType' => 'email-internal',
+  'Module' => 'Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck',
+  'SenderType' => 'customer',
+  'X-OTRS-ArticleType' => 'email-internal',
+  'X-OTRS-FollowUp-ArticleType' => 'email-external'
+};
+$Self->{'PostMaster::CheckFollowUpModule'}->{'0100-TestPackage-Subject'} =  {
+  'ArticleType' => 'email-external',
+  'Module' => 'Kernel::System::PostMaster::FollowUpCheck::Subject',
+  'SenderType' => 'customer',
+  'X-OTRS-ArticleType' => 'email-internal',
+  'X-OTRS-FollowUp-ArticleType' => 'email-external'
+};
+
 }
 
 1;

@@ -320,6 +320,40 @@ my @Tests = (
             },
         ],
     },
+    {
+        Name => 'PostMaster::PreFilterModule###1-TestPackage-Match',
+        EffectiveValue => {
+            Match => {
+                From => 'noreply@',
+            },
+            Module => 'Kernel::System::PostMaster::Filter::Match',
+            Set => {
+                'X-OTRS-IsVisibleForCustomer'          => '0',
+                'X-OTRS-FollowUp-IsVisibleForCustomer' => '1',
+                'X-OTRS-Ignore'                        => 'yes',
+            },
+        },
+    },
+    {
+        Name => 'PostMaster::PreCreateFilterModule###000-TestPackage-FollowUpArticleVisibilityCheck',
+        EffectiveValue => {
+            'Module' => 'Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck',
+            'IsVisibleForCustomer'                 => '0',
+            'SenderType'                           => 'customer',
+            'X-OTRS-IsVisibleForCustomer'          => '0',
+            'X-OTRS-FollowUp-IsVisibleForCustomer' => '1',
+        },
+    },
+    {
+        Name => 'PostMaster::CheckFollowUpModule###0100-TestPackage-Subject',
+        EffectiveValue => {
+            'Module' => 'Kernel::System::PostMaster::FollowUpCheck::Subject',
+            'IsVisibleForCustomer'                 => '1',
+            'SenderType'                           => 'customer',
+            'X-OTRS-IsVisibleForCustomer'          => '0',
+            'X-OTRS-FollowUp-IsVisibleForCustomer' => '1',
+        },
+    },
 );
 
 for my $Test (@Tests) {
