@@ -123,10 +123,10 @@ sub CustomerSourceList {
         if ( defined $Param{ReadOnly} ) {
             my $CustomerBackendConfig = $ConfigObject->Get("CustomerUser$Count");
             if ( $Param{ReadOnly} ) {
-                next SOURCE if !$CustomerBackendConfig->{ReadOnly};
+                next SOURCE if !$CustomerBackendConfig->{ReadOnly} || $CustomerBackendConfig->{Module} !~ /LDAP/i;
             }
             else {
-                next SOURCE if $CustomerBackendConfig->{ReadOnly};
+                next SOURCE if $CustomerBackendConfig->{ReadOnly} || $CustomerBackendConfig->{Module} =~ /LDAP/i;
             }
         }
         $Data{"CustomerUser$Count"} = $ConfigObject->Get("CustomerUser$Count")->{Name}
