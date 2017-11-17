@@ -1,6 +1,5 @@
 #6.0.1 2017-11-21
  - 2017-11-17 Fixed bug#[13344](https://bugs.otrs.org/show_bug.cgi?id=13344) - DBUpgrade-6.pl break UTF-8 letters in config.
- - 2017-11-16 Fixed bug#[13331](https://bugs.otrs.org/show_bug.cgi?id=13331) - Ticket Age is shown not updated on customer interface.
  - 2017-11-15 Fixed bug#[13328](https://bugs.otrs.org/show_bug.cgi?id=13328) - Postmaster filter migration for 'X-OTRS-ArticleType' and 'X-OTRS-FollowUp-ArticleType' are not working for sysconfig settings.
  - 2017-11-13 Fixed bug#[13108](https://bugs.otrs.org/show_bug.cgi?id=13108) - Debugger only shows information if HTTP response was 20x.
  - 2017-11-13 Updated translations, thanks to all translators.

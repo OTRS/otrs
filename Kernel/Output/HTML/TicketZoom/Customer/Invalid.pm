@@ -111,7 +111,6 @@ sub ArticleRender {
             CommunicationChannel => $CommunicationChannel{DisplayName},
             ChannelIcon          => $CommunicationChannel{DisplayIcon},
             Class                => $Param{Class},
-            Age                  => $Param{ArticleAge},
         },
     );
 

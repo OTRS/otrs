@@ -679,17 +679,23 @@ sub ShowTicketStatus {
         $Subject = $Ticket{Title};
     }
 
-    # Age design.
-    $Ticket{CustomerAge} = $LayoutObject->CustomerAge(
-        Age   => $Ticket{Age},
-        Space => ' '
-    ) || 0;
-
     # return ticket information if there is no article
     if ($NoArticle) {
         $Article{State}        = $Ticket{State};
         $Article{TicketNumber} = $Ticket{TicketNumber};
-        $Article{Body}         = $LayoutObject->{LanguageObject}->Translate('This item has no articles yet.');
+        $Article{CustomerAge}  = $LayoutObject->CustomerAge(
+            Age   => $Ticket{Age},
+            Space => ' '
+        ) || 0;
+        $Article{Body} = $LayoutObject->{LanguageObject}->Translate('This item has no articles yet.');
+    }
+
+    # otherwise return article information
+    else {
+        $Article{CustomerAge} = $LayoutObject->CustomerAge(
+            Age   => $Article{Age},
+            Space => ' '
+        ) || 0;
     }
 
     # customer info (customer name)

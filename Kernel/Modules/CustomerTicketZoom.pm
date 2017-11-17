@@ -1552,7 +1552,6 @@ sub _Mask {
             UserID                 => $Self->{UserID},
             ShowBrowserLinkMessage => $Self->{ShowBrowserLinkMessage},
             ArticleExpanded        => $SelectedArticleID eq $Article{ArticleID} || $ZoomExpand,
-            ArticleAge             => $Article{Age},
         );
     }
 

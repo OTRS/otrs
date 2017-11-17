@@ -164,7 +164,6 @@ sub ArticleRender {
             ChannelIcon          => $CommunicationChannel{DisplayIcon},
             BrowserLinkMessage   => $Param{ShowBrowserLinkMessage} && $ShowHTML,
             BodyHTMLLoad         => $Param{ArticleExpanded},
-            Age                  => $Param{ArticleAge},
         },
     );
 
