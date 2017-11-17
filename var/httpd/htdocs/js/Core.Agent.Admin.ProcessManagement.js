@@ -66,7 +66,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         }
 
         // Depending on Action initialize specific functions
-        if (Core.Config.Get('Action') === 'AdminProcessManagementPath') {
+        if (Core.Config.Get('Action') === 'AdminProcessManagementPath' && Core.Config.Get('Subaction') !== 'ClosePopup') {
            TargetNS.InitPathEdit();
         }
     };

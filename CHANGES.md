@@ -1,4 +1,5 @@
 #6.0.2 2017-??-??
+ - 2017-11-17 Fixed bug#[13145](https://bugs.otrs.org/show_bug.cgi?id=13145) - Editing a transistion action results in error without logfile entry.
  - 2017-11-16 Fixed bug#[13331](https://bugs.otrs.org/show_bug.cgi?id=13331) - Ticket Age is shown not updated on customer interface.
  - 2017-11-17 Fixed bug#[13347](https://bugs.otrs.org/show_bug.cgi?id=13347) - Internal article information disclosed by the customer search.
  - 2017-11-17 Fixed bug#[13343](https://bugs.otrs.org/show_bug.cgi?id=13343) - LDAP customer user backends should be implicitly read only.

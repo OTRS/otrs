@@ -103,6 +103,12 @@ sub Run {
 
         for my $Needed (qw(ProcessEntityID TransitionEntityID ProcessData TransitionInfo)) {
 
+            # Send needed data to JS.
+            $LayoutObject->AddJSData(
+                Key   => $Needed,
+                Value => $TransferData->{$Needed}
+            );
+
             # show error if can't update
             if ( !$TransferData->{$Needed} ) {
 
