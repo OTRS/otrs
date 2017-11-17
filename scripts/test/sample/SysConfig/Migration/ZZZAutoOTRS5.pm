@@ -657,7 +657,7 @@ $Self->{'TimeVacationDays::Calendar9'} =  {
 };
 $Self->{'CalendarWeekDayStart::Calendar9'} =  '1';
 $Self->{'TimeZone::Calendar9'} =  '0';
-$Self->{'TimeZone::Calendar9Name'} =  'Calendar Name 9';
+$Self->{'TimeZone::Calendar9Name'} =  'カレンダー9';
 $Self->{'CustomerCompany::EventModulePost'}->{'100-UpdateCustomerUsers'} =  {
   'Event' => 'CustomerCompanyUpdate',
   'Module' => 'Kernel::System::CustomerCompany::Event::CustomerUserUpdate',

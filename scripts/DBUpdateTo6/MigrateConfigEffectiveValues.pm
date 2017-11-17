@@ -108,9 +108,11 @@ sub _MoveZZZAuto {
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    # read the content of the file
+    # Read the content of the file. Make sure to open it in UTF-8 mode, in order to preserve multi-byte characters.
+    #   Please see bug#13344 for more information.
     my $ContentSCALARRef = $MainObject->FileRead(
         Location => $NewLocation,
+        Mode     => 'utf8',
     );
 
     # rename the package name inside the file
