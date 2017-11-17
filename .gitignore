@@ -278,7 +278,7 @@ var/httpd/htdocs/js/Core.Agent.NotificationView.js
 var/httpd/htdocs/js/Core.Agent.TicketSMS.js
 var/httpd/htdocs/js/Core.Agent.TicketAttachmentView.js
 var/httpd/htdocs/js/Core.Customer.TicketMessage.SLASelectionDialog.js
-var/httpd/htdocs/js/test/ChatIncludeExamplePage.html
+var/httpd/htdocs/js/test/sample/ChatIncludeExamplePage.html
 var/httpd/htdocs/js/thirdparty/adapter.js-1.4.0/
 var/httpd/htdocs/js/thirdparty/libphonenumber-js/
 var/httpd/htdocs/skins/Agent/business*
