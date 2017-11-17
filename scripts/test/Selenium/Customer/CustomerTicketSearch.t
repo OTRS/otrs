@@ -112,6 +112,25 @@ $Selenium->RunTest(
             "Ticket ID $TicketID - created",
         );
 
+        # Add test article to the ticket.
+        #   Make it email-internal, with sender type customer, in order to check if it's filtered out correctly.
+        my $InternalArticleMessage = 'not for the customer';
+        my $ArticleID              = $TicketObject->ArticleCreate(
+            TicketID       => $TicketID,
+            ArticleType    => 'email-internal',
+            SenderType     => 'customer',
+            Subject        => $TitleRandom,
+            Body           => $InternalArticleMessage,
+            ContentType    => 'text/plain; charset=ISO-8859-15',
+            HistoryType    => 'EmailCustomer',
+            HistoryComment => 'Some free text!',
+            UserID         => 1,
+        );
+        $Self->True(
+            $ArticleID,
+            "Article is created - ID $ArticleID"
+        );
+
         # get test ticket number
         my %Ticket = $TicketObject->TicketGet(
             TicketID => $TicketID,
@@ -125,6 +144,12 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), $TitleRandom ) > -1,
             "Ticket $TitleRandom found on page",
+        );
+
+        # Check if internal article was not shown.
+        $Self->True(
+            index( $Selenium->get_page_source(), $InternalArticleMessage ) == -1,
+            'Internal article not found on page'
         );
 
         # click on '← Change search options'

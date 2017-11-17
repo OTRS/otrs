@@ -585,7 +585,12 @@ sub Run {
                     }
                     else
                     {
+                        ARTICLE:
                         for my $Articles (@Article) {
+
+                            # Skip internal articles.
+                            next ARTICLE if $Articles->{ArticleType} =~ /-int/;
+
                             if ( $Articles->{Body} ) {
                                 $Data{ArticleTree}
                                     .= "\n-->||$Articles->{ArticleType}||$Articles->{From}||"
@@ -724,10 +729,9 @@ sub Run {
             my @PDFData;
             for my $TicketID (@ViewableTicketIDs) {
 
-                # get first article data
-                my %Data = $TicketObject->ArticleLastCustomerArticle(
+                # Get last customer or any other article if it doesn't exist.
+                my %Data = $Self->_LastCustomerArticle(
                     TicketID      => $TicketID,
-                    Extended      => 1,
                     DynamicFields => 0,
                 );
 
@@ -1058,10 +1062,9 @@ sub Run {
                     )
                 {
 
-                    # get first article data
-                    my %Article = $TicketObject->ArticleLastCustomerArticle(
+                    # Get last customer or any other article if it doesn't exist.
+                    my %Article = $Self->_LastCustomerArticle(
                         TicketID      => $TicketID,
-                        Extended      => 1,
                         DynamicFields => 1,
                     );
 
@@ -1900,6 +1903,49 @@ sub _StopWordsServerErrorsGet {
     }
 
     return %StopWordsServerErrors;
+}
+
+sub _LastCustomerArticle {
+    my ( $Self, %Param ) = @_;
+
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    # Get all customer articles.
+    my @Index = $TicketObject->ArticleIndex(
+        TicketID   => $Param{TicketID},
+        SenderType => 'customer',
+    );
+
+    # Go over articles in reverse order and return the last external one.
+    if (@Index) {
+        for my $CustomerArticleID ( reverse @Index ) {
+            my %LastCustomerArticle = $TicketObject->ArticleGet(
+                ArticleID     => $CustomerArticleID,
+                Extended      => 1,
+                DynamicFields => $Param{DynamicFields},
+            );
+            if ( $LastCustomerArticle{ArticleType} !~ /-int/ ) {
+                return %LastCustomerArticle;
+            }
+        }
+    }
+
+    # If no customer articles were found, return the last external one.
+    @Index = $TicketObject->ArticleIndex(
+        TicketID => $Param{TicketID},
+    );
+    for my $ArticleID ( reverse @Index ) {
+        my %LastArticle = $TicketObject->ArticleGet(
+            ArticleID     => $ArticleID,
+            Extended      => 1,
+            DynamicFields => $Param{DynamicFields},
+        );
+        if ( $LastArticle{StateType} eq 'merged' || $LastArticle{ArticleType} !~ /-int/ ) {
+            return %LastArticle;
+        }
+    }
+
+    return;
 }
 
 1;
