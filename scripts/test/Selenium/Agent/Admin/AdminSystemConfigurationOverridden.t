@@ -58,15 +58,20 @@ $Selenium->RunTest(
         # Navigate to AdminSysConfig screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemConfiguration;");
 
+        # Wait until page is loaded with jstree content in sidebar.
         $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $("#SysConfigSearch").length && $("#ConfigTree").length',
+            JavaScript =>
+                'return typeof($) === "function" && $("#SysConfigSearch").length && $("#ConfigTree > ul:visible").length',
         );
 
-        $Selenium->find_element( "#SysConfigSearch",      "css" )->clear();
-        $Selenium->find_element( "#SysConfigSearch",      "css" )->send_keys("Ticket::Hook");
+        $Selenium->find_element( "#SysConfigSearch", "css" )->clear();
+        $Selenium->find_element( "#SysConfigSearch", "css" )->send_keys('Ticket::Hook');
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && !$("#AJAXLoaderSysConfigSearch:visible").length'
+        );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
         $Selenium->find_element( "button[type='submit']", "css" )->click();
         $Selenium->WaitFor(
-            Time       => 300,
             JavaScript => 'return typeof($) === "function" && $(".fa-exclamation-triangle").length',
         );
 
@@ -92,8 +97,10 @@ $Selenium->RunTest(
             "${ScriptAlias}index.pl?Action=AdminSystemConfigurationGroup;RootNavigation=Frontend::Agent::View::TicketQueue"
         );
 
+        # Wait until page is loaded with jstree content in sidebar.
         $Selenium->WaitFor(
-            JavaScript => 'return $(".fa-exclamation-triangle").length',
+            JavaScript =>
+                'return typeof($) === "function" && $(".fa-exclamation-triangle").length && $("#ConfigTree > ul:visible").length',
         );
 
         $Message = $Selenium->find_element( ".fa-exclamation-triangle", "css" )->get_attribute('title');
@@ -130,6 +137,11 @@ $Selenium->RunTest(
 
             # Navigate to AgentPreferences screen.
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=Advanced");
+
+            # Wait until page is loaded with jstree content in sidebar.
+            $Selenium->WaitFor(
+                JavaScript => 'return typeof($) === "function" && $("#ConfigTree > ul:visible").length',
+            );
 
             # Expand navigation.
             $Selenium->WaitFor(
