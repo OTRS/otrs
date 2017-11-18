@@ -89,7 +89,7 @@ my @IgnoreFiles = (
 # Files to be marked as executable.
 my @ExecutableFiles = (
     qr{\.(?:pl|psgi|sh)$}smx,
-    qr{^/scripts/suse-rcotrs$}smx,
+    qr{^/var/git/hooks/(?:pre|post)-receive$}smx,
 );
 
 # Special files that must not be written by web server user.
