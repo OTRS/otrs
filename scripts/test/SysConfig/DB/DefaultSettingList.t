@@ -25,7 +25,7 @@ my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
 my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
 my %Setting1 = $SysConfigObject->SettingGet(
-    Name => 'ProductName',
+    Name => 'Frontend::DebugMode',
 );
 
 my %Setting2 = $SysConfigObject->SettingGet(
@@ -34,13 +34,13 @@ my %Setting2 = $SysConfigObject->SettingGet(
 
 # Lock 2 settings
 my $GUID1 = $SysConfigObject->SettingLock(
-    Name   => 'ProductName',
+    Name   => 'Frontend::DebugMode',
     UserID => 1,
 );
 
 $Self->True(
     $GUID1,
-    'ProductName locked successfully.'
+    'Frontend::DebugMode locked successfully.'
 );
 
 my $GUID2 = $SysConfigObject->SettingLock(
@@ -56,13 +56,13 @@ $Self->True(
 my $UpdateSuccess = $SysConfigDBObject->DefaultSettingUpdate(
     %Setting1,
     ExclusiveLockGUID => $GUID1,
-    EffectiveValue    => 'Updated product name',
+    EffectiveValue    => 'Updated setting',
     UserID            => 1,
 );
 
 $Self->True(
     $UpdateSuccess,
-    'Setting ProductName updated successfully.',
+    'Setting Frontend::DebugMode updated successfully.',
 );
 
 # Since we updated 1 setting, we have 1 locked setting and 1 dirty setting.
@@ -102,12 +102,12 @@ $Self->IsDeeply(
             'DefaultID'         => $Setting1{DefaultID},
             'ExclusiveLockGUID' => '0',
             'IsDirty'           => '1',
-            'Name'              => 'ProductName',
-            'XMLContentRaw'     => '<Setting Name="ProductName" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the name of the application, shown in the web interface, tabs and title bar of the web browser.</Description>
-        <Navigation>Core</Navigation>
+            'Name'              => 'Frontend::DebugMode',
+            'XMLContentRaw'     => '<Setting Name="Frontend::DebugMode" Required="0" Valid="1" ConfigLevel="100">
+        <Description Translatable="1">Enables or disables the debug mode over frontend interface.</Description>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">OTRS 6</Item>
+            <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>',
             'XMLFilename' => 'Framework.xml'
