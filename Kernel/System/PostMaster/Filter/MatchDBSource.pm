@@ -105,7 +105,7 @@ sub Run {
 
                 # Switch LocalMatched if Config has a negation.
                 if ( $Config{Not}->{$_} ) {
-                    $LocalMatched ^= 1;
+                    $LocalMatched = !$LocalMatched;
                 }
 
                 if ( !$LocalMatched ) {
