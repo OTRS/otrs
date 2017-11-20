@@ -57,7 +57,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
                 if (Response.UpgradeStatus === 'Finished') {
                     Core.UI.Dialog.ShowDialog({
                         HTML: DialogTemplate,
-                        Title: Core.Language.Translate('Upgrade all packages'),
+                        Title: Core.Language.Translate('Update all packages'),
                         Modal: true,
                         CloseOnClickOutside: false,
                         CloseOnEscape: false,
@@ -89,7 +89,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
 
                 // Otherwise show normal dialog without buttons.
                 else {
-                    Core.UI.Dialog.ShowContentDialog(DialogTemplate, Core.Language.Translate('Upgrade All Packages'), '100px', 'Center', true);
+                    Core.UI.Dialog.ShowContentDialog(DialogTemplate, Core.Language.Translate('Update All Packages'), '100px', 'Center', true);
                 }
             }, 'json'
         );
