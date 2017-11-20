@@ -3479,7 +3479,8 @@ sub ConfigurationDeploy {
 
         my $HandleSettingsSuccess = $Self->_HandleSettingsToDeploy(
             %Param,
-            DeploymentTimeStamp => $TimeStamp,
+            DeploymentExclusiveLockGUID => $ExclusiveLockGUID,
+            DeploymentTimeStamp         => $TimeStamp,
         );
 
         my $DeploymentID;
@@ -5697,10 +5698,12 @@ Creates modified versions of dirty settings to deploy and removed the dirty flag
     AllSettings:   Create a version for all dirty settings and removed dirty flags for all default and modified settings
     DirtySettings: Create a version and remove dirty fag for the modified settings in the list, remove dirty flag for all default settings
 
-    my $Success = $SysConfigObject->_GetSettingsToDeploy(
-        NotDirty      => 1,                                         # optional - exclusive (1||0)
-        AllSettings   => 1,                                         # optional - exclusive (1||0)
-        DirtySettings => [ 'SettingName1', 'SettingName2' ],        # optional - exclusive
+    my $Success = $SysConfigObject->_HandleSettingsToDeploy(
+        NotDirty            => 1,                                         # optional - exclusive (1||0)
+        AllSettings         => 1,                                         # optional - exclusive (1||0)
+        DirtySettings       => [ 'SettingName1', 'SettingName2' ],        # optional - exclusive
+        DeploymentTimeStamp => 2017-12-12 12:00:00'
+        UserID              => 123,
     );
 
 Returns:
@@ -5817,9 +5820,10 @@ sub _HandleSettingsToDeploy {
         }
 
         for my $Setting (@ModifiedDeleted) {
-            my $Success = $SysConfigDBObject->ModifiedAdd(
+            my $Success = $SysConfigDBObject->ModifiedSettingAdd(
                 %{$Setting},
-                UserID => $Setting->{ChangeBy},
+                DeploymentExclusiveLockGUID => $Param{DeploymentExclusiveLockGUID},
+                UserID                      => $Setting->{ChangeBy},
             );
         }
 

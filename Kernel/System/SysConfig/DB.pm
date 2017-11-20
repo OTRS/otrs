@@ -2262,17 +2262,18 @@ sub DefaultSettingVersionListGet {
 Add a new SysConfig modified entry.
 
     my $ModifiedID = $SysConfigDBObject->ModifiedSettingAdd(
-        DefaultID                => 456,
-        Name                     => "ProductName",
-        IsValid                  => 1,                             # 1 or 0, optional (uses the value from DefaultSetting if not defined)
-        UserModificationPossible => 0,                             # 1 or 0, optional (uses the value from DefaultSetting if not defined)
-        UserModificationActive   => 0,                             # 1 or 0, optional (uses the value from DefaultSetting if not defined)
-        ResetToDefault           => 0,                             # 1 or 0, optional, modified 0
-        EffectiveValue           => $SettingEffectiveValue,
-        TargetUserID             => 2,                             # Optional, ID of the user for which the modified setting is meant,
-                                                                   #   leave it undef for global changes.
-        ExclusiveLockGUID        => $LockingString,                # the GUID used to locking the setting
-        UserID                   => 1,
+        DefaultID                   => 456,
+        Name                        => "ProductName",
+        IsValid                     => 1,                             # 1 or 0, optional (uses the value from DefaultSetting if not defined)
+        UserModificationPossible    => 0,                             # 1 or 0, optional (uses the value from DefaultSetting if not defined)
+        UserModificationActive      => 0,                             # 1 or 0, optional (uses the value from DefaultSetting if not defined)
+        ResetToDefault              => 0,                             # 1 or 0, optional, modified 0
+        EffectiveValue              => $SettingEffectiveValue,
+        TargetUserID                => 2,                             # Optional, ID of the user for which the modified setting is meant,
+                                                                      #   leave it undef for global changes.
+        ExclusiveLockGUID           => $LockingString,                # the GUID used to lock the setting
+        DeploymentExclusiveLockGUID => $LockingString,                # the GUID used to lock the deployment (in case of deployment failure)
+        UserID                      => 1,
     );
 
 Returns:
@@ -2298,10 +2299,10 @@ sub ModifiedSettingAdd {
         }
     }
 
-    if ( !$Param{TargetUserID} && !$Param{ExclusiveLockGUID} ) {
+    if ( !$Param{TargetUserID} && !$Param{ExclusiveLockGUID} && !$Param{DeploymentExclusiveLockGUID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Need ExclusiveLockGUID!",
+            Message  => "Need ExclusiveLockGUID or DeploymentExclusiveLockGUID!",
         );
     }
 
@@ -2385,6 +2386,14 @@ sub ModifiedSettingAdd {
             DefaultID           => $Param{DefaultID},
             ExclusiveLockUserID => $Param{UserID},
             ExclusiveLockGUID   => $Param{ExclusiveLockGUID},
+        );
+    }
+
+    # Check if we are on a deployment and a deleted value needs to be restored due an error
+    if ( !$LockedByUser && $Param{DeploymentExclusiveLockGUID} ) {
+        $LockedByUser = $Self->DeploymentIsLockedByUser(
+            ExclusiveLockGUID => $Param{DeploymentExclusiveLockGUID},
+            UserID            => $Param{UserID},
         );
     }
 
