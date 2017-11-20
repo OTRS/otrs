@@ -75,6 +75,8 @@ sub Param {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    return if !$Param{Year} || !$Param{Month};
+
     # get language object
     my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
