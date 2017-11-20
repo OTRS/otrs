@@ -1,4 +1,5 @@
 #6.0.2 2017-??-??
+ - 2017-11-20 Fixed bug#[13361](https://bugs.otrs.org/show_bug.cgi?id=13361)(PR#1873) - Postmaster Filter matching is not correct, thanks to Pawel Boguslawski.
  - 2017-11-20 Fixed bug#[13360](https://bugs.otrs.org/show_bug.cgi?id=13360) - Configuration Deployment Failure does not restore old values set for reset.
  - 2017-11-20 Fixed bug#[13340](https://bugs.otrs.org/show_bug.cgi?id=13340) - UpgradeAll feature does not state it works only if OTRS Daemon is running.
  - 2017-11-20 Fixed bug#[13316](https://bugs.otrs.org/show_bug.cgi?id=13316) - Obsolete directive in CSP.

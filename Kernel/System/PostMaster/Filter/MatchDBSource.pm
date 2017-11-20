@@ -89,7 +89,7 @@ sub Run {
                 my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
                     Line => $Param{GetParam}->{$Key},
                 );
-                my $LocalMatched;
+                my $LocalMatched = 0;
                 RECIPIENT:
                 for my $Recipients (@EmailAddresses) {
 
@@ -116,17 +116,17 @@ sub Run {
                         last RECIPIENT;
                     }
                 }
+
+                # Switch LocalMatched if Config has a negation.
+                if ( $Config{Not}->[$Index]->{Value} ) {
+                    $LocalMatched ^= 1;
+                }
+
                 if ( !$LocalMatched ) {
                     $MatchedNot = 1;
                 }
                 else {
                     $Matched = 1;
-                }
-
-                # switch MatchedNot and $Matched
-                if ( $Config{Not}->[$Index]->{Value} ) {
-                    $MatchedNot ^= 1;
-                    $Matched    ^= 1;
                 }
             }
 
