@@ -52,6 +52,13 @@ $Selenium->RunTest(
             Value => '::',
         );
 
+        # Enable NewArticleIgnoreSystemSender config.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::NewArticleIgnoreSystemSender',
+            Value => 1,
+        );
+
         # create and login test user
         my $Language      = 'de';
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -108,10 +115,14 @@ $Selenium->RunTest(
         # create two ticket articles
         my @ArticleIDs;
         for my $ArticleCreate ( 1 .. 2 ) {
+            my $SenderType = 'agent';
+            if ( $ArticleCreate == 2 ) {
+                $SenderType = 'system';
+            }
             my $ArticleID = $ArticleBackendObject->ArticleCreate(
                 TicketID             => $TicketID,
                 IsVisibleForCustomer => 1,
-                SenderType           => 'agent',
+                SenderType           => $SenderType,
                 Subject              => 'Selenium subject test',
                 Body                 => "Article $ArticleCreate",
                 ContentType          => 'text/plain; charset=ISO-8859-15',
@@ -186,6 +197,21 @@ $Selenium->RunTest(
             ),
             'Row1',
             "Second Article in table is first created article",
+        );
+
+        # Verify selected article. Config 'NewArticleIgnoreSystemSender' is enable.
+        #   Non system sender type article should be selected ( first created article ).
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('#ArticleItems').find('[name=\"Article$ArticleIDs[0]\"]').length"
+            ),
+            "First 'agent' sender type article is selected"
+        );
+        $Self->False(
+            $Selenium->execute_script(
+                "return \$('#ArticleItems').find('[name=\"Article$ArticleIDs[1]\"]').length"
+            ),
+            "Second 'system' sender type article is not selected"
         );
 
         # click to sort by article number

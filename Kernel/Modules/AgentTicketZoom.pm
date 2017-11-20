@@ -824,6 +824,9 @@ sub MaskAgentZoom {
     my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
+    # Create a list of article sender types for lookup
+    my %ArticleSenderTypeList = $ArticleObject->ArticleSenderTypeList();
+
     # else show normal ticket zoom view
     # fetch all move queues
     my %MoveQueues = $TicketObject->MoveList(
@@ -912,7 +915,7 @@ sub MaskAgentZoom {
             # Ignore system sender type.
             if (
                 $ConfigObject->Get('Ticket::NewArticleIgnoreSystemSender')
-                && $Article->{SenderType} eq 'system'
+                && $ArticleSenderTypeList{ $Article->{SenderTypeID} } eq 'system'
                 )
             {
                 next ARTICLE;
@@ -1008,7 +1011,7 @@ sub MaskAgentZoom {
                 # set last customer article as selected article replacing last set
                 ARTICLETMP:
                 for my $ArticleTmp (@ArticleBox) {
-                    if ( $ArticleTmp->{SenderType} eq 'customer' ) {
+                    if ( $ArticleSenderTypeList{ $ArticleTmp->{SenderTypeID} } eq 'customer' ) {
                         $ArticleID = $ArticleTmp->{ArticleID};
                         last ARTICLETMP if $Self->{ZoomExpandSort} eq 'reverse';
                     }
@@ -1939,7 +1942,7 @@ sub MaskAgentZoom {
         # ignore system sender type
         next ARTICLE
             if $ConfigObject->Get('Ticket::NewArticleIgnoreSystemSender')
-            && $Article->{SenderType} eq 'system';
+            && $ArticleSenderTypeList{ $Article->{SenderTypeID} } eq 'system';
 
         # last ARTICLE if article was not shown
         if ( !$ArticleFlags{ $Article->{ArticleID} }->{Seen} ) {
@@ -2115,6 +2118,9 @@ sub _ArticleTree {
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
     my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
 
+    # Create a list of article sender types for lookup
+    my %ArticleSenderTypeList = $ArticleObject->ArticleSenderTypeList();
+
     # show article tree
     if ( !$Self->{ZoomTimeline} ) {
 
@@ -2153,7 +2159,7 @@ sub _ArticleTree {
                 && (
                     !$ConfigObject->Get('Ticket::NewArticleIgnoreSystemSender')
                     || $ConfigObject->Get('Ticket::NewArticleIgnoreSystemSender')
-                    && $Article{SenderType} ne 'system'
+                    && $ArticleSenderTypeList{ $Article{SenderTypeID} } ne 'system'
                 )
                 )
             {
@@ -2271,7 +2277,7 @@ sub _ArticleTree {
                 $LayoutObject->Block( Name => 'TreeItemDirectionInternal' );
             }
             else {
-                if ( $Article{SenderType} eq 'customer' ) {
+                if ( $ArticleSenderTypeList{ $Article{SenderTypeID} } eq 'customer' ) {
                     $LayoutObject->Block( Name => 'TreeItemDirectionIncoming' );
                 }
                 else {
@@ -2536,7 +2542,7 @@ sub _ArticleTree {
                 $Item->{ArticleID}
                 && $Item->{HistoryType} eq 'AddNote'
                 && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
-                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{SenderType} eq 'customer'
+                && $ArticleSenderTypeList{ $ArticlesByArticleID->{ $Item->{ArticleID} }->{SenderTypeID} } eq 'customer'
                 )
             {
                 $Item->{Class} = 'TypeIncoming';
@@ -2551,7 +2557,7 @@ sub _ArticleTree {
                 $Item->{ArticleID}
                 && $Item->{HistoryType} eq 'AddSMS'
                 && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
-                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{SenderType} eq 'customer'
+                && $ArticleSenderTypeList{ $ArticlesByArticleID->{ $Item->{ArticleID} }->{SenderTypeID} } eq 'customer'
                 )
             {
                 $Item->{Class} = 'TypeIncoming';
@@ -2567,7 +2573,7 @@ sub _ArticleTree {
                 && $Item->{HistoryType} eq 'EmailAgent'
                 && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
                 && $ArticlesByArticleID->{ $Item->{ArticleID} }->{Backend} eq 'Email'
-                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{SenderType} eq 'agent'
+                && $ArticleSenderTypeList{ $ArticlesByArticleID->{ $Item->{ArticleID} }->{SenderTypeID} } eq 'agent'
                 && !$ArticlesByArticleID->{ $Item->{ArticleID} }->{IsVisibleForCustomer}
                 )
             {
@@ -2601,7 +2607,7 @@ sub _ArticleTree {
                 && $Item->{ArticleID}
                 && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
                 && $ArticlesByArticleID->{ $Item->{ArticleID} }->{Backend} eq 'Email'
-                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{SenderType} eq 'agent'
+                && $ArticleSenderTypeList{ $ArticlesByArticleID->{ $Item->{ArticleID} }->{SenderTypeID} } eq 'agent'
                 && !$ArticlesByArticleID->{ $Item->{ArticleID} }->{IsVisibleForCustomer}
                 )
             {
