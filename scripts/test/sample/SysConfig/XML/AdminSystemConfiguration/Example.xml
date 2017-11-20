@@ -578,4 +578,11 @@
             <Item ValueType="String" ValueRegex="">Ticket#</Item>
         </Value>
     </Setting>
+    <Setting Name="ZZZZExampleFileInvalidDisabled" Required="0" Valid="0">
+        <Description Translatable="1">File item.</Description>
+        <Navigation>Sample</Navigation>
+        <Value>
+            <Item ValueType="File">/etc/hosts2t326hd21</Item>
+        </Value>
+    </Setting>
 </otrs_config>

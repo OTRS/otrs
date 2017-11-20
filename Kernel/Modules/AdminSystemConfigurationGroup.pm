@@ -338,28 +338,27 @@ sub Run {
         my %Result;
 
         # Get setting
-        my %DefaultSetting = $SysConfigObject->SettingGet(
-            Name    => $SettingName,
-            Default => 1,
+        my %Setting = $SysConfigObject->SettingGet(
+            Name => $SettingName,
         );
 
         # try to lock to the current user
         if (
-            !$DefaultSetting{ExclusiveLockUserID}
+            !$Setting{ExclusiveLockUserID}
             ||
             (
-                $DefaultSetting{ExclusiveLockUserID} &&
-                $DefaultSetting{ExclusiveLockUserID} != $Self->{UserID}
+                $Setting{ExclusiveLockUserID} &&
+                $Setting{ExclusiveLockUserID} != $Self->{UserID}
             )
             )
         {
             my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
-                DefaultID => $DefaultSetting{DefaultID},
+                DefaultID => $Setting{DefaultID},
                 UserID    => $Self->{UserID},
             );
 
             if ($ExclusiveLockGUID) {
-                $DefaultSetting{ExclusiveLockGUID} = $ExclusiveLockGUID;
+                $Setting{ExclusiveLockGUID} = $ExclusiveLockGUID;
             }
             else {
                 $Result{Data}->{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
@@ -369,14 +368,19 @@ sub Run {
             }
         }
 
+        # Detect if IsValid state is different (user pressed enable or disable).
+        my $NoValidation = $IsValid // $Setting{IsValid};
+        $NoValidation = $NoValidation != $Setting{IsValid};
+
         # Try to Update.
         my %UpdateResult = $SysConfigObject->SettingUpdate(
             Name                   => $SettingName,
             EffectiveValue         => $EffectiveValue,
-            ExclusiveLockGUID      => $DefaultSetting{ExclusiveLockGUID},
+            ExclusiveLockGUID      => $Setting{ExclusiveLockGUID},
             UserID                 => $Self->{UserID},
-            IsValid                => $IsValid // undef,
-            UserModificationActive => $UserModificationActive // undef,
+            IsValid                => $IsValid // $Setting{IsValid},
+            UserModificationActive => $UserModificationActive,
+            NoValidation           => $NoValidation,
         );
 
         if ( !$UpdateResult{Success} && !$UpdateResult{Error} ) {
@@ -388,8 +392,8 @@ sub Run {
             $Result{Data}->{Error} = $UpdateResult{Error};
 
             my %LockStatus = $SysConfigObject->SettingLockCheck(
-                DefaultID           => $DefaultSetting{DefaultID},
-                ExclusiveLockGUID   => $DefaultSetting{ExclusiveLockGUID},
+                DefaultID           => $Setting{DefaultID},
+                ExclusiveLockGUID   => $Setting{ExclusiveLockGUID},
                 ExclusiveLockUserID => $Self->{UserID},
             );
 

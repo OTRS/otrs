@@ -1399,6 +1399,7 @@ $Selenium->RunTest(
         );
 
         my $SelectedItem;
+        my $AlertText;
 
         for my $Test (@Tests) {
 
@@ -1410,20 +1411,36 @@ $Selenium->RunTest(
 
                 if ( $CommandType eq 'Click' ) {
                     $Selenium->WaitFor(
-                        JavaScript => 'return $("' . "$Prefix $Value" . ':visible").length',
+                        JavaScript => 'return $("' . "$Prefix $Value" . '").length',
                     );
-
                     $Selenium->WaitFor(
                         JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
                     );
 
                     $Selenium->find_element( "$Prefix $Value", "css" )->click();
+                    if ($AlertText) {
+                        $Selenium->WaitFor(
+                            AlertPresent => 1,
+                        );
 
-                    $Selenium->WaitFor(
-                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
-                    );
+                        # Verify alert message.
+                        $Self->Is(
+                            $AlertText,
+                            $Selenium->get_alert_text(),
+                            "$Test->{Name} - Check alert text - $AlertText",
+                        );
 
-                    # TODO: Review - VerifiedClick doesn't work with overlay loader
+                        # Accept alert.
+                        $Selenium->accept_alert();
+
+                        # Reset alert text.
+                        $AlertText = '';
+                    }
+                    else {
+                        $Selenium->WaitFor(
+                            JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
+                        );
+                    }
                 }
                 elsif ( $CommandType eq 'Scroll' ) {
                     $Selenium->execute_script(
@@ -1444,20 +1461,8 @@ $Selenium->RunTest(
                         JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
                     );
                 }
-                elsif ( $CommandType eq 'Alert' ) {
-                    $Selenium->WaitFor(
-                        AlertPresent => 1,
-                    );
-
-                    # verify alert message
-                    $Self->Is(
-                        $Value,
-                        $Selenium->get_alert_text(),
-                        "Check alert text - $Value",
-                    );
-
-                    # accept alert
-                    $Selenium->accept_alert();
+                elsif ( $CommandType eq 'ExpectAlert' ) {
+                    $AlertText = $Value;
                 }
                 elsif ( $CommandType eq 'Write' ) {
 

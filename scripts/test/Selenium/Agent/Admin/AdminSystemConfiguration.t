@@ -477,47 +477,46 @@ my @Tests = (
             '/etc/localtime',
         ],
     },
-
-    # {
-    #     Name     => 'ExampleArrayFile',
-    #     Index    => 7,
-    #     Commands => [
-    #         {
-    #             Hover => '.Content',
-    #         },
-    #         {
-    #             Click => '.SettingEdit',
-    #         },
-    #         {
-    #             Click => '.ArrayItem:nth-of-type(2) .RemoveButton',
-    #         },
-    #         {
-    #             Click => '.AddArrayItem',
-    #         },
-    #         {
-    #             Select => '.ArrayItem:nth-of-type(2) input',
-    #         },
-    #         {
-    #             Write => '/usrfake#',
-    #         },
-    #         {
-    #             Hover => '.Setting',
-    #         },
-    #         {
-    #             Click => '.Update',
-    #         },
-    #         {
-    #             Alert => 'Setting value is not valid!',
-    #         },
-    #         {
-    #             Click => '.Cancel',
-    #         },
-    #     ],
-    #     ExpectedResult => [    # Error occured, nothing was changed
-    #         '/etc/hosts',
-    #         '/etc/localtime',
-    #     ],
-    # },
+    {
+        Name     => 'ExampleArrayFile',
+        Index    => 7,
+        Commands => [
+            {
+                Hover => '.Content',
+            },
+            {
+                Click => '.SettingEdit',
+            },
+            {
+                Click => '.ArrayItem:nth-of-type(2) .RemoveButton',
+            },
+            {
+                Click => '.AddArrayItem',
+            },
+            {
+                Select => '.ArrayItem:nth-of-type(2) input',
+            },
+            {
+                Write => '/usrfake#',
+            },
+            {
+                Hover => '.Setting',
+            },
+            {
+                ExpectAlert => 'Setting value is not valid!',
+            },
+            {
+                Click => '.Update',
+            },
+            {
+                Click => '.Cancel',
+            },
+        ],
+        ExpectedResult => [    # Error occured, nothing was changed
+            '/etc/hosts',
+            '/etc/localtime',
+        ],
+    },
     {
         Name     => 'ExampleArrayFrontendNavigation',
         Index    => 8,
@@ -1027,41 +1026,40 @@ my @Tests = (
         ],
         ExpectedResult => '/usr',
     },
-
-    # {
-    #     Name     => 'ExampleDirectory',
-    #     Index    => 18,
-    #     Commands => [
-    #         {
-    #             Hover => '.Content',
-    #         },
-    #         {
-    #             Click => '.SettingEdit',
-    #         },
-    #         {
-    #             Select => '.Setting input',
-    #         },
-    #         {
-    #             Clear => 1,
-    #         },
-    #         {
-    #             Write => '/usr123#',
-    #         },
-    #         {
-    #             Hover => '.Setting',
-    #         },
-    #         {
-    #             Click => '.Update',
-    #         },
-    #         {
-    #             Alert => 'Setting value is not valid!',
-    #         },
-    #         {
-    #             Click => '.Cancel',
-    #         },
-    #     ],
-    #     ExpectedResult => '/usr',
-    # },
+    {
+        Name     => 'ExampleDirectory',
+        Index    => 18,
+        Commands => [
+            {
+                Hover => '.Content',
+            },
+            {
+                Click => '.SettingEdit',
+            },
+            {
+                Select => '.Setting input',
+            },
+            {
+                Clear => 1,
+            },
+            {
+                Write => '/usr123#',
+            },
+            {
+                Hover => '.Setting',
+            },
+            {
+                ExpectAlert => 'Setting value is not valid!',
+            },
+            {
+                Click => '.Update',
+            },
+            {
+                Click => '.Cancel',
+            },
+        ],
+        ExpectedResult => '/usr',
+    },
     {
         Name     => 'ExampleEntityPriority',
         Index    => 19,
@@ -1157,41 +1155,40 @@ my @Tests = (
         ],
         ExpectedResult => '/etc/localtime',
     },
-
-    # {
-    #     Name     => 'ExampleFile',
-    #     Index    => 21,
-    #     Commands => [
-    #         {
-    #             Hover => '.Content',
-    #         },
-    #         {
-    #             Click => '.SettingEdit',
-    #         },
-    #         {
-    #             Select => '.Setting input',
-    #         },
-    #         {
-    #             Clear => 1,
-    #         },
-    #         {
-    #             Write => '/usr123#',
-    #         },
-    #         {
-    #             Hover => '.Setting',
-    #         },
-    #         {
-    #             Click => '.Update',
-    #         },
-    #         {
-    #             Alert => 'Setting value is not valid!',
-    #         },
-    #         {
-    #             Click => '.Cancel',
-    #         },
-    #     ],
-    #     ExpectedResult => '/etc/localtime',
-    # },
+    {
+        Name     => 'ExampleFile',
+        Index    => 21,
+        Commands => [
+            {
+                Hover => '.Content',
+            },
+            {
+                Click => '.SettingEdit',
+            },
+            {
+                Select => '.Setting input',
+            },
+            {
+                Clear => 1,
+            },
+            {
+                Write => '/usr123#',
+            },
+            {
+                Hover => '.Setting',
+            },
+            {
+                ExpectAlert => 'Setting value is not valid!',
+            },
+            {
+                Click => '.Update',
+            },
+            {
+                Click => '.Cancel',
+            },
+        ],
+        ExpectedResult => '/etc/localtime',
+    },
     {
         Name     => 'ExampleHash',
         Index    => 22,
@@ -1705,44 +1702,43 @@ my @Tests = (
             'File' => '/usr',
         },
     },
-
-    # {
-    #     Name     => 'ExampleHashDirectory1',
-    #     Index    => 29,
-    #     Commands => [
-    #         {
-    #             Hover => '.Content',
-    #         },
-    #         {
-    #             Click => '.SettingEdit',
-    #         },
-    #         {
-    #             Select => '.HashItem:nth-of-type(1) .Content',
-    #         },
-    #         {
-    #             Write => '/usr3#',
-    #         },
-    #         {
-    #             Hover => '.Setting',
-    #         },
-    #         {
-    #             Click => '.Update',
-    #         },
-    #         {
-    #             Alert => 'Setting value is not valid!',
-    #         },
-    #         {
-    #             Click => '.Cancel',
-    #         },
-    #         {
-    #             Select => 'input',
-    #         },
-    #     ],
-    #     ExpectedResult => {
-    #         'Name' => 'John',
-    #         'File' => '/usr',
-    #     },
-    # },
+    {
+        Name     => 'ExampleHashDirectory1',
+        Index    => 29,
+        Commands => [
+            {
+                Hover => '.Content',
+            },
+            {
+                Click => '.SettingEdit',
+            },
+            {
+                Select => '.HashItem:nth-of-type(1) .Content',
+            },
+            {
+                Write => '/usr3#',
+            },
+            {
+                Hover => '.Setting',
+            },
+            {
+                ExpectAlert => 'Setting value is not valid!',
+            },
+            {
+                Click => '.Update',
+            },
+            {
+                Click => '.Cancel',
+            },
+            {
+                Select => 'input',
+            },
+        ],
+        ExpectedResult => {
+            'Name' => 'John',
+            'File' => '/usr',
+        },
+    },
     {
         Name     => 'ExampleHashDirectory2',
         Index    => 30,
@@ -1979,41 +1975,40 @@ my @Tests = (
             'File' => '/etc/localtime',
         },
     },
-
-    # {
-    #     Name     => 'ExampleHashFile1',
-    #     Index    => 33,
-    #     Commands => [
-    #         {
-    #             Hover => '.Content',
-    #         },
-    #         {
-    #             Click => '.SettingEdit',
-    #         },
-    #         {
-    #             Select => '.HashItem:nth-of-type(1) .Content',
-    #         },
-    #         {
-    #             Write => '/usr3#',
-    #         },
-    #         {
-    #             Hover => '.Setting',
-    #         },
-    #         {
-    #             Click => '.Update',
-    #         },
-    #         {
-    #             Alert => 'Setting value is not valid!',
-    #         },
-    #         {
-    #             Click => '.Cancel',
-    #         },
-    #     ],
-    #     ExpectedResult => {
-    #         'Name' => 'John',
-    #         'File' => '/etc/localtime',
-    #     },
-    # },
+    {
+        Name     => 'ExampleHashFile1',
+        Index    => 33,
+        Commands => [
+            {
+                Hover => '.Content',
+            },
+            {
+                Click => '.SettingEdit',
+            },
+            {
+                Select => '.HashItem:nth-of-type(1) .Content',
+            },
+            {
+                Write => '/usr3#',
+            },
+            {
+                Hover => '.Setting',
+            },
+            {
+                ExpectAlert => 'Setting value is not valid!',
+            },
+            {
+                Click => '.Update',
+            },
+            {
+                Click => '.Cancel',
+            },
+        ],
+        ExpectedResult => {
+            'Name' => 'John',
+            'File' => '/etc/localtime',
+        },
+    },
     {
         Name     => 'ExampleHashFile2',
         Index    => 34,
@@ -3294,6 +3289,68 @@ my @Tests = (
         ],
         ExpectedResult => 'abc',
     },
+    {
+        # This test checks if disabled invalid settings work properly.
+        Name     => 'ZZZZExampleFileInvalidDisabled',
+        Index    => 55,
+        Commands => [
+            {
+                # Edit button is not visible.
+                ElementMissing => '.SettingEdit:visible',
+            },
+            {
+                # Expand setting bar.
+                Click => '.Header',
+            },
+            {
+                # Edit alias button is not visible.
+                ElementMissing => '.EditAlias:visible',
+            },
+            {
+                # Enable setting.
+                Click => '.SettingDisabled',
+            },
+            {
+                # wait and edit
+                Click => '.EditAlias',
+            },
+            {
+                Select => 'input#ZZZZExampleFileInvalidDisabled',
+            },
+            {
+                Write => 'ijwiofj',    # Try with wrong value, to check if validation still works.
+            },
+            {
+                ExpectAlert => 'Setting value is not valid!',
+            },
+            {
+                Click => '.SaveAlias',
+            },
+            {
+                Select => '.SaveAlias',
+            },
+            {
+                Select => 'input#ZZZZExampleFileInvalidDisabled',
+            },
+            {
+                Clear => 1,
+            },
+            {
+                Write => '/etc/hosts',
+            },
+            {
+                Click => '.SaveAlias',
+            },
+            {
+                ElementMissing => '.SaveAlias:visible',
+            },
+            {
+                # Disable the setting.
+                Click => '.SettingEnabled',
+            },
+        ],
+        ExpectedResult => '/etc/hosts',
+    },
 );
 
 $Selenium->RunTest(
@@ -3367,6 +3424,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemConfigurationGroup;RootNavigation=Sample;");
 
         my $SelectedItem;
+        my $AlertText;
 
         for my $Test (@Tests) {
 
@@ -3389,10 +3447,29 @@ $Selenium->RunTest(
                     );
 
                     $Selenium->find_element( "$Prefix $Value", "css" )->click();
+                    if ($AlertText) {
+                        $Selenium->WaitFor(
+                            AlertPresent => 1,
+                        );
 
-                    $Selenium->WaitFor(
-                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
-                    );
+                        # Verify alert message.
+                        $Self->Is(
+                            $AlertText,
+                            $Selenium->get_alert_text(),
+                            "$Test->{Name} - Check alert text - $AlertText",
+                        );
+
+                        # Accept alert.
+                        $Selenium->accept_alert();
+
+                        # Reset alert text.
+                        $AlertText = '';
+                    }
+                    else {
+                        $Selenium->WaitFor(
+                            JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
+                        );
+                    }
                 }
                 elsif ( $CommandType eq 'Clear' ) {
                     $SelectedItem->clear();
@@ -3408,20 +3485,8 @@ $Selenium->RunTest(
                         JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
                     );
                 }
-                elsif ( $CommandType eq 'Alert' ) {
-                    $Selenium->WaitFor(
-                        AlertPresent => 1,
-                    );
-
-                    # Verify alert message.
-                    $Self->Is(
-                        $Value,
-                        $Selenium->get_alert_text(),
-                        "$Test->{Name} - Check alert text - $Value",
-                    );
-
-                    # Accept alert.
-                    $Selenium->accept_alert();
+                elsif ( $CommandType eq 'ExpectAlert' ) {
+                    $AlertText = $Value;
                 }
                 elsif ( $CommandType eq 'Write' ) {
 
