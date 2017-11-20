@@ -1139,12 +1139,14 @@ Returns:
             Name              => 'SettingName1',
             IsDirty           => 1,
             ExclusiveLockGUID => 0,
+            XMLFilename       => 'Filename.xml',
         },
         {
             DefaultID         => '124',
             Name              => 'SettingName2',
             IsDirty           => 0,
             ExclusiveLockGUID => 'fjewifjowj...',
+            XMLFilename       => 'Filename.xml',
         },
         ...
     );
@@ -1175,7 +1177,7 @@ sub DefaultSettingList {
 
         # Start SQL statement.
         my $SQL = '
-            SELECT id, name, is_dirty, exclusive_lock_guid, xml_content_raw
+            SELECT id, name, is_dirty, exclusive_lock_guid, xml_content_raw, xml_filename
             FROM sysconfig_default
             ORDER BY id';
 
@@ -1190,6 +1192,7 @@ sub DefaultSettingList {
                 IsDirty           => $Row[2],
                 ExclusiveLockGUID => $Row[3],
                 XMLContentRaw     => $Row[4],
+                XMLFilename       => $Row[5],
             };
         }
 

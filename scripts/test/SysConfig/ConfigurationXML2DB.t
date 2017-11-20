@@ -1308,6 +1308,67 @@ my @Tests = (
             },
         ],
     },
+    {
+        # It contains same setting "Ticket::Hook" but the XML filename is different.
+        #     Make sure that it's recognized with a new filename.
+        Description => 'Load another sample XML file.',
+        Config      => {
+            UserID    => 1,
+            Directory => "$ConfigObject->{Home}/scripts/test/sample/SysConfig/XMLFilename/",
+            CleanUp   => 1,
+        },
+        ExpectedResult => [
+            {
+                "ChangeBy"                 => 1,
+                "CreateBy"                 => 1,
+                "Description"              => "The identifier for a ticket.",
+                "EffectiveValue"           => "Ticket#",
+                "ExclusiveLockGUID"        => 0,
+                "ExclusiveLockUserID"      => undef,
+                "HasConfigLevel"           => 100,
+                "IsDirty"                  => 1,
+                "IsInvisible"              => 0,
+                "IsReadonly"               => 0,
+                "IsRequired"               => 1,
+                "IsValid"                  => 1,
+                "Name"                     => "Ticket::Hook",
+                "Navigation"               => "Core::Ticket",
+                "UserModificationActive"   => 0,
+                "UserModificationPossible" => 0,
+                "UserPreferencesGroup"     => "",
+                "XMLContentParsed"         => {
+                    "Description" => [
+                        {
+                            "Content"      => "The identifier for a ticket.",
+                            "Translatable" => 1,
+                        },
+                    ],
+                    "Name"       => "Ticket::Hook",
+                    "Navigation" => [
+                        {
+                            "Content" => "Core::Ticket"
+                        },
+                    ],
+                    "Required" => 1,
+                    "Valid"    => 1,
+                    "Value"    => [
+                        {
+                            "Item" => [
+                                {
+                                    "Content"    => "Ticket#",
+                                    "ValueRegex" => "",
+                                    "ValueType"  => "String",
+                                },
+                            ],
+                        },
+                    ],
+                },
+                "XMLContentRaw" =>
+                    "<Setting Name=\"Ticket::Hook\" Required=\"1\" Valid=\"1\">\n        <Description Translatable=\"1\">The identifier for a ticket.</Description>\n        <Navigation>Core::Ticket</Navigation>\n        <Value>\n            <Item ValueType=\"String\" ValueRegex=\"\">Ticket#</Item>\n        </Value>\n    </Setting>",
+                "XMLFilename" => "SampleFilename.xml",
+            },
+        ],
+    },
 );
 
 for my $Test (@Tests) {

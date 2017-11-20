@@ -2601,7 +2601,9 @@ sub ConfigurationXML2DB {
         if ( @DefaultSetting && IsHashRefWithData( $DefaultSetting[0] ) ) {
 
             # Compare new Setting XML with the old one (skip if there is no difference).
-            my $Updated = $Settings{$SettingName}->{XMLContentRaw} eq $DefaultSetting[0]->{XMLContentRaw} ? 0 : 1;
+            my $Updated = $Settings{$SettingName}->{XMLContentRaw} ne $DefaultSetting[0]->{XMLContentRaw};
+            $Updated ||= $Settings{$SettingName}->{XMLFilename} ne $DefaultSetting[0]->{XMLFilename};
+
             next SETTING if !$Updated;
 
             # Create a local clone of the value to prevent any modification.
