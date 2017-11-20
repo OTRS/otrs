@@ -94,6 +94,7 @@ $Self->IsDeeply(
 my @DirtySettings = $SysConfigDBObject->DefaultSettingList(
     IsDirty => 1,
 );
+
 $Self->IsDeeply(
     \@DirtySettings,
     [
@@ -106,7 +107,7 @@ $Self->IsDeeply(
         <Description Translatable="1">Defines the name of the application, shown in the web interface, tabs and title bar of the web browser.</Description>
         <Navigation>Core</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">OTRS 7</Item>
+            <Item ValueType="String" ValueRegex="">OTRS 6</Item>
         </Value>
     </Setting>',
             'XMLFilename' => 'Framework.xml'
