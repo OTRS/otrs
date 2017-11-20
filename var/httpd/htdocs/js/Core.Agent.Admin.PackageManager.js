@@ -155,6 +155,14 @@ Core.Agent.Admin = Core.Agent.Admin || {};
 
         $('.UpgradeAll').off('click.UpgradeAll').on('click.UpgradeAll', function() {
 
+            if (Core.Config.Get('DaemonCheckNotRunning')) {
+                Core.UI.Dialog.ShowAlert(
+                    Core.Language.Translate('Currently not possible'),
+                    Core.Language.Translate('This option is currently disabled because the OTRS Daemon is not running.')
+                );
+                return false;
+            }
+
             if (window.confirm(Core.Language.Translate("Are you sure you want to update all installed packages?"))) {
                 TargetNS.PackageUpgradeAll();
             }

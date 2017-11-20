@@ -1788,6 +1788,17 @@ sub Run {
         );
     }
 
+    # Check if OTRS Daemon is running in the background.
+    #   Get daemon state from the cache.
+    my $DaemonRunning = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => 'DaemonRunning',
+        Key  => $ConfigObject->Get('NodeID') || 1,
+    );
+    $LayoutObject->AddJSData(
+        Key   => 'DaemonCheckNotRunning',
+        Value => !$DaemonRunning,
+    );
+
     # Remove old package upgrade all data.
     my $SystemDataObject = $Kernel::OM->Get('Kernel::System::SystemData');
     my %SystemData       = $SystemDataObject->SystemDataGroupGet(
