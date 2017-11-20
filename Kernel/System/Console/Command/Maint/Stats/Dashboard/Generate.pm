@@ -105,6 +105,8 @@ sub Run {
         USERID:
         for my $UserID ( sort keys %UsersWithActivatedWidget ) {
 
+            my $StartTime = time; ## no critic
+
             # ignore invalid users
             my %UserData = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
                 UserID        => $UserID,
@@ -148,6 +150,10 @@ sub Run {
                 },
                 UserID => $UserID
             );
+
+            if ( $Self->GetOption('debug') ) {
+                print STDERR sprintf("DEBUG: time taken: %ss\n", time() - $StartTime); ## no critic
+            }
 
             if ( !$Result ) {
                 $Self->PrintError("        Stat calculation was not successful.");
