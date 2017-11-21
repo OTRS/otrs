@@ -147,7 +147,7 @@ $Selenium->RunTest(
             );
 
             # Go to next step of installation (Create Database).
-            $Selenium->execute_script("\$('#FormDBSubmit').click();"),
+            $Selenium->execute_script("\$('#FormDBSubmit').click();");
 
             $Selenium->WaitFor(
                 Time => 300,
