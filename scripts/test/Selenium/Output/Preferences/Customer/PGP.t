@@ -57,8 +57,10 @@ $Selenium->RunTest(
             }
         }
 
+        my $Home = $ConfigObject->Get('Home');
+
         # create test PGP path and set it in sysConfig
-        my $PGPPath = $ConfigObject->Get('Home') . "/var/tmp/pgp";
+        my $PGPPath = $Home . '/var/tmp/pgp' . $Helper->GetRandomID();
         mkpath( [$PGPPath], 0, 0770 );    ## no critic
 
         $Helper->ConfigSettingChange(
@@ -85,24 +87,18 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerPreferences");
 
         # change customer PGP key preference
-        my $Location = $ConfigObject->Get('Home')
-            . "/scripts/test/sample/Crypt/PGPPrivateKey-1.asc";
+        my $Location = $Home . '/scripts/test/sample/Crypt/PGPPrivateKey-1.asc';
         $Selenium->find_element( "#UserPGPKey",       'css' )->send_keys($Location);
         $Selenium->find_element( "#UserPGPKeyUpdate", 'css' )->VerifiedClick();
 
-        # check for update PGP preference key on screen
-        my $Success = 0;
-        if ( $Selenium->get_page_source() =~ /(1024-38677C3B\.pub)/xms ) {
-            $Success = 1 if $1;
-        }
-
+        # Check if PGP key was uploaded correctly.
         $Self->True(
-            $Success,
+            index( $Selenium->get_page_source(), '38677C3B' ) > -1,
             'Customer preference PGP key - updated'
-        ) || die "Imported string not found";
+        );
 
         # remove test PGP path
-        $Success = rmtree( [$PGPPath] );
+        my $Success = rmtree( [$PGPPath] );
         $Self->True(
             $Success,
             "Directory deleted - '$PGPPath'",
