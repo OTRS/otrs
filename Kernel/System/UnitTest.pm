@@ -256,27 +256,29 @@ sub Run {
         # Limit attachment sizes to 2MB in total.
         my $AttachmentCount = scalar @{ $Param{AttachmentPath} // [] };
         my $AttachmentsSize = 1024 * 1024 * 2;
+
+        ATTACHMENT_PATH:
         for my $AttachmentPath ( @{ $Param{AttachmentPath} // [] } ) {
             my $FileHandle;
             my $Content;
 
             if ( !open $FileHandle, '<:encoding(UTF-8)', $AttachmentPath ) {    ## no-critic
-                print $Self->_Color( 'red', "Could not open file $AttachmentPath, aborting submission.\n" );
-                return;
+                print $Self->_Color( 'red', "Could not open file $AttachmentPath, skipping.\n" );
+                next ATTACHMENT_PATH;
             }
 
             # Read only allocated size of file to try to avoid out of memory error.
             if ( !read $FileHandle, $Content, $AttachmentsSize / $AttachmentCount ) {    ## no-critic
-                print $Self->_Color( 'red', "Could not read file $AttachmentPath, aborting submission.\n" );
+                print $Self->_Color( 'red', "Could not read file $AttachmentPath, skipping.\n" );
                 close $FileHandle;
-                return;
+                next ATTACHMENT_PATH;
             }
 
             my $Stat = stat($AttachmentPath);
 
             if ( !$Stat ) {
-                print $Self->_Color( 'red', "Cannot stat file $AttachmentPath, aborting submission.\n" );
-                return;
+                print $Self->_Color( 'red', "Cannot stat file $AttachmentPath, skipping.\n" );
+                next ATTACHMENT_PATH;
             }
 
             # If file size exceeds the limit, include message about shortening at the end.
