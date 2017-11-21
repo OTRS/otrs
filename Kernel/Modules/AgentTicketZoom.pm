@@ -1615,13 +1615,11 @@ sub MaskAgentZoom {
             )
         {
             push @FieldsSidebar, {
-                Name                        => $DynamicFieldConfig->{Name},
-                Title                       => $ValueStrg->{Title},
-                Value                       => $ValueStrg->{Value},
-                Label                       => $Label,
-                Link                        => $ValueStrg->{Link},
-                LinkPreview                 => $ValueStrg->{LinkPreview},
-                $DynamicFieldConfig->{Name} => $ValueStrg->{Title},
+                Title       => $ValueStrg->{Title},
+                Value       => $ValueStrg->{Value},
+                Label       => $Label,
+                Link        => $ValueStrg->{Link},
+                LinkPreview => $ValueStrg->{LinkPreview},
             };
         }
 
@@ -1684,15 +1682,10 @@ sub MaskAgentZoom {
                             $LayoutObject->Block(
                                 Name => 'ProcessWidgetDynamicFieldLink',
                                 Data => {
-                                    %Ticket,
-
-                                    # alias for ticket title, Title will be overwritten
-                                    TicketTitle    => $Ticket{Title},
-                                    Value          => $Field->{Value},
-                                    Title          => $Field->{Title},
-                                    Link           => $Field->{Link},
-                                    LinkPreview    => $Field->{LinkPreview},
-                                    $Field->{Name} => $Field->{Title},
+                                    Value       => $Field->{Value},
+                                    Title       => $Field->{Title},
+                                    Link        => $Field->{Link},
+                                    LinkPreview => $Field->{LinkPreview},
                                 },
                             );
                         }
@@ -1761,15 +1754,10 @@ sub MaskAgentZoom {
                 $LayoutObject->Block(
                     Name => 'ProcessWidgetDynamicFieldLink',
                     Data => {
-                        %Ticket,
-
-                        # alias for ticket title, Title will be overwritten
-                        TicketTitle    => $Ticket{Title},
-                        Value          => $Field->{Value},
-                        Title          => $Field->{Title},
-                        Link           => $Field->{Link},
-                        LinkPreview    => $Field->{LinkPreview},
-                        $Field->{Name} => $Field->{Title},
+                        Value       => $Field->{Value},
+                        Title       => $Field->{Title},
+                        Link        => $Field->{Link},
+                        LinkPreview => $Field->{LinkPreview},
                     },
                 );
             }
@@ -1799,15 +1787,10 @@ sub MaskAgentZoom {
             $LayoutObject->Block(
                 Name => 'TicketDynamicFieldLink',
                 Data => {
-                    %Ticket,
-
-                    # alias for ticket title, Title will be overwritten
-                    TicketTitle    => $Ticket{Title},
-                    Value          => $Field->{Value},
-                    Title          => $Field->{Title},
-                    Link           => $Field->{Link},
-                    LinkPreview    => $Field->{LinkPreview},
-                    $Field->{Name} => $Field->{Title},
+                    Value       => $Field->{Value},
+                    Title       => $Field->{Title},
+                    Link        => $Field->{Link},
+                    LinkPreview => $Field->{LinkPreview},
                 },
             );
         }
