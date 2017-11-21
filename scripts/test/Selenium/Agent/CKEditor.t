@@ -72,13 +72,10 @@ $Selenium->RunTest(
         # navigate to AgentDashboard screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketPhone");
 
-        # wait until jquery is ready
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function'" );
-
         # wait for the CKE to load
         $Selenium->WaitFor(
             JavaScript =>
-                "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
+                "return typeof(\$) === 'function' && \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
         );
 
        # send some text to the CKE's textarea (we cant do it with Selenium directly because the textarea is not visible)
@@ -99,7 +96,13 @@ $Selenium->RunTest(
         );
 
         # now go through the test cases
-        for my $TestCase ( sort @TestCasesBasic ) {
+        for my $TestCase ( @TestCasesBasic ) {
+
+            # wait for the CKE to load
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
+            );
 
             $Selenium->execute_script( 'CKEDITOR.instances.RichText.setData("' . $TestCase->{Input} . '");' );
 
