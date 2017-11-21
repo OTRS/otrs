@@ -243,8 +243,7 @@ $Selenium->RunTest(
             Hours => 1,
         );
 
-        # Calculate expected UntilTime. It can happen that there is an error of one second overall. Since this is
-        #   acceptable, make sure to divide the calculated value with 100 and floor the result.
+        # Calculate expected UntilTime.
         my $UntilDateTimeObject = $Kernel::OM->Create(
             'Kernel::System::DateTime',
             ObjectParams => {
@@ -254,7 +253,7 @@ $Selenium->RunTest(
         my $UntilTimeDelta = $Kernel::OM->Create('Kernel::System::DateTime')->Delta(
             DateTimeObject => $UntilDateTimeObject,
         );
-        my $UntilTime = -int( $UntilTimeDelta->{AbsoluteSeconds} / 100 );
+        my $UntilTime = -$UntilTimeDelta->{AbsoluteSeconds};
 
         # Set dynamic field values.
         my $DynamicField1TimeObject = $Kernel::OM->Create(
@@ -339,9 +338,15 @@ $Selenium->RunTest(
             "CalendarGet - Found calendar $Calendar{CalendarID}",
         );
 
+        # Go to calendar edit page.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AdminAppointmentCalendarManage;Subaction=Edit;CalendarID=$Calendar{CalendarID}"
+        );
+
         my $AppointmentObject = $Kernel::OM->Get('Kernel::System::Calendar::Appointment');
         my $CacheObject       = $Kernel::OM->Get('Kernel::System::Cache');
 
+        # Sleep for slow systems.
         my $SleepTime = 2;
 
         #
@@ -477,11 +482,6 @@ $Selenium->RunTest(
 
         for my $Test (@Tests) {
 
-            # Go to calendar edit page.
-            $Selenium->VerifiedGet(
-                "${ScriptAlias}index.pl?Action=AdminAppointmentCalendarManage;Subaction=Edit;CalendarID=$Calendar{CalendarID}"
-            );
-
             # Add ticket appointment rule.
             $Selenium->find_element( '.WidgetSimple.Collapsed .WidgetAction.Toggle a', 'css' )->VerifiedClick();
             $Selenium->find_element( '#AddRuleButton',                                 'css' )->VerifiedClick();
@@ -519,14 +519,21 @@ $Selenium->RunTest(
                 }
             }
 
-            $Selenium->find_element( 'form#CalendarFrom button#Submit', 'css' )->VerifiedClick();
+            $Selenium->find_element( 'form#CalendarFrom button#SubmitAndContinue', 'css' )->VerifiedClick();
             $Self->True(
                 1,
                 "$Test->{Name} - Added ticket appointment rule",
             );
 
             # Wait for daemon to do its magic.
-            sleep $SleepTime;
+            print "Waiting at most $SleepTime s until tasks are executed\n";
+            ACTIVESLEEP:
+            for my $Seconds ( 1 .. $SleepTime ) {
+                my @List = $SchedulerDBObject->TaskList();
+                last ACTIVESLEEP if !scalar @List;
+                print "Sleeping for $Seconds seconds...\n";
+                sleep 1;
+            }
 
             # Make sure the cache is correct.
             $CacheObject->CleanUp(
@@ -579,12 +586,19 @@ $Selenium->RunTest(
                     DynamicFields => 1,
                     UserID        => 1,
                 );
+                FIELD:
                 for my $Field ( sort keys %{ $Test->{UpdateResult} || {} } ) {
 
                     # In case of UntilTime, it can happen that there is an error of one second overall. This is
-                    #   acceptable, so in this case, divide the value with 100 and floor the result before comparing.
+                    #   acceptable, so in this case calculate the difference and allow for this error.
                     if ( $Field eq 'UntilTime' ) {
-                        $Ticket{$Field} = int( $Ticket{$Field} / 100 );
+                        $Self->True(
+                            abs( $Test->{UpdateResult}->{UntilTime} - $Ticket{UntilTime} ) < 2,
+                            $Test->{UpdateResult}->{$Field},
+                            "$Test->{Name} - Ticket field UntilTime"
+                        );
+
+                        next FIELD;
                     }
 
                     $Self->Is(
@@ -595,22 +609,24 @@ $Selenium->RunTest(
                 }
             }
 
-            # Go to calendar edit page again.
-            $Selenium->VerifiedGet(
-                "${ScriptAlias}index.pl?Action=AdminAppointmentCalendarManage;Subaction=Edit;CalendarID=$Calendar{CalendarID}"
-            );
-
             # Remove ticket appointment rule.
             $Selenium->find_element( '.RemoveButton', 'css' )->VerifiedClick();
 
-            $Selenium->find_element( 'form#CalendarFrom button#Submit', 'css' )->VerifiedClick();
+            $Selenium->find_element( 'form#CalendarFrom button#SubmitAndContinue', 'css' )->VerifiedClick();
             $Self->True(
                 1,
                 "$Test->{Name} - Removed ticket appointment rule"
             );
 
             # Wait for daemon to do its magic.
-            sleep $SleepTime;
+            print "Waiting at most $SleepTime s until tasks are executed\n";
+            ACTIVESLEEP:
+            for my $Seconds ( 1 .. $SleepTime ) {
+                my @List = $SchedulerDBObject->TaskList();
+                last ACTIVESLEEP if !scalar @List;
+                print "Sleeping for $Seconds seconds...\n";
+                sleep 1;
+            }
 
             # Make sure the cache is correct.
             $CacheObject->CleanUp(
