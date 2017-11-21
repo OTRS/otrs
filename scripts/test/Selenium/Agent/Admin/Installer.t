@@ -147,7 +147,7 @@ $Selenium->RunTest(
             );
 
             # Go to next step of installation (Create Database).
-            $Selenium->find_element( '#FormDBSubmit', 'css' )->VerifiedClick();
+            $Selenium->execute_script("\$('#FormDBSubmit').click();"),
 
             $Selenium->WaitFor(
                 Time => 300,
@@ -159,7 +159,7 @@ $Selenium->RunTest(
             $Self->Is(
                 $Selenium->execute_script("return \$('.Header h2').text().trim()"),
                 'Create Database (2/4)',
-                'Loaded 4/4 screen'
+                'Loaded 2/4 screen'
             );
 
             $Self->Is(
@@ -169,7 +169,7 @@ $Selenium->RunTest(
             );
 
             # Go to next step of installation (System Settings).
-            $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+            $Selenium->execute_script("\$('button[type=submit]').click();");
 
             $Selenium->WaitFor(
                 Time => 300,
@@ -181,11 +181,11 @@ $Selenium->RunTest(
             $Self->Is(
                 $Selenium->execute_script("return \$('.Header h2').text().trim()"),
                 'System Settings (3/4)',
-                'Loaded 4/4 screen'
+                'Loaded 3/4 screen - System Settings'
             );
 
             # Go to next step of installation (Mail Configuration).
-            $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+            $Selenium->execute_script("\$('button[type=submit]').click();");
 
             $Selenium->WaitFor(
                 Time => 300,
@@ -197,7 +197,7 @@ $Selenium->RunTest(
             $Self->Is(
                 $Selenium->execute_script("return \$('.Header h2').text().trim()"),
                 'Mail Configuration (3/4)',
-                'Loaded 4/4 screen'
+                'Loaded 3/4 screen - Mail Configuration'
             );
 
             $Selenium->WaitFor(
@@ -205,7 +205,7 @@ $Selenium->RunTest(
             );
 
             # Go to last step of installation.
-            $Selenium->find_element( '#ButtonSkipMail', 'css' )->VerifiedClick();
+            $Selenium->execute_script("\$('#ButtonSkipMail').click();");
 
             $Selenium->WaitFor(
                 Time => 300,
