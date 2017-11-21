@@ -1185,7 +1185,7 @@ sub _QuoteShellArgument {
     my ( $Self, $String ) = @_;
 
     # Only continue with quoting if we received a valid string.
-    if ( IsStringWithData($String) ) {
+    if ($String) {
 
         # Encase any single quotes in double quotes, and glue them together with single quotes.
         #   Please see https://stackoverflow.com/a/1250279 for more information.
