@@ -244,7 +244,15 @@ sub StatsGet {
 
     # time zone
     if ( defined $StatsXML->{TimeZone}->[1]->{Content} ) {
-        $Stat{TimeZone} = $StatsXML->{TimeZone}->[1]->{Content};
+
+        # Check if stored time zone is valid. It can happen stored time zone is still an old-style offset. Otherwise,
+        #   fall back to the system time zone. Please see bug#13373 for more information.
+        if ( Kernel::System::DateTime->IsTimeZoneValid( TimeZone => $StatsXML->{TimeZone}->[1]->{Content} ) ) {
+            $Stat{TimeZone} = $StatsXML->{TimeZone}->[1]->{Content};
+        }
+        else {
+            $Stat{TimeZone} = Kernel::System::DateTime->OTRSTimeZoneGet();
+        }
     }
 
     # process all arrays
@@ -2300,7 +2308,7 @@ sub _GenerateDynamicStats {
                     if ( $Param{TimeZone} ) {
                         $DateTimeObject->ToTimeZone(
                             TimeZone => $Param{TimeZone},
-                            )
+                        );
                     }
 
                     my $DateTimeValues = $DateTimeObject->Get();

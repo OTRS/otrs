@@ -182,7 +182,7 @@ sub StatsParamsWidget {
 
     # provide the time zone field only for dynamic statistics
     if ( $Stat->{StatType} eq 'dynamic' ) {
-        my $SelectedTimeZone = $LocalGetParam->( Param => 'TimeZone' )
+        my $SelectedTimeZone = $Self->_GetValidTimeZone( TimeZone => $LocalGetParam->( Param => 'TimeZone' ) )
             // $Stat->{TimeZone}
             // Kernel::System::DateTime->OTRSTimeZoneGet();
 
@@ -812,12 +812,12 @@ sub GeneralSpecificationsWidget {
         )
     {
 
-        my $SelectedTimeZone = $GetParam{TimeZone} // $Stat->{TimeZone};
+        my $SelectedTimeZone = $Self->_GetValidTimeZone( TimeZone => $GetParam{TimeZone} ) // $Stat->{TimeZone};
         if ( !defined $SelectedTimeZone ) {
             my %UserPreferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
                 UserID => $Param{UserID}
             );
-            $SelectedTimeZone = $UserPreferences{UserTimeZone}
+            $SelectedTimeZone = $Self->_GetValidTimeZone( TimeZone => $UserPreferences{UserTimeZone} )
                 // Kernel::System::DateTime->OTRSTimeZoneGet();
         }
 
@@ -1242,7 +1242,8 @@ sub StatsParamsGet {
 
     # get the time zone param
     if ( length $LocalGetParam->( Param => 'TimeZone' ) ) {
-        $GetParam{TimeZone} = $LocalGetParam->( Param => 'TimeZone' ) // $Stat->{TimeZone};
+        $GetParam{TimeZone} = $Self->_GetValidTimeZone( TimeZone => $LocalGetParam->( Param => 'TimeZone' ) )
+            // $Stat->{TimeZone};
     }
 
     # get ExchangeAxis param
@@ -2322,6 +2323,18 @@ sub _TimeScaleYAxis {
     );
 
     return \%TimeScaleYAxis;
+}
+
+sub _GetValidTimeZone {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Param{TimeZone};
+
+    # Return passed time zone only if it is valid. It can happen time zone is still an old-style offset.
+    #   Please see bug#13373 for more information.
+    return $Param{TimeZone} if Kernel::System::DateTime->IsTimeZoneValid( TimeZone => $Param{TimeZone} );
+
+    return;
 }
 
 sub _TimeZoneBuildSelection {

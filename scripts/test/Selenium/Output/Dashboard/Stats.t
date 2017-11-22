@@ -61,12 +61,6 @@ $Selenium->RunTest(
             Groups => [ 'admin', 'users', 'stats' ],
         ) || die "Did not get test user";
 
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
-
         # get test user ID
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
@@ -105,8 +99,25 @@ $Selenium->RunTest(
             "Stats is updated - ID $TestStatID",
         );
 
-        # refresh dashboard screen
-        $Selenium->VerifiedRefresh();
+        my $StatsWidgetID = "10$TestStatID-Stats";
+
+        # Store invalid old-style time zone offset in user preferences for imported statistic.
+        my $Success = $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
+            Key   => "UserDashboardStatsStatsConfiguration$StatsWidgetID",
+            Value => $Kernel::OM->Get('Kernel::System::JSON')->Encode(
+                Data => {
+                    TimeZone => '+2',    # old-style offset
+                },
+            ),
+            UserID => $TestUserID,
+        );
+
+        # Login and go to dashboard.
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
 
         # enable stats widget on dashboard
         my $StatsInSettings = "Settings10" . $TestStatID . "-Stats";
@@ -128,9 +139,18 @@ $Selenium->RunTest(
             "Legend entry for Misc queue found.",
         );
 
-        # Exchange axis and check if it works.
-        my $StatsWidgetID = "10$TestStatID-Stats";
+        # Expand stat widget settings.
         $Selenium->execute_script("\$('#Dashboard$StatsWidgetID-toggle').trigger('click');");
+
+        # Verify time zone is set to system default.
+        my $SelectedTimeZone = $Selenium->execute_script("return \$('#TimeZone').val();");
+        $Self->Is(
+            $SelectedTimeZone,
+            $ConfigObject->Get('OTRSTimeZone'),
+            'Default time zone'
+        );
+
+        # Exchange axis and check if it works.
         $Selenium->execute_script("\$('#ExchangeAxis').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script( "\$('#Dashboard$StatsWidgetID" . "_submit').trigger('click');" );
 
