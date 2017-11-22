@@ -17,6 +17,10 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
+# Avoid zombie processes during the lifetime of the main UT process.
+# https://docstore.mik.ua/orelly/perl/cookbook/ch16_20.htm
+$SIG{CHLD} = 'IGNORE';
+
 my $Daemon = $Home . '/bin/otrs.Daemon.pl';
 
 # get daemon status (stop if necessary)
