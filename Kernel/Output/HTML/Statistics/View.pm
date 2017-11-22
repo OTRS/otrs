@@ -1398,14 +1398,14 @@ sub StatsParamsGet {
 
                                 if ( $Use eq 'UseAsXvalue' ) {
                                     my $TimeStartEpoch = $Kernel::OM->Create(
-                                        'Kernel::System::Create',
+                                        'Kernel::System::DateTime',
                                         ObjectParams => {
                                             String => $Element->{TimeStart},
                                         },
                                     )->ToEpoch();
 
                                     my $TimeStopEpoch = $Kernel::OM->Create(
-                                        'Kernel::System::Create',
+                                        'Kernel::System::DateTime',
                                         ObjectParams => {
                                             String => $Element->{TimeStop},
                                         },
