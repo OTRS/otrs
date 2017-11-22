@@ -342,6 +342,20 @@ for my $Test (@Tests) {
         UserID      => 1,
         Success     => 1,
     },
+    {
+        Name     => 'All Parameters OK - Update Success - utf8 characters in title',
+        FormData => {
+            Subject => 'UnitTest Subject - Update - шђчћж',
+            Body    => 'UnitTest Body - Update - шђчћж',
+        },
+        ObjectType  => 'Ticket',
+        ObjectID    => $TicketID,
+        Action      => 'AgentTicketNote',
+        Title       => 'UnitTest FormDraft - Update - utf8 characters - шђчћж',
+        FormDraftID => $FormDraftID,
+        UserID      => 1,
+        Success     => 1,
+    },
 );
 
 # Test FormDraftUpdate().

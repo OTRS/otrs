@@ -164,7 +164,7 @@ sub FormDraftGet {
         SQL    => $SQL,
         Bind   => [ \$Param{FormDraftID} ],
         Limit  => 1,
-        Encode => 0,
+        Encode => [ 0, 0, 0, 0, 1 ],
     );
 
     # fetch the result
