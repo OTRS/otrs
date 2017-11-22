@@ -1,4 +1,5 @@
 #6.0.2 2017-??-??
+ - 2017-11-22 Fixed bug#[13288](https://bugs.otrs.org/show_bug.cgi?id=13288) - In several places of the OTRS 6 sys config it's not possible to add new entry.
  - 2017-11-22 Fixed bug#[13373](https://bugs.otrs.org/show_bug.cgi?id=13373) - Console command to generate the dashboard stats stops working, if a user had a time zone selected in OTRS 5.
  - 2017-11-22 Fixed bug#[13372](https://bugs.otrs.org/show_bug.cgi?id=13372) - Editing for agent dashboard statistics with a absolute time period on the x axes doesn't work and statitic can not be generated.
  - 2017-11-22 Fixed bug#[13367](https://bugs.otrs.org/show_bug.cgi?id=13367) - Wrong output for article email content in agent ticket zoom.

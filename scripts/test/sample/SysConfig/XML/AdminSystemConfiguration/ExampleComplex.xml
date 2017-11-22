@@ -132,6 +132,21 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="ExampleHoA2" Required="0" Valid="0">
+        <Description Translatable="1">Test invalid HoA without DefaultItem.</Description>
+        <Navigation>SampleComplex</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="String">String value</Item>
+                <Item Key="ArrayItems">
+                    <Array>
+                        <Item Translatable="1">Value 1</Item>
+                        <Item Translatable="1">Value 2</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="ExampleHoASelect" Required="1" Valid="1">
         <Description Translatable="1">Test HoA Select.</Description>
         <Navigation>SampleComplex</Navigation>
