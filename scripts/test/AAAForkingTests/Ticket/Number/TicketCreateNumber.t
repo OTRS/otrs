@@ -37,7 +37,7 @@ my $ChildCount = $Kernel::OM->Get('Kernel::Config')->Get('UnitTest::TicketCreate
 
 # Avoid zombie processes during the lifetime of the main UT process.
 # https://docstore.mik.ua/orelly/perl/cookbook/ch16_20.htm
-$SIG{CHLD} = 'IGNORE';
+local $SIG{CHLD} = 'IGNORE';
 
 for my $TicketNumberBackend (qw (AutoIncrement Date DateChecksum)) {
     for my $ChildIndex ( 1 .. $ChildCount ) {
