@@ -458,7 +458,7 @@ $Selenium->RunTest(
         # Wait for dialog to close and AJAX to finish.
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length'
+                'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".fc-timeline-event .fc-title").length'
         );
 
         # Wait until all AJAX calls finished.
