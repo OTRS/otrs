@@ -304,10 +304,17 @@ sub SettingRender {
     if ( !defined $EffectiveValue->{Title} ) {
         $EffectiveValue->{Title} = '';
     }
+
+    my $Readonly = '';
+    if ( !$Param{RW} ) {
+        $Readonly = "readonly='readonly'";
+    }
+
     for my $Key ( sort keys %{$EffectiveValue} ) {
 
         $HTML .= "<div class='HashItem'>\n";
         $HTML .= "<input type='text' value='$Key' readonly='readonly' class='Key' />\n";
+
         $HTML .= "<div class='SettingContent'>\n";
 
         if ( grep { $Key eq $_ } qw (Group GroupRo) ) {
@@ -324,7 +331,7 @@ sub SettingRender {
                 $HTML .= "<div class='ArrayItem'>\n";
                 $HTML .= "<div class='SettingContent'>\n";
                 $HTML .= "<input type='text' value='$HTMLGroupItem' "
-                    . "id='$Param{Name}_Hash###$Key\_Array$GroupIndex' />\n";
+                    . "id='$Param{Name}_Hash###$Key\_Array$GroupIndex' $Readonly />\n";
                 $HTML .= "</div>\n";
 
                 if ( $Param{RW} ) {
@@ -356,7 +363,7 @@ sub SettingRender {
             );
 
             $HTML .= "<input type='text' value='$HTMLValue' "
-                . "id='$Param{Name}_Hash###$Key' />\n";
+                . "id='$Param{Name}_Hash###$Key' $Readonly />\n";
         }
 
         $HTML .= "</div>\n";

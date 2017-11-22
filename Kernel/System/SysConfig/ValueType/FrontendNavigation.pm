@@ -310,6 +310,10 @@ sub SettingRender {
     my $RemoveThisEntry = $LanguageObject->Translate("Remove this entry");
     my $RequiredText    = $LanguageObject->Translate("This field is required.");
 
+    my $Readonly = '';
+    if ( !$Param{RW} ) {
+        $Readonly = "readonly='readonly'";
+    }
     for my $Key ( sort keys %{$EffectiveValue} ) {
 
         my $IsRequired = grep { $_ eq $Key } @{ $Self->{RequiredKeys} };
@@ -331,7 +335,7 @@ sub SettingRender {
 
                 $HTML .= "<div class='ArrayItem'>\n";
                 $HTML .= "<div class='SettingContent'>\n";
-                $HTML .= "<input type='text' value='$HTMLGroupItem' "
+                $HTML .= "<input type='text' value='$HTMLGroupItem' $Readonly"
                     . "id='$Param{Name}$Param{IDSuffix}_Hash###$Key\_Array$GroupIndex' />\n";
                 $HTML .= "</div>\n";
 
@@ -369,7 +373,7 @@ sub SettingRender {
                 Type => 'Normal',
             );
 
-            $HTML .= "<input type='text' value='$HTMLValue' Class='$InputClass' "
+            $HTML .= "<input type='text' value='$HTMLValue' Class='$InputClass' $Readonly"
                 . "id='$Param{Name}$Param{IDSuffix}_Hash###$Key' />\n";
 
             if ($IsRequired) {
