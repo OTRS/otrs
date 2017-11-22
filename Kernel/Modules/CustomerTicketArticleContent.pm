@@ -121,6 +121,15 @@ sub Run {
         return $Output;
     }
 
+    my $ContentType = 'text/html; charset="utf-8"';
+
+    # Match content type of rendered content. This is important, because later this content will be converted to
+    #   internal charset (UTF-8) in RichTextDocumentServe(), and this method needs to know original charset.
+    #   Please see bug#13367 for more information.
+    if ( $ArticleContent =~ /<meta [^>]+ content=(?:"|')?(?<ContentType>[^"'>]+)/ixms ) {
+        $ContentType = $+{ContentType};
+    }
+
     my $Content = $LayoutObject->Output(
         Template => '[% Data.HTML %]',
         Data     => {
@@ -132,7 +141,7 @@ sub Run {
         Content            => $Content,
         ContentAlternative => "",
         ContentID          => "",
-        ContentType        => "text/html; charset=\"utf-8\"",
+        ContentType        => $ContentType,
         Disposition        => "inline",
         FilesizeRaw        => bytes::length($Content),
     );
@@ -142,14 +151,6 @@ sub Run {
         Key   => 'AttachmentDownloadType',
         Value => 'inline'
     );
-
-    # just return for non-html attachment (e. g. images)
-    if ( $Data{ContentType} !~ /text\/html/i ) {
-        return $LayoutObject->Attachment(
-            %Data,
-            Sandbox => 1,
-        );
-    }
 
     my $TicketNumber = $Kernel::OM->Get('Kernel::System::Ticket')->TicketNumberLookup(
         TicketID => $TicketID,
@@ -189,7 +190,6 @@ sub Run {
         %Data,
         Sandbox => 1,
     );
-
 }
 
 1;

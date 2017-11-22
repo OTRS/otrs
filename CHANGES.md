@@ -1,4 +1,5 @@
 #6.0.2 2017-??-??
+ - 2017-11-22 Fixed bug#[13367](https://bugs.otrs.org/show_bug.cgi?id=13367) - Wrong output for article email content in agent ticket zoom.
  - 2017-11-21 Fixed bug#[13357](https://bugs.otrs.org/show_bug.cgi?id=13357) - Improve handling of PGP parameters.
  - 2017-11-20 Fixed bug#[13293](https://bugs.otrs.org/show_bug.cgi?id=13293) - Uninitialized value notice in AgentTicketZoom with enabled 'Ticket::NewArticleIgnoreSystemSender'.
  - 2017-11-20 Fixed bug#[13361](https://bugs.otrs.org/show_bug.cgi?id=13361)(PR#1873) - Postmaster Filter matching is not correct, thanks to Pawel Boguslawski.

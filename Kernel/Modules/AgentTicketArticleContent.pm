@@ -80,10 +80,19 @@ sub Run {
 
     if ( !$ArticleContent ) {
         $LogObject->Log(
-            Message  => "No such attacment! May be an attack!!!",
+            Message  => 'No such attachment! May be an attack!!!',
             Priority => 'error',
         );
         return $LayoutObject->ErrorScreen();
+    }
+
+    my $ContentType = 'text/html; charset="utf-8"';
+
+    # Match content type of rendered content. This is important, because later this content will be converted to
+    #   internal charset (UTF-8) in RichTextDocumentServe(), and this method needs to know original charset.
+    #   Please see bug#13367 for more information.
+    if ( $ArticleContent =~ /<meta [^>]+ content=(?:"|')?(?<ContentType>[^"'>]+)/ixms ) {
+        $ContentType = $+{ContentType};
     }
 
     my $Content = $LayoutObject->Output(
@@ -97,7 +106,7 @@ sub Run {
         Content            => $Content,
         ContentAlternative => "",
         ContentID          => "",
-        ContentType        => "text/html; charset=\"utf-8\"",
+        ContentType        => $ContentType,
         Disposition        => "inline",
         FilesizeRaw        => bytes::length($Content),
     );
@@ -110,14 +119,6 @@ sub Run {
         Key   => 'AttachmentDownloadType',
         Value => 'inline'
     );
-
-    # just return for non-html attachment (e. g. images)
-    if ( $Data{ContentType} !~ /text\/html/i ) {
-        return $LayoutObject->Attachment(
-            %Data,
-            Sandbox => 1,
-        );
-    }
 
     # set filename for inline viewing
     $Data{Filename} = "Ticket-$TicketNumber-ArticleID-$Article{ArticleID}.html";

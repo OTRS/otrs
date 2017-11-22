@@ -12,13 +12,13 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
+use Kernel::System::PostMaster;
+
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # enable MIME-Viewer for PDF attachment
@@ -127,6 +127,98 @@ $Selenium->RunTest(
                 "Value is found on screen - $ExpectedValue"
             );
         }
+        $Selenium->close();
+
+        $Selenium->WaitFor( WindowCount => 1 );
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[0] );
+
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+        # Import sample email.
+        $Location   = $ConfigObject->Get('Home') . '/scripts/test/sample/PostMaster/PostMaster-Test20.box';
+        $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+            Location => $Location,
+            Mode     => 'binmode',
+            Result   => 'ARRAY',
+        );
+
+        # Set ticket number in mail subject to get a follow-up.
+        my $TicketNumber = $TicketObject->TicketNumberLookup(
+            TicketID => $TicketID,
+        );
+        my @Content = ();
+        for my $Line ( @{$ContentRef} ) {
+            if ( $Line =~ /^Subject:/ ) {
+                $Line = 'Subject: '
+                    . $ConfigObject->Get('Ticket::Hook')
+                    . $TicketNumber;
+            }
+            push @Content, $Line;
+        }
+
+        my @Return;
+
+        # Execute PostMaster with the read email.
+        {
+            my $CommunicationLogObject = $Kernel::OM->Create(
+                'Kernel::System::CommunicationLog',
+                ObjectParams => {
+                    Transport => 'Email',
+                    Direction => 'Incoming',
+                },
+            );
+            $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
+
+            my $PostMasterObject = Kernel::System::PostMaster->new(
+                CommunicationLogObject => $CommunicationLogObject,
+                Email                  => \@Content,
+            );
+
+            @Return = $PostMasterObject->Run();
+
+            $CommunicationLogObject->ObjectLogStop(
+                ObjectLogType => 'Message',
+                Status        => 'Successful',
+            );
+            $CommunicationLogObject->CommunicationStop(
+                Status => 'Successful',
+            );
+        }
+
+        # Check we actually got a follow-up.
+        $Self->Is(
+            $Return[0] || 0,
+            2,
+            "PostMaster::Run() - FollowUp",
+        );
+
+        # Check we actually got the same ticket ID.
+        $Self->Is(
+            $Return[1] || 0,
+            $TicketID,
+            "PostMaster::Run() - FollowUp/TicketID",
+        );
+
+        # Refresh the screen.
+        $Selenium->VerifiedRefresh();
+
+        # Find article IFRAME content URL.
+        $Selenium->get_page_source() =~ m{<iframe [^>]+ src="(?!about:blank)(?<HTMLViewURL>.*?)"}xms;
+        die 'Could not find IFRAME content URL!' if !$+{HTMLViewURL};
+
+        # Load article content only.
+        $Selenium->get( $+{HTMLViewURL} );
+
+        # Wait for page to load if necessary.
+        $Selenium->WaitFor( JavaScript => 'return document.readyState === "complete";' );
+
+        # Check if article is displayed in expected encoding.
+        $Self->True(
+            index( $Selenium->get_page_source(), 'Munguía' ) > -1,
+            'Article displayed using correct encoding'
+        );
+
         $Selenium->close();
 
         # delete created test ticket
