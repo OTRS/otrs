@@ -154,8 +154,11 @@ sub FormDraftGet {
     my $SQL =
         'SELECT id, object_type, object_id, action, title,'
         . ' create_time, create_by, change_time, change_by';
+
+    my @EncodeColumns = ( 1, 1, 1, 1, 1, 1, 1, 1, 1 );
     if ( $Param{GetContent} ) {
         $SQL .= ', content';
+        push @EncodeColumns, 0;
     }
     $SQL .= ' FROM form_draft WHERE id = ?';
 
@@ -164,7 +167,7 @@ sub FormDraftGet {
         SQL    => $SQL,
         Bind   => [ \$Param{FormDraftID} ],
         Limit  => 1,
-        Encode => [ 0, 0, 0, 0, 1 ],
+        Encode => \@EncodeColumns,
     );
 
     # fetch the result
