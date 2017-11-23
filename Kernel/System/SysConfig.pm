@@ -4688,8 +4688,15 @@ sub OverriddenFileNameGet {
         }
     }
 
+    my $EffectiveValue = $Param{EffectiveValue};
+
+    # Replace config variables in effective values.
+    # NOTE: First level only, make sure to update this code once same mechanism has been improved in Defaults.pm.
+    #   Please see bug#12916 and bug#13376 for more information.
+    $EffectiveValue =~ s/\<OTRS_CONFIG_(.+?)\>/$ConfigObject->{$1}/g;
+
     my $IsOverridden = DataIsDifferent(
-        Data1 => $Param{EffectiveValue},
+        Data1 => $EffectiveValue,
         Data2 => $LoadedEffectiveValue,
     );
 

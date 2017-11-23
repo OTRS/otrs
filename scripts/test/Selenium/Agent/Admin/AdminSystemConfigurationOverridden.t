@@ -133,6 +133,20 @@ $Selenium->RunTest(
             'Check second hash item value',
         );
 
+        # Navigate to AdminSysConfig screen.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AdminSystemConfiguration;Subaction=View;Setting=Frontend%3A%3ACSSPath"
+        );
+
+        # Check if setting is overridden
+        my $CSSPathOverridden = $Selenium->execute_script(
+            'return $(".SettingsList .WidgetSimple i.fa-exclamation-triangle").length;'
+        );
+        $Self->False(
+            $CSSPathOverridden,
+            'Make sure that Frontend::CSSPath is not overridden.'
+        );
+
         if ( $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled() ) {
 
             # Navigate to AgentPreferences screen.
