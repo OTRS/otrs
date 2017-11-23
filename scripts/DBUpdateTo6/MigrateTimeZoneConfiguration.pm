@@ -113,24 +113,6 @@ scripts::DBUpdateTo6::MigrateTimeZoneConfiguration - Migrate timezone configurat
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    #
-    # Remove agent and customer UserTimeZone preferences because they contain
-    # offsets instead of time zones
-    #
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-    return if !$DBObject->Do(
-        SQL  => 'DELETE FROM user_preferences WHERE preferences_key = ?',
-        Bind => [
-            \'UserTimeZone',
-        ],
-    );
-    return if !$DBObject->Do(
-        SQL  => 'DELETE FROM customer_preferences WHERE preferences_key = ?',
-        Bind => [
-            \'UserTimeZone',
-        ],
-    );
-
     my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
 
     #

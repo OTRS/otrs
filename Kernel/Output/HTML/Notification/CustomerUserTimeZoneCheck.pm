@@ -33,7 +33,19 @@ sub Run {
         UserID => $Self->{UserID},
     );
     return '' if !%CustomerUserPreferences;
-    return '' if defined $CustomerUserPreferences{UserTimeZone} && length $CustomerUserPreferences{UserTimeZone};
+
+    # Ignore stored time zone if it's actually an old-style offset which is not valid anymore.
+    #   Please see bug#13374 for more information.
+    if (
+        $CustomerUserPreferences{UserTimeZone}
+        && !Kernel::System::DateTime->IsTimeZoneValid( TimeZone => $CustomerUserPreferences{UserTimeZone} )
+        )
+    {
+        delete $CustomerUserPreferences{UserTimeZone};
+    }
+
+    # Do not show notification if user has already valid time zone in the preferences.
+    return '' if $CustomerUserPreferences{UserTimeZone};
 
     # If OTRSTimeZone and UserDefaultTimeZone match and are not set to UTC, don't show a notification,
     # because in this case it almost certainly means that only this time zone is relevant.

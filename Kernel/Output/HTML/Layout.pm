@@ -96,7 +96,7 @@ sub new {
         $Self->{UserTheme} = $ConfigObject->Get('DefaultTheme');
     }
 
-    $Self->{UserTimeZone} ||= '';
+    $Self->{UserTimeZone} ||= Kernel::System::DateTime->UserDefaultTimeZoneGet();
 
     # Determine the language to use based on the browser setting, if there
     #   is none yet.

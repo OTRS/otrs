@@ -37,13 +37,22 @@ sub new {
 sub Param {
     my ( $Self, %Param ) = @_;
 
-    my $PreferencesKey      = $Self->{ConfigItem}->{PrefKey};
-    my $UserDefaultTimeZone = Kernel::System::DateTime->UserDefaultTimeZoneGet();
-    my $TimeZones           = Kernel::System::DateTime->TimeZoneList();
-    my %TimeZones           = map { $_ => $_ } sort @{$TimeZones};
-    my $SelectedTimeZone    = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $PreferencesKey )
-        || $Param{UserData}->{$PreferencesKey}
-        || $UserDefaultTimeZone;
+    my $PreferencesKey   = $Self->{ConfigItem}->{PrefKey};
+    my $TimeZones        = Kernel::System::DateTime->TimeZoneList();
+    my %TimeZones        = map { $_ => $_ } sort @{$TimeZones};
+    my $SelectedTimeZone = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $PreferencesKey );
+
+    # Use stored time zone only if it's valid. It can happen that user preferences store an old-style offset which is
+    #   not valid anymore. Please see bug#13374 for more information.
+    if (
+        $Param{UserData}->{$PreferencesKey}
+        && Kernel::System::DateTime->IsTimeZoneValid( TimeZone => $Param{UserData}->{$PreferencesKey} )
+        )
+    {
+        $SelectedTimeZone = $Param{UserData}->{$PreferencesKey};
+    }
+
+    $SelectedTimeZone ||= Kernel::System::DateTime->UserDefaultTimeZoneGet();
 
     my @Params = ();
     push(

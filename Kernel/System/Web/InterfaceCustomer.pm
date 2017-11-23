@@ -391,8 +391,8 @@ sub Run {
             },
         );
 
-        # get time zone
-        my $UserTimeZone = $UserData{UserTimeZone} || Kernel::System::DateTime->UserDefaultTimeZoneGet();
+        my $UserTimeZone = $Self->_UserTimeZoneGet(%UserData);
+
         $SessionObject->UpdateSessionID(
             SessionID => $NewSessionID,
             Key       => 'UserTimeZone',
@@ -492,6 +492,8 @@ sub Run {
         my %UserData = $SessionObject->GetSessionIDData(
             SessionID => $Param{SessionID},
         );
+
+        $UserData{UserTimeZone} = $Self->_UserTimeZoneGet(%UserData);
 
         # create new LayoutObject with new '%Param' and '%UserData'
         $Kernel::OM->ObjectParamAdd(
@@ -1048,6 +1050,8 @@ sub Run {
             SessionID => $Param{SessionID},
         );
 
+        $UserData{UserTimeZone} = $Self->_UserTimeZoneGet(%UserData);
+
         # check needed data
         if ( !$UserData{UserID} || !$UserData{UserLogin} || $UserData{UserType} ne 'Customer' ) {
             my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -1325,6 +1329,7 @@ sub Run {
     my %Data = $SessionObject->GetSessionIDData(
         SessionID => $Param{SessionID},
     );
+    $Data{UserTimeZone} = $Self->_UserTimeZoneGet(%Data);
     $Kernel::OM->ObjectParamAdd(
         'Kernel::Output::HTML::Layout' => {
             %Param,
@@ -1400,6 +1405,38 @@ sub _CheckModulePermission {
     }
 
     return ( $AccessRo, $AccessRw );
+}
+
+=head2 _UserTimeZoneGet()
+
+Get time zone for the current user. This function will validate passed time zone parameter and return default user time
+zone if it's not valid.
+
+    my $UserTimeZone = $Self->_UserTimeZoneGet(
+        UserTimeZone => 'Europe/Berlin',
+    );
+
+=cut
+
+sub _UserTimeZoneGet {
+    my ( $Self, %Param ) = @_;
+
+    my $UserTimeZone;
+
+    # Return passed time zone only if it's valid. It can happen that user preferences or session store an old-style
+    #   offset which is not valid anymore. In this case, return the default value.
+    #   Please see bug#13374 for more information.
+    if (
+        $Param{UserTimeZone}
+        && Kernel::System::DateTime->IsTimeZoneValid( TimeZone => $Param{UserTimeZone} )
+        )
+    {
+        $UserTimeZone = $Param{UserTimeZone};
+    }
+
+    $UserTimeZone ||= Kernel::System::DateTime->UserDefaultTimeZoneGet();
+
+    return $UserTimeZone;
 }
 
 =end Internal:
