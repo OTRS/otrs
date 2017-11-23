@@ -164,6 +164,10 @@ var Core = Core || {};
             UserModificationActive : UserModificationActive
         };
 
+        if (Core.Config.Get('Action') == 'AgentPreferences') {
+            Data.Action = 'AgentPreferences';
+        }
+
         // if there are only the base categories available, hide the selection
         // and use 'All' as default.
         if ($('#Category option').length <= 2) {

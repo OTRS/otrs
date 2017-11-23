@@ -460,6 +460,37 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
+    # show AJAX navigation tree
+    # ------------------------------------------------------------ #
+    if ( $Self->{Subaction} eq 'AJAXNavigationTree' ) {
+
+        my $Category = $ParamObject->GetParam( Param => 'Category' ) || '';
+        my $UserModificationActive = $ParamObject->GetParam( Param => 'UserModificationActive' ) || '0';
+        my $IsValid = $ParamObject->GetParam( Param => 'IsValid' ) // undef;
+
+        my %Tree = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationNavigationTree(
+            Category               => $Category,
+            UserModificationActive => $UserModificationActive,
+            IsValid                => $IsValid,
+        );
+
+        my $Output = $LayoutObject->Output(
+            TemplateFile => 'SystemConfiguration/NavigationTree',
+            Data         => {
+                Tree => \%Tree,
+            },
+        );
+
+        return $LayoutObject->Attachment(
+            NoCache     => 1,
+            ContentType => 'text/html',
+            Charset     => $LayoutObject->{UserCharset},
+            Content     => $Output || '',
+            Type        => 'inline',
+        );
+    }
+
+    # ------------------------------------------------------------ #
     # show group overview
     # ------------------------------------------------------------ #
     else {

@@ -449,6 +449,44 @@ JAVASCRIPT
             "#UserSkin updated value",
         );
 
+        if ( $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled() ) {
+
+            # Create non-admin user.
+            my $TestUserLogin2 = $Helper->TestUserCreate(
+                Groups   => ['users'],
+                Language => $Language,
+            ) || die "Did not get test user";
+
+            $Selenium->Login(
+                Type     => 'Agent',
+                User     => $TestUserLogin2,
+                Password => $TestUserLogin2,
+            );
+
+            # Open advanced preferences screen.
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=Advanced");
+
+            # Change category only if the dropdown is present.
+            my $CategoriesVisible = $Selenium->execute_script("return \$('#Category').length;");
+            if ($CategoriesVisible) {
+                $Selenium->execute_script(
+                    "\$('#Category').val('OTRSFree').trigger('redraw.InputField').trigger('change');"
+                );
+            }
+
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return \$('#ConfigTree ul').length"
+            ) || die 'AJAX error';
+
+            my $NavigationItems = $Selenium->execute_script("return \$('#ConfigTree ul > li').length;");
+
+            $Self->Is(
+                $NavigationItems,
+                1,
+                'Make sure there is one navigation item'
+            );
+        }
     }
 );
 
