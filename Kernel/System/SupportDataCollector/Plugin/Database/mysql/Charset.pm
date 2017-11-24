@@ -54,7 +54,16 @@ sub Run {
 
     $DBObject->Prepare( SQL => "show variables like 'character_set_database'" );
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        if ( $Row[1] =~ /utf8/i ) {
+        if ( $Row[1] =~ /utf8mb4/i ) {
+            $Self->AddResultProblem(
+                Identifier => 'ServerEncoding',
+                Label      => Translatable('Server Database Charset'),
+                Value      => $Row[1],
+                Message =>
+                    "This character set is not yet supported, please see https://bugs.otrs.org/show_bug.cgi?id=12361. Please convert your database to the character set 'utf8'.",
+            );
+        }
+        elsif ( $Row[1] =~ /utf8/i ) {
             $Self->AddResultOk(
                 Identifier => 'ServerEncoding',
                 Label      => Translatable('Server Database Charset'),
@@ -66,7 +75,7 @@ sub Run {
                 Identifier => 'ServerEncoding',
                 Label      => Translatable('Server Database Charset'),
                 Value      => $Row[1],
-                Message    => Translatable('Setting character_set_database needs to be UNICODE or UTF8.'),
+                Message    => Translatable("The setting character_set_database needs to be 'utf8'."),
             );
         }
     }
