@@ -4312,11 +4312,17 @@ sub _MondayOfWeek {
 
     my $DateTimeValues = $DateTimeObject->Get();
     my $DaysToSubtract = $DateTimeValues->{DayOfWeek} - 1;
-    return $DateTimeValues->{Day} if !$DaysToSubtract;
 
-    $DateTimeObject->Subtract( Days => $DaysToSubtract );
-    $DateTimeValues = $DateTimeObject->Get();
-    return $DateTimeValues->{Day};
+    if ($DaysToSubtract) {
+        $DateTimeObject->Subtract( Days => $DaysToSubtract );
+        $DateTimeValues = $DateTimeObject->Get();
+    }
+
+    return (
+        $DateTimeValues->{Year},
+        $DateTimeValues->{Month},
+        $DateTimeValues->{Day},
+    );
 }
 
 =head2 _WeekOfYear()
