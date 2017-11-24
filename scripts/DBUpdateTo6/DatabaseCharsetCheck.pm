@@ -116,14 +116,14 @@ sub CheckPreviousRequirement {
     # Check for tables with invalid character set. Views have engine == null, ignore those.
     $DBObject->Prepare( SQL => 'show table status where engine is not null' );
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        if ( $Row[14] !~ /^utf8/i ) {
+        if ( $Row[14] =~ /^utf8mb4/i || $Row[14] !~ /^utf8/i ) {
             push @TablesWithInvalidCharset, $Row[0];
         }
     }
 
     if (@TablesWithInvalidCharset) {
-        print "\n    Error: There were tables found which do not have utf8 as charset.\n";
-        print "    " . join( ', ', @TablesWithInvalidCharset ) . "\n";
+        print "\n    Error: There were tables found which do not have 'utf8' as charset: '";
+        print join( "', '", @TablesWithInvalidCharset ) . "'.\n";
         return;
     }
 

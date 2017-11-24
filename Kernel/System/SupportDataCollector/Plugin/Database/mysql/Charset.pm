@@ -85,7 +85,7 @@ sub Run {
     # Views have engine == null, ignore those.
     $DBObject->Prepare( SQL => 'show table status where engine is not null' );
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        if ( $Row[14] !~ /^utf8/i ) {
+        if ( $Row[14] =~ /^utf8mb4/i || $Row[14] !~ /^utf8/i ) {
             push @TablesWithInvalidCharset, $Row[0];
         }
     }
@@ -94,7 +94,7 @@ sub Run {
             Identifier => 'TableEncoding',
             Label      => Translatable('Table Charset'),
             Value      => join( ', ', @TablesWithInvalidCharset ),
-            Message    => Translatable('There were tables found which do not have utf8 as charset.'),
+            Message    => Translatable("There were tables found which do not have 'utf8' as charset."),
         );
     }
     else {
