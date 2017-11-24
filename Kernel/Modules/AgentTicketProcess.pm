@@ -2764,6 +2764,9 @@ sub _RenderArticle {
             $Param{TimeUnitsRequired} = 'Validate_Required';
         }
 
+        # Get TimeUnits value.
+        $Param{TimeUnits} = $Param{GetParam}{TimeUnits};
+
         $LayoutObject->Block(
             Name => 'TimeUnits',
             Data => \%Param,
@@ -5537,16 +5540,23 @@ sub _CheckField {
 
             $Value = 1;
 
-            my ( $Body, $Subject, $AttachmentDelete1 ) = (
+            my ( $Body, $Subject, $AttachmentDelete1, $TimeUnits ) = (
                 $ParamObject->GetParam( Param => 'Body' ),
                 $ParamObject->GetParam( Param => 'Subject' ),
-                $ParamObject->GetParam( Param => 'AttachmentDelete1' )
+                $ParamObject->GetParam( Param => 'AttachmentDelete1' ),
+                $ParamObject->GetParam( Param => 'TimeUnits' )
             );
 
             # If attachment exists and body and subject not, it is error (see bug#13081).
             if ( defined $AttachmentDelete1 && ( !$Body && !$Subject ) ) {
                 $Value = 0;
             }
+
+            # If time units exists and body and subject not, it is error (see bug#13266).
+            if ( $TimeUnits && ( !$Body && !$Subject ) ) {
+                $Value = 0;
+            }
+
         }
         else {
 
