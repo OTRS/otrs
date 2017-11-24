@@ -93,4 +93,14 @@ select {
 }
 
 
+/**
+ * @note   Chrome introduced a default border-radius on buttons in v62.
+ *         (will be reverted, though, see https://github.com/necolas/normalize.css/issues/706)
+ */
+
+button {
+    border-radius: 0px;
+}
+
+
 } /* end @media */

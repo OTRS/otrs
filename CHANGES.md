@@ -1,4 +1,5 @@
 #6.0.2 2017-??-??
+ - 2017-11-24 Fixed bug#[13323](https://bugs.otrs.org/show_bug.cgi?id=13323) - Visibility issues in SysConfig settings with large number of list items.
  - 2017-11-24 Fixed bug#[13382](https://bugs.otrs.org/show_bug.cgi?id=13382) - Stats dashboard generate fails because of missing parameters in Stats.pm.
  - 2017-11-23 Fixed bug#[13381](https://bugs.otrs.org/show_bug.cgi?id=13381) - Categories in Navigation (AgentPreferences screen) are not working for non-admin users.
  - 2017-11-23 Fixed bug#[13374](https://bugs.otrs.org/show_bug.cgi?id=13374) - DBUpdate script deletes user time zone information on patch level updates.

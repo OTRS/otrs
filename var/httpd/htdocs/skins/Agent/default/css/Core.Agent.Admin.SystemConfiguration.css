@@ -930,15 +930,17 @@ h2.SearchResults {
     display: inline-block;
 }
 
-.ArrayItem > .SettingContent {
+.IsLockedByMe .ArrayItem > .SettingContent {
     width: calc(100% - 16px); /* 100% minus the width of the button on the right minus the padding of combined 6px */
+    max-width: none !important;
 }
 
 .ArrayItem > .SettingContent > div.InputField_Container,
 .ArrayItem > .SettingContent > div.InputField_Container > div.InputField_InputContainer,
 .ArrayItem > .SettingContent > input[type=text]:first-child:last-child,
 .Setting > .SettingContent > input[type=text]:first-child:last-of-type {
-    width: 100%;
+    width: calc(100% - 6px); /* minus padding left and right */
+    max-width: none !important;
 }
 
 .ArrayItem > .SettingContent > div.InputField_Container > div.InputField_InputContainer > .InputField_Search,
@@ -1080,8 +1082,8 @@ h2.SearchResults {
     margin-bottom: 0px;
 }
 
-.ArrayItem > .SettingContent,
-.HashItem > .SettingContent {
+.IsLockedByMe .ArrayItem > .SettingContent,
+.IsLockedByMe .HashItem > .SettingContent {
     white-space: nowrap;
 }
 
@@ -1311,11 +1313,22 @@ h2.SearchResults {
     padding: 0px;
     display: inline-block;
     margin-left: 5px;
+    max-width: calc(100% - 220px); /* full width minus key + arrow width */
+}
+
+.IsLockedByMe .HashItem .SettingContent {
     min-width: calc(100% - 220px); /* full width minus key + arrow width */
+    max-width: none;
+}
+
+.ArrayItem .HashItem .SettingContent,
+.HashItem .HashItem .SettingContent {
+    min-width: calc(100% - 220px); /* full width minus key + arrow width */
+    max-width: none;
 }
 
 .HashItem .HashItem .SettingContent {
-    width: calc(100% - 220px);
+    min-width: calc(100% - 220px);
 }
 
 .HashItem .SettingContent > .Array,

@@ -622,6 +622,7 @@ ul.WidgetTooltip li a:hover i {
     display: inline-block;
     cursor: pointer;
     transition: all ease-in 0.2s;
+    border-radius: 0px;
 }
 
 .CallForAction.Inline {
