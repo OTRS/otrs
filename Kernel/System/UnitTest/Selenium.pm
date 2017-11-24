@@ -451,7 +451,7 @@ sub HandleError {
             Directory => $SharedScreenshotDir,
             Filename  => $Filename,
             Content   => \$Data,
-        ) || return $Self->False( 1, "Could not write file $SharedScreenshotDir/$Filename" );
+        ) || return $Self->{UnitTestObject}->False( 1, "Could not write file $SharedScreenshotDir/$Filename" );
     }
 
     $Self->{UnitTestObject}->False( 1, "Saved screenshot in $URL" );
