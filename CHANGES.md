@@ -1,5 +1,5 @@
 #5.0.25 ????-??-??
- - 2017-11-24 Fixed bug#[13366](https://bugs.otrs.org/show_bug.cgi?id=13366) - Maintenance Message cannot exceed 250 characters, that is not reflected in the GUI.
+ - 2017-11-27 Fixed bug#[13366](https://bugs.otrs.org/show_bug.cgi?id=13366) - Maintenance Message cannot exceed 250 characters, that is not reflected in the GUI.
  - 2017-11-24 Fixed bug#[13266](https://bugs.otrs.org/show_bug.cgi?id=13266) - Article field not mandatory if time units are added.
  - 2017-11-21 Fixed bug#[13357](https://bugs.otrs.org/show_bug.cgi?id=13357) - Improve handling of PGP parameters.
  - 2017-11-21 Fixed bug#[13362](https://bugs.otrs.org/show_bug.cgi?id=13362) - Issue with dynamic fields in ticket information widget in ticket zoom.
