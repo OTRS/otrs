@@ -201,6 +201,60 @@ my @Tests = (
             UserID           => $UserID,
         },
     },
+    {
+        Name          => 'Test ' . $Index++ . '- LoginMessage equal 250 characters',
+        SuccessAdd    => 1,
+        SuccessUpdate => 0,
+        Add           => {
+            StartDate        => '2014-05-02 14:55:00',
+            StopDate         => '2014-05-02 16:01:00',
+            Comment          => 'Comment' . $RandomID,
+            LoginMessage     => 'a' x 250,
+            ShowLoginMessage => 1,
+            ValidID          => 1,
+            UserID           => $UserID,
+        },
+    },
+    {
+        Name          => 'Test ' . $Index++ . '- NotifyMessage equal 250 characters',
+        SuccessAdd    => 1,
+        SuccessUpdate => 0,
+        Add           => {
+            StartDate     => '2014-05-02 14:55:00',
+            StopDate      => '2014-05-02 16:01:00',
+            Comment       => 'Comment' . $RandomID,
+            NotifyMessage => 'a' x 250,
+            ValidID       => 1,
+            UserID        => $UserID,
+        },
+    },
+    {
+        Name          => 'Test ' . $Index++ . '- LoginMessage longer then 250 characters',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        Add           => {
+            StartDate        => '2014-05-02 14:55:00',
+            StopDate         => '2014-05-02 16:01:00',
+            Comment          => 'Comment' . $RandomID,
+            LoginMessage     => 'a' x 251,
+            ShowLoginMessage => 1,
+            ValidID          => 1,
+            UserID           => $UserID,
+        },
+    },
+    {
+        Name          => 'Test ' . $Index++ . '- NotifyMessage longer then 250 characters',
+        SuccessAdd    => 0,
+        SuccessUpdate => 0,
+        Add           => {
+            StartDate     => '2014-05-02 14:55:00',
+            StopDate      => '2014-05-02 16:01:00',
+            Comment       => 'Comment' . $RandomID,
+            NotifyMessage => 'a' x 251,
+            ValidID       => 1,
+            UserID        => $UserID,
+        },
+    },
 );
 use Data::Dumper;
 my @SystemMaintenanceIDs;

@@ -1,4 +1,5 @@
 #6.0.2 2017-??-??
+ - 2017-11-27 Fixed bug#[13366](https://bugs.otrs.org/show_bug.cgi?id=13366) - Maintenance Message cannot exceed 250 characters, that is not reflected in the GUI.
  - 2017-11-27 Fixed bug#[13325](https://bugs.otrs.org/show_bug.cgi?id=13325) - OTRS_CUSTOMER_BODY not working for most notification events.
  - 2017-11-27 Fixed bug#[13385](https://bugs.otrs.org/show_bug.cgi?id=13385) - Customer web request results in a phone article.
  - 2017-11-27 Fixed bug#[13342](https://bugs.otrs.org/show_bug.cgi?id=13342) - Package installation results in an error until web server is restarted.

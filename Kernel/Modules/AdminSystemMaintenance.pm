@@ -130,6 +130,17 @@ sub Run {
 
         }
 
+        # Trigger server error if 'Login message' or 'Notify message' is longer then 250 characters.
+        #   See bug#13366 (https://bugs.otrs.org/show_bug.cgi?id=13366)
+        if ( $SystemMaintenanceData->{LoginMessage} && length $SystemMaintenanceData->{LoginMessage} > 250 ) {
+
+            $Error{LoginMessageServerError} = 'ServerError';
+        }
+        if ( $SystemMaintenanceData->{NotifyMessage} && length $SystemMaintenanceData->{NotifyMessage} > 250 ) {
+
+            $Error{NotifyMessageServerError} = 'ServerError';
+        }
+
         if ( !$SystemMaintenanceData->{ValidID} ) {
 
             # add server error class
@@ -320,6 +331,17 @@ sub Run {
             # add server error class
             $Error{CommentServerError} = 'ServerError';
 
+        }
+
+        # Trigger server error if 'Login message' or 'Notify message' is longer then 250 characters.
+        #   See bug#13366 (https://bugs.otrs.org/show_bug.cgi?id=13366)
+        if ( $SystemMaintenanceData->{LoginMessage} && length $SystemMaintenanceData->{LoginMessage} > 250 ) {
+
+            $Error{LoginMessageServerError} = 'ServerError';
+        }
+        if ( $SystemMaintenanceData->{NotifyMessage} && length $SystemMaintenanceData->{NotifyMessage} > 250 ) {
+
+            $Error{NotifyMessageServerError} = 'ServerError';
         }
 
         if ( !$SystemMaintenanceData->{ValidID} ) {

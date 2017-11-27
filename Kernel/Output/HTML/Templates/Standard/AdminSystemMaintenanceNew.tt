@@ -76,7 +76,9 @@
 
                         <label for="LoginMessage">[% Translate("Login message") | html %]:</label>
                         <div class="Field">
-                            <textarea name="LoginMessage" id="LoginMessage" class="W50pc [% Data.DescriptionServerError | html %]" rows="5">[% Data.LoginMessage | html %]</textarea>
+                            <textarea name="LoginMessage" id="LoginMessage" class="W50pc [% Data.LoginMessageServerError | html %] Validate_MaxLength" rows="5" data-maxlength="250">[% Data.LoginMessage | html %]</textarea>
+                            <div id="LoginMessageError" class="TooltipErrorMessage"><p>[% Translate("This field must have less then 250 characters.") | html %]</p></div>
+                            <div id="LoginMessageServerError" class="TooltipErrorMessage"><p>[% Translate("This field must have less then 250 characters.") | html %]</p></div>
                         </div>
                         <div class="Clear"></div>
 
@@ -88,7 +90,9 @@
 
                         <label for="NotifyMessage">[% Translate("Notify message") | html %]:</label>
                         <div class="Field">
-                            <textarea name="NotifyMessage" id="NotifyMessage" class="W50pc [% Data.DescriptionServerError | html %]" rows="5">[% Data.NotifyMessage | html %]</textarea>
+                            <textarea name="NotifyMessage" id="NotifyMessage" class="W50pc [% Data.NotifyMessageServerError | html %] Validate_MaxLength" rows="5" data-maxlength="250">[% Data.NotifyMessage | html %]</textarea>
+                            <div id="NotifyMessageError" class="TooltipErrorMessage"><p>[% Translate("This field must have less then 250 characters.") | html %]</p></div>
+                            <div id="NotifyMessageServerError" class="TooltipErrorMessage"><p>[% Translate("This field must have less then 250 characters.") | html %]</p></div>
                         </div>
                         <div class="Clear"></div>
 
