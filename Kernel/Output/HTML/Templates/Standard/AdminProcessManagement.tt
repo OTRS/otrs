@@ -80,15 +80,15 @@ SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OT
 
         <div class="WidgetSimple" id="ExampleProcesses">
             <div class="Header">
-                <h2>[% Translate("Ready-to-run Processes") | html %]</h2>
+                <h2>[% Translate("Ready2Adopt Processes") | html %]</h2>
             </div>
             <div class="Content">
                 <p class="FieldExplanation">
-                    [% Translate("Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required.") | html %]
+                    [% Translate("Here you can activate Ready2Adopt processes showcasing our best practices. Please note that some additional configuration may be required.") | html %]
                 </p>
             [% IF !Data.OTRSBusinessIsInstalled %]
                 <p class="FieldExplanation">
-                    [% Translate("Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes.") | html | ReplacePlaceholders(OTRSBusinessLinkLabel) %]
+                    [% Translate("Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated Ready2Adopt processes.") | html | ReplacePlaceholders(OTRSBusinessLinkLabel) %]
                 </p>
             [% END %]
                 <ul class="ActionList SpacingTop">
@@ -104,8 +104,8 @@ SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OT
                                 <input type="checkbox" id="OverwriteExistingEntitiesExample" name="OverwriteExistingEntities" value="1" checked="checked" />
                                 <label for="OverwriteExistingEntitiesExample">[% Translate("Overwrite existing entities") | html %]</label>
                             </fieldset>
-                            <button class="CallForAction Fullsize Center SpacingTop" type="submit" value="[% Translate("Import ready-to-run process") | html %]">
-                                <span><i class="fa fa-upload"></i>[% Translate("Import ready-to-run process") | html %]</span>
+                            <button class="CallForAction Fullsize Center SpacingTop" type="submit" value="[% Translate("Import Ready2Adopt process") | html %]">
+                                <span><i class="fa fa-upload"></i>[% Translate("Import Ready2Adopt process") | html %]</span>
                             </button>
                         </form>
                     </li>
