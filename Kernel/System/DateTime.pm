@@ -123,12 +123,18 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # CPAN DateTime:
-    # Only use English descriptions and abbreviations internally.
-    # This has nothing to do with the user's locale settings in OTRS.
+    # CPAN DateTime: only use English descriptions and abbreviations internally.
+    #   This has nothing to do with the user's locale settings in OTRS.
     $Self->{Locale} = 'en_US';
 
-    # create CPAN/Perl DateTime object
+    # Use private parameter to pass in an already created CPANDateTimeObject (used)
+    #   by the Clone() method).
+    if ( $Param{_CPANDateTimeObject} ) {
+        $Self->{CPANDateTimeObject} = $Param{_CPANDateTimeObject};
+        return $Self;
+    }
+
+    # Create the CPAN/Perl DateTime object.
     my $CPANDateTimeObject = $Self->_CPANDateTimeObjectCreate(%Param);
     if ( !$CPANDateTimeObject ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -140,7 +146,6 @@ sub new {
     }
 
     $Self->{CPANDateTimeObject} = $CPANDateTimeObject;
-
     return $Self;
 }
 
@@ -1372,12 +1377,9 @@ Clones the DateTime object.
 sub Clone {
     my ( $Self, %Param ) = @_;
 
-    my $ClonedDateTimeObject = $Kernel::OM->Create(
-        __PACKAGE__,
-        ObjectParams => $Self->Get(),
+    return __PACKAGE__->new(
+        _CPANDateTimeObject => $Self->{CPANDateTimeObject}->clone()
     );
-
-    return $ClonedDateTimeObject;
 }
 
 =head2 TimeZoneList()
