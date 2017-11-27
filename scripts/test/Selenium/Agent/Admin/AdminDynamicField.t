@@ -154,7 +154,8 @@ $Selenium->RunTest(
                 $CheckBredcrumb->(
                     OverviewTitle  => $OverviewTitleBreadcrumb,
                     BreadcrumbText => $LanguageObject->Translate($Type) . ': '
-                        . $LanguageObject->Translate( 'Add ' . $IDText . ' Field' )
+                        . $LanguageObject->Translate('Add') . ' ' . $LanguageObject->Translate($IDText)
+                        . ' ' . $LanguageObject->Translate('Field')
                 );
 
                 $Selenium->find_element( "#Name",  'css' )->send_keys($RandomID);
@@ -173,12 +174,10 @@ $Selenium->RunTest(
 
                 # Check breadcrumb on Edit screen.
                 $CheckBredcrumb->(
-                    OverviewTitle => $OverviewTitleBreadcrumb,
-                    BreadcrumbText =>
-                        $LanguageObject->Translate($Type)
-                        . ': '
-                        . $LanguageObject->Translate( 'Change ' . $IDText . ' Field' ) . ' - '
-                        . $RandomID
+                    OverviewTitle  => $OverviewTitleBreadcrumb,
+                    BreadcrumbText => $LanguageObject->Translate($Type) . ': '
+                        . $LanguageObject->Translate('Change') . ' ' . $LanguageObject->Translate($IDText)
+                        . ' ' . $LanguageObject->Translate('Field') . ' - ' . $RandomID
                 );
 
                 $Selenium->find_element( "#Label", 'css' )->clear();

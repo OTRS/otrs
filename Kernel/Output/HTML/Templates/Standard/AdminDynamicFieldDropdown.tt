@@ -9,8 +9,8 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1 class="InvisibleText">
         [% Translate("Dynamic Fields") | html %] - [% Translate(Data.ObjectTypeName) | html %]:
-        [% USE Title = String(Data.Mode) %]
-        [% Title = Translate(Title.append( ' ', Data.FieldTypeName, ' Field')) %]
+        [% USE Title = String(Translate(Data.Mode)) %]
+        [% Title = Title.append( ' ', Translate(Data.FieldTypeName), ' ', Translate('Field')) %]
         [% Title | html %]
     </h1>
 
