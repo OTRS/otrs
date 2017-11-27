@@ -96,7 +96,7 @@ $Selenium->RunTest(
         );
 
         # now go through the test cases
-        for my $TestCase ( @TestCasesBasic ) {
+        for my $TestCase (@TestCasesBasic) {
 
             # wait for the CKE to load
             $Selenium->WaitFor(
