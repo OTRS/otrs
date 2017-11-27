@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-11-13 23:49+0000\n"
-"PO-Revision-Date: 2017-11-13 23:52+0000\n"
+"POT-Creation-Date: 2017-11-27 22:46+0000\n"
+"PO-Revision-Date: 2017-11-27 22:52+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Persian (http://www.transifex.com/otrs/OTRS/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -1652,6 +1652,10 @@ msgstr "حذف این قسمت"
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
 msgstr "رشته های پویا"
+
+#. Template: AdminDynamicFieldCheckbox
+msgid "Field"
+msgstr "رشته"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Go back to overview"
@@ -3725,14 +3729,14 @@ msgid "Do you really want to delete this web service?"
 msgstr "آیا شما واقعا  حذف این وب سرویس رامی خواهید؟"
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Ready-to-run Web Services"
-msgstr "آماده به اجرای خدمات وب"
+msgid "Ready2Adopt Web Services"
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
-"Here you can activate ready-to-run web services showcasing our best "
-"practices that are a part of %s."
-msgstr "در اینجا شما می توانید از خدمات وب سایت آماده به اجرا فعال شدن نمایش بهترین شیوه های ما هستند که بخشی از %s ."
+"Here you can activate Ready2Adopt web services showcasing our best practices"
+" that are a part of %s."
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -3742,14 +3746,14 @@ msgid ""
 msgstr "لطفا توجه داشته باشید که این خدمات وب ممکن است در دیگر ماژول فقط با خاص در دسترس بستگی دارد %s سطح قرارداد (وجود خواهد داشت اطلاع رسانی با جزئیات بیشتر در هنگام وارد کردن)."
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Import ready-to-run web service"
-msgstr "واردات آماده به اجرا وب سرویس"
+msgid "Import Ready2Adopt web service"
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Would you like to benefit from web services created by experts? Upgrade to "
-"%s to import some sophisticated ready-to-run web services."
-msgstr "دوست دارید از خدمات وب سایت ایجاد شده توسط کارشناسان بهره مند شوند؟ ارتقا به %s به واردات برخی از خدمات وب پیچیده آماده به اجرا."
+"%s to import some sophisticated Ready2Adopt web services."
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -5004,24 +5008,24 @@ msgid "Import process configuration"
 msgstr " روند دریافت پیکربندی"
 
 #. Template: AdminProcessManagement
-msgid "Ready-to-run Processes"
-msgstr "آماده به اجرای فرایندهای"
+msgid "Ready2Adopt Processes"
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid ""
-"Here you can activate ready-to-run processes showcasing our best practices. "
+"Here you can activate Ready2Adopt processes showcasing our best practices. "
 "Please note that some additional configuration may be required."
-msgstr "در اینجا شما می توانید فرآیندهای آماده به اجرا نمایش بهترین شیوه های ما را فعال کنید. لطفا توجه داشته باشید که برخی از تنظیمات اضافی ممکن است مورد نیاز باشد."
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid ""
 "Would you like to benefit from processes created by experts? Upgrade to %s "
-"to import some sophisticated ready-to-run processes."
-msgstr "دوست دارید از فرآیندهای ایجاد شده توسط کارشناسان بهره مند شوند؟ ارتقا به %s به واردات برخی از فرآیندهای پیچیده آماده به اجرا."
+"to import some sophisticated Ready2Adopt processes."
+msgstr ""
 
 #. Template: AdminProcessManagement
-msgid "Import ready-to-run process"
-msgstr "واردات آماده به اجرای فرایند"
+msgid "Import Ready2Adopt process"
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -6875,6 +6879,10 @@ msgstr "تاریخ نامعتبر!"
 #. Template: AdminSystemMaintenanceEdit
 msgid "Login message"
 msgstr "پیام ورود"
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "This field must have less then 250 characters."
+msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Show login message"
@@ -8842,7 +8850,7 @@ msgid "Load blocked content."
 msgstr "بارگذاری محتوای مسدود شده."
 
 #. Template: Breadcrumb
-msgid "Back to Dashboard"
+msgid "Home"
 msgstr ""
 
 #. Template: Breadcrumb
@@ -10770,6 +10778,10 @@ msgid "Contact with data (%s)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
+msgid "Change"
+msgstr "تغییر"
+
+#. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for"
 " more details."
@@ -11944,6 +11956,12 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "The following settings could not be found: %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
+msgid ""
+"System Configuration could not be imported due to an unknown error, please "
+"check OTRS logs for more information."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
@@ -14665,8 +14683,8 @@ msgstr "سرور مجموعه کاراکتر پایگاه"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
-msgid "Setting character_set_database needs to be UNICODE or UTF8."
-msgstr "تنظیم character_set_database نیاز به UNICODE یا UTF8."
+msgid "The setting character_set_database needs to be 'utf8'."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
@@ -14675,8 +14693,8 @@ msgstr "جدول مجموعه کاراکتر"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
-msgid "There were tables found which do not have utf8 as charset."
-msgstr " جداولی پیدا شده است که UTF8 به عنوان مجموعه کاراکتر وجود ندارد."
+msgid "There were tables found which do not have 'utf8' as charset."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
@@ -16147,7 +16165,7 @@ msgid ""
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
-msgid "Upgrade all packages"
+msgid "Update all packages"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
@@ -16155,7 +16173,7 @@ msgid "Dismiss"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
-msgid "Upgrade All Packages"
+msgid "Update All Packages"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
@@ -16164,6 +16182,11 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "This is currently disabled because of an ongoing package upgrade."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid ""
+"This option is currently disabled because the OTRS Daemon is not running."
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
@@ -17026,12 +17049,6 @@ msgstr "AccountedTime"
 
 #. SysConfig
 msgid ""
-"Activate this if you trust in all your public and private pgp keys, even if "
-"they are not certified with a trusted signature."
-msgstr ""
-
-#. SysConfig
-msgid ""
 "Activates a blinking mechanism of the queue that contains the oldest ticket."
 msgstr "مکانیزم چشمک زدن را برای صف درخواستی که شامل قدیمی‌ترین درخواست می‌باشد فعال می‌کند."
 
@@ -17882,8 +17899,8 @@ msgstr "چک اگر یک ایمیل پیگیری بلیط های موجود به
 
 #. SysConfig
 msgid ""
-"Checks the SystemID in ticket number detection for follow-ups (if inactive, "
-"SystemID will be changed after using the system)."
+"Checks the SystemID in ticket number detection for follow-ups. If not "
+"enabled, SystemID will be changed after using the system."
 msgstr ""
 
 #. SysConfig
@@ -19070,18 +19087,18 @@ msgstr "تعریف می کند در صورتی که رمز قبلا معتبر �
 #. SysConfig
 msgid ""
 "Defines if the values for filters should be retrieved from all available "
-"tickets. If active, only values which are actually used in any ticket will "
+"tickets. If enabled, only values which are actually used in any ticket will "
 "be available for filtering. Please note: The list of customers will always "
 "be retrieved like this."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines if time accounting is mandatory in the agent interface. If "
-"activated, a note must be entered for all ticket actions (no matter if the "
-"note itself is configured as active or is originally mandatory for the "
-"individual ticket action screen)."
-msgstr "تعریف می کند اگر حسابداری هم در رابط عامل الزامی است. اگر فعال شود، یک یادداشت باید برای همه اقدامات بلیط وارد (مهم نیست اگر توجه داشته باشید خود را به عنوان فعال پیکربندی و یا برای صفحه نمایش عمل بلیط فردی در اصل الزامی است)."
+"Defines if time accounting is mandatory in the agent interface. If enabled, "
+"a note must be entered for all ticket actions (no matter if the note itself "
+"is configured as active or is originally mandatory for the individual ticket"
+" action screen)."
+msgstr ""
 
 #. SysConfig
 msgid "Defines if time accounting must be set to all tickets in bulk action."
@@ -20942,17 +20959,17 @@ msgstr "غیر فعال کردن HTTP هدر \\ \"X-قاب گزینه ها: SAME
 #. SysConfig
 msgid ""
 "Disables sending reminder notifications to the responsible agent of a ticket"
-" (Ticket::Responsible needs to be activated)."
-msgstr "غیر فعال کردن ارسال اطلاعیه یادآور به عامل مسئول یک درخواست (درخواست :: نیازهای مسئول فعال شود)."
+" (Ticket::Responsible needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Disables the communication between this system and OTRS Group servers that "
-"provides cloud services. If active, some functionality will be lost such as "
-"system registration, support data sending, upgrading to and use of OTRS "
+"provides cloud services. If enabled, some functionality will be lost such as"
+" system registration, support data sending, upgrading to and use of OTRS "
 "Business Solution™, OTRS Verify™, OTRS News and product News dashboard "
 "widgets, among others."
-msgstr "غیر فعال ارتباط بین این سیستم و سرور OTRS گروه فراهم می کند که خدمات ابر. اگر فعال، برخی از قابلیت های می شود مانند ثبت نام سیستم از دست داده، داده ها پشتیبانی از ارسال، به روز رسانی و استفاده از OTRS کسب و کار راه حل ™، OTRS تایید ™، OTRS اخبار و محصولات اخبار داشبورد ویجتها، در میان دیگران."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -20963,9 +20980,9 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Disables the web installer (http://yourhost.example.com/otrs/installer.pl), "
-"to prevent the system from being hijacked. If inactive, the system can be "
-"reinstalled and the current basic configuration will be used to pre-populate"
-" the questions within the installer script. If not inactive, it also "
+"to prevent the system from being hijacked. If not enabled, the system can be"
+" reinstalled and the current basic configuration will be used to pre-"
+"populate the questions within the installer script. If enabled, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
 msgstr ""
 
@@ -21270,6 +21287,12 @@ msgstr ""
 #. SysConfig
 msgid "Enable keep-alive connection header for SOAP responses."
 msgstr "فعال کردن هدر ارتباط زنده نگه داشتن برای پاسخ SOAP."
+
+#. SysConfig
+msgid ""
+"Enable this if you trust in all your public and private pgp keys, even if "
+"they are not certified with a trusted signature."
+msgstr ""
 
 #. SysConfig
 msgid "Enabled filters."
@@ -22058,14 +22081,6 @@ msgid ""
 msgstr "اگر \\ \"فایل \" برای LogModule انتخاب شد، یک فایل تاریخچه ثبت باید مشخص شود. اگر فایل وجود ندارد، از آن خواهد شد توسط سیستم ایجاد شده است."
 
 #. SysConfig
-msgid "If active the cache data be held in memory."
-msgstr ""
-
-#. SysConfig
-msgid "If active the cache data will be stored in cache backend."
-msgstr ""
-
-#. SysConfig
 msgid ""
 "If active, none of the regular expressions may match the user's email "
 "address to allow registration."
@@ -22148,6 +22163,14 @@ msgid ""
 msgstr "اگر فعال باشد، نسخه برچسب OTRS خواهد شد از Webinterface، هدر HTTP و X-هدر از ایمیل های خروجی حذف خواهند شد. توجه: اگر شما این گزینه را تغییر دهید، لطفا مطمئن شوید که به حذف کش."
 
 #. SysConfig
+msgid "If enabled, the cache data be held in memory."
+msgstr ""
+
+#. SysConfig
+msgid "If enabled, the cache data will be stored in cache backend."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "If enabled, the customer can search for tickets in all services (regardless "
 "what services are assigned to the customer)."
@@ -22196,9 +22219,9 @@ msgstr "اگر تعیین شود، این آدرس به عنوان فرستند�
 
 #. SysConfig
 msgid ""
-"If this option is active, tickets created via the web interface, via "
+"If this option is enabled, tickets created via the web interface, via "
 "Customers or Agents, will receive an autoresponse if configured. If this "
-"option is inactive, no autoresponses will be sent."
+"option is not enabled, no autoresponses will be sent."
 msgstr ""
 
 #. SysConfig
@@ -22207,9 +22230,9 @@ msgstr "اگر این عبارت منظم مسابقات، هیچ پیام خو�
 
 #. SysConfig
 msgid ""
-"If this setting is active, local modifications will not be highlighted as "
+"If this setting is enabled, local modifications will not be highlighted as "
 "errors in the package manager and support data collector."
-msgstr "اگر این تنظیم فعال است، تغییرات محلی به عنوان خطا در مدیریت بسته ها و داده های جمع آوری پشتیبانی برجسته است."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -23707,9 +23730,9 @@ msgstr "حذف درخواست نگهبان اطلاعات زمانی که درخ
 #. SysConfig
 msgid ""
 "Renew existing SMIME certificates from customer backend. Note: SMIME and "
-"SMIME::FetchFromCustomer needs to be active in SysConfig and customer "
+"SMIME::FetchFromCustomer needs to be enabled in SysConfig and customer "
 "backend needs to be configured to fetch UserSMIMECertificate attribute."
-msgstr "تجدید گواهی SMIME موجود از باطن مشتری می باشد. توجه: SMIME و SMIME :: FetchFromCustomer نیاز به فعال بودن در SysConfig و باطن مشتری نیاز به پیکربندی به بهانه ویژگی UserSMIMECertificate."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -23892,8 +23915,8 @@ msgstr "اجرا می شود جستجو کلمات اولیه از کاربرا�
 
 #. SysConfig
 msgid ""
-"Runs the system in \"Demo\" mode. If active, agents can change preferences, "
-"such as selection of language and theme via the agent web interface. These "
+"Runs the system in \"Demo\" mode. If enabled, agents can change preferences,"
+" such as selection of language and theme via the agent web interface. These "
 "changes are only valid for the current session. It will not be possible for "
 "agents to change their passwords."
 msgstr ""
@@ -24591,44 +24614,44 @@ msgstr "مجموعه عامل مسئول بلیط در بلیط صفحه نما�
 #. SysConfig
 msgid ""
 "Sets the service in the close ticket screen of the agent interface "
-"(Ticket::Service needs to be activated)."
-msgstr "مجموعه خدمات در روی صفحه نمایش بلیط نزدیک رابط عامل (بلیط :: خدمات نیاز به فعال شود)."
+"(Ticket::Service needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket free text screen of the agent interface "
-"(Ticket::Service needs to be activated)."
-msgstr "مجموعه خدمات در بلیط صفحه نمایش های متنی رایگان از رابط عامل (بلیط :: خدمات نیاز به فعال شود)."
+"(Ticket::Service needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket note screen of the agent interface "
-"(Ticket::Service needs to be activated)."
-msgstr "مجموعه خدمات در روی صفحه نمایش توجه داشته باشید بلیط رابط عامل (بلیط :: خدمات نیاز به فعال شود)."
+"(Ticket::Service needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket owner screen of a zoomed ticket in the agent "
-"interface (Ticket::Service needs to be activated)."
-msgstr "مجموعه خدمات در روی صفحه نمایش صاحب بلیط یک بلیط بزرگنمایی در رابط عامل از (بلیط :: خدمات نیاز به فعال شود)."
+"interface (Ticket::Service needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket pending screen of a zoomed ticket in the "
-"agent interface (Ticket::Service needs to be activated)."
-msgstr "مجموعه خدمات در بلیط صفحه نمایش در حال بررسی یک بلیط بزرگنمایی در رابط عامل از (بلیط :: خدمات نیاز به فعال شود)."
+"agent interface (Ticket::Service needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket priority screen of a zoomed ticket in the "
-"agent interface (Ticket::Service needs to be activated)."
-msgstr "مجموعه خدمات در روی صفحه نمایش اولویت بلیط یک بلیط بزرگنمایی در رابط عامل از (بلیط :: خدمات نیاز به فعال شود)."
+"agent interface (Ticket::Service needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket responsible screen of the agent interface "
-"(Ticket::Service needs to be activated)."
-msgstr "مجموعه خدمات در بلیط صفحه نمایش مسئول رابط عامل (بلیط :: خدمات نیاز به فعال شود)."
+"(Ticket::Service needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -24727,8 +24750,8 @@ msgstr "مجموعه صاحب بلیط در بلیط صفحه نمایش مسئ�
 #. SysConfig
 msgid ""
 "Sets the ticket type in the close ticket screen of the agent interface "
-"(Ticket::Type needs to be activated)."
-msgstr "مجموعه نوع بلیط در صفحه نمایش بلیط نزدیک رابط عامل (بلیط :: نوع نیاز به فعال شود)."
+"(Ticket::Type needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid "Sets the ticket type in the ticket bulk screen of the agent interface."
@@ -24737,38 +24760,38 @@ msgstr "نوع بلیط در صفحه نمایش فله بلیط رابط عام
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket free text screen of the agent interface "
-"(Ticket::Type needs to be activated)."
-msgstr "مجموعه نوع بلیط در بلیط صفحه نمایش های متنی رایگان از رابط عامل (بلیط :: نوع نیاز به فعال شود)."
+"(Ticket::Type needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket note screen of the agent interface "
-"(Ticket::Type needs to be activated)."
-msgstr "مجموعه نوع بلیط در روی صفحه نمایش توجه داشته باشید بلیط رابط عامل (بلیط :: نوع نیاز به فعال شود)."
+"(Ticket::Type needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket owner screen of a zoomed ticket in the "
-"agent interface (Ticket::Type needs to be activated)."
-msgstr "مجموعه نوع بلیط در صفحه صاحب بلیط یک بلیط بزرگنمایی در رابط عامل از (بلیط :: نوع نیاز به فعال شود)."
+"agent interface (Ticket::Type needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket pending screen of a zoomed ticket in the "
-"agent interface (Ticket::Type needs to be activated)."
-msgstr "مجموعه نوع بلیط در بلیط صفحه نمایش در حال بررسی یک بلیط بزرگنمایی در رابط عامل از (بلیط :: نوع نیاز به فعال شود)."
+"agent interface (Ticket::Type needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket priority screen of a zoomed ticket in the"
-" agent interface (Ticket::Type needs to be activated)."
-msgstr "مجموعه نوع بلیط در صفحه نمایش اولویت بلیط یک بلیط بزرگنمایی در رابط عامل از (بلیط :: نوع نیاز به فعال شود)."
+" agent interface (Ticket::Type needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket responsible screen of the agent interface"
-" (Ticket::Type needs to be activated)."
-msgstr "مجموعه نوع بلیط در بلیط صفحه نمایش مسئول رابط عامل (بلیط :: نوع نیاز به فعال شود)."
+" (Ticket::Type needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -25291,12 +25314,6 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows the activated ticket attributes in the customer interface (0 = "
-"Disabled and 1 = Enabled)."
-msgstr "نشان می دهد که بلیط فعال ویژگی های در رابط مشتری (0 = معلولین و 1 = فعال کنید)."
-
-#. SysConfig
-msgid ""
 "Shows the articles sorted normally or in reverse, under ticket zoom in the "
 "agent interface."
 msgstr "مقالات طبقه بندی شده اند به طور معمول یا در جهت معکوس، تحت زوم بلیط در رابط عامل نشان می دهد."
@@ -25305,6 +25322,12 @@ msgstr "مقالات طبقه بندی شده اند به طور معمول یا
 msgid ""
 "Shows the customer user information (phone and email) in the compose screen."
 msgstr "اطلاعات کاربر با مشتری (تلفن و ایمیل) در صفحه نوشتن را نشان می دهد."
+
+#. SysConfig
+msgid ""
+"Shows the enabled ticket attributes in the customer interface (0 = Disabled "
+"and 1 = Enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -25418,14 +25441,14 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows time in long format (days, hours, minutes), if active; or in short "
-"format (days, hours), if inactive."
+"Shows time in long format (days, hours, minutes), if enabled; or in short "
+"format (days, hours), if not enabled."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows time use complete description (days, hours, minutes), if active; or "
-"just first letter (d, h, m), if inactive."
+"Shows time use complete description (days, hours, minutes), if enabled; or "
+"just first letter (d, h, m), if not enabled."
 msgstr ""
 
 #. SysConfig
@@ -26226,7 +26249,7 @@ msgstr "روشن کشیدن و رها کردن برای ناوبری اصلی."
 
 #. SysConfig
 msgid ""
-"Turns on the remote ip address check. It should not be active if the "
+"Turns on the remote ip address check. It should not be enabled if the "
 "application is used, for example, via a proxy farm or a dialup connection, "
 "because the remote ip address is mostly different for the requests."
 msgstr ""
@@ -26416,7 +26439,7 @@ msgstr "یا نه به جمع آوری اطلاعات متا از مقالات �
 msgid ""
 "Whether to force redirect all requests from http to https protocol. Please "
 "check that your web server is configured correctly for https protocol before"
-" activating this option."
+" enable this option."
 msgstr ""
 
 #. SysConfig

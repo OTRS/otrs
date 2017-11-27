@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.652512998266898;
+    $Self->{Completeness}        = 0.654545454545455;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -525,6 +525,7 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Campos Dinámicos',
+        'Field' => 'Campo',
         'Go back to overview' => 'Volver a la vista general',
         'General' => 'General',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -792,42 +793,42 @@ sub Data {
         'Only execute error handling module for selected invokers.' => 'Solo ejecutar el módulo de gestión de errores para los invocadores seleccionados.',
         'Error message content filter' => 'Filtro de contenido de mensaje de error',
         'Enter a regular expression to restrict which error messages should cause error handling module execution.' =>
-            '',
+            'Ingrese una expresión regular para restringir qué mensajes de error deberían de causar la ejecución del módulo de manejo de errores.',
         'Error message subject and data (as seen in the debugger error entry) will considered for a match.' =>
-            '',
+            'El asunto y los datos del mensaje de error (como se ve en la entrada de error del depurador) se considerarán para una coincidencia',
         'Example: Enter \'^.*401 Unauthorized.*\$\' to handle only authentication related errors.' =>
-            '',
-        'Error stage filter' => '',
+            'Ejemplo: Ingrese \'^. * 401 No autorizado. * \ $\' para manejar solo errores relacionados con la autenticación.',
+        'Error stage filter' => 'Filtro de estado de error',
         'Only execute error handling module on errors that occur during specific processing stages.' =>
-            '',
+            'Solo ejecutar el módulo de manejo de errores en los errores que ocurren durante las etapas específicas de procesamiento.',
         'Example: Handle only errors where mapping for outgoing data could not be applied.' =>
-            '',
-        'Error code' => '',
-        'An error identifier for this error handling module.' => '',
+            'Ejemplo: Manejar solo errores en los que no se pudo aplicar el mapeo de los datos salientes.',
+        'Error code' => 'Código de error',
+        'An error identifier for this error handling module.' => 'Un identificador de error para este módulo de manejo de errores.',
         'This identifier will be available in XSLT-Mapping and shown in debugger output.' =>
-            '',
-        'Error message' => '',
-        'An error explanation for this error handling module.' => '',
+            'Este identificador estará disponible en XSLT-Mapping y se mostrará en la salida del depurador.',
+        'Error message' => 'Mensaje de error',
+        'An error explanation for this error handling module.' => 'Una explicación de error para este módulo de manejo de errores.',
         'This message will be available in XSLT-Mapping and shown in debugger output.' =>
-            '',
+            'Este mensaje estará disponible en XSLT-Mapping y se mostrará en la salida del depurador.',
         'Define if processing should be stopped after module was executed, skipping all remaining modules or only those of the same backend.' =>
-            '',
-        'Default behavior is to resume, processing the next module.' => '',
+            'Definir si el proceso debería ser detenido una vez que se ejecutó el módulo, omitiendo todos los módulos restantes o solo aquellos del mismo backend.',
+        'Default behavior is to resume, processing the next module.' => 'El comportamiento por defecto es reanudar, procesando el siguiente módulo.',
 
         # Template: AdminGenericInterfaceErrorHandlingRequestRetry
         'This module allows to configure scheduled retries for failed requests.' =>
-            '',
+            'Este módulo permite configurar  reintentos programados para solicitudes fallidas.',
         'Default behavior of GenericInterface web services is to send each request exactly once and not to reschedule after errors.' =>
-            '',
+            'El comportamiento por defecto de los servicios web GenericInterface es enviar cada solicitud exactamente una vez y no reprogramarla después de los errores.',
         'If more than one module capable of scheduling a retry is executed for an individual request, the module executed last is authoritative and determines if a retry is scheduled.' =>
-            '',
-        'Request retry options' => '',
+            'Si se ejecuta más de un módulo capaz de programar un reintento para una solicitud individual, el último módulo ejecutado es autoritativo y determina si se programa un reintento.',
+        'Request retry options' => 'Solicitud de opciones de reintento',
         'Retry options are applied when requests cause error handling module execution (based on processing options).' =>
-            '',
-        'Schedule retry' => '',
+            'Las opciones de reintento se aplican cuando las solicitudes causan la ejecución del módulo de errores (según las opciones de procesamiento)',
+        'Schedule retry' => 'Programar el reintento',
         'Should requests causing an error be triggered again at a later time?' =>
-            '',
-        'Initial retry interval' => '',
+            '¿Las solicitudes que causan un error debería ser activadas de nuevo?',
+        'Initial retry interval' => 'Intervalo de reintento inicial',
         'Interval after which to trigger the first retry.' => '',
         'Note: This and all further retry intervals are based on the error handling module execution time for the initial request.' =>
             '',
@@ -1142,14 +1143,14 @@ sub Data {
         'Configuration History' => '',
         'Delete web service' => 'Eliminar servicio web',
         'Do you really want to delete this web service?' => '¿Realmente desea eliminar este servicio web?',
-        'Ready-to-run Web Services' => 'Listo para ejecutar los servicios Web',
-        'Here you can activate ready-to-run web services showcasing our best practices that are a part of %s.' =>
-            'Aquí puede activar ejemplos de buenas prácticas de servicios web que son parte de %s.',
+        'Ready2Adopt Web Services' => '',
+        'Here you can activate Ready2Adopt web services showcasing our best practices that are a part of %s.' =>
+            '',
         'Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).' =>
             'Por favor considere que estos servicios de web pueden depender de otros módulos que son solo disponibles con el cierto porcentaje de niveles de contrato (habrá una notificación allí con siguientes detalles de importación)',
-        'Import ready-to-run web service' => 'Importar servicios web listos para ejecutar',
-        'Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated ready-to-run web services.' =>
-            'Quisieras  beneficiarte de servicios web creados por los expertos? Actualiza al cierto porcentaje para importar algunos servicios web sofisticados listos para ejecutarse',
+        'Import Ready2Adopt web service' => '',
+        'Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated Ready2Adopt web services.' =>
+            '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Después de salvar su configuración ud. será redireccionado de nuevo a la pantalla de edición',
         'If you want to return to overview please click the "Go to overview" button.' =>
@@ -1540,12 +1541,12 @@ sub Data {
             'Aquí puede cargar un archivo de configuración para importar un proceso a su sistema. El archivo debe estar en formato .yml como exportado por el módulo de gestión de procesos.',
         'Upload process configuration' => 'Configuración del proceso Cargar',
         'Import process configuration' => 'Configuración del proceso de importación',
-        'Ready-to-run Processes' => 'Procesos Listos para Ejecutar',
-        'Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required.' =>
-            'Aquí puede activar procesos listos para ejecutar que muestren nuestras mejores prácticas. Tenga en cuenta que puede ser necesaria alguna configuración adicional.',
-        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes.' =>
-            '¿Te gustaría beneficiarse de los procesos creados por los expertos? Actualice a  %s para importar algunos procesos sofisticados listos para ejecutarse.',
-        'Import ready-to-run process' => 'Importar procesos listos para ejecutar',
+        'Ready2Adopt Processes' => '',
+        'Here you can activate Ready2Adopt processes showcasing our best practices. Please note that some additional configuration may be required.' =>
+            '',
+        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated Ready2Adopt processes.' =>
+            '',
+        'Import Ready2Adopt process' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'Para crear un nuevo proceso puede importar un proceso que se exportó desde otro sistema o crear uno completamente nuevo.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -2138,6 +2139,7 @@ sub Data {
         'Edit System Maintenance Information' => 'Edite la Información de Mantenimiento de Sistema',
         'Date invalid!' => '¡Fecha no válida!',
         'Login message' => 'Mensaje de login',
+        'This field must have less then 250 characters.' => '',
         'Show login message' => 'Mostrar mensaje de login',
         'Notify message' => 'Notificar mensaje',
         'Manage Sessions' => 'Administrar Sesiones',
@@ -2801,7 +2803,7 @@ sub Data {
         'Load blocked content.' => 'Cargar el contenido remoto.',
 
         # Template: Breadcrumb
-        'Back to Dashboard' => '',
+        'Home' => '',
         'Back to admin overview' => '',
 
         # Template: CloudServicesDisabled
@@ -3487,6 +3489,7 @@ sub Data {
         'Database (%s)' => '',
         'Web service (%s)' => '',
         'Contact with data (%s)' => '',
+        'Change' => 'Modificar',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'No pudo reajustar el orden de Campo Dinámico apropiadamente, favor revise el registro de errores para más información.',
 
@@ -3883,6 +3886,8 @@ sub Data {
         'There are no invalid settings active at this time.' => '',
         'You currently don\'t have any favourite settings.' => '',
         'The following settings could not be found: %s' => '',
+        'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
+            '',
         'Category Search' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationDeployment.pm
@@ -4902,9 +4907,10 @@ sub Data {
         'Client Connection Charset' => 'Juego de Caracteres de la Conexión del Cliente',
         'Setting character_set_client needs to be utf8.' => 'El ajuste character_set_client necesita ser utf8.',
         'Server Database Charset' => 'Juego de Caracteres del Servidor de Base de Datos',
-        'Setting character_set_database needs to be UNICODE or UTF8.' => 'el ajuste de character_set_database necesita ser UNICODE o UTF8.',
+        'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => 'Juego de Caracter de la Tabla',
-        'There were tables found which do not have utf8 as charset.' => 'Se encontrarón tablas las cuales el juego de caracteres no es utf8.',
+        'There were tables found which do not have \'utf8\' as charset.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
         'InnoDB Log File Size' => 'Tamaño del Archivo Log InnoDB',
@@ -5448,11 +5454,13 @@ sub Data {
             '',
         'A package upgrade was recently finished. Click here to see the results.' =>
             '',
-        'Upgrade all packages' => '',
+        'Update all packages' => '',
         'Dismiss' => 'Descartar',
-        'Upgrade All Packages' => '',
+        'Update All Packages' => '',
         'Currently not possible' => '',
         'This is currently disabled because of an ongoing package upgrade.' =>
+            '',
+        'This option is currently disabled because the OTRS Daemon is not running.' =>
             '',
         'Are you sure you want to update all installed packages?' => '',
 
@@ -5808,8 +5816,6 @@ Tu Equipo de Soporte
             'Módulo ACL que permite el cierre de tickets padre sólo si todos sus hijos ya están cerrados ("Estado" muestra que estados no están disponibles para ticket padre hasta que todas las entradas de sus hijos están cerradas).',
         'Access Control Lists (ACL)' => 'Listas de Control de Acceso (ACL)',
         'AccountedTime' => 'Tiempo Registrado',
-        'Activate this if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
-            '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'Activa un mecanismo de parpadeo de la cola que contiene el ticket más antiguo.',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -6072,7 +6078,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Checks for queued outgoing emails to be sent.' => '',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Comprueba si un E-Mail es un seguimiento a un ticket existente búscando en el tema por un número de ticket válido.',
-        'Checks the SystemID in ticket number detection for follow-ups (if inactive, SystemID will be changed after using the system).' =>
+        'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             '',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
             'Comprueba la disponibilidad de OTRS Business Solution™ para este sistema.',
@@ -6411,9 +6417,9 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.' =>
             '',
-        'Defines if the values for filters should be retrieved from all available tickets. If active, only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.' =>
+        'Defines if the values for filters should be retrieved from all available tickets. If enabled, only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.' =>
             '',
-        'Defines if time accounting is mandatory in the agent interface. If activated, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
+        'Defines if time accounting is mandatory in the agent interface. If enabled, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
             '',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
             '',
@@ -7003,13 +7009,13 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
-        'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
+        'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
-        'Disables the communication between this system and OTRS Group servers that provides cloud services. If active, some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others.' =>
+        'Disables the communication between this system and OTRS Group servers that provides cloud services. If enabled, some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others.' =>
             '',
         'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
             '',
-        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If inactive, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not inactive, it also disables the GenericAgent, PackageManager and SQL Box.' =>
+        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
             '',
@@ -7109,6 +7115,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Email communication channel.' => '',
         'Enable highlighting queues based on ticket age.' => '',
         'Enable keep-alive connection header for SOAP responses.' => '',
+        'Enable this if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
+            '',
         'Enabled filters.' => 'Habilitar Filtros',
         'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
             '',
@@ -7346,8 +7354,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             '',
-        'If active the cache data be held in memory.' => '',
-        'If active the cache data will be stored in cache backend.' => '',
         'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
             '',
         'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
@@ -7376,6 +7382,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
             '',
+        'If enabled, the cache data be held in memory.' => '',
+        'If enabled, the cache data will be stored in cache backend.' => '',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
@@ -7390,11 +7398,11 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             '',
-        'If this option is active, tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is inactive, no autoresponses will be sent.' =>
+        'If this option is enabled, tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is not enabled, no autoresponses will be sent.' =>
             '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             '',
-        'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
+        'If this setting is enabled, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
         'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
             '',
@@ -7496,7 +7504,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Loop protection: no auto-response sent to "%s".' => '',
         'Mail Accounts' => 'Cuentas de Correo',
         'MailQueue configuration settings.' => '',
-        'Main menu item registration.' => '',
+        'Main menu item registration.' => 'Registro del elemento del menú principal.',
         'Main menu registration.' => 'Registro del menú principal.',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             '',
@@ -7796,7 +7804,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Removes old ticket number counters (Sunday mornings).' => '',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
-        'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be active in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>
+        'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be enabled in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',
@@ -7856,7 +7864,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
-        'Runs the system in "Demo" mode. If active, agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
+        'Runs the system in "Demo" mode. If enabled, agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
             '',
         'Russian' => 'Ruso',
         'S/MIME Certificates' => 'Certificados S/MIME',
@@ -8070,19 +8078,19 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Sets the responsible agent of the ticket in the ticket responsible screen of the agent interface.' =>
             '',
-        'Sets the service in the close ticket screen of the agent interface (Ticket::Service needs to be activated).' =>
+        'Sets the service in the close ticket screen of the agent interface (Ticket::Service needs to be enabled).' =>
             '',
-        'Sets the service in the ticket free text screen of the agent interface (Ticket::Service needs to be activated).' =>
+        'Sets the service in the ticket free text screen of the agent interface (Ticket::Service needs to be enabled).' =>
             '',
-        'Sets the service in the ticket note screen of the agent interface (Ticket::Service needs to be activated).' =>
+        'Sets the service in the ticket note screen of the agent interface (Ticket::Service needs to be enabled).' =>
             '',
-        'Sets the service in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated).' =>
+        'Sets the service in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled).' =>
             '',
-        'Sets the service in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated).' =>
+        'Sets the service in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled).' =>
             '',
-        'Sets the service in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated).' =>
+        'Sets the service in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled).' =>
             '',
-        'Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be activated).' =>
+        'Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be enabled).' =>
             '',
         'Sets the state of a ticket in the close ticket screen of the agent interface.' =>
             '',
@@ -8117,21 +8125,21 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Sets the ticket owner in the ticket responsible screen of the agent interface.' =>
             '',
-        'Sets the ticket type in the close ticket screen of the agent interface (Ticket::Type needs to be activated).' =>
+        'Sets the ticket type in the close ticket screen of the agent interface (Ticket::Type needs to be enabled).' =>
             '',
         'Sets the ticket type in the ticket bulk screen of the agent interface.' =>
             '',
-        'Sets the ticket type in the ticket free text screen of the agent interface (Ticket::Type needs to be activated).' =>
+        'Sets the ticket type in the ticket free text screen of the agent interface (Ticket::Type needs to be enabled).' =>
             '',
-        'Sets the ticket type in the ticket note screen of the agent interface (Ticket::Type needs to be activated).' =>
+        'Sets the ticket type in the ticket note screen of the agent interface (Ticket::Type needs to be enabled).' =>
             '',
-        'Sets the ticket type in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated).' =>
+        'Sets the ticket type in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Type needs to be enabled).' =>
             '',
-        'Sets the ticket type in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated).' =>
+        'Sets the ticket type in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Type needs to be enabled).' =>
             '',
-        'Sets the ticket type in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated).' =>
+        'Sets the ticket type in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Type needs to be enabled).' =>
             '',
-        'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
+        'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be enabled).' =>
             '',
         'Sets the time zone being used internally by OTRS to e. g. store dates and times in the database. WARNING: This setting must not be changed once set and tickets or any other data containing date/time have been created.' =>
             '',
@@ -8268,11 +8276,11 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Shows information on how to start OTRS Daemon' => 'Muestra información sobre cómo iniciar OTRS Daemon',
         'Shows link to external page in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
-        'Shows the activated ticket attributes in the customer interface (0 = Disabled and 1 = Enabled).' =>
-            '',
         'Shows the articles sorted normally or in reverse, under ticket zoom in the agent interface.' =>
             '',
         'Shows the customer user information (phone and email) in the compose screen.' =>
+            '',
+        'Shows the enabled ticket attributes in the customer interface (0 = Disabled and 1 = Enabled).' =>
             '',
         'Shows the message of the day (MOTD) in the agent dashboard. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '',
@@ -8312,9 +8320,9 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Shows the title field in the ticket responsible screen of the agent interface.' =>
             '',
-        'Shows time in long format (days, hours, minutes), if active; or in short format (days, hours), if inactive.' =>
+        'Shows time in long format (days, hours, minutes), if enabled; or in short format (days, hours), if not enabled.' =>
             '',
-        'Shows time use complete description (days, hours, minutes), if active; or just first letter (d, h, m), if inactive.' =>
+        'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
             '',
         'Signatures' => 'Firmas',
         'Simple' => 'Simple',
@@ -8550,7 +8558,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
         'Turns on drag and drop for the main navigation.' => '',
-        'Turns on the remote ip address check. It should not be active if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
+        'Turns on the remote ip address check. It should not be enabled if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             '',
         'Tweak the system as you wish.' => '',
         'Type of daemon log rotation to use: Choose \'OTRS\' to let OTRS system to handle the file rotation, or choose \'External\' to use a 3rd party rotation mechanism (i.e. logrotate). Note: External rotation mechanism requires its own and independent configuration.' =>
@@ -8604,7 +8612,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
             '',
-        'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before activating this option.' =>
+        'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             '',
         'Yes, but hide archived tickets' => 'Sí, pero ocultar tickets archivados',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
@@ -8950,6 +8958,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'This is a repeating appointment',
         'This is currently disabled because of an ongoing package upgrade.',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?',
+        'This option is currently disabled because the OTRS Daemon is not running.',
         'This software runs with a huge lists of browsers, please upgrade to one of these.',
         'This window must be called from compose window.',
         'Thu',
@@ -8967,10 +8976,10 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Unfortunately deploying is currently not possible, maybe because another agent is already deploying. Please try again later.',
         'Unknown',
         'Unlock setting.',
+        'Update All Packages',
         'Update Result',
+        'Update all packages',
         'Update manually',
-        'Upgrade All Packages',
-        'Upgrade all packages',
         'Upload information',
         'Uploading...',
         'Use options below to narrow down for which tickets appointments will be automatically created.',

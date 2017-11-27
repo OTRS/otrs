@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-11-13 23:49+0000\n"
-"PO-Revision-Date: 2017-11-13 23:52+0000\n"
+"POT-Creation-Date: 2017-11-27 22:46+0000\n"
+"PO-Revision-Date: 2017-11-27 22:52+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Malay (http://www.transifex.com/otrs/OTRS/language/ms/)\n"
 "MIME-Version: 1.0\n"
@@ -1650,6 +1650,10 @@ msgstr "Padam bidang ini"
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
 msgstr "Perlengkapan dinamik"
+
+#. Template: AdminDynamicFieldCheckbox
+msgid "Field"
+msgstr "Bidang"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Go back to overview"
@@ -3723,14 +3727,14 @@ msgid "Do you really want to delete this web service?"
 msgstr "Anda pasti mahu memadam perkhidmatan web ini?"
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Ready-to-run Web Services"
-msgstr "Servis-servis Web Sedia-untuk-larikan"
+msgid "Ready2Adopt Web Services"
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
-"Here you can activate ready-to-run web services showcasing our best "
-"practices that are a part of %s."
-msgstr "Disini anda boleh aktifkan servis-servis web sedia-untuk-larikan mempamerkan latihan-latihan terbaik kami yang mana sebahagian daripada %s."
+"Here you can activate Ready2Adopt web services showcasing our best practices"
+" that are a part of %s."
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -3740,14 +3744,14 @@ msgid ""
 msgstr "Sila pastikan yang servis-servis web ini boleh bergantung pada modul-modul lain hanya terdapat dengan sesetengah %s tahap-tahap kontrak (ia akan ada satu notifikasi dengan butiran selanjutnya apabila mengimport)."
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Import ready-to-run web service"
-msgstr "Import servis sedia-untuk-larikan"
+msgid "Import Ready2Adopt web service"
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Would you like to benefit from web services created by experts? Upgrade to "
-"%s to import some sophisticated ready-to-run web services."
-msgstr "Adakah anda mahu untuk manfaat daripada servis-servis web dicipta oleh pakar-pakar? Tingkatkan kepada %s untuk import sesetengah servis-servis web sedia-untuk-larikan yang canggih."
+"%s to import some sophisticated Ready2Adopt web services."
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -5002,24 +5006,24 @@ msgid "Import process configuration"
 msgstr "Import konfigurasi proses"
 
 #. Template: AdminProcessManagement
-msgid "Ready-to-run Processes"
-msgstr "Proses-proses sedia-untuk-larikan"
+msgid "Ready2Adopt Processes"
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid ""
-"Here you can activate ready-to-run processes showcasing our best practices. "
+"Here you can activate Ready2Adopt processes showcasing our best practices. "
 "Please note that some additional configuration may be required."
-msgstr "Disini anda boleh aktifkan proses-proses sedia-untuk-larikan menunjukkan latihan-latihan terbaik kami. Sila pastikan yang sesetengah konfigurasi tambahan mungkin diperlukan."
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid ""
 "Would you like to benefit from processes created by experts? Upgrade to %s "
-"to import some sophisticated ready-to-run processes."
-msgstr "Adakah anda ingin untuk memanfaat daripada proses-proses dicipta oleh pakar-pakar? Tambahbaik kepada %s untuk import sedikit proses-proses sedia-untuk-larikan yang canggih."
+"to import some sophisticated Ready2Adopt processes."
+msgstr ""
 
 #. Template: AdminProcessManagement
-msgid "Import ready-to-run process"
-msgstr "Import proses sedia-untuk-larikan"
+msgid "Import Ready2Adopt process"
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -6873,6 +6877,10 @@ msgstr "Tarikh tidak sah!"
 #. Template: AdminSystemMaintenanceEdit
 msgid "Login message"
 msgstr "Mesej log masuk"
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "This field must have less then 250 characters."
+msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Show login message"
@@ -8840,7 +8848,7 @@ msgid "Load blocked content."
 msgstr "Buka kandungan yang disekat."
 
 #. Template: Breadcrumb
-msgid "Back to Dashboard"
+msgid "Home"
 msgstr ""
 
 #. Template: Breadcrumb
@@ -10768,6 +10776,10 @@ msgid "Contact with data (%s)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
+msgid "Change"
+msgstr "Ubah"
+
+#. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for"
 " more details."
@@ -11942,6 +11954,12 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "The following settings could not be found: %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
+msgid ""
+"System Configuration could not be imported due to an unknown error, please "
+"check OTRS logs for more information."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
@@ -14663,8 +14681,8 @@ msgstr "Setchar Pangkalan data Pelayan"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
-msgid "Setting character_set_database needs to be UNICODE or UTF8."
-msgstr "Tetapan karakter_set_pangkalandata haruslah UNICODE atau UTF8."
+msgid "The setting character_set_database needs to be 'utf8'."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
@@ -14673,8 +14691,8 @@ msgstr "Setchar Jadual"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
-msgid "There were tables found which do not have utf8 as charset."
-msgstr "Terdapat jadual dijumpai yang tidak mempunyai utf8 sebagai setchar."
+msgid "There were tables found which do not have 'utf8' as charset."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
@@ -16145,7 +16163,7 @@ msgid ""
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
-msgid "Upgrade all packages"
+msgid "Update all packages"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
@@ -16153,7 +16171,7 @@ msgid "Dismiss"
 msgstr "Abaikan"
 
 #. JS File: Core.Agent.Admin.PackageManager
-msgid "Upgrade All Packages"
+msgid "Update All Packages"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
@@ -16162,6 +16180,11 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "This is currently disabled because of an ongoing package upgrade."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid ""
+"This option is currently disabled because the OTRS Daemon is not running."
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
@@ -17024,12 +17047,6 @@ msgstr "MasaDipertanggungjawab"
 
 #. SysConfig
 msgid ""
-"Activate this if you trust in all your public and private pgp keys, even if "
-"they are not certified with a trusted signature."
-msgstr ""
-
-#. SysConfig
-msgid ""
 "Activates a blinking mechanism of the queue that contains the oldest ticket."
 msgstr "Mengaktifkan mekanisma berkelip untuk barisan yang mengandungi tiket yang terlama."
 
@@ -17880,8 +17897,8 @@ msgstr "Memeriksa jika emel adalah susulan kepada tiket yang sedia ada dengan me
 
 #. SysConfig
 msgid ""
-"Checks the SystemID in ticket number detection for follow-ups (if inactive, "
-"SystemID will be changed after using the system)."
+"Checks the SystemID in ticket number detection for follow-ups. If not "
+"enabled, SystemID will be changed after using the system."
 msgstr ""
 
 #. SysConfig
@@ -19068,18 +19085,18 @@ msgstr "Mentakrifkan jika cara yang sebelum ini sah perlu diterima untuk pengesa
 #. SysConfig
 msgid ""
 "Defines if the values for filters should be retrieved from all available "
-"tickets. If active, only values which are actually used in any ticket will "
+"tickets. If enabled, only values which are actually used in any ticket will "
 "be available for filtering. Please note: The list of customers will always "
 "be retrieved like this."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines if time accounting is mandatory in the agent interface. If "
-"activated, a note must be entered for all ticket actions (no matter if the "
-"note itself is configured as active or is originally mandatory for the "
-"individual ticket action screen)."
-msgstr "Mentakrifkan jika perakaunan masa adalah wajib dalam antara muka ejen. Jika diaktifkan, nota mesti dimasukkan untuk semua tindakan tiket (tidak kira jika nota itu sendiri dikonfigurasi sebagai aktif atau berasal wajib untuk skrin tindakan tiket individu)."
+"Defines if time accounting is mandatory in the agent interface. If enabled, "
+"a note must be entered for all ticket actions (no matter if the note itself "
+"is configured as active or is originally mandatory for the individual ticket"
+" action screen)."
+msgstr ""
 
 #. SysConfig
 msgid "Defines if time accounting must be set to all tickets in bulk action."
@@ -20940,14 +20957,14 @@ msgstr "Menyahaktif header HTTP \"Pilihan Bingkai-X: SAMEORIGIN\" untuk membenar
 #. SysConfig
 msgid ""
 "Disables sending reminder notifications to the responsible agent of a ticket"
-" (Ticket::Responsible needs to be activated)."
-msgstr "Lumpuhkan notifikasi peringatan penghantaran kepada ejen yang bertanggungjawab kepada tiket. (Tiket::Responsible perlu diaktifkan)."
+" (Ticket::Responsible needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Disables the communication between this system and OTRS Group servers that "
-"provides cloud services. If active, some functionality will be lost such as "
-"system registration, support data sending, upgrading to and use of OTRS "
+"provides cloud services. If enabled, some functionality will be lost such as"
+" system registration, support data sending, upgrading to and use of OTRS "
 "Business Solution™, OTRS Verify™, OTRS News and product News dashboard "
 "widgets, among others."
 msgstr ""
@@ -20961,9 +20978,9 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Disables the web installer (http://yourhost.example.com/otrs/installer.pl), "
-"to prevent the system from being hijacked. If inactive, the system can be "
-"reinstalled and the current basic configuration will be used to pre-populate"
-" the questions within the installer script. If not inactive, it also "
+"to prevent the system from being hijacked. If not enabled, the system can be"
+" reinstalled and the current basic configuration will be used to pre-"
+"populate the questions within the installer script. If enabled, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
 msgstr ""
 
@@ -21268,6 +21285,12 @@ msgstr ""
 #. SysConfig
 msgid "Enable keep-alive connection header for SOAP responses."
 msgstr "Membolehkan sambungan header terus disimpan untuk jawapan SOAP."
+
+#. SysConfig
+msgid ""
+"Enable this if you trust in all your public and private pgp keys, even if "
+"they are not certified with a trusted signature."
+msgstr ""
 
 #. SysConfig
 msgid "Enabled filters."
@@ -22056,14 +22079,6 @@ msgid ""
 msgstr "Jika \"file\" dipilih untuk LogModule, suatu logfile mesti ditentukan. Jika fail tersebut tidak wujud, ia akan dicipta oleh sistem."
 
 #. SysConfig
-msgid "If active the cache data be held in memory."
-msgstr ""
-
-#. SysConfig
-msgid "If active the cache data will be stored in cache backend."
-msgstr ""
-
-#. SysConfig
 msgid ""
 "If active, none of the regular expressions may match the user's email "
 "address to allow registration."
@@ -22146,6 +22161,14 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "If enabled, the cache data be held in memory."
+msgstr ""
+
+#. SysConfig
+msgid "If enabled, the cache data will be stored in cache backend."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "If enabled, the customer can search for tickets in all services (regardless "
 "what services are assigned to the customer)."
@@ -22194,9 +22217,9 @@ msgstr "Jika ditetapkan, alamat ini digunakan sebagai sampul surat penghantar da
 
 #. SysConfig
 msgid ""
-"If this option is active, tickets created via the web interface, via "
+"If this option is enabled, tickets created via the web interface, via "
 "Customers or Agents, will receive an autoresponse if configured. If this "
-"option is inactive, no autoresponses will be sent."
+"option is not enabled, no autoresponses will be sent."
 msgstr ""
 
 #. SysConfig
@@ -22205,7 +22228,7 @@ msgstr "Jika regex ini padan, tiada mesej akan dihantar oleh tindak balas auto."
 
 #. SysConfig
 msgid ""
-"If this setting is active, local modifications will not be highlighted as "
+"If this setting is enabled, local modifications will not be highlighted as "
 "errors in the package manager and support data collector."
 msgstr ""
 
@@ -23705,7 +23728,7 @@ msgstr "Mengalihkan maklumat pemerhati tiket apabila tiket diarkibkan."
 #. SysConfig
 msgid ""
 "Renew existing SMIME certificates from customer backend. Note: SMIME and "
-"SMIME::FetchFromCustomer needs to be active in SysConfig and customer "
+"SMIME::FetchFromCustomer needs to be enabled in SysConfig and customer "
 "backend needs to be configured to fetch UserSMIMECertificate attribute."
 msgstr ""
 
@@ -23890,8 +23913,8 @@ msgstr "Menjalankan carian wildcard awal daripada pengguna pelanggan yang sedia 
 
 #. SysConfig
 msgid ""
-"Runs the system in \"Demo\" mode. If active, agents can change preferences, "
-"such as selection of language and theme via the agent web interface. These "
+"Runs the system in \"Demo\" mode. If enabled, agents can change preferences,"
+" such as selection of language and theme via the agent web interface. These "
 "changes are only valid for the current session. It will not be possible for "
 "agents to change their passwords."
 msgstr ""
@@ -24589,44 +24612,44 @@ msgstr "Tetapkan ejen bertanggungjawab untuk tiket dalam skrin tanggungjawab tik
 #. SysConfig
 msgid ""
 "Sets the service in the close ticket screen of the agent interface "
-"(Ticket::Service needs to be activated)."
-msgstr "Tetapkan perkhidmatan dalam skrin tiket tertutup dari paparan ejen (Ticket::Service perlu diaktifkan)."
+"(Ticket::Service needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket free text screen of the agent interface "
-"(Ticket::Service needs to be activated)."
-msgstr "Tetapkan perkhidmatan dalam skrin tiket bebas teks dari paparan ejen (Ticket::Service perlu diaktifkan)."
+"(Ticket::Service needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket note screen of the agent interface "
-"(Ticket::Service needs to be activated)."
-msgstr "Tetapkan perkhidmatan dalam skrin nota tiket dari paparan ejen (Ticket::Service perlu diaktifkan)."
+"(Ticket::Service needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket owner screen of a zoomed ticket in the agent "
-"interface (Ticket::Service needs to be activated)."
-msgstr "Tetapkan perkhidmatan dalam skrin pemilik tiket dari tiket dizum dalam paparan ejen (Ticket::Service perlu diaktifkan)."
+"interface (Ticket::Service needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket pending screen of a zoomed ticket in the "
-"agent interface (Ticket::Service needs to be activated)."
-msgstr "Tetapkan perkhidmatan dalam skrin tiket tertangguh dari tiket dizum dalam paparan ejen (Ticket::Service perlu diaktifkan)."
+"agent interface (Ticket::Service needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket priority screen of a zoomed ticket in the "
-"agent interface (Ticket::Service needs to be activated)."
-msgstr "Tetapkan perkhidmatan dalam skrin keutamaan tiket dari tiket dizum dalam paparan ejen (Ticket::Service perlu diaktifkan)."
+"agent interface (Ticket::Service needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket responsible screen of the agent interface "
-"(Ticket::Service needs to be activated)."
-msgstr "Tetapkan perkhidmatan dalam skrin tanggungjawab tiket dari paparan ejen (Ticket::Service perlu diaktifkan)."
+"(Ticket::Service needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -24725,8 +24748,8 @@ msgstr "Tetapkan pemilik tiket dalam skrin tanggungjawab tiket dari paparan ejen
 #. SysConfig
 msgid ""
 "Sets the ticket type in the close ticket screen of the agent interface "
-"(Ticket::Type needs to be activated)."
-msgstr "Tetapkan jenis tiket dalam skrin tiket tertutup dari paparan ejen (Ticket::Type perlu diaktifkan)."
+"(Ticket::Type needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid "Sets the ticket type in the ticket bulk screen of the agent interface."
@@ -24735,38 +24758,38 @@ msgstr "Tetapkan jenis tiket dalam skrin tiket pukal dari paparan ejen."
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket free text screen of the agent interface "
-"(Ticket::Type needs to be activated)."
-msgstr "Tetapkan jenis tiket dalam skrin tiket bebas teks dari paparan ejen (Ticket::Type perlu diaktifkan)."
+"(Ticket::Type needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket note screen of the agent interface "
-"(Ticket::Type needs to be activated)."
-msgstr "Tetapkan jenis tiket dalam skrin nota tiket dari paparan ejen (Ticket::Type perlu diaktifkan)."
+"(Ticket::Type needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket owner screen of a zoomed ticket in the "
-"agent interface (Ticket::Type needs to be activated)."
-msgstr "Tetapkan jenis tiket dalam skrin pemilik tiket dari tiket dizum dalam paparan ejen (Ticket::Type perlu diaktifkan)."
+"agent interface (Ticket::Type needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket pending screen of a zoomed ticket in the "
-"agent interface (Ticket::Type needs to be activated)."
-msgstr "Tetapkan jenis tiket dalam skrin tiket tertangguh dari tiket dizum dalam paparan ejen (Ticket::Type perlu diaktifkan)."
+"agent interface (Ticket::Type needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket priority screen of a zoomed ticket in the"
-" agent interface (Ticket::Type needs to be activated)."
-msgstr "Tetapkan jenis tiket dalam skrin keutamaan tiket dari tiket dizum dalam paparan ejen (Ticket::Type perlu diaktifkan)."
+" agent interface (Ticket::Type needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket responsible screen of the agent interface"
-" (Ticket::Type needs to be activated)."
-msgstr "Tetapkan jenis tiket dalam skrin tanggungjawab tiket dari paparan ejen (Ticket::Type perlu diaktifkan)."
+" (Ticket::Type needs to be enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -25289,12 +25312,6 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows the activated ticket attributes in the customer interface (0 = "
-"Disabled and 1 = Enabled)."
-msgstr "Menunjukkan atribut tiket yang diaktifkan dalam paparan pelanggan (0 = Dimatikan dan 1 = Diaktifkan)."
-
-#. SysConfig
-msgid ""
 "Shows the articles sorted normally or in reverse, under ticket zoom in the "
 "agent interface."
 msgstr "Menunjukkan aritkel disusun seperti biasa atau terbalik, dibawah tiket zum dalam paparan ejen."
@@ -25303,6 +25320,12 @@ msgstr "Menunjukkan aritkel disusun seperti biasa atau terbalik, dibawah tiket z
 msgid ""
 "Shows the customer user information (phone and email) in the compose screen."
 msgstr "Menunjukkan maklumat pelanggan pengguna (telefon dan emel) dalam skrin karang."
+
+#. SysConfig
+msgid ""
+"Shows the enabled ticket attributes in the customer interface (0 = Disabled "
+"and 1 = Enabled)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -25416,14 +25439,14 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows time in long format (days, hours, minutes), if active; or in short "
-"format (days, hours), if inactive."
+"Shows time in long format (days, hours, minutes), if enabled; or in short "
+"format (days, hours), if not enabled."
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Shows time use complete description (days, hours, minutes), if active; or "
-"just first letter (d, h, m), if inactive."
+"Shows time use complete description (days, hours, minutes), if enabled; or "
+"just first letter (d, h, m), if not enabled."
 msgstr ""
 
 #. SysConfig
@@ -26224,7 +26247,7 @@ msgstr "Aktifkan tarik dan lepas untuk navigasi utama."
 
 #. SysConfig
 msgid ""
-"Turns on the remote ip address check. It should not be active if the "
+"Turns on the remote ip address check. It should not be enabled if the "
 "application is used, for example, via a proxy farm or a dialup connection, "
 "because the remote ip address is mostly different for the requests."
 msgstr ""
@@ -26414,7 +26437,7 @@ msgstr ""
 msgid ""
 "Whether to force redirect all requests from http to https protocol. Please "
 "check that your web server is configured correctly for https protocol before"
-" activating this option."
+" enable this option."
 msgstr ""
 
 #. SysConfig

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-11-27 09:16+0000\n"
+"POT-Creation-Date: 2017-11-27 23:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1539,6 +1539,10 @@ msgid "Dynamic Fields"
 msgstr ""
 
 #. Template: AdminDynamicFieldCheckbox
+msgid "Field"
+msgstr ""
+
+#. Template: AdminDynamicFieldCheckbox
 msgid "Go back to overview"
 msgstr ""
 
@@ -2431,7 +2435,7 @@ msgid "Error message subject and data (as seen in the debugger error entry) will
 msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
-msgid "Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication related errors."
+msgid "Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication related errors."
 msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
@@ -2931,7 +2935,7 @@ msgid "Example 2: Search = '^' / Replace = '_' turns '16x16' into '_16x16'."
 msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
-msgid "Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = '_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into '_elementname_16'."
+msgid "Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = '_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
 msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
@@ -6336,6 +6340,10 @@ msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Login message"
+msgstr ""
+
+#. Template: AdminSystemMaintenanceEdit
+msgid "This field must have less then 250 characters."
 msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
@@ -10088,6 +10096,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Contact with data (%s)"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicField.pm
+msgid "Change"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
@@ -19658,7 +19670,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig

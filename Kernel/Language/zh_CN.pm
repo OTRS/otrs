@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.986655112651646;
+    $Self->{Completeness}        = 0.987186147186147;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -526,6 +526,7 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => '动态字段',
+        'Field' => '字段',
         'Go back to overview' => '返回概览',
         'General' => '常规',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -1143,14 +1144,14 @@ sub Data {
         'Configuration History' => '配置历史',
         'Delete web service' => '删除Web服务',
         'Do you really want to delete this web service?' => '您真的想要删除这个Web服务吗？',
-        'Ready-to-run Web Services' => '运行就绪的WEB服务',
-        'Here you can activate ready-to-run web services showcasing our best practices that are a part of %s.' =>
-            '你可以在这里激活运行就绪的WEB服务（作为%s的一部分的展示我们的最佳实践）。',
+        'Ready2Adopt Web Services' => '',
+        'Here you can activate Ready2Adopt web services showcasing our best practices that are a part of %s.' =>
+            '',
         'Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).' =>
             '请注意：这些WEB服务可能依赖于其它仅在某些%s合同级别中才可用的模块(导入时会有详细提示信息)。',
-        'Import ready-to-run web service' => '导入运行就绪的WEB服务',
-        'Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated ready-to-run web services.' =>
-            '你想从专家创建的WEB服务中受益吗？升级到%s 就能导入一些复杂的运行就绪的WEB服务。',
+        'Import Ready2Adopt web service' => '',
+        'Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated Ready2Adopt web services.' =>
+            '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             '保存配置文件后，页面将再次转到编辑页面。',
         'If you want to return to overview please click the "Go to overview" button.' =>
@@ -1428,7 +1429,7 @@ sub Data {
         'In case you would have further questions we would be glad to answer them.' =>
             '如果您还有其它问题，我们非常愿意答复您。',
         'Install Package' => '安装软件包',
-        'Update Package' => '',
+        'Update Package' => '更新软件包',
         'Continue' => '继续',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             '请确认你的数据库能够接收大于%s MB的数据包（目前能够接收的最大数据包为%s MB）。为了避免程序报错，请调整数据库max_allowed_packet参数。',
@@ -1437,7 +1438,7 @@ sub Data {
         'Cloud services are currently disabled.' => '云服务当前被禁用了。',
         'OTRS Verify™ can not continue!' => 'OTRS Verify™（OTRS验证）不能继续！',
         'Enable cloud services' => '启用云服务',
-        'Update all installed packages' => '',
+        'Update all installed packages' => '更新所有已安装的软件包',
         'Online Repository' => '在线软件仓库',
         'Action' => '操作',
         'Module documentation' => '模块文档',
@@ -1541,12 +1542,12 @@ sub Data {
             '你可以上传流程配置文件，以便将流程配置导入到你的系统中。流程配置文件采用.yml格式，它可以从流程管理模块中导出。',
         'Upload process configuration' => '上传流程配置',
         'Import process configuration' => '导入流程配置',
-        'Ready-to-run Processes' => '就绪的流程',
-        'Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required.' =>
-            '你可以在此激活能展示我们最佳实践的就绪流程，请注意可能需要一些额外的配置。',
-        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes.' =>
-            '你想从专家创建的流程中受益吗？升级到%s 就能导入一些复杂的运行就绪的流程。',
-        'Import ready-to-run process' => '导入就绪的流程',
+        'Ready2Adopt Processes' => '',
+        'Here you can activate Ready2Adopt processes showcasing our best practices. Please note that some additional configuration may be required.' =>
+            '',
+        'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated Ready2Adopt processes.' =>
+            '',
+        'Import Ready2Adopt process' => '',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             '为了创建新的流程，你可以导入从其它系统导出的流程配置文件，或者重新创建一个。',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -1950,7 +1951,7 @@ sub Data {
             '至少缺失一个参数，请检查。',
         'Result format' => '结果格式',
         'Run Query' => '执行查询',
-        '%s Results' => '',
+        '%s Results' => '%s 的结果',
         'Query is executed.' => '查询已执行。',
 
         # Template: AdminService
@@ -2064,11 +2065,11 @@ sub Data {
         'Changes Deployment' => '更改部署',
         'Help' => '帮助',
         'This is an overview of all settings which will be part of the deployment if you start it now. You can compare each setting to its former state by clicking the icon on the top right.' =>
-            '',
+            '这是所有设置的概览，如果现在启动它，它将成为部署的一部分。 可以通过点击右上角的图标来比较每个设置当前与其先前的状态。',
         'To exclude certain settings from a deployment, click the checkbox on the header bar of a setting.' =>
-            '',
+            '要从部署中排除某些设置，请单击设置的顶部栏中的复选框。',
         'By default, you will only deploy settings which you changed on your own. If you\'d like to deploy settings changed by other users, too, please click the link on top of the screen to enter the advanced deployment mode.' =>
-            '',
+            '默认情况下，只会部署你自己更改的设置。 如果您想部署其他用户更改的设置，请点击屏幕顶部的链接进入高级部署模式。',
         'A deployment has just been restored, which means that all affected setting have been reverted to the state from the selected deployment.' =>
             '刚刚恢复部署，所有受影响的设置已从所选部署恢复到原状态。',
         'Please review the changed settings and deploy afterwards.' => '请查看已更改的设置，然后再进行部署。',
@@ -2139,6 +2140,7 @@ sub Data {
         'Edit System Maintenance Information' => '编辑系统维护信息',
         'Date invalid!' => '日期无效!',
         'Login message' => '登录消息',
+        'This field must have less then 250 characters.' => '',
         'Show login message' => '显示登录消息',
         'Notify message' => '通知消息',
         'Manage Sessions' => '管理会话',
@@ -2422,7 +2424,7 @@ sub Data {
 
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => '接收新闻、许可证或者一些变更信息。',
-        'Yes, accepted.' => '',
+        'Yes, accepted.' => '是的，接受。',
 
         # Template: AgentLinkObject
         'Manage links for %s' => '管理％s的链接',
@@ -2630,7 +2632,7 @@ sub Data {
         # Template: AgentTicketHistory
         'History of %s%s%s' => '%s%s%s历史',
         'Filter for history items' => '历史条目过滤器',
-        'Expand/collapse all' => '',
+        'Expand/collapse all' => '全部展开/折叠',
         'Article' => '信件',
 
         # Template: AgentTicketMerge
@@ -2802,7 +2804,7 @@ sub Data {
         'Load blocked content.' => '载入被阻挡的内容。',
 
         # Template: Breadcrumb
-        'Back to Dashboard' => '返回到仪表板',
+        'Home' => '',
         'Back to admin overview' => '返回到系统管理概览',
 
         # Template: CloudServicesDisabled
@@ -3424,14 +3426,14 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminCommunicationLog.pm
         'Invalid CommunicationID ' => '无效的通讯ID',
-        'All communications' => '',
-        'Last 1 hour' => '',
-        'Last 3 hours' => '',
-        'Last 6 hours' => '',
-        'Last 12 hours' => '',
-        'Last 24 hours' => '',
-        'Last week' => '',
-        'Last month' => '',
+        'All communications' => '所有通信',
+        'Last 1 hour' => '最近1小时',
+        'Last 3 hours' => '最近3小时',
+        'Last 6 hours' => '最近6小时',
+        'Last 12 hours' => '最近12小时',
+        'Last 24 hours' => '最近24小时',
+        'Last week' => '最近一周',
+        'Last month' => '最近一月',
         'Invalid StartTime: %s!' => '无效的开始时间：%s！',
         'Successful' => '成功',
         'Processing' => '处理',
@@ -3453,8 +3455,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer company updated!' => '客户单位已更新！',
-        'Dynamic field %s not found!' => '',
-        'Unable to set value for dynamic field %s!' => '',
+        'Dynamic field %s not found!' => '没有找到动态字段“%s”！',
+        'Unable to set value for dynamic field %s!' => '不能设置动态字段%s 的值！',
         'Customer Company %s already exists!' => '客户单位 %s 已经存在！',
         'Customer company added!' => '客户单位已添加！',
 
@@ -3488,6 +3490,7 @@ sub Data {
         'Database (%s)' => '数据库 (%s)',
         'Web service (%s)' => 'Web服务(%s)',
         'Contact with data (%s)' => '联系人信息（％s）',
+        'Change' => '变更',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             '不能正确地重置动态字段顺序，请检查错误日志以获得更多详细信息。',
 
@@ -3692,7 +3695,7 @@ sub Data {
         'Package has locally modified files.' => '软件包中有本地修改过的文件。',
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
             '扩展包未经OTRS检验！不推荐使用该扩展包.',
-        'Not Started' => '',
+        'Not Started' => '没有启动',
         'Updated' => '更新时间',
         'Already up-to-date' => '已经是最新的',
         'Installed' => '安装时间',
@@ -3705,7 +3708,7 @@ sub Data {
         'Dependencies fail to upgrade or install' => '无法更新或安装依赖软件',
         'Package could not be installed' => '软件包无法安装',
         'Package could not be upgraded' => '软件包无法更新',
-        'Repository List' => '',
+        'Repository List' => '软件仓库列表',
         'No packages or no new packages found in selected repository.' =>
             '选择的软件仓库中没有软件包或没有新的软件包。',
         'Package not verified due a communication issue with verification server!' =>
@@ -3861,7 +3864,7 @@ sub Data {
         'Impossible to delete relation!' => '不可能删除关系！',
         'Certificate %s could not be read!' => '不能读取证书 %s ！',
         'Needed Fingerprint' => '需要指纹',
-        'Handle Private Certificate Relations' => '',
+        'Handle Private Certificate Relations' => '处理私有证书关系',
 
         # Perl Module: Kernel/Modules/AdminSalutation.pm
         'Salutation added!' => '问候语已添加！',
@@ -3884,6 +3887,8 @@ sub Data {
         'There are no invalid settings active at this time.' => '当前没有使用无效的设置。',
         'You currently don\'t have any favourite settings.' => '你目前没有收藏任何设置。',
         'The following settings could not be found: %s' => '找不到以下设置：％s',
+        'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
+            '',
         'Category Search' => '搜索类别',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationDeployment.pm
@@ -3976,7 +3981,7 @@ sub Data {
         'No permissions!' => '没有权限！',
 
         # Perl Module: Kernel/Modules/AgentAppointmentList.pm
-        '+%s more' => '',
+        '+%s more' => '+%s 更多',
 
         # Perl Module: Kernel/Modules/AgentCustomerSearch.pm
         'Customer History' => '客户历史',
@@ -4005,7 +4010,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
         'Param Group is required!' => '参数“组”是必需的！',
-        'Updated user preferences' => '',
+        'Updated user preferences' => '用户偏好设置已更新',
         'System was unable to deploy your changes.' => '系统无法部署你的变更。',
         'Setting not found!' => '没有找到设置。',
         'This feature is part of the %s Please contact us at %s for an upgrade.' =>
@@ -4271,7 +4276,7 @@ sub Data {
         'Queue Changed' => '队列已变更',
         'Notification Was Sent' => '通知已发送',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
-            '',
+            '这个工单不存在，或者它的当前状态下你无权访问它。',
         'Missing FormDraftID!' => '缺少表单草稿ID！',
         'Can\'t get for ArticleID %s!' => '不能获得ID为“%s”的信件！',
         'Article filter settings were saved.' => '信件过滤器设置已保存。',
@@ -4511,7 +4516,7 @@ sub Data {
         'm' => '分',
         'd' => '天',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state. You can take one of the following actions:' =>
-            '',
+            '这个工单不存在，或者它的当前状态下你无权访问它。你可以采取下列操作之一：',
         'This is a' => '这是一个',
         'email' => '电子邮件',
         'click here' => '点击这里',
@@ -4552,7 +4557,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '现在升级%s到%s！%s',
-        'Please verify your license data!' => '',
+        'Please verify your license data!' => '请验证您的许可证数据！',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
             '您的％s的许可证即将过期， 请与％s联系续订您的合同！',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
@@ -4572,7 +4577,7 @@ sub Data {
         'Online Customer: %s' => '在线客户: %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
-        'System maintenance is active!' => '',
+        'System maintenance is active!' => '正在进行系统维护！',
         'A system maintenance period will start at: ' => '系统维护期将开始于：',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
@@ -4781,7 +4786,7 @@ sub Data {
         'File is different!' => '文件被修改！',
         'Can\'t read file!' => '不能读取文件！',
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
-            '',
+            '<p>如果安装这个扩展包，可能导致以下问题：</p><ul><li>安全问题</li><li>稳定问题</li><li>性能问题</li></ul><p>请注意，使用此软件包所引起的问题不在OTRS服务合同范围内。</p>',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -4846,7 +4851,7 @@ sub Data {
         'State Type Historic' => '工单状态类型历史',
         'Historic Time Range' => '历史信息的时间范围',
         'Number' => '编号',
-        'Last Changed' => '',
+        'Last Changed' => '最近更改',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => '平均解决时间',
@@ -4902,9 +4907,10 @@ sub Data {
         'Client Connection Charset' => '客户端连接字符集',
         'Setting character_set_client needs to be utf8.' => 'character_set_client 需要设置为utf8。',
         'Server Database Charset' => '服务器端数据库字符集',
-        'Setting character_set_database needs to be UNICODE or UTF8.' => 'character_set_database 需要设置为UNICODE或UTF8。',
+        'The setting character_set_database needs to be \'utf8\'.' => '',
         'Table Charset' => '表字符集',
-        'There were tables found which do not have utf8 as charset.' => '字符集没有设置成utf8的表。',
+        'There were tables found which do not have \'utf8\' as charset.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
         'InnoDB Log File Size' => 'InnoDB日志文件大小',
@@ -4913,7 +4919,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => '最大查询大小',
         'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
-            '',
+            '\'max_allowed_packet\'必须设置为大于64MB。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
         'Query Cache Size' => '查询缓存大小',
@@ -5107,7 +5113,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
         'Ticket Search Index Module' => '工单搜索索引模块',
         'The indexing process forces the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
-            '',
+            '索引进程强制将原始信件文本存储在信件搜索索引中，而不执行过滤器或应用停用词列表。 这将增加搜索索引的大小，从而可能减慢全文搜索。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
         'Orphaned Records In ticket_lock_index Table' => 'ticket_lock_index 表中的孤儿记录',
@@ -5191,7 +5197,7 @@ sub Data {
         'Could not update modified setting!' => '无法更新修改过的设置！',
         'Setting could not be unlocked!' => '设置无法解锁！',
         'Missing key %s!' => '缺失键%s！',
-        'All Settings' => '',
+        'All Settings' => '所有设置',
 
         # Perl Module: Kernel/System/SysConfig/BaseValueType.pm
         'Default' => '默认',
@@ -5448,12 +5454,14 @@ sub Data {
             '有一个程序包升级过程正在运行，点击这里查看有关升级进度的状态信息。',
         'A package upgrade was recently finished. Click here to see the results.' =>
             '最近完成了一个软件包的升级，点击这里查看结果。',
-        'Upgrade all packages' => '升级所有软件包',
+        'Update all packages' => '',
         'Dismiss' => '取消',
-        'Upgrade All Packages' => '升级所有软件包',
+        'Update All Packages' => '',
         'Currently not possible' => '目前不可能',
         'This is currently disabled because of an ongoing package upgrade.' =>
             '由于正在进行软件包升级，因此目前已被禁用。',
+        'This option is currently disabled because the OTRS Daemon is not running.' =>
+            '',
         'Are you sure you want to update all installed packages?' => '您确定要更新所有已安装的软件包吗？',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
@@ -5530,7 +5538,7 @@ sub Data {
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?' =>
             '通过恢复此部署，所有设置将恢复为开始部署时所具有的值。 你确定要继续吗？',
         'Keys with values can\'t be renamed. Please remove this key/value pair instead and re-add it afterwards.' =>
-            '',
+            '带有值的键不能被重命名。 请删除此键/值对，然后重新添加它。',
         'Unlock setting.' => '解锁设置。',
 
         # JS File: Core.Agent.Admin.SystemMaintenance
@@ -5604,7 +5612,7 @@ sub Data {
         'Sorry, but you can\'t disable all methods for this notification.' =>
             '抱歉，你不能将本通知的所有传输方法都禁用掉。',
         'Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.' =>
-            '',
+            '请注意，你更改的设置至少有一个需要重新加载页面。 点击这里重新加载当前屏幕。',
         'An unknown error occurred. Please contact the administrator.' =>
             '出现未知错误，请联系管理员。',
 
@@ -5722,13 +5730,13 @@ sub Data {
         'Sorry, you can only upload one file here.' => '对不起，您只能在这里上传一个文件。',
         'Sorry, you can only upload %s files.' => '对不起，您只能在这里上传%s个文件。',
         'Please only select at most %s files for upload.' => '请至少选择％s个文件进行上传。',
-        'The following files are not allowed to be uploaded: %s' => '',
+        'The following files are not allowed to be uploaded: %s' => '不允许上传以下文件：%s',
         'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s' =>
-            '',
+            '以下文件超过允许的单个文件最大大小％s，没有上传的文件有：%s',
         'The following files were already uploaded and have not been uploaded again: %s' =>
-            '',
-        'No space left for the following files: %s' => '',
-        'Available space %s of %s.' => '',
+            '以下文件已上传，没有重复上传：%s',
+        'No space left for the following files: %s' => '以下文件没有可用空间：%s',
+        'Available space %s of %s.' => '可用空间%s，总共%s。',
         'Upload information' => '上传信息',
         'An unknown error occurred when deleting the attachment. Please try again. If the error persists, please contact your system administrator.' =>
             '删除附件时发生未知错误，请再试一次。 如果错误仍然存在，请与系统管理员联系。',
@@ -5806,8 +5814,6 @@ Thanks for your help!
             'ACL模块仅在所有子工单都关闭后才允许关闭父工单（除非所有子工单都已经关闭，否则父工单显示的“状态”均不可用）',
         'Access Control Lists (ACL)' => '访问控制列表(ACL)',
         'AccountedTime' => '所用工时',
-        'Activate this if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
-            '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             '包含最早工单的队列激活闪烁提醒机制。',
         'Activates lost password feature for agents, in the agent interface.' =>
@@ -5841,7 +5847,7 @@ Thanks for your help!
             '为OTRS日志文件添加实际年月的后缀，每月创建一个日志文件。',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             '在服务人员界面中，在编写工单时添加客户邮件地址到收件人，如果信件类型为内部邮件则不添加客户邮件地址。',
-        'Adds the one time vacation days for the indicated calendar.' => '',
+        'Adds the one time vacation days for the indicated calendar.' => '为指定日历添加一次假期。',
         'Adds the one time vacation days.' => '',
         'Adds the permanent vacation days for the indicated calendar.' =>
             '',
@@ -6064,7 +6070,7 @@ Thanks for your help!
         'Checks for queued outgoing emails to be sent.' => '检查要发送的排队外发邮件。',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             '通过搜索主题中的有效工单号，检查一个邮件是否是跟进到已存在的工单。',
-        'Checks the SystemID in ticket number detection for follow-ups (if inactive, SystemID will be changed after using the system).' =>
+        'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             '',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
             '检查本系统的OTRS商业版可用性。',
@@ -6403,10 +6409,10 @@ Thanks for your help!
             '定义默认情况下客户是否可以看到服务人员界面工单负责人屏幕中的备注。',
         'Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.' =>
             '定义在身份验证时是否接受先前有效的链接令牌。这稍微降低了安全性但是给用户多了30秒时间来输入他们的一次性密码。',
-        'Defines if the values for filters should be retrieved from all available tickets. If active, only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.' =>
+        'Defines if the values for filters should be retrieved from all available tickets. If enabled, only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.' =>
             '',
-        'Defines if time accounting is mandatory in the agent interface. If activated, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
-            '定义在服务人员界面工时管理是否是强制的。如果激活，所有工单操作必须输入一个备注（不管是否启用了工单备注，也不管个别工单操作界面本来就是强制的）。',
+        'Defines if time accounting is mandatory in the agent interface. If enabled, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
+            '',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
             '定义在批量操作中是否设置所有工单的工时管理。',
         'Defines internal communication channel.' => '定义内部通信渠道。',
@@ -6995,13 +7001,13 @@ Thanks for your help!
             '禁用HHTP头"Content-Security-Policy"以便允许载入扩展的脚本内容。禁用这个HTTP头可能引起安全问题！仅在您知道您在干什么时才禁用它！',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '禁用HHTP头"X-Frame-Options: SAMEORIGIN" 以便允许OTRS可以包含在其它网址的IFrame框架中。禁用这个HTTP头可能有安全问题！仅在您知道您在干什么时才禁用它！',
-        'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
-            '禁止发送提醒通知给工单负责人（需要激活Ticket::Responsible设置）。',
-        'Disables the communication between this system and OTRS Group servers that provides cloud services. If active, some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others.' =>
-            '禁用本系统到OTRS集团提供云服务的服务器的通信。如果激活，某些功能如系统注册、发送支持数据、升级到OTRS Business Solution™（OTRS商业版）、OTRS Verify™（OTRS验证）、仪表板中的OTRS新闻和产品新闻小部件等将失效。',
+        'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
+            '',
+        'Disables the communication between this system and OTRS Group servers that provides cloud services. If enabled, some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others.' =>
+            '',
         'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
             '禁用创建工单后重定向到最近的概览屏幕或仪表板。',
-        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If inactive, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not inactive, it also disables the GenericAgent, PackageManager and SQL Box.' =>
+        'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
             '在全文搜索使用了停止词时显示一个警告并阻止搜索。',
@@ -7101,6 +7107,8 @@ Thanks for your help!
         'Email communication channel.' => '电子邮件通信通道。',
         'Enable highlighting queues based on ticket age.' => '启用基于工单年龄的突出显示队列。',
         'Enable keep-alive connection header for SOAP responses.' => '启用SOAP响应的持久连接头。',
+        'Enable this if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
+            '',
         'Enabled filters.' => '启用的过滤器。',
         'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
             '启用PGP支持。当启用PGP签名和加密邮件时，强烈推荐以OTRS用户运行WEB服务器，否则，访问.pnugp目录会有权限问题。',
@@ -7338,8 +7346,6 @@ Thanks for your help!
             '如果为CryptType(加密类型)选择了“bcrypt”，请使用此处指定的bcrypt哈希cost 值。 目前最大支持的cost 值为31。',
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             '如果日志模块选用了“文件”，必须指定日志文件名。如果文件不存在，系统会创建它。',
-        'If active the cache data be held in memory.' => '',
-        'If active the cache data will be stored in cache backend.' => '',
         'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
             '如果激活此选项，没有正则表达式能够匹配允许用户注册的邮件地址。',
         'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
@@ -7368,6 +7374,8 @@ Thanks for your help!
             '如果启用了此选项，电话工单和邮件工单将在新窗口中打开。',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
             '如果启用了此选项，将从WEB界面、HTTP头信息和外发邮件的X-Headers头信息中移除OTRS版本标签。注意：如果你要修改这个选项，请确保清空缓存。',
+        'If enabled, the cache data be held in memory.' => '',
+        'If enabled, the cache data will be stored in cache backend.' => '',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             '如果启用了此选项，客户可以搜索所有服务的工单（不管这个客户分配了什么服务）。',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
@@ -7382,12 +7390,12 @@ Thanks for your help!
             '如果设置了此参数，这个地址用于外发通知的信件发件人头信息。如果没有指定地址，则信件发件人头信息为空（除非设置了SendmailNotificationEnvelopeFrom::FallbackToEmailFrom参数）。',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             '如果设置了此参数，这个地址将用于外发消息（不是通知-通知在下面查看）的信件发件人头。如果不指定地址，信件发件人头就为空。',
-        'If this option is active, tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is inactive, no autoresponses will be sent.' =>
+        'If this option is enabled, tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is not enabled, no autoresponses will be sent.' =>
             '',
         'If this regex matches, no message will be send by the autoresponder.' =>
             '如果这个正则表达式匹配了，自动响应不会发送任何消息。',
-        'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
-            '如果激活这个设置，本地修改内容不会在软件包管理器和支持数据收集工具中高亮显示为错误。',
+        'If this setting is enabled, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
+            '',
         'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
             '如果你要外出，通过设置你不在办公室的确切日期，你可能希望让其他用户知道。',
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
@@ -7788,8 +7796,8 @@ Thanks for your help!
         'Removes old ticket number counters (Sunday mornings).' => '删除旧的工单编号计数器（星期日上午）。',
         'Removes the ticket watcher information when a ticket is archived.' =>
             '工单归档时移除该工单的关注人信息。',
-        'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be active in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>
-            '从客户后端更新已有的SMIME证书。注意：需要在系统配置中激活SMIME和SMIME::FetchFromCustomer，且客户后端模块需要配置为收取UserSMIMECertificate 属性。',
+        'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be enabled in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>
+            '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '服务人员界面工单编写屏幕，用客户当前的邮件地址替换编写回复时的原始发件人。',
         'Reports' => '报表',
@@ -7848,7 +7856,7 @@ Thanks for your help!
             '访问管理客户单位模块时执行一个初始的已有全部客户单位的搜索。',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '访问管理客户用户模块时执行一个初始的已有全部客户用户的搜索。',
-        'Runs the system in "Demo" mode. If active, agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
+        'Runs the system in "Demo" mode. If enabled, agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
             '',
         'Russian' => '俄语',
         'S/MIME Certificates' => 'S/MIME证书',
@@ -8062,20 +8070,20 @@ Thanks for your help!
             '设置服务人员界面工单优先级屏幕的服务人员负责人。',
         'Sets the responsible agent of the ticket in the ticket responsible screen of the agent interface.' =>
             '设置服务人员界面工单负责人屏幕的服务人员负责人。',
-        'Sets the service in the close ticket screen of the agent interface (Ticket::Service needs to be activated).' =>
-            '设置服务人员界面工单关闭屏幕的服务（需要激活工单::服务）。',
-        'Sets the service in the ticket free text screen of the agent interface (Ticket::Service needs to be activated).' =>
-            '设置服务人员界面工单自定义字段屏幕的服务（需要激活工单::服务）。',
-        'Sets the service in the ticket note screen of the agent interface (Ticket::Service needs to be activated).' =>
-            '设置服务人员界面工单备注屏幕的服务（需要激活工单::服务）。',
-        'Sets the service in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated).' =>
-            '设置服务人员界面工单所有者屏幕的服务（需要激活工单::服务）。',
-        'Sets the service in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated).' =>
-            '设置服务人员界面工单挂起屏幕的服务（需要激活工单::服务）。',
-        'Sets the service in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated).' =>
-            '设置服务人员界面工单优先级屏幕的服务（需要激活工单::服务）。',
-        'Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be activated).' =>
-            '设置服务人员界面工单负责人屏幕的服务（需要激活工单::服务）。',
+        'Sets the service in the close ticket screen of the agent interface (Ticket::Service needs to be enabled).' =>
+            '',
+        'Sets the service in the ticket free text screen of the agent interface (Ticket::Service needs to be enabled).' =>
+            '',
+        'Sets the service in the ticket note screen of the agent interface (Ticket::Service needs to be enabled).' =>
+            '',
+        'Sets the service in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled).' =>
+            '',
+        'Sets the service in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled).' =>
+            '',
+        'Sets the service in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled).' =>
+            '',
+        'Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be enabled).' =>
+            '',
         'Sets the state of a ticket in the close ticket screen of the agent interface.' =>
             '设置服务人员界面关闭工单屏幕的工单状态。',
         'Sets the state of a ticket in the ticket bulk screen of the agent interface.' =>
@@ -8109,22 +8117,22 @@ Thanks for your help!
             '设置服务人员界面工单优先级屏幕的工单所有者。',
         'Sets the ticket owner in the ticket responsible screen of the agent interface.' =>
             '设置服务人员界面工单负责人屏幕的工单所有者。',
-        'Sets the ticket type in the close ticket screen of the agent interface (Ticket::Type needs to be activated).' =>
-            '设置服务人员界面工单挂起屏幕的工单所有者。',
+        'Sets the ticket type in the close ticket screen of the agent interface (Ticket::Type needs to be enabled).' =>
+            '',
         'Sets the ticket type in the ticket bulk screen of the agent interface.' =>
             '设置服务人员界面工单批量操作屏幕的工单类型。',
-        'Sets the ticket type in the ticket free text screen of the agent interface (Ticket::Type needs to be activated).' =>
-            '设置服务人员界面工单自定义字段屏幕的工单类型（需要激活工单::类型）。',
-        'Sets the ticket type in the ticket note screen of the agent interface (Ticket::Type needs to be activated).' =>
-            '设置服务人员界面工单备注屏幕的工单类型（需要激活工单::类型）。',
-        'Sets the ticket type in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated).' =>
-            '设置服务人员界面工单所有者屏幕的工单类型（需要激活工单::类型）。',
-        'Sets the ticket type in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated).' =>
-            '设置服务人员界面工单挂起屏幕的工单类型（需要激活工单::类型）。',
-        'Sets the ticket type in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated).' =>
-            '设置服务人员界面工单优先级屏幕的工单类型（需要激活工单::类型）。',
-        'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
-            '设置服务人员界面工单负责人屏幕的工单类型（需要激活工单::类型）。',
+        'Sets the ticket type in the ticket free text screen of the agent interface (Ticket::Type needs to be enabled).' =>
+            '',
+        'Sets the ticket type in the ticket note screen of the agent interface (Ticket::Type needs to be enabled).' =>
+            '',
+        'Sets the ticket type in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Type needs to be enabled).' =>
+            '',
+        'Sets the ticket type in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Type needs to be enabled).' =>
+            '',
+        'Sets the ticket type in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Type needs to be enabled).' =>
+            '',
+        'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be enabled).' =>
+            '',
         'Sets the time zone being used internally by OTRS to e. g. store dates and times in the database. WARNING: This setting must not be changed once set and tickets or any other data containing date/time have been created.' =>
             '将OTRS内部使用的时区设置如在数据库中存储日期和时间。 警告：此设置一旦设置就不能更改，包含日期/时间的工单或其他数据已据此创建。',
         'Sets the time zone that will be assigned to newly created users and will be used for users that haven\'t yet set a time zone. This is the time zone being used as default to convert date and time between the OTRS time zone and the user\'s time zone.' =>
@@ -8260,12 +8268,12 @@ Thanks for your help!
         'Shows information on how to start OTRS Daemon' => '显示如何启动OTRS守护进程的信息。',
         'Shows link to external page in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '在服务人员界面的工单详情视图中显示到外部页面的链接。 可以通过使用键“Group”和内容如“rw：group1; move_into：group2”来完成额外的访问控制，以显示或不显示此链接。',
-        'Shows the activated ticket attributes in the customer interface (0 = Disabled and 1 = Enabled).' =>
-            '在客户界面显示已激活的工单属性（0 = 禁用，1 = 启用）。',
         'Shows the articles sorted normally or in reverse, under ticket zoom in the agent interface.' =>
             '在服务人员界面工单详情视图，按正常排序或反向排序显示信件。',
         'Shows the customer user information (phone and email) in the compose screen.' =>
             '在工单编写屏幕显示客户用户信息（电话和邮件）。',
+        'Shows the enabled ticket attributes in the customer interface (0 = Disabled and 1 = Enabled).' =>
+            '',
         'Shows the message of the day (MOTD) in the agent dashboard. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '在服务人员仪表板中显示当天的消息（MOTD）。 “组”用于限制对插件的访问（例如，组：admin; group1; group2;）。 “默认”表示插件是默认启用，还是需要用户手动启用插件。 “强制”确定插件是否始终显示，不能被服务人员移除。',
         'Shows the message of the day on login screen of the agent interface.' =>
@@ -8304,9 +8312,9 @@ Thanks for your help!
             '',
         'Shows the title field in the ticket responsible screen of the agent interface.' =>
             '',
-        'Shows time in long format (days, hours, minutes), if active; or in short format (days, hours), if inactive.' =>
+        'Shows time in long format (days, hours, minutes), if enabled; or in short format (days, hours), if not enabled.' =>
             '',
-        'Shows time use complete description (days, hours, minutes), if active; or just first letter (d, h, m), if inactive.' =>
+        'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
             '',
         'Signatures' => '签名',
         'Simple' => '简单',
@@ -8542,7 +8550,7 @@ Thanks for your help!
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '关闭SSL证书验证，例如在使用HTTPS透明代理时。使用这个设置风险自负！',
         'Turns on drag and drop for the main navigation.' => '开启主菜单的拖放功能。',
-        'Turns on the remote ip address check. It should not be active if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
+        'Turns on the remote ip address check. It should not be enabled if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             '',
         'Tweak the system as you wish.' => '根据需要调整系统。',
         'Type of daemon log rotation to use: Choose \'OTRS\' to let OTRS system to handle the file rotation, or choose \'External\' to use a 3rd party rotation mechanism (i.e. logrotate). Note: External rotation mechanism requires its own and independent configuration.' =>
@@ -8596,8 +8604,8 @@ Thanks for your help!
             '工单被合并时，通过设置“通知发送人”复选框选项，客户能收到邮件通知，您可以在这个文本框中定义一个预先格式化的文本（服务人员可在以后修改）。',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
             '通过在Ticket::Frontend::ZoomCollectMetaFilters中配置的过滤器确定是否收集信件元信息。',
-        'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before activating this option.' =>
-            '是否强制将所有请求从http重定向到https协议。 激活此选项之前，请检查您的Web服务器是否正确配置了https协议。',
+        'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
+            '',
         'Yes, but hide archived tickets' => '是，但隐藏已归档的工单',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             '您的工单号为“<OTRS_TICKET>”的邮件已经退回给“<OTRS_BOUNCE_TO>”，请联系这个地址以获得更多的信息。',
@@ -8942,6 +8950,7 @@ Thanks for your help!
         'This is a repeating appointment',
         'This is currently disabled because of an ongoing package upgrade.',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?',
+        'This option is currently disabled because the OTRS Daemon is not running.',
         'This software runs with a huge lists of browsers, please upgrade to one of these.',
         'This window must be called from compose window.',
         'Thu',
@@ -8959,10 +8968,10 @@ Thanks for your help!
         'Unfortunately deploying is currently not possible, maybe because another agent is already deploying. Please try again later.',
         'Unknown',
         'Unlock setting.',
+        'Update All Packages',
         'Update Result',
+        'Update all packages',
         'Update manually',
-        'Upgrade All Packages',
-        'Upgrade all packages',
         'Upload information',
         'Uploading...',
         'Use options below to narrow down for which tickets appointments will be automatically created.',
