@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-11-13 23:57+0000\n"
+"POT-Creation-Date: 2017-11-27 09:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2431,7 +2431,7 @@ msgid "Error message subject and data (as seen in the debugger error entry) will
 msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
-msgid "Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication related errors."
+msgid "Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication related errors."
 msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
@@ -2931,7 +2931,7 @@ msgid "Example 2: Search = '^' / Replace = '_' turns '16x16' into '_16x16'."
 msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
-msgid "Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = '_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
+msgid "Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = '_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into '_elementname_16'."
 msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
@@ -3435,11 +3435,11 @@ msgid "Do you really want to delete this web service?"
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Ready-to-run Web Services"
+msgid "Ready2Adopt Web Services"
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Here you can activate ready-to-run web services showcasing our best practices that are a part of %s."
+msgid "Here you can activate Ready2Adopt web services showcasing our best practices that are a part of %s."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
@@ -3447,11 +3447,11 @@ msgid "Please note that these web services may depend on other modules only avai
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Import ready-to-run web service"
+msgid "Import Ready2Adopt web service"
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated ready-to-run web services."
+msgid "Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated Ready2Adopt web services."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
@@ -4611,19 +4611,19 @@ msgid "Import process configuration"
 msgstr ""
 
 #. Template: AdminProcessManagement
-msgid "Ready-to-run Processes"
+msgid "Ready2Adopt Processes"
 msgstr ""
 
 #. Template: AdminProcessManagement
-msgid "Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required."
+msgid "Here you can activate Ready2Adopt processes showcasing our best practices. Please note that some additional configuration may be required."
 msgstr ""
 
 #. Template: AdminProcessManagement
-msgid "Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes."
+msgid "Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated Ready2Adopt processes."
 msgstr ""
 
 #. Template: AdminProcessManagement
-msgid "Import ready-to-run process"
+msgid "Import Ready2Adopt process"
 msgstr ""
 
 #. Template: AdminProcessManagement
@@ -8251,7 +8251,7 @@ msgid "Load blocked content."
 msgstr ""
 
 #. Template: Breadcrumb
-msgid "Back to Dashboard"
+msgid "Home"
 msgstr ""
 
 #. Template: Breadcrumb
@@ -11219,6 +11219,10 @@ msgid "The following settings could not be found: %s"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
+msgid "System Configuration could not be imported due to an unknown error, please check OTRS logs for more information."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "Category Search"
 msgstr ""
 
@@ -13819,7 +13823,7 @@ msgid "Server Database Charset"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
-msgid "Setting character_set_database needs to be UNICODE or UTF8."
+msgid "The setting character_set_database needs to be 'utf8'."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
@@ -13827,7 +13831,7 @@ msgid "Table Charset"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
-msgid "There were tables found which do not have utf8 as charset."
+msgid "There were tables found which do not have 'utf8' as charset."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
@@ -15115,7 +15119,7 @@ msgid "A package upgrade was recently finished. Click here to see the results."
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
-msgid "Upgrade all packages"
+msgid "Update all packages"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
@@ -15123,7 +15127,7 @@ msgid "Dismiss"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
-msgid "Upgrade All Packages"
+msgid "Update All Packages"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
@@ -15132,6 +15136,10 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "This is currently disabled because of an ongoing package upgrade."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.PackageManager
+msgid "This option is currently disabled because the OTRS Daemon is not running."
 msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
@@ -15934,10 +15942,6 @@ msgid "AccountedTime"
 msgstr ""
 
 #. SysConfig
-msgid "Activate this if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature."
-msgstr ""
-
-#. SysConfig
 msgid "Activates a blinking mechanism of the queue that contains the oldest ticket."
 msgstr ""
 
@@ -16642,7 +16646,7 @@ msgid "Checks if an E-Mail is a followup to an existing ticket by searching the 
 msgstr ""
 
 #. SysConfig
-msgid "Checks the SystemID in ticket number detection for follow-ups (if inactive, SystemID will be changed after using the system)."
+msgid "Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system."
 msgstr ""
 
 #. SysConfig
@@ -17558,11 +17562,11 @@ msgid "Defines if the previously valid token should be accepted for authenticati
 msgstr ""
 
 #. SysConfig
-msgid "Defines if the values for filters should be retrieved from all available tickets. If active, only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this."
+msgid "Defines if the values for filters should be retrieved from all available tickets. If enabled, only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this."
 msgstr ""
 
 #. SysConfig
-msgid "Defines if time accounting is mandatory in the agent interface. If activated, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen)."
+msgid "Defines if time accounting is mandatory in the agent interface. If enabled, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen)."
 msgstr ""
 
 #. SysConfig
@@ -18842,11 +18846,11 @@ msgid "Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be i
 msgstr ""
 
 #. SysConfig
-msgid "Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated)."
+msgid "Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled)."
 msgstr ""
 
 #. SysConfig
-msgid "Disables the communication between this system and OTRS Group servers that provides cloud services. If active, some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others."
+msgid "Disables the communication between this system and OTRS Group servers that provides cloud services. If enabled, some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others."
 msgstr ""
 
 #. SysConfig
@@ -18854,7 +18858,7 @@ msgid "Disables the redirection to the last screen overview / dashboard after a 
 msgstr ""
 
 #. SysConfig
-msgid "Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If inactive, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not inactive, it also disables the GenericAgent, PackageManager and SQL Box."
+msgid "Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box."
 msgstr ""
 
 #. SysConfig
@@ -19107,6 +19111,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Enable keep-alive connection header for SOAP responses."
+msgstr ""
+
+#. SysConfig
+msgid "Enable this if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature."
 msgstr ""
 
 #. SysConfig
@@ -19650,7 +19658,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -19734,14 +19742,6 @@ msgid "If \"file\" was selected for LogModule, a logfile must be specified. If t
 msgstr ""
 
 #. SysConfig
-msgid "If active the cache data be held in memory."
-msgstr ""
-
-#. SysConfig
-msgid "If active the cache data will be stored in cache backend."
-msgstr ""
-
-#. SysConfig
 msgid "If active, none of the regular expressions may match the user's email address to allow registration."
 msgstr ""
 
@@ -19802,6 +19802,14 @@ msgid "If enabled, the OTRS version tag will be removed from the Webinterface, t
 msgstr ""
 
 #. SysConfig
+msgid "If enabled, the cache data be held in memory."
+msgstr ""
+
+#. SysConfig
+msgid "If enabled, the cache data will be stored in cache backend."
+msgstr ""
+
+#. SysConfig
 msgid "If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer)."
 msgstr ""
 
@@ -19830,7 +19838,7 @@ msgid "If set, this address is used as envelope sender in outgoing messages (not
 msgstr ""
 
 #. SysConfig
-msgid "If this option is active, tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is inactive, no autoresponses will be sent."
+msgid "If this option is enabled, tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is not enabled, no autoresponses will be sent."
 msgstr ""
 
 #. SysConfig
@@ -19838,7 +19846,7 @@ msgid "If this regex matches, no message will be send by the autoresponder."
 msgstr ""
 
 #. SysConfig
-msgid "If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector."
+msgid "If this setting is enabled, local modifications will not be highlighted as errors in the package manager and support data collector."
 msgstr ""
 
 #. SysConfig
@@ -21006,7 +21014,7 @@ msgid "Removes the ticket watcher information when a ticket is archived."
 msgstr ""
 
 #. SysConfig
-msgid "Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be active in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute."
+msgid "Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be enabled in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute."
 msgstr ""
 
 #. SysConfig
@@ -21146,7 +21154,7 @@ msgid "Runs an initial wildcard search of the existing customer users when acces
 msgstr ""
 
 #. SysConfig
-msgid "Runs the system in \"Demo\" mode. If active, agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords."
+msgid "Runs the system in \"Demo\" mode. If enabled, agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords."
 msgstr ""
 
 #. SysConfig
@@ -21678,31 +21686,31 @@ msgid "Sets the responsible agent of the ticket in the ticket responsible screen
 msgstr ""
 
 #. SysConfig
-msgid "Sets the service in the close ticket screen of the agent interface (Ticket::Service needs to be activated)."
+msgid "Sets the service in the close ticket screen of the agent interface (Ticket::Service needs to be enabled)."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the service in the ticket free text screen of the agent interface (Ticket::Service needs to be activated)."
+msgid "Sets the service in the ticket free text screen of the agent interface (Ticket::Service needs to be enabled)."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the service in the ticket note screen of the agent interface (Ticket::Service needs to be activated)."
+msgid "Sets the service in the ticket note screen of the agent interface (Ticket::Service needs to be enabled)."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the service in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated)."
+msgid "Sets the service in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled)."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the service in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated)."
+msgid "Sets the service in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled)."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the service in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated)."
+msgid "Sets the service in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled)."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be activated)."
+msgid "Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be enabled)."
 msgstr ""
 
 #. SysConfig
@@ -21774,7 +21782,7 @@ msgid "Sets the ticket owner in the ticket responsible screen of the agent inter
 msgstr ""
 
 #. SysConfig
-msgid "Sets the ticket type in the close ticket screen of the agent interface (Ticket::Type needs to be activated)."
+msgid "Sets the ticket type in the close ticket screen of the agent interface (Ticket::Type needs to be enabled)."
 msgstr ""
 
 #. SysConfig
@@ -21782,27 +21790,27 @@ msgid "Sets the ticket type in the ticket bulk screen of the agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the ticket type in the ticket free text screen of the agent interface (Ticket::Type needs to be activated)."
+msgid "Sets the ticket type in the ticket free text screen of the agent interface (Ticket::Type needs to be enabled)."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the ticket type in the ticket note screen of the agent interface (Ticket::Type needs to be activated)."
+msgid "Sets the ticket type in the ticket note screen of the agent interface (Ticket::Type needs to be enabled)."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the ticket type in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated)."
+msgid "Sets the ticket type in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Type needs to be enabled)."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the ticket type in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated)."
+msgid "Sets the ticket type in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Type needs to be enabled)."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the ticket type in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated)."
+msgid "Sets the ticket type in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Type needs to be enabled)."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated)."
+msgid "Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be enabled)."
 msgstr ""
 
 #. SysConfig
@@ -22098,15 +22106,15 @@ msgid "Shows link to external page in the ticket zoom view of the agent interfac
 msgstr ""
 
 #. SysConfig
-msgid "Shows the activated ticket attributes in the customer interface (0 = Disabled and 1 = Enabled)."
-msgstr ""
-
-#. SysConfig
 msgid "Shows the articles sorted normally or in reverse, under ticket zoom in the agent interface."
 msgstr ""
 
 #. SysConfig
 msgid "Shows the customer user information (phone and email) in the compose screen."
+msgstr ""
+
+#. SysConfig
+msgid "Shows the enabled ticket attributes in the customer interface (0 = Disabled and 1 = Enabled)."
 msgstr ""
 
 #. SysConfig
@@ -22186,11 +22194,11 @@ msgid "Shows the title field in the ticket responsible screen of the agent inter
 msgstr ""
 
 #. SysConfig
-msgid "Shows time in long format (days, hours, minutes), if active; or in short format (days, hours), if inactive."
+msgid "Shows time in long format (days, hours, minutes), if enabled; or in short format (days, hours), if not enabled."
 msgstr ""
 
 #. SysConfig
-msgid "Shows time use complete description (days, hours, minutes), if active; or just first letter (d, h, m), if inactive."
+msgid "Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled."
 msgstr ""
 
 #. SysConfig
@@ -22858,7 +22866,7 @@ msgid "Turns on drag and drop for the main navigation."
 msgstr ""
 
 #. SysConfig
-msgid "Turns on the remote ip address check. It should not be active if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests."
+msgid "Turns on the remote ip address check. It should not be enabled if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests."
 msgstr ""
 
 #. SysConfig
@@ -23014,7 +23022,7 @@ msgid "Whether or not to collect meta information from articles using filters co
 msgstr ""
 
 #. SysConfig
-msgid "Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before activating this option."
+msgid "Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option."
 msgstr ""
 
 #. SysConfig
