@@ -127,8 +127,42 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#StopDateYear').val('$YearEnd').trigger('redraw.InputField').trigger('change');"
         );
+
         $Selenium->find_element( "#StopDateHour option[value='" . int($HourEnd) . "']",  'css' )->VerifiedClick();
         $Selenium->find_element( "#StopDateMinute option[value='" . int($MinEnd) . "']", 'css' )->VerifiedClick();
+
+        # Try to create System Maintenance with Login and Notify message longer then 250 characters.
+        #   See bug#13366 (https://bugs.otrs.org/show_bug.cgi?id=13366).
+        #   Verify there is no Error class initially.
+        $Self->False(
+            $Selenium->execute_script("return \$('#LoginMessage').hasClass('Error')"),
+            "There is no error class in Login Message text area"
+        );
+        $Self->False(
+            $Selenium->execute_script("return \$('#NotifyMessage').hasClass('Error')"),
+            "There is no error class in Notify Message text area"
+        );
+
+        # Add 251 characters in the fields and verify Error class.
+        my $LongLoginMessage  = "a" x 251;
+        my $LongNotifyMessage = "b" x 251;
+
+        $Selenium->find_element( "#LoginMessage",  'css' )->send_keys($LongLoginMessage);
+        $Selenium->find_element( "#NotifyMessage", 'css' )->send_keys($LongNotifyMessage);
+
+        $Selenium->find_element( "#Submit", 'css' )->click();
+        $Self->True(
+            $Selenium->execute_script("return \$('#LoginMessage').hasClass('Error')"),
+            "There is error class in Login Message text area"
+        );
+        $Self->True(
+            $Selenium->execute_script("return \$('#NotifyMessage').hasClass('Error')"),
+            "There is error class in Notify Message text area"
+        );
+
+        # Create SystemMaintenance.
+        $Selenium->find_element( "#LoginMessage",  'css' )->clear();
+        $Selenium->find_element( "#NotifyMessage", 'css' )->clear();
         $Selenium->find_element( "#LoginMessage",  'css' )->send_keys($SysMainLogin);
         $Selenium->find_element( "#NotifyMessage", 'css' )->send_keys($SysMainNotify);
         $Selenium->find_element( "#Submit",        'css' )->VerifiedClick();
@@ -178,9 +212,42 @@ $Selenium->RunTest(
             "#ValidID stored value",
         );
 
+        # Try to edit System Maintenance with Login and Notify message longer then 250 characters.
+        #   See bug#13366 (https://bugs.otrs.org/show_bug.cgi?id=13366).
+        #   Verify there is no Error class initially.
+        $Self->False(
+            $Selenium->execute_script("return \$('#LoginMessage').hasClass('Error')"),
+            "There is no error class in Login Message text area"
+        );
+        $Self->False(
+            $Selenium->execute_script("return \$('#NotifyMessage').hasClass('Error')"),
+            "There is no error class in Notify Message text area"
+        );
+
+        # Add 251 characters in the fields and verify Error class.
+        $LongLoginMessage  = "a" x 251;
+        $LongNotifyMessage = "b" x 251;
+
+        $Selenium->find_element( "#LoginMessage",  'css' )->clear();
+        $Selenium->find_element( "#NotifyMessage", 'css' )->clear();
+        $Selenium->find_element( "#LoginMessage",  'css' )->send_keys($LongLoginMessage);
+        $Selenium->find_element( "#NotifyMessage", 'css' )->send_keys($LongNotifyMessage);
+
+        $Selenium->find_element( "#Submit", 'css' )->click();
+        $Self->True(
+            $Selenium->execute_script("return \$('#LoginMessage').hasClass('Error')"),
+            "There is error class in Login Message text area"
+        );
+        $Self->True(
+            $Selenium->execute_script("return \$('#NotifyMessage').hasClass('Error')"),
+            "There is error class in Notify Message text area"
+        );
+        $Selenium->find_element( "#LoginMessage",  'css' )->clear();
+        $Selenium->find_element( "#NotifyMessage", 'css' )->clear();
+
         # edit test SystemMaintenance and set it to invalid
-        $Selenium->find_element( "#LoginMessage",  'css' )->send_keys("-update");
-        $Selenium->find_element( "#NotifyMessage", 'css' )->send_keys("-update");
+        $Selenium->find_element( "#LoginMessage",  'css' )->send_keys( $SysMainLogin,  "-update" );
+        $Selenium->find_element( "#NotifyMessage", 'css' )->send_keys( $SysMainNotify, "-update" );
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
