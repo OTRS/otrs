@@ -944,6 +944,13 @@ sub NotificationEvent {
         $ArticleData->{TimeUnit} = $AccountedTime;
     }
 
+    # Populate the hash 'CustomerMessageParams' with all the customer-article data
+    # and overwrite it with 'CustomerMessageParams' passed in the Params (bug #13325).
+    $Param{CustomerMessageParams} = {
+        %CustomerArticle,
+        %{ $Param{CustomerMessageParams} || {} },
+    };
+
     # get system default language
     my $DefaultLanguage = $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';
 
