@@ -1,4 +1,5 @@
 #6.0.2 2017-??-??
+ - 2017-11-27 Fixed bug#[13385](https://bugs.otrs.org/show_bug.cgi?id=13385) - Customer web request results in a phone article.
  - 2017-11-27 Fixed bug#[13342](https://bugs.otrs.org/show_bug.cgi?id=13342) - Package installation results in an error until web server is restarted.
  - 2017-11-27 Fixed bug#[13370](https://bugs.otrs.org/show_bug.cgi?id=13370) - Cloning DateTime object returns bad object(wrong unix timestamp).
  - 2017-11-24 Fixed bug#[13266](https://bugs.otrs.org/show_bug.cgi?id=13266) - Article field not mandatory if time units are added.

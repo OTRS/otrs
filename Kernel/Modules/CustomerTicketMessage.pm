@@ -248,7 +248,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'StoreNew' ) {
 
         my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-        my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Phone' );
+        my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
 
         my $NextScreen = $Config->{NextScreenAfterNewTicket};
         my %Error;
