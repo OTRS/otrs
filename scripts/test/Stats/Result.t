@@ -26,6 +26,7 @@ $ConfigObject->Set(
     Value => 1,
 );
 
+my $CacheObject               = $Kernel::OM->Get('Kernel::System::Cache');
 my $StatsObject               = $Kernel::OM->Get('Kernel::System::Stats');
 my $QueueObject               = $Kernel::OM->Get('Kernel::System::Queue');
 my $TicketObject              = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -3902,6 +3903,17 @@ for my $Test (@Tests) {
         );
 
         next TEST;
+    }
+
+    # Since we created tickets on different date and jumped to another, TicketGet() cache can be outdated.
+    for my $Ticket (@TicketIDs) {
+        my $TicketID = $Ticket->{TicketID};
+
+        # Clean cache.
+        $CacheObject->Delete(
+            Type => 'Ticket',
+            Key  => "Cache::GetTicket${TicketID}::0::0",
+        );
     }
 
     # set the fixed time
