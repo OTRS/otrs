@@ -27,6 +27,12 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+# Avoid errors on notification sending.
+$Kernel::OM->Get('Kernel::Config')->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
 # define variables
 my $UserID     = 1;
 my $ModuleName = 'TicketOwnerSet';
