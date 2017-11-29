@@ -2551,14 +2551,20 @@ sub _TicketHistoryReferenceForSearchArgument {
         CreatedUserIDs     => 'th0',
 
         # Ticket change columns reference.
-        TicketChangeTimeNewerDate     => 'th1',
-        TicketChangeTimeOlderDate     => 'th1',
-        TicketLastChangeTimeNewerDate => 'th1',
-        TicketLastChangeTimeOlderDate => 'th1',
+        TicketChangeTimeNewerDate        => 'th1',
+        TicketChangeTimeNewerMinutes     => 'th1',
+        TicketChangeTimeOlderDate        => 'th1',
+        TicketChangeTimeOlderMinutes     => 'th1',
+        TicketLastChangeTimeNewerDate    => 'th1',
+        TicketLastChangeTimeNewerMinutes => 'th1',
+        TicketLastChangeTimeOlderDate    => 'th1',
+        TicketLastChangeTimeOlderMinutes => 'th1',
 
         # Ticket close columns reference.
-        TicketCloseTimeNewerDate => 'th2',
-        TicketCloseTimeOlderDate => 'th2',
+        TicketCloseTimeNewerDate    => 'th2',
+        TicketCloseTimeNewerMinutes => 'th2',
+        TicketCloseTimeOlderDate    => 'th2',
+        TicketCloseTimeOlderMinutes => 'th2',
     );
 
     my $Argument = $Param{Argument};

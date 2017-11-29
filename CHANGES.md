@@ -1,4 +1,5 @@
 #6.0.3 2017-??-??
+ - 2017-11-29 Fixed bug#[13391](https://bugs.otrs.org/show_bug.cgi?id=13391) - Ticket history mapping reference missing in TicketSearch.
 
 #6.0.2 2017-12-05
  - 2017-11-27 Updated translations, thanks to all translators.
