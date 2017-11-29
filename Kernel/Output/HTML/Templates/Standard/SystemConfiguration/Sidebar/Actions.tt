@@ -45,7 +45,7 @@
             </li>
 [% END %]
             <li>
-                <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration;Subaction=ImportExport" class="CallForAction Fullsize Center"><span><i class="fa fa-exchange"></i>[% Translate("Import & Export") | html %]</span></a>
+                <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration;Subaction=ImportExport" class="CallForAction Fullsize Center"><span><i class="fa fa-exchange"></i>[% IF Config("ConfigImportAllowed") %][% Translate("Import & Export") | html %][% ELSE %][% Translate("Export") | html %][% END %]</span></a>
             </li>
         </ul>
     </div>

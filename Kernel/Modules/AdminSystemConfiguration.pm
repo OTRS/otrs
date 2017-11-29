@@ -569,6 +569,12 @@ sub Run {
         # Challenge token check for write action.
         $LayoutObject->ChallengeTokenCheck();
 
+        if ( !$Kernel::OM->Get('Kernel::Config')->Get('ConfigImportAllowed') ) {
+            return $LayoutObject->FatalError(
+                Message => Translatable('Import not allowed!'),
+            );
+        }
+
         my $FormID = $ParamObject->GetParam( Param => 'FormID' ) || '';
         my %UploadStuff = $ParamObject->GetUploadAll(
             Param  => 'FileUpload',

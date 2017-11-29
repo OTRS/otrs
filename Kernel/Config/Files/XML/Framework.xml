@@ -39,6 +39,13 @@
             </Item>
         </Value>
     </Setting>
+    <Setting Name="ConfigImportAllowed" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Controls if the admin is allowed to import a saved system configuration in SysConfig.</Description>
+        <Navigation>Core</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
     <Setting Name="ProductName" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the name of the application, shown in the web interface, tabs and title bar of the web browser.</Description>
         <Navigation>Core</Navigation>
