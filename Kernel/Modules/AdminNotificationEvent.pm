@@ -292,8 +292,8 @@ sub Run {
 
                 $GetParam{ArticleSenderTypeIDServerError} = "ServerError";
 
-                for my $ArticleTypeKey (@ArticleSearchableFieldsKeys) {
-                    $GetParam{ $ArticleTypeKey . 'ServerError' } = "ServerError";
+                for my $ArticleField (@ArticleSearchableFieldsKeys) {
+                    $GetParam{ $ArticleField . 'ServerError' } = "ServerError";
                 }
             }
 
@@ -527,8 +527,8 @@ sub Run {
 
                 $GetParam{ArticleSenderTypeIDServerError} = "ServerError";
 
-                for my $ArticleTypeKey (@ArticleSearchableFieldsKeys) {
-                    $GetParam{ $ArticleTypeKey . 'ServerError' } = "ServerError";
+                for my $ArticleField (@ArticleSearchableFieldsKeys) {
+                    $GetParam{ $ArticleField . 'ServerError' } = "ServerError";
                 }
             }
 

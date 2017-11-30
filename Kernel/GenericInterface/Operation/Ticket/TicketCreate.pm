@@ -427,8 +427,6 @@ sub Run {
 
     # isolate Article parameter
     my $Article = $Param{Data}->{Article};
-
-    # add UserType to Validate ArticleType
     $Article->{UserType} = $UserType;
 
     # remove leading and trailing spaces
@@ -820,8 +818,7 @@ sub _CheckArticle {
 
         # return internal server error
         return {
-            ErrorMessage => "TicketCreate: Article->AutoResponseType parameter is required and"
-                . " Sysconfig ArticleTypeID setting could not be read!"
+            ErrorMessage => "TicketCreate: Article->AutoResponseType parameter is required!"
         };
     }
 

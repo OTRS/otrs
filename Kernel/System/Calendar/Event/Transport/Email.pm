@@ -348,7 +348,7 @@ sub TransportParamSettingsGet {
 
     PARAMETER:
     for my $Parameter (
-        qw(RecipientEmail NotificationArticleTypeID TransportEmailTemplate
+        qw(RecipientEmail TransportEmailTemplate
         EmailSigningCrypting EmailMissingSigningKeys EmailMissingCryptingKeys
         EmailSecuritySettings)
         )
