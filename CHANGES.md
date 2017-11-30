@@ -1,4 +1,5 @@
 #6.0.3 2017-??-??
+ - 2017-11-30 Fixed bug#[13379](https://bugs.otrs.org/show_bug.cgi?id=13379) - PendingTimeDiff is not updated, if no state update was done in a transition action.
  - 2017-11-29 Fixed bug#[13395](https://bugs.otrs.org/show_bug.cgi?id=13395) - ConfigImportAllowed: configuration option missing.
 
 #6.0.2 2017-12-05

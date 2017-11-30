@@ -114,80 +114,58 @@ sub Run {
     $Success = 0;
     my %StateData;
 
-    # If Ticket's StateID is already the same as the Value we
-    # should set it to, we got nothing to do and return success
-    if (
-        defined $Param{Config}->{StateID}
-        && $Param{Config}->{StateID} eq $Param{Ticket}->{StateID}
-        )
-    {
-        return 1;
-    }
+    if ( defined $Param{Config}->{StateID} ) {
 
-    # If Ticket's StateID is not the same as the Value we
-    # should set it to, set the StateID
-    elsif (
-        defined $Param{Config}->{StateID}
-        && $Param{Config}->{StateID} ne $Param{Ticket}->{StateID}
-        )
-    {
         %StateData = $Kernel::OM->Get('Kernel::System::State')->StateGet(
             ID => $Param{Config}->{StateID},
         );
-        $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketStateSet(
-            TicketID => $Param{Ticket}->{TicketID},
-            StateID  => $Param{Config}->{StateID},
-            UserID   => $Param{UserID},
-        );
 
-        if ( !$Success ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => $CommonMessage
-                    . 'Ticket StateID '
-                    . $Param{Config}->{StateID}
-                    . ' could not be updated for Ticket: '
-                    . $Param{Ticket}->{TicketID} . '!',
+        if ( $Param{Config}->{StateID} ne $Param{Ticket}->{StateID} ) {
+
+            $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketStateSet(
+                TicketID => $Param{Ticket}->{TicketID},
+                StateID  => $Param{Config}->{StateID},
+                UserID   => $Param{UserID},
             );
+
+            if ( !$Success ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => $CommonMessage
+                        . 'Ticket StateID '
+                        . $Param{Config}->{StateID}
+                        . ' could not be updated for Ticket: '
+                        . $Param{Ticket}->{TicketID} . '!',
+                );
+            }
         }
-    }
 
-    # If Ticket's State is already the same as the Value we
-    # should set it to, we got nothing to do and return success
-    elsif (
-        defined $Param{Config}->{State}
-        && $Param{Config}->{State} eq $Param{Ticket}->{State}
-        )
-    {
-        return 1;
     }
+    elsif ( $Param{Config}->{State} ) {
 
-    # If Ticket's State is not the same as the Value we
-    # should set it to, set the State
-    elsif (
-        defined $Param{Config}->{State}
-        && $Param{Config}->{State} ne $Param{Ticket}->{State}
-        )
-    {
         %StateData = $Kernel::OM->Get('Kernel::System::State')->StateGet(
             Name => $Param{Config}->{State},
         );
-        $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketStateSet(
-            TicketID => $Param{Ticket}->{TicketID},
-            State    => $Param{Config}->{State},
-            UserID   => $Param{UserID},
-        );
+        if ( $Param{Config}->{State} ne $Param{Ticket}->{State} ) {
 
-        if ( !$Success ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => $CommonMessage
-                    . 'Ticket State '
-                    . $Param{Config}->{State}
-                    . ' could not be updated for Ticket: '
-                    . $Param{Ticket}->{TicketID} . '!',
+            $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketStateSet(
+                TicketID => $Param{Ticket}->{TicketID},
+                State    => $Param{Config}->{State},
+                UserID   => $Param{UserID},
             );
+
+            if ( !$Success ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => $CommonMessage
+                        . 'Ticket State '
+                        . $Param{Config}->{State}
+                        . ' could not be updated for Ticket: '
+                        . $Param{Ticket}->{TicketID} . '!',
+                );
+            }
         }
+
     }
     else {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -200,8 +178,7 @@ sub Run {
 
     # set pending time
     if (
-        $Success
-        && IsHashRefWithData( \%StateData )
+        IsHashRefWithData( \%StateData )
         && $StateData{TypeName} =~ m{\A pending}msxi
         && IsNumber( $Param{Config}->{PendingTimeDiff} )
         )
