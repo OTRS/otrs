@@ -229,13 +229,12 @@ $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
                     'Description',
                 Fields => {
                     Article => {
-                        CommunicationChannel => 'Internal',
-                        IsVisibleForCustomer => 1,
-                        DescriptionLong      => 'A long description',
-                        DefaultValue         => '',
-                        DescriptionShort     => '.',
-                        Config               => {
-                            TimeUnits => '1',
+                        DescriptionLong  => 'A long description',
+                        DefaultValue     => '',
+                        DescriptionShort => '.',
+                        Config           => {
+                            ArticleType => 'note-external',
+                            TimeUnits   => '1',
                         },
                         Display => '1',
                     },
@@ -252,13 +251,13 @@ $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         },
         ExpectedConfigResult => {
             Article => {
-                CommunicationChannel => 'Internal',
-                IsVisibleForCustomer => 1,
-                DescriptionLong      => 'A long description',
-                DefaultValue         => '',
-                DescriptionShort     => '.',
-                Config               => {
-                    TimeUnits => '1',
+                DescriptionLong  => 'A long description',
+                DefaultValue     => '',
+                DescriptionShort => '.',
+                Config           => {
+                    IsVisibleForCustomer => 1,
+                    CommunicationChannel => 'Internal',
+                    TimeUnits            => '1',
                 },
                 Display => '1',
             },
@@ -281,13 +280,12 @@ $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
                     'Description',
                 Fields => {
                     Article => {
-                        CommunicationChannel => 'Email',
-                        IsVisibleForCustomer => 0,
-                        DescriptionLong      => 'A long description',
-                        DefaultValue         => '',
-                        DescriptionShort     => '.',
-                        Config               => {
-                            TimeUnits => '1',
+                        DescriptionLong  => 'A long description',
+                        DefaultValue     => '',
+                        DescriptionShort => '.',
+                        Config           => {
+                            ArticleType => 'email-internal',
+                            TimeUnits   => '1',
                         },
                         Display => '1',
                     },
@@ -304,13 +302,13 @@ $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         },
         ExpectedConfigResult => {
             Article => {
-                CommunicationChannel => 'Email',
-                IsVisibleForCustomer => 0,
-                DescriptionLong      => 'A long description',
-                DefaultValue         => '',
-                DescriptionShort     => '.',
-                Config               => {
-                    TimeUnits => '1',
+                DescriptionLong  => 'A long description',
+                DefaultValue     => '',
+                DescriptionShort => '.',
+                Config           => {
+                    CommunicationChannel => 'Email',
+                    IsVisibleForCustomer => 0,
+                    TimeUnits            => '1',
                 },
                 Display => '1',
             },

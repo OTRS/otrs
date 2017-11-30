@@ -80,7 +80,7 @@ sub Run {
                     || 'Internal';
 
                 $Config->{Fields}->{Article}->{Config}->{IsVisibleForCustomer} = $IsVisibleForCustomer;
-                $Config->{Fields}->{Article}->{CommunicationChannel} = $CommunicationChannel;
+                $Config->{Fields}->{Article}->{Config}->{CommunicationChannel} = $CommunicationChannel;
 
                 delete $Config->{Fields}->{Article}->{Config}->{ArticleType};
             }
