@@ -107,14 +107,16 @@ sub new {
                 Priority => 'error',
                 Message  => "Can't remove shm for log: $!",
             );
-            return;
+            # Continue without IPC.
+            return $Self;
         }
 
         # Re-initialize SHM segment.
         $Self->{IPCSHMKey} = shmget( $Self->{IPCKey}, $Self->{IPCSize}, oct(1777) );
     }
 
-    return if !$Self->{IPCSHMKey};
+    # Continue without IPC.
+    return $Self if !$Self->{IPCSHMKey};
 
     # Only flag IPC as active if everything worked well.
     $Self->{IPC} = 1;
