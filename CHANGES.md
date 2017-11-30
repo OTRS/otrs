@@ -2,6 +2,7 @@
  - 2017-11-29 Fixed bug#[13395](https://bugs.otrs.org/show_bug.cgi?id=13395) - ConfigImportAllowed: configuration option missing.
 
 #6.0.2 2017-12-05
+ - 2017-11-30 Fixed bug#[13398](https://bugs.otrs.org/show_bug.cgi?id=13398) - ActivityDialog communication-channel not in config.
  - 2017-11-29 Fixed bug#[13391](https://bugs.otrs.org/show_bug.cgi?id=13391) - Ticket history mapping reference missing in TicketSearch.
  - 2017-11-27 Updated translations, thanks to all translators.
  - 2017-11-27 Fixed bug#[13262](https://bugs.otrs.org/show_bug.cgi?id=13262) - Dynamic Fields Management breadcrumb is not translatable.
