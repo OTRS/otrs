@@ -2777,8 +2777,9 @@ sub _GetServices {
     if ( $Param{CustomerUserID} ) {
         %Service = $Kernel::OM->Get('Kernel::System::Ticket')->TicketServiceList(
             %Param,
-            Action => $Self->{Action},
-            UserID => $Self->{UserID},
+            TicketID => $Self->{TicketID},
+            Action   => $Self->{Action},
+            UserID   => $Self->{UserID},
         );
     }
     return \%Service;
@@ -2807,8 +2808,9 @@ sub _GetSLAs {
     if ( $Param{ServiceID} ) {
         %SLA = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSLAList(
             %Param,
-            Action => $Self->{Action},
-            UserID => $Self->{UserID},
+            TicketID => $Self->{TicketID},
+            Action   => $Self->{Action},
+            UserID   => $Self->{UserID},
         );
     }
     return \%SLA;
