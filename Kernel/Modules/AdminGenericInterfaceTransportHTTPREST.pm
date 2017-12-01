@@ -123,7 +123,7 @@ sub Run {
         NEEDED:
         for my $Needed (qw( Host DefaultCommand Timeout )) {
             $TransportConfig->{$Needed} = $GetParam->{$Needed};
-            next NEEDED if $GetParam->{$Needed};
+            next NEEDED if defined $GetParam->{$Needed};
 
             $Error{ $Needed . 'ServerError' }        = 'ServerError';
             $Error{ $Needed . 'ServerErrorMessage' } = Translatable('This field is required');
@@ -144,7 +144,7 @@ sub Run {
             }
             NEEDED:
             for my $Needed (qw( BasicAuthUser BasicAuthPassword )) {
-                next NEEDED if $GetParam->{$Needed};
+                next NEEDED if defined $GetParam->{$Needed} && length $GetParam->{$Needed};
 
                 $Error{ $Needed . 'ServerError' }        = 'ServerError';
                 $Error{ $Needed . 'ServerErrorMessage' } = Translatable('This field is required');
@@ -223,7 +223,7 @@ sub Run {
         NEEDED:
         for my $Needed (qw( MaxLength KeepAlive )) {
             $TransportConfig->{$Needed} = $GetParam->{$Needed};
-            next NEEDED if $GetParam->{$Needed};
+            next NEEDED if defined $GetParam->{$Needed};
 
             $Error{ $Needed . 'ServerError' }        = 'ServerError';
             $Error{ $Needed . 'ServerErrorMessage' } = Translatable('This field is required');

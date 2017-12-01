@@ -1,4 +1,5 @@
 #6.0.3 2017-??-??
+ - 2017-12-01 Fixed bug#[13335](https://bugs.otrs.org/show_bug.cgi?id=13335) - Changes in Network Transport of Web Services are not saved.
  - 2017-12-01 Fixed bug#[13312](https://bugs.otrs.org/show_bug.cgi?id=13312) - ACLs not working as expected in AgentTicketFreeText.
  - 2017-12-01 Fixed bug#[13170](https://bugs.otrs.org/show_bug.cgi?id=13170) - Frontend::RichTextWidth setting is not honored.
  - 2017-12-01 Fixed bug#[13350](https://bugs.otrs.org/show_bug.cgi?id=13350) - CheckMXRecord should not act when setting email address to invalid.

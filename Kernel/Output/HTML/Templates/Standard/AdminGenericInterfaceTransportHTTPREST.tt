@@ -379,7 +379,7 @@
                                     <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
                                 [% END %]
                                 [% Translate("or") | html %]
-                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %]"><span>[% Translate("Cancel") | html %]</span></a>
+                                <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]"><span>[% Translate("Cancel") | html %]</span></a>
                             </div>
                             <div class="Clear"></div>
                         </fieldset>
