@@ -638,6 +638,52 @@ my @Tests = (
         },
         Operation => 'TicketUpdate',
     },
+    {
+        Name           => 'Add article (with attachment)',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID => $TicketID1,
+            Ticket   => {
+                Title => 'Updated',
+            },
+            Article => {
+                Subject              => 'Article subject äöüßÄÖÜ€ис',
+                Body                 => 'Article body',
+                AutoResponseType     => 'auto reply',
+                IsVisibleForCustomer => 1,
+                CommunicationChannel => 'Email',
+                SenderType           => 'agent',
+                From                 => 'enjoy@otrs.com',
+                Charset              => 'utf8',
+                MimeType             => 'text/plain',
+                HistoryType          => 'NewTicket',
+                HistoryComment       => '%%',
+            },
+            Attachment => [
+                {
+                    Content     => 'Ymx1YiBibHViIGJsdWIg',
+                    ContentType => 'text/html',
+                    Filename    => 'test.txt',
+                },
+            ],
+        },
+        IncludeTicketData        => 1,
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                TicketID     => $Ticket{TicketID},
+                TicketNumber => $Ticket{TicketNumber},
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                TicketID     => $Ticket{TicketID},
+                TicketNumber => $Ticket{TicketNumber},
+            },
+        },
+        Operation => 'TicketUpdate',
+    },
 );
 
 # debugger object
@@ -656,7 +702,27 @@ $Self->Is(
     'DebuggerObject instantiate correctly',
 );
 
+$Helper->FixedTimeSet();
+
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
 for my $Test (@Tests) {
+
+    # Update web service config to include ticket data in responses.
+    if ( $Test->{IncludeTicketData} ) {
+        $WebserviceConfig->{Provider}->{Operation}->{TicketUpdate}->{IncludeTicketData} = 1;
+        my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
+            ID      => $WebserviceID,
+            Name    => $WebserviceName,
+            Config  => $WebserviceConfig,
+            ValidID => 1,
+            UserID  => $Self->{UserID},
+        );
+        $Self->True(
+            $WebserviceUpdate,
+            'WebserviceUpdate - Turned on IncludeTicketData'
+        );
+    }
 
     # create local object
     my $LocalObject = "Kernel::GenericInterface::Operation::Ticket::$Test->{Operation}"->new(
@@ -696,6 +762,30 @@ for my $Test (@Tests) {
         ref $LocalResult,
         "$Test->{Name} - Local result structure is valid",
     );
+
+    if ( $Test->{RequestData}->{Article} ) {
+
+        # Get latest article data.
+        my @ArticleList = $ArticleObject->ArticleList(
+            TicketID => $TicketID1,
+            OnlyLast => 1,
+        );
+
+        my $ArticleID;
+
+        ARTICLE:
+        for my $Article (@ArticleList) {
+            $ArticleID = $Article->{ArticleID};
+            last ARTICLE;
+        }
+
+        if ( $Test->{ExpectedReturnLocalData} ) {
+            $Test->{ExpectedReturnLocalData}->{Data} = {
+                %{ $Test->{ExpectedReturnLocalData}->{Data} },
+                ArticleID => $ArticleID,
+            };
+        }
+    }
 
     # create requester object
     my $RequesterObject = Kernel::GenericInterface::Requester->new(
@@ -737,6 +827,138 @@ for my $Test (@Tests) {
         delete $LocalResult->{ErrorMessage};
     }
 
+    if ( $Test->{IncludeTicketData} ) {
+        my %TicketGet = $TicketObject->TicketGet(
+            TicketID      => $TicketID1,
+            DynamicFields => 1,
+            Extended      => 1,
+            UserID        => 1,
+        );
+
+        my %TicketData;
+        my @DynamicFields;
+
+        # Transform some ticket properties so they match expected data structure.
+        KEY:
+        for my $Key ( sort keys %TicketGet ) {
+
+            # Quote some properties as strings.
+            if ( $Key eq 'UntilTime' ) {
+                $TicketData{$Key} = "$TicketGet{$Key}";
+                next KEY;
+            }
+
+            # Push all dynamic field data in a separate array structure.
+            elsif ( $Key =~ m{^DynamicField_(?<DFName>\w+)$}xms ) {
+                push @DynamicFields, {
+                    Name  => $+{DFName},
+                    Value => $TicketGet{$Key} // '',
+                };
+                next KEY;
+            }
+
+            # Skip some fields since they might differ.
+            elsif (
+                $Key eq 'Age'
+                || $Key eq 'FirstResponse'
+                || $Key eq 'Changed'
+                || $Key eq 'UnlockTimeout'
+                )
+            {
+                next KEY;
+            }
+
+            # Include any other ticket property as-is. Undefined values should be represented as empty string.
+            $TicketData{$Key} = $TicketGet{$Key} // '';
+        }
+
+        if (@DynamicFields) {
+            $TicketData{DynamicField} = \@DynamicFields;
+        }
+
+        $Test->{ExpectedReturnRemoteData}->{Data} = {
+            %{ $Test->{ExpectedReturnRemoteData}->{Data} },
+            Ticket => \%TicketData,
+        };
+    }
+
+    if ( $Test->{RequestData}->{Article} ) {
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+
+        # Get latest article data.
+        my @ArticleList = $ArticleObject->ArticleList(
+            TicketID => $TicketID1,
+            OnlyLast => 1,
+        );
+
+        my %Article;
+
+        ARTICLE:
+        for my $Article (@ArticleList) {
+            my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$Article} );
+
+            %Article = $ArticleBackendObject->ArticleGet( %{$Article} );
+
+            my %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
+                ArticleID => $Article{ArticleID},
+            );
+
+            my @Attachments;
+            $Kernel::OM->Get('Kernel::System::Main')->Require('MIME::Base64');
+            ATTACHMENT:
+            for my $FileID ( sort keys %AttachmentIndex ) {
+                next ATTACHMENT if !$FileID;
+                my %Attachment = $ArticleBackendObject->ArticleAttachment(
+                    ArticleID => $Article{ArticleID},
+                    FileID    => $FileID,
+                );
+
+                next ATTACHMENT if !IsHashRefWithData( \%Attachment );
+
+                # Convert content to base64.
+                $Attachment{Content} = MIME::Base64::encode_base64( $Attachment{Content} );
+                push @Attachments, {%Attachment};
+            }
+
+            # Set attachment data.
+            if (@Attachments) {
+
+                # Flatten array if only one attachment was found.
+                if ( scalar @Attachments == 1 ) {
+                    for my $Attachment (@Attachments) {
+                        $Article{Attachment} = $Attachment;
+                    }
+                }
+                else {
+                    $Article{Attachment} = \@Attachments;
+                }
+            }
+
+            last ARTICLE;
+        }
+
+        # Transform some article properties so they match expected data structure.
+        for my $Key (qw(ArticleNumber)) {
+            $Article{$Key} = "$Article{$Key}";
+        }
+
+        $Test->{ExpectedReturnRemoteData}->{Data}->{Ticket} = {
+            %{ $Test->{ExpectedReturnRemoteData}->{Data}->{Ticket} },
+            Article => \%Article,
+        };
+        $Test->{ExpectedReturnRemoteData}->{Data} = {
+            %{ $Test->{ExpectedReturnRemoteData}->{Data} },
+            ArticleID => $Article{ArticleID},
+        };
+    }
+
+    # Remove some fields before comparison since they might differ.
+    if ( $Test->{IncludeTicketData} ) {
+        for my $Key (qw(Age Changed UnlockTimeout)) {
+            delete $RequesterResult->{Data}->{Ticket}->{$Key};
+        }
+    }
+
     $Self->IsDeeply(
         $RequesterResult,
         $Test->{ExpectedReturnRemoteData},
@@ -755,6 +977,22 @@ for my $Test (@Tests) {
             $LocalResult,
             $Test->{ExpectedReturnRemoteData},
             "$Test->{Name} - Local result matched with remote result.",
+        );
+    }
+
+    # Update web service config to exclude ticket data in responses.
+    if ( $Test->{IncludeTicketData} ) {
+        $WebserviceConfig->{Provider}->{Operation}->{TicketUpdate}->{IncludeTicketData} = 0;
+        my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
+            ID      => $WebserviceID,
+            Name    => $WebserviceName,
+            Config  => $WebserviceConfig,
+            ValidID => 1,
+            UserID  => $Self->{UserID},
+        );
+        $Self->True(
+            $WebserviceUpdate,
+            'WebserviceUpdate - Turned off IncludeTicketData'
         );
     }
 }
