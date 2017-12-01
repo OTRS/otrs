@@ -217,6 +217,58 @@ my @Tests = (
         ],
     },
     {
+        Name     => 'ExampleArrayDate',
+        Index    => 3,
+        Commands => [
+            {
+                VerifiedGet => 'Action=AdminSystemConfigurationGroup;RootNavigation=GenericInterface',
+            },
+            {
+                # Click on the GenericInterface link in navigation tree.
+                Navigate => 'Sample',
+            },
+            {
+                # Wait until screen is loaded.
+                Select => 'select',
+            },
+            {
+                # Scroll to the setting.
+                JS => "\$('.SettingsList li:nth-of-type(3) .WidgetSimple')[0].scrollIntoView(true);",
+            },
+            {
+                Hover => '.Content',
+            },
+            {
+                Click => '.SettingEdit',
+            },
+            {
+                # Wait until Datepicker is loaded.
+                Select => '.ArrayItem:nth-of-type(1) .DatepickerIcon',
+            },
+            {
+                Click => '.ArrayItem:nth-of-type(1) .DatepickerIcon',
+            },
+            {
+                DatepickerDay => 10,
+            },
+            {
+                Select => '.ArrayItem:nth-of-type(1) select:nth-of-type(2)',
+            },
+            {
+                # Make sure that Datepicker is working (Day is updated).
+                ElementValue => 10,
+            },
+            {
+                # Discard changes
+                Click => '.Cancel',
+            },
+        ],
+        ExpectedResult => [
+            '2016-05-05',
+            '2016-12-15',
+        ],
+    },
+    {
         Name     => 'ExampleArrayDateTime',
         Index    => 4,
         Commands => [
@@ -1064,6 +1116,25 @@ $Selenium->RunTest(
                 elsif ( $CommandType eq 'WaitForJS' ) {
                     $Selenium->WaitFor(
                         JavaScript => $Value,
+                    );
+                }
+                elsif ( $CommandType eq 'VerifiedGet' ) {
+                    $Selenium->VerifiedGet("${ScriptAlias}index.pl?$Value");
+                }
+                elsif ( $CommandType eq 'Navigate' ) {
+                    $Selenium->WaitFor(
+                        JavaScript => 'return $("li#' . $Value . ' > i").length',
+                    );
+                    $Selenium->find_element( "li#$Value > i", "css" )->click();
+                }
+                elsif ( $CommandType eq 'DatepickerDay' ) {
+                    $Selenium->WaitFor(
+                        JavaScript => 'return $(".ui-datepicker-calendar:visible").length',
+                    );
+
+                    $Selenium->find_element( '//a[text()="' . $Value . '"]' )->click();
+                    $Selenium->WaitFor(
+                        JavaScript => 'return $(".ui-datepicker-calendar:visible").length == 0',
                     );
                 }
             }

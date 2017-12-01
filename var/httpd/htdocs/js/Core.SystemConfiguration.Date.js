@@ -110,8 +110,8 @@ Core.SystemConfiguration.Date = (function (TargetNS) {
         Prefix = $Object.attr("id");
         Prefix = Prefix.substr(0, Prefix.length - 3);
 
-        // Escape #
-        Prefix = Prefix.replace(/#/g, '\\#');
+        // Escape selector.
+        Prefix = Core.App.EscapeSelector(Prefix);
 
         if ($Object.is('select')) {
             Day = $Object.find("option:selected").val();

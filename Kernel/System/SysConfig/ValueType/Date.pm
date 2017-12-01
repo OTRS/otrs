@@ -20,6 +20,7 @@ our @ObjectDependencies = (
     'Kernel::Language',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::Log',
+    'Kernel::System::JSON',
     'Kernel::System::User',
 );
 
@@ -246,6 +247,9 @@ sub SettingRender {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+    # Check if there is Datepicker before we add it.
+    my $HasDatepicker = $LayoutObject->{HasDatepicker};
+
     my $Name = $Param{Name} . $IDSuffix;
 
     my %EffectiveValueCheck = (
@@ -337,6 +341,32 @@ EOF
     if ( $Param{IsAjax} && $LayoutObject->{_JSOnDocumentComplete} && $Param{RW} ) {
         for my $JS ( @{ $LayoutObject->{_JSOnDocumentComplete} } ) {
             $HTML .= "<script>$JS</script>";
+        }
+    }
+
+    if ( $Param{IsAjax} ) {
+
+       # Remove JS generated in BuildDateSelection() call (setting is disabled or it's already sent together with HTML).
+       # It also prevents multiple Datepicker initializations (if there are several on the page).
+        pop @{ $LayoutObject->{_JSOnDocumentComplete} };
+
+        if ( !$HasDatepicker ) {
+            my $VacationDays = $LayoutObject->DatepickerGetVacationDays();
+            my $TextDirection = $LanguageObject->{TextDirection} || '';
+
+            my $JSONString = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
+                Data => {
+                    VacationDays => $VacationDays,
+                    IsRTL        => ( $TextDirection eq 'rtl' ) ? 1 : 0,
+                },
+            );
+
+            $HTML .= "<script>
+                Core.Config.Set('Datepicker', $JSONString);
+            </script>";
+
+            # If there are several DateTime settings, don't run this block again.
+            $LayoutObject->{HasDatepicker} = 1;
         }
     }
 

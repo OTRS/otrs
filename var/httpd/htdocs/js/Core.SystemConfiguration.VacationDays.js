@@ -61,6 +61,9 @@ Core.SystemConfiguration.VacationDays = (function (TargetNS) {
         Prefix = $Object.attr("id");
         Prefix = Prefix.substr(0, Prefix.length - 3);
 
+        // Escape selector.
+        Prefix = Core.App.EscapeSelector(Prefix);
+
         Month = parseInt($Object.parent().find("#" + Prefix + "Month").val(), 10);
         Day = parseInt($Object.val(), 10);
         Description = $Object.parent().find("#" + Prefix + "Description").val();
