@@ -899,6 +899,10 @@ for my $Test (@Tests) {
 
             %Article = $ArticleBackendObject->ArticleGet( %{$Article} );
 
+            for my $Key ( sort keys %Article ) {
+                $Article{$Key} //= '';
+            }
+
             my %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
                 ArticleID => $Article{ArticleID},
             );
