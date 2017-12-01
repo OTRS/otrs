@@ -54,7 +54,7 @@
 [% RenderBlockEnd("ContentLargeCustomerIDListRowCustomerIDTicketsClosed") %]
             <td class="Center">
             [% IF Data.EditCustomerIDPermission %]
-                <a href="[% Env("Baselink") %]Action=AdminCustomerCompany;Subaction=Change;CustomerID=[% Data.CustomerID | uri %];Nav=Agent" title="Edit customer ID">
+                <a href="[% Env("Baselink") %]Action=AdminCustomerCompany;Subaction=Change;CustomerID=[% Data.CustomerID | uri %];Nav=Agent" title="[% Translate("Edit customer ID") | html %]">
                     <i class="fa fa-pencil-square-o"></i>
                 </a>
             [% END %]
