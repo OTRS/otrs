@@ -83,7 +83,7 @@ sub Run {
     );
     if ( !%Data ) {
         $LogObject->Log(
-            Message  => "No such attacment ($FileID)! May be an attack!!!",
+            Message  => "No such attachment ($FileID).",
             Priority => 'error',
         );
         return $LayoutObject->ErrorScreen();
