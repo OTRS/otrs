@@ -11,28 +11,32 @@
 <script type="text/javascript">//<![CDATA[
 
     // check if height/width has already been set in the current screen
-    var ScreenRichTextHeight = parseInt("[% Data.RichTextHeight | html %]", 10),
-        ScreenRichTextWidth  = parseInt("[% Data.RichTextWidth | html %]", 10);
+    var ScreenRichTextHeight = [% Data.RichTextHeight | JSON %],
+        ScreenRichTextWidth  = [% Data.RichTextWidth | JSON %];
 
-    Core.Config.Set('RichText.Height', '[% Config("Frontend::RichTextHeight") %]');
-    if (ScreenRichTextHeight > 0) {
+    if (ScreenRichTextHeight && parseInt(ScreenRichTextHeight, 10) > 0) {
         Core.Config.Set('RichText.Height', ScreenRichTextHeight);
     }
-
-    Core.Config.Set('RichText.Width', '[% Config("Frontend::RichTextWidth") %]');
-    if (ScreenRichTextWidth > 0) {
-        Core.Config.Set('RichText.Width', ScreenRichTextWidth);
+    else {
+        Core.Config.Set('RichText.Height', [% Config("Frontend::RichTextHeight") | JSON %]);
     }
 
-    Core.Config.Set('RichText.TextDir', '[% Env("TextDirection") %]');
-    Core.Config.Set('RichText.SpellChecker', '[% Env("BrowserSpellCheckerInline") %]');
-    Core.Config.Set('RichText.EditingAreaCSS', 'body.cke_editable { [% Config("Frontend::RichText::DefaultCSS") %] }');
-    Core.Config.Set('RichText.Lang.SplitQuote', '[% Translate('Split Quote') | html %]');
-    Core.Config.Set('RichText.Lang.RemoveQuote', '[% Translate('Remove Quote') | html %]');
-    Core.Config.Set('RichText.Lang.OpenLink', '[% Translate('Open link') | html %]');
+    if (ScreenRichTextWidth && parseInt(ScreenRichTextWidth, 10) > 0) {
+        Core.Config.Set('RichText.Width', ScreenRichTextWidth);
+    }
+    else {
+        Core.Config.Set('RichText.Width', [% Config("Frontend::RichTextWidth") | JSON %]);
+    }
+
+    Core.Config.Set('RichText.TextDir', [% Env("TextDirection") | JSON %]);
+    Core.Config.Set('RichText.SpellChecker', [% Env("BrowserSpellCheckerInline") | JSON %]);
+    Core.Config.Set('RichText.EditingAreaCSS', 'body.cke_editable { ' + [% Config("Frontend::RichText::DefaultCSS") | JSON %] + ' }');
+    Core.Config.Set('RichText.Lang.SplitQuote', [% Translate('Split Quote') | JSON %]);
+    Core.Config.Set('RichText.Lang.RemoveQuote', [% Translate('Remove Quote') | JSON %]);
+    Core.Config.Set('RichText.Lang.OpenLink', [% Translate('Open link') | JSON %]);
 
     // decide if we need to use the enhanced mode (with tables)
-    if ( '[% Config("Frontend::RichText::EnhancedMode") %]' === '1' ) {
+    if ( [% Config("Frontend::RichText::EnhancedMode") | JSON %] === '1' ) {
         Core.Config.Set('RichText.Toolbar', [
             ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'NumberedList', 'BulletedList', 'Table', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Link', 'Unlink', 'Undo', 'Redo', 'SelectAll' ],
             '/',
@@ -58,7 +62,7 @@
             ['Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor', 'RemoveFormat', '-', 'Source', 'SpecialChar', 'SplitQuote', 'RemoveQuote', '-', 'Maximize']
         ]);
     }
-    Core.Config.Set('RichText.PictureUploadAction', "[% Data.RichTextPictureUploadAction | html %]");
+    Core.Config.Set('RichText.PictureUploadAction', [% Data.RichTextPictureUploadAction | JSON %]);
 
     Core.UI.RichTextEditor.InitAll();
 //]]></script>

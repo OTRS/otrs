@@ -564,7 +564,6 @@ fieldset.TableLike > .Row > .Field > input {
  *          Additionally we have a generic FloatingField class,
  *          RichTextField is for backwards compatibility.
  */
-fieldset.TableLike > .RichTextField,
 fieldset.TableLike > .Row > .RichTextField,
 fieldset.TableLike > .FloatingField,
 fieldset.TableLike > .Row > .FloatingField {
@@ -574,14 +573,29 @@ fieldset.TableLike > .Row > .FloatingField {
     float: left;
 }
 
-body.Popup fieldset.TableLike > .RichTextField,
+fieldset.TableLike > .RichTextField {
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 30%;
+    margin-right: 0;
+}
+
 body.Popup fieldset.TableLike > .Row > .RichTextField,
 body.Popup fieldset.TableLike > .FloatingField,
 body.Popup fieldset.TableLike > .Row > .FloatingField {
     margin: 7px 7px 0px 7px;
 }
 
-.RTL fieldset.TableLike > .RichTextField,
+body.Popup fieldset.TableLike > .RichTextField {
+    padding-top: 7px;
+    padding-left: 17px;
+    padding-right: 0px;
+    margin-left: 170px;
+    margin-right: 0;
+}
+
+
 .RTL fieldset.TableLike > .Row > .RichTextField,
 .RTL fieldset.TableLike > .FloatingField,
 .RTL fieldset.TableLike > .Row > .FloatingField {
@@ -590,11 +604,26 @@ body.Popup fieldset.TableLike > .Row > .FloatingField {
     float: right;
 }
 
-body.Popup .RTL fieldset.TableLike > .RichTextField,
-body.Popup .RTL fieldset.TableLike > .Row > .RichTextField,
-body.Popup .RTL fieldset.TableLike > .FloatingField,
-body.Popup .RTL fieldset.TableLike > .Row > .FloatingField {
+.RTL fieldset.TableLike > .RichTextField {
+    padding-bottom: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-right: 30%;
+    margin-left: 0;
+}
+
+body.RealPopup.RTL fieldset.TableLike > .Row > .RichTextField,
+body.RealPopup.RTL fieldset.TableLike > .FloatingField,
+body.RealPopup.RTL fieldset.TableLike > .Row > .FloatingField {
     margin: 7px 7px 0px 7px;
+}
+
+body.RealPopup.RTL fieldset.TableLike > .RichTextField {
+    padding-top: 7px;
+    padding-right: 17px;
+    padding-left: 0px;
+    margin-right: 170px;
+    margin-left: 0;
 }
 
 fieldset.TableLike > .Value,
