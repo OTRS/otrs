@@ -60,6 +60,9 @@ sub Run {
         );
     }
 
+    # Get list of valid IDs.
+    my @ValidIDList = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
+
     # check the permission for the SwitchToCustomer feature
     if ( $ConfigObject->Get('SwitchToCustomer') ) {
 
@@ -324,6 +327,7 @@ sub Run {
             !$UpdateOnlyPreferences
             && $GetParam{UserEmail}
             && !$CheckItemObject->CheckEmail( Address => $GetParam{UserEmail} )
+            && grep { $_ eq $GetParam{ValidID} } @ValidIDList
             )
         {
             $Errors{UserEmailInvalid} = 'ServerError';
@@ -589,6 +593,7 @@ sub Run {
         if (
             $GetParam{UserEmail}
             && !$CheckItemObject->CheckEmail( Address => $GetParam{UserEmail} )
+            && grep { $_ eq $GetParam{ValidID} } @ValidIDList
             )
         {
             $Errors{UserEmailInvalid} = 'ServerError';

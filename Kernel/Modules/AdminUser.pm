@@ -40,6 +40,9 @@ sub Run {
     my $Search       = $ParamObject->GetParam( Param => 'Search' )       || '';
     my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
 
+    # Get list of valid IDs.
+    my @ValidIDList = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
+
     # ------------------------------------------------------------ #
     #  switch to user
     # ------------------------------------------------------------ #
@@ -166,6 +169,7 @@ sub Run {
         if (
             $GetParam{UserEmail}
             && !$CheckItemObject->CheckEmail( Address => $GetParam{UserEmail} )
+            && grep { $_ eq $GetParam{ValidID} } @ValidIDList
             )
         {
             $Errors{UserEmailInvalid} = 'ServerError';
@@ -338,6 +342,7 @@ sub Run {
         if (
             $GetParam{UserEmail}
             && !$CheckItemObject->CheckEmail( Address => $GetParam{UserEmail} )
+            && grep { $_ eq $GetParam{ValidID} } @ValidIDList
             )
         {
             $Errors{UserEmailInvalid} = 'ServerError';

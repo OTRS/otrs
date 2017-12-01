@@ -1398,6 +1398,7 @@ sub CustomerUserAdd {
     if (
         $Param{UserEmail}
         && !$CheckItemObject->CheckEmail( Address => $Param{UserEmail} )
+        && grep { $_ eq $Param{ValidID} } $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet()
         )
     {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1533,6 +1534,7 @@ sub CustomerUserUpdate {
     if (
         $Param{UserEmail}
         && !$CheckItemObject->CheckEmail( Address => $Param{UserEmail} )
+        && grep { $_ eq $Param{ValidID} } $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet()
         )
     {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
