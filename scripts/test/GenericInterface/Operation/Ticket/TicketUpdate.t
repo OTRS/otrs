@@ -29,6 +29,12 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'CheckMXRecord',
+    Value => 0,
+);
+
 # get a random number
 my $RandomID = $Helper->GetRandomNumber();
 
