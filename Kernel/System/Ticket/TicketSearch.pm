@@ -1538,7 +1538,11 @@ sub TicketSearch {
     # catch searches for non-existing dynamic fields
     PARAMS:
     for my $Key ( sort keys %Param ) {
-        next PARAMS if !$Param{$Key};
+
+        # Only look at fields which start with DynamicField_ and contain a substructure that is meant for searching.
+        #   It could happen that similar scalar parameters are sent to this method, that should be ignored
+        #   (see bug#13412).
+        next PARAMS if !ref $Param{$Key};
         next PARAMS if $Key !~ /^DynamicField_(.*)$/;
 
         my $DynamicFieldName = $1;
