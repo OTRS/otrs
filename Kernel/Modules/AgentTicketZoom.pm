@@ -869,15 +869,13 @@ sub MaskAgentZoom {
     );
 
     if ( IsArrayRefWithData( $Self->{ArticleFilter}->{CommunicationChannelID} ) ) {
-        my %Filter;
-        @Filter{ @{ $Self->{ArticleFilter}->{CommunicationChannelID} } } = 1;
+        my %Filter = map { $_ => 1 } @{ $Self->{ArticleFilter}->{CommunicationChannelID} };
 
         @ArticleBoxAll = grep { $Filter{ $_->{CommunicationChannelID} } } @ArticleBoxAll;
     }
 
     if ( IsArrayRefWithData( $Self->{ArticleFilter}->{ArticleSenderTypeID} ) ) {
-        my %Filter;
-        @Filter{ @{ $Self->{ArticleFilter}->{ArticleSenderTypeID} } } = 1;
+        my %Filter = map { $_ => 1 } @{ $Self->{ArticleFilter}->{ArticleSenderTypeID} };
 
         @ArticleBoxAll = grep { $Filter{ $_->{SenderTypeID} } } @ArticleBoxAll;
     }

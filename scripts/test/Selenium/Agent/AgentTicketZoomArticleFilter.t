@@ -185,6 +185,11 @@ $Selenium->RunTest(
         # click on article filter, open popup dialog
         $Selenium->find_element( "#SetArticleFilter", 'css' )->click();
 
+        # Wait for dialog to appear.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;'
+        );
+
         my %CommunicationChannel = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelGet(
             ChannelName => 'Phone',
         );
@@ -260,6 +265,80 @@ $Selenium->RunTest(
             $Self->True(
                 index( $Selenium->get_page_source(), $Article ) > -1,
                 "ZoomExpandSort: normal - $Article found on second page - article filter off",
+            );
+        }
+
+        # Change max article per page config.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::MaxArticlesPerPage',
+            Value => 6,
+        );
+
+        # Refresh screen.
+        $Selenium->VerifiedRefresh();
+
+        # Open article filter dialog.
+        $Selenium->find_element( "#SetArticleFilter", 'css' )->click();
+
+        # Wait for dialog to appear.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;'
+        );
+
+        # Get agent ArticleSenderTypeID.
+        my $AgentSenderTypeID = $ArticleObject->ArticleSenderTypeLookup(
+            SenderType => 'agent',
+        );
+
+        $Selenium->execute_script(
+            "\$('#ArticleSenderTypeFilter').val([$AgentSenderTypeID, $CustomerSenderTypeID]).trigger('redraw.InputField').trigger('change');"
+        );
+
+        $Selenium->find_element("//button[\@id='DialogButton1']")->VerifiedClick();
+
+        # Check if customer and agent articles are shown.
+        my %TestArticles = (
+            customer => '#4 – Fourth Test Article',
+            agent    => '#6 – Sixth Test Article',
+        );
+
+        for my $ArticleType ( sort keys %TestArticles ) {
+            $Self->True(
+                index( $Selenium->get_page_source(), $TestArticles{$ArticleType} ) > -1,
+                "Article type $ArticleType - \"$TestArticles{$ArticleType}\" found on page",
+            );
+        }
+
+        $Selenium->find_element( "#SetArticleFilter", 'css' )->click();
+
+        # Wait for dialog to appear.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;'
+        );
+
+        # Get system ArticleSenderTypeID.
+        my $SystemSenderTypeID = $ArticleObject->ArticleSenderTypeLookup(
+            SenderType => 'system',
+        );
+
+        $Selenium->execute_script(
+            "\$('#ArticleSenderTypeFilter').val([$AgentSenderTypeID, $CustomerSenderTypeID, $SystemSenderTypeID]).trigger('redraw.InputField').trigger('change');"
+        );
+
+        $Selenium->find_element("//button[\@id='DialogButton1']")->VerifiedClick();
+
+        # Check if agent, customer and system articles are shown.
+        %TestArticles = (
+            customer => '#4 – Fourth Test Article',
+            system   => '#5 – Fifth Test Article',
+            agent    => '#6 – Sixth Test Article',
+        );
+
+        for my $ArticleType ( sort keys %TestArticles ) {
+            $Self->True(
+                index( $Selenium->get_page_source(), $TestArticles{$ArticleType} ) > -1,
+                "Article type $ArticleType - \"$TestArticles{$ArticleType}\" found on page ",
             );
         }
 
