@@ -154,14 +154,21 @@ sub Run {
         }
     }
 
-    # show add new customer button if there are writable customer backends and if
-    # the agent has permission
-    my $AddAccess = $LayoutObject->Permission(
-        Action => 'AdminCustomerUser',
-        Type   => 'rw',                  # ro|rw possible
-    );
+    # Show add new customer button if:
+    #   - The agent has permission to use the module
+    #   - There are writable customer backends
+    my $AddAccess;
 
-    # get writable data sources
+    TYPE:
+    for my $Permission (qw(ro rw)) {
+        $AddAccess = $LayoutObject->Permission(
+            Action => 'AdminCustomerUser',
+            Type   => $Permission,
+        );
+        last TYPE if $AddAccess;
+    }
+
+    # Get writable data sources.
     my %CustomerSource = $CustomerUserObject->CustomerSourceList(
         ReadOnly => 0,
     );
