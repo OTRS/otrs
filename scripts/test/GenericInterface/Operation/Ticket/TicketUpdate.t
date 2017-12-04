@@ -930,7 +930,9 @@ for my $Test (@Tests) {
             if ( scalar @{$DynamicFields} == 1 ) {
                 $DynamicFields = $DynamicFields->[0];
             }
-            $Article{DynamicField} = $DynamicFields;
+            if ( IsArrayRefWithData($DynamicFields) || IsHashRefWithData($DynamicFields) ) {
+                $Article{DynamicField} = $DynamicFields;
+            }
 
             my %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
                 ArticleID => $Article{ArticleID},
