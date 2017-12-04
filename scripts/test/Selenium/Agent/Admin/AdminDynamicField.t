@@ -154,8 +154,7 @@ $Selenium->RunTest(
                 $CheckBredcrumb->(
                     OverviewTitle  => $OverviewTitleBreadcrumb,
                     BreadcrumbText => $LanguageObject->Translate($Type) . ': '
-                        . $LanguageObject->Translate('Add') . ' ' . $LanguageObject->Translate($IDText)
-                        . ' ' . $LanguageObject->Translate('Field')
+                        . $LanguageObject->Translate( 'Add %s field', $LanguageObject->Translate($IDText) )
                 );
 
                 $Selenium->find_element( "#Name",  'css' )->send_keys($RandomID);
@@ -176,8 +175,8 @@ $Selenium->RunTest(
                 $CheckBredcrumb->(
                     OverviewTitle  => $OverviewTitleBreadcrumb,
                     BreadcrumbText => $LanguageObject->Translate($Type) . ': '
-                        . $LanguageObject->Translate('Change') . ' ' . $LanguageObject->Translate($IDText)
-                        . ' ' . $LanguageObject->Translate('Field') . ' - ' . $RandomID
+                        . $LanguageObject->Translate( 'Change %s field', $LanguageObject->Translate($IDText) ) . ' - '
+                        . $RandomID
                 );
 
                 $Selenium->find_element( "#Label", 'css' )->clear();

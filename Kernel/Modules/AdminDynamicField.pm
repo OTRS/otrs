@@ -245,10 +245,6 @@ sub _ShowOverview {
         );
     }
 
-    # Flag necessary strings for translation. Used in DynamicField breadcrumbs.
-    Translatable('Change');
-    Translatable('Add');
-
     # send data to JS
     $LayoutObject->AddJSData(
         Key   => 'ObjectTypes',
