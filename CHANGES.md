@@ -1,4 +1,5 @@
 #6.0.3 2017-??-??
+ - 2017-12-04 Fixed bug#[13404](https://bugs.otrs.org/show_bug.cgi?id=13404) - Native Browser Spellchecker doesn't work.
  - 2017-12-01 Fixed bug#[13225](https://bugs.otrs.org/show_bug.cgi?id=13225) - Too many DB calls when rebuilding system configuration.
  - 2017-12-01 Fixed bug#[13251](https://bugs.otrs.org/show_bug.cgi?id=13251) - SysConfig Date settings with complex names are broken.
  - 2017-12-01 Fixed bug#[13363](https://bugs.otrs.org/show_bug.cgi?id=13363) - Missing code migration in TicketUpdate operation.

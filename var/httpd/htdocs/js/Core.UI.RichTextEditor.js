@@ -154,6 +154,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         /*eslint-disable camelcase */
         EditorConfig = {
             customConfig: '', // avoid loading external config files
+            disableNativeSpellChecker: false,
             defaultLanguage: UserLanguage,
             language: UserLanguage,
             width: Core.Config.Get('RichText.Width', 620),
