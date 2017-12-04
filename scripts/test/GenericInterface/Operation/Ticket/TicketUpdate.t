@@ -903,11 +903,34 @@ for my $Test (@Tests) {
         for my $Article (@ArticleList) {
             my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$Article} );
 
-            %Article = $ArticleBackendObject->ArticleGet( %{$Article} );
+            %Article = $ArticleBackendObject->ArticleGet(
+                %{$Article},
+                DynamicFields => 1,
+            );
 
             for my $Key ( sort keys %Article ) {
                 $Article{$Key} //= '';
             }
+
+            # Push all dynamic field data in a separate array structure.
+            my $DynamicFields;
+            KEY:
+            for my $Key ( sort keys %Article ) {
+                if ( $Key =~ m{^DynamicField_(?<DFName>\w+)$}xms ) {
+                    push @{$DynamicFields}, {
+                        Name  => $+{DFName},
+                        Value => $Article{$Key} // '',
+                    };
+                    next KEY;
+                }
+            }
+            for my $DynamicField ( @{$DynamicFields} ) {
+                delete $Article{"DynamicField_$DynamicField->{Name}"};
+            }
+            if ( scalar @{$DynamicFields} == 1 ) {
+                $DynamicFields = $DynamicFields->[0];
+            }
+            $Article{DynamicField} = $DynamicFields;
 
             my %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
                 ArticleID => $Article{ArticleID},
