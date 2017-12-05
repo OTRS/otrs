@@ -12,7 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
@@ -20,28 +19,28 @@ $Selenium->RunTest(
 
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # enable article filter
+        # Enable article filter.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::TicketArticleFilter',
             Value => 1,
         );
 
-        # set ZoomExpandSort to reverse
+        # Set ZoomExpandSort to reverse.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::ZoomExpandSort',
             Value => 'reverse',
         );
 
-        # set 3 max article per page
+        # Set 3 max article per page.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::MaxArticlesPerPage',
             Value => 3,
         );
 
-        # get test data
+        # Get test data.
         my @Tests = (
             {
                 Backend              => 'Phone',
@@ -81,7 +80,6 @@ $Selenium->RunTest(
             }
         );
 
-        # create and login test user
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -92,7 +90,6 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get test user ID
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
@@ -100,7 +97,7 @@ $Selenium->RunTest(
         my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
         my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-        # create test ticket
+        # Create test ticket.
         my $TicketID = $TicketObject->TicketCreate(
             Title      => 'Test Selenium Ticket',
             Queue      => 'Raw',
@@ -116,7 +113,7 @@ $Selenium->RunTest(
             "Ticket ID $TicketID - created",
         );
 
-        # create test articles
+        # Create test articles.
         for my $Test (@Tests) {
             my $ArticleID
                 = $Kernel::OM->Get("Kernel::System::Ticket::Article::Backend::$Test->{Backend}")->ArticleCreate(
@@ -137,52 +134,50 @@ $Selenium->RunTest(
             );
         }
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AgentTicketZoom for test created ticket (expanded view).
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID;ZoomExpand=1");
 
-        # verify there are last 3 created articles on first page
+        # Verify there are last 3 created articles on first page.
         my @FirstArticles = (
-            '#4 – Fourth Test Article',
-            '#5 – Fifth Test Article',
-            '#6 – Sixth Test Article',
+            'Fourth Test Article',
+            'Fifth Test Article',
+            'Sixth Test Article',
         );
         for my $Article (@FirstArticles) {
-
             $Self->True(
-                index( $Selenium->get_page_source(), $Article ) > -1,
+                $Selenium->execute_script("return \$('#ArticleTable:contains(\"$Article\")').length"),
                 "ZoomExpandSort: reverse - $Article found on first page - article filter off",
             );
         }
 
-        # verify first 3 articles are not visible, they are on second page
+        # Cerify first 3 articles are not visible, they are on second page.
         my @SecondArticles = (
-            '#1 – First Test Article',
-            '#2 – Second Test Article',
-            '#3 – Third Test Article',
+            'First Test Article',
+            'Second Test Article',
+            'Third Test Article',
         );
 
         for my $Article (@SecondArticles) {
-            $Self->True(
-                index( $Selenium->get_page_source(), $Article ) == -1,
+            $Self->False(
+                $Selenium->execute_script("return \$('#ArticleTable:contains(\"$Article\")').length"),
                 "ZoomExpandSort: reverse - $Article not found first on page - article filter off",
             );
         }
 
-        # click on second page
+        # Click on second page.
         $Selenium->find_element("//a[contains(\@href, \'TicketID=$TicketID;ArticlePage=2')]")->VerifiedClick();
 
-        # verify there are first 3 created articles on second page
+        # Verify there are first 3 created articles on second page.
         for my $Article (@SecondArticles) {
             $Self->True(
-                index( $Selenium->get_page_source(), $Article ) > -1,
+                $Selenium->execute_script("return \$('#ArticleTable:contains(\"$Article\")').length"),
                 "ZoomExpandSort: reverse - $Article found on second page - article filter off",
             );
         }
 
-        # click on article filter, open popup dialog
+        # Click on article filter, open popup dialog.
         $Selenium->find_element( "#SetArticleFilter", 'css' )->click();
 
         # Wait for dialog to appear.
@@ -194,12 +189,12 @@ $Selenium->RunTest(
             ChannelName => 'Phone',
         );
 
-        # get customer ArticleSenderTypeID
+        # Get customer ArticleSenderTypeID.
         my $CustomerSenderTypeID = $ArticleObject->ArticleSenderTypeLookup(
             SenderType => 'customer',
         );
 
-        # select phone backend and customer as article sender type for article filter
+        # Select phone backend and customer as article sender type for article filter.
         $Selenium->execute_script(
             "\$('#CommunicationChannelFilter').val('$CommunicationChannel{ChannelID}').trigger('redraw.InputField').trigger('change');"
         );
@@ -208,47 +203,46 @@ $Selenium->RunTest(
             "\$('#ArticleSenderTypeFilter').val('$CustomerSenderTypeID').trigger('redraw.InputField').trigger('change');"
         );
 
-        # close dropdown menu
+        # Close dropdown menu.
         $Selenium->execute_script("\$('.InputField_ListContainer').css('display', 'none');");
 
-        # apply filter
+        # Apply filter.
         $Selenium->find_element("//button[\@id='DialogButton1']")->click();
 
-        # wait for dialog to disappear
+        # Wait for dialog to disappear.
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;'
         );
 
-        # refresh screen
+        # Refresh screen.
         $Selenium->VerifiedRefresh();
 
-        # verify we now only have first and fourth article on screen and there numeration is intact
-        my @ArticlesFilterOn = ( '#1 – First Test Article', '#4 – Fourth Test Article' );
+        # Verify we now only have first and fourth article on screen and there numeration is intact.
+        my @ArticlesFilterOn = ( 'First Test Article', 'Fourth Test Article' );
         for my $ArticleFilterOn (@ArticlesFilterOn) {
-
             $Self->True(
-                index( $Selenium->get_page_source(), $ArticleFilterOn ) > -1,
+                $Selenium->execute_script("return \$('#ArticleTable:contains(\"$ArticleFilterOn\")').length"),
                 "ZoomExpandSort: reverse - $ArticleFilterOn found on page with original numeration - article filter on",
             );
         }
 
-        # set ZoomExpandSort to normal
+        # Set ZoomExpandSort to normal.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::ZoomExpandSort',
             Value => 'normal',
         );
 
-        # refresh screen
+        # Refresh screen.
         $Selenium->VerifiedRefresh();
 
-        # reset filter
+        # Reset filter.
         $Selenium->find_element( "#ResetArticleFilter", 'css' )->click();
 
-        # wait until reset filter button has gone
+        # Wait until reset filter button has gone.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$("#ResetArticleFilter").length' );
 
-        # click on first page
+        # Click on first page.
         $Selenium->find_element("//a[contains(\@href, \'TicketID=$TicketID;ArticlePage=1')]")->VerifiedClick();
 
         for my $Article (@SecondArticles) {
@@ -258,7 +252,7 @@ $Selenium->RunTest(
             );
         }
 
-        # click on second page
+        # Click on second page.
         $Selenium->find_element("//a[contains(\@href, \'TicketID=$TicketID;ArticlePage=2')]")->VerifiedClick();
 
         for my $Article (@FirstArticles) {
@@ -295,17 +289,24 @@ $Selenium->RunTest(
             "\$('#ArticleSenderTypeFilter').val([$AgentSenderTypeID, $CustomerSenderTypeID]).trigger('redraw.InputField').trigger('change');"
         );
 
-        $Selenium->find_element("//button[\@id='DialogButton1']")->VerifiedClick();
+        $Selenium->find_element("//button[\@id='DialogButton1']")->click();
+
+        # Wait for dialog to disappear.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;'
+        );
 
         # Check if customer and agent articles are shown.
         my %TestArticles = (
-            customer => '#4 – Fourth Test Article',
-            agent    => '#6 – Sixth Test Article',
+            customer => 'Fourth Test Article',
+            agent    => 'Sixth Test Article',
         );
 
         for my $ArticleType ( sort keys %TestArticles ) {
             $Self->True(
-                index( $Selenium->get_page_source(), $TestArticles{$ArticleType} ) > -1,
+                $Selenium->execute_script(
+                    "return \$('#ArticleTable:contains(\"$TestArticles{$ArticleType}\")').length"
+                ),
                 "Article type $ArticleType - \"$TestArticles{$ArticleType}\" found on page",
             );
         }
@@ -326,23 +327,30 @@ $Selenium->RunTest(
             "\$('#ArticleSenderTypeFilter').val([$AgentSenderTypeID, $CustomerSenderTypeID, $SystemSenderTypeID]).trigger('redraw.InputField').trigger('change');"
         );
 
-        $Selenium->find_element("//button[\@id='DialogButton1']")->VerifiedClick();
+        $Selenium->find_element("//button[\@id='DialogButton1']")->click();
+
+        # Wait for dialog to disappear.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;'
+        );
 
         # Check if agent, customer and system articles are shown.
         %TestArticles = (
-            customer => '#4 – Fourth Test Article',
-            system   => '#5 – Fifth Test Article',
-            agent    => '#6 – Sixth Test Article',
+            customer => 'Fourth Test Article',
+            system   => 'Fifth Test Article',
+            agent    => 'Sixth Test Article',
         );
 
         for my $ArticleType ( sort keys %TestArticles ) {
             $Self->True(
-                index( $Selenium->get_page_source(), $TestArticles{$ArticleType} ) > -1,
-                "Article type $ArticleType - \"$TestArticles{$ArticleType}\" found on page ",
+                $Selenium->execute_script(
+                    "return \$('#ArticleTable:contains(\"$TestArticles{$ArticleType}\")').length"
+                ),
+                "Article type $ArticleType - \"$TestArticles{$ArticleType}\" found on page",
             );
         }
 
-        # delete test created ticket
+        # Celete test created ticket.
         my $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
             TicketID => $TicketID,
             UserID   => 1,
@@ -361,7 +369,7 @@ $Selenium->RunTest(
             "Ticket with ticket id $TicketID - deleted"
         );
 
-        # make sure the cache is correct
+        # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
     }
 
