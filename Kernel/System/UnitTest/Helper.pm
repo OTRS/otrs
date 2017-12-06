@@ -63,7 +63,7 @@ sub new {
 
         $Self->{SysConfigBackup} = $Self->{SysConfigObject}->Download();
 
-        $Self->{UnitTestObject}->True( 1, 'Creating backup of the system configuration' );
+        $Self->{UnitTestDriverObject}->True( 1, 'Creating backup of the system configuration.' );
     }
 
     # set environment variable to skip SSL certificate verification if needed
@@ -417,8 +417,7 @@ sub DESTROY {
     if ( $Self->{SysConfigBackup} ) {
 
         $Self->{SysConfigObject}->Upload( Content => $Self->{SysConfigBackup} );
-
-        $Self->{UnitTestObject}->True( 1, 'Restored the system configuration' );
+        $Self->{UnitTestDriverObject}->True( 1, 'Restored the system configuration' );
     }
 
     #
