@@ -238,6 +238,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     width: 90%;
+    line-height: 130%;
 }
 
 .MessageHeader h3 span {
