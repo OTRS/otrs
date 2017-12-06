@@ -859,6 +859,47 @@ $Self->Is(
     "CustomerSourceList - found 1 writable sources",
 );
 
+# Use default CustomerUserListFields config and search for customer.
+my $UserLogin     = "NewLogin$UserID";
+my $FirstName     = "Firstname Update$UserID";
+my $LastName      = "Lastname Update$UserID";
+my $CustomerID    = "${UserID}new\@example.com";
+my $CustomerEmail = "<${UserID}new\@example.com>";
+my %CustomerUser  = $CustomerUserObject->CustomerSearch(
+    UserLogin => $UserLogin,
+    Valid     => 1,
+);
+
+# Verified search result.
+$Self->Is(
+    $CustomerUser{$UserLogin},
+    "\"$FirstName $LastName\" $CustomerEmail",
+    "Default 'CustomerUserListFields' config is"
+);
+
+# Change CustomerUserListFields config and search for customer again.
+#   See bug#13394 (https://bugs.otrs.org/show_bug.cgi?id=13394).
+my $CustomerUser = $ConfigObject->Get('CustomerUser');
+$CustomerUser->{CustomerUserListFields} = [ 'login', 'first_name', 'last_name', 'customer_id', 'email' ];
+$ConfigObject->Set(
+    Key   => 'CustomerUser',
+    Value => $CustomerUser,
+);
+
+$CacheObject->CleanUp();
+
+%CustomerUser = $CustomerUserObject->CustomerSearch(
+    UserLogin => $UserLogin,
+    Valid     => 1,
+);
+
+# Verify search result.
+$Self->Is(
+    $CustomerUser{$UserLogin},
+    "\"$UserLogin $FirstName $LastName $CustomerID\" $CustomerEmail",
+    "Changed 'CustomerUserListFields' config is"
+);
+
 # cleanup is done by RestoreDatabase
 
 1;
