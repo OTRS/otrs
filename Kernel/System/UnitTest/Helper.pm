@@ -75,7 +75,7 @@ sub new {
 
         $Self->{SysConfigBackup} = $Self->{SysConfigObject}->Download();
 
-        $Self->{UnitTestObject}->True( 1, 'Creating backup of the system configuration.' );
+        $Self->{UnitTestDriverObject}->True( 1, 'Creating backup of the system configuration.' );
     }
 
     # Remove any leftover custom files from aborted previous runs.
@@ -475,7 +475,7 @@ sub DESTROY {
     # restore system configuration if needed
     if ( $Self->{SysConfigBackup} ) {
         $Self->{SysConfigObject}->Upload( Content => $Self->{SysConfigBackup} );
-        $Self->{UnitTestObject}->True( 1, 'Restored the system configuration' );
+        $Self->{UnitTestDriverObject}->True( 1, 'Restored the system configuration' );
     }
 
     # Remove any custom files.
