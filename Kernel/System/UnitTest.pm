@@ -310,6 +310,7 @@ sub _SubmitResults {
                 Data => \%SubmitData,
             ),
         },
+        SkipSSLVerification => 1,
     );
 
     if ( $Response{Status} ne '200 OK' ) {
