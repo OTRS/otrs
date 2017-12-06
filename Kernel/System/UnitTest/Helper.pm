@@ -30,7 +30,7 @@ our @ObjectDependencies = (
     'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::UnitTest',
+    'Kernel::System::UnitTest::Driver',
     'Kernel::System::User',
     'Kernel::System::XML',
 );
@@ -70,7 +70,7 @@ sub new {
 
     $Self->{Debug} = $Param{Debug} || 0;
 
-    $Self->{UnitTestObject} = $Kernel::OM->Get('Kernel::System::UnitTest');
+    $Self->{UnitTestDriverObject} = $Kernel::OM->Get('Kernel::System::UnitTest::Driver');
 
     # Remove any leftover custom files from aborted previous runs.
     $Self->CustomFileCleanup();
@@ -85,7 +85,7 @@ sub new {
         $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = 0;    ## no critic
 
         $Self->{RestoreSSLVerify} = 1;
-        $Self->{UnitTestObject}->True( 1, 'Skipping SSL certificates verification' );
+        $Self->{UnitTestDriverObject}->True( 1, 'Skipping SSL certificates verification' );
     }
 
     # switch article dir to a temporary one to avoid collisions
@@ -96,7 +96,7 @@ sub new {
     if ( $Param{RestoreDatabase} ) {
         $Self->{RestoreDatabase} = 1;
         my $StartedTransaction = $Self->BeginWork();
-        $Self->{UnitTestObject}->True( $StartedTransaction, 'Started database transaction.' );
+        $Self->{UnitTestDriverObject}->True( $StartedTransaction, 'Started database transaction.' );
 
     }
 
@@ -152,7 +152,7 @@ sub GetRandomNumber {
 =head2 TestUserCreate()
 
 creates a test user that can be used in tests. It will
-be set to invalid automatically during the destructor. Returns
+be set to invalid automatically during L</DESTROY()>. Returns
 the login name of the new user, the password is the same.
 
     my $TestUserLogin = $Helper->TestUserCreate(
@@ -198,7 +198,7 @@ sub TestUserCreate {
     $Self->{TestUsers} ||= [];
     push( @{ $Self->{TestUsers} }, $TestUserID );
 
-    $Self->{UnitTestObject}->True( 1, "Created test user $TestUserID" );
+    $Self->{UnitTestDriverObject}->True( 1, "Created test user $TestUserID" );
 
     # Add user to groups
     GROUP_NAME:
@@ -224,7 +224,7 @@ sub TestUserCreate {
             UserID => 1,
         ) || die "Could not add test user $TestUserLogin to group $GroupName";
 
-        $Self->{UnitTestObject}->True( 1, "Added test user $TestUserLogin to group $GroupName" );
+        $Self->{UnitTestDriverObject}->True( 1, "Added test user $TestUserLogin to group $GroupName" );
     }
 
     # set user language
@@ -234,7 +234,7 @@ sub TestUserCreate {
         Key    => 'UserLanguage',
         Value  => $UserLanguage,
     );
-    $Self->{UnitTestObject}->True( 1, "Set user UserLanguage to $UserLanguage" );
+    $Self->{UnitTestDriverObject}->True( 1, "Set user UserLanguage to $UserLanguage" );
 
     return $TestUserLogin;
 }
@@ -242,7 +242,7 @@ sub TestUserCreate {
 =head2 TestCustomerUserCreate()
 
 creates a test customer user that can be used in tests. It will
-be set to invalid automatically during the destructor. Returns
+be set to invalid automatically during L</DESTROY()>. Returns
 the login name of the new customer user, the password is the same.
 
     my $TestUserLogin = $Helper->TestCustomerUserCreate(
@@ -287,7 +287,7 @@ sub TestCustomerUserCreate {
     $Self->{TestCustomerUsers} ||= [];
     push( @{ $Self->{TestCustomerUsers} }, $TestUser );
 
-    $Self->{UnitTestObject}->True( 1, "Created test customer user $TestUser" );
+    $Self->{UnitTestDriverObject}->True( 1, "Created test customer user $TestUser" );
 
     # set customer user language
     my $UserLanguage = $Param{Language} || 'en';
@@ -296,7 +296,7 @@ sub TestCustomerUserCreate {
         Key    => 'UserLanguage',
         Value  => $UserLanguage,
     );
-    $Self->{UnitTestObject}->True( 1, "Set customer user UserLanguage to $UserLanguage" );
+    $Self->{UnitTestDriverObject}->True( 1, "Set customer user UserLanguage to $UserLanguage" );
 
     return $TestUser;
 }
@@ -337,7 +337,7 @@ sub Rollback {
 
 =head2 GetTestHTTPHostname()
 
-returns a hostname for HTTP based tests, possibly including the port.
+returns a host name for HTTP based tests, possibly including the port.
 
 =cut
 
@@ -422,7 +422,7 @@ sub FixedTimeSet {
 
 =head2 FixedTimeUnset()
 
-restores the regular system time behaviour.
+restores the regular system time behavior.
 
 =cut
 
@@ -484,6 +484,12 @@ BEGIN {
     };
 }
 
+=head2 DESTROY()
+
+performs various clean-ups.
+
+=cut
+
 sub DESTROY {
     my $Self = shift;
 
@@ -512,14 +518,15 @@ sub DESTROY {
 
         $Self->{RestoreSSLVerify} = 0;
 
-        $Self->{UnitTestObject}->True( 1, 'Restored SSL certificates verification' );
+        $Self->{UnitTestDriverObject}->True( 1, 'Restored SSL certificates verification' );
     }
 
     # restore database, clean caches
     if ( $Self->{RestoreDatabase} ) {
         my $RollbackSuccess = $Self->Rollback();
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
-        $Self->{UnitTestObject}->True( $RollbackSuccess, 'Rolled back all database changes and cleaned up the cache.' );
+        $Self->{UnitTestDriverObject}
+            ->True( $RollbackSuccess, 'Rolled back all database changes and cleaned up the cache.' );
     }
 
     # disable email checks to create new user
@@ -555,7 +562,7 @@ sub DESTROY {
                 ChangeUserID => 1,
             );
 
-            $Self->{UnitTestObject}->True( $Success, "Set test user $TestUser to invalid" );
+            $Self->{UnitTestDriverObject}->True( $Success, "Set test user $TestUser to invalid" );
         }
     }
 
@@ -583,7 +590,7 @@ sub DESTROY {
                 UserID  => 1,
             );
 
-            $Self->{UnitTestObject}->True(
+            $Self->{UnitTestDriverObject}->True(
                 $Success, "Set test customer user $TestCustomerUser to invalid"
             );
         }

@@ -26,7 +26,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::DateTime',
-    'Kernel::System::UnitTest',
+    'Kernel::System::UnitTest::Driver',
     'Kernel::System::UnitTest::Helper',
 );
 
@@ -83,15 +83,15 @@ Then you can use the full API of L<Selenium::Remote::Driver> on this object.
 sub new {
     my ( $Class, %Param ) = @_;
 
-    $Param{UnitTestObject} ||= $Kernel::OM->Get('Kernel::System::UnitTest');
+    $Param{UnitTestDriverObject} ||= $Kernel::OM->Get('Kernel::System::UnitTest::Driver');
 
-    $Param{UnitTestObject}->True( 1, "Starting up Selenium scenario..." );
+    $Param{UnitTestDriverObject}->True( 1, "Starting up Selenium scenario..." );
 
     my %SeleniumTestsConfig = %{ $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {} };
 
     if ( !%SeleniumTestsConfig ) {
         my $Self = bless {}, $Class;
-        $Self->{UnitTestObject} = $Param{UnitTestObject};
+        $Self->{UnitTestDriverObject} = $Param{UnitTestDriverObject};
         return $Self;
     }
 
@@ -111,8 +111,8 @@ sub new {
         webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
         %SeleniumTestsConfig
     );
-    $Self->{UnitTestObject}      = $Param{UnitTestObject};
-    $Self->{SeleniumTestsActive} = 1;
+    $Self->{UnitTestDriverObject} = $Param{UnitTestDriverObject};
+    $Self->{SeleniumTestsActive}  = 1;
 
     #$Self->debug_on();
 
@@ -126,8 +126,7 @@ sub new {
     $Self->{BaseURL} .= Kernel::System::UnitTest::Helper->GetTestHTTPHostname();
 
     # Remember the start system time for the selenium test run.
-    my $DateTimeObj = $Kernel::OM->Create('Kernel::System::DateTime');
-    $Self->{TestStartSystemTime} = $DateTimeObj->ToEpoch();
+    $Self->{TestStartSystemTime} = time;    ## no critic
 
     return $Self;
 }
@@ -145,7 +144,7 @@ sub RunTest {
     my ( $Self, $Test ) = @_;
 
     if ( !$Self->{SeleniumTestsActive} ) {
-        $Self->{UnitTestObject}->True( 1, 'Selenium testing is not active, skipping tests.' );
+        $Self->{UnitTestDriverObject}->True( 1, 'Selenium testing is not active, skipping tests.' );
         return 1;
     }
 
@@ -187,7 +186,7 @@ sub _execute_command {    ## no critic
         print $TestName;
     }
     else {
-        $Self->{UnitTestObject}->True( 1, $TestName );
+        $Self->{UnitTestDriverObject}->True( 1, $TestName );
     }
 
     return $Result;
@@ -309,7 +308,7 @@ sub Login {
         }
     }
 
-    $Self->{UnitTestObject}->True( 1, 'Initiating login...' );
+    $Self->{UnitTestDriverObject}->True( 1, 'Initiating login...' );
 
     # we will try several times to log in
     my $MaxTries = 5;
@@ -335,13 +334,13 @@ sub Login {
             # login successful?
             $Self->find_element( 'a#LogoutButton', 'css' );    # dies if not found
 
-            $Self->{UnitTestObject}->True( 1, 'Login sequence ended...' );
+            $Self->{UnitTestDriverObject}->True( 1, 'Login sequence ended...' );
         };
 
         # an error happend
         if ($@) {
 
-            $Self->{UnitTestObject}->True( 1, "Login attempt $Try of $MaxTries not successful." );
+            $Self->{UnitTestDriverObject}->True( 1, "Login attempt $Try of $MaxTries not successful." );
 
             # try again
             next TRY if $Try < $MaxTries;
@@ -495,7 +494,7 @@ for analysis (in folder /var/otrs-unittest if it exists, in $Home/var/httpd/htdo
 sub HandleError {
     my ( $Self, $Error ) = @_;
 
-    $Self->{UnitTestObject}->False( 1, "Exception in Selenium': $Error" );
+    $Self->{UnitTestDriverObject}->False( 1, "Exception in Selenium': $Error" );
 
     #eval {
     my $Data = $Self->screenshot();
@@ -537,11 +536,12 @@ sub HandleError {
             Directory => $SharedScreenshotDir,
             Filename  => $Filename,
             Content   => \$Data,
-        ) || return $Self->{UnitTestObject}->False( 1, "Could not write file $SharedScreenshotDir/$Filename" );
+            )
+            || return $Self->{UnitTestDriverObject}->False( 1, "Could not write file $SharedScreenshotDir/$Filename" );
     }
 
-    $Self->{UnitTestObject}->False( 1, "Saved screenshot in $URL" );
-    $Self->{UnitTestObject}->AttachSeleniumScreenshot(
+    $Self->{UnitTestDriverObject}->False( 1, "Saved screenshot in $URL" );
+    $Self->{UnitTestDriverObject}->AttachSeleniumScreenshot(
         Filename => $Filename,
         Content  => $Data
     );
@@ -560,40 +560,41 @@ sub DEMOLISH {
     my $Self = shift;
 
     # Could be missing on early die.
-    if ( $Self->{UnitTestObject} ) {
-        $Self->{UnitTestObject}->True( 1, "Shutting down Selenium scenario." );
+    if ( $Self->{UnitTestDriverObject} ) {
+        $Self->{UnitTestDriverObject}->True( 1, "Shutting down Selenium scenario." );
     }
 
     if ( $Self->{SeleniumTestsActive} ) {
         $Self->SUPER::DEMOLISH(@_);
-    }
 
-    # Cleanup possibly leftover zombie firefox profiles.
-    my @LeftoverFirefoxProfiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-        Directory => '/tmp/',
-        Filter    => 'anonymous*webdriver-profile',
-    );
+        # Cleanup possibly leftover zombie firefox profiles.
+        my @LeftoverFirefoxProfiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+            Directory => '/tmp/',
+            Filter    => 'anonymous*webdriver-profile',
+        );
 
-    for my $LeftoverFirefoxProfile (@LeftoverFirefoxProfiles) {
-        if ( -d $LeftoverFirefoxProfile ) {
-            File::Path::remove_tree($LeftoverFirefoxProfile);
+        for my $LeftoverFirefoxProfile (@LeftoverFirefoxProfiles) {
+            if ( -d $LeftoverFirefoxProfile ) {
+                File::Path::remove_tree($LeftoverFirefoxProfile);
+            }
         }
-    }
 
-    # Cleanup all sessions, which was created after the selenium test start time.
-    my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+        # Cleanup all sessions, which was created after the selenium test start time.
+        my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
-    my @Sessions = $AuthSessionObject->GetAllSessionIDs();
+        my @Sessions = $AuthSessionObject->GetAllSessionIDs();
 
-    SESSION:
-    for my $SessionID (@Sessions) {
+        SESSION:
+        for my $SessionID (@Sessions) {
 
-        my %SessionData = $AuthSessionObject->GetSessionIDData( SessionID => $SessionID );
+            my %SessionData = $AuthSessionObject->GetSessionIDData( SessionID => $SessionID );
 
-        next SESSION if !%SessionData;
-        next SESSION if $SessionData{UserSessionStart} && $SessionData{UserSessionStart} < $Self->{TestStartSystemTime};
+            next SESSION if !%SessionData;
+            next SESSION
+                if $SessionData{UserSessionStart} && $SessionData{UserSessionStart} < $Self->{TestStartSystemTime};
 
-        $AuthSessionObject->RemoveSessionID( SessionID => $SessionID );
+            $AuthSessionObject->RemoveSessionID( SessionID => $SessionID );
+        }
     }
 
     return;

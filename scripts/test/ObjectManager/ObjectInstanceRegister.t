@@ -14,9 +14,9 @@ use Kernel::System::Valid;
 use Kernel::System::ObjectManager;
 
 $Self->Is(
-    $Kernel::OM->Get('Kernel::System::UnitTest'),
+    $Kernel::OM->Get('Kernel::System::UnitTest::Driver'),
     $Self,
-    "Global OM returns $Self as 'Kernel::System::UnitTest'",
+    "Global OM returns $Self as 'Kernel::System::UnitTest::Driver'",
 );
 
 local $Kernel::OM = Kernel::System::ObjectManager->new();
