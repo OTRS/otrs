@@ -1,0 +1,7 @@
+Active: 1
+
+PlatformSets:
+ - ondemand-otrs5
+
+DeployOTRSPackages:
+ - OTRSCodePolicy@master
