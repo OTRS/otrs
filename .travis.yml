@@ -70,7 +70,7 @@ script:
   - perl -cw bin/cgi-bin/app.psgi
   - perl bin/otrs.Console.pl Maint::Database::Check
   - perl bin/otrs.Console.pl Maint::Config::Rebuild
-  - perl bin/otrs.Console.pl Dev::UnitTest::Run
+  - scripts/tools/travis/runtests.sh
 
 notifications:
   email:
