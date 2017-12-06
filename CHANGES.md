@@ -1,4 +1,5 @@
 #6.0.3 2017-??-??
+ - 2017-12-06 Fixed bug#[13424](https://bugs.otrs.org/show_bug.cgi?id=13424) - The CustomerID is missing after the ticket split.
  - 2017-12-04 Fixed bug#[13412](https://bugs.otrs.org/show_bug.cgi?id=13412) - Statistics with date or date time dynamic fields are no longer working.
  - 2017-12-04 Fixed bug#[13392](https://bugs.otrs.org/show_bug.cgi?id=13392) - Unable to create a multiselection Articlefilter in AgentTicketZoom.
  - 2017-12-04 Follow-up fix for bug#[13262](https://bugs.otrs.org/show_bug.cgi?id=13262) - Dynamic Fields Management breadcrumb is not translatable.

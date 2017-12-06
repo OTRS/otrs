@@ -36,15 +36,25 @@ $Selenium->RunTest(
             Comment  => 'Selenium test address',
             UserID   => 1,
         );
+        $Self->True(
+            $SystemAddressID,
+            'System address added.'
+        );
+
+        my $CustomerID = '123465';
+        my $Queue      = 'Raw';
+        my $Priority   = '3 normal';
+        my $Subject    = 'Selenium test';
+        my $Body       = 'Just a test body for selenium testing';
 
         # create test ticket
         my $TicketID = $TicketObject->TicketCreate(
             Title        => 'First test ticket',
-            Queue        => 'Raw',
+            Queue        => $Queue,
             Lock         => 'unlock',
-            Priority     => '3 normal',
+            Priority     => $Priority,
             State        => 'new',
-            CustomerID   => '123465',
+            CustomerID   => $CustomerID,
             CustomerUser => 'customer@localhost.com',
             OwnerID      => 1,
             UserID       => 1,
@@ -85,8 +95,8 @@ $Selenium->RunTest(
                 SenderType           => $TestArticle->{SenderType},
                 From                 => $TestArticle->{From},
                 To                   => $TestArticle->{To},
-                Subject              => 'Selenium test',
-                Body                 => 'Just a test body for selenium testing',
+                Subject              => $Subject,
+                Body                 => $Body,
                 Charset              => 'ISO-8859-15',
                 MimeType             => 'text/plain',
                 HistoryType          => 'PhoneCallCustomer',
@@ -136,16 +146,90 @@ $Selenium->RunTest(
         # run test scenarios
         for my $Test (@Tests) {
 
-            # navigate to split ticket of test ticket first article
-            $Selenium->VerifiedGet(
-                "${ScriptAlias}index.pl?Action=AgentTicketPhone;TicketID=$TicketID;ArticleID=$Test->{ArticleID};LinkTicketID=$TicketID",
-            );
+            for my $Screen (qw(Phone Email)) {
 
-            $Self->Is(
-                $Selenium->find_element("//input[\@type='text'][\@name='CustomerTicketText_1']")->get_value(),
-                "$Test->{ToValueOnSplit}",
-                "$Test->{ResultMessage} - on article split value From",
-            );
+                # Navigate to the ticket zoom screen.
+                $Selenium->VerifiedGet(
+                    "${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID;ArticleID=$Test->{ArticleID}",
+                );
+
+                # Click on the split action.
+                $Selenium->find_element( '.SplitSelection', 'css' )->click();
+
+                $Selenium->WaitFor(
+                    JavaScript => 'return $("#SplitSubmit").length'
+                );
+
+                if ( $Screen eq 'Email' ) {
+
+                    # Change it to Email.
+                    $Selenium->execute_script(
+                        "\$('#SplitSelection').val('EmailTicket').trigger('redraw.InputField').trigger('change');"
+                    );
+                }
+
+                $Selenium->find_element( '#SplitSubmit', 'css' )->VerifiedClick();
+
+                # Check From field.
+                my $From = $Selenium->execute_script(
+                    "return \$('#CustomerTicketText_1').val();"
+                );
+                $Self->Is(
+                    $From,
+                    $Test->{ToValueOnSplit},
+                    "Check From field for ArticleID = $ArticleIDs[0] in $Screen split screen.",
+                );
+
+                # Check CustomerID.
+                my $TestCustomerID = $Selenium->execute_script(
+                    "return \$('#CustomerID').val();"
+                );
+                $Self->Is(
+                    $TestCustomerID,
+                    $CustomerID,
+                    "Check CustomerID field for ArticleID = $ArticleIDs[0] in $Screen split screen",
+                );
+
+                # Check Queue.
+                my $TestQueue = $Selenium->execute_script(
+                    "return \$('#Dest option:selected').text();"
+                );
+                $Self->Is(
+                    $TestQueue,
+                    $Queue,
+                    "Check Queue field for ArticleID = $ArticleIDs[0] in $Screen split screen",
+                );
+
+                # Check Priority.
+                my $TestPriority = $Selenium->execute_script(
+                    "return \$('#PriorityID option:selected').text();"
+                );
+                $Self->Is(
+                    $TestPriority,
+                    $Priority,
+                    "Check Priority field for ArticleID = $ArticleIDs[0] in $Screen split screen",
+                );
+
+                # Check Subject.
+                my $TestSubject = $Selenium->execute_script(
+                    "return \$('#Subject').val();"
+                );
+                $Self->Is(
+                    $TestSubject,
+                    $Subject,
+                    "Check Subject field for ArticleID = $ArticleIDs[0] in $Screen split screen",
+                );
+
+                # Check Body.
+                my $TestBody = $Selenium->execute_script(
+                    "return \$('#RichText').val();"
+                );
+                $Self->Is(
+                    $TestBody,
+                    $Body,
+                    "Check Subject field for ArticleID = $ArticleIDs[0] in $Screen split screen",
+                );
+            }
         }
 
         # delete test system address

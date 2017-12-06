@@ -65,28 +65,7 @@ sub Run {
         if ( $Param{SplitSelection} eq 'EmailTicket' ) {
 
             $RedirectAction = 'AgentTicketEmail';
-
-            my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(
-                TicketID  => $Param{TicketID},
-                ArticleID => $Param{ArticleID},
-            );
-
-            my %Article = $ArticleBackendObject->ArticleGet(
-                TicketID  => $Param{TicketID},
-                ArticleID => $Param{ArticleID},
-            );
-
-            # detect the from address from given article
-            my @Email = Mail::Address->parse( $Article{From} );
-
-            my $FromAddress = '';
-            if (@Email) {
-                $Email[0]->address();
-            }
-
-            # append the from address as current customer for the email ticket
-            $URLExtension =
-                ";TicketID=$Param{TicketID};CustomerTicketCounterToCustomer=1;CustomerTicketText_1=$FromAddress;CustomerSelected=1";
+            $URLExtension   = ";TicketID=$Param{TicketID}";
         }
 
         #

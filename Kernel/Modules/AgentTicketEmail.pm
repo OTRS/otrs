@@ -109,7 +109,6 @@ sub Run {
             my $CustomerSelected = ( $Selected eq $Count ? 'checked="checked"' : '' );
             my $CustomerKey = $ParamObject->GetParam( Param => 'CustomerKey_' . $Count )
                 || '';
-
             if ($CustomerElement) {
 
                 if ( $GetParam{To} ) {
@@ -368,6 +367,7 @@ sub Run {
         my %Article;
         my %CustomerData;
         my $ArticleFrom = '';
+        my %SplitTicketData;
         if ( $GetParam{ArticleID} ) {
 
             my $Access = $TicketObject->TicketPermission(
@@ -382,6 +382,13 @@ sub Run {
                     WithHeader => 'yes',
                 );
             }
+
+            # Get information from original ticket (SplitTicket).
+            %SplitTicketData = $TicketObject->TicketGet(
+                TicketID      => $Self->{TicketID},
+                DynamicFields => 1,
+                UserID        => $Self->{UserID},
+            );
 
             my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(
                 TicketID  => $Self->{TicketID},
@@ -407,6 +414,36 @@ sub Run {
 
             # save article from for addresses list
             $ArticleFrom = $Article{From};
+
+            # if To is present
+            # and is no a queue
+            # and also is no a system address
+            # set To as article from
+            if ( IsStringWithData( $Article{To} ) ) {
+                my %Queues = $QueueObject->QueueList();
+
+                if ( $ConfigObject->{CustomerPanelOwnSelection} ) {
+                    for my $Queue ( sort keys %{ $ConfigObject->{CustomerPanelOwnSelection} } ) {
+                        my $Value = $ConfigObject->{CustomerPanelOwnSelection}->{$Queue};
+                        $Queues{$Queue} = $Value;
+                    }
+                }
+
+                my %QueueLookup = reverse %Queues;
+                my %SystemAddressLookup
+                    = reverse $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressList();
+                my @ArticleFromAddress;
+                my $SystemAddressEmail;
+
+                if ($ArticleFrom) {
+                    @ArticleFromAddress = Mail::Address->parse($ArticleFrom);
+                    $SystemAddressEmail = $ArticleFromAddress[0]->address();
+                }
+
+                if ( !defined $QueueLookup{ $Article{To} } && defined $SystemAddressLookup{$SystemAddressEmail} ) {
+                    $ArticleFrom = $Article{To};
+                }
+            }
 
             # body preparation for plain text processing
             $Article{Body} = $LayoutObject->ArticleQuote(
@@ -435,6 +472,16 @@ sub Run {
                         CustomerID => $Article{CustomerID},
                     );
                 }
+                elsif ( $SplitTicketData{CustomerUserID} ) {
+                    %CustomerData = $CustomerUserObject->CustomerUserDataGet(
+                        User => $SplitTicketData{CustomerUserID},
+                    );
+                }
+                elsif ( $SplitTicketData{CustomerID} ) {
+                    %CustomerData = $CustomerUserObject->CustomerUserDataGet(
+                        CustomerID => $SplitTicketData{CustomerID},
+                    );
+                }
             }
             if ( $Article{CustomerUserID} ) {
                 my %CustomerUserList = $CustomerUserObject->CustomerSearch(
@@ -444,6 +491,69 @@ sub Run {
                     $Article{From} = $CustomerUserList{$KeyCustomerUserList};
                 }
             }
+        }
+
+        # multiple addresses list
+        # check email address
+        my $CountFrom = scalar @MultipleCustomer || 1;
+        my %CustomerDataFrom;
+        if ( $Article{CustomerUserID} ) {
+            %CustomerDataFrom = $CustomerUserObject->CustomerUserDataGet(
+                User => $Article{CustomerUserID},
+            );
+        }
+
+        for my $Email ( Mail::Address->parse($ArticleFrom) ) {
+
+            my $CountAux         = $CountFrom;
+            my $CustomerError    = '';
+            my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
+            my $CustomerDisabled = '';
+            my $CustomerSelected = ( $CountFrom eq '1' ? 'checked="checked"' : '' );
+            my $EmailAddress     = $Email->address();
+            if ( !$CheckItemObject->CheckEmail( Address => $EmailAddress ) )
+            {
+                $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
+                    . 'ServerErrorMsg';
+                $CustomerError = 'ServerError';
+            }
+
+            # check for duplicated entries
+            if ( defined $AddressesList{$Email} && $CustomerError eq '' ) {
+                $CustomerErrorMsg = 'IsDuplicatedServerErrorMsg';
+                $CustomerError    = 'ServerError';
+            }
+
+            if ( $CustomerError ne '' ) {
+                $CustomerDisabled = 'disabled="disabled"';
+                $CountAux         = $CountFrom . 'Error';
+            }
+
+            my $CustomerKey = '';
+            if (
+                defined $CustomerDataFrom{UserEmail}
+                && $CustomerDataFrom{UserEmail} eq $EmailAddress
+                )
+            {
+                $CustomerKey = $Article{CustomerUserID};
+            }
+
+            my $CustomerElement = $EmailAddress;
+            if ( $Email->phrase() ) {
+                $CustomerElement = $Email->phrase() . " <$EmailAddress>";
+            }
+
+            push @MultipleCustomer, {
+                Count            => $CountAux,
+                CustomerElement  => $CustomerElement,
+                CustomerSelected => $CustomerSelected,
+                CustomerKey      => $CustomerKey,
+                CustomerError    => $CustomerError,
+                CustomerErrorMsg => $CustomerErrorMsg,
+                CustomerDisabled => $CustomerDisabled,
+            };
+            $AddressesList{$EmailAddress} = 1;
+            $CountFrom++;
         }
 
         # get user preferences
@@ -772,8 +882,7 @@ sub Run {
             To                => $Article{From} // '',
             Subject           => $Subject,
             Body              => $Body,
-            CustomerID        => $Article{CustomerID},
-            CustomerUser      => $Article{CustomerUserID},
+            CustomerID        => $SplitTicketData{CustomerID},
             CustomerData      => \%CustomerData,
             Attachments       => \@Attachments,
             LinkTicketID      => $GetParam{LinkTicketID} || '',

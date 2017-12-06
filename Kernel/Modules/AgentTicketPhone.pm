@@ -272,6 +272,7 @@ sub Run {
         my %Article;
         my %CustomerData;
         my $ArticleFrom = '';
+        my %SplitTicketData;
         if ( $GetParam{ArticleID} ) {
 
             my $Access = $TicketObject->TicketPermission(
@@ -288,7 +289,7 @@ sub Run {
             }
 
             # Get information from original ticket (SplitTicket).
-            my %SplitTicketData = $TicketObject->TicketGet(
+            %SplitTicketData = $TicketObject->TicketGet(
                 TicketID      => $Self->{TicketID},
                 DynamicFields => 1,
                 UserID        => $Self->{UserID},
@@ -348,7 +349,6 @@ sub Run {
                 if ( !defined $QueueLookup{ $Article{To} } && defined $SystemAddressLookup{$SystemAddressEmail} ) {
                     $ArticleFrom = $Article{To};
                 }
-
             }
 
             # body preparation for plain text processing
@@ -738,8 +738,7 @@ sub Run {
             From         => $Article{From},
             Subject      => $Subject,
             Body         => $Body,
-            CustomerID   => $Article{CustomerID},
-            CustomerUser => $Article{CustomerUserID},
+            CustomerID   => $SplitTicketData{CustomerID},
             CustomerData => \%CustomerData,
             Attachments  => \@Attachments,
             LinkTicketID => $GetParam{LinkTicketID} || '',
