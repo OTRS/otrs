@@ -217,6 +217,8 @@ for my $Test (@Tests) {
 
     $Helper->FixedTimeSet($SystemTime);
 
+    use Kernel::System::OTRSBusiness;
+
     no warnings 'redefine';    ## no critic
 
     local *Kernel::System::OTRSBusiness::OTRSBusinessIsInstalled = sub {
