@@ -14,9 +14,9 @@ use Scalar::Util qw/weaken/;
 use Kernel::System::Time;
 
 $Self->Is(
-    $Kernel::OM->Get('Kernel::System::UnitTest'),
+    $Kernel::OM->Get('Kernel::System::UnitTest::Driver'),
     $Self,
-    "Global OM returns $Self as 'Kernel::System::UnitTest'",
+    "Global OM returns $Self as 'Kernel::System::UnitTest::Driver'",
 );
 
 use Kernel::System::ObjectManager;

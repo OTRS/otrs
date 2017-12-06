@@ -14,7 +14,7 @@ use vars (qw($Self));
 
 use Kernel::System::UnitTest;
 
-my $UnitTestObject = Kernel::System::UnitTest->new(
+my $UnitTestObject = Kernel::System::UnitTest::Driver->new(
     Output => 'none',
 );
 
