@@ -245,6 +245,25 @@ $Selenium->RunTest(
             'Email recipients',
         );
 
+        # Verify InformAgent are in Article 'To' as recipients.
+        my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
+        my @Articles             = $ArticleObject->ArticleList(
+            TicketID => $TicketID,
+        );
+        my %Article = $ArticleBackendObject->ArticleGet(
+            TicketID  => $TicketID,
+            ArticleID => $Articles[0]->{ArticleID},
+        );
+        my $ExpectedArticleTo
+            = "\"$TestUser[1] $TestUser[1]\" <$TestUser[1]\@localunittest.com>, \"$TestUser[2] $TestUser[2]\" <$TestUser[2]\@localunittest.com>";
+
+        $Self->Is(
+            $Article{To},
+            $ExpectedArticleTo,
+            "InformAgent are in Article 'To' correctly "
+        );
+
         # make sure to navigate to zoom view of created test ticket at this moment to prevent error
         #   messages after the ticket is deleted
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");

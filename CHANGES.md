@@ -1,4 +1,5 @@
 #6.0.3 2017-??-??
+ - 2017-12-07 Fixed bug#[13422](https://bugs.otrs.org/show_bug.cgi?id=13422) - Recipient agents of notes no longer visible.
  - 2017-12-06 Fixed bug#[13394](https://bugs.otrs.org/show_bug.cgi?id=13394) - Changes in CustomerUserListFields are not applied.
  - 2017-12-06 Fixed bug#[13424](https://bugs.otrs.org/show_bug.cgi?id=13424) - The CustomerID is missing after the ticket split.
  - 2017-12-04 Fixed bug#[13412](https://bugs.otrs.org/show_bug.cgi?id=13412) - Statistics with date or date time dynamic fields are no longer working.

@@ -347,6 +347,34 @@ sub ArticleCreate {
         return;
     }
 
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
+    # Check if there are additional To's from InvolvedAgent and InformAgent.
+    #   See bug#13422 (https://bugs.otrs.org/show_bug.cgi?id=13422).
+    if ( $Param{ForceNotificationToUserID} && ref $Param{ForceNotificationToUserID} eq 'ARRAY' ) {
+        my $NewTo;
+        USER:
+        for my $UserID ( @{ $Param{ForceNotificationToUserID} } ) {
+
+            next USER if $UserID == 1;
+            next USER if grep { $UserID eq $_ } @{ $Param{ExcludeNotificationToUserID} };
+            next USER if grep { $UserID eq $_ } @{ $Param{ExcludeMuteNotificationToUserID} };
+
+            my %UserData = $UserObject->GetUserData(
+                UserID => $UserID,
+                Valid  => 1,
+            );
+
+            next USER if !%UserData;
+
+            if ( $Param{To} || $NewTo ) {
+                $NewTo .= ', ';
+            }
+            $NewTo .= "\"$UserData{UserFirstname} $UserData{UserLastname}\" <$UserData{UserEmail}>";
+        }
+        $Param{To} .= $NewTo;
+    }
+
     return if !$DBObject->Do(
         SQL => '
             INSERT INTO article_data_mime (
@@ -449,7 +477,6 @@ sub ArticleCreate {
     );
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 
     # unlock ticket if the owner is away (and the feature is enabled)
     if (
