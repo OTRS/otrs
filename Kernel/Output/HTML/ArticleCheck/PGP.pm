@@ -183,7 +183,7 @@ sub Check {
     {
 
         # get original message
-        my $Message = $ArticleObject->ArticlePlain(
+        my $Message = $ArticleBackendObject->ArticlePlain(
             ArticleID => $Self->{ArticleID},
             UserID    => $Self->{UserID},
         );

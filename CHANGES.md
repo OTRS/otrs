@@ -1,4 +1,5 @@
 #6.0.3 2017-??-??
+ - 2017-12-07 Fixed bug#[13434](https://bugs.otrs.org/show_bug.cgi?id=13434) - ArticleCheck/PGP.pm still contains unported code.
  - 2017-12-07 Fixed bug#[13422](https://bugs.otrs.org/show_bug.cgi?id=13422) - Recipient agents of notes no longer visible.
  - 2017-12-06 Fixed bug#[13394](https://bugs.otrs.org/show_bug.cgi?id=13394) - Changes in CustomerUserListFields are not applied.
  - 2017-12-06 Fixed bug#[13424](https://bugs.otrs.org/show_bug.cgi?id=13424) - The CustomerID is missing after the ticket split.
