@@ -1,6 +1,5 @@
 #!/bin/sh
 # --
-# Cron.sh - start|stop OTRS Cronjobs
 # Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
@@ -41,7 +40,6 @@ fi
 # find otrs root
 cd "`dirname $0`/../"
 OTRS_HOME="`pwd`"
-cd -
 
 #OTRS_ROOT=/opt/otrs
 if test -e $OTRS_HOME/var/cron; then
@@ -54,9 +52,6 @@ fi
 
 CRON_DIR=$OTRS_ROOT/var/cron
 CRON_TMP_FILE=$OTRS_ROOT/var/tmp/otrs-cron-tmp.$$
-
-echo "Cron.sh - start/stop OTRS cronjobs"
-echo "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/"
 
 #
 # main part
@@ -109,6 +104,16 @@ case "$1" in
     # Usage
     # ------------------------------------------------------
     *)
-    echo "Usage: $0 {start|stop|restart}"
+    cat - <<HELP
+
+Manage OTRS cron jobs.
+
+Usage:
+ Cron.sh [action]
+
+Arguments:
+ [action]                      - 'start', 'stop' or 'restart' - activate or deactivate OTRS cron jobs.
+HELP
+
     exit 1
 esac
