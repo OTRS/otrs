@@ -107,7 +107,10 @@ sub ArticleRender {
         ArticleID        => $Param{ArticleID},
         ExcludePlainText => 1,
         ExcludeHTMLBody  => $RichTextEnabled,
-        ExcludeInline    => $RichTextEnabled,
+
+        # TODO: Hot-fix for bug#13353, do not exclude inline attachments at this point.
+        #   Make sure to analyze this issue further and fix ArticleAttachmentIndex behavior.
+        # ExcludeInline    => $RichTextEnabled,
     );
 
     # Skip the images that are referenced in the body (bug #12987).
