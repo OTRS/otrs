@@ -1176,14 +1176,14 @@ sub _SendRecipientNotification {
             my $LastNotificationDateTimeObject = $Kernel::OM->Create(
                 'Kernel::System::DateTime',
                 ObjectParams => {
-                    String => $LastNotificationHistory->{CreateTime}
-                    }
+                    String => $LastNotificationHistory->{CreateTime},
+                },
             );
 
             # do not send the notification if it has been sent already today
             if (
-                $DateTimeObject->Format( Format => "%Y-%M-%D" ) eq
-                $LastNotificationDateTimeObject->Format( Format => "%Y-%M-%D" )
+                $DateTimeObject->Format( Format => "%Y-%m-%d" ) eq
+                $LastNotificationDateTimeObject->Format( Format => "%Y-%m-%d" )
                 )
             {
                 return;
