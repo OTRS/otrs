@@ -31,6 +31,15 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+my $DateTimeObject = $Kernel::OM->Create(
+    'Kernel::System::DateTime',
+    ObjectParams => {
+        String => '2016-01-02 03:04:05'
+    }
+);
+
+$Helper->FixedTimeSet($DateTimeObject);
+
 my $MailQueueObj = $Kernel::OM->Get('Kernel::System::MailQueue');
 
 my $SendEmails = sub {
@@ -235,6 +244,39 @@ my @Tests = (
         ],
         JustToRealCustomer => 0,
     },
+    {
+        Name => 'Sending twice Single RecipientAgent without once per day',
+        Data => {
+            Events          => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            RecipientAgents => [$UserID],
+        },
+        SendTwice => 1,
+        ExpectedResults => [
+            {
+                ToArray => [ $UserData{UserEmail} ],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+            {
+                ToArray => [ $UserData{UserEmail} ],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+        ],
+    },
+    {
+        Name => 'Sending twice Single RecipientAgent with once per day',
+        Data => {
+            Events          => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            RecipientAgents => [$UserID],
+            OncePerDay      => [1],
+        },
+        SendTwice => 1,
+        ExpectedResults => [
+            {
+                ToArray => [ $UserData{UserEmail} ],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+        ],
+    },
 );
 
 my $NotificationEventObject      = $Kernel::OM->Get('Kernel::System::NotificationEvent');
@@ -288,6 +330,31 @@ for my $Test (@Tests) {
         Config => {},
         UserID => 1,
     );
+
+    # Test OncePerDay setting.
+    if ($Test->{SendTwice}) {
+
+        # Ensure %H:%M:%S are all diferent from the first fixed time.
+        my $TestDateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => '2016-01-02 08:09:10'
+            }
+        );
+
+        $Helper->FixedTimeSet($TestDateTimeObject);
+        my $Result = $EventNotificationEventObject->Run(
+            Event => 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update',
+            Data  => {
+                TicketID => $TicketID,
+            },
+            Config => {},
+            UserID => 1,
+        );
+
+        # Set FixedTime back for the other tests
+        $Helper->FixedTimeSet($DateTimeObject);
+    }
 
     $SendEmails->();
 
