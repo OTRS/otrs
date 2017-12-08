@@ -4821,12 +4821,12 @@ sub _RichTextReplaceLinkOfInlineContent {
 
 =head2 RichTextDocumentServe()
 
-serve a rich text (HTML) document for local view inside of an C<iframe> in correct charset and with correct
-links for inline documents.
+Serve a rich text (HTML) document for local view inside of an C<iframe> in correct charset and with correct links for
+inline documents.
 
-By default, all inline/active content (such as C<script>, C<object>, C<applet> or C<embed> tags)
-will be stripped. If there are external images, they will be stripped too,
-but a message will be shown allowing the user to reload the page showing the external images.
+By default, all inline/active content (such as C<script>, C<object>, C<applet> or C<embed> tags) will be stripped. If
+there are external images, they will be stripped too, but a message will be shown allowing the user to reload the page
+showing the external images.
 
     my %HTMLFile = $LayoutObject->RichTextDocumentServe(
         Data => {
@@ -4858,7 +4858,7 @@ sub RichTextDocumentServe {
         }
     }
 
-    # get charset and convert content to internal charset
+    # Get charset from passed content type parameter.
     my $Charset;
     if ( $Param{Data}->{ContentType} =~ m/.+?charset=("|'|)(.+)/ig ) {
         $Charset = $2;
@@ -4869,7 +4869,7 @@ sub RichTextDocumentServe {
         $Param{Data}->{ContentType} .= '; charset="us-ascii"';
     }
 
-    # convert charset
+    # Convert to internal charset.
     if ($Charset) {
         $Param{Data}->{Content} = $Kernel::OM->Get('Kernel::System::Encode')->Convert(
             Text  => $Param{Data}->{Content},
@@ -4878,9 +4878,14 @@ sub RichTextDocumentServe {
             Check => 1,
         );
 
-        # replace charset in content
+        # Replace charset in content type and content.
         $Param{Data}->{ContentType} =~ s/\Q$Charset\E/utf-8/gi;
-        $Param{Data}->{Content} =~ s/(<meta[^>]+charset=("|'|))\Q$Charset\E/$1utf-8/gi;
+        if ( !( $Param{Data}->{Content} =~ s/(<meta[^>]+charset=("|'|))\Q$Charset\E/$1utf-8/gi ) ) {
+
+            # Add explicit charset if missing.
+            $Param{Data}->{Content}
+                =~ s/(<meta [^>]+ http-equiv=("|')?Content-Type("|')? [^>]+ content=("|')?[^;"'>]+)/$1; charset=utf-8/ixms;
+        }
     }
 
     # add html links

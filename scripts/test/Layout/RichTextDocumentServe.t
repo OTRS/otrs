@@ -14,12 +14,6 @@ use vars (qw($Self));
 
 local $ENV{SCRIPT_NAME} = 'index.pl';
 
-# get needed objects
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
-    },
-);
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 $Kernel::OM->ObjectParamAdd(
@@ -39,15 +33,13 @@ my @Tests = (
         },
         URL         => 'Action=SomeAction;FileID=',
         Attachments => {
-            0 =>
-                {
+            0 => {
                 ContentID => '<1234567890ABCDEF>',
-                },
+            },
         },
         Result => {
-            Content =>
-                '<img src="index.pl?Action=SomeAction;FileID=0;SessionID=123">',
             ContentType => 'text/html; charset="utf-8"',
+            Content     => '<img src="index.pl?Action=SomeAction;FileID=0;SessionID=123">',
         },
     },
     {
@@ -58,10 +50,9 @@ my @Tests = (
         },
         URL         => 'Action=SomeAction;FileID=',
         Attachments => {
-            0 =>
-                {
+            0 => {
                 ContentID => '<1234567890ABCDEF>',
-                },
+            },
         },
         Result => {
             Content =>
@@ -77,10 +68,9 @@ my @Tests = (
         },
         URL         => 'Action=SomeAction;FileID=',
         Attachments => {
-            0 =>
-                {
+            0 => {
                 ContentID => '<1234567890ABCDEF>',
-                },
+            },
         },
         Result => {
             Content =>
@@ -96,10 +86,9 @@ my @Tests = (
         },
         URL         => 'Action=SomeAction;FileID=',
         Attachments => {
-            0 =>
-                {
+            0 => {
                 ContentID => '<1234567890ABCDEF>',
-                },
+            },
         },
         Result => {
             Content =>
@@ -115,10 +104,9 @@ my @Tests = (
         },
         URL         => 'Action=SomeAction;FileID=',
         Attachments => {
-            0 =>
-                {
+            0 => {
                 ContentID => '<1234567890ABCDEF>',
-                },
+            },
         },
         Result => {
             Content =>
@@ -134,10 +122,9 @@ my @Tests = (
         },
         URL         => 'Action=SomeAction;FileID=',
         Attachments => {
-            0 =>
-                {
+            0 => {
                 ContentID => '<1234567890ABCDEF>',
-                },
+            },
         },
         Result => {
             Content =>
@@ -153,10 +140,9 @@ my @Tests = (
         },
         URL         => 'Action=SomeAction;FileID=',
         Attachments => {
-            0 =>
-                {
+            0 => {
                 ContentID => '<Untitled%20Attachment>',
-                },
+            },
         },
         Result => {
             Content =>
@@ -285,28 +271,67 @@ EOF
         },
     },
     {
-        Name => 'Standard ',
+        Name => 'Charset - iso-8859-1',
         Data => {
-            Content     => 'Some Content',
-            ContentType => 'text/html; charset="us-ascii"',
+            Content     => '<meta http-equiv="Content-Type" content="text/html; charset=\'iso-8859-1\'">',
+            ContentType => 'text/html; charset="iso-8859-1"',
         },
         Attachments => {},
         URL         => 'Action=SomeAction;FileID=',
         Result      => {
-            Content     => 'Some Content',
+            Content     => '<meta http-equiv="Content-Type" content="text/html; charset=\'utf-8\'">',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
     {
-        Name => 'Standard - no charset defined, see bug#9610',
+        Name => 'Charset - Windows-1252',
         Data => {
-            Content     => 'Some Content',
+            Content     => '<meta http-equiv="Content-Type" content="text/html;charset=Windows-1252">',
+            ContentType => 'text/html; charset=Windows-1252',
+        },
+        Attachments => {},
+        URL         => 'Action=SomeAction;FileID=',
+        Result      => {
+            Content     => '<meta http-equiv="Content-Type" content="text/html;charset=utf-8">',
+            ContentType => 'text/html; charset=utf-8',
+        },
+    },
+    {
+        Name => 'Charset - utf-8',
+        Data => {
+            Content     => '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">',
+            ContentType => 'text/html; charset=utf-8',
+        },
+        Attachments => {},
+        URL         => 'Action=SomeAction;FileID=',
+        Result      => {
+            Content     => '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">',
+            ContentType => 'text/html; charset=utf-8',
+        },
+    },
+    {
+        Name => 'Charset - double quotes',
+        Data => {
+            Content     => '<meta http-equiv=\'Content-Type\' content=\'text/html; charset="utf-8"\'>',
+            ContentType => 'text/html; charset="utf-8"',
+        },
+        Attachments => {},
+        URL         => 'Action=SomeAction;FileID=',
+        Result      => {
+            Content     => '<meta http-equiv=\'Content-Type\' content=\'text/html; charset="utf-8"\'>',
+            ContentType => 'text/html; charset="utf-8"',
+        },
+    },
+    {
+        Name => 'Charset - no charset defined, see bug#9610',
+        Data => {
+            Content     => '<meta http-equiv="Content-Type" content="text/html">',
             ContentType => 'text/html',
         },
         Attachments => {},
         URL         => 'Action=SomeAction;FileID=',
         Result      => {
-            Content     => 'Some Content',
+            Content     => '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">',
             ContentType => 'text/html; charset="utf-8"',
         },
     },
@@ -337,15 +362,13 @@ for my $Test (@Tests) {
     $Self->Is(
         $HTML{Content},
         $Test->{Result}->{Content},
-        "$Test->{Name} - Content",
+        "$Test->{Name} - Content"
     );
     $Self->Is(
         $HTML{ContentType},
         $Test->{Result}->{ContentType},
-        "$Test->{Name} - ContentType",
+        "$Test->{Name} - ContentType"
     );
 }
-
-# cleanup cache is done by RestoreDatabase
 
 1;

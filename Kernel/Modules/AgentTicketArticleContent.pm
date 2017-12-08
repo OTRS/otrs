@@ -80,19 +80,10 @@ sub Run {
 
     if ( !$ArticleContent ) {
         $LogObject->Log(
-            Message  => 'No such attachment! May be an attack!!!',
+            Message  => 'No such article!',
             Priority => 'error',
         );
         return $LayoutObject->ErrorScreen();
-    }
-
-    my $ContentType = 'text/html; charset="utf-8"';
-
-    # Match content type of rendered content. This is important, because later this content will be converted to
-    #   internal charset (UTF-8) in RichTextDocumentServe(), and this method needs to know original charset.
-    #   Please see bug#13367 for more information.
-    if ( $ArticleContent =~ /<meta [^>]+ content=(?:"|')?(?<ContentType>[^"'>]+)/ixms ) {
-        $ContentType = $+{ContentType};
     }
 
     my $Content = $LayoutObject->Output(
@@ -104,10 +95,10 @@ sub Run {
 
     my %Data = (
         Content            => $Content,
-        ContentAlternative => "",
-        ContentID          => "",
-        ContentType        => $ContentType,
-        Disposition        => "inline",
+        ContentAlternative => '',
+        ContentID          => '',
+        ContentType        => 'text/html; charset="utf-8"',
+        Disposition        => 'inline',
         FilesizeRaw        => bytes::length($Content),
     );
 

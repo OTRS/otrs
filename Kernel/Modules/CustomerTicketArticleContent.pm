@@ -114,20 +114,11 @@ sub Run {
             Comment => Translatable('Please contact the administrator.'),
         );
         $LogObject->Log(
-            Message  => "HTML body attachment is missing! May be an attack!!!",
             Priority => 'error',
+            Message  => 'HTML body attachment is missing!',
         );
         $Output .= $LayoutObject->CustomerFooter();
         return $Output;
-    }
-
-    my $ContentType = 'text/html; charset="utf-8"';
-
-    # Match content type of rendered content. This is important, because later this content will be converted to
-    #   internal charset (UTF-8) in RichTextDocumentServe(), and this method needs to know original charset.
-    #   Please see bug#13367 for more information.
-    if ( $ArticleContent =~ /<meta [^>]+ content=(?:"|')?(?<ContentType>[^"'>]+)/ixms ) {
-        $ContentType = $+{ContentType};
     }
 
     my $Content = $LayoutObject->Output(
@@ -139,9 +130,9 @@ sub Run {
 
     my %Data = (
         Content            => $Content,
-        ContentAlternative => "",
-        ContentID          => "",
-        ContentType        => $ContentType,
+        ContentAlternative => '',
+        ContentID          => '',
+        ContentType        => 'text/html; charset="utf-8"',
         Disposition        => "inline",
         FilesizeRaw        => bytes::length($Content),
     );

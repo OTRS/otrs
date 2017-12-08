@@ -23,6 +23,7 @@ our @ObjectDependencies = (
     'Kernel::Output::HTML::Layout',
     'Kernel::System::CheckItem',
     'Kernel::System::CustomerUser',
+    'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Ticket',
@@ -292,7 +293,23 @@ sub ArticlePreview {
                 FileID    => $HTMLBodyAttachmentID,
             );
 
-            $Result = $Data{Content};
+            # Get the charset directly from the attachment hash and convert content to the internal charset (utf-8).
+            #   Please see bug#13367 for more information.
+            my $Charset;
+            if ( $Data{ContentType} =~ m/.+?charset=("|'|)(?<Charset>.+)/ig ) {
+                $Charset = $+{Charset};
+                $Charset =~ s/"|'//g;
+            }
+            else {
+                $Charset = 'us-ascii';
+            }
+
+            $Result = $Kernel::OM->Get('Kernel::System::Encode')->Convert(
+                Text  => $Data{Content},
+                From  => $Charset,
+                To    => 'utf-8',
+                Check => 1,
+            );
         }
     }
 
