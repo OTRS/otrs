@@ -20,6 +20,9 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+my @FrameworkVersionParts = split /\./, $Kernel::OM->Get('Kernel::Config')->Get('Version');
+my $FrameworkVersion = $FrameworkVersionParts[0];
+
 my @Tests = (
     {
         Name           => 'No Repositories',
@@ -45,8 +48,8 @@ my @Tests = (
         },
         Success        => 1,
         ExpectedResult => {
-            'http://otrs.com'                              => 'Test Repository',
-            'http://ftp.otrs.org/pub/otrs/itsm/packages6/' => 'OTRS::ITSM 6 Master',
+            'http://otrs.com'                                              => 'Test Repository',
+            "http://ftp.otrs.org/pub/otrs/itsm/packages$FrameworkVersion/" => "OTRS::ITSM $FrameworkVersion Master",
         },
     },
     {
@@ -58,8 +61,8 @@ my @Tests = (
         },
         Success        => 1,
         ExpectedResult => {
-            'http://otrs.com'                              => 'Test Repository',
-            'http://ftp.otrs.org/pub/otrs/itsm/packages6/' => 'OTRS::ITSM 6 Master',
+            'http://otrs.com'                                              => 'Test Repository',
+            "http://ftp.otrs.org/pub/otrs/itsm/packages$FrameworkVersion/" => "OTRS::ITSM $FrameworkVersion Master",
         },
     },
     {
@@ -72,8 +75,8 @@ my @Tests = (
         },
         Success        => 1,
         ExpectedResult => {
-            'http://otrs.com'                              => 'Test Repository',
-            'http://ftp.otrs.org/pub/otrs/itsm/packages6/' => 'OTRS::ITSM 6 Master',
+            'http://otrs.com'                                              => 'Test Repository',
+            "http://ftp.otrs.org/pub/otrs/itsm/packages$FrameworkVersion/" => "OTRS::ITSM $FrameworkVersion Master",
         },
     },
     {
@@ -84,8 +87,8 @@ my @Tests = (
         },
         Success        => 1,
         ExpectedResult => {
-            'http://otrs.com'                              => 'Test Repository',
-            'http://ftp.otrs.org/pub/otrs/itsm/packages6/' => 'OTRS::ITSM 6 Master',
+            'http://otrs.com'                                              => 'Test Repository',
+            "http://ftp.otrs.org/pub/otrs/itsm/packages$FrameworkVersion/" => "OTRS::ITSM $FrameworkVersion Master",
         },
     },
 );

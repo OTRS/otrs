@@ -58,7 +58,7 @@ sub Run {
     }
 
     # Make sure that current ITSM repository is in the list
-    $RepositoryList{$CurrentITSMRepository} = 'OTRS::ITSM 6 Master';
+    $RepositoryList{$CurrentITSMRepository} = "OTRS::ITSM $FrameworkVersion Master";
 
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
