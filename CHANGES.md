@@ -1,4 +1,5 @@
 #4.0.28 ????-??-??
+ - 2017-12-07 Improved parameter appending.
 
 #4.0.27 2017-12-05
  - 2017-11-30 Fixed bug#[13362](https://bugs.otrs.org/show_bug.cgi?id=13362) - Issue with dynamic fields in ticket information widget in ticket zoom.
