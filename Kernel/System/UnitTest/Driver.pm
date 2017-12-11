@@ -131,7 +131,7 @@ sub Run {
         }
 
         # HERE the actual tests are run.
-        my $TestSuccess = eval ${$UnitTestFile};    ## no critic
+        my $TestSuccess = eval ${$UnitTestFile};              ## no critic
 
         if ( !$TestSuccess ) {
             if ($@) {

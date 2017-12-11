@@ -111,6 +111,7 @@ sub new {
                 Priority => 'error',
                 Message  => "Can't remove shm for log: $!",
             );
+
             # Continue without IPC.
             return $Self;
         }
