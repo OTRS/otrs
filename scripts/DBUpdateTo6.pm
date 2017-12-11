@@ -321,6 +321,10 @@ sub _TasksGet {
             Message => 'Migrate web service configuration',
             Module  => 'MigrateWebServiceConfiguration',
         },
+        {
+            Message => 'Migrate package repository configuration',
+            Module  => 'MigratePackageRepositoryConfiguration',
+        },
 
         # ...
 
