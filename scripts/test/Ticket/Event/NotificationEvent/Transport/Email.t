@@ -23,7 +23,6 @@ $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase  => 1,
         UseTmpArticleDir => 1,
-
     },
     'Kernel::System::MailQueue' => {
         CheckEmailAddresses => 0,
@@ -35,7 +34,7 @@ my $DateTimeObject = $Kernel::OM->Create(
     'Kernel::System::DateTime',
     ObjectParams => {
         String => '2016-01-02 03:04:05'
-    }
+    },
 );
 
 $Helper->FixedTimeSet($DateTimeObject);
@@ -250,7 +249,7 @@ my @Tests = (
             Events          => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
             RecipientAgents => [$UserID],
         },
-        SendTwice => 1,
+        SendTwice       => 1,
         ExpectedResults => [
             {
                 ToArray => [ $UserData{UserEmail} ],
@@ -269,7 +268,7 @@ my @Tests = (
             RecipientAgents => [$UserID],
             OncePerDay      => [1],
         },
-        SendTwice => 1,
+        SendTwice       => 1,
         ExpectedResults => [
             {
                 ToArray => [ $UserData{UserEmail} ],
@@ -332,14 +331,14 @@ for my $Test (@Tests) {
     );
 
     # Test OncePerDay setting.
-    if ($Test->{SendTwice}) {
+    if ( $Test->{SendTwice} ) {
 
         # Ensure %H:%M:%S are all diferent from the first fixed time.
         my $TestDateTimeObject = $Kernel::OM->Create(
             'Kernel::System::DateTime',
             ObjectParams => {
                 String => '2016-01-02 08:09:10'
-            }
+            },
         );
 
         $Helper->FixedTimeSet($TestDateTimeObject);
