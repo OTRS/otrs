@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.353766233766234;
+    $Self->{Completeness}        = 0.353521370479322;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -528,7 +528,6 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Champs dynamiques',
-        'Field' => 'Champ',
         'Go back to overview' => 'Retour à la visualisation',
         'General' => 'Généralités',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -2363,6 +2362,7 @@ sub Data {
         'Closed' => 'Fermés',
         '%s open ticket(s) of %s' => '%s ticket(s) ouvert(s) de %s',
         '%s closed ticket(s) of %s' => '%s ticket(s) fermé(s) de %s',
+        'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Tickets remontés',
@@ -3492,13 +3492,13 @@ sub Data {
         'Database (%s)' => '',
         'Web service (%s)' => '',
         'Contact with data (%s)' => '',
-        'Change' => 'Modifier',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => '',
         'Need %s' => '',
+        'Add %s field' => '',
         'The field does not contain only ASCII letters and numbers.' => '',
         'There is another field with the same name.' => '',
         'The field must be numeric.' => '',
@@ -3506,6 +3506,7 @@ sub Data {
         'Could not create the new field' => '',
         'Need ID' => '',
         'Could not get data for dynamic field %s' => '',
+        'Change %s field' => '',
         'The name for this field should not change.' => '',
         'Could not update the field %s' => '',
         'Currently' => '',
@@ -3889,6 +3890,7 @@ sub Data {
         'There are no invalid settings active at this time.' => '',
         'You currently don\'t have any favourite settings.' => '',
         'The following settings could not be found: %s' => '',
+        'Import not allowed!' => 'Importation non permis!',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
             '',
         'Category Search' => '',
@@ -5886,6 +5888,7 @@ Thanks for your help!
         'Agents ↔ Groups' => '',
         'Agents ↔ Roles' => '',
         'All CustomerIDs of a customer user.' => '',
+        'All attachments (OTRS Business Solution™)' => '',
         'All customer users of a CustomerID' => '',
         'All escalated tickets' => 'Tous les tickets escaladés',
         'All new tickets, these tickets have not been worked on yet' => 'Les nouveaux tickets; ces tickets n\'ont pas encore été traités.',
@@ -6136,6 +6139,8 @@ Thanks for your help!
             'Contrôle si les clients ont la possibilité de classer leurs tickets.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'Contrôle si plus d\'une entrée peut être mise dans un nouveau ticket téléphone depuis l\'interface opérateur.',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
+            'Controler la permission d\'un administrateur a importer un configuration de système sauvegardé dans SysConfig.',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             '',
         'Controls if the autocomplete field will be used for the customer ID selection in the AdminCustomerUser interface.' =>

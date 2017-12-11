@@ -1,6 +1,7 @@
 # 
 # Translators:
 # Adonai Silveira Canez <adonaicanez@gmail.com>, 2015-2016
+# Adriano Pereira Machado <adriano.pereira@redemobconsorcio.com.br>, 2017
 # Alexandre Costa <alexandrecostacps@gmail.com>, 2015
 # Cleberson Balbino Rosa <cleberson.balbino@gmail.com>, 2015
 # Cleber Souza <eu@clebersouza.com.br>, 2017
@@ -37,8 +38,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-11-27 22:46+0000\n"
-"PO-Revision-Date: 2017-11-27 22:52+0000\n"
+"POT-Creation-Date: 2017-12-11 23:26+0000\n"
+"PO-Revision-Date: 2017-12-11 23:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/otrs/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -1684,10 +1685,6 @@ msgid "Dynamic Fields"
 msgstr "Campos Dinâmicos"
 
 #. Template: AdminDynamicFieldCheckbox
-msgid "Field"
-msgstr "Campo"
-
-#. Template: AdminDynamicFieldCheckbox
 msgid "Go back to overview"
 msgstr "Ir Para Visão Geral"
 
@@ -2390,7 +2387,7 @@ msgstr "Adicionar Nota"
 
 #. Template: AdminGenericAgent
 msgid "Visible for customer"
-msgstr ""
+msgstr "Visível para o Cliente"
 
 #. Template: AdminGenericAgent
 msgid "Time units"
@@ -5231,7 +5228,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Is visible for customer"
-msgstr ""
+msgstr "Ficar visível para o Cliente"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Display"
@@ -7603,6 +7600,10 @@ msgstr "%s chamado(s) aberto(s) de %s"
 #. Template: AgentDashboardCustomerIDList
 msgid "%s closed ticket(s) of %s"
 msgstr "%s chamado(s) fechado(s) de %s"
+
+#. Template: AgentDashboardCustomerIDList
+msgid "Edit customer ID"
+msgstr ""
 
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
@@ -10113,7 +10114,7 @@ msgstr ""
 
 #. Template: DynamicActions
 msgid "Filter visible settings..."
-msgstr ""
+msgstr "Configurações do filtro de visibilidade..."
 
 #. Template: DynamicActions
 msgid "Enable edit mode for all settings"
@@ -10808,10 +10809,6 @@ msgid "Contact with data (%s)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
-msgid "Change"
-msgstr "Alterar"
-
-#. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for"
 " more details."
@@ -10824,6 +10821,10 @@ msgstr "Sub-ação indefinida"
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need %s"
 msgstr "Necessário %s"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Add %s field"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field does not contain only ASCII letters and numbers."
@@ -10852,6 +10853,10 @@ msgstr "Necessário ID"
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not get data for dynamic field %s"
 msgstr "Não foi possível obter dados do campo dinâmico %s"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Change %s field"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The name for this field should not change."
@@ -11987,6 +11992,10 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "The following settings could not be found: %s"
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
+msgid "Import not allowed!"
+msgstr "Importação não permitida!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid ""
@@ -13149,15 +13158,15 @@ msgstr "Campo sem grupo."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Invisible only"
-msgstr ""
+msgstr "Somente não visível"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Visible only"
-msgstr ""
+msgstr "Somente visível"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Visible and invisible"
-msgstr ""
+msgstr "Visível e não visível"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Article could not be opened! Perhaps it is on another article page?"
@@ -13191,7 +13200,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
 msgid "ArticleID is needed!"
-msgstr ""
+msgstr "O Id do Artigo é necessário!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
 msgid "No TicketID for ArticleID (%s)!"
@@ -14278,7 +14287,7 @@ msgstr "Esta configuração não pode ser desativada."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting is not visible."
-msgstr ""
+msgstr "Esta configuração não está visível."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting can be overridden in the user preferences."
@@ -16298,7 +16307,7 @@ msgstr "Editar Detalhes do Campo"
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid ""
 "Customer interface does not support articles not visible for customers."
-msgstr ""
+msgstr "A interface de cliente não permite artigos que não estejam visíveis ao cliente."
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Sorry, the only existing parameter can't be removed."
@@ -17351,6 +17360,10 @@ msgid "All CustomerIDs of a customer user."
 msgstr ""
 
 #. SysConfig
+msgid "All attachments (OTRS Business Solution™)"
+msgstr ""
+
+#. SysConfig
 msgid "All customer users of a CustomerID"
 msgstr "Todos os usuários clientes de uma CustomerID."
 
@@ -18172,6 +18185,12 @@ msgstr "Controla se os clientes têm a capacidade de classificar os seus chamado
 msgid ""
 "Controls if more than one from entry can be set in the new phone ticket in "
 "the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Controls if the admin is allowed to import a saved system configuration in "
+"SysConfig."
 msgstr ""
 
 #. SysConfig

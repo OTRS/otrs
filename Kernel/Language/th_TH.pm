@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.607445887445887;
+    $Self->{Completeness}        = 0.607025436926804;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -520,7 +520,6 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'ไดมานิคฟิลด์',
-        'Field' => 'ฟิลด์',
         'Go back to overview' => 'กลับไปที่ภาพรวม',
         'General' => 'ทั่วไป',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -2358,6 +2357,7 @@ sub Data {
         'Closed' => 'ปิด',
         '%s open ticket(s) of %s' => '% s ตั๋วเปิด (s) ของ% s',
         '%s closed ticket(s) of %s' => '% s ตั๋วที่ปิดแล้ว (s) ของ% s',
+        'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'ตั๋วการขยาย',
@@ -3487,13 +3487,13 @@ sub Data {
         'Database (%s)' => '',
         'Web service (%s)' => '',
         'Contact with data (%s)' => '',
-        'Change' => 'เปลี่ยน',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'ไม่สามารถรีเซ็ตคำสั่งฟิลด์ไดนามิกอย่างถูกต้องโปรดตรวจสอบบันทึกข้อผิดพลาดสำหรับรายละเอียดเพิ่มเติม',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'subaction ที่ไม่ได้กำหนด',
         'Need %s' => 'ต้องการ %s',
+        'Add %s field' => '',
         'The field does not contain only ASCII letters and numbers.' => 'ฟิลด์ไม่ประกอบด้วยตัวอักษร ASCII และตัวเลข',
         'There is another field with the same name.' => 'มีฟิลด์อื่นที่มีชื่อเดียวกัน',
         'The field must be numeric.' => 'ข้อมูลนี้ต้องเป็นตัวเลข',
@@ -3501,6 +3501,7 @@ sub Data {
         'Could not create the new field' => 'ไม่สามารถสร้างฟิลด์ใหม่',
         'Need ID' => 'ต้องการ ID',
         'Could not get data for dynamic field %s' => 'ไม่สามารถรับข้อมูลสำหรับข้อมูลแบบไดนามิก %s',
+        'Change %s field' => '',
         'The name for this field should not change.' => 'ชื่อข้อมูลนี้ไม่ควรเปลี่ยน',
         'Could not update the field %s' => 'ไม่สามารถปรับปรุงฟิลด์ %s',
         'Currently' => 'ปัจจุบัน',
@@ -3884,6 +3885,7 @@ sub Data {
         'There are no invalid settings active at this time.' => '',
         'You currently don\'t have any favourite settings.' => '',
         'The following settings could not be found: %s' => '',
+        'Import not allowed!' => 'การนำเข้าไม่ได้รับอนุญาต!',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
             '',
         'Category Search' => '',
@@ -5892,6 +5894,7 @@ Thanks for your help!
         'Agents ↔ Groups' => '',
         'Agents ↔ Roles' => '',
         'All CustomerIDs of a customer user.' => '',
+        'All attachments (OTRS Business Solution™)' => '',
         'All customer users of a CustomerID' => 'ลูกค้าผู้ใช้ทั้งหมดของ CustomerID',
         'All escalated tickets' => 'ตั๋วการขยายทั้งหมด',
         'All new tickets, these tickets have not been worked on yet' => 'ตั๋วใหม่ทั้งหมดเหล่านี้ยังไม่ได้ถูกทำงาน',
@@ -6142,6 +6145,8 @@ Thanks for your help!
             'ควบคุมหากลูกค้ามีความสามารถในการจัดเรียงตั๋วของพวกเขา',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'ควบคุมหากมีมากกว่าหนึ่งรายการสามารถตั้งค่าในตั๋วโทรศัพท์ใหม่ในอินเตอร์เฟซเอเย่นต์',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
+            'ควบคุมหากผู้ดูแลระบบได้รับอนุญาตเพื่อนำเข้าการกำหนดค่าระบบที่บันทึกอยู่ใน sysconfig',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             'ควบคุมหากผู้ดูแลระบบได้รับอนุญาตให้ทำกาเปลี่ยนแปลงไปยังฐานข้อมูลผ่านทาง AdminSelectBox',
         'Controls if the autocomplete field will be used for the customer ID selection in the AdminCustomerUser interface.' =>

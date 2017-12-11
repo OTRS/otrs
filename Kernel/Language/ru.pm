@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.91030303030303;
+    $Self->{Completeness}        = 0.916594566534002;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -531,7 +531,6 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Динамические поля',
-        'Field' => 'Поле',
         'Go back to overview' => 'Вернуться к обзору',
         'General' => 'Общие',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -858,7 +857,7 @@ sub Data {
         'Note: Maximum retry count might not be reached if a maximum retry period is configured as well and reached earlier.' =>
             '',
         'This field must be empty or contain a positive number.' => 'Это поле должно быть пустым или содержать положительное число.',
-        'Maximum retry period' => '',
+        'Maximum retry period' => 'Максимальный период повтора',
         'Maximum period of time for retries of failing requests before they are discarded (based on the error handling module execution time for the initial request).' =>
             '',
         'Retries that would normally be triggered after maximum period is elapsed (according to retry interval calculation) will automatically be triggered at maximum period exactly.' =>
@@ -1025,8 +1024,8 @@ sub Data {
         'Send Keep-Alive' => 'Отправить Keep-Alive',
         'This configuration defines if incoming connections should get closed or kept alive.' =>
             'Этот параметр определяет закрывать входящие соединения или оставлять открытыми.',
-        'Additional response headers' => '',
-        'Add response header' => '',
+        'Additional response headers' => 'Дополнительные заголовки ответа',
+        'Add response header' => 'Добавить заголовок ответа',
         'Endpoint' => 'Конечная точка',
         'URI to indicate specific location for accessing a web service.' =>
             '',
@@ -1434,7 +1433,7 @@ sub Data {
         'In case you would have further questions we would be glad to answer them.' =>
             'В случае, если у Вас возникли вопросы, мы будем рады ответить на них.',
         'Install Package' => 'Установить пакет',
-        'Update Package' => '',
+        'Update Package' => 'Обновить пакет',
         'Continue' => 'Продолжить',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             'Убедитесь что ваша СУБД принимает пакеты размером больше %s MB (текущее значение размера пакета - до %s MB). Измените значение параметра max_allowed_packet для вашей СУБД во избежание ошибок.',
@@ -1443,7 +1442,7 @@ sub Data {
         'Cloud services are currently disabled.' => 'Облачные сервисы в настоящее время отключены.',
         'OTRS Verify™ can not continue!' => 'OTRS Verify™ не может быть продолжена!',
         'Enable cloud services' => 'Включить облачный сервис',
-        'Update all installed packages' => '',
+        'Update all installed packages' => 'Обновить все установленные пакеты',
         'Online Repository' => 'Онлайновый репозиторий',
         'Action' => 'Действие',
         'Module documentation' => 'Документация модуля',
@@ -1755,7 +1754,7 @@ sub Data {
         'System Registration Management' => 'Управление регистрацией',
         'Edit System Registration' => 'Изменить System Registration',
         'System Registration Overview' => 'Обзор настроек System Registration',
-        'Register System' => '',
+        'Register System' => 'Регистрация системы',
         'Validate OTRS-ID' => 'Подтвердить OTRS-ID',
         'Deregister System' => 'Удалить зарегистрированиую систему(отрегистрировать)',
         'Edit details' => 'Редактировать информацию',
@@ -2067,7 +2066,7 @@ sub Data {
             'Никакие настройки недоступны. Перед началом работы выполните скрипт  \'otrs.Console.pl Maint::Config::Rebuild\'.',
 
         # Template: AdminSystemConfigurationDeployment
-        'Changes Deployment' => 'Развертывание Изменений ',
+        'Changes Deployment' => 'Применение Изменений ',
         'Help' => 'Помощь',
         'This is an overview of all settings which will be part of the deployment if you start it now. You can compare each setting to its former state by clicking the icon on the top right.' =>
             '',
@@ -2076,7 +2075,7 @@ sub Data {
         'By default, you will only deploy settings which you changed on your own. If you\'d like to deploy settings changed by other users, too, please click the link on top of the screen to enter the advanced deployment mode.' =>
             '',
         'A deployment has just been restored, which means that all affected setting have been reverted to the state from the selected deployment.' =>
-            'Откат Изменения, это означает, что все затронутые настройки были возвращены в состояние из выбранного развертывания.',
+            'Откат Изменения, это означает, что все затронутые настройки были возвращены в состояние из выбранного применения.',
         'Please review the changed settings and deploy afterwards.' => 'После этого просмотрите измененные настройки и примените их.',
         'An empty list of changes means that there are no differences between the restored and the current state of the affected settings.' =>
             'Пустой список изменений означает, что между восстановленным и текущим состоянием затронутых настроек нет различий.',
@@ -2145,7 +2144,7 @@ sub Data {
         'Edit System Maintenance Information' => 'Редактировать информацию Графика техобслуживания',
         'Date invalid!' => 'Некорректная дата!',
         'Login message' => 'Сообщение при входе',
-        'This field must have less then 250 characters.' => '',
+        'This field must have less then 250 characters.' => 'Это поле не может превышать более чем 250 символов',
         'Show login message' => 'Показать сообщение при входе',
         'Notify message' => 'Сообщение оповещения',
         'Manage Sessions' => 'Управление сеансами',
@@ -2366,6 +2365,7 @@ sub Data {
         'Closed' => 'Закрытые',
         '%s open ticket(s) of %s' => '%s открытых заявок из %s',
         '%s closed ticket(s) of %s' => '%s закрытых заявок из %s',
+        'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Эскалированные заявки',
@@ -2429,7 +2429,7 @@ sub Data {
 
         # Template: AgentInfo
         'To accept some news, a license or some changes.' => 'Чтобы принять какие-нибудь новости, лицензию или какие-то изменения.',
-        'Yes, accepted.' => '',
+        'Yes, accepted.' => 'Да, принято',
 
         # Template: AgentLinkObject
         'Manage links for %s' => 'Управление связями для %s',
@@ -2637,7 +2637,7 @@ sub Data {
         # Template: AgentTicketHistory
         'History of %s%s%s' => 'История для %s%s%s',
         'Filter for history items' => 'Фильтр для элементов истории',
-        'Expand/collapse all' => '',
+        'Expand/collapse all' => 'Развернуть/свернуть всё',
         'Article' => 'Сообщение',
 
         # Template: AgentTicketMerge
@@ -2672,7 +2672,7 @@ sub Data {
         'Tickets per page' => 'Заявок на страницу',
 
         # Template: AgentTicketOverviewPreview
-        'Missing channel' => '',
+        'Missing channel' => 'Ошибочный канал',
 
         # Template: AgentTicketOverviewSmall
         'Reset overview' => 'Сбросить настройки просмотра',
@@ -2809,7 +2809,7 @@ sub Data {
         'Load blocked content.' => 'Загрузить заблокированное содержимое.',
 
         # Template: Breadcrumb
-        'Home' => '',
+        'Home' => 'Домой',
         'Back to admin overview' => 'Вернуться в панель администратора',
 
         # Template: CloudServicesDisabled
@@ -3243,7 +3243,7 @@ sub Data {
         # Template: Actions
         'Edit search' => 'Изменить условия поиска',
         'Go back to admin: ' => 'Вернуться в панель администратора:',
-        'Deployment' => 'Использование',
+        'Deployment' => 'Применение',
         'My favourite settings' => 'Мои избранные настройки',
         'Invalid settings' => 'Неверное значение параметра',
 
@@ -3313,10 +3313,10 @@ sub Data {
         'Add key' => 'Добавить ключ',
 
         # JS Template: DialogDeployment
-        'Deployment comment...' => 'Пояснения по развертыванию...',
-        'Deploying, please wait...' => 'Подождите, идет развертывание...',
+        'Deployment comment...' => 'Пояснения по применению...',
+        'Deploying, please wait...' => 'Подождите, идет применение...',
         'Preparing to deploy, please wait...' => 'Подождите, идет подготовка к развертыванию...',
-        'Deploy now' => 'Установить сейчас',
+        'Deploy now' => 'Применить сейчас',
         'Close' => 'Закрыть',
         'Try again' => 'Попробуйте еще раз',
 
@@ -3432,13 +3432,13 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminCommunicationLog.pm
         'Invalid CommunicationID ' => 'Неверный CommunicationID ',
         'All communications' => '',
-        'Last 1 hour' => '',
-        'Last 3 hours' => '',
-        'Last 6 hours' => '',
-        'Last 12 hours' => '',
-        'Last 24 hours' => '',
-        'Last week' => '',
-        'Last month' => '',
+        'Last 1 hour' => 'Последний 1 час',
+        'Last 3 hours' => 'Последние 3 часа',
+        'Last 6 hours' => 'Последние 6 часов',
+        'Last 12 hours' => 'Последние 12 часов',
+        'Last 24 hours' => 'Последние 24 часа',
+        'Last week' => 'Последняя неделя',
+        'Last month' => 'Последний месяц',
         'Invalid StartTime: %s!' => 'Неверное StartTime: %s!',
         'Successful' => 'Успешно',
         'Processing' => 'Выполнение',
@@ -3450,7 +3450,7 @@ sub Data {
         'Trace' => '',
         'Debug' => 'Отладка',
         'Info' => 'Информация',
-        'Warn' => '',
+        'Warn' => 'Предупреждение',
         'days' => 'дней',
         'day' => 'день',
         'hour' => 'час',
@@ -3460,8 +3460,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer company updated!' => 'Компания клиента обновлена!',
-        'Dynamic field %s not found!' => '',
-        'Unable to set value for dynamic field %s!' => '',
+        'Dynamic field %s not found!' => 'Динамическое поле %s не найдено!',
+        'Unable to set value for dynamic field %s!' => 'Невозможно установить значение для динамического поля %s!',
         'Customer Company %s already exists!' => 'Компания клиента %s уже существует!',
         'Customer company added!' => 'Компания клиента добавлена!',
 
@@ -3495,13 +3495,13 @@ sub Data {
         'Database (%s)' => 'База данных (%s)',
         'Web service (%s)' => 'Веб-сервис (%s)',
         'Contact with data (%s)' => '',
-        'Change' => 'Изменение',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'Невозможно правильно сбросить очередность Dynamic Field, подробности в логе ошибок.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Неопределенное последействие.',
         'Need %s' => 'Требуется  %s',
+        'Add %s field' => '',
         'The field does not contain only ASCII letters and numbers.' => 'Поле содержит не только буквы и цифры таблицы ASCII.',
         'There is another field with the same name.' => 'Существует другое поле с таким же именем.',
         'The field must be numeric.' => 'Это поле должно быть числовым',
@@ -3509,6 +3509,7 @@ sub Data {
         'Could not create the new field' => 'Не удалось создать новое поле',
         'Need ID' => 'Требуется ID',
         'Could not get data for dynamic field %s' => 'Невозможно получить данные для динамического поля  %s',
+        'Change %s field' => '',
         'The name for this field should not change.' => 'Наименование этого поля не должно меняться',
         'Could not update the field %s' => 'Не удалось обновить поле %s',
         'Currently' => 'В настоящий момент',
@@ -3892,6 +3893,7 @@ sub Data {
         'There are no invalid settings active at this time.' => 'В настоящий момент нет активных неверных настроек.',
         'You currently don\'t have any favourite settings.' => 'У вас сейчас нет никаких избранных настроек.',
         'The following settings could not be found: %s' => 'Следующий параметр не найден: %s',
+        'Import not allowed!' => 'Импорт недопустим!',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
             '',
         'Category Search' => 'Поиск категории',
@@ -3986,7 +3988,7 @@ sub Data {
         'No permissions!' => 'Нет прав доступа!',
 
         # Perl Module: Kernel/Modules/AgentAppointmentList.pm
-        '+%s more' => '',
+        '+%s more' => '+%s еще',
 
         # Perl Module: Kernel/Modules/AgentCustomerSearch.pm
         'Customer History' => 'История клиента',
@@ -4015,7 +4017,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
         'Param Group is required!' => 'Требуется группа Параметров!',
-        'Updated user preferences' => '',
+        'Updated user preferences' => 'Обновленные настройки пользователя',
         'System was unable to deploy your changes.' => 'Система не смогла применить ваше изменение.',
         'Setting not found!' => 'Параметр не найден!',
         'This feature is part of the %s Please contact us at %s for an upgrade.' =>
@@ -4050,7 +4052,7 @@ sub Data {
         'FormDraft name %s is already in use!' => 'Имя FormDraft %s уже используется!',
         'Could not perform validation on field %s!' => 'Не удалось выполнить проверку для поля %s!',
         'No subject' => 'Тема отсутствует',
-        'Could not delete draft!' => '',
+        'Could not delete draft!' => 'Не удалось удалить черновик!',
         'Previous Owner' => 'Предыдущий владелец',
         'wrote' => 'написал(а)',
         'Message from' => 'Сообщение от',
@@ -4281,7 +4283,7 @@ sub Data {
         'Queue Changed' => 'Очередь изменена',
         'Notification Was Sent' => 'Уведомление было отправлено',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
-            '',
+            'Эта заявка не существует или у вас нет прав для доступа к ней в её текущем состоянии.',
         'Missing FormDraftID!' => 'Пропущен FormDraftID!',
         'Can\'t get for ArticleID %s!' => 'Невозможно получить %s для ArticleID!',
         'Article filter settings were saved.' => 'Параметры фильтра сообщений/заметок сохранены.',
@@ -4521,7 +4523,7 @@ sub Data {
         'm' => 'мин',
         'd' => 'дн',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state. You can take one of the following actions:' =>
-            '',
+            'Эта заявка не существует или у вас нет прав для доступа к ней в её текущем состоянии. Вы можете попробовать выполнить одно из следующих действий:',
         'This is a' => 'Это',
         'email' => 'email',
         'click here' => 'нажмите здесь',
@@ -4562,7 +4564,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s Обновление до %s сейчас! %s',
-        'Please verify your license data!' => '',
+        'Please verify your license data!' => 'Проверьте , пожалуйста данные лицензии!',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
             'Лицензия на ваш продукт %s истекает. Свяжитесь, пожалуйста с %s для обновления контракта!',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
@@ -4582,7 +4584,7 @@ sub Data {
         'Online Customer: %s' => 'Клиент онлайн: %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
-        'System maintenance is active!' => '',
+        'System maintenance is active!' => 'Система на техническом обслуживании!',
         'A system maintenance period will start at: ' => 'Период технического обслуживания начнется в:',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
@@ -4598,7 +4600,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationIsDirtyCheck.pm
         'You have undeployed settings, would you like to deploy them?' =>
-            'У вас есть неподтвержденные настройки, желаете применить?',
+            'У вас есть непримененные настройки, желаете применить?',
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationOutOfSyncCheck.pm
         'The configuration is being updated, please be patient...' => 'Конфигурация обновляется, будьте внимательны...',
@@ -4791,7 +4793,7 @@ sub Data {
         'File is different!' => 'Файл отличается!',
         'Can\'t read file!' => 'Невозможно прочитать файл!',
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
-            '',
+            '<p>Если вы продолжите установку этого пакета, могут возникнуть следующие проблемы:</p><ul><li>Проблемы безопасности</li><li>Стабильности</li><li>Производительности</li></ul><p>Помните, что возникшие при работе с таким пакетом проблемы не решаются в рамках сервисного контракта OTRS!</p>',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -4856,7 +4858,7 @@ sub Data {
         'State Type Historic' => 'Тип состояния истории',
         'Historic Time Range' => 'Период истории',
         'Number' => 'Число',
-        'Last Changed' => '',
+        'Last Changed' => 'Дата последнего изменеия',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => 'Среднее время решения заявки',
@@ -4912,10 +4914,10 @@ sub Data {
         'Client Connection Charset' => 'Кодировка клиентского соединения',
         'Setting character_set_client needs to be utf8.' => 'Значение кодировки для клиента должно быть UNICODE or UTF8.',
         'Server Database Charset' => 'Кодировка для сервера базы данных',
-        'The setting character_set_database needs to be \'utf8\'.' => '',
+        'The setting character_set_database needs to be \'utf8\'.' => 'Значение параметра character_set_database должно быть \'utf8\'. ',
         'Table Charset' => 'Кодировка для таблицы',
         'There were tables found which do not have \'utf8\' as charset.' =>
-            '',
+            'Найдены таблицы в кодировке, отличной от utf8.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
         'InnoDB Log File Size' => 'Размер файла журнала InnoDB ',
@@ -4924,7 +4926,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'Максимальный размер запроса',
         'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
-            '',
+            'Значение параметра \'max_allowed_packet\' должно быть больше 64 МВ.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
         'Query Cache Size' => 'Query Cache Size',
@@ -5086,7 +5088,7 @@ sub Data {
         'Package List' => 'Список пакетов',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SessionConfigSettings.pm
-        'Session Config Settings' => '',
+        'Session Config Settings' => 'Настройка параметров сеансов',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
         'Spooled Emails' => 'Буферизованные почтовые сообщения',
@@ -5118,7 +5120,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
         'Ticket Search Index Module' => 'Модуль индексирования заявок для поиска',
         'The indexing process forces the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
-            '',
+            'Процесс индексирования заставляет хранить исходный текст статьи в индексе поиска статьи без выполнения фильтров или применения стоп-слов. Это увеличит размер индекса поиска и, таким образом, может замедлить поиск в полнотекстовом режиме.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
         'Orphaned Records In ticket_lock_index Table' => 'Потерянные записи в таблице ticket_lock_index ',
@@ -5202,7 +5204,7 @@ sub Data {
         'Could not update modified setting!' => 'Не удалось обновить измененную настройку!',
         'Setting could not be unlocked!' => 'Настройка не может быть разблокирована!',
         'Missing key %s!' => 'Пропущен ключ %s!',
-        'All Settings' => '',
+        'All Settings' => 'Все настройки',
 
         # Perl Module: Kernel/System/SysConfig/BaseValueType.pm
         'Default' => 'По умолчанию',
@@ -5466,7 +5468,7 @@ sub Data {
         'This is currently disabled because of an ongoing package upgrade.' =>
             'В настоящее время это отключено из-за идущего процесса обновления пакета.',
         'This option is currently disabled because the OTRS Daemon is not running.' =>
-            '',
+            'Эта возможность в настоящее время отключена т.к. OTRS Daemon не запущен.',
         'Are you sure you want to update all installed packages?' => 'Вы уверены, что желаете обновить все установленные пакеты?',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
@@ -5543,7 +5545,7 @@ sub Data {
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?' =>
             'При восстановлении этого применения, все настройки будут возвращены до значения, которое они имели во время него. Вы действительно хотите продолжить?',
         'Keys with values can\'t be renamed. Please remove this key/value pair instead and re-add it afterwards.' =>
-            '',
+            'Ключи со значениями нельзя переименовать. Удалите эту пару ключ / значение и повторно добавьте ее заново.',
         'Unlock setting.' => 'Разблокировать настройку.',
 
         # JS File: Core.Agent.Admin.SystemMaintenance
@@ -5617,7 +5619,7 @@ sub Data {
         'Sorry, but you can\'t disable all methods for this notification.' =>
             'Извините, но вы не можете отключить все методы уведомления для этого оповещения.',
         'Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.' =>
-            '',
+            'Обратите внимание, что один из обновленных вами параметров требует обновления страницы. Нажмите здесь для обновления экрана.',
         'An unknown error occurred. Please contact the administrator.' =>
             'Произошла неизвестная ошибка. Свяжитесь с администратором.',
 
@@ -5735,7 +5737,7 @@ sub Data {
         'Sorry, you can only upload one file here.' => 'Извините, но загрузить сюда можно только один файл.',
         'Sorry, you can only upload %s files.' => 'Извините, но загрузить можно только %s файлы.',
         'Please only select at most %s files for upload.' => 'Пожалуйста, выберите только файлы %s для загрузки.',
-        'The following files are not allowed to be uploaded: %s' => '',
+        'The following files are not allowed to be uploaded: %s' => 'Следующие типы файлов не разрешены для загрузки: %s',
         'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s' =>
             '',
         'The following files were already uploaded and have not been uploaded again: %s' =>
@@ -5900,6 +5902,7 @@ Thanks for your help!
         'Agents ↔ Groups' => 'Агенты ↔ Группы',
         'Agents ↔ Roles' => 'Агенты <-> Роли',
         'All CustomerIDs of a customer user.' => 'Все CustomerID пользователя.',
+        'All attachments (OTRS Business Solution™)' => '',
         'All customer users of a CustomerID' => 'Все клиенты Компании (по CustomerID)',
         'All escalated tickets' => 'Все эскалированные заявки',
         'All new tickets, these tickets have not been worked on yet' => 'Все новые заявки; с этими заявками еще никто не работал',
@@ -6150,6 +6153,8 @@ Thanks for your help!
             'Задает возможность сортировки заявок для клиента',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'Задает возможность указать более одного клиента для новой телефонной заявки в интерфейсе агента.',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
+            'Управляет возможностью для администратора загружать сохраненную конфигурацию системы в SysConfig.',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             'Задает право администратора выполнять изменения в БД используя AdminSelectBox.',
         'Controls if the autocomplete field will be used for the customer ID selection in the AdminCustomerUser interface.' =>

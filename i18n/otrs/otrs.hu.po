@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-11-27 22:46+0000\n"
-"PO-Revision-Date: 2017-11-27 22:52+0000\n"
+"POT-Creation-Date: 2017-12-11 23:26+0000\n"
+"PO-Revision-Date: 2017-12-11 23:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -1658,10 +1658,6 @@ msgstr "Mező törlése"
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
 msgstr "Dinamikus mezők"
-
-#. Template: AdminDynamicFieldCheckbox
-msgid "Field"
-msgstr "Mező"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Go back to overview"
@@ -6888,7 +6884,7 @@ msgstr "Bejelentkező üzenet"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "This field must have less then 250 characters."
-msgstr ""
+msgstr "Ennek a mezőnek rövidebbnek kell lennie 250 karakternél."
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Show login message"
@@ -7579,6 +7575,10 @@ msgstr "%s nyitott jegye ennek: %s"
 #. Template: AgentDashboardCustomerIDList
 msgid "%s closed ticket(s) of %s"
 msgstr "%s lezárt jegye ennek: %s"
+
+#. Template: AgentDashboardCustomerIDList
+msgid "Edit customer ID"
+msgstr ""
 
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
@@ -10784,10 +10784,6 @@ msgid "Contact with data (%s)"
 msgstr "Partneradatok (%s)"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
-msgid "Change"
-msgstr "Változás"
-
-#. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for"
 " more details."
@@ -10800,6 +10796,10 @@ msgstr "Meghatározatlan alművelet."
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need %s"
 msgstr "%s szükséges"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Add %s field"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field does not contain only ASCII letters and numbers."
@@ -10828,6 +10828,10 @@ msgstr "Azonosító szükséges"
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not get data for dynamic field %s"
 msgstr "Nem sikerült lekérni az adatokat a dinamikus mezőhöz: %s"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Change %s field"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The name for this field should not change."
@@ -11963,6 +11967,10 @@ msgstr "Jelenleg nincs egyetlen kedvenc beállítása sem."
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "The following settings could not be found: %s"
 msgstr "A következő beállítások nem találhatók: %s"
+
+#. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
+msgid "Import not allowed!"
+msgstr "Az importálás nem engedélyezett!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid ""
@@ -17327,6 +17335,10 @@ msgid "All CustomerIDs of a customer user."
 msgstr "Egy ügyfél-felhasználó összes ügyfél-azonosítója."
 
 #. SysConfig
+msgid "All attachments (OTRS Business Solution™)"
+msgstr ""
+
+#. SysConfig
 msgid "All customer users of a CustomerID"
 msgstr "Egy ügyfél-azonosító minden ügyfél-felhasználója"
 
@@ -18149,6 +18161,12 @@ msgid ""
 "Controls if more than one from entry can be set in the new phone ticket in "
 "the agent interface."
 msgstr "Azt szabályozza, hogy lehessen-e egynél több bejegyzést beállítani az új telefonos jegyben az ügyintézői felületen."
+
+#. SysConfig
+msgid ""
+"Controls if the admin is allowed to import a saved system configuration in "
+"SysConfig."
+msgstr "Azt szabályozza, hogy az adminisztrátornak megengedett-e egy elmentett rendszerbeállítás importálása a rendszerbeállításokban."
 
 #. SysConfig
 msgid ""
@@ -23093,7 +23111,7 @@ msgstr "Nyitott jegyek (ügyfél)"
 
 #. SysConfig
 msgid "Option"
-msgstr "Lehetőség"
+msgstr "Választás"
 
 #. SysConfig
 msgid ""

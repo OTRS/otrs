@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.585454545454545;
+    $Self->{Completeness}        = 0.586087558401107;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -120,7 +120,7 @@ sub Data {
             'Przenieś na: użytkownicy mogą modyfikować wydarzenia w kalendarzu, jednak bez możliwości zmiany wybranego kalendarza.',
         'Create: users can create and delete appointments in the calendar.' =>
             'Utwórz: użytkownicy mogą tworzyć i usuwać wydarzenia w kalendarzu.',
-        'Read/write: users can manage the calendar itself.' => 'Czytaj/Zapisz: użytkownicy mogą zarządzać samym kalendarzem.',
+        'Read/write: users can manage the calendar itself.' => 'Odczyt/Zapis: użytkownicy mogą zarządzać kalendarzem.',
         'Group' => 'Grupa',
         'Changed' => 'Zmienione',
         'Created' => 'Utworzone',
@@ -188,7 +188,7 @@ sub Data {
         'Events' => 'Zdarzenia',
         'Event' => 'Zdarzenie',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
-            '',
+            'Tu można wybrać, które zdarzenia będą wyzwalać to powiadomienie. Zdefiniowany poniżej dodatkowy filtr wydarzeń może ograniczyć powiadomienia do wydarzeń spełniających określone kryteria.',
         'Appointment Filter' => 'Filtr wydarzeń',
         'Type' => 'Typ',
         'Title' => 'Tytuł',
@@ -207,7 +207,7 @@ sub Data {
             'Powiadamiaj użytkownika o pojedynczym wydarzeniu, przy użyciu wybranego transportu, tylko raz dziennie.',
         'Notification Methods' => 'Metoda powiadomienia',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
-            '',
+            'To są metody, które mogą zostać użyte do wysłania tego powiadomienia do każdego z odbiorców. Wybierz przynajmniej jedną metodę poniżej.',
         'Enable this notification method' => 'Włącz tą metodę powiadomienia',
         'Transport' => 'Transport',
         'At least one method is needed per notification.' => 'Wymagana jest przynajmniej jedna metoda na powiadomienie.',
@@ -299,7 +299,7 @@ sub Data {
         'Send support data' => 'Wysyłaj dane wsparcia',
         'This will allow the system to send additional support data information to OTRS Group.' =>
             'Pozwala na przesyłanie dodatkowych danych do grupy wsparcia OTRS',
-        'Update' => 'Zapisz',
+        'Update' => 'Zaktualizuj',
         'System Registration' => 'Rejestracja systemu',
         'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
             'Aby włączyć przesyłanie danych, zarejestruj swój system w Grupie OTRS lub zaktualizuj informacje rejestracyjne systemu (upewnij się że opcja \'wysyłaj dane wsparcia\' jest akywna).',
@@ -523,7 +523,6 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Pola dynamiczne',
-        'Field' => 'Pole',
         'Go back to overview' => 'Powrót do przeglądu',
         'General' => 'Ogólne',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -2185,7 +2184,7 @@ sub Data {
         'Agent Management' => 'Zarządzanie agentami',
         'Add Agent' => 'Dodaj agenta',
         'Edit Agent' => 'Edytuj agenta',
-        'Edit personal preferences for this agent' => '',
+        'Edit personal preferences for this agent' => 'Edytuj ustawienia osobiste tego agenta',
         'Agents will be needed to handle tickets.' => 'Agenci są potrzebni do obsługi zgłoszeń.',
         'Don\'t forget to add a new agent to groups and/or roles!' => 'Nie zapomnij dodać nowego agenta do grup lub/i ról!',
         'Please enter a search term to look for agents.' => 'Podaj frazy wyszukiwania agentów.',
@@ -2358,6 +2357,7 @@ sub Data {
         'Closed' => 'Zamknięte',
         '%s open ticket(s) of %s' => '% otwartych zgłoszeń z %s',
         '%s closed ticket(s) of %s' => '%s zamkniętych zgłoszeń z %s',
+        'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Zgłoszenia eskalowane',
@@ -2439,7 +2439,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Zmień swoje ustawienia',
-        'Personal preferences' => '',
+        'Personal preferences' => 'Ustawienia osobiste',
         'Preferences' => 'Ustawienia',
         'Warning! You\'re currently not editing your own preferences, but those of %s.' =>
             '',
@@ -2467,7 +2467,7 @@ sub Data {
         'Reset to default' => '',
 
         # Template: AgentPreferencesOverview
-        'Personal Preferences' => '',
+        'Personal Preferences' => 'Ustawienia osobiste',
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             '',
         'Did you know?' => '',
@@ -2480,7 +2480,7 @@ sub Data {
         'Split' => 'Podziel',
 
         # Template: AgentStatisticsAdd
-        'Statistics Overview' => '',
+        'Statistics Overview' => 'Przegląd statystyk',
         'Read more about statistics in OTRS' => '',
         'Add Statistics' => '',
         'Dynamic Matrix' => 'Macierz dynamiczna',
@@ -3487,13 +3487,13 @@ sub Data {
         'Database (%s)' => 'Baza danych (%s)',
         'Web service (%s)' => '',
         'Contact with data (%s)' => '',
-        'Change' => 'Zmień',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'Nie udało się prawidłowo przywrócić kolejności Pól Dynamicznych, więcej szczegółów znajduje się w pliku logu.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Nieokreślone działanie podrzędne.',
         'Need %s' => 'Wymagany %s',
+        'Add %s field' => '',
         'The field does not contain only ASCII letters and numbers.' => '',
         'There is another field with the same name.' => '',
         'The field must be numeric.' => '',
@@ -3501,6 +3501,7 @@ sub Data {
         'Could not create the new field' => 'Nie udało się utworzyć nowego pola',
         'Need ID' => 'Wymagane ID',
         'Could not get data for dynamic field %s' => '',
+        'Change %s field' => '',
         'The name for this field should not change.' => '',
         'Could not update the field %s' => '',
         'Currently' => 'Aktualnie',
@@ -3884,6 +3885,7 @@ sub Data {
         'There are no invalid settings active at this time.' => '',
         'You currently don\'t have any favourite settings.' => '',
         'The following settings could not be found: %s' => '',
+        'Import not allowed!' => 'Import niedozwolony!',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
             '',
         'Category Search' => '',
@@ -5845,7 +5847,7 @@ Thanks for your help!
         'Admin Notification' => 'Powiadomienia administratora',
         'Admin area navigation for the agent interface.' => '',
         'Admin.' => 'Admin',
-        'Administration' => '',
+        'Administration' => 'Administracja',
         'Agent Customer Search' => '',
         'Agent Customer Search.' => '',
         'Agent Name' => 'Imię i nazwisko Agenta',
@@ -5881,6 +5883,7 @@ Thanks for your help!
         'Agents ↔ Groups' => '',
         'Agents ↔ Roles' => '',
         'All CustomerIDs of a customer user.' => '',
+        'All attachments (OTRS Business Solution™)' => '',
         'All customer users of a CustomerID' => 'Wszyscy użytkownicy  z identyyfikatorem klienta',
         'All escalated tickets' => 'Wszystkie eskalowane zgłoszenia',
         'All new tickets, these tickets have not been worked on yet' => 'Wszystkie nowe zgłoszenia, nie podjęto jeszcze prac w związku z nimi',
@@ -6131,6 +6134,8 @@ Thanks for your help!
             'Kontroluje czy klienci mają możliwość sortowania swoimi zgłoszeniami.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'Kontroluje czy więcej niż jedna pozycja może być zaznaczona przy zgłoszeniu telefonicznym w panelu agenta.',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
+            '',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             '',
         'Controls if the autocomplete field will be used for the customer ID selection in the AdminCustomerUser interface.' =>
@@ -6702,7 +6707,7 @@ Thanks for your help!
             '',
         'Defines the list of types for templates.' => 'Definiuje listę rodzajów szablonów.',
         'Defines the location to get online repository list for additional packages. The first available result will be used.' =>
-            'Definiuje likalizację repozytorium dla kolejnych pakietów. Użyty zostanie pierwszy dostępny wynik.',
+            'Definiuje lokalizację listy repozytoriów pakietów dodatkowy. Użyty zostanie pierwszy dostępny wynik.',
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' =>
             '',
         'Defines the maximal size (in bytes) for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTRS instance to stop working (probably any mask which takes input from the user).' =>

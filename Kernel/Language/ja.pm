@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.748398268398268;
+    $Self->{Completeness}        = 0.747707215781277;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -117,7 +117,7 @@ sub Data {
         'Read only: users can see and export all appointments in the calendar.' =>
             '読み取り専用：ユーザーはカレンダー内の全ての予定を表示およびエクスポートできます。',
         'Move into: users can modify appointments in the calendar, but without changing the calendar selection.' =>
-            '',
+            '移動先：ユーザーは予定表の予定を変更することなく、予定表の予定を変更できます。',
         'Create: users can create and delete appointments in the calendar.' =>
             '作成: ユーザーはカレンダーにアポイントメントを作成/削除できます。',
         'Read/write: users can manage the calendar itself.' => '',
@@ -523,7 +523,6 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'ダイナミック・フィールド',
-        'Field' => 'フィールド',
         'Go back to overview' => '一覧に戻る',
         'General' => 'ジェネラル',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -2359,6 +2358,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Closed' => 'クローズ',
         '%s open ticket(s) of %s' => '%sのオープンチケット%s',
         '%s closed ticket(s) of %s' => '%sのクローズチケット%s',
+        'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'エスカレーション済チケット',
@@ -3489,13 +3489,13 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Database (%s)' => 'データベース (%s)',
         'Web service (%s)' => 'Webサービス (%s)',
         'Contact with data (%s)' => 'データ接続 (%s)',
-        'Change' => '変更',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'ダイナミック・フィールドのオーダー定義を初期化できませんでした。詳細はエラーログを参照願います。',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => '未定義のサブアクションです。',
         'Need %s' => '%s の入力が必要です。',
+        'Add %s field' => '',
         'The field does not contain only ASCII letters and numbers.' => '',
         'There is another field with the same name.' => '',
         'The field must be numeric.' => '',
@@ -3503,6 +3503,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Could not create the new field' => '新しいフィールドを作成できませんでした。',
         'Need ID' => 'IDが必要',
         'Could not get data for dynamic field %s' => 'ダイナミック・フィールド %s の値を取得できませんでした',
+        'Change %s field' => '',
         'The name for this field should not change.' => '',
         'Could not update the field %s' => '',
         'Currently' => '現在の',
@@ -3886,6 +3887,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'There are no invalid settings active at this time.' => '',
         'You currently don\'t have any favourite settings.' => '',
         'The following settings could not be found: %s' => '',
+        'Import not allowed!' => '',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
             '',
         'Category Search' => 'カテゴリ検索',
@@ -5892,6 +5894,7 @@ Thanks for your help!
         'Agents ↔ Groups' => '担当者 ↔ グループ',
         'Agents ↔ Roles' => '担当者 ↔ ロール',
         'All CustomerIDs of a customer user.' => '顧客ユーザーの全てのCustomerID',
+        'All attachments (OTRS Business Solution™)' => '',
         'All customer users of a CustomerID' => '顧客IDの全ての顧客ユーザー',
         'All escalated tickets' => '全エスカレーションチケット',
         'All new tickets, these tickets have not been worked on yet' => '全新規チケット。まだ着手されていません',
@@ -6141,6 +6144,8 @@ Thanks for your help!
         'Controls if customers have the ability to sort their tickets.' =>
             '顧客が自らのチケットをソートする機能を持つかどうかを、コントロールします。',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             '',

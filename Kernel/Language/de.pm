@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.98961038961039;
+    $Self->{Completeness}        = 0.988925419622772;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -520,7 +520,6 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Dynamische Felder',
-        'Field' => 'Feld',
         'Go back to overview' => 'Zurück zur Übersicht gehen',
         'General' => 'Allgemein',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -2355,6 +2354,7 @@ sub Data {
         'Closed' => 'Geschlossen',
         '%s open ticket(s) of %s' => '%s offene Tickets von %s',
         '%s closed ticket(s) of %s' => '%s geschlossene Tickets von %s',
+        'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Eskalierte Tickets',
@@ -3484,13 +3484,13 @@ sub Data {
         'Database (%s)' => 'Datenbank (%s)',
         'Web service (%s)' => 'Web-Service (%s)',
         'Contact with data (%s)' => 'Kontaktdaten (%s)',
-        'Change' => 'Ändern',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'Konnte die Reihenfolge der dynamischen Felder nicht zurücksetzen, bitte prüfen Sie das Log für mehr Informationen.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Unbestimmte Subaktion.',
         'Need %s' => '%s benötigt',
+        'Add %s field' => '',
         'The field does not contain only ASCII letters and numbers.' => 'Dieses Feld enthält nicht nur ASCII-Zeichen.',
         'There is another field with the same name.' => 'Es existiert bereits ein Feld mit demselben Namen.',
         'The field must be numeric.' => 'Das Feld darf nur Zahlen beinhalten.',
@@ -3498,6 +3498,7 @@ sub Data {
         'Could not create the new field' => 'Konnte das neue Feld nicht anlegen',
         'Need ID' => 'Kennung benötigt',
         'Could not get data for dynamic field %s' => 'Konnte keine Daten für das dynamische Feld %s ermitteln.',
+        'Change %s field' => '',
         'The name for this field should not change.' => 'Der Name dieses Feldes sollte sich nicht ändern.',
         'Could not update the field %s' => 'Das Feld %s konnte nicht aktualisiert werden',
         'Currently' => 'Aktuell',
@@ -3881,6 +3882,7 @@ sub Data {
         'There are no invalid settings active at this time.' => 'Derzeit sind keine ungültigen Einstellungen aktiviert.',
         'You currently don\'t have any favourite settings.' => 'Sie haben derzeit keine Einstellungen als Favorit gespeichert.',
         'The following settings could not be found: %s' => 'Die folgenden Einstellungen wurden nicht gefunden: %s',
+        'Import not allowed!' => 'Import nicht erlaubt!',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
             '',
         'Category Search' => 'Kategorie-Suche',
@@ -5888,6 +5890,7 @@ Ihr Helpdesk-Team
         'Agents ↔ Groups' => 'Agenten ↔ Gruppen',
         'Agents ↔ Roles' => 'Agenten ↔ Rollen',
         'All CustomerIDs of a customer user.' => 'Alle Kundennummern eines Kundenbenutzers.',
+        'All attachments (OTRS Business Solution™)' => '',
         'All customer users of a CustomerID' => 'Alle Kundenbenutzer einer Kundennummer',
         'All escalated tickets' => 'Alle eskalierten Tickets',
         'All new tickets, these tickets have not been worked on yet' => 'Alle neuen Tickets; an diesen Tickets wurde noch nicht gearbeitet',
@@ -6138,6 +6141,8 @@ Ihr Helpdesk-Team
             'Legt fest, ob Kunden die Möglichkeit haben ihre Tickets zu sortieren.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'Kontrolliert, ob mehr als ein Eintrag in einem neuen Telefon-Ticket festgelegt werden kann.',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
+            'Kontrolliert, ob es dem Admin erlaubt ist, eine gespeicherte Systemkonfiguration in SysConfig zu importieren.',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             'Überprüft ob der Administrator die Berechtigung besitzt Änderungen in der Datenbank über die AdminSelectBox zu tätigen.',
         'Controls if the autocomplete field will be used for the customer ID selection in the AdminCustomerUser interface.' =>
@@ -6451,11 +6456,7 @@ Ihr Helpdesk-Team
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             'Definiert die Konfigurationsparamenter des Items, die in der Eigenschaftenanzeige angezeigt wird.',
         'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached.' =>
-            'Legt die Konfigurationsparameter für diesen Eintrag fest, die in der Einstellungsansicht angezeigt werden.
-\'PasswordRegExp\' erlaubt das Prüfen von Passwörtern gegen einen regulären Ausdruck.
-Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen Sie fest, ob das Passwort mindestens zwei Kleinbuchstaben und zwei Großbuchstaben enthalten muss, indem Sie die entsprechende Option auf \'1\' setzen.
-\'PasswordMin2Characters\' legt fest, dass mindestens zwei Buchstaben-Zeichen erforderlich sind (mögliche Werte sind \'0\' oder \'1\'). \'PasswordNeedDigit\' legt fest, ob das Passwort mindestens eine Zahl enthalten muss (mögliche Werte sind \'0\' oder \'1\').
-\'PasswordMaxLoginFailed\' erlaubt es einen Agenten auf temporär ungültig wenn die maximale Anzahl fehlerhafter Logins erreicht ist.',
+            'Legt die Konfigurationsparameter für diesen Eintrag fest, die in der Einstellungsansicht angezeigt werden. \'PasswordRegExp\' erlaubt das Prüfen von Passwörtern gegen einen regulären Ausdruck. Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen Sie fest, ob das Passwort mindestens zwei Kleinbuchstaben und zwei Großbuchstaben enthalten muss, indem Sie die entsprechende Option auf \'1\' setzen. \'PasswordMin2Characters\' legt fest, dass mindestens zwei Buchstaben-Zeichen erforderlich sind (mögliche Werte sind \'0\' oder \'1\'). \'PasswordNeedDigit\' legt fest, ob das Passwort mindestens eine Zahl enthalten muss (mögliche Werte sind \'0\' oder \'1\'). \'PasswordMaxLoginFailed\' erlaubt es einen Agenten auf temporär ungültig wenn die maximale Anzahl fehlerhafter Logins erreicht ist.',
         'Defines the connections for http/ftp, via a proxy.' => 'Definiert Verbindungen für HTTP/FTP über einen Proxy.',
         'Defines the customer preferences key where the shared secret key is stored.' =>
             'Defininiert das Einstellungsfeld für Kunden, in dem der Share Secret-Key gespeichert wird.',

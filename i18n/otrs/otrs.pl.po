@@ -18,8 +18,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-11-27 22:46+0000\n"
-"PO-Revision-Date: 2017-11-27 22:52+0000\n"
+"POT-Creation-Date: 2017-12-11 23:26+0000\n"
+"PO-Revision-Date: 2017-12-11 23:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Polish (http://www.transifex.com/otrs/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -314,7 +314,7 @@ msgstr "Utwórz: użytkownicy mogą tworzyć i usuwać wydarzenia w kalendarzu."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read/write: users can manage the calendar itself."
-msgstr "Czytaj/Zapisz: użytkownicy mogą zarządzać samym kalendarzem."
+msgstr "Odczyt/Zapis: użytkownicy mogą zarządzać kalendarzem."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Group"
@@ -558,7 +558,7 @@ msgid ""
 "Here you can choose which events will trigger this notification. An "
 "additional appointment filter can be applied below to only send for "
 "appointments with certain criteria."
-msgstr ""
+msgstr "Tu można wybrać, które zdarzenia będą wyzwalać to powiadomienie. Zdefiniowany poniżej dodatkowy filtr wydarzeń może ograniczyć powiadomienia do wydarzeń spełniających określone kryteria."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
@@ -630,7 +630,7 @@ msgstr "Metoda powiadomienia"
 msgid ""
 "These are the possible methods that can be used to send this notification to"
 " each of the recipients. Please select at least one method below."
-msgstr ""
+msgstr "To są metody, które mogą zostać użyte do wysłania tego powiadomienia do każdego z odbiorców. Wybierz przynajmniej jedną metodę poniżej."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Enable this notification method"
@@ -952,7 +952,7 @@ msgstr "Pozwala na przesyłanie dodatkowych danych do grupy wsparcia OTRS"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
-msgstr "Zapisz"
+msgstr "Zaktualizuj"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "System Registration"
@@ -1663,10 +1663,6 @@ msgstr "Usuń to pole"
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
 msgstr "Pola dynamiczne"
-
-#. Template: AdminDynamicFieldCheckbox
-msgid "Field"
-msgstr "Pole"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Go back to overview"
@@ -7049,7 +7045,7 @@ msgstr "Edytuj agenta"
 
 #. Template: AdminUser
 msgid "Edit personal preferences for this agent"
-msgstr ""
+msgstr "Edytuj ustawienia osobiste tego agenta"
 
 #. Template: AdminUser
 msgid "Agents will be needed to handle tickets."
@@ -7585,6 +7581,10 @@ msgstr ""
 msgid "%s closed ticket(s) of %s"
 msgstr "%s zamkniętych zgłoszeń z %s"
 
+#. Template: AgentDashboardCustomerIDList
+msgid "Edit customer ID"
+msgstr ""
+
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
 msgstr "Zgłoszenia eskalowane"
@@ -7786,7 +7786,7 @@ msgstr "Zmień swoje ustawienia"
 
 #. Template: AgentPreferences
 msgid "Personal preferences"
-msgstr ""
+msgstr "Ustawienia osobiste"
 
 #. Template: AgentPreferences
 msgid "Preferences"
@@ -7872,7 +7872,7 @@ msgstr ""
 
 #. Template: AgentPreferencesOverview
 msgid "Personal Preferences"
-msgstr ""
+msgstr "Ustawienia osobiste"
 
 #. Template: AgentPreferencesOverview
 msgid ""
@@ -7903,7 +7903,7 @@ msgstr "Podziel"
 
 #. Template: AgentStatisticsAdd
 msgid "Statistics Overview"
-msgstr ""
+msgstr "Przegląd statystyk"
 
 #. Template: AgentStatisticsAdd
 msgid "Read more about statistics in OTRS"
@@ -10789,10 +10789,6 @@ msgid "Contact with data (%s)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
-msgid "Change"
-msgstr "Zmień"
-
-#. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for"
 " more details."
@@ -10805,6 +10801,10 @@ msgstr "Nieokreślone działanie podrzędne."
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need %s"
 msgstr "Wymagany %s"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Add %s field"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field does not contain only ASCII letters and numbers."
@@ -10832,6 +10832,10 @@ msgstr "Wymagane ID"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not get data for dynamic field %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Change %s field"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
@@ -11968,6 +11972,10 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "The following settings could not be found: %s"
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
+msgid "Import not allowed!"
+msgstr "Import niedozwolony!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid ""
@@ -17209,7 +17217,7 @@ msgstr "Admin"
 
 #. SysConfig
 msgid "Administration"
-msgstr ""
+msgstr "Administracja"
 
 #. SysConfig
 msgid "Agent Customer Search"
@@ -17329,6 +17337,10 @@ msgstr ""
 
 #. SysConfig
 msgid "All CustomerIDs of a customer user."
+msgstr ""
+
+#. SysConfig
+msgid "All attachments (OTRS Business Solution™)"
 msgstr ""
 
 #. SysConfig
@@ -18154,6 +18166,12 @@ msgid ""
 "Controls if more than one from entry can be set in the new phone ticket in "
 "the agent interface."
 msgstr "Kontroluje czy więcej niż jedna pozycja może być zaznaczona przy zgłoszeniu telefonicznym w panelu agenta."
+
+#. SysConfig
+msgid ""
+"Controls if the admin is allowed to import a saved system configuration in "
+"SysConfig."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -20054,7 +20072,7 @@ msgstr "Definiuje listę rodzajów szablonów."
 msgid ""
 "Defines the location to get online repository list for additional packages. "
 "The first available result will be used."
-msgstr "Definiuje likalizację repozytorium dla kolejnych pakietów. Użyty zostanie pierwszy dostępny wynik."
+msgstr "Definiuje lokalizację listy repozytoriów pakietów dodatkowy. Użyty zostanie pierwszy dostępny wynik."
 
 #. SysConfig
 msgid ""

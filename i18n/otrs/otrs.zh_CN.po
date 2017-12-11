@@ -20,8 +20,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-11-27 22:46+0000\n"
-"PO-Revision-Date: 2017-11-27 22:52+0000\n"
+"POT-Creation-Date: 2017-12-11 23:26+0000\n"
+"PO-Revision-Date: 2017-12-11 23:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -1665,10 +1665,6 @@ msgstr "删除这个字段"
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
 msgstr "动态字段"
-
-#. Template: AdminDynamicFieldCheckbox
-msgid "Field"
-msgstr "字段"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Go back to overview"
@@ -7587,6 +7583,10 @@ msgstr "%s个处理中的工单，共%s个"
 msgid "%s closed ticket(s) of %s"
 msgstr "%s个已关闭的工单，共%s个"
 
+#. Template: AgentDashboardCustomerIDList
+msgid "Edit customer ID"
+msgstr ""
+
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
 msgstr "升级的工单"
@@ -10791,10 +10791,6 @@ msgid "Contact with data (%s)"
 msgstr "联系人信息（％s）"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
-msgid "Change"
-msgstr "变更"
-
-#. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for"
 " more details."
@@ -10807,6 +10803,10 @@ msgstr "没有定义的子动作。"
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need %s"
 msgstr "需要%s"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Add %s field"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field does not contain only ASCII letters and numbers."
@@ -10835,6 +10835,10 @@ msgstr "需要ID"
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not get data for dynamic field %s"
 msgstr "不能获得动态字段%s 的数据"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Change %s field"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The name for this field should not change."
@@ -11970,6 +11974,10 @@ msgstr "你目前没有收藏任何设置。"
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "The following settings could not be found: %s"
 msgstr "找不到以下设置：％s"
+
+#. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
+msgid "Import not allowed!"
+msgstr "不允许导入！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid ""
@@ -17334,6 +17342,10 @@ msgid "All CustomerIDs of a customer user."
 msgstr "一个客户用户的所有客户ID。"
 
 #. SysConfig
+msgid "All attachments (OTRS Business Solution™)"
+msgstr ""
+
+#. SysConfig
 msgid "All customer users of a CustomerID"
 msgstr "一个客户ID的所有客户用户"
 
@@ -18156,6 +18168,12 @@ msgid ""
 "Controls if more than one from entry can be set in the new phone ticket in "
 "the agent interface."
 msgstr "控制在服务人员界面中新建电话工单能否设置不止一个“发件人”条目。"
+
+#. SysConfig
+msgid ""
+"Controls if the admin is allowed to import a saved system configuration in "
+"SysConfig."
+msgstr "控制系统管理员能否在系统配置中导入一个已保存的配置。"
 
 #. SysConfig
 msgid ""

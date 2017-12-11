@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.987186147186147;
+    $Self->{Completeness}        = 0.986502855165253;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -526,7 +526,6 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => '动态字段',
-        'Field' => '字段',
         'Go back to overview' => '返回概览',
         'General' => '常规',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -2361,6 +2360,7 @@ sub Data {
         'Closed' => '已关闭',
         '%s open ticket(s) of %s' => '%s个处理中的工单，共%s个',
         '%s closed ticket(s) of %s' => '%s个已关闭的工单，共%s个',
+        'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => '升级的工单',
@@ -3490,13 +3490,13 @@ sub Data {
         'Database (%s)' => '数据库 (%s)',
         'Web service (%s)' => 'Web服务(%s)',
         'Contact with data (%s)' => '联系人信息（％s）',
-        'Change' => '变更',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             '不能正确地重置动态字段顺序，请检查错误日志以获得更多详细信息。',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => '没有定义的子动作。',
         'Need %s' => '需要%s',
+        'Add %s field' => '',
         'The field does not contain only ASCII letters and numbers.' => '这个字段不是仅包含ASCII字符和数字。',
         'There is another field with the same name.' => '存在同名的另一字段。',
         'The field must be numeric.' => '这个字段必须是数字。',
@@ -3504,6 +3504,7 @@ sub Data {
         'Could not create the new field' => '不能创建这个新字段',
         'Need ID' => '需要ID',
         'Could not get data for dynamic field %s' => '不能获得动态字段%s 的数据',
+        'Change %s field' => '',
         'The name for this field should not change.' => '不能更改这个字段的名称。',
         'Could not update the field %s' => '不能更新字段 %s',
         'Currently' => '当前',
@@ -3887,6 +3888,7 @@ sub Data {
         'There are no invalid settings active at this time.' => '当前没有使用无效的设置。',
         'You currently don\'t have any favourite settings.' => '你目前没有收藏任何设置。',
         'The following settings could not be found: %s' => '找不到以下设置：％s',
+        'Import not allowed!' => '不允许导入！',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
             '',
         'Category Search' => '搜索类别',
@@ -5893,6 +5895,7 @@ Thanks for your help!
         'Agents ↔ Groups' => '服务人员 ↔ 组',
         'Agents ↔ Roles' => '服务人员 ↔ 角色',
         'All CustomerIDs of a customer user.' => '一个客户用户的所有客户ID。',
+        'All attachments (OTRS Business Solution™)' => '',
         'All customer users of a CustomerID' => '一个客户ID的所有客户用户',
         'All escalated tickets' => '所有升级的工单',
         'All new tickets, these tickets have not been worked on yet' => '所有新建工单，这些工单目前还没有被处理',
@@ -6143,6 +6146,8 @@ Thanks for your help!
             '控制客户能否对他们的工单排序。',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             '控制在服务人员界面中新建电话工单能否设置不止一个“发件人”条目。',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
+            '控制系统管理员能否在系统配置中导入一个已保存的配置。',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             '控制系统管理员能否通过SQL查询屏幕修改数据库。',
         'Controls if the autocomplete field will be used for the customer ID selection in the AdminCustomerUser interface.' =>

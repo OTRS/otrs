@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-11-27 22:46+0000\n"
-"PO-Revision-Date: 2017-11-27 22:52+0000\n"
+"POT-Creation-Date: 2017-12-11 23:26+0000\n"
+"PO-Revision-Date: 2017-12-11 23:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/otrs/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -301,7 +301,7 @@ msgstr "読み取り専用：ユーザーはカレンダー内の全ての予定
 msgid ""
 "Move into: users can modify appointments in the calendar, but without "
 "changing the calendar selection."
-msgstr ""
+msgstr "移動先：ユーザーは予定表の予定を変更することなく、予定表の予定を変更できます。"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Create: users can create and delete appointments in the calendar."
@@ -1658,10 +1658,6 @@ msgstr "この領域を削除"
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
 msgstr "ダイナミック・フィールド"
-
-#. Template: AdminDynamicFieldCheckbox
-msgid "Field"
-msgstr "フィールド"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Go back to overview"
@@ -7580,6 +7576,10 @@ msgstr "%sのオープンチケット%s"
 msgid "%s closed ticket(s) of %s"
 msgstr "%sのクローズチケット%s"
 
+#. Template: AgentDashboardCustomerIDList
+msgid "Edit customer ID"
+msgstr ""
+
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
 msgstr "エスカレーション済チケット"
@@ -10784,10 +10784,6 @@ msgid "Contact with data (%s)"
 msgstr "データ接続 (%s)"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
-msgid "Change"
-msgstr "変更"
-
-#. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for"
 " more details."
@@ -10800,6 +10796,10 @@ msgstr "未定義のサブアクションです。"
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need %s"
 msgstr "%s の入力が必要です。"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Add %s field"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field does not contain only ASCII letters and numbers."
@@ -10828,6 +10828,10 @@ msgstr "IDが必要"
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not get data for dynamic field %s"
 msgstr "ダイナミック・フィールド %s の値を取得できませんでした"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Change %s field"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The name for this field should not change."
@@ -11962,6 +11966,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "The following settings could not be found: %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
+msgid "Import not allowed!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
@@ -17327,6 +17335,10 @@ msgid "All CustomerIDs of a customer user."
 msgstr "顧客ユーザーの全てのCustomerID"
 
 #. SysConfig
+msgid "All attachments (OTRS Business Solution™)"
+msgstr ""
+
+#. SysConfig
 msgid "All customer users of a CustomerID"
 msgstr "顧客IDの全ての顧客ユーザー"
 
@@ -18148,6 +18160,12 @@ msgstr "顧客が自らのチケットをソートする機能を持つかどう
 msgid ""
 "Controls if more than one from entry can be set in the new phone ticket in "
 "the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Controls if the admin is allowed to import a saved system configuration in "
+"SysConfig."
 msgstr ""
 
 #. SysConfig

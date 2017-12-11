@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.424415584415584;
+    $Self->{Completeness}        = 0.429832150891158;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -49,18 +49,18 @@ sub Data {
         'Export ACLs' => 'Eksporter ACLer',
         'Filter for ACLs' => 'Filter for ACLer',
         'Just start typing to filter...' => 'Bare start å skrive, for å filtrere...',
-        'Configuration Import' => '',
+        'Configuration Import' => 'Import av konfigurasjon',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            '',
+            'Her kan du laste opp en konfigurasjonsfil for å importere ACLer til systemet ditt. Filen må være på .yml format som eksportert av ACL editor modulen.',
         'This field is required.' => 'Dette feltet er obligatorisk.',
         'Overwrite existing ACLs?' => 'Overskriv eksisterende ACLer?',
         'Upload ACL configuration' => 'Last opp ACL konfigurasjon',
         'Import ACL configuration(s)' => 'Importer ACL-konfigurasjon(er)',
         'Description' => 'Beskrivelse',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
-            '',
+            'For å opprette en ny ACL kan du enten importere ACLer som ble eksportert fra et annet system eller opprettet en helt ny ACL.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
-            '',
+            'Endringer i ACLene her påvirker bare systemets oppførsel dersom du distribuerer ACL-dataene etterpå. Ved å distribuere ACL-dataene, vil de nye endringene bli skrevet til konfigurasjonen.',
         'ACLs' => 'ACLer',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
@@ -73,8 +73,8 @@ sub Data {
         'No matches found.' => 'Ingen treff funnet',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => 'Endre ACL %',
-        'Edit ACL' => '',
+        'Edit ACL %s' => 'Endre ACL %s',
+        'Edit ACL' => 'Endre ACL',
         'Go to overview' => 'Gå til oversikt',
         'Delete ACL' => 'Slett ACL',
         'Delete Invalid ACL' => 'Slett ugyldig ACL',
@@ -87,11 +87,11 @@ sub Data {
         'Check the official' => '',
         'documentation' => 'dokumentasjon',
         'Show or hide the content' => 'Vis eller skjul innholdet',
-        'Edit ACL Information' => '',
+        'Edit ACL Information' => 'Endre ACL informasjon',
         'Name' => 'Navn',
         'Stop after match' => 'Stopp ved treff',
-        'Edit ACL Structure' => '',
-        'Save ACL' => '',
+        'Edit ACL Structure' => 'Endre ACL struktur',
+        'Save ACL' => 'Lagre ACL',
         'Save' => 'Lagre',
         'or' => 'eller',
         'Save and finish' => 'Lagre og fullfør',
@@ -105,7 +105,7 @@ sub Data {
         # Template: AdminAppointmentCalendarManage
         'Calendar Management' => 'Kalenderadministrasjon',
         'Add Calendar' => 'Legg til kalender',
-        'Edit Calendar' => '',
+        'Edit Calendar' => 'Endre kalender',
         'Go back' => 'Gå tilbake',
         'Calendar Overview' => 'Kalenderoversikt',
         'Add new Calendar' => 'Legg til ny kalender',
@@ -148,7 +148,7 @@ sub Data {
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
             '',
         'Queues' => 'Køer',
-        'Please select a valid queue.' => '',
+        'Please select a valid queue.' => 'Vennligst velg en gyldig kø.',
         'Search attributes' => 'Søkeatributter',
         'Add entry' => 'Ny post',
         'Add' => 'Legg til',
@@ -163,7 +163,7 @@ sub Data {
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             '',
         'Upload' => 'Last opp',
-        'Update existing appointments?' => '',
+        'Update existing appointments?' => 'Oppdater eksisterende avtaler?',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
             '',
         'Upload calendar' => 'Last opp kalender',
@@ -174,12 +174,12 @@ sub Data {
         'Add Notification' => 'Legg til varsling',
         'Edit Notification' => 'Endre varsling',
         'Add notification' => 'Legg til varsling',
-        'Export Notifications' => '',
-        'Filter for Notifications' => '',
-        'Filter for notifications' => '',
+        'Export Notifications' => 'Eksporter varslinger',
+        'Filter for Notifications' => 'Filter for varslinger',
+        'Filter for notifications' => 'Filter for varslinger',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
             '',
-        'Overwrite existing notifications?' => '',
+        'Overwrite existing notifications?' => 'Overskriv eksisterende varslinger?',
         'Upload Notification configuration' => '',
         'Import Notification configuration' => '',
         'List' => 'Liste',
@@ -214,7 +214,7 @@ sub Data {
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
             '',
         'Enable this notification method' => '',
-        'Transport' => '',
+        'Transport' => 'Transport',
         'At least one method is needed per notification.' => '',
         'Active by default in agent preferences' => '',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
@@ -230,7 +230,7 @@ sub Data {
         'Remove Notification Language' => '',
         'Subject' => 'Emne',
         'Text' => 'Tekst',
-        'Message body' => '',
+        'Message body' => 'Meldingstekst',
         'Add new notification language' => '',
         'Save Changes' => 'Lagre endringer',
         'Tag Reference' => '',
@@ -528,7 +528,6 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Dynamiske felter',
-        'Field' => 'Felt',
         'Go back to overview' => 'Gå tilbake til oversikten',
         'General' => 'Generelt',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -1750,7 +1749,7 @@ sub Data {
 
         # Template: AdminRegistration
         'System Registration Management' => '',
-        'Edit System Registration' => '',
+        'Edit System Registration' => 'Endre systemregistrering',
         'System Registration Overview' => '',
         'Register System' => '',
         'Validate OTRS-ID' => '',
@@ -2363,6 +2362,7 @@ sub Data {
         'Closed' => 'Avsluttet',
         '%s open ticket(s) of %s' => '%s åpne sak(er) av %s',
         '%s closed ticket(s) of %s' => '%s lukkede sak(er) av %s',
+        'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Eskalerte saker',
@@ -3293,9 +3293,9 @@ sub Data {
         'Loading, please wait...' => '',
 
         # JS Template: UploadContainer
-        'Click to select files or just drop them here.' => '',
-        'Click to select a file or just drop it here.' => '',
-        'Uploading...' => '',
+        'Click to select files or just drop them here.' => 'Klikk for å velge filer eller bare slipp dem her.',
+        'Click to select a file or just drop it here.' => 'Klikk for å velge en fil eller bare slipp den her.',
+        'Uploading...' => 'Laster opp...',
 
         # JS Template: InformationDialog
         'Process state' => '',
@@ -3387,9 +3387,9 @@ sub Data {
         'Need CalendarID!' => '',
         'Could not retrieve data for given CalendarID' => '',
         'Successfully imported %s appointment(s) to calendar %s.' => '',
-        '+5 minutes' => '',
-        '+15 minutes' => '',
-        '+30 minutes' => '',
+        '+5 minutes' => '+5 minutter',
+        '+15 minutes' => '+15 minutter',
+        '+30 minutes' => '+30 minutter',
         '+1 hour' => '',
 
         # Perl Module: Kernel/Modules/AdminAppointmentImport.pm
@@ -3492,13 +3492,13 @@ sub Data {
         'Database (%s)' => '',
         'Web service (%s)' => '',
         'Contact with data (%s)' => '',
-        'Change' => 'Endre',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => '',
         'Need %s' => '',
+        'Add %s field' => '',
         'The field does not contain only ASCII letters and numbers.' => '',
         'There is another field with the same name.' => '',
         'The field must be numeric.' => '',
@@ -3506,6 +3506,7 @@ sub Data {
         'Could not create the new field' => '',
         'Need ID' => '',
         'Could not get data for dynamic field %s' => '',
+        'Change %s field' => '',
         'The name for this field should not change.' => '',
         'Could not update the field %s' => '',
         'Currently' => 'Nåværende',
@@ -3560,13 +3561,13 @@ sub Data {
         '30 seconds' => '',
         '45 seconds' => '',
         '1 minute' => '',
-        '2 minutes' => '',
-        '3 minutes' => '',
-        '4 minutes' => '',
-        '5 minutes' => '',
+        '2 minutes' => ' 2 minutter',
+        '3 minutes' => '3 minutter',
+        '4 minutes' => '4 minutter',
+        '5 minutes' => ' 5 minutter',
         '10 minutes' => '10 minutter',
         '15 minutes' => '15 minutter',
-        '30 minutes' => '',
+        '30 minutes' => '30 minutter',
         '1 hour' => '',
         '2 hours' => '',
         '3 hours' => '',
@@ -3889,6 +3890,7 @@ sub Data {
         'There are no invalid settings active at this time.' => '',
         'You currently don\'t have any favourite settings.' => '',
         'The following settings could not be found: %s' => '',
+        'Import not allowed!' => '',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
             '',
         'Category Search' => '',
@@ -4470,7 +4472,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Dashboard/AppointmentCalendar.pm
         'Shown' => 'Vist',
-        'Refresh (minutes)' => '',
+        'Refresh (minutes)' => 'Oppfrisk (minutter)',
         'off' => 'av',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/CustomerIDList.pm
@@ -5787,17 +5789,17 @@ Thanks for your help!
         '0 - Disabled' => '',
         '1 - Available' => '',
         '1 - Enabled' => '',
-        '10 Minutes' => '',
+        '10 Minutes' => '10 minutter',
         '100 (Expert)' => '',
-        '15 Minutes' => '',
+        '15 Minutes' => '15 minutter',
         '2 - Enabled and required' => '',
         '2 - Enabled and shown by default' => '',
         '2 - Enabled by default' => '',
-        '2 Minutes' => '',
+        '2 Minutes' => ' 2 minutter',
         '200 (Advanced)' => '',
-        '30 Minutes' => '',
+        '30 Minutes' => '30 minutter',
         '300 (Beginner)' => '',
-        '5 Minutes' => '',
+        '5 Minutes' => ' 5 minutter',
         'A TicketWatcher Module.' => '',
         'A Website' => 'En hjemmeside',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
@@ -5886,6 +5888,7 @@ Thanks for your help!
         'Agents ↔ Groups' => '',
         'Agents ↔ Roles' => '',
         'All CustomerIDs of a customer user.' => '',
+        'All attachments (OTRS Business Solution™)' => '',
         'All customer users of a CustomerID' => 'Alle kunder-brukere av et KundeID',
         'All escalated tickets' => 'Alle eskalerte saker',
         'All new tickets, these tickets have not been worked on yet' => 'Alle nye saker som ikke har blitt sett på enda.',
@@ -6135,6 +6138,8 @@ Thanks for your help!
         'Controls if customers have the ability to sort their tickets.' =>
             'Gir kunder mulighet til å sortere sakene sine.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             '',

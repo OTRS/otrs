@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.704242424242424;
+    $Self->{Completeness}        = 0.703754974909154;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -520,7 +520,6 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Bidang-bidang dinamis',
-        'Field' => 'Bidang',
         'Go back to overview' => 'Kembali kepada Gambaran',
         'General' => 'Umum',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -2357,6 +2356,7 @@ bin/otrs.Daemon.pl status\').',
         'Closed' => 'tertutup',
         '%s open ticket(s) of %s' => '%s tiket dibuka(s) dari %s',
         '%s closed ticket(s) of %s' => '%s tiket ditutup(s) dari %s',
+        'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Tiket meningkat',
@@ -3486,13 +3486,13 @@ bin/otrs.Daemon.pl status\').',
         'Database (%s)' => '',
         'Web service (%s)' => '',
         'Contact with data (%s)' => '',
-        'Change' => 'Ubah',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'Tidak dapat mengulang pesan dinamis field secara baik, silahkan cek error log untuk lebih jelasnya.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Subaksi tidak terdefinisi',
         'Need %s' => 'Perlu %s',
+        'Add %s field' => '',
         'The field does not contain only ASCII letters and numbers.' => 'Field ini tidak hanya berisi huruf ASCII dan angka ',
         'There is another field with the same name.' => 'Ada field yang lain dengan nama yang sama',
         'The field must be numeric.' => 'Field harus numerik',
@@ -3500,6 +3500,7 @@ bin/otrs.Daemon.pl status\').',
         'Could not create the new field' => 'Tidak dapat membuat bidang yang baru',
         'Need ID' => 'Membutuhkan ID',
         'Could not get data for dynamic field %s' => 'Tidak ada data untuk field yang dinamis %s',
+        'Change %s field' => '',
         'The name for this field should not change.' => 'Nama untuk field ini tidak dapat diubah',
         'Could not update the field %s' => 'Tidak dapat memperbarui field %s',
         'Currently' => 'Saat ini',
@@ -3883,6 +3884,7 @@ bin/otrs.Daemon.pl status\').',
         'There are no invalid settings active at this time.' => '',
         'You currently don\'t have any favourite settings.' => '',
         'The following settings could not be found: %s' => '',
+        'Import not allowed!' => 'Impor tidak diperbolehkan!',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
             '',
         'Category Search' => '',
@@ -5777,7 +5779,6 @@ Harap membuat tiket baru melalui panel pelanggan
 Terima kasih atas bantuan Anda!
 
 Helpdesk Team Anda
-
 ',
         ' (work units)' => '(unit kerja)',
         ' 2 minutes' => '2 menit',
@@ -5892,6 +5893,7 @@ Helpdesk Team Anda
         'Agents ↔ Groups' => '',
         'Agents ↔ Roles' => '',
         'All CustomerIDs of a customer user.' => '',
+        'All attachments (OTRS Business Solution™)' => '',
         'All customer users of a CustomerID' => 'Semua pengguna pelanggan dari ID Pelanggan',
         'All escalated tickets' => 'Semua tiket yang telah tereskalasi',
         'All new tickets, these tickets have not been worked on yet' => 'Semua tiket baru, tiket-tiket ini belum dikerjakan.',
@@ -6142,6 +6144,8 @@ Helpdesk Team Anda
             'Kontrol jika pelanggan memiliki kemampuan untuk memilah tiket mereka.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'Kontrol jika lebih dari satu dari entri dapat diatur dalam tiket ponsel baru di antarmuka agen.',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
+            'Kontrol jika admin diperbolehkan untuk mengimpor konfigurasi menyelamatkan sistem di sysconfig.',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             'Kontrol jika admin diperbolehkan untuk membuat perubahan ke database melalui Admin Pilih Box.',
         'Controls if the autocomplete field will be used for the customer ID selection in the AdminCustomerUser interface.' =>

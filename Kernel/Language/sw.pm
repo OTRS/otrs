@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.502683982683983;
+    $Self->{Completeness}        = 0.502163003979927;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -523,7 +523,6 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Uga wenye nguvu',
-        'Field' => 'Uga',
         'Go back to overview' => 'Rudi nyuma kwenye mapitio',
         'General' => 'Ujumla',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -2358,6 +2357,7 @@ sub Data {
         'Closed' => 'Fungwa',
         '%s open ticket(s) of %s' => 'Tiketi %s zilizowazi kati ya %s',
         '%s closed ticket(s) of %s' => 'Tiketi %s i(z)liyofungwa kati ya %s ',
+        'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Tiketi za kupanda',
@@ -3487,13 +3487,13 @@ sub Data {
         'Database (%s)' => '',
         'Web service (%s)' => '',
         'Contact with data (%s)' => '',
-        'Change' => 'Badilisha',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             '',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => '',
         'Need %s' => '',
+        'Add %s field' => '',
         'The field does not contain only ASCII letters and numbers.' => '',
         'There is another field with the same name.' => '',
         'The field must be numeric.' => '',
@@ -3501,6 +3501,7 @@ sub Data {
         'Could not create the new field' => '',
         'Need ID' => '',
         'Could not get data for dynamic field %s' => '',
+        'Change %s field' => '',
         'The name for this field should not change.' => '',
         'Could not update the field %s' => '',
         'Currently' => '',
@@ -3884,6 +3885,7 @@ sub Data {
         'There are no invalid settings active at this time.' => '',
         'You currently don\'t have any favourite settings.' => '',
         'The following settings could not be found: %s' => '',
+        'Import not allowed!' => '',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
             '',
         'Category Search' => '',
@@ -5881,6 +5883,7 @@ Thanks for your help!
         'Agents ↔ Groups' => '',
         'Agents ↔ Roles' => '',
         'All CustomerIDs of a customer user.' => '',
+        'All attachments (OTRS Business Solution™)' => '',
         'All customer users of a CustomerID' => 'Watumiaji wote wa mteja wa kitambulisho cha mteja',
         'All escalated tickets' => 'Tiketi zote zilizopanda',
         'All new tickets, these tickets have not been worked on yet' => 'Tiketi zote mpya, hizi tiketi hazijafanyiwa kazi bado',
@@ -6131,6 +6134,8 @@ Thanks for your help!
             'Inadhibiti kama wateja wanauwezo wa kupanga tiketi zao.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'Inadhibiti kama kuna ingizo zaidi moja linawezwa kuwekwa katika tiketi ya simu mpya katika kiolesura cha wakala. ',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
+            'Inadhibiti kama kiongozi anaruhusiwa kuleta usanidi wa mfumo uliohifadhiwa katika UsanidiMfumo',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             'Inadhibiti kama kiongozi anaruhusiwa kufanya mabadiliko kwenye hifadhi data kupitia Kisanduku cha kiongozi cha kuchagua.',
         'Controls if the autocomplete field will be used for the customer ID selection in the AdminCustomerUser interface.' =>

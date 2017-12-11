@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.654545454545455;
+    $Self->{Completeness}        = 0.658418411489877;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -525,7 +525,6 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Campos Dinámicos',
-        'Field' => 'Campo',
         'Go back to overview' => 'Volver a la vista general',
         'General' => 'General',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -832,19 +831,19 @@ sub Data {
         'Interval after which to trigger the first retry.' => '',
         'Note: This and all further retry intervals are based on the error handling module execution time for the initial request.' =>
             '',
-        'Factor for further retries' => '',
+        'Factor for further retries' => 'Factor para reintentos siguientes.',
         'If a request returns an error even after a first retry, define if subsequent retries are triggered using the same interval or in increasing intervals.' =>
             '',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\' and retry factor at \'2\', retries would be triggered at 10:01 (1 minute), 10:03 (2*1=2 minutes), 10:07 (2*2=4 minutes), 10:15 (2*4=8 minutes), ...' =>
             '',
-        'Maximum retry interval' => '',
+        'Maximum retry interval' => 'Intervalo de reintentos maximo',
         'If a retry interval factor of \'1.5\' or \'2\' is selected, undesirably long intervals can be prevented by defining the largest interval allowed.' =>
             '',
         'Intervals calculated to exceed the maximum retry interval will then automatically be shortened accordingly.' =>
             '',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\', retry factor at \'2\' and maximum interval at \'5 minutes\', retries would be triggered at 10:01 (1 minute), 10:03 (2 minutes), 10:07 (4 minutes), 10:12 (8=>5 minutes), 10:17, ...' =>
             '',
-        'Maximum retry count' => '',
+        'Maximum retry count' => 'Cuenta maxima de reintentos',
         'Maximum number of retries before a failing request is discarded, not counting the initial request.' =>
             '',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\', retry factor at \'2\' and maximum retry count at \'2\', retries would be triggered at 10:01 and 10:02 only.' =>
@@ -852,7 +851,7 @@ sub Data {
         'Note: Maximum retry count might not be reached if a maximum retry period is configured as well and reached earlier.' =>
             '',
         'This field must be empty or contain a positive number.' => '',
-        'Maximum retry period' => '',
+        'Maximum retry period' => 'Periodo maximo de reintentos',
         'Maximum period of time for retries of failing requests before they are discarded (based on the error handling module execution time for the initial request).' =>
             '',
         'Retries that would normally be triggered after maximum period is elapsed (according to retry interval calculation) will automatically be triggered at maximum period exactly.' =>
@@ -863,8 +862,8 @@ sub Data {
             '',
 
         # Template: AdminGenericInterfaceInvokerDefault
-        'Add Invoker' => '',
-        'Edit Invoker' => '',
+        'Add Invoker' => 'Agregar invocador',
+        'Edit Invoker' => 'Editar invocador',
         'Do you really want to delete this invoker?' => '¿Realmente desea borrar este invocador?',
         'Invoker Details' => 'Detalles del invocador',
         'The name is typically used to call up an operation of a remote web service.' =>
@@ -882,7 +881,7 @@ sub Data {
             'Los datos de la respuesta serán procesados por este mapeo, para transformarlos al tipo de datos que el invocador de OTRS espera.',
         'Asynchronous' => 'Asíncrono',
         'Condition' => 'Condición',
-        'Edit this event' => '',
+        'Edit this event' => 'Editar este evento',
         'This invoker will be triggered by the configured events.' => 'Este invocador será disparado por los eventos configurados.',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Para añadir un nuevo evento seleccione el objeto evento y el nombre del evento y pulse el botón "+"',
@@ -894,11 +893,11 @@ sub Data {
         # Template: AdminGenericInterfaceInvokerEvent
         'GenericInterface Invoker Event Settings for Web Service %s' => '',
         'Go back to' => 'Volver a',
-        'Delete all conditions' => '',
+        'Delete all conditions' => 'Eliminar todas las conficiones',
         'Do you really want to delete all the conditions for this event?' =>
             '',
-        'General Settings' => '',
-        'Event type' => '',
+        'General Settings' => 'Configuración general',
+        'Event type' => 'Tipo Evento',
         'Conditions' => 'Condiciones',
         'Conditions can only operate on non-empty fields.' => 'Condiciones sólo pueden operar en campos no vacíos.',
         'Type of Linking between Conditions' => 'Tipo de Vinculación entre Condiciones',
@@ -933,17 +932,17 @@ sub Data {
         'Do you really want to delete this key mapping?' => '¿Realmente desea eliminar esta asignación de clave?',
 
         # Template: AdminGenericInterfaceMappingXSLT
-        'General Shortcuts' => '',
-        'MacOS Shortcuts' => '',
-        'Comment code' => '',
-        'Uncomment code' => '',
-        'Auto format code' => '',
+        'General Shortcuts' => 'Accesos directos generales',
+        'MacOS Shortcuts' => 'Accesos directos MacOS',
+        'Comment code' => 'Comentar codigo',
+        'Uncomment code' => 'Descomentar codigo',
+        'Auto format code' => 'Auto formato de codigo',
         'Expand/Collapse code block' => '',
-        'Find' => '',
-        'Find next' => '',
-        'Find previous' => '',
-        'Find and replace' => '',
-        'Find and replace all' => '',
+        'Find' => 'Buscar',
+        'Find next' => 'Buscar siguiente',
+        'Find previous' => 'Buscar anterior',
+        'Find and replace' => 'Buscar y reemplazar',
+        'Find and replace all' => 'Buscar y reemplazar todo',
         'XSLT Mapping' => '',
         'XSLT stylesheet' => '',
         'The entered data is not a valid XSLT style sheet.' => '',
@@ -958,9 +957,9 @@ sub Data {
         'Data key regex filters (before mapping)' => '',
         'Data key regex filters (after mapping)' => '',
         'Regular expressions' => '',
-        'Replace' => '',
-        'Remove regex' => '',
-        'Add regex' => '',
+        'Replace' => 'Reemplazar',
+        'Remove regex' => 'Remover regex',
+        'Add regex' => 'Agregar regex',
         'These filters can be used to transform keys using regular expressions.' =>
             '',
         'The data structure will be traversed recursively and all configured regexes will be applied to all keys.' =>
@@ -984,8 +983,8 @@ sub Data {
             '',
 
         # Template: AdminGenericInterfaceOperationDefault
-        'Add Operation' => '',
-        'Edit Operation' => '',
+        'Add Operation' => 'Agregar operacion',
+        'Edit Operation' => 'Editar Operacion',
         'Do you really want to delete this operation?' => '¿Realmente desea eliminar esta operación?',
         'Operation Details' => 'Detalles de la Operación',
         'The name is typically used to call up this web service operation from a remote system.' =>
@@ -2360,6 +2359,7 @@ sub Data {
         'Closed' => 'Cerrado',
         '%s open ticket(s) of %s' => '%s tickets abiertos de %s',
         '%s closed ticket(s) of %s' => '%s tickets cerrados de %s',
+        'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Tickets escalados',
@@ -3489,13 +3489,13 @@ sub Data {
         'Database (%s)' => '',
         'Web service (%s)' => '',
         'Contact with data (%s)' => '',
-        'Change' => 'Modificar',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'No pudo reajustar el orden de Campo Dinámico apropiadamente, favor revise el registro de errores para más información.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Subrutina no definida.',
         'Need %s' => 'Necesita %s',
+        'Add %s field' => '',
         'The field does not contain only ASCII letters and numbers.' => 'El campo no contiene solamente caracteres y números de ASCII.',
         'There is another field with the same name.' => 'Hay otro campo con el mismo nombre.',
         'The field must be numeric.' => 'El campo debe ser numérico.',
@@ -3503,6 +3503,7 @@ sub Data {
         'Could not create the new field' => 'No se pudo crear el nuevo campo',
         'Need ID' => 'Necesario el ID',
         'Could not get data for dynamic field %s' => 'No se pudo cargar los datos del campo dimámico %s',
+        'Change %s field' => '',
         'The name for this field should not change.' => 'El nombre de este campo no debe ser cambiado.',
         'Could not update the field %s' => 'No se pudo actualizar el campo %s',
         'Currently' => 'Actualmente',
@@ -3886,6 +3887,7 @@ sub Data {
         'There are no invalid settings active at this time.' => '',
         'You currently don\'t have any favourite settings.' => '',
         'The following settings could not be found: %s' => '',
+        'Import not allowed!' => 'No se permite Importar!',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
             '',
         'Category Search' => '',
@@ -5901,6 +5903,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Agents ↔ Groups' => '',
         'Agents ↔ Roles' => '',
         'All CustomerIDs of a customer user.' => '',
+        'All attachments (OTRS Business Solution™)' => '',
         'All customer users of a CustomerID' => 'Todos los clientes de un IDCliente',
         'All escalated tickets' => 'Todos los Tickets escalados',
         'All new tickets, these tickets have not been worked on yet' => 'Todos los Tickets nuevos, todavía no se ha trabajado en estos tickets',
@@ -6151,6 +6154,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             'Controla si los clientes tienen la posibilidad de ordenar sus tickets.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'Controla si más de una de entrada se puede establecer en el nuevo ticket telefónico en la interfaz del agente.',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
+            'Controla si el administrador está permitido para importar una configuración de sistema guardada en SysConfig .',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             'Controla si se permite al administrador para realizar cambios en la base de datos a través de AdminSelectBox.',
         'Controls if the autocomplete field will be used for the customer ID selection in the AdminCustomerUser interface.' =>

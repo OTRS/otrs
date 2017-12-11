@@ -1,5 +1,6 @@
 # 
 # Translators:
+# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2017
 # Christian Mikschik, 2017
 # Christian Widauer <christian.widauer@fh-rosenheim.de>, 2017
 # christopher.kuhn <christopher.kuhn@otrs.com>, 2016
@@ -53,8 +54,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-11-27 22:46+0000\n"
-"PO-Revision-Date: 2017-11-27 22:52+0000\n"
+"POT-Creation-Date: 2017-12-11 23:26+0000\n"
+"PO-Revision-Date: 2017-12-11 23:46+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1698,10 +1699,6 @@ msgstr "Dieses Feld löschen"
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
 msgstr "Dynamische Felder"
-
-#. Template: AdminDynamicFieldCheckbox
-msgid "Field"
-msgstr "Feld"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Go back to overview"
@@ -7620,6 +7617,10 @@ msgstr "%s offene Tickets von %s"
 msgid "%s closed ticket(s) of %s"
 msgstr "%s geschlossene Tickets von %s"
 
+#. Template: AgentDashboardCustomerIDList
+msgid "Edit customer ID"
+msgstr ""
+
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
 msgstr "Eskalierte Tickets"
@@ -10824,10 +10825,6 @@ msgid "Contact with data (%s)"
 msgstr "Kontaktdaten (%s)"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
-msgid "Change"
-msgstr "Ändern"
-
-#. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for"
 " more details."
@@ -10840,6 +10837,10 @@ msgstr "Unbestimmte Subaktion."
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need %s"
 msgstr "%s benötigt"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Add %s field"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field does not contain only ASCII letters and numbers."
@@ -10868,6 +10869,10 @@ msgstr "Kennung benötigt"
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not get data for dynamic field %s"
 msgstr "Konnte keine Daten für das dynamische Feld %s ermitteln."
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Change %s field"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The name for this field should not change."
@@ -12003,6 +12008,10 @@ msgstr "Sie haben derzeit keine Einstellungen als Favorit gespeichert."
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "The following settings could not be found: %s"
 msgstr "Die folgenden Einstellungen wurden nicht gefunden: %s"
+
+#. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
+msgid "Import not allowed!"
+msgstr "Import nicht erlaubt!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid ""
@@ -17367,6 +17376,10 @@ msgid "All CustomerIDs of a customer user."
 msgstr "Alle Kundennummern eines Kundenbenutzers."
 
 #. SysConfig
+msgid "All attachments (OTRS Business Solution™)"
+msgstr ""
+
+#. SysConfig
 msgid "All customer users of a CustomerID"
 msgstr "Alle Kundenbenutzer einer Kundennummer"
 
@@ -18189,6 +18202,12 @@ msgid ""
 "Controls if more than one from entry can be set in the new phone ticket in "
 "the agent interface."
 msgstr "Kontrolliert, ob mehr als ein Eintrag in einem neuen Telefon-Ticket festgelegt werden kann."
+
+#. SysConfig
+msgid ""
+"Controls if the admin is allowed to import a saved system configuration in "
+"SysConfig."
+msgstr "Kontrolliert, ob es dem Admin erlaubt ist, eine gespeicherte Systemkonfiguration in SysConfig zu importieren."
 
 #. SysConfig
 msgid ""
@@ -19289,7 +19308,7 @@ msgid ""
 "1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1"
 " to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-"
 "temporarily if max failed logins reached."
-msgstr "Legt die Konfigurationsparameter für diesen Eintrag fest, die in der Einstellungsansicht angezeigt werden. \n'PasswordRegExp' erlaubt das Prüfen von Passwörtern gegen einen regulären Ausdruck. \nLegen Sie die Mindestlänge für Passwörter mit 'PasswordMinSize' fest. Legen Sie fest, ob das Passwort mindestens zwei Kleinbuchstaben und zwei Großbuchstaben enthalten muss, indem Sie die entsprechende Option auf '1' setzen. \n'PasswordMin2Characters' legt fest, dass mindestens zwei Buchstaben-Zeichen erforderlich sind (mögliche Werte sind '0' oder '1'). 'PasswordNeedDigit' legt fest, ob das Passwort mindestens eine Zahl enthalten muss (mögliche Werte sind '0' oder '1'). \n'PasswordMaxLoginFailed' erlaubt es einen Agenten auf temporär ungültig wenn die maximale Anzahl fehlerhafter Logins erreicht ist."
+msgstr "Legt die Konfigurationsparameter für diesen Eintrag fest, die in der Einstellungsansicht angezeigt werden. 'PasswordRegExp' erlaubt das Prüfen von Passwörtern gegen einen regulären Ausdruck. Legen Sie die Mindestlänge für Passwörter mit 'PasswordMinSize' fest. Legen Sie fest, ob das Passwort mindestens zwei Kleinbuchstaben und zwei Großbuchstaben enthalten muss, indem Sie die entsprechende Option auf '1' setzen. 'PasswordMin2Characters' legt fest, dass mindestens zwei Buchstaben-Zeichen erforderlich sind (mögliche Werte sind '0' oder '1'). 'PasswordNeedDigit' legt fest, ob das Passwort mindestens eine Zahl enthalten muss (mögliche Werte sind '0' oder '1'). 'PasswordMaxLoginFailed' erlaubt es einen Agenten auf temporär ungültig wenn die maximale Anzahl fehlerhafter Logins erreicht ist."
 
 #. SysConfig
 msgid "Defines the connections for http/ftp, via a proxy."

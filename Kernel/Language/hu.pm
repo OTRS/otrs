@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.99982683982684;
+    $Self->{Completeness}        = 0.999307838726423;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -525,7 +525,6 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Dinamikus mezők',
-        'Field' => 'Mező',
         'Go back to overview' => 'Vissza az áttekintőhöz',
         'General' => 'Általános',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -2139,7 +2138,7 @@ sub Data {
         'Edit System Maintenance Information' => 'Rendszerkarbantartás információk szerkesztése',
         'Date invalid!' => 'Érvénytelen dátum!',
         'Login message' => 'Bejelentkező üzenet',
-        'This field must have less then 250 characters.' => '',
+        'This field must have less then 250 characters.' => 'Ennek a mezőnek rövidebbnek kell lennie 250 karakternél.',
         'Show login message' => 'Bejelentkező üzenet megjelenítése',
         'Notify message' => 'Értesítő üzenet',
         'Manage Sessions' => 'Munkamenetek kezelése',
@@ -2360,6 +2359,7 @@ sub Data {
         'Closed' => 'Lezárva',
         '%s open ticket(s) of %s' => '%s nyitott jegye ennek: %s',
         '%s closed ticket(s) of %s' => '%s lezárt jegye ennek: %s',
+        'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Eszkalált jegyek',
@@ -3489,13 +3489,13 @@ sub Data {
         'Database (%s)' => 'Adatbázis (%s)',
         'Web service (%s)' => 'Webszolgáltatás (%s)',
         'Contact with data (%s)' => 'Partneradatok (%s)',
-        'Change' => 'Változás',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'Nem sikerült megfelelően visszaállítani a dinamikus mező sorrendjét. További részletekért nézze meg a hibanaplót.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Meghatározatlan alművelet.',
         'Need %s' => '%s szükséges',
+        'Add %s field' => '',
         'The field does not contain only ASCII letters and numbers.' => 'Ez a mező nem csak ASCII betűket és számokat tartalmaz.',
         'There is another field with the same name.' => 'Már létezik egy ugyanilyen nevű mező.',
         'The field must be numeric.' => 'Ez a mező csak számot tartalmazhat.',
@@ -3503,6 +3503,7 @@ sub Data {
         'Could not create the new field' => 'Nem sikerült létrehozni az új mezőt',
         'Need ID' => 'Azonosító szükséges',
         'Could not get data for dynamic field %s' => 'Nem sikerült lekérni az adatokat a dinamikus mezőhöz: %s',
+        'Change %s field' => '',
         'The name for this field should not change.' => 'Ennek a mezőnek a nevét nem szabad megváltoztatni.',
         'Could not update the field %s' => 'Nem sikerült frissíteni a következő mezőt: %s',
         'Currently' => 'Jelenleg',
@@ -3886,6 +3887,7 @@ sub Data {
         'There are no invalid settings active at this time.' => 'Nincsenek érvénytelen bekapcsolt beállítások jelen pillanatban.',
         'You currently don\'t have any favourite settings.' => 'Jelenleg nincs egyetlen kedvenc beállítása sem.',
         'The following settings could not be found: %s' => 'A következő beállítások nem találhatók: %s',
+        'Import not allowed!' => 'Az importálás nem engedélyezett!',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
             'A rendszerbeállításokat nem sikerült importálni egy ismeretlen hiba miatt, további információkért nézze meg az OTRS naplókat.',
         'Category Search' => 'Kategóriakeresés',
@@ -5894,6 +5896,7 @@ Az Ön segélyszolgálat csapata
         'Agents ↔ Groups' => 'Ügyintézők ↔ Csoportok',
         'Agents ↔ Roles' => 'Ügyintézők ↔ Szerepek',
         'All CustomerIDs of a customer user.' => 'Egy ügyfél-felhasználó összes ügyfél-azonosítója.',
+        'All attachments (OTRS Business Solution™)' => '',
         'All customer users of a CustomerID' => 'Egy ügyfél-azonosító minden ügyfél-felhasználója',
         'All escalated tickets' => 'Minden eszkalált jegy',
         'All new tickets, these tickets have not been worked on yet' => 'Minden új jegy, ezeken a jegyeken még nem dolgoztak',
@@ -6144,6 +6147,8 @@ Az Ön segélyszolgálat csapata
             'Azt szabályozza, hogy az ügyfelek képesek legyenek-e rendezni a saját jegyeiket.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'Azt szabályozza, hogy lehessen-e egynél több bejegyzést beállítani az új telefonos jegyben az ügyintézői felületen.',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
+            'Azt szabályozza, hogy az adminisztrátornak megengedett-e egy elmentett rendszerbeállítás importálása a rendszerbeállításokban.',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             'Azt szabályozza, hogy az adminisztrátornak megengedett-e az adatbázison módosításokat végrehajtania az adminisztrátori lekérdeződobon keresztül.',
         'Controls if the autocomplete field will be used for the customer ID selection in the AdminCustomerUser interface.' =>
@@ -7643,7 +7648,7 @@ Az Ön segélyszolgálat csapata
         'Open an external link!' => 'Nyisson meg egy külső hivatkozást!',
         'Open tickets (customer user)' => 'Nyitott jegyek (ügyfél-felhasználó)',
         'Open tickets (customer)' => 'Nyitott jegyek (ügyfél)',
-        'Option' => 'Lehetőség',
+        'Option' => 'Választás',
         'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
             'Opcionális várólista korlátozás a CreatorCheck jogosultsági modulnál. Ha be van állítva, akkor a jogosultságok csak a jegyeknél vannak engedélyezve a megadott várólistákban.',
         'Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>

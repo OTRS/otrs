@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.628571428571429;
+    $Self->{Completeness}        = 0.629520678318048;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -525,7 +525,6 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Campos Dinâmicos',
-        'Field' => 'Campo',
         'Go back to overview' => 'Ir Para Visão Geral',
         'General' => 'Geral',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -725,7 +724,7 @@ sub Data {
         'New Dynamic Field Values' => 'Novo Valor de Campo Dinâmico',
         'Archive selected tickets' => 'Arquivar chamados selecionados',
         'Add Note' => 'Adicionar Nota',
-        'Visible for customer' => '',
+        'Visible for customer' => 'Visível para o Cliente',
         'Time units' => 'Unidades de tempo',
         'Execute Ticket Commands' => 'Executar Comandos de Chamado',
         'Send agent/customer notifications on changes' => 'Enviar Notificações de Alterações Para Atendente/Cliente',
@@ -1599,7 +1598,7 @@ sub Data {
         'Name: %s' => 'Nome: %s',
         'Assigned Fields' => 'Campos Atribuidos',
         'Communication Channel' => '',
-        'Is visible for customer' => '',
+        'Is visible for customer' => 'Ficar visível para o Cliente',
         'Display' => 'Exibir',
 
         # Template: AdminProcessManagementPath
@@ -2360,6 +2359,7 @@ sub Data {
         'Closed' => 'Fechado',
         '%s open ticket(s) of %s' => '%s chamado(s) aberto(s) de %s',
         '%s closed ticket(s) of %s' => '%s chamado(s) fechado(s) de %s',
+        'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Chamados Escalados',
@@ -3242,7 +3242,7 @@ sub Data {
         'Invalid settings' => '',
 
         # Template: DynamicActions
-        'Filter visible settings...' => '',
+        'Filter visible settings...' => 'Configurações do filtro de visibilidade...',
         'Enable edit mode for all settings' => '',
         'Save all edited settings' => '',
         'Cancel editing for all settings' => '',
@@ -3489,13 +3489,13 @@ sub Data {
         'Database (%s)' => '',
         'Web service (%s)' => '',
         'Contact with data (%s)' => '',
-        'Change' => 'Alterar',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'Não foi possível resetar corretamente a ordem do campo Dinâmico, verifique o log de erros para obter mais detalhes.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Sub-ação indefinida',
         'Need %s' => 'Necessário %s',
+        'Add %s field' => '',
         'The field does not contain only ASCII letters and numbers.' => 'Esse campo não pode conter somente letras e números ASCII.',
         'There is another field with the same name.' => 'Há outra campo com o mesmo nome.',
         'The field must be numeric.' => 'Esse campo deve ser numérico.',
@@ -3503,6 +3503,7 @@ sub Data {
         'Could not create the new field' => 'Não foi possível criar o novo campo',
         'Need ID' => 'Necessário ID',
         'Could not get data for dynamic field %s' => 'Não foi possível obter dados do campo dinâmico %s',
+        'Change %s field' => '',
         'The name for this field should not change.' => 'O nome desse campo não pode ser alterado.',
         'Could not update the field %s' => 'Não foi possível atualizar o campo %s',
         'Currently' => 'Atualmente',
@@ -3886,6 +3887,7 @@ sub Data {
         'There are no invalid settings active at this time.' => '',
         'You currently don\'t have any favourite settings.' => '',
         'The following settings could not be found: %s' => '',
+        'Import not allowed!' => 'Importação não permitida!',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
             '',
         'Category Search' => '',
@@ -4285,9 +4287,9 @@ sub Data {
         'Forward article via mail' => 'Encaminhar artigo por e-mail',
         'Forward' => 'Encaminhar',
         'Fields with no group' => 'Campo sem grupo.',
-        'Invisible only' => '',
-        'Visible only' => '',
-        'Visible and invisible' => '',
+        'Invisible only' => 'Somente não visível',
+        'Visible only' => 'Somente visível',
+        'Visible and invisible' => 'Visível e não visível',
         'Article could not be opened! Perhaps it is on another article page?' =>
             'O artigo não pôde ser aberto! Talvez ele esteja em outra página de artigo?',
         'Show one article' => 'Exibir um Artigo',
@@ -4301,7 +4303,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
-        'ArticleID is needed!' => '',
+        'ArticleID is needed!' => 'O Id do Artigo é necessário!',
         'No TicketID for ArticleID (%s)!' => 'Nenhum ID do Ticket para o ID da Nota (%s)!',
         'HTML body attachment is missing!' => '',
 
@@ -4742,7 +4744,7 @@ sub Data {
         'This setting can not be changed.' => 'Esta configuração não pode ser alterada.',
         'This setting is not active by default.' => 'Esta configuração não está ativa por padrão.',
         'This setting can not be deactivated.' => 'Esta configuração não pode ser desativada.',
-        'This setting is not visible.' => '',
+        'This setting is not visible.' => 'Esta configuração não está visível.',
         'This setting can be overridden in the user preferences.' => '',
         'This setting can be overridden in the user preferences, but is not active by default.' =>
             '',
@@ -5493,7 +5495,7 @@ sub Data {
         'Hide EntityIDs' => 'Ocultar EntityIDs',
         'Edit Field Details' => 'Editar Detalhes do Campo',
         'Customer interface does not support articles not visible for customers.' =>
-            '',
+            'A interface de cliente não permite artigos que não estejam visíveis ao cliente.',
         'Sorry, the only existing parameter can\'t be removed.' => '',
 
         # JS File: Core.Agent.Admin.SMIME
@@ -5883,6 +5885,7 @@ Thanks for your help!
         'Agents ↔ Groups' => '',
         'Agents ↔ Roles' => '',
         'All CustomerIDs of a customer user.' => '',
+        'All attachments (OTRS Business Solution™)' => '',
         'All customer users of a CustomerID' => 'Todos os usuários clientes de uma CustomerID.',
         'All escalated tickets' => 'Todos os chamados escalados',
         'All new tickets, these tickets have not been worked on yet' => 'Todos os chamados novos, estes chamados não foram trabalhados ainda',
@@ -6132,6 +6135,8 @@ Thanks for your help!
         'Controls if customers have the ability to sort their tickets.' =>
             'Controla se os clientes têm a capacidade de classificar os seus chamados.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             '',

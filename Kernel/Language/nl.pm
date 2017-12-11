@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.481558441558442;
+    $Self->{Completeness}        = 0.481052085135837;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -526,7 +526,6 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Dynamische velden',
-        'Field' => 'Veld',
         'Go back to overview' => 'Terug naar het overzicht',
         'General' => 'Algemeen',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -2361,6 +2360,7 @@ sub Data {
         'Closed' => 'Gesloten',
         '%s open ticket(s) of %s' => '%s open ticket(s) van %s',
         '%s closed ticket(s) of %s' => '%s gesloten ticket(s) van %s',
+        'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Geëscaleerde tickets',
@@ -3490,13 +3490,13 @@ sub Data {
         'Database (%s)' => '',
         'Web service (%s)' => '',
         'Contact with data (%s)' => '',
-        'Change' => 'Wijzigen',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'Kon dynamische velden niet herstellen, kijk in het logbestand voor details.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Ongedefinieerde subactie.',
         'Need %s' => 'Heb %s nodig',
+        'Add %s field' => '',
         'The field does not contain only ASCII letters and numbers.' => 'Het veld bevat niet alleen maar ASCII letters en cijfers.',
         'There is another field with the same name.' => 'Er is een ander veld met dezelfde naam.',
         'The field must be numeric.' => 'Het veld moet numeriek zijn.',
@@ -3504,6 +3504,7 @@ sub Data {
         'Could not create the new field' => 'Het nieuwe veld kon niet worden aangemaakt',
         'Need ID' => 'Heb ID nodig',
         'Could not get data for dynamic field %s' => 'Kon de gegevens voor dynamisch veld %s niet ophalen',
+        'Change %s field' => '',
         'The name for this field should not change.' => 'De naam van dit veld zou niet moeten veranderen.',
         'Could not update the field %s' => 'Het veld %s kon niet bijgewerkt worden.',
         'Currently' => 'Huidige',
@@ -3887,6 +3888,7 @@ sub Data {
         'There are no invalid settings active at this time.' => '',
         'You currently don\'t have any favourite settings.' => '',
         'The following settings could not be found: %s' => '',
+        'Import not allowed!' => 'Importeren is niet toegestaan!',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
             '',
         'Category Search' => '',
@@ -5895,6 +5897,7 @@ Het Helpdesk Team
         'Agents ↔ Groups' => '',
         'Agents ↔ Roles' => '',
         'All CustomerIDs of a customer user.' => '',
+        'All attachments (OTRS Business Solution™)' => '',
         'All customer users of a CustomerID' => 'Alle klanten accounts van een CustomerID',
         'All escalated tickets' => 'Alle geëscaleerde tickets',
         'All new tickets, these tickets have not been worked on yet' => 'Alle nieuwe tickets. Aan deze tickets is nog niet gewerkt',
@@ -6144,6 +6147,8 @@ Het Helpdesk Team
         'Controls if customers have the ability to sort their tickets.' =>
             '',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             '',

@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-11-27 22:46+0000\n"
-"PO-Revision-Date: 2017-11-27 22:52+0000\n"
+"POT-Creation-Date: 2017-12-11 23:26+0000\n"
+"PO-Revision-Date: 2017-12-11 23:50+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/otrs/OTRS/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -1655,10 +1655,6 @@ msgstr "Hapus bidang ini"
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
 msgstr "Bidang-bidang dinamis"
-
-#. Template: AdminDynamicFieldCheckbox
-msgid "Field"
-msgstr "Bidang"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Go back to overview"
@@ -7577,6 +7573,10 @@ msgstr "%s tiket dibuka(s) dari %s"
 msgid "%s closed ticket(s) of %s"
 msgstr "%s tiket ditutup(s) dari %s"
 
+#. Template: AgentDashboardCustomerIDList
+msgid "Edit customer ID"
+msgstr ""
+
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
 msgstr "Tiket meningkat"
@@ -10781,10 +10781,6 @@ msgid "Contact with data (%s)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
-msgid "Change"
-msgstr "Ubah"
-
-#. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for"
 " more details."
@@ -10797,6 +10793,10 @@ msgstr "Subaksi tidak terdefinisi"
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need %s"
 msgstr "Perlu %s"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Add %s field"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field does not contain only ASCII letters and numbers."
@@ -10825,6 +10825,10 @@ msgstr "Membutuhkan ID"
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not get data for dynamic field %s"
 msgstr "Tidak ada data untuk field yang dinamis %s"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Change %s field"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The name for this field should not change."
@@ -11960,6 +11964,10 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "The following settings could not be found: %s"
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
+msgid "Import not allowed!"
+msgstr "Impor tidak diperbolehkan!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid ""
@@ -16918,7 +16926,7 @@ msgid ""
 "Thanks for your help!\n"
 "\n"
 " Your Helpdesk Team\n"
-msgstr "\nPelanggan yang terhormat,\n \nSayangnya kami tidak bisa mendeteksi number tiket yang sah\ndalam subjek Anda, sehingga email ini tidak dapat processed.\n\nHarap membuat tiket baru melalui panel pelanggan\n\nTerima kasih atas bantuan Anda! \n\nHelpdesk Team Anda\n\n"
+msgstr "\nPelanggan yang terhormat,\n \nSayangnya kami tidak bisa mendeteksi number tiket yang sah\ndalam subjek Anda, sehingga email ini tidak dapat processed.\n\nHarap membuat tiket baru melalui panel pelanggan\n\nTerima kasih atas bantuan Anda! \n\nHelpdesk Team Anda\n"
 
 #. SysConfig
 msgid " (work units)"
@@ -17321,6 +17329,10 @@ msgstr ""
 
 #. SysConfig
 msgid "All CustomerIDs of a customer user."
+msgstr ""
+
+#. SysConfig
+msgid "All attachments (OTRS Business Solution™)"
 msgstr ""
 
 #. SysConfig
@@ -18146,6 +18158,12 @@ msgid ""
 "Controls if more than one from entry can be set in the new phone ticket in "
 "the agent interface."
 msgstr "Kontrol jika lebih dari satu dari entri dapat diatur dalam tiket ponsel baru di antarmuka agen."
+
+#. SysConfig
+msgid ""
+"Controls if the admin is allowed to import a saved system configuration in "
+"SysConfig."
+msgstr "Kontrol jika admin diperbolehkan untuk mengimpor konfigurasi menyelamatkan sistem di sysconfig."
 
 #. SysConfig
 msgid ""

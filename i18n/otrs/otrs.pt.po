@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-11-27 22:46+0000\n"
-"PO-Revision-Date: 2017-11-27 22:52+0000\n"
+"POT-Creation-Date: 2017-12-11 23:26+0000\n"
+"PO-Revision-Date: 2017-12-11 23:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/otrs/OTRS/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -1658,10 +1658,6 @@ msgstr "Apagar este campo"
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
 msgstr "Campos Dinâmicos"
-
-#. Template: AdminDynamicFieldCheckbox
-msgid "Field"
-msgstr "Campo"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Go back to overview"
@@ -7580,6 +7576,10 @@ msgstr "%s ticket(s) aberto(s) de %s"
 msgid "%s closed ticket(s) of %s"
 msgstr "%s ticket(s) fechado(s) de %s"
 
+#. Template: AgentDashboardCustomerIDList
+msgid "Edit customer ID"
+msgstr ""
+
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
 msgstr ""
@@ -10784,10 +10784,6 @@ msgid "Contact with data (%s)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
-msgid "Change"
-msgstr "Alterar"
-
-#. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for"
 " more details."
@@ -10799,6 +10795,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Add %s field"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
@@ -10827,6 +10827,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not get data for dynamic field %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Change %s field"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
@@ -11962,6 +11966,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "The following settings could not be found: %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
+msgid "Import not allowed!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
@@ -17327,6 +17335,10 @@ msgid "All CustomerIDs of a customer user."
 msgstr ""
 
 #. SysConfig
+msgid "All attachments (OTRS Business Solution™)"
+msgstr ""
+
+#. SysConfig
 msgid "All customer users of a CustomerID"
 msgstr ""
 
@@ -18148,6 +18160,12 @@ msgstr ""
 msgid ""
 "Controls if more than one from entry can be set in the new phone ticket in "
 "the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Controls if the admin is allowed to import a saved system configuration in "
+"SysConfig."
 msgstr ""
 
 #. SysConfig

@@ -6,13 +6,14 @@
 # LarsMagnusHerland <lars.magnus@herland.priv.no>, 2014,2016
 # Lars Åge Kamfjord <lars-transifex@kamfjord.org>, 2014
 # Peter Værlien <pvarlien@online.no>, 2017
+# Stein-Aksel Basma <stabasm@hotmail.com>, 2017
 # Tor Houghton <th-transifex@bogus.net>, 2016
 # Trond Botnen <trond@dataservice.no>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-11-27 22:46+0000\n"
-"PO-Revision-Date: 2017-11-27 22:52+0000\n"
+"POT-Creation-Date: 2017-12-11 23:26+0000\n"
+"PO-Revision-Date: 2017-12-11 23:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/otrs/OTRS/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -51,13 +52,13 @@ msgstr "Bare start å skrive, for å filtrere..."
 
 #. Template: AdminACL
 msgid "Configuration Import"
-msgstr ""
+msgstr "Import av konfigurasjon"
 
 #. Template: AdminACL
 msgid ""
 "Here you can upload a configuration file to import ACLs to your system. The "
 "file needs to be in .yml format as exported by the ACL editor module."
-msgstr ""
+msgstr "Her kan du laste opp en konfigurasjonsfil for å importere ACLer til systemet ditt. Filen må være på .yml format som eksportert av ACL editor modulen."
 
 #. Template: AdminACL
 msgid "This field is required."
@@ -83,14 +84,14 @@ msgstr "Beskrivelse"
 msgid ""
 "To create a new ACL you can either import ACLs which were exported from "
 "another system or create a complete new one."
-msgstr ""
+msgstr "For å opprette en ny ACL kan du enten importere ACLer som ble eksportert fra et annet system eller opprettet en helt ny ACL."
 
 #. Template: AdminACL
 msgid ""
 "Changes to the ACLs here only affect the behavior of the system, if you "
 "deploy the ACL data afterwards. By deploying the ACL data, the newly made "
 "changes will be written to the configuration."
-msgstr ""
+msgstr "Endringer i ACLene her påvirker bare systemets oppførsel dersom du distribuerer ACL-dataene etterpå. Ved å distribuere ACL-dataene, vil de nye endringene bli skrevet til konfigurasjonen."
 
 #. Template: AdminACL
 msgid "ACLs"
@@ -133,11 +134,11 @@ msgstr "Ingen treff funnet"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL %s"
-msgstr ""
+msgstr "Endre ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
-msgstr ""
+msgstr "Endre ACL"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -186,7 +187,7 @@ msgstr "Vis eller skjul innholdet"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "Endre ACL informasjon"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -198,11 +199,11 @@ msgstr "Stopp ved treff"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
+msgstr "Endre ACL struktur"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
-msgstr ""
+msgstr "Lagre ACL"
 
 #. Template: AdminACLEdit
 msgid "Save"
@@ -240,7 +241,7 @@ msgstr "Legg til kalender"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Edit Calendar"
-msgstr ""
+msgstr "Endre kalender"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Go back"
@@ -397,7 +398,7 @@ msgstr "Køer"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Please select a valid queue."
-msgstr ""
+msgstr "Vennligst velg en gyldig kø."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Search attributes"
@@ -445,7 +446,7 @@ msgstr "Last opp"
 
 #. Template: AdminAppointmentImport
 msgid "Update existing appointments?"
-msgstr ""
+msgstr "Oppdater eksisterende avtaler?"
 
 #. Template: AdminAppointmentImport
 msgid ""
@@ -479,15 +480,15 @@ msgstr "Legg til varsling"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
-msgstr ""
+msgstr "Eksporter varslinger"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for Notifications"
-msgstr ""
+msgstr "Filter for varslinger"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for notifications"
-msgstr ""
+msgstr "Filter for varslinger"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -498,7 +499,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
-msgstr ""
+msgstr "Overskriv eksisterende varslinger?"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upload Notification configuration"
@@ -631,7 +632,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Transport"
-msgstr ""
+msgstr "Transport"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "At least one method is needed per notification."
@@ -692,7 +693,7 @@ msgstr "Tekst"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Message body"
-msgstr ""
+msgstr "Meldingstekst"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add new notification language"
@@ -1656,10 +1657,6 @@ msgstr "Fjern dette feltet"
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
 msgstr "Dynamiske felter"
-
-#. Template: AdminDynamicFieldCheckbox
-msgid "Field"
-msgstr "Felt"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Go back to overview"
@@ -5678,7 +5675,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Edit System Registration"
-msgstr ""
+msgstr "Endre systemregistrering"
 
 #. Template: AdminRegistration
 msgid "System Registration Overview"
@@ -7577,6 +7574,10 @@ msgstr "%s åpne sak(er) av %s"
 #. Template: AgentDashboardCustomerIDList
 msgid "%s closed ticket(s) of %s"
 msgstr "%s lukkede sak(er) av %s"
+
+#. Template: AgentDashboardCustomerIDList
+msgid "Edit customer ID"
+msgstr ""
 
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
@@ -10187,15 +10188,15 @@ msgstr ""
 
 #. JS Template: UploadContainer
 msgid "Click to select files or just drop them here."
-msgstr ""
+msgstr "Klikk for å velge filer eller bare slipp dem her."
 
 #. JS Template: UploadContainer
 msgid "Click to select a file or just drop it here."
-msgstr ""
+msgstr "Klikk for å velge en fil eller bare slipp den her."
 
 #. JS Template: UploadContainer
 msgid "Uploading..."
-msgstr ""
+msgstr "Laster opp..."
 
 #. JS Template: InformationDialog
 msgid "Process state"
@@ -10478,15 +10479,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "+5 minutes"
-msgstr ""
+msgstr "+5 minutter"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "+15 minutes"
-msgstr ""
+msgstr "+15 minutter"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "+30 minutes"
-msgstr ""
+msgstr "+30 minutter"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "+1 hour"
@@ -10782,10 +10783,6 @@ msgid "Contact with data (%s)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
-msgid "Change"
-msgstr "Endre"
-
-#. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for"
 " more details."
@@ -10797,6 +10794,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Add %s field"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
@@ -10825,6 +10826,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not get data for dynamic field %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Change %s field"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
@@ -10989,22 +10994,22 @@ msgstr ""
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 minutes"
-msgstr ""
+msgstr " 2 minutter"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 minutes"
-msgstr ""
+msgstr "3 minutter"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 minutes"
-msgstr ""
+msgstr "4 minutter"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "5 minutes"
-msgstr ""
+msgstr " 5 minutter"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
@@ -11019,7 +11024,7 @@ msgstr "15 minutter"
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "30 minutes"
-msgstr ""
+msgstr "30 minutter"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
@@ -11960,6 +11965,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "The following settings could not be found: %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
+msgid "Import not allowed!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
@@ -13599,7 +13608,7 @@ msgstr "Vist"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/AppointmentCalendar.pm
 msgid "Refresh (minutes)"
-msgstr ""
+msgstr "Oppfrisk (minutter)"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/AppointmentCalendar.pm
 msgid "off"
@@ -16975,7 +16984,7 @@ msgstr ""
 
 #. SysConfig
 msgid "10 Minutes"
-msgstr ""
+msgstr "10 minutter"
 
 #. SysConfig
 msgid "100 (Expert)"
@@ -16983,7 +16992,7 @@ msgstr ""
 
 #. SysConfig
 msgid "15 Minutes"
-msgstr ""
+msgstr "15 minutter"
 
 #. SysConfig
 msgid "2 - Enabled and required"
@@ -16999,7 +17008,7 @@ msgstr ""
 
 #. SysConfig
 msgid "2 Minutes"
-msgstr ""
+msgstr " 2 minutter"
 
 #. SysConfig
 msgid "200 (Advanced)"
@@ -17007,7 +17016,7 @@ msgstr ""
 
 #. SysConfig
 msgid "30 Minutes"
-msgstr ""
+msgstr "30 minutter"
 
 #. SysConfig
 msgid "300 (Beginner)"
@@ -17015,7 +17024,7 @@ msgstr ""
 
 #. SysConfig
 msgid "5 Minutes"
-msgstr ""
+msgstr " 5 minutter"
 
 #. SysConfig
 msgid "A TicketWatcher Module."
@@ -17322,6 +17331,10 @@ msgstr ""
 
 #. SysConfig
 msgid "All CustomerIDs of a customer user."
+msgstr ""
+
+#. SysConfig
+msgid "All attachments (OTRS Business Solution™)"
 msgstr ""
 
 #. SysConfig
@@ -18146,6 +18159,12 @@ msgstr "Gir kunder mulighet til å sortere sakene sine."
 msgid ""
 "Controls if more than one from entry can be set in the new phone ticket in "
 "the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Controls if the admin is allowed to import a saved system configuration in "
+"SysConfig."
 msgstr ""
 
 #. SysConfig

@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-11-27 22:46+0000\n"
-"PO-Revision-Date: 2017-11-27 22:52+0000\n"
+"POT-Creation-Date: 2017-12-11 23:26+0000\n"
+"PO-Revision-Date: 2017-12-11 23:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -1654,10 +1654,6 @@ msgstr "Обриши ово поље"
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
 msgstr "Динамичка поља"
-
-#. Template: AdminDynamicFieldCheckbox
-msgid "Field"
-msgstr "Поље"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Go back to overview"
@@ -7576,6 +7572,10 @@ msgstr "%s отворених тикета од %s"
 msgid "%s closed ticket(s) of %s"
 msgstr "%s затворених тикета од %s"
 
+#. Template: AgentDashboardCustomerIDList
+msgid "Edit customer ID"
+msgstr ""
+
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
 msgstr "Ескалирани тикети"
@@ -10780,10 +10780,6 @@ msgid "Contact with data (%s)"
 msgstr "Контакт са подацима (%s)"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
-msgid "Change"
-msgstr "Промени"
-
-#. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for"
 " more details."
@@ -10796,6 +10792,10 @@ msgstr "Недефинисана субакција."
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need %s"
 msgstr "Неопходан %s"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Add %s field"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field does not contain only ASCII letters and numbers."
@@ -10824,6 +10824,10 @@ msgstr "Неопходан ID"
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not get data for dynamic field %s"
 msgstr "Не могу прибавити податке за динамичко поље %s"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Change %s field"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The name for this field should not change."
@@ -11959,6 +11963,10 @@ msgstr "Тренутно немате ниједно омиљено подеша
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "The following settings could not be found: %s"
 msgstr "Следећа подешавања нису могла бити пронађена: %s"
+
+#. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
+msgid "Import not allowed!"
+msgstr "Увоз није дозвољен!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid ""
@@ -16168,7 +16176,7 @@ msgstr "Ажурирање пакета је завршено. Кликните 
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
-msgstr ""
+msgstr "Ажурирај све пакете"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Dismiss"
@@ -16176,7 +16184,7 @@ msgstr "Поништи"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update All Packages"
-msgstr ""
+msgstr "Ажурирај све пакете"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Currently not possible"
@@ -17323,6 +17331,10 @@ msgid "All CustomerIDs of a customer user."
 msgstr "Сви клијент ID клијент корисника."
 
 #. SysConfig
+msgid "All attachments (OTRS Business Solution™)"
+msgstr ""
+
+#. SysConfig
 msgid "All customer users of a CustomerID"
 msgstr "Сви клијенти корисници за CustomerID"
 
@@ -18145,6 +18157,12 @@ msgid ""
 "Controls if more than one from entry can be set in the new phone ticket in "
 "the agent interface."
 msgstr "Контролише да ли више од једног пошиљаоца може бити подешено у новом тикету позива у интерфејсу оператера."
+
+#. SysConfig
+msgid ""
+"Controls if the admin is allowed to import a saved system configuration in "
+"SysConfig."
+msgstr "Контролише да ли је администратору дозвољено да увезе сачувану системску конфигурацију у „SysConfig”."
 
 #. SysConfig
 msgid ""
@@ -22166,11 +22184,11 @@ msgstr "Ако је активирано, ознака OTRS верзије ће 
 
 #. SysConfig
 msgid "If enabled, the cache data be held in memory."
-msgstr ""
+msgstr "Ако је актибирано, кеширани подаци ће се чувати у меморији."
 
 #. SysConfig
 msgid "If enabled, the cache data will be stored in cache backend."
-msgstr ""
+msgstr "Ако је активирано, кеширани подаци ће се чувати у кешу система у позадини."
 
 #. SysConfig
 msgid ""
@@ -24617,37 +24635,37 @@ msgstr "Поставља одговорног оператера за тикет
 msgid ""
 "Sets the service in the close ticket screen of the agent interface "
 "(Ticket::Service needs to be enabled)."
-msgstr ""
+msgstr "Подешава сервис на екрану затварања тикета у интерфејсу оператера (Ticket::Service треба да буде активиран)."
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket free text screen of the agent interface "
 "(Ticket::Service needs to be enabled)."
-msgstr ""
+msgstr "Подешава сервис на екрану слободног текста тикета у интерфејсу оператера (Ticket::Service треба да буде активиран)."
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket note screen of the agent interface "
 "(Ticket::Service needs to be enabled)."
-msgstr ""
+msgstr "Подешава сервис на екрану напомене тикета у интерфејсу оператера (Ticket::Service треба да буде активиран)."
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket owner screen of a zoomed ticket in the agent "
 "interface (Ticket::Service needs to be enabled)."
-msgstr ""
+msgstr "Подешава сервис на екрану власника тикета на детаљном прегледу тикета у интерфејсу оператера (Ticket::Service треба да буде активиран)."
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket pending screen of a zoomed ticket in the "
 "agent interface (Ticket::Service needs to be enabled)."
-msgstr ""
+msgstr "Подешава сервис на екрану тикета на чекању на детаљном прегледу тикета у интерфејсу оператера (Ticket::Service треба да буде активиран)."
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket priority screen of a zoomed ticket in the "
 "agent interface (Ticket::Service needs to be enabled)."
-msgstr ""
+msgstr "Подешава сервис на екрану приоритета тикета на детаљном прегледу тикета у интерфејсу оператера (Ticket::Service треба да буде активиран)."
 
 #. SysConfig
 msgid ""

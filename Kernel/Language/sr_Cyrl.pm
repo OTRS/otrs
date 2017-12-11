@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.991688311688312;
+    $Self->{Completeness}        = 0.992732306627444;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -520,7 +520,6 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Динамичка поља',
-        'Field' => 'Поље',
         'Go back to overview' => 'Иди назад на преглед',
         'General' => 'Опште',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -2355,6 +2354,7 @@ sub Data {
         'Closed' => 'Затворени',
         '%s open ticket(s) of %s' => '%s отворених тикета од %s',
         '%s closed ticket(s) of %s' => '%s затворених тикета од %s',
+        'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Ескалирани тикети',
@@ -3484,13 +3484,13 @@ sub Data {
         'Database (%s)' => 'База података (%s)',
         'Web service (%s)' => 'Веб сервис (%s)',
         'Contact with data (%s)' => 'Контакт са подацима (%s)',
-        'Change' => 'Промени',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'Није могуће поништити редослед динамичких поља, молимо да проверите OTRS логове за више информација.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Недефинисана субакција.',
         'Need %s' => 'Неопходан %s',
+        'Add %s field' => '',
         'The field does not contain only ASCII letters and numbers.' => 'Поље не садржи само ASCII слова и бројеве.',
         'There is another field with the same name.' => 'Постоји друго поље са истим именом.',
         'The field must be numeric.' => 'Поље мора бити нумеричко.',
@@ -3498,6 +3498,7 @@ sub Data {
         'Could not create the new field' => 'Није могуће креирати ново поље',
         'Need ID' => 'Неопходан ID',
         'Could not get data for dynamic field %s' => 'Не могу прибавити податке за динамичко поље %s',
+        'Change %s field' => '',
         'The name for this field should not change.' => 'Назив овог поља није пожељно мењати.',
         'Could not update the field %s' => 'Није могуће ажурирати поље %s',
         'Currently' => 'Тренутно',
@@ -3881,6 +3882,7 @@ sub Data {
         'There are no invalid settings active at this time.' => 'У овом тренутку нема неважећих подешавања.',
         'You currently don\'t have any favourite settings.' => 'Тренутно немате ниједно омиљено подешавање.',
         'The following settings could not be found: %s' => 'Следећа подешавања нису могла бити пронађена: %s',
+        'Import not allowed!' => 'Увоз није дозвољен!',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
             '',
         'Category Search' => 'Претрага категорија',
@@ -5448,9 +5450,9 @@ sub Data {
             'Ажурирање пакета је у току, кликните овде за статус напредовања.',
         'A package upgrade was recently finished. Click here to see the results.' =>
             'Ажурирање пакета је завршено. Кликните овде за резултате.',
-        'Update all packages' => '',
+        'Update all packages' => 'Ажурирај све пакете',
         'Dismiss' => 'Поништи',
-        'Update All Packages' => '',
+        'Update All Packages' => 'Ажурирај све пакете',
         'Currently not possible' => 'Тренутно није могуће',
         'This is currently disabled because of an ongoing package upgrade.' =>
             'Ова функција је тренутно искључена због ажурирања пакета у току.',
@@ -5889,6 +5891,7 @@ Thanks for your help!
         'Agents ↔ Groups' => 'Оператери ↔ групе',
         'Agents ↔ Roles' => 'Оператери ↔ улоге',
         'All CustomerIDs of a customer user.' => 'Сви клијент ID клијент корисника.',
+        'All attachments (OTRS Business Solution™)' => '',
         'All customer users of a CustomerID' => 'Сви клијенти корисници за CustomerID',
         'All escalated tickets' => 'Сви ескалирани тикети',
         'All new tickets, these tickets have not been worked on yet' => 'Сви нови тикети, на њима још није ништа рађено',
@@ -6139,6 +6142,8 @@ Thanks for your help!
             'Контролише да ли клијенти имају могућност да сортирају своје тикете.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'Контролише да ли више од једног пошиљаоца може бити подешено у новом тикету позива у интерфејсу оператера.',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
+            'Контролише да ли је администратору дозвољено да увезе сачувану системску конфигурацију у „SysConfig”.',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             'Контролише да ли је администратору дозвољено да направи иземене у бази података преко Административног оквира за избор.',
         'Controls if the autocomplete field will be used for the customer ID selection in the AdminCustomerUser interface.' =>
@@ -7370,8 +7375,8 @@ Thanks for your help!
             'Ако је активирано, тикети позива и имејл тикети ће бити отворени у новом прозору.',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
             'Ако је активирано, ознака OTRS верзије ће бити уклоњена из веб интерфејса, HTTP заглавља и X-Headers у одлазним имејл порукама. НАПОМЕНА: ако мењате ову опцију, молимо да осигурате брисање кеша.',
-        'If enabled, the cache data be held in memory.' => '',
-        'If enabled, the cache data will be stored in cache backend.' => '',
+        'If enabled, the cache data be held in memory.' => 'Ако је актибирано, кеширани подаци ће се чувати у меморији.',
+        'If enabled, the cache data will be stored in cache backend.' => 'Ако је активирано, кеширани подаци ће се чувати у кешу система у позадини.',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             'Ако је активирано, клијент може претраживати тикете у свим сервисима (без обзира на то који сервиси су додељени клијенту).',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
@@ -8067,17 +8072,17 @@ Thanks for your help!
         'Sets the responsible agent of the ticket in the ticket responsible screen of the agent interface.' =>
             'Поставља одговорног оператера за тикет у прозору одговорног за тикет у интерфејсу оператера.',
         'Sets the service in the close ticket screen of the agent interface (Ticket::Service needs to be enabled).' =>
-            '',
+            'Подешава сервис на екрану затварања тикета у интерфејсу оператера (Ticket::Service треба да буде активиран).',
         'Sets the service in the ticket free text screen of the agent interface (Ticket::Service needs to be enabled).' =>
-            '',
+            'Подешава сервис на екрану слободног текста тикета у интерфејсу оператера (Ticket::Service треба да буде активиран).',
         'Sets the service in the ticket note screen of the agent interface (Ticket::Service needs to be enabled).' =>
-            '',
+            'Подешава сервис на екрану напомене тикета у интерфејсу оператера (Ticket::Service треба да буде активиран).',
         'Sets the service in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled).' =>
-            '',
+            'Подешава сервис на екрану власника тикета на детаљном прегледу тикета у интерфејсу оператера (Ticket::Service треба да буде активиран).',
         'Sets the service in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled).' =>
-            '',
+            'Подешава сервис на екрану тикета на чекању на детаљном прегледу тикета у интерфејсу оператера (Ticket::Service треба да буде активиран).',
         'Sets the service in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled).' =>
-            '',
+            'Подешава сервис на екрану приоритета тикета на детаљном прегледу тикета у интерфејсу оператера (Ticket::Service треба да буде активиран).',
         'Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be enabled).' =>
             '',
         'Sets the state of a ticket in the close ticket screen of the agent interface.' =>

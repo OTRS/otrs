@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.718614718614719;
+    $Self->{Completeness}        = 0.718117321335871;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -525,7 +525,6 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'رشته های پویا',
-        'Field' => 'رشته',
         'Go back to overview' => 'برگرد به نمایش مجموعه',
         'General' => 'عمومی',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -2360,6 +2359,7 @@ sub Data {
         'Closed' => 'بسته شده',
         '%s open ticket(s) of %s' => '%s بلیط باز (بازدید کنندگان) از %s',
         '%s closed ticket(s) of %s' => '%s بلیط بسته (بازدید کنندگان) از %s',
+        'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'تیکت های خیلی مهم',
@@ -3489,13 +3489,13 @@ sub Data {
         'Database (%s)' => '',
         'Web service (%s)' => '',
         'Contact with data (%s)' => '',
-        'Change' => 'تغییر',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'می تواند پویا درست سفارش تنظیم مجدد نمی کند، لطفا ورود به سیستم خطا برای جزئیات بیشتر.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'subaction تعریف نشده است.',
         'Need %s' => 'نیاز %s',
+        'Add %s field' => '',
         'The field does not contain only ASCII letters and numbers.' => 'میدان آیا فقط شامل حروف ASCII و اعداد نیست.',
         'There is another field with the same name.' => ' یکی دیگر از این زمینه با همین نام وجود دارد.',
         'The field must be numeric.' => 'زمینه باید عدد باشد.',
@@ -3503,6 +3503,7 @@ sub Data {
         'Could not create the new field' => 'نمی توانید زمینه جدید ایجاد کنید',
         'Need ID' => 'نیاز ID',
         'Could not get data for dynamic field %s' => ' توان داده هابرای زمینه پویا نیست %s',
+        'Change %s field' => '',
         'The name for this field should not change.' => 'نام این زمینه نباید تغییر کند.',
         'Could not update the field %s' => 'نمی توانید زمینه را به روز رسانی کنید %s',
         'Currently' => 'در حال حاضر',
@@ -3886,6 +3887,7 @@ sub Data {
         'There are no invalid settings active at this time.' => '',
         'You currently don\'t have any favourite settings.' => '',
         'The following settings could not be found: %s' => '',
+        'Import not allowed!' => 'دریافت مجاز نیست!',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
             '',
         'Category Search' => '',
@@ -5894,6 +5896,7 @@ Thanks for your help!
         'Agents ↔ Groups' => '',
         'Agents ↔ Roles' => '',
         'All CustomerIDs of a customer user.' => '',
+        'All attachments (OTRS Business Solution™)' => '',
         'All customer users of a CustomerID' => 'همه کاربران مشتری از CustomerID',
         'All escalated tickets' => 'تمام درخواست‌هایی که زمان پاسخگویی آن‌ها رو به پایان است',
         'All new tickets, these tickets have not been worked on yet' => 'تمام درخواست‌های جدید، روی این درخواست‌ها هنوز کاری انجام شده',
@@ -6144,6 +6147,8 @@ Thanks for your help!
             'کنترل اگر مشتریان توانایی مرتب سازی درخواست های خود را داشته باشند.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'کنترل اگر بیش از یک  ورودی می تواند بلیط تلفن جدید در رابط عامل در تنظیم شده است.',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
+            'کنترل اگر مدیر مجاز به واردات یک پیکربندی سیستم ذخیره شده در SysConfig. است',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             'کنترل اگر مدیر مجاز به ایجاد تغییرات به پایگاه داده از طریق AdminSelectBox. است',
         'Controls if the autocomplete field will be used for the customer ID selection in the AdminCustomerUser interface.' =>

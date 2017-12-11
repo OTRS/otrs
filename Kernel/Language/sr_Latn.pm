@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.991341991341991;
+    $Self->{Completeness}        = 0.992732306627444;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -526,7 +526,6 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Dinamička polja',
-        'Field' => '',
         'Go back to overview' => 'Idi nazad na pregled',
         'General' => 'Opšte',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -2361,6 +2360,7 @@ sub Data {
         'Closed' => 'Zatvoreni',
         '%s open ticket(s) of %s' => '%s otvorenih tiketa od %s',
         '%s closed ticket(s) of %s' => '%s zatvorenih tiketa od %s',
+        'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Eskalirani tiketi',
@@ -3490,13 +3490,13 @@ sub Data {
         'Database (%s)' => 'Baza podataka (%s)',
         'Web service (%s)' => 'Veb servis (%s)',
         'Contact with data (%s)' => 'Kontakt sa podacima (%s)',
-        'Change' => '',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'Nije moguće poništiti redosled dinamičkih polja, molimo da proverite OTRS logove za više informacija.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Nedefinisana subakcija.',
         'Need %s' => 'Neophodan %s',
+        'Add %s field' => '',
         'The field does not contain only ASCII letters and numbers.' => 'Polje ne sadrži samo ASCII slova i brojeve.',
         'There is another field with the same name.' => 'Postoji drugo polje sa istim imenom.',
         'The field must be numeric.' => 'Polje mora biti numeričko.',
@@ -3504,6 +3504,7 @@ sub Data {
         'Could not create the new field' => 'Nije moguće kreirati novo polje',
         'Need ID' => 'Neophodan ID',
         'Could not get data for dynamic field %s' => 'Ne mogu pribaviti podatke za dinamičko polje %s',
+        'Change %s field' => '',
         'The name for this field should not change.' => 'Naziv ovog polja nije poželjno menjati.',
         'Could not update the field %s' => 'Nije moguće ažurirati polje %s',
         'Currently' => 'Trenutno',
@@ -3887,6 +3888,7 @@ sub Data {
         'There are no invalid settings active at this time.' => 'U ovom trenutku nema nevažećih podešavanja.',
         'You currently don\'t have any favourite settings.' => 'Trenutno nemate nijedno omiljeno podešavanje.',
         'The following settings could not be found: %s' => 'Sledeća podešavanja nisu mogla biti pronađena: %s',
+        'Import not allowed!' => 'Uvoz nije dozvoljen!',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
             '',
         'Category Search' => 'Pretraga kategorija',
@@ -5454,9 +5456,9 @@ sub Data {
             'Ažuriranje paketa je u toku, kliknite ovde za status napredovanja.',
         'A package upgrade was recently finished. Click here to see the results.' =>
             'Ažuriranje paketa je završeno. Kliknite ovde za rezultate.',
-        'Update all packages' => '',
+        'Update all packages' => 'Ažuriraj sve pakete',
         'Dismiss' => 'Poništi',
-        'Update All Packages' => '',
+        'Update All Packages' => 'Ažuriraj sve pakete',
         'Currently not possible' => 'Trenutno nije moguće',
         'This is currently disabled because of an ongoing package upgrade.' =>
             'Ova funkcija je trenutno isključena zbog ažuriranja paketa u toku.',
@@ -5895,6 +5897,7 @@ Vaša tehnička podrška
         'Agents ↔ Groups' => 'Operateri ↔ grupe',
         'Agents ↔ Roles' => 'Operateri ↔ uloge',
         'All CustomerIDs of a customer user.' => 'Svi klijent ID klijent korisnika.',
+        'All attachments (OTRS Business Solution™)' => '',
         'All customer users of a CustomerID' => 'Svi klijenti korisnici za CustomerID',
         'All escalated tickets' => 'Svi eskalirani tiketi',
         'All new tickets, these tickets have not been worked on yet' => 'Svi novi tiketi, na njima još nije ništa rađeno',
@@ -6145,6 +6148,8 @@ Vaša tehnička podrška
             'Kontroliše da li klijenti imaju mogućnost da sortiraju svoje tikete.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'Kontroliše da li više od jednog pošiljaoca može biti podešeno u novom tiketu poziva u interfejsu operatera.',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
+            'Kontroliše da li je administratoru dozvoljeno da uveze sačuvanu sistemsku konfiguraciju u „SysConfig”.',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             'Kontroliše da li je administratoru dozvoljeno da napravi izemene u bazi podataka preko Administrativnog okvira za izbor.',
         'Controls if the autocomplete field will be used for the customer ID selection in the AdminCustomerUser interface.' =>
@@ -7307,7 +7312,7 @@ Vaša tehnička podrška
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
             'Ukoliko je podešen HTTPBasicAuth za Customer::AuthModule, možete podesiti (putem RegExp) uklanjanje delova REMOTE_USER vrednosti (npr. radi uklanjanja dodatnih domena). Napomena: $1 će biti novi Login.',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
-            'Ukoliko je "HTTPBasicAuth" izabran za Customer::AuthModule, možete podesiti uklanjanje početnih delova korisničkih imena (npr. za domene kao example_domain\user u user).',
+            'Ukoliko je „HTTPBasicAuth” izabran za „Customer::AuthModule”, možete podesiti uklanjanje početnih delova korisničkih imena (npr. za domene kao „example_domain\user” u „user”).',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' =>
             'Ukoliko je podešen LDAP za Customer::AuthModule i želite da dodate sufiks svakom korisničkom imenu, definišite ga ovde, npr. želite samo user za korisničko ime, ali u vašem LDAP direktorijumu postoji user@domain.',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
@@ -7376,8 +7381,8 @@ Vaša tehnička podrška
             'Ako je aktivirano, tiketi poziva i imejl tiketi će biti otvoreni u novom prozoru.',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
             'Ako je aktivirano, oznaka OTRS verzije će biti uklonjena iz veb interfejsa, HTTP zaglavlja i X-Headers u odlaznim imejl porukama. NAPOMENA: ako menjate ovu opciju, molimo da osigurate brisanje keša.',
-        'If enabled, the cache data be held in memory.' => '',
-        'If enabled, the cache data will be stored in cache backend.' => '',
+        'If enabled, the cache data be held in memory.' => 'Ako je aktibirano, keširani podaci će se čuvati u memoriji.',
+        'If enabled, the cache data will be stored in cache backend.' => 'Ako je aktivirano, keširani podaci će se čuvati u kešu sistema u pozadini.',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             'Ako je aktivirano, klijent može pretraživati tikete u svim servisima (bez obzira na to koji servisi su dodeljeni klijentu).',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
@@ -8073,17 +8078,17 @@ Vaša tehnička podrška
         'Sets the responsible agent of the ticket in the ticket responsible screen of the agent interface.' =>
             'Postavlja odgovornog operatera za tiket u prozoru odgovornog za tiket u interfejsu operatera.',
         'Sets the service in the close ticket screen of the agent interface (Ticket::Service needs to be enabled).' =>
-            '',
+            'Podešava servis na ekranu zatvaranja tiketa u interfejsu operatera (Ticket::Service treba da bude aktiviran).',
         'Sets the service in the ticket free text screen of the agent interface (Ticket::Service needs to be enabled).' =>
-            '',
+            'Podešava servis na ekranu slobodnog teksta tiketa u interfejsu operatera (Ticket::Service treba da bude aktiviran).',
         'Sets the service in the ticket note screen of the agent interface (Ticket::Service needs to be enabled).' =>
-            '',
+            'Podešava servis na ekranu napomene tiketa u interfejsu operatera (Ticket::Service treba da bude aktiviran).',
         'Sets the service in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled).' =>
-            '',
+            'Podešava servis na ekranu vlasnika tiketa na detaljnom pregledu tiketa u interfejsu operatera (Ticket::Service treba da bude aktiviran).',
         'Sets the service in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled).' =>
-            '',
+            'Podešava servis na ekranu tiketa na čekanju na detaljnom pregledu tiketa u interfejsu operatera (Ticket::Service treba da bude aktiviran).',
         'Sets the service in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled).' =>
-            '',
+            'Podešava servis na ekranu prioriteta tiketa na detaljnom pregledu tiketa u interfejsu operatera (Ticket::Service treba da bude aktiviran).',
         'Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be enabled).' =>
             '',
         'Sets the state of a ticket in the close ticket screen of the agent interface.' =>

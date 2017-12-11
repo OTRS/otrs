@@ -26,13 +26,14 @@
 # Luis Medina <luis.medina@sacc.com.mx>, 2016
 # Nuño López Ansótegui <nuno.lopez@exevi.com>, 2015
 # Fr33m4n77 <pabloascencio77@gmail.com>, 2015
+# Salvador Rea <salvador_rea@outlook.com>, 2017
 # Антон Протченко :3 <a_protchenko@hotmail.com>, 2017
 # Антон Протченко :3 <a_protchenko@hotmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-11-27 22:46+0000\n"
-"PO-Revision-Date: 2017-11-27 22:52+0000\n"
+"POT-Creation-Date: 2017-12-11 23:26+0000\n"
+"PO-Revision-Date: 2017-12-11 23:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/otrs/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -1678,10 +1679,6 @@ msgid "Dynamic Fields"
 msgstr "Campos Dinámicos"
 
 #. Template: AdminDynamicFieldCheckbox
-msgid "Field"
-msgstr "Campo"
-
-#. Template: AdminDynamicFieldCheckbox
 msgid "Go back to overview"
 msgstr "Volver a la vista general"
 
@@ -2730,7 +2727,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Factor for further retries"
-msgstr ""
+msgstr "Factor para reintentos siguientes."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2748,7 +2745,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry interval"
-msgstr ""
+msgstr "Intervalo de reintentos maximo"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2772,7 +2769,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry count"
-msgstr ""
+msgstr "Cuenta maxima de reintentos"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2799,7 +2796,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry period"
-msgstr ""
+msgstr "Periodo maximo de reintentos"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2831,11 +2828,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add Invoker"
-msgstr ""
+msgstr "Agregar invocador"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Edit Invoker"
-msgstr ""
+msgstr "Editar invocador"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Do you really want to delete this invoker?"
@@ -2898,7 +2895,7 @@ msgstr "Condición"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Edit this event"
-msgstr ""
+msgstr "Editar este evento"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
@@ -2932,7 +2929,7 @@ msgstr "Volver a"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Delete all conditions"
-msgstr ""
+msgstr "Eliminar todas las conficiones"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Do you really want to delete all the conditions for this event?"
@@ -2940,11 +2937,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "General Settings"
-msgstr ""
+msgstr "Configuración general"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Event type"
-msgstr ""
+msgstr "Tipo Evento"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Conditions"
@@ -3068,23 +3065,23 @@ msgstr "¿Realmente desea eliminar esta asignación de clave?"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "General Shortcuts"
-msgstr ""
+msgstr "Accesos directos generales"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "MacOS Shortcuts"
-msgstr ""
+msgstr "Accesos directos MacOS"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Comment code"
-msgstr ""
+msgstr "Comentar codigo"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Uncomment code"
-msgstr ""
+msgstr "Descomentar codigo"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Auto format code"
-msgstr ""
+msgstr "Auto formato de codigo"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Expand/Collapse code block"
@@ -3092,23 +3089,23 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find"
-msgstr ""
+msgstr "Buscar"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find next"
-msgstr ""
+msgstr "Buscar siguiente"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find previous"
-msgstr ""
+msgstr "Buscar anterior"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find and replace"
-msgstr ""
+msgstr "Buscar y reemplazar"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find and replace all"
-msgstr ""
+msgstr "Buscar y reemplazar todo"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT Mapping"
@@ -3162,15 +3159,15 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Replace"
-msgstr ""
+msgstr "Reemplazar"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Remove regex"
-msgstr ""
+msgstr "Remover regex"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Add regex"
-msgstr ""
+msgstr "Agregar regex"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "These filters can be used to transform keys using regular expressions."
@@ -3230,11 +3227,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add Operation"
-msgstr ""
+msgstr "Agregar operacion"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Edit Operation"
-msgstr ""
+msgstr "Editar Operacion"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Do you really want to delete this operation?"
@@ -7598,6 +7595,10 @@ msgstr "%s tickets abiertos de %s"
 msgid "%s closed ticket(s) of %s"
 msgstr "%s tickets cerrados de %s"
 
+#. Template: AgentDashboardCustomerIDList
+msgid "Edit customer ID"
+msgstr ""
+
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
 msgstr "Tickets escalados"
@@ -10802,10 +10803,6 @@ msgid "Contact with data (%s)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
-msgid "Change"
-msgstr "Modificar"
-
-#. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for"
 " more details."
@@ -10818,6 +10815,10 @@ msgstr "Subrutina no definida."
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need %s"
 msgstr "Necesita %s"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Add %s field"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field does not contain only ASCII letters and numbers."
@@ -10846,6 +10847,10 @@ msgstr "Necesario el ID"
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not get data for dynamic field %s"
 msgstr "No se pudo cargar los datos del campo dimámico %s"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Change %s field"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The name for this field should not change."
@@ -11981,6 +11986,10 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "The following settings could not be found: %s"
 msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
+msgid "Import not allowed!"
+msgstr "No se permite Importar!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid ""
@@ -17345,6 +17354,10 @@ msgid "All CustomerIDs of a customer user."
 msgstr ""
 
 #. SysConfig
+msgid "All attachments (OTRS Business Solution™)"
+msgstr ""
+
+#. SysConfig
 msgid "All customer users of a CustomerID"
 msgstr "Todos los clientes de un IDCliente"
 
@@ -18167,6 +18180,12 @@ msgid ""
 "Controls if more than one from entry can be set in the new phone ticket in "
 "the agent interface."
 msgstr "Controla si más de una de entrada se puede establecer en el nuevo ticket telefónico en la interfaz del agente."
+
+#. SysConfig
+msgid ""
+"Controls if the admin is allowed to import a saved system configuration in "
+"SysConfig."
+msgstr "Controla si el administrador está permitido para importar una configuración de sistema guardada en SysConfig ."
 
 #. SysConfig
 msgid ""

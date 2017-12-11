@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.627359307359307;
+    $Self->{Completeness}        = 0.626752033223741;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -519,7 +519,6 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Perlengkapan dinamik',
-        'Field' => 'Bidang',
         'Go back to overview' => 'Pergi kembali ke gambaran keseluruhan',
         'General' => 'Umum',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -2354,6 +2353,7 @@ sub Data {
         'Closed' => 'Ditutup',
         '%s open ticket(s) of %s' => '%s membuka tiket(tiket-tiket) %s',
         '%s closed ticket(s) of %s' => '%s menutup tiket(tiket-tiket) %s',
+        'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Peningkatan tiket',
@@ -3483,13 +3483,13 @@ sub Data {
         'Database (%s)' => '',
         'Web service (%s)' => '',
         'Contact with data (%s)' => '',
-        'Change' => 'Ubah',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'Tidak boleh membetulkan semula susunan Bidang Dinamik dengan elok, sila semak log kesalahan untuk maklumat lanjut.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Tindakan bawah tidak tertakrif',
         'Need %s' => 'Perlukan %s',
+        'Add %s field' => '',
         'The field does not contain only ASCII letters and numbers.' => '',
         'There is another field with the same name.' => 'Terdapat ruang yang lain dengan nama yang sama.',
         'The field must be numeric.' => 'Ruang tersebut perlu jadi numerik',
@@ -3497,6 +3497,7 @@ sub Data {
         'Could not create the new field' => 'Tidak boleh cipta ruang baru',
         'Need ID' => 'Perlukan ID',
         'Could not get data for dynamic field %s' => 'Tidak boleh mendapatkan data untuk ruang dinamik %s',
+        'Change %s field' => '',
         'The name for this field should not change.' => 'Nama untuk ruang tidak patut ditukar.',
         'Could not update the field %s' => 'Tidak dapat mengemaskini ruang tersebut %s',
         'Currently' => 'Buat masa sekarang',
@@ -3880,6 +3881,7 @@ sub Data {
         'There are no invalid settings active at this time.' => '',
         'You currently don\'t have any favourite settings.' => '',
         'The following settings could not be found: %s' => '',
+        'Import not allowed!' => '',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
             '',
         'Category Search' => '',
@@ -5890,6 +5892,7 @@ dalaman.',
         'Agents ↔ Groups' => '',
         'Agents ↔ Roles' => '',
         'All CustomerIDs of a customer user.' => '',
+        'All attachments (OTRS Business Solution™)' => '',
         'All customer users of a CustomerID' => 'Semua pengguna pelanggan PelangganID',
         'All escalated tickets' => 'Semua peningkatan tiket',
         'All new tickets, these tickets have not been worked on yet' => 'Semua tiket baru, tiket ini masih belum dijalankan lagi',
@@ -6140,6 +6143,8 @@ dalaman.',
             'Kawalan jika pelanggan mempunyai keupayaan untuk mengatur tiket mereka.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'Kawalan jika lebih daripada satu daripada kemasukan boleh ditetapkan dalam tiket telefon baru dalam interface ejen.',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
+            'Mengawal jika admin dibenarkan untuk mengimport konfigurasi sistem disimpan dalam SysConfig.',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             'Kawal jika admin dibenarkan untuk membuat perubahan kepada pangkalan data melalui KotakPilihAdmin.',
         'Controls if the autocomplete field will be used for the customer ID selection in the AdminCustomerUser interface.' =>

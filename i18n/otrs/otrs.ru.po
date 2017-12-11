@@ -1,7 +1,7 @@
 # 
 # Translators:
 # Alex Butuzov <aixrein@gmail.com>, 2017
-# Alexey Yusov <yusovas@gmail.com>, 2015-2016
+# Alexey Yusov <yusovas@gmail.com>, 2015-2017
 # Anatoly A <aaksinenko@gmail.com>, 2017
 # Anton <anton.astashkin@gmail.com>, 2015
 # Antonio Kless, 2015
@@ -33,8 +33,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-11-27 22:46+0000\n"
-"PO-Revision-Date: 2017-11-27 22:52+0000\n"
+"POT-Creation-Date: 2017-12-11 23:26+0000\n"
+"PO-Revision-Date: 2017-12-11 23:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -1680,10 +1680,6 @@ msgid "Dynamic Fields"
 msgstr "Динамические поля"
 
 #. Template: AdminDynamicFieldCheckbox
-msgid "Field"
-msgstr "Поле"
-
-#. Template: AdminDynamicFieldCheckbox
 msgid "Go back to overview"
 msgstr "Вернуться к обзору"
 
@@ -2801,7 +2797,7 @@ msgstr "Это поле должно быть пустым или содержа
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry period"
-msgstr ""
+msgstr "Максимальный период повтора"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -3347,11 +3343,11 @@ msgstr "Этот параметр определяет закрывать вхо
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional response headers"
-msgstr ""
+msgstr "Дополнительные заголовки ответа"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Add response header"
-msgstr ""
+msgstr "Добавить заголовок ответа"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Endpoint"
@@ -4641,7 +4637,7 @@ msgstr "Установить пакет"
 
 #. Template: AdminPackageManager
 msgid "Update Package"
-msgstr ""
+msgstr "Обновить пакет"
 
 #. Template: AdminPackageManager
 msgid "Continue"
@@ -4676,7 +4672,7 @@ msgstr "Включить облачный сервис"
 
 #. Template: AdminPackageManager
 msgid "Update all installed packages"
-msgstr ""
+msgstr "Обновить все установленные пакеты"
 
 #. Template: AdminPackageManager
 msgid "Online Repository"
@@ -5708,7 +5704,7 @@ msgstr "Обзор настроек System Registration"
 
 #. Template: AdminRegistration
 msgid "Register System"
-msgstr ""
+msgstr "Регистрация системы"
 
 #. Template: AdminRegistration
 msgid "Validate OTRS-ID"
@@ -6694,7 +6690,7 @@ msgstr "Никакие настройки недоступны. Перед на�
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Changes Deployment"
-msgstr "Развертывание Изменений "
+msgstr "Применение Изменений "
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Help"
@@ -6724,7 +6720,7 @@ msgstr ""
 msgid ""
 "A deployment has just been restored, which means that all affected setting "
 "have been reverted to the state from the selected deployment."
-msgstr "Откат Изменения, это означает, что все затронутые настройки были возвращены в состояние из выбранного развертывания."
+msgstr "Откат Изменения, это означает, что все затронутые настройки были возвращены в состояние из выбранного применения."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Please review the changed settings and deploy afterwards."
@@ -6908,7 +6904,7 @@ msgstr "Сообщение при входе"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "This field must have less then 250 characters."
-msgstr ""
+msgstr "Это поле не может превышать более чем 250 символов"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Show login message"
@@ -7600,6 +7596,10 @@ msgstr "%s открытых заявок из %s"
 msgid "%s closed ticket(s) of %s"
 msgstr "%s закрытых заявок из %s"
 
+#. Template: AgentDashboardCustomerIDList
+msgid "Edit customer ID"
+msgstr ""
+
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
 msgstr "Эскалированные заявки"
@@ -7757,7 +7757,7 @@ msgstr "Чтобы принять какие-нибудь новости, лиц
 
 #. Template: AgentInfo
 msgid "Yes, accepted."
-msgstr ""
+msgstr "Да, принято"
 
 #. Template: AgentLinkObject
 msgid "Manage links for %s"
@@ -8373,7 +8373,7 @@ msgstr "Фильтр для элементов истории"
 
 #. Template: AgentTicketHistory
 msgid "Expand/collapse all"
-msgstr ""
+msgstr "Развернуть/свернуть всё"
 
 #. Template: AgentTicketHistory
 msgid "Article"
@@ -8470,7 +8470,7 @@ msgstr "Заявок на страницу"
 
 #. Template: AgentTicketOverviewPreview
 msgid "Missing channel"
-msgstr ""
+msgstr "Ошибочный канал"
 
 #. Template: AgentTicketOverviewSmall
 msgid "Reset overview"
@@ -8877,7 +8877,7 @@ msgstr "Загрузить заблокированное содержимое."
 
 #. Template: Breadcrumb
 msgid "Home"
-msgstr ""
+msgstr "Домой"
 
 #. Template: Breadcrumb
 msgid "Back to admin overview"
@@ -10097,7 +10097,7 @@ msgstr "Вернуться в панель администратора:"
 
 #. Template: Actions
 msgid "Deployment"
-msgstr "Использование"
+msgstr "Применение"
 
 #. Template: Actions
 msgid "My favourite settings"
@@ -10245,11 +10245,11 @@ msgstr "Добавить ключ"
 
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
-msgstr "Пояснения по развертыванию..."
+msgstr "Пояснения по применению..."
 
 #. JS Template: DialogDeployment
 msgid "Deploying, please wait..."
-msgstr "Подождите, идет развертывание..."
+msgstr "Подождите, идет применение..."
 
 #. JS Template: DialogDeployment
 msgid "Preparing to deploy, please wait..."
@@ -10257,7 +10257,7 @@ msgstr "Подождите, идет подготовка к развертыв�
 
 #. JS Template: DialogDeployment
 msgid "Deploy now"
-msgstr "Установить сейчас"
+msgstr "Применить сейчас"
 
 #. JS Template: DialogDeployment
 msgid "Close"
@@ -10605,31 +10605,31 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 1 hour"
-msgstr ""
+msgstr "Последний 1 час"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 3 hours"
-msgstr ""
+msgstr "Последние 3 часа"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 6 hours"
-msgstr ""
+msgstr "Последние 6 часов"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 12 hours"
-msgstr ""
+msgstr "Последние 12 часов"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 24 hours"
-msgstr ""
+msgstr "Последние 24 часа"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last week"
-msgstr ""
+msgstr "Последняя неделя"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last month"
-msgstr ""
+msgstr "Последний месяц"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid StartTime: %s!"
@@ -10677,7 +10677,7 @@ msgstr "Информация"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Warn"
-msgstr ""
+msgstr "Предупреждение"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "days"
@@ -10709,11 +10709,11 @@ msgstr "Компания клиента обновлена!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Dynamic field %s not found!"
-msgstr ""
+msgstr "Динамическое поле %s не найдено!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Unable to set value for dynamic field %s!"
-msgstr ""
+msgstr "Невозможно установить значение для динамического поля %s!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer Company %s already exists!"
@@ -10804,10 +10804,6 @@ msgid "Contact with data (%s)"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
-msgid "Change"
-msgstr "Изменение"
-
-#. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for"
 " more details."
@@ -10820,6 +10816,10 @@ msgstr "Неопределенное последействие."
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need %s"
 msgstr "Требуется  %s"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Add %s field"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field does not contain only ASCII letters and numbers."
@@ -10848,6 +10848,10 @@ msgstr "Требуется ID"
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not get data for dynamic field %s"
 msgstr "Невозможно получить данные для динамического поля  %s"
+
+#. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
+msgid "Change %s field"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The name for this field should not change."
@@ -11985,6 +11989,10 @@ msgid "The following settings could not be found: %s"
 msgstr "Следующий параметр не найден: %s"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
+msgid "Import not allowed!"
+msgstr "Импорт недопустим!"
+
+#. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid ""
 "System Configuration could not be imported due to an unknown error, please "
 "check OTRS logs for more information."
@@ -12260,7 +12268,7 @@ msgstr "Нет прав доступа!"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentList.pm
 msgid "+%s more"
-msgstr ""
+msgstr "+%s еще"
 
 #. Perl Module: Kernel/Modules/AgentCustomerSearch.pm
 msgid "Customer History"
@@ -12336,7 +12344,7 @@ msgstr "Требуется группа Параметров!"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Updated user preferences"
-msgstr ""
+msgstr "Обновленные настройки пользователя"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to deploy your changes."
@@ -12444,7 +12452,7 @@ msgstr "Тема отсутствует"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Could not delete draft!"
-msgstr ""
+msgstr "Не удалось удалить черновик!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Previous Owner"
@@ -13105,7 +13113,7 @@ msgstr "Уведомление было отправлено"
 msgid ""
 "This ticket does not exist, or you don't have permissions to access it in "
 "its current state."
-msgstr ""
+msgstr "Эта заявка не существует или у вас нет прав для доступа к ней в её текущем состоянии."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"
@@ -13731,7 +13739,7 @@ msgstr "дн"
 msgid ""
 "This ticket does not exist, or you don't have permissions to access it in "
 "its current state. You can take one of the following actions:"
-msgstr ""
+msgstr "Эта заявка не существует или у вас нет прав для доступа к ней в её текущем состоянии. Вы можете попробовать выполнить одно из следующих действий:"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "This is a"
@@ -13847,7 +13855,7 @@ msgstr "%s Обновление до %s сейчас! %s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "Please verify your license data!"
-msgstr ""
+msgstr "Проверьте , пожалуйста данные лицензии!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid ""
@@ -13882,7 +13890,7 @@ msgstr "Клиент онлайн: %s"
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid "System maintenance is active!"
-msgstr ""
+msgstr "Система на техническом обслуживании!"
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
@@ -13907,7 +13915,7 @@ msgstr "У вас%sошибочных настроек. Нажмите здес�
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/SystemConfigurationIsDirtyCheck.pm
 msgid "You have undeployed settings, would you like to deploy them?"
-msgstr "У вас есть неподтвержденные настройки, желаете применить?"
+msgstr "У вас есть непримененные настройки, желаете применить?"
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/SystemConfigurationOutOfSyncCheck.pm
@@ -14369,7 +14377,7 @@ msgid ""
 "problems</li><li>Performance problems</li></ul><p>Please note that issues "
 "that are caused by working with this package are not covered by OTRS service"
 " contracts.</p>"
-msgstr ""
+msgstr "<p>Если вы продолжите установку этого пакета, могут возникнуть следующие проблемы:</p><ul><li>Проблемы безопасности</li><li>Стабильности</li><li>Производительности</li></ul><p>Помните, что возникшие при работе с таким пакетом проблемы не решаются в рамках сервисного контракта OTRS!</p>"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -14565,7 +14573,7 @@ msgstr "Число"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Last Changed"
-msgstr ""
+msgstr "Дата последнего изменеия"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average"
@@ -14710,7 +14718,7 @@ msgstr "Кодировка для сервера базы данных"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "The setting character_set_database needs to be 'utf8'."
-msgstr ""
+msgstr "Значение параметра character_set_database должно быть 'utf8'. "
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
@@ -14720,7 +14728,7 @@ msgstr "Кодировка для таблицы"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "There were tables found which do not have 'utf8' as charset."
-msgstr ""
+msgstr "Найдены таблицы в кодировке, отличной от utf8."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
@@ -14740,7 +14748,7 @@ msgstr "Максимальный размер запроса"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "The setting 'max_allowed_packet' must be higher than 64 MB."
-msgstr ""
+msgstr "Значение параметра 'max_allowed_packet' должно быть больше 64 МВ."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
@@ -15170,7 +15178,7 @@ msgstr "Список пакетов"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/SessionConfigSettings.pm
 msgid "Session Config Settings"
-msgstr ""
+msgstr "Настройка параметров сеансов"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
 msgid "Spooled Emails"
@@ -15240,7 +15248,7 @@ msgid ""
 "article search index, without executing filters or applying stop word lists."
 " This will increase the size of the search index and thus may slow down "
 "fulltext searches."
-msgstr ""
+msgstr "Процесс индексирования заставляет хранить исходный текст статьи в индексе поиска статьи без выполнения фильтров или применения стоп-слов. Это увеличит размер индекса поиска и, таким образом, может замедлить поиск в полнотекстовом режиме."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
@@ -15480,7 +15488,7 @@ msgstr "Пропущен ключ %s!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "All Settings"
-msgstr ""
+msgstr "Все настройки"
 
 #. Perl Module: Kernel/System/SysConfig/BaseValueType.pm
 msgid "Default"
@@ -16213,7 +16221,7 @@ msgstr "В настоящее время это отключено из-за и�
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "This option is currently disabled because the OTRS Daemon is not running."
-msgstr ""
+msgstr "Эта возможность в настоящее время отключена т.к. OTRS Daemon не запущен."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Are you sure you want to update all installed packages?"
@@ -16427,7 +16435,7 @@ msgstr "При восстановлении этого применения, в�
 msgid ""
 "Keys with values can't be renamed. Please remove this key/value pair instead"
 " and re-add it afterwards."
-msgstr ""
+msgstr "Ключи со значениями нельзя переименовать. Удалите эту пару ключ / значение и повторно добавьте ее заново."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Unlock setting."
@@ -16603,7 +16611,7 @@ msgstr "Извините, но вы не можете отключить все 
 msgid ""
 "Please note that at least one of the settings you have changed requires a "
 "page reload. Click here to reload the current screen."
-msgstr ""
+msgstr "Обратите внимание, что один из обновленных вами параметров требует обновления страницы. Нажмите здесь для обновления экрана."
 
 #. JS File: Core.Agent.Preferences
 msgid "An unknown error occurred. Please contact the administrator."
@@ -16860,7 +16868,7 @@ msgstr "Пожалуйста, выберите только файлы %s для
 
 #. JS File: Core.UI
 msgid "The following files are not allowed to be uploaded: %s"
-msgstr ""
+msgstr "Следующие типы файлов не разрешены для загрузки: %s"
 
 #. JS File: Core.UI
 msgid ""
@@ -17345,6 +17353,10 @@ msgstr "Агенты <-> Роли"
 #. SysConfig
 msgid "All CustomerIDs of a customer user."
 msgstr "Все CustomerID пользователя."
+
+#. SysConfig
+msgid "All attachments (OTRS Business Solution™)"
+msgstr ""
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
@@ -18169,6 +18181,12 @@ msgid ""
 "Controls if more than one from entry can be set in the new phone ticket in "
 "the agent interface."
 msgstr "Задает возможность указать более одного клиента для новой телефонной заявки в интерфейсе агента."
+
+#. SysConfig
+msgid ""
+"Controls if the admin is allowed to import a saved system configuration in "
+"SysConfig."
+msgstr "Управляет возможностью для администратора загружать сохраненную конфигурацию системы в SysConfig."
 
 #. SysConfig
 msgid ""

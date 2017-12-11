@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.514632034632035;
+    $Self->{Completeness}        = 0.514102785949126;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -520,7 +520,6 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Динамічні поля',
-        'Field' => 'Поле',
         'Go back to overview' => 'Повернутись до перегляду',
         'General' => 'Загалом',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -2355,6 +2354,7 @@ sub Data {
         'Closed' => 'Закриті',
         '%s open ticket(s) of %s' => '%s відкритий квиток(-ки) %s',
         '%s closed ticket(s) of %s' => '%s закритий квиток(-ки) %s',
+        'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Підвищені квитки',
@@ -3484,13 +3484,13 @@ sub Data {
         'Database (%s)' => '',
         'Web service (%s)' => '',
         'Contact with data (%s)' => '',
-        'Change' => 'Змінити',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'Не можу правильно скинути  порядок Динамічного Поля, будь ласка перевірте журнал помилок для отримання більш докладної інформації.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Невизначена субдія.',
         'Need %s' => 'Потрібний %s',
+        'Add %s field' => '',
         'The field does not contain only ASCII letters and numbers.' => 'Поле не містить жодної ASCII літери або числа.',
         'There is another field with the same name.' => 'Тут вже є інше поле з таким самим ім\'ям.',
         'The field must be numeric.' => 'Поле має бути числовим.',
@@ -3498,6 +3498,7 @@ sub Data {
         'Could not create the new field' => 'Не вдалося створити нове поле',
         'Need ID' => 'Потрібний ID',
         'Could not get data for dynamic field %s' => 'Не можу отримати дані для динамічного поля %s',
+        'Change %s field' => '',
         'The name for this field should not change.' => 'ім\'я цього поля не повинно змінюватися.',
         'Could not update the field %s' => 'Не можу оновити поле %s',
         'Currently' => 'Наразі',
@@ -3881,6 +3882,7 @@ sub Data {
         'There are no invalid settings active at this time.' => '',
         'You currently don\'t have any favourite settings.' => '',
         'The following settings could not be found: %s' => '',
+        'Import not allowed!' => 'Імпорт не допускається!',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
             '',
         'Category Search' => '',
@@ -5878,6 +5880,7 @@ Thanks for your help!
         'Agents ↔ Groups' => '',
         'Agents ↔ Roles' => '',
         'All CustomerIDs of a customer user.' => '',
+        'All attachments (OTRS Business Solution™)' => '',
         'All customer users of a CustomerID' => '',
         'All escalated tickets' => 'Усі заявки з загостренням',
         'All new tickets, these tickets have not been worked on yet' => 'Усі відкриті заявки, над цими заявками ще не працювали',
@@ -6127,6 +6130,8 @@ Thanks for your help!
         'Controls if customers have the ability to sort their tickets.' =>
             '',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             '',
