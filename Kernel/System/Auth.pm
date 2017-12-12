@@ -278,6 +278,9 @@ sub Auth {
             Valid => 'invalid-temporarily',
         );
 
+        # Make sure not to accidentially overwrite the password.
+        delete $User{UserPw};
+
         my $Update = $UserObject->UserUpdate(
             %User,
             ValidID      => $ValidID,
