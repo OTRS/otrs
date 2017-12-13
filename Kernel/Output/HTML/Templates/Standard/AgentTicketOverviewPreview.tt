@@ -231,7 +231,7 @@
                                     <span class="Subject">[% Data.ArticleFields.Subject.Value | truncate(70) | html %]</span>
                                 [% END %]
                                 </span>
-                                <span class="DateTime">[% Data.Created | Localize("TimeShort") %]</span>
+                                <span class="DateTime">[% Data.ChangeTime | Localize("TimeShort") %]</span>
                                 <span class="Clear"></span>
                             </a>
                         </h3>
