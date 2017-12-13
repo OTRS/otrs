@@ -27,10 +27,6 @@
     width: 30px;
 }
 
-.WidgetSimple .Header h2 {
-    position: relative;
-}
-
 .WidgetSimple .Header h2 span {
     font-size: 11px;
     position: absolute;
