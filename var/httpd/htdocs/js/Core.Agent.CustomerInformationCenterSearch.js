@@ -132,6 +132,11 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
     TargetNS.Init = function () {
         TargetNS.InitAutocomplete($("#AgentCustomerInformationCenterSearchCustomerID"), 'SearchCustomerID');
         TargetNS.InitAutocomplete($("#AgentCustomerInformationCenterSearchCustomerUser"), 'SearchCustomerUser');
+
+        // Prevent form submit.
+        $("#AgentCustomerInformationCenterSearchForm").submit(function(Event) {
+          Event.preventDefault();
+        });
     };
 
     return TargetNS;
