@@ -489,8 +489,8 @@ my @NeededModules = (
     },
     {
         Module    => 'XML::LibXML',
-        Required  => 0,
-        Comment   => 'Required for Generic Interface XSLT mapping module.',
+        Required  => 1,
+        Comment   => 'Required for XML processing.',
         InstTypes => {
             aptget => 'libxml-libxml-perl',
             zypper => 'perl-XML-LibXML',
@@ -510,7 +510,7 @@ my @NeededModules = (
     {
         Module    => 'XML::Parser',
         Required  => 0,
-        Comment   => 'Recommended for faster xml handling.',
+        Comment   => 'Recommended for XML processing.',
         InstTypes => {
             aptget => 'libxml-parser-perl',
             emerge => 'dev-perl/XML-Parser',
@@ -521,7 +521,7 @@ my @NeededModules = (
     {
         Module    => 'YAML::XS',
         Required  => 1,
-        Comment   => 'Very important',
+        Comment   => 'Required for fast YAML processing.',
         InstTypes => {
             aptget => 'libyaml-libyaml-perl',
             emerge => 'dev-perl/YAML-LibYAML',
