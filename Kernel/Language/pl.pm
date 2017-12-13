@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.586087558401107;
+    $Self->{Completeness}        = 0.605121993424468;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -257,7 +257,7 @@ sub Data {
         'Add Attachment' => 'Dodaj załącznik',
         'Edit Attachment' => 'Edytuj załącznik',
         'Filter for Attachments' => 'Filtr załączników',
-        'Filter for attachments' => '',
+        'Filter for attachments' => 'Filtr dla załączników',
         'Filename' => 'Nazwa pliku',
         'Download file' => 'Pobierz plik',
         'Delete this attachment' => 'Usuń ten załącznik',
@@ -269,7 +269,7 @@ sub Data {
         'Add Auto Response' => 'Dodaj automatyczną odpowiedź',
         'Edit Auto Response' => 'Edytuj automatyczną odpowiedź',
         'Filter for Auto Responses' => 'Filtrowanie automatycznych odpowiedzi',
-        'Filter for auto responses' => '',
+        'Filter for auto responses' => 'Filtr dla automatycznych odpowiedzi',
         'Response' => 'Odpowiedź',
         'Auto response from' => 'Automatyczna odpowiedź od',
         'Reference' => 'Podpowiedzi',
@@ -318,8 +318,8 @@ sub Data {
         'Available Cloud Services' => 'Dostępne usługi w chmurze',
 
         # Template: AdminCommunicationLog
-        'Communication Log' => '',
-        'Time range' => '',
+        'Communication Log' => 'Log komunikacji',
+        'Time range' => 'Zakres czasu',
         'Show only communication logs created in specific time range.' =>
             '',
         'Filter for communications' => '',
@@ -329,7 +329,7 @@ sub Data {
             '',
         'If you click on the different entries, you will get redirected to a detailed screen about the message.' =>
             '',
-        'Status for: %s' => '',
+        'Status for: %s' => 'Status dla: 1 %s',
         'Failing accounts' => '',
         'Some account problems' => '',
         'No account problems' => '',
@@ -343,23 +343,23 @@ sub Data {
         'Open communications' => '',
         'No active communications' => '',
         'Number of open communications: %s' => '',
-        'Average processing time' => '',
+        'Average processing time' => 'Średni czas przetwarzania',
         'List of communications (%s)' => '',
         'Settings' => 'Ustawienia',
-        'Entries per page' => '',
+        'Entries per page' => 'Pozycji na stronie',
         'No communications found.' => '',
         '%s s' => '',
 
         # Template: AdminCommunicationLogAccounts
-        'Account Status' => '',
+        'Account Status' => 'Status konta',
         'Back' => 'Powrót',
         'Filter for accounts' => '',
         'Filter for log entries' => '',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             '',
-        'Account status for: %s' => '',
+        'Account status for: %s' => 'Stan konta dla: 1 %s',
         'Status' => 'Stan',
-        'Account' => '',
+        'Account' => 'Konto',
         'Edit' => 'Edytuj',
         'No accounts found.' => '',
         'Communication Log Details (%s)' => '',
@@ -410,7 +410,8 @@ sub Data {
         'Edit Customer Default Groups' => 'Edytuj Domyślne Grupy Klientów',
         'These groups are automatically assigned to all customers.' => 'Te grupy są automatycznie przypisywane wszystkim klientom.',
         'You can manage these groups via the configuration setting "CustomerGroupCompanyAlwaysGroups".' =>
-            '',
+            'Możesz zarządzać tymi grupami poprzez ustawienia konfiguracji
+"CustomerGroupCompanyAlwaysGroups".',
         'Filter for Groups' => 'Filtr dla grup.',
         'Select the customer:group permissions.' => 'Wybierz uprawnienia klient:grupa',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
@@ -453,10 +454,10 @@ sub Data {
         'DNS problem, please check your configuration and the error log.' =>
             'Problem z DNS, sprawdź konfigurację i log błędów.',
         'The syntax of this email address is incorrect.' => 'Składnia tego adresu e-mail jest niepoprawna.',
-        'This CustomerID is invalid.' => '',
+        'This CustomerID is invalid.' => 'CustomerID jest nieprawidłowy.',
         'Effective Permissions for Customer User' => '',
-        'Group Permissions' => '',
-        'This customer user has no group permissions.' => '',
+        'Group Permissions' => 'Uprawnienia Grupy',
+        'This customer user has no group permissions.' => 'Ten użytkownik klienta, nie jest członkiem żadnej z grup zabezpieczeń,',
         'Table above shows effective group permissions for the customer user. The matrix takes into account all inherited permissions (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it.' =>
             '',
         'Customer Access' => '',
@@ -476,10 +477,10 @@ sub Data {
         'Toggle active state for %s' => 'Przełącz stan aktywności dla %s',
 
         # Template: AdminCustomerUserGroup
-        'Manage Customer User-Group Relations' => '',
+        'Manage Customer User-Group Relations' => 'Zarządzaj relacjami Użytkownik klienta - Grupa',
         'Just use this feature if you want to define group permissions for customer users.' =>
             '',
-        'Edit Customer User Default Groups' => '',
+        'Edit Customer User Default Groups' => 'Zmień domyślną grupę Użytkownika klienta',
         'These groups are automatically assigned to all customer users.' =>
             '',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
@@ -487,7 +488,7 @@ sub Data {
         'Select the customer user - group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             '',
-        'Customer User Default Groups:' => '',
+        'Customer User Default Groups:' => 'Domyślna Grupa Użytkownika klienta',
 
         # Template: AdminCustomerUserService
         'Manage Customer User-Services Relations' => '',
@@ -498,8 +499,8 @@ sub Data {
         # Template: AdminDynamicField
         'Dynamic Fields Management' => 'Zarządzanie polami dynamicznymi',
         'Add new field for object' => 'Dodaj nowej pole do obiektu',
-        'Filter for Dynamic Fields' => '',
-        'Filter for dynamic fields' => '',
+        'Filter for Dynamic Fields' => 'Filtr dla Pól Dynamicznych',
+        'Filter for dynamic fields' => 'Filtr dla pól dynamicznych',
         'More Business Fields' => '',
         'Would you like to benefit from additional dynamic field types for businesses? Upgrade to %s to get access to the following field types:' =>
             '',
@@ -605,7 +606,7 @@ sub Data {
         'Add RegEx' => 'Dodaj wyrażenie regularne',
 
         # Template: AdminEmail
-        'Admin Message' => '',
+        'Admin Message' => 'Wiadomość Admina',
         'With this module, administrators can send messages to agents, group or role members.' =>
             'Przy pomocy tego modułu administratorzy mogą wysyłać wiadomości do agentów, członków grup lub ról.',
         'Create Administrative Message' => 'Utwórz wiadomość od administratora',
@@ -633,7 +634,7 @@ sub Data {
         'Job Settings' => 'Ustawienia zadania',
         'Job name' => 'Nazwa zadania',
         'The name you entered already exists.' => 'Podana nazwa już istnieje.',
-        'Automatic Execution (Multiple Tickets)' => '',
+        'Automatic Execution (Multiple Tickets)' => 'Automatyczne wykonywanie (Wiele Ticketów)',
         'Execution Schedule' => 'Harmonogram wykonania',
         'Schedule minutes' => 'Ustal minuty',
         'Schedule hours' => 'Ustal godziny',
@@ -656,7 +657,7 @@ sub Data {
         'Select Tickets' => 'Zaznacz zgłoszenia',
         '(e. g. 10*5155 or 105658*)' => '(np. 10*5155 lub 105658*)',
         '(e. g. 234321)' => '(np. 3242442)',
-        'Customer user ID' => '',
+        'Customer user ID' => 'ID Użytkownika Klienta',
         '(e. g. U5150)' => '(np. U4543)',
         'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Szukanie pełnotekstowe we wiadomości (np. "J*n" lub "Kowalsk*")',
         'To' => 'Do',
@@ -715,14 +716,14 @@ sub Data {
         'new owner' => 'nowy właściciel',
         'new responsible' => 'nowy odpowiedzialny',
         'Set new ticket lock' => 'Ustaw nową blokadę zgłoszenia',
-        'New customer user ID' => '',
+        'New customer user ID' => 'Nowe ID Użytkownika Klienta',
         'New customer ID' => 'Nowy klient',
         'New title' => 'Nowy tytuł',
         'New type' => 'Nowy typ',
         'New Dynamic Field Values' => 'Nowe wartości pól dodatkowych',
         'Archive selected tickets' => 'Zarchiwizuj zaznaczone zgłoszenia',
         'Add Note' => 'Dodaj notatkę',
-        'Visible for customer' => '',
+        'Visible for customer' => 'Widoczne dla klienta',
         'Time units' => 'Zaraportowany czas obsługi',
         'Execute Ticket Commands' => 'Wykonaj polecenia zgłoszeń',
         'Send agent/customer notifications on changes' => 'Wyślij powidomienia agentowi/klientowi przy zmianie ',
@@ -746,7 +747,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Web Service Management' => 'Zarządzanie serwisami sieciowymi GenericInterface',
-        'Web Service Management' => '',
+        'Web Service Management' => 'Zarządzanie Web Service',
         'Debugger' => 'Debugger',
         'Go back to web service' => 'Powróć do usług sieciowych',
         'Clear' => 'Wyczyść',
@@ -800,7 +801,7 @@ sub Data {
             '',
         'Example: Handle only errors where mapping for outgoing data could not be applied.' =>
             '',
-        'Error code' => '',
+        'Error code' => 'Kod błędu',
         'An error identifier for this error handling module.' => '',
         'This identifier will be available in XSLT-Mapping and shown in debugger output.' =>
             '',
@@ -822,7 +823,7 @@ sub Data {
         'Request retry options' => '',
         'Retry options are applied when requests cause error handling module execution (based on processing options).' =>
             '',
-        'Schedule retry' => '',
+        'Schedule retry' => 'Zaplanuj powtórzenie',
         'Should requests causing an error be triggered again at a later time?' =>
             '',
         'Initial retry interval' => '',
@@ -841,7 +842,7 @@ sub Data {
             '',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\', retry factor at \'2\' and maximum interval at \'5 minutes\', retries would be triggered at 10:01 (1 minute), 10:03 (2 minutes), 10:07 (4 minutes), 10:12 (8=>5 minutes), 10:17, ...' =>
             '',
-        'Maximum retry count' => '',
+        'Maximum retry count' => 'Maksymalna liczba powtórzeń',
         'Maximum number of retries before a failing request is discarded, not counting the initial request.' =>
             '',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\', retry factor at \'2\' and maximum retry count at \'2\', retries would be triggered at 10:01 and 10:02 only.' =>
@@ -849,7 +850,7 @@ sub Data {
         'Note: Maximum retry count might not be reached if a maximum retry period is configured as well and reached earlier.' =>
             '',
         'This field must be empty or contain a positive number.' => '',
-        'Maximum retry period' => '',
+        'Maximum retry period' => 'Maksymalny okres powtarzania',
         'Maximum period of time for retries of failing requests before they are discarded (based on the error handling module execution time for the initial request).' =>
             '',
         'Retries that would normally be triggered after maximum period is elapsed (according to retry interval calculation) will automatically be triggered at maximum period exactly.' =>
@@ -894,8 +895,8 @@ sub Data {
         'Delete all conditions' => '',
         'Do you really want to delete all the conditions for this event?' =>
             '',
-        'General Settings' => '',
-        'Event type' => '',
+        'General Settings' => 'Główne ustawienia',
+        'Event type' => 'Typ wydarzenia',
         'Conditions' => 'Warunki',
         'Conditions can only operate on non-empty fields.' => '',
         'Type of Linking between Conditions' => 'Typ połączenia pomiędzy warunkami',
@@ -936,11 +937,11 @@ sub Data {
         'Uncomment code' => '',
         'Auto format code' => '',
         'Expand/Collapse code block' => '',
-        'Find' => '',
-        'Find next' => '',
-        'Find previous' => '',
-        'Find and replace' => '',
-        'Find and replace all' => '',
+        'Find' => 'Znajdź',
+        'Find next' => 'Znajdź następny',
+        'Find previous' => 'Znajdź poprzedni',
+        'Find and replace' => 'Znajdź i zamień',
+        'Find and replace all' => 'Znajdź i zamień wszystko',
         'XSLT Mapping' => '',
         'XSLT stylesheet' => '',
         'The entered data is not a valid XSLT style sheet.' => '',
@@ -954,8 +955,8 @@ sub Data {
             '',
         'Data key regex filters (before mapping)' => '',
         'Data key regex filters (after mapping)' => '',
-        'Regular expressions' => '',
-        'Replace' => '',
+        'Regular expressions' => 'Regularne wyrażenia',
+        'Replace' => 'Zamień',
         'Remove regex' => '',
         'Add regex' => '',
         'These filters can be used to transform keys using regular expressions.' =>
@@ -981,8 +982,8 @@ sub Data {
             '',
 
         # Template: AdminGenericInterfaceOperationDefault
-        'Add Operation' => '',
-        'Edit Operation' => '',
+        'Add Operation' => 'Dodaj operację',
+        'Edit Operation' => 'Zmień operację',
         'Do you really want to delete this operation?' => 'Czy na pewno chcesz usunąć tę operację?',
         'Operation Details' => 'Szczegóły operacji',
         'The name is typically used to call up this web service operation from a remote system.' =>
@@ -1023,17 +1024,17 @@ sub Data {
             '',
         'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
             'np. https://www.otrs.com:10745/api/v1.0 (bez ukośnika na końcu)',
-        'Timeout' => '',
+        'Timeout' => 'Czas wygaśnięcia',
         'Timeout value for requests.' => '',
         'Authentication' => 'Autentykacja',
         'An optional authentication mechanism to access the remote system.' =>
             '',
-        'BasicAuth User' => '',
+        'BasicAuth User' => 'BasicAuth Użytkownik',
         'The user name to be used to access the remote system.' => 'Nazwa użytkownika do logowania do zdalnego systemu.',
-        'BasicAuth Password' => '',
+        'BasicAuth Password' => 'BasicAuth Hasło',
         'The password for the privileged user.' => 'Hasło użytkownika do logowania do zdalnego systemu.',
-        'Use Proxy Options' => '',
-        'Show or hide Proxy options to connect to the remote system.' => '',
+        'Use Proxy Options' => 'Użyj ustawień proxy',
+        'Show or hide Proxy options to connect to the remote system.' => 'Pokaż lub ukryj ustawienia Proxy aby połączyć się z systemem zdalnym',
         'Proxy Server' => 'Serwer proxy',
         'URI of a proxy server to be used (if needed).' => 'URI serwera proxy jeśli ma być używany (jeśli wymagane).',
         'e.g. http://proxy_hostname:8080' => 'np. http://proxy_hostname:8080',
@@ -1041,19 +1042,19 @@ sub Data {
         'The user name to be used to access the proxy server.' => 'Nazwa użytkownika, która ma być używana do logowania do serwera proxy.',
         'Proxy Password' => 'Hasło do proxy',
         'The password for the proxy user.' => 'Hasło użytkownika proxy.',
-        'Skip Proxy' => '',
-        'Skip proxy servers that might be configured globally?' => '',
+        'Skip Proxy' => 'Pomiń Proxy',
+        'Skip proxy servers that might be configured globally?' => 'Pomiń serwery proxy może być skonfigurowane globalnie?',
         'Use SSL Options' => 'Użyj opcji SSL',
         'Show or hide SSL options to connect to the remote system.' => 'Pokaż lub ukryj opcje SSL połączenia do zdalnego systemu.',
-        'Client Certificate' => '',
+        'Client Certificate' => 'Certyfikat Klienta',
         'The full path and name of the SSL client certificate file (must be in PEM, DER or PKCS#12 format).' =>
             '',
-        'e.g. /opt/otrs/var/certificates/SOAP/certificate.pem' => '',
-        'Client Certificate Key' => '',
+        'e.g. /opt/otrs/var/certificates/SOAP/certificate.pem' => 'np. /opt/otrs/var/certificates/SOAP/certificate.pem',
+        'Client Certificate Key' => 'Klucz Certyfikatu Klienta',
         'The full path and name of the SSL client certificate key file (if not already included in certificate file).' =>
             '',
-        'e.g. /opt/otrs/var/certificates/SOAP/key.pem' => '',
-        'Client Certificate Key Password' => '',
+        'e.g. /opt/otrs/var/certificates/SOAP/key.pem' => 'np. /opt/otrs/var/certificates/SOAP/key.pem',
+        'Client Certificate Key Password' => 'Hasło Klucza Certyfikatu Klienta',
         'The password to open the SSL certificate if the key is encrypted.' =>
             '',
         'Certification Authority (CA) Certificate' => '',
@@ -1074,8 +1075,8 @@ sub Data {
         'The default HTTP command to use for the requests.' => '',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
-        'e.g. https://local.otrs.com:8000/Webservice/Example' => '',
-        'Set SOAPAction' => '',
+        'e.g. https://local.otrs.com:8000/Webservice/Example' => 'np. https://local.otrs.com:8000/Webservice/Example',
+        'Set SOAPAction' => 'Ustaw SOAPAction',
         'Set to "Yes" in order to send a filled SOAPAction header.' => '',
         'Set to "No" in order to send an empty SOAPAction header.' => '',
         'Set to "Yes" in order to check the received SOAPAction header (if not empty).' =>
@@ -1124,12 +1125,12 @@ sub Data {
             '',
 
         # Template: AdminGenericInterfaceWebservice
-        'Add Web Service' => '',
-        'Edit Web Service' => '',
-        'Clone Web Service' => '',
+        'Add Web Service' => 'Dodaj Web Service',
+        'Edit Web Service' => 'Zmień Web Service',
+        'Clone Web Service' => 'Zamknij Web Service',
         'The name must be unique.' => 'Nazwa musi być unikalna',
         'Clone' => 'Klonuj',
-        'Export Web Service' => '',
+        'Export Web Service' => 'Eksportuj Web Service',
         'Import web service' => 'Importuj serwis sieciowy',
         'Configuration File' => 'Plik konfiguracyjny.',
         'The file must be a valid web service configuration YAML file.' =>
@@ -1137,7 +1138,7 @@ sub Data {
         'Here you can specify a name for the webservice. If this field is empty, the name of the configuration file is used as name.' =>
             '',
         'Import' => 'Importuj',
-        'Configuration History' => '',
+        'Configuration History' => 'Konfiguracja Historii',
         'Delete web service' => 'Usuń serwis sieciowy',
         'Do you really want to delete this web service?' => 'Czy na pewno chcesz usunąć serwis siecioy?',
         'Ready2Adopt Web Services' => '',
@@ -1216,21 +1217,21 @@ sub Data {
         # Template: AdminMailAccount
         'Mail Account Management' => 'Zarządzanie kontami e-mail',
         'Add Mail Account' => 'Dodaj Konto Pocztowe',
-        'Edit Mail Account for host' => '',
-        'and user account' => '',
-        'Filter for Mail Accounts' => '',
-        'Filter for mail accounts' => '',
+        'Edit Mail Account for host' => 'Zmień konto mailowe dla hosta',
+        'and user account' => 'i konto użytkownika',
+        'Filter for Mail Accounts' => 'Filtruj po Konta E-Mail',
+        'Filter for mail accounts' => 'Filtruj po konta e-mail',
         'All incoming emails with one account will be dispatched in the selected queue.' =>
             '',
         'If your account is marked as trusted, the X-OTRS headers already existing at arrival time (for priority etc.) will be kept and used, for example in PostMaster filters.' =>
             '',
         'Outgoing email can be configured via the Sendmail* settings in %s.' =>
             '',
-        'System Configuration' => '',
+        'System Configuration' => 'Konfiguracja Systemu',
         'Host' => 'Adres',
         'Delete account' => 'Usuń konto',
         'Fetch mail' => 'Pobierz pocztę',
-        'Do you really want to delete this mail account?' => '',
+        'Do you really want to delete this mail account?' => 'Czy naprawdę chcesz usunąć to konto e-mail?',
         'Password' => 'Hasło',
         'Example: mail.example.com' => 'Na przykład: mail.example.com',
         'IMAP Folder' => 'Folder IMAP',
@@ -1242,16 +1243,16 @@ sub Data {
 
         # Template: AdminNavigationBar
         'Administration Overview' => '',
-        'Filter for Items' => '',
+        'Filter for Items' => 'Filtr pozycji',
         'Filter' => 'Filtr',
-        'Favorites' => '',
+        'Favorites' => 'Ulubione',
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             '',
-        'Links' => '',
+        'Links' => 'Linki',
         'View the admin manual on Github' => '',
-        'No Matches' => '',
+        'No Matches' => 'Brak Dopasowań',
         'Sorry, your search didn\'t match any items.' => '',
-        'Set as favorite' => '',
+        'Set as favorite' => 'Ustaw jako ulubiony',
 
         # Template: AdminNotificationEvent
         'Ticket Notification Management' => 'Zarządzanie powiadomieniami ',
@@ -1262,17 +1263,17 @@ sub Data {
         'Ticket Filter' => 'Filtr zgłoszeń',
         'Lock' => 'Blokada',
         'SLA' => 'SLA',
-        'Customer User ID' => '',
+        'Customer User ID' => 'ID Użytkownika Klienta',
         'Article Filter' => 'Filtr wiadomości',
         'Only for ArticleCreate and ArticleSend event' => 'Tylko w przypadku UtworzeniaWiadomości lub WysłaniaWiadomości',
         'Article sender type' => 'Typ nadawcy wiadomości',
         'If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.' =>
             'Jeśli UtworzenieWiadomości lub WysłanieWiadomości inicjuje jakieś zdarzenie, konieczne jest również określenie filtra wiadomości. Należy wybrać co najmniej jedno pole pole filtrowania wiadomości.',
         'Customer visibility' => '',
-        'Communication channel' => '',
+        'Communication channel' => 'Kanał komunikacji',
         'Include attachments to notification' => 'Umieść załączniki w powiadomieniu',
         'Notify user just once per day about a single ticket using a selected transport.' =>
-            '',
+            'Powiadamiaj użytkownika raz na dzień o pojedynczym tickecie używając wybranego sposobu',
         'This field is required and must have less than 4000 characters.' =>
             'To pole jest wymagane i musi być krótsze niż 4000 znaków.',
         'Notifications are sent to an agent or a customer.' => 'Powiadomienia są wysyłane do agenta obsługi lub klienta',
@@ -1397,7 +1398,7 @@ sub Data {
 
         # Template: AdminPackageManager
         'Package Manager' => 'Menedżer pakietów',
-        'Uninstall Package' => '',
+        'Uninstall Package' => 'Odinstaluj paczkę',
         'Uninstall package' => 'Odinstaluj pakiet',
         'Do you really want to uninstall this package?' => 'Czy na pewno chcesz odinstalować ten pakiet?',
         'Reinstall package' => 'Reinstaluj pakiet',
@@ -1595,7 +1596,7 @@ sub Data {
         'Available Fields' => 'Dostępne pola',
         'Name: %s' => '',
         'Assigned Fields' => 'Przypisane pola',
-        'Communication Channel' => '',
+        'Communication Channel' => 'Kanał Komunikacji',
         'Is visible for customer' => '',
         'Display' => 'Wyświetl',
 
@@ -1694,8 +1695,8 @@ sub Data {
         'Add Queue' => 'Dodaj kolejkę',
         'Edit Queue' => 'Edytuj kolejkę',
         'Filter for Queues' => 'Filtrowanie kolejek',
-        'Filter for queues' => '',
-        'A queue with this name already exists!' => '',
+        'Filter for queues' => 'Filtr dla kolejek',
+        'A queue with this name already exists!' => 'Kolejka o tej nazwie już istnieje!',
         'This queue is present in a SysConfig setting, confirmation for updating settings to point to the new queue is needed!' =>
             '',
         'Sub-queue of' => 'Podkolejka kolejki',
@@ -1732,9 +1733,9 @@ sub Data {
         'Manage Queue-Auto Response Relations' => 'Zarządzaj relacjami kolejka-autoodpowiedź',
         'Change Auto Response Relations for Queue' => 'Zmień relacje autoodpowiedzi dla kolejki',
         'This filter allow you to show queues without auto responses' => '',
-        'Queues without Auto Responses' => '',
+        'Queues without Auto Responses' => 'Kolejki bez Auto Odpowiedzi',
         'This filter allow you to show all queues' => 'Ten filtr pozwala na wyświetlenie wszystkich kolejek',
-        'Show All Queues' => '',
+        'Show All Queues' => 'Pokaż Wszystkie Kolejki',
         'Auto Responses' => 'Automatyczne odpowiedzi',
 
         # Template: AdminQueueTemplates
@@ -1947,7 +1948,7 @@ sub Data {
             'Brakuje przynajmniej jednego parametru połączenia. Sprawdź je.',
         'Result format' => 'Format wyników',
         'Run Query' => 'Uruchom polecenie',
-        '%s Results' => '',
+        '%s Results' => '1%s Wyniki',
         'Query is executed.' => 'Zapytanie jest wykonywane.',
 
         # Template: AdminService
@@ -1955,7 +1956,7 @@ sub Data {
         'Add Service' => 'Dodaj usługę',
         'Edit Service' => 'Edytuj usługę',
         'Add service' => 'Dodaj usługę',
-        'Filter for services' => '',
+        'Filter for services' => 'Filtr dla serwisów',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             '',
         'Sub-service of' => 'Usługa podrzędna',
@@ -1970,8 +1971,8 @@ sub Data {
         'Unique customers' => 'Unikalni klienci',
         'Kill all sessions' => 'Zakończ wszystkie sesje',
         'Kill this session' => 'Zabij tą sesję',
-        'Filter for Sessions' => '',
-        'Filter for sessions' => '',
+        'Filter for Sessions' => 'Filtr dla Sesji',
+        'Filter for sessions' => 'Filtr dla sesji',
         'Session' => 'Sesja',
         'User' => 'Użytkownik',
         'Kill' => 'Zabij',
@@ -3293,7 +3294,7 @@ sub Data {
         'Uploading...' => '',
 
         # JS Template: InformationDialog
-        'Process state' => '',
+        'Process state' => 'Stan procesu',
         'Running' => '',
         'Finished' => 'Zakończono',
         'No package information available.' => '',
@@ -3302,7 +3303,7 @@ sub Data {
         'Add new entry' => 'Dodaj nową pozycję',
 
         # JS Template: AddHashKey
-        'Add key' => '',
+        'Add key' => 'Dodaj klucz',
 
         # JS Template: DialogDeployment
         'Deployment comment...' => '',
@@ -3310,10 +3311,10 @@ sub Data {
         'Preparing to deploy, please wait...' => '',
         'Deploy now' => '',
         'Close' => 'Zamknij',
-        'Try again' => '',
+        'Try again' => 'Spróbuj ponownie',
 
         # JS Template: DialogReset
-        'Reset options' => '',
+        'Reset options' => 'Opcje Resetu',
         'Reset setting on global level.' => 'Resetuj ustawienia na poziomie globalnym',
         'Reset globally' => 'Resetuj globalnie',
         'Remove all user changes.' => 'Wycofaj wszystkie zmiany użytkownika',
@@ -3394,7 +3395,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
         'Notification name already exists!' => 'Powiadomienie o tej samej nazwie już istnieje!',
-        'Notification added!' => '',
+        'Notification added!' => 'Powiadomienie dostało dodane!',
         'There was an error getting data for Notification with ID:%s!' =>
             '',
         'Unknown Notification %s!' => 'Nieznane Powiadomienie %s!',
@@ -3407,7 +3408,7 @@ sub Data {
             '',
         'There where errors adding/updating the following Notifications: %s. Please check the log file for more information.' =>
             '',
-        'Notification updated!' => '',
+        'Notification updated!' => 'Powiadomienie zostało zaktualizowane!',
         'Agent (resources), who are selected within the appointment' => 'Agenci (zasoby), wybrani w ramach wydarzenia',
         'All agents with (at least) read permission for the appointment (calendar)' =>
             'Wszyscy agenci posiadający (przynajmniej) prawo odczytu zdarzenia (kalendarza)',
@@ -3419,24 +3420,24 @@ sub Data {
         'Attachment added!' => 'Załącznik dodany!',
 
         # Perl Module: Kernel/Modules/AdminAutoResponse.pm
-        'Auto Response added!' => '',
+        'Auto Response added!' => 'Automatyczna odpowiedź została dodana!',
 
         # Perl Module: Kernel/Modules/AdminCommunicationLog.pm
         'Invalid CommunicationID ' => '',
         'All communications' => '',
-        'Last 1 hour' => '',
-        'Last 3 hours' => '',
-        'Last 6 hours' => '',
-        'Last 12 hours' => '',
-        'Last 24 hours' => '',
-        'Last week' => '',
-        'Last month' => '',
-        'Invalid StartTime: %s!' => '',
-        'Successful' => '',
-        'Processing' => '',
+        'Last 1 hour' => 'Ostatnia godzina',
+        'Last 3 hours' => 'Ostatnie 3 godziny',
+        'Last 6 hours' => 'Ostatnie 6 godzin',
+        'Last 12 hours' => 'Ostatnie 12 godzin',
+        'Last 24 hours' => 'Ostatnie 24 godziny',
+        'Last week' => 'Ostatni tydzień',
+        'Last month' => 'Ostatni miesiąc',
+        'Invalid StartTime: %s!' => 'Niepoprawny StartTime: 1%s!',
+        'Successful' => 'Sukces',
+        'Processing' => 'Przetwarzanie',
         'Failed' => 'Niepowodzenie',
         'Invalid Filter: %s!' => '',
-        'Less than a second' => '',
+        'Less than a second' => 'Mniej niż sekunda',
         'sorted descending' => 'posortowane malejąco',
         'sorted ascending' => 'posortowane rosnąco',
         'Trace' => '',
@@ -3493,7 +3494,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Nieokreślone działanie podrzędne.',
         'Need %s' => 'Wymagany %s',
-        'Add %s field' => '',
+        'Add %s field' => 'Dodaj 1%s pole',
         'The field does not contain only ASCII letters and numbers.' => '',
         'There is another field with the same name.' => '',
         'The field must be numeric.' => '',
@@ -3501,7 +3502,7 @@ sub Data {
         'Could not create the new field' => 'Nie udało się utworzyć nowego pola',
         'Need ID' => 'Wymagane ID',
         'Could not get data for dynamic field %s' => '',
-        'Change %s field' => '',
+        'Change %s field' => 'Zmień 1%s pole',
         'The name for this field should not change.' => '',
         'Could not update the field %s' => '',
         'Currently' => 'Aktualnie',
@@ -3528,7 +3529,7 @@ sub Data {
         'Unarchived tickets' => 'Zgłoszenia przywrócone z archiwum',
         'archive tickets' => 'archiwizuj zgłoszenia',
         'restore tickets from archive' => 'przywróć zgłoszenia z archiwum',
-        'Need Profile!' => '',
+        'Need Profile!' => 'Potrzebny Profil!',
         'Got no values to check.' => '',
         'Please remove the following words because they cannot be used for the ticket selection:' =>
             '',
@@ -3706,7 +3707,7 @@ sub Data {
         'Dependencies fail to upgrade or install' => '',
         'Package could not be installed' => '',
         'Package could not be upgraded' => '',
-        'Repository List' => '',
+        'Repository List' => 'Lista Repezytoriów',
         'No packages or no new packages found in selected repository.' =>
             '',
         'Package not verified due a communication issue with verification server!' =>
@@ -3739,11 +3740,11 @@ sub Data {
         'Process: %s could not be deleted' => '',
         'There was an error synchronizing the processes.' => '',
         'The %s:%s is still in use' => '%s:%s jest cały czas w użyciu',
-        'The %s:%s has a different EntityID' => '',
+        'The %s:%s has a different EntityID' => '%s:%s mają inne EtnityID',
         'Could not delete %s:%s' => 'Nie można usunąć %s:%s',
         'There was an error setting the entity sync status for %s entity: %s' =>
             '',
-        'Could not get %s' => '',
+        'Could not get %s' => 'Nie można pobrać %s',
         'Need %s!' => 'Potrzebny %s!',
         'Process: %s is not Inactive' => 'Proces: %s jest nie aktywny',
 
@@ -3753,7 +3754,7 @@ sub Data {
         'There was an error creating the Activity' => '',
         'There was an error setting the entity sync status for Activity entity: %s' =>
             '',
-        'Need ActivityID!' => '',
+        'Need ActivityID!' => 'Potrzebny ActivityID!',
         'Could not get data for ActivityID %s' => '',
         'There was an error updating the Activity' => '',
         'Missing Parameter: Need Activity and ActivityDialog!' => '',
@@ -3783,7 +3784,7 @@ sub Data {
         'Show Field As Mandatory' => 'Pokaż pole jako wymagane',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
-        'Edit Path' => '',
+        'Edit Path' => 'Zmień Ścieżkę',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
         'There was an error generating a new EntityID for this Transition' =>
@@ -3840,7 +3841,7 @@ sub Data {
         'Change Role Relations for Group' => 'Zmień relacje ról do grupy',
 
         # Perl Module: Kernel/Modules/AdminRoleUser.pm
-        'Role' => '',
+        'Role' => 'Rola',
         'Change Role Relations for Agent' => 'Zmień relacje ról do agenta',
         'Change Agent Relations for Role' => 'Zmień relacje agentów do roli',
 

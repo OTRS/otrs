@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.986502855165253;
+    $Self->{Completeness}        = 0.99048278248832;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -1143,12 +1143,12 @@ sub Data {
         'Configuration History' => '配置历史',
         'Delete web service' => '删除Web服务',
         'Do you really want to delete this web service?' => '您真的想要删除这个Web服务吗？',
-        'Ready2Adopt Web Services' => '',
+        'Ready2Adopt Web Services' => 'Ready2Adopt Web服务',
         'Here you can activate Ready2Adopt web services showcasing our best practices that are a part of %s.' =>
-            '',
+            '你可以在这里激活Ready2Adopt WEB服务，作为%s的一部分展示我们的最佳实践。',
         'Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).' =>
             '请注意：这些WEB服务可能依赖于其它仅在某些%s合同级别中才可用的模块(导入时会有详细提示信息)。',
-        'Import Ready2Adopt web service' => '',
+        'Import Ready2Adopt web service' => '导入Ready2Adopt WEB服务',
         'Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated Ready2Adopt web services.' =>
             '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
@@ -2139,7 +2139,7 @@ sub Data {
         'Edit System Maintenance Information' => '编辑系统维护信息',
         'Date invalid!' => '日期无效!',
         'Login message' => '登录消息',
-        'This field must have less then 250 characters.' => '',
+        'This field must have less then 250 characters.' => '这个字段不能超过250个字符。',
         'Show login message' => '显示登录消息',
         'Notify message' => '通知消息',
         'Manage Sessions' => '管理会话',
@@ -2360,7 +2360,7 @@ sub Data {
         'Closed' => '已关闭',
         '%s open ticket(s) of %s' => '%s个处理中的工单，共%s个',
         '%s closed ticket(s) of %s' => '%s个已关闭的工单，共%s个',
-        'Edit customer ID' => '',
+        'Edit customer ID' => '编辑客户ID',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => '升级的工单',
@@ -2804,7 +2804,7 @@ sub Data {
         'Load blocked content.' => '载入被阻挡的内容。',
 
         # Template: Breadcrumb
-        'Home' => '',
+        'Home' => '首页',
         'Back to admin overview' => '返回到系统管理概览',
 
         # Template: CloudServicesDisabled
@@ -3496,7 +3496,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => '没有定义的子动作。',
         'Need %s' => '需要%s',
-        'Add %s field' => '',
+        'Add %s field' => '添加%s字段',
         'The field does not contain only ASCII letters and numbers.' => '这个字段不是仅包含ASCII字符和数字。',
         'There is another field with the same name.' => '存在同名的另一字段。',
         'The field must be numeric.' => '这个字段必须是数字。',
@@ -3504,7 +3504,7 @@ sub Data {
         'Could not create the new field' => '不能创建这个新字段',
         'Need ID' => '需要ID',
         'Could not get data for dynamic field %s' => '不能获得动态字段%s 的数据',
-        'Change %s field' => '',
+        'Change %s field' => '修改%s字段',
         'The name for this field should not change.' => '不能更改这个字段的名称。',
         'Could not update the field %s' => '不能更新字段 %s',
         'Currently' => '当前',
@@ -3890,7 +3890,7 @@ sub Data {
         'The following settings could not be found: %s' => '找不到以下设置：％s',
         'Import not allowed!' => '不允许导入！',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
-            '',
+            '由于一个未知错误不能导入系统配置，请检查OTRS日志以获取更多信息',
         'Category Search' => '搜索类别',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationDeployment.pm
@@ -4909,10 +4909,10 @@ sub Data {
         'Client Connection Charset' => '客户端连接字符集',
         'Setting character_set_client needs to be utf8.' => 'character_set_client 需要设置为utf8。',
         'Server Database Charset' => '服务器端数据库字符集',
-        'The setting character_set_database needs to be \'utf8\'.' => '',
+        'The setting character_set_database needs to be \'utf8\'.' => 'character_set_database 需要设置为\'utf8\'。',
         'Table Charset' => '表字符集',
         'There were tables found which do not have \'utf8\' as charset.' =>
-            '',
+            '字符集没有设置成 \'utf8\'的表。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
         'InnoDB Log File Size' => 'InnoDB日志文件大小',
@@ -5456,14 +5456,14 @@ sub Data {
             '有一个程序包升级过程正在运行，点击这里查看有关升级进度的状态信息。',
         'A package upgrade was recently finished. Click here to see the results.' =>
             '最近完成了一个软件包的升级，点击这里查看结果。',
-        'Update all packages' => '',
+        'Update all packages' => '更新所有软件包',
         'Dismiss' => '取消',
-        'Update All Packages' => '',
+        'Update All Packages' => '更新所有软件包',
         'Currently not possible' => '目前不可能',
         'This is currently disabled because of an ongoing package upgrade.' =>
             '由于正在进行软件包升级，因此目前已被禁用。',
         'This option is currently disabled because the OTRS Daemon is not running.' =>
-            '',
+            '由于OTRS守护进程没有运行，这个选项当前被禁用。',
         'Are you sure you want to update all installed packages?' => '您确定要更新所有已安装的软件包吗？',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
@@ -5850,10 +5850,10 @@ Thanks for your help!
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             '在服务人员界面中，在编写工单时添加客户邮件地址到收件人，如果信件类型为内部邮件则不添加客户邮件地址。',
         'Adds the one time vacation days for the indicated calendar.' => '为指定日历添加一次假期。',
-        'Adds the one time vacation days.' => '',
+        'Adds the one time vacation days.' => '添加一次性假期。',
         'Adds the permanent vacation days for the indicated calendar.' =>
-            '',
-        'Adds the permanent vacation days.' => '',
+            '为指定日历添加永久假期。',
+        'Adds the permanent vacation days.' => '添加永久假期。',
         'Admin' => '系统管理',
         'Admin Area.' => '系统管理区。',
         'Admin Notification' => '管理员通知',
@@ -5895,7 +5895,7 @@ Thanks for your help!
         'Agents ↔ Groups' => '服务人员 ↔ 组',
         'Agents ↔ Roles' => '服务人员 ↔ 角色',
         'All CustomerIDs of a customer user.' => '一个客户用户的所有客户ID。',
-        'All attachments (OTRS Business Solution™)' => '',
+        'All attachments (OTRS Business Solution™)' => '所有附件（OTRS商业解决方案）',
         'All customer users of a CustomerID' => '一个客户ID的所有客户用户',
         'All escalated tickets' => '所有升级的工单',
         'All new tickets, these tickets have not been worked on yet' => '所有新建工单，这些工单目前还没有被处理',
@@ -6074,7 +6074,7 @@ Thanks for your help!
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             '通过搜索主题中的有效工单号，检查一个邮件是否是跟进到已存在的工单。',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
-            '',
+            '在跟进工单的工单编号检测时检查系统ID。如果不启用，系统ID将在使用系统后更改。',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
             '检查本系统的OTRS商业版可用性。',
         'Checks the entitlement status of OTRS Business Solution™.' => '检查OTRS商业版的权利状态。',
@@ -6156,7 +6156,7 @@ Thanks for your help!
             '控制工单和信件归档后的可见标志是否被移除。',
         'Converts HTML mails into text messages.' => '将HTML邮件转换为文本信息。',
         'Create New process ticket.' => '创建新的流程工单。',
-        'Create Ticket' => '',
+        'Create Ticket' => '创建工单',
         'Create a new calendar appointment linked to this ticket' => '创建一个新的日历预约到这个工单。',
         'Create and manage Service Level Agreements (SLAs).' => '创建和管理服务品质协议(SLA)。',
         'Create and manage agents.' => '创建和管理服务人员。',
@@ -8519,7 +8519,7 @@ Thanks for your help!
         'Ticket Queue Overview' => '工单队列概览',
         'Ticket Responsible.' => '工单负责人。',
         'Ticket Watcher' => '工单关注人',
-        'Ticket Zoom' => '',
+        'Ticket Zoom' => '工单详情',
         'Ticket Zoom.' => '工单详情。',
         'Ticket bulk module.' => '工单批量操作模块。',
         'Ticket event module that triggers the escalation stop events.' =>
@@ -8556,7 +8556,7 @@ Thanks for your help!
             '关闭SSL证书验证，例如在使用HTTPS透明代理时。使用这个设置风险自负！',
         'Turns on drag and drop for the main navigation.' => '开启主菜单的拖放功能。',
         'Turns on the remote ip address check. It should not be enabled if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
-            '',
+            '开启远程IP地址检查。如果通过代理或拨号连接访问系统，应该关闭，因为远程IP在每次请求时可能都不一样。',
         'Tweak the system as you wish.' => '根据需要调整系统。',
         'Type of daemon log rotation to use: Choose \'OTRS\' to let OTRS system to handle the file rotation, or choose \'External\' to use a 3rd party rotation mechanism (i.e. logrotate). Note: External rotation mechanism requires its own and independent configuration.' =>
             '要使用的守护程序日志循环类型：选择“OTRS”以使OTRS系统处理文件循环，或选择“外部”以使用第三方循环机制（如logrotate）。 注意：外部循环机制需要使用其自身的配置。',
@@ -8610,7 +8610,7 @@ Thanks for your help!
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
             '通过在Ticket::Frontend::ZoomCollectMetaFilters中配置的过滤器确定是否收集信件元信息。',
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
-            '',
+            '是否强制将所有请求从http重定向到https协议。启用此选项之前，请检查Web服务器是否正确配置了https协议。',
         'Yes, but hide archived tickets' => '是，但隐藏已归档的工单',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             '您的工单号为“<OTRS_TICKET>”的邮件已经退回给“<OTRS_BOUNCE_TO>”，请联系这个地址以获得更多的信息。',

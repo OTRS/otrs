@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2017-12-11 23:26+0000\n"
-"PO-Revision-Date: 2017-12-11 23:28+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2017-12-12 06:43+0000\n"
+"Last-Translator: 汇民 王 <whuim@qq.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3739,13 +3739,13 @@ msgstr "您真的想要删除这个Web服务吗？"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Ready2Adopt Web Services"
-msgstr ""
+msgstr "Ready2Adopt Web服务"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Here you can activate Ready2Adopt web services showcasing our best practices"
 " that are a part of %s."
-msgstr ""
+msgstr "你可以在这里激活Ready2Adopt WEB服务，作为%s的一部分展示我们的最佳实践。"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -3756,7 +3756,7 @@ msgstr "请注意：这些WEB服务可能依赖于其它仅在某些%s合同级�
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import Ready2Adopt web service"
-msgstr ""
+msgstr "导入Ready2Adopt WEB服务"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -6891,7 +6891,7 @@ msgstr "登录消息"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "This field must have less then 250 characters."
-msgstr ""
+msgstr "这个字段不能超过250个字符。"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Show login message"
@@ -7585,7 +7585,7 @@ msgstr "%s个已关闭的工单，共%s个"
 
 #. Template: AgentDashboardCustomerIDList
 msgid "Edit customer ID"
-msgstr ""
+msgstr "编辑客户ID"
 
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
@@ -8864,7 +8864,7 @@ msgstr "载入被阻挡的内容。"
 
 #. Template: Breadcrumb
 msgid "Home"
-msgstr ""
+msgstr "首页"
 
 #. Template: Breadcrumb
 msgid "Back to admin overview"
@@ -10806,7 +10806,7 @@ msgstr "需要%s"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Add %s field"
-msgstr ""
+msgstr "添加%s字段"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field does not contain only ASCII letters and numbers."
@@ -10838,7 +10838,7 @@ msgstr "不能获得动态字段%s 的数据"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Change %s field"
-msgstr ""
+msgstr "修改%s字段"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The name for this field should not change."
@@ -11983,7 +11983,7 @@ msgstr "不允许导入！"
 msgid ""
 "System Configuration could not be imported due to an unknown error, please "
 "check OTRS logs for more information."
-msgstr ""
+msgstr "由于一个未知错误不能导入系统配置，请检查OTRS日志以获取更多信息"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "Category Search"
@@ -14705,7 +14705,7 @@ msgstr "服务器端数据库字符集"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "The setting character_set_database needs to be 'utf8'."
-msgstr ""
+msgstr "character_set_database 需要设置为'utf8'。"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
@@ -14715,7 +14715,7 @@ msgstr "表字符集"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "There were tables found which do not have 'utf8' as charset."
-msgstr ""
+msgstr "字符集没有设置成 'utf8'的表。"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
@@ -16187,7 +16187,7 @@ msgstr "最近完成了一个软件包的升级，点击这里查看结果。"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
-msgstr ""
+msgstr "更新所有软件包"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Dismiss"
@@ -16195,7 +16195,7 @@ msgstr "取消"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update All Packages"
-msgstr ""
+msgstr "更新所有软件包"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Currently not possible"
@@ -16208,7 +16208,7 @@ msgstr "由于正在进行软件包升级，因此目前已被禁用。"
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "This option is currently disabled because the OTRS Daemon is not running."
-msgstr ""
+msgstr "由于OTRS守护进程没有运行，这个选项当前被禁用。"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Are you sure you want to update all installed packages?"
@@ -17187,15 +17187,15 @@ msgstr "为指定日历添加一次假期。"
 
 #. SysConfig
 msgid "Adds the one time vacation days."
-msgstr ""
+msgstr "添加一次性假期。"
 
 #. SysConfig
 msgid "Adds the permanent vacation days for the indicated calendar."
-msgstr ""
+msgstr "为指定日历添加永久假期。"
 
 #. SysConfig
 msgid "Adds the permanent vacation days."
-msgstr ""
+msgstr "添加永久假期。"
 
 #. SysConfig
 msgid "Admin"
@@ -17343,7 +17343,7 @@ msgstr "一个客户用户的所有客户ID。"
 
 #. SysConfig
 msgid "All attachments (OTRS Business Solution™)"
-msgstr ""
+msgstr "所有附件（OTRS商业解决方案）"
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
@@ -17926,7 +17926,7 @@ msgstr "通过搜索主题中的有效工单号，检查一个邮件是否是跟
 msgid ""
 "Checks the SystemID in ticket number detection for follow-ups. If not "
 "enabled, SystemID will be changed after using the system."
-msgstr ""
+msgstr "在跟进工单的工单编号检测时检查系统ID。如果不启用，系统ID将在使用系统后更改。"
 
 #. SysConfig
 msgid "Checks the availability of OTRS Business Solution™ for this system."
@@ -18203,7 +18203,7 @@ msgstr "创建新的流程工单。"
 
 #. SysConfig
 msgid "Create Ticket"
-msgstr ""
+msgstr "创建工单"
 
 #. SysConfig
 msgid "Create a new calendar appointment linked to this ticket"
@@ -26154,7 +26154,7 @@ msgstr "工单关注人"
 
 #. SysConfig
 msgid "Ticket Zoom"
-msgstr ""
+msgstr "工单详情"
 
 #. SysConfig
 msgid "Ticket Zoom."
@@ -26283,7 +26283,7 @@ msgid ""
 "Turns on the remote ip address check. It should not be enabled if the "
 "application is used, for example, via a proxy farm or a dialup connection, "
 "because the remote ip address is mostly different for the requests."
-msgstr ""
+msgstr "开启远程IP地址检查。如果通过代理或拨号连接访问系统，应该关闭，因为远程IP在每次请求时可能都不一样。"
 
 #. SysConfig
 msgid "Tweak the system as you wish."
@@ -26471,7 +26471,7 @@ msgid ""
 "Whether to force redirect all requests from http to https protocol. Please "
 "check that your web server is configured correctly for https protocol before"
 " enable this option."
-msgstr ""
+msgstr "是否强制将所有请求从http重定向到https协议。启用此选项之前，请检查Web服务器是否正确配置了https协议。"
 
 #. SysConfig
 msgid "Yes, but hide archived tickets"

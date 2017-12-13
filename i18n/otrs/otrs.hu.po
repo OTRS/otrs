@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2017-12-11 23:26+0000\n"
-"PO-Revision-Date: 2017-12-11 23:28+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2017-12-12 06:51+0000\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -7578,7 +7578,7 @@ msgstr "%s lezárt jegye ennek: %s"
 
 #. Template: AgentDashboardCustomerIDList
 msgid "Edit customer ID"
-msgstr ""
+msgstr "Ügyfél-azonosító szerkesztése"
 
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
@@ -10799,7 +10799,7 @@ msgstr "%s szükséges"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Add %s field"
-msgstr ""
+msgstr "%s mező hozzáadása"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field does not contain only ASCII letters and numbers."
@@ -10831,7 +10831,7 @@ msgstr "Nem sikerült lekérni az adatokat a dinamikus mezőhöz: %s"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Change %s field"
-msgstr ""
+msgstr "%s mező megváltoztatása"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The name for this field should not change."
@@ -17336,7 +17336,7 @@ msgstr "Egy ügyfél-felhasználó összes ügyfél-azonosítója."
 
 #. SysConfig
 msgid "All attachments (OTRS Business Solution™)"
-msgstr ""
+msgstr "Összes melléklet (OTRS Business Solution™)"
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
