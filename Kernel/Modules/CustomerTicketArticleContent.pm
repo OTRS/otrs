@@ -160,7 +160,7 @@ sub Run {
 
     # generate base url
     my $URL = 'Action=CustomerTicketAttachment;Subaction=HTMLView'
-        . ";ArticleID=$ArticleID;FileID=";
+        . ";TicketID=$TicketID;ArticleID=$ArticleID;FileID=";
 
     # replace links to inline images in html content
     my %AtmBox = $ArticleBackendObject->ArticleAttachmentIndex(
