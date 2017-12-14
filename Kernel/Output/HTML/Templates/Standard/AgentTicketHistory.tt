@@ -53,6 +53,7 @@
                         <tr>
                             <th>[% Translate("Agent") | html %]</th>
                             <th>[% Translate("Action") | html %]</th>
+                            <th class="CreateTime W10pc Hidden">[% Translate("CreateTime") | html %]</th>
                             <th class="Center">[% Translate("Article") | html %]</th>
                         </tr>
                     </thead>
@@ -68,6 +69,9 @@
                             </td>
                             <td title="[% Data.HistoryType | html %]">
                                 [% Data.Name | html %] ([% Data.HistoryType | html %])
+                            </td>
+                            <td class="Hidden CreateTime">
+                                [% Data.CreateTime | html %]
                             </td>
                             <td class="Center">
                             [% IF Data.ArticleID != '0' %]
