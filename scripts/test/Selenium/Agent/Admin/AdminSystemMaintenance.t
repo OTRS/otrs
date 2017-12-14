@@ -101,7 +101,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
         $Self->True(
             $Selenium->execute_script(
-                "return \$('.MessageBox > p:contains(\"Start date shouldn\\'t be defined after Stop date!\")').length"),
+                "return \$('.MessageBox > p:contains(\"Start date shouldn\\'t be defined after Stop date!\")').length"
+            ),
             "Error message correctly displayed"
         ) || die "Did not get notification message";
 
