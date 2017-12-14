@@ -90,19 +90,19 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Comment", 'css' )->send_keys($SysMainComment);
 
-        $Selenium->find_element( "#StopDateDay option[value='" . int($DayWrong) . "']",     'css' )->VerifiedClick();
-        $Selenium->find_element( "#StopDateMonth option[value='" . int($MonthWrong) . "']", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#StopDateDay option[value='" . int($DayWrong) . "']",     'css' )->click();
+        $Selenium->find_element( "#StopDateMonth option[value='" . int($MonthWrong) . "']", 'css' )->click();
         $Selenium->execute_script(
             "\$('#StopDateYear').val('$YearWrong').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#StopDateHour option[value='" . int($HourWrong) . "']",  'css' )->VerifiedClick();
-        $Selenium->find_element( "#StopDateMinute option[value='" . int($MinWrong) . "']", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#StopDateHour option[value='" . int($HourWrong) . "']",  'css' )->click();
+        $Selenium->find_element( "#StopDateMinute option[value='" . int($MinWrong) . "']", 'css' )->click();
 
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
         $Self->True(
-            index( $Selenium->get_page_source(), "Start date shouldn\'t be defined after Stop date!" ) > -1,
-            "Error message correctly displayed",
-        );
+            $Selenium->execute_script("return \$('.MessageBox > p:contains(\"Start date shouldn\\'t be defined after Stop date!\")').length"),
+            "Error message correctly displayed"
+        ) || die "Did not get notification message";
 
         # get test start time + 1 hour of system time
         my ( $SecStart, $MinStart, $HourStart, $DayStart, $MonthStart, $YearStart, ) = $TimeObject->SystemTime2Date(
@@ -115,21 +115,21 @@ $Selenium->RunTest(
         );
 
         # create real test SystemMaintenance
-        $Selenium->find_element( "#StartDateDay option[value='" . int($DayStart) . "']",     'css' )->VerifiedClick();
-        $Selenium->find_element( "#StartDateMonth option[value='" . int($MonthStart) . "']", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#StartDateDay option[value='" . int($DayStart) . "']",     'css' )->click();
+        $Selenium->find_element( "#StartDateMonth option[value='" . int($MonthStart) . "']", 'css' )->click();
         $Selenium->execute_script(
             "\$('#StartDateYear').val('$YearStart').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#StartDateHour option[value='" . int($HourStart) . "']",  'css' )->VerifiedClick();
-        $Selenium->find_element( "#StartDateMinute option[value='" . int($MinStart) . "']", 'css' )->VerifiedClick();
-        $Selenium->find_element( "#StopDateDay option[value='" . int($DayEnd) . "']",       'css' )->VerifiedClick();
-        $Selenium->find_element( "#StopDateMonth option[value='" . int($MonthEnd) . "']",   'css' )->VerifiedClick();
+        $Selenium->find_element( "#StartDateHour option[value='" . int($HourStart) . "']",  'css' )->click();
+        $Selenium->find_element( "#StartDateMinute option[value='" . int($MinStart) . "']", 'css' )->click();
+        $Selenium->find_element( "#StopDateDay option[value='" . int($DayEnd) . "']",       'css' )->click();
+        $Selenium->find_element( "#StopDateMonth option[value='" . int($MonthEnd) . "']",   'css' )->click();
         $Selenium->execute_script(
             "\$('#StopDateYear').val('$YearEnd').trigger('redraw.InputField').trigger('change');"
         );
 
-        $Selenium->find_element( "#StopDateHour option[value='" . int($HourEnd) . "']",  'css' )->VerifiedClick();
-        $Selenium->find_element( "#StopDateMinute option[value='" . int($MinEnd) . "']", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#StopDateHour option[value='" . int($HourEnd) . "']",  'css' )->click();
+        $Selenium->find_element( "#StopDateMinute option[value='" . int($MinEnd) . "']", 'css' )->click();
 
         # Try to create System Maintenance with Login and Notify message longer then 250 characters.
         #   See bug#13366 (https://bugs.otrs.org/show_bug.cgi?id=13366).
