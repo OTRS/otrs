@@ -178,10 +178,9 @@ $Self->True(
     "Check that the last entry could be added (ID: $NewLastID)",
 );
 
-$Self->Is(
-    $LastID + 1,
-    $NewLastID,
-    "Last entry ID is +1 before renaming, it means sequence is still the same for the re-named table (ID: $LastID - NewID: $NewLastID )",
+$Self->True(
+    ( $NewLastID > $LastID ? 1 : 0 ),
+    "Last entry ID should be higher than previous one, it means sequence is still the same for the re-named table (ID: $LastID - NewID: $NewLastID )",
 );
 
 # create a new table with the same name than before the renaming
@@ -332,11 +331,7 @@ my $SequenceCheck = sub {
 
     if ( $DBType eq 'oracle' ) {
 
-        my $SEName = "SE_$TableName";
-
-        # we assume the sequence have a minimum value (0)
-        # we will to increase it till the last entry on
-        # if field we have
+        my $SEName = uc "SE_$TableName";
 
         # verify if the sequence exists
         return if !$DBObject->Prepare(
