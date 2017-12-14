@@ -273,10 +273,13 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
     top: -1px;
     margin-right: -5px;
     text-overflow: ellipsis;
-    width: 90px !important;
     font-size: 12px;
     transition: all ease 0.3s;
     color: #aaa;
+}
+
+#ToolBar .Extended input[type=text]:not(.InputField_Search) {
+    width: 90px !important;
 }
 
 #ToolBar .Extended.SearchFulltext {
@@ -297,6 +300,9 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
 #ToolBar .Extended input[type=text]:focus {
     position: relative;
     z-index: 3;
+}
+
+#ToolBar .Extended input[type=text]:not(.InputField_Search):focus {
     padding-left: 7px;
     width: 120px !important;
 }
