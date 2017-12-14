@@ -93,7 +93,10 @@ $Selenium->RunTest(
 
         # check client side validation
         $Selenium->find_element( "#Comment", 'css' )->clear();
-        $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
+        $Selenium->execute_script("\$('#Submit').trigger('click')");
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#Comment.Error').length"
+        );
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Comment').hasClass('Error')"
@@ -123,6 +126,10 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#StopDateMinute').val('$DTWrong->{Minute}')");
 
         $Selenium->execute_script("\$('#Submit').trigger('click')");
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('.MessageBox > p:contains(\"Start date shouldn\\'t be defined after Stop date!\")').length"
+        );
         $Self->True(
             $Selenium->execute_script(
                 "return \$('.MessageBox > p:contains(\"Start date shouldn\\'t be defined after Stop date!\")').length"
@@ -172,6 +179,11 @@ $Selenium->RunTest(
         $Selenium->find_element( "#NotifyMessage", 'css' )->send_keys($LongNotifyMessage);
 
         $Selenium->execute_script("\$('#Submit').trigger('click')");
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#LoginMessage.Error').length && \$('#NotifyMessage.Error').length"
+        );
+
         $Self->True(
             $Selenium->execute_script("return \$('#LoginMessage').hasClass('Error')"),
             "There is error class in Login Message text area"
@@ -261,7 +273,12 @@ $Selenium->RunTest(
         $Selenium->find_element( "#LoginMessage",  'css' )->send_keys($LongLoginMessage);
         $Selenium->find_element( "#NotifyMessage", 'css' )->send_keys($LongNotifyMessage);
 
-        $Selenium->find_element( "#Submit", 'css' )->click();
+        $Selenium->execute_script("\$('#Submit').trigger('click')");
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#LoginMessage.Error').length && \$('#NotifyMessage.Error').length"
+        );
+
         $Self->True(
             $Selenium->execute_script("return \$('#LoginMessage').hasClass('Error')"),
             "There is error class in Login Message text area"
