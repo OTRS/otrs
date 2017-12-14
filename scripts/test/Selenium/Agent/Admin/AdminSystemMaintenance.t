@@ -116,23 +116,21 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Comment", 'css' )->send_keys($SysMainComment);
 
-        $Selenium->find_element( "#StopDateDay option[value='" . int( $DTWrong->{Day} ) . "']", 'css' )
-            ->VerifiedClick();
-        $Selenium->find_element( "#StopDateMonth option[value='" . int( $DTWrong->{Month} ) . "']", 'css' )
-            ->VerifiedClick();
+        $Selenium->find_element( "#StopDateDay option[value='" . int( $DTWrong->{Day} ) . "']",     'css' )->click();
+        $Selenium->find_element( "#StopDateMonth option[value='" . int( $DTWrong->{Month} ) . "']", 'css' )->click();
         $Selenium->execute_script(
             "\$('#StopDateYear').val('$DTWrong->{Year}').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#StopDateHour option[value='" . int( $DTWrong->{Hour} ) . "']", 'css' )
-            ->VerifiedClick();
-        $Selenium->find_element( "#StopDateMinute option[value='" . int( $DTWrong->{Minute} ) . "']", 'css' )
-            ->VerifiedClick();
+        $Selenium->find_element( "#StopDateHour option[value='" . int( $DTWrong->{Hour} ) . "']",     'css' )->click();
+        $Selenium->find_element( "#StopDateMinute option[value='" . int( $DTWrong->{Minute} ) . "']", 'css' )->click();
 
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
         $Self->True(
-            index( $Selenium->get_page_source(), "Start date shouldn\'t be defined after Stop date!" ) > -1,
-            "Error message correctly displayed",
-        );
+            $Selenium->execute_script(
+                "return \$('.MessageBox > p:contains(\"Start date shouldn\\'t be defined after Stop date!\")').length"
+            ),
+            "Error message correctly displayed"
+        ) || die "Did not get notification message";
 
         # get test start time + 1 hour of system time
         my $DTStartObj = $DTObj->Clone();
@@ -145,27 +143,20 @@ $Selenium->RunTest(
         my $DTEnd = $DTEndObj->Get();
 
         # create real test SystemMaintenance
-        $Selenium->find_element( "#StartDateDay option[value='" . int( $DTStart->{Day} ) . "']", 'css' )
-            ->VerifiedClick();
-        $Selenium->find_element( "#StartDateMonth option[value='" . int( $DTStart->{Month} ) . "']", 'css' )
-            ->VerifiedClick();
+        $Selenium->find_element( "#StartDateDay option[value='" . int( $DTStart->{Day} ) . "']",     'css' )->click();
+        $Selenium->find_element( "#StartDateMonth option[value='" . int( $DTStart->{Month} ) . "']", 'css' )->click();
         $Selenium->execute_script(
             "\$('#StartDateYear').val('$DTStart->{Year}').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#StartDateHour option[value='" . int( $DTStart->{Hour} ) . "']", 'css' )
-            ->VerifiedClick();
-        $Selenium->find_element( "#StartDateMinute option[value='" . int( $DTStart->{Minute} ) . "']", 'css' )
-            ->VerifiedClick();
-        $Selenium->find_element( "#StopDateDay option[value='" . int( $DTEnd->{Day} ) . "']", 'css' )->VerifiedClick();
-        $Selenium->find_element( "#StopDateMonth option[value='" . int( $DTEnd->{Month} ) . "']", 'css' )
-            ->VerifiedClick();
+        $Selenium->find_element( "#StartDateHour option[value='" . int( $DTStart->{Hour} ) . "']",     'css' )->click();
+        $Selenium->find_element( "#StartDateMinute option[value='" . int( $DTStart->{Minute} ) . "']", 'css' )->click();
+        $Selenium->find_element( "#StopDateDay option[value='" . int( $DTEnd->{Day} ) . "']",          'css' )->click();
+        $Selenium->find_element( "#StopDateMonth option[value='" . int( $DTEnd->{Month} ) . "']",      'css' )->click();
         $Selenium->execute_script(
             "\$('#StopDateYear').val('$DTEnd->{Year}').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#StopDateHour option[value='" . int( $DTEnd->{Hour} ) . "']", 'css' )
-            ->VerifiedClick();
-        $Selenium->find_element( "#StopDateMinute option[value='" . int( $DTEnd->{Minute} ) . "']", 'css' )
-            ->VerifiedClick();
+        $Selenium->find_element( "#StopDateHour option[value='" . int( $DTEnd->{Hour} ) . "']",     'css' )->click();
+        $Selenium->find_element( "#StopDateMinute option[value='" . int( $DTEnd->{Minute} ) . "']", 'css' )->click();
 
         # Try to create System Maintenance with Login and Notify message longer then 250 characters.
         #   See bug#13366 (https://bugs.otrs.org/show_bug.cgi?id=13366).
