@@ -377,12 +377,6 @@ for my $Test (@Tests) {
         "$Test->{Name} - Recipients",
     );
 
-    $Self->IsDeeply(
-        $Emails,
-        $Test->{ExpectedResults},
-        "$Test->{Name} - Recipients",
-    );
-
     # delete notification event
     my $NotificationDelete = $NotificationEventObject->NotificationDelete(
         ID     => $NotificationID,
