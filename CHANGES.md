@@ -1,6 +1,4 @@
 #6.0.4 ????-??-??
- - 2017-12-14 Fixed bug#[13451](https://bugs.otrs.org/show_bug.cgi?id=13451) - Can't create Meta Article after update from 5 to 6.
- - 2017-12-13 Fixed bug#[13432](https://bugs.otrs.org/show_bug.cgi?id=13432)(PR#1881) - Inline images are not shown in customer frontend.
  - 2017-12-13 Updated translations, thanks to all translators.
  - 2017-12-13 Fixed bug#[13351](https://bugs.otrs.org/show_bug.cgi?id=13351) - Templates of type "Create" don't get automatically loaded on AgentTicketPhone or AgentTicketEmail
  - 2017-12-13 Fixed bug#[13196](https://bugs.otrs.org/show_bug.cgi?id=13196) - Search in CustomerUser Information Center returns a search blank screen.
@@ -12,6 +10,8 @@
  - 2017-12-12 Fixed bug#[13445](https://bugs.otrs.org/show_bug.cgi?id=13445) - System should use TimeZone ValueType in the Framework.xml instead of Select.
 
 #6.0.3 2017-12-19
+ - 2017-12-14 Fixed bug#[13451](https://bugs.otrs.org/show_bug.cgi?id=13451) - Can't create Meta Article after update from 5 to 6.
+ - 2017-12-13 Fixed bug#[13432](https://bugs.otrs.org/show_bug.cgi?id=13432)(PR#1881) - Inline images are not shown in customer frontend.
  - 2017-12-11 Updated translations, thanks to all translators.
  - 2017-12-11 Fixed bug#[13410](https://bugs.otrs.org/show_bug.cgi?id=13410) - Package::UpdagreAll can't upgrade from ITSM 5 to 6.
  - 2017-12-08 Hot-fix for bug#[13353](https://bugs.otrs.org/show_bug.cgi?id=13353) - Inline picture not shown in AgentTicketZoom.
