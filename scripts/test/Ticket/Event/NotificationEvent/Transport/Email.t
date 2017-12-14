@@ -167,7 +167,7 @@ my @Tests = (
         Data => {
             Events          => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
             RecipientAgents => [$UserID],
-            RecipientEmail  => ['test@otrsexample.com'],
+            RecipientEmail  => ['zzztest@otrsexample.com'],
         },
         ExpectedResults => [
             {
@@ -175,7 +175,7 @@ my @Tests = (
                 Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
             },
             {
-                ToArray => ['test@otrsexample.com'],
+                ToArray => ['zzztest@otrsexample.com'],
                 Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
             },
         ],
@@ -268,6 +268,14 @@ for my $Test (@Tests) {
         # de-reference body
         $Email->{Body} = ${ $Email->{Body} };
     }
+
+    my @EmailsSort = sort { $a->{ToArray}[0] cmp $b->{ToArray}[0] } @{$Emails};
+
+    $Self->IsDeeply(
+        \@EmailsSort,
+        $Test->{ExpectedResults},
+        "$Test->{Name} - Recipients",
+    );
 
     $Self->IsDeeply(
         $Emails,
