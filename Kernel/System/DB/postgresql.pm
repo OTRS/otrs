@@ -354,6 +354,10 @@ sub TableAlter {
     my @Reference     = ();
     my $Table         = '';
 
+    # put two literal dollar characters in a string
+    # this is needed for the postgres 'do' statement
+    my $DollarDollar = '$$';
+
     TAG:
     for my $Tag (@Param) {
 
@@ -369,7 +373,36 @@ sub TableAlter {
 
             # rename table
             if ( $Tag->{NameOld} && $Tag->{NameNew} ) {
+
+                # PostgreSQL uses sequences for primary key value generation. These are global
+                #   entities and not renamed when tables are renamed. Rename them also to keep
+                #   them consistent with new systems.
                 push @SQL, $SQLStart . "ALTER TABLE $Tag->{NameOld} RENAME TO $Tag->{NameNew}";
+
+                my $OldSequence = $Self->_SequenceName(
+                    TableName => $Tag->{NameOld},
+                );
+
+                my $NewSequence = $Self->_SequenceName(
+                    TableName => $Tag->{NameNew},
+                );
+
+                # Build SQL to rename sequence (only if a sequence exists).
+                my $RenameSequenceSQL = <<"EOF";
+DO $DollarDollar
+BEGIN
+IF EXISTS (
+    SELECT 1
+    FROM pg_class
+    WHERE relkind = 'S' and relname = '$OldSequence'
+    ) THEN
+    ALTER SEQUENCE $OldSequence RENAME TO $NewSequence;
+    END IF;
+END$DollarDollar;
+EOF
+
+                push @SQL, $SQLStart . $RenameSequenceSQL;
+
             }
             $SQLStart .= "ALTER TABLE $Table";
         }
@@ -894,6 +927,23 @@ sub _TypeTranslation {
         $Tag->{Type} = 'DECIMAL (' . $Tag->{Size} . ')';
     }
     return $Tag;
+}
+
+sub _SequenceName {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{TableName} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need TableName!",
+        );
+        return;
+    }
+
+    my $Sequence = $Param{TableName} . '_id_seq';
+
+    return $Sequence;
 }
 
 1;

@@ -155,6 +155,10 @@ $Self->True(
     $SQL,
 );
 
+# Prepare a second ID container to be able to compare
+# old and new ID
+my $NewLastID;
+
 # get the id from the third entry in the renamed table
 $SQL = "SELECT id FROM test_b WHERE name = 'Test3'";
 $Self->True(
@@ -166,12 +170,18 @@ $Self->True(
 );
 
 while ( my @Row = $DBObject->FetchrowArray() ) {
-    $LastID = $Row[0];
+    $NewLastID = $Row[0];
 }
 
 $Self->True(
-    $LastID,
-    "Check that the last entry could be added (ID: $LastID)",
+    $NewLastID,
+    "Check that the last entry could be added (ID: $NewLastID)",
+);
+
+$Self->Is(
+    $LastID + 1,
+    $NewLastID,
+    "Last entry ID is +1 before renaming, it means sequence is still the same for the re-named table (ID: $LastID - NewID: $NewLastID )",
 );
 
 # create a new table with the same name than before the renaming
@@ -225,7 +235,13 @@ while ( my @Row = $DBObject->FetchrowArray() ) {
 
 $Self->True(
     $LastID,
-    "Check that the last entry could be added (ID: $LastID)",
+    "Check that the last entry on NEW TABLE could be added (ID: $LastID)",
+);
+
+$Self->IsNot(
+    $LastID,
+    $NewLastID + 1,
+    "First entry for new table shouldn't be on the same sequence as renamed table. (New table ID: $LastID - Renamed table last ID: $NewLastID )",
 );
 
 # add another value to the renamed table
@@ -257,6 +273,12 @@ $Self->True(
     "Check that the last entry could be added (ID: $LastID)",
 );
 
+$Self->Is(
+    $LastID,
+    $NewLastID + 1,
+    "After inserting a new record on re-named table, sequence still on the same road. (Current last ID: $LastID - Previous last ID: $NewLastID )",
+);
+
 # add another value to new table
 $SQL = "INSERT INTO test_a (name) VALUES ('Test2')";
 $Self->True(
@@ -285,6 +307,90 @@ $Self->True(
     $LastID,
     "Check that the last entry could be added (ID: $LastID)",
 );
+
+# Check if sequence for both tables exist with the correct name,
+# that means we have not duplicated names on sequences
+
+# helper function to check sequence
+my $SequenceCheck = sub {
+    my %Param = @_;
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # Get the database type.
+    my $DBType = $DBObject->GetDatabaseFunction('Type');
+
+    # Sequence check works just for some DBs.
+    my @CheckAllowed = qw(oracle postgresql);
+
+    if ( !grep {m/$DBType/} @CheckAllowed ) {
+        return 1;
+    }
+
+    my $TableName = $Param{TableName} || '';
+    my $SequenceExists;
+
+    if ( $DBType eq 'oracle' ) {
+
+        my $SEName = "SE_$TableName";
+
+        # we assume the sequence have a minimum value (0)
+        # we will to increase it till the last entry on
+        # if field we have
+
+        # verify if the sequence exists
+        return if !$DBObject->Prepare(
+            SQL => "
+                SELECT COUNT(*)
+                FROM user_sequences
+                WHERE sequence_name = ?",
+            Limit => 1,
+            Bind  => [
+                \$SEName,
+            ],
+        );
+
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            $SequenceExists = $Row[0];
+        }
+    }
+    elsif ( $DBType eq 'postgresql' ) {
+
+        my $SEName = $TableName . '_id_seq';
+
+        # check if sequence exists
+        return if !$DBObject->Prepare(
+            SQL => "
+            SELECT
+                1
+            FROM pg_class c
+            WHERE
+                c.relkind = 'S' AND
+                c.relname = '$SEName'",
+            Limit => 1,
+        );
+
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            $SequenceExists = $Row[0];
+        }
+    }
+
+    return $SequenceExists;
+};
+
+for my $TablePostfix (qw(a b)) {
+
+    my $TableName = 'test_' . $TablePostfix;
+
+    my $SequenceCheckResult = $SequenceCheck->(
+        TableName => $TableName,
+    );
+
+    $Self->True(
+        $SequenceCheckResult,
+        "Correct sequence name for table $TableName.",
+    );
+}
 
 # drop all tables
 my @TableDropStatements = (

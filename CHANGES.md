@@ -1,6 +1,7 @@
 #6.0.4 ????-??-??
 
 #6.0.3 2017-12-19
+ - 2017-12-14 Fixed bug#[13451](https://bugs.otrs.org/show_bug.cgi?id=13451) - Can't create Meta Article after update from 5 to 6.
  - 2017-12-11 Updated translations, thanks to all translators.
  - 2017-12-11 Fixed bug#[13410](https://bugs.otrs.org/show_bug.cgi?id=13410) - Package::UpdagreAll can't upgrade from ITSM 5 to 6.
  - 2017-12-08 Hot-fix for bug#[13353](https://bugs.otrs.org/show_bug.cgi?id=13353) - Inline picture not shown in AgentTicketZoom.
