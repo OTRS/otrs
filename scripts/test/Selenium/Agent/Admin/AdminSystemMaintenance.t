@@ -116,15 +116,13 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Comment", 'css' )->send_keys($SysMainComment);
 
-        $Selenium->find_element( "#StopDateDay option[value='" . int( $DTWrong->{Day} ) . "']",     'css' )->click();
-        $Selenium->find_element( "#StopDateMonth option[value='" . int( $DTWrong->{Month} ) . "']", 'css' )->click();
-        $Selenium->execute_script(
-            "\$('#StopDateYear').val('$DTWrong->{Year}').trigger('redraw.InputField').trigger('change');"
-        );
-        $Selenium->find_element( "#StopDateHour option[value='" . int( $DTWrong->{Hour} ) . "']",     'css' )->click();
-        $Selenium->find_element( "#StopDateMinute option[value='" . int( $DTWrong->{Minute} ) . "']", 'css' )->click();
+        $Selenium->execute_script("\$('#StopDateDay').val('$DTWrong->{Day}')");
+        $Selenium->execute_script("\$('#StopDateMonth').val('$DTWrong->{Month}')");
+        $Selenium->execute_script("\$('#StopDateYear').val('$DTWrong->{Year}')");
+        $Selenium->execute_script("\$('#StopDateHour').val('$DTWrong->{Hour}')");
+        $Selenium->execute_script("\$('#StopDateMinute').val('$DTWrong->{Minute}')");
 
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->execute_script("\$('#Submit').trigger('click')");
         $Self->True(
             $Selenium->execute_script(
                 "return \$('.MessageBox > p:contains(\"Start date shouldn\\'t be defined after Stop date!\")').length"
@@ -143,20 +141,16 @@ $Selenium->RunTest(
         my $DTEnd = $DTEndObj->Get();
 
         # create real test SystemMaintenance
-        $Selenium->find_element( "#StartDateDay option[value='" . int( $DTStart->{Day} ) . "']",     'css' )->click();
-        $Selenium->find_element( "#StartDateMonth option[value='" . int( $DTStart->{Month} ) . "']", 'css' )->click();
-        $Selenium->execute_script(
-            "\$('#StartDateYear').val('$DTStart->{Year}').trigger('redraw.InputField').trigger('change');"
-        );
-        $Selenium->find_element( "#StartDateHour option[value='" . int( $DTStart->{Hour} ) . "']",     'css' )->click();
-        $Selenium->find_element( "#StartDateMinute option[value='" . int( $DTStart->{Minute} ) . "']", 'css' )->click();
-        $Selenium->find_element( "#StopDateDay option[value='" . int( $DTEnd->{Day} ) . "']",          'css' )->click();
-        $Selenium->find_element( "#StopDateMonth option[value='" . int( $DTEnd->{Month} ) . "']",      'css' )->click();
-        $Selenium->execute_script(
-            "\$('#StopDateYear').val('$DTEnd->{Year}').trigger('redraw.InputField').trigger('change');"
-        );
-        $Selenium->find_element( "#StopDateHour option[value='" . int( $DTEnd->{Hour} ) . "']",     'css' )->click();
-        $Selenium->find_element( "#StopDateMinute option[value='" . int( $DTEnd->{Minute} ) . "']", 'css' )->click();
+        $Selenium->execute_script("\$('#StartDateDay').val('$DTStart->{Day}')");
+        $Selenium->execute_script("\$('#StartDateMonth').val('$DTStart->{Month}')");
+        $Selenium->execute_script("\$('#StartDateYear').val('$DTStart->{Year}')");
+        $Selenium->execute_script("\$('#StartDateHour').val('$DTStart->{Hour}')");
+        $Selenium->execute_script("\$('#StartDateMinute').val('$DTStart->{Minute}')");
+        $Selenium->execute_script("\$('#StopDateDay').val('$DTEnd->{Day}')");
+        $Selenium->execute_script("\$('#StopDateMonth').val('$DTEnd->{Month}')");
+        $Selenium->execute_script("\$('#StopDateYear').val('$DTEnd->{Year}')");
+        $Selenium->execute_script("\$('#StopDateHour').val('$DTEnd->{Hour}')");
+        $Selenium->execute_script("\$('#StopDateMinute').val('$DTEnd->{Minute}')");
 
         # Try to create System Maintenance with Login and Notify message longer then 250 characters.
         #   See bug#13366 (https://bugs.otrs.org/show_bug.cgi?id=13366).
@@ -177,7 +171,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#LoginMessage",  'css' )->send_keys($LongLoginMessage);
         $Selenium->find_element( "#NotifyMessage", 'css' )->send_keys($LongNotifyMessage);
 
-        $Selenium->find_element( "#Submit", 'css' )->click();
+        $Selenium->execute_script("\$('#Submit').trigger('click')");
         $Self->True(
             $Selenium->execute_script("return \$('#LoginMessage').hasClass('Error')"),
             "There is error class in Login Message text area"
