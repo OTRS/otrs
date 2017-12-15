@@ -2705,18 +2705,8 @@ sub _ArticleTree {
             else {
 
                 if ( $Item->{Name} && $Item->{Name} =~ m/^%%/x ) {
-
                     $Item->{Name} =~ s/^%%//xg;
                     my @Values = split( /%%/x, $Item->{Name} );
-
-                    # See documentation in AgentTicketHistory.pm, line 141+
-                    if ( $Item->{HistoryType} eq 'TicketDynamicFieldUpdate' ) {
-                        @Values = ( $Values[1], $Values[5] // '', $Values[3] // '' );
-                    }
-                    elsif ( $Item->{HistoryType} eq 'TypeUpdate' ) {
-                        @Values = ( $Values[2], $Values[3], $Values[0], $Values[1] );
-                    }
-
                     $Item->{Name} = $LayoutObject->{LanguageObject}->Translate(
                         $HistoryTypes{ $Item->{HistoryType} },
                         @Values,
@@ -2724,6 +2714,11 @@ sub _ArticleTree {
 
                     # remove not needed place holder
                     $Item->{Name} =~ s/\%s//xg;
+
+                    # remove IDs
+                    $Item->{Name} =~ s/\s+\(\d\)//xg;
+                    $Item->{Name} =~ s/\s+\(ID=\d\)//xg;
+                    $Item->{Name} =~ s/\s+\(ID=\)//xg;
                 }
             }
 
