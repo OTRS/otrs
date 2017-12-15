@@ -562,6 +562,7 @@ sub SettingUpdate {
 
         my %GlobalSetting = $Self->SettingGet(
             Name            => $Param{Name},
+            Translate       => 0,
             OverriddenInXML => 1,
             UserID          => 1,
         );
