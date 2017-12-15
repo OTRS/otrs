@@ -559,15 +559,6 @@ sub SettingUpdate {
         );
 
         $UserModificationActive = undef;    # prevent setting this value
-
-        my %GlobalSetting = $Self->SettingGet(
-            Name            => $Param{Name},
-            Translate       => 0,
-            OverriddenInXML => 1,
-            UserID          => 1,
-        );
-
-        $Setting{EffectiveValue} = $GlobalSetting{EffectiveValue};
     }
 
     # Add new modified setting (if there wasn't).
