@@ -117,6 +117,7 @@ Kernel/Output/HTML/ArticleAction/AgentTicketSMSOutbound.pm
 Kernel/Output/HTML/*Chat*
 Kernel/Output/HTML/CustomerUser/*Chat*
 Kernel/Output/HTML/FilterElementPost/AddDynamicFieldNames.pm
+Kernel/Output/HTML/FilterElementPost/FAQAgentRelatedArticles.pm
 Kernel/Output/HTML/FilterElementPost/ContactWithData.pm
 Kernel/Output/HTML/FilterElementPost/SLASelectionDialog.pm
 Kernel/Output/HTML/Layout/NotificationView.pm
