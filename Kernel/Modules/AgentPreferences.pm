@@ -289,7 +289,6 @@ sub Run {
 
         my %Setting = $SysConfigObject->SettingGet(
             Name            => $SettingName,
-            Translate       => 0,
             OverriddenInXML => 1,
             UserID          => 1,
         );
@@ -327,7 +326,6 @@ sub Run {
             my %UpdatedSetting = $SysConfigObject->SettingGet(
                 Name         => $SettingName,
                 TargetUserID => $Self->{CurrentUserID},
-                Translate    => 0,
             );
 
             if ( $UpdatedSetting{IsDirty} ) {
@@ -347,7 +345,6 @@ sub Run {
             %UpdatedSetting = $SysConfigObject->SettingGet(
                 Name         => $SettingName,
                 TargetUserID => $Self->{CurrentUserID},
-                Translate    => 0,
             );
 
             $Result{Data}->{HTMLStrg} = $SysConfigObject->SettingRender(
@@ -817,7 +814,6 @@ sub _SettingReset {
     my %Setting = $SysConfigObject->SettingGet(
         Name            => $SettingName,
         TargetUserID    => $Self->{CurrentUserID},
-        Translate       => 0,
         OverriddenInXML => 1,
         UserID          => 1,
     );
@@ -854,7 +850,6 @@ sub _SettingReset {
             %Setting = $SysConfigObject->SettingGet(
                 Name            => $SettingName,
                 TargetUserID    => $Self->{CurrentUserID},
-                Translate       => 0,
                 OverriddenInXML => 1,
                 UserID          => 1,
             );
