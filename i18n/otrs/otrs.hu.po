@@ -14,9 +14,9 @@
 # Balázs Úr <urbalazs@gmail.com>, 2014, 2015, 2016, 2017.
 msgid ""
 msgstr ""
-"Project-Id-Version: OTRS 4.0.25\n"
-"POT-Creation-Date: 2017-09-12 09:26+0200\n"
-"PO-Revision-Date: 2017-09-12 09:38+0100\n"
+"Project-Id-Version: OTRS\n"
+"POT-Creation-Date: 2017-12-14 21:05+0200\n"
+"PO-Revision-Date: 2017-12-14 21:09+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <forditas@otrs-megoldasok.hu>\n"
 "Language: hu\n"
@@ -1585,31 +1585,31 @@ msgstr "A rendszere sikeresen frissítve lett a következő verzióra: %s."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade to %s."
-msgstr "Hiba történt a(z) %s verzióra való frissítés közben."
+msgstr "Hiba történt az %s verzióra való frissítés közben."
 
 #. Template: AAABase
 msgid "%s was correctly reinstalled."
-msgstr "A(z) %s rendben újra lett telepítve."
+msgstr "Az %s rendben újra lett telepítve."
 
 #. Template: AAABase
 msgid "There was a problem reinstalling %s."
-msgstr "Hiba történt a(z) %s újratelepítésekor."
+msgstr "Hiba történt az %s újratelepítésekor."
 
 #. Template: AAABase
 msgid "Your %s was successfully updated."
-msgstr "A(z) %s sikeresen frissítve lett."
+msgstr "Az %s sikeresen frissítve lett."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade of %s."
-msgstr "Hiba történt a(z) %s frissítése közben."
+msgstr "Hiba történt az %s frissítése közben."
 
 #. Template: AAABase
 msgid "%s was correctly uninstalled."
-msgstr "A(z) %s rendben el lett távolítva."
+msgstr "Az %s rendben el lett távolítva."
 
 #. Template: AAABase
 msgid "There was a problem uninstalling %s."
-msgstr "Hiba történt a(z) %s eltávolításakor."
+msgstr "Hiba történt az %s eltávolításakor."
 
 #. Template: AAACalendar
 msgid "New Year's Day"
@@ -2712,7 +2712,7 @@ msgstr "Részletek"
 
 #. Template: AAATicket
 msgid "Age"
-msgstr "Időtartam"
+msgstr "Életkor"
 
 #. Template: AAATicket
 msgid "Bounce"
@@ -6322,14 +6322,14 @@ msgstr "%s kezelése"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to OTRS Free"
-msgstr "Visszaváltás az ingyenes OTRS-re"
+msgstr "Visszaváltás az OTRS Free verzióra"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "%s makes contact regularly with cloud.otrs.com to check on available updates "
 "and the validity of the underlying contract."
 msgstr ""
-"A(z) %s rendszeresen kapcsolatot létesít a cloud.otrs.com kiszolgálóval az "
+"Az %s rendszeresen kapcsolatot létesít a cloud.otrs.com kiszolgálóval az "
 "elérhető frissítések és az alapjául szolgáló szerződés érvényességének "
 "ellenőrzéséhez."
 
@@ -6342,7 +6342,7 @@ msgid ""
 "This system uses the %s without a proper license! Please make contact with %s "
 "to renew or activate your contract!"
 msgstr ""
-"Ez a rendszer a megfelelő licenc nélkül használja a(z) %s programot. A "
+"Ez a rendszer a megfelelő licenc nélkül használja az %s programot. A "
 "szerződés megújításához vagy aktiválásához vegye fel a kapcsolatot a "
 "következővel: %s!"
 
@@ -6353,7 +6353,7 @@ msgstr "%s nincs helyesen telepítve"
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "Your %s is not correctly installed. Please reinstall it with the button below."
-msgstr "A(z) %s nincs helyesen telepítve. Telepítse újra a lenti gombbal."
+msgstr "Az %s nincs helyesen telepítve. Telepítse újra a lenti gombbal."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Reinstall %s"
@@ -6362,7 +6362,7 @@ msgstr "%s újratelepítése"
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "Your %s is not correctly installed, and there is also an update available."
-msgstr "A(z) %s nincs helyesen telepítve, és egy frissítés is elérhető."
+msgstr "Az %s nincs helyesen telepítve, és egy frissítés is elérhető."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
@@ -6390,16 +6390,15 @@ msgstr "%s frissítés érhető el"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
-msgstr ""
-"Frissítés érhető el a(z) %s programhoz! Frissítsen a lehető leghamarabb!"
+msgstr "Frissítés érhető el az %s programhoz! Frissítsen a lehető leghamarabb!"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Correctly Deployed"
-msgstr "A(z) %s helyesen üzembe állítva"
+msgstr "Az %s helyesen üzembe állítva"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Congratulations, your %s is correctly installed and up to date!"
-msgstr "Gratulálunk, a(z) %s program helyesen telepítve van és naprakész!"
+msgstr "Gratulálunk, az %s helyesen telepített van és naprakész!"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Upgrade to %s"
@@ -6407,19 +6406,19 @@ msgstr "Frissítés a következőre: %s"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "%s will be available soon. Please check again in a few days."
-msgstr "A(z) %s hamarosan elérhető lesz. Ellenőrizze ismét néhány nap múlva."
+msgstr "Az %s hamarosan elérhető lesz. Ellenőrizze ismét néhány nap múlva."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Please have a look at %s for more information."
-msgstr "Vessen egy pillantást a(z) %s címre a további információkért."
+msgstr "Vessen egy pillantást az %s címre a további információkért."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
 "Your OTRS Free is the base for all future actions. Please register first "
 "before you continue with the upgrade process of %s!"
 msgstr ""
-"Az ingyenes OTRS az alapja minden további műveletnek. Először regisztráljon, "
-"mielőtt folytatja a(z) %s frissítési folyamatát!"
+"Az OTRS Free az alapja minden további műveletnek. Először regisztráljon, "
+"mielőtt folytatja az %s frissítési folyamatát!"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Register this System"
@@ -6437,8 +6436,8 @@ msgstr ""
 msgid ""
 "Before you can benefit from %s, please contact %s to get your %s contract."
 msgstr ""
-"Mielőtt hasznot húzna a(z) %s programból, kérjük lépjen kapcsolatba a "
-"szolgáltatóval (%s) a(z) %s szerződés beszerzéséhez."
+"Mielőtt használatba venné az %s programot, kérjük lépjen kapcsolatba a "
+"szolgáltatóval (%s) az %s szerződés beszerzéséhez."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
@@ -6452,15 +6451,14 @@ msgstr ""
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "With your existing contract you can only use a small part of the %s."
 msgstr ""
-"A meglévő szerződésével csak egy kis részét tudja használni a(z) %s "
-"programnak."
+"A meglévő szerződésével csak egy kis részét tudja használni az %s programnak."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
 "If you would like to take full advantage of the %s get your contract upgraded "
 "now! Contact %s."
 msgstr ""
-"Ha a(z) %s minden előnyét igénybe szeretné venni, akkor frissítse most a "
+"Ha az %s minden előnyét igénybe szeretné venni, akkor frissítse most a "
 "szerződését! Kapcsolatfelvétel: %s."
 
 #. Template: AdminOTRSBusinessUninstall
@@ -6495,7 +6493,7 @@ msgid ""
 "You are about to downgrade to OTRS Free and will lose the following features "
 "and all data related to these:"
 msgstr ""
-"Arra készül, hogy visszavált az ingyenes OTRS-re, és el fogja veszíteni a "
+"Arra készül, hogy visszavált az OTRS Free verzióra, és el fogja veszíteni a "
 "következő szolgáltatásokat és minden ezekhez kapcsolódó adatot:"
 
 #. Template: AdminOTRSBusinessUninstall
@@ -6524,7 +6522,7 @@ msgstr "Jegymelléklet nézet"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "The %s skin"
-msgstr "A(z) %s felszín"
+msgstr "Az %s felszín"
 
 #. Template: AdminPGP
 msgid "PGP Management"
@@ -6668,7 +6666,7 @@ msgid ""
 "With %s, you can benefit from the following optional features. Please make "
 "contact with %s if you need more information."
 msgstr ""
-"A(z) %s használatával a következő opcionális szolgáltatások előnyeit "
+"Az %s használatával a következő opcionális szolgáltatások előnyeit "
 "élvezheti. Ha további információkra van szüksége, akkor vegye fel a "
 "kapcsolatot a következővel: %s."
 
@@ -7808,8 +7806,8 @@ msgid ""
 "Please note that you can't deregister your system if you're using the %s or "
 "having a valid service contract."
 msgstr ""
-"Ne feledje, hogy hogy nem tudja a rendszer regisztrációját megszüntetni a(z) %"
-"s használatakor, vagy ha érvényes szolgáltatói szerződése van."
+"Ne feledje, hogy hogy nem tudja a rendszer regisztrációját megszüntetni az "
+"%s használatakor, vagy ha érvényes szolgáltatói szerződése van."
 
 #. Template: AdminRegistration
 msgid "OTRS-ID Login"
@@ -9154,8 +9152,8 @@ msgid ""
 "A template is a default text which helps your agents to write faster tickets, "
 "answers or forwards."
 msgstr ""
-"A sablon egy olyan alapértelmezett szöveg, amely segíti az ügyintézőket a "
-"gyorsabb jegyek, válaszok vagy továbbítások írásakor."
+"A sablon egy olyan alapértelmezett szöveg, amely segít az ügyintézőknek a "
+"jegyek, válaszok vagy továbbítások gyorsabb írásában."
 
 #. Template: AdminTemplate
 msgid "Don't forget to add new templates to queues."
@@ -11277,7 +11275,7 @@ msgstr "Jelszó ismétlése"
 
 #. Template: InstallerDBmssql
 msgid "Generated password"
-msgstr "Generált jelszó"
+msgstr "Előállított jelszó"
 
 #. Template: InstallerDBmysql
 msgid "Passwords do not match"
@@ -11533,7 +11531,7 @@ msgid ""
 "parent ticket until all child tickets are closed)."
 msgstr ""
 "Egy ACL modul, amely csak akkor engedélyezi a szülőjegyek lezárását, ha már "
-"minden gyermekjegyük le van zárva (az „Állapot” jelzi, hogy mely állapotok "
+"minden gyermekjegyük le van zárva (a „State” azt jelzi, hogy mely állapotok "
 "nem érhetők el a szülőjegyhez, amíg minden gyermekjegy le nincs zárva)."
 
 #. SysConfig
@@ -11553,7 +11551,7 @@ msgstr ""
 #. SysConfig
 msgid "Activates lost password feature for agents, in the agent interface."
 msgstr ""
-"Elfelejtett jelszó szolgáltatását aktivál az ügyintézőknek az ügyintézői "
+"Elfelejtett jelszó szolgáltatást aktivál az ügyintézőknek az ügyintézői "
 "felületen."
 
 #. SysConfig
@@ -12373,7 +12371,7 @@ msgid ""
 "Controls if the ticket and article seen flags are removed when a ticket is "
 "archived."
 msgstr ""
-"Azt szabályozza, hogy a jegy és a bejegyzés látható jelzői el legyenek-e "
+"Azt szabályozza, hogy a jegy és a bejegyzés olvasottság jelzői el legyenek-e "
 "távolítva a jegy archiválásakor."
 
 #. SysConfig
@@ -12383,6 +12381,10 @@ msgstr "Átalakítja a HTML leveleket szöveges üzenetre."
 #. SysConfig
 msgid "Create New process ticket"
 msgstr "Új folyamatjegy létrehozása"
+
+#. SysConfig
+msgid "Create Ticket"
+msgstr "Jegy létrehozása"
 
 #. SysConfig
 msgid "Create and manage Service Level Agreements (SLAs)."
@@ -12972,9 +12974,9 @@ msgid ""
 "agent interface (if the ticket isn't locked yet, the ticket gets locked and "
 "the current agent will be set automatically as its owner)."
 msgstr ""
-"Meghatározza, hogy jegyzárolás szükséges az ügyintézői felület e-mail kimenő "
-"képernyőjén (ha a jegy még nincs zárolva, a jegy zárolva lesz, és az aktuális "
-"ügyintéző automatikusan beállításra kerül annak tulajdonosaként)."
+"Meghatározza, hogy jegyzárolás szükséges az ügyintézői felület kimenő e-mail "
+"képernyőjén (ha a jegy még nincs zárolva, a jegy zárolva lesz, és az "
+"aktuális ügyintéző automatikusan beállításra kerül annak tulajdonosaként)."
 
 #. SysConfig
 msgid ""
@@ -13066,9 +13068,10 @@ msgid ""
 "the agent interface (if the ticket isn't locked yet, the ticket gets locked "
 "and the current agent will be set automatically as its owner)."
 msgstr ""
-"Meghatározza, hogy jegyzárolás szükséges az ügyintézői felület jegy telefon "
-"bejövő képernyőjén (ha a jegy még nincs zárolva, a jegy zárolva lesz, és az "
-"aktuális ügyintéző automatikusan beállításra kerül annak tulajdonosaként)."
+"Meghatározza, hogy jegyzárolás szükséges az ügyintézői felület bejövő "
+"telefonhívás képernyőjén (ha a jegy még nincs zárolva, a jegy zárolva lesz, "
+"és az aktuális ügyintéző automatikusan beállításra kerül annak "
+"tulajdonosaként)."
 
 #. SysConfig
 msgid ""
@@ -13076,9 +13079,10 @@ msgid ""
 "the agent interface (if the ticket isn't locked yet, the ticket gets locked "
 "and the current agent will be set automatically as its owner)."
 msgstr ""
-"Meghatározza, hogy jegyzárolás szükséges az ügyintézői felület jegy telefon "
-"kimenő képernyőjén (ha a jegy még nincs zárolva, a jegy zárolva lesz, és az "
-"aktuális ügyintéző automatikusan beállításra kerül annak tulajdonosaként)."
+"Meghatározza, hogy jegyzárolás szükséges az ügyintézői felület kimenő "
+"telefonhívás képernyőjén (ha a jegy még nincs zárolva, a jegy zárolva lesz, "
+"és az aktuális ügyintéző automatikusan beállításra kerül annak "
+"tulajdonosaként)."
 
 #. SysConfig
 msgid ""
@@ -13485,7 +13489,7 @@ msgid ""
 "in the email outbound screen of the agent interface."
 msgstr ""
 "Meghatározza egy jegy alapértelmezett következő állapotát az üzenet elküldése "
-"után az ügyintézői felület e-mail kimenő képernyőjén."
+"után az ügyintézői felület kimenő e-mail képernyőjén."
 
 #. SysConfig
 msgid ""
@@ -13501,7 +13505,7 @@ msgid ""
 "inbound screen of the agent interface."
 msgstr ""
 "Meghatározza a telefonos jegyek alapértelmezett jegyzet törzsét az ügyintézői "
-"felület jegy telefon bejövő képernyőjén."
+"felület bejövő telefonhívás képernyőjén."
 
 #. SysConfig
 msgid ""
@@ -13509,7 +13513,7 @@ msgid ""
 "outbound screen of the agent interface."
 msgstr ""
 "Meghatározza a telefonos jegyek alapértelmezett jegyzet törzsét az ügyintézői "
-"felület jegy telefon kimenő képernyőjén."
+"felület kimenő telefonhívás képernyőjén."
 
 #. SysConfig
 msgid ""
@@ -13569,7 +13573,7 @@ msgid ""
 "screen of the agent interface."
 msgstr ""
 "Meghatározza a telefonos jegyek alapértelmezett küldőtípusát az ügyintézői "
-"felület jegy telefon bejövő képernyőjén."
+"felület bejövő telefonhívás képernyőjén."
 
 #. SysConfig
 msgid ""
@@ -13577,7 +13581,7 @@ msgid ""
 "outbound screen of the agent interface."
 msgstr ""
 "Meghatározza a telefonos jegyek alapértelmezett küldőtípusát az ügyintézői "
-"felület jegy telefon kimenő képernyőjén."
+"felület kimenő telefonhívás képernyőjén."
 
 #. SysConfig
 msgid ""
@@ -13688,7 +13692,7 @@ msgid ""
 "screen of the agent interface."
 msgstr ""
 "Meghatározza a telefonos jegyek alapértelmezett tárgyát az ügyintézői felület "
-"jegy telefon bejövő képernyőjén."
+"bejövő telefonhívás képernyőjén."
 
 #. SysConfig
 msgid ""
@@ -13696,7 +13700,7 @@ msgid ""
 "screen of the agent interface."
 msgstr ""
 "Meghatározza a telefonos jegyek alapértelmezett tárgyát az ügyintézői felület "
-"jegy telefon kimenő képernyőjén."
+"kimenő telefonhívás képernyőjén."
 
 #. SysConfig
 msgid ""
@@ -13784,7 +13788,8 @@ msgid ""
 "phone inbound screen of the agent interface."
 msgstr ""
 "Meghatározza egy jegy alapértelmezett következő állapotát egy telefonos "
-"jegyzet hozzáadása után az ügyintézői felület jegy telefon bejövő képernyőjén."
+"jegyzet hozzáadása után az ügyintézői felület bejövő telefonhívás "
+"képernyőjén."
 
 #. SysConfig
 msgid ""
@@ -13792,7 +13797,8 @@ msgid ""
 "phone outbound screen of the agent interface."
 msgstr ""
 "Meghatározza egy jegy alapértelmezett következő állapotát egy telefonos "
-"jegyzet hozzáadása után az ügyintézői felület jegy telefon kimenő képernyőjén."
+"jegyzet hozzáadása után az ügyintézői felület kimenő telefonhívás "
+"képernyőjén."
 
 #. SysConfig
 msgid ""
@@ -14050,7 +14056,7 @@ msgid ""
 "url on the agent interface."
 msgstr ""
 "Meghatározza az alapértelmezetten használt előtétprogram-modult, ha nincs "
-"művelet paraméter megadva az URL-ben az ügyintézői felületen."
+"Action paraméter megadva az URL-ben az ügyintézői felületen."
 
 #. SysConfig
 msgid ""
@@ -14058,7 +14064,7 @@ msgid ""
 "url on the customer interface."
 msgstr ""
 "Meghatározza az alapértelmezetten használt előtétprogram-modult, ha nincs "
-"művelet paraméter megadva az URL-ben az ügyfélfelületen."
+"Action paraméter megadva az URL-ben az ügyfélfelületen."
 
 #. SysConfig
 msgid ""
@@ -14201,7 +14207,7 @@ msgid ""
 "Defines the history comment for the ticket phone inbound screen action, which "
 "gets used for ticket history in the agent interface."
 msgstr ""
-"Meghatározza az előzmények megjegyzést a jegy telefon bejövő képernyő "
+"Meghatározza az előzmények megjegyzést a bejövő telefonhívás képernyő "
 "művelethez, amelyet a jegy előzményeinél szoktak használni az ügyintézői "
 "felületen."
 
@@ -14210,7 +14216,7 @@ msgid ""
 "Defines the history comment for the ticket phone outbound screen action, "
 "which gets used for ticket history in the agent interface."
 msgstr ""
-"Meghatározza az előzmények megjegyzést a jegy telefon kimenő képernyő "
+"Meghatározza az előzmények megjegyzést a kimenő telefonhívás képernyő "
 "művelethez, amelyet a jegy előzményeinél szoktak használni az ügyintézői "
 "felületen."
 
@@ -14307,7 +14313,7 @@ msgid ""
 "Defines the history type for the ticket phone inbound screen action, which "
 "gets used for ticket history in the agent interface."
 msgstr ""
-"Meghatározza az előzmények típusát a jegy telefon bejövő képernyő művelethez, "
+"Meghatározza az előzmények típusát a bejövő telefonhívás képernyő művelethez, "
 "amelyet a jegy előzményeinél szoktak használni az ügyintézői felületen."
 
 #. SysConfig
@@ -14315,7 +14321,7 @@ msgid ""
 "Defines the history type for the ticket phone outbound screen action, which "
 "gets used for ticket history in the agent interface."
 msgstr ""
-"Meghatározza az előzmények típusát a jegy telefon kimenő képernyő művelethez, "
+"Meghatározza az előzmények típusát a kimenő telefonhívás képernyő művelethez, "
 "amelyet a jegy előzményeinél szoktak használni az ügyintézői felületen."
 
 #. SysConfig
@@ -14693,7 +14699,7 @@ msgid ""
 "outbound screen of the agent interface."
 msgstr ""
 "Meghatározza egy üzenet küldése utáni következő lehetséges állapotokat az "
-"ügyintézői felület e-mail kimenő képernyőjén."
+"ügyintézői felület kimenő e-mail képernyőjén."
 
 #. SysConfig
 msgid ""
@@ -15258,8 +15264,8 @@ msgid ""
 msgstr ""
 "Meghatározza egy jegy látható zárait. MEGJEGYZÉS: ha megváltoztatja ezt a "
 "beállítást, akkor győződjön meg arról, hogy törölte-e a gyorsítótárat annak "
-"érdekében, hogy használhassa az új értéket. Alapértelmezett: zárolatlan, "
-"átmenetileg zárolt."
+"érdekében, hogy használhassa az új értéket. Alapértelmezett: unlock, "
+"tmp_lock."
 
 #. SysConfig
 msgid ""
@@ -15363,7 +15369,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Determines if the statistics module may generate ticket lists."
-msgstr "Meghatározza, hogy a statisztika modul generálhat-e jegylistákat."
+msgstr "Meghatározza, hogy a statisztika modul előállíthat-e jegylistákat."
 
 #. SysConfig
 msgid ""
@@ -17224,7 +17230,7 @@ msgstr ""
 #. SysConfig
 msgid "Max size (in rows) of the informed agents box in the agent interface."
 msgstr ""
-"A tájékoztatott ügyintézők doboz legnagyobb mérete (sorokban) az ügyintézői "
+"Az értesített ügyintézők doboz legnagyobb mérete (sorokban) az ügyintézői "
 "felületen."
 
 #. SysConfig
@@ -17494,7 +17500,7 @@ msgid ""
 "inbound screen of the agent interface."
 msgstr ""
 "A következő lehetséges jegyállapotok egy új telefonos jegyzet hozzáadása után "
-"az ügyintézői felület jegy telefon bejövő képernyőjén."
+"az ügyintézői felület bejövő telefonhívás képernyőjén."
 
 #. SysConfig
 msgid ""
@@ -17502,7 +17508,7 @@ msgid ""
 "outbound screen of the agent interface."
 msgstr ""
 "A következő lehetséges jegyállapotok egy új telefonos jegyzet hozzáadása után "
-"az ügyintézői felület jegy telefon kimenő képernyőjén."
+"az ügyintézői felület kimenő telefonhívás képernyőjén."
 
 #. SysConfig
 msgid "No Notification"
@@ -18100,7 +18106,7 @@ msgstr ""
 msgid ""
 "Required permissions to use the email outbound screen in the agent interface."
 msgstr ""
-"Az e-mail kimenő képernyő használatához szükséges jogosultságok az ügyintézői "
+"A kimenő e-mail képernyő használatához szükséges jogosultságok az ügyintézői "
 "felületen."
 
 #. SysConfig
@@ -18168,7 +18174,7 @@ msgid ""
 "Required permissions to use the ticket phone inbound screen in the agent "
 "interface."
 msgstr ""
-"A jegy telefon bejövő képernyő használatához szükséges jogosultságok az "
+"A bejövő telefonhívás képernyő használatához szükséges jogosultságok az "
 "ügyintézői felületen."
 
 #. SysConfig
@@ -18176,7 +18182,7 @@ msgid ""
 "Required permissions to use the ticket phone outbound screen in the agent "
 "interface."
 msgstr ""
-"A jegy telefon kimenő képernyő használatához szükséges jogosultságok az "
+"A kimenő telefonhívás képernyő használatához szükséges jogosultságok az "
 "ügyintézői felületen."
 
 #. SysConfig
@@ -20444,32 +20450,32 @@ msgid ""
 "The logo shown in the header of the agent interface for the skin \"default\". "
 "See \"AgentLogo\" for further description."
 msgstr ""
-"Az ügyintézői felület fejlécében megjelenített logó az „alapértelmezett” "
-"felszínnél. További leírásért nézze meg az „AgentLogo” bejegyzést."
+"Az ügyintézői felület fejlécében megjelenített logó az „Alapértelmezett” "
+"felszínnél. További leírásért nézze meg az „AgentLogo” beállítást."
 
 #. SysConfig
 msgid ""
 "The logo shown in the header of the agent interface for the skin \"ivory\". "
 "See \"AgentLogo\" for further description."
 msgstr ""
-"Az ügyintézői felület fejlécében megjelenített logó az „ivory” felszínnél. "
-"További leírásért nézze meg az „AgentLogo” bejegyzést."
+"Az ügyintézői felület fejlécében megjelenített logó az „Elefántcsont” "
+"felszínnél. További leírásért nézze meg az „AgentLogo” beállítást."
 
 #. SysConfig
 msgid ""
 "The logo shown in the header of the agent interface for the skin "
 "\"ivory-slim\". See \"AgentLogo\" for further description."
 msgstr ""
-"Az ügyintézői felület fejlécében megjelenített logó az „ivory-slim” "
-"felszínnél. További leírásért nézze meg az „AgentLogo” bejegyzést."
+"Az ügyintézői felület fejlécében megjelenített logó az „Elefántcsont "
+"(karcsú)” felszínnél. További leírásért nézze meg az „AgentLogo” beállítást."
 
 #. SysConfig
 msgid ""
 "The logo shown in the header of the agent interface for the skin \"slim\". "
 "See \"AgentLogo\" for further description."
 msgstr ""
-"Az ügyintézői felület fejlécében megjelenített logó a „slim” felszínnél. "
-"További leírásért nézze meg az „AgentLogo” bejegyzést."
+"Az ügyintézői felület fejlécében megjelenített logó az „Alapértelmezett "
+"(karcsú)” felszínnél. További leírásért nézze meg az „AgentLogo” beállítást."
 
 #. SysConfig
 msgid ""
@@ -20603,6 +20609,10 @@ msgid "Ticket Queue Overview"
 msgstr "Jegyvárólista áttekintő"
 
 #. SysConfig
+msgid "Ticket Zoom"
+msgstr "Jegynagyítás"
+
+#. SysConfig
 msgid "Ticket event module that triggers the escalation stop events."
 msgstr ""
 "Jegyesemény modul, amely aktiválja az eszkaláció leállítás eseményeket."
@@ -20680,7 +20690,7 @@ msgstr ""
 #. SysConfig
 msgid "Unlock tickets whenever a note is added and the owner is out of office."
 msgstr ""
-"Jegyek feloldása, amikor egy jegyzetet adnak hozzá és a tulajdonos házon "
+"Jegyek feloldása, amikor egy jegyzetet adnak hozzá és a tulajdonos irodán "
 "kívül van."
 
 #. SysConfig

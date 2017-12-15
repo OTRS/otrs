@@ -432,13 +432,13 @@ sub Data {
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
             'Frissítés érhető el az Ön %s telepítéséhez, de ütközés van a keretrendszer verziójával! Először a keretrendszert frissítse!',
         'Your system was successfully upgraded to %s.' => 'A rendszere sikeresen frissítve lett a következő verzióra: %s.',
-        'There was a problem during the upgrade to %s.' => 'Hiba történt a(z) %s verzióra való frissítés közben.',
-        '%s was correctly reinstalled.' => 'A(z) %s rendben újra lett telepítve.',
-        'There was a problem reinstalling %s.' => 'Hiba történt a(z) %s újratelepítésekor.',
-        'Your %s was successfully updated.' => 'A(z) %s sikeresen frissítve lett.',
-        'There was a problem during the upgrade of %s.' => 'Hiba történt a(z) %s frissítése közben.',
-        '%s was correctly uninstalled.' => 'A(z) %s rendben el lett távolítva.',
-        'There was a problem uninstalling %s.' => 'Hiba történt a(z) %s eltávolításakor.',
+        'There was a problem during the upgrade to %s.' => 'Hiba történt az %s verzióra való frissítés közben.',
+        '%s was correctly reinstalled.' => 'Az %s rendben újra lett telepítve.',
+        'There was a problem reinstalling %s.' => 'Hiba történt az %s újratelepítésekor.',
+        'Your %s was successfully updated.' => 'Az %s sikeresen frissítve lett.',
+        'There was a problem during the upgrade of %s.' => 'Hiba történt az %s frissítése közben.',
+        '%s was correctly uninstalled.' => 'Az %s rendben el lett távolítva.',
+        'There was a problem uninstalling %s.' => 'Hiba történt az %s eltávolításakor.',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Újév',
@@ -736,7 +736,7 @@ sub Data {
         'Unlock' => 'Feloldás',
         'History' => 'Előzmények',
         'Zoom' => 'Részletek',
-        'Age' => 'Időtartam',
+        'Age' => 'Életkor',
         'Bounce' => 'Átirányítás',
         'Forward' => 'Továbbítás',
         'From' => 'Feladó',
@@ -1724,18 +1724,18 @@ sub Data {
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => '%s kezelése',
-        'Downgrade to OTRS Free' => 'Visszaváltás az ingyenes OTRS-re',
+        'Downgrade to OTRS Free' => 'Visszaváltás az OTRS Free verzióra',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
-            'A(z) %s rendszeresen kapcsolatot létesít a cloud.otrs.com kiszolgálóval az elérhető frissítések és az alapjául szolgáló szerződés érvényességének ellenőrzéséhez.',
+            'Az %s rendszeresen kapcsolatot létesít a cloud.otrs.com kiszolgálóval az elérhető frissítések és az alapjául szolgáló szerződés érvényességének ellenőrzéséhez.',
         'Unauthorized Usage Detected' => 'Jogosulatlan használat észlelhető',
         'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
-            'Ez a rendszer a megfelelő licenc nélkül használja a(z) %s programot. A szerződés megújításához vagy aktiválásához vegye fel a kapcsolatot a következővel: %s!',
+            'Ez a rendszer a megfelelő licenc nélkül használja az %s programot. A szerződés megújításához vagy aktiválásához vegye fel a kapcsolatot a következővel: %s!',
         '%s not Correctly Installed' => '%s nincs helyesen telepítve',
         'Your %s is not correctly installed. Please reinstall it with the button below.' =>
-            'A(z) %s nincs helyesen telepítve. Telepítse újra a lenti gombbal.',
+            'Az %s nincs helyesen telepítve. Telepítse újra a lenti gombbal.',
         'Reinstall %s' => '%s újratelepítése',
         'Your %s is not correctly installed, and there is also an update available.' =>
-            'A(z) %s nincs helyesen telepítve, és egy frissítés is elérhető.',
+            'Az %s nincs helyesen telepítve, és egy frissítés is elérhető.',
         'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
             'Újratelepítheti a jelenlegi verziót, vagy elvégezhet egy frissítést a lenti gombbal (a frissítés javasolt).',
         'Update %s' => '%s frissítése',
@@ -1743,29 +1743,29 @@ sub Data {
         '%s will be available soon.' => '%s hamarosan elérhető lesz.',
         '%s Update Available' => '%s frissítés érhető el',
         'An update for your %s is available! Please update at your earliest!' =>
-            'Frissítés érhető el a(z) %s programhoz! Frissítsen a lehető leghamarabb!',
-        '%s Correctly Deployed' => 'A(z) %s helyesen üzembe állítva',
+            'Frissítés érhető el az %s programhoz! Frissítsen a lehető leghamarabb!',
+        '%s Correctly Deployed' => 'Az %s helyesen üzembe állítva',
         'Congratulations, your %s is correctly installed and up to date!' =>
-            'Gratulálunk, a(z) %s program helyesen telepítve van és naprakész!',
+            'Gratulálunk, az %s helyesen telepített van és naprakész!',
 
         # Template: AdminOTRSBusinessNotInstalled
         'Upgrade to %s' => 'Frissítés a következőre: %s',
         '%s will be available soon. Please check again in a few days.' =>
-            'A(z) %s hamarosan elérhető lesz. Ellenőrizze ismét néhány nap múlva.',
-        'Please have a look at %s for more information.' => 'Vessen egy pillantást a(z) %s címre a további információkért.',
+            'Az %s hamarosan elérhető lesz. Ellenőrizze ismét néhány nap múlva.',
+        'Please have a look at %s for more information.' => 'Vessen egy pillantást az %s címre a további információkért.',
         'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            'Az ingyenes OTRS az alapja minden további műveletnek. Először regisztráljon, mielőtt folytatja a(z) %s frissítési folyamatát!',
+            'Az OTRS Free az alapja minden további műveletnek. Először regisztráljon, mielőtt folytatja az %s frissítési folyamatát!',
         'Register this System' => 'A rendszer regisztrálása',
         'System Registration is disabled for your system. Please check your configuration.' =>
             'A rendszer regisztráció le van tiltva a rendszerénél. Ellenőrizze a beállításokat.',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
-            'Mielőtt hasznot húzna a(z) %s programból, kérjük lépjen kapcsolatba a szolgáltatóval (%s) a(z) %s szerződés beszerzéséhez.',
+            'Mielőtt használatba venné az %s programot, kérjük lépjen kapcsolatba a szolgáltatóval (%s) az %s szerződés beszerzéséhez.',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
             'Nem sikerült kapcsolatot létesíteni HTTPS-en keresztül a cloud.otrs.com hellyel. Győződjön meg arról, hogy az OTRS rendszere tud-e kapcsolódni a cloud.otrs.com címre a 443-as porton.',
         'With your existing contract you can only use a small part of the %s.' =>
-            'A meglévő szerződésével csak egy kis részét tudja használni a(z) %s programnak.',
+            'A meglévő szerződésével csak egy kis részét tudja használni az %s programnak.',
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
-            'Ha a(z) %s minden előnyét igénybe szeretné venni, akkor frissítse most a szerződését! Kapcsolatfelvétel: %s.',
+            'Ha az %s minden előnyét igénybe szeretné venni, akkor frissítse most a szerződését! Kapcsolatfelvétel: %s.',
 
         # Template: AdminOTRSBusinessUninstall
         'Cancel downgrade and go back' => 'Visszaváltás megszakítása és visszalépés',
@@ -1776,14 +1776,14 @@ sub Data {
         'Please uninstall the packages first using the package manager and try again.' =>
             'Először távolítsa el a csomagokat a csomagkezelő használatával, majd próbálja újra.',
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
-            'Arra készül, hogy visszavált az ingyenes OTRS-re, és el fogja veszíteni a következő szolgáltatásokat és minden ezekhez kapcsolódó adatot:',
+            'Arra készül, hogy visszavált az OTRS Free verzióra, és el fogja veszíteni a következő szolgáltatásokat és minden ezekhez kapcsolódó adatot:',
         'Chat' => 'Csevegés',
         'Timeline view in ticket zoom' => 'Idővonal nézet a jegynagyításban',
         'DynamicField ContactWithData' => 'Dinamikus mező ContactWithData',
         'DynamicField Database' => 'Dinamikus mező adatbázis',
         'SLA Selection Dialog' => 'SLA kiválasztó párbeszédablak',
         'Ticket Attachment View' => 'Jegymelléklet nézet',
-        'The %s skin' => 'A(z) %s felszín',
+        'The %s skin' => 'Az %s felszín',
 
         # Template: AdminPGP
         'PGP Management' => 'PGP kezelés',
@@ -1823,7 +1823,7 @@ sub Data {
         'Reinstall' => 'Újratelepítés',
         'Features for %s customers only' => 'Csak a(z) %s ügyfelek szolgáltatásai',
         'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
-            'A(z) %s használatával a következő opcionális szolgáltatások előnyeit élvezheti. Ha további információkra van szüksége, akkor vegye fel a kapcsolatot a következővel: %s.',
+            'Az %s használatával a következő opcionális szolgáltatások előnyeit élvezheti. Ha további információkra van szüksége, akkor vegye fel a kapcsolatot a következővel: %s.',
         'Download package' => 'Csomag letöltése',
         'Rebuild package' => 'Csomag újraépítése',
         'Metadata' => 'Metaadatok',
@@ -2142,7 +2142,7 @@ sub Data {
         'Instructions' => 'Utasítások',
         'System deregistration not possible' => 'A rendszer regisztrációjának megszüntetése nem lehetséges',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
-            'Ne feledje, hogy hogy nem tudja a rendszer regisztrációját megszüntetni a(z) %s használatakor, vagy ha érvényes szolgáltatói szerződése van.',
+            'Ne feledje, hogy hogy nem tudja a rendszer regisztrációját megszüntetni az %s használatakor, vagy ha érvényes szolgáltatói szerződése van.',
         'OTRS-ID Login' => 'OTRS-azonosító bejelentkezés',
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'A rendszer regisztráció az OTRS csoport szolgáltatása, amely számos előnyt biztosít!',
@@ -2528,7 +2528,7 @@ sub Data {
         'Manage Templates' => 'Sablonok kezelése',
         'Add template' => 'Sablon hozzáadása',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
-            'A sablon egy olyan alapértelmezett szöveg, amely segíti az ügyintézőket a gyorsabb jegyek, válaszok vagy továbbítások írásakor.',
+            'A sablon egy olyan alapértelmezett szöveg, amely segít az ügyintézőknek a jegyek, válaszok vagy továbbítások gyorsabb írásában.',
         'Don\'t forget to add new templates to queues.' => 'Ne felejtse el hozzáadni az új sablonokat a várólistákhoz.',
         'Add Template' => 'Sablon hozzáadása',
         'Edit Template' => 'Sablon szerkesztése',
@@ -3235,7 +3235,7 @@ sub Data {
         'A new database user with limited permissions will be created for this OTRS system.' =>
             'Egy új, korlátozott jogosultságokkal rendelkező adatbázis felhasználó lesz létrehozva ehhez az OTRS rendszerhez.',
         'Repeat Password' => 'Jelszó ismétlése',
-        'Generated password' => 'Generált jelszó',
+        'Generated password' => 'Előállított jelszó',
 
         # Template: InstallerDBmysql
         'Passwords do not match' => 'A jelszavak nem egyeznek',
@@ -3328,13 +3328,13 @@ sub Data {
             'Azon dinamikus mezők listája, amelyek az egyesítési művelet során egyesítve lesznek a fő jeggyel. A fő jegyen belül csak az üres dinamikus mezők lesznek beállítva.',
         'A picture' => 'Egy kép',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
-            'Egy ACL modul, amely csak akkor engedélyezi a szülőjegyek lezárását, ha már minden gyermekjegyük le van zárva (az „Állapot” jelzi, hogy mely állapotok nem érhetők el a szülőjegyhez, amíg minden gyermekjegy le nincs zárva).',
+            'Egy ACL modul, amely csak akkor engedélyezi a szülőjegyek lezárását, ha már minden gyermekjegyük le van zárva (a „State” azt jelzi, hogy mely állapotok nem érhetők el a szülőjegyhez, amíg minden gyermekjegy le nincs zárva).',
         'Access Control Lists (ACL)' => 'Hozzáférés-vezérlési listák (ACL)',
         'AccountedTime' => 'Elszámolt idő',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'A legrégebbi jegyet tartalmazó várólista villogási mechanizmusát aktiválja.',
         'Activates lost password feature for agents, in the agent interface.' =>
-            'Elfelejtett jelszó szolgáltatását aktivál az ügyintézőknek az ügyintézői felületen.',
+            'Elfelejtett jelszó szolgáltatást aktivál az ügyintézőknek az ügyintézői felületen.',
         'Activates lost password feature for customers.' => 'Elfelejtett jelszó szolgáltatást aktivál az ügyfeleknek.',
         'Activates support for customer groups.' => 'Az ügyfélcsoportok támogatását aktiválja.',
         'Activates the article filter in the zoom view to specify which articles should be shown.' =>
@@ -3533,9 +3533,10 @@ sub Data {
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             'Azt szabályozza, hogy az adminisztrátornak megengedett-e az adatbázison módosításokat végrehajtania az adminisztrátori lekérdeződobon keresztül.',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
-            'Azt szabályozza, hogy a jegy és a bejegyzés látható jelzői el legyenek-e távolítva a jegy archiválásakor.',
+            'Azt szabályozza, hogy a jegy és a bejegyzés olvasottság jelzői el legyenek-e távolítva a jegy archiválásakor.',
         'Converts HTML mails into text messages.' => 'Átalakítja a HTML leveleket szöveges üzenetre.',
         'Create New process ticket' => 'Új folyamatjegy létrehozása',
+        'Create Ticket' => 'Jegy létrehozása',
         'Create and manage Service Level Agreements (SLAs).' => 'Szolgáltatási szint megállapodások (SLA-k) létrehozása és kezelése.',
         'Create and manage agents.' => 'Ügyintézők létrehozása és kezelése.',
         'Create and manage attachments.' => 'Mellékletek létrehozása és kezelése.',
@@ -3667,7 +3668,7 @@ sub Data {
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Meghatározza, hogy jegyzárolás szükséges az ügyintézői felület jegylezárás képernyőjén (ha a jegy még nincs zárolva, a jegy zárolva lesz, és az aktuális ügyintéző automatikusan beállításra kerül annak tulajdonosaként).',
         'Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
-            'Meghatározza, hogy jegyzárolás szükséges az ügyintézői felület e-mail kimenő képernyőjén (ha a jegy még nincs zárolva, a jegy zárolva lesz, és az aktuális ügyintéző automatikusan beállításra kerül annak tulajdonosaként).',
+            'Meghatározza, hogy jegyzárolás szükséges az ügyintézői felület kimenő e-mail képernyőjén (ha a jegy még nincs zárolva, a jegy zárolva lesz, és az aktuális ügyintéző automatikusan beállításra kerül annak tulajdonosaként).',
         'Defines if a ticket lock is required in the ticket bounce screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Meghatározza, hogy jegyzárolás szükséges az ügyintézői felület jegyátirányítás képernyőjén (ha a jegy még nincs zárolva, a jegy zárolva lesz, és az aktuális ügyintéző automatikusan beállításra kerül annak tulajdonosaként).',
         'Defines if a ticket lock is required in the ticket compose screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -3685,9 +3686,9 @@ sub Data {
         'Defines if a ticket lock is required in the ticket pending screen of a zoomed ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Meghatározza, hogy jegyzárolás szükséges a nagyított jegynek a jegyvárakozás képernyőjén az ügyintézői felületen (ha a jegy még nincs zárolva, a jegy zárolva lesz, és az aktuális ügyintéző automatikusan beállításra kerül annak tulajdonosaként).',
         'Defines if a ticket lock is required in the ticket phone inbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
-            'Meghatározza, hogy jegyzárolás szükséges az ügyintézői felület jegy telefon bejövő képernyőjén (ha a jegy még nincs zárolva, a jegy zárolva lesz, és az aktuális ügyintéző automatikusan beállításra kerül annak tulajdonosaként).',
+            'Meghatározza, hogy jegyzárolás szükséges az ügyintézői felület bejövő telefonhívás képernyőjén (ha a jegy még nincs zárolva, a jegy zárolva lesz, és az aktuális ügyintéző automatikusan beállításra kerül annak tulajdonosaként).',
         'Defines if a ticket lock is required in the ticket phone outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
-            'Meghatározza, hogy jegyzárolás szükséges az ügyintézői felület jegy telefon kimenő képernyőjén (ha a jegy még nincs zárolva, a jegy zárolva lesz, és az aktuális ügyintéző automatikusan beállításra kerül annak tulajdonosaként).',
+            'Meghatározza, hogy jegyzárolás szükséges az ügyintézői felület kimenő telefonhívás képernyőjén (ha a jegy még nincs zárolva, a jegy zárolva lesz, és az aktuális ügyintéző automatikusan beállításra kerül annak tulajdonosaként).',
         'Defines if a ticket lock is required in the ticket priority screen of a zoomed ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Meghatározza, hogy jegyzárolás szükséges a nagyított jegynek a jegyprioritás képernyőjén az ügyintézői felületen (ha a jegy még nincs zárolva, a jegy zárolva lesz, és az aktuális ügyintéző automatikusan beállításra kerül annak tulajdonosaként).',
         'Defines if a ticket lock is required in the ticket responsible screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -3783,13 +3784,13 @@ sub Data {
         'Defines the default next state of a ticket after being forwarded, in the ticket forward screen of the agent interface.' =>
             'Meghatározza egy jegy alapértelmezett következő állapotát a továbbítás után az ügyintézői felület jegytovábbítás képernyőjén.',
         'Defines the default next state of a ticket after the message has been sent, in the email outbound screen of the agent interface.' =>
-            'Meghatározza egy jegy alapértelmezett következő állapotát az üzenet elküldése után az ügyintézői felület e-mail kimenő képernyőjén.',
+            'Meghatározza egy jegy alapértelmezett következő állapotát az üzenet elküldése után az ügyintézői felület kimenő e-mail képernyőjén.',
         'Defines the default next state of a ticket if it is composed / answered in the ticket compose screen of the agent interface.' =>
             'Meghatározza egy jegy alapértelmezett következő állapotát, ha azt megírták / megválaszolták az ügyintézői felület jegyválasz képernyőjén.',
         'Defines the default note body text for phone tickets in the ticket phone inbound screen of the agent interface.' =>
-            'Meghatározza a telefonos jegyek alapértelmezett jegyzet törzsét az ügyintézői felület jegy telefon bejövő képernyőjén.',
+            'Meghatározza a telefonos jegyek alapértelmezett jegyzet törzsét az ügyintézői felület bejövő telefonhívás képernyőjén.',
         'Defines the default note body text for phone tickets in the ticket phone outbound screen of the agent interface.' =>
-            'Meghatározza a telefonos jegyek alapértelmezett jegyzet törzsét az ügyintézői felület jegy telefon kimenő képernyőjén.',
+            'Meghatározza a telefonos jegyek alapértelmezett jegyzet törzsét az ügyintézői felület kimenő telefonhívás képernyőjén.',
         'Defines the default priority of follow up customer tickets in the ticket zoom screen in the customer interface.' =>
             'Meghatározza a követő ügyféljegyek alapértelmezett prioritását a jegynagyítás képernyőn az ügyfélfelületen.',
         'Defines the default priority of new customer tickets in the customer interface.' =>
@@ -3804,9 +3805,9 @@ sub Data {
         'Defines the default selection at the drop down menu for stats format (Form: Common Specification). Please insert the format key (see Stats::Format).' =>
             'Meghatározza a legördülő menü alapértelmezett kijelölését a statisztika formátumokhoz (Űrlap: közös specifikáció). Szúrja be a formátum kulcsot (lásd: Stats::Format).',
         'Defines the default sender type for phone tickets in the ticket phone inbound screen of the agent interface.' =>
-            'Meghatározza a telefonos jegyek alapértelmezett küldőtípusát az ügyintézői felület jegy telefon bejövő képernyőjén.',
+            'Meghatározza a telefonos jegyek alapértelmezett küldőtípusát az ügyintézői felület bejövő telefonhívás képernyőjén.',
         'Defines the default sender type for phone tickets in the ticket phone outbound screen of the agent interface.' =>
-            'Meghatározza a telefonos jegyek alapértelmezett küldőtípusát az ügyintézői felület jegy telefon kimenő képernyőjén.',
+            'Meghatározza a telefonos jegyek alapértelmezett küldőtípusát az ügyintézői felület kimenő telefonhívás képernyőjén.',
         'Defines the default sender type for tickets in the ticket zoom screen of the customer interface.' =>
             'Meghatározza a jegyek alapértelmezett küldőtípusát az ügyfélfelület jegynagyítás képernyőjén.',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
@@ -3826,9 +3827,9 @@ sub Data {
             'Meghatározza az új ügyféljegyek alapértelmezett állapotát az ügyfélfelületen.',
         'Defines the default state of new tickets.' => 'Meghatározza az új jegyek alapértelmezett állapotát.',
         'Defines the default subject for phone tickets in the ticket phone inbound screen of the agent interface.' =>
-            'Meghatározza a telefonos jegyek alapértelmezett tárgyát az ügyintézői felület jegy telefon bejövő képernyőjén.',
+            'Meghatározza a telefonos jegyek alapértelmezett tárgyát az ügyintézői felület bejövő telefonhívás képernyőjén.',
         'Defines the default subject for phone tickets in the ticket phone outbound screen of the agent interface.' =>
-            'Meghatározza a telefonos jegyek alapértelmezett tárgyát az ügyintézői felület jegy telefon kimenő képernyőjén.',
+            'Meghatározza a telefonos jegyek alapértelmezett tárgyát az ügyintézői felület kimenő telefonhívás képernyőjén.',
         'Defines the default subject of a note in the ticket free text screen of the agent interface.' =>
             'Meghatározza egy jegyzet alapértelmezett tárgyát az ügyintézői felület jegy szabad szöveg képernyőjén.',
         'Defines the default ticket attribute for ticket sorting in a ticket search of the customer interface.' =>
@@ -3850,9 +3851,9 @@ sub Data {
         'Defines the default ticket bounced notification for customer/sender in the ticket bounce screen of the agent interface.' =>
             'Meghatározza az ügyfél/küldő alapértelmezett jegyátirányítási értesítését az ügyintézői felület jegyátirányítás képernyőjén.',
         'Defines the default ticket next state after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
-            'Meghatározza egy jegy alapértelmezett következő állapotát egy telefonos jegyzet hozzáadása után az ügyintézői felület jegy telefon bejövő képernyőjén.',
+            'Meghatározza egy jegy alapértelmezett következő állapotát egy telefonos jegyzet hozzáadása után az ügyintézői felület bejövő telefonhívás képernyőjén.',
         'Defines the default ticket next state after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
-            'Meghatározza egy jegy alapértelmezett következő állapotát egy telefonos jegyzet hozzáadása után az ügyintézői felület jegy telefon kimenő képernyőjén.',
+            'Meghatározza egy jegy alapértelmezett következő állapotát egy telefonos jegyzet hozzáadása után az ügyintézői felület kimenő telefonhívás képernyőjén.',
         'Defines the default ticket order (after priority sort) in the escalation view of the agent interface. Up: oldest on top. Down: latest on top.' =>
             'Meghatározza az alapértelmezett jegysorrendet (a prioritás rendezés után) az ügyintézői felület eszkalációs nézetében. Fel: legrégebbi felülre. Le: legutolsó felülre.',
         'Defines the default ticket order (after priority sort) in the status view of the agent interface. Up: oldest on top. Down: latest on top.' =>
@@ -3917,9 +3918,9 @@ sub Data {
         'Defines the default type of the note in the ticket zoom screen of the customer interface.' =>
             'Meghatározza a jegyzet alapértelmezett típusát az ügyfélfelület jegynagyítás képernyőjén.',
         'Defines the default used Frontend-Module if no Action parameter given in the url on the agent interface.' =>
-            'Meghatározza az alapértelmezetten használt előtétprogram-modult, ha nincs művelet paraméter megadva az URL-ben az ügyintézői felületen.',
+            'Meghatározza az alapértelmezetten használt előtétprogram-modult, ha nincs Action paraméter megadva az URL-ben az ügyintézői felületen.',
         'Defines the default used Frontend-Module if no Action parameter given in the url on the customer interface.' =>
-            'Meghatározza az alapértelmezetten használt előtétprogram-modult, ha nincs művelet paraméter megadva az URL-ben az ügyfélfelületen.',
+            'Meghatározza az alapértelmezetten használt előtétprogram-modult, ha nincs Action paraméter megadva az URL-ben az ügyfélfelületen.',
         'Defines the default value for the action parameter for the public frontend. The action parameter is used in the scripts of the system.' =>
             'Meghatározza a nyilvános előtétprogram művelet paraméterének alapértelmezett értékét. Ezt a művelet paramétert használják a rendszer parancsfájljaiban.',
         'Defines the default viewable sender types of a ticket (default: customer).' =>
@@ -3954,9 +3955,9 @@ sub Data {
         'Defines the history comment for the ticket pending screen action, which gets used for ticket history in the agent interface.' =>
             'Meghatározza az előzmények megjegyzést a várakozó jegy képernyő művelethez, amelyet a jegy előzményeinél szoktak használni az ügyintézői felületen.',
         'Defines the history comment for the ticket phone inbound screen action, which gets used for ticket history in the agent interface.' =>
-            'Meghatározza az előzmények megjegyzést a jegy telefon bejövő képernyő művelethez, amelyet a jegy előzményeinél szoktak használni az ügyintézői felületen.',
+            'Meghatározza az előzmények megjegyzést a bejövő telefonhívás képernyő művelethez, amelyet a jegy előzményeinél szoktak használni az ügyintézői felületen.',
         'Defines the history comment for the ticket phone outbound screen action, which gets used for ticket history in the agent interface.' =>
-            'Meghatározza az előzmények megjegyzést a jegy telefon kimenő képernyő művelethez, amelyet a jegy előzményeinél szoktak használni az ügyintézői felületen.',
+            'Meghatározza az előzmények megjegyzést a kimenő telefonhívás képernyő művelethez, amelyet a jegy előzményeinél szoktak használni az ügyintézői felületen.',
         'Defines the history comment for the ticket priority screen action, which gets used for ticket history in the agent interface.' =>
             'Meghatározza az előzmények megjegyzést a jegy prioritás képernyő művelethez, amelyet a jegy előzményeinél szoktak használni az ügyintézői felületen.',
         'Defines the history comment for the ticket responsible screen action, which gets used for ticket history in the agent interface.' =>
@@ -3980,9 +3981,9 @@ sub Data {
         'Defines the history type for the ticket pending screen action, which gets used for ticket history in the agent interface.' =>
             'Meghatározza az előzmények típusát a várakozó jegy képernyő művelethez, amelyet a jegy előzményeinél szoktak használni az ügyintézői felületen.',
         'Defines the history type for the ticket phone inbound screen action, which gets used for ticket history in the agent interface.' =>
-            'Meghatározza az előzmények típusát a jegy telefon bejövő képernyő művelethez, amelyet a jegy előzményeinél szoktak használni az ügyintézői felületen.',
+            'Meghatározza az előzmények típusát a bejövő telefonhívás képernyő művelethez, amelyet a jegy előzményeinél szoktak használni az ügyintézői felületen.',
         'Defines the history type for the ticket phone outbound screen action, which gets used for ticket history in the agent interface.' =>
-            'Meghatározza az előzmények típusát a jegy telefon kimenő képernyő művelethez, amelyet a jegy előzményeinél szoktak használni az ügyintézői felületen.',
+            'Meghatározza az előzmények típusát a kimenő telefonhívás képernyő művelethez, amelyet a jegy előzményeinél szoktak használni az ügyintézői felületen.',
         'Defines the history type for the ticket priority screen action, which gets used for ticket history in the agent interface.' =>
             'Meghatározza az előzmények típusát a jegy prioritás képernyő művelethez, amelyet a jegy előzményeinél szoktak használni az ügyintézői felületen.',
         'Defines the history type for the ticket responsible screen action, which gets used for ticket history in the agent interface.' =>
@@ -4073,7 +4074,7 @@ sub Data {
         'Defines the next possible states after forwarding a ticket in the ticket forward screen of the agent interface.' =>
             'Meghatározza egy jegy továbbítása utáni következő lehetséges állapotokat az ügyintézői felület jegytovábbítás képernyőjén.',
         'Defines the next possible states after sending a message in the email outbound screen of the agent interface.' =>
-            'Meghatározza egy üzenet küldése utáni következő lehetséges állapotokat az ügyintézői felület e-mail kimenő képernyőjén.',
+            'Meghatározza egy üzenet küldése utáni következő lehetséges állapotokat az ügyintézői felület kimenő e-mail képernyőjén.',
         'Defines the next possible states for customer tickets in the customer interface.' =>
             'Meghatározza az ügyféljegyek következő lehetséges állapotait az ügyfélfelületen.',
         'Defines the next state of a ticket after adding a note, in the close ticket screen of the agent interface.' =>
@@ -4198,7 +4199,7 @@ sub Data {
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.UnlockTickets.pl" can be used.' =>
             'Meghatározza a zárolatlan jegyek érvényes állapotait. A jegyek feloldásához a „bin/otrs.UnlockTickets.pl” parancsfájl használható.',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
-            'Meghatározza egy jegy látható zárait. MEGJEGYZÉS: ha megváltoztatja ezt a beállítást, akkor győződjön meg arról, hogy törölte-e a gyorsítótárat annak érdekében, hogy használhassa az új értéket. Alapértelmezett: zárolatlan, átmenetileg zárolt.',
+            'Meghatározza egy jegy látható zárait. MEGJEGYZÉS: ha megváltoztatja ezt a beállítást, akkor győződjön meg arról, hogy törölte-e a gyorsítótárat annak érdekében, hogy használhassa az új értéket. Alapértelmezett: unlock, tmp_lock.',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             'Meghatározza a RichText szerkesztő komponens szélességét ennél a képernyőnél. Szám (képpont) vagy százalék (relatív) értéket adjon meg.',
         'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
@@ -4226,7 +4227,7 @@ sub Data {
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             'Meghatározza, hogy a lehetséges várólisták listája, amelybe a jegyet áthelyezik, egy legördülő listában vagy egy új ablakban legyen megjelenítve az ügyintézői felületen. Ha „Új ablak” van beállítva, akkor egy áthelyezési megjegyzést adhat a jegyhez.',
         'Determines if the statistics module may generate ticket lists.' =>
-            'Meghatározza, hogy a statisztika modul generálhat-e jegylistákat.',
+            'Meghatározza, hogy a statisztika modul előállíthat-e jegylistákat.',
         'Determines the next possible ticket states, after the creation of a new email ticket in the agent interface.' =>
             'Meghatározza a következő lehetséges jegyállapotokat egy új e-mail jegy létrehozása után az ügyintézői felületen.',
         'Determines the next possible ticket states, after the creation of a new phone ticket in the agent interface.' =>
@@ -4655,7 +4656,7 @@ sub Data {
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'Az ügyfél-információs tábla (telefon vagy e-mail) legnagyobb mérete (karakterben) a jegyválasz képernyőn.',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
-            'A tájékoztatott ügyintézők doboz legnagyobb mérete (sorokban) az ügyintézői felületen.',
+            'Az értesített ügyintézők doboz legnagyobb mérete (sorokban) az ügyintézői felületen.',
         'Max size (in rows) of the involved agents box in the agent interface.' =>
             'A részt vevő ügyintézők doboz legnagyobb mérete (sorokban) az ügyintézői felületen.',
         'Max size of the subjects in an email reply.' => 'A tárgyak legnagyobb mérete egy e-mail válasznál.',
@@ -4723,9 +4724,9 @@ sub Data {
         'New process ticket' => 'Új folyamatjegy',
         'New responsible is "%s" (ID=%s).' => 'Az új felelős: „%s” (ID=%s).',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
-            'A következő lehetséges jegyállapotok egy új telefonos jegyzet hozzáadása után az ügyintézői felület jegy telefon bejövő képernyőjén.',
+            'A következő lehetséges jegyállapotok egy új telefonos jegyzet hozzáadása után az ügyintézői felület bejövő telefonhívás képernyőjén.',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
-            'A következő lehetséges jegyállapotok egy új telefonos jegyzet hozzáadása után az ügyintézői felület jegy telefon kimenő képernyőjén.',
+            'A következő lehetséges jegyállapotok egy új telefonos jegyzet hozzáadása után az ügyintézői felület kimenő telefonhívás képernyőjén.',
         'No Notification' => 'Nincs értesítés',
         'None' => 'Nincs',
         'Notification sent to "%s".' => 'Értesítés elküldve ide: „%s”.',
@@ -4847,7 +4848,7 @@ sub Data {
         'Required permissions to use the close ticket screen in the agent interface.' =>
             'A jegylezárás képernyő használatához szükséges jogosultságok az ügyintézői felületen.',
         'Required permissions to use the email outbound screen in the agent interface.' =>
-            'Az e-mail kimenő képernyő használatához szükséges jogosultságok az ügyintézői felületen.',
+            'A kimenő e-mail képernyő használatához szükséges jogosultságok az ügyintézői felületen.',
         'Required permissions to use the ticket bounce screen in the agent interface.' =>
             'A jegyátirányítás képernyő használatához szükséges jogosultságok az ügyintézői felületen.',
         'Required permissions to use the ticket compose screen in the agent interface.' =>
@@ -4865,9 +4866,9 @@ sub Data {
         'Required permissions to use the ticket pending screen of a zoomed ticket in the agent interface.' =>
             'Egy nagyított jegynek a várakozó jegy képernyőjének használatához szükséges jogosultságok az ügyintézői felületen.',
         'Required permissions to use the ticket phone inbound screen in the agent interface.' =>
-            'A jegy telefon bejövő képernyő használatához szükséges jogosultságok az ügyintézői felületen.',
+            'A bejövő telefonhívás képernyő használatához szükséges jogosultságok az ügyintézői felületen.',
         'Required permissions to use the ticket phone outbound screen in the agent interface.' =>
-            'A jegy telefon kimenő képernyő használatához szükséges jogosultságok az ügyintézői felületen.',
+            'A kimenő telefonhívás képernyő használatához szükséges jogosultságok az ügyintézői felületen.',
         'Required permissions to use the ticket priority screen of a zoomed ticket in the agent interface.' =>
             'Egy nagyított jegynek a jegyprioritás képernyőjének használatához szükséges jogosultságok az ügyintézői felületen.',
         'Required permissions to use the ticket responsible screen in the agent interface.' =>
@@ -5417,13 +5418,13 @@ sub Data {
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             'Egy jegy azonosítója, például Ticket#, Call#, MyTicket#. Az alapértelmezett a Ticket#.',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
-            'Az ügyintézői felület fejlécében megjelenített logó az „alapértelmezett” felszínnél. További leírásért nézze meg az „AgentLogo” bejegyzést.',
+            'Az ügyintézői felület fejlécében megjelenített logó az „Alapértelmezett” felszínnél. További leírásért nézze meg az „AgentLogo” beállítást.',
         'The logo shown in the header of the agent interface for the skin "ivory". See "AgentLogo" for further description.' =>
-            'Az ügyintézői felület fejlécében megjelenített logó az „ivory” felszínnél. További leírásért nézze meg az „AgentLogo” bejegyzést.',
+            'Az ügyintézői felület fejlécében megjelenített logó az „Elefántcsont” felszínnél. További leírásért nézze meg az „AgentLogo” beállítást.',
         'The logo shown in the header of the agent interface for the skin "ivory-slim". See "AgentLogo" for further description.' =>
-            'Az ügyintézői felület fejlécében megjelenített logó az „ivory-slim” felszínnél. További leírásért nézze meg az „AgentLogo” bejegyzést.',
+            'Az ügyintézői felület fejlécében megjelenített logó az „Elefántcsont (karcsú)” felszínnél. További leírásért nézze meg az „AgentLogo” beállítást.',
         'The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.' =>
-            'Az ügyintézői felület fejlécében megjelenített logó a „slim” felszínnél. További leírásért nézze meg az „AgentLogo” bejegyzést.',
+            'Az ügyintézői felület fejlécében megjelenített logó az „Alapértelmezett (karcsú)” felszínnél. További leírásért nézze meg az „AgentLogo” beállítást.',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             'Az ügyintéző felület fejlécében megjelenített logó. A kép URL lehet relatív URL a felszín képkönyvtárától, vagy egy teljes URL egy távoli webkiszolgálótól.',
         'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
@@ -5455,6 +5456,7 @@ sub Data {
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             'Ez a beállítás lehetővé teszi a beépített országlista felülbírálását a saját országlistájával. Ez különösen hasznos, ha az országoknak csak egy kiválasztott kis csoportját szeretné használni.',
         'Ticket Queue Overview' => 'Jegyvárólista áttekintő',
+        'Ticket Zoom' => 'Jegynagyítás',
         'Ticket event module that triggers the escalation stop events.' =>
             'Jegyesemény modul, amely aktiválja az eszkaláció leállítás eseményeket.',
         'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).' => 'A jegy áthelyezve a(z) „%s” (%s) várólistába a(z) „%s” (%s) várólistából.',
@@ -5475,7 +5477,7 @@ sub Data {
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             'Bekapcsolja a távoli IP-cím ellenőrzését. „Nem” értékre kell állítania, ha az alkalmazást például egy proxy-farmon vagy betárcsázós kapcsolaton keresztül használják, mert a távoli IP-cím többnyire eltérő az egyes kéréseknél.',
         'Unlock tickets whenever a note is added and the owner is out of office.' =>
-            'Jegyek feloldása, amikor egy jegyzetet adnak hozzá és a tulajdonos házon kívül van.',
+            'Jegyek feloldása, amikor egy jegyzetet adnak hozzá és a tulajdonos irodán kívül van.',
         'Unlocked ticket.' => 'Jegy feloldva.',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             'A jegy „Megtekintett” jelzőjének frissítése, ha minden bejegyzést megtekintettek, vagy egy új bejegyzést hoztak létre.',
