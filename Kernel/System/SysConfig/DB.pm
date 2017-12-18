@@ -1573,13 +1573,13 @@ sub DefaultSettingLock {
         return;
     }
 
-    # Check if a deployment is locked, in that case is not possible to lock a setting.
+    # Check if a deployment is locked, in that case it's not possible to lock a setting.
     my $DeploymentLocked = $Self->DeploymentIsLocked();
 
     if ($DeploymentLocked) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Is not possible to lock a setting if a deployment is currently locked.",
+            Message  => "It's not possible to lock a setting if a deployment is currently locked.",
         );
         return;
     }
