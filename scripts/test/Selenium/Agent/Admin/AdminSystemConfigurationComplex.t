@@ -335,6 +335,9 @@ my @Tests = (
                 Click => '.Setting > .Array > .AddArrayItem',
             },
             {
+                Click => '.Setting > .Array > .ArrayItem:nth-of-type(2) > .RemoveButton',
+            },
+            {
                 Select => '.Setting > .Array > .ArrayItem:nth-of-type(4) .HashItem:nth-of-type(1) input',
             },
             {
@@ -353,31 +356,28 @@ my @Tests = (
                 Write => '3',
             },
             {
-                Click => '.Setting > .Array > .ArrayItem:nth-of-type(2) > .RemoveButton',
+                Click => '.Setting > .Array > .ArrayItem:nth-of-type(4) .AddHashKey',
             },
             {
-                Click => '.Setting > .Array > .ArrayItem:nth-of-type(3) .AddHashKey',
-            },
-            {
-                Select => '.Setting > .Array > .ArrayItem:nth-of-type(3) .HashItem:nth-of-type(2) input',
+                Select => '.Setting > .Array > .ArrayItem:nth-of-type(4) .HashItem:nth-of-type(2) input',
             },
             {
                 # Key
                 Write => '4th',
             },
             {
-                Click => '.Setting > .Array > .ArrayItem:nth-of-type(3) .HashItem:nth-of-type(2) .AddKey',
+                Click => '.Setting > .Array > .ArrayItem:nth-of-type(4) .HashItem:nth-of-type(2) .AddKey',
             },
             {
                 Select =>
-                    '.Setting > .Array > .ArrayItem:nth-of-type(3) .HashItem:nth-of-type(2) .SettingContent input',
+                    '.Setting > .Array > .ArrayItem:nth-of-type(4) .HashItem:nth-of-type(2) .SettingContent input',
             },
             {
                 # Value
                 Write => '4',
             },
             {
-                Click => '.Setting > .Array > .ArrayItem:nth-of-type(2) > .RemoveButton',
+                Click => '.Setting > .Array > .ArrayItem:nth-of-type(3) > .RemoveButton',
             },
             {
                 Click => '.Update',
@@ -392,12 +392,15 @@ my @Tests = (
                 'Two' => '2',
             },
             {
+                'Three' => '3',
+                'Four'  => '4',
+            },
+            {
                 '3th' => '3',
                 '4th' => '4',
             },
         ],
     },
-
     {
         Name     => 'ExampleAoHDate',
         Index    => 6,

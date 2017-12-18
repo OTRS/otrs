@@ -47,29 +47,32 @@ Core.SystemConfiguration.DateTime = (function (TargetNS) {
      * @memberof Core.SystemConfiguration.DateTime
      * @function
      * @param {jQueryObject} $Object - jquery object that holds Day value.
-     * @param {Number} ID - element ID
+     * @param {Number} OldID - old element ID
      * @description
      *      This function performs dedicated commands during CheckIDs().
      *      In this case, element classes are updated.
      */
-    TargetNS.CheckID = function ($Object, ID) {
-        var OldID,
+    TargetNS.CheckID = function ($Object, OldID) {
+        var ID,
             OldSubID,
             SubID,
-            Class;
+            Class,
+            ErrorDivID;
 
         if ($Object.hasClass("Entry")) {
-            OldID = $Object.attr("id");
+            ID = $Object.attr("id");
         }
         else {
-            OldID = $Object.attr("data-suffix");
+            ID = $Object.attr("data-suffix");
+        }
+
+        if (!OldID.endsWith("Day")) {
+            return;
         }
 
         // get id without the "Day" suffix (needed for other items)
-        OldSubID = OldID;
-        OldSubID = OldSubID.substr(0, OldSubID.length - 3);
-        SubID = ID;
         SubID = ID.substr(0, ID.length - 3);
+        OldSubID = OldID.substr(0, OldID.length - 3);
 
         Class = $Object.attr("class");
 
@@ -98,6 +101,46 @@ Core.SystemConfiguration.DateTime = (function (TargetNS) {
         );
 
         $Object.attr("class", Class);
+
+        // Year
+        ErrorDivID = $('div#' + OldSubID + "YearError").attr('id');
+        ErrorDivID.replace(
+            OldSubID,
+            SubID
+        );
+        $('div#' + OldSubID + "YearError").attr('id', ErrorDivID);
+
+        // Month
+        ErrorDivID = $('div#' + OldSubID + "MonthError").attr('id');
+        ErrorDivID.replace(
+            OldSubID,
+            SubID
+        );
+        $('div#' + OldSubID + "MonthError").attr('id', ErrorDivID);
+
+        // Day
+        ErrorDivID = $('div#' + OldSubID + "DayError").attr('id');
+        ErrorDivID.replace(
+            OldSubID,
+            SubID
+        );
+        $('div#' + OldSubID + "DayError").attr('id', ErrorDivID);
+
+        // Hour
+        ErrorDivID = $('div#' + OldSubID + "HourError").attr('id');
+        ErrorDivID.replace(
+            OldSubID,
+            SubID
+        );
+        $('div#' + OldSubID + "HourError").attr('id', ErrorDivID);
+
+        // Minute
+        ErrorDivID = $('div#' + OldSubID + "MinuteError").attr('id');
+        ErrorDivID.replace(
+            OldSubID,
+            SubID
+        );
+        $('div#' + OldSubID + "MinuteError").attr('id', ErrorDivID);
     };
 
     /**

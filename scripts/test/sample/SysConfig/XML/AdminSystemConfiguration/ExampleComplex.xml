@@ -346,6 +346,12 @@
                 </Item>
                 <Item>
                     <Hash>
+                        <Item Key="One">1</Item>
+                        <Item Key="Two">2</Item>
+                    </Hash>
+                </Item>
+                <Item>
+                    <Hash>
                         <Item Key="Three">3</Item>
                         <Item Key="Four">4</Item>
                     </Hash>
