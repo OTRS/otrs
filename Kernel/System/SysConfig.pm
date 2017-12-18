@@ -2279,7 +2279,6 @@ sub ConfigurationEntitiesGet {
 
     my @EntitySettings = $SysConfigDBObject->DefaultSettingSearch(
         Search => 'ValueEntityType',
-        Valid  => 1,
     );
 
     SETTING:
