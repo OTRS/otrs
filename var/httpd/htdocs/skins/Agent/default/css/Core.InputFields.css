@@ -154,7 +154,7 @@ div.InputField_More {
 
 div.InputField_ListContainer {
     position: absolute;
-    z-index: 5000;
+    z-index: 6100;
     display: none;
     text-shadow: none;
 }
