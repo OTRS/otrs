@@ -1632,7 +1632,7 @@ for my $Test (@Tests) {
 
         $Self->Is(
             scalar @ArticleBox,
-            1,
+            2,
             "$Test->{Name} - Article Type email-notification-int created for Customer recipient",
         );
     }

@@ -276,7 +276,7 @@ sub SendNotification {
         );
         return if !$SecurityOptions;
 
-        my $IsVisibleForCustomer = 1;
+        my $IsVisibleForCustomer = 0;
         if ( defined $Notification{Data}->{IsVisibleForCustomer} ) {
             $IsVisibleForCustomer = $Notification{Data}->{IsVisibleForCustomer}->[0];
         }
