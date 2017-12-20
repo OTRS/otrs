@@ -2767,8 +2767,9 @@ sub _GetTypes {
     if ( $Param{QueueID} || $Param{TicketID} ) {
         %Type = $Kernel::OM->Get('Kernel::System::Ticket')->TicketTypeList(
             %Param,
-            Action => $Self->{Action},
-            UserID => $Self->{UserID},
+            TicketID => $Self->{TicketID},
+            Action   => $Self->{Action},
+            UserID   => $Self->{UserID},
         );
     }
     return \%Type;
