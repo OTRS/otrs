@@ -1,4 +1,5 @@
 #5.0.27 ????-??-??
+ - 2017-12-20 Fixed bug#[13231](https://bugs.otrs.org/show_bug.cgi?id=13231) - AJAX Error when ACL triggers in queue move (restrict move from one queue to another based on Properties).
 
 #5.0.26 2017-12-19
  - 2017-12-07 Improved parameter appending.
