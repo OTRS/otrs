@@ -1,4 +1,5 @@
 #6.0.4 ????-??-??
+ - 2017-12-20 Fixed bug#[13231](https://bugs.otrs.org/show_bug.cgi?id=13231) - AJAX Error when ACL triggers in queue move (restrict move from one queue to another based on Properties).
  - 2017-12-20 Fixed bug#[13431](https://bugs.otrs.org/show_bug.cgi?id=13431) - Notification article is visible for the customer although it shouldn't be.
  - 2017-12-19 Fixed bug#[13464](https://bugs.otrs.org/show_bug.cgi?id=13464) - Dropdown selection not visible in ticket search.
  - 2017-12-18 Fixed bug#[13450](https://bugs.otrs.org/show_bug.cgi?id=13450) - Changing TicketType doesn't change Ticket::Frontend::CustomerTicketMessage###TicketTypeDefault.
