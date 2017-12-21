@@ -4114,7 +4114,7 @@ sub ConfigurationLoad {
 
             my %Result = $Self->SettingUpdate(
                 Name                   => $SettingName,
-                IsValid                => $CurrentSetting{IsValid},
+                IsValid                => $Configuration{$Section}->{$SettingName}->{IsValid},
                 EffectiveValue         => $Configuration{$Section}->{$SettingName}->{EffectiveValue},
                 UserModificationActive => $UserModificationActive,
                 TargetUserID           => $TargetUserID,

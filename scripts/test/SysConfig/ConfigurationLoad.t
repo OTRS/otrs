@@ -201,6 +201,46 @@ my @Tests = (
         Success => 1,
     },
     {
+        Name              => 'Setting enabled',
+        ConfigurationPerl => {
+            Modified => {
+                'Stats::MaxXaxisAttributes' => {
+                    EffectiveValue => 1000,
+                    IsValid        => 1,
+                },
+            },
+        },
+        Config => {
+            UserID => 1,
+        },
+        ExpectedResults => {
+            Modified => {
+                'Stats::MaxXaxisAttributes' => '1000',
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name              => 'Setting disabled',
+        ConfigurationPerl => {
+            Modified => {
+                'OutOfOfficeMessageTemplate' => {
+                    EffectiveValue => 'template',
+                    IsValid        => 0,
+                },
+            },
+        },
+        Config => {
+            UserID => 1,
+        },
+        ExpectedResults => {
+            Modified => {
+                'OutOfOfficeMessageTemplate' => 'template',
+            },
+        },
+        Success => 1,
+    },
+    {
         Name              => 'Full Load',
         ConfigurationPerl => {
             Default => {
@@ -296,6 +336,21 @@ for my $Test (@Tests) {
         $Test->{ExpectedResults}->{Modified},
         "$Test->{Name} ExpectedResults - modified",
     );
+
+    for my $SettingName ( sort keys %{ $Test->{ConfigurationPerl}->{Modified} } ) {
+        if ( defined $Test->{ConfigurationPerl}->{Modified}->{$SettingName}->{IsValid} ) {
+            my %Setting = $SysConfigObject->SettingGet(
+                Name   => $SettingName,
+                UserID => 1,
+            );
+
+            $Self->Is(
+                $Setting{IsValid},
+                $Test->{ConfigurationPerl}->{Modified}->{$SettingName}->{IsValid},
+                "Make sure that $SettingName has correct IsValid value.",
+            );
+        }
+    }
 }
 
 1;
