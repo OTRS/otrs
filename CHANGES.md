@@ -1,4 +1,5 @@
 #6.0.4 ????-??-??
+ - 2017-12-21 Fixed bug#[13458](https://bugs.otrs.org/show_bug.cgi?id=13458) - Sorting is wrong for zero.
  - 2017-12-21 Fixed bug#[13403](https://bugs.otrs.org/show_bug.cgi?id=13403) - When importing sys config the disabled modules don't become enabled.
  - 2017-12-20 Fixed bug#[13465](https://bugs.otrs.org/show_bug.cgi?id=13465) - outgoing mail stuck in queue.
  - 2017-12-20 Fixed bug#[13476](https://bugs.otrs.org/show_bug.cgi?id=13476) - Email security options in AgentTicketCompose leads into an error.

@@ -2333,6 +2333,8 @@ sub TicketSearch {
                 $SQLExt .= ',';
             }
 
+            my $NullsLast = 0;
+
             # sort by dynamic field
             if ( $ValidDynamicFieldParams{ $SortByArray[$Count] } ) {
                 my ($DynamicFieldName) = $SortByArray[$Count] =~ m/^DynamicField_(.*)$/smx;
@@ -2418,9 +2420,41 @@ sub TicketSearch {
                     $SQLExt .= " u.first_name $OrderBySuffix, u.last_name ";
                 }
             }
+            elsif (
+                $SortByArray[$Count] eq 'EscalationUpdateTime'
+                || $SortByArray[$Count] eq 'EscalationResponseTime'
+                || $SortByArray[$Count] eq 'EscalationSolutionTime'
+                || $SortByArray[$Count] eq 'EscalationTime'
+                || $SortByArray[$Count] eq 'PendingTime'
+                )
+            {
+
+                # Tickets with no Escalation or Pending time have '0' as value in the according ticket columns.
+                # When sorting by these columns always place ticket's with '0' value on the end, no matter order by.
+                if ( $Kernel::OM->Get('Kernel::System::DB')->{'DB::Type'} eq 'mysql' ) {
+
+                    # For MySQL create SQL order by query 'ORDER BY column_value = 0, column_value ASC/DESC'.
+                    $SQLSelect .= ', ' . $SortOptions{ $SortByArray[$Count] };
+                    $SQLExt
+                        .= ' ' . $SortOptions{ $SortByArray[$Count] } . ' = 0, ' . $SortOptions{ $SortByArray[$Count] };
+                }
+                else {
+
+                    # For PostgreSQL and Oracle transform selected 0 values to NULL and use 'NULLS LAST'
+                    #   in the end of SQL query.
+                    $SQLSelect
+                        .= ', CASE WHEN '
+                        . $SortOptions{ $SortByArray[$Count] }
+                        . ' = 0 THEN NULL ELSE '
+                        . $SortOptions{ $SortByArray[$Count] }
+                        . ' END AS order_value ';
+                    $SQLExt .= ' order_value ';
+                    $NullsLast = 1;
+                }
+            }
             else {
 
-                # regular sort
+                # Regular sort.
                 $SQLSelect .= ', ' . $SortOptions{ $SortByArray[$Count] };
                 $SQLExt    .= ' ' . $SortOptions{ $SortByArray[$Count] };
             }
@@ -2430,6 +2464,11 @@ sub TicketSearch {
             }
             else {
                 $SQLExt .= ' DESC';
+            }
+
+            # For PostgreSQL and Oracle add 'NULLS LAST' if sorting is done on Escalation or Pending time columns.
+            if ($NullsLast) {
+                $SQLExt .= ' NULLS LAST';
             }
         }
     }
