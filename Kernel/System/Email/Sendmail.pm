@@ -36,21 +36,6 @@ sub new {
 sub Send {
     my ( $Self, %Param ) = @_;
 
-    my $SendSuccess = sub { return { Success => 1, @_, }; };
-    my $SendError = sub {
-        my %Param = @_;
-
-        $Param{CommunicationLogObject}->ObjectLogStop(
-            ObjectLogType => 'Connection',
-            Status        => 'Failed',
-        );
-
-        return {
-            Success => 0,
-            %Param,
-        };
-    };
-
     $Param{CommunicationLogObject}->ObjectLog(
         ObjectLogType => 'Message',
         Priority      => 'Info',
@@ -70,7 +55,8 @@ sub Send {
                 Value         => $ErrorMsg,
             );
 
-            return $SendError->(
+            return $Self->_SendError(
+                %Param,
                 ErrorMessage => $ErrorMsg,
             );
         }
@@ -111,7 +97,10 @@ sub Send {
             Value         => "Sendmail check error: $Result{ErrorMessage}",
         );
 
-        return $SendError->( %Result, );
+        return $Self->_SendError(
+            %Param,
+            %Result,
+        );
     }
 
     $Param{CommunicationLogObject}->ObjectLogStart(
@@ -147,7 +136,8 @@ sub Send {
             Value         => "Error during message sending: $ErrorMessage",
         );
 
-        return $SendError->(
+        return $Self->_SendError(
+            %Param,
             ErrorMessage => $ErrorMessage,
         );
     }
@@ -167,6 +157,7 @@ sub Send {
     # Check if the filehandle was already closed because of an error
     #   (e. g. mail too large). See bug#9251.
     if ( !close($FH) ) {
+
         my $ErrorMessage = $GenErrorMessage->($!);
 
         $Param{CommunicationLogObject}->ObjectLog(
@@ -176,7 +167,8 @@ sub Send {
             Value         => "Error during message sending: $ErrorMessage",
         );
 
-        return $SendError->(
+        return $Self->_SendError(
+            %Param,
             ErrorMessage => $ErrorMessage,
         );
     }
@@ -193,7 +185,30 @@ sub Send {
         Status        => 'Successful',
     );
 
-    return $SendSuccess->();
+    return $Self->_SendSuccess();
+}
+
+sub _SendSuccess {
+    my ( $Self, %Param ) = @_;
+
+    return {
+        %Param,
+        Success => 1,
+    };
+}
+
+sub _SendError {
+    my ( $Self, %Param ) = @_;
+
+    $Param{CommunicationLogObject}->ObjectLogStop(
+        ObjectLogType => 'Connection',
+        Status        => 'Failed',
+    );
+
+    return {
+        Success => 0,
+        %Param,
+    };
 }
 
 sub Check {

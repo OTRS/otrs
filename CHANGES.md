@@ -1,5 +1,6 @@
 #6.0.4 ????-??-??
  - 2017-12-21 Fixed bug#[13403](https://bugs.otrs.org/show_bug.cgi?id=13403) - When importing sys config the disabled modules don't become enabled.
+ - 2017-12-20 Fixed bug#[13465](https://bugs.otrs.org/show_bug.cgi?id=13465) - outgoing mail stuck in queue.
  - 2017-12-20 Fixed bug#[13476](https://bugs.otrs.org/show_bug.cgi?id=13476) - Email security options in AgentTicketCompose leads into an error.
  - 2017-12-20 Fixed bug#[13231](https://bugs.otrs.org/show_bug.cgi?id=13231) - AJAX Error when ACL triggers in queue move (restrict move from one queue to another based on Properties).
  - 2017-12-20 Fixed bug#[13431](https://bugs.otrs.org/show_bug.cgi?id=13431) - Notification article is visible for the customer although it shouldn't be.
