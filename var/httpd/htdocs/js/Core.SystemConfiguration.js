@@ -76,7 +76,7 @@ var Core = Core || {};
             return false;
         });
 
-        $("input:checkbox").on("change", function() {
+        $("input:checkbox").on("click", function() {
             TargetNS.CheckboxValueSet($(this));
         });
 
