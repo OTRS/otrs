@@ -327,7 +327,7 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Ticket::EventModulePost###6000-EscalationIndex" Required="0" Valid="1">
+    <Setting Name="Ticket::EventModulePost###9990-EscalationIndex" Required="0" Valid="1">
         <Description Translatable="1">Updates the ticket escalation index after a ticket attribute got updated.</Description>
         <Navigation>Core::Event::Ticket</Navigation>
         <Value>
