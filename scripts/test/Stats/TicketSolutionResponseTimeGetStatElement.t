@@ -44,7 +44,7 @@ $Helper->ConfigSettingChange(
 
 # Disable default Vacation days.
 $Helper->ConfigSettingChange(
-    Key   => 'TimeVacationDays',
+    Key   => 'TimeVacationDays::Calendar1',
     Value => {},
 );
 
