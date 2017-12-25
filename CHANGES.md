@@ -1,4 +1,5 @@
 #6.0.4 ????-??-??
+ - 2017-12-25 Fixed bug#[13499](https://bugs.otrs.org/show_bug.cgi?id=13499) - Target _blank value is not working for TicketMenu in AgentTicketZoom.
  - 2017-12-25 Fixed bug#[13289](https://bugs.otrs.org/show_bug.cgi?id=13289) - Certain input fields in don't accept accentuated letters.
  - 2017-12-22 Fixed bug#[13461](https://bugs.otrs.org/show_bug.cgi?id=13461) - Safari will not update Ticket notification settings in the Agent preferences screen.
  - 2017-12-21 Fixed bug#[13458](https://bugs.otrs.org/show_bug.cgi?id=13458) - Sorting is wrong for zero.

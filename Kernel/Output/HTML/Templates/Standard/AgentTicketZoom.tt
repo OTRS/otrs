@@ -152,13 +152,13 @@
                             [% IF Data.Type == 'Cluster' %]
                                 <span class="[% Data.Class %]" >[% Translate(Data.Name) | html %] <i class="fa fa-caret-down"></i></span>
                             [% ELSE %]
-                                <a href="[% Env("Baselink") %][% Data.Link | Interpolate %]" class="[% Data.Class %]" [% Data.LinkParam %] title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %]</a>
+                                <a href="[% Env("Baselink") %][% Data.Link | Interpolate %]" class="[% Data.Class %]" [% Data.LinkParam %] title="[% Translate(Data.Description) | html %]" target="[% Data.Target | html %]">[% Translate(Data.Name) | html %]</a>
                             [% END %]
 [% RenderBlockStart("TicketMenuSubContainer") %]
                                 <ul id="nav-[% Data.Name | replace(' ', '-') | html %]-container">
 [% RenderBlockStart("TicketMenuSubContainerItem") %]
                                     <li id="nav-[% Data.Name | replace(' ', '-') | html %]">
-                                        <a href="[% IF !Data.ExternalLink %][% Env("Baselink") %][% END %][% Data.Link | Interpolate %]" class="[% Data.Class | html %]" [% Data.LinkParam %] title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %]</a>
+                                        <a href="[% IF !Data.ExternalLink %][% Env("Baselink") %][% END %][% Data.Link | Interpolate %]" class="[% Data.Class | html %]" [% Data.LinkParam %] title="[% Translate(Data.Description) | html %]" target="[% Data.Target | html %]">[% Translate(Data.Name) | html %]</a>
                                     </li>
 [% RenderBlockEnd("TicketMenuSubContainerItem") %]
                                 </ul>
