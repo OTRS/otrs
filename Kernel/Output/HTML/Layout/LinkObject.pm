@@ -314,6 +314,8 @@ sub LinkObjectTableCreateComplex {
     my $OriginalAction = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'OriginalAction' )
         || $Self->{Action};
 
+    my %ColumnsTranslations = ();
+
     BLOCK:
     for my $Block (@OutputData) {
 
@@ -361,16 +363,9 @@ sub LinkObjectTableCreateComplex {
 
             # Add translations for the allocation lists for regular columns.
             for my $Column ( @{ $Block->{AllColumns} } ) {
-                $LayoutObject->Block(
-                    Name => 'ColumnTranslation',
-                    Data => {
-                        ColumnName      => $Column->{ColumnName},
-                        ColumnTranslate => $Column->{ColumnTranslate},
-                    },
-                );
-                $LayoutObject->Block(
-                    Name => 'ColumnTranslationSeparator',
-                );
+                my $Name = $Column->{ColumnName};
+                $ColumnsTranslations{"Column${ Name }"}
+                    = $Kernel::OM->Get('Kernel::Language')->Translate( $Column->{ColumnTranslate}, );
             }
 
             $LayoutObject->Block(
@@ -490,6 +485,13 @@ sub LinkObjectTableCreateComplex {
         # increase BlockCounter to set correct IDs for Select All Check-boxes
         $BlockCounter++;
     }
+
+    $LayoutObject->Block(
+        Name => 'ColumnTranslation',
+        Data => {
+            Translations => \%ColumnsTranslations,
+        },
+    );
 
     return $LayoutObject->Output(
         TemplateFile   => 'LinkObject',

@@ -240,11 +240,10 @@ Core.UI.RegisterToggleTwoContainer($('#linkobject-' + Core.App.EscapeSelector('[
         $(this).closest('.WidgetSimple').find('table input[type=checkbox]').prop('checked', Status);
     });
 
-    Core.Config.AddConfig({
 [% RenderBlockStart("ColumnTranslation") %]
-        'Column[% Data.ColumnName | html %]': [% Translate(Data.ColumnTranslate) | JSON %][% RenderBlockStart("ColumnTranslationSeparator") %],[% RenderBlockEnd("ColumnTranslationSeparator") %]
+    [% IF (Data.Translations.size) %]
+        Core.Config.AddConfig([% JSON(Data.Translations) %]);
+    [% END %]
 [% RenderBlockEnd("ColumnTranslation") %]
-    });
-
 //]]></script>
 [% END %]

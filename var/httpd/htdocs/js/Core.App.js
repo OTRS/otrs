@@ -187,7 +187,7 @@ Core.App = (function (TargetNS) {
                 }
                 catch (Error) {
                     Trace = printStackTrace({e: Error, guess: true}).join('\n');
-                    Core.Exception.HandleFinalError(Error, Trace);
+                    Core.Exception.HandleFinalError(new Core.Exception.ApplicationError(Error), Trace);
                 }
             });
         }
