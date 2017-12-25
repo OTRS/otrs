@@ -85,14 +85,14 @@ var Core = Core || {};
 
             var $WidgetObj = $(this).closest('.WidgetSimple.Setting');
 
-            if (!Event || !Event.keyCode) {
+            if (!Event) {
                 return false;
             }
 
             if ($WidgetObj.hasClass('IsLockedByMe')) {
 
                 // Enter: Save current setting
-                if (Event.keyCode === 13) {
+                if (Event.keyCode && Event.keyCode === 13) {
 
                     if ($(this).hasClass('Key')) {
                         $(this).closest('.HashItem').find('button.AddKey').trigger('click');
@@ -103,8 +103,9 @@ var Core = Core || {};
 
                     return false;
                 }
+
                 // Esc: Cancel editing
-                else if (Event.keyCode === 27) {
+                else if (Event.keyCode && Event.keyCode === 27) {
                     $WidgetObj.find('button.Cancel').trigger('click');
                 }
             }
