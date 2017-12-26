@@ -107,8 +107,8 @@ sub Run {
 
         my $BusinessStopDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-        my $CountedTime = $BusinessStopDTObject->Delta(
-            DateTimeObject => $BusinessStartDTObject,
+        my $CountedTime = $BusinessStartDTObject->Delta(
+            DateTimeObject => $BusinessStopDTObject,
             ForWorkingTime => 1,
             Calendar       => $Calendar,
         );

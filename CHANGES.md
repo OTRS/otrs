@@ -1,4 +1,5 @@
 #6.0.4 ????-??-??
+ - 2017-12-26 Fixed bug#[13475](https://bugs.otrs.org/show_bug.cgi?id=13475) - Escalation notifications are not triggered.
  - 2017-12-26 Fixed bug#[13397](https://bugs.otrs.org/show_bug.cgi?id=13397) - Autoreply shows HTML Tags when adding HTML formatted articles via Generic Interface. Thanks to Christoph Delbrück.
  - 2017-12-26 Fixed bug#[13429](https://bugs.otrs.org/show_bug.cgi?id=13429) - Wrong number of logged in agents/customers.
  - 2017-12-26 Fixed bug#[13430](https://bugs.otrs.org/show_bug.cgi?id=13430) - Ticket title overlaps with actions.
