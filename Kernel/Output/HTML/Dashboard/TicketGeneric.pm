@@ -615,7 +615,7 @@ sub Run {
     }
 
     # Set order for blocks.
-    $TicketSearch{OrderBy} = $TicketSearch{OrderBy} || 'Up';
+    $TicketSearch{OrderBy} = $TicketSearch{OrderBy} || 'Down';
 
     # Set previous sorting column parameter for all columns.
     $Param{SortingColumn} = $Self->{SortBy};
@@ -1033,7 +1033,7 @@ sub Run {
     $LayoutObject->AddJSData(
         Key   => 'InitContainerDashboard' . $Self->{Name},
         Value => {
-            SortBy => $Self->{SortBy} || 'Up',
+            SortBy => $Self->{SortBy} || 'Age',
             OrderBy => $TicketSearch{OrderBy},
         },
     );
@@ -1046,11 +1046,11 @@ sub Run {
         if ( $Self->{SortBy} && $Self->{SortBy} eq $Item ) {
             my $TitleDesc = '';
             if ( $TicketSearch{OrderBy} eq 'Down' ) {
-                $CSS .= ' SortAscendingLarge';
+                $CSS .= ' SortDescendingLarge';
                 $TitleDesc = Translatable('sorted descending');
             }
             else {
-                $CSS .= ' SortDescendingLarge';
+                $CSS .= ' SortAscendingLarge';
                 $TitleDesc = Translatable('sorted ascending');
             }
 
@@ -1089,6 +1089,7 @@ sub Run {
                     Name             => $Self->{Name},
                     OrderBy          => $TicketSearch{OrderBy},
                     HeaderColumnName => $Item,
+                    SortingColumn    => $Param{SortingColumn},
                 },
             );
 
@@ -1129,11 +1130,11 @@ sub Run {
             if ( $Self->{SortBy} && $Self->{SortBy} eq $HeaderColumn ) {
                 my $TitleDesc = '';
                 if ( $TicketSearch{OrderBy} eq 'Down' ) {
-                    $CSS .= ' SortAscendingLarge';
+                    $CSS .= ' SortDescendingLarge';
                     $TitleDesc = Translatable('sorted descending');
                 }
                 else {
-                    $CSS .= ' SortDescendingLarge';
+                    $CSS .= ' SortAscendingLarge';
                     $TitleDesc = Translatable('sorted ascending');
                 }
 
@@ -1468,11 +1469,11 @@ sub Run {
                     )
                 {
                     if ( $TicketSearch{OrderBy} eq 'Down' ) {
-                        $CSS .= ' SortAscendingLarge';
+                        $CSS .= ' SortDescendingLarge';
                         $TitleDesc = Translatable('sorted descending');
                     }
                     else {
-                        $CSS .= ' SortDescendingLarge';
+                        $CSS .= ' SortAscendingLarge';
                         $TitleDesc = Translatable('sorted ascending');
                     }
 

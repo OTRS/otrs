@@ -1007,7 +1007,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
             });
 
             $('#Dashboard' + Core.App.EscapeSelector(HeaderMeta.Name) + '-box').addClass('Loading');
-            Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector(HeaderMeta.Name)), Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action') + ';Subaction=Element;Name=' + HeaderMeta.Name + ';AdditionalFilter=' + AdditionalFilter + ';Filter=' + Filter + ';' + LinkPage + ';CustomerID=' + CustomerID + ';CustomerUserID=' + CustomerUserID + ';SortBy=' + HeaderMeta.HeaderColumnName + ';OrderBy=' + HeaderMeta.OrderBy, function () {
+            Core.AJAX.ContentUpdate($('#Dashboard' + Core.App.EscapeSelector(HeaderMeta.Name)), Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action') + ';Subaction=Element;Name=' + HeaderMeta.Name + ';AdditionalFilter=' + AdditionalFilter + ';Filter=' + Filter + ';' + LinkPage + ';CustomerID=' + CustomerID + ';CustomerUserID=' + CustomerUserID + ';SortBy=' + HeaderMeta.HeaderColumnName + ';OrderBy=' + HeaderMeta.OrderBy + ';SortingColumn=' + HeaderMeta.SortingColumn, function () {
                 $('#Dashboard' + Core.App.EscapeSelector(HeaderMeta.Name) + '-box').removeClass('Loading');
             });
             Event.preventDefault();

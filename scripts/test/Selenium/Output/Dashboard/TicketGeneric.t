@@ -209,7 +209,7 @@ $Selenium->RunTest(
                 'Title'       => 'Escalated Tickets'
             },
             '0120-TicketNew' => {
-                'Attributes'     => 'StateType=new;OrderBy=Down;',
+                'Attributes'     => 'StateType=new',
                 'Block'          => 'ContentLarge',
                 'CacheTTLLocal'  => '0.5',
                 'Default'        => '1',
@@ -248,7 +248,7 @@ $Selenium->RunTest(
                 'Title'       => 'New Tickets'
             },
             '0130-TicketOpen' => {
-                'Attributes'     => 'StateType=open;OrderBy=Down;',
+                'Attributes'     => 'StateType=open',
                 'Block'          => 'ContentLarge',
                 'CacheTTLLocal'  => '0.5',
                 'Default'        => '1',
@@ -378,15 +378,15 @@ $Selenium->RunTest(
             $Self->True(
                 $Selenium->WaitFor(
                     JavaScript =>
-                        'return typeof($) === "function" && $(".DashboardHeader.Priority.SortAscendingLarge:visible").length'
+                        'return typeof($) === "function" && $(".DashboardHeader.Priority.SortDescendingLarge:visible").length'
                     )
                     || '',
-                ".DashboardHeader.Priority.SortAscendingLarge is visible."
+                ".DashboardHeader.Priority.SortDescendingLarge is visible."
             );
 
             # validate that Priority sort is working
             $Self->True(
-                $Selenium->find_element( ".DashboardHeader.Priority.SortAscendingLarge", 'css' ),
+                $Selenium->find_element( ".DashboardHeader.Priority.SortDescendingLarge", 'css' ),
                 "Priority sort is working",
             );
 
