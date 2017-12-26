@@ -27,7 +27,7 @@
                 <li>
                     <a target="_blank" href="[% Env("Baselink") %]Action=CustomerChat;Subaction=CreateChatRequest;TicketID=[% Data.TicketID | uri %];" class="Print" title="[% Translate("Start a chat from this ticket") | html %]">
                         <i class="fa fa-comments-o"></i>
-                        <span>[% Translate("Start a chat from this ticket") | html %]</span>
+                        <span class="InvisibleText">[% Translate("Start a chat from this ticket") | html %]</span>
                     </a>
                 </li>
 [% RenderBlockEnd("Chat") %]
@@ -35,7 +35,7 @@
                 <li>
                     <a href="[% Env("Baselink") %]Action=CustomerTicketPrint;TicketID=[% Data.TicketID | uri %]" class="Print AsPopup" title="[% Translate("Print") | html %]">
                         <i class="fa fa-print"></i>
-                        <span>[% Translate("Print") | html %]</span>
+                        <span class="InvisibleText">[% Translate("Print") | html %]</span>
                     </a>
                 </li>
 [% RenderBlockEnd("Print") %]
@@ -45,7 +45,7 @@
                     <a href="[% Env("Baselink") %]Action=CustomerTicketZoom;TicketID=[% Data.TicketID | uri %];ZoomExpand=[% Data.ZoomExpand | uri %]" class="ZoomExpand Expand[% Data.ExpandOption %]" title="[% Translate(Data.ExpandText) | html %]">
                         <i class="fa fa-bars"></i>
                         <i class="fa fa-minus"></i>
-                        <span>[% Translate(Data.ExpandText) | html %]</span>
+                        <span class="InvisibleText">[% Translate(Data.ExpandText) | html %]</span>
                     </a>
                     <input type="hidden" name="ZoomExpand" id="ZoomExpand" value="[% Data.ZoomExpand | html %]" />
                 </li>
