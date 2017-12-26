@@ -174,7 +174,7 @@ sub Run {
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         my $TicketCountOpen = $TicketObject->TicketSearch(
-            StateType  => 'open',
+            StateType  => 'Open',
             CustomerID => $CustomerID,
             Result     => 'COUNT',
             Permission => $Self->{Config}->{Permission},
@@ -195,7 +195,7 @@ sub Run {
         );
 
         my $TicketCountClosed = $TicketObject->TicketSearch(
-            StateType  => 'closed',
+            StateType  => 'Closed',
             CustomerID => $CustomerID,
             Result     => 'COUNT',
             Permission => $Self->{Config}->{Permission},

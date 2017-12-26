@@ -101,7 +101,7 @@ sub Run {
 
     # closed tickets
     $Count = $TicketObject->TicketSearch(
-        StateType     => 'closed',
+        StateType     => 'Closed',
         CustomerIDRaw => $CustomerIDRaw,
         Result        => 'COUNT',
         Permission    => $Self->{Config}->{Permission},

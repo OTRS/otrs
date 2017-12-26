@@ -40,14 +40,14 @@
             </td>
 [% RenderBlockStart("ContentLargeCustomerIDListRowCustomerIDTicketsOpen") %]
             <td>
-                <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;StateType=open;CustomerID=[% Data.CustomerIDSQL | uri %]" title="[% Translate("%s open ticket(s) of %s", Data.Count, Data.CustomerID) | html %]" class="AsBlock">
+                <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;StateType=Open;CustomerID=[% Data.CustomerIDSQL | uri %]" title="[% Translate("%s open ticket(s) of %s", Data.Count, Data.CustomerID) | html %]" class="AsBlock">
                     [% Data.Count | html %]
                 </a>
             </td>
 [% RenderBlockEnd("ContentLargeCustomerIDListRowCustomerIDTicketsOpen") %]
 [% RenderBlockStart("ContentLargeCustomerIDListRowCustomerIDTicketsClosed") %]
             <td>
-                <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;StateType=closed;CustomerID=[% Data.CustomerIDSQL | uri %]" title="[% Translate("%s closed ticket(s) of %s", Data.Count, Data.CustomerID) | html %]" class="AsBlock">
+                <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;StateType=Closed;CustomerID=[% Data.CustomerIDSQL | uri %]" title="[% Translate("%s closed ticket(s) of %s", Data.Count, Data.CustomerID) | html %]" class="AsBlock">
                     [% Data.Count | html %]
                 </a>
             </td>
