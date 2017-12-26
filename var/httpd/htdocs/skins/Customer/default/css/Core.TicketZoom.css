@@ -27,7 +27,7 @@
 
 .TicketHeader h2 {
     margin: 3px 0 0;
-    padding: 10px 0px 15px 36px;
+    padding: 10px 64px 15px 36px;
     font-size: 24px;
     line-height: 24px;
     position: relative;
@@ -151,7 +151,7 @@
 }
 
 #TicketOptions li {
-    float: left;
+    display: inline-block;
     margin-left: 5px;
 }
 
@@ -164,12 +164,6 @@
 #TicketOptions .Print:hover,
 #TicketOptions .ZoomExpand:hover {
     color: #f92;
-}
-
-#TicketOptions .Print span,
-#TicketOptions .ZoomExpand span {
-    text-indent: -9999px;
-    display: block;
 }
 
 #TicketOptions .ZoomExpand.ExpandAll .fa-minus {
