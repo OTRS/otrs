@@ -1,4 +1,5 @@
 #5.0.27 ????-??-??
+ - 2017-12-26 Fixed bug#[13397](https://bugs.otrs.org/show_bug.cgi?id=13397) - Autoreply shows HTML Tags when adding HTML formatted articles via Generic Interface. Thanks to Christoph Delbrück.
  - 2017-12-26 Fixed bug#[13430](https://bugs.otrs.org/show_bug.cgi?id=13430) - Ticket title overlaps with actions.
  - 2017-12-25 Fixed bug#[13277](https://bugs.otrs.org/show_bug.cgi?id=13277) - Linking both ticket and change makes Internet Explorer stop working.
  - 2017-12-20 Fixed bug#[13483](https://bugs.otrs.org/show_bug.cgi?id=13483) - ACL property database does not work in AgentTicketActionCommon for Type field.
