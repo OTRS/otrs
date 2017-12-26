@@ -88,7 +88,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
             ValueFormat = 'd', // y axis format is by default "integer"
             Counter = 0,
             PreferencesKey = Options.PreferencesKey,
-            PreferencesData = Options.PreferencesData;
+            PreferencesData = JSON.parse(Options.PreferencesData);
 
         // First RawData element is not needed
         RawData.shift();
@@ -355,7 +355,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
             ResultData = [],
             ValueFormat = 'd', // y axis format is by default "integer"
             PreferencesKey = Options.PreferencesKey,
-            PreferencesData = Options.PreferencesData,
+            PreferencesData = JSON.parse(Options.PreferencesData),
             Counter = 0;
 
         if (PreferencesData && typeof PreferencesData.Bar !== 'undefined') {
@@ -465,13 +465,19 @@ Core.UI.AdvancedChart = (function (TargetNS) {
                         return Control;
                     }
 
+                    PreferencesData = {
+                        'Bar' : {}
+                    };
+
                     if (typeof state.stacked !== 'undefined') {
-                        TargetNS.UpdatePreferences(PreferencesKey, { 'Bar': { 'State': { 'Style': (state.stacked) ? 'stacked' : '' } } });
+                        PreferencesData.Bar.State = {};
+                        PreferencesData.Bar.State.Style = (state.stacked) ? 'stacked' : '';
                     }
                     if (typeof state.disabled !== 'undefined') {
-                        TargetNS.UpdatePreferences(PreferencesKey, { 'Bar': { 'Filter': getControlSelection(ResultData)}});
+                        PreferencesData.Bar.Filter = getControlSelection(ResultData);
                     }
 
+                    TargetNS.UpdatePreferences(PreferencesKey, PreferencesData);
                 });
 
                 // set stacked/grouped state
@@ -518,7 +524,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
             ResultData = [],
             Counter = 0,
             PreferencesKey = Options.PreferencesKey,
-            PreferencesData = Options.PreferencesData;
+            PreferencesData = JSON.parse(Options.PreferencesData);
 
         // First RawData element is not needed
         RawData.shift();
@@ -611,10 +617,19 @@ Core.UI.AdvancedChart = (function (TargetNS) {
                         return Control;
                     }
 
-                    if (typeof state.style !== 'undefined' || typeof state.disabled !== 'undefined') {
-                        TargetNS.UpdatePreferences(PreferencesKey, { 'StackedArea': { 'State': { 'Style': state.style }, 'Filter': getControlSelection(ResultData)}});
+                    PreferencesData = {
+                        'StackedArea' : {}
+                    };
+
+                    if (typeof state.style !== 'undefined') {
+                        PreferencesData.StackedArea.State = {};
+                        PreferencesData.StackedArea.State.Style = state.style;
+                    }
+                    if (typeof state.disabled !== 'undefined') {
+                        PreferencesData.StackedArea.Filter = getControlSelection(ResultData);
                     }
 
+                    TargetNS.UpdatePreferences(PreferencesKey, PreferencesData);
                 });
 
                 Chart.x(function(d) { return d[0]; })

@@ -1,4 +1,5 @@
 #6.0.4 ????-??-??
+ - 2017-12-26 Fixed bug#[13426](https://bugs.otrs.org/show_bug.cgi?id=13426) - Making changes on dashboard stats widgets are not being remembered.
  - 2017-12-26 Follow-up fix for bug#[13424](https://bugs.otrs.org/show_bug.cgi?id=13424) - The CustomerID is missing after the ticket split.
  - 2017-12-26 Follow-up fix for bug#[11422](https://bugs.otrs.org/show_bug.cgi?id=11422) - List in the Dashboard: standard priority is ignored if you use a filter.
  - 2017-12-26 Fixed bug#[13414](https://bugs.otrs.org/show_bug.cgi?id=13414) - Wrong behavior of open ticket links in customer screens.
