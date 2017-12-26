@@ -5703,14 +5703,19 @@ sub HistoryAdd {
         ],
     );
 
-    # trigger event
-    $Self->EventHandler(
-        Event => 'HistoryAdd',
-        Data  => {
-            TicketID => $Param{TicketID},
-        },
-        UserID => $Param{CreateUserID},
-    );
+    # Prevent infinite loops for notifications base on 'HistoryAdd' event
+    # see bug#13002
+    if ( $Param{HistoryType} ne 'SendAgentNotification' ) {
+
+        # trigger event
+        $Self->EventHandler(
+            Event => 'HistoryAdd',
+            Data  => {
+                TicketID => $Param{TicketID},
+            },
+            UserID => $Param{CreateUserID},
+        );
+    }
 
     return 1;
 }
