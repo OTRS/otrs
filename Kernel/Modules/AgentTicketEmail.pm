@@ -883,6 +883,7 @@ sub Run {
             Subject           => $Subject,
             Body              => $Body,
             CustomerID        => $SplitTicketData{CustomerID},
+            CustomerUser      => $SplitTicketData{CustomerUserID},
             CustomerData      => \%CustomerData,
             Attachments       => \@Attachments,
             LinkTicketID      => $GetParam{LinkTicketID} || '',

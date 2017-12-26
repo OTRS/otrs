@@ -738,6 +738,7 @@ sub Run {
             From         => $Article{From},
             Subject      => $Subject,
             Body         => $Body,
+            CustomerUser => $SplitTicketData{CustomerUserID},
             CustomerID   => $SplitTicketData{CustomerID},
             CustomerData => \%CustomerData,
             Attachments  => \@Attachments,

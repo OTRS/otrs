@@ -25,7 +25,11 @@ $Selenium->RunTest(
             ChannelName => 'Email',
         );
 
-        my @TicketIDs;
+        # Disable check of email addresses.
+        $Helper->ConfigSettingChange(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
 
         # create test system address
         my $SystemAddressID = $SystemAddressObject->SystemAddressAdd(
@@ -41,11 +45,14 @@ $Selenium->RunTest(
             'System address added.'
         );
 
-        my $CustomerID = '123465';
-        my $Queue      = 'Raw';
-        my $Priority   = '3 normal';
-        my $Subject    = 'Selenium test';
-        my $Body       = 'Just a test body for selenium testing';
+        my $RandomID = $Helper->GetRandomID();
+
+        my $CustomerID   = 'customer' . $RandomID;
+        my $CustomerUser = "$CustomerID\@localhost.com";
+        my $Queue        = 'Raw';
+        my $Priority     = '3 normal';
+        my $Subject      = 'Selenium test';
+        my $Body         = 'Just a test body for selenium testing';
 
         # create test ticket
         my $TicketID = $TicketObject->TicketCreate(
@@ -55,7 +62,7 @@ $Selenium->RunTest(
             Priority     => $Priority,
             State        => 'new',
             CustomerID   => $CustomerID,
-            CustomerUser => 'customer@localhost.com',
+            CustomerUser => $CustomerUser,
             OwnerID      => 1,
             UserID       => 1,
         );
@@ -65,9 +72,8 @@ $Selenium->RunTest(
         );
 
         # get create article data
-        my $Customer     = 'customer' . $Helper->GetRandomID();
-        my $ToCustomer   = "to$Customer\@localhost.com";
-        my $FromCustomer = "from$Customer\@localhost.com";
+        my $ToCustomer   = "to$CustomerID\@localhost.com";
+        my $FromCustomer = "from$CustomerID\@localhost.com";
         my @TestArticles = (
             {
                 SenderType => 'customer',
@@ -142,6 +148,8 @@ $Selenium->RunTest(
                 ResultMessage  => 'From is Customer, To is Customer',
             },
         );
+
+        my @AllTicketIDs = ($TicketID);
 
         # run test scenarios
         for my $Test (@Tests) {
@@ -229,28 +237,75 @@ $Selenium->RunTest(
                     $Body,
                     "Check Subject field for ArticleID = $ArticleIDs[0] in $Screen split screen",
                 );
+
+                # Submit form.
+                $Selenium->find_element( '#submitRichText', 'css' )->VerifiedClick();
+
+                # Get all tickets that we created.
+                my @TicketIDs = $TicketObject->TicketSearch(
+                    Result            => 'ARRAY',
+                    CustomerUserLogin => $CustomerUser,
+                    Limit             => 1,
+                    OrderBy           => 'Down',
+                    SortBy            => 'Age',
+                    UserID            => 1,
+                );
+
+                my $CurrentTicketID = $TicketIDs[0];
+
+                my $OldTicket = grep { $_ == $CurrentTicketID } @AllTicketIDs;
+                $Self->False(
+                    $OldTicket,
+                    'Make sure that ticket is really created.',
+                ) || die;
+
+                push @AllTicketIDs, $CurrentTicketID;
+
+                # Get ticket data.
+                my %SplitTicketData = $TicketObject->TicketGet(
+                    TicketID => $CurrentTicketID,
+                    UserID   => 1,
+                );
+
+                # Check if customer is present.
+                $Self->Is(
+                    $SplitTicketData{CustomerID},
+                    $CustomerID,
+                    'Check if CustomerID is present.'
+                );
+
+                # Check if customer user is present.
+                $Self->Is(
+                    $SplitTicketData{CustomerUserID},
+                    $CustomerUser,
+                    'Check if CustomerUserID is present.'
+                );
             }
         }
 
         # delete test system address
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
         my $Success  = $DBObject->Do(
-            SQL => "DELETE FROM system_address WHERE id = $SystemAddressID",
+            SQL  => "DELETE FROM system_address WHERE id = ?",
+            Bind => [ \$SystemAddressID ],
         );
         $Self->True(
             $Success,
             "SystemAddressID $SystemAddressID - deleted",
         );
 
-        # delete test created ticket
-        $Success = $TicketObject->TicketDelete(
-            TicketID => $TicketID,
-            UserID   => 1,
-        );
-        $Self->True(
-            $Success,
-            "TicketID $TicketID - deleted",
-        );
+        for my $DeleteTicketID (@AllTicketIDs) {
+
+            # delete test created ticket
+            $Success = $TicketObject->TicketDelete(
+                TicketID => $DeleteTicketID,
+                UserID   => 1,
+            );
+            $Self->True(
+                $Success,
+                "TicketID $DeleteTicketID - deleted",
+            );
+        }
     }
 );
 
