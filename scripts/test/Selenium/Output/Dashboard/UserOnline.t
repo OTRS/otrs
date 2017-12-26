@@ -39,14 +39,23 @@ $Selenium->RunTest(
             },
         );
 
-        # create test customer user and login
+        # Create test customer user and login several times in order to rack up number of user sessions.
         my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate(
         ) || die "Did not get test customer user";
-        $Selenium->Login(
-            Type     => 'Customer',
-            User     => $TestCustomerUserLogin,
-            Password => $TestCustomerUserLogin,
-        );
+
+        for ( 1 .. 5 ) {
+            $Selenium->Login(
+                Type     => 'Customer',
+                User     => $TestCustomerUserLogin,
+                Password => $TestCustomerUserLogin,
+            );
+
+            # Remove all cookies for current session.
+            $Selenium->delete_all_cookies();
+        }
+
+        # Clean up the dashboard cache.
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Dashboard' );
 
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -59,9 +68,13 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # clean up dashboard cache and refresh screen
-        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Dashboard' );
-        $Selenium->VerifiedRefresh();
+        # Verify only one agent user is accounted for.
+        my $AgentsLink = $Selenium->find_element("//a[contains(\@id, \'UserOnlineAgent' )]");
+        $Self->Is(
+            $AgentsLink->get_text() // '',
+            'Agents (1)',
+            'Only one agent user accounted for'
+        );
 
         # test UserOnline plugin for agent
         my $ExpectedAgent = "$TestUserLogin";
@@ -76,8 +89,16 @@ $Selenium->RunTest(
             "$TestUserLogin - found active status icon",
         );
 
-        # switch to online customers and test UserOnline plugin for customers
-        $Selenium->find_element("//a[contains(\@id, \'Customer' )]")->VerifiedClick();
+        # Verify only one customer user is accounted for.
+        my $CustomersLink = $Selenium->find_element("//a[contains(\@id, \'UserOnlineCustomer' )]");
+        $Self->Is(
+            $CustomersLink->get_text() // '',
+            'Customers (1)',
+            'Only one customer user accounted for'
+        );
+
+        # Switch to online customers and test UserOnline plugin for customers.
+        $CustomersLink->VerifiedClick();
 
         # Wait for AJAX
         my $ExpectedCustomer = "$TestCustomerUserLogin";

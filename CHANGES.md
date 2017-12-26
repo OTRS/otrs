@@ -1,4 +1,5 @@
 #6.0.4 ????-??-??
+ - 2017-12-26 Fixed bug#[13429](https://bugs.otrs.org/show_bug.cgi?id=13429) - Wrong number of logged in agents/customers.
  - 2017-12-26 Fixed bug#[13430](https://bugs.otrs.org/show_bug.cgi?id=13430) - Ticket title overlaps with actions.
  - 2017-12-25 Fixed bug#[13499](https://bugs.otrs.org/show_bug.cgi?id=13499) - Target _blank value is not working for TicketMenu in AgentTicketZoom.
  - 2017-12-25 Fixed bug#[13289](https://bugs.otrs.org/show_bug.cgi?id=13289) - Certain input fields in don't accept accentuated letters.

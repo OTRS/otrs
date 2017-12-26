@@ -187,6 +187,9 @@ sub Run {
         # Check the last request / idle time, only if the user is not already shown.
         if ( !$Online->{User}->{ $Data{UserType} }->{ $Data{UserID} } ) {
             next SESSIONID if $Data{UserLastRequest} + $SessionMaxIdleTime < $SystemTime;
+
+            # Count only unique agents and customers, please see bug#13429 for more information.
+            $Online->{UserCount}->{ $Data{UserType} }++;
         }
 
         # Remember the user data, if the user not already exists in the online list or the last request time is newer.
@@ -195,9 +198,7 @@ sub Run {
             || $Online->{UserData}->{ $Data{UserType} }->{ $Data{UserID} }->{UserLastRequest} < $Data{UserLastRequest}
             )
         {
-
             $Online->{User}->{ $Data{UserType} }->{ $Data{UserID} } = $Data{$SortBy};
-            $Online->{UserCount}->{ $Data{UserType} }++;
             $Online->{UserData}->{ $Data{UserType} }->{ $Data{UserID} } = { %Data, %AgentData };
         }
     }
