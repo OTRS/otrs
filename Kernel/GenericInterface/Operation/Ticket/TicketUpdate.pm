@@ -2063,6 +2063,16 @@ sub _TicketUpdate {
             ChannelName => $Article->{CommunicationChannel},
         );
 
+        my $PlainBody = $Article->{Body};
+
+        # Convert article body to plain text, if HTML content was supplied. This is necessary since auto response code
+        #   expects plain text content. Please see bug#13397 for more information.
+        if ( $Article->{ContentType} =~ /text\/html/i || $Article->{MimeType} =~ /text\/html/i ) {
+            $PlainBody = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToAscii(
+                String => $Article->{Body},
+            );
+        }
+
         # Create article.
         $ArticleID = $ArticleBackendObject->ArticleCreate(
             NoAgentNotify => $Article->{NoAgentNotify} || 0,
@@ -2086,8 +2096,7 @@ sub _TicketUpdate {
                 From    => $From,
                 To      => $To,
                 Subject => $Article->{Subject},
-                Body    => $Article->{Body},
-
+                Body    => $PlainBody,
             },
         );
 
