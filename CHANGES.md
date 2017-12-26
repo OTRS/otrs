@@ -1,4 +1,5 @@
 #5.0.27 ????-??-??
+ - 2017-12-26 Fixed bug#[13485](https://bugs.otrs.org/show_bug.cgi?id=13485) - Text editor is incorrectly displayed in Bulk menu window.
  - 2017-12-26 Fixed bug#[13002](https://bugs.otrs.org/show_bug.cgi?id=13002) - Deep recursion error when notification is triggered for HistoryAdd event.
  - 2017-12-26 Fixed bug#[13397](https://bugs.otrs.org/show_bug.cgi?id=13397) - Autoreply shows HTML Tags when adding HTML formatted articles via Generic Interface. Thanks to Christoph Delbrück.
  - 2017-12-26 Fixed bug#[13430](https://bugs.otrs.org/show_bug.cgi?id=13430) - Ticket title overlaps with actions.
