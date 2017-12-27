@@ -451,6 +451,30 @@ JAVASCRIPT
 
         if ( $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled() ) {
 
+            # Modify specific SysConfig values to allow or forbid settings change by user.
+            my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+            $SysConfigObject->SettingsSet(
+                UserID   => 1,
+                Settings => [
+                    {
+                        Name                   => 'Ticket::Frontend::AgentTicketEmail###Body',
+                        IsValid                => 1,
+                        UserModificationActive => 1,
+                    },
+                    {
+                        Name                   => 'Ticket::Frontend::AgentTicketQueue###Order::Default',
+                        IsValid                => 1,
+                        UserModificationActive => 0,
+                        EffectiveValue         => 'Up',
+                    },
+                    {
+                        Name                   => 'Ticket::Frontend::AgentTicketQueue###Blink',
+                        IsValid                => 0,
+                        UserModificationActive => 1,
+                    },
+                ],
+            );
+
             # Create non-admin user.
             my $TestUserLogin2 = $Helper->TestUserCreate(
                 Groups   => ['users'],
@@ -467,7 +491,7 @@ JAVASCRIPT
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=Advanced");
 
             # Change category only if the dropdown is present.
-            my $CategoriesVisible = $Selenium->execute_script("return \$('#Category').length;");
+            my $CategoriesVisible = $Selenium->execute_script("return \$('#Category:visible').length;");
             if ($CategoriesVisible) {
                 $Selenium->execute_script(
                     "\$('#Category').val('OTRSFree').trigger('redraw.InputField').trigger('change');"
@@ -485,6 +509,65 @@ JAVASCRIPT
                 $NavigationItems,
                 1,
                 'Make sure there is one navigation item'
+            );
+
+            # Test AgentPreference preference navigation.
+            $Selenium->WaitFor(
+                JavaScript => 'return $("#ConfigTree li#Frontend > i").length;',
+            );
+            $Selenium->execute_script("\$('#ConfigTree li#Frontend > i').trigger('click')");
+
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return $("#ConfigTree li#Frontend\\\\:\\\\:Agent > i").length;',
+            );
+            $Selenium->execute_script("\$('#ConfigTree li#Frontend\\\\:\\\\:Agent > i').trigger('click')");
+
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return $("#ConfigTree li#Frontend\\\\:\\\\:Agent\\\\:\\\\:View > i").length;',
+            );
+            $Selenium->execute_script(
+                "\$('#ConfigTree li#Frontend\\\\:\\\\:Agent\\\\:\\\\:View > i').trigger('click')"
+            );
+
+            # Verify count of possible configurations for user.
+            $Self->Is(
+                $Selenium->execute_script(
+                    "return \$('#Frontend\\\\:\\\\:Agent\\\\:\\\\:View\\\\:\\\\:TicketQueue_anchor').text().trim()"
+                ),
+                'TicketQueue (2)',
+                "Navigation count for TicketQueue is correct"
+            );
+            $Self->Is(
+                $Selenium->execute_script(
+                    "return \$('#Frontend\\\\:\\\\:Agent\\\\:\\\\:View\\\\:\\\\:TicketEmailNew_anchor').text().trim()"
+                ),
+                'TicketEmailNew (1)',
+                "Navigation count for TicketEmailNew is correct"
+            );
+
+            # Restore modified SysConfigs.
+            $SysConfigObject->SettingsSet(
+                UserID   => 1,
+                Settings => [
+                    {
+                        Name                   => 'Ticket::Frontend::AgentTicketEmail###Body',
+                        IsValid                => 1,
+                        UserModificationActive => 0
+                    },
+                    {
+                        Name                   => 'Ticket::Frontend::AgentTicketQueue###Order::Default',
+                        IsValid                => 1,
+                        UserModificationActive => 1,
+                        EffectiveValue         => 'Up'
+                    },
+                    {
+                        Name                   => 'Ticket::Frontend::AgentTicketQueue###Blink',
+                        IsValid                => 1,
+                        UserModificationActive => 1
+                    }
+                ],
             );
         }
     }

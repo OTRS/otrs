@@ -2844,6 +2844,22 @@ sub ConfigurationNavigationTree {
                 if !grep { $_->{Name} eq $Setting->{Name} } ( @ForbiddenSettings, @InvalidSettings );
         }
         @SettingsRaw = @ModifiedSettings;
+
+        # Add settings which by default are not UserModifiedActive and are changed, to the navigation list
+        #   in preference screen. Please see bug#13489 for more information.
+        @ModifiedSettings = $SysConfigDBObject->ModifiedSettingListGet(
+            %CategoryOptions,
+            UserModificationActive => 1,
+            IsValid                => 1,
+        );
+        for my $Setting (@ModifiedSettings) {
+            my %DefaultSetting = $SysConfigDBObject->DefaultSettingGet(
+                Name => $Setting->{Name},
+            );
+            if ( !grep { $_->{Name} eq $DefaultSetting{Name} } @SettingsRaw ) {
+                push @SettingsRaw, \%DefaultSetting;
+            }
+        }
     }
 
     my @Settings;
