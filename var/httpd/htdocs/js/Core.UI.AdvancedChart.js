@@ -88,7 +88,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
             ValueFormat = 'd', // y axis format is by default "integer"
             Counter = 0,
             PreferencesKey = Options.PreferencesKey,
-            PreferencesData = JSON.parse(Options.PreferencesData);
+            PreferencesData = Options.PreferencesData;
 
         // First RawData element is not needed
         RawData.shift();
@@ -355,7 +355,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
             ResultData = [],
             ValueFormat = 'd', // y axis format is by default "integer"
             PreferencesKey = Options.PreferencesKey,
-            PreferencesData = JSON.parse(Options.PreferencesData),
+            PreferencesData = Options.PreferencesData,
             Counter = 0;
 
         if (PreferencesData && typeof PreferencesData.Bar !== 'undefined') {
@@ -524,7 +524,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
             ResultData = [],
             Counter = 0,
             PreferencesKey = Options.PreferencesKey,
-            PreferencesData = JSON.parse(Options.PreferencesData);
+            PreferencesData = Options.PreferencesData;
 
         // First RawData element is not needed
         RawData.shift();

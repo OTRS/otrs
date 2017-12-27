@@ -739,7 +739,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
                     'svg.GraphWidget' + StatsData.Name,
                     {
                         PreferencesKey: 'GraphWidget' + StatsData.Name,
-                        PreferencesData: StatsData.Preferences,
+                        PreferencesData: Core.JSON.Parse(StatsData.Preferences),
                         Duration: 250
                     }
                 );
