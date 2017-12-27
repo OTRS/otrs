@@ -469,6 +469,7 @@ sub Run {
         my $IsValid = $ParamObject->GetParam( Param => 'IsValid' ) // undef;
 
         my %Tree = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationNavigationTree(
+            Action                 => 'AgentPreferences',
             Category               => $Category,
             UserModificationActive => $UserModificationActive,
             IsValid                => $IsValid,

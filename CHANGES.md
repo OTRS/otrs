@@ -1,4 +1,5 @@
 #6.0.4 ????-??-??
+ - 2017-12-27 Fixed bug#[13488](https://bugs.otrs.org/show_bug.cgi?id=13488) - User Specific Settings not reflecting the correct number.
  - 2017-12-26 Fixed bug#[13485](https://bugs.otrs.org/show_bug.cgi?id=13485) - Text editor is incorrectly displayed in Bulk menu window.
  - 2017-12-26 Fixed bug#[13486](https://bugs.otrs.org/show_bug.cgi?id=13486) - On the agent's login interface the system maintenance notification is too wide (width is not limited).
  - 2017-12-26 Fixed bug#[13426](https://bugs.otrs.org/show_bug.cgi?id=13426) - Making changes on dashboard stats widgets are not being remembered.
