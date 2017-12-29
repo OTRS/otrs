@@ -1,4 +1,5 @@
 #6.0.4 ????-??-??
+ - 2017-12-29 Fixed bug#[13509](https://bugs.otrs.org/show_bug.cgi?id=13509) - Ordering in ticket overview screens is not consistent with dashboard tables.
  - 2017-12-29 Fixed bug#[13511](https://bugs.otrs.org/show_bug.cgi?id=13511) - Need UserFirstname floods system log.
  - 2017-12-27 Fixed bug#[13489](https://bugs.otrs.org/show_bug.cgi?id=13489) - Allowing users to change settings has no affect in advanced settings.
  - 2017-12-27 Fixed bug#[13488](https://bugs.otrs.org/show_bug.cgi?id=13488) - User Specific Settings not reflecting the correct number.

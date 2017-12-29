@@ -36,7 +36,7 @@ $Selenium->RunTest(
             Value => \%Week,
         );
 
-        # disable default Vacation days
+        # Disable default Vacation days.
         $Helper->ConfigSettingChange(
             Key   => 'TimeVacationDays',
             Value => {},
@@ -191,6 +191,7 @@ $Selenium->RunTest(
             $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
         }
 
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -201,7 +202,7 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # Go to AgentTicketStatusView, overview small.
+        # Go to AgentTicketStatusView, overview small, default sort is Age, default order is Down.
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketStatusView");
 
@@ -258,14 +259,14 @@ $Selenium->RunTest(
             {
                 Name          => 'Solution Time',
                 ColumnName    => 'EscalationSolutionTime',
-                OrderBy       => 'Down',
-                ExpectedOrder => [ $TicketIDs[1], $TicketIDs[0], $TicketIDs[2] ],
+                OrderBy       => 'Up',
+                ExpectedOrder => [ $TicketIDs[0], $TicketIDs[1], $TicketIDs[2] ],
             },
             {
                 Name          => 'Solution Time',
                 ColumnName    => 'EscalationSolutionTime',
-                OrderBy       => 'Up',
-                ExpectedOrder => [ $TicketIDs[0], $TicketIDs[1], $TicketIDs[2] ],
+                OrderBy       => 'Down',
+                ExpectedOrder => [ $TicketIDs[1], $TicketIDs[0], $TicketIDs[2] ],
             },
             {
                 Name          => 'First Response Time',
@@ -274,7 +275,7 @@ $Selenium->RunTest(
                 ExpectedOrder => [ $TicketIDs[2], $TicketIDs[0], $TicketIDs[1] ],
             },
             {
-                Name          => 'Firs tResponse Time',
+                Name          => 'First Response Time',
                 ColumnName    => 'EscalationResponseTime',
                 OrderBy       => 'Up',
                 ExpectedOrder => [ $TicketIDs[0], $TicketIDs[2], $TicketIDs[1] ],
@@ -324,7 +325,7 @@ $Selenium->RunTest(
             "CustomerUser $CustomerUserLogin is deleted",
         );
 
-        # Delete test created CustomerCompanie.
+        # Delete test created CustomerCompany.
         $Success = $DBObject->Do(
             SQL  => "DELETE FROM customer_company WHERE customer_id = ?",
             Bind => [ \$CustomerID ],

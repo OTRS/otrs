@@ -12,17 +12,17 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # do not check email addresses and mx records
-        # change settings in both runtime and disk configuration
+        # Do not check email addresses and mx records.
+        # Change settings in both runtime and disk configuration.
         for my $Key (qw(CheckEmailAddresses CheckMXRecord)) {
             $Helper->ConfigSettingChange(
                 Valid => 1,
@@ -31,7 +31,7 @@ $Selenium->RunTest(
             );
         }
 
-        # Override FirstnameLastnameOrder setting to check if it is taken into account
+        # Override FirstnameLastnameOrder setting to check if it is taken into account.
         #   (see bug#12554 for more information).
         $Helper->ConfigSettingChange(
             Valid => 1,
@@ -39,25 +39,19 @@ $Selenium->RunTest(
             Value => 1,
         );
 
-        # create test user and login
+        # Create test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
 
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
-
-        # get test user ID
+        # Get test user ID.
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
         my $RandomID = $Helper->GetRandomID();
 
-        # create test queue
+        # Create test queue.
         my $QueueName = 'Queue' . $RandomID;
         my $QueueID   = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
             Name            => $QueueName,
@@ -74,10 +68,7 @@ $Selenium->RunTest(
             "QueueAdd() successful for test $QueueName - ID $QueueID",
         );
 
-        # get user object
-        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
-
-        # create test users
+        # Create test users.
         my @UserIDs;
         my %Users;
         for my $User ( 1 .. 15 ) {
@@ -106,13 +97,10 @@ $Selenium->RunTest(
             $Users{$UserID} = $UserData{UserFullname};
         }
 
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-        # create test tickets
+        # Create test tickets.
         my @TicketIDs;
         my @TicketNumbers;
-        for my $Ticket ( 1 .. 15 ) {
+        for my $Count ( 0 .. 14 ) {
             my $TicketNumber = $TicketObject->TicketCreateNumber();
             my $TicketID     = $TicketObject->TicketCreate(
                 TN            => $TicketNumber,
@@ -123,8 +111,8 @@ $Selenium->RunTest(
                 State         => 'new',
                 CustomerID    => 'TestCustomer',
                 CustomerUser  => 'customer@example.com',
-                OwnerID       => $UserIDs[ $Ticket - 1 ],
-                ResponsibleID => $UserIDs[ $Ticket - 1 ],
+                OwnerID       => $UserIDs[$Count],
+                ResponsibleID => $UserIDs[$Count],
                 UserID        => $TestUserID,
             );
 
@@ -137,14 +125,21 @@ $Selenium->RunTest(
             push @TicketNumbers, $TicketNumber;
         }
 
-        # reverse sort test ticket numbers for test purposes
+        # Reverse sort test ticket numbers for test purposes.
         my @SortTicketNumbers = reverse sort @TicketNumbers;
 
-        # go to status open view, overview small
+        # Login as test user.
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
+
+        # Go to status open view, overview small, default sort is Age, default order is Down.
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketStatusView");
 
-        # set filter to test queue
+        # Set filter to test queue.
         $Selenium->find_element("//a[contains(\@title, \'Queue, filter not active\' )]")->VerifiedClick();
         $Selenium->WaitFor(
             JavaScript =>
@@ -157,13 +152,13 @@ $Selenium->RunTest(
             JavaScript => "return typeof(\$) === 'function' && \$('li.ContextSettings.RemoveFilters').length"
         );
 
-        # set tickets per page to 10
+        # Set tickets per page to 10.
         $Selenium->find_element( "#ShowContextSettingsDialog", 'css' )->VerifiedClick();
         $Selenium->execute_script(
             "\$('#UserTicketOverviewSmallPageShown').val('10').trigger('redraw.InputField').trigger('change');"
         );
 
-        # move responsible from left to the right side
+        # Move responsible from left to the right side.
         $Selenium->mouse_move_to_location(
             element => $Selenium->find_element( '//li[@data-fieldname="Responsible"]', 'xpath' ),
         );
@@ -179,68 +174,82 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
 
-        # sort by ticket number, order up
+        # Sort by ticket number, order down.
         $Selenium->find_element("//a[contains(\@title, \'TicketNumber\' )]")->VerifiedClick();
 
-        # check for ticket with highest ticket number on first 1st page and verify that ticket
-        # with lowest ticket number number is not present
-        $Self->True(
-            index( $Selenium->get_page_source(), $SortTicketNumbers[0] ) > -1,
-            "$SortTicketNumbers[0] - found on screen"
-        );
+        # Verify that ticket with highest ticket number is on 1st page and with lowest is not.
         $Self->True(
             index( $Selenium->get_page_source(), $SortTicketNumbers[14] ) == -1,
-            "$SortTicketNumbers[14] - not found on screen"
+            "First page - $SortTicketNumbers[14] - found on screen"
+        );
+        $Self->True(
+            index( $Selenium->get_page_source(), $SortTicketNumbers[0] ) > -1,
+            "First page - $SortTicketNumbers[0] - not found on screen"
         );
 
-        # switch to 2nd page to test pagination
+        # Switch to 2nd page to test pagination.
         $Selenium->find_element( "#AgentTicketStatusViewPage2", 'css' )->VerifiedClick();
 
-        # check for ticket with lowest ticket number
+        # Verify that ticket with lowest ticket number is on 2nd page and with highest is not.
+        $Self->True(
+            index( $Selenium->get_page_source(), $SortTicketNumbers[0] ) == -1,
+            "Second page - $SortTicketNumbers[0] - found on screen"
+        );
         $Self->True(
             index( $Selenium->get_page_source(), $SortTicketNumbers[14] ) > -1,
-            "$SortTicketNumbers[14] - found on screen"
+            "Second page - $SortTicketNumbers[14] - not found on screen"
         );
+
         $Selenium->VerifiedRefresh();
 
-        # test if filters are still stored
+        # Test if filters are still stored.
+        $Self->True(
+            index( $Selenium->get_page_source(), $SortTicketNumbers[0] ) == -1,
+            "After page refresh - $SortTicketNumbers[0] - found on screen"
+        );
         $Self->True(
             index( $Selenium->get_page_source(), $SortTicketNumbers[14] ) > -1,
-            "$SortTicketNumbers[14] - found on screen"
+            "After page refresh - $SortTicketNumbers[14] - not found on screen"
         );
 
         # Check if owner and responsible columns are sorted by full names instead of IDs
         #   (see bug#4439 for more information).
         for my $Column (qw(Responsible Owner)) {
 
-            # sort by column, order up
+            # Sort by column, order down.
             $Selenium->find_element("//a[\@name='OverviewControl'][contains(\@title, '$Column')]")->VerifiedClick();
 
-            # check user with 1 in their name is shown
-            # and verify that user with 9 in their name is not present
+            # Check user with 9 in name is shown and with 1 is not present.
             $Self->True(
-                index( $Selenium->get_page_source(), $Users{ $UserIDs[9] } ) > -1,
-                "$Users{ $UserIDs[0] } - found on screen"
+                index( $Selenium->get_page_source(), $Users{ $UserIDs[0] } ) == -1,
+                "Column $Column - order Down - $Users{ $UserIDs[0] } - not found on screen"
+            );
+            $Self->True(
+                index( $Selenium->get_page_source(), $Users{ $UserIDs[8] } ) > -1,
+                "Column $Column - order Down - $Users{ $UserIDs[8] } - found on screen"
+            );
+
+            # Sort by column, order up.
+            $Selenium->find_element("//a[\@name='OverviewControl'][contains(\@title, '$Column')]")->VerifiedClick();
+
+            # Check user with 1 in name is shown and with 9 is not present.
+            $Self->True(
+                index( $Selenium->get_page_source(), $Users{ $UserIDs[0] } ) > -1,
+                "Column $Column - order Up - $Users{ $UserIDs[0] } - found on screen"
             );
             $Self->True(
                 index( $Selenium->get_page_source(), $Users{ $UserIDs[8] } ) == -1,
-                "$Users{ $UserIDs[8] } - not found on screen"
+                "Column $Column - order Up - $Users{ $UserIDs[8] } - not found on screen"
             );
 
-            # sort by column, order down
+            # Sort by column, order down, for the next iteration.
             $Selenium->find_element("//a[\@name='OverviewControl'][contains(\@title, '$Column')]")->VerifiedClick();
-
-            # check user with 9 in their name is shown
-            $Self->True(
-                index( $Selenium->get_page_source(), $Users{ $UserIDs[8] } ) > -1,
-                "$Users{ $UserIDs[8] } - found on screen"
-            );
         }
 
-        # remove all filters
+        # Remove all filters.
         $Selenium->find_element( "li.ContextSettings.RemoveFilters a", 'css' )->VerifiedClick();
 
-        # delete created test tickets
+        # Delete test tickets.
         my $Success;
         for my $TicketID (@TicketIDs) {
             $Success = $TicketObject->TicketDelete(
@@ -255,7 +264,7 @@ $Selenium->RunTest(
 
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-        # delete created test users
+        # Delete test users.
         for my $UserID (@UserIDs) {
             $Success = $DBObject->Do(
                 SQL => "DELETE FROM user_preferences WHERE user_id = $UserID",
@@ -273,7 +282,7 @@ $Selenium->RunTest(
             );
         }
 
-        # delete created test queue
+        # Delete test queue.
         $Success = $DBObject->Do(
             SQL => "DELETE FROM queue WHERE id = $QueueID",
         );
@@ -282,11 +291,11 @@ $Selenium->RunTest(
             "Delete queue - $QueueID",
         );
 
-        # make sure cache is correct
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+        # Make sure cache is correct.
         for my $Cache (qw( Ticket Queue User )) {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-                Type => $Cache,
-            );
+            $CacheObject->CleanUp( Type => $Cache );
         }
     },
 );
