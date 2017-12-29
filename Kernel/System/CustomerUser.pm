@@ -1344,7 +1344,7 @@ sub _CustomerUserFullname {
     my ( $Self, %Param ) = @_;
 
     for my $Needed (qw(UserFirstname UserLastname UserLogin)) {
-        if ( !$Param{$Needed} ) {
+        if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
