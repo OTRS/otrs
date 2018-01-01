@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -41,7 +41,7 @@ my %Opts;
 getopt( 'qtd', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.PostMaster.pl - OTRS cmd postmaster\n";
-    print "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2018 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.PostMaster.pl -q <QUEUE> -t <TRUSTED> (default is trusted, use '-t 0' to disable trusted mode)\n";
     print "\notrs.PostMaster.pl is deprecated, please use console command 'Maint::PostMaster::Read' instead.\n\n";
