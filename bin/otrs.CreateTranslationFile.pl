@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -37,7 +37,7 @@ sub PrintUsage {
     print <<"EOF";
 
 otrs.CreateTranslationFile.pl - update translation files
-Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
 
 Translating OTRS
 ================
@@ -540,7 +540,7 @@ sub WritePerlLanguageFile {
         $NewOut = <<"EOF";
 $Separator
 # Kernel/Language/$Param{Language}_$Param{Module}.pm - translation file
-# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
 $Separator
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

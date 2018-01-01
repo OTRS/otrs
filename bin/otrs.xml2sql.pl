@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -37,7 +37,7 @@ if ( $Opts{'h'} || !%Opts ) {
     print <<"EOF";
 $0 - tool to generate database specific SQL from the XML database definition files used by OTRS
 
-Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
 
 Usage: $0 -t <DATABASE_TYPE> (or 'all') [-o <OUTPUTDIR> -n <NAME> -s <SPLIT_FILES>] [-f source file]
 EOF

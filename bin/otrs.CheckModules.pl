@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -122,7 +122,7 @@ GetOptions(
 # check needed params
 if ($Help) {
     print "otrs.CheckModules.pl - OTRS CheckModules\n";
-    print "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2018 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.CheckModules.pl [-list|all] \n";
     print "
    otrs.CheckModules.pl

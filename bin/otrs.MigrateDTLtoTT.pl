@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -37,7 +37,7 @@ getopt( 'd', \%Options );
 if ( exists $Options{h} || !$Options{d} ) {
     print <<EOF;
 $0 - migrate DTL templates to TT
-Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
 
 Usage: $0 -d /path/to/OTRS/or/module
 

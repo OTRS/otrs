@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -46,7 +46,7 @@ Options:
     -i        RemoteIP          => '192.168.0.1',                       # optional, must be valid IPv4 or IPv6 address
     -w        WebserviceID      => 1,                                   # optional
     -d        WithData          => 1,                                   # optional
-Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
 EOF
 }
 

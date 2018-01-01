@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -62,7 +62,7 @@ sub Run {
     if ( $Opts{h} || ( !$Opts{Archived} && !$Opts{InvalidUsers} ) ) {
         print <<EOF;
 otrs.CleanupTicketMetadata.pl - Remove unneeded ticket metadata
-Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
 
 Usage:
 

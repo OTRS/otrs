@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -172,7 +172,7 @@ else {
 # Internal
 sub _Help {
     print "otrs.WebServer4win.pl - OTRS Web Server Daemon for Windows\n";
-    print "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2018 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.WebServer4win.pl -a <ACTION> (start|stop|status|reload) [-f force]\n";
 }
 
