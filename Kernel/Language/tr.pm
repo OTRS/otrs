@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
 # Copyright (C) 2013 Sefer Şimşek / Network Group <network@kamusm.gov.tr>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
