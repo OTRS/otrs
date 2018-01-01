@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -58,7 +58,7 @@ Getopt::Long::GetOptions(
         print <<"EOF";
 
 DBUpdate-to-6.pl - Upgrade script for OTRS 5 to 6 migration.
-Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
 
 Usage: $0
     Options are as follows:
