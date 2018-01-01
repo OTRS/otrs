@@ -1,7 +1,7 @@
 #!/bin/sh
 # --
 # scripts/auto_build/docbuild.sh - Automated creation of the  OTRS docu
-# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
 # --
 # $Id: docbuild.sh,v 1.11 2009-02-26 11:10:53 tr Exp $
 # --
@@ -22,7 +22,7 @@
 # --
 
 echo "docbuild.sh - Automated creation of the  OTRS docu"
-echo "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/"
+echo "Copyright (C) 2001-2018 OTRS AG, http://otrs.com/"
 
 PATH_TO_CVS_SRC=$1
 PATH_TO_CVS_FRAMEWORK_SRC=$2
