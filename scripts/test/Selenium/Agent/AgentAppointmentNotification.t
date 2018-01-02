@@ -719,10 +719,10 @@ $Selenium->RunTest(
                 },
             },
 
-            # custom datetime notification 2012-10-18 00:03:00
+            # custom datetime notification 2016-10-18 02:03:00
             {
                 Data => {
-                    Description                           => 'Custom datetime 2012-10-18 02:03:00',
+                    Description                           => 'Custom datetime 2016-10-18 02:03:00',
                     NotificationTemplate                  => 'Custom',
                     NotificationCustomRelativeInput       => 0,
                     NotificationCustomDateTimeInput       => 1,
@@ -731,19 +731,19 @@ $Selenium->RunTest(
                     NotificationCustomRelativePointOfTime => 'beforestart',
                     DateTimeDay                           => '18',
                     DateTimeMonth                         => '10',
-                    DateTimeYear                          => '2012',
+                    DateTimeYear                          => '2016',
                     DateTimeHour                          => '2',
                     DateTimeMinute                        => '3',
                     UserID                                => $UserID,
                 },
                 Result => {
-                    NotificationDate                      => '2012-10-18 02:03:00',
+                    NotificationDate                      => '2016-10-18 02:03:00',
                     NotificationTemplate                  => 'Custom',
                     NotificationCustom                    => 'datetime',
                     NotificationCustomRelativeUnitCount   => 0,
                     NotificationCustomRelativeUnit        => 'minutes',
                     NotificationCustomRelativePointOfTime => 'beforestart',
-                    NotificationCustomDateTime            => '2012-10-18 02:03:00'
+                    NotificationCustomDateTime            => '2016-10-18 02:03:00'
                 },
             },
         );
