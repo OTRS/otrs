@@ -606,7 +606,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Update Text DynamicField (with wrong value)',
+        Name           => 'Update Text and Dropdown DynamicFields (with wrong value type)',
         SuccessRequest => '1',
         RequestData    => {
             TicketID     => $TicketID1,
@@ -639,6 +639,42 @@ my @Tests = (
                 Error => {
                     ErrorCode    => 'TicketUpdate.MissingParameter',
                     ErrorMessage => 'TicketUpdate: DynamicField->Value parameter is missing!'
+                },
+            },
+        },
+        Operation => 'TicketUpdate',
+    },
+
+    {
+        Name           => 'Update Dropdown DynamicField (with invalid value)',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID     => $TicketID1,
+            DynamicField => [
+                {
+                    Name  => "Unittest2$RandomID",
+                    Value => '4',                    # invalid value
+                },
+            ],
+        },
+        Auth => {
+            SessionID => $NewSessionID,
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Error => {
+                    ErrorCode    => 'TicketUpdate.InvalidParameter',
+                    ErrorMessage => 'TicketUpdate: DynamicField->Value parameter is invalid!',
+                },
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Error => {
+                    ErrorCode    => 'TicketUpdate.InvalidParameter',
+                    ErrorMessage => 'TicketUpdate: DynamicField->Value parameter is invalid!',
                 },
             },
         },
