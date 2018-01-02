@@ -4091,7 +4091,8 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">CommunicationLog Overview Limit</Item>
-                <Item Key="Key" Translatable="1">Communication log limit per page for CommunicationLog Overview</Item>
+                <Item Key="Desc" Translatable="1">Communication log limit per page for Communication Log Overview.</Item>
+                <Item Key="Key" Translatable="1"></Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="10">10</Item>

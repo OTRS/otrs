@@ -6832,7 +6832,8 @@
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Ticket Overview "Small" Limit</Item>
-                <Item Key="Key" Translatable="1">Ticket limit per page for Ticket Overview "Small"</Item>
+                <Item Key="Desc" Translatable="1">Ticket limit per page for Ticket Overview "Small".</Item>
+                <Item Key="Key" Translatable="1"></Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="10">10</Item>
@@ -6858,7 +6859,8 @@
                 <Item Key="Module">Kernel::Output::HTML::Preferences::ColumnFilters</Item>
                 <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Enabled filters.</Item>
-                <Item Key="Key" Translatable="1">Column ticket filters for Ticket Overviews type "Small".</Item>
+                <Item Key="Desc" Translatable="1">Column ticket filters for Ticket Overviews type "Small".</Item>
+                <Item Key="Key" Translatable="1"></Item>
                 <Item Key="PrefKey">UserFilterColumnsEnabled</Item>
                 <Item Key="Prio">8100</Item>
                 <Item Key="Active">0</Item>
@@ -6873,7 +6875,8 @@
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Ticket Overview "Medium" Limit</Item>
-                <Item Key="Key" Translatable="1">Ticket limit per page for Ticket Overview "Medium"</Item>
+                <Item Key="Desc" Translatable="1">Ticket limit per page for Ticket Overview "Medium".</Item>
+                <Item Key="Key" Translatable="1"></Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="10">10</Item>
@@ -6899,7 +6902,8 @@
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Ticket Overview "Preview" Limit</Item>
-                <Item Key="Key" Translatable="1">Ticket limit per page for Ticket Overview "Preview"</Item>
+                <Item Key="Desc" Translatable="1">Ticket limit per page for Ticket Overview "Preview".</Item>
+                <Item Key="Key" Translatable="1"></Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="10">10</Item>
@@ -11835,7 +11839,8 @@ Thanks for your help!
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Dynamic Fields Overview Limit</Item>
-                <Item Key="Key" Translatable="1">Dynamic fields limit per page for Dynamic Fields Overview</Item>
+                <Item Key="Desc" Translatable="1">Dynamic fields limit per page for Dynamic Fields Overview.</Item>
+                <Item Key="Key" Translatable="1"></Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="10">10</Item>
