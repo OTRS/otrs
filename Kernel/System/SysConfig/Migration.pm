@@ -2441,6 +2441,12 @@ sub _LookupNewConfigName {
         'Ticket::EventModulePost###110-AcceleratorUpdate' =>
             'Ticket::EventModulePost###2600-AcceleratorUpdate',
 
+        'Ticket::EventModulePost###120-ForceOwnerResetOnMove' =>
+            'Ticket::EventModulePost###2700-ForceOwnerResetOnMove',
+
+        'Ticket::EventModulePost###130-ForceStateChangeOnLock' =>
+            'Ticket::EventModulePost###2800-ForceStateChangeOnLock',
+
         'Ticket::EventModulePost###140-ResponsibleAutoSet' =>
             'Ticket::EventModulePost###3000-ResponsibleAutoSet',
 
@@ -2465,11 +2471,17 @@ sub _LookupNewConfigName {
         'Ticket::EventModulePost###940-TicketArticleNewMessageUpdate' =>
             'Ticket::EventModulePost###4000-TicketArticleNewMessageUpdate',
 
+        'Ticket::EventModulePost###950-DynamicFieldFromCustomerUser' =>
+            'Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser',
+
         'Ticket::EventModulePost###998-TicketProcessTransitions' =>
             'Ticket::EventModulePost###9800-TicketProcessTransitions',
 
         'Ticket::EventModulePost###999-GenericInterface' =>
             'Ticket::EventModulePost###9900-GenericInterface',
+
+        'Ticket::EventModulePost###TicketDynamicFieldDefault' =>
+            'Ticket::EventModulePost###9600-TicketDynamicFieldDefault',
 
         'Ticket::Frontend::ArticleComposeModule###1-SignEmail' =>
             'Ticket::Frontend::ArticleComposeModule###2-SignEmail',
