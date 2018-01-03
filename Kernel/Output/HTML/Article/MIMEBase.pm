@@ -151,6 +151,7 @@ sub ArticleFields {
                     Label => $DataRef->{Key},
                     Value => $DataRef->{Value},
                     Class => $DataRef->{Result},
+                    Type  => 'ArticleOption',
                 };
 
                 for my $Warning ( @{ $DataRef->{Warnings} } ) {
@@ -158,6 +159,7 @@ sub ArticleFields {
                         Label => $Warning->{Key},
                         Value => $Warning->{Value},
                         Class => $Warning->{Result},
+                        Type  => 'ArticleOption',
                     };
                 }
             }
@@ -170,8 +172,6 @@ sub ArticleFields {
             # );
         }
     }
-
-    # TODO: RowData is not used anywhere? Check block in the TT.
 
     # do some strips && quoting
     my $RecipientDisplayType = $ConfigObject->Get('Ticket::Frontend::DefaultRecipientDisplayType') || 'Realname';
@@ -211,10 +211,11 @@ sub ArticleFields {
         }
     }
 
-    my @FieldsWithoutPrio = grep { !$Result{$_}->{Prio} } keys %Result;
+    my @FieldsWithoutPrio = grep { !$Result{$_}->{Prio} } sort keys %Result;
 
+    my $BasePrio = 100000;
     for my $Key (@FieldsWithoutPrio) {
-        $Result{$Key}->{Prio} = 100000;
+        $Result{$Key}->{Prio} = $BasePrio++;
     }
 
     return %Result;
