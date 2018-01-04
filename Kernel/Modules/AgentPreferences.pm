@@ -288,14 +288,15 @@ sub Run {
         }
 
         my %Setting = $SysConfigObject->SettingGet(
-            Name      => $SettingName,
-            Translate => 0,
-            UserID    => 1,
+            Name            => $SettingName,
+            OverriddenInXML => 1,
+            UserID          => 1,
         );
         my $DataIsDifferent = DataIsDifferent(
             Data1 => $EffectiveValue,
             Data2 => $Setting{EffectiveValue},
         );
+
         if ( !$DataIsDifferent ) {
             return $Self->_SettingReset( SettingName => $SettingName );
         }
@@ -325,7 +326,6 @@ sub Run {
             my %UpdatedSetting = $SysConfigObject->SettingGet(
                 Name         => $SettingName,
                 TargetUserID => $Self->{CurrentUserID},
-                Translate    => 0,
             );
 
             if ( $UpdatedSetting{IsDirty} ) {
@@ -345,15 +345,23 @@ sub Run {
             %UpdatedSetting = $SysConfigObject->SettingGet(
                 Name         => $SettingName,
                 TargetUserID => $Self->{CurrentUserID},
-                Translate    => 0,
             );
+
+            my $GlobalEffectiveValue = $SysConfigObject->GlobalEffectiveValueGet(
+                SettingName => $SettingName,
+            );
+
+            my $IsModified = DataIsDifferent(
+                Data1 => \$UpdatedSetting{EffectiveValue},
+                Data2 => \$GlobalEffectiveValue,
+            ) || 0;
 
             $Result{Data}->{HTMLStrg} = $SysConfigObject->SettingRender(
                 Setting => \%UpdatedSetting,
                 RW      => 1,
                 UserID  => $Self->{UserID},
             );
-            $Result{Data}->{SettingData}->{IsModified}        = $UpdatedSetting{IsModified};
+            $Result{Data}->{SettingData}->{IsModified}        = $IsModified;
             $Result{Data}->{SettingData}->{IsLockedByMe}      = 1;
             $Result{Data}->{SettingData}->{ExclusiveLockGUID} = 1;
         }
@@ -392,12 +400,30 @@ sub Run {
         my $RootNavigation = $ParamObject->GetParam( Param => 'RootNavigation' ) || '';
 
         my @SettingList = $SysConfigObject->ConfigurationListGet(
-            TargetUserID => $Self->{CurrentUserID},
-            IsValid      => 1,
-            Navigation   => $RootNavigation // undef,
+            TargetUserID    => $Self->{CurrentUserID},
+            IsValid         => 1,
+            Navigation      => $RootNavigation // undef,
+            OverriddenInXML => 1,
+            UserID          => 1,
         );
 
         for my $Setting (@SettingList) {
+
+            # OverriddenFileName is used only in Admin interface.
+            delete $Setting->{OverriddenFileName};
+
+            # If the setting is overriden in the *.pm file, take it as default and update IsModified.
+            my $GlobalEffectiveValue = $SysConfigObject->GlobalEffectiveValueGet(
+                SettingName => $Setting->{Name},
+            );
+
+            my $IsModified = DataIsDifferent(
+                Data1 => \$Setting->{EffectiveValue},
+                Data2 => \$GlobalEffectiveValue,
+            ) || 0;
+
+            $Setting->{IsModified} = $IsModified;
+
             $Setting->{HTMLStrg} = $SysConfigObject->SettingRender(
                 Setting => $Setting,
                 RW      => 1,
@@ -559,13 +585,31 @@ sub AgentPreferencesForm {
         $Param{Navigation} = 1;
 
         my @SettingList = $SysConfigObject->ConfigurationListGet(
-            TargetUserID => $Self->{CurrentUserID},
-            IsValid      => 1,
-            Navigation   => $RootNavigation // undef,
-            Translate    => 0,
+            TargetUserID    => $Self->{CurrentUserID},
+            IsValid         => 1,
+            Navigation      => $RootNavigation // undef,
+            OverriddenInXML => 1,
+            Translate       => 0,
+            UserID          => 1,
         );
 
         for my $Setting (@SettingList) {
+
+            # OverriddenFileName is used only in Admin interface.
+            delete $Setting->{OverriddenFileName};
+
+            # If the setting is overriden in the *.pm file, take it as default and update IsModified.
+            my $GlobalEffectiveValue = $SysConfigObject->GlobalEffectiveValueGet(
+                SettingName => $Setting->{Name},
+            );
+
+            my $IsModified = DataIsDifferent(
+                Data1 => \$Setting->{EffectiveValue},
+                Data2 => \$GlobalEffectiveValue,
+            ) || 0;
+
+            $Setting->{IsModified} = $IsModified;
+
             $Setting->{HTMLStrg} = $SysConfigObject->SettingRender(
                 Setting => $Setting,
                 RW      => 1,
@@ -803,10 +847,14 @@ sub _SettingReset {
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
     my %Setting = $SysConfigObject->SettingGet(
-        Name         => $SettingName,
-        TargetUserID => $Self->{CurrentUserID},
-        Translate    => 0,
+        Name            => $SettingName,
+        TargetUserID    => $Self->{CurrentUserID},
+        OverriddenInXML => 1,
+        UserID          => 1,
     );
+
+    # OverriddenFileName is used only in Admin interface.
+    delete $Setting{OverriddenFileName};
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
@@ -837,8 +885,14 @@ sub _SettingReset {
             %Setting = $SysConfigObject->SettingGet(
                 Name         => $SettingName,
                 TargetUserID => $Self->{CurrentUserID},
-                Translate    => 0,
             );
+
+            # If the setting is overriden in the *.pm file, take it as default and update IsModified.
+            my $GlobalEffectiveValue = $SysConfigObject->GlobalEffectiveValueGet(
+                SettingName => $SettingName,
+            );
+
+            $Setting{EffectiveValue} = $GlobalEffectiveValue;
 
             $Result{Data}->{HTMLStrg} = $SysConfigObject->SettingRender(
                 Setting => \%Setting,
@@ -849,10 +903,29 @@ sub _SettingReset {
             $Result{Data}->{SettingData}->{IsLockedByMe} = 1;
         }
         else {
-            $Result{Error} = $LayoutObject->{LanguageObject}->Translate(
+            $Result{Data}->{HTMLStrg} = $SysConfigObject->SettingRender(
+                Setting => \%Setting,
+                RW      => 1,
+                UserID  => $Self->{UserID},
+            );
+            $Result{Data}->{SettingData}->{IsModified}   = 1;
+            $Result{Data}->{SettingData}->{IsLockedByMe} = 1;
+            $Result{Error}                               = $LayoutObject->{LanguageObject}->Translate(
                 "System was unable to reset the setting!",
             );
         }
+    }
+    else {
+        $Result{Data}->{HTMLStrg} = $SysConfigObject->SettingRender(
+            Setting => \%Setting,
+            RW      => 1,
+            UserID  => $Self->{UserID},
+        );
+
+        $Result{Data}->{SettingData}->{IsLockedByMe} = 1;
+        $Result{Error} = $LayoutObject->{LanguageObject}->Translate(
+            "System was unable to reset the setting!",
+        );
     }
 
     # JSON response

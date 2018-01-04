@@ -39,6 +39,13 @@ $Selenium->RunTest(
             Value => 1,
         );
 
+        # Simulate that we have overridden setting in the .pm file.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::ZoomTimeDisplay',
+            Value => 1,
+        );
+
         # create test user and login
         my $Language      = "en";
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -451,6 +458,32 @@ JAVASCRIPT
 
         if ( $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled() ) {
 
+            # Open advanced preferences screen.
+            $Selenium->VerifiedGet(
+                "${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=Advanced;RootNavigation=Frontend::Agent::View::TicketZoom"
+            );
+
+            # Check setting value.
+            my $CheckboxState = $Selenium->execute_script(
+                'return $("#Ticket\\\\:\\\\:ZoomTimeDisplay").val()'
+            );
+            $Self->True(
+                $CheckboxState,
+                'Checkbox is checked',    # Default value is overridden!
+            );
+
+            # Click on checkbox.
+            $Selenium->find_element( '.CheckboxLabel:nth-of-type(1)', 'css' )->click();
+
+            # Save.
+            $Selenium->find_element( 'li:nth-of-type(2) .Update:nth-of-type(1)', 'css' )->click();
+
+            # Wait and make sure that setting value is 0.
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return $("#Ticket\\\\:\\\\:ZoomTimeDisplay").val() == 0'
+            ) || die 'Ticket::ZoomTimeDisplay should be 0';
+
             # Modify specific SysConfig values to allow or forbid settings change by user.
             my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
             $SysConfigObject->SettingsSet(
@@ -490,8 +523,9 @@ JAVASCRIPT
             # Open advanced preferences screen.
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=Advanced");
 
-            # Change category only if the dropdown is present.
+            # Change category only if the dropdown is present (if additional packages are installed).
             my $CategoriesVisible = $Selenium->execute_script("return \$('#Category:visible').length;");
+
             if ($CategoriesVisible) {
                 $Selenium->execute_script(
                     "\$('#Category').val('OTRSFree').trigger('redraw.InputField').trigger('change');"
