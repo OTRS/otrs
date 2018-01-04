@@ -142,10 +142,9 @@ Core.Agent.Preferences = (function (TargetNS) {
                         Core.UI.WidgetOverlayHide($WidgetObj);
                     }
 
-                    // clear up password fields
-                    if ($WidgetObj.find('input[type=password]').length) {
-                        $WidgetObj.find('input[type=password]').val('');
-                    }
+                    // Clear up password and two factor token fields.
+                    $WidgetObj.find('input[type=password]').val('');
+                    $WidgetObj.find('input[name=TwoFactorToken]').val('');
 
                     $ButtonObj.blur();
                 }

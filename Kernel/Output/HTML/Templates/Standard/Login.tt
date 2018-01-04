@@ -150,14 +150,14 @@ X-OTRS-Login: [% Env("Baselink") %]
                                     <label for="User" class="InvisibleText Mandatory">
                                         <span class="Marker">*</span> [% Translate("Username") | html %]
                                     </label>
-                                    <input autocorrect="off" placeholder="[% Translate("Username") | html %]" autocapitalize="off" type="text" id="User" name="User" value="[% Data.User | html %]" class="W75pc Validate_Required" />
+                                    <input autocorrect="off" autocomplete="username" placeholder="[% Translate("Username") | html %]" autocapitalize="off" type="text" id="User" name="User" value="[% Data.User | html %]" class="W75pc Validate_Required" />
                                     <div id="UserError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
                                 </div>
                                 <div>
-                                    <label for="TwoFactorToken" class="InvisibleText Mandatory">
+                                    <label for="Password" class="InvisibleText Mandatory">
                                         <span class="Marker">*</span> [% Translate("Password") | html %]
                                     </label>
-                                    <input type="Password" placeholder="[% Translate("Password") | html %]" id="Password" name="Password" class="W75pc Validate_Required" />
+                                    <input type="password" autocomplete="current-password" placeholder="[% Translate("Password") | html %]" id="Password" name="Password" class="W75pc Validate_Required" />
                                     <div id="PasswordError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
                                 </div>
                                 <div class="Clear"></div>
@@ -170,7 +170,7 @@ X-OTRS-Login: [% Env("Baselink") %]
                                         [% Translate("2 Factor Token") | html %]
                                 </label>
                                 <div>
-                                    <input type="password" placeholder="[% Translate("2 Factor Token") | html %]" id="TwoFactorToken" name="TwoFactorToken" class="W75pc [% Data.ValidateRequired | html %]" />
+                                    <input type="text" placeholder="[% Translate("2 Factor Token") | html %]" id="TwoFactorToken" name="TwoFactorToken" class="W75pc [% Data.ValidateRequired | html %]" />
                                     <div id="TwoFactorTokenError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
                                 </div>
                                 <div class="Clear"></div>
