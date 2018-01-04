@@ -62,24 +62,27 @@ sub Param {
         @Params,
         {
             %Param,
-            Key   => Translatable('Current password'),
-            Name  => 'CurPw',
-            Raw   => 1,
-            Block => 'Password'
+            Key          => Translatable('Current password'),
+            Name         => 'CurPw',
+            Raw          => 1,
+            Block        => 'Password',
+            Autocomplete => 'current-password',
         },
         {
             %Param,
-            Key   => Translatable('New password'),
-            Name  => 'NewPw',
-            Raw   => 1,
-            Block => 'Password'
+            Key          => Translatable('New password'),
+            Name         => 'NewPw',
+            Raw          => 1,
+            Block        => 'Password',
+            Autocomplete => 'new-password',
         },
         {
             %Param,
-            Key   => Translatable('Verify password'),
-            Name  => 'NewPw1',
-            Raw   => 1,
-            Block => 'Password'
+            Key          => Translatable('Verify password'),
+            Name         => 'NewPw1',
+            Raw          => 1,
+            Block        => 'Password',
+            Autocomplete => 'new-password',
         },
     );
 
@@ -98,7 +101,7 @@ sub Param {
             Key   => '2 Factor Token',
             Name  => 'TwoFactorToken',
             Raw   => 1,
-            Block => 'Password',
+            Block => 'Input',
         };
 
         last COUNT;
