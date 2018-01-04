@@ -1332,6 +1332,21 @@ $Selenium->RunTest(
                 push @TestNames, $Test->{Name};
             }
         }
+
+        # Make sure that invisible setting can't be reached by manipulating url.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AdminSystemConfiguration;Subaction=View;Setting=SystemConfiguration::MaximumDeployments"
+        );
+
+        # Check if there is notification.
+        $Self->True(
+            index(
+                $Selenium->get_page_source(),
+                "This group doesn't contain any settings. Please try navigating to one of its sub groups or another group."
+                ) > -1,
+            "Invisible setting not found."
+        );
+
     }
 );
 

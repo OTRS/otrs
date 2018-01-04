@@ -106,7 +106,9 @@ sub DefaultSettingAdd {
         }
     }
 
-    my @DefaultSettings = $Self->DefaultSettingList();
+    my @DefaultSettings = $Self->DefaultSettingList(
+        IncludeInvisible => 1,
+    );
 
     # Check duplicate name
     my ($SettingData) = grep { $_->{Name} eq $Param{Name} } @DefaultSettings;
@@ -1432,8 +1434,9 @@ sub DefaultSettingListGet {
 Get list of all settings.
 
     my @DefaultSettings = $SysConfigDBObject->DefaultSettingList(
-        IsDirty => 0,       # (optional) Filter settings by IsDirty. If not provided, returns all settings.
-        Locked  => 0,       # (optional) Filter locked settings.
+        IncludeInvisible => 0,   # (optional) Include invisible. Default 0.
+        IsDirty          => 0,   # (optional) Filter settings by IsDirty. If not provided, returns all settings.
+        Locked           => 0,   # (optional) Filter locked settings.
     );
 
 Returns:
@@ -1443,6 +1446,7 @@ Returns:
             DefaultID         => '123',
             Name              => 'SettingName1',
             IsDirty           => 1,
+            IsVisible         => 1,
             ExclusiveLockGUID => 0,
             XMLFilename       => 'Filename.xml',
         },
@@ -1450,6 +1454,7 @@ Returns:
             DefaultID         => '124',
             Name              => 'SettingName2',
             IsDirty           => 0,
+            IsVisible         => 1,
             ExclusiveLockGUID => 'fjewifjowj...',
             XMLFilename       => 'Filename.xml',
         },
@@ -1463,6 +1468,8 @@ sub DefaultSettingList {
 
     my $CacheType = 'SysConfigDefaultList';
     my $CacheKey  = 'DefaultSettingList';
+
+    $Param{IncludeInvisible} //= 0;
 
     my $DBObject    = $Kernel::OM->Get('Kernel::System::DB');
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
@@ -1482,7 +1489,7 @@ sub DefaultSettingList {
 
         # Start SQL statement.
         my $SQL = '
-            SELECT id, name, is_dirty, exclusive_lock_guid, xml_content_raw, xml_filename
+            SELECT id, name, is_dirty, exclusive_lock_guid, xml_content_raw, xml_filename, is_invisible
             FROM sysconfig_default
             ORDER BY id';
 
@@ -1498,6 +1505,7 @@ sub DefaultSettingList {
                 ExclusiveLockGUID => $Row[3],
                 XMLContentRaw     => $Row[4],
                 XMLFilename       => $Row[5],
+                IsInvisible       => $Row[6],
             };
         }
 
@@ -1526,6 +1534,12 @@ sub DefaultSettingList {
             # Filter only unlocked settings
             @Data = grep { !$_->{ExclusiveLockGUID} } @Data;
         }
+    }
+
+    if ( !$Param{IncludeInvisible} ) {
+
+        # Filter only those settings that are visible.
+        @Data = grep { !$_->{IsInvisible} } @Data;
     }
 
     return @Data;

@@ -60,7 +60,7 @@ my $DefaultSettingID = $SysConfigDBObject->DefaultSettingAdd(
     Name                     => $SettingName,
     Description              => 'Defines the name of the application ...',
     Navigation               => 'ASimple::Path::Structure',
-    IsInvisible              => 1,
+    IsInvisible              => 0,
     IsReadonly               => 0,
     IsRequired               => 1,
     IsValid                  => 1,
@@ -275,7 +275,6 @@ my @Tests = (
             },
         ],
     },
-
     {
         Description => 'Several failing test',
         Config      => [

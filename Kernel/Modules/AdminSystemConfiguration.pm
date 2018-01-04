@@ -398,7 +398,7 @@ sub Run {
                 UserID          => $Self->{UserID},
             );
 
-            if (%Setting) {
+            if ( %Setting && !$Setting{IsInvisible} ) {
 
                 $Setting{HTMLStrg} = $SysConfigObject->SettingRender(
                     Setting => \%Setting,

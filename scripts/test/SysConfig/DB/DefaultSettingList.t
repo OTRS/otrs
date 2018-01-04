@@ -11,8 +11,6 @@ use strict;
 use warnings;
 use utf8;
 
-use Kernel::System::VariableCheck qw( IsArrayRefWithData IsHashRefWithData );
-
 use vars (qw($Self));
 
 $Kernel::OM->ObjectParamAdd(
@@ -77,6 +75,7 @@ $Self->IsDeeply(
             'DefaultID'         => $Setting2{DefaultID},
             'ExclusiveLockGUID' => $GUID2,
             'IsDirty'           => '0',
+            'IsInvisible'       => '0',
             'Name'              => 'SystemID',
             'XMLContentRaw'     => '<Setting Name="SystemID" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).</Description>
@@ -102,6 +101,7 @@ $Self->IsDeeply(
             'DefaultID'         => $Setting1{DefaultID},
             'ExclusiveLockGUID' => '0',
             'IsDirty'           => '1',
+            'IsInvisible'       => '0',
             'Name'              => 'Frontend::DebugMode',
             'XMLContentRaw'     => '<Setting Name="Frontend::DebugMode" Required="0" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Enables or disables the debug mode over frontend interface.</Description>
@@ -122,6 +122,32 @@ my @SettingList = $SysConfigDBObject->DefaultSettingList();
 $Self->True(
     scalar @SettingList > 1700,
     'Make sure there are at least 1700 settings.',
+);
+
+# Make sure that Invisible settings are not included.
+my $InvisibleFound = grep { $_->{Name} eq 'SystemConfiguration::MaximumDeployments' } @SettingList;
+
+$Self->False(
+    $InvisibleFound,
+    'SystemConfiguration::MaximumDeployments is not present (Invisible).'
+);
+
+# Get all settings.
+@SettingList = $SysConfigDBObject->DefaultSettingList(
+    IncludeInvisible => 1,
+);
+
+$Self->True(
+    scalar @SettingList > 1700,
+    'Make sure there are at least 1700 settings.',
+);
+
+# Make sure that Invisible settings are not included.
+$InvisibleFound = grep { $_->{Name} eq 'SystemConfiguration::MaximumDeployments' } @SettingList;
+
+$Self->True(
+    $InvisibleFound,
+    'SystemConfiguration::MaximumDeployments is present (Invisible).'
 );
 
 1;

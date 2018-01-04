@@ -229,7 +229,7 @@ for my $Test (@Tests) {
         $Self->IsDeeply(
             scalar @List,
             0,
-            "$Test->{Name} ConfigurationList() returns no settings",
+            "$Test->{Name} ConfigurationListGet() returns no settings",
         );
         next TEST;
     }
@@ -237,7 +237,7 @@ for my $Test (@Tests) {
     $Self->Is(
         scalar @List,
         $Test->{NumberOfSettings},
-        "$Test->{Name}  ConfigurationList() cardinality",
+        "$Test->{Name}  ConfigurationListGet() cardinality",
     );
 
     my @ExpectedResult;
@@ -276,7 +276,7 @@ for my $Test (@Tests) {
     $Self->IsDeeply(
         \@List,
         \@ExpectedResult,
-        "$Test->{Name} ConfigurationList()",
+        "$Test->{Name} ConfigurationListGet()",
     );
 }
 continue {
