@@ -102,41 +102,21 @@ sub ArticleRender {
         $ShowHTML = 0;
     }
 
+    # Strip plain text attachments by default.
+    my $ExcludePlainText = 1;
+
+    # Do not strip plain text attachments if no plain text article body was found.
+    if ( $Article{Body} && $Article{Body} eq '- no text message => see attachment -' ) {
+        $ExcludePlainText = 0;
+    }
+
     # Get attachment index (excluding body attachments).
     my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
         ArticleID        => $Param{ArticleID},
-        ExcludePlainText => 1,
+        ExcludePlainText => $ExcludePlainText,
         ExcludeHTMLBody  => $RichTextEnabled,
-
-        # TODO: Hot-fix for bug#13353, do not exclude inline attachments at this point.
-        #   Make sure to analyze this issue further and fix ArticleAttachmentIndex behavior.
-        # ExcludeInline    => $RichTextEnabled,
+        ExcludeInline    => $RichTextEnabled,
     );
-
-    # Skip the images that are referenced in the body (bug #12987).
-    if ( $ShowHTML && %AtmIndex ) {
-        my %BodyAttachment = $ArticleBackendObject->ArticleAttachment(
-            ArticleID => $Param{ArticleID},
-            FileID    => $HTMLBodyAttachID,
-        );
-
-        my $Body = $BodyAttachment{Content};
-
-        ATTACHMENT:
-        for my $FileID ( sort keys %AtmIndex ) {
-            my %File = %{ $AtmIndex{$FileID} };
-
-            next ATTACHMENT if $File{ContentType} !~ m/image/i;
-            next ATTACHMENT if !$File{ContentID};
-
-            my ($ImageID) = ( $File{ContentID} =~ m/^<(.*)>$/i );
-
-            # Search in the article body if there is any reference to it.
-            if ( $Body =~ m/<img.+src="cid:$ImageID".*>/is ) {
-                delete $AtmIndex{$FileID};
-            }
-        }
-    }
 
     my @ArticleAttachments;
 

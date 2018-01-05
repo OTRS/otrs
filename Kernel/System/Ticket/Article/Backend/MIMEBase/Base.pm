@@ -138,7 +138,6 @@ sub ArticleAttachmentIndex {
 
         my $AttachmentIDPlain = 0;
         my $AttachmentIDHTML  = 0;
-        my @AttachmentIDsInline;
 
         ATTACHMENT_ID:
         for my $AttachmentID ( sort keys %Attachments ) {
@@ -171,16 +170,6 @@ sub ArticleAttachmentIndex {
                 $AttachmentIDHTML = $AttachmentID;
                 next ATTACHMENT_ID;
             }
-
-            # Identify other inline attachments.
-            if (
-                $File{Disposition} eq 'inline'
-                && $AttachmentID != $AttachmentIDPlain
-                && $AttachmentID != $AttachmentIDHTML
-                )
-            {
-                push @AttachmentIDsInline, $AttachmentID;
-            }
         }
 
         # If neither plain text or html body were found, iterate again to try to identify plain text among regular
@@ -198,6 +187,37 @@ sub ArticleAttachmentIndex {
                 {
                     $AttachmentIDPlain = $AttachmentID;
                     last ATTACHMENT_ID;
+                }
+            }
+        }
+
+        # Identify inline (image) attachments which are referenced in HTML body. Do not strip attachments based on their
+        #   disposition, since this method of detection is unreliable. Please see bug#13353 for more information.
+        my @AttachmentIDsInline;
+
+        if ($AttachmentIDHTML) {
+
+            # Get HTML article body.
+            my %HTMLBody = $Self->ArticleAttachment(
+                ArticleID => $Param{ArticleID},
+                FileID    => $AttachmentIDHTML,
+            );
+
+            if ( %HTMLBody && $HTMLBody{Content} ) {
+
+                ATTACHMENT_ID:
+                for my $AttachmentID ( sort keys %Attachments ) {
+                    my %File = %{ $Attachments{$AttachmentID} };
+
+                    next ATTACHMENT_ID if $File{ContentType} !~ m{image}ixms;
+                    next ATTACHMENT_ID if !$File{ContentID};
+
+                    my ($ImageID) = ( $File{ContentID} =~ m{^<(.*)>$}ixms );
+
+                    # Search in the article body if there is any reference to it.
+                    if ( $HTMLBody{Content} =~ m{<img.+src=['|"]cid:$ImageID['|"].*>}ixms ) {
+                        push @AttachmentIDsInline, $AttachmentID;
+                    }
                 }
             }
         }

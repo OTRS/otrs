@@ -83,15 +83,20 @@ sub ArticleRender {
         || $LayoutObject->{BrowserRichText}
         || 0;
 
+    # Strip plain text attachments by default.
+    my $ExcludePlainText = 1;
+
+    # Do not strip plain text attachments if no plain text article body was found.
+    if ( $Article{Body} && $Article{Body} eq '- no text message => see attachment -' ) {
+        $ExcludePlainText = 0;
+    }
+
     # Get attachment index (excluding body attachments).
     my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
         ArticleID        => $Param{ArticleID},
-        ExcludePlainText => 1,
+        ExcludePlainText => $ExcludePlainText,
         ExcludeHTMLBody  => $RichTextEnabled,
-
-        # TODO: Hot-fix for bug#13353, do not exclude inline attachments at this point.
-        #   Make sure to analyze this issue further and fix ArticleAttachmentIndex behavior.
-        # ExcludeInline    => $RichTextEnabled,
+        ExcludeInline    => $RichTextEnabled,
     );
 
     my @ArticleAttachments;
