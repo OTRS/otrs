@@ -585,6 +585,13 @@ thead .headerSortDown a {
     background: linear-gradient(to bottom,  #f0f0f0 0%,#eaeaea 100%);
 }
 
+#OverviewBody.Overview.TicketList {
+    overflow: visible;
+}
+#OverviewBody.Overview.TicketList table {
+    overflow: visible;
+}
+
 /**
  * @subsection  Handle for resizing tables
  */
@@ -635,6 +642,7 @@ thead .headerSortDown a {
     background-color: #eee;
     position: relative;
     z-index: 99;
+    text-align: center;
 }
 
 select.ColumnFilter {

@@ -1,4 +1,5 @@
 #6.0.4 ????-??-??
+ - 2018-01-05 Fixed bug#[13503](https://bugs.otrs.org/show_bug.cgi?id=13503) - Delete button of filter is not unified.
  - 2018-01-05 Fixed bug#[13338](https://bugs.otrs.org/show_bug.cgi?id=13338) - DBUpdate-script isn't checking ZZZAuto.pm for wrong Sysconfig settings.
  - 2018-01-05 Fixed bug#[13502](https://bugs.otrs.org/show_bug.cgi?id=13502) - communication log delete is slow.
  - 2018-01-05 Fixed bug#[13353](https://bugs.otrs.org/show_bug.cgi?id=13353) - inline picture not shown in AgentTicketZoom.
