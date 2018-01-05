@@ -333,6 +333,21 @@ sub TableCreateComplex {
         elsif ( $Column eq 'CustomerUserID' ) {
             $ColumnTranslate = Translatable('Customer User ID');
         }
+        elsif ( $Column =~ m{ \A DynamicField_ }xms ) {
+            my $DynamicFieldConfig;
+
+            DYNAMICFIELD:
+            for my $DFConfig ( @{ $Self->{DynamicField} } ) {
+                next DYNAMICFIELD if !IsHashRefWithData($DFConfig);
+                next DYNAMICFIELD if 'DynamicField_' . $DFConfig->{Name} ne $Column;
+
+                $DynamicFieldConfig = $DFConfig;
+                last DYNAMICFIELD;
+            }
+            next COLUMN if !IsHashRefWithData($DynamicFieldConfig);
+
+            $ColumnTranslate = $DynamicFieldConfig->{Label};
+        }
 
         push @AllColumns, {
             ColumnName      => $Column,
@@ -348,24 +363,11 @@ sub TableCreateComplex {
                 $ColumnName = $Column eq 'TicketNumber' ? $TicketHook : $ColumnTranslate;
             }
 
-            # Dynamic fields
+            # Dynamic fields (get label from the translated column).
             else {
-                my $DynamicFieldConfig;
-                my $DFColumn = $Column;
-                $DFColumn =~ s{DynamicField_}{}g;
-
-                DYNAMICFIELD:
-                for my $DFConfig ( @{ $Self->{DynamicField} } ) {
-                    next DYNAMICFIELD if !IsHashRefWithData($DFConfig);
-                    next DYNAMICFIELD if $DFConfig->{Name} ne $DFColumn;
-
-                    $DynamicFieldConfig = $DFConfig;
-                    last DYNAMICFIELD;
-                }
-                next COLUMN if !IsHashRefWithData($DynamicFieldConfig);
-
-                $ColumnName = $DynamicFieldConfig->{Label};
+                $ColumnName = $ColumnTranslate;
             }
+
             push @Headline, {
                 Content => $ColumnName,
             };
