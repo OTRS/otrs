@@ -252,6 +252,18 @@ my $TestObjectLogEntryList = sub {
         'List communication logging for object type "Connection" and key "Key-0"',
     );
 
+    # Delete the communication.
+    $Result = $CommunicationLogDBObj->CommunicationDelete(
+        CommunicationID => $CommunicationLogObject->CommunicationIDGet(),
+    );
+    $Self->True(
+        $Result,
+        sprintf(
+            "Communication '%s' deleted",
+            $CommunicationLogObject->CommunicationIDGet(),
+        ),
+    );
+
     return;
 };
 

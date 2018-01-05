@@ -1,4 +1,5 @@
 #6.0.4 ????-??-??
+ - 2018-01-05 Fixed bug#[13502](https://bugs.otrs.org/show_bug.cgi?id=13502) - communication log delete is slow.
  - 2018-01-05 Fixed bug#[13353](https://bugs.otrs.org/show_bug.cgi?id=13353) - inline picture not shown in AgentTicketZoom.
  - 2018-01-05 Fixed bug#[13437](https://bugs.otrs.org/show_bug.cgi?id=13437) - Upgrade script repeatedly asks for time zone configuration.
  - 2018-01-05 Fixed bug#[13326](https://bugs.otrs.org/show_bug.cgi?id=13326) - System was unable to lock Default Settings - after DBsetup/Step 2.

@@ -2637,6 +2637,9 @@
     <Index Name="communication_status">
         <IndexColumn Name="status"/>
     </Index>
+    <Index Name="communication_start_time">
+        <IndexColumn Name="start_time"/>
+    </Index>
 </Table>
 
 <Table Name="communication_log_object">

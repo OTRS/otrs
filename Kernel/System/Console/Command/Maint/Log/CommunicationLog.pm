@@ -139,35 +139,40 @@ sub Run {
 sub Delete {
     my ( $Self, %Param ) = @_;
 
-    my $Verbose = $Self->GetOption('verbose');
-
+    my $Verbose               = $Self->GetOption('verbose');
     my $CommunicationLogDBObj = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
-    my @CommunicationIDs;
+    my $Result                = 1;
 
     if ( $Param{ID} ) {
 
-        $Self->Print("\nRetrieving logs for CommunicationID '<yellow>$Param{ID}</yellow>'\n");
+        $Self->Print(
+            sprintf(
+                "Going to delete communication with ID '$Param{ID}'%s!\n",
+                ( $Param{Force} ? '' : " except if isn't processing" ),
+            ),
+        );
 
-        my $Communication = $CommunicationLogDBObj->CommunicationGet( CommunicationID => $Param{ID} );
-
-        if ( $Communication && %$Communication && ( $Communication->{Status} ne 'Processing' || $Param{Force} ) ) {
-            push @CommunicationIDs, $Communication->{CommunicationID};
-        }
+        $Result = $CommunicationLogDBObj->CommunicationDelete(
+            CommunicationID => $Param{ID},
+            ( $Param{Force} ? () : ( Status => '!Processing' ) ),
+        );
     }
 
     if ( $Param{Date} ) {
 
-        $Self->Print("\nRetrieving logs of date '<yellow>$Param{Date}</yellow>'\n");
+        $Self->Print(
+            sprintf(
+                "Going to delete all communications of date '$Param{Date}'%s!\n",
+                ( $Param{Force} ? '' : " except the ones with Status 'Processing'" ),
+            ),
+        );
 
-        my $Communications = $CommunicationLogDBObj->CommunicationList(
+        # Delete all communications for the given date, if 'force'
+        #   param isn't present keep the ones that are still being processed.
+        $Result = $CommunicationLogDBObj->CommunicationDelete(
             Date => $Param{Date},
-        ) || [];
-
-        COMMUNICATION:
-        for my $Communication ( @{$Communications} ) {
-            next COMMUNICATION if $Communication->{Status} eq 'Processing' && !$Param{Force};
-            push @CommunicationIDs, $Communication->{CommunicationID};
-        }
+            ( $Param{Force} ? () : ( Status => '!Processing' ) ),
+        );
     }
 
     if ( $Param{HoursOld} ) {
@@ -176,18 +181,19 @@ sub Delete {
         $DateTimeObject->Subtract( Hours => $Param{HoursOld} );
         my $OlderDate = $DateTimeObject->Format( Format => '%Y-%m-%d %H:%M:%S' );
 
-        $Self->Print("\nRetrieving logs of dates older than '<yellow>$OlderDate</yellow>'\n");
+        $Self->Print(
+            sprintf(
+                "Going to delete all communications older than '${ OlderDate }'%s!\n",
+                ( $Param{Force} ? '' : " except the ones with Status 'Processing'" ),
+            ),
+        );
 
-        my $Communications = $CommunicationLogDBObj->CommunicationList(
+        # Delete all communications older than the given date, if 'force'
+        #   param isn't present keep the ones that are still being processed.
+        $Result = $CommunicationLogDBObj->CommunicationDelete(
             OlderThan => $OlderDate,
-        ) || [];
-
-        COMMUNICATION:
-        for my $Communication ( @{$Communications} ) {
-
-            next COMMUNICATION if $Communication->{Status} eq 'Processing' && !$Param{Force};
-            push @CommunicationIDs, $Communication->{CommunicationID};
-        }
+            ( $Param{Force} ? () : ( Status => '!Processing' ) ),
+        );
     }
 
     if ( $Param{Purge} ) {
@@ -202,58 +208,26 @@ sub Delete {
         $SuccessDateObject->Subtract( Hours => $SuccessHours );
         my $SuccessDate = $SuccessDateObject->Format( Format => '%Y-%m-%d %H:%M:%S' );
 
-        my $Communications = $CommunicationLogDBObj->CommunicationList(
+        $Self->Print("Going to delete all communications older than '${ SuccessDate }' with status 'Successful'!\n");
+
+        $Result = $CommunicationLogDBObj->CommunicationDelete(
             OlderThan => $SuccessDate,
             Status    => 'Successful',
-        ) || [];
-
-        $DateTimeObject->Subtract( Hours => $AllHours );
-        my $AllHoursDate = $DateTimeObject->Format( Format => '%Y-%m-%d %H:%M:%S' );
-
-        push @{$Communications},
-            @{
-            $CommunicationLogDBObj->CommunicationList(
-                OlderThan => $AllHoursDate,
-                )
-                || []
-            }
-            ;
-
-        for my $Communication ( @{$Communications} ) {
-            push @CommunicationIDs, $Communication->{CommunicationID};
-        }
-    }
-
-    my $CommunicationCount = scalar @CommunicationIDs;
-
-    if ( !$CommunicationCount ) {
-        $Self->Print("<yellow>No communications found for deletion!</yellow>\n");
-        return 1;
-    }
-
-    my $DeleteOutput = "Going to delete <yellow>$CommunicationCount</yellow> communication(s)";
-    if ( $Param{Purge} ) {
-        $DeleteOutput = "Going to purge <yellow>$CommunicationCount</yellow> communication(s).";
-    }
-    else {
-        $DeleteOutput .= $Param{Force} ? '.' : " (ignoring communications with status 'Processing').";
-    }
-    $Self->Print("$DeleteOutput\n");
-
-    my $Result = 1;
-
-    for my $CommunicationID (@CommunicationIDs) {
-
-        my $Return = $CommunicationLogDBObj->CommunicationDelete(
-            CommunicationID => $CommunicationID
         );
 
-        if ( !$Return ) {
-            $Self->PrintError("Could not delete communications with id '$CommunicationID'!\n");
-            $Result = 0;
-        }
+        if ($Result) {
+            $DateTimeObject->Subtract( Hours => $AllHours );
+            my $AllHoursDate = $DateTimeObject->Format( Format => '%Y-%m-%d %H:%M:%S' );
 
-        $Self->Print("Deleted communication $CommunicationID.\n");
+            $Self->Print("Going to delete all communications older than '${ AllHoursDate }'!\n");
+            $Result = $CommunicationLogDBObj->CommunicationDelete(
+                OlderThan => $AllHoursDate,
+            );
+        }
+    }
+
+    if ( !$Result ) {
+        $Self->PrintError("Could not delete communication(s)!\n");
     }
 
     return $Result;

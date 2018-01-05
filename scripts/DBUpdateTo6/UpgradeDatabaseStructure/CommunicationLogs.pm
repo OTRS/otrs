@@ -143,6 +143,14 @@ sub Run {
                 <IndexColumn Name="object_id"/>
             </Index>
         </Table>',
+
+        # Create an Index for the column 'start_time' in table 'communication_log',
+        #   used in the communication-log purge.
+        '<TableAlter Name="communication_log">
+            <IndexCreate Name="communication_start_time">
+                <IndexColumn Name="start_time"/>
+            </IndexCreate>
+        </TableAlter>',
     );
 
     return if !$Self->ExecuteXMLDBArray(

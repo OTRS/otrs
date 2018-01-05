@@ -5397,6 +5397,14 @@ END;
 --
 ;
 BEGIN
+    EXECUTE IMMEDIATE 'CREATE INDEX communication_start_time ON communication_log (start_time)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--
+;
+BEGIN
     EXECUTE IMMEDIATE 'CREATE INDEX communication_status ON communication_log (status)';
 EXCEPTION
   WHEN OTHERS THEN NULL;

@@ -1748,6 +1748,7 @@ CREATE TABLE communication_log (
     end_time DATETIME NULL,
     PRIMARY KEY(id),
     INDEX communication_direction (direction),
+    INDEX communication_start_time (start_time),
     INDEX communication_status (status),
     INDEX communication_transport (transport)
 );

@@ -378,15 +378,17 @@ sub CommunicationList {
 Deletes a Communication entry if specified. Otherwise deletes all communications.
 
     my $Result = $CommunicationDBObject->CommunicationDelete(
-        CommunicationID => 123, # (required)
+        CommunicationID => 1,            # (optional) Communication ID
+        Status          => 'Processing', # (optional) 'Successful', 'Processing' or 'Failed'
+                                         # for example, using '!Processing', means different from
+        Date            => '2017-07-03', # (optional) Delete communications just from the given date.
+        OlderThan       => '2017-07-03', # (optional) Delete communications older than the given date.
     );
 
 Returns:
 
-    $Result = {
-        Status => '...',  # Failed | Success
-        Message => '...', # (Failed status only) Descriptive error message
-    }
+    C<undef> - in case of error
+    1        - in case of success
 
 =cut
 
@@ -404,34 +406,71 @@ sub CommunicationDelete {
         push @Bind,         \$Param{CommunicationID};
     }
 
-    if (@FilterFields) {
-        $SQL .= ' WHERE ' . join ' AND ', @FilterFields;
+    if ( $Param{Status} ) {
+        my $Operator = '=';
+        my $Status   = $Param{Status};
+        if ( substr( $Status, 0, 1 ) eq '!' ) {
+            $Operator = '!=';
+            $Status = substr( $Status, 1, );
+        }
 
-        my $List = $Self->CommunicationList( %Param, );
-        for my $Communication ( @{$List} ) {
-            if (
-                !$Self->ObjectLogDelete(
-                    CommunicationID => $Communication->{CommunicationID},
-                )
-                )
-            {
-                $Self->_LogError(
-                    sprintf(
-                        "Error deleting communication '%s' dependencies!",
-                        $Communication->{CommunicationID},
-                    ),
-                );
+        push @FilterFields, " (status ${ Operator } ?) ";
+        push @Bind,         \$Status;
+    }
 
-                return;
-            }
+    if ( $Param{Date} ) {
+
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Param{Date}
+            },
+        );
+
+        if ($DateTimeObject) {
+            my $NextDayObj = $DateTimeObject->Clone();
+            $NextDayObj->Add( Days => 1 );
+
+            push @FilterFields, ' (start_time BETWEEN ? and ?) ';
+            push @Bind, \$DateTimeObject->Format( Format => '%Y-%m-%d' ), \$NextDayObj->Format( Format => '%Y-%m-%d' );
         }
     }
-    else {
-        # Delete communication dependencies.
-        if ( !$Self->ObjectLogDelete() ) {
-            $Self->_LogError( "Error deleting communications dependencies!", );
-            return;
+
+    if ( $Param{OlderThan} ) {
+
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Param{OlderThan}
+            },
+        );
+
+        if ($DateTimeObject) {
+            push @FilterFields, ' (start_time < ?) ';
+            push @Bind,         \$Param{OlderThan};
         }
+    }
+
+    # Delete communication dependencies.
+    my $DependenciesDeleteResult = 1;
+    if (@FilterFields) {
+        my $Where = 'WHERE ' . join ' AND ', @FilterFields;
+        $SQL .= " ${ Where }";
+
+        $DependenciesDeleteResult = $Self->ObjectLogDelete(
+            CommunicationFilters => {
+                Where => $Where,
+                Binds => \@Bind,
+            },
+        );
+    }
+    else {
+        $DependenciesDeleteResult = $Self->ObjectLogDelete();
+    }
+
+    if ( !$DependenciesDeleteResult ) {
+        $Self->_LogError( "Error deleting communication(s) dependencies!", );
+        return;
     }
 
     # Delete the communication records.
@@ -842,6 +881,7 @@ sub ObjectLogDelete {
 
         if ( !$Result ) {
             $Self->_LogError( $LocalParam{ErrorMessage} );
+            return;
         }
 
         return 1;
@@ -871,7 +911,7 @@ sub ObjectLogDelete {
         },
     );
 
-    my @PossibleFilters = qw( CommunicationID ObjectLogStatus ObjectLogID );
+    my @PossibleFilters = qw( CommunicationFilters CommunicationID ObjectLogStatus ObjectLogID );
     POSSIBLE_FILTER:
     for my $PossibleFilter (@PossibleFilters) {
         my $Value = $Param{$PossibleFilter};
@@ -881,6 +921,23 @@ sub ObjectLogDelete {
         for my $Item (@DeleteOrder) {
             my $ItemSQL = $SQL{$Item}->{Stmt};
             my $WhereORAnd = ( $ItemSQL =~ m/\s+where\s+/i ) ? 'AND' : 'WHERE';
+
+            if ( $PossibleFilter eq 'CommunicationFilters' ) {
+                my $CommunicationSELECT = 'SELECT id FROM communication_log ' . $Value->{Where};
+
+                if ( $Item eq 'Objects' ) {
+                    $ItemSQL .= " ${ WhereORAnd } communication_id IN (${ CommunicationSELECT })";
+                }
+                else {
+                    $ItemSQL
+                        .= " ${ WhereORAnd } communication_log_object_id IN (SELECT id FROM communication_log_object WHERE communication_id IN (${ CommunicationSELECT }))";
+                }
+
+                $SQL{$Item}->{Stmt} = $ItemSQL;
+                push @{ $SQL{$Item}->{Binds} }, @{ $Value->{Binds} };
+
+                next ITEM;
+            }
 
             my $ColumnDBName = $DBNames{$PossibleFilter};
             if ( ref $ColumnDBName ) {

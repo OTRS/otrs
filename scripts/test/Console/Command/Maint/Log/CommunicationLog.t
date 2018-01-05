@@ -106,21 +106,36 @@ my $RunTest = sub {
         "$Test->{Name} Exit Code: $Test->{ExpectedExitCode}",
     );
 
-    if ( 'ARRAY' eq ref $Test->{ExpectedResult} ) {
-        for my $ExpectedResult ( @{ $Test->{ExpectedResult} } ) {
+    if ( $Test->{ExpectedResult} ) {
+        if ( 'ARRAY' eq ref $Test->{ExpectedResult} ) {
+            for my $ExpectedResult ( @{ $Test->{ExpectedResult} } ) {
+                $Self->True(
+                    index( $Result, $ExpectedResult ) > -1,
+                    "$Test->{Name} expected result: '$ExpectedResult'",
+                );
+            }
+        }
+        else {
             $Self->True(
-                index( $Result, $ExpectedResult ) > -1,
-                "$Test->{Name} expected result: '$ExpectedResult'",
+                index( $Result, $Test->{ExpectedResult} ) > -1,
+                "$Test->{Name} expected result: '$Test->{ExpectedResult}'",
             );
         }
     }
-    else {
-        $Self->True(
-            index( $Result, $Test->{ExpectedResult} ) > -1,
-            "$Test->{Name} expected result: '$Test->{ExpectedResult}'",
-        );
-    }
 
+    if ( $Test->{ExpectedDeleted} ) {
+        my $ExpectedDeletedCommunications = $Test->{ExpectedDeleted};
+        for my $CommunicationID ( @{$ExpectedDeletedCommunications} ) {
+            my $CommunicationData = $CommunicationDBObject->CommunicationGet(
+                CommunicationID => $CommunicationID,
+            );
+
+            $Self->False(
+                scalar( %{$CommunicationData} ),
+                "$Test->{Name} communication ${ CommunicationID } deleted!",
+            );
+        }
+    }
 };
 
 my @Tests = (
@@ -138,36 +153,29 @@ my @Tests = (
         Params           => [ '--delete-by-id', '123', '--delete-by-date', '2017-01-01' ],
     },
     {
-        Name             => 'Cannot delete by id processing communication without force.',
-        ExpectedResult   => 'No communications found for deletion!',
-        ExpectedExitCode => 0,
-        Output           => 'STDOUT',
-        Params           => [ '--delete-by-id', $Communications[0]->{ID} ],
-    },
-    {
         Name             => 'Can delete by id processing communication with force.',
-        ExpectedResult   => "Deleted communication $Communications[0]->{ID}.",
+        ExpectedDeleted  => [ $Communications[0]->{ID} ],
         ExpectedExitCode => 0,
         Output           => 'STDOUT',
         Params           => [ '--delete-by-id', $Communications[0]->{ID}, '--force-delete' ],
     },
     {
         Name             => 'Can delete by date finished communication without force.',
-        ExpectedResult   => "Deleted communication $Communications[1]->{ID}.",
+        ExpectedDeleted  => [ $Communications[1]->{ID} ],
         ExpectedExitCode => 0,
         Output           => 'STDOUT',
         Params           => [ '--delete-by-date', $Communications[1]->{Date} ],
     },
     {
         Name             => 'Purge.',
-        ExpectedResult   => "Deleted communication $Communications[3]->{ID}.",
+        ExpectedDeleted  => [ $Communications[3]->{ID} ],
         ExpectedExitCode => 0,
         Output           => 'STDOUT',
         Params           => ['--purge'],
     },
     {
         Name             => 'Delete NOT purged communication.',
-        ExpectedResult   => "Deleted communication $Communications[2]->{ID}.",
+        ExpectedDeleted  => [ $Communications[2]->{ID} ],
         ExpectedExitCode => 0,
         Output           => 'STDOUT',
         Params           => [ '--delete-by-id', $Communications[2]->{ID}, '--force-delete' ],
@@ -189,30 +197,30 @@ my @CommunicationsToTestPurge = (
         Direction => 'Outgoing',
         Status    => 'Successful',
         Date      => {
-            Hours => ( $SuccessHours + 1 )
-            }
+            Hours => ( $SuccessHours + 1 ),
+        },
     },
     {
         Transport => 'Email',
         Direction => 'Outgoing',
         Status    => 'Successful',
         Date      => {
-            Hours => ( $SuccessHours - 1 )
-            }
+            Hours => ( $SuccessHours - 1 ),
+        },
     },
     {
         Transport => 'Email',
         Direction => 'Outgoing',
         Date      => {
-            Hours => ( $AllHours + 1 )
-            }
+            Hours => ( $AllHours + 1 ),
+        },
     },
     {
         Transport => 'Email',
         Direction => 'Outgoing',
         Date      => {
-            Hours => ( $AllHours - 1 )
-            }
+            Hours => ( $AllHours - 1 ),
+        },
     },
 );
 
@@ -227,7 +235,7 @@ for my $CommunicationToTestPurge (@CommunicationsToTestPurge) {
         ObjectParams => {
             Transport => $CommunicationToTestPurge->{Transport},
             Direction => $CommunicationToTestPurge->{Direction},
-            }
+        },
     );
 
     if ( $CommunicationToTestPurge->{Status} ) {
@@ -240,10 +248,10 @@ for my $CommunicationToTestPurge (@CommunicationsToTestPurge) {
 
 $RunTest->(
     {
-        Name           => 'Purge.',
-        ExpectedResult => [
-            "Deleted communication $CommunicationsToTestPurge[0]->{ID}.",
-            "Deleted communication $CommunicationsToTestPurge[2]->{ID}.",
+        Name            => 'Purge.',
+        ExpectedDeleted => [
+            $CommunicationsToTestPurge[0]->{ID},
+            $CommunicationsToTestPurge[2]->{ID},
         ],
         ExpectedExitCode => 0,
         Output           => 'STDOUT',

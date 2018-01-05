@@ -2945,6 +2945,17 @@ BEGIN
 IF NOT EXISTS (
     SELECT 1
     FROM pg_indexes
+    WHERE LOWER(indexname) = LOWER('communication_start_time')
+    ) THEN
+    CREATE INDEX communication_start_time ON communication_log (start_time);
+END IF;
+END$$;
+;
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
     WHERE LOWER(indexname) = LOWER('communication_status')
     ) THEN
     CREATE INDEX communication_status ON communication_log (status);
