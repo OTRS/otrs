@@ -19,6 +19,7 @@ our @ObjectDependencies = (
     'Kernel::System::Priority',
     'Kernel::System::Queue',
     'Kernel::System::State',
+    'Kernel::System::SysConfig',
     'Kernel::System::Type',
 );
 
@@ -86,6 +87,17 @@ sub Run {
             if ( !grep { $_ eq $OldEffectiveValue } @AllowedEffectiveValues ) {
                 push @InconsistentSettings, $SettingName;
             }
+        }
+    }
+
+    # Check if there are invalid settings.
+    my @InvalidSettings = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationInvalidList();
+
+    for my $SettingName (@InvalidSettings) {
+
+        # Add it to the list only if setting is not there already.
+        if ( !grep { $_ eq $SettingName } @InconsistentSettings ) {
+            push @InconsistentSettings, $SettingName;
         }
     }
 
