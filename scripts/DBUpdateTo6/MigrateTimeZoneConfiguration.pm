@@ -28,6 +28,13 @@ sub CheckPreviousRequirement {
         return 1;
     }
 
+    # Check if following table already exists. In this case, time zone configuration is already done.
+    my $TableExists = $Self->TableExists(
+        Table => 'ticket_number_counter',
+    );
+
+    return 1 if $TableExists;
+
     # Check if configuration was already made.
     my $OTRSTimeZone        = $Kernel::OM->Get('Kernel::Config')->Get('OTRSTimeZone')        // 'UTC';
     my $UserDefaultTimeZone = $Kernel::OM->Get('Kernel::Config')->Get('UserDefaultTimeZone') // 'UTC';
@@ -114,6 +121,13 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
+
+    # Check if following table already exists. In this case, time zone configuration is already done.
+    my $TableExists = $Self->TableExists(
+        Table => 'ticket_number_counter',
+    );
+
+    return 1 if $TableExists;
 
     #
     # Check for interactive mode
