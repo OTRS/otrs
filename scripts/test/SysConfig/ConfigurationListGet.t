@@ -53,6 +53,8 @@ my $SettingsAdd = sub {
         my $SettingName = "Test$Counter$RandomID";
 
         my $XMLContentRaw = << "EOF";
+<?xml version="1.0" encoding="utf-8" ?>
+<otrs_config version="2.0" init="Framework">
     <Setting Name="$SettingName" Required="1" Valid="1">
         <Description Translatable="1">Test.</Description>
         <Navigation>Core::Test</Navigation>
@@ -60,6 +62,7 @@ my $SettingsAdd = sub {
             <Item ValueType="String" ValueRegex=".*">Test</Item>
         </Value>
     </Setting>
+</otrs_config>
 EOF
 
         my @DefaultSettingAddParams = $SysConfigXMLObject->SettingListParse(

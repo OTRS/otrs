@@ -32,20 +32,23 @@ $ConfigObject->Set(
 );
 
 my $SettingsXML = << 'EOF',
-<Setting Name="Test0" Required="1" Valid="1">
-    <Description Translatable="1">Test.</Description>
-    <Navigation>Core::Test</Navigation>
-    <Value>
-        <Item ValueType="String" ValueRegex=".*">Test</Item>
-    </Value>
-</Setting>
-<Setting Name="Test1" Required="1" Valid="1">
-    <Description Translatable="1">Test.</Description>
-    <Navigation>Core::Test</Navigation>
-    <Value>
-        <Item ValueType="String" ValueRegex=".*">Test</Item>
-    </Value>
-</Setting>
+<?xml version="1.0" encoding="utf-8" ?>
+<otrs_config version="2.0" init="Framework">
+    <Setting Name="Test0" Required="1" Valid="1">
+        <Description Translatable="1">Test.</Description>
+        <Navigation>Core::Test</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex=".*">Test</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test1" Required="1" Valid="1">
+        <Description Translatable="1">Test.</Description>
+        <Navigation>Core::Test</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex=".*">Test</Item>
+        </Value>
+    </Setting>
+</otrs_config>
 EOF
 
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');

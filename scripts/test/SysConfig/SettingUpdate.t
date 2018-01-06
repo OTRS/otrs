@@ -11,13 +11,10 @@ use strict;
 use warnings;
 use utf8;
 
-use Kernel::System::VariableCheck qw( IsArrayRefWithData IsHashRefWithData );
-
 use vars (qw($Self));
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
-
         RestoreDatabase => 1,
     },
 );
@@ -32,20 +29,23 @@ $ConfigObject->Set(
 );
 
 my $SetingsXML = << 'EOF',
-<Setting Name="Test0" Required="1" Valid="1">
-    <Description Translatable="1">Test.</Description>
-    <Navigation>Core::Test</Navigation>
-    <Value>
-        <Item ValueType="String" ValueRegex=".*">Test</Item>
-    </Value>
-</Setting>
-<Setting Name="Test1" Required="1" Valid="1">
-    <Description Translatable="1">Test.</Description>
-    <Navigation>Core::Test</Navigation>
-    <Value>
-        <Item ValueType="String" ValueRegex=".*">Test</Item>
-    </Value>
-</Setting>
+<?xml version="1.0" encoding="utf-8" ?>
+<otrs_config version="2.0" init="Framework">
+    <Setting Name="Test0" Required="1" Valid="1">
+        <Description Translatable="1">Test.</Description>
+        <Navigation>Core::Test</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex=".*">Test</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Test1" Required="1" Valid="1">
+        <Description Translatable="1">Test.</Description>
+        <Navigation>Core::Test</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex=".*">Test</Item>
+        </Value>
+    </Setting>
+</otrs_config>
 EOF
 
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');

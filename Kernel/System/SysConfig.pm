@@ -2546,15 +2546,18 @@ sub ConfigurationXML2DB {
 
         @{ $SettingsByInit{$InitValue} } = ( @{ $SettingsByInit{$InitValue} }, @ParsedSettings );
 
-        $CacheObject->Set(
-            Key   => $CacheKey,
-            Type  => $CacheType,
-            Value => {
-                Init     => $InitValue,
-                Settings => \@ParsedSettings,
-            },
-            TTL => 60 * 60 * 24 * 20,
-        );
+        # There might be an error parsing file. If we cache the result, error message will not be present.
+        if (@ParsedSettings) {
+            $CacheObject->Set(
+                Key   => $CacheKey,
+                Type  => $CacheType,
+                Value => {
+                    Init     => $InitValue,
+                    Settings => \@ParsedSettings,
+                },
+                TTL => 60 * 60 * 24 * 20,
+            );
+        }
     }
 
     # Combine everything together in the correct order.

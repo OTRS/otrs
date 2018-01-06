@@ -71,13 +71,6 @@ Parses XML files into a list of perl structures and meta data.
         XMLFilename => 'Test.xml'
     );
 
-    push @ParsedSettings, {
-        SettingName      => $SettingName,
-        XMLContentParsed => $PerlStructure->{Setting}->[0],
-        XMLContentRaw    => $RawSetting,
-        XMLFilename      => $Param{XMLFilename},
-    };
-
 Returns:
 
     [
@@ -134,6 +127,28 @@ sub SettingListParse {
     }
 
     my $XMLSimpleObject = $Kernel::OM->Get('Kernel::System::XML::Simple');
+
+    $Param{XMLInput} =~ m{otrs_config.*?version="(.*?)"};
+    my $ConfigVersion = $1;
+
+    if ( $ConfigVersion ne '2.0' ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Invalid XML format found in $Param{XMLFilename} (version must be 2.0)! File skipped.",
+        );
+        return;
+    }
+
+    while ( $Param{XMLInput} =~ m{<ConfigItem.*?Name="(.*?)"}smxg ) {
+
+        # Old style ConfigItem detected.
+        my $SettingName = $1;
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Old ConfigItem $SettingName detected in $Param{XMLFilename}!"
+        );
+    }
 
     # Fetch XML of Setting elements.
     my @ParsedSettings;
