@@ -1,4 +1,6 @@
-#6.0.4 ????-??-??
+#6.0.5 2018-??-??
+
+#6.0.4 2018-01-16
  - 2018-01-08 Updated translations, thanks to all translators.
  - 2018-01-08 Fixed bug#[13460](https://bugs.otrs.org/show_bug.cgi?id=13460) - upgrade packages result in a output with strange characters.
  - 2018-01-06 Fixed bug#[13478](https://bugs.otrs.org/show_bug.cgi?id=13478) - Maint::Config::Rebuild does not show error if old-style configuration file is found.
