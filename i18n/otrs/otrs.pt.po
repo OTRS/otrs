@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-12-11 23:26+0000\n"
-"PO-Revision-Date: 2017-12-11 23:28+0000\n"
+"POT-Creation-Date: 2018-01-08 18:29+0000\n"
+"PO-Revision-Date: 2018-01-08 18:33+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/otrs/OTRS/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -273,7 +273,7 @@ msgstr "Aqui pode carregar um ficheiro de configuração importando assim um cal
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Overwrite existing entities"
-msgstr ""
+msgstr "Substituir entidades existentes"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Upload calendar configuration"
@@ -285,7 +285,7 @@ msgstr "Importar Calendário"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
-msgstr ""
+msgstr "Filtro para calendários"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -329,7 +329,7 @@ msgstr "Descarregar"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "URL"
-msgstr ""
+msgstr "Endereço"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Export calendar"
@@ -341,7 +341,7 @@ msgstr "Descarregar calendário"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Copy public calendar URL"
-msgstr ""
+msgstr "Copiar endereço público do calendário"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar"
@@ -361,7 +361,7 @@ msgstr "Cor"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Permission group"
-msgstr ""
+msgstr "Permissão"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Ticket Appointments"
@@ -403,7 +403,7 @@ msgstr "Selecione uma Fila válida."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Search attributes"
-msgstr ""
+msgstr "Atributos de pesquisa"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add entry"
@@ -447,13 +447,13 @@ msgstr "Carregar"
 
 #. Template: AdminAppointmentImport
 msgid "Update existing appointments?"
-msgstr ""
+msgstr "Actualizar eventos existentes?"
 
 #. Template: AdminAppointmentImport
 msgid ""
 "All existing appointments in the calendar with same UniqueID will be "
 "overwritten."
-msgstr ""
+msgstr "Todos os eventos existentes no calendário com o mesmo UniqueID vão ser substituídos."
 
 #. Template: AdminAppointmentImport
 msgid "Upload calendar"
@@ -461,11 +461,11 @@ msgstr "Carregar calendário"
 
 #. Template: AdminAppointmentImport
 msgid "Import appointments"
-msgstr ""
+msgstr "Importar eventos"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Notification Management"
-msgstr ""
+msgstr "Gestão de Notificações de Eventos"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add Notification"
@@ -485,11 +485,11 @@ msgstr "Exportar Notificações"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for Notifications"
-msgstr ""
+msgstr "Filtro para Notificações"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for notifications"
-msgstr ""
+msgstr "Filtro para Notificações"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -557,7 +557,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
-msgstr ""
+msgstr "Filtro de Eventos"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Type"
@@ -652,7 +652,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "This feature is currently not available."
-msgstr ""
+msgstr "Esta funcionalidade neste momento não está disponível."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upgrade to %s"
@@ -664,7 +664,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No data found"
-msgstr ""
+msgstr "não há resultados"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No notification method found."
@@ -698,7 +698,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add new notification language"
-msgstr ""
+msgstr "Adicionar nova língua à notificação"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Save Changes"
@@ -722,7 +722,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the appointment attribute"
-msgstr ""
+msgstr "Para obter os atributos do evento"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid " e. g."
@@ -730,7 +730,7 @@ msgstr "ex:"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the calendar attribute"
-msgstr ""
+msgstr "Para obter os atributos do calendário"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Attributes of the recipient user for the notification"
@@ -742,7 +742,7 @@ msgstr "Opções de configuração"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Example notification"
-msgstr ""
+msgstr "Notificação de exemplo"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
@@ -750,7 +750,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
-msgstr ""
+msgstr "Artigo visível para o cliente"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
@@ -8356,6 +8356,10 @@ msgid "Expand/collapse all"
 msgstr ""
 
 #. Template: AgentTicketHistory
+msgid "CreateTime"
+msgstr "Criado em"
+
+#. Template: AgentTicketHistory
 msgid "Article"
 msgstr "Artigo"
 
@@ -13397,6 +13401,10 @@ msgid ""
 "please have a look at %s."
 msgstr ""
 
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
 msgstr ""
@@ -18073,7 +18081,7 @@ msgid "Communication Log GUI"
 msgstr ""
 
 #. SysConfig
-msgid "Communication log limit per page for CommunicationLog Overview"
+msgid "Communication log limit per page for Communication Log Overview."
 msgstr ""
 
 #. SysConfig
@@ -21092,7 +21100,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Dynamic fields limit per page for Dynamic Fields Overview"
+msgid "Dynamic fields limit per page for Dynamic Fields Overview."
 msgstr ""
 
 #. SysConfig
@@ -26162,16 +26170,16 @@ msgid "Ticket event module that triggers the escalation stop events."
 msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Medium\""
-msgstr "Limite de tickets por página na vista \"Média\" "
+msgid "Ticket limit per page for Ticket Overview \"Medium\"."
+msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Preview\""
-msgstr "Limite de tickets por página na vista \"Detalhe\" "
+msgid "Ticket limit per page for Ticket Overview \"Preview\"."
+msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Small\""
-msgstr "Limite de tickets por página na vista \"Pequena\" "
+msgid "Ticket limit per page for Ticket Overview \"Small\"."
+msgstr ""
 
 #. SysConfig
 msgid "Ticket notifications"

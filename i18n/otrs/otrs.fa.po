@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-12-11 23:26+0000\n"
-"PO-Revision-Date: 2017-12-11 23:28+0000\n"
+"POT-Creation-Date: 2018-01-08 18:29+0000\n"
+"PO-Revision-Date: 2018-01-08 18:33+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Persian (http://www.transifex.com/otrs/OTRS/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -8350,6 +8350,10 @@ msgid "Expand/collapse all"
 msgstr ""
 
 #. Template: AgentTicketHistory
+msgid "CreateTime"
+msgstr "زمان ساختن"
+
+#. Template: AgentTicketHistory
 msgid "Article"
 msgstr "نوشته"
 
@@ -13391,6 +13395,10 @@ msgid ""
 "please have a look at %s."
 msgstr "خطا: لطفا مقدار را برای innodb_log_file_size در پایگاه داده خود را به حداقل مجموعه %s (: در حال حاضر MB %s MB، توصیه می شود: %s MB). برای کسب اطلاعات بیشتر، لطفا یک نگاهی به %s ."
 
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
 msgstr ""
@@ -18067,7 +18075,7 @@ msgid "Communication Log GUI"
 msgstr ""
 
 #. SysConfig
-msgid "Communication log limit per page for CommunicationLog Overview"
+msgid "Communication log limit per page for Communication Log Overview."
 msgstr ""
 
 #. SysConfig
@@ -21086,8 +21094,8 @@ msgid ""
 msgstr "زمینه گروه پویا برای ویجت روند. کلید نام این گروه است، ارزش شامل زمینه نشان داده شود. به عنوان مثال: 'کلید => من گروه'، 'مطالب و محتوا: Name_X، NameY."
 
 #. SysConfig
-msgid "Dynamic fields limit per page for Dynamic Fields Overview"
-msgstr "زمینه های پویا محدود در هر صفحه برای بررسی اجمالی زمینه  پویا"
+msgid "Dynamic fields limit per page for Dynamic Fields Overview."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -26156,16 +26164,16 @@ msgid "Ticket event module that triggers the escalation stop events."
 msgstr "درخواست ماژول رویداد که باعث حوادث تشدید توقف."
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Medium\""
-msgstr "محدودیت لیست در هر صفحه برای  بررسی اجمالی لیست \\ \"متوسط ​​\""
+msgid "Ticket limit per page for Ticket Overview \"Medium\"."
+msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Preview\""
-msgstr "حد بلیط در هر صفحه برای بلیط بررسی اجمالی \\ \"پیش نمایش \""
+msgid "Ticket limit per page for Ticket Overview \"Preview\"."
+msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Small\""
-msgstr "محدودیت درخواست در هر صفحه برای بررسی اجمالی درخواست \\ \"کوچک \""
+msgid "Ticket limit per page for Ticket Overview \"Small\"."
+msgstr ""
 
 #. SysConfig
 msgid "Ticket notifications"

@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 1;
+    $Self->{Completeness}        = 0.998962117280747;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1144,7 +1144,7 @@ sub Data {
         'Do you really want to delete this web service?' => 'Valóban törölni szeretné ezt a webszolgáltatást?',
         'Ready2Adopt Web Services' => 'Használatra kész webszolgáltatások',
         'Here you can activate Ready2Adopt web services showcasing our best practices that are a part of %s.' =>
-            'Itt kapcsolhatja be a legjobb gyakorlatainkat bemutató, használatra kész webszolgáltatásokat, amelyek a(z) %s részei.',
+            'Itt kapcsolhatja be a legjobb gyakorlatainkat bemutató, használatra kész webszolgáltatásokat, amelyek az %s részei.',
         'Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).' =>
             'Ne feledje, hogy ezen webszolgáltatások függhetnek olyan egyéb moduloktól, amelyek csak bizonyos %s szerződési szintekkel érhetők el (lesz egy értesítés a további részletekkel az importáláskor).',
         'Import Ready2Adopt web service' => 'Használatra kész webszolgáltatás importálása',
@@ -1302,19 +1302,19 @@ sub Data {
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => '%s kezelése',
-        'Downgrade to OTRS Free' => 'Visszaváltás az ingyenes OTRS-re',
+        'Downgrade to OTRS Free' => 'Visszaváltás az OTRS Free verzióra',
         'Read documentation' => 'Dokumentáció elolvasása',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
-            'A(z) %s rendszeresen kapcsolatot létesít a cloud.otrs.com kiszolgálóval az elérhető frissítések és az alapjául szolgáló szerződés érvényességének ellenőrzéséhez.',
+            'Az %s rendszeresen kapcsolatot létesít a cloud.otrs.com kiszolgálóval az elérhető frissítések és az alapjául szolgáló szerződés érvényességének ellenőrzéséhez.',
         'Unauthorized Usage Detected' => 'Jogosulatlan használat észlelhető',
         'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
-            'Ez a rendszer a megfelelő licenc nélkül használja a(z) %s programot. A szerződés megújításához vagy aktiválásához vegye fel a kapcsolatot a következővel: %s!',
+            'Ez a rendszer a megfelelő licenc nélkül használja az %s programot. A szerződés megújításához vagy aktiválásához vegye fel a kapcsolatot a következővel: %s!',
         '%s not Correctly Installed' => '%s nincs helyesen telepítve',
         'Your %s is not correctly installed. Please reinstall it with the button below.' =>
-            'A(z) %s nincs helyesen telepítve. Telepítse újra a lenti gombbal.',
+            'Az %s nincs helyesen telepítve. Telepítse újra a lenti gombbal.',
         'Reinstall %s' => '%s újratelepítése',
         'Your %s is not correctly installed, and there is also an update available.' =>
-            'A(z) %s nincs helyesen telepítve, és egy frissítés is elérhető.',
+            'Az %s nincs helyesen telepítve, és egy frissítés is elérhető.',
         'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
             'Újratelepítheti a jelenlegi verziót, vagy elvégezhet egy frissítést a lenti gombbal (a frissítés javasolt).',
         'Update %s' => '%s frissítése',
@@ -1322,20 +1322,20 @@ sub Data {
         '%s will be available soon.' => '%s hamarosan elérhető lesz.',
         '%s Update Available' => '%s frissítés érhető el',
         'An update for your %s is available! Please update at your earliest!' =>
-            'Frissítés érhető el a(z) %s programhoz! Frissítsen a lehető leghamarabb!',
-        '%s Correctly Deployed' => 'A(z) %s helyesen üzembe állítva',
+            'Frissítés érhető el az %s programhoz! Frissítsen a lehető leghamarabb!',
+        '%s Correctly Deployed' => 'Az %s helyesen üzembe állítva',
         'Congratulations, your %s is correctly installed and up to date!' =>
-            'Gratulálunk, a(z) %s program helyesen telepítve van és naprakész!',
+            'Gratulálunk, az %s helyesen telepített van és naprakész!',
 
         # Template: AdminOTRSBusinessNotInstalled
         'Go to the OTRS customer portal' => 'Ugrás az OTRS ügyfélportáljára',
         '%s will be available soon. Please check again in a few days.' =>
-            'A(z) %s hamarosan elérhető lesz. Ellenőrizze ismét néhány nap múlva.',
-        'Please have a look at %s for more information.' => 'Vessen egy pillantást a(z) %s címre a további információkért.',
+            'Az %s hamarosan elérhető lesz. Ellenőrizze ismét néhány nap múlva.',
+        'Please have a look at %s for more information.' => 'Vessen egy pillantást az %s címre a további információkért.',
         'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            'Az ingyenes OTRS az alapja minden további műveletnek. Először regisztráljon, mielőtt folytatja a(z) %s frissítési folyamatát!',
+            'Az OTRS Free az alapja minden további műveletnek. Először regisztráljon, mielőtt folytatja az %s frissítési folyamatát!',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
-            'Mielőtt használatba venné a(z) %s programot, kérjük lépjen kapcsolatba a szolgáltatóval (%s) a(z) %s szerződés beszerzéséhez.',
+            'Mielőtt használatba venné az %s programot, kérjük lépjen kapcsolatba a szolgáltatóval (%s) az %s szerződés beszerzéséhez.',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
             'Nem sikerült kapcsolatot létesíteni HTTPS-en keresztül a cloud.otrs.com hellyel. Győződjön meg arról, hogy az OTRS rendszere tud-e kapcsolódni a cloud.otrs.com címre a 443-as porton.',
         'Package installation requires patch level update of OTRS.' => 'A csomagtelepítés az OTRS hibajavító szintű frissítését igényli.',
@@ -1351,9 +1351,9 @@ sub Data {
         'You will receive updates about relevant security issues.' => 'Frissítéseket fog kapni a fontos biztonsági problémákról.',
         'You will receive updates for all other relevant OTRS issues' => 'Frissítéseket fog kapni minden egyéb fontos OTRS problémáról',
         'With your existing contract you can only use a small part of the %s.' =>
-            'A meglévő szerződésével csak egy kis részét tudja használni a(z) %s programnak.',
+            'A meglévő szerződésével csak egy kis részét tudja használni az %s programnak.',
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
-            'Ha a(z) %s minden előnyét igénybe szeretné venni, akkor frissítse most a szerződését! Kapcsolatfelvétel: %s.',
+            'Ha az %s minden előnyét igénybe szeretné venni, akkor frissítse most a szerződését! Kapcsolatfelvétel: %s.',
 
         # Template: AdminOTRSBusinessUninstall
         'Cancel downgrade and go back' => 'Visszaváltás megszakítása és visszalépés',
@@ -1364,7 +1364,7 @@ sub Data {
         'Please uninstall the packages first using the package manager and try again.' =>
             'Először távolítsa el a csomagokat a csomagkezelő használatával, majd próbálja újra.',
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
-            'Arra készül, hogy visszavált az ingyenes OTRS-re, és el fogja veszíteni a következő szolgáltatásokat és minden ezekhez kapcsolódó adatot:',
+            'Arra készül, hogy visszavált az OTRS Free verzióra, és el fogja veszíteni a következő szolgáltatásokat és minden ezekhez kapcsolódó adatot:',
         'Chat' => 'Csevegés',
         'Report Generator' => 'Jelentés előállító',
         'Timeline view in ticket zoom' => 'Idővonal nézet a jegynagyításban',
@@ -1372,7 +1372,7 @@ sub Data {
         'DynamicField Database' => 'Dinamikus mező adatbázis',
         'SLA Selection Dialog' => 'SLA kiválasztó párbeszédablak',
         'Ticket Attachment View' => 'Jegymelléklet nézet',
-        'The %s skin' => 'A(z) %s felszín',
+        'The %s skin' => 'Az %s felszín',
 
         # Template: AdminPGP
         'PGP Management' => 'PGP kezelés',
@@ -1448,7 +1448,7 @@ sub Data {
         'Reinstall' => 'Újratelepítés',
         'Features for %s customers only' => 'Csak a(z) %s ügyfelek szolgáltatásai',
         'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
-            'A(z) %s használatával a következő opcionális szolgáltatások előnyeit élvezheti. Ha további információkra van szüksége, akkor vegye fel a kapcsolatot a következővel: %s.',
+            'Az %s használatával a következő opcionális szolgáltatások előnyeit élvezheti. Ha további információkra van szüksége, akkor vegye fel a kapcsolatot a következővel: %s.',
         'Package Information' => 'Csomaginformációk',
         'Download package' => 'Csomag letöltése',
         'Rebuild package' => 'Csomag újraépítése',
@@ -1765,7 +1765,7 @@ sub Data {
         'Instructions' => 'Utasítások',
         'System Deregistration not Possible' => 'A rendszer regisztrációjának megszüntetése nem lehetséges',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
-            'Ne feledje, hogy hogy nem tudja a rendszer regisztrációját megszüntetni a(z) %s használatakor, vagy ha érvényes szolgáltatói szerződése van.',
+            'Ne feledje, hogy hogy nem tudja a rendszer regisztrációját megszüntetni az %s használatakor, vagy ha érvényes szolgáltatói szerződése van.',
         'OTRS-ID Login' => 'OTRS-azonosító bejelentkezés',
         'Read more' => 'Olvassa tovább',
         'You need to log in with your OTRS-ID to register your system.' =>
@@ -2435,9 +2435,9 @@ sub Data {
             'Jelenleg nincsenek kapcsolatok. Kattintson a fenti „Új kapcsolatok létrehozása” gombra ezen elem más objektumokkal történő összekapcsolásához.',
 
         # Template: AgentOTRSBusinessBlockScreen
-        'Unauthorized usage of %s detected' => 'A(z) %s jogosulatlan használata észlelhető',
+        'Unauthorized usage of %s detected' => 'Az %s jogosulatlan használata észlelhető',
         'If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.' =>
-            'Ha úgy dönt, hogy visszavált az ingyenes OTRS-re, akkor el fogja veszíteni az összes adatbázis táblát és a(z) %s szolgáltatáshoz kapcsolódó adatokat.',
+            'Ha úgy dönt, hogy visszavált az OTRS Free verzióra, akkor el fogja veszíteni az %s szolgáltatáshoz kapcsolódó összes adatbázis táblát és adatot.',
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Beállítások szerkesztése',
@@ -2632,6 +2632,7 @@ sub Data {
         'History of %s%s%s' => '%s%s%s előzményei',
         'Filter for history items' => 'Szűrő az előzményelemekhez',
         'Expand/collapse all' => 'Összes kinyitása vagy összecsukása',
+        'CreateTime' => 'Létrehozás ideje (CreateTime)',
         'Article' => 'Bejegyzés',
 
         # Template: AgentTicketMerge
@@ -2794,7 +2795,7 @@ sub Data {
         'Preview of this article is not possible because %s channel is missing in the system.' =>
             'A bejegyzés előnézete nem lehetséges, mert %s csatorna hiányzik a rendszeren.',
         'This feature is part of the %s. Please contact us at %s for an upgrade.' =>
-            'Ez a szolgáltatás a(z) %s része. A frissítéshez lépjen velünk kapcsolatba a következő címen: %s.',
+            'Ez a szolgáltatás az %s része. A frissítéshez lépjen velünk kapcsolatba a következő címen: %s.',
         'Please re-install %s package in order to display this article.' =>
             'Telepítse újra a(z) %s csomagot annak érdekében, hogy megjeleníthesse ezt a bejegyzést.',
 
@@ -2932,7 +2933,7 @@ sub Data {
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
             'Valóban hiba? 10-ből 5 hibajelentés az OTRS hibás vagy befejezetlen telepítéséből származik.',
         'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
-            'A(z) %s használatával a szakértőink gondoskodnak a jelenlegi telepítésről, és támogatást nyújtanak, valamint rendszeres biztonsági frissítéseket biztosítanak.',
+            'Az %s használatával a szakértőink gondoskodnak a jelenlegi telepítésről, és támogatást nyújtanak, valamint rendszeres biztonsági frissítéseket biztosítanak.',
         'Contact our service team now.' => 'Vegye fel a kapcsolatot a szolgáltatási csapatunkkal most.',
         'Send a bugreport' => 'Hibajelentés küldése',
         'Expand' => 'Kinyitás',
@@ -3262,7 +3263,7 @@ sub Data {
 
         # Template: OTRSBusinessTeaser
         'With %s, System Configuration supports versioning, rollback and user-specific configuration settings.' =>
-            'A(z) %s használatával a rendszerbeállítások támogatják a verziókövetést, visszaállítást és a felhasználóra jellemző konfigurációs beállításokat.',
+            'Az %s használatával a rendszerbeállítások támogatják a verziókövetést, visszaállítást és a felhasználóra jellemző konfigurációs beállításokat.',
 
         # Template: Test
         'OTRS Test Page' => 'OTRS tesztoldal',
@@ -3669,13 +3670,13 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
         'Your system was successfully upgraded to %s.' => 'A rendszere sikeresen frissítve lett a következő verzióra: %s.',
-        'There was a problem during the upgrade to %s.' => 'Hiba történt a(z) %s verzióra való frissítés közben.',
-        '%s was correctly reinstalled.' => 'A(z) %s rendben újra lett telepítve.',
-        'There was a problem reinstalling %s.' => 'Hiba történt a(z) %s újratelepítésekor.',
-        'Your %s was successfully updated.' => 'A(z) %s sikeresen frissítve lett.',
-        'There was a problem during the upgrade of %s.' => 'Hiba történt a(z) %s frissítése közben.',
-        '%s was correctly uninstalled.' => 'A(z) %s rendben el lett távolítva.',
-        'There was a problem uninstalling %s.' => 'Hiba történt a(z) %s eltávolításakor.',
+        'There was a problem during the upgrade to %s.' => 'Hiba történt az %s verzióra való frissítés közben.',
+        '%s was correctly reinstalled.' => 'Az %s rendben újra lett telepítve.',
+        'There was a problem reinstalling %s.' => 'Hiba történt az %s újratelepítésekor.',
+        'Your %s was successfully updated.' => 'Az %s sikeresen frissítve lett.',
+        'There was a problem during the upgrade of %s.' => 'Hiba történt az %s frissítése közben.',
+        '%s was correctly uninstalled.' => 'Az %s rendben el lett távolítva.',
+        'There was a problem uninstalling %s.' => 'Hiba történt az %s eltávolításakor.',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -4015,7 +4016,7 @@ sub Data {
         'System was unable to deploy your changes.' => 'A rendszer nem tudta üzembe állítani a változtatásokat.',
         'Setting not found!' => 'A beállítás nem található!',
         'This feature is part of the %s Please contact us at %s for an upgrade.' =>
-            'Ez a szolgáltatás a(z) %s része. A frissítéshez lépjen velünk kapcsolatba a következő címen: %s.',
+            'Ez a szolgáltatás az %s része. A frissítéshez lépjen velünk kapcsolatba a következő címen: %s.',
         'System was unable to reset the setting!' => 'A rendszer nem tudta visszaállítani a beállítást!',
 
         # Perl Module: Kernel/Modules/AgentSplitSelection.pm
@@ -4374,6 +4375,8 @@ sub Data {
             'Hiba: Győződjön meg arról, hogy az adatbázisa elfogad-e %s MB méretűnél nagyobb csomagot (jelenleg csak legfeljebb %s MB méretű csomagot fogad el). A hibák elkerülése érdekében alkalmazkodjon az adatbázisa max_allowed_packet beállításához.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Hiba: Állítsa be az adatbázison az innodb_log_file_size értékét legalább %s MB méretűre (jelenleg: %s MB, ajánlott: %s MB). További információkért nézze meg a következőt: %s.',
+        'Wrong database collation (%s is %s, but it needs to be utf8).' =>
+            '',
 
         # Perl Module: Kernel/Modules/PublicCalendar.pm
         'No %s!' => 'Nincs %s!',
@@ -5654,7 +5657,7 @@ sub Data {
         'Slide the navigation bar' => 'Csúsztassa a navigációs sávot',
         'Please turn off Compatibility Mode in Internet Explorer!' => 'Kapcsolja ki a kompatibilitási módot az Internet Explorerben!',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
-            'Ez a szolgáltatás a(z) %s része. A frissítéshez lépjen velünk kapcsolatba a következő címen: %s.',
+            'Ez a szolgáltatás az %s része. A frissítéshez lépjen velünk kapcsolatba a következő címen: %s.',
         'Find out more' => 'Tudjon meg többet',
 
         # JS File: Core.App.Responsive
@@ -6117,8 +6120,8 @@ Az Ön segélyszolgálat csapata
         'Communication' => 'Kommunikáció',
         'Communication & Notifications' => 'Kommunikáció és értesítések',
         'Communication Log GUI' => 'Kommunikációs napló grafikus felhasználói felület',
-        'Communication log limit per page for CommunicationLog Overview' =>
-            'Oldalankénti kommunikációs napló korlát a kommunikációs napló áttekintőnél',
+        'Communication log limit per page for Communication Log Overview.' =>
+            '',
         'CommunicationLog Overview Limit' => 'Kommunikációs napló áttekintő korlát',
         'Company Status' => 'Vállalat állapot',
         'Company Tickets.' => 'Vállalati jegyek.',
@@ -7039,7 +7042,7 @@ Az Ön segélyszolgálat csapata
             'Dinamikus mezők, amelyek a keresési eredmények CSV formátumba való exportálásához használhatók.',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             'Dinamikus mezők csoportjai a feldolgozó felületi elemhez. A kulcs a csoport neve, az érték a megjelenítendő mezőket tartalmazza. Példa: „Kulcs => Saját csoport”, „Tartalom: Név_X, Név_Y”.',
-        'Dynamic fields limit per page for Dynamic Fields Overview' => 'Dinamikus mezők oldalankénti korlátja a dinamikus mezők áttekintőnél',
+        'Dynamic fields limit per page for Dynamic Fields Overview.' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             'Az ügyfélfelület jegy üzenet képernyőjén megjelenő dinamikus mezők lehetőségei. MEGJEGYZÉS: Ha az ügyfélfelület jegy nagyításában is meg szeretné jeleníteni ezeket a mezőket, akkor engedélyeznie kell azokat ebben: CustomerTicketZoom###DynamicField.',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface.' =>
@@ -8525,9 +8528,9 @@ Az Ön segélyszolgálat csapata
         'Ticket bulk module.' => 'Jegy tömeges modul.',
         'Ticket event module that triggers the escalation stop events.' =>
             'Jegyesemény modul, amely aktiválja az eszkaláció leállítás eseményeket.',
-        'Ticket limit per page for Ticket Overview "Medium"' => 'Oldalankénti jegykorlát a „Közepes” jegyáttekintéshez',
-        'Ticket limit per page for Ticket Overview "Preview"' => 'Oldalankénti jegykorlát az „Előnézet” jegyáttekintéshez',
-        'Ticket limit per page for Ticket Overview "Small"' => 'Oldalankénti jegykorlát a „Kis” jegyáttekintéshez',
+        'Ticket limit per page for Ticket Overview "Medium".' => '',
+        'Ticket limit per page for Ticket Overview "Preview".' => '',
+        'Ticket limit per page for Ticket Overview "Small".' => '',
         'Ticket notifications' => 'Jegyértesítések',
         'Ticket overview' => 'Jegyáttekintő',
         'Ticket plain view of an email.' => 'Egy e-mail egyszerű jegynézete.',

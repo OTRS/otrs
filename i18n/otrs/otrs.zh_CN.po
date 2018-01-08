@@ -20,9 +20,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-12-11 23:26+0000\n"
-"PO-Revision-Date: 2017-12-12 06:43+0000\n"
-"Last-Translator: 汇民 王 <whuim@qq.com>\n"
+"POT-Creation-Date: 2018-01-08 18:29+0000\n"
+"PO-Revision-Date: 2018-01-08 18:33+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -8363,6 +8363,10 @@ msgid "Expand/collapse all"
 msgstr "全部展开/折叠"
 
 #. Template: AgentTicketHistory
+msgid "CreateTime"
+msgstr "创建时间"
+
+#. Template: AgentTicketHistory
 msgid "Article"
 msgstr "信件"
 
@@ -13404,6 +13408,10 @@ msgid ""
 "please have a look at %s."
 msgstr "错误：请设置数据库参数innodb_log_file_size至少为%s MB（当前：%s MB，推荐：%s MB），请参阅 %s 获取更多信息。"
 
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
 msgstr "没有%s!"
@@ -18080,8 +18088,8 @@ msgid "Communication Log GUI"
 msgstr "通信日志图形用户界面"
 
 #. SysConfig
-msgid "Communication log limit per page for CommunicationLog Overview"
-msgstr "通信日志概览中每页的日志条目限制"
+msgid "Communication log limit per page for Communication Log Overview."
+msgstr ""
 
 #. SysConfig
 msgid "CommunicationLog Overview Limit"
@@ -21099,8 +21107,8 @@ msgid ""
 msgstr "流程小部件的动态字段组。键是组名，值是要显示的动态字段。例如：'键 => My Group'，'值: Name_X, NameY'。"
 
 #. SysConfig
-msgid "Dynamic fields limit per page for Dynamic Fields Overview"
-msgstr "动态字段概览视图的每页动态字段数"
+msgid "Dynamic fields limit per page for Dynamic Fields Overview."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -26169,16 +26177,16 @@ msgid "Ticket event module that triggers the escalation stop events."
 msgstr "触发升级停止事件的工单事件模块。"
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Medium\""
-msgstr "工单概览“基本”模式每页工单数量"
+msgid "Ticket limit per page for Ticket Overview \"Medium\"."
+msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Preview\""
-msgstr "工单概览“预览”模式每页工单数量"
+msgid "Ticket limit per page for Ticket Overview \"Preview\"."
+msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Small\""
-msgstr "工单概览“简洁”模式每页工单数量"
+msgid "Ticket limit per page for Ticket Overview \"Small\"."
+msgstr ""
 
 #. SysConfig
 msgid "Ticket notifications"

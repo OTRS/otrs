@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-12-11 23:26+0000\n"
-"PO-Revision-Date: 2017-12-11 23:28+0000\n"
+"POT-Creation-Date: 2018-01-08 18:29+0000\n"
+"PO-Revision-Date: 2018-01-08 18:33+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Swahili (http://www.transifex.com/otrs/OTRS/language/sw/)\n"
 "MIME-Version: 1.0\n"
@@ -8351,6 +8351,10 @@ msgid "Expand/collapse all"
 msgstr ""
 
 #. Template: AgentTicketHistory
+msgid "CreateTime"
+msgstr "Muda wa kutengeneza"
+
+#. Template: AgentTicketHistory
 msgid "Article"
 msgstr "Makala"
 
@@ -13392,6 +13396,10 @@ msgid ""
 "please have a look at %s."
 msgstr ""
 
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
 msgstr ""
@@ -18068,7 +18076,7 @@ msgid "Communication Log GUI"
 msgstr ""
 
 #. SysConfig
-msgid "Communication log limit per page for CommunicationLog Overview"
+msgid "Communication log limit per page for Communication Log Overview."
 msgstr ""
 
 #. SysConfig
@@ -21087,8 +21095,8 @@ msgid ""
 msgstr "Vikundi vya uga zenye nguvu kwa ajili ya mchakato wa kifaa. Ufunguo ndio jina la kikundi, thamani ina uga unatakaoonyeshwa. Mfano 'Funguo => Kikundi Changu', 'Maudhui: Jina_X, Jina Y'."
 
 #. SysConfig
-msgid "Dynamic fields limit per page for Dynamic Fields Overview"
-msgstr "Uga zenye nguvu kwa ukurasa kwa ajili ya mapitio ya uga zenye nguvu."
+msgid "Dynamic fields limit per page for Dynamic Fields Overview."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -26157,16 +26165,16 @@ msgid "Ticket event module that triggers the escalation stop events."
 msgstr "Moduli ya tukio la tiketi ambalo linaamsha tukio la kusimamishwa kuwa upandishwaji."
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Medium\""
-msgstr "Kikomo cha tiketi kwa ukurasa kwa mapitio ya tiketi ''Wastani\""
+msgid "Ticket limit per page for Ticket Overview \"Medium\"."
+msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Preview\""
-msgstr "Kikomo cha tiketi kwa ukurasa kwa mapitio ya tiketi ''kihakiki\""
+msgid "Ticket limit per page for Ticket Overview \"Preview\"."
+msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Small\""
-msgstr "Kikomo cha tiketi kwa ukurasa kwa mapitio ya tiketi ''Ndogo\""
+msgid "Ticket limit per page for Ticket Overview \"Small\"."
+msgstr ""
 
 #. SysConfig
 msgid "Ticket notifications"

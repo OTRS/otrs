@@ -32,8 +32,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-12-11 23:26+0000\n"
-"PO-Revision-Date: 2017-12-11 23:28+0000\n"
+"POT-Creation-Date: 2018-01-08 18:29+0000\n"
+"PO-Revision-Date: 2018-01-08 18:33+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/otrs/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -8375,6 +8375,10 @@ msgid "Expand/collapse all"
 msgstr ""
 
 #. Template: AgentTicketHistory
+msgid "CreateTime"
+msgstr "Fecha de creación"
+
+#. Template: AgentTicketHistory
 msgid "Article"
 msgstr "Artículo"
 
@@ -13416,6 +13420,10 @@ msgid ""
 "please have a look at %s."
 msgstr "Error: Por favor, establezca el valor de innodb_log_file_size en su base de datos para al menos %s MB ( actual: %s MB, recomendado: %s MB). Para obtener más información, por favor, eche un vistazo a %s."
 
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
 msgstr "¡No se tiene %s!"
@@ -18092,7 +18100,7 @@ msgid "Communication Log GUI"
 msgstr ""
 
 #. SysConfig
-msgid "Communication log limit per page for CommunicationLog Overview"
+msgid "Communication log limit per page for Communication Log Overview."
 msgstr ""
 
 #. SysConfig
@@ -21111,7 +21119,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Dynamic fields limit per page for Dynamic Fields Overview"
+msgid "Dynamic fields limit per page for Dynamic Fields Overview."
 msgstr ""
 
 #. SysConfig
@@ -26181,16 +26189,16 @@ msgid "Ticket event module that triggers the escalation stop events."
 msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Medium\""
-msgstr "Límite de tickets por página en la Vista general de tickets «mediana»"
+msgid "Ticket limit per page for Ticket Overview \"Medium\"."
+msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Preview\""
-msgstr "Límite de tickets por página en la Vista general de tickets «previsualización»"
+msgid "Ticket limit per page for Ticket Overview \"Preview\"."
+msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Small\""
-msgstr "Límite de tickets por página en la Vista general de tickets «pequeña»"
+msgid "Ticket limit per page for Ticket Overview \"Small\"."
+msgstr ""
 
 #. SysConfig
 msgid "Ticket notifications"

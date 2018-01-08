@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.992732306627444;
+    $Self->{Completeness}        = 0.998962117280747;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1137,14 +1137,14 @@ sub Data {
         'Configuration History' => 'Историјат конфигурације',
         'Delete web service' => 'Обриши веб сервис',
         'Do you really want to delete this web service?' => 'Да ли стварно желите да обришете овај веб сервис?',
-        'Ready2Adopt Web Services' => '',
+        'Ready2Adopt Web Services' => 'Ready2Adopt веб сервиси',
         'Here you can activate Ready2Adopt web services showcasing our best practices that are a part of %s.' =>
-            '',
+            'Овде можете активирати Ready2Adopt веб сервисе спремне за употребу који осликавају нашу најбољу праксу која је део %s.',
         'Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).' =>
             'Молимо да имате на уму да веб сервиси могу да зависе од других модула који су доступни  у оквиру одређених %s нивоа уговора (постоји обавешетење са додатним детаљима при увозу).',
-        'Import Ready2Adopt web service' => '',
+        'Import Ready2Adopt web service' => 'Увези Ready2Adopt веб сервис',
         'Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated Ready2Adopt web services.' =>
-            '',
+            'Да ли желите да искористите веб сервисе креиране од стране експерата? Унапредите на %s да би могли да увезете софистициране Ready2Adopt веб сервисе спремне за употребу.',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Након снимања конфигурације бићете поново преусмерени на приказ екрана за уређивање.',
         'If you want to return to overview please click the "Go to overview" button.' =>
@@ -1535,12 +1535,12 @@ sub Data {
             'Овде можете учитати конфигурациону датотеку за увоз процеса у ваш систем. Датотека мора бити у .yml формату извезена од стране модула за управљање процесом.',
         'Upload process configuration' => 'Учитај конфигурацију процеса',
         'Import process configuration' => 'Увези конфигурацију процеса',
-        'Ready2Adopt Processes' => '',
+        'Ready2Adopt Processes' => 'Ready2Adopt процеси',
         'Here you can activate Ready2Adopt processes showcasing our best practices. Please note that some additional configuration may be required.' =>
-            '',
+            'Овде можете активирати Ready2Adopt процесе примера најбоље праксе који су спремни за употребу. Молимо обратите пажњу да је можда неопходна додатна конфигурација.',
         'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated Ready2Adopt processes.' =>
-            '',
-        'Import Ready2Adopt process' => '',
+            'Да ли желите да искористите процесе креиране од стране експерата? Унапредите на %s за увоз примера софистицираних Ready2Adopt процеса спремних за употребу.',
+        'Import Ready2Adopt process' => 'Увези Ready2Adopt процес',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'За креирање новог процеса можете или увести процес који је извезен из другог система или креирати комплетно нов.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -2133,7 +2133,7 @@ sub Data {
         'Edit System Maintenance Information' => 'Уреди одржавање система',
         'Date invalid!' => 'Неисправан датум',
         'Login message' => 'Порука пријаве',
-        'This field must have less then 250 characters.' => '',
+        'This field must have less then 250 characters.' => 'Ово поље не сме бити дуже од 250 карактера.',
         'Show login message' => 'Покажи поруку пријаве',
         'Notify message' => 'Порука обавештења',
         'Manage Sessions' => 'Управљање сесијама',
@@ -2354,7 +2354,7 @@ sub Data {
         'Closed' => 'Затворени',
         '%s open ticket(s) of %s' => '%s отворених тикета од %s',
         '%s closed ticket(s) of %s' => '%s затворених тикета од %s',
-        'Edit customer ID' => '',
+        'Edit customer ID' => 'Уреди ID клијента',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Ескалирани тикети',
@@ -2627,6 +2627,7 @@ sub Data {
         'History of %s%s%s' => 'Историјат од %s%s%s',
         'Filter for history items' => 'Филтер за ставке историјата',
         'Expand/collapse all' => 'Прошири/скупи све',
+        'CreateTime' => 'Време креирања',
         'Article' => 'Чланак',
 
         # Template: AgentTicketMerge
@@ -2798,7 +2799,7 @@ sub Data {
         'Load blocked content.' => 'Учитај блокирани садржај.',
 
         # Template: Breadcrumb
-        'Home' => '',
+        'Home' => 'Почетна',
         'Back to admin overview' => 'Назан на администраторски преглед',
 
         # Template: CloudServicesDisabled
@@ -3490,7 +3491,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Недефинисана субакција.',
         'Need %s' => 'Неопходан %s',
-        'Add %s field' => '',
+        'Add %s field' => 'Додај %s поље',
         'The field does not contain only ASCII letters and numbers.' => 'Поље не садржи само ASCII слова и бројеве.',
         'There is another field with the same name.' => 'Постоји друго поље са истим именом.',
         'The field must be numeric.' => 'Поље мора бити нумеричко.',
@@ -3498,7 +3499,7 @@ sub Data {
         'Could not create the new field' => 'Није могуће креирати ново поље',
         'Need ID' => 'Неопходан ID',
         'Could not get data for dynamic field %s' => 'Не могу прибавити податке за динамичко поље %s',
-        'Change %s field' => '',
+        'Change %s field' => 'Измени %s поље',
         'The name for this field should not change.' => 'Назив овог поља није пожељно мењати.',
         'Could not update the field %s' => 'Није могуће ажурирати поље %s',
         'Currently' => 'Тренутно',
@@ -3884,7 +3885,7 @@ sub Data {
         'The following settings could not be found: %s' => 'Следећа подешавања нису могла бити пронађена: %s',
         'Import not allowed!' => 'Увоз није дозвољен!',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
-            '',
+            'Системска конфигурација није могла бити увежена звог непознате грешке, молико проверите OTRS логове за више информација.',
         'Category Search' => 'Претрага категорија',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationDeployment.pm
@@ -4369,6 +4370,8 @@ sub Data {
             'Грешка: Молимо да проверите да ваша база података прихвата пакете по величини веће од %s MB  (тренутно прихвата пакете величине до %s MB). Молимо да прилагодите параметар max_allowed_packet подешавање у вашој бази података како би избегли грешке.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Грешка: Молимо да подесете вредност за innodb_log_file_size у вашој бази података на најмање %s MB (тренутно: %s MB, препоручено: %s MB). За више информација, молимо погледајте на %s.',
+        'Wrong database collation (%s is %s, but it needs to be utf8).' =>
+            '',
 
         # Perl Module: Kernel/Modules/PublicCalendar.pm
         'No %s!' => 'Без %s!',
@@ -4903,10 +4906,10 @@ sub Data {
         'Client Connection Charset' => 'Карактерсет за повезивање клијента',
         'Setting character_set_client needs to be utf8.' => 'Подешавање character_set_client мора бити utf8.',
         'Server Database Charset' => 'Karakterset serverske baze podataka',
-        'The setting character_set_database needs to be \'utf8\'.' => '',
+        'The setting character_set_database needs to be \'utf8\'.' => 'Подешавање character_set_database мора бити \'utf8\'.',
         'Table Charset' => 'Табела карактерсета',
         'There were tables found which do not have \'utf8\' as charset.' =>
-            '',
+            'Пронађене су табеле које немају \'utf8\' као карактерсет.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
         'InnoDB Log File Size' => 'Величина InnoDB лог датотеке',
@@ -5457,7 +5460,7 @@ sub Data {
         'This is currently disabled because of an ongoing package upgrade.' =>
             'Ова функција је тренутно искључена због ажурирања пакета у току.',
         'This option is currently disabled because the OTRS Daemon is not running.' =>
-            '',
+            'Ова функција је тренутно искључена зато што OTRS сервис не ради.',
         'Are you sure you want to update all installed packages?' => 'Да ли сте сигурни да желите да унапредите све инсталиране пакете?',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
@@ -5891,7 +5894,7 @@ Thanks for your help!
         'Agents ↔ Groups' => 'Оператери ↔ групе',
         'Agents ↔ Roles' => 'Оператери ↔ улоге',
         'All CustomerIDs of a customer user.' => 'Сви клијент ID клијент корисника.',
-        'All attachments (OTRS Business Solution™)' => '',
+        'All attachments (OTRS Business Solution™)' => 'Сви прилози (OTRS Business Solution™)',
         'All customer users of a CustomerID' => 'Сви клијенти корисници за CustomerID',
         'All escalated tickets' => 'Сви ескалирани тикети',
         'All new tickets, these tickets have not been worked on yet' => 'Сви нови тикети, на њима још није ништа рађено',
@@ -6070,7 +6073,7 @@ Thanks for your help!
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Проверава да ли је имејл настављање на постојећи тикета претрагом предмета важећих бројева тикета.',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
-            '',
+            'Проверава SystemID у детекцији броја тикета за настављања. Ако је искључено, SystemID ће бити промењен након коришћења система.',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
             'Проверава доступност OTRS Business Solution™ за овај систем.',
         'Checks the entitlement status of OTRS Business Solution™.' => 'Проверава статус права коришћења OTRS Business Solution™.',
@@ -6112,8 +6115,8 @@ Thanks for your help!
         'Communication' => 'Комуникација',
         'Communication & Notifications' => 'Комуникација & обавештења',
         'Communication Log GUI' => 'Графички интерфеј комуникационог лога',
-        'Communication log limit per page for CommunicationLog Overview' =>
-            'Ограничење броја логова по страни за преглед комуникационих логова',
+        'Communication log limit per page for Communication Log Overview.' =>
+            '',
         'CommunicationLog Overview Limit' => 'Ограничење прегледа комуникационих логова',
         'Company Status' => 'Статус фирме',
         'Company Tickets.' => 'Тикети фирми.',
@@ -6411,9 +6414,9 @@ Thanks for your help!
         'Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.' =>
             'Одређује да ли за аутентификацију треба да буде прихваћен токен који је раније био важећи. Ово је мало мање безбедно али кориснику даје 30 секунди више времена да унесе своју једнократну лозинку.',
         'Defines if the values for filters should be retrieved from all available tickets. If enabled, only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.' =>
-            '',
+            'Дефинише да ли ће вредности филтера бити прибављене од свих доступних тикета. Уколико је укључено, само вредности које се иначе користе у било ком тикету ће бити доступне као филтер. Напомињемо да ће листа корисника увек бити приказана на овај начин.',
         'Defines if time accounting is mandatory in the agent interface. If enabled, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
-            '',
+            'Дефинише да ли је обрачун времена обавезан у интерфејсу оператера. Ако је укључено, за све акције на тикетима се мора унети напомена (без обзира да ли је сама напомена конфигурисана као активна или је иначе обавезна на екрану индивидуалне акције на тикету).',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
             'Одређује да ли обрачун времена мора бити подешен на свим тикетима у масовним акцијама.',
         'Defines internal communication channel.' => 'Дефинише интерни комуникациони канал.',
@@ -7003,13 +7006,13 @@ Thanks for your help!
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'Онемогућава HTTP заглавље "X-Frame-Options: SAMEORIGIN" ради учитавања OTRS у оквиру IFRAME на другим странама. Онемогућавање овог HTTP заглавља сноси сигурносни ризик! Искључите га само ако знате шта радите!',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
-            '',
+            'Онемогућује слање обавештења подсетника одговорном оператеру тикета (Ticket::Responsible мора бити укључено).',
         'Disables the communication between this system and OTRS Group servers that provides cloud services. If enabled, some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others.' =>
-            '',
+            'Онемогућава комуникацију између овог система и сервера OTRS групе који обезбеђују сервисе у облаку. Ако је укључено, неке функционалности неће радити, а то су регистрација система, слање података подршке, унапређење на OTRS Business Solution™, OTRS верификација, OTRS новости и новости о производу у додацима на контролној табли, између осталих.',
         'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
             'Онемогућује преусмеравање на последњи екран прегледа / контролну таблу пошто је тикет креиран.',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
-            '',
+            'Онемогућује приступ инсталационом екрану (http://yourhost.example.com/otrs/installer.pl) у сврху заштите система од недозвољеног преузимања. Ако је искључено, систем може бити поново инсталиран и тренутна основна конфигурација ће бити коришћена да унапред попуни питања унутар инсталационог екрана. Уколико није укључено, такође се онемогућују GenericAgent, PackageManager и SQL Box.',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
             'Прикажи упозорење и онемогући претрагу ако су употребљене зауставне речи у претрази комплетног текста.',
         'Display communication log entries.' => 'Приказује ставке комуникационих логова.',
@@ -7034,7 +7037,7 @@ Thanks for your help!
             'Динамичка поља коришћена за извоз резултата претраге у CSV формат.',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             'Групе динамичких поља за процесни додатак. Кључ је назив групе, вредност садржи поље које ће бити приказано. Пример: \'Key => My Group\', \'Content: Name_X, NameY\'.',
-        'Dynamic fields limit per page for Dynamic Fields Overview' => 'Ограничење динамичких поља по страни за приказ динамичких поља.',
+        'Dynamic fields limit per page for Dynamic Fields Overview.' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             'Опције динамичких поља приказаних у екрану отварања тикета у интерфејсу клијента. Напомена: уколико желите да прикажете ова поља и у детаљном прегледу тикета, морате их укључити у CustomerTicketZoom###DynamicField.',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface.' =>
@@ -7109,7 +7112,7 @@ Thanks for your help!
         'Enable highlighting queues based on ticket age.' => 'Омогући обележавање редова на основу старости тикета.',
         'Enable keep-alive connection header for SOAP responses.' => 'Омогући заглавље за одржање активне конекције за SOAP одговоре.',
         'Enable this if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
-            '',
+            'Укључите ову опцију ако верујете у све ваше јавне и приватне PGP кључеве, чак и ако нису потврђени поузданим потписом.',
         'Enabled filters.' => 'Омогућени филтери.',
         'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
             'Омогућује PGP подршку. Када је PGP подршка омогућена за потписивање и шифровање имејлова, строго се препоручује да веб сервер ради под OTRS корисником. У супротном, биће проблема са привилегијама приликом приступа .gnupg фолдеру.',
@@ -7392,11 +7395,11 @@ Thanks for your help!
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             'Ако је подешено ова адреса се користи као оквир заглавља пошиљаоца у одлазним порукама (не за обавештења - види ниже). Ако адреса није унета, оквир заглавља пошиљаоца је једнак имејл адреси реда.',
         'If this option is enabled, tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is not enabled, no autoresponses will be sent.' =>
-            '',
+            'Уколико је ова опција укључена, тикети креирани преко веб интерфејса од стране клијената или оператера, ће добити аутоматски одговор уколико је подешен. Ако је ова опција искључена, аутоматски одговори неће бити слати.',
         'If this regex matches, no message will be send by the autoresponder.' =>
             'Ако се овај израз поклапа, аутоматски одговарач неће послати ниједну поруку.',
         'If this setting is enabled, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
-            '',
+            'Уколико је ово подешавање укључено, локалне измене неће бити приказане као грешке у управљачу пакетима и сакупљачу података подршке.',
         'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
             'Уколико ћете бити ван канцеларије, можда ћете желети да обавестите друге кориснике постављањем тачних датума вашег изостанка.',
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
@@ -7798,7 +7801,7 @@ Thanks for your help!
         'Removes the ticket watcher information when a ticket is archived.' =>
             'Уклања информације посматрача тикета када се тикет архивира.',
         'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be enabled in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>
-            '',
+            'Обнавља постојеће SMIME сертификате из извора клијената. Напомена: SMIME и SMIME::FetchFromCustomer морају бити укључени у конфигурацији и извор клијената мора бити подешен за преузимање UserSMIMECertificate атрибута.',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             'Замењује оригиналног пошиљаоца са имејл адресом актуелног клијента при креирању одговора у прозору за писање одговора интерфејса оператера.',
         'Reports' => 'Извештаји',
@@ -7858,7 +7861,7 @@ Thanks for your help!
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             'Покреће иницијалну џокер претрагу постојећих корисника при приступу модулу AdminCustomerUser.',
         'Runs the system in "Demo" mode. If enabled, agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
-            '',
+            'Покреће систем у демо моду. Уколико је укључено, оператери могу променити своја подешавања као што су избор језика и теме у интерфејсу оператера. Ове промене ће важити само за тренутну сесију. Оператерима неће бити омогућено да промене своје лозинке.',
         'Russian' => 'Руски',
         'S/MIME Certificates' => 'S/MIME сертификати',
         'SMS' => 'СМС',
@@ -8084,7 +8087,7 @@ Thanks for your help!
         'Sets the service in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Service needs to be enabled).' =>
             'Подешава сервис на екрану приоритета тикета на детаљном прегледу тикета у интерфејсу оператера (Ticket::Service треба да буде активиран).',
         'Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be enabled).' =>
-            '',
+            'Подешава сервис на екрану одговорног за тикет у интерфејсу оператера (неопходно је укључити Ticket::Service).',
         'Sets the state of a ticket in the close ticket screen of the agent interface.' =>
             'Поставља статус тикета у екрану затварања тикета у интерфејсу оператера.',
         'Sets the state of a ticket in the ticket bulk screen of the agent interface.' =>
@@ -8119,21 +8122,21 @@ Thanks for your help!
         'Sets the ticket owner in the ticket responsible screen of the agent interface.' =>
             'Одређује власника тикета на екрану одговорности за тикет у интерфејсу оператера.',
         'Sets the ticket type in the close ticket screen of the agent interface (Ticket::Type needs to be enabled).' =>
-            '',
+            'Одређује тип тикета на екрану затварања тикета у интерфејсу оператера (Ticket::Type мора бити укључено).',
         'Sets the ticket type in the ticket bulk screen of the agent interface.' =>
             'Одређује тип тикета на екрану масовне акције тикета у интерфејсу оператера.',
         'Sets the ticket type in the ticket free text screen of the agent interface (Ticket::Type needs to be enabled).' =>
-            '',
+            'Одређује тип тикета на екрану слободног текста тикета у интерфејсу оператера (Ticket::Type мора бити укључено).',
         'Sets the ticket type in the ticket note screen of the agent interface (Ticket::Type needs to be enabled).' =>
-            '',
+            'Одређује тип тикета на екрану напомене тикета у интерфејсу оператера (Ticket::Type мора бити укључено).',
         'Sets the ticket type in the ticket owner screen of a zoomed ticket in the agent interface (Ticket::Type needs to be enabled).' =>
-            '',
+            'Одређује тип тикета на екрану власника тикета у интерфејсу оператера (Ticket::Type мора бити укључено).',
         'Sets the ticket type in the ticket pending screen of a zoomed ticket in the agent interface (Ticket::Type needs to be enabled).' =>
-            '',
+            'Одређује тип тикета на екрану тикета на чекању у интерфејсу оператера (Ticket::Type мора бити укључено).',
         'Sets the ticket type in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Type needs to be enabled).' =>
-            '',
+            'Одређује тип тикета на екрану приоритета тикета у интерфејсу оператера (Ticket::Type мора бити укључено).',
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be enabled).' =>
-            '',
+            'Одређује тип тикета на екрану одговорног тикета у интерфејсу оператера (Ticket::Type мора бити укључено).',
         'Sets the time zone being used internally by OTRS to e. g. store dates and times in the database. WARNING: This setting must not be changed once set and tickets or any other data containing date/time have been created.' =>
             'Подешава интерну временску зону OTRS за нпр. чување датума и времена у бази података. Упозорење: ово подешавање не смете мењати једном када га подесите и ако су креирани тикети или било који други подаци са временом.',
         'Sets the time zone that will be assigned to newly created users and will be used for users that haven\'t yet set a time zone. This is the time zone being used as default to convert date and time between the OTRS time zone and the user\'s time zone.' =>
@@ -8274,7 +8277,7 @@ Thanks for your help!
         'Shows the customer user information (phone and email) in the compose screen.' =>
             'Приказује податке о клијенту кориснику (број телефона и имејл) на екрану писања одговора.',
         'Shows the enabled ticket attributes in the customer interface (0 = Disabled and 1 = Enabled).' =>
-            '',
+            'Приказује атрибуте активираних тикета у интерфејсу клијента (0 = искључено, 1 = укључено).',
         'Shows the message of the day (MOTD) in the agent dashboard. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             'Приказује данашњу поруку на контролној табли у интерфејсу оператера. "Group" се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). "Default" одређује да ли је додатак подразумевано активиран или да је неопходно да га корисник мануелно активира. "Mandatory" одређује да ли је додатак увек приказан и не може бити искључен од стране оператера.',
         'Shows the message of the day on login screen of the agent interface.' =>
@@ -8314,9 +8317,9 @@ Thanks for your help!
         'Shows the title field in the ticket responsible screen of the agent interface.' =>
             'Приказује поље наслова у екрану одговорног тикета у интерфејсу оператера.',
         'Shows time in long format (days, hours, minutes), if enabled; or in short format (days, hours), if not enabled.' =>
-            '',
+            'Приказује време у дужем формату (дани, сати, минути), уколико је укључено; или у краћем формату (дани, сати), уколико је искључено.',
         'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
-            '',
+            'Приказује потпун опис у времену (дани, сати, минути), уколико је укључено; или само прво слово (д, ч, м), уколико је искључено. ',
         'Signatures' => 'Потписи',
         'Simple' => 'Једноставно',
         'Skin' => 'Изглед',
@@ -8520,9 +8523,9 @@ Thanks for your help!
         'Ticket bulk module.' => 'Модул масовне акције на тикетима.',
         'Ticket event module that triggers the escalation stop events.' =>
             'Модул догађаја тикета који окида догађаје заустављања ескалације.',
-        'Ticket limit per page for Ticket Overview "Medium"' => 'Ограничење тикета по страни за преглед "средње"',
-        'Ticket limit per page for Ticket Overview "Preview"' => 'Ограничење тикета по страни за преглед "приказ"',
-        'Ticket limit per page for Ticket Overview "Small"' => 'Ограничење тикета по страни за преглед "мало"',
+        'Ticket limit per page for Ticket Overview "Medium".' => '',
+        'Ticket limit per page for Ticket Overview "Preview".' => '',
+        'Ticket limit per page for Ticket Overview "Small".' => '',
         'Ticket notifications' => 'Обавештења о тикету',
         'Ticket overview' => 'Pregled tiketa',
         'Ticket plain view of an email.' => 'Приказ неформатиране имејл поруке у тикету.',
@@ -8552,7 +8555,7 @@ Thanks for your help!
             'Искључује проверу важности SSL сертификата, нпр. уколико користите транспарентан HTTPS прокси. Користите на сопствену одговорност!',
         'Turns on drag and drop for the main navigation.' => 'Активира превуци и отпусти у главној навигацији.',
         'Turns on the remote ip address check. It should not be enabled if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
-            '',
+            'Укључује проверу удаљене IP адресе. Треба бити искључено ако се апликација користи, на пример, преко proxy фарме или dialup конекције, зато што је удаљена IP адреса углавном другачија за сваки захтев.',
         'Tweak the system as you wish.' => 'Прилагодите систем својим потребама.',
         'Type of daemon log rotation to use: Choose \'OTRS\' to let OTRS system to handle the file rotation, or choose \'External\' to use a 3rd party rotation mechanism (i.e. logrotate). Note: External rotation mechanism requires its own and independent configuration.' =>
             'Врста ротације сервисног лога: изаберите \'OTRS\' да допустите OTRS систему да ротира логове, или \'Екстерно\' за други механизам ротације (нпр. logrotate). Напомена: ектерни ротациони механизми захтевају сопствену и независну конфигурацију.',
@@ -8606,7 +8609,7 @@ Thanks for your help!
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
             'Дефинише да ли ће бити прикупљане информације из чланака коришћењем филтера дефинисаним у Ticket::Frontend::ZoomCollectMetaFilters.',
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
-            '',
+            'Одређује да ли ће сви захтеви са http бити преусмерени на https протокол. Молимо проверите да ли је ваш веб сервер правилно подешен за https протокол пре укључивања ове опције.',
         'Yes, but hide archived tickets' => 'Да, али склони архивиране тикете',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             'Ваш имејл са бројем тикета "<OTRS_TICKET>" је преусмерен на тикет "<OTRS_BOUNCE_TO>"!',

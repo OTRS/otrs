@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-12-11 23:26+0000\n"
-"PO-Revision-Date: 2017-12-11 23:28+0000\n"
+"POT-Creation-Date: 2018-01-08 18:29+0000\n"
+"PO-Revision-Date: 2018-01-08 18:33+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -3728,13 +3728,13 @@ msgstr "Да ли стварно желите да обришете овај в�
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Ready2Adopt Web Services"
-msgstr ""
+msgstr "Ready2Adopt веб сервиси"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Here you can activate Ready2Adopt web services showcasing our best practices"
 " that are a part of %s."
-msgstr ""
+msgstr "Овде можете активирати Ready2Adopt веб сервисе спремне за употребу који осликавају нашу најбољу праксу која је део %s."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -3745,13 +3745,13 @@ msgstr "Молимо да имате на уму да веб сервиси мо
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import Ready2Adopt web service"
-msgstr ""
+msgstr "Увези Ready2Adopt веб сервис"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Would you like to benefit from web services created by experts? Upgrade to "
 "%s to import some sophisticated Ready2Adopt web services."
-msgstr ""
+msgstr "Да ли желите да искористите веб сервисе креиране од стране експерата? Унапредите на %s да би могли да увезете софистициране Ready2Adopt веб сервисе спремне за употребу."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -5007,23 +5007,23 @@ msgstr "Увези конфигурацију процеса"
 
 #. Template: AdminProcessManagement
 msgid "Ready2Adopt Processes"
-msgstr ""
+msgstr "Ready2Adopt процеси"
 
 #. Template: AdminProcessManagement
 msgid ""
 "Here you can activate Ready2Adopt processes showcasing our best practices. "
 "Please note that some additional configuration may be required."
-msgstr ""
+msgstr "Овде можете активирати Ready2Adopt процесе примера најбоље праксе који су спремни за употребу. Молимо обратите пажњу да је можда неопходна додатна конфигурација."
 
 #. Template: AdminProcessManagement
 msgid ""
 "Would you like to benefit from processes created by experts? Upgrade to %s "
 "to import some sophisticated Ready2Adopt processes."
-msgstr ""
+msgstr "Да ли желите да искористите процесе креиране од стране експерата? Унапредите на %s за увоз примера софистицираних Ready2Adopt процеса спремних за употребу."
 
 #. Template: AdminProcessManagement
 msgid "Import Ready2Adopt process"
-msgstr ""
+msgstr "Увези Ready2Adopt процес"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -6880,7 +6880,7 @@ msgstr "Порука пријаве"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "This field must have less then 250 characters."
-msgstr ""
+msgstr "Ово поље не сме бити дуже од 250 карактера."
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Show login message"
@@ -7574,7 +7574,7 @@ msgstr "%s затворених тикета од %s"
 
 #. Template: AgentDashboardCustomerIDList
 msgid "Edit customer ID"
-msgstr ""
+msgstr "Уреди ID клијента"
 
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
@@ -8352,6 +8352,10 @@ msgid "Expand/collapse all"
 msgstr "Прошири/скупи све"
 
 #. Template: AgentTicketHistory
+msgid "CreateTime"
+msgstr "Време креирања"
+
+#. Template: AgentTicketHistory
 msgid "Article"
 msgstr "Чланак"
 
@@ -8853,7 +8857,7 @@ msgstr "Учитај блокирани садржај."
 
 #. Template: Breadcrumb
 msgid "Home"
-msgstr ""
+msgstr "Почетна"
 
 #. Template: Breadcrumb
 msgid "Back to admin overview"
@@ -10795,7 +10799,7 @@ msgstr "Неопходан %s"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Add %s field"
-msgstr ""
+msgstr "Додај %s поље"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field does not contain only ASCII letters and numbers."
@@ -10827,7 +10831,7 @@ msgstr "Не могу прибавити податке за динамичко 
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Change %s field"
-msgstr ""
+msgstr "Измени %s поље"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The name for this field should not change."
@@ -11972,7 +11976,7 @@ msgstr "Увоз није дозвољен!"
 msgid ""
 "System Configuration could not be imported due to an unknown error, please "
 "check OTRS logs for more information."
-msgstr ""
+msgstr "Системска конфигурација није могла бити увежена звог непознате грешке, молико проверите OTRS логове за више информација."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "Category Search"
@@ -13393,6 +13397,10 @@ msgid ""
 "please have a look at %s."
 msgstr "Грешка: Молимо да подесете вредност за innodb_log_file_size у вашој бази података на најмање %s MB (тренутно: %s MB, препоручено: %s MB). За више информација, молимо погледајте на %s."
 
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
 msgstr "Без %s!"
@@ -14694,7 +14702,7 @@ msgstr "Karakterset serverske baze podataka"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "The setting character_set_database needs to be 'utf8'."
-msgstr ""
+msgstr "Подешавање character_set_database мора бити 'utf8'."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
@@ -14704,7 +14712,7 @@ msgstr "Табела карактерсета"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "There were tables found which do not have 'utf8' as charset."
-msgstr ""
+msgstr "Пронађене су табеле које немају 'utf8' као карактерсет."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
@@ -16197,7 +16205,7 @@ msgstr "Ова функција је тренутно искључена збо�
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "This option is currently disabled because the OTRS Daemon is not running."
-msgstr ""
+msgstr "Ова функција је тренутно искључена зато што OTRS сервис не ради."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Are you sure you want to update all installed packages?"
@@ -17332,7 +17340,7 @@ msgstr "Сви клијент ID клијент корисника."
 
 #. SysConfig
 msgid "All attachments (OTRS Business Solution™)"
-msgstr ""
+msgstr "Сви прилози (OTRS Business Solution™)"
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
@@ -17915,7 +17923,7 @@ msgstr "Проверава да ли је имејл настављање на �
 msgid ""
 "Checks the SystemID in ticket number detection for follow-ups. If not "
 "enabled, SystemID will be changed after using the system."
-msgstr ""
+msgstr "Проверава SystemID у детекцији броја тикета за настављања. Ако је искључено, SystemID ће бити промењен након коришћења система."
 
 #. SysConfig
 msgid "Checks the availability of OTRS Business Solution™ for this system."
@@ -18069,8 +18077,8 @@ msgid "Communication Log GUI"
 msgstr "Графички интерфеј комуникационог лога"
 
 #. SysConfig
-msgid "Communication log limit per page for CommunicationLog Overview"
-msgstr "Ограничење броја логова по страни за преглед комуникационих логова"
+msgid "Communication log limit per page for Communication Log Overview."
+msgstr ""
 
 #. SysConfig
 msgid "CommunicationLog Overview Limit"
@@ -19110,7 +19118,7 @@ msgid ""
 "tickets. If enabled, only values which are actually used in any ticket will "
 "be available for filtering. Please note: The list of customers will always "
 "be retrieved like this."
-msgstr ""
+msgstr "Дефинише да ли ће вредности филтера бити прибављене од свих доступних тикета. Уколико је укључено, само вредности које се иначе користе у било ком тикету ће бити доступне као филтер. Напомињемо да ће листа корисника увек бити приказана на овај начин."
 
 #. SysConfig
 msgid ""
@@ -19118,7 +19126,7 @@ msgid ""
 "a note must be entered for all ticket actions (no matter if the note itself "
 "is configured as active or is originally mandatory for the individual ticket"
 " action screen)."
-msgstr ""
+msgstr "Дефинише да ли је обрачун времена обавезан у интерфејсу оператера. Ако је укључено, за све акције на тикетима се мора унети напомена (без обзира да ли је сама напомена конфигурисана као активна или је иначе обавезна на екрану индивидуалне акције на тикету)."
 
 #. SysConfig
 msgid "Defines if time accounting must be set to all tickets in bulk action."
@@ -20980,7 +20988,7 @@ msgstr "Онемогућава HTTP заглавље \"X-Frame-Options: SAMEORIG
 msgid ""
 "Disables sending reminder notifications to the responsible agent of a ticket"
 " (Ticket::Responsible needs to be enabled)."
-msgstr ""
+msgstr "Онемогућује слање обавештења подсетника одговорном оператеру тикета (Ticket::Responsible мора бити укључено)."
 
 #. SysConfig
 msgid ""
@@ -20989,7 +20997,7 @@ msgid ""
 " system registration, support data sending, upgrading to and use of OTRS "
 "Business Solution™, OTRS Verify™, OTRS News and product News dashboard "
 "widgets, among others."
-msgstr ""
+msgstr "Онемогућава комуникацију између овог система и сервера OTRS групе који обезбеђују сервисе у облаку. Ако је укључено, неке функционалности неће радити, а то су регистрација система, слање података подршке, унапређење на OTRS Business Solution™, OTRS верификација, OTRS новости и новости о производу у додацима на контролној табли, између осталих."
 
 #. SysConfig
 msgid ""
@@ -21004,7 +21012,7 @@ msgid ""
 " reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If enabled, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
-msgstr ""
+msgstr "Онемогућује приступ инсталационом екрану (http://yourhost.example.com/otrs/installer.pl) у сврху заштите система од недозвољеног преузимања. Ако је искључено, систем може бити поново инсталиран и тренутна основна конфигурација ће бити коришћена да унапред попуни питања унутар инсталационог екрана. Уколико није укључено, такође се онемогућују GenericAgent, PackageManager и SQL Box."
 
 #. SysConfig
 msgid ""
@@ -21088,8 +21096,8 @@ msgid ""
 msgstr "Групе динамичких поља за процесни додатак. Кључ је назив групе, вредност садржи поље које ће бити приказано. Пример: 'Key => My Group', 'Content: Name_X, NameY'."
 
 #. SysConfig
-msgid "Dynamic fields limit per page for Dynamic Fields Overview"
-msgstr "Ограничење динамичких поља по страни за приказ динамичких поља."
+msgid "Dynamic fields limit per page for Dynamic Fields Overview."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -21312,7 +21320,7 @@ msgstr "Омогући заглавље за одржање активне ко�
 msgid ""
 "Enable this if you trust in all your public and private pgp keys, even if "
 "they are not certified with a trusted signature."
-msgstr ""
+msgstr "Укључите ову опцију ако верујете у све ваше јавне и приватне PGP кључеве, чак и ако нису потврђени поузданим потписом."
 
 #. SysConfig
 msgid "Enabled filters."
@@ -22242,7 +22250,7 @@ msgid ""
 "If this option is enabled, tickets created via the web interface, via "
 "Customers or Agents, will receive an autoresponse if configured. If this "
 "option is not enabled, no autoresponses will be sent."
-msgstr ""
+msgstr "Уколико је ова опција укључена, тикети креирани преко веб интерфејса од стране клијената или оператера, ће добити аутоматски одговор уколико је подешен. Ако је ова опција искључена, аутоматски одговори неће бити слати."
 
 #. SysConfig
 msgid "If this regex matches, no message will be send by the autoresponder."
@@ -22252,7 +22260,7 @@ msgstr "Ако се овај израз поклапа, аутоматски о�
 msgid ""
 "If this setting is enabled, local modifications will not be highlighted as "
 "errors in the package manager and support data collector."
-msgstr ""
+msgstr "Уколико је ово подешавање укључено, локалне измене неће бити приказане као грешке у управљачу пакетима и сакупљачу података подршке."
 
 #. SysConfig
 msgid ""
@@ -23752,7 +23760,7 @@ msgid ""
 "Renew existing SMIME certificates from customer backend. Note: SMIME and "
 "SMIME::FetchFromCustomer needs to be enabled in SysConfig and customer "
 "backend needs to be configured to fetch UserSMIMECertificate attribute."
-msgstr ""
+msgstr "Обнавља постојеће SMIME сертификате из извора клијената. Напомена: SMIME и SMIME::FetchFromCustomer морају бити укључени у конфигурацији и извор клијената мора бити подешен за преузимање UserSMIMECertificate атрибута."
 
 #. SysConfig
 msgid ""
@@ -23939,7 +23947,7 @@ msgid ""
 " such as selection of language and theme via the agent web interface. These "
 "changes are only valid for the current session. It will not be possible for "
 "agents to change their passwords."
-msgstr ""
+msgstr "Покреће систем у демо моду. Уколико је укључено, оператери могу променити своја подешавања као што су избор језика и теме у интерфејсу оператера. Ове промене ће важити само за тренутну сесију. Оператерима неће бити омогућено да промене своје лозинке."
 
 #. SysConfig
 msgid "Russian"
@@ -24671,7 +24679,7 @@ msgstr "Подешава сервис на екрану приоритета т�
 msgid ""
 "Sets the service in the ticket responsible screen of the agent interface "
 "(Ticket::Service needs to be enabled)."
-msgstr ""
+msgstr "Подешава сервис на екрану одговорног за тикет у интерфејсу оператера (неопходно је укључити Ticket::Service)."
 
 #. SysConfig
 msgid ""
@@ -24771,7 +24779,7 @@ msgstr "Одређује власника тикета на екрану одг�
 msgid ""
 "Sets the ticket type in the close ticket screen of the agent interface "
 "(Ticket::Type needs to be enabled)."
-msgstr ""
+msgstr "Одређује тип тикета на екрану затварања тикета у интерфејсу оператера (Ticket::Type мора бити укључено)."
 
 #. SysConfig
 msgid "Sets the ticket type in the ticket bulk screen of the agent interface."
@@ -24781,37 +24789,37 @@ msgstr "Одређује тип тикета на екрану масовне а
 msgid ""
 "Sets the ticket type in the ticket free text screen of the agent interface "
 "(Ticket::Type needs to be enabled)."
-msgstr ""
+msgstr "Одређује тип тикета на екрану слободног текста тикета у интерфејсу оператера (Ticket::Type мора бити укључено)."
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket note screen of the agent interface "
 "(Ticket::Type needs to be enabled)."
-msgstr ""
+msgstr "Одређује тип тикета на екрану напомене тикета у интерфејсу оператера (Ticket::Type мора бити укључено)."
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket owner screen of a zoomed ticket in the "
 "agent interface (Ticket::Type needs to be enabled)."
-msgstr ""
+msgstr "Одређује тип тикета на екрану власника тикета у интерфејсу оператера (Ticket::Type мора бити укључено)."
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket pending screen of a zoomed ticket in the "
 "agent interface (Ticket::Type needs to be enabled)."
-msgstr ""
+msgstr "Одређује тип тикета на екрану тикета на чекању у интерфејсу оператера (Ticket::Type мора бити укључено)."
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket priority screen of a zoomed ticket in the"
 " agent interface (Ticket::Type needs to be enabled)."
-msgstr ""
+msgstr "Одређује тип тикета на екрану приоритета тикета у интерфејсу оператера (Ticket::Type мора бити укључено)."
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket responsible screen of the agent interface"
 " (Ticket::Type needs to be enabled)."
-msgstr ""
+msgstr "Одређује тип тикета на екрану одговорног тикета у интерфејсу оператера (Ticket::Type мора бити укључено)."
 
 #. SysConfig
 msgid ""
@@ -25347,7 +25355,7 @@ msgstr "Приказује податке о клијенту кориснику
 msgid ""
 "Shows the enabled ticket attributes in the customer interface (0 = Disabled "
 "and 1 = Enabled)."
-msgstr ""
+msgstr "Приказује атрибуте активираних тикета у интерфејсу клијента (0 = искључено, 1 = укључено)."
 
 #. SysConfig
 msgid ""
@@ -25463,13 +25471,13 @@ msgstr "Приказује поље наслова у екрану одгово�
 msgid ""
 "Shows time in long format (days, hours, minutes), if enabled; or in short "
 "format (days, hours), if not enabled."
-msgstr ""
+msgstr "Приказује време у дужем формату (дани, сати, минути), уколико је укључено; или у краћем формату (дани, сати), уколико је искључено."
 
 #. SysConfig
 msgid ""
 "Shows time use complete description (days, hours, minutes), if enabled; or "
 "just first letter (d, h, m), if not enabled."
-msgstr ""
+msgstr "Приказује потпун опис у времену (дани, сати, минути), уколико је укључено; или само прво слово (д, ч, м), уколико је искључено. "
 
 #. SysConfig
 msgid "Signatures"
@@ -26158,16 +26166,16 @@ msgid "Ticket event module that triggers the escalation stop events."
 msgstr "Модул догађаја тикета који окида догађаје заустављања ескалације."
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Medium\""
-msgstr "Ограничење тикета по страни за преглед \"средње\""
+msgid "Ticket limit per page for Ticket Overview \"Medium\"."
+msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Preview\""
-msgstr "Ограничење тикета по страни за преглед \"приказ\""
+msgid "Ticket limit per page for Ticket Overview \"Preview\"."
+msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Small\""
-msgstr "Ограничење тикета по страни за преглед \"мало\""
+msgid "Ticket limit per page for Ticket Overview \"Small\"."
+msgstr ""
 
 #. SysConfig
 msgid "Ticket notifications"
@@ -26272,7 +26280,7 @@ msgid ""
 "Turns on the remote ip address check. It should not be enabled if the "
 "application is used, for example, via a proxy farm or a dialup connection, "
 "because the remote ip address is mostly different for the requests."
-msgstr ""
+msgstr "Укључује проверу удаљене IP адресе. Треба бити искључено ако се апликација користи, на пример, преко proxy фарме или dialup конекције, зато што је удаљена IP адреса углавном другачија за сваки захтев."
 
 #. SysConfig
 msgid "Tweak the system as you wish."
@@ -26460,7 +26468,7 @@ msgid ""
 "Whether to force redirect all requests from http to https protocol. Please "
 "check that your web server is configured correctly for https protocol before"
 " enable this option."
-msgstr ""
+msgstr "Одређује да ли ће сви захтеви са http бити преусмерени на https протокол. Молимо проверите да ли је ваш веб сервер правилно подешен за https протокол пре укључивања ове опције."
 
 #. SysConfig
 msgid "Yes, but hide archived tickets"

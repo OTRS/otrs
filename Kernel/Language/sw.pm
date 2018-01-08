@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.502163003979927;
+    $Self->{Completeness}        = 0.501470333852275;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -2630,6 +2630,7 @@ sub Data {
         'History of %s%s%s' => '',
         'Filter for history items' => '',
         'Expand/collapse all' => '',
+        'CreateTime' => 'Muda wa kutengeneza',
         'Article' => 'Makala',
 
         # Template: AgentTicketMerge
@@ -4372,6 +4373,8 @@ sub Data {
             '',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             '',
+        'Wrong database collation (%s is %s, but it needs to be utf8).' =>
+            '',
 
         # Perl Module: Kernel/Modules/PublicCalendar.pm
         'No %s!' => '',
@@ -6104,7 +6107,7 @@ Thanks for your help!
         'Communication' => '',
         'Communication & Notifications' => '',
         'Communication Log GUI' => '',
-        'Communication log limit per page for CommunicationLog Overview' =>
+        'Communication log limit per page for Communication Log Overview.' =>
             '',
         'CommunicationLog Overview Limit' => '',
         'Company Status' => 'Hali ya kampuni',
@@ -7029,7 +7032,7 @@ Mfano:
             'Uga zenye nguvu zimetumika kuhamisha majibu ya utafutaji katika umbizo la CSV',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             'Vikundi vya uga zenye nguvu kwa ajili ya mchakato wa kifaa. Ufunguo ndio jina la kikundi, thamani ina uga unatakaoonyeshwa. Mfano \'Funguo => Kikundi Changu\', \'Maudhui: Jina_X, Jina Y\'.',
-        'Dynamic fields limit per page for Dynamic Fields Overview' => 'Uga zenye nguvu kwa ukurasa kwa ajili ya mapitio ya uga zenye nguvu.',
+        'Dynamic fields limit per page for Dynamic Fields Overview.' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface.' =>
@@ -8515,9 +8518,9 @@ Mfano:
         'Ticket bulk module.' => '',
         'Ticket event module that triggers the escalation stop events.' =>
             'Moduli ya tukio la tiketi ambalo linaamsha tukio la kusimamishwa kuwa upandishwaji.',
-        'Ticket limit per page for Ticket Overview "Medium"' => 'Kikomo cha tiketi kwa ukurasa kwa mapitio ya tiketi \'\'Wastani"',
-        'Ticket limit per page for Ticket Overview "Preview"' => 'Kikomo cha tiketi kwa ukurasa kwa mapitio ya tiketi \'\'kihakiki"',
-        'Ticket limit per page for Ticket Overview "Small"' => 'Kikomo cha tiketi kwa ukurasa kwa mapitio ya tiketi \'\'Ndogo"',
+        'Ticket limit per page for Ticket Overview "Medium".' => '',
+        'Ticket limit per page for Ticket Overview "Preview".' => '',
+        'Ticket limit per page for Ticket Overview "Small".' => '',
         'Ticket notifications' => '',
         'Ticket overview' => 'Marejeo ya tiketi',
         'Ticket plain view of an email.' => '',

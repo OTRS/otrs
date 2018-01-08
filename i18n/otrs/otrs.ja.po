@@ -1,6 +1,6 @@
 # 
 # Translators:
-# Hisatoshi Onishi <hisatoshi.onishi@gmail.com>, 2015-2017
+# Hisatoshi Onishi <hisatoshi.onishi@gmail.com>, 2015-2018
 # Tomy1984, 2015
 # Kentaro Hori <kentaro0919@gmail.com>, 2014-2017
 # Kozo Sakurai <sakurai@io-architect.com>, 2014,2017
@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-12-11 23:26+0000\n"
-"PO-Revision-Date: 2017-12-11 23:28+0000\n"
+"POT-Creation-Date: 2018-01-08 18:29+0000\n"
+"PO-Revision-Date: 2018-01-08 18:33+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/otrs/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -2914,7 +2914,7 @@ msgstr "全ての条件を削除"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Do you really want to delete all the conditions for this event?"
-msgstr ""
+msgstr "本当にこのイベントのすべての条件を削除してよろしいですか？"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "General Settings"
@@ -5936,7 +5936,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Overview of Transmitted Data"
-msgstr ""
+msgstr "送信されたデータの 概要"
 
 #. Template: AdminRegistration
 msgid "There is no data regularly sent from your system to %s."
@@ -8354,6 +8354,10 @@ msgstr "履歴アイテムをフィルター"
 #. Template: AgentTicketHistory
 msgid "Expand/collapse all"
 msgstr "すべて展開/折りたたむ"
+
+#. Template: AgentTicketHistory
+msgid "CreateTime"
+msgstr "作成日時"
 
 #. Template: AgentTicketHistory
 msgid "Article"
@@ -11446,7 +11450,7 @@ msgstr "更新しました"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Already up-to-date"
-msgstr ""
+msgstr "すでに最新版です。"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Installed"
@@ -11454,39 +11458,39 @@ msgstr "インストールしました"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package updated correctly"
-msgstr ""
+msgstr "パッケージの更新は正常に終了しました。"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package was already updated"
-msgstr ""
+msgstr "パッケージはすでに更新済みです。"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Dependency installed correctly"
-msgstr ""
+msgstr "依存するモジュールは正常にインストールされました。"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "The package contains cyclic dependencies"
-msgstr ""
+msgstr "このパッケージとの依存関係が循環状態にあります。"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not found in on-line repositories"
-msgstr ""
+msgstr "オンライン・リポジトリからは見つかりませんでした。"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Required version is higher than available"
-msgstr ""
+msgstr "現在お使いのものより新しいバージョンが必要です。"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Dependencies fail to upgrade or install"
-msgstr ""
+msgstr "依存関係解消のためのインストールまたは更新に失敗しました。"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package could not be installed"
-msgstr ""
+msgstr "パッケージをインストールできませんでした"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package could not be upgraded"
-msgstr ""
+msgstr "パッケージを更新できませんでした"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Repository List"
@@ -11494,7 +11498,7 @@ msgstr "リポジトリ・リスト"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No packages or no new packages found in selected repository."
-msgstr ""
+msgstr "選択されたリポジトリ中で新しいパッケージが見つかりません。"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
@@ -11503,15 +11507,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't connect to OTRS Feature Add-on list server!"
-msgstr ""
+msgstr "OTRSアドオンリストサーバーに接続できませんでした！"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't get OTRS Feature Add-on list from server!"
-msgstr ""
+msgstr "OTRS アドオンリストをサーバーから取得できませんでした！"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't get OTRS Feature Add-on from server!"
-msgstr ""
+msgstr "OTRS アドオンをサーバーから取得できませんでした！"
 
 #. Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
 msgid "No such filter: %s"
@@ -12000,7 +12004,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing setting name!"
-msgstr ""
+msgstr "設定名がありません！"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing ResetOptions!"
@@ -12180,7 +12184,7 @@ msgstr "毎年"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "every"
-msgstr ""
+msgstr "全て"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "for %s time(s)"
@@ -12188,7 +12192,7 @@ msgstr "for %s time(s)"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "until ..."
-msgstr ""
+msgstr "〜まで"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "for ... time(s)"
@@ -12738,7 +12742,7 @@ msgstr "ステータス:保留にする"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "ActivityDialogEntityID missing!"
-msgstr ""
+msgstr "ActivityDialogEntityID が入力されていません！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get Config for ActivityDialogEntityID \"%s\"!"
@@ -12763,11 +12767,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't set ProcessEntityID \"%s\" on TicketID \"%s\"!"
-msgstr ""
+msgstr "ProcessEntityID \"%s\" を TicketID \"%s\" に設定できませんでした！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't set ActivityEntityID \"%s\" on TicketID \"%s\"!"
-msgstr ""
+msgstr "ActivityEntityID \"%s\" を TicketID \"%s\" に設定できませんでした！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Could not store ActivityDialog, invalid TicketID: %s!"
@@ -12779,7 +12783,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ActivityEntityID in Ticket %s!"
-msgstr ""
+msgstr "チケット %s の ActivityEntityID が入力されていません！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
@@ -12790,7 +12794,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID in Ticket %s!"
-msgstr ""
+msgstr "チケット %sの ProcessEntityID が入力されていません！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
@@ -13396,6 +13400,10 @@ msgid ""
 "least %s MB (current: %s MB, recommended: %s MB). For more information, "
 "please have a look at %s."
 msgstr "innodb_log_file_sizeの設定を少なくとも%s MB以上にしてください(現在: %s MB, 推奨: %s MB)。詳細は%sを参照して下さい。"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
@@ -14010,7 +14018,7 @@ msgstr ""
 msgid ""
 "No time scale value available for the current selected time scale value on "
 "the X axis."
-msgstr ""
+msgstr "現在選択されているタイム・スケールの値にX軸のタイム・スケールの値は利用できません。"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected date is not valid."
@@ -14058,12 +14066,12 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select a time scale."
-msgstr ""
+msgstr "タイム・スケールを選択してください"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "Your reporting time interval is too small, please use a larger time scale."
-msgstr ""
+msgstr "レポートする間隔が小さすぎます。間隔をあけてください。"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "second(s)"
@@ -14089,7 +14097,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Reset this setting to its default value."
-msgstr ""
+msgstr "この設定をデフォルトの値にリセットする"
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Unable to load %s!"
@@ -14292,7 +14300,7 @@ msgstr "期間中"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
 msgid "e.g. Text or Te*t"
-msgstr ""
+msgstr "例: Text または Te*t"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
 msgid "Ignore this field."
@@ -14348,7 +14356,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Can't read file!"
-msgstr ""
+msgstr "ファイルを読み込めません！"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
@@ -15281,11 +15289,11 @@ msgstr "ユーザーのデフォルトのタイムゾーンが設定されてい
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS time zone setting for calendar"
-msgstr ""
+msgstr "カレンダーに対するOTRSタイムゾーン設定"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Calendar time zone is not set."
-msgstr ""
+msgstr "カレンダーのタイムゾーンが設定されていません。"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
@@ -15388,7 +15396,7 @@ msgstr " PerlModuleとしてApache::Reload あるいは Apache2::Reload が利�
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "Apache2::DBI Usage"
-msgstr ""
+msgstr "Apache2::DBIモジュール使用"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
@@ -16180,7 +16188,7 @@ msgstr "パッケージのアップグレードが最近終了しました。 �
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
-msgstr ""
+msgstr "パッケージを全て更新する"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Dismiss"
@@ -16188,20 +16196,20 @@ msgstr "非表示"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update All Packages"
-msgstr ""
+msgstr "パッケージを全て更新する"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Currently not possible"
-msgstr ""
+msgstr "現在は未対応です"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "This is currently disabled because of an ongoing package upgrade."
-msgstr ""
+msgstr "こちらは現在パッケージの更新中のため無効化されています。"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "This option is currently disabled because the OTRS Daemon is not running."
-msgstr ""
+msgstr "こちらは現在 OTRS デーモンが停止中のため無効化されています。"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Are you sure you want to update all installed packages?"
@@ -16286,7 +16294,7 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Sorry, the only existing parameter can't be removed."
-msgstr ""
+msgstr "申し訳ありませんが、最後に残された選択肢は削除できません。"
 
 #. JS File: Core.Agent.Admin.SMIME
 msgid "Do you really want to delete this certificate?"
@@ -16294,7 +16302,7 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Sending Update..."
-msgstr ""
+msgstr "更新を送信中…"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Support Data information was successfully sent."
@@ -17310,17 +17318,17 @@ msgstr ""
 msgid ""
 "AgentTicketZoom widget that displays a table of objects linked to the "
 "ticket."
-msgstr ""
+msgstr "AgentTicketZoom ウィジェットでは、チケットに関連付けられたオブジェクトがテーブル表示されます。"
 
 #. SysConfig
 msgid ""
 "AgentTicketZoom widget that displays customer information for the ticket in "
 "the side bar."
-msgstr ""
+msgstr "AgentTicketZoom ウィジェットでは、チケットに対応する顧客情報がサイドバーに表示されます。"
 
 #. SysConfig
 msgid "AgentTicketZoom widget that displays ticket data in the side bar."
-msgstr ""
+msgstr "AgentTicketZoom ウィジェットでは、チケットデータがサイドバーに表示されます。"
 
 #. SysConfig
 msgid "Agents ↔ Groups"
@@ -17336,7 +17344,7 @@ msgstr "顧客ユーザーの全てのCustomerID"
 
 #. SysConfig
 msgid "All attachments (OTRS Business Solution™)"
-msgstr ""
+msgstr "すべての添付ファイル（OTRS Business Solution™）"
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
@@ -17358,7 +17366,7 @@ msgstr "全対応中チケット。着手済みだが応答が必要です"
 
 #. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
-msgstr ""
+msgstr "全対応中チケット。すでに着手済みのものです"
 
 #. SysConfig
 msgid ""
@@ -18073,8 +18081,8 @@ msgid "Communication Log GUI"
 msgstr "コミュニケーション・ログGUI"
 
 #. SysConfig
-msgid "Communication log limit per page for CommunicationLog Overview"
-msgstr "コミュニケーション・ログ一覧の1ページあたりのコミュニケーション・ログの制限"
+msgid "Communication log limit per page for Communication Log Overview."
+msgstr ""
 
 #. SysConfig
 msgid "CommunicationLog Overview Limit"
@@ -18446,11 +18454,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Czech"
-msgstr ""
+msgstr "チェコ語"
 
 #. SysConfig
 msgid "Danish"
-msgstr ""
+msgstr "デンマーク語"
 
 #. SysConfig
 msgid "Data used to export the search result in CSV format."
@@ -18490,13 +18498,13 @@ msgstr ""
 msgid ""
 "Default display type for recipient (To,Cc) names in AgentTicketZoom and "
 "CustomerTicketZoom."
-msgstr "担当者チケット・ズームおよび顧客チケットズーム上でデフォルトで表示する受信者名(To,Cc)"
+msgstr "AgentTicketZoom および CustomerTicketZoom 上でデフォルト表示する受信者名(To,Cc)"
 
 #. SysConfig
 msgid ""
 "Default display type for sender (From) names in AgentTicketZoom and "
 "CustomerTicketZoom."
-msgstr "担当者チケット・ズームおよび顧客チケットズーム上でデフォルトで表示する送信者名(From)"
+msgstr "AgentTicketZoom および CustomerTicketZoom 上でデフォルト表示する送信者名(From)"
 
 #. SysConfig
 msgid "Default loop protection module."
@@ -19820,7 +19828,7 @@ msgid ""
 "Defines the groups every customer user will be in (if CustomerGroupSupport "
 "is enabled and you don't want to manage every customer user for these "
 "groups)."
-msgstr ""
+msgstr "全顧客が所属するグループを定義します（CustomerGroupSupportが有効であり、全顧客ユーザをこれらのグループで管理したくない場合）。"
 
 #. SysConfig
 msgid ""
@@ -21092,7 +21100,7 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Dynamic fields limit per page for Dynamic Fields Overview"
+msgid "Dynamic fields limit per page for Dynamic Fields Overview."
 msgstr ""
 
 #. SysConfig
@@ -26002,13 +26010,13 @@ msgstr "このモジュールは、OTRS の管理者エリアの一機能です�
 msgid ""
 "This option defines the dynamic field in which a Process Management activity"
 " entity id is stored."
-msgstr ""
+msgstr "このオプションは、プロセス管理のアクティビティ・エンティティIDを格納するためのダイナミック・フィールドを定義します。"
 
 #. SysConfig
 msgid ""
 "This option defines the dynamic field in which a Process Management process "
 "entity id is stored."
-msgstr ""
+msgstr "このオプションは、プロセス管理のプロセス・エンティティIDを格納するためのダイナミック・フィールドを定義します。"
 
 #. SysConfig
 msgid "This option defines the process tickets default lock."
@@ -26051,7 +26059,7 @@ msgstr ""
 
 #. SysConfig
 msgid "This will allow the system to send text messages via SMS."
-msgstr ""
+msgstr "この操作は、システムによるSMS経由でのメッセージ送信を許可します。"
 
 #. SysConfig
 msgid "Ticket Close."
@@ -26059,7 +26067,7 @@ msgstr "チケットをクローズする"
 
 #. SysConfig
 msgid "Ticket Compose Bounce Email."
-msgstr ""
+msgstr "バウンスメールを送信する"
 
 #. SysConfig
 msgid "Ticket Compose email Answer."
@@ -26162,16 +26170,16 @@ msgid "Ticket event module that triggers the escalation stop events."
 msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Medium\""
-msgstr "チケット一覧(M)の1ページ毎の表示数"
+msgid "Ticket limit per page for Ticket Overview \"Medium\"."
+msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Preview\""
-msgstr "チケット一覧(プレビュー)の1ページ毎の表示数"
+msgid "Ticket limit per page for Ticket Overview \"Preview\"."
+msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Small\""
-msgstr "チケット一覧(S)での1ページ毎のチケット数"
+msgid "Ticket limit per page for Ticket Overview \"Small\"."
+msgstr ""
 
 #. SysConfig
 msgid "Ticket notifications"
@@ -26336,11 +26344,11 @@ msgstr "チケット・インデックス・アクセラレイタのアップで
 
 #. SysConfig
 msgid "Upload your PGP key."
-msgstr ""
+msgstr "PGPキーをアップロードしてください。"
 
 #. SysConfig
 msgid "Upload your S/MIME certificate."
-msgstr ""
+msgstr "S/MIME証明書をアップロードしてください。"
 
 #. SysConfig
 msgid ""

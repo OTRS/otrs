@@ -8,6 +8,7 @@
 # Antonio Kless, 2015
 # Hellbartonio <hellbartonio@mail.ru>, 2016
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2015
+# Gennady Marchenko <gennadym@gmail.com>, 2017
 # Григорий Гераськин <mr.bg.prodix@gmail.com>, 2015
 # Hellbartonio <hellbartonio@mail.ru>, 2016
 # Илья Сапунов <ilya.sapunov@gmail.com>, 2015
@@ -33,8 +34,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-12-11 23:26+0000\n"
-"PO-Revision-Date: 2017-12-11 23:28+0000\n"
+"POT-Creation-Date: 2018-01-08 18:29+0000\n"
+"PO-Revision-Date: 2018-01-08 18:33+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -2679,7 +2680,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "This module allows to configure scheduled retries for failed requests."
-msgstr ""
+msgstr "Этот модуль позволяет настраивать запланированные попытки неудачных запросов."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -8376,6 +8377,10 @@ msgid "Expand/collapse all"
 msgstr "Развернуть/свернуть всё"
 
 #. Template: AgentTicketHistory
+msgid "CreateTime"
+msgstr "CreateTime"
+
+#. Template: AgentTicketHistory
 msgid "Article"
 msgstr "Сообщение"
 
@@ -13417,6 +13422,10 @@ msgid ""
 "please have a look at %s."
 msgstr "Ошибка: Установите значение параметра  innodb_log_file_size для вашей СУБД по крайней мере %s MB (текущее: %s MB, рекомендуемое: %s MB) Более подробно смотрите в %s."
 
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
 msgstr "Отсутствует %s!"
@@ -18093,7 +18102,7 @@ msgid "Communication Log GUI"
 msgstr ""
 
 #. SysConfig
-msgid "Communication log limit per page for CommunicationLog Overview"
+msgid "Communication log limit per page for Communication Log Overview."
 msgstr ""
 
 #. SysConfig
@@ -21112,8 +21121,8 @@ msgid ""
 msgstr "Группы динамических полей для процессного виджета. Ключ - имя группы, Значение - содержит имена показываемых полей. Например: Ключ - \"My Group\", Содержание: \"Name_X, NameY\"."
 
 #. SysConfig
-msgid "Dynamic fields limit per page for Dynamic Fields Overview"
-msgstr "Количество строк списка динамических полей на странице."
+msgid "Dynamic fields limit per page for Dynamic Fields Overview."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -26182,16 +26191,16 @@ msgid "Ticket event module that triggers the escalation stop events."
 msgstr "Модуль управления событием остановки эскалации."
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Medium\""
-msgstr "Лимит числа заявок на одной странице в обзоре заявок в режиме «Средний»"
+msgid "Ticket limit per page for Ticket Overview \"Medium\"."
+msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Preview\""
-msgstr "Лимит числа заявок на одной странице в обзоре заявок в режиме «Предварительный просмотр»"
+msgid "Ticket limit per page for Ticket Overview \"Preview\"."
+msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Small\""
-msgstr "Лимит числа заявок на одной странице в обзоре заявок в режиме «Маленький»"
+msgid "Ticket limit per page for Ticket Overview \"Small\"."
+msgstr ""
 
 #. SysConfig
 msgid "Ticket notifications"

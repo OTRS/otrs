@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.988925419622772;
+    $Self->{Completeness}        = 0.987891368275385;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2627,6 +2627,7 @@ sub Data {
         'History of %s%s%s' => 'Verlauf von %s%s%s',
         'Filter for history items' => 'Filter für Historieneinträge',
         'Expand/collapse all' => 'Alle aus-/einklappen',
+        'CreateTime' => 'Erstellzeit',
         'Article' => 'Artikel',
 
         # Template: AgentTicketMerge
@@ -4369,6 +4370,8 @@ sub Data {
             'Fehler: Bitte stellen Sie sicher, dass Ihre Datenbank Pakete größer als %s MB akzeptiert (derzeit werden nur Pakete bis zu einer Größe von %s MB akzeptiert). Bitte passen Sie die Einstellung max_allowed_packet Ihrer Datenbank an, um Fehler zu vermeiden.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Fehler: Bitte erhöhen Sie den Wert für innodb_log_file_size in Ihrer Datenbank-Konfiguration auf mindestens %s MB (aktuell: %s MB, empfohlen: %s MB). Mehr Informationen finden Sie unter %s.',
+        'Wrong database collation (%s is %s, but it needs to be utf8).' =>
+            '',
 
         # Perl Module: Kernel/Modules/PublicCalendar.pm
         'No %s!' => 'Kein %s!',
@@ -5732,7 +5735,7 @@ sub Data {
         'The following files were already uploaded and have not been uploaded again: %s' =>
             'Folgende Dateien waren bereits hochgeladen und wurden nicht erneut verarbeitet: %s',
         'No space left for the following files: %s' => 'Kein Speicherplatz verfügbar für folgende Dateien: %s',
-        'Available space %s of %s.' => 'Verfügbarer Platz 1%s von 1%s.',
+        'Available space %s of %s.' => 'Verfügbarer Platz %s von %s.',
         'Upload information' => 'Upload-Information',
         'An unknown error occurred when deleting the attachment. Please try again. If the error persists, please contact your system administrator.' =>
             'Beim Löschen des Anhangs ist ein unbekannter Fehler aufgetreten. Bitte versuchen Sie es erneut. Wenn der Fehler weiterhin auftritt, kontaktieren Sie bitte Ihren Systemadministrator.',
@@ -6111,8 +6114,8 @@ Ihr Helpdesk-Team
         'Communication' => 'Kommunikation',
         'Communication & Notifications' => 'Kommunikation & Benachrichtigungen',
         'Communication Log GUI' => 'Kommunikationsprotokoll Benutzeroberfläche',
-        'Communication log limit per page for CommunicationLog Overview' =>
-            'Limit für Protokolleinträge pro Seite in der Übersicht aller Verbindungsprotokolle.',
+        'Communication log limit per page for Communication Log Overview.' =>
+            '',
         'CommunicationLog Overview Limit' => 'Limit Verbindungsprotokoll-Übersicht',
         'Company Status' => 'Firmenstatus',
         'Company Tickets.' => 'Firmen-Tickets.',
@@ -7033,7 +7036,7 @@ Ihr Helpdesk-Team
             'Dynamic Fields welche beim Export des Suchergebnisses im CSV-Format auszugeben sind.',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             'Dynamische Feldergruppen für das Prozess-Widget. Der Schlüssel ist der Name der Gruppe, der Wert enthält die Felder, die angezeigt werden sollen. Beispiel: \'Key => Meine Gruppe\', \'Content: NameX, NameY\'.',
-        'Dynamic fields limit per page for Dynamic Fields Overview' => 'Maximale Anzahl an Einträgen in der Übersicht der dynamischen Felder',
+        'Dynamic fields limit per page for Dynamic Fields Overview.' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             'Dynamische Felder zur Eingabe im Ticket erstellen-Bildschirm des Kundenbereichs. Hinweis: Wenn Sie diese Felder ebenfalls in der Ticket-Detailansicht anzeigen möchten, können Sie sie bitte in der Einstellung CustomerTicketZoom###DynamicField einschalten.',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface.' =>
@@ -8519,9 +8522,9 @@ Ihr Helpdesk-Team
         'Ticket bulk module.' => 'Ticket-Stapelverarbeitung.',
         'Ticket event module that triggers the escalation stop events.' =>
             'Ticket Event Modul welche die Eskalation-Stop-Ereignisse auslöst.',
-        'Ticket limit per page for Ticket Overview "Medium"' => 'Maximale Anzahl Tickets pro Seite für Ticketübersicht "Mittel"',
-        'Ticket limit per page for Ticket Overview "Preview"' => 'Maximale Anzahl Tickets pro Seite für Ticketübersicht "Vorschau"',
-        'Ticket limit per page for Ticket Overview "Small"' => 'Maximale Anzahl Tickets pro Seite für Ticketübersicht "Klein"',
+        'Ticket limit per page for Ticket Overview "Medium".' => '',
+        'Ticket limit per page for Ticket Overview "Preview".' => '',
+        'Ticket limit per page for Ticket Overview "Small".' => '',
         'Ticket notifications' => 'Ticket-Benachrichtigungen',
         'Ticket overview' => 'Ticket-Übersicht',
         'Ticket plain view of an email.' => 'Nur-Text-Ansicht für Ticket-E-Mails.',

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.607025436926804;
+    $Self->{Completeness}        = 0.6062964884968;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -2630,6 +2630,7 @@ sub Data {
         'History of %s%s%s' => '',
         'Filter for history items' => '',
         'Expand/collapse all' => '',
+        'CreateTime' => 'เวลาในการสร้าง',
         'Article' => 'บทความ',
 
         # Template: AgentTicketMerge
@@ -4372,6 +4373,8 @@ sub Data {
             'ข้อผิดพลาด: โปรดตรวจสอบฐานข้อมูลของคุณว่าสามารถรับแพคเกจได้มากกว่า% s MB (ปัจจุบันรับเฉพาะแพคเกจขนาด% s MB) กรุณาปรับให้เข้าการตั้งค่า max_allowed_packet ของฐานข้อมูลของคุณเพื่อหลีกเลี่ยงข้อผิดพลาด',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'ข้อผิดพลาด: กรุณาระบุค่าสำหรับ innodb_log_file_size ในฐานข้อมูลของคุณอย่างน้อย% s MB (ปัจจุบัน:% s MB แนะนำ:% s MB) สำหรับข้อมูลเพิ่มเติมโปรดดูได้ที่',
+        'Wrong database collation (%s is %s, but it needs to be utf8).' =>
+            '',
 
         # Perl Module: Kernel/Modules/PublicCalendar.pm
         'No %s!' => '',
@@ -6115,7 +6118,7 @@ Thanks for your help!
         'Communication' => 'การสื่อสาร',
         'Communication & Notifications' => '',
         'Communication Log GUI' => '',
-        'Communication log limit per page for CommunicationLog Overview' =>
+        'Communication log limit per page for Communication Log Overview.' =>
             '',
         'CommunicationLog Overview Limit' => '',
         'Company Status' => 'สถานนะของบริษัท',
@@ -7040,7 +7043,7 @@ Thanks for your help!
             'ฟิลด์แบบไดนามิก ถูกนำมาใช้เพื่อส่งออกผลการค้นหาในรูปแบบ CSV',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             'กลุ่มฟิลด์แบบไดนามิกสำหรับกระบวนการของวิดเจ็ต กุญแจสำคัญคือชื่อของกลุ่ม ค่าประกอบด้วยฟิลด์ที่จะแสดง ตัวอย่าง: \'Key => My Group\', \'Content: Name_X, NameY\'.',
-        'Dynamic fields limit per page for Dynamic Fields Overview' => 'การจำกัดฟิลด์แบบไดนามิกในแต่ละหน้าสำหรับข้อมูลทั่วไปของฟิลด์แบบไดนามิก',
+        'Dynamic fields limit per page for Dynamic Fields Overview.' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface.' =>
@@ -8526,9 +8529,9 @@ Thanks for your help!
         'Ticket bulk module.' => '',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
-        'Ticket limit per page for Ticket Overview "Medium"' => 'จำนวนจำกัดของตั๋วต่อหนึ่งหน้าสำหรับภาพรวมตั๋ว "ขนาดกลาง "',
-        'Ticket limit per page for Ticket Overview "Preview"' => 'จำนวนจำกัดของตั๋วต่อหนึ่งหน้าสำหรับภาพรวมตั๋ว "ดูตัวอย่าง "',
-        'Ticket limit per page for Ticket Overview "Small"' => 'จำนวนจำกัดของตั๋วต่อหนึ่งหน้าสำหรับภาพรวมตั๋ว "เล็ก ๆ "',
+        'Ticket limit per page for Ticket Overview "Medium".' => '',
+        'Ticket limit per page for Ticket Overview "Preview".' => '',
+        'Ticket limit per page for Ticket Overview "Small".' => '',
         'Ticket notifications' => '',
         'Ticket overview' => '',
         'Ticket plain view of an email.' => '',

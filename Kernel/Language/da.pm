@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.390378958297283;
+    $Self->{Completeness}        = 0.389551980626189;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2628,6 +2628,7 @@ sub Data {
         'History of %s%s%s' => '',
         'Filter for history items' => '',
         'Expand/collapse all' => '',
+        'CreateTime' => '',
         'Article' => 'Indlæg',
 
         # Template: AgentTicketMerge
@@ -4370,6 +4371,8 @@ sub Data {
             'Fejl: Sørg for at din database accepterer pakker over %s MB i størrelse (I øjeblikket accepterer den kun pakker op til %s MB). Tilpas max_allowed_packet indstillingen i din database for at undgå fejl.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Fejl: Sæt venligst værdien for innodb_log_file_size i din database til mindst %s MB (nuværende: %s MB, anbefalet: %s MB). For mere info, se %s.',
+        'Wrong database collation (%s is %s, but it needs to be utf8).' =>
+            '',
 
         # Perl Module: Kernel/Modules/PublicCalendar.pm
         'No %s!' => '',
@@ -6103,7 +6106,7 @@ Thanks for your help!
         'Communication' => 'Kommunikation',
         'Communication & Notifications' => '',
         'Communication Log GUI' => '',
-        'Communication log limit per page for CommunicationLog Overview' =>
+        'Communication log limit per page for Communication Log Overview.' =>
             '',
         'CommunicationLog Overview Limit' => '',
         'Company Status' => 'Firma Status',
@@ -7025,7 +7028,7 @@ Thanks for your help!
             '',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '',
-        'Dynamic fields limit per page for Dynamic Fields Overview' => 'Antal dynamiske felter pr side for oversigter med dynamiske felter',
+        'Dynamic fields limit per page for Dynamic Fields Overview.' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface.' =>
@@ -8511,9 +8514,9 @@ Thanks for your help!
         'Ticket bulk module.' => '',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
-        'Ticket limit per page for Ticket Overview "Medium"' => 'Antal sager pr side for Sagsoversigt "Mellem"',
-        'Ticket limit per page for Ticket Overview "Preview"' => 'Antal sager pr side for Sagsoversigt "Forhåndsvisning"',
-        'Ticket limit per page for Ticket Overview "Small"' => 'Antal sager pr side for Sagsoversigt "Lille"',
+        'Ticket limit per page for Ticket Overview "Medium".' => '',
+        'Ticket limit per page for Ticket Overview "Preview".' => '',
+        'Ticket limit per page for Ticket Overview "Small".' => '',
         'Ticket notifications' => 'Sagsbeskeder',
         'Ticket overview' => 'Sagsoversigt',
         'Ticket plain view of an email.' => '',

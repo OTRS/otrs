@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.916594566534002;
+    $Self->{Completeness}        = 0.915931499740529;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -822,7 +822,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceErrorHandlingRequestRetry
         'This module allows to configure scheduled retries for failed requests.' =>
-            '',
+            'Этот модуль позволяет настраивать запланированные попытки неудачных запросов.',
         'Default behavior of GenericInterface web services is to send each request exactly once and not to reschedule after errors.' =>
             '',
         'If more than one module capable of scheduling a retry is executed for an individual request, the module executed last is authoritative and determines if a retry is scheduled.' =>
@@ -2638,6 +2638,7 @@ sub Data {
         'History of %s%s%s' => 'История для %s%s%s',
         'Filter for history items' => 'Фильтр для элементов истории',
         'Expand/collapse all' => 'Развернуть/свернуть всё',
+        'CreateTime' => 'CreateTime',
         'Article' => 'Сообщение',
 
         # Template: AgentTicketMerge
@@ -4380,6 +4381,8 @@ sub Data {
             'Ошибка: Убедитесь что ваша СУБД принимает пакеты размером больше %s MB (текущее значение размера пакета - до %s MB). Измените значение параметра max_allowed_packet для вашей СУБД во избежание ошибок.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Ошибка: Установите значение параметра  innodb_log_file_size для вашей СУБД по крайней мере %s MB (текущее: %s MB, рекомендуемое: %s MB) Более подробно смотрите в %s.',
+        'Wrong database collation (%s is %s, but it needs to be utf8).' =>
+            '',
 
         # Perl Module: Kernel/Modules/PublicCalendar.pm
         'No %s!' => 'Отсутствует %s!',
@@ -6123,7 +6126,7 @@ Thanks for your help!
         'Communication' => 'Взаимодействие',
         'Communication & Notifications' => '',
         'Communication Log GUI' => '',
-        'Communication log limit per page for CommunicationLog Overview' =>
+        'Communication log limit per page for Communication Log Overview.' =>
             '',
         'CommunicationLog Overview Limit' => '',
         'Company Status' => 'Информация по компании клиента',
@@ -7045,7 +7048,7 @@ Thanks for your help!
             'Динамические поля включаемые в результат поиска при экспорте в формате CSV.',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             'Группы динамических полей для процессного виджета. Ключ - имя группы, Значение - содержит имена показываемых полей. Например: Ключ - "My Group", Содержание: "Name_X, NameY".',
-        'Dynamic fields limit per page for Dynamic Fields Overview' => 'Количество строк списка динамических полей на странице.',
+        'Dynamic fields limit per page for Dynamic Fields Overview.' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface.' =>
@@ -8531,9 +8534,9 @@ Thanks for your help!
         'Ticket bulk module.' => 'Массовое действие с заявкой.',
         'Ticket event module that triggers the escalation stop events.' =>
             'Модуль управления событием остановки эскалации.',
-        'Ticket limit per page for Ticket Overview "Medium"' => 'Лимит числа заявок на одной странице в обзоре заявок в режиме «Средний»',
-        'Ticket limit per page for Ticket Overview "Preview"' => 'Лимит числа заявок на одной странице в обзоре заявок в режиме «Предварительный просмотр»',
-        'Ticket limit per page for Ticket Overview "Small"' => 'Лимит числа заявок на одной странице в обзоре заявок в режиме «Маленький»',
+        'Ticket limit per page for Ticket Overview "Medium".' => '',
+        'Ticket limit per page for Ticket Overview "Preview".' => '',
+        'Ticket limit per page for Ticket Overview "Small".' => '',
         'Ticket notifications' => 'Уведомления по заявкам',
         'Ticket overview' => 'Обзор заявок',
         'Ticket plain view of an email.' => '',

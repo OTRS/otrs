@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.300224952413912;
+    $Self->{Completeness}        = 0.303234734475004;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -106,10 +106,10 @@ sub Data {
         'Calendar Import' => 'Importar Calendário',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
             'Aqui pode carregar um ficheiro de configuração importando assim um calendário para o seu sistema.O ficheiro tem que estar no formato .yml tal como exportado pelo modulo de gestão de calendário.',
-        'Overwrite existing entities' => '',
+        'Overwrite existing entities' => 'Substituir entidades existentes',
         'Upload calendar configuration' => 'Importar Configuração de Calendário',
         'Import Calendar' => 'Importar Calendário',
-        'Filter for calendars' => '',
+        'Filter for calendars' => 'Filtro para calendários',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             '',
         'Read only: users can see and export all appointments in the calendar.' =>
@@ -123,15 +123,15 @@ sub Data {
         'Changed' => 'Modificado',
         'Created' => 'Criado',
         'Download' => 'Descarregar',
-        'URL' => '',
+        'URL' => 'Endereço',
         'Export calendar' => 'Exportar calendário',
         'Download calendar' => 'Descarregar calendário',
-        'Copy public calendar URL' => '',
+        'Copy public calendar URL' => 'Copiar endereço público do calendário',
         'Calendar' => 'Calendário',
         'Calendar name' => 'Nome do calendário',
         'Calendar with same name already exists.' => 'Já existe um calendário com o mesmo nome.',
         'Color' => 'Cor',
-        'Permission group' => '',
+        'Permission group' => 'Permissão',
         'Ticket Appointments' => '',
         'Rule' => 'Regra',
         'Remove this entry' => 'Apagar esta entrada',
@@ -142,7 +142,7 @@ sub Data {
             '',
         'Queues' => 'Filas',
         'Please select a valid queue.' => 'Selecione uma Fila válida.',
-        'Search attributes' => '',
+        'Search attributes' => 'Atributos de pesquisa',
         'Add entry' => 'Adicionar entrada',
         'Add' => 'Adicionar',
         'Define rules for creating automatic appointments in this calendar based on ticket data.' =>
@@ -156,20 +156,20 @@ sub Data {
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             '',
         'Upload' => 'Carregar',
-        'Update existing appointments?' => '',
+        'Update existing appointments?' => 'Actualizar eventos existentes?',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
-            '',
+            'Todos os eventos existentes no calendário com o mesmo UniqueID vão ser substituídos.',
         'Upload calendar' => 'Carregar calendário',
-        'Import appointments' => '',
+        'Import appointments' => 'Importar eventos',
 
         # Template: AdminAppointmentNotificationEvent
-        'Appointment Notification Management' => '',
+        'Appointment Notification Management' => 'Gestão de Notificações de Eventos',
         'Add Notification' => 'Adicionar notificação',
         'Edit Notification' => 'Editar notificação',
         'Add notification' => 'Adicionar notificação',
         'Export Notifications' => 'Exportar Notificações',
-        'Filter for Notifications' => '',
-        'Filter for notifications' => '',
+        'Filter for Notifications' => 'Filtro para Notificações',
+        'Filter for notifications' => 'Filtro para Notificações',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
             '',
         'Overwrite existing notifications?' => 'Substituir notificações existentes?',
@@ -187,7 +187,7 @@ sub Data {
         'Event' => 'Evento',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
             '',
-        'Appointment Filter' => '',
+        'Appointment Filter' => 'Filtro de Eventos',
         'Type' => 'Tipo',
         'Title' => 'Título',
         'Location' => 'Localização',
@@ -212,10 +212,10 @@ sub Data {
         'Active by default in agent preferences' => '',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             '',
-        'This feature is currently not available.' => '',
+        'This feature is currently not available.' => 'Esta funcionalidade neste momento não está disponível.',
         'Upgrade to %s' => 'Atualização para 1 %',
         'Please activate this transport in order to use it.' => '',
-        'No data found' => '',
+        'No data found' => 'não há resultados',
         'No notification method found.' => '',
         'Notification Text' => 'Texto da notificação',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
@@ -224,22 +224,22 @@ sub Data {
         'Subject' => 'Assunto',
         'Text' => 'Texto',
         'Message body' => '',
-        'Add new notification language' => '',
+        'Add new notification language' => 'Adicionar nova língua à notificação',
         'Save Changes' => 'Guardar alterações ',
         'Tag Reference' => '',
         'Notifications are sent to an agent.' => '',
         'You can use the following tags' => 'Pode utilizar as seguintes tags',
         'To get the first 20 character of the appointment title.' => '',
-        'To get the appointment attribute' => '',
+        'To get the appointment attribute' => 'Para obter os atributos do evento',
         ' e. g.' => 'ex:',
-        'To get the calendar attribute' => '',
+        'To get the calendar attribute' => 'Para obter os atributos do calendário',
         'Attributes of the recipient user for the notification' => '',
         'Config options' => 'Opções de configuração',
-        'Example notification' => '',
+        'Example notification' => 'Notificação de exemplo',
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => '',
-        'Article visible for customer' => '',
+        'Article visible for customer' => 'Artigo visível para o cliente',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             '',
         'Email template' => '',
@@ -2628,6 +2628,7 @@ sub Data {
         'History of %s%s%s' => 'Histórico de %s%s%s',
         'Filter for history items' => '',
         'Expand/collapse all' => '',
+        'CreateTime' => 'Criado em',
         'Article' => 'Artigo',
 
         # Template: AgentTicketMerge
@@ -4370,6 +4371,8 @@ sub Data {
             '',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             '',
+        'Wrong database collation (%s is %s, but it needs to be utf8).' =>
+            '',
 
         # Perl Module: Kernel/Modules/PublicCalendar.pm
         'No %s!' => '',
@@ -6102,7 +6105,7 @@ Thanks for your help!
         'Communication' => '',
         'Communication & Notifications' => '',
         'Communication Log GUI' => '',
-        'Communication log limit per page for CommunicationLog Overview' =>
+        'Communication log limit per page for Communication Log Overview.' =>
             '',
         'CommunicationLog Overview Limit' => '',
         'Company Status' => '',
@@ -7024,7 +7027,7 @@ Thanks for your help!
             '',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '',
-        'Dynamic fields limit per page for Dynamic Fields Overview' => '',
+        'Dynamic fields limit per page for Dynamic Fields Overview.' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface.' =>
@@ -8510,9 +8513,9 @@ Thanks for your help!
         'Ticket bulk module.' => '',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
-        'Ticket limit per page for Ticket Overview "Medium"' => 'Limite de tickets por página na vista "Média" ',
-        'Ticket limit per page for Ticket Overview "Preview"' => 'Limite de tickets por página na vista "Detalhe" ',
-        'Ticket limit per page for Ticket Overview "Small"' => 'Limite de tickets por página na vista "Pequena" ',
+        'Ticket limit per page for Ticket Overview "Medium".' => '',
+        'Ticket limit per page for Ticket Overview "Preview".' => '',
+        'Ticket limit per page for Ticket Overview "Small".' => '',
         'Ticket notifications' => 'Notificações',
         'Ticket overview' => 'Listagem de tickets',
         'Ticket plain view of an email.' => '',

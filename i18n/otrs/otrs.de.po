@@ -21,6 +21,7 @@
 # Lars Glinker <lassak26@googlemail.com>, 2017
 # Lukas, 2017
 # Marc A. Bonsels, 2014
+# dominikklein <mail@dominik-klein.de>, 2017
 # zottto <mail@marcnilius.de>, 2017
 # Mainboarder, 2014
 # mainboarder, 2014-2015
@@ -54,8 +55,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-12-11 23:26+0000\n"
-"PO-Revision-Date: 2017-12-11 23:46+0000\n"
+"POT-Creation-Date: 2018-01-08 18:29+0000\n"
+"PO-Revision-Date: 2018-01-08 18:33+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -8397,6 +8398,10 @@ msgid "Expand/collapse all"
 msgstr "Alle aus-/einklappen"
 
 #. Template: AgentTicketHistory
+msgid "CreateTime"
+msgstr "Erstellzeit"
+
+#. Template: AgentTicketHistory
 msgid "Article"
 msgstr "Artikel"
 
@@ -13438,6 +13443,10 @@ msgid ""
 "please have a look at %s."
 msgstr "Fehler: Bitte erhöhen Sie den Wert für innodb_log_file_size in Ihrer Datenbank-Konfiguration auf mindestens %s MB (aktuell: %s MB, empfohlen: %s MB). Mehr Informationen finden Sie unter %s."
 
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
 msgstr "Kein %s!"
@@ -16909,7 +16918,7 @@ msgstr "Kein Speicherplatz verfügbar für folgende Dateien: %s"
 
 #. JS File: Core.UI
 msgid "Available space %s of %s."
-msgstr "Verfügbarer Platz 1%s von 1%s."
+msgstr "Verfügbarer Platz %s von %s."
 
 #. JS File: Core.UI
 msgid "Upload information"
@@ -18114,8 +18123,8 @@ msgid "Communication Log GUI"
 msgstr "Kommunikationsprotokoll Benutzeroberfläche"
 
 #. SysConfig
-msgid "Communication log limit per page for CommunicationLog Overview"
-msgstr "Limit für Protokolleinträge pro Seite in der Übersicht aller Verbindungsprotokolle."
+msgid "Communication log limit per page for Communication Log Overview."
+msgstr ""
 
 #. SysConfig
 msgid "CommunicationLog Overview Limit"
@@ -21133,8 +21142,8 @@ msgid ""
 msgstr "Dynamische Feldergruppen für das Prozess-Widget. Der Schlüssel ist der Name der Gruppe, der Wert enthält die Felder, die angezeigt werden sollen. Beispiel: 'Key => Meine Gruppe', 'Content: NameX, NameY'."
 
 #. SysConfig
-msgid "Dynamic fields limit per page for Dynamic Fields Overview"
-msgstr "Maximale Anzahl an Einträgen in der Übersicht der dynamischen Felder"
+msgid "Dynamic fields limit per page for Dynamic Fields Overview."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -26203,16 +26212,16 @@ msgid "Ticket event module that triggers the escalation stop events."
 msgstr "Ticket Event Modul welche die Eskalation-Stop-Ereignisse auslöst."
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Medium\""
-msgstr "Maximale Anzahl Tickets pro Seite für Ticketübersicht \"Mittel\""
+msgid "Ticket limit per page for Ticket Overview \"Medium\"."
+msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Preview\""
-msgstr "Maximale Anzahl Tickets pro Seite für Ticketübersicht \"Vorschau\""
+msgid "Ticket limit per page for Ticket Overview \"Preview\"."
+msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Small\""
-msgstr "Maximale Anzahl Tickets pro Seite für Ticketübersicht \"Klein\""
+msgid "Ticket limit per page for Ticket Overview \"Small\"."
+msgstr ""
 
 #. SysConfig
 msgid "Ticket notifications"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-12-13 16:35+0000\n"
+"POT-Creation-Date: 2018-01-08 18:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -7767,6 +7767,10 @@ msgid "Expand/collapse all"
 msgstr ""
 
 #. Template: AgentTicketHistory
+msgid "CreateTime"
+msgstr ""
+
+#. Template: AgentTicketHistory
 msgid "Article"
 msgstr ""
 
@@ -12618,6 +12622,10 @@ msgstr ""
 msgid "Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s."
 msgstr ""
 
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
 msgstr ""
@@ -16790,7 +16798,7 @@ msgid "Communication Log GUI"
 msgstr ""
 
 #. SysConfig
-msgid "Communication log limit per page for CommunicationLog Overview"
+msgid "Communication log limit per page for Communication Log Overview."
 msgstr ""
 
 #. SysConfig
@@ -18962,7 +18970,7 @@ msgid "Dynamic fields groups for process widget. The key is the name of the grou
 msgstr ""
 
 #. SysConfig
-msgid "Dynamic fields limit per page for Dynamic Fields Overview"
+msgid "Dynamic fields limit per page for Dynamic Fields Overview."
 msgstr ""
 
 #. SysConfig
@@ -22794,15 +22802,15 @@ msgid "Ticket event module that triggers the escalation stop events."
 msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Medium\""
+msgid "Ticket limit per page for Ticket Overview \"Medium\"."
 msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Preview\""
+msgid "Ticket limit per page for Ticket Overview \"Preview\"."
 msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Small\""
+msgid "Ticket limit per page for Ticket Overview \"Small\"."
 msgstr ""
 
 #. SysConfig

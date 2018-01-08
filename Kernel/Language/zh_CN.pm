@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.99048278248832;
+    $Self->{Completeness}        = 0.989448192354264;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2633,6 +2633,7 @@ sub Data {
         'History of %s%s%s' => '%s%s%s历史',
         'Filter for history items' => '历史条目过滤器',
         'Expand/collapse all' => '全部展开/折叠',
+        'CreateTime' => '创建时间',
         'Article' => '信件',
 
         # Template: AgentTicketMerge
@@ -4375,6 +4376,8 @@ sub Data {
             '错误：请确认你的数据库能够接收大于%sMB的数据包（目前能够接收的最大数据包为%sMB）。为了避免程序报错，请调整数据库max_allowed_packet参数。',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             '错误：请设置数据库参数innodb_log_file_size至少为%s MB（当前：%s MB，推荐：%s MB），请参阅 %s 获取更多信息。',
+        'Wrong database collation (%s is %s, but it needs to be utf8).' =>
+            '',
 
         # Perl Module: Kernel/Modules/PublicCalendar.pm
         'No %s!' => '没有%s!',
@@ -6116,8 +6119,8 @@ Thanks for your help!
         'Communication' => '通信',
         'Communication & Notifications' => '通信和通知',
         'Communication Log GUI' => '通信日志图形用户界面',
-        'Communication log limit per page for CommunicationLog Overview' =>
-            '通信日志概览中每页的日志条目限制',
+        'Communication log limit per page for Communication Log Overview.' =>
+            '',
         'CommunicationLog Overview Limit' => '通信日志概览限制',
         'Company Status' => '单位状态',
         'Company Tickets.' => '单位工单。',
@@ -7038,7 +7041,7 @@ Thanks for your help!
             '用于输出搜索结果为CSV格式的动态字段。',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '流程小部件的动态字段组。键是组名，值是要显示的动态字段。例如：\'键 => My Group\'，\'值: Name_X, NameY\'。',
-        'Dynamic fields limit per page for Dynamic Fields Overview' => '动态字段概览视图的每页动态字段数',
+        'Dynamic fields limit per page for Dynamic Fields Overview.' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '在客户界面的工单消息屏幕中显示的动态字段选项。 注意。 如果要在客户界面的工单详情屏幕中显示这些字段，则必须在CustomerTicketZoom ### DynamicField中启用它们。',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface.' =>
@@ -8524,9 +8527,9 @@ Thanks for your help!
         'Ticket bulk module.' => '工单批量操作模块。',
         'Ticket event module that triggers the escalation stop events.' =>
             '触发升级停止事件的工单事件模块。',
-        'Ticket limit per page for Ticket Overview "Medium"' => '工单概览“基本”模式每页工单数量',
-        'Ticket limit per page for Ticket Overview "Preview"' => '工单概览“预览”模式每页工单数量',
-        'Ticket limit per page for Ticket Overview "Small"' => '工单概览“简洁”模式每页工单数量',
+        'Ticket limit per page for Ticket Overview "Medium".' => '',
+        'Ticket limit per page for Ticket Overview "Preview".' => '',
+        'Ticket limit per page for Ticket Overview "Small".' => '',
         'Ticket notifications' => '工单通知',
         'Ticket overview' => '工单概览',
         'Ticket plain view of an email.' => '显示工单邮件的纯文本。',

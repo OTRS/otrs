@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-12-11 23:26+0000\n"
-"PO-Revision-Date: 2017-12-12 06:51+0000\n"
-"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
+"POT-Creation-Date: 2018-01-08 18:29+0000\n"
+"PO-Revision-Date: 2018-01-08 18:33+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3738,7 +3738,7 @@ msgstr "Használatra kész webszolgáltatások"
 msgid ""
 "Here you can activate Ready2Adopt web services showcasing our best practices"
 " that are a part of %s."
-msgstr "Itt kapcsolhatja be a legjobb gyakorlatainkat bemutató, használatra kész webszolgáltatásokat, amelyek a(z) %s részei."
+msgstr "Itt kapcsolhatja be a legjobb gyakorlatainkat bemutató, használatra kész webszolgáltatásokat, amelyek az %s részei."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -4234,7 +4234,7 @@ msgstr "%s kezelése"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to OTRS Free"
-msgstr "Visszaváltás az ingyenes OTRS-re"
+msgstr "Visszaváltás az OTRS Free verzióra"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Read documentation"
@@ -4244,7 +4244,7 @@ msgstr "Dokumentáció elolvasása"
 msgid ""
 "%s makes contact regularly with cloud.otrs.com to check on available updates"
 " and the validity of the underlying contract."
-msgstr "A(z) %s rendszeresen kapcsolatot létesít a cloud.otrs.com kiszolgálóval az elérhető frissítések és az alapjául szolgáló szerződés érvényességének ellenőrzéséhez."
+msgstr "Az %s rendszeresen kapcsolatot létesít a cloud.otrs.com kiszolgálóval az elérhető frissítések és az alapjául szolgáló szerződés érvényességének ellenőrzéséhez."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Unauthorized Usage Detected"
@@ -4254,7 +4254,7 @@ msgstr "Jogosulatlan használat észlelhető"
 msgid ""
 "This system uses the %s without a proper license! Please make contact with "
 "%s to renew or activate your contract!"
-msgstr "Ez a rendszer a megfelelő licenc nélkül használja a(z) %s programot. A szerződés megújításához vagy aktiválásához vegye fel a kapcsolatot a következővel: %s!"
+msgstr "Ez a rendszer a megfelelő licenc nélkül használja az %s programot. A szerződés megújításához vagy aktiválásához vegye fel a kapcsolatot a következővel: %s!"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s not Correctly Installed"
@@ -4264,7 +4264,7 @@ msgstr "%s nincs helyesen telepítve"
 msgid ""
 "Your %s is not correctly installed. Please reinstall it with the button "
 "below."
-msgstr "A(z) %s nincs helyesen telepítve. Telepítse újra a lenti gombbal."
+msgstr "Az %s nincs helyesen telepítve. Telepítse újra a lenti gombbal."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Reinstall %s"
@@ -4273,7 +4273,7 @@ msgstr "%s újratelepítése"
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "Your %s is not correctly installed, and there is also an update available."
-msgstr "A(z) %s nincs helyesen telepítve, és egy frissítés is elérhető."
+msgstr "Az %s nincs helyesen telepítve, és egy frissítés is elérhető."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
@@ -4299,15 +4299,15 @@ msgstr "%s frissítés érhető el"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
-msgstr "Frissítés érhető el a(z) %s programhoz! Frissítsen a lehető leghamarabb!"
+msgstr "Frissítés érhető el az %s programhoz! Frissítsen a lehető leghamarabb!"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Correctly Deployed"
-msgstr "A(z) %s helyesen üzembe állítva"
+msgstr "Az %s helyesen üzembe állítva"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Congratulations, your %s is correctly installed and up to date!"
-msgstr "Gratulálunk, a(z) %s program helyesen telepítve van és naprakész!"
+msgstr "Gratulálunk, az %s helyesen telepített van és naprakész!"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Go to the OTRS customer portal"
@@ -4315,22 +4315,22 @@ msgstr "Ugrás az OTRS ügyfélportáljára"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "%s will be available soon. Please check again in a few days."
-msgstr "A(z) %s hamarosan elérhető lesz. Ellenőrizze ismét néhány nap múlva."
+msgstr "Az %s hamarosan elérhető lesz. Ellenőrizze ismét néhány nap múlva."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Please have a look at %s for more information."
-msgstr "Vessen egy pillantást a(z) %s címre a további információkért."
+msgstr "Vessen egy pillantást az %s címre a további információkért."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
 "Your OTRS Free is the base for all future actions. Please register first "
 "before you continue with the upgrade process of %s!"
-msgstr "Az ingyenes OTRS az alapja minden további műveletnek. Először regisztráljon, mielőtt folytatja a(z) %s frissítési folyamatát!"
+msgstr "Az OTRS Free az alapja minden további műveletnek. Először regisztráljon, mielőtt folytatja az %s frissítési folyamatát!"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
 "Before you can benefit from %s, please contact %s to get your %s contract."
-msgstr "Mielőtt használatba venné a(z) %s programot, kérjük lépjen kapcsolatba a szolgáltatóval (%s) a(z) %s szerződés beszerzéséhez."
+msgstr "Mielőtt használatba venné az %s programot, kérjük lépjen kapcsolatba a szolgáltatóval (%s) az %s szerződés beszerzéséhez."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
@@ -4380,13 +4380,13 @@ msgstr "Frissítéseket fog kapni minden egyéb fontos OTRS problémáról"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "With your existing contract you can only use a small part of the %s."
-msgstr "A meglévő szerződésével csak egy kis részét tudja használni a(z) %s programnak."
+msgstr "A meglévő szerződésével csak egy kis részét tudja használni az %s programnak."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
 "If you would like to take full advantage of the %s get your contract "
 "upgraded now! Contact %s."
-msgstr "Ha a(z) %s minden előnyét igénybe szeretné venni, akkor frissítse most a szerződését! Kapcsolatfelvétel: %s."
+msgstr "Ha az %s minden előnyét igénybe szeretné venni, akkor frissítse most a szerződését! Kapcsolatfelvétel: %s."
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Cancel downgrade and go back"
@@ -4415,7 +4415,7 @@ msgstr "Először távolítsa el a csomagokat a csomagkezelő használatával, m
 msgid ""
 "You are about to downgrade to OTRS Free and will lose the following features"
 " and all data related to these:"
-msgstr "Arra készül, hogy visszavált az ingyenes OTRS-re, és el fogja veszíteni a következő szolgáltatásokat és minden ezekhez kapcsolódó adatot:"
+msgstr "Arra készül, hogy visszavált az OTRS Free verzióra, és el fogja veszíteni a következő szolgáltatásokat és minden ezekhez kapcsolódó adatot:"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
@@ -4447,7 +4447,7 @@ msgstr "Jegymelléklet nézet"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "The %s skin"
-msgstr "A(z) %s felszín"
+msgstr "Az %s felszín"
 
 #. Template: AdminPGP
 msgid "PGP Management"
@@ -4694,7 +4694,7 @@ msgstr "Csak a(z) %s ügyfelek szolgáltatásai"
 msgid ""
 "With %s, you can benefit from the following optional features. Please make "
 "contact with %s if you need more information."
-msgstr "A(z) %s használatával a következő opcionális szolgáltatások előnyeit élvezheti. Ha további információkra van szüksége, akkor vegye fel a kapcsolatot a következővel: %s."
+msgstr "Az %s használatával a következő opcionális szolgáltatások előnyeit élvezheti. Ha további információkra van szüksége, akkor vegye fel a kapcsolatot a következővel: %s."
 
 #. Template: AdminPackageManager
 msgid "Package Information"
@@ -5748,7 +5748,7 @@ msgstr "A rendszer regisztrációjának megszüntetése nem lehetséges"
 msgid ""
 "Please note that you can't deregister your system if you're using the %s or "
 "having a valid service contract."
-msgstr "Ne feledje, hogy hogy nem tudja a rendszer regisztrációját megszüntetni a(z) %s használatakor, vagy ha érvényes szolgáltatói szerződése van."
+msgstr "Ne feledje, hogy hogy nem tudja a rendszer regisztrációját megszüntetni az %s használatakor, vagy ha érvényes szolgáltatói szerződése van."
 
 #. Template: AdminRegistration
 msgid "OTRS-ID Login"
@@ -7767,13 +7767,13 @@ msgstr "Jelenleg nincsenek kapcsolatok. Kattintson a fenti „Új kapcsolatok l�
 
 #. Template: AgentOTRSBusinessBlockScreen
 msgid "Unauthorized usage of %s detected"
-msgstr "A(z) %s jogosulatlan használata észlelhető"
+msgstr "Az %s jogosulatlan használata észlelhető"
 
 #. Template: AgentOTRSBusinessBlockScreen
 msgid ""
 "If you decide to downgrade to OTRS Free, you will lose all database tables "
 "and data related to %s."
-msgstr "Ha úgy dönt, hogy visszavált az ingyenes OTRS-re, akkor el fogja veszíteni az összes adatbázis táblát és a(z) %s szolgáltatáshoz kapcsolódó adatokat."
+msgstr "Ha úgy dönt, hogy visszavált az OTRS Free verzióra, akkor el fogja veszíteni az %s szolgáltatáshoz kapcsolódó összes adatbázis táblát és adatot."
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
@@ -8356,6 +8356,10 @@ msgid "Expand/collapse all"
 msgstr "Összes kinyitása vagy összecsukása"
 
 #. Template: AgentTicketHistory
+msgid "CreateTime"
+msgstr "Létrehozás ideje (CreateTime)"
+
+#. Template: AgentTicketHistory
 msgid "Article"
 msgstr "Bejegyzés"
 
@@ -8841,7 +8845,7 @@ msgstr "A bejegyzés előnézete nem lehetséges, mert %s csatorna hiányzik a r
 #. Template: Invalid
 msgid ""
 "This feature is part of the %s. Please contact us at %s for an upgrade."
-msgstr "Ez a szolgáltatás a(z) %s része. A frissítéshez lépjen velünk kapcsolatba a következő címen: %s."
+msgstr "Ez a szolgáltatás az %s része. A frissítéshez lépjen velünk kapcsolatba a következő címen: %s."
 
 #. Template: Invalid
 msgid "Please re-install %s package in order to display this article."
@@ -9221,7 +9225,7 @@ msgstr "Valóban hiba? 10-ből 5 hibajelentés az OTRS hibás vagy befejezetlen 
 msgid ""
 "With %s, our experts take care of correct installation and cover your back "
 "with support and periodic security updates."
-msgstr "A(z) %s használatával a szakértőink gondoskodnak a jelenlegi telepítésről, és támogatást nyújtanak, valamint rendszeres biztonsági frissítéseket biztosítanak."
+msgstr "Az %s használatával a szakértőink gondoskodnak a jelenlegi telepítésről, és támogatást nyújtanak, valamint rendszeres biztonsági frissítéseket biztosítanak."
 
 #. Template: Error
 msgid "Contact our service team now."
@@ -10141,7 +10145,7 @@ msgstr "Navigáció"
 msgid ""
 "With %s, System Configuration supports versioning, rollback and user-"
 "specific configuration settings."
-msgstr "A(z) %s használatával a rendszerbeállítások támogatják a verziókövetést, visszaállítást és a felhasználóra jellemző konfigurációs beállításokat."
+msgstr "Az %s használatával a rendszerbeállítások támogatják a verziókövetést, visszaállítást és a felhasználóra jellemző konfigurációs beállításokat."
 
 #. Template: Test
 msgid "OTRS Test Page"
@@ -11357,31 +11361,31 @@ msgstr "A rendszere sikeresen frissítve lett a következő verzióra: %s."
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "There was a problem during the upgrade to %s."
-msgstr "Hiba történt a(z) %s verzióra való frissítés közben."
+msgstr "Hiba történt az %s verzióra való frissítés közben."
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "%s was correctly reinstalled."
-msgstr "A(z) %s rendben újra lett telepítve."
+msgstr "Az %s rendben újra lett telepítve."
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "There was a problem reinstalling %s."
-msgstr "Hiba történt a(z) %s újratelepítésekor."
+msgstr "Hiba történt az %s újratelepítésekor."
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "Your %s was successfully updated."
-msgstr "A(z) %s sikeresen frissítve lett."
+msgstr "Az %s sikeresen frissítve lett."
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "There was a problem during the upgrade of %s."
-msgstr "Hiba történt a(z) %s frissítése közben."
+msgstr "Hiba történt az %s frissítése közben."
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "%s was correctly uninstalled."
-msgstr "A(z) %s rendben el lett távolítva."
+msgstr "Az %s rendben el lett távolítva."
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "There was a problem uninstalling %s."
-msgstr "Hiba történt a(z) %s eltávolításakor."
+msgstr "Hiba történt az %s eltávolításakor."
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
@@ -12336,7 +12340,7 @@ msgstr "A beállítás nem található!"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "This feature is part of the %s Please contact us at %s for an upgrade."
-msgstr "Ez a szolgáltatás a(z) %s része. A frissítéshez lépjen velünk kapcsolatba a következő címen: %s."
+msgstr "Ez a szolgáltatás az %s része. A frissítéshez lépjen velünk kapcsolatba a következő címen: %s."
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to reset the setting!"
@@ -13396,6 +13400,10 @@ msgid ""
 "least %s MB (current: %s MB, recommended: %s MB). For more information, "
 "please have a look at %s."
 msgstr "Hiba: Állítsa be az adatbázison az innodb_log_file_size értékét legalább %s MB méretűre (jelenleg: %s MB, ajánlott: %s MB). További információkért nézze meg a következőt: %s."
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
@@ -16670,7 +16678,7 @@ msgstr "Kapcsolja ki a kompatibilitási módot az Internet Explorerben!"
 #. JS File: Core.Agent
 msgid ""
 "This feature is part of the %s.  Please contact us at %s for an upgrade."
-msgstr "Ez a szolgáltatás a(z) %s része. A frissítéshez lépjen velünk kapcsolatba a következő címen: %s."
+msgstr "Ez a szolgáltatás az %s része. A frissítéshez lépjen velünk kapcsolatba a következő címen: %s."
 
 #. JS File: Core.Agent
 msgid "Find out more"
@@ -18073,8 +18081,8 @@ msgid "Communication Log GUI"
 msgstr "Kommunikációs napló grafikus felhasználói felület"
 
 #. SysConfig
-msgid "Communication log limit per page for CommunicationLog Overview"
-msgstr "Oldalankénti kommunikációs napló korlát a kommunikációs napló áttekintőnél"
+msgid "Communication log limit per page for Communication Log Overview."
+msgstr ""
 
 #. SysConfig
 msgid "CommunicationLog Overview Limit"
@@ -21092,8 +21100,8 @@ msgid ""
 msgstr "Dinamikus mezők csoportjai a feldolgozó felületi elemhez. A kulcs a csoport neve, az érték a megjelenítendő mezőket tartalmazza. Példa: „Kulcs => Saját csoport”, „Tartalom: Név_X, Név_Y”."
 
 #. SysConfig
-msgid "Dynamic fields limit per page for Dynamic Fields Overview"
-msgstr "Dinamikus mezők oldalankénti korlátja a dinamikus mezők áttekintőnél"
+msgid "Dynamic fields limit per page for Dynamic Fields Overview."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -26162,16 +26170,16 @@ msgid "Ticket event module that triggers the escalation stop events."
 msgstr "Jegyesemény modul, amely aktiválja az eszkaláció leállítás eseményeket."
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Medium\""
-msgstr "Oldalankénti jegykorlát a „Közepes” jegyáttekintéshez"
+msgid "Ticket limit per page for Ticket Overview \"Medium\"."
+msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Preview\""
-msgstr "Oldalankénti jegykorlát az „Előnézet” jegyáttekintéshez"
+msgid "Ticket limit per page for Ticket Overview \"Preview\"."
+msgstr ""
 
 #. SysConfig
-msgid "Ticket limit per page for Ticket Overview \"Small\""
-msgstr "Oldalankénti jegykorlát a „Kis” jegyáttekintéshez"
+msgid "Ticket limit per page for Ticket Overview \"Small\"."
+msgstr ""
 
 #. SysConfig
 msgid "Ticket notifications"

@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.626752033223741;
+    $Self->{Completeness}        = 0.626016260162602;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2626,6 +2626,7 @@ sub Data {
         'History of %s%s%s' => 'Sejarah bagi %s%s%s',
         'Filter for history items' => '',
         'Expand/collapse all' => '',
+        'CreateTime' => 'Cipta Masa',
         'Article' => 'Artikel',
 
         # Template: AgentTicketMerge
@@ -4368,6 +4369,8 @@ sub Data {
             'Ralat: Sila pastikan pangkalan data anda menerima pakej melebihi saiz %s MB (buat masa ini ia hanya menerima pakej sehingga %s MB). Sila sesuaikan tetapan max_paket_dibenarkan pada pangkalan data anda agar tidak terdapat ralat.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Ralat: Sila tetapkan nilai untuk innodb_log_file_size pada pangkalan data anda kepada sekurang-kurangnya %s MB ( semasa: %s MB, disyorkan: %s MB) . Untuk maklumat lanjut, sila lihat di %s.',
+        'Wrong database collation (%s is %s, but it needs to be utf8).' =>
+            '',
 
         # Perl Module: Kernel/Modules/PublicCalendar.pm
         'No %s!' => '',
@@ -6113,7 +6116,7 @@ dalaman.',
         'Communication' => 'Komunikasi',
         'Communication & Notifications' => '',
         'Communication Log GUI' => '',
-        'Communication log limit per page for CommunicationLog Overview' =>
+        'Communication log limit per page for Communication Log Overview.' =>
             '',
         'CommunicationLog Overview Limit' => '',
         'Company Status' => 'Status Syarikat',
@@ -7036,7 +7039,7 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             'Medan Dinamik digunakan untuk export hasil carian dalam format CSV.',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             'Medan kumpulan dinamik untuk proses widget. Kuncinya adalah nama kumpulan, nilai mengandungi medan untuk ditunjukkan. Contoh: \'Kunci => Kumpulan Saya\', \'Kandungan: Nama_X, NamaY\'.',
-        'Dynamic fields limit per page for Dynamic Fields Overview' => 'Had Medan Dinamik untuk satu halaman untuk Overview Medan Dinamik.',
+        'Dynamic fields limit per page for Dynamic Fields Overview.' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface.' =>
@@ -8522,9 +8525,9 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'Ticket bulk module.' => 'modul pukal tiket',
         'Ticket event module that triggers the escalation stop events.' =>
             'Modul acara tiket yang mencetuskan lambungan hentian acara..',
-        'Ticket limit per page for Ticket Overview "Medium"' => 'Had tiket dalam mula surat untuk lihat semula tiket "Sederhana"',
-        'Ticket limit per page for Ticket Overview "Preview"' => 'Had tiket dalam mula surat untuk lihat semula tiket "Yang Ditunjuk"',
-        'Ticket limit per page for Ticket Overview "Small"' => 'Had tiket dalam muka surat untuk lihat semula tiket "Kecil"',
+        'Ticket limit per page for Ticket Overview "Medium".' => '',
+        'Ticket limit per page for Ticket Overview "Preview".' => '',
+        'Ticket limit per page for Ticket Overview "Small".' => '',
         'Ticket notifications' => 'Pemberitahuan tiket',
         'Ticket overview' => 'Overview tiket',
         'Ticket plain view of an email.' => 'pandangan dataran tiket suatu e-mel',

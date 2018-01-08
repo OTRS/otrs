@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.703754974909154;
+    $Self->{Completeness}        = 0.702992561840512;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -2629,6 +2629,7 @@ bin/otrs.Daemon.pl status\').',
         'History of %s%s%s' => 'Sejarah dari %s%s%s',
         'Filter for history items' => '',
         'Expand/collapse all' => '',
+        'CreateTime' => 'WaktuPembuatan',
         'Article' => 'Artikel',
 
         # Template: AgentTicketMerge
@@ -4371,6 +4372,8 @@ bin/otrs.Daemon.pl status\').',
             'Kesalahan: Pastikan database Anda menerima paket lebih dari %s MB (itu saat ini hanya menerima paket sampai %s MB). Silahkan menyesuaikan pengaturan max_allowed_packet dari database Anda untuk menghindari kesalahan.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Kesalahan: Silakan menetapkan nilai untuk innodb_log_file_size pada database Anda untuk setidaknya%s MB (saat ini: %s MB, direkomendasikan: %s MB). Untuk informasi lebih lanjut, silakan lihat di %s.',
+        'Wrong database collation (%s is %s, but it needs to be utf8).' =>
+            '',
 
         # Perl Module: Kernel/Modules/PublicCalendar.pm
         'No %s!' => '',
@@ -6114,7 +6117,7 @@ Helpdesk Team Anda
         'Communication' => 'Komunikasi',
         'Communication & Notifications' => '',
         'Communication Log GUI' => '',
-        'Communication log limit per page for CommunicationLog Overview' =>
+        'Communication log limit per page for Communication Log Overview.' =>
             '',
         'CommunicationLog Overview Limit' => '',
         'Company Status' => 'Status perusahaan',
@@ -7037,7 +7040,7 @@ Helpdesk Team Anda
             'Dinamis Fields digunakan untuk mengekspor hasil pencarian dalam format CSV.',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             'kelompok bidang dinamis untuk proses widget. Kuncinya adalah nama kelompok, nilai berisi bidang yang akan ditampilkan. Contoh: \'Key => Grup saya\', \'Isi: Nama X, Nama Y\'.',
-        'Dynamic fields limit per page for Dynamic Fields Overview' => 'bidang dinamis membatasi per halaman untuk dinamis Fields Ikhtisar',
+        'Dynamic fields limit per page for Dynamic Fields Overview.' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface.' =>
@@ -8523,9 +8526,9 @@ Helpdesk Team Anda
         'Ticket bulk module.' => 'Tiket massal modulus.',
         'Ticket event module that triggers the escalation stop events.' =>
             'Tiket acara modul yang memicu peristiwa eskalasi berhenti.',
-        'Ticket limit per page for Ticket Overview "Medium"' => 'Batas tiket per halaman untuk gambaran "sedang" tiket',
-        'Ticket limit per page for Ticket Overview "Preview"' => 'Batas tiket per halaman untuk gambaran "pratinjau" tiket',
-        'Ticket limit per page for Ticket Overview "Small"' => 'Batas tiket per halaman untuk Gambaran "kecil" tiket',
+        'Ticket limit per page for Ticket Overview "Medium".' => '',
+        'Ticket limit per page for Ticket Overview "Preview".' => '',
+        'Ticket limit per page for Ticket Overview "Small".' => '',
         'Ticket notifications' => 'Pemberitahuan tiket',
         'Ticket overview' => 'Keseluruhan tiket',
         'Ticket plain view of an email.' => 'Tampilan tiket polos di email',

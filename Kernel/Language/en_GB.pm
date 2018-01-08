@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.700640249178058;
+    $Self->{Completeness}        = 0.699878913682754;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -2630,6 +2630,7 @@ sub Data {
         'History of %s%s%s' => 'History of %s%s%s',
         'Filter for history items' => '',
         'Expand/collapse all' => '',
+        'CreateTime' => 'Created',
         'Article' => 'Article',
 
         # Template: AgentTicketMerge
@@ -4372,6 +4373,8 @@ sub Data {
             'Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.',
+        'Wrong database collation (%s is %s, but it needs to be utf8).' =>
+            '',
 
         # Perl Module: Kernel/Modules/PublicCalendar.pm
         'No %s!' => '',
@@ -6115,7 +6118,7 @@ Thanks for your help!
         'Communication' => 'Communication',
         'Communication & Notifications' => '',
         'Communication Log GUI' => '',
-        'Communication log limit per page for CommunicationLog Overview' =>
+        'Communication log limit per page for Communication Log Overview.' =>
             '',
         'CommunicationLog Overview Limit' => '',
         'Company Status' => 'Company Status',
@@ -7037,7 +7040,7 @@ Thanks for your help!
             'Dynamic Fields used to export the search result in CSV format.',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.',
-        'Dynamic fields limit per page for Dynamic Fields Overview' => 'Dynamic fields limit per page for Dynamic Fields Overview',
+        'Dynamic fields limit per page for Dynamic Fields Overview.' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface.' =>
@@ -8523,9 +8526,9 @@ Thanks for your help!
         'Ticket bulk module.' => 'Ticket bulk module.',
         'Ticket event module that triggers the escalation stop events.' =>
             'Ticket event module that triggers the escalation stop events.',
-        'Ticket limit per page for Ticket Overview "Medium"' => 'Ticket limit per page for Ticket Overview "Medium"',
-        'Ticket limit per page for Ticket Overview "Preview"' => 'Ticket limit per page for Ticket Overview "Preview"',
-        'Ticket limit per page for Ticket Overview "Small"' => 'Ticket limit per page for Ticket Overview "Small"',
+        'Ticket limit per page for Ticket Overview "Medium".' => '',
+        'Ticket limit per page for Ticket Overview "Preview".' => '',
+        'Ticket limit per page for Ticket Overview "Small".' => '',
         'Ticket notifications' => 'Ticket notifications',
         'Ticket overview' => 'Ticket overview',
         'Ticket plain view of an email.' => 'Ticket plain view of an email.',
