@@ -1,4 +1,5 @@
 #6.0.4 ????-??-??
+ - 2018-01-08 Fixed bug#[13460](https://bugs.otrs.org/show_bug.cgi?id=13460) - upgrade packages result in a output with strange characters.
  - 2018-01-06 Fixed bug#[13478](https://bugs.otrs.org/show_bug.cgi?id=13478) - Maint::Config::Rebuild does not show error if old-style configuration file is found.
  - 2018-01-05 Fixed bug#[13428](https://bugs.otrs.org/show_bug.cgi?id=13428) - Timeline view dynamic field values.
  - 2018-01-05 Fixed bug#[13516](https://bugs.otrs.org/show_bug.cgi?id=13516) - In the setting window of linked widgets dynamic field labels are not displayed.

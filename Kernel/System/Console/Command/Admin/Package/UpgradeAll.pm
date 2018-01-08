@@ -10,6 +10,7 @@ package Kernel::System::Console::Command::Admin::Package::UpgradeAll;
 
 use strict;
 use warnings;
+use utf8;
 
 use Kernel::System::VariableCheck qw(:all);
 
