@@ -524,7 +524,7 @@ Line7</div>',
         },
         RichText => 0,
         Template => 'Test <OTRS_AGENT_EMAIL> - <OTRS_CUSTOMER_EMAIL>',
-        Result   => "Test - - -",
+        Result   => "Test Line1\nLine2\nLine3 - Line1\nLine2\nLine3",
     },
     {
         Name => 'OTRS AGENT + CUSTOMER EMAIL[2]',
@@ -539,7 +539,7 @@ Line7</div>',
         Result   => "Test > Line1\n> Line2 - > Line1\n> Line2",
     },
     {
-        Name => 'OTRS COMMENT',    # EMAIL without [ ] does not exists
+        Name => 'OTRS COMMENT',
         Data => {
             Body => "Line1\nLine2\nLine3",
         },
@@ -548,6 +548,15 @@ Line7</div>',
         Result   => "Test > Line1\n> Line2\n> Line3",
     },
 
+    {
+        Name => 'OTRS COMMENT[2]',
+        Data => {
+            Body => "Line1\nLine2\nLine3",
+        },
+        RichText => 0,
+        Template => 'Test <OTRS_COMMENT[2]>',
+        Result   => "Test > Line1\n> Line2",
+    },
     {
         Name => 'OTRS AGENT + CUSTOMER SUBJECT[2]',
         Data => {

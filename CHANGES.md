@@ -1,4 +1,5 @@
 #6.0.5 2018-??-??
+ - 2018-01-09 Follow-up fix for bug#[13325](https://bugs.otrs.org/show_bug.cgi?id=13325) - OTRS_CUSTOMER_BODY not working for most notification events.
 
 #6.0.4 2018-01-16
  - 2018-01-08 Updated translations, thanks to all translators.

@@ -1284,10 +1284,20 @@ sub _Replace {
         # Generate one single matching string for all keys to save performance.
         my $Keys = join '|', map {quotemeta} grep { defined $H{$_} } keys %H;
 
-        # Add all keys also as lowercase to be able to match case insensitive,
+        # Set all keys as lowercase to be able to match case insensitive,
         #   e. g. <OTRS_CUSTOMER_From> and <OTRS_CUSTOMER_FROM>.
-        for my $Key ( sort keys %H ) {
-            $H{ lc $Key } = $H{$Key};
+        %H = map { lc $_ => $H{$_} } sort keys %H;
+
+        # If tag is 'OTRS_CUSTOMER_' add the body alias 'email/note' to be replaced.
+        if ( $Tag =~ m/OTRS_(CUSTOMER|AGENT)_/ ) {
+            KEY:
+            for my $Key (qw( email note )) {
+                my $Value = $H{$Key};
+                next KEY if defined($Value);
+
+                $H{$Key} = $H{'body'};
+                $Keys .= '|' . ucfirst $Key;
+            }
         }
 
         $Param{Text} =~ s/(?:$Tag)($Keys)$End/$H{ lc $1 }/ieg;
@@ -1546,7 +1556,14 @@ sub _Replace {
 
             # prepare body (insert old email) <OTRS_CUSTOMER_EMAIL[n]>, <OTRS_CUSTOMER_NOTE[n]>
             #   <OTRS_CUSTOMER_BODY[n]>, <OTRS_AGENT_EMAIL[n]>..., <OTRS_COMMENT>
-            if ( $Param{Text} =~ /$Start(?:(?:$DataType(EMAIL|NOTE|BODY)\[(.+?)\])|(?:OTRS_COMMENT))$End/g ) {
+
+            # Changed this to a 'while' to allow the same key/tag multiple times and different number of lines.
+            while (
+                $Param{Text} =~ /$Start(?:$DataType(EMAIL|NOTE|BODY)\[(.+?)\])$End/
+                ||
+                $Param{Text} =~ /$Start(?:OTRS_COMMENT(\[(.+?)\])?)$End/
+                )
+            {
 
                 my $Line       = $2 || 2500;
                 my $NewOldBody = '';
@@ -1595,7 +1612,7 @@ sub _Replace {
 
                 # replace tag
                 $Param{Text}
-                    =~ s/$Start(?:(?:$DataType(EMAIL|NOTE|BODY)\[(.+?)\])|(?:OTRS_COMMENT))$End/$NewOldBody/g;
+                    =~ s/$Start(?:(?:$DataType(EMAIL|NOTE|BODY)\[(.+?)\]|(?:OTRS_COMMENT(\[(.+?)\])?)))$End/$NewOldBody/;
             }
 
             # replace <OTRS_CUSTOMER_SUBJECT[]>  and  <OTRS_AGENT_SUBJECT[]> tags
