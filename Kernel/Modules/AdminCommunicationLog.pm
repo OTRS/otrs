@@ -48,7 +48,7 @@ sub Run {
             CommunicationID => $GetParam{CommunicationID},
         );
 
-        if ( !$Communication ) {
+        if ( !IsHashRefWithData($Communication) ) {
             my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
             return $LayoutObject->FatalError(
                 Message => Translatable('Invalid CommunicationID '),

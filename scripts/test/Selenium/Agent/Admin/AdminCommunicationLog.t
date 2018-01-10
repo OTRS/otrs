@@ -467,6 +467,16 @@ $Selenium->RunTest(
             'Error log filtered correctly'
         );
 
+        # Try to navigate to invalid Communication ID,
+        #   see bug#13523 (https://bugs.otrs.org/show_bug.cgi?id=13523).
+        my $RandomNumber = $Helper->GetRandomNumber();
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AdminCommunicationLog;Subaction=Zoom;CommunicationID=$RandomNumber"
+        );
+
+        # Verify error screen.
+        $Selenium->find_element( 'div.ErrorScreen', 'css' );
+
         # Clean up all communications created by the test.
         $Self->True(
             $CommunicationLogDBObj->CommunicationDelete(),
