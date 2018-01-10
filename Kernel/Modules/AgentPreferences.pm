@@ -865,7 +865,7 @@ sub _SettingReset {
     }
     elsif ( !$SysConfigObject->can('UserSettingValueDelete') ) {    # OTRS Business Solution™
         $Result{Data}->{Error} = $LayoutObject->{LanguageObject}->Translate(
-            "This feature is part of the %s Please contact us at %s for an upgrade."
+            "This feature is part of the %s. Please contact us at %s for an upgrade."
             , 'OTRS Business Solution™'
             , 'sales@otrs.com'
         );
