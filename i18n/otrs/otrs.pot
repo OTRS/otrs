@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-09-24 23:22+0000\n"
+"POT-Creation-Date: 2017-12-14 20:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2920,10 +2920,6 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Edit ACL structure"
-msgstr ""
-
-#. Template: AdminACLEdit
-msgid "Save settings"
 msgstr ""
 
 #. Template: AdminACLEdit
@@ -7927,6 +7923,10 @@ msgid "Login message"
 msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
+msgid "This field must have less then 250 characters."
+msgstr ""
+
+#. Template: AdminSystemMaintenanceEdit
 msgid "Show login message"
 msgstr ""
 
@@ -8204,6 +8204,10 @@ msgstr ""
 
 #. Template: AgentDashboardCalendarOverview
 msgid "in"
+msgstr ""
+
+#. Template: AgentDashboardCommon
+msgid "Save settings"
 msgstr ""
 
 #. Template: AgentDashboardCommon
@@ -11402,6 +11406,10 @@ msgstr ""
 msgid "Can't write ConfigItem!"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminSysConfig.pm
+msgid "-new-"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Start date shouldn't be defined after Stop date!"
 msgstr ""
@@ -14439,6 +14447,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Create New process ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Create Ticket"
 msgstr ""
 
 #. SysConfig
@@ -19627,6 +19639,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Watcher"
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Zoom"
 msgstr ""
 
 #. SysConfig
