@@ -20,6 +20,17 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+# Make sure repository root setting is set to default for duration of the test.
+my %Setting = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
+    Name    => 'Package::RepositoryRoot',
+    Default => 1,
+);
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'Package::RepositoryRoot',
+    Value => $Setting{DefaultValue},
+);
+
 my @FrameworkVersionParts = split /\./, $Kernel::OM->Get('Kernel::Config')->Get('Version');
 my $FrameworkVersion = $FrameworkVersionParts[0];
 
