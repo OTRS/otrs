@@ -55,7 +55,7 @@ L<Kernel::System::Ticket::Article::Backend::Email>.
 
 Don't instantiate this class directly, get instances of the real backends instead:
 
-    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Article)->BackendForChannel(ChannelName => 'Email');
+    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article)->BackendForChannel(ChannelName => 'Email');
 
 =cut
 
