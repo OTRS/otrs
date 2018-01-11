@@ -1,4 +1,5 @@
 #6.0.5 2018-??-??
+ - 2018-01-11 Fixed bug#[13541](https://bugs.otrs.org/show_bug.cgi?id=13541) - Running migration script during patch level updates cleans up all modified settings from packages.
  - 2018-01-11 Fixed bug#[13542](https://bugs.otrs.org/show_bug.cgi?id=13542) - Deep recursion error in package manager install/upgrade in a very special constellation.
  - 2018-01-11 Fixed bug#[13536](https://bugs.otrs.org/show_bug.cgi?id=13536) - System maintenance does not show formatted timestamps and messages.
  - 2018-01-10 Fixed bug#[13523](https://bugs.otrs.org/show_bug.cgi?id=13523) - Loading an invalid communication ID causes all to be shown.

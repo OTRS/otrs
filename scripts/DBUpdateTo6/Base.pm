@@ -52,9 +52,8 @@ sub RebuildConfig {
     # Convert XML files to entries in the database
     if (
         !$SysConfigObject->ConfigurationXML2DB(
-            CleanUp => 1,
-            Force   => 1,
-            UserID  => 1,
+            Force  => 1,
+            UserID => 1,
         )
         )
     {
