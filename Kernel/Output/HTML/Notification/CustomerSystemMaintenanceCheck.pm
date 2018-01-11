@@ -13,8 +13,6 @@ use parent 'Kernel::Output::HTML::Base';
 use strict;
 use warnings;
 
-use Kernel::Language qw(Translatable);
-
 our @ObjectDependencies = (
     'Kernel::System::DateTime',
     'Kernel::System::SystemMaintenance',
@@ -42,7 +40,7 @@ sub Run {
         my $NotifyMessage =
             $SystemMaintenanceData->{NotifyMessage}
             || $Kernel::OM->Get('Kernel::Config')->Get('SystemMaintenance::IsActiveDefaultNotification')
-            || Translatable('System maintenance is active!');
+            || $LayoutObject->{LanguageObject}->Translate('System maintenance is active!');
 
         return $LayoutObject->Notify(
             Priority => 'Notice',
@@ -53,23 +51,41 @@ sub Run {
         );
     }
 
-    my $SystemMaintenanceIsComing = $SystemMaintenanceObject->SystemMaintenanceIsComing();
+    my %SystemMaintenanceIsComing = $SystemMaintenanceObject->SystemMaintenanceIsComing();
 
-    if ($SystemMaintenanceIsComing) {
+    if (%SystemMaintenanceIsComing) {
 
-        my $MaintenanceDateTimeObject = $Kernel::OM->Create(
+        my $MaintenanceStartDateTimeObject = $Kernel::OM->Create(
             'Kernel::System::DateTime',
             ObjectParams => {
-                Epoch => $SystemMaintenanceIsComing,
+                Epoch => $SystemMaintenanceIsComing{StartDate},
             },
         );
+        my $MaintenanceStartDateTime = $LayoutObject->{LanguageObject}->FormatTimeString(
+            $MaintenanceStartDateTimeObject->ToString(),
+            'DateFormat',
+            1,
+        );
+
+        my $MaintenanceStopDateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                Epoch => $SystemMaintenanceIsComing{StopDate},
+            },
+        );
+        my $MaintenanceStopDateTime = $LayoutObject->{LanguageObject}->FormatTimeString(
+            $MaintenanceStopDateTimeObject->ToString(),
+            'DateFormat',
+            1,
+        );
+
         return $LayoutObject->Notify(
             Priority => 'Notice',
             Data =>
                 $LayoutObject->{LanguageObject}->Translate(
-                "A system maintenance period will start at: "
-                )
-                . $MaintenanceDateTimeObject ? $MaintenanceDateTimeObject->ToString() : '',
+                "A system maintenance period will start at: %s and is expected to stop at: %s",
+                $MaintenanceStartDateTime, $MaintenanceStopDateTime
+                ),
         );
 
     }

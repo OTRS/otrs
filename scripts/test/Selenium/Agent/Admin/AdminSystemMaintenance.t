@@ -39,17 +39,39 @@ $Selenium->RunTest(
         # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # Make sure system is based on UTC.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'OTRSTimeZone',
+            Value => 'UTC',
+        );
+
         # get DB object
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # get SystemMaintenance object
         my $SystemMaintenanceObject = $Kernel::OM->Get('Kernel::System::SystemMaintenance');
 
-        # create test user and login
+        # Create test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
 
+        # Get UserID for later manipulation of preferences.
+        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+        my $UserID     = $UserObject->UserLookup(
+            UserLogin => $TestUserLogin,
+        );
+
+        # Set user's time zone.
+        my $UserTimeZone = 'Europe/Berlin';
+        $UserObject->SetPreferences(
+            Key    => 'UserTimeZone',
+            Value  => $UserTimeZone,
+            UserID => $UserID,
+        );
+
+        # Login test user
         $Selenium->Login(
             Type     => 'Agent',
             User     => $TestUserLogin,
@@ -137,14 +159,14 @@ $Selenium->RunTest(
             "Error message correctly displayed"
         ) || die "Did not get notification message";
 
-        # get test start time + 1 hour of system time
+        # get test start time + 2 hour of system time
         my $DTStartObj = $DTObj->Clone();
-        $DTStartObj->Add( Hours => 1 );
+        $DTStartObj->Add( Hours => 2 );
         my $DTStart = $DTStartObj->Get();
 
-        # get test end time + 2 hour of system time
+        # get test end time + 3 hour of system time
         my $DTEndObj = $DTObj->Clone();
-        $DTEndObj->Add( Hours => 2 );
+        $DTEndObj->Add( Hours => 3 );
         my $DTEnd = $DTEndObj->Get();
 
         # create real test SystemMaintenance
@@ -205,6 +227,35 @@ $Selenium->RunTest(
         $Self->True(
             $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
             "$Notification - notification is found."
+        );
+
+        # Get test start time + 1 hour of system.
+        my $LayoutObject = Kernel::Output::HTML::Layout->new( UserTimeZone => $UserTimeZone );
+        my $DTStartObjStr = $DTObj->Clone();
+        $DTStartObjStr->Add( Hours => 1 );
+        my $StartTimeString = $LayoutObject->{LanguageObject}->FormatTimeString(
+            $DTStartObjStr->ToString(),
+            'DateFormat',
+            1,
+        );
+
+        # Get test end time + 2 hour of system.
+        my $DTEndObjStr = $DTObj->Clone();
+        $DTEndObjStr->Add( Hours => 2 );
+        my $EndTimeString = $LayoutObject->{LanguageObject}->FormatTimeString(
+            $DTEndObjStr->ToString(),
+            'DateFormat',
+            1,
+        );
+
+        # Check for upcoming System Maintenance notification.
+        my $UpcomingSysMaintenanceNotif
+            = "A system maintenance period will start at: $StartTimeString and is expected to stop at: $EndTimeString";
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('.MessageBox.Notice p:contains(\"$UpcomingSysMaintenanceNotif\")').length"
+            ),
+            "$UpcomingSysMaintenanceNotif - notification is found."
         );
 
         # check for created test SystemMaintenance
