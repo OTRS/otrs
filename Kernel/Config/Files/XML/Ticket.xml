@@ -8587,8 +8587,8 @@
         <Navigation>Frontend::Agent::View::TicketMove</Navigation>
         <Value>
             <Item ValueType="Select" SelectedID="TicketZoom">
-                <Item ValueType="Option" Value="TicketZoom" Translatable="1">TicketZoom</Item>
-                <Item ValueType="Option" Value="LastScreenOverview" Translatable="1">LastScreenOverview</Item>
+                <Item ValueType="Option" Value="TicketZoom" Translatable="1">Ticket Zoom</Item>
+                <Item ValueType="Option" Value="LastScreenOverview" Translatable="1">Last Screen Overview</Item>
             </Item>
         </Value>
     </Setting>
