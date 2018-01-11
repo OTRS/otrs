@@ -458,12 +458,7 @@ sub RepositoryRemove {
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     # cleanup cache
-    $CacheObject->CleanUp(
-        Type => 'RepositoryList',
-    );
-    $CacheObject->CleanUp(
-        Type => 'RepositoryGet',
-    );
+    $Self->_RepositoryCacheClear();
 
     return 1;
 }
@@ -491,6 +486,10 @@ sub PackageInstall {
         );
         return;
     }
+
+    # Cleanup the repository cache before the package installation to have the current state
+    #   during the installation.
+    $Self->_RepositoryCacheClear();
 
     # get from cloud flag
     my $FromCloud = $Param{FromCloud} || 0;
@@ -682,6 +681,10 @@ sub PackageReinstall {
         return;
     }
 
+    # Cleanup the repository cache before the package reinstallation to have the current state
+    #   during the reinstallation.
+    $Self->_RepositoryCacheClear();
+
     # parse source file
     my %Structure = $Self->PackageParse(%Param);
 
@@ -785,6 +788,10 @@ sub PackageUpgrade {
         );
         return;
     }
+
+    # Cleanup the repository cache before the package upgrade to have the current state
+    #   during the upgrade.
+    $Self->_RepositoryCacheClear();
 
     # conflict check
     my %Structure = $Self->PackageParse(%Param);
@@ -1207,6 +1214,10 @@ sub PackageUninstall {
         );
         return;
     }
+
+    # Cleanup the repository cache before the package uninstallation to have the current state
+    #   during the uninstallation.
+    $Self->_RepositoryCacheClear();
 
     # parse source file
     my %Structure = $Self->PackageParse(%Param);
@@ -5214,6 +5225,29 @@ sub _ConfiguredRepositoryDefinitionGet {
     $RepositoryList{$CurrentITSMRepository} = "OTRS::ITSM $FrameworkVersion Master";
 
     return %RepositoryList;
+}
+
+=head2 _RepositoryCacheClear()
+
+Remove all caches related to the package repository.
+
+    my $Success = $PackageObject->_RepositoryCacheClear();
+
+=cut
+
+sub _RepositoryCacheClear {
+    my ( $Self, %Param ) = @_;
+
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    $CacheObject->CleanUp(
+        Type => 'RepositoryList',
+    );
+    $CacheObject->CleanUp(
+        Type => 'RepositoryGet',
+    );
+
+    return 1;
 }
 
 sub DESTROY {
