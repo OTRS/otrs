@@ -1,4 +1,5 @@
 #6.0.5 2018-??-??
+ - 2018-01-12 Fixed bug#[13521](https://bugs.otrs.org/show_bug.cgi?id=13521) - Article sender field contains user's OoO information.
  - 2018-01-12 Fixed bug#[13498](https://bugs.otrs.org/show_bug.cgi?id=13498) - Multi-upload form is showing inline attachments after new uploads.
  - 2018-01-11 Fixed bug#[13542](https://bugs.otrs.org/show_bug.cgi?id=13542) - Deep recursion error in package manager install/upgrade in a very special constellation.
  - 2018-01-11 Fixed bug#[13536](https://bugs.otrs.org/show_bug.cgi?id=13536) - System maintenance does not show formatted timestamps and messages.

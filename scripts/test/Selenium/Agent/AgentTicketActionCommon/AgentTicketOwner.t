@@ -199,6 +199,51 @@ $Selenium->RunTest(
             "Ticket owner action completed",
         );
 
+        # Login as second created user who is set Out Of Office and create Note article, see bug#13521.
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUser[1],
+            Password => $TestUser[1],
+        );
+
+        # Navigate to zoom view of created test ticket.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+
+        # Force sub menus to be visible in order to be able to click one of the links.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
+        );
+
+        # Click on 'Note' and switch window.
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
+
+        $Selenium->WaitFor( WindowCount => 2 );
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
+
+        # Wait until page has loaded, if necessary.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".WidgetSimple").length;'
+        );
+
+        # Create Note article.
+        $Selenium->find_element( "#Subject",        'css' )->send_keys('TestSubject');
+        $Selenium->find_element( "#RichText",       'css' )->send_keys('TestBody');
+        $Selenium->find_element( "#submitRichText", 'css' )->click();
+
+        # Switch window back to AgentTicketZoom view of created test ticket.
+        $Selenium->WaitFor( WindowCount => 1 );
+        $Selenium->switch_to_window( $Handles->[0] );
+
+        # Verified there is no Out Of Office message in the 'Sender' column of created Note.
+        $Self->Is(
+            $Selenium->execute_script("return \$('#Row2 .Sender a').text();"),
+            "$TestUser[1] $TestUser[1]",
+            "There is no Out Of Office message in the article 'Sender' column."
+        );
+
         # delete created test tickets
         my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
