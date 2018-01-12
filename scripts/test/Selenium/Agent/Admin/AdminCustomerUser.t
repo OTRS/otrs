@@ -311,11 +311,17 @@ $Selenium->RunTest(
         $Selenium->find_element( "#OptionCustomer", 'css' )->click();
         $Selenium->switch_to_frame( $Selenium->find_element( '.TextOption', 'css' ) );
 
-        # click to 'Add customer user'
+        # FIXME: Hard sleep is needed here too because in some browser versions the following check for page load
+        #   complete will query the main page instead of the IFRAME. Find a more performant solution!
+        sleep 5;
+
+        # Wait until the frame has loaded, before continuing.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
         );
+
+        # Click on 'Add customer user' button.
         $Selenium->find_element("//button[\@class='CallForAction Fullsize Center']")->VerifiedClick();
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#UserFirstname").length' );
 
