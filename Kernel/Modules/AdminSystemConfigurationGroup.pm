@@ -250,7 +250,7 @@ sub Run {
         }
 
         if (
-            grep { $_ eq 'reset-locally' } @Options
+            ( grep { $_ eq 'reset-locally' } @Options )
             && $SysConfigObject->can('UserSettingValueDelete')    # OTRS Business Solution™
             )
         {
