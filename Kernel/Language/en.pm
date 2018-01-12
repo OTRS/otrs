@@ -19,10 +19,10 @@ sub Data {
     # month-day-year (e.g., "12/31/99")
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:50 2009
+    # Last translation file sync: Fri Jan 12 14:50:51 2018
 
     # possible charsets
-    $Self->{Charset} = ['utf-8', ];
+    $Self->{Charset} = ['utf-8'];
 
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Year;)
     $Self->{DateFormat}          = '%M/%D/%Y %T';
@@ -37,6 +37,10 @@ sub Data {
     $Self->{Translation} = {
         'May_long' => 'May',
     };
+
+    $Self->{JavaScriptStrings} = [
+        'May_long',
+    ];
 
     # $$STOP$$
     return;
