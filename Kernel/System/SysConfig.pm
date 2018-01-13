@@ -3271,7 +3271,7 @@ sub ConfigurationInvalidList {
 
 Write configuration items from database into a perl module file.
 
-    my $Success = $SysConfigObject->ConfigurationDeploy(
+    my %Result = $SysConfigObject->ConfigurationDeploy(
         Comments            => "Some comments",     # (optional)
         NoValidation        => 0,                   # (optional) 1 or 0, default 0, skips settings validation
         UserID              => 123,                 # if ExclusiveLockGUID is used, UserID must match the user that creates the lock
@@ -3286,12 +3286,25 @@ Write configuration items from database into a perl module file.
 
 Returns:
 
-    $Success = 1;    # or false in case of an error
+    %Result = (
+        Success => 1,           # Deployment successful.
+    );
+
+    or
+
+    %Result = (
+        Success => 0,           # Deployment failed.
+        Error   => 'Error...',  # Error message (if available)
+    );
 
 =cut
 
 sub ConfigurationDeploy {
     my ( $Self, %Param ) = @_;
+
+    my %Result = (
+        Success => 0,
+    );
 
     if ( !$Param{UserID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -3299,15 +3312,17 @@ sub ConfigurationDeploy {
             Message  => "Need UserID!",
         );
 
-        return;
+        return %Result;
     }
     if ( !IsPositiveInteger( $Param{UserID} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "UserID is invalid!",
         );
-        return;
+        return %Result;
     }
+
+    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
     if ( $Param{AllSettings} ) {
         $Param{NotDirty}      = 0;
@@ -3451,7 +3466,9 @@ sub ConfigurationDeploy {
             Priority => 'error',
             Message  => "Setting $CurrentSetting->{Name} Effective value is not correct: $EffectiveValueCheck{Error}",
         );
-        return;
+
+        $Result{Error} = $LanguageObject->Translate( "Invalid setting: %s", $CurrentSetting->{Name} );
+        return %Result;
     }
 
     # Set cache for SettingEffectiveValueCheck().
@@ -3472,7 +3489,8 @@ sub ConfigurationDeploy {
                 Message  => "Could not combine settings values into a perl hash",
             );
 
-            return;
+            $Result{Error} = $LanguageObject->Translate("Could not combine settings values into a perl hash.");
+            return %Result;
         }
     }
 
@@ -3501,7 +3519,11 @@ sub ConfigurationDeploy {
                 Message  => "Can not lock the deployment for UserID '$Param{UserID}'!",
             );
 
-            return;
+            $Result{Error} = $LanguageObject->Translate(
+                "Can not lock the deployment for UserID '%s'!",
+                $Param{UserID},
+            );
+            return %Result;
         }
 
         # Get system time stamp (string formated).
@@ -3551,7 +3573,7 @@ sub ConfigurationDeploy {
 
         # Make sure to return on errors after we unlock the deployment.
         if ( !$HandleSettingsSuccess || !$DeploymentID ) {
-            return;
+            return %Result;
         }
 
         # If setting is updated on global level, check all user specific settings, maybe it's needed
@@ -3598,10 +3620,12 @@ sub ConfigurationDeploy {
         mkdir $BasePath;
     }
 
-    return $Self->_FileWriteAtomic(
+    $Result{Success} = $Self->_FileWriteAtomic(
         Filename => "$Self->{Home}/$TargetPath",
         Content  => \$EffectiveValueStrg,
     );
+
+    return %Result;
 }
 
 =head2 ConfigurationDeployList()
@@ -4667,14 +4691,14 @@ sub SettingsSet {
     }
 
     # Deploy successfully updated settings.
-    my $DeploymentSuccess = $Self->ConfigurationDeploy(
+    my %DeploymentResult = $Self->ConfigurationDeploy(
         Comments => $Param{Comments} || '',
         UserID   => $Param{UserID},
         Force    => 1,
         DirtySettings => \@DeploySettings
     );
 
-    return $DeploymentSuccess;
+    return $DeploymentResult{Success};
 }
 
 =head2 OverriddenFileNameGet()

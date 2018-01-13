@@ -966,7 +966,7 @@ $Selenium->RunTest(
             "Example XML loaded.",
         );
 
-        my $DeploymentSuccess = $SysConfigObject->ConfigurationDeploy(
+        my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
             Comments    => "AdminSystemConfiguration.t deployment",
             UserID      => 1,
             Force       => 1,
@@ -974,7 +974,7 @@ $Selenium->RunTest(
         );
 
         $Self->True(
-            $DeploymentSuccess,
+            $DeploymentResult{Success},
             "Deployment successful.",
         );
 

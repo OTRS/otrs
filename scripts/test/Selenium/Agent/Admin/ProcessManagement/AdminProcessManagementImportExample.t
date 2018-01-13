@@ -215,13 +215,13 @@ $Selenium->RunTest(
             push @UpdatedSettings, $Value->{$Key}->{Name};
         }
 
-        $Success = $SysConfigObject->ConfigurationDeploy(
+        my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
             Comments      => "Deployed by Selenium test",
             UserID        => 1,
             Force         => 1,
             DirtySettings => \@UpdatedSettings,
         );
-        if ( !$Success ) {
+        if ( !$DeploymentResult{Success} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "System was unable to deploy settings needed for Application for leave process!"

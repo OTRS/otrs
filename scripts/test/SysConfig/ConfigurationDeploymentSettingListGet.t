@@ -196,14 +196,14 @@ my $Success = $SysConfigDBObject->DefaultSettingUnlock(
     UnlockAll => 1,
 );
 
-$Success = $SysConfigObject->ConfigurationDeploy(
+my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
     Comments     => "UnitTest",
     UserID       => 1,
     Force        => 1,
     NoValidation => 1,
 );
 $Self->True(
-    $Success,
+    $DeploymentResult{Success},
     "ConfigurationDeploy() 1 with true",
 );
 
@@ -278,14 +278,14 @@ $Success = $SysConfigDBObject->DefaultSettingUnlock(
 # data which was deployed in previous deployment. See https://bugs.otrs.org/show_bug.cgi?id=13071.
 $HelperObject->FixedTimeAddSeconds(2);
 
-$Success = $SysConfigObject->ConfigurationDeploy(
+%DeploymentResult = $SysConfigObject->ConfigurationDeploy(
     Comments     => "UnitTest",
     UserID       => 1,
     Force        => 1,
     NoValidation => 1,
 );
 $Self->True(
-    $Success,
+    $DeploymentResult{Success},
     "ConfigurationDeploy() 2 with true",
 );
 

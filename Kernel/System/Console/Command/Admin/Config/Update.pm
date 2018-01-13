@@ -167,14 +167,14 @@ sub Run {
         return $Self->ExitCodeOk();
     }
 
-    $Success = $SysConfigObject->ConfigurationDeploy(
+    my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
         Comments      => "Admin::Config::Update $SettingName",
         UserID        => 1,
         Force         => 1,
         DirtySettings => [$SettingName],
     );
 
-    if ( !$Success ) {
+    if ( !$DeploymentResult{Success} ) {
         $Self->PrintError("Deployment failed!\n");
         return $Self->ExitCodeError();
     }

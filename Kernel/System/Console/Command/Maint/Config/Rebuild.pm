@@ -66,13 +66,13 @@ sub Run {
         return $Self->ExitCodeError();
     }
 
-    my $DeploySuccess = $SysConfigObject->ConfigurationDeploy(
+    my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
         Comments    => "Configuration Rebuild",
         AllSettings => 1,
         UserID      => 1,
         Force       => 1,
     );
-    if ( !$DeploySuccess ) {
+    if ( !$DeploymentResult{Success} ) {
 
         # Disable in memory cache.
         $CacheObject->Configure(

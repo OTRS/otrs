@@ -161,7 +161,7 @@ sub Run {
 
                     }
 
-                    my $DeploymentResult = $SysConfigObject->ConfigurationDeploy(
+                    $SysConfigObject->ConfigurationDeploy(
                         Comments      => "Priority name change",
                         DirtySettings => \@IsPriorityInSysConfig,
                         UserID        => $Self->{UserID},

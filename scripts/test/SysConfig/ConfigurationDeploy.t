@@ -430,7 +430,7 @@ for my $Test (@Tests) {
         next TEST;
     }
 
-    my $Success = $SysConfigObject->ConfigurationDeploy(
+    $SysConfigObject->ConfigurationDeploy(
         %{ $Test->{Config} },
         Force    => 1,
         Comments => "Some comments",
@@ -498,7 +498,7 @@ for my $Test (@Tests) {
         }
     }
 
-    my $Success = $SysConfigObject->ConfigurationDeploy(
+    my %DeployResult = $SysConfigObject->ConfigurationDeploy(
         AllSettings  => 1,
         Force        => 1,
         Comments     => "Some comments",
@@ -507,7 +507,7 @@ for my $Test (@Tests) {
     );
 
     $Self->Is(
-        $Success // 0,
+        $DeployResult{Success} // 0,
         $Test->{Success},
         "$Test->{Name} ConfigurationDeploy()",
     );

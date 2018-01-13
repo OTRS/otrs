@@ -170,11 +170,13 @@ Core.Agent.Admin = Core.Agent.Admin || {};
                         $DialogFooterObj.find('.ButtonsRegular').hide();
 
                         // success
-                        if (Response && parseInt(Response.Result, 10) === 1) {
+                        if (Response && Response.Result && Response.Result.Success == 1) {
 
                             $DialogContentObj.find('.Overlay i.Active').hide();
                             $DialogContentObj.find('.Overlay i.Success').fadeIn();
-                            $DialogContentObj.find('em').text(Core.Language.Translate("Deployment successful. You're being redirected..."));
+                            $DialogContentObj.find('em').text(
+                                Core.Language.Translate("Deployment successful. You're being redirected...")
+                            );
 
                             window.setTimeout(function() {
 
@@ -194,7 +196,15 @@ Core.Agent.Admin = Core.Agent.Admin || {};
                             $DialogFooterObj.find('.ButtonsFinish').show();
                             $DialogContentObj.find('.Overlay i.Active').hide();
                             $DialogContentObj.find('.Overlay i.Error').fadeIn();
-                            $DialogContentObj.find('em').text(Core.Language.Translate('There was an error. Please save all settings you are editing and check the logs for more information.'));
+                            $DialogContentObj.find('em').text(
+                                Core.Language.Translate('There was an error. Please save all settings you are editing and check the logs for more information.')
+                            );
+                        }
+
+                        if (Response && Response.Result && Response.Result.Error !== undefined) {
+                            $DialogContentObj.find('em').after(
+                                Response.Result.Error
+                            );
                         }
                     }
                 );

@@ -48,15 +48,14 @@ sub Run {
     }
 
     # Create initial deployment (write ZZZAAuto file).
-    if (
-        !$SysConfigObject->ConfigurationDeploy(
-            Comments    => "Deployed by AdminInit",
-            AllSettings => 1,
-            UserID      => 1,
-            Force       => 1,
-        )
-        )
-    {
+    my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
+        Comments    => "Deployed by AdminInit",
+        AllSettings => 1,
+        UserID      => 1,
+        Force       => 1,
+    );
+
+    if ( !$DeploymentResult{Success} ) {
         return $LayoutObject->ErrorScreen();
     }
 

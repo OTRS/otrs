@@ -236,20 +236,20 @@ sub SystemConfigurationUpdate {
         );
     }
 
-    my $Success = $SysConfigObject->ConfigurationDeploy(
+    my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
         Comments      => "Deployed by '$Param{WebServiceName}' web service setup",
         UserID        => 1,
         Force         => 1,
         DirtySettings => \@UpdatedSettings,
     );
-    if ( !$Success ) {
+    if ( !$DeploymentResult{Success} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "System was unable to deploy settings needed for '$Param{WebServiceName}' web service!"
         );
     }
 
-    return $Success;
+    return $DeploymentResult{Success};
 }
 
 1;

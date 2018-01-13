@@ -928,7 +928,7 @@ sub Run {
         # There is no need to unlock the setting as it was already unlocked in the update.
 
         # 'Rebuild' the configuration.
-        my $Success = $SysConfigObject->ConfigurationDeploy(
+        $SysConfigObject->ConfigurationDeploy(
             Comments    => "Installer deployment",
             AllSettings => 1,
             Force       => 1,
