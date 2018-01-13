@@ -35,7 +35,7 @@ Kernel::System::ProcessManagement::TransitionAction::TicketCreate - A module to 
 
 =head1 DESCRIPTION
 
-All TicketArticleCreate functions.
+All TicketCreate functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -61,7 +61,7 @@ sub new {
 
     Run Data
 
-    my $TicketArticleCreateResult = $TicketArticleCreateActionObject->Run(
+    my $TicketCreateResult = $TicketCreateActionObject->Run(
         UserID                   => 123,
         Ticket                   => \%Ticket,   # required
         ProcessEntityID          => 'P123',
