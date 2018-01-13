@@ -128,7 +128,15 @@ sub SettingListParse {
 
     my $XMLSimpleObject = $Kernel::OM->Get('Kernel::System::XML::Simple');
 
-    $Param{XMLInput} =~ m{otrs_config.*?version="(.*?)"};
+    my $XMLContent = $Param{XMLInput};
+
+    # Remove all lines that starts with comment (#).
+    $XMLContent =~ s{^#.*?$}{}gm;
+
+    # Remove comments <!-- ... -->.
+    $XMLContent =~ s{<!--.*?-->}{}gsm;
+
+    $XMLContent =~ m{otrs_config.*?version="(.*?)"};
     my $ConfigVersion = $1;
 
     if ( $ConfigVersion ne '2.0' ) {
@@ -139,7 +147,7 @@ sub SettingListParse {
         return;
     }
 
-    while ( $Param{XMLInput} =~ m{<ConfigItem.*?Name="(.*?)"}smxg ) {
+    while ( $XMLContent =~ m{<ConfigItem.*?Name="(.*?)"}smxg ) {
 
         # Old style ConfigItem detected.
         my $SettingName = $1;
@@ -155,7 +163,7 @@ sub SettingListParse {
 
     SETTING:
     while (
-        $Param{XMLInput} =~ m{(?<RawSetting> <Setting[ ]+ .*? Name="(?<SettingName> .*? )" .*? > .*? </Setting> )}smxg
+        $XMLContent =~ m{(?<RawSetting> <Setting[ ]+ .*? Name="(?<SettingName> .*? )" .*? > .*? </Setting> )}smxg
         )
     {
 

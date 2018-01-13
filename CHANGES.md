@@ -1,4 +1,5 @@
 #6.0.5 2018-??-??
+ - 2018-01-13 Fixed bug#[13534](https://bugs.otrs.org/show_bug.cgi?id=13534) - Comments in the Config XML files are not ignored.
  - 2018-01-13 Fixed bug#[13339](https://bugs.otrs.org/show_bug.cgi?id=13339) - If deployment fails because of wrong settings, this wrong settings wouldn't be displayed.
  - 2018-01-12 Fixed bug#[13543](https://bugs.otrs.org/show_bug.cgi?id=13543) - Wrong Month Name in OTRS Appoinment Calender.
  - 2018-01-12 Fixed bug#[13521](https://bugs.otrs.org/show_bug.cgi?id=13521) - Article sender field contains user's OoO information.
