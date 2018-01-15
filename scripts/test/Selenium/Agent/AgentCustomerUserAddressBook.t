@@ -578,26 +578,6 @@ $Selenium->RunTest(
         my $AgentCustomerUserAddressBookConfig
             = $ConfigObject->Get("CustomerUser::Frontend::AgentCustomerUserAddressBook");
 
-        # Wait until an IFRAME has loaded.
-        #   $WaitForIframeLoad->( IframeSelector => '.Class' );
-        my $WaitForIframeLoad = sub {
-            my %Param = @_;
-
-            # Define a global boolean value and set it to false. Then, register an 'onload' handler using passed IFRAME
-            #   selector to set this boolean to true once, event has been fired.
-            $Selenium->execute_script( "
-                Core.IframeLoaded = false;
-                \$('$Param{IframeSelector}').on('load pageshow', function() {
-                    Core.IframeLoaded = true;
-                });
-            " );
-
-            # Wait for global boolean value to become true.
-            $Selenium->WaitFor( JavaScript => 'return Core.IframeLoaded' );
-
-            return;
-        };
-
         for my $Test (@Tests) {
 
             # Reload the AgentTicketEmail screen for every test, to refresh the page completely.
@@ -606,17 +586,12 @@ $Selenium->RunTest(
             for my $SubTest ( @{$Test} ) {
 
                 $Selenium->find_element( "#OptionCustomerUserAddressBook" . $SubTest->{RecipientField}, 'css' )
-                    ->VerifiedClick();
+                    ->click();
 
-                # FIXME: We need to wait until IFRAME with address book content is loaded, before we can switch to it.
-                #   In Chrome >= 63 browser switch_to_frame() will *not* work until frame has loaded. Find a better
-                #   solution or wait until it has been fixed upstream!
-                $WaitForIframeLoad->( IframeSelector => '.CustomerUserAddressBook' );
-
-                $Selenium->switch_to_frame( $Selenium->find_element( '.CustomerUserAddressBook', 'css' ) );
-                $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+                $Selenium->SwitchToFrame(
+                    FrameSelector => '.CustomerUserAddressBook',
+                    WaitForLoad   => 1,
+                    Reload        => $SubTest->{RecipientField} eq 'BccCustomer',
                 );
 
                 # Check the default fields for the initial address book screen.
@@ -702,12 +677,11 @@ $Selenium->RunTest(
               # Switch to the "main" window to click the search submit button and switch back to the address book frame.
                     $Selenium->switch_to_frame();
                     $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
-                    $WaitForIframeLoad->( IframeSelector => '.CustomerUserAddressBook' );
-                    $Selenium->switch_to_frame( $Selenium->find_element( '.CustomerUserAddressBook', 'css' ) );
 
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+                    $Selenium->SwitchToFrame(
+                        FrameSelector => '.CustomerUserAddressBook',
+                        WaitForLoad   => 1,
+                        Reload        => 1,
                     );
                 }
                 elsif ( $SubTest->{UseSearchProfile} ) {
@@ -724,12 +698,11 @@ $Selenium->RunTest(
               # Switch to the "main" window to click the search submit button and switch back to the address book frame.
                     $Selenium->switch_to_frame();
                     $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
-                    $WaitForIframeLoad->( IframeSelector => '.CustomerUserAddressBook' );
-                    $Selenium->switch_to_frame( $Selenium->find_element( '.CustomerUserAddressBook', 'css' ) );
 
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+                    $Selenium->SwitchToFrame(
+                        FrameSelector => '.CustomerUserAddressBook',
+                        WaitForLoad   => 1,
+                        Reload        => 1,
                     );
                 }
                 else {
@@ -750,11 +723,6 @@ $Selenium->RunTest(
                     $Selenium->accept_alert();
 
                     $Selenium->switch_to_frame( $Selenium->find_element( '.CustomerUserAddressBook', 'css' ) );
-
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-                    );
                 }
 
                 if ( IsArrayRefWithData( $SubTest->{ExcludeSearchResultCustomerUser} ) ) {
@@ -784,7 +752,7 @@ $Selenium->RunTest(
 
                     # Go only back, if the search was executed before, otherwise the correct page is already present.
                     if ( IsHashRefWithData( $SubTest->{SearchParameter} ) ) {
-                        $Selenium->find_element( '#ChangeSearch', 'css' )->VerifiedClick();
+                        $Selenium->find_element( '#ChangeSearch', 'css' )->click();
                     }
 
                     sleep 1;
@@ -835,12 +803,11 @@ $Selenium->RunTest(
               # Switch to the "main" window to click the search submit button and switch back to the address book frame.
                     $Selenium->switch_to_frame();
                     $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
-                    $WaitForIframeLoad->( IframeSelector => '.CustomerUserAddressBook' );
-                    $Selenium->switch_to_frame( $Selenium->find_element( '.CustomerUserAddressBook', 'css' ) );
 
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+                    $Selenium->SwitchToFrame(
+                        FrameSelector => '.CustomerUserAddressBook',
+                        WaitForLoad   => 1,
+                        Reload        => 1,
                     );
                 }
 
