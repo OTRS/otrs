@@ -585,13 +585,24 @@ $Selenium->RunTest(
 
             for my $SubTest ( @{$Test} ) {
 
+                # Reset the page load complete flag inside the frame, so following switch to frame can check if it has
+                #   been reloaded.
+                $Selenium->execute_script( '
+                    if (
+                        typeof($(".CustomerUserAddressBook").get(0).contentWindow.Core) == "object"
+                        && typeof($(".CustomerUserAddressBook").get(0).contentWindow.Core.App) == "object"
+                        )
+                    {
+                        $(".CustomerUserAddressBook").get(0).contentWindow.Core.App.PageLoadComplete = false;
+                    }
+                ' );
+
                 $Selenium->find_element( "#OptionCustomerUserAddressBook" . $SubTest->{RecipientField}, 'css' )
                     ->click();
 
                 $Selenium->SwitchToFrame(
                     FrameSelector => '.CustomerUserAddressBook',
                     WaitForLoad   => 1,
-                    Reload        => $SubTest->{RecipientField} eq 'BccCustomer',
                 );
 
                 # Check the default fields for the initial address book screen.
@@ -674,14 +685,27 @@ $Selenium->RunTest(
                         $Selenium->find_element( '#SearchProfileAddAction', 'css' )->click();
                     }
 
-              # Switch to the "main" window to click the search submit button and switch back to the address book frame.
+                    # Switch to the "main" window to click the search submit button and switch back to the address book
+                    #   frame.
                     $Selenium->switch_to_frame();
+
+                    # Reset the page load complete flag inside the frame, so following switch to frame can check if it
+                    #   has been reloaded.
+                    $Selenium->execute_script( '
+                        if (
+                            typeof($(".CustomerUserAddressBook").get(0).contentWindow.Core) == "object"
+                            && typeof($(".CustomerUserAddressBook").get(0).contentWindow.Core.App) == "object"
+                            )
+                        {
+                            $(".CustomerUserAddressBook").get(0).contentWindow.Core.App.PageLoadComplete = false;
+                        }
+                    ' );
+
                     $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
                     $Selenium->SwitchToFrame(
                         FrameSelector => '.CustomerUserAddressBook',
                         WaitForLoad   => 1,
-                        Reload        => 1,
                     );
                 }
                 elsif ( $SubTest->{UseSearchProfile} ) {
@@ -695,14 +719,27 @@ $Selenium->RunTest(
                     # wait until form and overlay has loaded, if neccessary
                     $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SaveProfile').length" );
 
-              # Switch to the "main" window to click the search submit button and switch back to the address book frame.
+                    # Switch to the "main" window to click the search submit button and switch back to the address book
+                    #   frame.
                     $Selenium->switch_to_frame();
+
+                    # Reset the page load complete flag inside the frame, so following switch to frame can check if it
+                    #   has been reloaded.
+                    $Selenium->execute_script( '
+                        if (
+                            typeof($(".CustomerUserAddressBook").get(0).contentWindow.Core) == "object"
+                            && typeof($(".CustomerUserAddressBook").get(0).contentWindow.Core.App) == "object"
+                            )
+                        {
+                            $(".CustomerUserAddressBook").get(0).contentWindow.Core.App.PageLoadComplete = false;
+                        }
+                    ' );
+
                     $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
                     $Selenium->SwitchToFrame(
                         FrameSelector => '.CustomerUserAddressBook',
                         WaitForLoad   => 1,
-                        Reload        => 1,
                     );
                 }
                 else {
@@ -800,14 +837,27 @@ $Selenium->RunTest(
                         }
                     }
 
-              # Switch to the "main" window to click the search submit button and switch back to the address book frame.
+                    # Switch to the "main" window to click the search submit button and switch back to the address book
+                    #   frame.
                     $Selenium->switch_to_frame();
+
+                    # Reset the page load complete flag inside the frame, so following switch to frame can check if it
+                    #   has been reloaded.
+                    $Selenium->execute_script( '
+                        if (
+                            typeof($(".CustomerUserAddressBook").get(0).contentWindow.Core) == "object"
+                            && typeof($(".CustomerUserAddressBook").get(0).contentWindow.Core.App) == "object"
+                            )
+                        {
+                            $(".CustomerUserAddressBook").get(0).contentWindow.Core.App.PageLoadComplete = false;
+                        }
+                    ' );
+
                     $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
                     $Selenium->SwitchToFrame(
                         FrameSelector => '.CustomerUserAddressBook',
                         WaitForLoad   => 1,
-                        Reload        => 1,
                     );
                 }
 
