@@ -309,11 +309,10 @@ $Selenium->RunTest(
 
         # click on '[ Customer User ]' to test customer user creation from iframe
         $Selenium->find_element( "#OptionCustomer", 'css' )->click();
-        $Selenium->switch_to_frame( $Selenium->find_element( '.TextOption', 'css' ) );
-
-        # FIXME: Hard sleep is needed here too because in some browser versions the following check for page load
-        #   complete will query the main page instead of the IFRAME. Find a more performant solution!
-        sleep 5;
+        $Selenium->SwitchToFrame(
+            FrameSelector => '.TextOption',
+            WaitForLoad   => 1,
+        );
 
         # Wait until the frame has loaded, before continuing.
         $Selenium->WaitFor(
