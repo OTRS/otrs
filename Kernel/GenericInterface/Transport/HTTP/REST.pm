@@ -789,6 +789,7 @@ sub RequesterPerformRequest {
         };
     }
 
+    # Send processed data to debugger.
     my $SizeExeeded = 0;
     {
         my $MaxSize = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::ResponseLoggingMaxSize')
@@ -813,12 +814,6 @@ sub RequesterPerformRequest {
             );
         }
     }
-
-    # Send processed data to debugger.
-    $Self->{DebuggerObject}->Debug(
-        Summary => 'JSON data received from remote system',
-        Data    => $ResponseContent,
-    );
 
     $ResponseContent = $EncodeObject->Convert2CharsetInternal(
         Text => $ResponseContent,
