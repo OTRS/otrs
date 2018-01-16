@@ -911,10 +911,12 @@ sub DirectoryRead {
     my @Results;
     for my $Filename (@GlobResults) {
 
-        # first convert filename to utf-8 if utf-8 is used internally
+        # First convert filename to utf-8, with additional Check parameter
+        # to replace possible malformed characters and prevent further errors.
         $Filename = $EncodeObject->Convert2CharsetInternal(
-            Text => $Filename,
-            From => 'utf-8',
+            Text  => $Filename,
+            From  => 'utf-8',
+            Check => 1,
         );
 
         push @Results, $Filename;
