@@ -589,7 +589,8 @@ $Selenium->RunTest(
                 #   been reloaded.
                 $Selenium->execute_script( '
                     if (
-                        typeof($(".CustomerUserAddressBook").get(0).contentWindow.Core) == "object"
+                        typeof($(".CustomerUserAddressBook").get(0)) == "object"
+                        && typeof($(".CustomerUserAddressBook").get(0).contentWindow.Core) == "object"
                         && typeof($(".CustomerUserAddressBook").get(0).contentWindow.Core.App) == "object"
                         )
                     {
@@ -727,7 +728,8 @@ $Selenium->RunTest(
                     #   has been reloaded.
                     $Selenium->execute_script( '
                         if (
-                            typeof($(".CustomerUserAddressBook").get(0).contentWindow.Core) == "object"
+                            typeof($(".CustomerUserAddressBook").get(0)) == "object"
+                            && typeof($(".CustomerUserAddressBook").get(0).contentWindow.Core) == "object"
                             && typeof($(".CustomerUserAddressBook").get(0).contentWindow.Core.App) == "object"
                             )
                         {
@@ -795,7 +797,7 @@ $Selenium->RunTest(
                     sleep 1;
 
                     $Selenium->WaitFor(
-                        JavaScript => 'return $("#Attribute").length == 1 && $("#.AddButton").length == 1'
+                        JavaScript => 'return $("#Attribute").length == 1 && $(".AddButton").length == 1'
                     );
 
                     for my $FieldName ( @{ $SubTest->{SearchFieldsChange} } ) {
@@ -845,7 +847,8 @@ $Selenium->RunTest(
                     #   has been reloaded.
                     $Selenium->execute_script( '
                         if (
-                            typeof($(".CustomerUserAddressBook").get(0).contentWindow.Core) == "object"
+                            typeof($(".CustomerUserAddressBook").get(0)) == "object"
+                            && typeof($(".CustomerUserAddressBook").get(0).contentWindow.Core) == "object"
                             && typeof($(".CustomerUserAddressBook").get(0).contentWindow.Core.App) == "object"
                             )
                         {
