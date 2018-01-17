@@ -88,7 +88,7 @@ $Selenium->RunTest(
         );
 
         # Click on reset.
-        $Selenium->find_element( ".ResetSetting", "css" )->click();
+        $Selenium->execute_script('$(".ResetSetting").click()');
 
         # Wait.
         $Selenium->WaitFor(
@@ -179,7 +179,7 @@ $Selenium->RunTest(
             );
 
             # Click on reset.
-            $Selenium->find_element( ".ResetSetting", "css" )->click();
+            $Selenium->execute_script('$(".ResetSetting").click()');
 
             # Wait.
             $Selenium->WaitFor(
