@@ -838,9 +838,13 @@ div.Headline .Flag {
 .TimelineView > ul > li h3 {
     margin: -10px -10px 5px -10px;
     padding: 6px 10px;
-    background: #ddd;
+    background: #fff;
     font-size: 12px;
     position: relative;
+}
+
+.TimelineView > ul > li.NewTicket h3 {
+    background: #ddd;
 }
 
 .TimelineView > ul > li h3 .fa-info-circle {
@@ -952,7 +956,7 @@ div.Headline .Flag {
 
 .TimelineView ul.ListLeft li h3:after {
     left: 100%;
-    border-left-color: #ccc;
+    border-left-color: #ddd;
     border-right-color: transparent;
 }
 
@@ -1202,12 +1206,20 @@ div.Headline .Flag {
 /* Define colors for different event types */
 
 .UseArticleColors .TimelineView .TypeIncoming h3 {
-    background-color: #d4defc;
-    color: #000;
+    background-color: #fff;
 }
 
 .UseArticleColors .TimelineView .TypeIncoming h3:after {
-    border-right-color: #B7C3E8;
+    border-right-color: #ddd;
+}
+
+.UseArticleColors .TimelineView .TypeTicketAction h3 {
+    background-color: #eee;
+    color: #555;
+}
+
+.UseArticleColors .TimelineView .TypeTicketAction {
+    background: #f7f7f7;
 }
 
 .UseArticleColors .TimelineView .TypeIncoming.SenderType_customer.ArticleType_email-internal h3 {
@@ -1234,15 +1246,6 @@ div.Headline .Flag {
 
 .UseArticleColors .TimelineView ul.ListLeft .TypeNoteInternal h3:after {
     border-left-color: #EFB1B1;
-}
-
-.UseArticleColors .TimelineView .TypeOutgoing h3 {
-    background-color: #D3E5B5;
-    color: #000;
-}
-
-.UseArticleColors .TimelineView ul.ListLeft .TypeOutgoing h3:after {
-    border-left-color: #BFD39C;
 }
 
 .TimelineView > ul > li.Seen div.UnreadArticles,
