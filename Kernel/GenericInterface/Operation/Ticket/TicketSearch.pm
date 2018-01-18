@@ -133,29 +133,16 @@ perform TicketSearch Operation. This will return a Ticket ID list.
         #   At least one operator must be specified. Operators will be connected with AND,
         #       values in an operator with OR.
         #   You can also pass more than one argument to an operator: ['value1', 'value2']
-        DynamicField => [                                                  # optional
-            {
-                Name   => 'some name',
-                Empty             => 1,                       # will return dynamic fields without a value
-                                                                  # set to 0 to search fields with a value present
-                Equals            => 123,
-                Like              => 'value*',                # "equals" operator with wildcard support
-                GreaterThan       => '2001-01-01 01:01:01',
-                GreaterThanEquals => '2001-01-01 01:01:01',
-                SmallerThan       => '2002-02-02 02:02:02',
-                SmallerThanEquals => '2002-02-02 02:02:02',
-            },
-            # ...
-        ],
-        # or
-        # DynamicField => {
-        #    Name   => 'some name',
-        #    # ...
-        #    Equals => 123,
-        #    # ...
-        #},
-
-
+        DynamicField_FieldNameX => {
+            Empty             => 1,                       # will return dynamic fields without a value
+                                                          #     set to 0 to search fields with a value present.
+            Equals            => 123,
+            Like              => 'value*',                # "equals" operator with wildcard support
+            GreaterThan       => '2001-01-01 01:01:01',
+            GreaterThanEquals => '2001-01-01 01:01:01',
+            SmallerThan       => '2002-02-02 02:02:02',
+            SmallerThanEquals => '2002-02-02 02:02:02',
+        },
 
         # article stuff (optional)
         From    => '%spam@example.com%',
