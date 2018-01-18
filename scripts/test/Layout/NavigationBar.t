@@ -19,6 +19,12 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+# Unregister all notification modules.
+$HelperObject->ConfigSettingChange(
+    Valid => 0,
+    Key   => 'Frontend::NotifyModule',
+);
+
 # Add test user.
 my $TestUserLogin = $HelperObject->TestUserCreate(
     Groups => ['users'],

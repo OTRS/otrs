@@ -24,6 +24,12 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+# Unregister all notification modules.
+$Helper->ConfigSettingChange(
+    Valid => 0,
+    Key   => 'Frontend::NotifyModule',
+);
+
 $Kernel::OM->ObjectParamAdd(
     'Kernel::Output::HTML::Layout' => {
         UserID => 1,
