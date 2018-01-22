@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.915931499740529;
+    $Self->{Completeness}        = 0.915095970949334;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4021,8 +4021,6 @@ sub Data {
         'Updated user preferences' => 'Обновленные настройки пользователя',
         'System was unable to deploy your changes.' => 'Система не смогла применить ваше изменение.',
         'Setting not found!' => 'Параметр не найден!',
-        'This feature is part of the %s Please contact us at %s for an upgrade.' =>
-            'Эта возможность является составной частью %s. Пожалуйста свяжитесь с нами по адресу %s для обновления.',
         'System was unable to reset the setting!' => 'Система не смогла сбросить эту настройку!',
 
         # Perl Module: Kernel/Modules/AgentSplitSelection.pm
@@ -4588,7 +4586,8 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'System maintenance is active!' => 'Система на техническом обслуживании!',
-        'A system maintenance period will start at: ' => 'Период технического обслуживания начнется в:',
+        'A system maintenance period will start at: %s and is expected to stop at: %s' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
         'OTRS Daemon is not running.' => 'Служба OTRS не запущена',
@@ -5207,6 +5206,9 @@ sub Data {
         'Could not update modified setting!' => 'Не удалось обновить измененную настройку!',
         'Setting could not be unlocked!' => 'Настройка не может быть разблокирована!',
         'Missing key %s!' => 'Пропущен ключ %s!',
+        'Invalid setting: %s' => '',
+        'Could not combine settings values into a perl hash.' => '',
+        'Can not lock the deployment for UserID \'%s\'!' => '',
         'All Settings' => 'Все настройки',
 
         # Perl Module: Kernel/System/SysConfig/BaseValueType.pm
@@ -5662,8 +5664,6 @@ sub Data {
         # JS File: Core.Agent
         'Slide the navigation bar' => 'Прокрутите панель навигации',
         'Please turn off Compatibility Mode in Internet Explorer!' => 'Выключите Compatibility Mode/Режим совместимости в Internet Explorer!',
-        'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
-            'Эта возможность является составной частью %s. Пожалуйста свяжитесь с нами в %s.  для обновления.',
         'Find out more' => 'Найти ещё',
 
         # JS File: Core.App.Responsive
@@ -7447,6 +7447,7 @@ Thanks for your help!
         'JavaScript function for the search frontend.' => 'Функция JavaScript для фронтэнд поиска.',
         'Language' => 'Язык',
         'Large' => 'Большой',
+        'Last Screen Overview' => '',
         'Last customer subject' => 'Последняя заголовок клиента',
         'Lastname Firstname' => 'Фамилия Имя',
         'Lastname Firstname (UserLogin)' => 'Фамилия Имя (UserLogin)',
@@ -8959,7 +8960,7 @@ Thanks for your help!
         'This address already exists on the address list.',
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
-        'This feature is part of the %s.  Please contact us at %s for an upgrade.',
+        'This feature is part of the %s. Please contact us at %s for an upgrade.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

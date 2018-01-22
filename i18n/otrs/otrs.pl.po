@@ -2,7 +2,7 @@
 # Translators:
 # Adam <reedu@wp.pl>, 2016
 # Bartosz Huczek <bhuczek@sas24.pl>, 2016
-# Daniel Lisiecki, 2017
+# Daniel Lisiecki, 2017-2018
 # icetafax <tomasz.matejunas@cortlandplus.pl>, 2015
 # Jerzy Ruszczak <orcio6@o2.pl>, 2015-2017
 # Kamil Zając <kz@itpartners.com.pl>, 2017
@@ -18,8 +18,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-01-08 18:29+0000\n"
-"PO-Revision-Date: 2018-01-08 18:33+0000\n"
+"POT-Creation-Date: 2018-01-22 01:09+0000\n"
+"PO-Revision-Date: 2018-01-22 01:13+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Polish (http://www.transifex.com/otrs/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -665,7 +665,7 @@ msgstr "Zaktualizuj do %s"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Please activate this transport in order to use it."
-msgstr ""
+msgstr "Aktywuj ten sposób transportu aby go użyć."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No data found"
@@ -1011,29 +1011,29 @@ msgstr "Zakres czasu"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
-msgstr ""
+msgstr "Pokaż log komunikacyjny utworzony tylko w określonym zakresie czasu."
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
-msgstr ""
+msgstr "Filtr kanałów komunikacji"
 
 #. Template: AdminCommunicationLog
 msgid ""
 "In this screen you can see an overview about incoming and outgoing "
 "communications."
-msgstr ""
+msgstr "Na tym ekranie możesz zobaczyć podsumowanie komunikacji przychodzącej i wychodzącej."
 
 #. Template: AdminCommunicationLog
 msgid ""
 "You can change the sort and order of the columns by clicking on the column "
 "header."
-msgstr ""
+msgstr "Możesz zmienić kolejność i sortowanie kolumn klikając na nagłówek tabeli."
 
 #. Template: AdminCommunicationLog
 msgid ""
 "If you click on the different entries, you will get redirected to a detailed"
 " screen about the message."
-msgstr ""
+msgstr "Jeśli klikniesz w niektóre kolumny elementu, zostaniesz przekierowany do ekranu szczegółów."
 
 #. Template: AdminCommunicationLog
 msgid "Status for: %s"
@@ -1041,39 +1041,39 @@ msgstr "Status dla: 1 %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing accounts"
-msgstr ""
+msgstr "Nieprawidłowe konta"
 
 #. Template: AdminCommunicationLog
 msgid "Some account problems"
-msgstr ""
+msgstr "Występują problemy kont"
 
 #. Template: AdminCommunicationLog
 msgid "No account problems"
-msgstr ""
+msgstr "Nie ma problemów z kontami"
 
 #. Template: AdminCommunicationLog
 msgid "No account activity"
-msgstr ""
+msgstr "Nie ma aktywności konta"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with problems: %s"
-msgstr ""
+msgstr "Ilość kont z problemami: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with warnings: %s"
-msgstr ""
+msgstr "Ilość kont z ostrzeżeniami: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing communications"
-msgstr ""
+msgstr "Niepowodzenia komunikacji"
 
 #. Template: AdminCommunicationLog
 msgid "No communication problems"
-msgstr ""
+msgstr "Brak problemów komunikacyjnych"
 
 #. Template: AdminCommunicationLog
 msgid "No communication logs"
-msgstr ""
+msgstr "Brak logów komunikacyjnych"
 
 #. Template: AdminCommunicationLog
 msgid "Number of reported problems: %s"
@@ -1081,15 +1081,15 @@ msgstr "Liczba zaraportowanych problemów: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Open communications"
-msgstr ""
+msgstr "Otwarta komunikacja"
 
 #. Template: AdminCommunicationLog
 msgid "No active communications"
-msgstr ""
+msgstr "Brak aktywnej komunikacji"
 
 #. Template: AdminCommunicationLog
 msgid "Number of open communications: %s"
-msgstr ""
+msgstr "Liczba otwartych komunikacji: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Average processing time"
@@ -1097,7 +1097,7 @@ msgstr "Średni czas przetwarzania"
 
 #. Template: AdminCommunicationLog
 msgid "List of communications (%s)"
-msgstr ""
+msgstr "Lista komunikacji (%s)"
 
 #. Template: AdminCommunicationLog
 msgid "Settings"
@@ -1109,11 +1109,11 @@ msgstr "Pozycji na stronie"
 
 #. Template: AdminCommunicationLog
 msgid "No communications found."
-msgstr ""
+msgstr "Nie znaleziono komunikacji."
 
 #. Template: AdminCommunicationLog
 msgid "%s s"
-msgstr ""
+msgstr "%s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account Status"
@@ -1129,13 +1129,13 @@ msgstr "Filtr dla kont"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for log entries"
-msgstr ""
+msgstr "Filtruj pozycje logu"
 
 #. Template: AdminCommunicationLogAccounts
 msgid ""
 "You can change the sort and order of those columns by clicking on the column"
 " header."
-msgstr ""
+msgstr "Możesz zmienić kolejność i sortowanie kolumn klikając na nagłówek tabeli."
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account status for: %s"
@@ -1159,7 +1159,7 @@ msgstr "Brak znalezionych kont."
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Communication Log Details (%s)"
-msgstr ""
+msgstr "Szczegóły logu komunikacyjnego (%s)"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Direction"
@@ -1175,15 +1175,15 @@ msgstr "Czas zakończenia"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "No communication log entries found."
-msgstr ""
+msgstr "Nie znaleziono pozycji logu komunikacyjnego."
 
 #. Template: AdminCommunicationLogCommunications
 msgid "Duration"
-msgstr ""
+msgstr "Czas trwania"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "Priority"
@@ -1199,31 +1199,31 @@ msgstr "Informacje"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "No log entries found."
-msgstr ""
+msgstr "Nie znaleziono pozycji logu."
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
-msgstr ""
+msgstr "Podgląd szczegółów dla %s komunikacja rozpoczęta o %s"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Show only entries with specific priority and higher:"
-msgstr ""
+msgstr "Pokaż tylko te pozycje logu od określonego priorytetu wzwyż:"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Communication Log Overview (%s)"
-msgstr ""
+msgstr "Przegląd Logu Komunikacyjnego (%s)"
 
 #. Template: AdminCommunicationLogZoom
 msgid "No communication objects found."
-msgstr ""
+msgstr "Nie znaleziono obiektów komunikacyjnych."
 
 #. Template: AdminCommunicationLogZoom
 msgid "Communication Log Details"
-msgstr ""
+msgstr "Szczegóły Logu Komunikacyjnego"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Please select an entry from the list."
-msgstr ""
+msgstr "Wybierz pozycję z listy."
 
 #. Template: AdminCustomerCompany
 msgid "Customer Management"
@@ -1271,7 +1271,7 @@ msgstr "Proszę zanotuj"
 
 #. Template: AdminCustomerCompany
 msgid "This customer backend is read only!"
-msgstr ""
+msgstr "Ten backend klienta jest tylko do odczytu!"
 
 #. Template: AdminCustomerGroup
 msgid "Manage Customer-Group Relations"
@@ -1424,7 +1424,7 @@ msgstr "Zmień klienta"
 msgid ""
 "This customer backend is read only, but the customer user preferences can be"
 " changed!"
-msgstr ""
+msgstr "Ten backend klienta jest tylko do odczytu, ale preferencje użytkownika klienta mogą być zmieniane!"
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."
@@ -1452,7 +1452,7 @@ msgstr "CustomerID jest nieprawidłowy."
 
 #. Template: AdminCustomerUser
 msgid "Effective Permissions for Customer User"
-msgstr ""
+msgstr "Efektywne uprawnienia dla Użytkownika Klienta"
 
 #. Template: AdminCustomerUser
 msgid "Group Permissions"
@@ -1468,7 +1468,7 @@ msgid ""
 "matrix takes into account all inherited permissions (e.g. via customer "
 "groups). Note: The table does not consider changes made to this form without"
 " submitting it."
-msgstr ""
+msgstr "Powyższa tabela pokazuje efektywne uprawnienia do grup użytkownika klienta. Macierz pobiera wszystkie dziedziczone uprawnienia dla konta (np. poprzez grupy użytkownika). Uwaga: Tabela nie zawiera zmian dokonanych na tej formatce i jeszcze nie zapisanych."
 
 #. Template: AdminCustomerUser
 msgid "Customer Access"
@@ -1504,11 +1504,11 @@ msgstr "Użytkownicy klientów"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer Relations for Customer User"
-msgstr ""
+msgstr "Zmień relacje Klienta dla Użytkownika klienta"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer User Relations for Customer"
-msgstr ""
+msgstr "Zmień relacje Użytkownika klienta do Klienta"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Toggle active state for all"
@@ -1530,7 +1530,7 @@ msgstr "Zarządzaj relacjami Użytkownik klienta - Grupa"
 msgid ""
 "Just use this feature if you want to define group permissions for customer "
 "users."
-msgstr ""
+msgstr "Użyj tej funkcjonalności jeśli chcesz określić uprawnienia grup dla użytkowników klienta."
 
 #. Template: AdminCustomerUserGroup
 msgid "Edit Customer User Default Groups"
@@ -1548,7 +1548,7 @@ msgstr "Możesz zarządzać tymi grupami poprzez parametr \"CustomerGroupAlwaysG
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
-msgstr ""
+msgstr "Określ uprawnienia użytkownik klienta - grupa."
 
 #. Template: AdminCustomerUserGroup
 msgid ""
@@ -2367,7 +2367,7 @@ msgstr "Dodaj notatkę"
 
 #. Template: AdminGenericAgent
 msgid "Visible for customer"
-msgstr "Widoczne dla klienta"
+msgstr "Widoczny dla klienta"
 
 #. Template: AdminGenericAgent
 msgid "Time units"
@@ -3944,7 +3944,7 @@ msgstr "Log systemu"
 
 #. Template: AdminLog
 msgid "Filter for Log Entries"
-msgstr ""
+msgstr "Filtruj pozycje logu"
 
 #. Template: AdminLog
 msgid "Here you will find log information about your system."
@@ -3994,7 +3994,7 @@ msgstr "Filtruj po konta e-mail"
 msgid ""
 "All incoming emails with one account will be dispatched in the selected "
 "queue."
-msgstr ""
+msgstr "Wszystkie przychodzące na jedno konto wiadomości będą umieszczone w zaznacznej kolejce."
 
 #. Template: AdminMailAccount
 msgid ""
@@ -4093,7 +4093,7 @@ msgstr "Brak Dopasowań"
 
 #. Template: AdminNavigationBar
 msgid "Sorry, your search didn't match any items."
-msgstr ""
+msgstr "Niestety twoje kryteria wyszukiwania nie pasują do żadnych elementów."
 
 #. Template: AdminNavigationBar
 msgid "Set as favorite"
@@ -4154,7 +4154,7 @@ msgstr "Jeśli UtworzenieWiadomości lub WysłanieWiadomości inicjuje jakieś z
 
 #. Template: AdminNotificationEvent
 msgid "Customer visibility"
-msgstr ""
+msgstr "Widoczność Klienta"
 
 #. Template: AdminNotificationEvent
 msgid "Communication channel"
@@ -4855,11 +4855,11 @@ msgstr "Zarządzanie filtrami poczty przychodzącej"
 
 #. Template: AdminPostMasterFilter
 msgid "Add PostMaster Filter"
-msgstr "Dodaj filtr PostMaster"
+msgstr "Dodaj filtr pocztowy"
 
 #. Template: AdminPostMasterFilter
 msgid "Edit PostMaster Filter"
-msgstr "Edytuj filtr PostMaster"
+msgstr "Edytuj filtr pocztowy"
 
 #. Template: AdminPostMasterFilter
 msgid "Add filter"
@@ -4867,11 +4867,11 @@ msgstr "Dodaj filtr"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter for Postmaster Filters"
-msgstr ""
+msgstr "Filtruj filtry pocztowe"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter for postmaster filters"
-msgstr ""
+msgstr "Filtruj filtry pocztowe"
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -4903,7 +4903,7 @@ msgstr "Usuń ten filtr"
 
 #. Template: AdminPostMasterFilter
 msgid "Do you really want to delete this postmaster filter?"
-msgstr "Czy na pewno chcesz skasować filtr pocztowy?"
+msgstr "Czy na pewno chcesz skasować ten filtr pocztowy?"
 
 #. Template: AdminPostMasterFilter
 msgid "A postmaster filter with this name already exists!"
@@ -5208,7 +5208,7 @@ msgstr "Kanał Komunikacji"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Is visible for customer"
-msgstr "Jest widoczne dla klienta"
+msgstr "Jest widoczna dla klienta"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Display"
@@ -7607,7 +7607,7 @@ msgstr "Zarchiwizowane zgłoszenia"
 
 #. Template: AgentDashboardCustomerUserInformation
 msgid "Note: Customer User is invalid!"
-msgstr ""
+msgstr "Uwaga: Użytkownik klienta jest nieprawidłowy!"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Customer user information"
@@ -7698,7 +7698,7 @@ msgstr "Przypisane do użytkownika klienta"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Accessible for customer user"
-msgstr ""
+msgstr "Dostępne dla użytkownika klienta"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My locked tickets"
@@ -7805,7 +7805,7 @@ msgstr ""
 msgid ""
 "Set up your personal preferences. Save each setting by clicking the "
 "checkmark on the right."
-msgstr ""
+msgstr "Dostosuj swoje ustawienia osobiste. Każdą z opcji można zapisać klikając ✓ po prawej stronie."
 
 #. Template: AgentPreferences
 msgid ""
@@ -8543,7 +8543,7 @@ msgstr "(np. 234*)"
 
 #. Template: AgentTicketSearch
 msgid "Customer ID (exact match)"
-msgstr ""
+msgstr "ID Klienta (dokładne dopasowanie)"
 
 #. Template: AgentTicketSearch
 msgid "Assigned to Customer User Login (complex search)"
@@ -8659,7 +8659,7 @@ msgstr "Zapisz jako domyślny"
 
 #. Template: AgentTicketZoom
 msgid "Drafts"
-msgstr ""
+msgstr "Szkice"
 
 #. Template: AgentTicketZoom
 msgid "by"
@@ -9246,29 +9246,29 @@ msgstr "Rozwiń"
 
 #. Template: DraftButtons
 msgid "Update draft"
-msgstr ""
+msgstr "Zaktualizuj szkic"
 
 #. Template: DraftButtons
 msgid "Save as new draft"
-msgstr ""
+msgstr "Zapisz jako nowy szkic"
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\"."
-msgstr ""
+msgstr "Wczytałeś szkic \"%s\""
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\". You last changed it %s."
-msgstr ""
+msgstr "Wczytałeś szkic \"%s\". Ostatnio zmieniałeś go %s."
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\". It was last changed %s by %s."
-msgstr ""
+msgstr "Wczytałeś szkic \"%s\". Ostatnio zmieniony %s przez %s."
 
 #. Template: DraftNotifications
 msgid ""
 "Please note that this draft is outdated because the ticket was modified "
 "since this draft was created."
-msgstr ""
+msgstr "Zauważ, że szkic jest nieaktualny ponieważ zgłoszenie zostało zmienione od czasu utworzenia szkicu."
 
 #. Template: Header
 msgid "View notifications"
@@ -10178,7 +10178,7 @@ msgstr "Pokaż"
 
 #. JS Template: FormDraftAddDialog
 msgid "Draft title"
-msgstr ""
+msgstr "Tytuł szkicu"
 
 #. JS Template: ArticleViewSettingsDialog
 msgid "Article display"
@@ -12344,10 +12344,6 @@ msgid "Setting not found!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
-msgid "This feature is part of the %s Please contact us at %s for an upgrade."
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to reset the setting!"
 msgstr ""
 
@@ -12409,7 +12405,7 @@ msgstr "Potrzebujesz uprawnień do %s !"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Loading draft failed!"
-msgstr ""
+msgstr "Nieudane wczytanie szkicu!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Sorry, you need to be the ticket owner to perform this action."
@@ -12425,7 +12421,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Draft name is required!"
-msgstr ""
+msgstr "Nazwa szkicu jest wymagana!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "FormDraft name %s is already in use!"
@@ -12441,7 +12437,7 @@ msgstr "Brak tematu"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Could not delete draft!"
-msgstr ""
+msgstr "Nie można usunąć szkicu!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Previous Owner"
@@ -13142,15 +13138,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Invisible only"
-msgstr ""
+msgstr "Tylko niewidoczne"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Visible only"
-msgstr ""
+msgstr "Tylko widoczne"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Visible and invisible"
-msgstr ""
+msgstr "Widoczne i niewidoczne"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Article could not be opened! Perhaps it is on another article page?"
@@ -13212,7 +13208,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
-msgstr ""
+msgstr "Potrzebne ID Klienta!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "My Tickets"
@@ -13504,7 +13500,7 @@ msgstr "Odznacz"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Upgrade to OTRS Business Solution™"
-msgstr ""
+msgstr "Ulepsz do wersji OTRS Business Solution™"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Re-install Package"
@@ -13844,7 +13840,7 @@ msgstr "W celu uruchomienia wszystkich funkcji OTRS włącz usługi w chmurze!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
-msgstr ""
+msgstr "%sUlepsz do wersji %steraz! %s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "Please verify your license data!"
@@ -13887,7 +13883,8 @@ msgstr ""
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
-msgid "A system maintenance period will start at: "
+msgid ""
+"A system maintenance period will start at: %s and is expected to stop at: %s"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
@@ -14275,7 +14272,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting is not visible."
-msgstr ""
+msgstr "To ustawienie jest niewidoczne."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting can be overridden in the user preferences."
@@ -15480,6 +15477,18 @@ msgid "Missing key %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/SysConfig.pm
+msgid "Invalid setting: %s"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "Could not combine settings values into a perl hash."
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "Can not lock the deployment for UserID '%s'!"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
 msgid "All Settings"
 msgstr "Wszystkie Ustawienia"
 
@@ -16222,11 +16231,11 @@ msgstr "Czy na pewno chcesz zaktualizować wszystkie zainstalowane pakiety?"
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Delete this PostMasterFilter"
-msgstr ""
+msgstr "Usuń ten filtr pocztowy"
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Deleting the postmaster filter and its data. This may take a while..."
-msgstr ""
+msgstr "Usuwanie filtra pocztowego i jego danych. To może chwilę potrwać...."
 
 #. JS File: Core.Agent.Admin.ProcessManagement.Canvas
 msgid "Remove Entity from canvas"
@@ -16295,7 +16304,7 @@ msgstr "Edytuj szczegóły pola"
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid ""
 "Customer interface does not support articles not visible for customers."
-msgstr ""
+msgstr "Interfejs klienta nie wspiera wyświetlania artykułów niewidocznych dla klienta"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Sorry, the only existing parameter can't be removed."
@@ -16646,19 +16655,19 @@ msgstr "...pokaż mniej"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "Add new draft"
-msgstr ""
+msgstr "Dodaj nowy szkic"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "Delete draft"
-msgstr ""
+msgstr "Usuń szkic"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "There are no more drafts available."
-msgstr ""
+msgstr "Nie ma więcej dostępnych szkiców."
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "It was not possible to delete this draft."
-msgstr ""
+msgstr "Usunięcie szkicu jest niemożliwe."
 
 #. JS File: Core.Agent.TicketZoom
 msgid "Article filter"
@@ -16679,11 +16688,6 @@ msgstr "Wysuń panel nawigacji"
 #. JS File: Core.Agent
 msgid "Please turn off Compatibility Mode in Internet Explorer!"
 msgstr "Proszę wyłącz Widok Zgodności w Internet Explorerze!"
-
-#. JS File: Core.Agent
-msgid ""
-"This feature is part of the %s.  Please contact us at %s for an upgrade."
-msgstr "Ta funkcja znajduje się w %s.  Proszę skontaktuj się z nami na %s w celu aktualizacji."
 
 #. JS File: Core.Agent
 msgid "Find out more"
@@ -17534,73 +17538,73 @@ msgstr "Pozwala administratorom na logowanie się jako inni użytkownicy poprzez
 msgid ""
 "Allows to save current work as draft in the close ticket screen of the agent"
 " interface."
-msgstr ""
+msgstr "Pozwala na zapisanie bieżącej pracy jako szkicu na ekranie zamykania zgłoszenia w interfejsie agenta."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the email outbound screen of the "
 "agent interface."
-msgstr ""
+msgstr "Pozwala na zapisanie bieżącej pracy jako szkicu na ekranie emaila wychodzącego w interfejsie agenta."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket compose screen of the "
 "agent interface."
-msgstr ""
+msgstr "Pozwala na zapisanie bieżącej pracy jako szkicu na ekranie tworzenia zgłoszenia w interfejsie agenta."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket forward screen of the "
 "agent interface."
-msgstr ""
+msgstr "Pozwala na zapisanie bieżącej pracy jako szkicu na ekranie przekazywania zgłoszenia w interfejsie agenta."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket free text screen of the "
 "agent interface."
-msgstr ""
+msgstr "Pozwala na zapisanie bieżącej pracy jako szkicu na ekranie notatki tekstowej zgłoszenia w interfejsie agenta."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket move screen of the agent "
 "interface."
-msgstr ""
+msgstr "Pozwala na zapisanie bieżącej pracy jako szkicu na ekranie przenoszenia zgłoszenia w interfejsie agenta."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket note screen of the agent "
 "interface."
-msgstr ""
+msgstr "Pozwala na zapisanie bieżącej pracy jako szkicu na ekranie notatki do  zgłoszenia w interfejsie agenta."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket owner screen of the agent"
 " interface."
-msgstr ""
+msgstr "Pozwala na zapisanie bieżącej pracy jako szkicu na ekranie właściciela zgłoszenia w interfejsie agenta."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket pending screen of the "
 "agent interface."
-msgstr ""
+msgstr "Pozwala na zapisanie bieżącej pracy jako szkicu na ekranie przypomnienia zgłoszenia w interfejsie agenta."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket phone inbound screen of "
 "the agent interface."
-msgstr ""
+msgstr "Pozwala na zapisanie bieżącej pracy jako szkicu na ekranie telefonu przychodzącego do zgłoszenia w interfejsie agenta."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket phone outbound screen of "
 "the agent interface."
-msgstr ""
+msgstr "Pozwala na zapisanie bieżącej pracy jako szkicu na ekranie telefonu wychodzącego do  zgłoszenia w interfejsie agenta."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket priority screen of the "
 "agent interface."
-msgstr ""
+msgstr "Pozwala na zapisanie bieżącej pracy jako szkicu na ekranie priorytetu zgłoszenia w interfejsie agenta."
 
 #. SysConfig
 msgid ""
@@ -18237,11 +18241,11 @@ msgstr "Twórz i zarządzaj kalendarzami."
 
 #. SysConfig
 msgid "Create and manage customer users."
-msgstr "Tworzenie i modyfikacja użytkowników."
+msgstr "Tworzenie i modyfikacja użytkowników klienta."
 
 #. SysConfig
 msgid "Create and manage customers."
-msgstr "Zarządzanie listą klientów."
+msgstr "Tworzenie i modyfikacja klientów"
 
 #. SysConfig
 msgid "Create and manage dynamic fields."
@@ -19177,7 +19181,7 @@ msgstr ""
 msgid ""
 "Defines the PostMaster header to be used on the filter for keeping the "
 "current state of the ticket."
-msgstr ""
+msgstr "Określa nagłówek poczty przychodzącej używany do zachowania bieżącego stanu zgłoszenia."
 
 #. SysConfig
 msgid "Defines the URL CSS path."
@@ -22409,6 +22413,10 @@ msgstr "Język"
 #. SysConfig
 msgid "Large"
 msgstr "Duże"
+
+#. SysConfig
+msgid "Last Screen Overview"
+msgstr ""
 
 #. SysConfig
 msgid "Last customer subject"
@@ -25883,7 +25891,7 @@ msgid ""
 "Subject' and no ticket number. In the latter case you should verify that the"
 " setting PostMaster::CheckFollowUpModule###0200-References is activated to "
 "recognize followups based on email headers."
-msgstr ""
+msgstr "Formatowanie tematu. 'Lewo' oznacza '[TicketHook#:12345] Pewien Temat'. 'Prawo' oznacza 'Pewien Temat [TicketHook#:12345]', 'Brak' oznacza 'Pewien Temat' bez określania numeru zgłoszenia. W ostatnim przypadku sprawdź, czy ustawienie odpowiadające za rozpoznawanie kolejnych wiadomości w oparciu o nagłówki: PostMaster::CheckFollowUpModule###0200-References jest włączone"
 
 #. SysConfig
 msgid "The headline shown in the customer interface."

@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.352880124545926;
+    $Self->{Completeness}        = 0.354141449074875;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -87,10 +87,10 @@ sub Data {
         'Check the official' => 'Vérifier l\'officiel',
         'documentation' => 'documentation',
         'Show or hide the content' => 'Montrer ou cacher le contenu',
-        'Edit ACL Information' => '',
+        'Edit ACL Information' => 'Editer les informations ACL',
         'Name' => 'Nom',
         'Stop after match' => 'Stopper après correspondance',
-        'Edit ACL Structure' => '',
+        'Edit ACL Structure' => 'Editer la structure ACL',
         'Save ACL' => 'Sauvegarder l\'ACL',
         'Save' => 'Sauver',
         'or' => 'ou',
@@ -103,20 +103,20 @@ sub Data {
             'Créer un nouveau ACL en envoyer le contenu du formulaire. Après avoir créé l\'ACL, vous pourrez ajouter des données de configuration en mode édition.',
 
         # Template: AdminAppointmentCalendarManage
-        'Calendar Management' => '',
+        'Calendar Management' => 'Gestion du calendrier',
         'Add Calendar' => 'Ajouter un calendrier',
         'Edit Calendar' => 'Modifier le calendrier',
         'Go back' => 'Retour',
         'Calendar Overview' => 'Vue d\'ensemble calendrier',
         'Add new Calendar' => 'Ajouter un nouveau calendrier',
-        'Import Appointments' => '',
+        'Import Appointments' => 'Importer des rendez-vous',
         'Calendar Import' => 'Import de calendrier',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
-            '',
-        'Overwrite existing entities' => '',
-        'Upload calendar configuration' => '',
+            'Ici vous pouvez téléverser un fichier de configuration pour importer un calendrier vers votre système. Le fichier a besoin d\'être en format "yml" comme exporté par le module de gestion de processus.',
+        'Overwrite existing entities' => 'Écraser les entités existantes',
+        'Upload calendar configuration' => 'Téléverser la configuration du calendrier',
         'Import Calendar' => 'Importer un calendrier',
-        'Filter for calendars' => '',
+        'Filter for calendars' => 'Filtre pour calendriers',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             '',
         'Read only: users can see and export all appointments in the calendar.' =>
@@ -4018,8 +4018,6 @@ sub Data {
         'Updated user preferences' => '',
         'System was unable to deploy your changes.' => '',
         'Setting not found!' => '',
-        'This feature is part of the %s Please contact us at %s for an upgrade.' =>
-            '',
         'System was unable to reset the setting!' => '',
 
         # Perl Module: Kernel/Modules/AgentSplitSelection.pm
@@ -4585,7 +4583,8 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'System maintenance is active!' => '',
-        'A system maintenance period will start at: ' => '',
+        'A system maintenance period will start at: %s and is expected to stop at: %s' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
         'OTRS Daemon is not running.' => 'La tâche de fond d\'OTRS n\'est pas lancée',
@@ -5204,6 +5203,9 @@ sub Data {
         'Could not update modified setting!' => '',
         'Setting could not be unlocked!' => '',
         'Missing key %s!' => '',
+        'Invalid setting: %s' => '',
+        'Could not combine settings values into a perl hash.' => '',
+        'Can not lock the deployment for UserID \'%s\'!' => '',
         'All Settings' => '',
 
         # Perl Module: Kernel/System/SysConfig/BaseValueType.pm
@@ -5659,8 +5661,6 @@ sub Data {
         # JS File: Core.Agent
         'Slide the navigation bar' => 'Déplacer la barre de navigation',
         'Please turn off Compatibility Mode in Internet Explorer!' => '',
-        'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
-            '',
         'Find out more' => '',
 
         # JS File: Core.App.Responsive
@@ -7433,6 +7433,7 @@ Thanks for your help!
         'JavaScript function for the search frontend.' => '',
         'Language' => 'Langue',
         'Large' => 'Grand',
+        'Last Screen Overview' => '',
         'Last customer subject' => '',
         'Lastname Firstname' => '',
         'Lastname Firstname (UserLogin)' => '',
@@ -8945,7 +8946,7 @@ Thanks for your help!
         'This address already exists on the address list.',
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
-        'This feature is part of the %s.  Please contact us at %s for an upgrade.',
+        'This feature is part of the %s. Please contact us at %s for an upgrade.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

@@ -6,7 +6,7 @@
 # Антон Протченко :3 <a_protchenko@hotmail.com>, 2017
 # Arturo Mondelo <arturo.mondelo@hotmail.es>, 2015
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2015
-# David B <link.bigpoint@outlook.com>, 2017
+# David B <link.bigpoint@outlook.com>, 2017-2018
 # David Muñoz <davidkingnt@gmail.com>, 2016
 # Deiry Arias <mailimarias@gmail.com>, 2015
 # Deiver Kiel <deikiel@gmail.com>, 2015,2017
@@ -32,8 +32,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-01-08 18:29+0000\n"
-"PO-Revision-Date: 2018-01-08 18:33+0000\n"
+"POT-Creation-Date: 2018-01-22 01:09+0000\n"
+"PO-Revision-Date: 2018-01-22 01:13+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/otrs/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -804,15 +804,15 @@ msgstr "Si la llave/certificado de cifrado no está"
 
 #. Template: AdminAttachment
 msgid "Attachment Management"
-msgstr "Gestión de adjuntos"
+msgstr "Gestión de archivo adjunto"
 
 #. Template: AdminAttachment
 msgid "Add Attachment"
-msgstr "Añadir un adjunto"
+msgstr "Añadir archivo adjunto"
 
 #. Template: AdminAttachment
 msgid "Edit Attachment"
-msgstr "Editar adjunto"
+msgstr "Editar Archivo adjunto"
 
 #. Template: AdminAttachment
 msgid "Filter for Attachments"
@@ -820,7 +820,7 @@ msgstr "Filtro para Archivos adjuntos"
 
 #. Template: AdminAttachment
 msgid "Filter for attachments"
-msgstr "Filtrar por atajos"
+msgstr "Filtro para archivos adjuntos"
 
 #. Template: AdminAttachment
 msgid "Filename"
@@ -832,7 +832,7 @@ msgstr "Descargar el archivo"
 
 #. Template: AdminAttachment
 msgid "Delete this attachment"
-msgstr "Borrar este adjunto"
+msgstr "Borrar este archivo adjunto"
 
 #. Template: AdminAttachment
 msgid "Do you really want to delete this attachment?"
@@ -1265,7 +1265,7 @@ msgstr "Seleccionar"
 
 #. Template: AdminCustomerCompany
 msgid "List (only %s shown - more available)"
-msgstr "Listar (solo %s se muestra - más disponibles)"
+msgstr "Lista (solo %s se muestra - más disponibles)"
 
 #. Template: AdminCustomerCompany
 msgid "total"
@@ -1412,7 +1412,7 @@ msgstr "Los usuarios cliente necesitan tener un historial de cliente e iniciar s
 
 #. Template: AdminCustomerUser
 msgid "List (%s total)"
-msgstr "Listar (%s total)"
+msgstr "Lista (%s total)"
 
 #. Template: AdminCustomerUser
 msgid "Username"
@@ -1462,7 +1462,7 @@ msgstr "La sintaxis de esta dirección de correo es incorrecta"
 
 #. Template: AdminCustomerUser
 msgid "This CustomerID is invalid."
-msgstr "Identificación del Cliente no es válido"
+msgstr "La ID del cliente no es valida"
 
 #. Template: AdminCustomerUser
 msgid "Effective Permissions for Customer User"
@@ -7510,7 +7510,7 @@ msgid ""
 "Make sure that the file '%s' exists (without .dist extension). This cron job"
 " will check every 5 minutes if the OTRS Daemon is running and start it if "
 "needed."
-msgstr "Asegúrese de que el archivo '%s' existe (sin la extensión .dist). Este trabajo programado verificará cada 5 minutos si el Daemon de OTRS está corriendo y lo iniciará de ser necesario."
+msgstr "Asegúrese de que el archivo '%s' existe (sin la extensión .dist). Este trabajo programado verificará cada 5 minutos si OTRS Daemon se esta ejecutando y se iniciará de ser necesario."
 
 #. Template: AgentDaemonInfo
 msgid ""
@@ -8160,7 +8160,7 @@ msgstr "Plantilla de texto"
 
 #. Template: AgentTicketActionCommon
 msgid "Setting a template will overwrite any text or attachment."
-msgstr "Establecer una plantilla sobreescribirá cualquier texto o adjunto."
+msgstr "Establecer una plantilla sobrescribirá cualquier texto o archivo adjunto."
 
 #. Template: AgentTicketActionCommon
 msgid "Invalid time!"
@@ -8501,7 +8501,7 @@ msgstr "Incluya al menos un cliente para el ticket"
 
 #. Template: AgentTicketPhone
 msgid "To queue"
-msgstr "A la cola"
+msgstr "En la cola"
 
 #. Template: AgentTicketPhone
 msgid "Chat protocol"
@@ -8673,7 +8673,7 @@ msgstr "Guardar como Por Defecto"
 
 #. Template: AgentTicketZoom
 msgid "Drafts"
-msgstr ""
+msgstr "Borradores"
 
 #. Template: AgentTicketZoom
 msgid "by"
@@ -8864,7 +8864,7 @@ msgstr ""
 #. Template: Invalid
 msgid ""
 "This feature is part of the %s. Please contact us at %s for an upgrade."
-msgstr ""
+msgstr "Esta característica es parte de %s. Por favor contacta con nosotros en %s para una actualización."
 
 #. Template: Invalid
 msgid "Please re-install %s package in order to display this article."
@@ -9164,7 +9164,7 @@ msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Save Search as Template?"
-msgstr ""
+msgstr "¿Guardar la búsqueda como una plantilla?"
 
 #. Template: CustomerTicketSearch
 msgid "Save as Template?"
@@ -9260,23 +9260,23 @@ msgstr "Expandir"
 
 #. Template: DraftButtons
 msgid "Update draft"
-msgstr ""
+msgstr "Actualizar borrador"
 
 #. Template: DraftButtons
 msgid "Save as new draft"
-msgstr ""
+msgstr "Guardar como nuevo borrador"
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\"."
-msgstr ""
+msgstr "Ha cargado el borrador \"%s\"."
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\". You last changed it %s."
-msgstr ""
+msgstr "Ha cargado el borrador \"%s\". La ultima vez que lo cambiaste %s."
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\". It was last changed %s by %s."
-msgstr ""
+msgstr "Ha cargado el borrador \"%s\". Fue cambiado por última vez %s por %s."
 
 #. Template: DraftNotifications
 msgid ""
@@ -10192,7 +10192,7 @@ msgstr "Mostrar"
 
 #. JS Template: FormDraftAddDialog
 msgid "Draft title"
-msgstr ""
+msgstr "Título del borrador"
 
 #. JS Template: ArticleViewSettingsDialog
 msgid "Article display"
@@ -11013,27 +11013,27 @@ msgstr ""
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 minute"
-msgstr ""
+msgstr "1 minuto"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 minutes"
-msgstr ""
+msgstr "2 minutos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 minutes"
-msgstr ""
+msgstr "3 minutos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 minutes"
-msgstr ""
+msgstr "4 minutos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "5 minutes"
-msgstr ""
+msgstr "5 minutos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
@@ -11048,77 +11048,77 @@ msgstr "15 minutos"
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "30 minutes"
-msgstr ""
+msgstr "30 minutos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 hour"
-msgstr ""
+msgstr "1 hora"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 hours"
-msgstr ""
+msgstr "2 horas"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 hours"
-msgstr ""
+msgstr "3 horas"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 hours"
-msgstr ""
+msgstr "4 horas"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "5 hours"
-msgstr ""
+msgstr "5 horas"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "6 hours"
-msgstr ""
+msgstr "6 horas"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "12 hours"
-msgstr ""
+msgstr "12 horas"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "18 hours"
-msgstr ""
+msgstr "18 horas"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 day"
-msgstr ""
+msgstr "1 día"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 days"
-msgstr ""
+msgstr "2 días"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 days"
-msgstr ""
+msgstr "3 días"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 days"
-msgstr ""
+msgstr "4 días"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "6 days"
-msgstr ""
+msgstr "6 días"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 week"
-msgstr ""
+msgstr "1 semana"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Need InvokerType"
@@ -11881,7 +11881,7 @@ msgstr "Cambiar las relaciones de Rol del Grupo"
 
 #. Perl Module: Kernel/Modules/AdminRoleUser.pm
 msgid "Role"
-msgstr ""
+msgstr "Rol"
 
 #. Perl Module: Kernel/Modules/AdminRoleUser.pm
 msgid "Change Role Relations for Agent"
@@ -11989,7 +11989,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "The following settings could not be found: %s"
-msgstr ""
+msgstr "La siguiente configuración no se pudo encontrar: %s"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "Import not allowed!"
@@ -12107,11 +12107,11 @@ msgstr "¡Plantilla añadida!"
 
 #. Perl Module: Kernel/Modules/AdminTemplateAttachment.pm
 msgid "Change Attachment Relations for Template"
-msgstr "Cambiar las relaciones de Adjuntos de la Plantilla"
+msgstr "Cambiar las relaciones de Archivos adjuntos para Plantilla"
 
 #. Perl Module: Kernel/Modules/AdminTemplateAttachment.pm
 msgid "Change Template Relations for Attachment"
-msgstr "Cambiar las relaciones de Plantillas del Adunto"
+msgstr "Cambiar las relaciones de Plantilla para Archivos adjuntos"
 
 #. Perl Module: Kernel/Modules/AdminType.pm
 msgid "Need Type!"
@@ -12271,7 +12271,7 @@ msgstr "¡No tiene permisos!"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentList.pm
 msgid "+%s more"
-msgstr ""
+msgstr "+%smás"
 
 #. Perl Module: Kernel/Modules/AgentCustomerSearch.pm
 msgid "Customer History"
@@ -12343,11 +12343,11 @@ msgstr "El objeto %s no puede vincularse con otro objeto!"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Param Group is required!"
-msgstr "Se requiere Grupo de parámetros!"
+msgstr "¡Se requiere Grupo de parámetros!"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Updated user preferences"
-msgstr ""
+msgstr "Preferencias de usuario actualizadas"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to deploy your changes."
@@ -12355,10 +12355,6 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Setting not found!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentPreferences.pm
-msgid "This feature is part of the %s Please contact us at %s for an upgrade."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
@@ -12423,7 +12419,7 @@ msgstr "Necesita permisos %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Loading draft failed!"
-msgstr ""
+msgstr "¡Error al cargar el borrador!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Sorry, you need to be the ticket owner to perform this action."
@@ -12439,7 +12435,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Draft name is required!"
-msgstr ""
+msgstr "¡Se requiere el nombre del borrador!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "FormDraft name %s is already in use!"
@@ -12886,11 +12882,11 @@ msgstr "impreso por"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "CustomerID (complex search)"
-msgstr "Identificación del cliente (búsqueda compleja)"
+msgstr "ID del cliente (búsqueda compleja)"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "CustomerID (exact match)"
-msgstr "Identificación del cliente (coincidencia exacta)"
+msgstr "ID del cliente (coincidencia exacta)"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Invalid Users"
@@ -12990,15 +12986,15 @@ msgstr "Nota añadida"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Note Added (Customer)"
-msgstr "Nota añadida (cliente)"
+msgstr "Nota añadida (Cliente)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "SMS Added"
-msgstr ""
+msgstr "SMS Añadido"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "SMS Added (Customer)"
-msgstr ""
+msgstr "SMS añadido (Cliente)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "State Updated"
@@ -13226,7 +13222,7 @@ msgstr "Revise los ajustes de la Configuración del Sistema para %s::TipodeTicke
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
-msgstr "¡Se necesita la Identificación del cliente!"
+msgstr "¡Se necesita la ID del cliente!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "My Tickets"
@@ -13502,7 +13498,7 @@ msgstr "Imprimir este artículo"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Contact us at sales@otrs.com"
-msgstr ""
+msgstr "Contactamos en sales@otrs.com"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Get Help"
@@ -13901,8 +13897,9 @@ msgstr ""
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
-msgid "A system maintenance period will start at: "
-msgstr "El periodo de mantenimiento de sistema comenzará a las:"
+msgid ""
+"A system maintenance period will start at: %s and is expected to stop at: %s"
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTRS Daemon is not running."
@@ -15494,6 +15491,18 @@ msgid "Missing key %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/SysConfig.pm
+msgid "Invalid setting: %s"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "Could not combine settings values into a perl hash."
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "Can not lock the deployment for UserID '%s'!"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
 msgid "All Settings"
 msgstr ""
 
@@ -15535,7 +15544,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Ticket.pm
 msgid "Reset of unlock time."
-msgstr "Reajuste del tiempo desbloqueado."
+msgstr "Reajuste del tiempo de desbloqueo."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Login failed! Your user name or password was entered incorrectly."
@@ -16056,11 +16065,11 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid "Delete this Attachment"
-msgstr ""
+msgstr "Borrar este Archivo adjunto"
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid "Deleting attachment..."
-msgstr ""
+msgstr "Borrando archivo adjunto..."
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid ""
@@ -16430,7 +16439,7 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Reset option is required!"
-msgstr ""
+msgstr "¡Se requiere la opción de reinicio!"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid ""
@@ -16660,19 +16669,19 @@ msgstr ""
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "Add new draft"
-msgstr ""
+msgstr "Añadir nuevo borrador"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "Delete draft"
-msgstr ""
+msgstr "Borrar borrador"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "There are no more drafts available."
-msgstr ""
+msgstr "No hay más borradores disponibles."
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "It was not possible to delete this draft."
-msgstr ""
+msgstr "No fue posible eliminar este borrador."
 
 #. JS File: Core.Agent.TicketZoom
 msgid "Article filter"
@@ -16693,11 +16702,6 @@ msgstr "Deslice la barra de navegación"
 #. JS File: Core.Agent
 msgid "Please turn off Compatibility Mode in Internet Explorer!"
 msgstr "Por favor apague el Modo Compatibilidad en Internet Explorer!"
-
-#. JS File: Core.Agent
-msgid ""
-"This feature is part of the %s.  Please contact us at %s for an upgrade."
-msgstr "Esta función es parte de %s. Por favor contacte con nosotros en %s para una mejora."
 
 #. JS File: Core.Agent
 msgid "Find out more"
@@ -17012,7 +17016,7 @@ msgstr ""
 
 #. SysConfig
 msgid "10 Minutes"
-msgstr ""
+msgstr "10 Minutos"
 
 #. SysConfig
 msgid "100 (Expert)"
@@ -17363,7 +17367,7 @@ msgstr ""
 
 #. SysConfig
 msgid "All attachments (OTRS Business Solution™)"
-msgstr ""
+msgstr "Todos los archivos adjuntos (OTRS Business Solution™)"
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
@@ -17690,7 +17694,7 @@ msgstr "Nombre del archivo adjunto"
 
 #. SysConfig
 msgid "Attachments ↔ Templates"
-msgstr ""
+msgstr "Archivos adjuntos ↔ Plantillas"
 
 #. SysConfig
 msgid "Auto Responses ↔ Queues"
@@ -17903,7 +17907,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Changed title from \"%s\" to \"%s\"."
-msgstr ""
+msgstr "Se cambió el título de \"%s\" a \"%s\"."
 
 #. SysConfig
 msgid "Changed type from \"%s\" (%s) to \"%s\" (%s)."
@@ -18243,7 +18247,7 @@ msgstr "Crea y gestiona las notificaciones de citas."
 
 #. SysConfig
 msgid "Create and manage attachments."
-msgstr "Crea y gestiona Archivos adjuntos."
+msgstr "Crear y gestionar archivos adjuntos."
 
 #. SysConfig
 msgid "Create and manage calendars."
@@ -18463,7 +18467,7 @@ msgstr "Usuario del cliente"
 
 #. SysConfig
 msgid "Customers ↔ Groups"
-msgstr ""
+msgstr "Clientes ↔ Grupos"
 
 #. SysConfig
 msgid ""
@@ -21450,7 +21454,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Enter your shared secret to enable two factor authentication."
-msgstr ""
+msgstr "Ingrese su secreto compartido para habilitar la autenticación de dos factores."
 
 #. SysConfig
 msgid "Escalated Tickets"
@@ -22425,6 +22429,10 @@ msgid "Large"
 msgstr "Grande"
 
 #. SysConfig
+msgid "Last Screen Overview"
+msgstr ""
+
+#. SysConfig
 msgid "Last customer subject"
 msgstr "Último asunto del cliente"
 
@@ -22474,7 +22482,7 @@ msgstr "Crea enlace de Agentes a Roles"
 
 #. SysConfig
 msgid "Link attachments to templates."
-msgstr "Crea enlace de Adjuntos a Plantillas"
+msgstr "Crea enlace de Archivo adjuntos a Plantillas."
 
 #. SysConfig
 msgid "Link customer users to customers."
@@ -22629,7 +22637,7 @@ msgstr "Ticket bloqueado."
 
 #. SysConfig
 msgid "Logged-In Users"
-msgstr ""
+msgstr "Usuarios conectados"
 
 #. SysConfig
 msgid "Logout of customer panel."
@@ -22828,7 +22836,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>."
-msgstr "Combinar Ticket  <OTRS_TICKET> con <OTRS_MERGE_TO_TICKET>."
+msgstr "Fusionar Ticket  <OTRS_TICKET> con <OTRS_MERGE_TO_TICKET>."
 
 #. SysConfig
 msgid "Minute"
@@ -23126,7 +23134,7 @@ msgstr "Tickets Abiertos / Que necesitan de una respuesta"
 
 #. SysConfig
 msgid "Open an external link!"
-msgstr ""
+msgstr "¡Abrir un enlace externo!"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
@@ -23196,7 +23204,7 @@ msgstr "Resumen de todas las citas"
 
 #. SysConfig
 msgid "Overview of all escalated tickets."
-msgstr ""
+msgstr "Vista general de todos los tickets escalados."
 
 #. SysConfig
 msgid "Overview of all open Tickets."
@@ -23950,7 +23958,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Running Process Tickets"
-msgstr "Corriendo Tickets de Proceso"
+msgstr "Tickets de Proceso en ejecución"
 
 #. SysConfig
 msgid ""
@@ -24061,7 +24069,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Select the main interface language."
-msgstr ""
+msgstr "Selecciona el idioma principal de la interfaz."
 
 #. SysConfig
 msgid ""
@@ -24082,7 +24090,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Select your preferred layout for the software."
-msgstr ""
+msgstr "Seleccione su diseño preferido para el software."
 
 #. SysConfig
 msgid "Select your preferred theme for OTRS."
@@ -26413,7 +26421,7 @@ msgstr "Vietnamita"
 
 #. SysConfig
 msgid "View all attachments of the current ticket"
-msgstr ""
+msgstr "Ver todos los archivos adjuntos del ticket actual"
 
 #. SysConfig
 msgid "View performance benchmark results."

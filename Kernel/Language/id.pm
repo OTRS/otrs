@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.702992561840512;
+    $Self->{Completeness}        = 0.702403596749092;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -4012,8 +4012,6 @@ bin/otrs.Daemon.pl status\').',
         'Updated user preferences' => '',
         'System was unable to deploy your changes.' => '',
         'Setting not found!' => '',
-        'This feature is part of the %s Please contact us at %s for an upgrade.' =>
-            '',
         'System was unable to reset the setting!' => '',
 
         # Perl Module: Kernel/Modules/AgentSplitSelection.pm
@@ -4579,7 +4577,8 @@ bin/otrs.Daemon.pl status\').',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'System maintenance is active!' => '',
-        'A system maintenance period will start at: ' => 'A system maintenance period will start at:',
+        'A system maintenance period will start at: %s and is expected to stop at: %s' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
         'OTRS Daemon is not running.' => 'OTRS Daemon tidak berjalan',
@@ -5198,6 +5197,9 @@ bin/otrs.Daemon.pl status\').',
         'Could not update modified setting!' => '',
         'Setting could not be unlocked!' => '',
         'Missing key %s!' => '',
+        'Invalid setting: %s' => '',
+        'Could not combine settings values into a perl hash.' => '',
+        'Can not lock the deployment for UserID \'%s\'!' => '',
         'All Settings' => '',
 
         # Perl Module: Kernel/System/SysConfig/BaseValueType.pm
@@ -5653,8 +5655,6 @@ bin/otrs.Daemon.pl status\').',
         # JS File: Core.Agent
         'Slide the navigation bar' => 'Geserkan navigasi bar',
         'Please turn off Compatibility Mode in Internet Explorer!' => 'Silahkan matikan metode Compatibillity di Internet Explorer!',
-        'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
-            'Fitur ini merupakan salah satu dari %s. Silahkan hubungi kami di %s untuk memperbarui',
         'Find out more' => '',
 
         # JS File: Core.App.Responsive
@@ -7439,6 +7439,7 @@ Helpdesk Team Anda
         'JavaScript function for the search frontend.' => 'Fungsi JavaScript untuk pencarian frontend ',
         'Language' => 'Bahasa',
         'Large' => 'Besar',
+        'Last Screen Overview' => '',
         'Last customer subject' => 'subjek pelanggan terakhir',
         'Lastname Firstname' => 'Nama Pertama Nama Akhir',
         'Lastname Firstname (UserLogin)' => 'Nama Akhir Nama Pertama (Pengguna masuk)',
@@ -8951,7 +8952,7 @@ Helpdesk Team Anda
         'This address already exists on the address list.',
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
-        'This feature is part of the %s.  Please contact us at %s for an upgrade.',
+        'This feature is part of the %s. Please contact us at %s for an upgrade.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

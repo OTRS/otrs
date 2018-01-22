@@ -2,15 +2,15 @@
 # Translators:
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2015
 # Dusan Vuckovic, 2015
-# Dusan Vuckovic, 2016-2017
+# Dusan Vuckovic, 2016-2018
 # Dusan Vuckovic, 2015
 # S7 Design d.o.o. <otrs@s7designcreative.com>, 2015
 # Милорад Јовановић <j.milorad@gmail.com>, 2014-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-01-08 18:29+0000\n"
-"PO-Revision-Date: 2018-01-08 18:33+0000\n"
+"POT-Creation-Date: 2018-01-22 01:09+0000\n"
+"PO-Revision-Date: 2018-01-22 01:13+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -12335,10 +12335,6 @@ msgid "Setting not found!"
 msgstr "Подешавање није пронађено!"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
-msgid "This feature is part of the %s Please contact us at %s for an upgrade."
-msgstr "Ово својство је део %s. Молимо да нас контактирате на %s за ажурирање."
-
-#. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to reset the setting!"
 msgstr "Систем није успео да поништи подешавање!"
 
@@ -13399,7 +13395,7 @@ msgstr "Грешка: Молимо да подесете вредност за i
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
-msgstr ""
+msgstr "Неисправно подешена база података (%s је %s, а требало би да буде utf8)."
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
@@ -13878,8 +13874,9 @@ msgstr "Одржавање система је активно!"
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
-msgid "A system maintenance period will start at: "
-msgstr "Период одржавања система ће отпочети у:"
+msgid ""
+"A system maintenance period will start at: %s and is expected to stop at: %s"
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTRS Daemon is not running."
@@ -15471,6 +15468,18 @@ msgid "Missing key %s!"
 msgstr "Недостаје кључ %s!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
+msgid "Invalid setting: %s"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "Could not combine settings values into a perl hash."
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "Can not lock the deployment for UserID '%s'!"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
 msgid "All Settings"
 msgstr "Сва подешавања"
 
@@ -16670,11 +16679,6 @@ msgstr "Померите навигациону траку"
 #. JS File: Core.Agent
 msgid "Please turn off Compatibility Mode in Internet Explorer!"
 msgstr "Молимо да искључите мод компатибилности у Интернет експлореру!"
-
-#. JS File: Core.Agent
-msgid ""
-"This feature is part of the %s.  Please contact us at %s for an upgrade."
-msgstr "Ово својство је део %s.  Молимо да на с контактирате на %s за ажурирање."
 
 #. JS File: Core.Agent
 msgid "Find out more"
@@ -18078,7 +18082,7 @@ msgstr "Графички интерфеј комуникационог лога"
 
 #. SysConfig
 msgid "Communication log limit per page for Communication Log Overview."
-msgstr ""
+msgstr "Ограничење броја логова по страни за преглед комуникационих логова."
 
 #. SysConfig
 msgid "CommunicationLog Overview Limit"
@@ -21097,7 +21101,7 @@ msgstr "Групе динамичких поља за процесни дода�
 
 #. SysConfig
 msgid "Dynamic fields limit per page for Dynamic Fields Overview."
-msgstr ""
+msgstr "Ограничење динамичких поља по страни за приказ динамичких поља."
 
 #. SysConfig
 msgid ""
@@ -22400,6 +22404,10 @@ msgstr "Језик"
 #. SysConfig
 msgid "Large"
 msgstr "Велико"
+
+#. SysConfig
+msgid "Last Screen Overview"
+msgstr ""
 
 #. SysConfig
 msgid "Last customer subject"
@@ -26167,15 +26175,15 @@ msgstr "Модул догађаја тикета који окида догађ�
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Medium\"."
-msgstr ""
+msgstr "Ограничење тикета по страни за преглед типа \"средње\"."
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Preview\"."
-msgstr ""
+msgstr "Ограничење тикета по страни за преглед типа \"приказ\"."
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Small\"."
-msgstr ""
+msgstr "Ограничење тикета по страни за преглед типа \"мало\"."
 
 #. SysConfig
 msgid "Ticket notifications"

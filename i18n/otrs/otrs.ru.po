@@ -34,8 +34,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-01-08 18:29+0000\n"
-"PO-Revision-Date: 2018-01-08 18:33+0000\n"
+"POT-Creation-Date: 2018-01-22 01:09+0000\n"
+"PO-Revision-Date: 2018-01-22 01:13+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -12360,10 +12360,6 @@ msgid "Setting not found!"
 msgstr "Параметр не найден!"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
-msgid "This feature is part of the %s Please contact us at %s for an upgrade."
-msgstr "Эта возможность является составной частью %s. Пожалуйста свяжитесь с нами по адресу %s для обновления."
-
-#. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to reset the setting!"
 msgstr "Система не смогла сбросить эту настройку!"
 
@@ -13903,8 +13899,9 @@ msgstr "Система на техническом обслуживании!"
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
-msgid "A system maintenance period will start at: "
-msgstr "Период технического обслуживания начнется в:"
+msgid ""
+"A system maintenance period will start at: %s and is expected to stop at: %s"
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTRS Daemon is not running."
@@ -15496,6 +15493,18 @@ msgid "Missing key %s!"
 msgstr "Пропущен ключ %s!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
+msgid "Invalid setting: %s"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "Could not combine settings values into a perl hash."
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "Can not lock the deployment for UserID '%s'!"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
 msgid "All Settings"
 msgstr "Все настройки"
 
@@ -16695,11 +16704,6 @@ msgstr "Прокрутите панель навигации"
 #. JS File: Core.Agent
 msgid "Please turn off Compatibility Mode in Internet Explorer!"
 msgstr "Выключите Compatibility Mode/Режим совместимости в Internet Explorer!"
-
-#. JS File: Core.Agent
-msgid ""
-"This feature is part of the %s.  Please contact us at %s for an upgrade."
-msgstr "Эта возможность является составной частью %s. Пожалуйста свяжитесь с нами в %s.  для обновления."
 
 #. JS File: Core.Agent
 msgid "Find out more"
@@ -22425,6 +22429,10 @@ msgstr "Язык"
 #. SysConfig
 msgid "Large"
 msgstr "Большой"
+
+#. SysConfig
+msgid "Last Screen Overview"
+msgstr ""
 
 #. SysConfig
 msgid "Last customer subject"

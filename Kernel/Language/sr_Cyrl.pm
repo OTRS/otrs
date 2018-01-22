@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.998962117280747;
+    $Self->{Completeness}        = 0.999135396852845;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4010,8 +4010,6 @@ sub Data {
         'Updated user preferences' => 'Ажуриране корисничке поставке',
         'System was unable to deploy your changes.' => 'Систем није успео да распореди ваше промене.',
         'Setting not found!' => 'Подешавање није пронађено!',
-        'This feature is part of the %s Please contact us at %s for an upgrade.' =>
-            'Ово својство је део %s. Молимо да нас контактирате на %s за ажурирање.',
         'System was unable to reset the setting!' => 'Систем није успео да поништи подешавање!',
 
         # Perl Module: Kernel/Modules/AgentSplitSelection.pm
@@ -4371,7 +4369,7 @@ sub Data {
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Грешка: Молимо да подесете вредност за innodb_log_file_size у вашој бази података на најмање %s MB (тренутно: %s MB, препоручено: %s MB). За више информација, молимо погледајте на %s.',
         'Wrong database collation (%s is %s, but it needs to be utf8).' =>
-            '',
+            'Неисправно подешена база података (%s је %s, а требало би да буде utf8).',
 
         # Perl Module: Kernel/Modules/PublicCalendar.pm
         'No %s!' => 'Без %s!',
@@ -4577,7 +4575,8 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'System maintenance is active!' => 'Одржавање система је активно!',
-        'A system maintenance period will start at: ' => 'Период одржавања система ће отпочети у:',
+        'A system maintenance period will start at: %s and is expected to stop at: %s' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
         'OTRS Daemon is not running.' => 'OTRS системски сервис не ради.',
@@ -5196,6 +5195,9 @@ sub Data {
         'Could not update modified setting!' => 'Није могуће ажурирати промењено подешавање!',
         'Setting could not be unlocked!' => 'Није могуће откључати подешавање!',
         'Missing key %s!' => 'Недостаје кључ %s!',
+        'Invalid setting: %s' => '',
+        'Could not combine settings values into a perl hash.' => '',
+        'Can not lock the deployment for UserID \'%s\'!' => '',
         'All Settings' => 'Сва подешавања',
 
         # Perl Module: Kernel/System/SysConfig/BaseValueType.pm
@@ -5651,8 +5653,6 @@ sub Data {
         # JS File: Core.Agent
         'Slide the navigation bar' => 'Померите навигациону траку',
         'Please turn off Compatibility Mode in Internet Explorer!' => 'Молимо да искључите мод компатибилности у Интернет експлореру!',
-        'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
-            'Ово својство је део %s.  Молимо да на с контактирате на %s за ажурирање.',
         'Find out more' => 'Сазнај више',
 
         # JS File: Core.App.Responsive
@@ -6116,7 +6116,7 @@ Thanks for your help!
         'Communication & Notifications' => 'Комуникација & обавештења',
         'Communication Log GUI' => 'Графички интерфеј комуникационог лога',
         'Communication log limit per page for Communication Log Overview.' =>
-            '',
+            'Ограничење броја логова по страни за преглед комуникационих логова.',
         'CommunicationLog Overview Limit' => 'Ограничење прегледа комуникационих логова',
         'Company Status' => 'Статус фирме',
         'Company Tickets.' => 'Тикети фирми.',
@@ -7037,7 +7037,7 @@ Thanks for your help!
             'Динамичка поља коришћена за извоз резултата претраге у CSV формат.',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             'Групе динамичких поља за процесни додатак. Кључ је назив групе, вредност садржи поље које ће бити приказано. Пример: \'Key => My Group\', \'Content: Name_X, NameY\'.',
-        'Dynamic fields limit per page for Dynamic Fields Overview.' => '',
+        'Dynamic fields limit per page for Dynamic Fields Overview.' => 'Ограничење динамичких поља по страни за приказ динамичких поља.',
         'Dynamic fields options shown in the ticket message screen of the customer interface. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             'Опције динамичких поља приказаних у екрану отварања тикета у интерфејсу клијента. Напомена: уколико желите да прикажете ова поља и у детаљном прегледу тикета, морате их укључити у CustomerTicketZoom###DynamicField.',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface.' =>
@@ -7436,6 +7436,7 @@ Thanks for your help!
         'JavaScript function for the search frontend.' => 'JavaScript функција за модул претраге.',
         'Language' => 'Језик',
         'Large' => 'Велико',
+        'Last Screen Overview' => '',
         'Last customer subject' => 'Последњи предмет поруке клијента',
         'Lastname Firstname' => 'Презиме, Име',
         'Lastname Firstname (UserLogin)' => 'Презиме, Име (Корисничко име)',
@@ -8523,9 +8524,9 @@ Thanks for your help!
         'Ticket bulk module.' => 'Модул масовне акције на тикетима.',
         'Ticket event module that triggers the escalation stop events.' =>
             'Модул догађаја тикета који окида догађаје заустављања ескалације.',
-        'Ticket limit per page for Ticket Overview "Medium".' => '',
-        'Ticket limit per page for Ticket Overview "Preview".' => '',
-        'Ticket limit per page for Ticket Overview "Small".' => '',
+        'Ticket limit per page for Ticket Overview "Medium".' => 'Ограничење тикета по страни за преглед типа "средње".',
+        'Ticket limit per page for Ticket Overview "Preview".' => 'Ограничење тикета по страни за преглед типа "приказ".',
+        'Ticket limit per page for Ticket Overview "Small".' => 'Ограничење тикета по страни за преглед типа "мало".',
         'Ticket notifications' => 'Обавештења о тикету',
         'Ticket overview' => 'Pregled tiketa',
         'Ticket plain view of an email.' => 'Приказ неформатиране имејл поруке у тикету.',
@@ -8948,7 +8949,7 @@ Thanks for your help!
         'This address already exists on the address list.',
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
-        'This feature is part of the %s.  Please contact us at %s for an upgrade.',
+        'This feature is part of the %s. Please contact us at %s for an upgrade.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

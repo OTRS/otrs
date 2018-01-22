@@ -3,11 +3,12 @@
 # Adam Sadovsky <sadovsky.adam@gmail.com>, 2015
 # Daniel Pogač <dano.pogac@gmail.com>, 2015
 # Jaroslav Abaffy <jabaffy@unitedclassifieds.sk>, 2016
+# RXD RXD <rxd1978@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-01-08 18:29+0000\n"
-"PO-Revision-Date: 2018-01-08 18:33+0000\n"
+"POT-Creation-Date: 2018-01-22 01:09+0000\n"
+"PO-Revision-Date: 2018-01-22 01:13+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/otrs/OTRS/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +23,7 @@ msgstr "Správa ACL"
 
 #. Template: AdminACL
 msgid "Actions"
-msgstr "Akcia"
+msgstr "Akcie"
 
 #. Template: AdminACL
 msgid "Create New ACL"
@@ -30,7 +31,7 @@ msgstr "Vytvoriť nové ACL"
 
 #. Template: AdminACL
 msgid "Deploy ACLs"
-msgstr ""
+msgstr "Nasadenie ACLs"
 
 #. Template: AdminACL
 msgid "Export ACLs"
@@ -42,17 +43,17 @@ msgstr "Filter pre ACL"
 
 #. Template: AdminACL
 msgid "Just start typing to filter..."
-msgstr ""
+msgstr "Začni písať pre filtrovanie..."
 
 #. Template: AdminACL
 msgid "Configuration Import"
-msgstr ""
+msgstr "Import konfigurácie"
 
 #. Template: AdminACL
 msgid ""
 "Here you can upload a configuration file to import ACLs to your system. The "
 "file needs to be in .yml format as exported by the ACL editor module."
-msgstr ""
+msgstr "Tu môžete nahrať konfiguračný súbor pre import ACLs do systému. Súbor musí byť v .yml fomáte, exportovaný z ACL editor modulu."
 
 #. Template: AdminACL
 msgid "This field is required."
@@ -60,7 +61,7 @@ msgstr "Toto pole je povinné."
 
 #. Template: AdminACL
 msgid "Overwrite existing ACLs?"
-msgstr ""
+msgstr "Prepísať existujúce ACLs?"
 
 #. Template: AdminACL
 msgid "Upload ACL configuration"
@@ -78,7 +79,7 @@ msgstr "Popis "
 msgid ""
 "To create a new ACL you can either import ACLs which were exported from "
 "another system or create a complete new one."
-msgstr ""
+msgstr "Na vytvorenie nových ACL môžete buď importovať ACLs exportované z iného systému alebo vytvoriť úplne nové."
 
 #. Template: AdminACL
 msgid ""
@@ -108,7 +109,7 @@ msgstr "poznámka"
 
 #. Template: AdminACL
 msgid "Validity"
-msgstr ""
+msgstr "platnosť"
 
 #. Template: AdminACL
 msgid "Export"
@@ -124,7 +125,7 @@ msgstr "Neboli nájdene žiadne dáta."
 
 #. Template: AdminACL
 msgid "No matches found."
-msgstr "Nebola nájdená zhoda"
+msgstr "Nebola nájdená zhoda."
 
 #. Template: AdminACLEdit
 msgid "Edit ACL %s"
@@ -132,7 +133,7 @@ msgstr "Upraviť ACL %"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
-msgstr ""
+msgstr "Upraviť ACL"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -148,14 +149,14 @@ msgstr "Zmazať chybný ACL"
 
 #. Template: AdminACLEdit
 msgid "Match settings"
-msgstr ""
+msgstr "Nastavenie zhody"
 
 #. Template: AdminACLEdit
 msgid ""
 "Set up matching criteria for this ACL. Use 'Properties' to match the current"
 " screen or 'PropertiesDatabase' to match attributes of the current ticket "
 "that are in the database."
-msgstr ""
+msgstr "Nastav zodpovedajúce kritériá pre toto ACL. Použi \"vlastnosti\" pre zhodu s momentálnou obrazovkou alebo \"vlastnosti databázy\" pre zhodu atribútov aktuálneho tiketu, ktorý je v databáze."
 
 #. Template: AdminACLEdit
 msgid "Change settings"
@@ -165,11 +166,11 @@ msgstr "Zmena nastavenia"
 msgid ""
 "Set up what you want to change if the criteria match. Keep in mind that "
 "'Possible' is a white list, 'PossibleNot' a black list."
-msgstr ""
+msgstr "Nastav, čo chceš zmeniť, ak kritériá pasujú. Mysli na to, že \"možné\" je \"white list\" a \"nemožné\" je \"black list\"."
 
 #. Template: AdminACLEdit
 msgid "Check the official"
-msgstr ""
+msgstr "Skontoroluj oficiálne"
 
 #. Template: AdminACLEdit
 msgid "documentation"
@@ -177,11 +178,11 @@ msgstr "dokumentácia"
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
-msgstr ""
+msgstr "Zobraziť alebo skryť obsah"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "Edituj ACL informáciu"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -189,15 +190,15 @@ msgstr "Meno"
 
 #. Template: AdminACLEdit
 msgid "Stop after match"
-msgstr ""
+msgstr "Zastav po zhode"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
+msgstr "Edituj ACL štruktúru"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
-msgstr ""
+msgstr "Ulož ACL"
 
 #. Template: AdminACLEdit
 msgid "Save"
@@ -223,86 +224,86 @@ msgstr "Určite chcete zmazať toto ACL?"
 msgid ""
 "Create a new ACL by submitting the form data. After creating the ACL, you "
 "will be able to add configuration items in edit mode."
-msgstr ""
+msgstr "Vytvor nové ACL zaslaním dát z formuláru. Po vytvorení ACL, budete mať možnosť pridať configuračnú položku v editovacom móde."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Management"
-msgstr ""
+msgstr "Menežment kalendára"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Calendar"
-msgstr ""
+msgstr "Pridaj kalendár"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Edit Calendar"
-msgstr ""
+msgstr "Edituj kalendár"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Go back"
-msgstr ""
+msgstr "Choď späť"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
-msgstr ""
+msgstr "Celkový prehľad kalendára"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add new Calendar"
-msgstr ""
+msgstr "Pridaj nový kalendár"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Appointments"
-msgstr ""
+msgstr "Import schôdzok"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Import"
-msgstr ""
+msgstr "Import kalendára"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
 "Here you can upload a configuration file to import a calendar to your "
 "system. The file needs to be in .yml format as exported by calendar "
 "management module."
-msgstr ""
+msgstr "Tu môžete nahrať konfiguračný súbor pre import kalendára do systému. Súbor musí byť v .yml fomáte, exportovaný z modulu menežmentu kalendára."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Overwrite existing entities"
-msgstr ""
+msgstr "Prepíš existujúce entity"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Upload calendar configuration"
-msgstr ""
+msgstr "Nahraj konfiguráciu kalendára"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
-msgstr ""
+msgstr "Import kalendára"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
-msgstr ""
+msgstr "Filter pre kalendáre"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
 "Depending on the group field, the system will allow users the access to the "
 "calendar according to their permission level."
-msgstr ""
+msgstr "V závislosti od skupinového poľa, systém umožní užívateľovi prístup do kalendára v závislosti od úrovne oprávnenia."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read only: users can see and export all appointments in the calendar."
-msgstr ""
+msgstr "Iba na čítanie: užívateľ môže vidieť a exportovať všetky schôdzky v kalendári."
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
 "Move into: users can modify appointments in the calendar, but without "
 "changing the calendar selection."
-msgstr ""
+msgstr "Presuň do: užívateľ môže upraviť schôdzky v kalendári, ale bez zmeny výberu kalendára."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Create: users can create and delete appointments in the calendar."
-msgstr ""
+msgstr "Vytvor: užívatelia môžu vytvoriť a vymazať schôdzky v kalendári."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read/write: users can manage the calendar itself."
-msgstr ""
+msgstr "Čítať/Zapisovať: užívatelia môžu menežovať kalendár."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Group"
@@ -318,23 +319,23 @@ msgstr "Vytvorený"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Download"
-msgstr ""
+msgstr "Stiahnuť"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Export calendar"
-msgstr ""
+msgstr "Export kalendára"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Download calendar"
-msgstr ""
+msgstr "Stiahni kalendár"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Copy public calendar URL"
-msgstr ""
+msgstr "Kopíruj verejnú URL kalendára"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar"
@@ -342,31 +343,31 @@ msgstr "Kalendár"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar name"
-msgstr ""
+msgstr "Názov kalendára"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar with same name already exists."
-msgstr ""
+msgstr "Kalendár s rovnakým názvom už existuje."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Color"
-msgstr ""
+msgstr "Farba"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Permission group"
-msgstr ""
+msgstr "Skupina oprávnení"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Ticket Appointments"
-msgstr ""
+msgstr "Ticketové schôdzky"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Rule"
-msgstr ""
+msgstr "Pravidlo"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Remove this entry"
-msgstr ""
+msgstr "Odstrániť túto položku"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Remove"
@@ -374,11 +375,11 @@ msgstr "Vymazať"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Start date"
-msgstr ""
+msgstr "Počiatočný dátum"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "End date"
-msgstr ""
+msgstr "Konečný dátum"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -392,15 +393,15 @@ msgstr "Fronty"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Please select a valid queue."
-msgstr ""
+msgstr "Prosím zvoľte platnú frontu."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Search attributes"
-msgstr ""
+msgstr "Atribúty vyhľadávania"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add entry"
-msgstr ""
+msgstr "Pridať položku"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add"
@@ -410,29 +411,29 @@ msgstr "Pridať "
 msgid ""
 "Define rules for creating automatic appointments in this calendar based on "
 "ticket data."
-msgstr ""
+msgstr "Definuj pravidlá pre automatické vytvorenie schôdzky v tomto kalendári na základe dát z tiketov."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Rule"
-msgstr ""
+msgstr "Pridaj pravidlo"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Submit"
-msgstr "Predloženie"
+msgstr "Odoslať"
 
 #. Template: AdminAppointmentImport
 msgid "Appointment Import"
-msgstr ""
+msgstr "Import schôdzky"
 
 #. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
-msgstr ""
+msgstr "Nahrávaný súbor musí byť v platnom iCAL formáte (.ics)."
 
 #. Template: AdminAppointmentImport
 msgid ""
 "If desired Calendar is not listed here, please make sure that you have at "
 "least 'create' permissions."
-msgstr ""
+msgstr "Ak požadovaný kalendár tu nie je uvedený, uistite sa, že máte minimálne oprávnenie na jeho vytvorenie."
 
 #. Template: AdminAppointmentImport
 msgid "Upload"
@@ -440,68 +441,68 @@ msgstr "Nahrať"
 
 #. Template: AdminAppointmentImport
 msgid "Update existing appointments?"
-msgstr ""
+msgstr "Aktualizovať existujúcu schôdzku?"
 
 #. Template: AdminAppointmentImport
 msgid ""
 "All existing appointments in the calendar with same UniqueID will be "
 "overwritten."
-msgstr ""
+msgstr "Všetky existujúce schôdzky v kalendári s rovnakým UniqueID budú prepísané."
 
 #. Template: AdminAppointmentImport
 msgid "Upload calendar"
-msgstr ""
+msgstr "Nahraj kalendár"
 
 #. Template: AdminAppointmentImport
 msgid "Import appointments"
-msgstr ""
+msgstr "Import schôdzok"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Notification Management"
-msgstr ""
+msgstr "Menežment notifikácií schôdzok"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add Notification"
-msgstr ""
+msgstr "Pridaj notifikáciu"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
-msgstr ""
+msgstr "Edituj notifikáciu"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add notification"
-msgstr ""
+msgstr "Pridaj notifikáciu"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
-msgstr ""
+msgstr "Export notifikácií"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for Notifications"
-msgstr ""
+msgstr "Filter pre notifikácie"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for notifications"
-msgstr ""
+msgstr "Filter pre notifikácie"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
 "Here you can upload a configuration file to import appointment notifications"
 " to your system. The file needs to be in .yml format as exported by the "
 "appointment notification module."
-msgstr ""
+msgstr "Tu môžete nahrať konfiguračný súbor na import notifikácií schôdzok do Vášho systému. Súbor musí byť v .yml formáte exportovaný z modulu notifikácií schôdzok."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
-msgstr ""
+msgstr "Prepísať existujúce notifikácie?"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upload Notification configuration"
-msgstr ""
+msgstr "Nahrať konfiguráciu notifikácie"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Import Notification configuration"
-msgstr ""
+msgstr "Import konfigurácie notifikácie"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "List"
@@ -513,15 +514,15 @@ msgstr "Zmazať"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Delete this notification"
-msgstr ""
+msgstr "Zmazať túto notifikáciu"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Show in agent preferences"
-msgstr ""
+msgstr "Zobraz v nastaveniach agenta"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Agent preferences tooltip"
-msgstr ""
+msgstr "Nástrojové tipy vlastností agenta "
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -550,7 +551,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
-msgstr ""
+msgstr "Filter schôdzok"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Type"
@@ -566,31 +567,31 @@ msgstr "Poloha"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Team"
-msgstr ""
+msgstr "Team"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Resource"
-msgstr ""
+msgstr "Zdroj"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Recipients"
-msgstr ""
+msgstr "Príjemcovia"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to"
-msgstr ""
+msgstr "Komu"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to these agents"
-msgstr ""
+msgstr "Poslať týmto agentom"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all group members"
-msgstr ""
+msgstr "Poslať všetkým členom skupiny"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
-msgstr ""
+msgstr "Poslať všetkým členom role"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send on out of office"
@@ -598,11 +599,11 @@ msgstr "Pošli Neprítomnosť v kancelárii"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Also send if the user is currently out of office."
-msgstr ""
+msgstr "Pošli aj v prípade, že užívateľ je mimo kanceláriu."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Once per day"
-msgstr ""
+msgstr "Jedenkrát za deň"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -612,7 +613,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Methods"
-msgstr ""
+msgstr "Spôsoby notifikácie"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -622,7 +623,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Enable this notification method"
-msgstr ""
+msgstr "Aktivuj túto notifikačnú metódu"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Transport"
@@ -630,7 +631,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "At least one method is needed per notification."
-msgstr ""
+msgstr "Na notifikovanie je potrebná aspoň jedna metóda."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Active by default in agent preferences"
@@ -657,7 +658,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No data found"
-msgstr ""
+msgstr "Neboli nájdené žiadne dáta"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No notification method found."
@@ -665,7 +666,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Text"
-msgstr ""
+msgstr "Text notifikácie"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -675,7 +676,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Remove Notification Language"
-msgstr ""
+msgstr "Vymaž jazyk notifikácie"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Subject"
@@ -687,7 +688,7 @@ msgstr "Text"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Message body"
-msgstr ""
+msgstr "Telo správy"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add new notification language"
@@ -695,7 +696,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Save Changes"
-msgstr ""
+msgstr "Ulož zmeny"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Tag Reference"
@@ -703,7 +704,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notifications are sent to an agent."
-msgstr ""
+msgstr "Notifikácie boli poslané agentovi."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "You can use the following tags"
@@ -12332,10 +12333,6 @@ msgid "Setting not found!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
-msgid "This feature is part of the %s Please contact us at %s for an upgrade."
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to reset the setting!"
 msgstr ""
 
@@ -13875,8 +13872,9 @@ msgstr ""
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
-msgid "A system maintenance period will start at: "
-msgstr "Plánovaná systémová údržba začína o:"
+msgid ""
+"A system maintenance period will start at: %s and is expected to stop at: %s"
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTRS Daemon is not running."
@@ -15468,6 +15466,18 @@ msgid "Missing key %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/SysConfig.pm
+msgid "Invalid setting: %s"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "Could not combine settings values into a perl hash."
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "Can not lock the deployment for UserID '%s'!"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
 msgid "All Settings"
 msgstr ""
 
@@ -16667,11 +16677,6 @@ msgstr "Posuňte navigačný panel"
 #. JS File: Core.Agent
 msgid "Please turn off Compatibility Mode in Internet Explorer!"
 msgstr "Prosím vypnite Compatibility Mode v Internet Exploreri"
-
-#. JS File: Core.Agent
-msgid ""
-"This feature is part of the %s.  Please contact us at %s for an upgrade."
-msgstr "Táto funkcionalita je častou %s. Prosím kontaktujte nás ak chcete vyššiu verziu %s"
 
 #. JS File: Core.Agent
 msgid "Find out more"
@@ -22397,6 +22402,10 @@ msgstr "Jazyk"
 #. SysConfig
 msgid "Large"
 msgstr "Veľký"
+
+#. SysConfig
+msgid "Last Screen Overview"
+msgstr ""
 
 #. SysConfig
 msgid "Last customer subject"

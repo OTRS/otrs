@@ -14,14 +14,14 @@
 # Stang . <Cosine02@outlook.com>, 2016
 # 文浩坚 <never.min@gmail.com>, 2015-2016
 # 汇民 王 <whuim@163.com>, 2016-2017
-# 汇民 王 <whuim@qq.com>, 2016-2017
+# 汇民 王 <whuim@qq.com>, 2016-2018
 # 洋 王 <fkaxc2002@gmail.com>, 2017
 # 陈德文 <sggggy@gmail.com>, 2014-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-01-08 18:29+0000\n"
-"PO-Revision-Date: 2018-01-08 18:33+0000\n"
+"POT-Creation-Date: 2018-01-22 01:09+0000\n"
+"PO-Revision-Date: 2018-01-22 01:13+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -3739,13 +3739,13 @@ msgstr "您真的想要删除这个Web服务吗？"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Ready2Adopt Web Services"
-msgstr "Ready2Adopt Web服务"
+msgstr "即开即用的Web服务"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Here you can activate Ready2Adopt web services showcasing our best practices"
 " that are a part of %s."
-msgstr "你可以在这里激活Ready2Adopt WEB服务，作为%s的一部分展示我们的最佳实践。"
+msgstr "你可以在这里激活即开即用的WEB服务，作为%s的一部分展示我们的最佳实践。"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -3756,13 +3756,13 @@ msgstr "请注意：这些WEB服务可能依赖于其它仅在某些%s合同级�
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import Ready2Adopt web service"
-msgstr "导入Ready2Adopt WEB服务"
+msgstr "导入即开即用的WEB服务"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Would you like to benefit from web services created by experts? Upgrade to "
 "%s to import some sophisticated Ready2Adopt web services."
-msgstr ""
+msgstr "你想从专家创建的WEB服务中受益吗？升级到%s 就能导入一些复杂的即开即用的WEB服务。"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -5018,23 +5018,23 @@ msgstr "导入流程配置"
 
 #. Template: AdminProcessManagement
 msgid "Ready2Adopt Processes"
-msgstr ""
+msgstr "即开即用的流程"
 
 #. Template: AdminProcessManagement
 msgid ""
 "Here you can activate Ready2Adopt processes showcasing our best practices. "
 "Please note that some additional configuration may be required."
-msgstr ""
+msgstr "你可以在此激活能展示我们最佳实践的即开即用的流程，请注意这可能需要一些额外的配置。"
 
 #. Template: AdminProcessManagement
 msgid ""
 "Would you like to benefit from processes created by experts? Upgrade to %s "
 "to import some sophisticated Ready2Adopt processes."
-msgstr ""
+msgstr "你想从专家创建的流程中受益吗？升级到%s 就能导入一些复杂的即开即用的流程。"
 
 #. Template: AdminProcessManagement
 msgid "Import Ready2Adopt process"
-msgstr ""
+msgstr "导入即开即用的流程"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -12346,10 +12346,6 @@ msgid "Setting not found!"
 msgstr "没有找到设置。"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
-msgid "This feature is part of the %s Please contact us at %s for an upgrade."
-msgstr "此功能是％s的一部分， 请通过％s与我们联系以进行升级。"
-
-#. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to reset the setting!"
 msgstr "系统无法重置该设置！"
 
@@ -13410,7 +13406,7 @@ msgstr "错误：请设置数据库参数innodb_log_file_size至少为%s MB（�
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
-msgstr ""
+msgstr "错误的数据库排序规则（%s是%s，但需要是utf8）。"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
@@ -13889,8 +13885,9 @@ msgstr "正在进行系统维护！"
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
-msgid "A system maintenance period will start at: "
-msgstr "系统维护期将开始于："
+msgid ""
+"A system maintenance period will start at: %s and is expected to stop at: %s"
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTRS Daemon is not running."
@@ -15482,6 +15479,18 @@ msgid "Missing key %s!"
 msgstr "缺失键%s！"
 
 #. Perl Module: Kernel/System/SysConfig.pm
+msgid "Invalid setting: %s"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "Could not combine settings values into a perl hash."
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "Can not lock the deployment for UserID '%s'!"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
 msgid "All Settings"
 msgstr "所有设置"
 
@@ -16681,11 +16690,6 @@ msgstr "滑动导航栏"
 #. JS File: Core.Agent
 msgid "Please turn off Compatibility Mode in Internet Explorer!"
 msgstr "请关闭IE的兼容模式！"
-
-#. JS File: Core.Agent
-msgid ""
-"This feature is part of the %s.  Please contact us at %s for an upgrade."
-msgstr "这个功能需要%s才能使用，请到%s联系我们升级。"
 
 #. JS File: Core.Agent
 msgid "Find out more"
@@ -18089,7 +18093,7 @@ msgstr "通信日志图形用户界面"
 
 #. SysConfig
 msgid "Communication log limit per page for Communication Log Overview."
-msgstr ""
+msgstr "通信日志概览中每页的通信日志条目限制"
 
 #. SysConfig
 msgid "CommunicationLog Overview Limit"
@@ -18573,7 +18577,7 @@ msgid ""
 "they would have precedence over the automatically set values. To use this "
 "mapping, you have to also activate the "
 "Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting."
-msgstr ""
+msgstr "定义客户用户数据（键）与工单动态字段（值）的映射。目的是在工单动态字段中存储客户用户数据。动态字段必须存在于系统中且启用了AgentTicketFreeText（服务人员工单自由文本），这样才能由服务人员手动设置/更新。动态字段不能在服务人员电话工单、邮件工单和客户工单中启用，否则他们将优先于自动设置值。要使用这些映射，还要激活Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser的设置。"
 
 #. SysConfig
 msgid ""
@@ -18620,7 +18624,7 @@ msgid ""
 "Define which avatar default image should be used for the current agent if no"
 " gravatar is assigned to the mail address of the agent. Check "
 "http://gravatar.com/site/implement/images/ for further information."
-msgstr ""
+msgstr "如果没有分配给服务人员的邮件地址的gravatar（个人全球统一标识），则定义当前服务人员应该使用哪个头像作为默认图像。 查看 http://gravatar.com/site/implement/images/ 以了解更多信息。"
 
 #. SysConfig
 msgid ""
@@ -19129,7 +19133,7 @@ msgid ""
 "tickets. If enabled, only values which are actually used in any ticket will "
 "be available for filtering. Please note: The list of customers will always "
 "be retrieved like this."
-msgstr ""
+msgstr "定义过滤器的值是否应从所有可用的工单中检索。如果启用了，则只有实际用在工单中的值才能用于过滤。请注意：客户用户列表将像这样始终被检索。"
 
 #. SysConfig
 msgid ""
@@ -19137,7 +19141,7 @@ msgid ""
 "a note must be entered for all ticket actions (no matter if the note itself "
 "is configured as active or is originally mandatory for the individual ticket"
 " action screen)."
-msgstr ""
+msgstr "定义在服务人员界面工时管理是否是强制的。如果启用了，所有工单操作必须输入一个备注（不管是否启用了工单备注，也不管个别工单操作屏幕本来就是强制的）。"
 
 #. SysConfig
 msgid "Defines if time accounting must be set to all tickets in bulk action."
@@ -19223,13 +19227,13 @@ msgstr "定义时间选择中可用的增量。 选择“分钟”可以从1-59�
 msgid ""
 "Defines the body text for notification mails sent to agents, about new "
 "password."
-msgstr ""
+msgstr "定义发送给服务人员关于新密码的通知邮件的正文。"
 
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to agents, with token "
 "about new requested password."
-msgstr ""
+msgstr "定义发送给服务人员关于请求的新密码的链接的通知邮件的正文。"
 
 #. SysConfig
 msgid ""
@@ -19241,13 +19245,13 @@ msgstr "定义发送给客户关于新帐户信息的通知邮件的正文文本
 msgid ""
 "Defines the body text for notification mails sent to customers, about new "
 "password."
-msgstr ""
+msgstr "定义发送给客户关于新密码的通知邮件的正文。"
 
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to customers, with token "
 "about new requested password."
-msgstr ""
+msgstr "定义发送给客户关于请求的新密码的链接的通知邮件的正文。"
 
 #. SysConfig
 msgid "Defines the body text for rejected emails."
@@ -19424,7 +19428,7 @@ msgstr "定义服务人员界面在工单编写屏幕编写或答复工单后的
 msgid ""
 "Defines the default next state of a ticket, in the ticket bulk screen of the"
 " agent interface."
-msgstr ""
+msgstr "定义服务人员界面在工单批量操作屏幕的默认下一个工单状态。"
 
 #. SysConfig
 msgid ""
@@ -20374,7 +20378,7 @@ msgstr "定义服务人员界面转移工单屏幕转移工单到另一队列后
 msgid ""
 "Defines the next state of a ticket, in the ticket bulk screen of the agent "
 "interface."
-msgstr ""
+msgstr "定义服务人员界面在工单批量操作屏幕的下一个工单状态。"
 
 #. SysConfig
 msgid ""
@@ -20999,7 +21003,7 @@ msgstr "禁用HHTP头\"X-Frame-Options: SAMEORIGIN\" 以便允许OTRS可以包�
 msgid ""
 "Disables sending reminder notifications to the responsible agent of a ticket"
 " (Ticket::Responsible needs to be enabled)."
-msgstr ""
+msgstr "禁止发送提醒通知给工单负责人（需要启用Ticket::Responsible设置）。"
 
 #. SysConfig
 msgid ""
@@ -21008,7 +21012,7 @@ msgid ""
 " system registration, support data sending, upgrading to and use of OTRS "
 "Business Solution™, OTRS Verify™, OTRS News and product News dashboard "
 "widgets, among others."
-msgstr ""
+msgstr "禁用本系统到OTRS集团提供云服务的服务器的通信。如果启用，某些功能如系统注册、发送支持数据、升级到OTRS Business Solution™（OTRS商业版）、OTRS Verify™（OTRS验证）、仪表板中的OTRS新闻和产品新闻小部件等将失效。"
 
 #. SysConfig
 msgid ""
@@ -21023,7 +21027,7 @@ msgid ""
 " reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If enabled, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
-msgstr ""
+msgstr "禁用WEB安装程序(http://yourhost.example.com/otrs/installer.pl)，防止系统被劫持。如果不启用，系统能够被重新安装，当前的基本配置将被安装脚本的预设问题替换。如果启用了，还同时禁用了通用代理、软件包管理和SQL查询窗口。"
 
 #. SysConfig
 msgid ""
@@ -21108,7 +21112,7 @@ msgstr "流程小部件的动态字段组。键是组名，值是要显示的动
 
 #. SysConfig
 msgid "Dynamic fields limit per page for Dynamic Fields Overview."
-msgstr ""
+msgstr "动态字段概览视图的每页动态字段数限制。"
 
 #. SysConfig
 msgid ""
@@ -21331,7 +21335,7 @@ msgstr "启用SOAP响应的持久连接头。"
 msgid ""
 "Enable this if you trust in all your public and private pgp keys, even if "
 "they are not certified with a trusted signature."
-msgstr ""
+msgstr "如果你信任所有的公共和私有PGP密钥（即使它们不是可信任签名认证的），则启用这个参数。"
 
 #. SysConfig
 msgid "Enabled filters."
@@ -21658,7 +21662,7 @@ msgid ""
 "Force the storage of the original article text in the article search index, "
 "without executing filters or applying stop word lists. This will increase "
 "the size of the search index and thus may slow down fulltext searches."
-msgstr ""
+msgstr "强制将原始信件文本存储在信件搜索索引中，而不执行过滤器或应用停用词列表。 这将增加搜索索引的大小，从而可能减慢全文搜索。"
 
 #. SysConfig
 msgid ""
@@ -22203,11 +22207,11 @@ msgstr "如果启用了此选项，将从WEB界面、HTTP头信息和外发邮�
 
 #. SysConfig
 msgid "If enabled, the cache data be held in memory."
-msgstr ""
+msgstr "如果启用了，缓存数据将会保留在内存中。"
 
 #. SysConfig
 msgid "If enabled, the cache data will be stored in cache backend."
-msgstr ""
+msgstr "如果启用了，缓存数据将会存储到缓存后端。"
 
 #. SysConfig
 msgid ""
@@ -22261,7 +22265,7 @@ msgid ""
 "If this option is enabled, tickets created via the web interface, via "
 "Customers or Agents, will receive an autoresponse if configured. If this "
 "option is not enabled, no autoresponses will be sent."
-msgstr ""
+msgstr "如果这个选项启用了，服务人员或客户通过WEB界面创建的工单将收到自动响应（如果配置了自动响应）。如果这个选项不启用，则不会发送自动响应。"
 
 #. SysConfig
 msgid "If this regex matches, no message will be send by the autoresponder."
@@ -22271,7 +22275,7 @@ msgstr "如果这个正则表达式匹配了，自动响应不会发送任何消
 msgid ""
 "If this setting is enabled, local modifications will not be highlighted as "
 "errors in the package manager and support data collector."
-msgstr ""
+msgstr "如果启用这个设置，本地修改内容不会在软件包管理器和支持数据收集工具中高亮显示为错误。"
 
 #. SysConfig
 msgid ""
@@ -22411,6 +22415,10 @@ msgstr "语言"
 #. SysConfig
 msgid "Large"
 msgstr "详细"
+
+#. SysConfig
+msgid "Last Screen Overview"
+msgstr ""
 
 #. SysConfig
 msgid "Last customer subject"
@@ -22641,7 +22649,7 @@ msgstr "邮件队列配置设置。"
 
 #. SysConfig
 msgid "Main menu item registration."
-msgstr ""
+msgstr "注册主菜单条目。"
 
 #. SysConfig
 msgid "Main menu registration."
@@ -23083,7 +23091,7 @@ msgstr "客户界面搜索结果每页显示的工单数。"
 
 #. SysConfig
 msgid "Number of tickets to be displayed in each page."
-msgstr ""
+msgstr "每页显示的工单数量。"
 
 #. SysConfig
 msgid "OTRS Group Services"
@@ -23106,7 +23114,7 @@ msgid ""
 "iterations. During import process, it might happen that ICS file contains "
 "such Appointments. Instead, system creates all Appointments in the past, "
 "plus Appointments for the next N months (120 months/10 years by default)."
-msgstr ""
+msgstr "OTRS不支持对没有结束日期或没有重复次数的预约做循环处理。在导入过程中，可能有ICS文件包含了此类预约。作为替代，系统将所有的此类预约创建为已过去的预约，然后加上接下来的N个月(默认120个月或10年)的重复预约。"
 
 #. SysConfig
 msgid "Open Tickets / Need to be answered"
@@ -23771,7 +23779,7 @@ msgid ""
 "Renew existing SMIME certificates from customer backend. Note: SMIME and "
 "SMIME::FetchFromCustomer needs to be enabled in SysConfig and customer "
 "backend needs to be configured to fetch UserSMIMECertificate attribute."
-msgstr ""
+msgstr "从客户后端更新已有的SMIME证书。注意：需要在系统配置中启用SMIME和SMIME::FetchFromCustomer，且客户后端模块需要配置为收取UserSMIMECertificate 属性。"
 
 #. SysConfig
 msgid ""
@@ -23958,7 +23966,7 @@ msgid ""
 " such as selection of language and theme via the agent web interface. These "
 "changes are only valid for the current session. It will not be possible for "
 "agents to change their passwords."
-msgstr ""
+msgstr "以“演示”模式运行系统。如果启用了，服务人员能够修改偏好设置，如通过WEB界面选择语言和主题，这些变更内容只对当前会话有效。服务人员不能修改密码。"
 
 #. SysConfig
 msgid "Russian"
@@ -24654,43 +24662,43 @@ msgstr "设置服务人员界面工单负责人屏幕的服务人员负责人。
 msgid ""
 "Sets the service in the close ticket screen of the agent interface "
 "(Ticket::Service needs to be enabled)."
-msgstr ""
+msgstr "设置服务人员界面工单关闭屏幕的服务（需要启用Ticket::Service）。"
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket free text screen of the agent interface "
 "(Ticket::Service needs to be enabled)."
-msgstr ""
+msgstr "设置服务人员界面工单自定义字段屏幕的服务（需要启用Ticket::Service）。"
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket note screen of the agent interface "
 "(Ticket::Service needs to be enabled)."
-msgstr ""
+msgstr "设置服务人员界面工单备注屏幕的服务（需要启用Ticket::Service）。"
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket owner screen of a zoomed ticket in the agent "
 "interface (Ticket::Service needs to be enabled)."
-msgstr ""
+msgstr "设置服务人员界面工单所有者屏幕的服务（需要启用Ticket::Service）。"
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket pending screen of a zoomed ticket in the "
 "agent interface (Ticket::Service needs to be enabled)."
-msgstr ""
+msgstr "设置服务人员界面工单挂起屏幕的服务（需要启用Ticket::Service）。"
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket priority screen of a zoomed ticket in the "
 "agent interface (Ticket::Service needs to be enabled)."
-msgstr ""
+msgstr "设置服务人员界面工单优先级屏幕的服务（需要启用Ticket::Service）。"
 
 #. SysConfig
 msgid ""
 "Sets the service in the ticket responsible screen of the agent interface "
 "(Ticket::Service needs to be enabled)."
-msgstr ""
+msgstr "设置服务人员界面工单负责人屏幕的服务（需要启用Ticket::Service）。"
 
 #. SysConfig
 msgid ""
@@ -24790,7 +24798,7 @@ msgstr "设置服务人员界面工单负责人屏幕的工单所有者。"
 msgid ""
 "Sets the ticket type in the close ticket screen of the agent interface "
 "(Ticket::Type needs to be enabled)."
-msgstr ""
+msgstr "设置服务人员界面工单关闭屏幕的工单类型（需要启用Ticket::Type）。"
 
 #. SysConfig
 msgid "Sets the ticket type in the ticket bulk screen of the agent interface."
@@ -24800,37 +24808,37 @@ msgstr "设置服务人员界面工单批量操作屏幕的工单类型。"
 msgid ""
 "Sets the ticket type in the ticket free text screen of the agent interface "
 "(Ticket::Type needs to be enabled)."
-msgstr ""
+msgstr "设置服务人员界面工单自定义字段屏幕的工单类型（需要启用Ticket::Type）。"
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket note screen of the agent interface "
 "(Ticket::Type needs to be enabled)."
-msgstr ""
+msgstr "设置服务人员界面工单备注屏幕的工单类型（需要启用Ticket::Type）。"
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket owner screen of a zoomed ticket in the "
 "agent interface (Ticket::Type needs to be enabled)."
-msgstr ""
+msgstr "设置服务人员界面工单所有者屏幕的工单类型（需要启用Ticket::Type）。"
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket pending screen of a zoomed ticket in the "
 "agent interface (Ticket::Type needs to be enabled)."
-msgstr ""
+msgstr "设置服务人员界面工单挂起屏幕的工单类型（需要启用Ticket::Type）。"
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket priority screen of a zoomed ticket in the"
 " agent interface (Ticket::Type needs to be enabled)."
-msgstr ""
+msgstr "设置服务人员界面工单优先级屏幕的工单类型（需要启用Ticket::Type）。"
 
 #. SysConfig
 msgid ""
 "Sets the ticket type in the ticket responsible screen of the agent interface"
 " (Ticket::Type needs to be enabled)."
-msgstr ""
+msgstr "设置服务人员界面工单负责人屏幕的工单类型（需要启用Ticket::Type）。"
 
 #. SysConfig
 msgid ""
@@ -24895,7 +24903,7 @@ msgstr "显示工单历史信息"
 msgid ""
 "Shows a count of attachments in the ticket zoom, if the article has "
 "attachments."
-msgstr ""
+msgstr "如果信件有附件，在工单详情视图显示附件数。"
 
 #. SysConfig
 msgid ""
@@ -25366,7 +25374,7 @@ msgstr "在工单编写屏幕显示客户用户信息（电话和邮件）。"
 msgid ""
 "Shows the enabled ticket attributes in the customer interface (0 = Disabled "
 "and 1 = Enabled)."
-msgstr ""
+msgstr "在客户界面显示已启用的工单属性（0 = 禁用，1 = 启用）。"
 
 #. SysConfig
 msgid ""
@@ -25442,7 +25450,7 @@ msgstr "在服务人员界面工单负责人屏幕显示工单优先级选项。
 #. SysConfig
 msgid ""
 "Shows the title field in the close ticket screen of the agent interface."
-msgstr ""
+msgstr "在服务人员界面关闭工单屏幕显示工单标题字段。"
 
 #. SysConfig
 msgid ""
@@ -25452,43 +25460,43 @@ msgstr "在服务人员界面工单自定义字段屏幕显示工单标题标题
 #. SysConfig
 msgid ""
 "Shows the title field in the ticket note screen of the agent interface."
-msgstr ""
+msgstr "在服务人员界面工单备注屏幕显示工单标题字段。"
 
 #. SysConfig
 msgid ""
 "Shows the title field in the ticket owner screen of a zoomed ticket in the "
 "agent interface."
-msgstr ""
+msgstr "在服务人员界面工单所有者屏幕显示工单标题字段。"
 
 #. SysConfig
 msgid ""
 "Shows the title field in the ticket pending screen of a zoomed ticket in the"
 " agent interface."
-msgstr ""
+msgstr "在服务人员界面工单挂起屏幕显示工单标题字段。"
 
 #. SysConfig
 msgid ""
 "Shows the title field in the ticket priority screen of a zoomed ticket in "
 "the agent interface."
-msgstr ""
+msgstr "在服务人员界面工单优先级屏幕显示工单标题字段。"
 
 #. SysConfig
 msgid ""
 "Shows the title field in the ticket responsible screen of the agent "
 "interface."
-msgstr ""
+msgstr "在服务人员界面工单负责人屏幕显示工单标题字段。"
 
 #. SysConfig
 msgid ""
 "Shows time in long format (days, hours, minutes), if enabled; or in short "
 "format (days, hours), if not enabled."
-msgstr ""
+msgstr "如果启用，则以长格式显示时间（天、小时、分钟）；如果不启用，则以短格式显示时间（天、小时）。"
 
 #. SysConfig
 msgid ""
 "Shows time use complete description (days, hours, minutes), if enabled; or "
 "just first letter (d, h, m), if not enabled."
-msgstr ""
+msgstr "如果启用，则显示时间的完整描述（天、小时、分钟）；如果不启用，则只显示时间的首字母（d-天，h-时,m-分）。"
 
 #. SysConfig
 msgid "Signatures"
@@ -25984,7 +25992,7 @@ msgid ""
 "This event module stores attributes from CustomerUser as DynamicFields "
 "tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to"
 " configure the mapping."
-msgstr ""
+msgstr "这个事件模块将客户用户的属性存储为工单动态字段，如何配置这个映射请查看DynamicFieldFromCustomerUser::Mapping设置。"
 
 #. SysConfig
 msgid "This is a Description for Comment on Framework."
@@ -26062,7 +26070,7 @@ msgstr "此设置已弃用。 替代方式是设置OTRSTimeZone。"
 msgid ""
 "This setting shows the sorting attributes in all overview screen, not only "
 "in queue view."
-msgstr ""
+msgstr "这个设置显示所有概览屏幕（而不是仅队列视图）中的排序属性。"
 
 #. SysConfig
 msgid "This will allow the system to send text messages via SMS."
@@ -26178,15 +26186,15 @@ msgstr "触发升级停止事件的工单事件模块。"
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Medium\"."
-msgstr ""
+msgstr "工单概览“基本”模式每页工单数量。"
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Preview\"."
-msgstr ""
+msgstr "工单概览“预览”模式每页工单数量。"
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Small\"."
-msgstr ""
+msgstr "工单概览“简洁”模式每页工单数量。"
 
 #. SysConfig
 msgid "Ticket notifications"

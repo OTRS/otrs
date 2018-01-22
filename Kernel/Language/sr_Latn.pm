@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.998789136827538;
+    $Self->{Completeness}        = 0.998097873076258;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2633,7 +2633,7 @@ sub Data {
         'History of %s%s%s' => 'Istorijat od %s%s%s',
         'Filter for history items' => 'Filter za stavke istorijata',
         'Expand/collapse all' => 'Proširi/skupi sve',
-        'CreateTime' => '',
+        'CreateTime' => 'Vreme kreiranja',
         'Article' => 'Članak',
 
         # Template: AgentTicketMerge
@@ -4016,8 +4016,6 @@ sub Data {
         'Updated user preferences' => 'Ažurirane korisničke postavke',
         'System was unable to deploy your changes.' => 'Sistem nije uspeo da rasporedi vaše promene.',
         'Setting not found!' => 'Podešavanje nije pronađeno!',
-        'This feature is part of the %s Please contact us at %s for an upgrade.' =>
-            'Ovo svojstvo je deo %s. Molimo da nas kontaktirate na %s za ažuriranje.',
         'System was unable to reset the setting!' => 'Sistem nije uspeo da poništi podešavanje!',
 
         # Perl Module: Kernel/Modules/AgentSplitSelection.pm
@@ -4583,7 +4581,8 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'System maintenance is active!' => 'Održavanje sistema je aktivno!',
-        'A system maintenance period will start at: ' => 'Period održavanja sistema će otpočeti u:',
+        'A system maintenance period will start at: %s and is expected to stop at: %s' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
         'OTRS Daemon is not running.' => 'OTRS sistemski servis ne radi.',
@@ -5202,6 +5201,9 @@ sub Data {
         'Could not update modified setting!' => 'Nije moguće ažurirati promenjeno podešavanje!',
         'Setting could not be unlocked!' => 'Nije moguće otključati podešavanje!',
         'Missing key %s!' => 'Nedostaje ključ %s!',
+        'Invalid setting: %s' => '',
+        'Could not combine settings values into a perl hash.' => '',
+        'Can not lock the deployment for UserID \'%s\'!' => '',
         'All Settings' => 'Sva podešavanja',
 
         # Perl Module: Kernel/System/SysConfig/BaseValueType.pm
@@ -5657,8 +5659,6 @@ sub Data {
         # JS File: Core.Agent
         'Slide the navigation bar' => 'Pomerite navigacionu traku',
         'Please turn off Compatibility Mode in Internet Explorer!' => 'Molimo da isključite mod kompatibilnosti u Internet eksploreru!',
-        'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
-            'Ovo svojstvo je deo %s.  Molimo da na s kontaktirate na %s za ažuriranje.',
         'Find out more' => 'Saznaj više',
 
         # JS File: Core.App.Responsive
@@ -7442,6 +7442,7 @@ Vaša tehnička podrška
         'JavaScript function for the search frontend.' => 'JavaScript funkcija za modul pretrage.',
         'Language' => 'Jezik',
         'Large' => 'Veliko',
+        'Last Screen Overview' => '',
         'Last customer subject' => 'Poslednji predmet poruke klijenta',
         'Lastname Firstname' => 'Prezime, Ime',
         'Lastname Firstname (UserLogin)' => 'Prezime, Ime (Korisničko ime)',
@@ -8954,7 +8955,7 @@ Vaša tehnička podrška
         'This address already exists on the address list.',
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
-        'This feature is part of the %s.  Please contact us at %s for an upgrade.',
+        'This feature is part of the %s. Please contact us at %s for an upgrade.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

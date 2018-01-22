@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.987891368275385;
+    $Self->{Completeness}        = 0.988068476569255;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2133,7 +2133,7 @@ sub Data {
         'Edit System Maintenance Information' => 'Systemwartungs-Information bearbeiten',
         'Date invalid!' => 'Ungültiges Datum',
         'Login message' => 'Anmeldungs-Nachricht',
-        'This field must have less then 250 characters.' => '',
+        'This field must have less then 250 characters.' => 'Dieses Feld muss weniger als 250 Zeichen lang sein.',
         'Show login message' => 'Anmeldungs-Nachricht anzeigen',
         'Notify message' => 'Hinweistext',
         'Manage Sessions' => 'Sitzungen verwalten',
@@ -2354,7 +2354,7 @@ sub Data {
         'Closed' => 'Geschlossen',
         '%s open ticket(s) of %s' => '%s offene Tickets von %s',
         '%s closed ticket(s) of %s' => '%s geschlossene Tickets von %s',
-        'Edit customer ID' => '',
+        'Edit customer ID' => 'Kundennummer bearbeiten',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Eskalierte Tickets',
@@ -2836,7 +2836,7 @@ sub Data {
         'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
             'Es gab einen Fehler in der Server-Kommunikation. Der Server könnte kurzzeitige Störungen haben. Bitte laden Sie die Seite neu, um zu prüfen, ob die Probleme zwischenzeitlich behoben wurden.',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
-            'Die Verbindungen wurde nach einer kurzen Unterbrechung wiederhergestellt. Aus diesem Grund könnte es sein das einige Elemente der Seite nicht korrekt funktionieren. Um alle Elemente erneut korrekt nutzen zu können sollten Sie ihre Seite neue laden.',
+            'Die Verbindung wurde nach einer temporären Unterbrechung wiederhergestellt. Möglicherweise funktionieren deshalb einige Elemente der aktuellen Seite nicht (mehr) korrekt. Um alle Elemente wieder wie gewünscht nutzen zu können, sollten Sie die aktuelle Seite neu laden.',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript nicht aktiviert oder nicht unterstützt.',
@@ -3491,7 +3491,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Unbestimmte Subaktion.',
         'Need %s' => '%s benötigt',
-        'Add %s field' => '',
+        'Add %s field' => '%s Feld hinzufügen',
         'The field does not contain only ASCII letters and numbers.' => 'Dieses Feld enthält nicht nur ASCII-Zeichen.',
         'There is another field with the same name.' => 'Es existiert bereits ein Feld mit demselben Namen.',
         'The field must be numeric.' => 'Das Feld darf nur Zahlen beinhalten.',
@@ -3499,7 +3499,7 @@ sub Data {
         'Could not create the new field' => 'Konnte das neue Feld nicht anlegen',
         'Need ID' => 'Kennung benötigt',
         'Could not get data for dynamic field %s' => 'Konnte keine Daten für das dynamische Feld %s ermitteln.',
-        'Change %s field' => '',
+        'Change %s field' => '%s Feld ändern',
         'The name for this field should not change.' => 'Der Name dieses Feldes sollte sich nicht ändern.',
         'Could not update the field %s' => 'Das Feld %s konnte nicht aktualisiert werden',
         'Currently' => 'Aktuell',
@@ -4010,8 +4010,6 @@ sub Data {
         'Updated user preferences' => 'Benutzereinstellungen aktualisiert',
         'System was unable to deploy your changes.' => 'Das System konnte Ihre Einstellungen nicht in Betrieb nehmen.',
         'Setting not found!' => 'Einstellung nicht gefunden!',
-        'This feature is part of the %s Please contact us at %s for an upgrade.' =>
-            'Diese Funktion ist Teil der %s. Bitte kontaktieren Sie uns unter %s bezüglich eines Upgrades.',
         'System was unable to reset the setting!' => 'Einstellung konnte nicht zurückgesetzt werden!',
 
         # Perl Module: Kernel/Modules/AgentSplitSelection.pm
@@ -4577,7 +4575,8 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'System maintenance is active!' => 'System Wartung ist aktiv!',
-        'A system maintenance period will start at: ' => 'Eine Systemwartungsperiode beginnt um: ',
+        'A system maintenance period will start at: %s and is expected to stop at: %s' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
         'OTRS Daemon is not running.' => 'Der OTRS Daemon läuft nicht.',
@@ -5196,6 +5195,9 @@ sub Data {
         'Could not update modified setting!' => 'Konnte geänderte Einstellung nicht aktualisieren!',
         'Setting could not be unlocked!' => 'Einstellung konnte nicht freigegeben werden!',
         'Missing key %s!' => 'Fehlender Schlüssel %s!',
+        'Invalid setting: %s' => '',
+        'Could not combine settings values into a perl hash.' => '',
+        'Can not lock the deployment for UserID \'%s\'!' => '',
         'All Settings' => 'Alle Einstellungen',
 
         # Perl Module: Kernel/System/SysConfig/BaseValueType.pm
@@ -5453,9 +5455,9 @@ sub Data {
             'Derzeit läuft ein Prozess zur Paketaktualisierung. Klicken Sie hier, um Statusinformationen zu erhalten.',
         'A package upgrade was recently finished. Click here to see the results.' =>
             'Eine Paketaktualisierung wurde kürzlich beendet. Klicken Sie hier, um die Ergebnisse zu betrachten.',
-        'Update all packages' => '',
+        'Update all packages' => 'Alle Pakete aktualisieren',
         'Dismiss' => 'Verwerfen',
-        'Update All Packages' => '',
+        'Update All Packages' => 'Alle Pakete aktualisieren',
         'Currently not possible' => 'Derzeit nicht möglich',
         'This is currently disabled because of an ongoing package upgrade.' =>
             'Dies ist derzeit nicht möglich, da eine Paketaktualisierung läuft.',
@@ -5651,8 +5653,6 @@ sub Data {
         # JS File: Core.Agent
         'Slide the navigation bar' => 'Verschieben Sie die Navigationsleiste',
         'Please turn off Compatibility Mode in Internet Explorer!' => 'Bitte schalten Sie den Kompatibilitätsmodus im Internet Explorer aus!',
-        'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
-            'Diese Funktion ist Teil von %s. Bitte kontaktieren Sie uns unter %s bezüglich eines Upgrades.',
         'Find out more' => 'Mehr erfahren',
 
         # JS File: Core.App.Responsive
@@ -7435,6 +7435,7 @@ Ihr Helpdesk-Team
         'JavaScript function for the search frontend.' => 'JavaScript-Funktion für das Suche-Frontend.',
         'Language' => 'Sprache',
         'Large' => 'Groß',
+        'Last Screen Overview' => '',
         'Last customer subject' => 'Letzter Kunden-Betreff',
         'Lastname Firstname' => 'Nachname Vorname',
         'Lastname Firstname (UserLogin)' => 'Nachname Vorname (BenutzerAnmeldung)',
@@ -8947,7 +8948,7 @@ Ihr Helpdesk-Team
         'This address already exists on the address list.',
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
-        'This feature is part of the %s.  Please contact us at %s for an upgrade.',
+        'This feature is part of the %s. Please contact us at %s for an upgrade.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

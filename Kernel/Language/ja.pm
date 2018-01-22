@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.756270541428819;
+    $Self->{Completeness}        = 0.755663150613868;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4015,8 +4015,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Updated user preferences' => '',
         'System was unable to deploy your changes.' => '',
         'Setting not found!' => '設定が見つかりません！',
-        'This feature is part of the %s Please contact us at %s for an upgrade.' =>
-            '',
         'System was unable to reset the setting!' => '',
 
         # Perl Module: Kernel/Modules/AgentSplitSelection.pm
@@ -4582,7 +4580,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'System maintenance is active!' => '',
-        'A system maintenance period will start at: ' => '次の時刻からシステムメンテナンスが行われます: ',
+        'A system maintenance period will start at: %s and is expected to stop at: %s' =>
+            '',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
         'OTRS Daemon is not running.' => 'OTRSデーモンが起動していません。',
@@ -5201,6 +5200,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Could not update modified setting!' => '',
         'Setting could not be unlocked!' => '',
         'Missing key %s!' => '',
+        'Invalid setting: %s' => '',
+        'Could not combine settings values into a perl hash.' => '',
+        'Can not lock the deployment for UserID \'%s\'!' => '',
         'All Settings' => '全ての設定',
 
         # Perl Module: Kernel/System/SysConfig/BaseValueType.pm
@@ -5656,8 +5658,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # JS File: Core.Agent
         'Slide the navigation bar' => 'ナビゲーションバーを操作してください',
         'Please turn off Compatibility Mode in Internet Explorer!' => 'Internet Explorerの互換モードを無効にして下さい。',
-        'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
-            'この機能は %s の一部です。%s の更新についてサポートまでお問い合わせください。',
         'Find out more' => '詳細を参照',
 
         # JS File: Core.App.Responsive
@@ -7448,6 +7448,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'JavaScript function for the search frontend.' => '',
         'Language' => '言語',
         'Large' => '大',
+        'Last Screen Overview' => '',
         'Last customer subject' => '',
         'Lastname Firstname' => '',
         'Lastname Firstname (UserLogin)' => '',
@@ -8961,7 +8962,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'This address already exists on the address list.',
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
-        'This feature is part of the %s.  Please contact us at %s for an upgrade.',
+        'This feature is part of the %s. Please contact us at %s for an upgrade.',
         'This field is required.',
         'This is %s',
         'This is a repeating appointment',

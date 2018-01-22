@@ -4,7 +4,7 @@
 # André Brás <andregoncalo.bras@gmail.com>, 2017
 # António Correia <7pacima@gmail.com>, 2017
 # Helder Araújo <helderpos@gmail.com>, 2015
-# Joao Ferro <fmthard@gmail.com>, 2016-2017
+# Joao Ferro <fmthard@gmail.com>, 2016-2018
 # Jorge Lima <jlima101@gmail>, 2017
 # José Anjos <jose.anjos@regiaodeaveiro.pt>, 2017
 # Nuno Ricardo Santos Loureiro da Silva Ferreira <nunolf@gmail.com>, 2015
@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-01-08 18:29+0000\n"
-"PO-Revision-Date: 2018-01-08 18:33+0000\n"
+"POT-Creation-Date: 2018-01-22 01:09+0000\n"
+"PO-Revision-Date: 2018-01-22 01:13+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/otrs/OTRS/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -8698,7 +8698,7 @@ msgstr "Reiniciar filtro"
 
 #. Template: AgentTicketZoom
 msgid "No."
-msgstr "Não"
+msgstr "Nr."
 
 #. Template: AgentTicketZoom
 msgid "Unread articles"
@@ -12339,10 +12339,6 @@ msgid "Setting not found!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
-msgid "This feature is part of the %s Please contact us at %s for an upgrade."
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to reset the setting!"
 msgstr ""
 
@@ -13882,8 +13878,9 @@ msgstr ""
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
-msgid "A system maintenance period will start at: "
-msgstr "O sistema entrará em manutenção às:"
+msgid ""
+"A system maintenance period will start at: %s and is expected to stop at: %s"
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTRS Daemon is not running."
@@ -15475,6 +15472,18 @@ msgid "Missing key %s!"
 msgstr ""
 
 #. Perl Module: Kernel/System/SysConfig.pm
+msgid "Invalid setting: %s"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "Could not combine settings values into a perl hash."
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "Can not lock the deployment for UserID '%s'!"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
 msgid "All Settings"
 msgstr ""
 
@@ -16673,11 +16682,6 @@ msgstr ""
 
 #. JS File: Core.Agent
 msgid "Please turn off Compatibility Mode in Internet Explorer!"
-msgstr ""
-
-#. JS File: Core.Agent
-msgid ""
-"This feature is part of the %s.  Please contact us at %s for an upgrade."
 msgstr ""
 
 #. JS File: Core.Agent
@@ -22404,6 +22408,10 @@ msgstr "Idioma"
 #. SysConfig
 msgid "Large"
 msgstr "Grande"
+
+#. SysConfig
+msgid "Last Screen Overview"
+msgstr ""
 
 #. SysConfig
 msgid "Last customer subject"

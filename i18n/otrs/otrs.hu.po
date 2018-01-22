@@ -2,7 +2,7 @@
 # Translators:
 # Arnold Mátyási <arn@webma.hu>, 2009
 # Áron Ujvári <ujvari@hungary.com>, 2007
-# Balázs Úr <urbalazs@gmail.com>, 2014-2017
+# Balázs Úr <urbalazs@gmail.com>, 2014-2018
 # Csaba Németh <csaba@sopron.hu>, 2013
 # Flóra Szabó <szaboflora@magicnet.hu>, 2006
 # Gábor Gáncs <gg@magicnet.hu>, 2006
@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-01-08 18:29+0000\n"
-"PO-Revision-Date: 2018-01-08 18:33+0000\n"
+"POT-Creation-Date: 2018-01-22 01:09+0000\n"
+"PO-Revision-Date: 2018-01-22 01:13+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -4258,7 +4258,7 @@ msgstr "Ez a rendszer a megfelelő licenc nélkül használja az %s programot. A
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s not Correctly Installed"
-msgstr "%s nincs helyesen telepítve"
+msgstr "Az %s nincs helyesen telepítve"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
@@ -4303,11 +4303,11 @@ msgstr "Frissítés érhető el az %s programhoz! Frissítsen a lehető leghamar
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Correctly Deployed"
-msgstr "Az %s helyesen üzembe állítva"
+msgstr "Az %s megfelelően üzembe lett állítva"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Congratulations, your %s is correctly installed and up to date!"
-msgstr "Gratulálunk, az %s helyesen telepített van és naprakész!"
+msgstr "Gratulálunk, az %s helyesen van telepítve és naprakész!"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Go to the OTRS customer portal"
@@ -4680,7 +4680,7 @@ msgstr "Eltávolítás"
 
 #. Template: AdminPackageManager
 msgid "Package not correctly deployed! Please reinstall the package."
-msgstr "A csomag nincs rendesen üzembe állítva! Telepítse újra a csomagot."
+msgstr "A csomag nincs megfelelően üzembe állítva! Telepítse újra a csomagot."
 
 #. Template: AdminPackageManager
 msgid "Reinstall"
@@ -8357,7 +8357,7 @@ msgstr "Összes kinyitása vagy összecsukása"
 
 #. Template: AgentTicketHistory
 msgid "CreateTime"
-msgstr "Létrehozás ideje (CreateTime)"
+msgstr "Létrehozás ideje"
 
 #. Template: AgentTicketHistory
 msgid "Article"
@@ -11365,7 +11365,7 @@ msgstr "Hiba történt az %s verzióra való frissítés közben."
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "%s was correctly reinstalled."
-msgstr "Az %s rendben újra lett telepítve."
+msgstr "Az %s megfelelően újra lett telepítve."
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "There was a problem reinstalling %s."
@@ -11381,7 +11381,7 @@ msgstr "Hiba történt az %s frissítése közben."
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "%s was correctly uninstalled."
-msgstr "Az %s rendben el lett távolítva."
+msgstr "Az %s megfelelően el lett távolítva."
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "There was a problem uninstalling %s."
@@ -11458,7 +11458,7 @@ msgstr "Telepítve"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package updated correctly"
-msgstr "A csomag sikeresen frissítve"
+msgstr "A csomag megfelelően frissítve"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package was already updated"
@@ -11466,7 +11466,7 @@ msgstr "A csomag már frissítve lett"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Dependency installed correctly"
-msgstr "A függőség sikeresen telepítve"
+msgstr "A függőség megfelelően telepítve"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "The package contains cyclic dependencies"
@@ -12337,10 +12337,6 @@ msgstr "A rendszer nem tudta üzembe állítani a változtatásokat."
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Setting not found!"
 msgstr "A beállítás nem található!"
-
-#. Perl Module: Kernel/Modules/AgentPreferences.pm
-msgid "This feature is part of the %s Please contact us at %s for an upgrade."
-msgstr "Ez a szolgáltatás az %s része. A frissítéshez lépjen velünk kapcsolatba a következő címen: %s."
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to reset the setting!"
@@ -13403,7 +13399,7 @@ msgstr "Hiba: Állítsa be az adatbázison az innodb_log_file_size értékét le
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
-msgstr ""
+msgstr "Hibás adatbázis egyeztetés (a %s értéke %s, de utf8 értékűnek kell lennie)."
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
@@ -13882,8 +13878,9 @@ msgstr "A rendszerkarbantartás aktív!"
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
-msgid "A system maintenance period will start at: "
-msgstr "Egy rendszerkarbantartás időszak fog kezdődni ekkor: "
+msgid ""
+"A system maintenance period will start at: %s and is expected to stop at: %s"
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTRS Daemon is not running."
@@ -15135,7 +15132,7 @@ msgstr "Néhány csomag helyileg módosított fájlokkal rendelkezik."
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
 msgid "Some packages are not correctly installed."
-msgstr "Néhány csomag nincs helyesen telepítve."
+msgstr "Néhány csomag nincs megfelelően telepítve."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
@@ -15473,6 +15470,18 @@ msgstr "A beállítást nem sikerült feloldani!"
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Missing key %s!"
 msgstr "Hiányzó %s kulcs!"
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "Invalid setting: %s"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "Could not combine settings values into a perl hash."
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "Can not lock the deployment for UserID '%s'!"
+msgstr ""
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "All Settings"
@@ -16674,11 +16683,6 @@ msgstr "Csúsztassa a navigációs sávot"
 #. JS File: Core.Agent
 msgid "Please turn off Compatibility Mode in Internet Explorer!"
 msgstr "Kapcsolja ki a kompatibilitási módot az Internet Explorerben!"
-
-#. JS File: Core.Agent
-msgid ""
-"This feature is part of the %s.  Please contact us at %s for an upgrade."
-msgstr "Ez a szolgáltatás az %s része. A frissítéshez lépjen velünk kapcsolatba a következő címen: %s."
 
 #. JS File: Core.Agent
 msgid "Find out more"
@@ -18082,7 +18086,7 @@ msgstr "Kommunikációs napló grafikus felhasználói felület"
 
 #. SysConfig
 msgid "Communication log limit per page for Communication Log Overview."
-msgstr ""
+msgstr "Oldalankénti kommunikációs napló korlát a kommunikációs napló áttekintőnél."
 
 #. SysConfig
 msgid "CommunicationLog Overview Limit"
@@ -21101,7 +21105,7 @@ msgstr "Dinamikus mezők csoportjai a feldolgozó felületi elemhez. A kulcs a c
 
 #. SysConfig
 msgid "Dynamic fields limit per page for Dynamic Fields Overview."
-msgstr ""
+msgstr "Oldalankénti dinamikus mező korlát a dinamikus mezők áttekintőnél."
 
 #. SysConfig
 msgid ""
@@ -22404,6 +22408,10 @@ msgstr "Nyelv"
 #. SysConfig
 msgid "Large"
 msgstr "Nagy"
+
+#. SysConfig
+msgid "Last Screen Overview"
+msgstr ""
 
 #. SysConfig
 msgid "Last customer subject"
@@ -26171,15 +26179,15 @@ msgstr "Jegyesemény modul, amely aktiválja az eszkaláció leállítás esemé
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Medium\"."
-msgstr ""
+msgstr "Oldalankénti jegykorlát a „Közepes” jegyáttekintéshez."
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Preview\"."
-msgstr ""
+msgstr "Oldalankénti jegykorlát az „Előnézet” jegyáttekintéshez."
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Small\"."
-msgstr ""
+msgstr "Oldalankénti jegykorlát a „Kis” jegyáttekintéshez."
 
 #. SysConfig
 msgid "Ticket notifications"

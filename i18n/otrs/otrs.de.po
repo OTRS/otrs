@@ -8,7 +8,7 @@
 # Daniel Schliemann <daniel.schliemann@googlemail.com>, 2016
 # Dominik <dominik@reichardt-online.it>, 2015
 # Dorothea Doerffel <dorothea.doerffel@cape-it.de>, 2017
-# Ettore Atalan <atalanttore@googlemail.com>, 2014-2017
+# Ettore Atalan <atalanttore@googlemail.com>, 2014-2018
 # Felix Schäfer <web.otrs@yorfeix.de>, 2017
 # Florian Edlhuber <florian.edlhuber@otrs.com>, 2015-2016
 # Florian Liebe <florian.liebe@otrs.com>, 2017
@@ -26,7 +26,7 @@
 # Mainboarder, 2014
 # mainboarder, 2014-2015
 # Marc A. Bonsels, 2014-2015
-# Marc A. Bonsels, 2015-2017
+# Marc A. Bonsels, 2015-2018
 # Marc A. Bonsels, 2014
 # Martin Gruner <martin.gruner@otrs.com>, 2014-2017
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
@@ -55,8 +55,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-01-08 18:29+0000\n"
-"PO-Revision-Date: 2018-01-08 18:33+0000\n"
+"POT-Creation-Date: 2018-01-22 01:09+0000\n"
+"PO-Revision-Date: 2018-01-22 01:13+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -6926,7 +6926,7 @@ msgstr "Anmeldungs-Nachricht"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "This field must have less then 250 characters."
-msgstr ""
+msgstr "Dieses Feld muss weniger als 250 Zeichen lang sein."
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Show login message"
@@ -7620,7 +7620,7 @@ msgstr "%s geschlossene Tickets von %s"
 
 #. Template: AgentDashboardCustomerIDList
 msgid "Edit customer ID"
-msgstr ""
+msgstr "Kundennummer bearbeiten"
 
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
@@ -8998,7 +8998,7 @@ msgid ""
 "Due to this, elements on this page could have stopped to work correctly. In "
 "order to be able to use all elements correctly again, it is strongly "
 "recommended to reload this page."
-msgstr "Die Verbindungen wurde nach einer kurzen Unterbrechung wiederhergestellt. Aus diesem Grund könnte es sein das einige Elemente der Seite nicht korrekt funktionieren. Um alle Elemente erneut korrekt nutzen zu können sollten Sie ihre Seite neue laden."
+msgstr "Die Verbindung wurde nach einer temporären Unterbrechung wiederhergestellt. Möglicherweise funktionieren deshalb einige Elemente der aktuellen Seite nicht (mehr) korrekt. Um alle Elemente wieder wie gewünscht nutzen zu können, sollten Sie die aktuelle Seite neu laden."
 
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
@@ -10845,7 +10845,7 @@ msgstr "%s benötigt"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Add %s field"
-msgstr ""
+msgstr "%s Feld hinzufügen"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field does not contain only ASCII letters and numbers."
@@ -10877,7 +10877,7 @@ msgstr "Konnte keine Daten für das dynamische Feld %s ermitteln."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Change %s field"
-msgstr ""
+msgstr "%s Feld ändern"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The name for this field should not change."
@@ -12379,10 +12379,6 @@ msgstr "Das System konnte Ihre Einstellungen nicht in Betrieb nehmen."
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Setting not found!"
 msgstr "Einstellung nicht gefunden!"
-
-#. Perl Module: Kernel/Modules/AgentPreferences.pm
-msgid "This feature is part of the %s Please contact us at %s for an upgrade."
-msgstr "Diese Funktion ist Teil der %s. Bitte kontaktieren Sie uns unter %s bezüglich eines Upgrades."
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to reset the setting!"
@@ -13924,8 +13920,9 @@ msgstr "System Wartung ist aktiv!"
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
-msgid "A system maintenance period will start at: "
-msgstr "Eine Systemwartungsperiode beginnt um: "
+msgid ""
+"A system maintenance period will start at: %s and is expected to stop at: %s"
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTRS Daemon is not running."
@@ -15517,6 +15514,18 @@ msgid "Missing key %s!"
 msgstr "Fehlender Schlüssel %s!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
+msgid "Invalid setting: %s"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "Could not combine settings values into a perl hash."
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
+msgid "Can not lock the deployment for UserID '%s'!"
+msgstr ""
+
+#. Perl Module: Kernel/System/SysConfig.pm
 msgid "All Settings"
 msgstr "Alle Einstellungen"
 
@@ -16230,7 +16239,7 @@ msgstr "Eine Paketaktualisierung wurde kürzlich beendet. Klicken Sie hier, um d
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
-msgstr ""
+msgstr "Alle Pakete aktualisieren"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Dismiss"
@@ -16238,7 +16247,7 @@ msgstr "Verwerfen"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update All Packages"
-msgstr ""
+msgstr "Alle Pakete aktualisieren"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Currently not possible"
@@ -16716,11 +16725,6 @@ msgstr "Verschieben Sie die Navigationsleiste"
 #. JS File: Core.Agent
 msgid "Please turn off Compatibility Mode in Internet Explorer!"
 msgstr "Bitte schalten Sie den Kompatibilitätsmodus im Internet Explorer aus!"
-
-#. JS File: Core.Agent
-msgid ""
-"This feature is part of the %s.  Please contact us at %s for an upgrade."
-msgstr "Diese Funktion ist Teil von %s. Bitte kontaktieren Sie uns unter %s bezüglich eines Upgrades."
 
 #. JS File: Core.Agent
 msgid "Find out more"
@@ -22446,6 +22450,10 @@ msgstr "Sprache"
 #. SysConfig
 msgid "Large"
 msgstr "Groß"
+
+#. SysConfig
+msgid "Last Screen Overview"
+msgstr ""
 
 #. SysConfig
 msgid "Last customer subject"
