@@ -65,7 +65,7 @@ sub PreRun {
     my $PIDObject = $Kernel::OM->Get('Kernel::System::PID');
 
     my $PIDCreated = $PIDObject->PIDCreate(
-        Name  => $Self->Name(),
+        Name  => 'MailAccountFetch',
         Force => $Self->GetOption('force-pid'),
         TTL   => 600,                             # 10 minutes
     );
@@ -263,7 +263,7 @@ sub PostRun {
         );
     }
 
-    return $Kernel::OM->Get('Kernel::System::PID')->PIDDelete( Name => $Self->Name() );
+    return $Kernel::OM->Get('Kernel::System::PID')->PIDDelete( Name => 'MailAccountFetch' );
 }
 
 1;
