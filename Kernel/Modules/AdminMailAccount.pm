@@ -48,8 +48,28 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
+        # Lock process with PID to prevent race conditions with console command
+        # Maint::PostMaster::MailAccountFetch executed by the OTRS daemon or manually.
+        # Please see bug#13235
+        my $PIDObject = $Kernel::OM->Get('Kernel::System::PID');
+
+        my $PIDCreated = $PIDObject->PIDCreate(
+            Name => 'MailAccountFetch',
+            TTL  => 600,                  # 10 minutes
+        );
+
+        if ( !$PIDCreated ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Unable to register the process in the database. Is another instance still running?"
+            );
+            return $LayoutObject->Redirect( OP => 'Action=AdminMailAccount;Locked=1' );
+        }
+
         my %Data = $MailAccount->MailAccountGet(%GetParam);
         if ( !%Data ) {
+
+            $PIDObject->PIDDelete( Name => 'MailAccountFetch' );
             return $LayoutObject->ErrorScreen();
         }
 
@@ -58,6 +78,9 @@ sub Run {
             Limit  => 15,
             UserID => $Self->{UserID},
         );
+
+        $PIDObject->PIDDelete( Name => 'MailAccountFetch' );
+
         if ( !$Ok ) {
             return $LayoutObject->ErrorScreen();
         }
@@ -253,12 +276,21 @@ sub Run {
     else {
         $Self->_Overview();
 
-        my $Ok = $ParamObject->GetParam( Param => 'Ok' );
+        my $Ok     = $ParamObject->GetParam( Param => 'Ok' );
+        my $Locked = $ParamObject->GetParam( Param => 'Locked' );
+
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
+
         if ($Ok) {
             $Output .= $LayoutObject->Notify( Info => Translatable('Finished') );
         }
+        if ($Locked) {
+            $Output .= $LayoutObject->Notify(
+                Info => Translatable('Email account fetch already fetched by another process. Please try again later!'),
+            );
+        }
+
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminMailAccount',
             Data         => \%Param,
