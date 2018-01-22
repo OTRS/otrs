@@ -1,4 +1,5 @@
 #6.0.5 2018-??-??
+ - 2018-01-22 Fixed bug#[13405](https://bugs.otrs.org/show_bug.cgi?id=13405) - CIC overlay display error.
  - 2018-01-21 Updated translations, thanks to all translators.
  - 2018-01-18 Fixed bug#[13552](https://bugs.otrs.org/show_bug.cgi?id=13552) - Wrong documentation in POD of TicketSearch.
  - 2018-01-13 Fixed bug#[13534](https://bugs.otrs.org/show_bug.cgi?id=13534) - Comments in the Config XML files are not ignored.

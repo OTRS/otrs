@@ -267,10 +267,6 @@
         background-color: #FFF1AB;
     }
 
-    .ui-autocomplete {
-        z-index: 4000 !important;
-    }
-
     .ButtonTable {
         display: inline;
         margin-left: 5px;
