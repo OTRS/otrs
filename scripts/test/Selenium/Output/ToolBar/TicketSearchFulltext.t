@@ -12,16 +12,14 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # enable tool bar TicketSearchFulltext
+        # Enable tool bar TicketSearchFulltext.
         my %TicketSearchFulltext = (
             Block       => 'ToolBarSearchFulltext',
             CSS         => 'Core.Agent.Toolbar.FulltextSearch.css',
@@ -33,17 +31,12 @@ $Selenium->RunTest(
         );
 
         $Helper->ConfigSettingChange(
-            Key   => 'Frontend::ToolBarModule###12-Ticket::TicketSearchFulltext',
-            Value => \%TicketSearchFulltext,
-        );
-
-        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::ToolBarModule###12-Ticket::TicketSearchFulltext',
             Value => \%TicketSearchFulltext,
         );
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -54,14 +47,14 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get test user ID
+        # Get test user ID.
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # create test ticket
+        # Create test ticket.
         my $TicketID = $TicketObject->TicketCreate(
             Title         => "ticket",
             Queue         => 'Raw',
@@ -100,7 +93,7 @@ $Selenium->RunTest(
             "Article is created - $ArticleID"
         );
 
-        # input test user in search fulltext
+        # Input test user in search fulltext.
         $Selenium->find_element( "#Fulltext", 'css' )->send_keys( $Subject, "\N{U+E007}" );
 
         $Selenium->WaitFor(
@@ -108,13 +101,45 @@ $Selenium->RunTest(
                 "return typeof(\$) === 'function' && \$('tbody tr:contains($Subject)').length;"
         );
 
-        # verify search
+        # Verify search.
         $Self->True(
             index( $Selenium->get_page_source(), $Subject ) > -1,
             "Ticket is found by Subject - $Subject",
         );
 
-        # delete test ticket
+        # Test for fulltext search in tool bar
+        #   does not show warning for stop words Bug#13563
+        #   https://bugs.otrs.org/show_bug.cgi?id=13563.
+
+        # Enable warn on stop word usage.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::SearchIndex::WarnOnStopWordUsage',
+            Value => 1,
+        );
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::SearchIndexModule',
+            Value => 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB',
+        );
+
+        $Selenium->VerifiedRefresh();
+
+        # Input text in fulltext search and press enter key.
+        my $TestText = 'some';
+        $Selenium->find_element( "#Fulltext", 'css' )->send_keys( $TestText, "\N{U+E007}" );
+
+        # Wait for alert box to appear.
+        $Selenium->WaitFor( AlertPresent => 1 );
+
+        # Verify the alert message.
+        my $ExpectedAlertText = "Fulltext: " . $TestText;
+        $Self->True(
+            $Selenium->get_alert_text() =~ /$ExpectedAlertText/,
+            'Stop word search string warning is found in tool bar.',
+        );
+
+        # Delete test ticket.
         my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => $TestUserID,

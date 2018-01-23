@@ -105,7 +105,7 @@ if (
 [% END %]
 [% END %]
 
-[% IF Config("Frontend::ToolBarModule").item("10-Ticket::TicketSearchFulltext") %]
+[% IF Config("Frontend::ToolBarModule").item("12-Ticket::TicketSearchFulltext") %]
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
 

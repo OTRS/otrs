@@ -1,4 +1,5 @@
 #5.0.27 ????-??-??
+ - 2018-01-23 Fixed bug#[13563](https://bugs.otrs.org/show_bug.cgi?id=13563) - Fulltext search in tool bar does not show warning when stop words are used.
  - 2018-01-22 Fixed bug#[13235](https://bugs.otrs.org/show_bug.cgi?id=13235) - Race condition when fetching mails.
  - 2018-01-05 Fixed bug#[13516](https://bugs.otrs.org/show_bug.cgi?id=13516) - In the setting window of linked widgets dynamic field labels are not displayed.
  - 2018-01-05 Fixed bug#[13503](https://bugs.otrs.org/show_bug.cgi?id=13503) - Delete button of filter is not unified.
