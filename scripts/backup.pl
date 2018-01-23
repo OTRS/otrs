@@ -35,6 +35,7 @@ use Kernel::System::ObjectManager;
 my %Opts;
 my $Compress    = '';
 my $CompressCMD = '';
+my $CompressEXT = '';
 my $DB          = '';
 my $DBDump      = '';
 getopt( 'hcrtd', \%Opts );
@@ -44,7 +45,7 @@ if ( exists $Opts{h} ) {
 Backup an OTRS system.
 
 Usage:
- backup.pl -d /data_backup_dir/ [-c gzip|bzip2] [-r DAYS] [-t fullbackup|nofullbackup|dbonly]
+ backup.pl -d /data_backup_dir [-c gzip|bzip2] [-r DAYS] [-t fullbackup|nofullbackup|dbonly]
 
 Options:
  -d                     - Directory where the backup files should place to.
@@ -83,10 +84,12 @@ elsif ( !-d $Opts{d} ) {
 if ( $Opts{c} && $Opts{c} =~ m/bzip2/i ) {
     $Compress    = 'j';
     $CompressCMD = 'bzip2';
+    $CompressEXT = 'bz2';
 }
 else {
     $Compress    = 'z';
     $CompressCMD = 'gzip';
+    $CompressEXT = 'gz';
 }
 
 # check backup type
@@ -178,8 +181,8 @@ if ($DBOnlyBackup) {
 }
 else {
     # backup Kernel/Config.pm
-    print "Backup $Directory/Config.tar.gz ... ";
-    if ( !system("tar -czf $Directory/Config.tar.gz Kernel/Config*") ) {
+    print "Backup $Directory/Config.tar.$CompressEXT ... ";
+    if ( !system("tar -c -$Compress -f $Directory/Config.tar.$CompressEXT Kernel/Config*") ) {
         print "done\n";
     }
     else {
@@ -189,9 +192,9 @@ else {
     }
 
     if ($FullBackup) {
-        print "Backup $Directory/Application.tar.gz ... ";
+        print "Backup $Directory/Application.tar.$CompressEXT ... ";
         my $Excludes = "--exclude=var/tmp --exclude=js-cache --exclude=css-cache --exclude=.git";
-        if ( !system("tar $Excludes -czf $Directory/Application.tar.gz .") ) {
+        if ( !system("tar $Excludes -c -$Compress -f $Directory/Application.tar.$CompressEXT .") ) {
             print "done\n";
         }
         else {
@@ -203,8 +206,8 @@ else {
 
     # backup vardir
     else {
-        print "Backup $Directory/VarDir.tar.gz ... ";
-        if ( !system("tar -czf $Directory/VarDir.tar.gz var/") ) {
+        print "Backup $Directory/VarDir.tar.$CompressEXT ... ";
+        if ( !system("tar -c -$Compress -f $Directory/VarDir.tar.$CompressEXT var/") ) {
             print "done\n";
         }
         else {
@@ -216,8 +219,8 @@ else {
 
     # backup datadir
     if ( $ArticleDir !~ m/\A\Q$Home\E/ ) {
-        print "Backup $Directory/DataDir.tar.gz ... ";
-        if ( !system("tar -czf $Directory/DataDir.tar.gz $ArticleDir") ) {
+        print "Backup $Directory/DataDir.tar.$CompressEXT ... ";
+        if ( !system("tar -c -$Compress -f $Directory/DataDir.tar.$CompressEXT $ArticleDir") ) {
             print "done\n";
         }
         else {
@@ -230,11 +233,16 @@ else {
 
 # backup database
 if ( $DB =~ m/mysql/i ) {
-    print "Dump $DB data to $Directory/DatabaseBackup.sql ... ";
+    print "Dump $DB data to $Directory/DatabaseBackup.sql.$CompressEXT ... ";
     if ($DatabasePw) {
         $DatabasePw = "-p'$DatabasePw'";
     }
-    if ( !system("$DBDump -u $DatabaseUser $DatabasePw -h $DatabaseHost $Database > $Directory/DatabaseBackup.sql") ) {
+    if (
+        !system(
+            "$DBDump -u $DatabaseUser $DatabasePw -h $DatabaseHost $Database | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
+        )
+        )
+    {
         print "done\n";
     }
     else {
@@ -255,7 +263,12 @@ else {
         $DatabaseHost = "-h $DatabaseHost"
     }
 
-    if ( !system("$DBDump -f $Directory/DatabaseBackup.sql $DatabaseHost -U $DatabaseUser $Database") ) {
+    if (
+        !system(
+            "$DBDump $DatabaseHost -U $DatabaseUser $Database | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
+        )
+        )
+    {
         print "done\n";
     }
     else {
@@ -263,17 +276,6 @@ else {
         RemoveIncompleteBackup($Directory);
         die "Backup failed\n";
     }
-}
-
-# compressing database
-print "Compress SQL-file... ";
-if ( !system("$CompressCMD $Directory/DatabaseBackup.sql") ) {
-    print "done\n";
-}
-else {
-    print "failed\n";
-    RemoveIncompleteBackup($Directory);
-    die "Backup failed\n";
 }
 
 # remove old backups only after everything worked well
