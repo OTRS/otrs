@@ -270,10 +270,6 @@ sub Form {
         }
     }
     else {
-        %Data = $ArticleObject->ArticleLastCustomerArticle(
-            TicketID      => $Self->{TicketID},
-            DynamicFields => 1,
-        );
 
         # Get last customer article.
         my @Articles = $ArticleObject->ArticleList(
