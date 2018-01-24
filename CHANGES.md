@@ -1,4 +1,5 @@
 #6.0.5 2018-??-??
+ - 2018-01-24 Fixed bug#[13472](https://bugs.otrs.org/show_bug.cgi?id=13472) - Conversion of Dates not accepting valid format.
  - 2018-01-23 Fixed bug#[2289](https://bugs.otrs.org/show_bug.cgi?id=2289) - backup.pl - compress with bzip2 dont works.
  - 2018-01-22 Fixed bug#[13235](https://bugs.otrs.org/show_bug.cgi?id=13235) - Race condition when fetching mails.
  - 2018-01-22 Fixed bug#[13405](https://bugs.otrs.org/show_bug.cgi?id=13405) - CIC overlay display error.
