@@ -321,7 +321,7 @@ sub Run {
 
     # ACL compatibility translation
     my %ACLCompatGetParam = (
-        StateID       => $GetParam{StateID},
+        StateID       => $GetParam{NewStateID},
         PriorityID    => $GetParam{NewPriorityID},
         QueueID       => $GetParam{NewQueueID},
         OwnerID       => $GetParam{NewOwnerID},
