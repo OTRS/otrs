@@ -2917,6 +2917,7 @@ sub _ArticleItem {
 
     # show article actions
     my @MenuItems = $LayoutObject->ArticleActions(
+        %Param,
         TicketID  => $Param{Ticket}->{TicketID},
         ArticleID => $Param{Article}->{ArticleID},
         Type      => $Param{Type},
