@@ -126,7 +126,7 @@ sub Run {
         $Self->{OutputBuffer} = '';
         local *STDOUT = *STDOUT;
         local *STDERR = *STDERR;
-        if ( !$Param{Verbose} ) {
+        if ( !$Self->{Verbose} ) {
             undef *STDOUT;
             undef *STDERR;
             open STDOUT, '>:utf8', \$Self->{OutputBuffer};    ## no critic
