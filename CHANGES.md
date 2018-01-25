@@ -1,4 +1,5 @@
 #6.0.5 2018-??-??
+ - 2018-01-25 Fixed bug#[13584](https://bugs.otrs.org/show_bug.cgi?id=13584)(PR#1894) - Emails sent via AgentTicketEmailOutbound are always visible for customer. Thanks to Robert Ullrich.
  - 2018-01-25 Fixed bug#[13558](https://bugs.otrs.org/show_bug.cgi?id=13558) - ACL PossibleAdd ignores AgentTicketCompose and AgentTicketForward.
  - 2018-01-24 Fixed bug#[13515](https://bugs.otrs.org/show_bug.cgi?id=13515) - On Login page it is impossible to insert a picture from a website (AgentLoginLogo).
  - 2018-01-24 Fixed bug#[13567](https://bugs.otrs.org/show_bug.cgi?id=13567) - $GetParam{StateID} used for ACLCompatGetParam but $GetParam{NewStateID} given.
