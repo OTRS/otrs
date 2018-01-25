@@ -12,16 +12,13 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # get needed variable
         my $RandomID = $Helper->GetRandomID();
 
         # set generic agent run limit
@@ -38,23 +35,16 @@ $Selenium->RunTest(
             Value => 1,
         );
 
-        # create test user and login
+        # Create test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
-
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
 
         # get test user ID
         my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
-        # get dynamic field object
         my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
         # create test dynamic field of type date
@@ -135,7 +125,13 @@ $Selenium->RunTest(
 
         }
 
-        # get script alias
+        # Login as test user.
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
+
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # navigate to AdminGenericAgent screen
@@ -289,7 +285,7 @@ $Selenium->RunTest(
         # see bug#12210 for more information
         $Selenium->find_element( "#DynamicField_${DynamicFieldName}Year", 'css' )->send_keys('2015');
 
-        $Selenium->find_element( "#DynamicField_${CheckboxDynamicFieldName}Used1", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#DynamicField_${CheckboxDynamicFieldName}Used1", 'css' )->click();
 
         # save job
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
@@ -303,7 +299,10 @@ $Selenium->RunTest(
         # verify filter will show no result for invalid input
         my $InvalidName = 'Invalid' . $RandomID;
         $Selenium->find_element( "#FilterGenericAgentJobs", 'css' )->send_keys($InvalidName);
-        sleep 1;
+
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('table tbody tr td:contains($GenericAgentJob):hidden').length === 1"
+        );
 
         my $CSSDisplay = $Selenium->execute_script(
             "return \$('table tbody tr td:contains($GenericAgentJob)').parent().css('display')"
@@ -318,7 +317,9 @@ $Selenium->RunTest(
         # verify filter show correct result for valid input
         $Selenium->find_element( "#FilterGenericAgentJobs", 'css' )->clear();
         $Selenium->find_element( "#FilterGenericAgentJobs", 'css' )->send_keys($GenericAgentJob);
-        sleep 1;
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('table tbody tr td:contains($GenericAgentJob):visible').length === 1"
+        );
 
         $CSSDisplay = $Selenium->execute_script(
             "return \$('table tbody tr td:contains($GenericAgentJob)').parent().css('display')"

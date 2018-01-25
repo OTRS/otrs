@@ -483,8 +483,16 @@ $Selenium->RunTest(
         for my $Test (@Tests) {
 
             # Add ticket appointment rule.
-            $Selenium->find_element( '.WidgetSimple.Collapsed .WidgetAction.Toggle a', 'css' )->VerifiedClick();
-            $Selenium->find_element( '#AddRuleButton',                                 'css' )->VerifiedClick();
+            $Selenium->find_element( '.WidgetSimple.Collapsed .WidgetAction.Toggle a', 'css' )->click();
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('.WidgetSimple:contains(Ticket Appointments).Expanded').length"
+            );
+            $Selenium->find_element( '#AddRuleButton', 'css' )->click();
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return \$('.WidgetSimple:contains(Ticket Appointments).Expanded .Content:contains(Rule 1)').length"
+            );
 
             # Set start date module.
             if ( $Test->{Config}->{StartDate} ) {
@@ -513,7 +521,9 @@ $Selenium->RunTest(
                     $Selenium->execute_script(
                         "\$('#SearchParams').val('$SearchParam').trigger('redraw.InputField').trigger('change');"
                     );
-                    $Selenium->find_element( '.AddButton',                  'css' )->VerifiedClick();
+                    $Selenium->find_element( '.AddButton', 'css' )->click();
+                    $Selenium->WaitFor( JavaScript => "return \$('#SearchParam_1_$SearchParam').length" );
+
                     $Selenium->find_element( "#SearchParam_1_$SearchParam", 'css' )
                         ->send_keys( $Test->{Config}->{SearchParams}->{$SearchParam} );
                 }
@@ -610,7 +620,11 @@ $Selenium->RunTest(
             }
 
             # Remove ticket appointment rule.
-            $Selenium->find_element( '.RemoveButton', 'css' )->VerifiedClick();
+            $Selenium->find_element( '.RemoveButton', 'css' )->click();
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return !\$('.WidgetSimple:contains(Ticket Appointments).Expanded .Content:contains(Rule 1)').length"
+            );
 
             $Selenium->find_element( 'form#CalendarFrom button#SubmitAndContinue', 'css' )->VerifiedClick();
             $Self->True(

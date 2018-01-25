@@ -12,16 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $LinkObject   = $Kernel::OM->Get('Kernel::System::LinkObject');
 
-        # disable 'Ticket Information', 'Customer Information' and 'Linked Objects' widgets in AgentTicketZoom screen
+        # Disable 'Ticket Information', 'Customer Information' and 'Linked Objects' widgets in AgentTicketZoom screen.
         for my $WidgetDisable (qw(0100-TicketInformation 0200-CustomerInformation 0300-LinkTable)) {
             $Helper->ConfigSettingChange(
                 Valid => 0,
@@ -30,17 +30,14 @@ $Selenium->RunTest(
             );
         }
 
-        # set 'Linked Objects' widget to simple view
+        # Set 'Linked Objects' widget to simple view.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'LinkObject::ViewMode',
             Value => 'Simple',
         );
 
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-        # create three test tickets
+        # Create three test tickets.
         my @TicketTitles;
         my @TicketIDs;
         for my $TicketCreate ( 1 .. 3 ) {
@@ -63,10 +60,7 @@ $Selenium->RunTest(
             push @TicketIDs,    $TicketID;
         }
 
-        # get link object
-        my $LinkObject = $Kernel::OM->Get('Kernel::System::LinkObject');
-
-        # link first and second ticket as parent-child
+        # Link first and second ticket as parent-child.
         my $Success = $LinkObject->LinkAdd(
             SourceObject => 'Ticket',
             SourceKey    => $TicketIDs[0],
@@ -81,7 +75,7 @@ $Selenium->RunTest(
             "TickedID $TicketIDs[0] and $TicketIDs[1] linked as parent-child"
         );
 
-        # link second and third ticket as parent-child
+        # Link second and third ticket as parent-child.
         $Success = $LinkObject->LinkAdd(
             SourceObject => 'Ticket',
             SourceKey    => $TicketIDs[1],
@@ -96,7 +90,7 @@ $Selenium->RunTest(
             "TickedID $TicketIDs[1] and $TicketIDs[2] linked as parent-child"
         );
 
-        # create and login test user
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -107,25 +101,24 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to AgentTicketZoom for test created second ticket
+        # Navigate to AgentTicketZoom for test created second ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[1]");
 
-        # verify it is right screen
+        # Verify it is right screen.
         $Self->True(
             index( $Selenium->get_page_source(), $TicketTitles[1] ) > -1,
             "Ticket $TicketTitles[1] found on page",
         );
 
-        # verify there is no 'Linked Objects' widget, it's disabled
+        # Verify there is no 'Linked Objects' widget, it's disabled.
         $Self->True(
             index( $Selenium->get_page_source(), "Linked Objects" ) == -1,
             "Linked Objects widget is disabled",
         );
 
-        # reset 'Linked Objects' widget sysconfig, enable it and refresh screen
+        # Reset 'Linked Objects' widget sysconfig, enable it and refresh screen.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::AgentTicketZoom###Widgets###0300-LinkTable',
@@ -136,14 +129,14 @@ $Selenium->RunTest(
 
         $Selenium->VerifiedRefresh();
 
-        # verify there is 'Linked Objects' widget, it's enabled
+        # Verify there is 'Linked Objects' widget, it's enabled.
         $Self->Is(
             $Selenium->find_element( '.Header>h2', 'css' )->get_text(),
             'Linked Objects',
             'Linked Objects widget is enabled',
         );
 
-        # verify there is link to parent ticket
+        # Verify there is link to parent ticket.
         $Self->True(
             $Selenium->find_elements(
                 "//a[contains(\@class, 'LinkObjectLink')][contains(\@title, '$TicketTitles[0]')][contains(\@href, 'TicketID=$TicketIDs[0]')]"
@@ -151,7 +144,7 @@ $Selenium->RunTest(
             "Link to parent ticket found",
         );
 
-        # verify there is link to child ticket
+        # Verify there is link to child ticket.
         $Self->True(
             $Selenium->find_elements(
                 "//a[contains(\@class, 'LinkObjectLink')][contains(\@title, '$TicketTitles[2]')][contains(\@href, 'TicketID=$TicketIDs[2]')]"
@@ -159,36 +152,40 @@ $Selenium->RunTest(
             "Link to child ticket found",
         );
 
-        # verify there is no collapsed elements on the screen
+        # Verify there is no collapsed elements on the screen.
         $Self->True(
             $Selenium->find_element("//div[contains(\@class, 'WidgetSimple DontPrint Expanded')]"),
             "Linked Objects Widget is expanded",
         );
 
-        # toggle to collapse 'Linked Objects' widget
-        $Selenium->find_element("//a[contains(\@title, 'Show or hide the content' )]")->VerifiedClick();
+        # Toggle to collapse 'Linked Objects' widget.
+        $Selenium->find_element("//a[contains(\@title, 'Show or hide the content' )]")->click();
 
-        # verify there is collapsed element on the screen
+        $Selenium->WaitFor(
+            JavaScript => 'return $("div.WidgetSimple.DontPrint.Collapsed").length'
+        );
+
+        # Verify there is collapsed element on the screen.
         $Self->True(
             $Selenium->find_element("//div[contains(\@class, 'WidgetSimple DontPrint Collapsed')]"),
             "Linked Objects Widget is collapsed",
         );
 
-        # verify 'Linked Objects' widget is in the side bar with simple view
+        # Verify 'Linked Objects' widget is in the side bar with simple view.
         $Self->Is(
             $Selenium->find_element( '.SidebarColumn .Header>h2', 'css' )->get_text(),
             'Linked Objects',
             'Linked Objects widget is positioned in the side bar with simple view',
         );
 
-        # change view to complex
+        # Change view to complex.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'LinkObject::ViewMode',
             Value => 'Complex',
         );
 
-        # navigate to AgentTicketZoom for test created second ticket again
+        # Navigate to AgentTicketZoom for test created second ticket again.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[1]");
 
         # Verify 'Linked Object' widget is in the main column with complex view.
@@ -198,8 +195,8 @@ $Selenium->RunTest(
             'Linked Objects widget is positioned in the main column with complex view',
         );
 
-        # cleanup test data
-        # delete test created tickets
+        # Cleanup test data.
+        # Delete test created tickets.
         for my $TicketDelete (@TicketIDs) {
             $Success = $TicketObject->TicketDelete(
                 TicketID => $TicketDelete,
@@ -211,15 +208,13 @@ $Selenium->RunTest(
             );
         }
 
-        # make sure the cache is correct
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+        # Make sure the cache is correct.
         for my $Cache (qw(Ticket LinkObject)) {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-                Type => $Cache,
-            );
+            $CacheObject->CleanUp( Type => $Cache );
         }
-
     }
-
 );
 
 1;

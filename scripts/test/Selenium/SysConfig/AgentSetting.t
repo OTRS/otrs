@@ -23,8 +23,9 @@ $Selenium->RunTest(
         my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+        my $UserObject      = $Kernel::OM->Get('Kernel::System::User');
 
-        # Disable CSS loader to actually see the CSS files in the html source
+        # Disable CSS loader to actually see the CSS files in the html source.
         $HelperObject->ConfigSettingChange(
             Valid => 1,
             Key   => 'Loader::Enabled::CSS',
@@ -43,7 +44,7 @@ $Selenium->RunTest(
             Groups   => ['users'],
             Language => $Language,
         ) || die "Did not get test user";
-        my $TestUserID1 = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+        my $TestUserID1 = $UserObject->UserLookup(
             UserLogin => $TestUserLogin1,
         );
 
@@ -52,7 +53,7 @@ $Selenium->RunTest(
             Groups   => ['users'],
             Language => $Language,
         ) || die "Did not get test user";
-        my $TestUserID2 = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+        my $TestUserID2 = $UserObject->UserLookup(
             UserLogin => $TestUserLogin2,
         );
 
@@ -80,24 +81,22 @@ EOF
 
         my $FilePath = $Home . '/Kernel/Config/Files/User/' . $TestUserID1 . '.pm';
 
-        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
         # Define the file to be written (global or user specific).
-        $MainObject->FileWrite(
+        $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
             Location => $FilePath,
             Content  => \$UserFileContent,
         );
 
+        # Login as the first created user.
         $Selenium->Login(
             Type     => 'Agent',
             User     => $TestUserLogin1,
             Password => $TestUserLogin1,
         );
 
-        # get script alias
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        # navigate to AgentDashboard screen
+        # Navigate to AgentDashboard screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentDashboard");
 
         # WebPath is different on each system.
@@ -113,10 +112,13 @@ EOF
             'Ivory skin should be selected'
         );
 
-        # try to expand the user profile sub menu by clicking the avatar
-        $Selenium->find_element( '.UserAvatar > a', 'css' )->VerifiedClick();
+        # Try to expand the user profile sub menu by clicking the avatar.
+        $Selenium->find_element( '.UserAvatar > a', 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("li.UserAvatar > div:visible").length'
+        );
 
-        # logout
+        # Logout.
         my $Element = $Selenium->find_element( 'a#LogoutButton', 'css' );
         $Element->VerifiedClick();
 
@@ -137,7 +139,6 @@ EOF
         if ( -e $FilePath ) {
             unlink $FilePath;
         }
-
     }
 );
 

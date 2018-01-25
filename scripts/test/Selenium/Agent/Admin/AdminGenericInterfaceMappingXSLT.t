@@ -14,13 +14,11 @@ use vars (qw($Self));
 
 use Kernel::GenericInterface::Debugger;
 
-# Get selenium object.
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # Get needed objects.
         my $Helper           = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
@@ -31,7 +29,6 @@ $Selenium->RunTest(
             Value => 0,
         );
 
-        # Define needed variable.
         my $RandomID = $Helper->GetRandomID();
 
         # Create test web service.
@@ -84,7 +81,6 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # Get script alias.
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AdminGenericInterfaceWebservice screen.
@@ -158,7 +154,10 @@ $Selenium->RunTest(
         }
 
         # Submit empty form and check client side validation.
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#Submit", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#Template.Error').length"
+        );
 
         $Self->Is(
             $Selenium->execute_script(
@@ -172,10 +171,19 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Template", 'css' )->send_keys($RandomID);
 
         # Submit invalid XSLT.
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#Submit", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return $(".Dialog.Modal #DialogButton1").length'
+        );
 
         # Click to confirm error and verify it.
-        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return !$(".Dialog.Modal").length'
+        );
+
         $Self->True(
             $Selenium->find_element( "#Accessibility_AlertMessage", 'css' ),
             "Error for invalid XSLT data is found"
@@ -194,11 +202,20 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Template", 'css' )->send_keys($XSLTData);
 
         # Add invalid pre XSLT regex.
-        $Selenium->find_element( '#WidgetRegExFiltersPre', 'css' )->VerifiedClick();
-        $Selenium->find_element( "#PreAddValue",           'css' )->VerifiedClick();
+        $Selenium->find_element( '#WidgetRegExFiltersPre', 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => "return \$('#WidgetRegExFiltersPre.Expanded').length"
+        );
+        $Selenium->find_element( "#PreAddValue", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => "return \$('.PreValueInsert .ValueRow #PreKey_1').length"
+        );
 
         # Submit invalid pre XSLT regex.
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#Submit", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#PreKey_1.Error').length"
+        );
 
         # Check client side validation.
         $Self->Is(
@@ -210,20 +227,32 @@ $Selenium->RunTest(
         );
 
         # Add correct pre XSLT regex.
-        $Selenium->find_element( "#PreKey_1",    'css' )->send_keys( $RandomID . 'PreKey_1' );
-        $Selenium->find_element( "#PreValue_1",  'css' )->send_keys( $RandomID . 'PreValue_1' );
-        $Selenium->find_element( "#PreAddValue", 'css' )->VerifiedClick();
-        $Selenium->find_element( "#PreAddValue", 'css' )->VerifiedClick();
-        $Selenium->find_element( "#PreKey_2",    'css' )->send_keys( $RandomID . 'PreKey_2' );
-        $Selenium->find_element( "#PreKey_3",    'css' )->send_keys( $RandomID . 'PreKey_3' );
-        $Selenium->find_element( "#PreValue_3",  'css' )->send_keys( $RandomID . 'PreValue_3' );
+        $Selenium->find_element( "#PreKey_1",   'css' )->send_keys( $RandomID . 'PreKey_1' );
+        $Selenium->find_element( "#PreValue_1", 'css' )->send_keys( $RandomID . 'PreValue_1' );
+
+        $Selenium->find_element( "#PreAddValue", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => "return \$('.PreValueInsert .ValueRow #PreKey_2').length"
+        );
+
+        $Selenium->find_element( "#PreAddValue", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => "return \$('.PreValueInsert .ValueRow #PreKey_3').length"
+        );
+
+        $Selenium->find_element( "#PreKey_2",   'css' )->send_keys( $RandomID . 'PreKey_2' );
+        $Selenium->find_element( "#PreKey_3",   'css' )->send_keys( $RandomID . 'PreKey_3' );
+        $Selenium->find_element( "#PreValue_3", 'css' )->send_keys( $RandomID . 'PreValue_3' );
 
         # Add post XSLT regex.
-        $Selenium->find_element( '#WidgetRegExFiltersPost', 'css' )->VerifiedClick();
-        $Selenium->execute_script("\$('#PostAddValue').click();");
-
+        $Selenium->find_element( '#WidgetRegExFiltersPost', 'css' )->click();
         $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $("#PostKey_1").length'
+            JavaScript => "return \$('#WidgetRegExFiltersPost.Expanded').length"
+        );
+
+        $Selenium->find_element( '#PostAddValue', 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => "return \$('.PostValueInsert .ValueRow #PostKey_1').length"
         );
 
         my $PostKey   = $RandomID . 'PostKey_1';
@@ -237,19 +266,13 @@ $Selenium->RunTest(
         );
 
         # Click on 'Save and finish' test JS redirection.
-        $Selenium->execute_script("\$('#Submit').click();");
-
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-        );
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         $Self->True(
             index( $Selenium->get_current_url(), 'AdminGenericInterfaceOperationDefault' ) > -1,
             'JS redirection is successful to AdminGenericInterfaceOperationDefault screen'
         );
 
-        # Wait for page to load if necessary.
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#MappingInboundConfigureButton").length'
         );

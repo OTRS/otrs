@@ -12,16 +12,14 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -32,29 +30,28 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to AdminCustomerCompany screen
+        # Navigate to AdminCustomerCompany screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminCustomerCompany");
 
-        # check overview AdminCustomerCompany
+        # Check overview AdminCustomerCompany.
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
         $Selenium->find_element( "#Source",           'css' );
         $Selenium->find_element( "#Search",           'css' );
 
-        # check breadcrumb on Overview screen
+        # Check breadcrumb on Overview screen.
         $Self->True(
             $Selenium->find_element( '.BreadCrumb', 'css' ),
             "Breadcrumb is found on Overview screen.",
         );
 
-        # click 'Add customer' link
+        # Click 'Add customer' link.
         $Selenium->find_element( "button.CallForAction", 'css' )->VerifiedClick();
 
-        # check add customer screen
+        # Check add customer screen.
         for my $ID (
             qw(CustomerID CustomerCompanyName CustomerCompanyComment ValidID)
             )
@@ -64,7 +61,7 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # check breadcrumb on Add screen
+        # Check breadcrumb on Add screen.
         my $Count = 1;
         my $IsLinkedBreadcrumbText;
         for my $BreadcrumbText ( 'Customer Management', 'Add Customer' ) {
@@ -77,9 +74,12 @@ $Selenium->RunTest(
             $Count++;
         }
 
-        # check client side validation
+        # Check client side validation.
         $Selenium->find_element( "#CustomerID", 'css' )->clear();
-        $Selenium->find_element( "#Submit",     'css' )->VerifiedClick();
+        $Selenium->find_element( "#Submit",     'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#CustomerID.Error').length"
+        );
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#CustomerID').hasClass('Error')"
@@ -88,7 +88,7 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
-        # create a real test customer company
+        # Create a real test customer company.
         my $RandomID = 'TestCustomerCompany' . $Helper->GetRandomID();
         $Selenium->find_element( "#CustomerID",          'css' )->send_keys($RandomID);
         $Selenium->find_element( "#CustomerCompanyName", 'css' )->send_keys($RandomID);
@@ -97,20 +97,20 @@ $Selenium->RunTest(
         $Selenium->find_element( "#CustomerCompanyZIP",     'css' )->send_keys('0');
         $Selenium->find_element( "#Submit",                 'css' )->VerifiedClick();
 
-        # check overview page
+        # Check overview page.
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
             "$RandomID found on page",
         );
 
-        #check is there notification 'Customer company added!' after customer is added
+        # Check is there notification 'Customer company added!' after customer is added.
         my $Notification = 'Customer company added!';
         $Self->True(
             $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
             "$Notification - notification is found."
         );
 
-        # create another test customer company for filter search test
+        # Create another test customer company for filter search test.
         my $RandomID2 = 'TestCustomerCompany' . $Helper->GetRandomID();
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
         $Selenium->find_element( "button.CallForAction", 'css' )->VerifiedClick();
@@ -118,18 +118,18 @@ $Selenium->RunTest(
         $Selenium->find_element( "#CustomerCompanyName", 'css' )->send_keys($RandomID2);
         $Selenium->find_element( "#Submit",              'css' )->VerifiedClick();
 
-        # test search filter only for test Customer companies
+        # Test search filter only for test Customer companies.
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys('TestCustomerCompany');
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
-        # check for another customer company
+        # Check for another customer company.
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID2 ) > -1,
             "$RandomID2 found on page",
         );
 
-        # test search filter by test customers $RandomID
+        # Test search filter by test customers $RandomID.
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($RandomID);
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
@@ -143,7 +143,7 @@ $Selenium->RunTest(
             "$RandomID2 not found on page",
         );
 
-        # check and edit new customer company
+        # Check and edit new customer company.
         my $LinkText = substr( $RandomID, 0, 17 ) . '...';
         $Selenium->find_element( $LinkText, 'link_text' )->VerifiedClick();
 
@@ -174,7 +174,7 @@ $Selenium->RunTest(
             "#CustomerCompanyComment updated value",
         );
 
-        # check breadcrumb on Edit screen
+        # Check breadcrumb on Edit screen.
         $Count = 1;
         for my $BreadcrumbText ( 'Customer Management', 'Edit Customer: ' . $RandomID ) {
             $Self->Is(
@@ -186,30 +186,30 @@ $Selenium->RunTest(
             $Count++;
         }
 
-        # set test customer company to invalid and clear comment
+        # Set test customer company to invalid and clear comment.
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#CustomerCompanyComment", 'css' )->clear();
         $Selenium->find_element( "#Submit",                 'css' )->VerifiedClick();
 
-        #check is there notification 'Customer company updated!' after customer is updated
+        # Check is there notification 'Customer company updated!' after customer is updated.
         $Notification = 'Customer company updated!';
         $Self->True(
             $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
             "$Notification - notification is found."
         );
 
-        # test search filter
+        # Test search filter.
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($RandomID);
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
-        # check class of invalid customer user in the overview table
+        # Check class of invalid customer user in the overview table.
         $Self->True(
             $Selenium->find_element( "tr.Invalid", 'css' ),
             "There is a class 'Invalid' for test Customer Company",
         );
 
-        # delete created test customer companies
+        # Delete created test customer companies.
         for my $CustomerID ( $RandomID, $RandomID2 ) {
             my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
                 SQL  => "DELETE FROM customer_company WHERE customer_id = ?",
@@ -221,7 +221,7 @@ $Selenium->RunTest(
             );
         }
 
-        # make sure the cache is correct
+        # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'CustomerCompany',
         );

@@ -15,6 +15,8 @@ use File::stat;
 use Storable();
 use Term::ANSIColor();
 
+use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Encode',
@@ -237,6 +239,51 @@ sub _SubmitResults {
 
     my %SupportData = $Kernel::OM->Get('Kernel::System::SupportDataCollector')->Collect();
     die "Could not collect SupportData.\n" if !$SupportData{Success};
+
+    # Limit number of screenshots in the result data, since it can grow very large.
+    #   Allow only up to 25 screenshots per submission (average size of 80kb per screenshot for a total of 2MB).
+    my $ScreenshotCountLimit = 25;
+    my $ScreenshotCount      = 0;
+
+    RESULT:
+    for my $Result ( sort keys %{ $Self->{ResultData} } ) {
+        next RESULT if !IsHashRefWithData( $Self->{ResultData}->{$Result}->{Results} );
+
+        TEST:
+        for my $Test ( sort keys %{ $Self->{ResultData}->{$Result}->{Results} } ) {
+            next TEST if !IsArrayRefWithData( $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Screenshots} );
+
+            # Get number of screenshots in this test. Note that this key is an array, and we support multiple
+            #   screenshots per one test.
+            my $TestScreenshotCount = scalar @{ $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Screenshots} };
+
+            # Check if number of screenshots for this result breaks the limit.
+            if ( $ScreenshotCount + $TestScreenshotCount > $ScreenshotCountLimit ) {
+                my $ScreenshotCountRemaining = $ScreenshotCountLimit - $ScreenshotCount;
+
+                # Allow only remaining number of screenshots.
+                if ( $ScreenshotCountRemaining > 0 ) {
+                    @{ $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Screenshots} }
+                        = @{ $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Screenshots} }[ 0,
+                        $ScreenshotCountRemaining ];
+                    $ScreenshotCount = $ScreenshotCountLimit;
+                }
+
+                # Remove all screenshots.
+                else {
+                    delete $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Screenshots};
+                }
+
+                # Include message about removal of screenshots.
+                $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Message}
+                    .= ' (Additional screenshots have been omitted from the report because of size constraint.)';
+
+                next TEST;
+            }
+
+            $ScreenshotCount += $TestScreenshotCount;
+        }
+    }
 
     my %SubmitData = (
         Auth     => $Param{SubmitAuth} // '',

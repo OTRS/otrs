@@ -12,13 +12,11 @@ use utf8;
 
 use vars (qw($Self));
 
-# Get selenium object.
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # Get helper object.
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # Do not check RichText and hide Fred.
@@ -39,7 +37,6 @@ $Selenium->RunTest(
             );
         }
 
-        # Get ticket object.
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -74,7 +71,6 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # Get script alias.
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to zoom view of created test ticket.
@@ -202,7 +198,7 @@ $Selenium->RunTest(
             }
 
             # Create FormDraft and submit.
-            $Selenium->find_element( "#FormDraftSave", 'css' )->VerifiedClick();
+            $Selenium->find_element( "#FormDraftSave", 'css' )->click();
             $Selenium->WaitFor(
                 JavaScript =>
                     'return typeof($) === "function" && $("#FormDraftTitle").length;'
@@ -223,7 +219,6 @@ $Selenium->RunTest(
                 "FormDraft for $Test->{Module} $Title is found",
             );
 
-            # Get article object.
             my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
             my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Phone' );
 
@@ -406,12 +401,12 @@ $Selenium->RunTest(
             $Selenium->VerifiedRefresh();
 
             # Delete draft
-            $Selenium->find_element( ".FormDraftDelete", 'css' )->VerifiedClick();
+            $Selenium->find_element( ".FormDraftDelete", 'css' )->click();
             $Selenium->WaitFor(
                 JavaScript =>
                     'return typeof($) === "function" && $("#DeleteConfirm").length;'
             );
-            $Selenium->find_element( "#DeleteConfirm", 'css' )->VerifiedClick();
+            $Selenium->find_element( "#DeleteConfirm", 'css' )->click();
 
             $Selenium->WaitFor(
                 JavaScript =>

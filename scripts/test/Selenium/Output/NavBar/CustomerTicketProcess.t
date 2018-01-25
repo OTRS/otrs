@@ -12,48 +12,37 @@ use utf8;
 
 use vars (qw($Self));
 
-# get process needed objects
 my $ProcessObject           = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
 my $TransitionObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
 my $ActivityObject          = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
 my $TransitionActionsObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
 my $ActivityDialogObject    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-        # create and log in test user
+        # Create and log in test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
 
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
-
-        # get test user ID
+        # Get test user ID.
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
-        # get config object
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-        # get all processes
+        # Get all processes.
         my $ProcessList = $ProcessObject->ProcessListGet(
             UserID => $TestUserID,
         );
         my @DeactivatedProcesses;
 
-        # if there had been some active processes before testing,set them to inactive,
+        # If there had been some active processes before testing,set them to inactive.
         for my $Process ( @{$ProcessList} ) {
             if ( $Process->{State} eq 'Active' ) {
                 $ProcessObject->ProcessUpdate(
@@ -66,34 +55,44 @@ $Selenium->RunTest(
                     UserID        => $TestUserID,
                 );
 
-                # save process because of restoring on the end of test
+                # Save process because of restoring on the end of test.
                 push @DeactivatedProcesses, $Process;
             }
         }
 
+        # Login as test user.
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
+
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        # import test selenium process
+        # Import test selenium process.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/ProcessManagement/TestProcess.yml";
         $Selenium->find_element( "#FileUpload",                      'css' )->send_keys($Location);
-        $Selenium->find_element( "#OverwriteExistingEntitiesImport", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#OverwriteExistingEntitiesImport", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && !\$('#OverwriteExistingEntitiesImport:checked').length"
+        );
         $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->VerifiedClick();
 
-        # synchronize process
+        # Synchronize process.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        # we have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache
+        # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
         sleep 1;
 
-        # get process list
+        # Get process list.
         my $List = $ProcessObject->ProcessList(
             UseEntities => 1,
             UserID      => $TestUserID,
         );
 
-        # get process entity
+        # Get process entity.
         my %ListReverse = reverse %{$List};
         my $ProcessName = "TestProcess";
 
@@ -102,7 +101,7 @@ $Selenium->RunTest(
             UserID   => $TestUserID,
         );
 
-        # create and log in test customer user
+        # Create and log in test customer user.
         my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test customer user";
@@ -113,14 +112,14 @@ $Selenium->RunTest(
             Password => $TestCustomerUserLogin,
         );
 
-        # check if NavBarCustomerTicketProcess button is available when process is available
+        # Check if NavBarCustomerTicketProcess button is available when process is available.
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=MyTickets");
         $Self->True(
             index( $Selenium->get_page_source(), 'Action=CustomerTicketProcess' ) > -1,
             "NavBar 'New process ticket' button available",
         );
 
-        # clean up activities
+        # Clean up activities.
         my $Success;
         for my $Item ( @{ $Process->{Activities} } ) {
             my $Activity = $ActivityObject->ActivityGet(
@@ -129,14 +128,14 @@ $Selenium->RunTest(
                 ActivityDialogNames => 0,
             );
 
-            # clean up activity dialogs
+            # Clean up activity dialogs.
             for my $ActivityDialogItem ( @{ $Activity->{ActivityDialogs} } ) {
                 my $ActivityDialog = $ActivityDialogObject->ActivityDialogGet(
                     EntityID => $ActivityDialogItem,
                     UserID   => $TestUserID,
                 );
 
-                # delete test activity dialog
+                # Delete test activity dialog.
                 $Success = $ActivityDialogObject->ActivityDialogDelete(
                     ID     => $ActivityDialog->{ID},
                     UserID => $TestUserID,
@@ -147,7 +146,7 @@ $Selenium->RunTest(
                 );
             }
 
-            # delete test activity
+            # Delete test activity.
             $Success = $ActivityObject->ActivityDelete(
                 ID     => $Activity->{ID},
                 UserID => $TestUserID,
@@ -159,14 +158,14 @@ $Selenium->RunTest(
             );
         }
 
-        # clean up transition actions
+        # Clean up transition actions.
         for my $Item ( @{ $Process->{TransitionActions} } ) {
             my $TransitionAction = $TransitionActionsObject->TransitionActionGet(
                 EntityID => $Item,
                 UserID   => $TestUserID,
             );
 
-            # delete test transition action
+            # Delete test transition action.
             $Success = $TransitionActionsObject->TransitionActionDelete(
                 ID     => $TransitionAction->{ID},
                 UserID => $TestUserID,
@@ -178,14 +177,14 @@ $Selenium->RunTest(
             );
         }
 
-        # clean up transition
+        # Clean up transition.
         for my $Item ( @{ $Process->{Transitions} } ) {
             my $Transition = $TransitionObject->TransitionGet(
                 EntityID => $Item,
                 UserID   => $TestUserID,
             );
 
-            # delete test transition
+            # Delete test transition.
             $Success = $TransitionObject->TransitionDelete(
                 ID     => $Transition->{ID},
                 UserID => $TestUserID,
@@ -197,7 +196,7 @@ $Selenium->RunTest(
             );
         }
 
-        # delete test process
+        # Delete test process.
         $Success = $ProcessObject->ProcessDelete(
             ID     => $Process->{ID},
             UserID => $TestUserID,
@@ -208,7 +207,7 @@ $Selenium->RunTest(
             "Process deleted - $Process->{Name},",
         );
 
-        # log in user in order to sync processes after removing it
+        # Log in user in order to sync processes after removing it.
         $Selenium->Login(
             Type     => 'Agent',
             User     => $TestUserLogin,
@@ -218,25 +217,25 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        # we have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache
+        # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
         sleep 1;
 
-        # log in customer
+        # Log in customer.
         $Selenium->Login(
             Type     => 'Customer',
             User     => $TestCustomerUserLogin,
             Password => $TestCustomerUserLogin,
         );
 
-        # check if NavBarCustomerTicketProcess button is not available when no process is available
+        # Check if NavBarCustomerTicketProcess button is not available when no process is available.
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=MyTickets");
         $Self->True(
             index( $Selenium->get_page_source(), 'Action=AgentTicketProcess' ) == -1,
             "'New process ticket' button NOT available when no process is available",
         );
 
-        # check if NavBarCustomerTicketProcess button is available
-        # when NavBarCustomerTicketProcess module is disabled and no process is available
+        # Check if NavBarCustomerTicketProcess button is available
+        # when NavBarCustomerTicketProcess module is disabled and no process is available.
         my %NavBarCustomerTicketProcess = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
             Name => 'CustomerFrontend::NavBarModule###10-CustomerTicketProcesses',
         );
@@ -252,7 +251,7 @@ $Selenium->RunTest(
             "'New process ticket' button IS available when no process is active and NavBarCustomerTicketProcess is disabled",
         );
 
-        # restore state of process
+        # Restore state of process.
         for my $Process (@DeactivatedProcesses) {
             $ProcessObject->ProcessUpdate(
                 ID            => $Process->{ID},
@@ -265,25 +264,25 @@ $Selenium->RunTest(
             );
         }
 
-        # synchronize process after deleting test process
+        # Synchronize process after deleting test process.
         $Selenium->Login(
             Type     => 'Agent',
             User     => $TestUserLogin,
             Password => $TestUserLogin,
         );
 
-        # synchronize process after deleting test process
+        # Synchronize process after deleting test process.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        # make sure the cache is correct.
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+        # Make sure the cache is correct.
         for my $Cache (
             qw (ProcessManagement_Activity ProcessManagement_ActivityDialog ProcessManagement_Transition ProcessManagement_TransitionAction )
             )
         {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-                Type => $Cache,
-            );
+            $CacheObject->CleanUp( Type => $Cache );
         }
     }
 );

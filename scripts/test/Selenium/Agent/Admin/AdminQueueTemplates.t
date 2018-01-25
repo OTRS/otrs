@@ -12,34 +12,24 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # create test user and login
+        # Create test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
 
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
-
-        # get test user ID
+        # Get test user ID.
         my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-
-        # add test queue
+        # Add test queue.
         my $QueueName = "queue" . $Helper->GetRandomID();
         my $QueueID   = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
             Name            => $QueueName,
@@ -56,11 +46,10 @@ $Selenium->RunTest(
             "Created Queue - $QueueName",
         );
 
-        # get standard template object
         my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
         my @Templates;
 
-        # create test template
+        # Create test templates.
         for ( 1 .. 2 ) {
             my $StandardTemplateName = "standard template" . $Helper->GetRandomID();
             my $TemplateID           = $StandardTemplateObject->StandardTemplateAdd(
@@ -84,10 +73,18 @@ $Selenium->RunTest(
             push @Templates, \%Template;
         }
 
-        # check overview AdminQueueTemplates screen
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
+
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+
+        # Check overview AdminQueueTemplates screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminQueueTemplates");
 
-        # check overview AdminQueueTemplates
+        # Check overview AdminQueueTemplates.
         for my $ID (
             qw(Templates Queues FilterTemplates FilterQueues)
             )
@@ -97,13 +94,13 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # check breadcrumb on Overview screen
+        # Check breadcrumb on Overview screen.
         $Self->True(
             $Selenium->find_element( '.BreadCrumb', 'css' ),
             "Breadcrumb is found on Overview screen.",
         );
 
-        # check for test template and test queue on screen
+        # Check for test template and test queue on screen.
         $Self->True(
             index( $Selenium->get_page_source(), $Templates[0]->{Name} ) > -1,
             "$Templates[0]->{Name} found on screen"
@@ -113,10 +110,13 @@ $Selenium->RunTest(
             "$QueueName found on screen"
         );
 
-        # test search filters
+        # Test search filters.
         $Selenium->find_element( "#FilterTemplates", 'css' )->send_keys( $Templates[0]->{Name} );
         $Selenium->find_element( "#FilterQueues",    'css' )->send_keys($QueueName);
-        sleep 1;
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('a[href*=\"Subaction=Template;ID=$Templates[0]->{TemplateID}\"]').length && \$('a[href*=\"Subaction=Queue;ID=$QueueID\"]').length"
+        );
 
         $Self->True(
             $Selenium->find_element("//a[contains(\@href, \'Subaction=Template;ID=$Templates[0]->{TemplateID}' )]")
@@ -129,11 +129,11 @@ $Selenium->RunTest(
             "$QueueName found on screen with filter on",
         );
 
-        # change test Queue relation for the first Template
+        # Change test Queue relation for the first Template.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Template;ID=$Templates[0]->{TemplateID}' )]")
             ->VerifiedClick();
 
-        # check breadcrumb on change screen
+        # Check breadcrumb on change screen.
         my $Count = 1;
         for my $BreadcrumbText (
             'Manage Template-Queue Relations',
@@ -149,37 +149,53 @@ $Selenium->RunTest(
             $Count++;
         }
 
-        $Selenium->find_element("//input[\@value='$QueueID'][\@type='checkbox']")->VerifiedClick();
+        $Selenium->find_element("//input[\@value='$QueueID'][\@type='checkbox']")->click();
+        $Selenium->WaitFor(
+            JavaScript => "return \$('input[value=$QueueID][type=checkbox]:checked').length"
+        );
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
-        # change test Template relation for test Queue
+        # Change test Template relation for test Queue.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Queue;ID=$QueueID' )]")->VerifiedClick();
-        $Selenium->find_element("//input[\@value='$Templates[1]->{TemplateID}'][\@type='checkbox']")->VerifiedClick();
+        $Selenium->find_element("//input[\@value='$Templates[1]->{TemplateID}'][\@type='checkbox']")->click();
+        $Selenium->WaitFor(
+            JavaScript => "return \$('input[value=$Templates[1]->{TemplateID}][type=checkbox]:checked').length"
+        );
 
-        # test checked and unchecked values while filter is used for Template
-        # test filter with "WrongFilterTemplate" to uncheck all values
+        # Test checked and unchecked values while filter is used for Template.
+        # Test filter with "WrongFilterTemplate" to uncheck all values.
         $Selenium->find_element( "#Filter", 'css' )->clear();
         $Selenium->find_element( "#Filter", 'css' )->send_keys("WrongFilterTemplate");
-        sleep 1;
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('.FilterMessage.Hidden > td:visible').length"
+        );
 
-        # test is no data matches
+        # Test is no data matches.
         $Self->True(
             $Selenium->find_element( ".FilterMessage.Hidden>td", 'css' )->is_displayed(),
             "'No data matches' is displayed'"
         );
 
-        # check template filter with existing Template
+        # Check template filter with existing Template.
         $Selenium->find_element( "#Filter", 'css' )->clear();
         $Selenium->find_element( "#Filter", 'css' )->send_keys( $Templates[1]->{Name} );
-        sleep 1;
+        $Selenium->WaitFor(
+            JavaScript => "return \$('input[value=$Templates[1]->{TemplateID}][type=checkbox]:visible').length"
+        );
 
-        # uncheck the second test standard template
-        $Selenium->find_element("//input[\@value='$Templates[1]->{TemplateID}'][\@type='checkbox']")->VerifiedClick();
+        # Uncheck the second test standard template.
+        $Selenium->find_element("//input[\@value='$Templates[1]->{TemplateID}'][\@type='checkbox']")->click();
+        $Selenium->WaitFor(
+            JavaScript => "return !\$('input[value=$Templates[1]->{TemplateID}][type=checkbox]:checked').length"
+        );
 
-        # test checked and unchecked values after using filter
+        # Test checked and unchecked values after using filter.
         $Selenium->find_element( "#Filter", 'css' )->clear();
         $Selenium->find_element( "#Filter", 'css' )->send_keys("StandardTemplate");
-        sleep 1;
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('input[value=$Templates[0]->{TemplateID}][type=checkbox]').length && \$('input[value=$Templates[1]->{TemplateID}][type=checkbox]').length"
+        );
 
         $Self->Is(
             $Selenium->find_element("//input[\@value='$Templates[0]->{TemplateID}'][\@type='checkbox']")->is_selected(),
@@ -192,8 +208,8 @@ $Selenium->RunTest(
             "$QueueName is not in a relation with $Templates[1]->{Name}",
         );
 
-        # since there are no tickets that rely on our test QueueTemplate,
-        # we can remove test template and  test queue from the DB
+        # Since there are no tickets that rely on our test QueueTemplate,
+        # we can remove test template and  test queue from the DB.
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
         my $Success;
         if ($QueueID) {
@@ -225,7 +241,7 @@ $Selenium->RunTest(
             );
         }
 
-        # make sure the cache is correct
+        # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => "Queue",
         );

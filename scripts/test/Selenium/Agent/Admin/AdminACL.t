@@ -15,13 +15,11 @@ use vars (qw($Self));
 use Selenium::Remote::WDKeys;
 use Kernel::Language;
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # defined user language for testing if message is being translated correctly
@@ -43,7 +41,6 @@ $Selenium->RunTest(
             UserLanguage => $Language,
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # navigate to AdminACL screen
@@ -86,7 +83,9 @@ $Selenium->RunTest(
         # check client side validation
         my $Element = $Selenium->find_element( "#Name", 'css' );
         $Element->send_keys("");
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+
+        $Selenium->find_element( "#Submit", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return \$('#Name.Error').length" );
 
         $Self->Is(
             $Selenium->execute_script(
@@ -108,7 +107,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",           'css' )->send_keys( $TestACLNames[0] );
         $Selenium->find_element( "#Comment",        'css' )->send_keys('Selenium Test ACL');
         $Selenium->find_element( "#Description",    'css' )->send_keys('Selenium Test ACL');
-        $Selenium->find_element( "#StopAfterMatch", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#StopAfterMatch", 'css' )->click();
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 

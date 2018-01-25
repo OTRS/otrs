@@ -12,20 +12,17 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get needed objects
         my $Helper           = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
-        # define needed variable
         my $RandomID = $Helper->GetRandomID();
 
-        # create test web service
+        # Create test web service.
         my $WebserviceID = $WebserviceObject->WebserviceAdd(
             Config => {
                 Debugger => {
@@ -48,7 +45,7 @@ $Selenium->RunTest(
             "Web service ID $WebserviceID is created"
         );
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -59,34 +56,33 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get some variables
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
         my $ScriptAlias  = $ConfigObject->Get('ScriptAlias');
         my $Home         = $ConfigObject->Get('Home');
 
-        # navigate to AdminGenericInterfaceWebservice screen
+        # Navigate to AdminGenericInterfaceWebservice screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericInterfaceWebservice");
 
-        # click on created web service
+        # Click on created web service.
         $Selenium->find_element("//a[contains(\@href, 'WebserviceID=$WebserviceID')]")->VerifiedClick();
 
-        # select 'HTTP::REST' as provider network transport
+        # Select 'HTTP::REST' as provider network transport.
         $Selenium->execute_script(
             "\$('#ProviderTransportList').val('HTTP::REST').trigger('redraw.InputField').trigger('change');"
         );
 
-        # select 'HTTP::REST' as requester network transport
+        # Select 'HTTP::REST' as requester network transport.
         $Selenium->execute_script(
             "\$('#RequesterTransportList').val('HTTP::REST').trigger('redraw.InputField').trigger('change');"
         );
 
-        # click on 'Save'
+        # Click on 'Save'.
         $Selenium->find_element( "#SubmitAndContinue", 'css' )->VerifiedClick();
 
-        # click to configure provider network transport
+        # Click to configure provider network transport.
         $Selenium->find_element("//button[\@id='ProviderTransportProperties']")->VerifiedClick();
 
-        # verify screen
+        # Verify screen.
         for my $ID (
             qw(MaxLength KeepAlive)
             )
@@ -94,14 +90,13 @@ $Selenium->RunTest(
             $Selenium->find_element( "#$ID", 'css' )->is_enabled();
         }
 
-        # verify URL
+        # Verify URL.
         $Self->True(
             $Selenium->get_current_url()
                 =~ /CommunicationType=Provider;Action=AdminGenericInterfaceTransportHTTPREST;Subaction=Add/,
             "Current URL on Add action is correct"
         );
 
-        # input fields
         $Selenium->find_element( "#MaxLength", 'css' )->send_keys('1000');
         $Selenium->execute_script("\$('#KeepAlive').val('1').trigger('redraw.InputField').trigger('change');");
 
@@ -109,7 +104,10 @@ $Selenium->RunTest(
         $Selenium->find_element( "#AddValue", 'css' )->click();
 
         # Click on 'Save' without entering anything to trigger client-side validation.
-        $Selenium->find_element( "#SubmitAndContinue", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#SubmitAndContinue", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => "return \$('.DefaultValueKeyItem.Error').length && \$('.DefaultValueItem.Error').length"
+        );
 
         # Check if errors are shown.
         $Self->True(
@@ -129,16 +127,16 @@ $Selenium->RunTest(
         $Selenium->find_element( '.DefaultValueKeyItem', 'css' )->send_keys('Key1');
         $Selenium->find_element( '.DefaultValueItem',    'css' )->send_keys('Value1');
 
-        # click on 'Save'
+        # Click on 'Save'.
         $Selenium->find_element( "#SubmitAndContinue", 'css' )->VerifiedClick();
 
-        # verify URL is changed while we are on the same screen
+        # Verify URL is changed while we are on the same screen.
         $Self->True(
             $Selenium->get_current_url() =~ /Action=AdminGenericInterfaceTransportHTTPREST;Subaction=Change/,
             "Current URL after 'Save' button click is correct"
         );
 
-        # verify saved fields
+        # Verify saved fields.
         $Self->Is(
             $Selenium->find_element( "#MaxLength", 'css' )->get_value(),
             '1000',
@@ -160,17 +158,17 @@ $Selenium->RunTest(
             'Inputed value for DefaultValueItem field is correct'
         );
 
-        # click on 'Save and finish' verify JS redirection
+        # Click on 'Save and finish' verify JS redirection.
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
         $Self->True(
             $Selenium->get_current_url() =~ /Action=AdminGenericInterfaceWebservice/,
             "Click on 'Save and finish' button - JS is successful"
         );
 
-        # click to configure requester network transport
+        # Click to configure requester network transport.
         $Selenium->find_element("//button[\@id='RequesterTransportProperties']")->VerifiedClick();
 
-        # verify screen
+        # Verify screen.
         for my $ID (
             qw(
             Host DefaultCommand Timeout
@@ -183,16 +181,19 @@ $Selenium->RunTest(
             $Selenium->find_element( "#$ID", 'css' )->is_enabled();
         }
 
-        # verify URL
+        # Verify URL.
         $Self->True(
             $Selenium->get_current_url()
                 =~ /CommunicationType=Requester;Action=AdminGenericInterfaceTransportHTTPREST;Subaction=Add/,
             "Current URL on Add action is correct"
         );
 
-        # click to 'Save' and verify client side validation for missing fields
-        $Selenium->find_element( "#SubmitAndContinue", 'css' )->VerifiedClick();
+        # Click to 'Save' and verify client side validation for missing fields.
+        $Selenium->find_element( "#SubmitAndContinue", 'css' )->click();
         for my $ValidationField (qw( Host )) {
+            $Selenium->WaitFor(
+                JavaScript => "return typeof(\$) === 'function' && \$('#$ValidationField.Error').length"
+            );
             $Self->Is(
                 $Selenium->execute_script(
                     "return \$('#$ValidationField').hasClass('Error')"
@@ -202,7 +203,8 @@ $Selenium->RunTest(
             );
         }
 
- # verify certain fields are Hidden with default options, select appropriate option to trigger JS to remove Hidden class
+        # Verify certain fields are Hidden with default options,
+        # select appropriate option to trigger JS to remove Hidden class.
         my @RequesterJSFields = (
             {
                 CheckField  => 'BasicAuthField',
@@ -223,14 +225,14 @@ $Selenium->RunTest(
 
         for my $Field (@RequesterJSFields) {
 
-            # change field to trigger JS (if necessary)
+            # Change field to trigger JS (if necessary).
             if ( $Field->{OptionValuePre} ) {
                 $Selenium->execute_script(
                     "\$('#$Field->{OptionField}').val('$Field->{OptionValuePre}').trigger('redraw.InputField').trigger('change');"
                 );
             }
 
-            # verify field is hidden
+            # Verify field is hidden.
             $Self->Is(
                 $Selenium->execute_script(
                     "return \$('.$Field->{CheckField}').hasClass('Hidden')"
@@ -239,12 +241,12 @@ $Selenium->RunTest(
                 "$Field->{CheckField} field is hidden",
             );
 
-            # change field to trigger JS
+            # Change field to trigger JS.
             $Selenium->execute_script(
                 "\$('#$Field->{OptionField}').val('$Field->{OptionValue}').trigger('redraw.InputField').trigger('change');"
             );
 
-            # verify JS removed Hidden class, fields are shown
+            # Verify JS removed Hidden class, fields are shown.
             $Self->Is(
                 $Selenium->execute_script(
                     "return \$('.$Field->{CheckField}').hasClass('Hidden')"
@@ -254,7 +256,7 @@ $Selenium->RunTest(
             );
         }
 
-        # input fields
+        # Input fields.
         my %RequesterInputData = (
             Host              => 'TransportHost-' . $RandomID,
             BasicAuthUser     => 'User' . $RandomID,
@@ -272,16 +274,16 @@ $Selenium->RunTest(
             $Selenium->find_element( "#$InputField", 'css' )->send_keys( $RequesterInputData{$InputField} );
         }
 
-        # click on 'Save'
+        # Click on 'Save'.
         $Selenium->find_element( "#SubmitAndContinue", 'css' )->VerifiedClick();
 
-        # verify URL is changed while we are on the same screen
+        # Verify URL is changed while we are on the same screen.
         $Self->True(
             $Selenium->get_current_url() =~ /Action=AdminGenericInterfaceTransportHTTPREST;Subaction=Change/,
             "Current URL after 'Save' button click is correct"
         );
 
-        # verify saved fields
+        # Verify saved fields.
         for my $VerifyField ( sort keys %RequesterInputData ) {
             $Self->Is(
                 $Selenium->find_element( "#$VerifyField", 'css' )->get_value(),
@@ -290,14 +292,14 @@ $Selenium->RunTest(
             );
         }
 
-        # click on 'Save and finish' verify JS redirection
+        # Click on 'Save and finish' verify JS redirection.
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
         $Self->True(
             $Selenium->get_current_url() =~ /Action=AdminGenericInterfaceWebservice/,
             "Click on 'Save and finish' button - JS is successful"
         );
 
-        # delete test created web service
+        # Delete test created web service.
         my $Success = $WebserviceObject->WebserviceDelete(
             ID     => $WebserviceID,
             UserID => 1,
@@ -307,7 +309,7 @@ $Selenium->RunTest(
             "Web service ID $WebserviceID is deleted"
         );
 
-        # make sure cache is correct
+        # Make sure cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Webservice' );
 
     }

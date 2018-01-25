@@ -19,35 +19,28 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-        # enable MIME-Viewer for PDF attachment
+        # Enable MIME-Viewer for PDF attachment.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'MIME-Viewer###application/pdf',
             Value => "echo 'OTRS.org TEST'",
         );
 
-        # create test user and login
+        # Create test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
 
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
-
-        # get test user ID
+        # Get test user ID.
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-        # create test ticket
+        # Create test ticket.
         my $TicketID = $TicketObject->TicketCreate(
             Title        => 'Some Ticket Title',
             Queue        => 'Raw',
@@ -60,8 +53,8 @@ $Selenium->RunTest(
             UserID       => $TestUserID,
         );
 
-        # add article to test ticket with PDF test attachment
-        my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home')
+        # Add article to test ticket with PDF test attachment.
+        my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.pdf";
 
         my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
@@ -93,11 +86,18 @@ $Selenium->RunTest(
             ],
         );
 
-        # go to ticket zoom page of created test ticket
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        # Login as test user.
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
+
+        # Go to ticket zoom page of created test ticket.
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # check are there Download and Viewer links for test attachment
+        # Check are there Download and Viewer links for test attachment.
         $Self->True(
             $Selenium->find_element("//a[contains(\@title, \'Download' )]"),
             "Download link for attachment is found"
@@ -108,10 +108,10 @@ $Selenium->RunTest(
             "View link for attachment is found"
         );
 
-        # check test attachment in MIME-Viwer, WaitFor will be done after switch to window
-        $Selenium->find_element( "a.ViewAttachment i", "css" )->VerifiedClick();
+        # Check test attachment in MIME-Viwer, WaitFor will be done after switch to window.
+        $Selenium->find_element( "a.ViewAttachment i", "css" )->click();
 
-        # switch to link object window
+        # Switch to link object window.
         $Selenium->WaitFor( WindowCount => 2 );
 
         my $Handles = $Selenium->get_window_handles();
@@ -120,7 +120,7 @@ $Selenium->RunTest(
         # Wait for page to load if necessary.
         $Selenium->WaitFor( JavaScript => 'return document.readyState === "complete";' );
 
-        # check expected values in PDF test attachment
+        # Check expected values in PDF test attachment.
         for my $ExpectedValue (qw(OTRS.org TEST)) {
             $Self->True(
                 index( $Selenium->get_page_source(), $ExpectedValue ) > -1,
@@ -132,8 +132,6 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[0] );
-
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # Import sample email.
         $Location   = $ConfigObject->Get('Home') . '/scripts/test/sample/PostMaster/PostMaster-Test20.box';
@@ -221,7 +219,7 @@ $Selenium->RunTest(
 
         $Selenium->close();
 
-        # delete created test ticket
+        # Delete created test ticket.
         my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => 1,
@@ -240,7 +238,7 @@ $Selenium->RunTest(
             "Ticket with ticket id $TicketID is deleted"
         );
 
-        # make sure the cache is correct.
+        # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Ticket'
         );

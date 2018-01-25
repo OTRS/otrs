@@ -12,7 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
@@ -24,21 +23,22 @@ $Selenium->RunTest(
         my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
         my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
         my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+        my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # do not check email addresses
+        # Do not check email addresses.
         $ConfigObject->Set(
             Key   => 'CheckEmailAddresses',
             Value => 0,
         );
 
-        # enable bulk feature
+        # Enable bulk feature.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::BulkFeature',
             Value => 1,
         );
 
-        # enable required lock feature in bulk
+        # Enable required lock feature in bulk.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::AgentTicketBulk###RequiredLock',
@@ -63,7 +63,6 @@ $Selenium->RunTest(
             },
         );
 
-        # Get needed variables.
         my $RandomNumber = $Helper->GetRandomNumber();
         my $Success;
 
@@ -93,7 +92,7 @@ $Selenium->RunTest(
             Groups => [ 'admin', 'users', @GroupNames ],
         ) || die "Did not get test user";
 
-        # get test user ID
+        # Get test user ID.
         my $TestUserID = $UserObject->UserLookup(
             UserLogin => $TestUserLogin,
         );
@@ -190,9 +189,6 @@ $Selenium->RunTest(
             "CustomerUser $TestCustomerUserLogin is created",
         );
 
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
         my $QueueRawID = $QueueObject->QueueLookup( Queue => 'Raw' );
 
         my @Tests = (
@@ -211,7 +207,7 @@ $Selenium->RunTest(
                 UserID      => $TestUserID,
             },
             {
-                # ticket locked by another agent #1
+                # Ticket locked by another agent #1.
                 TicketTitle => 'TestTicket-Three',
                 Lock        => 'lock',
                 QueueID     => $QueueRawID,
@@ -240,7 +236,7 @@ $Selenium->RunTest(
                 UserID      => $TestUserID,
             },
             {
-                # ticket locked by another agent #2
+                # Ticket locked by another agent #2.
                 TicketTitle => 'TestTicket-Seven',
                 Lock        => 'lock',
                 QueueID     => $QueueRawID,
@@ -286,13 +282,12 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        # navigate to AgentTicketStatusView
+        # Navigate to AgentTicketStatusView.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketStatusView");
 
-        # verify that test tickets are in open state
+        # Verify that test tickets are in open state.
         for my $Ticket (@Tickets) {
             $Self->True(
                 index( $Selenium->get_page_source(), $Ticket->{TicketNumber} ) > -1,
@@ -300,22 +295,22 @@ $Selenium->RunTest(
             );
         }
 
-        # select both tickets and click on "bulk"
-        # test case for the bug #11805 - http://bugs.otrs.org/show_bug.cgi?id=11805
+        # Select both tickets and click on "bulk".
+        # Test case for the bug #11805 - http://bugs.otrs.org/show_bug.cgi?id=11805.
         $Selenium->find_element("//input[\@value='$Tickets[0]->{TicketID}']")->click();
         $Selenium->find_element("//input[\@value='$Tickets[1]->{TicketID}']")->click();
         $Selenium->find_element("//input[\@value='$Tickets[2]->{TicketID}']")->click();
-        $Selenium->find_element( "Bulk", 'link_text' )->VerifiedClick();
+        $Selenium->find_element( "Bulk", 'link_text' )->click();
 
-        # switch to bulk window
+        # Switch to bulk window.
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until page has loaded, if necessary
+        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#StateID").length' );
 
-        # check ticket bulk page
+        # Check ticket bulk page.
         for my $ID (
             qw(StateID OwnerID QueueID PriorityID OptionMergeTo MergeTo
             OptionMergeToOldest LinkTogether LinkTogetherParent Unlock submitRichText)
@@ -326,10 +321,10 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # click on 'Undo & close' link
+        # Click on 'Undo & close' link.
         $Selenium->find_element( ".UndoClosePopup", 'css' )->click();
 
-        # return to status view
+        # Return to status view.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
@@ -338,7 +333,7 @@ $Selenium->RunTest(
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
         );
 
-        # check ticket lock
+        # Check ticket lock.
         $Self->Is(
             $TicketObject->TicketLockGet(
                 TicketID => $Tickets[0]->{TicketID},
@@ -347,7 +342,7 @@ $Selenium->RunTest(
             "Ticket remind locked after undo in bulk feature - $Tickets[0]->{TicketNumber}"
         );
 
-        # select test tickets and click on "bulk"
+        # Select test tickets and click on "bulk".
         $Selenium->find_element("//input[\@value='$Tickets[0]->{TicketID}']")->click();
         $Selenium->find_element("//input[\@value='$Tickets[1]->{TicketID}']")->click();
         $Selenium->find_element("//input[\@value='$Tickets[2]->{TicketID}']")->click();
@@ -355,18 +350,18 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "Bulk", 'link_text' )->click();
 
-        # switch to bulk window
+        # Switch to bulk window.
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until page has loaded, if necessary
+        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
         );
 
-        # check data
+        # Check data.
         my @ExpectedMessages = (
             "The following tickets were ignored because they are locked by another agent or you don't have write access to these tickets: "
                 . $Tickets[2]->{TicketNumber} . ", "
@@ -381,7 +376,7 @@ $Selenium->RunTest(
         }
 
         # Check list of recipients in SendEmail widget. See bug#12607 for more information.
-        $Selenium->find_element("//a[contains(\@aria-controls, \'Core_UI_AutogeneratedID_1')]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@aria-controls, \'Core_UI_AutogeneratedID_1')]")->click();
 
         # Wait for AJAX finish.
         $Selenium->WaitFor(
@@ -394,22 +389,22 @@ $Selenium->RunTest(
             'Test customer user email found in recipient list'
         );
 
-        # change state and priority in bulk action for test tickets
+        # Change state and priority in bulk action for test tickets.
         $Selenium->execute_script("\$('#PriorityID').val('4').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#StateID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( '#submitRichText', 'css' )->click();
 
-        # return to status view
+        # Return to status view.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # Make sure main window is fully loaded
+        # Make sure main window is fully loaded.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketStatusView");
 
-        # select closed view to verify ticket bulk functionality
+        # Select closed view to verify ticket bulk functionality.
         $Selenium->find_element("//a[contains(\@href, \'Filter=Closed' )]")->VerifiedClick();
 
-        # verify which tickets are shown in ticket closed view
+        # Verify which tickets are shown in ticket closed view.
         for my $Ticket (@Tickets) {
             if ( $Ticket->{OwnerID} != 1 && $Ticket->{Title} !~ m/-Four|-Five|-Six$/ ) {
                 $Self->True(
@@ -419,7 +414,7 @@ $Selenium->RunTest(
             }
             else {
 
-                # ticket is locked by another agent and it was ignored in bulk feature
+                # Ticket is locked by another agent and it was ignored in bulk feature.
                 $Self->True(
                     index( $Selenium->get_page_source(), $Ticket->{TicketNumber} ) == -1,
                     "Ticket $Ticket->{TicketNumber} is not found on page",
@@ -467,7 +462,7 @@ $Selenium->RunTest(
 
         for my $ConfigValue ( 0 .. 1 ) {
 
-            # Set if everyone or just agents with rw permissions in the queue for the ticket would be shown
+            # Set if everyone or just agents with rw permissions in the queue for the ticket would be shown.
             $Helper->ConfigSettingChange(
                 Valid => 1,
                 Key   => 'Ticket::ChangeOwnerToEveryone',
@@ -513,7 +508,7 @@ $Selenium->RunTest(
         # Close popup.
         $Selenium->close();
 
-        # clean up test data from the DB
+        # Clean up test data from the DB.
         for my $Ticket (@Tickets) {
             $Success = $TicketObject->TicketDelete(
                 TicketID => $Ticket->{TicketID},
@@ -603,9 +598,8 @@ $Selenium->RunTest(
             );
         }
 
-        # make sure the cache is correct
+        # Make sure the cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
-
     }
 );
 

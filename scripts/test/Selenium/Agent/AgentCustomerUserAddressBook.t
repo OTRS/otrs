@@ -147,7 +147,7 @@ $Selenium->RunTest(
             },
         );
 
-        # Get the customer company config and customer user config to add the dynamic fields to the map.
+        # Get the customer company and customer user configs to add the dynamic fields to the map.
         my $CustomerCompanyConfig = $Kernel::OM->Get('Kernel::Config')->Get('CustomerCompany');
         my $CustomerUserConfig    = $Kernel::OM->Get('Kernel::Config')->Get('CustomerUser');
 
@@ -155,7 +155,7 @@ $Selenium->RunTest(
         my @DynamicFieldCustomerCompanySearchFields;
         my @DynamicFieldCustomerUserSearchFields;
 
-        # Create test dynamic field of type date
+        # Create test dynamic field of type date.
         for my $DynamicField (@DynamicFields) {
 
             my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
@@ -389,6 +389,7 @@ $Selenium->RunTest(
             $CustomerUserMailStrings{$UserLogin} = $CustomerUserData{UserMailString};
         }
 
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -403,7 +404,7 @@ $Selenium->RunTest(
 
         my @Tests = (
             [
-                # Find all customer user
+                # Find all customer user.
                 {
                     RecipientField     => 'ToCustomer',
                     CheckDefaultFields => 1,
@@ -417,7 +418,7 @@ $Selenium->RunTest(
                 },
             ],
             [
-                # Find all customer user
+                # Find all customer user.
                 {
                     RecipientField     => 'CcCustomer',
                     CheckDefaultFields => 1,
@@ -431,7 +432,7 @@ $Selenium->RunTest(
                 },
             ],
             [
-                # Find all customer user
+                # Find all customer user.
                 {
                     RecipientField     => 'BccCustomer',
                     CheckDefaultFields => 1,
@@ -1026,11 +1027,11 @@ $Selenium->RunTest(
             );
         }
 
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
         # Make sure that the cache is correct, because we delete the data directly in the database.
         for my $Cache (qw (CustomerUser CustomerCompany)) {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-                Type => $Cache,
-            );
+            $CacheObject->CleanUp( Type => $Cache );
         }
 
     }

@@ -12,23 +12,24 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper             = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
+        my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
+        my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # get sort attributes config params
+        # Get sort attributes config params.
         my %SortOverview = (
             Age          => 1,
             Title        => 1,
             TicketNumber => 1,
         );
 
-        # defines from which ticket attributes the agent can select the result order
+        # Defines from which ticket attributes the agent can select the result order.
         $Helper->ConfigSettingChange(
             Key   => 'TicketOverviewMenuSort###SortAttributes',
             Value => \%SortOverview,
@@ -52,21 +53,13 @@ $Selenium->RunTest(
             Value => 5,
         );
 
-        # create test user and login
+        # Create test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
 
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
-
-        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
-
-        # get test user ID
-        my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+        # Get test user ID
+        my $TestUserID = $UserObject->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
@@ -77,7 +70,7 @@ $Selenium->RunTest(
 
         my $RandomID = $Helper->GetRandomID();
 
-        # create test queue
+        # Create test queue.
         my $QueueName = 'Queue' . $RandomID;
         my $QueueID   = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
             Name            => $QueueName,
@@ -94,9 +87,7 @@ $Selenium->RunTest(
             "QueueAdd() successful for test $QueueName - ID $QueueID",
         );
 
-        my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
-
-        # create auto response
+        # Create auto response.
         my $AutoResponseID = $AutoResponseObject->AutoResponseAdd(
             Name        => 'AutoResponse' . $RandomID,
             ValidID     => 1,
@@ -122,14 +113,9 @@ $Selenium->RunTest(
             "Auto response added for created queue.",
         );
 
-        my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
-        my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
-            ChannelName => 'Email',
-        );
-
         $TicketObject->{SendNoNotification} = 0;
 
-        # create test tickets
+        # Create test tickets.
         my @TicketIDs;
         my @TicketNumbers;
         for my $Ticket ( 1 .. 15 ) {
@@ -159,9 +145,13 @@ $Selenium->RunTest(
 
         my $RandomNumber = $Helper->GetRandomNumber();
 
+        my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+            ChannelName => 'Email',
+        );
+
         for my $Index (qw(0 1 2)) {
 
-            # Add articles to the tickets
+            # Add articles to tickets.
             my $ArticleID1 = $ArticleBackendObject->ArticleCreate(
                 TicketID             => $TicketIDs[$Index],
                 SenderType           => 'customer',
@@ -188,7 +178,7 @@ $Selenium->RunTest(
                 "First article created for ticket# $Index",
             );
 
-            # only for third ticket add agent article
+            # Only for third ticket add agent article.
             if ( $Index > 1 ) {
                 my $ArticleID2 = $ArticleBackendObject->ArticleCreate(
                     TicketID             => $TicketIDs[$Index],
@@ -210,7 +200,14 @@ $Selenium->RunTest(
             }
         }
 
-        # go to queue ticket overview
+        # Login as test user.
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
+
+        # Go to queue ticket overview.
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$QueueID;View=");
 
@@ -223,26 +220,32 @@ $Selenium->RunTest(
             "$TestUser{UserFullname} - found on screen"
         );
 
-        # sort by ticket number
+        # Sort by ticket number.
         $Selenium->execute_script(
             "\$('#SortBy').val('TicketNumber|Up').trigger('redraw.InputField').trigger('change');"
         );
 
-        # wait for page reload after changing sort param
+        # Wait for page reload after changing sort param.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $("a[href*=\'SortBy=TicketNumber;OrderBy=Up\']").length'
         );
 
-        # set 10 tickets per page
-        $Selenium->find_element( "a#ShowContextSettingsDialog", 'css' )->VerifiedClick();
+        # Set 10 tickets per page.
+        $Selenium->find_element( "a#ShowContextSettingsDialog", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return $(".Dialog.Modal #UserTicketOverviewPreviewPageShown").length'
+        );
         $Selenium->execute_script(
             "\$('#UserTicketOverviewPreviewPageShown').val('10').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return !$(".Dialog.Modal").length'
+        );
 
-        # check for ticket with lowest ticket number on first 1st page and verify that ticket
-        # with highest ticket number number is not present
+        # Check for ticket with lowest ticket number on first 1st page and verify that ticket
+        # with highest ticket number number is not present.
         $Self->True(
             index( $Selenium->get_page_source(), $SortTicketNumbers[0] ) > -1,
             "$SortTicketNumbers[0] - found on screen"
@@ -252,16 +255,16 @@ $Selenium->RunTest(
             "$SortTicketNumbers[14] - not found on screen"
         );
 
-        # switch to 2nd page to test pagination
+        # Switch to 2nd page to test pagination.
         $Selenium->find_element( "#AgentTicketQueuePage2", 'css' )->VerifiedClick();
 
-        # check for ticket with highest ticket number
+        # Check for ticket with highest ticket number.
         $Self->True(
             index( $Selenium->get_page_source(), $SortTicketNumbers[14] ) > -1,
             "$SortTicketNumbers[14] - found on screen"
         );
 
-        # check if settings are stored when switching between view
+        # Check if settings are stored when switching between view.
         $Selenium->find_element( "a.Medium", 'css' )->VerifiedClick();
         $Selenium->find_element( "a.Large",  'css' )->VerifiedClick();
         $Self->True(
@@ -273,7 +276,7 @@ $Selenium->RunTest(
             "$SortTicketNumbers[14] - not found on screen after changing views"
         );
 
-        # check which articles are selected
+        # Check which articles are selected.
         my $SelectedArticle1 = $Selenium->execute_script(
             "return \$('li#TicketID_" . $TicketIDs[0] . " .Preview li.Active').index();",
         );
@@ -301,28 +304,28 @@ $Selenium->RunTest(
             "Selected article for Third ticket is OK.",
         );
 
-        # update Ticket::NewArticleIgnoreSystemSender
+        # Update Ticket::NewArticleIgnoreSystemSender.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::NewArticleIgnoreSystemSender',
             Value => 1,
         );
 
-        # reload the page
+        # Reload the page.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$QueueID;View=");
 
-        # sort by ticket number
+        # Sort by ticket number.
         $Selenium->execute_script(
             "\$('#SortBy').val('TicketNumber|Up').trigger('redraw.InputField').trigger('change');"
         );
 
-        # wait for page reload after changing sort param
+        # Wait for page reload after changing sort param.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $("a[href*=\'SortBy=TicketNumber;OrderBy=Up\']").length'
         );
 
-        # check which articles are selected
+        # Check which articles are selected.
         $SelectedArticle1 = $Selenium->execute_script(
             "return \$('li#TicketID_" . $TicketIDs[0] . " .Preview li.Active').index();",
         );
@@ -350,7 +353,7 @@ $Selenium->RunTest(
             "Selected article for Third ticket is OK(Ticket::NewArticleIgnoreSystemSender enabled).",
         );
 
-        # delete created test tickets
+        # Delete created test tickets.
         my $Success;
         for my $TicketID (@TicketIDs) {
             $Success = $TicketObject->TicketDelete(
@@ -365,7 +368,7 @@ $Selenium->RunTest(
 
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-        # delete auto response links(queue)
+        # Delete auto response links(queue).
         $Success = $DBObject->Do(
             SQL => "DELETE FROM queue_auto_response WHERE auto_response_id = $AutoResponseID",
         );
@@ -374,7 +377,7 @@ $Selenium->RunTest(
             "Delete auto response links - $AutoResponseID",
         );
 
-        # delete created auto response
+        # Delete created auto response.
         $Success = $DBObject->Do(
             SQL => "DELETE FROM auto_response WHERE id = $AutoResponseID",
         );
@@ -383,7 +386,7 @@ $Selenium->RunTest(
             "Delete auto response - $AutoResponseID",
         );
 
-        # delete created test queue
+        # Delete created test queue.
         $Success = $DBObject->Do(
             SQL => "DELETE FROM queue WHERE id = $QueueID",
         );
@@ -392,11 +395,11 @@ $Selenium->RunTest(
             "Delete queue - $QueueID",
         );
 
-        # make sure cache is correct
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+        # Make sure cache is correct.
         for my $Cache (qw( Ticket Queue )) {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-                Type => $Cache,
-            );
+            $CacheObject->CleanUp( Type => $Cache );
         }
     }
 );

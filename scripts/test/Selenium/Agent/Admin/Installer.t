@@ -109,7 +109,10 @@ $Selenium->RunTest(
 
             # Choose to use existing database for OTRS.
             if ( $DBType ne 'oracle' ) {
-                $Selenium->find_element( '#DBInstallTypeUseDB', 'css' )->VerifiedClick();
+                $Selenium->find_element( '#DBInstallTypeUseDB', 'css' )->click();
+                $Selenium->WaitFor(
+                    JavaScript => 'return typeof($) === "function" && $("#DBInstallTypeUseDB:checked").length'
+                );
             }
 
             # Go to next step of installation (Configure selected DB).
@@ -134,7 +137,7 @@ $Selenium->RunTest(
                 $Selenium->find_element( '#DBName', 'css' )->send_keys($DBName);
             }
 
-            $Selenium->find_element( '#ButtonCheckDB', 'css' )->VerifiedClick();
+            $Selenium->find_element( '#ButtonCheckDB', 'css' )->click();
             $Selenium->WaitFor(
                 Time       => 300,
                 JavaScript => 'return typeof($) === "function" && $(".Result:visible").length === 1;'

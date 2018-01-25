@@ -12,25 +12,14 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-        # create test user and login
-        my $TestUserLogin = $Helper->TestUserCreate(
-            Groups => [ 'admin', 'users', 'stats' ],
-        ) || die "Did not get test user";
-
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
+        my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
+        my $SLAObject     = $Kernel::OM->Get('Kernel::System::SLA');
 
         my $Config = {
 
@@ -57,11 +46,8 @@ $Selenium->RunTest(
             Value => 1,
         );
 
-        # get service object
-        my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
+        # Add Services.
         my @ServiceIDs;
-
-        # add Services
         my %ServicesNameToID;
         SERVICE:
         for my $Service ( @{ $Config->{Services} } ) {
@@ -80,7 +66,7 @@ $Selenium->RunTest(
                 "Service $ServiceID has been created."
             );
 
-            # add service as default service for all customers
+            # Add service as default service for all customers.
             $ServiceObject->CustomerUserServiceMemberAdd(
                 CustomerUserLogin => '<DEFAULT>',
                 ServiceID         => $ServiceID,
@@ -91,11 +77,8 @@ $Selenium->RunTest(
             push @ServiceIDs, $ServiceID;
         }
 
-        # get SLA object
-        my $SLAObject = $Kernel::OM->Get('Kernel::System::SLA');
+        # Add SLAs and connect them with the Services.
         my @SLAIDs;
-
-        # add SLAs and connect them with the Services
         SLA:
         for my $SLA ( @{ $Config->{SLAs} } ) {
 
@@ -116,21 +99,35 @@ $Selenium->RunTest(
             push @SLAIDs, $SLAID;
         }
 
-        # get config object
+        # Create test user and login.
+        my $TestUserLogin = $Helper->TestUserCreate(
+            Groups => [ 'admin', 'users', 'stats' ],
+        ) || die "Did not get test user";
+
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
+
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Import");
 
-        # import test selenium statistic
-        my $LocationNotExistingObject = $Kernel::OM->Get('Kernel::Config')->Get('Home')
+        # Import test selenium statistic.
+        my $LocationNotExistingObject = $ConfigObject->Get('Home')
             . "/scripts/test/sample/Stats/Stats.Static.NotExisting.xml";
         $Selenium->find_element( "#File", 'css' )->send_keys($LocationNotExistingObject);
 
-        $Selenium->find_element("//button[\@value='Import'][\@type='submit']")->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Import'][\@type='submit']")->click();
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('.Dialog.Modal #DialogButton1').length"
+        );
 
         # Confirm JS error.
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return !\$('.Dialog.Modal').length" );
 
         # Verify error class.
         $Self->Is(
@@ -143,14 +140,14 @@ $Selenium->RunTest(
 
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Import");
 
-        # import test selenium statistic
-        my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home')
+        # Import test selenium statistic.
+        my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/Stats/Stats.TicketOverview.de.xml";
         $Selenium->find_element( "#File", 'css' )->send_keys($Location);
 
         $Selenium->find_element("//button[\@value='Import'][\@type='submit']")->VerifiedClick();
 
-        # create params for import test stats
+        # Create params for import test stats.
         my %StatsValues = (
             Title       => 'Überblick über alle Tickets im System',
             Object      => 'Ticket',
@@ -158,7 +155,7 @@ $Selenium->RunTest(
             Format      => 'D3::BarChart',
         );
 
-        # check for imported values on test stat
+        # Check for imported values on test stat.
         for my $StatsValue ( sort keys %StatsValues ) {
             $Self->True(
                 index( $Selenium->get_page_source(), $StatsValues{$StatsValue} ) > -1,
@@ -166,14 +163,14 @@ $Selenium->RunTest(
             );
         }
 
-        # navigate to AgentStatistics Overview screen
+        # Navigate to AgentStatistics Overview screen.
         $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview;Direction=DESC;OrderBy=ID;StartHit=1;"
         );
 
         my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
 
-        # get stats IDs
+        # Get stats IDs.
         my $StatsIDs = $StatsObject->GetStatsList(
             AccessRw => 1,
             UserID   => 1,
@@ -182,18 +179,21 @@ $Selenium->RunTest(
         my $Count       = scalar @{$StatsIDs};
         my $StatsIDLast = $StatsIDs->[ $Count - 1 ];
 
-        # check for imported stats on overview screen
+        # Check for imported stats on overview screen.
         $Self->True(
             index( $Selenium->get_page_source(), $StatsValues{Title} ) > -1,
             "Imported stat $StatsValues{Title} - found on overview screen"
         );
 
-        # go to imported stat to run it
+        # Go to imported stat to run it.
         $Selenium->find_element("//a[contains(\@href, \'AgentStatistics;Subaction=Edit;StatID=$StatsIDLast\' )]")
             ->VerifiedClick();
 
-        # change preview format to Print
-        $Selenium->find_element("//button[contains(\@data-format, \'Print')]")->VerifiedClick();
+        # Change preview format to Print.
+        $Selenium->find_element("//button[contains(\@data-format, \'Print')]")->click();
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#PreviewContentPrint:visible').length"
+        );
 
         $Self->True(
             $Selenium->execute_script("return \$('#PreviewContentPrint').css('display')") eq 'block',
@@ -204,8 +204,11 @@ $Selenium->RunTest(
             "Bar format is not displayed",
         );
 
-        # change preview format to Bar
-        $Selenium->find_element("//button[contains(\@data-format, \'D3::BarChart')]")->VerifiedClick();
+        # Change preview format to Bar.
+        $Selenium->find_element("//button[contains(\@data-format, \'D3::BarChart')]")->click();
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#PreviewContentD3BarChart:visible').length"
+        );
 
         $Self->True(
             $Selenium->execute_script("return \$('#PreviewContentD3BarChart').css('display')") eq 'block',
@@ -216,74 +219,82 @@ $Selenium->RunTest(
             "Print format is not displayed",
         );
 
-        # toggle General Specification
-        $Selenium->find_element("//a[contains(\@aria-controls, \'Core_UI_AutogeneratedID_0')]")->VerifiedClick();
+        # Toggle General Specification.
+        $Selenium->find_element("//a[contains(\@aria-controls, \'Core_UI_AutogeneratedID_0')]")->click();
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('.WidgetSimple:contains(General Specification).Expanded').length"
+        );
         $Selenium->find_element( "#Title", 'css' )->send_keys(" - Updated");
 
-        # check X-axis configuration dialog
-        $Selenium->find_element( ".EditXAxis",                   'css' )->VerifiedClick();
-        $Selenium->find_element( "#EditDialog a.RemoveButton i", 'css' )->VerifiedClick();
+        # Check X-axis configuration dialog.
+        $Selenium->find_element( ".EditXAxis", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return \$('.Dialog.Modal #EditDialog a.RemoveButton i').length" );
+
+        $Selenium->find_element( "#EditDialog a.RemoveButton i", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return \$('.Dialog.Modal #EditDialog .TableLike.Add:visible').length" );
+
         $Selenium->execute_script(
             "\$('#EditDialog select').val('XAxisServiceIDs').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return !\$('.Dialog.Modal').length" );
 
-        # check Y-axis configuration dialog
-        $Selenium->find_element( ".EditYAxis",                   'css' )->VerifiedClick();
-        $Selenium->find_element( "#EditDialog a.RemoveButton i", 'css' )->VerifiedClick();
+        # Check Y-axis configuration dialog.
+        $Selenium->find_element( ".EditYAxis", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return \$('.Dialog.Modal #EditDialog a.RemoveButton i').length" );
+
+        $Selenium->find_element( "#EditDialog a.RemoveButton i", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return \$('.Dialog.Modal #EditDialog .TableLike.Add:visible').length" );
+
         $Selenium->execute_script(
             "\$('#EditDialog select').val('YAxisSLAIDs').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return !\$('.Dialog.Modal').length" );
 
-        # check Restrictions configuration dialog
-        $Selenium->find_element( ".EditRestrictions", 'css' )->VerifiedClick();
+        # Check Restrictions configuration dialog.
+        $Selenium->find_element( ".EditRestrictions", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return \$('.Dialog.Modal').length" );
+
         $Selenium->execute_script(
             "\$('#EditDialog select').val('RestrictionsQueueIDs').trigger('redraw.InputField').trigger('change');"
         );
 
-        # wait for load selected Restriction - QueueIDs
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#RestrictionsQueueIDs").length;' );
+        # Wait for load selected Restriction - QueueIDs.
+        $Selenium->WaitFor( JavaScript => 'return $("#RestrictionsQueueIDs").length;' );
 
-        # add restriction per Queue - Junk
+        # Add restriction per Queue - Junk.
         $Selenium->execute_script(
             "\$('#EditDialog #RestrictionsQueueIDs').val('3').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return !\$('.Dialog.Modal').length" );
 
-        # save and finish edit
+        # Save and finish edit.
         $Selenium->find_element("//button[\@name='SaveAndFinish'][\@type='submit']")->VerifiedClick();
 
-        my $CheckConfirmJS = <<"JAVASCRIPT";
-(function () {
-    window.confirm = function (message) {
-        return true;
-    };
-}());
-JAVASCRIPT
-
-        # sort decreasing by StatsID
+        # Sort decreasing by StatsID.
         $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview;Direction=DESC;OrderBy=ID;StartHit=1"
         );
 
-        $Selenium->execute_script($CheckConfirmJS);
-
-        # delete imported test stats
-        # click on delete icon
+        # Delete imported test stats.
         $Selenium->find_element(
             "//a[contains(\@href, \'Action=AgentStatistics;Subaction=DeleteAction;StatID=$StatsIDLast\')]"
-        )->VerifiedClick();
+        )->click();
+
+        $Selenium->WaitFor( AlertPresent => 1 );
+        $Selenium->accept_alert();
 
         $Self->True(
             index( $Selenium->get_page_source(), "Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast" ) == -1,
             "Test statistic is deleted - $StatsIDLast "
         );
 
-        # get DB object
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-        # clean up test data
+        # Clean up test data.
         for my $SLAID (@SLAIDs) {
             my $Success = $DBObject->Do(
                 SQL => "DELETE FROM service_sla WHERE sla_id = $SLAID",
@@ -320,14 +331,11 @@ JAVASCRIPT
             );
         }
 
-        # make sure the cache is correct.
-        for my $Cache (
-            qw (Service SLA Stats)
-            )
-        {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-                Type => $Cache,
-            );
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+        # Make sure the cache is correct.
+        for my $Cache (qw(Service SLA Stats)) {
+            $CacheObject->CleanUp( Type => $Cache );
         }
     }
 );

@@ -12,16 +12,15 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # disable 'Ticket Information', 'Customer Information' and 'Linked Object' widgets in AgentTicketZoom screen
+        # Disable 'Ticket Information', 'Customer Information' and 'Linked Object' widgets in AgentTicketZoom screen.
         for my $WidgetDisable (qw(0100-TicketInformation 0200-CustomerInformation 0300-LinkTable)) {
             $Helper->ConfigSettingChange(
                 Valid => 0,
@@ -30,13 +29,13 @@ $Selenium->RunTest(
             );
         }
 
-        # do not check email addresses
+        # Do not check email addresses.
         $Helper->ConfigSettingChange(
             Key   => 'CheckEmailAddresses',
             Value => 0,
         );
 
-        # get test customer data
+        # Get test customer data.
         my $RandomID     = $Helper->GetRandomID();
         my %CustomerData = (
             CustomerFirstName => "FirstName$RandomID",
@@ -51,7 +50,7 @@ $Selenium->RunTest(
             CompanyComment    => "Comment$RandomID",
         );
 
-        # create test customer company
+        # Create test customer company.
         my $CompanyNameID     = "CompanyID$RandomID";
         my $CustomerCompanyID = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyAdd(
             CustomerID             => $CompanyNameID,
@@ -69,7 +68,7 @@ $Selenium->RunTest(
             "CustomerCompanyID $CustomerCompanyID is created"
         );
 
-        # create test customer user
+        # Create test customer user.
         my $CustomerUserID = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
             Source         => 'CustomerUser',
             UserFirstname  => $CustomerData{CustomerFirstName},
@@ -85,10 +84,7 @@ $Selenium->RunTest(
             "CustomerUserID $CustomerUserID is created"
         );
 
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-        # create test ticket
+        # Create test ticket.
         my $TitleRandom = "Title" . $Helper->GetRandomID();
         my $TicketID    = $TicketObject->TicketCreate(
             Title        => $TitleRandom,
@@ -106,7 +102,7 @@ $Selenium->RunTest(
             "TicketID $TicketID is created",
         );
 
-        # create and login test user
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -117,25 +113,24 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to AgentTicketZoom for test created ticket
+        # Navigate to AgentTicketZoom for test created ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # verify its right screen
+        # Verify its right screen.
         $Self->True(
             index( $Selenium->get_page_source(), $TitleRandom ) > -1,
             "Ticket $TitleRandom found on page",
         );
 
-        # verify there is no 'Customer Information' widget, it's disabled
+        # Verify there is no 'Customer Information' widget, it's disabled.
         $Self->True(
             index( $Selenium->get_page_source(), "$CustomerData{CustomerFirstName}" ) == -1,
             "Customer Information widget is disabled",
         );
 
-        # reset 'Customer Information' widget sysconfig, enable it and refresh screen
+        # Reset 'Customer Information' widget sysconfig, enable it and refresh screen.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::AgentTicketZoom###Widgets###0200-CustomerInformation',
@@ -147,14 +142,14 @@ $Selenium->RunTest(
 
         $Selenium->VerifiedRefresh();
 
-        # verify there is 'Customer Information' widget, it's enabled
+        # Verify there is 'Customer Information' widget, it's enabled.
         $Self->Is(
             $Selenium->find_element( '.Header>h2', 'css' )->get_text(),
             'Customer Information',
             'Customer Information widget is enabled',
         );
 
-        # verify 'Customer Information' widget values
+        # Verify 'Customer Information' widget values.
         for my $CustomerInformationCheck ( sort keys %CustomerData ) {
             $Self->True(
                 $Selenium->find_element("//p[contains(\@title, \'$CustomerData{$CustomerInformationCheck}' )]"),
@@ -162,32 +157,35 @@ $Selenium->RunTest(
             );
         }
 
-        # verify there is link to CustomerCompany ticket search
+        # Verify there is link to CustomerCompany ticket search.
         $Self->True(
             $Selenium->find_element("//a[contains(\@href, \'CustomerIDRaw=$CompanyNameID;StateType=Open\')]"),
             "Found Ticket search link in Customer Information"
         );
 
-        # verify there is no collapsed elements on the screen
+        # Verify there is no collapsed elements on the screen.
         $Self->True(
             $Selenium->find_element("//div[contains(\@class, \'WidgetSimple Expanded')]"),
             "Customer Information Widget is expanded"
         );
 
-        # toggle to collapse 'Customer Information' widget
-        $Selenium->find_element("//a[contains(\@title, \'Show or hide the content' )]")->VerifiedClick();
+        # Toggle to collapse 'Customer Information' widget.
+        $Selenium->find_element("//a[contains(\@title, \'Show or hide the content' )]")->click();
 
-        # verify there is collapsed element on the screen
+        $Selenium->WaitFor(
+            JavaScript => 'return $("div.WidgetSimple.Collapsed").length'
+        );
+
+        # Verify there is collapsed element on the screen.
         $Self->True(
             $Selenium->find_element("//div[contains(\@class, \'WidgetSimple Collapsed')]"),
             "Customer Information Widget is collapsed"
         );
 
-        # cleanup test data
-        # get DB object
+        # Cleanup test data.
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-        # delete test customer user
+        # Delete test customer user.
         $CustomerData{CustomerLogin} = $DBObject->Quote( $CustomerData{CustomerLogin} );
         my $Success = $DBObject->Do(
             SQL  => "DELETE FROM customer_user WHERE login = ?",
@@ -198,7 +196,7 @@ $Selenium->RunTest(
             "Customer user $CustomerData{CustomerLogin} is deleted",
         );
 
-        # delete test customer company
+        # Delete test customer company.
         $CompanyNameID = $DBObject->Quote($CompanyNameID);
         $Success       = $DBObject->Do(
             SQL  => "DELETE FROM customer_company WHERE customer_id = ?",
@@ -209,7 +207,7 @@ $Selenium->RunTest(
             "Customer company $CompanyNameID is deleted",
         );
 
-        # clean up test data from the DB
+        # Clean up test data from the DB.
         $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => 1,
@@ -228,11 +226,11 @@ $Selenium->RunTest(
             "TicketID $TicketID is deleted"
         );
 
-        # make sure the cache is correct
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+        # Make sure the cache is correct.
         for my $Cache (qw(Ticket CustomerCompany CustomerUser)) {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-                Type => $Cache,
-            );
+            $CacheObject->CleanUp( Type => $Cache );
         }
     }
 );

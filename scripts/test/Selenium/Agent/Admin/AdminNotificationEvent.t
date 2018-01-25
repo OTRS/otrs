@@ -314,10 +314,13 @@ $Selenium->RunTest(
         );
 
         for my $Test (@Tests) {
-            $Selenium->find_element( "#EmailSecuritySettings", 'css' )->VerifiedClick();
-            sleep 1;
+            $Selenium->find_element( "#EmailSecuritySettings", 'css' )->click();
 
             for my $InputField (@InputFields) {
+                $Selenium->WaitFor(
+                    JavaScript => "return \$('.AlreadyDisabled #$InputField').length === $Test->{HasClass}"
+                );
+
                 $Self->Is(
                     $Selenium->execute_script(
                         "return \$('#$InputField').parent().hasClass('AlreadyDisabled')"
@@ -344,18 +347,10 @@ $Selenium->RunTest(
             Name => $NotifEventRandomID
         );
 
-        # Click on delete icon.
-        my $CheckConfirmJS = <<"JAVASCRIPT";
-(function () {
-    window.confirm = function (message) {
-        return true;
-    };
-}());
-JAVASCRIPT
-        $Selenium->execute_script($CheckConfirmJS);
-
         # Delete test SLA with delete button.
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$NotifEventID{ID}' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$NotifEventID{ID}' )]")->click();
+        $Selenium->WaitFor( AlertPresent => 1 );
+        $Selenium->accept_alert();
 
         # Check if test NotificationEvent is deleted.
         $Self->False(
@@ -383,7 +378,7 @@ JAVASCRIPT
             . "/scripts/test/sample/NotificationEvent/Export_Notification_Ticket_create_notification.yml";
         $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
 
-        $Selenium->find_element( "#OverwriteExistingNotifications", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#OverwriteExistingNotifications", 'css' )->click();
 
         $Selenium->find_element("//button[\@value=\'Upload Notification configuration']")->VerifiedClick();
 

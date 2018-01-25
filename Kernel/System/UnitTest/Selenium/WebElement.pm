@@ -53,6 +53,8 @@ click an element that causes a page get/reload/submit and wait for the page to b
 sub VerifiedClick {    ## no critic
     my $Self = shift;
 
+    $Self->driver()->execute_script('window.Core.App.PageLoadComplete = false;');
+
     $Self->SUPER::click(@_);
 
     $Self->driver()->WaitFor(

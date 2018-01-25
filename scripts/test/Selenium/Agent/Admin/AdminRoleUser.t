@@ -12,32 +12,24 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # create test user and login
+        # Create test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
 
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
-
-        # get test user ID
+        # Get test user ID.
         my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
-        #add test role
+        # Add test role.
         my $RoleName = "role" . $Helper->GetRandomID();
 
         my $RoleID = $Kernel::OM->Get('Kernel::System::Group')->RoleAdd(
@@ -50,13 +42,19 @@ $Selenium->RunTest(
             "Created Role - $RoleName",
         );
 
-        # get script alias
+        # Login as test user.
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
+
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to AdminRoleUser screen
+        # Navigate to AdminRoleUser screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminRoleUser");
 
-        # check overview AdminRoleUser
+        # Check overview AdminRoleUser.
         $Selenium->find_element( "#Users",       'css' );
         $Selenium->find_element( "#Roles",       'css' );
         $Selenium->find_element( "#FilterUsers", 'css' );
@@ -72,40 +70,26 @@ $Selenium->RunTest(
             "$RoleName role found on page",
         );
 
-        # check breadcrumb on Overview screen
+        # Check breadcrumb on Overview screen.
         $Self->True(
             $Selenium->find_element( '.BreadCrumb', 'css' ),
             "Breadcrumb is found on Overview screen.",
         );
 
-        # test filter for Users
-        $Selenium->find_element( "#FilterUsers", 'css' )->send_keys($TestUserLogin);
-        sleep 1;
-
-        $Self->True(
-            $Selenium->find_element( "$FullUserID", 'link_text' )->is_displayed(),
-            "$TestUserLogin user found on page",
-        );
-
-        # test filter for Roles
-        $Selenium->find_element( "#FilterRoles", 'css' )->send_keys($RoleName);
-        sleep 1;
-
-        $Self->True(
-            $Selenium->find_element( "$RoleName", 'link_text' )->is_displayed(),
-            "$RoleName role found on page",
-        );
-
-        # change test role relation for test user
+        # Change test role relation for test user.
         $Selenium->find_element( $FullUserID, 'link_text' )->VerifiedClick();
 
-        $Selenium->find_element("//input[\@value='$RoleID']")->VerifiedClick();
+        $Selenium->find_element("//input[\@value='$RoleID']")->click();
+        $Selenium->WaitFor(
+            JavaScript => "return \$('input[value=$RoleID]:checked:visible').length"
+        );
+
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
-        #check and edit test user relation for test role
+        # Check and edit test user relation for test role.
         $Selenium->find_element( $RoleName, 'link_text' )->VerifiedClick();
 
-        # check breadcrumb on change screen
+        # Check breadcrumb on change screen.
         my $Count = 1;
         for my $BreadcrumbText (
             'Manage Role-Agent Relations',
@@ -127,33 +111,42 @@ $Selenium->RunTest(
             "Role $RoleName relation for user $TestUserLogin is enabled",
         );
 
-        # test checked and unchecked values while filter by role is used
-        # test filter with "WrongFilterRole" to uncheck a value
+        # Test checked and unchecked values while filter by role is used.
+        # Test filter with "WrongFilterRole" to uncheck a value.
         $Selenium->find_element( "#Filter", 'css' )->clear();
         $Selenium->find_element( "#Filter", 'css' )->send_keys("WrongFilterRole");
-        sleep 1;
+        $Selenium->WaitFor(
+            JavaScript => "return \$('.FilterMessage.Hidden > td:visible').length"
+        );
 
-        # test if no data is matches
+        # Test if no data is matches.
         $Self->True(
             $Selenium->find_element( ".FilterMessage.Hidden>td", 'css' )->is_displayed(),
             "'No data matches' is displayed'"
         );
+
         $Selenium->find_element( "#Filter", 'css' )->clear();
         $Selenium->find_element( "#Filter", 'css' )->send_keys($TestUserLogin);
-        sleep 1;
+        $Selenium->WaitFor(
+            JavaScript => "return \$('input[value=$UserID]:checked:visible').length"
+        );
 
-        # check role relation for agent after using filter by agent
+        # Check role relation for agent after using filter by agent.
         $Self->Is(
             $Selenium->find_element("//input[\@value='$UserID']")->is_selected(),
             1,
             "Role $RoleName relation for user $TestUserLogin is enabled",
         );
 
-        # remove test relation
-        $Selenium->find_element("//input[\@value='$UserID']")->VerifiedClick();
+        # Remove test relation.
+        $Selenium->find_element("//input[\@value='$UserID']")->click();
+        $Selenium->WaitFor(
+            JavaScript => "return !\$('input[value=$RoleID]:checked:visible').length"
+        );
+
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
-        # check if relation is clear
+        # Check if relation is clear.
         $Selenium->find_element( $RoleName, 'link_text' )->VerifiedClick();
 
         $Self->Is(
@@ -162,29 +155,34 @@ $Selenium->RunTest(
             "User $TestUserLogin is not in relation with role $RoleName",
         );
 
-        # test checked and unchecked values while filter by user is used
-        # test filter with "WrongFilterRole" to uncheck a value
+        # Test checked and unchecked values while filter by user is used.
+        # Test filter with "WrongFilterRole" to uncheck a value.
         $Selenium->find_element( "#Filter", 'css' )->clear();
         $Selenium->find_element( "#Filter", 'css' )->send_keys("WrongFilterRole");
-        sleep 1;
+        $Selenium->WaitFor(
+            JavaScript => "return \$('.FilterMessage.Hidden > td:visible').length"
+        );
 
-        # test if no data is matches
+        # Test if no data is matches.
         $Self->True(
             $Selenium->find_element( ".FilterMessage.Hidden>td", 'css' )->is_displayed(),
             "'No data matches' is displayed'"
         );
+
         $Selenium->find_element( "#Filter", 'css' )->clear();
         $Selenium->find_element( "#Filter", 'css' )->send_keys($RoleName);
-        sleep 1;
+        $Selenium->WaitFor(
+            JavaScript => "return !\$('input[value=$RoleID]:checked:visible').length"
+        );
 
-        # check role relation for agent after using filter by role
+        # Check role relation for agent after using filter by role.
         $Self->Is(
             $Selenium->find_element("//input[\@value='$RoleID']")->is_selected(),
             0,
             "User $TestUserLogin is not in relation with role $RoleName",
         );
 
-        # since there are no tickets that rely on our test role we can remove it from DB
+        # Since there are no tickets that rely on our test role we can remove it from DB.
         if ($RoleID) {
             my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
                 SQL => "DELETE FROM roles WHERE id = $RoleID",
@@ -195,13 +193,11 @@ $Selenium->RunTest(
             );
         }
 
-        # make sure the cache is correct
+        # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Group'
         );
-
     }
-
 );
 
 1;

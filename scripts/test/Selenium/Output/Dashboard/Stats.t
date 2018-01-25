@@ -12,17 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get needed objects
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        my $StatsObject  = $Kernel::OM->Get('Kernel::System::Stats');
 
-        # disable all dashboard plugins
+        # Disable all dashboard plugins.
         my $Config = $ConfigObject->Get('DashboardBackend');
         $Helper->ConfigSettingChange(
             Valid => 0,
@@ -36,7 +35,7 @@ $Selenium->RunTest(
             Value => 1,
         );
 
-        # add at least one dashboard setting dashboard sysconfig so dashboard can be loaded
+        # Add at least one dashboard setting dashboard sysconfig so dashboard can be loaded.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'DashboardBackend###0400-UserOnline',
@@ -56,25 +55,22 @@ $Selenium->RunTest(
             },
         );
 
-        # create test user and login
+        # Create test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users', 'stats' ],
         ) || die "Did not get test user";
 
-        # get test user ID
+        # Get test user ID.
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
-
-        # get stats object
-        my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
 
         my $StatisticContent = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
             Location => $ConfigObject->Get('Home')
                 . '/scripts/test/Selenium/Output/Dashboard/Stats.xml',
         );
 
-        # import test stats
+        # Import test stats.
         my $TestStatID = $StatsObject->Import(
             Content => $StatisticContent,
             UserID  => $TestUserID,
@@ -84,7 +80,7 @@ $Selenium->RunTest(
             "Successfully imported StatID $TestStatID",
         );
 
-        # update test stats name and show as dashboard widget
+        # Update test stats name and show as dashboard widget.
         my $TestStatsName = "SeleniumStats" . $Helper->GetRandomID();
         my $Update        = $StatsObject->StatsUpdate(
             StatID => $TestStatID,
@@ -119,14 +115,18 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # enable stats widget on dashboard
+        # Enable stats widget on dashboard.
         my $StatsInSettings = "Settings10" . $TestStatID . "-Stats";
-        $Selenium->find_element( ".SettingsWidget .Header a", "css" )->VerifiedClick();
+        $Selenium->find_element( ".SettingsWidget .Header a", "css" )->click();
         $Selenium->WaitFor(
             JavaScript => "return typeof(\$) === 'function' && \$('.SettingsWidget.Expanded').length;"
         );
 
-        $Selenium->find_element( "#$StatsInSettings",      'css' )->VerifiedClick();
+        $Selenium->find_element( "#$StatsInSettings", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => "return \$('#$StatsInSettings:checked').length;"
+        );
+
         $Selenium->find_element( ".SettingsWidget button", 'css' )->VerifiedClick();
 
         my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Stats::Dashboard::Generate');
@@ -181,7 +181,7 @@ $Selenium->RunTest(
             "Legend entry for open state found.",
         );
 
-        # delete test stat
+        # Delete test stat.
         $Self->True(
             $StatsObject->StatsDelete(
                 StatID => $TestStatID,
@@ -190,11 +190,11 @@ $Selenium->RunTest(
             "Stats is deleted - ID $TestStatID",
         );
 
-        # make sure cache is correct
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+        # Make sure cache is correct.
         for my $Cache (qw( Stats Dashboard DashboardQueueOverview )) {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-                Type => $Cache,
-            );
+            $CacheObject->CleanUp( Type => $Cache );
         }
     }
 );

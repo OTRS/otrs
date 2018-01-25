@@ -14,7 +14,6 @@ use vars (qw($Self));
 
 use Kernel::Language;
 
-# Get Selenium object.
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
@@ -362,7 +361,6 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # Get script alias.
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to created test ticket in AgentTicketZoom page.
@@ -396,7 +394,11 @@ $Selenium->RunTest(
             JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal.Alert:visible").length'
         );
 
-        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
+
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length'
+        );
 
         # Check AgentTicketCompose page.
         for my $ID (
@@ -404,6 +406,7 @@ $Selenium->RunTest(
             FileUpload StateID IsVisibleForCustomer submitRichText)
             )
         {
+            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#$ID').length" );
             my $Element = $Selenium->find_element( "#$ID", 'css' );
             $Element->is_enabled();
         }
@@ -507,7 +510,7 @@ $Selenium->RunTest(
         # Force sub menus to be visible in order to be able to click one of the links.
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
-        $Selenium->find_element("//*[text()='History']")->VerifiedClick();
+        $Selenium->find_element("//*[text()='History']")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
@@ -583,7 +586,6 @@ $Selenium->RunTest(
                 Type => $Cache,
             );
         }
-
     }
 );
 

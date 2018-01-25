@@ -12,10 +12,9 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
-# create local function for wait on AJAX update
+# Create local function for wait on AJAX update.
 my $WaitForAJAX = sub {
     $Selenium->WaitFor(
         JavaScript =>
@@ -26,7 +25,6 @@ my $WaitForAJAX = sub {
 $Selenium->RunTest(
     sub {
 
-        # get needed objects
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
         my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
         my $QueueObject     = $Kernel::OM->Get('Kernel::System::Queue');
@@ -34,50 +32,47 @@ $Selenium->RunTest(
         my $SLAObject       = $Kernel::OM->Get('Kernel::System::SLA');
         my $StateObject     = $Kernel::OM->Get('Kernel::System::State');
         my $DBObject        = $Kernel::OM->Get('Kernel::System::DB');
+        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # get helper object
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-        # get needed variables
         my $RandomID = $Helper->GetRandomID();
         my $Success;
 
-        # do not check RichText
+        # Do not check RichText.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::RichText',
             Value => 0,
         );
 
-        # enable ticket responsible feature
+        # Enable ticket responsible feature.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Responsible',
             Value => 1,
         );
 
-        # enable ticket service feature
+        # Enable ticket service feature.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Service',
             Value => 1,
         );
 
-        # create test customer user
+        # Create test customer user.
         my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate()
             || die "Did not get test customer user";
 
-        # create test user
+        # Create test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
 
-        # get test user ID
+        # Get test user ID.
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
-        # create test ticket
+        # Create test ticket.
         my $TicketID = $TicketObject->TicketCreate(
             Title        => 'Title' . $RandomID,
             Queue        => 'Raw',
@@ -94,7 +89,7 @@ $Selenium->RunTest(
             "TicketID $TicketID is created",
         );
 
-        # create test queue
+        # Create test queue.
         my $QueueName = 'Queue' . $RandomID;
         my $QueueID   = $QueueObject->QueueAdd(
             Name            => $QueueName,
@@ -111,7 +106,7 @@ $Selenium->RunTest(
             "QueueID $QueueID is created",
         );
 
-        # create test service
+        # Create test service.
         my $ServiceName = 'Service' . $RandomID;
         my $ServiceID   = $ServiceObject->ServiceAdd(
             Name    => $ServiceName,
@@ -123,7 +118,7 @@ $Selenium->RunTest(
             "ServiceID $ServiceID is created",
         );
 
-        # add member customer user to the test service
+        # Add member customer user to the test service.
         $ServiceObject->CustomerUserServiceMemberAdd(
             CustomerUserLogin => $TestCustomerUserLogin,
             ServiceID         => $ServiceID,
@@ -131,7 +126,7 @@ $Selenium->RunTest(
             UserID            => 1,
         );
 
-        # create test SLA
+        # Create test SLA.
         my $SLAName = 'SLA' . $RandomID;
         my $SLAID   = $SLAObject->SLAAdd(
             ServiceIDs => [$ServiceID],
@@ -144,14 +139,14 @@ $Selenium->RunTest(
             "SLAID $SLAID is created",
         );
 
-        # get 'open' type ID
+        # Get 'open' type ID.
         my %ListType = $StateObject->StateTypeList(
             UserID => 1,
         );
         my %ReverseListType = reverse %ListType;
         my $OpenID          = $ReverseListType{"open"};
 
-        # create test state (type 'open')
+        # Create test state (type 'open').
         my $StateName = 'State' . $RandomID;
         my $StateID   = $StateObject->StateAdd(
             Name    => $StateName,
@@ -164,17 +159,16 @@ $Selenium->RunTest(
             "StateID $StateID is created",
         );
 
-        # login
+        # Login as test user.
         $Selenium->Login(
             Type     => 'Agent',
             User     => $TestUserLogin,
             Password => $TestUserLogin,
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # define field IDs and frontend modules
+        # Define field IDs and frontend modules.
         my %FreeTextFields = (
             NoMandatory => {
                 ServiceID        => 'Service',
@@ -226,7 +220,7 @@ $Selenium->RunTest(
 
         for my $Test (@Tests) {
 
-            # write test case description
+            # Write test case description.
             $Self->True(
                 1,
                 $Test->{Name},
@@ -250,16 +244,16 @@ $Selenium->RunTest(
                 );
             }
 
-            # navigate to zoom view of created test ticket
+            # Navigate to zoom view of created test ticket.
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-            # force sub menus to be visible in order to be able to click one of the links
+            # Force sub menus to be visible in order to be able to click one of the links.
             $Selenium->WaitFor(
                 JavaScript =>
                     'return typeof($) === "function" && $("#nav-Miscellaneous ul").css({ "height": "auto", "opacity": "100" });'
             );
 
-            # click on 'Free Fields' and switch window
+            # Click on 'Free Fields' and switch window.
             $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketFreeText;TicketID=$TicketID' )]")
                 ->click();
 
@@ -267,10 +261,10 @@ $Selenium->RunTest(
             my $Handles = $Selenium->get_window_handles();
             $Selenium->switch_to_window( $Handles->[1] );
 
-            # wait until page has loaded, if necessary
+            # Wait until page has loaded, if necessary.
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length' );
 
-            # get NoMandatory/Mandatory fields for exist checking
+            # Get NoMandatory/Mandatory fields for exist checking.
             my $CheckFields = $Test->{CheckFields};
 
             for my $FieldID ( sort keys %{ $FreeTextFields{$CheckFields} } ) {
@@ -298,13 +292,13 @@ $Selenium->RunTest(
                 }
             }
 
-            # close the window and switch back to the first screen
+            # Close the window and switch back to the first screen.
             $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
             $Selenium->WaitFor( WindowCount => 1 );
             $Selenium->switch_to_window( $Handles->[0] );
         }
 
-        # define field values
+        # Define field values.
         my %SetFreeTextFields = (
             ServiceID        => $ServiceID,
             SLAID            => $SLAID,
@@ -314,27 +308,26 @@ $Selenium->RunTest(
             NewStateID       => $StateID,
         );
 
-        # navigate to zoom view of created test ticket
+        # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # force sub menus to be visible in order to be able to click one of the links
+        # Force sub menus to be visible in order to be able to click one of the links.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $("#nav-Miscellaneous ul").css({ "height": "auto", "opacity": "100" });'
         );
 
-        # click on 'Free Fields' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketFreeText;TicketID=$TicketID' )]")
-            ->VerifiedClick();
+        # Click on 'Free Fields' and switch window.
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketFreeText;TicketID=$TicketID' )]")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until page has loaded, if necessary
+        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length' );
 
-        # fill all free text fields
+        # Fill all free text fields.
         FREETEXTFIELDS:
         for my $FieldID ( sort keys %SetFreeTextFields ) {
 
@@ -344,7 +337,7 @@ $Selenium->RunTest(
                 "\$('#$FieldID').val('$SetFreeTextFields{$FieldID}').trigger('redraw.InputField').trigger('change')"
             );
 
-            # wait for AJAX to finish
+            # Wait for AJAX to finish.
             $WaitForAJAX->();
 
             if ( $FieldID eq 'ServiceID' ) {
@@ -353,12 +346,12 @@ $Selenium->RunTest(
                     "\$('#SLAID').val('$SetFreeTextFields{SLAID}').trigger('redraw.InputField').trigger('change')"
                 );
 
-                # wait for AJAX to finish
+                # Wait for AJAX to finish.
                 $WaitForAJAX->();
             }
         }
 
-        # test cases - all fields are set except exactly one, and in the last case all fields are set
+        # Test cases - all fields are set except exactly one, and in the last case all fields are set.
         @Tests = (
             {
                 Name      => 'Clear Service field',
@@ -395,10 +388,10 @@ $Selenium->RunTest(
             }
         );
 
-        # run test - in each iteration exactly one field is empty, last case is correct
+        # Run test - in each iteration exactly one field is empty, last case is correct.
         for my $Test (@Tests) {
 
-            # write test case description
+            # Write test case description.
             $Self->True(
                 1,
                 $Test->{Name},
@@ -419,17 +412,17 @@ $Selenium->RunTest(
                     "\$('#$FieldID').val('$Test->{$FieldID}').trigger('redraw.InputField').trigger('change')"
                 );
 
-                # wait for AJAX to finish
+                # Wait for AJAX to finish.
                 $WaitForAJAX->();
             }
 
             # Wait until opened field (due to error) has closed.
             $Selenium->WaitFor( JavaScript => 'return $("div.jstree-wholerow:visible").length == 0' );
 
-            # submit
+            # Submit.
             $Selenium->find_element( "#submitRichText", 'css' )->click();
 
-            # check if class Error exists in expected field ID
+            # Check if class Error exists in expected field ID.
             if ($ExpectedErrorFieldID) {
                 $Self->True(
                     $Selenium->execute_script(
@@ -444,13 +437,13 @@ $Selenium->RunTest(
                     "All mandatory fields are filled - successful free text fields update",
                 );
 
-                # switch back to the main window
+                # Switch back to the main window.
                 $Selenium->WaitFor( WindowCount => 1 );
                 $Selenium->switch_to_window( $Handles->[0] );
             }
         }
 
-        # define messages in ticket history screen
+        # Define messages in ticket history screen.
         my %FreeFieldMessages = (
             ServiceUpdate     => "Changed service to \"$ServiceName\" ($ServiceID).",
             SLAUpdate         => "Changed SLA to \"$SLAName\" ($SLAID).",
@@ -460,16 +453,16 @@ $Selenium->RunTest(
             StateUpdate       => "Changed state from \"new\" to \"$StateName\"."
         );
 
-        # navigate to zoom view of created test ticket
+        # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # force sub menus to be visible in order to be able to click one of the links
+        # Force sub menus to be visible in order to be able to click one of the links.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $("#nav-History ul").css({ "height": "auto", "opacity": "100" });'
         );
 
-        # navigate to AgentTicketHistory of created test ticket
+        # Navigate to AgentTicketHistory of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
         for my $Action ( sort keys %FreeFieldMessages ) {
@@ -480,8 +473,8 @@ $Selenium->RunTest(
             );
         }
 
-        # cleanup
-        # delete created test ticket
+        # Cleanup
+        # Delete created test ticket.
         $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => 1,
@@ -500,7 +493,7 @@ $Selenium->RunTest(
             "TicketID $TicketID is deleted"
         );
 
-        # delete customer user referenced for service
+        # Delete customer user referenced for service.
         $Success = $DBObject->Do(
             SQL  => "DELETE FROM service_customer_user WHERE customer_user_login = ?",
             Bind => [ \$TestCustomerUserLogin ],
@@ -510,7 +503,7 @@ $Selenium->RunTest(
             "Deleted service relations for $TestCustomerUserLogin",
         );
 
-        # delete sla referenced for service
+        # Delete sla referenced for service.
         $Success = $DBObject->Do(
             SQL => "DELETE FROM service_sla WHERE service_id = $ServiceID OR sla_id = $SLAID",
         );
@@ -519,7 +512,7 @@ $Selenium->RunTest(
             "Relation SLAID $SLAID referenced to service ID $ServiceID is deleted",
         );
 
-        # delete created test service
+        # Delete created test service.
         $Success = $DBObject->Do(
             SQL => "DELETE FROM service WHERE id = $ServiceID",
         );
@@ -528,7 +521,7 @@ $Selenium->RunTest(
             "ServiceID $ServiceID is deleted",
         );
 
-        # delete created test SLA
+        # Delete created test SLA.
         $Success = $DBObject->Do(
             SQL => "DELETE FROM sla WHERE id = $SLAID",
         );
@@ -537,7 +530,7 @@ $Selenium->RunTest(
             "SLAID $SLAID is deleted",
         );
 
-        # delete created test state
+        # Delete created test state.
         $Success = $DBObject->Do(
             SQL => "DELETE FROM ticket_state WHERE id = $StateID",
         );
@@ -546,7 +539,7 @@ $Selenium->RunTest(
             "StateID $StateID is deleted",
         );
 
-        # delete created test queue
+        # Delete created test queue.
         $Success = $DBObject->Do(
             SQL => "DELETE FROM queue WHERE id = $QueueID",
         );
@@ -555,11 +548,11 @@ $Selenium->RunTest(
             "QueueID $QueueID is deleted",
         );
 
-        # make sure the cache is correct
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+        # Make sure the cache is correct.
         for my $Cache (qw(Ticket Service SLA State Queue)) {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-                Type => $Cache,
-            );
+            $CacheObject->CleanUp( Type => $Cache );
         }
     }
 );

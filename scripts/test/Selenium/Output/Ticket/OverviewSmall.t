@@ -140,7 +140,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketStatusView");
 
         # Set filter to test queue.
-        $Selenium->find_element("//a[contains(\@title, \'Queue, filter not active\' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@title, \'Queue, filter not active\' )]")->click();
         $Selenium->WaitFor(
             JavaScript =>
                 "return typeof(\$) === 'function' && \$('#ColumnFilterQueue option[value=\"$QueueID\"]').length;"
@@ -153,7 +153,10 @@ $Selenium->RunTest(
         );
 
         # Set tickets per page to 10.
-        $Selenium->find_element( "#ShowContextSettingsDialog", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#ShowContextSettingsDialog", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return $(".Dialog.Modal #UserTicketOverviewSmallPageShown").length'
+        );
         $Selenium->execute_script(
             "\$('#UserTicketOverviewSmallPageShown').val('10').trigger('redraw.InputField').trigger('change');"
         );
@@ -172,7 +175,10 @@ $Selenium->RunTest(
             },
         );
 
-        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return !$(".Dialog.Modal").length'
+        );
 
         # Sort by ticket number, order down.
         $Selenium->find_element("//a[contains(\@title, \'TicketNumber\' )]")->VerifiedClick();

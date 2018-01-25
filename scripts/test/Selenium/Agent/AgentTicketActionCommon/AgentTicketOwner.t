@@ -12,23 +12,21 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # enable change owner to everyone feature
+        # Enable change owner to everyone feature.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::ChangeOwnerToEveryone',
             Value => 1
         );
 
-        # do not check RichText
+        # Do not check RichText.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::RichText',
@@ -46,7 +44,7 @@ $Selenium->RunTest(
             },
         );
 
-        # create test users and login first
+        # Create test users and login first.
         my @TestUser;
         for my $User ( 1 .. 2 ) {
             my $TestUserLogin = $Helper->TestUserCreate(
@@ -64,7 +62,7 @@ $Selenium->RunTest(
 
         my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
-        # get test users ID
+        # Get test users ID.
         my @UserID;
         for my $UserID (@TestUser) {
             my $TestUserID = $UserObject->UserLookup(
@@ -98,10 +96,9 @@ $Selenium->RunTest(
             Valid  => 0,
         );
 
-        # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # create test ticket
+        # Create test ticket.
         my $TicketID = $TicketObject->TicketCreate(
             Title        => 'Selenium Test Ticket',
             Queue        => 'Raw',
@@ -118,33 +115,31 @@ $Selenium->RunTest(
             "Ticket is created - ID $TicketID",
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to zoom view of created test ticket
+        # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # force sub menus to be visible in order to be able to click one of the links
+        # Force sub menus to be visible in order to be able to click one of the links.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $("#nav-People ul").css({ "height": "auto", "opacity": "100" });'
         );
 
-        # click on 'Owner' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketOwner;TicketID=$TicketID' )]")
-            ->VerifiedClick();
+        # Click on 'Owner' and switch window.
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketOwner;TicketID=$TicketID' )]")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until page has loaded, if necessary
+        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $(".WidgetSimple").length;'
         );
 
-        # check page
+        # Check page.
         for my $ID (
             qw(NewOwnerID Subject RichText FileUpload IsVisibleForCustomer submitRichText)
             )
@@ -154,30 +149,30 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # check out of office user message without filter
+        # Check out of office user message without filter.
         $Self->Is(
             $Selenium->execute_script("return \$('#NewOwnerID option[value=$UserID[1]]').text();"),
             "$UserData{UserFullname}",
             "Out of office message is found for the user - $TestUser[1]"
         );
 
-        # expand 'New owner' input field
+        # Expand 'New owner' input field.
         $Selenium->execute_script("\$('#NewOwnerID_Search').focus().focus()");
 
-        # click on filter button in input fileld
+        # Click on filter button in input fileld.
         $Selenium->execute_script("\$('.InputField_Filters').click();");
 
-        # enable 'Previous Owner' filter
+        # Enable 'Previous Owner' filter.
         $Selenium->execute_script("\$('.InputField_FiltersList').children('input').click();");
 
-        # check out of office user message with filter
+        # Check out of office user message with filter.
         $Self->Is(
             $Selenium->execute_script("return \$('#NewOwnerID option[value=$UserID[1]]').text();"),
             "1: $UserData{UserFullname}",
             "Out of office message is found for the user - $TestUser[1]"
         );
 
-        # change ticket user owner
+        # Change ticket user owner.
         $Selenium->execute_script(
             "\$('#NewOwnerID').val('$UserID[1]').trigger('redraw.InputField').trigger('change');"
         );
@@ -189,10 +184,10 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # navigate to AgentTicketHistory of created test ticket
+        # Navigate to AgentTicketHistory of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
-        # confirm owner change action
+        # Confirm owner change action.
         my $OwnerMsg = "Added note (Owner)";
         $Self->True(
             index( $Selenium->get_page_source(), $OwnerMsg ) > -1,
@@ -244,7 +239,7 @@ $Selenium->RunTest(
             "There is no Out Of Office message in the article 'Sender' column."
         );
 
-        # delete created test tickets
+        # Delete created test tickets.
         my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => $UserID[0],
@@ -263,11 +258,10 @@ $Selenium->RunTest(
             "Ticket is deleted - ID $TicketID"
         );
 
-        # make sure the cache is correct
+        # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Ticket',
         );
-
     }
 );
 

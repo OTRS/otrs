@@ -12,16 +12,15 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # enable CustomerUserGenericTicket sysconfig
+        # Enable CustomerUserGenericTicket sysconfig.
         my @CustomerSysConfig = (
             '15-OpenTickets',   '16-OpenTicketsForCustomerUserLogin',
             '17-ClosedTickets', '18-ClosedTicketsForCustomerUserLogin'
@@ -29,7 +28,7 @@ $Selenium->RunTest(
 
         for my $SysConfigChange (@CustomerSysConfig) {
 
-            # get default sysconfig
+            # Get default sysconfig.
             my $SysConfigName = 'Frontend::CustomerUser::Item###' . $SysConfigChange;
             my %Config        = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
                 Name    => $SysConfigName,
@@ -43,36 +42,27 @@ $Selenium->RunTest(
             );
         }
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
 
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
-
-        # get test user ID
+        # Get test user ID.
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
-        # create test customer user
+        # Create test customer user.
         my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate(
         ) || die "Did not get test customer user";
 
-        # get test customer user ID
+        # Get test customer user ID.
         my @CustomerIDs = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerIDs(
             User => $TestCustomerUserLogin,
         );
         my $CustomerID = $CustomerIDs[0];
 
-        # get needed objects
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-        # create test data parameters
+        # Create test data parameters.
         my %TicketData = (
             'Open' => {
                 TicketState   => 'open',
@@ -90,7 +80,7 @@ $Selenium->RunTest(
             },
         );
 
-        # create open and closed tickets
+        # Create open and closed tickets.
         for my $TicketCreate ( sort keys %TicketData ) {
             for my $TestTickets ( 1 .. 5 ) {
                 my $TicketNumber = $TicketObject->TicketCreateNumber();
@@ -122,43 +112,49 @@ $Selenium->RunTest(
             $TicketData{$TicketCreate}->{TicketCount} = $TicketCount;
         }
 
-        # go to zoom view of created test ticket
+        # Login as test user.
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
+
+        # Go to zoom view of created test ticket.
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketData{Open}->{TicketIDs}->[0]"
         );
 
-        # wait until page has loaded, if necessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        # Wait until page and customer info widget have loaded, if necessary.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("body").length && $(".WidgetIsLoading").length === 0'
+        );
 
-        # Wait until customer info widget has loaded, if necessary.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".WidgetIsLoading").length === 0;' );
-
-        # test CustomerUserGenericTicket module
+        # Test CustomerUserGenericTicket module.
         for my $TestLinks ( sort keys %TicketData ) {
 
-            # check for layout and ticket count
+            # Check for layout and ticket count.
             my $ExpectedText = $TestLinks . " tickets (customer) ($TicketData{$TestLinks}->{TicketCount})";
             $Self->True(
                 index( $Selenium->get_page_source(), $ExpectedText ) > -1,
                 "$ExpectedText - found on screen"
             );
 
-            # click on link
+            # Click on link.
             $Selenium->find_element(
                 "//a[contains(\@href, \'$TicketData{$TestLinks}->{TicketLink};CustomerUserLoginRaw=$TestCustomerUserLogin' )]"
-            )->VerifiedClick();
+            )->click();
 
             $Selenium->WaitFor( WindowCount => 2 );
 
-            # link open in new window, switch to it
+            # Link open in new window, switch to it.
             my $Handles = $Selenium->get_window_handles();
             $Selenium->switch_to_window( $Handles->[1] );
 
-            # wait until page has loaded, if necessary
+            # Wait until page has loaded, if necessary.
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
-            # check for test ticket numbers on search screen
+            # Check for test ticket numbers on search screen.
             for my $CheckTicketNumbers ( @{ $TicketData{$TestLinks}->{TicketNumbers} } ) {
                 $Self->True(
                     index( $Selenium->get_page_source(), $CheckTicketNumbers ) > -1,
@@ -166,28 +162,28 @@ $Selenium->RunTest(
                 );
             }
 
-            # click on 'Change search option'
+            # Click on 'Change search option'.
             $Selenium->find_element(
                 "//a[contains(\@href, \'AgentTicketSearch;Subaction=LoadProfile' )]"
-            )->VerifiedClick();
+            )->click();
 
-            # link open in new window switch to it
+            # Link open in new window switch to it.
             $Handles = $Selenium->get_window_handles();
             $Selenium->switch_to_window( $Handles->[2] );
 
-            # wait until search dialog has been loaded
+            # Wait until search dialog has been loaded.
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SearchFormSubmit").length' );
 
-            # verify state search attributes are shown in search screen, see bug #10853
+            # Verify state search attributes are shown in search screen, see bug #10853.
             $Selenium->find_element( "#StateIDs", 'css' );
 
-            # close current window and return to original
+            # Close current window and return to original.
             $Selenium->close();
             $Selenium->WaitFor( WindowCount => 1 );
             $Selenium->switch_to_window( $Handles->[0] );
         }
 
-        # delete created test tickets
+        # Delete created test tickets.
         for my $TicketState ( sort keys %TicketData ) {
             for my $TicketID ( @{ $TicketData{$TicketState}->{TicketIDs} } ) {
 
@@ -203,7 +199,7 @@ $Selenium->RunTest(
             }
         }
 
-        # make sure cache is correct
+        # Make sure cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
     }
 );

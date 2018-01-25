@@ -12,13 +12,11 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get needed objects
         my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
         my $TestEmailObject = $Kernel::OM->Get('Kernel::System::Email::Test');
@@ -52,7 +50,7 @@ $Selenium->RunTest(
                 $MailQueueObject->Send( %{$Item} );
             }
 
-            # Clean any garbage
+            # Clean any garbage.
             $MailQueueClean->();
 
             return;
@@ -61,7 +59,7 @@ $Selenium->RunTest(
         # Make sure we start with a clean mail queue.
         $MailQueueClean->();
 
-        # use test email backend
+        # Use test email backend.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'SendmailModule',
@@ -73,7 +71,7 @@ $Selenium->RunTest(
             Value => 0,
         );
 
-        # clean up test email
+        # Clean up test email.
         my $Success = $TestEmailObject->CleanUp();
         $Self->True(
             $Success,
@@ -86,43 +84,46 @@ $Selenium->RunTest(
             'Test email empty after initial cleanup',
         );
 
-        # clean up test email again (cached)
+        # Clean up test email again (cached).
         $Success = $TestEmailObject->CleanUp();
         $Self->True(
             $Success,
             'Initial cleanup',
         );
 
-        # create test user
+        # Create test user.
         my $TestUser = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
 
-        # get script alias
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        # navigate to agent login screen
+        # Navigate to agent login screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?");
         $Selenium->delete_all_cookies();
 
-        # click on 'Lost your password?'
+        # Click on 'Lost your password?'.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?");
-        $Selenium->find_element( "#LostPassword", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#LostPassword", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#PasswordUser").length && $("#PasswordBox button[type=submit]").length'
+        );
 
-        # request new password
+        # Request new password.
         $Selenium->find_element( "#PasswordUser",                      'css' )->send_keys($TestUser);
         $Selenium->find_element( "#PasswordBox button[type='submit']", 'css' )->VerifiedClick();
 
-        # check for password recovery message
+        # Check for password recovery message.
         $Self->True(
             $Selenium->find_element( "#LoginBox p.Error", 'css' ),
             "Password recovery message found on screen for valid user",
         );
 
-        # Really send the emails
+        # Really send the emails.
         $MailQueueProcess->();
 
-        # check if password recovery email is sent to valid user
+        # Check if password recovery email is sent to valid user.
         my $Emails = $TestEmailObject->EmailsGet();
         $Self->Is(
             scalar @{$Emails},
@@ -130,7 +131,7 @@ $Selenium->RunTest(
             "Password recovery email sent for valid user $TestUser",
         );
 
-        # clean up test email again
+        # Clean up test email again.
         $Success = $TestEmailObject->CleanUp();
         $Self->True(
             $Success,
@@ -143,15 +144,14 @@ $Selenium->RunTest(
             'Test email empty after second cleanup',
         );
 
-        # get user object
         my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
-        # get test user ID
+        # Get test user ID.
         my $TestUserID = $UserObject->UserLookup(
             UserLogin => $TestUser,
         );
 
-        # update user to invalid
+        # Update user to invalid.
         $Success = $UserObject->UserUpdate(
             UserID        => $TestUserID,
             UserFirstname => $TestUser,
@@ -167,24 +167,28 @@ $Selenium->RunTest(
             "$TestUser set to invalid",
         );
 
-        # click on 'Lost your password?' again
-        $Selenium->find_element( "#LostPassword", 'css' )->VerifiedClick();
+        # Click on 'Lost your password?' again.
+        $Selenium->find_element( "#LostPassword", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#PasswordUser").length && $("#PasswordBox button[type=submit]").length'
+        );
 
-        # request new password
+        # Request new password.
         $Selenium->find_element( "#PasswordUser",                      'css' )->send_keys($TestUser);
         $Selenium->find_element( "#PasswordBox button[type='submit']", 'css' )->VerifiedClick();
 
-        # check for password recovery message for invalid user, for security measures it
-        # should be visible
+        # Check for password recovery message for invalid user, for security measures it.
+        # Should be visible.
         $Self->True(
             $Selenium->find_element( "#LoginBox p.Error", 'css' ),
             "Password recovery message found on screen for invalid user",
         );
 
-        # Really send the emails
+        # Really send the emails.
         $MailQueueProcess->();
 
-        # check if password recovery email is sent to invalid user
+        # Check if password recovery email is sent to invalid user.
         $Emails = $TestEmailObject->EmailsGet();
         $Self->Is(
             scalar @{$Emails},

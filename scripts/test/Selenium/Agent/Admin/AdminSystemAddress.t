@@ -12,7 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 my $CheckBreadcrumb = sub {
@@ -36,33 +35,26 @@ my $CheckBreadcrumb = sub {
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # disable check email address
+        # Disable check email address.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'CheckEmailAddresses',
             Value => 0,
         );
 
-        # create test user and login
+        # Create test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
 
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
-
-        # get test user ID
+        # Get test user ID.
         my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
-        # add test Queue
+        # Add test Queue.
         my $QueueObject   = $Kernel::OM->Get('Kernel::System::Queue');
         my $QueueRandomID = "queue" . $Helper->GetRandomID();
         my $QueueID       = $QueueObject->QueueAdd(
@@ -80,27 +72,33 @@ $Selenium->RunTest(
             "Created Queue - $QueueRandomID",
         );
 
-        # get script alias
+        # Login as test user.
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
+
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to AdminSystemAddress screen
+        # Navigate to AdminSystemAddress screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemAddress");
 
-        # check overview AdminSystemAddress screen
+        # Check overview AdminSystemAddress screen.
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
-        # check breadcrumb on Overview screen
+        # Check breadcrumb on Overview screen.
         $Self->True(
             $Selenium->find_element( '.BreadCrumb', 'css' ),
             "Breadcrumb is found on Overview screen.",
         );
 
-        # click 'Add system address'
+        # Click 'Add system address'.
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminSystemAddress;Subaction=Add')]")->VerifiedClick();
 
-        # check add new SystemAddress screen
+        # Check add new SystemAddress screen.
         for my $ID (
             qw(Name Realname QueueID ValidID Comment)
             )
@@ -110,12 +108,14 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # check breadcrumb on Add screen
+        # Check breadcrumb on Add screen.
         $CheckBreadcrumb->( BreadcrumbText => 'Add System Email Address' );
 
-        # check client side validation
+        # Check client side validation.
         $Selenium->find_element( "#Name",   'css' )->clear();
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#Submit", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name.Error').length" );
+
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
@@ -124,7 +124,7 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
-        # create real test SystemAddress
+        # Create real test SystemAddress.
         my $SysAddRandom  = 'sysadd' . $Helper->GetRandomID() . '@localhost.com';
         my $SysAddComment = "Selenium test SystemAddress";
 
@@ -134,26 +134,26 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment", 'css' )->send_keys($SysAddComment);
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
-        # check for created test SystemAddress
+        # Check for created test SystemAddress.
         $Self->True(
             index( $Selenium->get_page_source(), $SysAddRandom ) > -1,
             "$SysAddRandom found on page",
         );
 
-        # click 'Add system address'
+        # Click 'Add system address'.
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminSystemAddress;Subaction=Add')]")->VerifiedClick();
 
         $Selenium->find_element( "#Name",     'css' )->send_keys($SysAddRandom);
         $Selenium->find_element( "#Realname", 'css' )->send_keys($SysAddRandom);
         $Selenium->execute_script("\$('#QueueID').val('$QueueID').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment", 'css' )->send_keys($SysAddComment);
-        $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
+        $Selenium->find_element( "#Submit",  'css' )->click();
 
-        # wait until page has finished loading
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#DialogButton1").length' );
-
-        # Confirm JS error.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal #DialogButton1").length'
+        );
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
 
         $Self->Is(
             $Selenium->execute_script(
@@ -188,10 +188,10 @@ $Selenium->RunTest(
             "QueueID $QueueID is updated with system address ID $SysAddList{$SysAddRandom}"
         );
 
-        # click 'Go to overview'
+        # Click 'Go to overview'.
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminSystemAddress')]")->VerifiedClick();
 
-        # go to the new test SystemAddress and check values
+        # Go to the new test SystemAddress and check values.
         $Selenium->find_element( $SysAddRandom, 'link_text' )->VerifiedClick();
         $Self->Is(
             $Selenium->find_element( '#Name', 'css' )->get_value(),
@@ -261,13 +261,13 @@ $Selenium->RunTest(
         # Refresh screen.
         $Selenium->VerifiedRefresh();
 
-        # edit test SystemAddress and set it to invalid
+        # Edit test SystemAddress and set it to invalid.
         $Selenium->find_element( "#Realname", 'css' )->send_keys(" Edited");
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
-        # check class of invalid SystemAddress in the overview table
+        # Check class of invalid SystemAddress in the overview table.
         $Self->True(
             $Selenium->execute_script(
                 "return \$('tr.Invalid td a:contains($SysAddRandom)').length"
@@ -275,7 +275,7 @@ $Selenium->RunTest(
             "There is a class 'Invalid' for test SystemAddress",
         );
 
-        # check edited test SystemAddress values
+        # Check edited test SystemAddress values.
         $Selenium->find_element( $SysAddRandom, 'link_text' )->VerifiedClick();
         $Self->Is(
             $Selenium->find_element( '#Realname', 'css' )->get_value(),
@@ -293,10 +293,9 @@ $Selenium->RunTest(
             "#Comment updated value",
         );
 
-        # get DB object
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-        # since we no longer need them, delete test Queue and SystemAddress from the DB
+        # Since we no longer need them, delete test Queue and SystemAddress from the DB.
         my $Success = $DBObject->Do(
             SQL => "DELETE FROM system_address WHERE value0 = \'$SysAddRandom\'",
         );
@@ -312,16 +311,13 @@ $Selenium->RunTest(
             "Deleted - $QueueRandomID",
         );
 
-        # make sure cache is correct
-        for my $Cache (qw (Queue SystemAddress))
-        {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-                Type => $Cache,
-            );
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+        # Make sure cache is correct.
+        for my $Cache (qw(Queue SystemAddress)) {
+            $CacheObject->CleanUp( Type => $Cache );
         }
-
     }
-
 );
 
 1;

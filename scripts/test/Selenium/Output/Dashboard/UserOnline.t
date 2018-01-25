@@ -12,7 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
@@ -23,13 +22,13 @@ $Selenium->RunTest(
 
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # get UserOnline config
+        # Get UserOnline config.
         my %UserOnlineSysConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
             Name    => 'DashboardBackend###0400-UserOnline',
             Default => 1,
         );
 
-        # enable UserOnline and set it to load as default plugin
+        # Enable UserOnline and set it to load as default plugin.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'DashboardBackend###0400-UserOnline',
@@ -57,7 +56,7 @@ $Selenium->RunTest(
         # Clean up the dashboard cache.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Dashboard' );
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -76,7 +75,7 @@ $Selenium->RunTest(
             'Only one agent user accounted for'
         );
 
-        # test UserOnline plugin for agent
+        # Test UserOnline plugin for agent.
         my $ExpectedAgent = "$TestUserLogin";
         $Self->True(
             index( $Selenium->get_page_source(), $ExpectedAgent ) > -1,
@@ -98,13 +97,12 @@ $Selenium->RunTest(
         );
 
         # Switch to online customers and test UserOnline plugin for customers.
-        $CustomersLink->VerifiedClick();
+        $CustomersLink->click();
 
-        # Wait for AJAX
-        my $ExpectedCustomer = "$TestCustomerUserLogin";
+        # Wait for AJAX.
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('table.DashboardUserOnline a:contains(\"$ExpectedCustomer\")').length;"
+                "return typeof(\$) === 'function' && \$('table.DashboardUserOnline a:contains(\"$TestCustomerUserLogin\")').length;"
         );
 
         $Self->True(
@@ -116,7 +114,7 @@ $Selenium->RunTest(
 
         $Self->Is(
             $Selenium->execute_script(
-                "return \$('table.DashboardUserOnline a:contains(\"$ExpectedCustomer\")').length;"
+                "return \$('table.DashboardUserOnline a:contains(\"$TestCustomerUserLogin\")').length;"
             ),
             1,
             "$TestCustomerUserLogin - found on UserOnline plugin"

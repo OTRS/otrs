@@ -78,7 +78,10 @@ $Selenium->RunTest(
             }
             elsif ( $Action eq 'CustomerTicketZoom' ) {
                 $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=$Action;TicketNumber=$TicketNumber");
-                $Selenium->find_element("//a[contains(\@id, \'ReplyButton' )]")->VerifiedClick();
+                $Selenium->find_element("//a[contains(\@id, \'ReplyButton' )]")->click();
+                $Selenium->WaitFor(
+                    JavaScript => "return typeof(\$) === 'function' && \$('#FollowUp.Visible').length"
+                );
             }
 
             # Check DnDUpload.
@@ -329,7 +332,8 @@ $Selenium->RunTest(
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
 
             # Submit and check if files still there.
-            $Selenium->find_element("//button[contains(\@value, \'Submit' )]")->VerifiedClick();
+            $Selenium->find_element("//button[contains(\@value, \'Submit' )]")->click();
+            $Selenium->WaitFor( JavaScript => 'return $(".Error").length' );
 
             # Delete files.
             for my $DeleteExtension (qw(doc pdf png txt xls)) {

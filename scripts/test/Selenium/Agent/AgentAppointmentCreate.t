@@ -117,7 +117,7 @@ $Selenium->RunTest(
         );
 
         # click on Save
-        $Selenium->find_element( '#EditFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
 
         # wait for dialog to close and AJAX to finish
         $Selenium->WaitFor(
@@ -175,7 +175,7 @@ $Selenium->RunTest(
         $Selenium->find_element( 'RecurrenceCount', 'name' )->send_keys('3');
 
         # click on Save
-        $Selenium->find_element( '#EditFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
 
         # wait for AJAX to finish
         $Selenium->WaitFor(
@@ -266,7 +266,7 @@ $Selenium->RunTest(
         $Selenium->find_element( 'RecurrenceCount', 'name' )->send_keys('3');
 
         # click on Save
-        $Selenium->find_element( '#EditFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
 
         # wait for AJAX to finish
         $Selenium->WaitFor(
@@ -349,7 +349,7 @@ $Selenium->RunTest(
         $Selenium->find_element( 'RecurrenceCount', 'name' )->send_keys('3');
 
         # click on Save
-        $Selenium->find_element( '#EditFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
 
         # wait for AJAX to finish
         $Selenium->WaitFor(
@@ -441,7 +441,7 @@ $Selenium->RunTest(
         $Selenium->find_element( 'RecurrenceCount', 'name' )->send_keys('3');
 
         # click on Save
-        $Selenium->find_element( '#EditFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
 
         # wait for dialog to close and AJAX to finish
         $Selenium->WaitFor(
@@ -602,7 +602,7 @@ $Selenium->RunTest(
         $Selenium->find_element( 'RecurrenceCount', 'name' )->send_keys('6');
 
         # click on Save
-        $Selenium->find_element( '#EditFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
 
         # wait for dialog to close and AJAX to finish
         $Selenium->WaitFor(
@@ -733,7 +733,7 @@ $Selenium->RunTest(
         $Selenium->find_element( 'RecurrenceCount', 'name' )->send_keys('3');
 
         # click on Save
-        $Selenium->find_element( '#EditFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
 
         # wait for dialog to close and AJAX to finish
         $Selenium->WaitFor(
@@ -911,7 +911,7 @@ $Selenium->RunTest(
         $Selenium->find_element( 'RecurrenceCount', 'name' )->send_keys('20');
 
         # click on Save
-        $Selenium->find_element( '#EditFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
 
         # wait for dialog to close and AJAX to finish
         $Selenium->WaitFor(
@@ -1039,7 +1039,7 @@ $Selenium->RunTest(
         $Selenium->find_element( 'RecurrenceCount', 'name' )->send_keys('3');
 
         # click on Save
-        $Selenium->find_element( '#EditFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
 
         # wait for dialog to close and AJAX to finish
         $Selenium->WaitFor(
@@ -1214,7 +1214,7 @@ $Selenium->RunTest(
         $Selenium->find_element( 'RecurrenceCount', 'name' )->send_keys('6');
 
         # click on Save
-        $Selenium->find_element( '#EditFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
 
         # wait for dialog to close and AJAX to finish
         $Selenium->WaitFor(
@@ -1343,7 +1343,7 @@ $Selenium->RunTest(
         $Selenium->find_element( 'RecurrenceCount', 'name' )->send_keys('3');
 
         # click on Save
-        $Selenium->find_element( '#EditFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
 
         # wait for dialog to close and AJAX to finish
         $Selenium->WaitFor(

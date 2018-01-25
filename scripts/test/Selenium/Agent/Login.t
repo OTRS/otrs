@@ -14,7 +14,6 @@ use vars (qw($Self));
 
 use Kernel::GenericInterface::Operation::Session::Common;
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 # Cleanup existing settings to make sure session limit calculations are correct.
@@ -26,14 +25,12 @@ for my $SessionID ( $AuthSessionObject->GetAllSessionIDs() ) {
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         my @TestUserLogins;
 
+        # Create test users.
         for ( 0 .. 2 ) {
-
-            # create test user and login
             my $TestUserLogin = $Helper->TestUserCreate(
                 Groups => [ 'admin', 'users' ],
             ) || die "Did not get test user";
@@ -41,10 +38,9 @@ $Selenium->RunTest(
             push @TestUserLogins, $TestUserLogin;
         }
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # First load the page so we can delete any pre-existing cookies
+        # First load the page so we can delete any pre-existing cookies.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl");
         $Selenium->delete_all_cookies();
 
@@ -88,13 +84,16 @@ $Selenium->RunTest(
         $Element->is_enabled();
         $Element->send_keys( $TestUserLogins[0] );
 
-        # login
+        # Login.
         $Selenium->find_element( '#LoginButton', 'css' )->VerifiedClick();
 
-        # try to expand the user profile sub menu by clicking the avatar
-        $Selenium->find_element( '.UserAvatar > a', 'css' )->VerifiedClick();
+        # Try to expand the user profile sub menu by clicking the avatar.
+        $Selenium->find_element( '.UserAvatar > a', 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("li.UserAvatar > div:visible").length'
+        );
 
-        # check if we see the logout button
+        # Check if we see the logout button.
         $Element = $Selenium->find_element( 'a#LogoutButton', 'css' );
 
         # Check for version tag in the footer.
@@ -103,7 +102,7 @@ $Selenium->RunTest(
             "Version information present ($Product $Version)",
         );
 
-        # logout again
+        # Logout again.
         $Element->VerifiedClick();
 
         my @SessionIDs;
@@ -112,7 +111,7 @@ $Selenium->RunTest(
 
         for my $Counter ( 1 .. 2 ) {
 
-            # create new session id
+            # Create new session id.
             my $NewSessionID = $SessionObject->CreateSessionID(
                 UserLogin       => $TestUserLogins[$Counter],
                 UserLastRequest => $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch(),
@@ -165,8 +164,11 @@ $Selenium->RunTest(
             "AgentSessionLimitPriorWarning is reached.",
         );
 
-        # try to expand the user profile sub menu by clicking the avatar
-        $Selenium->find_element( '.UserAvatar > a', 'css' )->VerifiedClick();
+        # Try to expand the user profile sub menu by clicking the avatar.
+        $Selenium->find_element( '.UserAvatar > a', 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("li.UserAvatar > div:visible").length'
+        );
 
         $Element = $Selenium->find_element( 'a#LogoutButton', 'css' );
         $Element->VerifiedClick();
@@ -233,10 +235,13 @@ $Selenium->RunTest(
 
         $Selenium->find_element( '#LoginButton', 'css' )->VerifiedClick();
 
-        # try to expand the user profile sub menu by clicking the avatar
-        $Selenium->find_element( '.UserAvatar > a', 'css' )->VerifiedClick();
+        # Try to expand the user profile sub menu by clicking the avatar.
+        $Selenium->find_element( '.UserAvatar > a', 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("li.UserAvatar > div:visible").length'
+        );
 
-        # login successful?
+        # Login successful?
         $Element = $Selenium->find_element( 'a#LogoutButton', 'css' );
 
         $SessionObject->CleanUp();

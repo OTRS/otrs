@@ -12,16 +12,14 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -32,25 +30,24 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to AdminTemplate screen
+        # Navigate to AdminTemplate screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminTemplate");
 
-        # check overview screen
+        # Check overview screen.
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
         $Selenium->find_element( "#Filter",           'css' );
 
-        # check breadcrumb on Overview screen
+        # Check breadcrumb on Overview screen.
         $Self->True(
             $Selenium->find_element( '.BreadCrumb', 'css' ),
             "Breadcrumb is found on Overview screen.",
         );
 
-        # click 'Add template'
+        # Click 'Add template'.
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminTemplate;Subaction=Add' )]")->VerifiedClick();
 
         for my $ID (
@@ -62,9 +59,11 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # check client side validation
+        # Check client side validation.
         $Selenium->find_element( "#Name",   'css' )->clear();
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#Submit", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name.Error').length" );
+
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
@@ -73,7 +72,7 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
-        # check breadcrumb on Add screen
+        # Check breadcrumb on Add screen.
         my $Count = 1;
         for my $BreadcrumbText ( 'Manage Templates', 'Add Template' ) {
             $Self->Is(
@@ -85,32 +84,32 @@ $Selenium->RunTest(
             $Count++;
         }
 
-        # create real test template
+        # Create real test template.
         my $TemplateRandomID = "Template" . $Helper->GetRandomID();
         $Selenium->find_element( "#Name",    'css' )->send_keys($TemplateRandomID);
         $Selenium->find_element( "#Comment", 'css' )->send_keys("Selenium template test");
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
-        # check overview screen for test template
+        # Check overview screen for test template.
         $Self->True(
-            index( $Selenium->get_page_source(), $TemplateRandomID ) > -1,
+            $Selenium->execute_script("return \$('#Templates tbody tr:contains($TemplateRandomID)').length"),
             "Template $TemplateRandomID found on page",
         );
 
-        # test search filter
+        # Test search filter.
         $Selenium->find_element( "#Filter", 'css' )->clear();
         $Selenium->find_element( "#Filter", 'css' )->send_keys($TemplateRandomID);
-
-        # Wait for filter to kick in.
-        sleep 1;
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#Templates tbody tr:visible').length === 1"
+        );
 
         $Self->True(
             $Selenium->find_element( $TemplateRandomID, 'link_text' )->is_displayed(),
             "Template $TemplateRandomID found on screen",
         );
 
-        # check test template values
+        # Check test template values.
         $Selenium->find_element( $TemplateRandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
@@ -134,7 +133,7 @@ $Selenium->RunTest(
             "#ValidID stored value",
         );
 
-        # check breadcrumb on Edit screen
+        # Check breadcrumb on Edit screen.
         $Count = 1;
         for my $BreadcrumbText ( 'Manage Templates', 'Edit Template: ' . $TemplateRandomID ) {
             $Self->Is(
@@ -146,33 +145,33 @@ $Selenium->RunTest(
             $Count++;
         }
 
-        # edit test template
+        # Edit test template.
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->execute_script("\$('#TemplateType').val('Create').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
-        #check is there notification after template is updated
+        # Check is there notification after template is updated.
         my $Notification = 'Template updated!';
         $Self->True(
             $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
             "$Notification - notification is found."
         );
 
-        # test search filter
+        # Test search filter.
         $Selenium->find_element( "#Filter", 'css' )->clear();
         $Selenium->find_element( "#Filter", 'css' )->send_keys($TemplateRandomID);
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#Templates tbody tr:visible').length === 1"
+        );
 
-        # Wait for filter to kick in.
-        sleep 1;
-
-        # check class of invalid Template in the overview table
+        # Check class of invalid Template in the overview table.
         $Self->True(
             $Selenium->find_element( "tr.Invalid", 'css' ),
             "There is a class 'Invalid' for test Template",
         );
 
-        # check edited test template
+        # Check edited test template.
         $Selenium->find_element( $TemplateRandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
@@ -191,39 +190,34 @@ $Selenium->RunTest(
             "#ValidID updated value",
         );
 
-        # go back to AdminTemplate overview screen
+        # Go back to AdminTemplate overview screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminTemplate");
 
-        # test template delete button
+        # Test template delete button.
         my $TemplateID = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateLookup(
             StandardTemplate => $TemplateRandomID,
         );
 
         $Selenium->find_element("//a[contains(\@data-query-string, \'Subaction=Delete;ID=$TemplateID' )]")->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal #DialogButton1").length'
+        );
 
-        # wait for dialog appearance
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;' );
-
-        # verify delete dialog message
+        # Verify delete dialog message.
         my $DeleteMessage = "Do you really want to delete this template?";
         $Self->True(
-            index( $Selenium->get_page_source(), $DeleteMessage ) > -1,
+            $Selenium->execute_script("return \$('#DeleteTemplateDialog:contains($DeleteMessage)').length"),
             "Delete message is found",
         );
 
-        # confirm delete action
+        # Confirm delete action.
         $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
 
-        # wait for the dialog to disappear and than check that the new page is loaded completely
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;' );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Templates").length > 0;' );
-
-        # check if template sits on overview page
+        # Check if template sits on overview page.
         $Self->True(
-            index( $Selenium->get_page_source(), $TemplateRandomID ) == -1,
+            $Selenium->execute_script("return !\$('#Templates tbody tr:contains($TemplateRandomID)').length"),
             "Template '$TemplateRandomID' is deleted"
         );
-
     }
 );
 

@@ -10,14 +10,15 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-# note: this UT covers bug #11874 - Restrict service based on state when posting a note
+# Note: this UT covers bug #11874 - Restrict service based on state when posting a note
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ACLObject    = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         my $RandomID = $Helper->GetRandomID();
 
@@ -124,10 +125,7 @@ $Selenium->RunTest(
             },
         );
 
-        # get ACL object
-        my $ACLObject = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
-
-        # import test ACL
+        # Import test ACL.
         $ACLObject->ACLImport(
             Content => <<"EOF",
 - ChangeBy: root\@localhost
@@ -236,7 +234,7 @@ EOF
             UserID                    => 1,
         );
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -247,13 +245,9 @@ EOF
             Password => $TestUserLogin,
         );
 
-        # get config object
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # get script alias
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-
-        # after login, we need to navigate to the ACL deployment to make the imported ACL work
+        # After login, we need to navigate to the ACL deployment to make the imported ACL work.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
         $Self->False(
             index(
@@ -264,7 +258,7 @@ EOF
             "ACL deployment successful."
         );
 
-        # add a customer
+        # Add a customer.
         my $CustomerUserLogin = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
             UserFirstname  => 'Huber',
             UserLastname   => 'Manfred',
@@ -276,10 +270,7 @@ EOF
             UserID         => 1,
         );
 
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-        # create test ticket
+        # Create test ticket.
         my $TicketID = $TicketObject->TicketCreate(
             Title        => 'Selenium Ticket',
             Queue        => 'Raw',
@@ -350,27 +341,26 @@ EOF
             push @SLAs, $SLAID;
         }
 
-        # navigate to AgentTicketZoom screen of created test ticket
+        # Navigate to AgentTicketZoom screen of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # wait for displaying submenu items for 'People' ticket menu item
+        # Wait for displaying submenu items for 'People' ticket menu item.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
         );
 
-        # click on 'Note' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")
-            ->VerifiedClick();
+        # Click on 'Note' and switch window
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until page has loaded
+        # Wait until page has loaded
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ServiceID").length' );
 
-        # check for entries in the service selection, there should be only one
+        # Check for entries in the service selection, there should be only one
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#ServiceID option:not([value=\"\"])').length"
@@ -426,8 +416,7 @@ EOF
         $Selenium->switch_to_window( $Handles->[0] );
 
         # Click on 'Note' and switch window.
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")
-            ->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
@@ -478,9 +467,8 @@ EOF
             UserID => 1,
         );
 
-        # click on 'Note' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")
-            ->VerifiedClick();
+        # Click on 'Note' and switch window.
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
@@ -520,8 +508,7 @@ EOF
         $Selenium->switch_to_window( $Handles->[0] );
 
         # Click on 'Close' action and switch to it.
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketClose;TicketID=$TicketID' )]")
-            ->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketClose;TicketID=$TicketID' )]")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
@@ -590,7 +577,7 @@ EOF
             );
         }
 
-        # deploy again after we deleted the test acl
+        # Deploy again after we deleted the test acl.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
         $Self->False(
             index(
@@ -601,7 +588,7 @@ EOF
             "ACL deployment successful."
         );
 
-        # delete created test tickets
+        # Delete created test tickets.
         $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => 1,
@@ -620,7 +607,7 @@ EOF
             "Ticket with ticket ID $TicketID is deleted"
         );
 
-        # make sure the cache is correct
+        # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
 
         # Delete test SLAs.
@@ -636,7 +623,7 @@ EOF
             );
         }
 
-        # delete services and relations
+        # Delete services and relations.
         $Success = $DBObject->Do(
             SQL  => "DELETE FROM service_customer_user WHERE customer_user_login = ?",
             Bind => [ \$CustomerUserLogin ],
@@ -684,9 +671,11 @@ EOF
             "DynamicFieldDelete - Deleted test dynamic field $DynamicFieldID2",
         );
 
-        # make sure the cache is correct
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+        # Make sure the cache is correct.
         for my $Cache (qw( Service SLA CustomerUser DynamicField )) {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => $Cache );
+            $CacheObject->CleanUp( Type => $Cache );
         }
     },
 );

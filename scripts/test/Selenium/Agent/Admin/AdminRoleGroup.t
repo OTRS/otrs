@@ -12,27 +12,14 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # create test user and login
-        my $TestUserLogin = $Helper->TestUserCreate(
-            Groups => ['admin'],
-        ) || die "Did not get test user";
-
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
-
-        #add test role
+        # Add test role.
         my $RoleName = $Helper->GetRandomID();
         my $RoleID   = $Kernel::OM->Get('Kernel::System::Group')->RoleAdd(
             Name    => $RoleName,
@@ -44,7 +31,7 @@ $Selenium->RunTest(
             "Created Role - $RoleName",
         );
 
-        # add test group
+        # Add test group.
         my $GroupName = $Helper->GetRandomID();
         my $GroupID   = $Kernel::OM->Get('Kernel::System::Group')->GroupAdd(
             Name    => $GroupName,
@@ -56,17 +43,27 @@ $Selenium->RunTest(
             "Created Group - $RoleName",
         );
 
-        # get script alias
+        # Create test user and login.
+        my $TestUserLogin = $Helper->TestUserCreate(
+            Groups => ['admin'],
+        ) || die "Did not get test user";
+
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
+
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to AdminRoleGroup screen
+        # Navigate to AdminRoleGroup screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminRoleGroup");
 
-        # check overview AdminRoleGroup
+        # Check overview AdminRoleGroup.
         $Selenium->find_element( "#Roles",  'css' );
         $Selenium->find_element( "#Groups", 'css' );
 
-        # check breadcrumb on Overview screen
+        # Check breadcrumb on Overview screen.
         $Self->True(
             $Selenium->find_element( '.BreadCrumb', 'css' ),
             "Breadcrumb is found on Overview screen.",
@@ -82,31 +79,10 @@ $Selenium->RunTest(
             "$GroupName group found on page",
         );
 
-        # test filter for Roles
-        $Selenium->find_element( "#FilterRoles", 'css' )->send_keys($RoleName);
-        sleep 1;
-        $Self->True(
-            $Selenium->find_element( "$RoleName", 'link_text' )->is_displayed(),
-            "$RoleName role found on page",
-        );
-
-        # test filter for Groups
-        $Selenium->find_element( "#FilterGroups", 'css' )->send_keys($GroupName);
-        sleep 1;
-        $Self->True(
-            $Selenium->find_element( "$GroupName", 'link_text' )->is_displayed(),
-            "$GroupName group found on page",
-        );
-
-        # clear test filter for Roles and Groups
-        $Selenium->find_element( "#FilterRoles",  'css' )->clear();
-        $Selenium->find_element( "#FilterGroups", 'css' )->clear();
-        sleep 1;
-
-        # edit group relations for test role
+        # Edit group relations for test role.
         $Selenium->find_element( $RoleName, 'link_text' )->VerifiedClick();
 
-        # check breadcrumb on change screen
+        # Check breadcrumb on change screen.
         my $Count = 1;
         for my $BreadcrumbText (
             'Manage Role-Group Relations',
@@ -122,9 +98,12 @@ $Selenium->RunTest(
             $Count++;
         }
 
-        # set permissions
+        # Set permissions.
         for my $Permission (qw(ro note owner)) {
-            $Selenium->find_element("//input[\@value='$GroupID'][\@name='$Permission']")->VerifiedClick();
+            $Selenium->find_element("//input[\@value='$GroupID'][\@name='$Permission']")->click();
+            $Selenium->WaitFor(
+                JavaScript => "return \$('input[value=$GroupID][name=$Permission]:checked').length"
+            );
         }
 
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
@@ -149,10 +128,10 @@ $Selenium->RunTest(
             'rw'        => 0,
         );
 
-        # check edited test group permissions
+        # Check edited test group permissions.
         $Selenium->find_element( $RoleName, 'link_text' )->VerifiedClick();
 
-        # check permissions
+        # Check permissions.
         for my $Permission ( sort keys %TestFirst ) {
             my $Enabled = $TestFirst{$Permission} ? 'enabled' : 'disabled';
             $Self->Is(
@@ -162,20 +141,22 @@ $Selenium->RunTest(
             );
         }
 
-        # test checked and unchecked values while filter by group is used
-        # test filter with "WrongFilterGroup" to uncheck all values
+        # Test checked and unchecked values while filter by group is used.
+        # Test filter with "WrongFilterGroup" to uncheck all values.
         $Selenium->find_element( "#Filter", 'css' )->clear();
         $Selenium->find_element( "#Filter", 'css' )->send_keys("WrongFilterGroup");
-        sleep 1;
+        $Selenium->WaitFor(
+            JavaScript => "return \$('.FilterMessage.Hidden > td:visible').length"
+        );
 
-        # test if no data is matches
+        # Test if no data is matches.
         $Self->True(
             $Selenium->find_element( ".FilterMessage.Hidden>td", 'css' )->is_displayed(),
             "'No data matches' is displayed'"
         );
         $Selenium->find_element( "#Filter", 'css' )->clear();
 
-        # check permissions
+        # Check permissions.
         for my $Permission ( sort keys %TestFirst ) {
             my $Enabled = $TestFirst{$Permission} ? 'enabled' : 'disabled';
             $Self->Is(
@@ -185,22 +166,27 @@ $Selenium->RunTest(
             );
         }
 
-        # navigate to AdminRoleGroup screen again
+        # Navigate to AdminRoleGroup screen again.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminRoleGroup");
 
-        # edit role relations for test group
+        # Edit role relations for test group.
         $Selenium->find_element( $GroupName, 'link_text' )->VerifiedClick();
 
-        # set permissions
+        # Set permissions.
         for my $Permission (qw(note move_into priority create)) {
-            $Selenium->find_element("//input[\@value='$RoleID'][\@name='$Permission']")->VerifiedClick();
+            my $Length = $Permission eq 'note' ? 0 : 1;
+
+            $Selenium->find_element("//input[\@value='$RoleID'][\@name='$Permission']")->click();
+            $Selenium->WaitFor(
+                JavaScript => "return \$('input[value=$RoleID][name=$Permission]:checked').length === $Length"
+            );
         }
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
-        # check edited test group permissions
+        # Check edited test group permissions.
         $Selenium->find_element( $GroupName, 'link_text' )->VerifiedClick();
 
-        # check permissions
+        # Check permissions.
         for my $Permission ( sort keys %TestSecond ) {
             my $Enabled = $TestSecond{$Permission} ? 'enabled' : 'disabled';
             $Self->Is(
@@ -210,21 +196,23 @@ $Selenium->RunTest(
             );
         }
 
-        # test checked and unchecked values while filter is used for Role
-        # test filter with "WrongFilterRole" to uncheck all values
+        # Test checked and unchecked values while filter is used for Role.
+        # Test filter with "WrongFilterRole" to uncheck all values.
         $Selenium->find_element( "#Filter", 'css' )->clear();
         $Selenium->find_element( "#Filter", 'css' )->send_keys("WrongFilterRole");
-        sleep 1;
+        $Selenium->WaitFor(
+            JavaScript => "return \$('.FilterMessage.Hidden > td:visible').length"
+        );
 
-        # test is no data matches
+        # Test is no data matches.
         $Self->True(
             $Selenium->find_element( ".FilterMessage.Hidden>td", 'css' )->is_displayed(),
             "'No data matches' is displayed'"
         );
         $Selenium->find_element( "#Filter", 'css' )->clear();
 
-        # check role relations for group after using filter by role
-        # check permissions
+        # Check role relations for group after using filter by role.
+        # Check permissions.
         for my $Permission ( sort keys %TestSecond ) {
             my $Enabled = $TestSecond{$Permission} ? 'enabled' : 'disabled';
             $Self->Is(
@@ -234,7 +222,7 @@ $Selenium->RunTest(
             );
         }
 
-        # since there are no tickets that rely on our test group and role, we can remove them again
+        # Since there are no tickets that rely on our test group and role, we can remove them again
         # from the DB
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
         if ($GroupID) {
@@ -269,14 +257,11 @@ $Selenium->RunTest(
             );
         }
 
-        # make sure the cache is correct.
-        for my $Cache (
-            qw (Group Role)
-            )
-        {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-                Type => $Cache,
-            );
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+        # Make sure the cache is correct.
+        for my $Cache (qw(Group Role)) {
+            $CacheObject->CleanUp( Type => $Cache );
         }
     }
 );

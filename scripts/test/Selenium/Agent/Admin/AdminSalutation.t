@@ -12,7 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
 my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
@@ -20,16 +19,16 @@ my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # do not check RichText
+        # Do not check RichText.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::RichText',
             Value => 0
         );
 
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -43,18 +42,18 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSalutation");
 
-        # check overview screen
+        # Check overview screen.
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
-        # check breadcrumb on Overview screen
+        # Check breadcrumb on Overview screen.
         $Self->True(
             $Selenium->find_element( '.BreadCrumb', 'css' ),
             "Breadcrumb is found on Overview screen.",
         );
 
-        # click 'Add salutation'
+        # Click 'Add salutation'.
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminSalutation;Subaction=Add' )]")->VerifiedClick();
         for my $ID (
             qw(Name RichText ValidID Comment)
@@ -65,7 +64,7 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # check breadcrumb on Add screen
+        # Check breadcrumb on Add screen.
         my $Count = 1;
         for my $BreadcrumbText ( 'Salutation Management', 'Add Salutation' ) {
             $Self->Is(
@@ -77,10 +76,13 @@ $Selenium->RunTest(
             $Count++;
         }
 
-        # check client side validation
+        # Check client side validation.
         my $Element = $Selenium->find_element( "#Name", 'css' );
         $Element->send_keys("");
-        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+        $Selenium->find_element("//button[\@type='submit']")->click();
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#Name.Error').length"
+        );
 
         $Self->Is(
             $Selenium->execute_script(
@@ -90,7 +92,7 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
-        # create real test Salutation
+        # Create real test Salutation.
         my $SalutationRandomID = "Salutation" . $Helper->GetRandomID();
         my $SalutationRichText = "Dear <OTRS_OWNER_Userfirstname>>,\n\nThank you for your request.";
         my $SalutationComment  = "Selenium Salutation test";
@@ -100,13 +102,13 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment",  'css' )->send_keys($SalutationComment);
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
-        # check if test Salutation show on AdminSalutation screen
+        # Check if test Salutation show on AdminSalutation screen.
         $Self->True(
             index( $Selenium->get_page_source(), $SalutationRandomID ) > -1,
             "$SalutationRandomID Salutation found on page",
         );
 
-        # check test Salutation values
+        # Check test Salutation values.
         $Selenium->find_element( $SalutationRandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
@@ -130,7 +132,7 @@ $Selenium->RunTest(
             "#ValidID stored value",
         );
 
-        # check breadcrumb on Edit screen
+        # Check breadcrumb on Edit screen.
         $Count = 1;
         for my $BreadcrumbText ( 'Salutation Management', 'Edit Salutation: ' . $SalutationRandomID ) {
             $Self->Is(
@@ -142,7 +144,7 @@ $Selenium->RunTest(
             $Count++;
         }
 
-        # edit test Salutation, clear comment and set it to invalid
+        # Edit test Salutation, clear comment and set it to invalid.
         my $EditSalutationRichText = "Dear <OTRS_CUSTOMER_Userlastname>,\n\nThank you for your request.";
 
         $Selenium->find_element( "#RichText", 'css' )->clear();
@@ -151,7 +153,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
-        # check edited Salutation
+        # Check edited Salutation.
         $Selenium->find_element( $SalutationRandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
@@ -170,10 +172,10 @@ $Selenium->RunTest(
             "#ValidID updated value",
         );
 
-        # go back to AdminSalutation overview screen
+        # Go back to AdminSalutation overview screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSalutation");
 
-        # chack class of invalid Salutation in the overview table
+        # Check class of invalid Salutation in the overview table.
         $Self->True(
             $Selenium->execute_script(
                 "return \$('tr.Invalid td a:contains($SalutationRandomID)').length"
@@ -181,7 +183,7 @@ $Selenium->RunTest(
             "There is a class 'Invalid' for test Salutation",
         );
 
-        # since there are no tickets that rely on our test Salutation, we can remove them
+        # Since there are no tickets that rely on our test Salutation, we can remove them
         # again from the DB.
         if ($SalutationRandomID) {
             $SalutationRandomID = $DBObject->Quote($SalutationRandomID);
@@ -197,13 +199,11 @@ $Selenium->RunTest(
             }
         }
 
-        # make sure the cache is correct
+        # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Salutation'
         );
-
     }
-
 );
 
 1;

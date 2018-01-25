@@ -12,16 +12,14 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -32,29 +30,30 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to AdminService screen
+        # Navigate to AdminService screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminService");
 
-        # check overview AdminService screen
+        # Check overview AdminService screen.
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
-        # check breadcrumb on Overview screen
+        # Check breadcrumb on Overview screen.
         $Self->True(
             $Selenium->find_element( '.BreadCrumb', 'css' ),
             "Breadcrumb is found on Overview screen.",
         );
 
-        # click 'Add Service'
+        # Click 'Add Service'.
         $Selenium->find_element("//a[contains(\@href, \'ServiceEdit;ServiceID=NEW' )]")->VerifiedClick();
 
-        # check client side validation
+        # Check client side validation.
         $Selenium->find_element( "#Name",   'css' )->clear();
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#Submit", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name.Error').length" );
+
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
@@ -63,13 +62,13 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
-        # navigate to AdminService screen again
+        # Navigate to AdminService screen again.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminService");
 
-        # click 'Add new service'
+        # Click 'Add new service'.
         $Selenium->find_element("//a[contains(\@href, \'ServiceEdit;ServiceID=NEW' )]")->VerifiedClick();
 
-        # check add Service screen
+        # Check add Service screen.
         for my $ID (
             qw(Name ParentID ValidID Comment)
             )
@@ -79,7 +78,7 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # check breadcrumb on Add screen
+        # Check breadcrumb on Add screen.
         my $Count = 1;
         for my $BreadcrumbText ( 'Service Management', 'Add Service' ) {
             $Self->Is(
@@ -91,7 +90,7 @@ $Selenium->RunTest(
             $Count++;
         }
 
-        # create first test Service
+        # Create first test Service.
         my $ServiceRandomID = "service" . $Helper->GetRandomID();
         my $ServiceComment  = "Selenium test Service";
 
@@ -99,7 +98,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment", 'css' )->send_keys($ServiceComment);
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
-        # create second test Service
+        # Create second test Service.
         $Selenium->find_element("//a[contains(\@href, \'ServiceEdit;ServiceID=NEW' )]")->VerifiedClick();
 
         my $ServiceRandomID2 = "service" . $Helper->GetRandomID();
@@ -108,7 +107,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment", 'css' )->send_keys($ServiceComment);
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
-        # check for created test Services on AdminService screen
+        # Check for created test Services on AdminService screen.
         $Self->True(
             index( $Selenium->get_page_source(), $ServiceRandomID ) > -1,
             "$ServiceRandomID Service found on page",
@@ -118,7 +117,7 @@ $Selenium->RunTest(
             "$ServiceRandomID2 Service found on page",
         );
 
-        # check new test Service values
+        # Check new test Service values.
         $Selenium->find_element( $ServiceRandomID2, 'link_text' )->VerifiedClick();
         $Self->Is(
             $Selenium->find_element( '#Name', 'css' )->get_value(),
@@ -136,7 +135,7 @@ $Selenium->RunTest(
             "#ValidID stored value",
         );
 
-        # check breadcrumb on Edit screen
+        # Check breadcrumb on Edit screen.
         $Count = 1;
         for my $BreadcrumbText ( 'Service Management', 'Edit Service: ' . $ServiceRandomID2 ) {
             $Self->Is(
@@ -148,10 +147,9 @@ $Selenium->RunTest(
             $Count++;
         }
 
-        # get service object
         my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
 
-        # get test Services IDs
+        # Get test Services IDs.
         my @ServiceIDs;
         my $ServiceID = $ServiceObject->ServiceLookup(
             Name => $ServiceRandomID,
@@ -163,13 +161,13 @@ $Selenium->RunTest(
         );
         push @ServiceIDs, $ServiceID2;
 
-        # edit second test Service
+        # Edit second test Service.
         $Selenium->execute_script("\$('#ParentID').val('$ServiceID').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
-        # check class of invalid Service in the overview table
+        # Check class of invalid Service in the overview table.
         $Self->True(
             $Selenium->execute_script(
                 "return \$('tr.Invalid td a:contains($ServiceRandomID)').length"
@@ -177,7 +175,7 @@ $Selenium->RunTest(
             "There is a class 'Invalid' for test Service",
         );
 
-        # check edited test Selenium values
+        # Check edited test Selenium values.
         my $ServiceUpdatedRandomID2 = "$ServiceRandomID\::$ServiceRandomID2";
 
         $Selenium->find_element( $ServiceUpdatedRandomID2, 'link_text' )->VerifiedClick();
@@ -199,7 +197,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#ParentID').val('').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
-        # create third test Service
+        # Create third test Service.
         $Selenium->find_element("//a[contains(\@href, \'ServiceEdit;ServiceID=NEW' )]")->VerifiedClick();
 
         my $ServiceRandomID3 = "Long service" . $Helper->GetRandomID();
@@ -217,11 +215,14 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $ServiceRandomID3 ) > -1,
             "$ServiceRandomID3 Service found on page",
         );
+
         $Selenium->WaitFor(
             JavaScript => 'return $(".Dialog:visible button.Close").length',
         );
-
-        $Selenium->find_element( ".Dialog button.Close", "css" )->VerifiedClick();
+        $Selenium->find_element( ".Dialog button.Close", "css" )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return !$(".Dialog:visible button.Close").length',
+        );
 
         # Check if tooltip error message is there.
         $Self->True(
@@ -248,13 +249,11 @@ $Selenium->RunTest(
             );
         }
 
-        # make sure cache is correct
+        # Make sure cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Service'
         );
-
     }
-
 );
 
 1;

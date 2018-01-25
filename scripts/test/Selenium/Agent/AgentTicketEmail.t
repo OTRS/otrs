@@ -306,6 +306,9 @@ $Selenium->RunTest(
             Value => 0,
         );
 
+        # Allow apache to pick up the changed SysConfig via Apache::Reload.
+        sleep 1;
+
         # Navigate to AgentTicketEmail screen and login because there is no session cookies.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketEmail");
         $Selenium->find_element( "#User",        'css' )->send_keys($TestUserLogin);

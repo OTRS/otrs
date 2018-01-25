@@ -12,17 +12,14 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get needed objects
-        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # disable check email addresses
+        # Disable check email addresses.
         $Helper->ConfigSettingChange(
             Key   => 'CheckEmailAddresses',
             Value => 0,
@@ -141,7 +138,7 @@ $Selenium->RunTest(
             push @DynamicFieldIDs, $DynamicFieldID;
         }
 
-        # create test ticket
+        # Create test ticket.
         my $TicketID = $TicketObject->TicketCreate(
             Title        => 'Selenium ticket',
             Queue        => 'Raw',
@@ -208,7 +205,7 @@ $Selenium->RunTest(
         my $ArticleBackendObject
             = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel( ChannelName => 'Phone' );
 
-        # create two test email articles
+        # Create two test email articles.
         my @ArticleIDs;
         for my $ArticleCreate ( 1 .. 2 ) {
             my $ArticleID = $ArticleBackendObject->ArticleCreate(
@@ -230,7 +227,7 @@ $Selenium->RunTest(
             push @ArticleIDs, $ArticleID;
         }
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -241,30 +238,28 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to ticket zoom page of created test ticket
+        # Navigate to ticket zoom page of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # get current initial URL
+        # Get current initial URL.
         my $InitialURL = $Selenium->get_current_url();
 
-        # force sub menus to be visible in order to be able to click one of the links
+        # Force sub menus to be visible in order to be able to click one of the links.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $("#nav-Miscellaneous ul").css({ "height": "auto", "opacity": "100" });'
         );
 
-        # click on 'History' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketHistory;TicketID=$TicketID' )]")
-            ->VerifiedClick();
+        # Click on 'History' and switch window.
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketHistory;TicketID=$TicketID' )]")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until page has loaded, if necessary
+        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length' );
 
         # Check the history entry for the dynamic field.
@@ -277,15 +272,15 @@ $Selenium->RunTest(
             );
         }
 
-        # click on 'Zoom view' for created second article
+        # Click on 'Zoom view' for created second article.
         $Selenium->find_element("//a[contains(\@href, 'AgentTicketZoom;TicketID=$TicketID;ArticleID=$ArticleIDs[1]')]")
             ->click();
 
-        # switch window back
+        # Switch window back.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # verify new URL
+        # Verify new URL.
         my $ChangedURL = $Selenium->get_current_url();
         $Self->IsNot(
             $ChangedURL,
@@ -293,7 +288,7 @@ $Selenium->RunTest(
             'AgentTicketHistory correctly changed parent window URL - JS is successful'
         );
 
-        # delete created test ticket
+        # Delete created test ticket.
         my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => 1,
@@ -303,9 +298,8 @@ $Selenium->RunTest(
             "TicketDelete - ID $TicketID"
         );
 
+        # Delete created test dynamic fields.
         for my $DynamicFieldID (@DynamicFieldIDs) {
-
-            # delete created test dynamic field
             $Success = $DynamicFieldObject->DynamicFieldDelete(
                 ID     => $DynamicFieldID,
                 UserID => 1,
@@ -316,9 +310,8 @@ $Selenium->RunTest(
             );
         }
 
-        # make sure the cache is correct
+        # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
-
     }
 );
 

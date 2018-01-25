@@ -254,7 +254,8 @@ $Selenium->RunTest(
                     "\$('#FileUpload').data('max-size-per-file-hr', '6 KB')"
                 );
 
-        # Now try to upload two files of which one exceeds the max size (.pdf should work (5KB), .png shouldn't (20KB)).
+                # Now try to upload two files of which one exceeds the max size
+                # (.pdf should work (5KB), .png shouldn't (20KB)).
                 $Location = "$Home/scripts/test/sample/Cache/Test1.pdf";
                 $Selenium->find_element( "#FileUpload", 'css' )->clear();
                 $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
@@ -383,7 +384,8 @@ $Selenium->RunTest(
                 $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
 
                 # Submit and check later if files still there.
-                $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
+                $Selenium->find_element( "#submitRichText", 'css' )->click();
+                $Selenium->WaitFor( JavaScript => "return \$('#Subject.Error').length" );
 
                 # Delete files.
                 for my $DeleteExtension (qw(doc pdf png txt xls)) {
@@ -538,7 +540,8 @@ $Selenium->RunTest(
                 $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
 
                 # Submit to check if files still there.
-                $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
+                $Selenium->find_element( "#submitRichText", 'css' )->click();
+                $Selenium->WaitFor( JavaScript => "return \$('.Error').length" );
 
                 # Delete files.
                 for my $DeleteExtension (qw(doc pdf png txt xls)) {

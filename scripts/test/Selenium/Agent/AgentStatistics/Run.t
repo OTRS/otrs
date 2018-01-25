@@ -12,24 +12,22 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get needed objects
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-        # show more stats per page as the default 50
+        # Show more stats per page as the default 50.
         my $Success = $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Stats::SearchPageShown',
             Value => 99,
         );
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users', 'stats' ],
         ) || die "Did not get test user";
@@ -43,18 +41,18 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Import");
 
-        # get test user ID
+        # Get test user ID.
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
-        # import test selenium statistic
+        # Import test selenium statistic.
         my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/Stats/Stats.TicketOverview.de.xml";
         $Selenium->find_element( "#File", 'css' )->send_keys($Location);
         $Selenium->find_element("//button[\@value='Import'][\@type='submit']")->VerifiedClick();
 
-        # create params for import test stats
+        # Create params for import test stats.
         my %StatsValues = (
             Title       => 'Überblick über alle Tickets im System',
             Object      => 'Ticket',
@@ -62,7 +60,7 @@ $Selenium->RunTest(
             Format      => 'D3::BarChart',
         );
 
-        # check for imported values on test stat
+        # Check for imported values on test stat.
         for my $StatsValue ( sort keys %StatsValues ) {
             $Self->True(
                 index( $Selenium->get_page_source(), $StatsValues{$StatsValue} ) > -1,
@@ -70,14 +68,14 @@ $Selenium->RunTest(
             );
         }
 
-        # navigate to AgentStatistics Overview screen
+        # Navigate to AgentStatistics Overview screen.
         $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview;"
         );
 
         my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
 
-        # get stats IDs
+        # Get stats IDs.
         my $StatsIDs = $StatsObject->GetStatsList(
             AccessRw => 1,
             UserID   => 1,
@@ -86,31 +84,31 @@ $Selenium->RunTest(
         my $Count       = scalar @{$StatsIDs};
         my $StatsIDLast = $StatsIDs->[ $Count - 1 ];
 
-        # check for imported stat on overview screen
+        # Check for imported stat on overview screen.
         $Self->True(
             index( $Selenium->get_page_source(), $StatsValues{Title} ) > -1,
             "Imported stat $StatsValues{Title} - found on overview screen"
         );
 
-        # go to imported stat to run it
+        # Go to imported stat to run it.
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentStatistics;Subaction=View;StatID=$StatsIDLast\' )]")
             ->VerifiedClick();
 
-        # get stat data
+        # Get stat data.
         my $StatData = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet(
             StatID => $StatsIDLast,
             UserID => 1,
         );
 
-        # run test statistic
-        $Selenium->find_element( "#StartStatistic", 'css' )->VerifiedClick();
-        $Selenium->WaitFor( WindowCount => 2 );
+        # Run test statistic.
+        $Selenium->find_element( "#StartStatistic", 'css' )->click();
 
-        # switch to another window
+        # Switch to another window.
+        $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait for loading statistic data
+        # Wait for loading statistic data.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#download-svg").length' );
 
         $Self->True(
@@ -118,38 +116,30 @@ $Selenium->RunTest(
             "Title of stats is found - $StatsValues{Title} "
         );
 
-        # close test statistic
+        # Close test statistic.
         $Selenium->close();
         $Selenium->switch_to_window( $Handles->[0] );
         $Selenium->WaitFor( WindowCount => 1 );
 
-        # navigate to AgentStatistics Overview screen
+        # Navigate to AgentStatistics Overview screen.
         $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview;"
         );
 
-        my $CheckConfirmJS = <<"JAVASCRIPT";
-(function () {
-    window.confirm = function (message) {
-        return true;
-    };
-}());
-JAVASCRIPT
-
-        $Selenium->execute_script($CheckConfirmJS);
-
-        # delete test stats
-        # click on delete icon
+        # Delete test stats.
         $Selenium->find_element(
             "//a[contains(\@href, \'Action=AgentStatistics;Subaction=DeleteAction;StatID=$StatsIDLast\' )]"
-        )->VerifiedClick();
+        )->click();
+
+        $Selenium->WaitFor( AlertPresent => 1 );
+        $Selenium->accept_alert();
 
         $Self->True(
             index( $Selenium->get_page_source(), "Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast" ) == -1,
             "Test statistic is deleted - $StatsIDLast "
         );
 
-        # make sure the cache is correct.
+        # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => "Stats" );
 
     }

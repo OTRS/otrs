@@ -12,7 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
 my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
@@ -20,10 +19,9 @@ my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # do not check RichText
+        # Do not check RichText.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::RichText',
@@ -43,18 +41,18 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSignature");
 
-        # check overview screen
+        # Check overview screen.
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
-        # check breadcrumb on Overview screen
+        # Check breadcrumb on Overview screen.
         $Self->True(
             $Selenium->find_element( '.BreadCrumb', 'css' ),
             "Breadcrumb is found on Overview screen.",
         );
 
-        # click 'Add signature'
+        # Click 'Add signature'.
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminSignature;Subaction=Add' )]")->VerifiedClick();
         for my $ID (
             qw(Name RichText ValidID Comment)
@@ -65,10 +63,11 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # check client side validation
+        # Check client side validation.
         my $Element = $Selenium->find_element( "#Name", 'css' );
         $Element->send_keys("");
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#Submit", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name.Error').length" );
 
         $Self->Is(
             $Selenium->execute_script(
@@ -78,7 +77,7 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
-        # check breadcrumb on Add screen
+        # Check breadcrumb on Add screen.
         my $Count = 1;
         for my $BreadcrumbText ( 'Signature Management', 'Add Signature' ) {
             $Self->Is(
@@ -90,7 +89,7 @@ $Selenium->RunTest(
             $Count++;
         }
 
-        # create real test Signature
+        # Create real test Signature.
         my $SignatureRandomID = "Signature" . $Helper->GetRandomID();
 
         # Also check leading and trailing white space.
@@ -102,20 +101,20 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment",  'css' )->send_keys($SignatureComment);
         $Selenium->find_element( "#Submit",   'css' )->VerifiedClick();
 
-        # check if test Signature show on AdminSignature screen
+        # Check if test Signature show on AdminSignature screen.
         $Self->True(
             index( $Selenium->get_page_source(), $SignatureRandomID ) > -1,
             "$SignatureRandomID Signature found on page",
         );
 
-        #check is there notification after service is added
+        # Check is there notification after service is added.
         my $Notification = 'Signature added!';
         $Self->True(
             $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
             "$Notification - notification is found."
         );
 
-        # check test Signature values
+        # Check test Signature values.
         $Selenium->find_element( $SignatureRandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
@@ -139,7 +138,7 @@ $Selenium->RunTest(
             "#ValidID stored value",
         );
 
-        # check breadcrumb on Edit screen
+        # Check breadcrumb on Edit screen.
         $Count = 1;
         for my $BreadcrumbText ( 'Signature Management', 'Edit Signature: ' . $SignatureRandomID ) {
             $Self->Is(
@@ -151,7 +150,7 @@ $Selenium->RunTest(
             $Count++;
         }
 
-        # edit test Signature, clear comment and set it to invalid
+        # Edit test Signature, clear comment and set it to invalid.
         my $EditSignatureRichText
             = "Your Ticket-Team \n\n<OTRS_Responsible_UserFirstname> <OTRS_Responsible_UserLastname>";
 
@@ -161,14 +160,14 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
-        #check is there notification after service is updated
+        # Check is there notification after service is updated.
         $Notification = 'Signature updated!';
         $Self->True(
             $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
             "$Notification - notification is found."
         );
 
-        # check class of invalid Signature in the overview table
+        # Check class of invalid Signature in the overview table.
         $Self->True(
             $Selenium->execute_script(
                 "return \$('tr.Invalid td a:contains($SignatureRandomID)').length"
@@ -176,7 +175,7 @@ $Selenium->RunTest(
             "There is a class 'Invalid' for test Signature",
         );
 
-        # check edited Signature
+        # Check edited Signature.
         $Selenium->find_element( $SignatureRandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
@@ -211,7 +210,7 @@ $Selenium->RunTest(
             }
         }
 
-        # make sure the cache is correct
+        # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Signature'
         );

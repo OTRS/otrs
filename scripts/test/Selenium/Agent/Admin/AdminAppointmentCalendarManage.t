@@ -122,10 +122,12 @@ $Selenium->RunTest(
         $Selenium->WaitFor(
             JavaScript => "return typeof(\$) === 'function' && \$('div.Dialog button#DialogButton1').length"
         );
-        $Selenium->find_element( 'div.Dialog button#DialogButton1', 'css' )->VerifiedClick();
+        $Selenium->find_element( 'div.Dialog button#DialogButton1', 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && !\$('div.Dialog').length"
+        );
 
         # Update calendar name
-        $Selenium->find_element( 'form#CalendarFrom input#CalendarName', 'css' )->VerifiedClick();
         $Selenium->find_element( 'form#CalendarFrom input#CalendarName', 'css' )->clear();
         $Selenium->find_element( 'form#CalendarFrom input#CalendarName', 'css' )->send_keys($CalendarName2);
 
@@ -133,8 +135,15 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
 
         # Add ticket appointment rule.
-        $Selenium->find_element( '.WidgetSimple.Collapsed .WidgetAction.Toggle a', 'css' )->VerifiedClick();
-        $Selenium->find_element( '#AddRuleButton',                                 'css' )->VerifiedClick();
+        $Selenium->execute_script(
+            "\$('.WidgetSimple.Collapsed:contains(Ticket Appointments) .WidgetAction.Toggle a').trigger('click')"
+        );
+        $Selenium->WaitFor(
+            JavaScript => "return \$('.WidgetSimple.Expanded:contains(Ticket Appointments)').length"
+        );
+
+        $Selenium->find_element( '#AddRuleButton', 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return \$('#QueueID_1').length" );
         $Selenium->execute_script(
             "\$('#QueueID_1').val('$QueueID').trigger('redraw.InputField').trigger('change');"
         );
@@ -143,14 +152,18 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#SearchParams').val('Title').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( '.AddButton',                      'css' )->VerifiedClick();
+        $Selenium->find_element( '.AddButton', 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => "return \$('#SearchParam_1_Title').length"
+        );
         $Selenium->find_element( '#SearchParam_1_Title',            'css' )->send_keys('Test*');
         $Selenium->find_element( 'form#CalendarFrom button#Submit', 'css' )->VerifiedClick();
 
         # Filter added calendars.
         $Selenium->find_element( 'input#FilterCalendars', 'css' )->send_keys($RandomID);
-
-        sleep 1;
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('.ContentColumn table tbody tr:visible').length === 2"
+        );
 
         # Verify two calendars are shown.
         $Self->Is(
@@ -164,7 +177,9 @@ $Selenium->RunTest(
         # Filter just added calendar.
         $Selenium->find_element( 'input#FilterCalendars', 'css' )->clear();
         $Selenium->find_element( 'input#FilterCalendars', 'css' )->send_keys($CalendarName2);
-        sleep 1;
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('.ContentColumn table tbody tr:visible').length === 1"
+        );
 
         # Verify only one calendar is shown.
         $Self->Is(
@@ -211,15 +226,19 @@ $Selenium->RunTest(
         );
 
         # Remove the rule.
-        $Selenium->find_element( '.RemoveButton',                   'css' )->VerifiedClick();
+        $Selenium->find_element( '.RemoveButton', 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && !\$('#QueueID_1').length" );
         $Selenium->find_element( 'form#CalendarFrom button#Submit', 'css' )->VerifiedClick();
 
         # Verify the calendar is invalid temporarily.
         $Selenium->find_element( 'input#FilterCalendars', 'css' )->clear();
         $Selenium->find_element( 'input#FilterCalendars', 'css' )->send_keys($CalendarName2);
-        sleep 1;
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('.ContentColumn table tbody tr:visible').length === 1"
+        );
+
         $Self->Is(
-            $Selenium->execute_script("return \$('tbody tr:visible:eq(0) td:eq(3)').text()"),,
+            $Selenium->execute_script("return \$('tbody tr:visible:eq(0) td:eq(3)').text()"),
             $LanguageObject->Translate('invalid-temporarily'),
             'Calendar is marked invalid temporarily',
         );

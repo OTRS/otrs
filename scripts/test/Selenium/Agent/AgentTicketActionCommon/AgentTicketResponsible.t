@@ -12,30 +12,29 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # enable change owner to everyone feature
+        # Enable change owner to everyone feature.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::ChangeOwnerToEveryone',
             Value => 1,
         );
 
-        # enable ticket responsible feature
+        # Enable ticket responsible feature.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Responsible',
             Value => 1,
         );
 
-        # do not check RichText
+        # Do not check RichText.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::RichText',
@@ -53,7 +52,7 @@ $Selenium->RunTest(
             },
         );
 
-        # create test users and login first
+        # Create test users.
         my @TestUser;
         for my $User ( 1 .. 2 ) {
             my $TestUserLogin = $Helper->TestUserCreate(
@@ -63,13 +62,7 @@ $Selenium->RunTest(
             push @TestUser, $TestUserLogin;
         }
 
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUser[0],
-            Password => $TestUser[0],
-        );
-
-        # get test users ID
+        # Get test users ID.
         my @UserID;
         for my $UserID (@TestUser) {
             my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
@@ -79,10 +72,7 @@ $Selenium->RunTest(
             push @UserID, $TestUserID;
         }
 
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-        # create test ticket
+        # Create test ticket
         my $TicketID = $TicketObject->TicketCreate(
             Title         => 'Selenium Test Ticket',
             Queue         => 'Raw',
@@ -100,30 +90,35 @@ $Selenium->RunTest(
             "Ticket is created - ID $TicketID",
         );
 
-        # get script alias
+        # Login as the first created test user.
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUser[0],
+            Password => $TestUser[0],
+        );
+
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to zoom view of created test ticket
+        # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # force sub menus to be visible in order to be able to click one of the links
+        # Force sub menus to be visible in order to be able to click one of the links.
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
-        # click on 'Responsible' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketResponsible;TicketID=$TicketID' )]")
-            ->VerifiedClick();
+        # Click on 'Responsible' and switch window.
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketResponsible;TicketID=$TicketID' )]")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until page has loaded, if necessary
+        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $(".WidgetSimple").length;'
         );
 
-        # check page
+        # Check page.
         for my $ID (
             qw(Title NewResponsibleID Subject RichText FileUpload IsVisibleForCustomer submitRichText)
             )
@@ -133,13 +128,14 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # check client side validation
+        # Check client side validation.
         $Selenium->find_element( "#Subject",  'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText", 'css' )->send_keys('Test');
         $Selenium->execute_script(
             "\$('#NewResponsibleID').val('').trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->find_element( "#submitRichText", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return \$('#NewResponsibleID.Error').length" );
 
         $Self->Is(
             $Selenium->execute_script(
@@ -149,39 +145,34 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
-        # reload screen to get a consistent state
+        # Reload screen to get a consistent state.
         $Selenium->VerifiedRefresh();
-
-        #$Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketResponsible;TicketID=$TicketID");
 
         $Selenium->find_element( "#Subject",  'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText", 'css' )->send_keys('Test');
 
-        # change ticket user responsible
+        # Change ticket user responsible.
         $Selenium->execute_script(
             "\$('#NewResponsibleID').val('$UserID[1]').trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
-        # switch window back
+        # Switch window back.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # wait for reload to kick in
-        sleep 1;
-
-        # wait until page has loaded, if necessary
+        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $(".WidgetSimple").length && $("div.TicketZoom").length;'
         );
 
-        # make sure the cache is correct
+        # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Ticket',
         );
 
-        # get ticket attributes
+        # Get ticket attributes.
         my %Ticket = $TicketObject->TicketGet(
             TicketID => $TicketID,
             UserID   => $UserID[0],
@@ -193,7 +184,7 @@ $Selenium->RunTest(
             'New responsible correctly set',
         ) || die 'New responsible not correctly set';
 
-        # delete created test tickets
+        # Delete created test tickets.
         my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => $UserID[0],
@@ -212,7 +203,7 @@ $Selenium->RunTest(
             "Ticket is deleted - ID $TicketID",
         );
 
-        # make sure the cache is correct
+        # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Ticket',
         );

@@ -13,7 +13,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
@@ -28,7 +27,7 @@ $Selenium->RunTest(
             Value => 'UTC',
         );
 
-        # create and login test user
+        # Create and login test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -39,10 +38,9 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # go to agent preferences
+        # Go to agent preferences.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
 
         # Change test user time zone preference to -5 hours. Displayed out of office date values
@@ -66,8 +64,8 @@ $Selenium->RunTest(
                 "return !\$('#UserTimeZone').closest('.WidgetSimple').hasClass('HasOverlay')"
         );
 
-        # reload the screen
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
+        # Reload the screen.
+        $Selenium->VerifiedRefresh();
 
         # Get current date and time components.
         my $DateTimeObject = $Kernel::OM->Create(
@@ -76,7 +74,12 @@ $Selenium->RunTest(
         my $Date = $DateTimeObject->Get();
 
         # Change test user out of office preference to current date.
-        $Selenium->find_element( "#OutOfOfficeOn", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#OutOfOfficeOn", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#OutOfOfficeOn:checked').length"
+        );
+
         for my $FieldGroup (qw(Start End)) {
             for my $FieldType (qw(Year Month Day)) {
                 $Selenium->execute_script(
@@ -100,8 +103,8 @@ $Selenium->RunTest(
                 "return !\$('#OutOfOfficeOn').closest('.WidgetSimple').hasClass('HasOverlay')"
         );
 
-        # reload the screen
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
+        # Reload the screen.
+        $Selenium->VerifiedRefresh();
 
         # Check displayed date and time values.
         for my $FieldGroup (qw(Start End)) {
@@ -114,7 +117,7 @@ $Selenium->RunTest(
             }
         }
 
-        # set start time after end time, see bug #8220
+        # Set start time after end time, see bug #8220.
         my $StartYear = $Date->{Year} + 2;
         $Selenium->execute_script(
             "\$('#OutOfOfficeStartYear').val('$StartYear').trigger('change');"

@@ -119,7 +119,11 @@ $Selenium->RunTest(
         else {
 
             # Click on column setting filter for the first customer in TicketNew generic dashboard overview.
-            $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->VerifiedClick();
+            $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->click();
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return $("div.ColumnSettingsBox").length'
+            );
 
             # Select the first test 'Customer User ID' as filter for TicketNew generic dashboard overview.
             my $ParentElement = $Selenium->find_element( "div.ColumnSettingsBox", 'css' );
@@ -158,7 +162,7 @@ $Selenium->RunTest(
             );
 
             # Click on column setting filter for 'Customer User ID' in TicketNew generic dashboard overview.
-            $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->VerifiedClick();
+            $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->click();
             sleep 1;
 
             # Wait for AJAX to finish.
@@ -177,7 +181,11 @@ $Selenium->RunTest(
             );
 
             # Click on column setting filter for 'Customer User ID' in TicketNew generic dashboard overview.
-            $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->VerifiedClick();
+            $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->click();
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return $("div.ColumnSettingsBox").length'
+            );
 
             # Select test 'Customer User ID' as filter for TicketNew generic dashboard overview.
             $ParentElement = $Selenium->find_element( "div.ColumnSettingsBox", 'css' );
@@ -217,7 +225,7 @@ $Selenium->RunTest(
 
             # Cleanup
             # Click on column setting filter for 'Customer User ID' in TicketNew generic dashboard overview.
-            $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->VerifiedClick();
+            $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->click();
             sleep 1;
 
             # wait for AJAX to finish
@@ -272,7 +280,11 @@ $Selenium->RunTest(
         else {
 
             # Click on column setting filter for the first customer in TicketNew generic dashboard overview.
-            $Selenium->find_element("//a[contains(\@title, \'Customer ID\' )]")->VerifiedClick();
+            $Selenium->find_element("//a[contains(\@title, \'Customer ID\' )]")->click();
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return $("div.ColumnSettingsBox").length'
+            );
 
             # Select the third test Customer ID as filter for TicketNew generic dashboard overview.
             my $ParentElement = $Selenium->find_element( "div.ColumnSettingsBox", 'css' );
@@ -311,7 +323,7 @@ $Selenium->RunTest(
             );
 
             # Click on column setting filter for CustomerID in TicketNew generic dashboard overview.
-            $Selenium->find_element("//a[contains(\@title, \'Customer ID\' )]")->VerifiedClick();
+            $Selenium->find_element("//a[contains(\@title, \'Customer ID\' )]")->click();
             sleep 1;
 
             # Wait for AJAX to finish.

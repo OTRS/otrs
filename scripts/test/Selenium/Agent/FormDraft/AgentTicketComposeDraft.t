@@ -201,7 +201,7 @@ $Selenium->RunTest(
         }
 
         # Create FormDraft and submit.
-        $Selenium->find_element( "#FormDraftSave", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#FormDraftSave", 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $("#FormDraftTitle").length;'
@@ -238,7 +238,7 @@ $Selenium->RunTest(
         );
 
         # Try to create FormDraft with same name, expecting error.
-        $Selenium->find_element( "#FormDraftSave", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#FormDraftSave", 'css' )->click();
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#FormDraftTitle").length;' );
         $Selenium->find_element( "#FormDraftTitle", 'css' )->send_keys($Title);
         $Selenium->find_element( "#SaveFormDraft",  'css' )->click();
@@ -417,12 +417,12 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[0] );
 
         # Delete draft
-        $Selenium->find_element( ".FormDraftDelete", 'css' )->VerifiedClick();
+        $Selenium->find_element( ".FormDraftDelete", 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $("#DeleteConfirm").length;'
         );
-        $Selenium->find_element( "#DeleteConfirm", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#DeleteConfirm", 'css' )->click();
 
         my $Deleted = $Selenium->WaitFor(
             JavaScript =>

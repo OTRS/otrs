@@ -12,13 +12,11 @@ use utf8;
 
 use vars (qw($Self));
 
-# Get selenium object.
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get needed objects
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -66,16 +64,10 @@ $Selenium->RunTest(
             Value => 0,
         );
 
-        # Create test user and login.
+        # Create test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
-
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
 
         # Get test user ID.
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
@@ -101,7 +93,13 @@ $Selenium->RunTest(
             "CustomerUserAdd - ID $TestCustomerUserID"
         );
 
-        # Get script alias.
+        # Login as test user.
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
+
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # Navigate to AgentTicketPhone screen.
@@ -121,7 +119,8 @@ $Selenium->RunTest(
         # Check client side validation.
         my $Element = $Selenium->find_element( "#Subject", 'css' );
         $Element->send_keys("");
-        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#submitRichText", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject.Error").length' );
 
         $Self->Is(
             $Selenium->execute_script(
@@ -134,7 +133,7 @@ $Selenium->RunTest(
         # Navigate to AgentTicketPhone screen again.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketPhone");
 
-        # create test phone ticket
+        # Create test phone ticket.
         my $TicketSubject = "Selenium Ticket";
         my $TicketBody    = "Selenium body test";
         $Selenium->find_element( "#FromCustomer", 'css' )->send_keys($TestCustomer);
@@ -178,10 +177,10 @@ $Selenium->RunTest(
             Value => $DefaultCustomerUser,
         );
 
-        # remove customer
+        # Remove customer.
         $Selenium->find_element( "#TicketCustomerContentFromCustomer a.CustomerTicketRemove", "css" )->click();
 
-        # add customer again
+        # Add customer again.
         $Selenium->find_element( "#FromCustomer", 'css' )->send_keys($TestCustomer);
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
         $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomer)').click()");
@@ -239,7 +238,7 @@ $Selenium->RunTest(
             "$TestCustomer found on page",
         ) || die "$TestCustomer not found on page";
 
-        # Test bug #12229
+        # Test bug #12229.
         my $QueueID1 = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
             Name            => "<Queue>$RandomID",
             ValidID         => 1,
@@ -273,7 +272,7 @@ $Selenium->RunTest(
         # Navigate to AgentTicketPhone screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketPhone");
 
-        # select <Queue>
+        # Select <Queue>.
         my $QueueValue = "$QueueID1||<Queue>$RandomID";
         $Selenium->execute_script("\$('#Dest').val('$QueueValue').trigger('redraw.InputField').trigger('change');");
 
@@ -295,7 +294,7 @@ $Selenium->RunTest(
         );
 
         # Select SubQueue on loading screen.
-        # bug#12819 ( https://bugs.otrs.org/show_bug.cgi?id=12819 ) - queue contains spaces in the name.
+        # Bug#12819 ( https://bugs.otrs.org/show_bug.cgi?id=12819 ) - queue contains spaces in the name.
         # Navigate to AgentTicketPhone screen again to check selecting a queue after loading screen.
         $QueueValue = $QueueID2 . "||Junk::SubQueue $RandomID  $RandomID";
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketPhone");
@@ -311,7 +310,7 @@ $Selenium->RunTest(
             'Queue #2 is selected.',
         );
 
-        # delete Queues
+        # Delete Queues.
         my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL  => "DELETE FROM queue WHERE id IN (?, ?)",
             Bind => [ \$QueueID1, \$QueueID2 ],
@@ -321,7 +320,7 @@ $Selenium->RunTest(
             "Queues deleted",
         );
 
-        # delete created test ticket
+        # Delete created test ticket.
         $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => 1,
@@ -352,14 +351,11 @@ $Selenium->RunTest(
             "Delete customer user - $TestCustomer",
         );
 
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
         # Make sure the cache is correct.
-        for my $Cache (
-            qw (Ticket CustomerUser)
-            )
-        {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-                Type => $Cache,
-            );
+        for my $Cache (qw( Ticket CustomerUser )) {
+            $CacheObject->CleanUp( Type => $Cache );
         }
     }
 );

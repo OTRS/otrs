@@ -14,13 +14,11 @@ use vars (qw($Self));
 
 use Kernel::Language;
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         $Selenium->set_window_size( 600, 400 );
@@ -37,186 +35,138 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to AgentDashboard screen
+        # Navigate to AgentDashboard screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentDashboard");
 
-        # wait until jquery is ready
+        # Wait until jquery is ready.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function'" );
 
-        # the mobile navigation toggle should be visible
-        my $ItemVisible = $Selenium->execute_script(
-            q{
-                return $('#ResponsiveNavigationHandle:visible').length;
-            }
-        );
+        # The mobile navigation toggle should be visible.
         $Self->Is(
-            $ItemVisible,
+            $Selenium->execute_script("return \$('#ResponsiveNavigationHandle:visible').length"),
             1,
-            "Mobile navigation toggle should be visible."
+            "Mobile navigation toggle should be visible"
         );
 
-        # the mobile sidebar toggle should be visible
-        $ItemVisible = $Selenium->execute_script(
-            q{
-                return $('#ResponsiveSidebarHandle:visible').length;
-            }
-        );
+        # The mobile sidebar toggle should be visible.
         $Self->Is(
-            $ItemVisible,
+            $Selenium->execute_script("return \$('#ResponsiveSidebarHandle:visible').length"),
             1,
-            "Mobile sidebar toggle should be visible."
+            "Mobile sidebar toggle should be visible"
         );
 
-        # check for toolbar visibility
-        $ItemVisible = $Selenium->execute_script(
-            q{
-                return $("ul#ToolBar").height();
-            }
-        );
+        # Check for toolbar visibility.
         $Self->Is(
-            $ItemVisible,
+            $Selenium->execute_script("return parseInt(\$('#ToolBar').css('height'), 10)"),
             0,
             "Toolbar height should be 0"
         );
 
-        # expand navigation bar
-        $Selenium->find_element( "#ResponsiveNavigationHandle", "css" )->VerifiedClick();
-        sleep 1;
-        $ItemVisible = $Selenium->execute_script(
-            q{
-                return $('#NavigationContainer:visible').length;
-            }
-        );
+        # Expand navigation bar.
+        $Selenium->find_element( "#ResponsiveNavigationHandle", "css" )->click();
+
+        # Wait for animation has finished.
+        sleep 2;
+
         $Self->Is(
-            $ItemVisible,
+            $Selenium->execute_script("return \$('#NavigationContainer:visible').length"),
             1,
             "Navigation bar should be visible"
         );
 
-        # collapse navigation bar again
-        $Selenium->find_element( "#ResponsiveNavigationHandle", "css" )->VerifiedClick();
-        sleep 1;
-        $ItemVisible = $Selenium->execute_script(
-            q{
-                return $('#NavigationContainer:visible').length;
-            }
-        );
+        # Collapse navigation bar again.
+        $Selenium->find_element( "#ResponsiveNavigationHandle", "css" )->click();
+
+        # Wait for animation has finished.
+        sleep 2;
+
         $Self->Is(
-            $ItemVisible,
+            $Selenium->execute_script("return \$('#NavigationContainer:visible').length"),
             0,
             "Navigation bar should be hidden again"
         );
 
-        # expand sidebar
-        $Selenium->find_element( "#ResponsiveSidebarHandle", "css" )->VerifiedClick();
-        sleep 1;
-        $ItemVisible = $Selenium->execute_script(
-            q{
-                return $('.ResponsiveSidebarContainer:visible').length;
-            }
-        );
+        # Expand sidebar.
+        $Selenium->find_element( "#ResponsiveSidebarHandle", "css" )->click();
+
+        # Wait for animation has finished.
+        sleep 2;
+
         $Self->Is(
-            $ItemVisible,
+            $Selenium->execute_script("return \$('.ResponsiveSidebarContainer:visible').length"),
             1,
             "Sidebar bar should be visible"
         );
 
-        # collapse sidebar again
-        $Selenium->find_element( "#ResponsiveSidebarHandle", "css" )->VerifiedClick();
-        sleep 1;
-        $ItemVisible = $Selenium->execute_script(
-            q{
-                return $('.ResponsiveSidebarContainer:visible').length;
-            }
-        );
+        # Collapse sidebar again.
+        $Selenium->find_element( "#ResponsiveSidebarHandle", "css" )->click();
+
+        # Wait for animation has finished.
+        sleep 2;
+
         $Self->Is(
-            $ItemVisible,
+            $Selenium->execute_script("return \$('.ResponsiveSidebarContainer:visible').length"),
             0,
             "Sidebar bar should be hidden again"
         );
 
-        # expand toolbar
-        $Selenium->find_element( "#Logo", "css" )->VerifiedClick();
-        sleep 1;
-        $ItemVisible = $Selenium->execute_script(
-            q{
-                return $('#ToolBar').css('height');
-            }
-        );
+        # Expand toolbar.
+        $Selenium->find_element( "#Logo", "css" )->click();
+        $Selenium->WaitFor( JavaScript => "return parseInt(\$('#ToolBar').css('height'), 10) > 0" );
         $Self->True(
-            $ItemVisible > 0,
+            $Selenium->execute_script("return parseInt(\$('#ToolBar').css('height'), 10) > 0"),
             "Toolbar should be visible"
         );
 
-        # while the toolbar is expanded, navigation and sidebar toggle should be hidden
-        $ItemVisible = $Selenium->execute_script(
-            q{
-                return $('#ResponsiveNavigationHandle:visible').length;
-            }
-        );
+        # Wait for animation has finished.
+        sleep 2;
+
+        # While the toolbar is expanded, navigation and sidebar toggle should be hidden.
         $Self->Is(
-            $ItemVisible,
+            $Selenium->execute_script("return \$('#ResponsiveNavigationHandle:visible').length"),
             0,
-            "Mobile navigation toggle should be hidden."
+            "Mobile navigation toggle should be hidden"
         );
 
-        # the mobile sidebar toggle should be visible
-        $ItemVisible = $Selenium->execute_script(
-            q{
-                return $('#ResponsiveSidebarHandle:visible').length;
-            }
-        );
+        # The mobile sidebar toggle should be visible.
         $Self->Is(
-            $ItemVisible,
+            $Selenium->execute_script("return \$('#ResponsiveSidebarHandle:visible').length"),
             0,
-            "Mobile sidebar toggle should be hidden."
+            "Mobile sidebar toggle should be hidden"
         );
 
-        # collapse toolbar again
-        $Selenium->find_element( "#Logo", "css" )->VerifiedClick();
-        sleep 1;
-        $ItemVisible = $Selenium->execute_script(
-            q{
-                return $('#ToolBar').css('height');
-            }
-        );
+        # Collapse toolbar again.
+        $Selenium->find_element( "#Logo", "css" )->click();
+        $Selenium->WaitFor( JavaScript => "return parseInt(\$('#ToolBar').css('height'), 10) === 0" );
         $Self->True(
-            $ItemVisible == 0,
+            $Selenium->execute_script("return parseInt(\$('#ToolBar').css('height'), 10) == 0"),
             "Toolbar should be hidden again"
         );
 
-        # now that the toolbar is collapsed again, navigation and sidebar toggle should be visible
-        $ItemVisible = $Selenium->execute_script(
-            q{
-                return $('#ResponsiveNavigationHandle:visible').length;
-            }
-        );
+        # Wait for animation has finished.
+        sleep 2;
+
+        # Now that the toolbar is collapsed again, navigation and sidebar toggle should be visible.
         $Self->Is(
-            $ItemVisible,
+            $Selenium->execute_script("return \$('#ResponsiveNavigationHandle:visible').length"),
             1,
-            "Mobile navigation toggle should be visible."
+            "Mobile navigation toggle should be visible"
         );
 
-        # the mobile sidebar toggle should be visible
-        $ItemVisible = $Selenium->execute_script(
-            q{
-                return $('#ResponsiveSidebarHandle:visible').length;
-            }
-        );
+        # The mobile sidebar toggle should be visible.
         $Self->Is(
-            $ItemVisible,
+            $Selenium->execute_script("return \$('#ResponsiveSidebarHandle:visible').length"),
             1,
-            "Mobile sidebar toggle should be visible."
+            "Mobile sidebar toggle should be visible"
         );
 
         my $LanguageObject = Kernel::Language->new(
             UserLanguage => $Language,
         );
 
-        # check for the viewmode switch
+        # Check for the viewmode switch.
         $Self->Is(
             $Selenium->execute_script("return \$('#ViewModeSwitch > a').text();"),
             $LanguageObject->Translate(
@@ -225,13 +175,13 @@ $Selenium->RunTest(
             'Check for mobile mode switch text',
         );
 
-        # toggle the switch
-        $Selenium->find_element( "#ViewModeSwitch", "css" )->VerifiedClick();
+        # Toggle the switch.
+        $Selenium->find_element( "#ViewModeSwitch", "css" )->click();
 
-        # wait until jquery is ready
+        # Wait until jquery is ready.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function'" );
 
-        # check for the viewmode switch
+        # Check for the viewmode switch.
         $Self->Is(
             $Selenium->execute_script("return \$('#ViewModeSwitch > a').text();"),
             $LanguageObject->Translate(
@@ -240,38 +190,28 @@ $Selenium->RunTest(
             'Check for mobile mode switch text',
         );
 
-        # we should now be in desktop mode, thus the toggles should be hidden
-        # while the toolbar is expanded, navigation and sidebar toggle should be hidden
-        $ItemVisible = $Selenium->execute_script(
-            q{
-                return $('#ResponsiveNavigationHandle:visible').length;
-            }
-        );
+        # We should now be in desktop mode, thus the toggles should be hidden.
+        # While the toolbar is expanded, navigation and sidebar toggle should be hidden.
         $Self->Is(
-            $ItemVisible,
+            $Selenium->execute_script("return \$('#ResponsiveNavigationHandle:visible').length"),
             0,
-            "Mobile navigation toggle should be hidden."
+            "Mobile navigation toggle should be hidden"
         );
 
-        # the mobile sidebar toggle should be visible
-        $ItemVisible = $Selenium->execute_script(
-            q{
-                return $('#ResponsiveSidebarHandle:visible').length;
-            }
-        );
+        # The mobile sidebar toggle should be visible.
         $Self->Is(
-            $ItemVisible,
+            $Selenium->execute_script("return \$('#ResponsiveSidebarHandle:visible').length"),
             0,
-            "Mobile sidebar toggle should be hidden."
+            "Mobile sidebar toggle should be hidden"
         );
 
-        # toggle the switch again
-        $Selenium->find_element( "#ViewModeSwitch", "css" )->VerifiedClick();
+        # Toggle the switch again.
+        $Selenium->find_element( "#ViewModeSwitch", "css" )->click();
 
-        # wait until jquery is ready
+        # Wait until jquery is ready.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function'" );
 
-        # check for the viewmode switch
+        # Check for the viewmode switch.
         $Self->Is(
             $Selenium->execute_script("return \$('#ViewModeSwitch > a').text();"),
             $LanguageObject->Translate(
@@ -280,31 +220,20 @@ $Selenium->RunTest(
             'Check for mobile mode switch text',
         );
 
-        # we should now be in desktop mode, thus the toggles should be hidden
-        # while the toolbar is expanded, navigation and sidebar toggle should be hidden
-        $ItemVisible = $Selenium->execute_script(
-            q{
-                return $('#ResponsiveNavigationHandle:visible').length;
-            }
-        );
+        # We should now be in desktop mode, thus the toggles should be hidden.
+        # While the toolbar is expanded, navigation and sidebar toggle should be hidden.
         $Self->Is(
-            $ItemVisible,
+            $Selenium->execute_script("return \$('#ResponsiveNavigationHandle:visible').length"),
             1,
-            "Mobile navigation toggle should be visible."
+            "Mobile navigation toggle should be visible"
         );
 
-        # the mobile sidebar toggle should be visible
-        $ItemVisible = $Selenium->execute_script(
-            q{
-                return $('#ResponsiveSidebarHandle:visible').length;
-            }
-        );
+        # The mobile sidebar toggle should be visible.
         $Self->Is(
-            $ItemVisible,
+            $Selenium->execute_script("return \$('#ResponsiveSidebarHandle:visible').length"),
             1,
-            "Mobile sidebar toggle should be visible."
+            "Mobile sidebar toggle should be visible"
         );
-
     }
 );
 
