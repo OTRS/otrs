@@ -301,7 +301,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#FilterGenericAgentJobs", 'css' )->send_keys($InvalidName);
 
         $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('table tbody tr td:contains($GenericAgentJob):hidden').length === 1"
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('table tbody tr td:contains($GenericAgentJob):hidden').length === 1"
         );
 
         my $CSSDisplay = $Selenium->execute_script(
@@ -318,7 +319,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#FilterGenericAgentJobs", 'css' )->clear();
         $Selenium->find_element( "#FilterGenericAgentJobs", 'css' )->send_keys($GenericAgentJob);
         $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('table tbody tr td:contains($GenericAgentJob):visible').length === 1"
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('table tbody tr td:contains($GenericAgentJob):visible').length === 1"
         );
 
         $CSSDisplay = $Selenium->execute_script(

@@ -30,7 +30,7 @@ $Self->Is(
 $PIDObject->PIDCreate(
     Name  => 'MailAccountFetch',
     Force => 1,
-    TTL   => 600,                             # 10 minutes
+    TTL   => 600,                  # 10 minutes
 );
 
 $ExitCode = $CommandObject->Execute();

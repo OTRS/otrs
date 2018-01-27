@@ -160,7 +160,8 @@ $Selenium->RunTest(
 
         # Toggle to collapse 'Linked Objects' widget.
         $Selenium->execute_script(
-            "\$('h2:contains(Linked Object)').closest('.WidgetSimple.Expanded').find('.Toggle a').trigger('click')");
+            "\$('h2:contains(Linked Object)').closest('.WidgetSimple.Expanded').find('.Toggle a').trigger('click')"
+        );
 
         $Selenium->WaitFor(
             JavaScript => "return \$('h2:contains(Linked Object)').closest('.WidgetSimple.Collapsed').length"
@@ -169,7 +170,8 @@ $Selenium->RunTest(
         # Verify there is collapsed element on the screen.
         $Self->True(
             $Selenium->execute_script(
-                "return \$('h2:contains(Linked Object)').closest('.WidgetSimple.Collapsed').length"),
+                "return \$('h2:contains(Linked Object)').closest('.WidgetSimple.Collapsed').length"
+            ),
             "Linked Objects Widget is collapsed",
         );
 

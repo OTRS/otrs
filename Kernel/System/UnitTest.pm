@@ -264,8 +264,10 @@ sub _SubmitResults {
                 # Allow only remaining number of screenshots.
                 if ( $ScreenshotCountRemaining > 0 ) {
                     @{ $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Screenshots} }
-                        = @{ $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Screenshots} }[ 0,
-                        $ScreenshotCountRemaining ];
+                        = @{ $Self->{ResultData}->{$Result}->{Results}->{$Test}->{Screenshots} }[
+                        0,
+                        $ScreenshotCountRemaining
+                        ];
                     $ScreenshotCount = $ScreenshotCountLimit;
                 }
 
