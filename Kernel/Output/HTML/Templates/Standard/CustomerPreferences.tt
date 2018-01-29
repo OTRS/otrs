@@ -54,7 +54,7 @@
 [% RenderBlockStart("Password") %]
                     <div>
                         <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]</label>
-                        <input title="[% Data.Name | html %]" type="password" id="[% Data.Name | html %]" name="[% Data.Name | html %]" value="" size="20" [% IF Data.Autocomplete %]autocomplete="[% Data.Autocomplete | html %]"[% END %] />
+                        <input title="[% Data.Key | html %]" type="password" id="[% Data.Name | html %]" name="[% Data.Name | html %]" value="" size="20" [% IF Data.Autocomplete %]autocomplete="[% Data.Autocomplete | html %]"[% END %] />
                         <div class="ClearLeft"></div>
                     </div>
 [% RenderBlockEnd("Password") %]
