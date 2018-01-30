@@ -1,4 +1,5 @@
 #6.0.5 2018-??-??
+ - 2018-01-30 Fixed bug#[13468](https://bugs.otrs.org/show_bug.cgi?id=13468) - Generic interface works not with a interface which use the http status code '204'.
  - 2018-01-29 Fixed bug#[13586](https://bugs.otrs.org/show_bug.cgi?id=13586) - Wrong tooltip text in customer interface (ID of the field instead of human readable text).
  - 2018-01-25 Fixed bug#[13584](https://bugs.otrs.org/show_bug.cgi?id=13584)(PR#1894) - Emails sent via AgentTicketEmailOutbound are always visible for customer. Thanks to Robert Ullrich.
  - 2018-01-25 Fixed bug#[13558](https://bugs.otrs.org/show_bug.cgi?id=13558) - ACL PossibleAdd ignores AgentTicketCompose and AgentTicketForward.
