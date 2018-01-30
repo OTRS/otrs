@@ -729,7 +729,7 @@ sub RequesterPerformRequest {
     }
 
     my $ResponseContent = $RestClient->responseContent();
-    if ( !IsStringWithData($ResponseContent) ) {
+    if ( $ResponseCode ne '204' && !IsStringWithData($ResponseContent) ) {
 
         $ResponseError = $ErrorMessage . ' No content provided.';
 
@@ -788,22 +788,28 @@ sub RequesterPerformRequest {
         From => 'utf-8',
     );
 
-    # to convert the data into a hash, use the JSON module
-    my $Result = $JSONObject->Decode(
-        Data => $ResponseContent,
-    );
+    # To convert the data into a hash, use the JSON module.
+    my $Result;
 
-    if ( !$Result ) {
-        my $ResponseError = $ErrorMessage . ' Error while parsing JSON data.';
+    if ( $ResponseCode ne '204' ) {
 
-        # log to debugger
-        $Self->{DebuggerObject}->Error(
-            Summary => $ResponseError,
+        # to convert the data into a hash, use the JSON module
+        $Result = $JSONObject->Decode(
+            Data => $ResponseContent,
         );
-        return {
-            Success      => 0,
-            ErrorMessage => $ResponseError,
-        };
+
+        if ( !$Result ) {
+            my $ResponseError = $ErrorMessage . ' Error while parsing JSON data.';
+
+            # log to debugger
+            $Self->{DebuggerObject}->Error(
+                Summary => $ResponseError,
+            );
+            return {
+                Success      => 0,
+                ErrorMessage => $ResponseError,
+            };
+        }
     }
 
     # all OK - return result
