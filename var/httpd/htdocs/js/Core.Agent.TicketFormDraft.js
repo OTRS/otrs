@@ -90,6 +90,7 @@ Core.Agent.TicketFormDraft = (function (TargetNS) {
                         if (Response.Success == 0) {
                             $(".Dialog:visible .AJAXLoader").hide();
                             alert(Response.ErrorMessage);
+                            $('#FormDraftAction').val('');
                         }
                         else {
                             Core.UI.Dialog.CloseDialog($(".Dialog"));

@@ -260,6 +260,7 @@ $Selenium->RunTest(
         );
 
         # Execute test scenarios.
+        my $Handles;
         for my $Test (@Tests) {
 
             # Create Draft name.
@@ -290,7 +291,7 @@ $Selenium->RunTest(
                 ->click();
 
             $Selenium->WaitFor( WindowCount => 2 );
-            my $Handles = $Selenium->get_window_handles();
+            $Handles = $Selenium->get_window_handles();
             $Selenium->switch_to_window( $Handles->[1] );
 
             # Wait until page has loaded, if necessary.
@@ -691,6 +692,71 @@ $Selenium->RunTest(
                 "Check if Draft is deleted.",
             );
         }
+
+        # Test for Save the draft without JSON error in window, bug#13556 https://bugs.otrs.org/show_bug.cgi?id=13556.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
+        );
+
+        # Click on 'Note' and switch window.
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
+
+        $Selenium->WaitFor( WindowCount => 2 );
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
+
+        # Wait until page has loaded, if necessary.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".WidgetSimple").length;'
+        );
+
+        # Save form in Draft.
+        $Selenium->find_element( "#FormDraftSave", 'css' )->click();
+
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;' );
+
+        # Click on save Draft title dialog.
+        $Selenium->find_element( "#SaveFormDraft", 'css' )->click();
+
+        # Wait alert to appear.
+        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert not found';
+
+        # Verify the alert message.
+        my $ExpectedAlertText = "Draft name is required!";
+        $Self->True(
+            ( $Selenium->get_alert_text() =~ /$ExpectedAlertText/ ),
+            "Check alert message text.",
+        );
+
+        # Accept the validation alert.
+        $Selenium->accept_alert();
+
+        # Close save draft title dialog.
+        $Selenium->find_element( ".CloseDialog", 'css' )->click();
+
+        # Wait to close Dialog.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;' );
+
+        # Submit empty form to check validation.
+        $Selenium->find_element( "#submitRichText", 'css' )->click();
+
+        # Wait error Dialog to be visible.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;' );
+
+        # Close error Dialog.
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;' );
+
+        # Check validation.
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#Subject').hasClass('Error')"
+            ),
+            '1',
+            'Client side validation correctly detected missing input value',
+        );
 
         # Delete created test ticket.
         my $Success = $TicketObject->TicketDelete(
