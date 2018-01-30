@@ -468,9 +468,14 @@ sub Run {
         }
         else {
 
+            # Get all IDs from valid table including invalid-temporarily status.
+            # See bug#13592 (https://bugs.otrs.org/show_bug.cgi?id=13592).
+            my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
+            my @ValidListIDs = grep { $ValidList{$_} } sort keys %ValidList;
+
             $ACLData = $ACLObject->ACLListGet(
                 UserID   => 1,
-                ValidIDs => [ '1', '2' ],
+                ValidIDs => \@ValidListIDs,
             );
         }
 
