@@ -1,4 +1,5 @@
 #6.0.5 2018-??-??
+ - 2018-01-31 Fixed bug#[13557](https://bugs.otrs.org/show_bug.cgi?id=13557) - Incoming mails are not being processed.
  - 2018-01-31 Fixed bug#[13561](https://bugs.otrs.org/show_bug.cgi?id=13561) - Empty strings not handled correctly in HTMLUtils::Safety(). Thanks to Paweł Bogusławski.
  - 2018-01-31 Fixed bug#[13589](https://bugs.otrs.org/show_bug.cgi?id=13589) - Dynamic field choices missing for Customer User Information Center settings.
  - 2018-01-31 Fixed bug#[13570](https://bugs.otrs.org/show_bug.cgi?id=13570) - Queue view display incorrect if you move a queue to be a sub-queue.
