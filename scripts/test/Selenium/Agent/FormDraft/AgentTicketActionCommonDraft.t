@@ -714,8 +714,10 @@ $Selenium->RunTest(
 
         # Save form in Draft.
         $Selenium->find_element( "#FormDraftSave", 'css' )->click();
-
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;' );
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#FormDraftTitle").length && $("#SaveFormDraft").length;'
+        );
 
         # Click on save Draft title dialog.
         $Selenium->find_element( "#SaveFormDraft", 'css' )->click();
