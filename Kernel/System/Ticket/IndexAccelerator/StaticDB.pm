@@ -19,6 +19,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::State',
     'Kernel::System::Time',
+    'Kernel::System::Queue',
 );
 
 sub TicketAcceleratorUpdate {
@@ -157,8 +158,9 @@ sub TicketAcceleratorUpdateOnQueueUpdate {
         }
     }
 
-    #update ticket_index for changed queue name
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+    # Update ticket_index for changed queue name.
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    return if !$DBObject->Do(
         SQL => '
             UPDATE ticket_index
             SET queue = ?
@@ -168,6 +170,36 @@ sub TicketAcceleratorUpdateOnQueueUpdate {
             \$Param{OldQueueName},
         ],
     );
+
+    # Updated ticket_index for all sub queue names when parent name is changed.
+    # See bug#13570 (https://bugs.otrs.org/show_bug.cgi?id=13570).
+    my %AllQueue = $Kernel::OM->Get('Kernel::System::Queue')->QueueList( Valid => 0 );
+    my @ParentQueue = split( /::/, $Param{OldQueueName} );
+
+    for my $QueueID ( sort keys %AllQueue ) {
+
+        my @SubQueue = split( /::/, $AllQueue{$QueueID} );
+
+        if ( $#SubQueue > $#ParentQueue ) {
+
+            if ( $AllQueue{$QueueID} =~ /^\Q$Param{OldQueueName}::\E/i ) {
+
+                my $NewQueueName = $AllQueue{$QueueID};
+                $NewQueueName =~ s/\Q$Param{OldQueueName}\E/$Param{NewQueueName}/;
+
+                return if !$DBObject->Do(
+                    SQL => '
+                        UPDATE ticket_index
+                        SET queue = ?
+                        WHERE queue = ?',
+                    Bind => [
+                        \$NewQueueName,
+                        \$AllQueue{$QueueID},
+                    ],
+                );
+            }
+        }
+    }
 
     return 1;
 }
