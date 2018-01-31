@@ -1051,6 +1051,7 @@ sub TicketListShow {
         Translation => 0,
         Data        => \%Data,
         Sort        => 'NumericValue',
+        Class       => 'Modernize',
     );
 
     # nav bar at the beginning of a overview
