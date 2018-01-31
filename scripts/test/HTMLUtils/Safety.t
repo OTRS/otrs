@@ -807,6 +807,15 @@ You should be able to continue reading these lessons, however.
             Replace => 0,
         },
     },
+    {
+        Name   => 'Safety - bug 13561 - Handling empty strings',
+        Input  => '',
+        Config => {},
+        Result => {
+            Output  => '',
+            Replace => 0,
+        },
+    },
 );
 
 for my $Test (@Tests) {
