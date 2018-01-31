@@ -131,8 +131,8 @@ $Self->Is(
     "$Module TicketAcceleratorIndex() - AllTickets",
 );
 
-my ($ItemBefore) = grep { $_->{Queue} eq 'CustomQueue' } @{ $IndexBefore{Queues} };
-my ($ItemAfter)  = grep { $_->{Queue} eq 'CustomQueue' } @{ $IndexAfter{Queues} };
+my ($ItemBefore) = grep { $_->{Queue} eq $QueueBefore } @{ $IndexBefore{Queues} };
+my ($ItemAfter)  = grep { $_->{Queue} eq $QueueAfterName } @{ $IndexAfter{Queues} };
 
 $Self->Is(
     $ItemBefore->{Count} // 0,
@@ -140,14 +140,40 @@ $Self->Is(
     "$Module TicketAcceleratorIndex() for Queue: $QueueAfterName - Count",
 );
 
-my $Restored = $QueueObject->QueueUpdate(
+# Move the queue to become a child of one of the default ones.
+#   Make sure the index update picks up this change (see bug#13570 for more information).
+my $Moved = $QueueObject->QueueUpdate(
     %Queue,
-    Name   => $QueueBefore,
+    Name   => "Misc::$QueueAfterName",
     UserID => 1,
 );
 $Self->True(
-    $Restored,
-    "Queue:\'$QueueBefore\' is restored",
+    $Moved,
+    "Queue:\'$QueueAfterName\' is moved"
+);
+my $QueueMovedName = $QueueObject->QueueLookup( QueueID => $QueueID );
+$Self->IsNot(
+    $QueueMovedName,
+    $QueueAfterName,
+    "Compare Queue name - Before:\'$QueueAfterName\' => After: \'$QueueMovedName\'",
+);
+my %IndexMoved = $TicketObject->TicketAcceleratorIndex(
+    UserID        => 1,
+    QueueID       => $QueueID,
+    ShownQueueIDs => [$QueueID],
+);
+$Self->Is(
+    $IndexAfter{AllTickets} // 1,
+    $IndexMoved{AllTickets} // 0,
+    "$Module TicketAcceleratorIndex() - AllTickets",
+);
+
+my ($ItemMoved) = grep { $_->{Queue} eq $QueueMovedName } @{ $IndexMoved{Queues} };
+
+$Self->Is(
+    $ItemAfter->{Count} // 1,
+    $ItemMoved->{Count} // 0,
+    "$Module TicketAcceleratorIndex() for Queue: $QueueMovedName - Count",
 );
 
 # delete tickets
