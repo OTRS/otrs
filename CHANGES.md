@@ -1,4 +1,5 @@
 #6.0.5 2018-??-??
+ - 2018-01-31 Fixed bug#[13604](https://bugs.otrs.org/show_bug.cgi?id=13604) - Dynamic Field Contact with Data is displayed doubled in AgentTicketZoom views.
  - 2018-01-31 Fixed bug#[13519](https://bugs.otrs.org/show_bug.cgi?id=13519) - Multi file upload dialog not usable with keyboard navigation.
  - 2018-01-30 Fixed bug#[13556](https://bugs.otrs.org/show_bug.cgi?id=13556) - Save draft without a title, opens window with JSON error on submit.
  - 2018-01-30 Fixed bug#[13592](https://bugs.otrs.org/show_bug.cgi?id=13592) - ACL with invalid-temporarily status is not included in export file when exporting ACL.
