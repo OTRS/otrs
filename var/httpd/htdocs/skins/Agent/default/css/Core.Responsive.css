@@ -1275,6 +1275,12 @@
         margin-top: -22px;
     }
 
+
+    #OverviewBody.Overview.TicketList {
+        overflow-y:auto;
+    }
+
+
 }
 
 /*  ~ Tablet landscape */
