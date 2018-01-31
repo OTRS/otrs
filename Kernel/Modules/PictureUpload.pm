@@ -94,7 +94,7 @@ sub Run {
     }
 
     # return error if file is not possible to show inline
-    if ( $File{Filename} !~ /\.(png|gif|jpg|jpeg)$/i ) {
+    if ( $File{Filename} !~ /\.(png|gif|jpg|jpeg|bmp)$/i ) {
         $LayoutObject->Block(
             Name => 'ErrorNoImageFile',
             Data => {
