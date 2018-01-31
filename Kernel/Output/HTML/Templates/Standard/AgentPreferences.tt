@@ -38,9 +38,9 @@
                 <h2>[% Translate("Preferences") | html %]</h2>
             </div>
             <div class="Content">
-                [% IF Data.CurrentUserIDNotice %]
+                [% IF Data.EditingAnotherAgent %]
                 <div class="WidgetMessage Top Warning">
-                    <p>[% Translate("Warning! You're currently not editing your own preferences, but those of %s.", Data.CurrentUserFullname) | html %]</p>
+                    <p>[% Translate("Please note: you're currently editing the preferences of %s.", Data.CurrentUserFullname) | html %]</p>
                 </div>
                 <ul class="ActionList">
                     <li>

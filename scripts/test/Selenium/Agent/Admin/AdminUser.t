@@ -36,6 +36,7 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
+        # Get script alias.
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AdminUser screen.
@@ -112,6 +113,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserFirstname", 'css' )->send_keys($UserRandomID);
         $Selenium->find_element( "#UserLastname",  'css' )->send_keys($UserRandomID);
         $Selenium->find_element( "#UserLogin",     'css' )->send_keys($UserRandomID);
+        $Selenium->find_element( "#UserPw",        'css' )->send_keys($UserRandomID);
         $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $UserRandomID . '@localhost.com' );
         $Selenium->find_element( "#Submit",        'css' )->VerifiedClick();
 
@@ -151,7 +153,7 @@ $Selenium->RunTest(
             "$Notification - notification is found."
         );
 
-        # test search filter by agent $EditRandomID.
+        # Test search filter by agent $EditRandomID.
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($EditRandomID);
         $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
@@ -178,6 +180,49 @@ $Selenium->RunTest(
             "$UserRandomID\@localhost.com",
             "#UserEmail stored value",
         );
+
+        # Edit the users preferences on their behalf.
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentPreferences;EditUserID' )]")->VerifiedClick();
+
+        # Disable the my custom queues setting - it should still show up when an agent edits another agents preferences.
+        my $TimeZoneConfig = $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups')->{'TimeZone'};
+        $TimeZoneConfig->{Active} = 0;
+
+        # Enter the UserProfile group.
+        $Selenium->find_element("//a[contains(\@href, \'Group=UserProfile')]")->VerifiedClick();
+
+        # The TimeZone setting should still be visible, although its disabled for agents.
+        $Selenium->execute_script("return \$('#UserTimeZone_Search:visible').length");
+
+        # We try to re-set the password for this agent.
+        $Selenium->find_element( "#CurPw",  'css' )->send_keys($UserRandomID);
+        $Selenium->find_element( "#NewPw",  'css' )->send_keys('NewPassword');
+        $Selenium->find_element( "#NewPw1", 'css' )->send_keys('NewPassword');
+        $Selenium->execute_script(
+            "\$('#CurPw').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
+        );
+
+        # Now logout and then try to login as the edited agent.
+        $Selenium->find_element( '.UserAvatar > a', 'css' )->click();
+        $Selenium->find_element( 'a#LogoutButton',  'css' )->click();
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $UserRandomID,
+            Password => $UserRandomID,
+        );
+
+        # Login worked, now re-login as the first (admin) agent.
+        $Selenium->find_element( '.UserAvatar > a', 'css' )->click();
+        $Selenium->find_element( 'a#LogoutButton',  'css' )->click();
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
+
+        # Go to editing this agent again.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUser");
+        $Selenium->find_element( $UserRandomID, 'link_text' )->VerifiedClick();
 
         # Set added test agent to invalid.
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");

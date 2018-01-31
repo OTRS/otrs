@@ -25,9 +25,9 @@
                 <h2>[% Translate("Preferences") | html %]</h2>
             </div>
             <div class="Content">
-                [% IF Data.CurrentUserIDNotice %]
+                [% IF Data.EditingAnotherAgent %]
                 <div class="WidgetMessage Top Warning">
-                    <p>[% Translate("Warning! You're currently not editing your own preferences, but those of %s.", Data.CurrentUserFullname) | html %]</p>
+                    <p>[% Translate("Please note: you're currently editing the preferences of %s.", Data.CurrentUserFullname) | html %]</p>
                 </div>
                 <ul class="ActionList">
                     <li>
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        [% IF !Data.CurrentUserIDNotice && Config("Frontend::AvatarEngine") == 'Gravatar' %]
+        [% IF !Data.EditingAnotherAgent && Config("Frontend::AvatarEngine") == 'Gravatar' %]
         <div class="WidgetSimple">
             <div class="Content">
                 <p class="FieldExplanation">
@@ -70,7 +70,7 @@
                     <ul class="ItemListGrid WithIcons Filterable">
                     [% FOREACH Item IN Data.Items %]
                         <li>
-                            <a class="AsBlock" href="[% Env("Baselink") %]Action=AgentPreferences;Subaction=Group;Group=[% Item.Key | uri %][% IF Data.CurrentUserIDNotice %];EditUserID=[% Data.CurrentUserID | uri %][% END %]" title="[% Translate(Item.Name) | html %]
+                            <a class="AsBlock" href="[% Env("Baselink") %]Action=AgentPreferences;Subaction=Group;Group=[% Item.Key | uri %][% IF Data.EditingAnotherAgent %];EditUserID=[% Data.CurrentUserID | uri %][% END %]" title="[% Translate(Item.Name) | html %]
 [% Translate(Item.Description) | html %]">
                                 <span class="Icons">
                                 [% IF Item.Icon %]

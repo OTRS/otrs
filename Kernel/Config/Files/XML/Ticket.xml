@@ -6767,7 +6767,7 @@
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###CustomQueue" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the CustomQueue object in the preference view of the agent interface.</Description>
+        <Description Translatable="1">Parameters for the CustomQueue object in the preference view of the agent interface. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
@@ -6783,7 +6783,7 @@
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###CustomService" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the CustomService object in the preference view of the agent interface.</Description>
+        <Description Translatable="1">Parameters for the CustomService object in the preference view of the agent interface. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
@@ -6798,7 +6798,7 @@
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###RefreshTime" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the RefreshTime object in the preference view of the agent interface.</Description>
+        <Description Translatable="1">Parameters for the RefreshTime object in the preference view of the agent interface. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
@@ -6825,7 +6825,7 @@
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###TicketOverviewSmallPageShown" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the pages (in which the tickets are shown) of the small ticket overview.</Description>
+        <Description Translatable="1">Parameters for the pages (in which the tickets are shown) of the small ticket overview. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
@@ -6852,7 +6852,7 @@
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###TicketOverviewFilterSettings" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the column filters of the small ticket overview.</Description>
+        <Description Translatable="1">Parameters for the column filters of the small ticket overview. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
@@ -6868,7 +6868,7 @@
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###TicketOverviewMediumPageShown" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the pages (in which the tickets are shown) of the medium ticket overview.</Description>
+        <Description Translatable="1">Parameters for the pages (in which the tickets are shown) of the medium ticket overview. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
@@ -6895,7 +6895,7 @@
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###TicketOverviewPreviewPageShown" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the pages (in which the tickets are shown) of the ticket preview overview.</Description>
+        <Description Translatable="1">Parameters for the pages (in which the tickets are shown) of the ticket preview overview. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
@@ -6922,7 +6922,7 @@
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###CreateNextMask" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the CreateNextMask object in the preference view of the agent interface.</Description>
+        <Description Translatable="1">Parameters for the CreateNextMask object in the preference view of the agent interface. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
@@ -10553,7 +10553,7 @@
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###NotificationEvent" Required="0" Valid="1">
-        <Description Translatable="1">Transport selection for ticket notifications.</Description>
+        <Description Translatable="1">Transport selection for ticket notifications. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
@@ -11832,7 +11832,7 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###DynamicFieldsOverviewPageShown" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the pages (in which the dynamic fields are shown) of the dynamic fields overview.</Description>
+        <Description Translatable="1">Parameters for the pages (in which the dynamic fields are shown) of the dynamic fields overview. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>

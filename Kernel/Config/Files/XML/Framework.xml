@@ -3203,7 +3203,7 @@ You can log in via the following URL:
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###Password" Required="0" Valid="1">
-        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view. 'PasswordRegExp' allows to match passwords against a regular expression. Define the minimum number of characters using 'PasswordMinSize'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to '1'. 'PasswordMin2Characters' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-temporarily if max failed logins reached.</Description>
+        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view. 'PasswordRegExp' allows to match passwords against a regular expression. Define the minimum number of characters using 'PasswordMinSize'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to '1'. 'PasswordMin2Characters' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
@@ -3225,7 +3225,7 @@ You can log in via the following URL:
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###GoogleAuthenticatorSecretKey" Required="0" Valid="1">
-        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
+        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
@@ -3244,7 +3244,7 @@ You can log in via the following URL:
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###Comment" Required="0" Valid="1">
-        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
+        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
@@ -3262,7 +3262,7 @@ You can log in via the following URL:
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###DynamicField" Required="0" Valid="0">
-        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
+        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
@@ -3280,7 +3280,7 @@ You can log in via the following URL:
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###Language" Required="0" Valid="1">
-        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
+        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
@@ -3297,7 +3297,7 @@ You can log in via the following URL:
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###Skin" Required="0" Valid="1">
-        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
+        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
@@ -3314,7 +3314,7 @@ You can log in via the following URL:
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###Theme" Required="0" Valid="1">
-        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
+        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
@@ -3331,7 +3331,7 @@ You can log in via the following URL:
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###TimeZone" Required="0" Valid="1">
-        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
+        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
@@ -3347,7 +3347,7 @@ You can log in via the following URL:
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###OutOfOffice" Required="0" Valid="1">
-        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
+        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
@@ -3364,7 +3364,7 @@ You can log in via the following URL:
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###CSVSeparator" Required="0" Valid="0">
-        <Description Translatable="1">Gives end users the possibility to override the separator character for CSV files, defined in the translation files.</Description>
+        <Description Translatable="1">Gives end users the possibility to override the separator character for CSV files, defined in the translation files. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
@@ -3390,7 +3390,7 @@ You can log in via the following URL:
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###Avatar" Required="0" Valid="1">
-        <Description Translatable="1">Defines the users avatar.</Description>
+        <Description Translatable="1">Defines the users avatar. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>

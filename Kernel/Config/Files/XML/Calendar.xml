@@ -725,7 +725,7 @@
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###AppointmentNotificationEvent" Required="0" Valid="1">
-        <Description Translatable="1">Transport selection for appointment notifications.</Description>
+        <Description Translatable="1">Transport selection for appointment notifications. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface.</Description>
         <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
