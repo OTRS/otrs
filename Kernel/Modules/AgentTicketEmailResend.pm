@@ -840,6 +840,9 @@ sub Run {
         # Run compose modules.
         if ( ref $ConfigObject->Get('Ticket::Frontend::ArticleComposeModule') eq 'HASH' ) {
 
+            # use ticket QueueID in compose modules
+            $GetParam{QueueID} = $Ticket{QueueID};
+
             my %Jobs = %{ $ConfigObject->Get('Ticket::Frontend::ArticleComposeModule') };
             for my $Job ( sort keys %Jobs ) {
 
@@ -860,7 +863,13 @@ sub Run {
                 }
 
                 # Run module.
-                $Object->Run( %GetParam, Config => $Jobs{$Job} );
+                my $NewParams = $Object->Run( %GetParam, Config => $Jobs{$Job} );
+
+                if ($NewParams) {
+                    for my $Parameter ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
+                        $GetParam{$Parameter} = $NewParams;
+                    }
+                }
 
                 # Get errors.
                 %Error = (

@@ -738,6 +738,17 @@ sub Run {
             'HASH'
             )
         {
+
+            # Get Queue settings if 'Dest' param was set in the URL.
+            my %GetParam;
+            $GetParam{Dest} = $ParamObject->GetParam( Param => 'Dest' );
+
+            if ( $GetParam{Dest} && $GetParam{Dest} =~ /^(\d{1,100})\|\|.+?$/ ) {
+                $GetParam{QueueID} = $1;
+                my %Queue = $QueueObject->GetSystemAddress( QueueID => $GetParam{QueueID} );
+                $GetParam{From} = $Queue{Email};
+            }
+
             my %Jobs = %{ $ConfigObject->Get('Ticket::Frontend::ArticleComposeModule') };
             for my $Job ( sort keys %Jobs ) {
 
@@ -752,7 +763,6 @@ sub Run {
                 );
 
                 # get params
-                my %GetParam;
                 PARAMETER:
                 for my $Parameter ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
                     if ( $Jobs{$Job}->{ParamType} && $Jobs{$Job}->{ParamType} ne 'Single' ) {
@@ -764,7 +774,13 @@ sub Run {
                 }
 
                 # run module
-                $Object->Run( %GetParam, Config => $Jobs{$Job} );
+                my $NewParams = $Object->Run( %GetParam, Config => $Jobs{$Job} );
+
+                if ($NewParams) {
+                    for my $Parameter ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
+                        $GetParam{$Parameter} = $NewParams;
+                    }
+                }
             }
         }
 

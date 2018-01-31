@@ -20,6 +20,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Crypt::PGP',
     'Kernel::System::Crypt::SMIME',
+    'Kernel::System::Queue',
     'Kernel::Output::HTML::Layout',
 );
 
@@ -45,6 +46,21 @@ sub Run {
     return if !$ConfigObject->Get('PGP') && !$ConfigObject->Get('SMIME');
 
     my %OptionsList = $Self->Data(%Param);
+
+    if ( !$Param{EmailSecurityOptions} && $Param{QueueID} ) {
+
+        # Get default signing key from queue data.
+        my %Queue = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet( ID => $Param{QueueID} );
+
+        # Check if queue has a default signature, in such case check its backend and preselect
+        #   email signing security option.
+        if ( $Queue{DefaultSignKey} && $Queue{DefaultSignKey} =~ m{\A SMIME}msxi ) {
+            $Param{EmailSecurityOptions} = 'SMIME::Sign::-';
+        }
+        elsif ( $Queue{DefaultSignKey} && $Queue{DefaultSignKey} =~ m{\A PGP}msxi ) {
+            $Param{EmailSecurityOptions} = 'PGP::Sign::-';
+        }
+    }
 
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -78,7 +94,11 @@ sub Run {
         },
     );
 
-    return;
+    # Normal return if no EmailSecurityOptions was set.
+    return if !$Param{EmailSecurityOptions};
+
+    # Return EmailSecurityOptions to cascade into other ArticleCompose modules.
+    return $Param{EmailSecurityOptions};
 }
 
 sub Data {
@@ -149,6 +169,41 @@ sub ArticleOption {
         );
     }
     return;
+}
+
+sub GetParamAJAX {
+    my ( $Self, %Param ) = @_;
+
+    # Get config object.
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # Check if PGP and SMIME are disabled
+    return if !$ConfigObject->Get('PGP') && !$ConfigObject->Get('SMIME');
+
+    return if !$Param{QueueID};
+
+    my $EmailSecurityOptions = $Param{EmailSecurityOptions} || '';
+
+    # Get default signing key from queue data.
+    my %Queue = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet( ID => $Param{QueueID} );
+
+    if ( !$Queue{DefaultSignKey} || $EmailSecurityOptions ) {
+        return (
+            EmailSecurityOptions => $EmailSecurityOptions,
+        );
+    }
+
+    # Check if queue has a default signature, in such case check its backend and preselect
+    #   email signing security option.
+    if ( $Queue{DefaultSignKey} =~ m{\A SMIME}msxi ) {
+        $EmailSecurityOptions = 'SMIME::Sign::-';
+    }
+    elsif ( $Queue{DefaultSignKey} =~ m{\A PGP}msxi ) {
+        $EmailSecurityOptions = 'PGP::Sign::-';
+    }
+    return (
+        EmailSecurityOptions => $EmailSecurityOptions,
+    );
 }
 
 sub Error {

@@ -1,4 +1,5 @@
 #6.0.5 2018-??-??
+ - 2018-01-31 Fixed bug#[13452](https://bugs.otrs.org/show_bug.cgi?id=13452) - Security options does not preselect Signing, honoring Queue default signature.
  - 2018-01-31 Fixed bug#[13595](https://bugs.otrs.org/show_bug.cgi?id=13595) - Setting of ticket number is old-style on the ticket overview screen.
  - 2018-01-31 Fixed bug#[13596](https://bugs.otrs.org/show_bug.cgi?id=13596) - "S" view in mobile browser cannot be rolled horizontally.
  - 2018-01-31 Fixed bug#[13557](https://bugs.otrs.org/show_bug.cgi?id=13557) - Incoming mails are not being processed.
