@@ -3043,7 +3043,9 @@ Updates installed packages to their latest version. Also updates OTRS Business S
     is entitled and there is an update.
 
     my %Result = $PackageObject->PackageUpgradeAll(
-        Force => 1,     # optional 1 or 0, Upgrades packages even if validation fails.
+        Force           => 1,     # optional 1 or 0, Upgrades packages even if validation fails.
+        SkipDeployCheck => 1,     # optional 1 or 0, If active it does not check file deployment status
+                                  #     for already updated packages.
     );
 
     %Result = (
@@ -3059,6 +3061,11 @@ Updates installed packages to their latest version. Also updates OTRS Business S
         },
         AlreadyInstalled {          # packages that are already installed with the latest version
             PackageE => 1,
+            # ...
+        }
+        Undeployed {                # packages not correctly deployed
+            PackageK => 1,
+            # ...
         }
         Failed => {                 # or {} if no failures
             Cyclic => {             # packages with cyclic dependencies
@@ -3165,6 +3172,7 @@ sub PackageUpgradeAll {
     my %Installed;
     my %Updated;
     my %AlreadyUpdated;
+    my %Undeployed;
 
     my %InstalledVersions = map { $_->{Name} => $_->{Version} } @PackageInstalledList;
 
@@ -3188,6 +3196,21 @@ sub PackageUpgradeAll {
         next PACKAGENAME if !$MetaPackage;
 
         if ( $MetaPackage->{Version} eq ( $InstalledVersions{$PackageName} || '' ) ) {
+
+            if ( $Param{SkipDeployCheck} ) {
+                $AlreadyUpdated{$PackageName} = 1;
+                next PACKAGENAME;
+            }
+
+            my $CheckSuccess = $Self->DeployCheck(
+                Name    => $PackageName,
+                Version => $MetaPackage->{Version},
+                Log     => 0
+            );
+            if ( !$CheckSuccess ) {
+                $Undeployed{$PackageName} = 1;
+                next PACKAGENAME;
+            }
             $AlreadyUpdated{$PackageName} = 1;
             next PACKAGENAME;
         }
@@ -3230,6 +3253,7 @@ sub PackageUpgradeAll {
                 Updated        => \%Updated,
                 Installed      => \%Installed,
                 AlreadyUpdated => \%AlreadyUpdated,
+                Undeployed     => \%Undeployed,
                 Failed         => \%Failed,
             },
         );
@@ -3261,6 +3285,7 @@ sub PackageUpgradeAll {
         Updated        => \%Updated,
         Installed      => \%Installed,
         AlreadyUpdated => \%AlreadyUpdated,
+        Undeployed     => \%Undeployed,
         Failed         => \%Failed,
     );
 }
