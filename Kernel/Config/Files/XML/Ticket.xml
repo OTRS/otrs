@@ -6597,29 +6597,34 @@
                 <Item Key="CacheTTLLocal">0.5</Item>
                 <Item Key="DefaultColumns">
                     <Hash>
-                        <Item Key="Age">2</Item>
-                        <Item Key="Changed">1</Item>
-                        <Item Key="Created">1</Item>
-                        <Item Key="CustomerCompanyName">1</Item>
-                        <Item Key="CustomerID">1</Item>
-                        <Item Key="CustomerName">1</Item>
-                        <Item Key="CustomerUserID">1</Item>
-                        <Item Key="EscalationResponseTime">1</Item>
-                        <Item Key="EscalationSolutionTime">1</Item>
-                        <Item Key="EscalationTime">1</Item>
-                        <Item Key="EscalationUpdateTime">1</Item>
-                        <Item Key="TicketNumber">2</Item>
-                        <Item Key="Lock">1</Item>
-                        <Item Key="Owner">1</Item>
-                        <Item Key="PendingTime">1</Item>
-                        <Item Key="Queue">1</Item>
-                        <Item Key="Responsible">1</Item>
-                        <Item Key="Priority">1</Item>
-                        <Item Key="Service">1</Item>
-                        <Item Key="State">1</Item>
-                        <Item Key="SLA">1</Item>
-                        <Item Key="Title">2</Item>
-                        <Item Key="Type">1</Item>
+                        <DefaultItem ValueType="Select">
+                            <Item ValueType="Option" Value="0" Translatable="1">0 - Disabled</Item>
+                            <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
+                            <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
+                        </DefaultItem>
+                        <Item Key="Age" SelectedID="2"></Item>
+                        <Item Key="Changed" SelectedID="1"></Item>
+                        <Item Key="Created" SelectedID="1"></Item>
+                        <Item Key="CustomerCompanyName" SelectedID="1"></Item>
+                        <Item Key="CustomerID" SelectedID="1"></Item>
+                        <Item Key="CustomerName" SelectedID="1"></Item>
+                        <Item Key="CustomerUserID" SelectedID="1"></Item>
+                        <Item Key="EscalationResponseTime" SelectedID="1"></Item>
+                        <Item Key="EscalationSolutionTime" SelectedID="1"></Item>
+                        <Item Key="EscalationTime" SelectedID="1"></Item>
+                        <Item Key="EscalationUpdateTime" SelectedID="1"></Item>
+                        <Item Key="TicketNumber" SelectedID="2"></Item>
+                        <Item Key="Lock" SelectedID="1"></Item>
+                        <Item Key="Owner" SelectedID="1"></Item>
+                        <Item Key="PendingTime" SelectedID="1"></Item>
+                        <Item Key="Queue" SelectedID="1"></Item>
+                        <Item Key="Responsible" SelectedID="1"></Item>
+                        <Item Key="Priority" SelectedID="1"></Item>
+                        <Item Key="Service" SelectedID="1"></Item>
+                        <Item Key="State" SelectedID="1"></Item>
+                        <Item Key="SLA" SelectedID="1"></Item>
+                        <Item Key="Title" SelectedID="2"></Item>
+                        <Item Key="Type" SelectedID="1"></Item>
                     </Hash>
                 </Item>
             </Hash>
@@ -6644,29 +6649,34 @@
                 <Item Key="CacheTTLLocal">0.5</Item>
                 <Item Key="DefaultColumns">
                     <Hash>
-                        <Item Key="Age">2</Item>
-                        <Item Key="Changed">1</Item>
-                        <Item Key="Created">1</Item>
-                        <Item Key="CustomerCompanyName">1</Item>
-                        <Item Key="CustomerID">1</Item>
-                        <Item Key="CustomerName">1</Item>
-                        <Item Key="CustomerUserID">1</Item>
-                        <Item Key="EscalationResponseTime">1</Item>
-                        <Item Key="EscalationSolutionTime">1</Item>
-                        <Item Key="EscalationTime">1</Item>
-                        <Item Key="EscalationUpdateTime">1</Item>
-                        <Item Key="TicketNumber">2</Item>
-                        <Item Key="Lock">1</Item>
-                        <Item Key="Owner">1</Item>
-                        <Item Key="PendingTime">1</Item>
-                        <Item Key="Queue">1</Item>
-                        <Item Key="Responsible">1</Item>
-                        <Item Key="Priority">1</Item>
-                        <Item Key="Service">1</Item>
-                        <Item Key="State">1</Item>
-                        <Item Key="SLA">1</Item>
-                        <Item Key="Title">2</Item>
-                        <Item Key="Type">1</Item>
+                        <DefaultItem ValueType="Select">
+                            <Item ValueType="Option" Value="0" Translatable="1">0 - Disabled</Item>
+                            <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
+                            <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
+                        </DefaultItem>
+                        <Item Key="Age" SelectedID="2"></Item>
+                        <Item Key="Changed" SelectedID="1"></Item>
+                        <Item Key="Created" SelectedID="1"></Item>
+                        <Item Key="CustomerCompanyName" SelectedID="1"></Item>
+                        <Item Key="CustomerID" SelectedID="1"></Item>
+                        <Item Key="CustomerName" SelectedID="1"></Item>
+                        <Item Key="CustomerUserID" SelectedID="1"></Item>
+                        <Item Key="EscalationResponseTime" SelectedID="1"></Item>
+                        <Item Key="EscalationSolutionTime" SelectedID="1"></Item>
+                        <Item Key="EscalationTime" SelectedID="1"></Item>
+                        <Item Key="EscalationUpdateTime" SelectedID="1"></Item>
+                        <Item Key="TicketNumber" SelectedID="2"></Item>
+                        <Item Key="Lock" SelectedID="1"></Item>
+                        <Item Key="Owner" SelectedID="1"></Item>
+                        <Item Key="PendingTime" SelectedID="1"></Item>
+                        <Item Key="Queue" SelectedID="1"></Item>
+                        <Item Key="Responsible" SelectedID="1"></Item>
+                        <Item Key="Priority" SelectedID="1"></Item>
+                        <Item Key="Service" SelectedID="1"></Item>
+                        <Item Key="State" SelectedID="1"></Item>
+                        <Item Key="SLA" SelectedID="1"></Item>
+                        <Item Key="Title" SelectedID="2"></Item>
+                        <Item Key="Type" SelectedID="1"></Item>
                     </Hash>
                 </Item>
             </Hash>
@@ -6691,29 +6701,34 @@
                 <Item Key="CacheTTLLocal">0.5</Item>
                 <Item Key="DefaultColumns">
                     <Hash>
-                        <Item Key="Age">2</Item>
-                        <Item Key="Changed">1</Item>
-                        <Item Key="Created">1</Item>
-                        <Item Key="CustomerCompanyName">1</Item>
-                        <Item Key="CustomerID">1</Item>
-                        <Item Key="CustomerName">1</Item>
-                        <Item Key="CustomerUserID">1</Item>
-                        <Item Key="EscalationResponseTime">1</Item>
-                        <Item Key="EscalationSolutionTime">1</Item>
-                        <Item Key="EscalationTime">1</Item>
-                        <Item Key="EscalationUpdateTime">1</Item>
-                        <Item Key="TicketNumber">2</Item>
-                        <Item Key="Lock">1</Item>
-                        <Item Key="Owner">1</Item>
-                        <Item Key="PendingTime">1</Item>
-                        <Item Key="Queue">1</Item>
-                        <Item Key="Responsible">1</Item>
-                        <Item Key="Priority">1</Item>
-                        <Item Key="Service">1</Item>
-                        <Item Key="State">1</Item>
-                        <Item Key="SLA">1</Item>
-                        <Item Key="Title">2</Item>
-                        <Item Key="Type">1</Item>
+                        <DefaultItem ValueType="Select">
+                            <Item ValueType="Option" Value="0" Translatable="1">0 - Disabled</Item>
+                            <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
+                            <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
+                        </DefaultItem>
+                        <Item Key="Age" SelectedID="2"></Item>
+                        <Item Key="Changed" SelectedID="1"></Item>
+                        <Item Key="Created" SelectedID="1"></Item>
+                        <Item Key="CustomerCompanyName" SelectedID="1"></Item>
+                        <Item Key="CustomerID" SelectedID="1"></Item>
+                        <Item Key="CustomerName" SelectedID="1"></Item>
+                        <Item Key="CustomerUserID" SelectedID="1"></Item>
+                        <Item Key="EscalationResponseTime" SelectedID="1"></Item>
+                        <Item Key="EscalationSolutionTime" SelectedID="1"></Item>
+                        <Item Key="EscalationTime" SelectedID="1"></Item>
+                        <Item Key="EscalationUpdateTime" SelectedID="1"></Item>
+                        <Item Key="TicketNumber" SelectedID="2"></Item>
+                        <Item Key="Lock" SelectedID="1"></Item>
+                        <Item Key="Owner" SelectedID="1"></Item>
+                        <Item Key="PendingTime" SelectedID="1"></Item>
+                        <Item Key="Queue" SelectedID="1"></Item>
+                        <Item Key="Responsible" SelectedID="1"></Item>
+                        <Item Key="Priority" SelectedID="1"></Item>
+                        <Item Key="Service" SelectedID="1"></Item>
+                        <Item Key="State" SelectedID="1"></Item>
+                        <Item Key="SLA" SelectedID="1"></Item>
+                        <Item Key="Title" SelectedID="2"></Item>
+                        <Item Key="Type" SelectedID="1"></Item>
                     </Hash>
                 </Item>
             </Hash>
@@ -6738,29 +6753,34 @@
                 <Item Key="CacheTTLLocal">0.5</Item>
                 <Item Key="DefaultColumns">
                     <Hash>
-                        <Item Key="Age">2</Item>
-                        <Item Key="Changed">1</Item>
-                        <Item Key="Created">1</Item>
-                        <Item Key="CustomerCompanyName">1</Item>
-                        <Item Key="CustomerID">1</Item>
-                        <Item Key="CustomerName">1</Item>
-                        <Item Key="CustomerUserID">1</Item>
-                        <Item Key="EscalationResponseTime">1</Item>
-                        <Item Key="EscalationSolutionTime">1</Item>
-                        <Item Key="EscalationTime">1</Item>
-                        <Item Key="EscalationUpdateTime">1</Item>
-                        <Item Key="TicketNumber">2</Item>
-                        <Item Key="Lock">1</Item>
-                        <Item Key="Owner">1</Item>
-                        <Item Key="PendingTime">1</Item>
-                        <Item Key="Queue">1</Item>
-                        <Item Key="Responsible">1</Item>
-                        <Item Key="Priority">1</Item>
-                        <Item Key="Service">1</Item>
-                        <Item Key="State">1</Item>
-                        <Item Key="SLA">1</Item>
-                        <Item Key="Title">2</Item>
-                        <Item Key="Type">1</Item>
+                        <DefaultItem ValueType="Select">
+                            <Item ValueType="Option" Value="0" Translatable="1">0 - Disabled</Item>
+                            <Item ValueType="Option" Value="1" Translatable="1">1 - Available</Item>
+                            <Item ValueType="Option" Value="2" Translatable="1">2 - Enabled by default</Item>
+                        </DefaultItem>
+                        <Item Key="Age" SelectedID="2"></Item>
+                        <Item Key="Changed" SelectedID="1"></Item>
+                        <Item Key="Created" SelectedID="1"></Item>
+                        <Item Key="CustomerCompanyName" SelectedID="1"></Item>
+                        <Item Key="CustomerID" SelectedID="1"></Item>
+                        <Item Key="CustomerName" SelectedID="1"></Item>
+                        <Item Key="CustomerUserID" SelectedID="1"></Item>
+                        <Item Key="EscalationResponseTime" SelectedID="1"></Item>
+                        <Item Key="EscalationSolutionTime" SelectedID="1"></Item>
+                        <Item Key="EscalationTime" SelectedID="1"></Item>
+                        <Item Key="EscalationUpdateTime" SelectedID="1"></Item>
+                        <Item Key="TicketNumber" SelectedID="2"></Item>
+                        <Item Key="Lock" SelectedID="1"></Item>
+                        <Item Key="Owner" SelectedID="1"></Item>
+                        <Item Key="PendingTime" SelectedID="1"></Item>
+                        <Item Key="Queue" SelectedID="1"></Item>
+                        <Item Key="Responsible" SelectedID="1"></Item>
+                        <Item Key="Priority" SelectedID="1"></Item>
+                        <Item Key="Service" SelectedID="1"></Item>
+                        <Item Key="State" SelectedID="1"></Item>
+                        <Item Key="SLA" SelectedID="1"></Item>
+                        <Item Key="Title" SelectedID="2"></Item>
+                        <Item Key="Type" SelectedID="1"></Item>
                     </Hash>
                 </Item>
             </Hash>
