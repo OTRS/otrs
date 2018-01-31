@@ -1572,6 +1572,18 @@ sub MaskAgentZoom {
         next DYNAMICFIELD if !defined $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
         next DYNAMICFIELD if $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } eq '';
 
+        # Check if this field is supposed to be hidden from the ticket information box.
+        #   For example, it's displayed by a different mechanism (i.e. async widget).
+        if (
+            $DynamicFieldBackendObject->HasBehavior(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Behavior           => 'IsHiddenInTicketInformation',
+            )
+            )
+        {
+            next DYNAMICFIELD;
+        }
+
         # use translation here to be able to reduce the character length in the template
         my $Label = $LayoutObject->{LanguageObject}->Translate( $DynamicFieldConfig->{Label} );
 

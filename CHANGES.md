@@ -1,4 +1,5 @@
 #5.0.27 ????-??-??
+ - 2018-01-31 Fixed bug#[13604](https://bugs.otrs.org/show_bug.cgi?id=13604) - Dynamic Field Contact with Data is displayed doubled in AgentTicketZoom view.
  - 2018-01-30 Fixed bug#[13592](https://bugs.otrs.org/show_bug.cgi?id=13592) - ACL with invalid-temporarily status is not included in export file when exporting ACL.
  - 2018-01-30 Fixed bug#[13468](https://bugs.otrs.org/show_bug.cgi?id=13468) - Generic interface works not with a interface which use the http status code '204'.
  - 2018-01-23 Fixed bug#[13563](https://bugs.otrs.org/show_bug.cgi?id=13563) - Fulltext search in tool bar does not show warning when stop words are used.
