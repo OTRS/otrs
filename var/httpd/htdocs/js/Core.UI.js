@@ -838,11 +838,24 @@ Core.UI = (function (TargetNS) {
                 })
                 .after($(UploadContainer))
                 .next('.DnDUpload')
-                .on('click', function() {
+                .on('click keydown', function(Event) {
+
+                    if (Event.keyCode && Event.keyCode == 9) {
+                        return true;
+                    }
+
+                    // The file selection dialog should also appear on focusing the element and pressing enter/space.
+                    if (Event.keyCode && (Event.keyCode != 13 && Event.keyCode != 32)) {
+                        return false;
+                    }
+
+                    // If this certain upload field does not allow uploading more than one file and a file has
+                    // already been uploaded, prevent the user from uploading more files.
                     if (!IsMultiple && $(this).closest('.Field').find('.AttachmentList tbody tr').length > 0) {
                         alert(Core.Language.Translate("Sorry, you can only upload one file here."));
                         return false;
                     }
+
                     $(this).prev('input.AjaxDnDUpload').trigger('click');
                 })
                 .on('drag dragstart dragend dragover dragenter dragleave drop', function(Event) {

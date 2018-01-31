@@ -382,6 +382,11 @@ div.DnDUpload {
     box-sizing: border-box;
 }
 
+div.DnDUpload:focus {
+    border-color: #000;
+    color: #000;
+}
+
 input.AjaxDnDUpload.Error + div.DnDUpload {
     color: #ff505e;
     border-color: #ff505e;
@@ -488,6 +493,10 @@ table.AttachmentList .Filesize {
 table.AttachmentList .Delete {
     width: 15px;
     text-align: center;
+}
+
+table.AttachmentList .AttachmentDelete:focus i {
+    color: #000;
 }
 
 table.AttachmentList.DataTable thead th {

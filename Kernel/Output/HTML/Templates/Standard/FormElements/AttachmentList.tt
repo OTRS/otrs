@@ -50,7 +50,7 @@
                 <td class="Filetype">[% Data.ContentType | html %]</td>
                 <td class="Filesize" data-file-size="[% Data.Filesize | html %]">[% Data.Filesize | Localize('Filesize') | html %]</td>
                 <td class="Delete">
-                    <a href="#" class="AttachmentDelete" data-file-id="[% Data.FileID | html %]" data-object-id="[% Data.ObjectID | html %]" data-field-id="[% Data.FieldID | html %]" data-delete-action="[% Data.DeleteAction | html %]">
+                    <a href="#" class="AttachmentDelete" aria-label="[% Translate("Click to delete this attachment.") | html %]" tabindex="0" data-file-id="[% Data.FileID | html %]" data-object-id="[% Data.ObjectID | html %]" data-field-id="[% Data.FieldID | html %]" data-delete-action="[% Data.DeleteAction | html %]">
                         <i class="fa fa-trash"></i>
                     </a>
                 </td>
