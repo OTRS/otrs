@@ -1479,7 +1479,7 @@ sub MaskAgentZoom {
             Name => 'FormDraftTable',
             Data => {
                 FormDrafts => \@FormDrafts,
-                TicketID   => $Param{TicketID},
+                TicketID   => $Self->{TicketID},
             },
         );
     }

@@ -1,4 +1,5 @@
 #6.0.5 2018-??-??
+ - 2018-01-31 Fixed bug#[13598](https://bugs.otrs.org/show_bug.cgi?id=13598) - Hiding AgentTicketMove menu with ACL makes draft function unusable.
  - 2018-01-31 Fixed bug#[13562](https://bugs.otrs.org/show_bug.cgi?id=13562) - Drag and drop of a BMP image into the editor causes an error message.
  - 2018-01-31 Fixed bug#[13284](https://bugs.otrs.org/show_bug.cgi?id=13284) - Ticket title is not included in fulltext search.
  - 2018-01-31 Fixed bug#[13500](https://bugs.otrs.org/show_bug.cgi?id=13500) - Sticky footer overlaps with elements on the login screen.
