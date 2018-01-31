@@ -1186,7 +1186,7 @@ sub Safety {
     } while ($Replaced);    ## no critic
 
     # check ref && return result like called
-    if ($StringScalar) {
+    if ( defined $StringScalar ) {
         $Safety{String} = ${$String};
     }
     else {
