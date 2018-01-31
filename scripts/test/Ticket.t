@@ -2385,4 +2385,83 @@ for my $TicketID (@DeleteTicketList) {
     );
 }
 
+# Test ticket search by fulltext (see bug#13284).
+#   Create a test ticket and add an article for this ticket.
+#   Note that article subject and ticket title differ.
+my $TestTicketTitle  = 'title' . $Helper->GetRandomID();
+my $FulltextTicketID = $TicketObject->TicketCreate(
+    Title        => $TestTicketTitle,
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'open',
+    CustomerID   => '123465',
+    CustomerUser => 'bugtest@otrs.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+
+my $TestArticleSubject = 'subject' . $Helper->GetRandomID();
+my $FulltextArticleID = $ArticleBackendObject->ArticleCreate(
+    TicketID             => $FulltextTicketID,
+    IsVisibleForCustomer => 0,
+    SenderType           => 'agent',
+    From                 => 'Agent Some Agent Some Agent <email@example.com>',
+    To                   => 'Customer A <customer-a@example.com>',
+    Cc                   => 'Customer B <customer-b@example.com>',
+    ReplyTo              => 'Customer B <customer-b@example.com>',
+    Subject              => $TestArticleSubject,
+    Body                 => 'Some text',
+    ContentType          => 'text/plain; charset=ISO-8859-15',
+    HistoryType          => 'AddNote',
+    HistoryComment       => 'Some free text!',
+    UserID               => 1,
+    NoAgentNotify        => 1,
+);
+
+$ArticleObject->ArticleSearchIndexBuild(
+    TicketID  => $FulltextTicketID,
+    ArticleID => $FulltextArticleID,
+    UserID    => 1,
+);
+
+# Search for ticket title as fulltext parameter.
+@TicketIDs = $TicketObject->TicketSearch(
+    Result     => 'ARRAY',
+    Fulltext   => $TestTicketTitle,
+    UserID     => 1,
+    Permission => 'rw',
+);
+
+# Verify result has one item and it's indeed the test ticket.
+$Self->IsDeeply(
+    \@TicketIDs,
+    [$FulltextTicketID],
+    "TicketSearch() - search ticket title '$TestTicketTitle' as fulltext - found only TicketID $FulltextTicketID"
+);
+
+# Search for article subject as fulltext parameter.
+@TicketIDs = $TicketObject->TicketSearch(
+    Result     => 'ARRAY',
+    Fulltext   => $TestArticleSubject,
+    UserID     => 1,
+    Permission => 'rw',
+);
+
+# Verify result has one item and it's indeed the test ticket.
+$Self->IsDeeply(
+    \@TicketIDs,
+    [$FulltextTicketID],
+    "TicketSearch() - search article subject '$TestArticleSubject' as fulltext - found only TicketID $FulltextTicketID"
+);
+
+$Success = $TicketObject->TicketDelete(
+    TicketID => $FulltextTicketID,
+    UserID   => 1,
+);
+$Self->True(
+    $Success,
+    "TicketID $FulltextTicketID - deleted",
+);
+
 1;

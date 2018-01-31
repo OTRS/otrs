@@ -300,7 +300,7 @@ sub ArticleSearchIndexWhereCondition {
         if ( $Param{SearchParams}->{ConditionInline} ) {
 
             $SQLQuery .= $DBObject->QueryCondition(
-                Key => $Field eq 'Fulltext' ? 'ArticleFulltext.article_value' : "$Field.article_value",
+                Key => $Field eq 'Fulltext' ? [ 'ArticleFulltext.article_value', 'st.title' ] : "$Field.article_value",
                 Value         => lc $Param{SearchParams}->{$Field},
                 SearchPrefix  => $Param{SearchParams}->{ContentSearchPrefix},
                 SearchSuffix  => $Param{SearchParams}->{ContentSearchSuffix},
@@ -329,6 +329,10 @@ sub ArticleSearchIndexWhereCondition {
             $Value = lc $DBObject->Quote( $Value, 'Like' );
 
             $SQLQuery .= " $Label.article_value LIKE '$Value'";
+
+            if ( $Field eq 'Fulltext' ) {
+                $SQLQuery .= " OR st.title LIKE '$Value'";
+            }
         }
     }
 
