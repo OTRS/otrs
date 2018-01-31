@@ -15,6 +15,8 @@
 
 .LoginScreen {
     padding-top: 90px;
+    height: calc(100vh - 90px);
+    min-height: 430px;
 }
 
 .LoginScreen .MainBox {
@@ -45,7 +47,7 @@
     bottom: 0px;
     box-sizing: border-box;
     padding: 10px 0px;
-    position: fixed;
+    position: absolute;
     text-align: center;
     text-shadow: 1px 1px 1px #fff;
     text-transform: uppercase;

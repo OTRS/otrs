@@ -1,4 +1,5 @@
 #6.0.5 2018-??-??
+ - 2018-01-31 Fixed bug#[13500](https://bugs.otrs.org/show_bug.cgi?id=13500) - Sticky footer overlaps with elements on the login screen.
  - 2018-01-31 Fixed bug#[13399](https://bugs.otrs.org/show_bug.cgi?id=13399) - Agent preferences granular permission support not working correctly.
  - 2018-01-31 Fixed bug#[13548](https://bugs.otrs.org/show_bug.cgi?id=13548) - Package::UpgradeAll does not warn about already updated but not correctly deployed packages.
  - 2018-01-31 Fixed bug#[13604](https://bugs.otrs.org/show_bug.cgi?id=13604) - Dynamic Field Contact with Data is displayed doubled in AgentTicketZoom views.
