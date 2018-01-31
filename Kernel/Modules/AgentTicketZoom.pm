@@ -54,7 +54,7 @@ sub new {
             && !defined $Self->{ZoomTimeline}
             )
         {
-            $Self->{ZoomExpand} = $ConfigObject->Get('Ticket::Frontend::ZoomExpand');
+            $Self->{ZoomExpand} = $ConfigObject->Get('Ticket::Frontend::AgentZoomExpand');
             if ( $UserPreferences{UserLastUsedZoomViewType} ) {
                 if ( $UserPreferences{UserLastUsedZoomViewType} eq 'Expand' ) {
                     $Self->{ZoomExpand} = 1;
@@ -89,7 +89,7 @@ sub new {
                     $Self->{ZoomTimeline} = 1;
                 }
                 else {
-                    $LastUsedZoomViewType = $ConfigObject->Get('Ticket::Frontend::ZoomExpand')
+                    $LastUsedZoomViewType = $ConfigObject->Get('Ticket::Frontend::AgentZoomExpand')
                         ? 'Expand'
                         : 'Collapse';
                 }
@@ -1906,7 +1906,7 @@ sub MaskAgentZoom {
                     1 => Translatable('Visible only'),
                     2 => Translatable('Visible and invisible'),
                 },
-                SelectedID => $Self->{ArticleFilter}->{CustomerVisibility} // 2,
+                SelectedID  => $Self->{ArticleFilter}->{CustomerVisibility} // 2,
                 Translation => 1,
                 Sort        => 'NumericKey',
                 Name        => 'CustomerVisibilityFilter',

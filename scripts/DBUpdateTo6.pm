@@ -246,6 +246,10 @@ sub _TasksGet {
             Module  => 'MigratePossibleNextActions',
         },
         {
+            Message => 'Migrate ZoomExpand setting',
+            Module  => 'MigrateZoomExpandConfig',
+        },
+        {
             Message => 'Migrating time zone configuration',
             Module  => 'MigrateTimeZoneConfiguration',
         },

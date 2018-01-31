@@ -1464,7 +1464,7 @@ sub _Mask {
     # get params
     my $ZoomExpand = $ParamObject->GetParam( Param => 'ZoomExpand' );
     if ( !defined $ZoomExpand ) {
-        $ZoomExpand = $ConfigObject->Get('Ticket::Frontend::ZoomExpand') || '';
+        $ZoomExpand = $ConfigObject->Get('Ticket::Frontend::CustomerTicketZoom')->{CustomerZoomExpand} || '';
     }
 
     # Expand option

@@ -1562,8 +1562,8 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::ZoomExpand" Required="1" Valid="1">
-        <Description Translatable="1">Shows all the articles of the ticket (expanded) in the zoom view.</Description>
+    <Setting Name="Ticket::Frontend::AgentZoomExpand" Required="1" Valid="1">
+        <Description Translatable="1">Shows all the articles of the ticket (expanded) in the agent zoom view.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
@@ -7252,6 +7252,13 @@
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketZoom###ZoomTimeDisplay" Required="1" Valid="1">
         <Description Translatable="1">Displays the accounted time for an article in the ticket zoom view.</Description>
+        <Navigation>Frontend::Customer::View::TicketZoom</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::CustomerTicketZoom###CustomerZoomExpand" Required="1" Valid="1">
+        <Description Translatable="1">Shows all the articles of the ticket (expanded) in the customer zoom view.</Description>
         <Navigation>Frontend::Customer::View::TicketZoom</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>

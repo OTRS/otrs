@@ -24,7 +24,14 @@ $Selenium->RunTest(
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::RichText',
-            Value => 0
+            Value => 0,
+        );
+
+        # Disable setting.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::CustomerTicketZoom###CustomerZoomExpand',
+            Value => 0,
         );
 
         # Create test customer user.
@@ -73,7 +80,25 @@ $Selenium->RunTest(
 
         $Self->True(
             $ArticleID,
-            "Article is created - $ArticleID",
+            "Article #1 is created - $ArticleID",
+        );
+
+        my $ArticleID2 = $ArticleBackendObject->ArticleCreate(
+            TicketID             => $TicketID,
+            SenderType           => 'customer',
+            IsVisibleForCustomer => 1,
+            Subject              => $SubjectRandom,
+            Body                 => $TextRandom,
+            Charset              => 'charset=ISO-8859-15',
+            MimeType             => 'text/plain',
+            HistoryType          => 'AddNote',
+            HistoryComment       => 'Some free text!',
+            UserID               => 1,
+        );
+
+        $Self->True(
+            $ArticleID2,
+            "Article #2 is created - $ArticleID2",
         );
 
         # Account some time to the ticket.
@@ -170,6 +195,34 @@ $Selenium->RunTest(
 
         # Reload the page.
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketZoom;TicketNumber=$TicketNumber");
+
+        my $NumberOfExpandedArticles = $Selenium->execute_script(
+            'return $("ul#Messages li.Visible").length'
+        );
+        $Self->Is(
+            $NumberOfExpandedArticles,
+            1,
+            'Make sure that only one article is expanded.'
+        );
+
+        # Enable expanding.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::CustomerTicketZoom###CustomerZoomExpand',
+            Value => 1,
+        );
+
+        # Reload the page.
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketZoom;TicketNumber=$TicketNumber");
+
+        $NumberOfExpandedArticles = $Selenium->execute_script(
+            'return $("ul#Messages li.Visible").length'
+        );
+        $Self->Is(
+            $NumberOfExpandedArticles,
+            2,
+            'Make sure that all articles are expanded.'
+        );
 
         # Accounted time should now be displayed.
         $Self->True(
