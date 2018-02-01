@@ -107,16 +107,9 @@ my %Frontends = (
     $PublicBaseURL   => $ConfigObject->Get('PublicFrontend::Module'),
 );
 
-# test plack server if present
-if ( $ConfigObject->Get('UnitTestPlackServerPort') ) {
-    my $PlackBaseURL = 'http://localhost:' . $ConfigObject->Get('UnitTestPlackServerPort') . '/';
-    %Frontends = (
-        %Frontends,
-        $PlackBaseURL . 'index.pl?'    => $ConfigObject->Get('Frontend::Module'),
-        $PlackBaseURL . 'customer.pl?' => $ConfigObject->Get('CustomerFrontend::Module'),
-        $PlackBaseURL . 'public.pl?'   => $ConfigObject->Get('PublicFrontend::Module'),
-    );
-}
+# Don't test modules that call external services to avoid false errors.
+delete $Frontends{$AgentBaseURL}->{AdminPackageManager};
+delete $Frontends{$AgentBaseURL}->{AdminServiceCenter};
 
 for my $BaseURL ( sort keys %Frontends ) {
     FRONTEND:
