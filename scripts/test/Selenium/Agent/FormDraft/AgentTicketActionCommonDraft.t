@@ -713,6 +713,7 @@ $Selenium->RunTest(
         );
 
         # Save form in Draft.
+        sleep 1;
         $Selenium->find_element( "#FormDraftSave", 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>
