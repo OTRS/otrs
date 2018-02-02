@@ -7,6 +7,7 @@
 # --
 
 ## no critic (Modules::RequireExplicitPackage)
+
 use strict;
 use warnings;
 use utf8;
@@ -16,6 +17,14 @@ use File::Path qw(mkpath rmtree);
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
@@ -27,11 +36,10 @@ $ConfigObject->Set(
 
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-my $HomeDir = $ConfigObject->Get('Home');
-
 # create directory for certificates and private keys
 my $CertPath    = $ConfigObject->Get('Home') . "/var/tmp/certs";
 my $PrivatePath = $ConfigObject->Get('Home') . "/var/tmp/private";
+
 mkpath( [$CertPath],    0, 0770 );    ## no critic
 mkpath( [$PrivatePath], 0, 0770 );    ## no critic
 
@@ -40,6 +48,7 @@ $ConfigObject->Set(
     Key   => 'SMIME::CertPath',
     Value => $CertPath,
 );
+
 $ConfigObject->Set(
     Key   => 'SMIME::PrivatePath',
     Value => $PrivatePath,
@@ -52,6 +61,7 @@ $ConfigObject->Set(
     Key   => 'SMIME',
     Value => 1,
 );
+
 $ConfigObject->Set(
     Key   => 'SMIME::FetchFromCustomer',
     Value => 1,
@@ -125,21 +135,11 @@ if ( !$SMIMEObject ) {
     return 1;
 }
 
-# get helper object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
-    },
-);
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $Random = $Helper->GetRandomID();
 
 # get existing certificates
 my @CertList  = $SMIMEObject->CertificateList();
-my $CertCount = 0;
-for my $Cert ( sort @CertList ) {
-    $CertCount++;
-}
+my $CertCount = scalar @CertList;
 
 # first stage
 my $TableName             = 'UT_' . $Random;
@@ -151,7 +151,7 @@ my @UnitTestCustomerUsers = (
         Email           => 'unittest@example.org',
         Status          => 1,
         CertificateType => 'PEM',
-        Certifiacate    => '-----BEGIN CERTIFICATE-----
+        Certificate    => '-----BEGIN CERTIFICATE-----
 MIIEXjCCA0agAwIBAgIJAPIBQyBe/HbpMA0GCSqGSIb3DQEBBQUAMHwxCzAJBgNV
 BAYTAkRFMQ8wDQYDVQQIEwZCYXllcm4xEjAQBgNVBAcTCVN0cmF1YmluZzEQMA4G
 A1UEChMHT1RSUyBBRzERMA8GA1UEAxMIdW5pdHRlc3QxIzAhBgkqhkiG9w0BCQEW
@@ -186,7 +186,7 @@ nj2wbQO4KjM12YLUuvahk5se
         Email           => 'smimeuser1@test.com',
         Status          => 1,
         CertificateType => 'P7B',
-        Certifiacate    => '-----BEGIN CERTIFICATE-----
+        Certificate    => '-----BEGIN CERTIFICATE-----
 MIIFjTCCA3UCCQDt3sB/CPz9rjANBgkqhkiG9w0BAQUFADB7MQswCQYDVQQGEwJN
 WDEQMA4GA1UECBMHSmFsaXNjbzEQMA4GA1UEChMHT1RSUyBBRzERMA8GA1UECxMI
 T1RSUyBMYWIxETAPBgNVBAMTCE9UUlMgTGFiMSIwIAYJKoZIhvcNAQkBFhNvdHJz
@@ -240,9 +240,16 @@ wpStC0yiqNRd1/r/wkihHv57xSScBPkpdu2Q9RBY36dJ
         <Column Name="change_time" Required="true" Type="DATE"/>
         <Column Name="change_by" Required="true" Type="INTEGER"/>
     </Table>';
-    my @XMLARRAY = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => $XMLLoginTable );
-    my @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
-    my @SQLPost = $DBObject->SQLProcessorPost( Database => \@XMLARRAY );
+
+    my @XMLARRAY = $Kernel::OM->Get('Kernel::System::XML')->XMLParse(
+        String => $XMLLoginTable,
+    );
+    my @SQL = $DBObject->SQLProcessor(
+        Database => \@XMLARRAY,
+    );
+    my @SQLPost = $DBObject->SQLProcessorPost(
+        Database => \@XMLARRAY,
+    );
 
     for my $SQL ( @SQL, @SQLPost ) {
         $Self->True(
@@ -254,20 +261,30 @@ wpStC0yiqNRd1/r/wkihHv57xSScBPkpdu2Q9RBY36dJ
 
 # Fill Table
 my $SQL = "INSERT INTO $TableName
-                (login, email, customer_id, pw, title, first_name, last_name, userSMIMECertificate, valid_id, create_time,
-                create_by, change_time, change_by)
-            VALUES
-                (?,?,?,?,?,?,?,?,1,current_timestamp,1,current_timestamp,1)";
+    (login, email, customer_id, pw,
+    title, first_name, last_name,
+    userSMIMECertificate, valid_id,
+    create_time, create_by,
+    change_time, change_by)
+VALUES
+    (?, ?, ?, ?, ?, ?, ?, ?, 1, current_timestamp, 1, current_timestamp, 1)";
+
 my $Pwd = $MainObject->GenerateRandomString(
     Length => 8,
 );
-foreach my $CustomerUser (@UnitTestCustomerUsers) {
+
+for my $CustomerUser (@UnitTestCustomerUsers) {
     my $Return = $DBObject->Do(
         SQL  => $SQL,
         Bind => [
-            \$CustomerUser->{Login}, \$CustomerUser->{Email}, \'unittest_customer_id',
+            \$CustomerUser->{Login},
+            \$CustomerUser->{Email},
+            \'unittest_customer_id',
             \$Pwd,
-            \'Mr', \$CustomerUser->{FirstName}, \$CustomerUser->{LastName}, \$CustomerUser->{Certifiacate}
+            \'Mr',
+            \$CustomerUser->{FirstName},
+            \$CustomerUser->{LastName},
+            \$CustomerUser->{Certificate},
         ],
     );
     $DBObject->Prepare(
@@ -460,8 +477,6 @@ for my $CustomerUser ( sort keys %List ) {
 
 # TODO - second stage
 # create a real LDAP server to test against
-
-$DBObject->Do( SQL => 'Drop table ' . $TableName );
 
 # delete needed test directories
 for my $Directory ( $CertPath, $PrivatePath ) {
