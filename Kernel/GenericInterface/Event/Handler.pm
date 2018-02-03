@@ -310,7 +310,7 @@ sub _SerializeConfig {
         @ConfigContainer = sort keys %{ $Param{Data} };
     }
     else {
-        @ConfigContainer = sort @{ $Param{Data} };
+        @ConfigContainer = @{ $Param{Data} };
         $DataType        = 'Array';
     }
 

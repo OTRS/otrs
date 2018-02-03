@@ -1,4 +1,5 @@
 #6.0.5 2018-??-??
+ - 2018-02-03 Fixed bug#[13624](https://bugs.otrs.org/show_bug.cgi?id=13624) - Uninitialized value error in generic interface event handler.
  - 2018-02-01 Implemented database integrity check and added automatic repair option for certain situations.
  - 2018-01-31 Fixed bug#[13555](https://bugs.otrs.org/show_bug.cgi?id=13555) - Setting ZoomExpand in AgentTicketZoom also affects customer frontend.
  - 2018-01-31 Fixed bug#[13452](https://bugs.otrs.org/show_bug.cgi?id=13452) - Security options does not preselect Signing, honoring Queue default signature.
