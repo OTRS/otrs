@@ -357,12 +357,11 @@ my $SequenceCheck = sub {
 
         # check if sequence exists
         return if !$DBObject->Prepare(
-            SQL => '
+            SQL => "
                 SELECT 1
                 FROM pg_class c
-                WHERE c.relkind = "S"
-                AND c.relname = ?',
-            Bind  => [ \$Sequence ],
+                WHERE c.relkind = 'S'
+                AND c.relname = '$Sequence'",
             Limit => 1,
         );
 
