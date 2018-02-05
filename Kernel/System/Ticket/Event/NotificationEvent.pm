@@ -414,15 +414,15 @@ sub _NotificationFilter {
         }
 
         # check ticket attributes
-        next KEY if !$Notification{Data}->{$Key};
+        next KEY if !defined $Notification{Data}->{$Key};
+        next KEY if !defined $Notification{Data}->{$Key}->[0];
         next KEY if !@{ $Notification{Data}->{$Key} };
-        next KEY if !$Notification{Data}->{$Key}->[0];
         my $Match = 0;
 
         VALUE:
         for my $Value ( @{ $Notification{Data}->{$Key} } ) {
 
-            next VALUE if !$Value;
+            next VALUE if !defined $Value;
 
             # check if key is a search dynamic field
             if ( $Key =~ m{\A Search_DynamicField_}xms ) {
