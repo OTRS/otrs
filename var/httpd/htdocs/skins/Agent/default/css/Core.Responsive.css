@@ -1171,6 +1171,10 @@
         min-width: 0px;
     }
 
+    .Cluster ul.Actions {
+        margin-right: 35px;
+    }
+
     .Cluster ul ul li {
         display: inline-block;
         border: 0px;
@@ -1190,6 +1194,19 @@
         background: none;
         border-bottom: 2px solid #ff9922;
         padding-bottom: 0px !important;
+    }
+
+    .Cluster .WidgetAction.ArticleView {
+        z-index: 100;
+        background: #f5f5f5;
+        background: #f5f5f5;
+        width: 35px;
+        text-align: center;
+        margin: 0px !important;
+        right: 0px;
+        top: 0px;
+        line-height: 35px;
+        height: 35px;
     }
 
     /* Input Fields */
