@@ -124,10 +124,15 @@ $Selenium->RunTest(
                 $Selenium->switch_to_window( $Handles->[1] );
 
                 # Wait until page has loaded, if necessary.
-                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#StateID").length' );
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && $("#StateID").length && $("#submitRichText").length'
+                );
 
                 # Change state to 'closed successful'.
                 $Selenium->execute_script("\$('#StateID').val('2').trigger('redraw.InputField').trigger('change');");
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#StateID").val() == 2' );
+
                 $Selenium->find_element( "#submitRichText", 'css' )->click();
 
                 # Switch back to AgentTicketStatusView.
