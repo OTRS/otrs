@@ -331,18 +331,18 @@ my $SequenceCheck = sub {
 
     if ( $DBType eq 'oracle' ) {
 
-        my $SEName = uc "SE_$TableName";
+        my $Sequence = $DBObject->{Backend}->_SequenceName(
+            TableName => $TableName,
+        );
 
         # verify if the sequence exists
         return if !$DBObject->Prepare(
-            SQL => "
+            SQL => '
                 SELECT COUNT(*)
                 FROM user_sequences
-                WHERE sequence_name = ?",
+                WHERE sequence_name = ?',
+            Bind  => [ \$Sequence ],
             Limit => 1,
-            Bind  => [
-                \$SEName,
-            ],
         );
 
         while ( my @Row = $DBObject->FetchrowArray() ) {
@@ -351,17 +351,18 @@ my $SequenceCheck = sub {
     }
     elsif ( $DBType eq 'postgresql' ) {
 
-        my $SEName = $TableName . '_id_seq';
+        my $Sequence = $DBObject->{Backend}->_SequenceName(
+            TableName => $TableName,
+        );
 
         # check if sequence exists
         return if !$DBObject->Prepare(
-            SQL => "
-            SELECT
-                1
-            FROM pg_class c
-            WHERE
-                c.relkind = 'S' AND
-                c.relname = '$SEName'",
+            SQL => '
+                SELECT 1
+                FROM pg_class c
+                WHERE c.relkind = "S"
+                AND c.relname = ?',
+            Bind  => [ \$Sequence ],
             Limit => 1,
         );
 
