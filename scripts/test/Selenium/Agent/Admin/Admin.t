@@ -56,7 +56,6 @@ $Selenium->RunTest(
             AdminNotification
             AdminNotificationEvent
             AdminPGP
-            AdminPackageManager
             AdminPerformanceLog
             AdminPostMasterFilter
             AdminPriority
