@@ -1906,7 +1906,7 @@ sub MaskAgentZoom {
                     1 => Translatable('Visible only'),
                     2 => Translatable('Visible and invisible'),
                 },
-                SelectedID  => $Self->{ArticleFilter}->{CustomerVisibility} // 2,
+                SelectedID => $Self->{ArticleFilter}->{CustomerVisibility} // 2,
                 Translation => 1,
                 Sort        => 'NumericKey',
                 Name        => 'CustomerVisibilityFilter',

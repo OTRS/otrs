@@ -151,7 +151,7 @@ my @UnitTestCustomerUsers = (
         Email           => 'unittest@example.org',
         Status          => 1,
         CertificateType => 'PEM',
-        Certificate    => '-----BEGIN CERTIFICATE-----
+        Certificate     => '-----BEGIN CERTIFICATE-----
 MIIEXjCCA0agAwIBAgIJAPIBQyBe/HbpMA0GCSqGSIb3DQEBBQUAMHwxCzAJBgNV
 BAYTAkRFMQ8wDQYDVQQIEwZCYXllcm4xEjAQBgNVBAcTCVN0cmF1YmluZzEQMA4G
 A1UEChMHT1RSUyBBRzERMA8GA1UEAxMIdW5pdHRlc3QxIzAhBgkqhkiG9w0BCQEW
@@ -186,7 +186,7 @@ nj2wbQO4KjM12YLUuvahk5se
         Email           => 'smimeuser1@test.com',
         Status          => 1,
         CertificateType => 'P7B',
-        Certificate    => '-----BEGIN CERTIFICATE-----
+        Certificate     => '-----BEGIN CERTIFICATE-----
 MIIFjTCCA3UCCQDt3sB/CPz9rjANBgkqhkiG9w0BAQUFADB7MQswCQYDVQQGEwJN
 WDEQMA4GA1UECBMHSmFsaXNjbzEQMA4GA1UEChMHT1RSUyBBRzERMA8GA1UECxMI
 T1RSUyBMYWIxETAPBgNVBAMTCE9UUlMgTGFiMSIwIAYJKoZIhvcNAQkBFhNvdHJz

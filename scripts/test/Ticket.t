@@ -2402,7 +2402,7 @@ my $FulltextTicketID = $TicketObject->TicketCreate(
 );
 
 my $TestArticleSubject = 'subject' . $Helper->GetRandomID();
-my $FulltextArticleID = $ArticleBackendObject->ArticleCreate(
+my $FulltextArticleID  = $ArticleBackendObject->ArticleCreate(
     TicketID             => $FulltextTicketID,
     IsVisibleForCustomer => 0,
     SenderType           => 'agent',
