@@ -17,6 +17,8 @@ use File::Path qw(mkpath rmtree);
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
+my $XMLObject    = $Kernel::OM->Get('Kernel::System::XML');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -30,11 +32,6 @@ $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
     Value => 0,
 );
-
-# copy all
-# discard main + config
-
-my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
 # create directory for certificates and private keys
 my $CertPath    = $ConfigObject->Get('Home') . "/var/tmp/certs";
@@ -241,7 +238,7 @@ wpStC0yiqNRd1/r/wkihHv57xSScBPkpdu2Q9RBY36dJ
         <Column Name="change_by" Required="true" Type="INTEGER"/>
     </Table>';
 
-    my @XMLARRAY = $Kernel::OM->Get('Kernel::System::XML')->XMLParse(
+    my @XMLARRAY = $XMLObject->XMLParse(
         String => $XMLLoginTable,
     );
     my @SQL = $DBObject->SQLProcessor(
@@ -472,7 +469,25 @@ for my $CustomerUser ( sort keys %List ) {
         $Remove2nd{Success},
         "$Remove2nd{Message}",
     );
+}
 
+{
+    # drop table
+    my $XML = "<TableDrop Name='$TableName'/>";
+
+    my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
+    my @SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+    $Self->True(
+        $SQL[0],
+        'SQLProcessor() DROP TABLE',
+    );
+
+    for my $SQL (@SQL) {
+        $Self->True(
+            $DBObject->Do( SQL => $SQL ) || 0,
+            "Do() DROP TABLE ($SQL)",
+        );
+    }
 }
 
 # TODO - second stage
