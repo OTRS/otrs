@@ -340,7 +340,7 @@ my $SequenceCheck = sub {
             SQL => '
                 SELECT COUNT(*)
                 FROM user_sequences
-                WHERE sequence_name = ?',
+                WHERE LOWER(sequence_name) = LOWER(?)',
             Bind  => [ \$Sequence ],
             Limit => 1,
         );
@@ -361,7 +361,7 @@ my $SequenceCheck = sub {
                 SELECT 1
                 FROM pg_class c
                 WHERE c.relkind = 'S'
-                AND c.relname = '$Sequence'",
+                AND LOWER(c.relname) = LOWER('$Sequence')",
             Limit => 1,
         );
 
