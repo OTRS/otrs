@@ -150,6 +150,84 @@ $Self->True(
     "Queue:\'$QueueBefore\' is restored",
 );
 
+# Create a ticket in sub queue, then rename parent queue. Make sure the index update
+# picks up this change for sub queue name (see bug#13570 for more information).
+my $SubQueueName = 'SubUnittest-' . $Helper->GetRandomID();
+my $SubQueueID   = $QueueObject->QueueAdd(
+    Name            => $QueueBefore . '::' . $SubQueueName,
+    GroupID         => 1,
+    ValidID         => 1,
+    SystemAddressID => 1,
+    SalutationID    => 1,
+    SignatureID     => 1,
+    Comment         => 'Unittest sub queue',
+    UserID          => 1,
+);
+$Self->True(
+    $SubQueueID,
+    "Queue:\'$SubQueueName\' is created new for testing.",
+);
+
+my $TicketID2 = $TicketObject->TicketCreate(
+    Title        => 'Ticket 2',
+    QueueID      => $SubQueueID,
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'new',
+    CustomerNo   => '123456',
+    CustomerUser => 'customer1@example.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+push( @TicketIDs, $TicketID2 );
+$Self->True(
+    $TicketID2,
+    "TicketCreate() - $TicketID2",
+);
+
+my %SubQueueIndex = $TicketObject->TicketAcceleratorIndex(
+    UserID        => 1,
+    QueueID       => $SubQueueID,
+    ShownQueueIDs => [$SubQueueID],
+);
+
+for my $QueueIndex ( @{ $SubQueueIndex{Queues} } ) {
+    if ( $QueueIndex->{QueueID} == $SubQueueID ) {
+        $Self->Is(
+            $QueueIndex->{Queue},
+            $QueueBefore . '::' . $SubQueueName,
+            "TicketAcceleratorIndex() is correct before parent queue update"
+        );
+    }
+}
+
+my $UpdatedParentQueueName = 'ChangedQueue-' . $Helper->GetRandomID();
+my $ParenQueueUpdate       = $QueueObject->QueueUpdate(
+    %Queue,
+    Name   => $UpdatedParentQueueName,
+    UserID => 1,
+);
+$Self->True(
+    $ParenQueueUpdate,
+    "QueueUpdate() - Parent queue '$QueueBefore' is changed to '$UpdatedParentQueueName'",
+);
+
+%SubQueueIndex = $TicketObject->TicketAcceleratorIndex(
+    UserID        => 1,
+    QueueID       => $SubQueueID,
+    ShownQueueIDs => [$SubQueueID],
+);
+
+for my $QueueIndex ( @{ $SubQueueIndex{Queues} } ) {
+    if ( $QueueIndex->{QueueID} == $SubQueueID ) {
+        $Self->Is(
+            $QueueIndex->{Queue},
+            $UpdatedParentQueueName . '::' . $SubQueueName,
+            "TicketAcceleratorIndex() is correct after parent queue update"
+        );
+    }
+}
+
 # delete tickets
 for my $TicketID (@TicketIDs) {
     $Self->True(
