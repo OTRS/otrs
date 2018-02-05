@@ -2,6 +2,7 @@
 # Translators:
 # Alvaro Gajardo, 2016
 # Alvaro Gajardo, 2016
+# Alvaro Molina <AlvaroMolinaCL@gmail.com>, 2018
 # Anatoli F. Peña Castillo <djanatoli@gmail.com>, 2017
 # Антон Протченко :3 <a_protchenko@hotmail.com>, 2017
 # Arturo Mondelo <arturo.mondelo@hotmail.es>, 2015
@@ -32,8 +33,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-01-22 01:09+0000\n"
-"PO-Revision-Date: 2018-01-22 01:13+0000\n"
+"POT-Creation-Date: 2018-02-05 18:26+0000\n"
+"PO-Revision-Date: 2018-02-05 18:27+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/otrs/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -3342,11 +3343,11 @@ msgstr "Esta configuración define si las conexiones entrantes deben quedar cerr
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional response headers"
-msgstr ""
+msgstr "Encabezados de respuesta adicionales"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Add response header"
-msgstr ""
+msgstr "Agregar encabezado de respuesta"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Endpoint"
@@ -3362,7 +3363,7 @@ msgstr "ej. https://www.otrs.com:10745/api/v1.0 (sin la barra invertida)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout"
-msgstr ""
+msgstr "Se acabó el tiempo"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout value for requests."
@@ -7807,8 +7808,7 @@ msgid "Preferences"
 msgstr "Preferencias"
 
 #. Template: AgentPreferences
-msgid ""
-"Warning! You're currently not editing your own preferences, but those of %s."
+msgid "Please note: you're currently editing the preferences of %s."
 msgstr ""
 
 #. Template: AgentPreferences
@@ -9258,6 +9258,10 @@ msgstr "Enviar un informe de error"
 msgid "Expand"
 msgstr "Expandir"
 
+#. Template: AttachmentList
+msgid "Click to delete this attachment."
+msgstr ""
+
 #. Template: DraftButtons
 msgid "Update draft"
 msgstr "Actualizar borrador"
@@ -10208,6 +10212,10 @@ msgstr "Confirmar"
 
 #. JS Template: WidgetLoading
 msgid "Loading, please wait..."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select a file for upload."
 msgstr ""
 
 #. JS Template: UploadContainer
@@ -11323,6 +11331,12 @@ msgid "Mail account added!"
 msgstr "¡Cuenta de correo añadida!"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
+msgid ""
+"Email account fetch already fetched by another process. Please try again "
+"later!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by email To: field."
 msgstr "Despachar por el campo Para: del correo electrónico"
 
@@ -11476,6 +11490,10 @@ msgid "Installed"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Not correctly deployed"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package updated correctly"
 msgstr ""
 
@@ -11485,6 +11503,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Dependency installed correctly"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "The package needs to be reinstalled"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -14745,6 +14767,19 @@ msgid "The setting innodb_log_file_size must be at least 256 MB."
 msgstr "El ajuste innodb_log_file_size debe ser de al menos 256 MB."
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+msgid "Invalid Default Values"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+msgid ""
+"Tables with invalid default values were found. In order to fix it "
+"automatically, please run: bin/otrs.Console.pl Maint::Database::Check "
+"--repair"
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "Maximum Query Size"
 msgstr "Tamaño Máximo de la Consulta"
@@ -14783,6 +14818,11 @@ msgid ""
 msgstr "Tablas con diferente motor de almacenamiento que la de por defecto fueron encontradas."
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
+msgid "Table check found some problems."
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "MySQL 5.x or higher is required."
 msgstr "MySQL 5.x o mayor es requerida."
@@ -14813,6 +14853,18 @@ msgid "NLS_DATE_FORMAT Setting SQL Check"
 msgstr "El ajuste NLS_DATE_FORMAT Comprobar SQL"
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+msgid "Primary Key Sequences and Triggers"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+msgid ""
+"The following sequences and/or triggers with possible wrong names have been "
+"found. Please rename them manually."
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
 msgstr "El ajuste client_encoding necesita ser UNICODE o UTF8."
@@ -14831,6 +14883,18 @@ msgstr "Formato de Fecha"
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
 msgid "Setting DateStyle needs to be ISO."
 msgstr "El ajuste DateStyle necesita ser ISO."
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+msgid "Primary Key Sequences"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+msgid ""
+"The following sequences with possible wrong names have been found. Please "
+"rename them manually."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
@@ -15977,7 +16041,7 @@ msgstr "Notificación de actualización de responsable de Ticket"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket new note notification"
-msgstr "Notificación de nueva nota de ticket"
+msgstr "Notificación de nueva nota en ticket"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket queue update notification"

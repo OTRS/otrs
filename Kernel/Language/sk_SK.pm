@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.179491613349473;
+    $Self->{Completeness}        = 0.185849870578085;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -208,14 +208,14 @@ sub Data {
         'Enable this notification method' => 'Aktivuj túto notifikačnú metódu',
         'Transport' => '',
         'At least one method is needed per notification.' => 'Na notifikovanie je potrebná aspoň jedna metóda.',
-        'Active by default in agent preferences' => '',
+        'Active by default in agent preferences' => 'Štandartne aktívny v nastaveniach agenta',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             '',
-        'This feature is currently not available.' => '',
-        'Upgrade to %s' => '',
+        'This feature is currently not available.' => 'Táto funkcia momentálne nie je k dispozícii.',
+        'Upgrade to %s' => 'Aktualizované na %s',
         'Please activate this transport in order to use it.' => '',
         'No data found' => 'Neboli nájdené žiadne dáta',
-        'No notification method found.' => '',
+        'No notification method found.' => 'Nebola nájdená notifikačná metóda.',
         'Notification Text' => 'Text notifikácie',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
             '',
@@ -223,7 +223,7 @@ sub Data {
         'Subject' => 'Predmet',
         'Text' => 'Text',
         'Message body' => 'Telo správy',
-        'Add new notification language' => '',
+        'Add new notification language' => 'Pridaj nový notifikačný jazyk',
         'Save Changes' => 'Ulož zmeny',
         'Tag Reference' => '',
         'Notifications are sent to an agent.' => 'Notifikácie boli poslané agentovi.',
@@ -238,14 +238,14 @@ sub Data {
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => '',
-        'Article visible for customer' => '',
+        'Article visible for customer' => 'Článok viditeľný pre zákazníka',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             '',
-        'Email template' => '',
+        'Email template' => 'Vzor emailu',
         'Use this template to generate the complete email (only for HTML emails).' =>
             '',
-        'Enable email security' => '',
-        'Email security level' => '',
+        'Enable email security' => 'Povoliť zabezpečenie e-mailu',
+        'Email security level' => 'Úroveň zabezpečenia e-mailu',
         'If signing key/certificate is missing' => '',
         'If encryption key/certificate is missing' => '',
 
@@ -253,12 +253,12 @@ sub Data {
         'Attachment Management' => 'riadenie príloh',
         'Add Attachment' => 'Pridať prílohu',
         'Edit Attachment' => 'Upraviť prílohu',
-        'Filter for Attachments' => '',
-        'Filter for attachments' => '',
+        'Filter for Attachments' => 'Filter pre prílohy',
+        'Filter for attachments' => 'Filter pre prílohy',
         'Filename' => 'Názov súboru',
         'Download file' => 'Stiahnúť prílohu',
         'Delete this attachment' => 'Vymazať túto prílohu',
-        'Do you really want to delete this attachment?' => '',
+        'Do you really want to delete this attachment?' => 'Chceš skutočne vymazať túto prílohu?',
         'Attachment' => 'Príloha',
 
         # Template: AdminAutoResponse
@@ -275,7 +275,7 @@ sub Data {
         'To get the name of the ticket\'s customer user (if given).' => '',
         'To get the article attribute' => '',
         'Options of the current customer user data' => '',
-        'Ticket owner options' => '',
+        'Ticket owner options' => 'Možnosti vlastníka tiketu',
         'Ticket responsible options' => '',
         'Options of the current user who requested this action' => '',
         'Options of the ticket data' => '',
@@ -315,8 +315,8 @@ sub Data {
         'Available Cloud Services' => '',
 
         # Template: AdminCommunicationLog
-        'Communication Log' => '',
-        'Time range' => '',
+        'Communication Log' => 'Komunikačný log',
+        'Time range' => 'Časové rozpätie',
         'Show only communication logs created in specific time range.' =>
             '',
         'Filter for communications' => '',
@@ -2438,7 +2438,7 @@ sub Data {
         'Edit your preferences' => 'Zmeniť nastavenia',
         'Personal preferences' => '',
         'Preferences' => 'Nastavenia',
-        'Warning! You\'re currently not editing your own preferences, but those of %s.' =>
+        'Please note: you\'re currently editing the preferences of %s.' =>
             '',
         'Go back to editing this agent' => '',
         'Set up your personal preferences. Save each setting by clicking the checkmark on the right.' =>
@@ -2933,6 +2933,9 @@ sub Data {
         'Send a bugreport' => 'Pošli report o chybách',
         'Expand' => 'Rozšíriť',
 
+        # Template: AttachmentList
+        'Click to delete this attachment.' => '',
+
         # Template: DraftButtons
         'Update draft' => '',
         'Save as new draft' => '',
@@ -3286,6 +3289,7 @@ sub Data {
         'Loading, please wait...' => '',
 
         # JS Template: UploadContainer
+        'Click to select a file for upload.' => '',
         'Click to select files or just drop them here.' => '',
         'Click to select a file or just drop it here.' => '',
         'Uploading...' => '',
@@ -3549,32 +3553,32 @@ sub Data {
         'Invoker deleted' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
-        '0 seconds' => '',
-        '15 seconds' => '',
-        '30 seconds' => '',
-        '45 seconds' => '',
-        '1 minute' => '',
-        '2 minutes' => '',
-        '3 minutes' => '',
-        '4 minutes' => '',
-        '5 minutes' => '',
+        '0 seconds' => '0 sekúnd',
+        '15 seconds' => '15 sekúnd',
+        '30 seconds' => '30 sekúnd',
+        '45 seconds' => '45 sekúnd',
+        '1 minute' => '1 minuta',
+        '2 minutes' => '2 minuty',
+        '3 minutes' => '3 minuty',
+        '4 minutes' => '4 minuty',
+        '5 minutes' => '5 minút',
         '10 minutes' => ' 10 minút',
         '15 minutes' => ' 15 minút',
-        '30 minutes' => '',
-        '1 hour' => '',
-        '2 hours' => '',
-        '3 hours' => '',
-        '4 hours' => '',
-        '5 hours' => '',
-        '6 hours' => '',
-        '12 hours' => '',
-        '18 hours' => '',
-        '1 day' => '',
-        '2 days' => '',
-        '3 days' => '',
-        '4 days' => '',
-        '6 days' => '',
-        '1 week' => '',
+        '30 minutes' => '30 minút',
+        '1 hour' => '1 hodina',
+        '2 hours' => '2 hodiny',
+        '3 hours' => '3 hodiny',
+        '4 hours' => '4 hodiny',
+        '5 hours' => '5 hodín',
+        '6 hours' => '6 hodín',
+        '12 hours' => '12 hodín',
+        '18 hours' => '18 hodín',
+        '1 day' => '1 deň',
+        '2 days' => '2 dni',
+        '3 days' => '3 dni',
+        '4 days' => '4 dni',
+        '6 days' => '6 dní',
+        '1 week' => '1 týždeň',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
         'Need InvokerType' => '',
@@ -3646,6 +3650,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => 'Mailové konto pridané!',
+        'Email account fetch already fetched by another process. Please try again later!' =>
+            '',
         'Dispatching by email To: field.' => 'Posielam emailom =>  prijemca: pole',
         'Dispatching by selected Queue.' => 'Posielam vybraným queue.',
 
@@ -3695,9 +3701,11 @@ sub Data {
         'Updated' => '',
         'Already up-to-date' => '',
         'Installed' => '',
+        'Not correctly deployed' => '',
         'Package updated correctly' => '',
         'Package was already updated' => '',
         'Dependency installed correctly' => '',
+        'The package needs to be reinstalled' => '',
         'The package contains cyclic dependencies' => '',
         'Not found in on-line repositories' => '',
         'Required version is higher than available' => '',
@@ -4914,6 +4922,11 @@ sub Data {
         'InnoDB Log File Size' => '',
         'The setting innodb_log_file_size must be at least 256 MB.' => '',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+        'Invalid Default Values' => '',
+        'Tables with invalid default values were found. In order to fix it automatically, please run: bin/otrs.Console.pl Maint::Database::Check --repair' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => '',
         'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
@@ -4930,6 +4943,9 @@ sub Data {
         'Tables with a different storage engine than the default engine were found.' =>
             '',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
+        'Table check found some problems.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => '',
 
@@ -4941,6 +4957,11 @@ sub Data {
         'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => '',
         'NLS_DATE_FORMAT Setting SQL Check' => '',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+        'Primary Key Sequences and Triggers' => '',
+        'The following sequences and/or triggers with possible wrong names have been found. Please rename them manually.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
         'Setting client_encoding needs to be UNICODE or UTF8.' => '',
         'Setting server_encoding needs to be UNICODE or UTF8.' => '',
@@ -4948,6 +4969,11 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
         'Date Format' => '',
         'Setting DateStyle needs to be ISO.' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+        'Primary Key Sequences' => '',
+        'The following sequences with possible wrong names have been found. Please rename them manually.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => '',
@@ -8681,6 +8707,8 @@ Thanks for your help!
         'Clear all',
         'Clear debug log',
         'Clear search',
+        'Click to delete this attachment.',
+        'Click to select a file for upload.',
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',

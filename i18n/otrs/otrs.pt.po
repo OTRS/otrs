@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-01-22 01:09+0000\n"
-"PO-Revision-Date: 2018-01-22 01:13+0000\n"
+"POT-Creation-Date: 2018-02-05 18:26+0000\n"
+"PO-Revision-Date: 2018-02-05 18:27+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/otrs/OTRS/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -7788,8 +7788,7 @@ msgid "Preferences"
 msgstr "Preferências"
 
 #. Template: AgentPreferences
-msgid ""
-"Warning! You're currently not editing your own preferences, but those of %s."
+msgid "Please note: you're currently editing the preferences of %s."
 msgstr ""
 
 #. Template: AgentPreferences
@@ -9239,6 +9238,10 @@ msgstr "Enviar um relatório de erro"
 msgid "Expand"
 msgstr "Expandir"
 
+#. Template: AttachmentList
+msgid "Click to delete this attachment."
+msgstr ""
+
 #. Template: DraftButtons
 msgid "Update draft"
 msgstr ""
@@ -10189,6 +10192,10 @@ msgstr ""
 
 #. JS Template: WidgetLoading
 msgid "Loading, please wait..."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select a file for upload."
 msgstr ""
 
 #. JS Template: UploadContainer
@@ -11304,6 +11311,12 @@ msgid "Mail account added!"
 msgstr "Conta de Mail adicionada!"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
+msgid ""
+"Email account fetch already fetched by another process. Please try again "
+"later!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by email To: field."
 msgstr "Enviado através do campo de email Para:"
 
@@ -11457,6 +11470,10 @@ msgid "Installed"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Not correctly deployed"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package updated correctly"
 msgstr ""
 
@@ -11466,6 +11483,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Dependency installed correctly"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "The package needs to be reinstalled"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -14726,6 +14747,19 @@ msgid "The setting innodb_log_file_size must be at least 256 MB."
 msgstr ""
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+msgid "Invalid Default Values"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+msgid ""
+"Tables with invalid default values were found. In order to fix it "
+"automatically, please run: bin/otrs.Console.pl Maint::Database::Check "
+"--repair"
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "Maximum Query Size"
 msgstr ""
@@ -14764,6 +14798,11 @@ msgid ""
 msgstr ""
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
+msgid "Table check found some problems."
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "MySQL 5.x or higher is required."
 msgstr ""
@@ -14794,6 +14833,18 @@ msgid "NLS_DATE_FORMAT Setting SQL Check"
 msgstr ""
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+msgid "Primary Key Sequences and Triggers"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+msgid ""
+"The following sequences and/or triggers with possible wrong names have been "
+"found. Please rename them manually."
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
 msgstr ""
@@ -14811,6 +14862,18 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
 msgid "Setting DateStyle needs to be ISO."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+msgid "Primary Key Sequences"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+msgid ""
+"The following sequences with possible wrong names have been found. Please "
+"rename them manually."
 msgstr ""
 
 #. Perl Module:

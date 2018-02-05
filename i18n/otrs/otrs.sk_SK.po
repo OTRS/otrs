@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-01-22 01:09+0000\n"
-"PO-Revision-Date: 2018-01-22 01:13+0000\n"
+"POT-Creation-Date: 2018-02-05 18:26+0000\n"
+"PO-Revision-Date: 2018-02-05 18:27+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/otrs/OTRS/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -635,7 +635,7 @@ msgstr "Na notifikovanie je potrebná aspoň jedna metóda."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Active by default in agent preferences"
-msgstr ""
+msgstr "Štandartne aktívny v nastaveniach agenta"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -646,11 +646,11 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "This feature is currently not available."
-msgstr ""
+msgstr "Táto funkcia momentálne nie je k dispozícii."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upgrade to %s"
-msgstr ""
+msgstr "Aktualizované na %s"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Please activate this transport in order to use it."
@@ -662,7 +662,7 @@ msgstr "Neboli nájdené žiadne dáta"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No notification method found."
-msgstr ""
+msgstr "Nebola nájdená notifikačná metóda."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Text"
@@ -692,7 +692,7 @@ msgstr "Telo správy"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add new notification language"
-msgstr ""
+msgstr "Pridaj nový notifikačný jazyk"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Save Changes"
@@ -744,7 +744,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
-msgstr ""
+msgstr "Článok viditeľný pre zákazníka"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
@@ -754,7 +754,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email template"
-msgstr ""
+msgstr "Vzor emailu"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
@@ -763,11 +763,11 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Enable email security"
-msgstr ""
+msgstr "Povoliť zabezpečenie e-mailu"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email security level"
-msgstr ""
+msgstr "Úroveň zabezpečenia e-mailu"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
@@ -791,11 +791,11 @@ msgstr "Upraviť prílohu"
 
 #. Template: AdminAttachment
 msgid "Filter for Attachments"
-msgstr ""
+msgstr "Filter pre prílohy"
 
 #. Template: AdminAttachment
 msgid "Filter for attachments"
-msgstr ""
+msgstr "Filter pre prílohy"
 
 #. Template: AdminAttachment
 msgid "Filename"
@@ -811,7 +811,7 @@ msgstr "Vymazať túto prílohu"
 
 #. Template: AdminAttachment
 msgid "Do you really want to delete this attachment?"
-msgstr ""
+msgstr "Chceš skutočne vymazať túto prílohu?"
 
 #. Template: AdminAttachment
 msgid "Attachment"
@@ -871,7 +871,7 @@ msgstr ""
 
 #. Template: AdminAutoResponse
 msgid "Ticket owner options"
-msgstr ""
+msgstr "Možnosti vlastníka tiketu"
 
 #. Template: AdminAutoResponse
 msgid "Ticket responsible options"
@@ -992,11 +992,11 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Communication Log"
-msgstr ""
+msgstr "Komunikačný log"
 
 #. Template: AdminCommunicationLog
 msgid "Time range"
-msgstr ""
+msgstr "Časové rozpätie"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
@@ -7782,8 +7782,7 @@ msgid "Preferences"
 msgstr "Nastavenia"
 
 #. Template: AgentPreferences
-msgid ""
-"Warning! You're currently not editing your own preferences, but those of %s."
+msgid "Please note: you're currently editing the preferences of %s."
 msgstr ""
 
 #. Template: AgentPreferences
@@ -9233,6 +9232,10 @@ msgstr "Pošli report o chybách"
 msgid "Expand"
 msgstr "Rozšíriť"
 
+#. Template: AttachmentList
+msgid "Click to delete this attachment."
+msgstr ""
+
 #. Template: DraftButtons
 msgid "Update draft"
 msgstr ""
@@ -10186,6 +10189,10 @@ msgid "Loading, please wait..."
 msgstr ""
 
 #. JS Template: UploadContainer
+msgid "Click to select a file for upload."
+msgstr ""
+
+#. JS Template: UploadContainer
 msgid "Click to select files or just drop them here."
 msgstr ""
 
@@ -10968,47 +10975,47 @@ msgstr ""
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "0 seconds"
-msgstr ""
+msgstr "0 sekúnd"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "15 seconds"
-msgstr ""
+msgstr "15 sekúnd"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "30 seconds"
-msgstr ""
+msgstr "30 sekúnd"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "45 seconds"
-msgstr ""
+msgstr "45 sekúnd"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 minute"
-msgstr ""
+msgstr "1 minuta"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 minutes"
-msgstr ""
+msgstr "2 minuty"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 minutes"
-msgstr ""
+msgstr "3 minuty"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 minutes"
-msgstr ""
+msgstr "4 minuty"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "5 minutes"
-msgstr ""
+msgstr "5 minút"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
@@ -11023,77 +11030,77 @@ msgstr " 15 minút"
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "30 minutes"
-msgstr ""
+msgstr "30 minút"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 hour"
-msgstr ""
+msgstr "1 hodina"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 hours"
-msgstr ""
+msgstr "2 hodiny"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 hours"
-msgstr ""
+msgstr "3 hodiny"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 hours"
-msgstr ""
+msgstr "4 hodiny"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "5 hours"
-msgstr ""
+msgstr "5 hodín"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "6 hours"
-msgstr ""
+msgstr "6 hodín"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "12 hours"
-msgstr ""
+msgstr "12 hodín"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "18 hours"
-msgstr ""
+msgstr "18 hodín"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 day"
-msgstr ""
+msgstr "1 deň"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 days"
-msgstr ""
+msgstr "2 dni"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 days"
-msgstr ""
+msgstr "3 dni"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 days"
-msgstr ""
+msgstr "4 dni"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "6 days"
-msgstr ""
+msgstr "6 dní"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 week"
-msgstr ""
+msgstr "1 týždeň"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Need InvokerType"
@@ -11298,6 +11305,12 @@ msgid "Mail account added!"
 msgstr "Mailové konto pridané!"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
+msgid ""
+"Email account fetch already fetched by another process. Please try again "
+"later!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by email To: field."
 msgstr "Posielam emailom =>  prijemca: pole"
 
@@ -11451,6 +11464,10 @@ msgid "Installed"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Not correctly deployed"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package updated correctly"
 msgstr ""
 
@@ -11460,6 +11477,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Dependency installed correctly"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "The package needs to be reinstalled"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -14720,6 +14741,19 @@ msgid "The setting innodb_log_file_size must be at least 256 MB."
 msgstr ""
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+msgid "Invalid Default Values"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+msgid ""
+"Tables with invalid default values were found. In order to fix it "
+"automatically, please run: bin/otrs.Console.pl Maint::Database::Check "
+"--repair"
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "Maximum Query Size"
 msgstr ""
@@ -14758,6 +14792,11 @@ msgid ""
 msgstr ""
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
+msgid "Table check found some problems."
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "MySQL 5.x or higher is required."
 msgstr ""
@@ -14788,6 +14827,18 @@ msgid "NLS_DATE_FORMAT Setting SQL Check"
 msgstr ""
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+msgid "Primary Key Sequences and Triggers"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+msgid ""
+"The following sequences and/or triggers with possible wrong names have been "
+"found. Please rename them manually."
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
 msgstr ""
@@ -14805,6 +14856,18 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
 msgid "Setting DateStyle needs to be ISO."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+msgid "Primary Key Sequences"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+msgid ""
+"The following sequences with possible wrong names have been found. Please "
+"rename them manually."
 msgstr ""
 
 #. Perl Module:

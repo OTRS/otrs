@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-01-22 01:09+0000\n"
-"PO-Revision-Date: 2018-01-22 01:13+0000\n"
+"POT-Creation-Date: 2018-02-05 18:26+0000\n"
+"PO-Revision-Date: 2018-02-05 18:27+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Galician (http://www.transifex.com/otrs/OTRS/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -7780,8 +7780,7 @@ msgid "Preferences"
 msgstr "Preferencias"
 
 #. Template: AgentPreferences
-msgid ""
-"Warning! You're currently not editing your own preferences, but those of %s."
+msgid "Please note: you're currently editing the preferences of %s."
 msgstr ""
 
 #. Template: AgentPreferences
@@ -9231,6 +9230,10 @@ msgstr "Enviar un reporte de bugs"
 msgid "Expand"
 msgstr "Expandir"
 
+#. Template: AttachmentList
+msgid "Click to delete this attachment."
+msgstr ""
+
 #. Template: DraftButtons
 msgid "Update draft"
 msgstr ""
@@ -10181,6 +10184,10 @@ msgstr "Confirmar"
 
 #. JS Template: WidgetLoading
 msgid "Loading, please wait..."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select a file for upload."
 msgstr ""
 
 #. JS Template: UploadContainer
@@ -11296,6 +11303,12 @@ msgid "Mail account added!"
 msgstr "Engadiuse a conta de correo!"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
+msgid ""
+"Email account fetch already fetched by another process. Please try again "
+"later!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by email To: field."
 msgstr "Enviando por email A: campo"
 
@@ -11449,6 +11462,10 @@ msgid "Installed"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Not correctly deployed"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package updated correctly"
 msgstr ""
 
@@ -11458,6 +11475,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Dependency installed correctly"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "The package needs to be reinstalled"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -14718,6 +14739,19 @@ msgid "The setting innodb_log_file_size must be at least 256 MB."
 msgstr "A opción innodb_log_file_size ha de ter, como mínimo, 256 MB."
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+msgid "Invalid Default Values"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+msgid ""
+"Tables with invalid default values were found. In order to fix it "
+"automatically, please run: bin/otrs.Console.pl Maint::Database::Check "
+"--repair"
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "Maximum Query Size"
 msgstr "Tamaño Máximo da Consulta"
@@ -14756,6 +14790,11 @@ msgid ""
 msgstr "Atopáronse táboas cun motor de almacenamento disinto do predeterminado."
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
+msgid "Table check found some problems."
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "MySQL 5.x or higher is required."
 msgstr "Requírese MySQL 5.x ou superior."
@@ -14786,6 +14825,18 @@ msgid "NLS_DATE_FORMAT Setting SQL Check"
 msgstr "Axuste Comprobación SQL NLS_DATE_FORMAT"
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+msgid "Primary Key Sequences and Triggers"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+msgid ""
+"The following sequences and/or triggers with possible wrong names have been "
+"found. Please rename them manually."
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
 msgstr "O axuste client_encoding ten que ser UNICODE ou UTF8."
@@ -14804,6 +14855,18 @@ msgstr "Formato de data"
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
 msgid "Setting DateStyle needs to be ISO."
 msgstr "O axuste DateStyle ten que ser ISO."
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+msgid "Primary Key Sequences"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+msgid ""
+"The following sequences with possible wrong names have been found. Please "
+"rename them manually."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm

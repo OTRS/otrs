@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.999135396852845;
+    $Self->{Completeness}        = 0.997756686798965;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2444,8 +2444,8 @@ sub Data {
         'Edit your preferences' => '编辑个人设置',
         'Personal preferences' => '个人偏好设置',
         'Preferences' => '偏好设置',
-        'Warning! You\'re currently not editing your own preferences, but those of %s.' =>
-            '警告！ 您目前没有编辑自己的偏好设置，而是编辑％s的偏好设置。',
+        'Please note: you\'re currently editing the preferences of %s.' =>
+            '',
         'Go back to editing this agent' => '去编辑这个服务人员',
         'Set up your personal preferences. Save each setting by clicking the checkmark on the right.' =>
             '设置你的个人偏好。 通过单击右侧的钩形符号来保存每个设置。',
@@ -2939,6 +2939,9 @@ sub Data {
         'Send a bugreport' => '发送一个BUG报告',
         'Expand' => '展开',
 
+        # Template: AttachmentList
+        'Click to delete this attachment.' => '',
+
         # Template: DraftButtons
         'Update draft' => '更新草稿',
         'Save as new draft' => '另存为新的草稿',
@@ -3292,6 +3295,7 @@ sub Data {
         'Loading, please wait...' => '加载中，请稍候...',
 
         # JS Template: UploadContainer
+        'Click to select a file for upload.' => '',
         'Click to select files or just drop them here.' => '单击以选择文件或将文件拖放到这里。',
         'Click to select a file or just drop it here.' => '单击以选择一个文件或将文件拖放到这里。',
         'Uploading...' => '上传中...',
@@ -3652,6 +3656,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => '邮件账号已添加！',
+        'Email account fetch already fetched by another process. Please try again later!' =>
+            '',
         'Dispatching by email To: field.' => '按收件人(To:)分派。',
         'Dispatching by selected Queue.' => '按所选队列分派。',
 
@@ -3701,9 +3707,11 @@ sub Data {
         'Updated' => '更新时间',
         'Already up-to-date' => '已经是最新的',
         'Installed' => '安装时间',
+        'Not correctly deployed' => '',
         'Package updated correctly' => '软件包已正确地更新',
         'Package was already updated' => '软件包已经更新',
         'Dependency installed correctly' => '依赖软件已正确地安装',
+        'The package needs to be reinstalled' => '',
         'The package contains cyclic dependencies' => '软件包包含循环依赖项',
         'Not found in on-line repositories' => '在线软件库中找不到',
         'Required version is higher than available' => '所需版本高于可用版本',
@@ -4582,7 +4590,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'System maintenance is active!' => '正在进行系统维护！',
         'A system maintenance period will start at: %s and is expected to stop at: %s' =>
-            '',
+            '一次系统维护将开始于：%s，预计结束时间为：%s。',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
         'OTRS Daemon is not running.' => 'OTRS守护进程没有运行。',
@@ -4920,6 +4928,11 @@ sub Data {
         'InnoDB Log File Size' => 'InnoDB日志文件大小',
         'The setting innodb_log_file_size must be at least 256 MB.' => '参数innodb_log_file_size必须设置为至少256MB。',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+        'Invalid Default Values' => '',
+        'Tables with invalid default values were found. In order to fix it automatically, please run: bin/otrs.Console.pl Maint::Database::Check --repair' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => '最大查询大小',
         'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
@@ -4936,6 +4949,9 @@ sub Data {
         'Tables with a different storage engine than the default engine were found.' =>
             '以下表使用的存储引擎与默认存储引擎不同。',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
+        'Table check found some problems.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => '需要MySQL 5.X或更高版本。',
 
@@ -4947,6 +4963,11 @@ sub Data {
         'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => 'NLS_DATE_FORMAT 必须设置为\'YYYY-MM-DD HH24:MI:SS\'。',
         'NLS_DATE_FORMAT Setting SQL Check' => 'SQL检查NLS_DATE_FORMAT设置',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+        'Primary Key Sequences and Triggers' => '',
+        'The following sequences and/or triggers with possible wrong names have been found. Please rename them manually.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
         'Setting client_encoding needs to be UNICODE or UTF8.' => 'client_encoding 需要设置为UNICODE或UTF8。',
         'Setting server_encoding needs to be UNICODE or UTF8.' => 'server_encoding 需要设置为UNICODE或UTF8。',
@@ -4954,6 +4975,11 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
         'Date Format' => '日期格式',
         'Setting DateStyle needs to be ISO.' => '设置日期格式为国际标准格式。',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+        'Primary Key Sequences' => '',
+        'The following sequences with possible wrong names have been found. Please rename them manually.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => '需要PostgreSQL 9.2或更高版本。',
@@ -5201,9 +5227,9 @@ sub Data {
         'Could not update modified setting!' => '无法更新修改过的设置！',
         'Setting could not be unlocked!' => '设置无法解锁！',
         'Missing key %s!' => '缺失键%s！',
-        'Invalid setting: %s' => '',
-        'Could not combine settings values into a perl hash.' => '',
-        'Can not lock the deployment for UserID \'%s\'!' => '',
+        'Invalid setting: %s' => '无效的设置：%s',
+        'Could not combine settings values into a perl hash.' => '无法将设置值组合成一个perl哈希。',
+        'Can not lock the deployment for UserID \'%s\'!' => '无法锁定用户ID为 \'%s\'的部署！',
         'All Settings' => '所有设置',
 
         # Perl Module: Kernel/System/SysConfig/BaseValueType.pm
@@ -7440,7 +7466,7 @@ Thanks for your help!
         'JavaScript function for the search frontend.' => '搜索界面的JavaScript函数。',
         'Language' => '语言',
         'Large' => '详细',
-        'Last Screen Overview' => '',
+        'Last Screen Overview' => '最近屏幕概览',
         'Last customer subject' => '最后客户主题',
         'Lastname Firstname' => '姓 名',
         'Lastname Firstname (UserLogin)' => '姓 名（登录用户名）',
@@ -8696,6 +8722,8 @@ Thanks for your help!
         'Clear all',
         'Clear debug log',
         'Clear search',
+        'Click to delete this attachment.',
+        'Click to select a file for upload.',
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',

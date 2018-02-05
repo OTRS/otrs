@@ -1,12 +1,13 @@
 # 
 # Translators:
+# Fikret Kavak <fikretb.kavak@gmail.com>, 2018
 # Kaya Zeren <kayazeren@gmail.com>, 2015
 # Sefer <sefersimsek@yahoo.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-01-22 01:09+0000\n"
-"PO-Revision-Date: 2018-01-22 01:13+0000\n"
+"POT-Creation-Date: 2018-02-05 18:26+0000\n"
+"PO-Revision-Date: 2018-02-05 18:27+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/otrs/OTRS/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +18,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "ACL Management"
-msgstr ""
+msgstr "ACL Yönetimi"
 
 #. Template: AdminACL
 msgid "Actions"
@@ -25,27 +26,27 @@ msgstr "Eylemler"
 
 #. Template: AdminACL
 msgid "Create New ACL"
-msgstr ""
+msgstr "Yeni ACL Oluştur"
 
 #. Template: AdminACL
 msgid "Deploy ACLs"
-msgstr ""
+msgstr "ACL'leri Dağıt"
 
 #. Template: AdminACL
 msgid "Export ACLs"
-msgstr ""
+msgstr "ACL'leri Dışa Aktar"
 
 #. Template: AdminACL
 msgid "Filter for ACLs"
-msgstr ""
+msgstr "ACL'leri Filtrele"
 
 #. Template: AdminACL
 msgid "Just start typing to filter..."
-msgstr ""
+msgstr "Filtrelemek için yazmaya başlayın..."
 
 #. Template: AdminACL
 msgid "Configuration Import"
-msgstr ""
+msgstr "Yapılandırmayı İçeri Aktar"
 
 #. Template: AdminACL
 msgid ""
@@ -59,15 +60,15 @@ msgstr "Bu alan zorunludur"
 
 #. Template: AdminACL
 msgid "Overwrite existing ACLs?"
-msgstr ""
+msgstr "Varolan ACL'lerin üzerine yazılsın mı?"
 
 #. Template: AdminACL
 msgid "Upload ACL configuration"
-msgstr ""
+msgstr "Yapılandırmayı karşıya yükle"
 
 #. Template: AdminACL
 msgid "Import ACL configuration(s)"
-msgstr ""
+msgstr "ACL yapılandırma(larını) içe aktar"
 
 #. Template: AdminACL
 msgid "Description"
@@ -99,7 +100,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "ACL name"
-msgstr ""
+msgstr "ACL Adı"
 
 #. Template: AdminACL
 msgid "Comment"
@@ -127,11 +128,11 @@ msgstr "Sonuç bulunamadı."
 
 #. Template: AdminACLEdit
 msgid "Edit ACL %s"
-msgstr ""
+msgstr "ACL Düzenle"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
-msgstr ""
+msgstr "ACL Düzenle"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -139,15 +140,15 @@ msgstr "Genel Bakışa git"
 
 #. Template: AdminACLEdit
 msgid "Delete ACL"
-msgstr ""
+msgstr "ACL Sil"
 
 #. Template: AdminACLEdit
 msgid "Delete Invalid ACL"
-msgstr ""
+msgstr "Geçersiz ACL'yi Sil"
 
 #. Template: AdminACLEdit
 msgid "Match settings"
-msgstr ""
+msgstr "Eşleşme Ayarları"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -158,7 +159,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Change settings"
-msgstr ""
+msgstr "Ayarları Değiştir"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -172,7 +173,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "documentation"
-msgstr ""
+msgstr "Döküman"
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -180,7 +181,7 @@ msgstr "İçeriği göster yada gizle"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "ACL Bilgisini Düzenle"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -192,11 +193,11 @@ msgstr "Karşılaşmadan sonra dur"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
+msgstr "ACL Yapısını Düzenle"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
-msgstr ""
+msgstr "ACL'yi Kaydet"
 
 #. Template: AdminACLEdit
 msgid "Save"
@@ -208,7 +209,7 @@ msgstr "veya"
 
 #. Template: AdminACLEdit
 msgid "Save and finish"
-msgstr ""
+msgstr "Kaydet ve bitir"
 
 #. Template: AdminACLEdit
 msgid "Cancel"
@@ -216,7 +217,7 @@ msgstr "İptal"
 
 #. Template: AdminACLEdit
 msgid "Do you really want to delete this ACL?"
-msgstr ""
+msgstr "Bu ACL'yi silmek istediğinizden emin misiniz?"
 
 #. Template: AdminACLNew
 msgid ""
@@ -226,35 +227,35 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Management"
-msgstr ""
+msgstr "Takvimleri Yönet"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Calendar"
-msgstr ""
+msgstr "Takvime Ekle"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Edit Calendar"
-msgstr ""
+msgstr "Takvimi Düzenle"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Go back"
-msgstr ""
+msgstr "Geri"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
-msgstr ""
+msgstr "Takvim Ön İzlemesi"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add new Calendar"
-msgstr ""
+msgstr "Yeni Takvim Ekle"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Appointments"
-msgstr ""
+msgstr "Atamaları Al"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Import"
-msgstr ""
+msgstr "Takvimi İçe Aktar"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -269,15 +270,15 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Upload calendar configuration"
-msgstr ""
+msgstr "Takvim yapılandırmasını yükle"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
-msgstr ""
+msgstr "Takvimi İçe Aktar"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
-msgstr ""
+msgstr "Takvimler için filtre uygula"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -321,19 +322,19 @@ msgstr "İndir"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Export calendar"
-msgstr ""
+msgstr "Takvimi Dışa Aktar"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Download calendar"
-msgstr ""
+msgstr "Takvimi İndir"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Copy public calendar URL"
-msgstr ""
+msgstr "Genel takvim URL'sini kopyala"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar"
@@ -341,27 +342,27 @@ msgstr "TAKVİM"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar name"
-msgstr ""
+msgstr "Takvim adı"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar with same name already exists."
-msgstr ""
+msgstr "Aynı ada sahip takvim zaten mevcut."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Color"
-msgstr ""
+msgstr "Renk"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Permission group"
-msgstr ""
+msgstr "İzin grubu"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Ticket Appointments"
-msgstr ""
+msgstr "Bilet Atama"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Rule"
-msgstr ""
+msgstr "Rol"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Remove this entry"
@@ -373,11 +374,11 @@ msgstr "Kaldır"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Start date"
-msgstr ""
+msgstr "Başlangıç Tarihi"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "End date"
-msgstr ""
+msgstr "Bitiş Tarihi"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -413,7 +414,7 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Rule"
-msgstr ""
+msgstr "Rol Ekle"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Submit"
@@ -421,7 +422,7 @@ msgstr "Gönder"
 
 #. Template: AdminAppointmentImport
 msgid "Appointment Import"
-msgstr ""
+msgstr "Atamayı İçeri Aktar"
 
 #. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
@@ -449,11 +450,11 @@ msgstr ""
 
 #. Template: AdminAppointmentImport
 msgid "Upload calendar"
-msgstr ""
+msgstr "Takvimi Yükle"
 
 #. Template: AdminAppointmentImport
 msgid "Import appointments"
-msgstr ""
+msgstr "Atamaları Al"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Notification Management"
@@ -477,11 +478,11 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for Notifications"
-msgstr ""
+msgstr "Bildirimler İçin Filtreleme"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for notifications"
-msgstr ""
+msgstr "Bildirimler için filtreleme"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -549,7 +550,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
-msgstr ""
+msgstr "Atama Filtresi"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Type"
@@ -565,11 +566,11 @@ msgstr "konum"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Team"
-msgstr ""
+msgstr "Takım"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Resource"
-msgstr ""
+msgstr "Kaynak"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Recipients"
@@ -577,7 +578,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to"
-msgstr ""
+msgstr "Gönderildi"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to these agents"
@@ -7780,8 +7781,7 @@ msgid "Preferences"
 msgstr "Tercihler"
 
 #. Template: AgentPreferences
-msgid ""
-"Warning! You're currently not editing your own preferences, but those of %s."
+msgid "Please note: you're currently editing the preferences of %s."
 msgstr ""
 
 #. Template: AgentPreferences
@@ -9231,6 +9231,10 @@ msgstr "Hata raporu gönder"
 msgid "Expand"
 msgstr "Genişlet"
 
+#. Template: AttachmentList
+msgid "Click to delete this attachment."
+msgstr ""
+
 #. Template: DraftButtons
 msgid "Update draft"
 msgstr ""
@@ -10181,6 +10185,10 @@ msgstr ""
 
 #. JS Template: WidgetLoading
 msgid "Loading, please wait..."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select a file for upload."
 msgstr ""
 
 #. JS Template: UploadContainer
@@ -11296,6 +11304,12 @@ msgid "Mail account added!"
 msgstr "E-posta hesabı eklendi!"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
+msgid ""
+"Email account fetch already fetched by another process. Please try again "
+"later!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by email To: field."
 msgstr "Elektronik posta Kime: alanına göre gönderiliyor."
 
@@ -11449,6 +11463,10 @@ msgid "Installed"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Not correctly deployed"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package updated correctly"
 msgstr ""
 
@@ -11458,6 +11476,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Dependency installed correctly"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "The package needs to be reinstalled"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -14718,6 +14740,19 @@ msgid "The setting innodb_log_file_size must be at least 256 MB."
 msgstr ""
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+msgid "Invalid Default Values"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+msgid ""
+"Tables with invalid default values were found. In order to fix it "
+"automatically, please run: bin/otrs.Console.pl Maint::Database::Check "
+"--repair"
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "Maximum Query Size"
 msgstr ""
@@ -14756,6 +14791,11 @@ msgid ""
 msgstr ""
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
+msgid "Table check found some problems."
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "MySQL 5.x or higher is required."
 msgstr ""
@@ -14786,6 +14826,18 @@ msgid "NLS_DATE_FORMAT Setting SQL Check"
 msgstr ""
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+msgid "Primary Key Sequences and Triggers"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+msgid ""
+"The following sequences and/or triggers with possible wrong names have been "
+"found. Please rename them manually."
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
 msgstr ""
@@ -14803,6 +14855,18 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
 msgid "Setting DateStyle needs to be ISO."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+msgid "Primary Key Sequences"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+msgid ""
+"The following sequences with possible wrong names have been found. Please "
+"rename them manually."
 msgstr ""
 
 #. Perl Module:

@@ -5,12 +5,12 @@
 # Dusan Vuckovic, 2016-2018
 # Dusan Vuckovic, 2015
 # S7 Design d.o.o. <otrs@s7designcreative.com>, 2015
-# Милорад Јовановић <j.milorad@gmail.com>, 2014-2017
+# Милорад Јовановић <j.milorad@gmail.com>, 2014-2018
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-01-22 01:09+0000\n"
-"PO-Revision-Date: 2018-01-22 01:13+0000\n"
+"POT-Creation-Date: 2018-02-05 18:26+0000\n"
+"PO-Revision-Date: 2018-02-05 18:27+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -188,7 +188,7 @@ msgstr "Уреди информације о ACL"
 
 #. Template: AdminACLEdit
 msgid "Name"
-msgstr "Име"
+msgstr "Назив"
 
 #. Template: AdminACLEdit
 msgid "Stop after match"
@@ -2008,7 +2008,7 @@ msgstr "Назив посла"
 
 #. Template: AdminGenericAgent
 msgid "The name you entered already exists."
-msgstr "Име које сте унели већ постоји."
+msgstr "Назив које сте унели већ постоји."
 
 #. Template: AdminGenericAgent
 msgid "Automatic Execution (Multiple Tickets)"
@@ -2078,7 +2078,7 @@ msgstr "Додај окидач догађаја"
 
 #. Template: AdminGenericAgent
 msgid "To add a new event select the event object and event name"
-msgstr "За додавање новог догађаја изаберите објект догађаја и име догађаја"
+msgstr "За додавање новог догађаја изаберите објекат и назив догађаја"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
@@ -2529,7 +2529,7 @@ msgstr "Назив се може користити за прављење раз
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Please provide a unique name for this web service."
-msgstr "Молимо да обезбедите јединствено име за овај веб сервис."
+msgstr "Молимо да обезбедите јединствени назив за овај веб сервис."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error handling module backend"
@@ -2822,11 +2822,11 @@ msgstr "Детаљи позиваоца"
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "The name is typically used to call up an operation of a remote web service."
-msgstr "Име се обично користи за покретање операције удаљеног веб сервиса."
+msgstr "Назив се обично користи за покретање операције удаљеног веб сервиса."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Please provide a unique name for this web service invoker."
-msgstr "Молимо употребите јединствено име за овог позиваоца веб сервиса."
+msgstr "Молимо употребите јединствени назив за овог позиваоца веб сервиса."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker backend"
@@ -2882,7 +2882,7 @@ msgstr "Овај позиваоц ће бити активиран преко п
 msgid ""
 "To add a new event select the event object and event name and click on the "
 "\"+\" button"
-msgstr "За додавање новог догађаја изаберите објект догађаја и име догађаја па кликните на \"+\" дугме"
+msgstr "За додавање новог догађаја изаберите објекат и назив догађаја па кликните на \"+\" дугме"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
@@ -3281,7 +3281,7 @@ msgid ""
 "Define the route that should get mapped to this operation. Variables marked "
 "by a ':' will get mapped to the entered name and passed along with the "
 "others to the mapping. (e.g. /Ticket/:TicketID)."
-msgstr "Дефинише руту која ће бити мапирана на ову операцију. Променљиве обележене са ':' ће бити мапиране на унето име и прослеђене са осталима (нпр. /Ticket/:TicketID)."
+msgstr "Дефинише руту која ће бити мапирана на ову операцију. Променљиве обележене са ':' ће бити мапиране за унети назив и прослеђене са осталима (нпр. /Ticket/:TicketID)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request methods for Operation"
@@ -3592,7 +3592,7 @@ msgstr "нпр. urn:otrs-com:soap:functions или http://www.otrs.com/GenericIn
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name scheme"
-msgstr "Захтев за шему имена"
+msgstr "Захтев за шему назива"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAP request function wrapper should be constructed."
@@ -3600,7 +3600,7 @@ msgstr "Изаберите како ће бити конструисан омо�
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "'FunctionName' is used as example for actual invoker/operation name."
-msgstr "'FunctionName' се користи као пример за стварно име позиваоца/операције."
+msgstr "'FunctionName' се користи као пример за стваран назив позиваоца/операције."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "'FreeText' is used as example for actual configured value."
@@ -3608,11 +3608,11 @@ msgstr "'FreeText' се користи као пример за стварну �
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name free text"
-msgstr "Слободан текст имена захтева"
+msgstr "Слободан текст назива захтева"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as function wrapper name suffix or replacement."
-msgstr "Текст који ће бити кориштен као наставак имена или замена омотача функције."
+msgstr "Текст који ће бити кориштен као наставак назива или замена омотача функције."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
@@ -3622,7 +3622,7 @@ msgstr "Молимо да узмете у обзир XML оганичења им
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Response name scheme"
-msgstr "Шема имена одговора"
+msgstr "Шема назива одговора"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAP response function wrapper should be constructed."
@@ -3630,7 +3630,7 @@ msgstr "Изаберите како ће бити конструисан омо�
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Response name free text"
-msgstr "Слободан текст имена одговора"
+msgstr "Слободан текст назива одговора"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
@@ -3682,7 +3682,7 @@ msgstr "Клонирај веб сервис"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The name must be unique."
-msgstr "Име мора бити јединствено."
+msgstr "Назив мора бити јединствен."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone"
@@ -5511,7 +5511,7 @@ msgstr "Филтер за редове"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
-msgstr "Ред са овим именом већ постоји!"
+msgstr "Ред са овим називом већ постоји!"
 
 #. Template: AdminQueue
 msgid ""
@@ -6614,7 +6614,7 @@ msgstr "Имејл адреса"
 
 #. Template: AdminSystemAddress
 msgid "Display name"
-msgstr "Прикажи име"
+msgstr "Прикажи назив"
 
 #. Template: AdminSystemAddress
 msgid "This email address is already used as system email address."
@@ -7010,7 +7010,7 @@ msgstr "Филтер за типове"
 
 #. Template: AdminType
 msgid "A type with this name already exists!"
-msgstr "Тип са овим именом већ постоји!"
+msgstr "Тип са овим називом већ постоји!"
 
 #. Template: AdminType
 msgid ""
@@ -7784,9 +7784,8 @@ msgid "Preferences"
 msgstr "Подешавања"
 
 #. Template: AgentPreferences
-msgid ""
-"Warning! You're currently not editing your own preferences, but those of %s."
-msgstr "Упозорење! Тренутно не мењате сопствена подешавање, већ она од %s."
+msgid "Please note: you're currently editing the preferences of %s."
+msgstr ""
 
 #. Template: AgentPreferences
 msgid "Go back to editing this agent"
@@ -9235,6 +9234,10 @@ msgstr "Пошаљи извештај о грешци"
 msgid "Expand"
 msgstr "Прошири"
 
+#. Template: AttachmentList
+msgid "Click to delete this attachment."
+msgstr ""
+
 #. Template: DraftButtons
 msgid "Update draft"
 msgstr "Aжурирај нацрт"
@@ -9543,7 +9546,7 @@ msgstr "Sistemski FQDN"
 
 #. Template: InstallerSystem
 msgid "Fully qualified domain name of your system."
-msgstr "Пуно име домена вашег система"
+msgstr "Пун назив домена вашег система"
 
 #. Template: InstallerSystem
 msgid "AdminEmail"
@@ -10186,6 +10189,10 @@ msgstr "Потврди"
 #. JS Template: WidgetLoading
 msgid "Loading, please wait..."
 msgstr "Учитавање, молимо сачекајте..."
+
+#. JS Template: UploadContainer
+msgid "Click to select a file for upload."
+msgstr ""
 
 #. JS Template: UploadContainer
 msgid "Click to select files or just drop them here."
@@ -11300,6 +11307,12 @@ msgid "Mail account added!"
 msgstr "Додат имејл налог!"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
+msgid ""
+"Email account fetch already fetched by another process. Please try again "
+"later!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by email To: field."
 msgstr "Отпремање путем имејла За: поље."
 
@@ -11453,6 +11466,10 @@ msgid "Installed"
 msgstr "Инсталирано"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Not correctly deployed"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package updated correctly"
 msgstr "Пакет успешно ажуриран"
 
@@ -11463,6 +11480,10 @@ msgstr "Пакет је већ ажуран"
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Dependency installed correctly"
 msgstr "Зависни пакети успешно инсталирани"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "The package needs to be reinstalled"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "The package contains cyclic dependencies"
@@ -13876,7 +13897,7 @@ msgstr "Одржавање система је активно!"
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid ""
 "A system maintenance period will start at: %s and is expected to stop at: %s"
-msgstr ""
+msgstr "Период одржавања система ће отпочети у: %s и очекивано је да се заврши у: %s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTRS Daemon is not running."
@@ -14722,6 +14743,19 @@ msgid "The setting innodb_log_file_size must be at least 256 MB."
 msgstr "Подешавање innodb_log_file_size мора бити барем 256 MB."
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+msgid "Invalid Default Values"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+msgid ""
+"Tables with invalid default values were found. In order to fix it "
+"automatically, please run: bin/otrs.Console.pl Maint::Database::Check "
+"--repair"
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "Maximum Query Size"
 msgstr "Максимална величина упита"
@@ -14760,6 +14794,11 @@ msgid ""
 msgstr "Пронађене су табеле са различитим механизмом за складиштење него што је предефинисани механизам."
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
+msgid "Table check found some problems."
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "MySQL 5.x or higher is required."
 msgstr "Неопходан је MySQL 5.x или више."
@@ -14790,6 +14829,18 @@ msgid "NLS_DATE_FORMAT Setting SQL Check"
 msgstr "SQL провера NLS_DATE_FORMAT подешавања"
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+msgid "Primary Key Sequences and Triggers"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+msgid ""
+"The following sequences and/or triggers with possible wrong names have been "
+"found. Please rename them manually."
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
 msgstr "Подешавање client_encoding мора бити UNICODE или UTF8."
@@ -14808,6 +14859,18 @@ msgstr "Формат датума"
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
 msgid "Setting DateStyle needs to be ISO."
 msgstr "Подешавање DateStyle мора бити ISO."
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+msgid "Primary Key Sequences"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+msgid ""
+"The following sequences with possible wrong names have been found. Please "
+"rename them manually."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
@@ -15469,15 +15532,15 @@ msgstr "Недостаје кључ %s!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Invalid setting: %s"
-msgstr ""
+msgstr "Неважеће подешавање: %s"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Could not combine settings values into a perl hash."
-msgstr ""
+msgstr "Није било могуће искомбиновати вредност подешавања у perl мапу."
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Can not lock the deployment for UserID '%s'!"
-msgstr ""
+msgstr "Није било могуће обезбедити распоређивање за UserID '%s'!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "All Settings"
@@ -16162,7 +16225,7 @@ msgid ""
 "appropriate changes in the SysConfig, you will be locked out of the "
 "administrations panel! If this happens, please rename the group back to "
 "admin per SQL statement."
-msgstr "УПОЗОРЕЊЕ: Ако промените име групе 'admin' пре адекватног подешавања у системској конфигурацији, изгубићете приступ административном панелу! Уколико се то деси, вратите име групи у admin помоћу SQL команде."
+msgstr "УПОЗОРЕЊЕ: Ако промените назив групе 'admin' пре адекватног подешавања у системској конфигурацији, изгубићете приступ административном панелу! Уколико се то деси, вратите назив групи у admin помоћу SQL команде."
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Delete this Mail Account"
@@ -18308,7 +18371,7 @@ msgstr "Отвори нови имејл тикет и пошаљи (одлаз�
 
 #. SysConfig
 msgid "Create new email ticket."
-msgstr "Креирање новог Имејл тикета."
+msgstr "Креирање новог имејл тикета."
 
 #. SysConfig
 msgid "Create new phone ticket (inbound)."
@@ -18536,7 +18599,7 @@ msgstr "Подразумевани ID тикета који користи си�
 
 #. SysConfig
 msgid "Default value for NameX"
-msgstr "Подразумевана вредност за ИмеХ"
+msgstr "Подразумевана вредност за NameX"
 
 #. SysConfig
 msgid ""
@@ -20693,7 +20756,7 @@ msgid ""
 "Defines the ticket fields that are going to be displayed calendar events. "
 "The \"Key\" defines the field or ticket attribute and the \"Content\" "
 "defines the display name."
-msgstr "Дефинише поља тикета која ће бити приказана у календару догађаја. \"Кључ\" дефинише поље или атрибут тикета, а \"Садржај\" дефинише приказано име."
+msgstr "Дефинише поља тикета која ће бити приказана у календару догађаја. \"Кључ\" дефинише поље или атрибут тикета, а \"Садржај\" дефинише приказан назив."
 
 #. SysConfig
 msgid "Defines the ticket plugin for calendar appointments."
@@ -22407,7 +22470,7 @@ msgstr "Велико"
 
 #. SysConfig
 msgid "Last Screen Overview"
-msgstr ""
+msgstr "Преглед последњег екрана"
 
 #. SysConfig
 msgid "Last customer subject"
@@ -22990,7 +23053,7 @@ msgstr "Назив наменске услуге. Наменска услуга 
 
 #. SysConfig
 msgid "NameX"
-msgstr "ИмеХ"
+msgstr "NameX"
 
 #. SysConfig
 msgid "New Ticket"
@@ -25635,7 +25698,7 @@ msgid ""
 "notifications. The sender name is used to build the complete display name "
 "for the notification master (i.e. \"OTRS Notifications\" "
 "otrs@your.example.com)."
-msgstr "Дефинише име које ће апликација користити приликом слања обавештења. Име се користи у називу пошиљаоца обавештења (нпр. \"OTRS Notifications\" otrs@your.example.com)."
+msgstr "Дефинише назив које ће апликација користити приликом слања обавештења. НАзив се користи у називу пошиљаоца обавештења (нпр. \"OTRS Notifications\" otrs@your.example.com)."
 
 #. SysConfig
 msgid ""

@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.999135396852845;
+    $Self->{Completeness}        = 0.997756686798965;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2443,8 +2443,8 @@ sub Data {
         'Edit your preferences' => 'Beállítások szerkesztése',
         'Personal preferences' => 'Személyes beállítások',
         'Preferences' => 'Beállítások',
-        'Warning! You\'re currently not editing your own preferences, but those of %s.' =>
-            'Figyelmeztetés! Jelenleg nem a saját beállításait szerkeszti, hanem %s beállításait.',
+        'Please note: you\'re currently editing the preferences of %s.' =>
+            '',
         'Go back to editing this agent' => 'Vissza az ügyintéző szerkesztéséhez',
         'Set up your personal preferences. Save each setting by clicking the checkmark on the right.' =>
             'Állítsa be a személyes beállításait. Az egyes beállításokat a jobb oldalán lévő pipára kattintva mentheti el.',
@@ -2938,15 +2938,18 @@ sub Data {
         'Send a bugreport' => 'Hibajelentés küldése',
         'Expand' => 'Kinyitás',
 
+        # Template: AttachmentList
+        'Click to delete this attachment.' => '',
+
         # Template: DraftButtons
         'Update draft' => 'Piszkozat frissítése',
         'Save as new draft' => 'Mentés új piszkozatként',
 
         # Template: DraftNotifications
         'You have loaded the draft "%s".' => 'Betöltötte a következő piszkozatot: „%s”.',
-        'You have loaded the draft "%s". You last changed it %s.' => 'Betöltötte a következő piszkozatot: „%s”. Utoljára %s változtatta meg.',
+        'You have loaded the draft "%s". You last changed it %s.' => 'Betöltötte a következő piszkozatot: „%s”. Utoljára %s-kor változtatta meg.',
         'You have loaded the draft "%s". It was last changed %s by %s.' =>
-            'Betöltötte a következő piszkozatot: „%s”. Utoljára %s változtatta meg %s.',
+            'Betöltötte a következő piszkozatot: „%s”. Utoljára %s-kor %s változtatta meg.',
         'Please note that this draft is outdated because the ticket was modified since this draft was created.' =>
             'Ne feledje, hogy ez a piszkozat elavult, mert a jegyet módosították a piszkozat létrehozása óta.',
 
@@ -3291,6 +3294,7 @@ sub Data {
         'Loading, please wait...' => 'Betöltés, kérem várjon…',
 
         # JS Template: UploadContainer
+        'Click to select a file for upload.' => '',
         'Click to select files or just drop them here.' => 'Kattintson a fájlok kijelöléséhez, vagy egyszerűen dobja ide azokat.',
         'Click to select a file or just drop it here.' => 'Kattintson egy fájl kijelöléséhez, vagy egyszerűen dobja ide azt.',
         'Uploading...' => 'Feltöltés…',
@@ -3651,6 +3655,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => 'Levelezőfiók hozzáadva!',
+        'Email account fetch already fetched by another process. Please try again later!' =>
+            '',
         'Dispatching by email To: field.' => 'Szétválogatás az e-mail címzett mezője szerint.',
         'Dispatching by selected Queue.' => 'Szétválogatás a kiválasztott várólista szerint.',
 
@@ -3700,9 +3706,11 @@ sub Data {
         'Updated' => 'Frissítve',
         'Already up-to-date' => 'Már naprakész',
         'Installed' => 'Telepítve',
+        'Not correctly deployed' => '',
         'Package updated correctly' => 'A csomag megfelelően frissítve',
         'Package was already updated' => 'A csomag már frissítve lett',
         'Dependency installed correctly' => 'A függőség megfelelően telepítve',
+        'The package needs to be reinstalled' => '',
         'The package contains cyclic dependencies' => 'A csomag körkörös függőségeket tartalmaz',
         'Not found in on-line repositories' => 'Nem található az internetes tárolókban',
         'Required version is higher than available' => 'A szükséges verzió magasabb az elérhetőnél',
@@ -4581,7 +4589,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'System maintenance is active!' => 'A rendszerkarbantartás aktív!',
         'A system maintenance period will start at: %s and is expected to stop at: %s' =>
-            '',
+            'Egy rendszerkarbantartás időszak fog kezdődni ekkor: %s, és várható befejezése: %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
         'OTRS Daemon is not running.' => 'Az OTRS démon nem fut.',
@@ -4919,6 +4927,11 @@ sub Data {
         'InnoDB Log File Size' => 'InnoDB naplófájl méret',
         'The setting innodb_log_file_size must be at least 256 MB.' => 'Az innodb_log_file_size beállításnak legalább 256 MB értékűnek kell lennie.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+        'Invalid Default Values' => '',
+        'Tables with invalid default values were found. In order to fix it automatically, please run: bin/otrs.Console.pl Maint::Database::Check --repair' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'Legnagyobb lekérdezési méret',
         'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
@@ -4935,6 +4948,9 @@ sub Data {
         'Tables with a different storage engine than the default engine were found.' =>
             'Az alapértelmezett motortól eltérő motorral rendelkező táblák találhatók.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
+        'Table check found some problems.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'MySQL 5.x vagy újabb szükséges.',
 
@@ -4946,6 +4962,11 @@ sub Data {
         'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => 'Az NLS_DATE_FORMAT értékét „YYYY-MM-DD HH24:MI:SS” értékre kell állítani.',
         'NLS_DATE_FORMAT Setting SQL Check' => 'NLS_DATE_FORMAT beállítás SQL ellenőrzés',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+        'Primary Key Sequences and Triggers' => '',
+        'The following sequences and/or triggers with possible wrong names have been found. Please rename them manually.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
         'Setting client_encoding needs to be UNICODE or UTF8.' => 'A client_encoding beállításnak UNICODE vagy UTF8 értékűnek kell lennie.',
         'Setting server_encoding needs to be UNICODE or UTF8.' => 'A server_encoding beállításnak UNICODE vagy UTF8 értékűnek kell lennie.',
@@ -4953,6 +4974,11 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
         'Date Format' => 'Dátumformátum',
         'Setting DateStyle needs to be ISO.' => 'A DateStyle beállításnak ISO értékűnek kell lennie.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+        'Primary Key Sequences' => '',
+        'The following sequences with possible wrong names have been found. Please rename them manually.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => 'PostgreSQL 9.2 vagy újabb szükséges.',
@@ -5200,9 +5226,9 @@ sub Data {
         'Could not update modified setting!' => 'Nem sikerült frissíteni a módosított beállítást!',
         'Setting could not be unlocked!' => 'A beállítást nem sikerült feloldani!',
         'Missing key %s!' => 'Hiányzó %s kulcs!',
-        'Invalid setting: %s' => '',
-        'Could not combine settings values into a perl hash.' => '',
-        'Can not lock the deployment for UserID \'%s\'!' => '',
+        'Invalid setting: %s' => 'Érvénytelen beállítás: %s',
+        'Could not combine settings values into a perl hash.' => 'Nem sikerült egyesíteni a beállítások értékeit Perl kivonatba.',
+        'Can not lock the deployment for UserID \'%s\'!' => 'Nem lehet zárolni az üzembe állítást a következő felhasználó-azonosítónál: „%s”!',
         'All Settings' => 'Összes beállítás',
 
         # Perl Module: Kernel/System/SysConfig/BaseValueType.pm
@@ -7441,7 +7467,7 @@ Az Ön segélyszolgálat csapata
         'JavaScript function for the search frontend.' => 'JavaScript függvény a keresési előtétprogramhoz.',
         'Language' => 'Nyelv',
         'Large' => 'Nagy',
-        'Last Screen Overview' => '',
+        'Last Screen Overview' => 'Utolsó képernyő áttekintője',
         'Last customer subject' => 'Legutóbbi ügyféltárgy',
         'Lastname Firstname' => 'Vezetéknév Keresztnév',
         'Lastname Firstname (UserLogin)' => 'Vezetéknév Keresztnév (Felhasználónév)',
@@ -8697,6 +8723,8 @@ Az Ön segélyszolgálat csapata
         'Clear all',
         'Clear debug log',
         'Clear search',
+        'Click to delete this attachment.',
+        'Click to select a file for upload.',
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',

@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.389417257478817;
+    $Self->{Completeness}        = 0.403796376186368;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -123,44 +123,44 @@ sub Data {
         'Changed' => 'ændret',
         'Created' => 'Oprettet',
         'Download' => 'Download',
-        'URL' => '',
-        'Export calendar' => '',
-        'Download calendar' => '',
-        'Copy public calendar URL' => '',
+        'URL' => 'URL',
+        'Export calendar' => 'Eksporter kalender',
+        'Download calendar' => 'Download kalender',
+        'Copy public calendar URL' => 'Kopier URL til offentlig kalender',
         'Calendar' => 'Kalender',
-        'Calendar name' => '',
-        'Calendar with same name already exists.' => '',
-        'Color' => '',
-        'Permission group' => '',
+        'Calendar name' => 'Navn på kalender',
+        'Calendar with same name already exists.' => 'Der findes allerede en kalender med samme navn.',
+        'Color' => 'Farve',
+        'Permission group' => 'Tilladelsesgruppe',
         'Ticket Appointments' => '',
-        'Rule' => '',
+        'Rule' => 'Regel',
         'Remove this entry' => 'Fjern denne parameter',
         'Remove' => 'Fjern',
         'Start date' => 'Start dato',
-        'End date' => '',
+        'End date' => 'Slutdato',
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
             '',
         'Queues' => 'Køer',
-        'Please select a valid queue.' => '',
-        'Search attributes' => '',
+        'Please select a valid queue.' => 'Vælg en gyldig kø.',
+        'Search attributes' => 'Søgeattributter',
         'Add entry' => 'Tilføj parameter',
         'Add' => 'Tilføj',
         'Define rules for creating automatic appointments in this calendar based on ticket data.' =>
             '',
-        'Add Rule' => '',
+        'Add Rule' => 'Tilføj Regel',
         'Submit' => 'Send',
 
         # Template: AdminAppointmentImport
-        'Appointment Import' => '',
+        'Appointment Import' => 'Importer Aftale',
         'Uploaded file must be in valid iCal format (.ics).' => '',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             '',
         'Upload' => 'Upload',
-        'Update existing appointments?' => '',
+        'Update existing appointments?' => 'Opdater eksisterende aftaler?',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
             '',
-        'Upload calendar' => '',
-        'Import appointments' => '',
+        'Upload calendar' => 'Upload kalender',
+        'Import appointments' => 'Importer aftaler',
 
         # Template: AdminAppointmentNotificationEvent
         'Appointment Notification Management' => '',
@@ -168,8 +168,8 @@ sub Data {
         'Edit Notification' => 'Rediger besked',
         'Add notification' => 'Tilføj besked',
         'Export Notifications' => 'Eksporter beskeder',
-        'Filter for Notifications' => '',
-        'Filter for notifications' => '',
+        'Filter for Notifications' => 'Filter for Meddelelser',
+        'Filter for notifications' => 'Filter for meddelelser',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
             '',
         'Overwrite existing notifications?' => 'Overskriv eksisterende beskeder?',
@@ -187,12 +187,12 @@ sub Data {
         'Event' => 'Hændelse',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
             '',
-        'Appointment Filter' => '',
+        'Appointment Filter' => 'Aftalefilter',
         'Type' => 'Type',
         'Title' => 'Titel',
         'Location' => 'Lokation',
-        'Team' => '',
-        'Resource' => '',
+        'Team' => 'Hold',
+        'Resource' => 'Resurse',
         'Recipients' => 'Modtagere',
         'Send to' => 'Send til',
         'Send to these agents' => 'Send til disse agenter',
@@ -207,12 +207,12 @@ sub Data {
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
             '',
         'Enable this notification method' => 'Aktiver denne beskedafgivelsesmetode',
-        'Transport' => '',
+        'Transport' => 'Transport',
         'At least one method is needed per notification.' => 'Mindst en metode er krævet pr. besked',
         'Active by default in agent preferences' => '',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             '',
-        'This feature is currently not available.' => '',
+        'This feature is currently not available.' => 'Denne funktionalitet er i øjeblikket ikke tilgængelig.',
         'Upgrade to %s' => 'Opgrader til %s',
         'Please activate this transport in order to use it.' => '',
         'No data found' => 'Ingen data fundet',
@@ -227,7 +227,7 @@ sub Data {
         'Add new notification language' => 'Tilføj beskedsprog',
         'Save Changes' => 'Gem ændringer',
         'Tag Reference' => '',
-        'Notifications are sent to an agent.' => '',
+        'Notifications are sent to an agent.' => 'Meddelelser sendt til agent.',
         'You can use the following tags' => 'Du kan bruge følgende tags',
         'To get the first 20 character of the appointment title.' => '',
         'To get the appointment attribute' => '',
@@ -239,13 +239,13 @@ sub Data {
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Yderligere modtageres email adresser',
-        'Article visible for customer' => '',
+        'Article visible for customer' => 'Indlæg synligt for kunde',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             '',
         'Email template' => 'Email skabelon',
         'Use this template to generate the complete email (only for HTML emails).' =>
             '',
-        'Enable email security' => '',
+        'Enable email security' => 'Aktiver sikker email',
         'Email security level' => '',
         'If signing key/certificate is missing' => '',
         'If encryption key/certificate is missing' => '',
@@ -327,7 +327,7 @@ sub Data {
             '',
         'If you click on the different entries, you will get redirected to a detailed screen about the message.' =>
             '',
-        'Status for: %s' => '',
+        'Status for: %s' => 'Status for: %s',
         'Failing accounts' => '',
         'Some account problems' => '',
         'No account problems' => '',
@@ -346,7 +346,7 @@ sub Data {
         'Settings' => 'Indstillinger',
         'Entries per page' => '',
         'No communications found.' => '',
-        '%s s' => '',
+        '%s s' => '%s s',
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => '',
@@ -357,20 +357,20 @@ sub Data {
             '',
         'Account status for: %s' => '',
         'Status' => 'Status',
-        'Account' => '',
+        'Account' => 'Konto',
         'Edit' => 'Rediger',
-        'No accounts found.' => '',
+        'No accounts found.' => 'Ingen konti fundet.',
         'Communication Log Details (%s)' => '',
         'Direction' => 'Retning',
-        'Start Time' => '',
-        'End Time' => '',
+        'Start Time' => 'Starttid',
+        'End Time' => 'Sluttid',
         'No communication log entries found.' => '',
 
         # Template: AdminCommunicationLogCommunications
-        'Duration' => '',
+        'Duration' => 'Varighed',
 
         # Template: AdminCommunicationLogObjectLog
-        '#' => '',
+        '#' => '#',
         'Priority' => 'Prioritet',
         'Module' => 'Modul',
         'Information' => 'Information',
@@ -391,7 +391,7 @@ sub Data {
         'Search' => 'Søg',
         'Wildcards like \'*\' are allowed.' => 'Jokertegn som \'*\' er tilladt.',
         'Select' => 'Vælg',
-        'List (only %s shown - more available)' => '',
+        'List (only %s shown - more available)' => 'List (kun %s vist - der er flere)',
         'total' => 'i alt',
         'Please enter a search term to look for customers.' => 'Angiv søgeord for at lede efter kunder',
         'Customer ID' => 'Kunde-ID',
@@ -453,7 +453,7 @@ sub Data {
         'The syntax of this email address is incorrect.' => 'Syntaksen på denne mail-adresse er forkert.',
         'This CustomerID is invalid.' => '',
         'Effective Permissions for Customer User' => '',
-        'Group Permissions' => '',
+        'Group Permissions' => 'Gruppe-Tilladelser',
         'This customer user has no group permissions.' => '',
         'Table above shows effective group permissions for the customer user. The matrix takes into account all inherited permissions (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it.' =>
             '',
@@ -631,7 +631,7 @@ sub Data {
         'Job Settings' => 'Job-indstillinger',
         'Job name' => 'Job-navn',
         'The name you entered already exists.' => 'Det indtastede navn eksisterer allerede.',
-        'Automatic Execution (Multiple Tickets)' => '',
+        'Automatic Execution (Multiple Tickets)' => 'Automatisk udførelse (flere sager)',
         'Execution Schedule' => 'Udførelses tidsplan',
         'Schedule minutes' => 'Planlæg minutter',
         'Schedule hours' => 'Planlæg timer',
@@ -640,7 +640,7 @@ sub Data {
             'Denne automatisk agent vil i øjeblikket ikke køre.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
             'For at aktivere automatisk kørsel, vælg mindst en værdi fra minutter, timer og dage.',
-        'Event Based Execution (Single Ticket)' => '',
+        'Event Based Execution (Single Ticket)' => 'Handlingsbasere udførelse (Enkelt Sag)',
         'Event Triggers' => 'Hændelsens udløsere',
         'List of all configured events' => 'Liste med alle konfigurerede hændelser',
         'Delete this event' => 'Slet denne hændelse',
@@ -720,7 +720,7 @@ sub Data {
         'New Dynamic Field Values' => 'Ny Dynamisk Felt-værdi',
         'Archive selected tickets' => 'Arkiver valgte sager',
         'Add Note' => 'Tilføj Bemærkning',
-        'Visible for customer' => '',
+        'Visible for customer' => 'Synlig for kunde',
         'Time units' => 'Tidsenheder',
         'Execute Ticket Commands' => 'Udfør Sags-kommandoer',
         'Send agent/customer notifications on changes' => 'Send besked til agent/kunde ved ændringer',
@@ -738,7 +738,7 @@ sub Data {
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
             'Advarsel: Du bruger SLET-muligheden. Alle slettede sager vil gå tabt!',
         'Warning: There are %s tickets affected but only %s may be modified during one job execution!' =>
-            '',
+            'Advarsel: %s sager omfattet, men kun %s må ændres i én job-kørsel!',
         'Affected Tickets' => 'Berørte sager',
         'Age' => 'Alder',
 
@@ -798,11 +798,11 @@ sub Data {
             '',
         'Example: Handle only errors where mapping for outgoing data could not be applied.' =>
             '',
-        'Error code' => '',
+        'Error code' => 'Fejlkode',
         'An error identifier for this error handling module.' => '',
         'This identifier will be available in XSLT-Mapping and shown in debugger output.' =>
             '',
-        'Error message' => '',
+        'Error message' => 'Fejlbesked',
         'An error explanation for this error handling module.' => '',
         'This message will be available in XSLT-Mapping and shown in debugger output.' =>
             '',
@@ -892,7 +892,7 @@ sub Data {
         'Delete all conditions' => '',
         'Do you really want to delete all the conditions for this event?' =>
             '',
-        'General Settings' => '',
+        'General Settings' => 'Generelle Indstillinger',
         'Event type' => '',
         'Conditions' => 'Betingelser',
         'Conditions can only operate on non-empty fields.' => '',
@@ -928,17 +928,17 @@ sub Data {
         'Do you really want to delete this key mapping?' => 'Vil du virkelig fjerne denne taste-binding?',
 
         # Template: AdminGenericInterfaceMappingXSLT
-        'General Shortcuts' => '',
-        'MacOS Shortcuts' => '',
+        'General Shortcuts' => 'Generelle Genveje',
+        'MacOS Shortcuts' => 'MacOS Genveje',
         'Comment code' => '',
         'Uncomment code' => '',
         'Auto format code' => '',
         'Expand/Collapse code block' => '',
-        'Find' => '',
-        'Find next' => '',
-        'Find previous' => '',
-        'Find and replace' => '',
-        'Find and replace all' => '',
+        'Find' => 'Find',
+        'Find next' => 'Find næste',
+        'Find previous' => 'Find forrige',
+        'Find and replace' => 'Find og erstat',
+        'Find and replace all' => 'Find og erstat alle',
         'XSLT Mapping' => '',
         'XSLT stylesheet' => '',
         'The entered data is not a valid XSLT style sheet.' => '',
@@ -953,9 +953,9 @@ sub Data {
         'Data key regex filters (before mapping)' => '',
         'Data key regex filters (after mapping)' => '',
         'Regular expressions' => '',
-        'Replace' => '',
-        'Remove regex' => '',
-        'Add regex' => '',
+        'Replace' => 'Erstat',
+        'Remove regex' => 'Fjern regex',
+        'Add regex' => 'Tilføj regex',
         'These filters can be used to transform keys using regular expressions.' =>
             '',
         'The data structure will be traversed recursively and all configured regexes will be applied to all keys.' =>
@@ -1224,11 +1224,11 @@ sub Data {
             '',
         'Outgoing email can be configured via the Sendmail* settings in %s.' =>
             '',
-        'System Configuration' => '',
+        'System Configuration' => 'Systemkonfiguration',
         'Host' => 'Vært',
         'Delete account' => 'Slet konto',
         'Fetch mail' => 'Hent mail',
-        'Do you really want to delete this mail account?' => '',
+        'Do you really want to delete this mail account?' => 'Vil du virkelig slette denne mail-konto?',
         'Password' => 'Adgangskode',
         'Example: mail.example.com' => 'F.eks. post.firma.dk',
         'IMAP Folder' => 'IMAP-mappe',
@@ -1242,14 +1242,14 @@ sub Data {
         'Administration Overview' => '',
         'Filter for Items' => '',
         'Filter' => 'Filter',
-        'Favorites' => '',
+        'Favorites' => 'Favoritter',
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             '',
-        'Links' => '',
+        'Links' => 'Links',
         'View the admin manual on Github' => '',
-        'No Matches' => '',
-        'Sorry, your search didn\'t match any items.' => '',
-        'Set as favorite' => '',
+        'No Matches' => 'Intet fundet',
+        'Sorry, your search didn\'t match any items.' => 'Beklager, men din søgning matcher ikke noget.',
+        'Set as favorite' => 'Vælg som favorit',
 
         # Template: AdminNotificationEvent
         'Ticket Notification Management' => 'Håndter sagsbeskeder',
@@ -1732,7 +1732,7 @@ sub Data {
         'This filter allow you to show queues without auto responses' => '',
         'Queues without Auto Responses' => '',
         'This filter allow you to show all queues' => 'Dette filter tillader dig at vise alle køer',
-        'Show All Queues' => '',
+        'Show All Queues' => 'Vis alle køer',
         'Auto Responses' => 'Autosvar',
 
         # Template: AdminQueueTemplates
@@ -2044,7 +2044,7 @@ sub Data {
 
         # Template: AdminSystemConfiguration
         'online administrator documentation' => '',
-        'System configuration' => '',
+        'System configuration' => 'Systemkonfiguration',
         'Navigate through the available settings by using the tree in the navigation box on the left side.' =>
             '',
         'Find certain settings by using the search field below or from search icon from the top navigation.' =>
@@ -2091,8 +2091,8 @@ sub Data {
         'Import & Export' => '',
         'Upload a file to be imported to your system (.yml format as exported from the System Configuration module).' =>
             '',
-        'Upload system configuration' => '',
-        'Import system configuration' => '',
+        'Upload system configuration' => 'Upload systemkonfiguration',
+        'Import system configuration' => 'Importer systemkonfiguration',
         'Download current configuration settings of your system in a .yml file.' =>
             '',
         'Include user settings' => '',
@@ -2182,7 +2182,7 @@ sub Data {
         'Agent Management' => 'Administrer Agenter',
         'Add Agent' => 'Tilføj agent',
         'Edit Agent' => 'Rediger agent',
-        'Edit personal preferences for this agent' => '',
+        'Edit personal preferences for this agent' => 'Rediger personlige indstillinger for denne agent',
         'Agents will be needed to handle tickets.' => 'Agenter skal oprettes for at kunne håndtere sager.',
         'Don\'t forget to add a new agent to groups and/or roles!' => 'Glem ikke at tilføje nye agenter til grupper og/eller roller!',
         'Please enter a search term to look for agents.' => 'Angiv en søgestreng for at lede efter agenter.',
@@ -2216,7 +2216,7 @@ sub Data {
             '',
 
         # Template: AgentAppointmentCalendarOverview
-        'Add new Appointment' => '',
+        'Add new Appointment' => 'Tilføj ny Aftale',
         'Calendars' => '',
 
         # Template: AgentAppointmentEdit
@@ -2332,7 +2332,7 @@ sub Data {
         'Dashboard' => 'Oversigt',
 
         # Template: AgentDashboardAppointmentCalendar
-        'New Appointment' => '',
+        'New Appointment' => 'Ny Aftale',
         'Tomorrow' => 'I morgen',
         'Soon' => '',
         '5 days' => '',
@@ -2437,13 +2437,13 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Opdater dine indstillinger',
-        'Personal preferences' => '',
+        'Personal preferences' => 'Personlige indstillinger',
         'Preferences' => 'Indstillinger',
-        'Warning! You\'re currently not editing your own preferences, but those of %s.' =>
+        'Please note: you\'re currently editing the preferences of %s.' =>
             '',
         'Go back to editing this agent' => '',
         'Set up your personal preferences. Save each setting by clicking the checkmark on the right.' =>
-            '',
+            'Vælg dine personlige præferencer. Gem hver indstilling ved at klikke på tjekmærket til højre.',
         'You can use the navigation tree below to only show settings from certain groups.' =>
             '',
         'Dynamic Actions' => '',
@@ -2465,7 +2465,7 @@ sub Data {
         'Reset to default' => '',
 
         # Template: AgentPreferencesOverview
-        'Personal Preferences' => '',
+        'Personal Preferences' => 'Personlinge indstillinger',
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             '',
         'Did you know?' => '',
@@ -2736,7 +2736,7 @@ sub Data {
             'Der er ingen dialoger tilgængelige på dette sted i processen.',
         'This item has no articles yet.' => '',
         'Ticket Timeline View' => '',
-        'Article Overview - %s Article(s)' => '',
+        'Article Overview - %s Article(s)' => 'Indlægsoversigt - %s Indlæg',
         'Page %s' => '',
         'Add Filter' => 'Tilføj filter',
         'Set' => 'Indstil',
@@ -2934,6 +2934,9 @@ sub Data {
         'Send a bugreport' => 'Sende en fejlrapport',
         'Expand' => 'Udvid',
 
+        # Template: AttachmentList
+        'Click to delete this attachment.' => '',
+
         # Template: DraftButtons
         'Update draft' => '',
         'Save as new draft' => '',
@@ -2949,7 +2952,7 @@ sub Data {
         # Template: Header
         'View notifications' => '',
         'Notifications' => '',
-        'Notifications (OTRS Business Solution™)' => '',
+        'Notifications (OTRS Business Solution™)' => 'Meddelelser (OTRS Business Solution™)',
         'Logout' => 'Log ud',
         'You are logged in as' => 'Du er logget ind som',
 
@@ -3204,10 +3207,10 @@ sub Data {
         'Reset this setting to its default state' => '',
         'Reset setting' => '',
         'Allow users to adapt this setting from within their personal preferences' =>
-            '',
+            'Tillad brugere at ændre denne indstilling i deres personlige indstillinger',
         'Allow users to update' => '',
         'Do not longer allow users to adapt this setting from within their personal preferences' =>
-            '',
+            'Lad ikke længere brugere ændre denne indstilling i deres personlige indstillinger',
         'Forbid users to update' => '',
         'Show user specific changes for this setting' => '',
         'Show user settings' => '',
@@ -3287,7 +3290,8 @@ sub Data {
         'Loading, please wait...' => '',
 
         # JS Template: UploadContainer
-        'Click to select files or just drop them here.' => '',
+        'Click to select a file for upload.' => '',
+        'Click to select files or just drop them here.' => 'Klik for at vælge filer eller træk dem hertil.',
         'Click to select a file or just drop it here.' => '',
         'Uploading...' => '',
 
@@ -3459,7 +3463,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminCustomerGroup.pm
         'No configuration for \'CustomerGroupPermissionContext\' found!' =>
             '',
-        'Please check system configuration.' => '',
+        'Please check system configuration.' => 'Tjek systemkonfigurationen.',
         'Invalid permission context configuration:' => '',
 
         # Perl Module: Kernel/Modules/AdminCustomerUser.pm
@@ -3647,6 +3651,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => 'Mail-konto tilføjet.',
+        'Email account fetch already fetched by another process. Please try again later!' =>
+            '',
         'Dispatching by email To: field.' => 'Sendes via mail til: felt.',
         'Dispatching by selected Queue.' => 'Sendes via den valgte kø.',
 
@@ -3696,9 +3702,11 @@ sub Data {
         'Updated' => '',
         'Already up-to-date' => '',
         'Installed' => '',
+        'Not correctly deployed' => '',
         'Package updated correctly' => '',
         'Package was already updated' => '',
         'Dependency installed correctly' => '',
+        'The package needs to be reinstalled' => '',
         'The package contains cyclic dependencies' => '',
         'Not found in on-line repositories' => '',
         'Required version is higher than available' => '',
@@ -3994,7 +4002,7 @@ sub Data {
         'Can\'t get element data of %s!' => '',
         'Can\'t get filter content data of %s!' => '',
         'Customer Name' => '',
-        'Customer User Name' => '',
+        'Customer User Name' => 'Kundenavn',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => '',
@@ -4597,7 +4605,7 @@ Opdater venligst dit framework først!',
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationOutOfSyncCheck.pm
         'The configuration is being updated, please be patient...' => '',
-        'There is an error updating the system configuration!' => '',
+        'There is an error updating the system configuration!' => 'Der er en fejl i opdateringen af systemkonfigurationen!',
 
         # Perl Module: Kernel/Output/HTML/Notification/UIDCheck.pm
         'Don\'t use the Superuser account to work with %s! Create new Agents and work with these accounts instead.' =>
@@ -4916,6 +4924,11 @@ Opdater venligst dit framework først!',
         'InnoDB Log File Size' => 'InnoDB Logfil størrelse',
         'The setting innodb_log_file_size must be at least 256 MB.' => 'Indstillingen innodb_log_file_size skal være mindst 256 MB.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+        'Invalid Default Values' => '',
+        'Tables with invalid default values were found. In order to fix it automatically, please run: bin/otrs.Console.pl Maint::Database::Check --repair' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'Maksimal størrelse på forespørgsler',
         'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
@@ -4932,6 +4945,9 @@ Opdater venligst dit framework først!',
         'Tables with a different storage engine than the default engine were found.' =>
             'Der er fundet tabeller lagret med anden storage enginge end default.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
+        'Table check found some problems.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'MySQL 5.x eller nyere er påkrævet.',
 
@@ -4943,6 +4959,11 @@ Opdater venligst dit framework først!',
         'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => '',
         'NLS_DATE_FORMAT Setting SQL Check' => '',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+        'Primary Key Sequences and Triggers' => '',
+        'The following sequences and/or triggers with possible wrong names have been found. Please rename them manually.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
         'Setting client_encoding needs to be UNICODE or UTF8.' => 'Indstillingen client_encoding skal være UNICODE eller UTF8.',
         'Setting server_encoding needs to be UNICODE or UTF8.' => 'Indstillingen server_encoding skal være UNICODE eller UTF8.',
@@ -4950,6 +4971,11 @@ Opdater venligst dit framework først!',
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
         'Date Format' => 'Datoformat',
         'Setting DateStyle needs to be ISO.' => 'Indstillingen DateStyle skal være ISO.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+        'Primary Key Sequences' => '',
+        'The following sequences with possible wrong names have been found. Please rename them manually.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => '',
@@ -5016,7 +5042,7 @@ Opdater venligst dit framework først!',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
         'Daemon' => 'Tjeneste',
-        'Daemon is running.' => '',
+        'Daemon is running.' => 'Dæmonen kører.',
         'Daemon is not running.' => 'Tjeneste kører ikke.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -5528,7 +5554,7 @@ Opdater venligst dit framework først!',
 
         # JS File: Core.Agent.Admin.SystemConfiguration
         'Loading...' => 'Indlæser...',
-        'Search the System Configuration' => '',
+        'Search the System Configuration' => 'Søg i systemkonfigurationen',
         'Please enter at least one search word to find anything.' => '',
         'Unfortunately deploying is currently not possible, maybe because another agent is already deploying. Please try again later.' =>
             '',
@@ -5782,7 +5808,7 @@ Thanks for your help!
         '(UserLogin) Firstname Lastname' => '(BrugerLogin) Fornavn Efternavn',
         '(UserLogin) Lastname Firstname' => '(BrugerLogin) Efternavn Fornavn',
         '(UserLogin) Lastname, Firstname' => '(BrugerLogin) Efternavn Fornavn',
-        '*** out of office until %s (%s d left) ***' => '',
+        '*** out of office until %s (%s d left) ***' => '*** ude af kontoret til og med %s (%s dage endnu) ***',
         '0 - Disabled' => '',
         '1 - Available' => '',
         '1 - Enabled' => '',
@@ -6039,7 +6065,7 @@ Thanks for your help!
         'Change the priority for this ticket' => 'Ændr denne sags prioritet',
         'Change the responsible for this ticket' => 'Skift sagens ansvarlige',
         'Change your avatar image.' => '',
-        'Change your password and more.' => '',
+        'Change your password and more.' => 'Skift password og andet',
         'Changed SLA to "%s" (%s).' => '',
         'Changed archive state to "%s".' => '',
         'Changed customer to "%s".' => '',
@@ -6075,7 +6101,7 @@ Thanks for your help!
             '',
         'Choose for which kind of ticket changes you want to receive notifications. Please note that you can\'t completely disable notifications marked as mandatory.' =>
             '',
-        'Choose which notifications you\'d like to receive.' => '',
+        'Choose which notifications you\'d like to receive.' => 'Vælg de beskeder, du gerne vil modtage',
         'Christmas Eve' => 'Juleaften',
         'Close this ticket' => 'Luk denne sag',
         'Closed tickets (customer user)' => 'Lukkede sager (kundebruger)',
@@ -6170,7 +6196,7 @@ Thanks for your help!
         'Create and manage ticket types.' => 'Administrer sagstyper.',
         'Create and manage web services.' => 'Opret og administrer web-services.',
         'Create new Ticket.' => '',
-        'Create new appointment.' => '',
+        'Create new appointment.' => 'Opret ny aftale.',
         'Create new email ticket and send this out (outbound).' => '',
         'Create new email ticket.' => '',
         'Create new phone ticket (inbound).' => '',
@@ -7231,7 +7257,7 @@ Thanks for your help!
         'Frontend module registration for the customer interface.' => '',
         'Full value' => '',
         'Fulltext index regex filters to remove parts of the text.' => '',
-        'Fulltext search' => '',
+        'Fulltext search' => 'Fritekstsøgning',
         'Galician' => '',
         'General ticket data shown in the ticket overviews (fall-back). Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
@@ -7486,7 +7512,7 @@ Thanks for your help!
         'Locked Tickets' => 'Mine sager',
         'Locked Tickets.' => '',
         'Locked ticket.' => 'Sag trukket.',
-        'Logged-In Users' => '',
+        'Logged-In Users' => 'Brugere online',
         'Logout of customer panel.' => '',
         'Look into a ticket!' => 'Se nærmere på en sag.',
         'Loop protection: no auto-response sent to "%s".' => '',
@@ -8548,7 +8574,7 @@ Thanks for your help!
         'Turns on drag and drop for the main navigation.' => '',
         'Turns on the remote ip address check. It should not be enabled if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             '',
-        'Tweak the system as you wish.' => '',
+        'Tweak the system as you wish.' => 'Tilpas systemet, som du ønsker.',
         'Type of daemon log rotation to use: Choose \'OTRS\' to let OTRS system to handle the file rotation, or choose \'External\' to use a 3rd party rotation mechanism (i.e. logrotate). Note: External rotation mechanism requires its own and independent configuration.' =>
             '',
         'Ukrainian' => 'Ukrainsk',
@@ -8683,6 +8709,8 @@ Thanks for your help!
         'Clear all',
         'Clear debug log',
         'Clear search',
+        'Click to delete this attachment.',
+        'Click to select a file for upload.',
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',

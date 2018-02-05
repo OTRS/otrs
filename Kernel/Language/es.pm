@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.66712778834515;
+    $Self->{Completeness}        = 0.666264020707506;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1018,14 +1018,14 @@ sub Data {
         'Send Keep-Alive' => 'Enviar Mantener-Activo',
         'This configuration defines if incoming connections should get closed or kept alive.' =>
             'Esta configuración define si las conexiones entrantes deben quedar cerrados o mantenerse activas.',
-        'Additional response headers' => '',
-        'Add response header' => '',
+        'Additional response headers' => 'Encabezados de respuesta adicionales',
+        'Add response header' => 'Agregar encabezado de respuesta',
         'Endpoint' => 'Puntofinal',
         'URI to indicate specific location for accessing a web service.' =>
             '',
         'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
             'ej. https://www.otrs.com:10745/api/v1.0 (sin la barra invertida)',
-        'Timeout' => '',
+        'Timeout' => 'Se acabó el tiempo',
         'Timeout value for requests.' => '',
         'Authentication' => 'Autenticación',
         'An optional authentication mechanism to access the remote system.' =>
@@ -2443,7 +2443,7 @@ sub Data {
         'Edit your preferences' => 'Editar sus preferencias',
         'Personal preferences' => '',
         'Preferences' => 'Preferencias',
-        'Warning! You\'re currently not editing your own preferences, but those of %s.' =>
+        'Please note: you\'re currently editing the preferences of %s.' =>
             '',
         'Go back to editing this agent' => '',
         'Set up your personal preferences. Save each setting by clicking the checkmark on the right.' =>
@@ -2938,6 +2938,9 @@ sub Data {
         'Send a bugreport' => 'Enviar un informe de error',
         'Expand' => 'Expandir',
 
+        # Template: AttachmentList
+        'Click to delete this attachment.' => '',
+
         # Template: DraftButtons
         'Update draft' => 'Actualizar borrador',
         'Save as new draft' => 'Guardar como nuevo borrador',
@@ -3291,6 +3294,7 @@ sub Data {
         'Loading, please wait...' => '',
 
         # JS Template: UploadContainer
+        'Click to select a file for upload.' => '',
         'Click to select files or just drop them here.' => '',
         'Click to select a file or just drop it here.' => '',
         'Uploading...' => '',
@@ -3651,6 +3655,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => '¡Cuenta de correo añadida!',
+        'Email account fetch already fetched by another process. Please try again later!' =>
+            '',
         'Dispatching by email To: field.' => 'Despachar por el campo Para: del correo electrónico',
         'Dispatching by selected Queue.' => 'Despachar por la cola seleccionada',
 
@@ -3700,9 +3706,11 @@ sub Data {
         'Updated' => '',
         'Already up-to-date' => '',
         'Installed' => '',
+        'Not correctly deployed' => '',
         'Package updated correctly' => '',
         'Package was already updated' => '',
         'Dependency installed correctly' => '',
+        'The package needs to be reinstalled' => '',
         'The package contains cyclic dependencies' => '',
         'Not found in on-line repositories' => '',
         'Required version is higher than available' => '',
@@ -4920,6 +4928,11 @@ sub Data {
         'InnoDB Log File Size' => 'Tamaño del Archivo Log InnoDB',
         'The setting innodb_log_file_size must be at least 256 MB.' => 'El ajuste innodb_log_file_size debe ser de al menos 256 MB.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+        'Invalid Default Values' => '',
+        'Tables with invalid default values were found. In order to fix it automatically, please run: bin/otrs.Console.pl Maint::Database::Check --repair' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'Tamaño Máximo de la Consulta',
         'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
@@ -4936,6 +4949,9 @@ sub Data {
         'Tables with a different storage engine than the default engine were found.' =>
             'Tablas con diferente motor de almacenamiento que la de por defecto fueron encontradas.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
+        'Table check found some problems.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'MySQL 5.x o mayor es requerida.',
 
@@ -4947,6 +4963,11 @@ sub Data {
         'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => 'NLS_DATE_FORMAT debe ser configurado a \'YYYY-MM-DD HH24:MI:SS\'.',
         'NLS_DATE_FORMAT Setting SQL Check' => 'El ajuste NLS_DATE_FORMAT Comprobar SQL',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+        'Primary Key Sequences and Triggers' => '',
+        'The following sequences and/or triggers with possible wrong names have been found. Please rename them manually.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
         'Setting client_encoding needs to be UNICODE or UTF8.' => 'El ajuste client_encoding necesita ser UNICODE o UTF8.',
         'Setting server_encoding needs to be UNICODE or UTF8.' => 'El ajuste server_encoding necesita ser UNICODE o UTF8.',
@@ -4954,6 +4975,11 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
         'Date Format' => 'Formato de Fecha',
         'Setting DateStyle needs to be ISO.' => 'El ajuste DateStyle necesita ser ISO.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+        'Primary Key Sequences' => '',
+        'The following sequences with possible wrong names have been found. Please rename them manually.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => '',
@@ -5361,7 +5387,7 @@ sub Data {
             'Recibirá una notificación tan pronto como un ticket del cual seas propietario sea automáticamente desbloqueado.',
         'Ticket owner update notification' => 'Notificación de actualización de propietario de Ticket',
         'Ticket responsible update notification' => 'Notificación de actualización de responsable de Ticket',
-        'Ticket new note notification' => 'Notificación de nueva nota de ticket',
+        'Ticket new note notification' => 'Notificación de nueva nota en ticket',
         'Ticket queue update notification' => 'Notificación de actualización de cola de Ticket',
         'You will receive a notification if a ticket is moved into one of your "My Queues".' =>
             'Recibirá una notificación si un ticket es movido a "Mis colas".',
@@ -8704,6 +8730,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Clear all',
         'Clear debug log',
         'Clear search',
+        'Click to delete this attachment.',
+        'Click to select a file for upload.',
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',

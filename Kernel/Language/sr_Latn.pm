@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.998097873076258;
+    $Self->{Completeness}        = 0.997756686798965;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -86,7 +86,7 @@ sub Data {
         'documentation' => 'dokumentacija',
         'Show or hide the content' => 'Pokaži ili sakrij sadržaj',
         'Edit ACL Information' => 'Uredi informacije o ACL',
-        'Name' => 'Ime',
+        'Name' => 'Naziv',
         'Stop after match' => 'Zaustavi posle poklapanja',
         'Edit ACL Structure' => 'Uredi strukturu ACL',
         'Save ACL' => 'Sačuvaj ACL',
@@ -635,7 +635,7 @@ sub Data {
         'Run this task' => 'Pokreni ovaj posao',
         'Job Settings' => 'Podešavanje posla',
         'Job name' => 'Naziv posla',
-        'The name you entered already exists.' => 'Ime koje ste uneli već postoji.',
+        'The name you entered already exists.' => 'Naziv koje ste uneli već postoji.',
         'Automatic Execution (Multiple Tickets)' => 'Automatsko izvršenje (višestruki tiketi)',
         'Execution Schedule' => 'Raspored izvršenja',
         'Schedule minutes' => 'Planirano minuta',
@@ -655,7 +655,7 @@ sub Data {
             'Ukoliko je događaj tiketa otkazao, biće primenjen tiket filter da potvrdi da li tiket odgovara. Samo tada će se posao na tiketu pokrenuti.',
         'Do you really want to delete this event trigger?' => 'Da li stvarno želite da obrišete ovaj okidač događaja?',
         'Add Event Trigger' => 'Dodaj okidač događaja',
-        'To add a new event select the event object and event name' => 'Za dodavanje novog događaja izaberite objekt događaja i ime događaja',
+        'To add a new event select the event object and event name' => 'Za dodavanje novog događaja izaberite objekat i naziv događaja',
         'Select Tickets' => 'Izaberi tikete',
         '(e. g. 10*5155 or 105658*)' => 'npr. 10*5144 ili 105658*',
         '(e. g. 234321)' => 'npr. 234321',
@@ -776,7 +776,7 @@ sub Data {
         'General options' => 'Opšta podešavanja',
         'The name can be used to distinguish different error handling configurations.' =>
             'Naziv se može koristiti za pravljenje razlike između pojedinačnih konfiguracija za obradu greške.',
-        'Please provide a unique name for this web service.' => 'Molimo da obezbedite jedinstveno ime za ovaj veb servis.',
+        'Please provide a unique name for this web service.' => 'Molimo da obezbedite jedinstveni naziv za ovaj veb servis.',
         'Error handling module backend' => 'Modul za obradu greške',
         'This OTRS error handling backend module will be called internally to process the error handling mechanism.' =>
             'Ovaj modul za otklanjanje grešaka će biti pozvan interno da obradi grešku.',
@@ -868,8 +868,8 @@ sub Data {
         'Do you really want to delete this invoker?' => 'Da li stvarno želite da izbrišete ovog pozivaoca?',
         'Invoker Details' => 'Detalji pozivaoca',
         'The name is typically used to call up an operation of a remote web service.' =>
-            'Ime se obično koristi za pokretanje operacije udaljenog veb servisa.',
-        'Please provide a unique name for this web service invoker.' => 'Molimo upotrebite jedinstveno ime za ovog pozivaoca veb servisa.',
+            'Naziv se obično koristi za pokretanje operacije udaljenog veb servisa.',
+        'Please provide a unique name for this web service invoker.' => 'Molimo upotrebite jedinstveni naziv za ovog pozivaoca veb servisa.',
         'Invoker backend' => 'Modul pozivaoca',
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
             'Ovaj modul pozivaoca biće pozvan da pripremi podatke za slanje na udaljeni sistem i da obradi podatke njegovog odgovora.',
@@ -885,7 +885,7 @@ sub Data {
         'Edit this event' => 'Uredi ovaj događaj',
         'This invoker will be triggered by the configured events.' => 'Ovaj pozivaoc će biti aktiviran preko podešenih događaja.',
         'To add a new event select the event object and event name and click on the "+" button' =>
-            'Za dodavanje novog događaja izaberite objekt događaja i ime događaja pa kliknite na "+" dugme',
+            'Za dodavanje novog događaja izaberite objekat i naziv događaja pa kliknite na "+" dugme',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
             'Asinhronim okidačima događaja upravlja planer OTRS sistemskog servisa u pozadini (preporučeno).',
         'Synchronous event triggers would be processed directly during the web request.' =>
@@ -1008,7 +1008,7 @@ sub Data {
         'Properties' => 'Svojstva',
         'Route mapping for Operation' => 'Mapiranje rute za operaciju',
         'Define the route that should get mapped to this operation. Variables marked by a \':\' will get mapped to the entered name and passed along with the others to the mapping. (e.g. /Ticket/:TicketID).' =>
-            'Definiše rutu koja će biti mapirana na ovu operaciju. Promenljive obeležene sa \':\' će biti mapirane na uneto ime i prosleđene sa ostalima (npr. /Ticket/:TicketID).',
+            'Definiše rutu koja će biti mapirana na ovu operaciju. Promenljive obeležene sa \':\' će biti mapirane za uneti naziv i prosleđene sa ostalima (npr. /Ticket/:TicketID).',
         'Valid request methods for Operation' => 'Važeće metode zahteva za operaciju',
         'Limit this Operation to specific request methods. If no method is selected all requests will be accepted.' =>
             'Ograniči ovu opreaciju na pojedine metode zahteva. Ako ni jedna metoda nije izabrana svi zahtevi će biti prihvaćeni.',
@@ -1099,22 +1099,22 @@ sub Data {
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI koji daje kontekst SOAP metodama, smanjuje dvosmislenosti.',
         'e.g urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions' =>
             'npr. urn:otrs-com:soap:functions ili http://www.otrs.com/GenericInterface/actions',
-        'Request name scheme' => 'Zahtev za šemu imena',
+        'Request name scheme' => 'Zahtev za šemu naziva',
         'Select how SOAP request function wrapper should be constructed.' =>
             'Izaberite kako će biti konstruisan omotač funkcije SOAP zahteva.',
         '\'FunctionName\' is used as example for actual invoker/operation name.' =>
-            '\'FunctionName\' se koristi kao primer za stvarno ime pozivaoca/operacije.',
+            '\'FunctionName\' se koristi kao primer za stvaran naziv pozivaoca/operacije.',
         '\'FreeText\' is used as example for actual configured value.' =>
             '\'FreeText\' se koristi kao primer za stvarnu podešenu vrednost.',
-        'Request name free text' => 'Slobodan tekst imena zahteva',
+        'Request name free text' => 'Slobodan tekst naziva zahteva',
         'Text to be used to as function wrapper name suffix or replacement.' =>
-            'Tekst koji će biti korišten kao nastavak imena ili zamena omotača funkcije.',
+            'Tekst koji će biti korišten kao nastavak naziva ili zamena omotača funkcije.',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
             'Molimo da uzmete u obzir XML oganičenja imenovanja (npr. nemojte koristiti \'<\' i \'&\').',
-        'Response name scheme' => 'Šema imena odgovora',
+        'Response name scheme' => 'Šema naziva odgovora',
         'Select how SOAP response function wrapper should be constructed.' =>
             'Izaberite kako će biti konstruisan omotač funkcije SOAP odgovora.',
-        'Response name free text' => 'Slobodan tekst imena odgovora',
+        'Response name free text' => 'Slobodan tekst naziva odgovora',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
             'Ovde možete uneti maksimalnu veličinu (u bajtima) SOAP poruka koje će OTRS da obradi.',
         'Encoding' => 'Kodni raspored',
@@ -1130,7 +1130,7 @@ sub Data {
         'Add Web Service' => 'Dodaj veb servis',
         'Edit Web Service' => 'Uredi veb servis',
         'Clone Web Service' => 'Kloniraj veb servis',
-        'The name must be unique.' => 'Ime mora biti jedinstveno.',
+        'The name must be unique.' => 'Naziv mora biti jedinstven.',
         'Clone' => 'Kloniraj',
         'Export Web Service' => 'Izvezi veb servis',
         'Import web service' => 'Uvezi veb servis',
@@ -1698,7 +1698,7 @@ sub Data {
         'Edit Queue' => 'Uredi Red',
         'Filter for Queues' => 'Filter za redove',
         'Filter for queues' => 'Filter za redove',
-        'A queue with this name already exists!' => 'Red sa ovim imenom već postoji!',
+        'A queue with this name already exists!' => 'Red sa ovim nazivom već postoji!',
         'This queue is present in a SysConfig setting, confirmation for updating settings to point to the new queue is needed!' =>
             'Ovaj red se koristi u sistemskoj konfiguraciji, neophodna je dodatna potvrda za promenu podešavanja na novu vrednost!',
         'Sub-queue of' => 'Pod-red od',
@@ -2040,7 +2040,7 @@ sub Data {
         'All incoming email with this address in To or Cc will be dispatched to the selected queue.' =>
             'Sve dolazne poruke sa ovom adresom u polju To ili Cc biće otpremljene u izabrani red.',
         'Email address' => 'Imejl adresa',
-        'Display name' => 'Prikaži ime',
+        'Display name' => 'Prikaži naziv',
         'This email address is already used as system email address.' => 'Ova imejl adresa je već upotrebljena kao sistemska imejl adresa.',
         'The display name and email address will be shown on mail you send.' =>
             'Prikazano ime i imejl adresa će biti prikazani na poruci koju ste poslali.',
@@ -2178,7 +2178,7 @@ sub Data {
         'Add ticket type' => 'Dodaj tip tiketa',
         'Filter for Types' => 'Filter za tipove',
         'Filter for types' => 'Filter za tipove',
-        'A type with this name already exists!' => 'Tip sa ovim imenom već postoji!',
+        'A type with this name already exists!' => 'Tip sa ovim nazivom već postoji!',
         'This type is present in a SysConfig setting, confirmation for updating settings to point to the new type is needed!' =>
             'Ovaj tip se koristi u sistemskoj konfiguraciji, neophodna je dodatna potvrda za promenu podešavanja na novu vrednost!',
         'This type is used in the following config settings:' => 'Ovaj tip se koristi u sledećim sistemskim podešavanjima:',
@@ -2444,8 +2444,8 @@ sub Data {
         'Edit your preferences' => 'Uredi lične postavke',
         'Personal preferences' => 'Lična podešavanja',
         'Preferences' => 'Podešavanja',
-        'Warning! You\'re currently not editing your own preferences, but those of %s.' =>
-            'Upozorenje! Trenutno ne menjate sopstvena podešavanje, već ona od %s.',
+        'Please note: you\'re currently editing the preferences of %s.' =>
+            '',
         'Go back to editing this agent' => 'Nazad na uređivanje ovog operatera',
         'Set up your personal preferences. Save each setting by clicking the checkmark on the right.' =>
             'Podesite svoja lična podešavanja. Sačuvajte svako podešavanje štikliranjem sa desne strane.',
@@ -2939,6 +2939,9 @@ sub Data {
         'Send a bugreport' => 'Pošalji izveštaj o grešci',
         'Expand' => 'Proširi',
 
+        # Template: AttachmentList
+        'Click to delete this attachment.' => '',
+
         # Template: DraftButtons
         'Update draft' => 'Ažuriraj nacrt',
         'Save as new draft' => 'Sačuvaj kao novi nacrt',
@@ -3044,7 +3047,7 @@ sub Data {
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'Sistemski identifikator. Svaki broj tiketa i svaki ID HTTP sesije sadrži ovaj broj.',
         'System FQDN' => 'Sistemski FQDN',
-        'Fully qualified domain name of your system.' => 'Puno ime domena vašeg sistema',
+        'Fully qualified domain name of your system.' => 'Pun naziv domena vašeg sistema',
         'AdminEmail' => 'Imejl administrator',
         'Email address of the system administrator.' => 'Imejl adresa sistem administratora.',
         'Organization' => 'Organizacija',
@@ -3292,6 +3295,7 @@ sub Data {
         'Loading, please wait...' => 'Učitavanje, molimo sačekajte...',
 
         # JS Template: UploadContainer
+        'Click to select a file for upload.' => '',
         'Click to select files or just drop them here.' => 'Kliknite da odaberete datoteke ili ih jednostavno prevucite ovde.',
         'Click to select a file or just drop it here.' => 'Kliknite da odaberete datoteku ili je jednostavno prevucite ovde.',
         'Uploading...' => 'Otpremanje...',
@@ -3652,6 +3656,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => 'Dodat imejl nalog!',
+        'Email account fetch already fetched by another process. Please try again later!' =>
+            '',
         'Dispatching by email To: field.' => 'Otpremanje putem imejla Za: polje.',
         'Dispatching by selected Queue.' => 'Otpremanje putem izabranog reda.',
 
@@ -3701,9 +3707,11 @@ sub Data {
         'Updated' => 'Ažurirano',
         'Already up-to-date' => 'Već ažurno',
         'Installed' => 'Instalirano',
+        'Not correctly deployed' => '',
         'Package updated correctly' => 'Paket uspešno ažuriran',
         'Package was already updated' => 'Paket je već ažuran',
         'Dependency installed correctly' => 'Zavisni paketi uspešno instalirani',
+        'The package needs to be reinstalled' => '',
         'The package contains cyclic dependencies' => 'Paket sadrži ciklične zavisnosti',
         'Not found in on-line repositories' => 'Nije pronađen u mrežnom spremištu',
         'Required version is higher than available' => 'Neophodna verzija je veća od trenutne',
@@ -4375,7 +4383,7 @@ sub Data {
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Greška: Molimo da podesete vrednost za innodb_log_file_size u vašoj bazi podataka na najmanje %s MB (trenutno: %s MB, preporučeno: %s MB). Za više informacija, molimo pogledajte na %s.',
         'Wrong database collation (%s is %s, but it needs to be utf8).' =>
-            '',
+            'Neispravno podešena baza podataka (%s je %s, a trebalo bi da bude utf8).',
 
         # Perl Module: Kernel/Modules/PublicCalendar.pm
         'No %s!' => 'Bez %s!',
@@ -4582,7 +4590,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'System maintenance is active!' => 'Održavanje sistema je aktivno!',
         'A system maintenance period will start at: %s and is expected to stop at: %s' =>
-            '',
+            'Period održavanja sistema će otpočeti u: %s i očekivano je da se završi u: %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
         'OTRS Daemon is not running.' => 'OTRS sistemski servis ne radi.',
@@ -4920,6 +4928,11 @@ sub Data {
         'InnoDB Log File Size' => 'Veličina InnoDB log datoteke',
         'The setting innodb_log_file_size must be at least 256 MB.' => 'Podešavanje innodb_log_file_size mora biti barem 256 MB.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+        'Invalid Default Values' => '',
+        'Tables with invalid default values were found. In order to fix it automatically, please run: bin/otrs.Console.pl Maint::Database::Check --repair' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'Maksimalna veličina upita',
         'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
@@ -4936,6 +4949,9 @@ sub Data {
         'Tables with a different storage engine than the default engine were found.' =>
             'Pronađene su tabele sa različitim mehanizmom za skladištenje nego što je predefinisani mehanizam.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
+        'Table check found some problems.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'Neophodan je MySQL 5.x ili više.',
 
@@ -4947,6 +4963,11 @@ sub Data {
         'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => 'NLS_DATE_FORMAT mora biti podešen na \'YYYY-MM-DD HH24:MI:SS\'.',
         'NLS_DATE_FORMAT Setting SQL Check' => 'SQL provera NLS_DATE_FORMAT podešavanja',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+        'Primary Key Sequences and Triggers' => '',
+        'The following sequences and/or triggers with possible wrong names have been found. Please rename them manually.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
         'Setting client_encoding needs to be UNICODE or UTF8.' => 'Podešavanje client_encoding mora biti UNICODE ili UTF8.',
         'Setting server_encoding needs to be UNICODE or UTF8.' => 'Podešavanje server_encoding mora biti UNICODE ili UTF8.',
@@ -4954,6 +4975,11 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
         'Date Format' => 'Format datuma',
         'Setting DateStyle needs to be ISO.' => 'Podešavanje DateStyle mora biti ISO.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+        'Primary Key Sequences' => '',
+        'The following sequences with possible wrong names have been found. Please rename them manually.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => 'Neophodan je PostgreSQL 9.2 ili više.',
@@ -5201,9 +5227,9 @@ sub Data {
         'Could not update modified setting!' => 'Nije moguće ažurirati promenjeno podešavanje!',
         'Setting could not be unlocked!' => 'Nije moguće otključati podešavanje!',
         'Missing key %s!' => 'Nedostaje ključ %s!',
-        'Invalid setting: %s' => '',
-        'Could not combine settings values into a perl hash.' => '',
-        'Can not lock the deployment for UserID \'%s\'!' => '',
+        'Invalid setting: %s' => 'Nevažeće podešavanje: %s',
+        'Could not combine settings values into a perl hash.' => 'Nije bilo moguće iskombinovati vrednost podešavanja u perl mapu.',
+        'Can not lock the deployment for UserID \'%s\'!' => 'Nije bilo moguće obezbediti raspoređivanje za UserID \'%s\'!',
         'All Settings' => 'Sva podešavanja',
 
         # Perl Module: Kernel/System/SysConfig/BaseValueType.pm
@@ -5445,7 +5471,7 @@ sub Data {
 
         # JS File: Core.Agent.Admin.Group
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
-            'UPOZORENJE: Ako promenite ime grupe \'admin\' pre adekvatnog podešavanja u sistemskoj konfiguraciji, izgubićete pristup administrativnom panelu! Ukoliko se to desi, vratite ime grupi u admin pomoću SQL komande.',
+            'UPOZORENJE: Ako promenite naziv grupe \'admin\' pre adekvatnog podešavanja u sistemskoj konfiguraciji, izgubićete pristup administrativnom panelu! Ukoliko se to desi, vratite naziv grupi u admin pomoću SQL komande.',
 
         # JS File: Core.Agent.Admin.MailAccount
         'Delete this Mail Account' => 'Obriši ovaj imejl nalog',
@@ -6122,7 +6148,7 @@ Vaša tehnička podrška
         'Communication & Notifications' => 'Komunikacija & obaveštenja',
         'Communication Log GUI' => 'Grafički interfej komunikacionog loga',
         'Communication log limit per page for Communication Log Overview.' =>
-            '',
+            'Ograničenje broja logova po strani za pregled komunikacionih logova.',
         'CommunicationLog Overview Limit' => 'Ograničenje pregleda komunikacionih logova',
         'Company Status' => 'Status firme',
         'Company Tickets.' => 'Tiketi firmi.',
@@ -6187,7 +6213,7 @@ Vaša tehnička podrška
         'Create new Ticket.' => 'Kreiranje novog tiketa.',
         'Create new appointment.' => 'Kreira novi termin.',
         'Create new email ticket and send this out (outbound).' => 'Otvori novi imejl tiket i pošalji (odlaznu) poruku.',
-        'Create new email ticket.' => 'Kreiranje novog Imejl tiketa.',
+        'Create new email ticket.' => 'Kreiranje novog imejl tiketa.',
         'Create new phone ticket (inbound).' => 'Kreiraj novi tiket (dolaznog) poziva.',
         'Create new phone ticket.' => 'Kreiranje novog tiketa poziva.',
         'Create new process ticket.' => 'Kreiraj novi proces tiket.',
@@ -6251,7 +6277,7 @@ Vaša tehnička podrška
             'Podrazumevani ID tiketa koji koristi sistem u interfejsu operatera.',
         'Default ticket ID used by the system in the customer interface.' =>
             'Podrazumevani ID tiketa koji koristi sistem u klijentskom interfejsu.',
-        'Default value for NameX' => 'Podrazumevana vrednost za ImeH',
+        'Default value for NameX' => 'Podrazumevana vrednost za NameX',
         'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
             'Definiše akcije na kojima je omogućen prikaz dugmeta za podešavanje u aplikativnom dodatku linkovanih objekata (LinkObject::ViewMode = "complex"). Napominjemo da ove akcije moraju imati registrovane sledeće JS i CSS datoteke: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
@@ -6920,7 +6946,7 @@ Vaša tehnička podrška
         'Defines the ticket appointment type backend for ticket pending time.' =>
             'Definiše modul termina tiketa za vreme čekanja.',
         'Defines the ticket fields that are going to be displayed calendar events. The "Key" defines the field or ticket attribute and the "Content" defines the display name.' =>
-            'Definiše polja tiketa koja će biti prikazana u kalendaru događaja. "Ključ" definiše polje ili atribut tiketa, a "Sadržaj" definiše prikazano ime.',
+            'Definiše polja tiketa koja će biti prikazana u kalendaru događaja. "Ključ" definiše polje ili atribut tiketa, a "Sadržaj" definiše prikazan naziv.',
         'Defines the ticket plugin for calendar appointments.' => 'Definiše tiket modul za kalendarske termine.',
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
             'Definiše vremensku zonu naznačenog kalendara, koja kasnije može biti dodeljena određenom redu.',
@@ -7043,7 +7069,7 @@ Vaša tehnička podrška
             'Dinamička polja korišćena za izvoz rezultata pretrage u CSV format.',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             'Grupe dinamičkih polja za procesni dodatak. Ključ je naziv grupe, vrednost sadrži polje koje će biti prikazano. Primer: \'Key => My Group\', \'Content: Name_X, NameY\'.',
-        'Dynamic fields limit per page for Dynamic Fields Overview.' => '',
+        'Dynamic fields limit per page for Dynamic Fields Overview.' => 'Ograničenje dinamičkih polja po strani za prikaz dinamičkih polja.',
         'Dynamic fields options shown in the ticket message screen of the customer interface. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             'Opcije dinamičkih polja prikazanih u ekranu otvaranja tiketa u interfejsu klijenta. Napomena: ukoliko želite da prikažete ova polja i u detaljnom pregledu tiketa, morate ih uključiti u CustomerTicketZoom###DynamicField.',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface.' =>
@@ -7442,7 +7468,7 @@ Vaša tehnička podrška
         'JavaScript function for the search frontend.' => 'JavaScript funkcija za modul pretrage.',
         'Language' => 'Jezik',
         'Large' => 'Veliko',
-        'Last Screen Overview' => '',
+        'Last Screen Overview' => 'Pregled poslednjeg ekrana',
         'Last customer subject' => 'Poslednji predmet poruke klijenta',
         'Lastname Firstname' => 'Prezime, Ime',
         'Lastname Firstname (UserLogin)' => 'Prezime, Ime (Korisničko ime)',
@@ -7617,7 +7643,7 @@ Vaša tehnička podrška
             'Naziv namenskog reda. Namenski red je izbor redova po vašoj želji i može se izabrati u podešavanjima.',
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
             'Naziv namenske usluge. Namenska usluga je izbor usluga po vašoj želji i može se izabrati u podešavanjima.',
-        'NameX' => 'ImeH',
+        'NameX' => 'NameX',
         'New Ticket' => 'Novi tiket',
         'New Tickets' => 'Novi tiketi',
         'New Window' => 'Novi prozor',
@@ -8369,7 +8395,7 @@ Vaša tehnička podrška
         'Specifies the group where the user needs rw permissions so that they can edit other users preferences.' =>
             'Određuje grupu gde su korisniku potrebne rw dozvole kako bi mogli da uređuju lična podešavanja drugih korisnika.',
         'Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTRS Notifications" otrs@your.example.com).' =>
-            'Definiše ime koje će aplikacija koristiti prilikom slanja obaveštenja. Ime se koristi u nazivu pošiljaoca obaveštenja (npr. "OTRS Notifications" otrs@your.example.com).',
+            'Definiše naziv koje će aplikacija koristiti prilikom slanja obaveštenja. NAziv se koristi u nazivu pošiljaoca obaveštenja (npr. "OTRS Notifications" otrs@your.example.com).',
         'Specifies the order in which the firstname and the lastname of agents will be displayed.' =>
             'Određuje oblik u kome će biti prikazano ime i prezime operatera.',
         'Specifies the path of the file for the logo in the page header (gif|jpg|png, 700 x 100 pixel).' =>
@@ -8530,9 +8556,9 @@ Vaša tehnička podrška
         'Ticket bulk module.' => 'Modul masovne akcije na tiketima.',
         'Ticket event module that triggers the escalation stop events.' =>
             'Modul događaja tiketa koji okida događaje zaustavljanja eskalacije.',
-        'Ticket limit per page for Ticket Overview "Medium".' => '',
-        'Ticket limit per page for Ticket Overview "Preview".' => '',
-        'Ticket limit per page for Ticket Overview "Small".' => '',
+        'Ticket limit per page for Ticket Overview "Medium".' => 'Ograničenje tiketa po strani za pregled tipa "srednje".',
+        'Ticket limit per page for Ticket Overview "Preview".' => 'Ograničenje tiketa po strani za pregled tipa "prikaz".',
+        'Ticket limit per page for Ticket Overview "Small".' => 'Ograničenje tiketa po strani za pregled tipa "malo".',
         'Ticket notifications' => 'Obaveštenja o tiketu',
         'Ticket overview' => 'Pregled tiketa',
         'Ticket plain view of an email.' => 'Prikaz neformatirane imejl poruke u tiketu.',
@@ -8698,6 +8724,8 @@ Vaša tehnička podrška
         'Clear all',
         'Clear debug log',
         'Clear search',
+        'Click to delete this attachment.',
+        'Click to select a file for upload.',
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',

@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-01-22 01:09+0000\n"
-"PO-Revision-Date: 2018-01-22 01:13+0000\n"
+"POT-Creation-Date: 2018-02-05 18:26+0000\n"
+"PO-Revision-Date: 2018-02-05 18:27+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -7788,9 +7788,8 @@ msgid "Preferences"
 msgstr "Beállítások"
 
 #. Template: AgentPreferences
-msgid ""
-"Warning! You're currently not editing your own preferences, but those of %s."
-msgstr "Figyelmeztetés! Jelenleg nem a saját beállításait szerkeszti, hanem %s beállításait."
+msgid "Please note: you're currently editing the preferences of %s."
+msgstr ""
 
 #. Template: AgentPreferences
 msgid "Go back to editing this agent"
@@ -9239,6 +9238,10 @@ msgstr "Hibajelentés küldése"
 msgid "Expand"
 msgstr "Kinyitás"
 
+#. Template: AttachmentList
+msgid "Click to delete this attachment."
+msgstr ""
+
 #. Template: DraftButtons
 msgid "Update draft"
 msgstr "Piszkozat frissítése"
@@ -9253,11 +9256,11 @@ msgstr "Betöltötte a következő piszkozatot: „%s”."
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\". You last changed it %s."
-msgstr "Betöltötte a következő piszkozatot: „%s”. Utoljára %s változtatta meg."
+msgstr "Betöltötte a következő piszkozatot: „%s”. Utoljára %s-kor változtatta meg."
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\". It was last changed %s by %s."
-msgstr "Betöltötte a következő piszkozatot: „%s”. Utoljára %s változtatta meg %s."
+msgstr "Betöltötte a következő piszkozatot: „%s”. Utoljára %s-kor %s változtatta meg."
 
 #. Template: DraftNotifications
 msgid ""
@@ -10190,6 +10193,10 @@ msgstr "Megerősítés"
 #. JS Template: WidgetLoading
 msgid "Loading, please wait..."
 msgstr "Betöltés, kérem várjon…"
+
+#. JS Template: UploadContainer
+msgid "Click to select a file for upload."
+msgstr ""
 
 #. JS Template: UploadContainer
 msgid "Click to select files or just drop them here."
@@ -11304,6 +11311,12 @@ msgid "Mail account added!"
 msgstr "Levelezőfiók hozzáadva!"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
+msgid ""
+"Email account fetch already fetched by another process. Please try again "
+"later!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by email To: field."
 msgstr "Szétválogatás az e-mail címzett mezője szerint."
 
@@ -11457,6 +11470,10 @@ msgid "Installed"
 msgstr "Telepítve"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Not correctly deployed"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package updated correctly"
 msgstr "A csomag megfelelően frissítve"
 
@@ -11467,6 +11484,10 @@ msgstr "A csomag már frissítve lett"
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Dependency installed correctly"
 msgstr "A függőség megfelelően telepítve"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "The package needs to be reinstalled"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "The package contains cyclic dependencies"
@@ -13880,7 +13901,7 @@ msgstr "A rendszerkarbantartás aktív!"
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid ""
 "A system maintenance period will start at: %s and is expected to stop at: %s"
-msgstr ""
+msgstr "Egy rendszerkarbantartás időszak fog kezdődni ekkor: %s, és várható befejezése: %s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTRS Daemon is not running."
@@ -14726,6 +14747,19 @@ msgid "The setting innodb_log_file_size must be at least 256 MB."
 msgstr "Az innodb_log_file_size beállításnak legalább 256 MB értékűnek kell lennie."
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+msgid "Invalid Default Values"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+msgid ""
+"Tables with invalid default values were found. In order to fix it "
+"automatically, please run: bin/otrs.Console.pl Maint::Database::Check "
+"--repair"
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "Maximum Query Size"
 msgstr "Legnagyobb lekérdezési méret"
@@ -14764,6 +14798,11 @@ msgid ""
 msgstr "Az alapértelmezett motortól eltérő motorral rendelkező táblák találhatók."
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
+msgid "Table check found some problems."
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "MySQL 5.x or higher is required."
 msgstr "MySQL 5.x vagy újabb szükséges."
@@ -14794,6 +14833,18 @@ msgid "NLS_DATE_FORMAT Setting SQL Check"
 msgstr "NLS_DATE_FORMAT beállítás SQL ellenőrzés"
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+msgid "Primary Key Sequences and Triggers"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+msgid ""
+"The following sequences and/or triggers with possible wrong names have been "
+"found. Please rename them manually."
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
 msgstr "A client_encoding beállításnak UNICODE vagy UTF8 értékűnek kell lennie."
@@ -14812,6 +14863,18 @@ msgstr "Dátumformátum"
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
 msgid "Setting DateStyle needs to be ISO."
 msgstr "A DateStyle beállításnak ISO értékűnek kell lennie."
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+msgid "Primary Key Sequences"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+msgid ""
+"The following sequences with possible wrong names have been found. Please "
+"rename them manually."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
@@ -15473,15 +15536,15 @@ msgstr "Hiányzó %s kulcs!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Invalid setting: %s"
-msgstr ""
+msgstr "Érvénytelen beállítás: %s"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Could not combine settings values into a perl hash."
-msgstr ""
+msgstr "Nem sikerült egyesíteni a beállítások értékeit Perl kivonatba."
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Can not lock the deployment for UserID '%s'!"
-msgstr ""
+msgstr "Nem lehet zárolni az üzembe állítást a következő felhasználó-azonosítónál: „%s”!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "All Settings"
@@ -22411,7 +22474,7 @@ msgstr "Nagy"
 
 #. SysConfig
 msgid "Last Screen Overview"
-msgstr ""
+msgstr "Utolsó képernyő áttekintője"
 
 #. SysConfig
 msgid "Last customer subject"

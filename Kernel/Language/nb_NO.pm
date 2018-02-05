@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.429189002247968;
+    $Self->{Completeness}        = 0.428300258843831;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2446,7 +2446,7 @@ sub Data {
         'Edit your preferences' => 'Endre dine innstillinger',
         'Personal preferences' => '',
         'Preferences' => 'Innstillinger',
-        'Warning! You\'re currently not editing your own preferences, but those of %s.' =>
+        'Please note: you\'re currently editing the preferences of %s.' =>
             '',
         'Go back to editing this agent' => '',
         'Set up your personal preferences. Save each setting by clicking the checkmark on the right.' =>
@@ -2941,6 +2941,9 @@ sub Data {
         'Send a bugreport' => 'Sende en feilrapport',
         'Expand' => 'Utvid',
 
+        # Template: AttachmentList
+        'Click to delete this attachment.' => '',
+
         # Template: DraftButtons
         'Update draft' => '',
         'Save as new draft' => '',
@@ -3294,6 +3297,7 @@ sub Data {
         'Loading, please wait...' => '',
 
         # JS Template: UploadContainer
+        'Click to select a file for upload.' => '',
         'Click to select files or just drop them here.' => 'Klikk for å velge filer eller bare slipp dem her.',
         'Click to select a file or just drop it here.' => 'Klikk for å velge en fil eller bare slipp den her.',
         'Uploading...' => 'Laster opp...',
@@ -3654,6 +3658,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => 'E-postkonto lagt til!',
+        'Email account fetch already fetched by another process. Please try again later!' =>
+            '',
         'Dispatching by email To: field.' => 'Utsending etter oppføringer i To:-felt.',
         'Dispatching by selected Queue.' => 'Utsending etter valgt kø.',
 
@@ -3703,9 +3709,11 @@ sub Data {
         'Updated' => '',
         'Already up-to-date' => '',
         'Installed' => '',
+        'Not correctly deployed' => '',
         'Package updated correctly' => '',
         'Package was already updated' => '',
         'Dependency installed correctly' => '',
+        'The package needs to be reinstalled' => '',
         'The package contains cyclic dependencies' => '',
         'Not found in on-line repositories' => '',
         'Required version is higher than available' => '',
@@ -4922,6 +4930,11 @@ sub Data {
         'InnoDB Log File Size' => 'InnoDB logfilstørrelse',
         'The setting innodb_log_file_size must be at least 256 MB.' => 'Innstillingen \'innodb_log_file_size\' må minst være 256 MB.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+        'Invalid Default Values' => '',
+        'Tables with invalid default values were found. In order to fix it automatically, please run: bin/otrs.Console.pl Maint::Database::Check --repair' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'Maksimum størrelse på spørring',
         'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
@@ -4938,6 +4951,9 @@ sub Data {
         'Tables with a different storage engine than the default engine were found.' =>
             'Tabeller med en annen lagringsmotor enn standardmotoren ble funnet',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
+        'Table check found some problems.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'MySQL 5.x eller høyere er nødvendig.',
 
@@ -4949,6 +4965,11 @@ sub Data {
         'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => 'NLS_DATE_FORMAT må bli satt til \'YYYY-MM-DD HH24:MI:SS\'.',
         'NLS_DATE_FORMAT Setting SQL Check' => 'NLS_DATE_FORMAT innstilling for SQL sjekk',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+        'Primary Key Sequences and Triggers' => '',
+        'The following sequences and/or triggers with possible wrong names have been found. Please rename them manually.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
         'Setting client_encoding needs to be UNICODE or UTF8.' => 'Innstillingene \'client_encoding\' må være satt til UNICODE eller UTF8.',
         'Setting server_encoding needs to be UNICODE or UTF8.' => 'Innstilling \'server_encoding\' må være satt til UNIDOCE eller UTF8.',
@@ -4956,6 +4977,11 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
         'Date Format' => 'Datoformat',
         'Setting DateStyle needs to be ISO.' => 'Innstilling DateStyle må være satt til ISO.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+        'Primary Key Sequences' => '',
+        'The following sequences with possible wrong names have been found. Please rename them manually.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => '',
@@ -8689,6 +8715,8 @@ Thanks for your help!
         'Clear all',
         'Clear debug log',
         'Clear search',
+        'Click to delete this attachment.',
+        'Click to select a file for upload.',
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',

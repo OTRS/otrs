@@ -3,13 +3,13 @@
 # Jens Larsen <termi@termi.dk>, 2016-2017
 # Jens Larsen <termi@termi.dk>, 2015-2016
 # Lars Jørgensen <ljorg6@gmail.com>, 2015
-# Lars Jørgensen <ljorg6@gmail.com>, 2016
+# Lars Jørgensen <ljorg6@gmail.com>, 2016,2018
 # Lasse Holst-Gloy <lg@wwi.dk>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-01-22 01:09+0000\n"
-"PO-Revision-Date: 2018-01-22 01:13+0000\n"
+"POT-Creation-Date: 2018-02-05 18:26+0000\n"
+"PO-Revision-Date: 2018-02-05 18:27+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Danish (http://www.transifex.com/otrs/OTRS/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -324,19 +324,19 @@ msgstr "Download"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Export calendar"
-msgstr ""
+msgstr "Eksporter kalender"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Download calendar"
-msgstr ""
+msgstr "Download kalender"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Copy public calendar URL"
-msgstr ""
+msgstr "Kopier URL til offentlig kalender"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar"
@@ -344,19 +344,19 @@ msgstr "Kalender"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar name"
-msgstr ""
+msgstr "Navn på kalender"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar with same name already exists."
-msgstr ""
+msgstr "Der findes allerede en kalender med samme navn."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Color"
-msgstr ""
+msgstr "Farve"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Permission group"
-msgstr ""
+msgstr "Tilladelsesgruppe"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Ticket Appointments"
@@ -364,7 +364,7 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Rule"
-msgstr ""
+msgstr "Regel"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Remove this entry"
@@ -380,7 +380,7 @@ msgstr "Start dato"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "End date"
-msgstr ""
+msgstr "Slutdato"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -394,11 +394,11 @@ msgstr "Køer"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Please select a valid queue."
-msgstr ""
+msgstr "Vælg en gyldig kø."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Search attributes"
-msgstr ""
+msgstr "Søgeattributter"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add entry"
@@ -416,7 +416,7 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Rule"
-msgstr ""
+msgstr "Tilføj Regel"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Submit"
@@ -424,7 +424,7 @@ msgstr "Send"
 
 #. Template: AdminAppointmentImport
 msgid "Appointment Import"
-msgstr ""
+msgstr "Importer Aftale"
 
 #. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
@@ -442,7 +442,7 @@ msgstr "Upload"
 
 #. Template: AdminAppointmentImport
 msgid "Update existing appointments?"
-msgstr ""
+msgstr "Opdater eksisterende aftaler?"
 
 #. Template: AdminAppointmentImport
 msgid ""
@@ -452,11 +452,11 @@ msgstr ""
 
 #. Template: AdminAppointmentImport
 msgid "Upload calendar"
-msgstr ""
+msgstr "Upload kalender"
 
 #. Template: AdminAppointmentImport
 msgid "Import appointments"
-msgstr ""
+msgstr "Importer aftaler"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Notification Management"
@@ -480,11 +480,11 @@ msgstr "Eksporter beskeder"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for Notifications"
-msgstr ""
+msgstr "Filter for Meddelelser"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for notifications"
-msgstr ""
+msgstr "Filter for meddelelser"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -552,7 +552,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
-msgstr ""
+msgstr "Aftalefilter"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Type"
@@ -568,11 +568,11 @@ msgstr "Lokation"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Team"
-msgstr ""
+msgstr "Hold"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Resource"
-msgstr ""
+msgstr "Resurse"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Recipients"
@@ -628,7 +628,7 @@ msgstr "Aktiver denne beskedafgivelsesmetode"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Transport"
-msgstr ""
+msgstr "Transport"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "At least one method is needed per notification."
@@ -647,7 +647,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "This feature is currently not available."
-msgstr ""
+msgstr "Denne funktionalitet er i øjeblikket ikke tilgængelig."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upgrade to %s"
@@ -705,7 +705,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notifications are sent to an agent."
-msgstr ""
+msgstr "Meddelelser sendt til agent."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "You can use the following tags"
@@ -745,7 +745,7 @@ msgstr "Yderligere modtageres email adresser"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
-msgstr ""
+msgstr "Indlæg synligt for kunde"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
@@ -764,7 +764,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Enable email security"
-msgstr ""
+msgstr "Aktiver sikker email"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email security level"
@@ -1027,7 +1027,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Status for: %s"
-msgstr ""
+msgstr "Status for: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing accounts"
@@ -1103,7 +1103,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "%s s"
-msgstr ""
+msgstr "%s s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account Status"
@@ -1137,7 +1137,7 @@ msgstr "Status"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account"
-msgstr ""
+msgstr "Konto"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Edit"
@@ -1145,7 +1145,7 @@ msgstr "Rediger"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "No accounts found."
-msgstr ""
+msgstr "Ingen konti fundet."
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Communication Log Details (%s)"
@@ -1157,11 +1157,11 @@ msgstr "Retning"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Start Time"
-msgstr ""
+msgstr "Starttid"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "End Time"
-msgstr ""
+msgstr "Sluttid"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "No communication log entries found."
@@ -1169,11 +1169,11 @@ msgstr ""
 
 #. Template: AdminCommunicationLogCommunications
 msgid "Duration"
-msgstr ""
+msgstr "Varighed"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "Priority"
@@ -1241,7 +1241,7 @@ msgstr "Vælg"
 
 #. Template: AdminCustomerCompany
 msgid "List (only %s shown - more available)"
-msgstr ""
+msgstr "List (kun %s vist - der er flere)"
 
 #. Template: AdminCustomerCompany
 msgid "total"
@@ -1446,7 +1446,7 @@ msgstr ""
 
 #. Template: AdminCustomerUser
 msgid "Group Permissions"
-msgstr ""
+msgstr "Gruppe-Tilladelser"
 
 #. Template: AdminCustomerUser
 msgid "This customer user has no group permissions."
@@ -2011,7 +2011,7 @@ msgstr "Det indtastede navn eksisterer allerede."
 
 #. Template: AdminGenericAgent
 msgid "Automatic Execution (Multiple Tickets)"
-msgstr ""
+msgstr "Automatisk udførelse (flere sager)"
 
 #. Template: AdminGenericAgent
 msgid "Execution Schedule"
@@ -2041,7 +2041,7 @@ msgstr "For at aktivere automatisk kørsel, vælg mindst en værdi fra minutter,
 
 #. Template: AdminGenericAgent
 msgid "Event Based Execution (Single Ticket)"
-msgstr ""
+msgstr "Handlingsbasere udførelse (Enkelt Sag)"
 
 #. Template: AdminGenericAgent
 msgid "Event Triggers"
@@ -2357,7 +2357,7 @@ msgstr "Tilføj Bemærkning"
 
 #. Template: AdminGenericAgent
 msgid "Visible for customer"
-msgstr ""
+msgstr "Synlig for kunde"
 
 #. Template: AdminGenericAgent
 msgid "Time units"
@@ -2419,7 +2419,7 @@ msgstr "Advarsel: Du bruger SLET-muligheden. Alle slettede sager vil gå tabt!"
 msgid ""
 "Warning: There are %s tickets affected but only %s may be modified during "
 "one job execution!"
-msgstr ""
+msgstr "Advarsel: %s sager omfattet, men kun %s må ændres i én job-kørsel!"
 
 #. Template: AdminGenericAgent
 msgid "Affected Tickets"
@@ -2617,7 +2617,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error code"
-msgstr ""
+msgstr "Fejlkode"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error identifier for this error handling module."
@@ -2631,7 +2631,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message"
-msgstr ""
+msgstr "Fejlbesked"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error explanation for this error handling module."
@@ -2913,7 +2913,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "General Settings"
-msgstr ""
+msgstr "Generelle Indstillinger"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Event type"
@@ -3041,11 +3041,11 @@ msgstr "Vil du virkelig fjerne denne taste-binding?"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "General Shortcuts"
-msgstr ""
+msgstr "Generelle Genveje"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "MacOS Shortcuts"
-msgstr ""
+msgstr "MacOS Genveje"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Comment code"
@@ -3065,23 +3065,23 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find"
-msgstr ""
+msgstr "Find"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find next"
-msgstr ""
+msgstr "Find næste"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find previous"
-msgstr ""
+msgstr "Find forrige"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find and replace"
-msgstr ""
+msgstr "Find og erstat"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find and replace all"
-msgstr ""
+msgstr "Find og erstat alle"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT Mapping"
@@ -3135,15 +3135,15 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Replace"
-msgstr ""
+msgstr "Erstat"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Remove regex"
-msgstr ""
+msgstr "Fjern regex"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Add regex"
-msgstr ""
+msgstr "Tilføj regex"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "These filters can be used to transform keys using regular expressions."
@@ -3999,7 +3999,7 @@ msgstr ""
 
 #. Template: AdminMailAccount
 msgid "System Configuration"
-msgstr ""
+msgstr "Systemkonfiguration"
 
 #. Template: AdminMailAccount
 msgid "Host"
@@ -4015,7 +4015,7 @@ msgstr "Hent mail"
 
 #. Template: AdminMailAccount
 msgid "Do you really want to delete this mail account?"
-msgstr ""
+msgstr "Vil du virkelig slette denne mail-konto?"
 
 #. Template: AdminMailAccount
 msgid "Password"
@@ -4061,7 +4061,7 @@ msgstr "Filter"
 
 #. Template: AdminNavigationBar
 msgid "Favorites"
-msgstr ""
+msgstr "Favoritter"
 
 #. Template: AdminNavigationBar
 msgid ""
@@ -4071,7 +4071,7 @@ msgstr ""
 
 #. Template: AdminNavigationBar
 msgid "Links"
-msgstr ""
+msgstr "Links"
 
 #. Template: AdminNavigationBar
 msgid "View the admin manual on Github"
@@ -4079,15 +4079,15 @@ msgstr ""
 
 #. Template: AdminNavigationBar
 msgid "No Matches"
-msgstr ""
+msgstr "Intet fundet"
 
 #. Template: AdminNavigationBar
 msgid "Sorry, your search didn't match any items."
-msgstr ""
+msgstr "Beklager, men din søgning matcher ikke noget."
 
 #. Template: AdminNavigationBar
 msgid "Set as favorite"
-msgstr ""
+msgstr "Vælg som favorit"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Notification Management"
@@ -5647,7 +5647,7 @@ msgstr "Dette filter tillader dig at vise alle køer"
 
 #. Template: AdminQueueAutoResponse
 msgid "Show All Queues"
-msgstr ""
+msgstr "Vis alle køer"
 
 #. Template: AdminQueueAutoResponse
 msgid "Auto Responses"
@@ -6635,7 +6635,7 @@ msgstr ""
 
 #. Template: AdminSystemConfiguration
 msgid "System configuration"
-msgstr ""
+msgstr "Systemkonfiguration"
 
 #. Template: AdminSystemConfiguration
 msgid ""
@@ -6759,11 +6759,11 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Upload system configuration"
-msgstr ""
+msgstr "Upload systemkonfiguration"
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Import system configuration"
-msgstr ""
+msgstr "Importer systemkonfiguration"
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Download current configuration settings of your system in a .yml file."
@@ -7035,7 +7035,7 @@ msgstr "Rediger agent"
 
 #. Template: AdminUser
 msgid "Edit personal preferences for this agent"
-msgstr ""
+msgstr "Rediger personlige indstillinger for denne agent"
 
 #. Template: AdminUser
 msgid "Agents will be needed to handle tickets."
@@ -7143,7 +7143,7 @@ msgstr ""
 
 #. Template: AgentAppointmentCalendarOverview
 msgid "Add new Appointment"
-msgstr ""
+msgstr "Tilføj ny Aftale"
 
 #. Template: AgentAppointmentCalendarOverview
 msgid "Calendars"
@@ -7505,7 +7505,7 @@ msgstr "Oversigt"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "New Appointment"
-msgstr ""
+msgstr "Ny Aftale"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "Tomorrow"
@@ -7776,15 +7776,14 @@ msgstr "Opdater dine indstillinger"
 
 #. Template: AgentPreferences
 msgid "Personal preferences"
-msgstr ""
+msgstr "Personlige indstillinger"
 
 #. Template: AgentPreferences
 msgid "Preferences"
 msgstr "Indstillinger"
 
 #. Template: AgentPreferences
-msgid ""
-"Warning! You're currently not editing your own preferences, but those of %s."
+msgid "Please note: you're currently editing the preferences of %s."
 msgstr ""
 
 #. Template: AgentPreferences
@@ -7795,7 +7794,7 @@ msgstr ""
 msgid ""
 "Set up your personal preferences. Save each setting by clicking the "
 "checkmark on the right."
-msgstr ""
+msgstr "Vælg dine personlige præferencer. Gem hver indstilling ved at klikke på tjekmærket til højre."
 
 #. Template: AgentPreferences
 msgid ""
@@ -7862,7 +7861,7 @@ msgstr ""
 
 #. Template: AgentPreferencesOverview
 msgid "Personal Preferences"
-msgstr ""
+msgstr "Personlinge indstillinger"
 
 #. Template: AgentPreferencesOverview
 msgid ""
@@ -8673,7 +8672,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Article Overview - %s Article(s)"
-msgstr ""
+msgstr "Indlægsoversigt - %s Indlæg"
 
 #. Template: AgentTicketZoom
 msgid "Page %s"
@@ -9234,6 +9233,10 @@ msgstr "Sende en fejlrapport"
 msgid "Expand"
 msgstr "Udvid"
 
+#. Template: AttachmentList
+msgid "Click to delete this attachment."
+msgstr ""
+
 #. Template: DraftButtons
 msgid "Update draft"
 msgstr ""
@@ -9270,7 +9273,7 @@ msgstr ""
 
 #. Template: Header
 msgid "Notifications (OTRS Business Solution™)"
-msgstr ""
+msgstr "Meddelelser (OTRS Business Solution™)"
 
 #. Template: Header
 msgid "Logout"
@@ -9976,7 +9979,7 @@ msgstr ""
 #. Template: SettingsList
 msgid ""
 "Allow users to adapt this setting from within their personal preferences"
-msgstr ""
+msgstr "Tillad brugere at ændre denne indstilling i deres personlige indstillinger"
 
 #. Template: SettingsList
 msgid "Allow users to update"
@@ -9986,7 +9989,7 @@ msgstr ""
 msgid ""
 "Do not longer allow users to adapt this setting from within their personal "
 "preferences"
-msgstr ""
+msgstr "Lad ikke længere brugere ændre denne indstilling i deres personlige indstillinger"
 
 #. Template: SettingsList
 msgid "Forbid users to update"
@@ -10187,8 +10190,12 @@ msgid "Loading, please wait..."
 msgstr ""
 
 #. JS Template: UploadContainer
-msgid "Click to select files or just drop them here."
+msgid "Click to select a file for upload."
 msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select files or just drop them here."
+msgstr "Klik for at vælge filer eller træk dem hertil."
 
 #. JS Template: UploadContainer
 msgid "Click to select a file or just drop it here."
@@ -10708,7 +10715,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerGroup.pm
 msgid "Please check system configuration."
-msgstr ""
+msgstr "Tjek systemkonfigurationen."
 
 #. Perl Module: Kernel/Modules/AdminCustomerGroup.pm
 msgid "Invalid permission context configuration:"
@@ -11299,6 +11306,12 @@ msgid "Mail account added!"
 msgstr "Mail-konto tilføjet."
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
+msgid ""
+"Email account fetch already fetched by another process. Please try again "
+"later!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by email To: field."
 msgstr "Sendes via mail til: felt."
 
@@ -11452,6 +11465,10 @@ msgid "Installed"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Not correctly deployed"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package updated correctly"
 msgstr ""
 
@@ -11461,6 +11478,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Dependency installed correctly"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "The package needs to be reinstalled"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -12283,7 +12304,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Customer User Name"
-msgstr ""
+msgstr "Kundenavn"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Need SourceObject and SourceKey!"
@@ -13905,7 +13926,7 @@ msgstr ""
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/SystemConfigurationOutOfSyncCheck.pm
 msgid "There is an error updating the system configuration!"
-msgstr ""
+msgstr "Der er en fejl i opdateringen af systemkonfigurationen!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/UIDCheck.pm
 msgid ""
@@ -14721,6 +14742,19 @@ msgid "The setting innodb_log_file_size must be at least 256 MB."
 msgstr "Indstillingen innodb_log_file_size skal være mindst 256 MB."
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+msgid "Invalid Default Values"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+msgid ""
+"Tables with invalid default values were found. In order to fix it "
+"automatically, please run: bin/otrs.Console.pl Maint::Database::Check "
+"--repair"
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "Maximum Query Size"
 msgstr "Maksimal størrelse på forespørgsler"
@@ -14759,6 +14793,11 @@ msgid ""
 msgstr "Der er fundet tabeller lagret med anden storage enginge end default."
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
+msgid "Table check found some problems."
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "MySQL 5.x or higher is required."
 msgstr "MySQL 5.x eller nyere er påkrævet."
@@ -14789,6 +14828,18 @@ msgid "NLS_DATE_FORMAT Setting SQL Check"
 msgstr ""
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+msgid "Primary Key Sequences and Triggers"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+msgid ""
+"The following sequences and/or triggers with possible wrong names have been "
+"found. Please rename them manually."
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
 msgstr "Indstillingen client_encoding skal være UNICODE eller UTF8."
@@ -14807,6 +14858,18 @@ msgstr "Datoformat"
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
 msgid "Setting DateStyle needs to be ISO."
 msgstr "Indstillingen DateStyle skal være ISO."
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+msgid "Primary Key Sequences"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+msgid ""
+"The following sequences with possible wrong names have been found. Please "
+"rename them manually."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
@@ -14968,7 +15031,7 @@ msgstr "Tjeneste"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
 msgid "Daemon is running."
-msgstr ""
+msgstr "Dæmonen kører."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
@@ -16383,7 +16446,7 @@ msgstr "Indlæser..."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Search the System Configuration"
-msgstr ""
+msgstr "Søg i systemkonfigurationen"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Please enter at least one search word to find anything."
@@ -16976,7 +17039,7 @@ msgstr "(BrugerLogin) Efternavn Fornavn"
 
 #. SysConfig
 msgid "*** out of office until %s (%s d left) ***"
-msgstr ""
+msgstr "*** ude af kontoret til og med %s (%s dage endnu) ***"
 
 #. SysConfig
 msgid "0 - Disabled"
@@ -17835,7 +17898,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Change your password and more."
-msgstr ""
+msgstr "Skift password og andet"
 
 #. SysConfig
 msgid "Changed SLA to \"%s\" (%s)."
@@ -17963,7 +18026,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Choose which notifications you'd like to receive."
-msgstr ""
+msgstr "Vælg de beskeder, du gerne vil modtage"
 
 #. SysConfig
 msgid "Christmas Eve"
@@ -18299,7 +18362,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Create new appointment."
-msgstr ""
+msgstr "Opret ny aftale."
 
 #. SysConfig
 msgid "Create new email ticket and send this out (outbound)."
@@ -21742,7 +21805,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Fulltext search"
-msgstr ""
+msgstr "Fritekstsøgning"
 
 #. SysConfig
 msgid "Galician"
@@ -22613,7 +22676,7 @@ msgstr "Sag trukket."
 
 #. SysConfig
 msgid "Logged-In Users"
-msgstr ""
+msgstr "Brugere online"
 
 #. SysConfig
 msgid "Logout of customer panel."
@@ -26291,7 +26354,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Tweak the system as you wish."
-msgstr ""
+msgstr "Tilpas systemet, som du ønsker."
 
 #. SysConfig
 msgid ""

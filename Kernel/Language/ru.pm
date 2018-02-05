@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.915095970949334;
+    $Self->{Completeness}        = 0.913028472821398;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2449,8 +2449,8 @@ sub Data {
         'Edit your preferences' => 'Измените ваши личные настройки',
         'Personal preferences' => 'Персональные настройки',
         'Preferences' => 'Настройки',
-        'Warning! You\'re currently not editing your own preferences, but those of %s.' =>
-            'Предупреждение! В настоящее время вы редактируете не свои настройки, а эти %s.',
+        'Please note: you\'re currently editing the preferences of %s.' =>
+            '',
         'Go back to editing this agent' => 'Возврат к редактированию этого агента',
         'Set up your personal preferences. Save each setting by clicking the checkmark on the right.' =>
             'Установите свои личные настройки. Сохраните каждый параметр поставив  "галочку" в квадратике справа.',
@@ -2944,6 +2944,9 @@ sub Data {
         'Send a bugreport' => 'Отправить сообщение об ошибке',
         'Expand' => 'Развернуть',
 
+        # Template: AttachmentList
+        'Click to delete this attachment.' => '',
+
         # Template: DraftButtons
         'Update draft' => 'Обновить черновик',
         'Save as new draft' => 'Сохранить как новый черновик',
@@ -3297,6 +3300,7 @@ sub Data {
         'Loading, please wait...' => 'Подождите, идет загрузка...',
 
         # JS Template: UploadContainer
+        'Click to select a file for upload.' => '',
         'Click to select files or just drop them here.' => 'Кликните для выбора файлов или просто перетащите их сюда.',
         'Click to select a file or just drop it here.' => 'Кликните для выбора файла или просто перетащите его сюда.',
         'Uploading...' => 'Выгружается...',
@@ -3657,6 +3661,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => 'Учетная запись почты добавлена!',
+        'Email account fetch already fetched by another process. Please try again later!' =>
+            '',
         'Dispatching by email To: field.' => 'Перенаправление по заголовку To: электронного письма',
         'Dispatching by selected Queue.' => 'Перенаправление по выбранной очереди',
 
@@ -3706,9 +3712,11 @@ sub Data {
         'Updated' => 'Обновлено',
         'Already up-to-date' => 'Уже обновлено',
         'Installed' => 'Установлено',
+        'Not correctly deployed' => '',
         'Package updated correctly' => 'Приложение обновлено корректно',
         'Package was already updated' => 'Приложение уже обновлено',
         'Dependency installed correctly' => 'Зависимость установлена правильно',
+        'The package needs to be reinstalled' => '',
         'The package contains cyclic dependencies' => 'Пакет содержит циклические зависимости',
         'Not found in on-line repositories' => 'Не найдено в онлайн репозиториях',
         'Required version is higher than available' => 'Требуемая версия выше доступной',
@@ -4925,6 +4933,11 @@ sub Data {
         'InnoDB Log File Size' => 'Размер файла журнала InnoDB ',
         'The setting innodb_log_file_size must be at least 256 MB.' => 'Значение параметра innodb_log_file_size должно быть больше 256 МВ.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+        'Invalid Default Values' => '',
+        'Tables with invalid default values were found. In order to fix it automatically, please run: bin/otrs.Console.pl Maint::Database::Check --repair' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'Максимальный размер запроса',
         'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
@@ -4941,6 +4954,9 @@ sub Data {
         'Tables with a different storage engine than the default engine were found.' =>
             'Обнаружены таблицы с методом доступа отличающимся от установленного по умолчанию.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
+        'Table check found some problems.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'Требуется MySQL 5.х или выше',
 
@@ -4952,6 +4968,11 @@ sub Data {
         'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => 'NLS_DATE_FORMAT должен быть задан в виде \'YYYY-MM-DD HH24:MI:SS\'.',
         'NLS_DATE_FORMAT Setting SQL Check' => 'Параметр NLS_DATE_FORMAT для SQL Check',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+        'Primary Key Sequences and Triggers' => '',
+        'The following sequences and/or triggers with possible wrong names have been found. Please rename them manually.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
         'Setting client_encoding needs to be UNICODE or UTF8.' => 'Значение кодировки для клиента должно быть UNICODE or UTF8.',
         'Setting server_encoding needs to be UNICODE or UTF8.' => 'Значение кодировки для сервера должно быть UNICODE или UTF8. ',
@@ -4959,6 +4980,11 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
         'Date Format' => 'Формат даты',
         'Setting DateStyle needs to be ISO.' => 'Значение DateStyle должно быть  ISO.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+        'Primary Key Sequences' => '',
+        'The following sequences with possible wrong names have been found. Please rename them manually.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => 'PostgreSQL 9.2 или выше необходим.',
@@ -8703,6 +8729,8 @@ Thanks for your help!
         'Clear all',
         'Clear debug log',
         'Clear search',
+        'Click to delete this attachment.',
+        'Click to select a file for upload.',
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',

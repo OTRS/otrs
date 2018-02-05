@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.702403596749092;
+    $Self->{Completeness}        = 0.700949094046592;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -2440,7 +2440,7 @@ bin/otrs.Daemon.pl status\').',
         'Edit your preferences' => 'Mengedit preferensi anda',
         'Personal preferences' => '',
         'Preferences' => 'Pilihan',
-        'Warning! You\'re currently not editing your own preferences, but those of %s.' =>
+        'Please note: you\'re currently editing the preferences of %s.' =>
             '',
         'Go back to editing this agent' => '',
         'Set up your personal preferences. Save each setting by clicking the checkmark on the right.' =>
@@ -2935,6 +2935,9 @@ bin/otrs.Daemon.pl status\').',
         'Send a bugreport' => 'Hantar laporan kesalahan',
         'Expand' => 'Perluas',
 
+        # Template: AttachmentList
+        'Click to delete this attachment.' => '',
+
         # Template: DraftButtons
         'Update draft' => '',
         'Save as new draft' => '',
@@ -3288,6 +3291,7 @@ bin/otrs.Daemon.pl status\').',
         'Loading, please wait...' => '',
 
         # JS Template: UploadContainer
+        'Click to select a file for upload.' => '',
         'Click to select files or just drop them here.' => '',
         'Click to select a file or just drop it here.' => '',
         'Uploading...' => '',
@@ -3648,6 +3652,8 @@ bin/otrs.Daemon.pl status\').',
 
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => 'Akun surat telah di tambahkan!',
+        'Email account fetch already fetched by another process. Please try again later!' =>
+            '',
         'Dispatching by email To: field.' => 'Pengiriman melalui email Kepada: bidang.',
         'Dispatching by selected Queue.' => 'Pengiriman melalui Antrian yang dipilih.',
 
@@ -3697,9 +3703,11 @@ bin/otrs.Daemon.pl status\').',
         'Updated' => '',
         'Already up-to-date' => '',
         'Installed' => '',
+        'Not correctly deployed' => '',
         'Package updated correctly' => '',
         'Package was already updated' => '',
         'Dependency installed correctly' => '',
+        'The package needs to be reinstalled' => '',
         'The package contains cyclic dependencies' => '',
         'Not found in on-line repositories' => '',
         'Required version is higher than available' => '',
@@ -4916,6 +4924,11 @@ bin/otrs.Daemon.pl status\').',
         'InnoDB Log File Size' => 'InnoDB Log Ukuran File',
         'The setting innodb_log_file_size must be at least 256 MB.' => 'Pengaturan innodb_log_file_size harus minimal 256 MB.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+        'Invalid Default Values' => '',
+        'Tables with invalid default values were found. In order to fix it automatically, please run: bin/otrs.Console.pl Maint::Database::Check --repair' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'Maksimum Ukuran Query',
         'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
@@ -4932,6 +4945,9 @@ bin/otrs.Daemon.pl status\').',
         'Tables with a different storage engine than the default engine were found.' =>
             'Tabel dengan mesin penyimpanan yang berbeda dari mesin yang ditemukan.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
+        'Table check found some problems.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'MySQL 5.x atau yang lebih tinggi diperlukan.',
 
@@ -4943,6 +4959,11 @@ bin/otrs.Daemon.pl status\').',
         'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => 'NLS_DATE_FORMAT harus diatur menjadi \'YYYY-MM-DD HH24:MI:SS\'.',
         'NLS_DATE_FORMAT Setting SQL Check' => 'Pengaturan SQL check NLS_DATE_FORMAT',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+        'Primary Key Sequences and Triggers' => '',
+        'The following sequences and/or triggers with possible wrong names have been found. Please rename them manually.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
         'Setting client_encoding needs to be UNICODE or UTF8.' => 'Pengaturan client_encoding perlu UNICODE atau UTF 8.',
         'Setting server_encoding needs to be UNICODE or UTF8.' => 'Pengaturan encoding server harus UNICODE atau UTF 8.',
@@ -4950,6 +4971,11 @@ bin/otrs.Daemon.pl status\').',
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
         'Date Format' => 'Format tanggal',
         'Setting DateStyle needs to be ISO.' => 'Pengaturan DateStyle perlu ISO.',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+        'Primary Key Sequences' => '',
+        'The following sequences with possible wrong names have been found. Please rename them manually.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => '',
@@ -8695,6 +8721,8 @@ Helpdesk Team Anda
         'Clear all',
         'Clear debug log',
         'Clear search',
+        'Click to delete this attachment.',
+        'Click to select a file for upload.',
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',

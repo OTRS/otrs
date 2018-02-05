@@ -20,8 +20,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-01-22 01:09+0000\n"
-"PO-Revision-Date: 2018-01-22 01:13+0000\n"
+"POT-Creation-Date: 2018-02-05 18:26+0000\n"
+"PO-Revision-Date: 2018-02-05 18:27+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -7795,9 +7795,8 @@ msgid "Preferences"
 msgstr "偏好设置"
 
 #. Template: AgentPreferences
-msgid ""
-"Warning! You're currently not editing your own preferences, but those of %s."
-msgstr "警告！ 您目前没有编辑自己的偏好设置，而是编辑％s的偏好设置。"
+msgid "Please note: you're currently editing the preferences of %s."
+msgstr ""
 
 #. Template: AgentPreferences
 msgid "Go back to editing this agent"
@@ -9246,6 +9245,10 @@ msgstr "发送一个BUG报告"
 msgid "Expand"
 msgstr "展开"
 
+#. Template: AttachmentList
+msgid "Click to delete this attachment."
+msgstr ""
+
 #. Template: DraftButtons
 msgid "Update draft"
 msgstr "更新草稿"
@@ -10197,6 +10200,10 @@ msgstr "确认"
 #. JS Template: WidgetLoading
 msgid "Loading, please wait..."
 msgstr "加载中，请稍候..."
+
+#. JS Template: UploadContainer
+msgid "Click to select a file for upload."
+msgstr ""
 
 #. JS Template: UploadContainer
 msgid "Click to select files or just drop them here."
@@ -11311,6 +11318,12 @@ msgid "Mail account added!"
 msgstr "邮件账号已添加！"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
+msgid ""
+"Email account fetch already fetched by another process. Please try again "
+"later!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by email To: field."
 msgstr "按收件人(To:)分派。"
 
@@ -11464,6 +11477,10 @@ msgid "Installed"
 msgstr "安装时间"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "Not correctly deployed"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package updated correctly"
 msgstr "软件包已正确地更新"
 
@@ -11474,6 +11491,10 @@ msgstr "软件包已经更新"
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Dependency installed correctly"
 msgstr "依赖软件已正确地安装"
+
+#. Perl Module: Kernel/Modules/AdminPackageManager.pm
+msgid "The package needs to be reinstalled"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "The package contains cyclic dependencies"
@@ -13887,7 +13908,7 @@ msgstr "正在进行系统维护！"
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid ""
 "A system maintenance period will start at: %s and is expected to stop at: %s"
-msgstr ""
+msgstr "一次系统维护将开始于：%s，预计结束时间为：%s。"
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTRS Daemon is not running."
@@ -14733,6 +14754,19 @@ msgid "The setting innodb_log_file_size must be at least 256 MB."
 msgstr "参数innodb_log_file_size必须设置为至少256MB。"
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+msgid "Invalid Default Values"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+msgid ""
+"Tables with invalid default values were found. In order to fix it "
+"automatically, please run: bin/otrs.Console.pl Maint::Database::Check "
+"--repair"
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "Maximum Query Size"
 msgstr "最大查询大小"
@@ -14771,6 +14805,11 @@ msgid ""
 msgstr "以下表使用的存储引擎与默认存储引擎不同。"
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
+msgid "Table check found some problems."
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "MySQL 5.x or higher is required."
 msgstr "需要MySQL 5.X或更高版本。"
@@ -14801,6 +14840,18 @@ msgid "NLS_DATE_FORMAT Setting SQL Check"
 msgstr "SQL检查NLS_DATE_FORMAT设置"
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+msgid "Primary Key Sequences and Triggers"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+msgid ""
+"The following sequences and/or triggers with possible wrong names have been "
+"found. Please rename them manually."
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
 msgstr "client_encoding 需要设置为UNICODE或UTF8。"
@@ -14819,6 +14870,18 @@ msgstr "日期格式"
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
 msgid "Setting DateStyle needs to be ISO."
 msgstr "设置日期格式为国际标准格式。"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+msgid "Primary Key Sequences"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+msgid ""
+"The following sequences with possible wrong names have been found. Please "
+"rename them manually."
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
@@ -15480,15 +15543,15 @@ msgstr "缺失键%s！"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Invalid setting: %s"
-msgstr ""
+msgstr "无效的设置：%s"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Could not combine settings values into a perl hash."
-msgstr ""
+msgstr "无法将设置值组合成一个perl哈希。"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Can not lock the deployment for UserID '%s'!"
-msgstr ""
+msgstr "无法锁定用户ID为 '%s'的部署！"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "All Settings"
@@ -22418,7 +22481,7 @@ msgstr "详细"
 
 #. SysConfig
 msgid "Last Screen Overview"
-msgstr ""
+msgstr "最近屏幕概览"
 
 #. SysConfig
 msgid "Last customer subject"

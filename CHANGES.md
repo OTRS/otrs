@@ -1,4 +1,5 @@
 #6.0.5 2018-??-??
+ - 2018-02-05 Updated translations, thanks to all translators.
  - 2018-02-05 Fixed bug#[13590](https://bugs.otrs.org/show_bug.cgi?id=13590) - Notification triggers not correct if a dynamic field with key value 0 is chosen in ticket selection and Additional recipient is set.
  - 2018-02-05 Fixed bug#[13594](https://bugs.otrs.org/show_bug.cgi?id=13594) - Menu point of article setting window is hardly available on mobile view.
  - 2018-02-03 Fixed bug#[13624](https://bugs.otrs.org/show_bug.cgi?id=13624) - Uninitialized value error in generic interface event handler.

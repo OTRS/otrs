@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.755663150613868;
+    $Self->{Completeness}        = 0.754098360655738;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2442,7 +2442,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Edit your preferences' => '個人設定を編集',
         'Personal preferences' => '個人設定',
         'Preferences' => '個人設定',
-        'Warning! You\'re currently not editing your own preferences, but those of %s.' =>
+        'Please note: you\'re currently editing the preferences of %s.' =>
             '',
         'Go back to editing this agent' => 'このエージェントの編集に戻る',
         'Set up your personal preferences. Save each setting by clicking the checkmark on the right.' =>
@@ -2937,6 +2937,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Send a bugreport' => 'バグ報告を送信',
         'Expand' => '展開',
 
+        # Template: AttachmentList
+        'Click to delete this attachment.' => '',
+
         # Template: DraftButtons
         'Update draft' => '下書きを更新',
         'Save as new draft' => '新しい下書きとして保存',
@@ -3290,6 +3293,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Loading, please wait...' => '読み込み中です。お待ち下さい...',
 
         # JS Template: UploadContainer
+        'Click to select a file for upload.' => '',
         'Click to select files or just drop them here.' => 'クリックしてファイルを選択するか、ここにドロップして下さい。',
         'Click to select a file or just drop it here.' => 'クリックしてファイルを選択するか、ここにドロップします。',
         'Uploading...' => 'アップロード中...',
@@ -3651,6 +3655,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => 'メールアカウントを追加しました。',
+        'Email account fetch already fetched by another process. Please try again later!' =>
+            '',
         'Dispatching by email To: field.' => 'メールの宛先で振り分け',
         'Dispatching by selected Queue.' => '選択したキューで振り分け',
 
@@ -3700,9 +3706,11 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Updated' => '更新しました',
         'Already up-to-date' => 'すでに最新版です。',
         'Installed' => 'インストールしました',
+        'Not correctly deployed' => '',
         'Package updated correctly' => 'パッケージの更新は正常に終了しました。',
         'Package was already updated' => 'パッケージはすでに更新済みです。',
         'Dependency installed correctly' => '依存するモジュールは正常にインストールされました。',
+        'The package needs to be reinstalled' => '',
         'The package contains cyclic dependencies' => 'このパッケージとの依存関係が循環状態にあります。',
         'Not found in on-line repositories' => 'オンライン・リポジトリからは見つかりませんでした。',
         'Required version is higher than available' => '現在お使いのものより新しいバージョンが必要です。',
@@ -4919,6 +4927,11 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'InnoDB Log File Size' => 'InnoDBログのファイルサイズ',
         'The setting innodb_log_file_size must be at least 256 MB.' => 'innodb_log_file_size 設定は最低でも256MBにする必要があります。',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+        'Invalid Default Values' => '',
+        'Tables with invalid default values were found. In order to fix it automatically, please run: bin/otrs.Console.pl Maint::Database::Check --repair' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => '最大クエリサイズ',
         'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
@@ -4935,6 +4948,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Tables with a different storage engine than the default engine were found.' =>
             'デフォルトのストレージエンジンと違うストレージエンジン設定の Table が見つかりました',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
+        'Table check found some problems.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => '動作要件は MySQL 5.x 以上になっています ',
 
@@ -4946,6 +4962,11 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => 'NLS_DATE_FORMAT は YYYY-MM-DD HH24:MI:SS に設定されている必要があります',
         'NLS_DATE_FORMAT Setting SQL Check' => 'NLS_DATE_FORMAT 設定 SQL チェック',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+        'Primary Key Sequences and Triggers' => '',
+        'The following sequences and/or triggers with possible wrong names have been found. Please rename them manually.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
         'Setting client_encoding needs to be UNICODE or UTF8.' => ' client_encodingはユニコードまたはUTF8 に設定する必要があります',
         'Setting server_encoding needs to be UNICODE or UTF8.' => 'server_encodingはユニコードまたはUTF8 に設定する必要があります',
@@ -4953,6 +4974,11 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
         'Date Format' => 'データーフォーマット',
         'Setting DateStyle needs to be ISO.' => '日付の設定はISOフォーマットに従ってください',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+        'Primary Key Sequences' => '',
+        'The following sequences with possible wrong names have been found. Please rename them manually.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => '',
@@ -8705,6 +8731,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Clear all',
         'Clear debug log',
         'Clear search',
+        'Click to delete this attachment.',
+        'Click to select a file for upload.',
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',

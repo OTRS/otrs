@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.189002247968183;
+    $Self->{Completeness}        = 0.198274374460742;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -34,20 +34,20 @@ sub Data {
     $Self->{Translation} = {
 
         # Template: AdminACL
-        'ACL Management' => '',
+        'ACL Management' => 'ACL Yönetimi',
         'Actions' => 'Eylemler',
-        'Create New ACL' => '',
-        'Deploy ACLs' => '',
-        'Export ACLs' => '',
-        'Filter for ACLs' => '',
-        'Just start typing to filter...' => '',
-        'Configuration Import' => '',
+        'Create New ACL' => 'Yeni ACL Oluştur',
+        'Deploy ACLs' => 'ACL\'leri Dağıt',
+        'Export ACLs' => 'ACL\'leri Dışa Aktar',
+        'Filter for ACLs' => 'ACL\'leri Filtrele',
+        'Just start typing to filter...' => 'Filtrelemek için yazmaya başlayın...',
+        'Configuration Import' => 'Yapılandırmayı İçeri Aktar',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             '',
         'This field is required.' => 'Bu alan zorunludur',
-        'Overwrite existing ACLs?' => '',
-        'Upload ACL configuration' => '',
-        'Import ACL configuration(s)' => '',
+        'Overwrite existing ACLs?' => 'Varolan ACL\'lerin üzerine yazılsın mı?',
+        'Upload ACL configuration' => 'Yapılandırmayı karşıya yükle',
+        'Import ACL configuration(s)' => 'ACL yapılandırma(larını) içe aktar',
         'Description' => 'Açıklama',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
             '',
@@ -56,7 +56,7 @@ sub Data {
         'ACLs' => '',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
-        'ACL name' => '',
+        'ACL name' => 'ACL Adı',
         'Comment' => 'Yorum',
         'Validity' => 'Doğrula',
         'Export' => 'Dışarıya aktar',
@@ -65,50 +65,50 @@ sub Data {
         'No matches found.' => 'Sonuç bulunamadı.',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => '',
-        'Edit ACL' => '',
+        'Edit ACL %s' => 'ACL Düzenle',
+        'Edit ACL' => 'ACL Düzenle',
         'Go to overview' => 'Genel Bakışa git',
-        'Delete ACL' => '',
-        'Delete Invalid ACL' => '',
-        'Match settings' => '',
+        'Delete ACL' => 'ACL Sil',
+        'Delete Invalid ACL' => 'Geçersiz ACL\'yi Sil',
+        'Match settings' => 'Eşleşme Ayarları',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
-        'Change settings' => '',
+        'Change settings' => 'Ayarları Değiştir',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
         'Check the official' => '',
-        'documentation' => '',
+        'documentation' => 'Döküman',
         'Show or hide the content' => 'İçeriği göster yada gizle',
-        'Edit ACL Information' => '',
+        'Edit ACL Information' => 'ACL Bilgisini Düzenle',
         'Name' => 'Isim',
         'Stop after match' => 'Karşılaşmadan sonra dur',
-        'Edit ACL Structure' => '',
-        'Save ACL' => '',
+        'Edit ACL Structure' => 'ACL Yapısını Düzenle',
+        'Save ACL' => 'ACL\'yi Kaydet',
         'Save' => 'Kaydet',
         'or' => 'veya',
-        'Save and finish' => '',
+        'Save and finish' => 'Kaydet ve bitir',
         'Cancel' => 'İptal',
-        'Do you really want to delete this ACL?' => '',
+        'Do you really want to delete this ACL?' => 'Bu ACL\'yi silmek istediğinizden emin misiniz?',
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
             '',
 
         # Template: AdminAppointmentCalendarManage
-        'Calendar Management' => '',
-        'Add Calendar' => '',
-        'Edit Calendar' => '',
-        'Go back' => '',
-        'Calendar Overview' => '',
-        'Add new Calendar' => '',
-        'Import Appointments' => '',
-        'Calendar Import' => '',
+        'Calendar Management' => 'Takvimleri Yönet',
+        'Add Calendar' => 'Takvime Ekle',
+        'Edit Calendar' => 'Takvimi Düzenle',
+        'Go back' => 'Geri',
+        'Calendar Overview' => 'Takvim Ön İzlemesi',
+        'Add new Calendar' => 'Yeni Takvim Ekle',
+        'Import Appointments' => 'Atamaları Al',
+        'Calendar Import' => 'Takvimi İçe Aktar',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
             '',
         'Overwrite existing entities' => '',
-        'Upload calendar configuration' => '',
-        'Import Calendar' => '',
-        'Filter for calendars' => '',
+        'Upload calendar configuration' => 'Takvim yapılandırmasını yükle',
+        'Import Calendar' => 'Takvimi İçe Aktar',
+        'Filter for calendars' => 'Takvimler için filtre uygula',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             '',
         'Read only: users can see and export all appointments in the calendar.' =>
@@ -122,21 +122,21 @@ sub Data {
         'Changed' => 'Değiştirildi',
         'Created' => 'Oluşturuldu',
         'Download' => 'İndir',
-        'URL' => '',
-        'Export calendar' => '',
-        'Download calendar' => '',
-        'Copy public calendar URL' => '',
+        'URL' => 'URL',
+        'Export calendar' => 'Takvimi Dışa Aktar',
+        'Download calendar' => 'Takvimi İndir',
+        'Copy public calendar URL' => 'Genel takvim URL\'sini kopyala',
         'Calendar' => 'TAKVİM',
-        'Calendar name' => '',
-        'Calendar with same name already exists.' => '',
-        'Color' => '',
-        'Permission group' => '',
-        'Ticket Appointments' => '',
-        'Rule' => '',
+        'Calendar name' => 'Takvim adı',
+        'Calendar with same name already exists.' => 'Aynı ada sahip takvim zaten mevcut.',
+        'Color' => 'Renk',
+        'Permission group' => 'İzin grubu',
+        'Ticket Appointments' => 'Bilet Atama',
+        'Rule' => 'Rol',
         'Remove this entry' => 'Bu kaydı kaldır',
         'Remove' => 'Kaldır',
-        'Start date' => '',
-        'End date' => '',
+        'Start date' => 'Başlangıç Tarihi',
+        'End date' => 'Bitiş Tarihi',
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
             '',
         'Queues' => 'Kuyruklar',
@@ -146,11 +146,11 @@ sub Data {
         'Add' => 'Ekle',
         'Define rules for creating automatic appointments in this calendar based on ticket data.' =>
             '',
-        'Add Rule' => '',
+        'Add Rule' => 'Rol Ekle',
         'Submit' => 'Gönder',
 
         # Template: AdminAppointmentImport
-        'Appointment Import' => '',
+        'Appointment Import' => 'Atamayı İçeri Aktar',
         'Uploaded file must be in valid iCal format (.ics).' => '',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             '',
@@ -158,8 +158,8 @@ sub Data {
         'Update existing appointments?' => '',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
             '',
-        'Upload calendar' => '',
-        'Import appointments' => '',
+        'Upload calendar' => 'Takvimi Yükle',
+        'Import appointments' => 'Atamaları Al',
 
         # Template: AdminAppointmentNotificationEvent
         'Appointment Notification Management' => '',
@@ -167,8 +167,8 @@ sub Data {
         'Edit Notification' => 'Bildirim Düzenle',
         'Add notification' => 'Uyarı Ekle',
         'Export Notifications' => '',
-        'Filter for Notifications' => '',
-        'Filter for notifications' => '',
+        'Filter for Notifications' => 'Bildirimler İçin Filtreleme',
+        'Filter for notifications' => 'Bildirimler için filtreleme',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
             '',
         'Overwrite existing notifications?' => '',
@@ -186,14 +186,14 @@ sub Data {
         'Event' => 'Olay',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
             '',
-        'Appointment Filter' => '',
+        'Appointment Filter' => 'Atama Filtresi',
         'Type' => 'Tip',
         'Title' => 'Başlık',
         'Location' => 'konum',
-        'Team' => '',
-        'Resource' => '',
+        'Team' => 'Takım',
+        'Resource' => 'Kaynak',
         'Recipients' => '',
-        'Send to' => '',
+        'Send to' => 'Gönderildi',
         'Send to these agents' => '',
         'Send to all group members' => '',
         'Send to all role members' => '',
@@ -2438,7 +2438,7 @@ sub Data {
         'Edit your preferences' => 'Tercihleri düzenle',
         'Personal preferences' => '',
         'Preferences' => 'Tercihler',
-        'Warning! You\'re currently not editing your own preferences, but those of %s.' =>
+        'Please note: you\'re currently editing the preferences of %s.' =>
             '',
         'Go back to editing this agent' => '',
         'Set up your personal preferences. Save each setting by clicking the checkmark on the right.' =>
@@ -2933,6 +2933,9 @@ sub Data {
         'Send a bugreport' => 'Hata raporu gönder',
         'Expand' => 'Genişlet',
 
+        # Template: AttachmentList
+        'Click to delete this attachment.' => '',
+
         # Template: DraftButtons
         'Update draft' => '',
         'Save as new draft' => '',
@@ -3286,6 +3289,7 @@ sub Data {
         'Loading, please wait...' => '',
 
         # JS Template: UploadContainer
+        'Click to select a file for upload.' => '',
         'Click to select files or just drop them here.' => '',
         'Click to select a file or just drop it here.' => '',
         'Uploading...' => '',
@@ -3646,6 +3650,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => 'E-posta hesabı eklendi!',
+        'Email account fetch already fetched by another process. Please try again later!' =>
+            '',
         'Dispatching by email To: field.' => 'Elektronik posta Kime: alanına göre gönderiliyor.',
         'Dispatching by selected Queue.' => 'Seçili Kuyruğa göre gönderiliyor.',
 
@@ -3695,9 +3701,11 @@ sub Data {
         'Updated' => '',
         'Already up-to-date' => '',
         'Installed' => '',
+        'Not correctly deployed' => '',
         'Package updated correctly' => '',
         'Package was already updated' => '',
         'Dependency installed correctly' => '',
+        'The package needs to be reinstalled' => '',
         'The package contains cyclic dependencies' => '',
         'Not found in on-line repositories' => '',
         'Required version is higher than available' => '',
@@ -4914,6 +4922,11 @@ sub Data {
         'InnoDB Log File Size' => '',
         'The setting innodb_log_file_size must be at least 256 MB.' => '',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
+        'Invalid Default Values' => '',
+        'Tables with invalid default values were found. In order to fix it automatically, please run: bin/otrs.Console.pl Maint::Database::Check --repair' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => '',
         'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
@@ -4930,6 +4943,9 @@ sub Data {
         'Tables with a different storage engine than the default engine were found.' =>
             '',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
+        'Table check found some problems.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => '',
 
@@ -4941,6 +4957,11 @@ sub Data {
         'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => '',
         'NLS_DATE_FORMAT Setting SQL Check' => '',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
+        'Primary Key Sequences and Triggers' => '',
+        'The following sequences and/or triggers with possible wrong names have been found. Please rename them manually.' =>
+            '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
         'Setting client_encoding needs to be UNICODE or UTF8.' => '',
         'Setting server_encoding needs to be UNICODE or UTF8.' => '',
@@ -4948,6 +4969,11 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
         'Date Format' => '',
         'Setting DateStyle needs to be ISO.' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
+        'Primary Key Sequences' => '',
+        'The following sequences with possible wrong names have been found. Please rename them manually.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => '',
@@ -8681,6 +8707,8 @@ Thanks for your help!
         'Clear all',
         'Clear debug log',
         'Clear search',
+        'Click to delete this attachment.',
+        'Click to select a file for upload.',
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',
