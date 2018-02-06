@@ -107,7 +107,7 @@
                     <tbody>
 [% RenderBlockStart("NoCommunicationObjectsFound") %]
                         <tr>
-                            <td colspan="6">
+                            <td colspan="7">
                                 [% Translate("No communication objects found.") | html %]
                             </td>
                         </tr>

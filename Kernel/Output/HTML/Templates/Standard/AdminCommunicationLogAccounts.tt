@@ -120,7 +120,7 @@
                     <tbody>
 [% RenderBlockStart("NoAccountsFound") %]
                         <tr>
-                            <td colspan="3">
+                            <td colspan="4">
                                 [% Translate("No accounts found.") | html %]
                             </td>
                         </tr>
@@ -159,7 +159,7 @@
                         </tr>
 [% RenderBlockEnd("AccountRow") %]
                         <tr class="FilterMessage Hidden">
-                            <td colspan="3">[% Translate("No matches found.") | html %]</td>
+                            <td colspan="4">[% Translate("No matches found.") | html %]</td>
                         </tr>
                     </tbody>
                 </table>
@@ -199,7 +199,7 @@
                         <tbody>
 [% RenderBlockStart("NoCommunicationLogsFound") %]
                             <tr>
-                                <td colspan="6">
+                                <td colspan="5">
                                     [% Translate("No communication log entries found.") | html %]
                                 </td>
                             </tr>
@@ -242,7 +242,7 @@
                             </tr>
 [% RenderBlockEnd("CommunicationLogRow") %]
                             <tr class="FilterMessage Hidden">
-                                <td colspan="6">[% Translate("No matches found.") | html %]</td>
+                                <td colspan="5">[% Translate("No matches found.") | html %]</td>
                             </tr>
                         </tbody>
                     </table>

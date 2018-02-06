@@ -255,7 +255,7 @@
                     <tbody>
 [% RenderBlockStart("NoCommunicationsFound") %]
                         <tr>
-                            <td colspan="6">
+                            <td colspan="7">
                                 [% Translate("No communications found.") | html %]
                             </td>
                         </tr>
@@ -312,7 +312,7 @@
                         </tr>
 [% RenderBlockEnd("CommunicationRow") %]
                         <tr class="FilterMessage Hidden">
-                            <td colspan="6">[% Translate("No matches found.") | html %]</td>
+                            <td colspan="7">[% Translate("No matches found.") | html %]</td>
                         </tr>
                     </tbody>
                 </table>
