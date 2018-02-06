@@ -133,7 +133,7 @@ $Selenium->RunTest(
                 $Selenium->execute_script("\$('#StateID').val('2').trigger('redraw.InputField').trigger('change');");
                 $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#StateID").val() == 2' );
 
-                $Selenium->find_element( "#submitRichText", 'css' )->click();
+                $Selenium->execute_script("\$('#submitRichText').trigger('click')");
 
                 # Switch back to AgentTicketStatusView.
                 $Selenium->WaitFor( WindowCount => 1 );
