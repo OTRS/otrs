@@ -1,4 +1,5 @@
 #6.0.6 2018-??-??
+ - 2018-02-06 Fixed bug#[13609](https://bugs.otrs.org/show_bug.cgi?id=13609) - "Need TwoFactorToken!" generates error in system log.
  - 2018-02-06 Fixed translation mechanism in AdminCommunicationLog, thanks to Balazs Ur (PR#1901).
  - 2018-02-06 Fixed column spans in communication log screens, thanks to Balazs Ur (PR#1902).
 
