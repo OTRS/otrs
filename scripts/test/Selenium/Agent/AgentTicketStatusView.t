@@ -46,7 +46,6 @@ $Selenium->RunTest(
             );
 
             push @TicketIDs, $TicketID;
-
         }
 
         # Create test user and login.
@@ -104,43 +103,24 @@ $Selenium->RunTest(
                 }
             }
 
-            # Close all ticket with bulk action.
+            # Close all tickets if they are in open state.
             if ( $Filter eq 'Open' ) {
-                for my $TicketID (@TicketIDs) {
+                my $Result;
 
-                    # Select all created test tickets.
-                    $Selenium->find_element("//input[\@type='checkbox'][\@value='$TicketID']")->click();
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            "return typeof(\$) === 'function' && \$('input[value=$TicketID][type=checkbox]:checked').length"
+                for my $TicketID (@TicketIDs) {
+                    $Result = $TicketObject->TicketStateSet(
+                        State    => 'closed successful',
+                        TicketID => $TicketID,
+                        UserID   => 1,
+                    );
+                    $Self->True(
+                        $Result,
+                        "Ticket ${TicketID} - closed successfully",
                     );
                 }
 
-                # Click on bulk action and switch window.
-                $Selenium->find_element("//*[text()='Bulk']")->click();
-
-                $Selenium->WaitFor( WindowCount => 2 );
-                my $Handles = $Selenium->get_window_handles();
-                $Selenium->switch_to_window( $Handles->[1] );
-
-                # Wait until page has loaded, if necessary.
-                $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof($) === "function" && $("#StateID").length && $("#submitRichText").length'
-                );
-
-                # Change state to 'closed successful'.
-                $Selenium->execute_script("\$('#StateID').val('2').trigger('redraw.InputField').trigger('change');");
-                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#StateID").val() == 2' );
-
-                $Selenium->execute_script("\$('#submitRichText').trigger('click')");
-
-                # Switch back to AgentTicketStatusView.
-                $Selenium->WaitFor( WindowCount => 1 );
-                $Selenium->switch_to_window( $Handles->[0] );
                 $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketStatusView");
             }
-
         }
 
         # Delete created test tickets.
