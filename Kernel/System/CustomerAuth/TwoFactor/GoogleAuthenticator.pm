@@ -80,8 +80,8 @@ sub Auth {
     # if we get to here (user has preference), we need a passed token
     if ( !$Param{TwoFactorToken} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need TwoFactorToken!"
+            Priority => 'notice',
+            Message  => "CustomerUser: $Param{User} two factor customer authentication failed (TwoFactorToken missing)."
         );
         return;
     }
