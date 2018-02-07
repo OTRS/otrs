@@ -2465,8 +2465,8 @@ sub TicketEscalationDateCalculation {
                     }
             );
 
-            my $DeltaObj = $DateTimeObject->Delta(
-                DateTimeObject => $StartTimeObj,
+            my $DeltaObj = $StartTimeObj->Delta(
+                DateTimeObject => $DateTimeObject,
                 ForWorkingTime => 1,
                 Calendar       => $Escalation{Calendar},
             );
