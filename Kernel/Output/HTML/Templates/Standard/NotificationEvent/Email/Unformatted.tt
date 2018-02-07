@@ -10,7 +10,6 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>[% Data.Subject | html %]</title>
 </head>
 <body>
     [% Data.Subject | html %]
