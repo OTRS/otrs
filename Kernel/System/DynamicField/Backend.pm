@@ -890,7 +890,7 @@ sub ValueGet {
         );
         if ( !IsHashRefWithData($ObjectIDs) || !$ObjectIDs->{ $Param{ObjectName} } ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'notice',
+                Priority => 'debug',
                 Message =>
                     "Unable to fetch object mapping for object name $Param{ObjectName} and type $Param{DynamicFieldConfig}->{ObjectType}!"
             );
