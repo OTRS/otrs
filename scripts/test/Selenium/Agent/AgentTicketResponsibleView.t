@@ -126,35 +126,34 @@ $Selenium->RunTest(
                 }
             }
 
-            # Change status for test tickets with bulk action.
+            # Change status for test tickets.
             if ( $Filter eq 'New' ) {
                 for my $TicketID (@TicketIDs) {
+                    my $Result = $TicketObject->TicketStateSet(
+                        StateID  => 6,
+                        TicketID => $TicketID,
+                        UserID   => $TestUserID,
+                    );
+                    $Self->True(
+                        $Result,
+                        "Ticket ${TicketID} - set pending reminder state successfully",
+                    );
 
-                    # Select all created test tickets.
-                    $Selenium->find_element("//input[\@type='checkbox'][\@value='$TicketID']")->click();
+                    my $SuccessPendingTimeSet = $TicketObject->TicketPendingTimeSet(
+                        Diff     => ( 2 * 24 * 60 ),
+                        TicketID => $TicketID,
+                        UserID   => $TestUserID,
+                    );
+                    $Self->True(
+                        $SuccessPendingTimeSet,
+                        "Set pending time successfully",
+                    );
+
+                    my %TicketGet = $TicketObject->TicketGet(
+                        TicketID => $TicketID,
+                        UserID   => $TestUserID,
+                    );
                 }
-
-                # Click on bulk action and switch window.
-                $Selenium->find_element("//*[text()='Bulk']")->click();
-                $Selenium->WaitFor( WindowCount => 2 );
-                my $Handles = $Selenium->get_window_handles();
-                $Selenium->switch_to_window( $Handles->[1] );
-
-                # Wait until page has loaded, if necessary.
-                $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof($) === "function" && $("#StateID").length && $("#submitRichText").length'
-                );
-
-                # Change state to 'pending reminder'.
-                $Selenium->execute_script("\$('#StateID').val('6').trigger('redraw.InputField').trigger('change');");
-                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#StateID").val() == 6' );
-
-                $Selenium->execute_script("\$('#submitRichText').trigger('click')");
-
-                # Switch back to AgentTicketResponsibleView.
-                $Selenium->WaitFor( WindowCount => 1 );
-                $Selenium->switch_to_window( $Handles->[0] );
             }
 
             # Switch back to AgentTicketResponsibleView.
