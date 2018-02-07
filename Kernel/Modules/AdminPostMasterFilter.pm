@@ -104,7 +104,7 @@ sub Run {
         my @Not;
 
         for my $Number ( 1 .. $ConfigObject->Get('PostmasterHeaderFieldCount') ) {
-            if ( $GetParam{"MatchHeader$Number"} && $GetParam{"MatchValue$Number"} ) {
+            if ( $GetParam{"MatchHeader$Number"} && length $GetParam{"MatchValue$Number"} ) {
                 push @Match, {
                     Key   => $GetParam{"MatchHeader$Number"},
                     Value => $GetParam{"MatchValue$Number"},
@@ -115,7 +115,7 @@ sub Run {
                 };
             }
 
-            if ( $GetParam{"SetHeader$Number"} && $GetParam{"SetValue$Number"} ) {
+            if ( $GetParam{"SetHeader$Number"} && length $GetParam{"SetValue$Number"} ) {
                 push @Set, {
                     Key   => $GetParam{"SetHeader$Number"},
                     Value => $GetParam{"SetValue$Number"},
@@ -225,6 +225,7 @@ sub Run {
             Name => 'OverviewResult',
             Data => { %Param, },
         );
+
         if (%List) {
             for my $Key ( sort keys %List ) {
                 $LayoutObject->Block(
@@ -260,7 +261,7 @@ sub _MaskUpdate {
     my $Counter = 0;
     if ( $Data{Match} ) {
         for my $Index ( 0 .. ( scalar @{ $Data{Match} } ) - 1 ) {
-            if ( $Data{Match}->[$Index]->{Key} && $Data{Match}->[$Index]->{Value} ) {
+            if ( $Data{Match}->[$Index]->{Key} && length $Data{Match}->[$Index]->{Value} ) {
                 $Counter++;
                 $Data{"MatchValue$Counter"}  = $Data{Match}->[$Index]->{Value};
                 $Data{"MatchHeader$Counter"} = $Data{Match}->[$Index]->{Key};
@@ -271,7 +272,7 @@ sub _MaskUpdate {
     $Counter = 0;
     if ( $Data{Set} ) {
         for my $Item ( @{ $Data{Set} } ) {
-            if ( $Item->{Key} && $Item->{Value} ) {
+            if ( $Item->{Key} && length $Item->{Value} ) {
                 $Counter++;
                 $Data{"SetValue$Counter"}  = $Item->{Value};
                 $Data{"SetHeader$Counter"} = $Item->{Key};
