@@ -170,11 +170,12 @@ iframe {
     padding: 0px;
 }
 
-.TicketHeader{
+.TicketHeader {
     margin: 10px 0px 20px 0px;
     border-bottom: 1px solid #000;
     font-size: 20px;
     padding: 5px 0px;
+    line-height: 1.2;
 }
 
 #Flag{
