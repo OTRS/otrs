@@ -85,7 +85,7 @@
                             <Array>
                             </Array>
                         </Item>
-                        <Item Key="Description"></Item>
+                        <Item Key="Description" Translatable="1">Appointment Calendar overview page.</Item>
                         <Item Key="Name" Translatable="1">Calendar</Item>
                         <Item Key="Link">Action=AgentAppointmentCalendarOverview</Item>
                         <Item Key="LinkOption"></Item>
@@ -807,7 +807,7 @@
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::AppointmentCalendar</Item>
                 <Item Key="Title" Translatable="1">Appointments</Item>
-                <Item Key="Description"></Item>
+                <Item Key="Description" Translatable="1">Appointments</Item>
                 <Item Key="ShowEmail">0</Item>
                 <Item Key="IdleMinutes">60</Item>
                 <Item Key="SortBy">UserFullname</Item>

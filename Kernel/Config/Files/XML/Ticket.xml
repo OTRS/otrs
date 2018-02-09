@@ -7501,7 +7501,7 @@
                             <Array>
                             </Array>
                         </Item>
-                        <Item Key="Description" Translatable="1">Overview of all open Tickets.</Item>
+                        <Item Key="Description" Translatable="1">Overview of all Tickets per assigned Queue.</Item>
                         <Item Key="Name" Translatable="1">Queue view</Item>
                         <Item Key="Link">Action=AgentTicketQueue</Item>
                         <Item Key="LinkOption"></Item>
@@ -7522,7 +7522,7 @@
                             <Array>
                             </Array>
                         </Item>
-                        <Item Key="Description"></Item>
+                        <Item Key="Description" Translatable="1">Overview of all Tickets per assigned Queue.</Item>
                         <Item Key="Name" Translatable="1">Tickets</Item>
                         <Item Key="Link">Action=AgentTicketQueue</Item>
                         <Item Key="LinkOption"></Item>
