@@ -12,24 +12,22 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get needed objects
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-        # do not check RichText
+        # Do not check RichText.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::RichText',
             Value => 0,
         );
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -40,15 +38,14 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get test user ID
+        # Get test user ID.
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
-        # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # create test ticket
+        # Create test ticket.
         my $TicketID = $TicketObject->TicketCreate(
             Title        => 'Selenium Test Ticket',
             Queue        => 'Raw',
@@ -65,33 +62,34 @@ $Selenium->RunTest(
             "Ticket is created - ID $TicketID",
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to zoom view of created test ticket
+        # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # force sub menus to be visible in order to be able to click one of the links
+        # Force sub menu to be visible in order to be able to click one of the links.
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function'" );
+        $Selenium->execute_script("\$('#nav-Communication-container').css('height', 'auto')");
+        $Selenium->execute_script("\$('#nav-Communication-container').css('opacity', '1')");
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
+                "return \$('#nav-Communication-container').css('height') !== '0px' && \$('#nav-Communication-container').css('opacity') == '1'"
         );
 
-        # click on 'Note' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")
-            ->VerifiedClick();
+        # Click on 'Note' and switch window.
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until page has loaded, if necessary
+        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $(".WidgetSimple").length;'
         );
 
-        # open collapsed widgets, if necessary
+        # Open collapsed widgets, if necessary.
         $Selenium->execute_script(
             "\$('.WidgetSimple.Collapsed .WidgetAction > a').trigger('click');"
         );
@@ -101,7 +99,7 @@ $Selenium->RunTest(
                 'return typeof($) === "function" && $(".WidgetSimple.Expanded").length;'
         );
 
-        # check page
+        # Check page.
         for my $ID (
             qw(Subject RichText FileUpload ArticleTypeID submitRichText)
             )
@@ -111,10 +109,10 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # get default subject value from Ticket::Frontend::AgentTicketNote###Subject
+        # Get default subject value from Ticket::Frontend::AgentTicketNote###Subject.
         my $DefaultNoteSubject = $ConfigObject->Get("Ticket::Frontend::AgentTicketNote")->{Subject};
 
-        # add note
+        # Add note.
         my $NoteSubject;
         if ($DefaultNoteSubject) {
             $NoteSubject = $DefaultNoteSubject;
@@ -127,17 +125,20 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
-        # switch window back to agent ticket zoom view of created test ticket
+        # Switch window back to agent ticket zoom view of created test ticket.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # expand Miscellaneous dropdown menu
+        # Expand Miscellaneous dropdown menu.
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function'" );
+        $Selenium->execute_script("\$('#nav-Miscellaneous-container').css('height', 'auto')");
+        $Selenium->execute_script("\$('#nav-Miscellaneous-container').css('opacity', '1')");
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#nav-Miscellaneous ul").css({ "height": "auto", "opacity": "100" });'
+                "return \$('#nav-Miscellaneous-container').css('height') !== '0px' && \$('#nav-Miscellaneous-container').css('opacity') == '1'"
         );
 
-        # click on 'History' and switch window
+        # Click on 'History' and switch window.
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketHistory;TicketID=$TicketID' )]")
             ->VerifiedClick();
 
@@ -145,41 +146,41 @@ $Selenium->RunTest(
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until page has loaded, if necessary
+        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $(".WidgetSimple").length;'
         );
 
-        # confirm note action
+        # Confirm note action.
         my $NoteMsg = "Added note (Note)";
         $Self->True(
             index( $Selenium->get_page_source(), $NoteMsg ) > -1,
             "Ticket note action completed",
         );
 
-        # close history window
+        # Close history window.
         $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
 
-        # switch window back to agent ticket zoom view of created test ticket
+        # Switch window back to agent ticket zoom view of created test ticket.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # click 'Reply to note' in order to check for pre-loaded reply-to note subject, see bug #10931
-        $Selenium->find_element("//a[contains(\@href, \'ReplyToArticle' )]")->VerifiedClick();
+        # Click 'Reply to note' in order to check for pre-loaded reply-to note subject, see bug #10931.
+        $Selenium->find_element("//a[contains(\@href, \'ReplyToArticle' )]")->click();
 
-        # switch window
+        # Switch window.
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until page has loaded, if necessary
+        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $(".WidgetSimple").length;'
         );
 
-        # check for subject pre-loaded value
+        # Check for subject pre-loaded value.
         my $NoteSubjectRe = $ConfigObject->Get('Ticket::SubjectRe') || 'Re';
 
         $Self->Is(
@@ -188,21 +189,21 @@ $Selenium->RunTest(
             "Reply-To note #Subject pre-loaded value",
         );
 
-        # close note window
+        # Close note window.
         $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
 
-        # switch window back to agent ticket zoom view of created test ticket
+        # Switch window back to agent ticket zoom view of created test ticket.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # turn on RichText for next test
+        # Turn on RichText for next test.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::RichText',
             Value => 1,
         );
 
-        # get image attachment
+        # Get image attachment.
         my $AttachmentName = "StdAttachment-Test1.png";
         my $Location       = $ConfigObject->Get('Home')
             . "/scripts/test/sample/StdAttachment/$AttachmentName";
@@ -213,7 +214,7 @@ $Selenium->RunTest(
         my $Content   = ${$ContentRef};
         my $ContentID = 'inline173020.131906379.1472199795.695365.264540139@localhost';
 
-        # create test note with inline attachment
+        # Create test note with inline attachment.
         my $ArticleID = $TicketObject->ArticleCreate(
             TicketID       => $TicketID,
             ArticleType    => 'note-internal',
@@ -241,53 +242,53 @@ $Selenium->RunTest(
             "ArticleCreate - ID $ArticleID",
         );
 
-        # navigate to added note article
+        # Navigate to added note article.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID;ArticleID=$ArticleID");
 
-        # click 'Reply to note'
-        $Selenium->find_element("//a[contains(\@href, \'ReplyToArticle' )]")->VerifiedClick();
+        # Click 'Reply to note'.
+        $Selenium->find_element("//a[contains(\@href, \'ReplyToArticle' )]")->click();
 
-        # switch window
+        # Switch window.
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until page has loaded, if necessary
+        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function'" );
 
-        # wait for the CKE to load
+        # Wait for the CKE to load.
         $Selenium->WaitFor(
             JavaScript =>
                 "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
         );
 
-        # submit note
+        # Submit note.
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
-        # wait until popup has closed
+        # Wait until popup has closed.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # wait until page has loaded, if necessary
+        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function";'
         );
 
-        # get last article id
+        # Get last article id.
         my @ArticleIDs = $TicketObject->ArticleIndex(
             TicketID => $TicketID,
         );
         my $LastArticleID = pop @ArticleIDs;
 
-        # get article attachments
+        # Get article attachments.
         my $HTMLContent     = '';
         my %AttachmentIndex = $TicketObject->ArticleAttachmentIndex(
             ArticleID => $LastArticleID,
             UserID    => 1,
         );
 
-        # go through all attachments
+        # Go through all attachments.
         for my $FileID ( sort keys %AttachmentIndex ) {
             my %Attachment = $TicketObject->ArticleAttachment(
                 ArticleID => $LastArticleID,
@@ -295,7 +296,7 @@ $Selenium->RunTest(
                 UserID    => 1,
             );
 
-            # image attachment
+            # Image attachment.
             if ( $Attachment{ContentType} =~ /^image\/png/ ) {
                 $Self->Is(
                     $Attachment{Disposition},
@@ -303,26 +304,26 @@ $Selenium->RunTest(
                     'Inline image attachment found',
                 );
 
-                # save content id
+                # Save content id.
                 if ( $Attachment{ContentID} ) {
                     $ContentID = $Attachment{ContentID};
                     $ContentID =~ s/<|>//g;
                 }
             }
 
-            # html attachment
+            # Html attachment.
             elsif ( $Attachment{ContentType} =~ /^text\/html/ ) {
                 $HTMLContent = $Attachment{Content};
             }
         }
 
-        # check if inline attachment is present in the note reply (see bug#12259)
+        # Check if inline attachment is present in the note reply (see bug#12259).
         $Self->True(
             index( $HTMLContent, $ContentID ) > -1,
             'Inline attachment found in note reply',
         );
 
-        # add a template
+        # Add a template.
         my $RandomID               = $Helper->GetRandomID();
         my $TemplateText           = 'This is a test template';
         my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
@@ -343,7 +344,7 @@ $Selenium->RunTest(
         my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
         my $QueueID = $QueueObject->QueueLookup( Queue => 'Raw' );
 
-        # assign the template to our queue
+        # Assign the template to our queue.
         my $Success = $QueueObject->QueueStandardTemplateMemberAdd(
             QueueID            => $QueueID,
             StandardTemplateID => $TemplateID,
@@ -355,7 +356,7 @@ $Selenium->RunTest(
             "Template got assigned to 'Raw'",
         );
 
-        # now switch to mobile mode and reload the window
+        # Now switch to mobile mode and reload the window.
         $Selenium->set_window_size( 600, 400 );
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
@@ -363,17 +364,17 @@ $Selenium->RunTest(
             "\$('.Cluster ul.Actions').scrollLeft(\$('#nav-Note').offset().left - \$('#nav-Note').width());"
         );
 
-        # open the note screen (which should be an iframe now)
+        # Open the note screen (which should be an iframe now).
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")
             ->VerifiedClick();
 
-        # wait for the iframe to show up
+        # Wait for the iframe to show up.
         $Selenium->WaitFor(
             JavaScript =>
                 "return typeof(\$) === 'function' && \$('form#Compose', \$('.PopupIframe').contents()).length == 1"
         );
 
-        # get frame name
+        # Get frame name.
         my $FrameName = $Selenium->execute_script(
             "return \$('iframe.PopupIframe').attr('name');"
         );
@@ -385,26 +386,26 @@ $Selenium->RunTest(
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
         ) || die "OTRS API verification failed after page load.";
 
-        # expand the article widget
+        # Expand the article widget.
         $Selenium->find_element( "#WidgetArticle .Toggle a", 'css' )->click();
 
         $Selenium->execute_script(
             "\$('#WidgetArticle .Toggle a', \$('.PopupIframe').contents()).trigger('click')"
         );
 
-        # check if the richtext is empty
+        # Check if the richtext is empty.
         $Self->Is(
             $Selenium->find_element( '#RichText', 'css' )->get_value(),
             '',
             "RichText is empty",
         );
 
-        # select the created template
+        # Select the created template.
         $Selenium->execute_script(
             "\$('#StandardTemplateID').val('$TemplateID').trigger('redraw.InputField').trigger('change');"
         );
 
-        # wait a short time and for the spinner to disappear
+        # Wait a short time and for the spinner to disappear.
         sleep(2);
         $Selenium->WaitFor(
             JavaScript =>
@@ -421,7 +422,7 @@ $Selenium->RunTest(
             "RichText contains the correct value from the selected template",
         );
 
-        # delete template
+        # Delete template.
         $Success = $StandardTemplateObject->StandardTemplateDelete(
             ID => $TemplateID,
         );
@@ -430,7 +431,7 @@ $Selenium->RunTest(
             "Template is deleted - ID $TemplateID",
         );
 
-        # delete created test tickets
+        # Delete created test tickets.
         $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => $TestUserID,
@@ -449,11 +450,10 @@ $Selenium->RunTest(
             "Ticket is deleted - ID $TicketID",
         );
 
-        # make sure the cache is correct
+        # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Ticket',
         );
-
     },
 );
 

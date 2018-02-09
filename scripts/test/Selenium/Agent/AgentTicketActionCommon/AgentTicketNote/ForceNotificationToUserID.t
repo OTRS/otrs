@@ -13,30 +13,28 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # enable involved agent feature
+        # Enable involved agent feature.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::AgentTicketNote###InvolvedAgent',
             Value => 1,
         );
 
-        # enable involved agent feature
+        # Enable involved agent feature.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::AgentTicketNote###InformAgent',
             Value => 1,
         );
 
-        # do not check RichText
+        # Do not check RichText.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::RichText',
@@ -60,7 +58,7 @@ $Selenium->RunTest(
             Value => 'Kernel::System::Email::Test',
         );
 
-        # create test users and login first
+        # Create test users and login first.
         my @TestUser;
         for my $User ( 1 .. 3 ) {
             my $TestUserLogin = $Helper->TestUserCreate(
@@ -76,7 +74,7 @@ $Selenium->RunTest(
             Password => $TestUser[0],
         );
 
-        # get test users ID
+        # Get test users ID.
         my @UserID;
         for my $UserID (@TestUser) {
             my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
@@ -86,10 +84,9 @@ $Selenium->RunTest(
             push @UserID, $TestUserID;
         }
 
-        # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # create test ticket
+        # Create test ticket.
         my $TicketID = $TicketObject->TicketCreate(
             Title        => 'Selenium Test Ticket',
             Queue        => 'Raw',
@@ -106,7 +103,7 @@ $Selenium->RunTest(
             "Ticket is created - ID $TicketID",
         );
 
-        # update the ticket owner to have an involved user
+        # Update the ticket owner to have an involved user.
         my $Success = $TicketObject->TicketOwnerSet(
             TicketID  => $TicketID,
             NewUserID => $UserID[0],
@@ -121,33 +118,34 @@ $Selenium->RunTest(
             'Cleanup Email backend',
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to zoom view of created test ticket
+        # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # force sub menus to be visible in order to be able to click one of the links
+        # Force sub menu to be visible in order to be able to click one of the links.
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function'" );
+        $Selenium->execute_script("\$('#nav-Communication-container').css('height', 'auto')");
+        $Selenium->execute_script("\$('#nav-Communication-container').css('opacity', '1')");
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
+                "return \$('#nav-Communication-container').css('height') !== '0px' && \$('#nav-Communication-container').css('opacity') == '1'"
         );
 
-        # click on 'Note' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")
-            ->VerifiedClick();
+        # Click on 'Note' and switch window.
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until page has loaded, if necessary
+        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $(".WidgetSimple").length;'
         );
 
-        # check page
+        # Check page.
         for my $ID (
             qw(InvolvedUserID InformUserID Subject RichText FileUpload ArticleTypeID submitRichText)
             )
@@ -157,7 +155,7 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # change ticket user owner
+        # Change ticket user owner.
         $Selenium->execute_script(
             "\$('#InvolvedUserID').val('$UserID[2]').trigger('redraw.InputField').trigger('change');"
         );
@@ -171,19 +169,19 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # check that emailS was sent
+        # Check that emailS was sent.
         my $Emails = $TestEmailObject->EmailsGet();
 
-        # there should be 3 emails, one for the inform user, one for the involved user and one for
-        #   the owner
+        # There should be 3 emails, one for the inform user, one for the involved user and one for
+        #   the owner.
         $Self->Is(
             scalar @{$Emails},
             3,
             'EmailsGet()',
         );
 
-        # extract recipients from emails and compare to the expected results, the emails are sent in
-        #   order with the UserID
+        # Extract recipients from emails and compare to the expected results, the emails are sent in
+        #   order with the UserID.
         my @Recipients;
         for my $Email ( @{$Emails} ) {
             push @Recipients, $Email->{ToArray}->[0];
@@ -198,11 +196,11 @@ $Selenium->RunTest(
             'Email recipients',
         );
 
-        # make sure to navigate to zoom view of created test ticket at this moment to prevent error
-        #   messages after the ticket is deleted
+        # Make sure to navigate to zoom view of created test ticket at this moment to prevent error
+        #   messages after the ticket is deleted.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # delete created test tickets
+        # Delete created test tickets.
         $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => $UserID[0],
@@ -221,7 +219,7 @@ $Selenium->RunTest(
             "Ticket is deleted - ID $TicketID",
         );
 
-        # make sure the cache is correct
+        # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Ticket',
         );
