@@ -1,4 +1,5 @@
 #6.0.6 2018-??-??
+ - 2018-02-09 Fixed bug#[13646](https://bugs.otrs.org/show_bug.cgi?id=13646) - Unintuitive SysConfig setting CloudServices::Disabled.
  - 2018-02-09 Fixed bug#[13628](https://bugs.otrs.org/show_bug.cgi?id=13628) - Error message from Dev::Tools::TranslationsUpdate if certain directory does not exist.
  - 2018-02-09 Fixed bug#[13585](https://bugs.otrs.org/show_bug.cgi?id=13585) - Coloring issues in Ivory skin.
  - 2018-02-09 Fixed bug#[13587](https://bugs.otrs.org/show_bug.cgi?id=13587) - Error message when customer user does not have a first name.
