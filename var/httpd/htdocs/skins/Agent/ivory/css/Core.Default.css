@@ -88,7 +88,6 @@ textarea.Focus  {
 
 .MessageBox.Notice {
     border-color: #265D66;
-    background: #69BFCC;
 }
 
 .MessageBox.Notice p {
@@ -161,6 +160,19 @@ div.InputField_ToolbarContainer ul li a:hover {
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked.jstree-wholerow-hovered,
 .jstree-InputField .jstree-focused > .jstree-wholerow-clicked {
     background-color: #69BFCC;
+}
+
+ul.Tablelike li:hover {
+    background-color: #69BFCC;
+}
+
+#ResponsiveNavigationHandle .fa,
+#ResponsiveSidebarHandle .fa {
+    color: #69BFCC;
+}
+
+.ActionRow .Actions li a:hover {
+    border-bottom: 2px solid #69BFCC;
 }
 
 
