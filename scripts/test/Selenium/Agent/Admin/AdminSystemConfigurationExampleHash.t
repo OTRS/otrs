@@ -18,7 +18,6 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 my @Tests = (
     {
         Name     => 'ExampleHash',
-        Index    => 22,
         Commands => [
             {
                 Hover => '.Content',
@@ -72,7 +71,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashCheckbox1',
-        Index    => 23,
         Commands => [
             {
                 Hover => '.Content',
@@ -124,7 +122,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashCheckbox2',
-        Index    => 24,
         Commands => [
             {
                 Hover => '.Content',
@@ -179,7 +176,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashDate1',
-        Index    => 25,
         Commands => [
             {
                 Hover => '.Content',
@@ -213,17 +209,17 @@ my @Tests = (
             },
             {
                 # select day (05) for first item
-                JS => "\$('.SettingsList li:nth-of-type(25) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashDate1\"] "
                     . ".HashItem:nth-of-type(1) select:nth-of-type(2)').val(\"5\")",
             },
             {
                 # select month (05) for first item
-                JS => "\$('.SettingsList li:nth-of-type(25) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashDate1\"] "
                     . ".HashItem:nth-of-type(1) select:nth-of-type(1)').val(\"5\")",
             },
             {
                 # select year (2016) for first item
-                JS => "\$('.SettingsList li:nth-of-type(25) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashDate1\"] "
                     . ".HashItem:nth-of-type(1) select:nth-of-type(3)').val(\"2016\")",
             },
             {
@@ -243,7 +239,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashDate2',
-        Index    => 26,
         Commands => [
             {
                 Hover => '.Content',
@@ -284,17 +279,17 @@ my @Tests = (
             },
             {
                 # select day (25) for first item
-                JS => "\$('.SettingsList li:nth-of-type(26) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashDate2\"] "
                     . ".HashItem:nth-of-type(2) select:nth-of-type(2)').val(\"25\")",
             },
             {
                 # select month (11) for first item
-                JS => "\$('.SettingsList li:nth-of-type(26) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashDate2\"] "
                     . ".HashItem:nth-of-type(2) select:nth-of-type(1)').val(\"11\")",
             },
             {
                 # select year (2016) for first item
-                JS => "\$('.SettingsList li:nth-of-type(26) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashDate2\"] "
                     . ".HashItem:nth-of-type(2) select:nth-of-type(3)').val(\"2016\")",
             },
             {
@@ -314,7 +309,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashDateTime1',
-        Index    => 27,
         Commands => [
             {
                 Hover => '.Content',
@@ -352,27 +346,27 @@ my @Tests = (
             },
             {
                 # select day (05) for first item
-                JS => "\$('.SettingsList li:nth-of-type(27) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashDateTime1\"] "
                     . ".HashItem:nth-of-type(1) select:nth-of-type(2)').val(\"5\")",
             },
             {
                 # select month (05) for first item
-                JS => "\$('.SettingsList li:nth-of-type(27) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashDateTime1\"] "
                     . ".HashItem:nth-of-type(1) select:nth-of-type(1)').val(\"5\")",
             },
             {
                 # select year (2016) for first item
-                JS => "\$('.SettingsList li:nth-of-type(27) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashDateTime1\"] "
                     . ".HashItem:nth-of-type(1) select:nth-of-type(3)').val(\"2016\")",
             },
             {
                 # select hour (2) for first item
-                JS => "\$('.SettingsList li:nth-of-type(27) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashDateTime1\"] "
                     . ".HashItem:nth-of-type(1) select:nth-of-type(4)').val(\"2\")",
             },
             {
                 # select minute (2) for first item
-                JS => "\$('.SettingsList li:nth-of-type(27) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashDateTime1\"] "
                     . ".HashItem:nth-of-type(1) select:nth-of-type(5)').val(\"2\")",
             },
             {
@@ -392,7 +386,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashDateTime2',
-        Index    => 28,
         Commands => [
             {
                 Hover => '.Content',
@@ -433,27 +426,27 @@ my @Tests = (
             },
             {
                 # select day (25) for first item
-                JS => "\$('.SettingsList li:nth-of-type(28) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashDateTime2\"] "
                     . ".HashItem:nth-of-type(2) select:nth-of-type(2)').val(\"25\")",
             },
             {
                 # select month (11) for first item
-                JS => "\$('.SettingsList li:nth-of-type(28) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashDateTime2\"] "
                     . ".HashItem:nth-of-type(2) select:nth-of-type(1)').val(\"11\")",
             },
             {
                 # select year (2016) for first item
-                JS => "\$('.SettingsList li:nth-of-type(28) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashDateTime2\"] "
                     . ".HashItem:nth-of-type(2) select:nth-of-type(3)').val(\"2016\")",
             },
             {
                 # select hour (2) for first item
-                JS => "\$('.SettingsList li:nth-of-type(28) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashDateTime2\"] "
                     . ".HashItem:nth-of-type(2) select:nth-of-type(4)').val(\"2\")",
             },
             {
                 # select minute (2) for first item
-                JS => "\$('.SettingsList li:nth-of-type(28) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashDateTime2\"] "
                     . ".HashItem:nth-of-type(2) select:nth-of-type(5)').val(\"2\")",
             },
             {
@@ -473,7 +466,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashDirectory1',
-        Index    => 29,
         Commands => [
             {
                 Hover => '.Content',
@@ -531,7 +523,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashDirectory1',
-        Index    => 29,
         Commands => [
             {
                 Hover => '.Content',
@@ -568,7 +559,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashDirectory2',
-        Index    => 30,
         Commands => [
             {
                 Hover => '.Content',
@@ -629,7 +619,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashEntity1',
-        Index    => 31,
         Commands => [
             {
                 Hover => '.Content',
@@ -663,14 +652,14 @@ my @Tests = (
             },
             {
                 # Select 2 low
-                JS => "\$('.SettingsList li:nth-of-type(31) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashEntity1\"] "
                     . " select').val('2 low')"
                     . ".trigger('redraw.InputField').trigger('change');",
             },
             {
                 # Wait until option is selected.
                 WaitForJS => "return typeof(\$) === 'function' "
-                    . "&& \$('.SettingsList li:nth-of-type(31) .WidgetSimple "
+                    . "&& \$('.WidgetSimple[data-name=\"ExampleHashEntity1\"] "
                     . "select').val() === '2 low'",
             },
             {
@@ -690,7 +679,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashEntity2',
-        Index    => 32,
         Commands => [
             {
                 Hover => '.Content',
@@ -731,14 +719,14 @@ my @Tests = (
             },
             {
                 # Select 2 low
-                JS => "\$('.SettingsList li:nth-of-type(32) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashEntity2\"] "
                     . " select').val('2 low')"
                     . ".trigger('redraw.InputField').trigger('change');",
             },
             {
                 # Wait until option is selected.
                 WaitForJS => "return typeof(\$) === 'function' "
-                    . "&& \$('.SettingsList li:nth-of-type(32) .WidgetSimple "
+                    . "&& \$('.WidgetSimple[data-name=\"ExampleHashEntity2\"] "
                     . "select').val() === '2 low'",
             },
             {
@@ -758,7 +746,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashFile1',
-        Index    => 33,
         Commands => [
             {
                 Hover => '.Content',
@@ -816,7 +803,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashFile1',
-        Index    => 33,
         Commands => [
             {
                 Hover => '.Content',
@@ -850,7 +836,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashFile2',
-        Index    => 34,
         Commands => [
             {
                 Hover => '.Content',
@@ -911,7 +896,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashPassword1',
-        Index    => 35,
         Commands => [
             {
                 Hover => '.Content',
@@ -969,7 +953,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashPassword2',
-        Index    => 36,
         Commands => [
             {
                 Hover => '.Content',
@@ -1030,7 +1013,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashPerlModule1',
-        Index    => 37,
         Commands => [
             {
                 Hover => '.Content',
@@ -1068,14 +1050,14 @@ my @Tests = (
             },
             {
                 # Select Kernel::System::Log::File
-                JS => "\$('.SettingsList li:nth-of-type(37) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashPerlModule1\"] "
                     . " select').val('Kernel::System::Log::File')"
                     . ".trigger('redraw.InputField').trigger('change');",
             },
             {
                 # Wait until option is selected.
                 WaitForJS => "return typeof(\$) === 'function' "
-                    . "&& \$('.SettingsList li:nth-of-type(37) .WidgetSimple "
+                    . "&& \$('.WidgetSimple[data-name=\"ExampleHashPerlModule1\"] "
                     . "select').val() === 'Kernel::System::Log::File'",
             },
             {
@@ -1095,7 +1077,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashPerlModule2',
-        Index    => 38,
         Commands => [
             {
                 Hover => '.Content',
@@ -1136,14 +1117,14 @@ my @Tests = (
             },
             {
                 # Select 2 low
-                JS => "\$('.SettingsList li:nth-of-type(38) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashPerlModule2\"] "
                     . " select').val('Kernel::System::Log::File')"
                     . ".trigger('redraw.InputField').trigger('change');",
             },
             {
                 # Wait until option is selected.
                 WaitForJS => "return typeof(\$) === 'function' "
-                    . "&& \$('.SettingsList li:nth-of-type(38) .WidgetSimple "
+                    . "&& \$('.WidgetSimple[data-name=\"ExampleHashPerlModule2\"] "
                     . "select').val() === 'Kernel::System::Log::File'",
             },
             {
@@ -1163,7 +1144,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashSelect1',
-        Index    => 39,
         Commands => [
             {
                 Hover => '.Content',
@@ -1204,14 +1184,14 @@ my @Tests = (
             },
             {
                 # Select female.
-                JS => "\$('.SettingsList li:nth-of-type(39) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashSelect1\"] "
                     . " select').val('female')"
                     . ".trigger('redraw.InputField').trigger('change');",
             },
             {
                 # Wait until option is selected.
                 WaitForJS => "return typeof(\$) === 'function' "
-                    . "&& \$('.SettingsList li:nth-of-type(39) .WidgetSimple "
+                    . "&& \$('.WidgetSimple[data-name=\"ExampleHashSelect1\"] "
                     . "select').val() === 'female'",
             },
             {
@@ -1234,7 +1214,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashSelect2',
-        Index    => 40,
         Commands => [
             {
                 Hover => '.Content',
@@ -1265,14 +1244,14 @@ my @Tests = (
             },
             {
                 # Select male.
-                JS => "\$('.SettingsList li:nth-of-type(40) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashSelect2\"] "
                     . " select').val('male')"
                     . ".trigger('redraw.InputField').trigger('change');",
             },
             {
                 # Wait until option is selected.
                 WaitForJS => "return typeof(\$) === 'function' "
-                    . "&& \$('.SettingsList li:nth-of-type(40) .WidgetSimple "
+                    . "&& \$('.WidgetSimple[data-name=\"ExampleHashSelect2\"] "
                     . "select').val() === 'male'",
             },
             {
@@ -1295,7 +1274,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashTextarea1',
-        Index    => 41,
         Commands => [
             {
                 Hover => '.Content',
@@ -1353,7 +1331,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashTextarea2',
-        Index    => 42,
         Commands => [
             {
                 Hover => '.Content',
@@ -1414,7 +1391,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashTimeZone1',
-        Index    => 43,
         Commands => [
             {
                 Hover => '.Content',
@@ -1452,14 +1428,14 @@ my @Tests = (
             },
             {
                 # Select UTC
-                JS => "\$('.SettingsList li:nth-of-type(43) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashTimeZone1\"] "
                     . " select').val('UTC')"
                     . ".trigger('redraw.InputField').trigger('change');",
             },
             {
                 # Wait until option is selected.
                 WaitForJS => "return typeof(\$) === 'function' "
-                    . "&& \$('.SettingsList li:nth-of-type(43) .WidgetSimple "
+                    . "&& \$('.WidgetSimple[data-name=\"ExampleHashTimeZone1\"] "
                     . "select').val() === 'UTC'",
             },
             {
@@ -1479,7 +1455,6 @@ my @Tests = (
     },
     {
         Name     => 'ExampleHashTimeZone2',
-        Index    => 44,
         Commands => [
             {
                 Hover => '.Content',
@@ -1524,14 +1499,14 @@ my @Tests = (
             },
             {
                 # Select Europe/Berlin
-                JS => "\$('.SettingsList li:nth-of-type(44) .WidgetSimple "
+                JS => "\$('.WidgetSimple[data-name=\"ExampleHashTimeZone2\"] "
                     . " select').val('Europe/Berlin')"
                     . ".trigger('redraw.InputField').trigger('change');",
             },
             {
                 # Wait until option is selected.
                 WaitForJS => "return typeof(\$) === 'function' "
-                    . "&& \$('.SettingsList li:nth-of-type(44) .WidgetSimple "
+                    . "&& \$('.WidgetSimple[data-name=\"ExampleHashTimeZone2\"] "
                     . "select').val() === 'Europe/Berlin'",
             },
             {
@@ -1583,7 +1558,7 @@ $Selenium->RunTest(
         );
 
         my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
-            Comments    => "AdminSystemConfiguration.t deployment",
+            Comments    => "AdminSystemConfigurationHash.t deployment",
             UserID      => 1,
             Force       => 1,
             AllSettings => 1,
@@ -1626,10 +1601,10 @@ $Selenium->RunTest(
 
         for my $Test (@Tests) {
 
-            my $Prefix = ".SettingsList li:nth-of-type($Test->{Index}) .WidgetSimple";
+            my $Prefix = ".WidgetSimple[data-name='$Test->{Name}']";
 
             $Selenium->execute_script(
-                "\$('$Prefix')[0].scrollIntoView(true);",
+                "\$(\"$Prefix\")[0].scrollIntoView(true);",
             );
 
             for my $Command ( @{ $Test->{Commands} } ) {
@@ -1681,7 +1656,7 @@ $Selenium->RunTest(
 
                     $Selenium->WaitFor(
                         Time       => 120,
-                        JavaScript => 'return $("' . "$Prefix $Value" . ':visible").length',
+                        JavaScript => 'return typeof($) === "function" && $("' . "$Prefix $Value" . ':visible").length',
                     );
                     $Selenium->WaitFor(
                         Time       => 120,
@@ -1707,14 +1682,15 @@ $Selenium->RunTest(
 
                     $Selenium->WaitFor(
                         Time       => 120,
-                        JavaScript => 'return $("' . "$Prefix $Value" . '").length == 0',
+                        JavaScript => 'return typeof($) === "function" && $("' . "$Prefix $Value" . '").length == 0',
                     );
                 }
                 elsif ( $CommandType eq 'Select' ) {
 
                     $Selenium->WaitFor(
                         Time       => 120,
-                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
+                        JavaScript => 'return typeof($) === "function" && $("' . $Prefix
+                            . '").hasClass("HasOverlay") == 0',
                     );
 
                     # JS needs more escapes.
@@ -1723,7 +1699,7 @@ $Selenium->RunTest(
 
                     $Selenium->WaitFor(
                         Time       => 120,
-                        JavaScript => 'return $("' . "$Prefix $JSValue" . '").length',
+                        JavaScript => 'return typeof($) === "function" && $("' . "$Prefix $JSValue" . '").length',
                     );
 
                     $SelectedItem = $Selenium->find_element( "$Prefix $Value", "css" );
@@ -1733,7 +1709,8 @@ $Selenium->RunTest(
                     # Wait for any tasks to complete.
                     $Selenium->WaitFor(
                         Time       => 120,
-                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
+                        JavaScript => 'return typeof($) === "function" && $("' . $Prefix
+                            . '").hasClass("HasOverlay") == 0',
                     );
 
                     $Selenium->execute_script(

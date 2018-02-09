@@ -17,7 +17,8 @@
             [% IF Setting.IsDirty %]IsDirty[% END %]
             [% IF Setting.Locked == 1 %]IsLockedByAnotherUser[% END %]
             [% IF Setting.ExclusiveLockUserID == Env('UserID') %]IsLockedByMe[% END %]"
-            id="Setting[% Setting.DefaultID %]">
+            id="Setting[% Setting.DefaultID %]"
+            data-name="[% Setting.Name | html %]">
 
             <div class="Header">
                 <h2>

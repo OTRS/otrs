@@ -67,6 +67,27 @@
             <Item ValueType="File">/etc/hosts</Item>
         </Value>
     </Setting>
+    <Setting Name="ExampleFrontendRegistration###AgentTest" Required="0" Valid="1">
+        <Description Translatable="1">ExampleFrontendRegistration items.</Description>
+        <Navigation>Sample</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="Group">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">Incoming Phone Call.</Item>
+                    <Item Key="Title" Translatable="1">Phone-Ticket</Item>
+                    <Item Key="NavBarName">Ticket</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
     <Setting Name="ExamplePassword" Required="1" Valid="1">
         <Description Translatable="1">Password item.</Description>
         <Navigation>Sample</Navigation>
