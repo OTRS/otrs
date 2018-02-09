@@ -1784,10 +1784,7 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
                 return true;
             }
 
-            $Element.autocomplete({
-                minLength: 2,
-                delay: 500,
-                source: function (Request, Response) {
+            Core.UI.Autocomplete.Init($Element, function (Request, Response) {
                     var URL = Core.Config.Get('CGIHandle'),
                         CurrentAJAXNumber = ++AJAXCounter,
                         Data = {
@@ -1798,7 +1795,7 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
                             MaxResults: 20
                         };
 
-                    Core.AJAX.FunctionCall(URL, Data, function (Result) {
+                    $Element.data('AutoCompleteXHR', Core.AJAX.FunctionCall(URL, Data, function (Result) {
                         var Data = [];
 
                         // Check if the result is from the latest ajax request
@@ -1814,16 +1811,14 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
                             });
                         });
                         Response(Data);
-                    });
-                },
-                select: function (Event, UI) {
-                    Event.stopPropagation();
-                    $Element.val('');
-                    AddLink(PluginKey, PluginURL, UI.item.key, UI.item.label);
+                    }));
+            }, function (Event, UI) {
+                Event.stopPropagation();
+                $Element.val('').trigger('select.Autocomplete');
+                AddLink(PluginKey, PluginURL, UI.item.key, UI.item.label);
 
-                    return false;
-                }
-            });
+                return false;
+            }, PluginKey);
         });
 
         InitRemoveButtons();

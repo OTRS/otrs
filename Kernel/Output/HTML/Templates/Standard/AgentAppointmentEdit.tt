@@ -432,7 +432,7 @@
             <label>[% Translate(Data.PluginList.$Key.PluginName) | html %]:</label>
             <div class="Field">
 [% IF Data.PermissionLevel >= 2 %]
-                <input type="text" data-plugin-key="[% Key | html %]" data-plugin-url="[% Data.PluginList.$Key.PluginURL | html %]" class="PluginField W75pc" />
+                <input id="[% Key | html %]" type="text" data-plugin-key="[% Key | html %]" data-plugin-url="[% Data.PluginList.$Key.PluginURL | html %]" class="PluginField W90pc" />
                 <input type="hidden" id="Plugin_[% Key | html %]" name="Plugin_[% Key | html %]" value='[% Data.PluginList.$Key.LinkList || "[]" %]' />
 [% ELSE %]
 [% IF Data.PluginData.$Key.size == 0 %]
