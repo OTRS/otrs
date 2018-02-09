@@ -10,6 +10,7 @@ package scripts::DBUpdateTo6::UpgradeDatabaseStructure::UpdateNotificationTables
 
 use strict;
 use warnings;
+use utf8;
 
 use parent qw(scripts::DBUpdateTo6::Base);
 
