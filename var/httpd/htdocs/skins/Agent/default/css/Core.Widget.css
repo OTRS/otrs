@@ -1234,6 +1234,21 @@ button.HighlightError {
     display: block;
 }
 
+.LoginScreen .MessageOfTheDayBox {
+    width: 350px;
+    margin: auto;
+    text-align: justify;
+    margin-top: 15px;
+}
+
+.LoginScreen .WidgetSimple.MessageOfTheDayBox h2,
+.LoginScreen .WidgetSimple.MessageOfTheDayBox p {
+    padding: 0px 15px;
+}
+
+.LoginScreen .WidgetSimple.MessageOfTheDayBox h2 {
+    padding: 5px 0px;
+}
 
 @keyframes ButtonHint {
     from {

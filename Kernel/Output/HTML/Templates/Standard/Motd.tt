@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<div class="WidgetSimple" id="MessageOfTheDayBox">
+<div class="WidgetSimple MessageOfTheDayBox" id="MessageOfTheDayBox">
     <div class="Header">
         <h2 class="Center">[% Translate("Message of the Day") | html %]</h2>
     </div>

@@ -1,4 +1,5 @@
 #6.0.6 2018-??-??
+ - 2018-02-09 Fixed bug#[13631](https://bugs.otrs.org/show_bug.cgi?id=13631) - Design bug in "Message of Today" text display.
  - 2018-02-09 Fixed bug#[13649](https://bugs.otrs.org/show_bug.cgi?id=13649) - Dropdown for ticket link is hidden behind appointment mask in appointment calendar.
  - 2018-02-09 Fixed bug#[13597](https://bugs.otrs.org/show_bug.cgi?id=13597) - In case of OTRS 6 Upgrade "Email Delivery Failure" notification message is incorrectly displayed.
  - 2018-02-09 Fixed bug#[13583](https://bugs.otrs.org/show_bug.cgi?id=13583) - Activation of by-default disabled Frontend::Module leads into error.
