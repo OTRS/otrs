@@ -114,12 +114,12 @@ sub Run {
 
     $Self->Print("\n<yellow>Translation statistics:</yellow>\n");
     for my $Language (
-        sort { $Stats{$b}->{Translated} <=> $Stats{$a}->{Translated} }
+        sort { ( $Stats{$b}->{Translated} // 0 ) <=> ( $Stats{$a}->{Translated} // 0 ) }
         keys %Stats
         )
     {
-        my $Strings      = $Stats{$Language}->{Total};
-        my $Translations = $Stats{$Language}->{Translated};
+        my $Strings = $Stats{$Language}->{Total};
+        my $Translations = $Stats{$Language}->{Translated} // 0;
         $Self->Print( "\t" . sprintf( "%7s", $Language ) . ": " );
         $Self->Print( sprintf( "%02d", int( ( $Translations / $Strings ) * 100 ) ) );
         $Self->Print( sprintf( "%% (%4d/%4d)\n", $Translations, $Strings ) );
@@ -205,15 +205,18 @@ sub HandleLanguage {
 
         # open .tt files and write new translation file
         my %UsedWords;
-        my $Directory = $IsSubTranslation
+        my $TemplatesDirectory = $IsSubTranslation
             ? "$ModuleDirectory/Kernel/Output/HTML/Templates/$DefaultTheme"
             : "$Home/Kernel/Output/HTML/Templates/$DefaultTheme";
 
-        my @TemplateList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-            Directory => $Directory,
-            Filter    => '*.tt',
-            Recursive => 1,
-        );
+        my @TemplateList;
+        if ( -d $TemplatesDirectory ) {
+            @TemplateList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+                Directory => $TemplatesDirectory,
+                Filter    => '*.tt',
+                Recursive => 1,
+            );
+        }
 
         my $CustomTemplatesDir = "$ModuleDirectory/Custom/Kernel/Output/HTML/Templates/$DefaultTheme";
         if ( $IsSubTranslation && -d $CustomTemplatesDir ) {
@@ -267,14 +270,14 @@ sub HandleLanguage {
         }
 
         # Add strings from .html.tmpl files (JavaScript templates).
-        my $JSDirectory = $IsSubTranslation
+        my $JSTemplatesDirectory = $IsSubTranslation
             ? "$ModuleDirectory/Kernel/Output/JavaScript/Templates/$DefaultTheme"
             : "$Home/Kernel/Output/JavaScript/Templates/$DefaultTheme";
 
         my @JSTemplateList;
-        if ( -d $JSDirectory ) {
+        if ( -d $JSTemplatesDirectory ) {
             @JSTemplateList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-                Directory => $JSDirectory,
+                Directory => $JSTemplatesDirectory,
                 Filter    => '*.html.tmpl',
                 Recursive => 1,
             );
@@ -337,11 +340,18 @@ sub HandleLanguage {
         }
 
         # add translatable strings from Perl code
-        my @PerlModuleList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-            Directory => $IsSubTranslation ? "$ModuleDirectory/Kernel" : "$Home/Kernel",
-            Filter    => '*.pm',
-            Recursive => 1,
-        );
+        my $PerlModuleDirectory = $IsSubTranslation
+            ? "$ModuleDirectory/Kernel"
+            : "$Home/Kernel";
+
+        my @PerlModuleList;
+        if ( -d $PerlModuleDirectory ) {
+            @PerlModuleList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+                Directory => $PerlModuleDirectory,
+                Filter    => '*.pm',
+                Recursive => 1,
+            );
+        }
 
         # include Custom folder for modules
         my $CustomKernelDir = "$ModuleDirectory/Custom/Kernel";
@@ -476,11 +486,18 @@ sub HandleLanguage {
         }
 
         # add translatable strings from JavaScript code
-        my @JSFileList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-            Directory => $IsSubTranslation ? "$ModuleDirectory/var/httpd/htdocs/js" : "$Home/var/httpd/htdocs/js",
-            Filter    => '*.js',
-            Recursive => 1,
-        );
+        my $JSDirectory = $IsSubTranslation
+            ? "$ModuleDirectory/var/httpd/htdocs/js"
+            : "$Home/var/httpd/htdocs/js";
+
+        my @JSFileList;
+        if ( -d $JSDirectory ) {
+            @JSFileList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+                Directory => $JSDirectory,
+                Filter    => '*.js',
+                Recursive => 1,
+            );
+        }
 
         FILE:
         for my $File (@JSFileList) {
@@ -812,7 +829,7 @@ sub WritePerlLanguageFile {
         $Indent = ' ' x 4;    # 4 spaces for module files
     }
 
-    my $Data;
+    my $Data = '';
 
     my ( $StringsTotal, $StringsTranslated );
 
