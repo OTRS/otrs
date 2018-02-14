@@ -35,7 +35,11 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
+                    [% IF Data.DeploymentID %]
+                        <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationDeploymentHistory;Subaction=DeploymentHistoryDetails;DeploymentID=[% Data.DeploymentID | html %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go back to Deployment Details") | html %]</span></a>
+                    [% ELSE %]
                         <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go back") | html %]</span></a>
+                    [% END %]
                     </li>
                 </ul>
             </div>

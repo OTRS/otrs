@@ -38,7 +38,7 @@
                     <div class="Header">
                         <h2>
                             <input type="checkbox" checked="checked" value="[% Setting.CurrentName | html %]" />
-                            <a href="[% Config("HttpType") | html %]://[% Config("FQDN") | html %][% Env("Baselink") | html %]Action=AdminSystemConfiguration;Subaction=View;Setting=[% Setting.CurrentName | uri %]" target="_blank">[% Setting.CurrentName | html %]</a>
+                            <a href="[% Config("HttpType") | html %]://[% Config("FQDN") | html %][% Env("Baselink") | html %]Action=AdminSystemConfiguration;Subaction=View;Setting=[% Setting.CurrentName | uri %];DeploymentID=[% Data.DeploymentID | uri %]" target="_parent">[% Setting.CurrentName | html %]</a>
                             <span class="Label">[% Translate("New") | html %]</span>
                         </h2>
                         <p class="HeaderMessage">[% Setting.Navigation | html %]</p>

@@ -412,11 +412,15 @@ sub Run {
 
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
+
+        my $DeploymentID = $ParamObject->GetParam( Param => 'DeploymentID' );
+
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSystemConfigurationView',
             Data         => {
-                View        => $SettingName,
-                SettingList => \@SettingList,
+                DeploymentID => $DeploymentID,
+                View         => $SettingName,
+                SettingList  => \@SettingList,
                 %OutputData,
                 OTRSBusinessIsInstalled => $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled(),
             },
