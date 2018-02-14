@@ -1,4 +1,5 @@
 #6.0.6 2018-??-??
+ - 2018-02-14 Fixed bug#[13593](https://bugs.otrs.org/show_bug.cgi?id=13593) - Current pagination number is not highlighted on the dashboard widget.
  - 2018-02-14 Fixed bug#[13547](https://bugs.otrs.org/show_bug.cgi?id=13547) - Wrong link in notification to enable cloud services.
  - 2018-02-14 Fixed bug#[13653](https://bugs.otrs.org/show_bug.cgi?id=13653) - Untranslated word "All" in system configuration search.
  - 2018-02-14 Fixed bug#[13635](https://bugs.otrs.org/show_bug.cgi?id=13635) - Broken workflow in system configuration history module.

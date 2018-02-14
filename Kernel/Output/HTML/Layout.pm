@@ -2680,13 +2680,12 @@ sub PageNavBar {
             my $BaselinkAll = $Baselink
                 . "StartWindow=$WindowStart;StartHit="
                 . ( ( ( $i - 1 ) * $Param{PageShown} ) + 1 );
-            my $SelectedPage = "";
+            my $SelectedPage = '';
             my $PageNumber   = $i;
 
             if ( $Page == $i ) {
-                $SelectedPage = " class=\"Selected\"";
+                $SelectedPage = 'Selected';
             }
-
             if ( $Param{AJAXReplace} ) {
 
                 $PaginationData{$PageNumber} = {

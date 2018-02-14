@@ -6,26 +6,26 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 [% RenderBlockStart("PageBack") %]
-<a id="[% Data.IDPrefix %]PageAllBack" href="[% Data.BaselinkAllBack %]" title="[% Translate("Show first page") | html %]">|&lt;</a>
-<a id="[% Data.IDPrefix %]PageOneBack" href="[% Data.BaselinkOneBack %]" title="[% Translate("Show previous pages") | html %]">&lt;&lt;</a>
+<a id="[% Data.IDPrefix | html %]PageAllBack" href="[% Data.BaselinkAllBack | html %]" title="[% Translate("Show first page") | html %]">|&lt;</a>
+<a id="[% Data.IDPrefix | html %]PageOneBack" href="[% Data.BaselinkOneBack | html %]" title="[% Translate("Show previous pages") | html %]">&lt;&lt;</a>
 [% RenderBlockEnd("PageBack") %]
 [% RenderBlockStart("PageBackAjax") %]
-<a id="[% Data.IDPrefix %]PageAllBack" class="PaginationAjax[% Data.WidgetName %] Pagination[% Data.WidgetName %]" data-pagination-pagenumber="[% Data.BaselinkAllBack %]" href="#" title="[% Translate("Show first page") | html %]">|&lt;</a>
-<a id="[% Data.IDPrefix %]PageOneBack" class="PaginationAjax[% Data.WidgetName %] Pagination[% Data.WidgetName %]" data-pagination-pagenumber="[% Data.BaselinkOneBack %]" href="#" title="[% Translate("Show previous pages") | html %]">&lt;&lt;</a>
+<a id="[% Data.IDPrefix | html %]PageAllBack" class="PaginationAjax[% Data.WidgetName | html %] Pagination[% Data.WidgetName | html %]" data-pagination-pagenumber="[% Data.BaselinkAllBack | html %]" href="#" title="[% Translate("Show first page") | html %]">|&lt;</a>
+<a id="[% Data.IDPrefix | html %]PageOneBack" class="PaginationAjax[% Data.WidgetName | html %] Pagination[% Data.WidgetName | html %]" data-pagination-pagenumber="[% Data.BaselinkOneBack | html %]" href="#" title="[% Translate("Show previous pages") | html %]">&lt;&lt;</a>
 [% RenderBlockEnd("PageBackAjax") %]
 
 [% RenderBlockStart("Page") %]
-<a id="[% Data.IDPrefix %]Page[% Data.PageNumber %]" href="[% Data.BaselinkAll %]"[% Data.SelectedPage %] title="[% Translate("Show page %s", Data.PageNumber) | html %]">[% Data.PageNumber %]</a>
+<a id="[% Data.IDPrefix | html %]Page[% Data.PageNumber | html %]" href="[% Data.BaselinkAll | html %]" [% IF Data.SelectedPage %]class="[% Data.SelectedPage | html %]"[% END %] title="[% Translate("Show page %s", Data.PageNumber) | html %]">[% Data.PageNumber | html %]</a>
 [% RenderBlockEnd("Page") %]
 [% RenderBlockStart("PageAjax") %]
-<a id="[% Data.IDPrefix %]Page[% Data.PageNumber %]" class="PaginationAjax[% Data.WidgetName %] Pagination[% Data.WidgetName %]" data-pagination-pagenumber="[% Data.PageNumber %]" href="#"[% Data.SelectedPage %] title="[% Translate("Show page %s", Data.PageNumber) | html %]">[% Data.PageNumber %]</a>
+<a id="[% Data.IDPrefix | html %]Page[% Data.PageNumber | html %]" class="PaginationAjax[% Data.WidgetName | html %] Pagination[% Data.WidgetName | html %] [% Data.SelectedPage | html %]" data-pagination-pagenumber="[% Data.PageNumber | html %]" href="#" title="[% Translate("Show page %s", Data.PageNumber) | html %]">[% Data.PageNumber | html %]</a>
 [% RenderBlockEnd("PageAjax") %]
 
 [% RenderBlockStart("PageForward") %]
-<a id="[% Data.IDPrefix %]PageOneForward" href="[% Data.BaselinkOneForward %]" title="[% Translate("Show next pages") | html %]">&gt;&gt;</a>
-<a id="[% Data.IDPrefix %]PageAllForward" href="[% Data.BaselinkAllForward %]" title="[% Translate("Show last page") | html %]">&gt;|</a>
+<a id="[% Data.IDPrefix | html %]PageOneForward" href="[% Data.BaselinkOneForward | html %]" title="[% Translate("Show next pages") | html %]">&gt;&gt;</a>
+<a id="[% Data.IDPrefix | html %]PageAllForward" href="[% Data.BaselinkAllForward | html %]" title="[% Translate("Show last page") | html %]">&gt;|</a>
 [% RenderBlockEnd("PageForward") %]
 [% RenderBlockStart("PageForwardAjax") %]
-<a id="[% Data.IDPrefix %]PageOneForward" class="PaginationAjax[% Data.WidgetName %] Pagination[% Data.WidgetName %]" data-pagination-pagenumber="[% Data.BaselinkOneForward %]" href="#" title="[% Translate("Show next pages") | html %]">&gt;&gt;</a>
-<a id="[% Data.IDPrefix %]PageAllForward" class="PaginationAjax[% Data.WidgetName %] Pagination[% Data.WidgetName %]" data-pagination-pagenumber="[% Data.BaselinkAllForward %]" href="#" title="[% Translate("Show last page") | html %]">&gt;|</a>
+<a id="[% Data.IDPrefix | html %]PageOneForward" class="PaginationAjax[% Data.WidgetName | html %] Pagination[% Data.WidgetName | html %]" data-pagination-pagenumber="[% Data.BaselinkOneForward | html %]" href="#" title="[% Translate("Show next pages") | html %]">&gt;&gt;</a>
+<a id="[% Data.IDPrefix | html %]PageAllForward" class="PaginationAjax[% Data.WidgetName | html %] Pagination[% Data.WidgetName | html %]" data-pagination-pagenumber="[% Data.BaselinkAllForward | html %]" href="#" title="[% Translate("Show last page") | html %]">&gt;|</a>
 [% RenderBlockEnd("PageForwardAjax") %]
