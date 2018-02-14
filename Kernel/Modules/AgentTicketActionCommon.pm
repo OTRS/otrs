@@ -2239,6 +2239,12 @@ sub _Mask {
             Name => 'TicketTypeDynamicField',
             Data => $TicketTypeDynamicField,
         );
+
+        # Output customization block too, if it exists.
+        $LayoutObject->Block(
+            Name => 'TicketTypeDynamicField_' . $TicketTypeDynamicField->{Name},
+            Data => $TicketTypeDynamicField,
+        );
     }
 
     # End Widget Ticket Actions
@@ -2606,6 +2612,12 @@ sub _Mask {
                     Data => $ArticleTypeDynamicField,
                 );
             }
+
+            # Output customization block too, if it exists.
+            $LayoutObject->Block(
+                Name => 'ArticleTypeDynamicField_' . $ArticleTypeDynamicField->{Name},
+                Data => $ArticleTypeDynamicField,
+            );
         }
     }
 
