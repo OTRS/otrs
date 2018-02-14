@@ -1,4 +1,5 @@
 #6.0.6 2018-??-??
+ - 2018-02-14 Fixed bug#[13638](https://bugs.otrs.org/show_bug.cgi?id=13638) - Subject Field in customer search not aligned correctly when field label above is split in 2 lines.
  - 2018-02-14 Fixed bug#[13593](https://bugs.otrs.org/show_bug.cgi?id=13593) - Current pagination number is not highlighted on the dashboard widget.
  - 2018-02-14 Fixed bug#[13547](https://bugs.otrs.org/show_bug.cgi?id=13547) - Wrong link in notification to enable cloud services.
  - 2018-02-14 Fixed bug#[13653](https://bugs.otrs.org/show_bug.cgi?id=13653) - Untranslated word "All" in system configuration search.

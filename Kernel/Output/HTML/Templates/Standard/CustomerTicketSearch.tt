@@ -50,6 +50,7 @@
                     <div id="[% Data.ArticleFieldKey %]ServerError" class="TooltipErrorMessage">
                         <p>[% Data.ArticleFieldKeyTooltip | html %]</p>
                     </div>
+                    <div class="Clear"></div>
                 </div>
 [% RenderBlockEnd("SearchableArticleField") %]
 
