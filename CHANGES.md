@@ -1,4 +1,5 @@
 #5.0.27 ????-??-??
+ - 2018-02-14 Fixed bug#[13638](https://bugs.otrs.org/show_bug.cgi?id=13638) - Subject Field in customer search not aligned correctly when field label above is split in 2 lines.
  - 2018-02-13 Fixed bug#[13585](https://bugs.otrs.org/show_bug.cgi?id=13585) - Follow-up: coloring issues in Ivory slim skin.
  - 2018-02-09 Fixed bug#[13603](https://bugs.otrs.org/show_bug.cgi?id=13603) - Text in Ticketheader overlaps itself when printing via browser.
  - 2018-02-09 Fixed bug#[13628](https://bugs.otrs.org/show_bug.cgi?id=13628) - Error message from Dev::Tools::TranslationsUpdate if certain directory does not exist.

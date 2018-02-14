@@ -49,6 +49,7 @@
                     <div id="FromServerError" class="TooltipErrorMessage">
                         <p>[% Data.FromInvalidTooltip | html %]</p>
                     </div>
+                    <div class="Clear"></div>
                 </div>
                 <div>
                     <label for="To">[% Translate("To") | html %]</label>
@@ -56,6 +57,7 @@
                     <div id="ToServerError" class="TooltipErrorMessage">
                         <p>[% Data.ToInvalidTooltip | html %]</p>
                     </div>
+                    <div class="Clear"></div>
                 </div>
                 <div>
                     <label for="Cc">[% Translate("Cc") | html %]</label>
@@ -63,6 +65,7 @@
                     <div id="CcServerError" class="TooltipErrorMessage">
                         <p>[% Data.CcInvalidTooltip | html %]</p>
                     </div>
+                    <div class="Clear"></div>
                 </div>
                 <div>
                     <label for="Subject">[% Translate("Subject") | html %]</label>
@@ -70,6 +73,7 @@
                     <div id="SubjectServerError" class="TooltipErrorMessage">
                         <p>[% Data.SubjectInvalidTooltip | html %]</p>
                     </div>
+                    <div class="Clear"></div>
                 </div>
                 <div>
                     <label for="Body">[% Translate("Text") | html %]</label>
@@ -77,6 +81,7 @@
                     <div id="BodyServerError" class="TooltipErrorMessage">
                         <p>[% Data.BodyInvalidTooltip | html %]</p>
                     </div>
+                    <div class="Clear"></div>
                 </div>
 [% RenderBlockStart("DynamicField") %]
                 <div>
