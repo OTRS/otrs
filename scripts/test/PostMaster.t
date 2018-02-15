@@ -26,6 +26,8 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
+my $Home = $ConfigObject->Get('Home');
+
 my @DynamicfieldIDs;
 my @DynamicFieldUpdate;
 my %NeededDynamicfields = (
@@ -250,8 +252,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 my $NamePrefix = "#$NumberModule $StorageModule $TicketSubjectConfig $File ";
 
                 # new ticket check
-                my $Location = $ConfigObject->Get('Home')
-                    . "/scripts/test/sample/PostMaster/PostMaster-Test$File.box";
+                my $Location   = "$Home/scripts/test/sample/PostMaster/PostMaster-Test$File.box";
                 my $ContentRef = $MainObject->FileRead(
                     Location => $Location,
                     Mode     => 'binmode',
@@ -1120,8 +1121,7 @@ my %OwnerResponsibleTests = (
 for my $Test ( sort keys %OwnerResponsibleTests ) {
 
     my $FileSuffix = $OwnerResponsibleTests{$Test}->{File};
-    my $Location   = $ConfigObject->Get('Home')
-        . "/scripts/test/sample/PostMaster/PostMaster-Test-$FileSuffix.box";
+    my $Location   = "$Home/scripts/test/sample/PostMaster/PostMaster-Test-$FileSuffix.box";
 
     my $ContentRef = $MainObject->FileRead(
         Location => $Location,
@@ -1167,6 +1167,46 @@ for my $Test ( sort keys %OwnerResponsibleTests ) {
         );
     }
 }
+
+# Test ticket creation from application/xml content type email (bug#13644).
+my $Location   = "$Home/scripts/test/sample/PostMaster/PostMaster-Test24.box";
+my $ContentRef = $MainObject->FileRead(
+    Location => $Location,
+    Mode     => 'binmode',
+    Result   => 'ARRAY',
+);
+
+my $PostMasterObject = Kernel::System::PostMaster->new(
+    Email => $ContentRef,
+);
+my @PostMasterReturn = $PostMasterObject->Run();
+
+my $TicketID = $PostMasterReturn[1];
+
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+my @ArticleIDs = $TicketObject->ArticleIndex(
+    TicketID => $TicketID,
+);
+
+my $ArticleID = $ArticleIDs[0];
+
+# Check attachment.
+my %Index = $TicketObject->ArticleAttachmentIndex(
+    ArticleID => $ArticleID,
+    UserID    => 1,
+);
+
+$Self->Is(
+    $Index{1}->{Filename},
+    'Test-123-456-789',
+    "ArticleID $ArticleID has attachment with name '$Index{1}->{Filename}'",
+);
+$Self->Is(
+    $Index{1}->{ContentType},
+    'application/xml; charset=utf-8',
+    "ArticleID $ArticleID has attachment with content-type '$Index{1}->{ContentType}'",
+);
 
 # cleanup is done by RestoreDatabase
 

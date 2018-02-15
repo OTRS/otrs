@@ -622,12 +622,13 @@ sub GetEmailParams {
         }
     }
 
-    # get body
+    # Get body.
     $GetParam{Body} = $Self->{ParserObject}->GetMessageBody();
 
-    # get content type
-    $GetParam{'Content-Type'} = $Self->{ParserObject}->GetReturnContentType();
-    $GetParam{Charset} = $Self->{ParserObject}->GetReturnCharset();
+    # Get content type, disposition and charset.
+    $GetParam{'Content-Type'}        = $Self->{ParserObject}->GetReturnContentType();
+    $GetParam{'Content-Disposition'} = $Self->{ParserObject}->GetContentDisposition();
+    $GetParam{Charset}               = $Self->{ParserObject}->GetReturnCharset();
 
     # get attachments
     my @Attachments = $Self->{ParserObject}->GetAttachments();
