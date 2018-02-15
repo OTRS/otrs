@@ -557,6 +557,7 @@ Message
         InReplyTo            => $GetParam{'In-Reply-To'},
         References           => $GetParam{'References'},
         ContentType          => $GetParam{'Content-Type'},
+        ContentDisposition   => $GetParam{'Content-Disposition'},
         Body                 => $GetParam{Body},
         UserID               => $Param{InmailUserID},
         HistoryType          => 'EmailCustomer',

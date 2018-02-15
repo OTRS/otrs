@@ -1,0 +1,23 @@
+From skywalker@otrs.org  Fri Dec 21 23:59:24 2001
+Return-Path: <skywalker@otrs.org>
+Received: (from skywalker@localhost)
+	by avro.de (8.11.3/8.11.3/SuSE Linux 8.11.1-0.5) id f3MMSE303694
+	for martin@localhost; Fri, 21 Dec 2001 23:59:24 +0200
+Date: Fri, 21 Dec 2001 23:59:24 +0200
+From: Skywalker Attachment <skywalker@otrs.org>
+To: darthvader@otrs.org
+Subject: test 1
+Message-ID: <20011221002814.A3599@avro>
+Mime-Version: 1.0
+Content-Type: application/xml; charset="iso-8859-1"
+Content-Disposition: attachment;
+	filename="Test-123-456-789"
+Content-Transfer-Encoding: quoted-printable
+
+<addresses xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:noNamespaceSchemaLocation='test.xsd'>
+  <address>
+    <name>Joe Tester</name>
+    <street>Baker street 5</street>
+  </address>
+</addresses>

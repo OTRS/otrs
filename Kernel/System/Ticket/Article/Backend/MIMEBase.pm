@@ -272,9 +272,17 @@ sub ArticleCreate {
     # if body isn't text, attach body as attachment (mostly done by OE) :-/
     elsif ( $Param{MimeType} && $Param{MimeType} !~ /\btext\b/i ) {
 
-        # add non text as attachment
+        # Add non-text as an attachment. Try to deduce the filename from ContentType or ContentDisposition headers.
+        #   Please see bug#13644 for more information.
         my $FileName = 'unknown';
-        if ( $Param{ContentType} =~ /name="(.+?)"/i ) {
+        if (
+            $Param{ContentType} =~ /name="(.+?)"/i
+            || (
+                defined $Param{ContentDisposition}
+                && $Param{ContentDisposition} =~ /name="(.+?)"/i
+            )
+            )
+        {
             $FileName = $1;
         }
         my $Attach = {

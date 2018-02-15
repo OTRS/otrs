@@ -293,6 +293,24 @@ sub GetContentType {
     return $Self->GetParam( WHAT => 'Content-Type' ) || 'text/plain';
 }
 
+=head2 GetContentDisposition()
+
+Returns the message body (or from the first attachment) "ContentDisposition" header.
+
+    my $ContentDisposition = $ParserObject->GetContentDisposition();
+
+    (e. g. 'Content-Disposition: attachment; filename="test-123"')
+
+=cut
+
+sub GetContentDisposition {
+    my $Self = shift;
+
+    return $Self->{ContentDisposition} if $Self->{ContentDisposition};
+
+    return $Self->GetParam( WHAT => 'Content-Disposition' );
+}
+
 =head2 GetCharset()
 
 Returns the message body (or from the first attachment) "charset".
