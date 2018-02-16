@@ -532,7 +532,7 @@ $Selenium->RunTest(
 
         # deselect selected day
         $Selenium->execute_script(
-            "return \$('#RecurrenceCustomWeeklyDiv button.fc-state-active').click();"
+            "\$('#RecurrenceCustomWeeklyDiv button.fc-state-active').click();"
         );
 
         # make sure it's deselected
@@ -708,7 +708,7 @@ $Selenium->RunTest(
 
         # deselect selected day
         $Selenium->execute_script(
-            "return \$('#RecurrenceCustomWeeklyDiv button.fc-state-active').click();"
+            "\$('#RecurrenceCustomWeeklyDiv button.fc-state-active').click();"
         );
 
         # make sure it's deselected
@@ -841,7 +841,7 @@ $Selenium->RunTest(
 
         # deselect selected day
         $Selenium->execute_script(
-            "return \$('#RecurrenceCustomMonthlyDiv button.fc-state-active').click();"
+            "\$('#RecurrenceCustomMonthlyDiv button.fc-state-active').click();"
         );
 
         # make sure it's deselected
@@ -1014,7 +1014,7 @@ $Selenium->RunTest(
 
         # deselect selected day
         $Selenium->execute_script(
-            "return \$('#RecurrenceCustomMonthlyDiv button.fc-state-active').click();"
+            "\$('#RecurrenceCustomMonthlyDiv button.fc-state-active').click();"
         );
 
         # make sure it's deselected
@@ -1144,7 +1144,7 @@ $Selenium->RunTest(
 
         # deselect selected month
         $Selenium->execute_script(
-            "return \$('#RecurrenceCustomYearlyDiv button.fc-state-active').click();"
+            "\$('#RecurrenceCustomYearlyDiv button.fc-state-active').click();"
         );
 
         # make sure it's deselected
@@ -1318,7 +1318,7 @@ $Selenium->RunTest(
 
         # deselect selected month
         $Selenium->execute_script(
-            "return \$('#RecurrenceCustomYearlyDiv button.fc-state-active').click();"
+            "\$('#RecurrenceCustomYearlyDiv button.fc-state-active').click();"
         );
 
         # make sure it's deselected
