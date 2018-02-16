@@ -532,7 +532,7 @@ sub GetUsageHelp {
         if ( $Option->{HasValue} ) {
             $OptionShort .= " ...";
             if ( $Option->{Multiple} ) {
-                $OptionShort .= "(+)";
+                $OptionShort .= " ($OptionShort)";
             }
         }
         if ( !$Option->{Required} ) {

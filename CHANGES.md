@@ -1,4 +1,5 @@
 #6.0.6 2018-??-??
+ - 2018-02-16 Improved console output documentation for options that can be specified multiple times.
  - 2018-02-15 Fixed bug#[13644](https://bugs.otrs.org/show_bug.cgi?id=13644) - Attachment and text missing on some mails.
  - 2018-02-14 Fixed bug#[13638](https://bugs.otrs.org/show_bug.cgi?id=13638) - Subject Field in customer search not aligned correctly when field label above is split in 2 lines.
  - 2018-02-14 Fixed bug#[13593](https://bugs.otrs.org/show_bug.cgi?id=13593) - Current pagination number is not highlighted on the dashboard widget.
