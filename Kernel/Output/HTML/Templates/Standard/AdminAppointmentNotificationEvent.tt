@@ -376,7 +376,7 @@
                     </fieldset>
 [% RenderBlockStart("TransportRow") %]
                     <fieldset class="TableLike FixedLabel SpacingTop">
-                        <legend><span>[% Data.TransportName | html %]</span></legend>
+                        <legend><span>[% Translate(Data.TransportName) | html %]</span></legend>
 [% RenderBlockStart("TransportRowEnabled") %]
                         <label for="Transport[% Data.Transport | html %]">
                             [% Translate("Enable this notification method") | html %]:

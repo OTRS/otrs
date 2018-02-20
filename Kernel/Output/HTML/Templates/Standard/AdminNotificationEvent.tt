@@ -378,7 +378,7 @@
                         <div class="Clear"></div>
 
 [% RenderBlockStart("BackendArticleField") %]
-                        <label for="[% Data.Key %]">[% Data.Label %]:</label>
+                        <label for="[% Data.Key %]">[% Translate(Data.Label) | html %]:</label>
                         <div class="Field">
                             <input type="text" name="[% Data.Key %]" id="[% Data.Key %]" class="W75pc [% Data.Key %]ServerError" value="[% Data.Value | html %]"/>
                             <div id="[% Data.Key %]ServerError" class="TooltipErrorMessage">
@@ -461,7 +461,7 @@
                     </fieldset>
 [% RenderBlockStart("TransportRow") %]
                     <fieldset class="TableLike FixedLabel SpacingTop">
-                        <legend><span>[% Data.TransportName | html %]</span></legend>
+                        <legend><span>[% Translate(Data.TransportName) | html %]</span></legend>
 [% RenderBlockStart("TransportRowEnabled") %]
                         <label for="Transport[% Data.Transport | html %]">
                             [% Translate("Enable this notification method") | html %]:
