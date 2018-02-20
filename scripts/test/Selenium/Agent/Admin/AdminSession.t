@@ -89,8 +89,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "table", 'css' );
 
         # check breadcrumb on detail view screen
-        my $Count                    = 1;
-        my $DetailViewBreadcrumbText = "Detail Session View for User: $TestUserLogin $TestUserLogin";
+        my $Count = 1;
+
+        my $DetailViewBreadcrumbText = "Detail Session View for $TestUserLogin $TestUserLogin (User)";
         for my $BreadcrumbText ( 'Session Management', $DetailViewBreadcrumbText ) {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
