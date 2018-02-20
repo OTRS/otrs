@@ -19,8 +19,8 @@
     %]
 
     [% IF Data.Action == 'Detail' %]
-        [% USE DetailView = String(Translate("Detail Session View for")) %]
-        [% BreadcrumbPath.push({ Name => DetailView.append( ' ', Data.UserType, ': ', Data.UserFirstname, ' ', Data.UserLastname ) })%]
+        [% USE TranslatedUserType = String(Translate(Data.UserType)) %]
+        [% BreadcrumbPath.push({ Name => Translate( "Detail Session View for %s (%s)", Data.UserFullname, TranslatedUserType ) })%]
     [% END %]
 
     [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
@@ -132,7 +132,7 @@
 
 [% RenderBlockStart("DetailView") %]
             <div class="Header">
-                <h2>[% Translate("Detail View for SessionID") | html %] : [% Data.SessionID | html %] - [% Data.UserFullname | html %]</h2>
+                <h2>[% Translate("Detail View for SessionID: %s - %s", Data.SessionID, Data.UserFullname) | html %]</h2>
             </div>
             <div class="Content">
                 <table class="DataTable">
