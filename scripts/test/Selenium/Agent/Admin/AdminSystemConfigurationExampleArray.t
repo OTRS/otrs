@@ -596,8 +596,8 @@ my @Tests = (
                 Click => '.Update',
             },
             {
-                Select => 'input.Error#ExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#Description'
-                ,    # Wait for validation error (Description).
+                # Wait for validation error (Description).
+                Select => 'input.Error#ExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#Description',
             },
             {
                 Write => 'Description',
@@ -606,8 +606,8 @@ my @Tests = (
                 Click => '.Update',
             },
             {
-                Select => 'input.Error#ExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#Link'
-                ,    # Wait for validation error (Link).
+                # Wait for validation error (Link).
+                Select => 'input.Error#ExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#Link',
             },
             {
                 Write => 'Action=AgentTest;Subaction=Test',
@@ -616,8 +616,8 @@ my @Tests = (
                 Click => '.Update',
             },
             {
-                Select => 'input.Error#ExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#Name'
-                ,    # Wait for validation error (Name).
+                # Wait for validation error (Name).
+                Select => 'input.Error#ExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#Name',
             },
             {
                 Write => 'Navigation name',
@@ -626,8 +626,8 @@ my @Tests = (
                 Click => '.Update',
             },
             {
-                Select => 'input.Error#ExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#NavBar'
-                ,    # Wait for validation error (NavBar).
+                # Wait for validation error (NavBar).
+                Select => 'input.Error#ExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#NavBar',
             },
             {
                 Write => 'Customers',
@@ -636,6 +636,11 @@ my @Tests = (
                 Click => '.Update',
             },
             {
+                # Select different input field, just to make sure that .Error is removed in input#NavBar.
+                Select => 'input#ExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#Name',
+            },
+            {
+                # Check if there are any remaining errors in this widget.
                 ElementMissing => '.Error',
             },
             {
