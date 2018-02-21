@@ -138,7 +138,7 @@ sub Run {
 
     # Be sure to print any error messages in case of a failure.
     if ( IsHashRefWithData( $Result{Failed} ) ) {
-        print STDERR $ErrorMessage;
+        print STDERR $ErrorMessage if $ErrorMessage;
     }
 
     if (
