@@ -377,7 +377,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###500-NotificationEvent" Required="0" Valid="1">
-        <Description Translatable="1">Sends the notifications which are configured in the admin interface under "Notfication (Event)".</Description>
+        <Description Translatable="1">Sends the notifications which are configured in the admin interface under "Ticket Notifications".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
