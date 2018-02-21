@@ -405,6 +405,7 @@ sub _MaskNew {
         SelectedID   => $Param{FirstResponseNotify} || $SLAData{FirstResponseNotify},
         Translation  => 0,
         PossibleNone => 1,
+        Class        => 'Modernize',
     );
     $SLAData{UpdateNotifyOptionStrg} = $LayoutObject->BuildSelection(
         Data         => \%NotifyLevelList,
@@ -412,6 +413,7 @@ sub _MaskNew {
         SelectedID   => $Param{UpdateNotify} || $SLAData{UpdateNotify},
         Translation  => 0,
         PossibleNone => 1,
+        Class        => 'Modernize',
     );
     $SLAData{SolutionNotifyOptionStrg} = $LayoutObject->BuildSelection(
         Data         => \%NotifyLevelList,
@@ -419,6 +421,7 @@ sub _MaskNew {
         SelectedID   => $Param{SolutionNotify} || $SLAData{SolutionNotify},
         Translation  => 0,
         PossibleNone => 1,
+        Class        => 'Modernize',
     );
 
     # get valid list
