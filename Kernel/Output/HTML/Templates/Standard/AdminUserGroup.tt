@@ -169,7 +169,7 @@
                                             <th>[% Translate(Data.VisibleNeType) | html %]</th>
 [% RenderBlockStart("ChangeHeader") %]
                                             <th class="[% Data.Mark | html %]">
-                                                <input type="checkbox" name="[% Data.Type | html %]" id="SelectAll[% Data.Type | html %]" title="[% Translate("Toggle %s permission for all", Data.Type) | html %]" value="" />
+                                                <input type="checkbox" name="[% Data.Type | html %]" id="SelectAll[% Data.Type | html %]" title="[% Translate("Toggle %s permission for all", Translate(Data.Type)) | html %]" value="" />
                                                 [% Translate(Data.Type) | html %]
                                             </th>
 [% RenderBlockEnd("ChangeHeader") %]
@@ -188,7 +188,7 @@
                                             <td><a href="[% Env("Baselink") %]Action=Admin[% Data.NeType | uri %];Subaction=Change;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a></td>
 [% RenderBlockStart("ChangeRowItem") %]
                                             <td class="[% Data.Mark | html %]">
-                                                <input type="checkbox" name="[% Data.Type | html %]" title="[% Translate("Toggle %s permission for %s", Data.Type, Data.Name) | html %]" value="[% Data.ID | html %]" [% Data.Selected %]/>
+                                                <input type="checkbox" name="[% Data.Type | html %]" title="[% Translate("Toggle %s permission for %s", Translate(Data.Type), Data.Name) | html %]" value="[% Data.ID | html %]" [% Data.Selected %]/>
                                             </td>
 [% RenderBlockEnd("ChangeRowItem") %]
                                         </tr>
