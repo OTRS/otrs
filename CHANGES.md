@@ -1,4 +1,5 @@
 #6.0.6 2018-??-??
+ - 2018-02-21 Fixed bug#[13681](https://bugs.otrs.org/show_bug.cgi?id=13681) - Legacy description for NotificationEvent sysconfig.
  - 2018-02-20 Fixed bug#[13674](https://bugs.otrs.org/show_bug.cgi?id=13674) - Wording issue in Session Management screen of Admin interface, thanks to Balazs Ur - (PR#1900).
  - 2018-02-20 Fixed bug#[13675](https://bugs.otrs.org/show_bug.cgi?id=13675) - Notification transport name and label are not marked for translation , thanks to Balazs Ur - (PR#1903).
  - 2018-02-16 Improved console output documentation for options that can be specified multiple times.
