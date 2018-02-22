@@ -2691,7 +2691,7 @@
 </Table>
 
 <!-- form_draft -->
-<TableCreate Name="form_draft">
+<Table Name="form_draft">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER" />
     <Column Name="object_type" Required="true" Size="100" Type="VARCHAR" />
     <Column Name="object_id" Required="true" Type="INTEGER" />
@@ -2711,6 +2711,6 @@
         <Reference Local="create_by" Foreign="id" />
         <Reference Local="change_by" Foreign="id" />
     </ForeignKey>
-</TableCreate>
+</Table>
 
 </database>
