@@ -1078,10 +1078,13 @@ $Selenium->RunTest(
                     );
                 }
                 elsif ( $CommandType eq 'ElementMissing' ) {
+                    my $ElementExists = $Selenium->execute_script("return \$('$Prefix $Value').length");
 
-                    $Selenium->WaitFor(
-                        JavaScript => 'return typeof($) === "function" && $("' . "$Prefix $Value" . '").length == 0',
-                    );
+                    if ($ElementExists) {
+                        $Selenium->WaitFor(
+                            JavaScript => "return typeof(\$) === 'function' && \$('$Prefix $Value').length == 0",
+                        );
+                    }
                 }
                 elsif ( $CommandType eq 'Select' ) {
 
