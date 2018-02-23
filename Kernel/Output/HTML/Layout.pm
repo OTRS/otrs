@@ -4150,10 +4150,6 @@ sub CustomerFooter {
             = $Self->{LanguageObject}->Translate( $AutocompleteConfig->{$ConfigElement}{ButtonText} );
     }
 
-    my $AutocompleteConfigJSON = $Self->JSONEncode(
-        Data => $AutocompleteConfig,
-    );
-
     # add JS data
     my %JSConfig = (
         Baselink                 => $Self->{Baselink},
@@ -4171,7 +4167,7 @@ sub CustomerFooter {
         OTRSBusinessIsInstalled  => $Param{OTRSBusinessIsInstalled},
         OTRSSTORMIsInstalled     => $Param{OTRSSTORMIsInstalled},
         InputFieldsActivated     => $ConfigObject->Get('ModernizeCustomerFormFields'),
-        Autocomplete             => $AutocompleteConfigJSON,
+        Autocomplete             => $AutocompleteConfig,
         VideoChatEnabled         => $Param{VideoChatEnabled},
         WebMaxFileUpload         => $ConfigObject->Get('WebMaxFileUpload'),
     );
