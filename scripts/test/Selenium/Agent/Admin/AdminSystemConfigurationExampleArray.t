@@ -1072,7 +1072,7 @@ $Selenium->RunTest(
                 elsif ( $CommandType eq 'ElementMissing' ) {
 
                     $Selenium->WaitFor(
-                        JavaScript => "return typeof(\$) === 'function' && \$('$Prefix $Value').length == 0",
+                        JavaScript => 'return typeof($) === "function" && $("' . "$Prefix $Value" . '").length == 0',
                     );
                 }
                 elsif ( $CommandType eq 'Select' ) {
