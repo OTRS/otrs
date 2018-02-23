@@ -1,4 +1,5 @@
 #6.0.6 2018-??-??
+ - 2018-02-23 Fixed bug#[13610](https://bugs.otrs.org/show_bug.cgi?id=13610) - AgentTicketEmail take wrong Database Credentials.
  - 2018-02-21 Fixed bug#[13680](https://bugs.otrs.org/show_bug.cgi?id=13680) - SLA edit screen is not fully modern.
  - 2018-02-21 Fixed bug#[13676](https://bugs.otrs.org/show_bug.cgi?id=13676) - Column headers and tooltips are not translated, thanks to Balazs Ur - (PR#1904).
  - 2018-02-21 Fixed bug#[13681](https://bugs.otrs.org/show_bug.cgi?id=13681) - Legacy description for NotificationEvent sysconfig.
