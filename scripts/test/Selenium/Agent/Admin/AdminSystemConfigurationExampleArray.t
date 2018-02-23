@@ -587,7 +587,7 @@ my @Tests = (
             },
             {
                 Select =>
-                    '.Setting > .Array > .ArrayItem:nth-of-type(2) .Hash .HashItem:nth-of-type(4) .ArrayItem input',
+                    'input#ExampleArrayFrontendNavigationExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#Group_Array0',
             },
             {
                 Write => 'admin',
@@ -634,14 +634,6 @@ my @Tests = (
             },
             {
                 Click => '.Update',
-            },
-            {
-                # Select different input field, just to make sure that .Error is removed in input#NavBar.
-                Select => 'input#ExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#Name',
-            },
-            {
-                # Check if there are any remaining errors in this widget.
-                ElementMissing => '.Error',
             },
             {
                 Select => 'input',
@@ -1078,13 +1070,10 @@ $Selenium->RunTest(
                     );
                 }
                 elsif ( $CommandType eq 'ElementMissing' ) {
-                    my $ElementExists = $Selenium->execute_script("return \$('$Prefix $Value').length");
 
-                    if ($ElementExists) {
-                        $Selenium->WaitFor(
-                            JavaScript => "return typeof(\$) === 'function' && \$('$Prefix $Value').length == 0",
-                        );
-                    }
+                    $Selenium->WaitFor(
+                        JavaScript => "return typeof(\$) === 'function' && \$('$Prefix $Value').length == 0",
+                    );
                 }
                 elsif ( $CommandType eq 'Select' ) {
 
