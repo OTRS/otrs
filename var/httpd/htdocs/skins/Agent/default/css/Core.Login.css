@@ -46,12 +46,16 @@
     border: 0px;
     bottom: 0px;
     box-sizing: border-box;
-    padding: 10px 0px;
-    position: absolute;
+    padding: 15px 0px;
+    position: relative;
     text-align: center;
     text-shadow: 1px 1px 1px #fff;
     text-transform: uppercase;
     width: 100%;
+}
+
+.LoginScreen #Footer a {
+    padding-left: 0px;
 }
 
 #Footer a {
