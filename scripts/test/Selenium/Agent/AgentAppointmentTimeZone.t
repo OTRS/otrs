@@ -81,7 +81,10 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentCalendarOverview");
 
         # Wait for AJAX to finish.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".fc-timelineWeek-view .fc-slats td.fc-widget-content:nth-child(5)").length'
+        );
 
         # Click on the timeline view for an appointment dialog.
         $Selenium->find_element( '.fc-timelineWeek-view .fc-slats td.fc-widget-content:nth-child(5)', 'css' )->click();
