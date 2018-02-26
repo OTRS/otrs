@@ -25,6 +25,8 @@ $Selenium->RunTest(
             ChannelName => 'Email',
         );
 
+        my $RandomID = $Helper->GetRandomID();
+
         # Disable check of email addresses.
         $Helper->ConfigSettingChange(
             Key   => 'CheckEmailAddresses',
@@ -33,7 +35,7 @@ $Selenium->RunTest(
 
         # create test system address
         my $SystemAddressID = $SystemAddressObject->SystemAddressAdd(
-            Name     => 'systemaddress@localhost.com',
+            Name     => "sys$RandomID\@localhost.com",
             Realname => 'SeleniumSystemAddress',
             ValidID  => 1,
             QueueID  => 1,
@@ -44,8 +46,6 @@ $Selenium->RunTest(
             $SystemAddressID,
             'System address added.'
         );
-
-        my $RandomID = $Helper->GetRandomID();
 
         my $CustomerID   = 'customer' . $RandomID;
         my $CustomerUser = "$CustomerID\@localhost.com";
@@ -82,7 +82,7 @@ $Selenium->RunTest(
             },
             {
                 SenderType => 'system',
-                From       => 'SeleniumSystemAddress <systemaddress@localhost.com>',
+                From       => "SeleniumSystemAddress <sys$RandomID\@localhost.com>",
                 To         => "To Customer <$ToCustomer>",
             },
             {
@@ -283,7 +283,34 @@ $Selenium->RunTest(
             }
         }
 
-        # delete test system address
+        # Disable 'Frontend::Module###AgentTicketEmail' does not remove split target 'Email ticket'.
+        # See bug#13690 (https://bugs.otrs.org/show_bug.cgi?id=13690) for more information.
+        $Helper->ConfigSettingChange(
+            Valid => 0,
+            Key   => "Frontend::Module###AgentTicketEmail",
+        );
+
+        # Navigate to AgentTicketZoom screen.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID",
+        );
+
+        # Click on the split action.
+        $Selenium->find_element( '.SplitSelection', 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return $("#SplitSubmit").length'
+        );
+
+        # Verify there is no 'Email ticket' split option.
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$(\"#SplitSelection option[value='EmailTicket']\").length === 0"
+            ),
+            "Split option for 'Email Ticket' is disabled.",
+        );
+        $Selenium->find_element( '.Close', 'css' )->click();
+
+        # Delete test system address.
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
         my $Success  = $DBObject->Do(
             SQL  => "DELETE FROM system_address WHERE id = ?",
