@@ -251,6 +251,23 @@ $Selenium->RunTest(
         # Check for upcoming System Maintenance notification.
         my $UpcomingSysMaintenanceNotif
             = "A system maintenance period will start at: $StartTimeString and is expected to stop at: $EndTimeString";
+        $Self->False(
+            $Selenium->execute_script(
+                "return \$('.MessageBox.Notice p:contains(\"$UpcomingSysMaintenanceNotif\")').length"
+            ),
+            "$UpcomingSysMaintenanceNotif - notification is not found."
+        );
+
+        # Update TimeNotifyUpcomingMaintenance config.
+        $Helper->ConfigSettingChange(
+            Key   => "SystemMaintenance::TimeNotifyUpcomingMaintenance",
+            Value => 61,
+        );
+
+        # Refresh screen.
+        $Selenium->VerifiedRefresh();
+
+        # Check for upcoming System Maintenance notification after config update.
         $Self->True(
             $Selenium->execute_script(
                 "return \$('.MessageBox.Notice p:contains(\"$UpcomingSysMaintenanceNotif\")').length"

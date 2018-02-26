@@ -534,7 +534,7 @@ sub SystemMaintenanceIsComing {
     my $NotifiBeforeTime =
         $Kernel::OM->Get('Kernel::Config')->Get('SystemMaintenance::TimeNotifyUpcomingMaintenance')
         || 30;
-    $DateTimeObject->Add( Minutes => $NotifiBeforeTime * 60 );
+    $DateTimeObject->Add( Minutes => $NotifiBeforeTime );
     my $TargetTime = $DateTimeObject->ToEpoch();
 
     # get database object
