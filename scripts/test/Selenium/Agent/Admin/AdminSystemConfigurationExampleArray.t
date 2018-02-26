@@ -16,6 +16,7 @@ use vars (qw($Self));
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 my @Tests = (
+
     {
         Name     => 'ExampleArray',
         Commands => [
@@ -670,6 +671,7 @@ my @Tests = (
             },
         ],
     },
+
     {
         Name     => 'ExampleArrayPassword',
         Commands => [
@@ -1034,10 +1036,16 @@ $Selenium->RunTest(
                         $AlertText = '';
                     }
                     else {
-                        $Selenium->WaitFor(
-                            Time       => 120,
-                            JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
+                        my $HasOverlay = $Selenium->execute_script(
+                            'return $("' . $Prefix . '.HasOverlay").length',
                         );
+
+                        if ($HasOverlay) {
+                            $Selenium->WaitFor(
+                                Time       => 120,
+                                JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
+                            );
+                        }
                     }
                 }
                 elsif ( $CommandType eq 'Clear' ) {
