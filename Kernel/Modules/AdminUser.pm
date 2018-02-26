@@ -157,7 +157,6 @@ sub Run {
         {
             $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
         }
-        $GetParam{Preferences} = $ParamObject->GetParam( Param => 'Preferences' ) || '';
 
         for my $Needed (qw(UserID UserFirstname UserLastname UserLogin ValidID)) {
             if ( !$GetParam{$Needed} ) {
@@ -197,83 +196,37 @@ sub Run {
             );
 
             if ($Update) {
-                my %Preferences = %{ $ConfigObject->Get('PreferencesGroups') };
 
-                GROUP:
-                for my $Group ( sort keys %Preferences ) {
-
-                    # skip groups should be changed in
-                    # AgentPreferences screen
-                    next GROUP if $Group eq 'Password';
-
-                    # get user data
-                    my %UserData = $UserObject->GetUserData(
-                        UserID        => $GetParam{UserID},
-                        NoOutOfOffice => 1,
+                # if the user would like to continue editing the agent, just redirect to the edit screen
+                # otherwise return to overview
+                if (
+                    defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
+                    && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' )
+                    )
+                {
+                    my $ID = $ParamObject->GetParam( Param => 'ID' ) || '';
+                    return $LayoutObject->Redirect(
+                        OP => "Action=$Self->{Action};Subaction=Change;UserID=$GetParam{UserID};Notification=Update"
                     );
-                    my $Module = $Preferences{$Group}->{Module};
-                    if ( !$MainObject->Require($Module) ) {
-                        return $LayoutObject->FatalError();
-                    }
-
-                    my $Object = $Module->new(
-                        %{$Self},
-                        UserObject => $UserObject,
-                        ConfigItem => $Preferences{$Group},
-                        Debug      => $Self->{Debug},
-                    );
-                    my @Params = $Object->Param( %{ $Preferences{$Group} }, UserData => \%UserData );
-                    if (@Params) {
-                        my %GetParam;
-                        for my $ParamItem (@Params) {
-                            my @Array = $ParamObject->GetArray( Param => $ParamItem->{Name} );
-                            if (@Array) {
-                                $GetParam{ $ParamItem->{Name} } = \@Array;
-                            }
-                        }
-                        if (
-                            !$Object->Run(
-                                GetParam => \%GetParam,
-                                UserData => \%UserData
-                            )
-                            )
-                        {
-                            $Note .= $LayoutObject->Notify(
-                                Info     => $Object->Error(),
-                                Priority => 'Error'
-                            );
-                        }
-                    }
                 }
-
-                if ( !$Note ) {
-
-                    # if the user would like to continue editing the agent, just redirect to the edit screen
-                    # otherwise return to overview
-                    if (
-                        defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
-                        && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' )
-                        )
-                    {
-                        my $ID = $ParamObject->GetParam( Param => 'ID' ) || '';
-                        return $LayoutObject->Redirect(
-                            OP => "Action=$Self->{Action};Subaction=Change;UserID=$GetParam{UserID};Notification=Update"
-                        );
-                    }
-                    else {
-                        return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Notification=Update" );
-                    }
+                else {
+                    return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Notification=Update" );
                 }
             }
             else {
-                $Note .= $LogObject->GetLogEntry(
+                $Note = $LogObject->GetLogEntry(
                     Type => 'Error',
                     What => 'Message',
                 );
             }
         }
         my $Output = $LayoutObject->Header();
-        $Output .= $Note;
+        $Output .= $Note
+            ? $LayoutObject->Notify(
+            Priority => 'Error',
+            Info     => $Note,
+            )
+            : '';
         $Output .= $LayoutObject->NavigationBar();
         $Self->_Edit(
             Action    => 'Change',
@@ -330,7 +283,6 @@ sub Run {
         {
             $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
         }
-        $GetParam{Preferences} = $ParamObject->GetParam( Param => 'Preferences' ) || '';
 
         for my $Needed (qw(UserFirstname UserLastname UserLogin UserEmail ValidID)) {
             if ( !$GetParam{$Needed} ) {
@@ -368,54 +320,6 @@ sub Run {
 
             if ($UserID) {
 
-                # update preferences
-                my %Preferences = %{ $ConfigObject->Get('PreferencesGroups') };
-                GROUP:
-                for my $Group ( sort keys %Preferences ) {
-                    next GROUP if $Group eq 'Password';
-
-                    # get user data
-                    my %UserData = $UserObject->GetUserData(
-                        UserID        => $UserID,
-                        NoOutOfOffice => 1,
-                    );
-                    my $Module = $Preferences{$Group}->{Module};
-                    if ( $MainObject->Require($Module) ) {
-
-                        # TODO: Change this to Object Manager
-                        my $Object = $Module->new(
-                            %{$Self},
-                            UserObject => $UserObject,
-                            ConfigItem => $Preferences{$Group},
-                            Debug      => $Self->{Debug},
-                        );
-                        my @Params = $Object->Param( UserData => \%UserData );
-
-                        if (@Params) {
-                            my %GetParam = ();
-                            PARAMITEM:
-                            for my $ParamItem (@Params) {
-                                next PARAMITEM if !$ParamItem->{Name};
-                                my @Array = $ParamObject->GetArray( Param => $ParamItem->{Name} );
-
-                                $GetParam{ $ParamItem->{Name} } = \@Array;
-                            }
-                            if (
-                                !$Object->Run(
-                                    GetParam => \%GetParam,
-                                    UserData => \%UserData,
-                                )
-                                )
-                            {
-                                $Note .= $LayoutObject->Notify( Info => $Object->Error() );
-                            }
-                        }
-                    }
-                    else {
-                        return $LayoutObject->FatalError();
-                    }
-                }
-
                 # redirect
                 if (
                     !$ConfigObject->Get('Frontend::Module')->{AdminUserGroup}
@@ -438,7 +342,7 @@ sub Run {
                 }
             }
             else {
-                $Note .= $LogObject->GetLogEntry(
+                $Note = $LogObject->GetLogEntry(
                     Type => 'Error',
                     What => 'Message',
                 );

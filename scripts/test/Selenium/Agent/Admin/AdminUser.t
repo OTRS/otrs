@@ -25,9 +25,15 @@ $Selenium->RunTest(
             Value => 0,
         );
 
-        # Create test user and login.
+        # Enable Service.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Service',
+            Value => 1,
+        );
+
         my $TestUserLogin = $Helper->TestUserCreate(
-            Groups => ['admin'],
+            Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
 
         $Selenium->Login(
@@ -36,13 +42,12 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # Get script alias.
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AdminUser screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUser");
 
-        # Check overview AdminUser.
+        # check overview AdminUser
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
@@ -92,10 +97,8 @@ $Selenium->RunTest(
         }
 
         # Check client side validation.
-        my $Element = $Selenium->find_element( "#UserFirstname", 'css' );
-        $Element->send_keys("");
-        $Selenium->find_element( "#Submit", 'css' )->click();
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#UserFirstname.Error').length" );
+        $Selenium->find_element( "#UserFirstname", 'css' )->send_keys("");
+        $Selenium->find_element( "#Submit",        'css' )->click();
 
         $Self->Is(
             $Selenium->execute_script(
@@ -109,11 +112,11 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUser;Subaction=Add");
 
         # Create a real test agent.
-        my $UserRandomID = 'TestAgent' . $Helper->GetRandomID();
+        my $RandomID     = $Helper->GetRandomID();
+        my $UserRandomID = 'TestAgent' . $RandomID;
         $Selenium->find_element( "#UserFirstname", 'css' )->send_keys($UserRandomID);
         $Selenium->find_element( "#UserLastname",  'css' )->send_keys($UserRandomID);
         $Selenium->find_element( "#UserLogin",     'css' )->send_keys($UserRandomID);
-        $Selenium->find_element( "#UserPw",        'css' )->send_keys($UserRandomID);
         $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $UserRandomID . '@localhost.com' );
         $Selenium->find_element( "#Submit",        'css' )->VerifiedClick();
 
@@ -124,7 +127,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
 
         # Edit real test agent values.
-        my $EditRandomID = 'EditedTestAgent' . $Helper->GetRandomID();
+        my $EditRandomID = 'EditedTestAgent' . $RandomID;
         $Selenium->find_element( $UserRandomID, 'link_text' )->VerifiedClick();
 
         # Check breadcrumb on Edit screen.
@@ -181,49 +184,6 @@ $Selenium->RunTest(
             "#UserEmail stored value",
         );
 
-        # Edit the users preferences on their behalf.
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentPreferences;EditUserID' )]")->VerifiedClick();
-
-        # Disable the my custom queues setting - it should still show up when an agent edits another agents preferences.
-        my $TimeZoneConfig = $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups')->{'TimeZone'};
-        $TimeZoneConfig->{Active} = 0;
-
-        # Enter the UserProfile group.
-        $Selenium->find_element("//a[contains(\@href, \'Group=UserProfile')]")->VerifiedClick();
-
-        # The TimeZone setting should still be visible, although its disabled for agents.
-        $Selenium->execute_script("return \$('#UserTimeZone_Search:visible').length");
-
-        # We try to re-set the password for this agent.
-        $Selenium->find_element( "#CurPw",  'css' )->send_keys($UserRandomID);
-        $Selenium->find_element( "#NewPw",  'css' )->send_keys('NewPassword');
-        $Selenium->find_element( "#NewPw1", 'css' )->send_keys('NewPassword');
-        $Selenium->execute_script(
-            "\$('#CurPw').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
-        );
-
-        # Now logout and then try to login as the edited agent.
-        $Selenium->find_element( '.UserAvatar > a', 'css' )->click();
-        $Selenium->find_element( 'a#LogoutButton',  'css' )->click();
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $UserRandomID,
-            Password => $UserRandomID,
-        );
-
-        # Login worked, now re-login as the first (admin) agent.
-        $Selenium->find_element( '.UserAvatar > a', 'css' )->click();
-        $Selenium->find_element( 'a#LogoutButton',  'css' )->click();
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
-
-        # Go to editing this agent again.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUser");
-        $Selenium->find_element( $UserRandomID, 'link_text' )->VerifiedClick();
-
         # Set added test agent to invalid.
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
@@ -238,7 +198,159 @@ $Selenium->RunTest(
             $Selenium->find_element( "tr.Invalid", 'css' ),
             "There is a class 'Invalid' for test Agent",
         );
+
+        # Testing bug#13463 (https://bugs.otrs.org/show_bug.cgi?id=13463),
+        #   updating Agent data, removes it's 'My Queue' and 'My Services' preferences.
+        my $QueueName = 'TestQueue' . $RandomID;
+        my $QueueID   = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
+            Name            => $QueueName,
+            ValidID         => 1,
+            GroupID         => 1,
+            SystemAddressID => 1,
+            SalutationID    => 1,
+            SignatureID     => 1,
+            UserID          => 1,
+            Comment         => 'Selenium Test',
+        );
+        $Self->True(
+            $QueueID,
+            "QueueID $QueueID is created.",
+        );
+
+        my $ServiceName = 'TestService' . $RandomID;
+        my $ServiceID   = $Kernel::OM->Get('Kernel::System::Service')->ServiceAdd(
+            Name    => $ServiceName,
+            Comment => 'Selenium Test',
+            ValidID => 1,
+            UserID  => 1,
+        );
+        $Self->True(
+            $ServiceID,
+            "ServiceID $ServiceID is created."
+        );
+
+        # Navigate to AgentPreferences notification setting screen.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=NotificationSettings"
+        );
+
+        # Select test created Queue as 'My Queue' and update preference.
+        $Selenium->execute_script(
+            "\$('#QueueID').val('$QueueID').trigger('redraw.InputField').trigger('change');"
+        );
+        $Selenium->execute_script(
+            "\$('#QueueID').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
+        );
+
+        # Wait for the AJAX call to finish.
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#QueueID').closest('.WidgetSimple').hasClass('HasOverlay')"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return !\$('#QueueID').closest('.WidgetSimple').hasClass('HasOverlay')"
+        );
+
+        # Select test created Service as 'My Service' and update preference.
+        $Selenium->execute_script(
+            "\$('#ServiceID').val('$ServiceID').trigger('redraw.InputField').trigger('change');"
+        );
+        $Selenium->execute_script(
+            "\$('#ServiceID').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
+        );
+
+        # Wait for the AJAX call to finish.
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#ServiceID').closest('.WidgetSimple').hasClass('HasOverlay')"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return !\$('#ServiceID').closest('.WidgetSimple').hasClass('HasOverlay')"
+        );
+
+        # Refresh screen.
+        $Selenium->VerifiedRefresh();
+
+        # Verify selected 'My Queue' and 'My Service' preference values.
+        $Self->Is(
+            $Selenium->execute_script("return \$('#QueueID :selected').text().trim()"),
+            $QueueName,
+            "Selected Queue '$QueueName' is in 'My Queue'",
+        );
+        $Self->Is(
+            $Selenium->execute_script("return \$('#ServiceID :selected').text().trim()"),
+            $ServiceName,
+            "Selected Service '$ServiceName' is in 'My Services'",
+        );
+
+        # Navigate to AdminUser screen.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUser");
+        $Selenium->find_element( $TestUserLogin, 'link_text' )->VerifiedClick();
+
+        # Submit not changed Agent data.
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+
+        # Navigate to AgentPreferences notification setting screen.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=NotificationSettings"
+        );
+
+        # Verify 'My Queue' and 'My Service' values are not modified.
+        $Self->Is(
+            $Selenium->execute_script("return \$('#QueueID :selected').text().trim()"),
+            $QueueName,
+            "Selected Queue '$QueueName' is in 'My Queue'",
+        );
+        $Self->Is(
+            $Selenium->execute_script("return \$('#ServiceID :selected').text().trim()"),
+            $ServiceName,
+            "Selected Service '$ServiceName' is in 'My Services'",
+        );
+
+        # Delete Queue.
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+        my $Success  = $DBObject->Do(
+            SQL => "DELETE FROM personal_queues WHERE queue_id = $QueueID",
+        );
+        $Self->True(
+            $Success,
+            "Delete personal queues - $QueueID",
+        );
+        $Success = $DBObject->Do(
+            SQL => "DELETE FROM queue WHERE id = $QueueID",
+        );
+        $Self->True(
+            $Success,
+            "Delete Queue - $QueueID",
+        );
+
+        # Delete Service.
+        $Success = $DBObject->Do(
+            SQL => "DELETE FROM personal_services WHERE service_id = $ServiceID",
+        );
+        $Self->True(
+            $Success,
+            "Delete personal services - $ServiceID",
+        );
+        $Success = $DBObject->Do(
+            SQL => "DELETE FROM service WHERE id = $ServiceID",
+        );
+        $Self->True(
+            $Success,
+            "Delete Service - $ServiceID",
+        );
+
+        # Make sure the cache is correct.
+        for my $Cache (qw(Queue Service)) {
+            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+                Type => $Cache,
+            );
+        }
+
     }
+
 );
 
 1;
