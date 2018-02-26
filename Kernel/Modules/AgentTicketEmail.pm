@@ -403,7 +403,9 @@ sub Run {
             # check if article is from the same TicketID as we checked permissions for.
             if ( $Article{TicketID} ne $Self->{TicketID} ) {
                 return $LayoutObject->ErrorScreen(
-                    Message => "Article does not belong to ticket $Self->{TicketID}!",
+                    Message => $LayoutObject->{LanguageObject}->Translate(
+                        'Article does not belong to ticket %s!', $Self->{TicketID}
+                    ),
                 );
             }
 
