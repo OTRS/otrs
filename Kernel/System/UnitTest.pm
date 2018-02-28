@@ -203,7 +203,7 @@ sub _HandleFile {
     # Wait for child process to finish.
     waitpid( $PID, 0 );
 
-    my $ResultData = Storable::retrieve($ResultDataFile);
+    my $ResultData = eval { Storable::retrieve($ResultDataFile) };
 
     if ( !$ResultData ) {
         $ResultData->{TestNotOk}++;
