@@ -639,6 +639,7 @@ sub _SettingRender {
             }
 
             my $DefaultValueType;
+
             if ( $Param{Value}->[0]->{Hash}->[0]->{DefaultItem} ) {
                 $DefaultValueType = $Param{Value}->[0]->{Hash}->[0]->{DefaultItem}->[0]->{ValueType};
             }

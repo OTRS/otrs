@@ -273,6 +273,7 @@ sub _ModifiedValueCalculate {
                 && ( $DefaultItem->[0]->{Array} || $DefaultItem->[0]->{Hash} )
                 )
             {
+                # It's complex structure (AoA or AoH), continue recursion.
                 my $StructureType = $DefaultItem->[0]->{Array} ? 'Array' : 'Hash';
 
                 $Param{Value}->[0]->{Array}->[0]->{Item}->[0]->{$StructureType}->[0]->{DefaultItem} =
@@ -434,6 +435,7 @@ sub _ModifiedValueCalculate {
                 && ( $DefaultItem->[0]->{Array} || $DefaultItem->[0]->{Hash} )
                 )
             {
+                # It's complex structure (HoA or HoH), continue recursion.
                 my $StructureType = $DefaultItem->[0]->{Array} ? 'Array' : 'Hash';
 
                 my ($SubValue)
@@ -454,6 +456,11 @@ sub _ModifiedValueCalculate {
                     Objects        => \%Objects,
                 );
                 $Value->[0]->{Key} = $Key;
+
+                if ( $SubValue->{$StructureType}->[0]->{DefaultItem} ) {
+                    $Value->[0]->{$StructureType}->[0]->{DefaultItem} = $SubValue->{$StructureType}->[0]->{DefaultItem}
+                }
+
                 push @{ $Result->[0]->{Hash}->[0]->{Item} }, $Value->[0];
             }
             else {

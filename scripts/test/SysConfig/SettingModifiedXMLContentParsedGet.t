@@ -2339,7 +2339,6 @@ my @Tests = (
             },
         ],
     },
-
     {
         Name  => 'Test AoHoA',
         Param => {
@@ -2512,6 +2511,217 @@ my @Tests = (
                                         ],
                                     },
                                 ],
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    },
+
+    # Custom
+    {
+        Name  => 'Test bug#13560',
+        Param => {
+            ModifiedSetting => {
+                "EffectiveValue" => {
+                    "DefaultColumns" => {
+                        "Age"      => 1,
+                        "Changed"  => 1,
+                        "Priority" => 1,
+                    },
+                    "Module" => "Kernel::Output::HTML::Dashboard::TicketGeneric",
+                    "Title"  => "Escalated Tickets",
+                },
+            },
+            DefaultSetting => {
+                "XMLContentParsed" => {
+                    "Value" => [
+                        {
+                            "Hash" => [
+                                {
+                                    "Item" => [
+                                        {
+                                            "Content" => "Kernel::Output::HTML::Dashboard::TicketGeneric",
+                                            "Key"     => "Module",
+                                        },
+                                        {
+                                            "Hash" => [
+                                                {
+                                                    "DefaultItem" => [
+                                                        {
+                                                            "Item" => [
+                                                                {
+                                                                    "Content"      => "0 - Disabled",
+                                                                    "Translatable" => 1,
+                                                                    "Value"        => 0,
+                                                                    "ValueType"    => "Option",
+                                                                },
+                                                                {
+                                                                    "Content"      => "1 - Available",
+                                                                    "Translatable" => 1,
+                                                                    "Value"        => 1,
+                                                                    "ValueType"    => "Option",
+                                                                },
+                                                                {
+                                                                    "Content"      => "2 - Enabled by default",
+                                                                    "Translatable" => 1,
+                                                                    "Value"        => 2,
+                                                                    "ValueType"    => "Option",
+                                                                },
+                                                            ],
+                                                            "ValueType" => "Select",
+                                                        },
+                                                    ],
+                                                    "Item" => [
+                                                        {
+                                                            "Key"        => "Age",
+                                                            "SelectedID" => 2,
+                                                        },
+                                                        {
+                                                            "Key"        => "Changed",
+                                                            "SelectedID" => 1,
+                                                        },
+                                                        {
+                                                            "Key"        => "Created",
+                                                            "SelectedID" => 1,
+                                                        },
+                                                    ],
+                                                },
+                                            ],
+                                            "Key" => "DefaultColumns",
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                }
+        },
+        ExpectedValue => [
+            {
+                "Hash" => [
+                    {
+                        "Item" => [
+                            {
+                                "Hash" => [
+                                    {
+                                        "DefaultItem" => [
+                                            {
+                                                "Item" => [
+                                                    {
+                                                        "Content"      => "0 - Disabled",
+                                                        "Translatable" => 1,
+                                                        "Value"        => 0,
+                                                        "ValueType"    => "Option",
+                                                    },
+                                                    {
+                                                        "Content"      => "1 - Available",
+                                                        "Translatable" => 1,
+                                                        "Value"        => 1,
+                                                        "ValueType"    => "Option",
+                                                    },
+                                                    {
+                                                        "Content"      => "2 - Enabled by default",
+                                                        "Translatable" => 1,
+                                                        "Value"        => 2,
+                                                        "ValueType"    => "Option",
+                                                    },
+                                                ],
+                                                "Key"        => "Changed",
+                                                "SelectedID" => 1,
+                                                "ValueType"  => "Select",
+                                            },
+                                        ],
+                                        "Item" => [
+                                            {
+                                                "Item" => [
+                                                    {
+                                                        "Content"      => "0 - Disabled",
+                                                        "Translatable" => 1,
+                                                        "Value"        => 0,
+                                                        "ValueType"    => "Option",
+                                                    },
+                                                    {
+                                                        "Content"      => "1 - Available",
+                                                        "Translatable" => 1,
+                                                        "Value"        => 1,
+                                                        "ValueType"    => "Option",
+                                                    },
+                                                    {
+                                                        "Content"      => "2 - Enabled by default",
+                                                        "Translatable" => 1,
+                                                        "Value"        => 2,
+                                                        "ValueType"    => "Option",
+                                                    },
+                                                ],
+                                                "Key"        => "Age",
+                                                "SelectedID" => 1,          # This is updated.
+                                                "ValueType"  => "Select",
+                                            },
+                                            {
+                                                "Item" => [
+                                                    {
+                                                        "Content"      => "0 - Disabled",
+                                                        "Translatable" => 1,
+                                                        "Value"        => 0,
+                                                        "ValueType"    => "Option",
+                                                    },
+                                                    {
+                                                        "Content"      => "1 - Available",
+                                                        "Translatable" => 1,
+                                                        "Value"        => 1,
+                                                        "ValueType"    => "Option",
+                                                    },
+                                                    {
+                                                        "Content"      => "2 - Enabled by default",
+                                                        "Translatable" => 1,
+                                                        "Value"        => 2,
+                                                        "ValueType"    => "Option",
+                                                    },
+                                                ],
+                                                "Key"        => "Changed",
+                                                "SelectedID" => 1,
+                                                "ValueType"  => "Select",
+                                            },
+                                            {
+                                                "Item" => [
+                                                    {
+                                                        "Content"      => "0 - Disabled",
+                                                        "Translatable" => 1,
+                                                        "Value"        => 0,
+                                                        "ValueType"    => "Option",
+                                                    },
+                                                    {
+                                                        "Content"      => "1 - Available",
+                                                        "Translatable" => 1,
+                                                        "Value"        => 1,
+                                                        "ValueType"    => "Option",
+                                                    },
+                                                    {
+                                                        "Content"      => "2 - Enabled by default",
+                                                        "Translatable" => 1,
+                                                        "Value"        => 2,
+                                                        "ValueType"    => "Option",
+                                                    },
+                                                ],
+                                                "Key"        => "Priority",
+                                                "SelectedID" => 1,
+                                                "ValueType"  => "Select",
+                                            },
+                                        ],
+                                    },
+                                ],
+                                "Key" => "DefaultColumns",
+                            },
+                            {
+                                "Content" => "Kernel::Output::HTML::Dashboard::TicketGeneric",
+                                "Key"     => "Module",
+                            },
+                            {
+                                "Content" => "Escalated Tickets",
+                                "Key"     => "Title",
                             },
                         ],
                     },
