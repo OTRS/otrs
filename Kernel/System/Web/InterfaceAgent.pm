@@ -1022,17 +1022,30 @@ sub Run {
         my $Home = $ConfigObject->Get('Home');
         my $File = "$Home/Kernel/Config/Files/User/$UserData{UserID}.pm";
         if ( -e $File ) {
-            if ( !require $File ) {
-                die "ERROR: $!\n";
-            }
+            eval {
+                if ( require $File ) {
 
-            # prepare file
-            $File =~ s/\Q$Home\E//g;
-            $File =~ s/^\///g;
-            $File =~ s/\/\//\//g;
-            $File =~ s/\//::/g;
-            $File =~ s/\.pm$//g;
-            $File->Load($ConfigObject);
+                    # Prepare file.
+                    $File =~ s/\Q$Home\E//g;
+                    $File =~ s/^\///g;
+                    $File =~ s/\/\//\//g;
+                    $File =~ s/\//::/g;
+                    $File =~ s/\.pm$//g;
+                    $File->Load($ConfigObject);
+                }
+                else {
+                    die "Cannot load file $File: $!\n";
+                }
+            };
+
+            # Log error and continue.
+            if ($@) {
+                my $ErrorMessage = $@;
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => $ErrorMessage,
+                );
+            }
         }
 
         # pre application module
