@@ -279,6 +279,10 @@ div.Headline .Flag {
     margin-right: 75px;
 }
 
+body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
+   overflow-x: scroll;
+}
+
 .Outgoing .ArticleMailContentHTMLWrapper:before,
 .Incoming .ArticleMailContentHTMLWrapper:before,
 .Outgoing .ArticleHTML:before,
