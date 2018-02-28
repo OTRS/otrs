@@ -209,9 +209,9 @@ my $TableStructureGet = sub {
                 SQL => '
                     SELECT COLUMN_NAME, DATA_TYPE, DATA_LENGTH, NULLABLE
                     FROM ALL_TAB_COLUMNS
-                    WHERE TABLE_NAME = ?
+                    WHERE OWNER = ? AND TABLE_NAME = ?
                 ',
-                Bind => [ \uc($Table) ],
+                Bind => [ \uc( $DBObject->{USER} ), \uc($Table) ],
             );
 
             while ( my @Row = $DBObject->FetchrowArray() ) {
