@@ -1,4 +1,5 @@
 #6.0.6 2018-??-??
+ - 2018-02-28 Follow-up fix for bug#[12822](https://bugs.otrs.org/show_bug.cgi?id=12822) - SysConfig should make better use of white space.
  - 2018-02-27 Fixed bug#[13698](https://bugs.otrs.org/show_bug.cgi?id=13698)(PR#1909) - AJAX-Update missing parameter in Customer User Information Center. Thanks to Andreas Hergert.
  - 2018-02-26 Fixed bug#[13697](https://bugs.otrs.org/show_bug.cgi?id=13697) - Config ‘SystemMaintenance::TimeNotifyUpcomingMaintenance’ does not work correctly.
  - 2018-02-26 Fixed bug#[13463](https://bugs.otrs.org/show_bug.cgi?id=13463) - Updating agent data as an admin will delete user preferences.
