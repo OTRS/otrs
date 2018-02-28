@@ -8,16 +8,16 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceDebugger">
     <h1 class="InvisibleText">[% Translate("GenericInterface Web Service Management") | html %]</h1>
 
-    [% USE WebserviceLink = String('AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=') %]
+    [% USE BreadcrumbLink = String("AdminGenericInterfaceWebservice") %]
 
     [% BreadcrumbPath = [
             {
-                Name => Translate('Web Service Management'),
-                Link => Env("Action"),
+                Name => Translate( 'Web Service Management' ),
+                Link => BreadcrumbLink,
             },
             {
                 Name => Data.WebserviceName,
-                Link => WebserviceLink.append( Data.WebserviceID ),
+                Link => BreadcrumbLink.copy.append( ";Subaction=Change;WebserviceID=", Data.WebserviceID ),
             },
             {
                 Name => Translate('Debugger'),
