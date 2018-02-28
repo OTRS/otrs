@@ -364,7 +364,7 @@ sub Run {
 
         Filter     => $Filter,
         Filters    => \%NavBarFilter,
-        FilterLink => $FilterLink,
+        LinkFilter => $FilterLink,
 
         OrderBy             => $OrderBy,
         SortBy              => $SortBy,

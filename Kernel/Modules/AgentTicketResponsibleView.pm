@@ -431,7 +431,7 @@ sub Run {
 
         Filter     => $Filter,
         Filters    => \%NavBarFilter,
-        FilterLink => $LinkFilter,
+        LinkFilter => $LinkFilter,
 
         TitleName  => Translatable('My Responsible Tickets'),
         TitleValue => $Filters{$Filter}->{Name},

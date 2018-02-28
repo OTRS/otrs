@@ -480,7 +480,7 @@ sub Run {
     $Output .= $LayoutObject->TicketListShow(
         Filter     => $Filter,
         Filters    => \%NavBarFilter,
-        FilterLink => $LinkFilter,
+        LinkFilter => $LinkFilter,
 
         DataInTheMiddle => $LayoutObject->Output(
             TemplateFile => 'AgentTicketQueue',

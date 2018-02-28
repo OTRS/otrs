@@ -20,12 +20,12 @@
 [% RenderBlockStart("OverviewNavBarFilterItem") %]
 [% RenderBlockStart("OverviewNavBarFilterItemSelected") %]
                     <li class="Active [% Data.CSS | html %]">
-                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.FilterLink %]Filter=[% Data.Filter | uri %]">[% Translate(Data.Name) | html %]<span>[% Data.Count | html %]</span></a>
+                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkFilter %]Filter=[% Data.Filter | uri %]">[% Translate(Data.Name) | html %]<span>[% Data.Count | html %]</span></a>
                     </li>
 [% RenderBlockEnd("OverviewNavBarFilterItemSelected") %]
 [% RenderBlockStart("OverviewNavBarFilterItemSelectedNot") %]
                     <li class="[% Data.CSS | html %]">
-                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.FilterLink %]Filter=[% Data.Filter | uri %]">[% Translate(Data.Name) | html %]<span>[% Data.Count | html %]</span></a>
+                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkFilter %]Filter=[% Data.Filter | uri %]">[% Translate(Data.Name) | html %]<span>[% Data.Count | html %]</span></a>
                     </li>
 [% RenderBlockEnd("OverviewNavBarFilterItemSelectedNot") %]
 [% RenderBlockStart("OverviewNavBarFilterItemSplit") %]

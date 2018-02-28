@@ -143,6 +143,37 @@ $Selenium->RunTest(
 
         }
 
+        # Check if sorting and ordering are saved in small view (see bug#13670).
+        # Go to Small view.
+        $Selenium->find_element(
+            "//a[contains(\@href, \'Action=AgentTicketStatusView;Filter=Closed;View=Small;\' )]"
+        )->VerifiedClick();
+
+        # Sort tickets by queue.
+        $Selenium->find_element(
+            "//a[contains(\@href, \'SortBy=Queue;OrderBy=Up\' )]"
+        )->VerifiedClick();
+
+        $Self->True(
+            $Selenium->find_element("//a[contains(\@title, \'Queue, sorted ascending' )]"),
+            "Table is sorted by queue, order by ascending",
+        );
+
+        # Go to the other view (e.g. Medium).
+        $Selenium->find_element(
+            "//a[contains(\@href, \'Action=AgentTicketStatusView;Filter=Closed;View=Medium;\' )]"
+        )->VerifiedClick();
+
+        # Go back to the Small view to check if sorting and ordering are saved.
+        $Selenium->find_element(
+            "//a[contains(\@href, \'Action=AgentTicketStatusView;Filter=Closed;View=Small;\' )]"
+        )->VerifiedClick();
+
+        $Self->True(
+            $Selenium->find_element("//a[contains(\@title, \'Queue, sorted ascending' )]"),
+            "Table is still sorted by queue, order by ascending",
+        );
+
         # Delete created test tickets.
         my $Success;
         for my $TicketID (@TicketIDs) {
