@@ -1008,6 +1008,30 @@ sub TestDatabaseCleanup {
             for my $Table (@Tables) {
                 $DBObject->Do( SQL => "DROP TABLE $Table CASCADE CONSTRAINTS" );
             }
+
+            # Get complete list of user sequences.
+            my @Sequences;
+            return if !$DBObject->Prepare(
+                SQL => 'SELECT sequence_name FROM user_sequences ORDER BY sequence_name',
+            );
+            while ( my @Row = $DBObject->FetchrowArray() ) {
+                push @Sequences, $Row[0];
+            }
+
+            # Drop all found sequences as well.
+            for my $Sequence (@Sequences) {
+                $DBObject->Do( SQL => "DROP SEQUENCE $Sequence" );
+            }
+
+            # Check if all sequences have been dropped.
+            @Sequences = ();
+            return if !$DBObject->Prepare(
+                SQL => 'SELECT sequence_name FROM user_sequences ORDER BY sequence_name',
+            );
+            while ( my @Row = $DBObject->FetchrowArray() ) {
+                push @Sequences, $Row[0];
+            }
+            return if scalar @Sequences;
         }
 
         # Check if all tables have been dropped.
