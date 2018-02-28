@@ -45,7 +45,7 @@
                             </div>
                             <div class="Clear"></div>
 
-                            [% INCLUDE "CustomerCompany/TicketCustomerIDSelection.tt" Required = 1 Readonly = Config("Ticket::Frontend::AgentTicketCustomer::CustomerIDReadOnly") %]
+                            [% INCLUDE "CustomerCompany/TicketCustomerIDSelection.tt" Required = 0 Readonly = Config("Ticket::Frontend::AgentTicketCustomer::CustomerIDReadOnly") %]
 
                             <div class="Field">
 <!-- put the button here and not into the footer, because the CustomerTickets table can be very long -->

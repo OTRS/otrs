@@ -29,6 +29,6 @@
 </div>
 <div class="Clear"></div>
 
-[% INCLUDE "CustomerCompany/TicketCustomerIDSelection.tt" Required = 1 Readonly = Config("Ticket::Frontend::AgentTicketProcess::CustomerIDReadOnly") %]
+[% INCLUDE "CustomerCompany/TicketCustomerIDSelection.tt" Required = 0 Readonly = Config("Ticket::Frontend::AgentTicketProcess::CustomerIDReadOnly") %]
 
 [% RenderBlockEnd("rw:Customer") %]
