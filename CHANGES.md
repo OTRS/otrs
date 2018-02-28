@@ -1,4 +1,5 @@
 #6.0.6 2018-??-??
+ - 2018-02-28 Fixed bug#[13692](https://bugs.otrs.org/show_bug.cgi?id=13692) - Support Data Collector shows wrong information in OTRS -> Database Records -> Months Between First And Last Ticket / Tickets Per Month (avg).
  - 2018-02-28 Fixed bug#[13670](https://bugs.otrs.org/show_bug.cgi?id=13670) - FilterLink has to be LinkFilter in ViewModules.
  - 2018-02-28 Fixed bug#[13643](https://bugs.otrs.org/show_bug.cgi?id=13643) - After CustomerCompanySupport is disabled the customer-user cannot be defined at several places.
  - 2018-02-28 Follow-up fix for bug#[13596](https://bugs.otrs.org/show_bug.cgi?id=13596) - "S" view in mobile browser cannot be rolled horizontally.
