@@ -339,7 +339,7 @@
         </Value>
     </Setting>
     <Setting Name="AgentLoginLogo" Required="0" Valid="1">
-        <Description Translatable="1">The logo shown on top of the login box of the agent interface. The URL to the image must be relative URL to the skin image directory.</Description>
+        <Description Translatable="1">The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.</Description>
         <Navigation>Frontend::Agent</Navigation>
         <Value>
             <Hash>
