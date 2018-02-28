@@ -1702,9 +1702,11 @@ sub TicketAppointmentTypesGet {
 delete ticket appointment(s).
 
     my $Success = $CalendarObject->TicketAppointmentDelete(
-        CalendarID    => 1,
-        RuleID        => '9bb20ea035e7a9930652a9d82d00c725',
-        TicketID      => 1,                                     # (optional) Ticket ID is known
+        CalendarID    => 1,                                     # (required) CalendarID
+        RuleID        => '9bb20ea035e7a9930652a9d82d00c725',    # (required) RuleID
+                                                                # or
+        TicketID      => 1,                                     # (required) Ticket ID
+
         AppointmentID => 1,                                     # (optional) Appointment ID is known
     );
 
@@ -1715,32 +1717,34 @@ returns 1 if successful.
 sub TicketAppointmentDelete {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for my $Needed (qw(CalendarID RuleID)) {
-        if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!",
-            );
-            return;
-        }
+    if ( ( !$Param{CalendarID} || !$Param{RuleID} ) && !$Param{TicketID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need CalendarID and RuleID, or TicketID!',
+        );
+        return;
     }
 
     my @AppointmentIDs;
     push @AppointmentIDs, $Param{AppointmentID} if $Param{AppointmentID};
 
-    # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # appointment id is unknown
+    # Appointment ID is unknown.
     if ( !@AppointmentIDs ) {
         my $SQL = '
             SELECT appointment_id
             FROM calendar_appointment_ticket
-            WHERE calendar_id = ? AND rule_id = ?
+            WHERE 1=1
         ';
         my @Bind;
-        push @Bind, \$Param{CalendarID}, \$Param{RuleID};
+
+        if ( $Param{CalendarID} && $Param{RuleID} ) {
+            $SQL .= '
+                AND calendar_id = ? AND rule_id = ?
+            ';
+            push @Bind, \$Param{CalendarID}, \$Param{RuleID};
+        }
 
         if ( $Param{TicketID} ) {
             $SQL .= '
@@ -1760,13 +1764,19 @@ sub TicketAppointmentDelete {
         }
     }
 
-    # remove the relation(s) from database
+    # Remove the relation(s) from database.
     my $SQL = '
         DELETE FROM calendar_appointment_ticket
-        WHERE calendar_id = ? AND rule_id = ?
+        WHERE 1=1
     ';
     my @Bind;
-    push @Bind, \$Param{CalendarID}, \$Param{RuleID};
+
+    if ( $Param{CalendarID} && $Param{RuleID} ) {
+        $SQL .= '
+            AND calendar_id = ? AND rule_id = ?
+        ';
+        push @Bind, \$Param{CalendarID}, \$Param{RuleID};
+    }
 
     if ( $Param{TicketID} ) {
         $SQL .= '
