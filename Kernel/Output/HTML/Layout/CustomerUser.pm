@@ -34,7 +34,7 @@ in F<Kernel/Output/HTML/Layout/CustomerUser.pm>.
         View            => $Self->{View},                            # optional, the default value is 'AddressBook'
         Filter          => 'All',
         Filters         => \%NavBarFilter,
-        FilterLink      => $LinkFilter,
+        LinkFilter      => $LinkFilter,
         TitleName       => 'Overview: CustomerUsers',
         TitleValue      => $Self->{Filter},
         Env             => $Self,

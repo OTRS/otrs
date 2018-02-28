@@ -478,9 +478,8 @@ sub Run {
 
     # show tickets
     $Output .= $LayoutObject->TicketListShow(
-        Filter     => $Filter,
-        Filters    => \%NavBarFilter,
-        FilterLink => $LinkFilter,
+        Filter  => $Filter,
+        Filters => \%NavBarFilter,
 
         DataInTheMiddle => $LayoutObject->Output(
             TemplateFile => 'AgentTicketQueue',

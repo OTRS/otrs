@@ -1316,8 +1316,7 @@ sub Run {
                 Bulk      => 1,
                 Limit     => $Self->{SearchLimit},
 
-                Filter     => $Self->{Filter},
-                FilterLink => $FilterLink,
+                Filter => $Self->{Filter},
 
                 OrderBy      => $Self->{OrderBy},
                 SortBy       => $Self->{SortBy},

@@ -384,7 +384,7 @@ sub Run {
 
         Filter     => $Filter,
         Filters    => \%NavBarFilter,
-        FilterLink => $LinkFilter,
+        LinkFilter => $LinkFilter,
 
         TitleName  => Translatable('Ticket Escalation View'),
         TitleValue => $Filters{$Filter}->{Name},
