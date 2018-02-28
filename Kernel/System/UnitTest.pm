@@ -206,6 +206,7 @@ sub _HandleFile {
     my $ResultData = eval { Storable::retrieve($ResultDataFile) };
 
     if ( !$ResultData ) {
+        print $Self->_Color( 'red', "Could not read result data for $Param{File}.\n" );
         $ResultData->{TestNotOk}++;
     }
 
