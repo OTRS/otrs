@@ -3723,7 +3723,7 @@ sub HumanReadableDataSize {
         return;
     }
 
-    if ( !IsPositiveInteger( $Param{Size} ) ) {
+    if ( !IsInteger( $Param{Size} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Size must be integer!',

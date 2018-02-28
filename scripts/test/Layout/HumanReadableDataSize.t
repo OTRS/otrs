@@ -21,6 +21,10 @@ my @Tests = (
         Result => undef,
     },
     {
+        Size   => 0,
+        Result => '0 B',
+    },
+    {
         Size   => 13,
         Result => '13 B',
     },
