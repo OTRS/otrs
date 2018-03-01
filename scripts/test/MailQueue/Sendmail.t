@@ -60,6 +60,14 @@ $HelperObject->ConfigSettingChange(
 my $EmailObject     = $Kernel::OM->Get('Kernel::System::Email');
 my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
 
+# delete possible messages from mail queue
+my $Success = $MailQueueObject->Delete();
+
+$Self->True(
+    $Success,
+    'Delete possible messages from mail queue!',
+);
+
 my $SendEmail = sub {
     my %Param = @_;
 
