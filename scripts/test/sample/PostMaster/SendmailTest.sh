@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
 while getopts :sf opt
 do
    case $opt in
-       s) read; exit 0;;
-       f) exit 1;;
+       s) while read; do continue; done; exit 0;;
+       f) while read; do continue; done; exit 1;;
    esac
 done
