@@ -1306,13 +1306,13 @@ sub _MaskPhone {
 
     # customer info string
     if ( $ConfigObject->Get('Ticket::Frontend::CustomerInfoCompose') ) {
+        my %TicketData = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet( TicketID => $Self->{TicketID} );
         $Param{CustomerTable} = $LayoutObject->AgentCustomerViewTable(
-            Data => {
-                %{ $Param{CustomerData} },
-                TicketID => $Self->{TicketID},
-            },
-            Max => $ConfigObject->Get('Ticket::Frontend::CustomerInfoComposeMaxSize'),
+            Data   => $Param{CustomerData},
+            Ticket => \%TicketData,
+            Max    => $ConfigObject->Get('Ticket::Frontend::CustomerInfoComposeMaxSize'),
         );
+
         $LayoutObject->Block(
             Name => 'CustomerTable',
             Data => \%Param,
