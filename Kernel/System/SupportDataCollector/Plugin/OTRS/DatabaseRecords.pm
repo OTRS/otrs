@@ -60,6 +60,11 @@ sub Run {
             Label      => Translatable("Queues"),
         },
         {
+            SQL        => "SELECT count(*) FROM service",
+            Identifier => 'ServiceCount',
+            Label      => Translatable("Services"),
+        },
+        {
             SQL        => "SELECT count(*) FROM users",
             Identifier => 'AgentCount',
             Label      => Translatable("Agents"),
