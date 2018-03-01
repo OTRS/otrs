@@ -265,11 +265,9 @@ sub Form {
         $Param{SelectedCustomerUser} = $TicketData{CustomerUserID};
 
         $Param{Table} = $LayoutObject->AgentCustomerViewTable(
-            Data => {
-                %CustomerUserData,
-                TicketID => $Self->{TicketID},
-            },
-            Max => $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::CustomerInfoComposeMaxSize'),
+            Data   => \%CustomerUserData,
+            Ticket => \%TicketData,
+            Max    => $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::CustomerInfoComposeMaxSize'),
         );
 
         # show customer field as "FirstName Lastname" <MailAddress>
