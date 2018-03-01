@@ -226,14 +226,18 @@ sub LinkObjectTableCreateComplex {
 
             my %LinkDeleteData;
             my $TargetPermission;
-            if ( $Param{SourceObject} && $Param{ObjectID} && $Item->[0]->{Key} && $ShowDeleteButton ) {
 
-                for my $LinkType ( sort keys %{ $LinkList{ $Block->{Object} }->{ $Item->[0]->{Key} } } ) {
+            # Search for key.
+            my ($ItemWithKey) = grep { $_->{Key} } @{$Item};
+
+            if ( $Param{SourceObject} && $Param{ObjectID} && $ItemWithKey->{Key} && $ShowDeleteButton ) {
+
+                for my $LinkType ( sort keys %{ $LinkList{ $Block->{Object} }->{ $ItemWithKey->{Key} } } ) {
 
                     # get target permission
                     $TargetPermission = $Kernel::OM->Get('Kernel::System::LinkObject')->ObjectPermission(
                         Object => $Block->{Object},
-                        Key    => $Item->[0]->{Key},
+                        Key    => $ItemWithKey->{Key},
                         UserID => $Self->{UserID},
                     );
 
@@ -243,9 +247,9 @@ sub LinkObjectTableCreateComplex {
                         my %InstantLinkDeleteData;
 
                         # depending on the link type direction source and target must be switched
-                        if ( $LinkList{ $Block->{Object} }->{ $Item->[0]->{Key} }->{$LinkType} eq 'Source' ) {
+                        if ( $LinkList{ $Block->{Object} }->{ $ItemWithKey->{Key} }->{$LinkType} eq 'Source' ) {
                             $LinkDeleteData{SourceObject} = $Block->{Object};
-                            $LinkDeleteData{SourceKey}    = $Item->[0]->{Key};
+                            $LinkDeleteData{SourceKey}    = $ItemWithKey->{Key};
                             $LinkDeleteData{TargetIdentifier}
                                 = $Param{SourceObject} . '::' . $Param{ObjectID} . '::' . $LinkType;
                         }
@@ -253,14 +257,11 @@ sub LinkObjectTableCreateComplex {
                             $LinkDeleteData{SourceObject} = $Param{SourceObject};
                             $LinkDeleteData{SourceKey}    = $Param{ObjectID};
                             $LinkDeleteData{TargetIdentifier}
-                                = $Block->{Object} . '::' . $Item->[0]->{Key} . '::' . $LinkType;
+                                = $Block->{Object} . '::' . $ItemWithKey->{Key} . '::' . $LinkType;
                         }
                     }
                 }
             }
-
-            # search for key
-            my ($ItemWithKey) = grep { $_->{Key} } @{$Item};
 
             # define check-box cell
             my $CheckboxCell = {

@@ -95,6 +95,7 @@ Core.Agent.LinkObject = (function (TargetNS) {
             });
         }
 
+        InitInstantLinkDelete();
         Core.UI.InitWidgetActionToggle();
     };
 
