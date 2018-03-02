@@ -94,7 +94,7 @@
 [% RenderBlockEnd("Overview") %]
 [% RenderBlockStart("Change") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Manage Role-Agent Relations") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Manage Role-Agent Relations") | html %]</h1>
 
     [% USE EditTitle = String(Data.BreadcrumbTitle) %]
 

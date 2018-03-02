@@ -12,7 +12,7 @@
 %]
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Manage %s") | html | ReplacePlaceholders(OTRSBusinessLabel) %]</h1>
+    <h1 class="InvisibleText">[% Translate("Manage %s") | html | ReplacePlaceholders(OTRSBusinessLabel) %]</h1>
 
     [% BreadcrumbPath = [
             {
