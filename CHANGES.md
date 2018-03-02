@@ -1,4 +1,5 @@
 #5.0.27 ????-??-??
+ - 2018-03-01 Reduced warnings thrown by Layout object when BuildSelection is used with TreeView option.
  - 2018-02-28 Fixed bug#[13687](https://bugs.otrs.org/show_bug.cgi?id=13687) - CustomerIDRaw parameter is empty in Customer View.
  - 2018-02-28 Fixed bug#[13670](https://bugs.otrs.org/show_bug.cgi?id=13670) - FilterLink has to be LinkFilter in ViewModules.
  - 2018-02-21 Fixed bug#[13681](https://bugs.otrs.org/show_bug.cgi?id=13681) - Legacy description for NotificationEvent sysconfig.

@@ -4760,7 +4760,11 @@ sub _BuildSelectionDataRefCreate {
 
         # get missing parents and mark them for disable later
         if ( $OptionRef->{Sort} eq 'TreeView' ) {
-            my %List = reverse %{ $DataLocal || {} };
+
+            # Delete entries in hash with value = undef,
+            #   because otherwise the reverse statement will cause warnings.
+            # Reverse hash, skipping undefined values.
+            my %List = map { $DataLocal->{$_} => $_ } grep { defined $DataLocal->{$_} } keys %{$DataLocal};
 
             # get each data value
             for my $Key ( sort keys %List ) {
