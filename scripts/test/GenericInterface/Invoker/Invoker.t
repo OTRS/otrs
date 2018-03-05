@@ -229,4 +229,35 @@ $Self->True(
     'HandleResponse call with response success',
 );
 
+# HandleResponse with array as response.
+$ReturnData = $InvokerObject->HandleResponse(
+    ResponseSuccess => '0',
+    Data            => ( '1', '2', '3' ),
+);
+$Self->False(
+    $ReturnData->{Success},
+    'HandleResponse response failure success (array as response)',
+);
+$Self->Is(
+    $ReturnData->{ErrorMessage},
+    'Got Data but it is not a hash or array ref in Invoker handler (HandleResponse)!',
+    'HandleResponse call response failure error message (array as response)',
+);
+
+# HandleResponse with array ref as response.
+$ReturnData = $InvokerObject->HandleResponse(
+    ResponseSuccess      => '0',
+    ResponseErrorMessage => 'Just an error message',
+    Data                 => [ '1', '2', '3' ],
+);
+$Self->False(
+    $ReturnData->{Success},
+    'HandleResponse response failure success (array ref as response)',
+);
+$Self->Is(
+    $ReturnData->{ErrorMessage},
+    'Just an error message',
+    'HandleResponse call response failure error message (array ref as response)',
+);
+
 1;

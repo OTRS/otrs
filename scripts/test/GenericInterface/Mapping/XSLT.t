@@ -128,6 +128,37 @@ my @MappingTests = (
         ConfigSuccess => 1,
     },
     {
+        Name   => 'Test array as data',
+        Config => {
+            Template => qq{<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0"
+ xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+ xmlns:otrs="http://otrs.org"
+ extension-element-prefixes="otrs">
+<xsl:import href="$Home/Kernel/GenericInterface/Mapping/OTRSFunctions.xsl" />
+<xsl:output method="xml" encoding="utf-8" indent="yes"/>
+<xsl:template match="/RootElement">
+<NewRootElement>
+    <xsl:for-each select="/RootElement/Array1">
+    <FirstLevelArray>
+        <xsl:text>Amended</xsl:text>
+        <xsl:value-of select="." />
+    </FirstLevelArray>
+    </xsl:for-each>
+</NewRootElement>
+</xsl:template>
+</xsl:stylesheet>},
+        },
+        Data => (
+            'ArrayPart1',
+            'ArrayPart2',
+            'ArrayPart3',
+        ),
+        ResultData    => undef,
+        ResultSuccess => 0,
+        ConfigSuccess => 1,
+    },
+    {
         Name   => 'Test simple overwrite',
         Config => {
             Template => '<?xml version="1.0" encoding="UTF-8"?>

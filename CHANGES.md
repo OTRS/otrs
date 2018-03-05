@@ -1,4 +1,5 @@
 #6.0.6 2018-??-??
+ - 2018-03-05 Fixed Allow array as top-level-XML-Element on REST Response from remote site, thanks to Andreas Hergert (PR#1905).
  - 2018-03-05 Fixed bug#[13549](https://bugs.otrs.org/show_bug.cgi?id=13549) - Scrolling not possible for some articles on iOS Safari.
  - 2018-03-02 Added improvements for the time zone migration script in non interactive mode.
  - 2018-03-01 Reduced warnings thrown by Layout object when BuildSelection is used with TreeView option.

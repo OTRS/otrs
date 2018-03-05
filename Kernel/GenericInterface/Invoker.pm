@@ -178,11 +178,11 @@ handle response data of the configured remote web service.
 sub HandleResponse {
     my ( $Self, %Param ) = @_;
 
-    # Check data - only accept undef or hash ref.
-    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+    # Check data - only accept undef or hash ref or array ref.
+    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' && ref $Param{Data} ne 'ARRAY' ) {
 
         return $Self->{DebuggerObject}->Error(
-            Summary => 'Got Data but it is not a hash ref in Invoker handler (HandleResponse)!'
+            Summary => 'Got Data but it is not a hash or array ref in Invoker handler (HandleResponse)!'
         );
     }
 
