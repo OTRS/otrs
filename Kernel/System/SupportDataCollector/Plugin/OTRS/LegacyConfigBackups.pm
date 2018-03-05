@@ -6,6 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## nofilter(TidyAll::Plugin::OTRS::Perl::LayoutObject)
 package Kernel::System::SupportDataCollector::Plugin::OTRS::LegacyConfigBackups;
 
 use strict;
