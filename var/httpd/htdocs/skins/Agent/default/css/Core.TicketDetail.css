@@ -270,6 +270,7 @@ div.Headline .Flag {
     -webkit-overflow-scrolling: touch;
    margin-left: 75px;
    position: relative;
+   overflow: auto;
 }
 
 #ArticleItems .Incoming .ArticleMailContentHTMLWrapper,
