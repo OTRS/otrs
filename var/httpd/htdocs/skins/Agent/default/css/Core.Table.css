@@ -579,7 +579,7 @@ thead .headerSortDown a {
 }
 
 #OverviewBody.Overview.TicketList {
-    overflow: visible;
+    overflow-x: auto;
 }
 #OverviewBody.Overview.TicketList table {
     overflow: visible;
