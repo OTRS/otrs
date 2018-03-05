@@ -24,10 +24,6 @@ our @ObjectDependencies = (
 sub CheckPreviousRequirement {
     my ( $Self, %Param ) = @_;
 
-    if ( $Param{CommandlineOptions}->{NonInteractive} || !is_interactive() ) {
-        return 1;
-    }
-
     # Check if following table already exists. In this case, time zone configuration is already done.
     my $TableExists = $Self->TableExists(
         Table => 'ticket_number_counter',
@@ -41,10 +37,6 @@ sub CheckPreviousRequirement {
     if ( $OTRSTimeZone ne 'UTC' || $UserDefaultTimeZone ne 'UTC' ) {
         return 1;
     }
-
-    #
-    # OTRSTimeZone
-    #
 
     # Get system time zone
     my $DateTimeObject = $Kernel::OM->Create(
@@ -63,6 +55,21 @@ sub CheckPreviousRequirement {
     # Calculate complete time offset (server time zone + OTRS time offset)
     my $SuggestedTimeZone = $TimeOffset ? '' : $SystemTimeZone;
     $TimeOffset += $DateTimeObject->Format( Format => '%{offset}' ) / 60 / 60;
+
+    if ( ( $Param{CommandlineOptions}->{NonInteractive} || !is_interactive() ) && $TimeOffset != 0 ) {
+        print
+            "\n\n      Error: The currently time offset is $TimeOffset hours, in this case you can not run the script in non-interactive mode. \n"
+            . "        Please execute the script in interactive mode and select the correct timezone. \n\n";
+        return;
+    }
+
+    if ( $Param{CommandlineOptions}->{NonInteractive} || !is_interactive() ) {
+        return 1;
+    }
+
+    #
+    # OTRSTimeZone
+    #
 
     # Show suggestions for time zone
     my %TimeZones = map { $_ => 1 } @{ $DateTimeObject->TimeZoneList() };
