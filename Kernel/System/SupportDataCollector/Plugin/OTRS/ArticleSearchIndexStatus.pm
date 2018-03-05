@@ -29,7 +29,13 @@ sub Run {
 
     my %Status = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchIndexStatus();
 
-    my $Percentage = $Status{ArticlesIndexed} / $Status{ArticlesTotal} * 100;
+    my $Percentage;
+    if ( $Status{ArticlesIndexed} == 0 || $Status{ArticlesTotal} == 0 ) {
+        $Percentage = 0;
+    }
+    else {
+        $Percentage = $Status{ArticlesIndexed} / $Status{ArticlesTotal} * 100;
+    }
 
     $Self->AddResultInformation(
         Label => Translatable('Indexed Articles'),
