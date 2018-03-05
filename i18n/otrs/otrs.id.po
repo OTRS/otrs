@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-02-05 18:26+0000\n"
-"PO-Revision-Date: 2018-02-05 18:27+0000\n"
+"POT-Creation-Date: 2018-03-05 19:12+0000\n"
+"PO-Revision-Date: 2018-03-05 22:25+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/otrs/OTRS/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -6366,7 +6366,7 @@ msgid "Session Management"
 msgstr "Manajemen sesi"
 
 #. Template: AdminSession
-msgid "Detail Session View for"
+msgid "Detail Session View for %s (%s)"
 msgstr ""
 
 #. Template: AdminSession
@@ -6418,8 +6418,8 @@ msgid "Kill"
 msgstr "Hapuskan"
 
 #. Template: AdminSession
-msgid "Detail View for SessionID"
-msgstr "Melihat rincian untuk SessionID"
+msgid "Detail View for SessionID: %s - %s"
+msgstr ""
 
 #. Template: AdminSignature
 msgid "Signature Management"
@@ -6825,6 +6825,10 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationView
 msgid "View single Setting: %s"
+msgstr ""
+
+#. Template: AdminSystemConfigurationView
+msgid "Go back to Deployment Details"
 msgstr ""
 
 #. Template: AdminSystemMaintenance
@@ -10584,7 +10588,7 @@ msgid "Auto Response added!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
-msgid "Invalid CommunicationID "
+msgid "Invalid CommunicationID!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
@@ -14795,11 +14799,6 @@ msgid ""
 msgstr "Tabel dengan mesin penyimpanan yang berbeda dari mesin yang ditemukan."
 
 #. Perl Module:
-#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
-msgid "Table check found some problems."
-msgstr ""
-
-#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "MySQL 5.x or higher is required."
 msgstr "MySQL 5.x atau yang lebih tinggi diperlukan."
@@ -15177,6 +15176,20 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
 msgid "No legacy configuration backup files found."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
+msgid ""
+"Legacy configuration backup files found in %s, but they might still be "
+"required by some packages."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
+msgid ""
+"Legacy configuration backup files are no longer needed for the installed "
+"packages, please remove them from %s."
 msgstr ""
 
 #. Perl Module:
@@ -17279,6 +17292,10 @@ msgid "Admin area navigation for the agent interface."
 msgstr ""
 
 #. SysConfig
+msgid "Admin modules overview."
+msgstr ""
+
+#. SysConfig
 msgid "Admin."
 msgstr "Admin."
 
@@ -17305,6 +17322,10 @@ msgstr "Agen Nama + Dari Separator + Sistem Alamat Nama Tampilan"
 #. SysConfig
 msgid "Agent Preferences."
 msgstr "Preferensi agen."
+
+#. SysConfig
+msgid "Agent Statistics."
+msgstr ""
 
 #. SysConfig
 msgid "Agent User Search"
@@ -18403,6 +18424,10 @@ msgid "Custom RSS Feed"
 msgstr "Kustom RSS feed"
 
 #. SysConfig
+msgid "Custom RSS feed."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Custom text for the page shown to customers that have no tickets yet (if you"
 " need those text translated add them to a custom translation module)."
@@ -18425,6 +18450,10 @@ msgid "Customer Information Center Search."
 msgstr "Pelanggan Pusat Informasi Cari."
 
 #. SysConfig
+msgid "Customer Information Center search."
+msgstr ""
+
+#. SysConfig
 msgid "Customer Information Center."
 msgstr "Pusat Informasi pelanggan."
 
@@ -18442,6 +18471,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer User Information Center Search."
+msgstr ""
+
+#. SysConfig
+msgid "Customer User Information Center search."
 msgstr ""
 
 #. SysConfig
@@ -18523,6 +18556,10 @@ msgstr "Bahasa Ceko"
 #. SysConfig
 msgid "Danish"
 msgstr "Denmark"
+
+#. SysConfig
+msgid "Dashboard overview."
+msgstr ""
 
 #. SysConfig
 msgid "Data used to export the search result in CSV format."
@@ -19084,6 +19121,15 @@ msgstr "Mendefinisikan jika pelanggan harus diizinkan untuk login jika mereka ti
 
 #. SysConfig
 msgid ""
+"Defines if the communication between this system and OTRS Group servers that"
+" provide cloud services is possible. If set to 'Disable cloud services', "
+"some functionality will be lost such as system registration, support data "
+"sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS"
+" News and product News dashboard widgets, among others."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines if the enhanced mode should be used (enables use of table, replace, "
 "subscript, superscript, paste from word, etc.) in customer interface."
 msgstr ""
@@ -19338,8 +19384,22 @@ msgid ""
 "if the password needs to contain at least 2 letter characters (set to 0 or "
 "1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1"
 " to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-"
-"temporarily if max failed logins reached."
-msgstr "Mendefinisikan parameter konfigurasi dari item ini, akan ditampilkan dalam preferensi tampilan. 'PasswordRegExp' memungkinkan untuk mencocokkan password terhadap ekspresi reguler. Menentukan jumlah minimum karakter menggunakan 'PasswordMinSize'. Tentukan jika setidaknya 2 huruf kecil dan 2 karakter huruf besar dibutuhkan dengan menetapkan pilihan yang sesuai untuk '1'. mendefinisikan 'PasswordMin2Characters' jika password harus berisi minimal 2 karakter huruf (set ke 0 atau 1). 'PasswordNeedDigit' mengontrol kebutuhan minimal 1 digit (set ke 0 atau 1 kontrol). 'PasswordMaxLoginFailed' memungkinkan untuk mengatur agen tidak valid-sementara jika max gagal login tercapai."
+"temporarily if max failed logins reached. Please note: setting 'Active' to 0"
+" will only prevent agents from editing settings of this group in their "
+"personal preferences, but will still allow administrators to edit the "
+"settings of another user's behalf. Use 'PreferenceGroup' to control in which"
+" area these settings should be shown in the user interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines the config parameters of this item, to be shown in the preferences "
+"view. Please note: setting 'Active' to 0 will only prevent agents from "
+"editing settings of this group in their personal preferences, but will still"
+" allow administrators to edit the settings of another user's behalf. Use "
+"'PreferenceGroup' to control in which area these settings should be shown in"
+" the user interface."
+msgstr ""
 
 #. SysConfig
 msgid "Defines the connections for http/ftp, via a proxy."
@@ -20812,7 +20872,12 @@ msgid "Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl)."
 msgstr "Mendefinisikan nama pengguna untuk mengakses SOAP pegangan (bin/cgi-bin/rpc.pl)."
 
 #. SysConfig
-msgid "Defines the users avatar."
+msgid ""
+"Defines the users avatar. Please note: setting 'Active' to 0 will only "
+"prevent agents from editing settings of this group in their personal "
+"preferences, but will still allow administrators to edit the settings of "
+"another user's behalf. Use 'PreferenceGroup' to control in which area these "
+"settings should be shown in the user interface."
 msgstr ""
 
 #. SysConfig
@@ -21053,18 +21118,13 @@ msgid ""
 msgstr "Nonaktifkan HTTP header \"X-Frame-Options: SAMEORIGIN\" untuk memungkinkan OTHERS untuk dimasukkan sebagai iFrame di situs-situs lain. Menonaktifkan HTTP header ini bisa menjadi masalah keamanan! Hanya menonaktifkannya, jika Anda tahu apa yang Anda lakukan!"
 
 #. SysConfig
-msgid ""
-"Disables sending reminder notifications to the responsible agent of a ticket"
-" (Ticket::Responsible needs to be enabled)."
+msgid "Disable cloud services"
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Disables the communication between this system and OTRS Group servers that "
-"provides cloud services. If enabled, some functionality will be lost such as"
-" system registration, support data sending, upgrading to and use of OTRS "
-"Business Solution™, OTRS Verify™, OTRS News and product News dashboard "
-"widgets, among others."
+"Disables sending reminder notifications to the responsible agent of a ticket"
+" (Ticket::Responsible needs to be enabled)."
 msgstr ""
 
 #. SysConfig
@@ -21910,8 +21970,12 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Gives end users the possibility to override the separator character for CSV "
-"files, defined in the translation files."
-msgstr "Memberikan pengguna akhir kemungkinan untuk menimpa karakter pemisah untuk file CSV, didefinisikan dalam file terjemahan."
+"files, defined in the translation files. Please note: setting 'Active' to 0 "
+"will only prevent agents from editing settings of this group in their "
+"personal preferences, but will still allow administrators to edit the "
+"settings of another user's behalf. Use 'PreferenceGroup' to control in which"
+" area these settings should be shown in the user interface."
+msgstr ""
 
 #. SysConfig
 msgid "Global Search Module."
@@ -22677,6 +22741,10 @@ msgid "Locked ticket."
 msgstr "Tiket yang dikunci"
 
 #. SysConfig
+msgid "Logged in users."
+msgstr ""
+
+#. SysConfig
 msgid "Logged-In Users"
 msgstr ""
 
@@ -23085,6 +23153,10 @@ msgid "News about OTRS releases!"
 msgstr "Berita tentang perilisan OTRS!"
 
 #. SysConfig
+msgid "News about OTRS."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Next possible ticket states after adding a phone note in the ticket phone "
 "inbound screen of the agent interface."
@@ -23226,6 +23298,10 @@ msgid "Out Of Office Time"
 msgstr "Waktu diluar kantor"
 
 #. SysConfig
+msgid "Out of Office users."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Overloads (redefines) existing functions in Kernel::System::Ticket. Used to "
 "easily add customizations."
@@ -23238,6 +23314,10 @@ msgstr "Ikhtisar Tiket meningkat."
 #. SysConfig
 msgid "Overview Refresh Time"
 msgstr "Ikhtisar Segarkan Waktu"
+
+#. SysConfig
+msgid "Overview of all Tickets per assigned Queue."
+msgstr ""
 
 #. SysConfig
 msgid "Overview of all appointments."
@@ -23278,30 +23358,52 @@ msgstr "Paket acara modul mengajukan tugas scheduler untuk pendaftaran pembaruan
 #. SysConfig
 msgid ""
 "Parameters for the CreateNextMask object in the preference view of the agent"
-" interface."
-msgstr "Parameter untuk Buat NextMask objek dalam pandangan preferensi antarmuka agen."
+" interface. Please note: setting 'Active' to 0 will only prevent agents from"
+" editing settings of this group in their personal preferences, but will "
+"still allow administrators to edit the settings of another user's behalf. "
+"Use 'PreferenceGroup' to control in which area these settings should be "
+"shown in the user interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Parameters for the CustomQueue object in the preference view of the agent "
-"interface."
-msgstr "Parameter untuk objek kustom Antrian dalam tampilan preferensi antarmuka agen"
+"interface. Please note: setting 'Active' to 0 will only prevent agents from "
+"editing settings of this group in their personal preferences, but will still"
+" allow administrators to edit the settings of another user's behalf. Use "
+"'PreferenceGroup' to control in which area these settings should be shown in"
+" the user interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Parameters for the CustomService object in the preference view of the agent "
-"interface."
-msgstr "Parameter untuk Layanan Kustom objek dalam tampilan preferensi antarmuka agen."
+"interface. Please note: setting 'Active' to 0 will only prevent agents from "
+"editing settings of this group in their personal preferences, but will still"
+" allow administrators to edit the settings of another user's behalf. Use "
+"'PreferenceGroup' to control in which area these settings should be shown in"
+" the user interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Parameters for the RefreshTime object in the preference view of the agent "
-"interface."
-msgstr "Parameter untuk objek Segarkan Waktu dalam tampilan preferensi antarmuka agen."
+"interface. Please note: setting 'Active' to 0 will only prevent agents from "
+"editing settings of this group in their personal preferences, but will still"
+" allow administrators to edit the settings of another user's behalf. Use "
+"'PreferenceGroup' to control in which area these settings should be shown in"
+" the user interface."
+msgstr ""
 
 #. SysConfig
-msgid "Parameters for the column filters of the small ticket overview."
-msgstr "Parameter untuk filter kolom dari gambaran tiket kecil."
+msgid ""
+"Parameters for the column filters of the small ticket overview. Please note:"
+" setting 'Active' to 0 will only prevent agents from editing settings of "
+"this group in their personal preferences, but will still allow "
+"administrators to edit the settings of another user's behalf. Use "
+"'PreferenceGroup' to control in which area these settings should be shown in"
+" the user interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -23573,26 +23675,42 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Parameters for the pages (in which the dynamic fields are shown) of the "
-"dynamic fields overview."
-msgstr "Parameter untuk halaman (di mana bidang dinamis ditampilkan) dari dinamika gambaran bidang."
+"dynamic fields overview. Please note: setting 'Active' to 0 will only "
+"prevent agents from editing settings of this group in their personal "
+"preferences, but will still allow administrators to edit the settings of "
+"another user's behalf. Use 'PreferenceGroup' to control in which area these "
+"settings should be shown in the user interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Parameters for the pages (in which the tickets are shown) of the medium "
-"ticket overview."
-msgstr "Parameter untuk halaman (di mana tiket diperlihatkan) dari gambaran tiket media."
+"ticket overview. Please note: setting 'Active' to 0 will only prevent agents"
+" from editing settings of this group in their personal preferences, but will"
+" still allow administrators to edit the settings of another user's behalf. "
+"Use 'PreferenceGroup' to control in which area these settings should be "
+"shown in the user interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Parameters for the pages (in which the tickets are shown) of the small "
-"ticket overview."
-msgstr "Parameter untuk halaman (di mana tiket diperlihatkan) dari gambaran tiket kecil."
+"ticket overview. Please note: setting 'Active' to 0 will only prevent agents"
+" from editing settings of this group in their personal preferences, but will"
+" still allow administrators to edit the settings of another user's behalf. "
+"Use 'PreferenceGroup' to control in which area these settings should be "
+"shown in the user interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Parameters for the pages (in which the tickets are shown) of the ticket "
-"preview overview."
-msgstr "Parameter untuk halaman (di mana tiket diperlihatkan) dari preview tiket gambaran."
+"preview overview. Please note: setting 'Active' to 0 will only prevent "
+"agents from editing settings of this group in their personal preferences, "
+"but will still allow administrators to edit the settings of another user's "
+"behalf. Use 'PreferenceGroup' to control in which area these settings should"
+" be shown in the user interface."
+msgstr ""
 
 #. SysConfig
 msgid "Parameters of the example SLA attribute Comment2."
@@ -24202,8 +24320,8 @@ msgstr "Mengirimkan pemberitahuan amaran terkunci tiket setelah mencapai tanggal
 #. SysConfig
 msgid ""
 "Sends the notifications which are configured in the admin interface under "
-"\"Notfication (Event)\"."
-msgstr "Mengirimkan pemberitahuan yang dikonfigurasi dalam antarmuka admin di bawah \"Pemberitahuan (Event)\"."
+"\"Ticket Notifications\"."
+msgstr ""
 
 #. SysConfig
 msgid "Sent \"%s\" notification to \"%s\" via \"%s\"."
@@ -24933,6 +25051,10 @@ msgid "Show article as rich text even if rich text writing is disabled."
 msgstr "Tampilkan artikel sebagai teks kaya bahkan jika menulis teks kaya dinonaktifkan."
 
 #. SysConfig
+msgid "Show command line output."
+msgstr ""
+
+#. SysConfig
 msgid "Show queues even when only locked tickets are in."
 msgstr "Tampilkan antrian bahkan ketika tiket hanya terkunci dalam."
 
@@ -25363,8 +25485,14 @@ msgid ""
 msgstr "Menunjukkan semua tiket terbuka (bahkan jika mereka terkunci) dalam tampilan eskalasi antarmuka agen."
 
 #. SysConfig
-msgid "Shows all the articles of the ticket (expanded) in the zoom view."
-msgstr "Menunjukkan semua artikel dari tiket (diperluas) dalam tampilan zoom."
+msgid ""
+"Shows all the articles of the ticket (expanded) in the agent zoom view."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows all the articles of the ticket (expanded) in the customer zoom view."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -25832,6 +25960,14 @@ msgid "States"
 msgstr "Kondisi"
 
 #. SysConfig
+msgid "Statistic Reports overview."
+msgstr ""
+
+#. SysConfig
+msgid "Statistics overview."
+msgstr ""
+
+#. SysConfig
 msgid "Status view"
 msgstr "lihat Status"
 
@@ -25999,8 +26135,9 @@ msgstr "Logo dalam header dari antarmuka pelanggan. URL untuk gambar bisa menjad
 #. SysConfig
 msgid ""
 "The logo shown on top of the login box of the agent interface. The URL to "
-"the image must be relative URL to the skin image directory."
-msgstr "logo ditampilkan di atas kotak login dari antarmuka agen. URL untuk gambar harus URL relatif ke direktori gambar kulit."
+"the image can be a relative URL to the skin image directory, or a full URL "
+"to a remote web server."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -26311,12 +26448,22 @@ msgid ""
 msgstr "Toolbar Barang untuk jalan pintas. kontrol akses tambahan untuk menampilkan atau tidak menampilkan link ini dapat dilakukan dengan menggunakan Key \"Group\" dan konten seperti \"rw:group1;move_into:group2\"."
 
 #. SysConfig
-msgid "Transport selection for appointment notifications."
+msgid ""
+"Transport selection for appointment notifications. Please note: setting "
+"'Active' to 0 will only prevent agents from editing settings of this group "
+"in their personal preferences, but will still allow administrators to edit "
+"the settings of another user's behalf. Use 'PreferenceGroup' to control in "
+"which area these settings should be shown in the user interface."
 msgstr ""
 
 #. SysConfig
-msgid "Transport selection for ticket notifications."
-msgstr "Pilihan angkutan untuk pemberitahuan tiket"
+msgid ""
+"Transport selection for ticket notifications. Please note: setting 'Active' "
+"to 0 will only prevent agents from editing settings of this group in their "
+"personal preferences, but will still allow administrators to edit the "
+"settings of another user's behalf. Use 'PreferenceGroup' to control in which"
+" area these settings should be shown in the user interface."
+msgstr ""
 
 #. SysConfig
 msgid "Tree view"

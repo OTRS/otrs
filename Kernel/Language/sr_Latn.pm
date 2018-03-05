@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.997756686798965;
+    $Self->{Completeness}        = 0.993118871494925;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1965,7 +1965,7 @@ sub Data {
 
         # Template: AdminSession
         'Session Management' => 'Upravljanje sesijama',
-        'Detail Session View for' => 'Detaljni prikaz sesije za',
+        'Detail Session View for %s (%s)' => '',
         'All sessions' => 'Sve sesije',
         'Agent sessions' => 'Sesije operatera',
         'Customer sessions' => 'Sesije klijenata',
@@ -1978,7 +1978,7 @@ sub Data {
         'Session' => 'Sesija',
         'User' => 'Korisnik',
         'Kill' => 'Ugasi',
-        'Detail View for SessionID' => 'Detaljni pregled za ID sesije',
+        'Detail View for SessionID: %s - %s' => '',
 
         # Template: AdminSignature
         'Signature Management' => 'Upravljanje potpisima',
@@ -2121,6 +2121,7 @@ sub Data {
         # Template: AdminSystemConfigurationView
         'View a custom List of Settings' => 'Pregled liste podešavanja',
         'View single Setting: %s' => 'Pregled pojedinačnog podešavanja: %s',
+        'Go back to Deployment Details' => '',
 
         # Template: AdminSystemMaintenance
         'System Maintenance Management' => 'Upravljanje sistemom održavanja',
@@ -2445,7 +2446,7 @@ sub Data {
         'Personal preferences' => 'Lična podešavanja',
         'Preferences' => 'Podešavanja',
         'Please note: you\'re currently editing the preferences of %s.' =>
-            '',
+            'Napomena: trenutno menjate podešavanja od %s.',
         'Go back to editing this agent' => 'Nazad na uređivanje ovog operatera',
         'Set up your personal preferences. Save each setting by clicking the checkmark on the right.' =>
             'Podesite svoja lična podešavanja. Sačuvajte svako podešavanje štikliranjem sa desne strane.',
@@ -2940,7 +2941,7 @@ sub Data {
         'Expand' => 'Proširi',
 
         # Template: AttachmentList
-        'Click to delete this attachment.' => '',
+        'Click to delete this attachment.' => 'Kliknite ovde da obrišete prilog.',
 
         # Template: DraftButtons
         'Update draft' => 'Ažuriraj nacrt',
@@ -3295,7 +3296,7 @@ sub Data {
         'Loading, please wait...' => 'Učitavanje, molimo sačekajte...',
 
         # JS Template: UploadContainer
-        'Click to select a file for upload.' => '',
+        'Click to select a file for upload.' => 'Kliknite ovde za otpremanje datoteke.',
         'Click to select files or just drop them here.' => 'Kliknite da odaberete datoteke ili ih jednostavno prevucite ovde.',
         'Click to select a file or just drop it here.' => 'Kliknite da odaberete datoteku ili je jednostavno prevucite ovde.',
         'Uploading...' => 'Otpremanje...',
@@ -3430,7 +3431,7 @@ sub Data {
         'Auto Response added!' => 'Automatski odgovor dodat!',
 
         # Perl Module: Kernel/Modules/AdminCommunicationLog.pm
-        'Invalid CommunicationID ' => 'Nevažeći CommunicationID',
+        'Invalid CommunicationID!' => '',
         'All communications' => 'Sve komunikacije',
         'Last 1 hour' => 'Poslednji 1 sat',
         'Last 3 hours' => 'Poslednja 3 sata',
@@ -3657,7 +3658,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => 'Dodat imejl nalog!',
         'Email account fetch already fetched by another process. Please try again later!' =>
-            '',
+            'Trenutno drugi proces preuzima poštu imejl naloga. Molimo pokušajte kasnije.',
         'Dispatching by email To: field.' => 'Otpremanje putem imejla Za: polje.',
         'Dispatching by selected Queue.' => 'Otpremanje putem izabranog reda.',
 
@@ -3707,11 +3708,11 @@ sub Data {
         'Updated' => 'Ažurirano',
         'Already up-to-date' => 'Već ažurno',
         'Installed' => 'Instalirano',
-        'Not correctly deployed' => '',
+        'Not correctly deployed' => 'Nije korektno raspoređeno',
         'Package updated correctly' => 'Paket uspešno ažuriran',
         'Package was already updated' => 'Paket je već ažuran',
         'Dependency installed correctly' => 'Zavisni paketi uspešno instalirani',
-        'The package needs to be reinstalled' => '',
+        'The package needs to be reinstalled' => 'Paket mora biti reinstaliran.',
         'The package contains cyclic dependencies' => 'Paket sadrži ciklične zavisnosti',
         'Not found in on-line repositories' => 'Nije pronađen u mrežnom spremištu',
         'Required version is higher than available' => 'Neophodna verzija je veća od trenutne',
@@ -4567,7 +4568,7 @@ sub Data {
         'Enable cloud services to unleash all OTRS features!' => 'Aktivirajte servise u oblaku da bi omogućili sve OTRS funkcije!',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
-        '%s Upgrade to %s now! %s' => '%s ažurirajte na %s sada! %s',
+        '%s Upgrade to %s now! %s' => '%s Unapredite na %s sada! %s',
         'Please verify your license data!' => 'Molimo proverite podatke vaše licence!',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
             'Licenca za vaš %s ističe uskoro. Molimo da kontaktirate %s radi obnove ugovora!',
@@ -4929,9 +4930,9 @@ sub Data {
         'The setting innodb_log_file_size must be at least 256 MB.' => 'Podešavanje innodb_log_file_size mora biti barem 256 MB.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
-        'Invalid Default Values' => '',
+        'Invalid Default Values' => 'Neispravne podrazumevane vrednosti',
         'Tables with invalid default values were found. In order to fix it automatically, please run: bin/otrs.Console.pl Maint::Database::Check --repair' =>
-            '',
+            'Pronađene su tabele sa neispravnim podrazumevanim vrednostima. Da biste ih automatski ispravili, molimo pokrenite bin/otrs.Console.pl Maint::Database::Check --repair',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'Maksimalna veličina upita',
@@ -4949,9 +4950,6 @@ sub Data {
         'Tables with a different storage engine than the default engine were found.' =>
             'Pronađene su tabele sa različitim mehanizmom za skladištenje nego što je predefinisani mehanizam.',
 
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
-        'Table check found some problems.' => '',
-
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'Neophodan je MySQL 5.x ili više.',
 
@@ -4964,9 +4962,9 @@ sub Data {
         'NLS_DATE_FORMAT Setting SQL Check' => 'SQL provera NLS_DATE_FORMAT podešavanja',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
-        'Primary Key Sequences and Triggers' => '',
+        'Primary Key Sequences and Triggers' => 'Sekvence i okidači primarnih ključeva',
         'The following sequences and/or triggers with possible wrong names have been found. Please rename them manually.' =>
-            '',
+            'Pronađene su sekvence i/ili okidači sa mogućim pogrešnim nazivima. Molimo vas da im ručno promenite nazive.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
         'Setting client_encoding needs to be UNICODE or UTF8.' => 'Podešavanje client_encoding mora biti UNICODE ili UTF8.',
@@ -4977,9 +4975,9 @@ sub Data {
         'Setting DateStyle needs to be ISO.' => 'Podešavanje DateStyle mora biti ISO.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
-        'Primary Key Sequences' => '',
+        'Primary Key Sequences' => 'Sekvence primarnih ključeva',
         'The following sequences with possible wrong names have been found. Please rename them manually.' =>
-            '',
+            'Pronađene su sekvence sa mogućim pogrešnim nazivima. Molimo vas da im ručno promenite nazive.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => 'Neophodan je PostgreSQL 9.2 ili više.',
@@ -5095,6 +5093,10 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
         'Legacy Configuration Backups' => 'Rezervne kopije prošlih konfiguracija',
         'No legacy configuration backup files found.' => 'Nisu pronađene rezervne kopije prošlih konfiguracija.',
+        'Legacy configuration backup files found in %s, but they might still be required by some packages.' =>
+            '',
+        'Legacy configuration backup files are no longer needed for the installed packages, please remove them from %s.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
         'Package Installation Status' => 'Status instalacije paketa',
@@ -5889,6 +5891,7 @@ Vaša tehnička podrška
         'Admin Area.' => 'Administrativni prostor.',
         'Admin Notification' => 'Administratorska obaveštenja',
         'Admin area navigation for the agent interface.' => 'Administratorska navigacija za intefejs operatera.',
+        'Admin modules overview.' => '',
         'Admin.' => 'Admin.',
         'Administration' => 'Administracija',
         'Agent Customer Search' => 'Pretraga klijenata za operatere',
@@ -5896,6 +5899,7 @@ Vaša tehnička podrška
         'Agent Name' => 'Ime operatera',
         'Agent Name + FromSeparator + System Address Display Name' => 'Naziv operatera + separator "od" + sistemska adresa za prikaz',
         'Agent Preferences.' => 'Operaterska podešavanja.',
+        'Agent Statistics.' => '',
         'Agent User Search' => 'Pretraga korisnika za operatere',
         'Agent User Search.' => 'Pretraga korisnika za operatere.',
         'Agent interface article notification module to check PGP.' => 'Modul interfejsa operatera za obaveštavanja o članku za proveru PGP.',
@@ -6222,17 +6226,20 @@ Vaša tehnička podrška
             'Kreiran tiket [%s] u "%s" sa prioritetom "%s" i stanjem "%s".',
         'Croatian' => 'Hrvatski',
         'Custom RSS Feed' => 'Prilagođeni RSS izvor',
+        'Custom RSS feed.' => '',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             'Prilagođen tekst za stranicu koja se prikazuje klijentima koji još uvek nemaju tikete (ako vam je taj tekst potreban na drugom jeziku, dodajte ga u prilagođen modul za prevode).',
         'Customer Administration' => 'Administracija klijenata',
         'Customer Companies' => 'Firme klijenti',
         'Customer IDs' => 'ID klijenta',
         'Customer Information Center Search.' => 'Pretraga klijentskog informativnog centra.',
+        'Customer Information Center search.' => '',
         'Customer Information Center.' => 'Klijentski informativni centar.',
         'Customer Ticket Print Module.' => 'Modul za štampu tiketa u interfejsu klijenta.',
         'Customer User Administration' => 'Administracija klijenta korisnika',
         'Customer User Information' => 'Informacije o klijent korisniku',
         'Customer User Information Center Search.' => 'Pretraga klijent korisničkog informativnog centra.',
+        'Customer User Information Center search.' => '',
         'Customer User Information Center.' => 'Klijent-korisnički informativni centar.',
         'Customer Users ↔ Customers' => 'Klijent korisnici ↔ klijenti',
         'Customer Users ↔ Groups' => 'Klijent korisnici ↔ grupe',
@@ -6254,6 +6261,7 @@ Vaša tehnička podrška
             'Podesive zaustavne reči za indeks kompletnog teksta. Ove reči će biti uklonjene iz indeksa pretrage.',
         'Czech' => 'Češki',
         'Danish' => 'Danski',
+        'Dashboard overview.' => '',
         'Data used to export the search result in CSV format.' => 'Podaci upotrebljeni za ivoz rezultata pretraživanja u CSV formatu.',
         'Date / Time' => 'Datum / Vreme',
         'Default (Slim)' => 'Podrazumevano (uprošćeno)',
@@ -6413,6 +6421,8 @@ Vaša tehnička podrška
             'Definiše da li će operaterima biti dozvoljena prijava na sistem ukoliko nemaju podešen deljeni tajni ključ i time ne koriste dvofaktorski modul za identifikaciju.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'Definiše da li će klijentima biti dozvoljena prijava na sistem ukoliko nemaju podešen deljeni tajni ključ i time ne koriste dvofaktorski modul za identifikaciju.',
+        'Defines if the communication between this system and OTRS Group servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             'Definiše da li će se koristiti poboljšani režim (omogućava korišćenje tabela, zamene, indeksiranja, eksponiranja, umetanja iz Word-a, itd) u interfejsu klijenta.',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
@@ -6491,8 +6501,10 @@ Vaša tehnička podrška
         'Defines the config options for the autocompletion feature.' => 'Definiše konfiguracione opcije za funkciju automatskog dovršavanja.',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             'Definiše konfiguracione parametre za ovu stavku, da budu prikazani u prikazu podešavanja.',
-        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached.' =>
-            'Određuje sve parametre za ovu stavku u podešavanjima operatera. PasswordRegExp omogućava proveru lozinke putem regularnog izraza. Definišite minimalni broj karaktera putem PasswordMinSize. Definišite najmanje 2 mala i 2 velika slova tako što ćete podesiti odgovarajuću opciju na 1. PasswordMin2Characters definiše da li lozinka mora da sadrži najmanje dva slova (0 ili 1). PasswordNeedDigit kontroliše potrebu za najmanje jednom cifrom (0 ili 1). PasswordMaxLoginFailed dozvoljava automatsko proglašavanje statusa operatera kao nevažeći-privremeno, ukoliko je dostignut maksimalni broj neuspešnih logovanja.',
+        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Defines the config parameters of this item, to be shown in the preferences view. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
         'Defines the connections for http/ftp, via a proxy.' => 'Definiše konekcije za http/ftp preko posrednika.',
         'Defines the customer preferences key where the shared secret key is stored.' =>
             'Određuje ključ klijentskih podešavanja gde se smešta deljeni tajni ključ.',
@@ -6961,7 +6973,8 @@ Vaša tehnička podrška
         'Defines the user identifier for the customer panel.' => 'Određuje identifikator klijenta za klijentski panel.',
         'Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).' =>
             'Definiše korisničko ime za pristup SOAP rukovanju (bin/cgi-bin/rpc.pl).',
-        'Defines the users avatar.' => 'Definiše korisnikovu avatar sličicu.',
+        'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
         'Defines the valid state types for a ticket.' => 'Definiše važeće tipove statusa za tiket.',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Određuje važeće statuse za otključane tikete. Za otključavanje tiketa može se koristiti skript "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout".',
@@ -7037,10 +7050,9 @@ Vaša tehnička podrška
             'Onemogućava HTTP zaglavlje "Content-Security-Policy" radi učitavanja eksternih skriptova. Onemogućavanje ovog HTTP zaglavlja snosi sigurnosni rizik! Isključite ga samo ako znate šta radite!',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'Onemogućava HTTP zaglavlje "X-Frame-Options: SAMEORIGIN" radi učitavanja OTRS u okviru IFRAME na drugim stranama. Onemogućavanje ovog HTTP zaglavlja snosi sigurnosni rizik! Isključite ga samo ako znate šta radite!',
+        'Disable cloud services' => '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             'Onemogućuje slanje obaveštenja podsetnika odgovornom operateru tiketa (Ticket::Responsible mora biti uključeno).',
-        'Disables the communication between this system and OTRS Group servers that provides cloud services. If enabled, some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others.' =>
-            'Onemogućava komunikaciju između ovog sistema i servera OTRS grupe koji obezbeđuju servise u oblaku. Ako je uključeno, neke funkcionalnosti neće raditi, a to su registracija sistema, slanje podataka podrške, unapređenje na OTRS Business Solution™, OTRS verifikacija, OTRS novosti i novosti o proizvodu u dodacima na kontrolnoj tabli, između ostalih.',
         'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
             'Onemogućuje preusmeravanje na poslednji ekran pregleda / kontrolnu tablu pošto je tiket kreiran.',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
@@ -7302,8 +7314,8 @@ Vaša tehnička podrška
             'Nemačke zaustavne reči za indeks pretragu kompletnog teksta. Ove reči će biti uklonjene iz indeksa pretrage.',
         'Gives customer users group based access to tickets from customer users of the same customer (ticket CustomerID is a CustomerID of the customer user).' =>
             'Dozvoljava pristup klijent korisnicima tiketima istog klijenta na osnovu grupa (klijent tiketa je isti kao klijent korisnika).',
-        'Gives end users the possibility to override the separator character for CSV files, defined in the translation files.' =>
-            'Omogućava krajnjim korisnicima da zamene separator za CSV datoteke, definisan u datotekama prevoda.',
+        'Gives end users the possibility to override the separator character for CSV files, defined in the translation files. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
         'Global Search Module.' => 'Modul opšte pretrage',
         'Go to dashboard!' => 'Idi na komandnu tablu!',
         'Google Authenticator' => 'Gugl autentifikacija',
@@ -7527,6 +7539,7 @@ Vaša tehnička podrška
         'Locked Tickets' => 'Zaključani tiketi',
         'Locked Tickets.' => 'Zaključani tiketi.',
         'Locked ticket.' => 'Zaključan tiket.',
+        'Logged in users.' => '',
         'Logged-In Users' => 'Prijavljeni korisnici',
         'Logout of customer panel.' => 'Odjava sa klijentskog panela.',
         'Look into a ticket!' => 'Pogledaj sadržaj tiketa!',
@@ -7651,6 +7664,7 @@ Vaša tehnička podrška
         'New Year\'s Eve' => 'Doček nove godine',
         'New process ticket' => 'Novi tiket procesa',
         'News about OTRS releases!' => 'Vesti o OTRS izdanjima!',
+        'News about OTRS.' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             'Sledeći mogući status tiketa nakon dodavanja poziva u ekranu dolaznih poziva tiketa u interfejsu operatera.',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
@@ -7691,10 +7705,12 @@ Vaša tehnička podrška
         'Other Customers' => 'Drugi klijenti',
         'Out Of Office' => 'Van kancelarije',
         'Out Of Office Time' => 'Vreme van kancelarije',
+        'Out of Office users.' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Preopterećuje (redefinisano) postojeće fuckcije u Kernel::System::Ticket. Koristi se za lako dodavanje prilagođavanja.',
         'Overview Escalated Tickets.' => 'Pregled eskaliranih tiketa.',
         'Overview Refresh Time' => 'Pregled vremena osvežavanja',
+        'Overview of all Tickets per assigned Queue.' => '',
         'Overview of all appointments.' => 'Pregled svih termina.',
         'Overview of all escalated tickets.' => 'Pregled svih eskaliranih tiketa.',
         'Overview of all open Tickets.' => 'Pregled svih otvorenih tiketa.',
@@ -7705,16 +7721,16 @@ Vaša tehnička podrška
         'PGP Keys' => 'PGP ključevi',
         'Package event module file a scheduler task for update registration.' =>
             'Datoteka paketa modula događaja za posao planera za ažuriranje registracije.',
-        'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
-            'Parametri za CreateNextMask objekat u prikazu podešavanja u interfejsu operatera.',
-        'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
-            'Parametri za CustomQueue objekat u prikazu podešavanja u interfejsu operatera.',
-        'Parameters for the CustomService object in the preference view of the agent interface.' =>
-            'Parametri za CustomService objekat u prikazu podešavanja u interfejsu operatera.',
-        'Parameters for the RefreshTime object in the preference view of the agent interface.' =>
-            'Parametri za RefreshTime objekat u prikazu podešavanja u interfejsu operatera.',
-        'Parameters for the column filters of the small ticket overview.' =>
-            'Parametri za filter kolona u pregledu tiketa "malo".',
+        'Parameters for the CreateNextMask object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the CustomQueue object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the CustomService object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the RefreshTime object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the column filters of the small ticket overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
         'Parameters for the dashboard backend of the customer company information of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             'Parametri za dodatak firme klijenta kontrolne table u intefejsu operatera. "Group" se koristi da ograniči pristup dodatku (npr. Group: admin;group1;group2;). "Default" određuje da li je podrazumevano aktiviran ili da je potrebno da ga korisnik manuelno aktivira. "CacheTTLLocal" je vreme u minutima za keš dodatka. ',
         'Parameters for the dashboard backend of the customer id list overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
@@ -7761,14 +7777,14 @@ Vaša tehnička podrška
             'Parametri za dodatak predstojećih događaja u interfejsu operatera. "Limit" definiše podrazumevani broj prikazanih stavki. "Group" se koristi da ograniči pristup dodatku (npr. Group: admin;group1;group2;). "Default" određuje da li je dodatak podrazumevano aktiviran ili da je neophodno da ga korisnik manuelno aktivira. "CacheTTLLocal" je vreme u minutima za keširanje dodatka. "Mandatory" određuje da li je dodatak uvek prikazan i ne može biti isključen od strane operatera.',
         'Parameters for the pages (in which the communication log entries are shown) of the communication log overview.' =>
             'Parametri stranica (na kojima su vidljive stavke komunikacionih logova) u pregledu komunikacionih logova.',
-        'Parameters for the pages (in which the dynamic fields are shown) of the dynamic fields overview.' =>
-            'Parametri stranica (na kojima su dinamička polja vidljiva) pregleda dinamičkih polja.',
-        'Parameters for the pages (in which the tickets are shown) of the medium ticket overview.' =>
-            'Parametri stranica (na kojima su tiketi vidljivi) srednjeg pregleda tiketa.',
-        'Parameters for the pages (in which the tickets are shown) of the small ticket overview.' =>
-            'Parametri stranica (na kojima su tiketi vidljivi) smanjenog pregleda tiketa.',
-        'Parameters for the pages (in which the tickets are shown) of the ticket preview overview.' =>
-            'Parametri stranica (na kojima su tiketi vidljivi) prikaza  pregleda tiketa.',
+        'Parameters for the pages (in which the dynamic fields are shown) of the dynamic fields overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the pages (in which the tickets are shown) of the medium ticket overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the pages (in which the tickets are shown) of the small ticket overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the pages (in which the tickets are shown) of the ticket preview overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
         'Parameters of the example SLA attribute Comment2.' => 'Parametri za primer atributa SLA komentara 2.',
         'Parameters of the example queue attribute Comment2.' => 'Parametri za primer atributa red komentara 2.',
         'Parameters of the example service attribute Comment2.' => 'Parametri za primer atributa servis komentara 2.',
@@ -7942,8 +7958,8 @@ Vaša tehnička podrška
         'Sends registration information to OTRS group.' => 'Šalje registracione informacije OTRS grupi.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'Šalje obaveštenje za potsećanje o otključanom tiketu kad se dostigne datum podsetnika (šalje samo vlasniku tiketa).',
-        'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
-            'Šalje obaveštenja koja su u administrativnom interfejsu konfigurisana pod "Obaveštenja o tiketima".',
+        'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
+            '',
         'Sent "%s" notification to "%s" via "%s".' => 'Poslato obaveštenje "%s" na "%s" preko "%s".',
         'Sent auto follow-up to "%s".' => 'Poslat automatski nastavak na "%s".',
         'Sent auto reject to "%s".' => 'Poslato automatsko odbijanje na "%s".',
@@ -8182,6 +8198,7 @@ Vaša tehnička podrška
             'Prikaži izbor odgovornog u tiketima poziva i imejl tiketima u interfejsu operatera.',
         'Show article as rich text even if rich text writing is disabled.' =>
             'Prikaži članak kao obogaćeni tekst čak i kad je pisanje obogaćenog teksta deaktivirano.',
+        'Show command line output.' => '',
         'Show queues even when only locked tickets are in.' => 'Prikaži redove čak i kad sadrže samo zaključane tikete.',
         'Show the current owner in the customer interface.' => 'Prikazuje aktuelnog vlasnika u klijentskom interfejsu.',
         'Show the current queue in the customer interface.' => 'Prikazuje aktuelni red u klijentskom interfejsu.',
@@ -8288,8 +8305,10 @@ Vaša tehnička podrška
         'Shows all both ro and rw tickets in the service view.' => 'Prikazuje sve, i ro i rw tikete na pregledu usluga.',
         'Shows all open tickets (even if they are locked) in the escalation view of the agent interface.' =>
             'Prikazuje sve otvorene tikete (čak iako su zaključani) na eskalacionom pregledu u interfejsu operatera.',
-        'Shows all the articles of the ticket (expanded) in the zoom view.' =>
-            'Prikazuje sve članke tiketa (detaljno) na detaljnom pregledu.',
+        'Shows all the articles of the ticket (expanded) in the agent zoom view.' =>
+            '',
+        'Shows all the articles of the ticket (expanded) in the customer zoom view.' =>
+            '',
         'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
             'Prikazuje sve klijentske identifikatore u polju višestrukog izbora (nije korisno ako imate mnogo klijentskih identifikatora).',
         'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
@@ -8395,7 +8414,7 @@ Vaša tehnička podrška
         'Specifies the group where the user needs rw permissions so that they can edit other users preferences.' =>
             'Određuje grupu gde su korisniku potrebne rw dozvole kako bi mogli da uređuju lična podešavanja drugih korisnika.',
         'Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTRS Notifications" otrs@your.example.com).' =>
-            'Definiše naziv koje će aplikacija koristiti prilikom slanja obaveštenja. NAziv se koristi u nazivu pošiljaoca obaveštenja (npr. "OTRS Notifications" otrs@your.example.com).',
+            'Definiše naziv koje će aplikacija koristiti prilikom slanja obaveštenja. Naziv se koristi u nazivu pošiljaoca obaveštenja (npr. "OTRS Notifications" otrs@your.example.com).',
         'Specifies the order in which the firstname and the lastname of agents will be displayed.' =>
             'Određuje oblik u kome će biti prikazano ime i prezime operatera.',
         'Specifies the path of the file for the logo in the page header (gif|jpg|png, 700 x 100 pixel).' =>
@@ -8436,6 +8455,8 @@ Vaša tehnička podrška
             'Počinje džoker pretragu aktivnog objekta nakon pokretanja veze maske objekta.',
         'Stat#' => 'Statistika#',
         'States' => 'Stanja',
+        'Statistic Reports overview.' => '',
+        'Statistics overview.' => '',
         'Status view' => 'Pregled statusa',
         'Stopped response time escalation.' => 'Obustavljena eskalacija vremena odgovora.',
         'Stopped solution time escalation.' => 'Obustavljena eskalacija vremena rešavanja.',
@@ -8487,8 +8508,8 @@ Vaša tehnička podrška
             'Logo prikazan u zaglavlju operaterskog interfejsa. URL do slike može biti relativan u odnosu na direktorijum sa slikama ili apsolutan do udaljenog servera.',
         'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             'Logo prikazan u zaglavlju klijentskog interfejsa. URL do slike može biti relativan u odnosu na direktorijum sa slikama ili apsolutan do udaljenog servera.',
-        'The logo shown on top of the login box of the agent interface. The URL to the image must be relative URL to the skin image directory.' =>
-            'Logo prikazan na vrhu ekrana za prijavu u operaterski interfejs. URL do slike mora biti relativan u odnosu na direktorijum sa slikama.',
+        'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
+            '',
         'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
             'Maksimalni broj članaka raširenih na jednoj strani na detaljnom prikazu tiketa u interfejsu operatera.',
         'The maximal number of articles shown on a single page in AgentTicketZoom.' =>
@@ -8576,8 +8597,10 @@ Vaša tehnička podrška
             'Isključuje/uključuje prikaz liste paketa za proširenje mogućnosti u ekranu za upravljanje paketima.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'Stavka alatne linije za prečicu. Dodatna kontrola prikaza ove veze može se postići korišćenjem ključa "Group" sa sadržajem "rw:group1;move_into:group2".',
-        'Transport selection for appointment notifications.' => 'Izbor transporta za obaveštenja o terminu.',
-        'Transport selection for ticket notifications.' => 'Izbor transporta za obaveštenja o tiketima.',
+        'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Transport selection for ticket notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
         'Tree view' => 'Prikaz u obliku stabla',
         'Triggers add or update of automatic calendar appointments based on certain ticket times.' =>
             'Aktivira dodavanje ili osvežavanje automatskih termina na osnovu vremena tiketa.',

@@ -18,8 +18,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-02-05 18:26+0000\n"
-"PO-Revision-Date: 2018-02-05 18:27+0000\n"
+"POT-Creation-Date: 2018-03-05 19:12+0000\n"
+"PO-Revision-Date: 2018-03-05 22:25+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Polish (http://www.transifex.com/otrs/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -1267,7 +1267,7 @@ msgstr "Identyfikator klienta"
 
 #. Template: AdminCustomerCompany
 msgid "Please note"
-msgstr "Proszę zanotuj"
+msgstr "Zwróć uwagę"
 
 #. Template: AdminCustomerCompany
 msgid "This customer backend is read only!"
@@ -1424,7 +1424,7 @@ msgstr "Zmień klienta"
 msgid ""
 "This customer backend is read only, but the customer user preferences can be"
 " changed!"
-msgstr "Ten backend klienta jest tylko do odczytu, ale preferencje użytkownika klienta mogą być zmieniane!"
+msgstr "Ten backend klienta jest tylko do odczytu, ale preferencje użytkownika klienta mogą być zmieniane!"
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."
@@ -6374,7 +6374,7 @@ msgid "Session Management"
 msgstr "Zarządzanie sesjami"
 
 #. Template: AdminSession
-msgid "Detail Session View for"
+msgid "Detail Session View for %s (%s)"
 msgstr ""
 
 #. Template: AdminSession
@@ -6426,8 +6426,8 @@ msgid "Kill"
 msgstr "Zabij"
 
 #. Template: AdminSession
-msgid "Detail View for SessionID"
-msgstr "Widok szczegółów sesji"
+msgid "Detail View for SessionID: %s - %s"
+msgstr ""
 
 #. Template: AdminSignature
 msgid "Signature Management"
@@ -6833,6 +6833,10 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationView
 msgid "View single Setting: %s"
+msgstr ""
+
+#. Template: AdminSystemConfigurationView
+msgid "Go back to Deployment Details"
 msgstr ""
 
 #. Template: AdminSystemMaintenance
@@ -7475,7 +7479,7 @@ msgstr "Zmień kryteria wyszukiwania"
 
 #. Template: AgentCustomerUserInformationCenter
 msgid "Customer User Information Center"
-msgstr ""
+msgstr "Centrum Informacji o użytkowniku klienta"
 
 #. Template: AgentDaemonInfo
 msgid ""
@@ -10205,7 +10209,7 @@ msgstr ""
 
 #. JS Template: UploadContainer
 msgid "Click to select files or just drop them here."
-msgstr ""
+msgstr "Kliknij aby wybrać pliki lub po prostu upuść je tutaj."
 
 #. JS Template: UploadContainer
 msgid "Click to select a file or just drop it here."
@@ -10592,7 +10596,7 @@ msgid "Auto Response added!"
 msgstr "Automatyczna odpowiedź została dodana!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
-msgid "Invalid CommunicationID "
+msgid "Invalid CommunicationID!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
@@ -10911,7 +10915,7 @@ msgstr "wcześniej niż ..."
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Unarchived tickets"
-msgstr "Zgłoszenia przywrócone z archiwum"
+msgstr "Zgłoszenia nie zachiwizowane"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "archive tickets"
@@ -13821,7 +13825,7 @@ msgstr "Podziel cytując"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Remove Quote"
-msgstr ""
+msgstr "Usuń cytowanie"
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Linked as"
@@ -13829,7 +13833,7 @@ msgstr "Połączone jako"
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Search Result"
-msgstr ""
+msgstr "Wynik wyszukiwania"
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Linked"
@@ -13853,7 +13857,7 @@ msgstr "Wydarzenie"
 
 #. Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
 msgid "Archive search"
-msgstr ""
+msgstr "Szukanie w archiwum"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
 msgid "Enable cloud services to unleash all OTRS features!"
@@ -13900,7 +13904,7 @@ msgstr "Zalogowany Klient: %s"
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid "System maintenance is active!"
-msgstr ""
+msgstr "Konserwacja systemu w toku!"
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
@@ -13931,7 +13935,7 @@ msgstr ""
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/SystemConfigurationOutOfSyncCheck.pm
 msgid "The configuration is being updated, please be patient..."
-msgstr ""
+msgstr "Trwa aktualizacja konfiguracji. Proszę o cierpliwość..."
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/SystemConfigurationOutOfSyncCheck.pm
@@ -14803,11 +14807,6 @@ msgid ""
 msgstr "Znaleziono tabele z ustawionym magazynem danych innym niż domyślny."
 
 #. Perl Module:
-#. Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
-msgid "Table check found some problems."
-msgstr ""
-
-#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "MySQL 5.x or higher is required."
 msgstr "Wymagany jest MYSQL w wersji 5.x lub wyższej."
@@ -15185,6 +15184,20 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
 msgid "No legacy configuration backup files found."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
+msgid ""
+"Legacy configuration backup files found in %s, but they might still be "
+"required by some packages."
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
+msgid ""
+"Legacy configuration backup files are no longer needed for the installed "
+"packages, please remove them from %s."
 msgstr ""
 
 #. Perl Module:
@@ -17287,6 +17300,10 @@ msgid "Admin area navigation for the agent interface."
 msgstr ""
 
 #. SysConfig
+msgid "Admin modules overview."
+msgstr ""
+
+#. SysConfig
 msgid "Admin."
 msgstr "Admin"
 
@@ -17313,6 +17330,10 @@ msgstr "Imię i nazwisko agenta + Separator + Systemowy adres "
 #. SysConfig
 msgid "Agent Preferences."
 msgstr "Preferencje Agenta"
+
+#. SysConfig
+msgid "Agent Statistics."
+msgstr ""
 
 #. SysConfig
 msgid "Agent User Search"
@@ -18411,6 +18432,10 @@ msgid "Custom RSS Feed"
 msgstr ""
 
 #. SysConfig
+msgid "Custom RSS feed."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Custom text for the page shown to customers that have no tickets yet (if you"
 " need those text translated add them to a custom translation module)."
@@ -18433,6 +18458,10 @@ msgid "Customer Information Center Search."
 msgstr ""
 
 #. SysConfig
+msgid "Customer Information Center search."
+msgstr ""
+
+#. SysConfig
 msgid "Customer Information Center."
 msgstr "Centrum Informacji o Kliencie"
 
@@ -18450,11 +18479,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer User Information Center Search."
+msgstr "Wyszukiwanie w Centrum Informacji o użytkowniku klienta."
+
+#. SysConfig
+msgid "Customer User Information Center search."
 msgstr ""
 
 #. SysConfig
 msgid "Customer User Information Center."
-msgstr ""
+msgstr "Centrum Informacji o użytkowniku klienta."
 
 #. SysConfig
 msgid "Customer Users ↔ Customers"
@@ -18531,6 +18564,10 @@ msgstr "Czeski"
 #. SysConfig
 msgid "Danish"
 msgstr "Duński"
+
+#. SysConfig
+msgid "Dashboard overview."
+msgstr ""
 
 #. SysConfig
 msgid "Data used to export the search result in CSV format."
@@ -19092,6 +19129,15 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Defines if the communication between this system and OTRS Group servers that"
+" provide cloud services is possible. If set to 'Disable cloud services', "
+"some functionality will be lost such as system registration, support data "
+"sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS"
+" News and product News dashboard widgets, among others."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines if the enhanced mode should be used (enables use of table, replace, "
 "subscript, superscript, paste from word, etc.) in customer interface."
 msgstr ""
@@ -19346,7 +19392,21 @@ msgid ""
 "if the password needs to contain at least 2 letter characters (set to 0 or "
 "1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1"
 " to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-"
-"temporarily if max failed logins reached."
+"temporarily if max failed logins reached. Please note: setting 'Active' to 0"
+" will only prevent agents from editing settings of this group in their "
+"personal preferences, but will still allow administrators to edit the "
+"settings of another user's behalf. Use 'PreferenceGroup' to control in which"
+" area these settings should be shown in the user interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines the config parameters of this item, to be shown in the preferences "
+"view. Please note: setting 'Active' to 0 will only prevent agents from "
+"editing settings of this group in their personal preferences, but will still"
+" allow administrators to edit the settings of another user's behalf. Use "
+"'PreferenceGroup' to control in which area these settings should be shown in"
+" the user interface."
 msgstr ""
 
 #. SysConfig
@@ -20820,7 +20880,12 @@ msgid "Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl)."
 msgstr "Definiuje uzytkownika do wykorzystania SOAP (bin/cgi-bin/rpc.pl)."
 
 #. SysConfig
-msgid "Defines the users avatar."
+msgid ""
+"Defines the users avatar. Please note: setting 'Active' to 0 will only "
+"prevent agents from editing settings of this group in their personal "
+"preferences, but will still allow administrators to edit the settings of "
+"another user's behalf. Use 'PreferenceGroup' to control in which area these "
+"settings should be shown in the user interface."
 msgstr ""
 
 #. SysConfig
@@ -21061,18 +21126,13 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Disables sending reminder notifications to the responsible agent of a ticket"
-" (Ticket::Responsible needs to be enabled)."
+msgid "Disable cloud services"
 msgstr ""
 
 #. SysConfig
 msgid ""
-"Disables the communication between this system and OTRS Group servers that "
-"provides cloud services. If enabled, some functionality will be lost such as"
-" system registration, support data sending, upgrading to and use of OTRS "
-"Business Solution™, OTRS Verify™, OTRS News and product News dashboard "
-"widgets, among others."
+"Disables sending reminder notifications to the responsible agent of a ticket"
+" (Ticket::Responsible needs to be enabled)."
 msgstr ""
 
 #. SysConfig
@@ -21918,7 +21978,11 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Gives end users the possibility to override the separator character for CSV "
-"files, defined in the translation files."
+"files, defined in the translation files. Please note: setting 'Active' to 0 "
+"will only prevent agents from editing settings of this group in their "
+"personal preferences, but will still allow administrators to edit the "
+"settings of another user's behalf. Use 'PreferenceGroup' to control in which"
+" area these settings should be shown in the user interface."
 msgstr ""
 
 #. SysConfig
@@ -22685,6 +22749,10 @@ msgid "Locked ticket."
 msgstr "Zablokowano zgłoszenie."
 
 #. SysConfig
+msgid "Logged in users."
+msgstr ""
+
+#. SysConfig
 msgid "Logged-In Users"
 msgstr "Zalogowani Użytkownicy"
 
@@ -23093,6 +23161,10 @@ msgid "News about OTRS releases!"
 msgstr "Nowości w wersjach OTRS!"
 
 #. SysConfig
+msgid "News about OTRS."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Next possible ticket states after adding a phone note in the ticket phone "
 "inbound screen of the agent interface."
@@ -23234,6 +23306,10 @@ msgid "Out Of Office Time"
 msgstr "Przebywam poza biurem"
 
 #. SysConfig
+msgid "Out of Office users."
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Overloads (redefines) existing functions in Kernel::System::Ticket. Used to "
 "easily add customizations."
@@ -23246,6 +23322,10 @@ msgstr ""
 #. SysConfig
 msgid "Overview Refresh Time"
 msgstr "Czas odświeżania przeglądu"
+
+#. SysConfig
+msgid "Overview of all Tickets per assigned Queue."
+msgstr ""
 
 #. SysConfig
 msgid "Overview of all appointments."
@@ -23286,29 +23366,51 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Parameters for the CreateNextMask object in the preference view of the agent"
-" interface."
-msgstr "Parametry dla objektu CreateNextMask w widoku właściwości interfejsu agenta."
+" interface. Please note: setting 'Active' to 0 will only prevent agents from"
+" editing settings of this group in their personal preferences, but will "
+"still allow administrators to edit the settings of another user's behalf. "
+"Use 'PreferenceGroup' to control in which area these settings should be "
+"shown in the user interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Parameters for the CustomQueue object in the preference view of the agent "
-"interface."
-msgstr "Parametry dla objektu CustomQueue w widoku właściwości interfejsu agenta."
+"interface. Please note: setting 'Active' to 0 will only prevent agents from "
+"editing settings of this group in their personal preferences, but will still"
+" allow administrators to edit the settings of another user's behalf. Use "
+"'PreferenceGroup' to control in which area these settings should be shown in"
+" the user interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Parameters for the CustomService object in the preference view of the agent "
-"interface."
+"interface. Please note: setting 'Active' to 0 will only prevent agents from "
+"editing settings of this group in their personal preferences, but will still"
+" allow administrators to edit the settings of another user's behalf. Use "
+"'PreferenceGroup' to control in which area these settings should be shown in"
+" the user interface."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Parameters for the RefreshTime object in the preference view of the agent "
-"interface."
-msgstr "Parametry dla objektu RefreshTime w widoku właściwości interfejsu agenta."
+"interface. Please note: setting 'Active' to 0 will only prevent agents from "
+"editing settings of this group in their personal preferences, but will still"
+" allow administrators to edit the settings of another user's behalf. Use "
+"'PreferenceGroup' to control in which area these settings should be shown in"
+" the user interface."
+msgstr ""
 
 #. SysConfig
-msgid "Parameters for the column filters of the small ticket overview."
+msgid ""
+"Parameters for the column filters of the small ticket overview. Please note:"
+" setting 'Active' to 0 will only prevent agents from editing settings of "
+"this group in their personal preferences, but will still allow "
+"administrators to edit the settings of another user's behalf. Use "
+"'PreferenceGroup' to control in which area these settings should be shown in"
+" the user interface."
 msgstr ""
 
 #. SysConfig
@@ -23581,26 +23683,42 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Parameters for the pages (in which the dynamic fields are shown) of the "
-"dynamic fields overview."
-msgstr "Parametry dla stron (w których widnieją pola dynamiczne) przeglądu pól dynamicznych."
+"dynamic fields overview. Please note: setting 'Active' to 0 will only "
+"prevent agents from editing settings of this group in their personal "
+"preferences, but will still allow administrators to edit the settings of "
+"another user's behalf. Use 'PreferenceGroup' to control in which area these "
+"settings should be shown in the user interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Parameters for the pages (in which the tickets are shown) of the medium "
-"ticket overview."
-msgstr "Parametry dla stron (w których widnieją pola dynamiczne) średniego przeglądu zgłoszenia."
+"ticket overview. Please note: setting 'Active' to 0 will only prevent agents"
+" from editing settings of this group in their personal preferences, but will"
+" still allow administrators to edit the settings of another user's behalf. "
+"Use 'PreferenceGroup' to control in which area these settings should be "
+"shown in the user interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Parameters for the pages (in which the tickets are shown) of the small "
-"ticket overview."
-msgstr "Parametry dla stron (w których widnieją zgłoszenia) małego przeglądu zgłoszenia."
+"ticket overview. Please note: setting 'Active' to 0 will only prevent agents"
+" from editing settings of this group in their personal preferences, but will"
+" still allow administrators to edit the settings of another user's behalf. "
+"Use 'PreferenceGroup' to control in which area these settings should be "
+"shown in the user interface."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Parameters for the pages (in which the tickets are shown) of the ticket "
-"preview overview."
-msgstr "Parametry dla stron (w których widnieją zgłoszenia) poglądu przeglądu zgłoszenia."
+"preview overview. Please note: setting 'Active' to 0 will only prevent "
+"agents from editing settings of this group in their personal preferences, "
+"but will still allow administrators to edit the settings of another user's "
+"behalf. Use 'PreferenceGroup' to control in which area these settings should"
+" be shown in the user interface."
+msgstr ""
 
 #. SysConfig
 msgid "Parameters of the example SLA attribute Comment2."
@@ -24210,8 +24328,8 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Sends the notifications which are configured in the admin interface under "
-"\"Notfication (Event)\"."
-msgstr "Wysyła powiadomienia skonfigurowane w interfejsie administracyjnym pod \"Notyfikacje (wydarzenia)\"."
+"\"Ticket Notifications\"."
+msgstr ""
 
 #. SysConfig
 msgid "Sent \"%s\" notification to \"%s\" via \"%s\"."
@@ -24941,6 +25059,10 @@ msgid "Show article as rich text even if rich text writing is disabled."
 msgstr ""
 
 #. SysConfig
+msgid "Show command line output."
+msgstr ""
+
+#. SysConfig
 msgid "Show queues even when only locked tickets are in."
 msgstr ""
 
@@ -25371,8 +25493,14 @@ msgid ""
 msgstr "Pokazuje wszystkie otwarte zgłoszenia (nawet jeśli sa zablokowane) w widoku eskalacji interfejsu agenta."
 
 #. SysConfig
-msgid "Shows all the articles of the ticket (expanded) in the zoom view."
-msgstr "Pokazuje wszystkie artykuły zgłoszenia (rozszeżone) w oknie przybliżenia."
+msgid ""
+"Shows all the articles of the ticket (expanded) in the agent zoom view."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows all the articles of the ticket (expanded) in the customer zoom view."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -25840,6 +25968,14 @@ msgid "States"
 msgstr "Stany"
 
 #. SysConfig
+msgid "Statistic Reports overview."
+msgstr ""
+
+#. SysConfig
+msgid "Statistics overview."
+msgstr ""
+
+#. SysConfig
 msgid "Status view"
 msgstr "Podgląd stanów"
 
@@ -26007,7 +26143,8 @@ msgstr ""
 #. SysConfig
 msgid ""
 "The logo shown on top of the login box of the agent interface. The URL to "
-"the image must be relative URL to the skin image directory."
+"the image can be a relative URL to the skin image directory, or a full URL "
+"to a remote web server."
 msgstr ""
 
 #. SysConfig
@@ -26319,11 +26456,21 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Transport selection for appointment notifications."
-msgstr "Wybór rodzaju transportu dla powiadomień o wydarzeniach."
+msgid ""
+"Transport selection for appointment notifications. Please note: setting "
+"'Active' to 0 will only prevent agents from editing settings of this group "
+"in their personal preferences, but will still allow administrators to edit "
+"the settings of another user's behalf. Use 'PreferenceGroup' to control in "
+"which area these settings should be shown in the user interface."
+msgstr ""
 
 #. SysConfig
-msgid "Transport selection for ticket notifications."
+msgid ""
+"Transport selection for ticket notifications. Please note: setting 'Active' "
+"to 0 will only prevent agents from editing settings of this group in their "
+"personal preferences, but will still allow administrators to edit the "
+"settings of another user's behalf. Use 'PreferenceGroup' to control in which"
+" area these settings should be shown in the user interface."
 msgstr ""
 
 #. SysConfig

@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.754098360655738;
+    $Self->{Completeness}        = 0.749526922415276;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1963,7 +1963,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Template: AdminSession
         'Session Management' => 'セッション管理',
-        'Detail Session View for' => '',
+        'Detail Session View for %s (%s)' => '',
         'All sessions' => '全てのセッション',
         'Agent sessions' => '担当者のセッション',
         'Customer sessions' => '顧客のセッション',
@@ -1976,7 +1976,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Session' => 'セッション',
         'User' => 'ユーザー',
         'Kill' => '切断',
-        'Detail View for SessionID' => 'セッションIDの詳細表示',
+        'Detail View for SessionID: %s - %s' => '',
 
         # Template: AdminSignature
         'Signature Management' => '署名管理',
@@ -2119,6 +2119,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Template: AdminSystemConfigurationView
         'View a custom List of Settings' => 'カスタム設定の一覧を表示',
         'View single Setting: %s' => '単一の設定を表示：%s',
+        'Go back to Deployment Details' => '',
 
         # Template: AdminSystemMaintenance
         'System Maintenance Management' => 'システムメンテナンス管理',
@@ -3429,7 +3430,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Auto Response added!' => '自動応答が追加されました！',
 
         # Perl Module: Kernel/Modules/AdminCommunicationLog.pm
-        'Invalid CommunicationID ' => '無効なCommunicationID',
+        'Invalid CommunicationID!' => '',
         'All communications' => '全てのコミュニケーション',
         'Last 1 hour' => '過去1時間',
         'Last 3 hours' => '過去3時間',
@@ -4948,9 +4949,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Tables with a different storage engine than the default engine were found.' =>
             'デフォルトのストレージエンジンと違うストレージエンジン設定の Table が見つかりました',
 
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
-        'Table check found some problems.' => '',
-
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => '動作要件は MySQL 5.x 以上になっています ',
 
@@ -5094,6 +5092,10 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
         'Legacy Configuration Backups' => '',
         'No legacy configuration backup files found.' => '',
+        'Legacy configuration backup files found in %s, but they might still be required by some packages.' =>
+            '',
+        'Legacy configuration backup files are no longer needed for the installed packages, please remove them from %s.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
         'Package Installation Status' => 'パッケージの導入状態',
@@ -5886,6 +5888,7 @@ Thanks for your help!
         'Admin Area.' => '',
         'Admin Notification' => '管理者通知',
         'Admin area navigation for the agent interface.' => '担当者Webインタフェースの管理ナビゲーション',
+        'Admin modules overview.' => '',
         'Admin.' => '管理',
         'Administration' => '管理',
         'Agent Customer Search' => '担当者顧客の検索',
@@ -5893,6 +5896,7 @@ Thanks for your help!
         'Agent Name' => '',
         'Agent Name + FromSeparator + System Address Display Name' => '',
         'Agent Preferences.' => '',
+        'Agent Statistics.' => '',
         'Agent User Search' => '担当者の検索',
         'Agent User Search.' => '担当者の検索',
         'Agent interface article notification module to check PGP.' => 'PGPをチェックするための、担当者インタフェースの項目通知のモジュールです。',
@@ -6219,17 +6223,20 @@ Thanks for your help!
             '',
         'Croatian' => 'クロアチア',
         'Custom RSS Feed' => '',
+        'Custom RSS feed.' => '',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
         'Customer Administration' => '顧客管理',
         'Customer Companies' => '顧客企業',
         'Customer IDs' => '顧客ID',
         'Customer Information Center Search.' => '顧客情報センターの検索',
+        'Customer Information Center search.' => '',
         'Customer Information Center.' => '',
         'Customer Ticket Print Module.' => '',
         'Customer User Administration' => '顧客ユーザー管理',
         'Customer User Information' => '顧客ユーザー情報',
         'Customer User Information Center Search.' => '顧客ユーザー情報センターの検索',
+        'Customer User Information Center search.' => '',
         'Customer User Information Center.' => '',
         'Customer Users ↔ Customers' => '顧客ユーザー ↔ 顧客',
         'Customer Users ↔ Groups' => '顧客ユーザー ↔ グループ',
@@ -6251,6 +6258,7 @@ Thanks for your help!
             '',
         'Czech' => 'チェコ語',
         'Danish' => 'デンマーク語',
+        'Dashboard overview.' => '',
         'Data used to export the search result in CSV format.' => '検索結果をCSVフォーマットでエクスポートするために使用されるデータです。',
         'Date / Time' => '日時',
         'Default (Slim)' => 'デフォルト (Slim)',
@@ -6410,6 +6418,8 @@ Thanks for your help!
             '',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             '',
+        'Defines if the communication between this system and OTRS Group servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '顧客インタフェースで拡張モードを使用すべきかどうかを定義します(これにより、表・置換機能・各種スクリプト・Wordからの貼り付けなどが利用可能になります)。',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
@@ -6488,7 +6498,9 @@ Thanks for your help!
         'Defines the config options for the autocompletion feature.' => '',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             '本アイテムのコンフィグ・パラメータを、プレファレンス・ビューで表示されるように定義します。',
-        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached.' =>
+        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Defines the config parameters of this item, to be shown in the preferences view. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
         'Defines the connections for http/ftp, via a proxy.' => 'プロキシ経由で、http/ftpのための接続を定義します。',
         'Defines the customer preferences key where the shared secret key is stored.' =>
@@ -6967,7 +6979,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Defines the user identifier for the customer panel.' => '顧客パネルのためのユーザ識別子を定義します。',
         'Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).' =>
             'SOAPハンドルにアクセスするためのユーザ名を定義します(bin/cgi-bin/rpc.pl)。',
-        'Defines the users avatar.' => 'ユーザーのアバターを定義します。',
+        'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
         'Defines the valid state types for a ticket.' => 'チケットについて有効な状態タイプを定義します。',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             '',
@@ -7043,9 +7056,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
+        'Disable cloud services' => '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
-            '',
-        'Disables the communication between this system and OTRS Group servers that provides cloud services. If enabled, some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others.' =>
             '',
         'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
             '',
@@ -7308,8 +7320,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '',
         'Gives customer users group based access to tickets from customer users of the same customer (ticket CustomerID is a CustomerID of the customer user).' =>
             '',
-        'Gives end users the possibility to override the separator character for CSV files, defined in the translation files.' =>
-            'エンド・ユーザに、翻訳ファイルで定義されている、CSVファイルに関するセパレータ・キャラクターをオーバーライドする可能性を与えます。',
+        'Gives end users the possibility to override the separator character for CSV files, defined in the translation files. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
         'Global Search Module.' => '',
         'Go to dashboard!' => 'ダッシュボードに移動する',
         'Google Authenticator' => '',
@@ -7533,6 +7545,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Locked Tickets' => 'ロック済チケット',
         'Locked Tickets.' => 'ロックされたチケット',
         'Locked ticket.' => 'Locked ticket.',
+        'Logged in users.' => '',
         'Logged-In Users' => 'ログインユーザー',
         'Logout of customer panel.' => '顧客パネルのログアウト',
         'Look into a ticket!' => 'チケットを閲覧する',
@@ -7658,6 +7671,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'New Year\'s Eve' => '大晦日',
         'New process ticket' => '新規プロセスチケット',
         'News about OTRS releases!' => 'OTRSリリース情報!',
+        'News about OTRS.' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
@@ -7698,10 +7712,12 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Other Customers' => '',
         'Out Of Office' => '外出中',
         'Out Of Office Time' => '外出中',
+        'Out of Office users.' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Kernel::System::Ticketに既に存在している機能を多重定義（再定義）します。簡単にカスタマイズを追加したい場合に使用されます。',
         'Overview Escalated Tickets.' => '',
         'Overview Refresh Time' => '一覧自動更新間隔',
+        'Overview of all Tickets per assigned Queue.' => '',
         'Overview of all appointments.' => '全ての予約の一覧',
         'Overview of all escalated tickets.' => '',
         'Overview of all open Tickets.' => '全対応中チケット一覧',
@@ -7712,15 +7728,15 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'PGP Keys' => 'PGP鍵',
         'Package event module file a scheduler task for update registration.' =>
             '',
-        'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
-            '担当者インタフェースのプレファレンス・ビューにあるCreateNextMaskオブジェクトのパラメータです。',
-        'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
-            '担当者インタフェースのプレファレンス・ビューにある、CustomQueueオブジェクトのパラメータです。',
-        'Parameters for the CustomService object in the preference view of the agent interface.' =>
+        'Parameters for the CreateNextMask object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
-        'Parameters for the RefreshTime object in the preference view of the agent interface.' =>
-            '担当者インタフェースのプレファレンス・ビューにある、RefreshTimeオブジェクトのパラメータです。',
-        'Parameters for the column filters of the small ticket overview.' =>
+        'Parameters for the CustomQueue object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the CustomService object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the RefreshTime object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the column filters of the small ticket overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
         'Parameters for the dashboard backend of the customer company information of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
@@ -7768,14 +7784,14 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '',
         'Parameters for the pages (in which the communication log entries are shown) of the communication log overview.' =>
             '',
-        'Parameters for the pages (in which the dynamic fields are shown) of the dynamic fields overview.' =>
+        'Parameters for the pages (in which the dynamic fields are shown) of the dynamic fields overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
-        'Parameters for the pages (in which the tickets are shown) of the medium ticket overview.' =>
-            '中程度のチケット一覧のページ（チケットが表示されている）のパラメータです。',
-        'Parameters for the pages (in which the tickets are shown) of the small ticket overview.' =>
-            '小さいチケット一覧のページ（チケットが表示されている）のパラメータです。',
-        'Parameters for the pages (in which the tickets are shown) of the ticket preview overview.' =>
-            'チケット・プレビュー一覧のページ（チケットが表示されている）のパラメータです。',
+        'Parameters for the pages (in which the tickets are shown) of the medium ticket overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the pages (in which the tickets are shown) of the small ticket overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the pages (in which the tickets are shown) of the ticket preview overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
         'Parameters of the example SLA attribute Comment2.' => 'example SLA attribute Comment2のパラメータです。',
         'Parameters of the example queue attribute Comment2.' => 'example queue attribute Comment2のパラメータです。',
         'Parameters of the example service attribute Comment2.' => 'example service attribute Comment2のパラメータです。',
@@ -7949,8 +7965,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Sends registration information to OTRS group.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'リマインダ日付を迎えたら、アンロック・チケットのリマインダ通知を送信します（チケット所有者だけに送信されます）。',
-        'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
-            '管理インタフェースの"Notfication (Event)"の下で設定された通知を送信します。',
+        'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
+            '',
         'Sent "%s" notification to "%s" via "%s".' => '',
         'Sent auto follow-up to "%s".' => '"%s"への自動フォローアップを送信しました。',
         'Sent auto reject to "%s".' => '"%s"に自動拒否を送信しました。',
@@ -8189,6 +8205,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '担当者インタフェースにおいて、電話およびEメールのチケットにおける責任者のセレクションを表示します。',
         'Show article as rich text even if rich text writing is disabled.' =>
             'リッチ・テキストのライティングが無効にされている場合でも、項目をリッチ・テキストで表示します。',
+        'Show command line output.' => '',
         'Show queues even when only locked tickets are in.' => '',
         'Show the current owner in the customer interface.' => '',
         'Show the current queue in the customer interface.' => '',
@@ -8295,8 +8312,10 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Shows all both ro and rw tickets in the service view.' => 'サービス・ビュー内の読み取り専用と読み書き可能なチケットの両方を全て表示する。',
         'Shows all open tickets (even if they are locked) in the escalation view of the agent interface.' =>
             '担当者インタフェースのエスカレーション・ビューにある、全てのオープン・チケット（たとえロックされていたとしても）を表示します。',
-        'Shows all the articles of the ticket (expanded) in the zoom view.' =>
-            'ズーム・ビューで、チケットの全項目を表示します（展開される）',
+        'Shows all the articles of the ticket (expanded) in the agent zoom view.' =>
+            '',
+        'Shows all the articles of the ticket (expanded) in the customer zoom view.' =>
+            '',
         'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
             '全ての顧客識別子をマルチ・セレクトのフィールドに表示します（顧客識別子を多く抱えている場合は利便性が低いです）。',
         'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
@@ -8443,6 +8462,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '',
         'Stat#' => '統計番号',
         'States' => 'ステータス',
+        'Statistic Reports overview.' => '',
+        'Statistics overview.' => '',
         'Status view' => 'ステータス・ビュー',
         'Stopped response time escalation.' => '',
         'Stopped solution time escalation.' => '',
@@ -8494,8 +8515,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '',
         'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '顧客画面のヘッダ部分に表示するロゴを設定します。画像の',
-        'The logo shown on top of the login box of the agent interface. The URL to the image must be relative URL to the skin image directory.' =>
-            '担当者インタフェースのログイン・ボックスに表示されるロゴです。本イメージに対するURLは、スキン・イメージ・ディレクトリへの相対URLである必要があります。',
+        'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
+            '',
         'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
             'AgentTicketZoomの拡大表示モードで1ページあたりに表示する記事の数',
         'The maximal number of articles shown on a single page in AgentTicketZoom.' =>
@@ -8583,8 +8604,10 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
-        'Transport selection for appointment notifications.' => '',
-        'Transport selection for ticket notifications.' => '',
+        'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Transport selection for ticket notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
         'Tree view' => 'ツリー表示',
         'Triggers add or update of automatic calendar appointments based on certain ticket times.' =>
             '',

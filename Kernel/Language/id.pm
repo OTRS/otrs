@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.700949094046592;
+    $Self->{Completeness}        = 0.696026148288319;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -1960,7 +1960,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
 
         # Template: AdminSession
         'Session Management' => 'Manajemen sesi',
-        'Detail Session View for' => '',
+        'Detail Session View for %s (%s)' => '',
         'All sessions' => 'Semua sesi',
         'Agent sessions' => 'Sesi agen',
         'Customer sessions' => 'Sesi pelanggan',
@@ -1973,7 +1973,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Session' => 'Sessi',
         'User' => 'Pengguna',
         'Kill' => 'Hapuskan',
-        'Detail View for SessionID' => 'Melihat rincian untuk SessionID',
+        'Detail View for SessionID: %s - %s' => '',
 
         # Template: AdminSignature
         'Signature Management' => 'Tandatangan manajemen',
@@ -2116,6 +2116,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         # Template: AdminSystemConfigurationView
         'View a custom List of Settings' => '',
         'View single Setting: %s' => '',
+        'Go back to Deployment Details' => '',
 
         # Template: AdminSystemMaintenance
         'System Maintenance Management' => 'Manajemen sistem pemeliharan',
@@ -3426,7 +3427,7 @@ bin/otrs.Daemon.pl status\').',
         'Auto Response added!' => '',
 
         # Perl Module: Kernel/Modules/AdminCommunicationLog.pm
-        'Invalid CommunicationID ' => '',
+        'Invalid CommunicationID!' => '',
         'All communications' => '',
         'Last 1 hour' => '',
         'Last 3 hours' => '',
@@ -4945,9 +4946,6 @@ bin/otrs.Daemon.pl status\').',
         'Tables with a different storage engine than the default engine were found.' =>
             'Tabel dengan mesin penyimpanan yang berbeda dari mesin yang ditemukan.',
 
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/TableCheck.pm
-        'Table check found some problems.' => '',
-
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
         'MySQL 5.x or higher is required.' => 'MySQL 5.x atau yang lebih tinggi diperlukan.',
 
@@ -5091,6 +5089,10 @@ bin/otrs.Daemon.pl status\').',
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
         'Legacy Configuration Backups' => '',
         'No legacy configuration backup files found.' => '',
+        'Legacy configuration backup files found in %s, but they might still be required by some packages.' =>
+            '',
+        'Legacy configuration backup files are no longer needed for the installed packages, please remove them from %s.' =>
+            '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
         'Package Installation Status' => 'Status Instalasi paket',
@@ -5885,6 +5887,7 @@ Helpdesk Team Anda
         'Admin Area.' => 'Admin Area',
         'Admin Notification' => 'Notifikasi admin',
         'Admin area navigation for the agent interface.' => '',
+        'Admin modules overview.' => '',
         'Admin.' => 'Admin.',
         'Administration' => 'Administrasi',
         'Agent Customer Search' => '',
@@ -5892,6 +5895,7 @@ Helpdesk Team Anda
         'Agent Name' => 'Nama agen',
         'Agent Name + FromSeparator + System Address Display Name' => 'Agen Nama + Dari Separator + Sistem Alamat Nama Tampilan',
         'Agent Preferences.' => 'Preferensi agen.',
+        'Agent Statistics.' => '',
         'Agent User Search' => '',
         'Agent User Search.' => '',
         'Agent interface article notification module to check PGP.' => 'Agen modul artikel antarmuka pemberitahuan untuk memeriksa PGP.',
@@ -6218,17 +6222,20 @@ Helpdesk Team Anda
             '',
         'Croatian' => 'Kroasia',
         'Custom RSS Feed' => 'Kustom RSS feed',
+        'Custom RSS feed.' => '',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             'Kustom teks untuk halaman ditampilkan kepada pelanggan yang tidak memiliki tiket (jika Anda perlu teks yang diterjemahkan menambahkannya ke modul terjemahan khusus).',
         'Customer Administration' => 'Administrasi pelanggan',
         'Customer Companies' => 'Perusahaan Pelanggan',
         'Customer IDs' => '',
         'Customer Information Center Search.' => 'Pelanggan Pusat Informasi Cari.',
+        'Customer Information Center search.' => '',
         'Customer Information Center.' => 'Pusat Informasi pelanggan.',
         'Customer Ticket Print Module.' => 'Tiket pelanggan Print Modul.',
         'Customer User Administration' => 'Administrasi Nasabah Pengguna',
         'Customer User Information' => '',
         'Customer User Information Center Search.' => '',
+        'Customer User Information Center search.' => '',
         'Customer User Information Center.' => '',
         'Customer Users ↔ Customers' => '',
         'Customer Users ↔ Groups' => '',
@@ -6250,6 +6257,7 @@ Helpdesk Team Anda
             'kata berhenti disesuaikan untuk indeks fulltext. Kata-kata ini akan dihapus dari indeks pencarian.',
         'Czech' => 'Bahasa Ceko',
         'Danish' => 'Denmark',
+        'Dashboard overview.' => '',
         'Data used to export the search result in CSV format.' => 'Data yang digunakan untuk mengekspor hasil pencarian dalam format CSV.',
         'Date / Time' => 'Tanggal / Waktu',
         'Default (Slim)' => 'Default (Slim)',
@@ -6409,6 +6417,8 @@ Helpdesk Team Anda
             'Mendefinisikan jika agen harus diizinkan untuk login jika mereka tidak memiliki rahasia bersama disimpan dalam preferensi mereka dan oleh karena itu tidak menggunakan 2 faktor yang otentik',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'Mendefinisikan jika pelanggan harus diizinkan untuk login jika mereka tidak memiliki rahasia bersama disimpan dalam preferensi mereka dan oleh karena itu tidak menggunakan otentikasi dua faktor.',
+        'Defines if the communication between this system and OTRS Group servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others.' =>
+            '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
@@ -6487,8 +6497,10 @@ Helpdesk Team Anda
         'Defines the config options for the autocompletion feature.' => 'Mendefinisikan pilihan konfigurasi untuk fitur autocomplete.',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             'Mendefinisikan parameter konfigurasi dari item ini, akan ditampilkan dalam preferensi tampilan.',
-        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached.' =>
-            'Mendefinisikan parameter konfigurasi dari item ini, akan ditampilkan dalam preferensi tampilan. \'PasswordRegExp\' memungkinkan untuk mencocokkan password terhadap ekspresi reguler. Menentukan jumlah minimum karakter menggunakan \'PasswordMinSize\'. Tentukan jika setidaknya 2 huruf kecil dan 2 karakter huruf besar dibutuhkan dengan menetapkan pilihan yang sesuai untuk \'1\'. mendefinisikan \'PasswordMin2Characters\' jika password harus berisi minimal 2 karakter huruf (set ke 0 atau 1). \'PasswordNeedDigit\' mengontrol kebutuhan minimal 1 digit (set ke 0 atau 1 kontrol). \'PasswordMaxLoginFailed\' memungkinkan untuk mengatur agen tidak valid-sementara jika max gagal login tercapai.',
+        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Defines the config parameters of this item, to be shown in the preferences view. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
         'Defines the connections for http/ftp, via a proxy.' => 'Mendefinisikan koneksi untuk http / ftp, melalui proxy.',
         'Defines the customer preferences key where the shared secret key is stored.' =>
             'Mendefinisikan kunci preferensi pelanggan di mana kunci rahasia bersama disimpan.',
@@ -6958,7 +6970,8 @@ Helpdesk Team Anda
         'Defines the user identifier for the customer panel.' => 'Mendefinisikan identifier pengguna untuk panel pelanggan',
         'Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).' =>
             'Mendefinisikan nama pengguna untuk mengakses SOAP pegangan (bin/cgi-bin/rpc.pl).',
-        'Defines the users avatar.' => '',
+        'Defines the users avatar. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
         'Defines the valid state types for a ticket.' => 'Mendefinisikan jenis state yang berlaku untuk tiket.',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
             'Mendefinisikan negara berlaku untuk tiket dibuka. Untuk membuka tiket script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" dapat digunakan',
@@ -7034,9 +7047,8 @@ Helpdesk Team Anda
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'Nonaktifkan HTTP header "X-Frame-Options: SAMEORIGIN" untuk memungkinkan OTHERS untuk dimasukkan sebagai iFrame di situs-situs lain. Menonaktifkan HTTP header ini bisa menjadi masalah keamanan! Hanya menonaktifkannya, jika Anda tahu apa yang Anda lakukan!',
+        'Disable cloud services' => '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
-            '',
-        'Disables the communication between this system and OTRS Group servers that provides cloud services. If enabled, some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others.' =>
             '',
         'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
             '',
@@ -7299,8 +7311,8 @@ Helpdesk Team Anda
             'kata berhenti Jerman untuk indeks fulltext. Kata-kata ini akan dihapus dari indeks pencarian.',
         'Gives customer users group based access to tickets from customer users of the same customer (ticket CustomerID is a CustomerID of the customer user).' =>
             '',
-        'Gives end users the possibility to override the separator character for CSV files, defined in the translation files.' =>
-            'Memberikan pengguna akhir kemungkinan untuk menimpa karakter pemisah untuk file CSV, didefinisikan dalam file terjemahan.',
+        'Gives end users the possibility to override the separator character for CSV files, defined in the translation files. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
         'Global Search Module.' => 'Modul pencarian global',
         'Go to dashboard!' => 'Pergi ke dasbor',
         'Google Authenticator' => 'Google Authenticator',
@@ -7524,6 +7536,7 @@ Helpdesk Team Anda
         'Locked Tickets' => 'Tiket terkunci',
         'Locked Tickets.' => 'Tiket dikunci',
         'Locked ticket.' => 'Tiket yang dikunci',
+        'Logged in users.' => '',
         'Logged-In Users' => '',
         'Logout of customer panel.' => 'Keluar dari panel pelanggan.',
         'Look into a ticket!' => 'Lihat ke dalam tiket ini!',
@@ -7648,6 +7661,7 @@ Helpdesk Team Anda
         'New Year\'s Eve' => 'Malam Tahun Baru',
         'New process ticket' => 'Proses tiket baru',
         'News about OTRS releases!' => 'Berita tentang perilisan OTRS!',
+        'News about OTRS.' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             'Berikutnya state tiket memungkinkan setelah menambahkan catatan telepon di telepon tiket layar masuk dari interface agen.',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
@@ -7688,10 +7702,12 @@ Helpdesk Team Anda
         'Other Customers' => '',
         'Out Of Office' => 'Diluar kantor',
         'Out Of Office Time' => 'Waktu diluar kantor',
+        'Out of Office users.' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Overload (mengubah) fungsi yang ada di Kernel::Sistem::Ticket. Digunakan dengan mudah untuk menambahkan kustomisasi.',
         'Overview Escalated Tickets.' => 'Ikhtisar Tiket meningkat.',
         'Overview Refresh Time' => 'Ikhtisar Segarkan Waktu',
+        'Overview of all Tickets per assigned Queue.' => '',
         'Overview of all appointments.' => '',
         'Overview of all escalated tickets.' => 'Tinjauan dari semua eskalasi tiket',
         'Overview of all open Tickets.' => 'Tinjauan dari semua Tiket terbuka.',
@@ -7702,16 +7718,16 @@ Helpdesk Team Anda
         'PGP Keys' => 'Kunci-kunci PGP',
         'Package event module file a scheduler task for update registration.' =>
             'Paket acara modul mengajukan tugas scheduler untuk pendaftaran pembaruan.',
-        'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
-            'Parameter untuk Buat NextMask objek dalam pandangan preferensi antarmuka agen.',
-        'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
-            'Parameter untuk objek kustom Antrian dalam tampilan preferensi antarmuka agen',
-        'Parameters for the CustomService object in the preference view of the agent interface.' =>
-            'Parameter untuk Layanan Kustom objek dalam tampilan preferensi antarmuka agen.',
-        'Parameters for the RefreshTime object in the preference view of the agent interface.' =>
-            'Parameter untuk objek Segarkan Waktu dalam tampilan preferensi antarmuka agen.',
-        'Parameters for the column filters of the small ticket overview.' =>
-            'Parameter untuk filter kolom dari gambaran tiket kecil.',
+        'Parameters for the CreateNextMask object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the CustomQueue object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the CustomService object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the RefreshTime object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the column filters of the small ticket overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
         'Parameters for the dashboard backend of the customer company information of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
         'Parameters for the dashboard backend of the customer id list overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
@@ -7758,14 +7774,14 @@ Helpdesk Team Anda
             '',
         'Parameters for the pages (in which the communication log entries are shown) of the communication log overview.' =>
             '',
-        'Parameters for the pages (in which the dynamic fields are shown) of the dynamic fields overview.' =>
-            'Parameter untuk halaman (di mana bidang dinamis ditampilkan) dari dinamika gambaran bidang.',
-        'Parameters for the pages (in which the tickets are shown) of the medium ticket overview.' =>
-            'Parameter untuk halaman (di mana tiket diperlihatkan) dari gambaran tiket media.',
-        'Parameters for the pages (in which the tickets are shown) of the small ticket overview.' =>
-            'Parameter untuk halaman (di mana tiket diperlihatkan) dari gambaran tiket kecil.',
-        'Parameters for the pages (in which the tickets are shown) of the ticket preview overview.' =>
-            'Parameter untuk halaman (di mana tiket diperlihatkan) dari preview tiket gambaran.',
+        'Parameters for the pages (in which the dynamic fields are shown) of the dynamic fields overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the pages (in which the tickets are shown) of the medium ticket overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the pages (in which the tickets are shown) of the small ticket overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Parameters for the pages (in which the tickets are shown) of the ticket preview overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
         'Parameters of the example SLA attribute Comment2.' => 'Parameter dari contoh SLA atribut Komentar 2.',
         'Parameters of the example queue attribute Comment2.' => 'Parameter dari contoh antrian atribut Komentar 2.',
         'Parameters of the example service attribute Comment2.' => 'Parameter dari layanan contoh atribut Komentar 2.',
@@ -7939,8 +7955,8 @@ Helpdesk Team Anda
         'Sends registration information to OTRS group.' => 'Mengirimkan informasi pendaftaran untuk kelompok OTRS.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'Mengirimkan pemberitahuan amaran terkunci tiket setelah mencapai tanggal yang ditetapkan (hanya dikirim ke pemilik tiket).',
-        'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
-            'Mengirimkan pemberitahuan yang dikonfigurasi dalam antarmuka admin di bawah "Pemberitahuan (Event)".',
+        'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
+            '',
         'Sent "%s" notification to "%s" via "%s".' => '',
         'Sent auto follow-up to "%s".' => '',
         'Sent auto reject to "%s".' => '',
@@ -8179,6 +8195,7 @@ Helpdesk Team Anda
             'Tampilkan pilihan yang bertanggung jawab di telepon dan email tiket di antarmuka agen.',
         'Show article as rich text even if rich text writing is disabled.' =>
             'Tampilkan artikel sebagai teks kaya bahkan jika menulis teks kaya dinonaktifkan.',
+        'Show command line output.' => '',
         'Show queues even when only locked tickets are in.' => 'Tampilkan antrian bahkan ketika tiket hanya terkunci dalam.',
         'Show the current owner in the customer interface.' => 'Tampilkan pemilik saat ini di antarmuka pelanggan.',
         'Show the current queue in the customer interface.' => 'Tampilkan antrian saat ini di antarmuka pelanggan.',
@@ -8285,8 +8302,10 @@ Helpdesk Team Anda
         'Shows all both ro and rw tickets in the service view.' => 'Menunjukkan semua baik tiket ro dan rw dalam tampilan layanan.',
         'Shows all open tickets (even if they are locked) in the escalation view of the agent interface.' =>
             'Menunjukkan semua tiket terbuka (bahkan jika mereka terkunci) dalam tampilan eskalasi antarmuka agen.',
-        'Shows all the articles of the ticket (expanded) in the zoom view.' =>
-            'Menunjukkan semua artikel dari tiket (diperluas) dalam tampilan zoom.',
+        'Shows all the articles of the ticket (expanded) in the agent zoom view.' =>
+            '',
+        'Shows all the articles of the ticket (expanded) in the customer zoom view.' =>
+            '',
         'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
             'Menunjukkan semua pengidentifikasi pelanggan dalam bidang multi-pilih (tidak berguna jika Anda memiliki banyak pengenal pelanggan).',
         'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
@@ -8433,6 +8452,8 @@ Helpdesk Team Anda
             'Memulai pencarian wildcard dari objek aktif setelah link objek topeng dimulai.',
         'Stat#' => 'Stat#',
         'States' => 'Kondisi',
+        'Statistic Reports overview.' => '',
+        'Statistics overview.' => '',
         'Status view' => 'lihat Status',
         'Stopped response time escalation.' => '',
         'Stopped solution time escalation.' => '',
@@ -8484,8 +8505,8 @@ Helpdesk Team Anda
             'Logo dalam header dari antarmuka agen. URL untuk gambar bisa menjadi URL relatif ke direktori image kulit, atau URL lengkap ke web server jauh.',
         'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             'Logo dalam header dari antarmuka pelanggan. URL untuk gambar bisa menjadi URL relatif ke direktori image kulit, atau URL lengkap ke web server jauh.',
-        'The logo shown on top of the login box of the agent interface. The URL to the image must be relative URL to the skin image directory.' =>
-            'logo ditampilkan di atas kotak login dari antarmuka agen. URL untuk gambar harus URL relatif ke direktori gambar kulit.',
+        'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
+            '',
         'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
             'Jumlah maksimal artikel diperluas pada satu halaman di  AgentTicketZoom.',
         'The maximal number of articles shown on a single page in AgentTicketZoom.' =>
@@ -8573,8 +8594,10 @@ Helpdesk Team Anda
             'Matikan tampilan Fitur OTRS Add ons daftar di Package Manager.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             'Toolbar Barang untuk jalan pintas. kontrol akses tambahan untuk menampilkan atau tidak menampilkan link ini dapat dilakukan dengan menggunakan Key "Group" dan konten seperti "rw:group1;move_into:group2".',
-        'Transport selection for appointment notifications.' => '',
-        'Transport selection for ticket notifications.' => 'Pilihan angkutan untuk pemberitahuan tiket',
+        'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
+        'Transport selection for ticket notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
         'Tree view' => 'Tampilan struktur pohon',
         'Triggers add or update of automatic calendar appointments based on certain ticket times.' =>
             '',
