@@ -1,4 +1,5 @@
 #4.0.29 ????-??-??
+ - 2017-12-15 Updated Hungarian translation.
 
 #4.0.28 2017-12-19
  - 2017-12-07 Improved parameter appending.
