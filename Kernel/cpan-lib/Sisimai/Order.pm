@@ -16,7 +16,7 @@ __END__
 =head1 NAME
 
 Sisimai::Order - Parent class for making optimized order list for calling MTA,
-MSP, and CED modules
+modules.
 
 =head1 SYNOPSIS
 
@@ -24,9 +24,9 @@ MSP, and CED modules
 
 =head1 DESCRIPTION
 
-Sisimai::Order class makes optimized order list which include MTA, MSP, and CED
-modules to be loaded on first from MTA specific headers in the bounce mail 
-headers such as X-Failed-Recipients. 
+Sisimai::Order class makes optimized order list which include MTA modules to be
+loaded on first from MTA specific headers in the bounce mail headers such as
+X-Failed-Recipients.
 This module are called from only Sisimai::Message::* child classes.
 
 =head1 AUTHOR
@@ -35,7 +35,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2015-2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2015-2017 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

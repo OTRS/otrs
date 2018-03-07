@@ -16,24 +16,26 @@ sub match {
     my $regex = qr{(?>
          domain[ ](?:
              does[ ]not[ ]exist
-            |must[ ]exist
             |is[ ]not[ ]reachable
+            |must[ ]exist
             )
         |host[ ](?:
              or[ ]domain[ ]name[ ]not[ ]found
             |unknown
             |unreachable
             )
-        |Mail[ ]domain[ ]mentioned[ ]in[ ]email[ ]address[ ]is[ ]unknown
+        |mail[ ]domain[ ]mentioned[ ]in[ ]email[ ]address[ ]is[ ]unknown
         |name[ ]or[ ]service[ ]not[ ]known
         |no[ ]such[ ]domain
         |recipient[ ](?:
-            address[ ]rejected:[ ]unknown[ ]domain[ ]name
-            domain[ ]must[ ]exist
+             address[ ]rejected:[ ]unknown[ ]domain[ ]name
+            |domain[ ]must[ ]exist
             )
+        |the[ ]account[ ]or[ ]domain[ ]may[ ]not[ ]exist
         |unknown[ ]host
+        |unrouteable[ ]address
         )
-    }ix;
+    }x;
 
     return 1 if $argv1 =~ $regex;
     return 0;
@@ -50,26 +52,22 @@ sub true {
     my $argvs = shift // return undef;
 
     return undef unless ref $argvs eq 'Sisimai::Data';
-    return 1 if $argvs->reason eq __PACKAGE__->text;
+    return 1 if $argvs->reason eq 'hostunknown';
 
     require Sisimai::SMTP::Status;
     my $statuscode = $argvs->deliverystatus // '';
-    my $diagnostic = $argvs->diagnosticcode // '';
-    my $tempreason = Sisimai::SMTP::Status->name($statuscode);
-    my $reasontext = __PACKAGE__->text;
-    my $v = 0;
+    my $diagnostic = lc $argvs->diagnosticcode // '';
 
-    if( $tempreason eq $reasontext ) {
+    if( Sisimai::SMTP::Status->name($statuscode) eq 'hostunknown' ) {
         # Status: 5.1.2
         # Diagnostic-Code: SMTP; 550 Host unknown
-        $v = 1;
-
+        require Sisimai::Reason::NetworkError;
+        return 1 unless Sisimai::Reason::NetworkError->match($diagnostic);
     } else {
         # Check the value of Diagnosic-Code: header with patterns
-        $v = 1 if __PACKAGE__->match($diagnostic);
+        return 1 if __PACKAGE__->match($diagnostic);
     }
-
-    return $v;
+    return 0;
 }
 
 1;
@@ -127,7 +125,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

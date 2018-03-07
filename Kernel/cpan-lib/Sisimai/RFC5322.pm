@@ -25,9 +25,9 @@ BUILD_REGULAR_EXPRESSIONS: {
     my $local_part     = qr/(?:$dot_atom|$quoted_string)/o;
     my $domain         = qr/(?:$dot_atom|$domain_literal)/o;
 
-    $Re->{'rfc5322'} = qr/$local_part[@]$domain/o;
-    $Re->{'ignored'} = qr/$local_part[.]*[@]$domain/o;
-    $Re->{'domain'}  = qr/$domain/o;
+    $Re->{'rfc5322'} = qr/\A$local_part[@]$domain\z/o;
+    $Re->{'ignored'} = qr/\A$local_part[.]*[@]$domain\z/o;
+    $Re->{'domain'}  = qr/\A$domain\z/o;
 }
 
 my $LONGHEADERS = __PACKAGE__->LONGFIELDS;
@@ -36,20 +36,20 @@ my $HEADERTABLE = {
     'messageid' => ['Message-Id'],
     'subject'   => ['Subject'],
     'listid'    => ['List-Id'],
-    'date'      => ['Date', 'Posted-Date', 'Posted', 'Resent-Date'],
-    'addresser' => [
-        'From', 'Return-Path', 'Reply-To', 'Errors-To', 'Reverse-Path', 
-        'X-Postfix-Sender', 'Envelope-From', 'X-Envelope-From',
-    ],
-    'recipient' => [
-        'To', 'Delivered-To', 'Forward-Path', 'Envelope-To',
-        'X-Envelope-To', 'Resent-To', 'Apparently-To'
-    ],
+    'date'      => [qw|Date Posted-Date Posted Resent-Date|],
+    'addresser' => [qw|
+        From Return-Path Reply-To Errors-To Reverse-Path X-Postfix-Sender
+        Envelope-From X-Envelope-From
+    |],
+    'recipient' => [qw|
+        To Delivered-To Forward-Path Envelope-To X-Envelope-To Resent-To
+        Apparently-To
+    |],
 };
 
 BUILD_FLATTEN_RFC822HEADER_LIST: {
     # Convert $HEADER: hash reference to flatten hash reference for being
-    # called from Sisimai::MTA::*
+    # called from Sisimai::Bite::Email::*
     for my $v ( values %$HEADERTABLE ) {
         $HEADERINDEX->{ lc $_ } = 1 for @$v;
     }
@@ -79,7 +79,8 @@ sub is_emailaddress {
     my $class = shift;
     my $email = shift // return 0;
 
-    return 0 if $email =~ m/(?:[\x00-\x1f]|\x1f)/;
+    return 0 if $email =~ /(?:[\x00-\x1f]|\x1f)/;
+    return 0 if length $email > 254;
     return 1 if $email =~ $Re->{'ignored'};
     return 0;
 }
@@ -92,8 +93,8 @@ sub is_domainpart {
     my $class = shift;
     my $dpart = shift // return 0;
 
-    return 0 if $dpart =~ m/(?:[\x00-\x1f]|\x1f)/;
-    return 0 if $dpart =~ m/[@]/;
+    return 0 if $dpart =~ /(?:[\x00-\x1f]|\x1f)/;
+    return 0 if index($dpart, '@') > -1;
     return 1 if $dpart =~ $Re->{'domain'};
     return 0;
 }
@@ -111,8 +112,8 @@ sub is_mailerdaemon {
         |\A(?:mailer-daemon|postmaster)\z
         |[ ]?mailer-daemon[ ]
         )
-    }xi;
-    return 1 if $email =~ $rxmds;
+    }x;
+    return 1 if lc($email) =~ $rxmds;
     return 0;
 }
 
@@ -123,29 +124,26 @@ sub received {
     my $class = shift;
     my $argv1 = shift || return [];
     my $hosts = [];
-    my $value = {
-        'from' => '',
-        'by'   => '',
-    };
+    my $value = { 'from' => '', 'by'   => '' };
 
     # Received: (qmail 10000 invoked by uid 999); 24 Apr 2013 00:00:00 +0900
-    return [] if $argv1 =~ m/qmail[ \t]+.+invoked[ \t]+/;
+    return [] if $argv1 =~ /qmail[ \t]+.+invoked[ \t]+/;
 
-    if( $argv1 =~ m/\Afrom[ \t]+(.+)[ \t]+by[ \t]+([^ ]+)/ ) {
+    if( $argv1 =~ /\Afrom[ \t]+(.+)[ \t]+by[ \t]+([^ ]+)/ ) {
         # Received: from localhost (localhost)
         #   by nijo.example.jp (V8/cf) id s1QB5ma0018057;
         #   Wed, 26 Feb 2014 06:05:48 -0500
         $value->{'from'} = $1;
         $value->{'by'}   = $2;
 
-    } elsif( $argv1 =~ m/\bby[ \t]+([^ ]+)(.+)/ ) {
+    } elsif( $argv1 =~ /\bby[ \t]+([^ ]+)(.+)/ ) {
         # Received: by 10.70.22.98 with SMTP id c2mr1838265pdf.3; Fri, 18 Jul 2014
         #   00:31:02 -0700 (PDT)
         $value->{'from'} = $1.$2;
         $value->{'by'}   = $1;
     }
 
-    if( $value->{'from'} =~ m/ / ) {
+    if( $value->{'from'} =~ / / ) {
         # Received: from [10.22.22.222] (smtp-gateway.kyoto.ocn.ne.jp [192.0.2.222])
         #   (authenticated bits=0)
         #   by nijo.example.jp (V8/cf) with ESMTP id s1QB5ka0018055;
@@ -156,9 +154,9 @@ sub received {
         my $hostname = '';
         my $hostaddr = '';
 
-        for my $e ( @received ) {
+        while( my $e = shift @received ) {
             # Received: from [10.22.22.222] (smtp-gateway.kyoto.ocn.ne.jp [192.0.2.222])
-            if( $e =~ m/\A[(\[]\d+[.]\d+[.]\d+[.]\d+[)\]]\z/ ) {
+            if( $e =~ /\A[(\[]\d+[.]\d+[.]\d+[.]\d+[)\]]\z/ ) {
                 # [192.0.2.1] or (192.0.2.1)
                 $e =~ y/[]()//d;
                 push @addrlist, $e;
@@ -170,9 +168,9 @@ sub received {
             }
         }
 
-        for my $e ( @namelist ) {
+        while( my $e = shift @namelist ) {
             # 1. Hostname takes priority over all other IP addresses
-            next unless $e =~ m/[.]/;
+            next unless index($e, '.') > -1;
             $hostname = $e;
             last;
         }
@@ -181,18 +179,18 @@ sub received {
             # 2. Use IP address as a remote host name
             for my $e ( @addrlist ) {
                 # Skip if the address is a private address
-                next if $e =~ m/\A(?:10|127)[.]/;
-                next if $e =~ m/\A172[.](?:1[6-9]|2[0-9]|3[0-1])[.]/;
-                next if $e =~ m/\A192[.]168[.]/;
+                next if index($e, '10.') == 0;
+                next if index($e, '127.') == 0;
+                next if index($e, '192.168.') == 0;
+                next if $e =~ /\A172[.](?:1[6-9]|2[0-9]|3[0-1])[.]/;
                 $hostaddr = $e;
                 last;
             }
         }
-
         $value->{'from'} = $hostname || $hostaddr || $addrlist[-1];
     }
 
-    for my $e ( 'from', 'by' ) {
+    for my $e ('from', 'by') {
         # Copy entries into $hosts
         next unless defined $value->{ $e };
         $value->{ $e } =~ y/()[];?//d;
@@ -215,7 +213,7 @@ sub weedout {
 
     for my $e ( @$argv1 ) {
         # After "message/rfc822"
-        if( $e =~ m/\A([-0-9A-Za-z]+?)[:][ ]*.+/ ) {
+        if( $e =~ /\A([-0-9A-Za-z]+?)[:][ ]*.+/ ) {
             # Get required headers
             my $lhs = lc $1;
             $previousfn = '';
@@ -224,7 +222,7 @@ sub weedout {
             $previousfn  = $lhs;
             $rfc822part .= $e."\n";
 
-        } elsif( $e =~ m/\A[ \t]+/ ) {
+        } elsif( $e =~ /\A[ \t]+/ ) {
             # Continued line from the previous line
             next if $rfc822next->{ $previousfn };
             $rfc822part .= $e."\n" if exists $LONGHEADERS->{ $previousfn };
@@ -309,7 +307,7 @@ header.
 =head2 C<B<weedout(I<Array>)>>
 
 C<weedout()> returns string including only necessary fields from message/rfc822
-part. This method is called from only Sisimai::MTA/MSP modules.
+part. This method is called from only Sisimai::Bite::Email::* modules.
 
     my $v = <<'EOM';
     From: postmaster@nyaan.example.org
@@ -331,7 +329,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

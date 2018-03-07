@@ -4,150 +4,146 @@ use feature ':5.10';
 use strict;
 use warnings;
 use Module::Load '';
-use Sisimai::MTA;
-use Sisimai::MSP;
-use Sisimai::CED;
+use Sisimai::Bite::Email;
 
 my $DefaultOrder = __PACKAGE__->default;
 my $EngineOrder1 = [
     # These modules have many subject patterns or have MIME encoded subjects
     # which is hard to code as regular expression
-    'Sisimai::MTA::Exim',
-    'Sisimai::MTA::Exchange2003',
+    'Sisimai::Bite::Email::Exim',
+    'Sisimai::Bite::Email::Exchange2003',
 ];
 my $EngineOrder2 = [
     # These modules have no MTA specific header and did not listed in the 
     # following subject header based regular expressions.
-    'Sisimai::MTA::Exchange2007',
-    'Sisimai::MSP::US::Facebook',
-    'Sisimai::MSP::JP::KDDI',
+    'Sisimai::Bite::Email::Exchange2007',
+    'Sisimai::Bite::Email::Facebook',
+    'Sisimai::Bite::Email::KDDI',
 ];
 my $EngineOrder3 = [
     # These modules have no MTA specific header but listed in the following
     # subject header based regular expressions.
-    'Sisimai::MTA::qmail',
-    'Sisimai::MTA::Notes',
-    'Sisimai::MTA::MessagingServer',
-    'Sisimai::MTA::Domino',
-    'Sisimai::MSP::DE::EinsUndEins',
-    'Sisimai::MTA::OpenSMTPD',
-    'Sisimai::MTA::MXLogic',
-    'Sisimai::MTA::Postfix',
-    'Sisimai::MTA::Sendmail',
-    'Sisimai::MTA::Courier',
-    'Sisimai::MTA::IMailServer',
-    'Sisimai::MSP::US::SendGrid',
-    'Sisimai::MSP::US::Bigfoot',
-    'Sisimai::MTA::X4',
+    'Sisimai::Bite::Email::qmail',
+    'Sisimai::Bite::Email::Notes',
+    'Sisimai::Bite::Email::MessagingServer',
+    'Sisimai::Bite::Email::Domino',
+    'Sisimai::Bite::Email::EinsUndEins',
+    'Sisimai::Bite::Email::OpenSMTPD',
+    'Sisimai::Bite::Email::MXLogic',
+    'Sisimai::Bite::Email::Postfix',
+    'Sisimai::Bite::Email::Sendmail',
+    'Sisimai::Bite::Email::Courier',
+    'Sisimai::Bite::Email::IMailServer',
+    'Sisimai::Bite::Email::SendGrid',
+    'Sisimai::Bite::Email::Bigfoot',
+    'Sisimai::Bite::Email::X4',
 ];
 my $EngineOrder4 = [
     # These modules have no MTA specific headers and there are few samples or
     # too old MTA
-    'Sisimai::MSP::US::Verizon',
-    'Sisimai::MTA::InterScanMSS',
-    'Sisimai::MTA::MailFoundry',
-    'Sisimai::MTA::ApacheJames',
-    'Sisimai::MSP::JP::Biglobe',
-    'Sisimai::MSP::JP::EZweb',
-    'Sisimai::MTA::X5',
-    'Sisimai::MTA::X3',
-    'Sisimai::MTA::X2',
-    'Sisimai::MTA::X1',
-    'Sisimai::MTA::V5sendmail',
+    'Sisimai::Bite::Email::Verizon',
+    'Sisimai::Bite::Email::InterScanMSS',
+    'Sisimai::Bite::Email::MailFoundry',
+    'Sisimai::Bite::Email::ApacheJames',
+    'Sisimai::Bite::Email::Biglobe',
+    'Sisimai::Bite::Email::EZweb',
+    'Sisimai::Bite::Email::X5',
+    'Sisimai::Bite::Email::X3',
+    'Sisimai::Bite::Email::X2',
+    'Sisimai::Bite::Email::X1',
+    'Sisimai::Bite::Email::V5sendmail',
 ];
 my $EngineOrder5 = [
     # These modules have one or more MTA specific headers but other headers
     # also required for detecting MTA name
-    'Sisimai::MSP::US::Google',
-    'Sisimai::MSP::US::Outlook',
-    'Sisimai::MSP::RU::MailRu',
-    'Sisimai::MSP::UK::MessageLabs',
-    'Sisimai::MTA::MailMarshalSMTP',
-    'Sisimai::MTA::mFILTER',
+    'Sisimai::Bite::Email::Google',
+    'Sisimai::Bite::Email::Outlook',
+    'Sisimai::Bite::Email::MailRu',
+    'Sisimai::Bite::Email::MessageLabs',
+    'Sisimai::Bite::Email::MailMarshalSMTP',
+    'Sisimai::Bite::Email::mFILTER',
 ];
 my $EngineOrder9 = [
     # These modules have one or more MTA specific headers
-    'Sisimai::MSP::US::Aol',
-    'Sisimai::MSP::US::Yahoo',
-    'Sisimai::MSP::US::AmazonSES',
-    'Sisimai::MSP::DE::GMX',
-    'Sisimai::MSP::RU::Yandex',
-    'Sisimai::MSP::US::ReceivingSES',
-    'Sisimai::MSP::US::Office365',
-    'Sisimai::MSP::US::AmazonWorkMail',
-    'Sisimai::MSP::US::Zoho',
-    'Sisimai::MTA::McAfee',
-    'Sisimai::CED::US::AmazonSES',
-    'Sisimai::MTA::Activehunter',
-    'Sisimai::MTA::SurfControl',
+    'Sisimai::Bite::Email::Aol',
+    'Sisimai::Bite::Email::Yahoo',
+    'Sisimai::Bite::Email::AmazonSES',
+    'Sisimai::Bite::Email::GMX',
+    'Sisimai::Bite::Email::Yandex',
+    'Sisimai::Bite::Email::ReceivingSES',
+    'Sisimai::Bite::Email::Office365',
+    'Sisimai::Bite::Email::AmazonWorkMail',
+    'Sisimai::Bite::Email::Zoho',
+    'Sisimai::Bite::Email::McAfee',
+    'Sisimai::Bite::Email::Activehunter',
+    'Sisimai::Bite::Email::SurfControl',
 ];
 
-# This variable don't hold MTA/MSP name which have one or more MTA specific
+# This variable don't hold MTA module name which have one or more MTA specific
 # header such as X-AWS-Outgoing, X-Yandex-Uniq.
 my $PatternTable = {
     'subject' => {
         qr/delivery/i => [
-            'Sisimai::MTA::Exim',
-            'Sisimai::MTA::Courier',
-            'Sisimai::MSP::US::Google',
-            'Sisimai::MSP::US::Outlook',
-            'Sisimai::MTA::Domino',
-            'Sisimai::MTA::OpenSMTPD',
-            'Sisimai::MSP::DE::EinsUndEins',
-            'Sisimai::MTA::InterScanMSS',
-            'Sisimai::MTA::MailFoundry',
-            'Sisimai::MTA::X4',
-            'Sisimai::MTA::X3',
-            'Sisimai::MTA::X2',
+            'Sisimai::Bite::Email::Exim',
+            'Sisimai::Bite::Email::Courier',
+            'Sisimai::Bite::Email::Google',
+            'Sisimai::Bite::Email::Outlook',
+            'Sisimai::Bite::Email::Domino',
+            'Sisimai::Bite::Email::OpenSMTPD',
+            'Sisimai::Bite::Email::EinsUndEins',
+            'Sisimai::Bite::Email::InterScanMSS',
+            'Sisimai::Bite::Email::MailFoundry',
+            'Sisimai::Bite::Email::X4',
+            'Sisimai::Bite::Email::X3',
+            'Sisimai::Bite::Email::X2',
         ],
         qr/noti(?:ce|fi)/i => [
-            'Sisimai::MTA::qmail',
-            'Sisimai::MTA::Sendmail',
-            'Sisimai::MSP::US::Google',
-            'Sisimai::MSP::US::Outlook',
-            'Sisimai::MTA::Courier',
-            'Sisimai::MTA::MessagingServer',
-            'Sisimai::MTA::OpenSMTPD',
-            'Sisimai::CED::US::AmazonSES',
-            'Sisimai::MTA::X4',
-            'Sisimai::MTA::X3',
-            'Sisimai::MTA::mFILTER',
+            'Sisimai::Bite::Email::qmail',
+            'Sisimai::Bite::Email::Sendmail',
+            'Sisimai::Bite::Email::Google',
+            'Sisimai::Bite::Email::Outlook',
+            'Sisimai::Bite::Email::Courier',
+            'Sisimai::Bite::Email::MessagingServer',
+            'Sisimai::Bite::Email::OpenSMTPD',
+            'Sisimai::Bite::Email::X4',
+            'Sisimai::Bite::Email::X3',
+            'Sisimai::Bite::Email::mFILTER',
         ],
         qr/return/i => [
-            'Sisimai::MTA::Postfix',
-            'Sisimai::MTA::Sendmail',
-            'Sisimai::MSP::US::SendGrid',
-            'Sisimai::MSP::US::Bigfoot',
-            'Sisimai::MTA::X1',
-            'Sisimai::MSP::DE::EinsUndEins',
-            'Sisimai::MSP::JP::Biglobe', 
-            'Sisimai::MTA::V5sendmail',
+            'Sisimai::Bite::Email::Postfix',
+            'Sisimai::Bite::Email::Sendmail',
+            'Sisimai::Bite::Email::SendGrid',
+            'Sisimai::Bite::Email::Bigfoot',
+            'Sisimai::Bite::Email::X1',
+            'Sisimai::Bite::Email::EinsUndEins',
+            'Sisimai::Bite::Email::Biglobe', 
+            'Sisimai::Bite::Email::V5sendmail',
         ],
         qr/undeliver/i => [
-            'Sisimai::MTA::Postfix',
-            'Sisimai::MTA::Exchange2007',
-            'Sisimai::MTA::Exchange2003',
-            'Sisimai::MTA::Notes',
-            'Sisimai::MSP::US::Office365',
-            'Sisimai::MSP::US::Verizon',
-            'Sisimai::MSP::US::SendGrid',
-            'Sisimai::MTA::IMailServer',
-            'Sisimai::MTA::MailMarshalSMTP',
+            'Sisimai::Bite::Email::Postfix',
+            'Sisimai::Bite::Email::Exchange2007',
+            'Sisimai::Bite::Email::Exchange2003',
+            'Sisimai::Bite::Email::Notes',
+            'Sisimai::Bite::Email::Office365',
+            'Sisimai::Bite::Email::Verizon',
+            'Sisimai::Bite::Email::SendGrid',
+            'Sisimai::Bite::Email::IMailServer',
+            'Sisimai::Bite::Email::MailMarshalSMTP',
         ],
         qr/failure/i => [
-            'Sisimai::MTA::qmail',
-            'Sisimai::MTA::Domino',
-            'Sisimai::MSP::US::Google',
-            'Sisimai::MSP::US::Outlook',
-            'Sisimai::MSP::RU::MailRu',
-            'Sisimai::MTA::X4',
-            'Sisimai::MTA::X2',
-            'Sisimai::MTA::mFILTER',
+            'Sisimai::Bite::Email::qmail',
+            'Sisimai::Bite::Email::Domino',
+            'Sisimai::Bite::Email::Google',
+            'Sisimai::Bite::Email::Outlook',
+            'Sisimai::Bite::Email::MailRu',
+            'Sisimai::Bite::Email::X4',
+            'Sisimai::Bite::Email::X2',
+            'Sisimai::Bite::Email::mFILTER',
         ],
         qr/warning/i => [
-            'Sisimai::MTA::Postfix',
-            'Sisimai::MTA::Sendmail',
-            'Sisimai::MTA::Exim',
+            'Sisimai::Bite::Email::Postfix',
+            'Sisimai::Bite::Email::Sendmail',
+            'Sisimai::Bite::Email::Exim',
         ],
     },
 };
@@ -165,21 +161,19 @@ sub by {
 }
 
 sub default {
-    # Make default order of MTA, MSP, and CED modules to be loaded
-    # @return   [Array] Default order list of MTA, MSP, and CED modules
+    # Make default order of MTA modules to be loaded
+    # @return   [Array] Default order list of MTA modules
     # @since v4.13.1
     my $class = shift;
     my $order = [];
 
     return $DefaultOrder if ref $DefaultOrder eq 'ARRAY';
-    push @$order, map { 'Sisimai::MTA::'.$_ } @{ Sisimai::MTA->index() };
-    push @$order, map { 'Sisimai::MSP::'.$_ } @{ Sisimai::MSP->index() };
-    push @$order, map { 'Sisimai::CED::'.$_ } @{ Sisimai::CED->index() };
+    push @$order, map { 'Sisimai::Bite::Email::'.$_ } @{ Sisimai::Bite::Email->index() };
     return $order;
 }
 
 sub another {
-    # Make MTA,MSP, and CED module list as a spare
+    # Make MTA modules list as a spare
     # @return   [Array] Ordered module list
     # @since v4.13.1
     return [
@@ -189,7 +183,7 @@ sub another {
 };
 
 sub headers {
-    # Make email header list in each MTA, MSP, CED module
+    # Make email header list in each MTA module
     # @return   [Hash] Header list to be parsed
     # @since v4.13.1
     my $class = shift;
@@ -198,12 +192,12 @@ sub headers {
     my $skips = { 'return-path' => 1, 'x-mailer' => 1 };
 
     LOAD_MODULES: for my $e ( @$order ) {
-        # Load email headers from each MTA, MSP module
+        # Load email headers from each MTA module
         eval { Module::Load::load $e };
         next if $@;
 
         for my $v ( @{ $e->headerlist } ) {
-            # Get header name which required each MTA,MSP, and CED module
+            # Get header name which required each MTA module
             my $q = lc $v;
             next if exists $skips->{ $q };
             $table->{ $q }->{ $e } = 1;
@@ -219,7 +213,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Order::Email - Make optimized order list for calling MTA/MSP modules
+Sisimai::Order::Email - Make optimized order list for calling MTA modules
 
 =head1 SYNOPSIS
 
@@ -227,22 +221,21 @@ Sisimai::Order::Email - Make optimized order list for calling MTA/MSP modules
 
 =head1 DESCRIPTION
 
-Sisimai::Order::Email makes optimized order list which include MTA, MSP, and CED
-modules to be loaded on first from MTA/MSP/CED specific headers in the bounce
-mail headers such as X-Failed-Recipients. 
-This module are called from only Sisimai::Message::Email.
+Sisimai::Order::Email makes optimized order list which include MTA modules to
+be loaded on first from MTA specific headers in the bounce mail headers such as
+X-Failed-Recipients.  This module are called from only Sisimai::Message::Email.
 
 =head1 CLASS METHODS
 
 =head2 C<B<default()>>
 
-C<default()> returns default order of MTA, MSP, and CED modules
+C<default()> returns default order of MTA modules
 
     print for @{ Sisimai::Order::Email->default };
 
 =head2 C<B<headers()>>
 
-C<headers()> returns MTA, MSP, or CED specific header table
+C<headers()> returns MTA specific header table
 
     print keys %{ Sisimai::Order::Email->headers };
 
@@ -252,7 +245,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2015-2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2015-2017 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

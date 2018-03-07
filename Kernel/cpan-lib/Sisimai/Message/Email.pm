@@ -10,6 +10,7 @@ use Sisimai::RFC3834;
 use Sisimai::RFC5322;
 use Sisimai::Order::Email;
 
+my $BorderLine = '__MIME_ENCODED_BOUNDARY__';
 my $EndOfEmail = Sisimai::String->EOM;
 my $DefaultSet = Sisimai::Order::Email->another;
 my $SubjectTab = Sisimai::Order::Email->by('subject');
@@ -19,9 +20,8 @@ my $ToBeLoaded = [];
 my $TryOnFirst = [];
 my $RFC822Head = Sisimai::RFC5322->HEADERFIELDS;
 my @RFC3834Set = (map { lc $_ } @{ Sisimai::RFC3834->headerlist });
-my @HeaderList = ('from', 'to', 'date', 'subject', 'content-type', 'reply-to',
-                  'message-id', 'received', 'content-transfer-encoding', 
-                  'return-path', 'x-mailer');
+my @HeaderList = (qw|from to date subject content-type reply-to message-id
+                     received content-transfer-encoding return-path x-mailer|);
 my $MultiHeads = { 'received' => 1 };
 my $IgnoreList = { 'dkim-signature' => 1 };
 my $Indicators = { 
@@ -68,7 +68,7 @@ sub make {
     $processing->{'from'}   = $aftersplit->{'from'};
     $processing->{'header'} = __PACKAGE__->headers(\$aftersplit->{'header'}, $headerlist);
 
-    # 3. Check headers for detecting MTA/MSP module
+    # 3. Check headers for detecting MTA module
     unless( scalar @$TryOnFirst ) {
         push @$TryOnFirst, @{ __PACKAGE__->makeorder($processing->{'header'}) };
     }
@@ -89,11 +89,11 @@ sub make {
     # 5. Rewrite headers of the original message in the body part
     my $rfc822part = $bouncedata->{'rfc822'} || $aftersplit->{'body'};
     if( ref $rfc822part eq '' ) {
-        # Returned from Sisimai::MTA::* or Sisimai::MSP::* modules
+        # Returned value from Sisimai::Bite::Email::* module
         $processing->{'rfc822'} = __PACKAGE__->takeapart(\$rfc822part);
 
     } else {
-        # Returned from Sisimai::CED::* modules
+        # Returned from Sisimai::Bite::JSON::* modules
         $processing->{'rfc822'} = $rfc822part;
     }
     return $processing;
@@ -112,7 +112,7 @@ sub load {
     my @modulelist = ();
     my $tobeloaded = [];
 
-    for my $e ( 'load', 'order' ) {
+    for my $e ('load', 'order') {
         # The order of MTA modules specified by user
         next unless exists $argvs->{ $e };
         next unless ref $argvs->{ $e } eq 'ARRAY';
@@ -153,18 +153,17 @@ sub divideup {
 
     my @hasdivided = undef;
     my $readcursor = 0;
-    my $pseudofrom = 'MAILER-DAEMON Tue Feb 11 00:00:00 2014';
     my $aftersplit = { 'from' => '', 'header' => '', 'body' => '' };
 
-    $$email =~ s/\r\n/\n/gm  if $$email =~ m/\r\n/;
-    $$email =~ s/[ \t]+$//gm if $$email =~ m/[ \t]+$/;
+    $$email =~ s/\r\n/\n/gm  if index($$email, "\r\n") > -1;
+    $$email =~ s/[ \t]+$//gm if $$email =~ /[ \t]+$/;
     @hasdivided = split("\n", $$email);
     return {} unless scalar @hasdivided;
 
     if( substr($hasdivided[0], 0, 5) eq 'From ' ) {
         # From MAILER-DAEMON Tue Feb 11 00:00:00 2014
         $aftersplit->{'from'} =  shift @hasdivided;
-        $aftersplit->{'from'} =~ y{\r\n}{}d;
+        $aftersplit->{'from'} =~ y/\r\n//d;
     }
 
     SPLIT_EMAIL: for my $e ( @hasdivided ) {
@@ -190,7 +189,7 @@ sub divideup {
     return {} unless length $aftersplit->{'header'};
     return {} unless length $aftersplit->{'body'};
 
-    $aftersplit->{'from'} ||= $pseudofrom;
+    $aftersplit->{'from'} ||= 'MAILER-DAEMON Tue Feb 11 00:00:00 2014';
     return $aftersplit;
 }
 
@@ -205,15 +204,16 @@ sub headers {
     my $currheader = '';
     my $allheaders = {};
     my $structured = {};
+    my @hasdivided = split("\n", $$heads);
 
     map { $allheaders->{ $_ } = 1 } (@HeaderList, @RFC3834Set, keys %$ExtHeaders);
     map { $allheaders->{ lc $_ } = 1 } @$field if scalar @$field;
     map { $structured->{ $_ } = undef } @HeaderList;
     map { $structured->{ lc $_ } = [] } keys %$MultiHeads;
 
-    SPLIT_HEADERS: for my $e ( split("\n", $$heads) ) {
+    SPLIT_HEADERS: while( my $e = shift @hasdivided ) {
         # Convert email headers to hash
-        if( $e =~ m/\A([^ ]+?)[:][ ]*(.+?)\z/ ) {
+        if( $e =~ /\A([^ ]+?)[:][ ]*(.+?)\z/ ) {
             # split the line into a header name and a header content
             my $lhs = $1;
             my $rhs = $2;
@@ -235,8 +235,7 @@ sub headers {
                 }
                 $structured->{ $currheader } = $rhs;
             }
-
-        } elsif( $e =~ m/\A[ \t]+(.+?)\z/ ) {
+        } elsif( $e =~ /\A[ \t]+(.+?)\z/ ) {
             # Ignore header?
             next if exists $IgnoreList->{ $currheader };
 
@@ -254,14 +253,15 @@ sub headers {
 }
 
 sub makeorder {
-    # Check headers for detecting MTA/MSP module and returns the order of modules
+    # Check headers for detecting MTA module and returns the order of modules
     # @param         [Hash] heads   Email header data
-    # @return        [Array]        Order of MTA/MSP modules
+    # @return        [Array]        Order of MTA modules
     my $class = shift;
     my $heads = shift || return [];
     my $order = [];
 
-    return [] unless length $heads->{'subject'};
+    return [] unless exists $heads->{'subject'};
+    return [] unless $heads->{'subject'};
 
     # Try to match the value of "Subject" with patterns generated by
     # Sisimai::Order::Email->by('subject') method
@@ -289,12 +289,11 @@ sub takeapart {
     my $takenapart = {};
     my @hasdivided = split("\n", $$heads);
     my $previousfn = ''; # Previous field name
-    my $borderline = '__MIME_ENCODED_BOUNDARY__';
     my $mimeborder = {};
 
     for my $e ( @hasdivided ) {
         # Header name as a key, The value of header as a value
-        if( $e =~ m/\A([-0-9A-Za-z]+?)[:][ ]*(.*)\z/ ) {
+        if( $e =~ /\A([-0-9A-Za-z]+?)[:][ ]*(.*)\z/ ) {
             # Header
             my $lhs = lc $1;
             my $rhs = $2;
@@ -306,7 +305,7 @@ sub takeapart {
 
         } else {
             # Continued line from the previous line
-            next unless $e =~ m/\A[ \t]+/;
+            next unless $e =~ /\A[ \t]+/;
             next unless $previousfn;
 
             # Concatenate the line if it is the value of required header
@@ -314,7 +313,7 @@ sub takeapart {
                 # The line is MIME-Encoded test
                 if( $previousfn eq 'subject' ) {
                     # Subject: header
-                    $takenapart->{ $previousfn } .= $borderline.$e;
+                    $takenapart->{ $previousfn } .= $BorderLine.$e;
 
                 } else {
                     # Is not Subject header
@@ -346,7 +345,7 @@ sub takeapart {
 
             if( $mimeborder->{'subject'} ) {
                 # split the value of Subject by $borderline
-                for my $m ( split($borderline, $v) ) {
+                for my $m ( split($BorderLine, $v) ) {
                     # Insert value to the array if the string is MIME
                     # encoded text
                     push @$r, $m if Sisimai::MIME->is_mimeencoded(\$m);
@@ -363,7 +362,7 @@ sub takeapart {
 }
 
 sub parse {
-    # Parse bounce mail with each MTA/MSP module
+    # Parse bounce mail with each MTA module
     # @param               [Hash] argvs    Processing message entity.
     # @param options argvs [Hash] mail     Email message entity
     # @param options mail  [String] from   From line of mbox
@@ -392,7 +391,7 @@ sub parse {
     my $mesgformat = lc($mailheader->{'content-type'} || '');
     my $ctencoding = lc($mailheader->{'content-transfer-encoding'} || '');
 
-    if( $mesgformat =~ m{text/(?:plain|html);?} ) {
+    if( index($mesgformat, 'text/plain') == 0 || index($mesgformat, 'text/html') == 0 ) {
         # Content-Type: text/plain; charset=UTF-8
         if( $ctencoding eq 'base64' || $ctencoding eq 'quoted-printable' ) {
             # Content-Transfer-Encoding: base64
@@ -407,22 +406,21 @@ sub parse {
             }
         }
 
-        if( $mesgformat =~ m|text/html;?| ) {
-            # Content-Type: text/html;...
-            $bodystring = Sisimai::String->to_plain($bodystring, 1);
-        }
+        # Content-Type: text/html;...
+        $bodystring = Sisimai::String->to_plain($bodystring, 1) if $mesgformat =~ m|text/html;?|;
     } else {
         # NOT text/plain
-        if( $$bodystring =~ $ReEncoding->{'quoted-print'} ) {
+        my $lowercased = lc $$bodystring;
+        if( $lowercased =~ $ReEncoding->{'quoted-print'} ) {
             # Content-Transfer-Encoding: quoted-printable
             $bodystring = Sisimai::MIME->qprintd($bodystring, $mailheader);
         }
 
-        if( $$bodystring =~ $ReEncoding->{'7bit-encoded'} &&
-            $$bodystring =~ $ReEncoding->{'some-iso2022'} ) {
+        if( $lowercased =~ $ReEncoding->{'7bit-encoded'} &&
+            $lowercased =~ $ReEncoding->{'some-iso2022'} ) {
             # Content-Transfer-Encoding: 7bit
             # Content-Type: text/plain; charset=ISO-2022-JP
-            unless( $1 =~ m/(?:us-ascii|utf[-]?8)/i ) {
+            if( index($1, 'us-ascii') == -1 && index($1, 'utf-8') == -1 ) {
                 # Convert to UTF-8
                 $bodystring = Sisimai::String->to_utf8($bodystring, $1);
             }
@@ -445,7 +443,7 @@ sub parse {
     # Check whether or not the message is a bounce mail.
     # Pre-Process email body if it is a forwarded bounce message.
     # Get the original text when the subject begins from 'fwd:' or 'fw:'
-    if( $mailheader->{'subject'} =~ m/\A[ \t]*fwd?:/i ) {
+    if( lc($mailheader->{'subject'}) =~ /\A[ \t]*fwd?:/ ) {
         # Delete quoted strings, quote symbols(>)
         $$bodystring =~ s/^[>]+[ ]//gm;
         $$bodystring =~ s/^[>]$//gm;
@@ -459,7 +457,7 @@ sub parse {
         # 1. Sisimai::ARF 
         # 2. User-Defined Module
         # 3. MTA Module Candidates to be tried on first
-        # 4. Sisimai::MTA::* and MSP::*
+        # 4. Sisimai::Bite::Email::*
         # 5. Sisimai::RFC3464
         # 6. Sisimai::RFC3834
         #
@@ -487,16 +485,16 @@ sub parse {
         }
 
         DEFAULT_LIST: for my $r ( @$DefaultSet ) {
-            # MTA/MSP modules which does not have MTA specific header and did
-            # not match with any regular expressions of Subject header.
+            # MTA modules which does not have MTA specific header and did not
+            # match with any regular expressions of Subject header.
             next if exists $haveloaded->{ $r };
             $hasscanned = $r->scan($mailheader, $bodystring);
             $haveloaded->{ $r } = 1;
             last(SCANNER) if $hasscanned;
         }
 
-        # When the all of Sisimai::MTA::* modules did not return bounce data,
-        # call Sisimai::RFC3464;
+        # When the all of Sisimai::Bite::Email::* modules did not return bounce
+        # data, call Sisimai::RFC3464;
         require Sisimai::RFC3464;
         $hasscanned = Sisimai::RFC3464->scan($mailheader, $bodystring);
         last(SCANNER) if $hasscanned;
@@ -582,7 +580,7 @@ method like the following codes:
         }
 
         # Message body of the bounced email
-        if( $argv->{'message'} =~ m/^X-Postfix-Queue-ID:\s*(.+)$/m ) {
+        if( $argv->{'message'} =~ /^X-Postfix-Queue-ID:\s*(.+)$/m ) {
             $data->{'queue-id'} = $1;
         }
 
@@ -640,7 +638,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2017 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

@@ -3,26 +3,22 @@ use parent 'Sisimai::Order';
 use feature ':5.10';
 use strict;
 use warnings;
-use Sisimai::CED;
+use Sisimai::Bite::JSON;
 
 my $DefaultOrder = __PACKAGE__->default;
 my $PatternTable = {
-    'keyname' => {
-        'notificationType' => [
-            'Sisimai::CED::US::AmazonSES',
-        ],
-    }
+    'keyname' => { 'notificationType' => ['Sisimai::Bite::JSON::AmazonSES'] }
 };
 
 sub default {
-    # Make default order of CED modules to be loaded
-    # @return   [Array] Default order list of CED modules
+    # Make default order of MTA modules to be loaded
+    # @return   [Array] Default order list of MTA modules
     # @since v4.13.1
     my $class = shift;
     my $order = [];
 
     return $DefaultOrder if ref $DefaultOrder eq 'ARRAY';
-    push @$order, map { 'Sisimai::CED::'.$_ } @{ Sisimai::CED->index() };
+    push @$order, map { 'Sisimai::Bite::JSON::'.$_ } @{ Sisimai::Bite::JSON->index() };
     return $order;
 }
 
@@ -45,7 +41,7 @@ __END__
 
 =head1 NAME
 
-Sisimai::Order::JSON - Make optimized order list for calling CED modules
+Sisimai::Order::JSON - Make optimized order list for calling MTA modules
 
 =head1 SYNOPSIS
 
@@ -53,7 +49,7 @@ Sisimai::Order::JSON - Make optimized order list for calling CED modules
 
 =head1 DESCRIPTION
 
-Sisimai::Order::JSON makes optimized order list which include CED modules to be
+Sisimai::Order::JSON makes optimized order list which include MTA modules to be
 loaded on first from bounce object key names in the decoded JSON object. This
 module are called from only Sisimai::Message::JSON.
 
@@ -61,7 +57,7 @@ module are called from only Sisimai::Message::JSON.
 
 =head2 C<B<default()>>
 
-C<default()> returns default order of CED modules
+C<default()> returns default order of MTA modules
 
     print for @{ Sisimai::Order::JSON->default };
 
@@ -71,7 +67,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2016-2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

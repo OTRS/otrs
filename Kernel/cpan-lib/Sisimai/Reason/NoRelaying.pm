@@ -15,11 +15,13 @@ sub match {
     my $argv1 = shift // return undef;
     my $regex = qr{(?> 
          as[ ]a[ ]relay
-        |Insecure[ ]Mail[ ]Relay
+        |insecure[ ]mail[ ]relay
         |mail[ ]server[ ]requires[ ]authentication[ ]when[ ]attempting[ ]to[ ]
             send[ ]to[ ]a[ ]non-local[ ]e-mail[ ]address    # MailEnable 
-        |not[ ]allowed[ ]to[ ]relay[ ]through[ ]this[ ]machine
-        |Not[ ]an[ ]open[ ]relay,[ ]so[ ]get[ ]lost
+        |not[ ](?:
+             allowed[ ]to[ ]relay[ ]through[ ]this[ ]machine
+            |an[ ]open[ ]relay,[ ]so[ ]get[ ]lost
+            )
         |relay[ ](?:
              access[ ]denied
             |denied
@@ -27,9 +29,10 @@ sub match {
             )
         |relaying[ ]denied  # Sendmail
         |that[ ]domain[ ]isn[']t[ ]in[ ]my[ ]list[ ]of[ ]allowed[ ]rcpthost
-        |Unable[ ]to[ ]relay[ ]for
+        |this[ ]system[ ]is[ ]not[ ]configured[ ]to[ ]relay[ ]mail
+        |unable[ ]to[ ]relay[ ]for
         )
-    }ix;
+    }x;
 
     return 1 if $argv1 =~ $regex;
     return 0;
@@ -46,16 +49,14 @@ sub true {
     my $argvs = shift // return undef;
 
     return undef unless ref $argvs eq 'Sisimai::Data';
-    my $currreason = $argvs->reason // '';
-    my $reexcludes = qr/\A(?:securityerror|systemerror|undefined)\z/;
+    my $r = $argvs->reason // '';
 
-    if( $currreason ) {
+    if( $r ) {
         # Do not overwrite the reason
-        return 0 if $currreason =~ $reexcludes;
-
+        return 0 if( $r eq 'securityerror' || $r eq 'systemerror' || $r eq 'undefined' );
     } else {
         # Check the value of Diagnosic-Code: header with patterns
-        return 1 if __PACKAGE__->match($argvs->diagnosticcode);
+        return 1 if __PACKAGE__->match(lc $argvs->diagnosticcode);
     }
     return 0;
 }
@@ -112,7 +113,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2017 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

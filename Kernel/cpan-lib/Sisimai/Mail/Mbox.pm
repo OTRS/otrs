@@ -27,7 +27,6 @@ sub new {
     my $class = shift;
     my $argv1 = shift // return undef;
     my $param = { 'offset' => 0 };
-
     return undef unless -f $argv1;
 
     $param->{'dir'}    = File::Basename::dirname $argv1;
@@ -154,7 +153,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2016,2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

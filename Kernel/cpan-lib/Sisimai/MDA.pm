@@ -3,10 +3,7 @@ use feature ':5.10';
 use strict;
 use warnings;
 
-my $Re0 = {
-    'from' => qr/\A(?:Mail Delivery Subsystem|MAILER-DAEMON|postmaster)/i,
-};
-my $Re1 = {
+my $AgentNames = {
     # dovecot/src/deliver/deliver.c
     # 11: #define DEFAULT_MAIL_REJECTION_HUMAN_REASON \
     # 12: "Your message to <%t> was automatically rejected:%n%r"
@@ -17,66 +14,68 @@ my $Re1 = {
     'vpopmail'   => qr/\Avdelivermail: /,
     'vmailmgr'   => qr/\Avdeliver: /,
 };
-my $Re2 = qr{\A(?>
-             Your[ ]message[ ]to[ ].+[ ]was[ ]automatically[ ]rejected:\z
-            |(?:mail[.]local|procmail|maildrop|vdelivermail|vdeliver):[ ]
-            )
-          }x;
+my $MarkingsOf = {
+    'message' => qr{\A(?>
+                     Your[ ]message[ ]to[ ].+[ ]was[ ]automatically[ ]rejected:\z
+                    |(?:mail[.]local|procmail|maildrop|vdelivermail|vdeliver):[ ]
+                    )
+                  }x,
+};
 
 # dovecot/src/deliver/mail-send.c:94
-my $ReFailure = {
+my $ReFailures = {
     'dovecot' => {
-        'userunknown' => qr/\AMailbox doesn't exist: /i,
+        'userunknown' => qr/\Amailbox doesn't exist: /,
         'mailboxfull' => qr{\A(?:
-             Quota[ ]exceeded # Dovecot 1.2 dovecot/src/plugins/quota/quota.c
-            |Quota[ ]exceeded[ ][(]mailbox[ ]for[ ]user[ ]is[ ]full[)]  # dovecot/src/plugins/quota/quota.c
-            |Not[ ]enough[ ]disk[ ]space
+             quota[ ]exceeded # Dovecot 1.2 dovecot/src/plugins/quota/quota.c
+            |quota[ ]exceeded[ ][(]mailbox[ ]for[ ]user[ ]is[ ]full[)]  # dovecot/src/plugins/quota/quota.c
+            |not[ ]enough[ ]disk[ ]space
             )
-        }xi,
+        }x,
     },
     'mail.local' => {
         'userunknown' => qr{[:][ ](?:
              unknown[ ]user[:]
-            |User[ ]unknown
-            |Invalid[ ]mailbox[ ]path
-            |User[ ]missing[ ]home[ ]directory
+            |user[ ]unknown
+            |invalid[ ]mailbox[ ]path
+            |user[ ]missing[ ]home[ ]directory
             )
-        }xi,
+        }x,
         'mailboxfull' => qr{(?:
-             Disc[ ]quota[ ]exceeded
-            |Mailbox[ ]full[ ]or[ ]quota[ ]exceeded
+             disc[ ]quota[ ]exceeded
+            |mailbox[ ]full[ ]or[ ]quota[ ]exceeded
             )
-        }xi,
-        'systemerror' => qr/Temporary file write error/i,
+        }x,
+        'systemerror' => qr/temporary file write error/,
     },
     'procmail' => {
-        'mailboxfull' => qr/Quota exceeded while writing/i,
-        'systemfull'  => qr/No space left to finish writing/i,
+        'mailboxfull' => qr/quota exceeded while writing/,
+        'systemfull'  => qr/no space left to finish writing/,
     },
     'maildrop' => {
         'userunknown' => qr{(?:
-             Invalid[ ]user[ ]specified[.]
-            |Cannot[ ]find[ ]system[ ]user
+             invalid[ ]user[ ]specified[.]
+            |cannot[ ]find[ ]system[ ]user
             )
-        }xi,
-        'mailboxfull' => qr/maildir over quota[.]\z/i,
+        }x,
+        'mailboxfull' => qr/maildir over quota[.]\z/,
     },
     'vpopmail' => {
-        'userunknown' => qr/Sorry, no mailbox here by that name[.]/i,
+        'userunknown' => qr/sorry, no mailbox here by that name[.]/,
         'filtered'    => qr{(?:
              account[ ]is[ ]locked[ ]email[ ]bounced
             |user[ ]does[ ]not[ ]exist,[ ]but[ ]will[ ]deliver[ ]to[ ]
             )
-        }xi,
-        'mailboxfull' => qr/(?:domain|user) is over quota/i,
+        }x,
+        'mailboxfull' => qr/(?:domain|user) is over quota/,
     },
     'vmailmgr' => {
         'userunknown' => qr{(?>
-             Invalid[ ]or[ ]unknown[ ](?:base[ ]user[ ]or[ ]domain|virtual[ ]user)
-            |User[ ]name[ ]does[ ]not[ ]refer[ ]to[ ]a[ ]virtual[ ]user/
+             invalid[ ]or[ ]unknown[ ](?:base[ ]user[ ]or[ ]domain|virtual[ ]user)
+            |user[ ]name[ ]does[ ]not[ ]refer[ ]to[ ]a[ ]virtual[ ]user/
             )
-        }ix,
-        'mailboxfull' => qr/Delivery failed due to system quota violation/i,
+        }x,
+        'mailboxfull' => qr/delivery failed due to system quota violation/,
     },
 };
 
@@ -97,7 +96,7 @@ sub scan {
     my $mbody = shift // return undef;
 
     return undef unless ref($mhead) eq 'HASH';
-    return undef unless $mhead->{'from'} =~ $Re0->{'from'};
+    return undef unless lc($mhead->{'from'}) =~ /\A(?:mail delivery subsystem|mailer-daemon|postmaster)/;
     return undef unless ref($mbody) eq 'SCALAR';
     return undef unless length $$mbody;
 
@@ -112,11 +111,11 @@ sub scan {
         if( $agentname0 eq '' ) {
             # Try to match with each regular expression
             next unless $e;
-            next unless $e =~ $Re2;
+            next unless $e =~ $MarkingsOf->{'message'};
 
-            for my $f ( keys %$Re1 ) {
+            for my $f ( keys %$AgentNames ) {
                 # Detect the agent name from the line
-                next unless $e =~ $Re1->{ $f };
+                next unless $e =~ $AgentNames->{ $f };
                 $agentname0 = $f;
                 last;
             }
@@ -129,11 +128,11 @@ sub scan {
     return undef unless $agentname0;
     return undef unless scalar @linebuffer;
 
-    for my $e ( keys %{ $ReFailure->{ $agentname0 } } ) {
+    for my $e ( keys %{ $ReFailures->{ $agentname0 } } ) {
         # Detect an error reason from message patterns of the MDA.
         for my $f ( @linebuffer ) {
             # Try to match with each regular expression
-            next unless $f =~ $ReFailure->{ $agentname0 }->{ $e };
+            next unless lc($f) =~ $ReFailures->{ $agentname0 }->{ $e };
             $reasonname = $e;
             $bouncemesg = $f;
             last;
@@ -192,7 +191,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2016,2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

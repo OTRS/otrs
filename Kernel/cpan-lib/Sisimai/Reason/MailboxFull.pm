@@ -14,19 +14,23 @@ sub match {
     my $class = shift;
     my $argv1 = shift // return undef;
     my $regex = qr{(?>
-         account[ ]is[ ](?:
+         account[ ]disabled[ ]temporarly[ ]for[ ]exceeding[ ]receiving[ ]limits
+        |account[ ]is[ ](?:
              exceeding[ ]their[ ]quota
             |over[ ]quota
             |temporarily[ ]over[ ]quota
             )
+        |boite[ ]du[ ]destinataire[ ]pleine.+[a-z]{3}.+417
         |delivery[ ]failed:[ ]over[ ]quota
         |disc[ ]quota[ ]exceeded
         |does[ ]not[ ]have[ ]enough[ ]space
         |exceeded[ ]storage[ ]allocation
         |exceeding[ ]its[ ]mailbox[ ]quota
         |full[ ]mailbox
-        |is[ ]over[ ]quota[ ]temporarily
-        |is[ ]over[ ]disk[ ]quota
+        |is[ ]over[ ](?:
+             disk[ ]quota
+            |quota[ ]temporarily
+            )
         |mail[ ](?:
              file[ ]size[ ]exceeds[ ]the[ ]maximum[ ]size[ ]allowed[ ]for[ ]mail[ ]delivery
             |quota[ ]exceeded
@@ -41,35 +45,39 @@ sub match {
             |size[ ]limit[ ]exceeded
             )
         |maildir[ ](?:
-             delivery[ ]failed:[ ](?:User|Domain)disk[ ]quota[ ]?.*[ ]exceeded
+             delivery[ ]failed:[ ](?:user|domain)disk[ ]quota[ ]?.*[ ]exceeded
             |over[ ]quota
             )
         |mailfolder[ ]is[ ]full
         |not[ ]enough[ ]storage[ ]space[ ]in
         |over[ ]the[ ]allowed[ ]quota
-        |quota[ ]exceeded
-        |quota[ ]violation[ ]for
+        |quota[ ](?:
+             exceeded
+            |violation[ ]for
+            )
         |recipient[ ](?:
              reached[ ]disk[ ]quota
             |rejected:[ ]mailbox[ ]would[ ]exceed[ ]maximum[ ]allowed[ ]storage
             )
-        |The[ ]recipient[ ]mailbox[ ]has[ ]exceeded[ ]its[ ]disk[ ]space[ ]limit
-        |The[ ]user[']s[ ]space[ ]has[ ]been[ ]used[ ]up
+        |the[ ](?:
+             recipient[ ]mailbox[ ]has[ ]exceeded[ ]its[ ]disk[ ]space[ ]limit
+            |user[']s[ ]space[ ]has[ ]been[ ]used[ ]up
+            |user[ ]you[ ]are[ ]trying[ ]to[ ]reach[ ]is[ ]over[ ]quota
+            )
         |too[ ]much[ ]mail[ ]data   # @docomo.ne.jp
         |user[ ](?:
              has[ ](?:
                  exceeded[ ]quota,[ ]bouncing[ ]mail
                 |too[ ]many[ ]messages[ ]on[ ]the[ ]server
                 )
-            |is[ ]over[ ]quota
-            |is[ ]over[ ]the[ ]quota
+            |is[ ]over[ ](?:the[ ])?quota
             |over[ ]quota
             |over[ ]quota[.][ ][(][#]5[.]1[.]1[)]   # qmail-toaster
             )
         |was[ ]automatically[ ]rejected:[ ]quota[ ]exceeded
         |would[ ]be[ ]over[ ]the[ ]allowed[ ]quota
         )
-    }ix;
+    }x;
 
     return 1 if $argv1 =~ $regex;
     return 0;
@@ -86,28 +94,18 @@ sub true {
     my $argvs = shift // return undef;
 
     return undef unless ref $argvs eq 'Sisimai::Data';
-    my $statuscode = $argvs->deliverystatus // '';
-    my $reasontext = __PACKAGE__->text;
+    return undef unless $argvs->deliverystatus;
+    return 1 if $argvs->reason eq 'mailboxfull';
 
-    return undef unless length $statuscode;
-    return 1 if $argvs->reason eq $reasontext;
-
+    # Delivery status code points "mailboxfull".
+    # Status: 4.2.2
+    # Diagnostic-Code: SMTP; 450 4.2.2 <***@example.jp>... Mailbox Full
     require Sisimai::SMTP::Status;
-    my $diagnostic = $argvs->diagnosticcode // '';
-    my $v = 0;
+    return 1 if Sisimai::SMTP::Status->name($argvs->deliverystatus) eq 'mailboxfull';
 
-    if( Sisimai::SMTP::Status->name($statuscode) eq $reasontext ) {
-        # Delivery status code points "mailboxfull".
-        # Status: 4.2.2
-        # Diagnostic-Code: SMTP; 450 4.2.2 <***@example.jp>... Mailbox Full
-        $v = 1;
-
-    } else {
-        # Check the value of Diagnosic-Code: header with patterns
-        $v = 1 if __PACKAGE__->match($diagnostic);
-    }
-
-    return $v;
+    # Check the value of Diagnosic-Code: header with patterns
+    return 1 if __PACKAGE__->match(lc $argvs->diagnosticcode);
+    return 0;
 }
 
 1;
@@ -162,7 +160,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

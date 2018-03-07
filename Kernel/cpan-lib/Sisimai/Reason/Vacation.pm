@@ -5,7 +5,26 @@ use warnings;
 
 sub text  { 'vacation' }
 sub description { 'Email replied automatically due to a recipient is out of office' }
-sub match { return undef }
+sub match {
+    # Try to match that the given text and regular expressions
+    # @param    [String] argv1  String to be matched with regular expressions
+    # @return   [Integer]       0: Did not match
+    #                           1: Matched
+    # @since v4.22.3
+    my $class = shift;
+    my $argv1 = shift // return undef;
+    my $regex = qr{(?>
+         i[ ]am[ ](?:
+             away[ ](?:on[ ]vacation|until)
+            |out[ ]of[ ]the[ ]office
+            )
+        |i[ ]will[ ]be[ ]traveling[ ]for[ ]work[ ]on
+        )
+    }x;
+    
+    return 1 if $argv1 =~ $regex;
+    return 0;
+}
 sub true  { return undef }
 1;
 
@@ -49,7 +68,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2016-2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

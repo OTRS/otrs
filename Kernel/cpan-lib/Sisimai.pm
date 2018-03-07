@@ -2,10 +2,12 @@ package Sisimai;
 use feature ':5.10';
 use strict;
 use warnings;
+use version;
 use Module::Load '';
 
-our $VERSION = '4.21.1';
-sub version { return $VERSION }
+our $VERSION = version->declare('v4.22.4');
+our $PATCHLV = 0;
+sub version { return $VERSION.($PATCHLV > 0 ? 'p'.$PATCHLV : '') }
 sub sysname { 'bouncehammer'  }
 sub libname { 'Sisimai'       }
 
@@ -29,19 +31,18 @@ sub make {
     require Sisimai::Message;
 
     my $argv1 = { @_ };
-    my $rtype = undef;
     my $input = $argv1->{'input'} || undef;
     my $field = $argv1->{'field'} || [];
 
     die ' ***error: "field" accepts an array reference only' if ref $field ne 'ARRAY';
     unless( $input ) {
         # "input" did not specified, try to detect automatically.
-        $rtype = ref $argv0;
+        my $rtype = ref $argv0;
         if( length $rtype == 0 ) {
             # The argument may be a path to email
             $input = 'email';
 
-        } elsif( $rtype =~ m/\A(?:ARRAY|HASH)\z/ ) {
+        } elsif( $rtype eq 'ARRAY' || $rtype eq 'HASH' ) {
             # The argument may be a decoded JSON object
             $input = 'json';
         }
@@ -72,7 +73,6 @@ sub make {
             my $data = Sisimai::Data->make('data' => $mesg, %$delivered1);
             push @$bouncedata, @$data if scalar @$data;
         }
-
     } elsif( $input eq 'json' ) {
         # Decoded JSON object: 'input' => 'json'
         my $type = ref $argv0;
@@ -88,7 +88,7 @@ sub make {
             push @$list, $argv0;
         }
 
-        for my $e ( @$list ) {
+        while( my $e = shift @$list ) {
             $methodargv = { 'data' => $e, 'hook' => $hookmethod, 'input' => 'json' };
             my $mesg = Sisimai::Message->new(%$methodargv);
             next unless defined $mesg;
@@ -96,7 +96,6 @@ sub make {
             my $data = Sisimai::Data->make('data' => $mesg, %$delivered1);
             push @$bouncedata, @$data if scalar @$data;
         }
-
     } else {
         # The value of "input" neither "email" nor "json"
         die ' ***error: invalid value of "input"';
@@ -133,21 +132,21 @@ sub dump {
 }
 
 sub engine {
-    # Parser engine list (MTA/MSP modules)
+    # Parser engine list (MTA modules)
     # @return   [Hash]     Parser engine table
     my $class = shift;
-    my $names = ['MTA', 'MSP', 'CED', 'ARF', 'RFC3464', 'RFC3834'];
+    my $names = [qw|Bite::Email Bite::JSON ARF RFC3464 RFC3834|];
     my $table = {};
 
-    for my $e ( @$names ) {
+    while( my $e = shift @$names ) {
         my $r = 'Sisimai::'.$e;
         Module::Load::load $r;
 
-        if( $e eq 'MTA' || $e eq 'MSP' || $e eq 'CED' ) {
-            # Sisimai::MTA or Sisimai::MSP or Sisimai::CED
+        if( $e eq 'Bite::Email' || $e eq 'Bite::JSON' ) {
+            # Sisimai::Bite::Email or Sisimai::Bite::JSON
             for my $ee ( @{ $r->index } ) {
                 # Load and get the value of "description" from each module
-                my $rr = sprintf("Sisimai::%s::%s", $e, $ee);
+                my $rr = 'Sisimai::'.$e.'::'.$ee;
                 Module::Load::load $rr;
                 $table->{ $rr } = $rr->description;
             }
@@ -163,16 +162,15 @@ sub reason {
     # Reason list Sisimai can detect
     # @return   [Hash]     Reason list table
     my $class = shift;
-    my $names = [];
     my $table = {};
 
     require Sisimai::Reason;
-    $names = Sisimai::Reason->index;
+    my $names = Sisimai::Reason->index;
 
     # These reasons are not included in the results of Sisimai::Reason->index
-    push @$names, ('Delivered', 'Feedback', 'Undefined', 'Vacation');
+    push @$names, (qw|Delivered Feedback Undefined Vacation|);
 
-    for my $e ( @$names ) {
+    while( my $e = shift @$names ) {
         # Call ->description() method of Sisimai::Reason::*
         my $r = 'Sisimai::Reason::'.$e;
         Module::Load::load $r;
@@ -189,7 +187,7 @@ sub match {
     my $argvs = shift || return undef;
 
     require Sisimai::Reason;
-    return Sisimai::Reason->match($argvs);
+    return Sisimai::Reason->match(lc $argvs);
 }
 
 1;
@@ -207,7 +205,7 @@ Sisimai - Mail Analyzing Interface for bounce mails.
 
 =head1 DESCRIPTION
 
-Sisimai is the system formerly known as C<bounceHammer> 4, is a Pelr module for
+Sisimai is the system formerly known as C<bounceHammer> 4, is a Perl module for
 analyzing bounce mails and generate structured data in a JSON format (YAML is 
 also available if "YAML" module is installed on your system) from parsed bounce
 messages. C<Sisimai> is a coined word: Sisi (the number 4 is pronounced "Si" in
@@ -272,7 +270,7 @@ of dump() and make() method like following command:
 
 =head2 Callback Feature
 
-Beggining from v4.19.0, `hook` argument is available to callback user defined
+Beginning from v4.19.0, `hook` argument is available to callback user defined
 method like the following codes:
     my $cmethod = sub {
         my $argv = shift;
@@ -289,7 +287,7 @@ method like the following codes:
         }
 
         # Message body of the bounced email
-        if( $argv->{'message'} =~ m/^X-Postfix-Queue-ID:\s*(.+)$/m ) {
+        if( $argv->{'message'} =~ /^X-Postfix-Queue-ID:\s*(.+)$/m ) {
             $data->{'queue-id'} = $1;
         }
 
@@ -309,7 +307,7 @@ method like the following codes:
 
 =head2 C<B<engine()>>
 
-C<engine> method provides table including parser engine list and its description.
+C<engine> method provides table including parser engine list and it's description.
 
     use Sisimai;
     my $v = Sisimai->engine();
@@ -337,7 +335,7 @@ C<reason> method provides table including all the reasons Sisimai can detect
 
 =item L<Sisimai::Data> - Parsed data object
 
-=item L<http://libsisimai.org/> - Sisimai — A successor to bounceHammer, Library to parse error mails
+=item L<https://libsisimai.org/> - Sisimai — A successor to bounceHammer, Library to parse error mails
 
 =item L<https://tools.ietf.org/html/rfc3463> - RFC3463: Enhanced Mail System Status Codes
 
@@ -355,7 +353,7 @@ L<https://github.com/sisimai/p5-Sisimai> - Sisimai on GitHub
 
 =head1 WEB SITE
 
-L<http://libsisimai.org/> - A successor to bounceHammer, Library to parse error mails.
+L<https://libsisimai.org/> - A successor to bounceHammer, Library to parse error mails.
 
 L<https://github.com/sisimai/rb-Sisimai> - Ruby version of Sisimai
 
@@ -365,7 +363,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2017 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

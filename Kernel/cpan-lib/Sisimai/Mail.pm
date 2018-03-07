@@ -22,32 +22,27 @@ sub new {
     my $class = shift;
     my $argv1 = shift;
     my $klass = undef;
-    my $param = { 
-        'type' => '', 
-        'mail' => undef,
-        'path' => $argv1,
-    };
+    my $param = { 'type' => '', 'mail' => undef, 'path' => $argv1 };
 
     # The argumenet is a mailbox or a Maildir/.
     if( -f $argv1 ) {
         # The argument is a file, it is an mbox or email file in Maildir/
-        $klass = sprintf("%s::Mbox", __PACKAGE__);
+        $klass = __PACKAGE__.'::Mbox';
         $param->{'type'} = 'mailbox';
 
     } elsif( -d $argv1 ) {
         # The agument is not a file, it is a Maildir/
-        $klass = sprintf("%s::Maildir", __PACKAGE__);
+        $klass = __PACKAGE__.'::Maildir';
         $param->{'type'} = 'maildir';
 
     } else {
         # The argumen1 neither a mailbox nor a Maildir/.
         if( ref($argv1) eq 'GLOB' || $argv1 eq 'STDIN' ) {
             # Read from STDIN
-            $klass = sprintf("%s::STDIN", __PACKAGE__);
+            $klass = __PACKAGE__.'::STDIN';
             $param->{'type'} = 'stdin';
         }
     }
-
     return undef unless $klass;
     Module::Load::load $klass;
     $param->{'mail'} = $klass->new($argv1);
@@ -160,7 +155,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2016,2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

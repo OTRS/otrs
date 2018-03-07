@@ -14,21 +14,25 @@ sub match {
     my $class = shift;
     my $argv1 = shift // return undef;
     my $regex = qr{(?>
-         All[ ]available[ ]IPs[ ]are[ ]at[ ]maximum[ ]connection[ ]limit    # SendGrid
+         all[ ]available[ ]ips[ ]are[ ]at[ ]maximum[ ]connection[ ]limit    # SendGrid
         |connection[ ]rate[ ]limit[ ]exceeded
-        |no[ ]IPs[ ]available[ ][-][ ].+[ ]exceeds[ ]per[-]domain[ ]connection[ ]limit[ ]for
-        |Throttling[ ]failure:[ ](?:
-             Daily[ ]message[ ]quota[ ]exceeded
-            |Maximum[ ]sending[ ]rate[ ]exceeded
+        |domain[ ].+[ ]has[ ]exceeded[ ]the[ ]max[ ]emails[ ]per[ ]hour[ ].+[ ]allowed
+        |no[ ]ips[ ]available[ ][-][ ].+[ ]exceeds[ ]per[-]domain[ ]connection[ ]limit[ ]for
+        |throttling[ ]failure:[ ](?:
+             daily[ ]message[ ]quota[ ]exceeded
+            |maximum[ ]sending[ ]rate[ ]exceeded
             )
-        |Too[ ]many[ ](?:
+        |too[ ]many[ ](?:
              connections
             |connections[ ]from[ ]your[ ]host[.]    # Microsoft
-            |concurrent[ ]SMTP[ ]connections        # Microsoft
-            |SMTP[ ]sessions[ ]for[ ]this[ ]host    # Sendmail(daemon.c)
+            |concurrent[ ]smtp[ ]connections        # Microsoft
+            |errors[ ]from[ ]your[ ]ip              # Free.fr
+            |smtp[ ]sessions[ ]for[ ]this[ ]host    # Sendmail(daemon.c)
             )
+        |trop[ ]de[ ]connexions,[ ].+[a-z]{3}.+104
+        |we[ ]have[ ]already[ ]made[ ]numerous[ ]attempts[ ]to[ ]deliver[ ]this[ ]message
         )
-    }xi;
+    }x;
 
     return 1 if $argv1 =~ $regex;
     return 0;
@@ -45,24 +49,12 @@ sub true {
     my $argvs = shift // return undef;
 
     return undef unless ref $argvs eq 'Sisimai::Data';
-    return 1 if $argvs->reason eq __PACKAGE__->text;
+    return 1 if $argvs->reason eq 'toomanyconn';
 
     require Sisimai::SMTP::Status;
-    my $statuscode = $argvs->deliverystatus // '';
-    my $diagnostic = $argvs->diagnosticcode // '';
-    my $tempreason = Sisimai::SMTP::Status->name($statuscode);
-    my $reasontext = __PACKAGE__->text;
-    my $v = 0;
-
-    if( $tempreason eq $reasontext ) {
-        # Delivery status code points "toomanyconn".
-        $v = 1;
-
-    } else {
-        # Matched with a pattern in this class
-        $v = 1 if __PACKAGE__->match($diagnostic);
-    }
-    return $v;
+    return 1 if Sisimai::SMTP::Status->name($argvs->deliverystatus) eq 'toomanyconn';
+    return 1 if __PACKAGE__->match(lc $argvs->diagnosticcode);
+    return 0;
 }
 
 1;
@@ -116,7 +108,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

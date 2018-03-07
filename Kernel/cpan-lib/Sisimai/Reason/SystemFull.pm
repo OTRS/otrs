@@ -17,7 +17,7 @@ sub match {
          mail[ ]system[ ]full
         |requested[ ]mail[ ]action[ ]aborted:[ ]exceeded[ ]storage[ ]allocation # MS Exchange
         )
-    }ix;
+    }x;
 
     return 1 if $argv1 =~ $regex;
     return 0;

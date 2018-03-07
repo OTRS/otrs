@@ -1,6 +1,7 @@
 #6.0.7 2018-??-??
 
 #6.0.6 2018-03-13
+ - 2018-03-06 Fixed bug#[13639](https://bugs.otrs.org/show_bug.cgi?id=13639) - Email causes deadlock in Maint::Postmaster::Read.
  - 2018-03-05 Updated translations, thanks to all translators.
  - 2018-03-05 Fixed bug#[13713](https://bugs.otrs.org/show_bug.cgi?id=13713) - Dashboard widget 'Appointments' ignores user specific time zone on output.
  - 2018-03-05 Fixed bug#[13709](https://bugs.otrs.org/show_bug.cgi?id=13709) - SupportDataCollector causes Internal Server Error.

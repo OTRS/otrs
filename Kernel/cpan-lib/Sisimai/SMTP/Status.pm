@@ -578,6 +578,7 @@ my $StandardCode = {
     '4.7.15' => 'securityerror',# Priority Level is too low
     '4.7.16' => 'mesgtoobig',   # Message is too big for the specified priority
     '4.7.24' => 'securityerror',# SPF validation error
+    '4.7.25' => 'blocked',      # Reverse DNS validation failed
 # ------------------------------------------------------------------------------
     '5.1.0'  => 'userunknown',  # Other address status
     '5.1.1'  => 'userunknown',  # Bad destination mailbox address
@@ -602,6 +603,7 @@ my $StandardCode = {
     '5.3.5'  => 'systemerror',  # System incorrectly configured
     '5.4.0'  => 'networkerror', # Other or undefined network or routing status
     '5.4.3'  => 'systemerror',  # Directory server failure
+    '5.4.4'  => 'hostunknown',  # Unable to route
     '5.5.3'  => 'toomanyconn',  # Too many recipients
     '5.5.4'  => 'systemerror',  # Invalid command arguments
     '5.5.5'  => 'systemerror',  # Wrong protocol version
@@ -671,30 +673,32 @@ my $InternalCode = {
         'undefined'    => '4.0.900',
     },
     'permanent' => {
-        'blocked'      => '5.0.971',
-        'contenterror' => '5.0.960',
-        'exceedlimit'  => '5.0.923',
-        'expired'      => '5.0.947',
-        'filtered'     => '5.0.910',
-        'hasmoved'     => '5.0.916',
-        'hostunknown'  => '5.0.912',
-        'mailboxfull'  => '5.0.922',
-        'mailererror'  => '5.0.939',
-        'mesgtoobig'   => '5.0.934',
-        'networkerror' => '5.0.944',
-        'norelaying'   => '5.0.909',
-        'notaccept'    => '5.0.932',
-        'onhold'       => '5.0.901',
-        'rejected'     => '5.0.918',
-        'securityerror'=> '5.0.970',
-        'spamdetected' => '5.0.980',
-        'suspend'      => '5.0.921',
-        'systemerror'  => '5.0.930',
-        'systemfull'   => '5.0.931',
-        'syntaxerror'  => '5.0.902',
-        'toomanyconn'  => '5.0.945',
-        'userunknown'  => '5.0.911',
-        'undefined'    => '5.0.900',
+        'blocked'        => '5.0.971',
+        'contenterror'   => '5.0.960',
+        'exceedlimit'    => '5.0.923',
+        'expired'        => '5.0.947',
+        'filtered'       => '5.0.910',
+        'hasmoved'       => '5.0.916',
+        'hostunknown'    => '5.0.912',
+        'mailboxfull'    => '5.0.922',
+        'mailererror'    => '5.0.939',
+        'mesgtoobig'     => '5.0.934',
+        'networkerror'   => '5.0.944',
+        'norelaying'     => '5.0.909',
+        'notaccept'      => '5.0.932',
+        'onhold'         => '5.0.901',
+        'policyviolation'=> '5.0.972',
+        'rejected'       => '5.0.918',
+        'securityerror'  => '5.0.970',
+        'spamdetected'   => '5.0.980',
+        'suspend'        => '5.0.921',
+        'systemerror'    => '5.0.930',
+        'systemfull'     => '5.0.931',
+        'syntaxerror'    => '5.0.902',
+        'toomanyconn'    => '5.0.945',
+        'userunknown'    => '5.0.911',
+        'undefined'      => '5.0.900',
+        'virusdetected'  => '5.0.971',
     },
 };
 
@@ -727,7 +731,7 @@ sub name {
     my $class = shift;
     my $argv1 = shift || return '';
 
-    return '' unless $argv1 =~ m/\A[245][.]\d[.]\d+\z/;
+    return '' unless $argv1 =~ /\A[245][.]\d[.]\d+\z/;
     return $StandardCode->{ $argv1 } // '';
 }
 
@@ -753,7 +757,7 @@ sub find {
         next unless $argv1 =~ $e;
         $foundvalue = $1;
 
-        if( $argv1 =~ m/\b(?:${foundvalue}[.]\d{1,3}|\d{1,3}[.]${foundvalue})\b/ ) {
+        if( $argv1 =~ /\b(?:${foundvalue}[.]\d{1,3}|\d{1,3}[.]${foundvalue})\b/ ) {
             # Clear and skip if the value is an IPv4 address
             $foundvalue = '';
             next;
@@ -815,7 +819,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2015-2017 azumakuniyuki, All rights reserved.
+Copyright (C) 2015-2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

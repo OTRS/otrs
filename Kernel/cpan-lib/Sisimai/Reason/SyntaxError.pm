@@ -17,8 +17,8 @@ sub true {
     my $argvs = shift // return undef;
 
     return undef unless ref $argvs eq 'Sisimai::Data';
-    return 1 if $argvs->reason eq __PACKAGE__->text;
-    return 1 if $argvs->replycode =~ m/\A[45]0[0-7]\z/;
+    return 1 if $argvs->reason eq 'syntaxerror';
+    return 1 if $argvs->replycode =~ /\A[45]0[0-7]\z/;
     return 0;
 }
 
@@ -72,7 +72,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2015-2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2015-2016,2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

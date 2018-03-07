@@ -75,16 +75,14 @@ sub find {
         (?:\d|[01]?\d\d|2[0-4]\d|25[0-5])
     \b}x;
 
-    return '' if $argv1 =~ m/X-Unix;/i;
+    return '' if uc($argv1) =~ /X-UNIX;/;
 
-    if( $argv1 =~ $ip4re ) {
-        # Convert found IPv4 addresses to '***.***.***.***' to avoid that the
-        # following code detects an octet of the IPv4 adress as an SMTP reply
-        # code.
-        $argv1 =~ s/$ip4re/***.***.***.***/g 
-    }
+    # Convert found IPv4 addresses to '***.***.***.***' to avoid that the
+    # following code detects an octet of the IPv4 adress as an SMTP reply
+    # code.
+    $argv1 =~ s/$ip4re/***.***.***.***/g if $argv1 =~ $ip4re;
 
-    if( $argv1 =~ m/\b([45][0-5][0-9])\b/ || $argv1 =~ m/\b(25[0-3])\b/ ) {
+    if( $argv1 =~ /\b([45][0-5][0-9])\b/ || $argv1 =~ /\b(25[0-3])\b/ ) {
         # 550, 447, or 250
         $value = $1;
     }
@@ -126,7 +124,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2015-2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2015-2016,2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

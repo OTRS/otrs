@@ -21,12 +21,12 @@ sub match {
             )
         |routing[ ]loop[ ]detected[ ][-][-][ ]too[ ]many[ ]received:[ ]headers
         |this[ ]message[ ]contains?[ ](?:
-             invalid[ ]MIME[ ]headers
+             invalid[ ]mime[ ]headers
             |improperly[-]formatted[ ]binary[ ]content
             |text[ ]that[ ]uses[ ]unnecessary[ ]base64[ ]encoding
             )
         )
-    }xi;
+    }x;
 
     return 1 if $argv1 =~ $regex;
     return 0;

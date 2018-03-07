@@ -16,23 +16,24 @@ sub match {
     my $regex = qr{(?>
          because[ ]the[ ]recipient[ ]is[ ]only[ ]accepting[ ]mail[ ]from[ ]
             specific[ ]email[ ]addresses    # AOL Phoenix
-        |Bounced[ ]Address  # SendGrid|a message to an address has previously been Bounced.
+        |bounced[ ]address  # SendGrid|a message to an address has previously been Bounced.
         |due[ ]to[ ]extended[ ]inactivity[ ]new[ ]mail[ ]is[ ]not[ ]currently[ ]
             being[ ]accepted[ ]for[ ]this[ ]mailbox
-        |has[ ]restricted[ ]SMS[ ]e-mail    # AT&T
+        |has[ ]restricted[ ]sms[ ]e-mail    # AT&T
         |http://postmaster[.]facebook[.]com/.+refused[ ]due[ ]to[ ]recipient[ ]preferences # Facebook
-        |IS[ ]NOT[ ]ACCEPTING[ ]ANY[ ]MAIL
+        |is[ ]not[ ]accepting[ ]any[ ]mail
         |permanent[ ]failure[ ]for[ ]one[ ]or[ ]more[ ]recipients[ ][(].+:blocked[)]
-        |RESOLVER[.]RST[.]NotAuthorized # Microsoft Exchange
-        |This[ ]account[ ]is[ ]protected[ ]by
+        |resolver[.]rst[.]notauthorized # Microsoft Exchange
+        |this[ ]account[ ]is[ ]protected[ ]by
         |user[ ](?:
              not[ ]found  # Filter on MAIL.RU
             |reject
             )
         |we[ ]failed[ ]to[ ]deliver[ ]mail[ ]because[ ]the[ ]following[ ]address
             [ ]recipient[ ]id[ ]refuse[ ]to[ ]receive[ ]mail    # Willcom
+        |you[ ]have[ ]been[ ]blocked[ ]by[ ]the[ ]recipient
         )
-    }ix;
+    }x;
 
     return 1 if $argv1 =~ $regex;
     return 0;
@@ -49,43 +50,26 @@ sub true {
     my $argvs = shift // return undef;
 
     return undef unless ref $argvs eq 'Sisimai::Data';
-    return 1 if $argvs->reason eq __PACKAGE__->text;
+    return 1 if $argvs->reason eq 'filtered';
 
     require Sisimai::SMTP::Status;
     require Sisimai::Reason::UserUnknown;
     my $commandtxt = $argvs->smtpcommand // '';
-    my $statuscode = $argvs->deliverystatus // '';
-    my $diagnostic = $argvs->diagnosticcode // '';
-    my $tempreason = Sisimai::SMTP::Status->name($statuscode);
-    my $reasontext = __PACKAGE__->text;
-    my $v = 0;
+    my $diagnostic = lc $argvs->diagnosticcode // '';
+    my $tempreason = Sisimai::SMTP::Status->name($argvs->deliverystatus);
+    my $alterclass = 'Sisimai::Reason::UserUnknown';
 
     return 0 if $tempreason eq 'suspend';
-
-    if( $tempreason eq $reasontext ) {
+    if( $tempreason eq 'filtered' ) {
         # Delivery status code points "filtered".
-        if( Sisimai::Reason::UserUnknown->match($diagnostic) ||
-            __PACKAGE__->match($diagnostic) ) {
+        return 1 if( $alterclass->match($diagnostic) || __PACKAGE__->match($diagnostic) );
 
-            $v = 1 
-        }
-    } else {
+    } elsif( $commandtxt ne 'RCPT' && $commandtxt ne 'MAIL' ) {
         # Check the value of Diagnostic-Code and the last SMTP command
-        if( $commandtxt ne 'RCPT' && $commandtxt ne 'MAIL' ) {
-            # Check the last SMTP command of the session. 
-            if( __PACKAGE__->match($diagnostic) ) {
-                # Matched with a pattern in this class
-                $v = 1;
-
-            } else {
-                # Did not match with patterns in this class,
-                # Check the value of "Diagnostic-Code" with other error patterns.
-                $v = 1 if Sisimai::Reason::UserUnknown->match($diagnostic);
-            }
-        }
+        return 1 if __PACKAGE__->match($diagnostic);
+        return 1 if $alterclass->match($diagnostic);
     }
-
-    return $v;
+    return 0;
 }
 
 
@@ -147,7 +131,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

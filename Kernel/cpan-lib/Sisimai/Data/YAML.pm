@@ -20,15 +20,12 @@ sub dump {
         require YAML;
         $modulename = 'YAML';
     };
-
     if( $@ ) {
         # Try to load YAML::Syck
         eval { 
             require YAML::Syck;
             $modulename = 'YAML::Syck';
         };
-
-        # YAML::Syck is not installed
         die ' ***error: Neither "YAML" nor "YAML::Syck" module is installed' if $@;
     }
 
@@ -98,7 +95,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2016,2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

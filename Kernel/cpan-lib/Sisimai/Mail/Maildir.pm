@@ -41,7 +41,6 @@ sub read {
     # Maildir reader, works as a iterator.
     # @return       [String] Contents of file in Maildir/
     my $self = shift;
-
     return undef unless defined $self->{'dir'};
     return undef unless -d $self->{'dir'};
 
@@ -58,7 +57,7 @@ sub read {
             # Read each file in the directory
             next if( $r eq '.' || $r eq '..' );
 
-            $emailindir =  sprintf("%s/%s", $self->{'dir'}, $r);
+            $emailindir =  $self->{'dir'}.'/'.$r;
             $emailindir =~ y{/}{}s;
             next unless -f $emailindir;
             next unless -s $emailindir;
@@ -158,7 +157,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2016,2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

@@ -13,20 +13,28 @@ sub match {
     # @since v4.1.12
     my $class = shift;
     my $argv1 = shift // return undef;
-    my $regex = qr{(?:
+    my $regex = qr{(?>
          could[ ]not[ ]connect[ ]and[ ]send[ ]the[ ]mail[ ]to
-        |DNS[ ]records[ ]for[ ]the[ ]destination[ ]computer[ ]could[ ]not[ ]be[ ]found
-        |Hop[ ]count[ ]exceeded[ ]-[ ]possible[ ]mail[ ]loop
+        |dns[ ]records[ ]for[ ]the[ ]destination[ ]computer[ ]could[ ]not[ ]be[ ]found
+        |hop[ ]count[ ]exceeded[ ]-[ ]possible[ ]mail[ ]loop
         |host[ ]is[ ]unreachable
         |mail[ ]forwarding[ ]loop[ ]for[ ]
         |malformed[ ]name[ ]server[ ]reply
         |maximum[ ]forwarding[ ]loop[ ]count[ ]exceeded
-        |message[ ]looping
-        |name[ ]service[ ]error
+        |message[ ](?:
+             looping
+            |probably[ ]in[ ]a[ ]routing[ ]loop
+            )
+        |name[ ]service[ ]error[ ]for[ ].+[ ](?:
+             malformed[ ]or[ ]unexpected[ ]name[ ]server[ ]reply
+            |host[ ]not[ ]found,[ ]try[ ]again
+            )
+        |no[ ]route[ ]to[ ]host
         |too[ ]many[ ]hops
+        |unable[ ]to[ ]resolve[ ]route[ ].+[ ]
         |unrouteable[ ]mail[ ]domain
         )
-    }ix;
+    }x;
 
     return 1 if $argv1 =~ $regex;
     return 0;
@@ -94,7 +102,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2017 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

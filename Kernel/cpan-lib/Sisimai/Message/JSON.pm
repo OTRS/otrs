@@ -14,8 +14,8 @@ sub make {
     # Make data structure from decoded JSON object
     # @param         [Hash] argvs   Bounce object
     # @options argvs [Hash]  data   Decoded JSON
-    # @options argvs [Array] load   User defined CED module list
-    # @options argvs [Array] order  The order of CED modules
+    # @options argvs [Array] load   User defined MTA module list
+    # @options argvs [Array] order  The order of MTA modules
     # @options argvs [Code]  hook   Reference to callback method
     # @return        [Hash]         Resolved data structure
     my $class = shift;
@@ -53,10 +53,10 @@ sub make {
 }
 
 sub load {
-    # Load CED modules which specified at 'order' and 'load' in the argument
+    # Load MTA modules which specified at 'order' and 'load' in the argument
     # @param         [Hash] argvs       Module information to be loaded
-    # @options argvs [Array]  load      User defined CED module list
-    # @options argvs [Array]  order     The order of CED modules
+    # @options argvs [Array]  load      User defined MTA module list
+    # @options argvs [Array]  order     The order of MTA modules
     # @return        [Array]            Module list
     # @since v4.20.0
     my $class = shift;
@@ -65,8 +65,8 @@ sub load {
     my @modulelist = ();
     my $tobeloaded = [];
 
-    for my $e ( 'load', 'order' ) {
-        # The order of CED modules specified by user
+    for my $e ('load', 'order') {
+        # The order of MTA modules specified by user
         next unless exists $argvs->{ $e };
         next unless ref $argvs->{ $e } eq 'ARRAY';
         next unless scalar @{ $argvs->{ $e } };
@@ -74,9 +74,9 @@ sub load {
         push @modulelist, @{ $argvs->{'order'} } if $e eq 'order';
         next unless $e eq 'load';
 
-        # Load user defined CED module
+        # Load user defined MTA module
         for my $v ( @{ $argvs->{'load'} } ) {
-            # Load user defined CED module
+            # Load user defined MTA module
             eval { Module::Load::load $v };
             next if $@;
             push @$tobeloaded, $v;
@@ -84,7 +84,7 @@ sub load {
     }
 
     for my $e ( @modulelist ) {
-        # Append the custom order of CED modules
+        # Append the custom order of MTA modules
         next if grep { $e eq $_ } @$tobeloaded;
         push @$tobeloaded, $e;
     }
@@ -92,10 +92,10 @@ sub load {
 }
 
 sub makeorder {
-    # Check the decoded JSON strucutre for detecting CED modules and returns the
+    # Check the decoded JSON strucutre for detecting MTA modules and returns the
     # order of modules to be called.
     # @param         [Hash]  argvs  Decoded JSON object
-    # @return        [Array]        Order of CED modules
+    # @return        [Array]        Order of MTA modules
     my $class = shift;
     my $argvs = shift || return [];
     my $order = [];
@@ -105,7 +105,7 @@ sub makeorder {
 
     # Seek some key names from given argument
     for my $e ( keys %$ObjectKeys ) {
-        # Get CED module list matched with a specified key
+        # Get MTA module list matched with a specified key
         next unless exists $argvs->{ $e };
 
         # Matched and push it into the order list
@@ -116,7 +116,7 @@ sub makeorder {
 }
 
 sub parse {
-    # Parse bounce object with each CED module
+    # Parse bounce object with each MTA module
     # @param               [Hash] argvs    Processing message entity.
     # @param options argvs [Hash] json     Decoded bounce object
     # @param options argvs [Code] hook     Hook method to be called
@@ -144,19 +144,24 @@ sub parse {
 
     ADAPTOR: while(1) {
         # 1. User-Defined Module
-        # 2. CED Module Candidates to be tried on first
-        # 3. Sisimai::CED::*
+        # 2. MTA Module Candidates to be tried on first
+        # 3. Sisimai::Bite::JSON::*
         #
         USER_DEFINED: for my $r ( @$ToBeLoaded ) {
-            # Call user defined CED modules
+            # Call user defined MTA modules
             next if exists $haveloaded->{ $r };
+            eval { Module::Load::load $r };
+            if( $@ ) {
+                warn sprintf(" ***warning: Failed to load %s: %s", $r, $@);
+                next;
+            }
             $hasadapted = $r->adapt($bouncedata);
             $haveloaded->{ $r } = 1;
             last(ADAPTOR) if $hasadapted;
         }
 
         TRY_ON_FIRST: while( my $r = shift @$TryOnFirst ) {
-            # Try CED module candidates which are detected from object key names
+            # Try MTA module candidates which are detected from object key names
             next if exists $haveloaded->{ $r };
             eval { Module::Load::load $r };
             next if $@;
@@ -167,7 +172,7 @@ sub parse {
         }
 
         DEFAULT_LIST: for my $r ( @$DefaultSet ) {
-            # Default order of CED modules
+            # Default order of MTA modules
             next if exists $haveloaded->{ $r };
             eval { Module::Load::load $r };
             next if $@;
@@ -219,12 +224,12 @@ C<new()> is a constructor of Sisimai::Message
     my $jsonobject = $jsonparser->decode($jsonstring);
     my $messageobj = Sisimai::Message->new('data' => $jsonobject, 'input' => 'json');
 
-If you have implemented a custom CED module and use it, set the value of "load"
+If you have implemented a custom MTA module and use it, set the value of "load"
 in the argument of this method as an array reference like following code:
 
     my $messageobj = Sisimai::Message->new(
                         'data'  => $jsonobject,
-                        'load'  => ['Your::Custom::CED::Module']
+                        'load'  => ['Your::Custom::MTA::Module']
                         'input' => 'json',
                   );
 
@@ -293,7 +298,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

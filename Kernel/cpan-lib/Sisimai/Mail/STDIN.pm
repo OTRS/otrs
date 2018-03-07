@@ -35,12 +35,10 @@ sub read {
     # Mbox reader, works as a iterator.
     # @return   [String] Contents of mbox
     my $self = shift;
+    return undef unless -T $self->{'handle'};
 
     my $readhandle = $self->{'handle'};
     my $readbuffer = '';
-
-    return undef unless -T $self->{'handle'};
-
     eval {
         $readhandle = $self->{'handle'}->fdopen(fileno(STDIN), 'r') unless eof $readhandle;
 
@@ -130,7 +128,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2016,2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

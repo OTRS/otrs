@@ -14,17 +14,25 @@ sub match {
     my $class = shift;
     my $argv1 = shift // return undef;
     my $regex = qr{(?>
-         access[ ]denied[.][ ]IP[ ]name[ ]lookup[ ]failed
+         access[ ]denied[.][ ]ip[ ]name[ ]lookup[ ]failed
         |access[ ]from[ ]ip[ ]address[ ].+[ ]blocked
+        |all[ ]mail[ ]servers[ ]must[ ]have[ ]a[ ]ptr[ ]record[ ]with[ ]a[ ]valid[ ]reverse[ ]dns[ ]entry
+        |bad[ ]sender[ ]ip[ ]address
         |blacklisted[ ]by
-        |Blocked[ ]-[ ]see[ ]https://support[.]proofpoint[.]com/dnsbl-lookup[.]cgi[?]ip=.+
-        |can[']t[ ]determine[ ]Purported[ ]Responsible[ ]Address
-        |cannot[ ]resolve[ ]your[ ]address
-        |client[ ]host[ ].+[ ]blocked[ ]using
-        |client[ ]host[ ]rejected:[ ](?:
-             may[ ]not[ ]be[ ]mail[ ]exchanger
-            |cannot[ ]find[ ]your[ ]hostname    # Yahoo!
-            |was[ ]not[ ]authenticated          # Microsoft
+        |(?:blocked|refused)[ ]-[ ]see[ ]https?://
+        |can[']t[ ]determine[ ]purported[ ]responsible[ ]address
+        |cannot[ ](?:
+             find[ ]your[ ]hostname
+            |resolve[ ]your[ ]address
+            )
+        |client[ ]host[ ](?:
+             .+[ ]blocked[ ]using
+            |rejected:[ ](?:
+                 abus[ ]detecte[ ]gu_eib_0[24]      # SFR
+                |cannot[ ]find[ ]your[ ]hostname    # Yahoo!
+                |may[ ]not[ ]be[ ]mail[ ]exchanger
+                |was[ ]not[ ]authenticated          # Microsoft
+                )
             )
         |confirm[ ]this[ ]mail[ ]server
         |connection[ ](?:
@@ -33,41 +41,107 @@ sub match {
            |reset[ ]by[ ]peer
            |was[ ]dropped[ ]by[ ]remote[ ]host
            )
-        |domain[ ]does[ ]not[ ]exist:
-        |domain[ ].+[ ]mismatches[ ]client[ ]ip
+        |connections[ ](?:
+             not[ ]accepted[ ]from[ ]ip[ ]addresses[ ]on[ ]spamhaus[ ]xbl
+            |will[ ]not[ ]be[ ]accepted[ ]from[ ].+because[ ]the[ ]ip[ ]is[ ]in[ ]spamhaus's[ ]list
+            )
+        |currently[ ]sending[ ]spam[ ]see:[ ]
+        |domain[ ](?:
+             .+[ ]mismatches[ ]client[ ]ip
+            |does[ ]not[ ]exist:
+            )
         |dns[ ]lookup[ ]failure:[ ].+[ ]try[ ]again[ ]later
-        |DNSBL:ATTRBL
-        |Go[ ]away
+        |dnsbl:attrbl
+        |dynamic/zombied/spam[ ]ips[ ]blocked
+        |email[ ]blocked[ ]by[ ](?:.+[.]barracudacentral[.]org|spamhaus)
+        |fix[ ]reverse[ ]dns[ ]for[ ].+
+        |go[ ]away
+        |host[ ].+[ ]refused[ ]to[ ]talk[ ]to[ ]me:[ ]\d+[ ]blocked
         |hosts[ ]with[ ]dynamic[ ]ip
-        |IP[ ]\d{1,3}[.]\d{1,3}[.]\d{1,3}[.]\d{1,3}[ ]is[ ]blocked[ ]by[ ]EarthLink # Earthlink
-        |IP[/]domain[ ]reputation[ ]problems
-        |is[ ]not[ ]allowed[ ]to[ ]send[ ]mail[ ]from
+        |http://(?:
+             spf[.]pobox[.]com/why[.]html
+            |www[.]spamcop[.]net/bl[.]
+            )
+        |invalid[ ]ip[ ]for[ ]sending[ ]mail[ ]of[ ]domain
+        |ip[ ]\d{1,3}[.]\d{1,3}[.]\d{1,3}[.]\d{1,3}[ ]is[ ]blocked[ ]by[ ]earthlink # Earthlink
+        |ip[/]domain[ ]reputation[ ]problems
+        |ips[ ]with[ ]missing[ ]ptr[ ]records
+        |is[ ](?:
+             in[ ]a[ ]black[ ]list[ ]at[ ].+[.]
+            |in[ ]an[ ].*rbl[ ]on[ ].+
+            |not[ ]allowed[ ]to[ ]send[ ](?:
+                 mail[ ]from
+                |from[ ].+[ ]per[ ]it's[ ]spf[ ]record
+                )
+            )
         |mail[ ]server[ ]at[ ].+[ ]is[ ]blocked
-        |Messages[ ]from[ ].+[ ]temporarily[ ]deferred[ ]due[ ]to[ ]user[ ]complaints   # Yahoo!
-        |no[ ]access[ ]from[ ]mail[ ]server
-        |Not[ ]currently[ ]accepting[ ]mail[ ]from[ ]your[ ]ip  # Microsoft
-        |Please[ ]get[ ]a[ ]custom[ ]reverse[ ]DNS[ ]name[ ]from[ ]your[ ]ISP[ ]for[ ]your[ ]host
-        |please[ ]use[ ]the[ ]smtp[ ]server[ ]of[ ]your[ ]ISP
-        |Rejecting[ ]open[ ]proxy   # Sendmail(srvrsmtp.c)
+        |mail[ ]from[ ]\d+[.]\d+[.]\d+[.]\d[ ]refused:
+        |message[ ]from[ ].+[ ]rejected[ ]based[ ]on[ ]blacklist
+        |messages[ ]from[ ].+[ ]temporarily[ ]deferred[ ]due[ ]to[ ]user[ ]complaints   # Yahoo!
+        |no[ ](?:
+             access[ ]from[ ]mail[ ]server
+            |ptr[ ]record[ ]found[.]
+            )
+        |not[ ]currently[ ]accepting[ ]mail[ ]from[ ]your[ ]ip  # Microsoft
+        |part[ ]of[ ]their[ ]network[ ]is[ ]on[ ]our[ ]block[ ]list
+        |please[ ](?:
+             get[ ]a[ ]custom[ ]reverse[ ]dns[ ]name[ ]from[ ]your[ ]isp[ ]for[ ]your[ ]host
+            |inspect[ ]your[ ]spf[ ]settings
+            |use[ ]the[ ]smtp[ ]server[ ]of[ ]your[ ]isp
+            )
+        |ptr[ ]record[ ]setup
+        |rejecting[ ]open[ ]proxy   # Sendmail(srvrsmtp.c)
+        |reverse[ ]dns[ ](?:
+              failed
+             |required
+             |lookup[ ]for[ ]host[ ].+[ ]failed[ ]permanently
+             )
+        |sender[ ]ip[ ](?:
+             address[ ]rejected
+            |reverse[ ]lookup[ ]rejected
+            )
+        |server[ ]access[ ](?:
+             .+[ ]forbidden[ ]by[ ]invalid[ ]rdns[ ]record[ ]of[ ]your[ ]mail[ ]server
+            |forbidden[ ]by[ ]your[ ]ip[ ]
+            )
+        |server[ ]ip[ ].+[ ]listed[ ]as[ ]abusive
+        |service[ ]permits[ ]\d+[ ]unverifyable[ ]sending[ ]ips
+        |smtp[ ]error[ ]from[ ]remote[ ]mail[ ]server[ ]after[ ]initial[ ]connection:   # Exim
         |sorry,[ ](?:
              that[ ]domain[ ]isn'?t[ ]in[ ]my[ ]list[ ]of[ ]allowed[ ]rcpthosts
             |your[ ]remotehost[ ]looks[ ]suspiciously[ ]like[ ]spammer
             )
-        |SPF[ ]record
+        |spf[ ](?:
+             .+[ ]domain[ ]authentication[ ]fail
+            |record
+            |check:[ ]fail
+            )
+        |spf:[ ].+[ ]is[ ]not[ ]allowed[ ]to[ ]send[ ]mail.+[a-z]{3}.+401
         |the[ ](?:email|domain|ip).+[ ]is[ ]blacklisted
+        |this[ ]system[ ]will[ ]not[ ]accept[ ]messages[ ]from[ ]servers[/]devices[ ]with[ ]no[ ]reverse[ ]dns
+        |too[ ]many[ ]spams[ ]from[ ]your[ ]ip  # free.fr
         |unresolvable[ ]relay[ ]host[ ]name
+        |veuillez[ ]essayer[ ]plus[ ]tard.+[a-z]{3}.+(?:103|510)
         |your[ ](?:
              network[ ]is[ ]temporary[ ]blacklisted
+            |sender's[ ]ip[ ]address[ ]is[ ]listed[ ]at[ ].+[.]abuseat[.]org
             |server[ ]requires[ ]confirmation
             )
         |was[ ]blocked[ ]by[ ].+
         |we[ ]do[ ]not[ ]accept[ ]mail[ ]from[ ](?: # @mail.ru
-             hosts[ ]with[ ]dynamic[ ]IP[ ]or[ ]generic[ ]dns[ ]PTR-records
-            |dynamic[ ]ips
+             dynamic[ ]ips
+            |hosts[ ]with[ ]dynamic[ ]ip[ ]or[ ]generic[ ]dns[ ]ptr-records
             )
-        |http://www[.]spamcop[.]net/bl[.]
+        |you[ ]are[ ](?:
+             not[ ]allowed[ ]to[ ]connect
+            |sending[ ]spam
+            )
+        |your[ ](?:
+             access[ ]to[ ]submit[ ]messages[ ]to[ ]this[ ]e-mail[ ]system[ ]has[ ]been[ ]rejected
+            |message[ ]was[ ]rejected[ ]for[ ]possible[ ]spam/virus[ ]content
+            )
         )
-    }xi;
+    }x;
 
     return 1 if $argv1 =~ $regex;
     return 0;
@@ -84,24 +158,11 @@ sub true {
     my $argvs = shift // return undef;
 
     return undef unless ref $argvs eq 'Sisimai::Data';
-    return 1 if $argvs->reason eq __PACKAGE__->text;
+    return 1 if $argvs->reason eq 'blocked';
 
     require Sisimai::SMTP::Status;
-    my $statuscode = $argvs->deliverystatus // '';
-    my $diagnostic = $argvs->diagnosticcode // '';
-    my $tempreason = Sisimai::SMTP::Status->name($statuscode);
-    my $reasontext = __PACKAGE__->text;
-    my $v = 0;
-
-    if( $tempreason eq $reasontext ) {
-        # Delivery status code points "blocked".
-        $v = 1;
-
-    } else {
-        # Matched with a pattern in this class
-        $v = 1 if __PACKAGE__->match($diagnostic);
-    }
-    return $v;
+    return 1 if Sisimai::SMTP::Status->name($argvs->deliverystatus) eq 'blocked';
+    return 1 if __PACKAGE__->match(lc $argvs->diagnosticcode);
 }
 
 1;
@@ -156,7 +217,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2017 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 
