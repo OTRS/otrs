@@ -191,9 +191,9 @@ sub Run {
 
         # get array params
         for my $Key (
-            qw(StateIDs StateTypeIDs QueueIDs PriorityIDs OwnerIDs
+            qw(StateIDs States StateTypeIDs QueueIDs Queues PriorityIDs Priorities OwnerIDs
             CreatedQueueIDs CreatedUserIDs WatchUserIDs ResponsibleIDs
-            TypeIDs ServiceIDs SLAIDs LockIDs)
+            TypeIDs Types ServiceIDs Services SLAIDs SLAs LockIDs Locks)
             )
         {
 
@@ -570,6 +570,7 @@ sub Run {
                             . $DynamicFieldConfig->{Name}
                             . $Preference->{Type}
                     }
+                    && ( $DynamicFieldConfig->{FieldType} eq 'Date' || $DynamicFieldConfig->{FieldType} eq 'DateTime' )
                     )
                 {
                     next PREFERENCE;

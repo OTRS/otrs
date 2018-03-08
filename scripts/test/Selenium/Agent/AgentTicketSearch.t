@@ -420,9 +420,9 @@ $Selenium->RunTest(
             my $TicketID = $TicketObject->TicketCreate(
                 TN         => $Number,
                 Title      => $Title,
-                Queue      => 'Raw',
+                Queue      => 'Junk',
                 Lock       => 'unlock',
-                Priority   => '3 normal',
+                Priority   => ( $DFValue eq 'GASZ' ) ? '1 very low' : '2 low',
                 State      => 'open',
                 CustomerID => 'SeleniumCustomer',
                 OwnerID    => 1,
@@ -473,6 +473,43 @@ $Selenium->RunTest(
         );
         $Self->True(
             $Selenium->execute_script("return \$('#OverviewBody tbody tr[id=TicketID_$TicketIDs[2]').length;"),
+            "TicketID $TicketIDs[2] is found in the table"
+        );
+
+        # Test searching by URL (see bug#7988).
+        # Search for tickets in Junk queue and with DF values 'GASZ' or 'JLEB' -
+        # the last two created tickets should be in the table.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketSearch;Subaction=Search;$TextFieldID=GASZ||JLEB"
+        );
+        $Self->True(
+            $Selenium->execute_script("return \$('#OverviewBody tbody tr[id=TicketID_$TicketIDs[0]').length == 0"),
+            "TicketID $TicketIDs[0] is not found in the table"
+        );
+        $Self->True(
+            $Selenium->execute_script("return \$('#OverviewBody tbody tr[id=TicketID_$TicketIDs[1]').length"),
+            "TicketID $TicketIDs[1] is found in the table"
+        );
+        $Self->True(
+            $Selenium->execute_script("return \$('#OverviewBody tbody tr[id=TicketID_$TicketIDs[2]').length"),
+            "TicketID $TicketIDs[2] is found in the table"
+        );
+
+        # Search for tickets with priorites '1 very low' and '2 low' -
+        # the last two created tickets should be in the table.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketSearch;Subaction=Search;Priorities=1 very low;Priorities=2 low"
+        );
+        $Self->True(
+            $Selenium->execute_script("return \$('#OverviewBody tbody tr[id=TicketID_$TicketIDs[0]').length == 0"),
+            "TicketID $TicketIDs[0] is not found in the table"
+        );
+        $Self->True(
+            $Selenium->execute_script("return \$('#OverviewBody tbody tr[id=TicketID_$TicketIDs[1]').length"),
+            "TicketID $TicketIDs[1] is found in the table"
+        );
+        $Self->True(
+            $Selenium->execute_script("return \$('#OverviewBody tbody tr[id=TicketID_$TicketIDs[2]').length"),
             "TicketID $TicketIDs[2] is found in the table"
         );
 
