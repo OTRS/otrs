@@ -100,7 +100,7 @@
                     <input type="hidden" name="SLAID" value="[% Data.SLAID | html %]"/>
                     <fieldset class="TableLike">
 
-                        <label for="Name">[% Translate("SLA") | html %]:</label>
+                        <label class="Mandatory" for="Name"><span class="Marker">*</span> [% Translate("SLA") | html %]:</label>
                         <div class="Field">
                             <input type="text" name="Name" id="Name" value="[% Data.Name | html %]" class="W50pc Validate_Required [% Data.NameInvalid | html %]" maxlength="200"/>
                             <div id="NameError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
@@ -153,7 +153,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="ValidID">[% Translate("Validity") | html %]:</label>
+                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> [% Translate("Validity") | html %]:</label>
                         <div class="Field">
                             [% Data.ValidOptionStrg %]
                         </div>
