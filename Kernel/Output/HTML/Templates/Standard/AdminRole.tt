@@ -146,7 +146,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="ValidID">[% Translate("Validity") | html %]:</label>
+                        <label class="Mandatory" for="ValidID"><span class="Marker">*</span> [% Translate("Validity") | html %]:</label>
                         <div class="Field">
                             [% Data.ValidOption %]
                         </div>
