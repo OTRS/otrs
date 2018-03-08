@@ -16,7 +16,109 @@ use vars (qw($Self));
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 my @Tests = (
-
+    {
+        Name     => 'ExampleArrayFrontendNavigation',
+        Commands => [
+            {
+                Hover => '.Content',
+            },
+            {
+                Click => '.SettingEdit',
+            },
+            {
+                Click => '.Setting > .Array > .AddArrayItem',
+            },
+            {
+                Select => '.Setting > .Array > .ArrayItem:nth-of-type(2) input',
+            },
+            {
+                Click => '.Setting > .Array > .ArrayItem:nth-of-type(2) .Hash .HashItem:nth-of-type(4) .AddArrayItem',
+            },
+            {
+                Select =>
+                    'input#ExampleArrayFrontendNavigationExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#Group_Array0',
+            },
+            {
+                Write => 'admin',
+            },
+            {
+                Click => '.Update',
+            },
+            {
+                # Wait for validation error (Description).
+                Select => 'input.Error#ExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#Description',
+            },
+            {
+                Write => 'Description',
+            },
+            {
+                Click => '.Update',
+            },
+            {
+                # Wait for validation error (Link).
+                Select => 'input.Error#ExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#Link',
+            },
+            {
+                Write => 'Action=AgentTest;Subaction=Test',
+            },
+            {
+                Click => '.Update',
+            },
+            {
+                # Wait for validation error (Name).
+                Select => 'input.Error#ExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#Name',
+            },
+            {
+                Write => 'Navigation name',
+            },
+            {
+                Click => '.Update',
+            },
+            {
+                # Wait for validation error (NavBar).
+                Select => 'input.Error#ExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#NavBar',
+            },
+            {
+                Write => 'Customers',
+            },
+            {
+                Click => '.Update',
+            },
+            {
+                Select => 'input',
+            },
+        ],
+        ExpectedResult => [
+            {
+                'AccessKey'   => '',
+                'Block'       => '',
+                'Description' => 'Description',
+                "Group"       => [],
+                "GroupRo"     => [],
+                'Link'        => 'Action=AgentTest;Subaction=Test',
+                'LinkOption'  => '',
+                'Name'        => 'Test',
+                'NavBar'      => 'Customers',
+                'Prio'        => '200',
+                'Type'        => '',
+            },
+            {
+                'AccessKey'   => '',
+                'Block'       => '',
+                'Description' => 'Description',
+                'Group'       => [
+                    'admin'
+                ],
+                "GroupRo"    => [],
+                'Link'       => 'Action=AgentTest;Subaction=Test',
+                'LinkOption' => '',
+                'Name'       => 'Navigation name',
+                'NavBar'     => 'Customers',
+                'Prio'       => '',
+                'Type'       => '',
+            },
+        ],
+    },
     {
         Name     => 'ExampleArray',
         Commands => [
@@ -568,110 +670,6 @@ my @Tests = (
             '/etc/localtime',
         ],
     },
-    {
-        Name     => 'ExampleArrayFrontendNavigation',
-        Commands => [
-            {
-                Hover => '.Content',
-            },
-            {
-                Click => '.SettingEdit',
-            },
-            {
-                Click => '.Setting > .Array > .AddArrayItem',
-            },
-            {
-                Select => '.Setting > .Array > .ArrayItem:nth-of-type(2) input',
-            },
-            {
-                Click => '.Setting > .Array > .ArrayItem:nth-of-type(2) .Hash .HashItem:nth-of-type(4) .AddArrayItem',
-            },
-            {
-                Select =>
-                    'input#ExampleArrayFrontendNavigationExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#Group_Array0',
-            },
-            {
-                Write => 'admin',
-            },
-            {
-                Click => '.Update',
-            },
-            {
-                # Wait for validation error (Description).
-                Select => 'input.Error#ExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#Description',
-            },
-            {
-                Write => 'Description',
-            },
-            {
-                Click => '.Update',
-            },
-            {
-                # Wait for validation error (Link).
-                Select => 'input.Error#ExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#Link',
-            },
-            {
-                Write => 'Action=AgentTest;Subaction=Test',
-            },
-            {
-                Click => '.Update',
-            },
-            {
-                # Wait for validation error (Name).
-                Select => 'input.Error#ExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#Name',
-            },
-            {
-                Write => 'Navigation name',
-            },
-            {
-                Click => '.Update',
-            },
-            {
-                # Wait for validation error (NavBar).
-                Select => 'input.Error#ExampleArrayFrontendNavigation_Array2_Hash\\#\\#\\#NavBar',
-            },
-            {
-                Write => 'Customers',
-            },
-            {
-                Click => '.Update',
-            },
-            {
-                Select => 'input',
-            },
-        ],
-        ExpectedResult => [
-            {
-                'AccessKey'   => '',
-                'Block'       => '',
-                'Description' => 'Description',
-                "Group"       => [],
-                "GroupRo"     => [],
-                'Link'        => 'Action=AgentTest;Subaction=Test',
-                'LinkOption'  => '',
-                'Name'        => 'Test',
-                'NavBar'      => 'Customers',
-                'Prio'        => '200',
-                'Type'        => '',
-            },
-            {
-                'AccessKey'   => '',
-                'Block'       => '',
-                'Description' => 'Description',
-                'Group'       => [
-                    'admin'
-                ],
-                "GroupRo"    => [],
-                'Link'       => 'Action=AgentTest;Subaction=Test',
-                'LinkOption' => '',
-                'Name'       => 'Navigation name',
-                'NavBar'     => 'Customers',
-                'Prio'       => '',
-                'Type'       => '',
-            },
-        ],
-    },
-
     {
         Name     => 'ExampleArrayPassword',
         Commands => [
