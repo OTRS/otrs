@@ -20,7 +20,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Main',
     'Kernel::System::Package',
-    'Kernel::Output::HTML::Layout',
+    'Kernel::Language',
 );
 
 sub GetDisplayPath {
@@ -88,12 +88,12 @@ sub Run {
         }
     }
 
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
     if ( @InvalidPackages || @WrongFrameworkVersion ) {
         $Self->AddResultOk(
             Label   => Translatable('Legacy Configuration Backups'),
             Value   => scalar @BackupFiles,
-            Message => $LayoutObject->{LanguageObject}->Translate(
+            Message => $LanguageObject->Translate(
                 'Legacy configuration backup files found in %s, but they might still be required by some packages.',
                 $BackupsFolder
             ),
@@ -104,7 +104,7 @@ sub Run {
     $Self->AddResultWarning(
         Label   => Translatable('Legacy Configuration Backups'),
         Value   => scalar @BackupFiles,
-        Message => $LayoutObject->{LanguageObject}->Translate(
+        Message => $LanguageObject->Translate(
             'Legacy configuration backup files are no longer needed for the installed packages, please remove them from %s.',
             $BackupsFolder
         ),
