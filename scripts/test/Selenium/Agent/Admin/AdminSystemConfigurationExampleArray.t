@@ -1044,6 +1044,10 @@ $Selenium->RunTest(
                                 JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
                             );
                         }
+
+                        if ( $Value eq '.Update' ) {
+                            sleep 1;
+                        }
                     }
                 }
                 elsif ( $CommandType eq 'Clear' ) {
