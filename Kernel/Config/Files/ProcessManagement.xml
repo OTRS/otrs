@@ -352,7 +352,7 @@
     <ConfigItem Name="Ticket::Frontend::CustomerTicketProcess###StateType" Required="1" Valid="1">
         <Description Translatable="1">Determines the next possible ticket states, for process tickets in the customer interface.</Description>
         <Group>ProcessManagement</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewProcess</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewProcess</SubGroup>
         <Setting>
             <Array>
                 <Item>new</Item>
