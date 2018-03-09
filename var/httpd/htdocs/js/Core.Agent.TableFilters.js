@@ -270,11 +270,24 @@ Core.Agent.TableFilters = (function (TargetNS) {
      * @name SetAllocationList
      * @memberof Core.Agent.TableFilters
      * @function
+     * @param {String} Name - Widget link table object name.
      * @description
      *      Initialize allocation list.
      */
-    TargetNS.SetAllocationList = function () {
-        $('.AllocationListContainer').each(function() {
+    TargetNS.SetAllocationList = function (Name) {
+        var AllocationListArray = [];
+
+        // Narrow down case when there are multiple link object tables, to updated only expected one.
+        if (typeof Name !== 'undefined') {
+            AllocationListArray.push($('#Widget' + Name + ' .AllocationListContainer'));
+        }
+        else {
+            $('.AllocationListContainer').each(function() {
+                AllocationListArray.push($(this));
+            });
+        }
+
+        $.each(AllocationListArray, function() {
 
             var $ContainerObj = $(this),
                 DataEnabledJSON = $ContainerObj.closest('form.WidgetSettingsForm').find('input.ColumnsEnabledJSON').val(),

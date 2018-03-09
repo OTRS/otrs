@@ -400,6 +400,7 @@ sub LinkObjectTableCreateComplex {
     my $OriginalAction = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'OriginalAction' )
         || $Self->{Action};
 
+    my @LinkObjectTables;
     BLOCK:
     for my $Block (@OutputData) {
 
@@ -433,12 +434,6 @@ sub LinkObjectTableCreateComplex {
                 $SourceObjectData = "<input type='hidden' name='$Block->{ObjectName}' value='$Block->{ObjectID}' />";
             }
 
-            # send data to JS
-            $LayoutObject->AddJSData(
-                Key   => 'LinkObjectName',
-                Value => $Block->{Blockname},
-            );
-
             $LayoutObject->Block(
                 Name => 'ContentLargePreferences',
                 Data => {
@@ -459,11 +454,8 @@ sub LinkObjectTableCreateComplex {
                 );
             }
 
-            # send data to JS
-            $LayoutObject->AddJSData(
-                Key   => 'LinkObjectPreferences',
-                Value => \%Preferences,
-            );
+            # Prepare LinkObjectTables for JS config.
+            push @LinkObjectTables, $Block->{Blockname};
 
             $LayoutObject->Block(
                 Name => 'ContentLargePreferencesForm',
@@ -582,6 +574,12 @@ sub LinkObjectTableCreateComplex {
         # increase BlockCounter to set correct IDs for Select All Check-boxes
         $BlockCounter++;
     }
+
+    # Send LinkObjectTables to JS.
+    $LayoutObject->AddJSData(
+        Key   => 'LinkObjectTables',
+        Value => \@LinkObjectTables,
+    );
 
     return $LayoutObject->Output(
         TemplateFile => 'LinkObject',

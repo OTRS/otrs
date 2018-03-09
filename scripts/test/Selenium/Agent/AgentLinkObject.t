@@ -278,7 +278,7 @@ $Selenium->RunTest(
             "TicketNumber $TicketNumbers[2] - found",
         ) || die;
 
-        # Show ActionMenu - usually this is done when user hovers, however it's not possible to simulate this behaviour.
+        # Show ActionMenu - usually this is done when user hovers, however it's not possible to simulate this behavior.
         $Selenium->execute_script(
             "\$('#WidgetTicket .ActionMenu').show();"
         );
@@ -395,8 +395,15 @@ $Selenium->RunTest(
                 'Updated 6th column name',
             );
 
+            # Verify there is button to delete link, even though TicketNumber is not in the first column.
+            # See bug#13703 (https://bugs.otrs.org/show_bug.cgi?id=13703).
+            $Self->True(
+                $Selenium->execute_script("return \$('.InstantLinkDelete').length"),
+                "Delete link button is present."
+            );
+
             # Show ActionMenu - usually this is done when user hovers,
-            # however it's not possible to simulate this behaviour.
+            # however it's not possible to simulate this behavior.
             $Selenium->execute_script(
                 "\$('#WidgetTicket .ActionMenu').show();"
             );
@@ -548,6 +555,102 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#WidgetTicket").length' );
         $Selenium->find_element( "#WidgetTicket", "css" );
 
+        # Create Calendar.
+        my $CalendarObject    = $Kernel::OM->Get('Kernel::System::Calendar');
+        my $AppointmentObject = $Kernel::OM->Get('Kernel::System::Calendar::Appointment');
+        my $RandomID          = $Helper->GetRandomID();
+        my %Calendar          = $CalendarObject->CalendarCreate(
+            CalendarName => "Calendar-$RandomID",
+            Color        => '#3A87AD',
+            GroupID      => 1,
+            UserID       => 1,
+        );
+        $Self->True(
+            $Calendar{CalendarID},
+            "CalendarID $Calendar{CalendarID} is created.   "
+        );
+
+        # Create Appointment.
+        my $StartTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+        $StartTimeObject->Subtract(
+            Weeks => 1,
+        );
+        my $EndTimeObject = $StartTimeObject->Clone();
+        $EndTimeObject->Add(
+            Hours => 2,
+        );
+
+        my $AppointmentID = $AppointmentObject->AppointmentCreate(
+            CalendarID  => $Calendar{CalendarID},
+            Title       => 'Test Appointment Calendar',
+            Description => 'Calendar description',
+            Location    => 'Straubing',
+            StartTime   => $StartTimeObject->ToString(),
+            EndTime     => $EndTimeObject->ToString(),
+            UserID      => 1,
+            TimezoneID  => 0,
+        );
+        $Self->True(
+            $AppointmentID,
+            "AppointmentID $AppointmentID is created.",
+        );
+
+        # Force sub menus to be visible in order to be able to click one of the links.
+        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
+
+        # Click on 'Link'.
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentLinkObject;SourceObject=Ticket;' )]")->click();
+
+        # Switch to link object window.
+        $Selenium->WaitFor( WindowCount => 2 );
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+
+        # Select 'Appointment' as link type.
+        $Selenium->execute_script(
+            "\$('#TargetIdentifier').val('Appointment').trigger('redraw.InputField').trigger('change');");
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#SEARCH\\\\:\\\\:AppointmentCalendarID").length' );
+
+        # Select created Calendar as filer.
+        $Selenium->execute_script(
+            "\$('#SEARCH\\\\:\\\\:AppointmentCalendarID').val('$Calendar{CalendarID}').trigger('redraw.InputField').trigger('change');"
+        );
+        $Selenium->find_element( '#SubmitSearch', 'css' )->VerifiedClick();
+
+        # Link created test appointment.
+        $Selenium->find_element("//input[\@value='$AppointmentID'][\@type='checkbox']")->click();
+        $Selenium->WaitFor(
+            JavaScript => "return \$('input[value=$AppointmentID][type=checkbox]:checked').length"
+        );
+
+        $Selenium->find_element( "#AddLinks",         "css" )->VerifiedClick();
+        $Selenium->find_element( "#LinkAddCloseLink", "css" )->click();
+
+        # Switch back to the main window.
+        $Selenium->WaitFor( WindowCount => 1 );
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[0] );
+
+        # Verify column settings button is available for both Ticket and Appointment link object widget.
+        # See bug#13702 (https://bugs.otrs.org/show_bug.cgi?id=13702);
+        for my $LinkObject (qw(Appointment Ticket)) {
+            $Selenium->execute_script(
+                "\$('#Widget$LinkObject .ActionMenu').show();"
+            );
+            $Selenium->find_element( "a#linkobject-$LinkObject-toggle", 'css' )->click();
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('#linkobject-${LinkObject}_submit:visible').length;"
+            );
+            $Self->True(
+                $Selenium->execute_script(
+                    "return typeof(\$) === 'function' && \$('#linkobject-${LinkObject}_submit').length;"),
+                "$LinkObject link object widget setting is working."
+            );
+        }
+
         # Delete created test tickets.
         for my $TicketID (@TicketIDs) {
             $Success = $TicketObject->TicketDelete(
@@ -556,9 +659,28 @@ $Selenium->RunTest(
             );
             $Self->True(
                 $Success,
-                "Delete ticket - $TicketID",
+                "TicketID $TicketID is deleted.",
             );
         }
+
+        # Delete created test Appointment.
+        $Success = $AppointmentObject->AppointmentDelete(
+            AppointmentID => $AppointmentID,
+            UserID        => 1,
+        );
+        $Self->True(
+            $Success,
+            "AppointmentID $AppointmentID is deleted."
+        );
+
+        # Delete created test Calendar.
+        $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
+            SQL => "DELETE FROM calendar WHERE id = $Calendar{CalendarID}",
+        );
+        $Self->True(
+            $Success,
+            "CalendarID $Calendar{CalendarID} is deleted.",
+        );
     }
 );
 
