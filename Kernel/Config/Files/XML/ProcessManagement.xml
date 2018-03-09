@@ -598,7 +598,7 @@
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketProcess###StateType" Required="1" Valid="1">
         <Description Translatable="1">Determines the next possible ticket states, for process tickets in the customer interface.</Description>
-        <Navigation>Frontend::Agent::View::TicketProcess</Navigation>
+        <Navigation>Frontend::Customer::View::TicketProcess</Navigation>
         <Value>
             <Array>
                 <Item>new</Item>
