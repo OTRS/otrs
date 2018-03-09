@@ -6226,7 +6226,7 @@
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
                 <Item Key="Sort">SortBy=Age;OrderBy=Up</Item>
-                <Item Key="CacheTTLLocal">0.5</Item>
+                <Item Key="CacheTTLLocal">2</Item>
                 <Item Key="States">
                     <Hash>
                         <Item Key="1">new</Item>

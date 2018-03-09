@@ -280,7 +280,7 @@ sub Run {
             Type  => 'DashboardQueueOverview',
             Key   => $CacheKey,
             Value => $Content || '',
-            TTL   => 2 * 60,
+            TTL   => $Self->{Config}->{CacheTTLLocal} * 60,
         );
     }
 
