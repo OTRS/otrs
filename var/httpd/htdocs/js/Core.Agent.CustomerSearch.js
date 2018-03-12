@@ -389,6 +389,8 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
      *      Initializes the module.
      */
     TargetNS.Init = function ($Element) {
+        var AutocompleteFocus = false;
+
         // get customer tickets for AgentTicketCustomer
         if (Core.Config.Get('Action') === 'AgentTicketCustomer') {
             GetCustomerTickets($('#CustomerAutoComplete').val(), $('#CustomerID').val());
@@ -504,6 +506,31 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                     TargetNS.AddTicketCustomer($(Event.target).attr('id'), CustomerValue, CustomerKey);
                 }
             }, 'CustomerSearch');
+
+            // Remember if autocomplete item was focused (i.e. by keyboard navigation).
+            $Element.on('autocompletefocus', function() {
+                AutocompleteFocus = true;
+            });
+
+            // If autocomplete was focused, but then closed by a blur, clear the search field since this value was
+            //   never explicitly confirmed. Do this also when user decides to click outside the autocomplete list,
+            //   which causes the list to close. Please see bug#13537 for more information.
+            $Element.on('autocompleteclose', function(Event) {
+                if (
+                    AutocompleteFocus
+                    && (
+                        Event.originalEvent === undefined
+                        || (
+                            Event.originalEvent
+                            && Event.originalEvent.type == 'blur'
+                        )
+                    )
+                    )
+                {
+                    AutocompleteFocus = true;
+                    $Element.val('');
+                }
+            });
 
             if (
                 Core.Config.Get('Action') !== 'AgentTicketCustomer'
