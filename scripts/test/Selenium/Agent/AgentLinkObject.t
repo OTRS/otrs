@@ -609,9 +609,11 @@ $Selenium->RunTest(
 
         # Select 'Appointment' as link type.
         $Selenium->execute_script(
-            "\$('#TargetIdentifier').val('Appointment').trigger('redraw.InputField').trigger('change');");
+            "\$('#TargetIdentifier').val('Appointment').trigger('redraw.InputField').trigger('change');"
+        );
         $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $("#SEARCH\\\\:\\\\:AppointmentCalendarID").length' );
+            JavaScript => 'return typeof($) === "function" && $("#SEARCH\\\\:\\\\:AppointmentCalendarID").length'
+        );
 
         # Select created Calendar as filer.
         $Selenium->execute_script(
@@ -636,6 +638,10 @@ $Selenium->RunTest(
         # Verify column settings button is available for both Ticket and Appointment link object widget.
         # See bug#13702 (https://bugs.otrs.org/show_bug.cgi?id=13702);
         for my $LinkObject (qw(Appointment Ticket)) {
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('#Widget$LinkObject .ActionMenu').length;"
+            );
             $Selenium->execute_script(
                 "\$('#Widget$LinkObject .ActionMenu').show();"
             );
@@ -646,7 +652,8 @@ $Selenium->RunTest(
             );
             $Self->True(
                 $Selenium->execute_script(
-                    "return typeof(\$) === 'function' && \$('#linkobject-${LinkObject}_submit').length;"),
+                    "return typeof(\$) === 'function' && \$('#linkobject-${LinkObject}_submit').length;"
+                ),
                 "$LinkObject link object widget setting is working."
             );
         }
