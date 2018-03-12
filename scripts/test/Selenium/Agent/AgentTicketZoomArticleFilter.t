@@ -169,6 +169,12 @@ $Selenium->RunTest(
         # Click on second page.
         $Selenium->find_element("//a[contains(\@href, \'TicketID=$TicketID;ArticlePage=2')]")->VerifiedClick();
 
+        # Wait for Asynchronous widget and article filter to load.
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#TicketInformationWidget').length && \$('#SetArticleFilter').length"
+        );
+
         # Verify there are first 3 created articles on second page.
         for my $Article (@SecondArticles) {
             $Self->True(
@@ -182,7 +188,7 @@ $Selenium->RunTest(
 
         # Wait for dialog to appear.
         $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;'
+            JavaScript => 'return $(".Dialog:visible").length === 1;'
         );
 
         my %CommunicationChannel = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelGet(
