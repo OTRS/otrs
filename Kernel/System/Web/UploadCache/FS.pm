@@ -440,7 +440,7 @@ sub FormIDCleanUp {
                     Priority => 'error',
                     Message  => "Can't remove: $Subdir: $!!",
                 );
-                return;
+                next SUBDIR;
             }
         }
     }
