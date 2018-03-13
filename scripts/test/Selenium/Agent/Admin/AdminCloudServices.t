@@ -23,6 +23,13 @@ $Selenium->RunTest(
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+        # make sure to enable cloud services
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'CloudServices::Disabled',
+            Value => 0,
+        );
+
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
@@ -69,7 +76,7 @@ $Selenium->RunTest(
             $Count++;
         }
 
-    }
+        }
 );
 
 1;

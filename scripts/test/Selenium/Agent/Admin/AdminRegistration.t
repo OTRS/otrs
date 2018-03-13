@@ -30,6 +30,13 @@ $Selenium->RunTest(
 
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # make sure to enable cloud services
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'CloudServices::Disabled',
+            Value => 0,
+        );
+
         # Get needed variables.
         my $Daemon   = $ConfigObject->Get('Home') . '/bin/otrs.Daemon.pl';
         my $RandomID = $Helper->GetRandomID();
@@ -179,7 +186,7 @@ EOS
             $Selenium->find_element( ".Dialog.Modal .fa.fa-times", 'css' )->click();
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
         }
-    }
+        }
 );
 
 1;

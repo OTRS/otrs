@@ -21,6 +21,13 @@ $Selenium->RunTest(
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+        # make sure to enable cloud services
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'CloudServices::Disabled',
+            Value => 0,
+        );
+
         # Disable all dashboard plugins.
         my $Config = $ConfigObject->Get('DashboardBackend');
         $Helper->ConfigSettingChange(
@@ -145,7 +152,7 @@ EOS
                 "News dashboard plugin with title '$Item->{Title}' and link '$Item->{Link}' - found",
             );
         }
-    }
+        }
 );
 
 1;

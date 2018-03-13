@@ -29,6 +29,13 @@ $Selenium->RunTest(
         mkpath( [$CertPath],    0, 0770 );    ## no critic
         mkpath( [$PrivatePath], 0, 0770 );    ## no critic
 
+        # make sure to enable cloud services
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'CloudServices::Disabled',
+            Value => 0,
+        );
+
         # enable SMIME in config
         $Helper->ConfigSettingChange(
             Valid => 1,
@@ -190,7 +197,7 @@ $Selenium->RunTest(
             ),
             "AddAsFavourite (star) on list view is visible.",
         );
-    }
+        }
 );
 
 1;

@@ -14,6 +14,13 @@ use vars (qw($Self));
 
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+# make sure to enable cloud services
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'CloudServices::Disabled',
+    Value => 0,
+);
+
 my $RandomID = $Helper->GetRandomID();
 
 # Override Request() from WebUserAgent to always return some test data without making any
@@ -235,7 +242,7 @@ $Selenium->RunTest(
             'Info for incompatible package is shown'
         );
 
-    }
+        }
 );
 
 1;
