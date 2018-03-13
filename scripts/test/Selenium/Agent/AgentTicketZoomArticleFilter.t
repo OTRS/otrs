@@ -172,7 +172,7 @@ $Selenium->RunTest(
         # Wait for Asynchronous widget and article filter to load.
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('#TicketInformationWidget').length && \$('#SetArticleFilter').length"
+                "return typeof(\$) === 'function' && \$('#ArticleTable').length && \$('#SetArticleFilter').length"
         );
 
         # Verify there are first 3 created articles on second page.
