@@ -4951,7 +4951,7 @@
                 <Item Key="Action">AgentTicketProcess</Item>
                 <Item Key="AccessKey"></Item>
                 <Item Key="CssClass">ProcessTicket</Item>
-                <Item Key="Icon">fa fa-th-large</Item>
+                <Item Key="Icon">fa fa-sitemap</Item>
                 <Item Key="Priority">1020030</Item>
             </Hash>
         </Value>
