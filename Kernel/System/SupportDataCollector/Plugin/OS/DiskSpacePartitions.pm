@@ -29,11 +29,11 @@ sub Run {
         return $Self->GetResults();
     }
 
-    my $Commandline = "df -lx tmpfs -x iso9660 -x udf -x squashfs";
+    my $Commandline = "df -lHx tmpfs -x iso9660 -x udf -x squashfs";
 
     # current MacOS and FreeBSD does not support the -x flag for df
     if ( $^O =~ /(darwin|freebsd)/i ) {
-        $Commandline = "df -l";
+        $Commandline = "df -lH";
     }
 
     # run the command an store the result on an array
@@ -88,7 +88,7 @@ sub Run {
         $Line =~ s{\A\s+}{};
 
         if ( $Line =~ m{\A .+? \s .* \s \d+ % .+? \z}msx ) {
-            my ( $Partition, $UsedPercent, $MountPoint ) = $Line =~ m{\A (.+?) \s .*? \s (\d+)%.+? (/.*) \z}msx;
+            my ( $Partition, $Size, $UsedPercent, $MountPoint ) = $Line =~ m{\A (.+?) \s (\d+[KGMT]) \s .*? \s (\d+)%.+? (/.*) \z}msx;
 
             $MountPoint //= '';
 
@@ -99,7 +99,7 @@ sub Run {
             $Self->AddResultInformation(
                 Identifier => $Partition,
                 Label      => $Partition,
-                Value      => $UsedPercent . '%',
+                Value      => $Size . ' (Used: ' . $UsedPercent . '%)',
             );
         }
     }

@@ -18,6 +18,7 @@ use Kernel::Language qw(Translatable);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DB',
+    'Kernel::System::Ticket',
 );
 
 sub GetDisplayPath {
@@ -187,6 +188,18 @@ sub Run {
         Identifier => 'TicketsPerMonth',
         Label      => Translatable('Tickets Per Month (avg)'),
         Value      => sprintf( "%d", $Counts{TicketCount} / $TicketWindowTime ),
+    );
+
+    my $OpenTickets = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
+        Result     => 'COUNT',
+        StateType  => 'Open',
+        UserID     => 1,
+    ) || 0;
+
+    $Self->AddResultInformation(
+        Identifier => 'TicketOpenCount',
+        Label      => Translatable('Open Tickets'),
+        Value      => $OpenTickets,
     );
 
     return $Self->GetResults();
