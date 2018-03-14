@@ -152,7 +152,7 @@ EOS
                 "News dashboard plugin with title '$Item->{Title}' and link '$Item->{Link}' - found",
             );
         }
-        }
+    }
 );
 
 1;

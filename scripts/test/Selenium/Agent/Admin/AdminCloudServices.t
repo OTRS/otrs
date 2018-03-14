@@ -76,7 +76,7 @@ $Selenium->RunTest(
             $Count++;
         }
 
-        }
+    }
 );
 
 1;

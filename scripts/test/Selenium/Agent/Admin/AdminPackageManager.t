@@ -242,7 +242,7 @@ $Selenium->RunTest(
             'Info for incompatible package is shown'
         );
 
-        }
+    }
 );
 
 1;

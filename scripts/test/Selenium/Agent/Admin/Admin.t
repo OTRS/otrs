@@ -197,7 +197,7 @@ $Selenium->RunTest(
             ),
             "AddAsFavourite (star) on list view is visible.",
         );
-        }
+    }
 );
 
 1;

@@ -186,7 +186,7 @@ EOS
             $Selenium->find_element( ".Dialog.Modal .fa.fa-times", 'css' )->click();
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
         }
-        }
+    }
 );
 
 1;

@@ -168,7 +168,7 @@ EOS
                 "ProductNotify dashboard plugin which text contains '$Item->{Version}' and link '$Item->{Link}' - found",
             );
         }
-        }
+    }
 );
 
 1;

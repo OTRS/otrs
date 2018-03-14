@@ -191,9 +191,9 @@ sub Run {
     );
 
     my $OpenTickets = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
-        Result     => 'COUNT',
-        StateType  => 'Open',
-        UserID     => 1,
+        Result    => 'COUNT',
+        StateType => 'Open',
+        UserID    => 1,
     ) || 0;
 
     $Self->AddResultInformation(
