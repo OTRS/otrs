@@ -110,8 +110,9 @@ sub _fetch {
     # Check if the template exists, is cacheable and if a cached version exists.
     if ( -e $name && $self->{CachingEnabled} ) {
 
+        my $UserTheme      = $self->{LayoutObject}->{EnvRef}->{UserTheme};
         my $template_mtime = $self->_template_modified($name);
-        my $CacheKey       = $self->_compiled_filename($name) . '::' . $template_mtime;
+        my $CacheKey       = $self->_compiled_filename($name) . '::' . $template_mtime . '::' . $UserTheme;
 
         # Is there an up-to-date compiled version in the cache?
         my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
@@ -242,7 +243,8 @@ sub _compile {
 
         # write the Perl code to the file $compfile, if defined
         if ($compfile) {
-            my $CacheKey = $compfile . '::' . $data->{time};
+            my $UserTheme = $self->{LayoutObject}->{EnvRef}->{UserTheme};
+            my $CacheKey  = $compfile . '::' . $data->{time} . '::' . $UserTheme;
 
             if ( $self->{CachingEnabled} ) {
                 $Kernel::OM->Get('Kernel::System::Cache')->Set(
