@@ -135,11 +135,8 @@ Core.Exception = (function (TargetNS) {
                 return false;
             }
 
-            if (ErrorType === 'ConnectionError') {
+            if (ErrorType === 'ConnectionError' || ErrorType === 'CommunicationError') {
                 Core.App.Publish('Core.App.AjaxError');
-            }
-            else if(ErrorType === 'CommunicationError') {
-                Core.App.Publish('Core.App.AjaxCommunicationError');
             }
             else {
                 TargetNS.ShowError(ErrorObject.GetMessage(), ErrorType);

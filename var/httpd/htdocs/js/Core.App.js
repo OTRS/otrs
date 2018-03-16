@@ -195,12 +195,11 @@ Core.App = (function (TargetNS) {
 
         TargetNS.Subscribe('Core.App.AjaxErrorResolved', function() {
 
-            var $DialogObj = $('#AjaxErrorDialog');
+            var $DialogObj = $('#AjaxErrorDialog'),
+                CountDown = 20;
 
             window.clearInterval(TargetNS.AjaxConnectionCheckInterval);
             delete TargetNS.AjaxConnectionCheckInterval;
-
-            $('body').removeClass('ConnectionErrorDialogClosed');
 
             if (!$('body').hasClass('ConnectionErrorDetected')) {
                 return false;
@@ -220,7 +219,7 @@ Core.App = (function (TargetNS) {
 
                 Core.UI.Dialog.ShowDialog({
                     HTML : $DialogObj,
-                    Title : Core.Language.Translate("Connection error"),
+                    Title : '',     // Header is hidden.
                     Modal : true,
                     CloseOnClickOutside : false,
                     CloseOnEscape : false,
@@ -229,7 +228,7 @@ Core.App = (function (TargetNS) {
                     Buttons: [
                         {
                             Label: Core.Language.Translate("Reload page"),
-                            Class: 'Primary',
+                            Class: 'Primary ReloadButton',
                             Function: function () {
                                 location.reload();
                             }
@@ -237,9 +236,14 @@ Core.App = (function (TargetNS) {
                         {
                             Label: Core.Language.Translate("Close this dialog"),
                             Function: function () {
-                                if ($('#AjaxErrorDialogInner').find('.NoConnection').is(':visible')) {
-                                    $('body').addClass('ConnectionErrorDialogClosed');
+                                clearInterval(TargetNS.TimerID);
+                                delete TargetNS.TimerID;
+
+                                if (TargetNS.AjaxConnectionCheckInterval) {
+                                    clearInterval(TargetNS.AjaxConnectionCheckInterval);
+                                    delete TargetNS.AjaxConnectionCheckInterval;
                                 }
+
                                 Core.UI.Dialog.CloseDialog($('#AjaxErrorDialogInner'));
                             }
                         }
@@ -247,8 +251,26 @@ Core.App = (function (TargetNS) {
                     AllowAutoGrow: true
                 });
 
+                // Hide
+                $('#AjaxErrorDialogInner').closest('.Dialog').find('>.Header').hide();
+
                 // the only possibility to close the dialog should be the button
                 $('#AjaxErrorDialogInner').closest('.Dialog').find('.Close').remove();
+            }
+
+            // Do not reload the page if user made any modification.
+            if (!Core.Form.IsFormModified()) {
+                TargetNS.TimerID = window.setInterval(function() {
+                    CountDown--;
+
+                    $('.ReloadButton span').text(Core.Language.Translate("Reload page (%ss)", CountDown));
+                    if (CountDown == 0) {
+                        clearInterval(TargetNS.TimerID);
+
+                        // Reload the page.
+                        window.location.reload();
+                    }
+                }, 1000);
             }
         });
 
@@ -260,14 +282,9 @@ Core.App = (function (TargetNS) {
             // set a body class to remember that we detected the error
             $('body').addClass('ConnectionErrorDetected');
 
-            // if the dialog has been closed manually, don't show it again
-            if ($('body').hasClass('ConnectionErrorDialogClosed')) {
-                return false;
-            }
-
-            // Only show one dialog at a time. Do not show the dialog if communication error dialog was displayed
+            // Only show one dialog at a time. Do not show the dialog if no connection error dialog was displayed
             //   previously, leave it open since it might point to a more serious issue.
-            if ($('#AjaxErrorDialogInner').find('.NoConnection,.CommunicationError').is(':visible')) {
+            if ($('#AjaxErrorDialogInner').find('.NoConnection').is(':visible')) {
                 return false;
             }
 
@@ -280,30 +297,33 @@ Core.App = (function (TargetNS) {
                 }, 5000);
             }
 
-            // If a connection warning dialog is open but shows the "Connection re-established" or "Communication error"
-            //   notice, show the warning again. This could happen if the connection had been lost but also
-            //   re-established in the meantime, or there were some communication errors encountered.
-            if ($('#AjaxErrorDialogInner').find('.ConnectionReEstablished,.CommunicationError').is(':visible')) {
-                $('#AjaxErrorDialogInner').find('.ConnectionReEstablished,.CommunicationError').hide().prev('.NoConnection').show();
+            // If a connection warning dialog is open but shows the "Connection re-established" notice, show the warning again.
+            //   This could happen if the connection had been lost but also re-established in the meantime,
+            //   or there were some communication errors encountered.
+            if ($('#AjaxErrorDialogInner').find('.ConnectionReEstablished').is(':visible')) {
+                $('#AjaxErrorDialogInner').find('.ConnectionReEstablished').hide().prev('.NoConnection').show();
+                $('.ReloadButton span').text(Core.Language.Translate("Reload page"));
+                clearInterval(TargetNS.TimerID);
+                delete TargetNS.TimerID;
                 return false;
             }
 
             // Show 'No Connection' dialog content.
-            $DialogObj.find('.ConnectionReEstablished,.CommunicationError').hide();
+            $DialogObj.find('.ConnectionReEstablished').hide();
             $DialogObj.find('.NoConnection').show();
 
             Core.UI.Dialog.ShowDialog({
-                HTML : $DialogObj,
-                Title : Core.Language.Translate("Connection error"),
-                Modal : true,
-                CloseOnClickOutside : false,
-                CloseOnEscape : false,
+                HTML: $DialogObj,
+                Title: '',  // Header is hidden.
+                Modal: true,
+                CloseOnClickOutside: false,
+                CloseOnEscape: false,
                 PositionTop: '100px',
                 PositionLeft: 'Center',
                 Buttons: [
                     {
                         Label: Core.Language.Translate("Reload page"),
-                        Class: 'Primary',
+                        Class: 'Primary ReloadButton',
                         Function: function () {
                             location.reload();
                         }
@@ -311,9 +331,14 @@ Core.App = (function (TargetNS) {
                     {
                         Label: Core.Language.Translate("Close this dialog"),
                         Function: function () {
-                            if ($('#AjaxErrorDialogInner').find('.NoConnection').is(':visible')) {
-                                $('body').addClass('ConnectionErrorDialogClosed');
+                            clearInterval(TargetNS.TimerID);
+                            delete TargetNS.TimerID;
+
+                            if (TargetNS.AjaxConnectionCheckInterval) {
+                                clearInterval(TargetNS.AjaxConnectionCheckInterval);
+                                delete TargetNS.AjaxConnectionCheckInterval;
                             }
+
                             Core.UI.Dialog.CloseDialog($('#AjaxErrorDialogInner'));
                         }
                     }
@@ -321,60 +346,8 @@ Core.App = (function (TargetNS) {
                 AllowAutoGrow: true
             });
 
-            // the only possibility to close the dialog should be the button
-            $('#AjaxErrorDialogInner').closest('.Dialog').find('.Close').remove();
-        });
-
-        // Check for AJAX communication errors and show overlay in case there is one.
-        TargetNS.Subscribe('Core.App.AjaxCommunicationError', function() {
-
-            var $DialogObj = $('#AjaxErrorDialog');
-
-            // Set a body class to remember that we detected the error.
-            $('body').addClass('CommunicationErrorDetected');
-
-            // Only show one dialog at a time.
-            if ($('#AjaxErrorDialogInner').find('.CommunicationError').is(':visible')) {
-                return false;
-            }
-
-            // If a connection warning dialog is open but shows the "No connection" or "Connection re-established"
-            //   notice, show the warning nevertheless. Communication error is of a higher order and should always be
-            //   displayed.
-            if ($('#AjaxErrorDialogInner').find('.NoConnection,.ConnectionReEstablished').is(':visible')) {
-                $('#AjaxErrorDialogInner').find('.NoConnection,.ConnectionReEstablished').hide().prev('.CommunicationError').show();
-                return false;
-            }
-
-            // Show 'Communication error' dialog content.
-            $DialogObj.find('.NoConnection,.ConnectionReEstablished').hide();
-            $DialogObj.find('.CommunicationError').show();
-
-            Core.UI.Dialog.ShowDialog({
-                HTML : $DialogObj,
-                Title : Core.Language.Translate("Communication error"),
-                Modal : true,
-                CloseOnClickOutside : false,
-                CloseOnEscape : false,
-                PositionTop: '100px',
-                PositionLeft: 'Center',
-                Buttons: [
-                    {
-                        Label: Core.Language.Translate("Reload page"),
-                        Class: 'Primary',
-                        Function: function () {
-                            location.reload();
-                        }
-                    },
-                    {
-                        Label: Core.Language.Translate("Close this dialog"),
-                        Function: function () {
-                            Core.UI.Dialog.CloseDialog($('#AjaxErrorDialogInner'));
-                        }
-                    }
-                ],
-                AllowAutoGrow: true
-            });
+            // Hide
+            $('#AjaxErrorDialogInner').closest('.Dialog').find('>.Header').hide();
 
             // the only possibility to close the dialog should be the button
             $('#AjaxErrorDialogInner').closest('.Dialog').find('.Close').remove();

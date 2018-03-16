@@ -66,18 +66,10 @@ Core.App.Ready(function () {
     <div id="AjaxErrorDialogInner">
         <div class="NoConnection" style="display:none;">
             <span class="Icon">
-                <i class="fa fa-bolt"></i>
+                <i class="fa fa-plug"></i>
             </span>
             <p>
-                [% Translate("Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.") | html %]
-            </p>
-        </div>
-        <div class="CommunicationError" style="display:none;">
-            <span class="Icon">
-                <i class="fa fa-times"></i>
-            </span>
-            <p>
-                [% Translate("There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.") | html %]
+                [% Translate("%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.", Config("Product")) | html %]
             </p>
         </div>
         <div class="ConnectionReEstablished" style="display:none;">

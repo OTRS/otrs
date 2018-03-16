@@ -1,4 +1,5 @@
 #6.0.7 2018-??-??
+ - 2018-03-16 Follow-up fix for bug#[13164](https://bugs.otrs.org/show_bug.cgi?id=13164) - Certain AJAX Error Types are still unprocessed.
  - 2018-03-13 Fixed bug#[13710](https://bugs.otrs.org/show_bug.cgi?id=13710) - Maint::WebUploadCache::Cleanup fails if files are in folder upload_cache.
  - 2018-03-12 Fixed bug#[13537](https://bugs.otrs.org/show_bug.cgi?id=13537) - Changing customer user doesn't update the Customer Information box.
  - 2018-03-09 Fixed bug#[13723](https://bugs.otrs.org/show_bug.cgi?id=13723) - Wrong navigation group for Ticket::Frontend::CustomerTicketProcess###StateType.
