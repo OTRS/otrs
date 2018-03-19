@@ -27,8 +27,8 @@ use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 use lib "$Bin/../../Custom";
 
-# Imports the library; required line
 use CGI::Fast;
+use Module::Refresh;
 
 # load installer web interface
 use Kernel::System::Web::InterfaceInstaller();
@@ -41,6 +41,11 @@ my $Debug = 0;
 
 # Response loop
 while ( my $WebRequest = CGI::Fast->new() ) {
+
+    # Reload files in @INC that have changed since the last request.
+    eval {
+        Module::Refresh->refresh();
+    };
 
     local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $Interface = Kernel::System::Web::InterfaceInstaller->new(
