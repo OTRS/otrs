@@ -553,8 +553,8 @@ sub _ShowScreen {
     {
         $TemplateData{IncludeTicketDataStrg} = $LayoutObject->BuildSelection(
             Data => {
-                0 => 'No',
-                1 => 'Yes',
+                0 => Translatable('No'),
+                1 => Translatable('Yes'),
             },
             Name       => 'IncludeTicketData',
             SelectedID => $Param{OperationConfig}->{IncludeTicketData} // 0,
