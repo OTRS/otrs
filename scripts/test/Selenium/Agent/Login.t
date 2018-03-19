@@ -279,7 +279,7 @@ $Selenium->RunTest(
         $Element = $Selenium->find_element( 'a#LogoutButton', 'css' );
 
         $SessionObject->CleanUp();
-        }
+    }
 );
 
 1;

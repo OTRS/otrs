@@ -178,7 +178,7 @@ $Selenium->RunTest(
         $Self->True(
             $Selenium->find_element(
                 "//a[contains(\@href, \'Subaction=View;Name=Test' )]"
-                )->is_displayed(),
+            )->is_displayed(),
             'Test package is installed'
         );
 
