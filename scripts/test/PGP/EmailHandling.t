@@ -17,13 +17,6 @@ use Kernel::System::PostMaster;
 
 use Kernel::System::VariableCheck qw(:all);
 
-# get needed objects
-my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
-my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
-my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
-my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
-
-# get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase  => 1,
@@ -31,6 +24,11 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
+my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
+my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
 
 my $TestUserLogin = $Helper->TestUserCreate(
     Groups => [ 'admin', 'users' ],
