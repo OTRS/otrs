@@ -14,12 +14,6 @@ use vars (qw($Self));
 
 use Kernel::System::PostMaster;
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-
-# get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase  => 1,
@@ -27,6 +21,10 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
 for my $Backend (qw(DB FS)) {
 
