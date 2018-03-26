@@ -501,31 +501,38 @@ sub Run {
     # remember the number shown tickets for the custom services
     $Data{TicketsShown} = $Count || 0;
 
+    # Get ticket count for all services.
+    my @AllServicesTicketIDs = $TicketObject->TicketSearch(
+        LockIDs    => \@ViewableLockIDs,
+        StateIDs   => \@ViewableStateIDs,
+        QueueIDs   => \@ViewableQueueIDs,
+        Permission => $Permission,
+        UserID     => $Self->{UserID},
+        Result     => 'ARRAY',
+    );
+
+    my $TicketCountByServiceID = $TicketObject->TicketCountByAttribute(
+        Attribute => 'ServiceID',
+        TicketIDs => \@AllServicesTicketIDs,
+    );
+
     SERVICEID:
     for my $ServiceIDItem ( sort { $AllServices{$a} cmp $AllServices{$b} } keys %AllServices ) {
+        my $ServiceIDCount = $TicketCountByServiceID->{$ServiceIDItem};
 
-        $Count = $TicketObject->TicketSearch(
-            LockIDs    => \@ViewableLockIDs,
-            StateIDs   => \@ViewableStateIDs,
-            QueueIDs   => \@ViewableQueueIDs,
-            ServiceIDs => [$ServiceIDItem],
-            Permission => $Permission,
-            UserID     => $Self->{UserID},
-            Result     => 'COUNT',
-        ) || 0;
-
-        next SERVICEID if !$Count;
+        next SERVICEID if !$ServiceIDCount;
 
         push @{ $Data{Services} }, {
-            Count     => $Count,
+            Count     => $ServiceIDCount,
             Service   => $AllServices{$ServiceIDItem},
             ServiceID => $ServiceIDItem,
         };
 
-        # remember the number shown tickets for the selected service
-        if ( $ServiceID && $ServiceID eq $ServiceIDItem ) {
-            $Data{TicketsShown} = $Count || 0;
-        }
+        # Remember the number of shown tickets for the selected service.
+        next SERVICEID if !$ServiceID;
+        next SERVICEID if $ServiceID ne $ServiceIDItem;
+
+        $Data{TicketsShown} = $ServiceIDCount;
     }
 
     my $LastColumnFilter = $ParamObject->GetParam( Param => 'LastColumnFilter' ) || '';
