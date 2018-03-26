@@ -1,4 +1,5 @@
 #4.0.30 ????-??-??
+ - 2018-03-26 Fixed bug#[10709](https://bugs.otrs.org/show_bug.cgi?id=10709) - ACL for Action AgentTicketBulk are inconsistent.
 
 #4.0.29 2018-03-13
  - 2017-12-15 Updated Hungarian translation.
