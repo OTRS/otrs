@@ -90,115 +90,167 @@ sub Run {
     }
 
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
-        my $QueueID = $ParamObject->GetParam( Param => 'QueueID' ) || '';
 
-        # Get all users.
-        my %AllGroupsMembers = $Kernel::OM->Get('Kernel::System::User')->UserList(
-            Type  => 'Long',
-            Valid => 1
+        my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
+
+        my %GetParam;
+        for my $Key (qw(OwnerID ResponsibleID PriorityID QueueID Queue TypeID StateID)) {
+            $GetParam{$Key} = $ParamObject->GetParam( Param => $Key ) || '';
+        }
+
+        my %QueueList = $Self->_GetQueues(
+            %GetParam,
+            Type   => 'move_into',
+            UserID => $Self->{UserID},
+            Action => $Self->{Action},
         );
-
-        # Put only possible 'owner' and 'rw' agents to owner list.
-        my %OwnerGroupsMembers;
-        if ( !$ConfigObject->Get('Ticket::ChangeOwnerToEveryone') ) {
-            my %AllGroupsMembersNew;
-            my @QueueIDs;
-
-            if ($QueueID) {
-                push @QueueIDs, $QueueID;
-            }
-            else {
-                my @TicketIDs = grep {$_} $ParamObject->GetArray( Param => 'TicketID' );
-                for my $TicketID (@TicketIDs) {
-                    my %Ticket = $TicketObject->TicketGet(
-                        TicketID      => $TicketID,
-                        DynamicFields => 0,
-                    );
-                    push @QueueIDs, $Ticket{QueueID};
-                }
-            }
-
-            my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
-            my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
-
-            for my $QueueID (@QueueIDs) {
-                my $GroupID = $QueueObject->GetQueueGroupID( QueueID => $QueueID );
-                my %GroupMember = $GroupObject->PermissionGroupGet(
-                    GroupID => $GroupID,
-                    Type    => 'owner',
-                );
-                USER_ID:
-                for my $UserID ( sort keys %GroupMember ) {
-                    next USER_ID if !$AllGroupsMembers{$UserID};
-                    $AllGroupsMembersNew{$UserID} = $AllGroupsMembers{$UserID};
-                }
-                %OwnerGroupsMembers = %AllGroupsMembersNew;
-            }
-        }
-        else {
-            %OwnerGroupsMembers = %AllGroupsMembers;
-        }
-
         my @JSONData = (
             {
-                Name         => 'OwnerID',
-                Data         => \%OwnerGroupsMembers,
-                PossibleNone => 1,
-            }
+                Name       => 'QueueID',
+                Data       => { %QueueList, '' => '-' },
+                SelectedID => $GetParam{QueueID},
+            },
         );
 
-        if (
-            $ConfigObject->Get('Ticket::Responsible')
-            && $ConfigObject->Get("Ticket::Frontend::$Self->{Action}")->{Responsible}
-            )
-        {
+        if ( $Config->{State} ) {
+            my %State;
 
-            my %ResponsibleGroupsMembers;
-            if ( !$ConfigObject->Get('Ticket::ChangeOwnerToEveryone') ) {
-                my %AllGroupsMembersNew;
-                my @QueueIDs;
-
-                if ($QueueID) {
-                    push @QueueIDs, $QueueID;
-                }
-                else {
-                    my @TicketIDs = grep {$_} $ParamObject->GetArray( Param => 'TicketID' );
-                    for my $TicketID (@TicketIDs) {
-                        my %Ticket = $TicketObject->TicketGet(
-                            TicketID      => $TicketID,
-                            DynamicFields => 0,
-                        );
-                        push @QueueIDs, $Ticket{QueueID};
-                    }
-                }
-
-                my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
-                my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
-
-                # Put only possible 'responsible' and 'rw' agents to responsible list.
-                for my $QueueID (@QueueIDs) {
-                    my $GroupID = $QueueObject->GetQueueGroupID( QueueID => $QueueID );
-                    my %GroupMember = $GroupObject->PermissionGroupGet(
-                        GroupID => $GroupID,
-                        Type    => 'responsible',
-                    );
-                    USER_ID:
-                    for my $UserID ( sort keys %GroupMember ) {
-                        next USER_ID if !$AllGroupsMembers{$UserID};
-                        $AllGroupsMembersNew{$UserID} = $AllGroupsMembers{$UserID};
-                    }
-                    %ResponsibleGroupsMembers = %AllGroupsMembersNew;
-                }
-            }
-            else {
-                %ResponsibleGroupsMembers = %AllGroupsMembers;
+            my %StateList = $Self->_GetStates(
+                %GetParam,
+                StateType => $Config->{StateType},
+                Action    => $Self->{Action},
+                UserID    => $Self->{UserID},
+            );
+            if ( !$Config->{StateDefault} ) {
+                $StateList{''} = '-';
             }
 
             push @JSONData, {
-                Name         => 'ResponsibleID',
-                Data         => \%ResponsibleGroupsMembers,
+                Name       => 'StateID',
+                Data       => \%StateList,
+                SelectedID => $GetParam{StateID},
+            };
+        }
+
+        if ( $ConfigObject->Get('Ticket::Type') && $Config->{TicketType} ) {
+
+            my %TypeList = $Self->_GetTypes(
+                %GetParam,
+                Action => $Self->{Action},
+                UserID => $Self->{UserID},
+            );
+
+            push @JSONData, {
+                Name         => 'TypeID',
+                Data         => \%TypeList,
+                SelectedID   => $GetParam{TypeID},
                 PossibleNone => 1,
             };
+        }
+
+        if ( $Config->{Owner} ) {
+            my %OwnerList = $Self->_GetOwners(
+                %GetParam,
+                Action => $Self->{Action},
+                UserID => $Self->{UserID},
+            );
+
+            push @JSONData, {
+                Name         => 'OwnerID',
+                Data         => \%OwnerList,
+                SelectedID   => $GetParam{OwnerID},
+                PossibleNone => 1,
+            };
+        }
+
+        if ( $ConfigObject->Get('Ticket::Responsible') && $Config->{Responsible} ) {
+            my %ResponsibleList = $Self->_GetResponsibles(
+                %GetParam,
+                Action => $Self->{Action},
+                UserID => $Self->{UserID},
+            );
+
+            push @JSONData, {
+                Name         => 'ResponsibleID',
+                Data         => \%ResponsibleList,
+                SelectedID   => $GetParam{ResponsibleID},
+                PossibleNone => 1,
+            };
+        }
+
+        if ( $Config->{Priority} ) {
+            my %PriorityList = $Self->_GetPriorities(
+                %GetParam,
+                UserID => $Self->{UserID},
+                Action => $Self->{Action},
+            );
+            if ( !$Config->{PriorityDefault} ) {
+                $PriorityList{''} = '-';
+            }
+
+            push @JSONData, {
+                Name       => 'PriorityID',
+                Data       => \%PriorityList,
+                SelectedID => $GetParam{PriorityID},
+            };
+        }
+
+        # get bulk modules from SysConfig
+        my $BulkModuleConfig = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::BulkModule') || {};
+
+        # create bulk module objects
+        my @BulkModules;
+        MODULECONFIG:
+        for my $ModuleConfig ( sort keys %{$BulkModuleConfig} ) {
+
+            next MODULECONFIG if !$ModuleConfig;
+            next MODULECONFIG if !$BulkModuleConfig->{$ModuleConfig};
+            next MODULECONFIG if ref $BulkModuleConfig->{$ModuleConfig} ne 'HASH';
+            next MODULECONFIG if !$BulkModuleConfig->{$ModuleConfig}->{Module};
+
+            my $Module = $BulkModuleConfig->{$ModuleConfig}->{Module};
+
+            my $ModuleObject;
+            eval {
+                $ModuleObject = $Kernel::OM->Get($Module);
+            };
+
+            if ( !$ModuleObject ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Could not create a new object for $Module!",
+                );
+                next MODULECONFIG;
+            }
+
+            if ( ref $ModuleObject ne $Module ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Object for $Module is invalid!",
+                );
+                next MODULECONFIG;
+            }
+
+            push @BulkModules, $ModuleObject;
+        }
+
+        # call AJAXUpdate() in all ticket bulk modules
+        if (@BulkModules) {
+
+            MODULEOBJECT:
+            for my $ModuleObject (@BulkModules) {
+                next MODULEOBJECT if !$ModuleObject->can('AJAXUpdate');
+
+                my $ModuleAjaxUpdate = $ModuleObject->AJAXUpdate(
+                    %GetParam,
+                    Action => $Self->{Action},
+                    UserID => $Self->{UserID},
+                );
+
+                next MODULEOBJECT if !IsHashRefWithData($ModuleAjaxUpdate);
+
+                push @JSONData, $ModuleAjaxUpdate;
+            }
         }
 
         my $JSON = $LayoutObject->BuildSelectionJSON( [@JSONData] );
@@ -1048,12 +1100,9 @@ sub _Mask {
     if ( $Config->{State} ) {
         my %State;
 
-        # get state object
-        my $StateObject = $Kernel::OM->Get('Kernel::System::State');
-
-        my %StateList = $StateObject->StateGetStatesByType(
+        my %StateList = $Self->_GetStates(
+            %Param,
             StateType => $Config->{StateType},
-            Result    => 'HASH',
             Action    => $Self->{Action},
             UserID    => $Self->{UserID},
         );
@@ -1080,6 +1129,8 @@ sub _Mask {
             Data => \%Param,
         );
 
+        my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+
         STATE_ID:
         for my $StateID ( sort keys %StateList ) {
             next STATE_ID if !$StateID;
@@ -1103,13 +1154,13 @@ sub _Mask {
 
     # types
     if ( $ConfigObject->Get('Ticket::Type') && $Config->{TicketType} ) {
-        my %Type = $TicketObject->TicketTypeList(
+        my %TypeList = $Self->_GetTypes(
             %Param,
             Action => $Self->{Action},
             UserID => $Self->{UserID},
         );
         $Param{TypeStrg} = $LayoutObject->BuildSelection(
-            Data         => \%Type,
+            Data         => \%TypeList,
             PossibleNone => 1,
             Name         => 'TypeID',
             SelectedID   => $Param{TypeID},
@@ -1123,41 +1174,15 @@ sub _Mask {
         );
     }
 
-    # get needed objects
-    my $UserObject  = $Kernel::OM->Get('Kernel::System::User');
-    my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
-    my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
-
     # owner list
     if ( $Config->{Owner} ) {
-        my %AllGroupsMembers = $UserObject->UserList(
-            Type  => 'Long',
-            Valid => 1
+        my %OwnerList = $Self->_GetOwners(
+            %Param,
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
         );
-
-        # Put only possible 'owner' and 'rw' agents to owner list.
-        if ( !$ConfigObject->Get('Ticket::ChangeOwnerToEveryone') ) {
-            my %AllGroupsMembersNew;
-            for my $TicketID ( @{ $Param{TicketIDs} } ) {
-                my %Ticket = $TicketObject->TicketGet(
-                    TicketID      => $TicketID,
-                    DynamicFields => 0,
-                );
-                my $GroupID = $QueueObject->GetQueueGroupID( QueueID => $Ticket{QueueID} );
-                my %GroupMember = $GroupObject->PermissionGroupGet(
-                    GroupID => $GroupID,
-                    Type    => 'owner',
-                );
-                USER_ID:
-                for my $UserID ( sort keys %GroupMember ) {
-                    next USER_ID if !$AllGroupsMembers{$UserID};
-                    $AllGroupsMembersNew{$UserID} = $AllGroupsMembers{$UserID};
-                }
-                %AllGroupsMembers = %AllGroupsMembersNew;
-            }
-        }
         $Param{OwnerStrg} = $LayoutObject->BuildSelection(
-            Data         => \%AllGroupsMembers,
+            Data         => \%OwnerList,
             Name         => 'OwnerID',
             Translation  => 0,
             SelectedID   => $Param{OwnerID},
@@ -1172,34 +1197,13 @@ sub _Mask {
 
     # responsible list
     if ( $ConfigObject->Get('Ticket::Responsible') && $Config->{Responsible} ) {
-        my %AllGroupsMembers = $UserObject->UserList(
-            Type  => 'Long',
-            Valid => 1
+        my %ResponsibleList = $Self->_GetResponsibles(
+            %Param,
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
         );
-
-        # Put only possible 'responsible' and 'rw' agents to responsible list.
-        if ( !$ConfigObject->Get('Ticket::ChangeOwnerToEveryone') ) {
-            my %AllGroupsMembersNew;
-            for my $TicketID ( @{ $Param{TicketIDs} } ) {
-                my %Ticket = $TicketObject->TicketGet(
-                    TicketID      => $TicketID,
-                    DynamicFields => 0,
-                );
-                my $GroupID = $QueueObject->GetQueueGroupID( QueueID => $Ticket{QueueID} );
-                my %GroupMember = $GroupObject->PermissionGroupGet(
-                    GroupID => $GroupID,
-                    Type    => 'responsible',
-                );
-                USER_ID:
-                for my $UserID ( sort keys %GroupMember ) {
-                    next USER_ID if !$AllGroupsMembers{$UserID};
-                    $AllGroupsMembersNew{$UserID} = $AllGroupsMembers{$UserID};
-                }
-                %AllGroupsMembers = %AllGroupsMembersNew;
-            }
-        }
         $Param{ResponsibleStrg} = $LayoutObject->BuildSelection(
-            Data         => \%AllGroupsMembers,
+            Data         => \%ResponsibleList,
             PossibleNone => 1,
             Name         => 'ResponsibleID',
             Translation  => 0,
@@ -1213,13 +1217,14 @@ sub _Mask {
     }
 
     # build move queue string
-    my %MoveQueues = $TicketObject->MoveList(
+    my %QueueList = $Self->_GetQueues(
+        %Param,
+        Type   => 'move_into',
         UserID => $Self->{UserID},
         Action => $Self->{Action},
-        Type   => 'move_into',
     );
     $Param{MoveQueuesStrg} = $LayoutObject->AgentQueueListOption(
-        Data           => { %MoveQueues, '' => '-' },
+        Data           => { %QueueList, '' => '-' },
         Multiple       => 0,
         Size           => 0,
         Name           => 'QueueID',
@@ -1230,9 +1235,10 @@ sub _Mask {
     # get priority
     if ( $Config->{Priority} ) {
         my %Priority;
-        my %PriorityList = $Kernel::OM->Get('Kernel::System::Priority')->PriorityList(
-            Valid  => 1,
+        my %PriorityList = $Self->_GetPriorities(
+            %Param,
             UserID => $Self->{UserID},
+            Action => $Self->{Action},
         );
         if ( !$Config->{PriorityDefault} ) {
             $PriorityList{''} = '-';
@@ -1393,8 +1399,201 @@ sub _Mask {
     # get output back
     return $LayoutObject->Output(
         TemplateFile => 'AgentTicketBulk',
-        Data         => \%Param
+        Data         => \%Param,
     );
+}
+
+sub _GetStates {
+    my ( $Self, %Param ) = @_;
+
+    # TicketStateList() can not be used here as it might not be a queue selected
+    my %StateList = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+        StateType => $Param{StateType},
+        Result    => 'HASH',
+        Action    => $Self->{Action},
+        UserID    => $Self->{UserID},
+    );
+
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    # Execute ACLs.
+    my $ACL = $TicketObject->TicketAcl(
+        %Param,
+        ReturnType    => 'Ticket',
+        ReturnSubType => 'State',
+        Data          => \%StateList,
+    );
+
+    return $TicketObject->TicketAclData() if $ACL;
+    return %StateList;
+}
+
+sub _GetTypes {
+    my ( $Self, %Param ) = @_;
+
+    my %TypeList = $Kernel::OM->Get('Kernel::System::Ticket')->TicketTypeList(
+        %Param,
+        Action => $Self->{Action},
+        UserID => $Self->{UserID},
+    );
+
+    return %TypeList;
+}
+
+sub _GetOwners {
+    my ( $Self, %Param ) = @_;
+
+    # Get all users.
+    my %AllGroupsMembers = $Kernel::OM->Get('Kernel::System::User')->UserList(
+        Type  => 'Long',
+        Valid => 1
+    );
+
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    # Put only possible 'owner' and 'rw' agents to owner list.
+    my %OwnerList;
+    if ( !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::ChangeOwnerToEveryone') ) {
+        my %AllGroupsMembersNew;
+        my @QueueIDs;
+
+        if ( $Param{QueueID} ) {
+            push @QueueIDs, $Param{QueueID};
+        }
+        else {
+            my @TicketIDs = grep {$_} $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'TicketID' );
+            for my $TicketID (@TicketIDs) {
+                my %Ticket = $TicketObject->TicketGet(
+                    TicketID      => $TicketID,
+                    DynamicFields => 0,
+                );
+                push @QueueIDs, $Ticket{QueueID};
+            }
+        }
+
+        my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+        my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+
+        for my $QueueID (@QueueIDs) {
+            my $GroupID = $QueueObject->GetQueueGroupID( QueueID => $QueueID );
+            my %GroupMember = $GroupObject->PermissionGroupGet(
+                GroupID => $GroupID,
+                Type    => 'owner',
+            );
+            USER_ID:
+            for my $UserID ( sort keys %GroupMember ) {
+                next USER_ID if !$AllGroupsMembers{$UserID};
+                $AllGroupsMembersNew{$UserID} = $AllGroupsMembers{$UserID};
+            }
+            %OwnerList = %AllGroupsMembersNew;
+        }
+    }
+    else {
+        %OwnerList = %AllGroupsMembers;
+    }
+
+    # Execute ACLs.
+    my $ACL = $TicketObject->TicketAcl(
+        %Param,
+        Action        => $Self->{Action},
+        ReturnType    => 'Ticket',
+        ReturnSubType => 'Owner',
+        Data          => \%OwnerList,
+        UserID        => $Self->{UserID},
+    );
+
+    return $TicketObject->TicketAclData() if $ACL;
+    return %OwnerList;
+}
+
+sub _GetResponsibles {
+    my ( $Self, %Param ) = @_;
+
+    # Get all users.
+    my %AllGroupsMembers = $Kernel::OM->Get('Kernel::System::User')->UserList(
+        Type  => 'Long',
+        Valid => 1
+    );
+
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    # Put only possible 'responsible' and 'rw' agents to responsible list.
+    my %ResponsibleList;
+    if ( !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::ChangeOwnerToEveryone') ) {
+        my %AllGroupsMembersNew;
+        my @QueueIDs;
+
+        if ( $Param{QueueID} ) {
+            push @QueueIDs, $Param{QueueID};
+        }
+        else {
+            my @TicketIDs = grep {$_} $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'TicketID' );
+            for my $TicketID (@TicketIDs) {
+                my %Ticket = $TicketObject->TicketGet(
+                    TicketID      => $TicketID,
+                    DynamicFields => 0,
+                );
+                push @QueueIDs, $Ticket{QueueID};
+            }
+        }
+
+        my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+        my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+
+        for my $QueueID (@QueueIDs) {
+            my $GroupID = $QueueObject->GetQueueGroupID( QueueID => $QueueID );
+            my %GroupMember = $GroupObject->PermissionGroupGet(
+                GroupID => $GroupID,
+                Type    => 'responsible',
+            );
+            USER_ID:
+            for my $UserID ( sort keys %GroupMember ) {
+                next USER_ID if !$AllGroupsMembers{$UserID};
+                $AllGroupsMembersNew{$UserID} = $AllGroupsMembers{$UserID};
+            }
+            %ResponsibleList = %AllGroupsMembersNew;
+        }
+    }
+    else {
+        %ResponsibleList = %AllGroupsMembers;
+    }
+
+    # Execute ACLs.
+    my $ACL = $TicketObject->TicketAcl(
+        %Param,
+        Action        => $Self->{Action},
+        ReturnType    => 'Ticket',
+        ReturnSubType => 'Responsible',
+        Data          => \%ResponsibleList,
+        UserID        => $Self->{UserID},
+    );
+
+    return $TicketObject->TicketAclData() if $ACL;
+    return %ResponsibleList;
+}
+
+sub _GetQueues {
+    my ( $Self, %Param ) = @_;
+
+    my %QueueList = $Kernel::OM->Get('Kernel::System::Ticket')->MoveList(
+        %Param,
+        UserID => $Self->{UserID},
+        Action => $Self->{Action},
+        Type   => 'move_into',
+    );
+
+    return %QueueList;
+}
+
+sub _GetPriorities {
+    my ( $Self, %Param ) = @_;
+
+    my %PriorityList = $Kernel::OM->Get('Kernel::System::Ticket')->TicketPriorityList(
+        %Param,
+        Action => $Self->{Action},
+        UserID => $Self->{UserID},
+    );
+    return %PriorityList;
 }
 
 1;

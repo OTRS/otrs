@@ -153,6 +153,14 @@
                         [% Data.NextStatesStrg %]
                     </div>
                     <div class="Clear"></div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#StateID').on('change', function () {
+    Core.AJAX.FormUpdate($('.Validate'), 'AJAXUpdate', 'StateID', [, 'TypeID', 'OwnerID', 'ResponsibleID', 'QueueID', 'PriorityID']);
+});
+//]]></script>
+[% END %]
+
 [% RenderBlockStart("StatePending") %]
                     <label>[% Translate("Pending date") | html %]:</label>
                     <div class="Field">
@@ -171,6 +179,14 @@
                         [% Data.TypeStrg %]
                     </div>
                     <div class="Clear"></div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#TypeID').on('change', function () {
+    Core.AJAX.FormUpdate($('.Validate'), 'AJAXUpdate', 'TypeID', ['StateID', 'OwnerID', 'ResponsibleID', 'QueueID', 'PriorityID']);
+});
+//]]></script>
+[% END %]
+
 [% RenderBlockEnd("Type") %]
 
                     <label for="QueueID">[% Translate("Queue") | html %]:</label>
@@ -181,7 +197,7 @@
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
 $('#QueueID').on('change', function () {
-    Core.AJAX.FormUpdate($('.Validate'), 'AJAXUpdate', 'QueueID', ['OwnerID', 'ResponsibleID']);
+    Core.AJAX.FormUpdate($('.Validate'), 'AJAXUpdate', 'QueueID', ['StateID', 'TypeID', 'OwnerID', 'ResponsibleID', 'PriorityID']);
 });
 //]]></script>
 [% END %]
@@ -192,6 +208,14 @@ $('#QueueID').on('change', function () {
                         [% Data.OwnerStrg %]
                     </div>
                     <div class="Clear"></div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#OwnerID').on('change', function () {
+    Core.AJAX.FormUpdate($('.Validate'), 'AJAXUpdate', 'OwnerID', ['StateID', 'TypeID', 'ResponsibleID', 'QueueID', 'PriorityID']);
+});
+//]]></script>
+[% END %]
+
 [% RenderBlockEnd("Owner") %]
 
 [% RenderBlockStart("Responsible") %]
@@ -200,6 +224,14 @@ $('#QueueID').on('change', function () {
                         [% Data.ResponsibleStrg %]
                     </div>
                     <div class="Clear"></div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#ResponsibleID').on('change', function () {
+    Core.AJAX.FormUpdate($('.Validate'), 'AJAXUpdate', 'ResponsibleID', ['StateID', 'TypeID', 'OwnerID', 'QueueID', 'PriorityID']);
+});
+//]]></script>
+[% END %]
+
 [% RenderBlockEnd("Responsible") %]
 
 [% RenderBlockStart("Priority") %]
@@ -208,6 +240,14 @@ $('#QueueID').on('change', function () {
                         [% Data.PriorityStrg %]
                     </div>
                     <div class="Clear"></div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#PriorityID').on('change', function () {
+    Core.AJAX.FormUpdate($('.Validate'), 'AJAXUpdate', 'PriorityID', ['StateID', 'TypeID', 'OwnerID', 'ResponsibleID', 'QueueID']);
+});
+//]]></script>
+[% END %]
+
 [% RenderBlockEnd("Priority") %]
 
                     <label>[% Translate("Merge") | html %]:</label>
