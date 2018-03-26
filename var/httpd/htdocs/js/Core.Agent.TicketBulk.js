@@ -29,7 +29,9 @@ Core.Agent.TicketBulk = (function (TargetNS) {
      */
     TargetNS.Init = function () {
         var TicketBulkURL = Core.Config.Get('TicketBulkURL'),
-            $TicketNumberObj = $('#MergeTo');
+            $TicketNumberObj = $('#MergeTo'),
+            Fields = ['StateID', 'TypeID', 'OwnerID', 'ResponsibleID', 'QueueID', 'PriorityID'],
+            ModifiedFields;
 
         // Initialize autocomplete feature on ticket number field.
         Core.UI.Autocomplete.Init($TicketNumberObj, function (Request, Response) {
@@ -79,10 +81,14 @@ Core.Agent.TicketBulk = (function (TargetNS) {
             }
         });
 
-        // Update owner and responsible fields on queue change.
-        $('#QueueID').on('change', function () {
-            Core.AJAX.FormUpdate($('.Validate'), 'AJAXUpdate', 'QueueID', ['OwnerID', 'ResponsibleID']);
+        // Bind events to specific fields
+        $.each(Fields, function(Index, Value) {
+            ModifiedFields = Core.Data.CopyObject(Fields);
+            ModifiedFields.splice(Index, 1);
+
+            FieldUpdate(Value, ModifiedFields);
         });
+
 
         // execute function in the parent window
         Core.UI.Popup.ExecuteInParentWindow(function(WindowObject) {
@@ -162,6 +168,23 @@ Core.Agent.TicketBulk = (function (TargetNS) {
             }
         });
     };
+
+    /**
+     * @private
+     * @name FieldUpdate
+     * @memberof Core.Agent.TicketBulk.Init
+     * @function
+     * @param {String} Value - FieldID
+     * @param {Array} ModifiedFields - Fields
+     * @description
+     *      Create on change event handler
+     */
+    function FieldUpdate (Value, ModifiedFields) {
+        $('#' + Value).on('change', function () {
+            Core.AJAX.FormUpdate($('.Validate'), 'AJAXUpdate', Value, ModifiedFields);
+        });
+    }
+
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 

@@ -1,4 +1,5 @@
 #6.0.7 2018-??-??
+ - 2018-03-26 Fixed bug#[10709](https://bugs.otrs.org/show_bug.cgi?id=10709) - ACL for Action AgentTicketBulk are inconsistent.
  - 2018-03-19 Fixed bug#[5562](https://bugs.otrs.org/show_bug.cgi?id=5562) - Options configured in Sysconfig aren't used untill a restart of OTRS when deployed on FastCGI.
  - 2018-03-19 Fixed bug#[13711](https://bugs.otrs.org/show_bug.cgi?id=13711) - Multiple GenericInterface default Invoker and Operation frontend issues.
  - 2018-03-16 Follow-up fix for bug#[13164](https://bugs.otrs.org/show_bug.cgi?id=13164) - Certain AJAX Error Types are still unprocessed.
