@@ -47,7 +47,7 @@ $Selenium->RunTest(
             Value => 10,
         );
 
-        # Change settings Ticket::Frontend::AgentTicketQueue###HighlightAge2 to 10 minutes.
+        # Change settings Ticket::Frontend::AgentTicketQueue###HighlightAge2 to 20 minutes.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::AgentTicketQueue###HighlightAge2',
@@ -106,9 +106,10 @@ $Selenium->RunTest(
                 Lock    => 'unlock',
             },
             {
-                Queue   => 'Raw',
-                QueueID => 2,
-                Lock    => 'unlock',
+                Queue        => 'Raw',
+                QueueID      => 2,
+                Lock         => 'unlock',
+                FixedTimeSet => $FixedTime - 60 * 60 - 100,
             },
             {
                 Queue   => 'Junk',
@@ -174,10 +175,10 @@ $Selenium->RunTest(
             "Visual alarm Blink is found - Oldest class",
         );
 
-        # Check HighlightAge1 visual alarm - OlderLevel2 class.
+        # Check HighlightAge1 visual alarm - OlderLevel1 class.
         $Self->True(
             $Selenium->find_element( '.OlderLevel1', 'css' ),
-            "Visual alarm HighlightAge1 is found - OlderLevel2 class",
+            "Visual alarm HighlightAge1 is found - OlderLevel1 class",
         );
 
         # Check HighlightAge2 visual alarm - OlderLevel2 class.
