@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use MIME::Base64;
+use Time::HiRes();
 use utf8;
 
 use Kernel::System::VariableCheck qw( :all );
@@ -4311,7 +4312,9 @@ sub DeploymentAdd {
         }
     }
 
-    # Create a deployment record without a real value.
+    my $UID = 'OTRSInvalid-' . $Self->_GetUID();
+
+    # Create a deployment record without the real comments.
     return if !$DBObject->Do(
         SQL => '
             INSERT INTO sysconfig_deployment
@@ -4319,7 +4322,8 @@ sub DeploymentAdd {
             VALUES
                 (?, ?, ?, ?, ?)',
         Bind => [
-            \$Param{Comments}, \'Invalid', \$Param{TargetUserID}, \$Param{DeploymentTimeStamp}, \$Param{UserID},
+            \$UID, \${ $Param{EffectiveValueStrg} }, \$Param{TargetUserID}, \$Param{DeploymentTimeStamp},
+            \$Param{UserID},
         ],
     );
 
@@ -4327,10 +4331,10 @@ sub DeploymentAdd {
     my $SQL = '
         SELECT id
         FROM sysconfig_deployment
-        WHERE create_time = ?
+        WHERE comments = ?
             AND create_by = ?';
 
-    my @Bind = ( \$Param{DeploymentTimeStamp}, \$Param{UserID} );
+    my @Bind = ( \$UID, \$Param{UserID} );
 
     if ( $Param{TargetUserID} ) {
         $SQL .= '
@@ -4372,10 +4376,10 @@ sub DeploymentAdd {
     return if !$DBObject->Do(
         SQL => '
             Update sysconfig_deployment
-            SET effective_value = ?
+            SET comments = ?, effective_value = ?
             WHERE id = ?',
         Bind => [
-            \${ $Param{EffectiveValueStrg} }, \$DeploymentID,
+            \$Param{Comments}, \${ $Param{EffectiveValueStrg} }, \$DeploymentID,
         ],
     );
 
@@ -4412,6 +4416,7 @@ Gets deployment information.
 
     my %Deployment = $SysConfigDBObject->DeploymentGet(
         DeploymentID => 123,
+        Valid        => 1,      # optional (this is deprecated and will be removed in next mayor release).
     );
 
 Returns:
@@ -4479,7 +4484,9 @@ sub DeploymentGet {
 
     return if !%Deployment;
 
-    if ( $Deployment{EffectiveValueStrg} eq 'Invalid' ) {
+    my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
+
+    if ( $Deployment{EffectiveValueStrg} eq 'Invalid' && $Valid ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "The Deployment $Param{DeploymentID} is invalid!",
@@ -4725,6 +4732,7 @@ sub DeploymentDelete {
 
     my %Deployment = $Self->DeploymentGet(
         DeploymentID => $Param{DeploymentID},
+        Valid        => 0,
     );
 
     return 1 if !%Deployment;
@@ -5046,7 +5054,7 @@ sub DeploymentModifiedVersionList {
         return;
     }
 
-    my $Mode = $Param{Mode} // 'Equals';
+    my $Mode        = $Param{Mode} // 'Equals';
     my %ModeMapping = (
         Equals            => '=',
         GreaterThan       => '>',
@@ -5152,6 +5160,88 @@ sub DeploymentUnlock {
     );
 
     return 1;
+}
+
+=head2 DeploymentListCleanup()
+
+Removes invalid deployments from the database.
+
+    my $Success = $SysConfigDBObject->DeploymentListCleanup( );
+
+Returns:
+
+    $Success = 1;       # Returns 1 if all records are valid (or all invalid was removed)
+                        # Returns -1 if there is an invalid deployment that could be in adding process
+                        # Returns false in case of an error
+
+=cut
+
+sub DeploymentListCleanup {
+    my ( $Self, %Param ) = @_;
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
+        SQL => '
+            SELECT id, create_time
+            FROM sysconfig_deployment
+            WHERE effective_value LIKE \'Invalid%\'
+                OR comments LIKE \'OTRSInvalid-%\'
+            ORDER BY id DESC',
+    );
+
+    my @Deployments;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        my %Deployment = (
+            DeploymentID => $Row[0],
+            CreateTime   => $Row[1],
+        );
+        push @Deployments, \%Deployment;
+    }
+
+    my $Success               = 1;
+    my $CurrentDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
+    DEPLOYMENT:
+    for my $Deployment (@Deployments) {
+
+        my $DeploymentDateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Deployment->{CreateTime},
+            },
+        );
+
+        my $Delta = $CurrentDateTimeObject->Delta( DateTimeObject => $DeploymentDateTimeObject );
+
+        # Remove deployment only if it is old (more than 20 secs)
+        if ( $DeploymentDateTimeObject < $CurrentDateTimeObject && $Delta >= 20 ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Deployment $Deployment->{DeploymentID} is invalid and will be removed!",
+            );
+            my $DeleteSuccess = $Self->DeploymentDelete(
+                DeploymentID => $Deployment->{DeploymentID},
+            );
+            if ( !$DeleteSuccess ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Could not delete deployment $Deployment->{DeploymentID}",
+                );
+                $Success = 0;
+            }
+            last DEPLOYMENT;
+        }
+
+        # Otherwise just log that there is something wrong with the deployment but do not remove it
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Deployment $Deployment->{DeploymentID} seams to be invalid or its not fully updated",
+        );
+        $Success = -1;
+    }
+
+    return $Success;
 }
 
 =head1 PRIVATE INTERFACE
@@ -5355,6 +5445,37 @@ sub _BulkInsert {
     }
 
     return 1;
+}
+
+=head2 _GetUID()
+
+Generates a unique identifier.
+
+    my $UID = $TicketNumberObject->_GetUID();
+
+Returns:
+
+    my $UID = 14906327941360ed8455f125d0450277;
+
+=cut
+
+sub _GetUID {
+    my ( $Self, %Param ) = @_;
+
+    my $NodeID = $Kernel::OM->Get('Kernel::Config')->Get('NodeID') || 1;
+    my ( $Seconds, $Microseconds ) = Time::HiRes::gettimeofday();
+    my $ProcessID = $$;
+
+    my $CounterUID = $ProcessID . $Seconds . $Microseconds . $NodeID;
+
+    my $RandomString = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
+        Length     => 32 - length $CounterUID,
+        Dictionary => [ 0 .. 9, 'a' .. 'f' ],    # hexadecimal
+    );
+
+    $CounterUID .= $RandomString;
+
+    return $CounterUID;
 }
 
 1;
