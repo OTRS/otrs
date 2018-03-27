@@ -12,6 +12,7 @@ use utf8;
 
 use vars (qw($Self));
 
+use Kernel::Modules::AgentTicketService;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 # get needed objects
@@ -2231,7 +2232,10 @@ for my $SearchParam (qw(ArticleCreateTime TicketCreateTime TicketPendingTime)) {
     }
 }
 
-# Test TicketCountByAttribute() function.
+# Test private method of AgentTicketService.pm _TicketCountByAttribute() which
+#   returns count of tickets per value for a specific attribute.
+my $AgentTicketService = Kernel::Modules::AgentTicketService->new();
+
 # Enable Ticket Type.
 $Kernel::OM->Get('Kernel::Config')->Set(
     Key   => 'Ticket::Type',
@@ -2535,32 +2539,32 @@ for my $Test (@Tests) {
 );
 
 # Check required params.
-my $TicketCount = $TicketObject->TicketCountByAttribute(
+my $TicketCount = $AgentTicketService->_TicketCountByAttribute(
     TicketIDs => \@TicketIDs,
 );
 $Self->False(
     $TicketCount,
-    "TicketCountByAttribute() need Attribute param."
+    "_TicketCountByAttribute() need Attribute param."
 );
-$TicketCount = $TicketObject->TicketCountByAttribute(
+$TicketCount = $AgentTicketService->_TicketCountByAttribute(
     Attribute => 'Service',
     TicketIDs => [],
 );
 $Self->True(
     !IsHashRefWithData($TicketCount),
-    "TicketCountByAttribute() need TicketIDs array."
+    "_TicketCountByAttribute() need TicketIDs array."
 );
 
 # Run valid tests.
 for my $Test (@Tests) {
-    my $TicketCount = $TicketObject->TicketCountByAttribute(
+    my $TicketCount = $AgentTicketService->_TicketCountByAttribute(
         Attribute => $Test->{Attribute},
         TicketIDs => \@TicketIDs,
     );
     $Self->IsDeeply(
         $TicketCount,
         $Test->{ExpectedCount},
-        "TicketCountByAttribute() for Attribute $Test->{Attribute} correct,"
+        "_TicketCountByAttribute() for Attribute $Test->{Attribute} correct,"
     );
 }
 

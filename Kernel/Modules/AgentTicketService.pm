@@ -513,7 +513,7 @@ sub Run {
         Result     => 'ARRAY',
     );
 
-    my $TicketCountByServiceID = $TicketObject->TicketCountByAttribute(
+    my $TicketCountByServiceID = $Self->_TicketCountByAttribute(
         Attribute => 'ServiceID',
         TicketIDs => \@AllServicesTicketIDs,
     );
@@ -787,6 +787,129 @@ sub _MaskServiceView {
         MainContent     => $Param{ServiceStrg},
         Total           => $Param{TicketsShown},
     );
+}
+
+=item _TicketCountByAttribute()
+
+Private method which returns count of tickets per value for a specific attribute.
+This function will become part of TicketSearch.pm API in OTRS 7.
+
+    my $TicketCount = $TicketObject->TicketCountByAttribute(
+        Attribute => 'ServiceID',
+        TicketIDs => [ 1, 2, 3 ],
+    );
+
+Returns:
+
+    $TicketCount = {
+        Attribute_Value_1 => 1,
+        Attribute_Value_2 => 3,
+        ...
+    };
+
+=cut
+
+sub _TicketCountByAttribute {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{Attribute} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Attribute!',
+        );
+        return;
+    }
+
+    # Check supported attributes.
+    my $Attribute           = $Param{Attribute};
+    my %AttributeToDatabase = (
+        Lock       => 'ticket_lock_id',
+        LockID     => 'ticket_lock_id',
+        Queue      => 'queue_id',
+        QueueID    => 'queue_id',
+        Priority   => 'ticket_priority_id',
+        PriorityID => 'ticket_priority_id',
+        Service    => 'service_id',
+        ServiceID  => 'service_id',
+        SLA        => 'sla_id',
+        SLAID      => 'sla_id',
+        State      => 'ticket_state_id',
+        StateID    => 'ticket_state_id',
+        Type       => 'type_id',
+        TypeID     => 'type_id',
+    );
+    if ( !$AttributeToDatabase{$Attribute} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "No matching database colum found for Attribute '$Attribute'!",
+        );
+        return;
+    }
+    my $DatabaseColumn = $AttributeToDatabase{$Attribute};
+
+    # Nothing to do.
+    return {} if !IsArrayRefWithData( $Param{TicketIDs} );
+    my @BindTicketIDs = map { \$_ } @{ $Param{TicketIDs} };
+
+    # Prepare value-type attributes.
+    my %AttributeValueLookup;
+    if ( $Attribute eq 'Lock' ) {
+        %AttributeValueLookup = $Kernel::OM->Get('Kernel::System::Lock')->LockList( UserID => 1 );
+    }
+    elsif ( $Attribute eq 'Queue' ) {
+        %AttributeValueLookup = $Kernel::OM->Get('Kernel::System::Queue')->QueueList( Valid => 0 );
+    }
+    elsif ( $Attribute eq 'Priority' ) {
+        %AttributeValueLookup = $Kernel::OM->Get('Kernel::System::Priority')->PriorityList( Valid => 0 );
+    }
+    elsif ( $Attribute eq 'Service' ) {
+        %AttributeValueLookup = $Kernel::OM->Get('Kernel::System::Service')->ServiceList(
+            Valid  => 0,
+            UserID => 1,
+        );
+    }
+    elsif ( $Attribute eq 'SLA' ) {
+        %AttributeValueLookup = $Kernel::OM->Get('Kernel::System::SLA')->SLAList(
+            Valid  => 0,
+            UserID => 1,
+        );
+    }
+    elsif ( $Attribute eq 'State' ) {
+        %AttributeValueLookup = $Kernel::OM->Get('Kernel::System::State')->StateList(
+            Valid  => 0,
+            UserID => 1,
+        );
+    }
+    elsif ( $Attribute eq 'Type' ) {
+        %AttributeValueLookup = $Kernel::OM->Get('Kernel::System::Type')->TypeList( Valid => 0 );
+    }
+    my $AttributeType = %AttributeValueLookup ? 'Value' : 'ID';
+
+    # Get count from database.
+    my $TicketIDString = join ',', ('?') x scalar @BindTicketIDs;
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    return if !$DBObject->Prepare(
+        SQL =>
+            'SELECT COUNT(*), ' . $DatabaseColumn
+            . ' FROM ticket'
+            . ' WHERE id IN (' . $TicketIDString . ')'
+            . ' AND ' . $DatabaseColumn . ' IS NOT NULL'
+            . ' GROUP BY ' . $DatabaseColumn,
+        Bind  => \@BindTicketIDs,
+        Limit => 10_000,
+    );
+    my %AttributeCount;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $AttributeCount{ $Row[1] } = $Row[0];
+    }
+
+    # No conversion necessary.
+    return \%AttributeCount if $AttributeType eq 'ID';
+
+    # Convert database IDs to values, skip entries with unknown value lookup.
+    my %AttributeCountConverted = map { $AttributeValueLookup{$_} => $AttributeCount{$_} }
+        grep { $AttributeValueLookup{$_} } sort keys %AttributeCount;
+    return \%AttributeCountConverted;
 }
 
 1;
