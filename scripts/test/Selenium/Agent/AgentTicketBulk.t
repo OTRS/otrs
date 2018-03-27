@@ -269,7 +269,8 @@ $Selenium->RunTest(
             my %Ticket = (
                 TicketID     => $TicketID,
                 TicketNumber => $TicketNumber,
-                OwnerID      => $Test->{OwnerID}
+                OwnerID      => $Test->{OwnerID},
+                Title        => $Test->{TicketTitle},
             );
 
             push @Tickets, \%Ticket;
@@ -392,6 +393,7 @@ $Selenium->RunTest(
         # Change state and priority in bulk action for test tickets.
         $Selenium->execute_script("\$('#PriorityID').val('4').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#StateID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
         $Selenium->find_element( '#submitRichText', 'css' )->click();
 
         # Return to status view.
@@ -408,7 +410,7 @@ $Selenium->RunTest(
         for my $Ticket (@Tickets) {
             if ( $Ticket->{OwnerID} != 1 && $Ticket->{Title} !~ m/-Four|-Five|-Six$/ ) {
                 $Self->True(
-                    index( $Selenium->get_page_source(), $Ticket->{TicketNumber} ) > -1,
+                    $Selenium->execute_script("return \$('#TicketID_$Ticket->{TicketID}').length"),
                     "Closed ticket $Ticket->{TicketNumber} is found on page",
                 ) || die;
             }
@@ -416,11 +418,10 @@ $Selenium->RunTest(
 
                 # Ticket is locked by another agent and it was ignored in bulk feature.
                 $Self->True(
-                    index( $Selenium->get_page_source(), $Ticket->{TicketNumber} ) == -1,
-                    "Ticket $Ticket->{TicketNumber} is not found on page",
+                    $Selenium->execute_script("return !\$('#TicketID_$Ticket->{TicketID}').length"),
+                    "Closed ticket $Ticket->{TicketNumber} is found on page",
                 ) || die;
             }
-
         }
 
         # Select view of open tickets in the table.
