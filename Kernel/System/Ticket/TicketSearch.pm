@@ -11,6 +11,8 @@ package Kernel::System::Ticket::TicketSearch;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(IsArrayRefWithData);
+
 our $ObjectManagerDisabled = 1;
 
 =head1 NAME
