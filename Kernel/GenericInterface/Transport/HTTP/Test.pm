@@ -22,7 +22,7 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::GenericInterface::Transport::Test - GenericInterface network transport interface for testing purposes
+Kernel::GenericInterface::Transport::HTTP::Test - GenericInterface network transport interface for testing purposes
 
 =head1 PUBLIC INTERFACE
 

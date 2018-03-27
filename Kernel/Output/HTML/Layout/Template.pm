@@ -23,7 +23,7 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::Output::HTML::LayoutTemplate - template rendering engine based on Template::Toolkit
+Kernel::Output::HTML::Layout::Template - template rendering engine based on Template::Toolkit
 
 =head1 PUBLIC INTERFACE
 

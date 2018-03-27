@@ -22,7 +22,7 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::GenericInterface::Operation::Ticket::SessionGet - GenericInterface Session Get Operation backend
+Kernel::GenericInterface::Operation::Session::SessionGet - GenericInterface Session Get Operation backend
 
 =head1 PUBLIC INTERFACE
 

@@ -17,7 +17,7 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::GenericInterface::Operation::Test - GenericInterface Operation Test backend
+Kernel::GenericInterface::Operation::Test::Test - GenericInterface Operation Test backend
 
 =head1 PUBLIC INTERFACE
 

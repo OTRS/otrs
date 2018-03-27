@@ -27,7 +27,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Webservice
+Kernel::System::GenericInterface::Webservice
 
 =head1 DESCRIPTION
 

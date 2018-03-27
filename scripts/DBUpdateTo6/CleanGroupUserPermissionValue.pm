@@ -20,7 +20,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-scripts::DBUpdateTo6::CleanGroupUserPermissionValues - Delete from table group_user all the records where permission_value is '0'.
+scripts::DBUpdateTo6::CleanGroupUserPermissionValue - Delete from table group_user all the records where permission_value is '0'.
 
 =cut
 

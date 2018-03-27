@@ -18,7 +18,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Ticket::Event::NotificationEvent::Transport::Base - common notification event transport functions
+Kernel::System::Calendar::Event::Transport::Base - common notification event transport functions
 
 =head1 PUBLIC INTERFACE
 

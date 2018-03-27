@@ -24,7 +24,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-var::websertvices::examples::Base - base class for Ready2Adopt web services examples
+var::webservices::examples::Base - base class for Ready2Adopt web services examples
 
 =head1 DESCRIPTION
 

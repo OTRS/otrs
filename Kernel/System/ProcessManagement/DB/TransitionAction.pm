@@ -23,7 +23,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::ProcessManagement::DB::Transition::TransitionAction
+Kernel::System::ProcessManagement::DB::TransitionAction
 
 =head1 DESCRIPTION
 

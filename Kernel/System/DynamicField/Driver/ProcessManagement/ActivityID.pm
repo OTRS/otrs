@@ -26,7 +26,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::DynamicField::Driver::Text
+Kernel::System::DynamicField::Driver::ProcessManagement::ActivityID
 
 =head1 DESCRIPTION
 

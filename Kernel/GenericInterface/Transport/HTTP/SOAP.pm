@@ -23,7 +23,7 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::GenericInterface::Transport::SOAP - GenericInterface network transport interface for HTTP::SOAP
+Kernel::GenericInterface::Transport::HTTP::SOAP - GenericInterface network transport interface for HTTP::SOAP
 
 =head1 PUBLIC INTERFACE
 

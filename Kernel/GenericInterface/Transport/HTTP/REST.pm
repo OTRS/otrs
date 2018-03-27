@@ -23,7 +23,7 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::GenericInterface::Transport::REST - GenericInterface network transport interface for HTTP::REST
+Kernel::GenericInterface::Transport::HTTP::REST - GenericInterface network transport interface for HTTP::REST
 
 =head1 PUBLIC INTERFACE
 

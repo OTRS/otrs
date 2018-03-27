@@ -19,7 +19,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::CommunicationChannel::Email - phone communication channel class
+Kernel::System::CommunicationChannel::Phone - phone communication channel class
 
 =head1 DESCRIPTION
 

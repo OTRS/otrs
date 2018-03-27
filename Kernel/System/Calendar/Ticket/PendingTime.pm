@@ -21,7 +21,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Calendar::Ticket::EscalationTime - PendingTime appointment type
+Kernel::System::Calendar::Ticket::PendingTime - PendingTime appointment type
 
 =head1 DESCRIPTION
 

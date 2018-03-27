@@ -22,7 +22,7 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::GenericInterface::Operation::Ticket::TicketyHistorGet - GenericInterface Ticket History Get Operation backend
+Kernel::GenericInterface::Operation::Ticket::TicketHistoryGet - GenericInterface Ticket History Get Operation backend
 
 =head1 PUBLIC INTERFACE
 

@@ -20,7 +20,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::WebserviceHistory
+Kernel::System::GenericInterface::WebserviceHistory
 
 =head1 DESCRIPTION
 

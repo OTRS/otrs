@@ -17,7 +17,7 @@ our @ObjectDependencies = ();
 
 =head1 NAME
 
-Kernel::System::Ticket::Article::Backend::Phone - backend class for internal articles
+Kernel::System::Ticket::Article::Backend::Internal - backend class for internal articles
 
 =head1 DESCRIPTION
 

@@ -28,7 +28,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::SysConfig - Functions to manage system configuration settings interactions with the database.
+Kernel::System::SysConfig::DB - Functions to manage system configuration settings interactions with the database.
 
 =head1 PUBLIC INTERFACE
 

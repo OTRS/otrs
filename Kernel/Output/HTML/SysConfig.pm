@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::Output::HTML::SysConfig:: - Manage HTML representation of SysConfig settings.
+Kernel::Output::HTML::SysConfig - Manage HTML representation of SysConfig settings.
 
 =head1 PUBLIC INTERFACE
 

@@ -30,7 +30,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::TemplateGenerator - signature lib
+Kernel::System::CalendarTemplateGenerator - signature lib
 
 =head1 DESCRIPTION
 
