@@ -1,4 +1,5 @@
 #5.0.28 ????-??-??
+ - 2018-03-27 Fixed bug#[13717](https://bugs.otrs.org/show_bug.cgi?id=13717) - AgentTicketService can slow down a system, when having many services and many agents working on there.
  - 2018-03-26 Fixed bug#[10709](https://bugs.otrs.org/show_bug.cgi?id=10709) - ACL for Action AgentTicketBulk are inconsistent.
  - 2018-03-19 Fixed bug#[5562](https://bugs.otrs.org/show_bug.cgi?id=5562) - Options configured in Sysconfig aren't used untill a restart of OTRS when deployed on FastCGI.
  - 2018-03-12 Fixed bug#[13537](https://bugs.otrs.org/show_bug.cgi?id=13537) - Changing customer user doesn't update the Customer Information box.
