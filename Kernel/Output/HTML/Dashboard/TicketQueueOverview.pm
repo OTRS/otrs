@@ -133,20 +133,31 @@ sub Run {
         $QueueIDURL .= "QueueIDs=$QueueID;";
     }
 
+    # Prepare ticket count.
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my @QueueIDs     = sort keys %Queues;
     my %Results;
-    for my $QueueID ( sort keys %Queues ) {
-        my @Results;
-        for my $StateOrderID ( sort { $a <=> $b } keys %ConfiguredStates ) {
-            my $QueueTotal = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
-                UserID => $Self->{UserID},
-                Result => 'COUNT',
-                Queues => [ $Queues{$QueueID} ],
-                States => [ $ConfiguredStates{$StateOrderID} ],
-            ) || 0;
-            push @Results, $QueueTotal;
-        }
+    for my $StateOrderID ( sort { $a <=> $b } keys %ConfiguredStates ) {
 
-        $Results{ $Queues{$QueueID} } = [@Results];
+        # Run ticket search for all Queues and appropriate available State.
+        my @StateOrderTicketIDs = $TicketObject->TicketSearch(
+            UserID   => $Self->{UserID},
+            Result   => 'ARRAY',
+            QueueIDs => \@QueueIDs,
+            States   => [ $ConfiguredStates{$StateOrderID} ],
+        );
+
+        # Count of tickets per QueueID.
+        my $TicketCountByQueueID = $TicketObject->TicketCountByAttribute(
+            Attribute => 'QueueID',
+            TicketIDs => \@StateOrderTicketIDs,
+        );
+
+        # Gather ticket count for corresponding Queue <-> State.
+        for my $QueueID (@QueueIDs) {
+            push @{ $Results{ $Queues{$QueueID} } },
+                $TicketCountByQueueID->{$QueueID} ? $TicketCountByQueueID->{$QueueID} : 0;
+        }
     }
 
     # build header
