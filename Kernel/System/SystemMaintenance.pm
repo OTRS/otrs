@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::SystemMaintenance.pm
+Kernel::System::SystemMaintenance
 
 =head1 DESCRIPTION
 

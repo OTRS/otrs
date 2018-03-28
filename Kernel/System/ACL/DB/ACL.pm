@@ -26,7 +26,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::ACL::DB::ACL.pm
+Kernel::System::ACL::DB::ACL
 
 =head1 DESCRIPTION
 
