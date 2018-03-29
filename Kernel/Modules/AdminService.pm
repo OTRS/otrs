@@ -323,9 +323,10 @@ sub _MaskNew {
     my $ListType = $ConfigObject->Get('Ticket::Frontend::ListType');
 
     # generate ParentOptionStrg
+    my $KeepChildren = $ConfigObject->Get('Ticket::Service::KeepChildren') // 0;
     my %ServiceList = $ServiceObject->ServiceList(
-        Valid        => 1,
-        KeepChildren => $ConfigObject->Get('Ticket::Service::KeepChildren') // 0,
+        Valid        => !$KeepChildren,
+        KeepChildren => $KeepChildren,
         UserID       => $Self->{UserID},
     );
     $ServiceData{ParentOptionStrg} = $LayoutObject->BuildSelection(
