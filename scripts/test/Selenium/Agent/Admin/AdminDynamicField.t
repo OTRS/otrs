@@ -340,6 +340,16 @@ $Selenium->RunTest(
                 ID     => $TestDynamicFieldID,
                 UserID => 1,
             );
+
+            # Dynamic field deletion could fail. Try again in this case.
+            if ( !$Success ) {
+                sleep 3;
+                $Success = $DynamicFieldObject->DynamicFieldDelete(
+                    ID     => $TestDynamicFieldID,
+                    UserID => 1,
+                );
+            }
+
             $Self->True(
                 $Success,
                 "DynamicFieldID $TestDynamicFieldID is deleted",
