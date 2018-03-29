@@ -36,6 +36,10 @@
     background: #FFF;
 }
 
+.Dialog.Modal.Alert {
+    z-index: 6500;
+}
+
 .Dialog.Fullsize {
     width: 100%;
     height: 100%;

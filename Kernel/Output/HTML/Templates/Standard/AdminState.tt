@@ -187,6 +187,9 @@
 [% RenderBlockStart("InSettingValidOptionServerError") %]
                                     [% Translate("Is not possible to invalidate this entry, all config settings have to be changed beforehand.") | html %]
 [% RenderBlockEnd("InSettingValidOptionServerError") %]
+[% RenderBlockStart("MergeErrorValidOptionServerError") %]
+                                    [% Translate("It's not possible to invalidate this entry because there is no other merge states in system!") | html %]
+[% RenderBlockEnd("MergeErrorValidOptionServerError") %]
                                 </p>
                             </div>
                         </div>
