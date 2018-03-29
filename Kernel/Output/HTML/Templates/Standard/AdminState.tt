@@ -139,7 +139,11 @@
                                 <p>[% Translate("This field is required.") | html %]</p>
                             </div>
                             <div id="ValidIDServerError" class="TooltipErrorMessage">
+                            [% IF Data.ValidOptionError  == 'MergeError' %]
+                                <p>[% Translate("It's not possible to invalidate this entry because there is no other merge states in system!") | html %]</p>
+                            [% ELSE %]
                                 <p>[% Translate("This field is required.") | html %]</p>
+                            [% END %]
                             </div>
                         </div>
                         <div class="Clear"></div>
