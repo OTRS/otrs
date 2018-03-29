@@ -229,7 +229,7 @@
                         <fieldset>
 [% RenderBlockStart("ProcessWidgetDynamicFieldGroups") %]
 [% RenderBlockStart("ProcessWidgetDynamicFieldGroupSeparator") %]
-                            <h2 class="FieldSetSeparator">[% Data.Name %]</h2>
+                            <h2 class="FieldSetSeparator">[% Translate(Data.Name) | html %]</h2>
 [% RenderBlockEnd("ProcessWidgetDynamicFieldGroupSeparator") %]
 [% RenderBlockStart("ProcessWidgetDynamicField") %]
                             <div class="FieldContainer DynamicFieldAutoResize">
