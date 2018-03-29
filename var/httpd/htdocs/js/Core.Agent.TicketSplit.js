@@ -94,7 +94,7 @@ Core.Agent.TicketSplit = (function (TargetNS) {
                             .appendTo($('#AgentSplitSelection'));
                     }
 
-                    if(Core.UI.Popup !== undefined && Core.UI.Popup.CurrentIsPopupWindow) {
+                    if(Core.UI.Popup !== undefined && Core.UI.Popup.CurrentIsPopupWindow()) {
                         URL = Core.Config.Get('Baselink') + $('#AgentSplitSelection').serialize();
                         Core.UI.Popup.ExecuteInParentWindow(function(WindowObject) {
                             WindowObject.Core.UI.Popup.FirePopupEvent('URL', {
