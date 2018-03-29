@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="2.0" init="Application">
     <Setting Name="PublicFrontend::Module###PublicCalendar" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration for the public interface.</Description>
         <Navigation>Frontend::Public::ModuleRegistration</Navigation>
         <Value>
             <Item ValueType="FrontendRegistration">
