@@ -3043,8 +3043,8 @@ sub ConfigurationListGet {
     my @ConfigurationList = $SysConfigDBObject->DefaultSettingListGet(
         Navigation               => $Param{Navigation},
         UserModificationPossible => $Param{TargetUserID} ? 1 : undef,
-        UserPreferencesGroup     => $Param{UserPreferencesGroup} || undef,
-        IsInvisible              => $Param{Invisible} ? undef : 0,
+        UserPreferencesGroup => $Param{UserPreferencesGroup} || undef,
+        IsInvisible => $Param{Invisible} ? undef : 0,
         %CategoryOptions,
     );
 
@@ -4711,9 +4711,9 @@ sub SettingsSet {
 
     # Deploy successfully updated settings.
     my %DeploymentResult = $Self->ConfigurationDeploy(
-        Comments      => $Param{Comments} || '',
-        UserID        => $Param{UserID},
-        Force         => 1,
+        Comments => $Param{Comments} || '',
+        UserID   => $Param{UserID},
+        Force    => 1,
         DirtySettings => \@DeploySettings
     );
 
