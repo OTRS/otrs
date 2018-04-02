@@ -392,6 +392,7 @@ $Selenium->RunTest(
 
         # Change state and priority in bulk action for test tickets.
         $Selenium->execute_script("\$('#PriorityID').val('4').trigger('redraw.InputField').trigger('change');");
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
         $Selenium->execute_script("\$('#StateID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
         $Selenium->find_element( '#submitRichText', 'css' )->click();
@@ -419,7 +420,7 @@ $Selenium->RunTest(
                 # Ticket is locked by another agent and it was ignored in bulk feature.
                 $Self->True(
                     $Selenium->execute_script("return !\$('#TicketID_$Ticket->{TicketID}').length"),
-                    "Closed ticket $Ticket->{TicketNumber} is found on page",
+                    "Closed ticket $Ticket->{TicketNumber} is not found on page",
                 ) || die;
             }
         }
