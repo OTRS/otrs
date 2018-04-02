@@ -12,6 +12,7 @@ use strict;
 use warnings;
 use utf8;
 
+use File::Basename qw(basename);
 use Kernel::System::VariableCheck qw(:all);
 
 use parent qw(Kernel::System::Daemon::BaseDaemon Kernel::System::Daemon::DaemonModules::BaseTaskWorker);
@@ -21,6 +22,7 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Cache',
     'Kernel::System::Log',
+    'Kernel::System::Main',
     'Kernel::System::SysConfig',
 );
 
@@ -52,6 +54,7 @@ sub new {
     $Self->{CacheObject}     = $Kernel::OM->Get('Kernel::System::Cache');
     $Self->{DBObject}        = $Kernel::OM->Get('Kernel::System::DB');
     $Self->{SysConfigObject} = $Kernel::OM->Get('Kernel::System::SysConfig');
+    $Self->{MainObject}      = $Kernel::OM->Get('Kernel::System::Main');
 
     # Disable in memory cache to be clusterable.
     $Self->{CacheObject}->Configure(
@@ -107,7 +110,7 @@ sub Run {
     my $ErrorMessage;
     my $Success;
     if ( $Self->{Debug} ) {
-        print "    SystemConfigurationSyncManager executes function: ConfigurationDeploySync\n";
+        print "    $Self->{DaemonName} Executes function: ConfigurationDeploySync\n";
     }
 
     eval {
@@ -144,8 +147,62 @@ sub Run {
 
     my $NewDeploymentID = $Kernel::OM->Get('Kernel::Config')->Get('CurrentDeploymentID') || 0;
 
-    # If the DeploymentID was not changed, do nothing and return gracefully.
-    return 1 if $OldDeploymentID eq $NewDeploymentID;
+    my $ConfigChange;
+    if ( $OldDeploymentID ne $NewDeploymentID ) {
+        $ConfigChange = 1;
+    }
+
+    my $ConfigDirectory = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files';
+    my %KnownConfigFilesMD5Sum = %{ $Self->{ConfigFilesMD5Sum} // {} };
+    my @ChangedFiles;
+
+    # If there is no record for new config files let it run
+    my $InitialRun;
+    if ( !defined $Self->{ConfigFilesMD5Sum} ) {
+        $InitialRun = 1;
+    }
+
+    # Check all (perl) config files for changes.
+    my @ConfigFiles = $Self->{MainObject}->DirectoryRead(
+        Directory => $ConfigDirectory,
+        Filter    => '*.pm',
+    );
+
+    my $ConfigFileChanged;
+    my %NewConfigFilesMD5Sum;
+    FILE:
+    for my $File (@ConfigFiles) {
+        my $Basename = File::Basename::basename($File);
+
+        # Skip deployment based files.
+        next FILE if $Basename eq 'ZZZAAuto.pm';
+
+        # Check MD5 against (potentially) stored value.
+        my $KnownMD5Sum = delete $KnownConfigFilesMD5Sum{$Basename};
+        $NewConfigFilesMD5Sum{$Basename} = $Self->{MainObject}->MD5sum(
+            Filename => $File,
+        );
+        if (
+            !$InitialRun
+            && (
+                !$KnownMD5Sum || $KnownMD5Sum ne $NewConfigFilesMD5Sum{$Basename}
+            )
+            )
+        {
+            $ConfigFileChanged = 1;
+            push @ChangedFiles, $Basename;
+        }
+    }
+
+    # Check for missing files.
+    if ( scalar keys %KnownConfigFilesMD5Sum ) {
+        $ConfigFileChanged = 1;
+    }
+
+    $Self->{ConfigFilesMD5Sum} = \%NewConfigFilesMD5Sum;
+
+    # If there was no change in the configuration, do nothing and return gracefully.
+    return 1 if ( !$ConfigChange && !$ConfigFileChanged );
 
     # Stop all daemons and reload configuration from main daemon.
     kill 1, getppid;

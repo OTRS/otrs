@@ -263,8 +263,8 @@ sub Start {
                 local $SIG{TERM} = sub { $ChildRun = 0; };
                 local $SIG{CHLD} = "IGNORE";
 
-                # Remove the ZZZAAuto.pm from %INC to force reloading it.
-                delete $INC{'Kernel/Config/Files/ZZZAAuto.pm'};
+                # Force reload configuration files.
+                _ReloadConfigurationFiles();
 
                 local $Kernel::OM = Kernel::System::ObjectManager->new(
                     'Kernel::System::Log' => {
@@ -676,6 +676,25 @@ sub _StopDaemonModules {
         print STDOUT "Killing $Module with PID $DaemonModules{$Module}->{PID}\n";
 
         kill 9, $DaemonModules{$Module}->{PID};
+    }
+
+    return 1;
+}
+
+sub _ReloadConfigurationFiles {
+
+    my $ConfigFilesLocation = 'Kernel/Config/Files/';
+    my $ConfigDirectory     = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/' . $ConfigFilesLocation;
+
+    my %Seen;
+    my @Glob = glob "$ConfigDirectory/*.pm";
+
+    FILENAME:
+    for my $Filename (@Glob) {
+        next FILENAME if !-e $Filename;
+
+        my $Basename = File::Basename::basename($Filename);
+        delete $INC{ $ConfigFilesLocation . $Basename };
     }
 
     return 1;
