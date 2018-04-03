@@ -1,4 +1,5 @@
 #6.0.7 2018-??-??
+ - 2018-04-03 Follow-up fix for bug#[13292](https://bugs.otrs.org/show_bug.cgi?id=13292) - Internal Server Error in ticket screens with missing articles in the file system.
  - 2018-04-02 Fixed bug#[13780](https://bugs.otrs.org/show_bug.cgi?id=13780) - Daemon does not recognize ACL or ProcessManagement changes.
  - 2018-03-29 Fixed bug#[13759](https://bugs.otrs.org/show_bug.cgi?id=13759) - Split Ticket - OTRS wants to close browser tab in IE11.
  - 2018-03-29 Fixed bug#[13750](https://bugs.otrs.org/show_bug.cgi?id=13750) - Process Widget Group not Translatable.

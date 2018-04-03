@@ -175,19 +175,19 @@ sub Check {
         }
     }
 
+    # Get plain article/email from filesystem storage.
+    my $Message = $ArticleBackendObject->ArticlePlain(
+        ArticleID => $Self->{ArticleID},
+        UserID    => $Self->{UserID},
+    );
+    return if !$Message;
+
     # check inline pgp signature (but ignore if is in quoted text)
     if (
         $Param{Article}->{Body}
         && $Param{Article}->{Body} =~ m{ ^\s* -----BEGIN [ ] PGP [ ] SIGNED [ ] MESSAGE----- }xms
         )
     {
-
-        # get original message
-        my $Message = $ArticleBackendObject->ArticlePlain(
-            ArticleID => $Self->{ArticleID},
-            UserID    => $Self->{UserID},
-        );
-
         # create local email parser object
         my $ParserObject = Kernel::System::EmailParser->new(
             Email => $Message,
@@ -226,13 +226,6 @@ sub Check {
         # if body =~ application/pgp-encrypted
         # if crypted, decrypt it
         # remember that it was crypted!
-
-        # Get plain article/email from filesystem storage.
-        my $Message = $ArticleBackendObject->ArticlePlain(
-            ArticleID => $Self->{ArticleID},
-            UserID    => $Self->{UserID},
-        );
-        return if !$Message;
 
         my $Parser = MIME::Parser->new();
         $Parser->decode_headers(0);
