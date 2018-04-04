@@ -511,6 +511,12 @@ sub ArticleCreate {
         }
     }
 
+    $ArticleObject->ArticleSearchIndexBuild(
+        TicketID  => $Param{TicketID},
+        ArticleID => $ArticleID,
+        UserID    => 1,
+    );
+
     # event
     $Self->EventHandler(
         Event => 'ArticleCreate',
@@ -974,6 +980,12 @@ sub ArticleUpdate {
 
     $ArticleObject->_ArticleCacheClear(
         TicketID => $Param{TicketID},
+    );
+
+    $ArticleObject->ArticleSearchIndexBuild(
+        TicketID  => $Param{TicketID},
+        ArticleID => $Param{ArticleID},
+        UserID    => $Param{UserID},
     );
 
     $Self->EventHandler(

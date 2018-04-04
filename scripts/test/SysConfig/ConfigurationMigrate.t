@@ -246,18 +246,12 @@ my @Tests = (
     {
         TestType => 'Renaming',
         Name     => 'Renamed Setting 1',
-        OldName  => 'Ticket::EventModulePost###098-ArticleSearchIndex',
-        NewName  => 'Ticket::EventModulePost###2000-ArticleSearchIndex',
-    },
-    {
-        TestType => 'Renaming',
-        Name     => 'Renamed Setting 2',
         OldName  => 'Frontend::NotifyModule###800-Daemon-Check',
         NewName  => 'Frontend::NotifyModule###8000-Daemon-Check',
     },
     {
         TestType => 'Renaming',
-        Name     => 'Renamed Setting 3',
+        Name     => 'Renamed Setting 2',
         OldName  => 'CustomerCompany::EventModulePost###110-UpdateTickets',
         NewName  => 'CustomerCompany::EventModulePost###2300-UpdateTickets',
     },

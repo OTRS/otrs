@@ -2432,9 +2432,6 @@ sub _LookupNewConfigName {
         'Queue::EventModulePost###130-UpdateQueue' =>
             'Queue::EventModulePost###2300-UpdateQueue',
 
-        'Ticket::EventModulePost###098-ArticleSearchIndex' =>
-            'Ticket::EventModulePost###2000-ArticleSearchIndex',
-
         'Ticket::EventModulePost###100-ArchiveRestore' =>
             'Ticket::EventModulePost###2300-ArchiveRestore',
 
