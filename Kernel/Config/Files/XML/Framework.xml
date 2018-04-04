@@ -338,6 +338,19 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="AgentLogoCustom###highcontrast" Required="0" Valid="1">
+        <Description Translatable="1">The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.</Description>
+        <Navigation>Frontend::Agent</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
+                <Item Key="StyleTop">10px</Item>
+                <Item Key="StyleRight">45px</Item>
+                <Item Key="StyleHeight">45px</Item>
+                <Item Key="StyleWidth">220px</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="AgentLoginLogo" Required="0" Valid="1">
         <Description Translatable="1">The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.</Description>
         <Navigation>Frontend::Agent</Navigation>

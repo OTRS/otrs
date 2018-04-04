@@ -1,4 +1,5 @@
 #6.0.7 2018-??-??
+ - 2018-04-04 Fixed bug#[13735](https://bugs.otrs.org/show_bug.cgi?id=13735) - Custom Logo is not supported for High Contrast skin.
  - 2018-04-04 Fixed bug#[13683](https://bugs.otrs.org/show_bug.cgi?id=13683) - Generic Agent Mail Filtering.
  - 2018-04-03 Follow-up fix for bug#[13292](https://bugs.otrs.org/show_bug.cgi?id=13292) - Internal Server Error in ticket screens with missing articles in the file system.
  - 2018-04-02 Fixed bug#[13780](https://bugs.otrs.org/show_bug.cgi?id=13780) - Daemon does not recognize ACL or ProcessManagement changes.
