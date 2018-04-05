@@ -708,7 +708,11 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 source: 'StartEvent',
                 target: EntityID,
                 anchor: 'Continuous',
-                endpoint: 'Blank',
+                endpoints: [
+                    "Blank",
+                    [ 'Dot', { radius: 7, hoverClass: 'EndpointHover' } ]
+                ],
+                endpointStyle: { fillStyle: '#000' },
                 detachable: true,
                 reattach: true
             });
