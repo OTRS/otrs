@@ -48,7 +48,6 @@
                 <label>[% Translate("Add another attribute") | html %]:</label>
                 <div class="Field">
                     [% Data.AttributesStrg %]
-                    <a class="AddButton" href="#" title="Add entry"><i class="fa fa-plus-square-o"></i><span class="InvisibleText">[% Translate("Add") | html %]</span></a>
                     <div class="FieldExplanation">[% Translate("The attributes with the identifier '(Customer)' are from the customer company.") | html %]</div>
                 </div>
                 <div class="Clear"></div>

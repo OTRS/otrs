@@ -644,7 +644,6 @@ $Selenium->RunTest(
                         $Selenium->execute_script(
                             "\$('#Attribute').val('$FieldName').trigger('redraw.InputField').trigger('change');",
                         );
-                        $Selenium->find_element( '.AddButton', 'css' )->click();
 
                         my $Element = $Selenium->find_element( $FieldName, 'name' );
                         $Element->is_enabled();
@@ -798,7 +797,7 @@ $Selenium->RunTest(
                     sleep 1;
 
                     $Selenium->WaitFor(
-                        JavaScript => 'return $("#Attribute").length == 1 && $(".AddButton").length == 1'
+                        JavaScript => 'return $("#Attribute").length == 1'
                     );
 
                     for my $FieldName ( @{ $SubTest->{SearchFieldsChange} } ) {
@@ -806,7 +805,6 @@ $Selenium->RunTest(
                         $Selenium->execute_script(
                             "\$('#Attribute').val('$FieldName').trigger('redraw.InputField').trigger('change');",
                         );
-                        $Selenium->find_element( '.AddButton', 'css' )->click();
 
                         my $Element = $Selenium->find_element( $FieldName, 'name' );
                         $Element->is_enabled();
