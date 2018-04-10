@@ -645,14 +645,18 @@ $Selenium->RunTest(
             $Selenium->execute_script(
                 "\$('#Widget$LinkObject .ActionMenu').show();"
             );
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return \$('a#linkobject-$LinkObject-toggle:visible').length;"
+            );
             $Selenium->find_element( "a#linkobject-$LinkObject-toggle", 'css' )->click();
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return typeof(\$) === 'function' && \$('#linkobject-${LinkObject}_submit:visible').length;"
+                    "return \$('#linkobject-${LinkObject}_submit:visible').length;"
             );
             $Self->True(
                 $Selenium->execute_script(
-                    "return typeof(\$) === 'function' && \$('#linkobject-${LinkObject}_submit').length;"
+                    "return \$('#linkobject-${LinkObject}_submit').length;"
                 ),
                 "$LinkObject link object widget setting is working."
             );
