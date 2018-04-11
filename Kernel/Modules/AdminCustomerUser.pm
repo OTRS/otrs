@@ -644,7 +644,7 @@ sub Run {
 
                     my $ValueSet = $DynamicFieldBackendObject->ValueSet(
                         DynamicFieldConfig => $DynamicFieldConfig,
-                        ObjectName         => $GetParam{UserLogin},
+                        ObjectName         => $User,
                         Value              => $GetParam{ $Entry->[0] },
                         UserID             => $Self->{UserID},
                     );
@@ -668,7 +668,7 @@ sub Run {
 
                     # get user data
                     my %UserData = $CustomerUserObject->CustomerUserDataGet(
-                        User => $GetParam{UserLogin}
+                        User => $User,
                     );
                     my $Module = $Preferences{$Group}->{Module};
                     if ( !$MainObject->Require($Module) ) {

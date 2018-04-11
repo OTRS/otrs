@@ -76,7 +76,8 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        my $ScriptAlias  = $ConfigObject->Get('ScriptAlias');
 
         # Navigate to AdminCustomerUser screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminCustomerUser");
@@ -397,17 +398,129 @@ $Selenium->RunTest(
             "#UserLastname updated value",
         );
 
-        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+        # Create a test case for bug#13782 (https://bugs.otrs.org/show_bug.cgi?id=13782).
+        # Creating CustomerUser with according DynamicField when AutoLoginCreation is enabled.
+        my $RandomID4          = $Helper->GetRandomID();
+        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+        my $DynamicFieldName   = 'Text' . $RandomID4;
+        my $DynamicFieldID     = $DynamicFieldObject->DynamicFieldAdd(
+            Name       => $DynamicFieldName,
+            Label      => $DynamicFieldName,
+            FieldOrder => 9990,
+            FieldType  => 'Text',
+            ObjectType => 'CustomerUser',
+            Config     => {
+                DefaultValue => '',
+                Link         => '',
+            },
+            Reorder => 1,
+            ValidID => 1,
+            UserID  => 1,
+        );
 
-        # Delete created test customer user and customer company.
+        # Get CustomerUser map, enable AutoLoginCreation, AutoLoginCreationPrefix and set created
+        #   DynamicField in the CustomerUser map.
+        my $CustomerUserConfig = $ConfigObject->Get('CustomerUser');
+        $CustomerUserConfig->{AutoLoginCreation}       = 1;
+        $CustomerUserConfig->{AutoLoginCreationPrefix} = 'auto';
+        push @{ $CustomerUserConfig->{Map} }, [
+            'DynamicField_' . $DynamicFieldName, undef, $DynamicFieldName, 0, 0, 'dynamic_field',
+            undef, 0,
+        ];
+
+        $Helper->ConfigSettingChange(
+            Key   => 'CustomerUser',
+            Value => $CustomerUserConfig,
+        );
+
+        # Navigate to AdminCustomerUser screen again.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminCustomerUser");
+
+        # Click to 'Add Customer User'.
+        $Selenium->find_element( "button.CallForAction", 'css' )->VerifiedClick();
+
+        # Create Customer User with AutoLoginCreation and Customer User DynamicField.
+        $Selenium->find_element( "#UserFirstname", 'css' )->send_keys($RandomID4);
+        $Selenium->find_element( "#UserLastname",  'css' )->send_keys($RandomID4);
+        $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $RandomID4 . "\@localhost.com" );
+        $Selenium->execute_script(
+            "\$('#UserCustomerID').val('$RandomID').trigger('redraw.InputField').trigger('change');"
+        );
+
+        my $DynamicFieldValue = 'DF' . $RandomID4;
+        $Selenium->find_element( "#DynamicField_$DynamicFieldName", 'css' )->send_keys($DynamicFieldValue);
+        $Selenium->find_element( "#Submit",                         'css' )->VerifiedClick();
+
+        # Verify there was no error when creating Customer User with AutoLoginCreation and DynamicField.
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('.Notice p:contains(\"Unable to set value for dynamic field $DynamicFieldName!\")').length;"
+            ),
+            0,
+            'There is no error when creating CustomerUser with DunyamicField and enabled AutoLoginCreation.',
+        ) || die;
+
+        # Search by latest created Customer User.
+        $Selenium->find_element( "#Search",           'css' )->clear();
+        $Selenium->find_element( "#Search",           'css' )->send_keys($RandomID4);
+        $Selenium->find_element( ".SearchBox button", 'css' )->VerifiedClick();
+
+        # Click on latest created Customer User and verify DynamicField value.
+        $Selenium->find_element("//a[contains(\@href, \'Search=$RandomID4' )]")->VerifiedClick();
+        $Self->Is(
+            $Selenium->find_element( "#DynamicField_$DynamicFieldName", 'css' )->get_value(),
+            $DynamicFieldValue,
+            "CustomerUser DynamicField value, AutoLoginCreation enabled correct"
+        );
+
+        # Edit DynamicField value.
+        $Selenium->find_element( "#DynamicField_$DynamicFieldName", 'css' )->send_keys('-edit');
+        $Selenium->find_element( "#Submit",                         'css' )->VerifiedClick();
+
+        # Search by latest created Customer User.
+        $Selenium->find_element( "#Search",           'css' )->clear();
+        $Selenium->find_element( "#Search",           'css' )->send_keys($RandomID4);
+        $Selenium->find_element( ".SearchBox button", 'css' )->VerifiedClick();
+
+        # Click on latest created Customer User and verify edited DynamicField value.
+        $DynamicFieldValue = $DynamicFieldValue . '-edit';
+        $Selenium->find_element("//a[contains(\@href, \'Search=$RandomID4' )]")->VerifiedClick();
+        $Self->Is(
+            $Selenium->find_element( "#DynamicField_$DynamicFieldName", 'css' )->get_value(),
+            $DynamicFieldValue,
+            "CustomerUser edited DynamicField value, AutoLoginCreation enabled correct"
+        );
+
+        # Delete CustomerUser which is created with AutoLoginCreation.
+        my $DBObject         = $Kernel::OM->Get('Kernel::System::DB');
+        my $FirstNameQueoted = $DBObject->Quote($RandomID4);
+        $DBObject->Prepare(
+            SQL  => "SELECT login FROM customer_user WHERE first_name = ?",
+            Bind => [ \$FirstNameQueoted ]
+        );
+        my $CustomerUserLogin;
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            $CustomerUserLogin = $Row[0];
+        }
+
+        my $Success = $DBObject->Do(
+            SQL  => "DELETE FROM customer_user WHERE login = ?",
+            Bind => [ \$CustomerUserLogin ],
+        );
+        $Self->True(
+            $Success,
+            "CustomerUser $CustomerUserLogin created with AutoLoginCreation is deleted.",
+        );
+
+        # Delete created test CustomerUsers and CustomerCompanies.
         for my $ID ( $RandomID, $RandomID2, $RandomID3 ) {
-            my $Success = $DBObject->Do(
+            $Success = $DBObject->Do(
                 SQL  => "DELETE FROM customer_user WHERE login = ?",
                 Bind => [ \$ID ],
             );
             $Self->True(
                 $Success,
-                "Deleted Customers - $ID",
+                "CustomerUser $ID is deleted.",
             );
 
             $Success = $DBObject->Do(
@@ -416,9 +529,33 @@ $Selenium->RunTest(
             );
             $Self->True(
                 $Success,
-                "Deleted CustomerUser - $ID",
+                "CustomerCompany $ID is deleted.",
             );
         }
+
+        # Delete relation CustomerUser and DynamicField from 'dynamic_field_obj_id_name' table.
+        $Success = $DBObject->Do(
+            SQL  => "DELETE FROM dynamic_field_obj_id_name WHERE object_name = ?",
+            Bind => [ \$CustomerUserLogin ],
+        );
+        $Self->True(
+            $Success,
+            "CustomerUser - DynamicField relation is deleted.",
+        );
+
+        # Delete created DynamicField.
+        $Success = $DBObject->Do(
+            SQL  => "DELETE FROM dynamic_field_value WHERE value_text = ?",
+            Bind => [ \$DynamicFieldValue ],
+        );
+        $Success = $DynamicFieldObject->DynamicFieldDelete(
+            ID     => $DynamicFieldID,
+            UserID => 1,
+        );
+        $Self->True(
+            $Success,
+            "DynamicField ID $DynamicFieldID is deleted.",
+        );
 
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 

@@ -1,4 +1,5 @@
 #6.0.7 2018-??-??
+ - 2018-04-11 Fixed bug#[13782](https://bugs.otrs.org/show_bug.cgi?id=13782) - Set of customer dynamic field not possible while adding a customer user if AutoLoginCreation is active.
  - 2018-04-05 Fixed bug#[13126](https://bugs.otrs.org/show_bug.cgi?id=13126) - Process first activity cannot be changed to other activity.
  - 2018-04-04 Fixed bug#[13735](https://bugs.otrs.org/show_bug.cgi?id=13735) - Custom Logo is not supported for High Contrast skin.
  - 2018-04-04 Fixed bug#[13683](https://bugs.otrs.org/show_bug.cgi?id=13683) - Generic Agent Mail Filtering.
