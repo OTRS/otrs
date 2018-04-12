@@ -988,7 +988,7 @@ sub DynamicFieldListGet {
         next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
         next DYNAMICFIELD if !$Param{FieldFilter}->{ $DynamicFieldConfig->{Name} };
 
-        push @{$FilteredData}, $DynamicFieldConfig,;
+        push @{$FilteredData}, $DynamicFieldConfig;
     }
 
     # return filtered data from DB

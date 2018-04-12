@@ -811,7 +811,7 @@ sub ValidatePendingTime {
     # check that no time attibute is empty or negative
     for my $TimeAttribute ( sort keys %{ $Param{PendingTime} } ) {
         return if $Param{PendingTime}->{$TimeAttribute} eq '';
-        return if int $Param{PendingTime}->{$TimeAttribute} < 0,;
+        return if int $Param{PendingTime}->{$TimeAttribute} < 0;
     }
 
     # try to convert pending time to a SystemTime

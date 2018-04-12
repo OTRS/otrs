@@ -128,7 +128,7 @@ sub PostValueSet {
 
     my $HistoryValue;
     if ( !defined $Param{Value} ) {
-        $HistoryValue = '',;
+        $HistoryValue = '';
     }
     else {
         $HistoryValue = $Param{Value};
