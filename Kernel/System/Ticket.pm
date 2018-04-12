@@ -561,8 +561,8 @@ sub TicketCreate {
         $Self->TicketCustomerSet(
             TicketID => $TicketID,
             No       => $Param{CustomerNo} || $Param{CustomerID} || '',
-            User => $Param{CustomerUser} || '',
-            UserID => $Param{UserID},
+            User     => $Param{CustomerUser} || '',
+            UserID   => $Param{UserID},
         );
     }
 
@@ -6734,7 +6734,7 @@ sub TicketAcl {
 
     # use priority data (if given)
     if ( $Param{NewPriorityID} && !$Param{PriorityID} ) {
-        $Param{PriorityID} = $Param{NewPriorityID}
+        $Param{PriorityID} = $Param{NewPriorityID};
     }
     if ( $Param{PriorityID} ) {
         my %Priority = $Self->{PriorityObject}->PriorityGet(
@@ -6859,7 +6859,7 @@ sub TicketAcl {
 
     # use state data (if given)
     if ( $Param{NextStateID} && !$Param{StateID} ) {
-        $Param{StateID} = $Param{NextStateID}
+        $Param{StateID} = $Param{NextStateID};
     }
     if ( $Param{StateID} ) {
         my %State = $Self->{StateObject}->StateGet(

@@ -132,7 +132,7 @@ creates a random ID that can be used in tests as a unique identifier.
 sub GetRandomID {
     my ( $Self, %Param ) = @_;
 
-    return 'test-' . int( rand(1000000) )
+    return 'test-' . int( rand(1000000) );
 }
 
 =item TestUserCreate()

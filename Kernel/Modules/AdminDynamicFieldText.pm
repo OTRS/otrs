@@ -188,7 +188,7 @@ sub _AddAction {
     };
 
     if ( $GetParam{FieldType} eq 'Text' ) {
-        $FieldConfig->{Link} = $GetParam{Link},
+        $FieldConfig->{Link} = $GetParam{Link},;
     }
 
     if ( $GetParam{FieldType} eq 'TextArea' ) {

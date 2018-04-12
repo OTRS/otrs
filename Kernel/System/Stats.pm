@@ -2421,7 +2421,7 @@ sub _GenerateDynamicStats {
             $Second = 0;
             $Minute = 0;
             $Hour   = 0;
-            ( $Year, $Month, $Day ) = Monday_of_Week( Week_of_Year( $Year, $Month, $Day ) )
+            ( $Year, $Month, $Day ) = Monday_of_Week( Week_of_Year( $Year, $Month, $Day ) );
         }
         elsif ( $Element->{SelectedValues}[0] eq 'Month' ) {
             $Second = 0;
@@ -3389,7 +3389,7 @@ sub _GetCacheString {
         for my $UseRef ( @{ $Param{$Use} } ) {
             $CacheString .= '__' . $UseRef->{Name} . '_';
             if ( $UseRef->{SelectedValues} ) {
-                $CacheString .= join( '_', sort @{ $UseRef->{SelectedValues} } )
+                $CacheString .= join( '_', sort @{ $UseRef->{SelectedValues} } );
             }
             elsif ( $UseRef->{TimeStart} && $UseRef->{TimeStop} ) {
                 $CacheString .= $UseRef->{TimeStart} . '-' . $UseRef->{TimeStop};

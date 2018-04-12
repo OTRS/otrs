@@ -427,7 +427,7 @@ sub ValidateCustomer {
 
     # if customer is not registered in the database, check if email is valid
     if ( !IsHashRefWithData( \%CustomerData ) ) {
-        return $Self->ValidateFrom( From => $Param{CustomerUser} )
+        return $Self->ValidateFrom( From => $Param{CustomerUser} );
     }
 
     # if ValidID is present, check if it is valid!
@@ -811,7 +811,7 @@ sub ValidatePendingTime {
     # check that no time attibute is empty or negative
     for my $TimeAttribute ( sort keys %{ $Param{PendingTime} } ) {
         return if $Param{PendingTime}->{$TimeAttribute} eq '';
-        return if int $Param{PendingTime}->{$TimeAttribute} < 0,
+        return if int $Param{PendingTime}->{$TimeAttribute} < 0,;
     }
 
     # try to convert pending time to a SystemTime
@@ -849,7 +849,7 @@ sub ValidateAutoResponseType {
     return if !%AutoResponseType;
 
     for my $AutoResponseType ( values %AutoResponseType ) {
-        return 1 if $AutoResponseType eq $Param{AutoResponseType}
+        return 1 if $AutoResponseType eq $Param{AutoResponseType};
     }
 }
 
@@ -1315,7 +1315,7 @@ sub SetDynamicFieldValue {
 
     return {
         Success => $Success,
-        }
+    };
 }
 
 =item CreateAttachment()
@@ -1365,7 +1365,7 @@ sub CreateAttachment {
 
     return {
         Success => $Success,
-        }
+    };
 }
 
 =item CheckCreatePermissions ()

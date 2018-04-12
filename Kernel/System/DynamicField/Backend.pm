@@ -1923,7 +1923,7 @@ sub RandomValueSet {
         );
     }
 
-    return $Result
+    return $Result;
 }
 
 =item IsMatchable()

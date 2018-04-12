@@ -214,10 +214,10 @@ sub _CheckFrameworkVersion {
     }
 
     if ( $ProductName ne 'OTRS' ) {
-        die "Not framework version required"
+        die "Not framework version required";
     }
     if ( $Version !~ /^3\.2(.*)$/ ) {
-        die "Not framework version required"
+        die "Not framework version required";
     }
 
     return 1;

@@ -1018,7 +1018,7 @@ sub Run {
                 if ( !$Success ) {
                     $DeleteResult{Success} = $Success;
                     $DeleteResult{Message} = "There was an error setting the entity sync status "
-                        . "for Process entity:$CheckResult->{ProcessData}->{EntityID}"
+                        . "for Process entity:$CheckResult->{ProcessData}->{EntityID}";
                 }
             }
 
@@ -1199,7 +1199,7 @@ sub Run {
                     if ( !$Success ) {
                         $Success = 0;
                         $Message = "There was an error setting the entity sync status for "
-                            . "$GetParam{EntityType} entity:$Entity->{EntityID}"
+                            . "$GetParam{EntityType} entity:$Entity->{EntityID}";
                     }
                 }
 
@@ -1598,9 +1598,9 @@ sub _ShowEdit {
 
     # create estate selection
     $Param{StateSelection} = $Self->{LayoutObject}->BuildSelection(
-        Data => $StateList || {},
-        Name => 'StateEntityID',
-        ID   => 'StateEntityID',
+        Data       => $StateList || {},
+        Name       => 'StateEntityID',
+        ID         => 'StateEntityID',
         SelectedID => $ProcessData->{StateEntityID}
             || $InactiveStateID,    # select inactive by default
         Sort        => 'AlphanumericKey',
@@ -1806,7 +1806,7 @@ sub _PushSessionScreen {
 
     # add screen to the screen path
     push @{ $Self->{ScreensPath} }, {
-        Action => $Self->{Action} || '',
+        Action    => $Self->{Action} || '',
         Subaction => $Param{Subaction},
         ID        => $Param{ID},
         EntityID  => $Param{EntityID},
@@ -1828,7 +1828,7 @@ sub _PushSessionScreen {
 }
 
 sub _GetFullProcessConfig {
-    my ( $Self, %Param )
+    my ( $Self, %Param );
 
 }
 

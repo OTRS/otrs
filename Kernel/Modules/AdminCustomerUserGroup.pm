@@ -490,7 +490,7 @@ sub _Change {
                 Data => {
                     Name => $CustomerAlwaysGroups[ $ID - 1 ],
                 },
-                )
+            );
         }
     }
 
@@ -617,7 +617,7 @@ sub _Overview {
             Data => {
                 Name => $CustomerAlwaysGroups[ $ID - 1 ],
             },
-            )
+        );
     }
 
     # return output

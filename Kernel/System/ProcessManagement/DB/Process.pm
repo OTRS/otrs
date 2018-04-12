@@ -1389,7 +1389,7 @@ EOF
                 Type     => 'Local',
             );
 
-            return $FileLocation
+            return $FileLocation;
         }
     }
 }

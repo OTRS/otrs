@@ -503,7 +503,7 @@ sub SearchFieldParameterBuild {
                 'Like' => '',
             },
             Display => '',
-            }
+        };
     }
 
     # return search parameter structure
@@ -571,18 +571,18 @@ sub TemplateValueTypeGet {
     if ( $Param{FieldType} eq 'Edit' ) {
         return {
             $FieldName => $EditValueType,
-            }
+        };
     }
     elsif ( $Param{FieldType} eq 'Search' ) {
         return {
             'Search_' . $FieldName => $SearchValueType,
-            }
+        };
     }
     else {
         return {
             $FieldName             => $EditValueType,
             'Search_' . $FieldName => $SearchValueType,
-            }
+        };
     }
 }
 

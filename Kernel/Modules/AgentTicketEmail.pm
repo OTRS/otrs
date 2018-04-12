@@ -1393,7 +1393,7 @@ sub Run {
                 CustomerUserID => $CustomerUser || '',
                 Action         => $Self->{Action},
                 TicketID       => $Self->{TicketID},
-                QueueID        => $QueueID      || 0,
+                QueueID        => $QueueID || 0,
                 ReturnType     => 'Ticket',
                 ReturnSubType  => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 Data           => \%AclData,
@@ -1448,7 +1448,7 @@ sub Run {
 
                 # get AJAX param values
                 if ( $Object->can('GetParamAJAX') ) {
-                    %GetParam = ( %GetParam, $Object->GetParamAJAX(%GetParam) )
+                    %GetParam = ( %GetParam, $Object->GetParamAJAX(%GetParam) );
                 }
 
                 my $Key = $Object->Option( %GetParam, Config => $Jobs{$Job} );

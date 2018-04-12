@@ -279,7 +279,7 @@ sub _Edit {
         Name        => 'AddressID',
         SelectedID  => $Param{AddressID},
         Translation => 0,
-        Class => 'Validate_Required ' . ( $Param{Errors}->{'AddressIDInvalid'} || '' ),
+        Class       => 'Validate_Required ' . ( $Param{Errors}->{'AddressIDInvalid'} || '' ),
     );
 
     $Self->{LayoutObject}->Block(

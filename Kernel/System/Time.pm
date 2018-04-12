@@ -756,7 +756,7 @@ sub DestinationTime {
                     Hour   => 0,
                     Minute => 0,
                     Second => 0,
-                    ) - $Self->Date2SystemTime(
+                ) - $Self->Date2SystemTime(
                     Year   => $Year,
                     Month  => $Month,
                     Day    => $Day,
