@@ -403,7 +403,7 @@ for my $Test (@Tests) {
             ],
         );
 
-        push @PackageList, @PackageData,;
+        push @PackageList, @PackageData;
     }
 
     my $RefArray = $CSVObject->CSV2Array(

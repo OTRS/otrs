@@ -628,7 +628,7 @@ sub _CheckTicket {
         # set customer user from old ticket if no new customer user is to be set
         my $CustomerUser = $Ticket->{CustomerUser} || '';
         if ( !$CustomerUser ) {
-            $CustomerUser = $OldTicket->{CustomerUserID},;
+            $CustomerUser = $OldTicket->{CustomerUserID};
         }
         if (
             !$Self->{TicketCommonObject}->ValidateService(
