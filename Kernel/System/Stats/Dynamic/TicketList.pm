@@ -1089,7 +1089,7 @@ sub _SortedAttributes {
     }
 
     for my $FreeTime ( 1 .. 6 ) {
-        push @SortedAttributes, 'TicketFreeTime' . $FreeTime,;
+        push @SortedAttributes, 'TicketFreeTime' . $FreeTime;
     }
 
     return \@SortedAttributes;
