@@ -958,7 +958,7 @@ sub SendEmail {
         if ($To) {
             $To .= ', ';
         }
-        $To .= $GetParam{$Key}
+        $To .= $GetParam{$Key};
     }
     my $ArticleID = $Self->{TicketObject}->ArticleSend(
         ArticleTypeID  => $Self->{GetParam}->{ArticleTypeID},

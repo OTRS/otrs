@@ -230,7 +230,7 @@ sub TransitionCheck {
 
                             # if matches for one item go to next filter (debug keeps active)
                             if ( $Self->{TransitionDebugFilters}->{$DebugFilter} eq $Item ) {
-                                next DEBUGFILTER
+                                next DEBUGFILTER;
                             }
                         }
 

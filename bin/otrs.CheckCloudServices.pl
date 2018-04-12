@@ -85,7 +85,7 @@ if ( $Timeout || $Proxy || $DisableSSLVerification ) {
     }
 
     if ($DisableSSLVerification) {
-        print "  Disable SSL Verification: Yes\n"
+        print "  Disable SSL Verification: Yes\n";
     }
     print "\n";
 }

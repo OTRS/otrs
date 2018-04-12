@@ -137,7 +137,7 @@ sub PostValueSet {
 
     my $FieldName;
     if ( !defined $Param{DynamicFieldConfig}->{Name} ) {
-        $FieldName = '',
+        $FieldName = '';
     }
     else {
         $FieldName = $Param{DynamicFieldConfig}->{Name};

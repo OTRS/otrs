@@ -120,9 +120,9 @@ my $BreakLineAfterChars = 60;
             Language => $Language,
             Module   => $Opts{m},
             WritePOT => ( exists $Opts{p} || exists $Opts{P} ) ? 1 : 0,
-            WritePO => exists $Opts{P} ? 1 : 0,
-            Stats   => \%Stats,
-            Verbose => exists $Opts{v} ? 1 : 0,
+            WritePO  => exists $Opts{P} ? 1 : 0,
+            Stats    => \%Stats,
+            Verbose  => exists $Opts{v} ? 1 : 0,
         );
     }
 

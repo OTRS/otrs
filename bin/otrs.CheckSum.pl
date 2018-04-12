@@ -149,7 +149,7 @@ sub ProcessDirectory {
             }
             elsif ( -e "$File.save" )
             {    ## report .save files as modified by the OTRS Package Manager
-                print "Notice: OPM Changed $File\n"
+                print "Notice: OPM Changed $File\n";
             }
             if ( defined $Compare{$File} ) {
                 delete $Compare{$File};

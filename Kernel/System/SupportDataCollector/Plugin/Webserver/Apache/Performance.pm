@@ -166,7 +166,7 @@ sub Run {
 
     }
 
-    return $Self->GetResults()
+    return $Self->GetResults();
 }
 
 =back

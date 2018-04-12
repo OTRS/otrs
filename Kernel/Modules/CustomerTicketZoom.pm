@@ -1142,7 +1142,7 @@ sub _Mask {
             );
 
             if ($ACL) {
-                %{$NextActivityDialogs} = $Self->{TicketObject}->TicketAclData()
+                %{$NextActivityDialogs} = $Self->{TicketObject}->TicketAclData();
             }
 
             $Self->{LayoutObject}->Block(
@@ -1523,7 +1523,7 @@ sub _Mask {
         if ( !IsHashRefWithData( \%Article ) ) {
             %Article = %Param;
             if ( !$Article{StateID} ) {
-                $Article{StateID} = $Param{TicketStateID}
+                $Article{StateID} = $Param{TicketStateID};
             }
         }
 
@@ -1553,7 +1553,7 @@ sub _Mask {
     if ( !IsHashRefWithData( \%Article ) ) {
         %Article = %Param;
         if ( !$Article{StateID} ) {
-            $Article{StateID} = $Param{TicketStateID}
+            $Article{StateID} = $Param{TicketStateID};
         }
     }
 

@@ -116,7 +116,7 @@ sub Run {
     my %Tickets;
     if (%QueuesConfigured) {
         %Tickets = $TicketObject->TicketSearch(
-            SortBy => $ConfigObject->{'SortBy::Default'} || 'Age',
+            SortBy   => $ConfigObject->{'SortBy::Default'} || 'Age',
             QueueIDs => [ sort keys %QueuesConfigured ],
             UserID   => $Self->{UserID},
             StateIDs => \@ViewableStateIDs,

@@ -1107,7 +1107,7 @@ sub SendEmail {
         if ($To) {
             $To .= ', ';
         }
-        $To .= $GetParam{$Key}
+        $To .= $GetParam{$Key};
     }
     my $ArticleID = $Self->{TicketObject}->ArticleSend(
         ArticleTypeID  => $Self->{GetParam}->{ArticleTypeID},
@@ -1723,9 +1723,9 @@ sub _Mask {
         )
     {
         $Param{StandardTemplateStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data       => $QueueStandardTemplates    || {},
-            Name       => 'StandardTemplateID',
-            SelectedID => $Param{StandardTemplateID} || '',
+            Data         => $QueueStandardTemplates || {},
+            Name         => 'StandardTemplateID',
+            SelectedID   => $Param{StandardTemplateID} || '',
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
             Translation  => 1,

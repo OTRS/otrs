@@ -1563,7 +1563,7 @@ sub GetObjectBehaviours {
 
     # check if it is cached
     if ( $Self->{'Cache::ObjectBehaviours'}->{$Module} ) {
-        return $Self->{'Cache::ObjectBehaviours'}->{$Module}
+        return $Self->{'Cache::ObjectBehaviours'}->{$Module};
     }
 
     # load module, return if module does not exist
@@ -3003,7 +3003,7 @@ sub _GenerateDynamicStats {
             $Second = 0;
             $Minute = 0;
             $Hour   = 0;
-            ( $Year, $Month, $Day ) = Monday_of_Week( Week_of_Year( $Year, $Month, $Day ) )
+            ( $Year, $Month, $Day ) = Monday_of_Week( Week_of_Year( $Year, $Month, $Day ) );
         }
         elsif ( $Element->{SelectedValues}[0] eq 'Month' ) {
             $Second = 0;

@@ -1538,7 +1538,7 @@ sub _GetChecks {
 
         # use priority data (if given)
         if ( $Param{NewPriorityID} && !$Param{PriorityID} ) {
-            $Param{PriorityID} = $Param{NewPriorityID}
+            $Param{PriorityID} = $Param{NewPriorityID};
         }
 
         if ( $Param{PriorityID} ) {

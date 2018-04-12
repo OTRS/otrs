@@ -246,8 +246,8 @@ my @Tests = (
                 InReplyTo      => '<asdasdasd.12@example.com>',
                 References =>
                     '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
-                NoAgentNotify             => 0,
-                ForceNotificationToUserID => [ 1, 43, 56, ],
+                NoAgentNotify                   => 0,
+                ForceNotificationToUserID       => [ 1, 43, 56, ],
                 ExcludeNotificationToUserID     => [ 43, 56, ],
                 ExcludeMuteNotificationToUserID => [ 43, 56, ],
 
@@ -292,8 +292,8 @@ my @Tests = (
                 InReplyTo      => '<asdasdasd.12@example.com>',
                 References =>
                     '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
-                NoAgentNotify             => 0,
-                ForceNotificationToUserID => [ 1, 43, 56, ],
+                NoAgentNotify                   => 0,
+                ForceNotificationToUserID       => [ 1, 43, 56, ],
                 ExcludeNotificationToUserID     => [ 43, 56, ],
                 ExcludeMuteNotificationToUserID => [ 43, 56, ],
 
@@ -378,8 +378,8 @@ my @Tests = (
                 InReplyTo      => '<asdasdasd.12@example.com>',
                 References =>
                     '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
-                NoAgentNotify             => 0,
-                ForceNotificationToUserID => [ 1, 43, 56, ],
+                NoAgentNotify                   => 0,
+                ForceNotificationToUserID       => [ 1, 43, 56, ],
                 ExcludeNotificationToUserID     => [ 43, 56, ],
                 ExcludeMuteNotificationToUserID => [ 43, 56, ],
 
@@ -425,8 +425,8 @@ my @Tests = (
                 InReplyTo      => '<asdasdasd.12@example.com>',
                 References =>
                     '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
-                NoAgentNotify             => 0,
-                ForceNotificationToUserID => [ 1, 43, 56, ],
+                NoAgentNotify                   => 0,
+                ForceNotificationToUserID       => [ 1, 43, 56, ],
                 ExcludeNotificationToUserID     => [ 43, 56, ],
                 ExcludeMuteNotificationToUserID => [ 43, 56, ],
 
@@ -472,8 +472,8 @@ my @Tests = (
                 InReplyTo      => '<asdasdasd.12@example.com>',
                 References =>
                     '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
-                NoAgentNotify             => 0,
-                ForceNotificationToUserID => [ 1, 43, 56, ],
+                NoAgentNotify                   => 0,
+                ForceNotificationToUserID       => [ 1, 43, 56, ],
                 ExcludeNotificationToUserID     => [ 43, 56, ],
                 ExcludeMuteNotificationToUserID => [ 43, 56, ],
 
@@ -520,8 +520,8 @@ my @Tests = (
                 InReplyTo      => '<asdasdasd.12@example.com>',
                 References =>
                     '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
-                NoAgentNotify             => 0,
-                ForceNotificationToUserID => [ 1, 43, 56, ],
+                NoAgentNotify                   => 0,
+                ForceNotificationToUserID       => [ 1, 43, 56, ],
                 ExcludeNotificationToUserID     => [ 43, 56, ],
                 ExcludeMuteNotificationToUserID => [ 43, 56, ],
 
@@ -562,8 +562,8 @@ my @Tests = (
                 InReplyTo      => '<asdasdasd.12@example.com>',
                 References =>
                     '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
-                NoAgentNotify             => 0,
-                ForceNotificationToUserID => [ 1, 43, 56, ],
+                NoAgentNotify                   => 0,
+                ForceNotificationToUserID       => [ 1, 43, 56, ],
                 ExcludeNotificationToUserID     => [ 43, 56, ],
                 ExcludeMuteNotificationToUserID => [ 43, 56, ],
 
@@ -605,8 +605,8 @@ my @Tests = (
                 InReplyTo      => '<asdasdasd.12@example.com>',
                 References =>
                     '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
-                NoAgentNotify             => 0,
-                ForceNotificationToUserID => [ 1, 43, 56, ],
+                NoAgentNotify                   => 0,
+                ForceNotificationToUserID       => [ 1, 43, 56, ],
                 ExcludeNotificationToUserID     => [ 43, 56, ],
                 ExcludeMuteNotificationToUserID => [ 43, 56, ],
 
@@ -647,8 +647,8 @@ my @Tests = (
                 InReplyTo      => '<asdasdasd.12@example.com>',
                 References =>
                     '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
-                NoAgentNotify             => 0,
-                ForceNotificationToUserID => [ 1, 43, 56, ],
+                NoAgentNotify                   => 0,
+                ForceNotificationToUserID       => [ 1, 43, 56, ],
                 ExcludeNotificationToUserID     => [ 43, 56, ],
                 ExcludeMuteNotificationToUserID => [ 43, 56, ],
 
@@ -693,8 +693,8 @@ my @Tests = (
                 InReplyTo      => '<asdasdasd.12@example.com>',
                 References =>
                     '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
-                NoAgentNotify             => 0,
-                ForceNotificationToUserID => [ 1, 43, 56, ],
+                NoAgentNotify                   => 0,
+                ForceNotificationToUserID       => [ 1, 43, 56, ],
                 ExcludeNotificationToUserID     => [ 43, 56, ],
                 ExcludeMuteNotificationToUserID => [ 43, 56, ],
 
@@ -738,8 +738,8 @@ my @Tests = (
                 InReplyTo      => '<asdasdasd.12@example.com>',
                 References =>
                     '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
-                NoAgentNotify             => 0,
-                ForceNotificationToUserID => [ 1, 43, 56, ],
+                NoAgentNotify                   => 0,
+                ForceNotificationToUserID       => [ 1, 43, 56, ],
                 ExcludeNotificationToUserID     => [ 43, 56, ],
                 ExcludeMuteNotificationToUserID => [ 43, 56, ],
                 LinkAs                          => 'Child',
@@ -778,8 +778,8 @@ my @Tests = (
                 InReplyTo      => '<asdasdasd.12@example.com>',
                 References =>
                     '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
-                NoAgentNotify             => 0,
-                ForceNotificationToUserID => [ 1, 43, 56, ],
+                NoAgentNotify                   => 0,
+                ForceNotificationToUserID       => [ 1, 43, 56, ],
                 ExcludeNotificationToUserID     => [ 43, 56, ],
                 ExcludeMuteNotificationToUserID => [ 43, 56, ],
 
@@ -987,7 +987,7 @@ for my $Test (@Tests) {
 
             # if article is created by another user it is automatically sent also to Owner
             if ( $OrigTest->{Config}->{Config}->{UserID} && $Attribute eq 'To' ) {
-                $ExpectedValue .= ', Admin OTRS <root@localhost>'
+                $ExpectedValue .= ', Admin OTRS <root@localhost>';
             }
 
             if ( !ref $ExpectedValue && $OrigTest->{Config}->{Config}->{$Attribute} !~ m{_Value} ) {
@@ -1067,7 +1067,7 @@ for my $Test (@Tests) {
                                 || {}
                         };
                         for my $ObjectID ( sort keys %{ObjectsPerRelation} ) {
-                            $LinkLookup{$ObjectID} = $LinkType
+                            $LinkLookup{$ObjectID} = $LinkType;
                         }
                     }
                 }

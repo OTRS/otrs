@@ -296,7 +296,7 @@ if ( $Opts{a} eq 'build' ) {
     }
 
     if ( $Opts{v} && $Opts{v} =~ m/\d{1,4}\.\d{1,4}\.\d{1,4}/ ) {
-        $Structure{Version}->{Content} = $Opts{v}
+        $Structure{Version}->{Content} = $Opts{v};
     }
     elsif ( $Opts{v} ) {
         print STDERR "ERROR: the given version ($Opts{v}) is invalid.\n";

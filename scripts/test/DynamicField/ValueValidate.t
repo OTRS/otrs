@@ -622,7 +622,7 @@ my @Tests = (
                         SystemTime => $TimeObject->SystemTime() + 259200,
                         )
                     )
-                )[0]
+            )[0]
                 . " 00:00:00",
             UserID => $UserID,
         },
@@ -639,7 +639,7 @@ my @Tests = (
                         SystemTime => $TimeObject->SystemTime() - 259200,
                         )
                     )
-                )[0]
+            )[0]
                 . " 00:00:00",
             UserID => $UserID,
         },
@@ -656,7 +656,7 @@ my @Tests = (
                         SystemTime => $TimeObject->SystemTime() + 259200,
                         )
                     )
-                )[0]
+            )[0]
                 . " 00:00:00",
             UserID => $UserID,
         },
@@ -673,7 +673,7 @@ my @Tests = (
                         SystemTime => $TimeObject->SystemTime() - 259200,
                         )
                     )
-                )[0]
+            )[0]
                 . " 00:00:00",
             UserID => $UserID,
         },

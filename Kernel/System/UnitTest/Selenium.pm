@@ -384,7 +384,7 @@ sub WaitFor {
 
     while ( $WaitedSeconds <= $Param{Time} ) {
         if ( $Param{JavaScript} ) {
-            return 1 if $Self->execute_script( $Param{JavaScript} )
+            return 1 if $Self->execute_script( $Param{JavaScript} );
         }
         elsif ( $Param{WindowCount} ) {
             return 1 if scalar( @{ $Self->get_window_handles() } ) == $Param{WindowCount};

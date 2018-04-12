@@ -306,11 +306,11 @@ sub _CheckFrameworkVersion {
     }
 
     if ( $ProductName ne 'OTRS' ) {
-        die "Error: No OTRS system found"
+        die "Error: No OTRS system found";
     }
     if ( $Version !~ /^4\.0(.*)$/ ) {
 
-        die "Error: You are trying to run this script on the wrong framework version $Version!"
+        die "Error: You are trying to run this script on the wrong framework version $Version!";
     }
 
     return 1;
@@ -1068,7 +1068,7 @@ sub _MigrateProcessManagementEntityIDs {
 
     # remove all DB affected ACLs from in memory ACLs
     for my $ACLName (@AffectedDBACLs) {
-        delete $FileACLs->{$ACLName}
+        delete $FileACLs->{$ACLName};
     }
 
     # if there are no ACLs return successfully
@@ -1194,7 +1194,7 @@ sub _MigrateProcessManagementDynamicFieldTypes {
         );
     }
 
-    return 1
+    return 1;
 }
 
 =item _SetServiceNotifications()
@@ -1432,7 +1432,7 @@ sub _MigrateDBACLs {
 
     # remove all DB affected ACLs from in memory ACLs
     for my $ACLName (@AffectedDBACLs) {
-        delete $FileACLs->{$ACLName}
+        delete $FileACLs->{$ACLName};
     }
 
     # if there are no ACLs return successfully

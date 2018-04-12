@@ -58,7 +58,7 @@ sub new {
     bless( $Self, $Type );
 
     if ( !$Kernel::OM ) {
-        Carp::confess('$Kernel::OM is not defined, please initialize your object manager')
+        Carp::confess('$Kernel::OM is not defined, please initialize your object manager');
     }
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');

@@ -407,8 +407,8 @@ sub _ShowEdit {
 
         # create use X509 select
         $Param{UseX509Strg} = $Self->{LayoutObject}->BuildSelection(
-            Data => [ 'No', 'Yes' ],
-            Name => 'UseX509',
+            Data          => [ 'No', 'Yes' ],
+            Name          => 'UseX509',
             SelectedValue => $Param{UseX509} || 'No',
             PossibleNone  => 0,
             Sort          => 'AlphanumericValue',

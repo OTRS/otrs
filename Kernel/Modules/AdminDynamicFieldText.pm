@@ -196,7 +196,7 @@ sub _AddAction {
     };
 
     if ( $GetParam{FieldType} eq 'Text' ) {
-        $FieldConfig->{Link} = $GetParam{Link},
+        $FieldConfig->{Link} = $GetParam{Link};
     }
 
     if ( $GetParam{FieldType} eq 'TextArea' ) {
@@ -514,7 +514,7 @@ sub _ShowScreen {
         if ( $DynamicfieldNamesList{$OrderNumber} && $OrderNumber ne $Param{FieldOrder} ) {
             $OrderNamesList{$OrderNumber} = $OrderNumber . ' - '
                 . $CurrentlyText
-                . $DynamicfieldNamesList{$OrderNumber}
+                . $DynamicfieldNamesList{$OrderNumber};
         }
     }
 
@@ -703,7 +703,7 @@ sub GetParamRegexList {
 
             # is the regex valid?
             my $RegExCheck = eval {
-                qr{$RegEx}xms
+                qr{$RegEx}xms;
             };
 
             my $CurrentEntryErrors = 0;

@@ -1522,9 +1522,9 @@ sub _Mask {
             UserID => $Self->{UserID},
         );
         $Param{TypeStrg} = $Self->{LayoutObject}->BuildSelection(
-            Class => 'Validate_Required' . ( $Param{Errors}->{TypeIDInvalid} || ' ' ),
-            Data  => \%Type,
-            Name  => 'TypeID',
+            Class        => 'Validate_Required' . ( $Param{Errors}->{TypeIDInvalid} || ' ' ),
+            Data         => \%Type,
+            Name         => 'TypeID',
             SelectedID   => $Param{TypeID},
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
@@ -1830,7 +1830,7 @@ sub _Mask {
                     YearPeriodFuture => 5,
                     DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime')
                         || 0,
-                    Class => $Param{DateInvalid} || ' ',
+                    Class                => $Param{DateInvalid} || ' ',
                     Validate             => 1,
                     ValidateDateInFuture => 1,
                     Calendar             => $Calendar,
@@ -2210,9 +2210,9 @@ sub _Mask {
             )
         {
             $Param{StandardTemplateStrg} = $Self->{LayoutObject}->BuildSelection(
-                Data       => $QueueStandardTemplates    || {},
-                Name       => 'StandardTemplateID',
-                SelectedID => $Param{StandardTemplateID} || '',
+                Data         => $QueueStandardTemplates || {},
+                Name         => 'StandardTemplateID',
+                SelectedID   => $Param{StandardTemplateID} || '',
                 PossibleNone => 1,
                 Sort         => 'AlphanumericValue',
                 Translation  => 1,

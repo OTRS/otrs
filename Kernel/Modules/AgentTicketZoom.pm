@@ -624,7 +624,7 @@ sub Run {
             )
         {
             my @IDs = split /,/, $1;
-            $Self->{EventTypeFilter}->{EventTypeID} = \@IDs,
+            $Self->{EventTypeFilter}->{EventTypeID} = \@IDs;
         }
     }
 
@@ -1293,7 +1293,7 @@ sub MaskAgentZoom {
             );
 
             if ($ACL) {
-                %{$NextActivityDialogs} = $Self->{TicketObject}->TicketAclData()
+                %{$NextActivityDialogs} = $Self->{TicketObject}->TicketAclData();
             }
 
             $Self->{LayoutObject}->Block(
@@ -3388,7 +3388,7 @@ sub _CollectArticleAttachments {
             %{ $Article{Atms}->{$FileID} },
             FileID => $FileID,
             Target => $Target,
-            }
+        };
     }
 
     return \%Attachments;

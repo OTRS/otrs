@@ -257,7 +257,7 @@ sub _GetFilenameAndCacheDirectory {
     my $CacheDirectory = $Self->{CacheDirectory} . '/' . $Param{Type};
 
     for my $Level ( 1 .. $Self->{'Cache::SubdirLevels'} ) {
-        $CacheDirectory .= '/' . substr( $Filename, $Level - 1, 1 )
+        $CacheDirectory .= '/' . substr( $Filename, $Level - 1, 1 );
     }
 
     return $Filename, $CacheDirectory;

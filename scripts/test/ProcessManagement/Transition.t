@@ -1834,11 +1834,11 @@ my %TransitionConfig = (
                     DynamicField_Make => {
                         Type => 'String' || 'Hash' || 'Array' || 'Regexp' || 'Module',
                         Match => 'Teststring',    # Type = String => 'String',
-                                                  # Type = Regexp => qr{ [\n\r\f] }xms
-                                                  # Type = Hash => { key1 => val1, key2 => val2}
-                                                  # Type = Array => [val1, val2, val3]
-                                                  # Type = Module => 'Kernel::System::',
-                                                  # ... to be continued
+                             # Type = Regexp => qr{ [\n\r\f] }xms
+                             # Type = Hash => { key1 => val1, key2 => val2}
+                             # Type = Array => [val1, val2, val3]
+                             # Type = Module => 'Kernel::System::',
+                             # ... to be continued
                     },
                     DynamicField_VWModel => ['1'],
                 },

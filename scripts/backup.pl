@@ -233,7 +233,7 @@ else {
     }
 
     if ($DatabaseHost) {
-        $DatabaseHost = "-h $DatabaseHost"
+        $DatabaseHost = "-h $DatabaseHost";
     }
 
     if ( !system("$DBDump -f $Directory/DatabaseBackup.sql $DatabaseHost -U $DatabaseUser $Database") ) {

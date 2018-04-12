@@ -1027,7 +1027,7 @@ sub _SOAPOutputRecursion {
         return {
             Success => 1,
             Data    => \@Result,
-            }
+        };
     }
 
     # process hash ref - sorted entries first

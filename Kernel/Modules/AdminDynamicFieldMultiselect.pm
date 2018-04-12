@@ -568,7 +568,7 @@ sub _ShowScreen {
         if ( $DynamicfieldNamesList{$OrderNumber} && $OrderNumber ne $Param{FieldOrder} ) {
             $OrderNamesList{$OrderNumber} = $OrderNumber . ' - '
                 . $CurrentlyText
-                . $DynamicfieldNamesList{$OrderNumber}
+                . $DynamicfieldNamesList{$OrderNumber};
         }
     }
 
@@ -628,7 +628,7 @@ sub _ShowScreen {
 
                 # set the error class
                 $KeyError     = 'ServerError';
-                $KeyErrorStrg = 'This field is required.'
+                $KeyErrorStrg = 'This field is required.';
             }
 
             # check for errors on original value (duplicate)
@@ -640,7 +640,7 @@ sub _ShowScreen {
 
                 # set the error class
                 $KeyError     = 'ServerError';
-                $KeyErrorStrg = 'This field value is duplicated.'
+                $KeyErrorStrg = 'This field value is duplicated.';
             }
 
             # check for error on value
@@ -679,7 +679,7 @@ sub _ShowScreen {
     for my $ValueItem ( sort keys %PossibleValues ) {
         next POSSIBLEVALUE if !defined $ValueItem;
         next POSSIBLEVALUE if !defined $PossibleValues{$ValueItem};
-        $DefaultValuesList{$ValueItem} = $PossibleValues{$ValueItem}
+        $DefaultValuesList{$ValueItem} = $PossibleValues{$ValueItem};
     }
 
     my $DefaultValue = ( defined $Param{DefaultValue} ? $Param{DefaultValue} : '' );
