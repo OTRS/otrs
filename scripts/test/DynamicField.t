@@ -518,11 +518,11 @@ for my $DynamicField (@Data) {
 
     if ( $DynamicField->{ObjectType} eq 'Ticket' ) {
         push @{ $SeparatedData{Ticket} }, $DynamicField;
-        push @{ $SeparatedIDs{Ticket} },  $DynamicField->{ID}
+        push @{ $SeparatedIDs{Ticket} },  $DynamicField->{ID};
     }
     elsif ( $DynamicField->{ObjectType} eq 'Article' ) {
         push @{ $SeparatedData{Article} }, $DynamicField;
-        push @{ $SeparatedIDs{Article} },  $DynamicField->{ID}
+        push @{ $SeparatedIDs{Article} },  $DynamicField->{ID};
     }
 }
 

@@ -740,7 +740,7 @@ sub _Edit {
                 Data       => { $Self->{ValidObject}->ValidList(), },
                 Name       => $Entry->[0],
                 SelectedID => defined( $Param{ $Entry->[0] } ) ? $Param{ $Entry->[0] } : 1,
-                Class => $Param{RequiredClass} || ''
+                Class      => $Param{RequiredClass} || ''
                     . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' } || '',
             );
         }

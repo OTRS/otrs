@@ -578,7 +578,7 @@ sub _status {
 
     # check if service is running (state 4)
     if ( $ServiceStatus->{CurrentState} eq 4 ) {
-        print "Running $PID{PID}\n"
+        print "Running $PID{PID}\n";
     }
     else {
         print

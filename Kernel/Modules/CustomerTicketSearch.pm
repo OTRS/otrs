@@ -1041,7 +1041,7 @@ sub Run {
                 if ( IsHashRefWithData($HistoricalValues) ) {
                     for my $Key ( keys %{$HistoricalValues} ) {
                         if ( !$Data->{$Key} ) {
-                            $Data->{$Key} = $HistoricalValues->{$Key}
+                            $Data->{$Key} = $HistoricalValues->{$Key};
                         }
                     }
                 }

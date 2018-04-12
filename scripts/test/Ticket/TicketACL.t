@@ -1038,7 +1038,7 @@ for my $Test (@Tests) {
                 \%ACLActionData,
                 $Test->{ReturnActionData},
                 "$Test->{Name} ACL action data",
-                )
+            );
 
         }
     }
@@ -1055,7 +1055,7 @@ for my $Test (@Tests) {
             \%ACLData,
             $Test->{ReturnData},
             "$Test->{Name} ACL data",
-            )
+        );
     }
 }
 

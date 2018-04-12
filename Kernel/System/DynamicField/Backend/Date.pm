@@ -425,7 +425,7 @@ sub EditFieldValueValidate {
         return {
             ServerError  => 1,
             ErrorMessage => 'Invalid Date!'
-            }
+        };
     }
 
     my $ServerError;
@@ -700,7 +700,7 @@ sub SearchFieldParameterBuild {
     if ( !$Value ) {
         return {
             Equals => '',
-            }
+        };
     }
 
     # search for a wild card in the value
@@ -786,18 +786,18 @@ sub TemplateValueTypeGet {
     if ( $Param{FieldType} eq 'Edit' ) {
         return {
             $FieldName => $EditValueType,
-            }
+        };
     }
     elsif ( $Param{FieldType} eq 'Search' ) {
         return {
             'Search_' . $FieldName => $SearchValueType,
-            }
+        };
     }
     else {
         return {
             $FieldName             => $EditValueType,
             'Search_' . $FieldName => $SearchValueType,
-            }
+        };
     }
 }
 

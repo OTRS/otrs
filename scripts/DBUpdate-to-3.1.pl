@@ -353,10 +353,10 @@ sub _CheckFrameworkVersion {
     }
 
     if ( $ProductName ne 'OTRS' ) {
-        die "Not framework version required"
+        die "Not framework version required";
     }
     if ( $Version !~ /^3\.1(.*)$/ ) {
-        die "Not framework version required"
+        die "Not framework version required";
     }
 
     return 1;
@@ -420,7 +420,7 @@ sub _IsFreefieldsMigrationAlreadyDone {
 
     if ( !$SuccessTicket && !$SuccessArticle ) {
         print "Free fields were deleted, migration is already done!\n";
-        return 1
+        return 1;
     }
 
     return 0;

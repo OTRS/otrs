@@ -287,7 +287,7 @@ if ( !qx(perl -v) ) {
     if ( $^O =~ m{ win }smxi ) {
         $Perl = $Home;
         $Perl =~ s{OTRS \/? $}{}smx;
-        $Perl .= 'StrawberryPerl\perl\bin\perl.exe'
+        $Perl .= 'StrawberryPerl\perl\bin\perl.exe';
     }
     else {
         $Self->True(

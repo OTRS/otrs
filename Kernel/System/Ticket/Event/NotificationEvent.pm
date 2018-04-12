@@ -484,7 +484,7 @@ sub _SendNotificationToRecipients {
             && $Recipient->{Email} eq $CurrentUser{UserEmail}
             )
         {
-            next RECIPIENT
+            next RECIPIENT;
         }
 
         $Self->_SendNotification(

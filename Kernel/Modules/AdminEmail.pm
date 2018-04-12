@@ -219,7 +219,7 @@ sub Run {
         Multiple    => 1,
         Translation => 0,
         SelectedID  => $Reference,
-        Class => $Errors{BccInvalid} || '',
+        Class       => $Errors{BccInvalid} || '',
     );
 
     $Reference = @{ $GetParam{GroupIDs} || [] } ? \@{ $GetParam{GroupIDs} } : '';
@@ -230,7 +230,7 @@ sub Run {
         Multiple    => 1,
         Translation => 0,
         SelectedID  => $Reference,
-        Class => $Errors{BccInvalid} || '',
+        Class       => $Errors{BccInvalid} || '',
     );
 
     my %RoleList = $Self->{GroupObject}->RoleList( Valid => 1 );

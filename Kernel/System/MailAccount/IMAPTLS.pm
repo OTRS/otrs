@@ -146,7 +146,7 @@ sub _Fetch {
     my $NumberOfMessages = scalar @{$Messages};
 
     if ($CMD) {
-        print "$AuthType: I found $NumberOfMessages messages on $Param{Login}/$Param{Host}. "
+        print "$AuthType: I found $NumberOfMessages messages on $Param{Login}/$Param{Host}. ";
     }
 
     # fetch messages

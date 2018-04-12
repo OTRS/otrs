@@ -547,7 +547,7 @@ sub Insert {
                 $SQL .= $Self->{'DB::Comment'}
                     . "----------------------------------------------------------\n";
             }
-            $SQL .= "INSERT INTO $Tag->{Table} "
+            $SQL .= "INSERT INTO $Tag->{Table} ";
         }
         if ( $Tag->{Tag} eq 'Data' && $Tag->{TagType} eq 'Start' ) {
             $Tag->{Key} = ${ $Self->Quote( \$Tag->{Key} ) };

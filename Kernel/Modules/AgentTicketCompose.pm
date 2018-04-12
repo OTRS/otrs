@@ -1306,7 +1306,7 @@ $QData{"Signature"}
             next if !$Data{$Line};
             for my $Email ( Mail::Address->parse( $Data{$Line} ) ) {
                 if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                    $Error{ $Line . "Invalid" } = " ServerError"
+                    $Error{ $Line . "Invalid" } = " ServerError";
                 }
             }
         }
@@ -1508,12 +1508,12 @@ sub _Mask {
     # Multiple-Autocomplete
     $Param{To} = ( scalar @{ $Param{MultipleCustomer} } ? '' : $Param{To} );
     if ( defined $Param{To} && $Param{To} ne '' ) {
-        $Param{ToInvalid} = ''
+        $Param{ToInvalid} = '';
     }
 
     $Param{Cc} = ( scalar @{ $Param{MultipleCustomerCc} } ? '' : $Param{Cc} );
     if ( defined $Param{Cc} && $Param{Cc} ne '' ) {
-        $Param{CcInvalid} = ''
+        $Param{CcInvalid} = '';
     }
 
     $Self->{LayoutObject}->Block(

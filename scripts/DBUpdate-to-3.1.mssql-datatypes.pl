@@ -206,7 +206,7 @@ sub _DatabaseUpgrade {
             'DataType' => $Row[2],
             'Size'     => $Row[3],
             'Null'     => $Row[4],
-            }
+        };
     }
     for my $Column (@Columns) {
         if ( $Column->{Null} eq 'YES' ) {

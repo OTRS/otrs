@@ -3298,7 +3298,7 @@ sub _GetCacheString {
         for my $UseRef ( @{ $Param{$Use} } ) {
             $CacheString .= '__' . $UseRef->{Name} . '_';
             if ( $UseRef->{SelectedValues} ) {
-                $CacheString .= join( '_', sort @{ $UseRef->{SelectedValues} } )
+                $CacheString .= join( '_', sort @{ $UseRef->{SelectedValues} } );
             }
             elsif ( $UseRef->{TimeStart} && $UseRef->{TimeStop} ) {
                 $CacheString .= $UseRef->{TimeStart} . '-' . $UseRef->{TimeStop};

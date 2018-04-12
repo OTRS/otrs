@@ -49,7 +49,7 @@ sub Run {
         my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
         if ( $^O =~ /^mswin/i ) {
             $Scheduler = "\"$^X\" " . $Home . '/bin/otrs.Scheduler4win.pl';
-            $Scheduler =~ s{/}{\\}g
+            $Scheduler =~ s{/}{\\}g;
         }
 
         # set force start parmeter

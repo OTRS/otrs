@@ -1011,7 +1011,7 @@ sub _ShowEdit {
                 my $ControllerClass = '';
                 if ( !$GIControllers{ $ActionData{Controller} } ) {
                     $NoControllerFound = 1;
-                    $ControllerClass   = 'Error',
+                    $ControllerClass   = 'Error',;
                 }
 
                 $Self->{LayoutObject}->Block(

@@ -659,7 +659,7 @@ sub _Show {
             Space => ' ',
         );
         if ( 60 * 60 * 1 > $Article{FirstResponseTime} ) {
-            $Article{FirstResponseTimeClass} = 'Warning'
+            $Article{FirstResponseTimeClass} = 'Warning';
         }
         $Self->{LayoutObject}->Block(
             Name => 'FirstResponseTime',
@@ -678,7 +678,7 @@ sub _Show {
             Space => ' ',
         );
         if ( 60 * 60 * 1 > $Article{UpdateTime} ) {
-            $Article{UpdateTimeClass} = 'Warning'
+            $Article{UpdateTimeClass} = 'Warning';
         }
         $Self->{LayoutObject}->Block(
             Name => 'UpdateTime',
@@ -697,7 +697,7 @@ sub _Show {
             Space => ' ',
         );
         if ( 60 * 60 * 1 > $Article{SolutionTime} ) {
-            $Article{SolutionTimeClass} = 'Warning'
+            $Article{SolutionTimeClass} = 'Warning';
         }
         $Self->{LayoutObject}->Block(
             Name => 'SolutionTime',
@@ -899,9 +899,9 @@ sub _Show {
 
             # html quoting
             $ArticleItem->{Body} = $Self->{LayoutObject}->Ascii2Html(
-                NewLine => $Param{Config}->{DefaultViewNewLine}  || 90,
-                Text    => $ArticleItem->{Body},
-                VMax    => $Param{Config}->{DefaultPreViewLines} || 25,
+                NewLine         => $Param{Config}->{DefaultViewNewLine} || 90,
+                Text            => $ArticleItem->{Body},
+                VMax            => $Param{Config}->{DefaultPreViewLines} || 25,
                 LinkFeature     => 1,
                 HTMLResultMode  => 1,
                 StripEmptyLines => $Param{Config}->{StripEmptyLines},

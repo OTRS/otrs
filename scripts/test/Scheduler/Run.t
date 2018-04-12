@@ -76,7 +76,7 @@ my $Home = $Self->{ConfigObject}->Get('Home');
 my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
 if ( $^O =~ /^mswin/i ) {
     $Scheduler = "\"$^X\" " . $Home . '/bin/otrs.Scheduler4win.pl';
-    $Scheduler =~ s{/}{\\}g
+    $Scheduler =~ s{/}{\\}g;
 }
 my $PreviousSchedulerStatus = `$Scheduler -a status`;
 

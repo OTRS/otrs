@@ -119,7 +119,7 @@ sub GetObjectAttributes {
 
         # remove dynamic fields from the list if is not sortable
         if ( !$IsSortable ) {
-            delete $OrderBy{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+            delete $OrderBy{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
         }
     }
 
@@ -1053,7 +1053,7 @@ sub _TicketAttributes {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
         next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
 
-        $TicketAttributes{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $DynamicFieldConfig->{Label}
+        $TicketAttributes{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $DynamicFieldConfig->{Label};
     }
 
     return \%TicketAttributes;
