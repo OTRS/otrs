@@ -250,11 +250,11 @@ sub _CheckFrameworkVersion {
     }
 
     if ( $ProductName ne 'OTRS' ) {
-        die "Error: No OTRS system found"
+        die "Error: No OTRS system found";
     }
     if ( $Version !~ /^5\.0(.*)$/ ) {
 
-        die "Error: You are trying to run this script on the wrong framework version $Version!"
+        die "Error: You are trying to run this script on the wrong framework version $Version!";
     }
 
     return 1;
@@ -899,10 +899,10 @@ sub _MigrateNotifications {
                 VisibleForAgentTooltip => [
                     'You will receive a notification if a customer sends a follow-up to a locked ticket of which you are the ticket owner or responsible.'
                 ],
-                Events            => ['NotificationFollowUp'],
-                Recipients        => [ 'AgentOwner', 'AgentResponsible', 'AgentWatcher' ],
-                SendOnOutOfOffice => [1],
-                LockID => [ 2, 3 ],    # locked
+                Events                => ['NotificationFollowUp'],
+                Recipients            => [ 'AgentOwner', 'AgentResponsible', 'AgentWatcher' ],
+                SendOnOutOfOffice     => [1],
+                LockID                => [ 2, 3 ],                                               # locked
                 Transports            => ['Email'],
                 AgentEnabledByDefault => ['Email'],
             },

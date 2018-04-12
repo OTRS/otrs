@@ -78,7 +78,7 @@ sub Run {
 
     my %Permissions;
     for my $Permission (qw(ro rw)) {
-        $Permissions{$Permission} = ( $Self->GetOption('permission') eq $Permission ) ? 1 : 0
+        $Permissions{$Permission} = ( $Self->GetOption('permission') eq $Permission ) ? 1 : 0;
     }
 
     # add user 2 group

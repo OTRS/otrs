@@ -612,7 +612,7 @@ sub ConfigSettingChange {
         $ValueDump =~ s/\$VAR1/$KeyDump/;
     }
     else {
-        $ValueDump = "delete $KeyDump;"
+        $ValueDump = "delete $KeyDump;";
     }
 
     my $PackageName = "ZZZZUnitTest$RandomNumber";

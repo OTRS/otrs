@@ -940,7 +940,7 @@ for my $TicketID (@CreatedTicketIds) {
         $DateCounter = '0' . $Counter;
     }
     elsif ( $Counter > 59 ) {
-        $DateCounter = '59'
+        $DateCounter = '59';
     }
     else {
         $DateCounter = $Counter;

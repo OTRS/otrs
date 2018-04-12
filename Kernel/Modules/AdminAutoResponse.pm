@@ -275,7 +275,7 @@ sub _Edit {
         Name        => 'AddressID',
         SelectedID  => $Param{AddressID},
         Translation => 0,
-        Class => 'Modernize Validate_Required ' . ( $Param{Errors}->{'AddressIDInvalid'} || '' ),
+        Class       => 'Modernize Validate_Required ' . ( $Param{Errors}->{'AddressIDInvalid'} || '' ),
     );
 
     # shows header

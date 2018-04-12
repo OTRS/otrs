@@ -118,7 +118,7 @@ sub Run {
         keys %Stats
         )
     {
-        my $Strings = $Stats{$Language}->{Total};
+        my $Strings      = $Stats{$Language}->{Total};
         my $Translations = $Stats{$Language}->{Translated} // 0;
         $Self->Print( "\t" . sprintf( "%7s", $Language ) . ": " );
         $Self->Print( sprintf( "%02d", int( ( $Translations / $Strings ) * 100 ) ) );
@@ -155,7 +155,7 @@ sub HandleLanguage {
     );
 
     my $TransifexLanguage = $TransifexLanguagesMap{$Language} // $Language;
-    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    my $Home              = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
     if ( !$Module ) {
         $LanguageFile  = "$Home/Kernel/Language/$Language.pm";

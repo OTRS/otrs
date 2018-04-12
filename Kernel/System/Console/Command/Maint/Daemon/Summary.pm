@@ -186,7 +186,7 @@ sub _FormatOutput {
             $Output .= '    ';
             for my $Column ( @{ $Summary->{Column} } ) {
 
-                my $Size = $Column->{Size};
+                my $Size  = $Column->{Size};
                 my $Value = $DataRow->{ $Column->{Name} } // '';
 
                 if ( length $Value >= $Size ) {

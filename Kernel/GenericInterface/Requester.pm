@@ -305,7 +305,7 @@ sub Run {
                 next RESPONSEKEY if $ResponseKey eq 'ErrorMessage';
 
                 # add any other key from the invoker HandleResponse() in Data
-                $ErrorReturn->{$ResponseKey} = $Response->{$ResponseKey}
+                $ErrorReturn->{$ResponseKey} = $Response->{$ResponseKey};
             }
         }
 
@@ -409,7 +409,7 @@ sub Run {
                 next RESPONSEKEY if $ResponseKey eq 'ErrorMessage';
 
                 # add any other key from the invoker HandleResponse() in Data
-                $ErrorReturn->{$ResponseKey} = $FunctionResult->{$ResponseKey}
+                $ErrorReturn->{$ResponseKey} = $FunctionResult->{$ResponseKey};
             }
         }
 

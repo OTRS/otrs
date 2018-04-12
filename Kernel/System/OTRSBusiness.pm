@@ -571,11 +571,11 @@ sub HandleBusinessPermissionCloudServiceResult {
     #   cloud.otrs.com cannot be made temporarily.
     my %StoreData = (
         BusinessPermission => $OperationResult->{Data}->{BusinessPermission} // 0,
-        ExpiryDate         => $OperationResult->{Data}->{ExpiryDate}         // '',
+        ExpiryDate         => $OperationResult->{Data}->{ExpiryDate} // '',
         LastUpdateTime     => $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
             SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime()
         ),
-        AgentSessionLimit             => $OperationResult->{Data}->{AgentSessionLimit}             // 0,
+        AgentSessionLimit             => $OperationResult->{Data}->{AgentSessionLimit} // 0,
         AgentSessionLimitPriorWarning => $OperationResult->{Data}->{AgentSessionLimitPriorWarning} // 0,
     );
 
@@ -615,7 +615,7 @@ sub HandleBusinessVersionCheckCloudServiceResult {
 
     my %StoreData = (
         LatestVersionForCurrentFramework => $OperationResult->{Data}->{LatestVersionForCurrentFramework} // '',
-        FrameworkUpdateAvailable         => $OperationResult->{Data}->{FrameworkUpdateAvailable}         // '',
+        FrameworkUpdateAvailable         => $OperationResult->{Data}->{FrameworkUpdateAvailable} // '',
     );
 
     my $SystemDataObject = $Kernel::OM->Get('Kernel::System::SystemData');

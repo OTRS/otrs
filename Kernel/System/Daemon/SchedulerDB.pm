@@ -117,7 +117,7 @@ sub TaskAdd {
         }
 
         # compare the number of task with the maximum parallel limit
-        return -1 if scalar @FilteredList >= $Param{MaximumParallelInstances}
+        return -1 if scalar @FilteredList >= $Param{MaximumParallelInstances};
     }
 
     # set default of attempts parameter
@@ -424,7 +424,7 @@ sub TaskListUnlocked {
     # fetch the result
     my @List;
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        push @List, $Row[0]
+        push @List, $Row[0];
     }
 
     # set cache
@@ -931,7 +931,7 @@ sub FutureTaskAdd {
         }
 
         # compare the number of task with the maximum parallel limit
-        return -1 if scalar @FilteredList >= $Param{MaximumParallelInstances}
+        return -1 if scalar @FilteredList >= $Param{MaximumParallelInstances};
     }
 
     # set default of attempts parameter

@@ -185,7 +185,7 @@ sub Run {
         )
     {
         if ( defined $Param{Config}->{$Attribute} ) {
-            $TicketParam{$Attribute} = $Param{Config}->{$Attribute}
+            $TicketParam{$Attribute} = $Param{Config}->{$Attribute};
         }
     }
 
@@ -293,7 +293,7 @@ sub Run {
         )
     {
         if ( defined $Param{Config}->{$Attribute} ) {
-            $ArticleParam{$Attribute} = $Param{Config}->{$Attribute}
+            $ArticleParam{$Attribute} = $Param{Config}->{$Attribute};
         }
     }
 

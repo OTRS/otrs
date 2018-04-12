@@ -138,7 +138,7 @@ for ( 1 .. 2 ) {
     push @TicketData, {
         TicketID     => $TicketID,
         TicketNumber => $Ticket{TicketNumber},
-        }
+    };
 }
 
 my @Values = (

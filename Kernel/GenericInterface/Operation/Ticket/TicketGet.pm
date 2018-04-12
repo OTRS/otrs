@@ -332,7 +332,7 @@ sub Run {
         $ArticleSenderType = $Param{Data}->{ArticleSenderType};
     }
     elsif ( IsStringWithData( $Param{Data}->{ArticleSenderType} ) ) {
-        $ArticleSenderType = [ $Param{Data}->{ArticleSenderType} ]
+        $ArticleSenderType = [ $Param{Data}->{ArticleSenderType} ];
     }
 
     # By default does not include HYML body as attachment (3) unless is explicitly requested (2).

@@ -362,8 +362,8 @@ sub _ShowEdit {
 
         # create SOAPAction select
         $Param{SOAPActionStrg} = $LayoutObject->BuildSelection(
-            Data => [ 'No', 'Yes' ],
-            Name => 'SOAPAction',
+            Data          => [ 'No', 'Yes' ],
+            Name          => 'SOAPAction',
             SelectedValue => $Param{SOAPAction} || 'Yes',
             Sort          => 'AlphaNumericValue',
             Class         => 'Modernize',
@@ -409,8 +409,8 @@ sub _ShowEdit {
 
         # create use SSL select
         $Param{UseSSLStrg} = $LayoutObject->BuildSelection(
-            Data => [ 'No', 'Yes' ],
-            Name => 'UseSSL',
+            Data          => [ 'No', 'Yes' ],
+            Name          => 'UseSSL',
             SelectedValue => $Param{UseSSL} || 'No',
             PossibleNone  => 0,
             Sort          => 'AlphanumericValue',

@@ -1329,7 +1329,7 @@ sub _Edit {
 
                 # set Email transport selected on add screen
                 if ( $Transport eq 'Email' && !$Param{ID} ) {
-                    $TransportChecked = 'checked="checked"'
+                    $TransportChecked = 'checked="checked"';
                 }
 
                 # get transport settings string from transport object

@@ -80,7 +80,7 @@ sub Run {
         my $SystemTime = $TimeObject->SystemTime();
 
         # skip if is not time yet to check again
-        return $Self->SkippCheck() if $SystemTime < $NextUpdateSystemTime
+        return $Self->SkippCheck() if $SystemTime < $NextUpdateSystemTime;
     }
 
     # call the OTRS Business Solution™ availability cloud service

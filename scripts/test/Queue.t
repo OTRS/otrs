@@ -166,7 +166,7 @@ $Self->True(
     'QueueUpdate() - a real scenario from AdminQueue.pm',
 );
 
-my $QueueUpdate1Name = $QueueRand . '1',;
+my $QueueUpdate1Name = $QueueRand . '1';
 my $QueueUpdate1     = $QueueObject->QueueUpdate(
     QueueID             => $QueueID,
     Name                => $QueueUpdate1Name,

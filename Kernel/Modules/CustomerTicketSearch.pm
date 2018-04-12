@@ -1457,7 +1457,7 @@ sub Run {
                     if ( IsHashRefWithData($HistoricalValues) ) {
                         for my $Key ( sort keys %{$HistoricalValues} ) {
                             if ( !$Data->{$Key} ) {
-                                $Data->{$Key} = $HistoricalValues->{$Key}
+                                $Data->{$Key} = $HistoricalValues->{$Key};
                             }
                         }
                     }
@@ -1572,12 +1572,14 @@ sub MaskForm {
         %ServiceList = $ServiceObject->ServiceList(
             UserID => $Self->{UserID},
             ),
+            ;
     }
     else {
         %ServiceList = $ServiceObject->CustomerUserServiceMemberList(
             CustomerUserLogin => $Self->{UserID},
             Result            => 'HASH',
             ),
+            ;
     }
 
     $Param{ServicesStrg} = $LayoutObject->BuildSelection(

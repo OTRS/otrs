@@ -276,7 +276,7 @@ sub _compile {
     # return STATUS_ERROR, or STATUS_DECLINED if we're being tolerant
     return $self->{TOLERANT}
         ? ( undef, Template::Constants::STATUS_DECLINED )
-        : ( $error, Template::Constants::STATUS_ERROR )
+        : ( $error, Template::Constants::STATUS_ERROR );
 }
 
 =item store()

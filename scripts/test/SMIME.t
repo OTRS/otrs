@@ -2530,7 +2530,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
                 $Self->True(
                     $Match,
                     "CertificateRead $Test->{Name}: Certificate contains word '$String'",
-                    )
+                );
             }
         }
         else {

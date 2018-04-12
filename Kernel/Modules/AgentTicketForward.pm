@@ -997,7 +997,7 @@ sub SendEmail {
         if ($To) {
             $To .= ', ';
         }
-        $To .= $GetParam{$Key}
+        $To .= $GetParam{$Key};
     }
 
     # if there is no ArticleTypeID, use the default value

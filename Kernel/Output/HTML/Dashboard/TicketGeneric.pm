@@ -847,7 +847,7 @@ sub Run {
         next COLUMNNAME if !$GetColumnFilter{$ColumnName};
         $ColumnFilterLink
             .= ';' . $LayoutObject->Ascii2Html( Text => 'ColumnFilter' . $ColumnName )
-            . '=' . $LayoutObject->Ascii2Html( Text => $GetColumnFilter{$ColumnName} )
+            . '=' . $LayoutObject->Ascii2Html( Text => $GetColumnFilter{$ColumnName} );
     }
 
     my $LinkPage =
@@ -1023,7 +1023,7 @@ sub Run {
                     Name => 'ContentLargeTicketGenericHeaderTicketNumberColumn',
                     Data => {
                         %Param,
-                        CSS => $CSS || '',
+                        CSS     => $CSS || '',
                         Name    => $Self->{Name},
                         OrderBy => $OrderBy || 'Up',
                         Filter  => $Self->{Filter},
@@ -1626,7 +1626,7 @@ sub Run {
                     $LayoutObject->Block(
                         Name => "ContentLargeTicketTitle",
                         Data => {
-                            Title => "$DataValue " || '',
+                            Title      => "$DataValue " || '',
                             WholeTitle => $WholeTitle,
                             Class      => $CSSClass || '',
                         },
@@ -2229,7 +2229,7 @@ sub _SearchParamsGet {
     my %TicketSearchSummary = (
         Locked => {
             OwnerIDs => $TicketSearch{OwnerIDs} // [ $Self->{UserID}, ],
-            LockIDs => [ '2', '3' ],    # 'lock' and 'tmp_lock'
+            LockIDs  => [ '2', '3' ],                                      # 'lock' and 'tmp_lock'
         },
         Watcher => {
             WatchUserIDs => [ $Self->{UserID}, ],
@@ -2237,7 +2237,7 @@ sub _SearchParamsGet {
         },
         Responsible => {
             ResponsibleIDs => $TicketSearch{ResponsibleIDs} // [ $Self->{UserID}, ],
-            LockIDs        => $TicketSearch{LockIDs}        // undef,
+            LockIDs => $TicketSearch{LockIDs} // undef,
         },
         MyQueues => {
             QueueIDs => \@MyQueues,
@@ -2250,7 +2250,7 @@ sub _SearchParamsGet {
         },
         All => {
             OwnerIDs => $TicketSearch{OwnerIDs} // undef,
-            LockIDs  => $TicketSearch{LockIDs}  // undef,
+            LockIDs  => $TicketSearch{LockIDs} // undef,
         },
     );
 

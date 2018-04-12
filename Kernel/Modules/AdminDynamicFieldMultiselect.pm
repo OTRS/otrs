@@ -575,7 +575,7 @@ sub _ShowScreen {
         if ( $DynamicfieldNamesList{$OrderNumber} && $OrderNumber ne $Param{FieldOrder} ) {
             $OrderNamesList{$OrderNumber} = $OrderNumber . ' - '
                 . $CurrentlyText
-                . $DynamicfieldNamesList{$OrderNumber}
+                . $DynamicfieldNamesList{$OrderNumber};
         }
     }
 
@@ -686,7 +686,7 @@ sub _ShowScreen {
     for my $ValueItem ( sort keys %PossibleValues ) {
         next POSSIBLEVALUE if !defined $ValueItem;
         next POSSIBLEVALUE if !defined $PossibleValues{$ValueItem};
-        $DefaultValuesList{$ValueItem} = $PossibleValues{$ValueItem}
+        $DefaultValuesList{$ValueItem} = $PossibleValues{$ValueItem};
     }
 
     my $DefaultValue = ( defined $Param{DefaultValue} ? $Param{DefaultValue} : '' );

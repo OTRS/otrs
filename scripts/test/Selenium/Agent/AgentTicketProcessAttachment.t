@@ -142,7 +142,7 @@ $Selenium->RunTest(
             index(
                 $Selenium->execute_script("return \$('#AttachmentDeleteButton1').closest('li').text().trim()"),
                 'Main-Test1.txt'
-                ) > -1,
+            ) > -1,
             "'Main-Test1.txt' - uploaded"
         );
 

@@ -1798,9 +1798,9 @@ sub _ShowEdit {
     }
 
     $Param{StateSelection} = $LayoutObject->BuildSelection(
-        Data => $StateList || {},
-        Name => 'StateEntityID',
-        ID   => 'StateEntityID',
+        Data       => $StateList || {},
+        Name       => 'StateEntityID',
+        ID         => 'StateEntityID',
         SelectedID => $ProcessData->{StateEntityID}
             || $InactiveStateID,    # select inactive by default
         Sort        => 'AlphanumericKey',
@@ -2061,7 +2061,7 @@ sub _PushSessionScreen {
 
     # add screen to the screen path
     push @{ $Self->{ScreensPath} }, {
-        Action => $Self->{Action} || '',
+        Action    => $Self->{Action} || '',
         Subaction => $Param{Subaction},
         ID        => $Param{ID},
         EntityID  => $Param{EntityID},
@@ -2083,7 +2083,7 @@ sub _PushSessionScreen {
 }
 
 sub _GetFullProcessConfig {
-    my ( $Self, %Param )
+    my ( $Self, %Param );
 
 }
 

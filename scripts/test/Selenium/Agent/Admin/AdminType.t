@@ -119,7 +119,7 @@ $Selenium->RunTest(
             index(
                 $Selenium->get_page_source(),
                 "The ticket type is set as a default ticket type, so it cannot be set to invalid!"
-                ) > -1,
+            ) > -1,
             "$TypeRandomID ticket type is set as a default ticket type, so it cannot be set to invalid!",
         );
 

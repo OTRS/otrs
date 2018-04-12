@@ -1152,7 +1152,7 @@ sub SendEmail {
         if ($To) {
             $To .= ', ';
         }
-        $To .= $GetParam{$Key}
+        $To .= $GetParam{$Key};
     }
 
     # get article type ID param
@@ -1822,10 +1822,10 @@ sub _Mask {
         )
     {
         $Param{StandardTemplateStrg} = $LayoutObject->BuildSelection(
-            Data       => $QueueStandardTemplates    || {},
-            Name       => 'StandardTemplateID',
-            SelectedID => $Param{StandardTemplateID} || '',
-            Class      => 'Modernize',
+            Data         => $QueueStandardTemplates || {},
+            Name         => 'StandardTemplateID',
+            SelectedID   => $Param{StandardTemplateID} || '',
+            Class        => 'Modernize',
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
             Translation  => 1,

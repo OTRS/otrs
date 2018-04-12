@@ -214,8 +214,8 @@ sub EditFieldRender {
     );
 
     my $HTMLString = $Param{LayoutObject}->BuildSelection(
-        Data => $DataValues || {},
-        Name => $FieldName,
+        Data        => $DataValues || {},
+        Name        => $FieldName,
         SelectedID  => $Value,
         Translation => $FieldConfig->{TranslatableValues} || 0,
         Class       => $FieldClass,
@@ -367,7 +367,7 @@ sub EditFieldValueValidate {
 
         # overwrite possible values if PossibleValuesFilter
         if ( defined $Param{PossibleValuesFilter} ) {
-            $PossibleValues = $Param{PossibleValuesFilter}
+            $PossibleValues = $Param{PossibleValuesFilter};
         }
 
         # validate if value is in possible values list (but let pass empty values)
@@ -497,7 +497,7 @@ sub SearchFieldRender {
     if ( IsHashRefWithData($HistoricalValues) ) {
         for my $Key ( sort keys %{$HistoricalValues} ) {
             if ( !$SelectionData->{$Key} ) {
-                $SelectionData->{$Key} = $HistoricalValues->{$Key}
+                $SelectionData->{$Key} = $HistoricalValues->{$Key};
             }
         }
     }
@@ -666,7 +666,7 @@ sub StatsFieldParameterBuild {
     # add historic values to current values (if they don't exist anymore)
     for my $Key ( sort keys %{$HistoricalValues} ) {
         if ( !$Values->{$Key} ) {
-            $Values->{$Key} = $HistoricalValues->{$Key}
+            $Values->{$Key} = $HistoricalValues->{$Key};
         }
     }
 
@@ -730,18 +730,18 @@ sub TemplateValueTypeGet {
     if ( $Param{FieldType} eq 'Edit' ) {
         return {
             $FieldName => $EditValueType,
-            }
+        };
     }
     elsif ( $Param{FieldType} eq 'Search' ) {
         return {
             'Search_' . $FieldName => $SearchValueType,
-            }
+        };
     }
     else {
         return {
             $FieldName             => $EditValueType,
             'Search_' . $FieldName => $SearchValueType,
-            }
+        };
     }
 }
 
@@ -980,7 +980,7 @@ sub ColumnFilterValuesGet {
     # get the display value if still exist in dynamic field configuration
     for my $Key ( sort keys %{$ColumnFilterValues} ) {
         if ( $SelectionData->{$Key} ) {
-            $ColumnFilterValues->{$Key} = $SelectionData->{$Key}
+            $ColumnFilterValues->{$Key} = $SelectionData->{$Key};
         }
     }
 

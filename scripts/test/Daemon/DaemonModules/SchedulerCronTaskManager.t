@@ -217,7 +217,7 @@ for my $Test (@Tests) {
         $CacheObject->CleanUp(
             Type => 'SchedulerDBRecurrentTaskExecute',
         );
-        print "  Cache cleared before task manager execution...\n"
+        print "  Cache cleared before task manager execution...\n";
     }
 
     # run the task manager

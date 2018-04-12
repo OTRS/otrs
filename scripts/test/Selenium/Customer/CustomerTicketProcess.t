@@ -97,7 +97,7 @@ $Selenium->RunTest(
             push @Types, {
                 ID   => $TypeID,
                 Name => $TypeName,
-                }
+            };
         }
 
         my $ACLObject = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');

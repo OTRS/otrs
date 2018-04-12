@@ -236,7 +236,7 @@ sub Run {
 
     my $PermissionUserID = $UserID;
     if ( $UserType eq 'Customer' ) {
-        $UserID = $Kernel::OM->Get('Kernel::Config')->Get('CustomerPanelUserID')
+        $UserID = $Kernel::OM->Get('Kernel::Config')->Get('CustomerPanelUserID');
     }
 
     # check needed hashes
@@ -369,7 +369,7 @@ sub Run {
             return {
                 Success => 0,
                 %{$ArticleCheck},
-                }
+            };
         }
         return $Self->ReturnError( %{$ArticleCheck} );
     }
@@ -660,7 +660,7 @@ sub _CheckTicket {
     # if everything is OK then return Success
     return {
         Success => 1,
-        }
+    };
 }
 
 =item _CheckArticle()
@@ -1319,22 +1319,22 @@ sub _TicketCreate {
 
     # create article
     my $ArticleID = $TicketObject->ArticleCreate(
-        NoAgentNotify  => $Article->{NoAgentNotify}  || 0,
-        TicketID       => $TicketID,
-        ArticleTypeID  => $Article->{ArticleTypeID}  || '',
-        ArticleType    => $Article->{ArticleType}    || '',
-        SenderTypeID   => $Article->{SenderTypeID}   || '',
-        SenderType     => $Article->{SenderType}     || '',
-        From           => $From,
-        To             => $To,
-        Subject        => $Article->{Subject},
-        Body           => $Article->{Body},
-        MimeType       => $Article->{MimeType}       || '',
-        Charset        => $Article->{Charset}        || '',
-        ContentType    => $Article->{ContentType}    || '',
-        UserID         => $Param{UserID},
-        HistoryType    => $Article->{HistoryType},
-        HistoryComment => $Article->{HistoryComment} || '%%',
+        NoAgentNotify    => $Article->{NoAgentNotify} || 0,
+        TicketID         => $TicketID,
+        ArticleTypeID    => $Article->{ArticleTypeID} || '',
+        ArticleType      => $Article->{ArticleType} || '',
+        SenderTypeID     => $Article->{SenderTypeID} || '',
+        SenderType       => $Article->{SenderType} || '',
+        From             => $From,
+        To               => $To,
+        Subject          => $Article->{Subject},
+        Body             => $Article->{Body},
+        MimeType         => $Article->{MimeType} || '',
+        Charset          => $Article->{Charset} || '',
+        ContentType      => $Article->{ContentType} || '',
+        UserID           => $Param{UserID},
+        HistoryType      => $Article->{HistoryType},
+        HistoryComment   => $Article->{HistoryComment} || '%%',
         AutoResponseType => $Article->{AutoResponseType},
         OrigHeader       => {
             From    => $From,
@@ -1348,7 +1348,7 @@ sub _TicketCreate {
         return {
             Success      => 0,
             ErrorMessage => 'Article could not be created, please contact the system administrator'
-            }
+        };
     }
 
     # set owner (if owner or owner id is given)
@@ -1465,7 +1465,7 @@ sub _TicketCreate {
             Success      => 0,
             ErrorMessage => 'Could not get new ticket information, please contact the system'
                 . ' administrator',
-            }
+        };
     }
 
     return {

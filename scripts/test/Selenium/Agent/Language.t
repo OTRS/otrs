@@ -73,7 +73,7 @@ $Selenium->RunTest(
                 index(
                     $Selenium->get_page_source(),
                     $LanguageObject->Get('Preferences updated successfully!')
-                    ) > -1,
+                ) > -1,
                 "Success notification in $Language",
             );
         }

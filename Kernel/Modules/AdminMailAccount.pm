@@ -399,7 +399,7 @@ sub _MaskUpdateMailAccount {
         Name           => 'QueueID',
         SelectedID     => $Param{QueueID},
         OnChangeSubmit => 0,
-        Class => 'Modernize Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
+        Class          => 'Modernize Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
     );
     $LayoutObject->Block(
         Name => 'Overview',
@@ -447,9 +447,9 @@ sub _MaskAddMailAccount {
     );
 
     $Param{TrustedOption} = $LayoutObject->BuildSelection(
-        Data  => $Kernel::OM->Get('Kernel::Config')->Get('YesNoOptions'),
-        Name  => 'Trusted',
-        Class => 'Modernize ' . ( $Param{Errors}->{'TrustedInvalid'} || '' ),
+        Data       => $Kernel::OM->Get('Kernel::Config')->Get('YesNoOptions'),
+        Name       => 'Trusted',
+        Class      => 'Modernize ' . ( $Param{Errors}->{'TrustedInvalid'} || '' ),
         SelectedID => $Param{Trusted} || 0,
     );
 
@@ -468,7 +468,7 @@ sub _MaskAddMailAccount {
         Name           => 'QueueID',
         SelectedID     => $Param{QueueID},
         OnChangeSubmit => 0,
-        Class => 'Modernize Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
+        Class          => 'Modernize Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
     );
     $LayoutObject->Block(
         Name => 'Overview',

@@ -102,7 +102,7 @@ sub Run {
                 Filename    => $Filename,
             );
 
-            $Self->Print("  Added certificate $CertificateAttributes{Fingerprint} (<yellow>$Filename</yellow>)\n")
+            $Self->Print("  Added certificate $CertificateAttributes{Fingerprint} (<yellow>$Filename</yellow>)\n");
         }
 
         $Self->Print("\n<green>Done.</green>\n");

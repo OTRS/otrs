@@ -1836,7 +1836,7 @@ sub RandomValueSet {
         );
     }
 
-    return $Result
+    return $Result;
 }
 
 =item HistoricalValuesGet()

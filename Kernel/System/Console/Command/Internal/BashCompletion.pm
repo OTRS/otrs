@@ -69,7 +69,7 @@ sub Run {
         # We need to extract the command name from the command line if present.
         my $CompLine = $ENV{COMP_LINE};
         if ( !$CompLine || !$CompLine =~ m/otrs\.Console\.pl/ ) {
-            $Self->ExitCodeError()
+            $Self->ExitCodeError();
         }
         $CompLine =~ s/.*otrs\.Console\.pl\s*//xms;
         my @Elements = split( m/\s+/, $CompLine );

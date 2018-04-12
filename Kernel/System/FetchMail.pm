@@ -160,7 +160,7 @@ sub Fetch {
     for my $Location (@PossibleLocations) {
         if ( -e $Location ) {
             $FetchMailBin = $Location;
-            last LOCATION
+            last LOCATION;
         }
     }
 
@@ -169,7 +169,7 @@ sub Fetch {
             Priority => 'error',
             Message  => "FetchMail bin was not found",
         );
-        return
+        return;
     }
 
     my %ParamLookup = (

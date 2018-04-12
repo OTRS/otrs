@@ -46,7 +46,7 @@ sub Run {
             $Self->Print("<yellow>Could not find Author $Author, skipping.</yellow>\n");
             next AUTHOR;
         }
-        $FileHandle->print("* $Author\n")
+        $FileHandle->print("* $Author\n");
     }
 
     $FileHandle->close();

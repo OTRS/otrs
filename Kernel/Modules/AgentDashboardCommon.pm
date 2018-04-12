@@ -571,7 +571,7 @@ sub Run {
         # if column is not a default column, add it for translation
         for my $Column ( sort keys %{ $Element{Config}{DefaultColumns} } ) {
             if ( !defined $Columns->{$Column} ) {
-                $Columns->{$Column} = $Element{Config}{DefaultColumns}{$Column}
+                $Columns->{$Column} = $Element{Config}{DefaultColumns}{$Column};
             }
         }
 

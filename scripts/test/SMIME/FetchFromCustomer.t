@@ -326,8 +326,8 @@ my %CustomerUserConfig = (
     CustomerUserSearchSuffix           => '*',
     CustomerUserSearchListLimit        => 250,
     CustomerUserPostMasterSearchFields => ['email'],
-    CustomerUserNameFields     => [ 'title', 'first_name', 'last_name' ],
-    CustomerUserEmailUniqCheck => 1,
+    CustomerUserNameFields             => [ 'title', 'first_name', 'last_name' ],
+    CustomerUserEmailUniqCheck         => 1,
 
     # show now own tickets in customer panel, CompanyTickets
     CustomerUserExcludePrimaryCustomerID => 0,
