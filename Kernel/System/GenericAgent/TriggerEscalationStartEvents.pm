@@ -77,8 +77,8 @@ sub Run {
     # do not trigger escalation start events outside busincess hours
     my $CountedTime = $Self->{TimeObject}->WorkingTime(
         StartTime => $Self->{TimeObject}->SystemTime() - ( 10 * 60 ),
-        StopTime => $Self->{TimeObject}->SystemTime(),
-        Calendar => $Calendar || '',
+        StopTime  => $Self->{TimeObject}->SystemTime(),
+        Calendar  => $Calendar || '',
     );
     if ( !$CountedTime ) {
         if ( $Self->{Debug} ) {

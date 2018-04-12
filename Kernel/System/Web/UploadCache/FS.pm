@@ -174,7 +174,7 @@ sub FormIDGetAllFilesData {
 
             # remove meta data in files
             if ( $FileSize > 30 ) {
-                $FileSize = $FileSize - 30
+                $FileSize = $FileSize - 30;
             }
             if ( $FileSize > 1048576 ) {    # 1024 * 1024
                 $FileSize = sprintf "%.1f MBytes", ( $FileSize / 1048576 );    # 1024 * 1024
@@ -259,7 +259,7 @@ sub FormIDGetAllFilesMeta {
 
             # remove meta data in files
             if ( $FileSize > 30 ) {
-                $FileSize = $FileSize - 30
+                $FileSize = $FileSize - 30;
             }
             if ( $FileSize > 1048576 ) {    # 1024 * 1024
                 $FileSize = sprintf "%.1f MBytes", ( $FileSize / 1048576 );    # 1024 * 1024

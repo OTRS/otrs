@@ -41,7 +41,7 @@ foreach my $Author ( sort keys %Seen ) {
         print STDERR "Could not find Author $Author, skipping.\n";
         next AUTHOR;
     }
-    $FileHandle->print("* $Author\n")
+    $FileHandle->print("* $Author\n");
 }
 
 $FileHandle->close();

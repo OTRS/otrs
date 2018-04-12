@@ -415,7 +415,7 @@ sub _Status {
 
     # check if service is running (state 4)
     if ( $ServiceStatus->{CurrentState} eq 4 ) {
-        print "Running\n"
+        print "Running\n";
     }
     else {
         print

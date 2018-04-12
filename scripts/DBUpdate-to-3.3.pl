@@ -274,11 +274,11 @@ sub _CheckFrameworkVersion {
     }
 
     if ( $ProductName ne 'OTRS' ) {
-        die "Error: No OTRS system found"
+        die "Error: No OTRS system found";
     }
     if ( $Version !~ /^3\.3(.*)$/ ) {
 
-        die "Error: You are trying to run this script on the wrong framework version $Version!"
+        die "Error: You are trying to run this script on the wrong framework version $Version!";
     }
 
     return 1;

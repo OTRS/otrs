@@ -310,7 +310,7 @@ sub ValueGet {
     );
 
     if ( exists $CacheData{ $Param{FieldID} } ) {
-        return $CacheData{ $Param{FieldID} }
+        return $CacheData{ $Param{FieldID} };
     }
 
     return [];
@@ -438,7 +438,7 @@ sub ValueValidate {
         return if !$TimeStamp;
 
         # compare if the date is the same
-        return if !( $Value{ValueDateTime} eq $TimeStamp )
+        return if !( $Value{ValueDateTime} eq $TimeStamp );
     }
 
     # validate integer

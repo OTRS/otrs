@@ -588,7 +588,7 @@ sub _ShowScreen {
         # set if is Synchonous or Asynchronous
         my $Asynchronous = 'No';
         if ( $Event->{Asynchronous} ) {
-            $Asynchronous = 'Yes'
+            $Asynchronous = 'Yes';
         }
 
         # set the event type ( event object like Article or Ticket) not currently in use

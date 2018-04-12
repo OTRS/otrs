@@ -2106,7 +2106,7 @@ sub _XML2Perl {
                     $SubHash{
                         $ConfigItem->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]
                             ->{Key}
-                        } = $ConfigItem->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]
+                    } = $ConfigItem->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]
                         ->{Content};
                 }
                 $Hash{ $Array[$Item]->{Key} } = \%SubHash;

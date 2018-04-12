@@ -1176,7 +1176,7 @@ sub ConnectToDB {
         $Param{DSN} = "DBI:Pg:host=$Param{DBHost};dbname=$Param{DBName}";
     }
     elsif ( $Param{DBType} eq 'oracle' ) {
-        $Param{DSN} = "DBI:Oracle:host=$Param{DBHost};sid=$Param{DBSID};port=$Param{DBPort};"
+        $Param{DSN} = "DBI:Oracle:host=$Param{DBHost};sid=$Param{DBSID};port=$Param{DBPort};";
     }
 
     # extract driver to load for install test

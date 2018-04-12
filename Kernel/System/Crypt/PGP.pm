@@ -939,7 +939,7 @@ sub _HandleLog {
         $ComputableLog{$Tag} = {
             Log => $LogDictionary->{$Tag} || $Line,
             MessageLong => $Line || $LogDictionary->{$Tag},
-            }
+        };
     }
 
     # get clean log lines

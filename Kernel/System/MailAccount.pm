@@ -492,7 +492,7 @@ sub MailAccountCheck {
     my %Check   = $Backend->Connect(%Param);
 
     if ( $Check{Successful} ) {
-        return ( Successful => 1 )
+        return ( Successful => 1 );
     }
     else {
         return (

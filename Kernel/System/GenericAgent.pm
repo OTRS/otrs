@@ -991,7 +991,7 @@ sub _JobRunTicket {
             Subject => $Param{Config}->{New}->{Note}->{Subject}
                 || $Param{Config}->{New}->{NoteSubject}
                 || 'Note',
-            Body => $Param{Config}->{New}->{Note}->{Body} || $Param{Config}->{New}->{NoteBody},
+            Body           => $Param{Config}->{New}->{Note}->{Body} || $Param{Config}->{New}->{NoteBody},
             MimeType       => 'text/plain',
             Charset        => 'utf-8',
             UserID         => $Param{UserID},

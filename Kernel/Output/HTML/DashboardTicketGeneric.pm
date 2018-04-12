@@ -664,7 +664,7 @@ sub Run {
         next COLUMNNAME if !$GetColumnFilter{$ColumnName};
         $ColumnFilterLink
             .= ';' . $Self->{LayoutObject}->Ascii2Html( Text => 'ColumnFilter' . $ColumnName )
-            . '=' . $Self->{LayoutObject}->Ascii2Html( Text => $GetColumnFilter{$ColumnName} )
+            . '=' . $Self->{LayoutObject}->Ascii2Html( Text => $GetColumnFilter{$ColumnName} );
     }
 
     my $LinkPage =
@@ -831,7 +831,7 @@ sub Run {
                     Name => 'ContentLargeTicketGenericHeaderTicketNumberColumn',
                     Data => {
                         %Param,
-                        CSS => $CSS || '',
+                        CSS     => $CSS || '',
                         Name    => $Self->{Name},
                         OrderBy => $OrderBy || 'Up',
                         Filter  => $Self->{Filter},
@@ -1420,7 +1420,7 @@ sub Run {
                     $Self->{LayoutObject}->Block(
                         Name => "ContentLargeTicketTitle",
                         Data => {
-                            Title => "$DataValue " || '',
+                            Title      => "$DataValue " || '',
                             WholeTitle => $WholeTitle,
                             Class      => $CSSClass || '',
                         },

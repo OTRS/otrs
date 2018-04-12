@@ -117,7 +117,7 @@ elsif ( $DatabaseDSN =~ m/:pg/i ) {
     $DB     = 'PostgreSQL';
     $DBDump = 'pg_dump';
     if ( $DatabaseDSN !~ m/host=/i ) {
-        $DatabaseHost = ''
+        $DatabaseHost = '';
     }
 }
 else {
@@ -244,7 +244,7 @@ else {
     }
 
     if ($DatabaseHost) {
-        $DatabaseHost = "-h $DatabaseHost"
+        $DatabaseHost = "-h $DatabaseHost";
     }
 
     if (

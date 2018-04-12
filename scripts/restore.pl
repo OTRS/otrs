@@ -98,7 +98,7 @@ elsif ( $DatabaseDSN =~ m/:pg/i ) {
     $DB     = 'PostgreSQL';
     $DBDump = 'psql';
     if ( $DatabaseDSN !~ m/host=/i ) {
-        $DatabaseHost = ''
+        $DatabaseHost = '';
     }
 }
 else {
@@ -202,7 +202,7 @@ if ( $DB =~ m/mysql/i ) {
 }
 else {
     if ($DatabaseHost) {
-        $DatabaseHost = "-h $DatabaseHost"
+        $DatabaseHost = "-h $DatabaseHost";
     }
 
     if ( -e "$Opts{b}/DatabaseBackup.sql.gz" ) {

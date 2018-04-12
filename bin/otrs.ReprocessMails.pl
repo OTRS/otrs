@@ -80,14 +80,14 @@ for my $File (@Files) {
             Message  => "Successfully reprocessed email $File.",
         );
         unlink $File;
-        print "Ok.\n\n"
+        print "Ok.\n\n";
     }
     else {
         $CommonObject{LogObject}->Log(
             Priority => 'error',
             Message  => "Could not re-process email $File.",
         );
-        print "Fail.\n\n"
+        print "Fail.\n\n";
     }
 }
 

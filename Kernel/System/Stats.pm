@@ -127,7 +127,7 @@ sub new {
 
     # use ticket object if it comes in the params, but do not create it otherwise
     if ( defined $Param{TicketObject} ) {
-        $Self->{TicketObject} = $Param{TicketObject}
+        $Self->{TicketObject} = $Param{TicketObject};
     }
 
     return $Self;
@@ -1566,7 +1566,7 @@ sub GetObjectBehaviours {
 
     # check if it is cached
     if ( $Self->{'Cache::ObjectBehaviours'}->{$Module} ) {
-        return $Self->{'Cache::ObjectBehaviours'}->{$Module}
+        return $Self->{'Cache::ObjectBehaviours'}->{$Module};
     }
 
     # load module, return if module does not exist
@@ -2999,7 +2999,7 @@ sub _GenerateDynamicStats {
             $Second = 0;
             $Minute = 0;
             $Hour   = 0;
-            ( $Year, $Month, $Day ) = Monday_of_Week( Week_of_Year( $Year, $Month, $Day ) )
+            ( $Year, $Month, $Day ) = Monday_of_Week( Week_of_Year( $Year, $Month, $Day ) );
         }
         elsif ( $Element->{SelectedValues}[0] eq 'Month' ) {
             $Second = 0;
@@ -3955,7 +3955,7 @@ sub _GetCacheString {
         for my $UseRef ( @{ $Param{$Use} } ) {
             $CacheString .= '__' . $UseRef->{Name} . '_';
             if ( $UseRef->{SelectedValues} ) {
-                $CacheString .= join( '_', sort @{ $UseRef->{SelectedValues} } )
+                $CacheString .= join( '_', sort @{ $UseRef->{SelectedValues} } );
             }
             elsif ( $UseRef->{TimeStart} && $UseRef->{TimeStop} ) {
                 $CacheString .= $UseRef->{TimeStart} . '-' . $UseRef->{TimeStop};

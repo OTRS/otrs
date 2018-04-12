@@ -107,9 +107,9 @@ if ( $Opts{S} ) {
 
 # add queue
 my $Success = $CommonObject{QueueObject}->QueueAdd(
-    Name            => $Opts{n},
-    GroupID         => $GroupID,
-    SystemAddressID => $SystemAddressID || $Opts{s} || undef,
+    Name              => $Opts{n},
+    GroupID           => $GroupID,
+    SystemAddressID   => $SystemAddressID || $Opts{s} || undef,
     Comment           => $Opts{c} || undef,
     UnlockTimeout     => $Opts{t} || undef,
     FirstResponseTime => $Opts{r} || undef,

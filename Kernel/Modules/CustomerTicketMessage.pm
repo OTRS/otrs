@@ -437,7 +437,7 @@ sub Run {
 
             # set the correct queue name in $To if it was altered
             if ( $To ne $Tos->{$NewQueueID} ) {
-                $To = $Tos->{$NewQueueID}
+                $To = $Tos->{$NewQueueID};
             }
         }
 

@@ -448,7 +448,7 @@ sub CacheGenerate {
 
     my %CustomerFrontends = (
         %{ $Self->{ConfigObject}->Get('CustomerFrontend::Module') // {} },
-        %{ $Self->{ConfigObject}->Get('PublicFrontend::Module')   // {} },
+        %{ $Self->{ConfigObject}->Get('PublicFrontend::Module') //   {} },
     );
 
     for my $FrontendModule ( sort { $a cmp $b } keys %CustomerFrontends ) {

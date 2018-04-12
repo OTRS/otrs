@@ -229,7 +229,7 @@ sub Run {
     # fetch also FadeAway processes to continue working with existing tickets, but not to start new
     #    ones
     if ( !$Self->{IsMainWindow} && $Self->{Subaction} ) {
-        push @ProcessStates, 'FadeAway'
+        push @ProcessStates, 'FadeAway';
     }
 
     # get the list of processes that customer can start
@@ -3726,9 +3726,9 @@ sub _DisplayProcessList {
         if ( $Param{ProcessEntityID} && !$Param{ProcessList}->{ $Param{ProcessEntityID} } );
 
     $Param{ProcessList} = $Self->{LayoutObject}->BuildSelection(
-        Class => 'Validate_Required' . ( $Param{Errors}->{ProcessEntityIDInvalid} || ' ' ),
-        Data  => $Param{ProcessList},
-        Name  => 'ProcessEntityID',
+        Class        => 'Validate_Required' . ( $Param{Errors}->{ProcessEntityIDInvalid} || ' ' ),
+        Data         => $Param{ProcessList},
+        Name         => 'ProcessEntityID',
         SelectedID   => $Param{ProcessEntityID},
         PossibleNone => 1,
         Sort         => 'AlphanumericValue',

@@ -247,7 +247,7 @@ sub PIDDelete {
         $SQL .= '
         AND process_host = ?';
 
-        push @Bind, \$Self->{Host}
+        push @Bind, \$Self->{Host};
     }
 
     # sql

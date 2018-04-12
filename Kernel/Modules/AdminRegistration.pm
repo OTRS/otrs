@@ -116,7 +116,7 @@ sub Run {
         my %Result = (
             Success => $Response{Success} ? 'OK' : 'False',
             Message => $Response{Reason} || '',
-            Token   => $Response{Token}  || '',
+            Token   => $Response{Token} || '',
         );
 
         my $Output = $Self->{LayoutObject}->Header();

@@ -267,10 +267,10 @@ sub _Edit {
         Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
     $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data       => { $Self->{QueueObject}->QueueList( Valid => 1 ), },
-        Name       => 'QueueID',
-        SelectedID => $Param{QueueID},
-        Class => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
+        Data           => { $Self->{QueueObject}->QueueList( Valid => 1 ), },
+        Name           => 'QueueID',
+        SelectedID     => $Param{QueueID},
+        Class          => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
         OnChangeSubmit => 0,
     );
 

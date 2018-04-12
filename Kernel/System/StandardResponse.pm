@@ -249,14 +249,14 @@ sub StandardResponseLookup {
         && $Param{StandardResponseID}
         )
     {
-        $Param{StandardTemplateID} = $Param{StandardResponseID}
+        $Param{StandardTemplateID} = $Param{StandardResponseID};
     }
     if (
         ( !defined $Param{StandardTemplate} || !$Param{StandardTemplate} )
         && $Param{StandardResponse}
         )
     {
-        $Param{StandardTemplate} = $Param{StandardResponse}
+        $Param{StandardTemplate} = $Param{StandardResponse};
     }
 
     return $Self->StandardTemplateLookup(%Param);

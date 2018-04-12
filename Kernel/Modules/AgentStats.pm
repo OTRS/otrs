@@ -2193,7 +2193,7 @@ sub Run {
                     StatID       => $Param{StatID},
                     UserGetParam => $StatsSettings,
                 );
-                }
+            };
         }
 
         # called normally within the stats area - generate stats now and use provided configuraton

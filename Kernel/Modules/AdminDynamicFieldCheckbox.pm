@@ -452,7 +452,7 @@ sub _ShowScreen {
         if ( $DynamicfieldNamesList{$OrderNumber} && $OrderNumber ne $Param{FieldOrder} ) {
             $OrderNamesList{$OrderNumber} = $OrderNumber . ' - '
                 . $CurrentlyText
-                . $DynamicfieldNamesList{$OrderNumber}
+                . $DynamicfieldNamesList{$OrderNumber};
         }
     }
 

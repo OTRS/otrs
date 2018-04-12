@@ -708,7 +708,7 @@ sub _Overview {
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewResultRow',
                     Data => {
-                        Valid => $ValidList{ $UserData{ValidID} || '' } || '-',
+                        Valid       => $ValidList{ $UserData{ValidID} || '' } || '-',
                         Search      => $Param{Search},
                         CustomerKey => $ListKey,
                         %UserData,

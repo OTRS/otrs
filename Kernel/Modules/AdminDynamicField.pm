@@ -363,7 +363,7 @@ sub _DynamicFieldsListShow {
 
                 # set MaxFieldOrder
                 if ( int $DynamicFieldData->{FieldOrder} > int $MaxFieldOrder ) {
-                    $MaxFieldOrder = $DynamicFieldData->{FieldOrder}
+                    $MaxFieldOrder = $DynamicFieldData->{FieldOrder};
                 }
             }
         }

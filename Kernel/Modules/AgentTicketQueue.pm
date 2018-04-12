@@ -402,7 +402,7 @@ sub Run {
         next COLUMNNAME if $GetColumnFilter{$ColumnName} eq '';
         $ColumnFilterLink
             .= ';' . $Self->{LayoutObject}->Ascii2Html( Text => 'ColumnFilter' . $ColumnName )
-            . '=' . $Self->{LayoutObject}->Ascii2Html( Text => $GetColumnFilter{$ColumnName} )
+            . '=' . $Self->{LayoutObject}->Ascii2Html( Text => $GetColumnFilter{$ColumnName} );
     }
 
     my $LinkPage = 'QueueID='
