@@ -240,7 +240,7 @@ sub _Edit {
         Data       => { $Self->{StateObject}->StateTypeList( UserID => 1 ), },
         Name       => 'TypeID',
         SelectedID => $Param{TypeID},
-        Class => 'Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
+        Class      => 'Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
     );
     $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',

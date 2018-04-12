@@ -504,7 +504,7 @@ sub _Edit {
         Data       => { $Self->{SignatureObject}->SignatureList( Valid => 1 ), },
         Name       => 'SignatureID',
         SelectedID => $Param{SignatureID},
-        Class => 'Validate_Required ' . ( $Param{Errors}->{'SignatureIDInvalid'} || '' ),
+        Class      => 'Validate_Required ' . ( $Param{Errors}->{'SignatureIDInvalid'} || '' ),
     );
     $Param{FollowUpLockYesNoOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
@@ -517,7 +517,7 @@ sub _Edit {
         Name       => 'SystemAddressID',
         SelectedID => $Param{SystemAddressID},
         Max        => 200,
-        Class => 'Validate_Required ' . ( $Param{Errors}->{'SystemAddressIDInvalid'} || '' ),
+        Class      => 'Validate_Required ' . ( $Param{Errors}->{'SystemAddressIDInvalid'} || '' ),
     );
 
     my %DefaultSignKeyList = ();
@@ -537,7 +537,7 @@ sub _Edit {
         Data       => { $Self->{SalutationObject}->SalutationList( Valid => 1 ), },
         Name       => 'SalutationID',
         SelectedID => $Param{SalutationID},
-        Class => 'Validate_Required ' . ( $Param{Errors}->{'SalutationIDInvalid'} || '' ),
+        Class      => 'Validate_Required ' . ( $Param{Errors}->{'SalutationIDInvalid'} || '' ),
     );
     $Param{FollowUpOption} = $Self->{LayoutObject}->BuildSelection(
         Data => {

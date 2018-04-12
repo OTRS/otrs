@@ -645,7 +645,7 @@ sub _Show {
             Space => ' ',
         );
         if ( 60 * 60 * 1 > $Article{FirstResponseTime} ) {
-            $Article{FirstResponseTimeClass} = 'Warning'
+            $Article{FirstResponseTimeClass} = 'Warning';
         }
         $Self->{LayoutObject}->Block(
             Name => 'FirstResponseTime',
@@ -664,7 +664,7 @@ sub _Show {
             Space => ' ',
         );
         if ( 60 * 60 * 1 > $Article{UpdateTime} ) {
-            $Article{UpdateTimeClass} = 'Warning'
+            $Article{UpdateTimeClass} = 'Warning';
         }
         $Self->{LayoutObject}->Block(
             Name => 'UpdateTime',
@@ -683,7 +683,7 @@ sub _Show {
             Space => ' ',
         );
         if ( 60 * 60 * 1 > $Article{SolutionTime} ) {
-            $Article{SolutionTimeClass} = 'Warning'
+            $Article{SolutionTimeClass} = 'Warning';
         }
         $Self->{LayoutObject}->Block(
             Name => 'SolutionTime',

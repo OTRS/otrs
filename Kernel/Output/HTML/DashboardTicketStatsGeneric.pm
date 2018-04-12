@@ -131,27 +131,27 @@ sub Run {
     # calculate the maximum height and the tick steps of y axis
     if ( $Max <= 10 ) {
         for ( my $i = 0; $i <= 10; $i += 2 ) {
-            push @TicketYAxis, $i
+            push @TicketYAxis, $i;
         }
     }
     elsif ( $Max <= 20 ) {
         for ( my $i = 0; $i <= 20; $i += 4 ) {
-            push @TicketYAxis, $i
+            push @TicketYAxis, $i;
         }
     }
     elsif ( $Max <= 100 ) {
         for ( my $i = 0; $i <= ( ( ( $Max - $Max % 10 ) / 10 ) + 1 ) * 10; $i += 10 ) {
-            push @TicketYAxis, $i
+            push @TicketYAxis, $i;
         }
     }
     elsif ( $Max <= 1000 ) {
         for ( my $i = 0; $i <= ( ( ( $Max - $Max % 100 ) / 100 ) + 1 ) * 100; $i += 100 ) {
-            push @TicketYAxis, $i
+            push @TicketYAxis, $i;
         }
     }
     else {
         for ( my $i = 0; $i <= ( ( ( $Max - $Max % 1000 ) / 1000 ) + 1 ) * 1000; $i += 1000 ) {
-            push @TicketYAxis, $i
+            push @TicketYAxis, $i;
         }
     }
     my $ClosedText  = $Self->{LayoutObject}->{LanguageObject}->Get('Closed');

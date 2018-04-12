@@ -279,11 +279,11 @@ sub Run {
                     $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Day' },
                     $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Month' },
                     $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Year' }
-                    ) = $Self->{TimeObject}->SystemTime2Date(
+                ) = $Self->{TimeObject}->SystemTime2Date(
                     SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
                         String => $Ticket{ 'TicketFreeTime' . $Count },
                     ),
-                    );
+                );
                 $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' } = 1;
             }
             if ( $Self->{Config}->{TicketFreeTime}->{$Count} == 2 ) {

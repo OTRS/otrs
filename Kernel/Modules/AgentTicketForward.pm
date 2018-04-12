@@ -402,11 +402,11 @@ sub Form {
                 $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Day' },
                 $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Month' },
                 $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Year' }
-                ) = $Self->{TimeObject}->SystemTime2Date(
+            ) = $Self->{TimeObject}->SystemTime2Date(
                 SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
                     String => $Ticket{ 'TicketFreeTime' . $Count },
                 ),
-                );
+            );
             $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' } = 1;
         }
 
@@ -872,7 +872,7 @@ sub SendEmail {
         if ($To) {
             $To .= ', ';
         }
-        $To .= $GetParam{$Key}
+        $To .= $GetParam{$Key};
     }
     my $ArticleID = $Self->{TicketObject}->ArticleSend(
         ArticleTypeID  => $Self->{GetParam}->{ArticleTypeID},

@@ -364,7 +364,7 @@ sub _MaskUpdateMailAccount {
         Name           => 'QueueID',
         SelectedID     => $Param{QueueID},
         OnChangeSubmit => 0,
-        Class => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
+        Class          => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
     );
     $Self->{LayoutObject}->Block(
         Name => 'Overview',

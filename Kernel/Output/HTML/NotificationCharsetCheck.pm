@@ -35,7 +35,7 @@ sub Run {
 
     for ( $Self->{LayoutObject}->{LanguageObject}->GetPossibleCharsets() ) {
         if ( $Self->{LayoutObject}->{UserCharset} =~ /^$_$/i ) {
-            return ''
+            return '';
         }
     }
 

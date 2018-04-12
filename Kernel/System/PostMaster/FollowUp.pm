@@ -120,7 +120,7 @@ sub Run {
 
     if ( $Ticket{StateType} !~ /^new/ || $GetParam{'X-OTRS-FollowUp-State'} ) {
         $Self->{TicketObject}->TicketStateSet(
-            State => $GetParam{'X-OTRS-FollowUp-State'} || $State,
+            State    => $GetParam{'X-OTRS-FollowUp-State'} || $State,
             TicketID => $Param{TicketID},
             UserID   => $Param{InmailUserID},
         );

@@ -293,7 +293,7 @@ sub _Edit {
         Data       => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
         Name       => 'AddressID',
         SelectedID => $Param{AddressID},
-        Class => 'Validate_Required ' . ( $Param{Errors}->{'AddressIDInvalid'} || '' ),
+        Class      => 'Validate_Required ' . ( $Param{Errors}->{'AddressIDInvalid'} || '' ),
     );
 
     $Self->{LayoutObject}->Block(

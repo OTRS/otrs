@@ -132,12 +132,12 @@ $Self->True(
 %Ah = (
     'Test' => 123,
     A      => [ 1, 3, 4 ],
-    B => { a => 1 },
+    B      => { a => 1 },
 );
 %Bh = (
     'Test' => 123,
     A      => [ 1, 3, 4 ],
-    B => { a => 1 },
+    B      => { a => 1 },
 );
 $Diff = $SysConfigObject->_DataDiff(
     Data1 => \%Ah,
@@ -151,7 +151,7 @@ $Self->False(
 %Ah = (
     'Test' => 123,
     A      => [ 1, 3, 4 ],
-    B => { a => 1 },
+    B      => { a => 1 },
 );
 %Bh = (
     'Test' => 123,

@@ -929,7 +929,7 @@ sub AgentMove {
                 DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime')
                     || 0,
                 %Param,
-                Class => $Param{DateInvalid} || ' ',
+                Class                => $Param{DateInvalid} || ' ',
                 Validate             => 1,
                 ValidateDateInFuture => 1,
             );

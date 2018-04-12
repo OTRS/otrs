@@ -181,13 +181,13 @@ sub MigrateCustomerNotification {
         );
         while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
             if ( $Row[0] ) {
-                push @{ $Events{TicketStateUpdate} }, $QueueID,
+                push @{ $Events{TicketStateUpdate} }, $QueueID,;
             }
             if ( $Row[1] ) {
-                push @{ $Events{TicketQueueUpdate} }, $QueueID,
+                push @{ $Events{TicketQueueUpdate} }, $QueueID,;
             }
             if ( $Row[2] ) {
-                push @{ $Events{TicketOwnerUpdate} }, $QueueID,
+                push @{ $Events{TicketOwnerUpdate} }, $QueueID,;
             }
         }
     }

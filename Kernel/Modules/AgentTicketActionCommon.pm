@@ -978,9 +978,9 @@ sub _Mask {
             UserID => $Self->{UserID},
         );
         $Param{TypeStrg} = $Self->{LayoutObject}->BuildSelection(
-            Class => 'Validate_Required' . ( $Param{Errors}->{TypeIDInvalid} || ' ' ),
-            Data  => \%Type,
-            Name  => 'TypeID',
+            Class        => 'Validate_Required' . ( $Param{Errors}->{TypeIDInvalid} || ' ' ),
+            Data         => \%Type,
+            Name         => 'TypeID',
             SelectedID   => $Param{TypeID},
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
@@ -1191,7 +1191,7 @@ sub _Mask {
                     DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime')
                         || 0,
                     %Param,
-                    Class => $Param{DateInvalid} || ' ',
+                    Class                => $Param{DateInvalid} || ' ',
                     Validate             => 1,
                     ValidateDateInFuture => 1,
                 );

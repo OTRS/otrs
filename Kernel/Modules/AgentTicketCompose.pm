@@ -1058,7 +1058,7 @@ $QData{"Signature"}
             next if !$Data{$Line};
             for my $Email ( Mail::Address->parse( $Data{$Line} ) ) {
                 if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                    $Error{ $Line . "Invalid" } = " ServerError"
+                    $Error{ $Line . "Invalid" } = " ServerError";
                 }
             }
         }
@@ -1113,11 +1113,11 @@ $QData{"Signature"}
                     $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Day' },
                     $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Month' },
                     $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Year' }
-                    ) = $Self->{TimeObject}->SystemTime2Date(
+                ) = $Self->{TimeObject}->SystemTime2Date(
                     SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
                         String => $Ticket{ 'TicketFreeTime' . $Count },
                     ),
-                    );
+                );
                 $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' } = 1;
             }
 
