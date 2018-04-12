@@ -583,7 +583,7 @@ sub DynamicFieldList {
             next FIELDNAME if !IsHashRefWithData($FieldConfig);
             next FIELDNAME if !$FieldConfig->{ID};
 
-            $AllowedFieldIDs{ $FieldConfig->{ID} } = 1,;
+            $AllowedFieldIDs{ $FieldConfig->{ID} } = 1;
         }
     }
 
@@ -897,7 +897,7 @@ sub DynamicFieldListGet {
             next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
             next DYNAMICFIELD if !$Param{FieldFilter}->{ $DynamicFieldConfig->{Name} };
 
-            push @{$FilteredData}, $DynamicFieldConfig,;
+            push @{$FilteredData}, $DynamicFieldConfig;
         }
 
         # return filtered data from cache
