@@ -510,8 +510,7 @@ sub TicketSearch {
             $TicketHistoryJoins{$THRef} = 1;
             $SQLFrom .= sprintf
                 'INNER JOIN ticket_history %s ON st.id = %s.ticket_id ',
-                $THRef, $THRef,
-                ;
+                $THRef, $THRef;
         }
     }
 

@@ -1073,8 +1073,7 @@ sub _Mask {
                 push @EmailAddressesBcc, {
                     CustomerKey        => '',
                     CustomerTicketText => $Email->[0] ? "$Email->[0] <$Email->[1]>" : "$Email->[1]",
-                    },
-                    ;
+                };
             }
         }
 
@@ -1110,8 +1109,7 @@ sub _Mask {
                 push @EmailAddressesCc, {
                     CustomerKey        => '',
                     CustomerTicketText => $Email->[0] ? "$Email->[0] <$Email->[1]>" : "$Email->[1]",
-                    },
-                    ;
+                };
             }
         }
 
@@ -1147,8 +1145,7 @@ sub _Mask {
                 push @EmailAddressesTo, {
                     CustomerKey        => '',
                     CustomerTicketText => $Email->[0] ? "$Email->[0] <$Email->[1]>" : "$Email->[1]",
-                    },
-                    ;
+                };
             }
         }
 

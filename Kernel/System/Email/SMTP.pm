@@ -88,9 +88,7 @@ sub Check {
         $Self->{MailHost},
         ( $Self->{SMTPPort} ? ':' . $Self->{SMTPPort} : '' ),
         $Self->{FQDN},
-        $Self->{SMTPType},
-        ;
-
+        $Self->{SMTPType};
     TRY:
     for my $Try ( 1 .. 3 ) {
 
