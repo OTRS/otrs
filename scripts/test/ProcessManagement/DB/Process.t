@@ -1126,6 +1126,7 @@ for my $Test (@Tests) {
                 \%TestProcessListCopy,
                 "$Test->{Name} | List is different as in no State filter",
             );
+
             $Self->IsNot(
                 scalar keys %ProcessListCopy,
                 scalar keys %TestProcessListCopy,
