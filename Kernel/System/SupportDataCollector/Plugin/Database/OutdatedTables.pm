@@ -37,7 +37,7 @@ sub Run {
 
         for my $Package ( $Kernel::OM->Get('Kernel::System::Package')->RepositoryList() ) {
             if ( $Package->{Name}->{Content} eq 'OTRSGenericInterfaceConnectorSAPSolMan' ) {
-                $SolManConnectorInstalled = 1
+                $SolManConnectorInstalled = 1;
             }
         }
 

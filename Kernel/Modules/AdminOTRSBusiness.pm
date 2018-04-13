@@ -43,7 +43,7 @@ sub Run {
             Data         => \%Param
         );
         $Output .= $LayoutObject->Footer();
-        return $Output
+        return $Output;
     }
 
     # get needed objects

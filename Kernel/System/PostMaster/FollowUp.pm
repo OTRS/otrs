@@ -187,7 +187,7 @@ sub Run {
         )
     {
         $TicketObject->TicketStateSet(
-            State => $GetParam{'X-OTRS-FollowUp-State'} || $State,
+            State    => $GetParam{'X-OTRS-FollowUp-State'} || $State,
             TicketID => $Param{TicketID},
             UserID   => $Param{InmailUserID},
         );

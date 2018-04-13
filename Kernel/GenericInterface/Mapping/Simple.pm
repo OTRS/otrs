@@ -239,7 +239,7 @@ sub Map {
         # check if we have a value mapping for the specific key
         my $ValueMap;
         if ( $Config->{ValueMap} && $Config->{ValueMap}->{$NewKey} ) {
-            $ValueMap = $Config->{ValueMap}->{$NewKey}
+            $ValueMap = $Config->{ValueMap}->{$NewKey};
         }
 
         if ($ValueMap) {

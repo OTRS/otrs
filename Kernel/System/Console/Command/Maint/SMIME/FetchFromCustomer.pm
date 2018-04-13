@@ -95,7 +95,7 @@ sub PreRun {
         $CryptObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
     };
     if ( !$CryptObject ) {
-        die "No S/MIME support!.\n"
+        die "No S/MIME support!.\n";
     }
 
     return;

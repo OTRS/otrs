@@ -349,7 +349,7 @@ sub Run {
 
     my $PermissionUserID = $UserID;
     if ( $UserType eq 'Customer' ) {
-        $UserID = $Kernel::OM->Get('Kernel::Config')->Get('CustomerPanelUserID')
+        $UserID = $Kernel::OM->Get('Kernel::Config')->Get('CustomerPanelUserID');
     }
 
     # check needed hashes
@@ -774,7 +774,7 @@ sub _CheckTicket {
     # if everything is OK then return Success
     return {
         Success => 1,
-        }
+    };
 }
 
 =head2 _CheckArticle()
@@ -1444,10 +1444,10 @@ sub _TicketCreate {
 
     # Create article.
     my $ArticleID = $ArticleBackendObject->ArticleCreate(
-        NoAgentNotify => $Article->{NoAgentNotify} || 0,
-        TicketID      => $TicketID,
-        SenderTypeID  => $Article->{SenderTypeID}  || '',
-        SenderType    => $Article->{SenderType}    || '',
+        NoAgentNotify        => $Article->{NoAgentNotify} || 0,
+        TicketID             => $TicketID,
+        SenderTypeID         => $Article->{SenderTypeID} || '',
+        SenderType           => $Article->{SenderType} || '',
         IsVisibleForCustomer => $Article->{IsVisibleForCustomer},
         From                 => $From,
         To                   => $To,
@@ -1590,7 +1590,7 @@ sub _TicketCreate {
             Success      => 0,
             ErrorMessage => 'Could not get new ticket information, please contact the system'
                 . ' administrator',
-            }
+        };
     }
 
     # get web service configuration

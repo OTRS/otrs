@@ -255,7 +255,7 @@ sub FormIDGetAllFilesData {
 
             # remove meta data in files
             if ( $FileSize > 30 ) {
-                $FileSize = $FileSize - 30
+                $FileSize = $FileSize - 30;
             }
         }
         my $Content = $MainObject->FileRead(
@@ -351,7 +351,7 @@ sub FormIDGetAllFilesMeta {
 
             # remove meta data in files
             if ( $FileSize > 30 ) {
-                $FileSize = $FileSize - 30
+                $FileSize = $FileSize - 30;
             }
         }
 
@@ -412,7 +412,7 @@ sub FormIDCleanUp {
         my $SubdirTime = $Subdir;
 
         if ( $SubdirTime =~ /^.*\/\d+\..+$/ ) {
-            $SubdirTime =~ s/^.*\/(\d+?)\..+$/$1/
+            $SubdirTime =~ s/^.*\/(\d+?)\..+$/$1/;
         }
         else {
             $Kernel::OM->Get('Kernel::System::Log')->Log(

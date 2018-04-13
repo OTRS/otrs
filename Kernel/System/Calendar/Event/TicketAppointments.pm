@@ -57,7 +57,7 @@ sub Run {
         ->{ $Param{Data}->{AppointmentID} }++
         )
     {
-        return
+        return;
     }
 
     # run only on ticket appointments (get ticket id)

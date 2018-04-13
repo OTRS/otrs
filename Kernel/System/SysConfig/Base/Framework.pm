@@ -458,7 +458,7 @@ sub _ModifiedValueCalculate {
                 $Value->[0]->{Key} = $Key;
 
                 if ( $SubValue->{$StructureType}->[0]->{DefaultItem} ) {
-                    $Value->[0]->{$StructureType}->[0]->{DefaultItem} = $SubValue->{$StructureType}->[0]->{DefaultItem}
+                    $Value->[0]->{$StructureType}->[0]->{DefaultItem} = $SubValue->{$StructureType}->[0]->{DefaultItem};
                 }
 
                 push @{ $Result->[0]->{Hash}->[0]->{Item} }, $Value->[0];

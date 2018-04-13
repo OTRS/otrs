@@ -1820,7 +1820,7 @@ sub Run {
         );
         $TargetDateTimeObject->Add( Days => 1 );
         if ( $CurrentDateTimeObject > $TargetDateTimeObject ) {
-            $PackageObject->PackageUpgradeAllDataDelete()
+            $PackageObject->PackageUpgradeAllDataDelete();
         }
     }
 

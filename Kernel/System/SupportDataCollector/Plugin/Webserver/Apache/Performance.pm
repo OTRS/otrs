@@ -172,7 +172,7 @@ sub Run {
 
     }
 
-    return $Self->GetResults()
+    return $Self->GetResults();
 }
 
 1;

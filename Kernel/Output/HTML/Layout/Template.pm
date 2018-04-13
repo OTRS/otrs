@@ -191,10 +191,10 @@ sub Output {
     my $Success = $Self->{TemplateObject}->process(
         $Param{TemplateFileTT} // \$TemplateString,
         {
-            Data => $Param{Data} // {},
+            Data   => $Param{Data} // {},
             global => {
-                BlockData      => $Self->{BlockData} // [],
-                KeepScriptTags => $Param{AJAX}       // 0,
+                BlockData => $Self->{BlockData} // [],
+                KeepScriptTags => $Param{AJAX} // 0,
             },
         },
         \$Output,

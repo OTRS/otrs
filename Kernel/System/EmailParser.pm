@@ -772,7 +772,7 @@ sub PartsAttachments {
     }
     if ( $PartData{Disposition} ) {
         chomp $PartData{Disposition};
-        $PartData{Disposition} = lc $PartData{Disposition}
+        $PartData{Disposition} = lc $PartData{Disposition};
     }
 
     # get attachment size
@@ -851,7 +851,7 @@ sub PartsAttachments {
                     $PartData{Content} = $HTMLUtilsObject->DocumentComplete(
                         String  => $HTMLContent,
                         Charset => 'utf-8',
-                        )
+                    );
                 }
                 else {
                     $PartData{Content} = $HTMLUtilsObject->ToAscii(

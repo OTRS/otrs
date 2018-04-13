@@ -41,7 +41,7 @@ for my $WebserviceID ( sort keys %{$WebserviceList} ) {
     $Self->True(
         $Success,
         "Remove web service '$WebserviceList->{$WebserviceID}'",
-        )
+    );
 }
 
 my $Home  = $ConfigObject->Get('Home');

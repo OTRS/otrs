@@ -326,7 +326,7 @@ sub Run {
         $ArticleSenderType = $Param{Data}->{ArticleSenderType};
     }
     elsif ( IsStringWithData( $Param{Data}->{ArticleSenderType} ) ) {
-        $ArticleSenderType = [ $Param{Data}->{ArticleSenderType} ]
+        $ArticleSenderType = [ $Param{Data}->{ArticleSenderType} ];
     }
 
     # By default, do not include HTML body as attachment, unless it is explicitly requested.

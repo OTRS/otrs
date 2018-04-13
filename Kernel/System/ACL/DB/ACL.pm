@@ -996,7 +996,7 @@ sub ACLImport {
             return {
                 Success => 0,
                 Message => "$Needed is missing can not continue.",
-                }
+            };
         }
     }
 
@@ -1076,7 +1076,7 @@ sub ACLImport {
         AddedACLs   => join( ', ', @AddedACLs ) || '',
         UpdatedACLs => join( ', ', @UpdatedACLs ) || '',
         ACLErrors   => join( ', ', @ACLErrors ) || '',
-        }
+    };
 }
 
 =begin Internal:

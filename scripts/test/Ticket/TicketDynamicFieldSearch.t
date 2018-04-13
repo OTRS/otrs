@@ -138,7 +138,7 @@ for ( 1 .. 2 ) {
     push @TicketData, {
         TicketID     => $TicketID,
         TicketNumber => $Ticket{TicketNumber},
-        }
+    };
 }
 
 # Run initial tests for Empty before assigning values

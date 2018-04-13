@@ -55,7 +55,7 @@ sub _ShowOverview {
             Data         => \%Param
         );
         $Output .= $LayoutObject->Footer();
-        return $Output
+        return $Output;
     }
 
     my $Output = $LayoutObject->Header();

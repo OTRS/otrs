@@ -184,7 +184,7 @@ sub GetSessionIDData {
 
     # read data structure back from file dump, use block eval for safety reasons
     my $Session = eval {
-        $Kernel::OM->Get('Kernel::System::Storable')->Deserialize( Data => ${$Content} )
+        $Kernel::OM->Get('Kernel::System::Storable')->Deserialize( Data => ${$Content} );
     };
 
     if ( !$Session || ref $Session ne 'HASH' ) {

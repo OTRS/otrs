@@ -308,9 +308,9 @@ sub List {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     return if !$DBObject->Prepare(
-        SQL   => join( ' ', @SQL ),
-        Bind  => $Binds,
-        Limit => $Param{Limit},
+        SQL    => join( ' ', @SQL ),
+        Bind   => $Binds,
+        Limit  => $Param{Limit},
         Encode => [ 1, 1, 1, 1, 1, 0 ],
     );
 
@@ -1126,7 +1126,7 @@ sub _SendEventNotification {
         return {
             Status  => 'Failed',
             Message => 'Status unknown.',
-            }
+        };
     }
 
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
@@ -1501,7 +1501,7 @@ sub _DBInsert {
 
     if ( $Param{ID} ) {
         unshift @Cols,  'id';
-        unshift @Binds, \$Param{ID},
+        unshift @Binds, \$Param{ID};
     }
 
     my @Placeholders = map {'?'} @Cols;
@@ -1539,10 +1539,10 @@ sub _DBInsert {
     # Get the newly inserted record to get the id.
     return $Error->(
         Action => 'get-id',
-        ) if !$DBObject->Prepare(
+    ) if !$DBObject->Prepare(
         SQL  => 'SELECT id FROM mail_queue WHERE insert_fingerprint = ?',
         Bind => [ \$InsertFingerprint ],
-        );
+    );
 
     my @Row = $DBObject->FetchrowArray();
     return $Success->(

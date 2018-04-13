@@ -511,7 +511,7 @@ for my $Test (@Tests) {
         && $ExclusiveLockGUID
         )
     {
-        $Test->{Params}->{ExclusiveLockGUID} = $ExclusiveLockGUID
+        $Test->{Params}->{ExclusiveLockGUID} = $ExclusiveLockGUID;
     }
 
     my $Success = $SysConfigDBObject->DeploymentUnlock( %{ $Test->{Params} } );
@@ -1268,7 +1268,7 @@ for my $Count ( 1 .. 35 ) {
     );
 
     if ( $DeploymentsToAdd - $Count < 20 ) {
-        push @RemainingDeployents, $DeploymentID,
+        push @RemainingDeployents, $DeploymentID;
     }
 }
 

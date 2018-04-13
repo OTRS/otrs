@@ -64,7 +64,7 @@ $Selenium->RunTest(
                 "CustomerCompanyAdd - $CustomerID",
             );
 
-            push @CustomerIDs, $CustomerID
+            push @CustomerIDs, $CustomerID;
         }
 
         my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');

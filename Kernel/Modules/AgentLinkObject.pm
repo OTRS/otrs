@@ -257,7 +257,7 @@ sub Run {
 
             if ($Success) {
                 $SuccessCounter++;
-                next IDENTIFIER
+                next IDENTIFIER;
             }
 
             # get target object description

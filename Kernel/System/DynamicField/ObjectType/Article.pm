@@ -154,7 +154,7 @@ sub PostValueSet {
         UserID => $Param{UserID},
     );
 
-    return 1
+    return 1;
 }
 
 =head2 ObjectDataGet()

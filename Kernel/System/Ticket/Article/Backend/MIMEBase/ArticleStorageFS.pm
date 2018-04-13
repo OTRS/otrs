@@ -627,7 +627,7 @@ sub ArticleAttachmentIndexRaw {
 
             # converted article body should be inline
             elsif ( $Filename =~ m{file-[12]} ) {
-                $Disposition = 'inline'
+                $Disposition = 'inline';
             }
 
             # all others including attachments with content id that are not images
@@ -830,7 +830,7 @@ sub ArticleAttachment {
 
                     # converted article body should be inline
                     elsif ( $Filename =~ m{file-[12]} ) {
-                        $Data{Disposition} = 'inline'
+                        $Data{Disposition} = 'inline';
                     }
 
                     # all others including attachments with content id that are not images

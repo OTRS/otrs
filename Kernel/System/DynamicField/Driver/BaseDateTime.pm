@@ -407,7 +407,7 @@ sub EditFieldValueValidate {
         return {
             ServerError  => 1,
             ErrorMessage => 'Invalid Date!'
-            }
+        };
     }
 
     my $ServerError;
@@ -624,7 +624,7 @@ EOF
             Sort           => 'IndividualKey',
             SortIndividual => [ 'Before', 'Last', 'Next', 'After' ],
             Name           => $FieldName . 'Start',
-            SelectedID => $Value->{Start}->{ $FieldName . 'Start' } || 'Last',
+            SelectedID     => $Value->{Start}->{ $FieldName . 'Start' } || 'Last',
         );
         $HTMLString .= ' ' . $Param{LayoutObject}->BuildSelection(
             Data       => [ 1 .. 59 ],
@@ -1137,18 +1137,18 @@ sub TemplateValueTypeGet {
     if ( $Param{FieldType} eq 'Edit' ) {
         return {
             $FieldName => $EditValueType,
-            }
+        };
     }
     elsif ( $Param{FieldType} eq 'Search' ) {
         return {
             'Search_' . $FieldName => $SearchValueType,
-            }
+        };
     }
     else {
         return {
             $FieldName             => $EditValueType,
             'Search_' . $FieldName => $SearchValueType,
-            }
+        };
     }
 }
 

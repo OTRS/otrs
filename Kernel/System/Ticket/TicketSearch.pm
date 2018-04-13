@@ -2107,7 +2107,7 @@ sub TicketSearch {
                 ( join ', ', sort @List ),
                 $THRef,
                 $DBObject->Quote( $Param{TicketCloseTimeOlderDate} )
-                )
+            );
         }
     }
 
@@ -2169,7 +2169,7 @@ sub TicketSearch {
                 ( join ', ', sort @List ),
                 $THRef,
                 $DBObject->Quote( $Param{TicketCloseTimeNewerDate} )
-                )
+            );
         }
     }
 

@@ -1912,7 +1912,7 @@ sub RandomValueSet {
         );
     }
 
-    return $Result
+    return $Result;
 }
 
 =head2 HistoricalValuesGet()

@@ -93,6 +93,7 @@ $Selenium->RunTest(
                 QueueName => $QueueName,
                 QueueID   => $QueueID,
                 },
+                ;
         }
 
         # Set fixed time to test Visual alarms

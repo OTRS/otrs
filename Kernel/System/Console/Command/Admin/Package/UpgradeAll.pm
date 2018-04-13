@@ -104,7 +104,7 @@ sub Run {
             FromCloud => $FromCloud,
         );
 
-        $Self->Print("<green>Done</green>\n")
+        $Self->Print("<green>Done</green>\n");
     }
 
     # Check again after repository refresh

@@ -1456,7 +1456,7 @@ EOF
                 Type     => 'Local',
             );
 
-            return $FileLocation
+            return $FileLocation;
         }
     }
 }
@@ -1634,7 +1634,7 @@ sub ProcessImport {
             }
 
             # make sure that all entity mapping parts are defined as hash references
-            $EntityMapping{ $PartNameMap{$PartName} } //= {}
+            $EntityMapping{ $PartNameMap{$PartName} } //= {};
         }
     }
     else {

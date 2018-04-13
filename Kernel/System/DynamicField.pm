@@ -704,7 +704,7 @@ sub DynamicFieldList {
             for my $FieldID ( sort keys %{$Cache} ) {
                 next FIELDID if !$AllowedFieldIDs{$FieldID};
 
-                $FilteredData->{$FieldID} = $Cache->{$FieldID}
+                $FilteredData->{$FieldID} = $Cache->{$FieldID};
             }
         }
 
@@ -953,7 +953,7 @@ sub DynamicFieldListGet {
             next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
             next DYNAMICFIELD if !$Param{FieldFilter}->{ $DynamicFieldConfig->{Name} };
 
-            push @{$FilteredData}, $DynamicFieldConfig,
+            push @{$FilteredData}, $DynamicFieldConfig;
         }
 
         # return filtered data from cache
@@ -1049,7 +1049,7 @@ sub DynamicFieldListGet {
         next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
         next DYNAMICFIELD if !$Param{FieldFilter}->{ $DynamicFieldConfig->{Name} };
 
-        push @{$FilteredData}, $DynamicFieldConfig,
+        push @{$FilteredData}, $DynamicFieldConfig;
     }
 
     # return filtered data from DB
@@ -1156,7 +1156,7 @@ sub DynamicFieldOrderCheck {
 
         # when finding a field with wrong order, set OrderError flag and exit loop
         $OrderError = 1;
-        last DYNAMICFIELD
+        last DYNAMICFIELD;
     }
 
     return if $OrderError;

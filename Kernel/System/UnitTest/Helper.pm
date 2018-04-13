@@ -394,7 +394,7 @@ sub FixedTimeSet {
         $FixedTime = $TimeToSave->ToEpoch();
     }
     else {
-        $FixedTime = $TimeToSave // CORE::time()
+        $FixedTime = $TimeToSave // CORE::time();
     }
 
     # This is needed to reload objects that directly use the native time functions
@@ -644,7 +644,7 @@ sub ConfigSettingChange {
         $ValueDump =~ s/\$VAR1/$KeyDump/;
     }
     else {
-        $ValueDump = "delete $KeyDump;"
+        $ValueDump = "delete $KeyDump;";
     }
 
     my $PackageName = "ZZZZUnitTest$RandomNumber";

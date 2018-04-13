@@ -114,7 +114,7 @@ sub ValueGet {
     # extract real values
     my @ReturnData;
     for my $Item ( @{$DFValue} ) {
-        push @ReturnData, $Item->{ValueText}
+        push @ReturnData, $Item->{ValueText};
     }
 
     return \@ReturnData;
@@ -185,7 +185,7 @@ sub ValueIsDifferent {
         && !IsArrayRefWithData( $Param{Value2} )
         )
     {
-        return
+        return;
     }
     if (
         !defined $Param{Value2}
@@ -193,7 +193,7 @@ sub ValueIsDifferent {
         && !IsArrayRefWithData( $Param{Value1} )
         )
     {
-        return
+        return;
     }
 
     # compare the results
@@ -228,7 +228,7 @@ sub ValueValidate {
             UserID => $Param{UserID}
         );
 
-        return if !$Success
+        return if !$Success;
     }
 
     return $Success;
@@ -312,8 +312,8 @@ sub EditFieldRender {
     );
 
     my $HTMLString = $Param{LayoutObject}->BuildSelection(
-        Data => $DataValues || {},
-        Name => $FieldName,
+        Data        => $DataValues || {},
+        Name        => $FieldName,
         SelectedID  => $SelectedValuesArrayRef,
         Translation => $FieldConfig->{TranslatableValues} || 0,
         Class       => $FieldClass,
@@ -479,7 +479,7 @@ sub EditFieldValueValidate {
 
         # overwrite possible values if PossibleValuesFilter
         if ( defined $Param{PossibleValuesFilter} ) {
-            $PossibleValues = $Param{PossibleValuesFilter}
+            $PossibleValues = $Param{PossibleValuesFilter};
         }
 
         # validate if value is in possible values list (but let pass empty values)
@@ -706,7 +706,7 @@ sub StatsFieldParameterBuild {
     # add historic values to current values (if they don't exist anymore)
     for my $Key ( sort keys %{$HistoricalValues} ) {
         if ( !$Values->{$Key} ) {
-            $Values->{$Key} = $HistoricalValues->{$Key}
+            $Values->{$Key} = $HistoricalValues->{$Key};
         }
     }
 
@@ -784,18 +784,18 @@ sub TemplateValueTypeGet {
     if ( $Param{FieldType} eq 'Edit' ) {
         return {
             $FieldName => $EditValueType,
-            }
+        };
     }
     elsif ( $Param{FieldType} eq 'Search' ) {
         return {
             'Search_' . $FieldName => $SearchValueType,
-            }
+        };
     }
     else {
         return {
             $FieldName             => $EditValueType,
             'Search_' . $FieldName => $SearchValueType,
-            }
+        };
     }
 }
 

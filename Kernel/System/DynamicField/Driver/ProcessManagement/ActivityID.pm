@@ -173,7 +173,7 @@ sub ColumnFilterValuesGet {
     # get the display value if still exist in dynamic field configuration
     for my $Key ( sort keys %{$ColumnFilterValues} ) {
         if ( $SelectionData->{$Key} ) {
-            $ColumnFilterValues->{$Key} = $SelectionData->{$Key}
+            $ColumnFilterValues->{$Key} = $SelectionData->{$Key};
         }
     }
 
@@ -255,7 +255,7 @@ sub StatsSearchFieldParameterBuild {
             # Return search parameter structure.
             return {
                 $Operator => $ActivityEntityIDs,
-                }
+            };
         }
     }
 

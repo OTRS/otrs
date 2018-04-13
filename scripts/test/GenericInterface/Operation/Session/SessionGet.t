@@ -527,12 +527,12 @@ for my $Test (@Tests) {
     if ( defined $LocalResult->{Data}->{SessionData} ) {
         @{ $LocalResult->{Data}->{SessionData} }
             = grep { $_->{Key} ne 'UserSessionStart' && $_->{Key} ne 'UserLastRequest' }
-            @{ $LocalResult->{Data}->{SessionData} }
+            @{ $LocalResult->{Data}->{SessionData} };
     }
     if ( defined $RequesterResult->{Data}->{SessionData} ) {
         @{ $RequesterResult->{Data}->{SessionData} }
             = grep { $_->{Key} ne 'UserSessionStart' && $_->{Key} ne 'UserLastRequest' }
-            @{ $RequesterResult->{Data}->{SessionData} }
+            @{ $RequesterResult->{Data}->{SessionData} };
     }
 
     $Self->IsDeeply(

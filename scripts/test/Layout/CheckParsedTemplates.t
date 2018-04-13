@@ -116,7 +116,7 @@ if ( !opendir $DIR, $DTLDirectory ) {
 my @Files = ();
 while ( defined( my $Filename = readdir $DIR ) ) {
     if ( $Filename =~ m{ \. dtl $}xms ) {
-        push( @Files, "$DTLDirectory/$Filename" )
+        push( @Files, "$DTLDirectory/$Filename" );
     }
 }
 closedir $DIR;

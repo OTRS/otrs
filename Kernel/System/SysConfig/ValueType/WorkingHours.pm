@@ -388,7 +388,7 @@ sub SettingRender {
             $HTML .= "</div></div></div>\n";
         }
 
-        $HTML .= "<div class='Clear'></div>\n"
+        $HTML .= "<div class='Clear'></div>\n";
     }
     $HTML .= "</div>\n";
 

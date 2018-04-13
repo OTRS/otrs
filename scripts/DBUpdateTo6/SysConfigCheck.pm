@@ -146,7 +146,7 @@ sub _EffectiveValueGet {
         }
     }
 
-    return $OldEffectiveValue
+    return $OldEffectiveValue;
 }
 
 sub _EntitySettingsGet {

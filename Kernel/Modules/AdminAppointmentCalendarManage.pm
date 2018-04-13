@@ -872,8 +872,8 @@ sub _TicketAppointments {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     $TicketAppointments{QueueIDStrg} = $LayoutObject->AgentQueueListOption(
-        Class => 'Validate_Required Modernize ' . ( $Param{Error}->{QueueIDInvalid} // '' ),
-        Data => \%AvailableQueues,
+        Class              => 'Validate_Required Modernize ' . ( $Param{Error}->{QueueIDInvalid} // '' ),
+        Data               => \%AvailableQueues,
         Multiple           => 1,
         Size               => 0,
         Name               => 'QueueID' . $FieldID,

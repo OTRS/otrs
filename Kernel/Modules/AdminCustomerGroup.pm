@@ -440,7 +440,7 @@ sub _Change {
         Name => 'Change',
         Data => {
             %Param,
-            ActionHome => 'Admin' . ( $Type eq 'Customer' ? 'CustomerCompany' : $Type ),
+            ActionHome    => 'Admin' . ( $Type eq 'Customer' ? 'CustomerCompany' : $Type ),
             VisibleNeType => $VisibleType{$NeType},
             VisibleType   => $VisibleType{$Type},
         },
@@ -725,7 +725,7 @@ sub _Overview {
             Data => {
                 Name => $CustomerAlwaysGroups[ $ID - 1 ],
             },
-            )
+        );
     }
 
     # return output

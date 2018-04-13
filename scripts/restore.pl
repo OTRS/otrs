@@ -146,7 +146,7 @@ elsif ( $DatabaseDSN =~ m/:pg/i ) {
     $DB     = 'PostgreSQL';
     $DBDump = 'psql';
     if ( $DatabaseDSN !~ m/host=/i ) {
-        $DatabaseHost = ''
+        $DatabaseHost = '';
     }
 
     $Installed = 0;
@@ -257,7 +257,7 @@ if ( $DB =~ m/mysql/i ) {
 }
 else {
     if ($DatabaseHost) {
-        $DatabaseHost = "-h $DatabaseHost"
+        $DatabaseHost = "-h $DatabaseHost";
     }
 
     if ( -e $DatabaseBackupGz ) {

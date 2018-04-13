@@ -1041,7 +1041,7 @@ sub _TicketIDStringGet {
         $TicketIDString .= ' AND ( ' . $SQLString . ' ) ';
     }
     else {
-        $TicketIDString = $SQLString
+        $TicketIDString = $SQLString;
     }
 
     return $TicketIDString;

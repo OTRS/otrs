@@ -336,9 +336,9 @@ sub Run {
         # get selected timestamp
         my $SelectedTimestamp = sprintf(
             "%04d-%02d-%02d 00:00:00",
-            $Appointment{StartYear}  // $GetParam{StartYear},
+            $Appointment{StartYear} // $GetParam{StartYear},
             $Appointment{StartMonth} // $GetParam{StartMonth},
-            $Appointment{StartDay}   // $GetParam{StartDay}
+            $Appointment{StartDay} // $GetParam{StartDay}
         );
 
         # Get current date components.
@@ -385,17 +385,17 @@ sub Run {
             # start date
             $Param{StartDate} = sprintf(
                 "%04d-%02d-%02d",
-                $Appointment{StartYear}  // $GetParam{StartYear},
+                $Appointment{StartYear} // $GetParam{StartYear},
                 $Appointment{StartMonth} // $GetParam{StartMonth},
-                $Appointment{StartDay}   // $GetParam{StartDay},
+                $Appointment{StartDay} // $GetParam{StartDay},
             );
 
             # end date
             $Param{EndDate} = sprintf(
                 "%04d-%02d-%02d",
-                $Appointment{EndYear}  // $GetParam{EndYear},
+                $Appointment{EndYear} // $GetParam{EndYear},
                 $Appointment{EndMonth} // $GetParam{EndMonth},
-                $Appointment{EndDay}   // $GetParam{EndDay},
+                $Appointment{EndDay} // $GetParam{EndDay},
             );
         }
         else {
@@ -405,20 +405,20 @@ sub Run {
             # start date
             $Param{StartDate} = sprintf(
                 "%04d-%02d-%02d %02d:%02d:00",
-                $Appointment{StartYear}   // $GetParam{StartYear},
-                $Appointment{StartMonth}  // $GetParam{StartMonth},
-                $Appointment{StartDay}    // $GetParam{StartDay},
-                $Appointment{StartHour}   // $GetParam{StartHour},
+                $Appointment{StartYear} // $GetParam{StartYear},
+                $Appointment{StartMonth} // $GetParam{StartMonth},
+                $Appointment{StartDay} // $GetParam{StartDay},
+                $Appointment{StartHour} // $GetParam{StartHour},
                 $Appointment{StartMinute} // $GetParam{StartMinute},
             );
 
             # end date
             $Param{EndDate} = sprintf(
                 "%04d-%02d-%02d %02d:%02d:00",
-                $Appointment{EndYear}   // $GetParam{EndYear},
-                $Appointment{EndMonth}  // $GetParam{EndMonth},
-                $Appointment{EndDay}    // $GetParam{EndDay},
-                $Appointment{EndHour}   // $GetParam{EndHour},
+                $Appointment{EndYear} // $GetParam{EndYear},
+                $Appointment{EndMonth} // $GetParam{EndMonth},
+                $Appointment{EndDay} // $GetParam{EndDay},
+                $Appointment{EndHour} // $GetParam{EndHour},
                 $Appointment{EndMinute} // $GetParam{EndMinute},
             );
         }
@@ -720,10 +720,10 @@ sub Run {
             my $StartTimeObject = $Kernel::OM->Create(
                 'Kernel::System::DateTime',
                 ObjectParams => {
-                    Year   => $Appointment{StartYear}   // $GetParam{StartYear},
-                    Month  => $Appointment{StartMonth}  // $GetParam{StartMonth},
-                    Day    => $Appointment{StartDay}    // $GetParam{StartDay},
-                    Hour   => $Appointment{StartHour}   // $GetParam{StartHour},
+                    Year   => $Appointment{StartYear} // $GetParam{StartYear},
+                    Month  => $Appointment{StartMonth} // $GetParam{StartMonth},
+                    Day    => $Appointment{StartDay} // $GetParam{StartDay},
+                    Hour   => $Appointment{StartHour} // $GetParam{StartHour},
                     Minute => $Appointment{StartMinute} // $GetParam{StartMinute},
                     Second => 0,
                 },
@@ -922,7 +922,7 @@ sub Run {
         $Appointment{NotificationCustom} ||= '';
 
         if ( $Appointment{NotificationCustom} eq 'datetime' ) {
-            $Param{NotificationCustomDateTimeInputRadio} = 'checked="checked"'
+            $Param{NotificationCustomDateTimeInputRadio} = 'checked="checked"';
         }
         elsif ( $Appointment{NotificationCustom} eq 'relative' ) {
             $Param{NotificationCustomRelativeInputRadio} = 'checked="checked"';

@@ -324,7 +324,7 @@ sub _MaskNew {
 
     # generate ParentOptionStrg
     my $KeepChildren = $ConfigObject->Get('Ticket::Service::KeepChildren') // 0;
-    my %ServiceList = $ServiceObject->ServiceList(
+    my %ServiceList  = $ServiceObject->ServiceList(
         Valid        => !$KeepChildren,
         KeepChildren => $KeepChildren,
         UserID       => $Self->{UserID},

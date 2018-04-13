@@ -488,7 +488,7 @@ sub _ArticleSearchIndexString {
                 $IndexString .= ' ';
             }
 
-            $IndexString .= $Word
+            $IndexString .= $Word;
         }
     }
 

@@ -203,11 +203,11 @@ sub ChannelGet {
 
     if ( $Param{ChannelName} ) {
         $SQL .= "name = ? ";
-        push @Bind, \$Param{ChannelName},
+        push @Bind, \$Param{ChannelName};
     }
     else {
         $SQL .= "id = ? ";
-        push @Bind, \$Param{ChannelID},
+        push @Bind, \$Param{ChannelID};
     }
 
     return if !$DBObject->Prepare(

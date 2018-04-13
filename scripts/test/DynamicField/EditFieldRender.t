@@ -28,7 +28,7 @@ $Helper->FixedTimeSet(
         ObjectParams => {
             String => '2013-12-12 00:00:00',
         },
-        )->ToEpoch()
+    )->ToEpoch()
 );
 
 my $LayoutObject = Kernel::Output::HTML::Layout->new(

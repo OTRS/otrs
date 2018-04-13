@@ -189,7 +189,7 @@ sub GetSessionIDData {
         # deserialize data if needed
         if ( $Row[3] ) {
             my $Value = eval {
-                $StorableObject->Deserialize( Data => MIME::Base64::decode_base64( $Row[2] ) )
+                $StorableObject->Deserialize( Data => MIME::Base64::decode_base64( $Row[2] ) );
             };
 
             # workaround for the oracle problem with empty

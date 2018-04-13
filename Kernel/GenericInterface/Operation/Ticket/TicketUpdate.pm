@@ -363,7 +363,7 @@ sub Run {
     my $PermissionUserID = $UserID;
 
     if ( $UserType eq 'Customer' ) {
-        $UserID = $Kernel::OM->Get('Kernel::Config')->Get('CustomerPanelUserID')
+        $UserID = $Kernel::OM->Get('Kernel::Config')->Get('CustomerPanelUserID');
     }
 
     # get ticket object
@@ -548,7 +548,7 @@ sub Run {
                 return {
                     Success => 0,
                     %{$ArticleCheck},
-                    }
+                };
             }
             return $Self->ReturnError( %{$ArticleCheck} );
         }
@@ -1474,7 +1474,7 @@ sub _CheckUpdatePermissions {
 
     return {
         Success => 1,
-        }
+    };
 }
 
 =head2 _TicketUpdate()
@@ -1562,7 +1562,7 @@ sub _TicketUpdate {
                 Success => 0,
                 Errormessage =>
                     'Ticket title could not be updated, please contact system administrator!',
-                }
+            };
         }
     }
 
@@ -1594,7 +1594,7 @@ sub _TicketUpdate {
                 Success => 0,
                 ErrorMessage =>
                     'Ticket queue could not be updated, please contact system administrator!',
-                }
+            };
         }
     }
 
@@ -1626,7 +1626,7 @@ sub _TicketUpdate {
                 Success => 0,
                 Errormessage =>
                     'Ticket lock could not be updated, please contact system administrator!',
-                }
+            };
         }
     }
 
@@ -1659,7 +1659,7 @@ sub _TicketUpdate {
                 Success => 0,
                 Errormessage =>
                     'Ticket type could not be updated, please contact system administrator!',
-                }
+            };
         }
     }
 
@@ -1715,14 +1715,14 @@ sub _TicketUpdate {
                         Errormessage =>
                             'Ticket pendig time could not be updated, please contact system'
                             . ' administrator!',
-                        }
+                    };
                 }
             }
             else {
                 return $Self->ReturnError(
                     ErrorCode    => 'TicketUpdate.MissingParameter',
                     ErrorMessage => 'Can\'t set a ticket on a pending state without pendig time!'
-                    )
+                );
             }
         }
 
@@ -1753,7 +1753,7 @@ sub _TicketUpdate {
                 Success => 0,
                 Errormessage =>
                     'Ticket state could not be updated, please contact system administrator!',
-                }
+            };
         }
     }
 
@@ -1819,7 +1819,7 @@ sub _TicketUpdate {
                 Success => 0,
                 Errormessage =>
                     'Ticket service could not be updated, please contact system administrator!',
-                }
+            };
         }
     }
 
@@ -1861,7 +1861,7 @@ sub _TicketUpdate {
                 Success => 0,
                 Errormessage =>
                     'Ticket SLA could not be updated, please contact system administrator!',
-                }
+            };
         }
     }
 
@@ -1905,7 +1905,7 @@ sub _TicketUpdate {
                 Success => 0,
                 Errormessage =>
                     'Ticket customer user could not be updated, please contact system administrator!',
-                }
+            };
         }
     }
 
@@ -1938,7 +1938,7 @@ sub _TicketUpdate {
                 Success => 0,
                 Errormessage =>
                     'Ticket priority could not be updated, please contact system administrator!',
-                }
+            };
         }
     }
 
@@ -1975,7 +1975,7 @@ sub _TicketUpdate {
                 Success => 0,
                 Errormessage =>
                     'Ticket owner could not be updated, please contact system administrator!',
-                }
+            };
         }
     }
 
@@ -2015,7 +2015,7 @@ sub _TicketUpdate {
                 Success => 0,
                 Errormessage =>
                     'Ticket responsible could not be updated, please contact system administrator!',
-                }
+            };
         }
     }
 
@@ -2075,10 +2075,10 @@ sub _TicketUpdate {
 
         # Create article.
         $ArticleID = $ArticleBackendObject->ArticleCreate(
-            NoAgentNotify => $Article->{NoAgentNotify} || 0,
-            TicketID      => $TicketID,
-            SenderTypeID  => $Article->{SenderTypeID}  || '',
-            SenderType    => $Article->{SenderType}    || '',
+            NoAgentNotify        => $Article->{NoAgentNotify} || 0,
+            TicketID             => $TicketID,
+            SenderTypeID         => $Article->{SenderTypeID} || '',
+            SenderType           => $Article->{SenderType} || '',
             IsVisibleForCustomer => $Article->{IsVisibleForCustomer},
             From                 => $From,
             To                   => $To,
@@ -2105,7 +2105,7 @@ sub _TicketUpdate {
                 Success => 0,
                 ErrorMessage =>
                     'Article could not be created, please contact the system administrator'
-                }
+            };
         }
 
         # time accounting
@@ -2249,7 +2249,7 @@ sub _TicketUpdate {
 
     # get Article and ArticleAttachement
     my %ArticleData = $ArticleBackendObject->ArticleGet(
-        ArticleID => $ArticleID || $LastArticleID,
+        ArticleID     => $ArticleID || $LastArticleID,
         DynamicFields => 1,
         TicketID      => $TicketID,
     );

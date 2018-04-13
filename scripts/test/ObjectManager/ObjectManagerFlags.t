@@ -105,7 +105,7 @@ $Object = eval {
     $Kernel::OM->Create(
         'scripts::test::ObjectManager::WrongPackageName',
         Silent => 1,
-        )
+    );
 };
 $Self->False(
     $@,
@@ -130,7 +130,7 @@ $Object = eval {
     $Kernel::OM->Create(
         'scripts::test::ObjectManager::ConstructorFailure',
         Silent => 1,
-        )
+    );
 };
 $Self->False(
     $@,
@@ -144,7 +144,7 @@ $Self->False(
 $Object = eval {
     $Kernel::OM->Create(
         'scripts::test::ObjectManager::AllowConstructorFailure',
-        )
+    );
 };
 $Self->False(
     $@,

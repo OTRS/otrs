@@ -332,7 +332,7 @@ for my $Test (@Tests) {
         "$Test->{Name} Counters after cleanup"
     );
 
-    $Cleanup->()
+    $Cleanup->();
 }
 
 $Helper->FixedTimeUnset();

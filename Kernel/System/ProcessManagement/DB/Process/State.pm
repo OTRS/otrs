@@ -136,7 +136,7 @@ sub StateLookup {
     # return state entity ID
     else {
         my %ReversedStateList = reverse %{ $Self->{StateList} };
-        $Result = $ReversedStateList{ $Param{Name} }
+        $Result = $ReversedStateList{ $Param{Name} };
     }
 
     return $Result;

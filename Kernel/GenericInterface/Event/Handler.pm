@@ -844,7 +844,7 @@ sub _ConditionCheck {
                     for my $ArrayField (@ArrayFields) {
                         next ARRAYFIELD if ref $Param{Data}->{$ArrayField} ne '';
                         if ( $Param{Data}->{$ArrayField} !~ $ActualCondition->{Fields}->{$FieldName}->{Match} ) {
-                            next ARRAYFIELD
+                            next ARRAYFIELD;
                         }
 
                         $FieldSuccess++;
