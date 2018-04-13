@@ -47,6 +47,25 @@ $Selenium->RunTest(
             "Ticket is created - $TicketID",
         );
 
+        # Create test email article, invisible for customer.
+        my $InvisibleBody = 'invisible body';
+        my $ArticleID     = $TicketObject->ArticleCreate(
+            TicketID       => $TicketID,
+            ArticleType    => 'email-internal',
+            SenderType     => 'agent',
+            Subject        => 'an article subject',
+            Body           => $InvisibleBody,
+            Charset        => 'ISO-8859-15',
+            MimeType       => 'text/plain',
+            HistoryType    => 'EmailCustomer',
+            HistoryComment => 'Some free text!',
+            UserID         => 1,
+        );
+        $Self->True(
+            $ArticleID,
+            "ArticleCreate - ID $ArticleID",
+        );
+
         # login test customer user
         $Selenium->Login(
             Type     => 'Customer',
@@ -58,6 +77,12 @@ $Selenium->RunTest(
         $Self->True(
             $Selenium->find_element("//a[contains(\@href, \'Action=CustomerTicketZoom;TicketNumber=$TicketNumber' )]"),
             "Ticket with ticket number $TicketNumber is found on screen with Open filter"
+        );
+
+        # Make sure the article body is not displayed (internal article).
+        $Self->True(
+            index( $Selenium->get_page_source(), $InvisibleBody ) == -1,
+            'Article body is not visible to customer',
         );
 
         # check All filter on CustomerTicketOverview screen
