@@ -47,6 +47,28 @@ $Selenium->RunTest(
             "Ticket is created - $TicketID",
         );
 
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
+
+        # Create test email article, invisible for customer.
+        my $InvisibleBody = 'invisible body';
+        my $ArticleID     = $ArticleBackendObject->ArticleCreate(
+            TicketID             => $TicketID,
+            SenderType           => 'agent',
+            IsVisibleForCustomer => 0,
+            Subject              => 'an article subject',
+            Body                 => $InvisibleBody,
+            Charset              => 'ISO-8859-15',
+            MimeType             => 'text/plain',
+            HistoryType          => 'EmailCustomer',
+            HistoryComment       => 'Some free text!',
+            UserID               => 1,
+        );
+        $Self->True(
+            $ArticleID,
+            "ArticleCreate - ID $ArticleID",
+        );
+
         # enable CustomerTicketOverviewSortable
         $Helper->ConfigSettingChange(
             Valid => 1,
@@ -70,6 +92,12 @@ $Selenium->RunTest(
         $Self->True(
             $Selenium->find_element("//a[contains(\@href, \'Action=CustomerTicketZoom;TicketNumber=$TicketNumber' )]"),
             "Ticket with ticket number $TicketNumber is found on screen with Open filter"
+        );
+
+        # Make sure the article body is not displayed (internal article).
+        $Self->True(
+            index( $Selenium->get_page_source(), $InvisibleBody ) == -1,
+            'Article body is not visible to customer',
         );
 
         # check All filter on CustomerTicketOverview screen

@@ -615,7 +615,8 @@ sub ShowTicketStatus {
     my %LastNonInternalArticle;
 
     my @ArticleList = $ArticleObject->ArticleList(
-        TicketID => $Param{TicketID},
+        TicketID             => $Param{TicketID},
+        IsVisibleForCustomer => 1,
     );
 
     my $CommunicationChannelPattern = qr{Internal|Chat}xms;
