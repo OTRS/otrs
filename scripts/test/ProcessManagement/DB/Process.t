@@ -1094,21 +1094,21 @@ for my $Test (@Tests) {
                 $ProcessList,
                 $TestProcessList,
                 "$Test->{Name} | List is identical as in no State filter",
-                ),
-                ;
+            );
         }
         else {
+
             $Self->IsNotDeeply(
                 $ProcessList,
                 $TestProcessList,
                 "$Test->{Name} | List is different as in no State filter",
-                ),
-                $Self->IsNot(
+            );
+
+            $Self->IsNot(
                 scalar keys %{$ProcessList},
                 scalar keys %{$TestProcessList},
                 "$Test->{Name} | Number of processes List is different as in no State filter",
-                ),
-                ;
+            );
         }
     }
 }
