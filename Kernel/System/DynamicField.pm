@@ -634,7 +634,7 @@ sub DynamicFieldList {
             next FIELDNAME if !IsHashRefWithData($FieldConfig);
             next FIELDNAME if !$FieldConfig->{ID};
 
-            $AllowedFieldIDs{ $FieldConfig->{ID} } = 1,;
+            $AllowedFieldIDs{ $FieldConfig->{ID} } = 1;
         }
     }
 
