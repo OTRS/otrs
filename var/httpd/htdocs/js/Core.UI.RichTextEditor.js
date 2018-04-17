@@ -171,7 +171,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             toolbar: CheckFormID($EditorArea).length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage'),
             filebrowserBrowseUrl: '',
             filebrowserUploadUrl: UploadURL,
-            extraPlugins: 'splitquote,preventimagepaste',
+            extraPlugins: 'splitquote,preventimagepaste,contextmenu_linkopen',
             entities: false,
             skin: 'moono-lisa'
         };
