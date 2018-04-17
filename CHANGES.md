@@ -1,4 +1,5 @@
 #6.0.7 2018-??-??
+ - 2018-04-17 Fixed bug#[13794](https://bugs.otrs.org/show_bug.cgi?id=13794) - Missleading label that customer can be recipient of notifications as group recipient.
  - 2018-04-13 Fixed bug#[13801](https://bugs.otrs.org/show_bug.cgi?id=13801) - Preview of internal article is shown to customer in ticket overview screen.
  - 2018-04-11 Fixed bug#[13782](https://bugs.otrs.org/show_bug.cgi?id=13782) - Set of customer dynamic field not possible while adding a customer user if AutoLoginCreation is active.
  - 2018-04-05 Fixed bug#[13126](https://bugs.otrs.org/show_bug.cgi?id=13126) - Process first activity cannot be changed to other activity.

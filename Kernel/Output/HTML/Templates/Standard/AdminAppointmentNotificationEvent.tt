@@ -330,7 +330,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="RecipientGroups">[% Translate("Send to all group members") | html %]: </label>
+                        <label for="RecipientGroups">[% Translate("Send to all group members (agents only)") | html %]: </label>
                         <div class="Field">
                             [% Data.RecipientGroupsStrg %]
                         </div>
