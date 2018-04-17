@@ -277,7 +277,7 @@ sub _ReplaceAdditionalAttributes {
 
         my $ConfigValue = $Param{Config}->{$Attribute};
 
-        if ( $ConfigValue && $ConfigValue =~ m{<OTRS_[A-Za-z0-9_]+>}smxi ) {
+        if ( $ConfigValue && $ConfigValue =~ m{<OTRS_[A-Za-z0-9_]+(?:\[(?:.+?)\])?>}smxi ) {
 
             if ($RichText) {
                 $ConfigValue = $HTMLUtilsObject->ToHTML(

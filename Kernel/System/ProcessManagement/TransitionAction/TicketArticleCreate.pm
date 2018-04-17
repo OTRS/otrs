@@ -114,6 +114,7 @@ sub Run {
 
     # Use ticket attributes if needed.
     $Self->_ReplaceTicketAttributes(%Param);
+    $Self->_ReplaceAdditionalAttributes(%Param);
 
     # Convert scalar items into array references.
     for my $Attribute (
