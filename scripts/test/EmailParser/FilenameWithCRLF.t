@@ -42,7 +42,7 @@ $Self->Is(
 
 # Tested cleaning up CR and LF
 # CR => 0D hexadecimal
-# LN => 0A hexadecimal
+# LF => 0A hexadecimal
 $Self->Is(
     $Attachments[2]->{'Filename'} || '',
     'Test  test test test dokument.eml',
