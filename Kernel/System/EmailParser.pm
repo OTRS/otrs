@@ -742,7 +742,7 @@ sub PartsAttachments {
         my $Subject = $Self->_DecodeString( String => $SubjectString );
 
         # trim whitespace
-        $Subject =~ s/^\s+|\n|\s+$//g;
+        $Subject =~ s/^\s+|\r|\n|\s+$//g;
         if ( length($Subject) > 246 ) {
             $Subject = substr( $Subject, 0, 246 );
         }

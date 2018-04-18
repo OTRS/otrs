@@ -1,4 +1,5 @@
 #6.0.7 2018-??-??
+ - 2018-04-18 Follow-up fix for bug#[13554](https://bugs.otrs.org/show_bug.cgi?id=13554) - Non-allowed characters in attachment file names.
  - 2018-04-18 Follow-up fix for bug#[13676](https://bugs.otrs.org/show_bug.cgi?id=13676) - Column headers and tooltips are not translated.
  - 2018-04-17 Fixed bug#[13765](https://bugs.otrs.org/show_bug.cgi?id=13765) - Line numbers given in tags like <OTRS_AGENT_Body[50]> are not working.
  - 2018-04-17 Fixed bug#[13785](https://bugs.otrs.org/show_bug.cgi?id=13785) - When an article contains a longer subject the creation date is cut off in all article view.
