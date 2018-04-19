@@ -231,20 +231,19 @@ $Selenium->RunTest(
 
                 $Selenium->accept_alert();
 
-                # Navigate to AdminDynamicField screen.
-                $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
-
-                # Check if dynamic filed is deleted.
-                my $Success;
-                eval {
-                    $Success = $Selenium->find_element( $RandomID, 'link_text' )->is_displayed();
-                };
-
-                $Self->False(
-                    $Success,
-                    "$RandomID dynamic field is deleted!",
+                $Selenium->WaitFor( JavaScript => "return !\$('.Dialog').length" );
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
                 );
 
+                # Check if dynamic filed is deleted.
+                $Self->False(
+                    $Selenium->execute_script(
+                        "return \$('#DynamicFieldID_$DynamicFieldID').length"
+                    ),
+                    "DynamicField ($Type-$ID) $RandomID is deleted!",
+                );
             }
 
             # Make sure the cache is correct.
