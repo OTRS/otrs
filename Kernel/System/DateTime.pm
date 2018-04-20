@@ -124,8 +124,8 @@ Creates a DateTime object. Do not use new() directly, instead use the object man
     #   yyyy-mm-ddThh:mm:ss+ttzz
     #   yyyy-mm-ddThh:mm:ss-tt:zz
     #   yyyy-mm-ddThh:mm:ss-ttzz
-    #   yyyy-mm-ddThh:mm:ss [timezone]  # time zone will be deduced from the string
-    #   yyyy-mm-ddThh:mm:ss[timezone]   # time zone will be deduced from the string
+    #   yyyy-mm-ddThh:mm:ss [timezone]  # time zone will be deduced from an optional string
+    #   yyyy-mm-ddThh:mm:ss[timezone]   # i.e. 2018-04-20T07:37:10UTC
 
 =cut
 
