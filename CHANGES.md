@@ -1,4 +1,6 @@
-#6.0.7 2018-??-??
+#6.0.8 2018-??-??
+
+#6.0.7 2018-05-04
  - 2018-04-23 Updated translations, thanks to all translators.
  - 2018-04-23 Fixed bug#[13784](https://bugs.otrs.org/show_bug.cgi?id=13784) - Duplicated entry dialog button is not clickable for the same recipient.
  - 2018-04-18 Fixed bug#[13797](https://bugs.otrs.org/show_bug.cgi?id=13797) - Wrong URL for SecureMode in AdminSecureMode.tt.
