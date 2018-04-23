@@ -1164,7 +1164,7 @@ sub _LinkObjectContentStringCreate {
 
         # transform ascii to html
         $Content->{Content} = $Param{LayoutObject}->Ascii2Html(
-            Text           => $String || '-',
+            Text => $String || '-',
             HTMLResultMode => 1,
             LinkFeature    => 0,
         );

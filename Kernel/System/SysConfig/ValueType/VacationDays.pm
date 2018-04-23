@@ -51,7 +51,7 @@ sub new {
 
 Check if provided EffectiveValue matches structure defined in XMLContentParsed.
 
-    my %Result = $SysConfigObject->SettingEffectiveValueCheck(
+    my %Result = $ValueTypeObject->SettingEffectiveValueCheck(
         XMLContentParsed => {
             Value => [
                 {
@@ -358,11 +358,11 @@ sub SettingRender {
 
             # month
             $HTML .= $LayoutObject->BuildSelection(
-                Data          => \@Months,
-                Name          => $Param{Name},
-                ID            => $Param{Name} . $IDSuffix . $Index . "Month",
-                Class         => $Param{Class},
-                Disabled      => $Param{RW} ? 0 : 1,
+                Data     => \@Months,
+                Name     => $Param{Name},
+                ID       => $Param{Name} . $IDSuffix . $Index . "Month",
+                Class    => $Param{Class},
+                Disabled => $Param{RW} ? 0 : 1,
                 SelectedValue => sprintf( "%02d", $Month ),
                 Title         => $LanguageObject->Translate("Month"),
             );
@@ -371,11 +371,11 @@ sub SettingRender {
 
             # day
             $HTML .= $LayoutObject->BuildSelection(
-                Data          => \@Days,
-                Name          => $Param{Name},
-                ID            => $Param{Name} . $IDSuffix . $Index . "Day",
-                Class         => $Param{Class},
-                Disabled      => $Param{RW} ? 0 : 1,
+                Data     => \@Days,
+                Name     => $Param{Name},
+                ID       => $Param{Name} . $IDSuffix . $Index . "Day",
+                Class    => $Param{Class},
+                Disabled => $Param{RW} ? 0 : 1,
                 SelectedValue => sprintf( "%02d", $Day ),
                 Title         => $LanguageObject->Translate("Day"),
             );

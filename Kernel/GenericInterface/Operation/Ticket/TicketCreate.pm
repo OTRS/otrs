@@ -1444,10 +1444,10 @@ sub _TicketCreate {
 
     # Create article.
     my $ArticleID = $ArticleBackendObject->ArticleCreate(
-        NoAgentNotify        => $Article->{NoAgentNotify} || 0,
-        TicketID             => $TicketID,
-        SenderTypeID         => $Article->{SenderTypeID} || '',
-        SenderType           => $Article->{SenderType} || '',
+        NoAgentNotify => $Article->{NoAgentNotify} || 0,
+        TicketID      => $TicketID,
+        SenderTypeID  => $Article->{SenderTypeID}  || '',
+        SenderType    => $Article->{SenderType}    || '',
         IsVisibleForCustomer => $Article->{IsVisibleForCustomer},
         From                 => $From,
         To                   => $To,

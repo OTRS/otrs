@@ -711,7 +711,7 @@ sub ObjectLogUpdate {
 
 Get the object list for a specific communication.
 
-    my $Result = $LogModuleObject->ObjectLogList(
+    my $Result = $CommunicationDBObject->ObjectLogList(
         CommunicationID    => '123',         # (optional)
         ObjectLogID        => '123',         # (optional)
         ObjectLogType      => 'Connection',  # (optional)

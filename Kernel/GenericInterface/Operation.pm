@@ -132,7 +132,7 @@ sub Run {
 
 handle error data of the configured remote web service.
 
-    my $Result = $InvokerObject->HandleError(
+    my $Result = $OperationObject->HandleError(
         Data => {                               # data payload
             ...
         },

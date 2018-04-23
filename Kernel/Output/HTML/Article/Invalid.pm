@@ -28,7 +28,7 @@ our @ObjectDependencies = (
 
 Returns common article fields for an invalid article.
 
-    my %ArticleFields = $ChatObject->ArticleFields(
+    my %ArticleFields = $LayoutObject->ArticleFields(
         TicketID  => 123,   # (required)
         ArticleID => 123,   # (required)
     );
@@ -94,7 +94,7 @@ sub ArticleFields {
 
 Returns article preview for an invalid article.
 
-    $ArticleBaseObject->ArticlePreview(
+    $LayoutObject->ArticlePreview(
         TicketID   => 123,     # (required)
         ArticleID  => 123,     # (required)
         ResultType => 'plain', # (optional) plain|HTML. Default HTML.

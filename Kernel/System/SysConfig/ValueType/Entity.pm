@@ -54,7 +54,7 @@ sub new {
 
 Check if provided EffectiveValue matches structure defined in XMLContentParsed.
 
-    my %Result = $SysConfigObject->SettingEffectiveValueCheck(
+    my %Result = $ValueTypeObject->SettingEffectiveValueCheck(
         XMLContentParsed => {
             Value => [
                 {
@@ -141,7 +141,7 @@ sub SettingEffectiveValueCheck {
 
 Returns a list of valid values for provided EntityType.
 
-    my $Result = $EntityObject->EntityValueList(
+    my $Result = $ValueTypeObject->EntityValueList(
         EntityType    => 'Priority',
         EntitySubType => 'SomeSubtype',     # optional e.g. the ObjectType for DynamicField entities
     );

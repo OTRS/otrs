@@ -840,11 +840,11 @@ sub _ShowEdit {
 
     # create permission selection
     $Param{PermissionSelection} = $LayoutObject->BuildSelection(
-        Data         => $Kernel::OM->Get('Kernel::Config')->Get('System::Permission') || ['rw'],
-        Name         => 'Permission',
-        ID           => 'Permission',
-        SelectedID   => $ActivityDialogData->{Config}->{Permission} || '',
-        Sort         => 'AlphanumericKey',
+        Data       => $Kernel::OM->Get('Kernel::Config')->Get('System::Permission') || ['rw'],
+        Name       => 'Permission',
+        ID         => 'Permission',
+        SelectedID => $ActivityDialogData->{Config}->{Permission}                   || '',
+        Sort       => 'AlphanumericKey',
         Translation  => 1,
         PossibleNone => 1,
         Class        => 'Modernize' . ( $Param{PermissionServerError} || '' ),
@@ -1027,7 +1027,7 @@ sub _PushSessionScreen {
 
     # add screen to the screen path
     push @{ $Self->{ScreensPath} }, {
-        Action    => $Self->{Action} || '',
+        Action => $Self->{Action} || '',
         Subaction => $Param{Subaction},
         ID        => $Param{ID},
         EntityID  => $Param{EntityID},

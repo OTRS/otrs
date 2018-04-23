@@ -85,7 +85,7 @@ sub Run {
     return $ModuleConfigCheck if !$ModuleConfigCheck->{Success};
 
     # Set basic information including possibly existing past execution data.
-    my $RetryCount      = $Param{PastExecutionData}->{RetryCount} // 0;
+    my $RetryCount = $Param{PastExecutionData}->{RetryCount} // 0;
     my $CurrentDateTime = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # Get date-time of last (=this) request. If we are not in a retry, use current date-time.

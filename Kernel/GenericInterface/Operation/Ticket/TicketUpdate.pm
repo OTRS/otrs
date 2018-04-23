@@ -2075,10 +2075,10 @@ sub _TicketUpdate {
 
         # Create article.
         $ArticleID = $ArticleBackendObject->ArticleCreate(
-            NoAgentNotify        => $Article->{NoAgentNotify} || 0,
-            TicketID             => $TicketID,
-            SenderTypeID         => $Article->{SenderTypeID} || '',
-            SenderType           => $Article->{SenderType} || '',
+            NoAgentNotify => $Article->{NoAgentNotify} || 0,
+            TicketID      => $TicketID,
+            SenderTypeID  => $Article->{SenderTypeID}  || '',
+            SenderType    => $Article->{SenderType}    || '',
             IsVisibleForCustomer => $Article->{IsVisibleForCustomer},
             From                 => $From,
             To                   => $To,
@@ -2249,7 +2249,7 @@ sub _TicketUpdate {
 
     # get Article and ArticleAttachement
     my %ArticleData = $ArticleBackendObject->ArticleGet(
-        ArticleID     => $ArticleID || $LastArticleID,
+        ArticleID => $ArticleID || $LastArticleID,
         DynamicFields => 1,
         TicketID      => $TicketID,
     );

@@ -69,7 +69,7 @@ $Selenium->RunTest(
             index(
                 $Selenium->get_page_source(),
                 "Dynamic field PreProcApplicationRecorded already exists, but definition is wrong."
-            ) > -1,
+                ) > -1,
             "Error message is shown.",
         );
 

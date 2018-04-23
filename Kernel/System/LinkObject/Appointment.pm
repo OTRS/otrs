@@ -54,7 +54,7 @@ sub new {
 
 fill up the link list with data
 
-    $Success = $LinkObjectBackend->LinkListWithData(
+    $Success = $LinkObject->LinkListWithData(
         LinkList                     => $HashRef,
         IgnoreLinkedTicketStateTypes => 0|1,        # (optional) default 0
         UserID                       => 1,
@@ -217,7 +217,7 @@ Returns:
         },
     };
 
-    $SearchList = $LinkObjectBackend->ObjectSearch(
+    $SearchList = $LinkObject->ObjectSearch(
         SubObject    => 'Bla',     # (optional)
         SearchParams => $HashRef,  # (optional)
         UserID       => 1,

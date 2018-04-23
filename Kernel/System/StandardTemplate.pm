@@ -387,7 +387,7 @@ sub StandardTemplateLookup {
 
 get all valid standard templates
 
-    my %StandardTemplates = $StandardTemplatesObject->StandardTemplateList();
+    my %StandardTemplates = $StandardTemplateObject->StandardTemplateList();
 
 Returns:
     %StandardTemplates = (

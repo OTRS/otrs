@@ -481,7 +481,7 @@ sub TableCreateSimple {
 
 return a output string
 
-    my $String = $LayoutObject->ContentStringCreate(
+    my $String = $BackendObject->ContentStringCreate(
         ContentData => $HashRef,
     );
 

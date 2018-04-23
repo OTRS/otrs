@@ -3473,8 +3473,8 @@ sub PackageUpgradeAllIsRunning {
     }
 
     return (
-        IsRunning      => $IsRunning // 0,
-        UpgradeStatus  => $SystemData{Status} || '',
+        IsRunning => $IsRunning // 0,
+        UpgradeStatus  => $SystemData{Status}  || '',
         UpgradeSuccess => $SystemData{Success} || '',
     );
 }

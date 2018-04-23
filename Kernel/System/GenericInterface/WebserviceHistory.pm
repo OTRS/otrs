@@ -180,7 +180,7 @@ sub WebserviceHistoryGet {
 
 update WebserviceHistory attributes
 
-    my $Success = $WebserviceObject->WebserviceHistoryUpdate(
+    my $Success = $WebserviceHistoryObject->WebserviceHistoryUpdate(
         ID           => 123,
         WebserviceID => 123
         Config       => $ConfigHashRef,

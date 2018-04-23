@@ -95,7 +95,7 @@ sub ArticlePreview {
 
 Returns article actions for current channel, based on registration in the config.
 
-    my @Actions = $ArticleBaseObject->ArticleActions(
+    my @Actions = $LayoutObject->ArticleActions(
         TicketID    => 123,      # (required)
         ArticleID   => 123,      # (required)
         UserID      => 1,        # (required)

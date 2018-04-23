@@ -870,9 +870,9 @@ sub GroupContextCustomers {
 
 get id or name for group
 
-    my $Group = $GroupObject->GroupLookup(GroupID => $GroupID);
+    my $Group = $CustomerGroupObject->GroupLookup(GroupID => $GroupID);
 
-    my $GroupID = $GroupObject->GroupLookup(Group => $Group);
+    my $GroupID = $CustomerGroupObject->GroupLookup(Group => $Group);
 
 =cut
 
@@ -958,7 +958,7 @@ sub GroupLookup {
 
 Check if a customer user has a certain permission for a certain group.
 
-    my $HasPermission = $GroupObject->PermissionCheck(
+    my $HasPermission = $CustomerGroupObject->PermissionCheck(
         UserID    => $UserID,
         GroupName => $GroupName,
         Type      => 'move_into',

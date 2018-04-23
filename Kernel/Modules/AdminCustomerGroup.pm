@@ -440,7 +440,7 @@ sub _Change {
         Name => 'Change',
         Data => {
             %Param,
-            ActionHome    => 'Admin' . ( $Type eq 'Customer' ? 'CustomerCompany' : $Type ),
+            ActionHome => 'Admin' . ( $Type eq 'Customer' ? 'CustomerCompany' : $Type ),
             VisibleNeType => $VisibleType{$NeType},
             VisibleType   => $VisibleType{$Type},
         },

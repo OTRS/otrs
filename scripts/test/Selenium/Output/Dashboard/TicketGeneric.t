@@ -29,7 +29,7 @@ $Selenium->RunTest(
                 ObjectParams => {
                     String => '2014-12-12 00:00:00'
                     }
-            )->ToEpoch(),
+                )->ToEpoch(),
         );
 
         # Create test user.

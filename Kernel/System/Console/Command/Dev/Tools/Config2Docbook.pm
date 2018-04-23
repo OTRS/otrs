@@ -124,12 +124,12 @@ EOF
                 Default => 1,
             );
 
-            my $IsReadOnly                 = $DefaultSetting{IsReadOnly} // 0;
-            my $IsValid                    = $DefaultSetting{IsValid} // 1;
-            my $IsRequired                 = $DefaultSetting{IsRequired} // 0;
-            my $IsInvisible                = $DefaultSetting{IsInvisible} // 0;
+            my $IsReadOnly                 = $DefaultSetting{IsReadOnly}               // 0;
+            my $IsValid                    = $DefaultSetting{IsValid}                  // 1;
+            my $IsRequired                 = $DefaultSetting{IsRequired}               // 0;
+            my $IsInvisible                = $DefaultSetting{IsInvisible}              // 0;
             my $IsUserModificationPossible = $DefaultSetting{UserModificationPossible} // 0;
-            my $IsUserModificationActive   = $DefaultSetting{UserModificationActive} // 0;
+            my $IsUserModificationActive   = $DefaultSetting{UserModificationActive}   // 0;
 
             my $EffectiveValueStrg = $YAMLObject->Dump(
                 Data => $DefaultSetting{EffectiveValue},

@@ -494,11 +494,11 @@ sub GroupDataList {
 
 get id or name for role
 
-    my $Role = $RoleObject->RoleLookup(
+    my $Role = $GroupObject->RoleLookup(
         RoleID => $RoleID,
     );
 
-    my $RoleID = $RoleObject->RoleLookup(
+    my $RoleID = $GroupObject->RoleLookup(
         Role => $Role,
     );
 

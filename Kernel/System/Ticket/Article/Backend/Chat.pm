@@ -585,7 +585,7 @@ sub ArticleDelete {    ## no critic;
 
 Get the definition of the searchable fields as a hash.
 
-    my %SearchableFields = $BackendObject->BackendSearchableFieldsGet();
+    my %SearchableFields = $ArticleBackendObject->BackendSearchableFieldsGet();
 
 Returns:
 
@@ -635,7 +635,7 @@ sub BackendSearchableFieldsGet {
 
 Get article attachment index as hash.
 
-    my %Index = $BackendObject->ArticleSearchableContentGet(
+    my %Index = $ArticleBackendObject->ArticleSearchableContentGet(
         TicketID       => 123,   # (required)
         ArticleID      => 123,   # (required)
         DynamicFields  => 1,     # (optional) To include the dynamic field values for this article on the return structure.

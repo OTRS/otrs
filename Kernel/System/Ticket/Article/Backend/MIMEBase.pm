@@ -127,7 +127,7 @@ Create a MIME article.
 
 Example with "Charset & MimeType" and no "ContentType".
 
-    my $ArticleID = $ArticleObject->ArticleCreate(
+    my $ArticleID = $ArticleBackendObject->ArticleCreate(
         TicketID             => 123,                                 # (required)
         SenderType           => 'agent',                             # (required) agent|system|customer
         IsVisibleForCustomer => 1,                                   # (required) Is article visible for customer?
@@ -1182,7 +1182,7 @@ sub ArticleDeleteAttachment {    ## no critic;
 
 Get article attachment index as hash.
 
-    my %Index = $BackendObject->ArticleAttachmentIndex(
+    my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
         ArticleID        => 123,
         ExcludePlainText => 1,       # (optional) Exclude plain text attachment
         ExcludeHTMLBody  => 1,       # (optional) Exclude HTML body attachment
@@ -1222,7 +1222,7 @@ sub ArticleAttachmentIndex {    ## no critic
 
 Get the definition of the searchable fields as a hash.
 
-    my %SearchableFields = $BackendObject->BackendSearchableFieldsGet();
+    my %SearchableFields = $ArticleBackendObject->BackendSearchableFieldsGet();
 
 Returns:
 
@@ -1332,7 +1332,7 @@ sub BackendSearchableFieldsGet {
 
 Get article attachment index as hash.
 
-    my %Index = $BackendObject->ArticleSearchableContentGet(
+    my %Index = $ArticleBackendObject->ArticleSearchableContentGet(
         TicketID       => 123,   # (required)
         ArticleID      => 123,   # (required)
         DynamicFields  => 1,     # (optional) To include the dynamic field values for this article on the return structure.

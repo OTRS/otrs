@@ -98,7 +98,7 @@ sub Serialize {
 
 Load a serialized storable string to a Perl data structure.
 
-    my $PerlStructureScalar = $StorabeObject->Deserialize(
+    my $PerlStructureScalar = $StorableObject->Deserialize(
         Data => $StorableString,
     );
 

@@ -238,7 +238,7 @@ my @Tests = (
         ExpectedResults => [
             {
                 ToArray => [ 'customerOne@example.com', 'customerTwo@example.com' ],
-                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+                Body => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
             },
         ],
         JustToRealCustomer => 0,

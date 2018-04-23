@@ -1225,7 +1225,7 @@ sub SearchPreferences {
 
 generate a random token
 
-    my $Token = $UserObject->TokenGenerate(
+    my $Token = $CustomerUserObject->TokenGenerate(
         UserID => 123,
     );
 
@@ -1261,7 +1261,7 @@ sub TokenGenerate {
 
 check password token
 
-    my $Valid = $UserObject->TokenCheck(
+    my $Valid = $CustomerUserObject>TokenCheck(
         Token  => $Token,
         UserID => 123,
     );

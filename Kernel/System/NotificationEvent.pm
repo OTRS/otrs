@@ -725,7 +725,7 @@ sub NotificationEventCheck {
 
 import an Notification YAML file/content
 
-    my $NotificationImport = $NotificationObject->NotificationImport(
+    my $NotificationImport = $NotificationEventObject->NotificationImport(
         Content                   => $YAMLContent, # mandatory, YAML format
         OverwriteExistingNotifications => 0,            # 0 || 1
         UserID                    => 1,            # mandatory

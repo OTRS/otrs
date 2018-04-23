@@ -63,7 +63,7 @@ sub new {
             $MainObject->Die("Can't load plugin module $GenericModule! $@");
         }
 
-        $Self->{Plugins}->{$PluginKey}->{PluginName}   = $PluginConfig->{$PluginKey}->{Name} // $GenericModule;
+        $Self->{Plugins}->{$PluginKey}->{PluginName} = $PluginConfig->{$PluginKey}->{Name} // $GenericModule;
         $Self->{Plugins}->{$PluginKey}->{PluginModule} = $GenericModule->new( %{$Self} );
 
         my $PluginURL = $PluginConfig->{$PluginKey}->{URL};

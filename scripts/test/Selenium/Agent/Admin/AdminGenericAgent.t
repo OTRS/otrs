@@ -201,7 +201,7 @@ $Selenium->RunTest(
             index(
                 $Selenium->get_page_source(),
                 'This event is already attached to the job, Please use a different one.'
-            ) > -1,
+                ) > -1,
             "Duplicated event dialog message is found",
         );
 

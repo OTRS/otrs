@@ -1850,9 +1850,9 @@ sub _Mask {
             UserID => $Self->{UserID},
         );
         $Param{TypeStrg} = $LayoutObject->BuildSelection(
-            Class        => 'Validate_Required Modernize ' . ( $Param{Errors}->{TypeIDInvalid} || '' ),
-            Data         => \%Type,
-            Name         => 'TypeID',
+            Class => 'Validate_Required Modernize ' . ( $Param{Errors}->{TypeIDInvalid} || '' ),
+            Data  => \%Type,
+            Name  => 'TypeID',
             SelectedID   => $Param{TypeID},
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
@@ -2185,7 +2185,7 @@ sub _Mask {
                     YearPeriodFuture => 5,
                     DiffTime         => $ConfigObject->Get('Ticket::Frontend::PendingDiffTime')
                         || 0,
-                    Class                => $Param{DateInvalid} || ' ',
+                    Class => $Param{DateInvalid} || ' ',
                     Validate             => 1,
                     ValidateDateInFuture => 1,
                     Calendar             => $Calendar,
@@ -2564,10 +2564,10 @@ sub _Mask {
             )
         {
             $Param{StandardTemplateStrg} = $LayoutObject->BuildSelection(
-                Data         => $QueueStandardTemplates || {},
-                Name         => 'StandardTemplateID',
-                SelectedID   => $Param{StandardTemplateID} || '',
-                Class        => 'Modernize',
+                Data       => $QueueStandardTemplates    || {},
+                Name       => 'StandardTemplateID',
+                SelectedID => $Param{StandardTemplateID} || '',
+                Class      => 'Modernize',
                 PossibleNone => 1,
                 Sort         => 'AlphanumericValue',
                 Translation  => 1,

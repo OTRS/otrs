@@ -231,7 +231,7 @@ sub ArticleDelete {
 
 Get article attachment index as hash.
 
-    my %Index = $BackendObject->BackendSearchableFieldsGet();
+    my %Index = $ArticleBackendObject->BackendSearchableFieldsGet();
 
 Returns:
 
@@ -253,7 +253,7 @@ sub BackendSearchableFieldsGet {
 
 Get article attachment index as hash.
 
-    my %Index = $BackendObject->ArticleSearchableContentGet(
+    my %Index = $ArticleBackendObject->ArticleSearchableContentGet(
         TicketID       => 123,   # (required)
         ArticleID      => 123,   # (required)
         DynamicFields  => 1,     # (optional) To include the dynamic field values for this article on the return structure.

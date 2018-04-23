@@ -646,13 +646,13 @@ sub StateTypeList {
 
 returns the id or the name of a state type
 
-    my $StateTypeID = $StateTypeObject->StateTypeLookup(
+    my $StateTypeID = $StateObject->StateTypeLookup(
         StateType => 'pending auto',
     );
 
 or
 
-    my $StateType = $StateTypeObject->StateTypeLookup(
+    my $StateType = $StateObject->StateTypeLookup(
         StateTypeID => 1,
     );
 

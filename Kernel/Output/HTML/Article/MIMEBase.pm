@@ -43,7 +43,7 @@ sub new {
 
 Returns common article fields for a MIMEBase article.
 
-    my %ArticleFields = $MIMEBaseObject->ArticleFields(
+    my %ArticleFields = $LayoutObject->ArticleFields(
         TicketID  => 123,   # (required)
         ArticleID => 123,   # (required)
     );
@@ -225,7 +225,7 @@ sub ArticleFields {
 
 Returns article preview for a MIMEBase article.
 
-    $ArticleBaseObject->ArticlePreview(
+    $LayoutObject->ArticlePreview(
         TicketID   => 123,     # (required)
         ArticleID  => 123,     # (required)
         ResultType => 'plain', # (optional) plain|HTML. Default HTML.
@@ -321,7 +321,7 @@ sub ArticlePreview {
 
 Returns HTMLBodyAttachmentID.
 
-    my $HTMLBodyAttachmentID = $ArticleBaseObject->HTMLBodyAttachmentIDGet(
+    my $HTMLBodyAttachmentID = $LayoutObject->HTMLBodyAttachmentIDGet(
         TicketID  => 123,     # (required)
         ArticleID => 123,     # (required)
     );

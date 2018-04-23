@@ -242,9 +242,9 @@ sub StatsParamsWidget {
                         Data       => $ParamItem->{Data},
                         Name       => $ParamItem->{Name},
                         SelectedID => $LocalGetParam->( Param => $ParamItem->{Name} ) // $ParamItem->{SelectedID} || '',
-                        Multiple   => $ParamItem->{Multiple} || 0,
-                        Size       => $ParamItem->{Size} || '',
-                        Class      => 'Modernize',
+                        Multiple => $ParamItem->{Multiple} || 0,
+                        Size     => $ParamItem->{Size}     || '',
+                        Class    => 'Modernize',
                     ),
                 },
             );
@@ -389,14 +389,14 @@ sub StatsParamsWidget {
 
                     if ( $ObjectAttribute->{Block} eq 'MultiSelectField' ) {
                         $BlockData{SelectField} = $LayoutObject->BuildSelection(
-                            Data           => \%ValueHash,
-                            Name           => $ElementName,
-                            Multiple       => 1,
-                            Size           => 5,
-                            SelectedID     => @SelectedIDs ? [@SelectedIDs] : $ObjectAttribute->{SelectedValues},
-                            Translation    => $ObjectAttribute->{Translation},
-                            TreeView       => $ObjectAttribute->{TreeView} || 0,
-                            Sort           => scalar $ObjectAttribute->{Sort},
+                            Data        => \%ValueHash,
+                            Name        => $ElementName,
+                            Multiple    => 1,
+                            Size        => 5,
+                            SelectedID  => @SelectedIDs ? [@SelectedIDs] : $ObjectAttribute->{SelectedValues},
+                            Translation => $ObjectAttribute->{Translation},
+                            TreeView => $ObjectAttribute->{TreeView} || 0,
+                            Sort => scalar $ObjectAttribute->{Sort},
                             SortIndividual => scalar $ObjectAttribute->{SortIndividual},
                             Class          => 'Modernize',
                         );
@@ -625,7 +625,7 @@ sub GeneralSpecificationsWidget {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # In case of page reload because of errors
-    my %Errors   = %{ $Param{Errors} //   {} };
+    my %Errors   = %{ $Param{Errors}   // {} };
     my %GetParam = %{ $Param{GetParam} // {} };
 
     my $Stat;
@@ -757,7 +757,7 @@ sub GeneralSpecificationsWidget {
                 Name        => 'ObjectModule',
                 Translation => 1,
                 Class       => 'Modernize ' . ( $Errors{ObjectModuleServerError} ? ' ServerError' : '' ),
-                SelectedID  => $GetParam{ObjectModule} // $ConfigObject->Get('Stats::DefaultSelectedDynamicObject'),
+                SelectedID => $GetParam{ObjectModule} // $ConfigObject->Get('Stats::DefaultSelectedDynamicObject'),
             );
         }
 
@@ -769,7 +769,7 @@ sub GeneralSpecificationsWidget {
                 Name        => 'ObjectModule',
                 Translation => 1,
                 Class       => 'Modernize ' . ( $Errors{ObjectModuleServerError} ? ' ServerError' : '' ),
-                SelectedID  => $GetParam{ObjectModule} // $ConfigObject->Get('Stats::DefaultSelectedDynamicObject'),
+                SelectedID => $GetParam{ObjectModule} // $ConfigObject->Get('Stats::DefaultSelectedDynamicObject'),
             );
 
         }
@@ -780,19 +780,19 @@ sub GeneralSpecificationsWidget {
 
     # create multiselectboxes 'format'
     $Stat->{SelectFormat} = $LayoutObject->BuildSelection(
-        Data       => $AvailableFormats,
-        Name       => 'Format',
-        Class      => 'Modernize Validate_Required' . ( $Errors{FormatServerError} ? ' ServerError' : '' ),
-        Multiple   => 1,
-        Size       => 5,
+        Data     => $AvailableFormats,
+        Name     => 'Format',
+        Class    => 'Modernize Validate_Required' . ( $Errors{FormatServerError} ? ' ServerError' : '' ),
+        Multiple => 1,
+        Size     => 5,
         SelectedID => $GetParam{Format} // $Stat->{Format} || $DefaultSelectedFormat,
     );
 
     # create multiselectboxes 'permission'
     my %Permission = (
-        Data        => { $Kernel::OM->Get('Kernel::System::Group')->GroupList( Valid => 1 ) },
-        Name        => 'Permission',
-        Class       => 'Modernize Validate_Required' . ( $Errors{PermissionServerError} ? ' ServerError' : '' ),
+        Data => { $Kernel::OM->Get('Kernel::System::Group')->GroupList( Valid => 1 ) },
+        Name => 'Permission',
+        Class => 'Modernize Validate_Required' . ( $Errors{PermissionServerError} ? ' ServerError' : '' ),
         Multiple    => 1,
         Size        => 5,
         Translation => 0,

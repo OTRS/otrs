@@ -64,7 +64,7 @@ sub RebuildConfig {
     # Rebuild ZZZAAuto.pm with current values
     if (
         !$SysConfigObject->ConfigurationDeploy(
-            Comments     => $Param{Comments} || "Configuration Rebuild",
+            Comments => $Param{Comments} || "Configuration Rebuild",
             AllSettings  => 1,
             Force        => 1,
             NoValidation => 1,

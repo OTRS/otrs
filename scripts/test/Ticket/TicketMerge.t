@@ -310,7 +310,7 @@ $Helper->FixedTimeSet(
         ObjectParams => {
             String => '2017-09-27 10:00:00',
         },
-    )->ToEpoch()
+        )->ToEpoch()
 );
 
 # Create two more tickets.

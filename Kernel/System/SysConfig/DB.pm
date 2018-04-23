@@ -4146,7 +4146,7 @@ sub ModifiedSettingVersionDelete {
 
 Check if there are not deployed changes on system configuration.
 
-    my $Result = $SysConfigObject->ConfigurationIsDirty(
+    my $Result = $SysConfigDBObject->ConfigurationIsDirty(
         UserID => 123,      # optional, the user that changes a modified setting
     );
 
@@ -5054,7 +5054,7 @@ sub DeploymentModifiedVersionList {
         return;
     }
 
-    my $Mode        = $Param{Mode} // 'Equals';
+    my $Mode = $Param{Mode} // 'Equals';
     my %ModeMapping = (
         Equals            => '=',
         GreaterThan       => '>',

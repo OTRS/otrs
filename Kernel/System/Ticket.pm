@@ -652,8 +652,8 @@ sub TicketCreate {
         $Self->TicketCustomerSet(
             TicketID => $TicketID,
             No       => $Param{CustomerNo} || $Param{CustomerID} || '',
-            User     => $Param{CustomerUser} || '',
-            UserID   => $Param{UserID},
+            User => $Param{CustomerUser} || '',
+            UserID => $Param{UserID},
         );
     }
 

@@ -1200,7 +1200,7 @@ sub Run {
                     Name => 'ContentLargeTicketGenericHeaderTicketNumberColumn',
                     Data => {
                         %Param,
-                        CSS   => $CSS || '',
+                        CSS => $CSS || '',
                         Name  => $Self->{Name},
                         Title => $Title,
                     },
@@ -1775,7 +1775,7 @@ sub Run {
                 elsif ( $Column eq 'EscalationSolutionTime' ) {
                     $BlockType = 'Escalation';
                     $DataValue = $LayoutObject->CustomerAge(
-                        Age                => $Ticket{SolutionTime} || 0,
+                        Age => $Ticket{SolutionTime} || 0,
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
                     );
@@ -1786,7 +1786,7 @@ sub Run {
                 elsif ( $Column eq 'EscalationResponseTime' ) {
                     $BlockType = 'Escalation';
                     $DataValue = $LayoutObject->CustomerAge(
-                        Age                => $Ticket{FirstResponseTime} || 0,
+                        Age => $Ticket{FirstResponseTime} || 0,
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
                     );
@@ -1801,7 +1801,7 @@ sub Run {
                 elsif ( $Column eq 'EscalationUpdateTime' ) {
                     $BlockType = 'Escalation';
                     $DataValue = $LayoutObject->CustomerAge(
-                        Age                => $Ticket{UpdateTime} || 0,
+                        Age => $Ticket{UpdateTime} || 0,
                         TimeShowAlwaysLong => 1,
                         Space              => ' ',
                     );
@@ -1876,7 +1876,7 @@ sub Run {
                     $LayoutObject->Block(
                         Name => "ContentLargeTicketTitle",
                         Data => {
-                            Title      => "$DataValue " || '',
+                            Title => "$DataValue " || '',
                             WholeTitle => $WholeTitle,
                             Class      => $CSSClass || '',
                         },
@@ -2482,7 +2482,7 @@ sub _SearchParamsGet {
     my %TicketSearchSummary = (
         Locked => {
             OwnerIDs => $TicketSearch{OwnerIDs} // [ $Self->{UserID}, ],
-            LockIDs  => [ $LockName2ID{lock}, $LockName2ID{tmp_lock} ],
+            LockIDs => [ $LockName2ID{lock}, $LockName2ID{tmp_lock} ],
         },
         Watcher => {
             WatchUserIDs => [ $Self->{UserID}, ],
@@ -2490,7 +2490,7 @@ sub _SearchParamsGet {
         },
         Responsible => {
             ResponsibleIDs => $TicketSearch{ResponsibleIDs} // [ $Self->{UserID}, ],
-            LockIDs => $TicketSearch{LockIDs} // undef,
+            LockIDs        => $TicketSearch{LockIDs}        // undef,
         },
         MyQueues => {
             QueueIDs => \@MyQueues,
@@ -2503,7 +2503,7 @@ sub _SearchParamsGet {
         },
         All => {
             OwnerIDs => $TicketSearch{OwnerIDs} // undef,
-            LockIDs  => $TicketSearch{LockIDs} // undef,
+            LockIDs  => $TicketSearch{LockIDs}  // undef,
         },
     );
 

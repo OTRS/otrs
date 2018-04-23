@@ -114,7 +114,7 @@ $Self->True(
 my @TicketData;
 for my $Item ( 0 .. 1 ) {
     my $TicketID = $TicketObject->TicketCreate(
-        Title         => ( $Item == 0 ) ? $Services[0]->{ServiceID} : 'test',
+        Title => ( $Item == 0 ) ? $Services[0]->{ServiceID} : 'test',
         QueueID       => 1,
         Lock          => 'unlock',
         Priority      => '3 normal',

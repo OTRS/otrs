@@ -300,10 +300,10 @@ sub _Edit {
         Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
     $Param{QueueOption} = $LayoutObject->AgentQueueListOption(
-        Data           => { $Kernel::OM->Get('Kernel::System::Queue')->QueueList( Valid => 1 ), },
-        Name           => 'QueueID',
-        SelectedID     => $Param{QueueID},
-        Class          => 'Modernize Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
+        Data       => { $Kernel::OM->Get('Kernel::System::Queue')->QueueList( Valid => 1 ), },
+        Name       => 'QueueID',
+        SelectedID => $Param{QueueID},
+        Class => 'Modernize Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
         OnChangeSubmit => 0,
     );
 

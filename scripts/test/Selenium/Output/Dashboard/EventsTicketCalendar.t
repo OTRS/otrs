@@ -131,7 +131,7 @@ $Selenium->RunTest(
                 ObjectParams => {
                     Epoch => $DateTimeObject->ToEpoch() + 60 * 60,
                     }
-            )->ToString(),
+                )->ToString(),
         );
 
         # set value of ticket's dynamic fields

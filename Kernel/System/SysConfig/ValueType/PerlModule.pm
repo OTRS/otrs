@@ -54,7 +54,7 @@ sub new {
 
 Check if provided EffectiveValue matches structure defined in XMLContentParsed.
 
-    my %Result = $SysConfigObject->SettingEffectiveValueCheck(
+    my %Result = $ValueTypeObject->SettingEffectiveValueCheck(
         XMLContentParsed => {
             Value => [
                 {

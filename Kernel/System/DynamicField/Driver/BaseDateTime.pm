@@ -624,7 +624,7 @@ EOF
             Sort           => 'IndividualKey',
             SortIndividual => [ 'Before', 'Last', 'Next', 'After' ],
             Name           => $FieldName . 'Start',
-            SelectedID     => $Value->{Start}->{ $FieldName . 'Start' } || 'Last',
+            SelectedID => $Value->{Start}->{ $FieldName . 'Start' } || 'Last',
         );
         $HTMLString .= ' ' . $Param{LayoutObject}->BuildSelection(
             Data       => [ 1 .. 59 ],

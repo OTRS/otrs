@@ -1603,7 +1603,7 @@ sub Footer {
                 $ConfigObject->Get('Ticket::SearchIndexModule')
                 eq 'Kernel::System::Ticket::ArticleSearchIndex::DB'
                 )
-        ) ? 1 : 0,
+            ) ? 1 : 0,
         SearchFrontend => $JSCall,
         Autocomplete   => $AutocompleteConfig,
     );
@@ -3676,7 +3676,7 @@ sub BuildDateSelection {
 
 Produces human readable data size.
 
-    my $SizeStr = $MainObject->HumanReadableDataSize(
+    my $SizeStr = $LayoutObject->HumanReadableDataSize(
         Size => 123,  # size in bytes
     );
 
@@ -5963,8 +5963,8 @@ sub SetRichTextParameters {
     my $ScreenRichTextWidth  = $Param{Data}->{RichTextWidth}  || $ConfigObject->Get("Frontend::RichTextWidth");
     my $RichTextType         = $Param{Data}->{RichTextType}   || '';
     my $PictureUploadAction = $Param{Data}->{RichTextPictureUploadAction} || '';
-    my $TextDir             = $Self->{TextDirection}                      || '';
-    my $EditingAreaCSS      = 'body.cke_editable { ' . $ConfigObject->Get("Frontend::RichText::DefaultCSS") . ' }';
+    my $TextDir = $Self->{TextDirection} || '';
+    my $EditingAreaCSS = 'body.cke_editable { ' . $ConfigObject->Get("Frontend::RichText::DefaultCSS") . ' }';
 
     # decide if we need to use the enhanced mode (with tables)
     my @Toolbar;

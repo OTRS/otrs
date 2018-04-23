@@ -360,8 +360,8 @@ sub _ShowEdit {
 
         # Create Timeout select.
         $Param{TimeoutStrg} = $LayoutObject->BuildSelection(
-            Data          => [ '30', '60', '90', '120', '150', '180', '210', '240', '270', '300' ],
-            Name          => 'Timeout',
+            Data => [ '30', '60', '90', '120', '150', '180', '210', '240', '270', '300' ],
+            Name => 'Timeout',
             SelectedValue => $Param{Timeout} || '120',
             Sort          => 'NumericValue',
             Class         => 'Modernize',
@@ -387,8 +387,8 @@ sub _ShowEdit {
 
         # Create use Proxy select.
         $Param{UseProxyStrg} = $LayoutObject->BuildSelection(
-            Data          => [ 'No', 'Yes' ],
-            Name          => 'UseProxy',
+            Data => [ 'No', 'Yes' ],
+            Name => 'UseProxy',
             SelectedValue => $Param{UseProxy} || 'No',
             PossibleNone  => 0,
             Sort          => 'AlphanumericValue',
@@ -397,8 +397,8 @@ sub _ShowEdit {
 
         # Create Proxy exclude select.
         $Param{ProxyExcludeStrg} = $LayoutObject->BuildSelection(
-            Data          => [ 'No', 'Yes' ],
-            Name          => 'ProxyExclude',
+            Data => [ 'No', 'Yes' ],
+            Name => 'ProxyExclude',
             SelectedValue => $Param{ProxyExclude} || 'No',
             PossibleNone  => 0,
             Sort          => 'AlphanumericValue',
@@ -414,8 +414,8 @@ sub _ShowEdit {
 
         # Create use SSL select.
         $Param{UseSSLStrg} = $LayoutObject->BuildSelection(
-            Data          => [ 'No', 'Yes' ],
-            Name          => 'UseSSL',
+            Data => [ 'No', 'Yes' ],
+            Name => 'UseSSL',
             SelectedValue => $Param{UseSSL} || 'No',
             PossibleNone  => 0,
             Sort          => 'AlphanumericValue',
