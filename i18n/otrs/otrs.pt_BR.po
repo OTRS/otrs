@@ -10,14 +10,16 @@
 # Diego Fialho Rodrigues <dfialho84@gmail.com>, 2015
 # eder.brito <ederbritoo@gmail.com>, 2015,2018
 # Edicarlos Lopes <edicarlos.lds@gmail.com>, 2017
-# Edicarlos Lopes Santos <esantos@beonup.com.br>, 2016
-# Edicarlos Lopes Santos <esantos@beonup.com.br>, 2016-2017
+# Edicarlos Lopes <esantos@beonup.com.br>, 2016,2018
+# Edicarlos Lopes <esantos@beonup.com.br>, 2016-2017
 # Edson S Freitas <edson.s.freitas@gmail.com>, 2016
 # Felipe Augusto Nunes Ribeiro <felipeaugustoti@gmail.com>, 2016
 # Felipe Braga <fbobraga@gmail.com>, 2015-2016
 # Felipe Rozelio <feliperozelio@gmail.com>, 2016
 # Gilberto José Souza Coutinho <gilberto.jsc@gmail.com>, 2017
 # Glauber Caires <glaubercaires@gmail.com>, 2016
+# Gustavo Antonio Lutz de Matos <gustavo.almatos@gmail.com>, 2018
+# Gustavo Antonio Lutz de Matos <gustavo.almatos@gmail.com>, 2018
 # Jefferson Campos <foguinho.peruca@gmail.com>, 2017
 # João Paulo Avelar de Araújo Pontes <meunomejoaopaulo@gmail.com>, 2016
 # José Ribeiro <joserribeiro26@gmail.com>, 2014-2015
@@ -40,8 +42,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-03-05 19:12+0000\n"
-"PO-Revision-Date: 2018-03-05 22:25+0000\n"
+"POT-Creation-Date: 2018-04-23 17:42+0000\n"
+"PO-Revision-Date: 2018-04-23 17:46+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/otrs/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -619,8 +621,8 @@ msgid "Send to these agents"
 msgstr "Enviar para estes atendentes"
 
 #. Template: AdminAppointmentNotificationEvent
-msgid "Send to all group members"
-msgstr "Enviar para todos os membros do grupo"
+msgid "Send to all group members (agents only)"
+msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
@@ -2672,21 +2674,21 @@ msgstr ""
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "This message will be available in XSLT-Mapping and shown in debugger output."
-msgstr ""
+msgstr "Esta mensagem estará disponível no XSLT-Mapping e mostrado saída do debugger."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Define if processing should be stopped after module was executed, skipping "
 "all remaining modules or only those of the same backend."
-msgstr ""
+msgstr "Defina se o processamento deve ser parado após a execução do módulo, ignorando todos os módulos restantes ou apenas os do mesmo back-end."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Default behavior is to resume, processing the next module."
-msgstr ""
+msgstr "O comportamento padrão é continuar, processando o próximo módulo."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "This module allows to configure scheduled retries for failed requests."
-msgstr ""
+msgstr "Este módulo permite configurar novas tentativas agendadas para solicitações com falha."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2703,7 +2705,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Request retry options"
-msgstr ""
+msgstr "Solicitar opções de repetição"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2713,7 +2715,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Schedule retry"
-msgstr ""
+msgstr "Programar nova tentativa"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Should requests causing an error be triggered again at a later time?"
@@ -2735,7 +2737,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Factor for further retries"
-msgstr ""
+msgstr "Fator para novas tentativas"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2800,7 +2802,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "This field must be empty or contain a positive number."
-msgstr ""
+msgstr "Este campo deve ficar vazio ou conter um número positivo."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry period"
@@ -2854,10 +2856,6 @@ msgstr "Detalhes do invoker"
 msgid ""
 "The name is typically used to call up an operation of a remote web service."
 msgstr "O nome é comumente usado para chamar uma operação de um web service remoto."
-
-#. Template: AdminGenericInterfaceInvokerDefault
-msgid "Please provide a unique name for this web service invoker."
-msgstr "Por favor informe um nome único para este invoker de web service."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker backend"
@@ -3256,16 +3254,6 @@ msgid ""
 msgstr "O nome é normalmente usado para chamar esta operação de web service a partir de um sistema remoto."
 
 #. Template: AdminGenericInterfaceOperationDefault
-msgid "Mapping for incoming request data"
-msgstr "Mapeamento para dados de chegada da requisição"
-
-#. Template: AdminGenericInterfaceOperationDefault
-msgid ""
-"The request data will be processed by this mapping, to transform it to the "
-"kind of data OTRS expects."
-msgstr "Os dados requisitados serão processados por este mapeamento, para transformá-los no tipo de dados esperado pelo OTRS."
-
-#. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation backend"
 msgstr "Backend de operação"
 
@@ -3274,6 +3262,16 @@ msgid ""
 "This OTRS operation backend module will be called internally to process the "
 "request, generating data for the response."
 msgstr "Este módulo de backend de operação do OTRS será chamado internamente para processar a requisição, gerando dados para a resposta"
+
+#. Template: AdminGenericInterfaceOperationDefault
+msgid "Mapping for incoming request data"
+msgstr "Mapeamento para dados de chegada da requisição"
+
+#. Template: AdminGenericInterfaceOperationDefault
+msgid ""
+"The request data will be processed by this mapping, to transform it to the "
+"kind of data OTRS expects."
+msgstr "Os dados requisitados serão processados por este mapeamento, para transformá-los no tipo de dados esperado pelo OTRS."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for outgoing response data"
@@ -3290,9 +3288,7 @@ msgid "Include Ticket Data"
 msgstr "Incluir dados do chamado"
 
 #. Template: AdminGenericInterfaceOperationDefault
-msgid ""
-"Include ticket data by response. Only available for TicketCreate and "
-"TicketUpdate operations."
+msgid "Include ticket data in response."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -6518,6 +6514,12 @@ msgid "State type"
 msgstr "Tipo de Estado"
 
 #. Template: AdminState
+msgid ""
+"It's not possible to invalidate this entry because there is no other merge "
+"states in system!"
+msgstr ""
+
+#. Template: AdminState
 msgid "This state is used in the following config settings:"
 msgstr ""
 
@@ -7485,11 +7487,11 @@ msgstr "Selecionar Todos"
 
 #. Template: AgentCustomerUserAddressBookOverview
 msgid "The customer user is already selected in the ticket mask."
-msgstr ""
+msgstr "O usuário cliente já está selecionado na máscara do chamado."
 
 #. Template: AgentCustomerUserAddressBookOverview
 msgid "Select this customer user"
-msgstr ""
+msgstr "Selecione este usuário cliente."
 
 #. Template: AgentCustomerUserAddressBookOverview
 msgid "Add selected customer user to"
@@ -7720,11 +7722,11 @@ msgstr "Essa estatística não pode ser usada nesse momento por que a configura�
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Assigned to customer user"
-msgstr ""
+msgstr "Atribuído ao usuário cliente."
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Accessible for customer user"
-msgstr ""
+msgstr "Acessível para o usuário cliente."
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My locked tickets"
@@ -7865,7 +7867,7 @@ msgid ""
 "You can change your avatar image by registering with your email address %s "
 "at %s. Please note that it can take some time until your new avatar becomes "
 "available because of caching."
-msgstr ""
+msgstr "Você pode alterar a sua imagem de avatar registrando-se com sua conta de e-mail %s em %s. Por favor note que pode levar algum tempo até que o seu novo avatar fique disponível por conta do cache."
 
 #. Template: AgentPreferences
 msgid "Off"
@@ -8764,7 +8766,7 @@ msgstr "O envio desta mensagem falhou."
 
 #. Template: AgentTicketZoom
 msgid "This message has been queued for sending."
-msgstr ""
+msgstr "Esta mensagem foi adicionada à fila de envio."
 
 #. Template: AgentTicketZoom
 msgid "Resize"
@@ -8800,7 +8802,7 @@ msgstr "por %s"
 
 #. Template: Chat
 msgid "Toggle article details"
-msgstr ""
+msgstr "Exibir detalhes do artigo"
 
 #. Template: MIMEBase
 msgid ""
@@ -8967,17 +8969,9 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid ""
-"Your browser was not able to communicate with OTRS properly, there seems to "
-"be something wrong with your network connection. You could either try "
-"reloading this page manually or wait until your browser has re-established "
-"the connection on its own."
-msgstr "Seu navegador não foi capaz de se comunicar corretamente com o OTRS. Parece que há algo errado com a sua conexão de rede. Você pode ou tentar recarregar esta página manualmente ou esperar até que seu navegador tenha restabelecido ele mesmo a conexão."
-
-#. Template: CustomerFooterJS
-msgid ""
-"There was an error in communication with the server. Server might be "
-"experiencing some temporary problems, please reload this page to check if "
-"they have been resolved."
+"%s detected possible network issues. You could either try reloading this "
+"page manually or wait until your browser has re-established the connection "
+"on its own."
 msgstr ""
 
 #. Template: CustomerFooterJS
@@ -10179,7 +10173,7 @@ msgstr "Navegação"
 msgid ""
 "With %s, System Configuration supports versioning, rollback and user-"
 "specific configuration settings."
-msgstr ""
+msgstr "Com %s a Configuração do Sistema suporta versionamento, rollback e parâmetros de configuração específicos por usuário."
 
 #. Template: Test
 msgid "OTRS Test Page"
@@ -10231,11 +10225,11 @@ msgstr ""
 
 #. JS Template: UploadContainer
 msgid "Click to select files or just drop them here."
-msgstr ""
+msgstr "Clique para selecionar os arquivos ou apenas arraste-os aqui."
 
 #. JS Template: UploadContainer
 msgid "Click to select a file or just drop it here."
-msgstr ""
+msgstr "Clique para selecionar o arquivo ou arraste-o aqui."
 
 #. JS Template: UploadContainer
 msgid "Uploading..."
@@ -10791,11 +10785,11 @@ msgstr "Indireto"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUserGroup.pm
 msgid "Change Customer User Relations for Group"
-msgstr ""
+msgstr "Modifique a relação de Usuário Cliente para o Grupo"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUserGroup.pm
 msgid "Change Group Relations for Customer User"
-msgstr ""
+msgstr "Modifique a relação de Grupo para o Usuário Cliente"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUserService.pm
 msgid "Allocate Customer Users to Service"
@@ -11140,22 +11134,6 @@ msgid "1 week"
 msgstr "1 semana"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "Need InvokerType"
-msgstr "Necessário InvokerType"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "InvokerType %s is not registered"
-msgstr "InvokerType %s não está registrado"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "Need InvokerType!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "Need Invoker"
-msgstr "Necessário Invoker"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Could not determine config for invoker %s"
 msgstr "Não foi possível determinar a configuração para o invoker %s"
 
@@ -11234,22 +11212,6 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing response data before mapping"
 msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-msgid "Need OperationType"
-msgstr "Necessário OperationType"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-msgid "Operation %s is not registered"
-msgstr "Operation %s não está registrado"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-msgid "OperationType %s is not registered"
-msgstr "OperationType %s não está registrado"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-msgid "Need Operation"
-msgstr "Necessário Operação"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
@@ -13503,11 +13465,11 @@ msgstr "Reenviar"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketMessageLog.pm
 msgid "View message log details for this article"
-msgstr ""
+msgstr "Visualizar detalhes do log de mensagens para este artigo"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketMessageLog.pm
 msgid "Message Log"
-msgstr ""
+msgstr "Log de Mensagens"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketNote.pm
 msgid "Reply to note"
@@ -13947,7 +13909,7 @@ msgstr "Você habilitou \"Fora do Escritório\", gostaria de desabilitar?"
 msgid ""
 "You have %s invalid setting(s) deployed. Click here to show invalid "
 "settings."
-msgstr ""
+msgstr "Você tem %sconfiguração(ões) inválidas implantadas. Clique aqui para mostrar estas configurações inválidas."
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/SystemConfigurationIsDirtyCheck.pm
@@ -15135,6 +15097,11 @@ msgid "Tickets Per Month (avg)"
 msgstr "Chamados por Mês (méd.)"
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+msgid "Open Tickets"
+msgstr "Chamados Abertos"
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
 msgid "Default SOAP Username And Password"
 msgstr "Usuário e Senha SOAP padrão"
@@ -15313,11 +15280,6 @@ msgstr ""
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "There are invalid users with locked tickets."
 msgstr ""
-
-#. Perl Module:
-#. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
-msgid "Open Tickets"
-msgstr "Chamados Abertos"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
@@ -16273,11 +16235,11 @@ msgstr "AVISO: Quando você altera o nome do grupo 'admin', antes de fazer as al
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Delete this Mail Account"
-msgstr ""
+msgstr "Deletar conta de e-mail."
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Deleting the mail account and its data. This may take a while..."
-msgstr ""
+msgstr "Deletando a conta de e-mail e suas informações. Isto pode demorar um pouco..."
 
 #. JS File: Core.Agent.Admin.NotificationEvent
 msgid "Do you really want to delete this notification language?"
@@ -16291,12 +16253,12 @@ msgstr "Você realmente quer apagar essa notificação ?"
 msgid ""
 "There is a package upgrade process running, click here to see status "
 "information about the upgrade progress."
-msgstr ""
+msgstr "Existe um processo de atualização de pacote em andamento, clique aqui para ver o estado em que se encontra o progresso."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "A package upgrade was recently finished. Click here to see the results."
-msgstr ""
+msgstr "A atualização de um pacote finalizou recentemente. Clique aqui para ver o resultado."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
@@ -16316,7 +16278,7 @@ msgstr "Não é possível no momento"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "This is currently disabled because of an ongoing package upgrade."
-msgstr ""
+msgstr "Isso está desabilitado atualmente devido a uma atualização de pacote em andamento."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
@@ -16325,11 +16287,11 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Are you sure you want to update all installed packages?"
-msgstr ""
+msgstr "Você tem certeza de que quer atualizar todos os pacotes instalados?"
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Delete this PostMasterFilter"
-msgstr ""
+msgstr "Deletar Filtro PostMaster"
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Deleting the postmaster filter and its data. This may take a while..."
@@ -16711,7 +16673,7 @@ msgstr "Desculpe, mas você não pode desabilitar todos os métodos para esta no
 msgid ""
 "Please note that at least one of the settings you have changed requires a "
 "page reload. Click here to reload the current screen."
-msgstr ""
+msgstr "Por favor, note que pelo menos uma das configurações que você modificou recentemente necessita que a página seja atualizada. Clique aqui para atualizar a tela atual."
 
 #. JS File: Core.Agent.Preferences
 msgid "An unknown error occurred. Please contact the administrator."
@@ -16800,16 +16762,12 @@ msgid "Error: Browser Check failed!"
 msgstr ""
 
 #. JS File: Core.App
-msgid "Connection error"
-msgstr "Erro de Conexão"
-
-#. JS File: Core.App
 msgid "Reload page"
 msgstr "Atualizar página"
 
 #. JS File: Core.App
-msgid "Communication error"
-msgstr "Erro de comunicação"
+msgid "Reload page (%ss)"
+msgstr ""
 
 #. JS File: Core.Debug
 msgid "Namespace %s could not be initialized, because %s could not be found."
@@ -17238,7 +17196,7 @@ msgstr "Adicionar uma nota de chamada telefônica realizada a este chamado"
 
 #. SysConfig
 msgid "Added %s time unit(s), for a total of %s time unit(s)."
-msgstr ""
+msgstr "Adicionada(s) %s unidade(s) de tempo, para um total de %s unidade(s) de tempo."
 
 #. SysConfig
 msgid "Added email. %s"
@@ -18571,7 +18529,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Customers ↔ Groups"
-msgstr ""
+msgstr "Clientes ↔ Grupos"
 
 #. SysConfig
 msgid ""
@@ -19559,7 +19517,7 @@ msgstr ""
 msgid ""
 "Defines the default next state of a ticket after the message has been sent, "
 "in the email outbound screen of the agent interface."
-msgstr ""
+msgstr "Define o próximo estado padrão de um chamado após a mensagem ter sido enviada, na tela de envio de e-mail na interface do atendente."
 
 #. SysConfig
 msgid ""
@@ -20309,7 +20267,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the module to authenticate customers."
-msgstr ""
+msgstr "Define os módulos de autenticação dos clientes."
 
 #. SysConfig
 msgid ""
@@ -22633,7 +22591,7 @@ msgstr "Associar usuário cliente a serviços."
 
 #. SysConfig
 msgid "Link customers to groups."
-msgstr ""
+msgstr "Associar clientes a grupos."
 
 #. SysConfig
 msgid "Link queues to auto responses."
@@ -24250,15 +24208,15 @@ msgstr "Segunda Fila"
 #. SysConfig
 msgid ""
 "Select after which period ticket overviews should refresh automatically."
-msgstr ""
+msgstr "Selecione a frequência com que a visão geral de chamados deve ser atualizada."
 
 #. SysConfig
 msgid "Select how many tickets should be shown in overviews by default."
-msgstr ""
+msgstr "Selecione quantos chamados deverão ser mostrados na visão geral por padrão."
 
 #. SysConfig
 msgid "Select the main interface language."
-msgstr ""
+msgstr "Selecione o idioma principal da interface."
 
 #. SysConfig
 msgid ""
@@ -24275,7 +24233,7 @@ msgstr "Selecione seu tema de interface."
 msgid ""
 "Select your personal time zone. All times will be displayed relative to this"
 " time zone."
-msgstr ""
+msgstr "Selecione seu fuso horário pessoal. Todos os horários serão exibidos conforme este fuso horário."
 
 #. SysConfig
 msgid "Select your preferred layout for the software."
@@ -26631,7 +26589,7 @@ msgstr "Usar richtext para visualizar e editar notificações de chamados."
 msgid ""
 "Uses richtext for viewing and editing: articles, salutations, signatures, "
 "standard templates, auto responses and notifications."
-msgstr "Usar texto rico quando visualizar e editar: artigos, saudações, assinaturas, modelos, auto respostas e notificações."
+msgstr "Usar RichText quando visualizar e editar: artigos, saudações, assinaturas, modelos, auto respostas e notificações."
 
 #. SysConfig
 msgid "Vietnam"

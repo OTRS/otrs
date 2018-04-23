@@ -9,6 +9,7 @@
 # Dominik <dominik@reichardt-online.it>, 2015
 # Dorothea Doerffel <dorothea.doerffel@cape-it.de>, 2017
 # Ettore Atalan <atalanttore@googlemail.com>, 2014-2018
+# Felix Brinkmann <payartz12@gmail.com>, 2018
 # Felix Schäfer <web.otrs@yorfeix.de>, 2017
 # Florian Edlhuber <florian.edlhuber@otrs.com>, 2015-2016
 # Florian Liebe <florian.liebe@otrs.com>, 2017
@@ -51,13 +52,14 @@
 # Simone Niederle <sniederle@starface.de>, 2017
 # sb_otrs <stefan.bedorf@otrs.com>, 2017
 # sb_otrs <stefan.bedorf@otrs.com>, 2017
+# Stefan Hagl <stefan.hagl@gmx.at>, 2018
 # Stefan Simmerstatter, 2015
 # Tobias Krumholz <krumholt@fh-trier.de>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-03-05 19:12+0000\n"
-"PO-Revision-Date: 2018-03-05 22:25+0000\n"
+"POT-Creation-Date: 2018-04-23 17:42+0000\n"
+"PO-Revision-Date: 2018-04-23 17:46+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -635,8 +637,8 @@ msgid "Send to these agents"
 msgstr "An diese Agenten senden"
 
 #. Template: AdminAppointmentNotificationEvent
-msgid "Send to all group members"
-msgstr "An alle Gruppenmitglieder senden"
+msgid "Send to all group members (agents only)"
+msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
@@ -2872,10 +2874,6 @@ msgid ""
 msgstr "Der Name wird typischerweise genutzt, um eine Operation eines entfernten Webservice aufzurufen."
 
 #. Template: AdminGenericInterfaceInvokerDefault
-msgid "Please provide a unique name for this web service invoker."
-msgstr "Bitte geben sie einen eindeutigen Namen für diesen Webservice-Invoker an."
-
-#. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker backend"
 msgstr "Invoker-Backend"
 
@@ -3272,16 +3270,6 @@ msgid ""
 msgstr "Der Name wird typischerweise benutzt, um die Webservice-Operation von einem entfernten System aus aufzurufen."
 
 #. Template: AdminGenericInterfaceOperationDefault
-msgid "Mapping for incoming request data"
-msgstr "Mapping für eingehende Anfragedaten"
-
-#. Template: AdminGenericInterfaceOperationDefault
-msgid ""
-"The request data will be processed by this mapping, to transform it to the "
-"kind of data OTRS expects."
-msgstr "Die Daten der eingehenden Anfrage werden von diesem Mapping verarbeitet, um sie so umzuformen, wie die OTRS-Operation sie benötigt."
-
-#. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation backend"
 msgstr "Operation-Backend"
 
@@ -3290,6 +3278,16 @@ msgid ""
 "This OTRS operation backend module will be called internally to process the "
 "request, generating data for the response."
 msgstr "Das Operation-Backend-Modul wird intern aufgerufen um die Anfrage zu verarbeiten, und erzeugt dabei Antwortdaten."
+
+#. Template: AdminGenericInterfaceOperationDefault
+msgid "Mapping for incoming request data"
+msgstr "Mapping für eingehende Anfragedaten"
+
+#. Template: AdminGenericInterfaceOperationDefault
+msgid ""
+"The request data will be processed by this mapping, to transform it to the "
+"kind of data OTRS expects."
+msgstr "Die Daten der eingehenden Anfrage werden von diesem Mapping verarbeitet, um sie so umzuformen, wie die OTRS-Operation sie benötigt."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for outgoing response data"
@@ -3306,10 +3304,8 @@ msgid "Include Ticket Data"
 msgstr "Ticketdaten einschließen"
 
 #. Template: AdminGenericInterfaceOperationDefault
-msgid ""
-"Include ticket data by response. Only available for TicketCreate and "
-"TicketUpdate operations."
-msgstr "Ticketdaten in Antworten einschließen. Nur verfügbar für Operationen TicketCreate und TicketUpdate."
+msgid "Include ticket data in response."
+msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Network Transport"
@@ -6465,7 +6461,7 @@ msgstr "Löschen"
 
 #. Template: AdminSession
 msgid "Detail View for SessionID: %s - %s"
-msgstr ""
+msgstr "Detailansicht für SessionID: %s - %s"
 
 #. Template: AdminSignature
 msgid "Signature Management"
@@ -6532,6 +6528,12 @@ msgstr "Dieser Status ist in einer SysConfig-Einstellung vorhanden. Eine Bestät
 #. Template: AdminState
 msgid "State type"
 msgstr "Status-Typ"
+
+#. Template: AdminState
+msgid ""
+"It's not possible to invalidate this entry because there is no other merge "
+"states in system!"
+msgstr ""
 
 #. Template: AdminState
 msgid "This state is used in the following config settings:"
@@ -6875,7 +6877,7 @@ msgstr "Bearbeiten: %s"
 
 #. Template: AdminSystemConfigurationView
 msgid "Go back to Deployment Details"
-msgstr ""
+msgstr "Gehe zurück zu den Inbetriebnahme-Details"
 
 #. Template: AdminSystemMaintenance
 msgid "System Maintenance Management"
@@ -8983,18 +8985,10 @@ msgstr "Powered by %s™"
 
 #. Template: CustomerFooterJS
 msgid ""
-"Your browser was not able to communicate with OTRS properly, there seems to "
-"be something wrong with your network connection. You could either try "
-"reloading this page manually or wait until your browser has re-established "
-"the connection on its own."
-msgstr "Ihr Browser konnte keine Verbindung mit OTRS herstellen, es scheint ein Problem mit Ihrer Netzwerkverbindung vorzuliegen. Sie könnten versuchen die Seite manuell neu zu Laden oder warten bis ihr Browser die Verbindung wieder herstellt."
-
-#. Template: CustomerFooterJS
-msgid ""
-"There was an error in communication with the server. Server might be "
-"experiencing some temporary problems, please reload this page to check if "
-"they have been resolved."
-msgstr "Es gab einen Fehler in der Server-Kommunikation. Der Server könnte kurzzeitige Störungen haben. Bitte laden Sie die Seite neu, um zu prüfen, ob die Probleme zwischenzeitlich behoben wurden."
+"%s detected possible network issues. You could either try reloading this "
+"page manually or wait until your browser has re-established the connection "
+"on its own."
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -10635,7 +10629,7 @@ msgstr "Automatische Antwort hinzugefügt."
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid CommunicationID!"
-msgstr ""
+msgstr "Ungültige KommunikationsID!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "All communications"
@@ -11156,22 +11150,6 @@ msgid "1 week"
 msgstr "1 Woche"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "Need InvokerType"
-msgstr "Benötige InvokerType"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "InvokerType %s is not registered"
-msgstr "InvokerType %s ist nicht registriert"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "Need InvokerType!"
-msgstr "Benötige InvokerType!"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "Need Invoker"
-msgstr "Benötige Invoker"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Could not determine config for invoker %s"
 msgstr "Konnte Konfiguration für Invoker %s nicht ermitteln"
 
@@ -11250,22 +11228,6 @@ msgstr "Eingehende Anfragedaten nach dem Mapping"
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing response data before mapping"
 msgstr "Ausgehende Antwortdaten vor dem Mapping"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-msgid "Need OperationType"
-msgstr "Benötige OperationType"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-msgid "Operation %s is not registered"
-msgstr "Operation %s ist nicht registriert"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-msgid "OperationType %s is not registered"
-msgstr "OperationType %s ist nicht registriert"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-msgid "Need Operation"
-msgstr "Operation benötigt"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
@@ -13948,7 +13910,7 @@ msgstr "System Wartung ist aktiv!"
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid ""
 "A system maintenance period will start at: %s and is expected to stop at: %s"
-msgstr ""
+msgstr "Eine Systemwartung beginnt um: %s und endet voraussichtlich um: %s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTRS Daemon is not running."
@@ -14804,7 +14766,7 @@ msgid ""
 "Tables with invalid default values were found. In order to fix it "
 "automatically, please run: bin/otrs.Console.pl Maint::Database::Check "
 "--repair"
-msgstr ""
+msgstr "Tabellen mit ungültigen Standardwerten wurden gefunden. Um diese automatisch zu reparieren, bitte folgendes Kommando ausführen: bin/otrs.Console.pl Maint::Database::Check --repair"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
@@ -15151,6 +15113,11 @@ msgid "Tickets Per Month (avg)"
 msgstr "Tickets pro Monat (Durchschnitt)"
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+msgid "Open Tickets"
+msgstr "Offene Tickets"
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
 msgid "Default SOAP Username And Password"
 msgstr "Standard-Benutzername und -Passwort für SOAP"
@@ -15329,11 +15296,6 @@ msgstr "Ungültige Benutzer mit gesperrten Tickets"
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "There are invalid users with locked tickets."
 msgstr "Es existierten ungültige Benutzer mit gesperrten Tickets."
-
-#. Perl Module:
-#. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
-msgid "Open Tickets"
-msgstr "Offene Tickets"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
@@ -16337,7 +16299,7 @@ msgstr "Dies ist derzeit nicht möglich, da eine Paketaktualisierung läuft."
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "This option is currently disabled because the OTRS Daemon is not running."
-msgstr ""
+msgstr "Diese Option ist derzeit deaktiviert weil der OTRS Daemon nicht läuft."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Are you sure you want to update all installed packages?"
@@ -16816,16 +16778,12 @@ msgid "Error: Browser Check failed!"
 msgstr "Fehler: Browser-Check fehlgeschlagen!"
 
 #. JS File: Core.App
-msgid "Connection error"
-msgstr "Verbindungsfehler"
-
-#. JS File: Core.App
 msgid "Reload page"
 msgstr "Seite aktualisieren"
 
 #. JS File: Core.App
-msgid "Communication error"
-msgstr "Kommunikationsfehler"
+msgid "Reload page (%ss)"
+msgstr ""
 
 #. JS File: Core.Debug
 msgid "Namespace %s could not be initialized, because %s could not be found."
@@ -17339,7 +17297,7 @@ msgstr "Navigation der Adminoberfläche für Agentenbereich."
 
 #. SysConfig
 msgid "Admin modules overview."
-msgstr ""
+msgstr "Admin Modul Übersicht."
 
 #. SysConfig
 msgid "Admin."
@@ -17371,7 +17329,7 @@ msgstr "Persönliche Agenten-Einstellungen"
 
 #. SysConfig
 msgid "Agent Statistics."
-msgstr ""
+msgstr "Agent Statistiken."
 
 #. SysConfig
 msgid "Agent User Search"
@@ -18471,7 +18429,7 @@ msgstr "Benutzerspezifischer RSS Feed"
 
 #. SysConfig
 msgid "Custom RSS feed."
-msgstr ""
+msgstr "Persönlicher RSS Feed."
 
 #. SysConfig
 msgid ""
@@ -18497,7 +18455,7 @@ msgstr "Kunden-Informationszentrum-Suche."
 
 #. SysConfig
 msgid "Customer Information Center search."
-msgstr ""
+msgstr "Kunden-Informationszentrum-Suche."
 
 #. SysConfig
 msgid "Customer Information Center."
@@ -18521,7 +18479,7 @@ msgstr "Suche Kundenbenutzer-Informationszentrum."
 
 #. SysConfig
 msgid "Customer User Information Center search."
-msgstr ""
+msgstr "Kundenbenutzer-Informationszentrum-Suche."
 
 #. SysConfig
 msgid "Customer User Information Center."
@@ -18605,7 +18563,7 @@ msgstr "Dänisch"
 
 #. SysConfig
 msgid "Dashboard overview."
-msgstr ""
+msgstr "Dashboardübersicht."
 
 #. SysConfig
 msgid "Data used to export the search result in CSV format."
@@ -18760,7 +18718,7 @@ msgid ""
 "Define which avatar default image should be used for the current agent if no"
 " gravatar is assigned to the mail address of the agent. Check "
 "http://gravatar.com/site/implement/images/ for further information."
-msgstr ""
+msgstr "Definiert welches Avatar Standardbild für den aktuellen Agent verwendet werden soll, wenn kein Gravatar für die Mailadresse des Agents zugeordnet ist. Siehe http://gravatar.com/site/implement/images/ für weitere Informationen."
 
 #. SysConfig
 msgid ""
@@ -19372,7 +19330,7 @@ msgstr "Legt die verfügbaren Schritte in Zeitauswahlfeldern fest. Wähle Sie \"
 msgid ""
 "Defines the body text for notification mails sent to agents, about new "
 "password."
-msgstr ""
+msgstr "Definiert den Text im Hauptteil für Benachrichtigungs-Emails an Agenten betreffend dem neuen Passwort."
 
 #. SysConfig
 msgid ""
@@ -19390,7 +19348,7 @@ msgstr "Definiert den Text im Hauptteil für Benachrichtigungs-Emails, die wegen
 msgid ""
 "Defines the body text for notification mails sent to customers, about new "
 "password."
-msgstr ""
+msgstr "Definiert den Text im Hauptteil für Benachrichtigungs-Emails an Kunden betreffend dem neuen Passwort."
 
 #. SysConfig
 msgid ""
@@ -21165,7 +21123,7 @@ msgstr "Wenn der HTTP-Header \"X-Frame-Options: SAMEORIGIN\" ausgeschaltet ist, 
 
 #. SysConfig
 msgid "Disable cloud services"
-msgstr ""
+msgstr "Cloud-Services deaktivieren"
 
 #. SysConfig
 msgid ""
@@ -21271,7 +21229,7 @@ msgstr "Dynamische Feldergruppen für das Prozess-Widget. Der Schlüssel ist der
 
 #. SysConfig
 msgid "Dynamic fields limit per page for Dynamic Fields Overview."
-msgstr ""
+msgstr "Maximale Anzahl dynamischer Felder pro Seite in Übersichtsseite der dynamischen Felder."
 
 #. SysConfig
 msgid ""
@@ -22370,11 +22328,11 @@ msgstr "Wenn aktiviert, werden OTRS-Versionsinformationen aus der Oberfläche un
 
 #. SysConfig
 msgid "If enabled, the cache data be held in memory."
-msgstr ""
+msgstr "Wenn aktiviert, werden Cache-Daten im Speicher gehalten."
 
 #. SysConfig
 msgid "If enabled, the cache data will be stored in cache backend."
-msgstr ""
+msgstr "Wenn aktiviert, werden Cache-Daten im Cache Backend gespeichert."
 
 #. SysConfig
 msgid ""
@@ -22788,7 +22746,7 @@ msgstr "Ticket gesperrt."
 
 #. SysConfig
 msgid "Logged in users."
-msgstr ""
+msgstr "Angemeldete Benutzer."
 
 #. SysConfig
 msgid "Logged-In Users"
@@ -23200,7 +23158,7 @@ msgstr "Neuigkeiten zu OTRS-Releases!"
 
 #. SysConfig
 msgid "News about OTRS."
-msgstr ""
+msgstr "Neuigkeiten über OTRS."
 
 #. SysConfig
 msgid ""
@@ -23345,7 +23303,7 @@ msgstr "Abwesenheitszeit"
 
 #. SysConfig
 msgid "Out of Office users."
-msgstr ""
+msgstr "Abwesende Benutzer."
 
 #. SysConfig
 msgid ""
@@ -23363,7 +23321,7 @@ msgstr "Aktualisierungszeiten der Übersichten"
 
 #. SysConfig
 msgid "Overview of all Tickets per assigned Queue."
-msgstr ""
+msgstr "Übersicht aller Tickets pro zugewiesener Warteschlange"
 
 #. SysConfig
 msgid "Overview of all appointments."
@@ -25098,7 +25056,7 @@ msgstr "Steuert, ob der Artikel als Richtext angezeigt werden soll, auch wenn da
 
 #. SysConfig
 msgid "Show command line output."
-msgstr ""
+msgstr "Zeige Befehlszeilenausgabe."
 
 #. SysConfig
 msgid "Show queues even when only locked tickets are in."
@@ -26007,11 +25965,11 @@ msgstr "Status"
 
 #. SysConfig
 msgid "Statistic Reports overview."
-msgstr ""
+msgstr "Statistik-Berichts-Übersicht."
 
 #. SysConfig
 msgid "Statistics overview."
-msgstr ""
+msgstr "Statistik-Übersicht."
 
 #. SysConfig
 msgid "Status view"
@@ -26422,15 +26380,15 @@ msgstr "Ticket Event Modul welche die Eskalation-Stop-Ereignisse auslöst."
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Medium\"."
-msgstr ""
+msgstr "Maximale Anzahl Tickets pro Seite für Ticketübersicht \"Mittel\"."
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Preview\"."
-msgstr ""
+msgstr "Maximale Anzahl Tickets pro Seite für Ticketübersicht \"Vorschau\"."
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Small\"."
-msgstr ""
+msgstr "Maximale Anzahl Tickets pro Seite für Ticketübersicht \"Klein\"."
 
 #. SysConfig
 msgid "Ticket notifications"

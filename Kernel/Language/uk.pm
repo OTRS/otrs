@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.509891622226045;
+    $Self->{Completeness}        = 0.508874719972428;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -195,7 +195,7 @@ sub Data {
         'Recipients' => 'Одержувачі',
         'Send to' => 'Відправити',
         'Send to these agents' => 'Надіслати цим агентам',
-        'Send to all group members' => 'Надіслати всім членам групи',
+        'Send to all group members (agents only)' => '',
         'Send to all role members' => 'Надіслати всім членам ролі',
         'Send on out of office' => 'Надіслано з «Не при справах»',
         'Also send if the user is currently out of office.' => 'Також надіслати, якщо користувач зараз не при справах.',
@@ -863,7 +863,6 @@ sub Data {
         'Invoker Details' => 'Деталі активатора',
         'The name is typically used to call up an operation of a remote web service.' =>
             'Ім\'я, що типово використовується для виклику операцій віддаленої веб-служби.',
-        'Please provide a unique name for this web service invoker.' => 'Будь ласка, задайте унікальне ім\'я для цього активатора веб-служби',
         'Invoker backend' => 'Нутрощі активатора',
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
             'Цей внутрішній модуль OTRS активатора буде викликаний щоб підготувати дані для відправки до віддаленої системи та обробляти дані її відповіді.',
@@ -984,18 +983,17 @@ sub Data {
         'Operation Details' => 'Деталі операції.',
         'The name is typically used to call up this web service operation from a remote system.' =>
             'Ім\'я, що типово використовується для виклику операції цієї веб-служби віддаленої системи.',
-        'Mapping for incoming request data' => 'Відображенні вхідних даних запиту',
-        'The request data will be processed by this mapping, to transform it to the kind of data OTRS expects.' =>
-            'Дані запиту будуть оброблені цим відображенням, щоб перетворити його до виду даних, що очікує OTRS.',
         'Operation backend' => 'Внутрішня операція',
         'This OTRS operation backend module will be called internally to process the request, generating data for the response.' =>
             'Цей внутрішній операційний модуль OTRS буде викликаний внутрішньо щоб обробити запит та згенерувати дані для відповіді.',
+        'Mapping for incoming request data' => 'Відображенні вхідних даних запиту',
+        'The request data will be processed by this mapping, to transform it to the kind of data OTRS expects.' =>
+            'Дані запиту будуть оброблені цим відображенням, щоб перетворити його до виду даних, що очікує OTRS.',
         'Mapping for outgoing response data' => 'Відображення для вихідних даних відповіді',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             'Дані відповіді будуть оброблені цим відображенням, щоб перетворити їх до того виду, який очікує віддалена система.',
         'Include Ticket Data' => '',
-        'Include ticket data by response. Only available for TicketCreate and TicketUpdate operations.' =>
-            '',
+        'Include ticket data in response.' => '',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'Network Transport' => '',
@@ -1994,6 +1992,8 @@ sub Data {
         'This state is present in a SysConfig setting, confirmation for updating settings to point to the new type is needed!' =>
             '',
         'State type' => 'Тип стану',
+        'It\'s not possible to invalidate this entry because there is no other merge states in system!' =>
+            '',
         'This state is used in the following config settings:' => '',
 
         # Template: AdminSupportDataCollector
@@ -2832,9 +2832,7 @@ sub Data {
         'Powered by %s™' => '',
 
         # Template: CustomerFooterJS
-        'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
-            'Ваш браузер не може правильно спілкуватись з OTRS, схоже щось не так з мережевим підключенням. Ви можете або вручну перезавантажити цю сторінку, або почекати, поки браузер відновить зв\'язок самостійно.',
-        'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
+        '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
             '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
             'Зв\'язок був відновлений після тимчасової втрати. Через це, деякі елементи на цій сторінці можуть бути зупинені, щоб працювати правильно. Для того, щоб мати змогу використовувати всі елементи правильно знову, настійно рекомендується перезавантажити цю сторінку.',
@@ -3582,10 +3580,6 @@ sub Data {
         '1 week' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-        'Need InvokerType' => 'Потрібний Тип Активатора',
-        'InvokerType %s is not registered' => 'Тип Активатора %s не зареєстрований',
-        'Need InvokerType!' => '',
-        'Need Invoker' => 'Потрібний активатор',
         'Could not determine config for invoker %s' => 'Не можу визначити налаштування для активатора %s',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
@@ -3614,10 +3608,6 @@ sub Data {
         'Outgoing response data before mapping' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-        'Need OperationType' => 'Потрібний Тип Операції',
-        'Operation %s is not registered' => 'Операцію %s не зареєстровано',
-        'OperationType %s is not registered' => 'Тип операції %s не зареєстровано',
-        'Need Operation' => 'Потрібна Операція',
         'Could not determine config for operation %s' => 'Не можу визначити налаштування для операції %s',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
@@ -5055,6 +5045,7 @@ sub Data {
         'Process Tickets' => '',
         'Months Between First And Last Ticket' => '',
         'Tickets Per Month (avg)' => '',
+        'Open Tickets' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
         'Default SOAP Username And Password' => '',
@@ -5132,7 +5123,6 @@ sub Data {
         'There are invalid users with locked tickets.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
-        'Open Tickets' => '',
         'You should not have more than 8,000 open tickets in your system.' =>
             '',
 
@@ -5688,9 +5678,8 @@ sub Data {
 
         # JS File: Core.App
         'Error: Browser Check failed!' => '',
-        'Connection error' => 'Помилка з\'єднання',
         'Reload page' => 'Перезавантажити сторінку',
-        'Communication error' => '',
+        'Reload page (%ss)' => '',
 
         # JS File: Core.Debug
         'Namespace %s could not be initialized, because %s could not be found.' =>
@@ -8738,10 +8727,8 @@ Thanks for your help!
         'Close',
         'Close preview',
         'Close this dialog',
-        'Communication error',
         'Complex %s with %s arguments',
         'Confirm',
-        'Connection error',
         'Could not open popup window. Please disable any popup blockers for this application.',
         'Current selection',
         'Currently not possible',
@@ -8899,6 +8886,7 @@ Thanks for your help!
         'Process state',
         'Queues',
         'Reload page',
+        'Reload page (%ss)',
         'Remove',
         'Remove Entity from canvas',
         'Remove active filters for this widget.',

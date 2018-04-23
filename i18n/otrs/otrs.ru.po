@@ -34,8 +34,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-03-05 19:12+0000\n"
-"PO-Revision-Date: 2018-03-05 22:25+0000\n"
+"POT-Creation-Date: 2018-04-23 17:42+0000\n"
+"PO-Revision-Date: 2018-04-23 17:46+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -613,8 +613,8 @@ msgid "Send to these agents"
 msgstr "Отправить этим агентам"
 
 #. Template: AdminAppointmentNotificationEvent
-msgid "Send to all group members"
-msgstr "Отправить всем членам группы"
+msgid "Send to all group members (agents only)"
+msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
@@ -2850,10 +2850,6 @@ msgid ""
 msgstr "Имя обычно используется для вызова операции удаленного веб-сервиса."
 
 #. Template: AdminGenericInterfaceInvokerDefault
-msgid "Please provide a unique name for this web service invoker."
-msgstr "Укажите уникальное имя для этого invoker веб-сервиса."
-
-#. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker backend"
 msgstr "Invoker бэкэнд"
 
@@ -3250,16 +3246,6 @@ msgid ""
 msgstr "Имя обычно используется для вызова этой операции веб-сервиса из удаленной системы."
 
 #. Template: AdminGenericInterfaceOperationDefault
-msgid "Mapping for incoming request data"
-msgstr "Сопоставление для входящего запроса данных"
-
-#. Template: AdminGenericInterfaceOperationDefault
-msgid ""
-"The request data will be processed by this mapping, to transform it to the "
-"kind of data OTRS expects."
-msgstr "Запрашиваемые данные будут обработаны и преобразованы в формат поддерживаемый OTRS"
-
-#. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation backend"
 msgstr "Бэкэнд для операций"
 
@@ -3268,6 +3254,16 @@ msgid ""
 "This OTRS operation backend module will be called internally to process the "
 "request, generating data for the response."
 msgstr "Этот модуль OTRS будет вызываться для обработки запроса и подготавливать данные для ответа."
+
+#. Template: AdminGenericInterfaceOperationDefault
+msgid "Mapping for incoming request data"
+msgstr "Сопоставление для входящего запроса данных"
+
+#. Template: AdminGenericInterfaceOperationDefault
+msgid ""
+"The request data will be processed by this mapping, to transform it to the "
+"kind of data OTRS expects."
+msgstr "Запрашиваемые данные будут обработаны и преобразованы в формат поддерживаемый OTRS"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for outgoing response data"
@@ -3284,9 +3280,7 @@ msgid "Include Ticket Data"
 msgstr "Вставить данные заявки"
 
 #. Template: AdminGenericInterfaceOperationDefault
-msgid ""
-"Include ticket data by response. Only available for TicketCreate and "
-"TicketUpdate operations."
+msgid "Include ticket data in response."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -6512,6 +6506,12 @@ msgid "State type"
 msgstr "Тип состояния"
 
 #. Template: AdminState
+msgid ""
+"It's not possible to invalidate this entry because there is no other merge "
+"states in system!"
+msgstr ""
+
+#. Template: AdminState
 msgid "This state is used in the following config settings:"
 msgstr "Это состояние используется в следующих параметрах конфигурации:"
 
@@ -8961,18 +8961,10 @@ msgstr "Используется в %s™"
 
 #. Template: CustomerFooterJS
 msgid ""
-"Your browser was not able to communicate with OTRS properly, there seems to "
-"be something wrong with your network connection. You could either try "
-"reloading this page manually or wait until your browser has re-established "
-"the connection on its own."
-msgstr "Ваш браузер не смог нормально связаться с OTRS, похоже, что-то не так с вашим сетевым подключением. Вы можете либо попробовать перезагрузить эту страницу вручную, либо подождать, пока ваш браузер не восстановит соединение самостоятельно."
-
-#. Template: CustomerFooterJS
-msgid ""
-"There was an error in communication with the server. Server might be "
-"experiencing some temporary problems, please reload this page to check if "
-"they have been resolved."
-msgstr "Произошла ошибка при взаимодействии с сервером. Возможно, на сервере проблемы, попробуйте перезагрузить страницу, чтобы проверить, решены ли они."
+"%s detected possible network issues. You could either try reloading this "
+"page manually or wait until your browser has re-established the connection "
+"on its own."
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -11134,22 +11126,6 @@ msgid "1 week"
 msgstr "1 неделя"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "Need InvokerType"
-msgstr "Необходим тип Invoker"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "InvokerType %s is not registered"
-msgstr "Тип Invoker %s не зарегистрирован"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "Need InvokerType!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "Need Invoker"
-msgstr "Требуется Invoker"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Could not determine config for invoker %s"
 msgstr "Не удалось определить настройки для Invoker %s"
 
@@ -11228,22 +11204,6 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing response data before mapping"
 msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-msgid "Need OperationType"
-msgstr "Требуется OperationType"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-msgid "Operation %s is not registered"
-msgstr "Процесс %s не зарегистрирован"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-msgid "OperationType %s is not registered"
-msgstr "ТипПроцесса %s не зарегистрирован"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-msgid "Need Operation"
-msgstr "Требуется Процесс"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
@@ -15129,6 +15089,11 @@ msgid "Tickets Per Month (avg)"
 msgstr "Заявок в месяц (среднее)"
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+msgid "Open Tickets"
+msgstr "Открытые заявки"
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
 msgid "Default SOAP Username And Password"
 msgstr "Логин и пароль для SOAP по умолчанию"
@@ -15307,11 +15272,6 @@ msgstr "Недействительные агенты с заблокирова�
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "There are invalid users with locked tickets."
 msgstr "Есть недействительные агенты с заблокированными заявками."
-
-#. Perl Module:
-#. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
-msgid "Open Tickets"
-msgstr "Открытые заявки"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
@@ -16794,16 +16754,12 @@ msgid "Error: Browser Check failed!"
 msgstr "Ошибка: Проверка браузера/Browser Check не удалась!"
 
 #. JS File: Core.App
-msgid "Connection error"
-msgstr "Ошибка соединения"
-
-#. JS File: Core.App
 msgid "Reload page"
 msgstr "Перезагрузить страницу"
 
 #. JS File: Core.App
-msgid "Communication error"
-msgstr "Ошибка связи"
+msgid "Reload page (%ss)"
+msgstr ""
 
 #. JS File: Core.Debug
 msgid "Namespace %s could not be initialized, because %s could not be found."

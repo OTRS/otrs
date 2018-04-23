@@ -20,8 +20,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-03-05 19:12+0000\n"
-"PO-Revision-Date: 2018-03-05 22:25+0000\n"
+"POT-Creation-Date: 2018-04-23 17:42+0000\n"
+"PO-Revision-Date: 2018-04-23 17:46+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -599,8 +599,8 @@ msgid "Send to these agents"
 msgstr "发送给服务人员"
 
 #. Template: AdminAppointmentNotificationEvent
-msgid "Send to all group members"
-msgstr "发送给组的所有成员"
+msgid "Send to all group members (agents only)"
+msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
@@ -2483,7 +2483,7 @@ msgstr "远程IP"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Loading"
-msgstr "装载中"
+msgstr "正在加载"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Select a single request to see its details."
@@ -2834,10 +2834,6 @@ msgstr "调用程序详情"
 msgid ""
 "The name is typically used to call up an operation of a remote web service."
 msgstr "该名称通常用于调用远程Web服务的操作。"
-
-#. Template: AdminGenericInterfaceInvokerDefault
-msgid "Please provide a unique name for this web service invoker."
-msgstr "请为这个Web服务调用程序提供一个唯一的名称。"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker backend"
@@ -3236,16 +3232,6 @@ msgid ""
 msgstr "这个名称通常用于从一个远程系统调用这个web服务操作。"
 
 #. Template: AdminGenericInterfaceOperationDefault
-msgid "Mapping for incoming request data"
-msgstr "映射传入请求数据"
-
-#. Template: AdminGenericInterfaceOperationDefault
-msgid ""
-"The request data will be processed by this mapping, to transform it to the "
-"kind of data OTRS expects."
-msgstr "这个映射将对请求数据进行处理，将它转换为OTRS所期待的数据。"
-
-#. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation backend"
 msgstr "操作后端"
 
@@ -3254,6 +3240,16 @@ msgid ""
 "This OTRS operation backend module will be called internally to process the "
 "request, generating data for the response."
 msgstr "这个OTRS操作后端模块将被调用，以便处理请求、生成响应数据。"
+
+#. Template: AdminGenericInterfaceOperationDefault
+msgid "Mapping for incoming request data"
+msgstr "映射传入请求数据"
+
+#. Template: AdminGenericInterfaceOperationDefault
+msgid ""
+"The request data will be processed by this mapping, to transform it to the "
+"kind of data OTRS expects."
+msgstr "这个映射将对请求数据进行处理，将它转换为OTRS所期待的数据。"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for outgoing response data"
@@ -3270,10 +3266,8 @@ msgid "Include Ticket Data"
 msgstr "包含工单数据"
 
 #. Template: AdminGenericInterfaceOperationDefault
-msgid ""
-"Include ticket data by response. Only available for TicketCreate and "
-"TicketUpdate operations."
-msgstr "通过响应包含工单数据， 仅适用于TicketCreate和TicketUpdate操作。"
+msgid "Include ticket data in response."
+msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Network Transport"
@@ -6377,7 +6371,7 @@ msgstr "会话管理"
 
 #. Template: AdminSession
 msgid "Detail Session View for %s (%s)"
-msgstr ""
+msgstr "%s会话详情视图(%s)："
 
 #. Template: AdminSession
 msgid "All sessions"
@@ -6429,7 +6423,7 @@ msgstr "终止"
 
 #. Template: AdminSession
 msgid "Detail View for SessionID: %s - %s"
-msgstr ""
+msgstr "会话ID%s - %s的详情视图："
 
 #. Template: AdminSignature
 msgid "Signature Management"
@@ -6496,6 +6490,12 @@ msgstr "这个状态已存在于系统配置的一个设置中，需要更新设
 #. Template: AdminState
 msgid "State type"
 msgstr "工单状态类型"
+
+#. Template: AdminState
+msgid ""
+"It's not possible to invalidate this entry because there is no other merge "
+"states in system!"
+msgstr ""
 
 #. Template: AdminState
 msgid "This state is used in the following config settings:"
@@ -6839,7 +6839,7 @@ msgstr "查看单个设置：%s"
 
 #. Template: AdminSystemConfigurationView
 msgid "Go back to Deployment Details"
-msgstr ""
+msgstr "返回到部署详情"
 
 #. Template: AdminSystemMaintenance
 msgid "System Maintenance Management"
@@ -8947,18 +8947,10 @@ msgstr "由%s™提供技术支持"
 
 #. Template: CustomerFooterJS
 msgid ""
-"Your browser was not able to communicate with OTRS properly, there seems to "
-"be something wrong with your network connection. You could either try "
-"reloading this page manually or wait until your browser has re-established "
-"the connection on its own."
-msgstr "你的浏览器无法与OTRS正常通信，可能有网络连接问题。你可以手动刷新页面或者等待浏览器自动重连。"
-
-#. Template: CustomerFooterJS
-msgid ""
-"There was an error in communication with the server. Server might be "
-"experiencing some temporary problems, please reload this page to check if "
-"they have been resolved."
-msgstr "与服务器通信时出现错误。 服务器可能会遇到一些临时问题，请重新加载此页面以检查是否已解决问题。"
+"%s detected possible network issues. You could either try reloading this "
+"page manually or wait until your browser has re-established the connection "
+"on its own."
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -10599,7 +10591,7 @@ msgstr "自动响应已添加！"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid CommunicationID!"
-msgstr ""
+msgstr "无效的通讯ID！"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "All communications"
@@ -11120,22 +11112,6 @@ msgid "1 week"
 msgstr "1周"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "Need InvokerType"
-msgstr "需要调用程序类型"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "InvokerType %s is not registered"
-msgstr "调用程序类型 %s 没有注册"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "Need InvokerType!"
-msgstr "需要调用程序类型！"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "Need Invoker"
-msgstr "需要调用程序"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Could not determine config for invoker %s"
 msgstr "不能确定调用程序%s 的配置"
 
@@ -11214,22 +11190,6 @@ msgstr "映射后接收请求数据"
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing response data before mapping"
 msgstr "映射前发出响应数据"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-msgid "Need OperationType"
-msgstr "需要操作类型"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-msgid "Operation %s is not registered"
-msgstr "操作%s 没有注册"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-msgid "OperationType %s is not registered"
-msgstr "操作类型%s 没有注册"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-msgid "Need Operation"
-msgstr "需要操作"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
@@ -13847,7 +13807,7 @@ msgstr "批量"
 
 #. Perl Module: Kernel/Output/HTML/Layout/Ticket.pm
 msgid "Lite"
-msgstr "简洁"
+msgstr "精简"
 
 #. Perl Module: Kernel/Output/HTML/Layout/Ticket.pm
 msgid "Unread article(s) available"
@@ -15115,6 +15075,11 @@ msgid "Tickets Per Month (avg)"
 msgstr "平均每月工单数"
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+msgid "Open Tickets"
+msgstr "处理中的工单"
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
 msgid "Default SOAP Username And Password"
 msgstr "默认的SOAP用户名和密码"
@@ -15193,14 +15158,14 @@ msgstr "找不到遗留的配置备份文件。"
 msgid ""
 "Legacy configuration backup files found in %s, but they might still be "
 "required by some packages."
-msgstr ""
+msgstr "可在%s找到旧版配置的备份文件，某些软件包可能仍需要它们。"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
 msgid ""
 "Legacy configuration backup files are no longer needed for the installed "
 "packages, please remove them from %s."
-msgstr ""
+msgstr "已安装的软件包不再需要旧版配置的备份文件，请将其从%s中删除。"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
@@ -15293,11 +15258,6 @@ msgstr "有锁定的工单的无效用户"
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "There are invalid users with locked tickets."
 msgstr "出现了有锁定的工单的无效用户。"
-
-#. Perl Module:
-#. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
-msgid "Open Tickets"
-msgstr "处理中的工单"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
@@ -16780,16 +16740,12 @@ msgid "Error: Browser Check failed!"
 msgstr "错误：浏览器检查失败！"
 
 #. JS File: Core.App
-msgid "Connection error"
-msgstr "连接错误"
-
-#. JS File: Core.App
 msgid "Reload page"
 msgstr "刷新页面"
 
 #. JS File: Core.App
-msgid "Communication error"
-msgstr "通信错误"
+msgid "Reload page (%ss)"
+msgstr ""
 
 #. JS File: Core.Debug
 msgid "Namespace %s could not be initialized, because %s could not be found."
@@ -17303,7 +17259,7 @@ msgstr "服务人员界面系统管理模块导航。"
 
 #. SysConfig
 msgid "Admin modules overview."
-msgstr ""
+msgstr "系统管理模块概览。"
 
 #. SysConfig
 msgid "Admin."
@@ -17335,7 +17291,7 @@ msgstr "服务人员偏好设置。"
 
 #. SysConfig
 msgid "Agent Statistics."
-msgstr ""
+msgstr "服务人员统计。"
 
 #. SysConfig
 msgid "Agent User Search"
@@ -17596,13 +17552,13 @@ msgstr "允许在自动任务界面搜索工单时扩展搜索条件，通过这
 msgid ""
 "Allows having a medium format ticket overview (CustomerInfo => 1 - shows "
 "also the customer information)."
-msgstr "允许拥有一个基本格式工单概览视图（如果CustomerInfo => 1还将显示客户信息）。"
+msgstr "允许拥有一个基本版式的工单概览视图（如果CustomerInfo => 1还将显示客户信息）。"
 
 #. SysConfig
 msgid ""
 "Allows having a small format ticket overview (CustomerInfo => 1 - shows also"
 " the customer information)."
-msgstr "允许拥有一个简洁格式工单概览视图（如果CustomerInfo => 1还将显示客户信息）。"
+msgstr "允许拥有一个简洁版式的工单概览视图（如果CustomerInfo => 1还将显示客户信息）。"
 
 #. SysConfig
 msgid "Allows invalid agents to generate individual-related stats."
@@ -18091,7 +18047,7 @@ msgstr "收集异步插件模块的支持数据。"
 
 #. SysConfig
 msgid "Column ticket filters for Ticket Overviews type \"Small\"."
-msgstr "工单概览简洁格式的字段过滤器。"
+msgstr "工单概览简洁版式的字段过滤器。"
 
 #. SysConfig
 msgid ""
@@ -18435,7 +18391,7 @@ msgstr "定制RSS订阅"
 
 #. SysConfig
 msgid "Custom RSS feed."
-msgstr ""
+msgstr "定制RSS订阅。"
 
 #. SysConfig
 msgid ""
@@ -18461,7 +18417,7 @@ msgstr "客户信息中心搜索。"
 
 #. SysConfig
 msgid "Customer Information Center search."
-msgstr ""
+msgstr "客户信息中心搜索。"
 
 #. SysConfig
 msgid "Customer Information Center."
@@ -18485,7 +18441,7 @@ msgstr "客户用户信息中心搜索。"
 
 #. SysConfig
 msgid "Customer User Information Center search."
-msgstr ""
+msgstr "客户用户信息中心搜索。"
 
 #. SysConfig
 msgid "Customer User Information Center."
@@ -18569,7 +18525,7 @@ msgstr "丹麦语"
 
 #. SysConfig
 msgid "Dashboard overview."
-msgstr ""
+msgstr "仪表板概览。"
 
 #. SysConfig
 msgid "Data used to export the search result in CSV format."
@@ -19136,7 +19092,7 @@ msgid ""
 "some functionality will be lost such as system registration, support data "
 "sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS"
 " News and product News dashboard widgets, among others."
-msgstr ""
+msgstr "定义本系统能否与OTRS集团提供云服务的服务器通信。如果设置为“禁用云服务”，某些功能如系统注册、发送支持数据、升级到OTRS Business Solution™（OTRS商业解决方案）、OTRS Verify™（OTRS验证）、仪表板中的OTRS新闻和产品新闻小部件等将失效。"
 
 #. SysConfig
 msgid ""
@@ -19148,7 +19104,7 @@ msgstr "定义客户界面是否使用增强模式（启用表格、替换、下
 msgid ""
 "Defines if the enhanced mode should be used (enables use of table, replace, "
 "subscript, superscript, paste from word, etc.)."
-msgstr "定义是否使用增加模式（可以使用表格、替换、下标、上标、从WORD中粘贴等等）。"
+msgstr "定义是否使用增强模式（启用表格、替换、下标、上标、从WORD粘贴等功能）。"
 
 #. SysConfig
 msgid ""
@@ -19399,7 +19355,7 @@ msgid ""
 "personal preferences, but will still allow administrators to edit the "
 "settings of another user's behalf. Use 'PreferenceGroup' to control in which"
 " area these settings should be shown in the user interface."
-msgstr ""
+msgstr "定义在偏好设置中这个条目的配置参数。'PasswordRegExp'保证密码不匹配一个正则表达式；'PasswordMinSize'定义密码的最小字符数；如果至少需要2个小写字母和2个大写字母就设置合适的选项为“1”，'PasswordMin2Characters'定义密码如果要包含至少2个字母字符（设置为0或1）；'PasswordNeedDigit'控制是否至少包含1个数字（设置为0或1）；'PasswordMaxLoginFailed'设置最大登录失败数，一个服务人员在登录失败次数达到这个数后会临时无效。请注意：将'Active（激活）'设置为0只会阻止服务人员根据他们的个人偏好编辑此组的设置，但仍然允许管理员以其他用户的名义编辑其偏好设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid ""
@@ -19409,7 +19365,7 @@ msgid ""
 " allow administrators to edit the settings of another user's behalf. Use "
 "'PreferenceGroup' to control in which area these settings should be shown in"
 " the user interface."
-msgstr ""
+msgstr "定义此条目的配置参数，以显示在偏好设置视图中。 请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid "Defines the connections for http/ftp, via a proxy."
@@ -20888,7 +20844,7 @@ msgid ""
 "preferences, but will still allow administrators to edit the settings of "
 "another user's behalf. Use 'PreferenceGroup' to control in which area these "
 "settings should be shown in the user interface."
-msgstr ""
+msgstr "定义用户头像。 请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid "Defines the valid state types for a ticket."
@@ -20968,7 +20924,7 @@ msgstr "删除核心模块过期的缓存。"
 
 #. SysConfig
 msgid "Delete expired loader cache weekly (Sunday mornings)."
-msgstr "每周删除过期的载入器缓存（星期天早晨）。"
+msgstr "每周删除过期的加载器缓存（星期天早晨）。"
 
 #. SysConfig
 msgid "Delete expired sessions."
@@ -21129,7 +21085,7 @@ msgstr "禁用HHTP头\"X-Frame-Options: SAMEORIGIN\" 以便允许OTRS可以包�
 
 #. SysConfig
 msgid "Disable cloud services"
-msgstr ""
+msgstr "禁用云服务"
 
 #. SysConfig
 msgid ""
@@ -21297,7 +21253,7 @@ msgstr "在服务人员界面的工单自定义字段屏幕中显示的动态字
 msgid ""
 "Dynamic fields shown in the ticket medium format overview screen of the "
 "agent interface."
-msgstr "在服务人员界面的工单基本格式概览屏幕中显示的动态字段。"
+msgstr "在服务人员界面的工单概览基本版式屏幕中显示的动态字段。"
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket move screen of the agent interface."
@@ -21387,7 +21343,7 @@ msgstr "在客户界面的工单搜索屏幕中显示的动态字段。"
 msgid ""
 "Dynamic fields shown in the ticket small format overview screen of the agent"
 " interface."
-msgstr "在服务人员界面的简洁格式工单概览屏幕中显示的动态字段。"
+msgstr "在服务人员界面的工单概览简洁版式屏幕中显示的动态字段。"
 
 #. SysConfig
 msgid ""
@@ -21985,7 +21941,7 @@ msgid ""
 "personal preferences, but will still allow administrators to edit the "
 "settings of another user's behalf. Use 'PreferenceGroup' to control in which"
 " area these settings should be shown in the user interface."
-msgstr ""
+msgstr "使最终用户能够覆盖转换文件中定义的CSV文件分隔符。 请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid "Global Search Module."
@@ -22732,7 +22688,7 @@ msgstr "立陶宛语"
 
 #. SysConfig
 msgid "Loader module registration for the agent interface."
-msgstr "客户界面的装载器模块注册。"
+msgstr "客户界面的加载器模块注册。"
 
 #. SysConfig
 msgid "Lock / unlock this ticket"
@@ -22752,7 +22708,7 @@ msgstr "锁定的工单。"
 
 #. SysConfig
 msgid "Logged in users."
-msgstr ""
+msgstr "已登录的用户。"
 
 #. SysConfig
 msgid "Logged-In Users"
@@ -23164,7 +23120,7 @@ msgstr "OTRS版本新闻！"
 
 #. SysConfig
 msgid "News about OTRS."
-msgstr ""
+msgstr "OTRS新闻。"
 
 #. SysConfig
 msgid ""
@@ -23309,7 +23265,7 @@ msgstr "不在办公室的时间"
 
 #. SysConfig
 msgid "Out of Office users."
-msgstr ""
+msgstr "不在办公室的用户。"
 
 #. SysConfig
 msgid ""
@@ -23327,7 +23283,7 @@ msgstr "概览刷新间隔"
 
 #. SysConfig
 msgid "Overview of all Tickets per assigned Queue."
-msgstr ""
+msgstr "每个分配队列的所有工单概览。"
 
 #. SysConfig
 msgid "Overview of all appointments."
@@ -23373,7 +23329,7 @@ msgid ""
 "still allow administrators to edit the settings of another user's behalf. "
 "Use 'PreferenceGroup' to control in which area these settings should be "
 "shown in the user interface."
-msgstr ""
+msgstr "服务人员界面的偏好设置视图中CreateNextMask对象的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid ""
@@ -23383,7 +23339,7 @@ msgid ""
 " allow administrators to edit the settings of another user's behalf. Use "
 "'PreferenceGroup' to control in which area these settings should be shown in"
 " the user interface."
-msgstr ""
+msgstr "服务人员界面的偏好设置视图中CustomQueue 对象的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid ""
@@ -23393,7 +23349,7 @@ msgid ""
 " allow administrators to edit the settings of another user's behalf. Use "
 "'PreferenceGroup' to control in which area these settings should be shown in"
 " the user interface."
-msgstr ""
+msgstr "服务人员界面的偏好设置视图中CustomService 对象的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid ""
@@ -23403,7 +23359,7 @@ msgid ""
 " allow administrators to edit the settings of another user's behalf. Use "
 "'PreferenceGroup' to control in which area these settings should be shown in"
 " the user interface."
-msgstr ""
+msgstr "服务人员界面的偏好设置视图中RefreshTime （刷新时间）对象的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid ""
@@ -23413,7 +23369,7 @@ msgid ""
 "administrators to edit the settings of another user's behalf. Use "
 "'PreferenceGroup' to control in which area these settings should be shown in"
 " the user interface."
-msgstr ""
+msgstr "工单概览简洁版式的列过滤器参数。 请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid ""
@@ -23690,7 +23646,7 @@ msgid ""
 "preferences, but will still allow administrators to edit the settings of "
 "another user's behalf. Use 'PreferenceGroup' to control in which area these "
 "settings should be shown in the user interface."
-msgstr ""
+msgstr "动态字段概览页面（用来显示动态字段）的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid ""
@@ -23700,7 +23656,7 @@ msgid ""
 " still allow administrators to edit the settings of another user's behalf. "
 "Use 'PreferenceGroup' to control in which area these settings should be "
 "shown in the user interface."
-msgstr ""
+msgstr "工单概览基本版式页面（用来显示工单）的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid ""
@@ -23710,7 +23666,7 @@ msgid ""
 " still allow administrators to edit the settings of another user's behalf. "
 "Use 'PreferenceGroup' to control in which area these settings should be "
 "shown in the user interface."
-msgstr ""
+msgstr "工单概览简洁版式页面（用来显示工单）的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid ""
@@ -23720,7 +23676,7 @@ msgid ""
 "but will still allow administrators to edit the settings of another user's "
 "behalf. Use 'PreferenceGroup' to control in which area these settings should"
 " be shown in the user interface."
-msgstr ""
+msgstr "工单概览预览版式页面（用来显示工单）的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid "Parameters of the example SLA attribute Comment2."
@@ -24331,7 +24287,7 @@ msgstr "在到达提醒时间后发送解锁工单的提醒通知（只发送给
 msgid ""
 "Sends the notifications which are configured in the admin interface under "
 "\"Ticket Notifications\"."
-msgstr ""
+msgstr "发送在系统管理界面“工单通知”中配置好的通知。"
 
 #. SysConfig
 msgid "Sent \"%s\" notification to \"%s\" via \"%s\"."
@@ -24486,7 +24442,7 @@ msgstr "设置系统管理员的配置级别。取决于配置级别，一些系
 #. SysConfig
 msgid ""
 "Sets the count of articles visible in preview mode of ticket overviews."
-msgstr "设置工单概览的预览模式中工单计数是可见的。"
+msgstr "设置工单概览预览版式中可见的信件数。"
 
 #. SysConfig
 msgid ""
@@ -25062,7 +25018,7 @@ msgstr "以富文本格式显示信件（即使富文本编写被禁用）。"
 
 #. SysConfig
 msgid "Show command line output."
-msgstr ""
+msgstr "显示命令行输出。"
 
 #. SysConfig
 msgid "Show queues even when only locked tickets are in."
@@ -25497,12 +25453,12 @@ msgstr "在服务人员界面工单升级视图显示所有处理中的工单（
 #. SysConfig
 msgid ""
 "Shows all the articles of the ticket (expanded) in the agent zoom view."
-msgstr ""
+msgstr "在服务人员工单详情视图中展开显示这个工单所有的信件。"
 
 #. SysConfig
 msgid ""
 "Shows all the articles of the ticket (expanded) in the customer zoom view."
-msgstr ""
+msgstr "在客户的工单详情视图中展开显示这个工单所有的信件。"
 
 #. SysConfig
 msgid ""
@@ -25531,7 +25487,7 @@ msgstr "在AgentTicketPhone（服务人员电话工单）、AgentTicketEmail（�
 msgid ""
 "Shows either the last customer article's subject or the ticket title in the "
 "small format overview."
-msgstr "在简洁模式工单概览中显示最近的客户信件的主题或工单标题。"
+msgstr "在工单概览简洁版式中显示最近的客户信件的主题或工单标题。"
 
 #. SysConfig
 msgid ""
@@ -25971,11 +25927,11 @@ msgstr "状态"
 
 #. SysConfig
 msgid "Statistic Reports overview."
-msgstr ""
+msgstr "统计报告概览。"
 
 #. SysConfig
 msgid "Statistics overview."
-msgstr ""
+msgstr "统计概览。"
 
 #. SysConfig
 msgid "Status view"
@@ -26147,7 +26103,7 @@ msgid ""
 "The logo shown on top of the login box of the agent interface. The URL to "
 "the image can be a relative URL to the skin image directory, or a full URL "
 "to a remote web server."
-msgstr ""
+msgstr "服务人员界面显示在登录窗口顶部的LOGO，图片的URL地址可以是皮肤图片目录的相对路径，也可以是远程WEB服务器的完整地址。"
 
 #. SysConfig
 msgid ""
@@ -26330,15 +26286,15 @@ msgstr "工单外发邮件。"
 
 #. SysConfig
 msgid "Ticket Overview \"Medium\" Limit"
-msgstr "工单概览“基本”模式限制"
+msgstr "工单概览基本版式的限制"
 
 #. SysConfig
 msgid "Ticket Overview \"Preview\" Limit"
-msgstr "工单概览“预览”模式限制"
+msgstr "工单概览预览版式的限制"
 
 #. SysConfig
 msgid "Ticket Overview \"Small\" Limit"
-msgstr "工单概览“简洁”模式限制"
+msgstr "工单概览简洁版式的限制"
 
 #. SysConfig
 msgid "Ticket Owner."
@@ -26386,15 +26342,15 @@ msgstr "触发升级停止事件的工单事件模块。"
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Medium\"."
-msgstr "工单概览“基本”模式每页工单数量。"
+msgstr "工单概览基本版式的每页工单数量。"
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Preview\"."
-msgstr "工单概览“预览”模式每页工单数量。"
+msgstr "工单概览预览版式的每页工单数量。"
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Small\"."
-msgstr "工单概览“简洁”模式每页工单数量。"
+msgstr "工单概览简洁版式的每页工单数量。"
 
 #. SysConfig
 msgid "Ticket notifications"
@@ -26464,7 +26420,7 @@ msgid ""
 "in their personal preferences, but will still allow administrators to edit "
 "the settings of another user's behalf. Use 'PreferenceGroup' to control in "
 "which area these settings should be shown in the user interface."
-msgstr ""
+msgstr "预约通知的传输选项。 请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid ""
@@ -26473,7 +26429,7 @@ msgid ""
 "personal preferences, but will still allow administrators to edit the "
 "settings of another user's behalf. Use 'PreferenceGroup' to control in which"
 " area these settings should be shown in the user interface."
-msgstr ""
+msgstr "工单通知的传输选项。 请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid "Tree view"

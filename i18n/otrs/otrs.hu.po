@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-03-05 19:12+0000\n"
-"PO-Revision-Date: 2018-03-05 22:25+0000\n"
+"POT-Creation-Date: 2018-04-23 17:42+0000\n"
+"PO-Revision-Date: 2018-04-23 17:46+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -592,8 +592,8 @@ msgid "Send to these agents"
 msgstr "Küldés ezeknek az ügyintézőknek"
 
 #. Template: AdminAppointmentNotificationEvent
-msgid "Send to all group members"
-msgstr "Küldés az összes csoporttagnak"
+msgid "Send to all group members (agents only)"
+msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
@@ -2829,10 +2829,6 @@ msgid ""
 msgstr "A név tipikusan egy távoli webszolgáltatás műveletének meghívásához használható."
 
 #. Template: AdminGenericInterfaceInvokerDefault
-msgid "Please provide a unique name for this web service invoker."
-msgstr "Adjon meg egy egyedi nevet ehhez a webszolgáltatás meghívóhoz."
-
-#. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker backend"
 msgstr "Meghívó háttérprogram"
 
@@ -3229,16 +3225,6 @@ msgid ""
 msgstr "A név tipikusan ennek a webszolgáltatás műveletnek a meghívásához használható egy távoli rendszerből."
 
 #. Template: AdminGenericInterfaceOperationDefault
-msgid "Mapping for incoming request data"
-msgstr "Leképezés a bejövő kérés adataihoz"
-
-#. Template: AdminGenericInterfaceOperationDefault
-msgid ""
-"The request data will be processed by this mapping, to transform it to the "
-"kind of data OTRS expects."
-msgstr "Ez a leképezés fogja a kérés adatait feldolgozni olyan formára alakítva át azokat, ahogy az OTRS várja."
-
-#. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation backend"
 msgstr "Műveleti háttérprogram."
 
@@ -3247,6 +3233,16 @@ msgid ""
 "This OTRS operation backend module will be called internally to process the "
 "request, generating data for the response."
 msgstr "Ez az OTRS műveleti háttérprogram modul lesz belsőleg meghívva a kérés feldolgozásához, és az adat előállításához a válasz számára."
+
+#. Template: AdminGenericInterfaceOperationDefault
+msgid "Mapping for incoming request data"
+msgstr "Leképezés a bejövő kérés adataihoz"
+
+#. Template: AdminGenericInterfaceOperationDefault
+msgid ""
+"The request data will be processed by this mapping, to transform it to the "
+"kind of data OTRS expects."
+msgstr "Ez a leképezés fogja a kérés adatait feldolgozni olyan formára alakítva át azokat, ahogy az OTRS várja."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for outgoing response data"
@@ -3263,10 +3259,8 @@ msgid "Include Ticket Data"
 msgstr "Jegyadatok felvétele"
 
 #. Template: AdminGenericInterfaceOperationDefault
-msgid ""
-"Include ticket data by response. Only available for TicketCreate and "
-"TicketUpdate operations."
-msgstr "A válasz tartalmazza a jegyadatokat. Csak a jegylétrehozás és jegyfrissítés műveleteknél érhető el."
+msgid "Include ticket data in response."
+msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Network Transport"
@@ -5680,7 +5674,7 @@ msgstr "Rendszer regisztráció szerkesztése"
 
 #. Template: AdminRegistration
 msgid "System Registration Overview"
-msgstr "Rendszer regisztráció áttekintése"
+msgstr "Rendszer regisztráció áttekintője"
 
 #. Template: AdminRegistration
 msgid "Register System"
@@ -5708,7 +5702,7 @@ msgstr "Rendszer regisztrációjának törlése"
 
 #. Template: AdminRegistration
 msgid "Overview of registered systems"
-msgstr "Regisztrált rendszerek áttekintése"
+msgstr "Regisztrált rendszerek áttekintője"
 
 #. Template: AdminRegistration
 msgid "This system is registered with OTRS Group."
@@ -5936,7 +5930,7 @@ msgstr "Itt módosíthatja a regisztrációs beállításokat."
 
 #. Template: AdminRegistration
 msgid "Overview of Transmitted Data"
-msgstr "Átvitt adatok áttekintése"
+msgstr "Átvitt adatok áttekintője"
 
 #. Template: AdminRegistration
 msgid "There is no data regularly sent from your system to %s."
@@ -6370,7 +6364,7 @@ msgstr "Munkamenet-kezelés"
 
 #. Template: AdminSession
 msgid "Detail Session View for %s (%s)"
-msgstr ""
+msgstr "%s (%s) részletes munkamenetnézete"
 
 #. Template: AdminSession
 msgid "All sessions"
@@ -6422,7 +6416,7 @@ msgstr "Kilövés"
 
 #. Template: AdminSession
 msgid "Detail View for SessionID: %s - %s"
-msgstr ""
+msgstr "A munkamenet-azonosító részletes nézete: %s - %s"
 
 #. Template: AdminSignature
 msgid "Signature Management"
@@ -6489,6 +6483,12 @@ msgstr "Ez az állapot megtalálható egy rendszerbállításban, az új állapo
 #. Template: AdminState
 msgid "State type"
 msgstr "Állapottípus"
+
+#. Template: AdminState
+msgid ""
+"It's not possible to invalidate this entry because there is no other merge "
+"states in system!"
+msgstr ""
 
 #. Template: AdminState
 msgid "This state is used in the following config settings:"
@@ -6714,7 +6714,7 @@ msgstr "Az üres változáslista azt jelenti, hogy nincs különbség az érinte
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Changes Overview"
-msgstr "Változások áttekintése"
+msgstr "Változások áttekintője"
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "There are %s changed settings which will be deployed in this run."
@@ -6832,7 +6832,7 @@ msgstr "Önálló beállítás megtekintése: %s"
 
 #. Template: AdminSystemConfigurationView
 msgid "Go back to Deployment Details"
-msgstr ""
+msgstr "Vissza az üzembe állítás részleteihez"
 
 #. Template: AdminSystemMaintenance
 msgid "System Maintenance Management"
@@ -8940,18 +8940,10 @@ msgstr "A gépházban: %s™"
 
 #. Template: CustomerFooterJS
 msgid ""
-"Your browser was not able to communicate with OTRS properly, there seems to "
-"be something wrong with your network connection. You could either try "
-"reloading this page manually or wait until your browser has re-established "
-"the connection on its own."
-msgstr "A böngészője nem volt képes megfelelően kommunikálni az OTRS-sel, úgy tűnik, hogy valami nincs rendben a hálózati kapcsolattal. Megpróbálhatja újratölteni ezt az oldalt kézzel, vagy megvárhatja, amíg a böngészője saját maga létesíti újra a kapcsolatot."
-
-#. Template: CustomerFooterJS
-msgid ""
-"There was an error in communication with the server. Server might be "
-"experiencing some temporary problems, please reload this page to check if "
-"they have been resolved."
-msgstr "Hiba történt a kiszolgálóval való kommunikáció során. A kiszolgálón átmeneti problémák lehetnek, ezért töltse újra ezt az oldalt, és ellenőrizze, hogy megoldódott-e már."
+"%s detected possible network issues. You could either try reloading this "
+"page manually or wait until your browser has re-established the connection "
+"on its own."
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -10592,7 +10584,7 @@ msgstr "Automatikus válasz hozzáadva!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid CommunicationID!"
-msgstr ""
+msgstr "Érvénytelen kommunikáció-azonosító!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "All communications"
@@ -11113,22 +11105,6 @@ msgid "1 week"
 msgstr "1 hét"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "Need InvokerType"
-msgstr "Meghívótípus szükséges"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "InvokerType %s is not registered"
-msgstr "A(z) %s meghívótípus nincs regisztrálva"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "Need InvokerType!"
-msgstr "Meghívótípus szükséges!"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-msgid "Need Invoker"
-msgstr "Meghívó szükséges"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Could not determine config for invoker %s"
 msgstr "Nem sikerült meghatározni a beállítást a(z) %s meghívónál"
 
@@ -11207,22 +11183,6 @@ msgstr "Bejövő kérésadatok a leképezés után"
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing response data before mapping"
 msgstr "Kimenő válaszadatok a leképezés előtt"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-msgid "Need OperationType"
-msgstr "Művelettípus szükséges"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-msgid "Operation %s is not registered"
-msgstr "A(z) %s művelet nincs regisztrálva"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-msgid "OperationType %s is not registered"
-msgstr "A(z) %s művelettípus nincs regisztrálva"
-
-#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-msgid "Need Operation"
-msgstr "Művelet szükséges"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
@@ -14942,7 +14902,7 @@ msgstr "Nincs lapozófájl engedélyezve."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Used Swap Space (MB)"
-msgstr "Használt lapozófájl méret (%)"
+msgstr "Használt lapozófájl méret (MB)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "There should be more than 60% free swap space."
@@ -15108,6 +15068,11 @@ msgid "Tickets Per Month (avg)"
 msgstr "Jegyek havonta (átlag)"
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+msgid "Open Tickets"
+msgstr "Nyitott jegyek"
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
 msgid "Default SOAP Username And Password"
 msgstr "Alapértelmezett SOAP felhasználónév és jelszó"
@@ -15186,14 +15151,14 @@ msgstr "Nem találhatók örökölt biztonsági mentés fájlok."
 msgid ""
 "Legacy configuration backup files found in %s, but they might still be "
 "required by some packages."
-msgstr ""
+msgstr "Örökölt konfigurációs biztonsági mentés fájlok találhatók ebben: %s, de néhány csomagnak még szükségük lehet rájuk."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
 msgid ""
 "Legacy configuration backup files are no longer needed for the installed "
 "packages, please remove them from %s."
-msgstr ""
+msgstr "Az örökölt konfigurációs biztonsági mentés fájlok többé nem szükségesek a telepített csomagokhoz, távolítsa el azokat innen: %s."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
@@ -15286,11 +15251,6 @@ msgstr "Érvénytelen felhasználók zárolt jegyekkel"
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "There are invalid users with locked tickets."
 msgstr "Zárolt jegyekkel rendelkező érvénytelen felhasználók vannak."
-
-#. Perl Module:
-#. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
-msgid "Open Tickets"
-msgstr "Nyitott jegyek"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
@@ -16773,16 +16733,12 @@ msgid "Error: Browser Check failed!"
 msgstr "Hiba: a böngésző-ellenőrzés sikertelen!"
 
 #. JS File: Core.App
-msgid "Connection error"
-msgstr "Kapcsolódási hiba"
-
-#. JS File: Core.App
 msgid "Reload page"
 msgstr "Oldal újratöltése"
 
 #. JS File: Core.App
-msgid "Communication error"
-msgstr "Kommunikációs hiba"
+msgid "Reload page (%ss)"
+msgstr ""
 
 #. JS File: Core.Debug
 msgid "Namespace %s could not be initialized, because %s could not be found."
@@ -17296,7 +17252,7 @@ msgstr "Adminisztrációs terület navigáció az ügyintézői felülethez."
 
 #. SysConfig
 msgid "Admin modules overview."
-msgstr ""
+msgstr "Adminisztrátori modulok áttekintője."
 
 #. SysConfig
 msgid "Admin."
@@ -17328,7 +17284,7 @@ msgstr "Ügyintézői beállítások."
 
 #. SysConfig
 msgid "Agent Statistics."
-msgstr ""
+msgstr "Ügyintézői statisztikák."
 
 #. SysConfig
 msgid "Agent User Search"
@@ -18428,7 +18384,7 @@ msgstr "Egyéni RSS hírforrás"
 
 #. SysConfig
 msgid "Custom RSS feed."
-msgstr ""
+msgstr "Egyéni RSS hírforrás."
 
 #. SysConfig
 msgid ""
@@ -18454,7 +18410,7 @@ msgstr "Ügyfélinformációs-központ keresés."
 
 #. SysConfig
 msgid "Customer Information Center search."
-msgstr ""
+msgstr "Ügyfélinformációs-központ keresés."
 
 #. SysConfig
 msgid "Customer Information Center."
@@ -18478,7 +18434,7 @@ msgstr "Ügyfél-felhasználó információs-központ keresés."
 
 #. SysConfig
 msgid "Customer User Information Center search."
-msgstr ""
+msgstr "Ügyfél-felhasználó információs-központ keresés."
 
 #. SysConfig
 msgid "Customer User Information Center."
@@ -18562,7 +18518,7 @@ msgstr "Dán"
 
 #. SysConfig
 msgid "Dashboard overview."
-msgstr ""
+msgstr "Vezérlőpult áttekintő."
 
 #. SysConfig
 msgid "Data used to export the search result in CSV format."
@@ -19129,7 +19085,7 @@ msgid ""
 "some functionality will be lost such as system registration, support data "
 "sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS"
 " News and product News dashboard widgets, among others."
-msgstr ""
+msgstr "Meghatározza, hogy lehetséges-e a kommunikáció a rendszer és az OTRS csoport azon kiszolgálói között, amelyek felhőszolgáltatásokat nyújtanak. Ha „Felhőszolgáltatások letiltása” értékre van állítva, akkor néhány funkcionalitás el fog veszi, mint például a rendszer regisztráció, a támogatási adatok küldése, az OTRS Business Solution™ használata és az arra történő frissítés, az OTRS Verify™, az OTRS hírek és termékhírek vezérlőpult felületi elemek, stb."
 
 #. SysConfig
 msgid ""
@@ -19392,7 +19348,7 @@ msgid ""
 "personal preferences, but will still allow administrators to edit the "
 "settings of another user's behalf. Use 'PreferenceGroup' to control in which"
 " area these settings should be shown in the user interface."
-msgstr ""
+msgstr "Meghatározza ennek az elemnek a beállítási paramétereit a beállítások nézetben történő megjelenítéshez. A „PasswordRegExp” lehetővé teszi a jelszavak illesztését egy reguláris kifejezéssel. A „PasswordMinSize” használatával meghatározható a karakterek legkisebb száma. A megfelelő beállítás „1”-re állításával meghatározható, hogy legalább 2 kisbetűs és 2 nagybetűs karakter szükséges. A „PasswordMin2Characters” azt határozza meg, hogy a jelszónak tartalmaznia kell legalább 2 betű karaktert (állítsa 0-ra vagy 1-re). A „PasswordNeedDigit” szabályozza a legalább 1 számjegy szükségét (állítsa 0-ra vagy 1-re a szabályzáshoz). A „PasswordMaxLoginFailed” lehetővé teszi egy ügyintéző átmenetileg érvénytelenre állítását, ha a maximális sikertelen bejelentkezést elérte. Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen."
 
 #. SysConfig
 msgid ""
@@ -19402,7 +19358,7 @@ msgid ""
 " allow administrators to edit the settings of another user's behalf. Use "
 "'PreferenceGroup' to control in which area these settings should be shown in"
 " the user interface."
-msgstr ""
+msgstr "Meghatározza ennek az elemnek a beállítási paramétereit, amelyek a beállítások nézetben jelennek meg. Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen."
 
 #. SysConfig
 msgid "Defines the connections for http/ftp, via a proxy."
@@ -20881,7 +20837,7 @@ msgid ""
 "preferences, but will still allow administrators to edit the settings of "
 "another user's behalf. Use 'PreferenceGroup' to control in which area these "
 "settings should be shown in the user interface."
-msgstr ""
+msgstr "Meghatározza a felhasználók avatárját. Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen."
 
 #. SysConfig
 msgid "Defines the valid state types for a ticket."
@@ -21122,7 +21078,7 @@ msgstr "Az „X-Frame-Options: SAMEORIGIN” HTTP-fejléc letiltása, hogy lehet
 
 #. SysConfig
 msgid "Disable cloud services"
-msgstr ""
+msgstr "Felhőszolgáltatások letiltása"
 
 #. SysConfig
 msgid ""
@@ -21978,7 +21934,7 @@ msgid ""
 "personal preferences, but will still allow administrators to edit the "
 "settings of another user's behalf. Use 'PreferenceGroup' to control in which"
 " area these settings should be shown in the user interface."
-msgstr ""
+msgstr "Megadja a végfelhasználóknak azt a lehetőséget, hogy felülírják a CSV fájloknál a fordítási fájlokban meghatározott elválasztó karaktert. Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen."
 
 #. SysConfig
 msgid "Global Search Module."
@@ -22745,7 +22701,7 @@ msgstr "Jegy zárolva."
 
 #. SysConfig
 msgid "Logged in users."
-msgstr ""
+msgstr "Bejelentkezett felhasználók."
 
 #. SysConfig
 msgid "Logged-In Users"
@@ -23157,7 +23113,7 @@ msgstr "Az OTRS kiadásaival kapcsolatos hírek!"
 
 #. SysConfig
 msgid "News about OTRS."
-msgstr ""
+msgstr "Az OTRS-sel kapcsolatos hírek."
 
 #. SysConfig
 msgid ""
@@ -23302,7 +23258,7 @@ msgstr "Irodán kívüli idő"
 
 #. SysConfig
 msgid "Out of Office users."
-msgstr ""
+msgstr "Irodán kívüli felhasználók."
 
 #. SysConfig
 msgid ""
@@ -23312,7 +23268,7 @@ msgstr "Túlterheli (újra meghatározza) a Kernel::System::Ticket helyen meglé
 
 #. SysConfig
 msgid "Overview Escalated Tickets."
-msgstr "Eszkalált jegyek áttekintése."
+msgstr "Eszkalált jegyek áttekintője."
 
 #. SysConfig
 msgid "Overview Refresh Time"
@@ -23320,7 +23276,7 @@ msgstr "Áttekintő frissítési ideje"
 
 #. SysConfig
 msgid "Overview of all Tickets per assigned Queue."
-msgstr ""
+msgstr "Az összes jegy áttekintője a hozzárendelt várólistánként."
 
 #. SysConfig
 msgid "Overview of all appointments."
@@ -23328,19 +23284,19 @@ msgstr "Az összes időpont áttekintője."
 
 #. SysConfig
 msgid "Overview of all escalated tickets."
-msgstr "Összes eszkalált jegy áttekintése."
+msgstr "Az összes eszkalált jegy áttekintője."
 
 #. SysConfig
 msgid "Overview of all open Tickets."
-msgstr "Az összes nyitott jegy áttekintése."
+msgstr "Az összes nyitott jegy áttekintője."
 
 #. SysConfig
 msgid "Overview of all open tickets."
-msgstr "Összes nyitott jegy áttekintése."
+msgstr "Az összes nyitott jegy áttekintője."
 
 #. SysConfig
 msgid "Overview of customer tickets."
-msgstr "Összes ügyféljegy áttekintése."
+msgstr "Az összes ügyféljegy áttekintője."
 
 #. SysConfig
 msgid "PGP Key"
@@ -23366,7 +23322,7 @@ msgid ""
 "still allow administrators to edit the settings of another user's behalf. "
 "Use 'PreferenceGroup' to control in which area these settings should be "
 "shown in the user interface."
-msgstr ""
+msgstr "A következő maszk létrehozása objektum paraméterei az ügyintézői felület beállítás nézetében. Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen."
 
 #. SysConfig
 msgid ""
@@ -23376,7 +23332,7 @@ msgid ""
 " allow administrators to edit the settings of another user's behalf. Use "
 "'PreferenceGroup' to control in which area these settings should be shown in"
 " the user interface."
-msgstr ""
+msgstr "Az egyéni várólista objektum paraméterei az ügyintézői felület beállítás nézetében. Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen."
 
 #. SysConfig
 msgid ""
@@ -23386,7 +23342,7 @@ msgid ""
 " allow administrators to edit the settings of another user's behalf. Use "
 "'PreferenceGroup' to control in which area these settings should be shown in"
 " the user interface."
-msgstr ""
+msgstr "Az egyéni szolgáltatás objektum paraméterei az ügyintézői felület beállítás nézetében. Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen."
 
 #. SysConfig
 msgid ""
@@ -23396,7 +23352,7 @@ msgid ""
 " allow administrators to edit the settings of another user's behalf. Use "
 "'PreferenceGroup' to control in which area these settings should be shown in"
 " the user interface."
-msgstr ""
+msgstr "A frissítési idő objektum paraméterei az ügyintézői felület beállítás nézetében. Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen."
 
 #. SysConfig
 msgid ""
@@ -23406,7 +23362,7 @@ msgid ""
 "administrators to edit the settings of another user's behalf. Use "
 "'PreferenceGroup' to control in which area these settings should be shown in"
 " the user interface."
-msgstr ""
+msgstr "Paraméterek a kis jegyáttekintő oszlopszűrőihez. Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen."
 
 #. SysConfig
 msgid ""
@@ -23683,7 +23639,7 @@ msgid ""
 "preferences, but will still allow administrators to edit the settings of "
 "another user's behalf. Use 'PreferenceGroup' to control in which area these "
 "settings should be shown in the user interface."
-msgstr ""
+msgstr "Paraméterek a dinamikus mezők áttekintőjének oldalaihoz (amelyben a dinamikus mezők vannak megjelenítve). Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen."
 
 #. SysConfig
 msgid ""
@@ -23693,7 +23649,7 @@ msgid ""
 " still allow administrators to edit the settings of another user's behalf. "
 "Use 'PreferenceGroup' to control in which area these settings should be "
 "shown in the user interface."
-msgstr ""
+msgstr "Paraméterek a közepes jegyáttekintő oldalaihoz (amelyben a jegyek vannak megjelenítve). Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen."
 
 #. SysConfig
 msgid ""
@@ -23703,7 +23659,7 @@ msgid ""
 " still allow administrators to edit the settings of another user's behalf. "
 "Use 'PreferenceGroup' to control in which area these settings should be "
 "shown in the user interface."
-msgstr ""
+msgstr "Paraméterek a kis jegyáttekintő oldalaihoz (amelyben a jegyek vannak megjelenítve). Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen."
 
 #. SysConfig
 msgid ""
@@ -23713,7 +23669,7 @@ msgid ""
 "but will still allow administrators to edit the settings of another user's "
 "behalf. Use 'PreferenceGroup' to control in which area these settings should"
 " be shown in the user interface."
-msgstr ""
+msgstr "Paraméterek a jegyelőnézet áttekintőjének oldalaihoz (amelyben a jegyek vannak megjelenítve). Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen."
 
 #. SysConfig
 msgid "Parameters of the example SLA attribute Comment2."
@@ -24324,7 +24280,7 @@ msgstr "Elküldi a feloldott jegy emlékeztető értesítéseit az emlékeztető
 msgid ""
 "Sends the notifications which are configured in the admin interface under "
 "\"Ticket Notifications\"."
-msgstr ""
+msgstr "Elküldi azokat az értesítéseket, amelyek az adminisztrációs felületen a „Jegyértesítések” alatt vannak beállítva."
 
 #. SysConfig
 msgid "Sent \"%s\" notification to \"%s\" via \"%s\"."
@@ -25055,7 +25011,7 @@ msgstr "Bejegyzés megjelenítése RichTextként még akkor is, ha a RichText í
 
 #. SysConfig
 msgid "Show command line output."
-msgstr ""
+msgstr "Parancssori kimenet megjelenítése."
 
 #. SysConfig
 msgid "Show queues even when only locked tickets are in."
@@ -25490,12 +25446,12 @@ msgstr "Megjelenít minden nyitott jegyet (akkor is, ha zárolt) az ügyintéző
 #. SysConfig
 msgid ""
 "Shows all the articles of the ticket (expanded) in the agent zoom view."
-msgstr ""
+msgstr "Megjeleníti a jegy összes bejegyzését (kinyitva) az ügyintézői nagyítás nézetben."
 
 #. SysConfig
 msgid ""
 "Shows all the articles of the ticket (expanded) in the customer zoom view."
-msgstr ""
+msgstr "Megjeleníti a jegy összes bejegyzését (kinyitva) az ügyfél nagyítás nézetben."
 
 #. SysConfig
 msgid ""
@@ -25964,11 +25920,11 @@ msgstr "Állapotok"
 
 #. SysConfig
 msgid "Statistic Reports overview."
-msgstr ""
+msgstr "Statisztikai jelentések áttekintője."
 
 #. SysConfig
 msgid "Statistics overview."
-msgstr ""
+msgstr "Statisztikák áttekintője."
 
 #. SysConfig
 msgid "Status view"
@@ -26140,7 +26096,7 @@ msgid ""
 "The logo shown on top of the login box of the agent interface. The URL to "
 "the image can be a relative URL to the skin image directory, or a full URL "
 "to a remote web server."
-msgstr ""
+msgstr "Az ügyintéző felület bejelentkező doboza fölött megjelenített logó. A kép URL lehet relatív URL a felszín képkönyvtárától, vagy egy teljes URL egy távoli webkiszolgálótól."
 
 #. SysConfig
 msgid ""
@@ -26457,7 +26413,7 @@ msgid ""
 "in their personal preferences, but will still allow administrators to edit "
 "the settings of another user's behalf. Use 'PreferenceGroup' to control in "
 "which area these settings should be shown in the user interface."
-msgstr ""
+msgstr "Átvitelkiválasztás az időpont-értesítésekhez. Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen."
 
 #. SysConfig
 msgid ""
@@ -26466,7 +26422,7 @@ msgid ""
 "personal preferences, but will still allow administrators to edit the "
 "settings of another user's behalf. Use 'PreferenceGroup' to control in which"
 " area these settings should be shown in the user interface."
-msgstr ""
+msgstr "Átvitelkiválasztás a jegyértesítésekhez. Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen."
 
 #. SysConfig
 msgid "Tree view"

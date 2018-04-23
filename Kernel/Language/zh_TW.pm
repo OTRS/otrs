@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.340099776363324;
+    $Self->{Completeness}        = 0.340341202826124;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -197,7 +197,7 @@ sub Data {
         'Recipients' => '接收人',
         'Send to' => '發送至',
         'Send to these agents' => '發送至此服務員',
-        'Send to all group members' => '發送至所有群組成員',
+        'Send to all group members (agents only)' => '',
         'Send to all role members' => '',
         'Send on out of office' => '',
         'Also send if the user is currently out of office.' => '',
@@ -865,7 +865,6 @@ sub Data {
         'Invoker Details' => '調用程序詳情',
         'The name is typically used to call up an operation of a remote web service.' =>
             '這個名字通常用於調用遠程web服務的一個操作',
-        'Please provide a unique name for this web service invoker.' => '請為這個Web服務調用程序提供一個唯一的名稱。',
         'Invoker backend' => '調用程序後端',
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
             '這個OTRS調用程序後端模塊被調用後，負責準備需要發送給遠程系統的數據，並處理它的響應數據。',
@@ -986,18 +985,17 @@ sub Data {
         'Operation Details' => '操作詳情',
         'The name is typically used to call up this web service operation from a remote system.' =>
             '這個名稱通常用於從一個遠程系統調用這個web服務操作。',
-        'Mapping for incoming request data' => '映射傳入請求數據',
-        'The request data will be processed by this mapping, to transform it to the kind of data OTRS expects.' =>
-            '這個映射將對請求數據進行處理，將它轉換為OTRS所期待的數據。',
         'Operation backend' => '操作後端',
         'This OTRS operation backend module will be called internally to process the request, generating data for the response.' =>
             '這個OTRS操作後端模塊將被調用，以便處理請求、為響應生成數據。',
+        'Mapping for incoming request data' => '映射傳入請求數據',
+        'The request data will be processed by this mapping, to transform it to the kind of data OTRS expects.' =>
+            '這個映射將對請求數據進行處理，將它轉換為OTRS所期待的數據。',
         'Mapping for outgoing response data' => '映射出站響應數據',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             '這個映射將對響應數據進行處理，以便將它轉換成遠程系統所期待的數據。',
         'Include Ticket Data' => '',
-        'Include ticket data by response. Only available for TicketCreate and TicketUpdate operations.' =>
-            '',
+        'Include ticket data in response.' => '',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'Network Transport' => '',
@@ -1996,6 +1994,8 @@ sub Data {
         'This state is present in a SysConfig setting, confirmation for updating settings to point to the new type is needed!' =>
             '',
         'State type' => '工單狀態類型',
+        'It\'s not possible to invalidate this entry because there is no other merge states in system!' =>
+            '',
         'This state is used in the following config settings:' => '',
 
         # Template: AdminSupportDataCollector
@@ -2834,9 +2834,7 @@ sub Data {
         'Powered by %s™' => '',
 
         # Template: CustomerFooterJS
-        'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
-            '',
-        'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
+        '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
             '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
             '',
@@ -3584,10 +3582,6 @@ sub Data {
         '1 week' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-        'Need InvokerType' => '',
-        'InvokerType %s is not registered' => '',
-        'Need InvokerType!' => '',
-        'Need Invoker' => '',
         'Could not determine config for invoker %s' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
@@ -3616,10 +3610,6 @@ sub Data {
         'Outgoing response data before mapping' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-        'Need OperationType' => '',
-        'Operation %s is not registered' => '',
-        'OperationType %s is not registered' => '',
-        'Need Operation' => '',
         'Could not determine config for operation %s' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
@@ -5057,6 +5047,7 @@ sub Data {
         'Process Tickets' => '',
         'Months Between First And Last Ticket' => '',
         'Tickets Per Month (avg)' => '',
+        'Open Tickets' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
         'Default SOAP Username And Password' => '',
@@ -5134,7 +5125,6 @@ sub Data {
         'There are invalid users with locked tickets.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
-        'Open Tickets' => '',
         'You should not have more than 8,000 open tickets in your system.' =>
             '',
 
@@ -5690,9 +5680,8 @@ sub Data {
 
         # JS File: Core.App
         'Error: Browser Check failed!' => '',
-        'Connection error' => '',
         'Reload page' => '',
-        'Communication error' => '',
+        'Reload page (%ss)' => '',
 
         # JS File: Core.Debug
         'Namespace %s could not be initialized, because %s could not be found.' =>
@@ -8740,10 +8729,8 @@ Thanks for your help!
         'Close',
         'Close preview',
         'Close this dialog',
-        'Communication error',
         'Complex %s with %s arguments',
         'Confirm',
-        'Connection error',
         'Could not open popup window. Please disable any popup blockers for this application.',
         'Current selection',
         'Currently not possible',
@@ -8901,6 +8888,7 @@ Thanks for your help!
         'Process state',
         'Queues',
         'Reload page',
+        'Reload page (%ss)',
         'Remove',
         'Remove Entity from canvas',
         'Remove active filters for this widget.',

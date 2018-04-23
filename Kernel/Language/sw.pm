@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.496473421641149;
+    $Self->{Completeness}        = 0.49715664311563;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -198,7 +198,7 @@ sub Data {
         'Recipients' => 'Wapokeaji',
         'Send to' => '',
         'Send to these agents' => '',
-        'Send to all group members' => '',
+        'Send to all group members (agents only)' => '',
         'Send to all role members' => '',
         'Send on out of office' => '',
         'Also send if the user is currently out of office.' => '',
@@ -866,7 +866,6 @@ sub Data {
         'Invoker Details' => 'Undani wa Kisababishi',
         'The name is typically used to call up an operation of a remote web service.' =>
             'Jina limeshatumika kuweka operesheni ya huduma ya tovuti wa mbali.',
-        'Please provide a unique name for this web service invoker.' => 'Tafadhali weka jina la kipekee kwa ajili ya kisababishi cha huduma ya tovuti.',
         'Invoker backend' => 'Mazingira ya nyuma ya kisababishi',
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
             'Moduli ya mazingira ya nyuma ya kichochezi cha OTRS itaitwa kuandaa data kutumwa katika mfumo wa mbali, na kushughulikia data zake za majibu.',
@@ -987,18 +986,17 @@ sub Data {
         'Operation Details' => 'Undani wa operesheni',
         'The name is typically used to call up this web service operation from a remote system.' =>
             'Jina limeshatumika kuweka operesheni ya huduma ya tovuti wa mbali.',
-        'Mapping for incoming request data' => 'Tengeneza ramani kwa ajili ya data za maombi zinazoingia.',
-        'The request data will be processed by this mapping, to transform it to the kind of data OTRS expects.' =>
-            'Data za majibu zitashughulikiwa na muunganisho huu, kuibadilisha kuifanya kuwa data inayotarajiwa na OTRS.',
         'Operation backend' => 'azingira ya nyuma ya mfumo',
         'This OTRS operation backend module will be called internally to process the request, generating data for the response.' =>
             'Moduli ya mazingira ya nyuma ya uendeshaji ya OTRS yataitwa ndani kushughulikia maombi, kutengeneza data kwa ajili ya majibu.',
+        'Mapping for incoming request data' => 'Tengeneza ramani kwa ajili ya data za maombi zinazoingia.',
+        'The request data will be processed by this mapping, to transform it to the kind of data OTRS expects.' =>
+            'Data za majibu zitashughulikiwa na muunganisho huu, kuibadilisha kuifanya kuwa data inayotarajiwa na OTRS.',
         'Mapping for outgoing response data' => 'Kuunganisha data za majibu zinazotoka nje.',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             'Data za majimu zitashughulikiwa na kuunganishwa huku, kubadili kuwa data ambayo mfumo wa mbali unaitarajia.',
         'Include Ticket Data' => '',
-        'Include ticket data by response. Only available for TicketCreate and TicketUpdate operations.' =>
-            '',
+        'Include ticket data in response.' => '',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'Network Transport' => 'Usafirishaji wa Mtandao',
@@ -1997,6 +1995,8 @@ sub Data {
         'This state is present in a SysConfig setting, confirmation for updating settings to point to the new type is needed!' =>
             '',
         'State type' => 'Aina ya hali',
+        'It\'s not possible to invalidate this entry because there is no other merge states in system!' =>
+            '',
         'This state is used in the following config settings:' => '',
 
         # Template: AdminSupportDataCollector
@@ -2835,9 +2835,7 @@ sub Data {
         'Powered by %s™' => '',
 
         # Template: CustomerFooterJS
-        'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
-            '',
-        'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
+        '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
             '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
             '',
@@ -3585,10 +3583,6 @@ sub Data {
         '1 week' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-        'Need InvokerType' => '',
-        'InvokerType %s is not registered' => '',
-        'Need InvokerType!' => '',
-        'Need Invoker' => '',
         'Could not determine config for invoker %s' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
@@ -3617,10 +3611,6 @@ sub Data {
         'Outgoing response data before mapping' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-        'Need OperationType' => '',
-        'Operation %s is not registered' => '',
-        'OperationType %s is not registered' => '',
-        'Need Operation' => '',
         'Could not determine config for operation %s' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
@@ -5058,6 +5048,7 @@ sub Data {
         'Process Tickets' => '',
         'Months Between First And Last Ticket' => 'Miezi kati ya tiketi ya kwanza na ya mwisho',
         'Tickets Per Month (avg)' => 'Tiketi za kila mwezi (wastani)',
+        'Open Tickets' => 'Tiketi zilizo wazi',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
         'Default SOAP Username And Password' => '',
@@ -5135,7 +5126,6 @@ sub Data {
         'There are invalid users with locked tickets.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
-        'Open Tickets' => 'Tiketi zilizo wazi',
         'You should not have more than 8,000 open tickets in your system.' =>
             'Usiwe na tiketi zilizowazi zaidi ya 8000 katika mfumo wako.',
 
@@ -5691,9 +5681,8 @@ sub Data {
 
         # JS File: Core.App
         'Error: Browser Check failed!' => '',
-        'Connection error' => '',
         'Reload page' => '',
-        'Communication error' => '',
+        'Reload page (%ss)' => '',
 
         # JS File: Core.Debug
         'Namespace %s could not be initialized, because %s could not be found.' =>
@@ -8744,10 +8733,8 @@ Mfano:
         'Close',
         'Close preview',
         'Close this dialog',
-        'Communication error',
         'Complex %s with %s arguments',
         'Confirm',
-        'Connection error',
         'Could not open popup window. Please disable any popup blockers for this application.',
         'Current selection',
         'Currently not possible',
@@ -8905,6 +8892,7 @@ Mfano:
         'Process state',
         'Queues',
         'Reload page',
+        'Reload page (%ss)',
         'Remove',
         'Remove Entity from canvas',
         'Remove active filters for this widget.',
