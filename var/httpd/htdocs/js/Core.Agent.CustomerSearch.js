@@ -562,8 +562,8 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 });
             }
             else {
-                // initializes the customer fields
-                TargetNS.InitCustomerField();
+                // Initializes the customer field.
+                TargetNS.InitCustomerField($Element);
             }
         }
 
@@ -843,76 +843,73 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
      * @name InitCustomerField
      * @memberof Core.Agent.CustomerSearch
      * @function
+     * @param {String} $Element - JQuery object.
      * @description
      *      This function initializes the customer fields.
      */
-    TargetNS.InitCustomerField = function () {
+    TargetNS.InitCustomerField = function ($Element) {
+        var ObjectId = $Element.attr('id');
 
-        // loop over the field with CustomerAutoComplete class
-        $('.CustomerAutoComplete').each(function() {
-            var ObjectId = $(this).attr('id');
+        $('#' + ObjectId).on('change', function () {
 
-            $('#' + ObjectId).on('change', function () {
+            if (!$('#' + ObjectId).val() || $('#' + ObjectId).val() === '') {
+                return false;
+            }
 
-                if (!$('#' + ObjectId).val() || $('#' + ObjectId).val() === '') {
-                    return false;
+            // if autocompletion is disabled and only avaible via the click
+            // of a button next to the input field, we cannot handle this
+            // change event the normal way.
+            if (!Core.UI.Autocomplete.GetConfig('ActiveAutoComplete')) {
+                // we wait some time after this event to check, if the search button
+                // for this field was pressed. If so, no action is needed
+                // If the change event was fired without clicking the search button,
+                // probably the user clicked out of the field.
+                // This should also add the customer (the enetered value) to the list
+
+                if (typeof CustomerFieldChangeRunCount[ObjectId] === 'undefined') {
+                    CustomerFieldChangeRunCount[ObjectId] = 1;
+                }
+                else {
+                    CustomerFieldChangeRunCount[ObjectId]++;
                 }
 
-                // if autocompletion is disabled and only avaible via the click
-                // of a button next to the input field, we cannot handle this
-                // change event the normal way.
-                if (!Core.UI.Autocomplete.GetConfig('ActiveAutoComplete')) {
-                    // we wait some time after this event to check, if the search button
-                    // for this field was pressed. If so, no action is needed
-                    // If the change event was fired without clicking the search button,
-                    // probably the user clicked out of the field.
-                    // This should also add the customer (the enetered value) to the list
-
-                    if (typeof CustomerFieldChangeRunCount[ObjectId] === 'undefined') {
-                        CustomerFieldChangeRunCount[ObjectId] = 1;
-                    }
-                    else {
-                        CustomerFieldChangeRunCount[ObjectId]++;
-                    }
-
-                    if (Core.UI.Autocomplete.SearchButtonClicked[ObjectId]) {
-                        delete CustomerFieldChangeRunCount[ObjectId];
-                        delete Core.UI.Autocomplete.SearchButtonClicked[ObjectId];
+                if (Core.UI.Autocomplete.SearchButtonClicked[ObjectId]) {
+                    delete CustomerFieldChangeRunCount[ObjectId];
+                    delete Core.UI.Autocomplete.SearchButtonClicked[ObjectId];
+                    return false;
+                }
+                else {
+                    if (CustomerFieldChangeRunCount[ObjectId] === 1) {
+                        window.setTimeout(function () {
+                            $('#' + ObjectId).trigger('change');
+                        }, 200);
                         return false;
                     }
-                    else {
-                        if (CustomerFieldChangeRunCount[ObjectId] === 1) {
-                            window.setTimeout(function () {
-                                $('#' + ObjectId).trigger('change');
-                            }, 200);
-                            return false;
-                        }
-                        delete CustomerFieldChangeRunCount[ObjectId];
-                    }
+                    delete CustomerFieldChangeRunCount[ObjectId];
                 }
+            }
 
 
-                // If the autocomplete popup window is visible, delay this change event.
-                // It might be caused by clicking with the mouse into the autocomplete list.
-                // Wait until it is closed to be sure that we don't add a customer twice.
+            // If the autocomplete popup window is visible, delay this change event.
+            // It might be caused by clicking with the mouse into the autocomplete list.
+            // Wait until it is closed to be sure that we don't add a customer twice.
 
-                if ($(this).autocomplete("widget").is(':visible')) {
-                    window.setTimeout(function(){
-                        $('#' + ObjectId).trigger('change');
-                    }, 200);
-                    return false;
-                }
+            if ($Element.autocomplete("widget").is(':visible')) {
+                window.setTimeout(function(){
+                    $('#' + ObjectId).trigger('change');
+                }, 200);
+                return false;
+            }
 
+            Core.Agent.CustomerSearch.AddTicketCustomer(ObjectId, $('#' + ObjectId).val());
+            return false;
+        });
+
+        $('#' + ObjectId).on('keypress', function (e) {
+            if (e.which === 13){
                 Core.Agent.CustomerSearch.AddTicketCustomer(ObjectId, $('#' + ObjectId).val());
                 return false;
-            });
-
-            $('#' + ObjectId).on('keypress', function (e) {
-                if (e.which === 13){
-                    Core.Agent.CustomerSearch.AddTicketCustomer(ObjectId, $('#' + ObjectId).val());
-                    return false;
-                }
-            });
+            }
         });
     };
 
