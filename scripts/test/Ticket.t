@@ -2498,11 +2498,11 @@ for my $Index ( 1 .. 3 ) {
         Comment         => 'Unit Test Comment',
         UserID          => 1,
     ) || die "QueueAdd() error.";
-    push @Queues,
-        {
+
+    push @Queues, {
         ID   => $QueueID,
-        Name => $QueueName
-        };
+        Name => $QueueName,
+    };
 
     # Create test priorities.
     my $PriorityName = $Index . 'Prio' . $RandomID;
@@ -2511,11 +2511,11 @@ for my $Index ( 1 .. 3 ) {
         ValidID => 1,
         UserID  => 1,
     ) || die "PriorityAdd() error.";
-    push @Priorities,
-        {
+
+    push @Priorities, {
         ID   => $PriorityID,
-        Name => $PriorityName
-        };
+        Name => $PriorityName,
+    };
 
     # Create test services.
     my $ServiceName = $Index . 'Service' . $RandomID;
@@ -2525,11 +2525,11 @@ for my $Index ( 1 .. 3 ) {
         Comment => 'Unit Test Comment',
         UserID  => 1,
     ) || die "ServiceAdd() error.";
-    push @Services,
-        {
+
+    push @Services, {
         ID   => $ServiceID,
-        Name => $ServiceName
-        };
+        Name => $ServiceName,
+    };
 
     # Create test SLAs.
     my $SLAName = $Index . 'SLA' . $RandomID;
@@ -2539,11 +2539,11 @@ for my $Index ( 1 .. 3 ) {
         Comment => 'Unit Test Comment',
         UserID  => 1,
     ) || die "SLAAdd() error.";
-    push @SLAs,
-        {
+
+    push @SLAs, {
         ID   => $SLAID,
-        Name => $SLAName
-        };
+        Name => $SLAName,
+    };
 
     # Create test states.
     my $StateName = $Index . 'State' . $RandomID;
@@ -2554,11 +2554,11 @@ for my $Index ( 1 .. 3 ) {
         TypeID  => 1,
         UserID  => 1,
     ) || die "StateAdd() error.";
-    push @States,
-        {
+
+    push @States, {
         ID   => $StateID,
-        Name => $StateName
-        };
+        Name => $StateName,
+    };
 
     # Create test types.
     my $TypeName = $Index . 'Type' . $RandomID;
@@ -2567,12 +2567,11 @@ for my $Index ( 1 .. 3 ) {
         ValidID => 1,
         UserID  => 1,
     ) || die "TypeAdd() error.";
-    push @Types,
-        {
-        ID   => $TypeID,
-        Name => $TypeName
-        };
 
+    push @Types, {
+        ID   => $TypeID,
+        Name => $TypeName,
+    };
 }
 
 # Create test cases for different function outcome.
