@@ -258,6 +258,12 @@ sub ArticleWriteAttachment {
         }
     }
 
+    $Param{Filename} = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
+        Filename  => $Param{Filename},
+        Type      => 'Local',
+        NoReplace => 1,
+    );
+
     my $NewFileName = $Param{Filename};
     my %UsedFile;
     my %Index = $Self->ArticleAttachmentIndex(

@@ -601,22 +601,22 @@ $Self->Is(
 );
 $Self->Is(
     $Attachments[5]->{Filename} || '',
-    '報告書①..txt',
+    '報告書_..txt',
     "#12 Filename check",
 );
 $Self->Is(
     $Attachments[6]->{Filename} || '',
-    '金田　美羽',
+    '金田_美羽',
     "#12 Filename check",
 );
 $Self->Is(
     $Attachments[7]->{Filename} || '',
-    '國科會50科學之旅活動計畫徵求書(r_final).doc',
+    '國科會50科學之旅活動計畫徵求書_r_final_.doc',
     "#12 Filename check",
 );
 $Self->Is(
     $Attachments[8]->{Filename} || '',
-    '2차 보도자료.hwp',
+    '2차_보도자료.hwp',
     "#12 Filename check",
 );
 $Self->True(

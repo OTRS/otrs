@@ -19,6 +19,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::CheckItem',
     'Kernel::System::Encode',
+    'Kernel::System::Main',
 );
 
 =head1 NAME
@@ -267,6 +268,12 @@ sub GetUploadAll {
     # replace all devices like c: or d: and dirs for IE!
     $NewFileName =~ s/.:\\(.*)/$1/g;
     $NewFileName =~ s/.*\\(.+?)/$1/g;
+
+    # cleanup filename
+    $NewFileName = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
+        Filename => $NewFileName,
+        Type     => 'Attachment',
+    );
 
     # return a string
     my $Content;

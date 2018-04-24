@@ -45,7 +45,7 @@ $Self->Is(
 # LF => 0A hexadecimal
 $Self->Is(
     $Attachments[2]->{'Filename'} || '',
-    'Test  test test test dokument.eml',
+    'Test__test_test_test_dokument.eml',
     "Filename with multiple newlines removed",
 );
 

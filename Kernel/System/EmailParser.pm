@@ -717,6 +717,13 @@ sub PartsAttachments {
             String => $Part->head()->recommended_filename(),
             Encode => 'utf-8',
         );
+
+        # cleanup filename
+        $PartData{Filename} = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
+            Filename => $PartData{Filename},
+            Type     => 'Local',
+        );
+
         $PartData{ContentDisposition} = $Part->head()->get('Content-Disposition');
         if ( $PartData{ContentDisposition} ) {
             my %Data = $Self->GetContentTypeParams(
@@ -746,11 +753,11 @@ sub PartsAttachments {
         my ($SubjectString) = $Part->as_string() =~ m/^Subject: ([^\n]*(\n[ \t][^\n]*)*)/m;
         my $Subject = $Self->_DecodeString( String => $SubjectString );
 
-        # trim whitespace
-        $Subject =~ s/^\s+|\r|\n|\s+$//g;
-        if ( length($Subject) > 246 ) {
-            $Subject = substr( $Subject, 0, 246 );
-        }
+        # cleanup filename
+        $Subject = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
+            Filename => $Subject,
+            Type     => 'Local',
+        );
 
         if ( $Subject eq '' ) {
             $Self->{NoFilenamePartCounter}++;
