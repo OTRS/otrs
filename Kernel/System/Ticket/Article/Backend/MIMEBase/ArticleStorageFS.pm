@@ -311,12 +311,6 @@ sub ArticleWriteAttachment {
     # define path
     $Param{Path} = $Self->{ArticleDataDir} . '/' . $ContentPath . '/' . $Param{ArticleID};
 
-    # strip spaces from filenames
-    $Param{Filename} =~ s/ /_/g;
-
-    # strip dots from filenames
-    $Param{Filename} =~ s/^\.//g;
-
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
@@ -365,11 +359,12 @@ sub ArticleWriteAttachment {
 
     # write attachment content type to fs
     my $SuccessContentType = $MainObject->FileWrite(
-        Directory  => $Param{Path},
-        Filename   => "$Param{Filename}.content_type",
-        Mode       => 'binmode',
-        Content    => \$Param{ContentType},
-        Permission => 660,
+        Directory       => $Param{Path},
+        Filename        => "$Param{Filename}.content_type",
+        Mode            => 'binmode',
+        Content         => \$Param{ContentType},
+        Permission      => 660,
+        NoFilenameClean => 1,
     );
     return if !$SuccessContentType;
 
@@ -381,22 +376,24 @@ sub ArticleWriteAttachment {
     # write attachment content id to fs
     if ( $Param{ContentID} ) {
         $MainObject->FileWrite(
-            Directory  => $Param{Path},
-            Filename   => "$Param{Filename}.content_id",
-            Mode       => 'binmode',
-            Content    => \$Param{ContentID},
-            Permission => 660,
+            Directory       => $Param{Path},
+            Filename        => "$Param{Filename}.content_id",
+            Mode            => 'binmode',
+            Content         => \$Param{ContentID},
+            Permission      => 660,
+            NoFilenameClean => 1,
         );
     }
 
     # write attachment content alternative to fs
     if ( $Param{ContentAlternative} ) {
         $MainObject->FileWrite(
-            Directory  => $Param{Path},
-            Filename   => "$Param{Filename}.content_alternative",
-            Mode       => 'binmode',
-            Content    => \$Param{ContentAlternative},
-            Permission => 660,
+            Directory       => $Param{Path},
+            Filename        => "$Param{Filename}.content_alternative",
+            Mode            => 'binmode',
+            Content         => \$Param{ContentAlternative},
+            Permission      => 660,
+            NoFilenameClean => 1,
         );
     }
 
@@ -406,11 +403,12 @@ sub ArticleWriteAttachment {
         my ( $Disposition, $FileName ) = split ';', $Param{Disposition};
 
         $MainObject->FileWrite(
-            Directory  => $Param{Path},
-            Filename   => "$Param{Filename}.disposition",
-            Mode       => 'binmode',
-            Content    => \$Disposition || '',
-            Permission => 660,
+            Directory       => $Param{Path},
+            Filename        => "$Param{Filename}.disposition",
+            Mode            => 'binmode',
+            Content         => \$Disposition || '',
+            Permission      => 660,
+            NoFilenameClean => 1,
         );
     }
 

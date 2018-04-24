@@ -42,7 +42,7 @@ $Self->Is(
 
 $Self->Is(
     $Attachments[2]->{'Filename'} || '',
-    'Test testtestt 1231234/34/Testtesttes testes testtesttestt - testtesttes dokumentów/Sprzedaż, testTE [...] [TE#123123123].eml',
+    'Test_testtestt_1231234_34_Testtesttes_testes_testtesttestt_-_testtesttes_dokumentów_Sprzedaż__testTE__...___TE#123123123_.eml',
     "Filename with multiple newlines removed",
 );
 

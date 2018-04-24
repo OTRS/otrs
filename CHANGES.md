@@ -1,4 +1,5 @@
 #6.0.8 2018-??-??
+-  2018-04-18 Fixed bug#[11132](https://bugs.otrs.org/show_bug.cgi?id=11132) - Loss of attached files with long Cyrillic names.
 
 #6.0.7 2018-05-04
  - 2018-04-23 Updated translations, thanks to all translators.

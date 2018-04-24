@@ -19,6 +19,7 @@ use File::stat;
 use Unicode::Normalize;
 use List::Util qw();
 use Fcntl qw(:flock);
+use Encode;
 
 our @ObjectDependencies = (
     'Kernel::System::Encode',
@@ -181,6 +182,11 @@ sub FilenameCleanUp {
         return;
     }
 
+    # escape if cleanup is not needed
+    if ( $Param{NoFilenameClean} ) {
+        return $Param{Filename};
+    }
+
     my $Type = lc( $Param{Type} || 'local' );
 
     if ( $Type eq 'md5' ) {
@@ -191,8 +197,17 @@ sub FilenameCleanUp {
     # replace invalid token for attachment file names
     elsif ( $Type eq 'attachment' ) {
 
-        # replace invalid token like < > ? " : ; | \ / or *
-        $Param{Filename} =~ s/[ <>\?":\\\*\|\/;\[\]]/_/g;
+        # trim whitespace
+        $Param{Filename} =~ s/^\s+|\r|\n|\s+$//g;
+
+        # strip leading dots
+        $Param{Filename} =~ s/^\.+//;
+
+        # only whitelisted characters allowed in filename for security
+        $Param{Filename} =~ s/[^\w\-+.#_]/_/g;
+
+        # Enclosed alphanumerics are kept on older Perl versions, make sure to replace them too.
+        $Param{Filename} =~ s/[\x{2460}-\x{24FF}]/_/g;
 
         # replace utf8 and iso
         $Param{Filename} =~ s/(\x{00C3}\x{00A4}|\x{00A4})/ae/g;
@@ -204,19 +219,71 @@ sub FilenameCleanUp {
         $Param{Filename} =~ s/(\x{00C3}\x{009F}|\x{00DF})/ss/g;
         $Param{Filename} =~ s/-+/-/g;
 
-        # cut the string if too long
-        if ( length( $Param{Filename} ) > 100 ) {
-            my $Ext = '';
-            if ( $Param{Filename} =~ /^.*(\.(...|....))$/ ) {
-                $Ext = $1;
+        # separate filename and extension
+        my $FileName = $Param{Filename};
+        my $FileExt  = '';
+        if ( $Param{Filename} =~ /(.*)\.+(.*)$/ ) {
+            $FileName = $1;
+            $FileExt  = '.' . $2;
+        }
+
+        if ( length $FileName ) {
+            my $ModifiedName;
+
+            # remove character by character starting from the end of the filename string
+            # untill we get acceptable 220 byte long filename size including extension
+            CHOPSTRING:
+            while (1) {
+
+                $ModifiedName = $FileName . $FileExt;
+
+                last CHOPSTRING if ( length encode( 'UTF-8', $ModifiedName ) < 220 );
+                chop $FileName;
+
             }
-            $Param{Filename} = substr( $Param{Filename}, 0, 95 ) . $Ext;
+            $Param{Filename} = $ModifiedName;
         }
     }
     else {
 
-        # replace invalid token like [ ] * : ? " < > ; | \ /
-        $Param{Filename} =~ s/[<>\?":\\\*\|\/;\[\]]/_/g;
+        # trim whitespace
+        $Param{Filename} =~ s/^\s+|\r|\n|\s+$//g;
+
+        # strip leading dots
+        $Param{Filename} =~ s/^\.+//;
+
+        # only whitelisted characters allowed in filename for security
+        if ( !$Param{NoReplace} ) {
+            $Param{Filename} =~ s/[^\w\-+.#_]/_/g;
+
+            # Enclosed alphanumerics are kept on older Perl versions, make sure to replace them too.
+            $Param{Filename} =~ s/[\x{2460}-\x{24FF}]/_/g;
+        }
+
+        # separate filename and extension
+        my $FileName = $Param{Filename};
+        my $FileExt  = '';
+        if ( $Param{Filename} =~ /(.*)\.+(.*)$/ ) {
+            $FileName = $1;
+            $FileExt  = '.' . $2;
+        }
+
+        if ( length $FileName ) {
+            my $ModifiedName;
+
+            # remove character by character starting from the end of the filename string
+            # untill we get acceptable 220 byte long filename size including extension
+            CHOPSTRING:
+            while (1) {
+
+                $ModifiedName = $FileName . $FileExt;
+
+                last CHOPSTRING if ( length encode( 'UTF-8', $ModifiedName ) < 220 );
+                chop $FileName;
+
+            }
+            $Param{Filename} = $ModifiedName;
+        }
     }
 
     return $Param{Filename};
@@ -380,8 +447,9 @@ sub FileWrite {
 
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
-            Filename => $Param{Filename},
-            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            Filename        => $Param{Filename},
+            Type            => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            NoFilenameClean => $Param{NoFilenameClean},
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
