@@ -50,7 +50,7 @@ $Self->Is(
 
 $Self->Is(
     $Attachments[1]->{Filename},
-    'Łatwa sprawa.txt',
+    'Łatwa_sprawa.txt',
     "Empty attachment name",
 );
 

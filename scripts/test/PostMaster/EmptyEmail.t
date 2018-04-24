@@ -109,7 +109,7 @@ for my $Backend (qw(DB FS)) {
             'ContentID'          => '',
             'ContentType'        => 'application/x-download; name="=?UTF-8?Q?=C5=81atwa_sprawa.txt?="',
             'Disposition'        => 'attachment',
-            'Filename'           => 'Łatwa sprawa.txt',
+            'Filename'           => 'Łatwa_sprawa.txt',
             'FilesizeRaw'        => 0
         },
         "$Backend - Attachment filename"
