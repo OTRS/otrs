@@ -131,7 +131,7 @@ sub OSInfoGet {
 
         $OSName = 'MacOSX ' . $MacVersion;
     }
-    elsif ( $^O eq 'freebsd' ) {
+    elsif ( $^O eq 'freebsd' || $^O eq 'openbsd' ) {
         $OSName = `uname -r`;
     }
     else {
@@ -141,6 +141,7 @@ sub OSInfoGet {
     my %OSMap = (
         linux   => 'Linux',
         freebsd => 'FreeBSD',
+        openbsd => 'OpenBSD',
         darwin  => 'MacOSX',
     );
 
