@@ -1,4 +1,5 @@
 #6.0.8 2018-??-??
+- 2018-04-25 Fixed bug#[13815](https://bugs.otrs.org/show_bug.cgi?id=13815) - The little arrow is cut off for articles.
 - 2018-04-24 Fixed bug#[13805](https://bugs.otrs.org/show_bug.cgi?id=13805) - Distribution OpenBSD is not recognized by support data collector.
 -  2018-04-18 Fixed bug#[11132](https://bugs.otrs.org/show_bug.cgi?id=11132) - Loss of attached files with long Cyrillic names.
 
