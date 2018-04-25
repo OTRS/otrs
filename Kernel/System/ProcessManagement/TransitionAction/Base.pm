@@ -162,6 +162,20 @@ sub _ReplaceAdditionalAttributes {
     # get and store richtext information
     my $RichText = $ConfigObject->Get('Frontend::RichText');
 
+    # Determine if RichText (text/html) is used in the config as well.
+    #   If not, we have to deactivate it, otherwise HTML content and plain text are mixed up (see bug#13764).
+    if ($RichText) {
+
+        # Check for ContentType or MimeType.
+        if (
+            ( IsStringWithData( $Param{Config}->{ContentType} ) && $Param{Config}->{ContentType} !~ m{text/html}i )
+            || ( IsStringWithData( $Param{Config}->{MimeType} ) && $Param{Config}->{MimeType} !~ m{text/html}i )
+            )
+        {
+            $RichText = 0;
+        }
+    }
+
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     # get last customer article
