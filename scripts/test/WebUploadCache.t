@@ -81,7 +81,7 @@ for my $Module (qw(DB FS)) {
 
         # In filesystem storage filenames will be cleaned up.
         if ( $Module eq 'FS' ) {
-            $Filename = "UploadCache_Test1äöüß.$File"
+            $Filename = "UploadCache_Test1äöüß.$File";
         }
 
         # Mac OS (HFS+) will store all filenames as NFD internally.
@@ -183,7 +183,7 @@ for my $Module (qw(DB FS)) {
 
         # In filesystem storage filenames will be cleaned up.
         if ( $Module eq 'FS' ) {
-            $Filename = "UploadCache_Test1äöüß.$File"
+            $Filename = "UploadCache_Test1äöüß.$File";
         }
 
         # Mac OS (HFS+) will store all filenames as NFD internally.
