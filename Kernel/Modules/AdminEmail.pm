@@ -237,7 +237,7 @@ sub Run {
         Name        => 'GroupIDs',
         Multiple    => 1,
         Translation => 0,
-        Class => 'Modernize ' . ( $Errors{BccInvalid} || '' ),
+        Class       => 'Modernize ' . ( $Errors{BccInvalid} || '' ),
     );
     my %RoleList = $GroupObject->RoleList( Valid => 1 );
     $Param{RoleOption} = $LayoutObject->BuildSelection(

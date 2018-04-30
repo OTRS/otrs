@@ -310,7 +310,7 @@ $Selenium->RunTest(
             index(
                 $Selenium->get_page_source(),
                 "Please note that this draft is outdated because the ticket was modified since this draft was created."
-                ) > -1,
+            ) > -1,
             'Outdated notification is present',
         );
 

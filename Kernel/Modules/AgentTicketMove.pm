@@ -1422,7 +1422,7 @@ sub AgentMove {
                 DiffTime         => $ConfigObject->Get('Ticket::Frontend::PendingDiffTime')
                     || 0,
                 %Param,
-                Class => $Param{DateInvalid} || ' ',
+                Class                => $Param{DateInvalid} || ' ',
                 Validate             => 1,
                 ValidateDateInFuture => 1,
                 Calendar             => $Calendar,
@@ -1580,9 +1580,9 @@ sub AgentMove {
 
         if ( IsHashRefWithData( \%StandardTemplates ) ) {
             $Param{StandardTemplateStrg} = $LayoutObject->BuildSelection(
-                Data       => $QueueStandardTemplates    || {},
-                Name       => 'StandardTemplateID',
-                SelectedID => $Param{StandardTemplateID} || '',
+                Data         => $QueueStandardTemplates || {},
+                Name         => 'StandardTemplateID',
+                SelectedID   => $Param{StandardTemplateID} || '',
                 PossibleNone => 1,
                 Sort         => 'AlphanumericValue',
                 Translation  => 1,

@@ -26,7 +26,7 @@ $Kernel::OM->ObjectParamAdd(
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $TestUserLogin = $HelperObject->TestUserCreate(
-    Groups => [ 'admin', 'users' ],
+    Groups   => [ 'admin', 'users' ],
     Language => 'en'
 );
 my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(

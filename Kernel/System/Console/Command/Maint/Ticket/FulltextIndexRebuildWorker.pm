@@ -92,7 +92,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $Children = $Self->GetOption('children') // 4;
-    my $Limit    = $Self->GetOption('limit')    // 20000;
+    my $Limit    = $Self->GetOption('limit') // 20000;
 
     my %ArticleTicketIDs = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchIndexRebuildFlagList(
         Value => 1,

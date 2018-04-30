@@ -72,9 +72,9 @@ sub Run {
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         my %DeploymentResult = $SysConfigObject->ConfigurationDeploy(
-            Comments    => $Comments,
-            UserID      => $Self->{UserID},
-            AllSettings => ($AdvancedMode) ? 1 : 0,
+            Comments      => $Comments,
+            UserID        => $Self->{UserID},
+            AllSettings   => ($AdvancedMode) ? 1 : 0,
             DirtySettings => $SelectedSettings || undef,
         );
 

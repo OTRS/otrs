@@ -133,7 +133,7 @@ sub Run {
         my %Result = (
             Success => $Response{Success} ? 'OK' : 'False',
             Message => $Response{Reason} || '',
-            Token   => $Response{Token}  || '',
+            Token   => $Response{Token} || '',
         );
 
         my $Output = $LayoutObject->Header();
@@ -628,12 +628,12 @@ sub _SentDataOverview {
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
         my %OSInfo       = $Kernel::OM->Get('Kernel::System::Environment')->OSInfoGet();
         my %System       = (
-            PerlVersion     => sprintf( "%vd", $^V ),
-            OSType          => $OSInfo{OS},
-            OSVersion       => $OSInfo{OSName},
-            OTRSVersion     => $ConfigObject->Get('Version'),
-            FQDN            => $ConfigObject->Get('FQDN'),
-            DatabaseVersion => $Kernel::OM->Get('Kernel::System::DB')->Version(),
+            PerlVersion        => sprintf( "%vd", $^V ),
+            OSType             => $OSInfo{OS},
+            OSVersion          => $OSInfo{OSName},
+            OTRSVersion        => $ConfigObject->Get('Version'),
+            FQDN               => $ConfigObject->Get('FQDN'),
+            DatabaseVersion    => $Kernel::OM->Get('Kernel::System::DB')->Version(),
             SupportDataSending => $Param{SupportDataSending} || $RegistrationData{SupportDataSending} || 'No',
         );
         my $RegistrationUpdateDataDump = $Kernel::OM->Get('Kernel::System::Main')->Dump( \%System );

@@ -315,7 +315,7 @@ sub Run {
 
     if ( !$FunctionResult->{Success} ) {
 
-        my $Summary = $FunctionResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
+        my $Summary     = $FunctionResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
         my $ErrorReturn = $Self->_HandleError(
             %HandleErrorData,
             DataInclude => \%DataInclude,
@@ -441,7 +441,7 @@ sub Run {
 
     if ( !$FunctionResult->{Success} ) {
 
-        my $Summary = $FunctionResult->{ErrorMessage} // 'InvokerObject returned an error, cancelling Request';
+        my $Summary     = $FunctionResult->{ErrorMessage} // 'InvokerObject returned an error, cancelling Request';
         my $ErrorReturn = $Self->_HandleError(
             %HandleErrorData,
             DataInclude => \%DataInclude,

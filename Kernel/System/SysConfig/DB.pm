@@ -5054,7 +5054,7 @@ sub DeploymentModifiedVersionList {
         return;
     }
 
-    my $Mode = $Param{Mode} // 'Equals';
+    my $Mode        = $Param{Mode} // 'Equals';
     my %ModeMapping = (
         Equals            => '=',
         GreaterThan       => '>',

@@ -830,7 +830,7 @@ sub ConvertCertFormat {
         );
         return;
     }
-    my $String = $Param{String};
+    my $String     = $Param{String};
     my $PassPhrase = $Param{Passphrase} // '';
 
     my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');

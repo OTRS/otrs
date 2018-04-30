@@ -308,9 +308,9 @@ sub List {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     return if !$DBObject->Prepare(
-        SQL   => join( ' ', @SQL ),
-        Bind  => $Binds,
-        Limit => $Param{Limit},
+        SQL    => join( ' ', @SQL ),
+        Bind   => $Binds,
+        Limit  => $Param{Limit},
         Encode => [ 1, 1, 1, 1, 1, 0 ],
     );
 
@@ -1539,10 +1539,10 @@ sub _DBInsert {
     # Get the newly inserted record to get the id.
     return $Error->(
         Action => 'get-id',
-        ) if !$DBObject->Prepare(
+    ) if !$DBObject->Prepare(
         SQL  => 'SELECT id FROM mail_queue WHERE insert_fingerprint = ?',
         Bind => [ \$InsertFingerprint ],
-        );
+    );
 
     my @Row = $DBObject->FetchrowArray();
     return $Success->(

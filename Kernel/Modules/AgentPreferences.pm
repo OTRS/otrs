@@ -489,9 +489,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'AJAXNavigationTree' ) {
 
-        my $Category = $ParamObject->GetParam( Param => 'Category' ) || '';
+        my $Category               = $ParamObject->GetParam( Param => 'Category' )               || '';
         my $UserModificationActive = $ParamObject->GetParam( Param => 'UserModificationActive' ) || '0';
-        my $IsValid = $ParamObject->GetParam( Param => 'IsValid' ) // undef;
+        my $IsValid                = $ParamObject->GetParam( Param => 'IsValid' ) // undef;
 
         my %Tree = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationNavigationTree(
             Action                 => 'AgentPreferences',

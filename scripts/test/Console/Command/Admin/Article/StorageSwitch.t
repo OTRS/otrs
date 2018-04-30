@@ -34,7 +34,7 @@ $HelperObject->FixedTimeSet(
         ObjectParams => {
             String => '2000-10-20 00:00:00',
         },
-        )->ToEpoch()
+    )->ToEpoch()
 );
 
 # create test ticket with attachments

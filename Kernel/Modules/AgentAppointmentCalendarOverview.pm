@@ -81,11 +81,11 @@ sub Run {
             $LayoutObject->AddJSData(
                 Key   => 'AppointmentCreate',
                 Value => {
-                    Start     => $ParamObject->GetParam( Param => 'Start' )     // undef,
-                    End       => $ParamObject->GetParam( Param => 'End' )       // undef,
+                    Start     => $ParamObject->GetParam( Param => 'Start' ) // undef,
+                    End       => $ParamObject->GetParam( Param => 'End' ) // undef,
                     PluginKey => $ParamObject->GetParam( Param => 'PluginKey' ) // undef,
-                    Search    => $ParamObject->GetParam( Param => 'Search' )    // undef,
-                    ObjectID  => $ParamObject->GetParam( Param => 'ObjectID' )  // undef,
+                    Search    => $ParamObject->GetParam( Param => 'Search' ) // undef,
+                    ObjectID  => $ParamObject->GetParam( Param => 'ObjectID' ) // undef,
                 },
             );
         }

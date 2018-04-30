@@ -1141,9 +1141,9 @@ sub _Show {
 
         # html quoting
         $ArticleItem->{Body} = $LayoutObject->Ascii2Html(
-            NewLine => $Param{Config}->{DefaultViewNewLine}  || 90,
-            Text    => $ArticleItem->{Body},
-            VMax    => $Param{Config}->{DefaultPreViewLines} || 25,
+            NewLine         => $Param{Config}->{DefaultViewNewLine} || 90,
+            Text            => $ArticleItem->{Body},
+            VMax            => $Param{Config}->{DefaultPreViewLines} || 25,
             LinkFeature     => 1,
             HTMLResultMode  => 1,
             StripEmptyLines => $Param{Config}->{StripEmptyLines},

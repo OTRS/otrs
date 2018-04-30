@@ -1416,7 +1416,7 @@ $Selenium->RunTest(
             index(
                 $Selenium->get_page_source(),
                 "This group doesn't contain any settings. Please try navigating to one of its sub groups or another group."
-                ) > -1,
+            ) > -1,
             "Invisible setting not found."
         );
 

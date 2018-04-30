@@ -717,7 +717,7 @@ sub _PushSessionScreen {
 
     # add screen to the screen path
     push @{ $Self->{ScreensPath} }, {
-        Action => $Self->{Action} || '',
+        Action    => $Self->{Action} || '',
         Subaction => $Param{Subaction},
         ID        => $Param{ID},
         EntityID  => $Param{EntityID},
