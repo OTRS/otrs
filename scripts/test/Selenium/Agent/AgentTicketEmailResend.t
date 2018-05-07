@@ -345,7 +345,7 @@ $Selenium->RunTest(
         $Selenium->find_element( '#ToCustomer', 'css' )->send_keys($ToCustomer);
         $Selenium->find_element( 'body',        'css' )->click();
 
-        $Selenium->find_element( '#submitRichText', 'css' )->click();
+        $Selenium->execute_script("\$('#submitRichText').click();");
 
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
