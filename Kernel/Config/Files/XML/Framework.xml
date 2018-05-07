@@ -785,6 +785,13 @@
            <Item ValueType="String" ValueRegex="">mm</Item>
         </Value>
     </Setting>
+    <Setting Name="Frontend::Gravatar::ArticleDefaultImage" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check http://gravatar.com/site/implement/images/ for further information.</Description>
+        <Navigation>Frontend::Agent</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">mm</Item>
+        </Value>
+    </Setting>
     <Setting Name="LoginURL" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Defines an alternate URL, where the login link refers to.</Description>
         <Navigation>Frontend::Agent</Navigation>
