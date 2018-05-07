@@ -43,6 +43,37 @@ $Selenium->RunTest(
 
         my $RandomID = $Helper->GetRandomID();
 
+        # Create test DynamicField field.
+        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+        my $DynamicFieldName   = 'DFText' . $RandomID;
+        my $DynamicFieldID     = $DynamicFieldObject->DynamicFieldAdd(
+            Name       => $DynamicFieldName,
+            Label      => 'DFlabel' . $RandomID,
+            FieldOrder => 9990,
+            FieldType  => 'Text',
+            ObjectType => 'Ticket',
+            Config     => {
+                DefaultValue => '',
+                Link         => '',
+            },
+            Reorder => 1,
+            ValidID => 1,
+            UserID  => 1,
+        );
+        $Self->True(
+            $DynamicFieldID,
+            "DynamicFieldID $DynamicFieldID is created",
+        );
+
+        # Enable SearchOverviewDynamicField.
+        $Helper->ConfigSettingChange(
+            Key   => 'Ticket::Frontend::CustomerTicketSearch###SearchOverviewDynamicField',
+            Valid => 1,
+            Value => {
+                $DynamicFieldName => 1,
+            },
+        );
+
         # Create test customer user.
         my $TestCustomerUserLogin = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
             Source         => 'CustomerUser',
@@ -142,6 +173,24 @@ $Selenium->RunTest(
             TicketID => $TicketID,
         );
 
+        # Set DynamicField value.
+        my $ValueText = 'DFV' . $RandomID;
+        my $Success   = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
+            FieldID    => $DynamicFieldID,
+            ObjectType => 'Ticket',
+            ObjectID   => $TicketID,
+            Value      => [
+                {
+                    ValueText => $ValueText,
+                },
+            ],
+            UserID => 1,
+        );
+        $Self->True(
+            $Success,
+            "Value for DynamicFieldID $DynamicFieldID is set to TicketID $TicketID '$ValueText' successfully",
+        );
+
         # input ticket number as search parameter
         $Selenium->find_element( "#TicketNumber", 'css' )->send_keys( $Ticket{TicketNumber} );
         $Selenium->find_element( "#Submit",       'css' )->VerifiedClick();
@@ -163,6 +212,13 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), $SearchText ) > -1,
             "Search profile name 'last-search' found on page",
+        );
+
+        # Check if DynamicField value is available in CustomerTicketSearch result screen.
+        # See https://bugs.otrs.org/show_bug.cgi?id=13818.
+        $Self->True(
+            index( $Selenium->get_page_source(), "$ValueText" ) > -1,
+            "DynamicField value is found - $DynamicFieldName:$ValueText",
         );
 
         # click on '← Change search options'
@@ -222,7 +278,7 @@ $Selenium->RunTest(
         );
 
         # clean up test data from the DB
-        my $Success = $TicketObject->TicketDelete(
+        $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => 1,
         );
@@ -237,13 +293,21 @@ $Selenium->RunTest(
         }
         $Self->True(
             $Success,
-            "Ticket is deleted - $TicketID"
+            "TicketID $TicketID is deleted"
         );
 
-        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+        # Delete test created DynamicField.
+        $Success = $DynamicFieldObject->DynamicFieldDelete(
+            ID     => $DynamicFieldID,
+            UserID => 1,
+        );
+        $Self->True(
+            $DynamicFieldID,
+            "DynamicFieldID $DynamicFieldID is deleted",
+        );
 
         # Delete test created customer user.
-        $Success = $DBObject->Do(
+        $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL  => "DELETE FROM customer_user WHERE login = ?",
             Bind => [ \$TestCustomerUserLogin ],
         );
