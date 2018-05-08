@@ -768,6 +768,16 @@ sub Run {
         elsif ( $EventTypeFilterSessionString eq 'off' ) {
             $EventTypeFilterSessionString = '';
         }
+
+        # Set article filter with value if it exists.
+        elsif (
+            $EventTypeFilterSessionString
+            && $EventTypeFilterSessionString =~ m{ EventTypeFilter < ( [^<>]+ ) > }xms
+            )
+        {
+            my @IDs = split /,/, $1;
+            $Self->{EventTypeFilter}->{EventTypeID} = \@IDs;
+        }
     }
 
     # return if HTML email
@@ -2518,36 +2528,8 @@ sub _ArticleTree {
         HISTORYITEM:
         for my $Item ( reverse @HistoryLines ) {
 
-            if ( grep { $_ eq $Item->{HistoryType} } @TypesDodge ) {
-                next HISTORYITEM;
-            }
-
-            $Item->{Counter} = $ItemCounter++;
-
-            # check which color the item should have
-            if ( $Item->{HistoryType} eq 'NewTicket' ) {
-
-                # if the 'NewTicket' item has an article, display this "creation article" event separately
-                if ( $Item->{ArticleID} ) {
-                    push @{ $Param{Items} }, {
-                        %{$Item},
-                        Counter             => $Item->{Counter}++,
-                        Class               => 'NewTicket',
-                        Name                => '',
-                        ArticleID           => '',
-                        HistoryTypeReadable => Translatable('Ticket Created'),
-                        Orientation         => 'Right',
-                    };
-                }
-                else {
-                    $Item->{Class} = 'NewTicket';
-                    delete $Item->{ArticleID};
-                    delete $Item->{Name};
-                }
-            }
-
             # special treatment for certain types, e.g. external notes from customers
-            elsif (
+            if (
                 $Item->{ArticleID}
                 && $Item->{HistoryType} eq 'AddNote'
                 && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
@@ -2637,6 +2619,33 @@ sub _ArticleTree {
             }
             elsif ( grep { $_ eq $Item->{HistoryType} } @TypesOutgoing ) {
                 $Item->{Class} = 'TypeOutgoing';
+            }
+
+            if ( grep { $_ eq $Item->{HistoryType} } @TypesDodge ) {
+                next HISTORYITEM;
+            }
+
+            $Item->{Counter} = $ItemCounter++;
+
+            if ( $Item->{HistoryType} eq 'NewTicket' ) {
+
+                # if the 'NewTicket' item has an article, display this "creation article" event separately
+                if ( $Item->{ArticleID} ) {
+                    push @{ $Param{Items} }, {
+                        %{$Item},
+                        Counter             => $Item->{Counter}++,
+                        Class               => 'NewTicket',
+                        Name                => '',
+                        ArticleID           => '',
+                        HistoryTypeReadable => Translatable('Ticket Created'),
+                        Orientation         => 'Right',
+                    };
+                }
+                else {
+                    $Item->{Class} = 'NewTicket';
+                    delete $Item->{ArticleID};
+                    delete $Item->{Name};
+                }
             }
 
             # remove article information from types which should not display articles
