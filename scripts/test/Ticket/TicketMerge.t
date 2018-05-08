@@ -422,6 +422,106 @@ $Self->Is(
     'After merge MergeTicket ChangeBy correct'
 );
 
+# Linking objects and linking tickets.
+# See bug#12994 (https://bugs.otrs.org/show_bug.cgi?id=12994).
+my $RandomID = $Helper->GetRandomID();
+
+undef @TicketIDs;
+for my $Item ( 1 .. 6 ) {
+    my $TicketID = $TicketObject->TicketCreate(
+        Title        => 'Selenium test ',
+        Queue        => 'Junk',
+        Lock         => 'unlock',
+        Priority     => '3 normal',
+        State        => 'open',
+        CustomerNo   => '123465',
+        CustomerUser => 'customer@example.com',
+        OwnerID      => 1,
+        UserID       => 1,
+    );
+    $Self->True(
+        $TicketID,
+        'TicketCreated',
+    );
+
+    push @TicketIDs, $TicketID;
+}
+
+my @ItemData = (
+    {
+        SourceKey => $TicketIDs[0],
+        TargetKey => $TicketIDs[2],
+    },
+    {
+        SourceKey => $TicketIDs[1],
+        TargetKey => $TicketIDs[2],
+    },
+    {
+        SourceKey => $TicketIDs[0],
+        TargetKey => $TicketIDs[5],
+    },
+    {
+        SourceKey => $TicketIDs[1],
+        TargetKey => $TicketIDs[5],
+    },
+    {
+        SourceKey => $TicketIDs[0],
+        TargetKey => $TicketIDs[3],
+    },
+    {
+        SourceKey => $TicketIDs[1],
+        TargetKey => $TicketIDs[4],
+    },
+);
+
+# Create links between ticket.
+for my $Item (@ItemData) {
+    my $True = $LinkObject->LinkAdd(
+        %{$Item},
+        SourceObject => 'Ticket',
+        TargetObject => 'Ticket',
+        Type         => 'ParentChild',
+        State        => 'Valid',
+        UserID       => 1,
+    );
+    $Self->True(
+        $True,
+        "TicketID $Item->{SourceKey} is linked to $Item->{TargetKey}",
+    );
+}
+
+# Merging tickets.
+my $Success = $TicketObject->TicketMerge(
+    MainTicketID  => $TicketIDs[1],
+    MergeTicketID => $TicketIDs[0],
+    UserID        => 1,
+);
+$Self->True(
+    $Success,
+    "TicketID $TicketIDs[0] is successfully merged to TicketID $TicketIDs[1]",
+);
+
+# Get list of links merged to ticket.
+my $LinkList = $LinkObject->LinkListWithData(
+    Object => 'Ticket',
+    Key    => $TicketIDs[1],
+    State  => 'Valid',
+    Type   => 'ParentChild',    # (optional)
+    UserID => 1,
+);
+$Self->True(
+    $LinkList->{Ticket}->{ParentChild}->{Target}->{ $TicketIDs[3] },
+    "Child TicketID $TicketIDs[3] from parent TicketID $TicketIDs[0] is merged to TicketID $TicketIDs[1]"
+);
+$Self->True(
+    $LinkList->{Ticket}->{ParentChild}->{Target}->{ $TicketIDs[4] },
+    "Child TicketID $TicketIDs[4] persevered link with parent TicketID $TicketIDs[1]"
+);
+$Self->True(
+    $LinkList->{Ticket}->{ParentChild}->{Target}->{ $TicketIDs[2] },
+    "Mutual child TicketID $TicketIDs[2] is merged to TicketID $TicketIDs[1]"
+);
+
 # Cleanup is done by RestoreDatabase.
 
 1;
