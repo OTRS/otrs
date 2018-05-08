@@ -1,4 +1,5 @@
 #6.0.8 2018-??-??
+ - 2018-05-08 Fixed bug#[12686](https://bugs.otrs.org/show_bug.cgi?id=12686) - Wrong sorting order in the admin screen.
  - 2018-05-08 Fixed bug#[13836](https://bugs.otrs.org/show_bug.cgi?id=13836) - Filter in timeline view not being applied.
  - 2018-05-08 Fixed bug#[12994](https://bugs.otrs.org/show_bug.cgi?id=12994) - Merge Tickets with same linked objects causes error.
  - 2018-05-07 Fixed bug#[13818](https://bugs.otrs.org/show_bug.cgi?id=13818) - Dynamic field values of tickets are not displayed in customer ticket search result.
