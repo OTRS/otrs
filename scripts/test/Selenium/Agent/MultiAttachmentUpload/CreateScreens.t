@@ -143,7 +143,7 @@ $Selenium->RunTest(
                 # Delete Attachment.
                 $Selenium->find_element( "(//a[\@class='AttachmentDelete'])[$Count]", 'xpath' )->click();
                 $Count--;
-                sleep 1;
+                sleep 2;
 
                 # Wait until attachment is deleted.
                 $Selenium->WaitFor(
@@ -312,7 +312,7 @@ $Selenium->RunTest(
                 # Delete Attachment.
                 $Selenium->find_element( "(//a[\@class='AttachmentDelete'])[$Count]", 'xpath' )->click();
                 $Count--;
-                sleep 1;
+                sleep 2;
 
                 # Wait until attachment is deleted.
                 $Selenium->WaitFor(
