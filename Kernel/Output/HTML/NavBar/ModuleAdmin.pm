@@ -12,6 +12,7 @@ use parent 'Kernel::Output::HTML::Base';
 
 use strict;
 use warnings;
+use Unicode::Collate::Locale;
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -145,10 +146,16 @@ sub Run {
         push @{ $Modules{$Block} }, $NavBarModule{$Module};
     }
 
+    # Create collator according to the user chosen language.
+    my $Collator = Unicode::Collate::Locale->new(
+        locale => $LayoutObject->{LanguageObject}->{UserLanguage},
+    );
+
     @Favourites = sort {
-        $LayoutObject->{LanguageObject}->Translate( $a->{Name} )
-            cmp
+        $Collator->cmp(
+            $LayoutObject->{LanguageObject}->Translate( $a->{Name} ),
             $LayoutObject->{LanguageObject}->Translate( $b->{Name} )
+            )
     } @Favourites;
 
     for my $Favourite (@Favourites) {
@@ -160,7 +167,8 @@ sub Run {
         for my $Entry ( @{ $Modules{$Block} } ) {
             $Entry->{NameTranslated} = $LayoutObject->{LanguageObject}->Translate( $Entry->{Name} );
         }
-        @{ $Modules{$Block} } = sort { $a->{NameTranslated} cmp $b->{NameTranslated} } @{ $Modules{$Block} };
+        @{ $Modules{$Block} }
+            = sort { $Collator->cmp( $a->{NameTranslated}, $b->{NameTranslated} ) } @{ $Modules{$Block} };
     }
 
     $LayoutObject->Block(

@@ -14,6 +14,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Unicode::Collate::Locale;
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -63,9 +64,17 @@ sub Run {
     }
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    # Create collator according to the user chosen language.
+    my $Collator = Unicode::Collate::Locale->new(
+        locale => $LayoutObject->{LanguageObject}->{UserLanguage},
+    );
+
     @Favourites = sort {
-        $LayoutObject->{LanguageObject}->Translate( $a->{Name} )
-            cmp $LayoutObject->{LanguageObject}->Translate( $b->{Name} )
+        $Collator->cmp(
+            $LayoutObject->{LanguageObject}->Translate( $a->{Name} ),
+            $LayoutObject->{LanguageObject}->Translate( $b->{Name} )
+            )
     } @Favourites;
 
     if (@Favourites) {
