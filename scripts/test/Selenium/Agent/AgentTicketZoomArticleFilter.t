@@ -360,7 +360,7 @@ $Selenium->RunTest(
         # TimelineView is an OTRSBusiness feature.
         my $OTRSBusinessIsInstalled = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled();
 
-        if (1) {
+        if ($OTRSBusinessIsInstalled) {
 
             # Enable TimelineViewEnabled.
             $Helper->ConfigSettingChange(
