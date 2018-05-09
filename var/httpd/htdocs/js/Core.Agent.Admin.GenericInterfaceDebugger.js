@@ -108,7 +108,7 @@ Core.Agent.Admin.GenericInterfaceDebugger = (function (TargetNS) {
             $('.RequestListWidget').removeClass('Loading');
 
             if (!Response.LogData.length) {
-                $('#RequestList tbody').empty().append('<tr><td colspan="3">' + Core.Language.Translate('No data found.') + '</td></tr>');
+                $('#RequestList tbody').empty().append('<tr><td colspan="4">' + Core.Language.Translate('No data found.') + '</td></tr>');
                 return;
             }
 

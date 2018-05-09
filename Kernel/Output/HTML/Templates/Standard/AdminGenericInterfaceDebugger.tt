@@ -75,7 +75,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td colspan="3">[% Translate("Loading") | html %]...</td>
+                                        <td colspan="4">[% Translate("Loading") | html %]...</td>
                                     </tr>
                                 </tbody>
                             </table>
