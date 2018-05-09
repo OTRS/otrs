@@ -649,7 +649,11 @@ $Selenium->RunTest(
                 JavaScript =>
                     "return \$('a#linkobject-$LinkObject-toggle:visible').length;"
             );
-            $Selenium->find_element( "a#linkobject-$LinkObject-toggle", 'css' )->click();
+            $Selenium->execute_script(
+                "\$('a#linkobject-$LinkObject-toggle').click();"
+            );
+            sleep 2;
+
             $Selenium->WaitFor(
                 JavaScript =>
                     "return \$('#linkobject-${LinkObject}_submit:visible').length;"
