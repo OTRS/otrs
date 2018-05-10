@@ -1,5 +1,5 @@
 package Net::HTTP::NB;
-$Net::HTTP::NB::VERSION = '6.16';
+$Net::HTTP::NB::VERSION = '6.17';
 use strict;
 use warnings;
 
@@ -60,7 +60,7 @@ Net::HTTP::NB - Non-blocking HTTP client
 
 =head1 VERSION
 
-version 6.16
+version 6.17
 
 =head1 SYNOPSIS
 
