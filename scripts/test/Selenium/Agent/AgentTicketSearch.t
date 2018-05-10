@@ -480,7 +480,7 @@ $Selenium->RunTest(
         # Search for tickets in Junk queue and with DF values 'GASZ' or 'JLEB' -
         # the last two created tickets should be in the table.
         $Selenium->VerifiedGet(
-            "${ScriptAlias}index.pl?Action=AgentTicketSearch;Subaction=Search;$TextFieldID=GASZ||JLEB"
+            "${ScriptAlias}index.pl?Action=AgentTicketSearch;Subaction=Search;$TextFieldID=GASZ||JLEB;ShownAttributes=Label$TextFieldID"
         );
         $Self->True(
             $Selenium->execute_script("return \$('#OverviewBody tbody tr[id=TicketID_$TicketIDs[0]').length == 0"),
