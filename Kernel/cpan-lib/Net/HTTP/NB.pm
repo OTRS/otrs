@@ -1,13 +1,9 @@
 package Net::HTTP::NB;
-
+$Net::HTTP::NB::VERSION = '6.17';
 use strict;
-use vars qw($VERSION @ISA);
+use warnings;
 
-$VERSION = "6.09";
-$VERSION = eval $VERSION;
-
-require Net::HTTP;
-@ISA=qw(Net::HTTP);
+use base 'Net::HTTP';
 
 sub can_read {
     return 1;
@@ -54,11 +50,17 @@ sub read_entity_body {
 
 1;
 
-__END__
+=pod
+
+=encoding UTF-8
 
 =head1 NAME
 
 Net::HTTP::NB - Non-blocking HTTP client
+
+=head1 VERSION
+
+version 6.17
 
 =head1 SYNOPSIS
 
@@ -100,11 +102,20 @@ the value -1 is returned.
 
 L<Net::HTTP>
 
-=head1 COPYRIGHT
+=head1 AUTHOR
 
-Copyright 2001 Gisle Aas.
+Gisle Aas <gisle@activestate.com>
 
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2001-2017 by Gisle Aas.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
+
+__END__
+
+#ABSTRACT: Non-blocking HTTP client
+
