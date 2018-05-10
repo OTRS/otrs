@@ -14,11 +14,9 @@ use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
 
-# get needed objects
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 my $ModuleObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketTitleSet');
 
-# get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase  => 1,
@@ -27,20 +25,18 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# define variables
+# Define variables.
 my $UserID     = 1;
 my $ModuleName = 'TicketTitleSet';
 my $RandomID   = $Helper->GetRandomID();
 
-# set user details
+# Set user details.
 my $TestUserLogin = $Helper->TestUserCreate();
 my $TestUserID    = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
     UserLogin => $TestUserLogin,
 );
 
-#
-# Create a test ticket
-#
+# Create a test ticket.
 my $TicketID = $TicketObject->TicketCreate(
     Title         => 'test',
     QueueID       => 1,
@@ -52,8 +48,6 @@ my $TicketID = $TicketObject->TicketCreate(
     ResponsibleID => 1,
     UserID        => $UserID,
 );
-
-# sanity checks
 $Self->True(
     $TicketID,
     "TicketCreate() - $TicketID",
@@ -73,7 +67,6 @@ $Self->Is(
     "TicketGet() - Title after creation",
 );
 
-# Run() tests
 my @Tests = (
     {
         Name    => 'No Params',
@@ -225,7 +218,7 @@ my @Tests = (
 
 for my $Test (@Tests) {
 
-    # make a deep copy to avoid changing the definition
+    # Make a deep copy to avoid changing the definition.
     my $OrigTest = Storable::dclone($Test);
 
     my $Success = $ModuleObject->Run(
@@ -243,7 +236,6 @@ for my $Test (@Tests) {
             "$ModuleName Run() - Test:'$Test->{Name}' | executed with True"
         );
 
-        # get ticket
         %Ticket = $TicketObject->TicketGet(
             TicketID => $TicketID,
             UserID   => 1,
@@ -266,9 +258,9 @@ for my $Test (@Tests) {
                 );
             }
 
-            # workaround for oracle
-            # oracle databases can't determine the difference between NULL and ''
-            # compare ticket attribute or empty string then
+            # Workaround for oracle.
+            # Oracle databases can't determine the difference between NULL and ''.
+            # Compare ticket attribute or empty string then.
             $Self->Is(
                 $Ticket{$Attribute} || '',
                 $ExpectedValue,
@@ -292,6 +284,102 @@ for my $Test (@Tests) {
             "$ModuleName Run() - Test:'$Test->{Name}' | excecuted with False"
         );
     }
+}
+
+# Check tags <OTRS_TICKET_DynamicField_Name1> and <OTRS_TICKET_DynamicField_Name1_Value>
+# for date type DF (see bug#13795).
+# Create test ticket.
+$TicketID = $TicketObject->TicketCreate(
+    Title         => 'Test' . $RandomID,
+    QueueID       => 1,
+    Lock          => 'unlock',
+    Priority      => '3 normal',
+    StateID       => 1,
+    TypeID        => 1,
+    OwnerID       => 1,
+    ResponsibleID => 1,
+    UserID        => $UserID,
+);
+$Self->True(
+    $TicketID,
+    "TicketID $TicketID is created",
+);
+
+my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+# Create test dynamic field.
+my $DynamicFieldName = 'TestDate' . $RandomID;
+my $DynamicFieldID   = $DynamicFieldObject->DynamicFieldAdd(
+    Name       => $DynamicFieldName,
+    Label      => $DynamicFieldName,
+    FieldOrder => 9990,
+    FieldType  => 'Date',
+    ObjectType => 'Ticket',
+    Config     => {
+        DefaultValue  => 0,
+        YearsInFuture => 0,
+        YearsInPast   => 0,
+        YearsPeriod   => 0,
+    },
+    Reorder => 1,
+    ValidID => 1,
+    UserID  => 1,
+);
+$Self->True(
+    $DynamicFieldID,
+    "DynamicFieldID $DynamicFieldID is created",
+);
+
+# Set the value from the dynamic field.
+my $DateValue          = '2018-06-11';
+my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+    Name => $DynamicFieldName,
+);
+
+my $Result = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueSet(
+    DynamicFieldConfig => $DynamicFieldConfig,
+    ObjectID           => $TicketID,
+    Value              => "$DateValue 00:00:00",
+    UserID             => 1,
+);
+$Self->True(
+    $Result,
+    "DynamicFieldID $DynamicFieldID is set successfully",
+);
+
+my @Titles = (
+    '<OTRS_TICKET_DynamicField_' . $DynamicFieldName . '>',
+    '<OTRS_Ticket_DynamicField_' . $DynamicFieldName . '>',
+    '<OTRS_TICKET_DynamicField_' . $DynamicFieldName . '_Value>',
+    '<OTRS_Ticket_DynamicField_' . $DynamicFieldName . '_Value>',
+);
+
+for my $Title (@Titles) {
+    my %TicketData = $TicketObject->TicketGet(
+        TicketID      => $TicketID,
+        DynamicFields => 1,
+        UserID        => $UserID,
+    );
+
+    $ModuleObject->Run(
+        UserID => $UserID,
+        Ticket => \%TicketData,
+        Config => {
+            Title => $Title,
+        },
+        ProcessEntityID          => 'P1',
+        ActivityEntityID         => 'A1',
+        TransitionEntityID       => 'T1',
+        TransitionActionEntityID => 'TA1',
+    );
+
+    %TicketData = $TicketObject->TicketGet( TicketID => $TicketID );
+
+    $Self->Is(
+        $TicketData{Title},
+        $DateValue,
+        "Title is set successfully"
+    );
 }
 
 # cleanup is done by RestoreDatabase.

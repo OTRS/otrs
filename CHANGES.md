@@ -1,4 +1,5 @@
 #5.0.28 ????-??-??
+ - 2018-05-10 Fixed bug#[13795](https://bugs.otrs.org/show_bug.cgi?id=13795) - Transition Action 'TicketTitleSet': Tag of a dyn. field type 'date' display the time, too.
  - 2018-05-10 Follow-up for bug#[7988](https://bugs.otrs.org/show_bug.cgi?id=7988) - Search attributes not consistent.
  - 2018-05-10 Fixed bug#[12864](https://bugs.otrs.org/show_bug.cgi?id=12864) - Hang in my_readline (updated Net::HTTP).
  - 2018-05-08 Fixed bug#[12994](https://bugs.otrs.org/show_bug.cgi?id=12994) - Merge Tickets with same linked objects causes error.

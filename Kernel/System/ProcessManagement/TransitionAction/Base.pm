@@ -82,9 +82,11 @@ sub _ReplaceTicketAttributes {
 
     for my $Attribute ( sort keys %{ $Param{Config} } ) {
 
-        # replace ticket attributes such as <OTRS_Ticket_DynamicField_Name1> or
-        # <OTRS_TICKET_DynamicField_Name1>
-        # <OTRS_Ticket_*> is deprecated and should be removed in further versions of OTRS
+        # Replace ticket attributes such as
+        # <OTRS_Ticket_DynamicField_Name1> or <OTRS_TICKET_DynamicField_Name1>
+        # or
+        # <OTRS_TICKET_DynamicField_Name1_Value> or <OTRS_Ticket_DynamicField_Name1_Value>.
+        # <OTRS_Ticket_*> is deprecated and should be removed in further versions of OTRS.
         my $Count = 0;
         REPLACEMENT:
         while (
@@ -103,7 +105,7 @@ sub _ReplaceTicketAttributes {
                 );
                 next REPLACEMENT if !$DynamicFieldConfig;
 
-                # get the display value for each dynamic field
+                # Get the display value for each dynamic field.
                 my $DisplayValue = $DynamicFieldBackendObject->ValueLookup(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Key                => $Param{Ticket}->{"DynamicField_$DynamicFieldName"},
@@ -116,6 +118,25 @@ sub _ReplaceTicketAttributes {
 
                 $Param{Config}->{$Attribute}
                     =~ s{<OTRS_TICKET_$TicketAttribute>}{$DisplayValueStrg->{Value} // ''}ige;
+
+                next REPLACEMENT;
+            }
+            elsif ( $TicketAttribute =~ m{DynamicField_(\S+)} ) {
+                my $DynamicFieldName = $1;
+
+                my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+                    Name => $DynamicFieldName,
+                );
+                next REPLACEMENT if !$DynamicFieldConfig;
+
+                # Get the readable value (key) for each dynamic field.
+                my $ValueStrg = $DynamicFieldBackendObject->ReadableValueRender(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Value              => $Param{Ticket}->{"DynamicField_$DynamicFieldName"},
+                );
+
+                $Param{Config}->{$Attribute}
+                    =~ s{<OTRS_TICKET_$TicketAttribute>}{$ValueStrg->{Value} // ''}ige;
 
                 next REPLACEMENT;
             }
