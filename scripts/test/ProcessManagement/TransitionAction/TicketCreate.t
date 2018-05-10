@@ -1162,6 +1162,29 @@ for my $Test (@Tests) {
                         "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute value:"
                     );
                 }
+                elsif ( $OrigTest->{Config}->{Config}->{$Attribute} =~ m{<OTRS_TICKET_DynamicField_(\S+)>} ) {
+                    $Self->IsNot(
+                        $Test->{Config}->{Config}->{$Attribute},
+                        $OrigTest->{Config}->{Config}->{$Attribute},
+                        "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute value: $OrigTest->{Config}->{Config}->{$Attribute} should been replaced"
+                    );
+                    my $DynamicFieldName = $1;
+
+                    my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+                        Name => $DynamicFieldName,
+                    );
+
+                    my $ValueStrg = $DynamicFieldBackendObject->ReadableValueRender(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        Value              => $Ticket{"DynamicField_$DynamicFieldName"},
+                    );
+
+                    $Self->Is(
+                        $Test->{Config}->{Config}->{$Attribute},
+                        $ValueStrg->{Value},
+                        "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute value:"
+                    );
+                }
                 else {
                     $Self->IsNotDeeply(
                         $Test->{Config}->{Config}->{$Attribute},
