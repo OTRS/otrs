@@ -570,7 +570,6 @@ sub Run {
                             . $DynamicFieldConfig->{Name}
                             . $Preference->{Type}
                     }
-                    && ( $DynamicFieldConfig->{FieldType} eq 'Date' || $DynamicFieldConfig->{FieldType} eq 'DateTime' )
                     )
                 {
                     next PREFERENCE;
