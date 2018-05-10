@@ -1,4 +1,5 @@
 #6.0.8 2018-??-??
+ - 2018-05-10 Fixed bug#[13850](https://bugs.otrs.org/show_bug.cgi?id=13850) - Problems with overridden SysConfig settings.
  - 2018-05-10 Follow-up fix for bug#[7988](https://bugs.otrs.org/show_bug.cgi?id=7988) - Search attributes not consistent.
  - 2018-05-10 Fixed bug#[12864](https://bugs.otrs.org/show_bug.cgi?id=12864) - Hang in my_readline.
  - 2018-05-10 Fixed bug#[13855](https://bugs.otrs.org/show_bug.cgi?id=13855) - Some migration modules will be executed with every DBUpdate-to-6.pl run.
