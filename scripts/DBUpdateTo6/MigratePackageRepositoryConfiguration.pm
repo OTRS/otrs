@@ -17,7 +17,6 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::SysConfig',
 );
 
 =head1 NAME
@@ -28,6 +27,8 @@ scripts::DBUpdateTo6::MigratePackageRepositoryConfiguration -  Migrate package r
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $ConfigKey    = 'Package::RepositoryList';
@@ -60,25 +61,15 @@ sub Run {
     # Make sure that current ITSM repository is in the list
     $RepositoryList{$CurrentITSMRepository} = "OTRS::ITSM $FrameworkVersion Master";
 
-    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+    my $ContinueOnModified = $Param{ContinueOnModified} // 0;
 
-    my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
-        Name   => $ConfigKey,
-        Force  => 1,
-        UserID => 1,
+    return $Self->SettingUpdate(
+        Name               => $ConfigKey,
+        IsValid            => 1,
+        EffectiveValue     => \%RepositoryList,
+        ContinueOnModified => $ContinueOnModified,
+        Verbose            => $Verbose,
     );
-
-    my %Result = $SysConfigObject->SettingUpdate(
-        Name              => $ConfigKey,
-        IsValid           => 1,
-        EffectiveValue    => \%RepositoryList,
-        ExclusiveLockGUID => $ExclusiveLockGUID,
-        UserID            => 1,
-    );
-
-    return if !$Result{Success};
-
-    return 1;
 }
 
 1;

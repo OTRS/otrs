@@ -31,10 +31,12 @@ sub CheckPreviousRequirement {
 
     return 1 if $TableExists;
 
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # Check if configuration was already made.
-    my $OTRSTimeZone        = $Kernel::OM->Get('Kernel::Config')->Get('OTRSTimeZone') // 'UTC';
-    my $UserDefaultTimeZone = $Kernel::OM->Get('Kernel::Config')->Get('UserDefaultTimeZone') // 'UTC';
-    if ( $OTRSTimeZone ne 'UTC' || $UserDefaultTimeZone ne 'UTC' ) {
+    my $OTRSTimeZone        = $ConfigObject->Get('OTRSTimeZone') // '';
+    my $UserDefaultTimeZone = $ConfigObject->Get('UserDefaultTimeZone') // '';
+    if ( $OTRSTimeZone && $UserDefaultTimeZone ) {
         return 1;
     }
 
@@ -48,11 +50,10 @@ sub CheckPreviousRequirement {
     my $SystemTimeZone = $DateTimeObject->SystemTimeZoneGet() || 'UTC';
     $DateTimeObject->ToTimeZone( TimeZone => $SystemTimeZone );
 
-    # Get configured deprecated time zone offset
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    # Get configured deprecated time zone offset.
     my $TimeOffset = int( $ConfigObject->Get('TimeZone') || 0 );
 
-    # Calculate complete time offset (server time zone + OTRS time offset)
+    # Calculate complete time offset (server time zone + OTRS time offset).
     my $SuggestedTimeZone = $TimeOffset ? '' : $SystemTimeZone;
     $TimeOffset += $DateTimeObject->Format( Format => '%{offset}' ) / 60 / 60;
 
@@ -152,24 +153,16 @@ sub Run {
         return 1;
     }
 
-    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
     for my $ConfigKey ( sort keys %{ $Self->{TargetTimeZones} // {} } ) {
-        my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
-            Name   => $ConfigKey,
-            Force  => 1,
-            UserID => 1,
+
+        my $Result = $Self->SettingUpdate(
+            Name           => $ConfigKey,
+            IsValid        => 1,
+            EffectiveValue => $Self->{TargetTimeZones}->{$ConfigKey},
+            UserID         => 1,
         );
 
-        my %Result = $SysConfigObject->SettingUpdate(
-            Name              => $ConfigKey,
-            IsValid           => 1,
-            EffectiveValue    => $Self->{TargetTimeZones}->{$ConfigKey},
-            ExclusiveLockGUID => $ExclusiveLockGUID,
-            UserID            => 1,
-        );
-
-        return if !$Result{Success};
+        return if !$Result;
     }
 
     return 1;

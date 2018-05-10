@@ -566,6 +566,81 @@ sub GetTaskConfig {
     return $ConfigData;
 }
 
+=head2 SettingUpdate()
+
+Update an existing SysConfig Setting in a migration context. It will skip updating both read-only and already modified
+settings by default.
+
+    $DBUpdateTo6Object->SettingUpdate(
+        Name                   => 'Setting::Name',           # (required) setting name
+        IsValid                => 1,                         # (optional) 1 or 0, modified 0
+        EffectiveValue         => $SettingEffectiveValue,    # (optional)
+        UserModificationActive => 0,                         # (optional) 1 or 0, modified 0
+        TargetUserID           => 2,                         # (optional) ID of the user for which the modified setting is meant,
+                                                             #   leave it undef for global changes.
+        NoValidation           => 1,                         # (optional) no value type validation.
+        ContinueOnModified     => 0,                         # (optional) Do not skip already modified settings.
+                                                             #   1 or 0, default 0
+        Verbose                => 0,                         # (optional) 1 or 0, default 0
+    );
+
+=cut
+
+sub SettingUpdate {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{Name} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Name!',
+        );
+
+        return;
+    }
+
+    my $SettingName = $Param{Name};
+
+    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+    # Try to get the default setting from OTRS 6 for the new setting name.
+    my %CurrentSetting = $SysConfigObject->SettingGet(
+        Name  => $SettingName,
+        NoLog => 1,
+    );
+
+    # Skip settings which already have been modified in the meantime.
+    if ( $CurrentSetting{ModifiedID} && !$Param{ContinueOnModified} ) {
+        if ( $Param{Verbose} ) {
+            print "\n        - Setting '$Param{Name}' is already modified in the system skipping...\n\n";
+        }
+        return 1;
+    }
+
+    # Skip this setting if it is a read-only setting.
+    if ( $CurrentSetting{IsReadonly} ) {
+        if ( $Param{Verbose} ) {
+            print "\n        - Setting '$Param{Name}' is is set to read-only skipping...\n\n";
+        }
+        return 1;
+    }
+
+    my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+        Name   => $SettingName,
+        Force  => 1,
+        UserID => 1,
+    );
+
+    my %Result = $SysConfigObject->SettingUpdate(
+        %Param,
+        Name              => $SettingName,
+        IsValid           => $Param{IsValid} || 1,
+        ExclusiveLockGUID => $ExclusiveLockGUID,
+        UserID            => 1,
+    );
+
+    return $Result{Success};
+}
+
 1;
 
 =head1 TERMS AND CONDITIONS

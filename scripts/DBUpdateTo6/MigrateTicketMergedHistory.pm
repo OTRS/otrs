@@ -57,20 +57,20 @@ sub Run {
         };
     }
 
-    if (@TicketMergedHistories) {
-        for my $HistoryMergedData (@TicketMergedHistories) {
+    return 1 if !@TicketMergedHistories;
 
-            # Migrate merged history name from
-            #   "Merged Ticket (MergeTicketNumber/MergeTicketID) to (MainTicketNumber/MainTicketID)"
-            #   into "%%MergeTicketNumber%%MergeTicketID%%MainTicketNumber%%MainTicketID".
-            if ( $HistoryMergedData->{HistoryName} =~ m{Merged Ticket \((\w+)/(\w+)\) to \((\w+)/(\w+)\)} ) {
-                $DBObject->Do(
-                    SQL => "UPDATE ticket_history
-                        SET name = '%%$1%%$2%%$3%%$4'
-                        WHERE id = ?",
-                    Bind => [ \$HistoryMergedData->{HistoryID} ],
-                );
-            }
+    for my $HistoryMergedData (@TicketMergedHistories) {
+
+        # Migrate merged history name from
+        #   "Merged Ticket (MergeTicketNumber/MergeTicketID) to (MainTicketNumber/MainTicketID)"
+        #   into "%%MergeTicketNumber%%MergeTicketID%%MainTicketNumber%%MainTicketID".
+        if ( $HistoryMergedData->{HistoryName} =~ m{Merged Ticket \((\w+)/(\w+)\) to \((\w+)/(\w+)\)} ) {
+            $DBObject->Do(
+                SQL => "UPDATE ticket_history
+                    SET name = '%%$1%%$2%%$3%%$4'
+                    WHERE id = ?",
+                Bind => [ \$HistoryMergedData->{HistoryID} ],
+            );
         }
     }
 

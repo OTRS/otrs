@@ -20,7 +20,8 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-scripts::DBUpdateTo6::PostArticleTableStructureChanges -  Create entries in new article table for OmniChannel base infrastructure.
+scripts::DBUpdateTo6::PostArticleTableStructureChanges -  Create entries in new article table for OmniChannel base
+infrastructure.
 
 =cut
 
@@ -241,59 +242,35 @@ sub _UpdateArticleDataMimeTable {
             <IndexCreate Name="article_data_mime_message_id_md5">
                 <IndexColumn Name="a_message_id_md5"/>
             </IndexCreate>
+        </TableAlter>',
+        '<TableAlter Name="article_data_mime">
             <ForeignKeyCreate ForeignTable="article">
                 <Reference Local="article_id" Foreign="id"/>
             </ForeignKeyCreate>
+        </TableAlter>',
+        '<TableAlter Name="article_data_mime">
             <ForeignKeyCreate ForeignTable="users">
                 <Reference Local="create_by" Foreign="id"/>
                 <Reference Local="change_by" Foreign="id"/>
             </ForeignKeyCreate>
         </TableAlter>',
-
         '<TableAlter Name="article_data_mime">
             <ColumnDrop Name="ticket_id"/>
         </TableAlter>',
-
         '<TableAlter Name="article_data_mime">
             <ColumnDrop Name="valid_id"/>
         </TableAlter>',
-
         '<TableAlter Name="article_data_mime">
             <ColumnDrop Name="article_type_id"/>
         </TableAlter>',
-
         '<TableAlter Name="article_data_mime">
             <ColumnDrop Name="article_sender_type_id"/>
         </TableAlter>',
     );
 
-    XMLSTRING:
-    for my $XMLString (@XMLStrings) {
-
-        # extract table name from XML string
-        if ( $XMLString =~ m{ <TableAlter \s+ Name="([^"]+)" }xms ) {
-            my $TableName = $1;
-
-            next XMLSTRING if !$TableName;
-
-            # extract columns that should be dropped from XML string
-            if ( $XMLString =~ m{ <ColumnDrop \s+ Name="([^"]+)" }xms ) {
-                my $ColumnName = $1;
-
-                next XMLSTRING if !$ColumnName;
-
-                my $ColumnExists = $Self->ColumnExists(
-                    Table  => $TableName,
-                    Column => $ColumnName,
-                );
-
-                # skip dropping the column if the column does not exist
-                next XMLSTRING if !$ColumnExists;
-            }
-        }
-
-        return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
-    }
+    return if !$Self->ExecuteXMLDBArray(
+        XMLArray => \@XMLStrings,
+    );
 
     return 1;
 }
@@ -314,22 +291,32 @@ sub _UpdateArticleDataMimePlainTable {
     my ( $Self, %Param ) = @_;
 
     # recreate indexes and foreign keys
-    my $XMLString = '
-        <TableAlter Name="article_data_mime_plain">
+    my @XMLStrings = (
+        '<TableAlter Name="article_data_mime_plain">
             <IndexCreate Name="article_data_mime_plain_article_id">
                 <IndexColumn Name="article_id"/>
             </IndexCreate>
+        </TableAlter>',
+        '<TableAlter Name="article_data_mime_plain">
             <ForeignKeyCreate ForeignTable="article">
                 <Reference Local="article_id" Foreign="id"/>
             </ForeignKeyCreate>
+        </TableAlter>',
+        '<TableAlter Name="article_data_mime_plain">
             <ForeignKeyCreate ForeignTable="users">
                 <Reference Local="create_by" Foreign="id"/>
+            </ForeignKeyCreate>
+        </TableAlter>',
+        '<TableAlter Name="article_data_mime_plain">
+            <ForeignKeyCreate ForeignTable="users">
                 <Reference Local="change_by" Foreign="id"/>
             </ForeignKeyCreate>
-        </TableAlter>
-    ';
+        </TableAlter>',
+    );
 
-    return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
+    return if !$Self->ExecuteXMLDBArray(
+        XMLArray => \@XMLStrings,
+    );
 
     return 1;
 }
@@ -349,23 +336,33 @@ Returns 1 on success
 sub _UpdateArticleDataMimeAttachmentTable {
     my ( $Self, %Param ) = @_;
 
-    # recreate indexes and foreign keys
-    my $XMLString = '
-        <TableAlter Name="article_data_mime_attachment">
+    # Recreate indexes and foreign keys.
+    my @XMLStrings = (
+        '<TableAlter Name="article_data_mime_attachment">
             <IndexCreate Name="article_data_mime_attachment_article_id">
                 <IndexColumn Name="article_id"/>
             </IndexCreate>
+        </TableAlter>',
+        '<TableAlter Name="article_data_mime_attachment">
             <ForeignKeyCreate ForeignTable="article">
                 <Reference Local="article_id" Foreign="id"/>
             </ForeignKeyCreate>
+        </TableAlter>',
+        '<TableAlter Name="article_data_mime_attachment">
             <ForeignKeyCreate ForeignTable="users">
                 <Reference Local="create_by" Foreign="id"/>
+            </ForeignKeyCreate>
+        </TableAlter>',
+        '<TableAlter Name="article_data_mime_attachment">
+            <ForeignKeyCreate ForeignTable="users">
                 <Reference Local="change_by" Foreign="id"/>
             </ForeignKeyCreate>
-        </TableAlter>
-    ';
+        </TableAlter>',
+    );
 
-    return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
+    return if !$Self->ExecuteXMLDBArray(
+        XMLArray => \@XMLStrings,
+    );
 
     return 1;
 }
@@ -404,33 +401,9 @@ sub _RecreateForeignKeysPointingToArticleTable {
         </TableAlter>',
     );
 
-    XMLSTRING:
-    for my $XMLString (@XMLStrings) {
-
-        # extract table name from XML string
-        if ( $XMLString =~ m{ <TableAlter \s+ Name="([^"]+)" }xms ) {
-            my $TableName = $1;
-
-            next XMLSTRING if !$TableName;
-
-            # extract columns that should be dropped from XML string
-            if ( $XMLString =~ m{ <ColumnDrop \s+ Name="([^"]+)" }xms ) {
-                my $ColumnName = $1;
-
-                next XMLSTRING if !$ColumnName;
-
-                my $ColumnExists = $Self->ColumnExists(
-                    Table  => $TableName,
-                    Column => $ColumnName,
-                );
-
-                # skip dropping the column if the column does not exist
-                next XMLSTRING if !$ColumnExists;
-            }
-        }
-
-        return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
-    }
+    return if !$Self->ExecuteXMLDBArray(
+        XMLArray => \@XMLStrings,
+    );
 
     return 1;
 }

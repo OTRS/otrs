@@ -15,7 +15,6 @@ use parent qw(scripts::DBUpdateTo6::Base);
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::SysConfig',
 );
 
 =head1 NAME
@@ -26,6 +25,8 @@ scripts::DBUpdateTo6::MigratePossibleNextActions - Migrate possible next actions
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
 
     my $SettingName = 'PossibleNextActions';
     my $PossibleNextActions = $Kernel::OM->Get('Kernel::Config')->Get($SettingName) || {};
@@ -57,23 +58,12 @@ sub Run {
 
     return 1 if !$Updated;
 
-    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
-    my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
-        Name   => $SettingName,
-        Force  => 1,
-        UserID => 1,
+    return $Self->SettingUpdate(
+        Name           => $SettingName,
+        IsValid        => 1,
+        EffectiveValue => $PossibleNextActions,
+        Verbose        => $Verbose,
     );
-
-    my %Result = $SysConfigObject->SettingUpdate(
-        Name              => $SettingName,
-        IsValid           => 1,
-        EffectiveValue    => $PossibleNextActions,
-        ExclusiveLockGUID => $ExclusiveLockGUID,
-        UserID            => 1,
-    );
-
-    return $Result{Success};
 }
 
 1;

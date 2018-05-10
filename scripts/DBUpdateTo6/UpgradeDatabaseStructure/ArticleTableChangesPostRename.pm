@@ -79,6 +79,8 @@ sub Run {
         #   - a_bcc
         '<TableAlter Name="article_data_mime">
             <ColumnAdd Name="article_id" Required="true" Type="BIGINT"/>
+        </TableAlter>',
+        '<TableAlter Name="article_data_mime">
             <ColumnAdd Name="a_bcc" Required="false" Size="1800000" Type="VARCHAR"/>
         </TableAlter>',
     );

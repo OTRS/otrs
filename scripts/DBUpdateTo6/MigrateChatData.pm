@@ -17,7 +17,6 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::JSON',
-    'Kernel::System::YAML',
 );
 
 =head1 NAME

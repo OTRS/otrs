@@ -40,9 +40,9 @@ sub Run {
     # Change parameters directly in the database, since at this point in migration not all used ticket statistic
     #   modules might be available.
     #
-    # Use LIKE in Where clause for xml_content_value as on oracle this is the datatype CLOB
-    #   which can not be compared to with =, only with LIKE
-    #   For further detials please check ORA-00932: inconsistent datatypes: expected - got CLOB
+    # Use LIKE in WHERE clause for xml_content_value as on Oracle this is the datatype CLOB which can not be compared to
+    #   with =, only with LIKE. For further details please check ORA-00932: inconsistent datatypes: expected - got CLOB.
+    SEARCHPARAM:
     for my $SearchParam ( sort keys %SearchParamMap ) {
         return if !$DBObject->Prepare(
             SQL => '
@@ -61,6 +61,7 @@ sub Run {
         while ( my @Row = $DBObject->FetchrowArray() ) {
             $Update{ $Row[0] } = $Row[1];
         }
+        next SEARCHPARAM if !%Update;
 
         for my $XMLKey ( sort keys %Update ) {
             return if !$DBObject->Prepare(

@@ -13,24 +13,18 @@ use warnings;
 
 use parent qw(scripts::DBUpdateTo6::Base);
 
-our @ObjectDependencies = (
-    'Kernel::System::DB',
-    'Kernel::System::Log',
-    'Kernel::System::Package',
-);
+our @ObjectDependencies = ();
 
 =head1 NAME
 
-scripts::DBUpdateTo6::CreateFormDraftTables - Create form fraft tables.
+scripts::DBUpdateTo6::CreateFormDraftTables - Create form draft tables.
 
 =cut
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $DBObject      = $Kernel::OM->Get('Kernel::System::DB');
-    my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
-    my $Verbose       = $Param{CommandlineOptions}->{Verbose} || 0;
+    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
 
     # Define the XML data for the form draft table.
     my @XMLStrings = (

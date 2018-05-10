@@ -127,7 +127,9 @@ for my $Test (@Tests) {
         );
     }
 
-    my $UpgradeSuccess = $Kernel::OM->Create('scripts::DBUpdateTo6::MigratePackageRepositoryConfiguration')->Run();
+    my $UpgradeSuccess = $Kernel::OM->Create('scripts::DBUpdateTo6::MigratePackageRepositoryConfiguration')->Run(
+        ContinueOnModified => 1,
+    );
     $Self->Is(
         $UpgradeSuccess,
         $Test->{Success},

@@ -77,9 +77,9 @@ sub Run {
                 ',
             );
 
-            for my $XMLString (@XMLStrings) {
-                return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
-            }
+            return if !$Self->ExecuteXMLDBArray(
+                XMLArray => \@XMLStrings,
+            );
 
             return 1;
         }

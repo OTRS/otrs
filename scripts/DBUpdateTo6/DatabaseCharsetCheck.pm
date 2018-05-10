@@ -49,7 +49,7 @@ sub CheckPreviousRequirement {
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # This check makes sense only for MySQL, so skip it in case of other backends.
+    # This check makes sense only for MySQL, so skip it in case of other back-ends.
     if ( $DBObject->GetDatabaseFunction('Type') ne 'mysql' ) {
         if ($Verbose) {
             print "    Database backend is not MySQL, skipping...\n";

@@ -22,7 +22,8 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-scripts::DBUpdateTo6::MigrateZoomExpandConfig - Migrate modified ZoomExpand config value to AgentZoomExpand and CustomerZoomExpand configs.
+scripts::DBUpdateTo6::MigrateZoomExpandConfig - Migrate modified ZoomExpand config value to AgentZoomExpand and
+CustomerZoomExpand configs.
 
 =cut
 
@@ -57,23 +58,17 @@ sub Run {
     }
 
     # Migrate modified ZoomExpand config value to AgentZoomExpand and CustomerZoomExpand configs.
-    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
     for my $Config ( 'AgentZoomExpand', 'CustomerTicketZoom###CustomerZoomExpand' ) {
-        my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
-            Name   => 'Ticket::Frontend::' . $Config,
-            Force  => 1,
-            UserID => 1,
+
+        my $Result = $Self->SettingUpdate(
+            Name               => 'Ticket::Frontend::' . $Config,
+            EffectiveValue     => $ZoomExpandValue,
+            ContinueOnModified => 1,
+            IsValid            => 1,
+            UserID             => 1,
         );
 
-        my %Result = $SysConfigObject->SettingUpdate(
-            Name              => 'Ticket::Frontend::' . $Config,
-            IsValid           => 1,
-            EffectiveValue    => $ZoomExpandValue,
-            ExclusiveLockGUID => $ExclusiveLockGUID,
-            UserID            => 1,
-        );
-
-        if ( !$Result{Success} ) {
+        if ( !$Result ) {
             print
                 "\n    Could not migrate config 'Ticket::Frontend::ZoomExpand' value to 'Ticket::Frontend::$Config'.. \n"
                 if $Verbose;
