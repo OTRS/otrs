@@ -785,7 +785,7 @@ sub _ShowScreen {
                 Sort         => 'AlphanumericValue',
                 PossibleNone => 0,
                 Title        => $LayoutObject->{LanguageObject}->Translate('Event'),
-                Class        => 'EventList GenericInterfaceSpacing ' . $EventListHidden,
+                Class        => 'Modernize EventList GenericInterfaceSpacing ' . $EventListHidden,
             );
 
             $LayoutObject->Block(
@@ -805,6 +805,7 @@ sub _ShowScreen {
             Sort          => 'AlphanumericValue',
             SelectedValue => $Param{EventType},
             PossibleNone  => 0,
+            Class         => 'Modernize',
         );
     }
 
