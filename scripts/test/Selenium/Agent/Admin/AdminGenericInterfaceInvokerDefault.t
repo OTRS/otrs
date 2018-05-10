@@ -12,9 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::GenericInterface::Debugger;
-use Kernel::GenericInterface::Invoker;
-
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
@@ -22,8 +19,6 @@ $Selenium->RunTest(
 
         my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
-        my $CalendarObject  = $Kernel::OM->Get('Kernel::System::Calendar');
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
