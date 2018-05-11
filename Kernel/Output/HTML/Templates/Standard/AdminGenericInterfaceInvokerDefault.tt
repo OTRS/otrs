@@ -250,9 +250,18 @@ Core.Agent.Admin.GenericInterfaceInvoker.Init({
         DeleteInvokerMsg: [% Translate("Delete this Invoker") | JSON %],
         DeleteEventMsg: [% Translate("Delete this Event Trigger") | JSON %],
         DeleteMsg: [% Translate("Delete") | JSON %],
-        CancelMsg: [% Translate("Cancel") | JSON %]
+        CancelMsg: [% Translate("Cancel") | JSON %],
+        EventTrigerTitle: [% Translate("Add Event Trigger") | JSON %],
+        EventTrigerMsg: [% Translate("It is not possible to add a new event trigger because the event is not set.") | JSON %]
     }
 });
+
+var $EventListParent = $('.EventList').parent();
+
+// Initialize event trigger fields.
+Core.UI.InputFields.Deactivate($EventListParent);
+Core.Agent.Admin.GenericInterfaceInvoker.ToogleEventSelect($('#EventType').val());
+Core.UI.InputFields.Activate($EventListParent);
 
 $('.RegisterChange').bind('change.RegisterChange keyup.RegisterChange', function (Event) {
     $('.HideOnChange').hide();
@@ -262,7 +271,9 @@ $('.RegisterChange').bind('change.RegisterChange keyup.RegisterChange', function
 $('#DeleteButton').bind('click', Core.Agent.Admin.GenericInterfaceInvoker.ShowDeleteDialog);
 
 $('#EventType').bind('change', function (){
+    Core.UI.InputFields.Deactivate($EventListParent);
     Core.Agent.Admin.GenericInterfaceInvoker.ToogleEventSelect($(this).val());
+    Core.UI.InputFields.Activate($EventListParent);
 });
 
 $('#AddEvent').bind('click', function (){

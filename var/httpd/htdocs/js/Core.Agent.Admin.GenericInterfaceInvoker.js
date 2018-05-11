@@ -63,8 +63,8 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
      *      Toggles the event list.
      */
     TargetNS.ToogleEventSelect = function (SelectedEventType) {
-        $('.EventList').addClass('Hidden');
-        $('#' + SelectedEventType + 'Event').removeClass('Hidden');
+        $('.EventList').hide();
+        $('#' + SelectedEventType + 'Event').show();
     };
 
 
@@ -86,13 +86,27 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
                 EventType: EventType
         };
 
-        if ($('#Asynchronous').is(':checked')) {
-            Data.Asynchronous = 1;
+        if (Data.NewEvent) {
+            if ($('#Asynchronous').is(':checked')) {
+                Data.Asynchronous = 1;
+            }
+
+            $('#AddEvent').prop('disabled', true);
+
+            Core.App.InternalRedirect(Data);
         }
-
-        $('#AddEvent').prop('disabled', true);
-
-        Core.App.InternalRedirect(Data);
+        else{
+            Core.UI.Dialog.ShowDialog({
+                Title: TargetNS.Localization.EventTrigerTitle,
+                HTML: TargetNS.Localization.EventTrigerMsg,
+                Modal: true,
+                CloseOnClickOutside: false,
+                CloseOnEscape: false,
+                PositionTop: '20%',
+                PositionLeft: 'Center',
+                Buttons: []
+            });
+        }
     };
 
     /**
