@@ -22,6 +22,12 @@ $Selenium->RunTest(
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+        # Disable email checks to create new user.
+        $ConfigObject->Set(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
+
         my $CustomerUser = $ConfigObject->Get('CustomerUser');
         $CustomerUser->{CustomerUserListFields} = [ 'first_name', 'last_name', 'customer_id', 'email' ];
         $Helper->ConfigSettingChange(
