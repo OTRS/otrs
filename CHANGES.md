@@ -1,4 +1,5 @@
 #6.0.8 2018-??-??
+ - 2018-05-14 Fixed bug#[13827](https://bugs.otrs.org/show_bug.cgi?id=13827) - GenericInterface EventTrigger will be set to synchronous after adding condition.
  - 2018-05-11 Fixed bug#[13732](https://bugs.otrs.org/show_bug.cgi?id=13732) - For mails with inline images and little text, the display area remains very small.
  - 2018-05-11 Fixed bug#[13821](https://bugs.otrs.org/show_bug.cgi?id=13821) - CustomerUserListFields: search result create a wrong entry.
  - 2018-05-10 Fixed bug#[13846](https://bugs.otrs.org/show_bug.cgi?id=13846) - Ticket invoker base module does not use modernized fields.

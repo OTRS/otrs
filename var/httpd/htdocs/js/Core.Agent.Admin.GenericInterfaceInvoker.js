@@ -68,7 +68,7 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
             Core.UI.InputFields.Activate($EventListParent);
         });
 
-        $('#AddEvent').on('click', function (){
+        $('#AddEvent').off('click').on('click', function (){
             TargetNS.AddEvent($('#EventType').val());
         });
 

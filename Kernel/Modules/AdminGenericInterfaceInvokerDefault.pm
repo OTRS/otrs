@@ -533,7 +533,7 @@ sub _AddEvent {
                 Mandatory => 1,
             },
             {
-                Name    => 'AsynchronousMode',
+                Name    => 'Asynchronous',
                 Type    => 'String',
                 Default => 0,
             },
@@ -564,7 +564,7 @@ sub _AddEvent {
     # Add the new event to the list.
     my @Events = IsArrayRefWithData( $InvokerConfig->{Events} ) ? @{ $InvokerConfig->{Events} } : ();
     push @Events, {
-        Asynchronous => $GetParam->{AsynchronousMode},
+        Asynchronous => $GetParam->{Asynchronous},
         Event        => $GetParam->{NewEvent},
     };
 
