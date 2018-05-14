@@ -45,7 +45,7 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
 
         TargetNS.WebserviceID = parseInt(Core.Config.Get('WebserviceID'), 10);
         TargetNS.Invoker = Core.Config.Get('Invoker');
-        TargetNS.Action = 'AdminGenericInterfaceInvokerDefault';
+        TargetNS.Action = Core.Config.Get('Action');
 
         $('#MappingOutboundConfigureButton').on('click', function() {
             TargetNS.Redirect('MappingOutbound');
