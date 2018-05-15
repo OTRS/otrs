@@ -96,6 +96,28 @@ sub Run {
 
     my @TestsToExecute = @{ $Param{Tests} // [] };
 
+    my $UnitTestBlacklist = $ConfigObject->Get('UnitTest::Blacklist');
+    my @BlacklistedTests;
+    my @SkippedTests;
+    if ( IsHashRefWithData($UnitTestBlacklist) ) {
+
+        CONFIGKEY:
+        for my $ConfigKey ( sort keys %{$UnitTestBlacklist} ) {
+
+            next CONFIGKEY if !$ConfigKey;
+            next CONFIGKEY
+                if !$UnitTestBlacklist->{$ConfigKey} || !IsArrayRefWithData( $UnitTestBlacklist->{$ConfigKey} );
+
+            TEST:
+            for my $Test ( @{ $UnitTestBlacklist->{$ConfigKey} } ) {
+
+                next TEST if !$Test;
+
+                push @BlacklistedTests, $Test;
+            }
+        }
+    }
+
     # Use non-overridden time() function.
     my $StartTime = CORE::time;    ## no critic;
 
@@ -113,6 +135,12 @@ sub Run {
             next FILE;
         }
 
+        # Check blacklisted files.
+        if ( @BlacklistedTests && grep { $File =~ m{\Q$Directory/$_\E$}smx } @BlacklistedTests ) {
+            push @SkippedTests, $File;
+            next FILE;
+        }
+
         $Self->_HandleFile(
             PostTestScripts => $Param{PostTestScripts},
             File            => $File,
@@ -125,6 +153,14 @@ sub Run {
     my $Host = $ConfigObject->Get('FQDN');
 
     print "=====================================================================\n";
+
+    if (@SkippedTests) {
+        print "Following blacklisted tests were skipped:\n";
+        for my $SkippedTest (@SkippedTests) {
+            print '  ' . $Self->_Color( 'yellow', $SkippedTest ) . "\n";
+        }
+    }
+
     print $Self->_Color( 'yellow', $Host ) . " ran tests in " . $Self->_Color( 'yellow', "${Duration}s" );
     print " for " . $Self->_Color( 'yellow', $Product ) . "\n";
 
