@@ -1,5 +1,5 @@
 If you need to modify already existing framework Perl module files or tt template files
-for customizations, you can do this in the $OTRS_HOME/Custom/ directory.
+or unit test files for customizations, you can do this in the $OTRS_HOME/Custom/ directory.
 
 Example:
 
@@ -9,6 +9,8 @@ Example:
 
 This method also works for tt files. Just place them in Kernel/Output/HTML/$ThemeName,
 and they will be used if the theme is selected.
+
+It also works for unit test files. Just place them in Custom/scripts/test.
 
 If you use Apache + mod_perl or PerlEx, any Perl module files placed in this directory
 will only be loaded by your web server after you restarted it.

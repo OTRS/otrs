@@ -141,6 +141,12 @@ sub Run {
             next FILE;
         }
 
+        # Check if a file with the same path and name exists in the Custom folder.
+        my $CustomFile = $File =~ s{ \A $Home }{$Home/Custom}xmsr;
+        if ( -e $CustomFile ) {
+            $File = $CustomFile;
+        }
+
         $Self->_HandleFile(
             PostTestScripts => $Param{PostTestScripts},
             File            => $File,
