@@ -744,7 +744,7 @@ sub _Edit {
     my $CalendarObject = $Kernel::OM->Get('Kernel::System::Calendar');
 
     my @CalendarList = $CalendarObject->CalendarList(
-        UserID     => 4,
+        UserID     => 1,
         Permission => 'ro',
         ValidID    => 0,
     );
