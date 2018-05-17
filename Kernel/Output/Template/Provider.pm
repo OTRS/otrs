@@ -536,14 +536,14 @@ sub MigrateDTLtoTT {
     };
 
     # $Quote $Config
-    $Content =~ s{\$Quote{"\$Config{"($ID)"}"}}{[% Config("$1") | html %]}smxg;
+    $Content =~ s{\$Quote\{"\$Config\{"($ID)"\}"\}}{[% Config("$1") | html %]}smxg;
 
     # $Quote $Env
-    $Content =~ s{\$Quote{"\$Env{"($ID)"}"}}{[% Env("$1") | html %]}smxg;
+    $Content =~ s{\$Quote\{"\$Env\{"($ID)"\}"\}}{[% Env("$1") | html %]}smxg;
 
     # $Quote $Data
     $Content =~ s{
-            \$Quote{"\$Data{"($ID)"}"}
+            \$Quote\{"\$Data\{"($ID)"\}"\}
         }
         {
             '[% Data.' . $SafeArrrayAccess->($1) . ' | html %]'
@@ -551,7 +551,7 @@ sub MigrateDTLtoTT {
 
     # $Quote with length
     $Content =~ s{
-            \$Quote{"\$Data{"($ID)"}",\s*"(\d+)"}
+            \$Quote\{"\$Data\{"($ID)"\}",\s*"(\d+)"\}
         }
         {
             '[% Data.' . $SafeArrrayAccess->($1) . " | truncate($2) | html %]"
@@ -559,7 +559,7 @@ sub MigrateDTLtoTT {
 
     # $Quote with dynamic length
     $Content =~ s{
-            \$Quote{"\$Data{"($ID)"}",\s*"\$Q?Data{"($ID)"}"}
+            \$Quote\{"\$Data\{"($ID)"\}",\s*"\$Q?Data\{"($ID)"\}"\}
         }
         {
             '[% Data.' . $SafeArrrayAccess->($1) . ' | truncate(Data.' . $SafeArrrayAccess->($2) . ') | html %]'
@@ -567,7 +567,7 @@ sub MigrateDTLtoTT {
 
     # $Quote with translated text and fixed length
     $Content =~ s{
-            \$Quote{"\$Text{"\$Data{"($ID)"}"}",\s*"(\d+)"}
+            \$Quote\{"\$Text\{"\$Data\{"($ID)"\}"\}",\s*"(\d+)"\}
         }
         {
             '[% Data.' . $SafeArrrayAccess->($1) . " | Translate | truncate($2) | html %]"
@@ -575,7 +575,7 @@ sub MigrateDTLtoTT {
 
     # $Quote with translated text and dynamic length
     $Content =~ s{
-            \$Quote{"\$Text{"\$Data{"($ID)"}"}",\s*"\$Q?Data{"($ID)"}"}
+            \$Quote\{"\$Text\{"\$Data\{"($ID)"\}"\}",\s*"\$Q?Data\{"($ID)"\}"\}
         }
         {
             '[% Data.' . $SafeArrrayAccess->($1) . ' | Translate | truncate(Data.' . $SafeArrrayAccess->($2) . ') | html %]'
@@ -591,22 +591,22 @@ sub MigrateDTLtoTT {
         my $Result = '[% ';
 
         # Text contains a tag
-        if ( $Text =~ m{\$TimeLong{"\$Q?Data{"($ID)"}"}}smx ) {
+        if ( $Text =~ m{\$TimeLong\{"\$Q?Data\{"($ID)"\}"\}}smx ) {
             $Result .= "Translate(Localize(Data." . $SafeArrrayAccess->($1) . ", \"TimeLong\")";
         }
-        elsif ( $Text =~ m{\$TimeShort{"\$Q?Data{"($ID)"}"}}smx ) {
+        elsif ( $Text =~ m{\$TimeShort\{"\$Q?Data\{"($ID)"\}"\}}smx ) {
             $Result .= "Translate(Localize(Data." . $SafeArrrayAccess->($1) . ", \"TimeShort\")";
         }
-        elsif ( $Text =~ m{\$Date{"\$Q?Data{"($ID)"}"}}smx ) {
+        elsif ( $Text =~ m{\$Date\{"\$Q?Data\{"($ID)"\}"\}}smx ) {
             $Result .= "Translate(Localize(Data." . $SafeArrrayAccess->($1) . ", \"Date\")";
         }
-        elsif ( $Text =~ m{\$Q?Data{"($ID)"}}smx ) {
+        elsif ( $Text =~ m{\$Q?Data\{"($ID)"\}}smx ) {
             $Result .= "Translate(Data." . $SafeArrrayAccess->($1) . "";
         }
-        elsif ( $Text =~ m{\$Config{"($ID)"}}smx ) {
+        elsif ( $Text =~ m{\$Config\{"($ID)"\}}smx ) {
             $Result .= "Translate(Config(\"$1\")";
         }
-        elsif ( $Text =~ m{\$Q?Env{"($ID)"}}smx ) {
+        elsif ( $Text =~ m{\$Q?Env\{"($ID)"\}}smx ) {
             $Result .= "Translate(Env(\"$1\")";
         }
 
@@ -624,22 +624,22 @@ sub MigrateDTLtoTT {
         PARAMETER:
         for my $Parameter (@Parameters) {
             next PARAMETER if ( !$Parameter );
-            if ( $Parameter =~ m{\$TimeLong{"\$Q?Data{"($ID)"}"}}smx ) {
+            if ( $Parameter =~ m{\$TimeLong\{"\$Q?Data\{"($ID)"\}"\}}smx ) {
                 $Result .= ", Localize(Data.$1, \"TimeLong\")";
             }
-            elsif ( $Parameter =~ m{\$TimeShort{"\$Q?Data{"($ID)"}"}}smx ) {
+            elsif ( $Parameter =~ m{\$TimeShort\{"\$Q?Data\{"($ID)"\}"\}}smx ) {
                 $Result .= ", Localize(Data.$1, \"TimeShort\")";
             }
-            elsif ( $Parameter =~ m{\$Date{"\$Q?Data{"($ID)"}"}}smx ) {
+            elsif ( $Parameter =~ m{\$Date\{"\$Q?Data\{"($ID)"\}"\}}smx ) {
                 $Result .= ", Localize(Data.$1, \"Date\")";
             }
-            elsif ( $Parameter =~ m{\$Q?Data{"($ID)"}}smx ) {
+            elsif ( $Parameter =~ m{\$Q?Data\{"($ID)"\}}smx ) {
                 $Result .= ", Data.$1";
             }
-            elsif ( $Parameter =~ m{\$Config{"($ID)"}}smx ) {
+            elsif ( $Parameter =~ m{\$Config\{"($ID)"\}}smx ) {
                 $Result .= ", Config(\"$1\")";
             }
-            elsif ( $Parameter =~ m{\$Q?Env{"($ID)"}}smx ) {
+            elsif ( $Parameter =~ m{\$Q?Env\{"($ID)"\}}smx ) {
                 $Result .= ", Env(\"$1\")";
             }
             else {
@@ -663,31 +663,31 @@ sub MigrateDTLtoTT {
 
     # $Text
     $Content =~ s{
-            \$Text{
+            \$Text\{
                 ["']
                 (
                     [^\$]+?
-                    |\$Q?Data{\"$ID\"}
-                    |\$Config{\"$ID\"}
-                    |\$Q?Env{\"$ID\"}
-                    |\$TimeLong{\"\$Q?Data{\"$ID\"}\"}
-                    |\$TimeShort{\"\$Q?Data{\"$ID\"}\"}
-                    |\$Date{\"\$Q?Data{\"$ID\"}\"}
+                    |\$Q?Data\{\"$ID\"\}
+                    |\$Config\{\"$ID\"\}
+                    |\$Q?Env\{\"$ID\"\}
+                    |\$TimeLong\{\"\$Q?Data\{\"$ID\"\}\"\}
+                    |\$TimeShort\{\"\$Q?Data\{\"$ID\"\}\"\}
+                    |\$Date\{\"\$Q?Data\{\"$ID\"\}\"\}
                 )
                 ["']
                 ((?:
                     ,\s*["']
                     (?:
                         [^\$]+?
-                        |\$Q?Data{\"$ID\"}
-                        |\$Config{\"$ID\"}
-                        |\$Q?Env{\"$ID\"}
-                        |\$TimeLong{\"\$Q?Data{\"$ID\"}\"}
-                        |\$TimeShort{\"\$Q?Data{\"$ID\"}\"}
-                        |\$Date{\"\$Q?Data{\"$ID\"}\"}
+                        |\$Q?Data\{\"$ID\"\}
+                        |\$Config\{\"$ID\"\}
+                        |\$Q?Env\{\"$ID\"\}
+                        |\$TimeLong\{\"\$Q?Data\{\"$ID\"\}\"\}
+                        |\$TimeShort\{\"\$Q?Data\{\"$ID\"\}\"\}
+                        |\$Date\{\"\$Q?Data\{\"$ID\"\}\"\}
                     )
                 ["'])*)
-            }
+            \}
         }
         {
             $MigrateTextTag->( Mode => 'HTML', Text => $1, Parameters => $2);
@@ -698,31 +698,31 @@ sub MigrateDTLtoTT {
 
     # $JSText
     $Content =~ s{
-            ["']\$JSText{
+            ["']\$JSText\{
                 ["']
                 (
                     [^\$]+?
-                    |\$Q?Data{\"$ID\"}
-                    |\$Config{\"$ID\"}
-                    |\$Q?Env{\"$ID\"}
-                    |\$TimeLong{\"\$Q?Data{\"$ID\"}\"}
-                    |\$TimeShort{\"\$Q?Data{\"$ID\"}\"}
-                    |\$Date{\"\$Q?Data{\"$ID\"}\"}
+                    |\$Q?Data\{\"$ID\"\}
+                    |\$Config\{\"$ID\"\}
+                    |\$Q?Env\{\"$ID\"\}
+                    |\$TimeLong\{\"\$Q?Data\{\"$ID\"\}\"\}
+                    |\$TimeShort\{\"\$Q?Data\{\"$ID\"\}\"\}
+                    |\$Date\{\"\$Q?Data\{\"$ID\"\}\"\}
                 )
                 ["']
                 ((?:
                     ,\s*["']
                     (?:
                         [^\$]+?
-                        |\$Q?Data{\"$ID\"}
-                        |\$Config{\"$ID\"}
-                        |\$Q?Env{\"$ID\"}
-                        |\$TimeLong{\"\$Q?Data{\"$ID\"}\"}
-                        |\$TimeShort{\"\$Q?Data{\"$ID\"}\"}
-                        |\$Date{\"\$Q?Data{\"$ID\"}\"}
+                        |\$Q?Data\{\"$ID\"\}
+                        |\$Config\{\"$ID\"\}
+                        |\$Q?Env\{\"$ID\"\}
+                        |\$TimeLong\{\"\$Q?Data\{\"$ID\"\}\"\}
+                        |\$TimeShort\{\"\$Q?Data\{\"$ID\"\}\"\}
+                        |\$Date\{\"\$Q?Data\{\"$ID\"\}\"\}
                     )
                 ["'])*)
-            }
+            \}
             (.?)["']
         }
         {
@@ -730,17 +730,17 @@ sub MigrateDTLtoTT {
         }esmxg;
 
     # $TimeLong
-    $Content =~ s{\$TimeLong{"\$Q?Data{"($ID)"}"}}{[% Data.$1 | Localize("TimeLong") %]}smxg;
+    $Content =~ s{\$TimeLong\{"\$Q?Data\{"($ID)"\}"\}}{[% Data.$1 | Localize("TimeLong") %]}smxg;
 
     # $TimeShort
-    $Content =~ s{\$TimeShort{"\$Q?Data{"($ID)"}"}}{[% Data.$1 | Localize("TimeShort") %]}smxg;
+    $Content =~ s{\$TimeShort\{"\$Q?Data\{"($ID)"\}"\}}{[% Data.$1 | Localize("TimeShort") %]}smxg;
 
     # $Date
-    $Content =~ s{\$Date{"\$Q?Data{"($ID)"}"}}{[% Data.$1 | Localize("Date") %]}smxg;
+    $Content =~ s{\$Date\{"\$Q?Data\{"($ID)"\}"\}}{[% Data.$1 | Localize("Date") %]}smxg;
 
     # $QData with length
     $Content =~ s{
-            \$QData{"($ID)",\s*"(\d+)"}
+            \$QData\{"($ID)",\s*"(\d+)"\}
         }
         {
             "[% Data." . $SafeArrrayAccess->($1) . " | truncate($2) | html %]"
@@ -748,7 +748,7 @@ sub MigrateDTLtoTT {
 
     # simple $QData
     $Content =~ s{
-            \$QData{"($ID)"}
+            \$QData\{"($ID)"\}
         }
         {
             "[% Data." . $SafeArrrayAccess->($1) . " | html %]"
@@ -756,7 +756,7 @@ sub MigrateDTLtoTT {
 
     # $LQData
     $Content =~ s{
-            \$LQData{"($ID)"}
+            \$LQData\{"($ID)"\}
         }
         {
             "[% Data." . $SafeArrrayAccess->($1) . " | uri %]"
@@ -764,20 +764,20 @@ sub MigrateDTLtoTT {
 
     # simple $Data
     $Content =~ s{
-            \$Data{"($ID)"}
+            \$Data\{"($ID)"\}
         }
         {
             "[% Data." . $SafeArrrayAccess->($1) . " %]"
         }esmxg;
 
     # $Config
-    $Content =~ s{\$Config{"($ID)"}}{[% Config("$1") %]}smxg;
+    $Content =~ s{\$Config\{"($ID)"\}}{[% Config("$1") %]}smxg;
 
     # $Env
-    $Content =~ s{\$Env{"($ID)"}}{[% Env("$1") %]}smxg;
+    $Content =~ s{\$Env\{"($ID)"\}}{[% Env("$1") %]}smxg;
 
     # $QEnv
-    $Content =~ s{\$QEnv{"($ID)"}}{[% Env("$1") | html %]}smxg;
+    $Content =~ s{\$QEnv\{"($ID)"\}}{[% Env("$1") | html %]}smxg;
 
     # dtl:block
     my %BlockSeen;
@@ -803,7 +803,7 @@ sub MigrateDTLtoTT {
         =~ s{<!--\s*dtl:js_on_document_complete_placeholder\s*-->}{[% PROCESS JSOnDocumentCompleteInsert %]}smxg;
 
     # $Include
-    $Content =~ s{\$Include{"($ID)"}}{[% InsertTemplate("$1.tt") %]}smxg;
+    $Content =~ s{\$Include\{"($ID)"\}}{[% InsertTemplate("$1.tt") %]}smxg;
 
     my ( $Counter, $ErrorMessage );
     LINE:
