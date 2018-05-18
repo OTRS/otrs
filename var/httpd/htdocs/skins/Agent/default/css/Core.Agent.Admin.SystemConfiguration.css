@@ -682,6 +682,10 @@ h2.SearchResults {
     width: 100%;
 }
 
+.Deployment .WidgetSimple.Setting:not(.IsLockedByMe):not(.MenuExpanded) .SettingContainer > fieldset:before {
+    display: none;
+}
+
 .WidgetSimple.Setting.IsLockedByMe .SettingContainer,
 .Compare .WidgetSimple.Setting .SettingContainer {
     max-height: none;
