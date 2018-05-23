@@ -4079,7 +4079,7 @@ sub _RenderQueue {
     $Data{Content} = $LayoutObject->BuildSelection(
         Data          => $Queues,
         Name          => 'QueueID',
-        Translation   => 1,
+        Translation   => 0,
         SelectedValue => $SelectedValue,
         Class         => "Modernize $ServerError",
         TreeView      => $TreeView,

@@ -55,8 +55,10 @@ $Selenium->RunTest(
         );
 
         # Create test user and login.
+        my $Language      = 'de';
         my $TestUserLogin = $Helper->TestUserCreate(
-            Groups => [ 'admin', 'users' ],
+            Groups   => [ 'admin', 'users' ],
+            Language => $Language,
         ) || die "Did not get test user";
 
         $Selenium->Login(
@@ -69,24 +71,34 @@ $Selenium->RunTest(
             UserLogin => $TestUserLogin,
         );
 
+        my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+
         # Create test queues.
         my @Queues;
-        for ( 1 .. 2 ) {
+        for my $Item ( 1 .. 3 ) {
+
+            my $QueueID;
             my $QueueName = 'Queue' . $Helper->GetRandomID();
-            my $QueueID   = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
-                Name            => $QueueName,
-                ValidID         => 1,
-                GroupID         => 1,
-                SystemAddressID => 1,
-                SalutationID    => 1,
-                SignatureID     => 1,
-                Comment         => 'Selenium Queue',
-                UserID          => $TestUserID,
-            );
-            $Self->True(
-                $QueueID,
-                "QueueAdd() successful for test $QueueName ID $QueueID",
-            );
+            if ( $Item == 3 ) {
+                $QueueName = 'Delete';
+                $QueueID = $QueueObject->QueueLookup( Queue => $QueueName );
+            }
+            if ( !defined $QueueID ) {
+                $QueueID = $QueueObject->QueueAdd(
+                    Name            => $QueueName,
+                    ValidID         => 1,
+                    GroupID         => 1,
+                    SystemAddressID => 1,
+                    SalutationID    => 1,
+                    SignatureID     => 1,
+                    Comment         => 'Selenium Queue',
+                    UserID          => $TestUserID,
+                );
+                $Self->True(
+                    $QueueID,
+                    "QueueAdd() successful for test $QueueName ID $QueueID",
+                );
+            }
 
             push @Queues,
                 {
@@ -132,10 +144,19 @@ $Selenium->RunTest(
                 QueueID      => $Queues[1]->{QueueID},
                 Lock         => 'unlock',
                 FixedTimeSet => $FixedTime - 20 * 60 - 100,
+            },
+            {
+                Queue   => $Queues[2]->{QueueName},
+                QueueID => $Queues[2]->{QueueID},
+                Lock    => 'unlock',
             }
         );
 
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+        my $LanguageObject = Kernel::Language->new(
+            UserLanguage => $Language,
+        );
 
         # Create test tickets.
         my @TicketIDs;
@@ -191,8 +212,8 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketQueue;QueueID=0;\' )]")->VerifiedClick();
 
         $Self->True(
-            index( $Selenium->get_page_source(), 'No ticket data found.' ) > -1,
-            "No tickets found with My Queue filters",
+            index( $Selenium->get_page_source(), $LanguageObject->Translate('No ticket data found.') ) > -1,
+            'No tickets found with My Queue filters',
         );
 
         # Return to default queue view.
@@ -252,6 +273,18 @@ $Selenium->RunTest(
                 }
             }
         }
+
+        # Go to small view for 'Delete' queue.
+        # See Bug 13826 - Queue Names are translated (but should not)
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$Queues[2]->{QueueID};View=Small;Filter=Unlocked"
+        );
+
+        $Self->Is(
+            $Selenium->execute_script("return \$('.OverviewBox.Small h1').text().trim();"),
+            $LanguageObject->Translate('QueueView') . ": Delete",
+            "Title for filtered AgentTicketQueue screen is not transleted.",
+        );
 
         # Delete created test tickets.
         my $Success;
