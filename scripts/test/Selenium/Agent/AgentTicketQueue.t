@@ -28,9 +28,11 @@ $Selenium->RunTest(
             Value => 0,
         );
 
-        # create test user and login
+        # Create test user and login.
+        my $Language      = 'de';
         my $TestUserLogin = $Helper->TestUserCreate(
-            Groups => [ 'admin', 'users' ],
+            Groups   => [ 'admin', 'users' ],
+            Language => $Language,
         ) || die "Did not get test user";
 
         $Selenium->Login(
@@ -44,9 +46,11 @@ $Selenium->RunTest(
             UserLogin => $TestUserLogin,
         );
 
+        my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+
         # create test queue
         my $QueueName = 'Queue' . $Helper->GetRandomID();
-        my $QueueID   = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
+        my $QueueID   = $QueueObject->QueueAdd(
             Name            => $QueueName,
             ValidID         => 1,
             GroupID         => 1,
@@ -58,8 +62,27 @@ $Selenium->RunTest(
         );
         $Self->True(
             $QueueID,
-            "QueueAdd() successful for test $QueueName ID $QueueID",
+            "QueueAdd() successful for test $QueueName - ID $QueueID",
         );
+
+        # create test queue 'Delete'
+        my $QueueDeleteID = $QueueObject->QueueLookup( Queue => 'Delete' );
+        if ( !defined $QueueDeleteID ) {
+            $QueueDeleteID = $QueueObject->QueueAdd(
+                Name            => 'Delete',
+                ValidID         => 1,
+                GroupID         => 1,
+                SystemAddressID => 1,
+                SalutationID    => 1,
+                SignatureID     => 1,
+                Comment         => 'Selenium Queue',
+                UserID          => $TestUserID,
+            );
+            $Self->True(
+                $QueueDeleteID,
+                "QueueAdd() successful for test queue 'Delete' - ID $QueueDeleteID",
+            );
+        }
 
         # create params for test tickets
         my @Tests = (
@@ -87,11 +110,20 @@ $Selenium->RunTest(
                 Queue   => $QueueName,
                 QueueID => $QueueID,
                 Lock    => 'unlock'
+            },
+            {
+                Queue   => 'Delete',
+                QueueID => $QueueDeleteID,
+                Lock    => 'unlock'
             }
         );
 
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+        my $LanguageObject = Kernel::Language->new(
+            UserLanguage => $Language,
+        );
 
         # create test tickets
         my @TicketIDs;
@@ -127,8 +159,8 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketQueue;QueueID=0;\' )]")->VerifiedClick();
 
         $Self->True(
-            index( $Selenium->get_page_source(), 'No ticket data found.' ) > -1,
-            "No tickets found with My Queue filters",
+            index( $Selenium->get_page_source(), $LanguageObject->Translate('No ticket data found.') ) > -1,
+            'No tickets found with My Queue filters',
         );
 
         # return to default queue view
@@ -188,6 +220,18 @@ $Selenium->RunTest(
                 }
             }
         }
+
+        # Go to small view for 'Delete' queue.
+        # See Bug 13826 - Queue Names are translated (but should not)
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$QueueDeleteID;View=Small;Filter=Unlocked"
+        );
+
+        $Self->Is(
+            $Selenium->execute_script("return \$('.OverviewBox.Small h1').text().trim();"),
+            $LanguageObject->Translate('QueueView') . ": Delete",
+            "Title for filtered AgentTicketQueue screen is not transleted.",
+        );
 
         # delete created test tickets
         my $Success;

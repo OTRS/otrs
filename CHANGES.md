@@ -1,4 +1,5 @@
 #5.0.28 ????-??-??
+ - 2018-05-23 Fixed bug#[13826](https://bugs.otrs.org/show_bug.cgi?id=13826) - Queue Names are translated (but should not).
  - 2018-05-10 Fixed bug#[13846](https://bugs.otrs.org/show_bug.cgi?id=13846) - Ticket invoker base module does not use modernized fields.
  - 2018-05-10 Fixed bug#[13795](https://bugs.otrs.org/show_bug.cgi?id=13795) - Transition Action 'TicketTitleSet': Tag of a dyn. field type 'date' display the time, too.
  - 2018-05-10 Follow-up for bug#[7988](https://bugs.otrs.org/show_bug.cgi?id=7988) - Search attributes not consistent.
