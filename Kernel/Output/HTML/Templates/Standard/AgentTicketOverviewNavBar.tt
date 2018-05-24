@@ -37,9 +37,17 @@
 [% RenderBlockStart("OverviewNavBarPageBack") %]
                 <ul class="Tabs">
                     <li>
-                        <a name="OverviewControl" id="TicketSearch" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkBack %]">[% Translate("Change search options") | html %] [% Data.ProfileName | html %]</a>
+                        <a name="OverviewControl" id="TicketSearch" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkBack %]">[% Translate("Change search options") | html %]</a>
                     </li>
                 </ul>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#TicketSearch').bind('click', function (Event) {
+        Core.Agent.Search.OpenSearchDialog( 'AgentTicketSearch', "[% Data.Profile | html %]" );
+        return false;
+    });
+//]]></script>
+[% END %]
 [% RenderBlockEnd("OverviewNavBarPageBack") %]
 
 [% RenderBlockStart("ContextSettings") %]
@@ -106,6 +114,41 @@
                     </form>
                 </div>
 
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#ShowContextSettingsDialog').bind('click', function (Event) {
+    Core.UI.Dialog.ShowContentDialog($('#ContextSettingsDialogContainer'), [% Translate("Settings") | JSON %], '15%', 'Center', true,
+        [
+            {
+                Label: [% Translate("Submit") | JSON %],
+                Type: 'Submit',
+                Class: 'Primary',
+                Function: function () {
+                    var $ListContainer = $('.AllocationListContainer').find('.AssignedFields'),
+                        FieldID;
+                    if (isJQueryObject($ListContainer) && $ListContainer.length) {
+                        $.each($ListContainer.find('li'), function() {
+                            FieldID = 'UserFilterColumnsEnabled-' + $(this).attr('data-fieldname');
+
+                            // only add this field if its not already there. This could happen
+                            // if e.g. the save button is clicked multiple times
+                            if (!$('#' + FieldID).length) {
+                                $('<input name="UserFilterColumnsEnabled" type="hidden" />').attr('id', FieldID).val($(this).attr('data-fieldname')).appendTo($ListContainer.closest('div'));
+                            }
+                        });
+                    }
+                    return true;
+                }
+            }
+        ], true);
+    Event.preventDefault();
+    Event.stopPropagation();
+    Core.Agent.TableFilters.SetAllocationList();
+    return false;
+});
+
+//]]></script>
+[% END %]
 [% RenderBlockEnd("ContextSettings") %]
 
             </div>
@@ -146,3 +189,14 @@
 </div>
 
 [% RenderBlockEnd("OverviewNavBar") %]
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.Config.AddConfig({
+[% RenderBlockStart("ColumnTranslation") %]
+        'Column[% Data.ColumnName | html %]': [% Translate(Data.TranslateString) | JSON %][% RenderBlockStart("ColumnTranslationSeparator") %],[% RenderBlockEnd("ColumnTranslationSeparator") %]
+[% RenderBlockEnd("ColumnTranslation") %]
+
+    });
+//]]></script>
+[% END %]
