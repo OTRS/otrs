@@ -136,6 +136,10 @@ sub Run {
     # Prepare ticket count.
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
     my @QueueIDs     = sort keys %Queues;
+    if ( !@QueueIDs ) {
+        @QueueIDs = (999_999);
+    }
+
     my %Results;
     for my $StateOrderID ( sort { $a <=> $b } keys %ConfiguredStates ) {
 
