@@ -331,6 +331,74 @@ $Selenium->RunTest(
             }
         }
 
+        # Check adding new notification text.
+        #   See bug bug#13883 - (https://bugs.otrs.org/show_bug.cgi?id=13883).
+        my @Languages = (
+            {
+                Language => 'Deutsch - German',
+                LangCode => 'de',
+            },
+            {
+                Language => 'Español - Spanish',
+                LangCode => 'es',
+            },
+            {
+                Language => 'Magyar - Hungarian',
+                LangCode => 'hu',
+            },
+        );
+
+        for my $Lang (@Languages) {
+
+            # Add new notification text.
+            $Selenium->execute_script(
+                "\$('#Language').val('$Lang->{LangCode}').trigger('redraw.InputField').trigger('change');"
+            );
+
+            $Self->IsNot(
+                $Selenium->execute_script(
+                    "return \$('#Language_Search').closest('div').find('.Text').text().trim();"
+                ),
+                $Lang->{Language},
+                'Language is not selected in select box'
+            );
+
+            # Collaps notification text.
+            $Selenium->execute_script(
+                "\$('.NotificationLanguage h2:contains($Lang->{Language})').siblings().find('a').first().click()"
+            );
+
+            $Self->True(
+                $Selenium->execute_script(
+                    "return \ $('.NotificationLanguage h2:contains($Lang->{Language})').closest('.WidgetSimple').hasClass('Collapsed');"
+                ),
+                'Language box is colapsed'
+            );
+
+        }
+
+        # Delete first added test notificaton text.
+        $Selenium->execute_script("\$('#$Languages[0]->{LangCode}_Language_Remove').click();");
+
+        $Selenium->WaitFor( AlertPresent => 1 );
+
+        $Self->Is(
+            $Selenium->get_alert_text(),
+            'Do you really want to delete this notification language?',
+            'Check for open confirm text',
+        );
+
+        $Selenium->accept_alert();
+        sleep 2;
+
+        eval {
+            $Self->Is(
+                $Selenium->get_alert_text(),
+                '',
+                'Check if confirm dialog is closed',
+            );
+        };
+
         # Go back to AdminNotificationEvent overview screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminNotificationEvent");
 
@@ -347,7 +415,7 @@ $Selenium->RunTest(
             Name => $NotifEventRandomID
         );
 
-        # Delete test SLA with delete button.
+        # Delete test notification with delete button.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$NotifEventID{ID}' )]")->click();
         $Selenium->WaitFor( AlertPresent => 1 );
         $Selenium->accept_alert();
