@@ -2141,9 +2141,7 @@ sub TicketServiceList {
         );
 
         # Filter Services based on relation with CustomerUser and KeepChildren config.
-        for my $ServiceID ( sort keys %AllServices ) {
-            $Services{$ServiceID} = $CustomerServices{$ServiceID};
-        }
+        %Services = map { $_ => $CustomerServices{$_} } grep { defined $CustomerServices{$_} } sort keys %AllServices;
     }
     else {
         %Services = %AllServices;
