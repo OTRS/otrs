@@ -64,14 +64,10 @@ Core.Customer.TicketZoom = (function (TargetNS) {
      */
     function ResizeIframe(Iframe, Callback){
         Iframe = isJQueryObject(Iframe) ? Iframe.get(0) : Iframe;
-
-        // initial height calculation
-        $(Iframe).on('load', function() {
-            CalculateHeight(this);
-            if ($.isFunction(Callback)) {
-                Callback();
-            }
-        });
+        CalculateHeight(Iframe);
+        if ($.isFunction(Callback)) {
+            Callback();
+        }
     }
 
     /**
@@ -91,15 +87,15 @@ Core.Customer.TicketZoom = (function (TargetNS) {
         Iframe = isJQueryObject(Iframe) ? Iframe.get(0) : Iframe;
 
         if ($.browser.safari || $.browser.opera){
-            $(Iframe).load(Iframe.src, null, function() {
-                setTimeout(ResizeIframe, 0, this, Callback);
+            $(Iframe).on('load', function() {
+                setTimeout(ResizeIframe, 0, Iframe, Callback);
             });
             Source = Iframe.src;
             Iframe.src = '';
             Iframe.src = Source;
         }
         else {
-            $(Iframe).load(Iframe.src, null, function() {
+            $(Iframe).on('load', function() {
                 ResizeIframe(this, Callback);
             });
         }
