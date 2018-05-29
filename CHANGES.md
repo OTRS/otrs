@@ -1,4 +1,5 @@
 #6.0.8 2018-??-??
+ - 2018-05-28 Fixed bug#[13870](https://bugs.otrs.org/show_bug.cgi?id=13870) - Content of Title and Subject columns are the same in Excel/CSV output of search.
  - 2018-05-28 Fixed bug#[13819](https://bugs.otrs.org/show_bug.cgi?id=13819) - ACL's CompareMatchWithData floods the log when service is not in relation with customer user.
  - 2018-05-25 Fixed bug#[13883](https://bugs.otrs.org/show_bug.cgi?id=13883) - Several display issues in Admin Screen "Ticket Notification Management".
  - 2018-05-25 Fixed bug#[13826](https://bugs.otrs.org/show_bug.cgi?id=13142) - Error The given param 'QueueIDs' is invalid or an empty array reference.

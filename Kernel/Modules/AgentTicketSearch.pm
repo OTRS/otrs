@@ -793,11 +793,29 @@ sub Run {
                     UserID        => $Self->{UserID},
                 );
 
-                # Get the first article of the ticket.
+                # Get last customer article.
                 my @Articles = $ArticleObject->ArticleList(
-                    TicketID  => $TicketID,
-                    OnlyFirst => 1,
+                    TicketID   => $TicketID,
+                    SenderType => 'customer',
+                    OnlyLast   => 1,
                 );
+
+                # If the ticket has no customer article, get the last agent article.
+                if ( !@Articles ) {
+                    @Articles = $ArticleObject->ArticleList(
+                        TicketID   => $TicketID,
+                        SenderType => 'agent',
+                        OnlyLast   => 1,
+                    );
+                }
+
+                # Finally, if everything failed, get latest article.
+                if ( !@Articles ) {
+                    @Articles = $ArticleObject->ArticleList(
+                        TicketID => $TicketID,
+                        OnlyLast => 1,
+                    );
+                }
 
                 my %Article = $ArticleObject->BackendForArticle( %{ $Articles[0] } )->ArticleGet(
                     %{ $Articles[0] },
@@ -1006,19 +1024,35 @@ sub Run {
                     UserID        => $Self->{UserID},
                 );
 
-                # Get the first article of the ticket.
+                # Get last customer article.
                 my @Articles = $ArticleObject->ArticleList(
-                    TicketID  => $TicketID,
-                    UserID    => $Self->{UserID},
-                    OnlyFirst => 1,
+                    TicketID   => $TicketID,
+                    SenderType => 'customer',
+                    OnlyLast   => 1,
                 );
+
+                # If the ticket has no customer article, get the last agent article.
+                if ( !@Articles ) {
+                    @Articles = $ArticleObject->ArticleList(
+                        TicketID   => $TicketID,
+                        SenderType => 'agent',
+                        OnlyLast   => 1,
+                    );
+                }
+
+                # Finally, if everything failed, get latest article.
+                if ( !@Articles ) {
+                    @Articles = $ArticleObject->ArticleList(
+                        TicketID => $TicketID,
+                        OnlyLast => 1,
+                    );
+                }
 
                 my %Article = $ArticleObject->BackendForArticle( %{ $Articles[0] } )->ArticleGet(
                     %{ $Articles[0] },
                     DynamicFields => 1,
                 );
 
-                # get first article data
                 my %Data;
 
                 if ( !%Article ) {
