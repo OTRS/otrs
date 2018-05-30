@@ -24,7 +24,13 @@ sub Run {
             User => $Param{Ticket}->{CustomerUserID},
         );
     }
-    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    if ( $CustomerData{UserTitle} ) {
+        $CustomerData{UserTitle} = $LayoutObject->{LanguageObject}->Translate( $CustomerData{UserTitle} );
+    }
+
     my $CustomerTable = $LayoutObject->AgentCustomerViewTable(
         Data   => \%CustomerData,
         Ticket => $Param{Ticket},

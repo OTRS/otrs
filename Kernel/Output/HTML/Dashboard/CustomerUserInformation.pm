@@ -84,6 +84,10 @@ sub Run {
         $CustomerUser{ValidID} = $LayoutObject->{LanguageObject}->Translate( $CustomerUser{ValidID} );
     }
 
+    if ( $CustomerUser{UserTitle} ) {
+        $CustomerUser{UserTitle} = $LayoutObject->{LanguageObject}->Translate( $CustomerUser{UserTitle} );
+    }
+
     my $DynamicFieldConfigs = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         ObjectType => 'CustomerUser',
     );
