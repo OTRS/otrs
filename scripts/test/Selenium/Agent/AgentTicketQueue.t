@@ -49,6 +49,7 @@ $Selenium->RunTest(
         my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
 
         # create test queue
+        my @QueueIDs;
         my $QueueName = 'Queue' . $Helper->GetRandomID();
         my $QueueID   = $QueueObject->QueueAdd(
             Name            => $QueueName,
@@ -64,6 +65,7 @@ $Selenium->RunTest(
             $QueueID,
             "QueueAdd() successful for test $QueueName - ID $QueueID",
         );
+        push @QueueIDs, $QueueID;
 
         # create test queue 'Delete'
         my $QueueDeleteID = $QueueObject->QueueLookup( Queue => 'Delete' );
@@ -82,6 +84,7 @@ $Selenium->RunTest(
                 $QueueDeleteID,
                 "QueueAdd() successful for test queue 'Delete' - ID $QueueDeleteID",
             );
+            push @QueueIDs, $QueueDeleteID;
         }
 
         # create params for test tickets
@@ -247,13 +250,16 @@ $Selenium->RunTest(
         }
 
         # delete created test queue
-        $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
-            SQL => "DELETE FROM queue WHERE id = $QueueID",
-        );
-        $Self->True(
-            $Success,
-            "Delete queue - ID $QueueID",
-        );
+        for my $QueueDelete (@QueueIDs) {
+
+            $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
+                SQL => "DELETE FROM queue WHERE id = $QueueDelete",
+            );
+            $Self->True(
+                $Success,
+                "Delete queue - ID $QueueDelete",
+            );
+        }
 
         # make sure the cache is correct
         for my $Cache (
