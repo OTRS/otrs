@@ -1863,6 +1863,11 @@ sub MaskAgentZoom {
                 User => $Ticket{CustomerUserID},
             );
         }
+
+        if ( $CustomerData{UserTitle} ) {
+            $CustomerData{UserTitle} = $LayoutObject->{LanguageObject}->Translate( $CustomerData{UserTitle} );
+        }
+
         $Param{CustomerTable} = $LayoutObject->AgentCustomerViewTable(
             Data   => \%CustomerData,
             Ticket => \%Ticket,

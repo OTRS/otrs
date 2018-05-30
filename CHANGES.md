@@ -1,4 +1,5 @@
 #5.0.28 ????-??-??
+ - 2018-05-30 Fixed bug#[13868](https://bugs.otrs.org/show_bug.cgi?id=13868) - Customer User Title is not translated.
  - 2018-05-25 Fixed bug#[13826](https://bugs.otrs.org/show_bug.cgi?id=13142) - Error The given param 'QueueIDs' is invalid or an empty array reference.
  - 2018-05-23 Fixed bug#[13826](https://bugs.otrs.org/show_bug.cgi?id=13826) - Queue Names are translated (but should not).
  - 2018-05-10 Fixed bug#[13846](https://bugs.otrs.org/show_bug.cgi?id=13846) - Ticket invoker base module does not use modernized fields.

@@ -261,6 +261,11 @@ sub Form {
                 User => $Param{CustomerUserID} || $TicketData{CustomerUserID},
             );
         }
+
+        if ( $CustomerUserData{UserTitle} ) {
+            $CustomerUserData{UserTitle} = $LayoutObject->{LanguageObject}->Translate( $CustomerUserData{UserTitle} );
+        }
+
         $TicketCustomerID = $TicketData{CustomerID};
         $Param{SelectedCustomerUser} = $TicketData{CustomerUserID};
 

@@ -108,6 +108,10 @@ sub Run {
             User => $CustomerUserID,
         );
 
+        if ( $CustomerData{UserTitle} ) {
+            $CustomerData{UserTitle} = $LayoutObject->{LanguageObject}->Translate( $CustomerData{UserTitle} );
+        }
+
         # get customer id
         if ( $CustomerData{UserCustomerID} ) {
             $CustomerID = $CustomerData{UserCustomerID};
