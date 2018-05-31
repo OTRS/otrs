@@ -35,6 +35,18 @@ $Selenium->RunTest(
             Value => 0,
         );
 
+        # Do not check service and type.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Service',
+            Value => 0
+        );
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Type',
+            Value => 0
+        );
+
         my $RandomNumber = $Helper->GetRandomNumber();
 
         # Create customer.
