@@ -113,6 +113,25 @@ $Selenium->RunTest(
             $Count++;
         }
 
+        # Check filter value length.
+        # See bug#13889 for more information.
+        my $PostMasterValueLong = 'A' x 200;
+        $Selenium->find_element( "#MatchValue1", 'css' )->send_keys($PostMasterValueLong);
+        $Self->Is(
+            $Selenium->find_element( "#MatchValue1", 'css' )->get_value(),
+            $PostMasterValueLong,
+            "Check max length for MatchValue",
+        );
+        $Selenium->find_element( "#MatchValue1", 'css' )->clear();
+
+        $Selenium->find_element( "#SetValue1", 'css' )->send_keys($PostMasterValueLong);
+        $Self->Is(
+            $Selenium->find_element( "#SetValue1", 'css' )->get_value(),
+            $PostMasterValueLong,
+            "Check max length for SetValue1",
+        );
+        $Selenium->find_element( "#SetValue1", 'css' )->clear();
+
         # Add first test PostMasterFilter.
         my $PostMasterName     = "postmasterfilter" . $Helper->GetRandomID();
         my $PostMasterBody     = "Selenium test for PostMasterFilter";

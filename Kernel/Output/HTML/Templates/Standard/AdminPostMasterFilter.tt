@@ -190,7 +190,7 @@
                         </div>
 
                         <label for="MatchValue[% loop.count %]">[% Translate("for value") | html %]:</label>
-                        <input type="text" name="MatchValue[% loop.count %]" id="MatchValue[% loop.count %]" value="[% Data.item("MatchValue$loop.count") | html %]" class="W33pc [% Data.item('MatchValue' _ loop.count  _ 'Invalid') | html %]" maxlength="100"/>
+                        <input type="text" name="MatchValue[% loop.count %]" id="MatchValue[% loop.count %]" value="[% Data.item("MatchValue$loop.count") | html %]" class="W33pc [% Data.item('MatchValue' _ loop.count  _ 'Invalid') | html %]" maxlength="200"/>
                         <div id="MatchValue[% loop.count %]ServerError" class="TooltipErrorMessage">
                             <p>[% Translate("The field needs to be a valid regular expression or a literal word.") | html %]</p>
                         </div>
@@ -222,7 +222,7 @@
                         </div>
 
                         <label class="RightLabel" for="SetValue[% loop.count %]">[% Translate("with value") | html %]:</label>
-                        <input type="text" name="SetValue[% loop.count %]" id="SetValue[% loop.count %]" value="[% Data.item("SetValue$loop.count") | html %]" class="W33pc [% Data.item('SetValue' _ loop.count _ 'Invalid') | html %]" maxlength="100"/>
+                        <input type="text" name="SetValue[% loop.count %]" id="SetValue[% loop.count %]" value="[% Data.item("SetValue$loop.count") | html %]" class="W33pc [% Data.item('SetValue' _ loop.count _ 'Invalid') | html %]" maxlength="200"/>
                         <div id="SetValue[% loop.count %]ServerError" class="TooltipErrorMessage">
                             <p>[% Translate("The field needs to be a literal word.") | html %]</p>
                         </div>
