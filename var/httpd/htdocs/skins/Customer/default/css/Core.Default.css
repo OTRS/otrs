@@ -156,10 +156,10 @@ strong {
 
 #Header #Logo {
     position: absolute;
-    top: 6px;
+    top: 9px;
     right: 15px;
-    width: 135px;
-    height: 50px;
+    width: 300px;
+    height: 45px;
     background: transparent url(../img/logo.png) no-repeat;
     background-size: contain;
 }
@@ -652,7 +652,7 @@ body > div.MetaFloater {
     border-top: 30px solid #eee;
 }
 
-body > div.MetaFloater:after, 
+body > div.MetaFloater:after,
 body > div.MetaFloater:before {
     bottom: 399px;
     left: 50%;
@@ -664,19 +664,19 @@ body > div.MetaFloater:before {
     pointer-events: none;
 }
 
-body > div.MetaFloater.Left:after, 
+body > div.MetaFloater.Left:after,
 body > div.MetaFloater.Left:before {
     left: 15px;
     margin-top: -1px;
 }
 
-body > div.MetaFloater.Right:after, 
+body > div.MetaFloater.Right:after,
 body > div.MetaFloater.Right:before {
     left: auto;
     right: 15px;
 }
 
-body > div.MetaFloater.Bottom:after, 
+body > div.MetaFloater.Bottom:after,
 body > div.MetaFloater.Bottom:before {
     bottom: auto;
     top: 100%;

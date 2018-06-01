@@ -65,7 +65,7 @@
             </div>
             <div class="Content">
                 <p class="Center">
-                    [% Translate("Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!", OTRSBusinessLabel) %]
+                    [% Translate("Your ((OTRS)) Community Edition is the base for all future actions. Please register first before you continue with the upgrade process of %s!", OTRSBusinessLabel) %]
                 </p>
                 [%  IF Config("Frontend::Module").AdminRegistration %]
                 <div class="Center SpacingTop">

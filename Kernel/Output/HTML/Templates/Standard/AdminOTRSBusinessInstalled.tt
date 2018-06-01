@@ -28,7 +28,7 @@
 [% RenderBlockEnd("Actions") %]
                     <li>
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Uninstall" class="CallForAction Fullsize Center">
-                            <span><i class="fa fa-angle-double-down"></i> [% Translate("Downgrade to OTRS Free") | html %]</span>
+                            <span><i class="fa fa-angle-double-down"></i> [% Translate("Downgrade to ((OTRS)) Community Edition") | html %]</span>
                         </a>
                     </li>
                     <li>
