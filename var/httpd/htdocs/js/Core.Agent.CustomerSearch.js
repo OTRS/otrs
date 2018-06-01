@@ -533,8 +533,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             });
 
             if (
-                Core.Config.Get('Action') !== 'AgentTicketCustomer'
-                && Core.Config.Get('Action') !== 'AgentTicketPhone'
+                Core.Config.Get('Action') !== 'AgentTicketPhone'
                 && Core.Config.Get('Action') !== 'AgentTicketEmail'
                 && Core.Config.Get('Action') !== 'AgentTicketCompose'
                 && Core.Config.Get('Action') !== 'AgentTicketForward'
@@ -551,8 +550,10 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                         $('#CustomerUserOption').val('');
                         $('#ShowCustomerID').html('');
 
-                        // reset customer info table
-                        $('#CustomerInfo .Content').html(BackupData.CustomerInfo);
+                        // Restore customer info table.
+                        if (Core.Config.Get('Action') !== 'AgentTicketCustomer') {
+                            $('#CustomerInfo .Content').html(BackupData.CustomerInfo);
+                        }
 
                         if (Core.Config.Get('Action') === 'AgentTicketProcess' && typeof Core.Config.Get('CustomerFieldsToUpdate') !== 'undefined') {
                             // update services (trigger ServiceID change event)

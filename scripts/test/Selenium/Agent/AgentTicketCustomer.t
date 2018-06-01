@@ -215,6 +215,26 @@ $Selenium->RunTest(
             "There is no any info in Customer Information widget"
         );
 
+        # Select new customer and verify customer field value is not cleared after focus lost.
+        # See bug#13880 (https://bugs.otrs.org/show_bug.cgi?id=13880).
+        $Selenium->find_element( "#CustomerAutoComplete", 'css' )->clear();
+        $Selenium->find_element( "#CustomerAutoComplete", 'css' )->send_keys( $TestCustomers[0] );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
+        $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomers[0])').click()");
+
+        # Wait until customer data is loading (CustomerID is filled after CustomerAutoComplete).
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerID").val().length' );
+
+        # Change focus and verify customer auto complete field.
+        $Selenium->find_element( 'body', 'css' )->click();
+        sleep 1;
+        $Self->Is(
+            $Selenium->execute_script("return \$('#CustomerAutoComplete').val()"),
+            "\"$TestCustomers[0] $TestCustomers[0]\" <$TestCustomers[0]\@localhost.com>",
+            "Customer auto complete field after focus lost"
+        );
+
+        # Close AgentTicketCustomer screen.
         $Selenium->close();
         $Selenium->WaitFor( WindowCount => 1 );
 
