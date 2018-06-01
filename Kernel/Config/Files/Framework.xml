@@ -235,10 +235,10 @@
         <Setting>
             <Hash>
                 <Item Key="URL">skins/Customer/default/img/logo.png</Item>
-                <Item Key="StyleTop">2px</Item>
+                <Item Key="StyleTop">9px</Item>
                 <Item Key="StyleRight">25px</Item>
-                <Item Key="StyleHeight">50px</Item>
-                <Item Key="StyleWidth">135px</Item>
+                <Item Key="StyleHeight">45px</Item>
+                <Item Key="StyleWidth">300px</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -249,10 +249,10 @@
         <Setting>
             <Hash>
                 <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
-                <Item Key="StyleTop">4px</Item>
-                <Item Key="StyleRight">38px</Item>
-                <Item Key="StyleHeight">67px</Item>
-                <Item Key="StyleWidth">270px</Item>
+                <Item Key="StyleTop">7px</Item>
+                <Item Key="StyleRight">24px</Item>
+                <Item Key="StyleHeight">55px</Item>
+                <Item Key="StyleWidth">300px</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -263,10 +263,10 @@
         <Setting>
             <Hash>
                 <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
-                <Item Key="StyleTop">4px</Item>
-                <Item Key="StyleRight">38px</Item>
-                <Item Key="StyleHeight">67px</Item>
-                <Item Key="StyleWidth">270px</Item>
+                <Item Key="StyleTop">7px</Item>
+                <Item Key="StyleRight">24px</Item>
+                <Item Key="StyleHeight">55px</Item>
+                <Item Key="StyleWidth">300px</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -277,10 +277,10 @@
         <Setting>
             <Hash>
                 <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
-                <Item Key="StyleTop">4px</Item>
-                <Item Key="StyleRight">38px</Item>
-                <Item Key="StyleHeight">67px</Item>
-                <Item Key="StyleWidth">270px</Item>
+                <Item Key="StyleTop">10px</Item>
+                <Item Key="StyleRight">45px</Item>
+                <Item Key="StyleHeight">45px</Item>
+                <Item Key="StyleWidth">220px</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -291,10 +291,10 @@
         <Setting>
             <Hash>
                 <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
-                <Item Key="StyleTop">4px</Item>
-                <Item Key="StyleRight">38px</Item>
-                <Item Key="StyleHeight">67px</Item>
-                <Item Key="StyleWidth">270px</Item>
+                <Item Key="StyleTop">7px</Item>
+                <Item Key="StyleRight">24px</Item>
+                <Item Key="StyleHeight">55px</Item>
+                <Item Key="StyleWidth">300px</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -305,10 +305,10 @@
         <Setting>
             <Hash>
                 <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
-                <Item Key="StyleTop">4px</Item>
-                <Item Key="StyleRight">38px</Item>
-                <Item Key="StyleHeight">67px</Item>
-                <Item Key="StyleWidth">270px</Item>
+                <Item Key="StyleTop">10px</Item>
+                <Item Key="StyleRight">45px</Item>
+                <Item Key="StyleHeight">45px</Item>
+                <Item Key="StyleWidth">220px</Item>
             </Hash>
         </Setting>
     </ConfigItem>

@@ -36,6 +36,7 @@
     height: 67px;
     background: url(../img/logo_bg.png) no-repeat;
     position: absolute;
+    background-size: contain;
 }
 
 .RTL #Logo {
