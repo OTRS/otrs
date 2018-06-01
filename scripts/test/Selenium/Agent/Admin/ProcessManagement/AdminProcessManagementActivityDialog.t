@@ -139,6 +139,35 @@ $Selenium->RunTest(
             $ActivityDialogID = $Row[0];
         }
 
+        # Go to edit ActivityDialog screen and go back to check input field behavior (see bug#13824).
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityDialogEdit;ID=$ActivityDialogID' )]")
+            ->click();
+        $Selenium->WaitFor( WindowCount => 2 );
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
+
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name').length" );
+
+        $Selenium->find_element( ".ClosePopup", 'css' )->click();
+        $Selenium->WaitFor( WindowCount => 1 );
+        $Selenium->switch_to_window( $Handles->[0] );
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#ActivityDialogs li:visible').length === 1"
+        );
+
+        $Self->Is(
+            $Selenium->find_element( "#ActivityDialogFilter", 'css' )->get_value(),
+            $ActivityDialogRandom,
+            "ActivityDialog filter has correct value - $ActivityDialogRandom",
+        );
+        $Self->Is(
+            $Selenium->execute_script("return \$('#ActivityDialogs li:visible').length"),
+            1,
+            "ActivityDialog filter filtered correctly after popup closing",
+        );
+
         # Go to edit test ActivityDialog screen.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityDialogEdit;ID=$ActivityDialogID' )]")
             ->click();
@@ -197,6 +226,7 @@ $Selenium->RunTest(
                 "return typeof(\$) === 'function' && \$('a.AsBlock:contains(\"Activity Dialogs\")').closest('.AccordionElement').hasClass('Active') === true"
         );
 
+        $Selenium->find_element( "#ActivityDialogFilter", 'css' )->clear();
         $Selenium->find_element( "#ActivityDialogFilter", 'css' )->send_keys($ActivityDialogRandomEdit);
 
         $Selenium->WaitFor(
