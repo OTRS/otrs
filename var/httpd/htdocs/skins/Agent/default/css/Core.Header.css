@@ -29,10 +29,10 @@
  * @subsection  Logo
  */
 #Logo {
-    top: -4px;
-    right: 38px;
-    width: 244px;
-    height: 100%;
+    top: 25px;
+    right: 24px;
+    width: 300px;
+    height: 55px;
     background: url(../img/logo_bg.png) no-repeat;
     background-size: contain;
     position: absolute;

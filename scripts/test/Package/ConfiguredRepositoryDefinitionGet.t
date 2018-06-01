@@ -40,7 +40,7 @@ my @Tests = (
         ConfigSet      => {},
         Success        => 1,
         ExpectedResult => {
-            'http://ftp.otrs.org/pub/otrs/packages/' => 'OTRS Free Features'
+            'http://ftp.otrs.org/pub/otrs/packages/' => 'OTRS Freebie Features'
         },
     },
     {
@@ -50,7 +50,7 @@ my @Tests = (
         },
         Success        => 1,
         ExpectedResult => {
-            'http://ftp.otrs.org/pub/otrs/packages/' => 'OTRS Free Features',
+            'http://ftp.otrs.org/pub/otrs/packages/' => 'OTRS Freebie Features',
             'http://otrs.com'                        => 'Test Repository',
         },
     },
@@ -62,7 +62,7 @@ my @Tests = (
         },
         Success        => 1,
         ExpectedResult => {
-            'http://ftp.otrs.org/pub/otrs/packages/'                       => 'OTRS Free Features',
+            'http://ftp.otrs.org/pub/otrs/packages/'                       => 'OTRS Freebie Features',
             'http://otrs.com'                                              => 'Test Repository',
             "http://ftp.otrs.org/pub/otrs/itsm/packages$FrameworkVersion/" => "OTRS::ITSM $FrameworkVersion Master",
         },
@@ -76,7 +76,7 @@ my @Tests = (
         },
         Success        => 1,
         ExpectedResult => {
-            'http://ftp.otrs.org/pub/otrs/packages/'                       => 'OTRS Free Features',
+            'http://ftp.otrs.org/pub/otrs/packages/'                       => 'OTRS Freebie Features',
             'http://otrs.com'                                              => 'Test Repository',
             "http://ftp.otrs.org/pub/otrs/itsm/packages$FrameworkVersion/" => "OTRS::ITSM $FrameworkVersion Master",
         },
@@ -91,7 +91,7 @@ my @Tests = (
         },
         Success        => 1,
         ExpectedResult => {
-            'http://ftp.otrs.org/pub/otrs/packages/'                       => 'OTRS Free Features',
+            'http://ftp.otrs.org/pub/otrs/packages/'                       => 'OTRS Freebie Features',
             'http://otrs.com'                                              => 'Test Repository',
             "http://ftp.otrs.org/pub/otrs/itsm/packages$FrameworkVersion/" => "OTRS::ITSM $FrameworkVersion Master",
         },
@@ -99,13 +99,13 @@ my @Tests = (
     {
         Name      => 'ITSM 6 Repository',
         ConfigSet => {
-            'http://ftp.otrs.org/pub/otrs/packages/'                       => 'OTRS Free Features',
+            'http://ftp.otrs.org/pub/otrs/packages/'                       => 'OTRS Freebie Features',
             'http://otrs.com'                                              => 'Test Repository',
             "http://ftp.otrs.org/pub/otrs/itsm/packages$FrameworkVersion/" => "OTRS::ITSM $FrameworkVersion Master",
         },
         Success        => 1,
         ExpectedResult => {
-            'http://ftp.otrs.org/pub/otrs/packages/'                       => 'OTRS Free Features',
+            'http://ftp.otrs.org/pub/otrs/packages/'                       => 'OTRS Freebie Features',
             'http://otrs.com'                                              => 'Test Repository',
             "http://ftp.otrs.org/pub/otrs/itsm/packages$FrameworkVersion/" => "OTRS::ITSM $FrameworkVersion Master",
         },

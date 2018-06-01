@@ -24,7 +24,7 @@
                 <ul class="ActionList">
                     <li>
                         <a href="[% Env("Baselink") %]Action=AdminOTRSBusiness;Subaction=Uninstall" class="CallForAction Fullsize Center">
-                            <span><i class="fa fa-angle-double-down"></i> [% Translate("Downgrade to OTRS Free") | html %]</span>
+                            <span><i class="fa fa-angle-double-down"></i> [% Translate("Downgrade to ((OTRS)) Community Edition") | html %]</span>
                         </a>
                     </li>
                 </ul>
@@ -46,7 +46,7 @@
                     [% Translate('This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!') | html | ReplacePlaceholders(OTRSBusinessLabel, '<a href="mailto:sales@otrs.com">sales@otrs.com</a>') %]
                 </p>
                 <p class="Center SpacingTop">
-                    [% Translate('If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.') | html | ReplacePlaceholders(OTRSBusinessLabel) %]
+                    [% Translate('If you decide to downgrade to ((OTRS)) Community Edition, you will lose all database tables and data related to %s.') | html | ReplacePlaceholders(OTRSBusinessLabel) %]
                 </p>
             </div>
             <div class="Clear"></div>

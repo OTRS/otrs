@@ -46,9 +46,9 @@ return if !$DBObject->Prepare(
         ",
 );
 
-my $OTRSFreeSettings;
+my $OTRSSettings;
 while ( my @Data = $DBObject->FetchrowArray() ) {
-    $OTRSFreeSettings = $Data[0];
+    $OTRSSettings = $Data[0];
 }
 
 my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
@@ -96,9 +96,9 @@ my @Tests = (
     {
         Name   => 'Size Result',
         Params => {
-            Category => 'OTRSFree',
+            Category => 'OTRS',
         },
-        ExpectedResult => $OTRSFreeSettings,
+        ExpectedResult => $OTRSSettings,
         Success        => 1,
     },
     {

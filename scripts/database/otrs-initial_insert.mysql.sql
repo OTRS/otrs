@@ -834,10 +834,10 @@ INSERT INTO article_data_mime (id, article_id, a_from, a_to, a_subject, a_body, 
 
 Thank you for installing OTRS, the world’s most popular service management software available in more than 35 languages and used by 150,000 companies worldwide.
 
-You can find updates and patches for OTRS Free at
+You can find updates and patches for ((OTRS)) Community Edition at
 https://www.otrs.com/download-open-source-help-desk-software-otrs-free/.
 
-Please be aware that we do not offer official vendor support for OTRS Free. In case of questions, please use our:
+Please be aware that we do not offer official vendor support for ((OTRS)) Community Edition. In case of questions, please use our:
 
 - online documentation available at http://otrs.github.io/doc/
 - mailing lists available at http://lists.otrs.org/
@@ -870,10 +870,10 @@ Welcome to OTRS!
 
 Thank you for installing OTRS, the world’s most popular service management software available in more than 35 languages and used by 150,000 companies worldwide.
 
-You can find updates and patches for OTRS Free at
+You can find updates and patches for ((OTRS)) Community Edition at
 https://www.otrs.com/download-open-source-help-desk-software-otrs-free/.
 
-Please be aware that we do not offer official vendor support for OTRS Free. In case of questions, please use our:
+Please be aware that we do not offer official vendor support for ((OTRS)) Community Edition. In case of questions, please use our:
 
 - online documentation available at http://otrs.github.io/doc/
 - mailing lists available at http://lists.otrs.org/

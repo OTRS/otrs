@@ -528,7 +528,7 @@ JAVASCRIPT
 
             if ($CategoriesVisible) {
                 $Selenium->execute_script(
-                    "\$('#Category').val('OTRSFree').trigger('redraw.InputField').trigger('change');"
+                    "\$('#Category').val('OTRS').trigger('redraw.InputField').trigger('change');"
                 );
             }
 

@@ -2102,7 +2102,7 @@ Returns:
 
     %Result = (
        'ACL::CacheTTL' => {
-            'Category' => 'OTRSFree',
+            'Category' => 'OTRS',
             'IsInvisible' => '0',
             'Metadata' => "ACL::CacheTTL--- '3600'
 Cache-Zeit in Sekunden f\x{fc}r Datenbank ACL-Backends.",
@@ -2753,7 +2753,7 @@ Returns navigation tree in the hash format.
         RootNavigation         => 'Parent',     # (optional) If provided only sub groups of the root navigation are returned.
         UserModificationActive => 1,            # (optional) Return settings that can be modified on user level only.
         IsValid                => 1,            # (optional) By default, display all settings.
-        Category               => 'OTRSFree'    # (optional)
+        Category               => 'OTRS'        # (optional)
     );
 
 Returns:
@@ -4333,7 +4333,7 @@ Returns a list of setting names.
 
     my @Result = $SysConfigObject->ConfigurationSearch(
         Search           => 'The search string', # (optional)
-        Category         => 'OTRSFree'           # (optional)
+        Category         => 'OTRS'               # (optional)
         IncludeInvisible => 1,                   # (optional) Default 0.
     );
 
@@ -4425,8 +4425,8 @@ Returns:
             DisplayName => 'All Settings',
             Files => [],
         },
-        OTRSFree => {
-            DisplayName => 'OTRS Free',
+        OTRS => {
+            DisplayName => 'OTRS',
             Files       => ['Calendar.xml', CloudServices.xml', 'Daemon.xml', 'Framework.xml', 'GenericInterface.xml', 'ProcessManagement.xml', 'Ticket.xml' ],
         },
         # ...
@@ -4456,8 +4456,8 @@ sub ConfigurationCategoriesGet {
             DisplayName => Translatable('All Settings'),
             Files       => [],
         },
-        OTRSFree => {
-            DisplayName => 'OTRS Free',
+        OTRS => {
+            DisplayName => 'OTRS',
             Files       => [
                 'Calendar.xml', 'CloudServices.xml', 'Daemon.xml', 'Framework.xml',
                 'GenericInterface.xml', 'ProcessManagement.xml', 'Ticket.xml',
@@ -6049,7 +6049,7 @@ Returns:
 
     %Result = (
        'ACL::CacheTTL' => {
-            'Category' => 'OTRSFree',
+            'Category' => 'OTRS',
             'IsInvisible' => '0',
             'Metadata' => "ACL::CacheTTL--- '3600'
 Cache-Zeit in Sekunden f\x{fc}r Datenbank ACL-Backends.",
