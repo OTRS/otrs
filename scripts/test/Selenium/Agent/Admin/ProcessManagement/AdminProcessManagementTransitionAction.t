@@ -223,6 +223,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#TransitionActionFilter:visible").length'
         );
+        $Selenium->find_element( "#TransitionActionFilter", 'css' )->clear();
         $Selenium->find_element( "#TransitionActionFilter", 'css' )->send_keys($TransitionActionRandomEdit);
 
         # Wait for filter to kick in.

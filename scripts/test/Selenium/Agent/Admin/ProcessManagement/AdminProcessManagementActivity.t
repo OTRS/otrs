@@ -99,8 +99,11 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( "#ActivityFilter", 'css' )->send_keys($ActivityRandom);
 
-        # wait for filter to kick in
-        sleep 1;
+        # Wait for filter to kick in.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".OneRow[data-entity*=\'Activity\']:visible").length === 1'
+        );
 
         $Self->True(
             $Selenium->find_element("//*[text()=\"$ActivityRandom\"]")->is_displayed(),

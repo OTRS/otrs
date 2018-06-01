@@ -182,7 +182,10 @@ $Selenium->RunTest(
         $Selenium->find_element( "#TransitionFilter", 'css' )->send_keys($TransitionRandom);
 
         # Wait for filter to kick in.
-        sleep 2;
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".OneRow[data-entity*=\'Transition\']:visible").length === 1'
+        );
 
         $Self->True(
             $Selenium->find_element("//*[text()=\"$TransitionRandom\"]")->is_displayed(),
@@ -283,11 +286,6 @@ $Selenium->RunTest(
             JavaScript =>
                 "return typeof(\$) === 'function' && \$('a[href*=\"Subaction=TransitionEdit;ID=$TransitionID\"]:visible').length"
         );
-
-        $Selenium->find_element( "#TransitionFilter", 'css' )->send_keys($TransitionRandom);
-
-        # Wait for filter to kick in.
-        sleep 2;
 
         # Go to edit test Transition screen again.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionEdit;ID=$TransitionID' )]")->click();
