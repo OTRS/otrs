@@ -348,6 +348,14 @@ sub _TasksGet {
             Message => 'Check SysConfig consistency',
             Module  => 'SysConfigCheck',
         },
+        {
+            Message => 'Deploy ACLs',
+            Module  => 'ACLDeploy',
+        },
+        {
+            Message => 'Deploy processes',
+            Module  => 'ProcessDeploy',
+        },
     );
 
     return @Tasks;
