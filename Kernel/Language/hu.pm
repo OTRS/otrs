@@ -1,10 +1,11 @@
 # --
-# Copyright (C) 2006 Gabor Gancs /gg@magicnet.hu/
-# Copyright (C) 2006 Krisztian Gancs /krisz@gancs.hu/
-# Copyright (C) 2006 Flora Szabo /szaboflora@magicnet.hu/
-# Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
-# Copyright (C) 2009 Arnold Matyasi <arn@webma.hu>
+# Copyright (C) 2006 Gábor Gáncs <gg@magicnet.hu>
+# Copyright (C) 2006 Krisztián Gáncs <krisz@gancs.hu>
+# Copyright (C) 2006 Flóra Szabó <szaboflora@magicnet.hu>
+# Copyright (C) 2007 Áron Ujvári <ujvari@hungary.com>
+# Copyright (C) 2009 Arnold Mátyási <arn@webma.hu>
 # Copyright (C) 2013 Csaba Németh <csaba@sopron.hu>
+# Copyright (C) 2014, 2015, 2016, 2017, 2018 Balázs Úr <urbalazs@gmail.com>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -289,7 +290,7 @@ sub Data {
         '(Click here to add)' => '(Kattintson ide a hozzáadáshoz)',
         'Preview' => 'Előnézet',
         'Package not correctly deployed! Please reinstall the package.' =>
-            'A csomag nincs rendesen üzembe állítva! Telepítse újra a csomagot.',
+            'A csomag nincs megfelelően üzembe állítva! Telepítse újra a csomagot.',
         '%s is not writable!' => 'A(z) %s nem írható!',
         'Cannot create %s!' => 'Nem sikerült a(z) %s létrehozása!',
         'Check to activate this date' => 'Jelölje be a dátum aktiválásához',
@@ -331,7 +332,7 @@ sub Data {
         'Directory' => 'Könyvtár',
         'Signed' => 'Aláírt',
         'Sign' => 'Aláírás',
-        'Crypted' => 'Kódolt',
+        'Crypted' => 'Titkosított',
         'Crypt' => 'Kódolás',
         'PGP' => 'PGP',
         'PGP Key' => 'PGP kulcs',
@@ -430,11 +431,11 @@ sub Data {
             'Frissítés érhető el az Ön %s telepítéséhez, de ütközés van a keretrendszer verziójával! Először a keretrendszert frissítse!',
         'Your system was successfully upgraded to %s.' => 'A rendszere sikeresen frissítve lett a következő verzióra: %s.',
         'There was a problem during the upgrade to %s.' => 'Hiba történt az %s verzióra való frissítés közben.',
-        '%s was correctly reinstalled.' => 'Az %s rendben újra lett telepítve.',
+        '%s was correctly reinstalled.' => 'Az %s megfelelően újra lett telepítve.',
         'There was a problem reinstalling %s.' => 'Hiba történt az %s újratelepítésekor.',
         'Your %s was successfully updated.' => 'Az %s sikeresen frissítve lett.',
         'There was a problem during the upgrade of %s.' => 'Hiba történt az %s frissítése közben.',
-        '%s was correctly uninstalled.' => 'Az %s rendben el lett távolítva.',
+        '%s was correctly uninstalled.' => 'Az %s megfelelően el lett távolítva.',
         'There was a problem uninstalling %s.' => 'Hiba történt az %s eltávolításakor.',
         'Enable cloud services to unleash all OTRS features!' => 'Engedélyezze a felhőszolgáltatásokat az összes OTRS funkció feloldásához!',
 
@@ -535,8 +536,8 @@ sub Data {
         'Signature added!' => 'Aláírás hozzáadva!',
         'Signature updated!' => 'Aláírás frissítve!',
         'SLA' => 'SLA',
-        'Service Level Agreement' => 'Szolgáltatási szint megállapodás',
-        'Service Level Agreements' => 'Szolgáltatási szint megállapodások',
+        'Service Level Agreement' => 'Szolgáltatási megállapodás',
+        'Service Level Agreements' => 'Szolgáltatási megállapodások',
         'Service' => 'Szolgáltatás',
         'Services' => 'Szolgáltatások',
         'State' => 'Állapot',
@@ -1170,7 +1171,7 @@ sub Data {
         'Archive search option' => 'Archívumkeresési beállítások',
         'Update/Add Ticket Attributes' => 'Jegyjellemzők frissítése/hozzáadása',
         'Set new service' => 'Új szolgáltatás beállítása',
-        'Set new Service Level Agreement' => 'Új szolgáltatási szint megállapodás beállítása',
+        'Set new Service Level Agreement' => 'Új szolgáltatási megállapodás beállítása',
         'Set new priority' => 'Új prioritás beállítása',
         'Set new queue' => 'Új várólista beállítása',
         'Set new state' => 'Új állapot beállítása',
@@ -1263,6 +1264,8 @@ sub Data {
             'A szinkron esemény-aktiválók közvetlenül legyenek feldolgozva a webkérések alatt.',
         'Save and continue' => 'Mentés és folytatás',
         'Delete this Invoker' => 'Meghívó törlése',
+        'It is not possible to add a new event trigger because the event is not set.' =>
+            'Nem lehetséges új eseményaktiváló hozzáadása, mert az esemény nincs beállítva.',
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => 'Általános felület egyszerű leképező a(z) %s webszolgáltatáshoz',
@@ -1573,7 +1576,7 @@ sub Data {
         'Recipients' => 'Címzettek',
         'Send to' => 'Küldés neki',
         'Send to these agents' => 'Küldés ezeknek az ügyintézőknek',
-        'Send to all group members' => 'Küldés az összes csoporttagnak',
+        'Send to all group members (agents only)' => 'Küldés az összes csoporttagnak (csak ügyintézőknek)',
         'Send to all role members' => 'Küldés az összes szereptagnak',
         'Send on out of office' => 'Küldés irodán kívüli állapotban',
         'Also send if the user is currently out of office.' => 'Akkor is küldje el, ha a felhasználó jelenleg irodán kívül van.',
@@ -1641,14 +1644,14 @@ sub Data {
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => '%s kezelése',
         'Go to the OTRS customer portal' => 'Ugrás az OTRS ügyfélportáljára',
-        'Downgrade to OTRS Free' => 'Visszaváltás az OTRS Free verzióra',
+        'Downgrade to ((OTRS)) Community Edition' => 'Visszaváltás az ((OTRS)) Community Edition verzióra',
         'Read documentation' => 'Dokumentáció elolvasása',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
             'Az %s rendszeresen kapcsolatot létesít a cloud.otrs.com kiszolgálóval az elérhető frissítések és az alapjául szolgáló szerződés érvényességének ellenőrzéséhez.',
         'Unauthorized Usage Detected' => 'Jogosulatlan használat észlelhető',
         'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
             'Ez a rendszer a megfelelő licenc nélkül használja az %s programot. A szerződés megújításához vagy aktiválásához vegye fel a kapcsolatot a következővel: %s!',
-        '%s not Correctly Installed' => '%s nincs helyesen telepítve',
+        '%s not Correctly Installed' => 'Az %s nincs helyesen telepítve',
         'Your %s is not correctly installed. Please reinstall it with the button below.' =>
             'Az %s nincs helyesen telepítve. Telepítse újra a lenti gombbal.',
         'Reinstall %s' => '%s újratelepítése',
@@ -1675,16 +1678,16 @@ sub Data {
         'You will receive updates for all other relevant OTRS issues' => 'Frissítéseket fog kapni minden egyéb fontos OTRS problémáról',
         'An update for your %s is available! Please update at your earliest!' =>
             'Frissítés érhető el az %s programhoz! Frissítsen a lehető leghamarabb!',
-        '%s Correctly Deployed' => 'Az %s helyesen üzembe állítva',
+        '%s Correctly Deployed' => 'Az %s megfelelően üzembe lett állítva',
         'Congratulations, your %s is correctly installed and up to date!' =>
-            'Gratulálunk, az %s helyesen telepített van és naprakész!',
+            'Gratulálunk, az %s helyesen van telepítve és naprakész!',
 
         # Template: AdminOTRSBusinessNotInstalled
         '%s will be available soon. Please check again in a few days.' =>
             'Az %s hamarosan elérhető lesz. Ellenőrizze ismét néhány nap múlva.',
         'Please have a look at %s for more information.' => 'Vessen egy pillantást az %s címre a további információkért.',
-        'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            'Az OTRS Free az alapja minden további műveletnek. Először regisztráljon, mielőtt folytatja az %s frissítési folyamatát!',
+        'Your ((OTRS)) Community Edition is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
+            'Az ((OTRS)) Community Edition az alapja minden további műveletnek. Először regisztráljon, mielőtt folytatja az %s frissítési folyamatát!',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
             'Mielőtt használatba venné az %s programot, kérjük lépjen kapcsolatba a szolgáltatóval (%s) az %s szerződés beszerzéséhez.',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
@@ -1705,8 +1708,8 @@ sub Data {
         'Vendor' => 'Gyártó',
         'Please uninstall the packages first using the package manager and try again.' =>
             'Először távolítsa el a csomagokat a csomagkezelő használatával, majd próbálja újra.',
-        'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
-            'Arra készül, hogy visszavált az OTRS Free verzióra, és el fogja veszíteni a következő szolgáltatásokat és minden ezekhez kapcsolódó adatot:',
+        'You are about to downgrade to ((OTRS)) Community Edition and will lose the following features and all data related to these:' =>
+            'Arra készül, hogy visszavált az ((OTRS)) Community Edition verzióra, és el fogja veszíteni a következő szolgáltatásokat és minden ezekhez kapcsolódó adatot:',
         'Chat' => 'Csevegés',
         'Report Generator' => 'Jelentés előállító',
         'Timeline view in ticket zoom' => 'Idővonal nézet a jegynagyításban',
@@ -1783,7 +1786,7 @@ sub Data {
         'This package is verified by OTRSverify (tm)' => 'Ezt a csomagot az OTRSverify (tm) ellenőrizte.',
         'Uninstall' => 'Eltávolítás',
         'Reinstall' => 'Újratelepítés',
-        'Features for %s customers only' => 'Csak a(z) %s ügyfelek szolgáltatásai',
+        'Features for %s customers only' => 'Kizárólag %s ügyfelek számára elérhető funkciók',
         'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
             'Az %s használatával a következő opcionális szolgáltatások előnyeit élvezheti. Ha további információkra van szüksége, akkor vegye fel a kapcsolatot a következővel: %s.',
         'Download package' => 'Csomag letöltése',
@@ -2103,7 +2106,7 @@ sub Data {
         'Edit details' => 'Részletek szerkesztése',
         'Show transmitted data' => 'Átvitt adatok megtekintése',
         'Deregister system' => 'Rendszer regisztrációjának törlése',
-        'Overview of registered systems' => 'Regisztrált rendszerek áttekintése',
+        'Overview of registered systems' => 'Regisztrált rendszerek áttekintője',
         'This system is registered with OTRS Group.' => 'Ez a rendszer regisztrálva van az OTRS csoporttal.',
         'System type' => 'Rendszertípus',
         'Unique ID' => 'Egyedi azonosító',
@@ -2333,6 +2336,8 @@ sub Data {
         'Add State' => 'Állapot hozzáadása',
         'Edit State' => 'Állapot szerkesztése',
         'State type' => 'Állapottípus',
+        'It\'s not possible to invalidate this entry because there is no other merge states in system!' =>
+            'Nem lehetséges érvényteleníteni ezt a bejegyzést, mert nincsenek egyéb egyesítés állapotok a rendszeren!',
 
         # Template: AdminSupportDataCollector
         'Sending support data to OTRS Group is not possible!' => 'Nem lehetséges támogatási adatokat küldeni az OTRS csoportnak!',
@@ -2643,8 +2648,8 @@ sub Data {
 
         # Template: AgentOTRSBusinessBlockScreen
         'Unauthorized usage of %s detected' => 'Az %s jogosulatlan használata észlelhető',
-        'If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.' =>
-            'Ha úgy dönt, hogy visszavált az OTRS Free verzióra, akkor el fogja veszíteni az %s szolgáltatáshoz kapcsolódó összes adatbázis táblát és adatot.',
+        'If you decide to downgrade to ((OTRS)) Community Edition, you will lose all database tables and data related to %s.' =>
+            'Ha úgy dönt, hogy visszavált az ((OTRS)) Community Edition verzióra, akkor el fogja veszíteni az %s szolgáltatáshoz kapcsolódó összes adatbázis táblát és adatot.',
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Beállítások szerkesztése',
@@ -3037,7 +3042,7 @@ sub Data {
         'Open link' => 'Hivatkozás megnyitása',
 
         # Template: CustomerTicketMessage
-        'Service level agreement' => 'Szolgáltatási szint megállapodás',
+        'Service level agreement' => 'Szolgáltatási megállapodás',
 
         # Template: CustomerTicketOverview
         'Welcome!' => 'Üdvözöljük!',
@@ -3520,6 +3525,10 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'Nem kaptam webszolgáltatás előzmény-azonosítót!',
         'Could not get history data for WebserviceHistoryID %s' => 'Nem sikerült lekérni az előzményadatokat a(z) %s webszolgáltatás előzmény-azonosítóhoz',
+
+        # Perl Module: Kernel/Modules/AdminMailAccount.pm
+        'Email account fetch already fetched by another process. Please try again later!' =>
+            'Az e-mail fiók lekérését egy másik folyamat már lekérte. Próbálja meg később!',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
         'Notification updated!' => 'Értesítés frissítve!',
@@ -4340,7 +4349,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
         'Free Swap Space (%)' => 'Szabad lapozófájl méret (%)',
         'No swap enabled.' => 'Nincs lapozófájl engedélyezve.',
-        'Used Swap Space (MB)' => 'Használt lapozófájl méret (%)',
+        'Used Swap Space (MB)' => 'Használt lapozófájl méret (MB)',
         'There should be more than 60% free swap space.' => '60%-nál több szabad lapozófájlnak kellene lennie.',
         'There should be no more than 200 MB swap space used.' => '200 MB-nál nem kellene több lapozófájlt használni.',
 
@@ -4368,6 +4377,7 @@ sub Data {
         'Process Tickets' => 'Folyamatjegyek',
         'Months Between First And Last Ticket' => 'Az első és az utolsó jegy közti hónapok',
         'Tickets Per Month (avg)' => 'Jegyek havonta (átlag)',
+        'Open Tickets' => 'Nyitott jegyek',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
         'Default SOAP Username And Password' => 'Alapértelmezett SOAP felhasználónév és jelszó',
@@ -4396,7 +4406,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
         'Package Installation Status' => 'Csomagtelepítési állapot',
         'Some packages have locally modified files.' => 'Néhány csomag helyileg módosított fájlokkal rendelkezik.',
-        'Some packages are not correctly installed.' => 'Néhány csomag nincs helyesen telepítve.',
+        'Some packages are not correctly installed.' => 'Néhány csomag nincs megfelelően telepítve.',
         'Package Verification Status' => 'Csomagellenőrzési állapot',
         'Some packages are not verified by the OTRS Group! It is recommended not to use this packages.' =>
             'Néhány csomagot nem ellenőrzött az OTRS csoport! Nem javasolt a csomagok használata.',
@@ -4433,7 +4443,6 @@ sub Data {
         'There are invalid users with locked tickets.' => 'Zárolt jegyekkel rendelkező érvénytelen felhasználók vannak.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
-        'Open Tickets' => 'Nyitott jegyek',
         'You should not have more than 8,000 open tickets in your system.' =>
             'Nem kellene 8.000 nyitott jegynél többel rendelkeznie a rendszeren.',
 
@@ -4924,7 +4933,7 @@ Az Ön segélyszolgálat csapata
         'Converts HTML mails into text messages.' => 'Átalakítja a HTML leveleket szöveges üzenetre.',
         'Create New process ticket.' => 'Új folyamatjegy létrehozása.',
         'Create Ticket' => 'Jegy létrehozása',
-        'Create and manage Service Level Agreements (SLAs).' => 'Szolgáltatási szint megállapodások (SLA-k) létrehozása és kezelése.',
+        'Create and manage Service Level Agreements (SLAs).' => 'Szolgáltatási megállapodások (SLA-k) létrehozása és kezelése.',
         'Create and manage agents.' => 'Ügyintézők létrehozása és kezelése.',
         'Create and manage attachments.' => 'Mellékletek létrehozása és kezelése.',
         'Create and manage customer users.' => 'Ügyfél-felhasználók létrehozása és kezelése.',
@@ -5047,7 +5056,7 @@ Az Ön segélyszolgálat csapata
         'Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Szűrő meghatározása a HTML kimenethez, hogy hivatkozást adjon egy meghatározott szöveg mögé. Ez a képelem kétfajta bevitelt tesz lehetővé. Elsőként egy kép nevét (például faq.png). Ez esetben az OTRS képútvonal lesz felhasználva. A másik lehetőség a hivatkozás beszúrása a képhez.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
-            'Szűrő meghatározása a HTML kimenethez, hogy hivatkozást adjon a bugraq számok mögé. Ez a képelem kétfajta bevitelt tesz lehetővé. Elsőként egy kép nevét (például faq.png). Ez esetben az OTRS képútvonal lesz felhasználva. A másik lehetőség a hivatkozás beszúrása a képhez.',
+            'Szűrő meghatározása a HTML kimenethez, hogy hivatkozást adjon a bugtraq számok mögé. Ez a képelem kétfajta bevitelt tesz lehetővé. Elsőként egy kép nevét (például faq.png). Ez esetben az OTRS képútvonal lesz felhasználva. A másik lehetőség a hivatkozás beszúrása a képhez.',
         'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             'Egy szűrőt határoz meg CVE számok begyűjtéséhez a bejegyzés szövegeiből az ügyintézői jegynagyításban. Az eredmények egy metadobozban lesznek megjelenítve a bejegyzés mellett. Töltse ki az URLPreview mezőt, ha egy előnézetet szeretne látni, amikor az egérkurzort a linkelem fölé viszi. Ez lehet ugyanaz az URL mint az URL mezőben van, de lehet egy másik is. Ne feledje, hogy néhány weboldal (például Google) nem hagyja, hogy egy belső kereten belül jelenítsék meg, és emiatt az nem fog működni előnézeti módban.',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
@@ -5686,9 +5695,9 @@ Az Ön segélyszolgálat csapata
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'Meghatározza a lehetséges állapotokat a várakozó jegyeknél, amelyek az időkorlát elérése után állapotot váltottak.',
         'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the recipient.' =>
-            'Meghatározza azokat a szövegeket, amelyek a telefonos jegy címzettjeként (Címzett:), illetve az e-mail jegy küldőjeként (Feladó:) kerülnek megjelenítésre az ügyintézői felületen. A várólistánál mint NewQueueSelectionType „<Queue>” a várólisták neveit jeleníti meg, és a SystemAddress „<Realname> <<Email>>” esetén a címzett nevét és e-mail címét jeleníti meg.',
+            'Meghatározza azokat a szövegeket, amelyek a telefonos jegy címzettjeként (Címzett:), illetve az e-mail jegy küldőjeként (Feladó:) kerülnek megjelenítésre az ügyintézői felületen. A NewQueueSelectionType beállításként megadott várólistánál a „<Queue>” a várólisták neveit jeleníti meg, és a rendszercímnél a „<Realname> <<Email>>” a címzett nevét és e-mail címét jeleníti meg.',
         'Determines the strings that will be shown as recipient (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the recipient.' =>
-            'Meghatározza azokat a szövegeket, amelyek a jegy címzettjeként (Címzett:) kerülnek megjelenítésre az ügyfélfelületen. A várólistánál mint CustomerPanelSelectionType, „<Queue>” a várólisták neveit jeleníti meg, és a SystemAddress „<Realname> <<Email>>” esetén a címzett nevét és e-mail címét jeleníti meg.',
+            'Meghatározza azokat a szövegeket, amelyek a jegy címzettjeként (Címzett:) kerülnek megjelenítésre az ügyfélfelületen. A CustomerPanelSelectionType beállításként megadott várólistánál a „<Queue>” a várólisták neveit jeleníti meg, és a rendszercímnél a „<Realname> <<Email>>” a címzett nevét és e-mail címét jeleníti meg.',
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             'Meghatározza annak a módját, ahogyan a kapcsolt objektumok megjelenítésre kerülnek minden egyes nagyítási maszkban.',
         'Determines which options will be valid of the recipient (phone ticket) and the sender (email ticket) in the agent interface.' =>
@@ -5813,7 +5822,7 @@ Az Ön segélyszolgálat csapata
             'Engedélyezi a teljesítmény naplót (az oldal válaszidejének naplózásához). Ez hatással lesz a rendszer teljesítményére. A Frontend::Module###AdminPerformanceLog beállításnak engedélyezve kell lennie.',
         'Enables spell checker support.' => 'Engedélyezi a helyesírás-ellenőrzés támogatást.',
         'Enables the minimal ticket counter size (if "Date" was selected as TicketNumberGenerator).' =>
-            'Engedélyezi a legkisebb jegyszámláló méretet (ha „Dátum” lett kiválasztva mint jegyszám-előállító).',
+            'Engedélyezi a legkisebb jegyszámláló méretet (ha „Date” lett kiválasztva mint jegyszám-előállító).',
         'Enables ticket bulk action feature for the agent frontend to work on more than one ticket at a time.' =>
             'Engedélyezi a tömeges jegyművelet szolgáltatást az ügyintézői előtétprogramnál, hogy egyszerre több jegyen tudjon dolgozni.',
         'Enables ticket bulk action feature only for the listed groups.' =>
@@ -5914,6 +5923,7 @@ Az Ön segélyszolgálat csapata
             'Előtétprogram-modul regisztráció (jegy feldolgozások képernyő letiltása, ha nincs elérhető folyamat).',
         'Frontend module registration for the agent interface.' => 'Előtétprogram-modul regisztráció az ügyintézői felülethez.',
         'Frontend module registration for the customer interface.' => 'Előtétprogram-modul regisztráció az ügyfélfelülethez.',
+        'Frontend module registration for the public interface.' => 'Előtétprogram-modul regisztráció a nyilvános felülethez.',
         'Frontend theme' => 'Előtétprogram téma',
         'Frontend theme.' => 'Előtétprogram téma.',
         'Full value' => 'Teljes érték',
@@ -6128,12 +6138,12 @@ Az Ön segélyszolgálat csapata
         'List of JS files to always be loaded for the customer interface.' =>
             'JS fájlok listája, amelyek mindig betöltődnek az ügyfélfelületnél.',
         'List of all CustomerCompany events to be displayed in the GUI.' =>
-            'Az összes CustomerCompany esemény listája, amelyek megjelennek a grafikus felületen.',
-        'List of all CustomerUser events to be displayed in the GUI.' => 'Az összes CustomerUser esemény listája, amelyek megjelennek a grafikus felületen.',
+            'Az összes ügyfélvállalat-esemény listája, amelyek megjelennek a grafikus felületen.',
+        'List of all CustomerUser events to be displayed in the GUI.' => 'Az összes ügyfélfelhasználó-esemény listája, amelyek megjelennek a grafikus felületen.',
         'List of all DynamicField events to be displayed in the GUI.' => 'Az összes dinamikus mező esemény listája, amelyek megjelennek a grafikus felületen.',
-        'List of all Package events to be displayed in the GUI.' => 'Az összes Package esemény listája, amelyek megjelennek a grafikus felületen.',
-        'List of all article events to be displayed in the GUI.' => 'Az összes bejegyzés esemény listája, amelyek megjelennek a grafikus felületen.',
-        'List of all queue events to be displayed in the GUI.' => 'Az összes várólista esemény listája, amelyek megjelennek a grafikus felületen.',
+        'List of all Package events to be displayed in the GUI.' => 'Az összes csomagesemény listája, amelyek megjelennek a grafikus felületen.',
+        'List of all article events to be displayed in the GUI.' => 'Az összes bejegyzésesemény listája, amelyek megjelennek a grafikus felületen.',
+        'List of all queue events to be displayed in the GUI.' => 'Az összes várólista-esemény listája, amelyek megjelennek a grafikus felületen.',
         'List of all ticket events to be displayed in the GUI.' => 'Az összes jegyesemény listája, amelyek megjelennek a grafikus felületen.',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             'Az alapértelmezett szabványos sablonok listája, amelyek automatikusan hozzá vannak rendelve az új várólistákhoz a létrehozáskor.',
@@ -6279,12 +6289,12 @@ Az Ön segélyszolgálat csapata
         'Out Of Office' => 'Irodán kívül',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Túlterheli (újra meghatározza) a Kernel::System::Ticket helyen meglévő függvényeket. Személyre szabások könnyű hozzáadásához használható.',
-        'Overview Escalated Tickets.' => 'Eszkalált jegyek áttekintése.',
+        'Overview Escalated Tickets.' => 'Eszkalált jegyek áttekintője.',
         'Overview Refresh Time' => 'Áttekintő frissítési ideje',
-        'Overview of all escalated tickets.' => 'Összes eszkalált jegy áttekintése.',
-        'Overview of all open Tickets.' => 'Az összes nyitott jegy áttekintése.',
-        'Overview of all open tickets.' => 'Összes nyitott jegy áttekintése.',
-        'Overview of customer tickets.' => 'Összes ügyféljegy áttekintése.',
+        'Overview of all escalated tickets.' => 'Az összes eszkalált jegy áttekintője.',
+        'Overview of all open Tickets.' => 'Az összes nyitott jegy áttekintője.',
+        'Overview of all open tickets.' => 'Az összes nyitott jegy áttekintője.',
+        'Overview of customer tickets.' => 'Az összes ügyféljegy áttekintője.',
         'PGP Key Management' => 'PGP kulcs kezelés',
         'Package event module file a scheduler task for update registration.' =>
             'Csomag esemény modul egy ütemező feladat iktatásához a regisztráció frissítésénél.',
@@ -6470,8 +6480,8 @@ Az Ön segélyszolgálat csapata
         'Sends registration information to OTRS group.' => 'Regisztrációs információkat küld az OTRS csoportnak.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'Elküldi a feloldott jegy emlékeztető értesítéseit az emlékeztető dátum elérése után (csak a jegy tulajdonosának küldi).',
-        'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
-            'Elküldi azokat az értesítéseket, amelyek az adminisztrációs felületen az „Értesítés (esemény)” alatt vannak beállítva.',
+        'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
+            'Elküldi azokat az értesítéseket, amelyek az adminisztrációs felületen a „Jegyértesítések” alatt vannak beállítva.',
         'Serbian Cyrillic' => 'Szerb (cirill)',
         'Serbian Latin' => 'Szerb (latin)',
         'Service view' => 'Szolgáltatás nézet',
@@ -6581,7 +6591,7 @@ Az Ön segélyszolgálat csapata
         'Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime.' =>
             'Beállítja az ügyfelenkénti aktív munkamenetek legnagyobb számát a SessionMaxIdleTime modulon meghatározott időtartamon belül.',
         'Sets the minimal ticket counter size if "AutoIncrement" was selected as TicketNumberGenerator. Default is 5, this means the counter starts from 10000.' =>
-            'Beállítja a legkisebb jegyszámlálóméretet, ha „Automatikus növelés” lett kiválasztva jegyszám-előállítóként. Alapértelmezetten 5, amely azt jelenti, hogy a számláló 10000-től indul.',
+            'Beállítja a legkisebb jegyszámlálóméretet, ha „AutoIncrement” lett kiválasztva jegyszám-előállítóként. Alapértelmezetten 5, amely azt jelenti, hogy a számláló 10000-től indul.',
         'Sets the minutes a notification is shown for notice about upcoming system maintenance period.' =>
             'Beállítja, hogy egy értesítés hány percig legyen látható a közelgő rendszerkarbantartás időszakról szóló értesítésről.',
         'Sets the number of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).' =>

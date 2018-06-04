@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-12-14 20:10+0000\n"
+"POT-Creation-Date: 2018-06-02 20:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4318,6 +4318,10 @@ msgstr ""
 msgid "Delete this Invoker"
 msgstr ""
 
+#. Template: AdminGenericInterfaceInvokerDefault
+msgid "It is not possible to add a new event trigger because the event is not set."
+msgstr ""
+
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "GenericInterface Mapping Simple for Web Service %s"
 msgstr ""
@@ -5267,7 +5271,7 @@ msgid "Send to these agents"
 msgstr ""
 
 #. Template: AdminNotificationEvent
-msgid "Send to all group members"
+msgid "Send to all group members (agents only)"
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -5467,7 +5471,7 @@ msgid "Go to the OTRS customer portal"
 msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
-msgid "Downgrade to OTRS Free"
+msgid "Downgrade to ((OTRS)) Community Edition"
 msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
@@ -5583,7 +5587,7 @@ msgid "Please have a look at %s for more information."
 msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
-msgid "Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!"
+msgid "Your ((OTRS)) Community Edition is the base for all future actions. Please register first before you continue with the upgrade process of %s!"
 msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
@@ -5631,7 +5635,7 @@ msgid "Please uninstall the packages first using the package manager and try aga
 msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
-msgid "You are about to downgrade to OTRS Free and will lose the following features and all data related to these:"
+msgid "You are about to downgrade to ((OTRS)) Community Edition and will lose the following features and all data related to these:"
 msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
@@ -7538,6 +7542,10 @@ msgstr ""
 msgid "State type"
 msgstr ""
 
+#. Template: AdminState
+msgid "It's not possible to invalidate this entry because there is no other merge states in system!"
+msgstr ""
+
 #. Template: AdminSupportDataCollector
 msgid "Sending support data to OTRS Group is not possible!"
 msgstr ""
@@ -8419,7 +8427,7 @@ msgid "Unauthorized usage of %s detected"
 msgstr ""
 
 #. Template: AgentOTRSBusinessBlockScreen
-msgid "If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s."
+msgid "If you decide to downgrade to ((OTRS)) Community Edition, you will lose all database tables and data related to %s."
 msgstr ""
 
 #. Template: AgentPreferences
@@ -10894,6 +10902,10 @@ msgstr ""
 msgid "Could not get history data for WebserviceHistoryID %s"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminMailAccount.pm
+msgid "Email account fetch already fetched by another process. Please try again later!"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Notification updated!"
 msgstr ""
@@ -13074,6 +13086,10 @@ msgstr ""
 msgid "Tickets Per Month (avg)"
 msgstr ""
 
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
+msgid "Open Tickets"
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
 msgid "Default SOAP Username And Password"
 msgstr ""
@@ -13192,10 +13208,6 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "There are invalid users with locked tickets."
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
-msgid "Open Tickets"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
@@ -16802,6 +16814,10 @@ msgid "Frontend module registration for the customer interface."
 msgstr ""
 
 #. SysConfig
+msgid "Frontend module registration for the public interface."
+msgstr ""
+
+#. SysConfig
 msgid "Frontend theme"
 msgstr ""
 
@@ -16998,7 +17014,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -18298,7 +18314,7 @@ msgid "Sends reminder notifications of unlocked ticket after reaching the remind
 msgstr ""
 
 #. SysConfig
-msgid "Sends the notifications which are configured in the admin interface under \"Notfication (Event)\"."
+msgid "Sends the notifications which are configured in the admin interface under \"Ticket Notifications\"."
 msgstr ""
 
 #. SysConfig
