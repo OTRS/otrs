@@ -249,7 +249,7 @@
         <Setting>
             <Hash>
                 <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
-                <Item Key="StyleTop">7px</Item>
+                <Item Key="StyleTop">25px</Item>
                 <Item Key="StyleRight">24px</Item>
                 <Item Key="StyleHeight">55px</Item>
                 <Item Key="StyleWidth">300px</Item>
@@ -263,7 +263,7 @@
         <Setting>
             <Hash>
                 <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
-                <Item Key="StyleTop">7px</Item>
+                <Item Key="StyleTop">25px</Item>
                 <Item Key="StyleRight">24px</Item>
                 <Item Key="StyleHeight">55px</Item>
                 <Item Key="StyleWidth">300px</Item>
@@ -291,7 +291,7 @@
         <Setting>
             <Hash>
                 <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
-                <Item Key="StyleTop">7px</Item>
+                <Item Key="StyleTop">25px</Item>
                 <Item Key="StyleRight">24px</Item>
                 <Item Key="StyleHeight">55px</Item>
                 <Item Key="StyleWidth">300px</Item>
