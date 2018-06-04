@@ -394,11 +394,8 @@ $Selenium->RunTest(
             "Alert dialog is found.",
         );
 
-        $Selenium->find_element( "#DialogButton1", 'css' )->click();
-
-        $Selenium->WaitFor(
-            JavaScript => 'return !$(".Dialog.Modal").length'
-        );
+        $Selenium->execute_script("\$('#DialogButton1').click();");
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
 
         # Remove entered 'Test' for customer user.
         $Selenium->find_element( "#RemoveCustomerTicket_2", 'css' )->click();
@@ -420,11 +417,8 @@ $Selenium->RunTest(
             "Error message found.",
         );
 
-        $Selenium->find_element( "#DialogButton1", 'css' )->click();
-
-        $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length'
-        );
+        $Selenium->execute_script("\$('#DialogButton1').click();");
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
 
         # Check AgentTicketCompose page.
         for my $ID (
