@@ -137,35 +137,6 @@ $Selenium->RunTest(
             $ActivityDialogID = $Row[0];
         }
 
-        # Go to edit ActivityDialog screen and go back to check input field behavior (see bug#13824).
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityDialogEdit;ID=$ActivityDialogID' )]")
-            ->click();
-        $Selenium->WaitFor( WindowCount => 2 );
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
-
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name').length" );
-
-        $Selenium->find_element( ".ClosePopup", 'css' )->click();
-        $Selenium->WaitFor( WindowCount => 1 );
-        $Selenium->switch_to_window( $Handles->[0] );
-
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('#ActivityDialogs li:visible').length === 1"
-        );
-
-        $Self->Is(
-            $Selenium->find_element( "#ActivityDialogFilter", 'css' )->get_value(),
-            $ActivityDialogRandom,
-            "ActivityDialog filter has correct value - $ActivityDialogRandom",
-        );
-        $Self->Is(
-            $Selenium->execute_script("return \$('#ActivityDialogs li:visible').length"),
-            1,
-            "ActivityDialog filter filtered correctly after popup closing",
-        );
-
         # go to edit test ActivityDialog screen
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityDialogEdit;ID=$ActivityDialogID' )]")
             ->click();
@@ -265,8 +236,26 @@ $Selenium->RunTest(
         );
 
         # return to main window
-        $Selenium->close();
+        $Selenium->find_element( ".ClosePopup", 'css' )->click();
+        $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
+
+        # Verify ActivityDialog filter remains same after popup close, see bug#13824.
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#ActivityDialogs li:visible').length === 1 && \$.active == 0"
+        );
+
+        $Self->Is(
+            $Selenium->find_element( "#ActivityDialogFilter", 'css' )->get_value(),
+            $ActivityDialogRandomEdit,
+            "ActivityDialog filter has correct value - $ActivityDialogRandomEdit",
+        );
+        $Self->Is(
+            $Selenium->execute_script("return \$('#ActivityDialogs li:visible').length"),
+            1,
+            "ActivityDialog filter filtered correctly after popup closing",
+        );
 
         # get process id and return to overview afterwards
         my $ProcessID = $Selenium->execute_script('return $("#ProcessDelete").data("id")') || undef;

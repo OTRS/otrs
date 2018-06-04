@@ -102,7 +102,7 @@ $Selenium->RunTest(
         # Wait for filter to kick in.
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $(".OneRow[data-entity*=\'Activity\']:visible").length === 1'
+                'return typeof($) === "function" && $(".OneRow[data-entity*=\'Activity\']:visible").length === 1 && $.active == 0'
         );
 
         $Self->True(
