@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-12 09:26+0200\n"
+"POT-Creation-Date: 2018-06-02 19:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5819,7 +5819,7 @@ msgid "Manage %s"
 msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
-msgid "Downgrade to OTRS Free"
+msgid "Downgrade to ((OTRS)) Community Edition"
 msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
@@ -5895,7 +5895,7 @@ msgid "Please have a look at %s for more information."
 msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
-msgid "Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!"
+msgid "Your ((OTRS)) Community Edition is the base for all future actions. Please register first before you continue with the upgrade process of %s!"
 msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
@@ -5943,7 +5943,7 @@ msgid "Please uninstall the packages first using the package manager and try aga
 msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
-msgid "You are about to downgrade to OTRS Free and will lose the following features and all data related to these:"
+msgid "You are about to downgrade to ((OTRS)) Community Edition and will lose the following features and all data related to these:"
 msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
@@ -10971,6 +10971,10 @@ msgid "Create New process ticket"
 msgstr ""
 
 #. SysConfig
+msgid "Create Ticket"
+msgstr ""
+
+#. SysConfig
 msgid "Create and manage Service Level Agreements (SLAs)."
 msgstr ""
 
@@ -15480,6 +15484,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Queue Overview"
+msgstr ""
+
+#. SysConfig
+msgid "Ticket Zoom"
 msgstr ""
 
 #. SysConfig

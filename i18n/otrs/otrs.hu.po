@@ -1,5 +1,5 @@
 # Hungarian translation of OTRS.
-# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
 # This file is distributed under the same license as the OTRS package.
 #
 # Hungarian translation of OTRS and ITSM, https://www.otrs-megoldasok.hu/
@@ -11,12 +11,12 @@
 # Áron Ujvári <ujvari@hungary.com>, 2007.
 # Arnold Mátyási <arn@webma.hu>, 2009.
 # Csaba Németh <csaba@sopron.hu>, 2013.
-# Balázs Úr <urbalazs@gmail.com>, 2014, 2015, 2016, 2017.
+# Balázs Úr <urbalazs@gmail.com>, 2014, 2015, 2016, 2017, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-12-14 21:05+0200\n"
-"PO-Revision-Date: 2017-12-14 21:09+0100\n"
+"POT-Creation-Date: 2018-06-02 19:10+0200\n"
+"PO-Revision-Date: 2018-06-02 19:15+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <forditas@otrs-megoldasok.hu>\n"
 "Language: hu\n"
@@ -6321,8 +6321,8 @@ msgid "Manage %s"
 msgstr "%s kezelése"
 
 #. Template: AdminOTRSBusinessInstalled
-msgid "Downgrade to OTRS Free"
-msgstr "Visszaváltás az OTRS Free verzióra"
+msgid "Downgrade to ((OTRS)) Community Edition"
+msgstr "Visszaváltás az ((OTRS)) Community Edition verzióra"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
@@ -6414,11 +6414,11 @@ msgstr "Vessen egy pillantást az %s címre a további információkért."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
-"Your OTRS Free is the base for all future actions. Please register first "
-"before you continue with the upgrade process of %s!"
+"Your ((OTRS)) Community Edition is the base for all future actions. Please "
+"register first before you continue with the upgrade process of %s!"
 msgstr ""
-"Az OTRS Free az alapja minden további műveletnek. Először regisztráljon, "
-"mielőtt folytatja az %s frissítési folyamatát!"
+"Az ((OTRS)) Community Edition az alapja minden további műveletnek. Először "
+"regisztráljon, mielőtt folytatja az %s frissítési folyamatát!"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Register this System"
@@ -6490,11 +6490,12 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
-"You are about to downgrade to OTRS Free and will lose the following features "
-"and all data related to these:"
+"You are about to downgrade to ((OTRS)) Community Edition and will lose the "
+"following features and all data related to these:"
 msgstr ""
-"Arra készül, hogy visszavált az OTRS Free verzióra, és el fogja veszíteni a "
-"következő szolgáltatásokat és minden ezekhez kapcsolódó adatot:"
+"Arra készül, hogy visszavált az ((OTRS)) Community Edition verzióra, és el "
+"fogja veszíteni a következő szolgáltatásokat és minden ezekhez kapcsolódó "
+"adatot:"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"

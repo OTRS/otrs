@@ -5,7 +5,7 @@
 # Copyright (C) 2007 Áron Ujvári <ujvari@hungary.com>
 # Copyright (C) 2009 Arnold Mátyási <arn@webma.hu>
 # Copyright (C) 2013 Csaba Németh <csaba@sopron.hu>
-# Copyright (C) 2014, 2015 Balázs Úr <urbalazs@gmail.com>
+# Copyright (C) 2014, 2015, 2016, 2017, 2018 Balázs Úr <urbalazs@gmail.com>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -290,7 +290,7 @@ sub Data {
         '(Click here to add)' => '(Kattintson ide a hozzáadáshoz)',
         'Preview' => 'Előnézet',
         'Package not correctly deployed! Please reinstall the package.' =>
-            'A csomag nincs rendesen üzembe állítva! Telepítse újra a csomagot.',
+            'A csomag nincs megfelelően üzembe állítva! Telepítse újra a csomagot.',
         '%s is not writable!' => 'A(z) %s nem írható!',
         'Cannot create %s!' => 'Nem sikerült a(z) %s létrehozása!',
         'Check to activate this date' => 'Jelölje be a dátum aktiválásához',
@@ -332,7 +332,7 @@ sub Data {
         'Directory' => 'Könyvtár',
         'Signed' => 'Aláírt',
         'Sign' => 'Aláírás',
-        'Crypted' => 'Kódolt',
+        'Crypted' => 'Titkosított',
         'Crypt' => 'Kódolás',
         'PGP' => 'PGP',
         'PGP Key' => 'PGP kulcs',
@@ -433,11 +433,11 @@ sub Data {
             'Frissítés érhető el az Ön %s telepítéséhez, de ütközés van a keretrendszer verziójával! Először a keretrendszert frissítse!',
         'Your system was successfully upgraded to %s.' => 'A rendszere sikeresen frissítve lett a következő verzióra: %s.',
         'There was a problem during the upgrade to %s.' => 'Hiba történt az %s verzióra való frissítés közben.',
-        '%s was correctly reinstalled.' => 'Az %s rendben újra lett telepítve.',
+        '%s was correctly reinstalled.' => 'Az %s megfelelően újra lett telepítve.',
         'There was a problem reinstalling %s.' => 'Hiba történt az %s újratelepítésekor.',
         'Your %s was successfully updated.' => 'Az %s sikeresen frissítve lett.',
         'There was a problem during the upgrade of %s.' => 'Hiba történt az %s frissítése közben.',
-        '%s was correctly uninstalled.' => 'Az %s rendben el lett távolítva.',
+        '%s was correctly uninstalled.' => 'Az %s megfelelően el lett távolítva.',
         'There was a problem uninstalling %s.' => 'Hiba történt az %s eltávolításakor.',
 
         # Template: AAACalendar
@@ -647,7 +647,7 @@ sub Data {
         'Perl Version' => 'Perl verzió',
         'Free Swap Space (%)' => 'Szabad lapozófájl méret (%)',
         'No Swap Enabled.' => 'Lapozófájl nincs engedélyezve.',
-        'Used Swap Space (MB)' => 'Használt lapozófájl méret (%)',
+        'Used Swap Space (MB)' => 'Használt lapozófájl méret (MB)',
         'There should be more than 60% free swap space.' => '60%-nál több szabad lapozófájlnak kellene lennie.',
         'There should be no more than 200 MB swap space used.' => '200 MB-nál nem kellene több lapozófájlt használni.',
         'Config Settings' => 'Beállítások konfigurálása',
@@ -683,7 +683,7 @@ sub Data {
         'Domain Name' => 'Tartománynév',
         'Your FQDN setting is invalid.' => 'Az FQDN beállítás érvénytelen.',
         'Package installation status' => 'Csomagtelepítési állapot',
-        'Some packages are not correctly installed.' => 'Néhány csomag nincs helyesen telepítve.',
+        'Some packages are not correctly installed.' => 'Néhány csomag nincs megfelelően telepítve.',
         'Package List' => 'Csomaglista',
         'SystemID' => 'Rendszer azonosító',
         'Your SystemID setting is invalid, it should only contain digits.' =>
@@ -754,8 +754,8 @@ sub Data {
         'Signature added!' => 'Aláírás hozzáadva!',
         'Signature updated!' => 'Aláírás frissítve!',
         'SLA' => 'SLA',
-        'Service Level Agreement' => 'Szolgáltatási szint megállapodás',
-        'Service Level Agreements' => 'Szolgáltatási szint megállapodások',
+        'Service Level Agreement' => 'Szolgáltatási megállapodás',
+        'Service Level Agreements' => 'Szolgáltatási megállapodások',
         'Service' => 'Szolgáltatás',
         'Services' => 'Szolgáltatások',
         'State' => 'Állapot',
@@ -1351,7 +1351,7 @@ sub Data {
         'Archive search option' => 'Archívumkeresési beállítások',
         'Update/Add Ticket Attributes' => 'Jegyjellemzők frissítése/hozzáadása',
         'Set new service' => 'Új szolgáltatás beállítása',
-        'Set new Service Level Agreement' => 'Új szolgáltatási szint megállapodás beállítása',
+        'Set new Service Level Agreement' => 'Új szolgáltatási megállapodás beállítása',
         'Set new priority' => 'Új prioritás beállítása',
         'Set new queue' => 'Új várólista beállítása',
         'Set new state' => 'Új állapot beállítása',
@@ -1724,13 +1724,13 @@ sub Data {
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => '%s kezelése',
-        'Downgrade to OTRS Free' => 'Visszaváltás az OTRS Free verzióra',
+        'Downgrade to ((OTRS)) Community Edition' => 'Visszaváltás az ((OTRS)) Community Edition verzióra',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
             'Az %s rendszeresen kapcsolatot létesít a cloud.otrs.com kiszolgálóval az elérhető frissítések és az alapjául szolgáló szerződés érvényességének ellenőrzéséhez.',
         'Unauthorized Usage Detected' => 'Jogosulatlan használat észlelhető',
         'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
             'Ez a rendszer a megfelelő licenc nélkül használja az %s programot. A szerződés megújításához vagy aktiválásához vegye fel a kapcsolatot a következővel: %s!',
-        '%s not Correctly Installed' => '%s nincs helyesen telepítve',
+        '%s not Correctly Installed' => 'Az %s nincs helyesen telepítve',
         'Your %s is not correctly installed. Please reinstall it with the button below.' =>
             'Az %s nincs helyesen telepítve. Telepítse újra a lenti gombbal.',
         'Reinstall %s' => '%s újratelepítése',
@@ -1744,17 +1744,17 @@ sub Data {
         '%s Update Available' => '%s frissítés érhető el',
         'An update for your %s is available! Please update at your earliest!' =>
             'Frissítés érhető el az %s programhoz! Frissítsen a lehető leghamarabb!',
-        '%s Correctly Deployed' => 'Az %s helyesen üzembe állítva',
+        '%s Correctly Deployed' => 'Az %s megfelelően üzembe lett állítva',
         'Congratulations, your %s is correctly installed and up to date!' =>
-            'Gratulálunk, az %s helyesen telepített van és naprakész!',
+            'Gratulálunk, az %s helyesen van telepítve és naprakész!',
 
         # Template: AdminOTRSBusinessNotInstalled
         'Upgrade to %s' => 'Frissítés a következőre: %s',
         '%s will be available soon. Please check again in a few days.' =>
             'Az %s hamarosan elérhető lesz. Ellenőrizze ismét néhány nap múlva.',
         'Please have a look at %s for more information.' => 'Vessen egy pillantást az %s címre a további információkért.',
-        'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            'Az OTRS Free az alapja minden további műveletnek. Először regisztráljon, mielőtt folytatja az %s frissítési folyamatát!',
+        'Your ((OTRS)) Community Edition is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
+            'Az ((OTRS)) Community Edition az alapja minden további műveletnek. Először regisztráljon, mielőtt folytatja az %s frissítési folyamatát!',
         'Register this System' => 'A rendszer regisztrálása',
         'System Registration is disabled for your system. Please check your configuration.' =>
             'A rendszer regisztráció le van tiltva a rendszerénél. Ellenőrizze a beállításokat.',
@@ -1775,8 +1775,8 @@ sub Data {
         'Vendor' => 'Gyártó',
         'Please uninstall the packages first using the package manager and try again.' =>
             'Először távolítsa el a csomagokat a csomagkezelő használatával, majd próbálja újra.',
-        'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
-            'Arra készül, hogy visszavált az OTRS Free verzióra, és el fogja veszíteni a következő szolgáltatásokat és minden ezekhez kapcsolódó adatot:',
+        'You are about to downgrade to ((OTRS)) Community Edition and will lose the following features and all data related to these:' =>
+            'Arra készül, hogy visszavált az ((OTRS)) Community Edition verzióra, és el fogja veszíteni a következő szolgáltatásokat és minden ezekhez kapcsolódó adatot:',
         'Chat' => 'Csevegés',
         'Timeline view in ticket zoom' => 'Idővonal nézet a jegynagyításban',
         'DynamicField ContactWithData' => 'Dinamikus mező ContactWithData',
@@ -1821,7 +1821,7 @@ sub Data {
         'This package is verified by OTRSverify (tm)' => 'Ezt a csomagot az OTRSverify (tm) ellenőrizte.',
         'Uninstall' => 'Eltávolítás',
         'Reinstall' => 'Újratelepítés',
-        'Features for %s customers only' => 'Csak a(z) %s ügyfelek szolgáltatásai',
+        'Features for %s customers only' => 'Kizárólag %s ügyfelek számára elérhető funkciók',
         'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
             'Az %s használatával a következő opcionális szolgáltatások előnyeit élvezheti. Ha további információkra van szüksége, akkor vegye fel a kapcsolatot a következővel: %s.',
         'Download package' => 'Csomag letöltése',
@@ -2129,7 +2129,7 @@ sub Data {
         'Edit details' => 'Részletek szerkesztése',
         'Show transmitted data' => 'Átvitt adatok megtekintése',
         'Deregister system' => 'Rendszer regisztrációjának törlése',
-        'Overview of registered systems' => 'Regisztrált rendszerek áttekintése',
+        'Overview of registered systems' => 'Regisztrált rendszerek áttekintője',
         'System Registration' => 'Rendszer regisztráció',
         'This system is registered with OTRS Group.' => 'Ez a rendszer regisztrálva van az OTRS csoporttal.',
         'System type' => 'Rendszertípus',
@@ -3088,7 +3088,7 @@ sub Data {
         'Split Quote' => 'Idézet felosztása',
 
         # Template: CustomerTicketMessage
-        'Service level agreement' => 'Szolgáltatási szint megállapodás',
+        'Service level agreement' => 'Szolgáltatási megállapodás',
 
         # Template: CustomerTicketOverview
         'Welcome!' => 'Üdvözöljük!',
@@ -3537,7 +3537,7 @@ sub Data {
         'Converts HTML mails into text messages.' => 'Átalakítja a HTML leveleket szöveges üzenetre.',
         'Create New process ticket' => 'Új folyamatjegy létrehozása',
         'Create Ticket' => 'Jegy létrehozása',
-        'Create and manage Service Level Agreements (SLAs).' => 'Szolgáltatási szint megállapodások (SLA-k) létrehozása és kezelése.',
+        'Create and manage Service Level Agreements (SLAs).' => 'Szolgáltatási megállapodások (SLA-k) létrehozása és kezelése.',
         'Create and manage agents.' => 'Ügyintézők létrehozása és kezelése.',
         'Create and manage attachments.' => 'Mellékletek létrehozása és kezelése.',
         'Create and manage customer users.' => 'Ügyfél-felhasználók létrehozása és kezelése.',
@@ -3632,7 +3632,7 @@ sub Data {
         'Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Szűrő meghatározása a HTML kimenethez, hogy hivatkozást adjon egy meghatározott szöveg mögé. Ez a képelem kétfajta bevitelt tesz lehetővé. Elsőként egy kép nevét (például faq.png). Ez esetben az OTRS képútvonal lesz felhasználva. A másik lehetőség a hivatkozás beszúrása a képhez.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
-            'Szűrő meghatározása a HTML kimenethez, hogy hivatkozást adjon a bugraq számok mögé. Ez a képelem kétfajta bevitelt tesz lehetővé. Elsőként egy kép nevét (például faq.png). Ez esetben az OTRS képútvonal lesz felhasználva. A másik lehetőség a hivatkozás beszúrása a képhez.',
+            'Szűrő meghatározása a HTML kimenethez, hogy hivatkozást adjon a bugtraq számok mögé. Ez a képelem kétfajta bevitelt tesz lehetővé. Elsőként egy kép nevét (például faq.png). Ez esetben az OTRS képútvonal lesz felhasználva. A másik lehetőség a hivatkozás beszúrása a képhez.',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
             'Egy szűrőt határoz meg a bejegyzésekben lévő szöveg feldolgozásához annak érdekében, hogy kiemelje az előre meghatározott kulcsszavakat.',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
@@ -4362,7 +4362,7 @@ sub Data {
             'Engedélyezi a teljesítmény naplót (az oldal válaszidejének naplózásához). Ez hatással lesz a rendszer teljesítményére. A Frontend::Module###AdminPerformanceLog beállításnak engedélyezve kell lennie.',
         'Enables spell checker support.' => 'Engedélyezi a helyesírás-ellenőrzés támogatást.',
         'Enables the minimal ticket counter size (if "Date" was selected as TicketNumberGenerator).' =>
-            'Engedélyezi a legkisebb jegyszámláló méretet (ha „Dátum” lett kiválasztva mint jegyszám-előállító).',
+            'Engedélyezi a legkisebb jegyszámláló méretet (ha „Date” lett kiválasztva mint jegyszám-előállító).',
         'Enables ticket bulk action feature for the agent frontend to work on more than one ticket at a time.' =>
             'Engedélyezi a tömeges jegyművelet szolgáltatást az ügyintézői előtétprogramnál, hogy egyszerre több jegyen tudjon dolgozni.',
         'Enables ticket bulk action feature only for the listed groups.' =>
@@ -4623,12 +4623,12 @@ sub Data {
         'List of JS files to always be loaded for the customer interface.' =>
             'JS fájlok listája, amelyek mindig betöltődnek az ügyfélfelületnél.',
         'List of all CustomerCompany events to be displayed in the GUI.' =>
-            'Az összes CustomerCompany esemény listája, amelyek megjelennek a grafikus felületen.',
-        'List of all CustomerUser events to be displayed in the GUI.' => 'Az összes CustomerUser esemény listája, amelyek megjelennek a grafikus felületen.',
+            'Az összes ügyfélvállalat-esemény listája, amelyek megjelennek a grafikus felületen.',
+        'List of all CustomerUser events to be displayed in the GUI.' => 'Az összes ügyfélfelhasználó-esemény listája, amelyek megjelennek a grafikus felületen.',
         'List of all DynamicField events to be displayed in the GUI.' => 'Az összes dinamikus mező esemény listája, amelyek megjelennek a grafikus felületen.',
-        'List of all Package events to be displayed in the GUI.' => 'Az összes Package esemény listája, amelyek megjelennek a grafikus felületen.',
-        'List of all article events to be displayed in the GUI.' => 'Az összes bejegyzés esemény listája, amelyek megjelennek a grafikus felületen.',
-        'List of all queue events to be displayed in the GUI.' => 'Az összes várólista esemény listája, amelyek megjelennek a grafikus felületen.',
+        'List of all Package events to be displayed in the GUI.' => 'Az összes csomagesemény listája, amelyek megjelennek a grafikus felületen.',
+        'List of all article events to be displayed in the GUI.' => 'Az összes bejegyzésesemény listája, amelyek megjelennek a grafikus felületen.',
+        'List of all queue events to be displayed in the GUI.' => 'Az összes várólista-esemény listája, amelyek megjelennek a grafikus felületen.',
         'List of all ticket events to be displayed in the GUI.' => 'Az összes jegyesemény listája, amelyek megjelennek a grafikus felületen.',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             'Az alapértelmezett szabványos sablonok listája, amelyek automatikusan hozzá vannak rendelve az új várólistákhoz a létrehozáskor.',
@@ -4746,7 +4746,7 @@ sub Data {
             'Túlterheli (újra meghatározza) a Kernel::System::Ticket helyen meglévő függvényeket. Személyre szabások könnyű hozzáadásához használható.',
         'Overview Escalated Tickets' => 'Eszkalált jegyek áttekintése',
         'Overview Refresh Time' => 'Áttekintő frissítési ideje',
-        'Overview of all open Tickets.' => 'Az összes nyitott jegy áttekintése.',
+        'Overview of all open Tickets.' => 'Az összes nyitott jegy áttekintője.',
         'PGP Key Management' => 'PGP kulcs kezelés',
         'PGP Key Upload' => 'PGP kulcs feltöltés',
         'Package event module file a scheduler task for update registration.' =>
