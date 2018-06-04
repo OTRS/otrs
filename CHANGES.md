@@ -1,4 +1,6 @@
-#4.0.30 ????-??-??
+#4.0.31 ????-??-??
+
+#4.0.30 2018-06-12
  - 2018-06-01 Renamed 'OTRS Free' to '((OTRS)) Community Edition'.
  - 2018-03-26 Fixed bug#[10709](https://bugs.otrs.org/show_bug.cgi?id=10709) - ACL for Action AgentTicketBulk are inconsistent.
 
