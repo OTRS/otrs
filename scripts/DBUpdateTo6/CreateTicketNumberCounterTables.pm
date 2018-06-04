@@ -27,7 +27,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
-    my $Verbose       = $Param{CommandlineOptions}->{Verbose} || 0;
+    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
 
     # Get list of all installed packages.
     my @RepositoryList = $PackageObject->RepositoryList();

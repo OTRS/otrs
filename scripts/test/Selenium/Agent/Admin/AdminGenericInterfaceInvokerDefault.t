@@ -17,8 +17,8 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
