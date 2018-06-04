@@ -184,7 +184,7 @@ $Selenium->RunTest(
         # Wait for filter to kick in.
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $(".OneRow[data-entity*=\'Transition\']:visible").length === 1'
+                'return typeof($) === "function" && $(".OneRow[data-entity*=\'Transition\']:visible").length === 1 && $.active == 0'
         );
 
         $Self->True(
@@ -284,7 +284,7 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('a[href*=\"Subaction=TransitionEdit;ID=$TransitionID\"]:visible').length"
+                "return typeof(\$) === 'function' && \$('a[href*=\"Subaction=TransitionEdit;ID=$TransitionID\"]:visible').length && \$.active == 0"
         );
 
         # Go to edit test Transition screen again.

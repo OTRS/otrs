@@ -95,7 +95,7 @@ $Selenium->RunTest(
                 "return typeof(\$) === 'function' && \$('ul#Activities li:contains($ActivityRandom)').length"
         );
         $Selenium->find_element( "#ActivityFilter", 'css' )->send_keys($ActivityRandom);
-        $Selenium->WaitFor( JavaScript => 'return $("#Activities li:visible").length === 1' );
+        $Selenium->WaitFor( JavaScript => 'return $("#Activities li:visible").length === 1 && $.active == 0' );
 
         $Self->True(
             $Selenium->find_element("//*[text()=\"$ActivityRandom\"]")->is_displayed(),

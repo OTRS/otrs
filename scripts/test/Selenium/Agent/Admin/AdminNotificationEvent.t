@@ -365,7 +365,7 @@ $Selenium->RunTest(
 
             # Collaps notification text.
             $Selenium->execute_script(
-                "\$('.NotificationLanguage h2:contains($Lang->{Language})').siblings().find('a').first().click()"
+                "\$('.NotificationLanguage h2:contains($Lang->{Language})').siblings().find('a').first().click();"
             );
 
             $Self->True(
