@@ -173,7 +173,7 @@
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                         </li>
                         <li>
-                            <a href="http://otrs.github.io/doc/manual/admin/stable/en/html/upgrading.html" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-external-link"></i>[% Translate("Go to upgrading instructions") | html %]</span></a>
+                            <a href="http://otrs.github.io/doc/manual/admin/stable/en/html/updating.html" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-external-link"></i>[% Translate("Go to updating instructions") | html %]</span></a>
                         </li>
                         <li>
                             <a href="https://portal.otrs.com/" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-external-link"></i>[% Translate("Go to the OTRS customer portal") | html %]</span></a>
@@ -217,8 +217,8 @@
                     </ul>
                     <h2 class="SpacingTop">[% Translate("How can I do a patch level update if I don’t have a contract?") | html %]</h2>
                     <p>
-                        [% Translate("Please find all relevant information within the upgrading instructions at %s.") | html
-                        | ReplacePlaceholders('<a href="http://otrs.github.io/doc/manual/admin/stable/en/html/upgrading.html" target="_blank">otrs.github.io</a>') %]
+                        [% Translate("Please find all relevant information within the updating instructions at %s.") | html
+                        | ReplacePlaceholders('<a href="http://otrs.github.io/doc/manual/admin/stable/en/html/updating.html" target="_blank">otrs.github.io</a>') %]
                     </p>
                     <p>[% Translate("In case you would have further questions we would be glad to answer them.") | html %] <br />[% Translate("Please visit our customer portal and file a request.") | html %]</p>
                 </div>
