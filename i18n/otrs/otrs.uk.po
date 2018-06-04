@@ -10,15 +10,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-04-23 17:42+0000\n"
-"PO-Revision-Date: 2018-04-23 17:46+0000\n"
+"POT-Creation-Date: 2018-06-04 16:33+0000\n"
+"PO-Revision-Date: 2018-06-04 16:35+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/otrs/OTRS/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -4224,8 +4224,8 @@ msgid "Manage %s"
 msgstr "Керування %s"
 
 #. Template: AdminOTRSBusinessInstalled
-msgid "Downgrade to OTRS Free"
-msgstr "Знизити версію до безкоштовного OTRS"
+msgid "Downgrade to ((OTRS)) Community Edition"
+msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Read documentation"
@@ -4314,9 +4314,9 @@ msgstr "Будь ласка, зверніть увагу на %s для отри
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
-"Your OTRS Free is the base for all future actions. Please register first "
-"before you continue with the upgrade process of %s!"
-msgstr "Ваш безоплатний  OTRS є основою для всіх подальших дій. Будь ласка, зареєструйтесь, перше ніж ви продовжите процес оновлення %s!"
+"Your ((OTRS)) Community Edition is the base for all future actions. Please "
+"register first before you continue with the upgrade process of %s!"
+msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
@@ -4404,9 +4404,9 @@ msgstr "Будь ласка, спершу вилучіть  пакунки з в
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
-"You are about to downgrade to OTRS Free and will lose the following features"
-" and all data related to these:"
-msgstr "Ви збираєтесь спростити угоду до безоплатного OTRS та втратите наступні функції та дані, що пов'язані із ними:"
+"You are about to downgrade to ((OTRS)) Community Edition and will lose the "
+"following features and all data related to these:"
+msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
@@ -4545,8 +4545,8 @@ msgid ""
 msgstr "Ви дійсно хочете перевстановити цей пакунок? Аби-які ручні зміни буде втрачено!"
 
 #. Template: AdminPackageManager
-msgid "Go to upgrading instructions"
-msgstr "Перейти до інструкцій з модернізації"
+msgid "Go to updating instructions"
+msgstr ""
 
 #. Template: AdminPackageManager
 msgid "package information"
@@ -4593,9 +4593,8 @@ msgstr "Як я можу оновити рівень виправлень якщ
 
 #. Template: AdminPackageManager
 msgid ""
-"Please find all relevant information within the upgrading instructions at "
-"%s."
-msgstr "Будь ласка, знайдіть відповідну інформацію в інструкції по оновленню в %s."
+"Please find all relevant information within the updating instructions at %s."
+msgstr ""
 
 #. Template: AdminPackageManager
 msgid ""
@@ -7772,9 +7771,9 @@ msgstr "Виявлено несанкційоване використання %
 
 #. Template: AgentOTRSBusinessBlockScreen
 msgid ""
-"If you decide to downgrade to OTRS Free, you will lose all database tables "
-"and data related to %s."
-msgstr "Якщо ви вирішили повернутися до використання OTRS Free, ви втратите всі таблиці бази даних і дані, що пов'язані із %s."
+"If you decide to downgrade to ((OTRS)) Community Edition, you will lose all "
+"database tables and data related to %s."
+msgstr ""
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
@@ -16150,6 +16149,11 @@ msgid "Delete error handling module"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
+msgid ""
+"It is not possible to add a new event trigger because the event is not set."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid "Delete this Invoker"
 msgstr "Вилучити цей активатор."
 
@@ -18663,6 +18667,13 @@ msgstr ""
 
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Define which avatar default image should be used for the article view if no "
+"gravatar is assigned to the mail address. Check "
+"http://gravatar.com/site/implement/images/ for further information."
 msgstr ""
 
 #. SysConfig
@@ -21814,6 +21825,10 @@ msgid "Frontend module registration for the customer interface."
 msgstr ""
 
 #. SysConfig
+msgid "Frontend module registration for the public interface."
+msgstr ""
+
+#. SysConfig
 msgid "Full value"
 msgstr ""
 
@@ -22799,10 +22814,6 @@ msgstr "Позначити як спам!"
 
 #. SysConfig
 msgid "Mark this ticket as junk!"
-msgstr ""
-
-#. SysConfig
-msgid "Marks articles for index rebuild right after the article's update."
 msgstr ""
 
 #. SysConfig
@@ -26048,6 +26059,12 @@ msgstr ""
 msgid ""
 "The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is "
 "Ticket#."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"The logo shown in the header of the agent interface for the skin \"High "
+"Contrast\". See \"AgentLogo\" for further description."
 msgstr ""
 
 #. SysConfig

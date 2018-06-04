@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-04-23 17:42+0000\n"
-"PO-Revision-Date: 2018-04-23 17:46+0000\n"
+"POT-Creation-Date: 2018-06-04 16:33+0000\n"
+"PO-Revision-Date: 2018-06-04 16:35+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Malay (http://www.transifex.com/otrs/OTRS/language/ms/)\n"
 "MIME-Version: 1.0\n"
@@ -4219,8 +4219,8 @@ msgid "Manage %s"
 msgstr "Mengurus %s"
 
 #. Template: AdminOTRSBusinessInstalled
-msgid "Downgrade to OTRS Free"
-msgstr "Menurunkan taraf kepada OTRS Percuma"
+msgid "Downgrade to ((OTRS)) Community Edition"
+msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Read documentation"
@@ -4309,9 +4309,9 @@ msgstr "Sila lihat di %s untuk maklumat lanjut."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
-"Your OTRS Free is the base for all future actions. Please register first "
-"before you continue with the upgrade process of %s!"
-msgstr "OTRS Percuma anda adalah asas untuk semua tindakan masa depan. Sila daftar terlebih dahulu sebelum anda meneruskan proses naik taraf daripada %s!"
+"Your ((OTRS)) Community Edition is the base for all future actions. Please "
+"register first before you continue with the upgrade process of %s!"
+msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
@@ -4399,9 +4399,9 @@ msgstr "Sila padam pakej terlebih dahulu menggunakan pengurus pakej dan cuba lag
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
-"You are about to downgrade to OTRS Free and will lose the following features"
-" and all data related to these:"
-msgstr "Anda akan menurunkan taraf kepada OTRS percuma dan akan kehilangan ciri-ciri berikut dan semua data yang berkaitan dengan ini:"
+"You are about to downgrade to ((OTRS)) Community Edition and will lose the "
+"following features and all data related to these:"
+msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
@@ -4540,7 +4540,7 @@ msgid ""
 msgstr "Adakah anda benar-benar mahu memasang semula pakej ini? Sebarang perubahan manual akan hilang."
 
 #. Template: AdminPackageManager
-msgid "Go to upgrading instructions"
+msgid "Go to updating instructions"
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -4588,8 +4588,7 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid ""
-"Please find all relevant information within the upgrading instructions at "
-"%s."
+"Please find all relevant information within the updating instructions at %s."
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -7767,9 +7766,9 @@ msgstr "Penggunaan tidak sah bagi %s dikesan"
 
 #. Template: AgentOTRSBusinessBlockScreen
 msgid ""
-"If you decide to downgrade to OTRS Free, you will lose all database tables "
-"and data related to %s."
-msgstr "Jika anda membuat keputusan untuk turun taraf kepada OTRS Free, anda akan kehilangan kesemua jadual-jadual pangkalan data dan data berkaitan dengan %s."
+"If you decide to downgrade to ((OTRS)) Community Edition, you will lose all "
+"database tables and data related to %s."
+msgstr ""
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
@@ -16145,6 +16144,11 @@ msgid "Delete error handling module"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
+msgid ""
+"It is not possible to add a new event trigger because the event is not set."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid "Delete this Invoker"
 msgstr "Padam Invoker ini"
 
@@ -18659,6 +18663,13 @@ msgstr "Menentukan hari permulaan minggu untuk pemilih tarikh untuk kalendar yan
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
 msgstr "Menetukan hari permulaan mingguan untuk pemilih tarikh."
+
+#. SysConfig
+msgid ""
+"Define which avatar default image should be used for the article view if no "
+"gravatar is assigned to the mail address. Check "
+"http://gravatar.com/site/implement/images/ for further information."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -21809,6 +21820,10 @@ msgid "Frontend module registration for the customer interface."
 msgstr "Pendaftaran modul frontend untuk paparan pelanggan."
 
 #. SysConfig
+msgid "Frontend module registration for the public interface."
+msgstr "Frontend pendaftaran modul untuk antara muka awam."
+
+#. SysConfig
 msgid "Full value"
 msgstr "Nilai penuh"
 
@@ -22795,10 +22810,6 @@ msgstr "Tanda sebagai Spam!"
 #. SysConfig
 msgid "Mark this ticket as junk!"
 msgstr "Tanda tiket ini sebagai junk!"
-
-#. SysConfig
-msgid "Marks articles for index rebuild right after the article's update."
-msgstr ""
 
 #. SysConfig
 msgid ""
@@ -26044,6 +26055,12 @@ msgid ""
 "The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is "
 "Ticket#."
 msgstr "Pengecam untuk tiket, cth: Ticket#, Call#, MyTicket#. Default ialah Ticket#."
+
+#. SysConfig
+msgid ""
+"The logo shown in the header of the agent interface for the skin \"High "
+"Contrast\". See \"AgentLogo\" for further description."
+msgstr ""
 
 #. SysConfig
 msgid ""

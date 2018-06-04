@@ -18,8 +18,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-04-23 17:42+0000\n"
-"PO-Revision-Date: 2018-04-23 17:46+0000\n"
+"POT-Creation-Date: 2018-06-04 16:33+0000\n"
+"PO-Revision-Date: 2018-06-04 16:35+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Polish (http://www.transifex.com/otrs/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,7 @@ msgstr "Utwórz nowy ACL"
 
 #. Template: AdminACL
 msgid "Deploy ACLs"
-msgstr "Zatwierdź ACL"
+msgstr "Wdróż ACL"
 
 #. Template: AdminACL
 msgid "Export ACLs"
@@ -598,7 +598,7 @@ msgstr "Wyślij do tych agentów"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all group members (agents only)"
-msgstr ""
+msgstr " Wyślij do wszystkich członków grupy (tylko agenci)"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
@@ -1919,7 +1919,7 @@ msgstr "Dodaj wyrażenie regularne"
 
 #. Template: AdminEmail
 msgid "Admin Message"
-msgstr "Wiadomość Admina"
+msgstr "Wiadomość Administratora"
 
 #. Template: AdminEmail
 msgid ""
@@ -2521,7 +2521,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Do you really want to delete this error handling module?"
-msgstr ""
+msgstr "Czy na pewno chcesz usunąć ten moduł obsługi błędów?"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "All configuration data will be lost."
@@ -2529,7 +2529,7 @@ msgstr "Cała konfiguracja zostanie utracona."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "General options"
-msgstr ""
+msgstr "Opcje ogólne"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
@@ -2552,7 +2552,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Processing options"
-msgstr ""
+msgstr "Opcje przetwarzania"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Configure filters to control error handling module execution."
@@ -2566,7 +2566,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Operation filter"
-msgstr ""
+msgstr "Filtr operacji"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only execute error handling module for selected operations."
@@ -2641,7 +2641,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message"
-msgstr ""
+msgstr "Komunikat błędu"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error explanation for this error handling module."
@@ -3051,7 +3051,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "MacOS Shortcuts"
-msgstr ""
+msgstr "Skróty MacOS"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Comment code"
@@ -4232,8 +4232,8 @@ msgid "Manage %s"
 msgstr "Zarządzaj %s"
 
 #. Template: AdminOTRSBusinessInstalled
-msgid "Downgrade to OTRS Free"
-msgstr "Zdegraduj do OTRS Free"
+msgid "Downgrade to ((OTRS)) Community Edition"
+msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Read documentation"
@@ -4302,7 +4302,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Correctly Deployed"
-msgstr ""
+msgstr "%s poprawnie wdrożony"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Congratulations, your %s is correctly installed and up to date!"
@@ -4322,9 +4322,9 @@ msgstr "Spójrz na %s aby uzyskać więcej informacji."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
-"Your OTRS Free is the base for all future actions. Please register first "
-"before you continue with the upgrade process of %s!"
-msgstr "Ta instalacja OTRS Free jest bazą dla wszystkich przyszłych akcji. Zarejestruj ją przed kontynuowaniem procesu aktualizacji do %s!"
+"Your ((OTRS)) Community Edition is the base for all future actions. Please "
+"register first before you continue with the upgrade process of %s!"
+msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
@@ -4412,8 +4412,8 @@ msgstr "Odinstaluj najpierw pakiety za pomocą menedżera pakietów i spróbuj p
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
-"You are about to downgrade to OTRS Free and will lose the following features"
-" and all data related to these:"
+"You are about to downgrade to ((OTRS)) Community Edition and will lose the "
+"following features and all data related to these:"
 msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
@@ -4532,7 +4532,7 @@ msgstr "Menedżer pakietów"
 
 #. Template: AdminPackageManager
 msgid "Uninstall Package"
-msgstr "Odinstaluj paczkę"
+msgstr "Odinstaluj pakiet"
 
 #. Template: AdminPackageManager
 msgid "Uninstall package"
@@ -4553,8 +4553,8 @@ msgid ""
 msgstr "Czy na pewno chcesz reinstalować ten pakiet? Wszystkie ręczne modyfikacje będą utracone."
 
 #. Template: AdminPackageManager
-msgid "Go to upgrading instructions"
-msgstr "Idź do instrukcji uaktualniania"
+msgid "Go to updating instructions"
+msgstr ""
 
 #. Template: AdminPackageManager
 msgid "package information"
@@ -4601,8 +4601,7 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid ""
-"Please find all relevant information within the upgrading instructions at "
-"%s."
+"Please find all relevant information within the updating instructions at %s."
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -4616,7 +4615,7 @@ msgstr "Instaluj pakiet"
 
 #. Template: AdminPackageManager
 msgid "Update Package"
-msgstr ""
+msgstr "Aktualizuj pakiet"
 
 #. Template: AdminPackageManager
 msgid "Continue"
@@ -4679,7 +4678,7 @@ msgstr "Odinstaluj"
 
 #. Template: AdminPackageManager
 msgid "Package not correctly deployed! Please reinstall the package."
-msgstr "Pakiet zainstalowany nieprawidłowo! Zainstaluj pakiet ponownie."
+msgstr "Pakiet wdrożony nieprawidłowo! Zainstaluj pakiet ponownie."
 
 #. Template: AdminPackageManager
 msgid "Reinstall"
@@ -5280,7 +5279,7 @@ msgstr "Edytuj proces"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Print process information"
-msgstr "Drujuj informację o procesie"
+msgstr "Drukuj informację o procesie"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Delete Process"
@@ -6675,7 +6674,7 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Changes Deployment"
-msgstr ""
+msgstr "Wdrażanie zmian"
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Help"
@@ -6736,20 +6735,20 @@ msgstr ""
 #. Template: AdminSystemConfigurationDeployment
 msgid ""
 "Switch to advanced mode to deploy settings changed by other users, too."
-msgstr ""
+msgstr "Przełącz się do trybu zaawansowanego by wdrożyć parametry konfiguracji zmienione również przez innych użytkowników."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "There are no settings to be deployed."
-msgstr ""
+msgstr "Nie ma zmian parametrów do wdrożenia."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid ""
 "Switch to advanced mode to see deployable settings changed by other users."
-msgstr ""
+msgstr "Przełącz się do trybu zaawansowanego by zobaczyć gotowe do wdrożenia parametry konfiguracji zmienione przez innych użytkowników."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Deploy selected changes"
-msgstr ""
+msgstr "Opublikuj wybrane zmiany"
 
 #. Template: AdminSystemConfigurationGroup
 msgid ""
@@ -6837,7 +6836,7 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationView
 msgid "Go back to Deployment Details"
-msgstr ""
+msgstr "Wróć do szczegółów wdrożenia"
 
 #. Template: AdminSystemMaintenance
 msgid "System Maintenance Management"
@@ -7097,11 +7096,11 @@ msgstr "Tel. kom."
 
 #. Template: AdminUser
 msgid "Effective Permissions for Agent"
-msgstr ""
+msgstr "Wypadkowe uprawnienia agenta"
 
 #. Template: AdminUser
 msgid "This agent has no group permissions."
-msgstr ""
+msgstr "Ten Agent nie ma uprawnień do grup."
 
 #. Template: AdminUser
 msgid ""
@@ -7489,7 +7488,7 @@ msgstr ""
 
 #. Template: AgentDaemonInfo
 msgid "A running OTRS Daemon is mandatory for correct system operation."
-msgstr ""
+msgstr "Uruchomiony Daemon OTRS jest niezbędny do prawidłowego działania systemu."
 
 #. Template: AgentDaemonInfo
 msgid "Starting the OTRS Daemon"
@@ -7615,7 +7614,7 @@ msgstr "Uwaga: Użytkownik klienta jest nieprawidłowy!"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Customer user information"
-msgstr ""
+msgstr "Informacje o Użytkowniku Klienta"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Phone ticket"
@@ -7762,7 +7761,7 @@ msgstr ""
 
 #. Template: AgentLinkObject
 msgid "Link with"
-msgstr ""
+msgstr "Połącz z"
 
 #. Template: AgentLinkObject
 msgid "Start search"
@@ -7780,8 +7779,8 @@ msgstr "Wykryte nieautoryzowane użycie %s"
 
 #. Template: AgentOTRSBusinessBlockScreen
 msgid ""
-"If you decide to downgrade to OTRS Free, you will lose all database tables "
-"and data related to %s."
+"If you decide to downgrade to ((OTRS)) Community Edition, you will lose all "
+"database tables and data related to %s."
 msgstr ""
 
 #. Template: AgentPreferences
@@ -9942,7 +9941,7 @@ msgstr "To ustawienie jest wyłączone."
 
 #. Template: SettingsList
 msgid "This setting is fixed but not deployed yet!"
-msgstr ""
+msgstr "To ustawienie jest przygotowane ale jeszcze nie wdrożone!"
 
 #. Template: SettingsList
 msgid ""
@@ -10237,19 +10236,19 @@ msgstr "Dodaj klucz"
 
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
-msgstr ""
+msgstr "Komentarz do wdrożenia..."
 
 #. JS Template: DialogDeployment
 msgid "Deploying, please wait..."
-msgstr ""
+msgstr "Wdrażanie, proszę czekać..."
 
 #. JS Template: DialogDeployment
 msgid "Preparing to deploy, please wait..."
-msgstr ""
+msgstr "Przygotowanie do wdrożenia, proszę czekać..."
 
 #. JS Template: DialogDeployment
 msgid "Deploy now"
-msgstr ""
+msgstr "Wdróż teraz"
 
 #. JS Template: DialogDeployment
 msgid "Close"
@@ -10593,7 +10592,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "All communications"
-msgstr ""
+msgstr "Cała komunikacja"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 1 hour"
@@ -11295,7 +11294,7 @@ msgstr "Przydzielaj na podstawie wybranej kolejki."
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who created the ticket"
-msgstr ""
+msgstr "Agent który utworzył zgłoszenie"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who owns the ticket"
@@ -11327,7 +11326,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Customer user of the ticket"
-msgstr ""
+msgstr "Użytkownik klienta w tym zgłoszeniu"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All recipients of the first article"
@@ -11440,7 +11439,7 @@ msgstr "Zainstalowane"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not correctly deployed"
-msgstr ""
+msgstr "Niepoprawnie wdrożone"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package updated correctly"
@@ -12322,7 +12321,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to deploy your changes."
-msgstr ""
+msgstr "System nie mógł wdrożyć twoich zmian."
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Setting not found!"
@@ -13489,7 +13488,7 @@ msgstr "Ulepsz do wersji OTRS Business Solution™"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Re-install Package"
-msgstr "Zainstaluj ponownie Paczkę"
+msgstr "Zainstaluj ponownie pakiet"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Upgrade"
@@ -13885,12 +13884,12 @@ msgstr "Usługa wiadomości o  nieobecności jest aktywna, czy chcesz ją wyłą
 msgid ""
 "You have %s invalid setting(s) deployed. Click here to show invalid "
 "settings."
-msgstr ""
+msgstr "Są opublikowane nieprawidłowe parametry: %s. Kliknij tutaj aby je wyświetlić."
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/SystemConfigurationIsDirtyCheck.pm
 msgid "You have undeployed settings, would you like to deploy them?"
-msgstr ""
+msgstr "Masz niewdrożone parametry, czy chcesz je wdrożyć?"
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/SystemConfigurationOutOfSyncCheck.pm
@@ -14364,7 +14363,7 @@ msgstr "Nieaktywny"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "FadeAway"
-msgstr ""
+msgstr "Wygaszony"
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't contact registration server. Please try again later."
@@ -15522,7 +15521,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Can not lock the deployment for UserID '%s'!"
-msgstr ""
+msgstr "Nie mogę zablokować wdrożenia dla UserID '%s'!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "All Settings"
@@ -16158,6 +16157,11 @@ msgid "Delete error handling module"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
+msgid ""
+"It is not possible to add a new event trigger because the event is not set."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid "Delete this Invoker"
 msgstr "Usuń ten invoker"
 
@@ -16443,15 +16447,15 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Deploy"
-msgstr ""
+msgstr "Wdróż"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "The deployment is already running."
-msgstr ""
+msgstr "Wdrażanie jest już aktualnie uruchomione."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Deployment successful. You're being redirected..."
-msgstr ""
+msgstr "Wdrożenie udane. Zostaniesz przekierowany..."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid ""
@@ -18671,6 +18675,13 @@ msgstr ""
 
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Define which avatar default image should be used for the article view if no "
+"gravatar is assigned to the mail address. Check "
+"http://gravatar.com/site/implement/images/ for further information."
 msgstr ""
 
 #. SysConfig
@@ -21822,6 +21833,10 @@ msgid "Frontend module registration for the customer interface."
 msgstr "Rejestracja modułu interfejsu dla interfejsu klienta."
 
 #. SysConfig
+msgid "Frontend module registration for the public interface."
+msgstr ""
+
+#. SysConfig
 msgid "Full value"
 msgstr ""
 
@@ -22779,7 +22794,7 @@ msgstr "Zarządzanie certyfikatami S/MIME służącymi do szyfrowania poczty wyc
 
 #. SysConfig
 msgid "Manage System Configuration Deployments."
-msgstr ""
+msgstr "Zarządzaj Wdrożeniami Konfiguracji Systemu."
 
 #. SysConfig
 msgid "Manage different calendars."
@@ -22808,10 +22823,6 @@ msgstr "Oznacz jako spam!"
 #. SysConfig
 msgid "Mark this ticket as junk!"
 msgstr "Oznacz to zgłoszenie jako SPAM!"
-
-#. SysConfig
-msgid "Marks articles for index rebuild right after the article's update."
-msgstr ""
 
 #. SysConfig
 msgid ""
@@ -25973,7 +25984,7 @@ msgstr ""
 
 #. SysConfig
 msgid "System Configuration Deployment"
-msgstr ""
+msgstr "Wdrażanie Konfiguracji Systemu"
 
 #. SysConfig
 msgid "System Configuration Group"
@@ -26057,6 +26068,12 @@ msgid ""
 "The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is "
 "Ticket#."
 msgstr "Identyfikator zgłoszenia np. Ticket#, Call#, MyTicket#. Domyślny to Ticket#."
+
+#. SysConfig
+msgid ""
+"The logo shown in the header of the agent interface for the skin \"High "
+"Contrast\". See \"AgentLogo\" for further description."
+msgstr ""
 
 #. SysConfig
 msgid ""

@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.999138376701706;
+    $Self->{Completeness}        = 0.998622115053393;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -201,7 +201,7 @@ sub Data {
         'Recipients' => '接收人',
         'Send to' => '发送给',
         'Send to these agents' => '发送给服务人员',
-        'Send to all group members (agents only)' => '',
+        'Send to all group members (agents only)' => '发送给组的所有成员（仅服务人员）',
         'Send to all role members' => '发送给角色的所有成员',
         'Send on out of office' => '不在办公室也发送',
         'Also send if the user is currently out of office.' => '用户设置了不在办公室时仍然发送。',
@@ -999,7 +999,7 @@ sub Data {
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             '这个映射将对响应数据进行处理，以便将它转换成远程系统所期待的数据。',
         'Include Ticket Data' => '包含工单数据',
-        'Include ticket data in response.' => '',
+        'Include ticket data in response.' => '在响应中包含工单数据',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'Network Transport' => '网络传输',
@@ -1301,7 +1301,7 @@ sub Data {
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => '管理 %s',
-        'Downgrade to OTRS Free' => '降级到免费版本',
+        'Downgrade to ((OTRS)) Community Edition' => '',
         'Read documentation' => '阅读文档',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
             '%s 定期连接到cloud.otrs.com检查可用更新，并验证合同的有效性。',
@@ -1331,8 +1331,8 @@ sub Data {
         '%s will be available soon. Please check again in a few days.' =>
             '%s 很快就可用了，请过几天再检查一次。',
         'Please have a look at %s for more information.' => '有关更多信息,请查看 %s。',
-        'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            'OTRS免费版本是所有功能的基础，继续升级到%s 前请先注册！',
+        'Your ((OTRS)) Community Edition is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
+            '',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
             '在从%s 受益之前，请先联系%s 以获得%s 合同。',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
@@ -1362,8 +1362,8 @@ sub Data {
         'Vendor' => '提供者',
         'Please uninstall the packages first using the package manager and try again.' =>
             '请在软件包管理模块中先删除这些软件包，然后再试一次。',
-        'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
-            '你打算降级到OTRS免费版本，以下功能特性和相关数据将全部丢失：',
+        'You are about to downgrade to ((OTRS)) Community Edition and will lose the following features and all data related to these:' =>
+            '',
         'Chat' => '聊天',
         'Report Generator' => '报表生成器',
         'Timeline view in ticket zoom' => '以时间轴视图展开工单',
@@ -1404,7 +1404,7 @@ sub Data {
         'Reinstall package' => '重新安装软件包',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             '您真的想要重新安装该软包吗? 所有该模块的手工设置将丢失.',
-        'Go to upgrading instructions' => '转到升级说明',
+        'Go to updating instructions' => '',
         'package information' => '软件包信息',
         'Package installation requires a patch level update of OTRS.' => '安装软件包需要将OTRS补丁级别更新。',
         'Package update requires a patch level update of OTRS.' => '升级软件包需要将OTRS补丁级别更新。',
@@ -1421,8 +1421,8 @@ sub Data {
             '你将收到所有其他有关OTRS问题的更新。',
         'How can I do a patch level update if I don’t have a contract?' =>
             '如果没有合约，我怎么更新补丁级别？',
-        'Please find all relevant information within the upgrading instructions at %s.' =>
-            '请在升级说明%s中找到所有相关信息。',
+        'Please find all relevant information within the updating instructions at %s.' =>
+            '',
         'In case you would have further questions we would be glad to answer them.' =>
             '如果您还有其它问题，我们非常愿意答复您。',
         'Install Package' => '安装软件包',
@@ -1999,7 +1999,7 @@ sub Data {
             '这个状态已存在于系统配置的一个设置中，需要更新设置以确认指向新的状态！',
         'State type' => '工单状态类型',
         'It\'s not possible to invalidate this entry because there is no other merge states in system!' =>
-            '',
+            '无法使此条目无效，因为系统中没有其他合并状态！',
         'This state is used in the following config settings:' => '这个状态已用于以下的系统配置设置：',
 
         # Template: AdminSupportDataCollector
@@ -2438,8 +2438,8 @@ sub Data {
 
         # Template: AgentOTRSBusinessBlockScreen
         'Unauthorized usage of %s detected' => '检测到未经授权的使用 %s',
-        'If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.' =>
-            '如果决定降级到OTRS免费版本，会丢失%s相关的所有数据库表及其数据。',
+        'If you decide to downgrade to ((OTRS)) Community Edition, you will lose all database tables and data related to %s.' =>
+            '',
 
         # Template: AgentPreferences
         'Edit your preferences' => '编辑个人设置',
@@ -2839,7 +2839,7 @@ sub Data {
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
-            '',
+            '%s发现可能有网络问题。 你可以尝试手动刷新此页面，也可以等浏览器自行重连。',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
             '连接在临时中断后已重连，因此本页面上的元素可能已无法正常工作。为了能重新正常使用所有的元素，强烈建议刷新本页面。',
 
@@ -5441,6 +5441,8 @@ sub Data {
         'Delete error handling module' => '删除错误处理模块',
 
         # JS File: Core.Agent.Admin.GenericInterfaceInvoker
+        'It is not possible to add a new event trigger because the event is not set.' =>
+            '',
         'Delete this Invoker' => '删除这个调用程序',
 
         # JS File: Core.Agent.Admin.GenericInterfaceInvokerEvent
@@ -5685,7 +5687,7 @@ sub Data {
         # JS File: Core.App
         'Error: Browser Check failed!' => '错误：浏览器检查失败！',
         'Reload page' => '刷新页面',
-        'Reload page (%ss)' => '',
+        'Reload page (%ss)' => '刷新页面（%ss）',
 
         # JS File: Core.Debug
         'Namespace %s could not be initialized, because %s could not be found.' =>
@@ -6290,6 +6292,8 @@ Thanks for your help!
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '为选定的日历定义日期选择器中一周的起始日。',
         'Define the start day of the week for the date picker.' => '定义日期选择器中一周的起始日。',
+        'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check http://gravatar.com/site/implement/images/ for further information.' =>
+            '',
         'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information.' =>
             '如果没有分配给服务人员的邮件地址的gravatar（个人全球统一标识），则定义当前服务人员应该使用哪个头像作为默认图像。 查看 http://gravatar.com/site/implement/images/ 以了解更多信息。',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
@@ -7269,6 +7273,7 @@ Thanks for your help!
             '前端模块注册（作为“系统管理”的子导航项目显示个人收藏夹）。',
         'Frontend module registration for the agent interface.' => '服务人员界面的前端模块注册。',
         'Frontend module registration for the customer interface.' => '客户界面的前端模块注册。',
+        'Frontend module registration for the public interface.' => '公共界面的前端模块注册。',
         'Full value' => '全值',
         'Fulltext index regex filters to remove parts of the text.' => '全文索引正则表达式过滤器用来删除部分文本。',
         'Fulltext search' => '全文搜索',
@@ -7553,8 +7558,6 @@ Thanks for your help!
         'Manage tasks triggered by event or time based execution.' => '管理事件触发或基于时间执行的任务。',
         'Mark as Spam!' => '标记为垃圾!',
         'Mark this ticket as junk!' => '标记这个工单为垃圾!',
-        'Marks articles for index rebuild right after the article\'s update.' =>
-            '在信件更新之后，标记信件以便索引正确重建。',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '在编写工单屏幕客户信息表格（电话和邮件）的最大尺寸（单位：字符）。',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -8483,6 +8486,8 @@ Thanks for your help!
         'The headline shown in the customer interface.' => '客户界面显示的标题。',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             '工单的标识符，如Ticket#、Call#、MyTicket#，默认为Ticket#。',
+        'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
+            '服务人员界面“High Contrast（高对比度）”皮肤显示在顶部的LOGO，查看“AgentLogo”以获得更多描述。',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
             '服务人员界面“默认”皮肤显示在顶部的LOGO，查看“AgentLogo”以获得更多描述。',
         'The logo shown in the header of the agent interface for the skin "ivory". See "AgentLogo" for further description.' =>
@@ -8694,6 +8699,7 @@ Thanks for your help!
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
         'A preview of this website can\'t be provided because it didn\'t allow to be embedded.',
         'Add',
+        'Add Event Trigger',
         'Add all',
         'Add entry',
         'Add key',
@@ -8831,6 +8837,7 @@ Thanks for your help!
         'Invalid date (need a past date)!',
         'Invalid date!',
         'It is going to be deleted from the field, please try again.',
+        'It is not possible to add a new event trigger because the event is not set.',
         'It is not possible to set this entry to invalid. All affected configuration settings have to be changed beforehand.',
         'It was not possible to delete this draft.',
         'It was not possible to generate the Support Bundle.',

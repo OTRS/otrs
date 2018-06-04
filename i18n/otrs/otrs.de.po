@@ -58,9 +58,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-04-23 17:42+0000\n"
-"PO-Revision-Date: 2018-04-23 17:46+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"POT-Creation-Date: 2018-06-04 16:33+0000\n"
+"PO-Revision-Date: 2018-06-04 16:35+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4272,8 +4272,8 @@ msgid "Manage %s"
 msgstr " %s verwalten"
 
 #. Template: AdminOTRSBusinessInstalled
-msgid "Downgrade to OTRS Free"
-msgstr "Zu OTRS Free downgraden"
+msgid "Downgrade to ((OTRS)) Community Edition"
+msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Read documentation"
@@ -4362,9 +4362,9 @@ msgstr "Weitere Informationen können Sie unter %s finden."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
-"Your OTRS Free is the base for all future actions. Please register first "
-"before you continue with the upgrade process of %s!"
-msgstr "Bitte registrieren Sie Ihr OTRS Free zunächst, wenn Sie mit dem Upgrade auf die %s fortfahren möchten!"
+"Your ((OTRS)) Community Edition is the base for all future actions. Please "
+"register first before you continue with the upgrade process of %s!"
+msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
@@ -4452,9 +4452,9 @@ msgstr "Bitte entfernen Sie diese Pakete zunächst und versuchen Sie es nochmals
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
-"You are about to downgrade to OTRS Free and will lose the following features"
-" and all data related to these:"
-msgstr "Wenn Sie zu OTRS Free downgraden, werden Sie die folgenden Features (und alle zugehörigen Daten) verlieren:"
+"You are about to downgrade to ((OTRS)) Community Edition and will lose the "
+"following features and all data related to these:"
+msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
@@ -4593,8 +4593,8 @@ msgid ""
 msgstr "Möchten Sie dieses Paket wirklich erneut installieren? Alle manuellen Änderungen gehen verloren."
 
 #. Template: AdminPackageManager
-msgid "Go to upgrading instructions"
-msgstr "Zur Upgrade-Anleitung gehen"
+msgid "Go to updating instructions"
+msgstr ""
 
 #. Template: AdminPackageManager
 msgid "package information"
@@ -4641,9 +4641,8 @@ msgstr "Wie kann ich ein Patchlevel-Update durchführen, wenn ich keinen Vertrag
 
 #. Template: AdminPackageManager
 msgid ""
-"Please find all relevant information within the upgrading instructions at "
-"%s."
-msgstr "Alle relevanten Informationen sind Teil der Upgrading-Instruktionen unter %s."
+"Please find all relevant information within the updating instructions at %s."
+msgstr ""
 
 #. Template: AdminPackageManager
 msgid ""
@@ -7820,9 +7819,9 @@ msgstr "Unerlaubte Nutzung der %s erkannt"
 
 #. Template: AgentOTRSBusinessBlockScreen
 msgid ""
-"If you decide to downgrade to OTRS Free, you will lose all database tables "
-"and data related to %s."
-msgstr "Wenn Sie sich entscheiden, auf OTRS Free downzugraden, verlieren Sie alle zur %s gehörigen Datenbank-Tabellen und Daten. "
+"If you decide to downgrade to ((OTRS)) Community Edition, you will lose all "
+"database tables and data related to %s."
+msgstr ""
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
@@ -16198,6 +16197,11 @@ msgid "Delete error handling module"
 msgstr "Fehlerbehandlungs-Modul entfernen."
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
+msgid ""
+"It is not possible to add a new event trigger because the event is not set."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid "Delete this Invoker"
 msgstr "Diesen Invoker löschen"
 
@@ -18712,6 +18716,13 @@ msgstr "Definiert den Wochentag, mit dem die Woche im angegebenen Kalender begin
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
 msgstr "Definiert den Beginn einer Woche für den Datumswähler."
+
+#. SysConfig
+msgid ""
+"Define which avatar default image should be used for the article view if no "
+"gravatar is assigned to the mail address. Check "
+"http://gravatar.com/site/implement/images/ for further information."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -21862,6 +21873,10 @@ msgid "Frontend module registration for the customer interface."
 msgstr "Frontend-Modulregistrierung für den Kundenbereich."
 
 #. SysConfig
+msgid "Frontend module registration for the public interface."
+msgstr "Frontendmodul-Registrierung für das Public-Interface."
+
+#. SysConfig
 msgid "Full value"
 msgstr "Vollständiger Wert"
 
@@ -22848,10 +22863,6 @@ msgstr "Als Spam makieren!"
 #. SysConfig
 msgid "Mark this ticket as junk!"
 msgstr "Dieses Ticket als Junk markieren!"
-
-#. SysConfig
-msgid "Marks articles for index rebuild right after the article's update."
-msgstr "Markiert Artikel für eine Neuerstellung des Artikel-Index direkt nach der Aktualisierung des Artikels."
 
 #. SysConfig
 msgid ""
@@ -26097,6 +26108,12 @@ msgid ""
 "The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is "
 "Ticket#."
 msgstr "Erkenner für Tickets, z. B. Ticket#, Anruf#, MeinTicket#."
+
+#. SysConfig
+msgid ""
+"The logo shown in the header of the agent interface for the skin \"High "
+"Contrast\". See \"AgentLogo\" for further description."
+msgstr ""
 
 #. SysConfig
 msgid ""

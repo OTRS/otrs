@@ -9,9 +9,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-04-23 17:42+0000\n"
-"PO-Revision-Date: 2018-04-23 17:46+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"POT-Creation-Date: 2018-06-04 16:33+0000\n"
+"PO-Revision-Date: 2018-06-04 16:35+0000\n"
+"Last-Translator: Dusan Vuckovic\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -589,7 +589,7 @@ msgstr "Пошаљи овим оператерима"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all group members (agents only)"
-msgstr ""
+msgstr "Пошаљи свим члановима групе (само оператерима)"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
@@ -3256,7 +3256,7 @@ msgstr "Укључи податке тикета"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Include ticket data in response."
-msgstr ""
+msgstr "Укључи податке тикета у одговору."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Network Transport"
@@ -4223,8 +4223,8 @@ msgid "Manage %s"
 msgstr "Управљај са %s"
 
 #. Template: AdminOTRSBusinessInstalled
-msgid "Downgrade to OTRS Free"
-msgstr "Повратак на бесплатну верзију OTRS"
+msgid "Downgrade to ((OTRS)) Community Edition"
+msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Read documentation"
@@ -4313,9 +4313,9 @@ msgstr "Молимо да погледате  %s за више информац�
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
-"Your OTRS Free is the base for all future actions. Please register first "
-"before you continue with the upgrade process of %s!"
-msgstr "Ваш 'OTRS Free' је основа за све будуће активности. Молимо вас да се региструјете пре него што наставите са процесом ажурирања %s!"
+"Your ((OTRS)) Community Edition is the base for all future actions. Please "
+"register first before you continue with the upgrade process of %s!"
+msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
@@ -4403,9 +4403,9 @@ msgstr "Молимо вас да прво деинсталирате пакет�
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
-"You are about to downgrade to OTRS Free and will lose the following features"
-" and all data related to these:"
-msgstr "Вратићете се на стару верзију бесплатног OTRS и изгубићете следећа својства и податке повезане са:"
+"You are about to downgrade to ((OTRS)) Community Edition and will lose the "
+"following features and all data related to these:"
+msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
@@ -4544,8 +4544,8 @@ msgid ""
 msgstr "Да ли стварно желите да поново инсталирате овај пакет? Све ручне промене ће бити изгубљене."
 
 #. Template: AdminPackageManager
-msgid "Go to upgrading instructions"
-msgstr "Иди на упутство за ажурирање"
+msgid "Go to updating instructions"
+msgstr ""
 
 #. Template: AdminPackageManager
 msgid "package information"
@@ -4592,9 +4592,8 @@ msgstr "Како могу да ажурирам верзију OTRS уколик
 
 #. Template: AdminPackageManager
 msgid ""
-"Please find all relevant information within the upgrading instructions at "
-"%s."
-msgstr "Молимо пронађите све релевантне информације у оквиру инструкција за ажурирање на %s."
+"Please find all relevant information within the updating instructions at %s."
+msgstr ""
 
 #. Template: AdminPackageManager
 msgid ""
@@ -6484,7 +6483,7 @@ msgstr "Тип статуса"
 msgid ""
 "It's not possible to invalidate this entry because there is no other merge "
 "states in system!"
-msgstr ""
+msgstr "Није могуће обележити ову ставку као неважећу јер не постоји више статуса спојених тикета у систему!"
 
 #. Template: AdminState
 msgid "This state is used in the following config settings:"
@@ -7771,9 +7770,9 @@ msgstr "Детектована неовлаштена употреба %s"
 
 #. Template: AgentOTRSBusinessBlockScreen
 msgid ""
-"If you decide to downgrade to OTRS Free, you will lose all database tables "
-"and data related to %s."
-msgstr "Ако одлучите да се вратите на верзију бесплатног OTRS, изгубићете све табеле у бази података и податке повезане са %s."
+"If you decide to downgrade to ((OTRS)) Community Edition, you will lose all "
+"database tables and data related to %s."
+msgstr ""
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
@@ -8939,7 +8938,7 @@ msgid ""
 "%s detected possible network issues. You could either try reloading this "
 "page manually or wait until your browser has re-established the connection "
 "on its own."
-msgstr ""
+msgstr "%s је детектовао могуће проблеме са вашом мрежном везом. Можете покушати да ручно освежите ову страницу или да сачекате да ваш прегледач сам поново успостави везу."
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -16149,6 +16148,11 @@ msgid "Delete error handling module"
 msgstr "Обриши модул за обраду грешке"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
+msgid ""
+"It is not possible to add a new event trigger because the event is not set."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid "Delete this Invoker"
 msgstr "Обриши овог позиваоца"
 
@@ -16734,7 +16738,7 @@ msgstr "Освежи страницу"
 
 #. JS File: Core.App
 msgid "Reload page (%ss)"
-msgstr ""
+msgstr "Освежи страницу (%sс)"
 
 #. JS File: Core.Debug
 msgid "Namespace %s could not be initialized, because %s could not be found."
@@ -18663,6 +18667,13 @@ msgstr "Дефиниши први дан у недељи за избор дат�
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
 msgstr "Дефиниши први дан у недељи за избор датума."
+
+#. SysConfig
+msgid ""
+"Define which avatar default image should be used for the article view if no "
+"gravatar is assigned to the mail address. Check "
+"http://gravatar.com/site/implement/images/ for further information."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -21813,6 +21824,10 @@ msgid "Frontend module registration for the customer interface."
 msgstr "Регистрација модула приступа за интерфејс клијента."
 
 #. SysConfig
+msgid "Frontend module registration for the public interface."
+msgstr "Регистрација приступног модула за јавни интерфејс."
+
+#. SysConfig
 msgid "Full value"
 msgstr "Цела вредност"
 
@@ -22799,10 +22814,6 @@ msgstr "Означи као Спам!"
 #. SysConfig
 msgid "Mark this ticket as junk!"
 msgstr "Означи овај тикет као бесмислен junk!"
-
-#. SysConfig
-msgid "Marks articles for index rebuild right after the article's update."
-msgstr "Означава чланке за регенерацију индекса претраге одмах по освежавању чланка."
 
 #. SysConfig
 msgid ""
@@ -26048,6 +26059,12 @@ msgid ""
 "The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is "
 "Ticket#."
 msgstr "Идентификатор тикета, нпр. Ticket#, Call#, MyTicket#. Подразумевано је Ticket#."
+
+#. SysConfig
+msgid ""
+"The logo shown in the header of the agent interface for the skin \"High "
+"Contrast\". See \"AgentLogo\" for further description."
+msgstr "Лого приказан у заглављу интерфејса оператера за изглед \"High Contrast\". Погледајте \"AgentLogo\" за детаљнији опис."
 
 #. SysConfig
 msgid ""

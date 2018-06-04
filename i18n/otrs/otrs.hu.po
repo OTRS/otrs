@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-04-23 17:42+0000\n"
-"PO-Revision-Date: 2018-04-23 17:46+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"POT-Creation-Date: 2018-06-04 16:33+0000\n"
+"PO-Revision-Date: 2018-06-04 16:35+0000\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -593,7 +593,7 @@ msgstr "Küldés ezeknek az ügyintézőknek"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all group members (agents only)"
-msgstr ""
+msgstr "Küldés az összes csoporttagnak (csak ügyintézőknek)"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
@@ -2122,7 +2122,7 @@ msgstr "Szolgáltatás"
 
 #. Template: AdminGenericAgent
 msgid "Service Level Agreement"
-msgstr "Szolgáltatási szint megállapodás"
+msgstr "Szolgáltatási megállapodás"
 
 #. Template: AdminGenericAgent
 msgid "Queue"
@@ -2298,7 +2298,7 @@ msgstr "Új szolgáltatás beállítása"
 
 #. Template: AdminGenericAgent
 msgid "Set new Service Level Agreement"
-msgstr "Új szolgáltatási szint megállapodás beállítása"
+msgstr "Új szolgáltatási megállapodás beállítása"
 
 #. Template: AdminGenericAgent
 msgid "Set new priority"
@@ -3260,7 +3260,7 @@ msgstr "Jegyadatok felvétele"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Include ticket data in response."
-msgstr ""
+msgstr "Jegyadatok felvétele a válaszba."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Network Transport"
@@ -4227,8 +4227,8 @@ msgid "Manage %s"
 msgstr "%s kezelése"
 
 #. Template: AdminOTRSBusinessInstalled
-msgid "Downgrade to OTRS Free"
-msgstr "Visszaváltás az OTRS Free verzióra"
+msgid "Downgrade to ((OTRS)) Community Edition"
+msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Read documentation"
@@ -4317,9 +4317,9 @@ msgstr "Vessen egy pillantást az %s címre a további információkért."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
-"Your OTRS Free is the base for all future actions. Please register first "
-"before you continue with the upgrade process of %s!"
-msgstr "Az OTRS Free az alapja minden további műveletnek. Először regisztráljon, mielőtt folytatja az %s frissítési folyamatát!"
+"Your ((OTRS)) Community Edition is the base for all future actions. Please "
+"register first before you continue with the upgrade process of %s!"
+msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
@@ -4407,9 +4407,9 @@ msgstr "Először távolítsa el a csomagokat a csomagkezelő használatával, m
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
-"You are about to downgrade to OTRS Free and will lose the following features"
-" and all data related to these:"
-msgstr "Arra készül, hogy visszavált az OTRS Free verzióra, és el fogja veszíteni a következő szolgáltatásokat és minden ezekhez kapcsolódó adatot:"
+"You are about to downgrade to ((OTRS)) Community Edition and will lose the "
+"following features and all data related to these:"
+msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
@@ -4548,8 +4548,8 @@ msgid ""
 msgstr "Valóban újra szeretné telepíteni ezt a csomagot? Minden kézi változtatás el fog veszni."
 
 #. Template: AdminPackageManager
-msgid "Go to upgrading instructions"
-msgstr "Ugrás a frissítési utasításokhoz"
+msgid "Go to updating instructions"
+msgstr ""
 
 #. Template: AdminPackageManager
 msgid "package information"
@@ -4596,9 +4596,8 @@ msgstr "Hogyan végezhetek hibajavító szintű frissítést, ha nincs szerződ�
 
 #. Template: AdminPackageManager
 msgid ""
-"Please find all relevant information within the upgrading instructions at "
-"%s."
-msgstr "Nézze meg az összes fontos információt a frissítési utasításokban itt: %s."
+"Please find all relevant information within the updating instructions at %s."
+msgstr ""
 
 #. Template: AdminPackageManager
 msgid ""
@@ -4682,7 +4681,7 @@ msgstr "Újratelepítés"
 
 #. Template: AdminPackageManager
 msgid "Features for %s customers only"
-msgstr "Csak a(z) %s ügyfelek szolgáltatásai"
+msgstr "Kizárólag %s ügyfelek számára elérhető funkciók"
 
 #. Template: AdminPackageManager
 msgid ""
@@ -6488,7 +6487,7 @@ msgstr "Állapottípus"
 msgid ""
 "It's not possible to invalidate this entry because there is no other merge "
 "states in system!"
-msgstr ""
+msgstr "Nem lehetséges érvényteleníteni ezt a bejegyzést, mert nincsenek egyéb egyesítés állapotok a rendszeren!"
 
 #. Template: AdminState
 msgid "This state is used in the following config settings:"
@@ -7775,9 +7774,9 @@ msgstr "Az %s jogosulatlan használata észlelhető"
 
 #. Template: AgentOTRSBusinessBlockScreen
 msgid ""
-"If you decide to downgrade to OTRS Free, you will lose all database tables "
-"and data related to %s."
-msgstr "Ha úgy dönt, hogy visszavált az OTRS Free verzióra, akkor el fogja veszíteni az %s szolgáltatáshoz kapcsolódó összes adatbázis táblát és adatot."
+"If you decide to downgrade to ((OTRS)) Community Edition, you will lose all "
+"database tables and data related to %s."
+msgstr ""
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
@@ -8943,7 +8942,7 @@ msgid ""
 "%s detected possible network issues. You could either try reloading this "
 "page manually or wait until your browser has re-established the connection "
 "on its own."
-msgstr ""
+msgstr "A(z) %s lehetséges hálózati problémákat észlelt. Megpróbálhatja újratölteni ezt az oldalt kézzel, vagy megvárhatja, amíg a böngészője saját maga létesíti újra a kapcsolatot."
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -9072,7 +9071,7 @@ msgstr "Kilépés: %s"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
-msgstr "Szolgáltatási szint megállapodás"
+msgstr "Szolgáltatási megállapodás"
 
 #. Template: CustomerTicketOverview
 msgid "Welcome!"
@@ -16153,6 +16152,11 @@ msgid "Delete error handling module"
 msgstr "Hibakezelési modul törlése"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
+msgid ""
+"It is not possible to add a new event trigger because the event is not set."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid "Delete this Invoker"
 msgstr "Meghívó törlése"
 
@@ -16738,7 +16742,7 @@ msgstr "Oldal újratöltése"
 
 #. JS File: Core.App
 msgid "Reload page (%ss)"
-msgstr ""
+msgstr "Oldal újratöltése (%s mp)"
 
 #. JS File: Core.Debug
 msgid "Namespace %s could not be initialized, because %s could not be found."
@@ -18256,7 +18260,7 @@ msgstr "Ezzel a jeggyel összekapcsolt új naptáridőpont létrehozása"
 
 #. SysConfig
 msgid "Create and manage Service Level Agreements (SLAs)."
-msgstr "Szolgáltatási szint megállapodások (SLA-k) létrehozása és kezelése."
+msgstr "Szolgáltatási megállapodások (SLA-k) létrehozása és kezelése."
 
 #. SysConfig
 msgid "Create and manage agents."
@@ -18670,6 +18674,13 @@ msgstr "A hét kezdőnapjának meghatározása a dátumválasztónál."
 
 #. SysConfig
 msgid ""
+"Define which avatar default image should be used for the article view if no "
+"gravatar is assigned to the mail address. Check "
+"http://gravatar.com/site/implement/images/ for further information."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Define which avatar default image should be used for the current agent if no"
 " gravatar is assigned to the mail address of the agent. Check "
 "http://gravatar.com/site/implement/images/ for further information."
@@ -18752,7 +18763,7 @@ msgid ""
 "element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
-msgstr "Szűrő meghatározása a HTML kimenethez, hogy hivatkozást adjon a bugraq számok mögé. Ez a képelem kétfajta bevitelt tesz lehetővé. Elsőként egy kép nevét (például faq.png). Ez esetben az OTRS képútvonal lesz felhasználva. A másik lehetőség a hivatkozás beszúrása a képhez."
+msgstr "Szűrő meghatározása a HTML kimenethez, hogy hivatkozást adjon a bugtraq számok mögé. Ez a képelem kétfajta bevitelt tesz lehetővé. Elsőként egy kép nevét (például faq.png). Ez esetben az OTRS képútvonal lesz felhasználva. A másik lehetőség a hivatkozás beszúrása a képhez."
 
 #. SysConfig
 msgid ""
@@ -21036,7 +21047,7 @@ msgid ""
 " Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
 "and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
 "the recipient."
-msgstr "Meghatározza azokat a szövegeket, amelyek a telefonos jegy címzettjeként (Címzett:), illetve az e-mail jegy küldőjeként (Feladó:) kerülnek megjelenítésre az ügyintézői felületen. A várólistánál mint NewQueueSelectionType „<Queue>” a várólisták neveit jeleníti meg, és a SystemAddress „<Realname> <<Email>>” esetén a címzett nevét és e-mail címét jeleníti meg."
+msgstr "Meghatározza azokat a szövegeket, amelyek a telefonos jegy címzettjeként (Címzett:), illetve az e-mail jegy küldőjeként (Feladó:) kerülnek megjelenítésre az ügyintézői felületen. A NewQueueSelectionType beállításként megadott várólistánál a „<Queue>” a várólisták neveit jeleníti meg, és a rendszercímnél a „<Realname> <<Email>>” a címzett nevét és e-mail címét jeleníti meg."
 
 #. SysConfig
 msgid ""
@@ -21044,7 +21055,7 @@ msgid ""
 "in the customer interface. For Queue as CustomerPanelSelectionType, "
 "\"<Queue>\" shows the names of the queues, and for SystemAddress, "
 "\"<Realname> <<Email>>\" shows the name and email of the recipient."
-msgstr "Meghatározza azokat a szövegeket, amelyek a jegy címzettjeként (Címzett:) kerülnek megjelenítésre az ügyfélfelületen. A várólistánál mint CustomerPanelSelectionType, „<Queue>” a várólisták neveit jeleníti meg, és a SystemAddress „<Realname> <<Email>>” esetén a címzett nevét és e-mail címét jeleníti meg."
+msgstr "Meghatározza azokat a szövegeket, amelyek a jegy címzettjeként (Címzett:) kerülnek megjelenítésre az ügyfélfelületen. A CustomerPanelSelectionType beállításként megadott várólistánál a „<Queue>” a várólisták neveit jeleníti meg, és a rendszercímnél a „<Realname> <<Email>>” a címzett nevét és e-mail címét jeleníti meg."
 
 #. SysConfig
 msgid "Determines the way the linked objects are displayed in each zoom mask."
@@ -21465,7 +21476,7 @@ msgstr "Engedélyezi a teljesítmény naplót (az oldal válaszidejének naplóz
 msgid ""
 "Enables the minimal ticket counter size (if \"Date\" was selected as "
 "TicketNumberGenerator)."
-msgstr "Engedélyezi a legkisebb jegyszámláló méretet (ha „Dátum” lett kiválasztva mint jegyszám-előállító)."
+msgstr "Engedélyezi a legkisebb jegyszámláló méretet (ha „Date” lett kiválasztva mint jegyszám-előállító)."
 
 #. SysConfig
 msgid ""
@@ -21815,6 +21826,10 @@ msgstr "Előtétprogram-modul regisztráció az ügyintézői felülethez."
 #. SysConfig
 msgid "Frontend module registration for the customer interface."
 msgstr "Előtétprogram-modul regisztráció az ügyfélfelülethez."
+
+#. SysConfig
+msgid "Frontend module registration for the public interface."
+msgstr "Előtétprogram-modul regisztráció a nyilvános felülethez."
 
 #. SysConfig
 msgid "Full value"
@@ -22610,11 +22625,11 @@ msgstr "JS fájlok listája, amelyek mindig betöltődnek az ügyfélfelületné
 
 #. SysConfig
 msgid "List of all CustomerCompany events to be displayed in the GUI."
-msgstr "Az összes CustomerCompany esemény listája, amelyek megjelennek a grafikus felületen."
+msgstr "Az összes ügyfélvállalat-esemény listája, amelyek megjelennek a grafikus felületen."
 
 #. SysConfig
 msgid "List of all CustomerUser events to be displayed in the GUI."
-msgstr "Az összes CustomerUser esemény listája, amelyek megjelennek a grafikus felületen."
+msgstr "Az összes ügyfélfelhasználó-esemény listája, amelyek megjelennek a grafikus felületen."
 
 #. SysConfig
 msgid "List of all DynamicField events to be displayed in the GUI."
@@ -22626,7 +22641,7 @@ msgstr "Az összes kapcsolt objektum esemény listája, amelyek megjelennek a gr
 
 #. SysConfig
 msgid "List of all Package events to be displayed in the GUI."
-msgstr "Az összes Package esemény listája, amelyek megjelennek a grafikus felületen."
+msgstr "Az összes csomagesemény listája, amelyek megjelennek a grafikus felületen."
 
 #. SysConfig
 msgid "List of all appointment events to be displayed in the GUI."
@@ -22634,7 +22649,7 @@ msgstr "Az összes időpontesemény listája, amelyek megjelennek a grafikus fel
 
 #. SysConfig
 msgid "List of all article events to be displayed in the GUI."
-msgstr "Az összes bejegyzés esemény listája, amelyek megjelennek a grafikus felületen."
+msgstr "Az összes bejegyzésesemény listája, amelyek megjelennek a grafikus felületen."
 
 #. SysConfig
 msgid "List of all calendar events to be displayed in the GUI."
@@ -22642,7 +22657,7 @@ msgstr "Az összes naptáresemény listája, amelyek megjelennek a grafikus fel�
 
 #. SysConfig
 msgid "List of all queue events to be displayed in the GUI."
-msgstr "Az összes várólista esemény listája, amelyek megjelennek a grafikus felületen."
+msgstr "Az összes várólista-esemény listája, amelyek megjelennek a grafikus felületen."
 
 #. SysConfig
 msgid "List of all ticket events to be displayed in the GUI."
@@ -22803,10 +22818,6 @@ msgstr "Megjelölés szemétként!"
 #. SysConfig
 msgid "Mark this ticket as junk!"
 msgstr "Jegy megjelölése szemétként!"
-
-#. SysConfig
-msgid "Marks articles for index rebuild right after the article's update."
-msgstr "Megjelöli a bejegyzéseket az index újraépítéséhez közvetlenül a bejegyzés frissítése után."
 
 #. SysConfig
 msgid ""
@@ -24320,7 +24331,7 @@ msgstr "Szerb (latin)"
 
 #. SysConfig
 msgid "Service Level Agreements"
-msgstr "Szolgáltatási szint megállapodások"
+msgstr "Szolgáltatási megállapodások"
 
 #. SysConfig
 msgid "Service view"
@@ -24660,7 +24671,7 @@ msgid ""
 "Sets the minimal ticket counter size if \"AutoIncrement\" was selected as "
 "TicketNumberGenerator. Default is 5, this means the counter starts from "
 "10000."
-msgstr "Beállítja a legkisebb jegyszámlálóméretet, ha „Automatikus növelés” lett kiválasztva jegyszám-előállítóként. Alapértelmezetten 5, amely azt jelenti, hogy a számláló 10000-től indul."
+msgstr "Beállítja a legkisebb jegyszámlálóméretet, ha „AutoIncrement” lett kiválasztva jegyszám-előállítóként. Alapértelmezetten 5, amely azt jelenti, hogy a számláló 10000-től indul."
 
 #. SysConfig
 msgid ""
@@ -26052,6 +26063,12 @@ msgid ""
 "The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is "
 "Ticket#."
 msgstr "Egy jegy azonosítója, például Ticket#, Call#, MyTicket#. Az alapértelmezett a Ticket#."
+
+#. SysConfig
+msgid ""
+"The logo shown in the header of the agent interface for the skin \"High "
+"Contrast\". See \"AgentLogo\" for further description."
+msgstr "Az ügyintézői felület fejlécében megjelenített logó a „Nagy kontraszt” felszínnél. További leírásért nézze meg az „AgentLogo” beállítást."
 
 #. SysConfig
 msgid ""

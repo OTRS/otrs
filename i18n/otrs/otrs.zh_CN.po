@@ -20,9 +20,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-04-23 17:42+0000\n"
-"PO-Revision-Date: 2018-04-23 17:46+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"POT-Creation-Date: 2018-06-04 16:33+0000\n"
+"PO-Revision-Date: 2018-06-04 16:35+0000\n"
+"Last-Translator: 汇民 王 <whuim@163.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -600,7 +600,7 @@ msgstr "发送给服务人员"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all group members (agents only)"
-msgstr ""
+msgstr "发送给组的所有成员（仅服务人员）"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
@@ -3267,7 +3267,7 @@ msgstr "包含工单数据"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Include ticket data in response."
-msgstr ""
+msgstr "在响应中包含工单数据"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Network Transport"
@@ -4234,8 +4234,8 @@ msgid "Manage %s"
 msgstr "管理 %s"
 
 #. Template: AdminOTRSBusinessInstalled
-msgid "Downgrade to OTRS Free"
-msgstr "降级到免费版本"
+msgid "Downgrade to ((OTRS)) Community Edition"
+msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Read documentation"
@@ -4324,9 +4324,9 @@ msgstr "有关更多信息,请查看 %s。"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
-"Your OTRS Free is the base for all future actions. Please register first "
-"before you continue with the upgrade process of %s!"
-msgstr "OTRS免费版本是所有功能的基础，继续升级到%s 前请先注册！"
+"Your ((OTRS)) Community Edition is the base for all future actions. Please "
+"register first before you continue with the upgrade process of %s!"
+msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
@@ -4414,9 +4414,9 @@ msgstr "请在软件包管理模块中先删除这些软件包，然后再试一
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
-"You are about to downgrade to OTRS Free and will lose the following features"
-" and all data related to these:"
-msgstr "你打算降级到OTRS免费版本，以下功能特性和相关数据将全部丢失："
+"You are about to downgrade to ((OTRS)) Community Edition and will lose the "
+"following features and all data related to these:"
+msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
@@ -4555,8 +4555,8 @@ msgid ""
 msgstr "您真的想要重新安装该软包吗? 所有该模块的手工设置将丢失."
 
 #. Template: AdminPackageManager
-msgid "Go to upgrading instructions"
-msgstr "转到升级说明"
+msgid "Go to updating instructions"
+msgstr ""
 
 #. Template: AdminPackageManager
 msgid "package information"
@@ -4603,9 +4603,8 @@ msgstr "如果没有合约，我怎么更新补丁级别？"
 
 #. Template: AdminPackageManager
 msgid ""
-"Please find all relevant information within the upgrading instructions at "
-"%s."
-msgstr "请在升级说明%s中找到所有相关信息。"
+"Please find all relevant information within the updating instructions at %s."
+msgstr ""
 
 #. Template: AdminPackageManager
 msgid ""
@@ -6495,7 +6494,7 @@ msgstr "工单状态类型"
 msgid ""
 "It's not possible to invalidate this entry because there is no other merge "
 "states in system!"
-msgstr ""
+msgstr "无法使此条目无效，因为系统中没有其他合并状态！"
 
 #. Template: AdminState
 msgid "This state is used in the following config settings:"
@@ -7782,9 +7781,9 @@ msgstr "检测到未经授权的使用 %s"
 
 #. Template: AgentOTRSBusinessBlockScreen
 msgid ""
-"If you decide to downgrade to OTRS Free, you will lose all database tables "
-"and data related to %s."
-msgstr "如果决定降级到OTRS免费版本，会丢失%s相关的所有数据库表及其数据。"
+"If you decide to downgrade to ((OTRS)) Community Edition, you will lose all "
+"database tables and data related to %s."
+msgstr ""
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
@@ -8950,7 +8949,7 @@ msgid ""
 "%s detected possible network issues. You could either try reloading this "
 "page manually or wait until your browser has re-established the connection "
 "on its own."
-msgstr ""
+msgstr "%s发现可能有网络问题。 你可以尝试手动刷新此页面，也可以等浏览器自行重连。"
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -16160,6 +16159,11 @@ msgid "Delete error handling module"
 msgstr "删除错误处理模块"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
+msgid ""
+"It is not possible to add a new event trigger because the event is not set."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid "Delete this Invoker"
 msgstr "删除这个调用程序"
 
@@ -16745,7 +16749,7 @@ msgstr "刷新页面"
 
 #. JS File: Core.App
 msgid "Reload page (%ss)"
-msgstr ""
+msgstr "刷新页面（%ss）"
 
 #. JS File: Core.Debug
 msgid "Namespace %s could not be initialized, because %s could not be found."
@@ -18674,6 +18678,13 @@ msgstr "为选定的日历定义日期选择器中一周的起始日。"
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
 msgstr "定义日期选择器中一周的起始日。"
+
+#. SysConfig
+msgid ""
+"Define which avatar default image should be used for the article view if no "
+"gravatar is assigned to the mail address. Check "
+"http://gravatar.com/site/implement/images/ for further information."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -21824,6 +21835,10 @@ msgid "Frontend module registration for the customer interface."
 msgstr "客户界面的前端模块注册。"
 
 #. SysConfig
+msgid "Frontend module registration for the public interface."
+msgstr "公共界面的前端模块注册。"
+
+#. SysConfig
 msgid "Full value"
 msgstr "全值"
 
@@ -22810,10 +22825,6 @@ msgstr "标记为垃圾!"
 #. SysConfig
 msgid "Mark this ticket as junk!"
 msgstr "标记这个工单为垃圾!"
-
-#. SysConfig
-msgid "Marks articles for index rebuild right after the article's update."
-msgstr "在信件更新之后，标记信件以便索引正确重建。"
 
 #. SysConfig
 msgid ""
@@ -26059,6 +26070,12 @@ msgid ""
 "The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is "
 "Ticket#."
 msgstr "工单的标识符，如Ticket#、Call#、MyTicket#，默认为Ticket#。"
+
+#. SysConfig
+msgid ""
+"The logo shown in the header of the agent interface for the skin \"High "
+"Contrast\". See \"AgentLogo\" for further description."
+msgstr "服务人员界面“High Contrast（高对比度）”皮肤显示在顶部的LOGO，查看“AgentLogo”以获得更多描述。"
 
 #. SysConfig
 msgid ""

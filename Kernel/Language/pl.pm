@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.654316732724453;
+    $Self->{Completeness}        = 0.660179125043059;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -40,7 +40,7 @@ sub Data {
         'ACL Management' => 'Zarządzanie ACL',
         'Actions' => 'Akcje',
         'Create New ACL' => 'Utwórz nowy ACL',
-        'Deploy ACLs' => 'Zatwierdź ACL',
+        'Deploy ACLs' => 'Wdróż ACL',
         'Export ACLs' => 'Eksportuj ACL',
         'Filter for ACLs' => 'Filtr dla ACLi',
         'Just start typing to filter...' => 'Aby filtrować, wystarczy zacząć pisać',
@@ -198,7 +198,7 @@ sub Data {
         'Recipients' => 'Odbiorcy',
         'Send to' => 'Wyślij do',
         'Send to these agents' => 'Wyślij do tych agentów',
-        'Send to all group members (agents only)' => '',
+        'Send to all group members (agents only)' => ' Wyślij do wszystkich członków grupy (tylko agenci)',
         'Send to all role members' => 'Wyślij do wszystkich członków roli',
         'Send on out of office' => 'Wyślij powiadomienie o nieobecności w biurze',
         'Also send if the user is currently out of office.' => 'Również wyślij jeśli użytkownik jest aktualnie poza biurem',
@@ -606,7 +606,7 @@ sub Data {
         'Add RegEx' => 'Dodaj wyrażenie regularne',
 
         # Template: AdminEmail
-        'Admin Message' => 'Wiadomość Admina',
+        'Admin Message' => 'Wiadomość Administratora',
         'With this module, administrators can send messages to agents, group or role members.' =>
             'Przy pomocy tego modułu administratorzy mogą wysyłać wiadomości do agentów, członków grup lub ról.',
         'Create Administrative Message' => 'Utwórz wiadomość od administratora',
@@ -769,21 +769,21 @@ sub Data {
         # Template: AdminGenericInterfaceErrorHandlingDefault
         'Add ErrorHandling' => '',
         'Edit ErrorHandling' => '',
-        'Do you really want to delete this error handling module?' => '',
+        'Do you really want to delete this error handling module?' => 'Czy na pewno chcesz usunąć ten moduł obsługi błędów?',
         'All configuration data will be lost.' => 'Cała konfiguracja zostanie utracona.',
-        'General options' => '',
+        'General options' => 'Opcje ogólne',
         'The name can be used to distinguish different error handling configurations.' =>
             '',
         'Please provide a unique name for this web service.' => 'Podaj unikalną nazwę dla tego serwisu sieciowego.',
         'Error handling module backend' => '',
         'This OTRS error handling backend module will be called internally to process the error handling mechanism.' =>
             '',
-        'Processing options' => '',
+        'Processing options' => 'Opcje przetwarzania',
         'Configure filters to control error handling module execution.' =>
             '',
         'Only requests matching all configured filters (if any) will trigger module execution.' =>
             '',
-        'Operation filter' => '',
+        'Operation filter' => 'Filtr operacji',
         'Only execute error handling module for selected operations.' => '',
         'Note: Operation is undetermined for errors occuring while receiving incoming request data. Filters involving this error stage should not use operation filter.' =>
             '',
@@ -805,7 +805,7 @@ sub Data {
         'An error identifier for this error handling module.' => '',
         'This identifier will be available in XSLT-Mapping and shown in debugger output.' =>
             '',
-        'Error message' => '',
+        'Error message' => 'Komunikat błędu',
         'An error explanation for this error handling module.' => '',
         'This message will be available in XSLT-Mapping and shown in debugger output.' =>
             '',
@@ -931,7 +931,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceMappingXSLT
         'General Shortcuts' => '',
-        'MacOS Shortcuts' => '',
+        'MacOS Shortcuts' => 'Skróty MacOS',
         'Comment code' => '',
         'Uncomment code' => '',
         'Auto format code' => '',
@@ -1299,7 +1299,7 @@ sub Data {
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Zarządzaj %s',
-        'Downgrade to OTRS Free' => 'Zdegraduj do OTRS Free',
+        'Downgrade to ((OTRS)) Community Edition' => '',
         'Read documentation' => 'Przeczytaj dokument',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
             '',
@@ -1320,7 +1320,7 @@ sub Data {
         '%s Update Available' => '%s dostępna jest aktualizacja',
         'An update for your %s is available! Please update at your earliest!' =>
             '',
-        '%s Correctly Deployed' => '',
+        '%s Correctly Deployed' => '%s poprawnie wdrożony',
         'Congratulations, your %s is correctly installed and up to date!' =>
             'Gratulacje, twój %szostał poprawnie zainstalowany i jest aktualny.',
 
@@ -1329,8 +1329,8 @@ sub Data {
         '%s will be available soon. Please check again in a few days.' =>
             '%s będzie dostępny niebawem. Sprawdź ponownie za kilka dni.',
         'Please have a look at %s for more information.' => 'Spójrz na %s aby uzyskać więcej informacji.',
-        'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            'Ta instalacja OTRS Free jest bazą dla wszystkich przyszłych akcji. Zarejestruj ją przed kontynuowaniem procesu aktualizacji do %s!',
+        'Your ((OTRS)) Community Edition is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
+            '',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
             '',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
@@ -1360,7 +1360,7 @@ sub Data {
         'Vendor' => 'Producent',
         'Please uninstall the packages first using the package manager and try again.' =>
             'Odinstaluj najpierw pakiety za pomocą menedżera pakietów i spróbuj ponownie.',
-        'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
+        'You are about to downgrade to ((OTRS)) Community Edition and will lose the following features and all data related to these:' =>
             '',
         'Chat' => 'Czat',
         'Report Generator' => 'Generator Raportów',
@@ -1396,13 +1396,13 @@ sub Data {
 
         # Template: AdminPackageManager
         'Package Manager' => 'Menedżer pakietów',
-        'Uninstall Package' => 'Odinstaluj paczkę',
+        'Uninstall Package' => 'Odinstaluj pakiet',
         'Uninstall package' => 'Odinstaluj pakiet',
         'Do you really want to uninstall this package?' => 'Czy na pewno chcesz odinstalować ten pakiet?',
         'Reinstall package' => 'Reinstaluj pakiet',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Czy na pewno chcesz reinstalować ten pakiet? Wszystkie ręczne modyfikacje będą utracone.',
-        'Go to upgrading instructions' => 'Idź do instrukcji uaktualniania',
+        'Go to updating instructions' => '',
         'package information' => 'informacja o pakiecie',
         'Package installation requires a patch level update of OTRS.' => 'Instalacja pakietu wymaga zastosowania odpowiedniego poziomu aktualizacji OTRS',
         'Package update requires a patch level update of OTRS.' => 'Aktualizacja pakietu wymaga zastosowania odpowiedniego poziomu aktualizacji OTRS',
@@ -1419,12 +1419,12 @@ sub Data {
             'Będziesz otrzymywał informacje o innych istotnych problemach w OTRS.',
         'How can I do a patch level update if I don’t have a contract?' =>
             '',
-        'Please find all relevant information within the upgrading instructions at %s.' =>
+        'Please find all relevant information within the updating instructions at %s.' =>
             '',
         'In case you would have further questions we would be glad to answer them.' =>
             'W przyapdku gdy posiadasz dodatkowe pytania będziemy zadowoleni by móc na nie odpowiedzieć.',
         'Install Package' => 'Instaluj pakiet',
-        'Update Package' => '',
+        'Update Package' => 'Aktualizuj pakiet',
         'Continue' => 'Kontynuuj',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             'Proszę upewnij się, że baza danych akceptuje rozmiar powyżej %s (ona obecnie akceptuje pakiety tylko do %s MB). Proszę zmień ustawienie max_allowed_packet by uniknąć błędów w bazie danych.',
@@ -1441,7 +1441,7 @@ sub Data {
         'This package is verified by OTRSverify (tm)' => 'Ten pakiet został zweryfikowany poprzez OTRSverify (tm)',
         'Uninstall' => 'Odinstaluj',
         'Package not correctly deployed! Please reinstall the package.' =>
-            'Pakiet zainstalowany nieprawidłowo! Zainstaluj pakiet ponownie.',
+            'Pakiet wdrożony nieprawidłowo! Zainstaluj pakiet ponownie.',
         'Reinstall' => 'Przeinstaluj',
         'Features for %s customers only' => 'Funkcje tylko dla %s klientów',
         'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
@@ -1621,7 +1621,7 @@ sub Data {
 
         # Template: AdminProcessManagementProcessEdit
         'Edit Process' => 'Edytuj proces',
-        'Print process information' => 'Drujuj informację o procesie',
+        'Print process information' => 'Drukuj informację o procesie',
         'Delete Process' => 'Usuń proces',
         'Delete Inactive Process' => 'Usuń nieaktywny proces',
         'Available Process Elements' => 'Dostępne elementy procesów',
@@ -2059,7 +2059,7 @@ sub Data {
             '',
 
         # Template: AdminSystemConfigurationDeployment
-        'Changes Deployment' => '',
+        'Changes Deployment' => 'Wdrażanie zmian',
         'Help' => 'Pomoc',
         'This is an overview of all settings which will be part of the deployment if you start it now. You can compare each setting to its former state by clicking the icon on the top right.' =>
             '',
@@ -2080,11 +2080,11 @@ sub Data {
         'You have %s changed settings which will be deployed in this run.' =>
             '',
         'Switch to advanced mode to deploy settings changed by other users, too.' =>
-            '',
-        'There are no settings to be deployed.' => '',
+            'Przełącz się do trybu zaawansowanego by wdrożyć parametry konfiguracji zmienione również przez innych użytkowników.',
+        'There are no settings to be deployed.' => 'Nie ma zmian parametrów do wdrożenia.',
         'Switch to advanced mode to see deployable settings changed by other users.' =>
-            '',
-        'Deploy selected changes' => '',
+            'Przełącz się do trybu zaawansowanego by zobaczyć gotowe do wdrożenia parametry konfiguracji zmienione przez innych użytkowników.',
+        'Deploy selected changes' => 'Opublikuj wybrane zmiany',
 
         # Template: AdminSystemConfigurationGroup
         'This group doesn\'t contain any settings. Please try navigating to one of its sub groups.' =>
@@ -2119,7 +2119,7 @@ sub Data {
         # Template: AdminSystemConfigurationView
         'View a custom List of Settings' => '',
         'View single Setting: %s' => '',
-        'Go back to Deployment Details' => '',
+        'Go back to Deployment Details' => 'Wróć do szczegółów wdrożenia',
 
         # Template: AdminSystemMaintenance
         'System Maintenance Management' => 'Zarządzanie konserwacją systemu',
@@ -2198,8 +2198,8 @@ sub Data {
         'A user with this username already exists!' => 'Użytkownik o takiej nazwie już istnieje!',
         'Will be auto-generated if left empty.' => 'Zostanie wygenerowane automatycznie jeśli pozostawione puste.',
         'Mobile' => 'Tel. kom.',
-        'Effective Permissions for Agent' => '',
-        'This agent has no group permissions.' => '',
+        'Effective Permissions for Agent' => 'Wypadkowe uprawnienia agenta',
+        'This agent has no group permissions.' => 'Ten Agent nie ma uprawnień do grup.',
         'Table above shows effective group permissions for the agent. The matrix takes into account all inherited permissions (e.g. via roles).' =>
             '',
 
@@ -2323,7 +2323,7 @@ sub Data {
         'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
             '',
         'A running OTRS Daemon is mandatory for correct system operation.' =>
-            '',
+            'Uruchomiony Daemon OTRS jest niezbędny do prawidłowego działania systemu.',
         'Starting the OTRS Daemon' => 'Uruchom OTRS Daemon',
         'Make sure that the file \'%s\' exists (without .dist extension). This cron job will check every 5 minutes if the OTRS Daemon is running and start it if needed.' =>
             '',
@@ -2372,7 +2372,7 @@ sub Data {
         'Note: Customer User is invalid!' => 'Uwaga: Użytkownik klienta jest nieprawidłowy!',
 
         # Template: AgentDashboardCustomerUserList
-        'Customer user information' => '',
+        'Customer user information' => 'Informacje o Użytkowniku Klienta',
         'Phone ticket' => 'Zgłoszenia tel.',
         'Email ticket' => 'Zgłoszenia e-mail',
         'New phone ticket from %s' => 'Nowe zgłoszenie tel. od %s',
@@ -2429,14 +2429,14 @@ sub Data {
         'Manage links for %s' => '',
         'Create new links' => '',
         'Manage existing links' => '',
-        'Link with' => '',
+        'Link with' => 'Połącz z',
         'Start search' => '',
         'There are currently no links. Please click \'Create new Links\' on the top to link this item to other objects.' =>
             '',
 
         # Template: AgentOTRSBusinessBlockScreen
         'Unauthorized usage of %s detected' => 'Wykryte nieautoryzowane użycie %s',
-        'If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.' =>
+        'If you decide to downgrade to ((OTRS)) Community Edition, you will lose all database tables and data related to %s.' =>
             '',
 
         # Template: AgentPreferences
@@ -3197,7 +3197,7 @@ sub Data {
 
         # Template: SettingsList
         'This setting is disabled.' => 'To ustawienie jest wyłączone.',
-        'This setting is fixed but not deployed yet!' => '',
+        'This setting is fixed but not deployed yet!' => 'To ustawienie jest przygotowane ale jeszcze nie wdrożone!',
         'This setting is currently being overridden in %s and can\'t thus be changed here!' =>
             '',
         '%s (%s) is currently working on this setting.' => '',
@@ -3310,10 +3310,10 @@ sub Data {
         'Add key' => 'Dodaj klucz',
 
         # JS Template: DialogDeployment
-        'Deployment comment...' => '',
-        'Deploying, please wait...' => '',
-        'Preparing to deploy, please wait...' => '',
-        'Deploy now' => '',
+        'Deployment comment...' => 'Komentarz do wdrożenia...',
+        'Deploying, please wait...' => 'Wdrażanie, proszę czekać...',
+        'Preparing to deploy, please wait...' => 'Przygotowanie do wdrożenia, proszę czekać...',
+        'Deploy now' => 'Wdróż teraz',
         'Close' => 'Zamknij',
         'Try again' => 'Spróbuj ponownie',
 
@@ -3428,7 +3428,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminCommunicationLog.pm
         'Invalid CommunicationID!' => '',
-        'All communications' => '',
+        'All communications' => 'Cała komunikacja',
         'Last 1 hour' => 'Ostatnia godzina',
         'Last 3 hours' => 'Ostatnie 3 godziny',
         'Last 6 hours' => 'Ostatnie 6 godzin',
@@ -3651,7 +3651,7 @@ sub Data {
         'Dispatching by selected Queue.' => 'Przydzielaj na podstawie wybranej kolejki.',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-        'Agent who created the ticket' => '',
+        'Agent who created the ticket' => 'Agent który utworzył zgłoszenie',
         'Agent who owns the ticket' => 'Agent który jest właścicielem zgłoszenia',
         'Agent who is responsible for the ticket' => 'Agent który jest odpowiedzialny za zgłoszenie',
         'All agents watching the ticket' => 'Wszyscy Agenci którzy obserwują zgłoszenie',
@@ -3660,7 +3660,7 @@ sub Data {
         'All agents subscribed to the ticket\'s service' => '',
         'All agents subscribed to both the ticket\'s queue and service' =>
             '',
-        'Customer user of the ticket' => '',
+        'Customer user of the ticket' => 'Użytkownik klienta w tym zgłoszeniu',
         'All recipients of the first article' => '',
         'All recipients of the last article' => '',
 
@@ -3696,7 +3696,7 @@ sub Data {
         'Updated' => '',
         'Already up-to-date' => '',
         'Installed' => 'Zainstalowane',
-        'Not correctly deployed' => '',
+        'Not correctly deployed' => 'Niepoprawnie wdrożone',
         'Package updated correctly' => '',
         'Package was already updated' => '',
         'Dependency installed correctly' => '',
@@ -4011,7 +4011,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentPreferences.pm
         'Param Group is required!' => '',
         'Updated user preferences' => '',
-        'System was unable to deploy your changes.' => '',
+        'System was unable to deploy your changes.' => 'System nie mógł wdrożyć twoich zmian.',
         'Setting not found!' => '',
         'System was unable to reset the setting!' => '',
 
@@ -4423,7 +4423,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
         'Upgrade to OTRS Business Solution™' => 'Ulepsz do wersji OTRS Business Solution™',
-        'Re-install Package' => 'Zainstaluj ponownie Paczkę',
+        'Re-install Package' => 'Zainstaluj ponownie pakiet',
         'Upgrade' => 'Aktualizacja',
         'Re-install' => 'Zainstaluj ponownie',
 
@@ -4590,11 +4590,11 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationInvalidCheck.pm
         'You have %s invalid setting(s) deployed. Click here to show invalid settings.' =>
-            '',
+            'Są opublikowane nieprawidłowe parametry: %s. Kliknij tutaj aby je wyświetlić.',
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationIsDirtyCheck.pm
         'You have undeployed settings, would you like to deploy them?' =>
-            '',
+            'Masz niewdrożone parametry, czy chcesz je wdrożyć?',
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationOutOfSyncCheck.pm
         'The configuration is being updated, please be patient...' => 'Trwa aktualizacja konfiguracji. Proszę o cierpliwość...',
@@ -4795,7 +4795,7 @@ sub Data {
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => 'Nieaktywny',
-        'FadeAway' => '',
+        'FadeAway' => 'Wygaszony',
 
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t contact registration server. Please try again later.' => 'Nie można połączyć się z serwerem rejestracji. Prosimy spróbuj ponownie później.',
@@ -5219,7 +5219,7 @@ sub Data {
         'Missing key %s!' => 'Brakujący klucz %s!',
         'Invalid setting: %s' => 'Nieprawidłowe ustawienie: %s',
         'Could not combine settings values into a perl hash.' => '',
-        'Can not lock the deployment for UserID \'%s\'!' => '',
+        'Can not lock the deployment for UserID \'%s\'!' => 'Nie mogę zablokować wdrożenia dla UserID \'%s\'!',
         'All Settings' => 'Wszystkie Ustawienia',
 
         # Perl Module: Kernel/System/SysConfig/BaseValueType.pm
@@ -5439,6 +5439,8 @@ sub Data {
         'Delete error handling module' => '',
 
         # JS File: Core.Agent.Admin.GenericInterfaceInvoker
+        'It is not possible to add a new event trigger because the event is not set.' =>
+            '',
         'Delete this Invoker' => 'Usuń ten invoker',
 
         # JS File: Core.Agent.Admin.GenericInterfaceInvokerEvent
@@ -5552,9 +5554,9 @@ sub Data {
         'Please enter at least one search word to find anything.' => '',
         'Unfortunately deploying is currently not possible, maybe because another agent is already deploying. Please try again later.' =>
             '',
-        'Deploy' => '',
-        'The deployment is already running.' => '',
-        'Deployment successful. You\'re being redirected...' => '',
+        'Deploy' => 'Wdróż',
+        'The deployment is already running.' => 'Wdrażanie jest już aktualnie uruchomione.',
+        'Deployment successful. You\'re being redirected...' => 'Wdrożenie udane. Zostaniesz przekierowany...',
         'There was an error. Please save all settings you are editing and check the logs for more information.' =>
             '',
         'Reset option is required!' => '',
@@ -6279,6 +6281,8 @@ Thanks for your help!
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
+        'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check http://gravatar.com/site/implement/images/ for further information.' =>
+            '',
         'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information.' =>
             '',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
@@ -7258,6 +7262,7 @@ Thanks for your help!
             '',
         'Frontend module registration for the agent interface.' => 'Rejestracja modułu interfejsu dla interfejsu agenta.',
         'Frontend module registration for the customer interface.' => 'Rejestracja modułu interfejsu dla interfejsu klienta.',
+        'Frontend module registration for the public interface.' => '',
         'Full value' => '',
         'Fulltext index regex filters to remove parts of the text.' => 'Indeks filtrów pełnotekstowych do usuwania części tekstu.',
         'Fulltext search' => 'Szukanie pełnotekstowe',
@@ -7534,7 +7539,7 @@ Thanks for your help!
         'Manage PGP keys for email encryption.' => 'Zarządzanie kluczami PGP do szyfrowania poczty.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Ustawienia konto pocztowych POP3 i IMAP, z których pobierana jest poczta przychodząca do systemu',
         'Manage S/MIME certificates for email encryption.' => 'Zarządzanie certyfikatami S/MIME służącymi do szyfrowania poczty wychodzącej',
-        'Manage System Configuration Deployments.' => '',
+        'Manage System Configuration Deployments.' => 'Zarządzaj Wdrożeniami Konfiguracji Systemu.',
         'Manage different calendars.' => '',
         'Manage existing sessions.' => 'Zarządzanie aktywnymi sesjami agentów i klientów',
         'Manage support data.' => 'Zarządzaj danymi wsparcia.',
@@ -7542,8 +7547,6 @@ Thanks for your help!
         'Manage tasks triggered by event or time based execution.' => 'Zarządza zadaniami wywołanymi zdarzeniami lub zaplanowymi czasowo.',
         'Mark as Spam!' => 'Oznacz jako spam!',
         'Mark this ticket as junk!' => 'Oznacz to zgłoszenie jako SPAM!',
-        'Marks articles for index rebuild right after the article\'s update.' =>
-            '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'Maksymalny rozmiar (w znakach) tablicy informacyjnej klienta (telefon i e-mail) w oknie tworzenia.',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -8444,7 +8447,7 @@ Thanks for your help!
         'Swahili' => '',
         'Swedish' => 'Szwedzki',
         'System Address Display Name' => '',
-        'System Configuration Deployment' => '',
+        'System Configuration Deployment' => 'Wdrażanie Konfiguracji Systemu',
         'System Configuration Group' => '',
         'System Maintenance' => 'Konserwacja systemu',
         'Templates ↔ Queues' => '',
@@ -8472,6 +8475,8 @@ Thanks for your help!
         'The headline shown in the customer interface.' => 'Nagłówek widoczny w interfejsie klienta.',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             'Identyfikator zgłoszenia np. Ticket#, Call#, MyTicket#. Domyślny to Ticket#.',
+        'The logo shown in the header of the agent interface for the skin "High Contrast". See "AgentLogo" for further description.' =>
+            '',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface for the skin "ivory". See "AgentLogo" for further description.' =>
@@ -8683,6 +8688,7 @@ Thanks for your help!
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
         'A preview of this website can\'t be provided because it didn\'t allow to be embedded.',
         'Add',
+        'Add Event Trigger',
         'Add all',
         'Add entry',
         'Add key',
@@ -8820,6 +8826,7 @@ Thanks for your help!
         'Invalid date (need a past date)!',
         'Invalid date!',
         'It is going to be deleted from the field, please try again.',
+        'It is not possible to add a new event trigger because the event is not set.',
         'It is not possible to set this entry to invalid. All affected configuration settings have to be changed beforehand.',
         'It was not possible to delete this draft.',
         'It was not possible to generate the Support Bundle.',

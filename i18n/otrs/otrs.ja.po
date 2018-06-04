@@ -3,7 +3,7 @@
 # Hisatoshi Onishi <hisatoshi.onishi@gmail.com>, 2015-2018
 # Tomy1984, 2015
 # Kentaro Matsuzaki <kentaro0919@gmail.com>, 2014-2017
-# Kozo Sakurai <sakurai@io-architect.com>, 2014,2017
+# Kozo Sakurai <sakurai@io-architect.com>, 2014,2017-2018
 # Makoto Miida, 2014
 # Makoto Miida, 2014
 # Norihiro Tanaka <noritnk@kcn.ne.jp>, 2014-2017
@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-04-23 17:42+0000\n"
-"PO-Revision-Date: 2018-04-23 17:46+0000\n"
+"POT-Creation-Date: 2018-06-04 16:33+0000\n"
+"PO-Revision-Date: 2018-06-04 16:35+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/otrs/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -2286,7 +2286,7 @@ msgstr "チケット解決期限がこの期間内"
 
 #. Template: AdminGenericAgent
 msgid "Archive search option"
-msgstr "書庫検索オプション"
+msgstr "アーカイブ検索オプション"
 
 #. Template: AdminGenericAgent
 msgid "Update/Add Ticket Attributes"
@@ -2354,7 +2354,7 @@ msgstr "ダイナミック・フィールドの値を設定"
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
-msgstr "書庫の選択済みチケット"
+msgstr "選択されたアーカイブ・チケット"
 
 #. Template: AdminGenericAgent
 msgid "Add Note"
@@ -4227,8 +4227,8 @@ msgid "Manage %s"
 msgstr "%s を管理"
 
 #. Template: AdminOTRSBusinessInstalled
-msgid "Downgrade to OTRS Free"
-msgstr "フリー版OTRSへのダウングレード"
+msgid "Downgrade to ((OTRS)) Community Edition"
+msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Read documentation"
@@ -4317,9 +4317,9 @@ msgstr "詳細については%sを参照してください。"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
-"Your OTRS Free is the base for all future actions. Please register first "
-"before you continue with the upgrade process of %s!"
-msgstr "もし%sのすべての機能を使用したいのであれば契約をアップグレードする必要があります！ 現在の契約: %s"
+"Your ((OTRS)) Community Edition is the base for all future actions. Please "
+"register first before you continue with the upgrade process of %s!"
+msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
@@ -4407,9 +4407,9 @@ msgstr "パッケージマネージャでパッケージを削除して再度実
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
-"You are about to downgrade to OTRS Free and will lose the following features"
-" and all data related to these:"
-msgstr "OTRS Freeにダウングレードすることで以下の機能と関連するデータは使用できなくなります:"
+"You are about to downgrade to ((OTRS)) Community Edition and will lose the "
+"following features and all data related to these:"
+msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
@@ -4548,8 +4548,8 @@ msgid ""
 msgstr "このパッケージを本当に再インストールしますか？ 全ての手動変更点は失われます。"
 
 #. Template: AdminPackageManager
-msgid "Go to upgrading instructions"
-msgstr "アップグレード詳細に移動"
+msgid "Go to updating instructions"
+msgstr ""
 
 #. Template: AdminPackageManager
 msgid "package information"
@@ -4596,9 +4596,8 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid ""
-"Please find all relevant information within the upgrading instructions at "
-"%s."
-msgstr "アップグレード手順の関連情報は全て%sにあります。"
+"Please find all relevant information within the updating instructions at %s."
+msgstr ""
 
 #. Template: AdminPackageManager
 msgid ""
@@ -7775,8 +7774,8 @@ msgstr ""
 
 #. Template: AgentOTRSBusinessBlockScreen
 msgid ""
-"If you decide to downgrade to OTRS Free, you will lose all database tables "
-"and data related to %s."
+"If you decide to downgrade to ((OTRS)) Community Edition, you will lose all "
+"database tables and data related to %s."
 msgstr ""
 
 #. Template: AgentPreferences
@@ -8637,7 +8636,7 @@ msgstr "チケットエスカレーション日時 (期間指定)"
 
 #. Template: AgentTicketSearch
 msgid "Archive Search"
-msgstr "書庫検索"
+msgstr "アーカイブ検索"
 
 #. Template: AgentTicketZoom
 msgid "Sender Type"
@@ -10906,11 +10905,11 @@ msgstr "アーカイブされていないチケット"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "archive tickets"
-msgstr "チケットをアーカイブする"
+msgstr "アーカイブ・チケット"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "restore tickets from archive"
-msgstr ""
+msgstr "アーカイブからチケットを復元する"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Need Profile!"
@@ -16153,6 +16152,11 @@ msgid "Delete error handling module"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
+msgid ""
+"It is not possible to add a new event trigger because the event is not set."
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid "Delete this Invoker"
 msgstr "このAPI実行元を削除"
 
@@ -17136,7 +17140,7 @@ msgstr "システムで利用可能なテーマをアクティベートします
 
 #. SysConfig
 msgid "Activates the ticket archive system search in the customer interface."
-msgstr ""
+msgstr "カスタマー・インターフェースでチケット・アーカイブ・システムの検索を有効化します。"
 
 #. SysConfig
 msgid ""
@@ -18667,6 +18671,13 @@ msgstr ""
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
 msgstr "日付ピッカーにおける週の開始曜日を設定します。"
+
+#. SysConfig
+msgid ""
+"Define which avatar default image should be used for the article view if no "
+"gravatar is assigned to the mail address. Check "
+"http://gravatar.com/site/implement/images/ for further information."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -21817,6 +21828,10 @@ msgid "Frontend module registration for the customer interface."
 msgstr "担当者インタフェースに関するフロントエンド・モジュールの登録です。"
 
 #. SysConfig
+msgid "Frontend module registration for the public interface."
+msgstr "公開画面のフロントエンドモジュールの定義"
+
+#. SysConfig
 msgid "Full value"
 msgstr ""
 
@@ -22802,10 +22817,6 @@ msgstr "迷惑メールにする"
 
 #. SysConfig
 msgid "Mark this ticket as junk!"
-msgstr ""
-
-#. SysConfig
-msgid "Marks articles for index rebuild right after the article's update."
 msgstr ""
 
 #. SysConfig
@@ -26052,6 +26063,12 @@ msgid ""
 "The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is "
 "Ticket#."
 msgstr "例えばTicket#, Call#, MyTicket#などのチケットの識別子です。デフォルトはTicket#です。"
+
+#. SysConfig
+msgid ""
+"The logo shown in the header of the agent interface for the skin \"High "
+"Contrast\". See \"AgentLogo\" for further description."
+msgstr ""
 
 #. SysConfig
 msgid ""
