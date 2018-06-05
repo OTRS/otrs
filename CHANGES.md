@@ -1,4 +1,5 @@
 #6.0.9 2018-??-??
+ - 2018-06-05 Fixed bug#[13900](https://bugs.otrs.org/show_bug.cgi?id=13900) - Password authentication issue in Fedora 28 operating system.
 
 #6.0.8 2018-06-12
  - 2018-06-04 Updated translations, thanks to all translators.
