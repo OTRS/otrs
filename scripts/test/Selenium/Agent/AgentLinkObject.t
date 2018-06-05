@@ -269,13 +269,15 @@ $Selenium->RunTest(
         $Selenium->WaitFor( AlertPresent => 1 );
         $Selenium->accept_alert();
 
-        # Navigate to AgentTicketZoom screen again.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[0]");
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('.DataTable a[title*=$TicketNumbers[2]]').length === 0;"
+        );
 
         # Check that link to third test ticket has been deleted.
         $Self->False(
-            index( $Selenium->get_page_source(), $TicketNumbers[2] ) > -1,
-            "TicketNumber $TicketNumbers[2] - found",
+            $Selenium->execute_script("return \$('.DataTable a[title*=$TicketNumbers[2]]').length"),
+            "TicketNumber $TicketNumbers[2] - not found",
         ) || die;
 
         # Show ActionMenu - usually this is done when user hovers, however it's not possible to simulate this behavior.
