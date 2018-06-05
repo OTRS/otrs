@@ -123,6 +123,11 @@ $Selenium->RunTest(
         # Select customer user in search results.
         $Selenium->find_element("//input[contains(\@data-customer-ticket-text, \'$UserFirstname $UserLastname' )]")
             ->click();
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('input[data-customer-ticket-text*=\"$UserFirstname $UserLastname\"]').prop('checked') === true;"
+        );
+
         $Selenium->switch_to_frame();
         $Selenium->find_element( '#RecipientSelect', 'css' )->click();
 
