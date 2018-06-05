@@ -191,6 +191,78 @@ $Self->True(
     "Invalidating test customer user",
 );
 
+# Check auth for customer user which password is encrypted by crypt algorithm different than system one.
+@Tests = (
+    {
+        Password  => 'test111test111test111',
+        UserLogin => 'example-user' . $Helper->GetRandomID(),
+        CryptType => 'crypt',
+    },
+    {
+        Password  => 'test222test222test222',
+        UserLogin => 'example-user' . $Helper->GetRandomID(),
+        CryptType => 'sha1',
+    }
+);
+
+my $CustomerUserObject;
+my $CustomerUserAuthObject;
+
+# Create customer users.
+for my $Test (@Tests) {
+    my $CustomerUserID = $GlobalUserObject->CustomerUserAdd(
+        UserFirstname  => $Test->{CryptType} . '-Firstname',
+        UserLastname   => $Test->{CryptType} . '-Lastname',
+        UserCustomerID => 'Customer246',
+        UserLogin      => $Test->{UserLogin},
+        UserEmail      => $Test->{UserLogin} . '@example.com',
+        ValidID        => 1,
+        UserID         => 1,
+    );
+
+    $Self->True(
+        $CustomerUserID,
+        "CustomerUserID $CustomerUserID is created",
+    );
+
+    $Kernel::OM->ObjectsDiscard(
+        Objects => [
+            'Kernel::System::CustomerUser',
+            'Kernel::System::CustomerAuth',
+        ],
+    );
+
+    $ConfigObject->Set(
+        Key   => "Customer::AuthModule::DB::CryptType",
+        Value => $Test->{CryptType}
+    );
+
+    $CustomerUserObject     = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    $CustomerUserAuthObject = $Kernel::OM->Get('Kernel::System::CustomerAuth');
+
+    my $PasswordSet = $CustomerUserObject->SetPassword(
+        UserLogin => $Test->{UserLogin},
+        PW        => $Test->{Password},
+    );
+
+    $Self->True(
+        $PasswordSet,
+        "Password '$Test->{Password}' is set"
+    );
+}
+
+# System is set to sha1 crypt type at this moment and
+# we try to authenticate first created customer user (password is encrypted by different crypt type).
+my $Result = $CustomerUserAuthObject->Auth(
+    User => $Tests[0]->{UserLogin},
+    Pw   => $Tests[0]->{Password},
+);
+
+$Self->True(
+    $Result,
+    "System crypt type - $Tests[1]->{CryptType}, crypt type for customer password - $Tests[0]->{CryptType}, customer password '$Tests[0]->{Password}'",
+);
+
 # cleanup is done by RestoreDatabase
 
 1;
