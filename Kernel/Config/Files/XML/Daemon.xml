@@ -814,7 +814,7 @@
         </Value>
     </Setting>
     <Setting Name="Daemon::SchedulerCronTaskManager::Task###TicketNumberCounterCleanup" Required="1" Valid="1" ConfigLevel="100">
-        <Description Translatable="1">Removes old ticket number counters (Sunday mornings).</Description>
+        <Description Translatable="1">Removes old ticket number counters (each 10 minutes).</Description>
         <Navigation>Daemon::SchedulerCronTaskManager::Task</Navigation>
         <Value>
             <Hash>
