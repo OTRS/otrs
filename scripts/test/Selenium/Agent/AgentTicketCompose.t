@@ -397,9 +397,12 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#DialogButton1').click();");
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
 
+        # Chenge focus from #ToCustomer input field.
+        $Selenium->find_element( "body", 'css' )->click();
+
         # Remove entered 'Test' for customer user.
         $Selenium->find_element( "#RemoveCustomerTicket_2", 'css' )->click();
-        $Selenium->WaitFor( JavaScript => 'return !$("#RemoveCustomerTicket_2").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$("#RemoveCustomerTicket_2").length' );
 
         # Input required field and select customer.
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
