@@ -1,4 +1,5 @@
 #5.0.29 ????-??-??
+ - 2018-06-05 Added improvements to the support data collector plugins.
  - 2018-06-05 Fixed bug#[13900](https://bugs.otrs.org/show_bug.cgi?id=13900) - Password authentication issue in Fedora 28 operating system.
 
 #5.0.28 2018-06-12
