@@ -21,6 +21,12 @@ $Helper->ConfigSettingChange(
     Value => 0,
 );
 
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'Package::AllowNotVerifiedPackages',
+    Value => 0,
+);
+
 my $RandomID = $Helper->GetRandomID();
 
 # Override Request() from WebUserAgent to always return some test data without making any
@@ -36,7 +42,10 @@ use warnings;
 {
     no warnings 'redefine';
     sub Request {
-        return;
+        return (
+            Status  => '200 OK',
+            Content => '{"Success":1,"Results":{"PackageManagement":[{"Operation":"PackageVerify","Data":{"Test":"not_verified","TestPackageIncompatible":"not_verified"},"Success":"1"}]},"ErrorMessage":""},
+        );
     }
 }
 1;
@@ -172,6 +181,47 @@ $Selenium->RunTest(
             BreadcrumbText => 'Install Package:',
         );
 
+        # Package is not verified, so it's not possible to continue with the installation.
+        $Self->Is(
+            $Selenium->execute_script("return \$('button[type=\"submit\"][value=\"Continue\"]').length"),
+            '0',
+            'Continue button not available because package is not verified'
+        );
+
+        $Self->True(
+            index(
+                $Selenium->get_page_source(),
+                'The installation of packages which are not verified by the OTRS Group is not possible by default.'
+            ) > 0,
+            'Message for aborting installation of package is displayed'
+        );
+
+        # Continue with package installation.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Package::AllowNotVerifiedPackages',
+            Value => 1,
+        );
+
+        # Allow apache to pick up the changed SysConfig via Apache::Reload.
+        sleep 1;
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPackageManager");
+
+        # Check for notification.
+        $Self->True(
+            $Selenium->execute_script(
+                'return $("div.MessageBox.Error p:contains(\'The installation of packages which are not verified by the OTRS Group is activated. These packages could threaten your whole system! It is recommended not to use unverified packages.\')").length',
+            ),
+            'Install warning for not verified packages is displayed',
+        );
+
+        $Selenium->find_element( '#FileUpload', 'css' )->send_keys($Location);
+        $Selenium->find_element("//button[\@value='Install'][\@type='submit']")->VerifiedClick();
+
+        $CheckBreadcrumb->(
+            BreadcrumbText => 'Install Package:',
+        );
         $Selenium->find_element("//button[\@value='Continue'][\@type='submit']")->VerifiedClick();
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".DataTable").length;' );

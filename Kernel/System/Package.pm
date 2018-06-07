@@ -1853,20 +1853,47 @@ sub PackageVerify {
         return;
     }
 
+    # Check if installation of packages, which are not verified by us, is possible.
+    my $PackageAllowNotVerifiedPackages = $Kernel::OM->Get('Kernel::Config')->Get('Package::AllowNotVerifiedPackages');
+
     # return package as verified if cloud services are disabled
     if ( $Self->{CloudServicesDisabled} ) {
-        return 'verified';
+
+        my $Verify = $PackageAllowNotVerifiedPackages ? 'verified' : 'not_verified';
+        return $Verify;
     }
 
     # define package verification info
-    my $PackageVerifyInfo = {
-        Description =>
-            Translatable(
-            "<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>"
-            ),
-        Title =>
-            Translatable('Package not verified by the OTRS Group! It is recommended not to use this package.'),
-    };
+    my $PackageVerifyInfo;
+
+    if ($PackageAllowNotVerifiedPackages) {
+
+        $PackageVerifyInfo = {
+            Description =>
+                Translatable(
+                "<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>"
+                ),
+            Title =>
+                Translatable('Package not verified by the OTRS Group! It is recommended not to use this package.'),
+            PackageInstallPossible => 1,
+        };
+    }
+    else {
+
+        $PackageVerifyInfo = {
+            Description =>
+                Translatable(
+                "<p>The installation of packages which are not verified by the OTRS Group is not possible by default.</p>"
+                )
+                .
+                Translatable(
+                "<p>You can activate the installation of not verified packages in the <a href='$Self->{CGIHandle}?Action=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages' target='_blank'>System Configuration</a>.</p>"
+                ),
+            Title =>
+                Translatable('Package not verified by the OTRS Group! It is recommended not to use this package.'),
+            PackageInstallPossible => 0,
+        };
+    }
 
     # investigate name
     my $Name = $Param{Structure}->{Name}->{Content} || $Param{Name};
@@ -1886,6 +1913,12 @@ sub PackageVerify {
         Key  => $Sum,
     );
     if ($CachedValue) {
+
+        if ( $CachedValue eq 'not_verified' ) {
+
+            $PackageVerifyInfo->{VerifyCSSClass} = 'NotVerifiedPackage';
+        }
+
         $Self->{PackageVerifyInfo} = $PackageVerifyInfo;
 
         return $CachedValue;
@@ -1944,6 +1977,9 @@ sub PackageVerify {
 
     # set package verification info
     if ( $PackageVerify eq 'not_verified' ) {
+
+        $PackageVerifyInfo->{VerifyCSSClass} = 'NotVerifiedPackage';
+
         $Self->{PackageVerifyInfo} = $PackageVerifyInfo;
     }
 

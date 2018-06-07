@@ -281,10 +281,11 @@
 [% RenderBlockStart("OTRSVerifyLogo") %]
                     <img src="[% Config("Frontend::ImagePath") %]/otrs-verify.png" class="OTRSVerifyLogoBig" />
 [% RenderBlockEnd("OTRSVerifyLogo") %]
-                    <div class="IntroInstall">
+                    <div class="IntroInstall [% Data.VerifyCSSClass | html %]">
                         <h3>[% Data.Name | html %] [% Data.Version | html %]</h3>
                         [% Data.Description %]
                     </div>
+[% RenderBlockStart("IntroForm") %]
                     <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
                         <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                         <input type="hidden" name="Subaction" value="[% Data.Subaction | html %]"/>
@@ -300,6 +301,7 @@
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %]"><span>[% Translate("Cancel") | html %]</span></a>
 [% RenderBlockEnd("IntroCancel") %]
                     </form>
+[% RenderBlockEnd("IntroForm") %]
                 </div>
             </div>
         </div>

@@ -14,6 +14,7 @@ use warnings;
 use parent qw(Kernel::System::Console::BaseCommand Kernel::System::Console::Command::Admin::Package::List);
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::Package',
 );
 
@@ -46,10 +47,38 @@ sub Run {
     my $FileString = $Self->_PackageContentGet( Location => $Self->GetArgument('location') );
     return $Self->ExitCodeError() if !$FileString;
 
-    # parse package
-    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse(
+    my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+
+    # Parse package.
+    my %Structure = $PackageObject->PackageParse(
         String => $FileString,
     );
+
+    my $Verified = $PackageObject->PackageVerify(
+        Package   => $FileString,
+        Structure => \%Structure,
+    ) || 'verified';
+    my %VerifyInfo = $PackageObject->PackageVerifyInfo();
+
+    # Check if installation of packages, which are not verified by us, is possible.
+    my $PackageAllowNotVerifiedPackages = $Kernel::OM->Get('Kernel::Config')->Get('Package::AllowNotVerifiedPackages');
+
+    if ( $Verified ne 'verified' ) {
+
+        if ( !$PackageAllowNotVerifiedPackages ) {
+
+            $Self->PrintError(
+                "$Structure{Name}->{Content}-$Structure{Version}->{Content} is not verified by the OTRS Group!\n\nThe installation of packages which are not verified by the OTRS Group is not possible by default."
+            );
+            return $Self->ExitCodeError();
+        }
+        else {
+
+            $Self->Print(
+                "<yellow>Package $Structure{Name}->{Content}-$Structure{Version}->{Content} not verified by the OTRS Group! It is recommended not to use this package.</yellow>\n"
+            );
+        }
+    }
 
     # intro screen
     if ( $Structure{IntroInstall} ) {
@@ -68,7 +97,7 @@ sub Run {
     }
 
     # install
-    my $Success = $Kernel::OM->Get('Kernel::System::Package')->PackageInstall(
+    my $Success = $PackageObject->PackageInstall(
         String => $FileString,
         Force  => $Self->GetOption('force'),
     );

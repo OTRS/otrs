@@ -951,6 +951,19 @@ sub Run {
                     Version   => $Structure{Version}->{Content},
                 },
             );
+
+            $LayoutObject->Block(
+                Name => 'IntroForm',
+                Data => {
+                    %Param,
+                    %Data,
+                    Subaction => $Self->{Subaction},
+                    Type      => 'IntroReinstallPre',
+                    Name      => $Structure{Name}->{Content},
+                    Version   => $Structure{Version}->{Content},
+                },
+            );
+
             $LayoutObject->Block(
                 Name => 'IntroCancel',
             );
@@ -1036,6 +1049,19 @@ sub Run {
                     Version   => $Version,
                 },
             );
+
+            $LayoutObject->Block(
+                Name => 'IntroForm',
+                Data => {
+                    %Param,
+                    %Data,
+                    Subaction => '',
+                    Type      => 'IntroReinstallPost',
+                    Name      => $Name,
+                    Version   => $Version,
+                },
+            );
+
             my $Output = $LayoutObject->Header();
             $Output .= $LayoutObject->NavigationBar();
             $Output .= $LayoutObject->Output(
@@ -1099,6 +1125,19 @@ sub Run {
                     Version   => $Structure{Version}->{Content},
                 },
             );
+
+            $LayoutObject->Block(
+                Name => 'IntroForm',
+                Data => {
+                    %Param,
+                    %Data,
+                    Subaction => $Self->{Subaction},
+                    Type      => 'IntroUninstallPre',
+                    Name      => $Structure{Name}->{Content},
+                    Version   => $Structure{Version}->{Content},
+                },
+            );
+
             $LayoutObject->Block(
                 Name => 'IntroCancel',
             );
@@ -1186,6 +1225,19 @@ sub Run {
                     Version   => $Version,
                 },
             );
+
+            $LayoutObject->Block(
+                Name => 'IntroForm',
+                Data => {
+                    %Param,
+                    %Data,
+                    Subaction => '',
+                    Type      => 'IntroUninstallPost',
+                    Name      => $Name,
+                    Version   => $Version,
+                },
+            );
+
             my $Output = $LayoutObject->Header();
             $Output .= $LayoutObject->NavigationBar();
             $Output .= $LayoutObject->Output(
@@ -2059,9 +2111,24 @@ sub _InstallHandling {
             },
         );
 
-        $LayoutObject->Block(
-            Name => 'IntroCancel',
-        );
+        if ( $VerifyInfo{PackageInstallPossible} ) {
+
+            $LayoutObject->Block(
+                Name => 'IntroForm',
+                Data => {
+                    %Param,
+                    %VerifyInfo,
+                    Subaction => $Self->{Subaction},
+                    Type      => 'IntroInstallVendor',
+                    Name      => $Structure{Name}->{Content},
+                    Version   => $Structure{Version}->{Content},
+                },
+            );
+
+            $LayoutObject->Block(
+                Name => 'IntroCancel',
+            );
+        }
 
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
@@ -2147,6 +2214,18 @@ sub _InstallHandling {
         }
 
         $LayoutObject->Block(
+            Name => 'IntroForm',
+            Data => {
+                %Param,
+                %Data,
+                Subaction => $Self->{Subaction},
+                Type      => 'IntroInstallPre',
+                Name      => $Structure{Name}->{Content},
+                Version   => $Structure{Version}->{Content},
+            },
+        );
+
+        $LayoutObject->Block(
             Name => 'IntroCancel',
         );
 
@@ -2179,6 +2258,18 @@ sub _InstallHandling {
         if (%Data) {
             $LayoutObject->Block(
                 Name => 'Intro',
+                Data => {
+                    %Param,
+                    %Data,
+                    Subaction => 'Install',
+                    Type      => 'IntroInstallPost',
+                    Name      => $Structure{Name}->{Content},
+                    Version   => $Structure{Version}->{Content},
+                },
+            );
+
+            $LayoutObject->Block(
+                Name => 'IntroForm',
                 Data => {
                     %Param,
                     %Data,
@@ -2290,6 +2381,19 @@ sub _UpgradeHandling {
                 Version   => $Structure{Version}->{Content},
             },
         );
+
+        $LayoutObject->Block(
+            Name => 'IntroForm',
+            Data => {
+                %Param,
+                %Data,
+                Subaction => $Self->{Subaction},
+                Type      => 'IntroUpgradePre',
+                Name      => $Structure{Name}->{Content},
+                Version   => $Structure{Version}->{Content},
+            },
+        );
+
         $LayoutObject->Block(
             Name => 'IntroCancel',
         );
@@ -2326,6 +2430,19 @@ sub _UpgradeHandling {
                     Version   => $Structure{Version}->{Content},
                 },
             );
+
+            $LayoutObject->Block(
+                Name => 'IntroForm',
+                Data => {
+                    %Param,
+                    %Data,
+                    Subaction => '',
+                    Type      => 'IntroUpgradePost',
+                    Name      => $Structure{Name}->{Content},
+                    Version   => $Structure{Version}->{Content},
+                },
+            );
+
             my $Output = $LayoutObject->Header();
             $Output .= $LayoutObject->NavigationBar();
             $Output .= $LayoutObject->Output(

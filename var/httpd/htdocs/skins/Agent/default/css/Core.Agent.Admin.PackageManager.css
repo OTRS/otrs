@@ -47,6 +47,10 @@
     line-height: 150%;
 }
 
+.IntroInstall.NotVerifiedPackage {
+    margin-bottom: 0;
+}
+
 .IntroInstall h3 {
     display: inline-block;
     border-bottom: 1px solid #ccc;

@@ -950,6 +950,15 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Frontend::NotifyModule###8000-PackageManager-CheckNotVerifiedPackages" Required="1" Valid="1">
+        <Description Translatable="1">Defines the module to display a notification in the agent interface, if the installation of not verified packages is activated (only shown to admins).</Description>
+        <Navigation>Frontend::Agent::FrontendNotification</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Notification::PackageManagerCheckNotVerifiedPackages</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="Frontend::NotifyModule###9000-Generic" Required="0" Valid="0">
         <Description Translatable="1">Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.</Description>
         <Navigation>Frontend::Agent::FrontendNotification</Navigation>
@@ -2731,6 +2740,13 @@
         <Navigation>Core::Package</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Package::AllowNotVerifiedPackages" Required="0" Valid="1" ConfigLevel="100">
+        <Description Translatable="1">If this setting is enabled, it is possible to install packages which are not verified by OTRS Group. These packages could threaten your whole system!</Description>
+        <Navigation>Core::Package</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Package::EventModulePost###9000-SupportDataSend" Required="0" Valid="1">
