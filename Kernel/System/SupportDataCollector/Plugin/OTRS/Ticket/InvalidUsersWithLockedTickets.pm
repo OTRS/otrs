@@ -28,25 +28,26 @@ sub Run {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    my @InvalidUsers;
+    my $InvalidUsersTicketCount;
     $DBObject->Prepare(
         SQL => '
-        SELECT DISTINCT(users.login) FROM ticket, users
+        SELECT COUNT(*) FROM ticket, users
         WHERE
             ticket.user_id = users.id
             AND ticket.ticket_lock_id = 2
             AND users.valid_id != 1
-        '
+        ',
+        Limit => 1,
     );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        push @InvalidUsers, $Row[0];
+        $InvalidUsersTicketCount = $Row[0];
     }
 
-    if (@InvalidUsers) {
+    if ($InvalidUsersTicketCount) {
         $Self->AddResultWarning(
             Label   => 'Invalid Users with Locked Tickets',
-            Value   => scalar@InvalidUsers,
+            Value   => $InvalidUsersTicketCount,
             Message => 'There are invalid users with locked tickets.',
         );
     }
