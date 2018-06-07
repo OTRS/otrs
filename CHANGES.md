@@ -1,4 +1,5 @@
 #4.0.31 ????-??-??
+ - 2018-06-05 Added improvements to the support data collector plugins.
 
 #4.0.30 2018-06-12
  - 2018-06-01 Renamed 'OTRS Free' to '((OTRS)) Community Edition'.

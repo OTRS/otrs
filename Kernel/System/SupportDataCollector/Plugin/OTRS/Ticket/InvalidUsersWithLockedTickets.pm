@@ -46,7 +46,7 @@ sub Run {
     if (@InvalidUsers) {
         $Self->AddResultWarning(
             Label   => 'Invalid Users with Locked Tickets',
-            Value   => join( "\n", @InvalidUsers ),
+            Value   => scalar@InvalidUsers,
             Message => 'There are invalid users with locked tickets.',
         );
     }
