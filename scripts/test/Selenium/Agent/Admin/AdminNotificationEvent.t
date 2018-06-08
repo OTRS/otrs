@@ -370,7 +370,7 @@ $Selenium->RunTest(
 
             $Self->True(
                 $Selenium->execute_script(
-                    "return \ $('.NotificationLanguage h2:contains($Lang->{Language})').closest('.WidgetSimple').hasClass('Collapsed');"
+                    "return \$('.NotificationLanguage h2:contains($Lang->{Language})').closest('.WidgetSimple').hasClass('Collapsed');"
                 ),
                 'Language box is colapsed'
             );
