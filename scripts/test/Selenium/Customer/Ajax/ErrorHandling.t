@@ -34,6 +34,12 @@ $Selenium->RunTest(
             Password => $TestCustomerUserLogin,
         );
 
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Type',
+            Value => 1,
+        );
+
         # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
@@ -72,7 +78,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
         # Change the queue to trigger an ajax call.
-        $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#Type').val('1').trigger('redraw.InputField').trigger('change');");
 
         # Wait until all AJAX calls finished.
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
