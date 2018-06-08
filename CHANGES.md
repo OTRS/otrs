@@ -1,4 +1,8 @@
 #6.0.9 2018-??-??
+ - 2018-06-07 Enhanced package manager:
+   - Not verified packages can't be installed by default (via GUI + OTRS console).
+   - Added sysconfig setting 'Package::AllowNotVerifiedPackages' to allow installation of not verified packages (disabled by default).
+   - Display a notification if setting 'Package::AllowNotVerifiedPackages' is active.
  - 2018-06-07 Fixed bug#[13842](https://bugs.otrs.org/show_bug.cgi?id=13842) - When splitting a ticket, the picture embedded in the letter body is not displayed in the child ticket.
  - 2018-06-07 Added improvements to the support data collector plugins.
  - 2018-06-06 Fixed bug#[13873](https://bugs.otrs.org/show_bug.cgi?id=13873) - Wrong descripton for TicketNumberCounterCleanup setting in System Configuration.
@@ -32,10 +36,6 @@
  - 2018-05-08 Fixed bug#[13836](https://bugs.otrs.org/show_bug.cgi?id=13836) - Filter in timeline view not being applied.
  - 2018-05-08 Fixed bug#[12994](https://bugs.otrs.org/show_bug.cgi?id=12994) - Merge Tickets with same linked objects causes error.
  - 2018-05-07 Fixed bug#[13818](https://bugs.otrs.org/show_bug.cgi?id=13818) - Dynamic field values of tickets are not displayed in customer ticket search result.
- - 2018-05-03 Enhanced package manager:
-   - Not verified packages can't be installed by default (via GUI + OTRS console).
-   - Added sysconfig setting 'Package::AllowNotVerifiedPackages' to allow installation of not verified packages (disabled by default).
-   - Display a notification if setting 'Package::AllowNotVerifiedPackages' is active.
  - 2018-04-30 Changed default gravatar image for articles to 'mm' (mystery man).
  - 2018-04-25 Fixed bug#[13764](https://bugs.otrs.org/show_bug.cgi?id=13764) - Mixed up plain and rich text body in process management when article is created.
  - 2018-04-25 Fixed bug#[13815](https://bugs.otrs.org/show_bug.cgi?id=13815) - The little arrow is cut off for articles.

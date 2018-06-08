@@ -2092,7 +2092,8 @@ sub _InstallHandling {
     # translate description
     if ( $LayoutObject->{LanguageObject} ) {
         $VerifyInfo{Description} = $LayoutObject->{LanguageObject}->Translate(
-            $VerifyInfo{Description}
+            $VerifyInfo{Description},
+            $VerifyInfo{PackageInstallPossible} ? '' : $LayoutObject->{Baselink},
         );
     }
 

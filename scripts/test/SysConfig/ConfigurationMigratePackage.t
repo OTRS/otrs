@@ -28,6 +28,12 @@ my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
 my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
+$HelperObject->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'Package::AllowNotVerifiedPackages',
+    Value => 1,
+);
+
 my $Home = $Kernel::OM->Get('Kernel::Config')->{Home};
 
 my $TestFile             = 'ZZZAutoOTRS5.pm';

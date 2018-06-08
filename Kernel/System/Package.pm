@@ -1887,7 +1887,7 @@ sub PackageVerify {
                 )
                 .
                 Translatable(
-                "<p>You can activate the installation of not verified packages in the <a href='$Self->{CGIHandle}?Action=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages' target='_blank'>System Configuration</a>.</p>"
+                '<p>You can activate the installation of not verified packages in the <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">System Configuration</a>.</p>'
                 ),
             Title =>
                 Translatable('Package not verified by the OTRS Group! It is recommended not to use this package.'),
