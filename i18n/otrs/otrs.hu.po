@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-06-04 16:33+0000\n"
-"PO-Revision-Date: 2018-06-04 16:35+0000\n"
-"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
+"POT-Creation-Date: 2018-06-08 07:43+0000\n"
+"PO-Revision-Date: 2018-06-08 07:45+0000\n"
+"Last-Translator: Udo Bretz\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2600,9 +2600,9 @@ msgstr "A hibaüzenet tárgya és adatai (amint a hibakereső hibabejegyzésébe
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
-"Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication "
+"Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
 "related errors."
-msgstr "Példa: A „^.*401 Unauthorized.*\\$” megadásával csak a hitelesítéssel kapcsolatos hibák kezelhetők."
+msgstr "Példa: A „^.*401 Unauthorized.*\\\\$” megadásával csak a hitelesítéssel kapcsolatos hibák kezelhetők."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error stage filter"
@@ -3174,9 +3174,10 @@ msgstr "2. példa: a keresés = „^” és a csere = „_” átalakítja a „
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
-"Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = "
-"'_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
-msgstr "3. példa: a keresés = „^(?<number>\\d+) (?<text>.+?)\\$” és a csere = „_\\$+{text}_\\$+{number}” átalakítja a „16 elemnév” kulcsot „_elemnév_16” értékűre."
+"Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = "
+"'_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into "
+"'_elementname_16'."
+msgstr "3. példa: a keresés = „^(?<number>\\\\d+) (?<text>.+?)\\\\$” és a csere = „_\\\\$+{text}_\\\\$+{number}” átalakítja a „16 elemnév” kulcsot „_elemnév_16” értékűre."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "For information about regular expressions in Perl please see here:"
@@ -13875,6 +13876,14 @@ msgid "You have Out of Office enabled, would you like to disable it?"
 msgstr "Engedélyezte az Irodán kívül funkciót, szeretné letiltani azt?"
 
 #. Perl Module:
+#. Kernel/Output/HTML/Notification/PackageManagerCheckNotVerifiedPackages.pm
+msgid ""
+"The installation of packages which are not verified by the OTRS Group is "
+"activated. These packages could threaten your whole system! It is "
+"recommended not to use unverified packages."
+msgstr ""
+
+#. Perl Module:
 #. Kernel/Output/HTML/Notification/SystemConfigurationInvalidCheck.pm
 msgid ""
 "You have %s invalid setting(s) deployed. Click here to show invalid "
@@ -14347,6 +14356,19 @@ msgid ""
 "that are caused by working with this package are not covered by OTRS service"
 " contracts.</p>"
 msgstr "<p>Ha folytatja a csomag telepítését, a következő hibák fordulhatnak elő!</p><ul><li>Biztonsági problémák</li><li>Stabilitási problémák</li><li>Teljesítmény problémák</li></ul><p>Vegye figyelembe, hogy a csomag használata során felmerülő problémákra nem vonatkozik az OTRS szolgáltatási szerződése!</p>"
+
+#. Perl Module: Kernel/System/Package.pm
+msgid ""
+"<p>The installation of packages which are not verified by the OTRS Group is "
+"not possible by default.</p>"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid ""
+"<p>You can activate the installation of not verified packages in the <a "
+"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
+" target=\"_blank\">System Configuration</a>.</p>"
+msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -15100,14 +15122,6 @@ msgstr "E-mail várakozási sor"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/EmailQueue.pm
 msgid "Emails queued for sending"
 msgstr "Küldéshez sorba állított e-mailek"
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ErrorLog.pm
-msgid "Error Log"
-msgstr "Hibanapló"
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ErrorLog.pm
-msgid "There are error reports in your system log."
-msgstr "Hibajelentések vannak a rendszernaplóban."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
 msgid "FQDN (domain name)"
@@ -20301,6 +20315,12 @@ msgstr "Meghatározza azt a modult, amely egy értesítést jelenít meg az ügy
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
+"installation of not verified packages is activated (only shown to admins)."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines the module to display a notification in the agent interface, if the "
 "system is used by the admin user (normally you shouldn't work as admin)."
 msgstr "Meghatározza azt a modult, amely egy értesítést jelenít meg az ügyintézői felületen, ha a rendszert egy adminisztrátor felhasználó használja (normális esetben nem kell adminisztrátorként dolgozni)."
 
@@ -22080,8 +22100,8 @@ msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulná
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
-msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja a felhasználónevek vezető részeinek levágását (például tartományoknál, úgymint pelda_tartomany\\felhasznalo a felhasználóhoz)."
+"example_domain\\\\user to user)."
+msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja a felhasználónevek vezető részeinek levágását (például tartományoknál, úgymint pelda_tartomany\\\\felhasznalo a felhasználóhoz)."
 
 #. SysConfig
 msgid ""
@@ -22361,6 +22381,12 @@ msgstr "Ha ez a beállítás engedélyezve van, akkor a webes felületen kereszt
 #. SysConfig
 msgid "If this regex matches, no message will be send by the autoresponder."
 msgstr "Ha ez a reguláris kifejezés illeszkedik, akkor az automatikus válaszadó nem fog üzenetet küldeni."
+
+#. SysConfig
+msgid ""
+"If this setting is enabled, it is possible to install packages which are not"
+" verified by OTRS Group. These packages could threaten your whole system!"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -23908,8 +23934,8 @@ msgid "Removes old system configuration deployments (Sunday mornings)."
 msgstr "Eltávolítja a régi rendszer-konfigurációs üzembe állításokat (vasárnap reggelente)."
 
 #. SysConfig
-msgid "Removes old ticket number counters (Sunday mornings)."
-msgstr "Eltávolítja a régi jegyszám számlálókat (vasárnap reggelente)."
+msgid "Removes old ticket number counters (each 10 minutes)."
+msgstr ""
 
 #. SysConfig
 msgid "Removes the ticket watcher information when a ticket is archived."

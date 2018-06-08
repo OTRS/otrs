@@ -9,9 +9,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-06-04 16:33+0000\n"
-"PO-Revision-Date: 2018-06-04 16:35+0000\n"
-"Last-Translator: Dusan Vuckovic\n"
+"POT-Creation-Date: 2018-06-08 07:43+0000\n"
+"PO-Revision-Date: 2018-06-08 07:45+0000\n"
+"Last-Translator: Udo Bretz\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2596,9 +2596,9 @@ msgstr "Наслов и садржај поруке о грешци (како с
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
-"Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication "
+"Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
 "related errors."
-msgstr "Пример: унесите '^.*401 Unauthorized.*\\$' за обраду грешака само приликом аутентификације."
+msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error stage filter"
@@ -3170,9 +3170,10 @@ msgstr "Пример 2: пронађи = '^' / замени = '_' претвар
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
-"Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = "
-"'_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
-msgstr "Пример 3: пронађи = '^(?<number>\\d+) (?<text>.+?)\\$' / замени = '_\\$+{text}_\\$+{number}' претвара '16 elementname' у '_elementname_16'."
+"Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = "
+"'_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into "
+"'_elementname_16'."
+msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "For information about regular expressions in Perl please see here:"
@@ -13871,6 +13872,14 @@ msgid "You have Out of Office enabled, would you like to disable it?"
 msgstr "Активирана је опција ван канцеларије, желите ли да је искључите?"
 
 #. Perl Module:
+#. Kernel/Output/HTML/Notification/PackageManagerCheckNotVerifiedPackages.pm
+msgid ""
+"The installation of packages which are not verified by the OTRS Group is "
+"activated. These packages could threaten your whole system! It is "
+"recommended not to use unverified packages."
+msgstr ""
+
+#. Perl Module:
 #. Kernel/Output/HTML/Notification/SystemConfigurationInvalidCheck.pm
 msgid ""
 "You have %s invalid setting(s) deployed. Click here to show invalid "
@@ -14343,6 +14352,19 @@ msgid ""
 "that are caused by working with this package are not covered by OTRS service"
 " contracts.</p>"
 msgstr "<p>Ако наставите са инсталацијом овог пакета, могу се јавити следећи проблеми:</p><ul><li>Безбедносни проблеми</li><li>Проблеми стабилности</li><li>Проблеми у перформансама</li></ul><p>Напомињемо да проблеми настали услед рада са овим пакетом нису покривени OTRS сервисним уговором.</p>"
+
+#. Perl Module: Kernel/System/Package.pm
+msgid ""
+"<p>The installation of packages which are not verified by the OTRS Group is "
+"not possible by default.</p>"
+msgstr ""
+
+#. Perl Module: Kernel/System/Package.pm
+msgid ""
+"<p>You can activate the installation of not verified packages in the <a "
+"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
+" target=\"_blank\">System Configuration</a>.</p>"
+msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -15096,14 +15118,6 @@ msgstr "Ред за слање имејлова"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/EmailQueue.pm
 msgid "Emails queued for sending"
 msgstr "Број имејлова заказаних за слање"
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ErrorLog.pm
-msgid "Error Log"
-msgstr "Грешка у пријави"
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ErrorLog.pm
-msgid "There are error reports in your system log."
-msgstr "Постоје извештаји о грешкама у вашем приступном систему."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
 msgid "FQDN (domain name)"
@@ -20297,6 +20311,12 @@ msgstr "Одређује модул за приказ обавештења у и
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
+"installation of not verified packages is activated (only shown to admins)."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines the module to display a notification in the agent interface, if the "
 "system is used by the admin user (normally you shouldn't work as admin)."
 msgstr "Дефинише модул за приказивање обавештења у интерфејсу оператера ако се систем користи од стране админ корисника (нормално не треба да раде као администратор)."
 
@@ -22076,8 +22096,8 @@ msgstr "Уколико је подешен HTTPBasicAuth за Customer::AuthModu
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
-msgstr "Уколико је „HTTPBasicAuth” изабран за „Customer::AuthModule”, можете подесити уклањање почетних делова корисничких имена (нпр. за домене као „example_domain\\\\user” у „user”)."
+"example_domain\\\\user to user)."
+msgstr "Уколико је подешен HTTPBasicAuth за Customer::AuthModule, можете подесити уклањање делова корисничких имена (нпр. за домене као example_domain\\\\user у user)."
 
 #. SysConfig
 msgid ""
@@ -22357,6 +22377,12 @@ msgstr "Уколико је ова опција укључена, тикети �
 #. SysConfig
 msgid "If this regex matches, no message will be send by the autoresponder."
 msgstr "Ако се овај израз поклапа, аутоматски одговарач неће послати ниједну поруку."
+
+#. SysConfig
+msgid ""
+"If this setting is enabled, it is possible to install packages which are not"
+" verified by OTRS Group. These packages could threaten your whole system!"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -23904,8 +23930,8 @@ msgid "Removes old system configuration deployments (Sunday mornings)."
 msgstr "Уклања старе распореде системске конфигурације (недељом ујутру)."
 
 #. SysConfig
-msgid "Removes old ticket number counters (Sunday mornings)."
-msgstr "Уклања старе бројаче тикета (недељом ујутру)."
+msgid "Removes old ticket number counters (each 10 minutes)."
+msgstr ""
 
 #. SysConfig
 msgid "Removes the ticket watcher information when a ticket is archived."

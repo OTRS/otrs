@@ -12,7 +12,8 @@
 # Felix Brinkmann <payartz12@gmail.com>, 2018
 # Felix Schäfer <web.otrs@yorfeix.de>, 2017
 # Florian Edlhuber <florian.edlhuber@otrs.com>, 2015-2016
-# Florian Liebe <florian.liebe@otrs.com>, 2017
+# Florian Liebe, 2018
+# Florian Liebe, 2017
 # mainboarder, 2017
 # Gunther Müller <anonym50000@gmail.com>, 2016
 # Harald Eisenmenger <harald.eisenmenger@otrs.com>, 2017
@@ -55,12 +56,13 @@
 # Stefan Hagl <stefan.hagl@gmx.at>, 2018
 # Stefan Simmerstatter, 2015
 # Tobias Krumholz <krumholt@fh-trier.de>, 2015-2016
+# Udo Bretz, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-06-04 16:33+0000\n"
-"PO-Revision-Date: 2018-06-04 16:35+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"POT-Creation-Date: 2018-06-08 07:43+0000\n"
+"PO-Revision-Date: 2018-06-08 08:05+0000\n"
+"Last-Translator: Florian Liebe\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2645,9 +2647,9 @@ msgstr "Titel und Inhalt der Fehlermeldung (wie im entsprechenden Debugger-Eintr
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
-"Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication "
+"Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
 "related errors."
-msgstr "Beispiel: Tragen Sie '^.*401 Unauthorized.*\\$' ein, um ausschließlich Authentifizierungs-Fehler zu verarbeiten."
+msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error stage filter"
@@ -3219,9 +3221,10 @@ msgstr "Beispiel 2: Suchen = '^' / Ersetzen = '_' wandelt '16x16' in '_16x16' um
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
-"Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = "
-"'_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
-msgstr "Beispiel 3: Suchen = '^(?<number>d+) (?<text>.+?)$' / Ersetzen = '_$+{text}_$+{number}' wandelt '16 elementname' in '_elementname_16' um."
+"Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = "
+"'_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into "
+"'_elementname_16'."
+msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "For information about regular expressions in Perl please see here:"
@@ -13920,6 +13923,14 @@ msgid "You have Out of Office enabled, would you like to disable it?"
 msgstr "Sie haben die Abwesenheitszeit eingeschaltet, möchten Sie diese deaktivieren?"
 
 #. Perl Module:
+#. Kernel/Output/HTML/Notification/PackageManagerCheckNotVerifiedPackages.pm
+msgid ""
+"The installation of packages which are not verified by the OTRS Group is "
+"activated. These packages could threaten your whole system! It is "
+"recommended not to use unverified packages."
+msgstr "Die Installation von Paketen, die nicht von der OTRS Gruppe verifiziert worden sind, ist aktiviert. Diese Pakete können das gesamte System gefährden! Es wird empfohlen, diese Pakete nicht zu nutzen."
+
+#. Perl Module:
 #. Kernel/Output/HTML/Notification/SystemConfigurationInvalidCheck.pm
 msgid ""
 "You have %s invalid setting(s) deployed. Click here to show invalid "
@@ -14392,6 +14403,19 @@ msgid ""
 "that are caused by working with this package are not covered by OTRS service"
 " contracts.</p>"
 msgstr "<p>Falls Sie dieses Paket installieren, können folgende Probleme auftreten:</p><ul><li>Sicherheitsprobleme</li><li>Stabilitätsprobleme</li><li>Leistungsprobleme</li></ul><p>Bitte beachten Sie, dass von diesem Paket verursachte Probleme nicht durch OTRS-Serviceverträge abgedeckt sind.</p>"
+
+#. Perl Module: Kernel/System/Package.pm
+msgid ""
+"<p>The installation of packages which are not verified by the OTRS Group is "
+"not possible by default.</p>"
+msgstr "<p>Die Installation von Paketen, die nicht von der OTRS Gruppe verifiziert worden sind, ist standardmäßig nicht möglich.</p>"
+
+#. Perl Module: Kernel/System/Package.pm
+msgid ""
+"<p>You can activate the installation of not verified packages in the <a "
+"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
+" target=\"_blank\">System Configuration</a>.</p>"
+msgstr "<p>Sie können die Installation von nicht verifizierten Paketen in der <a href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\" target=\"_blank\">Systemkonfiguration</a> aktivieren.</p>"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -15145,14 +15169,6 @@ msgstr "Warteschlange für E-Mail-Versand"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/EmailQueue.pm
 msgid "Emails queued for sending"
 msgstr "E-Mails, die zum Senden eingereiht sind"
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ErrorLog.pm
-msgid "Error Log"
-msgstr "Fehlerprotokoll"
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ErrorLog.pm
-msgid "There are error reports in your system log."
-msgstr "Im System wurden Einträge im Fehlerprotokoll gefunden."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
 msgid "FQDN (domain name)"
@@ -20346,6 +20362,12 @@ msgstr "Definiert das Modul, das eine Benachrichtigung im Agentenbereich anzeigt
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
+"installation of not verified packages is activated (only shown to admins)."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines the module to display a notification in the agent interface, if the "
 "system is used by the admin user (normally you shouldn't work as admin)."
 msgstr "Legt das Modul fest, das eine Benachrichtigung im Agenten-Bereich anzeigt, wenn das System mit einem Admin-Benutzer genutzt wird (normalerweise sollte im System nicht als Admin-Benutzer gearbeitet werden)."
 
@@ -22125,8 +22147,8 @@ msgstr "Wenn \"HTTPBasicAuth\" als Customer::AuthModule ausgewählt ist, kann hi
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
-msgstr "Wenn \"HTTPBasicAuth\" als Customer::AuthModule ausgewählt ist, können Sie hier angeben, ob führende Teile von Benutzernamen (z.B. zur Umwandlung von Domänen wie \"example_domain\\user\" zu \"user\")."
+"example_domain\\\\user to user)."
+msgstr "Wenn \"HTTPBasicAuth\" als Customer::AuthModule festgelegt wurde, können Sie festlegen, ob Teile am Anfang des Benutzernamens entfernt werden sollen (z. B. um die Domain aus Nutzernamen wie example_domain\\\\user zu entfernen)."
 
 #. SysConfig
 msgid ""
@@ -22406,6 +22428,12 @@ msgstr ""
 #. SysConfig
 msgid "If this regex matches, no message will be send by the autoresponder."
 msgstr "Wenn dieser reguläre Ausdruck zutrifft, wird durch den Autoresponder keine Nachricht versendet."
+
+#. SysConfig
+msgid ""
+"If this setting is enabled, it is possible to install packages which are not"
+" verified by OTRS Group. These packages could threaten your whole system!"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -23953,8 +23981,8 @@ msgid "Removes old system configuration deployments (Sunday mornings)."
 msgstr "Entfernt veraltete Inbetriebnahmen der Systemkonfiguration (Sonntagmorgens)."
 
 #. SysConfig
-msgid "Removes old ticket number counters (Sunday mornings)."
-msgstr "Entfernt veraltete Ticketnummern-Zähler (Sonntagmorgens)."
+msgid "Removes old ticket number counters (each 10 minutes)."
+msgstr ""
 
 #. SysConfig
 msgid "Removes the ticket watcher information when a ticket is archived."
