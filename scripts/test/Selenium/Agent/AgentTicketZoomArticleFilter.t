@@ -414,7 +414,7 @@ $Selenium->RunTest(
                 "\$('#ArticleView').val('Timeline').trigger('redraw.InputField').trigger('change')"
             );
 
-            $Selenium->WaitFor( JavaScript => 'return !$(".Dialog:visible").length' );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog:visible").length' );
             $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
             # Check last created article (PhoneCallCustomer) is shown in timeline view.
@@ -453,6 +453,8 @@ $Selenium->RunTest(
                     $NonAddNoteSubject    => 1,
                 },
             );
+
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
             for my $FilterValue ( sort keys %ArticleFilters ) {
                 $Selenium->find_element( "#SetArticleFilter", 'css' )->click();
