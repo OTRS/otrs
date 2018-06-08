@@ -224,20 +224,6 @@ $Selenium->RunTest(
             }
         }
 
-        # Check if inline attachment is present.
-        $Self->True(
-            $Selenium->execute_script(
-                "return parseInt(\$('.ArticleMailContent iframe').contents().find('img').height(), 10) > 0"
-            ),
-            'Inline attachment is found in article body (height > 0px)',
-        );
-        $Self->True(
-            $Selenium->execute_script(
-                "return parseInt(\$('.ArticleMailContent iframe').contents().find('img').width(), 10) > 0"
-            ),
-            'Inline attachment is found in article body (width > 0px)',
-        );
-
         my $TransitionObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
         my $ActivityObject          = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
         my $TransitionActionsObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
