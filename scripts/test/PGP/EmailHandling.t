@@ -24,6 +24,7 @@ my $MainObject           = $Kernel::OM->Get('Kernel::System::Main');
 my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
 my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Email');
+my $UserObject           = $Kernel::OM->Get('Kernel::System::User');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -33,6 +34,14 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $TestUserLogin = $Helper->TestUserCreate(
+    Groups => [ 'admin', 'users' ],
+);
+
+my $TestUserID = $UserObject->UserLookup(
+    UserLogin => $TestUserLogin,
+);
 
 # Disable email addresses checking.
 $Helper->ConfigSettingChange(
@@ -306,7 +315,7 @@ for my $Test (@Tests) {
         # use ArticleCheck::PGP to decrypt the article
         my $CheckObject = Kernel::Output::HTML::ArticleCheck::PGP->new(
             ArticleID => $Articles[0]->{ArticleID},
-            UserID    => 1,
+            UserID    => $TestUserID,
         );
 
         my %Article = $ArticleBackendObject->ArticleGet(
@@ -685,7 +694,7 @@ my $TicketID = $TicketObject->TicketCreate(
     CustomerNo   => '123465',
     CustomerUser => 'customer@example.com',
     OwnerID      => 1,
-    UserID       => 1,
+    UserID       => $TestUserID,
 );
 
 $Self->True(
@@ -723,7 +732,7 @@ for my $Test (@TestVariations) {
     #   which doesn't contain signatures etc.
     my $Email = $ArticleBackendObject->ArticlePlain(
         ArticleID => $ArticleID,
-        UserID    => 1,
+        UserID    => $TestUserID,
     );
 
     # Add ticket number to subject (to ensure mail will be attached to original ticket)
@@ -771,7 +780,7 @@ for my $Test (@TestVariations) {
 
     my $CheckObject = Kernel::Output::HTML::ArticleCheck::PGP->new(
         ArticleID => $Article{ArticleID},
-        UserID    => 1,
+        UserID    => $TestUserID,
     );
 
     my @CheckResult = $CheckObject->Check( Article => \%Article );
