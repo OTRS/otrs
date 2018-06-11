@@ -540,8 +540,8 @@ $Self->IsDeeply(
     "GenerateSupportData() - Result",
 );
 
-# Generate ZZZUnitTestMaskPasswords.pm to check later for mask passwords.
-my $MaskPasswordFile    = 'ZZZUnitTest' . $Helper->GetRandomNumber() . 'MaskPasswords';
+# Generate ZZZZUnitTestMaskPasswords.pm to check later for mask passwords.
+my $MaskPasswordFile    = 'ZZZZUnitTest' . $Helper->GetRandomNumber() . 'MaskPasswords';
 my $MaskPasswordContent = <<"EOF";
 # OTRS config file (automatically generated)
 # VERSION:1.1
