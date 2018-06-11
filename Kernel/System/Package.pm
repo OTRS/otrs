@@ -10,6 +10,7 @@ package Kernel::System::Package;
 
 use strict;
 use warnings;
+use utf8;
 
 use MIME::Base64;
 use File::Copy;
