@@ -450,8 +450,9 @@ $Selenium->RunTest(
                 },
             },
             {
-                Name   => 'PendingTime',
-                Config => {
+                Name           => 'PendingTime',
+                CheckStartDate => 1,
+                Config         => {
                     StartDate    => 'PendingTime',
                     EndDate      => 'Plus_60',
                     QueueID      => $QueueID,
@@ -560,6 +561,27 @@ $Selenium->RunTest(
                 "$Test->{Name} - Ticket appointment found"
             );
             my $Appointment = $Appointments[0];
+
+            # Check if a dialog submit is possible for an appointment created by rule based on pending time (bug#13902).
+            if ( $Test->{CheckStartDate} ) {
+                $Selenium->VerifiedGet(
+                    "${ScriptAlias}index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=$Appointment->{AppointmentID}"
+                );
+                $Selenium->WaitFor( JavaScript => "return \$('#EditFormSubmit').length;" );
+
+                $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
+                $Selenium->WaitFor( JavaScript => "return !\$('.Dialog.Modal').length;" );
+
+                $Self->True(
+                    $Selenium->execute_script("return \$('.Dialog.Modal').length === 0;"),
+                    "There was no error in dialog - it is closed successfully"
+                );
+
+                # Go back to calendar edit page.
+                $Selenium->VerifiedGet(
+                    "${ScriptAlias}index.pl?Action=AdminAppointmentCalendarManage;Subaction=Edit;CalendarID=$Calendar{CalendarID}"
+                );
+            }
 
             # Check appointment data.
             for my $Field ( sort keys %{ $Test->{Result} || {} } ) {
