@@ -1,4 +1,5 @@
 #5.0.29 ????-??-??
+ - 2018-06-14 Fixed bug#[13893](https://bugs.otrs.org/show_bug.cgi?id=13893) - Wrong descriptions for some system configurations.
  - 2018-06-14 Fixed bug#[12479](https://bugs.otrs.org/show_bug.cgi?id=12479) - Reply to a ticket locks the ticket and cancel unlocks it but does not reset owner.
  - 2018-06-05 Added improvements to the support data collector plugins.
  - 2018-06-05 Fixed bug#[13900](https://bugs.otrs.org/show_bug.cgi?id=13900) - Password authentication issue in Fedora 28 operating system.
