@@ -211,10 +211,17 @@ Core.Agent.Search = (function (TargetNS) {
 
     function AJAXStopWordCheck(SearchStrings, CallbackStopWordsFound, CallbackNoStopWordsFound) {
         var StopWordCheckData = {
-            Action: 'AgentTicketSearch',
-            Subaction: 'AJAXStopWordCheck',
-            SearchStrings: SearchStrings
-        };
+                Action: 'AgentTicketSearch',
+                Subaction: 'AJAXStopWordCheck',
+                SearchStrings: SearchStrings
+            },
+            MIMEBaseElements = {
+                'MIMEBase_From': 1,
+                'MIMEBase_To': 1,
+                'MIMEBase_Cc': 1,
+                'MIMEBase_Subject': 1,
+                'MIMEBase_Body': 1
+            };
 
         // Prevent multiple stop word checks
         if (AJAXStopWordCheckRunning) {
@@ -238,6 +245,11 @@ Core.Agent.Search = (function (TargetNS) {
 
                     if (!TranslatedKey) {
                         TranslatedKey = Key;
+                    }
+
+                    // Substring 'MIMEBase_' for clearer alert description.
+                    if (MIMEBaseElements[TranslatedKey]) {
+                        TranslatedKey = TranslatedKey.replace('MIMEBase_', '');
                     }
 
                     FoundStopWords += TranslatedKey + ': ' + StopWords.join(', ') + "\n";
@@ -270,11 +282,11 @@ Core.Agent.Search = (function (TargetNS) {
         var SearchStrings = {},
             SearchStringsFound = 0,
             RelevantElementNames = {
-                'From': 1,
-                'To': 1,
-                'Cc': 1,
-                'Subject': 1,
-                'Body': 1,
+                'MIMEBase_From': 1,
+                'MIMEBase_To': 1,
+                'MIMEBase_Cc': 1,
+                'MIMEBase_Subject': 1,
+                'MIMEBase_Body': 1,
                 'Fulltext': 1
             };
 

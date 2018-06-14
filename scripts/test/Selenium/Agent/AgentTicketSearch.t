@@ -19,14 +19,11 @@ $Selenium->RunTest(
 
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        my $TestUserLogin = $Helper->TestUserCreate(
-            Groups => [ 'admin', 'users' ],
-        ) || die "Did not get test user";
-
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
+        # Disable warn on stop word usage.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::SearchIndex::WarnOnStopWordUsage',
+            Value => 0,
         );
 
         my $RandomID = $Helper->GetRandomID();
@@ -168,6 +165,16 @@ $Selenium->RunTest(
             TicketID  => $TicketID,
             ArticleID => $ArticleID,
             UserID    => 1,
+        );
+
+        my $TestUserLogin = $Helper->TestUserCreate(
+            Groups => [ 'admin', 'users' ],
+        ) || die "Did not get test user";
+
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
         );
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
@@ -327,7 +334,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for stop word not found';
 
         # Verify the alert message.
-        $ExpectedAlertText = "Fulltext: because";
+        $ExpectedAlertText = "\nFulltext: because";
         $Self->True(
             ( $Selenium->get_alert_text() =~ /$ExpectedAlertText/ ),
             'Stop word search string warning is found',
@@ -336,8 +343,36 @@ $Selenium->RunTest(
         # Accept the alert to continue with the tests.
         $Selenium->accept_alert();
 
+        # Add Subject field and try searching subject with 'stop word' search.
+        $Selenium->execute_script(
+            "\$('#Attribute').val('MIMEBase_Subject').trigger('redraw.InputField').trigger('change');",
+        );
+        $Selenium->WaitFor(
+            JavaScript => "return \$('#SearchInsert input[name=MIMEBase_Subject]').length"
+        );
+
+        $Selenium->find_element( "Fulltext",          'name' )->clear();
+        $Selenium->find_element( "MIMEBase_Subject",  'name' )->clear();
+        $Selenium->find_element( "MIMEBase_Subject",  'name' )->send_keys('because');
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
+
+        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for stop word not found';
+
+        # Verify the alert message.
+        $ExpectedAlertText = "\nSubject: because";
+
+        $Self->True(
+            ( $Selenium->get_alert_text() =~ /$ExpectedAlertText/ ),
+            'Stop word search string warning is found',
+        );
+
+        # Accept the alert to continue with the tests.
+        $Selenium->accept_alert();
+
+        # Clear Subject field.
+        $Selenium->find_element( "MIMEBase_Subject", 'name' )->clear();
+
         # Search fulltext with correct input.
-        $Selenium->find_element( "Fulltext", 'name' )->clear();
         $Selenium->execute_script(
             "\$('input[name=\"Fulltext\"]').val('$Subject');",
         );

@@ -1,4 +1,5 @@
 #6.0.9 2018-??-??
+ - 2018-06-14 Fixed bug#[13838](https://bugs.otrs.org/show_bug.cgi?id=13838) - WarnOnStopWordUsage not working for subject, body, from, to, cc.
  - 2018-06-14 Fixed bug#[13893](https://bugs.otrs.org/show_bug.cgi?id=13893) - Wrong descriptions for some system configurations.
  - 2018-06-14 Fixed bug#[12479](https://bugs.otrs.org/show_bug.cgi?id=12479) - Reply to a ticket locks the ticket and cancel unlocks it but does not reset owner.
  - 2018-06-12 Fixed bug#[13902](https://bugs.otrs.org/show_bug.cgi?id=13902) - Dialog submit is not possible for an appointment created by rule based on pending time.
