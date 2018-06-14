@@ -637,7 +637,7 @@ $Selenium->RunTest(
             "TicketID $TicketIDs[2] is found in the table"
         );
 
-        # Search for tickets with priorites '1 very low' and '2 low' -
+        # Search for tickets with priorities '1 very low' and '2 low' -
         # the last two created tickets should be in the table.
         $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AgentTicketSearch;Subaction=Search;Priorities=1 very low;Priorities=2 low"
@@ -653,6 +653,58 @@ $Selenium->RunTest(
         $Self->True(
             $Selenium->execute_script("return \$('#OverviewBody tbody tr[id=TicketID_$TicketIDs[2]').length"),
             "TicketID $TicketIDs[2] is found in the table"
+        );
+
+        # Change test user language and verify searchable Article Fields are translated.
+        # See bug#13913 (https://bugs.otrs.org/show_bug.cgi?id=13913).
+
+        # Go to agent preferences screen.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
+
+        # Change test user language preference to Deutsch (de).
+        my $Language = 'de';
+        $Selenium->execute_script(
+            "\$('#UserLanguage').val('de').trigger('redraw.InputField').trigger('change');"
+        );
+        $Selenium->execute_script(
+            "\$('#UserLanguage').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('#UserLanguage').closest('.WidgetSimple').hasClass('HasOverlay')"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('#UserLanguage').closest('.WidgetSimple').find('.fa-check').length"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return !\$('#UserLanguage').closest('.WidgetSimple').hasClass('HasOverlay')"
+        );
+
+        # Navigate to AgentTicketSearch screen.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
+
+        # Wait until form and overlay has loaded, if necessary.
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
+
+        # Select 'Body' field in search.
+        $Selenium->execute_script(
+            "\$('#Attribute').val('MIMEBase_Body').trigger('redraw.InputField').trigger('change');",
+        );
+        $Selenium->WaitFor(
+            JavaScript => "return \$('#SearchInsert input[name=MIMEBase_Body]').length"
+        );
+
+        # Verify translated 'Body' field label.
+        my $LanguageObject = Kernel::Language->new(
+            UserLanguage => $Language,
+        );
+
+        $Self->Is(
+            $Selenium->execute_script(" return \$('#LabelMIMEBase_Body').text()"),
+            $LanguageObject->Translate('Body') . ':',
+            "Article search field 'Body' translated correctly"
         );
 
         # Clean up test data from the DB.

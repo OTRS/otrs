@@ -110,7 +110,7 @@
         <div class="Clear"></div>
 
 [% RenderBlockStart("SearchableArticleField") %]
-        <label for="[% Data.ArticleFieldKey | html %]" id="Label[% Data.ArticleFieldKey | html %]">[% Data.ArticleFieldLabel | html %]:</label>
+        <label for="[% Data.ArticleFieldKey | html %]" id="Label[% Data.ArticleFieldKey | html %]">[% Translate(Data.ArticleFieldLabel) | html %]:</label>
         <div class="Field">
             <input type="text" name="[% Data.ArticleFieldKey | html %]" value="[% Data.ArticleFieldValue | html %]" class="W50pc"/>
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
