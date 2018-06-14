@@ -225,6 +225,44 @@ $Selenium->RunTest(
             "$TemplateID is assigned to the queue.",
         );
 
+        # Create test user with admin permissions.
+        my $UserName = "Name$RandomID";
+        my $UserID   = $Kernel::OM->Get('Kernel::System::User')->UserAdd(
+            UserFirstname => $UserName,
+            UserLastname  => $UserName,
+            UserLogin     => $UserName,
+            UserEmail     => "$UserName\@example.com",
+            ValidID       => 1,
+            ChangeUserID  => 1,
+        );
+        $Self->True(
+            $UserID,
+            "UserID $UserID is created",
+        );
+
+        my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+
+        my $GroupID = $GroupObject->GroupLookup(
+            Group => 'admin',
+        );
+        $Success = $GroupObject->PermissionGroupUserAdd(
+            GID        => $GroupID,
+            UID        => $UserID,
+            Permission => {
+                ro        => 1,
+                move_into => 1,
+                create    => 1,
+                owner     => 1,
+                priority  => 1,
+                rw        => 1,
+            },
+            UserID => 1,
+        );
+        $Self->True(
+            $Success,
+            "UserID '$UserID' set permission for 'admin' group"
+        );
+
         # get customer user object
         my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
@@ -495,6 +533,83 @@ $Selenium->RunTest(
             "Compose executed correctly",
         );
 
+        $Selenium->close();
+        $Selenium->switch_to_window( $Handles->[0] );
+        $Selenium->WaitFor( WindowCount => 1 );
+
+        # Test ticket lock and owner after closing AgentTicketCompose popup (see bug#12479).
+        # Enable RequiredLock for AgentTicketCompose.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketCompose###RequiredLock',
+            Value => 1,
+        );
+
+        # Set test created user as ticket owner.
+        my $OwnerSet = $TicketObject->TicketOwnerSet(
+            TicketID  => $TicketID,
+            UserID    => 1,
+            NewUserID => $UserID,
+        );
+        $Self->Is(
+            $OwnerSet,
+            1,
+            "UserID '$UserID' is set successfully as ticket owner for TicketID '$TicketID'"
+        );
+
+        # Navigate to created test ticket in AgentTicketZoom page.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+
+        my %TicketDataBeforeUndo = $TicketObject->TicketGet(
+            TicketID => $TicketID,
+        );
+        $Self->Is(
+            $TicketDataBeforeUndo{Lock},
+            'unlock',
+            "Before undo - Ticket lock is 'unlock'"
+        );
+        $Self->Is(
+            $TicketDataBeforeUndo{OwnerID},
+            $UserID,
+            "Before undo - Ticket owner is test user $UserID"
+        );
+
+        # Click on reply.
+        $Selenium->execute_script(
+            "\$('#ResponseID').val('$TemplateID').trigger('redraw.InputField').trigger('change');"
+        );
+
+        # Switch to compose window.
+        $Selenium->WaitFor( WindowCount => 2 );
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
+
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".UndoClosePopup").length' );
+
+        # Click on 'Undo&Close' to close popup and set state and owner to the previous values.
+        $Selenium->find_element( ".UndoClosePopup", 'css' )->click();
+        $Selenium->WaitFor( WindowCount => 1 );
+        $Selenium->switch_to_window( $Handles->[0] );
+
+        # Clean Ticket cache, to get refreshed test ticket data.
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+        $CacheObject->CleanUp( Type => 'Ticket' );
+
+        my %TicketDataAfterUndo = $TicketObject->TicketGet(
+            TicketID => $TicketID,
+        );
+
+        $Self->Is(
+            $TicketDataAfterUndo{Lock},
+            'unlock',
+            "After undo - Ticket lock is still 'unlock'"
+        );
+        $Self->Is(
+            $TicketDataAfterUndo{OwnerID},
+            $UserID,
+            "After undo - Ticket owner is still test user $UserID"
+        );
+
         # delete created test ticket
         $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
@@ -548,16 +663,42 @@ $Selenium->RunTest(
             );
         }
 
-        # make sure the cache is correct
+        # Delete group-user relation.
+        $Success = $DBObject->Do(
+            SQL  => "DELETE FROM group_user WHERE group_id = ?",
+            Bind => [ \$GroupID ],
+        );
+        $Self->True(
+            $Success,
+            "Relation for group ID $GroupID is deleted",
+        );
+
+        # Delete test created user.
+        $Success = $DBObject->Do(
+            SQL  => "DELETE FROM user_preferences WHERE user_id = ?",
+            Bind => [ \$UserID ],
+        );
+        $Self->True(
+            $Success,
+            "User preferences for $UserID is deleted",
+        );
+
+        $Success = $DBObject->Do(
+            SQL  => "DELETE FROM users WHERE id = ?",
+            Bind => [ \$UserID ],
+        );
+        $Self->True(
+            $Success,
+            "UserID $UserID is deleted",
+        );
+
+        # Make sure the cache is correct.
         for my $Cache (
-            qw (Ticket CustomerUser )
+            qw (Ticket CustomerUser User)
             )
         {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-                Type => $Cache,
-            );
+            $CacheObject->CleanUp( Type => $Cache );
         }
-
     }
 );
 

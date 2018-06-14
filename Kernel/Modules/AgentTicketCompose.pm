@@ -108,21 +108,31 @@ sub Run {
     my $TicketBackType = 'TicketBack';
     if ( $Config->{RequiredLock} ) {
         if ( !$TicketObject->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
-            $TicketObject->TicketLockSet(
+
+            my $Lock = $TicketObject->TicketLockSet(
                 TicketID => $Self->{TicketID},
                 Lock     => 'lock',
                 UserID   => $Self->{UserID}
             );
-            my $Owner = $TicketObject->TicketOwnerSet(
-                TicketID  => $Self->{TicketID},
-                UserID    => $Self->{UserID},
-                NewUserID => $Self->{UserID},
-            );
 
-            # show lock state
-            if ( !$Owner ) {
-                return $LayoutObject->FatalError();
+            # Set new owner if ticket owner is different then logged user.
+            if ( $Lock && ( $Ticket{OwnerID} != $Self->{UserID} ) ) {
+
+                # Remember previous owner, which will be used to restore ticket owner on undo action.
+                $Ticket{PreviousOwner} = $Ticket{OwnerID};
+
+                my $Success = $TicketObject->TicketOwnerSet(
+                    TicketID  => $Self->{TicketID},
+                    UserID    => $Self->{UserID},
+                    NewUserID => $Self->{UserID},
+                );
+
+                # show lock state
+                if ( !$Success ) {
+                    return $LayoutObject->FatalError();
+                }
             }
+
             $TicketBackType .= 'Undo';
         }
         else {
