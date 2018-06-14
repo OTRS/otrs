@@ -5397,7 +5397,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::MenuModule###400-Owner" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu to see the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
+        <Description Translatable="1">Shows a link in the menu to change the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom::MenuModule</Navigation>
         <Value>
             <Hash>
@@ -5414,7 +5414,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::MenuModule###410-Responsible" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu to see the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
+        <Description Translatable="1">Shows a link in the menu to change the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom::MenuModule</Navigation>
         <Value>
             <Hash>
@@ -5431,7 +5431,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::MenuModule###420-Customer" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu to see the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
+        <Description Translatable="1">Shows a link in the menu to change the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom::MenuModule</Navigation>
         <Value>
             <Hash>
@@ -5465,7 +5465,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::MenuModule###425-Phone Call Outbound" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu to add a note in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
+        <Description Translatable="1">Shows a link in the menu to add a phone call outbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom::MenuModule</Navigation>
         <Value>
             <Hash>
@@ -5482,7 +5482,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::MenuModule###426-Phone Call Inbound" Required="0" Valid="1">
-        <Description Translatable="1">Shows a link in the menu to add a note in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
+        <Description Translatable="1">Shows a link in the menu to add a phone call inbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom::MenuModule</Navigation>
         <Value>
             <Hash>
@@ -7038,7 +7038,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketMessage###Queue" Required="1" Valid="1">
-        <Description Translatable="1">Allows customers to set the ticket queue in the customer interface. If this is set to 'No', QueueDefault should be configured.</Description>
+        <Description Translatable="1">Allows customers to set the ticket queue in the customer interface. If this is not enabledTicket::Frontend::CustomerTicketMessage###TicketType, QueueDefault should be configured.</Description>
         <Navigation>Frontend::Customer::View::TicketMessage</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
@@ -7052,7 +7052,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketMessage###TicketType" Required="1" Valid="1">
-        <Description Translatable="1">Allows customers to set the ticket type in the customer interface. If this is set to 'No', TicketTypeDefault should be configured.</Description>
+        <Description Translatable="1">Allows customers to set the ticket type in the customer interface. If this is not enabled, TicketTypeDefault should be configured.</Description>
         <Navigation>Frontend::Customer::View::TicketMessage</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
@@ -10709,7 +10709,7 @@
         </Value>
     </Setting>
     <Setting Name="Loader::Module::CustomerTicketMessage###002-Ticket" Required="0" Valid="1">
-        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Description Translatable="1">Loader module registration for the customer interface.</Description>
         <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
@@ -10776,7 +10776,7 @@
         </Value>
     </Setting>
     <Setting Name="Loader::Module::CustomerTicketZoom###002-Ticket" Required="0" Valid="1">
-        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Description Translatable="1">Loader module registration for the customer interface.</Description>
         <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
@@ -10874,7 +10874,7 @@
         </Value>
     </Setting>
     <Setting Name="Loader::Module::CustomerTicketSearch###002-Ticket" Required="0" Valid="1">
-        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Description Translatable="1">Loader module registration for the customer interface.</Description>
         <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>

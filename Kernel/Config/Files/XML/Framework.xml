@@ -7081,7 +7081,7 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="CustomerFrontend::Module###AjaxAttachment" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
         <Value>
             <Item ValueType="FrontendRegistration">

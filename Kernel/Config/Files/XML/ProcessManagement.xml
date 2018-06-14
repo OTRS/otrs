@@ -494,7 +494,7 @@
         </Value>
     </Setting>
     <Setting Name="Loader::Module::CustomerTicketProcess###002-ProcessManagement" Required="0" Valid="1">
-        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Description Translatable="1">Loader module registration for the customer interface.</Description>
         <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
