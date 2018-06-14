@@ -7038,7 +7038,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketMessage###Queue" Required="1" Valid="1">
-        <Description Translatable="1">Allows customers to set the ticket queue in the customer interface. If this is not enabledTicket::Frontend::CustomerTicketMessage###TicketType, QueueDefault should be configured.</Description>
+        <Description Translatable="1">Allows customers to set the ticket queue in the customer interface. If this is not enabled, QueueDefault should be configured.</Description>
         <Navigation>Frontend::Customer::View::TicketMessage</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
