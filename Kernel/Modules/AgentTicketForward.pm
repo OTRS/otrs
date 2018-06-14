@@ -186,26 +186,34 @@ sub Form {
     if ( $Config->{RequiredLock} ) {
         if ( !$TicketObject->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
 
-            # set owner
-            $TicketObject->TicketOwnerSet(
-                TicketID  => $Self->{TicketID},
-                UserID    => $Self->{UserID},
-                NewUserID => $Self->{UserID},
-            );
-
-            # set lock
             my $Lock = $TicketObject->TicketLockSet(
                 TicketID => $Self->{TicketID},
                 Lock     => 'lock',
                 UserID   => $Self->{UserID}
             );
 
-            # show lock state
-            if ($Lock) {
-                $LayoutObject->Block(
-                    Name => 'PropertiesLock',
-                    Data => { %Param, TicketID => $Self->{TicketID} },
+            # Set new owner if ticket owner is different then logged user.
+            if ( $Lock && ( $Ticket{OwnerID} != $Self->{UserID} ) ) {
+
+                # Remember previous owner, which will be used to restore ticket owner on undo action.
+                $Param{PreviousOwner} = $Ticket{OwnerID};
+
+                my $Success = $TicketObject->TicketOwnerSet(
+                    TicketID  => $Self->{TicketID},
+                    UserID    => $Self->{UserID},
+                    NewUserID => $Self->{UserID},
                 );
+
+                # Show lock state.
+                if ($Success) {
+                    $LayoutObject->Block(
+                        Name => 'PropertiesLock',
+                        Data => {
+                            %Param,
+                            TicketID => $Self->{TicketID}
+                        },
+                    );
+                }
             }
         }
         else {

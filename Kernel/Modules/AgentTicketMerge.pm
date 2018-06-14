@@ -90,28 +90,35 @@ sub Run {
     # get lock state && write (lock) permissions
     if ( $Config->{RequiredLock} ) {
         if ( !$TicketObject->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
-            $TicketObject->TicketLockSet(
+
+            my $Lock = $TicketObject->TicketLockSet(
                 TicketID => $Self->{TicketID},
                 Lock     => 'lock',
                 UserID   => $Self->{UserID}
             );
-            if (
-                $TicketObject->TicketOwnerSet(
+
+            # Set new owner if ticket owner is different then logged user.
+            if ( $Lock && ( $Ticket{OwnerID} != $Self->{UserID} ) ) {
+
+                # Remember previous owner, which will be used to restore ticket owner on undo action.
+                $Param{PreviousOwner} = $Ticket{OwnerID};
+
+                my $Success = $TicketObject->TicketOwnerSet(
                     TicketID  => $Self->{TicketID},
                     UserID    => $Self->{UserID},
                     NewUserID => $Self->{UserID},
-                )
-                )
-            {
-
-                # show lock state
-                $LayoutObject->Block(
-                    Name => 'PropertiesLock',
-                    Data => {
-                        %Param,
-                        TicketID => $Self->{TicketID},
-                    },
                 );
+
+                # Show lock state.
+                if ($Success) {
+                    $LayoutObject->Block(
+                        Name => 'PropertiesLock',
+                        Data => {
+                            %Param,
+                            TicketID => $Self->{TicketID}
+                        },
+                    );
+                }
             }
         }
         else {

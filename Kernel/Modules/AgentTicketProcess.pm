@@ -197,25 +197,34 @@ sub Run {
                 }
                 else {
 
-                    # set lock
-                    $TicketObject->TicketLockSet(
+                    my %Ticket = $TicketObject->TicketGet(
+                        TicketID => $TicketID,
+                    );
+
+                    my $Lock = $TicketObject->TicketLockSet(
                         TicketID => $TicketID,
                         Lock     => 'lock',
-                        UserID   => $Self->{UserID},
+                        UserID   => $Self->{UserID}
                     );
 
-                    # set user id
-                    $TicketObject->TicketOwnerSet(
-                        TicketID  => $TicketID,
-                        UserID    => $Self->{UserID},
-                        NewUserID => $Self->{UserID},
-                    );
+                    # Set new owner if ticket owner is different then logged user.
+                    if ( $Lock && ( $Ticket{OwnerID} != $Self->{UserID} ) ) {
 
-                    # reload the parent window to show the updated lock state
-                    $Param{ParentReload} = 1;
+                        # Remember previous owner, which will be used to restore ticket owner on undo action.
+                        $Param{PreviousOwner} = $Ticket{OwnerID};
 
-                    # show lock state link
-                    $Param{RenderLocked} = 1;
+                        my $Success = $TicketObject->TicketOwnerSet(
+                            TicketID  => $TicketID,
+                            UserID    => $Self->{UserID},
+                            NewUserID => $Self->{UserID},
+                        );
+
+                        # Reload the parent window to show the updated lock state.
+                        $Param{ParentReload} = 1;
+
+                        # Show lock state link.
+                        $Param{RenderLocked} = 1;
+                    }
 
                     my $TicketNumber = $TicketObject->TicketNumberLookup(
                         TicketID => $TicketID,

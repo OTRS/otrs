@@ -114,6 +114,22 @@ sub Run {
         if ( !$Lock ) {
             return $LayoutObject->ErrorScreen();
         }
+
+        my $PreviousOwner = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'PreviousOwner' );
+
+        if ($PreviousOwner) {
+
+            my $OwnerSet = $TicketObject->TicketOwnerSet(
+                TicketID  => $Self->{TicketID},
+                UserID    => $Self->{UserID},
+                NewUserID => $PreviousOwner,
+            );
+
+            if ( !$OwnerSet ) {
+                return $LayoutObject->ErrorScreen();
+            }
+        }
+
     }
     else {
 
