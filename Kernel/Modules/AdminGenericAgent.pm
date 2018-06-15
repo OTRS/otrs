@@ -248,6 +248,17 @@ sub Run {
             $Errors{ProfileInvalid} = 'ServerError';
         }
 
+        # Check length of fields from Add Note section.
+        if ( length $GetParam{NewNoteFrom} > 200 ) {
+            $Errors{NewNoteFromServerError} = 'ServerError';
+        }
+        if ( length $GetParam{NewNoteSubject} > 200 ) {
+            $Errors{NewNoteSubjectServerError} = 'ServerError';
+        }
+        if ( length $GetParam{NewNoteBody} > 200 ) {
+            $Errors{NewNoteBodyServerError} = 'ServerError';
+        }
+
         # Check if ticket selection contains stop words
         my %StopWordsServerErrors = $Self->_StopWordsServerErrorsGet(
             From    => $GetParam{From},
@@ -1144,9 +1155,9 @@ sub _MaskUpdate {
 
         # paint each selector
         my $EventStrg = $LayoutObject->BuildSelection(
-            Data         => $RegisteredEvents{$Type} || [],
-            Name         => $Type . 'Event',
-            Sort         => 'AlphanumericValue',
+            Data => $RegisteredEvents{$Type} || [],
+            Name => $Type . 'Event',
+            Sort => 'AlphanumericValue',
             PossibleNone => 0,
             Class        => 'EventList GenericInterfaceSpacing ' . $EventListHidden,
             Title        => $LayoutObject->{LanguageObject}->Translate('Event'),
