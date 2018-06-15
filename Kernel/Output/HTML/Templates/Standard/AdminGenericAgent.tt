@@ -766,19 +766,23 @@
                     <fieldset class="TableLike">
                         <label for="NewNoteFrom">[% Translate("From") | html %]:</label>
                         <div class="Field">
-                            <input type="text" name="NewNoteFrom" id="NewNoteFrom" value="[% Data.NewNoteFrom | html %]" class="W50pc"/>
+                            <input type="text" name="NewNoteFrom" id="NewNoteFrom" value="[% Data.NewNoteFrom | html %]" class="W50pc [% Data.NewNoteFromServerError | html %]" maxlength="200"/>
+                            <div id="NewNoteFromServerError" class="TooltipErrorMessage"><p>[% Translate("This field must have less then 200 characters.") | html %]</p></div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="NewNoteSubject">[% Translate("Subject") | html %]:</label>
                         <div class="Field">
-                            <input type="text" name="NewNoteSubject" id="NewNoteSubject" value="[% Data.NewNoteSubject | html %]" size="60"/>
+                            <input type="text" name="NewNoteSubject" id="NewNoteSubject" value="[% Data.NewNoteSubject | html %]" size="60" [% IF Data.NewNoteSubjectServerError == 'ServerError' %]class="[% Data.NewNoteSubjectServerError | html %]"[% END %] maxlength="200"/>
+                            <div id="NewNoteSubjectServerError" class="TooltipErrorMessage"><p>[% Translate("This field must have less then 200 characters.") | html %]</p></div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="NewNoteBody">[% Translate("Text") | html %]:</label>
                         <div class="Field">
-                            <textarea name="NewNoteBody" id="NewNoteBody" rows="7" cols="60">[% Data.NewNoteBody | html %]</textarea>
+                            <textarea name="NewNoteBody" id="NewNoteBody" class="Validate_MaxLength [% Data.NewNoteBodyServerError | html %]" rows="7" cols="60" data-maxlength="200">[% Data.NewNoteBody | html %]</textarea>
+                            <div id="NewNoteBodyError" class="TooltipErrorMessage"><p>[% Translate("This field must have less then 200 characters.") | html %]</p></div>
+                            <div id="NewNoteBodyServerError" class="TooltipErrorMessage"><p>[% Translate("This field must have less then 200 characters.") | html %]</p></div>
                         </div>
                         <div class="Clear"></div>
 

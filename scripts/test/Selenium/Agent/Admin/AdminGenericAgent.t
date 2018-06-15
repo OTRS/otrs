@@ -201,7 +201,7 @@ $Selenium->RunTest(
             index(
                 $Selenium->get_page_source(),
                 'This event is already attached to the job, Please use a different one.'
-            ) > -1,
+                ) > -1,
             "Duplicated event dialog message is found",
         );
 
@@ -279,6 +279,18 @@ $Selenium->RunTest(
         my $GenericAgentJob     = "GenericAgent" . $RandomID;
         $Selenium->find_element( "#Profile", 'css' )->send_keys($GenericAgentJob);
         $Selenium->find_element( "#Title",   'css' )->send_keys($GenericTicketSearch);
+
+        # Check 'NewNoteBody' length validation from Add Note section (see bug#13912).
+        my $FieldValue = "a" x 201;
+        $Selenium->find_element( "#NewNoteBody", 'css' )->send_keys($FieldValue);
+        $Selenium->find_element( "#Submit",      'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return \$('#NewNoteBody.Error').length === 1;" );
+
+        $Self->True(
+            $Selenium->execute_script("return \$('#NewNoteBody.Error').length === 1;"),
+            "Validation for 'NewNoteBody' field is correct",
+        );
+        $Selenium->find_element( "#NewNoteBody", 'css' )->clear();
 
         # set test dynamic field to date in the past, but do not activate it
         # validation used to kick in even if checkbox in front wasn't activated
