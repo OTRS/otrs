@@ -22,6 +22,17 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="LinkObject::EventModulePost###9900-GenericInterface" Required="0" Valid="1">
+        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured web service.</Description>
+        <Navigation>Core::Event::LinkObject</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::GenericInterface::Event::Handler</Item>
+                <Item Key="Transaction">1</Item>
+                <Item Key="Event"></Item><!-- run on all events -->
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="CustomerCompany::EventModulePost###9900-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured web service.</Description>
         <Navigation>Core::Event::CustomerCompany</Navigation>

@@ -1,4 +1,5 @@
 #6.0.9 2018-??-??
+ - 2018-06-15 Fixed bug#[13910](https://bugs.otrs.org/show_bug.cgi?id=13910) - LinkObject events are not working in web services due to missing LinkObject::EventModulePost configuration.
  - 2018-06-14 Fixed bug#[13913](https://bugs.otrs.org/show_bug.cgi?id=13913)(PR#1936) - Searchable Article Fields not translated in AgentTicketSearch. Thanks to Robin.
  - 2018-06-14 Fixed bug#[13838](https://bugs.otrs.org/show_bug.cgi?id=13838) - WarnOnStopWordUsage not working for subject, body, from, to, cc.
  - 2018-06-14 Fixed bug#[13893](https://bugs.otrs.org/show_bug.cgi?id=13893) - Wrong descriptions for some system configurations.

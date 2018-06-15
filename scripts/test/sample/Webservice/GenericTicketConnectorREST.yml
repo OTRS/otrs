@@ -1,0 +1,206 @@
+---
+Debugger:
+  DebugThreshold: debug
+  TestMode: '0'
+Description: Ticket Connector REST Sample
+FrameworkVersion: 6.0.x git
+Provider:
+  Operation:
+    SessionCreate:
+      Description: Create a Session
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Session::SessionCreate
+    SessionGet:
+      Description: Retreive Session data
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Session::SessionGet
+    TicketCreate:
+      Description: Create a Ticket
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Ticket::TicketCreate
+    TicketGet:
+      Description: Retrieve Ticket data
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Ticket::TicketGet
+    TicketGetList:
+      Description: Retrieve Ticket data for a List of Ticket IDs
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Ticket::TicketGet
+    TicketHistoryGet:
+      Description: Retrieve Ticket history data
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Ticket::TicketHistoryGet
+    TicketSearch:
+      Description: Search for Tickets
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Ticket::TicketSearch
+    TicketUpdate:
+      Description: Update a Ticket
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Ticket::TicketUpdate
+  Transport:
+    Config:
+      AdditionalHeaders: ~
+      KeepAlive: ''
+      MaxLength: '100000000'
+      RouteOperationMapping:
+        SessionCreate:
+          RequestMethod:
+          - POST
+          Route: /Session
+        SessionGet:
+          RequestMethod:
+          - GET
+          Route: /Session/:SessionID
+        TicketCreate:
+          RequestMethod:
+          - POST
+          Route: /Ticket
+        TicketGet:
+          RequestMethod:
+          - GET
+          Route: /Ticket/:TicketID
+        TicketGetList:
+          RequestMethod:
+          - GET
+          Route: /TicketList
+        TicketHistoryGet:
+          RequestMethod:
+          - GET
+          Route: /TicketHistory/:TicketID
+        TicketSearch:
+          RequestMethod:
+          - GET
+          Route: /Ticket
+        TicketUpdate:
+          RequestMethod:
+          - POST
+          Route: /TicketUpdate
+    Type: HTTP::REST
+RemoteSystem: ''
+Requester:
+  Invoker:
+    Update on Queue Move:
+      ArticleSenderType: []
+      CommunicationChannel: []
+      CountLastArticle: ''
+      CustomerVisibility: '2'
+      Description: ''
+      DynamicFieldList: []
+      Events:
+      - Asynchronous: '0'
+        Event: TicketQueueUpdate
+      RequestArticleFields:
+      - Attachment
+      - Body
+      - Charset
+      - CommunicationChannel
+      - ContentType
+      - From
+      - IsVisibleForCustomer
+      - MimeType
+      - SenderType
+      - Subject
+      - TimeUnit
+      RequestDynamicFieldsArticle: []
+      RequestDynamicFieldsTicket:
+      - PreProcApplicationRecorded
+      - PreProcApprovedSuperior
+      - PreProcDaysRemaining
+      - PreProcDaysUsed
+      - PreProcEmergencyTelephone
+      - PreProcProcessStatus
+      - PreProcRepresentationBy
+      - PreProcVacationEnd
+      - PreProcVacationInfo
+      - PreProcVacationStart
+      - ProcessManagementActivityID
+      - ProcessManagementProcessID
+      RequestTicketFields:
+      - CustomerUser
+      - Lock
+      - Owner
+      - PendingTime
+      - Priority
+      - Queue
+      - Responsible
+      - SLA
+      - Service
+      - State
+      - Title
+      - Type
+      TicketIdToDynamicField: ''
+      Type: Ticket::TicketUpdate
+    UpdateOnTicketLinkEvent:
+      ArticleSenderType: []
+      CommunicationChannel: []
+      CountLastArticle: ''
+      CustomerVisibility: '2'
+      Description: ''
+      DynamicFieldList: []
+      Events:
+      - Asynchronous: '0'
+        Event: LinkObjectLinkAdd
+      - Asynchronous: '0'
+        Event: LinkObjectLinkDelete
+      RequestArticleFields:
+      - Attachment
+      - Body
+      - Charset
+      - CommunicationChannel
+      - ContentType
+      - From
+      - IsVisibleForCustomer
+      - MimeType
+      - SenderType
+      - Subject
+      - TimeUnit
+      RequestDynamicFieldsArticle: []
+      RequestDynamicFieldsTicket:
+      - PreProcApplicationRecorded
+      - PreProcApprovedSuperior
+      - PreProcDaysRemaining
+      - PreProcDaysUsed
+      - PreProcEmergencyTelephone
+      - PreProcProcessStatus
+      - PreProcRepresentationBy
+      - PreProcVacationEnd
+      - PreProcVacationInfo
+      - PreProcVacationStart
+      - ProcessManagementActivityID
+      - ProcessManagementProcessID
+      RequestTicketFields:
+      - CustomerUser
+      - Lock
+      - Owner
+      - PendingTime
+      - Priority
+      - Queue
+      - Responsible
+      - SLA
+      - Service
+      - State
+      - Title
+      - Type
+      TicketIdToDynamicField: ''
+      Type: Ticket::TicketUpdate
+  Transport:
+    Config:
+      DefaultCommand: GET
+      Host: http://localhost/otrs6-devel4/nph-genericinterface.pl/Webservice/GenericTicketConnectorREST
+      InvokerControllerMapping:
+        Update on Queue Move:
+          Controller: /TicketUpdate
+        UpdateOnTicketLinkEvent:
+          Command: POST
+          Controller: /TicketUpdate
+      Timeout: '120'
+    Type: HTTP::REST
