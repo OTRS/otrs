@@ -649,6 +649,9 @@ $Selenium->RunTest(
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
         $CacheObject->CleanUp( Type => 'Ticket' );
 
+        # Refresh screen.
+        $Selenium->VerifiedRefresh();
+
         my %TicketDataAfterUndo = $TicketObject->TicketGet(
             TicketID => $TicketID,
         );
