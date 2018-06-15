@@ -424,6 +424,14 @@ sub Run {
             );
         }
 
+        # Set number of articles by ArticleLimit and ArticleOrder parameters.
+        if ( IsArrayRefWithData( \@Articles ) && $ArticleLimit ) {
+            if ( $ArticleOrder eq 'DESC' ) {
+                @Articles = reverse @Articles;
+            }
+            @Articles = @Articles[ 0 .. ( $ArticleLimit - 1 ) ];
+        }
+
         # start article loop
         ARTICLE:
         for my $Article (@Articles) {

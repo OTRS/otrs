@@ -1362,6 +1362,72 @@ my @Tests = (
         Operation => 'TicketGet',
     },
     {
+        Name           => 'Test Ticket 4 With last two Articles - check ArticleLimit parameter, ArticleOrder: DESC',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID     => $TicketID4,
+            AllArticles  => 1,
+            ArticleLimit => 2,
+            ArticleOrder => 'DESC',
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Ticket => {
+                    %TicketEntryFour,
+                    Article => [ $ArticleWithoutAttachments[-1], $ArticleWithoutAttachments[-2] ],
+                },
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Ticket => [
+                    {
+                        (
+                            %TicketEntryFour,
+                            Article => [ $ArticleWithoutAttachments[-1], $ArticleWithoutAttachments[-2] ],
+                            )
+                    },
+                ],
+            },
+        },
+        Operation => 'TicketGet',
+    },
+    {
+        Name           => 'Test Ticket 4 With first two Articles - check ArticleLimit parameter, ArticleOrder: ASC',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID     => $TicketID4,
+            AllArticles  => 1,
+            ArticleLimit => 2,
+            ArticleOrder => 'ASC',
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Ticket => {
+                    %TicketEntryFour,
+                    Article => [ $ArticleWithoutAttachments[0], $ArticleWithoutAttachments[1] ],
+                },
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Ticket => [
+                    {
+                        (
+                            %TicketEntryFour,
+                            Article => [ $ArticleWithoutAttachments[0], $ArticleWithoutAttachments[1] ],
+                            )
+                    },
+                ],
+            },
+        },
+        Operation => 'TicketGet',
+    },
+    {
         Name           => 'Test Ticket 4 With All Articles and Attachments',
         SuccessRequest => '1',
         RequestData    => {
