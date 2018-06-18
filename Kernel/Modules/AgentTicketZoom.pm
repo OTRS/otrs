@@ -1916,7 +1916,7 @@ sub MaskAgentZoom {
                     1 => Translatable('Visible only'),
                     2 => Translatable('Visible and invisible'),
                 },
-                SelectedID  => $Self->{ArticleFilter}->{CustomerVisibility} // 2,
+                SelectedID => $Self->{ArticleFilter}->{CustomerVisibility} // 2,
                 Translation => 1,
                 Sort        => 'NumericKey',
                 Name        => 'CustomerVisibilityFilter',
@@ -2291,17 +2291,15 @@ sub _ArticleTree {
                 );
             }
 
-            # Determine communication direction
-            if ( !$Article{IsVisibleForCustomer} ) {
+            # Determine communication direction.
+            if ( $Article{ChannelName} eq 'Internal' ) {
                 $LayoutObject->Block( Name => 'TreeItemDirectionInternal' );
             }
+            elsif ( $ArticleSenderTypeList{ $Article{SenderTypeID} } eq 'customer' ) {
+                $LayoutObject->Block( Name => 'TreeItemDirectionIncoming' );
+            }
             else {
-                if ( $ArticleSenderTypeList{ $Article{SenderTypeID} } eq 'customer' ) {
-                    $LayoutObject->Block( Name => 'TreeItemDirectionIncoming' );
-                }
-                else {
-                    $LayoutObject->Block( Name => 'TreeItemDirectionOutgoing' );
-                }
+                $LayoutObject->Block( Name => 'TreeItemDirectionOutgoing' );
             }
 
             # Get attachment index (excluding body attachments).
