@@ -1,4 +1,5 @@
 #6.0.9 2018-??-??
+ - 2018-06-18 Fixed bug#[13894](https://bugs.otrs.org/show_bug.cgi?id=13778) - otrs.Console.pl Admin::Package::UpgradeAll fails at installed ITSM package.
  - 2018-06-18 Fixed bug#[13894](https://bugs.otrs.org/show_bug.cgi?id=13894) - System log does not present timezone information.
  - 2018-06-18 Fixed bug#[13752](https://bugs.otrs.org/show_bug.cgi?id=13752) - Missing direction arrow for AgentTicketEmailOutbound.
  - 2018-06-15 Fixed bug#[13912](https://bugs.otrs.org/show_bug.cgi?id=13912) - Generic Agents looses text for notes when sizelimit 200 characters is exceeded.

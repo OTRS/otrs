@@ -3180,6 +3180,21 @@ sub PackageUpgradeAll {
         Result => 'short',
     );
 
+    # Modify @PackageInstalledList if ITSM packages are installed from Bundle (see bug#13778).
+    if ( grep { $_->{Name} eq 'ITSM' } @PackageInstalledList && grep { $_->{Name} eq 'ITSM' } @PackageOnlineList ) {
+        my @TmpPackages = (
+            'GeneralCatalog',
+            'ITSMCore',
+            'ITSMChangeManagement',
+            'ITSMConfigurationManagement',
+            'ITSMIncidentProblemManagement',
+            'ITSMServiceLevelManagement',
+            'ImportExport'
+        );
+        my %Values = map { $_ => 1 } @TmpPackages;
+        @PackageInstalledList = grep { !$Values{ $_->{Name} } } @PackageInstalledList;
+    }
+
     my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
     my $JSON       = $JSONObject->Encode(
         Data => \@PackageInstalledList,
