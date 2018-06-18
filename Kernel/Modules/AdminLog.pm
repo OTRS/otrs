@@ -38,6 +38,14 @@ sub Run {
     # Split data to lines.
     my @Message = split /\n/, $Log;
 
+    # Create months map.
+    my %MonthMap;
+    my @Months = qw(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec);
+    @MonthMap{@Months} = ( 1 .. 12 );
+
+    # Get current user time zone.
+    my $TimeZone = $Self->{UserTimeZone} || $Kernel::OM->Create('Kernel::System::DateTime')->UserDefaultTimeZoneGet();
+
     # Create table.
     ROW:
     for my $Row (@Message) {
@@ -47,6 +55,23 @@ sub Run {
         next ROW if !$Parts[3];
 
         my $ErrorClass = ( $Parts[1] =~ /error/ ) ? 'Error' : '';
+
+        # Create date and time object from ctime log stamp.
+        my @Time = split ' ', $Parts[0];
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => "$Time[4]-$MonthMap{$Time[1]}-$Time[2] $Time[3]",
+            },
+        );
+
+        # Converts the date and time of this object to the user time zone.
+        $DateTimeObject->ToTimeZone(
+            TimeZone => $TimeZone,
+        );
+
+        # Output time back as ctime string with time zone.
+        $Parts[0] = $DateTimeObject->ToCTimeString() . " ($TimeZone)";
 
         $LayoutObject->Block(
             Name => 'Row',
