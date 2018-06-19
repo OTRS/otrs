@@ -329,6 +329,10 @@ sub _TasksGet {
             Message => 'Migrate package repository configuration',
             Module  => 'MigratePackageRepositoryConfiguration',
         },
+        {
+            Message => 'Migrate ticket search profiles',
+            Module  => 'MigrateTicketSearchProfiles',
+        },
 
         # ...
 
