@@ -794,7 +794,9 @@ Core.Form.Validate = (function (TargetNS) {
     TargetNS.Init = function () {
         var FormSelector,
             $ServerErrors,
-            ServerErrorDialogCloseFunction;
+            ServerErrorDialogCloseFunction,
+            ChangedStateID,
+            PendingStateIDs = Core.Config.Get('PendingStateIDs') || [];
 
         if (Options.FormClass) {
             FormSelector = 'form.' + Options.FormClass;
@@ -848,6 +850,20 @@ Core.Form.Validate = (function (TargetNS) {
 
             Core.UI.Dialog.ShowAlert(Core.Language.Translate('Error'), Core.Language.Translate('One or more errors occurred!'), ServerErrorDialogCloseFunction);
         }
+
+        if (PendingStateIDs.indexOf(ChangedStateID) === -1) {
+            $('#Day').removeClass('Validate_DateInFuture');
+        }
+
+        $('#ComposeStateID, #NewStateID, #NextStateID').on('change', function() {
+            ChangedStateID = $(this).val();
+            if (PendingStateIDs.indexOf(ChangedStateID) > -1) {
+                $('#Day').addClass('Validate_DateInFuture');
+            }
+            else {
+                $('#Day').removeClass('Validate_DateInFuture');
+            }
+        })
     };
 
     /**

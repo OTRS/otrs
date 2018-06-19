@@ -176,6 +176,53 @@ $Selenium->RunTest(
             );
         }
 
+        # Check if PendingDiffTime set to 0 submits phone inbound form if state not pending.
+        # See bug#13906 https://bugs.otrs.org/show_bug.cgi?id=13906.
+
+        # Setup 'PendingDiffTime' config to 0 seconds.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::PendingDiffTime',
+            Value => 0,
+        );
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketPhoneInbound###State',
+        );
+
+        # Navigate to AgentTicketPhoneInbound screen.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketPhoneInbound;TicketID=$TicketID");
+
+        $Selenium->find_element( "#Subject",  'css' )->send_keys("Subject Test");
+        $Selenium->find_element( "#RichText", 'css' )->send_keys("RichText Test");
+
+        # Set next ticket state to pending reminder.
+        $Selenium->execute_script(
+            "\$('#NextStateID').val('6').trigger('redraw.InputField').trigger('change');"
+        );
+
+        $Selenium->find_element( "#submitRichText", 'css' )->click();
+
+        # Check if pending date has error class.
+        $Self->Is(
+            $Selenium->execute_script("return \$('#Day').hasClass('Error')"),
+            '1',
+            'Day has error class as it should.',
+        );
+
+        # Set next ticket state to open.
+        $Selenium->execute_script(
+            "\$('#NextStateID').val('4').trigger('redraw.InputField').trigger('change');"
+        );
+
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
+
+        # Verify URL is redirected to AgentTicketZoom, successfully submitted AgentTicketPhoneInbound.
+        $Self->True(
+            $Selenium->get_current_url() =~ /Action=AgentTicketZoom;TicketID=$TicketID/,
+            "Current URL after AgentTicketPhoneInbound 'Submit' button click is correct"
+        );
+
         # delete created test ticket
         my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
