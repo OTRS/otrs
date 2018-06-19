@@ -215,6 +215,10 @@ $Selenium->RunTest(
             "\$('#NextStateID').val('4').trigger('redraw.InputField').trigger('change');"
         );
 
+        $Selenium->WaitFor(
+            JavaScript => "return !\$('#Day.Validate_DateInFuture').length;"
+        );
+
         $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
         # Verify URL is redirected to AgentTicketZoom, successfully submitted AgentTicketPhoneInbound.
