@@ -75,11 +75,11 @@ sub Run {
         # Check if it has at least one valid state.
         my @MergeStateList = $StateObject->StateGetStatesByType(
             StateType => ['merged'],
-            Result    => 'Name',
+            Result    => 'ID',
         );
         if (
             scalar @MergeStateList == 1
-            && $MergeStateList[0] eq $GetParam{Name}
+            && $MergeStateList[0] eq $GetParam{ID}
             && $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup( ValidID => $GetParam{ValidID} ) ne 'valid'
             )
         {
@@ -170,7 +170,7 @@ sub Run {
 
         my @MergeStateList = $StateObject->StateGetStatesByType(
             StateType => ['merged'],
-            Result    => 'Name',
+            Result    => 'ID',
         );
         if (
             !@MergeStateList
