@@ -795,8 +795,9 @@ Core.Form.Validate = (function (TargetNS) {
         var FormSelector,
             $ServerErrors,
             ServerErrorDialogCloseFunction,
-            ChangedStateID,
-            PendingStateIDs = Core.Config.Get('PendingStateIDs') || [];
+            ChangedStateID = parseInt($('#ComposeStateID, #NewStateID, #NextStateID').val(), 10),
+            PendingStateIDs = Core.Config.Get('PendingStateIDs') || [],
+            Index;
 
         if (Options.FormClass) {
             FormSelector = 'form.' + Options.FormClass;
@@ -851,12 +852,19 @@ Core.Form.Validate = (function (TargetNS) {
             Core.UI.Dialog.ShowAlert(Core.Language.Translate('Error'), Core.Language.Translate('One or more errors occurred!'), ServerErrorDialogCloseFunction);
         }
 
+        // Convert PendingStateIDs array elements to integer.
+        for (Index = 0; Index < PendingStateIDs.length; Index++) {
+            PendingStateIDs[Index] = parseInt(PendingStateIDs[Index], 10);
+        }
+
+        // Remove validation on pending fields for non pending states on load.
         if (PendingStateIDs.indexOf(ChangedStateID) === -1) {
             $('#Day').removeClass('Validate_DateInFuture');
         }
 
+        // Change event on next state selection.
         $('#ComposeStateID, #NewStateID, #NextStateID').on('change', function() {
-            ChangedStateID = $(this).val();
+            ChangedStateID = parseInt($(this).val(), 10);
             if (PendingStateIDs.indexOf(ChangedStateID) > -1) {
                 $('#Day').addClass('Validate_DateInFuture');
             }
