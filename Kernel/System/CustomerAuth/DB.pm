@@ -234,11 +234,12 @@ sub Auth {
 
         # No-13-chars-long crypt pw (e.g. in Fedora28).
         else {
+            my $SaltUser = $User;
             $EncodeObject->EncodeOutput( \$Pw );
-            $EncodeObject->EncodeOutput( \$User );
+            $EncodeObject->EncodeOutput( \$SaltUser );
 
             # Encode output, needed by crypt() only non utf8 signs.
-            $CryptedPw = crypt( $Pw, $User );
+            $CryptedPw = crypt( $Pw, $SaltUser );
             $EncodeObject->EncodeInput( \$CryptedPw );
         }
     }
