@@ -352,36 +352,28 @@ sub GenerateCustomFilesArchive {
     my $HomeWithoutSlash = $Self->{Home};
     $HomeWithoutSlash =~ s{\A\/}{};
 
-    # Mask Passwords in Config.pm
-    my $Config = $TarObject->get_content( $HomeWithoutSlash . '/Kernel/Config.pm' );
+    # Mask passwords in Config files.
+    CONFIGFILE:
+    for my $ConfigFile ( $TarObject->list_files() ) {
 
-    if ( !$Config ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Kernel/Config.pm was not found in the modified files!",
-        );
-        return;
+        next CONFIGFILE if ( $ConfigFile !~ 'Kernel/Config.pm' && $ConfigFile !~ 'Kernel/Config/Files' );
+
+        my $Content = $TarObject->get_content($ConfigFile);
+
+        if ( !$Content ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$ConfigFile was not found in the modified files!",
+            );
+            next CONFIGFILE;
+        }
+
+        # Trim any passswords.
+        # Simple settings like $Self->{'DatabasePw'} or $Self->{'AuthModule::LDAP::SearchUserPw1'}.
+        $Content =~ s/(\$Self->\{'*[^']+(?:Password|Pw)\d*'*\}\s*=\s*)\'.*?\'/$1\'xxx\'/mg;
+
+        $TarObject->replace_content( $ConfigFile, $Content );
     }
-
-    my @TrimAction = qw(
-        DatabasePw
-        SearchUserPw
-        UserPw
-        SendmailModule::AuthPassword
-        AuthModule::Radius::Password
-        PGP::Key::Password
-        Customer::AuthModule::DB::CustomerPassword
-        Customer::AuthModule::Radius::Password
-    );
-
-    STRING:
-    for my $String (@TrimAction) {
-        next STRING if !$String;
-        $Config =~ s/(^\s+\$Self.*?$String.*?=.*?)\'.*?\';/$1\'xxx\';/mg;
-    }
-    $Config =~ s/(^\s+Password.*?=>.*?)\'.*?\',/$1\'xxx\',/mg;
-
-    $TarObject->replace_content( $HomeWithoutSlash . '/Kernel/Config.pm', $Config );
 
     my $Write = $TarObject->write( $CustomFilesArchive, 0 );
     if ( !$Write ) {
