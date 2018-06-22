@@ -255,10 +255,10 @@ for my $Test (@Tests) {
     if ( IsArrayRefWithData( $Test->{RequiredFiles} ) ) {
         for my $File ( @{ $Test->{RequiredFiles} } ) {
 
-            # remove heading slash
+            # Remove leading slash; Archive::Tar 2.28+ allows absolute path names.
             $File =~ s{\A\/}{};
             $Self->True(
-                $FileListLookup{$File},
+                $FileListLookup{$File} // $FileListLookup{"/$File"},
                 "$Test->{Name}: GenerateCustomFilesArchive() - Required:'$File' is in the application.tar file",
             );
         }
@@ -268,10 +268,10 @@ for my $Test (@Tests) {
     if ( IsArrayRefWithData( $Test->{ProhibitFiles} ) ) {
         for my $File ( @{ $Test->{ProhibitFiles} } ) {
 
-            # remove heading slash
+            # Remove leading slash; Archive::Tar 2.28+ allows absolute path names.
             $File =~ s{\A\/}{};
             $Self->False(
-                $FileListLookup{$File},
+                $FileListLookup{$File} // $FileListLookup{"/$File"},
                 "$Test->{Name}: GenerateCustomFilesArchive() - Prohibit'$File' is not the application.tar file",
             );
         }
