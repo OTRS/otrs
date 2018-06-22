@@ -62,14 +62,14 @@
 
 [% RenderBlockStart("TicketSLA") %]
                 <div>
-                    [% IF Data.SLAMAndatory %]
+                    [% IF Data.SLAMandatory %]
                         <label for="SLAID" title="[% Translate("Service level agreement") | html %]" class="Mandatory"><span class="Marker">*</span> [% Translate("SLA") | html %]:</label>
 
                     [% ELSE %]
                         <label for="SLAID" title="[% Translate("Service level agreement") | html %]">[% Translate("SLA") | html %]:</label>
                     [% END %]
                     [% Data.SLAStrg %]
-                    [% IF Data.SLAMAndatory %]
+                    [% IF Data.SLAMandatory %]
                         <div id="SLAIDError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
                         <div id="SLAIDServerError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
                     [% END %]
