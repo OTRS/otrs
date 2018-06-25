@@ -1063,7 +1063,7 @@ sub Run {
             TicketID       => $Self->{TicketID},
             ArticleType    => 'note-internal',
             SenderType     => 'agent',
-            From           => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
+            From           => "\"$Self->{UserFullname}\" <$Self->{UserEmail}>",
             Subject        => $GetParam{Subject},
             Body           => $GetParam{Body},
             MimeType       => $MimeType,

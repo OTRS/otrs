@@ -864,7 +864,7 @@ sub Run {
                 );
             }
 
-            my $From = "\"$Self->{UserFirstname} $Self->{UserLastname}\" <$Self->{UserEmail}>";
+            my $From = "\"$Self->{UserFullname}\" <$Self->{UserEmail}>";
             my @NotifyUserIDs;
 
             # get list of users that will be informed without selection in informed/involved list
