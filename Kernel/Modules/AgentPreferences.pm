@@ -485,6 +485,33 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
+    # Return user favourite system configuration settings.
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'UserSystemConfigurationFavourites' ) {
+
+        my $Favourites      = [];
+        my %UserPreferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+            UserID => $Self->{UserID},
+        );
+
+        if ( $UserPreferences{UserSystemConfigurationFavourites} ) {
+            $Favourites = $Kernel::OM->Get('Kernel::System::JSON')
+                ->Decode( Data => $UserPreferences{UserSystemConfigurationFavourites} );
+        }
+
+        my $JSON = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
+            Data => $Favourites,
+        );
+
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
+    # ------------------------------------------------------------ #
     # show AJAX navigation tree
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'AJAXNavigationTree' ) {

@@ -1648,11 +1648,9 @@ var Core = Core || {};
             }, 'html'
         );
 
-        if ($('#SysConfigFavourites').length) {
-            window.setTimeout(function() {
-                Core.Agent.Admin.SystemConfiguration.InitFavourites();
-            }, 1000);
-        }
+        window.setTimeout(function() {
+            Core.Agent.Admin.SystemConfiguration.InitFavourites();
+        }, 1000);
     }
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

@@ -6,8 +6,6 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<input type="hidden" id="SysConfigFavourites" value="[% Env("UserSystemConfigurationFavourites") | html %]" />
-
 [% IF !Data.Readonly %]
 <div class="Hidden WidgetSimple StickyElement [% IF Env("UserWidgetState_SystemConfiguration_Sticky") == 0 %]Collapsed[% END %]" id="UserWidgetState_SystemConfiguration_Sticky">
     <div class="Header">

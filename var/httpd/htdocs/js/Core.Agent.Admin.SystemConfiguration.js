@@ -589,96 +589,101 @@ Core.Agent.Admin = Core.Agent.Admin || {};
     */
     TargetNS.InitFavourites = function() {
 
-        TargetNS.FavouritesField = $('#SysConfigFavourites').val();
-        TargetNS.Favourites = [];
-
-        if (TargetNS.FavouritesField) {
-            TargetNS.Favourites = JSON.parse(TargetNS.FavouritesField);
-        }
-
         if ($('.WidgetSimple .Setting').length) {
             $('#UserWidgetState_SystemConfiguration_Help, #UserWidgetState_SystemConfiguration_Sticky').removeClass('Hidden');
         }
 
-        // remove a setting from favourites
+        // Remove a setting from favourites.
         $('.Setting').off('click.RemoveFromFavourites').on('click.RemoveFromFavourites', '.Button.RemoveFromFavourites', function() {
 
-            // get current favourites
             var $TriggerObj = $(this),
                 SettingName = $TriggerObj.data('setting-name'),
+                Data = {
+                    Action: 'AgentPreferences',
+                    Subaction: 'UserSystemConfigurationFavourites'
+                },
                 Index;
 
-            if (!SettingName) {
-                return false;
-            }
+            Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, function (Response) {
 
-            Index = TargetNS.Favourites.indexOf(SettingName);
-            if (Index > -1) {
-                TargetNS.Favourites.splice(Index, 1);
-            }
-
-            // Update preferences
-            Core.Agent.PreferencesUpdate('UserSystemConfigurationFavourites', JSON.stringify(TargetNS.Favourites), function() {
-
-                if (Core.Config.Get('Subaction') === 'Favourites') {
-                    $TriggerObj.closest('.Setting').fadeOut(function() {
-                        $(this).remove();
-                    });
+                if (Response.length === 0 || !SettingName) {
+                    return false;
                 }
-                else {
-                    $TriggerObj.removeClass('RemoveFromFavourites').addClass('AddToFavourites').find('span').animate({ 'opacity': '0' }, function() {
-                        $(this).text(Core.Language.Translate('Add to favourites'));
+
+                // Remove SettingName from an array of favourites.
+                Index = Response.indexOf(SettingName);
+                if (Response.length > 0 && Index > -1) {
+                    Response.splice(Index, 1);
+                }
+
+                // Update preferences.
+                Core.Agent.PreferencesUpdate('UserSystemConfigurationFavourites', JSON.stringify(Response), function() {
+
+                    if (Core.Config.Get('Subaction') === 'Favourites') {
+                        $TriggerObj.closest('.Setting').fadeOut(function() {
+                            $(this).remove();
+                        });
+                    }
+                    else {
+                        $TriggerObj.removeClass('RemoveFromFavourites').addClass('AddToFavourites').find('span').animate({ 'opacity': '0' }, function() {
+                            $(this).text(Core.Language.Translate('Add to favourites'));
+                            $TriggerObj.find('span').animate({ 'opacity': '1' });
+                        });
+                        $TriggerObj.find('i.fa-star').fadeOut(function() {
+                            $(this).after('<i class="fa fa-check" style="display: none;"></i>').next('i').fadeIn(function() {
+                                $(this).delay(1000).fadeOut(function() {
+                                    $(this).prev('i').removeClass('fa-star').addClass('fa-star-o').fadeIn();
+                                    $(this).remove();
+                                })
+                            });
+                        });
+                    }
+                });
+
+                return false;
+
+            }, 'json');
+        });
+
+        // Add a setting to favourites.
+        $('.Setting').off('click.AddToFavourites').on('click.AddToFavourites', '.Button.AddToFavourites', function() {
+
+            var $TriggerObj = $(this),
+                SettingName = $TriggerObj.data('setting-name'),
+                Data = {
+                    Action: 'AgentPreferences',
+                    Subaction: 'UserSystemConfigurationFavourites'
+                };
+
+            Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, function (Response) {
+
+                if (!Response || !SettingName || Response.indexOf(SettingName) > -1) {
+                    return false;
+                }
+
+                // Add SettingName to an array of favourites.
+                Response.push(SettingName);
+
+                // Update preferences
+                Core.Agent.PreferencesUpdate('UserSystemConfigurationFavourites', JSON.stringify(Response), function() {
+
+                    $TriggerObj.removeClass('AddToFavourites').addClass('RemoveFromFavourites').find('span').animate({ 'opacity': '0' }, function() {
+                        $(this).text(Core.Language.Translate('Remove from favourites'));
                         $TriggerObj.find('span').animate({ 'opacity': '1' });
                     });
-                    $TriggerObj.find('i.fa-star').fadeOut(function() {
+                    $TriggerObj.find('i.fa-star-o').fadeOut(function() {
                         $(this).after('<i class="fa fa-check" style="display: none;"></i>').next('i').fadeIn(function() {
                             $(this).delay(1000).fadeOut(function() {
-                                $(this).prev('i').removeClass('fa-star').addClass('fa-star-o').fadeIn();
+                                $(this).prev('i').removeClass('fa-star-o').addClass('fa-star').fadeIn();
                                 $(this).remove();
                             })
                         });
                     });
-                }
-            });
-
-            return false;
-        });
-
-        // add a setting to favourites
-        $('.Setting').off('click.AddToFavourites').on('click.AddToFavourites', '.Button.AddToFavourites', function() {
-
-            // get current favourites
-            var $TriggerObj = $(this),
-                SettingName = $TriggerObj.data('setting-name');
-
-            if (!SettingName) {
-                return false;
-            }
-
-            if (TargetNS.Favourites.indexOf(SettingName) > -1) {
-                return false;
-            }
-
-            TargetNS.Favourites.push(SettingName);
-
-            // Update preferences
-            Core.Agent.PreferencesUpdate('UserSystemConfigurationFavourites', JSON.stringify(TargetNS.Favourites), function() {
-
-                $TriggerObj.removeClass('AddToFavourites').addClass('RemoveFromFavourites').find('span').animate({ 'opacity': '0' }, function() {
-                    $(this).text(Core.Language.Translate('Remove from favourites'));
-                    $TriggerObj.find('span').animate({ 'opacity': '1' });
                 });
-                $TriggerObj.find('i.fa-star-o').fadeOut(function() {
-                    $(this).after('<i class="fa fa-check" style="display: none;"></i>').next('i').fadeIn(function() {
-                        $(this).delay(1000).fadeOut(function() {
-                            $(this).prev('i').removeClass('fa-star-o').addClass('fa-star').fadeIn();
-                            $(this).remove();
-                        })
-                    });
-                });
-            });
 
-            return false;
+                return false;
+
+            }, 'json');
         });
     };
 
