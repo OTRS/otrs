@@ -1,4 +1,5 @@
 #6.0.9 2018-??-??
+ - 2018-06-25 Fixed bug#[13923](https://bugs.otrs.org/show_bug.cgi?id=13923) - Sender name in article created by queue move "window" only shows FirstName.
  - 2018-06-20 Follow-up fix for bug#[13734](https://bugs.otrs.org/show_bug.cgi?id=13734) - Set the last valid Status Merge to invalid is allowed.
  - 2018-06-19 Fixed bug#[13408](https://bugs.otrs.org/show_bug.cgi?id=13408) - Setting for showing default fields in the search mask not working partially.
  - 2018-06-19 Fixed bug#[13906](https://bugs.otrs.org/show_bug.cgi?id=13906) - Validation for Pending date is active for non pending states.
