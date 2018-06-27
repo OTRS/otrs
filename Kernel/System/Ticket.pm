@@ -5994,6 +5994,21 @@ sub TicketMerge {
         }
     }
 
+    # Get the list of all merged states.
+    my @MergeStateList = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+        StateType => ['merged'],
+        Result    => 'Name',
+    );
+
+    # Error handling.
+    if ( !@MergeStateList ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "No merge state found! Please add a valid merge state.",
+        );
+        return 'NoValidMergeStates';
+    }
+
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -6133,21 +6148,6 @@ sub TicketMerge {
         SQL  => 'UPDATE ticket SET change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [ \$Param{UserID}, \$Param{MainTicketID} ],
     );
-
-    # get the list of all merged states
-    my @MergeStateList = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
-        StateType => ['merged'],
-        Result    => 'Name',
-    );
-
-    # error handling
-    if ( !@MergeStateList ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "No merge state found! Please add a valid merge state.",
-        );
-        return;
-    }
 
     # set new state of merge ticket
     $Self->TicketStateSet(

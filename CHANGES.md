@@ -1,4 +1,5 @@
 #5.0.29 ????-??-??
+ - 2018-06-27 Fixed bug#[13927](https://bugs.otrs.org/show_bug.cgi?id=13927) - Ticket Merge: "No merge state found! Please add a valid merge state" - Articles are invisible till next action.
  - 2018-06-27 Fixed bug#[13839](https://bugs.otrs.org/show_bug.cgi?id=13839) - When doing a search from change management the results window does not expand.
  - 2018-06-27 Fixed bug#[13672](https://bugs.otrs.org/show_bug.cgi?id=13672) - Auto response names are not translated in Auto Responses screen of the Admin interface.
  - 2018-06-25 Fixed bug#[13923](https://bugs.otrs.org/show_bug.cgi?id=13923) - Sender name in article created by queue move "window" only shows FirstName.

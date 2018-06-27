@@ -292,20 +292,30 @@ sub Run {
             return $LayoutObject->NoPermission( WithHeader => 'yes' );
         }
 
+        my $TicketMergeResult = $TicketObject->TicketMerge(
+            MainTicketID  => $MainTicketID,
+            MergeTicketID => $Self->{TicketID},
+            UserID        => $Self->{UserID},
+        );
+
         # check errors
         if (
             $Self->{TicketID} == $MainTicketID
-            || !$TicketObject->TicketMerge(
-                MainTicketID  => $MainTicketID,
-                MergeTicketID => $Self->{TicketID},
-                UserID        => $Self->{UserID},
-            )
+            || !$TicketMergeResult
+            || $TicketMergeResult eq 'NoValidMergeStates'
             )
         {
             my $Output .= $LayoutObject->Header(
                 Type      => 'Small',
                 BodyClass => 'Popup',
             );
+
+            if ( $TicketMergeResult eq 'NoValidMergeStates' ) {
+                $Output .= $LayoutObject->Notify(
+                    Priority => 'Error',
+                    Info     => 'No merge state found! Please add a valid merge state before merge action.',
+                );
+            }
 
             # add rich text editor
             if ( $LayoutObject->{BrowserRichText} ) {
