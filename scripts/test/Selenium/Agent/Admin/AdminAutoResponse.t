@@ -26,9 +26,13 @@ $Selenium->RunTest(
             Value => 0
         );
 
-        # Create test user and login.
+        # Defined user language for testing if message is being translated correctly.
+        my $Language = "de";
+
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
-            Groups => ['admin'],
+            Groups   => ['admin'],
+            Language => $Language,
         ) || die "Did not get test user";
 
         $Selenium->Login(
@@ -56,14 +60,17 @@ $Selenium->RunTest(
         # Click 'Add auto response'.
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminAutoResponse;Subaction=Add' )]")->VerifiedClick();
 
-        my $Count;
+        my $LanguageObject = Kernel::Language->new(
+            UserLanguage => $Language,
+        );
 
         # Check breadcrumb on Add screen.
+        my $Count;
         $Count = 1;
         for my $BreadcrumbText ( 'Auto Response Management', 'Add Auto Response' ) {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
-                $BreadcrumbText,
+                $LanguageObject->Translate($BreadcrumbText),
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
             );
 
@@ -140,8 +147,8 @@ $Selenium->RunTest(
         # Check breadcrumb on Edit screen.
         $Count = 1;
         for my $BreadcrumbText (
-            'Auto Response Management',
-            'Edit Auto Response: ' . $AutoResponseNames[0]
+            $LanguageObject->Translate('Auto Response Management'),
+            $LanguageObject->Translate('Edit Auto Response') . ': ' . $AutoResponseNames[0]
             )
         {
             $Self->Is(
@@ -211,6 +218,18 @@ $Selenium->RunTest(
             'none',
             "Auto response '$AutoResponseNames[1]' is not found in the table"
         );
+
+        $Count = 0;
+        for my $ColumnName (qw(Name Type Comment Validity Changed Created)) {
+
+            # Check if column name is translated.
+            $Self->Is(
+                $Selenium->execute_script("return \$('#AutoResponses tr th:eq($Count)').text().trim()"),
+                $LanguageObject->Translate($ColumnName),
+                "Column name $ColumnName is translated",
+            );
+            $Count++;
+        }
 
         # Cleanup
         # Since there are no tickets that rely on our test auto response,
