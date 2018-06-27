@@ -1,4 +1,5 @@
 #6.0.9 2018-??-??
+ - 2018-06-27 Fixed bug#[13927](https://bugs.otrs.org/show_bug.cgi?id=13927) - Ticket Merge: "No merge state found! Please add a valid merge state" - Articles are invisible till next action.
  - 2018-06-27 Fixed bug#[13922](https://bugs.otrs.org/show_bug.cgi?id=13922) - SearchIndexModule misleading config description.
  - 2018-06-27 Fixed bug#[13700](https://bugs.otrs.org/show_bug.cgi?id=13700) - Layout issue with ticket split.
  - 2018-06-27 Fixed bug#[13839](https://bugs.otrs.org/show_bug.cgi?id=13839) - When doing a search from change management the results window does not expand.
