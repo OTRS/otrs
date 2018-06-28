@@ -43,6 +43,7 @@ Core.Debug = (function (TargetNS) {
         DebugLog = console.log;
     }
     /*eslint-enable no-console */
+    /* global opera:false */
     else if (typeof opera === 'object' && typeof opera.PostError === 'function') {
         DebugConsole = opera;
         DebugLog = opera.PostError;
