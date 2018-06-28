@@ -41,7 +41,7 @@ addons:
 # Install nodejs from external source as it is outdated in 12.04
 before_install:
   - df -h
-  - curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+  - curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
   - sudo apt-get install -y nodejs
   - npm -g install eslint
 
