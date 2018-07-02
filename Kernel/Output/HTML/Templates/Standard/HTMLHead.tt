@@ -84,7 +84,7 @@
       }(document, window));
     </script>
 
-    <title>[% Data.TitleArea | html %] [% Config("ProductName") %]</title>
+    <title>[% Data.TitleArea | html %][% Config("ProductName") %]</title>
 
 [% INCLUDE "HTMLHeadBlockEvents.tt" %]
 

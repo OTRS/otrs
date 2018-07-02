@@ -824,6 +824,7 @@ sub AddScreen {
     # build output
     my $Output = $LayoutObject->Header(
         Title => Translatable('Add New Statistic'),
+        Area  => 'Statistics',
     );
     $Output .= $LayoutObject->NavigationBar();
     $Output .= $LayoutObject->Output(

@@ -21,6 +21,7 @@ $Selenium->RunTest(
         my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
         my $SLAObject     = $Kernel::OM->Get('Kernel::System::SLA');
         my $StatsObject   = $Kernel::OM->Get('Kernel::System::Stats');
+        my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
 
         my $Success = $Helper->ConfigSettingChange(
             Valid => 1,
@@ -75,7 +76,7 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # Check add statistics screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Add");
@@ -176,10 +177,16 @@ $Selenium->RunTest(
             $Selenium->find_element("//a[contains(\@data-statistic-preselection, \'$StatsData->{Type}\' )]")->click();
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Title").length' );
 
-            my $Description = 'Description ' . $StatsData->{Title};
+            # Check title of the page (see bug #13942)
+            $Self->Is(
+                $Selenium->get_title(),
+                'Add New Statistic - Statistics - ' . $ConfigObject->Get('ProductName'),
+                "Check title of the page",
+            );
 
             # Set values for new statistics - General Specifications.
-            $Selenium->find_element( "#Title",       'css' )->send_keys( $StatsData->{Title} );
+            $Selenium->find_element( "#Title", 'css' )->send_keys( $StatsData->{Title} );
+            my $Description = 'Description ' . $StatsData->{Title};
             $Selenium->find_element( "#Description", 'css' )->send_keys($Description);
             $Selenium->execute_script(
                 "\$('#ObjectModule').val('$StatsData->{Object}').trigger('redraw.InputField').trigger('change');"
