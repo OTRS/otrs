@@ -191,7 +191,10 @@ sub OverviewScreen {
     }
 
     # build output
-    my $Output = $LayoutObject->Header( Title => 'Overview' );
+    my $Output = $LayoutObject->Header(
+        Title => 'Overview',
+        Area  => 'Statistics',
+    );
     $Output .= $LayoutObject->NavigationBar();
     $Output .= $LayoutObject->Output(
         Data => {
@@ -212,7 +215,10 @@ sub ImportScreen {
 
     my %Errors = %{ $Param{Errors} // {} };
 
-    my $Output = $LayoutObject->Header( Title => 'Import' );
+    my $Output = $LayoutObject->Header(
+        Title => 'Import',
+        Area  => 'Statistics',
+    );
     $Output .= $LayoutObject->NavigationBar();
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AgentStatisticsImport',
@@ -365,7 +371,10 @@ sub EditScreen {
         );
     }
 
-    my $Output = $LayoutObject->Header( Title => 'Edit' );
+    my $Output = $LayoutObject->Header(
+        Title => 'Edit',
+        Area  => 'Statistics',
+    );
     $Output .= $LayoutObject->NavigationBar();
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AgentStatisticsEdit',
@@ -745,7 +754,10 @@ sub ViewScreen {
         UserID => $Self->{UserID},
     );
 
-    my $Output = $LayoutObject->Header( Title => 'View' );
+    my $Output = $LayoutObject->Header(
+        Title => 'View',
+        Area  => 'Statistics',
+    );
     $Output .= $LayoutObject->NavigationBar();
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AgentStatisticsView',
@@ -767,7 +779,7 @@ sub AddScreen {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # In case of page reload because of errors
-    my %Errors   = %{ $Param{Errors} //   {} };
+    my %Errors   = %{ $Param{Errors}   // {} };
     my %GetParam = %{ $Param{GetParam} // {} };
 
     my %Frontend;
@@ -811,6 +823,7 @@ sub AddScreen {
     # build output
     my $Output = $LayoutObject->Header(
         Title => Translatable('Add New Statistic'),
+        Area  => 'Statistics',
     );
     $Output .= $LayoutObject->NavigationBar();
     $Output .= $LayoutObject->Output(
