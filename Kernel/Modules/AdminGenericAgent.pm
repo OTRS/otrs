@@ -326,7 +326,9 @@ sub Run {
         );
 
         # generate search mask
-        my $Output = $LayoutObject->Header( Title => 'Edit' );
+        my $Output = $LayoutObject->Header(
+            Title => Translatable('Edit'),
+        );
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminGenericAgent',
@@ -344,7 +346,9 @@ sub Run {
         $JobDataReference = $Self->_MaskUpdate(%Param);
 
         # generate search mask
-        my $Output = $LayoutObject->Header( Title => 'Edit' );
+        my $Output = $LayoutObject->Header(
+            Title => Translatable('Edit'),
+        );
 
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $LayoutObject->Output(
@@ -1167,9 +1171,9 @@ sub _MaskUpdate {
 
         # paint each selector
         my $EventStrg = $LayoutObject->BuildSelection(
-            Data         => $RegisteredEvents{$Type} || [],
-            Name         => $Type . 'Event',
-            Sort         => 'AlphanumericValue',
+            Data => $RegisteredEvents{$Type} || [],
+            Name => $Type . 'Event',
+            Sort => 'AlphanumericValue',
             PossibleNone => 0,
             Class        => 'Modernize EventList GenericInterfaceSpacing',
             Title        => $LayoutObject->{LanguageObject}->Translate('Event'),

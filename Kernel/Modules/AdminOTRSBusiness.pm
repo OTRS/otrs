@@ -13,6 +13,7 @@ use warnings;
 use utf8;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -37,7 +38,9 @@ sub Run {
 
     if ($CloudServicesDisabled) {
 
-        my $Output = $LayoutObject->Header( Title => 'Error' );
+        my $Output = $LayoutObject->Header(
+            Title => Translatable('Error'),
+        );
         $Output .= $LayoutObject->Output(
             TemplateFile => 'CloudServicesDisabled',
             Data         => \%Param

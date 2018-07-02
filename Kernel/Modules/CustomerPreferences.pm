@@ -119,7 +119,9 @@ sub Run {
     # show preferences
     # ------------------------------------------------------------ #
     else {
-        my $Output = $LayoutObject->CustomerHeader( Title => 'Preferences' );
+        my $Output = $LayoutObject->CustomerHeader(
+            Title => Translatable('Preferences'),
+        );
         $Output .= $LayoutObject->CustomerNavigationBar();
 
         # get param

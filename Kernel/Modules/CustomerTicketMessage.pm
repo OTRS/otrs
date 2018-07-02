@@ -362,7 +362,9 @@ sub Run {
                 );
 
                 if ( !IsHashRefWithData($ValidationResult) ) {
-                    my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
+                    my $Output = $LayoutObject->CustomerHeader(
+                        Title => Translatable('Error'),
+                    );
                     $Output .= $LayoutObject->CustomerError(
                         Message =>
                             $LayoutObject->{LanguageObject}
@@ -596,7 +598,9 @@ sub Run {
         );
 
         if ( !$ArticleID ) {
-            my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
+            my $Output = $LayoutObject->CustomerHeader(
+                Title => Translatable('Error'),
+            );
             $Output .= $LayoutObject->CustomerError();
             $Output .= $LayoutObject->CustomerFooter();
             return $Output;

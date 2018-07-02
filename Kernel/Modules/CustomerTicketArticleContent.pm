@@ -38,7 +38,9 @@ sub Run {
 
     # check params
     if ( !$ArticleID ) {
-        my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
+        my $Output = $LayoutObject->CustomerHeader(
+            Title => Translatable('Error'),
+        );
         $Output .= $LayoutObject->CustomerError(
             Message => Translatable('ArticleID is needed!'),
             Comment => Translatable('Please contact the administrator.'),
@@ -52,7 +54,9 @@ sub Run {
     }
 
     if ( !$TicketID ) {
-        my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
+        my $Output = $LayoutObject->CustomerHeader(
+            Title => Translatable('Error'),
+        );
         $Output .= $LayoutObject->CustomerError(
             Message => $LayoutObject->{LanguageObject}->Translate( 'No TicketID for ArticleID (%s)!', $ArticleID ),
             Comment => Translatable('Please contact the administrator.'),
@@ -108,7 +112,9 @@ sub Run {
     );
 
     if ( !$ArticleContent ) {
-        my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
+        my $Output = $LayoutObject->CustomerHeader(
+            Title => Translatable('Error'),
+        );
         $Output .= $LayoutObject->CustomerError(
             Message => $LayoutObject->{LanguageObject}->Translate('HTML body attachment is missing!'),
             Comment => Translatable('Please contact the administrator.'),

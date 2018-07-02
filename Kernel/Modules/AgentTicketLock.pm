@@ -91,7 +91,7 @@ sub Run {
         );
         if ( $OwnerID != $Self->{UserID} ) {
             my $Output = $LayoutObject->Header(
-                Title => 'Error',
+                Title => Translatable('Error'),
                 Type  => 'Small',
             );
             $Output .= $LayoutObject->Warning(
@@ -142,7 +142,7 @@ sub Run {
                 TicketID => $Self->{TicketID},
             );
             my $Output = $LayoutObject->Header(
-                Title => 'Error',
+                Title => Translatable('Error'),
                 Type  => 'Small',
             );
             $Output .= $LayoutObject->Warning(

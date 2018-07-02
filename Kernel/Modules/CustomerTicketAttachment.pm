@@ -39,7 +39,9 @@ sub Run {
 
     # check params
     if ( !$FileID || !$ArticleID ) {
-        my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
+        my $Output = $LayoutObject->CustomerHeader(
+            Title => Translatable('Error'),
+        );
         $Output .= $LayoutObject->CustomerError(
             Message => Translatable('FileID and ArticleID are needed!'),
             Comment => Translatable('Please contact the administrator.'),
@@ -53,7 +55,9 @@ sub Run {
     }
 
     if ( !$TicketID ) {
-        my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
+        my $Output = $LayoutObject->CustomerHeader(
+            Title => Translatable('Error'),
+        );
         $Output .= $LayoutObject->CustomerError(
             Message => $LayoutObject->{LanguageObject}->Translate( 'No TicketID for ArticleID (%s)!', $ArticleID ),
             Comment => Translatable('Please contact the administrator.'),
@@ -109,7 +113,9 @@ sub Run {
     );
 
     if ( !%Data ) {
-        my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
+        my $Output = $LayoutObject->CustomerHeader(
+            Title => Translatable('Error'),
+        );
         $Output .= $LayoutObject->CustomerError(
             Message => $LayoutObject->{LanguageObject}->Translate( 'No such attachment (%s)!', $FileID ),
             Comment => Translatable('Please contact the administrator.'),

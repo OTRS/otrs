@@ -60,7 +60,9 @@ sub Run {
 
     # check needed stuff
     if ( !$Self->{TicketID} ) {
-        my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
+        my $Output = $LayoutObject->CustomerHeader(
+            Title => Translatable('Error'),
+        );
         $Output .= $LayoutObject->CustomerError(
             Message => Translatable('Need TicketID!'),
         );
@@ -390,7 +392,9 @@ sub Run {
             ID => $Ticket{StateID},
         );
         if ( $FollowUpPossible =~ /(new ticket|reject)/i && $State{TypeName} =~ /^close/i ) {
-            my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
+            my $Output = $LayoutObject->CustomerHeader(
+                Title => Translatable('Error'),
+            );
             $Output .= $LayoutObject->CustomerWarning(
                 Message => Translatable('Can\'t reopen ticket, not possible in this queue!'),
                 Comment => Translatable('Create a new ticket!'),
@@ -494,7 +498,9 @@ sub Run {
             );
 
             if ( !IsHashRefWithData($ValidationResult) ) {
-                my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
+                my $Output = $LayoutObject->CustomerHeader(
+                    Title => Translatable('Error'),
+                );
                 $Output .= $LayoutObject->CustomerError(
                     Message => $LayoutObject->{LanguageObject}
                         ->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
@@ -646,7 +652,9 @@ sub Run {
             AutoResponseType => 'auto follow up',
         );
         if ( !$ArticleID ) {
-            my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
+            my $Output = $LayoutObject->CustomerHeader(
+                Title => Translatable('Error'),
+            );
             $Output .= $LayoutObject->CustomerError();
             $Output .= $LayoutObject->CustomerFooter();
             return $Output;
