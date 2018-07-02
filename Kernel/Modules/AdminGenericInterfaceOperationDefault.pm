@@ -579,7 +579,8 @@ sub _ShowScreen {
 sub _ParamsGet {
     my ( $Self, %Param ) = @_;
 
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my %GetParam;
     DEFINITION:
     for my $Definition ( @{ $Param{Definition} } ) {
@@ -590,7 +591,7 @@ sub _ParamsGet {
             next DEFINITION if IsStringWithData( $GetParam{$Name} );
 
             next DEFINITION if !$Definition->{Mandatory};
-            $GetParam{Error} = Translatable( 'Need %s', $Name );
+            $GetParam{Error} = $LayoutObject->{LanguageObject}->Translate( 'Need %s', $Name );
             return \%GetParam;
         }
     }
@@ -606,7 +607,7 @@ sub _ParamsGet {
         if ( $Definition->{Check} eq 'OperationType' ) {
             next DEFINITION if $Self->_OperationTypeCheck( OperationType => $GetParam{$Name} );
 
-            $GetParam{Error} = Translate( 'OperationType %s is not registered', $GetParam{$Name} );
+            $GetParam{Error} = $LayoutObject->{LanguageObject}->Translate( 'OperationType %s is not registered', $GetParam{$Name} );
             return \%GetParam;
         }
 
@@ -614,7 +615,7 @@ sub _ParamsGet {
             next DEFINITION if !IsStringWithData( $GetParam{Name} );
             next DEFINITION if $Self->_MappingTypeCheck( MappingType => $GetParam{$Name} );
 
-            $GetParam{Error} = Translate( 'MappingType %s is not registered', $GetParam{$Name} );
+            $GetParam{Error} = $LayoutObject->{LanguageObject}->Translate( 'MappingType %s is not registered', $GetParam{$Name} );
             return \%GetParam;
         }
     }

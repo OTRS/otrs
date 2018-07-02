@@ -12,7 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -197,7 +196,7 @@ sub Run {
                         my $TeamCount = scalar @TeamNames;
                         if ( $TeamCount > 4 ) {
                             splice @TeamNames, 3;
-                            push @TeamNames, sprintf( Translatable('+%s more'), $TeamCount - 3 );
+                            push @TeamNames, $LayoutObject->{LanguageObject}->Translate( '+%s more', $TeamCount - 3 );
                         }
 
                         $Appointment->{TeamNames} = join( '\n', @TeamNames );
@@ -218,7 +217,7 @@ sub Run {
                         my $ResourceCount = scalar @ResourceNames;
                         if ( $ResourceCount > 4 ) {
                             splice @ResourceNames, 3;
-                            push @ResourceNames, sprintf( Translatable('+%s more'), $ResourceCount - 3 );
+                            push @ResourceNames, $LayoutObject->{LanguageObject}->Translate( '+%s more', $ResourceCount - 3 );
                         }
 
                         $Appointment->{ResourceNames} = join( '\n', @ResourceNames );
@@ -244,7 +243,7 @@ sub Run {
                     my $LinkCount = scalar @LinkArray;
                     if ( $LinkCount > 4 ) {
                         splice @LinkArray, 3;
-                        push @LinkArray, sprintf( Translatable('+%s more'), $LinkCount - 3 );
+                        push @LinkArray, $LayoutObject->{LanguageObject}->Translate( '+%s more', $LinkCount - 3 );
                     }
 
                     $Appointment->{PluginData}->{$PluginKey} = join( '\n', @LinkArray );
