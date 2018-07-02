@@ -94,10 +94,6 @@ a2enmod headers
 
 %post
 export OTRSUSER=otrs
-if test -e /opt/otrs/Kernel/Config/Files/ZZZAAuto.pm; then
-    su $OTRSUSER -s /bin/bash -c "/opt/otrs/bin/otrs.Console.pl Maint::Config::Rebuild";
-    su $OTRSUSER -s /bin/bash -c "/opt/otrs/bin/otrs.Console.pl Maint::Cache::Delete";
-fi
 
 # note
 HOST=`hostname -f`

@@ -1,4 +1,5 @@
 #6.0.9 2018-??-??
+ - 2018-07-02 Fixed bug#[13901](https://bugs.otrs.org/show_bug.cgi?id=13901) - Error messages during RPM upgrade.
  - 2018-07-02 Fixed bug#[13790](https://bugs.otrs.org/show_bug.cgi?id=13790) - Toolbar Fulltext Search will not care for archiving settings.
  - 2018-06-27 Fixed bug#[13927](https://bugs.otrs.org/show_bug.cgi?id=13927) - Ticket Merge: "No merge state found! Please add a valid merge state" - Articles are invisible till next action.
  - 2018-06-27 Fixed bug#[13922](https://bugs.otrs.org/show_bug.cgi?id=13922) - SearchIndexModule misleading config description.
