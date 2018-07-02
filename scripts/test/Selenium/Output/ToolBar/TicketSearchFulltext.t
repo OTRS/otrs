@@ -12,16 +12,14 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # enable tool bar TicketSearchFulltext
+        # Enable ToolBar FulltextSearch..
         my %TicketSearchFulltext = (
             Block       => 'ToolBarSearchFulltext',
             CSS         => 'Core.Agent.Toolbar.FulltextSearch.css',
@@ -33,17 +31,18 @@ $Selenium->RunTest(
         );
 
         $Helper->ConfigSettingChange(
-            Key   => 'Frontend::ToolBarModule###12-Ticket::TicketSearchFulltext',
-            Value => \%TicketSearchFulltext,
-        );
-
-        $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::ToolBarModule###12-Ticket::TicketSearchFulltext',
             Value => \%TicketSearchFulltext,
         );
 
-        # create test user and login
+        # Disable ticket archive system.
+        $Helper->ConfigSettingChange(
+            Valid => 0,
+            Key   => 'Ticket::ArchiveSystem',
+            Value => 0,
+        );
+
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -54,7 +53,7 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get test user ID
+        # Get test user ID.
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
@@ -63,88 +62,164 @@ $Selenium->RunTest(
         my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
         my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
 
-        my $RandomID = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomID();
+        my $RandomID = $Helper->GetRandomID();
 
-        # create test ticket
-        my $TicketID = $TicketObject->TicketCreate(
-            Title         => 'Selenium test ticket',
-            Queue         => 'Raw',
-            Lock          => 'unlock',
-            Priority      => '3 normal',
-            State         => 'open',
-            CustomerID    => 'SeleniumCustomerID',
-            CustomerUser  => 'test@localhost.com',
-            OwnerID       => $TestUserID,
-            UserID        => 1,
-            ResponsibleID => $TestUserID,
-        );
-        $Self->True(
-            $TicketID,
-            "Ticket is created - $TicketID"
-        );
+        my @Tickets;
+        for my $Count ( 1 .. 4 ) {
 
-        my $Subject   = "Selenium test ticket $RandomID";
-        my $ArticleID = $ArticleBackendObject->ArticleCreate(
-            TicketID             => $TicketID,
-            SenderType           => 'agent',
-            IsVisibleForCustomer => 1,
-            From                 => "Some Agent $RandomID <email\@example.com>",
-            To                   => "Some Customer $RandomID <customer\@example.com>",
-            Subject              => $Subject,
-            Body                 => "the message text",
-            ContentType          => 'text/plain; charset=ISO-8859-15',
-            HistoryType          => 'OwnerUpdate',
-            HistoryComment       => "Some free text $RandomID!",
-            UserID               => 1,
-            NoAgentNotify        => 1,
-        );
-        $Self->True(
-            $ArticleID,
-            "Article is created - $ArticleID",
-        );
+            # Create test ticket.
+            my $Title    = "Ticket $Count $RandomID";
+            my $TicketID = $TicketObject->TicketCreate(
+                Title         => $Title,
+                Queue         => 'Raw',
+                Lock          => 'unlock',
+                Priority      => '3 normal',
+                State         => 'open',
+                CustomerID    => 'SeleniumCustomerID',
+                CustomerUser  => 'test@localhost.com',
+                OwnerID       => $TestUserID,
+                UserID        => 1,
+                ResponsibleID => $TestUserID,
+            );
+            $Self->True(
+                $TicketID,
+                "TicketID $TicketID is created"
+            );
 
-        my $IndexBuiltSuccess = $ArticleObject->ArticleSearchIndexBuild(
-            TicketID  => $TicketID,
-            ArticleID => $ArticleID,
-            UserID    => 1,
-        );
-        $Self->True(
-            $IndexBuiltSuccess,
-            "Search index was created."
-        );
+            # Create test article.
+            my $Subject   = "Article $Count $RandomID";
+            my $ArticleID = $ArticleBackendObject->ArticleCreate(
+                TicketID             => $TicketID,
+                SenderType           => 'agent',
+                IsVisibleForCustomer => 1,
+                From                 => "Some Agent $RandomID <email\@example.com>",
+                To                   => "Some Customer $RandomID <customer\@example.com>",
+                Subject              => $Subject,
+                Body                 => "the message text",
+                ContentType          => 'text/plain; charset=ISO-8859-15',
+                HistoryType          => 'OwnerUpdate',
+                HistoryComment       => "Some free text $RandomID!",
+                UserID               => 1,
+                NoAgentNotify        => 1,
+            );
+            $Self->True(
+                $ArticleID,
+                "ArticleID $ArticleID is created",
+            );
 
-        # input test user in search fulltext
-        $Selenium->find_element( "#Fulltext", 'css' )->send_keys( $Subject, "\N{U+E007}" );
+            push @Tickets, {
+                TicketID    => $TicketID,
+                ArchiveFlag => $Count < 3 ? 'y' : 'n',
+            };
+        }
+
+        # Search for test created ticket in Fulltext search.
+        $Selenium->find_element( "#Fulltext", 'css' )->send_keys( $RandomID, "\N{U+E007}" );
 
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('tbody tr:contains($Subject)').length;"
+                "return typeof(\$) === 'function' && \$('a[href*=\"AgentTicketZoom;TicketID=$Tickets[0]->{TicketID}\"').length;"
         );
 
-        # verify search
-        $Self->True(
-            index( $Selenium->get_page_source(), $Subject ) > -1,
-            "Ticket is found by Subject - $Subject",
-        );
-
-        # delete test ticket
-        my $Success = $TicketObject->TicketDelete(
-            TicketID => $TicketID,
-            UserID   => $TestUserID,
-        );
-
-        # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
-        if ( !$Success ) {
-            sleep 3;
-            $Success = $TicketObject->TicketDelete(
-                TicketID => $TicketID,
-                UserID   => $TestUserID,
+        # Verify all three tickets are found on screen.
+        for my $Ticket (@Tickets) {
+            $Self->True(
+                $Selenium->execute_script(
+                    "return \$('a[href*=\"AgentTicketZoom;TicketID=$Ticket->{TicketID}\"').length === 1)"
+                ),
+                "TicketID $Ticket->{TicketID} is found",
             );
         }
-        $Self->True(
-            $Success,
-            "Ticket is deleted - $TicketID"
+
+        # Enable ticket archive system.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::ArchiveSystem',
+            Value => 1,
         );
+
+        # Archive two out of four test created tickets.
+        my $Success;
+        for my $Ticket (@Tickets) {
+            $Success = $TicketObject->TicketArchiveFlagSet(
+                ArchiveFlag => $Ticket->{ArchiveFlag},
+                TicketID    => $Ticket->{TicketID},
+                UserID      => $TestUserID,
+            );
+            $Self->True(
+                $Success,
+                "TicketID $Ticket->{TicketID} archive flag set to '$Ticket->{ArchiveFlag}'",
+            );
+        }
+
+        # Enable SearchInArchive config and switch between all three available configurations.
+        # See bug#13790 (https://bugs.otrs.org/show_bug.cgi?id=13790).
+        my %Tests = (
+            All => 'AllTickets',
+            y   => 'ArchivedTickets',
+            n   => 'NotArchivedTickets',
+        );
+
+        for my $Key ( sort keys %Tests ) {
+
+            # Change sysconfig value and refresh screen.
+            $Helper->ConfigSettingChange(
+                Valid => 1,
+                Key   => 'Ticket::Frontend::AgentTicketSearch###Defaults###SearchInArchive',
+                Value => "$Tests{$Key}",
+            );
+
+            $Selenium->VerifiedRefresh();
+
+            # Seach in Fulltext search.
+            $Selenium->find_element( "#Fulltext", 'css' )->send_keys( $RandomID, "\N{U+E007}" );
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+            );
+
+            # Verify expected results.
+            for my $Ticket (@Tickets) {
+
+                my $IsFound = 'is found';
+                my $Length  = 1;
+
+                if ( $Key ne 'All' && $Ticket->{ArchiveFlag} ne $Key ) {
+                    $IsFound = 'is not found';
+                    $Length  = 0;
+                }
+
+                $Self->Is(
+                    $Selenium->execute_script(
+                        "return \$('a[href*=\"AgentTicketZoom;TicketID=$Ticket->{TicketID}\"]').length;"
+                    ),
+                    $Length,
+                    "$Tests{$Key} - ArchiveFlag '$Ticket->{ArchiveFlag}' - TicketID $Ticket->{TicketID} $IsFound",
+                );
+            }
+        }
+
+        # Delete test tickets.
+        for my $Ticket (@Tickets) {
+
+            $Success = $TicketObject->TicketDelete(
+                TicketID => $Ticket->{TicketID},
+                UserID   => $TestUserID,
+            );
+
+            # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
+            if ( !$Success ) {
+                sleep 3;
+                $Success = $TicketObject->TicketDelete(
+                    TicketID => $Ticket->{TicketID},
+                    UserID   => $TestUserID,
+                );
+            }
+            $Self->True(
+                $Success,
+                "TicketID $Ticket->{TicketID} is deleted"
+            );
+        }
     }
 );
 
