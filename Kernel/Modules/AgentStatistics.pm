@@ -187,6 +187,7 @@ sub OverviewScreen {
     # build output
     my $Output = $LayoutObject->Header(
         Title => Translatable('Overview'),
+        Area  => 'Statistics',
     );
     $Output .= $LayoutObject->NavigationBar();
 
@@ -212,6 +213,7 @@ sub ImportScreen {
 
     my $Output = $LayoutObject->Header(
         Title => Translatable('Import'),
+        Area  => 'Statistics',
     );
     $Output .= $LayoutObject->NavigationBar();
     $Output .= $LayoutObject->Output(
@@ -368,6 +370,7 @@ sub EditScreen {
 
     my $Output = $LayoutObject->Header(
         Title => Translatable('Edit'),
+        Area  => 'Statistics',
     );
     $Output .= $LayoutObject->NavigationBar();
 
@@ -751,6 +754,7 @@ sub ViewScreen {
 
     my $Output = $LayoutObject->Header(
         Title => Translatable('View'),
+        Area  => 'Statistics',
     );
     $Output .= $LayoutObject->NavigationBar();
 
