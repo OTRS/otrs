@@ -607,7 +607,8 @@ sub _ParamsGet {
         if ( $Definition->{Check} eq 'OperationType' ) {
             next DEFINITION if $Self->_OperationTypeCheck( OperationType => $GetParam{$Name} );
 
-            $GetParam{Error} = $LayoutObject->{LanguageObject}->Translate( 'OperationType %s is not registered', $GetParam{$Name} );
+            $GetParam{Error}
+                = $LayoutObject->{LanguageObject}->Translate( 'OperationType %s is not registered', $GetParam{$Name} );
             return \%GetParam;
         }
 
@@ -615,7 +616,8 @@ sub _ParamsGet {
             next DEFINITION if !IsStringWithData( $GetParam{Name} );
             next DEFINITION if $Self->_MappingTypeCheck( MappingType => $GetParam{$Name} );
 
-            $GetParam{Error} = $LayoutObject->{LanguageObject}->Translate( 'MappingType %s is not registered', $GetParam{$Name} );
+            $GetParam{Error}
+                = $LayoutObject->{LanguageObject}->Translate( 'MappingType %s is not registered', $GetParam{$Name} );
             return \%GetParam;
         }
     }
