@@ -2584,7 +2584,7 @@ sub _RenderTitle {
         $Title = $Ticket{Title};
     }
 
-    $Param{GetParam}->{Title} = $Title;
+    $Param{GetParam}->{Title} //= $Title;
 
     my %Data = (
         Label            => $LayoutObject->{LanguageObject}->Translate("Title"),

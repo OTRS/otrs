@@ -105,7 +105,7 @@ $Selenium->RunTest(
         $Self->Is(
             $Process->{Name},
             'TestProcess',
-            "Test process is creted"
+            "Test process is created"
         );
 
         # navigate to AgentTicketProcess screen
@@ -124,6 +124,16 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#QueueID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Subject",  'css' )->send_keys($SubjectRand);
         $Selenium->find_element( "#RichText", 'css' )->send_keys('Test Process Body');
+
+        # Check if default value for title is shown.
+        # See bug#13937 https://bugs.otrs.org/show_bug.cgi?id=13937.
+        my $TitleValue = 'Test Process Title Default';
+
+        $Self->Is(
+            $Selenium->execute_script("return \$('#Title').val();"),
+            $TitleValue,
+            "Title field Default value is: $TitleValue",
+        );
 
         # submit process
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
@@ -148,11 +158,18 @@ $Selenium->RunTest(
         $Self->Is(
             $Ticket{CreateBy},
             $TestUserID,
-            "Test ticket process is creted"
+            "Test ticket process is created"
         ) || die;
 
         # navigate to AgentTicketZoom screen of created test process
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[0]");
+
+        # Check ticket title.
+        $Self->Is(
+            $Selenium->execute_script("return \$('.Headline.NoMargin h1').text().trim().split(\" — \").pop();"),
+            $TitleValue,
+            "Ticket title is: $TitleValue",
+        );
 
         # verify there is 'Process Information' widget
         my $ParentElement = $Selenium->find_element( ".SidebarColumn", 'css' );

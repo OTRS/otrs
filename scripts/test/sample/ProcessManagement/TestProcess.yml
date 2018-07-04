@@ -72,6 +72,7 @@ ActivityDialogs:
       FieldOrder:
       - Queue
       - Article
+      - Title
       Fields:
         Article:
           Config:
@@ -85,6 +86,11 @@ ActivityDialogs:
           DescriptionLong: ''
           DescriptionShort: ''
           Display: '2'
+        Title:
+          DefaultValue: 'Test Process Title Default'
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
       Interface:
       - AgentInterface
       - CustomerInterface
