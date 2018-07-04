@@ -189,7 +189,7 @@ $Selenium->RunTest(
             );
 
             # Set values for new statistics - General Specifications.
-            $Selenium->find_element( "#Title",       'css' )->send_keys( $StatsData->{Title} );
+            $Selenium->find_element( "#Title", 'css' )->send_keys( $StatsData->{Title} );
             my $Description = 'Description ' . $StatsData->{Title};
             $Selenium->find_element( "#Description", 'css' )->send_keys($Description);
             $Selenium->execute_script(
@@ -208,10 +208,45 @@ $Selenium->RunTest(
                 $Selenium->execute_script(
                     "\$('#EditDialog select').val('$StatsData->{XAxis}').trigger('redraw.InputField').trigger('change');"
                 );
-            }
 
+                # Set invalid date for CreateTime (31.06.).
+                # See bug #13938 (https://bugs.otrs.org/show_bug.cgi?id=13938).
+                if ( $StatsData->{XAxis} eq 'XAxisCreateTime' ) {
+                    $Selenium->execute_script(
+                        "\$('#XAxisCreateTimeStopMonth').val('6').trigger('redraw.InputField').trigger('change');"
+                    );
+                    $Selenium->execute_script(
+                        "\$('#XAxisCreateTimeStopDay').val('31').trigger('redraw.InputField').trigger('change');"
+                    );
+                }
+            }
             $Selenium->find_element( "#DialogButton1", 'css' )->click();
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
+
+            # Check error message if there is set wrong invalid date for x-axis
+            if ( $StatsData->{XAxis} eq 'XAxisCreateTime' ) {
+                $Self->Is(
+                    $Selenium->execute_script("return \$('.Preview p.Error').text().trim()"),
+                    "CreateTime: The selected date is not valid.",
+                    "There is message for invalid date for CreateTime",
+                );
+
+                $Selenium->find_element( ".EditXAxis", 'css' )->click();
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && $(".Dialog.Modal").length && $("#DialogButton1").length'
+                );
+
+                $Selenium->execute_script(
+                    "\$('#XAxisCreateTimeStopMonth').val('12').trigger('redraw.InputField').trigger('change');"
+                );
+                $Selenium->execute_script(
+                    "\$('#XAxisCreateTimeStopDay').val('31').trigger('redraw.InputField').trigger('change');"
+                );
+
+                $Selenium->find_element( "#DialogButton1", 'css' )->click();
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
+            }
 
             # Check Y-axis configuration dialog.
             $Selenium->find_element( ".EditYAxis", 'css' )->click();

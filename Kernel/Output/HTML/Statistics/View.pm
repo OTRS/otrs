@@ -1824,6 +1824,7 @@ sub StatsConfigurationValidate {
             XVALUE:
             for my $Xvalue ( @{ $Stat{UseAsXvalue} } ) {
 
+                last XVALUE if defined $XAxisFieldErrors{ $Xvalue->{Element} };
                 next XVALUE if !( $Xvalue->{Selected} && $Xvalue->{Block} eq 'Time' );
 
                 my $Flag = 1;
