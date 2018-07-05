@@ -125,6 +125,12 @@ sub Run {
         );
     }
 
+    # If Archive system is enabled, take into account archived tickets as well.
+    # See bug#13945 (https://bugs.otrs.org/show_bug.cgi?id=13945).
+    if ( $Kernel::OM->Get('Kernel::Config')->{'Ticket::ArchiveSystem'} ) {
+        $SearchParams{ArchiveFlags} = [ 'y', 'n' ];
+    }
+
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     my @TicketIDs = $TicketObject->TicketSearch(
