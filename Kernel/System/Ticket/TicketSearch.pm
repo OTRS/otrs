@@ -2332,8 +2332,6 @@ sub TicketSearch {
                 $SQLExt .= ',';
             }
 
-            my $NullsLast = 0;
-
             # sort by dynamic field
             if ( $ValidDynamicFieldParams{ $SortByArray[$Count] } ) {
                 my ($DynamicFieldName) = $SortByArray[$Count] =~ m/^DynamicField_(.*)$/smx;
@@ -2435,20 +2433,14 @@ sub TicketSearch {
                     # For MySQL create SQL order by query 'ORDER BY column_value = 0, column_value ASC/DESC'.
                     $SQLSelect .= ', ' . $SortOptions{ $SortByArray[$Count] };
                     $SQLExt
-                        .= ' ' . $SortOptions{ $SortByArray[$Count] } . ' = 0, ' . $SortOptions{ $SortByArray[$Count] };
+                        .= ' ' . $SortOptions{ $SortByArray[$Count] };
                 }
                 else {
 
                     # For PostgreSQL and Oracle transform selected 0 values to NULL and use 'NULLS LAST'
                     #   in the end of SQL query.
-                    $SQLSelect
-                        .= ', CASE WHEN '
-                        . $SortOptions{ $SortByArray[$Count] }
-                        . ' = 0 THEN NULL ELSE '
-                        . $SortOptions{ $SortByArray[$Count] }
-                        . ' END AS order_value ';
+                    $SQLSelect .= ', ' . $SortOptions{ $SortByArray[$Count] } . ' AS order_value ';
                     $SQLExt .= ' order_value ';
-                    $NullsLast = 1;
                 }
             }
             else {
@@ -2463,11 +2455,6 @@ sub TicketSearch {
             }
             else {
                 $SQLExt .= ' DESC';
-            }
-
-            # For PostgreSQL and Oracle add 'NULLS LAST' if sorting is done on Escalation or Pending time columns.
-            if ($NullsLast) {
-                $SQLExt .= ' NULLS LAST';
             }
         }
     }

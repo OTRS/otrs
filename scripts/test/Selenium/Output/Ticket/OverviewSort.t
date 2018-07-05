@@ -254,13 +254,13 @@ $Selenium->RunTest(
                 Name          => 'Update Time',
                 ColumnName    => 'EscalationUpdateTime',
                 OrderBy       => 'Up',
-                ExpectedOrder => [ $TicketIDs[2], $TicketIDs[1], $TicketIDs[0] ],
+                ExpectedOrder => [ $TicketIDs[0], $TicketIDs[2], $TicketIDs[1] ],
             },
             {
                 Name          => 'Solution Time',
                 ColumnName    => 'EscalationSolutionTime',
                 OrderBy       => 'Up',
-                ExpectedOrder => [ $TicketIDs[0], $TicketIDs[1], $TicketIDs[2] ],
+                ExpectedOrder => [ $TicketIDs[2], $TicketIDs[0], $TicketIDs[1] ],
             },
             {
                 Name          => 'Solution Time',
@@ -278,7 +278,7 @@ $Selenium->RunTest(
                 Name          => 'First Response Time',
                 ColumnName    => 'EscalationResponseTime',
                 OrderBy       => 'Up',
-                ExpectedOrder => [ $TicketIDs[0], $TicketIDs[2], $TicketIDs[1] ],
+                ExpectedOrder => [ $TicketIDs[1], $TicketIDs[0], $TicketIDs[2] ],
             },
         );
 

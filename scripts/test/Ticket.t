@@ -2322,7 +2322,7 @@ my @Tests = (
             OrderBy => 'Up',
             SortBy  => 'EscalationResponseTime',
         },
-        ExpectedResult => [ $TestTicketIDs[0], $TestTicketIDs[2], $TestTicketIDs[1] ],
+        ExpectedResult => [ $TestTicketIDs[1], $TestTicketIDs[0], $TestTicketIDs[2] ],
     },
     {
         Config => {
@@ -2336,7 +2336,7 @@ my @Tests = (
             OrderBy => 'Up',
             SortBy  => 'EscalationUpdateTime',
         },
-        ExpectedResult => [ $TestTicketIDs[2], $TestTicketIDs[1], $TestTicketIDs[0] ],
+        ExpectedResult => [ $TestTicketIDs[0], $TestTicketIDs[2], $TestTicketIDs[1] ],
     },
     {
         Config => {
@@ -2350,7 +2350,7 @@ my @Tests = (
             OrderBy => 'Up',
             SortBy  => 'EscalationSolutionTime',
         },
-        ExpectedResult => [ $TestTicketIDs[0], $TestTicketIDs[1], $TestTicketIDs[2] ],
+        ExpectedResult => [ $TestTicketIDs[2], $TestTicketIDs[0], $TestTicketIDs[1] ],
     },
     {
         Config => {
