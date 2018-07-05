@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package scripts::DBUpdateTo6::IndexArticleDataMimeTable;    ## no critic
+package scripts::DBUpdateTo6::UpgradeDatabaseStructure::IndexArticleDataMimeTable;    ## no critic
 
 use strict;
 use warnings;
@@ -17,7 +17,7 @@ our @ObjectDependencies = ();
 
 =head1 NAME
 
-scripts::DBUpdateTo6::IndexArticleDataMimeTable - Index article_data_mime table on article_id.
+scripts::DBUpdateTo6::UpgradeDatabaseStructure::IndexArticleDataMimeTable - Index article_data_mime table on article_id.
 
 =cut
 
