@@ -273,6 +273,10 @@ sub Run {
             $ProfileName = "($Profile)";
         }
 
+        if ( $ProfileName eq '(last-search)' ) {
+            $ProfileName = '(' . $LayoutObject->{LanguageObject}->Translate('last-search') . ')';
+        }
+
         # store search URL in LastScreenOverview to make sure the
         # customer can use the "back" link as expected
         my $URL = "Action=CustomerTicketSearch;Subaction=Search;Profile=$Profile;"
@@ -1670,18 +1674,23 @@ sub MaskForm {
         SelectedID => $Param{ResultForm} || 'Normal',
         Class      => 'Modernize',
     );
+
+    my %Profiles = $Kernel::OM->Get('Kernel::System::SearchProfile')->SearchProfileList(
+        Base      => 'CustomerTicketSearch',
+        UserLogin => $Self->{UserLogin},
+    );
+
+    if ( $Profiles{'last-search'} ) {
+        $Profiles{'last-search'} = $LayoutObject->{LanguageObject}->Translate('last-search');
+    }
+
     $Param{ProfilesStrg} = $LayoutObject->BuildSelection(
-        Data => {
-            '', '-',
-            $Kernel::OM->Get('Kernel::System::SearchProfile')->SearchProfileList(
-                Base      => 'CustomerTicketSearch',
-                UserLogin => $Self->{UserLogin},
-            ),
-        },
-        Translation => 0,
-        Name        => 'Profile',
-        SelectedID  => $Param{Profile},
-        Class       => 'Modernize',
+        Data         => \%Profiles,
+        Translation  => 0,
+        Name         => 'Profile',
+        SelectedID   => $Param{Profile},
+        Class        => 'Modernize',
+        PossibleNone => 1,
     );
 
     my %Customers = $Kernel::OM->Get('Kernel::System::CustomerGroup')->GroupContextCustomers(

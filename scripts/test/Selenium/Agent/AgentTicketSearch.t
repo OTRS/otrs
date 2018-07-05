@@ -707,6 +707,20 @@ $Selenium->RunTest(
             "Article search field 'Body' translated correctly"
         );
 
+        # Input some text and search.
+        $Selenium->find_element( "Fulltext",          'name' )->send_keys('text123456');
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
+
+        # Check for search profile name.
+        my $SearchText = $LanguageObject->Translate('Change search options') . ' ('
+            . $LanguageObject->Translate('last-search') . ')';
+
+        $Self->Is(
+            $Selenium->execute_script("return \$('.ControlRow a:eq(0)').text().trim();"),
+            $SearchText,
+            "Search profile name 'last-search' found on page",
+        );
+
         # Clean up test data from the DB.
         for my $TicketID (@TicketIDs) {
             $Success = $TicketObject->TicketDelete(

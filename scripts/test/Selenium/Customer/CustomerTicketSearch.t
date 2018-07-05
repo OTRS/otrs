@@ -91,10 +91,11 @@ $Selenium->RunTest(
             "CustomerUser $TestCustomerUserLogin is created",
         );
 
+        my $Language = 'de';
         $Kernel::OM->Get('Kernel::System::CustomerUser')->SetPreferences(
             UserID => $TestCustomerUserLogin,
             Key    => 'UserLanguage',
-            Value  => 'en',
+            Value  => $Language,
         );
 
         $Selenium->Login(
@@ -207,10 +208,18 @@ $Selenium->RunTest(
             'Internal article not found on page'
         );
 
+        # Verify translated 'Body' field label.
+        my $LanguageObject = Kernel::Language->new(
+            UserLanguage => $Language,
+        );
+
         # Check for search profile name.
-        my $SearchText = '← Change search options (last-search)';
-        $Self->True(
-            index( $Selenium->get_page_source(), $SearchText ) > -1,
+        my $SearchText = '← '
+            . $LanguageObject->Translate('Change search options') . ' ('
+            . $LanguageObject->Translate('last-search') . ')';
+        $Self->Is(
+            $Selenium->execute_script("return \$('.ActionRow a').text().trim()"),
+            $SearchText,
             "Search profile name 'last-search' found on page",
         );
 
@@ -232,29 +241,38 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # check for expected result
-        $Self->True(
-            index( $Selenium->get_page_source(), "No data found." ) > -1,
+        $Self->Is(
+            $Selenium->execute_script("return \$('#EmptyMessage td').text().trim();"),
+            $LanguageObject->Translate('No data found.'),
             "Ticket is not found on page",
         );
 
         # check search filter data
-        $Self->True(
-            index( $Selenium->get_page_source(), "Search Results for:" ) > -1,
+        $Self->Is(
+            $Selenium->execute_script("return \$('.SearchTerms h2').text().trim();"),
+            $LanguageObject->Translate('Search Results for') . ':',
             "Filter data is found - Search Results for:",
         );
 
-        $Self->True(
-            index( $Selenium->get_page_source(), "TicketNumber: 123456789012345" ) > -1,
+        $Self->Is(
+            $Selenium->execute_script("return \$('.SearchTerms span:eq(0)').text().trim();"),
+            $LanguageObject->Translate('TicketNumber') . ': 123456789012345',
             "Filter data is found - TicketNumber: 123456789012345",
         );
 
-        $Self->True(
-            index( $Selenium->get_page_source(), "State: new+open" ) > -1,
+        $Self->Is(
+            $Selenium->execute_script("return \$('.SearchTerms span:eq(1)').text().trim();"),
+            $LanguageObject->Translate('State') . ': '
+                . $LanguageObject->Translate('new') . '+'
+                . $LanguageObject->Translate('open'),
             "Filter data is found - State: new+open",
         );
 
-        $Self->True(
-            index( $Selenium->get_page_source(), "Priority: 2 low+3 normal" ) > -1,
+        $Self->Is(
+            $Selenium->execute_script("return \$('.SearchTerms span:eq(2)').text().trim();"),
+            $LanguageObject->Translate('Priority') . ': '
+                . $LanguageObject->Translate('2 low') . '+'
+                . $LanguageObject->Translate('3 normal'),
             "Filter data is found - Priority: 2 low+3 normal",
         );
 

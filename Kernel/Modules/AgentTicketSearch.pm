@@ -434,6 +434,10 @@ sub Run {
             $Self->{ProfileName} = "($Self->{Profile})";
         }
 
+        if ( $Self->{ProfileName} eq '(last-search)' ) {
+            $Self->{ProfileName} = '(' . $LayoutObject->{LanguageObject}->Translate('last-search') . ')';
+        }
+
         # save search profile (under last-search or real profile name)
         $Self->{SaveProfile} = 1;
 
@@ -1987,12 +1991,18 @@ sub Run {
             Base      => 'TicketSearch',
             UserLogin => $Self->{UserLogin},
         );
+
+        if ( $Profiles{'last-search'} ) {
+            $Profiles{'last-search'} = $LayoutObject->{LanguageObject}->Translate('last-search');
+        }
+
         $Param{ProfilesStrg} = $LayoutObject->BuildSelection(
             Data         => \%Profiles,
             Name         => 'Profile',
             ID           => 'SearchProfile',
             SelectedID   => $Profile,
             Class        => 'Modernize',
+            Translation  => 0,
             PossibleNone => 1,
         );
 
