@@ -630,7 +630,6 @@ CREATE TABLE article_data_mime (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    INDEX article_data_mime_article_id (article_id),
     INDEX article_data_mime_message_id_md5 (a_message_id_md5)
 );
 # ----------------------------------------------------------

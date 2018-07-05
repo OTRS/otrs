@@ -1919,14 +1919,6 @@ END;
 --
 ;
 BEGIN
-    EXECUTE IMMEDIATE 'CREATE INDEX article_data_mime_article_id ON article_data_mime (article_id)';
-EXCEPTION
-  WHEN OTHERS THEN NULL;
-END;
-/
---
-;
-BEGIN
     EXECUTE IMMEDIATE 'CREATE INDEX article_data_mime_message_idf3 ON article_data_mime (a_message_id_md5)';
 EXCEPTION
   WHEN OTHERS THEN NULL;
