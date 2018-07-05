@@ -1050,6 +1050,9 @@
     <Index Name="article_data_mime_message_id_md5">
         <IndexColumn Name="a_message_id_md5"/>
     </Index>
+    <Index Name="article_data_mime_article_id">
+        <IndexColumn Name="article_id"/>
+    </Index>
     <ForeignKey ForeignTable="article">
         <Reference Local="article_id" Foreign="id"/>
     </ForeignKey>

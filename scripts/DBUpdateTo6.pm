@@ -218,6 +218,10 @@ sub _TasksGet {
             Module  => 'UpgradeDatabaseStructure',
         },
         {
+            Message => 'Index article_data_mime table',
+            Module  => 'IndexArticleDataMimeTable',
+        },
+        {
             Message => 'Migrate configuration',
             Module  => 'MigrateConfigEffectiveValues',
         },
