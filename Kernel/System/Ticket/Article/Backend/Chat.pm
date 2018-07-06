@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 use parent 'Kernel::System::Ticket::Article::Backend::Base';
 
@@ -615,13 +616,13 @@ sub BackendSearchableFieldsGet {
 
     %SearchableFields = (
         'Chat_ChatterName' => {
-            Label      => 'Chat Participant',
+            Label      => Translatable('Chat Participant'),
             Key        => 'Chat_ChatterName',
             Type       => 'Text',
             Filterable => 0,
         },
         'Chat_MessageText' => {
-            Label      => 'Chat Message Text',
+            Label      => Translatable('Chat Message Text'),
             Key        => 'Chat_MessageText',
             Type       => 'Text',
             Filterable => 1,

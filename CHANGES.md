@@ -1,4 +1,5 @@
 #6.0.9 2018-??-??
+ - 2018-07-06 Fixed bug#[13948](https://bugs.otrs.org/show_bug.cgi?id=13948) - Some labels are not translated in ticket search screen.
  - 2018-07-06 Fixed bug#[13940](https://bugs.otrs.org/show_bug.cgi?id=13940) - Index missing on table article_data_mime.
  - 2018-07-06 Fixed bug#[13936](https://bugs.otrs.org/show_bug.cgi?id=13936) - Notification looses text for 'Additional recipient email addresses' when sizelimit 200 characters is exceeded.
  - 2018-07-05 Fixed bug#[13837](https://bugs.otrs.org/show_bug.cgi?id=13837) - Open and new tickets always at the end of the list when sorting by pending time since OTRS 6.
