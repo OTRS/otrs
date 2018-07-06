@@ -4152,6 +4152,24 @@ sub CustomerFooter {
             || $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'UnitTestMode' ) // 0;
     }
 
+    # Check if customer user has permission for chat.
+    my $CustomerChatPermission;
+    if ( $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::Chat', Silent => 1 ) ) {
+
+        my $CustomerChatConfig  = $ConfigObject->Get('CustomerFrontend::Module')->{'CustomerChat'};
+        my $CustomerGroupObject = $Kernel::OM->Get('Kernel::System::CustomerGroup');
+
+        GROUP:
+        for my $GroupName ( @{ $CustomerChatConfig->{GroupRo} }, @{ $CustomerChatConfig->{Group} } ) {
+            $CustomerChatPermission = $CustomerGroupObject->PermissionCheck(
+                UserID    => $Self->{UserID},
+                GroupName => $GroupName,
+                Type      => 'ro',
+            );
+            last GROUP if $CustomerChatPermission;
+        }
+    }
+
     # don't check for business package if the database was not yet configured (in the installer)
     if ( $ConfigObject->Get('SecureMode') ) {
         my $OTRSBusinessObject = $Kernel::OM->Get('Kernel::System::OTRSBusiness');
@@ -4187,6 +4205,7 @@ sub CustomerFooter {
         Autocomplete             => $AutocompleteConfig,
         VideoChatEnabled         => $Param{VideoChatEnabled},
         WebMaxFileUpload         => $ConfigObject->Get('WebMaxFileUpload'),
+        CustomerChatPermission   => $CustomerChatPermission,
     );
 
     for my $Config ( sort keys %JSConfig ) {
