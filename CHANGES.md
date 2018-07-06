@@ -1,4 +1,5 @@
 #5.0.29 ????-??-??
+ - 2018-07-06 Fixed bug#[13936](https://bugs.otrs.org/show_bug.cgi?id=13936) - Notification looses text for 'Additional recipient email addresses' when sizelimit 200 characters is exceeded.
  - 2018-07-05 Fixed bug#[13945](https://bugs.otrs.org/show_bug.cgi?id=13945) - Archived tickets won't be moved with StorageSwitch command.
  - 2018-07-04 Fixed bug#[13938](https://bugs.otrs.org/show_bug.cgi?id=13938) - Statistic: Internal Server Error when invalid date is set for x axis.
  - 2018-07-02 Fixed bug#[13942](https://bugs.otrs.org/show_bug.cgi?id=13942) - Wrong title in browser window in statistics screens.
