@@ -8,7 +8,9 @@
 
 <label for="RecipientEmail">[% Translate("Additional recipient email addresses") | html %]: </label>
 <div class="Field">
-    <input type="text" name="RecipientEmail" id="RecipientEmail" class="W50pc" value="[% Data.RecipientEmail | html %]"/>
+    <input type="text" name="RecipientEmail" id="RecipientEmail" class="W50pc Validate_MaxLength [% Data.RecipientEmailServerError | html %]" value="[% Data.RecipientEmail | html %]" data-maxlength="200"/>
+    <div id="RecipientEmailError" class="TooltipErrorMessage"><p>[% Translate("This field must have less then 200 characters.") | html %]</p></div>
+    <div id="RecipientEmailServerError" class="TooltipErrorMessage"><p>[% Translate("This field must have less then 200 characters.") | html %]</p></div>
     <p class="FieldExplanation">[% Translate("You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.") | html %]</p>
 </div>
 <div class="Clear"></div>

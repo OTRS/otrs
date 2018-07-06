@@ -217,6 +217,12 @@ sub Run {
             }
         }
 
+        # Check for 'Additional recipient' field value length.
+        if ( $GetParam{Data}->{RecipientEmail} && length $GetParam{Data}->{RecipientEmail} > 200 ) {
+            $GetParam{RecipientEmailServerError} = "ServerError";
+            $Error = 1;
+        }
+
         # update
         my $Ok;
         my $ArticleFilterMissing;
@@ -453,6 +459,12 @@ sub Run {
                     GetParam => \%GetParam,
                 );
             }
+        }
+
+        # Check for 'Additional recipient' field value length.
+        if ( $GetParam{Data}->{RecipientEmail} && length $GetParam{Data}->{RecipientEmail} > 200 ) {
+            $GetParam{RecipientEmailServerError} = "ServerError";
+            $Error = 1;
         }
 
         # add

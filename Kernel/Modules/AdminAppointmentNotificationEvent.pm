@@ -152,6 +152,13 @@ sub Run {
         # update
         my $Ok;
         my $DuplicatedEntry = 0;
+        my $Error           = 0;
+
+        # Check for 'Additional recipient' field value length.
+        if ( $GetParam{Data}->{RecipientEmail} && length $GetParam{Data}->{RecipientEmail} > 200 ) {
+            $GetParam{RecipientEmailServerError} = "ServerError";
+            $Error = 1;
+        }
 
         $GetParam{Data}->{NotificationType} = ['Appointment'];
 
@@ -178,7 +185,7 @@ sub Run {
             }
         }
 
-        if ( !$DuplicatedEntry ) {
+        if ( !$DuplicatedEntry && !$Error ) {
             $Ok = $NotificationEventObject->NotificationUpdate(
                 %GetParam,
                 UserID => $Self->{UserID},
@@ -329,6 +336,13 @@ sub Run {
         # add
         my $ID;
         my $DuplicatedEntry = 0;
+        my $Error           = 0;
+
+        # Check for 'Additional recipient' field value length.
+        if ( $GetParam{Data}->{RecipientEmail} && length $GetParam{Data}->{RecipientEmail} > 200 ) {
+            $GetParam{RecipientEmailServerError} = "ServerError";
+            $Error = 1;
+        }
 
         $GetParam{Data}->{NotificationType} = ['Appointment'];
 
@@ -349,7 +363,7 @@ sub Run {
             $DuplicatedEntry = 1;
         }
 
-        if ( !$DuplicatedEntry ) {
+        if ( !$DuplicatedEntry && !$Error ) {
             $ID = $NotificationEventObject->NotificationAdd(
                 %GetParam,
                 UserID => $Self->{UserID},
