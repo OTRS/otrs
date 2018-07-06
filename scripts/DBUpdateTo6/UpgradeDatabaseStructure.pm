@@ -101,6 +101,10 @@ sub Run {
             Message => 'Replace column create_time_unix column by create_time column in ticket_index table',
             Module  => 'TicketIndexUpdate',
         },
+        {
+            Message => 'Index article_data_mime table',
+            Module  => 'IndexArticleDataMimeTable',
+        },
     );
 
     print "\n" if $Verbose;
