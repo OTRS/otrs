@@ -53,6 +53,8 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+
         # Get test user ID.
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
@@ -125,7 +127,7 @@ $Selenium->RunTest(
         for my $Ticket (@Tickets) {
             $Self->True(
                 $Selenium->execute_script(
-                    "return \$('a[href*=\"AgentTicketZoom;TicketID=$Ticket->{TicketID}\"').length === 1)"
+                    "return \$('a[href*=\"AgentTicketZoom;TicketID=$Ticket->{TicketID}\"').length === 1"
                 ),
                 "TicketID $Ticket->{TicketID} is found",
             );
@@ -169,7 +171,7 @@ $Selenium->RunTest(
                 Value => "$Tests{$Key}",
             );
 
-            $Selenium->VerifiedRefresh();
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentDashboard");
 
             # Seach in Fulltext search.
             $Selenium->find_element( "#Fulltext", 'css' )->send_keys( $RandomID, "\N{U+E007}" );
