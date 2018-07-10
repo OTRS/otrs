@@ -109,7 +109,7 @@ $Selenium->RunTest(
         );
 
         # Check test attachment in MIME-Viwer, WaitFor will be done after switch to window.
-        $Selenium->find_element( "a.ViewAttachment i", "css" )->click();
+        $Selenium->execute_script("\$('a.ViewAttachment i').click();");
 
         # Switch to link object window.
         $Selenium->WaitFor( WindowCount => 2 );
@@ -216,8 +216,6 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), 'Munguía' ) > -1,
             'Article displayed using correct encoding'
         );
-
-        $Selenium->close();
 
         # Delete created test ticket.
         my $Success = $TicketObject->TicketDelete(
