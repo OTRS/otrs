@@ -1,4 +1,5 @@
 #6.0.9 2018-??-??
+ - 2018-07-10 Fixed bug#[13947](https://bugs.otrs.org/show_bug.cgi?id=13947) - Split selection dialog does not honor ACL restrictions.
  - 2018-07-06 Fixed bug#[13928](https://bugs.otrs.org/show_bug.cgi?id=13928) - Assigning customer group to chat modules results in constant connection error messages.
  - 2018-07-06 Fixed bug#[13948](https://bugs.otrs.org/show_bug.cgi?id=13948) - Some labels are not translated in ticket search screen.
  - 2018-07-06 Fixed bug#[13940](https://bugs.otrs.org/show_bug.cgi?id=13940) - Index missing on table article_data_mime.
