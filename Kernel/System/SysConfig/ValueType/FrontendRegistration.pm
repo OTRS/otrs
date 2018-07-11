@@ -256,19 +256,19 @@ sub SettingRender {
 
     my $EffectiveValue = $Param{EffectiveValue};
 
-    # Set undefined group attributes.
-    for my $Group (qw(Group GroupRo)) {
-        if ( !defined $EffectiveValue->{$Group} ) {
-            $EffectiveValue->{$Group} = [];
-        }
-    }
-
     if ( !IsHashRefWithData($EffectiveValue) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "EffectiveValue must be a hash!"
         );
         return '';
+    }
+
+    # Set undefined group attributes.
+    for my $Group (qw(Group GroupRo)) {
+        if ( !defined $EffectiveValue->{$Group} ) {
+            $EffectiveValue->{$Group} = [];
+        }
     }
 
     my %EffectiveValueCheck = (
