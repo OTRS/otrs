@@ -65,6 +65,9 @@
                     <input type="hidden" name="Subaction" value="Search"/>
                     <input type="hidden" name="SearchTemplate" value="[% Translate("Search") | html %]"/>
                     <input type="hidden" name="CheckTicketNumberAndRedirect" value="1"/>
+                    [% IF Data.SearchInArchive %]
+                        <input type="hidden" name="SearchInArchive" value="[% Data.SearchInArchive | html %]"/>
+                    [% END %]
                     <input type="text" size="[% Data.Size | html %]" name="Fulltext" id="Fulltext" value="[% Data.Fulltext | html %]" placeholder="[% Translate(Data.Description) | html %]" title="[% Translate(Data.Description) | html %]"/>
 #                    <a href="#" id="ToolbarFulltextSearch" title="[% Translate(Data.Description) | html %] ([% Data.AccessKey | html %])" accesskey="[% Data.AccessKey | html %]" [% Data.LinkOption %]>[% Translate(Data.Name) | html %]</a>
                 </form>
