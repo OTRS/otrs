@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-06-08 07:43+0000\n"
-"PO-Revision-Date: 2018-06-08 07:45+0000\n"
-"Last-Translator: Udo Bretz\n"
+"POT-Creation-Date: 2018-07-16 16:18+0000\n"
+"PO-Revision-Date: 2018-07-16 16:20+0000\n"
+"Last-Translator: saeedi <mohsen.saeedi@gmail.com>\n"
 "Language-Team: Persian (http://www.transifex.com/otrs/OTRS/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -741,6 +741,10 @@ msgstr "به عنوان مثال اطلاع رسانی "
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
 msgstr "دریافت کننده اضافی آدرس ایمیل "
+
+#. Template: AdminAppointmentNotificationEventTransportEmailSettings
+msgid "This field must have less then 200 characters."
+msgstr ""
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
@@ -2594,7 +2598,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
-"Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
+"Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication "
 "related errors."
 msgstr ""
 
@@ -3168,9 +3172,8 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
-"Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = "
-"'_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into "
-"'_elementname_16'."
+"Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = "
+"'_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
 msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
@@ -11102,6 +11105,14 @@ msgstr ""
 msgid "Could not determine config for invoker %s"
 msgstr "می تواند پیکربندی برای invoker مشخص نیست %s"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
+msgid "InvokerType %s is not registered"
+msgstr "InvokerType %s ثبت نشده است"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
+msgid "MappingType %s is not registered"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Need Invoker!"
 msgstr ""
@@ -11181,6 +11192,10 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
 msgstr "می تواند پیکربندی برای عملیات مشخص نیست %s"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
+msgid "OperationType %s is not registered"
+msgstr "OperationType %s ثبت نشده است"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
 msgid "Need valid Subaction!"
@@ -15570,6 +15585,14 @@ msgstr ""
 msgid "Reset of unlock time."
 msgstr "تنظیم مجدد از زمان باز کردن."
 
+#. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
+msgid "Chat Participant"
+msgstr ""
+
+#. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
+msgid "Chat Message Text"
+msgstr ""
+
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Login failed! Your user name or password was entered incorrectly."
 msgstr "ورود ناموفق! نام کاربری یا کلمه عبور وارد شده اشتباه می‌باشد."
@@ -17507,8 +17530,8 @@ msgstr "به مشتریان اجازه می دهد به تنظیم اولویت 
 #. SysConfig
 msgid ""
 "Allows customers to set the ticket queue in the customer interface. If this "
-"is set to 'No', QueueDefault should be configured."
-msgstr "مشتریان اجازه می دهد به مجموعه ای صف بلیط در رابط مشتری. اگر این تنظیم شده است «نه»، QueueDefault باید پیکربندی شوند."
+"is not enabled, QueueDefault should be configured."
+msgstr ""
 
 #. SysConfig
 msgid "Allows customers to set the ticket service in the customer interface."
@@ -17517,8 +17540,8 @@ msgstr "اجازه می دهد به مشتریان تا قراردهند  مجم
 #. SysConfig
 msgid ""
 "Allows customers to set the ticket type in the customer interface. If this "
-"is set to 'No', TicketTypeDefault should be configured."
-msgstr "مشتریان اجازه می دهد تا مجموعه ای از نوع بلیط در رابط مشتری. اگر این تنظیم شده است «نه»، TicketTypeDefault باید پیکربندی شوند."
+"is not enabled, TicketTypeDefault should be configured."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -22000,12 +22023,11 @@ msgstr "عبری"
 #. SysConfig
 msgid ""
 "Helps to extend your articles full-text search (From, To, Cc, Subject and "
-"Body search). Runtime will do full-text searches on live data (it works fine"
-" for up to 50.000 tickets). StaticDB will strip all articles and will build "
-"an index after article creation, increasing fulltext searches about 50%. To "
-"create an initial index use \"bin/otrs.Console.pl "
+"Body search). It will strip all articles and will build an index after "
+"article creation, increasing fulltext searches about 50%. To create an "
+"initial index use \"bin/otrs.Console.pl "
 "Maint::Ticket::FulltextIndexRebuild\"."
-msgstr "کمک می کند تا به گسترش مقالات خود را جستجو متن کامل (از، به، CC، موضوع و جستجو بدن). در زمان اجرا خواهد جستجو متن کامل بر روی داده های زنده انجام (خوب کار می کند تا 50.000 بلیط). StaticDB همه مقالات نوار و شاخص پس از ایجاد مقاله ساخت، افزایش جستجو متن در حدود 50٪. برای ایجاد یک استفاده شاخص اولیه \\ \"بن / otrs.Console.pl سیستم maint :: بلیط :: FulltextIndexRebuild \"."
+msgstr ""
 
 #. SysConfig
 msgid "High Contrast"
@@ -22094,8 +22116,8 @@ msgstr "اگر \\ \"HTTPBasicAuth \" برای ضوابط انتخاب شد :: Au
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
-msgstr ""
+"example_domain\\user to user)."
+msgstr "اگر \\ \"HTTPBasicAuth \" برای ضوابط انتخاب شد :: AuthModule، شما می توانید مشخص به نوار قطعات منجر از نام کاربر (به عنوان مثال برای دامنه های مانند example_domain \\ کاربر به کاربر)."
 
 #. SysConfig
 msgid ""
@@ -22716,6 +22738,10 @@ msgstr "زبان لیتوانی"
 
 #. SysConfig
 msgid "Loader module registration for the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Loader module registration for the customer interface."
 msgstr ""
 
 #. SysConfig
@@ -25154,6 +25180,61 @@ msgstr "نشان می دهد یک لینک در منو به اضافه کردن 
 
 #. SysConfig
 msgid ""
+"Shows a link in the menu to add a phone call inbound in the ticket zoom view"
+" of the agent interface. Additional access control to show or not show this "
+"link can be done by using Key \"Group\" and Content like "
+"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
+"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
+"\"ClusterPriority\" to configure the order of a certain cluster within the "
+"toolbar."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows a link in the menu to add a phone call outbound in the ticket zoom "
+"view of the agent interface. Additional access control to show or not show "
+"this link can be done by using Key \"Group\" and Content like "
+"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
+"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
+"\"ClusterPriority\" to configure the order of a certain cluster within the "
+"toolbar."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows a link in the menu to change the customer who requested the ticket in "
+"the ticket zoom view of the agent interface. Additional access control to "
+"show or not show this link can be done by using Key \"Group\" and Content "
+"like \"rw:group1;move_into:group2\". To cluster menu items use for Key "
+"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
+"\"ClusterPriority\" to configure the order of a certain cluster within the "
+"toolbar."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows a link in the menu to change the owner of a ticket in the ticket zoom "
+"view of the agent interface. Additional access control to show or not show "
+"this link can be done by using Key \"Group\" and Content like "
+"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
+"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
+"\"ClusterPriority\" to configure the order of a certain cluster within the "
+"toolbar."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows a link in the menu to change the responsible agent of a ticket in the "
+"ticket zoom view of the agent interface. Additional access control to show "
+"or not show this link can be done by using Key \"Group\" and Content like "
+"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
+"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
+"\"ClusterPriority\" to configure the order of a certain cluster within the "
+"toolbar."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Shows a link in the menu to close a ticket in every ticket overview of the "
 "agent interface."
 msgstr "یک لینک در منوی نشان می دهد برای بستن یک بلیط در هر مروری بلیط رابط عامل."
@@ -25240,31 +25321,9 @@ msgstr "نشان می دهد یک لینک در منو به چاپ یک بلیط
 
 #. SysConfig
 msgid ""
-"Shows a link in the menu to see the customer who requested the ticket in the"
-" ticket zoom view of the agent interface. Additional access control to show "
-"or not show this link can be done by using Key \"Group\" and Content like "
-"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
-"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
-"\"ClusterPriority\" to configure the order of a certain cluster within the "
-"toolbar."
-msgstr "یک لینک در منوی نشان می دهد برای دیدن مشتری که بلیط در نظر زوم بلیط رابط عامل درخواست شده است. کنترل دسترسی اضافی برای نشان دادن یا این لینک نشان می دهد را نمی توان با استفاده از کلید \\ \"گروه \" و محتوا مانند \\ \":؛: GROUP2 \\ move_into GROUP1 RW\" انجام می شود. به خوشه آیتم های منو برای کلید \\ \"CLUSTERNAME \" و برای محتوای هر نام شما می خواهید برای دیدن در UI استفاده کنید. استفاده از \\ \"ClusterPriority \" برای پیکربندی سفارش از یک خوشه خاص در نوار ابزار."
-
-#. SysConfig
-msgid ""
 "Shows a link in the menu to see the history of a ticket in every ticket "
 "overview of the agent interface."
 msgstr "یک لینک در منوی نشان می دهد برای دیدن تاریخ یک بلیط در هر مروری بلیط رابط عامل."
-
-#. SysConfig
-msgid ""
-"Shows a link in the menu to see the owner of a ticket in the ticket zoom "
-"view of the agent interface. Additional access control to show or not show "
-"this link can be done by using Key \"Group\" and Content like "
-"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
-"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
-"\"ClusterPriority\" to configure the order of a certain cluster within the "
-"toolbar."
-msgstr "یک لینک در منوی نشان می دهد برای دیدن صاحب یک بلیط در نظر زوم بلیط رابط عامل. کنترل دسترسی اضافی برای نشان دادن یا این لینک نشان می دهد را نمی توان با استفاده از کلید \\ \"گروه \" و محتوا مانند \\ \":؛: GROUP2 \\ move_into GROUP1 RW\" انجام می شود. به خوشه آیتم های منو برای کلید \\ \"CLUSTERNAME \" و برای محتوای هر نام شما می خواهید برای دیدن در UI استفاده کنید. استفاده از \\ \"ClusterPriority \" برای پیکربندی سفارش از یک خوشه خاص در نوار ابزار."
 
 #. SysConfig
 msgid ""
@@ -25276,17 +25335,6 @@ msgid ""
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
 msgstr "یک لینک در منوی نشان می دهد برای دیدن اولویت یک بلیط در نظر زوم بلیط رابط عامل. کنترل دسترسی اضافی برای نشان دادن یا این لینک نشان می دهد را نمی توان با استفاده از کلید \\ \"گروه \" و محتوا مانند \\ \":؛: GROUP2 \\ move_into GROUP1 RW\" انجام می شود. به خوشه آیتم های منو برای کلید \\ \"CLUSTERNAME \" و برای محتوای هر نام شما می خواهید برای دیدن در UI استفاده کنید. استفاده از \\ \"ClusterPriority \" برای پیکربندی سفارش از یک خوشه خاص در نوار ابزار."
-
-#. SysConfig
-msgid ""
-"Shows a link in the menu to see the responsible agent of a ticket in the "
-"ticket zoom view of the agent interface. Additional access control to show "
-"or not show this link can be done by using Key \"Group\" and Content like "
-"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
-"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
-"\"ClusterPriority\" to configure the order of a certain cluster within the "
-"toolbar."
-msgstr "یک لینک در منوی نشان می دهد برای دیدن عامل مسئول یک بلیط در نظر زوم بلیط رابط عامل. کنترل دسترسی اضافی برای نشان دادن یا این لینک نشان می دهد را نمی توان با استفاده از کلید \\ \"گروه \" و محتوا مانند \\ \":؛: GROUP2 \\ move_into GROUP1 RW\" انجام می شود. به خوشه آیتم های منو برای کلید \\ \"CLUSTERNAME \" و برای محتوای هر نام شما می خواهید برای دیدن در UI استفاده کنید. استفاده از \\ \"ClusterPriority \" برای پیکربندی سفارش از یک خوشه خاص در نوار ابزار."
 
 #. SysConfig
 msgid ""

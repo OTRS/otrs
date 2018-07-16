@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-06-08 07:43+0000\n"
-"PO-Revision-Date: 2018-06-08 07:45+0000\n"
-"Last-Translator: Udo Bretz\n"
+"POT-Creation-Date: 2018-07-16 16:18+0000\n"
+"PO-Revision-Date: 2018-07-16 16:20+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Malay (http://www.transifex.com/otrs/OTRS/language/ms/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -739,6 +739,10 @@ msgstr "Contoh pemberitahuan"
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
 msgstr "Alamat e-mel penerima tambahan"
+
+#. Template: AdminAppointmentNotificationEventTransportEmailSettings
+msgid "This field must have less then 200 characters."
+msgstr ""
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
@@ -2592,7 +2596,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
-"Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
+"Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication "
 "related errors."
 msgstr ""
 
@@ -3166,9 +3170,8 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
-"Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = "
-"'_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into "
-"'_elementname_16'."
+"Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = "
+"'_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
 msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
@@ -11100,6 +11103,14 @@ msgstr ""
 msgid "Could not determine config for invoker %s"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
+msgid "InvokerType %s is not registered"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
+msgid "MappingType %s is not registered"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Need Invoker!"
 msgstr ""
@@ -11178,6 +11189,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
+msgid "OperationType %s is not registered"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
@@ -15568,6 +15583,14 @@ msgstr ""
 msgid "Reset of unlock time."
 msgstr ""
 
+#. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
+msgid "Chat Participant"
+msgstr ""
+
+#. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
+msgid "Chat Message Text"
+msgstr ""
+
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Login failed! Your user name or password was entered incorrectly."
 msgstr "Log masuk gagal. Kata nama anda atau kata laluan yang dimasukkan tidak tepat"
@@ -17505,8 +17528,8 @@ msgstr "Membolehkan pelanggan untuk menetapkan keutamaan tiket di dalam interfac
 #. SysConfig
 msgid ""
 "Allows customers to set the ticket queue in the customer interface. If this "
-"is set to 'No', QueueDefault should be configured."
-msgstr "Memblehkan pelanggan untuk menetapkan barisan tiket di dalam interface pelanggan. Jika ini disetkan kepada 'Tidak', BarisanAsal perlu di konfigur."
+"is not enabled, QueueDefault should be configured."
+msgstr ""
 
 #. SysConfig
 msgid "Allows customers to set the ticket service in the customer interface."
@@ -17515,8 +17538,8 @@ msgstr "Membolehkan pelanggan untuk menetapkan perkhidmatan tiket di dalam inter
 #. SysConfig
 msgid ""
 "Allows customers to set the ticket type in the customer interface. If this "
-"is set to 'No', TicketTypeDefault should be configured."
-msgstr "Memblehkan pelanggan untuk menetapkan jenis tiket di dalam antaramuka pelanggan. Jika ini disetkan kepada 'Tidak', JenisTiketDefault perlu dikonfigurasi."
+"is not enabled, TicketTypeDefault should be configured."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -21998,12 +22021,11 @@ msgstr "Hebrew"
 #. SysConfig
 msgid ""
 "Helps to extend your articles full-text search (From, To, Cc, Subject and "
-"Body search). Runtime will do full-text searches on live data (it works fine"
-" for up to 50.000 tickets). StaticDB will strip all articles and will build "
-"an index after article creation, increasing fulltext searches about 50%. To "
-"create an initial index use \"bin/otrs.Console.pl "
+"Body search). It will strip all articles and will build an index after "
+"article creation, increasing fulltext searches about 50%. To create an "
+"initial index use \"bin/otrs.Console.pl "
 "Maint::Ticket::FulltextIndexRebuild\"."
-msgstr "Membantu untuk membesarkan carian arikel teks penuh arikel (Dari, Ke, Cc, Subjek dan Carian badan). Runtime akan menjalankan pencarian teks penuh pada data langsung (ia berfungsi dengan baik untuk sampai ke 50,000 tiket). StaticDB akan melucutkan kesemua artikel dan akan membina indeks selepas penciptaan artikel, menaikkan carian teks penuh kira-kira 50%. Untuk mencipta indeks permulaan, gunakan \"bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild\"."
+msgstr ""
 
 #. SysConfig
 msgid "High Contrast"
@@ -22092,8 +22114,8 @@ msgstr "Jika \"HTTPBasicAuth\" dipilih untuk Customer::AuthModule, anda boleh te
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
-msgstr "Jika \"HTTPBasicAuth\" dipilih untuk Customer::AuthModule, anda boleh tentukan untuk lucutkan bahagian nama pengguna (cth: untuk domain seperti example_domain\\\\user to user)."
+"example_domain\\user to user)."
+msgstr "Jika \"HTTPBasicAuth\" dipilih untuk Customer::AuthModule, anda boleh tentukan untuk lucutkan bahagian termuka dari nama pengguna (cth: untuk domain seperti example_domain\\user kepada user)."
 
 #. SysConfig
 msgid ""
@@ -22714,6 +22736,10 @@ msgstr "Lithuania"
 
 #. SysConfig
 msgid "Loader module registration for the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Loader module registration for the customer interface."
 msgstr ""
 
 #. SysConfig
@@ -25152,6 +25178,61 @@ msgstr "Menunjukkan pautan dalam menu untuk menambah nota kepada tiket dalam set
 
 #. SysConfig
 msgid ""
+"Shows a link in the menu to add a phone call inbound in the ticket zoom view"
+" of the agent interface. Additional access control to show or not show this "
+"link can be done by using Key \"Group\" and Content like "
+"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
+"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
+"\"ClusterPriority\" to configure the order of a certain cluster within the "
+"toolbar."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows a link in the menu to add a phone call outbound in the ticket zoom "
+"view of the agent interface. Additional access control to show or not show "
+"this link can be done by using Key \"Group\" and Content like "
+"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
+"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
+"\"ClusterPriority\" to configure the order of a certain cluster within the "
+"toolbar."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows a link in the menu to change the customer who requested the ticket in "
+"the ticket zoom view of the agent interface. Additional access control to "
+"show or not show this link can be done by using Key \"Group\" and Content "
+"like \"rw:group1;move_into:group2\". To cluster menu items use for Key "
+"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
+"\"ClusterPriority\" to configure the order of a certain cluster within the "
+"toolbar."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows a link in the menu to change the owner of a ticket in the ticket zoom "
+"view of the agent interface. Additional access control to show or not show "
+"this link can be done by using Key \"Group\" and Content like "
+"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
+"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
+"\"ClusterPriority\" to configure the order of a certain cluster within the "
+"toolbar."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows a link in the menu to change the responsible agent of a ticket in the "
+"ticket zoom view of the agent interface. Additional access control to show "
+"or not show this link can be done by using Key \"Group\" and Content like "
+"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
+"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
+"\"ClusterPriority\" to configure the order of a certain cluster within the "
+"toolbar."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Shows a link in the menu to close a ticket in every ticket overview of the "
 "agent interface."
 msgstr "Menunjukkan pautan dalam menu untuk menutup tiket dalam setiap overview tiket dari paparan ejen."
@@ -25238,31 +25319,9 @@ msgstr "Menunjukkan pautan dalam menu untuk mencetak tiket atau artikel dalam pa
 
 #. SysConfig
 msgid ""
-"Shows a link in the menu to see the customer who requested the ticket in the"
-" ticket zoom view of the agent interface. Additional access control to show "
-"or not show this link can be done by using Key \"Group\" and Content like "
-"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
-"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
-"\"ClusterPriority\" to configure the order of a certain cluster within the "
-"toolbar."
-msgstr "Menunjukkan pautan dalam menu untuk melihat pelanggan yang memohon tiket dalam paparan zum tiket antara muka agen. Kawalan akses tambahan untuk menunjukkan atau tidak menunjukkan pautan ini boleh dilakukan dengan menggunakan Kekunci \"Kumpulan\" dan Kandungan seperti \"rw:group1;move_into:group2\". Untuk merangkaikan item menu gunakan kekunci \"ClusterName\" dan untuk Kandungan mana-mana nama yang anda mahu lihat dalam UI. Gunakan \"ClusterPriority\" untuk mengkonfigurasi susunan rangkaian tertentu dalam toolbar."
-
-#. SysConfig
-msgid ""
 "Shows a link in the menu to see the history of a ticket in every ticket "
 "overview of the agent interface."
 msgstr "Menunjukkan pautan dalam menu untuk melihat sejarah tiket dalam setiap overview tiket dari paparan ejen."
-
-#. SysConfig
-msgid ""
-"Shows a link in the menu to see the owner of a ticket in the ticket zoom "
-"view of the agent interface. Additional access control to show or not show "
-"this link can be done by using Key \"Group\" and Content like "
-"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
-"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
-"\"ClusterPriority\" to configure the order of a certain cluster within the "
-"toolbar."
-msgstr "Menunjukkan pautan dalam menu untuk melihat pemilik tiket dalam paparan zum tiket antara muka agen. Kawalan akses tambahan untuk menunjukkan atau tidak menunjukkan pautan ini boleh dilakukan dengan menggunakan Kekunci \"Kumpulan\" dan Kandungan seperti \"rw:group1;move_into:group2\". Untuk merangkaikan item menu gunakan kekunci \"ClusterName\" dan untuk Kandungan mana-mana nama yang anda mahu lihat dalam UI. Gunakan \"ClusterPriority\" untuk mengkonfigurasi susunan rangkaian tertentu dalam toolbar."
 
 #. SysConfig
 msgid ""
@@ -25274,17 +25333,6 @@ msgid ""
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
 msgstr "Menunjukkan pautan dalam menu untuk melihat keutamaan tiket dalam paparan zum tiket antara muka agen. Kawalan akses tambahan untuk menunjukkan atau tidak menunjukkan pautan ini boleh dilakukan dengan menggunakan Kekunci \"Kumpulan\" dan Kandungan seperti \"rw:group1;move_into:group2\". Untuk merangkaikan item menu gunakan kekunci \"ClusterName\" dan untuk Kandungan mana-mana nama yang anda mahu lihat dalam UI. Gunakan \"ClusterPriority\" untuk mengkonfigurasi susunan rangkaian tertentu dalam toolbar."
-
-#. SysConfig
-msgid ""
-"Shows a link in the menu to see the responsible agent of a ticket in the "
-"ticket zoom view of the agent interface. Additional access control to show "
-"or not show this link can be done by using Key \"Group\" and Content like "
-"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
-"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
-"\"ClusterPriority\" to configure the order of a certain cluster within the "
-"toolbar."
-msgstr "Menunjukkan pautan dalam menu untuk melihat agen yang bertanggungjawab pada tiket  dalam paparan zum tiket antara muka agen. Kawalan akses tambahan untuk menunjukkan atau tidak menunjukkan pautan ini boleh dilakukan dengan menggunakan Kekunci \"Kumpulan\" dan Kandungan seperti \"rw:group1;move_into:group2\". Untuk merangkaikan item menu gunakan kekunci \"ClusterName\" dan untuk Kandungan mana-mana nama yang anda mahu lihat dalam UI. Gunakan \"ClusterPriority\" untuk mengkonfigurasi susunan rangkaian tertentu dalam toolbar."
 
 #. SysConfig
 msgid ""

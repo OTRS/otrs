@@ -20,9 +20,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-06-08 07:43+0000\n"
-"PO-Revision-Date: 2018-06-08 07:45+0000\n"
-"Last-Translator: Udo Bretz\n"
+"POT-Creation-Date: 2018-07-16 16:18+0000\n"
+"PO-Revision-Date: 2018-07-16 16:20+0000\n"
+"Last-Translator: 汇民 王 <whuim@qq.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -754,6 +754,10 @@ msgstr "通知样例"
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
 msgstr "额外的收件人邮件地址"
+
+#. Template: AdminAppointmentNotificationEventTransportEmailSettings
+msgid "This field must have less then 200 characters."
+msgstr ""
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
@@ -2607,9 +2611,9 @@ msgstr "将考虑匹配错误消息主题和数据（如调试器错误条目中
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
-"Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
+"Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication "
 "related errors."
-msgstr ""
+msgstr "示例：输入'^.*401 Unauthorized.*\\$' ，仅处理与认证相关的错误。"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error stage filter"
@@ -3181,10 +3185,9 @@ msgstr "示例2：搜索 = '^' / 替换 = '_' ，可将'16x16' 变成'_16x16'�
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
-"Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = "
-"'_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into "
-"'_elementname_16'."
-msgstr ""
+"Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = "
+"'_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
+msgstr "示例3：搜索=  '^(?<number>\\d+) (?<text>.+?)\\$'/替换= '_\\$+{text}_\\$+{number}'，可将 '16 elementname'变成'_elementname_16'。"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "For information about regular expressions in Perl please see here:"
@@ -4236,7 +4239,7 @@ msgstr "管理 %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to ((OTRS)) Community Edition"
-msgstr ""
+msgstr "降级为  ((OTRS)) 社区版"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Read documentation"
@@ -4327,7 +4330,7 @@ msgstr "有关更多信息,请查看 %s。"
 msgid ""
 "Your ((OTRS)) Community Edition is the base for all future actions. Please "
 "register first before you continue with the upgrade process of %s!"
-msgstr ""
+msgstr " ((OTRS)) 社区版是所有特色功能的基础，继续升级到%s 前请先注册！"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
@@ -4417,7 +4420,7 @@ msgstr "请在软件包管理模块中先删除这些软件包，然后再试一
 msgid ""
 "You are about to downgrade to ((OTRS)) Community Edition and will lose the "
 "following features and all data related to these:"
-msgstr ""
+msgstr "你打算降级到 ((OTRS)) 社区版，以下功能特性和相关数据将全部丢失："
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
@@ -4557,7 +4560,7 @@ msgstr "您真的想要重新安装该软包吗? 所有该模块的手工设置�
 
 #. Template: AdminPackageManager
 msgid "Go to updating instructions"
-msgstr ""
+msgstr "转到升级说明"
 
 #. Template: AdminPackageManager
 msgid "package information"
@@ -4605,7 +4608,7 @@ msgstr "如果没有合约，我怎么更新补丁级别？"
 #. Template: AdminPackageManager
 msgid ""
 "Please find all relevant information within the updating instructions at %s."
-msgstr ""
+msgstr "请在升级说明%s中查找所有相关的信息。"
 
 #. Template: AdminPackageManager
 msgid ""
@@ -7784,7 +7787,7 @@ msgstr "检测到未经授权的使用 %s"
 msgid ""
 "If you decide to downgrade to ((OTRS)) Community Edition, you will lose all "
 "database tables and data related to %s."
-msgstr ""
+msgstr "如果决定降级到 ((OTRS)) 社区版，会丢失%s相关的所有数据库表及其数据。"
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
@@ -11115,6 +11118,14 @@ msgstr "1周"
 msgid "Could not determine config for invoker %s"
 msgstr "不能确定调用程序%s 的配置"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
+msgid "InvokerType %s is not registered"
+msgstr "调用程序类型 %s 没有注册"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
+msgid "MappingType %s is not registered"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Need Invoker!"
 msgstr "需要调用程序！"
@@ -11194,6 +11205,10 @@ msgstr "映射前发出响应数据"
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
 msgstr "不能确定操作%s 的配置"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
+msgid "OperationType %s is not registered"
+msgstr "操作类型%s 没有注册"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
 msgid "Need valid Subaction!"
@@ -13888,7 +13903,7 @@ msgid ""
 "The installation of packages which are not verified by the OTRS Group is "
 "activated. These packages could threaten your whole system! It is "
 "recommended not to use unverified packages."
-msgstr ""
+msgstr "使用了没有通过OTRS集团验证的软件包，这些软件包可能会威胁到您的整个系统！ 建议不要使用未经验证的软件包。"
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/SystemConfigurationInvalidCheck.pm
@@ -14368,14 +14383,14 @@ msgstr "<p>如果安装这个扩展包，可能导致以下问题：</p><ul><li>
 msgid ""
 "<p>The installation of packages which are not verified by the OTRS Group is "
 "not possible by default.</p>"
-msgstr ""
+msgstr "<p>默认情况下，没有通过OTRS集团验证的软件包无法使用。</p>"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
 "<p>You can activate the installation of not verified packages in the <a "
 "href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
 " target=\"_blank\">System Configuration</a>.</p>"
-msgstr ""
+msgstr "<p>可以在<a href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\" target=\"_blank\">系统配置</a>中激活这些没有通过验证的软件包。</p>"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -15583,6 +15598,14 @@ msgstr "值不正确！ 请考虑更新这个设置。"
 msgid "Reset of unlock time."
 msgstr "重置解锁时间。"
 
+#. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
+msgid "Chat Participant"
+msgstr ""
+
+#. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
+msgid "Chat Message Text"
+msgstr ""
+
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Login failed! Your user name or password was entered incorrectly."
 msgstr "登录失败！用户名或密码错误。"
@@ -16175,7 +16198,7 @@ msgstr "删除错误处理模块"
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid ""
 "It is not possible to add a new event trigger because the event is not set."
-msgstr ""
+msgstr "无法添加一个新的事件触发器，因为没有设置事件。"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid "Delete this Invoker"
@@ -17520,8 +17543,8 @@ msgstr "在客户界面允许设置工单的优先级。"
 #. SysConfig
 msgid ""
 "Allows customers to set the ticket queue in the customer interface. If this "
-"is set to 'No', QueueDefault should be configured."
-msgstr "在客户界面允许设置工单的队列，如果此处设置为“NO”，则需要配置参数QueueDefault（默认队列）。"
+"is not enabled, QueueDefault should be configured."
+msgstr ""
 
 #. SysConfig
 msgid "Allows customers to set the ticket service in the customer interface."
@@ -17530,8 +17553,8 @@ msgstr "在客户界面允许设置工单所属的服务。"
 #. SysConfig
 msgid ""
 "Allows customers to set the ticket type in the customer interface. If this "
-"is set to 'No', TicketTypeDefault should be configured."
-msgstr "在客户界面允许设置工单的类型，如果此处设置为“NO”，需要设置工单默认类型。"
+"is not enabled, TicketTypeDefault should be configured."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18698,7 +18721,7 @@ msgid ""
 "Define which avatar default image should be used for the article view if no "
 "gravatar is assigned to the mail address. Check "
 "http://gravatar.com/site/implement/images/ for further information."
-msgstr ""
+msgstr "如果没有分配邮件地址的gravatar（个人全球统一标识），则定义信件视图应该使用哪个头像作为默认图像。 查看 http://gravatar.com/site/implement/images/ 以了解更多信息。"
 
 #. SysConfig
 msgid ""
@@ -20323,7 +20346,7 @@ msgstr "定义服务人员界面如果服务人员会话数达到预警值时就
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "installation of not verified packages is activated (only shown to admins)."
-msgstr ""
+msgstr "如果启用了安装未经验证的软件包，则定义在服务人员界面中显示通知的模块（仅系统管理员会显示）。"
 
 #. SysConfig
 msgid ""
@@ -22013,12 +22036,11 @@ msgstr "希伯来语"
 #. SysConfig
 msgid ""
 "Helps to extend your articles full-text search (From, To, Cc, Subject and "
-"Body search). Runtime will do full-text searches on live data (it works fine"
-" for up to 50.000 tickets). StaticDB will strip all articles and will build "
-"an index after article creation, increasing fulltext searches about 50%. To "
-"create an initial index use \"bin/otrs.Console.pl "
+"Body search). It will strip all articles and will build an index after "
+"article creation, increasing fulltext searches about 50%. To create an "
+"initial index use \"bin/otrs.Console.pl "
 "Maint::Ticket::FulltextIndexRebuild\"."
-msgstr "帮助您扩展信件全文搜索（From, To, Cc,主题和正文搜索）。运行时对实时数据进行全文搜索（少于50000个工单时工作较好），静态数据库将搜索所有信件，并在信件创建后建立索引，越来越多的全文搜索占用约50%的空间。使用\"bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild\"来创建初始索引。"
+msgstr ""
 
 #. SysConfig
 msgid "High Contrast"
@@ -22107,8 +22129,8 @@ msgstr "如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
-msgstr "如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth（HTTP基本认证）”，您可以指定剥去用户名称的主要部分（例如域名，如从example_domain\\\\user变为user）。"
+"example_domain\\user to user)."
+msgstr "如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth（HTTP基本认证）”，您可以指定剥离用户名的主要部分（如域名，比如将example_domain\\user变为user）。"
 
 #. SysConfig
 msgid ""
@@ -22393,7 +22415,7 @@ msgstr "如果这个正则表达式匹配了，自动响应不会发送任何消
 msgid ""
 "If this setting is enabled, it is possible to install packages which are not"
 " verified by OTRS Group. These packages could threaten your whole system!"
-msgstr ""
+msgstr "如果启用了本设置，就可以安装未经 OTRS集团验证的软件包。这些软件包可能会威胁到您的整个系统！"
 
 #. SysConfig
 msgid ""
@@ -22730,6 +22752,10 @@ msgstr "立陶宛语"
 #. SysConfig
 msgid "Loader module registration for the agent interface."
 msgstr "客户界面的加载器模块注册。"
+
+#. SysConfig
+msgid "Loader module registration for the customer interface."
+msgstr ""
 
 #. SysConfig
 msgid "Lock / unlock this ticket"
@@ -23942,7 +23968,7 @@ msgstr "删除旧的系统配置部署（星期日上午）。"
 
 #. SysConfig
 msgid "Removes old ticket number counters (each 10 minutes)."
-msgstr ""
+msgstr "删除旧的工单编号计数器（每10分钟）。"
 
 #. SysConfig
 msgid "Removes the ticket watcher information when a ticket is archived."
@@ -25167,6 +25193,61 @@ msgstr "在服务人员界面所有工单概览视图，为添加工单备注菜
 
 #. SysConfig
 msgid ""
+"Shows a link in the menu to add a phone call inbound in the ticket zoom view"
+" of the agent interface. Additional access control to show or not show this "
+"link can be done by using Key \"Group\" and Content like "
+"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
+"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
+"\"ClusterPriority\" to configure the order of a certain cluster within the "
+"toolbar."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows a link in the menu to add a phone call outbound in the ticket zoom "
+"view of the agent interface. Additional access control to show or not show "
+"this link can be done by using Key \"Group\" and Content like "
+"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
+"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
+"\"ClusterPriority\" to configure the order of a certain cluster within the "
+"toolbar."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows a link in the menu to change the customer who requested the ticket in "
+"the ticket zoom view of the agent interface. Additional access control to "
+"show or not show this link can be done by using Key \"Group\" and Content "
+"like \"rw:group1;move_into:group2\". To cluster menu items use for Key "
+"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
+"\"ClusterPriority\" to configure the order of a certain cluster within the "
+"toolbar."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows a link in the menu to change the owner of a ticket in the ticket zoom "
+"view of the agent interface. Additional access control to show or not show "
+"this link can be done by using Key \"Group\" and Content like "
+"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
+"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
+"\"ClusterPriority\" to configure the order of a certain cluster within the "
+"toolbar."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows a link in the menu to change the responsible agent of a ticket in the "
+"ticket zoom view of the agent interface. Additional access control to show "
+"or not show this link can be done by using Key \"Group\" and Content like "
+"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
+"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
+"\"ClusterPriority\" to configure the order of a certain cluster within the "
+"toolbar."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Shows a link in the menu to close a ticket in every ticket overview of the "
 "agent interface."
 msgstr "在服务人员界面所有工单概览视图，为关闭工单菜单显示一个链接。"
@@ -25253,31 +25334,9 @@ msgstr "在服务人员界面工单详情视图中，为打印工单/信件菜�
 
 #. SysConfig
 msgid ""
-"Shows a link in the menu to see the customer who requested the ticket in the"
-" ticket zoom view of the agent interface. Additional access control to show "
-"or not show this link can be done by using Key \"Group\" and Content like "
-"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
-"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
-"\"ClusterPriority\" to configure the order of a certain cluster within the "
-"toolbar."
-msgstr "在服务人员界面工单详情视图中，为查看请求工单的客户菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。在服务人员界面工单详情视图中，为锁定/解锁工单菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
-
-#. SysConfig
-msgid ""
 "Shows a link in the menu to see the history of a ticket in every ticket "
 "overview of the agent interface."
 msgstr "在服务人员界面所有工单概览视图，为查看工单历史菜单显示一个链接。"
-
-#. SysConfig
-msgid ""
-"Shows a link in the menu to see the owner of a ticket in the ticket zoom "
-"view of the agent interface. Additional access control to show or not show "
-"this link can be done by using Key \"Group\" and Content like "
-"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
-"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
-"\"ClusterPriority\" to configure the order of a certain cluster within the "
-"toolbar."
-msgstr "在服务人员界面工单详情视图中，为查看工单所有者菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25289,17 +25348,6 @@ msgid ""
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
 msgstr "在服务人员界面工单详情视图中，为查看工单优先级菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
-
-#. SysConfig
-msgid ""
-"Shows a link in the menu to see the responsible agent of a ticket in the "
-"ticket zoom view of the agent interface. Additional access control to show "
-"or not show this link can be done by using Key \"Group\" and Content like "
-"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
-"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
-"\"ClusterPriority\" to configure the order of a certain cluster within the "
-"toolbar."
-msgstr "在服务人员界面工单详情视图中，为查看工单负责人菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""

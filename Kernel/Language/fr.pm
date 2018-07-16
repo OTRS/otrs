@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.38560853847478;
+    $Self->{Completeness}        = 0.38948092127879;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -60,7 +60,7 @@ sub Data {
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
             'Pour créer une nouvelle ACL, vous pouvez soit importer des ACL qui ont été exportés à partir d\'un autre système soit créer une nouvelle ACL.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
-            'Changement d\'un ensemble de ACL à partir d\'ici affecte seulement le comportement du système si vous déployez les données du ACL par la suite. Par le déploiement des données du ACL, ce changement sera ajouté dans la configuration.',
+            'Le changement d\'ACLs ici affecte uniquement le comportement du système, si vous déployez les ACLs par la suite. En déployant ces ACL, les nouveaux changements seront ajoutés à la configuration.',
         'ACLs' => 'ACL',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'N.B. : Cette table représente l\'ordre d’exécution des ACL. Si vous voulez changer cette ordre, veuillez changer les noms des ACL affectées.',
@@ -80,7 +80,7 @@ sub Data {
         'Delete Invalid ACL' => 'Supprimer les ACL non valides',
         'Match settings' => 'Paramètres correspondants',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
-            'Etablir les critères correspondants pour ce ACL. Utiliser "Properties" pour faire un correspondance entre cet écran ou "PropertiesDatabase" avec les attribues de ce ticket qui est dans la base des données.',
+            'Etablir les critères correspondants pour cet ACL. Utiliser "Propriétés" pour faire correspondre l\'écran actuel ou "Propriétés de la BDD" pour faire correspondre les attributs de ce ticket avec celles de la BDD.',
         'Change settings' => 'Changer les paramètres',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Établir le changement souhaité si le critère correspond. Garder en tête que "Possible" est une liste blanche, "PossibleNot" est une liste noire.',
@@ -146,7 +146,7 @@ sub Data {
         'Start date' => 'Date de départ',
         'End date' => 'Date de fin',
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
-            '',
+            'Utiliser les options ci dessous pour affiner quels tickets de rendez vous seront automatiquement créés.',
         'Queues' => 'Files',
         'Please select a valid queue.' => 'Veuillez sélectionner une file valide.',
         'Search attributes' => 'Rechercher les attributs',
@@ -209,7 +209,7 @@ sub Data {
         'Also send if the user is currently out of office.' => 'Envoyer même si l\'utilisateur est défini comme absent',
         'Once per day' => 'Un par jour',
         'Notify user just once per day about a single appointment using a selected transport.' =>
-            '',
+            'Notifie l\'utilisateur juste une fois par jour par un seul rendez vous en utilisant le transport désiré.',
         'Notification Methods' => 'Methodes de notification',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
             '',
@@ -221,7 +221,7 @@ sub Data {
             '',
         'This feature is currently not available.' => 'Cette fonctionalité n\'est pas disponile pour l\'instant.',
         'Upgrade to %s' => 'Mettre à jour vers %s',
-        'Please activate this transport in order to use it.' => '',
+        'Please activate this transport in order to use it.' => 'Merci d\'activer ce transport afin de l\'utiliser.',
         'No data found' => 'Aucune donnée trouvée',
         'No notification method found.' => 'Aucune méthode de notification trouvée.',
         'Notification Text' => 'Message de notification',
@@ -240,12 +240,13 @@ sub Data {
         'To get the appointment attribute' => 'Pour avoir l\'attribut d\'un rendez-vous',
         ' e. g.' => 'p. ex.',
         'To get the calendar attribute' => 'pour avoir l\'attribut du calendrier',
-        'Attributes of the recipient user for the notification' => '',
+        'Attributes of the recipient user for the notification' => 'Caractéristiques du destinataire pour les notifications.',
         'Config options' => 'Options de configuration',
         'Example notification' => 'Exemple de notification',
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
-        'Additional recipient email addresses' => '',
+        'Additional recipient email addresses' => 'Adresses de courriel supplémentaires pour les destinataires.',
+        'This field must have less then 200 characters.' => '',
         'Article visible for customer' => 'Article visible pour le client',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Un article va être créé si la notification est envoyé au client ou à un email additionnel.',
@@ -294,8 +295,8 @@ sub Data {
 
         # Template: AdminCloudServiceSupportDataCollector
         'Cloud Service Management' => 'Gestion des services de cloud',
-        'Support Data Collector' => 'Support Collecteur de Données',
-        'Support data collector' => 'Support collecteur de données',
+        'Support Data Collector' => 'Collecteur des données de support',
+        'Support data collector' => 'Collecteur des données de support',
         'Hint' => 'Conseil',
         'Currently support data is only shown in this system.' => 'Actuellement les données de support sont uniquement disponible sur ce système.',
         'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
@@ -335,7 +336,7 @@ sub Data {
         'If you click on the different entries, you will get redirected to a detailed screen about the message.' =>
             '',
         'Status for: %s' => 'Statut pour : %s',
-        'Failing accounts' => '',
+        'Failing accounts' => 'Comptes en erreurs',
         'Some account problems' => 'Problèmes de compte',
         'No account problems' => 'Aucun problème de compte',
         'No account activity' => 'Aucune activité de compte',
@@ -1828,7 +1829,7 @@ sub Data {
         'The data will be transferred in JSON format via a secure https connection.' =>
             '',
         'System Registration Data' => '',
-        'Support Data' => '',
+        'Support Data' => 'Données de support',
 
         # Template: AdminRole
         'Role Management' => 'Gestion des Rôles',
@@ -2088,7 +2089,7 @@ sub Data {
         'There are no settings to be deployed.' => '',
         'Switch to advanced mode to see deployable settings changed by other users.' =>
             '',
-        'Deploy selected changes' => '',
+        'Deploy selected changes' => 'Déployer les changements sélectionnés',
 
         # Template: AdminSystemConfigurationGroup
         'This group doesn\'t contain any settings. Please try navigating to one of its sub groups.' =>
@@ -2123,7 +2124,7 @@ sub Data {
         # Template: AdminSystemConfigurationView
         'View a custom List of Settings' => '',
         'View single Setting: %s' => '',
-        'Go back to Deployment Details' => '',
+        'Go back to Deployment Details' => 'Retourner aux détails des déploiements',
 
         # Template: AdminSystemMaintenance
         'System Maintenance Management' => '',
@@ -2647,18 +2648,18 @@ sub Data {
         'Try typing part of the ticket number or title in order to search by it.' =>
             '',
         'Limit the search to tickets with same Customer ID (%s).' => '',
-        'Inform Sender' => '',
+        'Inform Sender' => 'Informer l\'émetteur',
         'Need a valid email address.' => 'Une adresse e-mail valide est nécessaire.',
 
         # Template: AgentTicketMove
-        'Move %s%s%s' => '',
+        'Move %s%s%s' => 'Déplacer %s%s%s',
         'New Queue' => 'Nouvelle File',
         'Move' => 'Déplacer',
 
         # Template: AgentTicketOverviewMedium
         'No ticket data found.' => 'Aucune donnée de ticket trouvée',
         'Open / Close ticket action menu' => '',
-        'Select this ticket' => '',
+        'Select this ticket' => 'Sélectionner ce ticket',
         'Sender' => 'émetteur',
         'First Response Time' => 'Temps pour fournir la première réponse (prise en compte)',
         'Update Time' => 'Temps pour fournir un point d\'avancement',
@@ -2671,14 +2672,14 @@ sub Data {
         'Tickets per page' => 'Tickets par page',
 
         # Template: AgentTicketOverviewPreview
-        'Missing channel' => '',
+        'Missing channel' => 'Canal manquant',
 
         # Template: AgentTicketOverviewSmall
-        'Reset overview' => '',
-        'Column Filters Form' => '',
+        'Reset overview' => 'Réinitialiser la vue d\'ensemble',
+        'Column Filters Form' => 'Formulaire des filtres de colonne',
 
         # Template: AgentTicketPhone
-        'Split Into New Phone Ticket' => '',
+        'Split Into New Phone Ticket' => 'Séparer en un nouveau ticket téléphonique',
         'Save Chat Into New Phone Ticket' => '',
         'Create New Phone Ticket' => 'Créer un nouveau Ticket téléphonique',
         'Please include at least one customer for the ticket.' => 'Veuillez inclure au moins un client au ticket',
@@ -3314,10 +3315,10 @@ sub Data {
         'Add key' => '',
 
         # JS Template: DialogDeployment
-        'Deployment comment...' => '',
-        'Deploying, please wait...' => '',
-        'Preparing to deploy, please wait...' => '',
-        'Deploy now' => '',
+        'Deployment comment...' => 'Commentaire de déploiement...',
+        'Deploying, please wait...' => 'En cours de déploiement, veuillez patienter...',
+        'Preparing to deploy, please wait...' => 'Préparation au déploiement, veuillez patienter...',
+        'Deploy now' => 'Déployer maintenant',
         'Close' => 'Clôturer',
         'Try again' => '',
 
@@ -3589,6 +3590,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
         'Could not determine config for invoker %s' => '',
+        'InvokerType %s is not registered' => '',
+        'MappingType %s is not registered' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => '',
@@ -3617,6 +3620,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Could not determine config for operation %s' => '',
+        'OperationType %s is not registered' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
         'Need valid Subaction!' => '',
@@ -5202,7 +5206,7 @@ sub Data {
         'Environment Variables' => 'Variables d\'Environnement',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
-        'Support Data Collection' => '',
+        'Support Data Collection' => 'Collection des données de support',
         'Support data could not be collected from the web server.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
@@ -5256,6 +5260,10 @@ sub Data {
 
         # Perl Module: Kernel/System/Ticket.pm
         'Reset of unlock time.' => '',
+
+        # Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
+        'Chat Participant' => '',
+        'Chat Message Text' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Login failed! Your user name or password was entered incorrectly.' =>
@@ -5562,9 +5570,9 @@ sub Data {
         'Please enter at least one search word to find anything.' => '',
         'Unfortunately deploying is currently not possible, maybe because another agent is already deploying. Please try again later.' =>
             '',
-        'Deploy' => '',
+        'Deploy' => 'Déployer',
         'The deployment is already running.' => '',
-        'Deployment successful. You\'re being redirected...' => '',
+        'Deployment successful. You\'re being redirected...' => 'Déploiement effectué ! Vous allez être redirigé...',
         'There was an error. Please save all settings you are editing and check the logs for more information.' =>
             '',
         'Reset option is required!' => '',
@@ -5953,11 +5961,11 @@ Thanks for your help!
             '',
         'Allows customers to set the ticket priority in the customer interface.' =>
             '',
-        'Allows customers to set the ticket queue in the customer interface. If this is set to \'No\', QueueDefault should be configured.' =>
+        'Allows customers to set the ticket queue in the customer interface. If this is not enabled, QueueDefault should be configured.' =>
             '',
         'Allows customers to set the ticket service in the customer interface.' =>
             '',
-        'Allows customers to set the ticket type in the customer interface. If this is set to \'No\', TicketTypeDefault should be configured.' =>
+        'Allows customers to set the ticket type in the customer interface. If this is not enabled, TicketTypeDefault should be configured.' =>
             '',
         'Allows default services to be selected also for non existing customers.' =>
             '',
@@ -7315,7 +7323,7 @@ Thanks for your help!
         'Graph: Stacked Area Chart' => '',
         'Greek' => 'Grec',
         'Hebrew' => 'Hébreu',
-        'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
+        'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
             '',
         'High Contrast' => '',
         'High contrast skin for visually impaired users.' => '',
@@ -7490,7 +7498,7 @@ Thanks for your help!
         'Link customer users to customers.' => 'Lier les utilisateurs client aux clients.',
         'Link customer users to groups.' => 'Lier les utilisateurs client aux groupes.',
         'Link customer users to services.' => 'Lier les utilisateurs client aux services.',
-        'Link customers to groups.' => '',
+        'Link customers to groups.' => 'Lier les clients aux groupes.',
         'Link queues to auto responses.' => 'Lier les réponses automatiques aux files.',
         'Link roles to groups.' => 'Lier les rôles aux groupes.',
         'Link templates to queues.' => 'Lier les modèles aux files.',
@@ -7528,6 +7536,7 @@ Thanks for your help!
         'List view' => '',
         'Lithuanian' => '',
         'Loader module registration for the agent interface.' => '',
+        'Loader module registration for the customer interface.' => '',
         'Lock / unlock this ticket' => '',
         'Locked Tickets' => 'Tickets verrouillés',
         'Locked Tickets.' => '',
@@ -7547,14 +7556,14 @@ Thanks for your help!
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             '',
         'Malay' => '',
-        'Manage OTRS Group cloud services.' => '',
+        'Manage OTRS Group cloud services.' => 'Gestion des services de cloud du groupe OTRS.',
         'Manage PGP keys for email encryption.' => 'Gérer les clés PGP pour le chiffrement des e-mails.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Gérer les comptes où aller chercher les e-mails (POP3 ou IMAP)',
         'Manage S/MIME certificates for email encryption.' => 'Gérer les certificats S/MIME pour le chiffrement des e-mails.',
         'Manage System Configuration Deployments.' => '',
         'Manage different calendars.' => 'Gérer les différents calendriers.',
         'Manage existing sessions.' => 'Gérer les sessions existantes.',
-        'Manage support data.' => '',
+        'Manage support data.' => 'Gestion des données de support.',
         'Manage system registration.' => 'Gérer l\'inscription du système.',
         'Manage tasks triggered by event or time based execution.' => 'Gérer les tâches déchenchées par un événement ou une exécution temporelle.',
         'Mark as Spam!' => 'Marquer comme Spam !',
@@ -8213,6 +8222,16 @@ Thanks for your help!
             '',
         'Shows a link in the menu to add a note to a ticket in every ticket overview of the agent interface.' =>
             '',
+        'Shows a link in the menu to add a phone call inbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to add a phone call outbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
         'Shows a link in the menu to close a ticket in every ticket overview of the agent interface.' =>
             '',
         'Shows a link in the menu to close a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -8233,15 +8252,9 @@ Thanks for your help!
             '',
         'Shows a link in the menu to print a ticket or an article in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
-        'Shows a link in the menu to see the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
         'Shows a link in the menu to see the history of a ticket in every ticket overview of the agent interface.' =>
             '',
-        'Shows a link in the menu to see the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
         'Shows a link in the menu to see the priority of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
-        'Shows a link in the menu to see the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
         'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',

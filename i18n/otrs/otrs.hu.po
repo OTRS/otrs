@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-06-08 07:43+0000\n"
-"PO-Revision-Date: 2018-06-08 07:45+0000\n"
-"Last-Translator: Udo Bretz\n"
+"POT-Creation-Date: 2018-07-16 16:18+0000\n"
+"PO-Revision-Date: 2018-07-16 16:20+0000\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -747,6 +747,10 @@ msgstr "Példa értesítés"
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
 msgstr "További címzett e-mail címek"
+
+#. Template: AdminAppointmentNotificationEventTransportEmailSettings
+msgid "This field must have less then 200 characters."
+msgstr ""
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
@@ -2600,9 +2604,9 @@ msgstr "A hibaüzenet tárgya és adatai (amint a hibakereső hibabejegyzésébe
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
-"Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
+"Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication "
 "related errors."
-msgstr "Példa: A „^.*401 Unauthorized.*\\\\$” megadásával csak a hitelesítéssel kapcsolatos hibák kezelhetők."
+msgstr "Példa: A „^.*401 Unauthorized.*\\$” megadásával csak a hitelesítéssel kapcsolatos hibák kezelhetők."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error stage filter"
@@ -3174,10 +3178,9 @@ msgstr "2. példa: a keresés = „^” és a csere = „_” átalakítja a „
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
-"Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = "
-"'_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into "
-"'_elementname_16'."
-msgstr "3. példa: a keresés = „^(?<number>\\\\d+) (?<text>.+?)\\\\$” és a csere = „_\\\\$+{text}_\\\\$+{number}” átalakítja a „16 elemnév” kulcsot „_elemnév_16” értékűre."
+"Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = "
+"'_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
+msgstr "3. példa: a keresés = „^(?<number>\\d+) (?<text>.+?)\\$” és a csere = „_\\$+{text}_\\$+{number}” átalakítja a „16 elemnév” kulcsot „_elemnév_16” értékűre."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "For information about regular expressions in Perl please see here:"
@@ -4229,7 +4232,7 @@ msgstr "%s kezelése"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to ((OTRS)) Community Edition"
-msgstr ""
+msgstr "Visszaváltás az ((OTRS)) Community Edition verzióra"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Read documentation"
@@ -4320,7 +4323,7 @@ msgstr "Vessen egy pillantást az %s címre a további információkért."
 msgid ""
 "Your ((OTRS)) Community Edition is the base for all future actions. Please "
 "register first before you continue with the upgrade process of %s!"
-msgstr ""
+msgstr "Az ((OTRS)) Community Edition az alapja minden további műveletnek. Először regisztráljon, mielőtt folytatja az %s frissítési folyamatát!"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
@@ -4410,7 +4413,7 @@ msgstr "Először távolítsa el a csomagokat a csomagkezelő használatával, m
 msgid ""
 "You are about to downgrade to ((OTRS)) Community Edition and will lose the "
 "following features and all data related to these:"
-msgstr ""
+msgstr "Arra készül, hogy visszavált az ((OTRS)) Community Edition verzióra, és el fogja veszíteni a következő szolgáltatásokat és minden ezekhez kapcsolódó adatot:"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
@@ -4550,7 +4553,7 @@ msgstr "Valóban újra szeretné telepíteni ezt a csomagot? Minden kézi válto
 
 #. Template: AdminPackageManager
 msgid "Go to updating instructions"
-msgstr ""
+msgstr "Ugrás a frissítési utasításokhoz"
 
 #. Template: AdminPackageManager
 msgid "package information"
@@ -4598,7 +4601,7 @@ msgstr "Hogyan végezhetek hibajavító szintű frissítést, ha nincs szerződ�
 #. Template: AdminPackageManager
 msgid ""
 "Please find all relevant information within the updating instructions at %s."
-msgstr ""
+msgstr "Nézze meg az összes fontos információt a frissítési utasításokban itt: %s."
 
 #. Template: AdminPackageManager
 msgid ""
@@ -7777,7 +7780,7 @@ msgstr "Az %s jogosulatlan használata észlelhető"
 msgid ""
 "If you decide to downgrade to ((OTRS)) Community Edition, you will lose all "
 "database tables and data related to %s."
-msgstr ""
+msgstr "Ha úgy dönt, hogy visszavált az ((OTRS)) Community Edition verzióra, akkor el fogja veszíteni az %s szolgáltatáshoz kapcsolódó összes adatbázis táblát és adatot."
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
@@ -11108,6 +11111,14 @@ msgstr "1 hét"
 msgid "Could not determine config for invoker %s"
 msgstr "Nem sikerült meghatározni a beállítást a(z) %s meghívónál"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
+msgid "InvokerType %s is not registered"
+msgstr "A(z) %s meghívótípus nincs regisztrálva"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
+msgid "MappingType %s is not registered"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Need Invoker!"
 msgstr "Meghívó szükséges!"
@@ -11187,6 +11198,10 @@ msgstr "Kimenő válaszadatok a leképezés előtt"
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
 msgstr "Nem sikerült meghatározni a beállítást a(z) %s műveletnél"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
+msgid "OperationType %s is not registered"
+msgstr "A(z) %s művelettípus nincs regisztrálva"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
 msgid "Need valid Subaction!"
@@ -13881,7 +13896,7 @@ msgid ""
 "The installation of packages which are not verified by the OTRS Group is "
 "activated. These packages could threaten your whole system! It is "
 "recommended not to use unverified packages."
-msgstr ""
+msgstr "Aktiválva lett azoknak a csomagoknak a telepítése, amelyeket nem ellenőrzött az OTRS csoport. Ezek a csomagok veszélyt jelenthetnek a teljes rendszerre! Nem ajánlott az ellenőrizetlen csomagok használata."
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/SystemConfigurationInvalidCheck.pm
@@ -14361,14 +14376,14 @@ msgstr "<p>Ha folytatja a csomag telepítését, a következő hibák fordulhatn
 msgid ""
 "<p>The installation of packages which are not verified by the OTRS Group is "
 "not possible by default.</p>"
-msgstr ""
+msgstr "<p>Alapértelmezetten nem lehetséges azoknak a csomagoknak a telepítése, amelyeket nem ellenőrzött az OTRS csoport.</p>"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
 "<p>You can activate the installation of not verified packages in the <a "
 "href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
 " target=\"_blank\">System Configuration</a>.</p>"
-msgstr ""
+msgstr "<p>Aktiválhatja a nem ellenőrzött csomagok telepítést a <a href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\" target=\"_blank\">rendszerbeállításokban</a>.</p>"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -15576,6 +15591,14 @@ msgstr "Az érték nem helyes! Érdemes lenne frissíteni ezt a beállítást."
 msgid "Reset of unlock time."
 msgstr "Feloldási idő visszaállítása."
 
+#. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
+msgid "Chat Participant"
+msgstr ""
+
+#. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
+msgid "Chat Message Text"
+msgstr ""
+
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Login failed! Your user name or password was entered incorrectly."
 msgstr "Sikertelen bejelentkezés! A megadott felhasználónév vagy jelszó hibás."
@@ -16168,7 +16191,7 @@ msgstr "Hibakezelési modul törlése"
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid ""
 "It is not possible to add a new event trigger because the event is not set."
-msgstr ""
+msgstr "Nem lehetséges új eseményaktiváló hozzáadása, mert az esemény nincs beállítva."
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid "Delete this Invoker"
@@ -17513,8 +17536,8 @@ msgstr "Lehetővé teszi az ügyfeleknek a jegy prioritásának beállítását 
 #. SysConfig
 msgid ""
 "Allows customers to set the ticket queue in the customer interface. If this "
-"is set to 'No', QueueDefault should be configured."
-msgstr "Lehetővé teszi az ügyfeleknek a jegy várólistájának beállítását az ügyfélfelületen. Ha ez „Nem” értékre van állítva, akkor az alapértelmezett várólista kerül beállításra."
+"is not enabled, QueueDefault should be configured."
+msgstr ""
 
 #. SysConfig
 msgid "Allows customers to set the ticket service in the customer interface."
@@ -17523,8 +17546,8 @@ msgstr "Lehetővé teszi az ügyfeleknek a jegy szolgáltatásának beállítás
 #. SysConfig
 msgid ""
 "Allows customers to set the ticket type in the customer interface. If this "
-"is set to 'No', TicketTypeDefault should be configured."
-msgstr "Lehetővé teszi az ügyfeleknek a jegy típusának beállítását az ügyfélfelületen. Ha ez „Nem” értékre van állítva, az alapértelmezett jegytípus kerül beállításra."
+"is not enabled, TicketTypeDefault should be configured."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18691,7 +18714,7 @@ msgid ""
 "Define which avatar default image should be used for the article view if no "
 "gravatar is assigned to the mail address. Check "
 "http://gravatar.com/site/implement/images/ for further information."
-msgstr ""
+msgstr "Annak meghatározása, hogy melyik alapértelmezett avatárképet kell használni a bejegyzésnézetnél, ha nincs gravatar hozzárendelve az e-mail címhez. További információkért nézze meg a http://gravatar.com/site/implement/images/ oldalt."
 
 #. SysConfig
 msgid ""
@@ -20316,7 +20339,7 @@ msgstr "Meghatározza azt a modult, amely egy értesítést jelenít meg az ügy
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "installation of not verified packages is activated (only shown to admins)."
-msgstr ""
+msgstr "Meghatározza azt a modult, amely egy értesítést jelenít meg az ügyintézői felületen, ha a nem ellenőrzött csomagok telepítése aktiválva van (csak adminisztrátoroknak jelenik meg)."
 
 #. SysConfig
 msgid ""
@@ -22006,12 +22029,11 @@ msgstr "Héber"
 #. SysConfig
 msgid ""
 "Helps to extend your articles full-text search (From, To, Cc, Subject and "
-"Body search). Runtime will do full-text searches on live data (it works fine"
-" for up to 50.000 tickets). StaticDB will strip all articles and will build "
-"an index after article creation, increasing fulltext searches about 50%. To "
-"create an initial index use \"bin/otrs.Console.pl "
+"Body search). It will strip all articles and will build an index after "
+"article creation, increasing fulltext searches about 50%. To create an "
+"initial index use \"bin/otrs.Console.pl "
 "Maint::Ticket::FulltextIndexRebuild\"."
-msgstr "Segít kiterjeszteni a bejegyzések szabad-szavas keresését (feladó, címzett, másolat, tárgy és törzs keresés). Futásidőben fog szabad-szavas kereséseket végrehajtani a valós adatokon (nagyszerűen működik akár 50000 jegynél is). A StaticDB fel fogja darabolni az összes bejegyzést, és egy indexet fog felépíteni a bejegyzés létrehozása után, körülbelül 50%-kal növelve a szabad-szavas kereséseket. Egy kezdeti index létrehozásához használja a „bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild” parancsfájlt."
+msgstr ""
 
 #. SysConfig
 msgid "High Contrast"
@@ -22100,8 +22122,8 @@ msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulná
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\\\user to user)."
-msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja a felhasználónevek vezető részeinek levágását (például tartományoknál, úgymint pelda_tartomany\\\\felhasznalo a felhasználóhoz)."
+"example_domain\\user to user)."
+msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja a felhasználónevek vezető részeinek levágását (például tartományoknál, úgymint pelda_tartomany\\felhasznalo a felhasználóhoz)."
 
 #. SysConfig
 msgid ""
@@ -22386,7 +22408,7 @@ msgstr "Ha ez a reguláris kifejezés illeszkedik, akkor az automatikus válasza
 msgid ""
 "If this setting is enabled, it is possible to install packages which are not"
 " verified by OTRS Group. These packages could threaten your whole system!"
-msgstr ""
+msgstr "Ha ez a beállítás engedélyezve van, akkor lehetséges olyan csomagok telepítése, amelyeket nem ellenőrzött az OTRS csoport. Ezek a csomagok veszélyt jelenthetnek a teljes rendszerre!"
 
 #. SysConfig
 msgid ""
@@ -22723,6 +22745,10 @@ msgstr "Litván"
 #. SysConfig
 msgid "Loader module registration for the agent interface."
 msgstr "Betöltőmodul regisztráció az ügyintézői felülethez."
+
+#. SysConfig
+msgid "Loader module registration for the customer interface."
+msgstr ""
 
 #. SysConfig
 msgid "Lock / unlock this ticket"
@@ -23935,7 +23961,7 @@ msgstr "Eltávolítja a régi rendszer-konfigurációs üzembe állításokat (v
 
 #. SysConfig
 msgid "Removes old ticket number counters (each 10 minutes)."
-msgstr ""
+msgstr "Eltávolítja a régi jegyszám számlálókat (10 percenként)."
 
 #. SysConfig
 msgid "Removes the ticket watcher information when a ticket is archived."
@@ -25160,6 +25186,61 @@ msgstr "Egy hivatkozást jelenít meg a menüben egy jegyhez történő jegyzet 
 
 #. SysConfig
 msgid ""
+"Shows a link in the menu to add a phone call inbound in the ticket zoom view"
+" of the agent interface. Additional access control to show or not show this "
+"link can be done by using Key \"Group\" and Content like "
+"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
+"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
+"\"ClusterPriority\" to configure the order of a certain cluster within the "
+"toolbar."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows a link in the menu to add a phone call outbound in the ticket zoom "
+"view of the agent interface. Additional access control to show or not show "
+"this link can be done by using Key \"Group\" and Content like "
+"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
+"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
+"\"ClusterPriority\" to configure the order of a certain cluster within the "
+"toolbar."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows a link in the menu to change the customer who requested the ticket in "
+"the ticket zoom view of the agent interface. Additional access control to "
+"show or not show this link can be done by using Key \"Group\" and Content "
+"like \"rw:group1;move_into:group2\". To cluster menu items use for Key "
+"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
+"\"ClusterPriority\" to configure the order of a certain cluster within the "
+"toolbar."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows a link in the menu to change the owner of a ticket in the ticket zoom "
+"view of the agent interface. Additional access control to show or not show "
+"this link can be done by using Key \"Group\" and Content like "
+"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
+"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
+"\"ClusterPriority\" to configure the order of a certain cluster within the "
+"toolbar."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Shows a link in the menu to change the responsible agent of a ticket in the "
+"ticket zoom view of the agent interface. Additional access control to show "
+"or not show this link can be done by using Key \"Group\" and Content like "
+"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
+"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
+"\"ClusterPriority\" to configure the order of a certain cluster within the "
+"toolbar."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Shows a link in the menu to close a ticket in every ticket overview of the "
 "agent interface."
 msgstr "Egy hivatkozást jelenít meg a menüben egy jegylezárásához az ügyintézői felület összes jegyáttekintőjében."
@@ -25246,31 +25327,9 @@ msgstr "Egy hivatkozást jelenít meg a menüben egy jegy vagy egy bejegyzés ny
 
 #. SysConfig
 msgid ""
-"Shows a link in the menu to see the customer who requested the ticket in the"
-" ticket zoom view of the agent interface. Additional access control to show "
-"or not show this link can be done by using Key \"Group\" and Content like "
-"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
-"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
-"\"ClusterPriority\" to configure the order of a certain cluster within the "
-"toolbar."
-msgstr "Egy hivatkozást jelenít meg a menüben az ügyintézői felület jegynagyítás nézetében annak az ügyfélnek a megtekintéséhez, aki a jegyet kérte. Ezen hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt sorrendjének beállításához az eszköztáron belül."
-
-#. SysConfig
-msgid ""
 "Shows a link in the menu to see the history of a ticket in every ticket "
 "overview of the agent interface."
 msgstr "Egy hivatkozást jelenít meg a menüben egy jegy előzményeinek megtekintéséhez az ügyintézői felület összes jegyáttekintőjében."
-
-#. SysConfig
-msgid ""
-"Shows a link in the menu to see the owner of a ticket in the ticket zoom "
-"view of the agent interface. Additional access control to show or not show "
-"this link can be done by using Key \"Group\" and Content like "
-"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
-"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
-"\"ClusterPriority\" to configure the order of a certain cluster within the "
-"toolbar."
-msgstr "Egy hivatkozást jelenít meg a menüben egy jegy tulajdonosának megtekintéséhez az ügyintézői felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt sorrendjének beállításához az eszköztáron belül."
 
 #. SysConfig
 msgid ""
@@ -25282,17 +25341,6 @@ msgid ""
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
 msgstr "Egy hivatkozást jelenít meg a menüben egy jegy prioritásának megtekintéséhez az ügyintézői felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt sorrendjének beállításához az eszköztáron belül."
-
-#. SysConfig
-msgid ""
-"Shows a link in the menu to see the responsible agent of a ticket in the "
-"ticket zoom view of the agent interface. Additional access control to show "
-"or not show this link can be done by using Key \"Group\" and Content like "
-"\"rw:group1;move_into:group2\". To cluster menu items use for Key "
-"\"ClusterName\" and for the Content any name you want to see in the UI. Use "
-"\"ClusterPriority\" to configure the order of a certain cluster within the "
-"toolbar."
-msgstr "Egy hivatkozást jelenít meg a menüben egy jegy felelős ügyintézőjének megtekintéséhez az ügyintézői felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt sorrendjének beállításához az eszköztáron belül."
 
 #. SysConfig
 msgid ""
