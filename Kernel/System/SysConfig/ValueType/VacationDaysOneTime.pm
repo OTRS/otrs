@@ -365,7 +365,7 @@ sub SettingRender {
     if ( !$EffectiveValueCheck{Success} ) {
         my $Message = $LanguageObject->Translate("Value is not correct! Please, consider updating this setting.");
 
-        $HTML .= "<div class='BadEffectiveValue'>\n";
+        $HTML .= $Param{IsValid} ? "<div class='BadEffectiveValue'>\n" : "<div>\n";
         $HTML .= "<p>* $Message</p>\n";
         $HTML .= "</div>\n";
     }
