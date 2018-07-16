@@ -62,6 +62,8 @@ sub Run {
         }
     }
 
+    my $NumberRegExp = $Param{JobConfig}->{NumberRegExp};
+
     # search in the subject
     if ( $Param{JobConfig}->{SearchInSubject} ) {
 
@@ -69,7 +71,7 @@ sub Run {
         my @SubjectLines = split /\n/, $Param{GetParam}->{Subject};
         LINE:
         for my $Line (@SubjectLines) {
-            if ( $Line =~ m{ $Param{JobConfig}->{NumberRegExp} }msx ) {
+            if ( $Line =~ m{$NumberRegExp}ms ) {
                 $Self->{Number} = $1;
                 last LINE;
             }
@@ -102,7 +104,7 @@ sub Run {
         # traverse lines and return first match
         LINE:
         for my $Line (@BodyLines) {
-            if ( $Line =~ m{ $Param{JobConfig}->{NumberRegExp} }msx ) {
+            if ( $Line =~ m{$NumberRegExp}ms ) {
 
                 # get the found element value
                 $Self->{Number} = $1;
