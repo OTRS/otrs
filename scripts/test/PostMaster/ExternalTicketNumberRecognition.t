@@ -306,6 +306,32 @@ Some Content in Body Incident#/' . $ExternalTicketID,
         },
         NewTicket => 2,
     },
+    {
+        Name =>
+            '#8 - Bug#13961 - Using white space in regex',
+        Email => 'From: Sender <sender@example.com>
+To: Some Name <recipient@example.com>
+Subject: An incident subject
+
+This is an update to incident ' . $ExternalTicketID . ' by mail',
+        Check => {
+            "DynamicField_$FieldName" => $ExternalTicketID,
+        },
+        JobConfig => {
+            DynamicFieldName  => $FieldName,
+            FromAddressRegExp => '\\s*@example.com',
+            Module            => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
+            Name              => 'Some Description',
+
+            NumberRegExp         => 'update to incident (\\d.*) by mail',
+            SearchInBody         => '1',
+            SearchInSubject      => '0',
+            SenderType           => 'system',
+            IsVisibleForCustomer => 1,
+            TicketStateTypes     => 'new;open',
+        },
+        NewTicket => 2,
+    },
 );
 
 for my $Test (@Tests) {
