@@ -23,7 +23,7 @@
             <div class="Header">
                 <h2>
                     <div class="Icon">
-                        <i class="fa fa-ban [% IF Setting.IsValid %]Hidden[% END %]" title="[% Translate("This setting is disabled.") | html %]"></i>
+                        <i class="fa fa-ban [% IF Setting.IsValid || Setting.OverriddenFileName %]Hidden[% END %]" title="[% Translate("This setting is disabled.") | html %]"></i>
                     </div>
 
                     [% IF Env("Subaction") == 'Invalid' %]
