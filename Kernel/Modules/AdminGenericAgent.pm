@@ -1054,6 +1054,14 @@ sub _MaskUpdate {
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
+        # Check if field is Attachment type ( from OTRSDynamicFieldAttachment )
+        #   this field is not updatable by Generic Agent
+        my $IsAttachement = $DynamicFieldBackendObject->HasBehavior(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsAttachement',
+        );
+        next DYNAMICFIELD if $IsAttachement;
+
         my $PossibleValuesFilter;
 
         my $IsACLReducible = $DynamicFieldBackendObject->HasBehavior(
