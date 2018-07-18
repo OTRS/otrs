@@ -9,7 +9,6 @@
 package Kernel::System::Ticket::Event::NotificationEvent::Transport::Email;
 ## nofilter(TidyAll::Plugin::OTRS::Perl::LayoutObject)
 ## nofilter(TidyAll::Plugin::OTRS::Perl::ParamObject)
-## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectManagerCreation)
 
 use strict;
 use warnings;
@@ -141,7 +140,7 @@ sub SendNotification {
             $EmailTemplate = 'Default';
         }
 
-        # Create local OM with modified Layout object to include recipient language preference if applicable.
+        # Create new language object to include recipient language preference if applicable.
         if ( $Recipient{UserLanguage} ) {
             $LayoutObject->{LanguageObject} = Kernel::Language->new(
                 UserLanguage => $Recipient{UserLanguage},
