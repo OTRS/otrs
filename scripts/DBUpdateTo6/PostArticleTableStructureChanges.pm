@@ -224,12 +224,17 @@ sub _UpdateArticleDataMimeTable {
 
     # copy values from id column to article_id column
     # so they are the same as the id in article table.
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL => '
-            UPDATE article_data_mime
-            SET article_id = id
-            WHERE id IS NOT NULL',
-    );
+    while ( $Self->_CountRows() > 0 ) {
+        return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+            SQL => '
+                UPDATE article_data_mime
+                SET article_id = id
+                WHERE id IS NOT NULL
+                AND article_id = 0
+                OR article_id IS NULL
+                LIMIT 250000',
+        );
+    }
 
     # recreate indexes and foreign keys, and drop no longer used columns
     # split each unique drop / column drop into separate statements
@@ -420,6 +425,28 @@ sub _DropArticleTypeTable {
     );
 
     return 1;
+}
+
+sub _CountRows {
+    my ( $Self, %Param ) = @_;
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    $DBObject->Prepare(
+        SQL => '
+            SELECT count(*) FROM article_data_mime
+            WHERE id IS NOT NULL
+            AND article_id = 0
+            OR article_id IS NULL
+            LIMIT 1',
+    );
+
+    my $CountRow;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $CountRow = $Row[0];
+    }
+
+    return $CountRow;
 }
 
 1;

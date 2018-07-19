@@ -1,4 +1,5 @@
 #6.0.10 2018-??-??
+ - 2018-07-19 Fixed bug#[13971](https://bugs.otrs.org/show_bug.cgi?id=13971) - DBUpdate fails on galera cluster.
  - 2018-07-17 Fixed bug#[13722](https://bugs.otrs.org/show_bug.cgi?id=13722) - Translation of ticket notification header uses the system language instead of recipients preferences.
 
 #6.0.9 2018-07-24
