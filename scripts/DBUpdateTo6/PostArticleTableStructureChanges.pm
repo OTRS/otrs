@@ -222,17 +222,27 @@ Returns 1 on success
 sub _UpdateArticleDataMimeTable {
     my ( $Self, %Param ) = @_;
 
-    # copy values from id column to article_id column
-    # so they are the same as the id in article table.
-    while ( $Self->_CountRows() > 0 ) {
-        return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-            SQL => '
-                UPDATE article_data_mime
+    # Copy values from id column to article_id column
+    #   so they are the same as the id in article table.
+    my $SQL = 'UPDATE article_data_mime
                 SET article_id = id
                 WHERE id IS NOT NULL
                 AND article_id = 0
-                OR article_id IS NULL
-                LIMIT 250000',
+                OR article_id IS NULL';
+
+    # For mysql type DB, set limit on update, see bug#13971.
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    if ( $DBObject->GetDatabaseFunction('Type') eq 'mysql' ) {
+        $SQL .= " LIMIT 250000";
+        while ( $Self->_CountRows() > 0 ) {
+            return if !$DBObject->Do(
+                SQL => $SQL,
+            );
+        }
+    }
+    else {
+        return if !$DBObject->Do(
+            SQL => $SQL,
         );
     }
 
@@ -437,8 +447,8 @@ sub _CountRows {
             SELECT count(*) FROM article_data_mime
             WHERE id IS NOT NULL
             AND article_id = 0
-            OR article_id IS NULL
-            LIMIT 1',
+            OR article_id IS NULL',
+        Limit => 1,
     );
 
     my $CountRow;
