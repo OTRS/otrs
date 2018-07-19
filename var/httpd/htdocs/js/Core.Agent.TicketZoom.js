@@ -565,15 +565,25 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
         // Toggle article details.
         $('.WidgetAction.Expand').off('click').on('click', function() {
-            var $WidgetObj = $(this).closest('.WidgetSimple');
+            var $WidgetObj = $(this).closest('.WidgetSimple'),
+                $WidgetMenu = $WidgetObj.find('.WidgetMenu'),
+                $WidgetMessage = $WidgetObj.find('.WidgetMessage');
 
             if ($WidgetObj.hasClass('MenuExpanded')) {
-                $WidgetObj.find('.WidgetMenu').slideUp('fast')
+                $WidgetMenu.slideUp('fast');
                 $WidgetObj.removeClass('MenuExpanded');
+
+                if ($WidgetMessage.length === 1) {
+                    $WidgetMenu.removeClass('SpacingBottom');
+                }
             }
             else {
-                $WidgetObj.find('.WidgetMenu').slideDown('fast');
+                $WidgetMenu.slideDown('fast');
                 $WidgetObj.addClass('MenuExpanded');
+
+                if ($WidgetMessage.length === 1) {
+                    $WidgetMenu.addClass('SpacingBottom');
+                }
             }
             return false;
         });

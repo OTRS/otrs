@@ -207,6 +207,19 @@ $Selenium->RunTest(
             'Transmission processing message displayed correctly (1)'
         );
 
+        # Verify css is correct for collapsed article widget.
+        $Self->False(
+            $Selenium->execute_script("return \$('.WidgetMenu').hasClass('SpacingBottom');"),
+            "CSS is correct for collapsed article widget."
+        );
+
+        # Click to expand article widget information and verify css.
+        $Selenium->find_element( '.WidgetAction.Expand', 'css' )->click();
+        $Self->True(
+            $Selenium->execute_script("return \$('.WidgetMenu').hasClass('SpacingBottom');"),
+            "CSS is correct for expanded article widget."
+        );
+
         # Get article ID of last message.
         my $ComposeArticleID = int $Selenium->execute_script("return \$('#Row2 td.No input.ArticleID').val();");
         $Self->True(
