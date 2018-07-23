@@ -308,6 +308,9 @@ $Selenium->RunTest(
                 );
 
                 $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketZoom;' )]")->VerifiedClick();
+                $Selenium->WaitFor(
+                    JavaScript => "return \$('.TableLike label:contains(Accounted time:)').next().length;"
+                );
 
                 # Check accounted time on zoom screen.
                 $TestAccountedTime = $Selenium->execute_script(
