@@ -1,0 +1,83 @@
+# --
+# Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+use strict;
+use warnings;
+use utf8;
+
+use vars (qw($Self));
+
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
+
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
+my $UserRandom = 'unittest-' . $Helper->GetRandomID();
+my $UserID     = $UserObject->UserAdd(
+    UserFirstname => 'John',
+    UserLastname  => 'Doe',
+    UserLogin     => $UserRandom,
+    UserEmail     => $UserRandom . '@example.com',
+    ValidID       => 1,
+    ChangeUserID  => 1,
+);
+
+my %UserData = $UserObject->GetUserData(
+    UserID => $UserID,
+);
+
+KEY:
+for my $Key ( sort keys %UserData ) {
+
+    # Skip some data that comes from default values.
+    next KEY if $Key =~ m/PageShown$/smx;
+    next KEY if $Key =~ m/NextMask$/smx;
+    next KEY if $Key =~ m/RefreshTime$/smx;
+    next KEY if $Key =~ m/UserSendFollowUpNotification/smx;
+    next KEY if $Key =~ m/UserSendLockTimeoutNotification/smx;
+    next KEY if $Key =~ m/UserSendMoveNotification/smx;
+    next KEY if $Key =~ m/UserSendNewTicketNotification/smx;
+    next KEY if $Key =~ m/UserSendServiceUpdateNotification/smx;
+    next KEY if $Key =~ m/UserSendWatcherNotification/smx;
+
+    # These are actually user preferences.
+    next KEY if $Key =~ m/UserEmail$/smx;
+    next KEY if $Key =~ m/UserMobile$/smx;
+
+    $Self->False(
+        $UserObject->SetPreferences(
+            Key    => $Key,
+            Value  => '1',
+            UserID => $UserID,
+        ),
+        "Preference for $Key not updated"
+    );
+
+    my %NewUserData = $UserObject->GetUserData(
+        UserID => $UserID,
+    );
+    $Self->Is(
+        $NewUserData{$Key},
+        $UserData{$Key},
+        "User data $Key unchanged"
+    );
+}
+
+# cleanup is done by RestoreDatabase
+
+1;
