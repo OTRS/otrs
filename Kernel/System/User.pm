@@ -1220,6 +1220,22 @@ sub SetPreferences {
         }
     }
 
+    # Don't allow overwriting of native user data.
+    my %Blacklisted = (
+        UserID        => 1,
+        UserLogin     => 1,
+        UserPw        => 1,
+        UserFirstname => 1,
+        UserLastname  => 1,
+        UserFullname  => 1,
+        UserTitle     => 1,
+        ChangeTime    => 1,
+        CreateTime    => 1,
+        ValidID       => 1,
+    );
+
+    return 0 if $Blacklisted{ $Param{Key} };
+
     # get current setting
     my %User = $Self->GetUserData(
         UserID        => $Param{UserID},
