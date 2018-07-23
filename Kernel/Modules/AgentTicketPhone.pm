@@ -735,6 +735,12 @@ sub Run {
                 CustomerUserID => $CustomerData{UserLogin} || '',
                 QueueID => $Self->{QueueID},
             ),
+            TimeUnits => $Self->_GetTimeUnits(
+                %GetParam,
+                %ACLCompatGetParam,
+                %SplitTicketParam,
+                ArticleID => $Article{ArticleID},
+            ),
             From         => $Article{From},
             Subject      => $Subject,
             Body         => $Body,
@@ -2217,6 +2223,21 @@ sub _GetTos {
     # add empty selection
     $NewTos{''} = '-';
     return \%NewTos;
+}
+
+sub _GetTimeUnits {
+    my ( $Self, %Param ) = @_;
+
+    my $AccountedTime = '';
+
+    # Get accounted time if AccountTime config item is enabled.
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::AccountTime') && defined $Param{ArticleID} ) {
+        $AccountedTime = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleAccountedTimeGet(
+            ArticleID => $Param{ArticleID},
+        );
+    }
+
+    return $AccountedTime ? $AccountedTime : '';
 }
 
 sub _GetStandardTemplates {

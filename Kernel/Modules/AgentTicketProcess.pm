@@ -2860,6 +2860,12 @@ sub _RenderArticle {
         # Get TimeUnits value.
         $Param{TimeUnits} = $Param{GetParam}{TimeUnits};
 
+        if ( !defined $Param{TimeUnits} && $Self->{ArticleID} ) {
+            $Param{TimeUnits} = $Self->_GetTimeUnits(
+                ArticleID => $Self->{ArticleID},
+            );
+        }
+
         $LayoutObject->Block(
             Name => 'TimeUnits',
             Data => \%Param,
@@ -2870,6 +2876,21 @@ sub _RenderArticle {
         Success => 1,
         HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Article' ),
     };
+}
+
+sub _GetTimeUnits {
+    my ( $Self, %Param ) = @_;
+
+    my $AccountedTime = '';
+
+    # Get accounted time if AccountTime config item is enabled.
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::AccountTime') && defined $Param{ArticleID} ) {
+        $AccountedTime = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleAccountedTimeGet(
+            ArticleID => $Param{ArticleID},
+        );
+    }
+
+    return $AccountedTime ? $AccountedTime : '';
 }
 
 sub _RenderCustomer {
