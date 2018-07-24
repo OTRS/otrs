@@ -34,13 +34,13 @@ sub Run {
     my $LayoutObject        = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     if ( !$AccessControlRexExp ) {
-        return $LayoutObject->ErrorScreen(
+        return $LayoutObject->CustomerErrorScreen(
             Message => Translatable('Need config Package::RepositoryAccessRegExp'),
         );
     }
     else {
         if ( $ENV{REMOTE_ADDR} !~ /^$AccessControlRexExp$/ ) {
-            return $LayoutObject->ErrorScreen(
+            return $LayoutObject->CustomerErrorScreen(
                 Message =>
                     $LayoutObject->{LanguageObject}->Translate( 'Authentication failed from %s!', $ENV{REMOTE_ADDR} ),
             );

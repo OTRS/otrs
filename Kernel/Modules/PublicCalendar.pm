@@ -38,7 +38,7 @@ sub Run {
     for my $Needed (qw(CalendarID User Token)) {
         $GetParam{$Needed} = $ParamObject->GetParam( Param => $Needed );
         if ( !$GetParam{$Needed} ) {
-            return $LayoutObject->ErrorScreen(
+            return $LayoutObject->CustomerErrorScreen(
                 Message => $LayoutObject->{LanguageObject}->Translate( 'No %s!', $Needed ),
                 Comment => Translatable('Please contact the administrator.'),
             );
