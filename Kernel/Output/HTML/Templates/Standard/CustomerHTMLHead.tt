@@ -7,6 +7,11 @@
 # --
 <head>
     <meta http-equiv="Content-type" content="text/html;charset=utf-8" />
+[% IF Env('CGIHandle').substr(-9) == 'public.pl' %]
+    <meta name="robots" content="index,follow" />
+[% ELSE %]
+    <meta name="robots" content="noindex,nofollow" />
+[% END %]
     <meta id="viewport" name="viewport" content="">
 # set viewport for mobile mode, do not set viewport for DesktopMode
     <script>

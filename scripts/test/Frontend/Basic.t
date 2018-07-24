@@ -157,6 +157,24 @@ for my $BaseURL ( sort keys %Frontends ) {
                 scalar $Response->content() =~ m{<body|<div|<script}xms,
                 "Module $Frontend returned HTML ($URL)",
             );
+
+            # Inspect all full HTML responses for robots information.
+            if ( $Response->content() =~ m{<head>} ) {
+
+                # Check robots information.
+                if ( $BaseURL !~ m{public\.pl} ) {
+                    $Self->True(
+                        index( $Response->content(), '<meta name="robots" content="noindex,nofollow" />' ) > 0,
+                        "Module $Frontend sends 'noindex' robots information.",
+                    );
+                }
+                else {
+                    $Self->True(
+                        index( $Response->content(), '<meta name="robots" content="index,follow" />' ) > 0,
+                        "Module $Frontend sends 'index' robots information.",
+                    );
+                }
+            }
         }
         elsif ( $Response->header('Content-type') =~ 'json' ) {
 

@@ -1,4 +1,5 @@
 #5.0.29 ????-??-??
+ - 2018-07-24 Add explicit information for robots.
  - 2018-07-23 Fixed bug#[13978](https://bugs.otrs.org/show_bug.cgi?id=13978) - User and customer preferences may override user data.
  - 2018-07-17 Fixed bug#[13722](https://bugs.otrs.org/show_bug.cgi?id=13722) - Translation of ticket notification header uses the system language instead of recipients preferences.
  - 2018-07-16 Fixed bug#[13961](https://bugs.otrs.org/show_bug.cgi?id=13961) - ExternalTicketNumberRecognition not working correctly with spaces.
