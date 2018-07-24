@@ -39,13 +39,13 @@ sub Run {
     $File =~ s/^\///g;
     my $AccessControlRexExp = $Self->{ConfigObject}->Get('Package::RepositoryAccessRegExp');
     if ( !$AccessControlRexExp ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $Self->{LayoutObject}->CustomerErrorScreen(
             Message => 'Need config Package::RepositoryAccessRegExp',
         );
     }
     else {
         if ( $ENV{REMOTE_ADDR} !~ /^$AccessControlRexExp$/ ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $Self->{LayoutObject}->CustomerErrorScreen(
                 Message => "Authentication failed from $ENV{REMOTE_ADDR}!",
             );
         }
