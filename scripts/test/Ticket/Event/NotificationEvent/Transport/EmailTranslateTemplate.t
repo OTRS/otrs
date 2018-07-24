@@ -163,10 +163,10 @@ $Self->True(
 my $NotificationID = $NotificationEventObject->NotificationAdd(
     Name => "JobNameTranslation-$RandomID",
     Data => {
-        Events                 => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
-        Recipients             => ['Customer'],
-        RecipientAgents        => [ $UserID, $UserDEID ],
-        Transports             => ['Email'],
+        Events          => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+        Recipients      => ['Customer'],
+        RecipientAgents => [ $UserID, $UserDEID ],
+        Transports      => ['Email'],
     },
     Message => {
         en => {

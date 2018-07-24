@@ -779,7 +779,7 @@ sub AddScreen {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # In case of page reload because of errors
-    my %Errors   = %{ $Param{Errors}   // {} };
+    my %Errors   = %{ $Param{Errors} //   {} };
     my %GetParam = %{ $Param{GetParam} // {} };
 
     my %Frontend;
