@@ -1,4 +1,6 @@
-#4.0.31 ????-??-??
+#4.0.32 ????-??-??
+
+#4.0.31 2018-07-31
  - 2018-07-24 Add explicit information for robots.
  - 2018-07-23 Fixed bug#[13978](https://bugs.otrs.org/show_bug.cgi?id=13978) - User and customer preferences may override user data.
  - 2018-06-05 Added improvements to the support data collector plugins.
