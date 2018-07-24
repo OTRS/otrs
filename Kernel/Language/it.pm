@@ -431,10 +431,10 @@ sub Data {
         'Customer Default Groups:' => 'Gruppi predefiniti cliente:',
         'No changes can be made to these groups.' => 'Nessun cambiamento verrà effettuato a questi gruppi.',
         'ro' => 'sola lettura',
-        'Read only access to the ticket in this group/queue.' => 'Accesso in sola lettura alle richieste in questo gruppo/coda.',
+        'Read only access to the ticket in this group/queue.' => 'Accesso in sola lettura ai ticket in questo gruppo/coda.',
         'rw' => 'lettura e scrittura',
         'Full read and write access to the tickets in this group/queue.' =>
-            'Accesso completo in lettura e scrittura alle richieste in questo gruppo/coda',
+            'Accesso completo in lettura e scrittura ai ticket in questo gruppo/coda.',
 
         # Template: AdminCustomerUser
         'Customer User Management' => 'Gestione utenti cliente',
@@ -674,7 +674,7 @@ sub Data {
         'Agent' => 'Operatore',
         'Owner' => 'Operatore',
         'Responsible' => 'Responsabile',
-        'Ticket lock' => 'Presa in carico ticket',
+        'Ticket lock' => 'Blocco ticket',
         'Create times' => 'Tempi di creazione',
         'No create time settings.' => 'Data di creazione mancante ',
         'Ticket created' => 'Ticket creato',
@@ -720,7 +720,7 @@ sub Data {
         'Set new agent' => 'Imposta nuovo operatore',
         'new owner' => 'Nuovo proprietario',
         'new responsible' => 'Nuovo responsabile',
-        'Set new ticket lock' => 'Imposta nuova presa in carico del ticket',
+        'Set new ticket lock' => 'Imposta blocco nuovo ticket',
         'New customer user ID' => '',
         'New customer ID' => 'Nuovo ID cliente',
         'New title' => 'Nuovo titolo',
@@ -1703,12 +1703,12 @@ sub Data {
         'This queue is present in a SysConfig setting, confirmation for updating settings to point to the new queue is needed!' =>
             '',
         'Sub-queue of' => 'Sotto-coda di',
-        'Unlock timeout' => 'Tempo di sblocco automatico',
+        'Unlock timeout' => 'Scadenza sblocco automatico',
         '0 = no unlock' => '0 = nessuno sblocco automatico',
         'hours' => 'ore',
         'Only business hours are counted.' => 'Sono considerate solo le ore lavorative.',
         'If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.' =>
-            'Se un operatore prende in carico un ticket e non lo chiude prima dello sblocco automatico, il ticket viene sbloccato e diventa disponibile per altri operatori.',
+            'Se un agente blocca un ticket e non lo chiude prima della scadenza dello sblocco automatico, il ticket verrà sbloccato e diventerà disponibile per altri agenti.',
         'Notify by' => 'Notificato da',
         '0 = no escalation' => '0 = nessuna escalation',
         'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' =>
@@ -1720,9 +1720,9 @@ sub Data {
         'Follow up Option' => 'Opzioni per i follow-up',
         'Specifies if follow up to closed tickets would re-open the ticket, be rejected or lead to a new ticket.' =>
             'Specifica se i follow-up ai ticket chiusi riaprono i ticket, vengono respinti o portano a un nuovo ticket.',
-        'Ticket lock after a follow up' => 'Blocco del ticket dopo una prosecuzione',
+        'Ticket lock after a follow up' => 'Blocco del ticket dopo un follow-up',
         'If a ticket is closed and the customer sends a follow up the ticket will be locked to the old owner.' =>
-            'Se un ticket viene chiuso e il cliente invia un follow-up, il ticket sarà preso in carica dal vecchio proprietario.',
+            'Se un ticket viene chiuso e il cliente invia un follow-up, il ticket sarà bloccato al vecchio proprietario.',
         'System address' => 'Indirizzo di sistema',
         'Will be the sender address of this queue for email answers.' => 'Mittente utilizzato per le risposte relative alle richieste di questa coda.',
         'Default sign key' => 'Chiave di default per le firme',
@@ -1851,9 +1851,9 @@ sub Data {
             'Se non si seleziona niente, non ci sono permessi in questo gruppo (i ticket non saranno disponibili per questo ruolo).',
         'Toggle %s permission for all' => 'Imposta il permesso %s per tutti',
         'move_into' => 'sposta_in',
-        'Permissions to move tickets into this group/queue.' => 'Autorizzazione a muovere richieste in questo gruppo/coda',
+        'Permissions to move tickets into this group/queue.' => 'Permessi per spostare i ticket in questo gruppo/coda.',
         'create' => 'crea',
-        'Permissions to create tickets in this group/queue.' => 'Permessi per creare richieste in questo gruppo/coda.',
+        'Permissions to create tickets in this group/queue.' => 'Permessi per creare ticket in questo gruppo/coda.',
         'note' => 'Annotazioni',
         'Permissions to add notes to tickets in this group/queue.' => 'Permesso di aggiungere note ai ticket in questo gruppo/coda.',
         'owner' => 'gestore',
@@ -2338,7 +2338,7 @@ sub Data {
             'Dopo 5 minuti, controlla che OTRS Daemon sia in esecuzione nel sistema (\'bin/otrs.Daemon.pl status\').',
 
         # Template: AgentDashboard
-        'Dashboard' => 'Cruscotto',
+        'Dashboard' => 'Dashboard',
 
         # Template: AgentDashboardAppointmentCalendar
         'New Appointment' => 'Nuovo appuntamento',
@@ -2410,7 +2410,7 @@ sub Data {
         # Template: AgentDashboardTicketGeneric
         'Assigned to customer user' => '',
         'Accessible for customer user' => '',
-        'My locked tickets' => 'Ticket assegnati a me',
+        'My locked tickets' => 'Miei ticket bloccati',
         'My watched tickets' => 'Ticket che sorveglio',
         'My responsibilities' => 'Ticket di cui sono responsabile',
         'Tickets in My Queues' => 'Ticket nelle mie code',
@@ -2522,7 +2522,7 @@ sub Data {
         'Changed by' => 'Modificato da',
         'Sum rows' => 'Somma le righe',
         'Sum columns' => 'somma le colonne',
-        'Show as dashboard widget' => 'Mostra come oggetto del cruscotto',
+        'Show as dashboard widget' => 'Mostra come widget della dashboard',
         'Cache' => 'Cache',
         'This statistic contains configuration errors and can currently not be used.' =>
             '',
@@ -2536,7 +2536,7 @@ sub Data {
         'Change Priority of %s%s%s' => '',
         'Change Responsible of %s%s%s' => '',
         'All fields marked with an asterisk (*) are mandatory.' => 'Tutti i campi marcati con un asterisco (*) sono obbligatori.',
-        'The ticket has been locked' => 'Il ticket è stato assegnato',
+        'The ticket has been locked' => 'Il ticket è stato bloccato',
         'Undo & close' => 'Annulla e chiudi',
         'Ticket Settings' => 'Impostazioni dei ticket',
         'Queue invalid.' => '',
@@ -2792,7 +2792,7 @@ sub Data {
         'This ticket is archived.' => 'Questo ticket è stato archiviato.',
         'Note: Type is invalid!' => 'Nota: il tipo non è valido!',
         'Pending till' => 'In attesa fino a',
-        'Locked' => 'In gestione',
+        'Locked' => 'Bloccato',
         '%s Ticket(s)' => '',
         'Accounted time' => 'Tempo addebitato',
 
@@ -3273,7 +3273,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'Pagina di test OTRS',
-        'Unlock' => 'Rilascia',
+        'Unlock' => 'Sblocca',
         'Welcome %s %s' => 'Benvenuto %s %s',
         'Counter' => 'Contatore',
 
@@ -4115,7 +4115,7 @@ sub Data {
         'New Article' => 'Nuovo articolo',
         'Pending' => 'In attesa',
         'Reminder Reached' => 'Promemoria raggiunti',
-        'My Locked Tickets' => 'Miei ticket presi in carico',
+        'My Locked Tickets' => 'Miei ticket bloccati',
 
         # Perl Module: Kernel/Modules/AgentTicketMerge.pm
         'Can\'t merge ticket with itself!' => '',
@@ -4130,7 +4130,7 @@ sub Data {
         'This chat has been closed and will be removed in %s hours.' => 'Questa chat è stata chiusa e sarà rimossa tra %s ore.',
 
         # Perl Module: Kernel/Modules/AgentTicketPhoneCommon.pm
-        'Ticket locked.' => 'Ticket assegnato.',
+        'Ticket locked.' => 'Ticket bloccato.',
 
         # Perl Module: Kernel/Modules/AgentTicketPlain.pm
         'No ArticleID!' => '',
@@ -4703,9 +4703,9 @@ sub Data {
         'Ticket Information' => 'Informazioni sul ticket',
 
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
-        'Locked Tickets New' => 'Nuovi ticket presi in carico',
+        'Locked Tickets New' => 'Nuovi ticket bloccati',
         'Locked Tickets Reminder Reached' => 'Ticket presi in carico con promemoria raggiunto',
-        'Locked Tickets Total' => 'Totale ticket presi in carico',
+        'Locked Tickets Total' => 'Totale ticket bloccati',
 
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketResponsible.pm
         'Responsible Tickets New' => 'Nuovi ticket responsabili',
@@ -5053,7 +5053,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
         'Database Records' => 'Record di Database',
-        'Tickets' => 'Richieste',
+        'Tickets' => 'Ticket',
         'Ticket History Entries' => 'Voci nello Storico Ticket',
         'Articles' => 'Articoli',
         'Attachments (DB, Without HTML)' => 'Allegati (DB, senza HTML)',
@@ -5373,8 +5373,8 @@ sub Data {
         '3 normal' => '3 normale',
         '4 high' => '4 alta',
         '5 very high' => '5 molto alta',
-        'unlock' => 'sblocca',
-        'lock' => 'blocca',
+        'unlock' => 'sbloccato',
+        'lock' => 'bloccato',
         'tmp_lock' => 'tmp_lock',
         'agent' => 'operatore',
         'system' => 'sistema',
@@ -5388,7 +5388,7 @@ sub Data {
         'Ticket follow-up notification (locked)' => '',
         'You will receive a notification if a customer sends a follow-up to a locked ticket of which you are the ticket owner or responsible.' =>
             '',
-        'Ticket lock timeout notification' => 'Notifica scadenza gestione richieste',
+        'Ticket lock timeout notification' => 'Notifica scadenza blocco ticket',
         'You will receive a notification as soon as a ticket owned by you is automatically unlocked.' =>
             '',
         'Ticket owner update notification' => '',
@@ -6408,11 +6408,11 @@ Thanks for your help!
         'Defines if a ticket lock is required in the ticket phone outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Definisce se una presa in carico è necessaria nella schermata di ticket telefonico in uscita dell\'interfaccia degli operatori (se il ticket non è ancora preso in carico, il ticket viene preso in carico automaticamente e l\'operatore viene automaticamente impostato come proprietario).',
         'Defines if a ticket lock is required in the ticket priority screen of a zoomed ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
-            'Definisce se una presa in carico è necessaria nella schermata di priorità di un ticket sotto zoom dell\'interfaccia degli operatori (se il ticket non è ancora preso in carico, il ticket viene preso in carico automaticamente e l\'operatore viene automaticamente impostato come proprietario).',
+            'Definisce se è necessario bloccare un ticket nella schermata di priorità del ticket di una vista zoom ticket nell\'interfaccia agente (se il ticket non è ancora bloccato, il ticket viene bloccato e l\'agente attuale viene automaticamente impostato come proprietario).',
         'Defines if a ticket lock is required in the ticket responsible screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
-            'Definisce se una presa in carico è necessaria nella schermata di responsabilità ticket dell\'interfaccia degli operatori (se il ticket non è ancora preso in carico, il ticket viene preso in carico automaticamente e l\'operatore viene automaticamente impostato come proprietario).',
+            'Definisce se è necessario bloccare un ticket nella schermata del responsabile ticket dell\'interfaccia agente (se il ticket non è ancora bloccato, il ticket viene bloccato e l\'agente attuale viene automaticamente impostato come proprietario).',
         'Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
-            'Definisce se una presa in carico è necessaria per un cambio di cliente di un ticket dell\'interfaccia degli operatori (se il ticket non è ancora preso in carico, il ticket viene preso in carico automaticamente e l\'operatore viene automaticamente impostato come proprietario).',
+            'Definisce se è necessario bloccare un ticket per cambiare cliente del ticket stesso nell\'interfaccia agente (se il ticket non è ancora bloccato, il ticket viene bloccato e l\'agente attuale viene automaticamente impostato come proprietario).',
         'Defines if agents should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             '',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
@@ -7004,7 +7004,7 @@ Thanks for your help!
         'Delete expired ticket draft entries.' => '',
         'Delete expired upload cache hourly.' => '',
         'Delete this ticket' => 'Elimina questo ticket',
-        'Deleted link to ticket "%s".' => 'Eliminato link alla richiesta "%s".',
+        'Deleted link to ticket "%s".' => 'Eliminato collegamento al ticket "%s".',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
@@ -7538,7 +7538,7 @@ Thanks for your help!
         'Loader module registration for the agent interface.' => '',
         'Loader module registration for the customer interface.' => '',
         'Lock / unlock this ticket' => 'Blocca/ sblocca questo ticket',
-        'Locked Tickets' => 'Richieste in gestione',
+        'Locked Tickets' => 'Ticket bloccati',
         'Locked Tickets.' => 'Ticket bloccati.',
         'Locked ticket.' => 'Ticket bloccato.',
         'Logged in users.' => '',
@@ -7675,7 +7675,7 @@ Thanks for your help!
         'Notified about response time escalation.' => '',
         'Notified about solution time escalation.' => '',
         'Notified about update time escalation.' => '',
-        'Number of displayed tickets' => 'Numero di richieste mostrate',
+        'Number of displayed tickets' => 'Numero di ticket mostrati',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
@@ -7713,7 +7713,7 @@ Thanks for your help!
         'Overview of all Tickets per assigned Queue.' => '',
         'Overview of all appointments.' => '',
         'Overview of all escalated tickets.' => '',
-        'Overview of all open Tickets.' => 'Vista Globale di tutte le richieste aperte.',
+        'Overview of all open Tickets.' => 'Panoramica di tutti i ticket aperti.',
         'Overview of all open tickets.' => '',
         'Overview of customer tickets.' => '',
         'PGP Key' => 'Chiave PGP',
@@ -8587,7 +8587,7 @@ Thanks for your help!
         'Ticket limit per page for Ticket Overview "Preview".' => '',
         'Ticket limit per page for Ticket Overview "Small".' => '',
         'Ticket notifications' => 'Notifiche dei ticket',
-        'Ticket overview' => 'Vista Globale delle richieste',
+        'Ticket overview' => 'Panoramica ticket',
         'Ticket plain view of an email.' => '',
         'Ticket split dialog.' => '',
         'Ticket title' => 'Titolo del ticket',
@@ -8628,7 +8628,7 @@ NOTA: i sistemi di terze parti richiedono una configurazione a se.',
         'Ukrainian' => 'Ucraino',
         'Unlock tickets that are past their unlock timeout.' => 'Sblocca i ticket che hanno passato il tempo previsto.',
         'Unlock tickets whenever a note is added and the owner is out of office.' =>
-            'Sblocca i ticket nel momento in cui viene aggiunta una nota e l\'owner dello stesso è "out-of-office".',
+            'Sblocca i ticket nel momento in cui viene aggiunta una nota e il proprietario è "out-of-office".',
         'Unlocked ticket.' => 'Ticket sbloccato.',
         'Up' => 'Su',
         'Upcoming Events' => 'Eventi prossimi',
@@ -8665,7 +8665,7 @@ NOTA: i sistemi di terze parti richiedono una configurazione a se.',
         'Web Services' => 'Web service',
         'Web View' => 'Vista web',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
-            'Quando un operatore crea un ticket, viene automaticamente preso in carico dallo stesso operatore.',
+            'Quando un agente crea un ticket, indica se il ticket viene automaticamente bloccato sull\'agente oppure no.',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             'Quando due ticket vengono uniti, viene aggiunta una nota al ticket inattivo. Qui puoi modificare il corpo di questa nota (questo testo non può essere modificato dagli operatori).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
@@ -8678,7 +8678,7 @@ NOTA: i sistemi di terze parti richiedono una configurazione a se.',
             'Indica se forzare il reindirizzamento di tutte le richieste dal protocollo http al protocollo https. Per favore, seleziona questa opzione se il tuo webserver è configurato correttamente per gestire questa opzione.',
         'Yes, but hide archived tickets' => 'Sì, ma nascondi i ticket archiviati',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
-            'La tua email con la richiesta numero "<OTRS_TICKET>" è stata reinviata a "<OTRS_BOUNCE_TO>". Contatta questo indirizzo per ulteriori informazioni.',
+            'La tua email per il ticket numero "<OTRS_TICKET>" è stata inoltrata a "<OTRS_BOUNCE_TO>". Contatta questo indirizzo per ulteriori informazioni.',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
             'La tua email con il numero di ticket "<OTRS_TICKET>" è stata unita a "<OTRS_MERGE_TO_TICKET>".',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>

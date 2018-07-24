@@ -2410,7 +2410,7 @@ sub Data {
         # Template: AgentDashboardTicketGeneric
         'Assigned to customer user' => '',
         'Accessible for customer user' => '',
-        'My locked tickets' => 'Mine låste saker',
+        'My locked tickets' => 'Mine saker',
         'My watched tickets' => 'Mine overvåkede saker',
         'My responsibilities' => 'Mine ansvar',
         'Tickets in My Queues' => 'Saker i Min Kø',
@@ -7538,7 +7538,7 @@ Thanks for your help!
         'Loader module registration for the agent interface.' => '',
         'Loader module registration for the customer interface.' => '',
         'Lock / unlock this ticket' => 'Lås / lås opp denne saken ',
-        'Locked Tickets' => 'Mine private saker',
+        'Locked Tickets' => 'Mine personlige saker',
         'Locked Tickets.' => '',
         'Locked ticket.' => 'Sak satt som privat.',
         'Logged in users.' => '',

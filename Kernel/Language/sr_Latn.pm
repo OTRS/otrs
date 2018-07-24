@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.995015469233414;
+    $Self->{Completeness}        = 0.997765555173599;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1302,7 +1302,7 @@ sub Data {
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Upravljaj sa %s',
-        'Downgrade to ((OTRS)) Community Edition' => '',
+        'Downgrade to ((OTRS)) Community Edition' => 'Povratak na besplatno izdanje ((OTRS))',
         'Read documentation' => 'Pročitaj dokumentaciju',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
             '%s redovno se povezuje sa cloud.otrs.com za proveru dostupnih ažuriranja i ispravnosti internih ugovora.',
@@ -1333,7 +1333,7 @@ sub Data {
             '%s će biti dostupna uskoro. Molimo, proverite ponovo za nekoliko dana.',
         'Please have a look at %s for more information.' => 'Molimo da pogledate  %s za više informacija.',
         'Your ((OTRS)) Community Edition is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            '',
+            'Vaše besplatno izdanje ((OTRS)) je osnova za sve buduće aktivnosti. Molimo vas da se registrujete pre nego što nastavite sa procesom ažuriranja na %s!',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
             'Pre nego vam %s bude koristan, molimo da kontaktirate %s da biste dobili %s ugovor.',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
@@ -1364,7 +1364,7 @@ sub Data {
         'Please uninstall the packages first using the package manager and try again.' =>
             'Molimo vas da prvo deinstalirate pakete kroz upravljač paketima pa da pokušate ponovo. ',
         'You are about to downgrade to ((OTRS)) Community Edition and will lose the following features and all data related to these:' =>
-            '',
+            'Vraćanjem na besplatno izdanje ((OTRS)) izgubićete sledeća svojstva i podatke povezane sa:',
         'Chat' => 'Ćaskanje',
         'Report Generator' => 'Generator izveštaja',
         'Timeline view in ticket zoom' => 'Detaljni prikaz tiketa na vremenskoj liniji',
@@ -1405,7 +1405,7 @@ sub Data {
         'Reinstall package' => 'Instaliraj ponovo paket',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Da li stvarno želite da ponovo instalirate ovaj paket? Sve ručne promene će biti izgubljene.',
-        'Go to updating instructions' => '',
+        'Go to updating instructions' => 'Idi na uputstvo za ažuriranje',
         'package information' => 'Informacije o paketu',
         'Package installation requires a patch level update of OTRS.' => 'Instalacija paketa zahteva ažuriranu verziju OTRS.',
         'Package update requires a patch level update of OTRS.' => 'Ažuriranje paketa zahteva ažuriranu verziju OTRS.',
@@ -1423,7 +1423,7 @@ sub Data {
         'How can I do a patch level update if I don’t have a contract?' =>
             'Kako mogu da ažuriram verziju OTRS ukoliko nemam ugovor?',
         'Please find all relevant information within the updating instructions at %s.' =>
-            '',
+            'Molimo pronađite sve relevantne informacije u okviru instrukcija za ažuriranje na %s.',
         'In case you would have further questions we would be glad to answer them.' =>
             'U slučaju da imate dodtana pitanja, biće nam zadovoljstvo da odgovorimo na njih.',
         'Install Package' => 'Instaliraj paket',
@@ -2440,7 +2440,7 @@ sub Data {
         # Template: AgentOTRSBusinessBlockScreen
         'Unauthorized usage of %s detected' => 'Detektovana neovlaštena upotreba %s',
         'If you decide to downgrade to ((OTRS)) Community Edition, you will lose all database tables and data related to %s.' =>
-            '',
+            'Ako odlučite da se vratite na besplatno izdanje ((OTRS)), izgubićete sve tabele i podatke u bazi podataka povezane sa %s.',
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Uredi lične postavke',
@@ -3588,7 +3588,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
         'Could not determine config for invoker %s' => 'Nije moguće utvrditi konfiguraciju za pozivaoca %s',
-        'InvokerType %s is not registered' => '',
+        'InvokerType %s is not registered' => 'Tip pozivaoca %s nije registrovan',
         'MappingType %s is not registered' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
@@ -3618,7 +3618,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Could not determine config for operation %s' => 'Nije moguće utvrditi konfiguraciju za operaciju %s',
-        'OperationType %s is not registered' => '',
+        'OperationType %s is not registered' => 'Tip operacije %s nije registrovan',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
         'Need valid Subaction!' => 'Neophodan važeći Subaction!',
@@ -4596,7 +4596,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/PackageManagerCheckNotVerifiedPackages.pm
         'The installation of packages which are not verified by the OTRS Group is activated. These packages could threaten your whole system! It is recommended not to use unverified packages.' =>
-            '',
+            'Mogućnost instalacije paketa koji nisu verifikovane od strane OTRS grupe je uključena. Ovi paketi mogu ugroziti vaš ceo sistem. Preporučujemo da ne koristite neverifikovane pakete.',
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationInvalidCheck.pm
         'You have %s invalid setting(s) deployed. Click here to show invalid settings.' =>
@@ -4799,9 +4799,9 @@ sub Data {
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
             '<p>Ako nastavite sa instalacijom ovog paketa, mogu se javiti sledeći problemi:</p><ul><li>Bezbednosni problemi</li><li>Problemi stabilnosti</li><li>Problemi u performansama</li></ul><p>Napominjemo da problemi nastali usled rada sa ovim paketom nisu pokriveni OTRS servisnim ugovorom.</p>',
         '<p>The installation of packages which are not verified by the OTRS Group is not possible by default.</p>' =>
-            '',
+            '<p>Instalacija paketa koji nisu verifikovani od strane OTRS grupe nije podrazumevano omogućena.</p>',
         '<p>You can activate the installation of not verified packages in the <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">System Configuration</a>.</p>' =>
-            '',
+            '<p>Možete aktivirati instalaciju neverifikovanih paketa u <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">sistemskoj konfiguraciji</a>.</p>',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -5454,7 +5454,7 @@ sub Data {
 
         # JS File: Core.Agent.Admin.GenericInterfaceInvoker
         'It is not possible to add a new event trigger because the event is not set.' =>
-            '',
+            'Nije moguće dodati novi okidač događaja zato što događaj još uvek nije definisan.',
         'Delete this Invoker' => 'Obriši ovog pozivaoca',
 
         # JS File: Core.Agent.Admin.GenericInterfaceInvokerEvent
@@ -6307,7 +6307,7 @@ Vaša tehnička podrška
             'Definiši prvi dan u nedelji za izbor datuma za navedeni kalendar.',
         'Define the start day of the week for the date picker.' => 'Definiši prvi dan u nedelji za izbor datuma.',
         'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check http://gravatar.com/site/implement/images/ for further information.' =>
-            '',
+            'Dfiniše koja sličica će biti prikazana u pregledu članaka ukoliko operater nema odgovarajuću povezanu sa imejl adresom. Pogledajte http://gravatar.com/site/implement/images/ za više informacija.',
         'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information.' =>
             'Definiše koja sličica će biti prikazana kao podrazumevana ukoliko operater nema odgovarajuću povezanu sa imejl adresom. Pogledajte http://gravatar.com/site/implement/images/ za više informacija.',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
@@ -6811,7 +6811,7 @@ Vaša tehnička podrška
         'Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.' =>
             'Određuje modul za prikaz obaveštenja u interfejsu operatera ako .je dostignut limit sesija operatera.',
         'Defines the module to display a notification in the agent interface, if the installation of not verified packages is activated (only shown to admins).' =>
-            '',
+            'Definiše modul za prikazivanje obaveštenja u interfejsu operatera, ukoliko je instalacija neverifikovanih paketa uključena (prikaz samo za administratore).',
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             'Definiše modul za prikazivanje obaveštenja u interfejsu operatera ako se sistem koristi od strane admin korisnika (normalno ne treba da rade kao administrator).',
         'Defines the module to display a notification in the agent interface, if there are invalid sysconfig settings deployed.' =>
@@ -7361,7 +7361,7 @@ Vaša tehnička podrška
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
             'Ukoliko je podešen HTTPBasicAuth za Customer::AuthModule, možete podesiti (putem RegExp) uklanjanje delova REMOTE_USER vrednosti (npr. radi uklanjanja dodatnih domena). Napomena: $1 će biti novi Login.',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
-            'Ukoliko je podešen HTTPBasicAuth za Customer::AuthModule, možete podesiti uklanjanje delova korisničkih imena (npr. za domene kao example_domain\user u user).',
+            'Ukoliko je „HTTPBasicAuth” izabran za „Customer::AuthModule”, možete podesiti uklanjanje početnih delova korisničkih imena (npr. za domene kao „example_domain\user” u „user”).',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' =>
             'Ukoliko je podešen LDAP za Customer::AuthModule i želite da dodate sufiks svakom korisničkom imenu, definišite ga ovde, npr. želite samo user za korisničko ime, ali u vašem LDAP direktorijumu postoji user@domain.',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
@@ -7451,7 +7451,7 @@ Vaša tehnička podrška
         'If this regex matches, no message will be send by the autoresponder.' =>
             'Ako se ovaj izraz poklapa, automatski odgovarač neće poslati nijednu poruku.',
         'If this setting is enabled, it is possible to install packages which are not verified by OTRS Group. These packages could threaten your whole system!' =>
-            '',
+            'Ukoliko je podešavanje omogućeno, moguća je instalacija paketa koji nisu verifikovani od strane OTRS grupe. Ovi paketi mogu ugroziti vaš ceo sistem!',
         'If this setting is enabled, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             'Ukoliko je ovo podešavanje uključeno, lokalne izmene neće biti prikazane kao greške u upravljaču paketima i sakupljaču podataka podrške.',
         'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
@@ -7529,9 +7529,9 @@ Vaša tehnička podrška
         'List of all DynamicField events to be displayed in the GUI.' => 'Lista svih događaja na dinamičkim poljima za prikaz u grafičkom interfejsu.',
         'List of all LinkObject events to be displayed in the GUI.' => 'Lista svih LinkObject događaja za prikaz u grafičkom interfejsu.',
         'List of all Package events to be displayed in the GUI.' => 'Lista svih događaja na paketima za prikaz u grafičkom interfejsu.',
-        'List of all appointment events to be displayed in the GUI.' => 'Lista svih obaveštenja o terminima za prikaz u interfejsu.',
+        'List of all appointment events to be displayed in the GUI.' => 'Lista svih obaveštenja o terminima za prikaz u grafičkom interfejsu.',
         'List of all article events to be displayed in the GUI.' => 'Lista svih događaja na člancima za prikaz u grafičkom interfejsu.',
-        'List of all calendar events to be displayed in the GUI.' => 'Lista svih događaja na kalendarima koja će biti prikazana u interfejsu.',
+        'List of all calendar events to be displayed in the GUI.' => 'Lista svih događaja na kalendarima koja će biti prikazana u grafičkom interfejsu.',
         'List of all queue events to be displayed in the GUI.' => 'Lista svih događaja na redovima za prikaz u grafičkom interfejsu.',
         'List of all ticket events to be displayed in the GUI.' => 'Lista svih događaja na tiketima za prikaz u grafičkom interfejsu.',
         'List of colors in hexadecimal RGB which will be available for selection during calendar creation. Make sure the colors are dark enough so white text can be overlayed on them.' =>
@@ -7855,7 +7855,7 @@ Vaša tehnička podrška
         'Removed subscription for user "%s".' => 'Pretplata za korisnika "%s" je isključena.',
         'Removes old system configuration deployments (Sunday mornings).' =>
             'Uklanja stare rasporede sistemske konfiguracije (nedeljom ujutru).',
-        'Removes old ticket number counters (each 10 minutes).' => '',
+        'Removes old ticket number counters (each 10 minutes).' => 'Uklanja stare brojače tiketa (svakih 10 minuta).',
         'Removes the ticket watcher information when a ticket is archived.' =>
             'Uklanja informacije posmatrača tiketa kada se tiket arhivira.',
         'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be enabled in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>

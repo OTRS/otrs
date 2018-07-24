@@ -6,6 +6,7 @@
 # Fabrizio Scaletta <fabrizio.scaletta@pharmaidea.com>, 2017
 # Francesco Di Maggio <francesco.dimaggio@mauden.com>, 2018
 # Luca Maranzano <liuk@linux.it>, 2014
+# Luca Ferretti <elle.uca@libero.it>, 2018
 # Luca Maranzano <liuk@linux.it>, 2014
 # Luca Maranzano <liuk@linux.it>, 2014
 # Marthe Ngo Temb <ngotemb@gmail.com>, 2015
@@ -18,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2018-07-16 16:18+0000\n"
-"PO-Revision-Date: 2018-07-16 16:20+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2018-07-18 13:07+0000\n"
+"Last-Translator: Luca Ferretti <elle.uca@libero.it>\n"
 "Language-Team: Italian (http://www.transifex.com/otrs/OTRS/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1367,7 +1368,7 @@ msgstr "sola lettura"
 
 #. Template: AdminCustomerGroup
 msgid "Read only access to the ticket in this group/queue."
-msgstr "Accesso in sola lettura alle richieste in questo gruppo/coda."
+msgstr "Accesso in sola lettura ai ticket in questo gruppo/coda."
 
 #. Template: AdminCustomerGroup
 msgid "rw"
@@ -1375,7 +1376,7 @@ msgstr "lettura e scrittura"
 
 #. Template: AdminCustomerGroup
 msgid "Full read and write access to the tickets in this group/queue."
-msgstr "Accesso completo in lettura e scrittura alle richieste in questo gruppo/coda"
+msgstr "Accesso completo in lettura e scrittura ai ticket in questo gruppo/coda."
 
 #. Template: AdminCustomerUser
 msgid "Customer User Management"
@@ -2154,7 +2155,7 @@ msgstr "Responsabile"
 
 #. Template: AdminGenericAgent
 msgid "Ticket lock"
-msgstr "Presa in carico ticket"
+msgstr "Blocco ticket"
 
 #. Template: AdminGenericAgent
 msgid "Create times"
@@ -2338,7 +2339,7 @@ msgstr "Nuovo responsabile"
 
 #. Template: AdminGenericAgent
 msgid "Set new ticket lock"
-msgstr "Imposta nuova presa in carico del ticket"
+msgstr "Imposta blocco nuovo ticket"
 
 #. Template: AdminGenericAgent
 msgid "New customer user ID"
@@ -5530,7 +5531,7 @@ msgstr "Sotto-coda di"
 
 #. Template: AdminQueue
 msgid "Unlock timeout"
-msgstr "Tempo di sblocco automatico"
+msgstr "Scadenza sblocco automatico"
 
 #. Template: AdminQueue
 msgid "0 = no unlock"
@@ -5549,7 +5550,7 @@ msgid ""
 "If an agent locks a ticket and does not close it before the unlock timeout "
 "has passed, the ticket will unlock and will become available for other "
 "agents."
-msgstr "Se un operatore prende in carico un ticket e non lo chiude prima dello sblocco automatico, il ticket viene sbloccato e diventa disponibile per altri operatori."
+msgstr "Se un agente blocca un ticket e non lo chiude prima della scadenza dello sblocco automatico, il ticket verrà sbloccato e diventerà disponibile per altri agenti."
 
 #. Template: AdminQueue
 msgid "Notify by"
@@ -5591,13 +5592,13 @@ msgstr "Specifica se i follow-up ai ticket chiusi riaprono i ticket, vengono res
 
 #. Template: AdminQueue
 msgid "Ticket lock after a follow up"
-msgstr "Blocco del ticket dopo una prosecuzione"
+msgstr "Blocco del ticket dopo un follow-up"
 
 #. Template: AdminQueue
 msgid ""
 "If a ticket is closed and the customer sends a follow up the ticket will be "
 "locked to the old owner."
-msgstr "Se un ticket viene chiuso e il cliente invia un follow-up, il ticket sarà preso in carica dal vecchio proprietario."
+msgstr "Se un ticket viene chiuso e il cliente invia un follow-up, il ticket sarà bloccato al vecchio proprietario."
 
 #. Template: AdminQueue
 msgid "System address"
@@ -6023,7 +6024,7 @@ msgstr "sposta_in"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to move tickets into this group/queue."
-msgstr "Autorizzazione a muovere richieste in questo gruppo/coda"
+msgstr "Permessi per spostare i ticket in questo gruppo/coda."
 
 #. Template: AdminRoleGroup
 msgid "create"
@@ -6031,7 +6032,7 @@ msgstr "crea"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to create tickets in this group/queue."
-msgstr "Permessi per creare richieste in questo gruppo/coda."
+msgstr "Permessi per creare ticket in questo gruppo/coda."
 
 #. Template: AdminRoleGroup
 msgid "note"
@@ -7517,7 +7518,7 @@ msgstr "Dopo 5 minuti, controlla che OTRS Daemon sia in esecuzione nel sistema (
 
 #. Template: AgentDashboard
 msgid "Dashboard"
-msgstr "Cruscotto"
+msgstr "Dashboard"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "New Appointment"
@@ -7708,7 +7709,7 @@ msgstr ""
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My locked tickets"
-msgstr "Ticket assegnati a me"
+msgstr "Miei ticket bloccati"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My watched tickets"
@@ -8016,7 +8017,7 @@ msgstr "somma le colonne"
 
 #. Template: AgentStatisticsView
 msgid "Show as dashboard widget"
-msgstr "Mostra come oggetto del cruscotto"
+msgstr "Mostra come widget della dashboard"
 
 #. Template: AgentStatisticsView
 msgid "Cache"
@@ -8061,7 +8062,7 @@ msgstr "Tutti i campi marcati con un asterisco (*) sono obbligatori."
 
 #. Template: AgentTicketActionCommon
 msgid "The ticket has been locked"
-msgstr "Il ticket è stato assegnato"
+msgstr "Il ticket è stato bloccato"
 
 #. Template: AgentTicketActionCommon
 msgid "Undo & close"
@@ -8836,7 +8837,7 @@ msgstr "In attesa fino a"
 
 #. Template: TicketInformation
 msgid "Locked"
-msgstr "In gestione"
+msgstr "Bloccato"
 
 #. Template: TicketInformation
 msgid "%s Ticket(s)"
@@ -10159,7 +10160,7 @@ msgstr "Pagina di test OTRS"
 
 #. Template: Test
 msgid "Unlock"
-msgstr "Rilascia"
+msgstr "Sblocca"
 
 #. Template: Test
 msgid "Welcome %s %s"
@@ -12600,7 +12601,7 @@ msgstr "Promemoria raggiunti"
 
 #. Perl Module: Kernel/Modules/AgentTicketLockedView.pm
 msgid "My Locked Tickets"
-msgstr "Miei ticket presi in carico"
+msgstr "Miei ticket bloccati"
 
 #. Perl Module: Kernel/Modules/AgentTicketMerge.pm
 msgid "Can't merge ticket with itself!"
@@ -12628,7 +12629,7 @@ msgstr "Questa chat è stata chiusa e sarà rimossa tra %s ore."
 
 #. Perl Module: Kernel/Modules/AgentTicketPhoneCommon.pm
 msgid "Ticket locked."
-msgstr "Ticket assegnato."
+msgstr "Ticket bloccato."
 
 #. Perl Module: Kernel/Modules/AgentTicketPlain.pm
 msgid "No ArticleID!"
@@ -14150,7 +14151,7 @@ msgstr "Informazioni sul ticket"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
 msgid "Locked Tickets New"
-msgstr "Nuovi ticket presi in carico"
+msgstr "Nuovi ticket bloccati"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
 msgid "Locked Tickets Reminder Reached"
@@ -14158,7 +14159,7 @@ msgstr "Ticket presi in carico con promemoria raggiunto"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
 msgid "Locked Tickets Total"
-msgstr "Totale ticket presi in carico"
+msgstr "Totale ticket bloccati"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketResponsible.pm
 msgid "Responsible Tickets New"
@@ -15050,7 +15051,7 @@ msgstr "Record di Database"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "Tickets"
-msgstr "Richieste"
+msgstr "Ticket"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -15962,11 +15963,11 @@ msgstr "5 molto alta"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "unlock"
-msgstr "sblocca"
+msgstr "sbloccato"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "lock"
-msgstr "blocca"
+msgstr "bloccato"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "tmp_lock"
@@ -16016,7 +16017,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket lock timeout notification"
-msgstr "Notifica scadenza gestione richieste"
+msgstr "Notifica scadenza blocco ticket"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
@@ -19100,21 +19101,21 @@ msgid ""
 "zoomed ticket in the agent interface (if the ticket isn't locked yet, the "
 "ticket gets locked and the current agent will be set automatically as its "
 "owner)."
-msgstr "Definisce se una presa in carico è necessaria nella schermata di priorità di un ticket sotto zoom dell'interfaccia degli operatori (se il ticket non è ancora preso in carico, il ticket viene preso in carico automaticamente e l'operatore viene automaticamente impostato come proprietario)."
+msgstr "Definisce se è necessario bloccare un ticket nella schermata di priorità del ticket di una vista zoom ticket nell'interfaccia agente (se il ticket non è ancora bloccato, il ticket viene bloccato e l'agente attuale viene automaticamente impostato come proprietario)."
 
 #. SysConfig
 msgid ""
 "Defines if a ticket lock is required in the ticket responsible screen of the"
 " agent interface (if the ticket isn't locked yet, the ticket gets locked and"
 " the current agent will be set automatically as its owner)."
-msgstr "Definisce se una presa in carico è necessaria nella schermata di responsabilità ticket dell'interfaccia degli operatori (se il ticket non è ancora preso in carico, il ticket viene preso in carico automaticamente e l'operatore viene automaticamente impostato come proprietario)."
+msgstr "Definisce se è necessario bloccare un ticket nella schermata del responsabile ticket dell'interfaccia agente (se il ticket non è ancora bloccato, il ticket viene bloccato e l'agente attuale viene automaticamente impostato come proprietario)."
 
 #. SysConfig
 msgid ""
 "Defines if a ticket lock is required to change the customer of a ticket in "
 "the agent interface (if the ticket isn't locked yet, the ticket gets locked "
 "and the current agent will be set automatically as its owner)."
-msgstr "Definisce se una presa in carico è necessaria per un cambio di cliente di un ticket dell'interfaccia degli operatori (se il ticket non è ancora preso in carico, il ticket viene preso in carico automaticamente e l'operatore viene automaticamente impostato come proprietario)."
+msgstr "Definisce se è necessario bloccare un ticket per cambiare cliente del ticket stesso nell'interfaccia agente (se il ticket non è ancora bloccato, il ticket viene bloccato e l'agente attuale viene automaticamente impostato come proprietario)."
 
 #. SysConfig
 msgid ""
@@ -20995,7 +20996,7 @@ msgstr "Elimina questo ticket"
 
 #. SysConfig
 msgid "Deleted link to ticket \"%s\"."
-msgstr "Eliminato link alla richiesta \"%s\"."
+msgstr "Eliminato collegamento al ticket \"%s\"."
 
 #. SysConfig
 msgid ""
@@ -22760,7 +22761,7 @@ msgstr "Blocca/ sblocca questo ticket"
 
 #. SysConfig
 msgid "Locked Tickets"
-msgstr "Richieste in gestione"
+msgstr "Ticket bloccati"
 
 #. SysConfig
 msgid "Locked Tickets."
@@ -23220,7 +23221,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Number of displayed tickets"
-msgstr "Numero di richieste mostrate"
+msgstr "Numero di ticket mostrati"
 
 #. SysConfig
 msgid ""
@@ -23355,7 +23356,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Overview of all open Tickets."
-msgstr "Vista Globale di tutte le richieste aperte."
+msgstr "Panoramica di tutti i ticket aperti."
 
 #. SysConfig
 msgid "Overview of all open tickets."
@@ -26446,7 +26447,7 @@ msgstr "Notifiche dei ticket"
 
 #. SysConfig
 msgid "Ticket overview"
-msgstr "Vista Globale delle richieste"
+msgstr "Panoramica ticket"
 
 #. SysConfig
 msgid "Ticket plain view of an email."
@@ -26578,7 +26579,7 @@ msgstr "Sblocca i ticket che hanno passato il tempo previsto."
 #. SysConfig
 msgid ""
 "Unlock tickets whenever a note is added and the owner is out of office."
-msgstr "Sblocca i ticket nel momento in cui viene aggiunta una nota e l'owner dello stesso è \"out-of-office\"."
+msgstr "Sblocca i ticket nel momento in cui viene aggiunta una nota e il proprietario è \"out-of-office\"."
 
 #. SysConfig
 msgid "Unlocked ticket."
@@ -26707,7 +26708,7 @@ msgstr "Vista web"
 msgid ""
 "When agent creates a ticket, whether or not the ticket is automatically "
 "locked to the agent."
-msgstr "Quando un operatore crea un ticket, viene automaticamente preso in carico dallo stesso operatore."
+msgstr "Quando un agente crea un ticket, indica se il ticket viene automaticamente bloccato sull'agente oppure no."
 
 #. SysConfig
 msgid ""
@@ -26751,7 +26752,7 @@ msgstr "Sì, ma nascondi i ticket archiviati"
 msgid ""
 "Your email with ticket number \"<OTRS_TICKET>\" is bounced to "
 "\"<OTRS_BOUNCE_TO>\". Contact this address for further information."
-msgstr "La tua email con la richiesta numero \"<OTRS_TICKET>\" è stata reinviata a \"<OTRS_BOUNCE_TO>\". Contatta questo indirizzo per ulteriori informazioni."
+msgstr "La tua email per il ticket numero \"<OTRS_TICKET>\" è stata inoltrata a \"<OTRS_BOUNCE_TO>\". Contatta questo indirizzo per ulteriori informazioni."
 
 #. SysConfig
 msgid ""

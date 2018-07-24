@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.997765555173599;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -238,7 +238,7 @@ sub Data {
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Имејл адреса додатног примаоца',
-        'This field must have less then 200 characters.' => '',
+        'This field must have less then 200 characters.' => 'Ово поље не сме бити дуже од 200 карактера.',
         'Article visible for customer' => 'Чланак видљив клијентима',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Чланак је креиран и обавештење послато клијенту или на другу имејл адресу.',
@@ -3583,7 +3583,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
         'Could not determine config for invoker %s' => 'Није могуће утврдити конфигурацију за позиваоца %s',
         'InvokerType %s is not registered' => 'Тип позиваоца %s није регистрован',
-        'MappingType %s is not registered' => '',
+        'MappingType %s is not registered' => 'MappingType %s није регистрован',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => 'Неопходан позивалац!',
@@ -5254,8 +5254,8 @@ sub Data {
         'Reset of unlock time.' => 'Поништавање времена откључавања.',
 
         # Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
-        'Chat Participant' => '',
-        'Chat Message Text' => '',
+        'Chat Participant' => 'Учесник ћаскања',
+        'Chat Message Text' => 'Порука ћаскања',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Login failed! Your user name or password was entered incorrectly.' =>
@@ -5965,11 +5965,11 @@ Thanks for your help!
         'Allows customers to set the ticket priority in the customer interface.' =>
             'Дозвољава клијентима да подесе приоритет тикета у клијентском интерфејсу.',
         'Allows customers to set the ticket queue in the customer interface. If this is not enabled, QueueDefault should be configured.' =>
-            '',
+            'Дозвољава клијентима да подесе ред тикета у корисничком интерфејсу. Ако је искључено, онда треба подесити QueueDefault.',
         'Allows customers to set the ticket service in the customer interface.' =>
             'Дозвољава клијентима да подесе услугу за тикет у корисничком интерфејсу.',
         'Allows customers to set the ticket type in the customer interface. If this is not enabled, TicketTypeDefault should be configured.' =>
-            '',
+            'Дозвољава клијентима да подесе тип тикета у интерфејсу корисника. Уколико је искључено, треба конфигурисати TicketTypeDefault.',
         'Allows default services to be selected also for non existing customers.' =>
             'Дозвољава да подразумеване услуге буду изабране и за непостојеће клијенте.',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
@@ -7327,7 +7327,7 @@ Thanks for your help!
         'Greek' => 'Грчки',
         'Hebrew' => 'Хебрејски',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
-            '',
+            'Омогућује проширену текстуалну претрагу ваших чланака (претрага по пољима From, To, Cc, Subject и Body). Сви постојећи чланци ће бити реиндексирани, нови додати у индекс претраге по креирању, тиме убрзавајући текстуалну претрагу за око 50%. За креирање почетног индекса користите "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".',
         'High Contrast' => 'Високи контраст',
         'High contrast skin for visually impaired users.' => 'Високо контрастни изглед за особе слабијег вида.',
         'Hindi' => 'Хинди',
@@ -7539,7 +7539,7 @@ Thanks for your help!
         'List view' => 'Преглед листе',
         'Lithuanian' => 'Литвански',
         'Loader module registration for the agent interface.' => 'Регистрација модула за учитавање за интерфејс оператера.',
-        'Loader module registration for the customer interface.' => '',
+        'Loader module registration for the customer interface.' => 'Регистрација модула за учитавање за интерфејс клијента.',
         'Lock / unlock this ticket' => 'Закључај / откључај овај тикет',
         'Locked Tickets' => 'Закључани тикети',
         'Locked Tickets.' => 'Закључани тикети.',
@@ -8226,15 +8226,15 @@ Thanks for your help!
         'Shows a link in the menu to add a note to a ticket in every ticket overview of the agent interface.' =>
             'У менију приказује везу за додавање напомене на тикет у сваки преглед тикета у интерфејсу оператера.',
         'Shows a link in the menu to add a phone call inbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Приказује везу у менију за додавање долазног позива тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа "Group" са садржајем "rw:group1;move_into:group2". За здруживање веза у менију подесите кључ "ClusterName" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ "ClusterPriority" за измену редоследа група у менију.',
         'Shows a link in the menu to add a phone call outbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Приказује везу у менију за додавање одлазног позива тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа "Group" са садржајем "rw:group1;move_into:group2". За здруживање веза у менију подесите кључ "ClusterName" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ "ClusterPriority" за измену редоследа група у менију.',
         'Shows a link in the menu to change the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Приказује везу у менију за промену клијента на кога се води тикет у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа "Group" са садржајем "rw:group1;move_into:group2". За здруживање веза у менију подесите кључ "ClusterName" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ "ClusterPriority" за измену редоследа група у менију.',
         'Shows a link in the menu to change the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Приказује везу у менију за промену власника тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа "Group" са садржајем "rw:group1;move_into:group2". За здруживање веза у менију подесите кључ "ClusterName" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ "ClusterPriority" за измену редоследа група у менију.',
         'Shows a link in the menu to change the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Приказује везу у менију за промену одговорног тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа "Group" са садржајем "rw:group1;move_into:group2". За здруживање веза у менију подесите кључ "ClusterName" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ "ClusterPriority" за измену редоследа група у менију.',
         'Shows a link in the menu to close a ticket in every ticket overview of the agent interface.' =>
             'У менију приказује везу за затварање тикета у сваки преглед тикета у интерфејсу оператера.',
         'Shows a link in the menu to close a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>

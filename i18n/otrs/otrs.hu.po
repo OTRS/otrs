@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2018-07-16 16:18+0000\n"
-"PO-Revision-Date: 2018-07-16 16:20+0000\n"
+"PO-Revision-Date: 2018-07-17 09:48+0000\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -750,7 +750,7 @@ msgstr "További címzett e-mail címek"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "This field must have less then 200 characters."
-msgstr ""
+msgstr "Ennek a mezőnek rövidebbnek kell lennie 200 karakternél."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
@@ -11117,7 +11117,7 @@ msgstr "A(z) %s meghívótípus nincs regisztrálva"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "MappingType %s is not registered"
-msgstr ""
+msgstr "A(z) %s leképezéstípus nincs regisztrálva"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Need Invoker!"
@@ -15593,11 +15593,11 @@ msgstr "Feloldási idő visszaállítása."
 
 #. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
 msgid "Chat Participant"
-msgstr ""
+msgstr "Csevegés résztvevője"
 
 #. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
 msgid "Chat Message Text"
-msgstr ""
+msgstr "Csevegés üzenet szövege"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Login failed! Your user name or password was entered incorrectly."
@@ -17537,7 +17537,7 @@ msgstr "Lehetővé teszi az ügyfeleknek a jegy prioritásának beállítását 
 msgid ""
 "Allows customers to set the ticket queue in the customer interface. If this "
 "is not enabled, QueueDefault should be configured."
-msgstr ""
+msgstr "Lehetővé teszi az ügyfeleknek a jegy várólistájának beállítását az ügyfélfelületen. Ha ez nincs engedélyezve, akkor az alapértelmezett várólista kerül beállításra."
 
 #. SysConfig
 msgid "Allows customers to set the ticket service in the customer interface."
@@ -17547,7 +17547,7 @@ msgstr "Lehetővé teszi az ügyfeleknek a jegy szolgáltatásának beállítás
 msgid ""
 "Allows customers to set the ticket type in the customer interface. If this "
 "is not enabled, TicketTypeDefault should be configured."
-msgstr ""
+msgstr "Lehetővé teszi az ügyfeleknek a jegy típusának beállítását az ügyfélfelületen. Ha ez nincs engedélyezve, az alapértelmezett jegytípus kerül beállításra."
 
 #. SysConfig
 msgid ""
@@ -22033,7 +22033,7 @@ msgid ""
 "article creation, increasing fulltext searches about 50%. To create an "
 "initial index use \"bin/otrs.Console.pl "
 "Maint::Ticket::FulltextIndexRebuild\"."
-msgstr ""
+msgstr "Segít kiterjeszteni a bejegyzések szabad-szavas keresését (feladó, címzett, másolat, tárgy és törzs keresés). Fel fogja darabolni az összes bejegyzést, és egy indexet fog felépíteni a bejegyzés létrehozása után, körülbelül 50%-kal növelve a szabad-szavas kereséseket. Egy kezdeti index létrehozásához használja a „bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild” parancsfájlt."
 
 #. SysConfig
 msgid "High Contrast"
@@ -22748,7 +22748,7 @@ msgstr "Betöltőmodul regisztráció az ügyintézői felülethez."
 
 #. SysConfig
 msgid "Loader module registration for the customer interface."
-msgstr ""
+msgstr "Betöltőmodul regisztráció az ügyfélfelülethez."
 
 #. SysConfig
 msgid "Lock / unlock this ticket"
@@ -25193,7 +25193,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Egy hivatkozást jelenít meg a menüben egy bejövő telefonhívás hozzáadásához az ügyintézői felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt sorrendjének beállításához az eszköztáron belül."
 
 #. SysConfig
 msgid ""
@@ -25204,7 +25204,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Egy hivatkozást jelenít meg a menüben egy kimenő telefonhívás hozzáadásához az ügyintézői felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt sorrendjének beállításához az eszköztáron belül."
 
 #. SysConfig
 msgid ""
@@ -25215,7 +25215,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Egy hivatkozást jelenít meg a menüben az ügyintézői felület jegynagyítás nézetében annak az ügyfélnek a megváltoztatásához, aki a jegyet kérte. Ezen hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt sorrendjének beállításához az eszköztáron belül."
 
 #. SysConfig
 msgid ""
@@ -25226,7 +25226,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Egy hivatkozást jelenít meg a menüben egy jegy tulajdonosának megváltoztatásához az ügyintézői felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt sorrendjének beállításához az eszköztáron belül."
 
 #. SysConfig
 msgid ""
@@ -25237,7 +25237,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Egy hivatkozást jelenít meg a menüben egy jegy felelős ügyintézőjének megváltoztatásához az ügyintézői felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt sorrendjének beállításához az eszköztáron belül."
 
 #. SysConfig
 msgid ""

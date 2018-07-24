@@ -6,6 +6,7 @@
 # LarsMagnusHerland <lars.magnus@herland.priv.no>, 2014,2016
 # Lars Åge Kamfjord <lars-transifex@kamfjord.org>, 2014
 # Peter Værlien <pvarlien@online.no>, 2017
+# Rolf-Arne Schulze <ras@nisec.no>, 2018
 # Stein-Aksel Basma <stabasm@hotmail.com>, 2017
 # Tor Houghton <th-transifex@bogus.net>, 2016
 # Trond Botnen <trond@dataservice.no>, 2016
@@ -13,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2018-07-16 16:18+0000\n"
-"PO-Revision-Date: 2018-07-16 16:20+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2018-07-23 12:34+0000\n"
+"Last-Translator: Rolf-Arne Schulze <ras@nisec.no>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/otrs/OTRS/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -7703,7 +7704,7 @@ msgstr ""
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My locked tickets"
-msgstr "Mine låste saker"
+msgstr "Mine saker"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My watched tickets"
@@ -22755,7 +22756,7 @@ msgstr "Lås / lås opp denne saken "
 
 #. SysConfig
 msgid "Locked Tickets"
-msgstr "Mine private saker"
+msgstr "Mine personlige saker"
 
 #. SysConfig
 msgid "Locked Tickets."

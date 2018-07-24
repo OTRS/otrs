@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.38948092127879;
+    $Self->{Completeness}        = 0.391371605362668;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -334,7 +334,7 @@ sub Data {
         'You can change the sort and order of the columns by clicking on the column header.' =>
             'Vous pouvez modifier l\'ordre des colonnes en cliquant sur l\'entête de la colonne.',
         'If you click on the different entries, you will get redirected to a detailed screen about the message.' =>
-            '',
+            'Si vous cliquez sur les différentes entrées, vous serez redirigé vers un écran plus détaillé concernant le message.',
         'Status for: %s' => 'Statut pour : %s',
         'Failing accounts' => 'Comptes en erreurs',
         'Some account problems' => 'Problèmes de compte',
@@ -385,12 +385,12 @@ sub Data {
         'No log entries found.' => 'Aucune entrée de journal trouvée.',
 
         # Template: AdminCommunicationLogZoom
-        'Detail view for %s communication started at %s' => '',
-        'Show only entries with specific priority and higher:' => '',
-        'Communication Log Overview (%s)' => '',
-        'No communication objects found.' => '',
-        'Communication Log Details' => '',
-        'Please select an entry from the list.' => '',
+        'Detail view for %s communication started at %s' => 'Vue détaillée pour %s la communication a démarrée à %s',
+        'Show only entries with specific priority and higher:' => 'Afficher uniquement les entrées avec des priorités spécifiques ou importantes :',
+        'Communication Log Overview (%s)' => 'Synthèse du journal des communications (%s)',
+        'No communication objects found.' => 'Aucun objet de communication trouvé.',
+        'Communication Log Details' => 'Détails des journaux de communication',
+        'Please select an entry from the list.' => 'Merci de sélectionner une entrée dans la liste',
 
         # Template: AdminCustomerCompany
         'Customer Management' => 'Gestion des clients',
@@ -473,10 +473,10 @@ sub Data {
 
         # Template: AdminCustomerUserCustomer
         'Manage Customer User-Customer Relations' => 'Gestion des relations entre utilisateurs client et clients',
-        'Select the customer user:customer relations.' => '',
+        'Select the customer user:customer relations.' => 'Sélectionnez l\'utilisateur client ou un client',
         'Customer Users' => 'Utilisateurs client',
-        'Change Customer Relations for Customer User' => '',
-        'Change Customer User Relations for Customer' => '',
+        'Change Customer Relations for Customer User' => 'Transformer le client en client utilisateur',
+        'Change Customer User Relations for Customer' => 'Transformer l\'utilisateur client en client',
         'Toggle active state for all' => 'Sélectionner l\'état actif pour tous',
         'Active' => 'Actif',
         'Toggle active state for %s' => 'Sélectionner l\'état actif pour %s',
@@ -484,7 +484,7 @@ sub Data {
         # Template: AdminCustomerUserGroup
         'Manage Customer User-Group Relations' => 'Gestion des relations entre utilisateurs client et groupes',
         'Just use this feature if you want to define group permissions for customer users.' =>
-            '',
+            'Utilisez cette fonctionnalité si vous souhaitez définir des permissions de groupe pour les utilisateurs client.',
         'Edit Customer User Default Groups' => '',
         'These groups are automatically assigned to all customer users.' =>
             '',

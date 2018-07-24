@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2018-07-16 16:18+0000\n"
-"PO-Revision-Date: 2018-07-16 16:20+0000\n"
-"Last-Translator: Милорад Јовановић <j.milorad@gmail.com>\n"
+"PO-Revision-Date: 2018-07-18 06:20+0000\n"
+"Last-Translator: Dusan Vuckovic\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -746,7 +746,7 @@ msgstr "Имејл адреса додатног примаоца"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "This field must have less then 200 characters."
-msgstr ""
+msgstr "Ово поље не сме бити дуже од 200 карактера."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
@@ -11113,7 +11113,7 @@ msgstr "Тип позиваоца %s није регистрован"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "MappingType %s is not registered"
-msgstr ""
+msgstr "MappingType %s није регистрован"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Need Invoker!"
@@ -15589,11 +15589,11 @@ msgstr "Поништавање времена откључавања."
 
 #. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
 msgid "Chat Participant"
-msgstr ""
+msgstr "Учесник ћаскања"
 
 #. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
 msgid "Chat Message Text"
-msgstr ""
+msgstr "Порука ћаскања"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Login failed! Your user name or password was entered incorrectly."
@@ -17533,7 +17533,7 @@ msgstr "Дозвољава клијентима да подесе приорит
 msgid ""
 "Allows customers to set the ticket queue in the customer interface. If this "
 "is not enabled, QueueDefault should be configured."
-msgstr ""
+msgstr "Дозвољава клијентима да подесе ред тикета у корисничком интерфејсу. Ако је искључено, онда треба подесити QueueDefault."
 
 #. SysConfig
 msgid "Allows customers to set the ticket service in the customer interface."
@@ -17543,7 +17543,7 @@ msgstr "Дозвољава клијентима да подесе услугу �
 msgid ""
 "Allows customers to set the ticket type in the customer interface. If this "
 "is not enabled, TicketTypeDefault should be configured."
-msgstr ""
+msgstr "Дозвољава клијентима да подесе тип тикета у интерфејсу корисника. Уколико је искључено, треба конфигурисати TicketTypeDefault."
 
 #. SysConfig
 msgid ""
@@ -22029,7 +22029,7 @@ msgid ""
 "article creation, increasing fulltext searches about 50%. To create an "
 "initial index use \"bin/otrs.Console.pl "
 "Maint::Ticket::FulltextIndexRebuild\"."
-msgstr ""
+msgstr "Омогућује проширену текстуалну претрагу ваших чланака (претрага по пољима From, To, Cc, Subject и Body). Сви постојећи чланци ће бити реиндексирани, нови додати у индекс претраге по креирању, тиме убрзавајући текстуалну претрагу за око 50%. За креирање почетног индекса користите \"bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild\"."
 
 #. SysConfig
 msgid "High Contrast"
@@ -22744,7 +22744,7 @@ msgstr "Регистрација модула за учитавање за ин�
 
 #. SysConfig
 msgid "Loader module registration for the customer interface."
-msgstr ""
+msgstr "Регистрација модула за учитавање за интерфејс клијента."
 
 #. SysConfig
 msgid "Lock / unlock this ticket"
@@ -25189,7 +25189,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Приказује везу у менију за додавање долазног позива тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -25200,7 +25200,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Приказује везу у менију за додавање одлазног позива тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -25211,7 +25211,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Приказује везу у менију за промену клијента на кога се води тикет у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -25222,7 +25222,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Приказује везу у менију за промену власника тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -25233,7 +25233,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "Приказује везу у менију за промену одговорног тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""

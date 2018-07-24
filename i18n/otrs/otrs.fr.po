@@ -34,8 +34,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2018-07-16 16:18+0000\n"
-"PO-Revision-Date: 2018-07-16 16:20+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2018-07-20 14:19+0000\n"
+"Last-Translator: lulu chillou <chillou2000@yahoo.fr>\n"
 "Language-Team: French (http://www.transifex.com/otrs/OTRS/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1052,7 +1052,7 @@ msgstr "Vous pouvez modifier l'ordre des colonnes en cliquant sur l'entête de l
 msgid ""
 "If you click on the different entries, you will get redirected to a detailed"
 " screen about the message."
-msgstr ""
+msgstr "Si vous cliquez sur les différentes entrées, vous serez redirigé vers un écran plus détaillé concernant le message."
 
 #. Template: AdminCommunicationLog
 msgid "Status for: %s"
@@ -1222,27 +1222,27 @@ msgstr "Aucune entrée de journal trouvée."
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
-msgstr ""
+msgstr "Vue détaillée pour %s la communication a démarrée à %s"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Show only entries with specific priority and higher:"
-msgstr ""
+msgstr "Afficher uniquement les entrées avec des priorités spécifiques ou importantes :"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Communication Log Overview (%s)"
-msgstr ""
+msgstr "Synthèse du journal des communications (%s)"
 
 #. Template: AdminCommunicationLogZoom
 msgid "No communication objects found."
-msgstr ""
+msgstr "Aucun objet de communication trouvé."
 
 #. Template: AdminCommunicationLogZoom
 msgid "Communication Log Details"
-msgstr ""
+msgstr "Détails des journaux de communication"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Please select an entry from the list."
-msgstr ""
+msgstr "Merci de sélectionner une entrée dans la liste"
 
 #. Template: AdminCustomerCompany
 msgid "Customer Management"
@@ -1515,7 +1515,7 @@ msgstr "Gestion des relations entre utilisateurs client et clients"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Select the customer user:customer relations."
-msgstr ""
+msgstr "Sélectionnez l'utilisateur client ou un client"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Customer Users"
@@ -1523,11 +1523,11 @@ msgstr "Utilisateurs client"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer Relations for Customer User"
-msgstr ""
+msgstr "Transformer le client en client utilisateur"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer User Relations for Customer"
-msgstr ""
+msgstr "Transformer l'utilisateur client en client"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Toggle active state for all"
@@ -1549,7 +1549,7 @@ msgstr "Gestion des relations entre utilisateurs client et groupes"
 msgid ""
 "Just use this feature if you want to define group permissions for customer "
 "users."
-msgstr ""
+msgstr "Utilisez cette fonctionnalité si vous souhaitez définir des permissions de groupe pour les utilisateurs client."
 
 #. Template: AdminCustomerUserGroup
 msgid "Edit Customer User Default Groups"
