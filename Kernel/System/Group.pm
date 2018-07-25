@@ -936,7 +936,7 @@ returns a list of users with the given permissions
 
     my %Users = $GroupObject->PermissionUserInvolvedGet(
         UserID => $ID,
-        Type   => 'move_into',
+        Type   => 'move_into',  # ro|move_into|create|note|owner|priority|rw
     );
 
 =cut
@@ -982,7 +982,7 @@ Get groups of the given user.
 
     my %Groups = $GroupObject->PermissionUserGet(
         UserID => $ID,
-        Type   => 'move_into',
+        Type   => 'move_into',  # ro|move_into|create|note|owner|priority|rw
     );
 
 =cut
@@ -1057,7 +1057,7 @@ Get users of the given group.
 
     my %Users = $GroupObject->PermissionGroupGet(
         GroupID => $ID,
-        Type    => 'move_into',
+        Type    => 'move_into',  # ro|move_into|create|note|owner|priority|rw
     );
 
 =cut
@@ -1137,6 +1137,7 @@ add new permissions or update existing one to the given group of a given user
             ro        => 1,
             move_into => 1,
             create    => 1,
+            note      => 1,
             owner     => 1,
             priority  => 0,
             rw        => 0,
@@ -1268,7 +1269,7 @@ returns a list with all users of a group
 
     my %UserList = $GroupObject->PermissionGroupUserGet(
         GroupID => $GroupID,
-        Type    => 'move_into',  # ro|move_into|priority|create|rw
+        Type    => 'move_into',  # ro|move_into|create|note|owner|priority|rw
     );
 
     %UserList = (
@@ -1351,7 +1352,7 @@ returns a list of groups a user is member of
 
     my %GroupList = $GroupObject->PermissionUserGroupGet(
         UserID => 123,
-        Type   => 'move_into',  # ro|move_into|priority|create|rw
+        Type   => 'move_into',  # ro|move_into|create|note|owner|priority|rw
     );
 
     %GroupList = (
@@ -1438,6 +1439,7 @@ add new permissions or update existing one to the given group of a given role
             ro        => 1,
             move_into => 1,
             create    => 1,
+            note      => 1,
             owner     => 1,
             priority  => 0,
             rw        => 0,
@@ -1569,7 +1571,7 @@ returns a list with all roles of a group
 
     my %RoleList = $GroupObject->PermissionGroupRoleGet(
         GroupID => $GroupID,
-        Type    => 'move_into',  # ro|move_into|priority|create|rw
+        Type    => 'move_into',  # ro|move_into|create|note|owner|priority|rw
     );
 
     %RoleList = (
@@ -1650,7 +1652,7 @@ returns a list with all groups of a role
 
     my %GroupList = $GroupObject->PermissionRoleGroupGet(
         RoleID => 12,
-        Type   => 'move_into',  # ro|move_into|priority|create|rw
+        Type   => 'move_into',  # ro|move_into|create|note|owner|priority|rw
     );
 
     %GroupList = (

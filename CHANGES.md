@@ -1,4 +1,5 @@
 #5.0.30 20??-??-??
+ - 2018-07-25 Fixed bug#[13972](https://bugs.otrs.org/show_bug.cgi?id=13972) - API documentation: missing default permission types 'note' and 'owner'.
 
 #5.0.29 2018-07-31
  - 2018-07-24 Add explicit information for robots.
