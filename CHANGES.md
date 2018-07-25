@@ -1,4 +1,5 @@
 #6.0.11 2018-??-??
+ - 2018-07-25 Fixed bug#[13972](https://bugs.otrs.org/show_bug.cgi?id=13972) - API documentation: missing default permission types 'note' and 'owner'.
 
 #6.0.10 2018-07-31
  - 2018-07-24 Updated translations, thanks to all translators.
