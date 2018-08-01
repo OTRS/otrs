@@ -179,9 +179,6 @@ sub Run {
         if ( !$Param{CustomerUserID} ) {
             $Error{'CustomerUserIDInvalid'} = 'ServerError';
         }
-        if ( !$Param{CustomerID} ) {
-            $Error{'CustomerIDInvalid'} = 'ServerError';
-        }
 
         if (%Error) {
             return $Self->Form( %Param, %Error );
