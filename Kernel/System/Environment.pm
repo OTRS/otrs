@@ -83,6 +83,13 @@ sub OSInfoGet {
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
+    my %OSMap = (
+        linux   => 'Linux',
+        freebsd => 'FreeBSD',
+        openbsd => 'OpenBSD',
+        darwin  => 'MacOSX',
+    );
+
     # If used OS is a linux system
     my $OSName;
     my $Distribution;
@@ -126,18 +133,15 @@ sub OSInfoGet {
         $OSName = 'MacOSX ' . $MacVersion;
     }
     elsif ( $^O eq 'freebsd' || $^O eq 'openbsd' ) {
-        $OSName = `uname -r`;
+
+        my $BSDVersion = `uname -r` || '';
+        chomp $BSDVersion;
+
+        $OSName = "$OSMap{$^O} $BSDVersion";
     }
     else {
         $OSName = "Unknown";
     }
-
-    my %OSMap = (
-        linux   => 'Linux',
-        freebsd => 'FreeBSD',
-        openbsd => 'OpenBSD',
-        darwin  => 'MacOSX',
-    );
 
     # collect OS data
     my %EnvOS = (
