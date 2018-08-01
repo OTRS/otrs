@@ -69,31 +69,48 @@
             </div>
             <div class="LayoutGrid Content">
                 <div class="Size1of2">
-                    <h4>USA</h4>
-                    <p>OTRS Inc.</p>
-                    <p>19925 Stevens Creek Blvd.</p>
-                    <p>Cupertino, CA 95014-2358</p>
-                    <p>[% Translate("Phone") | html %]: <a href="tel:+14085491717">+1 408 5491717</a></p>
-                </div>
-                <div class="Size1of2">
-                    <h4>Germany</h4>
+                    <h4>[% Translate("Germany") | html %]</h4>
                     <p>OTRS AG</p>
                     <p>Zimmersmühlenweg 11</p>
                     <p>61440 Oberursel</p>
                     <p>[% Translate("Phone") | html %]: <a href="tel:+4961726819880">+49 (0) 6172 681988 0</a></p>
                 </div>
+                <div class="Size1of2">
+                    <h4>[% Translate("United States") | html %]</h4>
+                    <p>OTRS Inc.</p>
+                    <p>19925 Stevens Creek Blvd.</p>
+                    <p>Cupertino, CA 95014-2358</p>
+                    <p>[% Translate("Phone") | html %]: <a href="tel:+14085491717">+1 408 5491717</a></p>
+                </div>
             </div>
             <div class="Clear"></div>
             <div class="LayoutGrid Content">
                 <div class="Size1of2">
-                    <h4>Mexico</h4>
+                    <h4>[% Translate("Germany") | html %]</h4>
+                    <p>OTRS AG</p>
+                    <p>Bahnhofplatz 1a</p>
+                    <p>94315 Straubing</p>
+                    <p>[% Translate("Phone") | html %]: <a href="tel:+4961726819880">+49 (0) 6172 681988 0</a></p>
+                </div>
+                <div class="Size1of2">
+                    <h4>[% Translate("Mexico") | html %]</h4>
                     <p>OTRS S.A. de C.V.</p>
                     <p>Av. Insurgentes Sur 863, Piso 7 Of 01, Col. Nápoles</p>
                     <p>03810 Mexico, D.F.</p>
                     <p>[% Translate("Phone") | html %]: <a href="tel:+525511689664">+52 55 1168 9664</a></p>
                 </div>
+            </div>
+            <div class="Clear"></div>
+            <div class="LayoutGrid Content">
                 <div class="Size1of2">
-                    <h4>Brazil</h4>
+                    <h4>[% Translate("Hungary") | html %]</h4>
+                    <p>OTRS Magyarország Kft.</p>
+                    <p>Kálmán Imre utca 1.</p>
+                    <p>1054 Budapest</p>
+                    <p>[% Translate("Phone") | html %]: <a href="tel:+3614088333">+36 1 408 8333</a></p>
+                </div>
+                <div class="Size1of2">
+                    <h4>[% Translate("Brazil") | html %]</h4>
                     <p>OTRS Do Brasil Soluções Ltda.</p>
                     <p>Av. Paulista, 37 – 4º Andar – Bela Vista</p>
                     <p>CEP: 01311-902, São Paulo / SP</p>
@@ -103,14 +120,14 @@
             <div class="Clear"></div>
             <div class="LayoutGrid Content">
                 <div class="Size1of2">
-                    <h4>Singapore</h4>
+                    <h4>[% Translate("Singapore") | html %]</h4>
                     <p>OTRS ASIA Pte. Ltd.</p>
                     <p>7 Temasek Blvd#44-01, The Penthouse, Suntec Tower One</p>
                     <p>Singapore 038987</p>
                     <p>[% Translate("Phone") | html %]: <a href="tel:+6564306756 ">+65 6430 6756</a></p>
                 </div>
                 <div class="Size1of2">
-                    <h4>Hong Kong</h4>
+                    <h4>[% Translate("Hong Kong") | html %]</h4>
                     <p>OTRS Asia Ltd.</p>
                     <p>Three Pacific Place, Level 3, 1 Queen's Road East</p>
                     <p>Admiralty, Hong Kong</p>
