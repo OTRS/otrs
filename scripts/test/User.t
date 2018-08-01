@@ -501,6 +501,32 @@ $Self->True(
     'GetUserData() - OutOfOfficeMessage',
 );
 
+# Test bug#13986, search by UserLogin with upper case letters.
+$UserRand = 'UniT' . $Helper->GetRandomID();
+$Update   = $UserObject->UserUpdate(
+    UserID        => $UserID,
+    UserFirstname => $UserRand,
+    UserLastname  => $UserRand,
+    UserLogin     => $UserRand,
+    UserEmail     => $UserRand . '@example2.com',
+    ValidID       => 1,
+    ChangeUserID  => 1,
+);
+$Self->True(
+    $Update,
+    'UserUpdate()',
+);
+
+%UserSearch = $UserObject->UserSearch(
+    UserLogin => $UserRand,
+    Valid     => 1,
+);
+$Self->Is(
+    $UserSearch{$UserID},
+    $UserRand,
+    "UserSearch after update",
+);
+
 # cleanup is done by RestoreDatabase
 
 1;
