@@ -695,10 +695,11 @@ sub UserSearch {
     }
     elsif ( $Param{UserLogin} ) {
 
+        my $UserLogin = lc $Param{UserLogin};
         $SQL .= " $Self->{Lower}($Self->{UserTableUser}) LIKE ? $LikeEscapeString";
-        $Param{UserLogin} =~ s/\*/%/g;
-        $Param{UserLogin} = $DBObject->Quote( $Param{UserLogin}, 'Like' );
-        push @Bind, \$Param{UserLogin};
+        $UserLogin =~ s/\*/%/g;
+        $UserLogin = $DBObject->Quote( $UserLogin, 'Like' );
+        push @Bind, \$UserLogin;
     }
 
     # add valid option

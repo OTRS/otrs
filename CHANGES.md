@@ -1,4 +1,5 @@
 #5.0.30 20??-??-??
+ - 2018-08-01 Fixed bug#[13986](https://bugs.otrs.org/show_bug.cgi?id=13986) - UserSearch function does not work for login with upper-case letters on case sensitive databases.
  - 2018-07-25 Fixed bug#[13972](https://bugs.otrs.org/show_bug.cgi?id=13972) - API documentation: missing default permission types 'note' and 'owner'.
 
 #5.0.29 2018-07-31
