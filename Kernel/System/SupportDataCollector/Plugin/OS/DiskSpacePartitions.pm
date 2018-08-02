@@ -67,7 +67,7 @@ sub Run {
         }
 
         # if line starts with just spaces and have a percent number
-        elsif ( $Line =~ m{\A \s+ (:? \d+ | \s+)+ \d+ % .+? \z}msx ) {
+        elsif ( $Line =~ m{\A \s+ (?: \d+ | \s+)+ \d+ % .+? \z}msx ) {
 
             # concatenate previous line and store it
             push @CleanLines, $PreviousLine . $Line;
@@ -89,7 +89,7 @@ sub Run {
 
         if ( $Line =~ m{\A .+? \s .* \s \d+ % .+? \z}msx ) {
             my ( $Partition, $Size, $UsedPercent, $MountPoint )
-                = $Line =~ m{\A (.+?) \s (\d+[KGMT]) \s .*? \s (\d+)%.+? (/.*) \z}msx;
+                = $Line =~ m{\A (.+?) \s+ ([\d\.KGMT]*) \s+ .*? \s+ (\d+)%.+? (\/.*) \z}msx;
 
             $MountPoint //= '';
 
