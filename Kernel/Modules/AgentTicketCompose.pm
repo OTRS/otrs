@@ -1338,6 +1338,9 @@ sub Run {
             last ARTICLEMETADATA;
         }
 
+        # Merge ticket data with article data, see bug#13995 (https://bugs.otrs.org/show_bug.cgi?id=13995).
+        %Data = ( %Ticket, %Data );
+
         # If article is not a MIMEBase article, get customer recipients from the backend.
         if ( !$Data{To} && !$Data{From} ) {
             my @CustomerUserIDs = $LayoutObject->ArticleCustomerRecipientsGet(
@@ -1630,6 +1633,7 @@ sub Run {
         # use key StdResponse to pass the data to the template for legacy reasons,
         #   because existing systems may have it in their configuration as that was
         #   the key used before the internal switch to StandardResponse And StandardTemplate
+
         $Data{StdResponse} = $TemplateGenerator->Template(
             TicketID   => $Self->{TicketID},
             ArticleID  => $GetParam{ArticleID},

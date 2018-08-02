@@ -591,6 +591,12 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[0] );
         $Selenium->WaitFor( WindowCount => 1 );
 
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::ResponseFormat',
+            Value => '[% Data.TicketNumber | html%]',
+        );
+
         # Test ticket lock and owner after closing AgentTicketCompose popup (see bug#12479).
         # Enable RequiredLock for AgentTicketCompose.
         $Helper->ConfigSettingChange(
@@ -637,6 +643,17 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
+
+        # Check if Ticket number is shown correctly in text field.
+        # See bug#133995 https://bugs.otrs.org/show_bug.cgi?id=13995
+        my $TicketNumber = $TicketObject->TicketNumberLookup(
+            TicketID => $TicketID,
+        );
+        $Self->Is(
+            $Selenium->execute_script('return $("#RichText").val().trim()'),
+            $TicketNumber,
+            "Text field contains ticket number $TicketNumber"
+        );
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".UndoClosePopup").length' );
 
