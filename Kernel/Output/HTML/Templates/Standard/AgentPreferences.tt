@@ -15,12 +15,12 @@
 
     [% BreadcrumbPath = [
             {
-                Name => Translate('Personal preferences'),
-                Link => Env("Action") _ ";EditUserID=" _ Data.CurrentUserID,
+                Name => Translate('Personal Preferences'),
+                Link => Env("Action") _ Data.EditingAnotherAgent,
             },
             {
                 Name => Translate(Data.GroupName),
-                Link => Env("Action") _ ";Subaction=Group;Group=" _ Data.GroupKey _ ";EditUserID=" _ Data.CurrentUserID,
+                Link => Env("Action") _ ";Subaction=Group;Group=" _ Data.GroupKey _ Data.EditingAnotherAgent,
             },
         ]
     %]

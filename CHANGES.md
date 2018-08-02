@@ -1,4 +1,5 @@
 #6.0.11 2018-??-??
+ - 2018-08-02 Fixed bug#[13993](https://bugs.otrs.org/show_bug.cgi?id=13993) - Misleading breadcrumb path in AgentPreferences screen.
  - 2018-08-01 Follow-up fix for bug#[13805](https://bugs.otrs.org/show_bug.cgi?id=13805) - Distribution OpenBSD is not recognized by support data collector.
  - 2018-08-01 Follow-up fix for bug#[13643](https://bugs.otrs.org/show_bug.cgi?id=13643) - After CustomerCompanySupport is disabled the customer-user cannot be defined at several places.
  - 2018-08-01 Fixed bug#[13983](https://bugs.otrs.org/show_bug.cgi?id=13983) - Default process ticket title time stamp does not show appropriate time zone value.

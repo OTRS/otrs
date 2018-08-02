@@ -41,7 +41,7 @@ sub Run {
         )
     {
         $Self->{CurrentUserID}       = $EditUserID;
-        $Self->{EditingAnotherAgent} = 1;
+        $Self->{EditingAnotherAgent} = ";EditUserID=$EditUserID";
     }
 
     # ------------------------------------------------------------ #
@@ -601,7 +601,7 @@ sub AgentPreferencesForm {
         && $Self->_CheckEditPreferencesPermission()
         )
     {
-        $Self->{EditingAnotherAgent} = 1;
+        $Self->{EditingAnotherAgent} = ";EditUserID=$EditUserID";
         $Self->{CurrentUserID}       = $EditUserID;
     }
 
