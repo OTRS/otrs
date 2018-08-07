@@ -1,4 +1,5 @@
 #6.0.11 2018-??-??
+ - 2018-08-07 Follow-up fix for bug#[13597](https://bugs.otrs.org/show_bug.cgi?id=13597) - In case of OTRS 6 Upgrade "Email Delivery Failure" notification message is incorrectly displayed.
  - 2018-08-02 Fixed bug#[13997](https://bugs.otrs.org/show_bug.cgi?id=13997) - Error in pattern matching for DiskSpacePartitions.
  - 2018-08-02 Fixed bug#[13995](https://bugs.otrs.org/show_bug.cgi?id=13995) - Ticket attributes are not working in ResponseFormat.
  - 2018-08-02 Fixed bug#[13993](https://bugs.otrs.org/show_bug.cgi?id=13993) - Misleading breadcrumb path in AgentPreferences screen.

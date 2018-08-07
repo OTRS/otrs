@@ -154,7 +154,7 @@ sub Run {
             '<Insert Table="notification_event_message">
                 <Data Key="id" Type="AutoIncrement">110</Data>
                 <Data Key="notification_id">' . $NotificationID . '</Data>
-                <Data Key="content_type" Type="Quote">text/html</Data>
+                <Data Key="content_type" Type="Quote">text/plain</Data>
                 <Data Key="language" Type="Quote">en</Data>
                 <Data Key="subject" Type="Quote"><![CDATA[Email Delivery Failure]]></Data>
                 <Data Key="text" Type="Quote"><![CDATA[Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
@@ -172,7 +172,7 @@ Error Message:
             '<Insert Table="notification_event_message">
                 <Data Key="id" Type="AutoIncrement">111</Data>
                 <Data Key="notification_id">' . $NotificationID . '</Data>
-                <Data Key="content_type" Type="Quote">text/html</Data>
+                <Data Key="content_type" Type="Quote">text/plain</Data>
                 <Data Key="language" Type="Quote">hu</Data>
                 <Data Key="subject" Type="Quote"><![CDATA[E-mail kézbesítési hiba]]></Data>
                 <Data Key="text" Type="Quote"><![CDATA[Kedves <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>!
