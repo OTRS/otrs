@@ -1,4 +1,5 @@
 #5.0.30 20??-??-??
+ - 2018-08-07 Fixed bug#[14008](https://bugs.otrs.org/show_bug.cgi?id=14008) - Kernel::System::VariableCheck::DataIsDifferent() does not work if one data element is undefined.
  - 2018-08-07 Fixed bug#[13968](https://bugs.otrs.org/show_bug.cgi?id=13968) - Attachments with spaces in file name does not work properly.
  - 2018-08-02 Fixed bug#[13997](https://bugs.otrs.org/show_bug.cgi?id=13997) - Error in pattern matching for DiskSpacePartitions.
  - 2018-08-01 Follow-up fix for bug#[13805](https://bugs.otrs.org/show_bug.cgi?id=13805) - Distribution OpenBSD is not recognized by support data collector.

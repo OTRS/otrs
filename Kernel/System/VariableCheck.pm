@@ -409,11 +409,6 @@ ARRAY or HASH.
 sub DataIsDifferent {
     my (%Param) = @_;
 
-    # check needed stuff
-    for (qw(Data1 Data2)) {
-        return if ( !defined $Param{$_} );
-    }
-
     # ''
     if ( ref $Param{Data1} eq '' && ref $Param{Data2} eq '' ) {
 
