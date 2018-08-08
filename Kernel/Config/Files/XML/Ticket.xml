@@ -13829,7 +13829,7 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::RedirectAfterCloseDisabled" Required="1" Valid="1" UserModificationActive="1" UserModificationPossible="1">
-        <Description Translatable="1">Disables the redirection to the last screen overview / dashboard after a ticket is created.</Description>
+        <Description Translatable="1">Disables the redirection to the last screen overview / dashboard after a ticket is closed.</Description>
         <Navigation>Frontend::Agent</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
