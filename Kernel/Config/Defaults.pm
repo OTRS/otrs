@@ -1077,7 +1077,7 @@ sub LoadDefaults {
     # Package::RepositoryRoot
     # (get online repository list, use the fist availabe result)
     $Self->{'Package::RepositoryRoot'} = [
-        'http://ftp.otrs.org/pub/otrs/misc/packages/repository.xml',
+        'https://ftp.otrs.org/pub/otrs/misc/packages/repository.xml',
     ];
 
     # Package::RepositoryList
