@@ -1,4 +1,5 @@
 #5.0.30 20??-??-??
+ - 2018-08-09 Fixed bug#[14004](https://bugs.otrs.org/show_bug.cgi?id=14004) - Packages are only accessible via HTTP instead of HTTPS.
  - 2018-08-08 Fixed bug#[14003](https://bugs.otrs.org/show_bug.cgi?id=14003) - Not possible to add more conditions on process transition edit which has more then 10 conditions.
  - 2018-08-07 Fixed bug#[14008](https://bugs.otrs.org/show_bug.cgi?id=14008) - Kernel::System::VariableCheck::DataIsDifferent() does not work if one data element is undefined.
  - 2018-08-07 Fixed bug#[13968](https://bugs.otrs.org/show_bug.cgi?id=13968) - Attachments with spaces in file name does not work properly.

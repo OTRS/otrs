@@ -3119,7 +3119,7 @@
         <SubGroup>Core::Package</SubGroup>
         <Setting>
             <Array>
-                <Item>http://ftp.otrs.org/pub/otrs/misc/packages/repository.xml</Item>
+                <Item>https://ftp.otrs.org/pub/otrs/misc/packages/repository.xml</Item>
             </Array>
         </Setting>
     </ConfigItem>
