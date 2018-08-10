@@ -617,11 +617,14 @@ sub ShowTicketStatus {
         OnlyLast             => 1,
     );
 
-    my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{ $ArticleList[0] } );
-    my %Article              = $ArticleBackendObject->ArticleGet(
-        TicketID  => $Param{TicketID},
-        ArticleID => $ArticleList[0]->{ArticleID},
-    );
+    my %Article;
+    if ( $ArticleList[0] && IsHashRefWithData( $ArticleList[0] ) ) {
+        my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{ $ArticleList[0] } );
+        %Article = $ArticleBackendObject->ArticleGet(
+            TicketID  => $Param{TicketID},
+            ArticleID => $ArticleList[0]->{ArticleID},
+        );
+    }
 
     # get ticket info
     my %Ticket = $TicketObject->TicketGet(
