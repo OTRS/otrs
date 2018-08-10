@@ -1,0 +1,60 @@
+---
+Activities:
+  Activity-e2cd48a1807511cbe1b8cef2e750a9de:
+    ActivityDialogs:
+    - ActivityDialog-ff3961b48b8966e39ff950e9f40148cf
+    ChangeTime: 2018-08-03 14:32:20
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-ff3961b48b8966e39ff950e9f40148cf
+    CreateTime: 2018-08-03 14:32:20
+    EntityID: Activity-e2cd48a1807511cbe1b8cef2e750a9de
+    ID: '3'
+    Name: Start order
+ActivityDialogs:
+  ActivityDialog-ff3961b48b8966e39ff950e9f40148cf:
+    ChangeTime: 2018-08-03 14:53:01
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Make order
+      FieldOrder:
+      - CustomerID
+      Fields:
+        CustomerID:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+      Interface:
+      - AgentInterface
+      - CustomerInterface
+      Permission: ''
+      RequiredLock: '0'
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2018-08-03 14:32:20
+    EntityID: ActivityDialog-ff3961b48b8966e39ff950e9f40148cf
+    ID: '2'
+    Name: Make order
+Process:
+  Activities:
+  - Activity-e2cd48a1807511cbe1b8cef2e750a9de
+  ChangeTime: 2018-08-07 07:43:30
+  Config:
+    Description: Customer selenium ticket process
+    Path:
+      Activity-e2cd48a1807511cbe1b8cef2e750a9de: {}
+    StartActivity: Activity-e2cd48a1807511cbe1b8cef2e750a9de
+    StartActivityDialog: ActivityDialog-ff3961b48b8966e39ff950e9f40148cf
+  CreateTime: 2018-08-03 14:32:20
+  EntityID: Process-f8194a25ab0ccddefeb4240c281c1f56
+  ID: '1'
+  Layout:
+    Activity-e2cd48a1807511cbe1b8cef2e750a9de:
+      left: '408'
+      top: '201'
+  Name: CustomerTicketOverviewProcess
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions: []

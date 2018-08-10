@@ -610,57 +610,18 @@ sub ShowTicketStatus {
     my $CommunicationChannelObject = $Kernel::OM->Get('Kernel::System::CommunicationChannel');
     my $TicketID                   = $Param{TicketID} || return;
 
-    # contains last article (non-internal)
-    my %Article;
-    my %LastNonInternalArticle;
-
+    # Get last customer article.
     my @ArticleList = $ArticleObject->ArticleList(
         TicketID             => $Param{TicketID},
         IsVisibleForCustomer => 1,
+        OnlyLast             => 1,
     );
 
-    my $CommunicationChannelPattern = qr{Internal|Chat}xms;
-
-    ARTICLEMETADATA:
-    for my $ArticleMetaData (@ArticleList) {
-
-        next ARTICLEMETADATA if !$ArticleMetaData;
-        next ARTICLEMETADATA if !IsHashRefWithData($ArticleMetaData);
-
-        my %CommunicationChannelData = $CommunicationChannelObject->ChannelGet(
-            ChannelID => $ArticleMetaData->{CommunicationChannelID},
-        );
-
-        # check for non-internal and non-chat article
-        next ARTICLEMETADATA if $CommunicationChannelData{ChannelName} =~ m{$CommunicationChannelPattern}xms;
-
-        my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$ArticleMetaData} );
-
-        my %CurrentArticle = $ArticleBackendObject->ArticleGet(
-            TicketID  => $Param{TicketID},
-            ArticleID => $ArticleMetaData->{ArticleID},
-        );
-
-        # check for customer article
-        if ( $ArticleMetaData->{IsVisibleForCustomer} ) {
-            %Article = %CurrentArticle;
-            last ARTICLEMETADATA;
-        }
-
-        # check for last non-internal article (sender type does not matter)
-        if ( !%LastNonInternalArticle ) {
-            %LastNonInternalArticle = %CurrentArticle;
-        }
-    }
-
-    if ( !IsHashRefWithData( \%Article ) && IsHashRefWithData( \%LastNonInternalArticle ) ) {
-        %Article = %LastNonInternalArticle;
-    }
-
-    my $NoArticle;
-    if ( !IsHashRefWithData( \%Article ) ) {
-        $NoArticle = 1;
-    }
+    my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{ $ArticleList[0] } );
+    my %Article              = $ArticleBackendObject->ArticleGet(
+        TicketID  => $Param{TicketID},
+        ArticleID => $ArticleList[0]->{ArticleID},
+    );
 
     # get ticket info
     my %Ticket = $TicketObject->TicketGet(
@@ -687,7 +648,7 @@ sub ShowTicketStatus {
     ) || 0;
 
     # return ticket information if there is no article
-    if ($NoArticle) {
+    if ( !IsHashRefWithData( \%Article ) ) {
         $Article{State}        = $Ticket{State};
         $Article{TicketNumber} = $Ticket{TicketNumber};
         $Article{Body}         = $LayoutObject->{LanguageObject}->Translate('This item has no articles yet.');

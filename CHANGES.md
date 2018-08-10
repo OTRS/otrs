@@ -1,4 +1,5 @@
 #6.0.11 2018-??-??
+ - 2018-08-10 Fixed bug#[14006](https://bugs.otrs.org/show_bug.cgi?id=14006) - TicketOverview does not show last visible for customer article for process ticket.
  - 2018-08-09 Fixed bug#[14004](https://bugs.otrs.org/show_bug.cgi?id=14004) - Packages are only accessible via HTTP instead of HTTPS.
  - 2018-08-08 Fixed bug#[14003](https://bugs.otrs.org/show_bug.cgi?id=14003) - Not possible to add more conditions on process transition edit which has more then 10 conditions.
  - 2018-08-08 Fixed bug#[14009](https://bugs.otrs.org/show_bug.cgi?id=14009) - Wrong description for RedirectAfterCloseDisabled configuration.
