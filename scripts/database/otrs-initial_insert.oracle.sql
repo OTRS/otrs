@@ -839,28 +839,38 @@ INSERT INTO article (ticket_id, article_type_id, article_sender_type_id, a_from,
     VALUES
     (1, 1, 3, 'OTRS Feedback <marketing@otrs.com>', 'Your OTRS System <otrs@localhost>', 'Welcome to OTRS!', 'Welcome to OTRS!
 
-Thank you for installing OTRS, the world’s most popular service management software available in more than 35 languages and used by 150,000 companies worldwide.
+Thank you for installing ((OTRS)) Community Edition, the world’s most popular open source service management software, available in 38 languages and used by more than 170,000 companies worldwide.
 
-You can find updates and patches for ((OTRS)) Community Edition at
-https://www.otrs.com/download-open-source-help-desk-software-otrs-free/.
+Please be aware that we do not offer official vendor support for the ((OTRS)) Community Edition.
 
-Please be aware that we do not offer official vendor support for ((OTRS)) Community Edition. In case of questions, please use our:
+Resources for You
 
-- online documentation available at http://otrs.github.io/doc/
-- mailing lists available at http://lists.otrs.org/
-- E-Learning with OTRS at https://www.otrs.com/e-learning-otrs/
+You can find updates and patches at https://www.otrs.com/download-open-source-help-desk-software-otrs-free/.
 
-To meet higher business requirements, we recommend to use the OTRS Business Solution™, that offers
+Find help and exchange ideas in our knowledge base at https://community.otrs.com/open-source/:
+Be part of the OTRS Community and take advantage of our blog posts. Report a bug, suggest a feature or discover online documentation.
 
-- exclusive business features like chat, integration of data from external databases etc.
-- included professional updates & services
+Mailing lists are available at http://lists.otrs.org/
+
+Get More Out of OTRS
+
+To get the most out of OTRS and receive the best possible support for your business, we recommend that you use our fully-managed version of OTRS: https://otrs.com/how-to-buy/.
+
+Profit from:
+
+- exclusive OTRS Features
+- OTRS Feature Add-ons
+- included professional services
+- (security) updates
 - implementation and configuration by our experts
 
-Find more information about it at https://www.otrs.com/solutions/.
+Find more information at https://www.otrs.com/solutions/.
 
-Best regards and ((enjoy)) OTRS,
+Ready to get started with OTRS? -> Contact Sales: https://otrs.com/contact/
 
-Your OTRS Group
+Best regards and ((enjoy)) ((OTRS)) Community Edition,
+
+Your OTRS Team
 ', '<007@localhost>', 1436949030, '2015/07/15', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table article_plain
@@ -875,28 +885,38 @@ Content-Transfer-Encoding: 8bit
 
 Welcome to OTRS!
 
-Thank you for installing OTRS, the world’s most popular service management software available in more than 35 languages and used by 150,000 companies worldwide.
+Thank you for installing ((OTRS)) Community Edition, the world’s most popular open source service management software, available in 38 languages and used by more than 170,000 companies worldwide.
 
-You can find updates and patches for ((OTRS)) Community Edition at
-https://www.otrs.com/download-open-source-help-desk-software-otrs-free/.
+Please be aware that we do not offer official vendor support for the ((OTRS)) Community Edition.
 
-Please be aware that we do not offer official vendor support for ((OTRS)) Community Edition. In case of questions, please use our:
+Resources for You
 
-- online documentation available at http://otrs.github.io/doc/
-- mailing lists available at http://lists.otrs.org/
-- E-Learning with OTRS at https://www.otrs.com/e-learning-otrs/
+You can find updates and patches at https://www.otrs.com/download-open-source-help-desk-software-otrs-free/.
 
-To meet higher business requirements, we recommend to use the OTRS Business Solution™, that offers
+Find help and exchange ideas in our knowledge base at https://community.otrs.com/open-source/:
+Be part of the OTRS Community and take advantage of our blog posts. Report a bug, suggest a feature or discover online documentation.
 
-- exclusive business features like chat, integration of data from external databases etc.
-- included professional updates & services
+Mailing lists are available at http://lists.otrs.org/
+
+Get More Out of OTRS
+
+To get the most out of OTRS and receive the best possible support for your business, we recommend that you use our fully-managed version of OTRS: https://otrs.com/how-to-buy/.
+
+Profit from:
+
+- exclusive OTRS Features
+- OTRS Feature Add-ons
+- included professional services
+- (security) updates
 - implementation and configuration by our experts
 
-Find more information about it at https://www.otrs.com/solutions/.
+Find more information at https://www.otrs.com/solutions/.
 
-Best regards and ((enjoy)) OTRS,
+Ready to get started with OTRS? -> Contact Sales: https://otrs.com/contact/
 
-Your OTRS Group
+Best regards and ((enjoy)) ((OTRS)) Community Edition,
+
+Your OTRS Team
 ', 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table ticket_history
