@@ -247,6 +247,33 @@ $Selenium->RunTest(
             'Article body is not visible to customer',
         );
 
+        # Check shown title and article body overview for the test email ticket in the table
+        # for both Ticket::Frontend::CustomerTicketOverview###ColumnHeader settings.
+        for my $ColumnHeader (qw(LastCustomerSubject TicketTitle)) {
+
+            $Helper->ConfigSettingChange(
+                Valid => 1,
+                Key   => 'Ticket::Frontend::CustomerTicketOverview###ColumnHeader',
+                Value => $ColumnHeader,
+            );
+            sleep 1;
+
+            $Self->Is(
+                $Selenium->execute_script(
+                    "return \$('table.Overview tbody tr a[href*=\"Action=CustomerTicketZoom;TicketNumber=$TicketNumber\"]').closest('tr').find('td:contains(\"Untitled!\")').length"
+                ),
+                '1',
+                "Customer Ticket Overview table contains 'Untitled!' as ticket title part",
+            );
+            $Self->Is(
+                $Selenium->execute_script(
+                    "return \$('table.Overview tbody tr a[href*=\"Action=CustomerTicketZoom;TicketNumber=$TicketNumber\"]').closest('tr').find('td:contains(\"This item has no articles yet.\")').length"
+                ),
+                '1',
+                "Customer Ticket Overview table contains 'This item has no articles yet.' as article body part",
+            );
+        }
+
         # check All filter on CustomerTicketOverview screen
         $Selenium->find_element(
             "//a[contains(\@href, \'Action=CustomerTicketOverview;Subaction=MyTickets;Filter=All' )]"

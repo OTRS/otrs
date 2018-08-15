@@ -636,13 +636,25 @@ sub ShowTicketStatus {
     my $ConfigObject          = $Kernel::OM->Get('Kernel::Config');
     my $SmallViewColumnHeader = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverview')->{ColumnHeader};
 
-    # check if last customer subject or ticket title should be shown
+    # Check if the last customer subject or ticket title should be shown.
+    # If ticket title should be shown, check if there are articles, because ticket title
+    # could be related with a subject of an article which does not visible for customer (see bug#13614).
+    # If there is no subject, set to 'Untitled'.
     if ( $SmallViewColumnHeader eq 'LastCustomerSubject' ) {
         $Subject = $Article{Subject} || '';
     }
-    elsif ( $SmallViewColumnHeader eq 'TicketTitle' ) {
+    elsif ( $SmallViewColumnHeader eq 'TicketTitle' && $ArticleList[0] ) {
         $Subject = $Ticket{Title};
     }
+    else {
+        $Subject = Translatable('Untitled!');
+    }
+
+    # Condense down the subject.
+    $Subject = $TicketObject->TicketSubjectClean(
+        TicketNumber => $Ticket{TicketNumber},
+        Subject      => $Subject,
+    );
 
     # Age design.
     $Ticket{CustomerAge} = $LayoutObject->CustomerAge(
@@ -664,17 +676,6 @@ sub ShowTicketStatus {
         );
         $Param{CustomerName} = '(' . $Param{CustomerName} . ')' if ( $Param{CustomerName} );
     }
-
-    # if there is no subject try with Ticket title or set to Untitled
-    if ( !$Subject ) {
-        $Subject = $Ticket{Title} || Translatable('Untitled!');
-    }
-
-    # condense down the subject
-    $Subject = $TicketObject->TicketSubjectClean(
-        TicketNumber => $Ticket{TicketNumber},
-        Subject      => $Subject,
-    );
 
     # add block
     $LayoutObject->Block(
