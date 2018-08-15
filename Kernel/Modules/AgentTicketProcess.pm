@@ -5187,10 +5187,10 @@ sub _StoreActivityDialog {
                             {
                                 next ATTACHMENT;
                             }
-
-                            # remember inline images and normal attachments
-                            push @NewAttachmentData, \%{$Attachment};
                         }
+
+                        # Remember inline images and normal attachments.
+                        push @NewAttachmentData, \%{$Attachment};
                     }
 
                     @Attachments = @NewAttachmentData;
@@ -5237,9 +5237,6 @@ sub _StoreActivityDialog {
                     return $LayoutObject->ErrorScreen();
                 }
 
-                # remove pre submitted attachments
-                $UploadCacheObject->FormIDRemove( FormID => $Self->{FormID} );
-
                 # write attachments
                 for my $Attachment (@Attachments) {
                     $ArticleBackendObject->ArticleWriteAttachment(
@@ -5248,6 +5245,9 @@ sub _StoreActivityDialog {
                         UserID    => $Self->{UserID},
                     );
                 }
+
+                # Remove pre submitted attachments.
+                $UploadCacheObject->FormIDRemove( FormID => $Self->{FormID} );
 
                 # get the link ticket id if given
                 my $LinkTicketID = $ParamObject->GetParam( Param => 'LinkTicketID' ) || '';

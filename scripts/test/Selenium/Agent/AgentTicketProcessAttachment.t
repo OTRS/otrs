@@ -21,11 +21,11 @@ $Selenium->RunTest(
         my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
         my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
 
-        # Do not check RichText.
+        # Enable RichText.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::RichText',
-            Value => 0,
+            Value => 1,
         );
 
         # Create test user.
@@ -154,8 +154,12 @@ $Selenium->RunTest(
             "'Main-Test1.txt' - uploaded"
         );
 
-        $Selenium->find_element( "#Subject",  'css' )->send_keys('Test');
-        $Selenium->find_element( "#RichText", 'css' )->send_keys('Test');
+        $Selenium->find_element( "#Subject", 'css' )->send_keys('Test');
+        $Selenium->execute_script(
+            q{
+                return CKEDITOR.instances.RichText.setData('This is a test text');
+            }
+        );
 
         # Submit.
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
@@ -175,6 +179,12 @@ $Selenium->RunTest(
         # Get test ticket ID.
         my @TicketZoomUrl = split( 'Action=AgentTicketZoom;TicketID=', $Url );
         my $TicketID = $TicketZoomUrl[1];
+
+        # Verify article attachment is created.
+        $Self->True(
+            $Selenium->execute_script("return \$('.ArticleAttachments li').length;"),
+            "Attachment is created in process ticket article"
+        );
 
         my $TransitionObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
         my $ActivityObject          = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
