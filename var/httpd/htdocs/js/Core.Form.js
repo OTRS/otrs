@@ -64,8 +64,8 @@ Core.Form = (function (TargetNS) {
      * @name IsFormModified
      * @memberof Core.Form
      * @function
-     * @description
      * @returns {boolean} True if there was modification.
+     * @description
      *      Checks if any element in any form on the screen has been modified.
      */
     TargetNS.IsFormModified = function () {
