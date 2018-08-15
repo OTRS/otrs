@@ -1,4 +1,5 @@
 #5.0.30 20??-??-??
+ - 2018-08-15 Fixed bug#[13614](https://bugs.otrs.org/show_bug.cgi?id=13614) - Title is shown based on the first article in customer ticket overview even if the first article is marked as not visible for customer.
  - 2018-08-15 Fixed bug#[14011](https://bugs.otrs.org/show_bug.cgi?id=14011) - 'Backspace' key returns to previous page in modernize field selection.
  - 2018-08-09 Fixed bug#[14004](https://bugs.otrs.org/show_bug.cgi?id=14004) - Packages are only accessible via HTTP instead of HTTPS.
  - 2018-08-08 Fixed bug#[14003](https://bugs.otrs.org/show_bug.cgi?id=14003) - Not possible to add more conditions on process transition edit which has more then 10 conditions.
