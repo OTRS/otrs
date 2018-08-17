@@ -769,12 +769,12 @@ Core.UI = (function (TargetNS) {
 
         $('.AttachmentList').each(function() {
             if ($(this).find('tbody tr').length) {
-                $('.AttachmentList').show();
+                $(this).show();
             }
         });
 
         // Attachment deletion
-        $('.AttachmentList').on('click', '.AttachmentDelete', function() {
+        $('.AttachmentList').off('click').on('click', '.AttachmentDelete', function() {
 
             var $TriggerObj = $(this),
                 $AttachmentListContainerObj = $TriggerObj.closest('.AttachmentListContainer'),
@@ -830,6 +830,11 @@ Core.UI = (function (TargetNS) {
                     'IsMultiple': IsMultiple
                 });
 
+            // Only initialize events once per attachment field.
+            if ($(this).next().hasClass('AjaxDnDUploadReady')) {
+                return;
+            }
+
             $(this)
                 .val('')
                 .hide()
@@ -870,7 +875,8 @@ Core.UI = (function (TargetNS) {
                 })
                 .on('drop', function(Event) {
                     UploadFiles(Event.originalEvent.dataTransfer.files, $(this));
-                });
+                })
+                .addClass('AjaxDnDUploadReady');
         });
     };
 
