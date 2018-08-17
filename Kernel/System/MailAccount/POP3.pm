@@ -281,7 +281,7 @@ sub Fetch {
         );
 
         MESSAGE_NO:
-        for my $Messageno ( sort keys %{$MessageList} ) {
+        for my $Messageno ( sort { $a <=> $b } keys %{$MessageList} ) {
 
             # check if reconnect is needed
             if ( $FetchCounter >= $MaxPopEmailSession ) {

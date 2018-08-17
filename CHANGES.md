@@ -1,4 +1,5 @@
 #6.0.11 2018-??-??
+ - 2018-08-17 Fixed bug#[13957](https://bugs.otrs.org/show_bug.cgi?id=13957) - POP3 fetching mails in wrong order.
  - 2018-08-15 Fixed bug#[13614](https://bugs.otrs.org/show_bug.cgi?id=13614) - Title is shown based on the first article in customer ticket overview even if the first article is marked as not visible for customer.
  - 2018-08-15 Fixed bug#[14011](https://bugs.otrs.org/show_bug.cgi?id=14011) - 'Backspace' key returns to previous page in modernize field selection.
  - 2018-08-15 Fixed bug#[14014](https://bugs.otrs.org/show_bug.cgi?id=14014) - Missing attachments created in process ticket articles.
