@@ -18,6 +18,7 @@ It is distributed under the AFFERO GNU General Public License - see the
 accompanying [COPYING](COPYING) file for more details.
 
 
+
 Documentation
 =============
 You can find documentation [online](http://doc.otrs.com/). The source code of OTRS and its public extension
