@@ -1,12 +1,7 @@
-# --
-# Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
-# --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
-# --
 <!--                                                                           -->
-<!-- OTRS: Copyright 2001-2010, OTRS Project. This Software is under the AGPL. -->
-<!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/            -->
-<!--  GNU AFFERO General Public License: http://www.gnu.org/licenses/agpl.txt  -->
+<!--        OTRS: Copyright (C) 2001-2018 OTRS AG, https://otrs.com/.          -->
+<!--         Web: https://otrs.com/ - Lists: https://lists.otrs.org/           -->
+<!--    GNU General Public License: https://www.gnu.org/licenses/gpl-3.0.txt   -->
 <!--                                                                           -->
+# nofilter(TidyAll::Plugin::OTRS::Common::HeaderlineFilename)
+# nofilter(TidyAll::Plugin::OTRS::Legal::LicenseValidator)
