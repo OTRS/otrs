@@ -1,7 +1,7 @@
 #!/bin/sh
 # --
 # Cron.sh - start|stop OTRS Cronjobs
-# Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2018 OTRS AG, https://otrs.com/
 # --
 # $Id: Cron.sh,v 1.19 2009-02-26 11:01:01 tr Exp $
 # --
@@ -58,7 +58,7 @@ CRON_DIR=$OTRS_ROOT/var/cron
 CRON_TMP_FILE=$OTRS_ROOT/var/tmp/otrs-cron-tmp.$$
 
 echo "Cron.sh - start/stop OTRS cronjobs - <\$Revision: 1.19 $> "
-echo "Copyright (C) 2001-2018 OTRS AG, http://otrs.com/"
+echo "Copyright (C) 2001-2018 OTRS AG, https://otrs.com/"
 
 #
 # main part

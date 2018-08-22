@@ -1,9 +1,9 @@
 # --
-# Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2018 OTRS AG, https://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
 # --
 #
 # please send bugfixes or comments to bugs+rpm@otrs.org
@@ -12,7 +12,7 @@
 Summary:      OTRS Help Desk.
 Name:         otrs
 Version:      0.0
-Copyright:    GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
+Copyright:    GNU GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 Group:        Applications/Mail
 Provides:     otrs
 Requires:     perl perl-DBI perl-Net-DNS perl-Digest-MD5 apache2 apache2-mod_perl procmail perl-libwww-perl perl-ldap perl-IO-Socket-SSL perl-TimeDate
