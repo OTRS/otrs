@@ -1,9 +1,9 @@
 # --
-# Copyright (C) 2001-2018 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2018 OTRS AG, https://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
 # --
 
 ## no critic (Modules::RequireExplicitPackage)
@@ -28,7 +28,7 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
     <Version>0.0.1</Version>
     <Vendor>OTRS AG</Vendor>
     <URL>http://otrs.com/</URL>
-    <License>GNU AFFERO GENERAL PUBLIC LICENSE Version 3, November 2007</License>
+    <License>GNU GENERAL PUBLIC LICENSE Version 3, November 2007</License>
     <Description Lang="en">TestPackage1.</Description>
     <Framework>6.0.x</Framework>
     <BuildDate>2016-10-11 02:35:46</BuildDate>
@@ -45,7 +45,7 @@ my $String2 = '<?xml version="1.0" encoding="utf-8" ?>
     <Version>0.0.1</Version>
     <Vendor>OTRS AG</Vendor>
     <URL>http://otrs.com/</URL>
-    <License>GNU AFFERO GENERAL PUBLIC LICENSE Version 3, November 2007</License>
+    <License>GNU GENERAL PUBLIC LICENSE Version 3, November 2007</License>
     <Description Lang="en">TestPackage2.</Description>
     <Framework>6.0.x</Framework>
     <BuildDate>2016-10-11 02:36:29</BuildDate>
