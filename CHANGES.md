@@ -1,5 +1,6 @@
 #5.0.30 20??-??-??
  - 2018-08-27 Fixed bug#[14025](https://bugs.otrs.org/show_bug.cgi?id=14025) - backup.pl may delete a backup it just created.
+ - 2018-08-27 Fixed bug#[13767](https://bugs.otrs.org/show_bug.cgi?id=13767) - Search result wrong displayed when there is only one result in IE 11.
  - 2018-08-17 Fixed bug#[13987](https://bugs.otrs.org/show_bug.cgi?id=13987) - The value typed in e.g. customer user is deleted frequently, if already one customer user is selected.
  - 2018-08-17 Fixed bug#[13957](https://bugs.otrs.org/show_bug.cgi?id=13957) - POP3 fetching mails in wrong order.
  - 2018-08-15 Fixed bug#[13614](https://bugs.otrs.org/show_bug.cgi?id=13614) - Title is shown based on the first article in customer ticket overview even if the first article is marked as not visible for customer.

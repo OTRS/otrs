@@ -580,10 +580,9 @@ thead .headerSortDown a {
 
 #OverviewBody.Overview.TicketList {
     overflow-x: auto;
-    overflow-y: hidden;
 }
 
-#OverviewBody.Overview.TicketList table {
+#OverviewBody.Overview.TicketList table.TableSmall.NoCellspacing {
     overflow: visible;
 }
 
