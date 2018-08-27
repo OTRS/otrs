@@ -1,5 +1,8 @@
 package Selenium::Firefox::Binary;
-$Selenium::Firefox::Binary::VERSION = '1.20';
+$Selenium::Firefox::Binary::VERSION = '1.29';
+use strict;
+use warnings;
+
 # ABSTRACT: Subroutines for locating and properly initializing the Firefox Binary
 use File::Which qw/which/;
 use Selenium::Firefox::Profile;
@@ -41,6 +44,7 @@ sub _firefox_unix_path {
     return which('firefox') || '/usr/bin/firefox';
 }
 
+
 sub firefox_path {
     my $path;
     if ($^O eq 'MSWin32') {
@@ -59,6 +63,7 @@ sub firefox_path {
 
     return $path;
 }
+
 
 # We want the profile to persist to the end of the session, not just
 # the end of this function.
@@ -101,7 +106,6 @@ sub setup_firefox_binary_env {
     return $profile;
 }
 
-
 1;
 
 __END__
@@ -116,7 +120,17 @@ Selenium::Firefox::Binary - Subroutines for locating and properly initializing t
 
 =head1 VERSION
 
-version 1.20
+version 1.29
+
+=head1 SUBROUTINES
+
+=head2 firefox_path
+
+Return the path to the firefox binary on your system.
+
+=head2 setup_firefox_binary_env
+
+Sets various environment variables to make firefox work correctly with webDriver.
 
 =head1 SEE ALSO
 
@@ -133,7 +147,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/gempesaw/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired

@@ -1,5 +1,8 @@
 package Selenium::Remote::RemoteConnection;
-$Selenium::Remote::RemoteConnection::VERSION = '1.20';
+$Selenium::Remote::RemoteConnection::VERSION = '1.29';
+use strict;
+use warnings;
+
 #ABSTRACT: Connect to a selenium server
 
 use Moo;
@@ -11,6 +14,7 @@ use Carp qw(croak);
 use JSON;
 use Data::Dumper;
 use Selenium::Remote::ErrorHandler;
+use Scalar::Util qw{looks_like_number};
 
 has 'remote_server_addr' => (
     is => 'rw',
@@ -37,6 +41,7 @@ has 'error_handler' => (
 
 with 'Selenium::Remote::Driver::CanSetWebdriverContext';
 
+
 sub check_status {
     my $self = shift;
     my $status;
@@ -58,6 +63,7 @@ sub check_status {
         croak "Selenium server did not return proper status";
     }
 }
+
 
 sub request {
     my ($self,$resource,$params,$dont_process_response) = @_;
@@ -97,6 +103,14 @@ sub request {
     }
 
     if ((defined $params) && $params ne '') {
+
+        #WebDriver 3 shims
+        if ($resource->{payload}) {
+            foreach my $key (keys(%{$resource->{payload}})) {
+                $params->{$key} = $resource->{payload}->{$key};
+            }
+        }
+
         my $json = JSON->new;
         $json->allow_blessed;
         $content = $json->allow_nonref->utf8->encode($params);
@@ -155,6 +169,20 @@ sub _process_response {
         elsif ($response->is_success) {
             $data->{'cmd_status'} = 'OK';
             if (defined $decoded_json) {
+
+                #XXX MS edge doesn't follow spec here either
+                if (looks_like_number($decoded_json->{status}) && $decoded_json->{status} > 0 && $decoded_json->{value}{message}) {
+                    $data->{cmd_status} = 'NOT OK';
+                    $data->{cmd_return} = $decoded_json->{value};
+                    return $data;
+                }
+                #XXX shockingly, neither does InternetExplorerDriver
+                if ( ref $decoded_json eq 'HASH' && $decoded_json->{error} ) {
+                    $data->{cmd_status} = 'NOT OK';
+                    $data->{cmd_return} = $decoded_json;
+                    return $data;
+                }
+
                 if ($no_content_success) {
                     $data->{'cmd_return'} = 1
                 }
@@ -195,7 +223,49 @@ Selenium::Remote::RemoteConnection - Connect to a selenium server
 
 =head1 VERSION
 
-version 1.20
+version 1.29
+
+=head1 SYNOPSIS
+
+    my $driver = Selenium::Remote::Driver->new();
+    eval { $driver->remote_conn->check_status() };
+    die "do something to kick the server" if $@;
+
+=head1 DESCRIPTION
+
+You shouldn't really need to use this module unless debugging or checking connections when testing dangerous things.
+
+=head1 CONSTRUCTOR
+
+=head2 new(%parameters)
+
+Accepts 5 parameters:
+
+=over 4
+
+=item B<remote_server_addr> - address of selenium server
+
+=item B<port> - port of selenium server
+
+=item B<ua> - Useful to override with Test::LWP::UserAgent in unit tests
+
+=item B<debug> - Should be self-explanatory
+
+=item B<error_handler> - Defaults to Selenium::Remote::ErrorHandler.
+
+=back
+
+These can be set any time later by getter/setters with the same name.
+
+=head1 METHODS
+
+=head2 check_status
+
+Croaks unless the selenium server is responsive.  Sometimes is useful to call in-between tests (the server CAN die on you...)
+
+=head2 request
+
+Make a request of the Selenium server.  Mostly useful for debugging things going wrong with Selenium::Remote::Driver when not in normal operation.
 
 =head1 SEE ALSO
 
@@ -212,7 +282,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/gempesaw/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired

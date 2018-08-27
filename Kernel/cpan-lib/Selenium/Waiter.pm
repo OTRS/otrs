@@ -1,5 +1,8 @@
 package Selenium::Waiter;
-$Selenium::Waiter::VERSION = '1.20';
+$Selenium::Waiter::VERSION = '1.29';
+use strict;
+use warnings;
+
 # ABSTRACT: Provides a utility wait_until function
 use Try::Tiny;
 require Exporter;
@@ -62,14 +65,14 @@ Selenium::Waiter - Provides a utility wait_until function
 
 =head1 VERSION
 
-version 1.20
+version 1.29
 
 =head1 SYNOPSIS
 
     use Selenium::Waiter qw/wait_until/;
     my $d = Selenium::Remote::Driver->new;
 
-    my $div = wait_until { $d->find_element('div', css') };
+    my $div = wait_until { $d->find_element('div', 'css') };
 
 =head1 FUNCTIONS
 
@@ -80,7 +83,7 @@ hash of configuration params. It uses a prototype to take its
 arguments, so usage looks look like:
 
     use Selenium::Waiter;
-    my $div = wait_until { $driver->find_element('div', css') };
+    my $div = wait_until { $driver->find_element('div', 'css') };
 
 The above snippet will search for C<css=div> for thirty seconds; if it
 ever finds the element, it will immediately return. More generally,
@@ -143,7 +146,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/gempesaw/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired

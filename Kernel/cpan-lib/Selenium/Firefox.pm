@@ -1,5 +1,8 @@
 package Selenium::Firefox;
-$Selenium::Firefox::VERSION = '1.20';
+$Selenium::Firefox::VERSION = '1.29';
+use strict;
+use warnings;
+
 # ABSTRACT: Use FirefoxDriver without a Selenium server
 use Moo;
 use Carp;
@@ -131,18 +134,20 @@ Selenium::Firefox - Use FirefoxDriver without a Selenium server
 
 =head1 VERSION
 
-version 1.20
+version 1.29
 
 =head1 SYNOPSIS
 
     # These two are the same, and will only work with Firefox 48+
     my $driver = Selenium::Firefox->new;
-    my $driver = Selenium::Firefox->new( marionette_enabled => 1 );
-    ...
+    $driver = Selenium::Firefox->new( marionette_enabled => 1 );
+
+    #Do stuff...
+
     $driver->shutdown_binary;
 
     # For Firefox 47 and older, disable marionette:
-    my $driver = Selenium::Firefox->new( marionette_enabled => 0 );
+    $driver = Selenium::Firefox->new( marionette_enabled => 0 );
     $driver->shutdown_binary;
 
 =head1 DESCRIPTION
@@ -232,9 +237,8 @@ not do anything useful.
 Optional: specify whether
 L<marionette|https://developer.mozilla.org/en-US/docs/Mozilla/QA/Marionette>
 should be enabled or not. By default, marionette is enabled, which
-assumes you are running with Firefox 48 or newer. To use this module
-to start Firefox 47 or older, you must pass C<<<marionette_enabled =>
-0>>>.
+assumes you are running with Firefox 48 or newer. To use this module to
+start Firefox 47 or older, you must pass C<< marionette_enabled => 0 >>.
 
     my $ff48 = Selenium::Firefox->new( marionette_enabled => 1 ); # defaults to 1
     my $ff47 = Selenium::Firefox->new( marionette_enabled => 0 );
@@ -301,6 +305,10 @@ It doesn't take any arguments, and it doesn't return anything.
 We do our best to call this when the C<$driver> option goes out of
 scope, but if that happens during global destruction, there's nothing
 we can do.
+
+=for Pod::Coverage has_binary
+
+=for Pod::Coverage has_firefox_binary
 
 =head1 BREAKING CHANGES
 
@@ -384,7 +392,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/gempesaw/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired

@@ -1,5 +1,8 @@
 package Selenium::CanStartBinary::FindBinary;
-$Selenium::CanStartBinary::FindBinary::VERSION = '1.20';
+$Selenium::CanStartBinary::FindBinary::VERSION = '1.29';
+use strict;
+use warnings;
+
 # ABSTRACT: Coercions for finding webdriver binaries on your system
 use Cwd qw/abs_path/;
 use File::Which qw/which/;
@@ -11,6 +14,7 @@ our @ISA = qw/Exporter/;
 our @EXPORT_OK = qw/coerce_simple_binary coerce_firefox_binary/;
 
 use constant IS_WIN => $^O eq 'MSWin32';
+
 
 sub coerce_simple_binary {
     my ($executable) = @_;
@@ -80,7 +84,9 @@ Selenium::CanStartBinary::FindBinary - Coercions for finding webdriver binaries 
 
 =head1 VERSION
 
-version 1.20
+version 1.29
+
+=for Pod::Coverage *EVERYTHING*
 
 =head1 SEE ALSO
 
@@ -97,7 +103,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/gempesaw/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired
