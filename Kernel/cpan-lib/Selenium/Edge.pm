@@ -1,9 +1,9 @@
-package Selenium::PhantomJS;
-$Selenium::PhantomJS::VERSION = '1.29';
+package Selenium::Edge;
+$Selenium::Edge::VERSION = '1.29';
 use strict;
 use warnings;
 
-# ABSTRACT: Use GhostDriver without a Selenium server
+# ABSTRACT: Use EdgeDriver without a Selenium server
 use Moo;
 use Selenium::CanStartBinary::FindBinary qw/coerce_simple_binary/;
 extends 'Selenium::Remote::Driver';
@@ -11,21 +11,21 @@ extends 'Selenium::Remote::Driver';
 
 has '+browser_name' => (
     is => 'ro',
-    default => sub { 'phantomjs' }
+    default => sub { 'MicrosoftEdge' }
 );
 
 
 has 'binary' => (
     is => 'lazy',
     coerce => \&coerce_simple_binary,
-    default => sub { 'phantomjs' },
+    default => sub { 'MicrosoftWebDriver.exe' },
     predicate => 1
 );
 
 
 has 'binary_port' => (
     is => 'lazy',
-    default => sub { 8910 }
+    default => sub { 17556 }
 );
 
 has '_binary_args' => (
@@ -33,7 +33,10 @@ has '_binary_args' => (
     builder => sub {
         my ($self) = @_;
 
-        return ' --webdriver=127.0.0.1:' . $self->port;
+        my $context = $self->wd_context_prefix;
+        $context =~ s{^/}{};
+
+        return ' --port=' . $self->port . ' --url-base=' . $context . ' ';
     }
 );
 
@@ -50,7 +53,7 @@ __END__
 
 =head1 NAME
 
-Selenium::PhantomJS - Use GhostDriver without a Selenium server
+Selenium::Edge - Use EdgeDriver without a Selenium server
 
 =head1 VERSION
 
@@ -58,41 +61,28 @@ version 1.29
 
 =head1 SYNOPSIS
 
-    my $driver = Selenium::PhantomJS->new;
+    my $driver = Selenium::Edge->new;
     # when you're done
     $driver->shutdown_binary;
 
 =head1 DESCRIPTION
 
-This class allows you to use PhantomJS via Ghostdriver without needing
-the JRE or a selenium server running. When you refrain from passing
-the C<remote_server_addr> and C<port> arguments, we will search for
-the phantomjs executable binary in your $PATH. We'll try to start the
+This class allows you to use the EdgeDriver without needing the JRE
+or a selenium server running. When you refrain from passing the
+C<remote_server_addr> and C<port> arguments, we will search for the
+edgedriver executable binary in your $PATH. We'll try to start the
 binary connect to it, shutting it down at the end of the test.
 
-If the binary is not found, we'll fall back to the default
-L<Selenium::Remote::Driver> behavior of assuming defaults of
+If the MicrosoftWebDriver binary is not found, we'll fall back to the
+default L<Selenium::Remote::Driver> behavior of assuming defaults of
 127.0.0.1:4444 after waiting a few seconds.
 
 If you specify a remote server address, or a port, we'll assume you
 know what you're doing and take no additional behavior.
 
-If you're curious whether your Selenium::PhantomJS instance is using a
-separate PhantomJS binary, or through the selenium server, you can check
-the C<binary_mode> attr after instantiation.
-
-    my $driver = Selenium::PhantomJS->new;
-    print $driver->binary_mode;
-
-N.B. - if you're using Windows and you installed C<phantomjs> via
-C<npm install -g phantomjs>, there is a very high probability that we
-will _not_ close down your phantomjs binary correctly after your
-test. You will be able to tell if we leave around empty command
-windows that you didn't start yourself. The easiest way to fix this is
-to download PhantomJS manually from their
-L<website|http://phantomjs.org/download.html> and put it in your
-C<%PATH%>. If this is a blocking issue for you, let us know in
-L<Github|https://github.com/gempesaw/Selenium-Remote-Driver>; thanks!
+If you're curious whether your Selenium::Edge instance is using a
+separate MicrosoftWebDriver binary, or through the selenium server, you can
+check the C<binary_mode> attr after instantiation.
 
 =head1 ATTRIBUTES
 
@@ -126,9 +116,14 @@ listen on its port. The default duration is arbitrarily 10 seconds. It
 accepts an integer number of seconds to wait: the following will wait
 up to 20 seconds:
 
-    Selenium::PhantomJS->new( startup_timeout => 20 );
+    Selenium::Edge->new( startup_timeout => 20 );
 
 See L<Selenium::CanStartBinary/startup_timeout> for more information.
+
+=head2 fixed_ports
+
+Optional: Throw instead of searching for additional ports; see
+L<Selenium::CanStartBinary/fixed_ports> for more info.
 
 =head1 METHODS
 

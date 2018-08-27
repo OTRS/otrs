@@ -1,6 +1,12 @@
 package Selenium::Remote::Commands;
-$Selenium::Remote::Commands::VERSION = '1.20';
-# ABSTRACT: Implement commands for Selenium::Remote::Driver
+$Selenium::Remote::Commands::VERSION = '1.29';
+use strict;
+use warnings;
+
+use Carp qw{croak};
+
+# ABSTRACT: Implement commands for Selenium::Remote::Driver for use with webdriver 2
+
 
 use Moo;
 
@@ -453,6 +459,10 @@ sub get_params {
     }
     my $data    = {};
     my $command = $args->{'command'};
+
+    #Allow fall-back in the event the command passed doesn't exist
+    return unless $self->get_cmds()->{$command};
+
     my $url     = $self->get_url($command);
 
     # Do the var substitutions.
@@ -470,6 +480,32 @@ sub get_params {
     return $data;
 }
 
+sub parse_response {
+    my ($self,$res,$resp) = @_;
+    if ( ref($resp) eq 'HASH' ) {
+        if ( $resp->{cmd_status} && $resp->{cmd_status} eq 'OK' ) {
+            return $resp->{cmd_return};
+        }
+        my $msg = "Error while executing command";
+        $msg .= ": $resp->{cmd_error}" if $resp->{cmd_error};
+        if ( $resp->{cmd_return} ) {
+            if ( ref( $resp->{cmd_return} ) eq 'HASH' ) {
+                $msg .= ": $res->{command}"
+                  if $res->{command};
+                $msg .= ": $resp->{cmd_return}->{error}->{msg}"
+                  if $resp->{cmd_return}->{error}->{msg};
+                $msg .= ": $resp->{cmd_return}->{message}"
+                  if $resp->{cmd_return}->{message};
+            }
+            else {
+                $msg .= ": $resp->{cmd_return}";
+            }
+        }
+        croak $msg;
+    }
+    return $resp;
+}
+
 1;
 
 __END__
@@ -480,11 +516,20 @@ __END__
 
 =head1 NAME
 
-Selenium::Remote::Commands - Implement commands for Selenium::Remote::Driver
+Selenium::Remote::Commands - Implement commands for Selenium::Remote::Driver for use with webdriver 2
 
 =head1 VERSION
 
-version 1.20
+version 1.29
+
+=head1 DESCRIPTION
+
+Defines all the HTTP endpoints available to execute on a selenium v2 server.
+
+If you have either a customized Selenium Server, or want new features
+you should update the _cmds hash.
+
+=for Pod::Coverage *EVERYTHING*
 
 =head1 SEE ALSO
 
@@ -501,7 +546,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/gempesaw/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired

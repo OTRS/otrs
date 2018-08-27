@@ -1,5 +1,5 @@
 package Selenium::Firefox::Profile;
-$Selenium::Firefox::Profile::VERSION = '1.20';
+$Selenium::Firefox::Profile::VERSION = '1.29';
 # ABSTRACT: Use custom profiles with Selenium::Remote::Driver
 # TODO: convert this to Moo!
 
@@ -17,6 +17,7 @@ use JSON qw(decode_json);
 use MIME::Base64;
 use Scalar::Util qw(blessed looks_like_number);
 use XML::Simple;
+
 
 
 sub new {
@@ -172,7 +173,7 @@ sub _encode {
     $self->_layout_on_disk();
 
     my $zip = Archive::Zip->new();
-    my $dir_member = $zip->addTree( $self->{profile_dir} );
+    $zip->addTree( $self->{profile_dir} );
 
     my $string = "";
     open (my $fh, ">", \$string);
@@ -263,14 +264,44 @@ Selenium::Firefox::Profile - Use custom profiles with Selenium::Remote::Driver
 
 =head1 VERSION
 
-version 1.20
+version 1.29
 
 =head1 DESCRIPTION
 
 You can use this module to create a custom Firefox Profile for your
 Selenium tests. Currently, you can set browser preferences and add
 extensions to the profile before passing it in the constructor for a
-new L</Selenium::Remote::Driver> or L</Selenium::Firefox>.
+new L<Selenium::Remote::Driver> or L<Selenium::Firefox>.
+
+=head1 SYNPOSIS
+
+    use Selenium::Remote::Driver;
+    use Selenium::Firefox::Profile;
+
+    my $profile = Selenium::Firefox::Profile->new;
+    $profile->set_preference(
+        'browser.startup.homepage' => 'http://www.google.com',
+        'browser.cache.disk.capacity' => 358400
+    );
+
+    $profile->set_boolean_preference(
+        'browser.shell.checkDefaultBrowser' => 0
+    );
+
+    $profile->add_extension('t/www/redisplay.xpi');
+
+    my $driver = Selenium::Remote::Driver->new(
+        'firefox_profile' => $profile
+    );
+
+    $driver->get('http://www.google.com');
+    print $driver->get_title();
+
+=head1 CONSTRUCTOR
+
+=head2 new (%args)
+
+profile_dir - <string> directory to look for the firefox profile. Defaults to a Tempdir.
 
 =head1 METHODS
 
@@ -339,30 +370,6 @@ introduction of C<geckodriver>.
 Primarily for internal use, configure Marionette to the
 current Firefox profile.
 
-=head1 SYNPOSIS
-
-    use Selenium::Remote::Driver;
-    use Selenium::Firefox::Profile;
-
-    my $profile = Selenium::Firefox::Profile->new;
-    $profile->set_preference(
-        'browser.startup.homepage' => 'http://www.google.com',
-        'browser.cache.disk.capacity' => 358400
-    );
-
-    $profile->set_boolean_preference(
-        'browser.shell.checkDefaultBrowser' => 0
-    );
-
-    $profile->add_extension('t/www/redisplay.xpi');
-
-    my $driver = Selenium::Remote::Driver->new(
-        'firefox_profile' => $profile
-    );
-
-    $driver->get('http://www.google.com');
-    print $driver->get_title();
-
 =head1 SEE ALSO
 
 Please see those modules/websites for more information related to this module.
@@ -386,7 +393,7 @@ L<https://developer.mozilla.org/en-US/docs/Mozilla/Preferences/A_brief_guide_to_
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/gempesaw/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired

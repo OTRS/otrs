@@ -1,7 +1,11 @@
 package Selenium::ActionChains;
-$Selenium::ActionChains::VERSION = '1.20';
+$Selenium::ActionChains::VERSION = '1.29';
+use strict;
+use warnings;
+
 # ABSTRACT: Action chains for Selenium::Remote::Driver
 use Moo;
+
 
 has 'driver' => (
     is => 'ro',
@@ -165,7 +169,7 @@ Selenium::ActionChains - Action chains for Selenium::Remote::Driver
 
 =head1 VERSION
 
-version 1.20
+version 1.29
 
 =head1 SYNOPSIS
 
@@ -186,6 +190,8 @@ This module implements ActionChains for Selenium, which is a way of automating
 low level interactions like mouse movements, mouse button actions , key presses and
 context menu interactions.
 The code was inspired by the L<Python implementation|http://selenium.googlecode.com/svn/trunk/docs/api/py/_modules/selenium/webdriver/common/action_chains.html#ActionChains>.
+
+=for Pod::Coverage driver
 
 =head1 DRAG AND DROP IS NOT WORKING !
 
@@ -405,7 +411,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/gempesaw/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired
