@@ -137,8 +137,9 @@ if ( $Home !~ m{\/\z} ) {
 
 chdir($Home);
 
+my $SystemTimeObject = $Kernel::OM->Get('Kernel::System::Time');
 my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
-    SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
+    SystemTime => $SystemTimeObject->SystemTime(),
 );
 
 # create directory name - this looks like 2013-09-09_22-19'
@@ -255,7 +256,7 @@ else {
 # remove old backups only after everything worked well
 if ( defined $Opts{r} ) {
     my %LeaveBackups;
-    my $SystemTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $SystemTime = $SystemTimeObject->SystemTime();
 
     # we'll be substracting days to the current time
     # we don't want DST changes to affect our dates
