@@ -1,6 +1,9 @@
 package Selenium::Remote::Mock::RemoteConnection;
-$Selenium::Remote::Mock::RemoteConnection::VERSION = '1.20';
+$Selenium::Remote::Mock::RemoteConnection::VERSION = '1.29';
 # ABSTRACT: utility class to mock the responses from Selenium server
+
+use strict;
+use warnings;
 
 use Moo;
 use JSON;
@@ -56,6 +59,7 @@ has 'remote_server_addr' => (
     is => 'lazy',
     default => sub { 'localhost' }
 );
+
 
 sub BUILD {
     my $self = shift;
@@ -178,7 +182,7 @@ Selenium::Remote::Mock::RemoteConnection - utility class to mock the responses f
 
 =head1 VERSION
 
-version 1.20
+version 1.29
 
 =head1 SYNOPSIS
 
@@ -212,10 +216,10 @@ version 1.20
 This code, above doing some basic Selenium interactions, will end up generating a JSON file containing all the requests and their responses for your Selenium session.
 The JSON file looks like this :
 
-    {
-        "HTTP_REQUEST URL {request_parameters}":[ARRAY_OF_RESPONSES]
+    '{
+        "HTTP_REQUEST_URL {request_parameters}":[response1,response2,...],
         ...
-    }
+    }'
 
 The reason why we store array of responses is that the exact same request can be made more than once during a session, so we have to store every response to the same requests.
 
@@ -284,7 +288,7 @@ To accomplish this we need :
 =over
 
 =item *
-a spec: a HASHREF which keys are the name of the methods we want to mock. Note that those keys should also be valid keys from the _cmds attribute in L<Selenium::Remote::Command>.
+a spec: a HASHREF which keys are the name of the methods we want to mock. Note that those keys should also be valid keys from the _cmds attribute in L<Selenium::Remote::Commands>.
 The value of each key is a sub which will be given two parameters:
 
 =over
@@ -326,6 +330,8 @@ mock responses to specific functions
 
 =back
 
+=for Pod::Coverage *EVERYTHING*
+
 =head1 BUGS
 
 This code is really early alpha, so its API might change. Use with caution !
@@ -345,7 +351,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/gempesaw/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired

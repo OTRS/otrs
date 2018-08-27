@@ -1,7 +1,10 @@
 package Selenium::Remote::Mock::Commands;
-$Selenium::Remote::Mock::Commands::VERSION = '1.20';
+$Selenium::Remote::Mock::Commands::VERSION = '1.29';
 # ABSTRACT: utility class to mock Selenium::Remote::Commands
-#
+
+use strict;
+use warnings;
+
 use Moo;
 extends 'Selenium::Remote::Commands';
 
@@ -48,11 +51,13 @@ Selenium::Remote::Mock::Commands - utility class to mock Selenium::Remote::Comma
 
 =head1 VERSION
 
-version 1.20
+version 1.29
 
 =head1 DESCRIPTION
 
 Utility class to be for testing purposes, with L<Selenium::Remote::Mock::RemoteConnection> only.
+
+=for Pod::Coverage *EVERYTHING*
 
 =head1 SEE ALSO
 
@@ -69,7 +74,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/gempesaw/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired

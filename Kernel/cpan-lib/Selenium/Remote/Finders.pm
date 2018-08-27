@@ -1,5 +1,8 @@
 package Selenium::Remote::Finders;
-$Selenium::Remote::Finders::VERSION = '1.20';
+$Selenium::Remote::Finders::VERSION = '1.29';
+use strict;
+use warnings;
+
 # ABSTRACT: Handle construction of generic parameter finders
 use Try::Tiny;
 use Carp qw/carp/;
@@ -38,7 +41,7 @@ Selenium::Remote::Finders - Handle construction of generic parameter finders
 
 =head1 VERSION
 
-version 1.20
+version 1.29
 
 =head1 DESCRIPTION
 
@@ -63,7 +66,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/gempesaw/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired
