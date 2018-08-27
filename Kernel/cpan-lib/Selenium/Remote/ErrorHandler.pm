@@ -1,5 +1,8 @@
 package Selenium::Remote::ErrorHandler;
-$Selenium::Remote::ErrorHandler::VERSION = '1.20';
+$Selenium::Remote::ErrorHandler::VERSION = '1.29';
+use strict;
+use warnings;
+
 # ABSTRACT: Error handler for Selenium::Remote::Driver
 
 use Moo;
@@ -112,23 +115,24 @@ has STATUS_CODE => (
 );
 
 
-# Instead of just returning the end user a server returned error code, we will
-# put a more human readable & usable error message & that is what this method
-# is going to do.
 sub process_error {
     my ($self, $resp) = @_;
     # TODO: Handle screen if it sent back with the response. Either we could
     # let the end user handle it or we can save it an image file at a temp
     # location & return the path.
 
+    # handle stacktrace-only responses by assuming unknown error
+    my $is_stacktrace = !$resp->{status};
+    $resp->{status} = 13 unless $resp->{status};
+
     my $ret;
-    $ret->{'stackTrace'} = $resp->{'value'}->{'stackTrace'};
-    $ret->{'error'} = $self->STATUS_CODE->{$resp->{'status'}};
-    $ret->{'message'} = $resp->{'value'}->{'message'};
+    #XXX capitalization is inconsistent among geckodriver versions
+    $ret->{'stackTrace'} = $resp->{'value'}->{'stacktrace'} // $resp->{'value'}->{'stackTrace'};
+    $ret->{'error'}      = $is_stacktrace ? $resp->{value}->{error} : $self->STATUS_CODE->{$resp->{'status'}};
+    $ret->{'message'}    = $resp->{'value'}->{'message'};
 
     return $ret;
 }
-
 
 1;
 
@@ -144,7 +148,16 @@ Selenium::Remote::ErrorHandler - Error handler for Selenium::Remote::Driver
 
 =head1 VERSION
 
-version 1.20
+version 1.29
+
+=head1 SUBROUTINES
+
+=head2 process_error (Selenium::Remote::Driver $driver, HTTP::Response $response)
+
+Instead of just returning the end user a server returned error code, this returns a more human readable & usable error message.
+
+Used internally in Selenium::Remote::Driver, but overriding this might be useful in some situations.
+You could additionally alter the STATUS_CODE parameter of this module to add extra handlers if the situation warrants it.
 
 =head1 SEE ALSO
 
@@ -161,7 +174,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/gempesaw/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired

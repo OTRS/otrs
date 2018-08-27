@@ -1,5 +1,8 @@
 package Selenium::Chrome;
-$Selenium::Chrome::VERSION = '1.20';
+$Selenium::Chrome::VERSION = '1.29';
+use strict;
+use warnings;
+
 # ABSTRACT: Use ChromeDriver without a Selenium server
 use Moo;
 use Selenium::CanStartBinary::FindBinary qw/coerce_simple_binary/;
@@ -54,7 +57,7 @@ Selenium::Chrome - Use ChromeDriver without a Selenium server
 
 =head1 VERSION
 
-version 1.20
+version 1.29
 
 =head1 SYNOPSIS
 
@@ -141,6 +144,8 @@ We do our best to call this when the C<$driver> option goes out of
 scope, but if that happens during global destruction, there's nothing
 we can do.
 
+=for Pod::Coverage has_binary
+
 =head1 SEE ALSO
 
 Please see those modules/websites for more information related to this module.
@@ -156,7 +161,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-https://github.com/gempesaw/Selenium-Remote-Driver/issues
+L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired
