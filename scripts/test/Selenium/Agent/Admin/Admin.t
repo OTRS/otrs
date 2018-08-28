@@ -22,6 +22,7 @@ $Selenium->RunTest(
         # get needed objects
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
 
         # create directory for certificates and private keys
         my $CertPath    = $ConfigObject->Get('Home') . "/var/tmp/certs";
@@ -197,6 +198,77 @@ $Selenium->RunTest(
             ),
             "AddAsFavourite (star) on list view is visible.",
         );
+
+        # Apply a text filter to the admin tiles and wait until it's done.
+        #   We do this by subscribing to a specific event that will be raised when the filter is applied. When the
+        #   filter text has been set, the test will until a global flag variable is set to a true value. In the end,
+        #   event subscription will be cleared.
+        my $ApplyFilter = sub {
+            my $FilterText = shift;
+
+            return if !$FilterText;
+
+            # Set up a callback on the filter change event.
+            my $Handle = $Selenium->execute_script(
+                "return Core.App.Subscribe('Event.UI.Table.InitTableFilter.Change', function () {
+                    window.Filtered = true;
+                });"
+            );
+
+            # Reset the flag.
+            $Selenium->execute_script('window.Filtered = false;');
+
+            # Apply a filter.
+            $Selenium->find_element( 'input#Filter', 'css' )->clear();
+            $Selenium->find_element( 'input#Filter', 'css' )->send_keys($FilterText);
+
+            # Wait until the flag is set.
+            $Selenium->WaitFor( JavaScript => 'return window.Filtered;' );
+
+            my $HandleJSON = $JSONObject->Encode(
+                Data => $Handle,
+            );
+
+            # Clear the callback.
+            $Selenium->execute_script("Core.App.Unsubscribe($HandleJSON);");
+
+            return 1;
+        };
+
+        # Check a count of visible tiles in specific category.
+        my $CheckTileCount = sub {
+            my ( $ContainerTitle, $ExpectedTileCount ) = @_;
+
+            return if !$ContainerTitle || !$ExpectedTileCount;
+
+            $Self->Is(
+                $Selenium->execute_script(
+                    "return \$('.Header h2:contains(\"$ContainerTitle\")').parents('.WidgetSimple').find('.ItemListGrid li:visible').length;"
+                ),
+                $ExpectedTileCount,
+                "Tile count for '$ContainerTitle'"
+            );
+
+            return 1;
+        };
+
+        # Filter a complete category (see bug#14039 for more information).
+        $ApplyFilter->('external');
+
+        # Verify all available category tiles are shown.
+        $CheckTileCount->( 'External Interface', 4 );
+
+        # Filter a couple of tiles.
+        $ApplyFilter->('custom');
+
+        # Verify two tiles from affected category are shown.
+        $CheckTileCount->( 'External Interface', 2 );
+
+        # Filter just a single tile.
+        $ApplyFilter->('customer');
+
+        # Verify only one tile from affected category is shown.
+        $CheckTileCount->( 'External Interface', 1 );
     }
 );
 

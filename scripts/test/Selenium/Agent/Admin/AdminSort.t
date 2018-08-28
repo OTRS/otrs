@@ -55,7 +55,7 @@ $Selenium->RunTest(
         my $Count = 0;
         for my $Item (@NavigationCheck) {
             my $Navigation = $Selenium->execute_script(
-                "return \$('.WidgetSimple:eq(7) ul li:eq($Count) a span:eq(1)').text().trim()"
+                "return \$('.WidgetSimple:eq(7) ul li:eq($Count) a span.Title').text().trim()"
             );
 
             $Navigation =~ s/\n\s+/@/g;
@@ -64,16 +64,16 @@ $Selenium->RunTest(
             $Self->Is(
                 $Navigation[0],
                 $NavigationCheck[$Count],
-                "$NavigationCheck[$Count] - admin navigation item is sort well",
+                "$NavigationCheck[$Count] - admin navigation item is sorted well",
             );
 
             # Add item to favourite.
             $Selenium->execute_script(
-                "\$('.WidgetSimple:eq(7) ul li:eq($Count) a span:eq(5)').trigger('click')"
+                "\$('.WidgetSimple:eq(7) ul li:eq($Count) a span.AddAsFavourite').trigger('click')"
             );
 
             my $Favourite = $Selenium->execute_script(
-                "return \$('.WidgetSimple:eq(7) ul li:eq($Count) a span:eq(5)').attr('data-module')"
+                "return \$('.WidgetSimple:eq(7) ul li:eq($Count) a span.AddAsFavourite').attr('data-module')"
             );
 
             $Selenium->WaitFor(

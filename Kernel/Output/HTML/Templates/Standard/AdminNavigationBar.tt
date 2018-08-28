@@ -90,6 +90,7 @@
                                 <i class="Icon2 fa [% Item.IconSmall %]"></i>
                             [% END %]
                             </span>
+                            <span class="InvisibleText">[% Group.Title | html %]</span>
                             <span class="Title">
                                 [% Translate(Item.Name) | html %]
                                 <span class="InvisibleText">[% Item.Name | html %]</span>
