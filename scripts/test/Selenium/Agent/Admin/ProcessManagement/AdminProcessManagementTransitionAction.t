@@ -235,6 +235,7 @@ $Selenium->RunTest(
             JavaScript =>
                 'return typeof($) === "function" && $(".OneRow[data-entity*=\'TransitionAction\']:visible").length === 1 && $.active == 0'
         );
+        sleep 2;
 
         $Self->True(
             $Selenium->find_element("//*[text()=\"$TransitionActionRandomEdit\"]")->is_displayed(),
