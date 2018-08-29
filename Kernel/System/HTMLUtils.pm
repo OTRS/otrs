@@ -56,7 +56,10 @@ sub new {
 
 convert an HTML string to an ASCII string
 
-    my $Ascii = $HTMLUtilsObject->ToAscii( String => $String );
+    my $Ascii = $HTMLUtilsObject->ToAscii(
+        String => $String,
+        NoLineLength => 1, # optional, don't consider line length,
+    );
 
 =cut
 
@@ -566,7 +569,7 @@ sub ToAscii {
     $Param{String} =~ s/^\s*\n\s*\n/\n/mg;
 
     # force line breaking
-    if ( length $Param{String} > $LineLength ) {
+    if ( length $Param{String} > $LineLength && !$Param{NoLineLength} ) {
         $Param{String} =~ s/(.{4,$LineLength})(?:\s|\z)/$1\n/gm;
     }
 
