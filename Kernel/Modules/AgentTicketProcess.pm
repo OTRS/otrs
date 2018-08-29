@@ -1151,14 +1151,15 @@ sub _GetParam {
                 )
             {
 
-                my %DateParam = ( Prefix => $Prefix );
-
                 # map the GetParam's Date Values to our DateParamHash
-                %DateParam = map {
-                    ( $Prefix . $_ )
-                        => $ParamObject->GetParam( Param => ( $Prefix . $_ ) )
-                    }
-                    qw(Year Month Day Hour Minute);
+                my %DateParam = (
+                    Prefix => $Prefix,
+                    map {
+                        ( $Prefix . $_ )
+                            => $ParamObject->GetParam( Param => ( $Prefix . $_ ) )
+                        }
+                        qw(Year Month Day Hour Minute)
+                );
 
                 # if all values are present
                 if (
