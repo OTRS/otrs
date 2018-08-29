@@ -1,4 +1,5 @@
 #6.0.11 2018-??-??
+ - 2018-08-29 Fixed bug#[13903](https://bugs.otrs.org/show_bug.cgi?id=13903) - Setting an invalid sender-type will crash mail processing.
  - 2018-08-29 Fixed bug#[14022](https://bugs.otrs.org/show_bug.cgi?id=14022) - Parsing Error System Configuration.
  - 2018-08-29 Fixed bug#[14045](https://bugs.otrs.org/show_bug.cgi?id=14045) - Error creating DateTime object for pending time in Process ticket.
  - 2018-08-28 Fixed bug#[14039](https://bugs.otrs.org/show_bug.cgi?id=14039) - Filter in admin panel ignores category titles.

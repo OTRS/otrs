@@ -485,13 +485,26 @@ sub Run {
         }
     }
 
-    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+    my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $ArticleBackendObject = $ArticleObject->BackendForChannel(
         ChannelName => 'Email',
     );
 
     my $IsVisibleForCustomer = 1;
     if ( length $GetParam{'X-OTRS-FollowUp-IsVisibleForCustomer'} ) {
         $IsVisibleForCustomer = $GetParam{'X-OTRS-FollowUp-IsVisibleForCustomer'};
+    }
+
+    # Check if X-OTRS-FollowUp-SenderType exists, if not set default 'customer'.
+    if ( !$ArticleObject->ArticleSenderTypeLookup( SenderType => $GetParam{'X-OTRS-FollowUp-SenderType'} ) )
+    {
+        $Self->{CommunicationLogObject}->ObjectLog(
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::PostMaster::FollowUp',
+            Value => "Can't find valid SenderType '$GetParam{'X-OTRS-FollowUp-SenderType'}' in DB, take 'customer'",
+        );
+        $GetParam{'X-OTRS-SenderType'} = 'customer';
     }
 
     $Self->{CommunicationLogObject}->ObjectLog(

@@ -65,9 +65,21 @@ sub Run {
     my $Lock             = $Param{Lock}             || '';
     my $AutoResponseType = $Param{AutoResponseType} || '';
 
-    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+    my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $ArticleBackendObject = $ArticleObject->BackendForChannel(
         ChannelName => 'Email',
     );
+
+    # Check if X-OTRS-SenderType exists, if not set default 'customer'.
+    if ( !$ArticleObject->ArticleSenderTypeLookup( SenderType => $GetParam{'X-OTRS-SenderType'} ) ) {
+        $Self->{CommunicationLogObject}->ObjectLog(
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::PostMaster::Reject',
+            Value         => "Can't find valid SenderType '$GetParam{'X-OTRS-SenderType'}' in DB, take 'customer'",
+        );
+        $GetParam{'X-OTRS-SenderType'} = 'customer';
+    }
 
     $Self->{CommunicationLogObject}->ObjectLog(
         ObjectLogType => 'Message',

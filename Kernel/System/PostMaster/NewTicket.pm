@@ -527,7 +527,8 @@ Message
         }
     }
 
-    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+    my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $ArticleBackendObject = $ArticleObject->BackendForChannel(
         ChannelName => 'Email',
     );
 
@@ -542,6 +543,18 @@ Message
         Key           => 'Kernel::System::PostMaster::NewTicket',
         Value         => "Going to create new article for TicketID '$TicketID'.",
     );
+
+    # Check if X-OTRS-SenderType exists, if not set default 'customer'.
+    if ( !$ArticleObject->ArticleSenderTypeLookup( SenderType => $GetParam{'X-OTRS-SenderType'} ) )
+    {
+        $Self->{CommunicationLogObject}->ObjectLog(
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::PostMaster::NewTicket',
+            Value         => "Can't find valid SenderType '$GetParam{'X-OTRS-SenderType'}' in DB, take 'customer'",
+        );
+        $GetParam{'X-OTRS-SenderType'} = 'customer';
+    }
 
     # Create email article.
     my $ArticleID = $ArticleBackendObject->ArticleCreate(
