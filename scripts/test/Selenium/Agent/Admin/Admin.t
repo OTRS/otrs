@@ -253,16 +253,16 @@ $Selenium->RunTest(
         };
 
         # Filter a complete category (see bug#14039 for more information).
-        $ApplyFilter->('communication');
+        $ApplyFilter->('users');
 
-        # Verify nine tiles from affected category are shown.
-        $CheckTileCount->( 'Communication & Notifications', 9 );
+        # Verify 12 tiles from affected category are shown.
+        $CheckTileCount->( 'Users, Groups & Roles', 12 );
 
         # Filter a couple of tiles.
-        $ApplyFilter->('PostMaster');
+        $ApplyFilter->('customer');
 
-        # Verify two tiles from affected category are shown.
-        $CheckTileCount->( 'Communication & Notifications', 2 );
+        # Verify 6 tiles from affected category are shown.
+        $CheckTileCount->( 'Users, Groups & Roles', 6 );
 
         # Filter just a single tile.
         $ApplyFilter->('Communication Log');
