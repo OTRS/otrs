@@ -253,22 +253,22 @@ $Selenium->RunTest(
         };
 
         # Filter a complete category (see bug#14039 for more information).
-        $ApplyFilter->('external');
+        $ApplyFilter->('communication');
 
-        # Verify all available category tiles are shown.
-        $CheckTileCount->( 'External Interface', 4 );
+        # Verify nine tiles from affected category are shown.
+        $CheckTileCount->( 'Communication & Notifications', 9 );
 
         # Filter a couple of tiles.
-        $ApplyFilter->('custom');
+        $ApplyFilter->('PostMaster');
 
         # Verify two tiles from affected category are shown.
-        $CheckTileCount->( 'External Interface', 2 );
+        $CheckTileCount->( 'Communication & Notifications', 2 );
 
         # Filter just a single tile.
-        $ApplyFilter->('customer');
+        $ApplyFilter->('Communication Log');
 
         # Verify only one tile from affected category is shown.
-        $CheckTileCount->( 'External Interface', 1 );
+        $CheckTileCount->( 'Communication & Notifications', 1 );
     }
 );
 
