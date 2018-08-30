@@ -144,6 +144,7 @@ sub Run {
                 Data         => \%TypeList,
                 SelectedID   => $GetParam{TypeID},
                 PossibleNone => 1,
+                Translation  => 0,
             };
         }
 

@@ -63,6 +63,13 @@ $Selenium->RunTest(
             },
         );
 
+        # Enable ticket type feature.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Type',
+            Value => 1,
+        );
+
         my $RandomNumber = $Helper->GetRandomNumber();
         my $Success;
 
@@ -87,9 +94,13 @@ $Selenium->RunTest(
             push @GroupNames, $GroupName;
         }
 
-        # Create test user for login.
+        # Defined user language for testing if message is being translated correctly.
+        my $Language = "de";
+
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
-            Groups => [ 'admin', 'users', @GroupNames ],
+            Groups   => [ 'admin', 'users', @GroupNames ],
+            Language => $Language,
         ) || die "Did not get test user";
 
         # Get test user ID.
@@ -301,7 +312,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//input[\@value='$Tickets[0]->{TicketID}']")->click();
         $Selenium->find_element("//input[\@value='$Tickets[1]->{TicketID}']")->click();
         $Selenium->find_element("//input[\@value='$Tickets[2]->{TicketID}']")->click();
-        $Selenium->find_element( "Bulk", 'link_text' )->click();
+        $Selenium->find_element( "#BulkAction", 'css' )->click();
 
         # Switch to bulk window.
         $Selenium->WaitFor( WindowCount => 2 );
@@ -321,6 +332,23 @@ $Selenium->RunTest(
             $Element->is_enabled();
             $Element->is_displayed();
         }
+
+        # Check if ticket type is not translated.
+        # For more information see bug #14030.
+        $Self->Is(
+            $Selenium->execute_script("return \$('#TypeID option[value=1]').text()"),
+            "Unclassified",
+            "On load - Ticket type is not translated",
+        );
+
+        $Selenium->execute_script("\$('#PriorityID').val('4').trigger('redraw.InputField').trigger('change');");
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+
+        $Self->Is(
+            $Selenium->execute_script("return \$('#TypeID option[value=1]').text()"),
+            "Unclassified",
+            "After change - Ticket type is not translated",
+        );
 
         # Click on 'Undo & close' link.
         $Selenium->find_element( ".UndoClosePopup", 'css' )->click();
@@ -349,7 +377,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//input[\@value='$Tickets[2]->{TicketID}']")->click();
         $Selenium->find_element("//input[\@value='$Tickets[6]->{TicketID}']")->click();
 
-        $Selenium->find_element( "Bulk", 'link_text' )->click();
+        $Selenium->find_element( "#BulkAction", 'css' )->click();
 
         # Switch to bulk window.
         $Selenium->WaitFor( WindowCount => 2 );
@@ -362,12 +390,18 @@ $Selenium->RunTest(
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
         );
 
+        my $LanguageObject = Kernel::Language->new(
+            UserLanguage => $Language,
+        );
+
         # Check data.
         my @ExpectedMessages = (
-            "The following tickets were ignored because they are locked by another agent or you don't have write access to these tickets: "
-                . $Tickets[2]->{TicketNumber} . ", "
-                . $Tickets[6]->{TicketNumber} . ".",
-            "The following tickets were locked: " . $Tickets[1]->{TicketNumber} . ".",
+            $LanguageObject->Translate(
+                "The following tickets were ignored because they are locked by another agent or you don\'t have write access to these tickets: %s.",
+                $Tickets[2]->{TicketNumber} . ", "
+                    . $Tickets[6]->{TicketNumber}
+            ),
+            $LanguageObject->Translate( "The following tickets were locked: %s.", $Tickets[1]->{TicketNumber} ),
         );
         for my $ExpectedMessage (@ExpectedMessages) {
             $Self->True(
@@ -433,7 +467,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//input[\@value='$Tickets[3]->{TicketID}']")->click();
         $Selenium->find_element("//input[\@value='$Tickets[4]->{TicketID}']")->click();
         $Selenium->find_element("//input[\@value='$Tickets[5]->{TicketID}']")->click();
-        $Selenium->find_element( "Bulk", 'link_text' )->click();
+        $Selenium->find_element( "#BulkAction", 'css' )->click();
 
         # Switch to bulk window.
         $Selenium->WaitFor( WindowCount => 2 );
