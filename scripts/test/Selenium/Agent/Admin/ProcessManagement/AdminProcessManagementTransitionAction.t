@@ -224,6 +224,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#TransitionActionFilter:visible").length'
         );
+        sleep 1;
 
         # Check for edited test TransitionAction using filter on AdminProcessManagement screen
         my $TransitionActionRandomEdit = $TransitionActionRandom . "edit";
@@ -233,12 +234,17 @@ $Selenium->RunTest(
         # Wait for filter to kick in.
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $(".OneRow[data-entity*=\'TransitionAction\']:visible").length === 1 && $.active == 0'
+                'return typeof($) === "function" && $(".OneRow[data-entity*=\'TransitionAction\']:visible").length === 1 && $.active == 0;',
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return  \$('#TransitionActions li:visible div').length === 1;",
         );
         sleep 2;
 
-        $Self->True(
-            $Selenium->find_element("//*[text()=\"$TransitionActionRandomEdit\"]")->is_displayed(),
+        $Self->Is(
+            $Selenium->execute_script("return  \$('#TransitionActions li:visible div').text();"),
+            $TransitionActionRandomEdit,
             "Edited $TransitionActionRandomEdit transition action dialog found on page",
         );
 
