@@ -1014,7 +1014,9 @@ $Selenium->RunTest(
                         JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
                     );
 
-                    $Selenium->find_element( "$Prefix $Value", "css" )->click();
+                    $Selenium->execute_script( '$("' . "$Prefix $Value" . '").click();' );
+                    sleep 1;
+
                     if ($AlertText) {
                         $Selenium->WaitFor(
                             AlertPresent => 1,

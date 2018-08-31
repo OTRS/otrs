@@ -1209,10 +1209,6 @@ $Selenium->RunTest(
                         JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
                     );
 
-                    # use Data::Dumper;
-                    # print STDERR "\n -------------- \nDebug - ModuleName - VariableName = ". Dumper($Prefix) ."\n";
-                    # print STDERR "Debug - ModuleName - VariableName = ". Dumper($Value) ."\n ------------ \n";
-
                     $Selenium->execute_script( '$("' . "$Prefix $Value" . '").click();' );
                     sleep 1;
 
