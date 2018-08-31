@@ -358,7 +358,7 @@ my @Tests = (
         Name     => 'ExampleFrontendRegistration###AgentTest',
         Commands => [
             {
-                Click => '.Header',
+                Click => '.Header a',
             },
             {
                 # Disable setting.
@@ -374,7 +374,7 @@ my @Tests = (
         Name     => 'ExampleFrontendRegistration###AgentTest',
         Commands => [
             {
-                Click => '.Header',
+                Click => '.Header a',
             },
             {
                 # Enable setting.
@@ -1017,7 +1017,7 @@ my @Tests = (
             },
             {
                 # Expand setting bar.
-                Click => '.Header',
+                Click => '.Header a',
             },
             {
                 # Edit alias button is not visible.
@@ -1063,7 +1063,7 @@ my @Tests = (
             },
             {
                 # Expand setting bar.
-                Click => '.Header',
+                Click => '.Header a',
             },
             {
                 # Edit alias button is not visible.
@@ -1209,7 +1209,13 @@ $Selenium->RunTest(
                         JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
                     );
 
-                    $Selenium->find_element( "$Prefix $Value", "css" )->click();
+                    # use Data::Dumper;
+                    # print STDERR "\n -------------- \nDebug - ModuleName - VariableName = ". Dumper($Prefix) ."\n";
+                    # print STDERR "Debug - ModuleName - VariableName = ". Dumper($Value) ."\n ------------ \n";
+
+                    $Selenium->execute_script( '$("' . "$Prefix $Value" . '").click();' );
+                    sleep 1;
+
                     if ($AlertText) {
                         $Selenium->WaitFor(
                             AlertPresent => 1,
