@@ -216,7 +216,7 @@
                 }
 
                 $('#DownloadSupportBundle').bind('click', function (Event) {
-                    window.location.href = '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=DownloadSupportBundle;Filename=' + Response.Filename + ';RandomID=' + Response.RandomID;
+                    window.location.href = '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=DownloadSupportBundle;Filename=' + Response.Filename + ';RandomID=' + Response.RandomID + ';ChallengeToken=' + Core.Config.Get('ChallengeToken');
                     Core.UI.Dialog.CloseDialog($('#SupportBundleOptionsDialog'));
                 });
             }

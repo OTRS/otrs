@@ -275,6 +275,8 @@ sub _SupportDataCollectorView {
 sub _GenerateSupportBundle {
     my ( $Self, %Param ) = @_;
 
+    $Kernel::OM->Get('Kernel::Output::HTML::Layout')->ChallengeTokenCheck();
+
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
     my $RandomID   = $MainObject->GenerateRandomString(
         Length     => 8,
@@ -345,12 +347,23 @@ sub _DownloadSupportBundle {
 
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    $LayoutObject->ChallengeTokenCheck();
+
     my $Filename     = $ParamObject->GetParam( Param => 'Filename' ) || '';
     my $RandomID     = $ParamObject->GetParam( Param => 'RandomID' ) || '';
 
-    if ( !$Filename ) {
+    # Validate simple file name.
+    if ( !$Filename || $Filename !~ m{^[a-z0-9._-]+$}smxi  ) {
         return $LayoutObject->ErrorScreen(
-            Message => "Need Filename!",
+            Message => "Need Filename or Filename invalid!",
+        );
+    }
+
+    # Validate simple RandomID.
+    if ( !$RandomID || $RandomID !~ m{^[a-f0-9]+$}smx  ) {
+        return $LayoutObject->ErrorScreen(
+            Message => "Need RandomID or RandomID invalid!",
         );
     }
 
