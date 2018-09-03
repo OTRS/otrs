@@ -277,6 +277,8 @@ sub _SupportDataCollectorView {
 sub _GenerateSupportBundle {
     my ( $Self, %Param ) = @_;
 
+    $Self->{LayoutObject}->ChallengeTokenCheck();
+
     my $RandomID = $Self->{MainObject}->GenerateRandomString(
         Length     => 8,
         Dictionary => [ 0 .. 9, 'a' .. 'f' ],
@@ -343,12 +345,22 @@ sub _GenerateSupportBundle {
 sub _DownloadSupportBundle {
     my ( $Self, %Param ) = @_;
 
+    $Self->{LayoutObject}->ChallengeTokenCheck();
+
     my $Filename = $Self->{ParamObject}->GetParam( Param => 'Filename' ) || '';
     my $RandomID = $Self->{ParamObject}->GetParam( Param => 'RandomID' ) || '';
 
-    if ( !$Filename ) {
+    # Validate simple file name.
+    if ( !$Filename || $Filename !~ m{^[a-z0-9._-]+$}smxi ) {
         return $Self->{LayoutObject}->ErrorScreen(
-            Message => "Need Filename!",
+            Message => "Need Filename or Filename invalid!",
+        );
+    }
+
+    # Validate simple RandomID.
+    if ( !$RandomID || $RandomID !~ m{^[a-f0-9]+$}smx ) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Need RandomID or RandomID invalid!",
         );
     }
 
