@@ -160,7 +160,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
                     }
 
                     $('#DownloadSupportBundle').on('click', function () {
-                        window.location.href = Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action') + ';Subaction=DownloadSupportBundle;Filename=' + Response.Filename + ';RandomID=' + Response.RandomID;
+                        window.location.href = Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action') + ';Subaction=DownloadSupportBundle;Filename=' + Response.Filename + ';RandomID=' + Response.RandomID + ';ChallengeToken=' + Core.Config.Get('ChallengeToken');
                         Core.UI.Dialog.CloseDialog($('#SupportBundleOptionsDialog'));
                     });
                 }
