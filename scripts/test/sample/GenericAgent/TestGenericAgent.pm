@@ -1,9 +1,9 @@
 # --
-# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2018 OTRS AG, https://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (AGPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
 # --
 
 package scripts::test::sample::GenericAgent::TestGenericAgent;
@@ -27,8 +27,7 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-
-    if (!$Param{New}->{Location} ){
+    if ( !$Param{New}->{Location} ) {
         print STDERR "Need Location!\n";
         return;
     }
@@ -56,12 +55,12 @@ sub Run {
     my $FH;
     if ( !open $FH, $Mode, $Param{New}->{Location} ) {    ## no critic
         print STDERR "Can't write '$Param{New}->{Location}': $!",
-        return;
+            return;
     }
 
     # lock file (Exclusive Lock)
     if ( !flock $FH, 2 ) {
-        print STDERR "Can't lock '$Param{New}->{Location}': $!",
+        print STDERR "Can't lock '$Param{New}->{Location}': $!";
     }
 
     # empty file first (needed if file is open by '+<')

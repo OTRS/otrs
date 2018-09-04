@@ -350,18 +350,18 @@ sub _DownloadSupportBundle {
 
     $LayoutObject->ChallengeTokenCheck();
 
-    my $Filename     = $ParamObject->GetParam( Param => 'Filename' ) || '';
-    my $RandomID     = $ParamObject->GetParam( Param => 'RandomID' ) || '';
+    my $Filename = $ParamObject->GetParam( Param => 'Filename' ) || '';
+    my $RandomID = $ParamObject->GetParam( Param => 'RandomID' ) || '';
 
     # Validate simple file name.
-    if ( !$Filename || $Filename !~ m{^[a-z0-9._-]+$}smxi  ) {
+    if ( !$Filename || $Filename !~ m{^[a-z0-9._-]+$}smxi ) {
         return $LayoutObject->ErrorScreen(
             Message => "Need Filename or Filename invalid!",
         );
     }
 
     # Validate simple RandomID.
-    if ( !$RandomID || $RandomID !~ m{^[a-f0-9]+$}smx  ) {
+    if ( !$RandomID || $RandomID !~ m{^[a-f0-9]+$}smx ) {
         return $LayoutObject->ErrorScreen(
             Message => "Need RandomID or RandomID invalid!",
         );
