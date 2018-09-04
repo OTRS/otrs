@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<otrs_config version="1.0" init="Framework">
+<otrs_config version="2.0" init="Framework">
     <ConfigItem Name="Test1" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Convert to checkbox - First No, then Yes - SelectedID is 0.</Description>
         <Group>TestGroup</Group>

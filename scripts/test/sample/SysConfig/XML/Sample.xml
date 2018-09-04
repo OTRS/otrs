@@ -7,7 +7,7 @@
             <Item ValueType="String" ValueRegex="">Ticket#</Item>
         </Value>
     </Setting>
-    <!-- 
+    <!--
     <Setting Name="Ticket::Hook2" Required="1" Valid="1">
         <Description>Make sure that comments in the XML are removed when parsing is executed.</Description>
         <Navigation>Core::Ticket</Navigation>
@@ -188,7 +188,7 @@
             </Hash>
         </Value>
     </Setting>
-    <!-- 
+    <!--
     <Setting Name="EmptyHash2" Required="0" Valid="1">
         <Description>Make sure that multiple comments in the XML are removed when parsing is executed.</Description>
         <Navigation>Core::CustomerUser</Navigation>

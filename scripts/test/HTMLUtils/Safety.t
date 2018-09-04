@@ -856,13 +856,14 @@ You should be able to continue reading these lessons, however.
             NoExtSrcLoad => 0,
         },
         Result => {
-            Output  => '<a href="localhost" style="background-image:url(http://localhost:8000/css-background)">localhost</a>',
+            Output =>
+                '<a href="localhost" style="background-image:url(http://localhost:8000/css-background)">localhost</a>',
             Replace => 0,
         },
     },
     {
-        Name  => 'Safety - malicious CSS content - local background image, forbidden',
-        Input => '<a href="localhost" style="background-image:url(/local/css-background)">localhost</a>',
+        Name   => 'Safety - malicious CSS content - local background image, forbidden',
+        Input  => '<a href="localhost" style="background-image:url(/local/css-background)">localhost</a>',
         Config => {
             NoIntSrcLoad => 1,
         },
@@ -872,8 +873,8 @@ You should be able to continue reading these lessons, however.
         },
     },
     {
-        Name  => 'Safety - malicious CSS content - local background image, allowed',
-        Input => '<a href="localhost" style="background-image:url(/local/css-background)">localhost</a>',
+        Name   => 'Safety - malicious CSS content - local background image, allowed',
+        Input  => '<a href="localhost" style="background-image:url(/local/css-background)">localhost</a>',
         Config => {
             NoIntSrcLoad => 0,
         },
