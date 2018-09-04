@@ -3,7 +3,7 @@
 Summary:      OTRS Help Desk.
 Name:         otrs
 Version:      0.0
-Copyright:    GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
+Copyright:    GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 Group:        Applications/Mail
 Provides:     otrs
 Requires:     [%
