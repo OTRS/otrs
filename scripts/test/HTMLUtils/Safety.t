@@ -688,4 +688,142 @@ for my $Test (@Tests) {
     );
 }
 
+@Tests = (
+    {
+        Name   => 'Safety - remote poster attribute, forbidden',
+        Input  => '<video controls poster="http://some.domain/vorschaubild.png"/>',
+        Config => {
+            NoExtSrcLoad => 1,
+        },
+        Result => {
+            Output  => '',
+            Replace => 1,
+        },
+    },
+    {
+        Name   => 'Safety - remote poster attribute, allowed',
+        Input  => '<video controls poster="http://some.domain/vorschaubild.png"/>',
+        Config => {
+            NoExtSrcLoad => 0,
+        },
+        Result => {
+            Output  => '<video controls poster="http://some.domain/vorschaubild.png"/>',
+            Replace => 0,
+        },
+    },
+    {
+        Name  => 'Safety - malicious CSS content - remote background image, forbidden',
+        Input => '<a href="localhost" style="background-image:url(http://localhost:8000/css-background)">localhost</a>',
+        Config => {
+            NoExtSrcLoad => 1,
+        },
+        Result => {
+            Output  => '<a href="localhost">localhost</a>',
+            Replace => 1,
+        },
+    },
+    {
+        Name  => 'Safety - malicious CSS content - remote background image, allowed',
+        Input => '<a href="localhost" style="background-image:url(http://localhost:8000/css-background)">localhost</a>',
+        Config => {
+            NoExtSrcLoad => 0,
+        },
+        Result => {
+            Output =>
+                '<a href="localhost" style="background-image:url(http://localhost:8000/css-background)">localhost</a>',
+            Replace => 0,
+        },
+    },
+    {
+        Name   => 'Safety - malicious CSS content - local background image, forbidden',
+        Input  => '<a href="localhost" style="background-image:url(/local/css-background)">localhost</a>',
+        Config => {
+            NoIntSrcLoad => 1,
+        },
+        Result => {
+            Output  => '<a href="localhost">localhost</a>',
+            Replace => 1,
+        },
+    },
+    {
+        Name   => 'Safety - malicious CSS content - local background image, allowed',
+        Input  => '<a href="localhost" style="background-image:url(/local/css-background)">localhost</a>',
+        Config => {
+            NoIntSrcLoad => 0,
+        },
+        Result => {
+            Output  => '<a href="localhost" style="background-image:url(/local/css-background)">localhost</a>',
+            Replace => 0,
+        },
+    },
+    {
+        Name   => 'Safety - malicious CSS content - remote css content, forbidden',
+        Input  => q|<p style="content:url('http://localhost:8000/css-content');"></p>|,
+        Config => {
+            NoExtSrcLoad => 1,
+        },
+        Result => {
+            Output  => '<p></p>',
+            Replace => 1,
+        },
+    },
+    {
+        Name   => 'Safety - malicious CSS content - remote css content, allowed',
+        Input  => q|<p style="content:url('http://localhost:8000/css-content');"></p>|,
+        Config => {
+            NoExtSrcLoad => 0,
+        },
+        Result => {
+            Output  => q|<p style="content:url('http://localhost:8000/css-content');"></p>|,
+            Replace => 0,
+        },
+    },
+    {
+        Name   => 'Safety - malicious CSS content - local css content, forbidden',
+        Input  => q|<p style="content:url('/local/css-content');"></p>|,
+        Config => {
+            NoIntSrcLoad => 1,
+        },
+        Result => {
+            Output  => '<p></p>',
+            Replace => 1,
+        },
+    },
+    {
+        Name   => 'Safety - malicious CSS content - local css content, allowed',
+        Input  => q|<p style="content:url('/local/css-content');"></p>|,
+        Config => {
+            NoIntSrcLoad => 0,
+        },
+        Result => {
+            Output  => q|<p style="content:url('/local/css-content');"></p>|,
+            Replace => 0,
+        },
+    },
+);
+
+for my $Test (@Tests) {
+    my %Result = $HTMLUtilsObject->Safety(
+        String => $Test->{Input},
+        %{ $Test->{Config} },
+    );
+    if ( $Test->{Result}->{Replace} ) {
+        $Self->True(
+            $Result{Replace},
+            "$Test->{Name} replaced",
+        );
+    }
+    else {
+        $Self->False(
+            $Result{Replace},
+            "$Test->{Name} not replaced",
+        );
+    }
+    $Self->Is(
+        $Result{String},
+        $Test->{Result}->{Output},
+        $Test->{Name},
+    );
+}
+
 1;
