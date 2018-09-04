@@ -345,7 +345,7 @@ sub _PreProcessTemplateContent {
     #
     # Remove DTL-style comments (lines starting with #)
     #
-    $Content =~ s/^#.*\n//gm;
+    $Content =~ s/^#.*\n//gm if !$ENV{TEMPLATE_KEEP_COMMENTS};
 
     #
     # Insert a BLOCK call into the template.
