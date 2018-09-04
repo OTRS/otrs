@@ -1,4 +1,5 @@
 #6.0.11 2018-??-??
+ - 2018-09-04 Fixed bug#[14044](https://bugs.otrs.org/show_bug.cgi?id=14044) - DefaultOverviewColumns and DefaultColumns configurations are inconsistent.
  - 2018-08-30 Fixed bug#[14030](https://bugs.otrs.org/show_bug.cgi?id=14030) - Values of the type field are translated in the bulk view.
  - 2018-08-29 Fixed bug#[13903](https://bugs.otrs.org/show_bug.cgi?id=13903) - Setting an invalid sender-type will crash mail processing.
  - 2018-08-29 Fixed bug#[14022](https://bugs.otrs.org/show_bug.cgi?id=14022) - Parsing Error System Configuration.

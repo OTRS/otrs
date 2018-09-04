@@ -13005,6 +13005,8 @@ Thanks for your help!
                 </DefaultItem>
                 <Item Key="Age" SelectedID="2"></Item>
                 <Item Key="Changed" SelectedID="1"></Item>
+                <Item Key="Created" SelectedID="1"></Item>
+                <Item Key="CustomerCompanyName" SelectedID="1"></Item>
                 <Item Key="CustomerID" SelectedID="2"></Item>
                 <Item Key="CustomerName" SelectedID="1"></Item>
                 <Item Key="CustomerUserID" SelectedID="1"></Item>
