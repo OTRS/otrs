@@ -1,4 +1,5 @@
 #5.0.30 20??-??-??
+ - 2018-09-04 Fixed bug#[14040](https://bugs.otrs.org/show_bug.cgi?id=14040) - DefaultOverviewColumns and DefaultColumns configurations are inconsistent.
  - 2018-08-30 Fixed bug#[14030](https://bugs.otrs.org/show_bug.cgi?id=14030) - Values of the type field are translated in the bulk view.
  - 2018-08-27 Fixed bug#[14025](https://bugs.otrs.org/show_bug.cgi?id=14025) - backup.pl may delete a backup it just created.
  - 2018-08-27 Fixed bug#[13767](https://bugs.otrs.org/show_bug.cgi?id=13767) - Search result wrong displayed when there is only one result in IE 11.
