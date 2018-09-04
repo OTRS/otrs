@@ -1,4 +1,4 @@
-The Open Ticket Request System (http://otrs.org/) is a web based ticket system.
+The Open Ticket Request System (https://otrs.com/) is a web based ticket system.
 
 Feedback: feedback@otrs.org
 
@@ -19,7 +19,7 @@ Authors:
 
   OTRS is an Open source Ticket Request System with many features to manage
   customer telephone calls and e-mails. It is distributed under the GNU
-  AFFERO General Public License (AGPL) and tested on Linux, Solaris, AIX,
+  General Public License (GPL) and tested on Linux, Solaris, AIX,
   FreeBSD, OpenBSD and Mac OS 10.x. Do you receive many e-mails and want to
   answer them with a team of agents? You're going to love OTRS!
 
