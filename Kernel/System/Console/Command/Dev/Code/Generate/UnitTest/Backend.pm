@@ -65,6 +65,9 @@ sub Run {
         $TargetHome = $ModuleDirectory;
     }
 
+    # Keep comment lines in files also in the generated output.
+    local $ENV{TEMPLATE_KEEP_COMMENTS} = 1;
+
     my $TargetPath = $Self->GetArgument('target-path');
 
     # create Test module file

@@ -66,6 +66,9 @@ sub Run {
         $TargetHome = $ModuleDirectory;
     }
 
+    # Keep comment lines in files also in the generated output.
+    local $ENV{TEMPLATE_KEEP_COMMENTS} = 1;
+
     # create perl module file
     my $CommandPathPM = $CommandName . ".pm";
     $CommandPathPM =~ s{::}{/}smxg;

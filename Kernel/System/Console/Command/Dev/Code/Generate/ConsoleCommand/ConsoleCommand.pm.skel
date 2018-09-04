@@ -1,10 +1,10 @@
-[% '#' %] --
-[% '#' %] Copyright (C) 2001-2018 OTRS AG, https://otrs.com/
-[% '#' %] --
-[% '#' %] This software comes with ABSOLUTELY NO WARRANTY. For details, see
-[% '#' %] the enclosed file COPYING for license information (AGPL). If you
-[% '#' %] did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
-[% '#' %] --
+# --
+# Copyright (C) 2001-2018 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
 
 package Kernel::System::Console::Command::[% Data.CommandName %];
 
@@ -37,18 +37,18 @@ sub Configure {
     return;
 }
 
-[% '#' %] sub PreRun {
-[% '#' %]     my ( $Self, %Param ) = @_;
-[% '#' %]
-[% '#' %]     # Perform any custom validations here. Command execution can be stopped with die().
-[% '#' %]
-[% '#' %]     # my $TargetDirectory = $Self->GetOption('target-directory');
-[% '#' %]     # if ($TargetDirectory && !-d $TargetDirectory) {
-[% '#' %]     #     die "Directory $TargetDirectory does not exist.\n";
-[% '#' %]     # }
-[% '#' %]
-[% '#' %]     return;
-[% '#' %] }
+# sub PreRun {
+#     my ( $Self, %Param ) = @_;
+#
+#     # Perform any custom validations here. Command execution can be stopped with die().
+#
+#     # my $TargetDirectory = $Self->GetOption('target-directory');
+#     # if ($TargetDirectory && !-d $TargetDirectory) {
+#     #     die "Directory $TargetDirectory does not exist.\n";
+#     # }
+#
+#     return;
+# }
 
 sub Run {
     my ( $Self, %Param ) = @_;
@@ -61,12 +61,12 @@ sub Run {
     return $Self->ExitCodeOk();
 }
 
-[% '#' %] sub PostRun {
-[% '#' %]     my ( $Self, %Param ) = @_;
-[% '#' %]
-[% '#' %]     # This will be called after Run() (even in case of exceptions). Perform any cleanups here.
-[% '#' %]
-[% '#' %]     return;
-[% '#' %] }
+# sub PostRun {
+#     my ( $Self, %Param ) = @_;
+#
+#     # This will be called after Run() (even in case of exceptions). Perform any cleanups here.
+#
+#     return;
+# }
 
 1;
