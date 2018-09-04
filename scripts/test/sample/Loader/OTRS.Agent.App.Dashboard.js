@@ -1,12 +1,9 @@
 // --
-// OTRS.Agent.Dashboard.js - provides the special module functions for TicketZoom
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
-// --
-// $Id: OTRS.Agent.App.Dashboard.js,v 1.1 2010-05-27 13:35:36 mg Exp $
+// Copyright (C) 2001-2018 OTRS AG, https://otrs.com/\n";
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
-// the enclosed file COPYING for license information (AGPL). If you
-// did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+// the enclosed file COPYING for license information (GPL). If you
+// did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
 // --
 
 "use strict";
