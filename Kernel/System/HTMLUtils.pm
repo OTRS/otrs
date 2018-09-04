@@ -1163,10 +1163,28 @@ sub Safety {
                 }egsxim;
             }
 
+            # Remove malicious CSS content
+            $Tag =~ s{
+                (\s)style=("|') (.*?) \2
+            }
+            {
+                my ($Space, $Delimiter, $Content) = ($1, $2, $3);
+
+                if (
+                    ($Param{NoIntSrcLoad} && $Content =~ m{url\(})
+                    || ($Param{NoExtSrcLoad} && $Content =~ m/(http|ftp|https):\//i)) {
+                    $Replaced = 1;
+                    '';
+                }
+                else {
+                    "${Space}style=${Delimiter}${Content}${Delimiter}";
+                }
+            }egsxim;
+
             # remove load tags
             if ($Param{NoIntSrcLoad} || $Param{NoExtSrcLoad}) {
                 $Tag =~ s{
-                    ($TagStart (.+?) (?: \s | /) src=(.+?) (\s.+?|) $TagEnd)
+                    ($TagStart (.+?) (?: \s | /) (?:src|poster)=(.+?) (\s.+?|) $TagEnd)
                 }
                 {
                     my $URL = $3;
