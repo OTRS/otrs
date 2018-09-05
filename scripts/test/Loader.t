@@ -90,6 +90,7 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
     );
     $ExpectedJS = ${$ExpectedJS};
     $ExpectedJS =~ s{\r\n}{\n}xmsg;
+
     #chomp $ExpectedJS;
 
     $Self->Is(
