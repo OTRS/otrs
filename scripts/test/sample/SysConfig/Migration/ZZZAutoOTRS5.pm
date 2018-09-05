@@ -5,6 +5,9 @@ use strict;
 use warnings;
 no warnings 'redefine';
 use utf8;
+
+## nofilter(TidyAll::Plugin::OTRS::Perl::PerlTidy)
+
 sub Load {
     my ($File, $Self) = @_;
 
