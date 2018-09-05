@@ -204,7 +204,7 @@ sub FilenameCleanUp {
         $Param{Filename} =~ s/^\.+//;
 
         # only whitelisted characters allowed in filename for security
-        $Param{Filename} =~ s/[^\s\w\-+.#_]/_/g;
+        $Param{Filename} =~ s/[^\w\-+.#_]/_/g;
 
         # Enclosed alphanumerics are kept on older Perl versions, make sure to replace them too.
         $Param{Filename} =~ s/[\x{2460}-\x{24FF}]/_/g;

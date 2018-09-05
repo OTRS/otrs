@@ -591,7 +591,8 @@ Core.UI = (function (TargetNS) {
                     AttachmentItem = Core.Template.Render('AjaxDnDUpload/AttachmentItemUploading', {
                         'Filename' : File.name,
                         'Filetype' : File.type
-                    });
+                    }),
+                    FileExist;
 
                 // check uploaded file size
                 if (File.size > (WebMaxFileUpload - UsedSpace)) {
@@ -615,7 +616,12 @@ Core.UI = (function (TargetNS) {
                 }
 
                 // don't allow uploading multiple files with the same name
-                if ($ContainerObj.find('.AttachmentList tbody tr td.Filename:contains(' + File.name + ')').length) {
+                FileExist = $ContainerObj.find('.AttachmentList tbody tr td.Filename').filter(function() {
+                    if ($(this).text() === File.name) {
+                        return $(this);
+                    }
+                });
+                if (FileExist.length) {
                     AttemptedToUploadAgain.push(File.name);
                     return true;
                 }
@@ -664,7 +670,11 @@ Core.UI = (function (TargetNS) {
 
                             // walk through the list to see if we can update an entry
                             var AttachmentItem,
-                                $ExistingItemObj = $ContainerObj.find('.AttachmentList tbody tr td.Filename:contains(' + Attachment.Filename + ')'),
+                                $ExistingItemObj = $ContainerObj.find('.AttachmentList tbody tr td.Filename').filter(function() {
+                                    if ($(this).text() === Attachment.Filename) {
+                                        return $(this);
+                                    }
+                                }),
                                 $TargetObj;
 
                             // update the existing item if one exists

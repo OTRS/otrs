@@ -269,12 +269,6 @@ sub GetUploadAll {
     $NewFileName =~ s/.:\\(.*)/$1/g;
     $NewFileName =~ s/.*\\(.+?)/$1/g;
 
-    # cleanup filename
-    $NewFileName = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
-        Filename => $NewFileName,
-        Type     => 'Attachment',
-    );
-
     # return a string
     my $Content = '';
     while (<$Upload>) {
