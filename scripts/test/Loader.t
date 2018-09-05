@@ -93,6 +93,7 @@ my $Home = $ConfigObject->Get('Home');
     );
     $ExpectedJS = ${$ExpectedJS};
     $ExpectedJS =~ s{\r\n}{\n}xmsg;
+
     #chomp $ExpectedJS;
 
     $Self->Is(

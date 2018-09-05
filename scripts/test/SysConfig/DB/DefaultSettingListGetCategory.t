@@ -27,8 +27,8 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
     <Name>TestPackage1</Name>
     <Version>0.0.1</Version>
     <Vendor>OTRS AG</Vendor>
-    <URL>http://otrs.com/</URL>
-    <License>GNU GENERAL PUBLIC LICENSE Version 3, November 2007</License>
+    <URL>https://otrs.com/</URL>
+    <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
     <Description Lang="en">TestPackage1.</Description>
     <Framework>6.0.x</Framework>
     <BuildDate>2016-10-11 02:35:46</BuildDate>
@@ -44,8 +44,8 @@ my $String2 = '<?xml version="1.0" encoding="utf-8" ?>
     <Name>TestPackage2</Name>
     <Version>0.0.1</Version>
     <Vendor>OTRS AG</Vendor>
-    <URL>http://otrs.com/</URL>
-    <License>GNU GENERAL PUBLIC LICENSE Version 3, November 2007</License>
+    <URL>https://otrs.com/</URL>
+    <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
     <Description Lang="en">TestPackage2.</Description>
     <Framework>6.0.x</Framework>
     <BuildDate>2016-10-11 02:36:29</BuildDate>
