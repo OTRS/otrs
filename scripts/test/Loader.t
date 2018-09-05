@@ -28,6 +28,7 @@ my $LoaderObject = Kernel::System::Loader->new( %{$Self} );
     );
 
     $ExpectedCSS = ${$ExpectedCSS};
+    chomp $ExpectedCSS;
 
     my $MinifiedCSS = $LoaderObject->MinifyCSS( Code => $CSS );
 
@@ -83,6 +84,7 @@ my $LoaderObject = Kernel::System::Loader->new( %{$Self} );
     );
     $ExpectedJS = ${$ExpectedJS};
     $ExpectedJS =~ s{\r\n}{\n}xmsg;
+    chomp $ExpectedJS;
 
     $Self->Is(
         $MinifiedJS || '',
