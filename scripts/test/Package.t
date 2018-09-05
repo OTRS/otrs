@@ -60,8 +60,8 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test</Name>
   <Version>0.0.1</Version>
   <Vendor>OTRS AG</Vendor>
-  <URL>http://otrs.org/</URL>
-  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <URL>https://otrs.com/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
   <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
   <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
@@ -259,8 +259,8 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test</Name>
   <Version>0.0.1</Version>
   <Vendor>OTRS AG</Vendor>
-  <URL>http://otrs.org/</URL>
-  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <URL>https://otrs.com/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
   <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
   <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
@@ -322,8 +322,8 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test2</Name>
   <Version>0.0.1</Version>
   <Vendor>OTRS AG</Vendor>
-  <URL>http://otrs.org/</URL>
-  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <URL>https://otrs.com/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <PackageRequired Version="0.1">SomeNotExistingModule</PackageRequired>
@@ -355,8 +355,8 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>TestOSDetection1</Name>
   <Version>0.0.1</Version>
   <Vendor>OTRS AG</Vendor>
-  <URL>http://otrs.org/</URL>
-  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <URL>https://otrs.com/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <OS>NonExistingOS</OS>
@@ -388,8 +388,8 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>TestOSDetection2</Name>
   <Version>0.0.1</Version>
   <Vendor>OTRS AG</Vendor>
-  <URL>http://otrs.org/</URL>
-  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <URL>https://otrs.com/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <OS>darwin</OS>
@@ -431,8 +431,8 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test2</Name>
   <Version>0.0.1</Version>
   <Vendor>OTRS AG</Vendor>
-  <URL>http://otrs.org/</URL>
-  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <URL>https://otrs.com/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <ModuleRequired Version="0.1">SomeNotExistingModule</ModuleRequired>
@@ -463,8 +463,8 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test2</Name>
   <Version>0.0.1</Version>
   <Vendor>OTRS AG</Vendor>
-  <URL>http://otrs.org/</URL>
-  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <URL>https://otrs.com/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <ModuleRequired Version="12.999">Encode</ModuleRequired>
@@ -497,8 +497,8 @@ my $String1 = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test2</Name>
   <Version>0.0.1</Version>
   <Vendor>OTRS AG</Vendor>
-  <URL>http://otrs.org/</URL>
-  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <URL>https://otrs.com/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <Framework>3.2.x</Framework>
@@ -527,8 +527,8 @@ my $String2 = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test3</Name>
   <Version>0.0.1</Version>
   <Vendor>OTRS AG</Vendor>
-  <URL>http://otrs.org/</URL>
-  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <URL>https://otrs.com/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <Framework>3.2.x</Framework>
@@ -558,8 +558,8 @@ my $String3 = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test3</Name>
   <Version>0.0.2</Version>
   <Vendor>OTRS AG</Vendor>
-  <URL>http://otrs.org/</URL>
-  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <URL>https://otrs.com/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <Framework>3.2.x</Framework>
@@ -584,8 +584,8 @@ my $String3a = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test3</Name>
   <Version>0.0.3</Version>
   <Vendor>OTRS AG</Vendor>
-  <URL>http://otrs.org/</URL>
-  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <URL>https://otrs.com/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <Framework>3.2.x</Framework>
@@ -618,8 +618,8 @@ my $String3b = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test3</Name>
   <Version>0.0.3</Version>
   <Vendor>OTRS AG</Vendor>
-  <URL>http://otrs.org/</URL>
-  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <URL>https://otrs.com/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <Framework>3.2.x</Framework>
@@ -727,8 +727,8 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test2</Name>
   <Version>0.0.1</Version>
   <Vendor>OTRS AG</Vendor>
-  <URL>http://otrs.org/</URL>
-  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <URL>https://otrs.com/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <OS>_non_existing_</OS>
@@ -749,8 +749,8 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test2</Name>
   <Version>0.0.1</Version>
   <Vendor>OTRS AG</Vendor>
-  <URL>http://otrs.org/</URL>
-  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <URL>https://otrs.com/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <Framework>99.0.x</Framework>
@@ -1057,8 +1057,8 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test2</Name>
   <Version>0.0.1</Version>
   <Vendor>OTRS AG</Vendor>
-  <URL>http://otrs.org/</URL>
-  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <URL>https://otrs.com/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <Framework>3.2.x</Framework>
@@ -1129,8 +1129,8 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Name>Test2</Name>
   <Version>0.0.1</Version>
   <Vendor>OTRS AG</Vendor>
-  <URL>http://otrs.org/</URL>
-  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 110101</License>
+  <URL>https://otrs.com/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <Framework>3.2.x</Framework>
@@ -1211,8 +1211,8 @@ my $FileNotAllowedString = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>
   <Name>FilesNotAllowed</Name>
   <Version>0.0.1</Version>
   <Vendor>OTRS AG</Vendor>
-  <URL>http://otrs.org/</URL>
-  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <URL>https://otrs.com/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang=\"en\">A test package.</Description>
   <Description Lang=\"de\">Ein Test Paket.</Description>
   <Framework>3.2.x</Framework>
@@ -1287,8 +1287,8 @@ if ( !$DeveloperSystem ) {
       <Name>TestFrameworkFileCheck</Name>
       <Version>0.0.1</Version>
       <Vendor>OTRS AG</Vendor>
-      <URL>http://otrs.org/</URL>
-      <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+      <URL>https://otrs.com/</URL>
+      <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
       <Description Lang="en">A test package.</Description>
       <Description Lang="de">Ein Test Paket.</Description>
       <Framework>3.2.x</Framework>
@@ -1369,8 +1369,8 @@ if ( !$DeveloperSystem ) {
       <Name>TestFrameworkFileCheck</Name>
       <Version>0.0.1</Version>
       <Vendor>OTRS AG</Vendor>
-      <URL>http://otrs.org/</URL>
-      <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+      <URL>https://otrs.com/</URL>
+      <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
       <Description Lang="en">A test package.</Description>
       <Description Lang="de">Ein Test Paket.</Description>
       <Framework>3.2.x</Framework>
@@ -1518,8 +1518,8 @@ my $StringNormal = '<?xml version="1.0" encoding="utf-8" ?>
       <Name>TestPackage</Name>
       <Version>1.0.1</Version>
       <Vendor>OTRS AG</Vendor>
-      <URL>http://otrs.org/</URL>
-      <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+      <URL>https://otrs.com/</URL>
+      <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
       <ChangeLog>2013-08-14 New package (some test &lt; &gt; &amp;).</ChangeLog>
       <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
       <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
