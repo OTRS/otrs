@@ -32,6 +32,7 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
     );
 
     $ExpectedCSS = ${$ExpectedCSS};
+    chomp $ExpectedCSS;
 
     my $MinifiedCSS = $LoaderObject->MinifyCSS( Code => $CSS );
 
@@ -89,6 +90,7 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
     );
     $ExpectedJS = ${$ExpectedJS};
     $ExpectedJS =~ s{\r\n}{\n}xmsg;
+    #chomp $ExpectedJS;
 
     $Self->Is(
         $MinifiedJS || '',
@@ -141,6 +143,7 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
     );
     $MinifiedJS = ${$MinifiedJS};
     $MinifiedJS =~ s{\r\n}{\n}xmsg;
+    chomp $MinifiedJS;
 
     my $Expected = $MainObject->FileRead(
         Location => $ConfigObject->Get('Home')
