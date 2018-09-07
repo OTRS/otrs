@@ -527,8 +527,7 @@ sub Run {
         # redirect to alternate login
         if ( $ConfigObject->Get('CustomerPanelLogoutURL') ) {
             print $LayoutObject->Redirect(
-                ExtURL => $ConfigObject->Get('CustomerPanelLogoutURL')
-                    . "?Reason=Logout",
+                ExtURL => $ConfigObject->Get('CustomerPanelLogoutURL'),
             );
         }
 
