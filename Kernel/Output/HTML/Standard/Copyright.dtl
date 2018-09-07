@@ -3,5 +3,5 @@
 <!--         Web: https://otrs.com/ - Lists: https://lists.otrs.org/           -->
 <!--    GNU General Public License: https://www.gnu.org/licenses/gpl-3.0.txt   -->
 <!--                                                                           -->
-# nofilter(TidyAll::Plugin::OTRS::Common::HeaderlineFilename)
-# nofilter(TidyAll::Plugin::OTRS::Legal::LicenseValidator)
+## nofilter(TidyAll::Plugin::OTRS::Common::HeaderlineFilename)
+## nofilter(TidyAll::Plugin::OTRS::Legal::LicenseValidator)
