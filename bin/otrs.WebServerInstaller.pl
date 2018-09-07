@@ -43,7 +43,7 @@ BEGIN {
     # check if is running on windows
     if ( $^O ne "MSWin32" ) {
 
-        # nofilter(TidyAll::Plugin::OTRS::Perl::SyntaxCheck)
+        ## nofilter(TidyAll::Plugin::OTRS::Perl::SyntaxCheck)
         print "This program only works on Microsoft Windows!\n";
         exit 1;
     }
