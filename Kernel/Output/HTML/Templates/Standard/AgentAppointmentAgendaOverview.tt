@@ -6,7 +6,7 @@
 # did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
 # --
 
-# nofilter(TidyAll::Plugin::OTRS::TT::ScriptUsage)
+## nofilter(TidyAll::Plugin::OTRS::TT::ScriptUsage)
 
 <div class="OverviewBox ARIARoleMain [% Data.View | html %]">
     <h1>[% Translate("Agenda Overview") | html %]</h1>

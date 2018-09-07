@@ -8,7 +8,7 @@
 
 package Kernel::Output::Template::Provider;
 ## no critic(Perl::Critic::Policy::OTRS::RequireCamelCase)
-## nofilter(TidyAll::Plugin::OTRS::Perl::SyntaxCheck) # bails on TT Constants
+## nofilter(TidyAll::Plugin::OTRS::Perl::SyntaxCheck)
 
 use strict;
 use warnings;

@@ -7,7 +7,7 @@
 # --
 
 package Kernel::System::LinkObject::Dummy;
-##nofilter(TidyAll::Plugin::OTRS::Perl::Pod::SpellCheck)
+## nofilter(TidyAll::Plugin::OTRS::Perl::Pod::SpellCheck)
 
 use strict;
 use warnings;
