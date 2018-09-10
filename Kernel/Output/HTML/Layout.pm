@@ -1459,7 +1459,12 @@ sub Header {
                 = '//www.gravatar.com/avatar/' . md5_hex( lc $Self->{UserEmail} ) . '?s=100&d=' . $DefaultIcon;
         }
         else {
-            $Param{UserInitials} = $Self->UserInitialsGet( Fullname => $Self->{UserFullname} );
+            my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
+                User          => $Self->{UserLogin},
+                NoOutOfOffice => 1,
+            );
+
+            $Param{UserInitials} = $Self->UserInitialsGet( Fullname => $User{UserFullname} );
         }
 
         # show logged in notice
@@ -6256,6 +6261,9 @@ sub UserInitialsGet {
 
     # Remove anything found in brackets (email address, etc).
     my $Fullname = $Param{Fullname} =~ s/[<[{(].*[>\]})]//r;
+
+    # Trim whitespaces.
+    $Fullname =~ s/^\s+|\s+$//g;
 
     # Split full name by whitespace.
     my @UserNames = split /\s+/, $Fullname;
