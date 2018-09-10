@@ -145,11 +145,11 @@ perform TicketSearch Operation. This will return a Ticket ID list.
         },
 
         # article stuff (optional)
-        From    => '%spam@example.com%',
-        To      => '%service@example.com%',
-        Cc      => '%client@example.com%',
-        Subject => '%VIRUS 32%',
-        Body    => '%VIRUS 32%',
+        MIMEBase_From    => '%spam@example.com%',
+        MIMEBase_To      => '%service@example.com%',
+        MIMEBase_Cc      => '%client@example.com%',
+        MIMEBase_Subject => '%VIRUS 32%',
+        MIMEBase_Body    => '%VIRUS 32%',
 
         # attachment stuff (optional, applies only for ArticleStorageDB)
         AttachmentName => '%anyfile.txt%',
