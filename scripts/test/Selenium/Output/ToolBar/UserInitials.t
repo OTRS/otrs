@@ -27,6 +27,12 @@ $Selenium->RunTest(
             Value => 'none',
         );
 
+        # Do not check email addresses.
+        $Helper->ConfigSettingChange(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
+
         my $RandomID = $Helper->GetRandomID();
 
         # Create test user.
