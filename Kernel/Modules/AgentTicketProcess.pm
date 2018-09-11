@@ -5250,54 +5250,6 @@ sub _StoreActivityDialog {
                 # Remove pre submitted attachments.
                 $UploadCacheObject->FormIDRemove( FormID => $Self->{FormID} );
 
-                # get the link ticket id if given
-                my $LinkTicketID = $ParamObject->GetParam( Param => 'LinkTicketID' ) || '';
-
-                # get screen config
-                my $Config = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
-
-                # link tickets
-                if (
-                    $LinkTicketID
-                    && $Config->{SplitLinkType}
-                    && $Config->{SplitLinkType}->{LinkType}
-                    && $Config->{SplitLinkType}->{Direction}
-                    )
-                {
-
-                    my $Access = $TicketObject->TicketPermission(
-                        Type     => 'ro',
-                        TicketID => $LinkTicketID,
-                        UserID   => $Self->{UserID}
-                    );
-
-                    if ( !$Access ) {
-                        return $LayoutObject->NoPermission(
-                            Message    => "You need ro permission!",
-                            WithHeader => 'yes',
-                        );
-                    }
-
-                    my $SourceKey = $LinkTicketID;
-                    my $TargetKey = $TicketID;
-
-                    if ( $Config->{SplitLinkType}->{Direction} eq 'Source' ) {
-                        $SourceKey = $TicketID;
-                        $TargetKey = $LinkTicketID;
-                    }
-
-                    # link the tickets
-                    $Kernel::OM->Get('Kernel::System::LinkObject')->LinkAdd(
-                        SourceObject => 'Ticket',
-                        SourceKey    => $SourceKey,
-                        TargetObject => 'Ticket',
-                        TargetKey    => $TargetKey,
-                        Type         => $Config->{SplitLinkType}->{LinkType} || 'Normal',
-                        State        => 'Valid',
-                        UserID       => $Self->{UserID},
-                    );
-                }
-
                 # time accounting
                 if ( $Param{GetParam}->{TimeUnits} ) {
                     $TicketObject->TicketAccountTime(
@@ -5498,6 +5450,54 @@ sub _StoreActivityDialog {
                 );
             }
         }
+    }
+
+    # get the link ticket id if given
+    my $LinkTicketID = $ParamObject->GetParam( Param => 'LinkTicketID' ) || '';
+
+    # get screen config
+    my $Config = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
+
+    # link tickets
+    if (
+        $LinkTicketID
+        && $Config->{SplitLinkType}
+        && $Config->{SplitLinkType}->{LinkType}
+        && $Config->{SplitLinkType}->{Direction}
+        )
+    {
+
+        my $Access = $TicketObject->TicketPermission(
+            Type     => 'ro',
+            TicketID => $LinkTicketID,
+            UserID   => $Self->{UserID}
+        );
+
+        if ( !$Access ) {
+            return $LayoutObject->NoPermission(
+                Message    => "You need ro permission!",
+                WithHeader => 'yes',
+            );
+        }
+
+        my $SourceKey = $LinkTicketID;
+        my $TargetKey = $TicketID;
+
+        if ( $Config->{SplitLinkType}->{Direction} eq 'Source' ) {
+            $SourceKey = $TicketID;
+            $TargetKey = $LinkTicketID;
+        }
+
+        # link the tickets
+        $Kernel::OM->Get('Kernel::System::LinkObject')->LinkAdd(
+            SourceObject => 'Ticket',
+            SourceKey    => $SourceKey,
+            TargetObject => 'Ticket',
+            TargetKey    => $TargetKey,
+            Type         => $Config->{SplitLinkType}->{LinkType} || 'Normal',
+            State        => 'Valid',
+            UserID       => $Self->{UserID},
+        );
     }
 
     # Transitions will be handled by ticket event module (TicketProcessTransitions.pm).
