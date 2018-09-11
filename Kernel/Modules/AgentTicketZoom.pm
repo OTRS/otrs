@@ -2719,6 +2719,19 @@ sub _ArticleTree {
         # set TicketID for usage in JS
         $Param{TicketID} = $Self->{TicketID};
 
+        # Modify body text to avoid '</script>' tag issue (see bug#14023).
+        ITEMS:
+        for my $Item ( @{ $Param{Items} } ) {
+            next ITEMS if !$Item->{ArticleID};
+
+            if ( $Item->{IsChatArticle} ) {
+                $Item->{ArticleData}->{BodyChat} =~ s{</script>}{<###/script>}g;
+            }
+            else {
+                $Item->{ArticleData}->{Body} =~ s{</script>}{<###/script>}g;
+            }
+        }
+
         $LayoutObject->Block(
             Name => 'TimelineView',
             Data => {
