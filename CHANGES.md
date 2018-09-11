@@ -1,4 +1,5 @@
 #6.0.11 2018-??-??
+ - 2018-09-11 Fixed bug#[14023](https://bugs.otrs.org/show_bug.cgi?id=14023) - Timeline View is broken when a body string contains closing script tag.
  - 2018-09-10 Fixed bug#[14057](https://bugs.otrs.org/show_bug.cgi?id=14057) - UserInitialsGet ignores FirstnameLastnameOrder.
  - 2018-09-07 Fixed bug#[14052](https://bugs.otrs.org/show_bug.cgi?id=14052) - Reason param in LogoutURL sys config items makes error.
  - 2018-09-05 Follow-up fix for bug#[13968](https://bugs.otrs.org/show_bug.cgi?id=13968) - Attachments with spaces in file name does not work properly.
