@@ -53,6 +53,7 @@ for my $Key ( sort keys %CustomerData ) {
     next KEY if $Key =~ m/ShowTickets$/smx;
     next KEY if $Key eq 'Source';
     next KEY if $Key eq 'CustomerCompanyValidID';
+    next KEY if $Key eq 'UserLanguage';
 
     $Self->False(
         $CustomerUserObject->SetPreferences(
