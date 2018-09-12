@@ -26,6 +26,12 @@ $Selenium->RunTest(
             Value => 'Simple',
         );
 
+        # Disable check email addresses.
+        $Helper->ConfigSettingChange(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
+
         # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
