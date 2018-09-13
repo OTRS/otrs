@@ -1,4 +1,6 @@
-#5.0.30 20??-??-??
+#5.0.31 20??-??-??
+
+#5.0.30 2018-09-21
  - 2018-09-11 Fixed bug#[14023](https://bugs.otrs.org/show_bug.cgi?id=14023) - Timeline View is broken when a body string contains closing script tag.
  - 2018-09-04 Fixed bug#[14044](https://bugs.otrs.org/show_bug.cgi?id=14044) - DefaultOverviewColumns and DefaultColumns configurations are inconsistent.
  - 2018-08-30 Fixed bug#[14030](https://bugs.otrs.org/show_bug.cgi?id=14030) - Values of the type field are translated in the bulk view.
