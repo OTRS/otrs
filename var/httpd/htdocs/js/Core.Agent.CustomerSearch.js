@@ -512,34 +512,37 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 AutocompleteFocus = true;
             });
 
-            // Remember if the autocomplete widget is left by mouse.
-            $($Element.data("ui-autocomplete").menu.element).on('mouseleave', function() {
-                AutocompleteFocus = false;
-            });
+            if (typeof $Element.data("ui-autocomplete") === 'object') {
 
-            // Remember if the autocomplete widget is left by keyboard navigation.
-            // This is done by override the _move method because there is no opposite event of autocompletefocus.
-            $Element.data("ui-autocomplete")._move = function(direction, event) {
-
-                if (!this.menu.element.is(":visible")) {
-                    this.search(null, event);
-                    return;
-                }
-
-                if (this.menu.isFirstItem() && /^previous/.test(direction) ||
-                    this.menu.isLastItem() && /^next/.test(direction)
-                ) {
-                    this._value(this.term);
-
-                    // Trigger mouseleave for removing selection of autocomplete widget.
-                    $(this.menu.element).trigger('mouseleave');
-
+                // Remember if the autocomplete widget is left by mouse.
+                $($Element.data("ui-autocomplete").menu.element).on('mouseleave', function() {
                     AutocompleteFocus = false;
-                    return;
-                }
+                });
 
-                this.menu[ direction ](event);
-            };
+                // Remember if the autocomplete widget is left by keyboard navigation.
+                // This is done by override the _move method because there is no opposite event of autocompletefocus.
+                $Element.data("ui-autocomplete")._move = function(direction, event) {
+
+                    if (!this.menu.element.is(":visible")) {
+                        this.search(null, event);
+                        return;
+                    }
+
+                    if (this.menu.isFirstItem() && /^previous/.test(direction) ||
+                        this.menu.isLastItem() && /^next/.test(direction)
+                    ) {
+                        this._value(this.term);
+
+                        // Trigger mouseleave for removing selection of autocomplete widget.
+                        $(this.menu.element).trigger('mouseleave');
+
+                        AutocompleteFocus = false;
+                        return;
+                    }
+
+                    this.menu[ direction ](event);
+                };
+            }
 
             // If autocomplete was focused, but then closed by a blur, clear the search field since this value was
             //   never explicitly confirmed. Do this also when user decides to click outside the autocomplete list,
