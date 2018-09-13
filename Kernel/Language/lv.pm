@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.165177036782399;
+    $Self->{Completeness}        = 0.167896995708155;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -65,7 +65,7 @@ sub Data {
 
         # Template: AdminACLEdit
         'Edit ACL %s' => 'Rediģēt ACL %s',
-        'Edit ACL' => '',
+        'Edit ACL' => 'Rediģēt ACL',
         'Go to overview' => 'Iet uz pārskatu',
         'Delete ACL' => 'Dzēst ACL',
         'Delete Invalid ACL' => 'Dzēst nederīgu ACL',
@@ -78,7 +78,7 @@ sub Data {
         'Check the official' => '',
         'documentation' => 'dokumentācija',
         'Show or hide the content' => 'Rādīt vai slēpt saturu',
-        'Edit ACL Information' => '',
+        'Edit ACL Information' => 'Rediģēt ACL informāciju',
         'Name' => 'Vārds',
         'Stop after match' => 'Pārtraukt pēc sakritības',
         'Edit ACL Structure' => '',
@@ -95,11 +95,11 @@ sub Data {
 
         # Template: AdminAppointmentCalendarManage
         'Calendar Management' => '',
-        'Add Calendar' => '',
-        'Edit Calendar' => '',
-        'Go back' => '',
+        'Add Calendar' => 'Pievienot kalendāru',
+        'Edit Calendar' => 'Rediģēt kalendāru',
+        'Go back' => 'Atgriezties',
         'Calendar Overview' => '',
-        'Add new Calendar' => '',
+        'Add new Calendar' => 'Pievienot jaunu kalendāru',
         'Import Appointments' => '',
         'Calendar Import' => '',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
@@ -121,21 +121,21 @@ sub Data {
         'Changed' => 'Mainīts',
         'Created' => 'Izveidots',
         'Download' => 'Lejupielādēt',
-        'URL' => '',
+        'URL' => 'URL',
         'Export calendar' => '',
         'Download calendar' => '',
         'Copy public calendar URL' => '',
         'Calendar' => 'Kalendārs',
-        'Calendar name' => '',
+        'Calendar name' => 'Kalendāra nosaukums',
         'Calendar with same name already exists.' => '',
-        'Color' => '',
+        'Color' => 'Krāsa',
         'Permission group' => '',
         'Ticket Appointments' => '',
         'Rule' => '',
         'Remove this entry' => '',
         'Remove' => '',
-        'Start date' => '',
-        'End date' => '',
+        'Start date' => 'Sākuma datums',
+        'End date' => 'Beigu datums',
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
             '',
         'Queues' => 'Rindas',
@@ -163,8 +163,8 @@ sub Data {
         # Template: AdminAppointmentNotificationEvent
         'Appointment Notification Management' => '',
         'Add Notification' => 'Pievienot paziņojumu',
-        'Edit Notification' => '',
-        'Add notification' => '',
+        'Edit Notification' => 'Labot paziņojumu',
+        'Add notification' => 'Pievienot paziņojumu',
         'Export Notifications' => '',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',
@@ -175,7 +175,7 @@ sub Data {
         'Import Notification configuration' => '',
         'List' => 'Saraksts',
         'Delete' => 'Dzēst',
-        'Delete this notification' => '',
+        'Delete this notification' => 'Izdzēst šo paziņojumu',
         'Show in agent preferences' => '',
         'Agent preferences tooltip' => '',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
@@ -213,9 +213,9 @@ sub Data {
         'This feature is currently not available.' => '',
         'Upgrade to %s' => '',
         'Please activate this transport in order to use it.' => '',
-        'No data found' => '',
+        'No data found' => 'Dati nav atrasti',
         'No notification method found.' => '',
-        'Notification Text' => '',
+        'Notification Text' => 'Paziņojuma teksts',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
             '',
         'Remove Notification Language' => '',
@@ -223,7 +223,7 @@ sub Data {
         'Text' => 'Teksts',
         'Message body' => '',
         'Add new notification language' => '',
-        'Save Changes' => '',
+        'Save Changes' => 'Saglabāt izmaiņas',
         'Tag Reference' => '',
         'Notifications are sent to an agent.' => '',
         'You can use the following tags' => 'Jūs varat izmantot šādus tagus',
@@ -2437,7 +2437,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => '',
-        'Personal preferences' => '',
+        'Personal Preferences' => '',
         'Preferences' => 'Iestatījumi',
         'Please note: you\'re currently editing the preferences of %s.' =>
             '',
@@ -2465,7 +2465,6 @@ sub Data {
         'Reset to default' => '',
 
         # Template: AgentPreferencesOverview
-        'Personal Preferences' => '',
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             '',
         'Did you know?' => '',
@@ -2951,6 +2950,7 @@ sub Data {
         'View notifications' => '',
         'Notifications' => '',
         'Notifications (OTRS Business Solution™)' => '',
+        'Personal preferences' => '',
         'Logout' => 'Atteikties',
         'You are logged in as' => '',
 
@@ -2962,7 +2962,14 @@ sub Data {
         'General Specifications and Mail Settings' => '',
         'Finish' => 'Beigas',
         'Welcome to %s' => '',
+        'Germany' => '',
         'Phone' => 'Telefons',
+        'United States' => '',
+        'Mexico' => '',
+        'Hungary' => '',
+        'Brazil' => '',
+        'Singapore' => '',
+        'Hong Kong' => '',
         'Web site' => '',
 
         # Template: InstallerConfigureMail

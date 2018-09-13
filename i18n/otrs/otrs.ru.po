@@ -36,9 +36,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-07-16 16:18+0000\n"
-"PO-Revision-Date: 2018-07-16 16:20+0000\n"
-"Last-Translator: Yuri Kolesniov <ynkolesnikov@gmail.com>\n"
+"POT-Creation-Date: 2018-09-13 21:46+0000\n"
+"PO-Revision-Date: 2018-09-13 21:49+0000\n"
+"Last-Translator: Sergey Nikitin <nikitin.sergey.v@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2627,9 +2627,9 @@ msgstr "Для поиска соответствия будет рассматр
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
-"Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication "
+"Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
 "related errors."
-msgstr "Пример: Введите '^.*401 Unauthorized.*\\$'для обработки ошибок связанных только аутентификацией."
+msgstr "Пример: Введите '^.*401 Unauthorized.*\\\\$', чтобы обрабатывать ошибки, связанные только с аутентификацией."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error stage filter"
@@ -3201,9 +3201,10 @@ msgstr "Пример 2: Поиск = '^' / Замена = '_' преобразу
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
-"Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = "
-"'_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
-msgstr ""
+"Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = "
+"'_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into "
+"'_elementname_16'."
+msgstr "Пример 3: Поиск = '^(?\\\\d+) (?.+?)\\\\$' / Замена = '_\\\\$+{text}_\\\\$+{number}' преобразует '16 elementname' в '_elementname_16'."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "For information about regular expressions in Perl please see here:"
@@ -7810,7 +7811,7 @@ msgid "Edit your preferences"
 msgstr "Измените ваши личные настройки"
 
 #. Template: AgentPreferences
-msgid "Personal preferences"
+msgid "Personal Preferences"
 msgstr "Персональные настройки"
 
 #. Template: AgentPreferences
@@ -7893,10 +7894,6 @@ msgstr "А вы знаете? Вы можете помочь в локализа
 #. Template: SettingsList
 msgid "Reset to default"
 msgstr "Сброс по умолчанию"
-
-#. Template: AgentPreferencesOverview
-msgid "Personal Preferences"
-msgstr "Персональные настройки"
 
 #. Template: AgentPreferencesOverview
 msgid ""
@@ -9303,6 +9300,10 @@ msgid "Notifications (OTRS Business Solution™)"
 msgstr "Уведомления (OTRS Business Solution™)"
 
 #. Template: Header
+msgid "Personal preferences"
+msgstr "Персональные настройки"
+
+#. Template: Header
 msgid "Logout"
 msgstr "Выход"
 
@@ -9339,8 +9340,36 @@ msgid "Welcome to %s"
 msgstr "Добро пожаловать в %s"
 
 #. Template: Installer
+msgid "Germany"
+msgstr ""
+
+#. Template: Installer
 msgid "Phone"
 msgstr "Телефон"
+
+#. Template: Installer
+msgid "United States"
+msgstr ""
+
+#. Template: Installer
+msgid "Mexico"
+msgstr ""
+
+#. Template: Installer
+msgid "Hungary"
+msgstr ""
+
+#. Template: Installer
+msgid "Brazil"
+msgstr ""
+
+#. Template: Installer
+msgid "Singapore"
+msgstr ""
+
+#. Template: Installer
+msgid "Hong Kong"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -22145,8 +22174,8 @@ msgstr "Если \"HTTPBasicAuth\" было выбрано для Customer::Auth
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
-msgstr "Если \"HTTPBasicAuth\" было выбрано для Customer::AuthModule, вы можете задать удаление части имени пользователя ( т.е. для домена типа example_domain\\user получится user)."
+"example_domain\\\\user to user)."
+msgstr ""
 
 #. SysConfig
 msgid ""

@@ -18,8 +18,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-07-16 16:18+0000\n"
-"PO-Revision-Date: 2018-07-16 16:20+0000\n"
+"POT-Creation-Date: 2018-09-13 21:46+0000\n"
+"PO-Revision-Date: 2018-09-13 21:49+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Polish (http://www.transifex.com/otrs/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -755,7 +755,7 @@ msgstr "Dodatkowe adresy email odbiorców"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "This field must have less then 200 characters."
-msgstr ""
+msgstr "To pole musi zawierać mniej niż 200 znaków."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
@@ -1484,7 +1484,7 @@ msgstr "Nazwa klienta"
 
 #. Template: AdminCustomerUser
 msgid "This customer user has no customer access."
-msgstr ""
+msgstr "Ten użytkownik klienta nie ma dostępu jako klient."
 
 #. Template: AdminCustomerUser
 msgid ""
@@ -1496,11 +1496,11 @@ msgstr ""
 
 #. Template: AdminCustomerUserCustomer
 msgid "Manage Customer User-Customer Relations"
-msgstr ""
+msgstr "Zarządzaj relacjami Użytkownik klienta - Klient"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Select the customer user:customer relations."
-msgstr ""
+msgstr "Wybierz relacje użytkownik klienta:klient"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Customer Users"
@@ -1566,7 +1566,7 @@ msgstr "Domyślna Grupa Użytkownika klienta"
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer User-Services Relations"
-msgstr ""
+msgstr "Zarządzaj relacjami Użytkownik klienta - Usługi"
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
@@ -1617,13 +1617,13 @@ msgstr ""
 
 #. Template: AdminDynamicField
 msgid "Web service"
-msgstr ""
+msgstr "Serwis sieciowy"
 
 #. Template: AdminDynamicField
 msgid ""
 "External web services can be configured as data sources for this dynamic "
 "field."
-msgstr ""
+msgstr "Dla tego pola dynamicznego można skonfigurować jako źródło danych zewnętrzny serwis sieciowy."
 
 #. Template: AdminDynamicField
 msgid "Contact with data"
@@ -2517,11 +2517,11 @@ msgstr "Odswież"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Add ErrorHandling"
-msgstr ""
+msgstr "Dodaj obsługę błędu"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Edit ErrorHandling"
-msgstr ""
+msgstr "Edytuj obsługę błędu"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Do you really want to delete this error handling module?"
@@ -2546,7 +2546,7 @@ msgstr "Podaj unikalną nazwę dla tego serwisu sieciowego."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error handling module backend"
-msgstr ""
+msgstr "Moduł obsługi błędów"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
@@ -2609,7 +2609,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
-"Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication "
+"Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
 "related errors."
 msgstr ""
 
@@ -3183,8 +3183,9 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
-"Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = "
-"'_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
+"Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = "
+"'_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into "
+"'_elementname_16'."
 msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
@@ -6356,15 +6357,15 @@ msgstr "Dodaj usługę"
 
 #. Template: AdminService
 msgid "Filter for services"
-msgstr "Filtr dla serwisów"
+msgstr "Filtr usług"
 
 #. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
-msgstr "Długość nazwy serwisów to maksymalnie 200 znaków (razem z pod-serwisem)"
+msgstr "Długość nazwy usługi to maksymalnie 200 znaków (razem z podusługą)"
 
 #. Template: AdminService
 msgid "Sub-service of"
-msgstr "Usługa podrzędna"
+msgstr "Usługa podrzędna dla"
 
 #. Template: AdminSession
 msgid "Session Management"
@@ -7792,7 +7793,7 @@ msgid "Edit your preferences"
 msgstr "Zmień swoje ustawienia"
 
 #. Template: AgentPreferences
-msgid "Personal preferences"
+msgid "Personal Preferences"
 msgstr "Ustawienia osobiste"
 
 #. Template: AgentPreferences
@@ -7875,10 +7876,6 @@ msgstr "Czy wiesz, że możesz pomóc w tłumaczeniu OTRS na %s"
 #. Template: SettingsList
 msgid "Reset to default"
 msgstr "Przywróć do domyślnych"
-
-#. Template: AgentPreferencesOverview
-msgid "Personal Preferences"
-msgstr "Ustawienia osobiste"
 
 #. Template: AgentPreferencesOverview
 msgid ""
@@ -8880,7 +8877,7 @@ msgstr ""
 
 #. Template: CloudServicesDisabled
 msgid "This Feature Requires Cloud Services"
-msgstr ""
+msgstr "Ta funkcja wymaga usług w chmurze"
 
 #. Template: CloudServicesDisabled
 msgid "You can"
@@ -9285,6 +9282,10 @@ msgid "Notifications (OTRS Business Solution™)"
 msgstr "Powiadomienia (OTRS Business Solution™)"
 
 #. Template: Header
+msgid "Personal preferences"
+msgstr "Ustawienia osobiste"
+
+#. Template: Header
 msgid "Logout"
 msgstr "Wyloguj"
 
@@ -9321,8 +9322,36 @@ msgid "Welcome to %s"
 msgstr "Witaj w %s"
 
 #. Template: Installer
+msgid "Germany"
+msgstr ""
+
+#. Template: Installer
 msgid "Phone"
 msgstr "Tel."
+
+#. Template: Installer
+msgid "United States"
+msgstr ""
+
+#. Template: Installer
+msgid "Mexico"
+msgstr ""
+
+#. Template: Installer
+msgid "Hungary"
+msgstr ""
+
+#. Template: Installer
+msgid "Brazil"
+msgstr ""
+
+#. Template: Installer
+msgid "Singapore"
+msgstr ""
+
+#. Template: Installer
+msgid "Hong Kong"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -9879,7 +9908,7 @@ msgstr "Okres względny"
 
 #. Template: RestrictionsWidget
 msgid "The past complete %s and the current+upcoming complete %s %s"
-msgstr ""
+msgstr "Zakończonych okresów %s oraz okres bieżący + przyszłe okresy %s%s"
 
 #. Template: RestrictionsWidget
 msgid "Do not allow changes to this element when the statistic is generated."
@@ -10772,11 +10801,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerUserService.pm
 msgid "Allocate Customer Users to Service"
-msgstr ""
+msgstr "Przypisz Użytkowników Klienta do Usług"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUserService.pm
 msgid "Allocate Services to Customer User"
-msgstr ""
+msgstr "Przypisz Usługi do Użytkownika Klienta"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Fields configuration is not valid"
@@ -10792,7 +10821,7 @@ msgstr "Baza danych (%s)"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Web service (%s)"
-msgstr ""
+msgstr "Serwis sieciowy (%s)"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Contact with data (%s)"
@@ -10870,11 +10899,11 @@ msgstr "Zaznaczone"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the future"
-msgstr ""
+msgstr "Nie pozwalaj na wprowadzanie dat w przyszłości"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the past"
-msgstr ""
+msgstr "Nie pozwalaj na wprowadzanie dat w przeszłości"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
 msgid "This field value is duplicated."
@@ -15031,17 +15060,17 @@ msgstr "Nie można określić wartości."
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
 msgid "Daemon"
-msgstr ""
+msgstr "Demon"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
 msgid "Daemon is running."
-msgstr ""
+msgstr "Demon jest uruchomiony"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
 msgid "Daemon is not running."
-msgstr ""
+msgstr "Demon nie jest uruchomiony"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -15096,7 +15125,7 @@ msgstr "Ogólny interfejs usług sieciowych"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "Process Tickets"
-msgstr ""
+msgstr "Zgłoszenia procesowe"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -15141,15 +15170,15 @@ msgstr "Kolejka Nadawcza Email"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/EmailQueue.pm
 msgid "Emails queued for sending"
-msgstr ""
+msgstr "Emaile w kolejce wysyłania"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
 msgid "FQDN (domain name)"
-msgstr ""
+msgstr "FQDN (nazwa domeny)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
 msgid "Please configure your FQDN setting."
-msgstr ""
+msgstr "Skonfiguruj proszę ustawienie twojej FQDN"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
 msgid "Domain Name"
@@ -15211,7 +15240,7 @@ msgstr "Niektóre pakiety nie zostały poprawnie zainstalowane."
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
 msgid "Package Verification Status"
-msgstr ""
+msgstr "Stan Weryfikacji Pakietów"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
@@ -15254,7 +15283,7 @@ msgstr "Wartość pola SystemID jest nieprawidłowa, powinno zawierać tylko cyf
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
 msgid "Default Ticket Type"
-msgstr ""
+msgstr "Domyślny Typ Zgłoszenia"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
@@ -15339,23 +15368,23 @@ msgstr "Ustawienia strefy czasowej serwera"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS time zone"
-msgstr ""
+msgstr "Strefa czasowa OTRS"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS time zone is not set."
-msgstr ""
+msgstr "Strefa czasowa OTRS nie jest ustawiona."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "User default time zone"
-msgstr ""
+msgstr "Domyślna strefa czasowa użytkownika"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "User default time zone is not set."
-msgstr ""
+msgstr "Nie ustawiona domyślna strefa czasowa użytkownika."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS time zone setting for calendar"
-msgstr ""
+msgstr "Strefa czasowa OTRS dla kalendarza"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Calendar time zone is not set."
@@ -16137,7 +16166,7 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid "Attachment was deleted successfully."
-msgstr ""
+msgstr "Załącznik został pomyślnie usunięty."
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid ""
@@ -16252,7 +16281,7 @@ msgstr "Uwaga: Jeżeli zmienisz nazwę grupy 'admin', przed wykonaniem właściw
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Delete this Mail Account"
-msgstr ""
+msgstr "Usuń to Konto Pocztowe"
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Deleting the mail account and its data. This may take a while..."
@@ -17298,7 +17327,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Admin modules overview."
-msgstr ""
+msgstr "Przegląd modułów Adminsitratora"
 
 #. SysConfig
 msgid "Admin."
@@ -17330,7 +17359,7 @@ msgstr "Preferencje Agenta"
 
 #. SysConfig
 msgid "Agent Statistics."
-msgstr ""
+msgstr "Statystyki Agenta"
 
 #. SysConfig
 msgid "Agent User Search"
@@ -17761,7 +17790,7 @@ msgstr "Nazwa załącznika"
 
 #. SysConfig
 msgid "Attachments ↔ Templates"
-msgstr ""
+msgstr "Załączniki ↔ Szablony"
 
 #. SysConfig
 msgid "Auto Responses ↔ Queues"
@@ -18354,7 +18383,7 @@ msgstr "Ustawienia szablonów powitań."
 
 #. SysConfig
 msgid "Create and manage services."
-msgstr "Zarządzanie usługami serwisowymi."
+msgstr "Tworzenie i zarządzanie usługami."
 
 #. SysConfig
 msgid "Create and manage signatures."
@@ -18430,7 +18459,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Custom RSS feed."
-msgstr ""
+msgstr "Niestandardowe źródło RSS"
 
 #. SysConfig
 msgid ""
@@ -18456,7 +18485,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer Information Center search."
-msgstr ""
+msgstr "Wyszukiwanie w Centrum informacji o Kliencie"
 
 #. SysConfig
 msgid "Customer Information Center."
@@ -18480,7 +18509,7 @@ msgstr "Wyszukiwanie w Centrum Informacji o użytkowniku klienta."
 
 #. SysConfig
 msgid "Customer User Information Center search."
-msgstr ""
+msgstr "Wyszukiwanie w Centrum Informacji o użytkowniku klienta."
 
 #. SysConfig
 msgid "Customer User Information Center."
@@ -18488,15 +18517,15 @@ msgstr "Centrum Informacji o użytkowniku klienta."
 
 #. SysConfig
 msgid "Customer Users ↔ Customers"
-msgstr ""
+msgstr "Użytkownicy Klientów ↔ Klienci"
 
 #. SysConfig
 msgid "Customer Users ↔ Groups"
-msgstr ""
+msgstr "Użytkownicy Klienta ↔ Grupy"
 
 #. SysConfig
 msgid "Customer Users ↔ Services"
-msgstr ""
+msgstr "Użytkownicy Klienta ↔ Usługi"
 
 #. SysConfig
 msgid ""
@@ -18546,7 +18575,7 @@ msgstr "Imię i nazwisko użytkownika"
 
 #. SysConfig
 msgid "Customers ↔ Groups"
-msgstr ""
+msgstr "Klienci ↔ Grupy"
 
 #. SysConfig
 msgid ""
@@ -18564,7 +18593,7 @@ msgstr "Duński"
 
 #. SysConfig
 msgid "Dashboard overview."
-msgstr ""
+msgstr "Przegląd pulpitu"
 
 #. SysConfig
 msgid "Data used to export the search result in CSV format."
@@ -19138,7 +19167,7 @@ msgid ""
 "some functionality will be lost such as system registration, support data "
 "sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS"
 " News and product News dashboard widgets, among others."
-msgstr ""
+msgstr "Określa czy jest możliwa komunikacja pomiędzy tym systemem a serwerami OTRS Group świadczącymi usługi w chmurze. Jeśli ustawisz na 'Wyłącz usługi w chmurze' stracisz niektóre funkjonalności, między innymi: rejestracja systemu, przesyłanie danych do wsparcia, możliwość upgrade'u i używania OTRS Business Solution™, OTRS Verify™, oraz widżety pulpitu Aktualności OTRS."
 
 #. SysConfig
 msgid ""
@@ -21137,7 +21166,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Disable cloud services"
-msgstr ""
+msgstr "Wyłącz usługi w chmurze"
 
 #. SysConfig
 msgid ""
@@ -21877,7 +21906,7 @@ msgstr "Rejestracja modułu interfejsu dla interfejsu klienta."
 
 #. SysConfig
 msgid "Frontend module registration for the public interface."
-msgstr ""
+msgstr "Rejestracja modułu interfejsu dla interfejsu publicznego."
 
 #. SysConfig
 msgid "Full value"
@@ -22127,7 +22156,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -22773,7 +22802,7 @@ msgstr "Zablokowano zgłoszenie."
 
 #. SysConfig
 msgid "Logged in users."
-msgstr ""
+msgstr "Zalogowani użytkownicy."
 
 #. SysConfig
 msgid "Logged-In Users"
@@ -23181,7 +23210,7 @@ msgstr "Nowości w wersjach OTRS!"
 
 #. SysConfig
 msgid "News about OTRS."
-msgstr ""
+msgstr "Aktualności OTRS"
 
 #. SysConfig
 msgid ""
@@ -23326,7 +23355,7 @@ msgstr "Przebywam poza biurem"
 
 #. SysConfig
 msgid "Out of Office users."
-msgstr ""
+msgstr "Użytkownicy poza biurem."
 
 #. SysConfig
 msgid ""
@@ -23344,7 +23373,7 @@ msgstr "Czas odświeżania przeglądu"
 
 #. SysConfig
 msgid "Overview of all Tickets per assigned Queue."
-msgstr ""
+msgstr "Przegląd wszystkich zgłoszeń na przypisaną kolejkę."
 
 #. SysConfig
 msgid "Overview of all appointments."
@@ -24134,7 +24163,7 @@ msgstr "Prawa"
 
 #. SysConfig
 msgid "Roles ↔ Groups"
-msgstr ""
+msgstr "Role ↔ Grupy"
 
 #. SysConfig
 msgid ""
@@ -24348,7 +24377,7 @@ msgstr ""
 msgid ""
 "Sends the notifications which are configured in the admin interface under "
 "\"Ticket Notifications\"."
-msgstr ""
+msgstr "Wysyła powiadomienia skonfigurowane w interfejsie administracyjnym pod \"Powiadomienia o zgłoszeniach\"."
 
 #. SysConfig
 msgid "Sent \"%s\" notification to \"%s\" via \"%s\"."
@@ -25079,7 +25108,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Show command line output."
-msgstr ""
+msgstr "Pokaż komunikaty wyjściowe linii komend."
 
 #. SysConfig
 msgid "Show queues even when only locked tickets are in."
@@ -25576,7 +25605,7 @@ msgstr "Pokazuje ostatni temat artykułu klienta lub tytuł zgłoszenia w podgl�
 msgid ""
 "Shows existing parent/child queue lists in the system in the form of a tree "
 "or a list."
-msgstr "Pokazuje bierzące listy kolejek nadrzędna/podrzędna w systemie w formie drzewa lub listy."
+msgstr "Pokazuje bieżące listy kolejek nadrzędna/podrzędna w systemie w formie drzewa lub listy."
 
 #. SysConfig
 msgid "Shows information on how to start OTRS Daemon"
@@ -26010,11 +26039,11 @@ msgstr "Stany"
 
 #. SysConfig
 msgid "Statistic Reports overview."
-msgstr ""
+msgstr "Przegląd Raportów Statystycznych."
 
 #. SysConfig
 msgid "Statistics overview."
-msgstr ""
+msgstr "Przegląd statystyk."
 
 #. SysConfig
 msgid "Status view"
@@ -26070,7 +26099,7 @@ msgstr "Konserwacja systemu"
 
 #. SysConfig
 msgid "Templates ↔ Queues"
-msgstr ""
+msgstr "Szablony ↔ Kolejki"
 
 #. SysConfig
 msgid "Textarea"
@@ -26147,7 +26176,7 @@ msgstr "Identyfikator zgłoszenia np. Ticket#, Call#, MyTicket#. Domyślny to Ti
 msgid ""
 "The logo shown in the header of the agent interface for the skin \"High "
 "Contrast\". See \"AgentLogo\" for further description."
-msgstr ""
+msgstr "Logo wyświetlane w nagłówku interfejsu agenta dla skórki \"Wysoki kontrast\". Zajrzyj do \"AgentLogo\" w celu uzyskania dalszych wyjaśnień."
 
 #. SysConfig
 msgid ""
@@ -26192,7 +26221,7 @@ msgid ""
 "The logo shown on top of the login box of the agent interface. The URL to "
 "the image can be a relative URL to the skin image directory, or a full URL "
 "to a remote web server."
-msgstr ""
+msgstr "Logo wyświetlane nad oknem logowania interfejsu agenta. URL do obrazka może być podany jako relatywny URL do katalogu skórek, lub pełny URL do zewnętrznego serwera."
 
 #. SysConfig
 msgid ""
@@ -26698,7 +26727,7 @@ msgstr "Przeprowadzamy zaplanowane prace serwisowe. System zostanie niedługo ud
 
 #. SysConfig
 msgid "Web Services"
-msgstr "Usługi Sieciowe"
+msgstr "Serwisy Sieciowe (WS)"
 
 #. SysConfig
 msgid "Web View"

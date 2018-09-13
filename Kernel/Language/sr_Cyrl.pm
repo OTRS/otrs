@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 1;
+    $Self->{Completeness}        = 0.998798283261803;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -792,7 +792,7 @@ sub Data {
         'Error message subject and data (as seen in the debugger error entry) will considered for a match.' =>
             'Наслов и садржај поруке о грешци (како су приказани у програму за отклањање грешака) који ће бити сматрани као задовољен услов.',
         'Example: Enter \'^.*401 Unauthorized.*\$\' to handle only authentication related errors.' =>
-            'Пример: унесите \'^.*401 Unauthorized.*\$\' за обраду грешака само приликом аутентификације.',
+            'Пример: унесите \'^.*401 Unauthorized.*\$\' за обраду само грешака у вези аутентикације.',
         'Error stage filter' => 'Филтер грешке у одговарућој фази',
         'Only execute error handling module on errors that occur during specific processing stages.' =>
             'Изврши модул за обраду грешке само уколико се догоде током одговарајуће фазе у току захтева.',
@@ -966,7 +966,7 @@ sub Data {
         'Example 2: Search = \'^\' / Replace = \'_\' turns \'16x16\' into \'_16x16\'.' =>
             'Пример 2: пронађи = \'^\' / замени = \'_\' претвара \'16x16\' у \'_16x16\'.',
         'Example 3: Search = \'^(?<number>\d+) (?<text>.+?)\$\' / Replace = \'_\$+{text}_\$+{number}\' turns \'16 elementname\' into \'_elementname_16\'.' =>
-            'Пример 3: пронађи = \'^(?<number>\d+) (?<text>.+?)\$\' / замени = \'_\$+{text}_\$+{number}\' претвара \'16 elementname\' у \'_elementname_16\'.',
+            'Пример 3: Search = \'^(?\d+) (?.+?)\$\' / Replace = \'_\$+{text}_\$+{number}\' претвара \'16 elementname\' у \'_elementname_16\'.',
         'For information about regular expressions in Perl please see here:' =>
             'За информације о Perl регуларним изразима, молимо посетите:',
         'Perl regular expressions tutorial' => 'Приручних Perl регуларних израза',
@@ -2438,7 +2438,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Уреди личне поставке',
-        'Personal preferences' => 'Лична подешавања',
+        'Personal Preferences' => 'Лична подешавања',
         'Preferences' => 'Подешавања',
         'Please note: you\'re currently editing the preferences of %s.' =>
             'Напомена: тренутно мењате подешавања од %s.',
@@ -2466,7 +2466,6 @@ sub Data {
         'Reset to default' => 'Поништи на подразумевану вредност',
 
         # Template: AgentPreferencesOverview
-        'Personal Preferences' => 'Лична подешавања',
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             'Изаберите групу са десне стране за приказ подешавања доступних за промене.',
         'Did you know?' => 'Да ли сте знали?',
@@ -2952,6 +2951,7 @@ sub Data {
         'View notifications' => 'Преглед обавештења',
         'Notifications' => 'Обавештења',
         'Notifications (OTRS Business Solution™)' => 'Обавештења (OTRS Business Solution™)',
+        'Personal preferences' => 'Лична подешавања',
         'Logout' => 'Одјава',
         'You are logged in as' => 'Пријављени сте као',
 
@@ -2963,7 +2963,14 @@ sub Data {
         'General Specifications and Mail Settings' => 'Опште спецификације и подешавање поште',
         'Finish' => 'Заврши',
         'Welcome to %s' => 'Добродошли у %s',
+        'Germany' => '',
         'Phone' => 'Позив',
+        'United States' => '',
+        'Mexico' => '',
+        'Hungary' => '',
+        'Brazil' => '',
+        'Singapore' => '',
+        'Hong Kong' => '',
         'Web site' => 'Веб сајт',
 
         # Template: InstallerConfigureMail
@@ -7355,7 +7362,7 @@ Thanks for your help!
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
             'Уколико је подешен HTTPBasicAuth за Customer::AuthModule, можете подесити (путем RegExp) уклањање делова REMOTE_USER вредности (нпр. ради уклањања додатних домена). Напомена: $1 ће бити нови Login.',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
-            'Уколико је „HTTPBasicAuth” изабран за „Customer::AuthModule”, можете подесити уклањање почетних делова корисничких имена (нпр. за домене као „example_domain\\user” у „user”).',
+            'Уколико је подешен HTTPBasicAuth за Customer::AuthModule, можете подесити уклањање делова корисничких имена (нпр. за домене као example_domain\user у user).',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' =>
             'Уколико је подешен LDAP за Customer::AuthModule и желите да додате суфикс сваком корисничком имену, дефинишите га овде, нпр. желите само user за корисничко име, али у вашем LDAP директоријуму постоји user@domain.',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>

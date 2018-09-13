@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.997765555173599;
+    $Self->{Completeness}        = 0.998798283261803;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -244,7 +244,7 @@ sub Data {
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Imejl adresa dodatnog primaoca',
-        'This field must have less then 200 characters.' => '',
+        'This field must have less then 200 characters.' => 'Ovo polje ne sme biti duže od 200 karaktera.',
         'Article visible for customer' => 'Članak vidljiv klijentima',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Članak je kreiran i obaveštenje poslato klijentu ili na drugu imejl adresu.',
@@ -2444,7 +2444,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Uredi lične postavke',
-        'Personal preferences' => 'Lična podešavanja',
+        'Personal Preferences' => 'Lična podešavanja',
         'Preferences' => 'Podešavanja',
         'Please note: you\'re currently editing the preferences of %s.' =>
             'Napomena: trenutno menjate podešavanja od %s.',
@@ -2472,7 +2472,6 @@ sub Data {
         'Reset to default' => 'Poništi na podrazumevanu vrednost',
 
         # Template: AgentPreferencesOverview
-        'Personal Preferences' => 'Lična podešavanja',
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             'Izaberite grupu sa desne strane za prikaz podešavanja dostupnih za promene.',
         'Did you know?' => 'Da li ste znali?',
@@ -2958,6 +2957,7 @@ sub Data {
         'View notifications' => 'Pregled obaveštenja',
         'Notifications' => 'Obaveštenja',
         'Notifications (OTRS Business Solution™)' => 'Obaveštenja (OTRS Business Solution™)',
+        'Personal preferences' => 'Lična podešavanja',
         'Logout' => 'Odjava',
         'You are logged in as' => 'Prijavljeni ste kao',
 
@@ -2969,7 +2969,14 @@ sub Data {
         'General Specifications and Mail Settings' => 'Opšte specifikacije i podešavanje pošte',
         'Finish' => 'Završi',
         'Welcome to %s' => 'Dobrodošli u %s',
+        'Germany' => '',
         'Phone' => 'Poziv',
+        'United States' => '',
+        'Mexico' => '',
+        'Hungary' => '',
+        'Brazil' => '',
+        'Singapore' => '',
+        'Hong Kong' => '',
         'Web site' => 'Veb sajt',
 
         # Template: InstallerConfigureMail
@@ -3589,7 +3596,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
         'Could not determine config for invoker %s' => 'Nije moguće utvrditi konfiguraciju za pozivaoca %s',
         'InvokerType %s is not registered' => 'Tip pozivaoca %s nije registrovan',
-        'MappingType %s is not registered' => '',
+        'MappingType %s is not registered' => 'MappingType %s nije registrovan',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
         'Need Invoker!' => 'Neophodan pozivalac!',
@@ -5260,8 +5267,8 @@ sub Data {
         'Reset of unlock time.' => 'Poništavanje vremena otključavanja.',
 
         # Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
-        'Chat Participant' => '',
-        'Chat Message Text' => '',
+        'Chat Participant' => 'Učesnik ćaskanja',
+        'Chat Message Text' => 'Poruka ćaskanja',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Login failed! Your user name or password was entered incorrectly.' =>
@@ -5971,11 +5978,11 @@ Vaša tehnička podrška
         'Allows customers to set the ticket priority in the customer interface.' =>
             'Dozvoljava klijentima da podese prioritet tiketa u klijentskom interfejsu.',
         'Allows customers to set the ticket queue in the customer interface. If this is not enabled, QueueDefault should be configured.' =>
-            '',
+            'Dozvoljava klijentima da podese red tiketa u korisničkom interfejsu. Ako je isključeno, onda treba podesiti QueueDefault.',
         'Allows customers to set the ticket service in the customer interface.' =>
             'Dozvoljava klijentima da podese uslugu za tiket u korisničkom interfejsu.',
         'Allows customers to set the ticket type in the customer interface. If this is not enabled, TicketTypeDefault should be configured.' =>
-            '',
+            'Dozvoljava klijentima da podese tip tiketa u interfejsu korisnika. Ukoliko je isključeno, treba konfigurisati TicketTypeDefault.',
         'Allows default services to be selected also for non existing customers.' =>
             'Dozvoljava da podrazumevane usluge budu izabrane i za nepostojeće klijente.',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
@@ -7333,7 +7340,7 @@ Vaša tehnička podrška
         'Greek' => 'Grčki',
         'Hebrew' => 'Hebrejski',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
-            '',
+            'Omogućuje proširenu tekstualnu pretragu vaših članaka (pretraga po poljima From, To, Cc, Subject i Body). Svi postojeći članci će biti reindeksirani, novi dodati u indeks pretrage po kreiranju, time ubrzavajući tekstualnu pretragu za oko 50%. Za kreiranje početnog indeksa koristite "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".',
         'High Contrast' => 'Visoki kontrast',
         'High contrast skin for visually impaired users.' => 'Visoko kontrastni izgled za osobe slabijeg vida.',
         'Hindi' => 'Hindi',
@@ -7545,7 +7552,7 @@ Vaša tehnička podrška
         'List view' => 'Pregled liste',
         'Lithuanian' => 'Litvanski',
         'Loader module registration for the agent interface.' => 'Registracija modula za učitavanje za interfejs operatera.',
-        'Loader module registration for the customer interface.' => '',
+        'Loader module registration for the customer interface.' => 'Registracija modula za učitavanje za interfejs klijenta.',
         'Lock / unlock this ticket' => 'Zaključaj / otključaj ovaj tiket',
         'Locked Tickets' => 'Zaključani tiketi',
         'Locked Tickets.' => 'Zaključani tiketi.',
@@ -8232,15 +8239,15 @@ Vaša tehnička podrška
         'Shows a link in the menu to add a note to a ticket in every ticket overview of the agent interface.' =>
             'U meniju prikazuje vezu za dodavanje napomene na tiket u svaki pregled tiketa u interfejsu operatera.',
         'Shows a link in the menu to add a phone call inbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Prikazuje vezu u meniju za dodavanje dolaznog poziva tiketa u detaljnom pregledu u interfejsu operatera. Dodatna kontrola prikaza ove veze može se postići korišćenjem ključa "Group" sa sadržajem "rw:group1;move_into:group2". Za združivanje veza u meniju podesite ključ "ClusterName" sa sadržajem koji će biti naziv koji želite da vidite u interfejsu. Koristite ključ "ClusterPriority" za izmenu redosleda grupa u meniju.',
         'Shows a link in the menu to add a phone call outbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Prikazuje vezu u meniju za dodavanje odlaznog poziva tiketa u detaljnom pregledu u interfejsu operatera. Dodatna kontrola prikaza ove veze može se postići korišćenjem ključa "Group" sa sadržajem "rw:group1;move_into:group2". Za združivanje veza u meniju podesite ključ "ClusterName" sa sadržajem koji će biti naziv koji želite da vidite u interfejsu. Koristite ključ "ClusterPriority" za izmenu redosleda grupa u meniju.',
         'Shows a link in the menu to change the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Prikazuje vezu u meniju za promenu klijenta na koga se vodi tiket u detaljnom pregledu u interfejsu operatera. Dodatna kontrola prikaza ove veze može se postići korišćenjem ključa "Group" sa sadržajem "rw:group1;move_into:group2". Za združivanje veza u meniju podesite ključ "ClusterName" sa sadržajem koji će biti naziv koji želite da vidite u interfejsu. Koristite ključ "ClusterPriority" za izmenu redosleda grupa u meniju.',
         'Shows a link in the menu to change the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Prikazuje vezu u meniju za promenu vlasnika tiketa u detaljnom pregledu u interfejsu operatera. Dodatna kontrola prikaza ove veze može se postići korišćenjem ključa "Group" sa sadržajem "rw:group1;move_into:group2". Za združivanje veza u meniju podesite ključ "ClusterName" sa sadržajem koji će biti naziv koji želite da vidite u interfejsu. Koristite ključ "ClusterPriority" za izmenu redosleda grupa u meniju.',
         'Shows a link in the menu to change the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Prikazuje vezu u meniju za promenu odgovornog tiketa u detaljnom pregledu u interfejsu operatera. Dodatna kontrola prikaza ove veze može se postići korišćenjem ključa "Group" sa sadržajem "rw:group1;move_into:group2". Za združivanje veza u meniju podesite ključ "ClusterName" sa sadržajem koji će biti naziv koji želite da vidite u interfejsu. Koristite ključ "ClusterPriority" za izmenu redosleda grupa u meniju.',
         'Shows a link in the menu to close a ticket in every ticket overview of the agent interface.' =>
             'U meniju prikazuje vezu za zatvaranje tiketa u svaki pregled tiketa u interfejsu operatera.',
         'Shows a link in the menu to close a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>

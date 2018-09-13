@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.391371605362668;
+    $Self->{Completeness}        = 0.390901287553648;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2446,7 +2446,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Editer vos préférences',
-        'Personal preferences' => 'Préférences personnelles',
+        'Personal Preferences' => 'Préférences personnelles',
         'Preferences' => 'Préférences',
         'Please note: you\'re currently editing the preferences of %s.' =>
             'Attention: vous êtes en train de modifier les préférences personnelles de %s.',
@@ -2474,7 +2474,6 @@ sub Data {
         'Reset to default' => '',
 
         # Template: AgentPreferencesOverview
-        'Personal Preferences' => 'Préférences personnelles',
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             'Sélectionnez à droite les paramètres que vous souhaitez modifier.',
         'Did you know?' => 'Le saviez-vous ?',
@@ -2960,6 +2959,7 @@ sub Data {
         'View notifications' => '',
         'Notifications' => '',
         'Notifications (OTRS Business Solution™)' => '',
+        'Personal preferences' => 'Préférences personnelles',
         'Logout' => 'Déconnexion',
         'You are logged in as' => 'Vous êtes connecté avec',
 
@@ -2971,7 +2971,14 @@ sub Data {
         'General Specifications and Mail Settings' => 'Spécifications Générales et Réglages de Messagerie',
         'Finish' => 'Terminer',
         'Welcome to %s' => '',
+        'Germany' => '',
         'Phone' => 'Téléphone',
+        'United States' => '',
+        'Mexico' => '',
+        'Hungary' => '',
+        'Brazil' => '',
+        'Singapore' => '',
+        'Hong Kong' => '',
         'Web site' => 'Site web',
 
         # Template: InstallerConfigureMail

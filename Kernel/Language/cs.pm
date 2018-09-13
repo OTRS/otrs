@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.20917841182537;
+    $Self->{Completeness}        = 0.208927038626609;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2445,7 +2445,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Upravit moje preference',
-        'Personal preferences' => '',
+        'Personal Preferences' => '',
         'Preferences' => 'Předvolby',
         'Please note: you\'re currently editing the preferences of %s.' =>
             '',
@@ -2473,7 +2473,6 @@ sub Data {
         'Reset to default' => '',
 
         # Template: AgentPreferencesOverview
-        'Personal Preferences' => '',
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             '',
         'Did you know?' => '',
@@ -2959,6 +2958,7 @@ sub Data {
         'View notifications' => '',
         'Notifications' => '',
         'Notifications (OTRS Business Solution™)' => '',
+        'Personal preferences' => '',
         'Logout' => 'Odhlásit',
         'You are logged in as' => 'Jste přihlášen jako',
 
@@ -2970,7 +2970,14 @@ sub Data {
         'General Specifications and Mail Settings' => '',
         'Finish' => 'Ukončit',
         'Welcome to %s' => '',
+        'Germany' => '',
         'Phone' => 'Telefon',
+        'United States' => '',
+        'Mexico' => '',
+        'Hungary' => '',
+        'Brazil' => '',
+        'Singapore' => '',
+        'Hong Kong' => '',
         'Web site' => '',
 
         # Template: InstallerConfigureMail

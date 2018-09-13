@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.599518734960467;
+    $Self->{Completeness}        = 0.598798283261803;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -2441,7 +2441,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'แก้ไขการตั้งค่าของคุณ',
-        'Personal preferences' => '',
+        'Personal Preferences' => '',
         'Preferences' => 'การกำหนดลักษณะ',
         'Please note: you\'re currently editing the preferences of %s.' =>
             '',
@@ -2469,7 +2469,6 @@ sub Data {
         'Reset to default' => '',
 
         # Template: AgentPreferencesOverview
-        'Personal Preferences' => '',
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             '',
         'Did you know?' => '',
@@ -2955,6 +2954,7 @@ sub Data {
         'View notifications' => 'ดูการแจ้งเตือน',
         'Notifications' => '',
         'Notifications (OTRS Business Solution™)' => '',
+        'Personal preferences' => '',
         'Logout' => 'ออกจากระบบ',
         'You are logged in as' => 'คุณได้เข้าสู่ระบบเป็น',
 
@@ -2966,7 +2966,14 @@ sub Data {
         'General Specifications and Mail Settings' => 'คุณสมบัติทั่วไปและการตั้งค่าเมล์',
         'Finish' => 'เสร็จ',
         'Welcome to %s' => 'ยินดีต้อนรับสู่ %s',
+        'Germany' => '',
         'Phone' => 'โทรศัพท์',
+        'United States' => '',
+        'Mexico' => '',
+        'Hungary' => '',
+        'Brazil' => '',
+        'Singapore' => '',
+        'Hong Kong' => '',
         'Web site' => 'เว็บไซต์',
 
         # Template: InstallerConfigureMail

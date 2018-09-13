@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.707975249226538;
+    $Self->{Completeness}        = 0.710214592274678;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -828,7 +828,7 @@ sub Data {
         'Schedule retry' => 'Programar nova tentativa',
         'Should requests causing an error be triggered again at a later time?' =>
             'Os pedidos que causam erro devem ser acionados novamente mais tarde?',
-        'Initial retry interval' => '',
+        'Initial retry interval' => 'Intervalo inicial de repetição',
         'Interval after which to trigger the first retry.' => '',
         'Note: This and all further retry intervals are based on the error handling module execution time for the initial request.' =>
             '',
@@ -2428,7 +2428,7 @@ sub Data {
         'Yes, accepted.' => 'Sim, aceito.',
 
         # Template: AgentLinkObject
-        'Manage links for %s' => '',
+        'Manage links for %s' => 'Gerenciar links para %s',
         'Create new links' => 'Criar novos links',
         'Manage existing links' => 'Gerenciar links existentes',
         'Link with' => 'Estabelecer link com',
@@ -2443,7 +2443,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Alterar Suas Preferências',
-        'Personal preferences' => 'Preferências Pessoais',
+        'Personal Preferences' => 'Preferências Pessoais',
         'Preferences' => 'Preferências',
         'Please note: you\'re currently editing the preferences of %s.' =>
             '',
@@ -2471,7 +2471,6 @@ sub Data {
         'Reset to default' => 'Retornar ao padrão',
 
         # Template: AgentPreferencesOverview
-        'Personal Preferences' => 'Preferências Pessoais',
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             '',
         'Did you know?' => 'Você sabia?',
@@ -2957,6 +2956,7 @@ sub Data {
         'View notifications' => 'Visualizar notificações',
         'Notifications' => 'Notificações',
         'Notifications (OTRS Business Solution™)' => '',
+        'Personal preferences' => 'Preferências Pessoais',
         'Logout' => 'Sair',
         'You are logged in as' => 'Você está logado como',
 
@@ -2968,7 +2968,14 @@ sub Data {
         'General Specifications and Mail Settings' => 'Especificações Gerais e Configurações de E-mail',
         'Finish' => 'Finalizar',
         'Welcome to %s' => 'Bem-vindo a %s',
+        'Germany' => '',
         'Phone' => 'Telefone',
+        'United States' => '',
+        'Mexico' => '',
+        'Hungary' => '',
+        'Brazil' => '',
+        'Singapore' => '',
+        'Hong Kong' => '',
         'Web site' => 'Website',
 
         # Template: InstallerConfigureMail
@@ -3919,8 +3926,8 @@ sub Data {
         'There was an error creating the System Maintenance' => 'Ocorreu um erro durante a criação da manutenção de sistema',
         'Need SystemMaintenanceID!' => 'Necessário SystemMaintenanceID!',
         'Could not get data for SystemMaintenanceID %s' => 'Não foi possível obter dados para SystemMaintenanceID %s',
-        'System Maintenance was added successfully!' => '',
-        'System Maintenance was updated successfully!' => '',
+        'System Maintenance was added successfully!' => 'Manutenção do Sistema foi criada com sucesso!',
+        'System Maintenance was updated successfully!' => 'Manutenção do Sistema foi atualizada com sucesso!',
         'Session has been killed!' => 'Sessão foi eliminada!',
         'All sessions have been killed, except for your own.' => 'Todas sessões foram desconectadas, exceto por esta.',
         'There was an error updating the System Maintenance' => 'Ocorreu um erro durante a atualização da manutenção de sistema',
@@ -4007,10 +4014,10 @@ sub Data {
         'Need SourceObject and SourceKey!' => 'Necessário SourceObject e SourceKey!',
         'You need ro permission!' => 'Você precisa de permissões de ro (apenas leitura)',
         'Can not delete link with %s!' => 'Não é possível excluir associação com %s!',
-        '%s Link(s) deleted successfully.' => '',
+        '%s Link(s) deleted successfully.' => '%s link(s) excluído(s) com sucesso.',
         'Can not create link with %s! Object already linked as %s.' => 'Não é possível criar associação com %s! Objeto já associado como %s.',
         'Can not create link with %s!' => 'Não é possível criar associação com %s!',
-        '%s links added successfully.' => '',
+        '%s links added successfully.' => '%s link(s) adicionado(s) com sucesso.',
         'The object %s cannot link with other object!' => 'O Objeto %snão pode ser linkado com outro objeto!',
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
@@ -4584,7 +4591,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'System maintenance is active!' => 'Manutenção de sistema está ativa!',
         'A system maintenance period will start at: %s and is expected to stop at: %s' =>
-            '',
+            'Uma manutenção do sistema irá iniciar às: %s e deverá terminar às: %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
         'OTRS Daemon is not running.' => 'OTRS Daemon não esta executando',
@@ -4804,7 +4811,7 @@ sub Data {
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
-            '',
+            'O processo "%s" e todos os seus dados foram importados com sucesso.',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => 'Inativo',
@@ -5882,7 +5889,7 @@ Thanks for your help!
         'Admin Area.' => 'Área Admin.',
         'Admin Notification' => 'Notificação Administrativa',
         'Admin area navigation for the agent interface.' => '',
-        'Admin modules overview.' => '',
+        'Admin modules overview.' => 'Visão geral dos módulos de administração.',
         'Admin.' => 'Administração.',
         'Administration' => 'Administração',
         'Agent Customer Search' => '',
@@ -6217,7 +6224,7 @@ Thanks for your help!
             'Ticket criado [%s] em "%s" com prioridade "%s" e estado "%s".',
         'Croatian' => 'Croata',
         'Custom RSS Feed' => 'RSS Feed customizado',
-        'Custom RSS feed.' => '',
+        'Custom RSS feed.' => 'RSS Feed customizado',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
         'Customer Administration' => 'Administração de Cliente',
@@ -6252,7 +6259,7 @@ Thanks for your help!
             '',
         'Czech' => 'Tcheco',
         'Danish' => 'Dinamarquês',
-        'Dashboard overview.' => '',
+        'Dashboard overview.' => 'Painel de Controle',
         'Data used to export the search result in CSV format.' => 'Os dados utilizados para exportar o resultado da pesquisa no formato CSV.',
         'Date / Time' => 'Data / Hora',
         'Default (Slim)' => 'Padrão (fino)',
@@ -7045,7 +7052,7 @@ Thanks for your help!
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
-        'Disable cloud services' => '',
+        'Disable cloud services' => 'Desabilitar serviços de nuvem',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
         'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
@@ -7538,7 +7545,7 @@ Thanks for your help!
         'Locked Tickets' => 'Chamados Bloqueados',
         'Locked Tickets.' => 'Chamados Bloqueados.',
         'Locked ticket.' => 'Chamado bloqueado.',
-        'Logged in users.' => '',
+        'Logged in users.' => 'Usuário logados',
         'Logged-In Users' => 'Usuário logados',
         'Logout of customer panel.' => 'Logout do painel de clientes.',
         'Look into a ticket!' => 'Examinar em detalhes o conteúdo de um chamado!',
@@ -7661,7 +7668,7 @@ Thanks for your help!
         'New Year\'s Eve' => 'Véspera de Ano Novo',
         'New process ticket' => 'Novo chamado via processo',
         'News about OTRS releases!' => 'Notícias sobre lançamentos OTRS!',
-        'News about OTRS.' => '',
+        'News about OTRS.' => 'Notícias sobre OTRS.',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
@@ -7702,12 +7709,12 @@ Thanks for your help!
         'Other Customers' => '',
         'Out Of Office' => 'Fora do Escritório',
         'Out Of Office Time' => 'Período Fora do Escritório',
-        'Out of Office users.' => '',
+        'Out of Office users.' => 'Usuários Fora do Escritório',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets.' => 'Visão Geral de Chamados Escalados.',
         'Overview Refresh Time' => 'Tempo de Atualização do Painel',
-        'Overview of all Tickets per assigned Queue.' => '',
+        'Overview of all Tickets per assigned Queue.' => 'Visão geral dos Chamados por Filas',
         'Overview of all appointments.' => 'Visão geral de todos os compromissos.',
         'Overview of all escalated tickets.' => 'Revisão de todos os chamados escalados.',
         'Overview of all open Tickets.' => 'Visão Geral de Todos os Chamados Abertos',
@@ -8456,8 +8463,8 @@ Thanks for your help!
             '',
         'Stat#' => 'Estatística Nº:.',
         'States' => 'Estados',
-        'Statistic Reports overview.' => '',
-        'Statistics overview.' => '',
+        'Statistic Reports overview.' => 'Visão Geral de Estatísticas',
+        'Statistics overview.' => 'Resumo de Estatísticas',
         'Status view' => 'Visão de Estados',
         'Stopped response time escalation.' => '',
         'Stopped solution time escalation.' => '',

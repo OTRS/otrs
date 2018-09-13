@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.339635613612925;
+    $Self->{Completeness}        = 0.344377682403433;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -261,7 +261,7 @@ sub Data {
         'Filename' => '文件名稱',
         'Download file' => '下載文件',
         'Delete this attachment' => '刪除附件',
-        'Do you really want to delete this attachment?' => '',
+        'Do you really want to delete this attachment?' => '您確定要刪除此附件？',
         'Attachment' => '附件',
 
         # Template: AdminAutoResponse
@@ -556,7 +556,7 @@ sub Data {
             '用“此刻”的時差(秒)計算默認值(例如，3600或-60)',
         'Define years period' => '定義年期',
         'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' =>
-            '激活此選項來定義固定的年份範圍(過去的和未來的), 用於顯示在此字段的年份中.',
+            '啟用此選項來定義固定的年份範圍 (過去和未來), 用於顯示在此字段的年份中.',
         'Years in the past' => '過去的幾年',
         'Years in the past to display (default: 5 years).' => '顯示過去的幾年 (默認: 5年)',
         'Years in the future' => '未來的幾年',
@@ -2347,7 +2347,7 @@ sub Data {
 
         # Template: AgentDashboardCommon
         'Save settings' => '保存設置',
-        'Close this widget' => '',
+        'Close this widget' => '關閉此工具',
         'more' => '更多',
         'Available Columns' => '可選擇的字段',
         'Visible Columns (order by drag & drop)' => '顯示的字段(通過拖拽可調整順序)',
@@ -2440,13 +2440,13 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => '編輯個人設置',
-        'Personal preferences' => '',
+        'Personal Preferences' => '個人設置',
         'Preferences' => '個人設置',
         'Please note: you\'re currently editing the preferences of %s.' =>
             '',
         'Go back to editing this agent' => '',
         'Set up your personal preferences. Save each setting by clicking the checkmark on the right.' =>
-            '',
+            '調整您的個人設置，記得按下右邊的儲存按鈕。',
         'You can use the navigation tree below to only show settings from certain groups.' =>
             '',
         'Dynamic Actions' => '',
@@ -2456,19 +2456,19 @@ sub Data {
         'Avatars have been disabled by the system administrator. You\'ll see your initials instead.' =>
             '',
         'You can change your avatar image by registering with your email address %s at %s. Please note that it can take some time until your new avatar becomes available because of caching.' =>
-            '',
+            '您可以使用註冊時的電子郵件 %s 來 %s 登記就能變更頭像。
+請注意，更換頭像需要一點時間才會生效。',
         'Off' => '關閉',
         'End' => '結束',
-        'This setting can currently not be saved.' => '',
-        'This setting can currently not be saved' => '',
-        'Save this setting' => '',
+        'This setting can currently not be saved.' => '目前無法儲存此設定',
+        'This setting can currently not be saved' => '目前無法儲存此設定',
+        'Save this setting' => '儲存設定',
         'Did you know? You can help translating OTRS at %s.' => '',
 
         # Template: SettingsList
         'Reset to default' => '',
 
         # Template: AgentPreferencesOverview
-        'Personal Preferences' => '',
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             '',
         'Did you know?' => '',
@@ -2794,7 +2794,7 @@ sub Data {
         'Preview of this article is not possible because %s channel is missing in the system.' =>
             '',
         'This feature is part of the %s. Please contact us at %s for an upgrade.' =>
-            '',
+            '此功能為 %s 的一部分，請聯繫 %s 來取得升級。',
         'Please re-install %s package in order to display this article.' =>
             '',
 
@@ -2953,7 +2953,8 @@ sub Data {
         # Template: Header
         'View notifications' => '',
         'Notifications' => '',
-        'Notifications (OTRS Business Solution™)' => '',
+        'Notifications (OTRS Business Solution™)' => '通知 (OTRS Business Solution™)',
+        'Personal preferences' => '個人設置',
         'Logout' => '退出',
         'You are logged in as' => '您已登錄為',
 
@@ -2965,7 +2966,14 @@ sub Data {
         'General Specifications and Mail Settings' => '一般設定和郵件配置',
         'Finish' => '完成',
         'Welcome to %s' => '',
+        'Germany' => '',
         'Phone' => '電話',
+        'United States' => '',
+        'Mexico' => '',
+        'Hungary' => '',
+        'Brazil' => '',
+        'Singapore' => '',
+        'Hong Kong' => '',
         'Web site' => '網址',
 
         # Template: InstallerConfigureMail
@@ -3375,7 +3383,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
         'System was unable to create Calendar!' => '',
-        'Please contact the administrator.' => '',
+        'Please contact the administrator.' => '請聯繫系統管理員',
         'No CalendarID!' => '',
         'You have no access to this calendar!' => '',
         'Error updating the calendar!' => '',
@@ -3997,8 +4005,8 @@ sub Data {
         'No preferences for %s!' => '',
         'Can\'t get element data of %s!' => '',
         'Can\'t get filter content data of %s!' => '',
-        'Customer Name' => '',
-        'Customer User Name' => '',
+        'Customer Name' => '客戶名稱',
+        'Customer User Name' => '用戶名',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => '',
@@ -4227,7 +4235,7 @@ sub Data {
         'My Watched Tickets' => '我訂閱的工單',
 
         # Perl Module: Kernel/Modules/AgentTicketWatcher.pm
-        'Feature is not active' => '功能沒有激活',
+        'Feature is not active' => '功能尚未啟用',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
         'Link Deleted' => '已刪除的連結',
@@ -4573,7 +4581,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentTimeZoneCheck.pm
         'Please select a time zone in your preferences and confirm it by clicking the save button.' =>
-            '',
+            '請在設置中選擇並保存您的時區.',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerOnline.pm
         'Online Customer: %s' => '在綫用戶: %s',
@@ -5266,7 +5274,7 @@ sub Data {
             '',
         'Can`t remove SessionID.' => '',
         'Logout successful.' => '成功登出',
-        'Feature not active!' => '該功能尚未激活!',
+        'Feature not active!' => '該功能尚未啟用！',
         'Sent password reset instructions. Please check your email.' => '密碼初始化說明已發送，請檢查郵件。',
         'Invalid Token!' => '無效的標記',
         'Sent new password to %s. Please check your email.' => '新密碼已發送到%s，請檢查郵件。',
@@ -5647,7 +5655,8 @@ sub Data {
         'Sorry, but you can\'t disable all methods for this notification.' =>
             '',
         'Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.' =>
-            '',
+            '您已成功變更設定，必須重新加載頁面來使變更生效。
+點此重新整理頁面。',
         'An unknown error occurred. Please contact the administrator.' =>
             '',
 
@@ -5687,7 +5696,7 @@ sub Data {
         # JS File: Core.Agent
         'Slide the navigation bar' => '',
         'Please turn off Compatibility Mode in Internet Explorer!' => '',
-        'Find out more' => '',
+        'Find out more' => '了解更多',
 
         # JS File: Core.App.Responsive
         'Switch to mobile mode' => '',
@@ -6038,7 +6047,7 @@ Thanks for your help!
             '',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             '',
-        'Avatar' => '',
+        'Avatar' => '頭像',
         'Balanced white skin by Felix Niklas (slim version).' => '',
         'Balanced white skin by Felix Niklas.' => '',
         'Based on global RichText setting' => '',
@@ -6071,8 +6080,8 @@ Thanks for your help!
         'Change the owner for this ticket' => '更改工單所有者',
         'Change the priority for this ticket' => '更改工單優先級',
         'Change the responsible for this ticket' => '',
-        'Change your avatar image.' => '',
-        'Change your password and more.' => '',
+        'Change your avatar image.' => '更換您的頭像',
+        'Change your password and more.' => '變更您的密碼或其他設定｡',
         'Changed SLA to "%s" (%s).' => '',
         'Changed archive state to "%s".' => '',
         'Changed customer to "%s".' => '',
@@ -6108,7 +6117,7 @@ Thanks for your help!
             '',
         'Choose for which kind of ticket changes you want to receive notifications. Please note that you can\'t completely disable notifications marked as mandatory.' =>
             '',
-        'Choose which notifications you\'d like to receive.' => '',
+        'Choose which notifications you\'d like to receive.' => '選擇您想收到的通知｡',
         'Christmas Eve' => '平安夜',
         'Close this ticket' => '關閉工單',
         'Closed tickets (customer user)' => '',
@@ -7440,7 +7449,7 @@ Thanks for your help!
         'If this setting is enabled, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
         'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
-            '',
+            '如果您要離開辦公室，可以設定此選項來告知其他用戶。',
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Import appointments screen.' => '',
@@ -7536,7 +7545,7 @@ Thanks for your help!
         'Locked Tickets.' => '',
         'Locked ticket.' => 'Locked ticket.',
         'Logged in users.' => '',
-        'Logged-In Users' => '',
+        'Logged-In Users' => '已登入的用戶',
         'Logout of customer panel.' => '',
         'Look into a ticket!' => '查看工單内容',
         'Loop protection: no auto-response sent to "%s".' => '',
@@ -7658,7 +7667,7 @@ Thanks for your help!
         'New Year\'s Eve' => '除夕',
         'New process ticket' => '',
         'News about OTRS releases!' => '關於OTRS發布的新聞！',
-        'News about OTRS.' => '',
+        'News about OTRS.' => '關於 OTRS 的最新資訊',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
@@ -7697,9 +7706,9 @@ Thanks for your help!
         'Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
             '',
         'Other Customers' => '',
-        'Out Of Office' => '',
+        'Out Of Office' => '不在辦公室的用戶列表',
         'Out Of Office Time' => '不在辦公室的時間',
-        'Out of Office users.' => '',
+        'Out of Office users.' => '不在辦公室的用戶',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets.' => '',
@@ -7933,8 +7942,8 @@ Thanks for your help!
             '選擇CSV文件（統計和搜索）中使用的分隔符。如果不指定，系統將使用默認分隔符。',
         'Select your frontend Theme.' => '界面主題.',
         'Select your personal time zone. All times will be displayed relative to this time zone.' =>
-            '',
-        'Select your preferred layout for the software.' => '',
+            '系統中的時間會相對應您所選擇的時區。',
+        'Select your preferred layout for the software.' => '選擇您的介面主題｡',
         'Select your preferred theme for OTRS.' => '',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
@@ -7967,7 +7976,7 @@ Thanks for your help!
         'Service view' => '',
         'ServiceView' => '',
         'Set a new password by filling in your current password and a new one.' =>
-            '',
+            '輸入目前密碼來變更密碼',
         'Set sender email addresses for this system.' => '為系統設置發件人的郵件地址.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
@@ -8372,7 +8381,7 @@ Thanks for your help!
             '',
         'Signatures' => '回復簽名',
         'Simple' => '簡易',
-        'Skin' => '皮膚',
+        'Skin' => '主題',
         'Slovak' => '',
         'Slovenian' => '',
         'Small' => '簡潔',
@@ -8612,7 +8621,7 @@ Thanks for your help!
         'Turns on drag and drop for the main navigation.' => '',
         'Turns on the remote ip address check. It should not be enabled if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             '',
-        'Tweak the system as you wish.' => '',
+        'Tweak the system as you wish.' => '調整您的系統｡',
         'Type of daemon log rotation to use: Choose \'OTRS\' to let OTRS system to handle the file rotation, or choose \'External\' to use a 3rd party rotation mechanism (i.e. logrotate). Note: External rotation mechanism requires its own and independent configuration.' =>
             '',
         'Ukrainian' => '',

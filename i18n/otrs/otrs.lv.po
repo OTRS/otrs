@@ -2,11 +2,12 @@
 # Translators:
 # Aleksandrs Pridoroznijs, 2018
 # Aleksejs Danilenko <a@bitit.lv>, 2015
+# Guntis Vii <guntis456@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-07-16 16:18+0000\n"
-"PO-Revision-Date: 2018-07-16 16:20+0000\n"
+"POT-Creation-Date: 2018-09-13 21:46+0000\n"
+"PO-Revision-Date: 2018-09-13 21:49+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/otrs/OTRS/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -131,7 +132,7 @@ msgstr "Rediģēt ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
-msgstr ""
+msgstr "Rediģēt ACL"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -180,7 +181,7 @@ msgstr "Rādīt vai slēpt saturu"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "Rediģēt ACL informāciju"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -230,15 +231,15 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Calendar"
-msgstr ""
+msgstr "Pievienot kalendāru"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Edit Calendar"
-msgstr ""
+msgstr "Rediģēt kalendāru"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Go back"
-msgstr ""
+msgstr "Atgriezties"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
@@ -246,7 +247,7 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add new Calendar"
-msgstr ""
+msgstr "Pievienot jaunu kalendāru"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Appointments"
@@ -321,7 +322,7 @@ msgstr "Lejupielādēt"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Export calendar"
@@ -341,7 +342,7 @@ msgstr "Kalendārs"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar name"
-msgstr ""
+msgstr "Kalendāra nosaukums"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar with same name already exists."
@@ -349,7 +350,7 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Color"
-msgstr ""
+msgstr "Krāsa"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Permission group"
@@ -373,11 +374,11 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Start date"
-msgstr ""
+msgstr "Sākuma datums"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "End date"
-msgstr ""
+msgstr "Beigu datums"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -465,11 +466,11 @@ msgstr "Pievienot paziņojumu"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
-msgstr ""
+msgstr "Labot paziņojumu"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add notification"
-msgstr ""
+msgstr "Pievienot paziņojumu"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
@@ -512,7 +513,7 @@ msgstr "Dzēst"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Delete this notification"
-msgstr ""
+msgstr "Izdzēst šo paziņojumu"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Show in agent preferences"
@@ -656,7 +657,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No data found"
-msgstr ""
+msgstr "Dati nav atrasti"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No notification method found."
@@ -664,7 +665,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Text"
-msgstr ""
+msgstr "Paziņojuma teksts"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -694,7 +695,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Save Changes"
-msgstr ""
+msgstr "Saglabāt izmaiņas"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Tag Reference"
@@ -2596,7 +2597,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
-"Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication "
+"Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
 "related errors."
 msgstr ""
 
@@ -3170,8 +3171,9 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
-"Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = "
-"'_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
+"Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = "
+"'_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into "
+"'_elementname_16'."
 msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
@@ -7779,7 +7781,7 @@ msgid "Edit your preferences"
 msgstr ""
 
 #. Template: AgentPreferences
-msgid "Personal preferences"
+msgid "Personal Preferences"
 msgstr ""
 
 #. Template: AgentPreferences
@@ -7861,10 +7863,6 @@ msgstr ""
 
 #. Template: SettingsList
 msgid "Reset to default"
-msgstr ""
-
-#. Template: AgentPreferencesOverview
-msgid "Personal Preferences"
 msgstr ""
 
 #. Template: AgentPreferencesOverview
@@ -9272,6 +9270,10 @@ msgid "Notifications (OTRS Business Solution™)"
 msgstr ""
 
 #. Template: Header
+msgid "Personal preferences"
+msgstr ""
+
+#. Template: Header
 msgid "Logout"
 msgstr "Atteikties"
 
@@ -9308,8 +9310,36 @@ msgid "Welcome to %s"
 msgstr ""
 
 #. Template: Installer
+msgid "Germany"
+msgstr ""
+
+#. Template: Installer
 msgid "Phone"
 msgstr "Telefons"
+
+#. Template: Installer
+msgid "United States"
+msgstr ""
+
+#. Template: Installer
+msgid "Mexico"
+msgstr ""
+
+#. Template: Installer
+msgid "Hungary"
+msgstr ""
+
+#. Template: Installer
+msgid "Brazil"
+msgstr ""
+
+#. Template: Installer
+msgid "Singapore"
+msgstr ""
+
+#. Template: Installer
+msgid "Hong Kong"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -22114,7 +22144,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig

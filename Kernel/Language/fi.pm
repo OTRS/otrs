@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.206256445513922;
+    $Self->{Completeness}        = 0.206008583690987;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2440,7 +2440,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Muokkaa asetuksiasi',
-        'Personal preferences' => '',
+        'Personal Preferences' => '',
         'Preferences' => 'Käyttäjäasetukset',
         'Please note: you\'re currently editing the preferences of %s.' =>
             '',
@@ -2468,7 +2468,6 @@ sub Data {
         'Reset to default' => '',
 
         # Template: AgentPreferencesOverview
-        'Personal Preferences' => '',
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             '',
         'Did you know?' => '',
@@ -2954,6 +2953,7 @@ sub Data {
         'View notifications' => '',
         'Notifications' => '',
         'Notifications (OTRS Business Solution™)' => '',
+        'Personal preferences' => '',
         'Logout' => 'Kirjaudu ulos',
         'You are logged in as' => 'Olet kirjautunut käyttäjänä',
 
@@ -2965,7 +2965,14 @@ sub Data {
         'General Specifications and Mail Settings' => 'Yleiset määritykset ja sähköpostiasetukset',
         'Finish' => 'Loppu',
         'Welcome to %s' => 'Tervetuloa %s järjestelmään',
+        'Germany' => '',
         'Phone' => 'Puhelin',
+        'United States' => '',
+        'Mexico' => '',
+        'Hungary' => '',
+        'Brazil' => '',
+        'Singapore' => '',
+        'Hong Kong' => '',
         'Web site' => 'Kotisivu',
 
         # Template: InstallerConfigureMail

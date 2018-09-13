@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-07-24 13:15+0000\n"
+"POT-Creation-Date: 2018-09-13 21:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2435,7 +2435,7 @@ msgid "Error message subject and data (as seen in the debugger error entry) will
 msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
-msgid "Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication related errors."
+msgid "Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication related errors."
 msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
@@ -2931,7 +2931,7 @@ msgid "Example 2: Search = '^' / Replace = '_' turns '16x16' into '_16x16'."
 msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
-msgid "Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = '_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
+msgid "Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = '_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into '_elementname_16'."
 msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
@@ -7215,7 +7215,7 @@ msgid "Edit your preferences"
 msgstr ""
 
 #. Template: AgentPreferences
-msgid "Personal preferences"
+msgid "Personal Preferences"
 msgstr ""
 
 #. Template: AgentPreferences
@@ -7288,10 +7288,6 @@ msgstr ""
 
 #. Template: SettingsList
 msgid "Reset to default"
-msgstr ""
-
-#. Template: AgentPreferencesOverview
-msgid "Personal Preferences"
 msgstr ""
 
 #. Template: AgentPreferencesOverview
@@ -8663,6 +8659,10 @@ msgid "Notifications (OTRS Business Solution™)"
 msgstr ""
 
 #. Template: Header
+msgid "Personal preferences"
+msgstr ""
+
+#. Template: Header
 msgid "Logout"
 msgstr ""
 
@@ -8699,7 +8699,35 @@ msgid "Welcome to %s"
 msgstr ""
 
 #. Template: Installer
+msgid "Germany"
+msgstr ""
+
+#. Template: Installer
 msgid "Phone"
+msgstr ""
+
+#. Template: Installer
+msgid "United States"
+msgstr ""
+
+#. Template: Installer
+msgid "Mexico"
+msgstr ""
+
+#. Template: Installer
+msgid "Hungary"
+msgstr ""
+
+#. Template: Installer
+msgid "Brazil"
+msgstr ""
+
+#. Template: Installer
+msgid "Singapore"
+msgstr ""
+
+#. Template: Installer
+msgid "Hong Kong"
 msgstr ""
 
 #. Template: Installer
@@ -19790,7 +19818,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig

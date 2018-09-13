@@ -1,6 +1,6 @@
 # 
 # Translators:
-# Adonai Silveira Canez <adonaicanez@gmail.com>, 2015-2016
+# Adonai Silveira Canez <adonaicanez@gmail.com>, 2015-2016,2018
 # Adriano Pereira Machado <adriano.pereira@redemobconsorcio.com.br>, 2017
 # Alexandre Costa <alexandrecostacps@gmail.com>, 2015
 # Arthur  Guimarães Yuan <arthuryuan23@hotmail.com>, 2018
@@ -43,9 +43,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-07-16 16:18+0000\n"
-"PO-Revision-Date: 2018-07-16 16:20+0000\n"
-"Last-Translator: Glauber Caires <glaubercaires@gmail.com>\n"
+"POT-Creation-Date: 2018-09-13 21:46+0000\n"
+"PO-Revision-Date: 2018-09-13 21:49+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/otrs/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2634,7 +2634,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
-"Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication "
+"Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
 "related errors."
 msgstr ""
 
@@ -2728,7 +2728,7 @@ msgstr "Os pedidos que causam erro devem ser acionados novamente mais tarde?"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Initial retry interval"
-msgstr ""
+msgstr "Intervalo inicial de repetição"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Interval after which to trigger the first retry."
@@ -3208,8 +3208,9 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
-"Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = "
-"'_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
+"Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = "
+"'_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into "
+"'_elementname_16'."
 msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
@@ -7778,7 +7779,7 @@ msgstr "Sim, aceito."
 
 #. Template: AgentLinkObject
 msgid "Manage links for %s"
-msgstr ""
+msgstr "Gerenciar links para %s"
 
 #. Template: AgentLinkObject
 msgid "Create new links"
@@ -7817,7 +7818,7 @@ msgid "Edit your preferences"
 msgstr "Alterar Suas Preferências"
 
 #. Template: AgentPreferences
-msgid "Personal preferences"
+msgid "Personal Preferences"
 msgstr "Preferências Pessoais"
 
 #. Template: AgentPreferences
@@ -7900,10 +7901,6 @@ msgstr "Você sabia? Você pode ajudar a traduzir o OTRS em %s."
 #. Template: SettingsList
 msgid "Reset to default"
 msgstr "Retornar ao padrão"
-
-#. Template: AgentPreferencesOverview
-msgid "Personal Preferences"
-msgstr "Preferências Pessoais"
 
 #. Template: AgentPreferencesOverview
 msgid ""
@@ -9310,6 +9307,10 @@ msgid "Notifications (OTRS Business Solution™)"
 msgstr ""
 
 #. Template: Header
+msgid "Personal preferences"
+msgstr "Preferências Pessoais"
+
+#. Template: Header
 msgid "Logout"
 msgstr "Sair"
 
@@ -9346,8 +9347,36 @@ msgid "Welcome to %s"
 msgstr "Bem-vindo a %s"
 
 #. Template: Installer
+msgid "Germany"
+msgstr ""
+
+#. Template: Installer
 msgid "Phone"
 msgstr "Telefone"
+
+#. Template: Installer
+msgid "United States"
+msgstr ""
+
+#. Template: Installer
+msgid "Mexico"
+msgstr ""
+
+#. Template: Installer
+msgid "Hungary"
+msgstr ""
+
+#. Template: Installer
+msgid "Brazil"
+msgstr ""
+
+#. Template: Installer
+msgid "Singapore"
+msgstr ""
+
+#. Template: Installer
+msgid "Hong Kong"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -12086,11 +12115,11 @@ msgstr "Não foi possível obter dados para SystemMaintenanceID %s"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "System Maintenance was added successfully!"
-msgstr ""
+msgstr "Manutenção do Sistema foi criada com sucesso!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "System Maintenance was updated successfully!"
-msgstr ""
+msgstr "Manutenção do Sistema foi atualizada com sucesso!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Session has been killed!"
@@ -12334,7 +12363,7 @@ msgstr "Não é possível excluir associação com %s!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "%s Link(s) deleted successfully."
-msgstr ""
+msgstr "%s link(s) excluído(s) com sucesso."
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Can not create link with %s! Object already linked as %s."
@@ -12346,7 +12375,7 @@ msgstr "Não é possível criar associação com %s!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "%s links added successfully."
-msgstr ""
+msgstr "%s link(s) adicionado(s) com sucesso."
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "The object %s cannot link with other object!"
@@ -13910,7 +13939,7 @@ msgstr "Manutenção de sistema está ativa!"
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid ""
 "A system maintenance period will start at: %s and is expected to stop at: %s"
-msgstr ""
+msgstr "Uma manutenção do sistema irá iniciar às: %s e deverá terminar às: %s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTRS Daemon is not running."
@@ -14417,7 +14446,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
-msgstr ""
+msgstr "O processo \"%s\" e todos os seus dados foram importados com sucesso."
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
@@ -17323,7 +17352,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Admin modules overview."
-msgstr ""
+msgstr "Visão geral dos módulos de administração."
 
 #. SysConfig
 msgid "Admin."
@@ -18455,7 +18484,7 @@ msgstr "RSS Feed customizado"
 
 #. SysConfig
 msgid "Custom RSS feed."
-msgstr ""
+msgstr "RSS Feed customizado"
 
 #. SysConfig
 msgid ""
@@ -18589,7 +18618,7 @@ msgstr "Dinamarquês"
 
 #. SysConfig
 msgid "Dashboard overview."
-msgstr ""
+msgstr "Painel de Controle"
 
 #. SysConfig
 msgid "Data used to export the search result in CSV format."
@@ -21162,7 +21191,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Disable cloud services"
-msgstr ""
+msgstr "Desabilitar serviços de nuvem"
 
 #. SysConfig
 msgid ""
@@ -22152,7 +22181,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -22798,7 +22827,7 @@ msgstr "Chamado bloqueado."
 
 #. SysConfig
 msgid "Logged in users."
-msgstr ""
+msgstr "Usuário logados"
 
 #. SysConfig
 msgid "Logged-In Users"
@@ -23206,7 +23235,7 @@ msgstr "Notícias sobre lançamentos OTRS!"
 
 #. SysConfig
 msgid "News about OTRS."
-msgstr ""
+msgstr "Notícias sobre OTRS."
 
 #. SysConfig
 msgid ""
@@ -23351,7 +23380,7 @@ msgstr "Período Fora do Escritório"
 
 #. SysConfig
 msgid "Out of Office users."
-msgstr ""
+msgstr "Usuários Fora do Escritório"
 
 #. SysConfig
 msgid ""
@@ -23369,7 +23398,7 @@ msgstr "Tempo de Atualização do Painel"
 
 #. SysConfig
 msgid "Overview of all Tickets per assigned Queue."
-msgstr ""
+msgstr "Visão geral dos Chamados por Filas"
 
 #. SysConfig
 msgid "Overview of all appointments."
@@ -26035,11 +26064,11 @@ msgstr "Estados"
 
 #. SysConfig
 msgid "Statistic Reports overview."
-msgstr ""
+msgstr "Visão Geral de Estatísticas"
 
 #. SysConfig
 msgid "Statistics overview."
-msgstr ""
+msgstr "Resumo de Estatísticas"
 
 #. SysConfig
 msgid "Status view"

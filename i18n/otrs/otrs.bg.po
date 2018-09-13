@@ -1,5 +1,6 @@
 # 
 # Translators:
+# Gyunay Daud <prohause@gmail.com>, 2018
 # Milko Milkov <engineer@abv.bg>, 2015
 # Plamen Petkov <plamen_3592@abv.bg>, 2017
 # Tsvetan Nikolov <slakware@gmail.com>, 2016
@@ -8,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-07-16 16:18+0000\n"
-"PO-Revision-Date: 2018-07-16 16:20+0000\n"
+"POT-Creation-Date: 2018-09-13 21:46+0000\n"
+"PO-Revision-Date: 2018-09-13 21:49+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/otrs/OTRS/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -130,11 +131,11 @@ msgstr "Не бяха открити резултати."
 
 #. Template: AdminACLEdit
 msgid "Edit ACL %s"
-msgstr "Промени ACL %s"
+msgstr "Редактиране ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
-msgstr ""
+msgstr "Редактиране ACL"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -142,7 +143,7 @@ msgstr "Отидете на преглед"
 
 #. Template: AdminACLEdit
 msgid "Delete ACL"
-msgstr "Изтрии ACL"
+msgstr "Изтрий ACL"
 
 #. Template: AdminACLEdit
 msgid "Delete Invalid ACL"
@@ -183,7 +184,7 @@ msgstr "Покажи или скрий компонента"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "Редактиране ACL информация"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -195,7 +196,7 @@ msgstr "Спри след съвпадението"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
+msgstr "Редактиране ACL структура "
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
@@ -229,58 +230,58 @@ msgstr "Създайте нов ACL, като изпратите данните 
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Management"
-msgstr ""
+msgstr "Управление Календар"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Calendar"
-msgstr ""
+msgstr "Добавяне Календар"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Edit Calendar"
-msgstr ""
+msgstr "Редактиране Календар"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Go back"
-msgstr ""
+msgstr "Назад"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
-msgstr ""
+msgstr "Обобщение Календар"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add new Calendar"
-msgstr ""
+msgstr "Добавяне нов Календар"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Appointments"
-msgstr ""
+msgstr "Добавяне срещи"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Import"
-msgstr ""
+msgstr "Импортиране Календар"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
 "Here you can upload a configuration file to import a calendar to your "
 "system. The file needs to be in .yml format as exported by calendar "
 "management module."
-msgstr ""
+msgstr "От тук можете да качите конфигурационен файл за импортиране на календар към вашата системата. Файлът трябва да бъде. yml формат. "
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Overwrite existing entities"
-msgstr ""
+msgstr "Презаписване съществуващите субекти"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Upload calendar configuration"
-msgstr ""
+msgstr "Качване конфигурация на календара"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
-msgstr ""
+msgstr "Импортиране Календар"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
-msgstr ""
+msgstr "Филтър за календари"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -2599,7 +2600,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
-"Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication "
+"Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
 "related errors."
 msgstr ""
 
@@ -3173,8 +3174,9 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
-"Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = "
-"'_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
+"Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = "
+"'_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into "
+"'_elementname_16'."
 msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
@@ -7782,7 +7784,7 @@ msgid "Edit your preferences"
 msgstr ""
 
 #. Template: AgentPreferences
-msgid "Personal preferences"
+msgid "Personal Preferences"
 msgstr ""
 
 #. Template: AgentPreferences
@@ -7864,10 +7866,6 @@ msgstr ""
 
 #. Template: SettingsList
 msgid "Reset to default"
-msgstr ""
-
-#. Template: AgentPreferencesOverview
-msgid "Personal Preferences"
 msgstr ""
 
 #. Template: AgentPreferencesOverview
@@ -9275,6 +9273,10 @@ msgid "Notifications (OTRS Business Solution™)"
 msgstr ""
 
 #. Template: Header
+msgid "Personal preferences"
+msgstr ""
+
+#. Template: Header
 msgid "Logout"
 msgstr "Изход"
 
@@ -9311,8 +9313,36 @@ msgid "Welcome to %s"
 msgstr ""
 
 #. Template: Installer
+msgid "Germany"
+msgstr ""
+
+#. Template: Installer
 msgid "Phone"
 msgstr "Телефон"
+
+#. Template: Installer
+msgid "United States"
+msgstr ""
+
+#. Template: Installer
+msgid "Mexico"
+msgstr ""
+
+#. Template: Installer
+msgid "Hungary"
+msgstr ""
+
+#. Template: Installer
+msgid "Brazil"
+msgstr ""
+
+#. Template: Installer
+msgid "Singapore"
+msgstr ""
+
+#. Template: Installer
+msgid "Hong Kong"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -22117,7 +22147,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig

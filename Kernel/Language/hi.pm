@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.280336885527673;
+    $Self->{Completeness}        = 0.28;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2440,7 +2440,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'अपनी वरीयताएँ संपादित करें',
-        'Personal preferences' => '',
+        'Personal Preferences' => '',
         'Preferences' => 'वरीयताएं',
         'Please note: you\'re currently editing the preferences of %s.' =>
             '',
@@ -2468,7 +2468,6 @@ sub Data {
         'Reset to default' => '',
 
         # Template: AgentPreferencesOverview
-        'Personal Preferences' => '',
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             '',
         'Did you know?' => '',
@@ -2954,6 +2953,7 @@ sub Data {
         'View notifications' => '',
         'Notifications' => '',
         'Notifications (OTRS Business Solution™)' => '',
+        'Personal preferences' => '',
         'Logout' => 'बाहर प्रवेश करें',
         'You are logged in as' => 'आप इस रूप में प्रवॆशित हैं।',
 
@@ -2965,7 +2965,14 @@ sub Data {
         'General Specifications and Mail Settings' => 'सामान्य निर्दिष्टीकरण और मेल व्यवस्थाऐं',
         'Finish' => 'खत्म',
         'Welcome to %s' => '',
+        'Germany' => '',
         'Phone' => 'फोन',
+        'United States' => '',
+        'Mexico' => '',
+        'Hungary' => '',
+        'Brazil' => '',
+        'Singapore' => '',
+        'Hong Kong' => '',
         'Web site' => 'वेबसाइट',
 
         # Template: InstallerConfigureMail

@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.401168786524579;
+    $Self->{Completeness}        = 0.40068669527897;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2439,7 +2439,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Opdater dine indstillinger',
-        'Personal preferences' => 'Personlige indstillinger',
+        'Personal Preferences' => 'Personlinge indstillinger',
         'Preferences' => 'Indstillinger',
         'Please note: you\'re currently editing the preferences of %s.' =>
             '',
@@ -2467,7 +2467,6 @@ sub Data {
         'Reset to default' => '',
 
         # Template: AgentPreferencesOverview
-        'Personal Preferences' => 'Personlinge indstillinger',
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             '',
         'Did you know?' => '',
@@ -2953,6 +2952,7 @@ sub Data {
         'View notifications' => '',
         'Notifications' => '',
         'Notifications (OTRS Business Solution™)' => 'Meddelelser (OTRS Business Solution™)',
+        'Personal preferences' => 'Personlige indstillinger',
         'Logout' => 'Log ud',
         'You are logged in as' => 'Du er logget ind som',
 
@@ -2964,7 +2964,14 @@ sub Data {
         'General Specifications and Mail Settings' => 'Generelle specifikationer og mail-indstillinger',
         'Finish' => 'Færdig',
         'Welcome to %s' => 'Velkommen til %s',
+        'Germany' => '',
         'Phone' => 'Telefon',
+        'United States' => '',
+        'Mexico' => '',
+        'Hungary' => '',
+        'Brazil' => '',
+        'Singapore' => '',
+        'Hong Kong' => '',
         'Web site' => 'Webside',
 
         # Template: InstallerConfigureMail

@@ -13,9 +13,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-07-16 16:18+0000\n"
-"PO-Revision-Date: 2018-07-16 16:20+0000\n"
-"Last-Translator: Kozo Sakurai <sakurai@io-architect.com>\n"
+"POT-Creation-Date: 2018-09-13 21:46+0000\n"
+"PO-Revision-Date: 2018-09-13 21:49+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/otrs/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2604,7 +2604,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
-"Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication "
+"Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
 "related errors."
 msgstr ""
 
@@ -3178,9 +3178,10 @@ msgstr "例2:  Search = '^' / Replace = '_' turns '16x16' into '_16x16'."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
-"Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = "
-"'_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
-msgstr "例3: Search = '^(?1\\d+) (?2.+?)\\$' / Replace = '_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
+"Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = "
+"'_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into "
+"'_elementname_16'."
+msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "For information about regular expressions in Perl please see here:"
@@ -7787,7 +7788,7 @@ msgid "Edit your preferences"
 msgstr "個人設定を編集"
 
 #. Template: AgentPreferences
-msgid "Personal preferences"
+msgid "Personal Preferences"
 msgstr "個人設定"
 
 #. Template: AgentPreferences
@@ -7870,10 +7871,6 @@ msgstr "ご存じですか? %sにてOTRSの翻訳にご協力ください。"
 #. Template: SettingsList
 msgid "Reset to default"
 msgstr "デフォルトにリセットする"
-
-#. Template: AgentPreferencesOverview
-msgid "Personal Preferences"
-msgstr "個人設定"
 
 #. Template: AgentPreferencesOverview
 msgid ""
@@ -9280,6 +9277,10 @@ msgid "Notifications (OTRS Business Solution™)"
 msgstr "通知(OTRS Business Solution™)"
 
 #. Template: Header
+msgid "Personal preferences"
+msgstr "個人設定"
+
+#. Template: Header
 msgid "Logout"
 msgstr "ログアウト"
 
@@ -9316,8 +9317,36 @@ msgid "Welcome to %s"
 msgstr "%s にようこそ"
 
 #. Template: Installer
+msgid "Germany"
+msgstr ""
+
+#. Template: Installer
 msgid "Phone"
 msgstr "電話"
+
+#. Template: Installer
+msgid "United States"
+msgstr ""
+
+#. Template: Installer
+msgid "Mexico"
+msgstr ""
+
+#. Template: Installer
+msgid "Hungary"
+msgstr ""
+
+#. Template: Installer
+msgid "Brazil"
+msgstr ""
+
+#. Template: Installer
+msgid "Singapore"
+msgstr ""
+
+#. Template: Installer
+msgid "Hong Kong"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -22122,8 +22151,8 @@ msgstr "Customer::AuthModuleに関して\"HTTPBasicAuth\"が選択されてい�
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
-msgstr "Customer::AuthModuleに関して\"HTTPBasicAuth\"が選択されていた場合、ユーザ名の始まりの部分を削除することができます（例：ドメインにおいて、example_domain\\userをuserに変える）。"
+"example_domain\\\\user to user)."
+msgstr ""
 
 #. SysConfig
 msgid ""

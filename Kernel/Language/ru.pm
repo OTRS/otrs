@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.921450670333448;
+    $Self->{Completeness}        = 0.920515021459227;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -803,7 +803,7 @@ sub Data {
         'Error message subject and data (as seen in the debugger error entry) will considered for a match.' =>
             'Для поиска соответствия будет рассматриваться тема сообщения об ошибке и данные (как они видны в записи об ошибке отладчика).',
         'Example: Enter \'^.*401 Unauthorized.*\$\' to handle only authentication related errors.' =>
-            'Пример: Введите \'^.*401 Unauthorized.*\$\'для обработки ошибок связанных только аутентификацией.',
+            'Пример: Введите \'^.*401 Unauthorized.*\$\', чтобы обрабатывать ошибки, связанные только с аутентификацией.',
         'Error stage filter' => 'Фильтр ошибок',
         'Only execute error handling module on errors that occur during specific processing stages.' =>
             'Выполнять модуль обработки ошибок только для ошибок возникших во время специфичных стадий обработки.',
@@ -977,7 +977,7 @@ sub Data {
         'Example 2: Search = \'^\' / Replace = \'_\' turns \'16x16\' into \'_16x16\'.' =>
             'Пример 2: Поиск = \'^\' / Замена = \'_\' преобразует \'16x16\' в \'_16x16\'.',
         'Example 3: Search = \'^(?<number>\d+) (?<text>.+?)\$\' / Replace = \'_\$+{text}_\$+{number}\' turns \'16 elementname\' into \'_elementname_16\'.' =>
-            '',
+            'Пример 3: Поиск = \'^(?\d+) (?.+?)\$\' / Замена = \'_\$+{text}_\$+{number}\' преобразует \'16 elementname\' в \'_elementname_16\'.',
         'For information about regular expressions in Perl please see here:' =>
             'Для информации о регулярных выражениях в Perl смотрите здесь:',
         'Perl regular expressions tutorial' => 'Руководство по регулярным выражениям Perl',
@@ -2449,7 +2449,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Измените ваши личные настройки',
-        'Personal preferences' => 'Персональные настройки',
+        'Personal Preferences' => 'Персональные настройки',
         'Preferences' => 'Настройки',
         'Please note: you\'re currently editing the preferences of %s.' =>
             '',
@@ -2477,7 +2477,6 @@ sub Data {
         'Reset to default' => 'Сброс по умолчанию',
 
         # Template: AgentPreferencesOverview
-        'Personal Preferences' => 'Персональные настройки',
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             'Выберите группу в правой части, чтобы найти настройку, которую желаете изменить.',
         'Did you know?' => 'Знаете ли вы?',
@@ -2963,6 +2962,7 @@ sub Data {
         'View notifications' => 'Просмотр уведомлений',
         'Notifications' => 'Уведомления',
         'Notifications (OTRS Business Solution™)' => 'Уведомления (OTRS Business Solution™)',
+        'Personal preferences' => 'Персональные настройки',
         'Logout' => 'Выход',
         'You are logged in as' => 'Вы вошли как',
 
@@ -2974,7 +2974,14 @@ sub Data {
         'General Specifications and Mail Settings' => 'Общие указания и настройки почты',
         'Finish' => 'Закончить',
         'Welcome to %s' => 'Добро пожаловать в %s',
+        'Germany' => '',
         'Phone' => 'Телефон',
+        'United States' => '',
+        'Mexico' => '',
+        'Hungary' => '',
+        'Brazil' => '',
+        'Singapore' => '',
+        'Hong Kong' => '',
         'Web site' => 'Веб-сайт',
 
         # Template: InstallerConfigureMail

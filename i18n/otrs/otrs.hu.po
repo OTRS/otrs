@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-07-16 16:18+0000\n"
-"PO-Revision-Date: 2018-07-17 09:48+0000\n"
+"POT-Creation-Date: 2018-09-13 21:46+0000\n"
+"PO-Revision-Date: 2018-09-13 21:49+0000\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -2604,9 +2604,9 @@ msgstr "A hibaüzenet tárgya és adatai (amint a hibakereső hibabejegyzésébe
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
-"Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication "
+"Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
 "related errors."
-msgstr "Példa: A „^.*401 Unauthorized.*\\$” megadásával csak a hitelesítéssel kapcsolatos hibák kezelhetők."
+msgstr "Példa: A „^.*401 Unauthorized.*\\\\$” megadásával csak a hitelesítéssel kapcsolatos hibák kezelhetők."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error stage filter"
@@ -3178,9 +3178,10 @@ msgstr "2. példa: a keresés = „^” és a csere = „_” átalakítja a „
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
-"Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = "
-"'_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
-msgstr "3. példa: a keresés = „^(?<number>\\d+) (?<text>.+?)\\$” és a csere = „_\\$+{text}_\\$+{number}” átalakítja a „16 elemnév” kulcsot „_elemnév_16” értékűre."
+"Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = "
+"'_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into "
+"'_elementname_16'."
+msgstr "3. példa: a keresés = „^(?<number>\\\\d+) (?<text>.+?)\\\\$” és a csere = „_\\\\$+{text}_\\\\$+{number}” átalakítja a „16 elemnév” kulcsot „_elemnév_16” értékűre."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "For information about regular expressions in Perl please see here:"
@@ -7787,7 +7788,7 @@ msgid "Edit your preferences"
 msgstr "Beállítások szerkesztése"
 
 #. Template: AgentPreferences
-msgid "Personal preferences"
+msgid "Personal Preferences"
 msgstr "Személyes beállítások"
 
 #. Template: AgentPreferences
@@ -7870,10 +7871,6 @@ msgstr "Tudta? Segíthet az OTRS fordításában a következő címen: %s."
 #. Template: SettingsList
 msgid "Reset to default"
 msgstr "Visszaállítás az alapértelmezettre"
-
-#. Template: AgentPreferencesOverview
-msgid "Personal Preferences"
-msgstr "Személyes beállítások"
 
 #. Template: AgentPreferencesOverview
 msgid ""
@@ -9280,6 +9277,10 @@ msgid "Notifications (OTRS Business Solution™)"
 msgstr "Értesítések (OTRS Business Solution™)"
 
 #. Template: Header
+msgid "Personal preferences"
+msgstr "Személyes beállítások"
+
+#. Template: Header
 msgid "Logout"
 msgstr "Kilépés"
 
@@ -9316,8 +9317,36 @@ msgid "Welcome to %s"
 msgstr "Üdvözli a(z) %s"
 
 #. Template: Installer
+msgid "Germany"
+msgstr ""
+
+#. Template: Installer
 msgid "Phone"
 msgstr "Telefon"
+
+#. Template: Installer
+msgid "United States"
+msgstr ""
+
+#. Template: Installer
+msgid "Mexico"
+msgstr ""
+
+#. Template: Installer
+msgid "Hungary"
+msgstr ""
+
+#. Template: Installer
+msgid "Brazil"
+msgstr ""
+
+#. Template: Installer
+msgid "Singapore"
+msgstr ""
+
+#. Template: Installer
+msgid "Hong Kong"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -21234,7 +21263,7 @@ msgid ""
 "Dynamic fields groups for process widget. The key is the name of the group, "
 "the value contains the fields to be shown. Example: 'Key => My Group', "
 "'Content: Name_X, NameY'."
-msgstr "Dinamikus mezők csoportjai a feldolgozó felületi elemhez. A kulcs a csoport neve, az érték a megjelenítendő mezőket tartalmazza. Példa: „Kulcs => Saját csoport”, „Tartalom: Név_X, Név_Y”."
+msgstr "Dinamikus mezők csoportjai a folyamat felületi elemhez. A kulcs a csoport neve, az érték a megjelenítendő mezőket tartalmazza. Példa: „Kulcs => Saját csoport”, „Tartalom: Név_X, Név_Y”."
 
 #. SysConfig
 msgid "Dynamic fields limit per page for Dynamic Fields Overview."
@@ -21263,7 +21292,7 @@ msgstr "Az ügyintézői felület kimenő e-mail képernyőjén megjelenített d
 msgid ""
 "Dynamic fields shown in the process widget in ticket zoom screen of the "
 "agent interface."
-msgstr "Az ügyintézői felület jegynagyítás képernyőjén a feldolgozó felületi elemben megjelenített dinamikus mezők."
+msgstr "Az ügyintézői felület jegynagyítás képernyőjén a folyamat felületi elemben megjelenített dinamikus mezők."
 
 #. SysConfig
 msgid ""
@@ -21848,13 +21877,13 @@ msgstr "Előtétprogram-modul regisztráció (vállalat-hivatkozás letiltása, 
 msgid ""
 "Frontend module registration (disable ticket processes screen if no process "
 "available) for Customer."
-msgstr "Előtétprogram-modul regisztráció (jegy feldolgozások képernyő letiltása, ha nincs elérhető folyamat) az ügyfélnek."
+msgstr "Előtétprogram-modul regisztráció (a jegyfolyamatok képernyő letiltása, ha nincs elérhető folyamat) az ügyfélnek."
 
 #. SysConfig
 msgid ""
 "Frontend module registration (disable ticket processes screen if no process "
 "available)."
-msgstr "Előtétprogram-modul regisztráció (jegy feldolgozások képernyő letiltása, ha nincs elérhető folyamat)."
+msgstr "Előtétprogram-modul regisztráció (a jegyfolyamatok képernyő letiltása, ha nincs elérhető folyamat)."
 
 #. SysConfig
 msgid ""
@@ -22122,8 +22151,8 @@ msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulná
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
-msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja a felhasználónevek vezető részeinek levágását (például tartományoknál, úgymint pelda_tartomany\\felhasznalo a felhasználóhoz)."
+"example_domain\\\\user to user)."
+msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja a felhasználónevek vezető részeinek levágását (például tartományoknál, úgymint pelda_tartomany\\\\felhasznalo a felhasználóhoz)."
 
 #. SysConfig
 msgid ""
@@ -23624,7 +23653,7 @@ msgid ""
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin. \"Mandatory\" determines if the "
 "plugin is always shown and can not be removed by agents."
-msgstr "Paraméterek az ügyintézői felület jegy esemény naptárának vezérlőpult háttérprogramjához. A „Limit” az alapértelmezetten megjelenített bejegyzések száma. A „Group” használható a hozzáférés korlátozásához a bővítményre (például Group: admin;csoport1;csoport2;). A „Default” azt határozza meg, hogy a bővítmény alapértelmezetten engedélyezve van, vagy hogy a felhasználónak kézzel kell engedélyeznie azt. A „CacheTTLLocal” a bővítmény gyorsítótár ideje percben. A „Mandatory” határozza meg, hogy a bővítmény mindig megjelenjen, és az ügyintézők ne tudják eltávolítani."
+msgstr "Paraméterek az ügyintézői felület események jegynaptárának vezérlőpult háttérprogramjához. A „Limit” az alapértelmezetten megjelenített bejegyzések száma. A „Group” használható a hozzáférés korlátozásához a bővítményre (például Group: admin;csoport1;csoport2;). A „Default” azt határozza meg, hogy a bővítmény alapértelmezetten engedélyezve van, vagy hogy a felhasználónak kézzel kell engedélyeznie azt. A „CacheTTLLocal” a bővítmény gyorsítótár ideje percben. A „Mandatory” határozza meg, hogy a bővítmény mindig megjelenjen, és az ügyintézők ne tudják eltávolítani."
 
 #. SysConfig
 msgid ""

@@ -20,8 +20,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-07-16 16:18+0000\n"
-"PO-Revision-Date: 2018-07-16 16:20+0000\n"
+"POT-Creation-Date: 2018-09-13 21:46+0000\n"
+"PO-Revision-Date: 2018-09-13 21:49+0000\n"
 "Last-Translator: 汇民 王 <whuim@qq.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -757,7 +757,7 @@ msgstr "额外的收件人邮件地址"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "This field must have less then 200 characters."
-msgstr ""
+msgstr "这个字段不能超过200个字符。"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
@@ -2611,9 +2611,9 @@ msgstr "将考虑匹配错误消息主题和数据（如调试器错误条目中
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
-"Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication "
+"Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
 "related errors."
-msgstr "示例：输入'^.*401 Unauthorized.*\\$' ，仅处理与认证相关的错误。"
+msgstr "示例：输入'^.*401 Unauthorized.*\\\\$' ，仅处理与认证相关的错误。"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error stage filter"
@@ -3185,9 +3185,10 @@ msgstr "示例2：搜索 = '^' / 替换 = '_' ，可将'16x16' 变成'_16x16'�
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
-"Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = "
-"'_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
-msgstr "示例3：搜索=  '^(?<number>\\d+) (?<text>.+?)\\$'/替换= '_\\$+{text}_\\$+{number}'，可将 '16 elementname'变成'_elementname_16'。"
+"Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = "
+"'_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into "
+"'_elementname_16'."
+msgstr "示例3：搜索=  '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / 替换= '_\\\\$+{text}_\\\\$+{number}'，可将 '16 elementname'变成'_elementname_16'。"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "For information about regular expressions in Perl please see here:"
@@ -7794,7 +7795,7 @@ msgid "Edit your preferences"
 msgstr "编辑个人设置"
 
 #. Template: AgentPreferences
-msgid "Personal preferences"
+msgid "Personal Preferences"
 msgstr "个人偏好设置"
 
 #. Template: AgentPreferences
@@ -7877,10 +7878,6 @@ msgstr "你知道吗? 你也可以通过%s帮助翻译 OTRS。"
 #. Template: SettingsList
 msgid "Reset to default"
 msgstr "重置为默认"
-
-#. Template: AgentPreferencesOverview
-msgid "Personal Preferences"
-msgstr "个人偏好设置"
 
 #. Template: AgentPreferencesOverview
 msgid ""
@@ -9287,6 +9284,10 @@ msgid "Notifications (OTRS Business Solution™)"
 msgstr "通知 (OTRS商业版)"
 
 #. Template: Header
+msgid "Personal preferences"
+msgstr "个人偏好设置"
+
+#. Template: Header
 msgid "Logout"
 msgstr "退出"
 
@@ -9323,8 +9324,36 @@ msgid "Welcome to %s"
 msgstr "欢迎使用%s"
 
 #. Template: Installer
+msgid "Germany"
+msgstr ""
+
+#. Template: Installer
 msgid "Phone"
 msgstr "电话"
+
+#. Template: Installer
+msgid "United States"
+msgstr ""
+
+#. Template: Installer
+msgid "Mexico"
+msgstr ""
+
+#. Template: Installer
+msgid "Hungary"
+msgstr ""
+
+#. Template: Installer
+msgid "Brazil"
+msgstr ""
+
+#. Template: Installer
+msgid "Singapore"
+msgstr ""
+
+#. Template: Installer
+msgid "Hong Kong"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -11124,7 +11153,7 @@ msgstr "调用程序类型 %s 没有注册"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "MappingType %s is not registered"
-msgstr ""
+msgstr "映射类型%s 没有注册"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Need Invoker!"
@@ -15600,11 +15629,11 @@ msgstr "重置解锁时间。"
 
 #. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
 msgid "Chat Participant"
-msgstr ""
+msgstr "聊天参与人"
 
 #. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
 msgid "Chat Message Text"
-msgstr ""
+msgstr "聊天消息文本"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Login failed! Your user name or password was entered incorrectly."
@@ -17207,11 +17236,11 @@ msgstr "添加工单备注"
 
 #. SysConfig
 msgid "Add an inbound phone call to this ticket"
-msgstr "为本工单添加接入电话"
+msgstr "为本工单添加一个客户来电"
 
 #. SysConfig
 msgid "Add an outbound phone call to this ticket"
-msgstr "为本工单添加拨出电话"
+msgstr "为本工单添加致电客户"
 
 #. SysConfig
 msgid "Added %s time unit(s), for a total of %s time unit(s)."
@@ -17544,7 +17573,7 @@ msgstr "在客户界面允许设置工单的优先级。"
 msgid ""
 "Allows customers to set the ticket queue in the customer interface. If this "
 "is not enabled, QueueDefault should be configured."
-msgstr ""
+msgstr "允许在客户界面设置工单的队列，如果此处未启用，则需要配置QueueDefault（默认队列）。"
 
 #. SysConfig
 msgid "Allows customers to set the ticket service in the customer interface."
@@ -17554,7 +17583,7 @@ msgstr "在客户界面允许设置工单所属的服务。"
 msgid ""
 "Allows customers to set the ticket type in the customer interface. If this "
 "is not enabled, TicketTypeDefault should be configured."
-msgstr ""
+msgstr "允许在客户界面设置工单类型，如果此处未启用，则需要配置TicketTypeDefault（默认工单类型）。"
 
 #. SysConfig
 msgid ""
@@ -19088,14 +19117,14 @@ msgid ""
 "Defines if a ticket lock is required in the ticket phone inbound screen of "
 "the agent interface (if the ticket isn't locked yet, the ticket gets locked "
 "and the current agent will be set automatically as its owner)."
-msgstr "定义服务人员界面在工单电话接入屏幕是否需要工单锁定（如果工单还没有锁定，则工单被锁定且当前服务人员被自动设置为工单所有者）。"
+msgstr "定义服务人员界面在工单客户来电屏幕是否需要工单锁定（如果工单还没有锁定，则工单被锁定且当前服务人员被自动设置为工单所有者）。"
 
 #. SysConfig
 msgid ""
 "Defines if a ticket lock is required in the ticket phone outbound screen of "
 "the agent interface (if the ticket isn't locked yet, the ticket gets locked "
 "and the current agent will be set automatically as its owner)."
-msgstr "定义服务人员界面在工单拨出电话屏幕是否需要工单锁定（如果工单还没有锁定，则工单被锁定且当前服务人员被自动设置为工单所有者）。"
+msgstr "定义服务人员界面在工单致电客户屏幕是否需要工单锁定（如果工单还没有锁定，则工单被锁定且当前服务人员被自动设置为工单所有者）。"
 
 #. SysConfig
 msgid ""
@@ -22040,7 +22069,7 @@ msgid ""
 "article creation, increasing fulltext searches about 50%. To create an "
 "initial index use \"bin/otrs.Console.pl "
 "Maint::Ticket::FulltextIndexRebuild\"."
-msgstr ""
+msgstr "帮助扩展信件全文搜索（发件人、收件人、抄送、主题和正文搜索）。它将在信件创建后剥离所有信件并建立索引，提升全文搜索50%的效率。可使用命令\"bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild\"来创建初始索引。"
 
 #. SysConfig
 msgid "High Contrast"
@@ -22129,8 +22158,8 @@ msgstr "如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
-msgstr "如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth（HTTP基本认证）”，您可以指定剥离用户名的主要部分（如域名，比如将example_domain\\user变为user）。"
+"example_domain\\\\user to user)."
+msgstr "如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth（HTTP基本认证）”，您可以指定剥去用户名称的主要部分（例如域名，如从example_domain\\\\user变为user）。"
 
 #. SysConfig
 msgid ""
@@ -22455,7 +22484,7 @@ msgstr "服务人员界面工单搜索时包括工单创建时间。"
 
 #. SysConfig
 msgid "Incoming Phone Call."
-msgstr "来电。"
+msgstr "客户来电。"
 
 #. SysConfig
 msgid ""
@@ -22751,11 +22780,11 @@ msgstr "立陶宛语"
 
 #. SysConfig
 msgid "Loader module registration for the agent interface."
-msgstr "客户界面的加载器模块注册。"
+msgstr "服务人员界面的加载器模块注册。"
 
 #. SysConfig
 msgid "Loader module registration for the customer interface."
-msgstr ""
+msgstr "客户界面的加载器模块注册。"
 
 #. SysConfig
 msgid "Lock / unlock this ticket"
@@ -23795,11 +23824,11 @@ msgstr "波斯语"
 
 #. SysConfig
 msgid "Phone Call Inbound"
-msgstr "接电话"
+msgstr "客户来电"
 
 #. SysConfig
 msgid "Phone Call Outbound"
-msgstr "打电话"
+msgstr "致电客户"
 
 #. SysConfig
 msgid "Phone Call."
@@ -24602,7 +24631,7 @@ msgstr "设置服务人员界面创建邮件工单后的默认下一状态。"
 msgid ""
 "Sets the default note text for new telephone tickets. E.g 'New ticket via "
 "call' in the agent interface."
-msgstr "设置服务人员界面新建电话工单的默认备注文本，例如：“通过电话新建的工单”。"
+msgstr "设置服务人员界面新建电话工单的默认备注文本，例如：“通过客户来电新建的工单”。"
 
 #. SysConfig
 msgid ""
@@ -24634,7 +24663,7 @@ msgstr "设置服务人员界面新建邮件工单的默认主题，例如“邮
 msgid ""
 "Sets the default subject for new phone tickets (e.g. 'Phone call') in the "
 "agent interface."
-msgstr "设置服务人员界面新建电话工单的默认主题，例如“打电话”。"
+msgstr "设置服务人员界面新建电话工单的默认主题，例如“客户来电”。"
 
 #. SysConfig
 msgid ""
@@ -25129,7 +25158,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为关注/取消关注工单菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr "在服务人员界面工单详情视图中，为“关注/取消关注工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25140,7 +25169,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为链接工单到另一对象菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr "在服务人员界面工单详情视图中，为“链接工单到另一对象”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25151,7 +25180,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为合并工单菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr "在服务人员界面工单详情视图中，为“合并工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25162,7 +25191,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为访问工单历史菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr "在服务人员界面工单详情视图中，为“访问工单历史”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25173,7 +25202,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为工单自定义字段菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr "在服务人员界面工单详情视图中，为“工单自定义字段”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25183,13 +25212,13 @@ msgid ""
 " To cluster menu items use for Key \"ClusterName\" and for the Content any "
 "name you want to see in the UI. Use \"ClusterPriority\" to configure the "
 "order of a certain cluster within the toolbar."
-msgstr "在服务人员界面工单详情视图中，为添加工单备注菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr "在服务人员界面工单详情视图中，为“添加工单备注”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to add a note to a ticket in every ticket overview "
 "of the agent interface."
-msgstr "在服务人员界面所有工单概览视图，为添加工单备注菜单显示一个链接。"
+msgstr "在服务人员界面所有工单概览视图，为“添加工单备注”菜单显示一个链接。"
 
 #. SysConfig
 msgid ""
@@ -25200,7 +25229,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "在服务人员界面工单详情视图中，为“添加客户来电”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25211,7 +25240,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "在服务人员界面工单详情视图中，为“添加致电客户”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25222,7 +25251,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "在服务人员界面工单详情视图中，为“修改请求工单的客户”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。在服务人员界面工单详情视图中，为锁定/解锁工单菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25233,7 +25262,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "在服务人员界面工单详情视图中，为“修改工单所有者”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25244,13 +25273,13 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr ""
+msgstr "在服务人员界面工单详情视图中，为“修改工单负责人”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to close a ticket in every ticket overview of the "
 "agent interface."
-msgstr "在服务人员界面所有工单概览视图，为关闭工单菜单显示一个链接。"
+msgstr "在服务人员界面所有工单概览视图，为“关闭工单”菜单显示一个链接。"
 
 #. SysConfig
 msgid ""
@@ -25261,7 +25290,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为关闭工单菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr "在服务人员界面工单详情视图中，为“关闭工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25269,7 +25298,7 @@ msgid ""
 "agent interface. Additional access control to show or not show this link can"
 " be done by using Key \"Group\" and Content like "
 "\"rw:group1;move_into:group2\"."
-msgstr "在服务人员界面所有工单概览视图，为删除工单菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+msgstr "在服务人员界面所有工单概览视图，为“删除工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
 
 #. SysConfig
 msgid ""
@@ -25280,13 +25309,13 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为删除工单菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr "在服务人员界面工单详情视图中，为“删除工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to enroll a ticket into a process in the ticket "
 "zoom view of the agent interface."
-msgstr "在服务人员界面工单详情视图中，为注册工单到一个流程菜单显示一个链接。"
+msgstr "在服务人员界面工单详情视图中，为“注册工单到一个流程”菜单显示一个链接。"
 
 #. SysConfig
 msgid ""
@@ -25296,13 +25325,13 @@ msgid ""
 " To cluster menu items use for Key \"ClusterName\" and for the Content any "
 "name you want to see in the UI. Use \"ClusterPriority\" to configure the "
 "order of a certain cluster within the toolbar."
-msgstr "在服务人员界面工单详情视图中，为返回菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr "在服务人员界面工单详情视图中，为“返回”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to lock / unlock a ticket in the ticket overviews "
 "of the agent interface."
-msgstr "在服务人员界面工单概览视图中，为锁定/解锁工单显示一个链接。"
+msgstr "在服务人员界面工单概览视图中，为“锁定/解锁工单”显示一个链接。"
 
 #. SysConfig
 msgid ""
@@ -25313,13 +25342,13 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为锁定/解锁工单菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr "在服务人员界面工单详情视图中，为“锁定/解锁工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to move a ticket in every ticket overview of the "
 "agent interface."
-msgstr "在服务人员界面所有工单概览视图，为转移工单菜单显示一个链接。"
+msgstr "在服务人员界面所有工单概览视图，为“转移工单”菜单显示一个链接。"
 
 #. SysConfig
 msgid ""
@@ -25330,13 +25359,13 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为打印工单/信件菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr "在服务人员界面工单详情视图中，为“打印工单/信件”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to see the history of a ticket in every ticket "
 "overview of the agent interface."
-msgstr "在服务人员界面所有工单概览视图，为查看工单历史菜单显示一个链接。"
+msgstr "在服务人员界面所有工单概览视图，为“查看工单历史”菜单显示一个链接。"
 
 #. SysConfig
 msgid ""
@@ -25347,7 +25376,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为查看工单优先级菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr "在服务人员界面工单详情视图中，为“查看工单优先级”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25358,7 +25387,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为发送工单的外发邮件菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr "在服务人员界面工单详情视图中，为“发送工单的外发邮件”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25366,7 +25395,7 @@ msgid ""
 " the agent interface. Additional access control to show or not show this "
 "link can be done by using Key \"Group\" and Content like "
 "\"rw:group1;move_into:group2\"."
-msgstr "在服务人员界面工单各种概览视图中，在菜单中为设置工单为垃圾显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+msgstr "在服务人员界面工单各种概览视图中，为“设置工单为垃圾”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
 
 #. SysConfig
 msgid ""
@@ -25377,19 +25406,19 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为挂起工单菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr "在服务人员界面工单详情视图中，为“挂起工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to set the priority of a ticket in every ticket "
 "overview of the agent interface."
-msgstr "在服务人员界面所有工单概览视图，为设置工单优先级菜单显示一个链接。"
+msgstr "在服务人员界面所有工单概览视图，为“设置工单优先级”菜单显示一个链接。"
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to zoom a ticket in the ticket overviews of the "
 "agent interface."
-msgstr "在服务人员界面所有工单概览视图，为工单详情屏幕菜单显示一个链接。"
+msgstr "在服务人员界面所有工单概览视图，为“工单详情”菜单显示一个链接。"
 
 #. SysConfig
 msgid ""
@@ -25415,7 +25444,7 @@ msgid ""
 " To cluster menu items use for Key \"ClusterName\" and for the Content any "
 "name you want to see in the UI. Use \"ClusterPriority\" to configure the "
 "order of a certain cluster within the toolbar."
-msgstr "在服务人员界面工单详情视图中，为设置工单为垃圾菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr "在服务人员界面工单详情视图中，为“设置工单为垃圾”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""

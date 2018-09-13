@@ -1,4 +1,5 @@
 #6.0.11 2018-??-??
+ - 2018-09-13 Updated translations, thanks to all translators.
  - 2018-09-11 Fixed bug#[13990](https://bugs.otrs.org/show_bug.cgi?id=13990) - Process Management issue when splitting tickets to Process tickets.
  - 2018-09-11 Fixed bug#[14023](https://bugs.otrs.org/show_bug.cgi?id=14023) - Timeline View is broken when a body string contains closing script tag.
  - 2018-09-10 Fixed bug#[14057](https://bugs.otrs.org/show_bug.cgi?id=14057) - UserInitialsGet ignores FirstnameLastnameOrder.

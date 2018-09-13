@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-07-16 16:18+0000\n"
-"PO-Revision-Date: 2018-07-16 16:20+0000\n"
+"POT-Creation-Date: 2018-09-13 21:46+0000\n"
+"PO-Revision-Date: 2018-09-13 21:49+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Danish (http://www.transifex.com/otrs/OTRS/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -2599,7 +2599,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
-"Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication "
+"Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
 "related errors."
 msgstr ""
 
@@ -3173,8 +3173,9 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
-"Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = "
-"'_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
+"Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = "
+"'_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into "
+"'_elementname_16'."
 msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
@@ -7782,8 +7783,8 @@ msgid "Edit your preferences"
 msgstr "Opdater dine indstillinger"
 
 #. Template: AgentPreferences
-msgid "Personal preferences"
-msgstr "Personlige indstillinger"
+msgid "Personal Preferences"
+msgstr "Personlinge indstillinger"
 
 #. Template: AgentPreferences
 msgid "Preferences"
@@ -7865,10 +7866,6 @@ msgstr "Vidste du det? Du kan hjælpe med at oversætte OTRS på %s."
 #. Template: SettingsList
 msgid "Reset to default"
 msgstr ""
-
-#. Template: AgentPreferencesOverview
-msgid "Personal Preferences"
-msgstr "Personlinge indstillinger"
 
 #. Template: AgentPreferencesOverview
 msgid ""
@@ -9275,6 +9272,10 @@ msgid "Notifications (OTRS Business Solution™)"
 msgstr "Meddelelser (OTRS Business Solution™)"
 
 #. Template: Header
+msgid "Personal preferences"
+msgstr "Personlige indstillinger"
+
+#. Template: Header
 msgid "Logout"
 msgstr "Log ud"
 
@@ -9311,8 +9312,36 @@ msgid "Welcome to %s"
 msgstr "Velkommen til %s"
 
 #. Template: Installer
+msgid "Germany"
+msgstr ""
+
+#. Template: Installer
 msgid "Phone"
 msgstr "Telefon"
+
+#. Template: Installer
+msgid "United States"
+msgstr ""
+
+#. Template: Installer
+msgid "Mexico"
+msgstr ""
+
+#. Template: Installer
+msgid "Hungary"
+msgstr ""
+
+#. Template: Installer
+msgid "Brazil"
+msgstr ""
+
+#. Template: Installer
+msgid "Singapore"
+msgstr ""
+
+#. Template: Installer
+msgid "Hong Kong"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -22117,7 +22146,7 @@ msgstr ""
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
+"example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.185287040220007;
+    $Self->{Completeness}        = 0.185236051502146;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -432,7 +432,7 @@ sub Data {
         'Customer User Management' => '',
         'Add Customer User' => 'Pridať používateľa',
         'Edit Customer User' => 'Upraviť používateľa',
-        'Back to search results' => '',
+        'Back to search results' => 'Späť do výsledkov vyhľadávania',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             '',
         'List (%s total)' => '',
@@ -2438,7 +2438,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Zmeniť nastavenia',
-        'Personal preferences' => '',
+        'Personal Preferences' => '',
         'Preferences' => 'Nastavenia',
         'Please note: you\'re currently editing the preferences of %s.' =>
             '',
@@ -2466,7 +2466,6 @@ sub Data {
         'Reset to default' => '',
 
         # Template: AgentPreferencesOverview
-        'Personal Preferences' => '',
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             '',
         'Did you know?' => '',
@@ -2952,6 +2951,7 @@ sub Data {
         'View notifications' => '',
         'Notifications' => '',
         'Notifications (OTRS Business Solution™)' => '',
+        'Personal preferences' => '',
         'Logout' => 'Odhlásenie ',
         'You are logged in as' => 'Ste prihlásený ako',
 
@@ -2963,7 +2963,14 @@ sub Data {
         'General Specifications and Mail Settings' => '',
         'Finish' => '',
         'Welcome to %s' => '',
+        'Germany' => '',
         'Phone' => 'Telefón',
+        'United States' => '',
+        'Mexico' => '',
+        'Hungary' => '',
+        'Brazil' => '',
+        'Singapore' => '',
+        'Hong Kong' => '',
         'Web site' => '',
 
         # Template: InstallerConfigureMail

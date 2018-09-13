@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-07-16 16:18+0000\n"
-"PO-Revision-Date: 2018-07-18 06:20+0000\n"
+"POT-Creation-Date: 2018-09-13 21:46+0000\n"
+"PO-Revision-Date: 2018-09-13 21:49+0000\n"
 "Last-Translator: Dusan Vuckovic\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -2600,9 +2600,9 @@ msgstr "Наслов и садржај поруке о грешци (како с
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
-"Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication "
+"Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
 "related errors."
-msgstr "Пример: унесите '^.*401 Unauthorized.*\\$' за обраду грешака само приликом аутентификације."
+msgstr "Пример: унесите '^.*401 Unauthorized.*\\\\$' за обраду само грешака у вези аутентикације."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error stage filter"
@@ -3174,9 +3174,10 @@ msgstr "Пример 2: пронађи = '^' / замени = '_' претвар
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
-"Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = "
-"'_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
-msgstr "Пример 3: пронађи = '^(?<number>\\d+) (?<text>.+?)\\$' / замени = '_\\$+{text}_\\$+{number}' претвара '16 elementname' у '_elementname_16'."
+"Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = "
+"'_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into "
+"'_elementname_16'."
+msgstr "Пример 3: Search = '^(?\\\\d+) (?.+?)\\\\$' / Replace = '_\\\\$+{text}_\\\\$+{number}' претвара '16 elementname' у '_elementname_16'."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "For information about regular expressions in Perl please see here:"
@@ -7783,7 +7784,7 @@ msgid "Edit your preferences"
 msgstr "Уреди личне поставке"
 
 #. Template: AgentPreferences
-msgid "Personal preferences"
+msgid "Personal Preferences"
 msgstr "Лична подешавања"
 
 #. Template: AgentPreferences
@@ -7866,10 +7867,6 @@ msgstr "Да ли сте знали? Можете да помогнете у п�
 #. Template: SettingsList
 msgid "Reset to default"
 msgstr "Поништи на подразумевану вредност"
-
-#. Template: AgentPreferencesOverview
-msgid "Personal Preferences"
-msgstr "Лична подешавања"
 
 #. Template: AgentPreferencesOverview
 msgid ""
@@ -9276,6 +9273,10 @@ msgid "Notifications (OTRS Business Solution™)"
 msgstr "Обавештења (OTRS Business Solution™)"
 
 #. Template: Header
+msgid "Personal preferences"
+msgstr "Лична подешавања"
+
+#. Template: Header
 msgid "Logout"
 msgstr "Одјава"
 
@@ -9312,8 +9313,36 @@ msgid "Welcome to %s"
 msgstr "Добродошли у %s"
 
 #. Template: Installer
+msgid "Germany"
+msgstr ""
+
+#. Template: Installer
 msgid "Phone"
 msgstr "Позив"
+
+#. Template: Installer
+msgid "United States"
+msgstr ""
+
+#. Template: Installer
+msgid "Mexico"
+msgstr ""
+
+#. Template: Installer
+msgid "Hungary"
+msgstr ""
+
+#. Template: Installer
+msgid "Brazil"
+msgstr ""
+
+#. Template: Installer
+msgid "Singapore"
+msgstr ""
+
+#. Template: Installer
+msgid "Hong Kong"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -22118,8 +22147,8 @@ msgstr "Уколико је подешен HTTPBasicAuth за Customer::AuthModu
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
-"example_domain\\user to user)."
-msgstr "Уколико је „HTTPBasicAuth” изабран за „Customer::AuthModule”, можете подесити уклањање почетних делова корисничких имена (нпр. за домене као „example_domain\\\\user” у „user”)."
+"example_domain\\\\user to user)."
+msgstr "Уколико је подешен HTTPBasicAuth за Customer::AuthModule, можете подесити уклањање делова корисничких имена (нпр. за домене као example_domain\\\\user у user)."
 
 #. SysConfig
 msgid ""

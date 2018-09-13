@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.381746304572018;
+    $Self->{Completeness}        = 0.381287553648069;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2440,7 +2440,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Ändra dina inställningar',
-        'Personal preferences' => '',
+        'Personal Preferences' => '',
         'Preferences' => 'Inställningar',
         'Please note: you\'re currently editing the preferences of %s.' =>
             '',
@@ -2468,7 +2468,6 @@ sub Data {
         'Reset to default' => '',
 
         # Template: AgentPreferencesOverview
-        'Personal Preferences' => '',
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             '',
         'Did you know?' => '',
@@ -2954,6 +2953,7 @@ sub Data {
         'View notifications' => 'Visa notifieringar',
         'Notifications' => '',
         'Notifications (OTRS Business Solution™)' => '',
+        'Personal preferences' => '',
         'Logout' => 'Logga ut',
         'You are logged in as' => 'Du är inloggad som',
 
@@ -2965,7 +2965,14 @@ sub Data {
         'General Specifications and Mail Settings' => 'E-postinställningar och andra inställningar',
         'Finish' => 'Slut',
         'Welcome to %s' => 'Välkommen till %s',
+        'Germany' => '',
         'Phone' => 'Telefon',
+        'United States' => '',
+        'Mexico' => '',
+        'Hungary' => '',
+        'Brazil' => '',
+        'Singapore' => '',
+        'Hong Kong' => '',
         'Web site' => 'Webbplats',
 
         # Template: InstallerConfigureMail
