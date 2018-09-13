@@ -1,4 +1,6 @@
-#4.0.32 ????-??-??
+#4.0.33 20??-??-??
+
+#4.0.32 2018-09-21
  - 2018-09-03 Added improvements to HTML filter.
  - 2018-09-03 Added improvements to SupportDataCollector Admin screen.
 
