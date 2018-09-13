@@ -1,4 +1,6 @@
 #4.0.32 ????-??-??
+ - 2018-09-03 Added improvements to HTML filter.
+ - 2018-09-03 Added improvements to SupportDataCollector Admin screen.
 
 #4.0.31 2018-07-31
  - 2018-07-24 Add explicit information for robots.
