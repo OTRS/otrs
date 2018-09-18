@@ -234,6 +234,11 @@ sub _InstallOTRSExtensions {
                     Data     => \%Data,
                     SortKeys => 1,
                 );
+
+                # Escape closing script tags in the JSON content as they will confuse the
+                #   browser's parser.
+                $JSONString =~ s{</script}{<\\/script}smxg;
+
                 $output .= "Core.Config.AddConfig($JSONString);\n";
             }
             delete $context->{LayoutObject}->{_JSData};

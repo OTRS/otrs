@@ -362,11 +362,20 @@ console.log(22);
         Result => '',
     },
     {
+        Name      => 'JSData 3 with AddJSData()',
+        Template  => '',
+        AddJSData => {
+            Key   => 'JS.String',
+            Value => { String => '</script></script>' }
+        },
+        Result => '',
+    },
+    {
         Name     => 'JSDataInsert',
         Template => '
 [% PROCESS "JSDataInsert" -%]',
         Result => '
-Core.Config.AddConfig({"Config.Test":123,"Config.Test2":[1,2,{"test":"test"}],"Perl.Code":{"Perl":"Data"}});
+Core.Config.AddConfig({"Config.Test":123,"Config.Test2":[1,2,{"test":"test"}],"JS.String":{"String":"<\/script><\/script>"},"Perl.Code":{"Perl":"Data"}});
 ',
     },
     {
