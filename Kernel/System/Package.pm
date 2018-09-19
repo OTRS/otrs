@@ -3614,7 +3614,7 @@ sub _FileRemove {
     # check if file exists
     if ( !-e $RealFile ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
+            Priority => 'debug',
             Message  => "No such file: $RealFile!",
         );
         return;
