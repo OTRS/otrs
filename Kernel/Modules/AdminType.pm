@@ -32,6 +32,18 @@ sub Run {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $TypeObject   = $Kernel::OM->Get('Kernel::System::Type');
 
+    # Check if ticket type is enabled.
+    my $TypeNotActive;
+    if ( !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type') ) {
+        $TypeNotActive = $LayoutObject->Notify(
+            Priority => 'Error',
+            Data     => $LayoutObject->{LanguageObject}->Translate( "Please activate %s first!", "Type" ),
+            Link =>
+                $LayoutObject->{Baselink}
+                . 'Action=AdminSystemConfiguration;Subaction=View;Setting=Ticket%3A%3AType',
+        );
+    }
+
     # ------------------------------------------------------------ #
     # change
     # ------------------------------------------------------------ #
@@ -45,6 +57,7 @@ sub Run {
         }
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
+        $Output .= $TypeNotActive;
         $Self->_Edit(
             Action => 'Change',
             %Data,
@@ -108,6 +121,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
+                $Output .= $TypeNotActive;
                 $Output .= $LayoutObject->Notify( Info => Translatable('Type updated!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminType',
@@ -121,6 +135,7 @@ sub Run {
         # something has gone wrong
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
+        $Output .= $TypeNotActive;
         $Output .= $LayoutObject->Notify( Priority => 'Error' );
         $Self->_Edit(
             Action => 'Change',
@@ -143,6 +158,7 @@ sub Run {
         $GetParam{Name} = $ParamObject->GetParam( Param => 'Name' );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
+        $Output .= $TypeNotActive;
         $Self->_Edit(
             Action => 'Add',
             %GetParam,
@@ -195,6 +211,7 @@ sub Run {
                 $Self->_Overview();
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar();
+                $Output .= $TypeNotActive;
                 $Output .= $LayoutObject->Notify( Info => Translatable('Type added!') );
                 $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminType',
@@ -208,6 +225,7 @@ sub Run {
         # something has gone wrong
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
+        $Output .= $TypeNotActive;
         $Output .= $LayoutObject->Notify( Priority => 'Error' );
         $Self->_Edit(
             Action => 'Add',
@@ -229,17 +247,7 @@ sub Run {
 
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
-
-        # check if ticket type is enabled to use it here
-        if ( !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type') ) {
-            $Output .= $LayoutObject->Notify(
-                Priority => 'Error',
-                Data     => $LayoutObject->{LanguageObject}->Translate( "Please activate %s first!", "Type" ),
-                Link =>
-                    $LayoutObject->{Baselink}
-                    . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Ticket;SysConfigSubGroup=Core::Ticket#Ticket::Type',
-            );
-        }
+        $Output .= $TypeNotActive;
 
         $Self->_Overview();
 

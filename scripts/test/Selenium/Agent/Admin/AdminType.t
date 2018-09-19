@@ -21,6 +21,13 @@ $Selenium->RunTest(
         # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # Disable Type.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Type',
+            Value => 0
+        );
+
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
@@ -46,6 +53,14 @@ $Selenium->RunTest(
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
+        # Check for error message notification.
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$(\"div.MessageBox.Error a[href*='Action=AdminSystemConfiguration;Subaction=View;Setting=Ticket%3A%3AType']\").length;",
+            ),
+            'Error MessageBox is found',
+        );
+
         # click 'add new type' link
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminType;Subaction=Add' )]")->VerifiedClick();
 
@@ -54,6 +69,14 @@ $Selenium->RunTest(
         $Element->is_displayed();
         $Element->is_enabled();
         $Selenium->find_element( "#ValidID", 'css' );
+
+        # Check for error message notification.
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$(\"div.MessageBox.Error a[href*='Action=AdminSystemConfiguration;Subaction=View;Setting=Ticket%3A%3AType']\").length;",
+            ),
+            'Error MessageBox is found',
+        );
 
         # check client side validation
         $Selenium->find_element( "#Name", 'css' )->clear();
@@ -82,6 +105,14 @@ $Selenium->RunTest(
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
+        # Check for error message notification.
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$(\"div.MessageBox.Error a[href*='Action=AdminSystemConfiguration;Subaction=View;Setting=Ticket%3A%3AType']\").length;",
+            ),
+            'Error MessageBox is found',
+        );
+
         # go to new type again
         $Selenium->find_element( $TypeRandomID, 'link_text' )->VerifiedClick();
 
@@ -95,6 +126,14 @@ $Selenium->RunTest(
             $Selenium->find_element( '#ValidID', 'css' )->get_value(),
             1,
             "#ValidID stored value",
+        );
+
+        # Check for error message notification.
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$(\"div.MessageBox.Error a[href*='Action=AdminSystemConfiguration;Subaction=View;Setting=Ticket%3A%3AType']\").length;",
+            ),
+            'Error MessageBox is found',
         );
 
         # get current value of Ticket::Type::Default
