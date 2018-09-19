@@ -330,13 +330,6 @@ sub Run {
             $EffectiveValue = '';
         }
         else {
-
-            # Convert HTML characters to ASCII characters.
-            $EffectiveValueJSON = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToAscii(
-                String       => $EffectiveValueJSON,
-                NoLineLength => 1,
-            );
-
             $EffectiveValue = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
                 Data => $EffectiveValueJSON,
             );
