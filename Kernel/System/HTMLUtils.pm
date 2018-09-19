@@ -57,9 +57,8 @@ sub new {
 convert an HTML string to an ASCII string
 
     my $Ascii = $HTMLUtilsObject->ToAscii(
-        String       => $String,
+        String => $String,
         NoLineLength => 1, # optional, don't consider line length,
-        NoStripTags  => 1, # optional, don't strip all other tags.
     );
 
 =cut
@@ -203,10 +202,8 @@ sub ToAscii {
         $Param{String} =~ s/$Key/\n\n\n$One2One{$Key}\n\n/g;
     }
 
-    # Strip all other tags.
-    if ( !$Param{NoStripTags} ) {
-        $Param{String} =~ s/\<.+?\>//gs;
-    }
+    # strip all other tags
+    $Param{String} =~ s/\<.+?\>//gs;
 
     # html encode based on cpan's HTML::Entities v1.35
     my %Entity = (
