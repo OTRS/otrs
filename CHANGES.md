@@ -1,4 +1,5 @@
 #6.0.12 2018-??-??
+ - 2018-09-19 Fixed bug#[14075](https://bugs.otrs.org/show_bug.cgi?id=14075) - Not possible to use <MATCH1> in Sysconfig anymore.
  - 2018-09-18 Improved handling of JSData in Templates.
 
 #6.0.11 2018-09-21

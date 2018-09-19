@@ -243,7 +243,12 @@ Fifth Line',
         Config => {
             'Ticket::Frontend::TextAreaNote' => 5,
         },
-
+    },
+    {
+        Input       => 'http://cve.mitre.org/cgi-bin/cvename.cgi?name=<MATCH1>-<MATCH2>-<MATCH3>',
+        Result      => 'http://cve.mitre.org/cgi-bin/cvename.cgi?name=<MATCH1>-<MATCH2>-<MATCH3>',
+        Name        => 'ToAscii - NoStripTags param (bug#14075)',
+        NoStripTags => 1,
     },
 );
 
@@ -259,7 +264,8 @@ for my $Test (@Tests) {
     }
 
     my $Ascii = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToAscii(
-        String => $Test->{Input},
+        String      => $Test->{Input},
+        NoStripTags => 1 ? $Test->{NoStripTags} : 0,
     );
 
     # this line is for Windows check-out

@@ -335,6 +335,7 @@ sub Run {
             $EffectiveValueJSON = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToAscii(
                 String       => $EffectiveValueJSON,
                 NoLineLength => 1,
+                NoStripTags  => 1,
             );
 
             $EffectiveValue = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
