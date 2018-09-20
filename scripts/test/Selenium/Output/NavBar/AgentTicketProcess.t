@@ -46,32 +46,7 @@ $Selenium->RunTest(
 
         # get config object
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-        # get all processes
-        my $ProcessList = $ProcessObject->ProcessListGet(
-            UserID => $TestUserID,
-        );
-        my @DeactivatedProcesses;
-
-        # if there had been some active processes before testing,set them to inactive,
-        for my $Process ( @{$ProcessList} ) {
-            if ( $Process->{State} eq 'Active' ) {
-                $ProcessObject->ProcessUpdate(
-                    ID            => $Process->{ID},
-                    EntityID      => $Process->{EntityID},
-                    Name          => $Process->{Name},
-                    StateEntityID => 'S2',
-                    Layout        => $Process->{Layout},
-                    Config        => $Process->{Config},
-                    UserID        => $TestUserID,
-                );
-
-                # save process because of restoring on the end of test
-                push @DeactivatedProcesses, $Process;
-            }
-        }
-
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        my $ScriptAlias  = $ConfigObject->Get('ScriptAlias');
 
         # import test selenium process
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
@@ -197,11 +172,35 @@ $Selenium->RunTest(
             "Process deleted - $Process->{Name},",
         );
 
+        # get all processes
+        my $ProcessList = $ProcessObject->ProcessListGet(
+            UserID => $TestUserID,
+        );
+        my @DeactivatedProcesses;
+
+        # if there had been some active processes before testing,set them to inactive,
+        for my $Process ( @{$ProcessList} ) {
+            if ( $Process->{State} eq 'Active' ) {
+                $ProcessObject->ProcessUpdate(
+                    ID            => $Process->{ID},
+                    EntityID      => $Process->{EntityID},
+                    Name          => $Process->{Name},
+                    StateEntityID => 'S2',
+                    Layout        => $Process->{Layout},
+                    Config        => $Process->{Config},
+                    UserID        => $TestUserID,
+                );
+
+                # save process because of restoring on the end of test
+                push @DeactivatedProcesses, $Process;
+            }
+        }
+
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
         # we have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache
-        sleep 1;
+        sleep 2;
 
         # check if NavBarAgentTicketProcess button is not available when no process is available
         $Selenium->VerifiedRefresh();
