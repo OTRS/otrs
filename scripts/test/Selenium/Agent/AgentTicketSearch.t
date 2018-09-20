@@ -319,13 +319,16 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#Attribute').val('TicketCreateTimeSlot').trigger('redraw.InputField').trigger('change');",
         );
-        $Selenium->find_element( '.AddButton',                  'css' )->click();
-        $Selenium->find_element( '#TicketCreateTimeStartDay',   'css' )->send_keys('31');
-        $Selenium->find_element( '#TicketCreateTimeStartMonth', 'css' )->send_keys('04');
-        $Selenium->find_element( '#TicketCreateTimeStartYear',  'css' )->send_keys('2017');
-        $Selenium->find_element( '#SearchFormSubmit',           'css' )->click();
 
-        sleep 1;
+        $Selenium->find_element( '.AddButton',                                      'css' )->click();
+        $Selenium->find_element( '#TicketCreateTimeStartDay option[value="31"]',    'css' )->click();
+        $Selenium->find_element( '#TicketCreateTimeStartMonth option[value="4"]',   'css' )->click();
+        $Selenium->find_element( '#TicketCreateTimeStartYear option[value="2017"]', 'css' )->click();
+
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#TicketCreateTimeStartDay.Error').length"
+        );
 
         $Self->True(
             $Selenium->execute_script(
@@ -334,12 +337,12 @@ $Selenium->RunTest(
             'Invalid date highlighted as an error'
         );
 
-        $Selenium->find_element( '#TicketCreateTimeStartDay',   'css' )->send_keys('04');
-        $Selenium->find_element( '#TicketCreateTimeStartMonth', 'css' )->send_keys('05');
-        $Selenium->find_element( '#TicketCreateTimeStopDay',    'css' )->send_keys('04');
-        $Selenium->find_element( '#TicketCreateTimeStopMonth',  'css' )->send_keys('05');
-        $Selenium->find_element( '#TicketCreateTimeStopYear',   'css' )->send_keys('2017');
-        $Selenium->find_element( '#SearchFormSubmit',           'css' )->VerifiedClick();
+        $Selenium->find_element( '#TicketCreateTimeStartDay option[value="4"]',    'css' )->click('04');
+        $Selenium->find_element( '#TicketCreateTimeStartMonth option[value="5"]',  'css' )->click('05');
+        $Selenium->find_element( '#TicketCreateTimeStopDay option[value="4"]',     'css' )->click('04');
+        $Selenium->find_element( '#TicketCreateTimeStopMonth option[value="5"]',   'css' )->click('05');
+        $Selenium->find_element( '#TicketCreateTimeStopYear option[value="2017"]', 'css' )->click('2017');
+        $Selenium->find_element( '#SearchFormSubmit',                              'css' )->VerifiedClick();
 
         # Check for expected result.
         $Self->True(

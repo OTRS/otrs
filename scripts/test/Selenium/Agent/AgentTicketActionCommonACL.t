@@ -363,12 +363,12 @@ EOF
         $Selenium->switch_to_window( $Handles->[1] );
 
         # Wait until page has loaded.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ServiceID").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ServiceID").length;' );
 
         # Check for entries in the service selection, there should be only one.
         $Self->Is(
             $Selenium->execute_script(
-                "return \$('#ServiceID option:not([value=\"\"])').length"
+                "return \$('#ServiceID option:not([value=\"\"])').length;"
             ),
             1,
             "There is only one entry in the service selection",
@@ -378,12 +378,12 @@ EOF
         $Selenium->execute_script(
             "\$('#ServiceID option:not([value=\"\"])').attr('selected', true).trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
         # Check for restricted entries in the SLA selection, there should be only one.
         $Self->Is(
             $Selenium->execute_script(
-                "return \$('#SLAID option:not([value=\"\"])').length"
+                "return \$('#SLAID option:not([value=\"\"])').length;"
             ),
             1,
             "There is only one entry in the SLA selection",
@@ -394,16 +394,16 @@ EOF
             Name => 'Junk',
         );
         $Self->True(
-            $Selenium->execute_script("return \$('#NewQueueID option[value=\"$JunkQueue{QueueID}\"]').length > 0"),
+            $Selenium->execute_script("return \$('#NewQueueID option[value=\"$JunkQueue{QueueID}\"]').length > 0;"),
             "Junk queue is available in selection before ACL trigger"
         );
 
         # Trigger ACL on priority change.
         $Selenium->execute_script("\$('#NewPriorityID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
         $Self->False(
-            $Selenium->execute_script("return \$('#NewQueueID option[value=\"$JunkQueue{QueueID}\"]').length > 0"),
+            $Selenium->execute_script("return \$('#NewQueueID option[value=\"$JunkQueue{QueueID}\"]').length > 0;"),
             "Junk queue is not available in selection after ACL trigger"
         );
 
@@ -481,7 +481,8 @@ EOF
 
         # Wait until page has loaded.
         $Selenium->WaitFor(
-            JavaScript => 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
         );
 
         $Self->Is(
@@ -496,11 +497,11 @@ EOF
         $Selenium->execute_script(
             "\$('#DynamicField_Field$RandomID').val('').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
         $Self->Is(
             $Selenium->execute_script(
-                "return \$('#DynamicField_Field2$RandomID option:not([value=\"\"])').length"
+                "return \$('#DynamicField_Field2$RandomID option:not([value=\"\"])').length;"
             ),
             4,
             "There are all four entries in the dynamic field 2 selection",

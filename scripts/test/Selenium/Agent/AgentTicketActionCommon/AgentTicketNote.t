@@ -20,6 +20,12 @@ $Selenium->RunTest(
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+        # Disable check of email addresses.
+        $Helper->ConfigSettingChange(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
+
         # Do not check RichText.
         $Helper->ConfigSettingChange(
             Valid => 1,
@@ -59,7 +65,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $TicketID,
-            "Ticket is created - ID $TicketID",
+            "Ticket $TicketID is created",
         );
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
@@ -67,14 +73,16 @@ $Selenium->RunTest(
         # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # Force sub menu to be visible in order to be able to click one of the links.
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function'" );
-        $Selenium->execute_script("\$('#nav-Communication-container').css('height', 'auto')");
-        $Selenium->execute_script("\$('#nav-Communication-container').css('opacity', '1')");
+        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
-            JavaScript =>
-                "return \$('#nav-Communication-container').css('height') !== '0px' && \$('#nav-Communication-container').css('opacity') == '1'"
+            JavaScript => "return typeof(\$) === 'function' && \$.active == 0"
         );
+
+        # Force sub menus to be visible in order to be able to click one of the links.
+        $Selenium->execute_script(
+            '$("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
+        );
+        $Selenium->WaitFor( JavaScript => "return \$('#nav-Communication ul').css('opacity') == 1;" );
 
         # Click on 'Note' and switch window.
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
@@ -84,20 +92,14 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
 
         # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $(".WidgetSimple").length;'
-        );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".WidgetSimple").length;' );
 
         # Open collapsed widgets, if necessary.
         $Selenium->execute_script(
             "\$('.WidgetSimple.Collapsed .WidgetAction > a').trigger('click');"
         );
 
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $(".WidgetSimple.Expanded").length;'
-        );
+        $Selenium->WaitFor( JavaScript => 'return $(".WidgetSimple.Expanded").length;' );
 
         # Check page.
         for my $ID (
@@ -129,13 +131,15 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # Expand Miscellaneous dropdown menu.
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function'" );
-        $Selenium->execute_script("\$('#nav-Miscellaneous-container').css('height', 'auto')");
-        $Selenium->execute_script("\$('#nav-Miscellaneous-container').css('opacity', '1')");
+        $Selenium->VerifiedRefresh();
+
+        # Force sub menus to be visible in order to be able to click one of the links.
+        $Selenium->execute_script(
+            '$("#nav-Miscellaneous ul").css({ "height": "auto", "opacity": "100" });'
+        );
         $Selenium->WaitFor(
             JavaScript =>
-                "return \$('#nav-Miscellaneous-container').css('height') !== '0px' && \$('#nav-Miscellaneous-container').css('opacity') == '1'"
+                'return $("#nav-Miscellaneous ul").css("opacity") == 1;'
         );
 
         # Click on 'History' and switch window.
@@ -147,10 +151,7 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
 
         # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $(".WidgetSimple").length;'
-        );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".WidgetSimple").length;' );
 
         # Confirm note action.
         my $NoteMsg = "Added note (Note)";
@@ -175,10 +176,7 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
 
         # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $(".WidgetSimple").length;'
-        );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".WidgetSimple").length;' );
 
         # Check for subject pre-loaded value.
         my $NoteSubjectRe = $ConfigObject->Get('Ticket::SubjectRe') || 'Re';
@@ -254,12 +252,12 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
 
         # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function'" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function';" );
 
         # Wait for the CKE to load.
         $Selenium->WaitFor(
             JavaScript =>
-                "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
+                "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1;"
         );
 
         # Submit note.
@@ -270,10 +268,7 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[0] );
 
         # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function";'
-        );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
 
         # Get last article id.
         my @ArticleIDs = $TicketObject->ArticleIndex(
@@ -371,20 +366,15 @@ $Selenium->RunTest(
         # Wait for the iframe to show up.
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('form#Compose', \$('.PopupIframe').contents()).length == 1"
+                "return typeof(\$) === 'function' && \$('form#Compose', \$('.PopupIframe').contents()).length == 1;"
         );
 
-        # Get frame name.
-        my $FrameName = $Selenium->execute_script(
-            "return \$('iframe.PopupIframe').attr('name');"
+        $Selenium->SwitchToFrame(
+            FrameSelector => '.PopupIframe',
+            WaitForLoad   => 1,
         );
 
-        $Selenium->switch_to_frame($FrameName);
-
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-        ) || die "OTRS API verification failed after page load.";
+        $Selenium->WaitFor( JavaScript => "return \$('#RichText').length;" );
 
         # Expand the article widget.
         $Selenium->find_element( "#WidgetArticle .Toggle a", 'css' )->click();

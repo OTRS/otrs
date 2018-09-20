@@ -54,7 +54,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Canvas").length' );
 
         # Click on Transition Actions accordion element.
-        $Selenium->execute_script('return $("#ProcessElements .AccordionElement:eq(3) a.AsBlock").click();');
+        $Selenium->execute_script('$("#ProcessElements .AccordionElement:eq(3) a.AsBlock").click();');
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $("a[href*=\'Subaction=TransitionActionNew\']:visible").length'
@@ -107,7 +107,7 @@ $Selenium->RunTest(
         );
 
         # Click on Transition Actions accordion element.
-        $Selenium->execute_script('return $("#ProcessElements .AccordionElement:eq(3) a.AsBlock").click();');
+        $Selenium->execute_script('$("#ProcessElements .AccordionElement:eq(3) a.AsBlock").click();');
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#TransitionActionFilter:visible").length'
         );
@@ -220,7 +220,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#TransitionActionFilter').length" );
 
         # Click on Transition Actions accordion element.
-        $Selenium->execute_script('return $("#ProcessElements .AccordionElement:eq(3) a.AsBlock").click();');
+        $Selenium->execute_script('$("#ProcessElements .AccordionElement:eq(3) a.AsBlock").click();');
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#TransitionActionFilter:visible").length'
         );

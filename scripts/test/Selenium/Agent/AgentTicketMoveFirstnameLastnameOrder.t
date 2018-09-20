@@ -136,6 +136,8 @@ $Selenium->RunTest(
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#DestQueueID').length" );
+
         # Change ticket queue.
         $Selenium->execute_script("\$('#DestQueueID').val('4').trigger('redraw.InputField').trigger('change');");
 
@@ -148,6 +150,7 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
+        $Selenium->VerifiedRefresh();
 
         # Check if the sender format is correct.
         $Self->Is(

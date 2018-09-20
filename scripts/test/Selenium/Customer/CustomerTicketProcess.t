@@ -368,13 +368,13 @@ $Selenium->RunTest(
         push @DeleteTicketIDs, $TicketID[1];
 
         # Click on next step in Process ticket.
-        $Selenium->find_element("//a[contains(\@href, \'ProcessEntityID=$ListReverse{$ProcessName}' )]")
-            ->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'ProcessEntityID=$ListReverse{$ProcessName}' )]")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length;' );
+        $Selenium->VerifiedRefresh();
 
         # For test scenario to complete, in next step we set ticket priority to 5 very high.
         $Selenium->execute_script("\$('#PriorityID').val('5').trigger('redraw.InputField').trigger('change');");
@@ -383,6 +383,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
         $Selenium->VerifiedRefresh();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Activities").length' );
 
         # Check for inputed values as final step in first scenario.
         $Self->True(
@@ -395,11 +396,11 @@ $Selenium->RunTest(
         );
 
         my $EndProcessMessage = "There are no dialogs available at this point in the process.";
-
-        $Self->True(
-            index( $Selenium->get_page_source(), $EndProcessMessage ) > -1,
+        $Self->Is(
+            $Selenium->execute_script("return \$('#Activities li:eq(1)').text().trim();"),
+            $EndProcessMessage,
             "$EndProcessMessage message found on page",
-        );
+        ) || die;
 
         # Navigate to CustomerTicketProcess screen.
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketProcess");

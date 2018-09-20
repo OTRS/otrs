@@ -369,6 +369,7 @@ $Selenium->RunTest(
         # Return to main window.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
+        $Selenium->VerifiedRefresh();
 
         # Check for inputed values as final step in first scenario.
         $Self->True(

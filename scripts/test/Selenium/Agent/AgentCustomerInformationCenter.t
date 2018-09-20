@@ -159,7 +159,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentCustomerInformationCenter");
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#AgentCustomerInformationCenterSearchCustomerID").length'
+                'return typeof($) === "function" && $("#AgentCustomerInformationCenterSearchCustomerID").length;'
         );
 
         # input search parameters for CustomerUser
@@ -177,32 +177,41 @@ $Selenium->RunTest(
         # input search parameters CustomerID
         $Selenium->find_element( "#AgentCustomerInformationCenterSearchCustomerID", 'css' )
             ->send_keys($TestCustomerUserLogin);
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length;' );
         $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomerUserLogin)').click()");
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".ContentColumn .WidgetSimple .Header h2").length;'
+        );
 
         # check customer information center page
         $Self->True(
             index( $Selenium->get_page_source(), "Customer Information Center" ) > -1,
             "Found looked value on page",
         );
-        $Self->True(
-            index( $Selenium->get_page_source(), "Customer Users" ) > -1,
-            "Customer Users widget found on page",
+
+        my @Header = (
+            'Customer Users',
+            'Reminder Tickets',
+            'Escalated Tickets',
+            'New Tickets',
+            'Open Tickets / Need to be answered',
         );
-        $Self->True(
-            index( $Selenium->get_page_source(), "Reminder Tickets" ) > -1,
-            "Reminder Tickets widget found on page",
-        );
-        $Self->True(
-            index( $Selenium->get_page_source(), "Escalated Tickets" ) > -1,
-            "Escalated Tickets widget found on page",
-        );
-        $Self->True(
-            index( $Selenium->get_page_source(), "Open Tickets / Need to be answered" ) > -1,
-            "Open Tickets / Need to be answered widget found on page",
-        );
-        $Self->True(
-            index( $Selenium->get_page_source(), "Settings" ) > -1,
+
+        my $Count = 0;
+        for my $Title (@Header) {
+
+            # Check widget title.
+            $Self->Is(
+                $Selenium->execute_script("return \$('.ContentColumn .WidgetSimple .Header h2:eq($Count)').text();"),
+                $Title,
+                "$Title widget found on page",
+            );
+            $Count++;
+        }
+
+        $Self->Is(
+            $Selenium->execute_script("return \$('.SidebarColumn .WidgetSimple .Header h2:eq(0)').text();"),
+            'Settings',
             "Setting for toggle widgets found on page",
         );
 
@@ -215,7 +224,7 @@ $Selenium->RunTest(
             )->VerifiedClick();
 
             # wait until page has loaded, if necessary
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length;' );
 
             # check for test ticket numbers on search screen
             for my $CheckTicketNumbers ( @{ $TicketData{$TestLinks}->{TicketNumbers} } ) {
@@ -231,7 +240,7 @@ $Selenium->RunTest(
             )->VerifiedClick();
 
             # wait until search dialog has been loaded
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SearchFormSubmit").length' );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SearchFormSubmit").length;' );
 
             # verify state search attributes are shown in search screen, see bug #10853
             $Selenium->find_element( "#StateIDs", 'css' );

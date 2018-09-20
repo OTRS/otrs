@@ -208,7 +208,7 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), 'Action=AgentTicketProcess' ) == -1,
             "'New process ticket' button NOT available when no process is active when no process is available",
-        );
+        ) || die;
 
         # check if NavBarAgentTicketProcess button is available
         # when NavBarAgentTicketProcess module is disabled and no process is available

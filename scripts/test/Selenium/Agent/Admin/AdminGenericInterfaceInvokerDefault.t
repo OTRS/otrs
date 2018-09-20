@@ -88,7 +88,11 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#InvokerList').val('Test::TestSimple').trigger('redraw.InputField').trigger('change');"
         );
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#Invoker').length === 1"
+        );
         my $InvokerName = "Invoker$RandomID";
+
         $Selenium->find_element( '#Invoker', 'css' )->send_keys($InvokerName);
 
         # Click on 'Save'.
