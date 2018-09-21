@@ -337,11 +337,11 @@ $Selenium->RunTest(
             'Invalid date highlighted as an error'
         );
 
-        $Selenium->find_element( '#TicketCreateTimeStartDay option[value="4"]',    'css' )->click('04');
-        $Selenium->find_element( '#TicketCreateTimeStartMonth option[value="5"]',  'css' )->click('05');
-        $Selenium->find_element( '#TicketCreateTimeStopDay option[value="4"]',     'css' )->click('04');
-        $Selenium->find_element( '#TicketCreateTimeStopMonth option[value="5"]',   'css' )->click('05');
-        $Selenium->find_element( '#TicketCreateTimeStopYear option[value="2017"]', 'css' )->click('2017');
+        $Selenium->find_element( '#TicketCreateTimeStartDay option[value="4"]',    'css' )->click();
+        $Selenium->find_element( '#TicketCreateTimeStartMonth option[value="5"]',  'css' )->click();
+        $Selenium->find_element( '#TicketCreateTimeStopDay option[value="4"]',     'css' )->click();
+        $Selenium->find_element( '#TicketCreateTimeStopMonth option[value="5"]',   'css' )->click();
+        $Selenium->find_element( '#TicketCreateTimeStopYear option[value="2017"]', 'css' )->click();
         $Selenium->find_element( '#SearchFormSubmit',                              'css' )->VerifiedClick();
 
         # Check for expected result.
