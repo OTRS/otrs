@@ -179,6 +179,10 @@ $Selenium->RunTest(
                 JavaScript =>
                     'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
             );
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('#OverviewBody').length;"
+            );
 
             # Verify expected results.
             for my $Ticket (@Tickets) {

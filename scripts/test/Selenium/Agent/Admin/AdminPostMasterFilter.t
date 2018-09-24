@@ -213,6 +213,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#PostMasterFilters").length;' );
 
         # Check edited test PostMasterFilter values.
+        $Selenium->VerifiedRefresh();
         $Selenium->find_element( $PostMasterName, 'link_text' )->click();
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#StopAfterMatch").length;' );
 

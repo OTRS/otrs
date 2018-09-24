@@ -144,14 +144,10 @@ $Selenium->RunTest(
         # navigate to AgentTicketZoom for test created ticket
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        $Self->True(
-            $Selenium->execute_script("return \$('h1:contains(TestTicket#::)')"),
-            "Ticket::Hook and Ticket::HookDivider found",
-        );
-
-        $Self->True(
-            $Selenium->execute_script("return \$('h1:contains($TitleRandom)')"),
-            "Ticket $TitleRandom found",
+        $Self->Is(
+            $Selenium->execute_script("return \$('.Headline h1').text().trim();"),
+            "TestTicket#::$TicketNumber — $TitleRandom",
+            "Ticket::Hook and Ticket::HookDivider found, check ticket title headline",
         );
 
         # check page

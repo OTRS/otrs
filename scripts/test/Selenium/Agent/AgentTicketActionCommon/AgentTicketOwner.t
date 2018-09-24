@@ -120,10 +120,15 @@ $Selenium->RunTest(
         # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
+        # Wait until page has loaded.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
+
         # Force sub menus to be visible in order to be able to click one of the links.
+        $Selenium->execute_script("\$('#nav-People ul').css('height', 'auto');");
+        $Selenium->execute_script("\$('#nav-People ul').css('opacity', '1');");
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#nav-People ul").css({ "height": "auto", "opacity": "100" });'
+                "return \$('#nav-People ul').css('height') !== '0px' && \$('#nav-People ul').css('opacity') == '1';"
         );
 
         # Click on 'Owner' and switch window.
@@ -157,7 +162,7 @@ $Selenium->RunTest(
         );
 
         # Expand 'New owner' input field.
-        $Selenium->execute_script("\$('#NewOwnerID_Search').focus().focus()");
+        $Selenium->execute_script("\$('#NewOwnerID_Search').focus().focus();");
 
         # Click on filter button in input fileld.
         $Selenium->execute_script("\$('.InputField_Filters').click();");
@@ -204,10 +209,15 @@ $Selenium->RunTest(
         # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
+        # Wait until page has loaded.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
+
         # Force sub menus to be visible in order to be able to click one of the links.
+        $Selenium->execute_script("\$('#nav-Communication ul').css('height', 'auto');");
+        $Selenium->execute_script("\$('#nav-Communication ul').css('opacity', '1');");
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
+                "return \$('#nav-Communication ul').css('height') !== '0px' && \$('#nav-Communication ul').css('opacity') == '1';"
         );
 
         # Click on 'Note' and switch window.
@@ -231,6 +241,11 @@ $Selenium->RunTest(
         # Switch window back to AgentTicketZoom view of created test ticket.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#Row2 .Sender a').text() === '$TestUser[1] $TestUser[1]';"
+        );
 
         # Verified there is no Out Of Office message in the 'Sender' column of created Note.
         $Self->Is(

@@ -178,9 +178,12 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDProcess");
 
         # Force sub menus to be visible in order to be able to click one of the links.
+        $Selenium->execute_script(
+            '$("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
+        );
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
+                'return $("#nav-Communication ul").css("opacity") == 1;'
         );
 
         # Click on 'Note' and switch window.

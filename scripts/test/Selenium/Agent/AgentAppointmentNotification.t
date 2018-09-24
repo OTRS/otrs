@@ -88,19 +88,19 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentCalendarOverview");
 
         # Wait for AJAX to finish.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length;' );
 
         # Click on the month view.
         $Selenium->find_element( '.fc-month-button', 'css' )->click();
 
         # Wait for AJAX to finish.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length;' );
 
         # Go to next month.
         $Selenium->find_element( '.fc-toolbar .fc-next-button', 'css' )->click();
 
         # Wait for AJAX to finish.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length;' );
 
         my $DataDate = sprintf( "%04d-%02d-01", $NextMonthSettings->{Year}, $NextMonthSettings->{Month} );
 
@@ -294,7 +294,7 @@ $Selenium->RunTest(
             $Selenium->find_element( ".fc-widget-content td[data-date=\"$DataDate\"]", 'css' )->click();
 
             # Wait until form and overlay has loaded, if neccessary.
-            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
+            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length;" );
 
             # Enter some data.
             $Selenium->find_element( 'Title', 'name' )->send_keys("$Test->{Data}->{Description}");
@@ -314,7 +314,7 @@ $Selenium->RunTest(
             # Wait for dialog to close and AJAX to finish.
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length'
+                    'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length;'
             );
 
             my @AppointmentList = $AppointmentObject->AppointmentList(
@@ -509,7 +509,7 @@ $Selenium->RunTest(
             $Selenium->find_element( ".fc-widget-content td[data-date=\"$DataDate\"]", 'css' )->click();
 
             # Wait until form and overlay has loaded, if neccessary.
-            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
+            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length;" );
 
             # Enter some data.
             $Selenium->find_element( 'Title', 'name' )->send_keys("$Test->{Data}->{Description}");
@@ -529,7 +529,7 @@ $Selenium->RunTest(
 
             # Fill out the custom unit count field.
             $Selenium->execute_script(
-                "return \$('#NotificationCustomRelativeUnitCount').val('$Test->{Data}->{NotificationCustomRelativeUnitCount}');"
+                "\$('#NotificationCustomRelativeUnitCount').val('$Test->{Data}->{NotificationCustomRelativeUnitCount}');"
             );
 
             # Fill out the custom unit field.
@@ -548,7 +548,7 @@ $Selenium->RunTest(
             # Wait for dialog to close and AJAX to finish.
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length'
+                    'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length;'
             );
 
             my @AppointmentList = $AppointmentObject->AppointmentList(
@@ -760,7 +760,7 @@ $Selenium->RunTest(
             $Selenium->find_element( ".fc-widget-content td[data-date=\"$DataDate\"]", 'css' )->click();
 
             # Wait until form and overlay has loaded, if neccessary.
-            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
+            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length;" );
 
             # Enter some data.
             $Selenium->find_element( 'Title', 'name' )->send_keys("$Test->{Data}->{Description}");
@@ -777,7 +777,7 @@ $Selenium->RunTest(
 
             # Activate the relative notifications.
             $Selenium->find_element( "#NotificationCustomDateTimeInput", 'css' )->click();
-            $Selenium->WaitFor( JavaScript => "return \$('#NotificationCustomDateTimeInput:checked').length" );
+            $Selenium->WaitFor( JavaScript => "return \$('#NotificationCustomDateTimeInput:checked').length;" );
 
             # Select day.
             $Selenium->execute_script(
@@ -810,7 +810,7 @@ $Selenium->RunTest(
             # Wait for dialog to close and AJAX to finish.
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length'
+                    'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length;'
             );
 
             my @AppointmentList = $AppointmentObject->AppointmentList(

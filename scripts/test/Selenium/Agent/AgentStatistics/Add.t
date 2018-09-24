@@ -84,10 +84,10 @@ $Selenium->RunTest(
         for my $Statistics (qw(DynamicMatrix DynamicList Static)) {
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return typeof(\$) === 'function' && \$('a[data-statistic-preselection=$Statistics]').length"
+                    "return typeof(\$) === 'function' && \$('a[data-statistic-preselection=$Statistics]').length;"
             );
             $Self->True(
-                $Selenium->execute_script("return \$('a[data-statistic-preselection=$Statistics]').length"),
+                $Selenium->execute_script("return \$('a[data-statistic-preselection=$Statistics]').length;"),
                 "There is a link for adding '$Statistics' statistics",
             );
         }
@@ -175,7 +175,7 @@ $Selenium->RunTest(
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Add");
 
             $Selenium->find_element("//a[contains(\@data-statistic-preselection, \'$StatsData->{Type}\' )]")->click();
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Title").length' );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Title").length;' );
 
             # Check title of the page (see bug #13942)
             $Self->Is(
@@ -197,7 +197,7 @@ $Selenium->RunTest(
             $Selenium->find_element( ".EditXAxis", 'css' )->click();
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof($) === "function" && $(".Dialog.Modal").length && $("#DialogButton1").length'
+                    'return typeof($) === "function" && $(".Dialog.Modal").length && $("#DialogButton1").length;'
             );
 
             if ( $StatsData->{Object} ne 'Kernel::System::Stats::Dynamic::TicketList' ) {
@@ -217,12 +217,12 @@ $Selenium->RunTest(
                 }
             }
             $Selenium->find_element( "#DialogButton1", 'css' )->click();
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length;' );
 
             # Check error message if there is set wrong invalid date for x-axis
             if ( $StatsData->{XAxis} eq 'XAxisCreateTime' ) {
                 $Self->Is(
-                    $Selenium->execute_script("return \$('.Preview p.Error').text().trim()"),
+                    $Selenium->execute_script("return \$('.Preview p.Error').text().trim();"),
                     "CreateTime: The selected date is not valid.",
                     "There is message for invalid date for CreateTime",
                 );
@@ -230,7 +230,7 @@ $Selenium->RunTest(
                 $Selenium->find_element( ".EditXAxis", 'css' )->click();
                 $Selenium->WaitFor(
                     JavaScript =>
-                        'return typeof($) === "function" && $(".Dialog.Modal").length && $("#DialogButton1").length'
+                        'return typeof($) === "function" && $(".Dialog.Modal").length && $("#DialogButton1").length;'
                 );
 
                 $Selenium->execute_script(
@@ -241,13 +241,13 @@ $Selenium->RunTest(
                 );
 
                 $Selenium->find_element( "#DialogButton1", 'css' )->click();
-                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length;' );
             }
 
             # Check Y-axis configuration dialog.
             $Selenium->find_element( ".EditYAxis", 'css' )->click();
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal").length' );
-            $Selenium->WaitFor( JavaScript => 'return $("#EditDialog select").length && $("#DialogButton1").length' );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal").length;' );
+            $Selenium->WaitFor( JavaScript => 'return $("#EditDialog select").length && $("#DialogButton1").length;' );
 
             $Selenium->execute_script(
                 "\$('#EditDialog select').val('$StatsData->{YAxis}').trigger('redraw.InputField').trigger('change');"
@@ -266,13 +266,13 @@ $Selenium->RunTest(
                 );
             }
             $Selenium->find_element( "#DialogButton1", 'css' )->click();
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length;' );
 
             # Check Restrictions configuration dialog.
             $Selenium->find_element( ".EditRestrictions", 'css' )->click();
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof($) === "function" && $(".Dialog.Modal").length && $("#EditDialog select").length'
+                    'return typeof($) === "function" && $(".Dialog.Modal").length && $("#EditDialog select").length;'
             );
 
             $Selenium->execute_script(
@@ -289,17 +289,19 @@ $Selenium->RunTest(
                 "\$('#EditDialog #$StatsData->{RestrictionID} option[value=\"$StatsData->{Restrictionvalue}\"]').prop('selected', true).trigger('redraw.InputField').trigger('change');"
             );
             $Selenium->find_element( "#DialogButton1", 'css' )->click();
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length;' );
+
+            sleep 2;
 
             # Change preview format to Print.
-            $Selenium->execute_script("\$('button[data-format=Print]').click()");
+            $Selenium->execute_script("\$('button[data-format=Print]').click();");
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof($) === "function" && $("#PreviewContentPrint").css("display") === "block"'
+                    'return typeof($) === "function" && $("#PreviewContentPrint").css("display") === "block";'
             );
 
             $Self->True(
-                $Selenium->execute_script("return \$('#PreviewContentPrint').css('display')") eq 'block',
+                $Selenium->execute_script("return \$('#PreviewContentPrint').css('display');") eq 'block',
                 "Print format is displayed",
             );
 
@@ -312,14 +314,15 @@ $Selenium->RunTest(
             for my $StatsFormat (@StatsFormat) {
 
                 # Change preview format.
-                $Selenium->execute_script("\$('button[data-format=\"$StatsFormat->{Format}\"]').click()");
+                $Selenium->execute_script("\$('button[data-format=\"$StatsFormat->{Format}\"]').click();");
                 $Selenium->WaitFor(
                     JavaScript =>
-                        "return typeof(\$) === 'function' && \$('#$StatsFormat->{PreviewContent}').css('display') === 'block'"
+                        "return typeof(\$) === 'function' && \$('#$StatsFormat->{PreviewContent}').css('display') === 'block';"
                 );
 
                 $Self->True(
-                    $Selenium->execute_script("return \$('#$StatsFormat->{PreviewContent}').css('display')") eq 'block',
+                    $Selenium->execute_script("return \$('#$StatsFormat->{PreviewContent}').css('display');") eq
+                        'block',
                     "StackedArea format is displayed",
                 );
             }
@@ -329,7 +332,7 @@ $Selenium->RunTest(
 
                 $Self->True(
                     $Selenium->execute_script(
-                        "return \$('#Cache option[value=\"1\"]').val() == 1 && \$('#Cache option[value=\"1\"]')[0].innerHTML == 'Yes'"
+                        "return \$('#Cache option[value=\"1\"]').val() == 1 && \$('#Cache option[value=\"1\"]')[0].innerHTML == 'Yes';"
                     ),
                     'Found element "Yes" in Cache the select field.',
                 );
@@ -337,13 +340,15 @@ $Selenium->RunTest(
             else {
 
                 $Self->False(
-                    $Selenium->execute_script("return \$('#Cache option[value=\"1\"]').val() == 1"),
+                    $Selenium->execute_script("return \$('#Cache option[value=\"1\"]').val() == 1;"),
                     'Found no element "Yes" in the Cache select field.',
                 );
             }
 
             # Save and finish test statistics.
             $Selenium->find_element( "#SaveAndFinish", 'css' )->VerifiedClick();
+
+            sleep 2;
 
             # Sort decreasing by StatsID.
             $Selenium->VerifiedGet(
@@ -371,11 +376,22 @@ $Selenium->RunTest(
             )->click();
 
             $Selenium->WaitFor( AlertPresent => 1 );
+            sleep 1;
             $Selenium->accept_alert();
 
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
+            );
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && !\$('a[href*=\"Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast\"]').length;"
+            );
+
             $Self->True(
-                index( $Selenium->get_page_source(), "Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast" )
-                    == -1,
+                $Selenium->execute_script(
+                    "return !\$('a[href*=\"Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast\"]').length;"
+                ),
                 "StatsData statistic is deleted - $StatsData->{Title} "
             );
         }

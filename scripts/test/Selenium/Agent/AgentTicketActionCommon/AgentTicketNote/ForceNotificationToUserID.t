@@ -166,10 +166,15 @@ $Selenium->RunTest(
         # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
+        # Wait until page has loaded.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
+
         # Force sub menus to be visible in order to be able to click one of the links.
+        $Selenium->execute_script("\$('#nav-Communication ul').css('height', 'auto');");
+        $Selenium->execute_script("\$('#nav-Communication ul').css('opacity', '1');");
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
+                "return \$('#nav-Communication ul').css('height') !== '0px' && \$('#nav-Communication ul').css('opacity') == '1';"
         );
 
         # Click on 'Note' and switch window.
@@ -278,7 +283,7 @@ $Selenium->RunTest(
         }
         $Self->True(
             $Success,
-            "Ticket is deleted - ID $TicketID",
+            "TicketID $TicketID is deleted",
         );
 
         # Make sure the cache is correct.

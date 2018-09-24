@@ -246,10 +246,15 @@ $Selenium->RunTest(
         # Get current initial URL.
         my $InitialURL = $Selenium->get_current_url();
 
+        # Wait until page has loaded.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
+
         # Force sub menus to be visible in order to be able to click one of the links.
+        $Selenium->execute_script("\$('#nav-Miscellaneous ul').css('height', 'auto');");
+        $Selenium->execute_script("\$('#nav-Miscellaneous ul').css('opacity', '1');");
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#nav-Miscellaneous ul").css({ "height": "auto", "opacity": "100" });'
+                "return \$('#nav-Miscellaneous ul').css('height') !== '0px' && \$('#nav-Miscellaneous ul').css('opacity') == '1';"
         );
 
         # Click on 'History' and switch window.
@@ -260,7 +265,7 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
 
         # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length;' );
 
         # Check the history entry for the dynamic field.
         my $PageSource = $Selenium->get_page_source();
@@ -279,6 +284,8 @@ $Selenium->RunTest(
         # Switch window back.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
+
+        sleep 2;
 
         # Verify new URL.
         my $ChangedURL = $Selenium->get_current_url();

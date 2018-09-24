@@ -368,11 +368,10 @@ $Selenium->RunTest(
         my @TicketID = split( 'TicketID=', $Selenium->get_current_url() );
         push @DeleteTicketIDs, $TicketID[1];
 
-        # Click on next step in Process ticket.
-        $Selenium->find_element("//a[contains(\@href, \'ProcessEntityID=$ListReverse{$ProcessName}' )]")->click();
-        $Selenium->WaitFor( WindowCount => 2 );
-        my $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
+        # Go on next step in Process ticket.
+        my $URLNextAction = $Selenium->execute_script("return \$('#DynamicFieldsWidget .Actions a').attr('href');");
+        $URLNextAction =~ s/^\///s;
+        $Selenium->VerifiedGet($URLNextAction);
 
         # Wait until form has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length;' );
@@ -381,9 +380,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#PriorityID').val('5').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
 
-        # Return to main window.
-        $Selenium->WaitFor( WindowCount => 1 );
-        $Selenium->switch_to_window( $Handles->[0] );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#DynamicFieldsWidget").length' );
 
         # Check for inputed values as final step in first scenario.
         $Self->True(

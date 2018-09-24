@@ -180,6 +180,7 @@ $Selenium->RunTest(
 
         # Wait until jquery is ready.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function'" );
+        sleep 1;
 
         # Check for the viewmode switch.
         $Self->Is(
@@ -210,6 +211,7 @@ $Selenium->RunTest(
 
         # Wait until jquery is ready.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function'" );
+        sleep 1;
 
         # Check for the viewmode switch.
         $Self->Is(

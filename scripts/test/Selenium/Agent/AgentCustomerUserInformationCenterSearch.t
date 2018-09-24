@@ -172,29 +172,38 @@ $Selenium->RunTest(
 
                 $Selenium->WaitFor(
                     JavaScript =>
-                        'return typeof($) === "function" && $("#AgentCustomerUserInformationCenterSearchCustomerUser").length'
+                        'return typeof($) === "function" && $("#AgentCustomerUserInformationCenterSearchCustomerUser").length;'
                 );
 
                 $Selenium->find_element( "$Search->{FieldID}", 'css' )->send_keys( $Search->{SendKeys} );
                 $Selenium->WaitFor(
-                    JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
+                    JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length;'
                 );
 
                 $Selenium->execute_script("\$('li.ui-menu-item:contains($Search->{InputValue})').click()");
+
                 $Selenium->WaitFor(
                     JavaScript =>
-                        'return typeof($) === "function" && !$("#AgentCustomerUserInformationCenterSearchCustomerUser").length'
+                        "return typeof(\$) === 'function' && !\$('.Dialog.Modal').length;"
+                );
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
+                );
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        "return typeof(\$) === 'function' && \$('#CustomerUserInformationCenterHeading').length;"
                 );
 
                 # Check customer user information center page.
                 $Self->Is(
-                    $Selenium->execute_script("return \$('#CustomerUserInformationCenterHeading').text()"),
+                    $Selenium->execute_script("return \$('#CustomerUserInformationCenterHeading').text();"),
                     $Test->{CheckTitle},
                     "Title '$Test->{CheckTitle}' found on page"
                 );
                 $Self->Is(
                     $Selenium->execute_script(
-                        "return \$('a[href*=\"Action=AgentTicketZoom;TicketID=$Test->{CheckTicket}\"]').length"
+                        "return \$('a[href*=\"Action=AgentTicketZoom;TicketID=$Test->{CheckTicket}\"]').length;"
                     ),
                     1,
                     "TicketID $Test->{CheckTicket} found on page"

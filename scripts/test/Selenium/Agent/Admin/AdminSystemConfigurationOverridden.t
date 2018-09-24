@@ -75,7 +75,7 @@ $Selenium->RunTest(
             JavaScript => 'return typeof($) === "function" && $(".fa-exclamation-triangle").length',
         );
 
-        my $Message = $Selenium->find_element( ".fa-exclamation-triangle", "css" )->get_attribute('title');
+        my $Message = $Selenium->execute_script("return \$('.fa-exclamation-triangle').attr('title');");
         $Self->True(
             $Message
                 =~ m{^This setting is currently being overridden in Kernel\/Config\/Files\/ZZZZUnitTest\d+.pm and can't thus be changed here!$}

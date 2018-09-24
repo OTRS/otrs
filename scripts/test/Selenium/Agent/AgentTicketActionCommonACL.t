@@ -344,10 +344,14 @@ EOF
         # Navigate to AgentTicketZoom screen of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # Wait for displaying submenu items for 'People' ticket menu item.
+        # Wait until page has loaded.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
+
+        $Selenium->execute_script("\$('#nav-Communication-container').css('height', 'auto');");
+        $Selenium->execute_script("\$('#nav-Communication-container').css('opacity', '1');");
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
+                "return \$('#nav-Communication-container').css('height') !== '0px' && \$('#nav-Communication-container').css('opacity') == '1';"
         );
 
         # Click on 'Note' and switch window
@@ -358,27 +362,32 @@ EOF
         $Selenium->switch_to_window( $Handles->[1] );
 
         # Wait until page has loaded
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ServiceID").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ServiceID").length;' );
 
         # Check for entries in the service selection, there should be only one
         $Self->Is(
             $Selenium->execute_script(
-                "return \$('#ServiceID option:not([value=\"\"])').length"
+                "return \$('#ServiceID option:not([value=\"\"])').length;"
             ),
             1,
             "There is only one entry in the service selection",
         );
 
+        sleep 1;
+
         # Set test service and trigger AJAX refresh.
         $Selenium->execute_script(
-            "\$('#ServiceID option:not([value=\"\"])').attr('selected', true).trigger('redraw.InputField').trigger('change');"
+            "\$('#ServiceID').val('$Services[0]').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return !$(".AJAXLoader:visible").length && $("#SLAID option:not([value=\'\'])").length == 1;'
+        );
 
         # Check for restricted entries in the SLA selection, there should be only one.
         $Self->Is(
             $Selenium->execute_script(
-                "return \$('#SLAID option:not([value=\"\"])').length"
+                "return \$('#SLAID option:not([value=\"\"])').length;"
             ),
             1,
             "There is only one entry in the SLA selection",
@@ -389,16 +398,16 @@ EOF
             Name => 'Junk',
         );
         $Self->True(
-            $Selenium->execute_script("return \$('#NewQueueID option[value=\"$JunkQueue{QueueID}\"]').length > 0"),
+            $Selenium->execute_script("return \$('#NewQueueID option[value=\"$JunkQueue{QueueID}\"]').length > 0;"),
             "Junk queue is available in selection before ACL trigger"
         );
 
         # Trigger ACL on priority change.
         $Selenium->execute_script("\$('#NewPriorityID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
         $Self->False(
-            $Selenium->execute_script("return \$('#NewQueueID option[value=\"$JunkQueue{QueueID}\"]').length > 0"),
+            $Selenium->execute_script("return \$('#NewQueueID option[value=\"$JunkQueue{QueueID}\"]').length > 0;"),
             "Junk queue is not available in selection after ACL trigger"
         );
 
@@ -423,27 +432,32 @@ EOF
         $Selenium->switch_to_window( $Handles->[1] );
 
         # Wait until page has loaded.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ServiceID").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ServiceID").length;' );
 
         # Check for entries in the service selection, there should be only one.
         $Self->Is(
             $Selenium->execute_script(
-                "return \$('#ServiceID option:not([value=\"\"])').length"
+                "return \$('#ServiceID option:not([value=\"\"])').length;"
             ),
             1,
             'There is only one entry in the service selection'
         );
 
+        sleep 1;
+
         # Set test service and trigger AJAX refresh.
         $Selenium->execute_script(
-            "\$('#ServiceID option:not([value=\"\"])').attr('selected', true).trigger('redraw.InputField').trigger('change');"
+            "\$('#ServiceID').val('$Services[0]').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return !$(".AJAXLoader:visible").length && $("#SLAID option:not([value=\'\'])").length == 1;'
+        );
 
         # Check for restricted entries in the SLA selection, there should be only one.
         $Self->Is(
             $Selenium->execute_script(
-                "return \$('#SLAID option:not([value=\"\"])').length"
+                "return \$('#SLAID option:not([value=\"\"])').length;"
             ),
             1,
             'There is only one entry in the SLA selection'
@@ -476,12 +490,13 @@ EOF
 
         # Wait until page has loaded.
         $Selenium->WaitFor(
-            JavaScript => 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
         );
 
         $Self->Is(
             $Selenium->execute_script(
-                "return \$('#DynamicField_Field2$RandomID option:not([value=\"\"])').length"
+                "return \$('#DynamicField_Field2$RandomID option:not([value=\"\"])').length;"
             ),
             2,
             "There are only two entries in the dynamic field 2 selection",
@@ -491,11 +506,11 @@ EOF
         $Selenium->execute_script(
             "\$('#DynamicField_Field$RandomID').val('').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
         $Self->Is(
             $Selenium->execute_script(
-                "return \$('#DynamicField_Field2$RandomID option:not([value=\"\"])').length"
+                "return \$('#DynamicField_Field2$RandomID option:not([value=\"\"])').length;"
             ),
             4,
             "There are all four entries in the dynamic field 2 selection",
@@ -522,18 +537,23 @@ EOF
         #   Then, close the ticket and verify it was actually closed.
         #   Please see bug#12671 for more information.
         $Self->True(
-            $Selenium->execute_script("return \$('#NewStateID option:contains(\"closed successful\")').length == 0"),
+            $Selenium->execute_script('return $("#NewStateID option:contains(\'closed successful\')").length == 0;'),
             "State 'closed successful' not available in new state selection before DF update"
         );
+
+        sleep 1;
 
         # Set dynamic field value to non-zero, and wait for AJAX to complete.
         $Selenium->execute_script(
             "\$('#DynamicField_Field$RandomID').val('1').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return !$(".AJAXLoader:visible").length && $("#NewStateID option:contains(\'closed successful\')").length == 1;'
+        );
 
         $Self->True(
-            $Selenium->execute_script("return \$('#NewStateID option:contains(\"closed successful\")').length == 1"),
+            $Selenium->execute_script('return $("#NewStateID option:contains(\'closed successful\')").length == 1;'),
             "State 'closed successful' available in new state selection after DF update"
         );
 

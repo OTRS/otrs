@@ -12,7 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
@@ -21,6 +20,7 @@ $Selenium->RunTest(
         my $Helper                = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
         my $CustomerUserObject    = $Kernel::OM->Get('Kernel::System::CustomerUser');
+        my $TicketObject          = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # Disable email checks when create new customer user.
         $Helper->ConfigSettingChange(
@@ -28,7 +28,7 @@ $Selenium->RunTest(
             Value => 0,
         );
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -39,7 +39,7 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get test user ID
+        # Get test user ID.
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
@@ -96,7 +96,7 @@ $Selenium->RunTest(
             push @CustomerUsers, \%CustomerUser;
         }
 
-        # set customer user as a member of company
+        # Set customer user as a member of company.
         $CustomerUserObject->CustomerUserCustomerMemberAdd(
             CustomerUserID => $CustomerUsers[0]->{UserLogin},
             CustomerID     => $CustomerCompanies[1]->{CustomerID},
@@ -104,10 +104,7 @@ $Selenium->RunTest(
             UserID         => 1,
         );
 
-        # get needed objects
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-        # create test data parameters
+        # Create test data parameters.
         my @TicketIDs;
         my @AssigendTicketNumbers;
         my @AccessibleTicketNumbers;
@@ -143,7 +140,7 @@ $Selenium->RunTest(
             ],
         );
 
-        # create open and closed tickets
+        # Create open and closed tickets.
         for my $PermissionType ( sort keys %CustomerTickets ) {
             for my $TicketData ( @{ $CustomerTickets{$PermissionType} } ) {
                 my $TicketNumber = $TicketObject->TicketCreateNumber();
@@ -177,44 +174,53 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentCustomerUserInformationCenter");
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#AgentCustomerUserInformationCenterSearchCustomerUser").length'
+                'return typeof($) === "function" && $("#AgentCustomerUserInformationCenterSearchCustomerUser").length;'
         );
 
         $Selenium->find_element( "#AgentCustomerUserInformationCenterSearchCustomerUser", 'css' )
             ->send_keys( $CustomerUsers[0]->{UserLogin} );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-        $Selenium->execute_script("\$('li.ui-menu-item:contains($CustomerUsers[0]->{UserMailString})').click()");
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length;' );
+        $Selenium->execute_script("\$('li.ui-menu-item:contains($CustomerUsers[0]->{UserMailString})').click();");
+
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".ContentColumn .WidgetSimple .Header h2").length;'
+        );
 
         # Check customer user information center page.
         $Self->True(
-            index( $Selenium->get_page_source(), "Customer User Information Center" ) > -1,
+            $Selenium->execute_script("return \$('h1:contains(\"Customer User Information Center\")').length;"),
             "Found looked value on page",
         );
-        $Self->True(
-            index( $Selenium->get_page_source(), "Customer IDs" ) > -1,
-            "Customer Users widget found on page",
+
+        my @Header = (
+            'Customer IDs',
+            'Reminder Tickets',
+            'Escalated Tickets',
+            'New Tickets',
+            'Open Tickets / Need to be answered',
         );
+
+        my $Count = 0;
+        for my $Title (@Header) {
+
+            # Check widget title.
+            $Self->Is(
+                $Selenium->execute_script("return \$('.ContentColumn .WidgetSimple .Header h2:eq($Count)').text();"),
+                $Title,
+                "$Title widget found on page",
+            );
+            $Count++;
+        }
+
         $Self->True(
-            index( $Selenium->get_page_source(), "Reminder Tickets" ) > -1,
-            "Reminder Tickets widget found on page",
-        );
-        $Self->True(
-            index( $Selenium->get_page_source(), "Escalated Tickets" ) > -1,
-            "Escalated Tickets widget found on page",
-        );
-        $Self->True(
-            index( $Selenium->get_page_source(), "Open Tickets / Need to be answered" ) > -1,
-            "Open Tickets / Need to be answered widget found on page",
-        );
-        $Self->True(
-            index( $Selenium->get_page_source(), "Settings" ) > -1,
+            $Selenium->execute_script("return \$('.SidebarColumn .WidgetSimple h2:contains(\"Settings\")').length;"),
             "Setting for toggle widgets found on page",
         );
 
         # Check if there is link to CIC search modal dialog from heading (name of the customer user).
         $Self->True(
             $Selenium->find_element( "#CustomerUserInformationCenterHeading", 'css' ),
-            'There is link to customer user information center search modal dialog.',
+            'There is link to customer user information center search modal dialog',
         );
 
         # Check if the assigend ticket numbers are visible in the widget the site (default filter).
@@ -229,11 +235,11 @@ $Selenium->RunTest(
             ->click();
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && !$("#Dashboard0120-CUIC-TicketNew-box.Loading").length'
+                'return typeof($) === "function" && !$("#Dashboard0120-CUIC-TicketNew-box.Loading").length;'
         );
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("li.AdditionalFilter.Selected #DashboardAdditionalFilter0130-CUIC-TicketOpenAccessibleForCustomerUser").length'
+                'return typeof($) === "function" && $("li.AdditionalFilter.Selected #DashboardAdditionalFilter0130-CUIC-TicketOpenAccessibleForCustomerUser").length;'
         );
 
         # Check if the assigend ticket numbers are visible in the widget the site (default filter).
@@ -260,7 +266,7 @@ $Selenium->RunTest(
 
         my $Success;
 
-        # delete created test tickets
+        # Delete created test tickets.
         for my $TicketID (@TicketIDs) {
 
             $Success = $TicketObject->TicketDelete(

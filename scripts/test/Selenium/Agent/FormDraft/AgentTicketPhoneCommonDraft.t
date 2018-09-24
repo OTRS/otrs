@@ -141,10 +141,10 @@ $Selenium->RunTest(
             my $Title = $Test->{Module} . 'FormDraft' . $RandomID;
 
             # Force sub menus to be visible in order to be able to click one of the links.
-            $Selenium->WaitFor(
-                JavaScript =>
-                    'return typeof($) === "function" && $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
+            $Selenium->execute_script(
+                '$("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
             );
+            $Selenium->WaitFor( JavaScript => "return \$('#nav-Communication ul').css('opacity') == 1;" );
 
             # Click on module and switch window.
             $Selenium->find_element(
@@ -174,6 +174,10 @@ $Selenium->RunTest(
                     # make the file upload field visible
                     $Selenium->execute_script(
                         "\$('#FileUpload').css('display', 'block')"
+                    );
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            'return typeof($) === "function" && $("#FileUpload:visible").length;'
                     );
 
                     # upload a file

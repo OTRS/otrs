@@ -268,22 +268,22 @@ $Selenium->RunTest(
 
             # Force sub menus to be visible in order to be able to click one of the links.
             if ( $Test->{Module} eq 'Note' ) {
-                $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof($) === "function" && $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
+                $Selenium->execute_script(
+                    '$("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
                 );
+                $Selenium->WaitFor( JavaScript => "return \$('#nav-Communication ul').css('opacity') == 1;" );
             }
             elsif ( $Test->{Module} eq 'Owner' || $Test->{Module} eq 'Responsible' ) {
-                $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof($) === "function" && $("#nav-People ul").css({ "height": "auto", "opacity": "100" });'
+                $Selenium->execute_script(
+                    '$("#nav-People ul").css({ "height": "auto", "opacity": "100" });'
                 );
+                $Selenium->WaitFor( JavaScript => "return \$('#nav-People ul').css('opacity') == 1;" );
             }
             elsif ( $Test->{Module} eq 'FreeText' ) {
-                $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof($) === "function" && $("#nav-Miscellaneous ul").css({ "height": "auto", "opacity": "100" });'
+                $Selenium->execute_script(
+                    '$("#nav-Miscellaneous ul").css({ "height": "auto", "opacity": "100" });'
                 );
+                $Selenium->WaitFor( JavaScript => "return \$('#nav-Miscellaneous ul').css('opacity') == 1;" );
             }
 
             # Click on module and switch window.
@@ -316,9 +316,15 @@ $Selenium->RunTest(
                 elsif ( $Test->{Fields}->{$Field}->{Type} eq 'Attachment' ) {
 
                     # make the file upload field visible
+                    $Selenium->VerifiedRefresh();
                     $Selenium->execute_script(
                         "\$('#FileUpload').css('display', 'block')"
                     );
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            'return typeof($) === "function" && $("#FileUpload:visible").length;'
+                    );
+                    sleep 1;
 
                     # upload a file
                     $Selenium->find_element( "#FileUpload", 'css' )
@@ -485,9 +491,15 @@ $Selenium->RunTest(
                     );
 
                     # add a second file
+                    $Selenium->VerifiedRefresh();
                     $Selenium->execute_script(
                         "\$('#FileUpload').css('display', 'block')"
                     );
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            'return typeof($) === "function" && $("#FileUpload:visible").length;'
+                    );
+                    sleep 1;
 
                     # upload a file
                     $Selenium->find_element( "#FileUpload", 'css' )
@@ -694,10 +706,10 @@ $Selenium->RunTest(
         }
 
         # Test for Save the draft without JSON error in window, bug#13556 https://bugs.otrs.org/show_bug.cgi?id=13556.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
+        $Selenium->execute_script(
+            '$("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
         );
+        $Selenium->WaitFor( JavaScript => "return \$('#nav-Communication ul').css('opacity') == 1;" );
 
         # Click on 'Note' and switch window.
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
@@ -713,7 +725,7 @@ $Selenium->RunTest(
         );
 
         # Save form in Draft.
-        sleep 1;
+        $Selenium->VerifiedRefresh();
         $Selenium->find_element( "#FormDraftSave", 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>

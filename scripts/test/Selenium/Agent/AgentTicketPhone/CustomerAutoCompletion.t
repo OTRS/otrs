@@ -242,7 +242,8 @@ $Selenium->RunTest(
 
                 # Send a "return" key to trigger the javascript events, because we need a change of the field,
                 #   if no auto complete result exists.
-                $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->send_keys("\n");
+                $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->send_keys("\N{U+E015}");
+                $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->send_keys("\N{U+E007}");
 
                 # Wait for ajax call after customer user selection.
                 $Selenium->WaitFor(
@@ -326,9 +327,7 @@ $Selenium->RunTest(
                     $Selenium->WaitFor(
                         JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length'
                     );
-                    $Selenium->WaitFor(
-                        JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
-                    );
+                    sleep 1;
 
                     # select customer id
                     $Selenium->execute_script(

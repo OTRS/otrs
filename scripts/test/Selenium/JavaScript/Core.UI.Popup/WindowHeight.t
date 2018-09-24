@@ -72,11 +72,16 @@ $Selenium->RunTest(
         # after that open popup with adjusted height.
         my $ParentWindowHeight = $Selenium->get_window_size()->{"height"};
 
-        # Force sub menus to be visible in order to be able to click one of the links.
+        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
+            JavaScript => "return typeof(\$) === 'function' && \$.active == 0"
         );
+
+        # Force sub menus to be visible in order to be able to click one of the links.
+        $Selenium->execute_script(
+            '$("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
+        );
+        $Selenium->WaitFor( JavaScript => "return \$('#nav-Communication ul').css('opacity') == 1;" );
 
         # Click on 'Note' and switch window.
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
@@ -114,11 +119,16 @@ $Selenium->RunTest(
             "Core.UI.Popup.ProfileAdd('Default', { WindowURLParams: 'dependent=yes,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no', Left: 100, Top: 100, Width: 1040, Height: 1700 });"
         );
 
-        # Force sub menus to be visible in order to be able to click one of the links.
+        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
+            JavaScript => "return typeof(\$) === 'function' && \$.active == 0"
         );
+
+        # Force sub menus to be visible in order to be able to click one of the links.
+        $Selenium->execute_script(
+            '$("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
+        );
+        $Selenium->WaitFor( JavaScript => "return \$('#nav-Communication ul').css('opacity') == 1;" );
 
         # Click on 'Note' and switch window.
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();

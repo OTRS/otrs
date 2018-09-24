@@ -157,10 +157,10 @@ $Selenium->RunTest(
 
                 # It's necessary to hide drag&drop upload and show input field.
                 $Selenium->execute_script(
-                    "\$('.DnDUpload').css('display', 'none')"
+                    "\$('.DnDUpload').css('display', 'none');"
                 );
                 $Selenium->execute_script(
-                    "\$('#FileUpload').css('display', 'block')"
+                    "\$('#FileUpload').css('display', 'block');"
                 );
             }
 
@@ -191,7 +191,9 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[0] );
 
         # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#Row2 td.Channel span i.Warning").length;'
+        );
 
         # Verify transmission status is shown as processing.
         $Self->Is(
@@ -315,6 +317,9 @@ $Selenium->RunTest(
 
             # Text body.
             if ( $Field eq 'RichText' ) {
+                $Selenium->WaitFor(
+                    JavaScript => "return \$('#$Selector').length;"
+                );
                 $Self->Is(
                     $Selenium->find_element( "#$Selector", 'css' )->get_value(),
                     $ComposeData{$Field},
@@ -324,6 +329,10 @@ $Selenium->RunTest(
 
             # Attachment.
             elsif ( $Field eq 'FileUpload' ) {
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        "return \$('.AttachmentList tbody tr td.Filename:contains($ComposeData{$Field})').length;"
+                );
                 $Self->True(
                     $Selenium->execute_script(
                         "return \$('.AttachmentList tbody tr td.Filename:contains($ComposeData{$Field})').length;"
@@ -339,6 +348,10 @@ $Selenium->RunTest(
                 if ( $Field eq 'ToCustomer' ) {
                     $Selector =~ s{^To}{}x;
                 }
+
+                $Selenium->WaitFor(
+                    JavaScript => "return \$('#${Selector}TicketText_1').length;"
+                );
 
                 $Self->Is(
                     $Selenium->find_element( "#${Selector}TicketText_1", 'css' )->get_value(),
@@ -364,7 +377,9 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[0] );
 
         # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#Row3 td.Channel span i.Warning").length;'
+        );
 
         # Verify transmission status is shown as processing.
         $Self->Is(
@@ -393,7 +408,7 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
 
         # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length;' );
 
         # Verify that resend screen worked as expected.
         my $HistoryText = "Resent email to \"$ToCustomer\".";

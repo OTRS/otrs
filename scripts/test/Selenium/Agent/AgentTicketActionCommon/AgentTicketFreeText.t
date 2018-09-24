@@ -247,10 +247,15 @@ $Selenium->RunTest(
             # Navigate to zoom view of created test ticket.
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
+            # Wait until page has loaded.
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
+
             # Force sub menus to be visible in order to be able to click one of the links.
+            $Selenium->execute_script("\$('#nav-Miscellaneous ul').css('height', 'auto');");
+            $Selenium->execute_script("\$('#nav-Miscellaneous ul').css('opacity', '1');");
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof($) === "function" && $("#nav-Miscellaneous ul").css({ "height": "auto", "opacity": "100" });'
+                    "return \$('#nav-Miscellaneous ul').css('height') !== '0px' && \$('#nav-Miscellaneous ul').css('opacity') == '1';"
             );
 
             # Click on 'Free Fields' and switch window.
@@ -262,7 +267,7 @@ $Selenium->RunTest(
             $Selenium->switch_to_window( $Handles->[1] );
 
             # Wait until page has loaded, if necessary.
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length' );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length;' );
 
             # Get NoMandatory/Mandatory fields for exist checking.
             my $CheckFields = $Test->{CheckFields};
@@ -272,19 +277,19 @@ $Selenium->RunTest(
                 if ( $Test->{ExpectedExist} == 0 ) {
                     $Self->False(
                         $Selenium->execute_script(
-                            "return \$('#$FieldID').length"
+                            "return \$('#$FieldID').length;"
                         ),
                         "FieldID $FieldID doesn't exist",
                     );
                 }
                 else {
                     $Self->True(
-                        $Selenium->execute_script("return \$('#$FieldID').length"),
+                        $Selenium->execute_script("return \$('#$FieldID').length;"),
                         "FieldID $FieldID exists",
                     );
                     if ( $CheckFields eq 'Mandatory' ) {
                         $Self->Is(
-                            $Selenium->execute_script("return \$('label[for=$FieldID]').hasClass('Mandatory')"),
+                            $Selenium->execute_script("return \$('label[for=$FieldID].Mandatory').length;"),
                             1,
                             "FieldID $FieldID is mandatory",
                         );
@@ -311,10 +316,15 @@ $Selenium->RunTest(
         # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
+        # Wait until page has loaded.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
+
         # Force sub menus to be visible in order to be able to click one of the links.
+        $Selenium->execute_script("\$('#nav-Miscellaneous ul').css('height', 'auto');");
+        $Selenium->execute_script("\$('#nav-Miscellaneous ul').css('opacity', '1');");
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#nav-Miscellaneous ul").css({ "height": "auto", "opacity": "100" });'
+                "return \$('#nav-Miscellaneous ul').css('height') !== '0px' && \$('#nav-Miscellaneous ul').css('opacity') == '1';"
         );
 
         # Click on 'Free Fields' and switch window.
@@ -325,7 +335,7 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
 
         # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length;' );
 
         # Fill all free text fields.
         FREETEXTFIELDS:
@@ -334,7 +344,7 @@ $Selenium->RunTest(
             next FREETEXTFIELDS if $FieldID eq 'SLAID';
 
             $Selenium->execute_script(
-                "\$('#$FieldID').val('$SetFreeTextFields{$FieldID}').trigger('redraw.InputField').trigger('change')"
+                "\$('#$FieldID').val('$SetFreeTextFields{$FieldID}').trigger('redraw.InputField').trigger('change');"
             );
 
             # Wait for AJAX to finish.
@@ -343,7 +353,7 @@ $Selenium->RunTest(
             if ( $FieldID eq 'ServiceID' ) {
 
                 $Selenium->execute_script(
-                    "\$('#SLAID').val('$SetFreeTextFields{SLAID}').trigger('redraw.InputField').trigger('change')"
+                    "\$('#SLAID').val('$SetFreeTextFields{SLAID}').trigger('redraw.InputField').trigger('change');"
                 );
 
                 # Wait for AJAX to finish.
@@ -409,7 +419,7 @@ $Selenium->RunTest(
                 }
 
                 $Selenium->execute_script(
-                    "\$('#$FieldID').val('$Test->{$FieldID}').trigger('redraw.InputField').trigger('change')"
+                    "\$('#$FieldID').val('$Test->{$FieldID}').trigger('redraw.InputField').trigger('change');"
                 );
 
                 # Wait for AJAX to finish.
@@ -417,7 +427,7 @@ $Selenium->RunTest(
             }
 
             # Wait until opened field (due to error) has closed.
-            $Selenium->WaitFor( JavaScript => 'return $("div.jstree-wholerow:visible").length == 0' );
+            $Selenium->WaitFor( JavaScript => 'return $("div.jstree-wholerow:visible").length == 0;' );
 
             # Submit.
             $Selenium->find_element( "#submitRichText", 'css' )->click();
@@ -426,7 +436,7 @@ $Selenium->RunTest(
             if ($ExpectedErrorFieldID) {
                 $Self->True(
                     $Selenium->execute_script(
-                        "return \$('#$ExpectedErrorFieldID').hasClass('Error')"
+                        "return \$('#$ExpectedErrorFieldID.Error').length;"
                     ),
                     "FieldID $ExpectedErrorFieldID is empty",
                 );
@@ -451,15 +461,6 @@ $Selenium->RunTest(
             ResponsibleUpdate => "Changed responsible to \"$TestUserLogin\" ($TestUserID).",
             QueueUpdate       => "Changed queue to \"$QueueName\" ($QueueID) from \"Raw\" (2).",
             StateUpdate       => "Changed state from \"new\" to \"$StateName\"."
-        );
-
-        # Navigate to zoom view of created test ticket.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
-
-        # Force sub menus to be visible in order to be able to click one of the links.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $("#nav-History ul").css({ "height": "auto", "opacity": "100" });'
         );
 
         # Navigate to AgentTicketHistory of created test ticket.

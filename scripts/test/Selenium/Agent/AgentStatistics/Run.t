@@ -134,8 +134,19 @@ $Selenium->RunTest(
         $Selenium->WaitFor( AlertPresent => 1 );
         $Selenium->accept_alert();
 
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && !\$('a[href*=\"Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast\"]').length;"
+        );
+
         $Self->True(
-            index( $Selenium->get_page_source(), "Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast" ) == -1,
+            $Selenium->execute_script(
+                "return !\$('a[href*=\"Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast\"]').length;"
+            ),
             "Test statistic is deleted - $StatsIDLast "
         );
 

@@ -630,8 +630,9 @@ $Selenium->RunTest(
 
                         $Selenium->find_element( "input[name='$FieldName'] + .RemoveButton", 'css' )->click();
 
+                        sleep 1;
                         $Self->False(
-                            $Selenium->find_element( $FieldName, 'name' )->is_displayed(),
+                            $Selenium->execute_script("return \$('#SearchForm input[name=\"$FieldName\"]').length;"),
                             "Field '$FieldName' is not displayed'"
                         );
                     }

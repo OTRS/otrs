@@ -12,35 +12,30 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get needed objects
         my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
         my $CustomerUserObject    = $Kernel::OM->Get('Kernel::System::CustomerUser');
         my $TicketObject          = $Kernel::OM->Get('Kernel::System::Ticket');
-        my $ConfigObject          = $Kernel::OM->Get('Kernel::Config');
         my $Helper                = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # disable email checks when create new customer user
+        # Do not check email addresses.
         $Helper->ConfigSettingChange(
             Key   => 'CheckEmailAddresses',
             Value => 0,
         );
 
-        # get needed variables
         my @CustomerCompanies;
         my @CustomerUsers;
         my @TicketIDs;
 
-        # create test customer companies, create customer user and ticket for each one
+        # Create test customer companies, create customer user and ticket for each one.
         for ( 0 .. 2 ) {
             my $RandomID = $Helper->GetRandomID();
 
-            # create test customer company
             my $CustomerCompanyID = $CustomerCompanyObject->CustomerCompanyAdd(
                 CustomerID             => 'Company' . $RandomID,
                 CustomerCompanyName    => 'CompanyName' . $RandomID,
@@ -58,13 +53,11 @@ $Selenium->RunTest(
                 "CustomerCompanyID $CustomerCompanyID is created",
             );
 
-            # get test customer company
             my %CustomerCompany = $CustomerCompanyObject->CustomerCompanyGet(
                 CustomerID => $CustomerCompanyID,
             );
             push @CustomerCompanies, \%CustomerCompany;
 
-            # create test customer user
             my $CustomerUserID = $CustomerUserObject->CustomerUserAdd(
                 Source         => 'CustomerUser',
                 UserFirstname  => 'Firstname' . $RandomID,
@@ -81,13 +74,11 @@ $Selenium->RunTest(
                 "CustomerUserID $CustomerUserID is created",
             );
 
-            # get test customer user
             my %CustomerUser = $CustomerUserObject->CustomerUserDataGet(
                 User => $CustomerUserID,
             );
             push @CustomerUsers, \%CustomerUser;
 
-            # create test ticket
             my $TicketID = $TicketObject->TicketCreate(
                 Title        => 'TicketTitle' . $RandomID,
                 Queue        => 'Raw',
@@ -106,7 +97,7 @@ $Selenium->RunTest(
             push @TicketIDs, $TicketID;
         }
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -117,10 +108,8 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # create test cases
         my @Tests = (
             {
                 Name        => 'Navigate to AgentCustomerInformationCenter screen',
@@ -183,50 +172,56 @@ $Selenium->RunTest(
             }
         );
 
-        # run tests
         for my $Test (@Tests) {
 
             for my $Search ( @{ $Test->{Searches} } ) {
 
-                # get AgentCustomerInformationCenterSearch modal dialog
+                # Get AgentCustomerInformationCenterSearch modal dialog.
                 if ( $Test->{ReachMethod} eq 'VerifiedGet' ) {
                     $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentCustomerInformationCenter");
                 }
                 else {
-                    $Selenium->execute_script("\$('$Test->{ReachField}').click()");
+                    $Selenium->execute_script("\$('$Test->{ReachField}').click();");
                 }
 
                 $Selenium->WaitFor(
                     JavaScript =>
-                        'return typeof($) === "function" && $("#AgentCustomerInformationCenterSearchCustomerID").length'
+                        "return typeof(\$) === 'function' && \$('$Search->{FieldID}:visible').length;"
                 );
 
-                # input value
                 $Selenium->find_element( "$Search->{FieldID}", 'css' )->send_keys( $Search->{SendKeys} );
                 $Selenium->WaitFor(
-                    JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
+                    JavaScript => "return \$('li.ui-menu-item:visible:contains($Search->{InputValue})').length;"
                 );
 
-                $Selenium->execute_script("\$('li.ui-menu-item:contains($Search->{InputValue})').click()");
+                $Selenium->execute_script("\$('li.ui-menu-item:contains($Search->{InputValue})').click();");
                 $Selenium->WaitFor(
                     JavaScript =>
-                        'return typeof($) === "function" && !$("#AgentCustomerInformationCenterSearchCustomerID").length'
+                        "return typeof(\$) === 'function' && !\$('.Dialog.Modal').length;"
+                );
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
+                );
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        "return typeof(\$) === 'function' && \$('#CustomerInformationCenterHeading').length;"
                 );
 
-                # check customer information center page
+                # Check customer information center page.
                 $Self->Is(
-                    $Selenium->execute_script("return \$('#CustomerInformationCenterHeading').text()"),
+                    $Selenium->execute_script("return \$('#CustomerInformationCenterHeading').text();"),
                     $Test->{CheckTitle},
                     "Title '$Test->{CheckTitle}' found on page"
                 );
                 $Self->Is(
-                    $Selenium->execute_script("return \$('.MasterActionLink:contains($Test->{CheckUser})').length"),
+                    $Selenium->execute_script("return \$('.MasterActionLink:contains($Test->{CheckUser})').length;"),
                     1,
                     "Customer user '$Test->{CheckUser}' found on page"
                 );
                 $Self->Is(
                     $Selenium->execute_script(
-                        "return \$('a[href*=\"Action=AgentTicketZoom;TicketID=$Test->{CheckTicket}\"]').length"
+                        "return \$('a[href*=\"Action=AgentTicketZoom;TicketID=$Test->{CheckTicket}\"]').length;"
                     ),
                     1,
                     "TicketID $Test->{CheckTicket} found on page"
@@ -234,13 +229,10 @@ $Selenium->RunTest(
             }
         }
 
-        # cleanup
         my $Success;
-
-        # get DB object
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-        # delete test created tickets
+        # Delete test created tickets.
         for my $TicketID (@TicketIDs) {
             $Success = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
@@ -261,7 +253,7 @@ $Selenium->RunTest(
             );
         }
 
-        # delete test created customer users
+        # Delete test created customer users.
         for my $CustomerUser (@CustomerUsers) {
             $Success = $DBObject->Do(
                 SQL  => "DELETE FROM customer_user WHERE customer_id = ?",
@@ -273,7 +265,7 @@ $Selenium->RunTest(
             );
         }
 
-        # delete test created customer companies
+        # Delete test created customer companies.
         for my $CustomerCompany (@CustomerCompanies) {
             $Success = $DBObject->Do(
                 SQL  => "DELETE FROM customer_company WHERE customer_id = ?",
@@ -285,10 +277,9 @@ $Selenium->RunTest(
             );
         }
 
-        # get cache object
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-        # make sure cache is correct
+        # Make sure cache is correct.
         for my $Cache (qw(Ticket CustomerUser CustomerCompany)) {
             $CacheObject->CleanUp( Type => $Cache );
         }

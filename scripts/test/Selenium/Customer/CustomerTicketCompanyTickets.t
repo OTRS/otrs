@@ -213,6 +213,10 @@ $Selenium->RunTest(
 
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=CompanyTickets");
 
+        # Wait until new screen has loaded.
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('.Overview .MasterAction a').length;" );
+
         # search for both tickets on Company Tickets screen (default filter is Open)
         for my $Count ( 0 .. 1 ) {
             $Self->True(
@@ -231,8 +235,10 @@ $Selenium->RunTest(
                 "\$('#CustomerIDs').val('$CustomerIDs[$Count]').trigger('redraw.InputField').trigger('change');"
             );
 
-            # wait until new screen has loaded
-            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function'" );
+            # Wait until new screen has loaded.
+            $Selenium->WaitFor(
+                JavaScript => "return typeof(\$) === 'function' && \$('.Overview .MasterAction a').length;" );
+            sleep 1;
 
             $Self->True(
                 $Selenium->find_element(

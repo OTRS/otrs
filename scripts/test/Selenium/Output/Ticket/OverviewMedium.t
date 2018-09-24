@@ -137,9 +137,11 @@ $Selenium->RunTest(
             JavaScript =>
                 'return typeof($) === "function" && $("a[href*=\'SortBy=TicketNumber;OrderBy=Up\']").length'
         );
+        $Selenium->VerifiedRefresh();
 
         # Set 10 tickets per page.
         $Selenium->find_element( "a#ShowContextSettingsDialog", 'css' )->click();
+        sleep 1;
         $Selenium->WaitFor(
             JavaScript => 'return $(".Dialog.Modal #UserTicketOverviewMediumPageShown").length'
         );

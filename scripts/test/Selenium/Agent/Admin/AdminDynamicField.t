@@ -26,7 +26,7 @@ my $CheckBredcrumb = sub {
 
     for my $BreadcrumbText ( $OverviewTitle, $BreadcrumbText ) {
         $Self->Is(
-            $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+            $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim();"),
             $BreadcrumbText,
             "Breadcrumb text '$BreadcrumbText' is found on screen"
         );
@@ -133,7 +133,7 @@ $Selenium->RunTest(
                 );
 
                 # Wait until page has finished loading.
-                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length;' );
 
                 # Modify names in two cases.
                 if ( $ID eq 'DateTime' ) {
@@ -183,7 +183,7 @@ $Selenium->RunTest(
                 # Check class of invalid DynamicField in the overview table.
                 $Self->True(
                     $Selenium->execute_script(
-                        "return \$('tr.Invalid td a:contains($RandomID)').length"
+                        "return \$('tr.Invalid td a:contains($RandomID)').length;"
                     ),
                     "There is a class 'Invalid' for test DynamicField",
                 );
@@ -231,19 +231,21 @@ $Selenium->RunTest(
 
                 $Selenium->accept_alert();
 
-                $Selenium->WaitFor( JavaScript => "return !\$('.Dialog').length" );
+                $Selenium->WaitFor( JavaScript => "return \$('.Dialog').length;" );
                 $Selenium->WaitFor(
                     JavaScript =>
-                        'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+                        "return typeof(\$) === 'function' && \$('#DynamicFieldID_$DynamicFieldID').length == 0;"
                 );
 
                 # Check if dynamic filed is deleted.
                 $Self->False(
                     $Selenium->execute_script(
-                        "return \$('#DynamicFieldID_$DynamicFieldID').length"
+                        "return \$('#DynamicFieldID_$DynamicFieldID').length;"
                     ),
-                    "DynamicField ($Type-$ID) $RandomID is deleted!",
+                    "DynamicField ($Type-$ID) $RandomID is deleted",
                 );
+
+                $Selenium->VerifiedRefresh();
             }
 
             # Make sure the cache is correct.
@@ -284,7 +286,7 @@ $Selenium->RunTest(
         # Set 10 fields per page.
         $Selenium->find_element( "a#ShowContextSettingsDialog", 'css' )->click();
         $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $("#AdminDynamicFieldsOverviewPageShown").length'
+            JavaScript => 'return typeof($) === "function" && $("#AdminDynamicFieldsOverviewPageShown").length;'
         );
         $Selenium->execute_script(
             "\$('#AdminDynamicFieldsOverviewPageShown').val('10').trigger('redraw.InputField').trigger('change');"
@@ -303,11 +305,11 @@ $Selenium->RunTest(
         );
 
         # Wait until page has finished loading.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length;' );
 
         # Check FieldOrder default value.
         $Self->Is(
-            $Selenium->execute_script("return \$('#FieldOrder').val()"),
+            $Selenium->execute_script("return \$('#FieldOrder').val();"),
             $MaxFieldOrder,
             "MaxFieldOrder default value ($MaxFieldOrder) is correct",
         );
@@ -324,11 +326,11 @@ $Selenium->RunTest(
         );
 
         # Wait until page has finished loading.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length;' );
 
         # Check FieldOrder default value.
         $Self->Is(
-            $Selenium->execute_script("return \$('#FieldOrder').val()"),
+            $Selenium->execute_script("return \$('#FieldOrder').val();"),
             $MaxFieldOrder,
             "MaxFieldOrder default value ($MaxFieldOrder) is correct",
         );
