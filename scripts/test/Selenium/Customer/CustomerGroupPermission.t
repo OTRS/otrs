@@ -100,8 +100,10 @@ $Selenium->RunTest(
         $Selenium->find_element(
             "//button[\@name='CustomerFrontend::Module###CustomerTicketOverview#NavBar3#NewGroupElement'][\@type='submit']"
         )->VerifiedClick();
-        $Selenium->WaitFor( JavaScript =>
-                'return typeof($) === "function" && $("input[name*=CustomerTicketOverview#NavBar3#Group]").length;' );
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("input[name*=CustomerTicketOverview#NavBar3#Group]").length;'
+        );
 
         my $ConfigGroupElement = $Selenium->find_element(
             "//input[\@name='CustomerFrontend::Module###CustomerTicketOverview#NavBar3#Group[]']"
