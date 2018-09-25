@@ -1,4 +1,5 @@
 #6.0.12 2018-??-??
+ - 2018-09-25 Fixed bug#[13754](https://bugs.otrs.org/show_bug.cgi?id=13754) - Overridden module configuration lost after update.
  - 2018-09-25 Fixed bug#[14022](https://bugs.otrs.org/show_bug.cgi?id=14022) - Parsing Error System Configuration.
  - 2018-09-24 Fixed bug#[14077](https://bugs.otrs.org/show_bug.cgi?id=14077) - Logged-in Users Dashlet missing css.
  - 2018-09-19 Fixed bug#[14072](https://bugs.otrs.org/show_bug.cgi?id=14072) - Type activation warning disappears after new type is added.

@@ -4878,13 +4878,41 @@ sub _ConfigurationDeploy {
         }
     }
 
+    #
+    # Normally, on package modifications, a configuration settings cleanup needs to happen,
+    #   to prevent old configuration settings from breaking the system.
+    #
+    # This does not work in the case of updates: there we can have situations where the packages
+    #   only exist in the DB, but not yet on the file system, and need to be reinstalled. We have
+    #   to prevent the cleanup until all packages are properly installed again.
+    #
+    # Please see bug#13754 for more information.
+    #
+
+    my $CleanUp = 1;
+
+    PACKAGE:
+    for my $Package ( $Self->RepositoryList() ) {
+
+        # Only check the deployment state of the XML configuration files for performance reasons.
+        #   Otherwise, this would be too slow on systems with many packages.
+        $CleanUp = $Self->_ConfigurationFilesDeployCheck(
+            Name    => $Package->{Name}->{Content},
+            Version => $Package->{Version}->{Content},
+        );
+
+        # Stop if any package has its configuration wrong deployed, configuration cleanup should not
+        #   take place in the lines below. Otherwise modified setting values can be lost.
+        last PACKAGE if !$CleanUp;
+    }
+
     my $SysConfigObject = Kernel::System::SysConfig->new();
 
     if (
         !$SysConfigObject->ConfigurationXML2DB(
             UserID  => 1,
             Force   => 1,
-            CleanUp => 1,
+            CleanUp => $CleanUp,
         )
         )
     {
@@ -5326,6 +5354,74 @@ sub _RepositoryCacheClear {
     );
 
     return 1;
+}
+
+=head2 _ConfigurationFilesDeployCheck()
+
+check if package configuration files are deployed correctly.
+
+    my $Success = $PackageObject->_ConfigurationFilesDeployCheck(
+        Name    => 'Application A',
+        Version => '1.0',
+    );
+
+=cut
+
+sub _ConfigurationFilesDeployCheck {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(Name Version)) {
+        if ( !defined $Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$Needed not defined!",
+            );
+            return;
+        }
+    }
+
+    my $Package = $Self->RepositoryGet( %Param, Result => 'SCALAR' );
+    my %Structure = $Self->PackageParse( String => $Package );
+
+    return 1 if !$Structure{Filelist};
+    return 1 if ref $Structure{Filelist} ne 'ARRAY';
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    my $Success = 1;
+
+    FILE:
+    for my $File ( @{ $Structure{Filelist} } ) {
+
+        my $Extension = substr $File->{Location}, -4, 4;
+
+        next FILE if lc $Extension ne '.xml';
+
+        my $LocalFile = $Self->{Home} . '/' . $File->{Location};
+
+        if ( !-e $LocalFile ) {
+            $Success = 0;
+            last FILE;
+        }
+
+        my $Content = $MainObject->FileRead(
+            Location => $Self->{Home} . '/' . $File->{Location},
+            Mode     => 'binmode',
+        );
+
+        if ( !$Content ) {
+            $Success = 0;
+            last FILE;
+        }
+
+        if ( ${$Content} ne $File->{Content} ) {
+            $Success = 0;
+            last FILE;
+        }
+    }
+
+    return $Success;
 }
 
 sub DESTROY {
