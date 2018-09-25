@@ -153,6 +153,7 @@ $Selenium->RunTest(
         );
 
         # Set tickets per page to 10.
+        $Selenium->VerifiedRefresh();
         $Selenium->find_element( "#ShowContextSettingsDialog", 'css' )->click();
         $Selenium->WaitFor(
             JavaScript => 'return $(".Dialog.Modal #UserTicketOverviewSmallPageShown").length'
