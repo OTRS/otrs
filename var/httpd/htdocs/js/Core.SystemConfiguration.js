@@ -407,7 +407,6 @@ var Core = Core || {};
             if($(this).parent().parent().hasClass("HashItem")) {
                 // update key name
                 Key = $(this).parent().parent().find(".Key").val();
-                Key = Core.App.EscapeHTML(Key);
 
                 FullName = FullName.substr(0, FullName.lastIndexOf("###"));
                 FullName += "###" + Key;
