@@ -373,6 +373,7 @@ $Selenium->RunTest(
             }
 
             # Create Draft and submit.
+            sleep 1;
             $Selenium->execute_script("\$('#FormDraftSave').click();");
             $Selenium->WaitFor(
                 JavaScript =>
@@ -562,6 +563,7 @@ $Selenium->RunTest(
             }
 
             # Try to add draft with same name.
+            sleep 1;
             $Selenium->execute_script("\$('#FormDraftSave').click();");
             $Selenium->WaitFor(
                 JavaScript =>
