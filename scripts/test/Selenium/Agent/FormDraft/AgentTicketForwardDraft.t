@@ -171,9 +171,15 @@ $Selenium->RunTest(
             elsif ( $FormDraftCase->{Fields}->{$Field}->{Type} eq 'Attachment' ) {
 
                 # Make the file upload field visible.
+                $Selenium->VerifiedRefresh();
                 $Selenium->execute_script(
                     "\$('#FileUpload').css('display', 'block')"
                 );
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && $("#FileUpload:visible").length;'
+                );
+                sleep 1;
 
                 # Upload a file.
                 $Selenium->find_element( "#FileUpload", 'css' )
@@ -201,7 +207,7 @@ $Selenium->RunTest(
         }
 
         # Create FormDraft and submit.
-        $Selenium->find_element( "#FormDraftSave", 'css' )->click();
+        $Selenium->execute_script("\$('#FormDraftSave').click();");
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $("#FormDraftTitle").length;'
@@ -236,7 +242,8 @@ $Selenium->RunTest(
         );
 
         # Try to create FormDraft with same name, expecting error.
-        $Selenium->find_element( "#FormDraftSave", 'css' )->click();
+        $Selenium->VerifiedRefresh();
+        $Selenium->execute_script("\$('#FormDraftSave').click();");
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $("#FormDraftTitle").length;'
@@ -352,9 +359,15 @@ $Selenium->RunTest(
                 );
 
                 # Add a second file.
+                $Selenium->VerifiedRefresh();
                 $Selenium->execute_script(
                     "\$('#FileUpload').css('display', 'block')"
                 );
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && $("#FileUpload:visible").length;'
+                );
+                sleep 1;
 
                 # Upload a file.
                 $Selenium->find_element( "#FileUpload", 'css' )

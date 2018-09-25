@@ -171,7 +171,8 @@ $Selenium->RunTest(
                 }
                 elsif ( $Test->{Fields}->{$Field}->{Type} eq 'Attachment' ) {
 
-                    # make the file upload field visible
+                    # Make the file upload field visible.
+                    $Selenium->VerifiedRefresh();
                     $Selenium->execute_script(
                         "\$('#FileUpload').css('display', 'block')"
                     );
@@ -179,8 +180,9 @@ $Selenium->RunTest(
                         JavaScript =>
                             'return typeof($) === "function" && $("#FileUpload:visible").length;'
                     );
+                    sleep 1;
 
-                    # upload a file
+                    # Upload a file.
                     $Selenium->find_element( "#FileUpload", 'css' )
                         ->send_keys( $ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.pdf" );
 
@@ -202,7 +204,7 @@ $Selenium->RunTest(
             }
 
             # Create FormDraft and submit.
-            $Selenium->find_element( "#FormDraftSave", 'css' )->click();
+            $Selenium->execute_script("\$('#FormDraftSave').click();");
             $Selenium->WaitFor(
                 JavaScript =>
                     'return typeof($) === "function" && $("#FormDraftTitle").length;'
@@ -310,12 +312,18 @@ $Selenium->RunTest(
                         "Only one file present"
                     );
 
-                    # add a second file
+                    # Add a second file.
+                    $Selenium->VerifiedRefresh();
                     $Selenium->execute_script(
                         "\$('#FileUpload').css('display', 'block')"
                     );
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            'return typeof($) === "function" && $("#FileUpload:visible").length;'
+                    );
+                    sleep 1;
 
-                    # upload a file
+                    # Upload a file.
                     $Selenium->find_element( "#FileUpload", 'css' )
                         ->send_keys( $ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.doc" );
 

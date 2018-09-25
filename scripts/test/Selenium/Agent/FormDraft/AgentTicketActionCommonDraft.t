@@ -315,7 +315,7 @@ $Selenium->RunTest(
                 }
                 elsif ( $Test->{Fields}->{$Field}->{Type} eq 'Attachment' ) {
 
-                    # make the file upload field visible
+                    # Make the file upload field visible.
                     $Selenium->VerifiedRefresh();
                     $Selenium->execute_script(
                         "\$('#FileUpload').css('display', 'block')"
@@ -326,7 +326,7 @@ $Selenium->RunTest(
                     );
                     sleep 1;
 
-                    # upload a file
+                    # Upload a file.
                     $Selenium->find_element( "#FileUpload", 'css' )
                         ->send_keys( $ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.pdf" );
 
@@ -373,7 +373,7 @@ $Selenium->RunTest(
             }
 
             # Create Draft and submit.
-            $Selenium->find_element( "#FormDraftSave", 'css' )->click();
+            $Selenium->execute_script("\$('#FormDraftSave').click();");
             $Selenium->WaitFor(
                 JavaScript =>
                     'return typeof($) === "function" && $("#FormDraftTitle").length && $("#SaveFormDraft").length;'
@@ -490,7 +490,7 @@ $Selenium->RunTest(
                         $Test->{Module} . " - Only one file present"
                     );
 
-                    # add a second file
+                    # Add a second file.
                     $Selenium->VerifiedRefresh();
                     $Selenium->execute_script(
                         "\$('#FileUpload').css('display', 'block')"
@@ -501,7 +501,7 @@ $Selenium->RunTest(
                     );
                     sleep 1;
 
-                    # upload a file
+                    # Upload a file.
                     $Selenium->find_element( "#FileUpload", 'css' )
                         ->send_keys( $ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.doc" );
 
@@ -562,7 +562,7 @@ $Selenium->RunTest(
             }
 
             # Try to add draft with same name.
-            $Selenium->find_element( "#FormDraftSave", 'css' )->click();
+            $Selenium->execute_script("\$('#FormDraftSave').click();");
             $Selenium->WaitFor(
                 JavaScript =>
                     'return typeof($) === "function" && $("#FormDraftTitle").length && $("#SaveFormDraft").length;'
@@ -726,7 +726,7 @@ $Selenium->RunTest(
 
         # Save form in Draft.
         $Selenium->VerifiedRefresh();
-        $Selenium->find_element( "#FormDraftSave", 'css' )->click();
+        $Selenium->execute_script("\$('#FormDraftSave').click();");
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $("#FormDraftTitle").length && $("#SaveFormDraft").length;'

@@ -132,10 +132,10 @@ $Selenium->RunTest(
         }
 
         # Create FormDraft and submit.
-        $Selenium->find_element( "#FormDraftSave", 'css' )->click();
+        $Selenium->execute_script("\$('#FormDraftSave').click();");
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#FormDraftTitle").length && $("#SaveFormDraft").length'
+                'return typeof($) === "function" && $("#FormDraftTitle").length && $("#SaveFormDraft").length;'
         );
         $Selenium->find_element( "#FormDraftTitle", 'css' )->send_keys($Title);
         $Selenium->find_element( "#SaveFormDraft",  'css' )->click();
@@ -186,10 +186,10 @@ $Selenium->RunTest(
         }
 
         # Try to create FormDraft with same name, expecting error.
-        $Selenium->find_element( "#FormDraftSave", 'css' )->click();
+        $Selenium->execute_script("\$('#FormDraftSave').click();");
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#FormDraftTitle").length && $("#SaveFormDraft").length'
+                'return typeof($) === "function" && $("#FormDraftTitle").length && $("#SaveFormDraft").length;'
         );
         $Selenium->find_element( "#FormDraftTitle", 'css' )->send_keys($Title);
         $Selenium->find_element( "#SaveFormDraft",  'css' )->click();
