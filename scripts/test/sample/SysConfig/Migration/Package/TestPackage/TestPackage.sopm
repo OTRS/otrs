@@ -4,7 +4,7 @@
     <Version>0.0.0</Version>
     <Vendor>OTRS AG</Vendor>
     <URL>https://otrs.com/</URL>
-    <License>GNU AFFERO GENERAL PUBLIC LICENSE Version 3, November 2007</License>
+    <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
     <Description Lang="en">Test package.</Description>
     <Filelist>
         <File Permission="644" Location="Kernel/Config/Files/XML/TestPackage.xml" />
