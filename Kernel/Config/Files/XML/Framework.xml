@@ -157,6 +157,7 @@
                 <Item Key="id" Translatable="1">Indonesian</Item>
                 <Item Key="it" Translatable="1">Italian</Item>
                 <Item Key="ja" Translatable="1">Japanese</Item>
+                <Item Key="ko" Translatable="1">Korean</Item>
                 <Item Key="lt" Translatable="1">Lithuanian</Item>
                 <Item Key="lv" Translatable="1">Latvian</Item>
                 <Item Key="ms" Translatable="1">Malay</Item>
@@ -212,6 +213,7 @@
                 <Item Key="id">Bahasa Indonesia</Item>
                 <Item Key="it">Italiano</Item>
                 <Item Key="ja">日本語</Item>
+                <Item Key="ko">한국어</Item>
                 <Item Key="lt">Lietuvių kalba</Item>
                 <Item Key="lv">Latvijas</Item>
                 <Item Key="ms">Melayu</Item>
