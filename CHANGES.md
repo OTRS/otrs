@@ -1,4 +1,6 @@
-#6.0.12 2018-??-??
+#6.0.13 2018-??-??
+
+#6.0.12 2018-10-05
  - 2018-09-27 Updated translations, thanks to all translators.
  - 2018-09-27 Added Korean language, thanks to 신홍열.
  - 2018-09-27 Fixed bug#[13623](https://bugs.otrs.org/show_bug.cgi?id=13623) - Long running DBUpgrade from OTRS 5 to OTRS 6 due to inefficient SQL queries.
