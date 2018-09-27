@@ -1,15 +1,16 @@
-# 
 # Translators:
-# Krešimir Raič, 2015
-# Mirjana Gabriel <mirjana.gabriel2@gmail.com>, 2015
-# S7 Design d.o.o. <otrs@s7designcreative.com>, 2015
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Krešimir Raič, 2018
+# Mirjana Gabriel <mirjana.gabriel2@gmail.com>, 2018
+# Udo Bretz, 2018
+# S7 Design d.o.o. <otrs@s7designcreative.com>, 2018
 msgid ""
 msgstr ""
-"Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-09-13 21:46+0000\n"
-"PO-Revision-Date: 2018-09-13 21:49+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: Croatian (http://www.transifex.com/otrs/OTRS/language/hr/)\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-09-27 16:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: S7 Design d.o.o. <otrs@s7designcreative.com>, 2018\n"
+"Language-Team: Croatian (https://www.transifex.com/otrs/teams/23435/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1280,7 +1281,8 @@ msgstr "Ova funkcija je isključena!"
 #. Template: AdminCustomerGroup
 msgid ""
 "Just use this feature if you want to define group permissions for customers."
-msgstr "Ovu funkciju koristite ako želite definirati grupne dozvole za korisnike."
+msgstr ""
+"Ovu funkciju koristite ako želite definirati grupne dozvole za korisnike."
 
 #. Template: AdminCustomerGroup
 msgid "Enable it here!"
@@ -1312,7 +1314,9 @@ msgstr "Izaberi dozvole za korisnik:grupa"
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets"
 " will not be available for the customer)."
-msgstr "Ako ništa nije izabrano, onda nema dozvola u ovoj grupi (kartice neće biti dostupne korisniku)."
+msgstr ""
+"Ako ništa nije izabrano, onda nema dozvola u ovoj grupi (kartice neće biti "
+"dostupne korisniku)."
 
 #. Template: AdminCustomerGroup
 msgid "Search Results"
@@ -1536,7 +1540,9 @@ msgstr ""
 msgid ""
 "You can manage these groups via the configuration setting "
 "\"CustomerGroupAlwaysGroups\"."
-msgstr "Možete upravljati ovim grupama preko konfiguracijskih postavki \"CustomerGroupAlwaysGroups\"."
+msgstr ""
+"Možete upravljati ovim grupama preko konfiguracijskih postavki "
+"\"CustomerGroupAlwaysGroups\"."
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
@@ -2039,7 +2045,9 @@ msgstr "Trenutno ovaj generički operaterski zadatak neće raditi automatski."
 msgid ""
 "To enable automatic execution select at least one value from minutes, hours "
 "and days!"
-msgstr "Da bi ste omogućili automatsko izvršavanje izaberite bar jednu vrijednost: minute, sate ili dane!"
+msgstr ""
+"Da bi ste omogućili automatsko izvršavanje izaberite bar jednu vrijednost: "
+"minute, sate ili dane!"
 
 #. Template: AdminGenericAgent
 msgid "Event Based Execution (Single Ticket)"
@@ -2381,7 +2389,8 @@ msgstr "CMD"
 msgid ""
 "This command will be executed. ARG[0] will be the ticket number. ARG[1] the "
 "ticket id."
-msgstr "Ova naredba će biti izvršena. ARG[0] je broj kartice, a ARG[1] ID kartice."
+msgstr ""
+"Ova naredba će biti izvršena. ARG[0] je broj kartice, a ARG[1] ID kartice."
 
 #. Template: AdminGenericAgent
 msgid "Delete tickets"
@@ -2391,7 +2400,8 @@ msgstr "Obriši kartice"
 msgid ""
 "Warning: All affected tickets will be removed from the database and cannot "
 "be restored!"
-msgstr "UPOZORENJE: Sve obuhvaćene kartice će biti nepovratno uklonjene iz baze!"
+msgstr ""
+"UPOZORENJE: Sve obuhvaćene kartice će biti nepovratno uklonjene iz baze!"
 
 #. Template: AdminGenericAgent
 msgid "Execute Custom Module"
@@ -2415,7 +2425,9 @@ msgstr "%s obuhvaćenih kartica. Što želite napraviti?"
 
 #. Template: AdminGenericAgent
 msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
-msgstr "Upozorenje: Upotrijebili ste opciju za BRISANJE. Sve obrisane kartice bit će izgubljene!"
+msgstr ""
+"Upozorenje: Upotrijebili ste opciju za BRISANJE. Sve obrisane kartice bit će"
+" izgubljene!"
 
 #. Template: AdminGenericAgent
 msgid ""
@@ -3913,13 +3925,17 @@ msgstr "Dodaj grupu"
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
-msgstr "\"admin\" grupa služi za pristup administrativnom prostoru a \"stats\" grupa prostoru statistike."
+msgstr ""
+"\"admin\" grupa služi za pristup administrativnom prostoru a \"stats\" grupa"
+" prostoru statistike."
 
 #. Template: AdminGroup
 msgid ""
 "Create new groups to handle access permissions for different groups of agent"
 " (e. g. purchasing department, support department, sales department, ...). "
-msgstr "Kreirajte nove grupe da bi ste lakše upravljali dozvolama za različite zaposlenike (npr. prema odjelima)"
+msgstr ""
+"Kreirajte nove grupe da bi ste lakše upravljali dozvolama za različite "
+"zaposlenike (npr. prema odjelima)"
 
 #. Template: AdminGroup
 msgid "It's useful for ASP solutions. "
@@ -4485,7 +4501,9 @@ msgstr "Dodaj PGP ključ"
 
 #. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
-msgstr "Na ovaj način možete direktno uređivati komplet ključeva podešen u sistemskim opcijama."
+msgstr ""
+"Na ovaj način možete direktno uređivati komplet ključeva podešen u "
+"sistemskim opcijama."
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
@@ -4505,7 +4523,7 @@ msgstr "Bit"
 
 #. Template: AdminPGP
 msgid "Fingerprint"
-msgstr ""
+msgstr "Sažetak"
 
 #. Template: AdminPGP
 msgid "Expires"
@@ -4543,7 +4561,9 @@ msgstr "Instaliraj paket ponovo"
 msgid ""
 "Do you really want to reinstall this package? Any manual changes will be "
 "lost."
-msgstr "Da li uistinu želite ponovno instalirati ovaj paket? Sve eventualne ručne promjene bit će izgubljene."
+msgstr ""
+"Da li uistinu želite ponovno instalirati ovaj paket? Sve eventualne ručne "
+"promjene bit će izgubljene."
 
 #. Template: AdminPackageManager
 msgid "Go to updating instructions"
@@ -4863,19 +4883,25 @@ msgstr ""
 msgid ""
 "To dispatch or filter incoming emails based on email headers. Matching using"
 " Regular Expressions is also possible."
-msgstr "Radi otpreme ili filtriranja dolaznih poruka na osnovu zaglavlja. Uporaba regularnih izraza je također moguća."
+msgstr ""
+"Radi otpreme ili filtriranja dolaznih poruka na osnovu zaglavlja. Uporaba "
+"regularnih izraza je također moguća."
 
 #. Template: AdminPostMasterFilter
 msgid ""
 "If you want to match only the email address, use "
 "EMAILADDRESS:info@example.com in From, To or Cc."
-msgstr "Ukoliko želite usklađivanje samo adresa e-pošte, koristite EMAILADDRESS:info@example.com u \"Od\", \"Za\" ili \"Cc\"."
+msgstr ""
+"Ukoliko želite usklađivanje samo adresa e-pošte, koristite "
+"EMAILADDRESS:info@example.com u \"Od\", \"Za\" ili \"Cc\"."
 
 #. Template: AdminPostMasterFilter
 msgid ""
 "If you use Regular Expressions, you also can use the matched value in () as "
 "[***] in the 'Set' action."
-msgstr "Ukoliko koristite regularne izraze, možete također koristiti niz zahvaćen s () kao [***] u 'Set' akciji."
+msgstr ""
+"Ukoliko koristite regularne izraze, možete također koristiti niz zahvaćen s "
+"() kao [***] u 'Set' akciji."
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -5567,7 +5593,8 @@ msgstr ""
 msgid ""
 "If the ticket is not set to closed before the time defined here expires, the"
 " ticket is escalated."
-msgstr "Ako se karticu ne zatvori prije ovdje definiranog vremena, kartica eskalira."
+msgstr ""
+"Ako se karticu ne zatvori prije ovdje definiranog vremena, kartica eskalira."
 
 #. Template: AdminQueue
 msgid "Follow up Option"
@@ -5587,7 +5614,9 @@ msgstr "Zaključavanje kartice poslije nastavka"
 msgid ""
 "If a ticket is closed and the customer sends a follow up the ticket will be "
 "locked to the old owner."
-msgstr "Ako je kartica zatvorena, a korisnik pošalje nastavak, kartica će biti zaključana na starog vlasnika."
+msgstr ""
+"Ako je kartica zatvorena, a korisnik pošalje nastavak, kartica će biti "
+"zaključana na starog vlasnika."
 
 #. Template: AdminQueue
 msgid "System address"
@@ -6001,7 +6030,9 @@ msgstr "Izaberi dozvole za ulogu:grupu"
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets"
 " will not be available for the role)."
-msgstr "Ukoliko ništa nije izabrano, onda nema dozvola u ovoj grupi (kartice neće biti dostupne za ovu ulogu)."
+msgstr ""
+"Ukoliko ništa nije izabrano, onda nema dozvola u ovoj grupi (kartice neće "
+"biti dostupne za ovu ulogu)."
 
 #. Template: AdminRoleGroup
 msgid "Toggle %s permission for all"
@@ -6164,7 +6195,9 @@ msgstr "Pogledaj još"
 msgid ""
 "In this way you can directly edit the certification and private keys in file"
 " system."
-msgstr "Na ovaj način možete izravno urediti vjerodajnice i privatne ključeve u sustavu datoteka."
+msgstr ""
+"Na ovaj način možete izravno urediti vjerodajnice i privatne ključeve u "
+"sustavu datoteka."
 
 #. Template: AdminSMIME
 msgid "Hash"
@@ -6262,13 +6295,16 @@ msgstr ""
 msgid ""
 "Secure mode will (normally) be set after the initial installation is "
 "completed."
-msgstr "Siguran način će (uobučajeno) biti postavljen nakon inicijalne instalacije."
+msgstr ""
+"Siguran način će (uobučajeno) biti postavljen nakon inicijalne instalacije."
 
 #. Template: AdminSecureMode
 msgid ""
 "If secure mode is not activated, activate it via SysConfig because your "
 "application is already running."
-msgstr "Ukoliko siguran način nije aktiviran, pokrenite ga kroz konfiguraciju sustava jer je vaša aplikacija već pokrenuta."
+msgstr ""
+"Ukoliko siguran način nije aktiviran, pokrenite ga kroz konfiguraciju "
+"sustava jer je vaša aplikacija već pokrenuta."
 
 #. Template: AdminSelectBox
 msgid "SQL Box"
@@ -6287,12 +6323,17 @@ msgid ""
 "Here you can enter SQL to send it directly to the application database. It "
 "is not possible to change the content of the tables, only select queries are"
 " allowed."
-msgstr "Ovde možete unijeti SQL naredbe i poslati ih izravno aplikacijskoj bazi podataka. Nije moguće mjenjati sadržaj tabela, dozvoljen je jedino select upit."
+msgstr ""
+"Ovde možete unijeti SQL naredbe i poslati ih izravno aplikacijskoj bazi "
+"podataka. Nije moguće mjenjati sadržaj tabela, dozvoljen je jedino select "
+"upit."
 
 #. Template: AdminSelectBox
 msgid ""
 "Here you can enter SQL to send it directly to the application database."
-msgstr "Ovde možete unijeti SQL naredbe i poslati ih izravno aplikacijskoj bazi podataka."
+msgstr ""
+"Ovde možete unijeti SQL naredbe i poslati ih izravno aplikacijskoj bazi "
+"podataka."
 
 #. Template: AdminSelectBox
 msgid "Options"
@@ -6607,7 +6648,9 @@ msgstr ""
 msgid ""
 "All incoming email with this address in To or Cc will be dispatched to the "
 "selected queue."
-msgstr "Sve dolazne poruke sa ovom adresom u polju \"Za\" ili \"Cc\" bit će otpremljene u odabrani rep."
+msgstr ""
+"Sve dolazne poruke sa ovom adresom u polju \"Za\" ili \"Cc\" bit će "
+"otpremljene u odabrani rep."
 
 #. Template: AdminSystemAddress
 msgid "Email address"
@@ -8157,7 +8200,8 @@ msgstr "Potrebna vam je adresa E-pošte."
 
 #. Template: AgentTicketBounce
 msgid "Need a valid email address or don't use a local email address."
-msgstr "Ispravna adresa E-pošte je neophodna, ali ne koristite lokalnu adresu!"
+msgstr ""
+"Ispravna adresa E-pošte je neophodna, ali ne koristite lokalnu adresu!"
 
 #. Template: AgentTicketBounce
 msgid "Next ticket state"
@@ -8973,7 +9017,9 @@ msgstr ""
 #. Template: CustomerLogin
 msgid ""
 "Please see the documentation or ask your admin for further information."
-msgstr "Molimo da pregledate dokumentaciju ili pitate vašeg administratora za dodatne informacije."
+msgstr ""
+"Molimo da pregledate dokumentaciju ili pitate vašeg administratora za "
+"dodatne informacije."
 
 #. Template: CustomerLogin
 msgid "One moment please, you are being redirected..."
@@ -9503,7 +9549,9 @@ msgstr "Novi"
 msgid ""
 "A new database user with limited permissions will be created for this OTRS "
 "system."
-msgstr "Novi korisnik baze sa ograničenim pravima bit će  kreiran za ovaj OTRS sustav"
+msgstr ""
+"Novi korisnik baze sa ograničenim pravima bit će  kreiran za ovaj OTRS "
+"sustav"
 
 #. Template: InstallerDBmssql
 msgid "Repeat Password"
@@ -9529,7 +9577,9 @@ msgstr ""
 msgid ""
 "To be able to use OTRS you have to enter the following line in your command "
 "line (Terminal/Shell) as root."
-msgstr "Da biste mogli koristiti OTRS morate unijeti slijedeću liniju u Vašu komandnu liniju (Terminal/Shell) kao \"root\"."
+msgstr ""
+"Da biste mogli koristiti OTRS morate unijeti slijedeću liniju u Vašu "
+"komandnu liniju (Terminal/Shell) kao \"root\"."
 
 #. Template: InstallerFinish
 msgid "Restart your webserver"
@@ -9563,7 +9613,9 @@ msgstr " "
 msgid ""
 "The identifier of the system. Each ticket number and each HTTP session ID "
 "contain this number."
-msgstr "Identifikator sustava. Svaki broj kartice i svaki ID HTTP sesije sadrži ovaj broj."
+msgstr ""
+"Identifikator sustava. Svaki broj kartice i svaki ID HTTP sesije sadrži ovaj"
+" broj."
 
 #. Template: InstallerSystem
 msgid "System FQDN"
@@ -9571,7 +9623,9 @@ msgstr "Puno ime domene sustava"
 
 #. Template: InstallerSystem
 msgid "Fully qualified domain name of your system."
-msgstr "FQDN - ime servera uključujući puno ime domena, npr. \"otrs-server.example.org\""
+msgstr ""
+"FQDN - ime servera uključujući puno ime domena, npr. \"otrs-"
+"server.example.org\""
 
 #. Template: InstallerSystem
 msgid "AdminEmail"
@@ -9622,7 +9676,10 @@ msgid ""
 "Email addresses that are manually entered are checked against the MX records"
 " found in DNS. Don't use this option if your DNS is slow or does not resolve"
 " public addresses."
-msgstr "Ručno unesena e-mail adresa se provjerava pomoću MX podatka pronađenog u DNS-u. Nemojte koristiti ovu opciju ako je vaš DNS spor ili ne može razriješiti javne adrese."
+msgstr ""
+"Ručno unesena e-mail adresa se provjerava pomoću MX podatka pronađenog u "
+"DNS-u. Nemojte koristiti ovu opciju ako je vaš DNS spor ili ne može "
+"razriješiti javne adrese."
 
 #. Template: LinkObject
 msgid "Delete link"
@@ -9780,7 +9837,9 @@ msgstr "Dozvole"
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "You can select one or more groups to define access for different agents."
-msgstr "Radi određivanja prava pristupa za operatere, možete izabrati jednu ili više grupa."
+msgstr ""
+"Radi određivanja prava pristupa za operatere, možete izabrati jednu ili više"
+" grupa."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Result formats"
@@ -9834,7 +9893,9 @@ msgstr ""
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
-msgstr "Ako je postavljeno kao pogrešno, krajnji korisnici ne mogu napraviti statistiku."
+msgstr ""
+"Ako je postavljeno kao pogrešno, krajnji korisnici ne mogu napraviti "
+"statistiku."
 
 #. Template: PreviewWidget
 msgid "There are problems in the configuration of this statistic:"
@@ -13989,7 +14050,9 @@ msgstr ""
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
 "Can't update password, your new passwords do not match. Please try again!"
-msgstr "Lozinka ne može biti ažurirana, novi unosi su različiti. Molimo pokušajte ponovno!"
+msgstr ""
+"Lozinka ne može biti ažurirana, novi unosi su različiti. Molimo pokušajte "
+"ponovno!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
@@ -13999,7 +14062,8 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must be at least %s characters long!"
-msgstr "Lozinka ne može biti ažurirana. Minimalna dužina lozinke je %s znakova."
+msgstr ""
+"Lozinka ne može biti ažurirana. Minimalna dužina lozinke je %s znakova."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
@@ -14371,7 +14435,9 @@ msgstr "Nije moguće raščlaniti indeks dokumenta!"
 msgid ""
 "No packages for your framework version found in this repository, it only "
 "contains packages for other framework versions."
-msgstr "Nema paketa za verziju vašeg sustava, u spremištu su samo paketi za druge verzije."
+msgstr ""
+"Nema paketa za verziju vašeg sustava, u spremištu su samo paketi za druge "
+"verzije."
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is not installed!"
@@ -15645,7 +15711,8 @@ msgstr "Funkcija nije aktivna!"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Sent password reset instructions. Please check your email."
-msgstr "Upute za resetiranje lozinke su poslane. Molimo provjerite svoju E-poštu."
+msgstr ""
+"Upute za resetiranje lozinke su poslane. Molimo provjerite svoju E-poštu."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Invalid Token!"
@@ -15676,7 +15743,9 @@ msgstr ""
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "This e-mail address already exists. Please log in or reset your password."
-msgstr "Ova e-mail adresa već postoji. Molimo prijavite se ili obnovite svoju lozinku."
+msgstr ""
+"Ova e-mail adresa već postoji. Molimo prijavite se ili obnovite svoju "
+"lozinku."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
@@ -15698,7 +15767,9 @@ msgstr ""
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "New account created. Sent login information to %s. Please check your email."
-msgstr "Kreiran novi račun. Podaci za prijavu poslani %s. Molimo provjerite svoju E-poštu."
+msgstr ""
+"Kreiran novi račun. Podaci za prijavu poslani %s. Molimo provjerite svoju "
+"E-poštu."
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -16265,7 +16336,10 @@ msgid ""
 "appropriate changes in the SysConfig, you will be locked out of the "
 "administrations panel! If this happens, please rename the group back to "
 "admin per SQL statement."
-msgstr "UPOZORENJE: Ako promijenite ime grupe 'admin' prije adekvatnog podešavanja u SysConfig-u, izgubit ćete pristup administratorskom sučelju! Ako se to dogodi, vratite ime grupe u \"admin\" SQL naredbom."
+msgstr ""
+"UPOZORENJE: Ako promijenite ime grupe 'admin' prije adekvatnog podešavanja u"
+" SysConfig-u, izgubit ćete pristup administratorskom sučelju! Ako se to "
+"dogodi, vratite ime grupe u \"admin\" SQL naredbom."
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Delete this Mail Account"
@@ -16893,13 +16967,17 @@ msgstr "Ako napustite ovu stranicu, svi otvoreni prozori bit će zatvoreni!"
 msgid ""
 "A popup of this screen is already open. Do you want to close it and load "
 "this one instead?"
-msgstr "Prikaz ovog ekrana je već otvoren. Želite li zatvoriti i učitati ovaj umjesto njega?"
+msgstr ""
+"Prikaz ovog ekrana je već otvoren. Želite li zatvoriti i učitati ovaj "
+"umjesto njega?"
 
 #. JS File: Core.UI.Popup
 msgid ""
 "Could not open popup window. Please disable any popup blockers for this "
 "application."
-msgstr "Nije moguće otvoriti iskačući prozor. Molimo da isključite blokadu iskačućih prozora za ovu aplikaciju."
+msgstr ""
+"Nije moguće otvoriti iskačući prozor. Molimo da isključite blokadu iskačućih"
+" prozora za ovu aplikaciju."
 
 #. JS File: Core.UI.Table.Sort
 msgid "Ascending sort applied, "
@@ -17158,7 +17236,10 @@ msgid ""
 "ACL module that allows closing parent tickets only if all its children are "
 "already closed (\"State\" shows which states are not available for the "
 "parent ticket until all child tickets are closed)."
-msgstr "\"ACL\" modul koji dozvoljava da nadređene kartice budu zatvorene samo ako su već zatvorene sve podređene kartice (\"Status\" pokazuje koji statusi nisu dostupni za karticu roditelj dok se ne zatvore sve kartice djeca)."
+msgstr ""
+"\"ACL\" modul koji dozvoljava da nadređene kartice budu zatvorene samo ako "
+"su već zatvorene sve podređene kartice (\"Status\" pokazuje koji statusi "
+"nisu dostupni za karticu roditelj dok se ne zatvore sve kartice djeca)."
 
 #. SysConfig
 msgid "Access Control Lists (ACL)"
@@ -17175,7 +17256,8 @@ msgstr "Aktivira mehanizam treptanja retka koji sadrži najstariju karticu."
 
 #. SysConfig
 msgid "Activates lost password feature for agents, in the agent interface."
-msgstr "Aktivira opciju izgubljene lozinke za operatere, na sučelju operatera."
+msgstr ""
+"Aktivira opciju izgubljene lozinke za operatere, na sučelju operatera."
 
 #. SysConfig
 msgid "Activates lost password feature for customers."
@@ -17189,13 +17271,16 @@ msgstr ""
 msgid ""
 "Activates the article filter in the zoom view to specify which articles "
 "should be shown."
-msgstr "Aktivira filter za članke u proširenom pregledu radi definiranja koji članci trebaju biti prikazani."
+msgstr ""
+"Aktivira filter za članke u proširenom pregledu radi definiranja koji članci"
+" trebaju biti prikazani."
 
 #. SysConfig
 msgid ""
 "Activates the available themes on the system. Value 1 means active, 0 means "
 "inactive."
-msgstr "Aktivira raspoložive teme. Vrijednost 1 znači aktivno, 0 znači neaktivno."
+msgstr ""
+"Aktivira raspoložive teme. Vrijednost 1 znači aktivno, 0 znači neaktivno."
 
 #. SysConfig
 msgid "Activates the ticket archive system search in the customer interface."
@@ -17206,7 +17291,10 @@ msgid ""
 "Activates the ticket archive system to have a faster system by moving some "
 "tickets out of the daily scope. To search for these tickets, the archive "
 "flag has to be enabled in the ticket search."
-msgstr "Aktivira arhivski sustav radi ubrzanja rada, uklanjanjem nekih kartica iz dnevnog praćenja. Za pronalazak kartica, označena arhiva mora biti omogućena za pretragu kartica."
+msgstr ""
+"Aktivira arhivski sustav radi ubrzanja rada, uklanjanjem nekih kartica iz "
+"dnevnog praćenja. Za pronalazak kartica, označena arhiva mora biti omogućena"
+" za pretragu kartica."
 
 #. SysConfig
 msgid "Activates time accounting."
@@ -17390,7 +17478,9 @@ msgstr ""
 msgid ""
 "Agent interface module to check incoming emails in the Ticket-Zoom-View if "
 "the S/MIME-key is available and true."
-msgstr "Modul sučelja operatera za provjeru dolaznih poruka u uvećanom pregledu kartice ako \"S/MIME\"-ključ postoji i dostupan je."
+msgstr ""
+"Modul sučelja operatera za provjeru dolaznih poruka u uvećanom pregledu "
+"kartice ako \"S/MIME\"-ključ postoji i dostupan je."
 
 #. SysConfig
 msgid ""
@@ -17469,7 +17559,8 @@ msgstr "Sve nove kartice, na njima još nije ništa rađeno"
 msgid ""
 "All open tickets, these tickets have already been worked on, but need a "
 "response"
-msgstr "Sve otvorene kartice, na kojima je već rađeno, ali zahtijevaju odgovor"
+msgstr ""
+"Sve otvorene kartice, na kojima je već rađeno, ali zahtijevaju odgovor"
 
 #. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
@@ -17478,7 +17569,8 @@ msgstr ""
 #. SysConfig
 msgid ""
 "All tickets with a reminder set where the reminder date has been reached"
-msgstr "Sve kartice sa postavljenim podsjetnikom, a datum podsjetnika je dostignut"
+msgstr ""
+"Sve kartice sa postavljenim podsjetnikom, a datum podsjetnika je dostignut"
 
 #. SysConfig
 msgid ""
@@ -17534,26 +17626,33 @@ msgstr "Dozvoljava operaterima da pokrenu individualnu statistiku."
 msgid ""
 "Allows choosing between showing the attachments of a ticket in the browser "
 "(inline) or just make them downloadable (attachment)."
-msgstr "Dozvoljava izbor između prikaza priloga u pregledniku ili samo omogućava njihovo preuzimanje."
+msgstr ""
+"Dozvoljava izbor između prikaza priloga u pregledniku ili samo omogućava "
+"njihovo preuzimanje."
 
 #. SysConfig
 msgid ""
 "Allows choosing the next compose state for customer tickets in the customer "
 "interface."
-msgstr "Dozvoljava izbor slijedećeg stanja za korisničku karticu u korisničkom sučelju."
+msgstr ""
+"Dozvoljava izbor slijedećeg stanja za korisničku karticu u korisničkom "
+"sučelju."
 
 #. SysConfig
 msgid ""
 "Allows customers to change the ticket priority in the customer interface."
-msgstr "Dozvoljava korisnicima da promjene prioritet kartice u korisničkom sučelju."
+msgstr ""
+"Dozvoljava korisnicima da promjene prioritet kartice u korisničkom sučelju."
 
 #. SysConfig
 msgid "Allows customers to set the ticket SLA in the customer interface."
-msgstr "Dozvoljava korisnicima da postave SLA za karticu u korisničkom sučelju."
+msgstr ""
+"Dozvoljava korisnicima da postave SLA za karticu u korisničkom sučelju."
 
 #. SysConfig
 msgid "Allows customers to set the ticket priority in the customer interface."
-msgstr "Dozvoljava korisnicima da postave prioritet kartice u korisničkom sučelju."
+msgstr ""
+"Dozvoljava korisnicima da postave prioritet kartice u korisničkom sučelju."
 
 #. SysConfig
 msgid ""
@@ -17563,7 +17662,8 @@ msgstr ""
 
 #. SysConfig
 msgid "Allows customers to set the ticket service in the customer interface."
-msgstr "Dozvoljava korisnicima da postave servis za karticu u korisničkom sučelju."
+msgstr ""
+"Dozvoljava korisnicima da postave servis za karticu u korisničkom sučelju."
 
 #. SysConfig
 msgid ""
@@ -17804,7 +17904,9 @@ msgstr ""
 msgid ""
 "Automatically lock and set owner to current Agent after selecting for an "
 "Bulk Action."
-msgstr "Automatsko zaključavanje i postavljanje vlasnika na aktualnog operatera nakon izbora masovne akcije."
+msgstr ""
+"Automatsko zaključavanje i postavljanje vlasnika na aktualnog operatera "
+"nakon izbora masovne akcije."
 
 #. SysConfig
 msgid ""
@@ -18772,25 +18874,33 @@ msgstr ""
 msgid ""
 "Defines a customer item, which generates a LinkedIn icon at the end of a "
 "customer info block."
-msgstr "Definira korisnikovu stavku, koja generira ikonu LinkedIn na kraju korisnikovog info bloka."
+msgstr ""
+"Definira korisnikovu stavku, koja generira ikonu LinkedIn na kraju "
+"korisnikovog info bloka."
 
 #. SysConfig
 msgid ""
 "Defines a customer item, which generates a XING icon at the end of a "
 "customer info block."
-msgstr "Definira korisnikovu stavku, koja generira ikonu XING na kraju korisnikovog info bloka."
+msgstr ""
+"Definira korisnikovu stavku, koja generira ikonu XING na kraju korisnikovog "
+"info bloka."
 
 #. SysConfig
 msgid ""
 "Defines a customer item, which generates a google icon at the end of a "
 "customer info block."
-msgstr "Definira korisnikovu stavku, koja generira ikonu google na kraju korisnikovog info bloka."
+msgstr ""
+"Definira korisnikovu stavku, koja generira ikonu google na kraju "
+"korisnikovog info bloka."
 
 #. SysConfig
 msgid ""
 "Defines a customer item, which generates a google maps icon at the end of a "
 "customer info block."
-msgstr "Definira korisnikovu stavku, koja generira ikonu google karti na kraju korisnikovog info bloka."
+msgstr ""
+"Definira korisnikovu stavku, koja generira ikonu google karti na kraju "
+"korisnikovog info bloka."
 
 #. SysConfig
 msgid ""
@@ -19594,7 +19704,9 @@ msgstr ""
 msgid ""
 "Defines the default priority of new customer tickets in the customer "
 "interface."
-msgstr "Određuje zadani prioritet za nove korisničke karticue u korisničkom interfejsu."
+msgstr ""
+"Određuje zadani prioritet za nove korisničke karticue u korisničkom "
+"interfejsu."
 
 #. SysConfig
 msgid "Defines the default priority of new tickets."
@@ -19604,7 +19716,8 @@ msgstr "Određuje zadani prioritet za nove karticue."
 msgid ""
 "Defines the default queue for new customer tickets in the customer "
 "interface."
-msgstr "Određuje zadani red za nove korisničke karticue u korisničkom interfejsu."
+msgstr ""
+"Određuje zadani red za nove korisničke karticue u korisničkom interfejsu."
 
 #. SysConfig
 msgid "Defines the default queue for new tickets in the agent interface."
@@ -21165,7 +21278,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Disables the redirection to the last screen overview / dashboard after a "
-"ticket is created."
+"ticket is closed."
 msgstr ""
 
 #. SysConfig
@@ -22567,6 +22680,10 @@ msgstr ""
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Korean"
 msgstr ""
 
 #. SysConfig
@@ -24000,7 +24117,9 @@ msgstr ""
 msgid ""
 "Replaces the original sender with current customer's email address on "
 "compose answer in the ticket compose screen of the agent interface."
-msgstr "Zamjenjuje originalnog pošiljatelja adresom E-pošte trenutnog korisnika pri kreiranju odgovora u prozoru za pisanje odgovora sučelja operatera."
+msgstr ""
+"Zamjenjuje originalnog pošiljatelja adresom E-pošte trenutnog korisnika pri "
+"kreiranju odgovora u prozoru za pisanje odgovora sučelja operatera."
 
 #. SysConfig
 msgid "Reports"
@@ -24025,7 +24144,9 @@ msgstr "Potrebne dozvole za promenu korisnika kartice u interfejsu operatera."
 #. SysConfig
 msgid ""
 "Required permissions to use the close ticket screen in the agent interface."
-msgstr "Potrebne dozvole za upotrebu prozora za zatvaranje kartice u interfejsu operatera."
+msgstr ""
+"Potrebne dozvole za upotrebu prozora za zatvaranje kartice u interfejsu "
+"operatera."
 
 #. SysConfig
 msgid ""
@@ -24041,48 +24162,64 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket bounce screen in the agent interface."
-msgstr "Potrebne dozvole za upotrebu prozora za odbijanje kartice u sučelju operatera."
+msgstr ""
+"Potrebne dozvole za upotrebu prozora za odbijanje kartice u sučelju "
+"operatera."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket compose screen in the agent "
 "interface."
-msgstr "Potrebne dozvole za upotrebu prozora za otvaranje kartice u sučelju operatera."
+msgstr ""
+"Potrebne dozvole za upotrebu prozora za otvaranje kartice u sučelju "
+"operatera."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket forward screen in the agent "
 "interface."
-msgstr "Potrebne dozvole za upotrebu prozora za prosleđivanje kartice u sučelju zaposlenog."
+msgstr ""
+"Potrebne dozvole za upotrebu prozora za prosleđivanje kartice u sučelju "
+"zaposlenog."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket free text screen in the agent "
 "interface."
-msgstr "Potrebne dozvole za upotrebu prozora slobodnog teksta kartice u sučelju operatera."
+msgstr ""
+"Potrebne dozvole za upotrebu prozora slobodnog teksta kartice u sučelju "
+"operatera."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket merge screen of a zoomed ticket in "
 "the agent interface."
-msgstr "Potrebne dozvole za upotrebu prozora za spajanje pri uvećanom prikazu kartice u interfejsu operatera."
+msgstr ""
+"Potrebne dozvole za upotrebu prozora za spajanje pri uvećanom prikazu "
+"kartice u interfejsu operatera."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket note screen in the agent interface."
-msgstr "Potrebne dozvole za upotrebu prozora za napomene kartice u sučelju operatera."
+msgstr ""
+"Potrebne dozvole za upotrebu prozora za napomene kartice u sučelju "
+"operatera."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket owner screen of a zoomed ticket in "
 "the agent interface."
-msgstr "Potrebne dozvole za upotrebu prozora vlasnika tuketa pri uvećanom prikazu kartice u interfejsu operatera."
+msgstr ""
+"Potrebne dozvole za upotrebu prozora vlasnika tuketa pri uvećanom prikazu "
+"kartice u interfejsu operatera."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket pending screen of a zoomed ticket in "
 "the agent interface."
-msgstr "Potrebne dozvole za upotrebu prozora čekanja pri uvećanom prikazu kartice u interfejsu operatera."
+msgstr ""
+"Potrebne dozvole za upotrebu prozora čekanja pri uvećanom prikazu kartice u "
+"interfejsu operatera."
 
 #. SysConfig
 msgid ""
@@ -24094,19 +24231,25 @@ msgstr ""
 msgid ""
 "Required permissions to use the ticket phone outbound screen in the agent "
 "interface."
-msgstr "Potrebne dozvole za upotrebu prozora telefonskog odlaznog kartice u sučelju operatera."
+msgstr ""
+"Potrebne dozvole za upotrebu prozora telefonskog odlaznog kartice u sučelju "
+"operatera."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket priority screen of a zoomed ticket in"
 " the agent interface."
-msgstr "Potrebne dozvole za upotrebu prozora prioriteta pri uvećanom prikazu kartice u sučelju operatera."
+msgstr ""
+"Potrebne dozvole za upotrebu prozora prioriteta pri uvećanom prikazu kartice"
+" u sučelju operatera."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket responsible screen in the agent "
 "interface."
-msgstr "Potrebne dozvole za upotrebu prozora odgovornog za karticu u sučelju operatera."
+msgstr ""
+"Potrebne dozvole za upotrebu prozora odgovornog za karticu u sučelju "
+"operatera."
 
 #. SysConfig
 msgid "Resend Ticket Email."
@@ -24279,7 +24422,10 @@ msgid ""
 "Select the separator character used in CSV files (stats and searches). If "
 "you don't select a separator here, the default separator for your language "
 "will be used."
-msgstr "Izaberite rastavni znak koji će se koristi u \"CSV\" datotekama (statistika i pretrage). Ako ne izaberete rastavni znak ovdje, koristit će se zadani rastavni znak za vaš jezik"
+msgstr ""
+"Izaberite rastavni znak koji će se koristi u \"CSV\" datotekama (statistika "
+"i pretrage). Ako ne izaberete rastavni znak ovdje, koristit će se zadani "
+"rastavni znak za vaš jezik"
 
 #. SysConfig
 msgid "Select your frontend Theme."
@@ -26023,7 +26169,7 @@ msgstr "Statistika br."
 
 #. SysConfig
 msgid "States"
-msgstr "Stanja"
+msgstr "Status"
 
 #. SysConfig
 msgid "Statistic Reports overview."
@@ -26614,7 +26760,9 @@ msgstr "Predstojeći događaji"
 msgid ""
 "Update Ticket \"Seen\" flag if every article got seen or a new Article got "
 "created."
-msgstr "Ažuriraj o?naku viđenih kartice ako su svi pregledani ili je kreiran novi članak."
+msgstr ""
+"Ažuriraj o?naku viđenih kartice ako su svi pregledani ili je kreiran novi "
+"članak."
 
 #. SysConfig
 msgid "Update time"
@@ -26746,7 +26894,11 @@ msgid ""
 "When tickets are merged, the customer can be informed per email by setting "
 "the check box \"Inform Sender\". In this text area, you can define a pre-"
 "formatted text which can later be modified by the agents."
-msgstr "Kada su kartice spojeni, korisnik može biti informiran E-poštom postavljanjem polje za potvrdu \"Obavijesti pošiljaoca\". U prostoru za tekst, možete definirati unaprijed formatirani tekst koji kasnije biti modificiran od strane zaposlenika."
+msgstr ""
+"Kada su kartice spojeni, korisnik može biti informiran E-poštom "
+"postavljanjem polje za potvrdu \"Obavijesti pošiljaoca\". U prostoru za "
+"tekst, možete definirati unaprijed formatirani tekst koji kasnije biti "
+"modificiran od strane zaposlenika."
 
 #. SysConfig
 msgid ""
@@ -26775,7 +26927,9 @@ msgstr ""
 msgid ""
 "Your email with ticket number \"<OTRS_TICKET>\" is merged to "
 "\"<OTRS_MERGE_TO_TICKET>\"."
-msgstr "Vaša poruka E-pošte sa brojem kartice \"<OTRS_TICKET>\" je objedinjena sa karticom \"<OTRS_MERGE_TO_TICKET>\"!"
+msgstr ""
+"Vaša poruka E-pošte sa brojem kartice \"<OTRS_TICKET>\" je objedinjena sa "
+"karticom \"<OTRS_MERGE_TO_TICKET>\"!"
 
 #. SysConfig
 msgid ""

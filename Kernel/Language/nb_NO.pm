@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.424377682403433;
+    $Self->{Completeness}        = 0.426536216958462;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -63,7 +63,7 @@ sub Data {
             'Endringer i ACLene her påvirker bare systemets oppførsel dersom du distribuerer ACL-dataene etterpå. Ved å distribuere ACL-dataene, vil de nye endringene bli skrevet til konfigurasjonen.',
         'ACLs' => 'ACLer',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
-            '',
+            'Obs! Denne tabellen representerer eksekveringssekvensen på ACL\'ene. Dersom du trenger å endre på sekvensen på hvilke ACL\'er som utføres, vær vennlig å endre navnet på de berørte ACL\'ene.',
         'ACL name' => 'ACL navn',
         'Comment' => 'Kommentar',
         'Validity' => 'Gyldighet',
@@ -80,11 +80,11 @@ sub Data {
         'Delete Invalid ACL' => 'Slett ugyldig ACL',
         'Match settings' => '',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
-            '',
+            'Opprett matchende kriterier for denne ACL\'en. Benytt \'Egenskaper\' for å matche gjeldende skjerm eller \'EgenskapDatabase\' for å matche attributter i databasen for gjeldende sak.',
         'Change settings' => 'Endre innstillinger',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            '',
-        'Check the official' => '',
+            'Opprett de endringene du ønsker å utføre når kriteriene matcher. Merk at \'Muligens\' er en hviteliste, mens \'MuligensIkke\' er en svarteliste.',
+        'Check the official' => 'Sjekk den offisielle',
         'documentation' => 'dokumentasjon',
         'Show or hide the content' => 'Vis eller skjul innholdet',
         'Edit ACL Information' => 'Endre ACL informasjon',
@@ -100,7 +100,7 @@ sub Data {
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
-            '',
+            'Opprett en ny ACL ved å sende inn skjemaet. Etter at ACL\'en er opprettet vil du kunne legge til konfigurasjonselementer i \'edit\' modus.',
 
         # Template: AdminAppointmentCalendarManage
         'Calendar Management' => 'Kalenderadministrasjon',
@@ -112,17 +112,17 @@ sub Data {
         'Import Appointments' => 'Importer avtaler',
         'Calendar Import' => 'Kalenderimport',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
-            '',
+            'Her kan du laste opp en konfigurasjonsfil for å importere en kalender. Filen må være på samme \'.yml\' format som da den ble eksportert av kalenderhåndteringsmodulen.',
         'Overwrite existing entities' => 'Overskriv eksisterende entiteter',
         'Upload calendar configuration' => 'Last opp kalenderkonfigurasjon',
         'Import Calendar' => 'Importer kalender',
         'Filter for calendars' => 'Filter for kalendere',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
-            '',
+            'Brukere vil få tilgang til kalenderen i henhold til deres rettighetsnivå og gruppefelt.',
         'Read only: users can see and export all appointments in the calendar.' =>
             'Skrivebeskyttet: brukere kan se og eksportere alle avtaler i kalenderen.',
         'Move into: users can modify appointments in the calendar, but without changing the calendar selection.' =>
-            '',
+            'Flytt inn i: brukere kan endre avtaler i kalenderen, men uten å endre kalendervalg.',
         'Create: users can create and delete appointments in the calendar.' =>
             'Opprett: brukere kan opprette og slette avtaler i kalenderen.',
         'Read/write: users can manage the calendar itself.' => 'Les/skriv: brukere kan selv administrere kalenderen.',
@@ -146,26 +146,26 @@ sub Data {
         'Start date' => 'Startdato',
         'End date' => 'Sluttdato',
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
-            '',
+            'Bruk opsjonene under for å innskrenke hvilke saksavtaler som vil bli opprettet automatisk.',
         'Queues' => 'Køer',
         'Please select a valid queue.' => 'Vennligst velg en gyldig kø.',
         'Search attributes' => 'Søkeatributter',
         'Add entry' => 'Ny post',
         'Add' => 'Legg til',
         'Define rules for creating automatic appointments in this calendar based on ticket data.' =>
-            '',
+            'Definer regler for opprettelse av automatiske avtaler i denne kalenderen basert på saksinformasjon.',
         'Add Rule' => 'Legg til regel',
         'Submit' => 'Send',
 
         # Template: AdminAppointmentImport
         'Appointment Import' => 'Avtaleimport',
-        'Uploaded file must be in valid iCal format (.ics).' => '',
+        'Uploaded file must be in valid iCal format (.ics).' => 'Den opplastede filen må være på gyldig iCal format (.ics).',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
-            '',
+            'Hvis den ønskede kalenderen ikke er listet opp her, vær vennlig å huske at du må ha rettigheten \'opprett\' i din profil.',
         'Upload' => 'Last opp',
         'Update existing appointments?' => 'Oppdater eksisterende avtaler?',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
-            '',
+            'Alle eksisterende kalenderavtaler med samme \'UniqueID\' vil bli overskrevet.',
         'Upload calendar' => 'Last opp kalender',
         'Import appointments' => 'Importer avtaler',
 
@@ -528,7 +528,7 @@ sub Data {
         'Delete this field' => 'Fjern dette feltet',
 
         # Template: AdminDynamicFieldCheckbox
-        'Dynamic Fields' => 'Dynamiske felter',
+        'Dynamic Fields' => 'Dynamiske felte',
         'Go back to overview' => 'Gå tilbake til oversikten',
         'General' => 'Generelt',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -580,7 +580,7 @@ sub Data {
         # Template: AdminDynamicFieldDropdown
         'Possible values' => 'Tilgjengelige verdier',
         'Key' => 'Nøkkel',
-        'Value' => 'Innhold',
+        'Value' => 'Verdi',
         'Remove value' => 'Fjern verdi',
         'Add value' => 'Legg til verdi',
         'Add Value' => 'Legg til verdi',
@@ -6102,7 +6102,7 @@ Thanks for your help!
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             'Endrer eier på saker til "alle" (brukbart for ASP). Normalt vil kun saksbehandlere med Les/skriv-tilgang til køen bli vist.',
         'Chat communication channel.' => '',
-        'Checkbox' => 'Avkryssingsfelt',
+        'Checkbox' => 'Avkryssningsfelt',
         'Checks for articles that needs to be updated in the article search index.' =>
             '',
         'Checks for communication log entries to be deleted.' => '',
@@ -7058,7 +7058,7 @@ Thanks for your help!
         'Disable cloud services' => '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
-        'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
+        'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
@@ -7486,6 +7486,7 @@ Thanks for your help!
         'Ivory (Slim)' => '',
         'Japanese' => 'Japansk',
         'JavaScript function for the search frontend.' => '',
+        'Korean' => '',
         'Language' => 'Språk',
         'Large' => 'Stor',
         'Last Screen Overview' => '',
@@ -8465,7 +8466,7 @@ Thanks for your help!
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
         'Stat#' => 'Stat#',
-        'States' => 'Statuser',
+        'States' => 'Status',
         'Statistic Reports overview.' => '',
         'Statistics overview.' => '',
         'Status view' => 'Statusvisning',

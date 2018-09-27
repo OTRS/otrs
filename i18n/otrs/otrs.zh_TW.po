@@ -1,17 +1,18 @@
-# 
 # Translators:
-# Ann Li <dn.annli@gmail.com>, 2016
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Udo Bretz, 2018
+# Ann Li <dn.annli@gmail.com>, 2018
+# Sam Chen <silent198214@gmail.com>, 2018
+# 育彰 楊 <yuchang.yang@grandfortunetech.com>, 2018
 # 邱意展, 2018
-# Sam Chen <silent198214@gmail.com>, 2016
-# 育彰 楊 <yuchang.yang@grandfortunetech.com>, 2016
-# 邱意展, 2018
+# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
 msgid ""
 msgstr ""
-"Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-09-13 21:46+0000\n"
-"PO-Revision-Date: 2018-09-13 21:49+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/otrs/OTRS/language/zh_TW/)\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-09-27 16:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
+"Language-Team: Chinese (Taiwan) (https://www.transifex.com/otrs/teams/23435/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -157,7 +158,8 @@ msgid ""
 "Set up matching criteria for this ACL. Use 'Properties' to match the current"
 " screen or 'PropertiesDatabase' to match attributes of the current ticket "
 "that are in the database."
-msgstr "為ACL設置匹配條件。'Properties'用於匹配工單在内存中的屬性'，而'PropertiesDatabase'用於匹配工單在數據庫中的屬性。"
+msgstr ""
+"為ACL設置匹配條件。'Properties'用於匹配工單在内存中的屬性'，而'PropertiesDatabase'用於匹配工單在數據庫中的屬性。"
 
 #. Template: AdminACLEdit
 msgid "Change settings"
@@ -1510,7 +1512,7 @@ msgstr "切換激活狀態給全部"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Active"
-msgstr "激活"
+msgstr "啟用"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Toggle active state for %s"
@@ -4116,7 +4118,7 @@ msgstr "鎖定"
 
 #. Template: AdminNotificationEvent
 msgid "SLA"
-msgstr "SLA"
+msgstr "服務級別協議"
 
 #. Template: AdminNotificationEvent
 msgid "Customer User ID"
@@ -4621,7 +4623,8 @@ msgid ""
 "Please make sure your database accepts packages over %s MB in size (it "
 "currently only accepts packages up to %s MB). Please adapt the "
 "max_allowed_packet setting of your database in order to avoid errors."
-msgstr "請確認您的數據庫能夠接收大於%sMB的數據包（目前能夠接收的最大數據包為%sMB）。為了避免程序報錯，請調整數據庫max_allowed_packet参數。"
+msgstr ""
+"請確認您的數據庫能夠接收大於%sMB的數據包（目前能夠接收的最大數據包為%sMB）。為了避免程序報錯，請調整數據庫max_allowed_packet参數。"
 
 #. Template: AdminPackageManager
 msgid "Install"
@@ -5121,7 +5124,8 @@ msgstr "請注意，修改這個環節操作將影響以下環節"
 msgid ""
 "Please note that customer users will not be able to see or use the following"
 " fields: Owner, Responsible, Lock, PendingTime and CustomerID."
-msgstr "請注意，用戶並不能看到或對以下字段時行操作：Owner, Responsible, Lock, PendingTime and CustomerID."
+msgstr ""
+"請注意，用戶並不能看到或對以下字段時行操作：Owner, Responsible, Lock, PendingTime and CustomerID."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
@@ -5563,7 +5567,9 @@ msgid ""
 "portal, the escalation update time is reset. If there is no customer "
 "contact, either email-external or phone, added to a ticket before the time "
 "defined here expires, the ticket is escalated."
-msgstr "如果有新的信件，例如用戶通過門戶或郵件發送跟進信件，則對升級更新時間進行復位. 如果在此所定義的時間之前，服務人員沒有對新工單添加任何信件，無論是郵件-外部或電話，該工單將升級."
+msgstr ""
+"如果有新的信件，例如用戶通過門戶或郵件發送跟進信件，則對升級更新時間進行復位. 如果在此所定義的時間之前，服務人員沒有對新工單添加任何信件，無論是郵件-"
+"外部或電話，該工單將升級."
 
 #. Template: AdminQueue
 msgid ""
@@ -7837,7 +7843,9 @@ msgid ""
 "You can change your avatar image by registering with your email address %s "
 "at %s. Please note that it can take some time until your new avatar becomes "
 "available because of caching."
-msgstr "您可以使用註冊時的電子郵件 %s 來 %s 登記就能變更頭像。\n請注意，更換頭像需要一點時間才會生效。"
+msgstr ""
+"您可以使用註冊時的電子郵件 %s 來 %s 登記就能變更頭像。\n"
+"請注意，更換頭像需要一點時間才會生效。"
 
 #. Template: AgentPreferences
 msgid "Off"
@@ -14808,7 +14816,7 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid "Default Storage Engine"
-msgstr ""
+msgstr " "
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
@@ -16267,7 +16275,8 @@ msgid ""
 "appropriate changes in the SysConfig, you will be locked out of the "
 "administrations panel! If this happens, please rename the group back to "
 "admin per SQL statement."
-msgstr "警告：當您更改'管理'組的名稱時，在SysConfig作出相應的變化之前，您將被管理面板鎖住！如果發生這種情況，請用SQL語句把組名改回到'admin'"
+msgstr ""
+"警告：當您更改'管理'組的名稱時，在SysConfig作出相應的變化之前，您將被管理面板鎖住！如果發生這種情況，請用SQL語句把組名改回到'admin'"
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Delete this Mail Account"
@@ -16709,7 +16718,9 @@ msgstr ""
 msgid ""
 "Please note that at least one of the settings you have changed requires a "
 "page reload. Click here to reload the current screen."
-msgstr "您已成功變更設定，必須重新加載頁面來使變更生效。\n點此重新整理頁面。"
+msgstr ""
+"您已成功變更設定，必須重新加載頁面來使變更生效。\n"
+"點此重新整理頁面。"
 
 #. JS File: Core.Agent.Preferences
 msgid "An unknown error occurred. Please contact the administrator."
@@ -21167,7 +21178,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Disables the redirection to the last screen overview / dashboard after a "
-"ticket is created."
+"ticket is closed."
 msgstr ""
 
 #. SysConfig
@@ -22569,6 +22580,10 @@ msgstr "日本語"
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Korean"
 msgstr ""
 
 #. SysConfig
@@ -24163,7 +24178,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Running Process Tickets"
-msgstr ""
+msgstr "時間緊迫的工單"
 
 #. SysConfig
 msgid ""

@@ -1,12 +1,13 @@
-# 
 # Translators:
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Udo Bretz, 2018
 msgid ""
 msgstr ""
-"Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-09-13 21:46+0000\n"
-"PO-Revision-Date: 2018-09-13 21:49+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: English (Canada) (http://www.transifex.com/otrs/OTRS/language/en_CA/)\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-09-27 16:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Udo Bretz, 2018\n"
+"Language-Team: English (Canada) (https://www.transifex.com/otrs/teams/23435/en_CA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21162,7 +21163,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Disables the redirection to the last screen overview / dashboard after a "
-"ticket is created."
+"ticket is closed."
 msgstr ""
 
 #. SysConfig
@@ -22564,6 +22565,10 @@ msgstr ""
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Korean"
 msgstr ""
 
 #. SysConfig

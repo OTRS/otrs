@@ -1,15 +1,15 @@
-# 
 # Translators:
-# Kim Sandbladh <kim.sandbladh@otrs.com>, 2014
-# Kim Sandbladh <kim.sandbladh@otrs.com>, 2014
-# Thuy Nguyen Duc <thuynguyenduc@gmail.com>, 2015
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Kim Sandbladh <kim.sandbladh@otrs.com>, 2018
+# Thuy Nguyen Duc <thuynguyenduc@gmail.com>, 2018
+# Udo Bretz, 2018
 msgid ""
 msgstr ""
-"Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-09-13 21:46+0000\n"
-"PO-Revision-Date: 2018-09-13 21:49+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: Vietnamese (Viet Nam) (http://www.transifex.com/otrs/OTRS/language/vi_VN/)\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-09-27 16:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Udo Bretz, 2018\n"
+"Language-Team: Vietnamese (Viet Nam) (https://www.transifex.com/otrs/teams/23435/vi_VN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -78,14 +78,19 @@ msgstr "Mô tả"
 msgid ""
 "To create a new ACL you can either import ACLs which were exported from "
 "another system or create a complete new one."
-msgstr "Để tạo một ACL mới bạn có thể ACL nhập khẩu được xuất khẩu từ một hệ thống khác hoặc tạo một hình mới hoàn thành."
+msgstr ""
+"Để tạo một ACL mới bạn có thể ACL nhập khẩu được xuất khẩu từ một hệ thống "
+"khác hoặc tạo một hình mới hoàn thành."
 
 #. Template: AdminACL
 msgid ""
 "Changes to the ACLs here only affect the behavior of the system, if you "
 "deploy the ACL data afterwards. By deploying the ACL data, the newly made "
 "changes will be written to the configuration."
-msgstr "Những thay đổi trong ACL ở đây chỉ ảnh hưởng đến hành vi của hệ thống, nếu bạn triển khai các dữ liệu ACL sau đó. Bằng cách triển khai các dữ liệu ACL, những thay đổi mới được thực hiện sẽ được ghi vào cấu hình."
+msgstr ""
+"Những thay đổi trong ACL ở đây chỉ ảnh hưởng đến hành vi của hệ thống, nếu "
+"bạn triển khai các dữ liệu ACL sau đó. Bằng cách triển khai các dữ liệu ACL,"
+" những thay đổi mới được thực hiện sẽ được ghi vào cấu hình."
 
 #. Template: AdminACL
 msgid "ACLs"
@@ -96,7 +101,9 @@ msgid ""
 "Please note: This table represents the execution order of the ACLs. If you "
 "need to change the order in which ACLs are executed, please change the names"
 " of the affected ACLs."
-msgstr "Xin lưu ý: Bảng này đại diện cho thứ tự thực hiện các ACL. Nếu bạn cần thay đổi thứ tự mà ACL được thực hiện, hãy thay đổi tên của các ACL bị ảnh hưởng."
+msgstr ""
+"Xin lưu ý: Bảng này đại diện cho thứ tự thực hiện các ACL. Nếu bạn cần thay "
+"đổi thứ tự mà ACL được thực hiện, hãy thay đổi tên của các ACL bị ảnh hưởng."
 
 #. Template: AdminACL
 msgid "ACL name"
@@ -128,7 +135,7 @@ msgstr "Không tìm thấy những sự phù hợp"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL %s"
-msgstr ""
+msgstr "Chỉnh sửa ACL% s Danh sách kiểm soát truy cập"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
@@ -155,7 +162,10 @@ msgid ""
 "Set up matching criteria for this ACL. Use 'Properties' to match the current"
 " screen or 'PropertiesDatabase' to match attributes of the current ticket "
 "that are in the database."
-msgstr "Thiết lập các tiêu chuẩn cho phù hợp với danh sách kiểm soát truy cập này. Sử dụng cơ sở dữ liệu để phù hợp với màn hình hiện tại hoặc cơ sở dữ liệu thuộc tính để phù hợp với thuộc tính của thẻ hiện có trong cơ sở dữ liệu."
+msgstr ""
+"Thiết lập các tiêu chuẩn cho phù hợp với danh sách kiểm soát truy cập này. "
+"Sử dụng cơ sở dữ liệu để phù hợp với màn hình hiện tại hoặc cơ sở dữ liệu "
+"thuộc tính để phù hợp với thuộc tính của thẻ hiện có trong cơ sở dữ liệu."
 
 #. Template: AdminACLEdit
 msgid "Change settings"
@@ -165,7 +175,9 @@ msgstr "Thay đổi cài đặt"
 msgid ""
 "Set up what you want to change if the criteria match. Keep in mind that "
 "'Possible' is a white list, 'PossibleNot' a black list."
-msgstr "Thiết lập những gì bạn muốn thay đổi nếu phù hợp tiêu chuẩn. Hãy nhớ rằng \"có thể\" là một danh sách trắng, 'PossibleNot' danh sách đen."
+msgstr ""
+"Thiết lập những gì bạn muốn thay đổi nếu phù hợp tiêu chuẩn. Hãy nhớ rằng "
+"\"có thể\" là một danh sách trắng, 'PossibleNot' danh sách đen."
 
 #. Template: AdminACLEdit
 msgid "Check the official"
@@ -223,7 +235,10 @@ msgstr "Bạn có thực sự muốn xóa ACL Danh sách kiểm soát truy cập
 msgid ""
 "Create a new ACL by submitting the form data. After creating the ACL, you "
 "will be able to add configuration items in edit mode."
-msgstr "Tạo một ACL Danh sách kiểm soát truy cập mới bằng cách gửi các dữ liệu mẫu. Sau khi tạo ACLDanh sách kiểm soát truy cập, bạn sẽ có thể để thêm các mục cấu hình trong chế độ chỉnh sửa."
+msgstr ""
+"Tạo một ACL Danh sách kiểm soát truy cập mới bằng cách gửi các dữ liệu mẫu. "
+"Sau khi tạo ACLDanh sách kiểm soát truy cập, bạn sẽ có thể để thêm các mục "
+"cấu hình trong chế độ chỉnh sửa."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Management"
@@ -896,7 +911,9 @@ msgstr "Tùy chọn của vé lĩnh vực năng động giá trị chính của 
 msgid ""
 "Options of ticket dynamic fields display values, useful for Dropdown and "
 "Multiselect fields"
-msgstr "Tùy chọn của vé lĩnh vực năng động hiển thị giá trị, hữu ích cho Dropdown và Multiselect lĩnh vực"
+msgstr ""
+"Tùy chọn của vé lĩnh vực năng động hiển thị giá trị, hữu ích cho Dropdown và"
+" Multiselect lĩnh vực"
 
 #. Template: AdminAutoResponse
 msgid "Example response"
@@ -926,7 +943,8 @@ msgstr "Dữ liệu hỗ trợ hiện thời chỉ được hiển thị trên h
 msgid ""
 "It is highly recommended to send this data to OTRS Group in order to get "
 "better support."
-msgstr "Chúng tối khuyến nghị gửi dữ liệu này đến Nhóm OTRS để hỗ trợ tốt hơn."
+msgstr ""
+"Chúng tối khuyến nghị gửi dữ liệu này đến Nhóm OTRS để hỗ trợ tốt hơn."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
@@ -1280,7 +1298,9 @@ msgstr "Tính năng này đã bị vô hiệu hóa!"
 #. Template: AdminCustomerGroup
 msgid ""
 "Just use this feature if you want to define group permissions for customers."
-msgstr "Chỉ cần sử dụng tính năng này nếu bạn muốn xác định cho phép nhóm cho khách hàng."
+msgstr ""
+"Chỉ cần sử dụng tính năng này nếu bạn muốn xác định cho phép nhóm cho khách "
+"hàng."
 
 #. Template: AdminCustomerGroup
 msgid "Enable it here!"
@@ -1312,7 +1332,9 @@ msgstr "Chọn khách hàng: cho phép nhóm."
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets"
 " will not be available for the customer)."
-msgstr "Nếu không có gì được chọn, sau đó không có quyền truy cập trong nhóm này (vé sẽ không có sẵn cho khách hàng)."
+msgstr ""
+"Nếu không có gì được chọn, sau đó không có quyền truy cập trong nhóm này (vé"
+" sẽ không có sẵn cho khách hàng)."
 
 #. Template: AdminCustomerGroup
 msgid "Search Results"
@@ -1336,11 +1358,11 @@ msgstr "Thay đổi quan hệ khách hàng cho Tập đoàn"
 
 #. Template: AdminCustomerGroup
 msgid "Toggle %s Permission for all"
-msgstr ""
+msgstr "Toggle% s Cho phép tất cả"
 
 #. Template: AdminCustomerGroup
 msgid "Toggle %s permission for %s"
-msgstr ""
+msgstr "Toggle cho phép% s cho% s"
 
 #. Template: AdminCustomerGroup
 msgid "Customer Default Groups:"
@@ -1386,7 +1408,9 @@ msgstr "Trở lại kết quả tìm kiếm"
 msgid ""
 "Customer user are needed to have a customer history and to login via "
 "customer panel."
-msgstr "Người sử dụng của khách hàng là cần thiết để có một lịch sử khách hàng và đăng nhập thông qua bảng điều khiển của khách hàng."
+msgstr ""
+"Người sử dụng của khách hàng là cần thiết để có một lịch sử khách hàng và "
+"đăng nhập thông qua bảng điều khiển của khách hàng."
 
 #. Template: AdminCustomerUser
 msgid "List (%s total)"
@@ -1512,7 +1536,7 @@ msgstr "Hoạt động"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Toggle active state for %s"
-msgstr ""
+msgstr "Toggle trạng thái hoạt động cho% s"
 
 #. Template: AdminCustomerUserGroup
 msgid "Manage Customer User-Group Relations"
@@ -1536,7 +1560,9 @@ msgstr ""
 msgid ""
 "You can manage these groups via the configuration setting "
 "\"CustomerGroupAlwaysGroups\"."
-msgstr "Bạn có thể quản lý các nhóm thông qua các thiết lập cấu hình \"CustomerGroupAlwaysGroups\"."
+msgstr ""
+"Bạn có thể quản lý các nhóm thông qua các thiết lập cấu hình "
+"\"CustomerGroupAlwaysGroups\"."
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
@@ -1626,7 +1652,10 @@ msgid ""
 "To add a new field, select the field type from one of the object's list, the"
 " object defines the boundary of the field and it can't be changed after the "
 "field creation."
-msgstr "Để thêm một lĩnh vực mới, chọn loại trường từ một danh sách các đối tượng, các đối tượng xác định ranh giới của lĩnh vực này và nó không thể được thay đổi sau khi thành lập trường."
+msgstr ""
+"Để thêm một lĩnh vực mới, chọn loại trường từ một danh sách các đối tượng, "
+"các đối tượng xác định ranh giới của lĩnh vực này và nó không thể được thay "
+"đổi sau khi thành lập trường."
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields List"
@@ -1668,7 +1697,8 @@ msgstr "Chung"
 msgid ""
 "This field is required, and the value should be alphabetic and numeric "
 "characters only."
-msgstr "Lĩnh vực này là cần thiết, và giá trị phải là các ký tự chữ cái và số."
+msgstr ""
+"Lĩnh vực này là cần thiết, và giá trị phải là các ký tự chữ cái và số."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Must be unique and only accept alphabetic and numeric characters."
@@ -1680,7 +1710,9 @@ msgstr "Thay đổi giá trị này sẽ yêu cầu thay đổi dẫn sử dụn
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the name to be shown on the screens where the field is active."
-msgstr "Đây là tên sẽ được hiển thị trên màn hình nơi mà lĩnh vực này đang hoạt động."
+msgstr ""
+"Đây là tên sẽ được hiển thị trên màn hình nơi mà lĩnh vực này đang hoạt "
+"động."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field order"
@@ -1694,7 +1726,9 @@ msgstr "Lĩnh vực này là cần thiết và phải là số."
 msgid ""
 "This is the order in which this field will be shown on the screens where is "
 "active."
-msgstr "Đây là thứ tự trong đó lĩnh vực này sẽ được hiển thị trên màn hình khi đang hoạt động."
+msgstr ""
+"Đây là thứ tự trong đó lĩnh vực này sẽ được hiển thị trên màn hình khi đang "
+"hoạt động."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid ""
@@ -1746,7 +1780,9 @@ msgstr "Lĩnh vực này cần phải là số."
 msgid ""
 "The difference from NOW (in seconds) to calculate the field default value "
 "(e.g. 3600 or -60)."
-msgstr "The difference from NOW (in seconds) to calculate the field default value (e.g. 3600 or -60)."
+msgstr ""
+"The difference from NOW (in seconds) to calculate the field default value "
+"(e.g. 3600 or -60)."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Define years period"
@@ -1782,7 +1818,9 @@ msgstr "Hiển thị liên kết"
 msgid ""
 "Here you can specify an optional HTTP link for the field value in Overviews "
 "and Zoom screens."
-msgstr "Ở đây bạn có thể chỉ định một kết nối HTTP tùy chọn cho giá trị trường trong tổng quan và Zoom màn hình."
+msgstr ""
+"Ở đây bạn có thể chỉ định một kết nối HTTP tùy chọn cho giá trị trường trong"
+" tổng quan và Zoom màn hình."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Example"
@@ -1837,7 +1875,8 @@ msgstr "Thêm giá trị rỗng"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Activate this option to create an empty selectable value."
-msgstr "Kích hoạt tùy chọn này để tạo ra một giá trị có thể lựa chọn sản phẩm nào."
+msgstr ""
+"Kích hoạt tùy chọn này để tạo ra một giá trị có thể lựa chọn sản phẩm nào."
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Tree View"
@@ -1865,7 +1904,8 @@ msgstr "Lưu ý"
 msgid ""
 "You need to add the translations manually into the language translation "
 "files."
-msgstr "Bạn cần phải thêm các bản dịch bằng tay vào các tập tin ngôn ngữ dịch thuật."
+msgstr ""
+"Bạn cần phải thêm các bản dịch bằng tay vào các tập tin ngôn ngữ dịch thuật."
 
 #. Template: AdminDynamicFieldText
 msgid "Number of rows"
@@ -1873,7 +1913,9 @@ msgstr "Số lượng hàng"
 
 #. Template: AdminDynamicFieldText
 msgid "Specify the height (in lines) for this field in the edit mode."
-msgstr "Xác định chiều cao (trong dây chuyền) cho lĩnh vực này trong chế độ chỉnh sửa."
+msgstr ""
+"Xác định chiều cao (trong dây chuyền) cho lĩnh vực này trong chế độ chỉnh "
+"sửa."
 
 #. Template: AdminDynamicFieldText
 msgid "Number of cols"
@@ -1881,7 +1923,8 @@ msgstr ""
 
 #. Template: AdminDynamicFieldText
 msgid "Specify the width (in characters) for this field in the edit mode."
-msgstr "Xác định chiều rộng (bằng ký tự) cho lĩnh vực này trong chế độ chỉnh sửa."
+msgstr ""
+"Xác định chiều rộng (bằng ký tự) cho lĩnh vực này trong chế độ chỉnh sửa."
 
 #. Template: AdminDynamicFieldText
 msgid "Check RegEx"
@@ -1917,7 +1960,9 @@ msgstr ""
 msgid ""
 "With this module, administrators can send messages to agents, group or role "
 "members."
-msgstr "Với mô-đun này, các quản trị viên có thể gửi tin nhắn cho các điều hành viên, nhóm hoặc vai trò."
+msgstr ""
+"Với mô-đun này, các quản trị viên có thể gửi tin nhắn cho các điều hành "
+"viên, nhóm hoặc vai trò."
 
 #. Template: AdminEmail
 msgid "Create Administrative Message"
@@ -2039,7 +2084,8 @@ msgstr "Hiện nay tác vụ hệ thống này sẽ không chạy tự động."
 msgid ""
 "To enable automatic execution select at least one value from minutes, hours "
 "and days!"
-msgstr "Để cho phép thực hiện tự động chọn ít nhất một giá trị từ phút, giờ và ngày!"
+msgstr ""
+"Để cho phép thực hiện tự động chọn ít nhất một giá trị từ phút, giờ và ngày!"
 
 #. Template: AdminGenericAgent
 msgid "Event Based Execution (Single Ticket)"
@@ -2061,13 +2107,17 @@ msgstr "Xóa sự kiện này"
 msgid ""
 "Additionally or alternatively to a periodic execution, you can define ticket"
 " events that will trigger this job."
-msgstr "Ngoài ra hay cách khác để thực hiện một chu kỳ, bạn có thể xác định sự kiện vé sẽ kích hoạt công việc này."
+msgstr ""
+"Ngoài ra hay cách khác để thực hiện một chu kỳ, bạn có thể xác định sự kiện "
+"vé sẽ kích hoạt công việc này."
 
 #. Template: AdminGenericAgent
 msgid ""
 "If a ticket event is fired, the ticket filter will be applied to check if "
 "the ticket matches. Only then the job is run on that ticket."
-msgstr "Nếu một sự kiện vé bị sa thải bộ lọc vé sẽ được áp dụng để kiểm tra xem vé phù hợp. Chỉ khi đó công việc được chạy trên vé đó."
+msgstr ""
+"Nếu một sự kiện vé bị sa thải bộ lọc vé sẽ được áp dụng để kiểm tra xem vé "
+"phù hợp. Chỉ khi đó công việc được chạy trên vé đó."
 
 #. Template: AdminGenericAgent
 msgid "Do you really want to delete this event trigger?"
@@ -2879,7 +2929,9 @@ msgstr ""
 msgid ""
 "To add a new event select the event object and event name and click on the "
 "\"+\" button"
-msgstr "Để thêm một sự kiện mới chọn đối tượng và tên của sự kiện và nhấn vào nút \"+\""
+msgstr ""
+"Để thêm một sự kiện mới chọn đối tượng và tên của sự kiện và nhấn vào nút "
+"\"+\""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
@@ -3913,7 +3965,9 @@ msgstr ""
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
-msgstr "Nhóm quản trị lấy trong khu vực quản trị và nhóm thống kê lấy trong khu vực thống kê."
+msgstr ""
+"Nhóm quản trị lấy trong khu vực quản trị và nhóm thống kê lấy trong khu vực "
+"thống kê."
 
 #. Template: AdminGroup
 msgid ""
@@ -4485,7 +4539,9 @@ msgstr ""
 
 #. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
-msgstr "Theo cách này bạn có thể sửa trực tiếp cấu hình khóa trong Cấu hình hệ thống."
+msgstr ""
+"Theo cách này bạn có thể sửa trực tiếp cấu hình khóa trong Cấu hình hệ "
+"thống."
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
@@ -4671,7 +4727,8 @@ msgstr "Gỡ cài đặt"
 
 #. Template: AdminPackageManager
 msgid "Package not correctly deployed! Please reinstall the package."
-msgstr "Đóng gói không được triển khai một cách chính xác! Hãy cài đặt lại gói"
+msgstr ""
+"Đóng gói không được triển khai một cách chính xác! Hãy cài đặt lại gói"
 
 #. Template: AdminPackageManager
 msgid "Reinstall"
@@ -4869,7 +4926,9 @@ msgstr ""
 msgid ""
 "If you want to match only the email address, use "
 "EMAILADDRESS:info@example.com in From, To or Cc."
-msgstr "Nếu bạn muốn kết hợp các địa chỉ email, hãy dùng EMAILADDRESS:info@example.com trong trường Từ, Đến hoặc Cc."
+msgstr ""
+"Nếu bạn muốn kết hợp các địa chỉ email, hãy dùng "
+"EMAILADDRESS:info@example.com trong trường Từ, Đến hoặc Cc."
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -5973,7 +6032,8 @@ msgstr ""
 
 #. Template: AdminRole
 msgid "Create a role and put groups in it. Then add the role to the users."
-msgstr "Tạo 1 vai trò và đặt các nhóm vào đó. Rồi thêm vai trò cho người dùng."
+msgstr ""
+"Tạo 1 vai trò và đặt các nhóm vào đó. Rồi thêm vai trò cho người dùng."
 
 #. Template: AdminRole
 msgid ""
@@ -6164,7 +6224,9 @@ msgstr "Xem"
 msgid ""
 "In this way you can directly edit the certification and private keys in file"
 " system."
-msgstr "Theo cách này bạn có thể sửa chứng chỉ và khóa cá nhân trực tiếp trong hệ thống file."
+msgstr ""
+"Theo cách này bạn có thể sửa chứng chỉ và khóa cá nhân trực tiếp trong hệ "
+"thống file."
 
 #. Template: AdminSMIME
 msgid "Hash"
@@ -9473,7 +9535,9 @@ msgstr ""
 msgid ""
 "If you have set a root password for your database, it must be entered here. "
 "If not, leave this field empty."
-msgstr "Nếu bạn đã thiết lập một mật khẩu chủ cho cơ sở dữ liệu của bạn, nó phải được nhập vào đây. Nếu không, hãy để trống ô này."
+msgstr ""
+"Nếu bạn đã thiết lập một mật khẩu chủ cho cơ sở dữ liệu của bạn, nó phải "
+"được nhập vào đây. Nếu không, hãy để trống ô này."
 
 #. Template: InstallerDBmssql
 msgid "Database name"
@@ -9529,7 +9593,9 @@ msgstr ""
 msgid ""
 "To be able to use OTRS you have to enter the following line in your command "
 "line (Terminal/Shell) as root."
-msgstr "Để có thể sử dụng OTRS bạn phải nhập dòng sau vào dòng lệnh của bạn (Terminal/Shell) làm gốc."
+msgstr ""
+"Để có thể sử dụng OTRS bạn phải nhập dòng sau vào dòng lệnh của bạn "
+"(Terminal/Shell) làm gốc."
 
 #. Template: InstallerFinish
 msgid "Restart your webserver"
@@ -10374,7 +10440,9 @@ msgstr ""
 msgid ""
 "ACL information from database is not in sync with the system configuration, "
 "please deploy all ACLs."
-msgstr "ACL thông tin từ cơ sở dữ liệu không đồng bộ với các cấu hình hệ thống, hãy triển khai tất cả ACL."
+msgstr ""
+"ACL thông tin từ cơ sở dữ liệu không đồng bộ với các cấu hình hệ thống, hãy "
+"triển khai tất cả ACL."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
@@ -11371,35 +11439,35 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "Your system was successfully upgraded to %s."
-msgstr ""
+msgstr "Hệ thống của bạn đã được nâng cấp thành công đến% s."
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "There was a problem during the upgrade to %s."
-msgstr ""
+msgstr "Có một vấn đề trong quá trình nâng cấp đến% s"
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "%s was correctly reinstalled."
-msgstr ""
+msgstr "% s đã được cài đặt lại một cách chính xác."
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "There was a problem reinstalling %s."
-msgstr ""
+msgstr "Có một vấn đề trong lúc cài đặt lại% s."
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "Your %s was successfully updated."
-msgstr ""
+msgstr "% S của bạn đã được cập nhật thành công."
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "There was a problem during the upgrade of %s."
-msgstr ""
+msgstr "Có một vấn đề trong quá trình nâng cấp của% s."
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "%s was correctly uninstalled."
-msgstr ""
+msgstr "% s đã được gỡ bỏ cài đặt một cách chính xác."
 
 #. Perl Module: Kernel/Modules/AdminOTRSBusiness.pm
 msgid "There was a problem uninstalling %s."
-msgstr ""
+msgstr "Có một vấn đề gỡ bỏ cài đặt% s."
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
@@ -11452,7 +11520,9 @@ msgstr ""
 msgid ""
 "Package not verified by the OTRS Group! It is recommended not to use this "
 "package."
-msgstr "Gói không được xác nhận bởi tập đoàn OTRS! Đó là khuyến cáo không sử dụng gói này."
+msgstr ""
+"Gói không được xác nhận bởi tập đoàn OTRS! Đó là khuyến cáo không sử dụng "
+"gói này."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not Started"
@@ -11551,7 +11621,9 @@ msgstr ""
 msgid ""
 "Process Management information from database is not in sync with the system "
 "configuration, please synchronize all processes."
-msgstr "Thông tin quản lý quá trình từ cơ sở dữ liệu không đồng bộ với các cấu hình hệ thống, hãy đồng bộ hóa tất cả các quy trình."
+msgstr ""
+"Thông tin quản lý quá trình từ cơ sở dữ liệu không đồng bộ với các cấu hình "
+"hệ thống, hãy đồng bộ hóa tất cả các quy trình."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ExampleProcesses!"
@@ -13868,12 +13940,16 @@ msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
 msgstr ""
+"Các giấy phép cho% s của bạn sắp hết hạn. Hãy liên hệ với% s để gia hạn hợp "
+"đồng của bạn!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
 msgstr ""
+"Bản cập nhật cho% s của bạn có sẵn, nhưng có một cuộc xung đột với phiên bản"
+" khuôn khổ của bạn! Vui lòng cập nhật khuôn khổ của bạn trước !"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
 msgid "Online Agent: %s"
@@ -13989,7 +14065,9 @@ msgstr ""
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
 "Can't update password, your new passwords do not match. Please try again!"
-msgstr "Không thể cập nhật mật khẩu, mật khẩu mới của bạn không phù hợp. Vui lòng thử lại!"
+msgstr ""
+"Không thể cập nhật mật khẩu, mật khẩu mới của bạn không phù hợp. Vui lòng "
+"thử lại!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
@@ -13999,7 +14077,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must be at least %s characters long!"
-msgstr ""
+msgstr "Không thể cập nhật mật khẩu, nó phải được ít nhất ký tự% s dài! "
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
@@ -14371,7 +14449,9 @@ msgstr "Không thể phân tích kho lưu trữ tài liệu số."
 msgid ""
 "No packages for your framework version found in this repository, it only "
 "contains packages for other framework versions."
-msgstr "Không có gói cho phiên bản khuôn khổ của bạn được tìm thấy trong kho lưu trữ này, nó chỉ chứa các gói cho các phiên bản khuôn khổ khác."
+msgstr ""
+"Không có gói cho phiên bản khuôn khổ của bạn được tìm thấy trong kho lưu trữ"
+" này, nó chỉ chứa các gói cho các phiên bản khuôn khổ khác."
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is not installed!"
@@ -15623,7 +15703,9 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Login failed! Your user name or password was entered incorrectly."
-msgstr "Đăng nhập thất bại! Tên người dùng hoặc mật khẩu của bạn đã được nhập không chính xác"
+msgstr ""
+"Đăng nhập thất bại! Tên người dùng hoặc mật khẩu của bạn đã được nhập không "
+"chính xác"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid ""
@@ -15653,7 +15735,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Sent new password to %s. Please check your email."
-msgstr ""
+msgstr "Gửi mật khẩu mới tới% s. Hãy kiểm tra email của bạn."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Error: invalid session."
@@ -15676,7 +15758,9 @@ msgstr ""
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "This e-mail address already exists. Please log in or reset your password."
-msgstr "Địa chỉ email này đã tồn tại. Vui lòng đăng nhập hoặc thiết lập lại mật khẩu của bạn"
+msgstr ""
+"Địa chỉ email này đã tồn tại. Vui lòng đăng nhập hoặc thiết lập lại mật khẩu"
+" của bạn"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
@@ -15699,6 +15783,8 @@ msgstr ""
 msgid ""
 "New account created. Sent login information to %s. Please check your email."
 msgstr ""
+"Tài khoản mới tạo ra. Gửi thông tin đăng nhập vào% s. Hãy kiểm tra email của"
+" bạn."
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -16124,7 +16210,9 @@ msgstr "Một mặt hàng với tên này là đã có mặt."
 msgid ""
 "This item still contains sub items. Are you sure you want to remove this "
 "item including its sub items?"
-msgstr "Mặt hàng này vẫn còn chứa các mặt hàng phụ. Bạn có chắc bạn muốn loại bỏ mặt hàng này bao gồm các mục phụ của nó?"
+msgstr ""
+"Mặt hàng này vẫn còn chứa các mặt hàng phụ. Bạn có chắc bạn muốn loại bỏ mặt"
+" hàng này bao gồm các mục phụ của nó?"
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "More"
@@ -16160,7 +16248,9 @@ msgstr ""
 msgid ""
 "Do you really want to delete this dynamic field? ALL associated data will be"
 " LOST!"
-msgstr "Bạn có thực sự muốn xóa lĩnh vực năng động này? Tất cả dữ liệu liên quan sẽ BỊ MẤT!"
+msgstr ""
+"Bạn có thực sự muốn xóa lĩnh vực năng động này? Tất cả dữ liệu liên quan sẽ "
+"BỊ MẤT!"
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Delete field"
@@ -17060,7 +17150,7 @@ msgstr ""
 
 #. SysConfig
 msgid "%s"
-msgstr ""
+msgstr "Lịch sử::Khác"
 
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
@@ -17234,7 +17324,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Added email. %s"
-msgstr ""
+msgstr "Lịch sử::Email khách hàng"
 
 #. SysConfig
 msgid "Added follow-up to ticket [%s]. %s"
@@ -17242,7 +17332,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Added link to ticket \"%s\"."
-msgstr ""
+msgstr "Lịch sử::Thêm liên kết thẻ"
 
 #. SysConfig
 msgid "Added note (%s)."
@@ -17850,7 +17940,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Bounced to \"%s\"."
-msgstr ""
+msgstr "Lịch sử::Từ bỏ"
 
 #. SysConfig
 msgid "Bulgarian"
@@ -17971,7 +18061,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Changed priority from \"%s\" (%s) to \"%s\" (%s)."
-msgstr ""
+msgstr "Lịch sử::Cập nhật ưu tiên"
 
 #. SysConfig
 msgid "Changed queue to \"%s\" (%s) from \"%s\" (%s)."
@@ -21013,7 +21103,7 @@ msgstr "Xóa vé này "
 
 #. SysConfig
 msgid "Deleted link to ticket \"%s\"."
-msgstr ""
+msgstr "Lịch sử::Xóa liên kết thẻ"
 
 #. SysConfig
 msgid ""
@@ -21165,7 +21255,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Disables the redirection to the last screen overview / dashboard after a "
-"ticket is created."
+"ticket is closed."
 msgstr ""
 
 #. SysConfig
@@ -21830,7 +21920,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Forwarded to \"%s\"."
-msgstr ""
+msgstr "Lịch sử::Chuyển tiếp."
 
 #. SysConfig
 msgid "Free Fields"
@@ -22567,6 +22657,10 @@ msgstr ""
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Korean"
 msgstr ""
 
 #. SysConfig
@@ -26775,7 +26869,9 @@ msgstr ""
 msgid ""
 "Your email with ticket number \"<OTRS_TICKET>\" is merged to "
 "\"<OTRS_MERGE_TO_TICKET>\"."
-msgstr "E-mail của bạn với số thẻ \"<OTRS_TICKET>\" được trộn thành \"<OTRS_MERGE_TO_TICKET>\"!"
+msgstr ""
+"E-mail của bạn với số thẻ \"<OTRS_TICKET>\" được trộn thành "
+"\"<OTRS_MERGE_TO_TICKET>\"!"
 
 #. SysConfig
 msgid ""

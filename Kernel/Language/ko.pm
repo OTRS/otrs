@@ -1286,19 +1286,13 @@ sub Data {
         'Attributes of the current agent user who requested this action' =>
             '이 작업을 요청한 현재 상담원 사용자의 속성',
         'Attributes of the ticket data' => '티켓 데이터의 속성',
-        'Ticket dynamic fields internal key values' => '동적 필드 내부 키 값 티켓
-
- ',
+        'Ticket dynamic fields internal key values' => '동적 필드 내부 키 값 티켓 ',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
-            '티켓 동적 필드는 드롭 다운 및 Multiselect 필드에 유용한 값을 표시합니다.
-
- ',
+            '티켓 동적 필드는 드롭 다운 및 Multiselect 필드에 유용한 값을 표시합니다. ',
 
         # Template: AdminNotificationEventTransportEmailSettings
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
-            '<OTRS_TICKET_DynamicField _...>와 같은 OTRS 태그를 사용하여 현재 티켓의 값을 삽입 할 수 있습니다.
-
- ',
+            '<OTRS_TICKET_DynamicField _...>와 같은 OTRS 태그를 사용하여 현재 티켓의 값을 삽입 할 수 있습니다.',
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => '%s 관리',
@@ -2046,9 +2040,7 @@ sub Data {
         'The display name and email address will be shown on mail you send.' =>
             '표시 이름과 이메일 주소가 보내는 메일에 표시됩니다.',
         'This system address cannot be set to invalid, because it is used in one or more queue(s).' =>
-            '이 시스템 주소는 하나 이상의 대기열(s)에서 사용되기 때문에 유효하지 않게 설정할 수 없습니다.
-
- ',
+            '이 시스템 주소는 하나 이상의 대기열(s)에서 사용되기 때문에 유효하지 않게 설정할 수 없습니다. ',
 
         # Template: AdminSystemConfiguration
         'online administrator documentation' => '온라인 관리자 문서',
@@ -2061,9 +2053,7 @@ sub Data {
             '%s를 읽음으로써 시스템 구성을 사용하는 방법을 알아보십시오.',
         'Search in all settings...' => '모든 설정에서 검색...',
         'There are currently no settings available. Please make sure to run \'otrs.Console.pl Maint::Config::Rebuild\' before using the software.' =>
-            '현재 사용할 수있는 설정이 없습니다. 소프트웨어를 사용하기 전에 \'otrs.Console.pl Maint :: Config :: Rebuild\'를 실행하십시오.
-
- ',
+            '현재 사용할 수있는 설정이 없습니다. 소프트웨어를 사용하기 전에 \'otrs.Console.pl Maint :: Config :: Rebuild\'를 실행하십시오. ',
 
         # Template: AdminSystemConfigurationDeployment
         'Changes Deployment' => '변경 사항 배포',
@@ -6081,13 +6071,9 @@ Thanks for your help!
         'Cache time in seconds for agent authentication in the GenericInterface.' =>
             'GenericInterface에서 에이전트 인증을위한 캐시 시간.',
         'Cache time in seconds for customer authentication in the GenericInterface.' =>
-            'GenericInterface에서 고객 인증을위한 캐시 시간 초.
-
- ',
+            'GenericInterface에서 고객 인증을위한 캐시 시간 초. ',
         'Cache time in seconds for the DB ACL backend.' => 'DB ACL 백엔드의 캐시 시간 초.',
-        'Cache time in seconds for the DB process backend.' => 'DB 프로세스 백엔드의 캐시 시간 초.
-
- ',
+        'Cache time in seconds for the DB process backend.' => 'DB 프로세스 백엔드의 캐시 시간 초. ',
         'Cache time in seconds for the SSL certificate attributes.' => 'SSL 인증서 속성의 캐시 시간 초.',
         'Cache time in seconds for the ticket process navigation bar output module.' =>
             '티켓 프로세스 탐색 모음 출력 모듈의 캐시 시간 초.',
@@ -6896,9 +6882,7 @@ Thanks for your help!
         'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '대시 보드 백엔드의 매개 변수를 정의합니다. "Cmd"는 매개 변수가있는 명령을 지정하는 데 사용됩니다. "그룹"은 플러그인 (예 : 그룹 : 관리자, 그룹 1, 그룹 2)에 대한 액세스를 제한하는 데 사용됩니다. "기본값"은 플러그인이 기본적으로 활성화되어 있는지 또는 사용자가 수동으로 활성화해야하는지 여부를 나타냅니다. "CacheTTL"은 플러그인의 캐시 만기 기간을 나타냅니다. "필수"는 플러그인이 항상 표시되는지 여부를 결정하며 에이전트가 플러그인을 제거 할 수 없습니다.',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
-            '대시 보드 백엔드의 매개 변수를 정의합니다. "그룹"은 플러그인 (예 : 그룹 : 관리자, 그룹 1, 그룹 2)에 대한 액세스를 제한하는 데 사용됩니다. "기본값"은 플러그인이 기본적으로 활성화되어 있는지 또는 사용자가 수동으로 활성화해야하는지 여부를 나타냅니다. "CacheTTL"은 플러그인의 캐시 만기 기간을 나타냅니다. "필수"는 플러그인이 항상 표시되는지 여부를 결정하며 에이전트가 플러그인을 제거 할 수 없습니다.
-
- ',
+            '대시 보드 백엔드의 매개 변수를 정의합니다. "그룹"은 플러그인 (예 : 그룹 : 관리자, 그룹 1, 그룹 2)에 대한 액세스를 제한하는 데 사용됩니다. "기본값"은 플러그인이 기본적으로 활성화되어 있는지 또는 사용자가 수동으로 활성화해야하는지 여부를 나타냅니다. "CacheTTL"은 플러그인의 캐시 만기 기간을 나타냅니다. "필수"는 플러그인이 항상 표시되는지 여부를 결정하며 에이전트가 플러그인을 제거 할 수 없습니다.',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '대시 보드 백엔드의 매개 변수를 정의합니다. "그룹"은 플러그인 (예 : 그룹 : 관리자, 그룹 1, 그룹 2)에 대한 액세스를 제한하는 데 사용됩니다. "기본값"은 플러그인이 기본적으로 활성화되어 있는지 또는 사용자가 수동으로 활성화해야하는지 여부를 나타냅니다. "CacheTTLLocal"은 플러그인의 캐시 만기 기간을 분 단위로 정의합니다. "필수"는 플러그인이 항상 표시되는지 여부를 결정하며 에이전트가 플러그인을 제거 할 수 없습니다.',
         'Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
@@ -6925,9 +6909,7 @@ Thanks for your help!
             'PDF 문서에서 비례 글꼴을 처리 할 경로와 TTF-File을 정의합니다.',
         'Defines the path of the shown info file, that is located under Kernel/Output/HTML/Templates/Standard/CustomerAccept.tt.' =>
             'Kernel / Output / HTML / Templates / Standard / CustomerAccept.tt에있는 표시된 정보 파일의 경로를 정의합니다.',
-        'Defines the path to PGP binary.' => 'PGP 바이너리 경로를 정의합니다.
-
- ',
+        'Defines the path to PGP binary.' => 'PGP 바이너리 경로를 정의합니다.',
         'Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = \'/var/lib/wwwrun\';).' =>
             'ssl 바이너리를 여는 경로를 정의합니다. HOME 환경 변수 ($ ENV {HOME} = \'/ var / lib / wwwrun\';)가 필요합니다.',
         'Defines the period of time (in minutes) before agent is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>

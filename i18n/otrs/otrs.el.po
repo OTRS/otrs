@@ -1,17 +1,17 @@
-# 
 # Translators:
-# Alexandros Kosiaris <akosiaris@gmail.com>, 2016
-# Angelos Chraniotis <chraniotis@gmail.com>, 2016
-# Korina Lampridou <korina@it.auth.gr>, 2015
-# KOSTAS PETRIDIS <kpetridis@cteam.gr>, 2016
-# Krikor Maroukian <krikor.maroukian@gmail.com>, 2014
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Krikor Maroukian <krikor.maroukian@gmail.com>, 2018
+# Korina Lampridou <korina@it.auth.gr>, 2018
+# Angelos Chraniotis <chraniotis@gmail.com>, 2018
+# Alexandros Kosiaris <akosiaris@gmail.com>, 2018
+# KOSTAS PETRIDIS <kpetridis@cteam.gr>, 2018
 msgid ""
 msgstr ""
-"Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-09-13 21:46+0000\n"
-"PO-Revision-Date: 2018-09-13 21:49+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: Greek (http://www.transifex.com/otrs/OTRS/language/el/)\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-09-27 16:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: KOSTAS PETRIDIS <kpetridis@cteam.gr>, 2018\n"
+"Language-Team: Greek (https://www.transifex.com/otrs/teams/23435/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -54,7 +54,10 @@ msgstr ""
 msgid ""
 "Here you can upload a configuration file to import ACLs to your system. The "
 "file needs to be in .yml format as exported by the ACL editor module."
-msgstr "Εδώ μπορείτε να μεταφορτώσετε ένα αρχείο ρυθμίσεων για την των ACL στο σύστημα σας. Το αρχείο θα πρέπει να είναι σε μορφή .yml όπως έχει εξαχθεί από τη μονάδα επεξεργασίας των ACL."
+msgstr ""
+"Εδώ μπορείτε να μεταφορτώσετε ένα αρχείο ρυθμίσεων για την των ACL στο "
+"σύστημα σας. Το αρχείο θα πρέπει να είναι σε μορφή .yml όπως έχει εξαχθεί "
+"από τη μονάδα επεξεργασίας των ACL."
 
 #. Template: AdminACL
 msgid "This field is required."
@@ -80,14 +83,19 @@ msgstr "Περιγραφή"
 msgid ""
 "To create a new ACL you can either import ACLs which were exported from "
 "another system or create a complete new one."
-msgstr "Για τη δημιουργία ενός νέου ACL μπορείτε είτε να εισάγετε τα ACL τα οποία έχουν εξαχθεί από κάποιο άλλο σύστημα ή να δημιουργήσετε καινούριο εξαρχής."
+msgstr ""
+"Για τη δημιουργία ενός νέου ACL μπορείτε είτε να εισάγετε τα ACL τα οποία "
+"έχουν εξαχθεί από κάποιο άλλο σύστημα ή να δημιουργήσετε καινούριο εξαρχής."
 
 #. Template: AdminACL
 msgid ""
 "Changes to the ACLs here only affect the behavior of the system, if you "
 "deploy the ACL data afterwards. By deploying the ACL data, the newly made "
 "changes will be written to the configuration."
-msgstr "Οι αλλαγές στα ACL θα επηρεάσουν τη συμπεριφορά μόνο του τρέχοντος συστήματος, εάν γίνει ανάπτυξη των ACL αργότερα. Αναπτύσσοντας τα δεδομένα των ACL, οι νέες αλλαγές θα αποθηκευθούν στις υπάρχουσες ρυθμίσεις σας."
+msgstr ""
+"Οι αλλαγές στα ACL θα επηρεάσουν τη συμπεριφορά μόνο του τρέχοντος "
+"συστήματος, εάν γίνει ανάπτυξη των ACL αργότερα. Αναπτύσσοντας τα δεδομένα "
+"των ACL, οι νέες αλλαγές θα αποθηκευθούν στις υπάρχουσες ρυθμίσεις σας."
 
 #. Template: AdminACL
 msgid "ACLs"
@@ -98,7 +106,10 @@ msgid ""
 "Please note: This table represents the execution order of the ACLs. If you "
 "need to change the order in which ACLs are executed, please change the names"
 " of the affected ACLs."
-msgstr "Σημείωση: Αυτός ο πίνακας αναπαριστά τη σειρά εκτέλεσης των ACL. Εάν επιθυμείτε να τροποποιήσετε τη σειρά με την οποία εκτελούνται τα ACL, παρακαλούμε αλλάξτε τα ονόματα των επηρεαζόμενων ACL."
+msgstr ""
+"Σημείωση: Αυτός ο πίνακας αναπαριστά τη σειρά εκτέλεσης των ACL. Εάν "
+"επιθυμείτε να τροποποιήσετε τη σειρά με την οποία εκτελούνται τα ACL, "
+"παρακαλούμε αλλάξτε τα ονόματα των επηρεαζόμενων ACL."
 
 #. Template: AdminACL
 msgid "ACL name"
@@ -1366,7 +1377,8 @@ msgstr "Ανάγνωση και εγγραφή"
 
 #. Template: AdminCustomerGroup
 msgid "Full read and write access to the tickets in this group/queue."
-msgstr "Πλήρη δικαιώματα ανάγνωσης και εγγραφής στην ομάδα/ουρά για αυτό το δελτίο."
+msgstr ""
+"Πλήρη δικαιώματα ανάγνωσης και εγγραφής στην ομάδα/ουρά για αυτό το δελτίο."
 
 #. Template: AdminCustomerUser
 msgid "Customer User Management"
@@ -2383,7 +2395,9 @@ msgstr "Διαταγή"
 msgid ""
 "This command will be executed. ARG[0] will be the ticket number. ARG[1] the "
 "ticket id."
-msgstr "Αυτή η εντολή θα εκτελεστεί. ARG[0] θα είναι το\nνούμερο του δελτίου και ARG[1] ο κωδικός του δελτίου ."
+msgstr ""
+"Αυτή η εντολή θα εκτελεστεί. ARG[0] θα είναι το\n"
+"νούμερο του δελτίου και ARG[1] ο κωδικός του δελτίου ."
 
 #. Template: AdminGenericAgent
 msgid "Delete tickets"
@@ -3915,7 +3929,9 @@ msgstr "Προσθηκη Ομάδας"
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
-msgstr "Η ομάδα διαχειριστών εχει διακαιωμτατα στην\nπεριοχη διαχειριστων και στην ομαδα στατιστικων ."
+msgstr ""
+"Η ομάδα διαχειριστών εχει διακαιωμτατα στην\n"
+"περιοχη διαχειριστων και στην ομαδα στατιστικων ."
 
 #. Template: AdminGroup
 msgid ""
@@ -4487,7 +4503,9 @@ msgstr "Προσθήκη κλειδιου PGP"
 
 #. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
-msgstr "Με αυτον τον τροπο μπορειτε κατευθειαν να επεξεργαστείτε το\nκeyring που διαμορφωνεται στο SysConfig."
+msgstr ""
+"Με αυτον τον τροπο μπορειτε κατευθειαν να επεξεργαστείτε το\n"
+"κeyring που διαμορφωνεται στο SysConfig."
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
@@ -4771,7 +4789,8 @@ msgstr "Αυτή η δυνατότητα έχει επιλεχθεί"
 
 #. Template: AdminPerformanceLog
 msgid "Just use this feature if you want to log each request."
-msgstr "Χρησιμοποιείστε αυτή την δυνατότητα αν θελετε να καταγραψετε κάθε αίτημα"
+msgstr ""
+"Χρησιμοποιείστε αυτή την δυνατότητα αν θελετε να καταγραψετε κάθε αίτημα"
 
 #. Template: AdminPerformanceLog
 msgid "Activating this feature might affect your system performance!"
@@ -5597,7 +5616,9 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid "Will be the sender address of this queue for email answers."
-msgstr "Θα είναι η διεύθυνση του αποστολέα αυτής της ουράς για απαντήσεις μέσω email."
+msgstr ""
+"Θα είναι η διεύθυνση του αποστολέα αυτής της ουράς για απαντήσεις μέσω "
+"email."
 
 #. Template: AdminQueue
 msgid "Default sign key"
@@ -5975,7 +5996,9 @@ msgstr ""
 
 #. Template: AdminRole
 msgid "Create a role and put groups in it. Then add the role to the users."
-msgstr "Δημιουργήστε ενα ρόλο και αναθέστε ομάδες. Μετά προσθέστε τον ρόλο στους χρήστες."
+msgstr ""
+"Δημιουργήστε ενα ρόλο και αναθέστε ομάδες. Μετά προσθέστε τον ρόλο στους "
+"χρήστες."
 
 #. Template: AdminRole
 msgid ""
@@ -6047,7 +6070,8 @@ msgstr "Προτεραιότητα"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to change the ticket priority in this group/queue."
-msgstr "Δικαιώματα για αλλαγή προτεραιότητας δελτίων σε αυτη την ομάδα / ουρά."
+msgstr ""
+"Δικαιώματα για αλλαγή προτεραιότητας δελτίων σε αυτη την ομάδα / ουρά."
 
 #. Template: AdminRoleUser
 msgid "Manage Agent-Role Relations"
@@ -6166,11 +6190,15 @@ msgstr "Δείτε επίσης"
 msgid ""
 "In this way you can directly edit the certification and private keys in file"
 " system."
-msgstr "Με αυτόν τον τρόπο μπορείτε κατευθείαν να\nεπεξεργαστείτε τα πιστοποιητικά και ιδιωτικά κλειδιά στο αρχείο συστήματος."
+msgstr ""
+"Με αυτόν τον τρόπο μπορείτε κατευθείαν να\n"
+"επεξεργαστείτε τα πιστοποιητικά και ιδιωτικά κλειδιά στο αρχείο συστήματος."
 
 #. Template: AdminSMIME
 msgid "Hash"
-msgstr "Με αυτόν τον τρόπο μπορείτε κατευθείαν να\nεπεξεργαστείτε τα πιστοποιητικά και ιδιωτικά κλειδιά στο αρχείο συστήματος."
+msgstr ""
+"Με αυτόν τον τρόπο μπορείτε κατευθείαν να\n"
+"επεξεργαστείτε τα πιστοποιητικά και ιδιωτικά κλειδιά στο αρχείο συστήματος."
 
 #. Template: AdminSMIME
 msgid "Create"
@@ -9475,7 +9503,9 @@ msgstr ""
 msgid ""
 "If you have set a root password for your database, it must be entered here. "
 "If not, leave this field empty."
-msgstr "Εάν έχετε καθορίσει το συνθηματικό διαχειριστή για την βάση σας, πρέπει να εισαχθεί εδώ. Εάν όχι, αφήστε το πεδίο κενό."
+msgstr ""
+"Εάν έχετε καθορίσει το συνθηματικό διαχειριστή για την βάση σας, πρέπει να "
+"εισαχθεί εδώ. Εάν όχι, αφήστε το πεδίο κενό."
 
 #. Template: InstallerDBmssql
 msgid "Database name"
@@ -9531,7 +9561,9 @@ msgstr ""
 msgid ""
 "To be able to use OTRS you have to enter the following line in your command "
 "line (Terminal/Shell) as root."
-msgstr "Για να μπορεσετε να χρησιμοπιήσετε το OTRS πρέπει να είσάγετε την παρακάτω γραμμή στο Terminal command line ώς χρήστης root."
+msgstr ""
+"Για να μπορεσετε να χρησιμοπιήσετε το OTRS πρέπει να είσάγετε την παρακάτω "
+"γραμμή στο Terminal command line ώς χρήστης root."
 
 #. Template: InstallerFinish
 msgid "Restart your webserver"
@@ -10376,7 +10408,9 @@ msgstr ""
 msgid ""
 "ACL information from database is not in sync with the system configuration, "
 "please deploy all ACLs."
-msgstr "Οι πληροφορίες ACL της βάσης δεδομένων δεν έχουν συγχρονιστεί με τις ρυθμίσεις συστήματος, παρακαλούμε να εφαρμόσετε όλα τα ACLs."
+msgstr ""
+"Οι πληροφορίες ACL της βάσης δεδομένων δεν έχουν συγχρονιστεί με τις "
+"ρυθμίσεις συστήματος, παρακαλούμε να εφαρμόσετε όλα τα ACLs."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
@@ -11454,7 +11488,9 @@ msgstr ""
 msgid ""
 "Package not verified by the OTRS Group! It is recommended not to use this "
 "package."
-msgstr "Το πακέτο δεν έχει επαληθευτεί από την ομάδα OTRS! Προτείνεται να μην χρησιμοποιηθεί αυτό το πακέτο."
+msgstr ""
+"Το πακέτο δεν έχει επαληθευτεί από την ομάδα OTRS! Προτείνεται να μην "
+"χρησιμοποιηθεί αυτό το πακέτο."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not Started"
@@ -11553,7 +11589,10 @@ msgstr "Προστέθηκε η προτεραιότητα!"
 msgid ""
 "Process Management information from database is not in sync with the system "
 "configuration, please synchronize all processes."
-msgstr "Οι πληροφορίες της βάσης δεδομένων του Process Management δεν είναι συγχρονισμένες με τις ρυθμίσεις συστήματος, παρακαλώ για τον συγχρονισμό όλων των διαδικασιών."
+msgstr ""
+"Οι πληροφορίες της βάσης δεδομένων του Process Management δεν είναι "
+"συγχρονισμένες με τις ρυθμίσεις συστήματος, παρακαλώ για τον συγχρονισμό "
+"όλων των διαδικασιών."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ExampleProcesses!"
@@ -12428,7 +12467,9 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Sorry, you need to be the ticket owner to perform this action."
-msgstr "Λυπούμαστε. πρέπει να είστε ιδιοκτήτης αυτού του δελτίου για να εκτελέσετε αυτή την ενέργεια."
+msgstr ""
+"Λυπούμαστε. πρέπει να είστε ιδιοκτήτης αυτού του δελτίου για να εκτελέσετε "
+"αυτή την ενέργεια."
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Please change the owner first."
@@ -12536,7 +12577,8 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
-msgstr "Η διεύθυνση %s έχει αντικατασταθεί με την καταχωρημένη διεύθυνση του πελάτη."
+msgstr ""
+"Η διεύθυνση %s έχει αντικατασταθεί με την καταχωρημένη διεύθυνση του πελάτη."
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Customer user automatically added in Cc."
@@ -13855,7 +13897,8 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
 msgid "Enable cloud services to unleash all OTRS features!"
-msgstr "Ενεργοποίηση των υπηρεσιών cloud για τα πλήρη χαρακτηριστικά του OTRS!"
+msgstr ""
+"Ενεργοποίηση των υπηρεσιών cloud για τα πλήρη χαρακτηριστικά του OTRS!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
@@ -13869,13 +13912,18 @@ msgstr ""
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
-msgstr "Η άδεια χρήσης σας για το %s πρόκειται να λήξει. Παρακαλούμε επικοινωνήστε με το %s για την ανανέωση του συμβολαίου σας!"
+msgstr ""
+"Η άδεια χρήσης σας για το %s πρόκειται να λήξει. Παρακαλούμε επικοινωνήστε "
+"με το %s για την ανανέωση του συμβολαίου σας!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
-msgstr "Μια ενημέρωση για το %s είναι διαθέσιμη, αλλά υπάρχει μια διένεξη με την έκδοση του framework σας! Παρακαλούμε ενημερώστε πρώτα την έκδοση του framework σας!"
+msgstr ""
+"Μια ενημέρωση για το %s είναι διαθέσιμη, αλλά υπάρχει μια διένεξη με την "
+"έκδοση του framework σας! Παρακαλούμε ενημερώστε πρώτα την έκδοση του "
+"framework σας!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
 msgid "Online Agent: %s"
@@ -13912,7 +13960,9 @@ msgstr "Ο διεργασία παρασκηνίου του OTRS δεν εκτε
 
 #. Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
 msgid "You have Out of Office enabled, would you like to disable it?"
-msgstr "Έχετε ενεργοποιήσει τη λειτουργία Εκτός Γραφείου. Θέλετε να την απενεργοποιήσετε;"
+msgstr ""
+"Έχετε ενεργοποιήσει τη λειτουργία Εκτός Γραφείου. Θέλετε να την "
+"απενεργοποιήσετε;"
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/PackageManagerCheckNotVerifiedPackages.pm
@@ -13991,7 +14041,9 @@ msgstr ""
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
 "Can't update password, your new passwords do not match. Please try again!"
-msgstr "Αδυναμία ενημέρωσης του συνθηματικού, το νέο σας συνθηματικό δεν ταιριάζει με το πεδίο επαλήθευσής του. Παρακαλούμε δοκιμάστε ξανά!"
+msgstr ""
+"Αδυναμία ενημέρωσης του συνθηματικού, το νέο σας συνθηματικό δεν ταιριάζει "
+"με το πεδίο επαλήθευσής του. Παρακαλούμε δοκιμάστε ξανά!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
@@ -14001,7 +14053,9 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must be at least %s characters long!"
-msgstr "Δεν είναι δυνατή η ενημέρωση του συνθηματικού, γιατί πρέπει να έχει μήκος τουλάχιστον %s χαρακτήρες!"
+msgstr ""
+"Δεν είναι δυνατή η ενημέρωση του συνθηματικού, γιατί πρέπει να έχει μήκος "
+"τουλάχιστον %s χαρακτήρες!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
@@ -14011,7 +14065,9 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must contain at least 1 digit!"
-msgstr "Δεν είναι δυνατή η ενημέρωση του συνθηματικού, γιατί πρέπει να περιέχει τουλάχιστον 1 αριθμό!"
+msgstr ""
+"Δεν είναι δυνατή η ενημέρωση του συνθηματικού, γιατί πρέπει να περιέχει "
+"τουλάχιστον 1 αριθμό!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must contain at least 2 letter characters!"
@@ -14216,7 +14272,9 @@ msgstr ""
 #. Perl Module: Kernel/System/Auth.pm
 msgid ""
 "It is currently not possible to login due to a scheduled system maintenance."
-msgstr "Δεν είναι δυνατή η σύνδεση σας προσωρινά, λόγω προγραμματισμένων ενεργειών συντήρησης."
+msgstr ""
+"Δεν είναι δυνατή η σύνδεση σας προσωρινά, λόγω προγραμματισμένων ενεργειών "
+"συντήρησης."
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
@@ -14235,7 +14293,9 @@ msgstr ""
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Session limit reached! Please try again later."
-msgstr "Το χρονικό όριο της σύνδεσης έχει εξαντληθεί! Παρακαλούμε προσπαθήστε ξανά αργότερα."
+msgstr ""
+"Το χρονικό όριο της σύνδεσης έχει εξαντληθεί! Παρακαλούμε προσπαθήστε ξανά "
+"αργότερα."
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Session per user limit reached!"
@@ -14373,7 +14433,9 @@ msgstr "Αδυναμία επεξεργασίας εγγράφου καταλό�
 msgid ""
 "No packages for your framework version found in this repository, it only "
 "contains packages for other framework versions."
-msgstr "Δεν βρέθηκαν πακέτα για την έκδοση του framework σας, σε αυτό το αποθετήριο, περιέχονται μόνο πακέτα για άλλες εκδόσεις του framework."
+msgstr ""
+"Δεν βρέθηκαν πακέτα για την έκδοση του framework σας, σε αυτό το αποθετήριο,"
+" περιέχονται μόνο πακέτα για άλλες εκδόσεις του framework."
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is not installed!"
@@ -14423,11 +14485,15 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't contact registration server. Please try again later."
-msgstr "Δεν είναι δυνατή η σύνδεση με τον διακομιστή. Παρακαλούμε ξαναπροσπαθήστε αργότερα."
+msgstr ""
+"Δεν είναι δυνατή η σύνδεση με τον διακομιστή. Παρακαλούμε ξαναπροσπαθήστε "
+"αργότερα."
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "No content received from registration server. Please try again later."
-msgstr "Δεν είναι δυνατή η σύνδεση με τον διακομιστή. Παρακαλώ ξαναπροσπαθήστε αργότερα."
+msgstr ""
+"Δεν είναι δυνατή η σύνδεση με τον διακομιστή. Παρακαλώ ξαναπροσπαθήστε "
+"αργότερα."
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't get Token from sever"
@@ -14439,7 +14505,9 @@ msgstr "Το συνθηματικό σας δεν είναι σωστό. Παρ�
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Problems processing server result. Please try again later."
-msgstr "Προέκυψαν σφάλματα κατά την επεξεργασία του αποτελέσματος στον διακομιστή. Παρακαλούμε ξαναπροσπαθήστε αργότερα."
+msgstr ""
+"Προέκυψαν σφάλματα κατά την επεξεργασία του αποτελέσματος στον διακομιστή. "
+"Παρακαλούμε ξαναπροσπαθήστε αργότερα."
 
 #. Perl Module: Kernel/System/Stats.pm
 msgid "Sum"
@@ -15647,7 +15715,9 @@ msgstr "Μη ενεργή δυνατότητα!"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Sent password reset instructions. Please check your email."
-msgstr "Έγινε αποστολή οδηγιών επαναφοράς συνθηματικού. Παρακαλούμε ελέγξτε το email σας."
+msgstr ""
+"Έγινε αποστολή οδηγιών επαναφοράς συνθηματικού. Παρακαλούμε ελέγξτε το email"
+" σας."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Invalid Token!"
@@ -15678,12 +15748,16 @@ msgstr ""
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "This e-mail address already exists. Please log in or reset your password."
-msgstr "Αυτός ο λογαριασμός email έχει ήδη δηλωθεί. Παρακαλούμε συνδεθείτε στο σύστημα ή επαναφέρετε το συνθηματικό σας."
+msgstr ""
+"Αυτός ο λογαριασμός email έχει ήδη δηλωθεί. Παρακαλούμε συνδεθείτε στο "
+"σύστημα ή επαναφέρετε το συνθηματικό σας."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "This email address is not allowed to register. Please contact support staff."
-msgstr "Η εν λόγω διεύθυνση δεν επιτρέπεται να καταχωρηθεί. Παρακαλούμε επικοινωνήστε με το προσωπικό υποστήριξης."
+msgstr ""
+"Η εν λόγω διεύθυνση δεν επιτρέπεται να καταχωρηθεί. Παρακαλούμε "
+"επικοινωνήστε με το προσωπικό υποστήριξης."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
@@ -15700,7 +15774,9 @@ msgstr ""
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "New account created. Sent login information to %s. Please check your email."
-msgstr "Δημιουργήθηκε νέος λογαριασμός. Έγινε αποστολή στοιχείων στο %s. Παρακαλούμε ελέγξτε το email σας"
+msgstr ""
+"Δημιουργήθηκε νέος λογαριασμός. Έγινε αποστολή στοιχείων στο %s. Παρακαλούμε"
+" ελέγξτε το email σας"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -17471,7 +17547,9 @@ msgstr "Όλα τα νέα δελτία, όσα δεν έχουν ακόμη ε�
 msgid ""
 "All open tickets, these tickets have already been worked on, but need a "
 "response"
-msgstr "Όλα τα ανοιχτά δελτία, αυτά τα δελτία έχουν ήδη επεξεργαστεί, αλλά χρειάζονται μια απάντηση."
+msgstr ""
+"Όλα τα ανοιχτά δελτία, αυτά τα δελτία έχουν ήδη επεξεργαστεί, αλλά "
+"χρειάζονται μια απάντηση."
 
 #. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
@@ -17480,7 +17558,9 @@ msgstr ""
 #. SysConfig
 msgid ""
 "All tickets with a reminder set where the reminder date has been reached"
-msgstr "Όλα τα δελτία για τα οποία έχει τεθεί υπενθύμιση και η ημερομηνία τους έχει παρέλθει"
+msgstr ""
+"Όλα τα δελτία για τα οποία έχει τεθεί υπενθύμιση και η ημερομηνία τους έχει "
+"παρέλθει"
 
 #. SysConfig
 msgid ""
@@ -21167,7 +21247,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Disables the redirection to the last screen overview / dashboard after a "
-"ticket is created."
+"ticket is closed."
 msgstr ""
 
 #. SysConfig
@@ -22569,6 +22649,10 @@ msgstr ""
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Korean"
 msgstr ""
 
 #. SysConfig
@@ -24281,7 +24365,11 @@ msgid ""
 "Select the separator character used in CSV files (stats and searches). If "
 "you don't select a separator here, the default separator for your language "
 "will be used."
-msgstr "Επιλέξτε τον διαχωριστικό χαρακτήρα για τα δεδομένα του των αρχείων τύπου CSV (περιεχόμενο στατιστικών στοιχείων και αναζητήσεων). Εάν δεν επιλέξετε έναν διαχωριστικό χαρακτήρα εδώ, θα γίνει χρήση του προεπιλεγμένου διαχωριστικού χαρακτήρα για τη γλώσσα σας."
+msgstr ""
+"Επιλέξτε τον διαχωριστικό χαρακτήρα για τα δεδομένα του των αρχείων τύπου "
+"CSV (περιεχόμενο στατιστικών στοιχείων και αναζητήσεων). Εάν δεν επιλέξετε "
+"έναν διαχωριστικό χαρακτήρα εδώ, θα γίνει χρήση του προεπιλεγμένου "
+"διαχωριστικού χαρακτήρα για τη γλώσσα σας."
 
 #. SysConfig
 msgid "Select your frontend Theme."
@@ -26025,7 +26113,7 @@ msgstr ""
 
 #. SysConfig
 msgid "States"
-msgstr "Καταστάσεις"
+msgstr "Κατάσταση"
 
 #. SysConfig
 msgid "Statistic Reports overview."
@@ -26777,7 +26865,9 @@ msgstr ""
 msgid ""
 "Your email with ticket number \"<OTRS_TICKET>\" is merged to "
 "\"<OTRS_MERGE_TO_TICKET>\"."
-msgstr "Το μήνυμά σας με αριθμό δελτίου \"<OTRS_TICKET>\" συγχωνεύτηκε με το δελτίο <OTRS_MERGE_TO_TICKET>\" !"
+msgstr ""
+"Το μήνυμά σας με αριθμό δελτίου \"<OTRS_TICKET>\" συγχωνεύτηκε με το δελτίο "
+"<OTRS_MERGE_TO_TICKET>\" !"
 
 #. SysConfig
 msgid ""

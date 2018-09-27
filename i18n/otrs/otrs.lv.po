@@ -1,15 +1,15 @@
-# 
 # Translators:
-# Aleksandrs Pridoroznijs, 2018
-# Aleksejs Danilenko <a@bitit.lv>, 2015
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Aleksejs Danilenko <a@bitit.lv>, 2018
 # Guntis Vii <guntis456@gmail.com>, 2018
+# Aleksandrs Pridoroznijs, 2018
 msgid ""
 msgstr ""
-"Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-09-13 21:46+0000\n"
-"PO-Revision-Date: 2018-09-13 21:49+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: Latvian (http://www.transifex.com/otrs/OTRS/language/lv/)\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-09-27 16:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Aleksandrs Pridoroznijs, 2018\n"
+"Language-Team: Latvian (https://www.transifex.com/otrs/teams/23435/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1280,7 +1280,9 @@ msgstr "Šī iespēja ir atiestatīta!"
 #. Template: AdminCustomerGroup
 msgid ""
 "Just use this feature if you want to define group permissions for customers."
-msgstr "Izmantojiet šo iespēju, ja vēlaties definēt grupu atļaujas attiecībā uz klientiem."
+msgstr ""
+"Izmantojiet šo iespēju, ja vēlaties definēt grupu atļaujas attiecībā uz "
+"klientiem."
 
 #. Template: AdminCustomerGroup
 msgid "Enable it here!"
@@ -1536,7 +1538,9 @@ msgstr ""
 msgid ""
 "You can manage these groups via the configuration setting "
 "\"CustomerGroupAlwaysGroups\"."
-msgstr "Jūs varat pārvaldīt šīs grupas, izmantojot konfigurāciju \"CustomerGroupAlwaysGroups\"."
+msgstr ""
+"Jūs varat pārvaldīt šīs grupas, izmantojot konfigurāciju "
+"\"CustomerGroupAlwaysGroups\"."
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
@@ -1668,7 +1672,8 @@ msgstr "Vispārējs"
 msgid ""
 "This field is required, and the value should be alphabetic and numeric "
 "characters only."
-msgstr "Šis lauks ir vajadzīgs, un tajā jābūt tikai alfabēta un ciparu rakstzīmēm."
+msgstr ""
+"Šis lauks ir vajadzīgs, un tajā jābūt tikai alfabēta un ciparu rakstzīmēm."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Must be unique and only accept alphabetic and numeric characters."
@@ -2039,7 +2044,9 @@ msgstr "Pašlaik šis vispārīgais aģenta uzdevums neizpildīsies automātiski
 msgid ""
 "To enable automatic execution select at least one value from minutes, hours "
 "and days!"
-msgstr "Lai iestatītu automātisku izpildi, izvēlieties vismaz vienu vērtību no minūtēm, stundām un dienām!"
+msgstr ""
+"Lai iestatītu automātisku izpildi, izvēlieties vismaz vienu vērtību no "
+"minūtēm, stundām un dienām!"
 
 #. Template: AdminGenericAgent
 msgid "Event Based Execution (Single Ticket)"
@@ -2381,7 +2388,9 @@ msgstr "Komanda"
 msgid ""
 "This command will be executed. ARG[0] will be the ticket number. ARG[1] the "
 "ticket id."
-msgstr "Šī komanda tiks izpildīta. ARG[0] būs pieteikuma numurs un ARG[1] būs pieteikuma identifikators (ID)."
+msgstr ""
+"Šī komanda tiks izpildīta. ARG[0] būs pieteikuma numurs un ARG[1] būs "
+"pieteikuma identifikators (ID)."
 
 #. Template: AdminGenericAgent
 msgid "Delete tickets"
@@ -3913,7 +3922,9 @@ msgstr ""
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
-msgstr "'admin' grupa domāta lai darbotos administrēšanas sadaļā un 'stats' grupa lai darbotos statistikas sadaļā."
+msgstr ""
+"'admin' grupa domāta lai darbotos administrēšanas sadaļā un 'stats' grupa "
+"lai darbotos statistikas sadaļā."
 
 #. Template: AdminGroup
 msgid ""
@@ -4178,7 +4189,8 @@ msgstr "Lai saņemtu pirmās 5 satura rindas (no pēdējā aģenta ziņojuma)"
 msgid ""
 "To get the first 20 character of the subject (of the latest customer "
 "article)."
-msgstr "Lai saņemtu pirmās 20 rakstzīmes no tēmas (no pēdējā klienta ziņojuma)."
+msgstr ""
+"Lai saņemtu pirmās 20 rakstzīmes no tēmas (no pēdējā klienta ziņojuma)."
 
 #. Template: AdminNotificationEvent
 msgid "To get the first 5 lines of the body (of the latest customer article)."
@@ -4485,7 +4497,9 @@ msgstr ""
 
 #. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
-msgstr "Šādi var tieši labot ar sistēmas konfigurāciju (SysConfig) izveidoto atslēgu saišķi."
+msgstr ""
+"Šādi var tieši labot ar sistēmas konfigurāciju (SysConfig) izveidoto atslēgu"
+" saišķi."
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
@@ -4869,7 +4883,9 @@ msgstr ""
 msgid ""
 "If you want to match only the email address, use "
 "EMAILADDRESS:info@example.com in From, To or Cc."
-msgstr "Ja vēlaties, lai sakristu tikai e-pasta adrese, izmantojiet EMAILADDRESS:info@example.com No, Kam vai Kopija laukos."
+msgstr ""
+"Ja vēlaties, lai sakristu tikai e-pasta adrese, izmantojiet "
+"EMAILADDRESS:info@example.com No, Kam vai Kopija laukos."
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -5973,7 +5989,9 @@ msgstr ""
 
 #. Template: AdminRole
 msgid "Create a role and put groups in it. Then add the role to the users."
-msgstr "Izveidot jaunu lomu un iekļaut tajā grupas. Pēc tam pievienot lomu lietotājiem"
+msgstr ""
+"Izveidot jaunu lomu un iekļaut tajā grupas. Pēc tam pievienot lomu "
+"lietotājiem"
 
 #. Template: AdminRole
 msgid ""
@@ -9473,7 +9491,9 @@ msgstr ""
 msgid ""
 "If you have set a root password for your database, it must be entered here. "
 "If not, leave this field empty."
-msgstr "Ja esat iestatījis root paroli datubāzei, tā jāievada šeit. Ja ne, atstājiet šo lauku tukšu."
+msgstr ""
+"Ja esat iestatījis root paroli datubāzei, tā jāievada šeit. Ja ne, atstājiet"
+" šo lauku tukšu."
 
 #. Template: InstallerDBmssql
 msgid "Database name"
@@ -11452,7 +11472,8 @@ msgstr ""
 msgid ""
 "Package not verified by the OTRS Group! It is recommended not to use this "
 "package."
-msgstr "Pakete nav pārbaudīta ar OTRS Group! Nav ieteicams izmantot šo paketi."
+msgstr ""
+"Pakete nav pārbaudīta ar OTRS Group! Nav ieteicams izmantot šo paketi."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not Started"
@@ -11551,7 +11572,9 @@ msgstr "Prioritāte pievienota!"
 msgid ""
 "Process Management information from database is not in sync with the system "
 "configuration, please synchronize all processes."
-msgstr "Procesu pārvaldības informācija no datu bāzes netiek sinhronizēta ar sistēmas konfigurāciju, lūdzu, sinhronizējiet visus procesus."
+msgstr ""
+"Procesu pārvaldības informācija no datu bāzes netiek sinhronizēta ar "
+"sistēmas konfigurāciju, lūdzu, sinhronizējiet visus procesus."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ExampleProcesses!"
@@ -12426,7 +12449,8 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Sorry, you need to be the ticket owner to perform this action."
-msgstr "Atvainojiet, jums ir jābūt pieteikuma īpašniekam, lai veiktu šo darbību."
+msgstr ""
+"Atvainojiet, jums ir jābūt pieteikuma īpašniekam, lai veiktu šo darbību."
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Please change the owner first."
@@ -13867,7 +13891,9 @@ msgstr ""
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
-msgstr "Jūsu %s licences termiņš drīz beigsies. Lūdzu, sazinieties ar %s, lai atjaunotu savu līgumu!"
+msgstr ""
+"Jūsu %s licences termiņš drīz beigsies. Lūdzu, sazinieties ar %s, lai "
+"atjaunotu savu līgumu!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid ""
@@ -13989,7 +14015,8 @@ msgstr ""
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
 "Can't update password, your new passwords do not match. Please try again!"
-msgstr "Nevar atjaunināt paroli, jaunas paroles nesakrīt. Lūdzu, mēģiniet vēlreiz!"
+msgstr ""
+"Nevar atjaunināt paroli, jaunas paroles nesakrīt. Lūdzu, mēģiniet vēlreiz!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
@@ -14214,7 +14241,8 @@ msgstr ""
 #. Perl Module: Kernel/System/Auth.pm
 msgid ""
 "It is currently not possible to login due to a scheduled system maintenance."
-msgstr "Pašlaik nav iespējams pieteikties, jo notiek plānota sistēmas uzturēšana."
+msgstr ""
+"Pašlaik nav iespējams pieteikties, jo notiek plānota sistēmas uzturēšana."
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
@@ -15140,7 +15168,9 @@ msgstr ""
 msgid ""
 "Security risk: you use the default setting for SOAP::User and "
 "SOAP::Password. Please change it."
-msgstr "Drošības risks: jūs izmantojat iestatījumu pēc noklusējuma priekš SOAP::User un SOAP::Password. Lūdzu, nomainiet to."
+msgstr ""
+"Drošības risks: jūs izmantojat iestatījumu pēc noklusējuma priekš SOAP::User"
+" un SOAP::Password. Lūdzu, nomainiet to."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultUser.pm
 msgid "Default Admin Password"
@@ -15150,7 +15180,9 @@ msgstr "Administratora parole pēc noklusējuma"
 msgid ""
 "Security risk: the agent account root@localhost still has the default "
 "password. Please change it or invalidate the account."
-msgstr "Drošības risks: aģenta konts root@localhost joprojām ir ar paroli pēc noklusējuma. Lūdzu, mainiet to vai anulējiet kontu."
+msgstr ""
+"Drošības risks: aģenta konts root@localhost joprojām ir ar paroli pēc "
+"noklusējuma. Lūdzu, mainiet to vai anulējiet kontu."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/EmailQueue.pm
 msgid "Email Sending Queue"
@@ -15623,7 +15655,8 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Login failed! Your user name or password was entered incorrectly."
-msgstr "Pieteikšanās neizdevās! Jūsu lietotājvārds vai parole ir ievadīta nepareizi."
+msgstr ""
+"Pieteikšanās neizdevās! Jūsu lietotājvārds vai parole ir ievadīta nepareizi."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid ""
@@ -15681,7 +15714,9 @@ msgstr ""
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "This email address is not allowed to register. Please contact support staff."
-msgstr "Šo e-pasta adresi nav atļauts reģistrēt. Lūdzu, sazinieties ar atbalsta personālu."
+msgstr ""
+"Šo e-pasta adresi nav atļauts reģistrēt. Lūdzu, sazinieties ar atbalsta "
+"personālu."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
@@ -15698,7 +15733,9 @@ msgstr ""
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "New account created. Sent login information to %s. Please check your email."
-msgstr "Jauns konts izveidots. Nosūtīta pieteikšanās informācija uz %s. Lūdzu, pārbaudiet savu e-pastu."
+msgstr ""
+"Jauns konts izveidots. Nosūtīta pieteikšanās informācija uz %s. Lūdzu, "
+"pārbaudiet savu e-pastu."
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -16124,7 +16161,9 @@ msgstr "Vienība ar šādu nosaukumu jau pastāv."
 msgid ""
 "This item still contains sub items. Are you sure you want to remove this "
 "item including its sub items?"
-msgstr "Šī vienība satur apakšvienības. Vai tiešām vēlaties dzēst šo vienību, ieskaitot tās apakšvienības?"
+msgstr ""
+"Šī vienība satur apakšvienības. Vai tiešām vēlaties dzēst šo vienību, "
+"ieskaitot tās apakšvienības?"
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "More"
@@ -16265,7 +16304,11 @@ msgid ""
 "appropriate changes in the SysConfig, you will be locked out of the "
 "administrations panel! If this happens, please rename the group back to "
 "admin per SQL statement."
-msgstr "BRĪDINĀJUMS! Ja pirms grupas 'admin' pārdēvēšanas citā vārdā netiks izdarītas izmaiņas sistēmas konfigurācijā, nebūs iespējams pieteikties administrēšanas sadaļā! Ja tā ir gadījies, pārdēvējiet grupu atpakaļ par admin ar SQL teikuma palidzību."
+msgstr ""
+"BRĪDINĀJUMS! Ja pirms grupas 'admin' pārdēvēšanas citā vārdā netiks "
+"izdarītas izmaiņas sistēmas konfigurācijā, nebūs iespējams pieteikties "
+"administrēšanas sadaļā! Ja tā ir gadījies, pārdēvējiet grupu atpakaļ par "
+"admin ar SQL teikuma palidzību."
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Delete this Mail Account"
@@ -21165,7 +21208,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Disables the redirection to the last screen overview / dashboard after a "
-"ticket is created."
+"ticket is closed."
 msgstr ""
 
 #. SysConfig
@@ -22567,6 +22610,10 @@ msgstr ""
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Korean"
 msgstr ""
 
 #. SysConfig
@@ -26775,7 +26822,9 @@ msgstr ""
 msgid ""
 "Your email with ticket number \"<OTRS_TICKET>\" is merged to "
 "\"<OTRS_MERGE_TO_TICKET>\"."
-msgstr "Jūsu e-pasts ar pieteikuma numuru \"<OTRS_TICKET>\" ir apvienots ar pieteikumu nr. \"<OTRS_MERGE_TO_TICKET>\"!"
+msgstr ""
+"Jūsu e-pasts ar pieteikuma numuru \"<OTRS_TICKET>\" ir apvienots ar "
+"pieteikumu nr. \"<OTRS_MERGE_TO_TICKET>\"!"
 
 #. SysConfig
 msgid ""

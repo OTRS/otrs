@@ -1,13 +1,13 @@
-# 
 # Translators:
-# Martina Mayrhofer <martina.mayrhofer@gmail.com>, 2016
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Martina Mayrhofer <martina.mayrhofer@gmail.com>, 2018
 msgid ""
 msgstr ""
-"Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-09-13 21:46+0000\n"
-"PO-Revision-Date: 2018-09-13 21:49+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: Catalan (http://www.transifex.com/otrs/OTRS/language/ca/)\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-09-27 16:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Martina Mayrhofer <martina.mayrhofer@gmail.com>, 2018\n"
+"Language-Team: Catalan (https://www.transifex.com/otrs/teams/23435/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1278,7 +1278,9 @@ msgstr "Aquesta característica està desactivada!"
 #. Template: AdminCustomerGroup
 msgid ""
 "Just use this feature if you want to define group permissions for customers."
-msgstr "Només utilitzar aquesta funció si desitja definir permisos de grup per als clients."
+msgstr ""
+"Només utilitzar aquesta funció si desitja definir permisos de grup per als "
+"clients."
 
 #. Template: AdminCustomerGroup
 msgid "Enable it here!"
@@ -1310,7 +1312,9 @@ msgstr "Seleccioni el client: permisos de grup."
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets"
 " will not be available for the customer)."
-msgstr "Si no se selecciona gens, llavors no hi ha permisos en aquest grup (els tiquets no estaran disponibles per al client)."
+msgstr ""
+"Si no se selecciona gens, llavors no hi ha permisos en aquest grup (els "
+"tiquets no estaran disponibles per al client)."
 
 #. Template: AdminCustomerGroup
 msgid "Search Results"
@@ -1418,11 +1422,15 @@ msgstr ""
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."
-msgstr "Aquest camp és obligatori i ha de ser una adreça vàlida de correu electrònic."
+msgstr ""
+"Aquest camp és obligatori i ha de ser una adreça vàlida de correu "
+"electrònic."
 
 #. Template: AdminCustomerUser
 msgid "This email address is not allowed due to the system configuration."
-msgstr "Aquesta adreça de correu electrònic no està permesa, a causa de la configuració del sistema."
+msgstr ""
+"Aquesta adreça de correu electrònic no està permesa, a causa de la "
+"configuració del sistema."
 
 #. Template: AdminCustomerUser
 msgid "This email address failed MX check."
@@ -1430,7 +1438,9 @@ msgstr "Aquesta adreça de correu electrònic va fallar la comprovació de MX."
 
 #. Template: AdminCustomerUser
 msgid "DNS problem, please check your configuration and the error log."
-msgstr "Problema de DNS, per favor revisi la seva configuració i el registre d'errors."
+msgstr ""
+"Problema de DNS, per favor revisi la seva configuració i el registre "
+"d'errors."
 
 #. Template: AdminCustomerUser
 msgid "The syntax of this email address is incorrect."
@@ -1534,7 +1544,9 @@ msgstr ""
 msgid ""
 "You can manage these groups via the configuration setting "
 "\"CustomerGroupAlwaysGroups\"."
-msgstr "Pot administrar aquests grups a través del paràmetre \"CustomerGroupAlwaysGroups\"."
+msgstr ""
+"Pot administrar aquests grups a través del paràmetre "
+"\"CustomerGroupAlwaysGroups\"."
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
@@ -1666,7 +1678,9 @@ msgstr "General"
 msgid ""
 "This field is required, and the value should be alphabetic and numeric "
 "characters only."
-msgstr "Aquest camp és obligatori, i el valor han de ser caràcters alfabètics i numèrics."
+msgstr ""
+"Aquest camp és obligatori, i el valor han de ser caràcters alfabètics i "
+"numèrics."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Must be unique and only accept alphabetic and numeric characters."
@@ -1678,7 +1692,8 @@ msgstr "El canvi d'aquest valor requerirà canvis manuals del sistema."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the name to be shown on the screens where the field is active."
-msgstr "Aquest és el nom que es mostrarà en les pantalles on el camp estigui actiu."
+msgstr ""
+"Aquest és el nom que es mostrarà en les pantalles on el camp estigui actiu."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field order"
@@ -1692,7 +1707,9 @@ msgstr "Aquest camp és obligatori i ha de ser numèric."
 msgid ""
 "This is the order in which this field will be shown on the screens where is "
 "active."
-msgstr "Aquest és l'ordre en què aquest camp es mostrarà en les pantalles on estigui actiu."
+msgstr ""
+"Aquest és l'ordre en què aquest camp es mostrarà en les pantalles on estigui"
+" actiu."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid ""
@@ -1744,7 +1761,9 @@ msgstr "Aquest camp ha de ser numèric."
 msgid ""
 "The difference from NOW (in seconds) to calculate the field default value "
 "(e.g. 3600 or -60)."
-msgstr "La diferència a partir d'ara (en segons) per calcular el valor predeterminat del camp (per exemple 3600 o -60)."
+msgstr ""
+"La diferència a partir d'ara (en segons) per calcular el valor predeterminat"
+" del camp (per exemple 3600 o -60)."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Define years period"
@@ -1780,7 +1799,9 @@ msgstr "Mostrar enllaç"
 msgid ""
 "Here you can specify an optional HTTP link for the field value in Overviews "
 "and Zoom screens."
-msgstr "Aquí pot especificar un enllaç HTTP opcional per al valor del camp en les pantalles de Detall i Resum."
+msgstr ""
+"Aquí pot especificar un enllaç HTTP opcional per al valor del camp en les "
+"pantalles de Detall i Resum."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Example"
@@ -1853,7 +1874,9 @@ msgstr "Valors traduïbles"
 msgid ""
 "If you activate this option the values will be translated to the user "
 "defined language."
-msgstr "Si s'activa aquesta opció, els valors seran traduïts al llenguatge definit per l'usuari."
+msgstr ""
+"Si s'activa aquesta opció, els valors seran traduïts al llenguatge definit "
+"per l'usuari."
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Note"
@@ -1863,7 +1886,9 @@ msgstr "Nota"
 msgid ""
 "You need to add the translations manually into the language translation "
 "files."
-msgstr "És necessari afegir les traduccions de forma manual en els arxius de traducció d'idiomes."
+msgstr ""
+"És necessari afegir les traduccions de forma manual en els arxius de "
+"traducció d'idiomes."
 
 #. Template: AdminDynamicFieldText
 msgid "Number of rows"
@@ -1871,7 +1896,8 @@ msgstr "Nombre de files"
 
 #. Template: AdminDynamicFieldText
 msgid "Specify the height (in lines) for this field in the edit mode."
-msgstr "Especificar l'altura (en línies) per a aquest camp en el mode d'edició."
+msgstr ""
+"Especificar l'altura (en línies) per a aquest camp en el mode d'edició."
 
 #. Template: AdminDynamicFieldText
 msgid "Number of cols"
@@ -1879,7 +1905,8 @@ msgstr "Nombre de columnes"
 
 #. Template: AdminDynamicFieldText
 msgid "Specify the width (in characters) for this field in the edit mode."
-msgstr "Especificar l'ample (en caràcters) per a aquest camp en el mode d'edició."
+msgstr ""
+"Especificar l'ample (en caràcters) per a aquest camp en el mode d'edició."
 
 #. Template: AdminDynamicFieldText
 msgid "Check RegEx"
@@ -1915,7 +1942,9 @@ msgstr ""
 msgid ""
 "With this module, administrators can send messages to agents, group or role "
 "members."
-msgstr "Amb aquest mòdul, els administradors poden enviar missatges als agents, grups o rols."
+msgstr ""
+"Amb aquest mòdul, els administradors poden enviar missatges als agents, "
+"grups o rols."
 
 #. Template: AdminEmail
 msgid "Create Administrative Message"
@@ -2031,13 +2060,16 @@ msgstr "Horari dies"
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
-msgstr "Actualment aquesta tasca d'agent genèric no s'executarà automàticament."
+msgstr ""
+"Actualment aquesta tasca d'agent genèric no s'executarà automàticament."
 
 #. Template: AdminGenericAgent
 msgid ""
 "To enable automatic execution select at least one value from minutes, hours "
 "and days!"
-msgstr "Per habilitar l'execució automàtica seleccionar almenys un valor de minuts, hores i dies!"
+msgstr ""
+"Per habilitar l'execució automàtica seleccionar almenys un valor de minuts, "
+"hores i dies!"
 
 #. Template: AdminGenericAgent
 msgid "Event Based Execution (Single Ticket)"
@@ -2379,7 +2411,9 @@ msgstr "CMD"
 msgid ""
 "This command will be executed. ARG[0] will be the ticket number. ARG[1] the "
 "ticket id."
-msgstr "S'executarà el comandament. ARG%[0] el nombre del tiquet. ARG%[0] l'id del tiquet."
+msgstr ""
+"S'executarà el comandament. ARG%[0] el nombre del tiquet. ARG%[0] l'id del "
+"tiquet."
 
 #. Template: AdminGenericAgent
 msgid "Delete tickets"
@@ -2389,7 +2423,9 @@ msgstr "Eliminar tiquets"
 msgid ""
 "Warning: All affected tickets will be removed from the database and cannot "
 "be restored!"
-msgstr "Advertiment: Tots els tiquets afectats seran eliminats de la base de dades i no es podran recuperar!"
+msgstr ""
+"Advertiment: Tots els tiquets afectats seran eliminats de la base de dades i"
+" no es podran recuperar!"
 
 #. Template: AdminGenericAgent
 msgid "Execute Custom Module"
@@ -2413,7 +2449,9 @@ msgstr "%s Tiquets afectats! Què vol fer?"
 
 #. Template: AdminGenericAgent
 msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
-msgstr "Advertiment: Vostè va usar l'opció ESBORRAR. Tots els tiquets eliminats es perdran!"
+msgstr ""
+"Advertiment: Vostè va usar l'opció ESBORRAR. Tots els tiquets eliminats es "
+"perdran!"
 
 #. Template: AdminGenericAgent
 msgid ""
@@ -2451,7 +2489,8 @@ msgstr "Esborrar"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Do you really want to clear the debug log of this web service?"
-msgstr "Realment desitja esborrar el registre de depuració d'aquest servei web?"
+msgstr ""
+"Realment desitja esborrar el registre de depuració d'aquest servei web?"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Request List"
@@ -2821,7 +2860,8 @@ msgstr "Detalls de l'invocador"
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "The name is typically used to call up an operation of a remote web service."
-msgstr "El nom se sol utilitzar per cridar a una operació d'un servei web remot."
+msgstr ""
+"El nom se sol utilitzar per cridar a una operació d'un servei web remot."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker backend"
@@ -2831,7 +2871,10 @@ msgstr "Motor de l'invocador"
 msgid ""
 "This OTRS invoker backend module will be called to prepare the data to be "
 "sent to the remote system, and to process its response data."
-msgstr "Aquest mòdul del motor de l'invocador de OTRS es dirà per preparar les dades per ser enviats al sistema remot, i per processar les seves dades de resposta."
+msgstr ""
+"Aquest mòdul del motor de l'invocador de OTRS es dirà per preparar les dades"
+" per ser enviats al sistema remot, i per processar les seves dades de "
+"resposta."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for outgoing request data"
@@ -2845,7 +2888,9 @@ msgstr "Configurar"
 msgid ""
 "The data from the invoker of OTRS will be processed by this mapping, to "
 "transform it to the kind of data the remote system expects."
-msgstr "Les dades de l'invocador de OTRS seran processats ​​per aquesta assignació, per transformar-la en el tipus de dades que el sistema remot espera."
+msgstr ""
+"Les dades de l'invocador de OTRS seran processats ​​per aquesta assignació, "
+"per transformar-la en el tipus de dades que el sistema remot espera."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for incoming response data"
@@ -2855,7 +2900,9 @@ msgstr "Assignació per a les dades de petició entrants"
 msgid ""
 "The response data will be processed by this mapping, to transform it to the "
 "kind of data the invoker of OTRS expects."
-msgstr "Les dades de resposta seran processats per aquesta assignació, per transformar-los en el tipus de dades que l'invocador de OTRS espera."
+msgstr ""
+"Les dades de resposta seran processats per aquesta assignació, per "
+"transformar-los en el tipus de dades que l'invocador de OTRS espera."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Asynchronous"
@@ -2877,7 +2924,9 @@ msgstr "Aquest invocador s'activarà pels esdeveniments configurats."
 msgid ""
 "To add a new event select the event object and event name and click on the "
 "\"+\" button"
-msgstr "Per agregar un nou esdeveniment seleccioni l'objecte d'esdeveniment i el nom de l'esdeveniment i faci clic en el botó \"+\""
+msgstr ""
+"Per agregar un nou esdeveniment seleccioni l'objecte d'esdeveniment i el nom"
+" de l'esdeveniment i faci clic en el botó \"+\""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
@@ -2889,7 +2938,9 @@ msgstr ""
 msgid ""
 "Synchronous event triggers would be processed directly during the web "
 "request."
-msgstr "Els gallets d'esdeveniments síncrons es processen directament en les peticions web."
+msgstr ""
+"Els gallets d'esdeveniments síncrons es processen directament en les "
+"peticions web."
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "GenericInterface Invoker Event Settings for Web Service %s"
@@ -3911,13 +3962,18 @@ msgstr "Afegir grup"
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
-msgstr "El grup admin és per a usar l'àrea d'administració i el grup stats per a usar l'àrea estadisticas."
+msgstr ""
+"El grup admin és per a usar l'àrea d'administració i el grup stats per a "
+"usar l'àrea estadisticas."
 
 #. Template: AdminGroup
 msgid ""
 "Create new groups to handle access permissions for different groups of agent"
 " (e. g. purchasing department, support department, sales department, ...). "
-msgstr "Crear nous grups per gestionar permisos d'accés per als diferents grups d'agents (per exemple, el departament de compres, departament de suport, el departament de vendes, ...)."
+msgstr ""
+"Crear nous grups per gestionar permisos d'accés per als diferents grups "
+"d'agents (per exemple, el departament de compres, departament de suport, el "
+"departament de vendes, ...)."
 
 #. Template: AdminGroup
 msgid "It's useful for ASP solutions. "
@@ -4166,21 +4222,29 @@ msgstr "Les notificacions se li envian a un agent o client"
 #. Template: AdminNotificationEvent
 msgid ""
 "To get the first 20 character of the subject (of the latest agent article)."
-msgstr "Per obtenir els primers 20 caràcters de l'assumpte (de l'article més recent de l'agent)."
+msgstr ""
+"Per obtenir els primers 20 caràcters de l'assumpte (de l'article més recent "
+"de l'agent)."
 
 #. Template: AdminNotificationEvent
 msgid "To get the first 5 lines of the body (of the latest agent article)."
-msgstr "Per obtenir les primeres 5 línies del cos (de l'article més recent de l'agent)."
+msgstr ""
+"Per obtenir les primeres 5 línies del cos (de l'article més recent de "
+"l'agent)."
 
 #. Template: AdminNotificationEvent
 msgid ""
 "To get the first 20 character of the subject (of the latest customer "
 "article)."
-msgstr "Per obtenir els primers 20 caràcters de l'assumpte (de l'article més recent del client)."
+msgstr ""
+"Per obtenir els primers 20 caràcters de l'assumpte (de l'article més recent "
+"del client)."
 
 #. Template: AdminNotificationEvent
 msgid "To get the first 5 lines of the body (of the latest customer article)."
-msgstr "Per obtenir les primeres 5 línies del cos (de l'article més recent del client)."
+msgstr ""
+"Per obtenir les primeres 5 línies del cos (de l'article més recent del "
+"client)."
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current customer user data"
@@ -4483,7 +4547,9 @@ msgstr "Afegir clau de PGP"
 
 #. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
-msgstr "D'aquesta forma pot editar directament l'anell de Claus configurat en SysConfig"
+msgstr ""
+"D'aquesta forma pot editar directament l'anell de Claus configurat en "
+"SysConfig"
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
@@ -4541,7 +4607,9 @@ msgstr "Tornar a instal·lar paquet"
 msgid ""
 "Do you really want to reinstall this package? Any manual changes will be "
 "lost."
-msgstr "De debò vol tornar a instal·lar aquest paquet? Qualsevol canvi manual es perdrà."
+msgstr ""
+"De debò vol tornar a instal·lar aquest paquet? Qualsevol canvi manual es "
+"perdrà."
 
 #. Template: AdminPackageManager
 msgid "Go to updating instructions"
@@ -4669,7 +4737,9 @@ msgstr "Desinstal·lar"
 
 #. Template: AdminPackageManager
 msgid "Package not correctly deployed! Please reinstall the package."
-msgstr "El paquet no s'ha desplegat correctament! Per favor, torni a instal·lar el paquet."
+msgstr ""
+"El paquet no s'ha desplegat correctament! Per favor, torni a instal·lar el "
+"paquet."
 
 #. Template: AdminPackageManager
 msgid "Reinstall"
@@ -4771,7 +4841,8 @@ msgstr "Usi aquesta característica només si desitja registrar cada petició."
 
 #. Template: AdminPerformanceLog
 msgid "Activating this feature might affect your system performance!"
-msgstr "L'activació d'aquesta característica pot afectar el rendiment del sistema!"
+msgstr ""
+"L'activació d'aquesta característica pot afectar el rendiment del sistema!"
 
 #. Template: AdminPerformanceLog
 msgid "Disable it here!"
@@ -4861,19 +4932,25 @@ msgstr ""
 msgid ""
 "To dispatch or filter incoming emails based on email headers. Matching using"
 " Regular Expressions is also possible."
-msgstr "Per enviar o filtrar els missatges entrants basant-se en els encapçalats de correu electrònic. També és possible utilitzar expressions regulars."
+msgstr ""
+"Per enviar o filtrar els missatges entrants basant-se en els encapçalats de "
+"correu electrònic. També és possible utilitzar expressions regulars."
 
 #. Template: AdminPostMasterFilter
 msgid ""
 "If you want to match only the email address, use "
 "EMAILADDRESS:info@example.com in From, To or Cc."
-msgstr "Si vol fer coincidir només l'adreça de correu, usi EMAILADDRESS:info@example.com en el camp From, To o Cc."
+msgstr ""
+"Si vol fer coincidir només l'adreça de correu, usi "
+"EMAILADDRESS:info@example.com en el camp From, To o Cc."
 
 #. Template: AdminPostMasterFilter
 msgid ""
 "If you use Regular Expressions, you also can use the matched value in () as "
 "[***] in the 'Set' action."
-msgstr "Si s'utilitza expressions regulars, també pot utilitzar el valor coincident en () com [***] en l'acció 'Conjunt'."
+msgstr ""
+"Si s'utilitza expressions regulars, també pot utilitzar el valor coincident "
+"en () com [***] en l'acció 'Conjunt'."
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -5537,7 +5614,10 @@ msgid ""
 "If an agent locks a ticket and does not close it before the unlock timeout "
 "has passed, the ticket will unlock and will become available for other "
 "agents."
-msgstr "Si un agent bloqueja un tiquet i no ho tanca abans que hagi passat el temps d'espera de desbloquejo, el tiquet s'obrirà i estarà disponible per a altres agents."
+msgstr ""
+"Si un agent bloqueja un tiquet i no ho tanca abans que hagi passat el temps "
+"d'espera de desbloquejo, el tiquet s'obrirà i estarà disponible per a altres"
+" agents."
 
 #. Template: AdminQueue
 msgid "Notify by"
@@ -5551,7 +5631,10 @@ msgstr "0 = sense escalat"
 msgid ""
 "If there is not added a customer contact, either email-external or phone, to"
 " a new ticket before the time defined here expires, the ticket is escalated."
-msgstr "Si no s'agrega un contacte del client, ja sigui correu electrònic extern o telèfon, a un nou tiquet abans que expiri el temps definit aquí, el tiquet és escalat."
+msgstr ""
+"Si no s'agrega un contacte del client, ja sigui correu electrònic extern o "
+"telèfon, a un nou tiquet abans que expiri el temps definit aquí, el tiquet "
+"és escalat."
 
 #. Template: AdminQueue
 msgid ""
@@ -5559,13 +5642,19 @@ msgid ""
 "portal, the escalation update time is reset. If there is no customer "
 "contact, either email-external or phone, added to a ticket before the time "
 "defined here expires, the ticket is escalated."
-msgstr "Si un article és afegit, com un seguiment via correu electrònic o portal del client, el temps d'actualització d'escalat es restableix. Si no hi ha contacte del client, ja sigui correu electrònic extern o telèfon, afegit a un tiquet abans que expiri el temps definit aquí, el tiquet és escalat."
+msgstr ""
+"Si un article és afegit, com un seguiment via correu electrònic o portal del"
+" client, el temps d'actualització d'escalat es restableix. Si no hi ha "
+"contacte del client, ja sigui correu electrònic extern o telèfon, afegit a "
+"un tiquet abans que expiri el temps definit aquí, el tiquet és escalat."
 
 #. Template: AdminQueue
 msgid ""
 "If the ticket is not set to closed before the time defined here expires, the"
 " ticket is escalated."
-msgstr "Si el tiquet no és posat a tancat abans que expiri el temps aquí definit, el tiquet és escalat."
+msgstr ""
+"Si el tiquet no és posat a tancat abans que expiri el temps aquí definit, el"
+" tiquet és escalat."
 
 #. Template: AdminQueue
 msgid "Follow up Option"
@@ -5575,7 +5664,9 @@ msgstr "Opció de seguiment"
 msgid ""
 "Specifies if follow up to closed tickets would re-open the ticket, be "
 "rejected or lead to a new ticket."
-msgstr "Especifica si el seguiment de tiquets tancats tornaria a obrir el tiquet, ho rebutjaria o donaria lloc a un nou tiquet."
+msgstr ""
+"Especifica si el seguiment de tiquets tancats tornaria a obrir el tiquet, ho"
+" rebutjaria o donaria lloc a un nou tiquet."
 
 #. Template: AdminQueue
 msgid "Ticket lock after a follow up"
@@ -5585,7 +5676,9 @@ msgstr "Bloquejar un tiquet després del seguiment"
 msgid ""
 "If a ticket is closed and the customer sends a follow up the ticket will be "
 "locked to the old owner."
-msgstr "Si un tiquet està tancat i el client envia un seguiment el tiquet serà bloquejat per a l'antic propietari."
+msgstr ""
+"Si un tiquet està tancat i el client envia un seguiment el tiquet serà "
+"bloquejat per a l'antic propietari."
 
 #. Template: AdminQueue
 msgid "System address"
@@ -5971,13 +6064,17 @@ msgstr ""
 
 #. Template: AdminRole
 msgid "Create a role and put groups in it. Then add the role to the users."
-msgstr "Crea un rol i col·loca grups en el mateix. Després afegix el rol als usuaris."
+msgstr ""
+"Crea un rol i col·loca grups en el mateix. Després afegix el rol als "
+"usuaris."
 
 #. Template: AdminRole
 msgid ""
 "There are no roles defined. Please use the 'Add' button to create a new "
 "role."
-msgstr "No hi ha rols definits. Per favor, utilitzi el botó 'Agregar' per crear un nou rol."
+msgstr ""
+"No hi ha rols definits. Per favor, utilitzi el botó 'Agregar' per crear un "
+"nou rol."
 
 #. Template: AdminRoleGroup
 msgid "Manage Role-Group Relations"
@@ -5999,7 +6096,9 @@ msgstr "Seleccioni els permisos rol:grup."
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets"
 " will not be available for the role)."
-msgstr "Si no se selecciona gens, llavors no hi ha permisos en aquest grup (els tiquets no estaran disponibles per al rol)."
+msgstr ""
+"Si no se selecciona gens, llavors no hi ha permisos en aquest grup (els "
+"tiquets no estaran disponibles per al rol)."
 
 #. Template: AdminRoleGroup
 msgid "Toggle %s permission for all"
@@ -6162,7 +6261,9 @@ msgstr "Vegi també"
 msgid ""
 "In this way you can directly edit the certification and private keys in file"
 " system."
-msgstr "D'aquesta forma pot editar directament la certificació i claus privades en el sistema de fitxers."
+msgstr ""
+"D'aquesta forma pot editar directament la certificació i claus privades en "
+"el sistema de fitxers."
 
 #. Template: AdminSMIME
 msgid "Hash"
@@ -6260,13 +6361,17 @@ msgstr ""
 msgid ""
 "Secure mode will (normally) be set after the initial installation is "
 "completed."
-msgstr "El mode segur que (normalment) es fixarà després de la instal·lació inicial s'ha completat."
+msgstr ""
+"El mode segur que (normalment) es fixarà després de la instal·lació inicial "
+"s'ha completat."
 
 #. Template: AdminSecureMode
 msgid ""
 "If secure mode is not activated, activate it via SysConfig because your "
 "application is already running."
-msgstr "Si la manera segur no s'activa, activi-ho a través de SysConfig perquè la seva aplicació ja s'està executant."
+msgstr ""
+"Si la manera segur no s'activa, activi-ho a través de SysConfig perquè la "
+"seva aplicació ja s'està executant."
 
 #. Template: AdminSelectBox
 msgid "SQL Box"
@@ -6290,7 +6395,9 @@ msgstr ""
 #. Template: AdminSelectBox
 msgid ""
 "Here you can enter SQL to send it directly to the application database."
-msgstr "Aquí pot introduir SQL per enviar-ho directament a la base de dades d'aplicació."
+msgstr ""
+"Aquí pot introduir SQL per enviar-ho directament a la base de dades "
+"d'aplicació."
 
 #. Template: AdminSelectBox
 msgid "Options"
@@ -6307,7 +6414,8 @@ msgstr "La sintaxi de la consulta *SQL conté un error. Per favor revisi-la."
 #. Template: AdminSelectBox
 msgid ""
 "There is at least one parameter missing for the binding. Please check it."
-msgstr "Hi ha almenys un paràmetre que falta per a l'enllaç. Per favor revisi-ho."
+msgstr ""
+"Hi ha almenys un paràmetre que falta per a l'enllaç. Per favor revisi-ho."
 
 #. Template: AdminSelectBox
 msgid "Result format"
@@ -6605,7 +6713,9 @@ msgstr ""
 msgid ""
 "All incoming email with this address in To or Cc will be dispatched to the "
 "selected queue."
-msgstr "Tot el correu entrant amb aquesta adreça en el Para o CC, s'enviarà a la cua seleccionada."
+msgstr ""
+"Tot el correu entrant amb aquesta adreça en el Para o CC, s'enviarà a la cua"
+" seleccionada."
 
 #. Template: AdminSystemAddress
 msgid "Email address"
@@ -6621,7 +6731,9 @@ msgstr ""
 
 #. Template: AdminSystemAddress
 msgid "The display name and email address will be shown on mail you send."
-msgstr "El nom de la pantalla i l'adreça de correu electrònic seran mostrats en els correus que enviï."
+msgstr ""
+"El nom de la pantalla i l'adreça de correu electrònic seran mostrats en els "
+"correus que enviï."
 
 #. Template: AdminSystemAddress
 msgid ""
@@ -8155,7 +8267,9 @@ msgstr "Es necessita una adreça de correu electrònic."
 
 #. Template: AgentTicketBounce
 msgid "Need a valid email address or don't use a local email address."
-msgstr "Necessita una adreça de correu electrònic vàlida o no utilitzi una adreça de correu electrònic local."
+msgstr ""
+"Necessita una adreça de correu electrònic vàlida o no utilitzi una adreça de"
+" correu electrònic local."
 
 #. Template: AgentTicketBounce
 msgid "Next ticket state"
@@ -8971,7 +9085,9 @@ msgstr ""
 #. Template: CustomerLogin
 msgid ""
 "Please see the documentation or ask your admin for further information."
-msgstr "Per favor, consulti la documentació o consulti amb el seu administrador per obtenir més informació."
+msgstr ""
+"Per favor, consulti la documentació o consulti amb el seu administrador per "
+"obtenir més informació."
 
 #. Template: CustomerLogin
 msgid "One moment please, you are being redirected..."
@@ -9023,7 +9139,8 @@ msgstr "El seu nom d'usuari"
 
 #. Template: CustomerLogin
 msgid "A new password will be sent to your email address."
-msgstr "Una nova contrasenya li serà enviada a la seva adreça de correu electrònic."
+msgstr ""
+"Una nova contrasenya li serà enviada a la seva adreça de correu electrònic."
 
 #. Template: CustomerLogin
 msgid "Create Account"
@@ -9031,7 +9148,8 @@ msgstr "Crear Compte"
 
 #. Template: CustomerLogin
 msgid "Please fill out this form to receive login credentials."
-msgstr "Per favor, empleni aquest formulari per rebre les credencials d'accés."
+msgstr ""
+"Per favor, empleni aquest formulari per rebre les credencials d'accés."
 
 #. Template: CustomerLogin
 msgid "How we should address you"
@@ -9501,7 +9619,9 @@ msgstr "Nou"
 msgid ""
 "A new database user with limited permissions will be created for this OTRS "
 "system."
-msgstr "Un nou usuari de base de dades amb drets limitats serà creat per a aquest sistema OTRS."
+msgstr ""
+"Un nou usuari de base de dades amb drets limitats serà creat per a aquest "
+"sistema OTRS."
 
 #. Template: InstallerDBmssql
 msgid "Repeat Password"
@@ -9527,7 +9647,9 @@ msgstr ""
 msgid ""
 "To be able to use OTRS you have to enter the following line in your command "
 "line (Terminal/Shell) as root."
-msgstr "Per a poder utilitzar OTRS ha d'escriure la següent linea de comandos (Terminal/Shell) com root"
+msgstr ""
+"Per a poder utilitzar OTRS ha d'escriure la següent linea de comandos "
+"(Terminal/Shell) com root"
 
 #. Template: InstallerFinish
 msgid "Restart your webserver"
@@ -9561,7 +9683,9 @@ msgstr "ID de sistema"
 msgid ""
 "The identifier of the system. Each ticket number and each HTTP session ID "
 "contain this number."
-msgstr "L'identificador del sistema. Cada nombre de tiquet i cada identificador de sessió HTTP contenen aquest nombre."
+msgstr ""
+"L'identificador del sistema. Cada nombre de tiquet i cada identificador de "
+"sessió HTTP contenen aquest nombre."
 
 #. Template: InstallerSystem
 msgid "System FQDN"
@@ -9620,7 +9744,10 @@ msgid ""
 "Email addresses that are manually entered are checked against the MX records"
 " found in DNS. Don't use this option if your DNS is slow or does not resolve"
 " public addresses."
-msgstr "Les adreces de correu electrònic que s'introdueixen manualment es comparen amb els registres MX en DNS. No utilitzi aquesta opció si la seva DNS és lent i no es resol adreces públiques."
+msgstr ""
+"Les adreces de correu electrònic que s'introdueixen manualment es comparen "
+"amb els registres MX en DNS. No utilitzi aquesta opció si la seva DNS és "
+"lent i no es resol adreces públiques."
 
 #. Template: LinkObject
 msgid "Delete link"
@@ -9778,7 +9905,9 @@ msgstr "Permisos"
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "You can select one or more groups to define access for different agents."
-msgstr "Vostè pot seleccionar un o més grups per definir l'accés als diferents agents."
+msgstr ""
+"Vostè pot seleccionar un o més grups per definir l'accés als diferents "
+"agents."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Result formats"
@@ -9832,7 +9961,9 @@ msgstr ""
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
-msgstr "Si s'estableix per a usuaris finals invàlids no es poden generar estadístiques."
+msgstr ""
+"Si s'estableix per a usuaris finals invàlids no es poden generar "
+"estadístiques."
 
 #. Template: PreviewWidget
 msgid "There are problems in the configuration of this statistic:"
@@ -12424,7 +12555,9 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Sorry, you need to be the ticket owner to perform this action."
-msgstr "Ho sentim, necessita ser el propietari del tiquet per realitzar aquesta acció."
+msgstr ""
+"Ho sentim, necessita ser el propietari del tiquet per realitzar aquesta "
+"acció."
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Please change the owner first."
@@ -13987,7 +14120,9 @@ msgstr ""
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
 "Can't update password, your new passwords do not match. Please try again!"
-msgstr "No es pot actualitzar la contrasenya, les contrasenyes noves no coincideixen. Per favor, intenti-ho de nou!"
+msgstr ""
+"No es pot actualitzar la contrasenya, les contrasenyes noves no "
+"coincideixen. Per favor, intenti-ho de nou!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
@@ -13997,7 +14132,8 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must be at least %s characters long!"
-msgstr "No es pot actualitzar la contrasenya, ha de tenir almenys %s caràcters!"
+msgstr ""
+"No es pot actualitzar la contrasenya, ha de tenir almenys %s caràcters!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
@@ -14007,7 +14143,8 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must contain at least 1 digit!"
-msgstr "No es pot actualitzar la contrasenya, ha de contenir almenys un dígit 1!"
+msgstr ""
+"No es pot actualitzar la contrasenya, ha de contenir almenys un dígit 1!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must contain at least 2 letter characters!"
@@ -14369,7 +14506,9 @@ msgstr "No es pot analitzar el repositori de documents de l'índex."
 msgid ""
 "No packages for your framework version found in this repository, it only "
 "contains packages for other framework versions."
-msgstr "No hi ha paquets per a la seva versió de Framework en aquest repositori, aquest només conté els paquets per a altres versions de Framework."
+msgstr ""
+"No hi ha paquets per a la seva versió de Framework en aquest repositori, "
+"aquest només conté els paquets per a altres versions de Framework."
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is not installed!"
@@ -15621,7 +15760,9 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Login failed! Your user name or password was entered incorrectly."
-msgstr "Connexió fallida! El seu nom d'usuari o contrasenya van ser entrats incorrectament."
+msgstr ""
+"Connexió fallida! El seu nom d'usuari o contrasenya van ser entrats "
+"incorrectament."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid ""
@@ -15643,7 +15784,9 @@ msgstr "Característica no activa"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Sent password reset instructions. Please check your email."
-msgstr "Enviades les instruccions per restablir la contrasenya. Per favor, consulti el seu correu electrònic."
+msgstr ""
+"Enviades les instruccions per restablir la contrasenya. Per favor, consulti "
+"el seu correu electrònic."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Invalid Token!"
@@ -15651,7 +15794,9 @@ msgstr "'Token' invàlid!"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Sent new password to %s. Please check your email."
-msgstr "Enviada nova contrasenya per a %s. Per favor, consulti el seu correu electrònic."
+msgstr ""
+"Enviada nova contrasenya per a %s. Per favor, consulti el seu correu "
+"electrònic."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Error: invalid session."
@@ -15674,7 +15819,9 @@ msgstr ""
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "This e-mail address already exists. Please log in or reset your password."
-msgstr "Aquesta adreça de correu ja existeix. Si us plau, entra o demana canvi de contrasenya."
+msgstr ""
+"Aquesta adreça de correu ja existeix. Si us plau, entra o demana canvi de "
+"contrasenya."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
@@ -15696,7 +15843,9 @@ msgstr ""
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "New account created. Sent login information to %s. Please check your email."
-msgstr "Nou compte creat. Enviada la informació d'accés a %s. Per favor, consulti el seu correu electrònic."
+msgstr ""
+"Nou compte creat. Enviada la informació d'accés a %s. Per favor, consulti el"
+" seu correu electrònic."
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -16263,7 +16412,11 @@ msgid ""
 "appropriate changes in the SysConfig, you will be locked out of the "
 "administrations panel! If this happens, please rename the group back to "
 "admin per SQL statement."
-msgstr "ADVERTIMENT: Quan es canvia el nom del grup 'admin', abans de fer els canvis apropiats en SysConfig, se li bloqueja l'accés al panell d'administració! Si això ocorre, per favor, canviï el nom del grup de nou a admin amb una sentència SQL."
+msgstr ""
+"ADVERTIMENT: Quan es canvia el nom del grup 'admin', abans de fer els canvis"
+" apropiats en SysConfig, se li bloqueja l'accés al panell d'administració! "
+"Si això ocorre, per favor, canviï el nom del grup de nou a admin amb una "
+"sentència SQL."
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Delete this Mail Account"
@@ -16820,7 +16973,9 @@ msgstr "Comprovació de correu finalitzada amb èxit."
 
 #. JS File: Core.Installer
 msgid "Error in the mail settings. Please correct and try again."
-msgstr "Error en la configuració de correu. Per favor, corregeixi i torni a intentar-ho."
+msgstr ""
+"Error en la configuració de correu. Per favor, corregeixi i torni a "
+"intentar-ho."
 
 #. JS File: Core.SystemConfiguration
 msgid "Open this node in a new window"
@@ -16885,19 +17040,25 @@ msgstr ""
 #. JS File: Core.UI.Popup
 msgid ""
 "If you now leave this page, all open popup windows will be closed, too!"
-msgstr "Si ara surt d'aquesta pàgina, totes les finestres emergents obertes es tancaran, també!"
+msgstr ""
+"Si ara surt d'aquesta pàgina, totes les finestres emergents obertes es "
+"tancaran, també!"
 
 #. JS File: Core.UI.Popup
 msgid ""
 "A popup of this screen is already open. Do you want to close it and load "
 "this one instead?"
-msgstr "Una finestra d'aquesta pantalla ja està oberta. Vol tancar-la i carregar aquesta?"
+msgstr ""
+"Una finestra d'aquesta pantalla ja està oberta. Vol tancar-la i carregar "
+"aquesta?"
 
 #. JS File: Core.UI.Popup
 msgid ""
 "Could not open popup window. Please disable any popup blockers for this "
 "application."
-msgstr "No es va poder obrir una finestra emergent. Per favor, deshabiliti qualsevol bloqueig de finestres emergents per a aquesta aplicació."
+msgstr ""
+"No es va poder obrir una finestra emergent. Per favor, deshabiliti qualsevol"
+" bloqueig de finestres emergents per a aquesta aplicació."
 
 #. JS File: Core.UI.Table.Sort
 msgid "Ascending sort applied, "
@@ -17156,7 +17317,10 @@ msgid ""
 "ACL module that allows closing parent tickets only if all its children are "
 "already closed (\"State\" shows which states are not available for the "
 "parent ticket until all child tickets are closed)."
-msgstr "Mòdul de ACL que permet tancar els tiquets pare només si tots els seus fills ja estan tancats (\"Estat\" mostra que estats no estan disponibles per al tiquet pare fins que tots els tiquets fill estiguin tancats)."
+msgstr ""
+"Mòdul de ACL que permet tancar els tiquets pare només si tots els seus fills"
+" ja estan tancats (\"Estat\" mostra que estats no estan disponibles per al "
+"tiquet pare fins que tots els tiquets fill estiguin tancats)."
 
 #. SysConfig
 msgid "Access Control Lists (ACL)"
@@ -17169,11 +17333,15 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Activates a blinking mechanism of the queue that contains the oldest ticket."
-msgstr "Activa un mecanisme de parpalleig de la cua que conté els tiquets més antics."
+msgstr ""
+"Activa un mecanisme de parpalleig de la cua que conté els tiquets més "
+"antics."
 
 #. SysConfig
 msgid "Activates lost password feature for agents, in the agent interface."
-msgstr "Activa la funció de contrasenya perduda per als agents, en la interfície de l'agent."
+msgstr ""
+"Activa la funció de contrasenya perduda per als agents, en la interfície de "
+"l'agent."
 
 #. SysConfig
 msgid "Activates lost password feature for customers."
@@ -17187,13 +17355,17 @@ msgstr ""
 msgid ""
 "Activates the article filter in the zoom view to specify which articles "
 "should be shown."
-msgstr "Activa el filtre d'article en la vista de zoom per especificar què articles s'han de mostrar."
+msgstr ""
+"Activa el filtre d'article en la vista de zoom per especificar què articles "
+"s'han de mostrar."
 
 #. SysConfig
 msgid ""
 "Activates the available themes on the system. Value 1 means active, 0 means "
 "inactive."
-msgstr "Activa els temes disponibles en el sistema. 1 significa actiu, 0 significa inactiu."
+msgstr ""
+"Activa els temes disponibles en el sistema. 1 significa actiu, 0 significa "
+"inactiu."
 
 #. SysConfig
 msgid "Activates the ticket archive system search in the customer interface."
@@ -17204,7 +17376,11 @@ msgid ""
 "Activates the ticket archive system to have a faster system by moving some "
 "tickets out of the daily scope. To search for these tickets, the archive "
 "flag has to be enabled in the ticket search."
-msgstr "Activa el sistema d'arxiu de tiquet per tenir un sistema més ràpid, movent alguns tiquets fora dels objectius diaris. Per realitzar una recerca d'aquests tiquets, l'opció d'arxiu ha d'estar habilitada en la recerca de tiquets."
+msgstr ""
+"Activa el sistema d'arxiu de tiquet per tenir un sistema més ràpid, movent "
+"alguns tiquets fora dels objectius diaris. Per realitzar una recerca "
+"d'aquests tiquets, l'opció d'arxiu ha d'estar habilitada en la recerca de "
+"tiquets."
 
 #. SysConfig
 msgid "Activates time accounting."
@@ -17256,7 +17432,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Added subscription for user \"%s\"."
-msgstr ""
+msgstr "Subscriure's"
 
 #. SysConfig
 msgid "Added system request (%s)."
@@ -17270,7 +17446,9 @@ msgstr ""
 msgid ""
 "Adds a suffix with the actual year and month to the OTRS log file. A logfile"
 " for every month will be created."
-msgstr "Afegeix un sufix amb l'any actual i el mes en el fitxer de registre de OTRS. Es crearà un arxiu per cada mes."
+msgstr ""
+"Afegeix un sufix amb l'any actual i el mes en el fitxer de registre de OTRS."
+" Es crearà un arxiu per cada mes."
 
 #. SysConfig
 msgid ""
@@ -17357,11 +17535,13 @@ msgstr ""
 
 #. SysConfig
 msgid "Agent interface article notification module to check PGP."
-msgstr "Mòdul de notificació d'article d'interfície d'agent per comprovar PGP."
+msgstr ""
+"Mòdul de notificació d'article d'interfície d'agent per comprovar PGP."
 
 #. SysConfig
 msgid "Agent interface article notification module to check S/MIME."
-msgstr "Mòdul de notificació d'article d'interfície d'agent per comprovar S/MIME."
+msgstr ""
+"Mòdul de notificació d'article d'interfície d'agent per comprovar S/MIME."
 
 #. SysConfig
 msgid ""
@@ -17388,7 +17568,9 @@ msgstr ""
 msgid ""
 "Agent interface module to check incoming emails in the Ticket-Zoom-View if "
 "the S/MIME-key is available and true."
-msgstr "Mòdul d'interfície d'agent per comprovar els emails entrants en Vista-Zoom-Tiquet si la clau S/ACARONI està disponible i veritable."
+msgstr ""
+"Mòdul d'interfície d'agent per comprovar els emails entrants en Vista-Zoom-"
+"Tiquet si la clau S/ACARONI està disponible i veritable."
 
 #. SysConfig
 msgid ""
@@ -17467,7 +17649,9 @@ msgstr "Totes els tiquets nous, en aquests tiquets encara no s'ha treballat"
 msgid ""
 "All open tickets, these tickets have already been worked on, but need a "
 "response"
-msgstr "Tots els tiquets oberts, ja s'ha treballat en aquests tiquets, però necessiten una resposta"
+msgstr ""
+"Tots els tiquets oberts, ja s'ha treballat en aquests tiquets, però "
+"necessiten una resposta"
 
 #. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
@@ -17476,7 +17660,9 @@ msgstr ""
 #. SysConfig
 msgid ""
 "All tickets with a reminder set where the reminder date has been reached"
-msgstr "Totes els tiquet amb un conjunt de recordatoris on s'ha arribat a la data de recordatori"
+msgstr ""
+"Totes els tiquet amb un conjunt de recordatoris on s'ha arribat a la data de"
+" recordatori"
 
 #. SysConfig
 msgid ""
@@ -17522,7 +17708,8 @@ msgstr ""
 
 #. SysConfig
 msgid "Allows agents to exchange the axis of a stat if they generate one."
-msgstr "Permet als agents intercanviar els eixos d'una estadística, si generen una."
+msgstr ""
+"Permet als agents intercanviar els eixos d'una estadística, si generen una."
 
 #. SysConfig
 msgid "Allows agents to generate individual-related stats."
@@ -17532,26 +17719,35 @@ msgstr "Permet als agents generar estadístiques individualitzades."
 msgid ""
 "Allows choosing between showing the attachments of a ticket in the browser "
 "(inline) or just make them downloadable (attachment)."
-msgstr "Permet triar entre mostrar els arxius adjunts d'un tiquet en el navegador (en línia) o simplement fer-los descarregable (adjunt)."
+msgstr ""
+"Permet triar entre mostrar els arxius adjunts d'un tiquet en el navegador "
+"(en línia) o simplement fer-los descarregable (adjunt)."
 
 #. SysConfig
 msgid ""
 "Allows choosing the next compose state for customer tickets in the customer "
 "interface."
-msgstr "Permet triar el següent estat de compondre per als tiquets del client en la interfície de client."
+msgstr ""
+"Permet triar el següent estat de compondre per als tiquets del client en la "
+"interfície de client."
 
 #. SysConfig
 msgid ""
 "Allows customers to change the ticket priority in the customer interface."
-msgstr "Permet als clients canviar la prioritat d'entrada en la interfície del client."
+msgstr ""
+"Permet als clients canviar la prioritat d'entrada en la interfície del "
+"client."
 
 #. SysConfig
 msgid "Allows customers to set the ticket SLA in the customer interface."
-msgstr "Permet als clients establir el SLA del tiquet en la interfície del client."
+msgstr ""
+"Permet als clients establir el SLA del tiquet en la interfície del client."
 
 #. SysConfig
 msgid "Allows customers to set the ticket priority in the customer interface."
-msgstr "Permet als clients establir la prioritat del tiquet en la interfície del client."
+msgstr ""
+"Permet als clients establir la prioritat del tiquet en la interfície del "
+"client."
 
 #. SysConfig
 msgid ""
@@ -17561,7 +17757,9 @@ msgstr ""
 
 #. SysConfig
 msgid "Allows customers to set the ticket service in the customer interface."
-msgstr "Permet als clients establir el servei del tiquet en la interfície del client."
+msgstr ""
+"Permet als clients establir el servei del tiquet en la interfície del "
+"client."
 
 #. SysConfig
 msgid ""
@@ -17579,7 +17777,10 @@ msgid ""
 "Allows defining services and SLAs for tickets (e. g. email, desktop, "
 "network, ...), and escalation attributes for SLAs (if ticket service/SLA "
 "feature is enabled)."
-msgstr "Permet la definició de serveis i SLAs de tiquets (per exemple, correu electrònic, escriptori, xarxa, ...), i atributs d'escalat dels SLA (si la funció servei/SLA de tiquet està activada)"
+msgstr ""
+"Permet la definició de serveis i SLAs de tiquets (per exemple, correu "
+"electrònic, escriptori, xarxa, ...), i atributs d'escalat dels SLA (si la "
+"funció servei/SLA de tiquet està activada)"
 
 #. SysConfig
 msgid ""
@@ -17606,13 +17807,17 @@ msgstr ""
 msgid ""
 "Allows having a medium format ticket overview (CustomerInfo => 1 - shows "
 "also the customer information)."
-msgstr "Permet tenir una visió de format mitjà del tiquet (CustomerInfo => 1 - mostra també la informació del client)."
+msgstr ""
+"Permet tenir una visió de format mitjà del tiquet (CustomerInfo => 1 - "
+"mostra també la informació del client)."
 
 #. SysConfig
 msgid ""
 "Allows having a small format ticket overview (CustomerInfo => 1 - shows also"
 " the customer information)."
-msgstr "Permet tenir una visió de format petit del tiquet (CustomerInfo => 1 - mostra també la informació del client)."
+msgstr ""
+"Permet tenir una visió de format petit del tiquet (CustomerInfo => 1 - "
+"mostra també la informació del client)."
 
 #. SysConfig
 msgid "Allows invalid agents to generate individual-related stats."
@@ -17628,7 +17833,9 @@ msgstr ""
 msgid ""
 "Allows the administrators to login as other users, via the users "
 "administration panel."
-msgstr "Permet als administradors iniciar una sessió com un altre usuari, a través del panell d'administració d'usuaris."
+msgstr ""
+"Permet als administradors iniciar una sessió com un altre usuari, a través "
+"del panell d'administració d'usuaris."
 
 #. SysConfig
 msgid ""
@@ -17712,7 +17919,9 @@ msgstr ""
 msgid ""
 "Allows to set a new ticket state in the move ticket screen of the agent "
 "interface."
-msgstr "Permet posar un nou estat de tiquet en la pantalla de moviment de tiquet en l'interfície d'agent."
+msgstr ""
+"Permet posar un nou estat de tiquet en la pantalla de moviment de tiquet en "
+"l'interfície d'agent."
 
 #. SysConfig
 msgid "Always show RichText if available"
@@ -17784,7 +17993,9 @@ msgstr ""
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
-msgstr "Salt de línia automàtic en missatges de text després de x nombre de caràcters."
+msgstr ""
+"Salt de línia automàtic en missatges de text després de x nombre de "
+"caràcters."
 
 #. SysConfig
 msgid ""
@@ -17802,7 +18013,9 @@ msgstr ""
 msgid ""
 "Automatically lock and set owner to current Agent after selecting for an "
 "Bulk Action."
-msgstr "Bloquejar automàticament i establir el propietari a l'Agent actual després de la selecció d'una acció massiva."
+msgstr ""
+"Bloquejar automàticament i establir el propietari a l'Agent actual després "
+"de la selecció d'una acció massiva."
 
 #. SysConfig
 msgid ""
@@ -17816,7 +18029,9 @@ msgstr ""
 msgid ""
 "Automatically sets the responsible of a ticket (if it is not set yet) after "
 "the first owner update."
-msgstr "Estableix automàticament el responsable d'un tiquet (si encara no ho està) després de l'actualització de primer propietari."
+msgstr ""
+"Estableix automàticament el responsable d'un tiquet (si encara no ho està) "
+"després de l'actualització de primer propietari."
 
 #. SysConfig
 msgid "Avatar"
@@ -17844,7 +18059,9 @@ msgstr ""
 msgid ""
 "Blocks all the incoming emails that do not have a valid ticket number in "
 "subject with From: @example.com address."
-msgstr "Bloqueja tots els missatges de correu electrònic entrants que no tenen un nombre de tiquet vàlid en l'assumpte amb adreça De: @example.com."
+msgstr ""
+"Bloqueja tots els missatges de correu electrònic entrants que no tenen un "
+"nombre de tiquet vàlid en l'assumpte amb adreça De: @example.com."
 
 #. SysConfig
 msgid "Bounced to \"%s\"."
@@ -17862,7 +18079,10 @@ msgstr "Acció múltiple"
 msgid ""
 "CMD example setup. Ignores emails where external CMD returns some output on "
 "STDOUT (email will be piped into STDIN of some.bin)."
-msgstr "Configuració d'exemple de CMD. Fa cas omís de correus electrònics on els comandos externs retornen alguna cosa en la sortida estàndard (el correu electrònic serà enviat a l'entrada estàndard de some.bin)."
+msgstr ""
+"Configuració d'exemple de CMD. Fa cas omís de correus electrònics on els "
+"comandos externs retornen alguna cosa en la sortida estàndard (el correu "
+"electrònic serà enviat a l'entrada estàndard de some.bin)."
 
 #. SysConfig
 msgid "CSV Separator"
@@ -17999,7 +18219,9 @@ msgstr ""
 msgid ""
 "Changes the owner of tickets to everyone (useful for ASP). Normally only "
 "agent with rw permissions in the queue of the ticket will be shown."
-msgstr "Canvia el propietari del tiquet a Tots (útil per a ASP). Normalment, només l'agent amb permisos rw en la cua del tiquet serà mostrat."
+msgstr ""
+"Canvia el propietari del tiquet a Tots (útil per a ASP). Normalment, només "
+"l'agent amb permisos rw en la cua del tiquet serà mostrat."
 
 #. SysConfig
 msgid "Chat communication channel."
@@ -21163,7 +21385,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Disables the redirection to the last screen overview / dashboard after a "
-"ticket is created."
+"ticket is closed."
 msgstr ""
 
 #. SysConfig
@@ -22565,6 +22787,10 @@ msgstr ""
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Korean"
 msgstr ""
 
 #. SysConfig
@@ -23973,7 +24199,7 @@ msgstr "Tiquets de recordatoris"
 
 #. SysConfig
 msgid "Removed subscription for user \"%s\"."
-msgstr ""
+msgstr "Cancel·lar subscripció"
 
 #. SysConfig
 msgid "Removes old system configuration deployments (Sunday mornings)."
@@ -24277,7 +24503,10 @@ msgid ""
 "Select the separator character used in CSV files (stats and searches). If "
 "you don't select a separator here, the default separator for your language "
 "will be used."
-msgstr "Seleccioni el caràcter de separació utilitzat en els arxius CSV (estadístiques i recerques). Si vostè no selecciona un separador aquí, s'utilitzarà el predeterminat per al seu idioma."
+msgstr ""
+"Seleccioni el caràcter de separació utilitzat en els arxius CSV "
+"(estadístiques i recerques). Si vostè no selecciona un separador aquí, "
+"s'utilitzarà el predeterminat per al seu idioma."
 
 #. SysConfig
 msgid "Select your frontend Theme."
@@ -26021,7 +26250,7 @@ msgstr "Estat#"
 
 #. SysConfig
 msgid "States"
-msgstr "Estats"
+msgstr "Estat"
 
 #. SysConfig
 msgid "Statistic Reports overview."
@@ -26773,7 +27002,9 @@ msgstr ""
 msgid ""
 "Your email with ticket number \"<OTRS_TICKET>\" is merged to "
 "\"<OTRS_MERGE_TO_TICKET>\"."
-msgstr "El seu correu amb nombre de tiquet \"<OTRS_TICKET>\" es va unir a \"<OTRS_MERGE_TO_TICKET>\"."
+msgstr ""
+"El seu correu amb nombre de tiquet \"<OTRS_TICKET>\" es va unir a "
+"\"<OTRS_MERGE_TO_TICKET>\"."
 
 #. SysConfig
 msgid ""

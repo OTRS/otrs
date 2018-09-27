@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-09-13 21:55+0000\n"
+"POT-Creation-Date: 2018-09-27 17:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19010,7 +19010,7 @@ msgid "Disables sending reminder notifications to the responsible agent of a tic
 msgstr ""
 
 #. SysConfig
-msgid "Disables the redirection to the last screen overview / dashboard after a ticket is created."
+msgid "Disables the redirection to the last screen overview / dashboard after a ticket is closed."
 msgstr ""
 
 #. SysConfig
@@ -20107,6 +20107,10 @@ msgstr ""
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Korean"
 msgstr ""
 
 #. SysConfig

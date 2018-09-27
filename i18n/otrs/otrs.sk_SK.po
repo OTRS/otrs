@@ -1,18 +1,18 @@
-# 
 # Translators:
-# Adam Sadovsky <sadovsky.adam@gmail.com>, 2015
-# Daniel Pogač <dano.pogac@gmail.com>, 2015
-# Jaroslav Abaffy <jabaffy@unitedclassifieds.sk>, 2016
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Daniel Pogač <dano.pogac@gmail.com>, 2018
+# Adam Sadovsky <sadovsky.adam@gmail.com>, 2018
+# RXD RXD <rxd1978@gmail.com>, 2018
+# Jaroslav Abaffy <jabaffy@unitedclassifieds.sk>, 2018
 # kolegacik <kubice.tom@gmail.com>, 2018
 # Lubos Samel <lsamel@manz.com>, 2018
-# RXD RXD <rxd1978@gmail.com>, 2018
 msgid ""
 msgstr ""
-"Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-09-13 21:46+0000\n"
-"PO-Revision-Date: 2018-09-13 21:49+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: Slovak (Slovakia) (http://www.transifex.com/otrs/OTRS/language/sk_SK/)\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-09-27 16:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Lubos Samel <lsamel@manz.com>, 2018\n"
+"Language-Team: Slovak (Slovakia) (https://www.transifex.com/otrs/teams/23435/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -55,7 +55,9 @@ msgstr "Import konfigurácie"
 msgid ""
 "Here you can upload a configuration file to import ACLs to your system. The "
 "file needs to be in .yml format as exported by the ACL editor module."
-msgstr "Tu môžete nahrať konfiguračný súbor pre import ACLs do systému. Súbor musí byť v .yml fomáte, exportovaný z ACL editor modulu."
+msgstr ""
+"Tu môžete nahrať konfiguračný súbor pre import ACLs do systému. Súbor musí "
+"byť v .yml fomáte, exportovaný z ACL editor modulu."
 
 #. Template: AdminACL
 msgid "This field is required."
@@ -81,7 +83,9 @@ msgstr "Popis "
 msgid ""
 "To create a new ACL you can either import ACLs which were exported from "
 "another system or create a complete new one."
-msgstr "Na vytvorenie nových ACL môžete buď importovať ACLs exportované z iného systému alebo vytvoriť úplne nové."
+msgstr ""
+"Na vytvorenie nových ACL môžete buď importovať ACLs exportované z iného "
+"systému alebo vytvoriť úplne nové."
 
 #. Template: AdminACL
 msgid ""
@@ -158,7 +162,10 @@ msgid ""
 "Set up matching criteria for this ACL. Use 'Properties' to match the current"
 " screen or 'PropertiesDatabase' to match attributes of the current ticket "
 "that are in the database."
-msgstr "Nastav zodpovedajúce kritériá pre toto ACL. Použi \"vlastnosti\" pre zhodu s momentálnou obrazovkou alebo \"vlastnosti databázy\" pre zhodu atribútov aktuálneho tiketu, ktorý je v databáze."
+msgstr ""
+"Nastav zodpovedajúce kritériá pre toto ACL. Použi \"vlastnosti\" pre zhodu s"
+" momentálnou obrazovkou alebo \"vlastnosti databázy\" pre zhodu atribútov "
+"aktuálneho tiketu, ktorý je v databáze."
 
 #. Template: AdminACLEdit
 msgid "Change settings"
@@ -168,7 +175,9 @@ msgstr "Zmena nastavenia"
 msgid ""
 "Set up what you want to change if the criteria match. Keep in mind that "
 "'Possible' is a white list, 'PossibleNot' a black list."
-msgstr "Nastav, čo chceš zmeniť, ak kritériá pasujú. Mysli na to, že \"možné\" je \"white list\" a \"nemožné\" je \"black list\"."
+msgstr ""
+"Nastav, čo chceš zmeniť, ak kritériá pasujú. Mysli na to, že \"možné\" je "
+"\"white list\" a \"nemožné\" je \"black list\"."
 
 #. Template: AdminACLEdit
 msgid "Check the official"
@@ -226,7 +235,9 @@ msgstr "Určite chcete zmazať toto ACL?"
 msgid ""
 "Create a new ACL by submitting the form data. After creating the ACL, you "
 "will be able to add configuration items in edit mode."
-msgstr "Vytvor nové ACL zaslaním dát z formuláru. Po vytvorení ACL, budete mať možnosť pridať configuračnú položku v editovacom móde."
+msgstr ""
+"Vytvor nové ACL zaslaním dát z formuláru. Po vytvorení ACL, budete mať "
+"možnosť pridať configuračnú položku v editovacom móde."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Management"
@@ -265,7 +276,9 @@ msgid ""
 "Here you can upload a configuration file to import a calendar to your "
 "system. The file needs to be in .yml format as exported by calendar "
 "management module."
-msgstr "Tu môžete nahrať konfiguračný súbor pre import kalendára do systému. Súbor musí byť v .yml fomáte, exportovaný z modulu menežmentu kalendára."
+msgstr ""
+"Tu môžete nahrať konfiguračný súbor pre import kalendára do systému. Súbor "
+"musí byť v .yml fomáte, exportovaný z modulu menežmentu kalendára."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Overwrite existing entities"
@@ -287,17 +300,23 @@ msgstr "Filter pre kalendáre"
 msgid ""
 "Depending on the group field, the system will allow users the access to the "
 "calendar according to their permission level."
-msgstr "V závislosti od skupinového poľa, systém umožní užívateľovi prístup do kalendára v závislosti od úrovne oprávnenia."
+msgstr ""
+"V závislosti od skupinového poľa, systém umožní užívateľovi prístup do "
+"kalendára v závislosti od úrovne oprávnenia."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read only: users can see and export all appointments in the calendar."
-msgstr "Iba na čítanie: užívateľ môže vidieť a exportovať všetky schôdzky v kalendári."
+msgstr ""
+"Iba na čítanie: užívateľ môže vidieť a exportovať všetky schôdzky v "
+"kalendári."
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
 "Move into: users can modify appointments in the calendar, but without "
 "changing the calendar selection."
-msgstr "Presuň do: užívateľ môže upraviť schôdzky v kalendári, ale bez zmeny výberu kalendára."
+msgstr ""
+"Presuň do: užívateľ môže upraviť schôdzky v kalendári, ale bez zmeny výberu "
+"kalendára."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Create: users can create and delete appointments in the calendar."
@@ -413,7 +432,9 @@ msgstr "Pridať "
 msgid ""
 "Define rules for creating automatic appointments in this calendar based on "
 "ticket data."
-msgstr "Definuj pravidlá pre automatické vytvorenie schôdzky v tomto kalendári na základe dát z tiketov."
+msgstr ""
+"Definuj pravidlá pre automatické vytvorenie schôdzky v tomto kalendári na "
+"základe dát z tiketov."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Rule"
@@ -435,7 +456,9 @@ msgstr "Nahrávaný súbor musí byť v platnom iCAL formáte (.ics)."
 msgid ""
 "If desired Calendar is not listed here, please make sure that you have at "
 "least 'create' permissions."
-msgstr "Ak požadovaný kalendár tu nie je uvedený, uistite sa, že máte minimálne oprávnenie na jeho vytvorenie."
+msgstr ""
+"Ak požadovaný kalendár tu nie je uvedený, uistite sa, že máte minimálne "
+"oprávnenie na jeho vytvorenie."
 
 #. Template: AdminAppointmentImport
 msgid "Upload"
@@ -449,7 +472,8 @@ msgstr "Aktualizovať existujúcu schôdzku?"
 msgid ""
 "All existing appointments in the calendar with same UniqueID will be "
 "overwritten."
-msgstr "Všetky existujúce schôdzky v kalendári s rovnakým UniqueID budú prepísané."
+msgstr ""
+"Všetky existujúce schôdzky v kalendári s rovnakým UniqueID budú prepísané."
 
 #. Template: AdminAppointmentImport
 msgid "Upload calendar"
@@ -492,7 +516,10 @@ msgid ""
 "Here you can upload a configuration file to import appointment notifications"
 " to your system. The file needs to be in .yml format as exported by the "
 "appointment notification module."
-msgstr "Tu môžete nahrať konfiguračný súbor na import notifikácií schôdzok do Vášho systému. Súbor musí byť v .yml formáte exportovaný z modulu notifikácií schôdzok."
+msgstr ""
+"Tu môžete nahrať konfiguračný súbor na import notifikácií schôdzok do Vášho "
+"systému. Súbor musí byť v .yml formáte exportovaný z modulu notifikácií "
+"schôdzok."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
@@ -2378,7 +2405,9 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "CMD"
-msgstr "This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id."
+msgstr ""
+"This command will be executed. ARG[0] will be the ticket number. ARG[1] the "
+"ticket id."
 
 #. Template: AdminGenericAgent
 msgid ""
@@ -3916,7 +3945,10 @@ msgstr ""
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
-msgstr "Create new groups to handle access permissions for different groups of agent (e. g. purchasing department =>  support department =>  sales department =>  ...)."
+msgstr ""
+"Create new groups to handle access permissions for different groups of agent"
+" (e. g. purchasing department =>  support department =>  sales department =>"
+"  ...)."
 
 #. Template: AdminGroup
 msgid ""
@@ -6171,7 +6203,9 @@ msgstr ""
 
 #. Template: AdminSMIME
 msgid "Hash"
-msgstr "In this way you can directly edit the certification and private keys in file system."
+msgstr ""
+"In this way you can directly edit the certification and private keys in file"
+" system."
 
 #. Template: AdminSMIME
 msgid "Create"
@@ -7652,7 +7686,9 @@ msgstr "Pridané pred %s"
 msgid ""
 "The configuration for this statistic widget contains errors, please review "
 "your settings."
-msgstr "Konfigurácia nástroja pre túto štatistiku obsahuje chybu prosím skontrolovať Vaše nastavenia"
+msgstr ""
+"Konfigurácia nástroja pre túto štatistiku obsahuje chybu prosím skontrolovať"
+" Vaše nastavenia"
 
 #. Template: AgentDashboardStats
 msgid "Download as SVG file"
@@ -7689,7 +7725,9 @@ msgstr "Pre Vás sú pripravované štatistiky, prosím budte trpezlivý"
 msgid ""
 "This statistic can currently not be used because its configuration needs to "
 "be corrected by the statistics administrator."
-msgstr "Tieto štatistiky nemôžu byť aktuálne použité, do opravenie ich konfigurácie administrátorom"
+msgstr ""
+"Tieto štatistiky nemôžu byť aktuálne použité, do opravenie ich konfigurácie "
+"administrátorom"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Assigned to customer user"
@@ -8128,7 +8166,9 @@ msgstr ""
 msgid ""
 "Here you can select additional agents which should receive a notification "
 "regarding the new article."
-msgstr "Tu je možné vybrať dalších agentov ktorí budú prijimať notifikácie o novom článku"
+msgstr ""
+"Tu je možné vybrať dalších agentov ktorí budú prijimať notifikácie o novom "
+"článku"
 
 #. Template: AgentTicketActionCommon
 msgid "Text will also be received by"
@@ -8781,7 +8821,9 @@ msgstr ""
 msgid ""
 "To open links in the following article, you might need to press Ctrl or Cmd "
 "or Shift key while clicking the link (depending on your browser and OS)."
-msgstr "Na otvorenie linky k článku, možete stlačiť klávesy Ctrl alebo Cmd ale Shift v závislosti podľa operačného systému alebo browsera"
+msgstr ""
+"Na otvorenie linky k článku, možete stlačiť klávesy Ctrl alebo Cmd ale Shift"
+" v závislosti podľa operačného systému alebo browsera"
 
 #. Template: MIMEBase
 msgid "Close this message"
@@ -8976,7 +9018,8 @@ msgstr ""
 #. Template: CustomerLogin
 msgid ""
 "Please see the documentation or ask your admin for further information."
-msgstr "Posím prečítajte si dokumentáciu alebo oslovte Vášho správcu aplikácie"
+msgstr ""
+"Posím prečítajte si dokumentáciu alebo oslovte Vášho správcu aplikácie"
 
 #. Template: CustomerLogin
 msgid "One moment please, you are being redirected..."
@@ -9476,7 +9519,9 @@ msgstr ""
 msgid ""
 "If you have set a root password for your database, it must be entered here. "
 "If not, leave this field empty."
-msgstr "Ak ste zadali heslo root-a pre databázu, musí byť zadané tu. Ak nie, nechajte pole prázdne."
+msgstr ""
+"Ak ste zadali heslo root-a pre databázu, musí byť zadané tu. Ak nie, "
+"nechajte pole prázdne."
 
 #. Template: InstallerDBmssql
 msgid "Database name"
@@ -9532,11 +9577,16 @@ msgstr ""
 msgid ""
 "To be able to use OTRS you have to enter the following line in your command "
 "line (Terminal/Shell) as root."
-msgstr "Aby ste mohli pouzivat OTRS =>  musite zadat nasledovne: do Vasho prikazoveho riadku (terminal/shell) =>  pricom musite byt prihlaseny ako root:"
+msgstr ""
+"Aby ste mohli pouzivat OTRS =>  musite zadat nasledovne: do Vasho "
+"prikazoveho riadku (terminal/shell) =>  pricom musite byt prihlaseny ako "
+"root:"
 
 #. Template: InstallerFinish
 msgid "Restart your webserver"
-msgstr "dat \"nasledovne\") do Vasho prikazoveho riadku (terminal/shell) =>  pricom musite byt prihlaseny ako root:"
+msgstr ""
+"dat \"nasledovne\") do Vasho prikazoveho riadku (terminal/shell) =>  pricom "
+"musite byt prihlaseny ako root:"
 
 #. Template: InstallerFinish
 msgid "After doing so your OTRS is up and running."
@@ -9682,7 +9732,9 @@ msgid ""
 "Sorry, but this feature of OTRS is currently not available for mobile "
 "devices. If you'd like to use it, you can either switch to desktop mode or "
 "use your regular desktop device."
-msgstr "Funkcionalita nie je dostupná pre mobilné zariadenia, prepnite sa do desktopového módu"
+msgstr ""
+"Funkcionalita nie je dostupná pre mobilné zariadenia, prepnite sa do "
+"desktopového módu"
 
 #. Template: Motd
 msgid "Message of the Day"
@@ -10184,7 +10236,7 @@ msgstr "Odomknúť"
 
 #. Template: Test
 msgid "Welcome %s %s"
-msgstr ""
+msgstr "Vitajte %s"
 
 #. Template: Test
 msgid "Counter"
@@ -11455,7 +11507,8 @@ msgstr ""
 msgid ""
 "Package not verified by the OTRS Group! It is recommended not to use this "
 "package."
-msgstr "Balík nie je overený OTRS skupinou. Neodporúča sa používať tento balík."
+msgstr ""
+"Balík nie je overený OTRS skupinou. Neodporúča sa používať tento balík."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not Started"
@@ -11554,7 +11607,9 @@ msgstr "Priorita pridaná"
 msgid ""
 "Process Management information from database is not in sync with the system "
 "configuration, please synchronize all processes."
-msgstr "Informácie Process Management-u nie sú synchrónne so systémovou konfiguráciou. Prosím zosynchronizujte všetky procesy."
+msgstr ""
+"Informácie Process Management-u nie sú synchrónne so systémovou "
+"konfiguráciou. Prosím zosynchronizujte všetky procesy."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ExampleProcesses!"
@@ -13258,7 +13313,8 @@ msgstr "Vytvorený pred viacej ako ..."
 msgid ""
 "Please remove the following words because they cannot be used for the "
 "search:"
-msgstr "Prosím vymažte nasleduúce slová, nakolko nemôžu byť použité na vyhľadávanie"
+msgstr ""
+"Prosím vymažte nasleduúce slová, nakolko nemôžu byť použité na vyhľadávanie"
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Can't reopen ticket, not possible in this queue!"
@@ -13876,7 +13932,9 @@ msgstr "Licencia %s čoskoro expiruje. Kontaktujte %s pre obnovenie kontraktu!"
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
-msgstr "Update pre %s je dostupný, ale koliduje s verziou Vášho frameworku. Updatujte najskôr framework prosím!"
+msgstr ""
+"Update pre %s je dostupný, ale koliduje s verziou Vášho frameworku. "
+"Updatujte najskôr framework prosím!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
 msgid "Online Agent: %s"
@@ -13913,7 +13971,8 @@ msgstr "OTRS démon nebeží."
 
 #. Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
 msgid "You have Out of Office enabled, would you like to disable it?"
-msgstr "Máte nastavenú Neprítomnosť v kancelárii. Chcete toto nastavenie zrušiť ?"
+msgstr ""
+"Máte nastavenú Neprítomnosť v kancelárii. Chcete toto nastavenie zrušiť ?"
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/PackageManagerCheckNotVerifiedPackages.pm
@@ -14217,7 +14276,8 @@ msgstr ""
 #. Perl Module: Kernel/System/Auth.pm
 msgid ""
 "It is currently not possible to login due to a scheduled system maintenance."
-msgstr "Prihlásenie nie je momentálne možné z dôvodu plánovanej údržby systému."
+msgstr ""
+"Prihlásenie nie je momentálne možné z dôvodu plánovanej údržby systému."
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
@@ -14374,7 +14434,9 @@ msgstr "Nie je možné určit úložisko indexu dokumentu"
 msgid ""
 "No packages for your framework version found in this repository, it only "
 "contains packages for other framework versions."
-msgstr "Žiadne balíčky pre Váš framework neboli nájdené vo vybranom repozitáry, sú tu len pre iné verzie"
+msgstr ""
+"Žiadne balíčky pre Váš framework neboli nájdené vo vybranom repozitáry, sú "
+"tu len pre iné verzie"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is not installed!"
@@ -14424,11 +14486,13 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't contact registration server. Please try again later."
-msgstr "Nie je možné sa spojiť s registračným server. Vyskúšajte neskôr prosím."
+msgstr ""
+"Nie je možné sa spojiť s registračným server. Vyskúšajte neskôr prosím."
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "No content received from registration server. Please try again later."
-msgstr "Odpoveď z registračného serveru je nesprávna. Vyskúšajte neskôr prosím."
+msgstr ""
+"Odpoveď z registračného serveru je nesprávna. Vyskúšajte neskôr prosím."
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't get Token from sever"
@@ -15648,7 +15712,9 @@ msgstr "Funkcia neaktívna!"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Sent password reset instructions. Please check your email."
-msgstr "Na Váš email boli odoslané inštrukcie pre obnovu hesla. Skontrolujte si svoj email."
+msgstr ""
+"Na Váš email boli odoslané inštrukcie pre obnovu hesla. Skontrolujte si svoj"
+" email."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Invalid Token!"
@@ -15684,7 +15750,9 @@ msgstr "Email adresa existuje. Prihláste sa alebo vynulujte heslo."
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "This email address is not allowed to register. Please contact support staff."
-msgstr "Zadanú adresu nie je možné použiť pre registráciu. Kontaktujte prosím systémovú podporu."
+msgstr ""
+"Zadanú adresu nie je možné použiť pre registráciu. Kontaktujte prosím "
+"systémovú podporu."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
@@ -15701,7 +15769,9 @@ msgstr ""
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "New account created. Sent login information to %s. Please check your email."
-msgstr "Konto bolo vytvorené. Prihlasovacie údaje boli odoslané na %s. Skontrolujte svoj email."
+msgstr ""
+"Konto bolo vytvorené. Prihlasovacie údaje boli odoslané na %s. Skontrolujte "
+"svoj email."
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -16655,7 +16725,9 @@ msgstr "Z pola sa vymazáva, skúste neskôr"
 
 #. JS File: Core.Agent.CustomerUserAddressBook
 msgid "Please enter at least one search value or * to find anything."
-msgstr "Na vyhľadávanie prosim vložte aspoň jednu hodnotu alebo * na vyhľadanie všetkého"
+msgstr ""
+"Na vyhľadávanie prosim vložte aspoň jednu hodnotu alebo * na vyhľadanie "
+"všetkého"
 
 #. JS File: Core.Agent.Daemon
 msgid "Information about the OTRS Daemon"
@@ -16724,7 +16796,9 @@ msgstr "Prepnúť do normálneho módu"
 msgid ""
 "Please remove the following words from your search as they cannot be "
 "searched for:"
-msgstr "Prosím vymažte nasledujúce slová z Vášho vyhľadávania, nie je ich možné použiť na tento účel"
+msgstr ""
+"Prosím vymažte nasledujúce slová z Vášho vyhľadávania, nie je ich možné "
+"použiť na tento účel"
 
 #. JS File: Core.Agent.SortedTree
 msgid "This element has children elements and can currently not be removed."
@@ -16890,19 +16964,24 @@ msgstr "Čisté vyhľadávanie"
 #. JS File: Core.UI.Popup
 msgid ""
 "If you now leave this page, all open popup windows will be closed, too!"
-msgstr "Pokiaľ odídete z tejto stránky, všetky otvorené popup okná budú uzatvorené!"
+msgstr ""
+"Pokiaľ odídete z tejto stránky, všetky otvorené popup okná budú uzatvorené!"
 
 #. JS File: Core.UI.Popup
 msgid ""
 "A popup of this screen is already open. Do you want to close it and load "
 "this one instead?"
-msgstr "Popup okno k tejto obrazovke je už otvorené, chcete ho uzatvoriť a otvoriť nové?"
+msgstr ""
+"Popup okno k tejto obrazovke je už otvorené, chcete ho uzatvoriť a otvoriť "
+"nové?"
 
 #. JS File: Core.UI.Popup
 msgid ""
 "Could not open popup window. Please disable any popup blockers for this "
 "application."
-msgstr "Neviem otvorit popup okno, zrušte prosím všetky popup blokovania pre túto aplikáciu"
+msgstr ""
+"Neviem otvorit popup okno, zrušte prosím všetky popup blokovania pre túto "
+"aplikáciu"
 
 #. JS File: Core.UI.Table.Sort
 msgid "Ascending sort applied, "
@@ -17063,7 +17142,7 @@ msgstr ""
 
 #. SysConfig
 msgid "%s"
-msgstr ""
+msgstr "História: "
 
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
@@ -17245,7 +17324,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Added link to ticket \"%s\"."
-msgstr ""
+msgstr "História: "
 
 #. SysConfig
 msgid "Added note (%s)."
@@ -17853,7 +17932,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Bounced to \"%s\"."
-msgstr ""
+msgstr "História: "
 
 #. SysConfig
 msgid "Bulgarian"
@@ -17974,7 +18053,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Changed priority from \"%s\" (%s) to \"%s\" (%s)."
-msgstr ""
+msgstr "História: aktualizácia priorít"
 
 #. SysConfig
 msgid "Changed queue to \"%s\" (%s) from \"%s\" (%s)."
@@ -21016,7 +21095,7 @@ msgstr "Vymaž tiket"
 
 #. SysConfig
 msgid "Deleted link to ticket \"%s\"."
-msgstr ""
+msgstr "História: "
 
 #. SysConfig
 msgid ""
@@ -21168,7 +21247,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Disables the redirection to the last screen overview / dashboard after a "
-"ticket is created."
+"ticket is closed."
 msgstr ""
 
 #. SysConfig
@@ -21833,7 +21912,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Forwarded to \"%s\"."
-msgstr ""
+msgstr "História: Forward"
 
 #. SysConfig
 msgid "Free Fields"
@@ -22570,6 +22649,10 @@ msgstr ""
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Korean"
 msgstr ""
 
 #. SysConfig
@@ -24282,7 +24365,9 @@ msgid ""
 "Select the separator character used in CSV files (stats and searches). If "
 "you don't select a separator here, the default separator for your language "
 "will be used."
-msgstr "Vyberte znak oddeľovača použitý v CSV súboroch (štatistiky a vyhľadávanie). Ak nevyberiete oddeľovač, bude použitý predvolený oddeľovač pre váš jazyk."
+msgstr ""
+"Vyberte znak oddeľovača použitý v CSV súboroch (štatistiky a vyhľadávanie). "
+"Ak nevyberiete oddeľovač, bude použitý predvolený oddeľovač pre váš jazyk."
 
 #. SysConfig
 msgid "Select your frontend Theme."
@@ -26778,7 +26863,9 @@ msgstr ""
 msgid ""
 "Your email with ticket number \"<OTRS_TICKET>\" is merged to "
 "\"<OTRS_MERGE_TO_TICKET>\"."
-msgstr "Váš e-mail na tikete číslo \"<OTRS_TICKET>\" bol zlúčený do \"<OTRS_MERGE_TO_TICKET>\"."
+msgstr ""
+"Váš e-mail na tikete číslo \"<OTRS_TICKET>\" bol zlúčený do "
+"\"<OTRS_MERGE_TO_TICKET>\"."
 
 #. SysConfig
 msgid ""

@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.344377682403433;
+    $Self->{Completeness}        = 0.344661860624785;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -472,7 +472,7 @@ sub Data {
         'Change Customer Relations for Customer User' => '',
         'Change Customer User Relations for Customer' => '',
         'Toggle active state for all' => '切換激活狀態給全部',
-        'Active' => '激活',
+        'Active' => '啟用',
         'Toggle active state for %s' => '切換激活狀態給%s',
 
         # Template: AdminCustomerUserGroup
@@ -1259,7 +1259,7 @@ sub Data {
             '',
         'Ticket Filter' => '工單過濾',
         'Lock' => '鎖定',
-        'SLA' => 'SLA',
+        'SLA' => '服務級別協議',
         'Customer User ID' => '',
         'Article Filter' => '信件過濾器',
         'Only for ArticleCreate and ArticleSend event' => '',
@@ -4951,7 +4951,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
-        'Default Storage Engine' => '',
+        'Default Storage Engine' => ' ',
         'Table Storage Engine' => '',
         'Tables with a different storage engine than the default engine were found.' =>
             '',
@@ -7054,7 +7054,7 @@ Thanks for your help!
         'Disable cloud services' => '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
-        'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
+        'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
@@ -7482,6 +7482,7 @@ Thanks for your help!
         'Ivory (Slim)' => '',
         'Japanese' => '日本語',
         'JavaScript function for the search frontend.' => '',
+        'Korean' => '',
         'Language' => '語言',
         'Large' => '詳細',
         'Last Screen Overview' => '',
@@ -7907,7 +7908,7 @@ Thanks for your help!
         'Roles ↔ Groups' => '',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '',
-        'Running Process Tickets' => '',
+        'Running Process Tickets' => '時間緊迫的工單',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
             '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>

@@ -1,23 +1,26 @@
-# 
 # Translators:
-# Arjo Velderman <anyone0481@gmail.com>, 2016
-# David Van Uffelen <inactive+david.vanuffelen@transifex.com>, 2015
-# Gerald Rook <rook@retail.nl>, 2017
-# Michael Goossens <themastergamernl@gmail.com>, 2016
-# Niels Dimmers <niels@nielsdimmers.nl>, 2016
-# Peter van Beugen <peter@tda.nl>, 2015,2017
-# Sander G. <transifex@sander.goudswaard.com>, 2015-2016
-# Sjoerd de Bruin <sjoerddebruin@me.com>, 2016
-# Tim Janssen <timjanssen88@outlook.com>, 2017
-# Volluta <volluta@tutanota.com>, 2015
-# Zimcke Van de Staey <zimcke.vandestaey@colruytgroup.com>, 2017
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Udo Bretz, 2018
+# Niels Dimmers <niels@nielsdimmers.nl>, 2018
+# Peter van Beugen <peter@tda.nl>, 2018
+# David Van Uffelen <inactive+david.vanuffelen@transifex.com>, 2018
+# Volluta <volluta@tutanota.com>, 2018
+# Gerald Rook <rook@retail.nl>, 2018
+# Tim Janssen <timjanssen88@outlook.com>, 2018
+# Zimcke Van de Staey <zimcke.vandestaey@colruytgroup.com>, 2018
+# Sander G. <transifex@sander.goudswaard.com>, 2018
+# Sjoerd de Bruin <sjoerddebruin@me.com>, 2018
+# Michael Goossens <themastergamernl@gmail.com>, 2018
+# Arjo Velderman <anyone0481@gmail.com>, 2018
+# Denis Paciorkowski <inactive+denispaciorkowski@transifex.com>, 2018
+# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
 msgid ""
 msgstr ""
-"Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-09-13 21:46+0000\n"
-"PO-Revision-Date: 2018-09-13 21:49+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: Dutch (http://www.transifex.com/otrs/OTRS/language/nl/)\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-09-27 16:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
+"Language-Team: Dutch (https://www.transifex.com/otrs/teams/23435/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -60,7 +63,9 @@ msgstr "Configuratie importeren"
 msgid ""
 "Here you can upload a configuration file to import ACLs to your system. The "
 "file needs to be in .yml format as exported by the ACL editor module."
-msgstr "Hier kunt u een configuratiebestand met ACLs importeren in uw systeem. Het bestand moet in .yml formaat zijn, zoals geexporteerd door de ACL module."
+msgstr ""
+"Hier kunt u een configuratiebestand met ACLs importeren in uw systeem. Het "
+"bestand moet in .yml formaat zijn, zoals geexporteerd door de ACL module."
 
 #. Template: AdminACL
 msgid "This field is required."
@@ -86,14 +91,17 @@ msgstr "Omschrijving"
 msgid ""
 "To create a new ACL you can either import ACLs which were exported from "
 "another system or create a complete new one."
-msgstr "Om nieuwe ACLs aan te maken kunt u deze importeren vanuit een bestand of een compleet nieuwe aanmaken."
+msgstr ""
+"Om nieuwe ACLs aan te maken kunt u deze importeren vanuit een bestand of een"
+" compleet nieuwe aanmaken."
 
 #. Template: AdminACL
 msgid ""
 "Changes to the ACLs here only affect the behavior of the system, if you "
 "deploy the ACL data afterwards. By deploying the ACL data, the newly made "
 "changes will be written to the configuration."
-msgstr "Wijzigingen aan de ACLs worden pas actief als u de ACLs activeert. Door "
+msgstr ""
+"Wijzigingen aan de ACLs worden pas actief als u de ACLs activeert. Door "
 
 #. Template: AdminACL
 msgid "ACLs"
@@ -104,7 +112,10 @@ msgid ""
 "Please note: This table represents the execution order of the ACLs. If you "
 "need to change the order in which ACLs are executed, please change the names"
 " of the affected ACLs."
-msgstr "Let op: deze tabel toont de volgorde waarin de ALCs worden toegepast. Als u de volgorde waarin deze worden uitgevoerd moet aanpassen, verander dan de namen van de ACLs."
+msgstr ""
+"Let op: deze tabel toont de volgorde waarin de ALCs worden toegepast. Als u "
+"de volgorde waarin deze worden uitgevoerd moet aanpassen, verander dan de "
+"namen van de ACLs."
 
 #. Template: AdminACL
 msgid "ACL name"
@@ -163,7 +174,10 @@ msgid ""
 "Set up matching criteria for this ACL. Use 'Properties' to match the current"
 " screen or 'PropertiesDatabase' to match attributes of the current ticket "
 "that are in the database."
-msgstr "Stel activatie-criteria in voor deze ACL. Gebruik 'Attributen' om de huidige waarden te gebruiken of 'DatabaseAttributen' om de waarden uit de database voor het huidige ticket te gebruiken."
+msgstr ""
+"Stel activatie-criteria in voor deze ACL. Gebruik 'Attributen' om de huidige"
+" waarden te gebruiken of 'DatabaseAttributen' om de waarden uit de database "
+"voor het huidige ticket te gebruiken."
 
 #. Template: AdminACLEdit
 msgid "Change settings"
@@ -231,7 +245,9 @@ msgstr "Wilt u deze ACL verwijderen?"
 msgid ""
 "Create a new ACL by submitting the form data. After creating the ACL, you "
 "will be able to add configuration items in edit mode."
-msgstr "Maak een nieuwe ACL aan. Na het aanmaken kunt u de eigenschappen aanpassen door deze te bewerken."
+msgstr ""
+"Maak een nieuwe ACL aan. Na het aanmaken kunt u de eigenschappen aanpassen "
+"door deze te bewerken."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Management"
@@ -296,7 +312,9 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read only: users can see and export all appointments in the calendar."
-msgstr "Alleen lezen: gebruikers kunnen alle activiteiten in deze kalender raadplegen en exporteren."
+msgstr ""
+"Alleen lezen: gebruikers kunnen alle activiteiten in deze kalender "
+"raadplegen en exporteren."
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -392,7 +410,9 @@ msgstr "Einddatum"
 msgid ""
 "Use options below to narrow down for which tickets appointments will be "
 "automatically created."
-msgstr "Gebruik de opties hieronder om te beperken voor welke tickets er automatisch afspraken worden aangemaakt."
+msgstr ""
+"Gebruik de opties hieronder om te beperken voor welke tickets er automatisch"
+" afspraken worden aangemaakt."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Queues"
@@ -535,7 +555,9 @@ msgstr "Agent voorkeuren tooltip"
 msgid ""
 "This message will be shown on the agent preferences screen as a tooltip for "
 "this notification."
-msgstr "Dit bericht wordt getoond op de agent voorkeuren pagina als een tooltip voor deze notificatie."
+msgstr ""
+"Dit bericht wordt getoond op de agent voorkeuren pagina als een tooltip voor"
+" deze notificatie."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Toggle this widget"
@@ -626,7 +648,9 @@ msgstr "Notificatie methoden"
 msgid ""
 "These are the possible methods that can be used to send this notification to"
 " each of the recipients. Please select at least one method below."
-msgstr "Dit zijn de mogelijke manieren die kunnen worden gebruikt om notificaties te versturen naar elke ontvanger. Selecteer minimaal één methode."
+msgstr ""
+"Dit zijn de mogelijke manieren die kunnen worden gebruikt om notificaties te"
+" versturen naar elke ontvanger. Selecteer minimaal één methode."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Enable this notification method"
@@ -649,7 +673,10 @@ msgid ""
 "This is the default value for assigned recipient agents who didn't make a "
 "choice for this notification in their preferences yet. If the box is "
 "enabled, the notification will be sent to such agents."
-msgstr "Dit is de standaard waarde voor toegewezen ontvangers die geen keuze hebben gemaakt voor deze notificatie in hun voorkeuren. Als deze waarde is aangevinkt, wordt het bericht naar deze agents gestuurd."
+msgstr ""
+"Dit is de standaard waarde voor toegewezen ontvangers die geen keuze hebben "
+"gemaakt voor deze notificatie in hun voorkeuren. Als deze waarde is "
+"aangevinkt, wordt het bericht naar deze agents gestuurd."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "This feature is currently not available."
@@ -679,7 +706,9 @@ msgstr "Notificatie Tekst"
 msgid ""
 "This language is not present or enabled on the system. This notification "
 "text could be deleted if it is not needed anymore."
-msgstr "Deze taal is niet aanwezig of ingeschakeld in het systeem. Deze notificatie tekst kan verwijderd worden wanneer deze niet meer nodig is."
+msgstr ""
+"Deze taal is niet aanwezig of ingeschakeld in het systeem. Deze notificatie "
+"tekst kan verwijderd worden wanneer deze niet meer nodig is."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Remove Notification Language"
@@ -761,7 +790,9 @@ msgstr "Article zichtbaar voor klant"
 msgid ""
 "An article will be created if the notification is sent to the customer or an"
 " additional email address."
-msgstr "Wanneer de notificatie wordt verstuurd naar de klant of een extra email adres, wordt een artikel aangemaakt."
+msgstr ""
+"Wanneer de notificatie wordt verstuurd naar de klant of een extra email "
+"adres, wordt een artikel aangemaakt."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email template"
@@ -770,7 +801,9 @@ msgstr "Email sjabloon"
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
 "Use this template to generate the complete email (only for HTML emails)."
-msgstr "Gebruik deze template om de complete mail te genereren (alleen voor HTML email)."
+msgstr ""
+"Gebruik deze template om de complete mail te genereren (alleen voor HTML "
+"email)."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Enable email security"
@@ -934,7 +967,9 @@ msgstr "Momenteel worden enkel ondersteuningsgegevens getoond in dit systeem."
 msgid ""
 "It is highly recommended to send this data to OTRS Group in order to get "
 "better support."
-msgstr "Het is aangeraden om deze gegevens naar de OTRS Group te versturen om een betere ondersteuning te bekomen."
+msgstr ""
+"Het is aangeraden om deze gegevens naar de OTRS Group te versturen om een "
+"betere ondersteuning te bekomen."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
@@ -948,7 +983,9 @@ msgstr "Ondersteuningsgegevens versturen"
 msgid ""
 "This will allow the system to send additional support data information to "
 "OTRS Group."
-msgstr "Hierdoor mag het systeem aanvullende ondersteuningsinformatie doorsturen naar de OTRS Groep."
+msgstr ""
+"Hierdoor mag het systeem aanvullende ondersteuningsinformatie doorsturen "
+"naar de OTRS Groep."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
@@ -963,7 +1000,11 @@ msgid ""
 "To enable data sending, please register your system with OTRS Group or "
 "update your system registration information (make sure to activate the 'send"
 " support data' option.)"
-msgstr "Gelieve uw systeem te registreren bij de OTRS Groep of de informatie van uw systeem registratie bij te werken om het versturen van gegevens mogelijk te maken (zorg ervoor dat optie 'ondersteuningsgegevens verzenden' geactiveerd is)."
+msgstr ""
+"Gelieve uw systeem te registreren bij de OTRS Groep of de informatie van uw "
+"systeem registratie bij te werken om het versturen van gegevens mogelijk te "
+"maken (zorg ervoor dat optie 'ondersteuningsgegevens verzenden' geactiveerd "
+"is)."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
@@ -973,19 +1014,25 @@ msgstr "Registreer dit Systeem"
 msgid ""
 "System Registration is disabled for your system. Please check your "
 "configuration."
-msgstr "Systeemregistratie is uitgeschakeld voor uw systeem. Gelieve uw configuratie na te kijken."
+msgstr ""
+"Systeemregistratie is uitgeschakeld voor uw systeem. Gelieve uw configuratie"
+" na te kijken."
 
 #. Template: AdminCloudServices
 msgid ""
 "System registration is a service of OTRS Group, which provides a lot of "
 "advantages!"
-msgstr "Systeemregistratie is een service van de OTRS Groep, die een aantal voordelen biedt."
+msgstr ""
+"Systeemregistratie is een service van de OTRS Groep, die een aantal "
+"voordelen biedt."
 
 #. Template: AdminCloudServices
 msgid ""
 "Please note that the use of OTRS cloud services requires the system to be "
 "registered."
-msgstr "Houd er rekening mee dat wanneer u gebruik wilt maken van de OTRS cloud diensten uw systeem geregistreerd moet zijn."
+msgstr ""
+"Houd er rekening mee dat wanneer u gebruik wilt maken van de OTRS cloud "
+"diensten uw systeem geregistreerd moet zijn."
 
 #. Template: AdminCloudServices
 msgid "Register this system"
@@ -995,7 +1042,9 @@ msgstr "Registreer dit systeem"
 msgid ""
 "Here you can configure available cloud services that communicate securely "
 "with %s."
-msgstr "Hier kan u beschikbare Cloud diensten configureren die beveiligd communiceren met %s."
+msgstr ""
+"Hier kan u beschikbare Cloud diensten configureren die beveiligd "
+"communiceren met %s."
 
 #. Template: AdminCloudServices
 msgid "Available Cloud Services"
@@ -1288,7 +1337,9 @@ msgstr "Deze functie is niet geactiveerd."
 #. Template: AdminCustomerGroup
 msgid ""
 "Just use this feature if you want to define group permissions for customers."
-msgstr "Gebuik deze mogelijkheid alleen als u groep-permissies voor klanten wilt gebruiken."
+msgstr ""
+"Gebuik deze mogelijkheid alleen als u groep-permissies voor klanten wilt "
+"gebruiken."
 
 #. Template: AdminCustomerGroup
 msgid "Enable it here!"
@@ -1320,7 +1371,9 @@ msgstr "Selecteer de permissies voor bedrijf:groep."
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets"
 " will not be available for the customer)."
-msgstr "Als niets geselecteerd is, zijn er geen permissies in deze groep (de klant zal geen tickets kunnen zien)."
+msgstr ""
+"Als niets geselecteerd is, zijn er geen permissies in deze groep (de klant "
+"zal geen tickets kunnen zien)."
 
 #. Template: AdminCustomerGroup
 msgid "Search Results"
@@ -1372,7 +1425,8 @@ msgstr "lezen + schrijven"
 
 #. Template: AdminCustomerGroup
 msgid "Full read and write access to the tickets in this group/queue."
-msgstr "Volledige lees- en schrijfrechten op de tickets in deze groep/wachtrij."
+msgstr ""
+"Volledige lees- en schrijfrechten op de tickets in deze groep/wachtrij."
 
 #. Template: AdminCustomerUser
 msgid "Customer User Management"
@@ -1394,7 +1448,9 @@ msgstr "Terug naar zoekresultaat"
 msgid ""
 "Customer user are needed to have a customer history and to login via "
 "customer panel."
-msgstr "Klanten zijn nodig om een historie te kunnen inzien en om in te loggen via het klantenscherm."
+msgstr ""
+"Klanten zijn nodig om een historie te kunnen inzien en om in te loggen via "
+"het klantenscherm."
 
 #. Template: AdminCustomerUser
 msgid "List (%s total)"
@@ -1440,7 +1496,9 @@ msgstr "Dit e-mailadres klopt niet."
 
 #. Template: AdminCustomerUser
 msgid "DNS problem, please check your configuration and the error log."
-msgstr "DNS probleem geconstateerd. Kijk in de log voor meer details en pas uw configuratie aan."
+msgstr ""
+"DNS probleem geconstateerd. Kijk in de log voor meer details en pas uw "
+"configuratie aan."
 
 #. Template: AdminCustomerUser
 msgid "The syntax of this email address is incorrect."
@@ -1634,7 +1692,10 @@ msgid ""
 "To add a new field, select the field type from one of the object's list, the"
 " object defines the boundary of the field and it can't be changed after the "
 "field creation."
-msgstr "Om een nieuw veld toe te voegen selecteert u het veldtype uit de objectlijst, het object definieert de grens van het veld en deze kan na het aanmaken niet worden gewijzigd."
+msgstr ""
+"Om een nieuw veld toe te voegen selecteert u het veldtype uit de "
+"objectlijst, het object definieert de grens van het veld en deze kan na het "
+"aanmaken niet worden gewijzigd."
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields List"
@@ -1684,7 +1745,9 @@ msgstr "Moet uniek zijn en kan alleen alfanumerieke tekens bevatten."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Changing this value will require manual changes in the system."
-msgstr "Na aanpassen van deze waarde zijn handmatige aanpassingen in het systeem nodig."
+msgstr ""
+"Na aanpassen van deze waarde zijn handmatige aanpassingen in het systeem "
+"nodig."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the name to be shown on the screens where the field is active."
@@ -1702,7 +1765,9 @@ msgstr "Dit veld is verplicht en moet numeriek zijn."
 msgid ""
 "This is the order in which this field will be shown on the screens where is "
 "active."
-msgstr "Dit is de volgorde waarin de velden worden weergegeven op de schermen waar ze geactiveerd zijn."
+msgstr ""
+"Dit is de volgorde waarin de velden worden weergegeven op de schermen waar "
+"ze geactiveerd zijn."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid ""
@@ -1754,7 +1819,9 @@ msgstr "Dit veld moet numeriek zijn."
 msgid ""
 "The difference from NOW (in seconds) to calculate the field default value "
 "(e.g. 3600 or -60)."
-msgstr "Het verschil tot de huidige tijd (in seconden) ten behoeve van de standaard waarde van dit veld."
+msgstr ""
+"Het verschil tot de huidige tijd (in seconden) ten behoeve van de standaard "
+"waarde van dit veld."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Define years period"
@@ -1764,7 +1831,9 @@ msgstr "Geef mogelijke periode"
 msgid ""
 "Activate this feature to define a fixed range of years (in the future and in"
 " the past) to be displayed on the year part of the field."
-msgstr "Activeer deze feature om een minimale en maximale waarde te kiezen in het jaar-veld van de datum."
+msgstr ""
+"Activeer deze feature om een minimale en maximale waarde te kiezen in het "
+"jaar-veld van de datum."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Years in the past"
@@ -1790,7 +1859,9 @@ msgstr "Toon koppeling"
 msgid ""
 "Here you can specify an optional HTTP link for the field value in Overviews "
 "and Zoom screens."
-msgstr "Hier kunt u een optionele hyperlink opgeven die getoond wordt in de overzichten en zoom-schermen."
+msgstr ""
+"Hier kunt u een optionele hyperlink opgeven die getoond wordt in de "
+"overzichten en zoom-schermen."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Example"
@@ -1863,7 +1934,9 @@ msgstr "Waarden zijn vertaalbaar"
 msgid ""
 "If you activate this option the values will be translated to the user "
 "defined language."
-msgstr "Als u deze optie activeerd zullen de waarden vertaald worden in de taal van de eindgebruiker."
+msgstr ""
+"Als u deze optie activeerd zullen de waarden vertaald worden in de taal van "
+"de eindgebruiker."
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Note"
@@ -1899,7 +1972,9 @@ msgstr "Controleer RegEx"
 msgid ""
 "Here you can specify a regular expression to check the value. The regex will"
 " be executed with the modifiers xms."
-msgstr "Hier kunt u een reguliere expressie opgeven om de waarde te controleren. De regex zal met de xms modifier worden uitgevoerd."
+msgstr ""
+"Hier kunt u een reguliere expressie opgeven om de waarde te controleren. De "
+"regex zal met de xms modifier worden uitgevoerd."
 
 #. Template: AdminDynamicFieldText
 msgid "RegEx"
@@ -1925,7 +2000,8 @@ msgstr ""
 msgid ""
 "With this module, administrators can send messages to agents, group or role "
 "members."
-msgstr "Vanuit dit scherm kunt u een bericht sturen aan behandelaars of klanten."
+msgstr ""
+"Vanuit dit scherm kunt u een bericht sturen aan behandelaars of klanten."
 
 #. Template: AdminEmail
 msgid "Create Administrative Message"
@@ -2047,7 +2123,9 @@ msgstr "Deze taak zal niet automatisch draaien."
 msgid ""
 "To enable automatic execution select at least one value from minutes, hours "
 "and days!"
-msgstr "Om automatisch uit te voeren selecteer ten minste één waarde bij minuten, uren en dagen."
+msgstr ""
+"Om automatisch uit te voeren selecteer ten minste één waarde bij minuten, "
+"uren en dagen."
 
 #. Template: AdminGenericAgent
 msgid "Event Based Execution (Single Ticket)"
@@ -2069,13 +2147,17 @@ msgstr "Verwijder dit event"
 msgid ""
 "Additionally or alternatively to a periodic execution, you can define ticket"
 " events that will trigger this job."
-msgstr "Naast of in plaats van uitvoeren op een tijdschema kunt u ook ticket events selecteren die deze taak triggeren."
+msgstr ""
+"Naast of in plaats van uitvoeren op een tijdschema kunt u ook ticket events "
+"selecteren die deze taak triggeren."
 
 #. Template: AdminGenericAgent
 msgid ""
 "If a ticket event is fired, the ticket filter will be applied to check if "
 "the ticket matches. Only then the job is run on that ticket."
-msgstr "Als een ticket-event plaatsvindt zal dit filter worden toegepast om te toetsen of dit ticket voldoet. Alleen dan wordt deze taak uitgevoerd."
+msgstr ""
+"Als een ticket-event plaatsvindt zal dit filter worden toegepast om te "
+"toetsen of dit ticket voldoet. Alleen dan wordt deze taak uitgevoerd."
 
 #. Template: AdminGenericAgent
 msgid "Do you really want to delete this event trigger?"
@@ -2111,7 +2193,9 @@ msgstr "(bijvoorbeeld U5150)"
 
 #. Template: AdminGenericAgent
 msgid "Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\")."
-msgstr "Zoek in tekst van een interactie. Gebruik wildcards (bijvoorbeeld \"Mar*in\" of \"Jans*\")."
+msgstr ""
+"Zoek in tekst van een interactie. Gebruik wildcards (bijvoorbeeld \"Mar*in\""
+" of \"Jans*\")."
 
 #. Template: AdminGenericAgent
 msgid "To"
@@ -2389,7 +2473,9 @@ msgstr "Commando"
 msgid ""
 "This command will be executed. ARG[0] will be the ticket number. ARG[1] the "
 "ticket id."
-msgstr "Dit commando zal worden uitgevoerd. ARG[0] is het nieuwe ticketnummer. ARG[1] is het nieuwe ticketid."
+msgstr ""
+"Dit commando zal worden uitgevoerd. ARG[0] is het nieuwe ticketnummer. "
+"ARG[1] is het nieuwe ticketid."
 
 #. Template: AdminGenericAgent
 msgid "Delete tickets"
@@ -2399,7 +2485,9 @@ msgstr "Verwijder tickets."
 msgid ""
 "Warning: All affected tickets will be removed from the database and cannot "
 "be restored!"
-msgstr "Waarschuwing: alle geselecteerde tickets worden verwijderd uit de database en kunnen niet terug worden geplaatst."
+msgstr ""
+"Waarschuwing: alle geselecteerde tickets worden verwijderd uit de database "
+"en kunnen niet terug worden geplaatst."
 
 #. Template: AdminGenericAgent
 msgid "Execute Custom Module"
@@ -2429,7 +2517,9 @@ msgstr "Waarschuwing: u hebt voor VERWIJDEREN gekozen!"
 msgid ""
 "Warning: There are %s tickets affected but only %s may be modified during "
 "one job execution!"
-msgstr "Waarschuwing: Er worden %s tickets geraakt, maar slechts %s tickets kunnen worden aangepast gedurende één taak executie."
+msgstr ""
+"Waarschuwing: Er worden %s tickets geraakt, maar slechts %s tickets kunnen "
+"worden aangepast gedurende één taak executie."
 
 #. Template: AdminGenericAgent
 msgid "Affected Tickets"
@@ -2831,7 +2921,8 @@ msgstr "Invoker details"
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "The name is typically used to call up an operation of a remote web service."
-msgstr "De naam wordt gebruikt om een operatie van een webservice aan te roepen."
+msgstr ""
+"De naam wordt gebruikt om een operatie van een webservice aan te roepen."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker backend"
@@ -2841,7 +2932,9 @@ msgstr "Invoker backend"
 msgid ""
 "This OTRS invoker backend module will be called to prepare the data to be "
 "sent to the remote system, and to process its response data."
-msgstr "Deze OTRS invoker module zal worden aangeroepen om de data te formatteren voordat deze naar het andere systeem verstuurd wordt."
+msgstr ""
+"Deze OTRS invoker module zal worden aangeroepen om de data te formatteren "
+"voordat deze naar het andere systeem verstuurd wordt."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for outgoing request data"
@@ -2855,7 +2948,9 @@ msgstr "Configureer"
 msgid ""
 "The data from the invoker of OTRS will be processed by this mapping, to "
 "transform it to the kind of data the remote system expects."
-msgstr "De data van de invoker van OTRS wordt verwerkt door deze mapping om het om te zetten in het formaat wat het communicerende systeem verwacht."
+msgstr ""
+"De data van de invoker van OTRS wordt verwerkt door deze mapping om het om "
+"te zetten in het formaat wat het communicerende systeem verwacht."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for incoming response data"
@@ -2865,7 +2960,9 @@ msgstr "Koppeling voor inkomende response-data"
 msgid ""
 "The response data will be processed by this mapping, to transform it to the "
 "kind of data the invoker of OTRS expects."
-msgstr "De data van het antwoord wordt verwerkt door deze koppeling om dit om te zetten in het formaat wat de OTRS invoker verwacht."
+msgstr ""
+"De data van het antwoord wordt verwerkt door deze koppeling om dit om te "
+"zetten in het formaat wat de OTRS invoker verwacht."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Asynchronous"
@@ -2887,19 +2984,25 @@ msgstr "De invoker wordt aangeroepen door de geconfigureerde events."
 msgid ""
 "To add a new event select the event object and event name and click on the "
 "\"+\" button"
-msgstr "Om een nieuw event toe te voegen, selecteer het event object en de naam van het event en klik op de \"+\"."
+msgstr ""
+"Om een nieuw event toe te voegen, selecteer het event object en de naam van "
+"het event en klik op de \"+\"."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "Asynchronous event triggers are handled by the OTRS Scheduler Daemon in "
 "background (recommended)."
-msgstr "Asynchrone event-triggers worden in de achtergrond afgehandeld door de OTRS Scheduler Daemon (aangeraden)."
+msgstr ""
+"Asynchrone event-triggers worden in de achtergrond afgehandeld door de OTRS "
+"Scheduler Daemon (aangeraden)."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "Synchronous event triggers would be processed directly during the web "
 "request."
-msgstr "Synchrone event triggers worden afgehandeld direct tijdens het event (blocking)."
+msgstr ""
+"Synchrone event triggers worden afgehandeld direct tijdens het event "
+"(blocking)."
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "GenericInterface Invoker Event Settings for Web Service %s"
@@ -3228,7 +3331,9 @@ msgstr "Operatie-details"
 msgid ""
 "The name is typically used to call up this web service operation from a "
 "remote system."
-msgstr "De naam wordt normaal gesproken gebruikt om deze Web Service aan te roepen vanaf een ander systeem."
+msgstr ""
+"De naam wordt normaal gesproken gebruikt om deze Web Service aan te roepen "
+"vanaf een ander systeem."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation backend"
@@ -3238,7 +3343,9 @@ msgstr "Operatie-backend"
 msgid ""
 "This OTRS operation backend module will be called internally to process the "
 "request, generating data for the response."
-msgstr "Deze OTRS operatie-module zal intern worden gebruikt om de data voor de respons te genereren."
+msgstr ""
+"Deze OTRS operatie-module zal intern worden gebruikt om de data voor de "
+"respons te genereren."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for incoming request data"
@@ -3248,7 +3355,9 @@ msgstr "Koppeling voor inkomende data"
 msgid ""
 "The request data will be processed by this mapping, to transform it to the "
 "kind of data OTRS expects."
-msgstr "De inkomende data wordt verwerkt door deze koppeling, om het om te zetten naar de data die OTRS verwacht."
+msgstr ""
+"De inkomende data wordt verwerkt door deze koppeling, om het om te zetten "
+"naar de data die OTRS verwacht."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for outgoing response data"
@@ -3258,7 +3367,9 @@ msgstr "Koppeling voor respons-data"
 msgid ""
 "The response data will be processed by this mapping, to transform it to the "
 "kind of data the remote system expects."
-msgstr "De respons-data wordt verwerkt door deze koppeling, om het om te zetten naar de data die het andere systeem verwacht."
+msgstr ""
+"De respons-data wordt verwerkt door deze koppeling, om het om te zetten naar"
+" de data die het andere systeem verwacht."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Include Ticket Data"
@@ -3285,7 +3396,10 @@ msgid ""
 "Define the route that should get mapped to this operation. Variables marked "
 "by a ':' will get mapped to the entered name and passed along with the "
 "others to the mapping. (e.g. /Ticket/:TicketID)."
-msgstr "Bepaal de route die gemapt moet worden op deze operatie. Variabelen gemarkeerd met een ':' woden gemapt op de ingevoerde naam en doorgegeven met de maping (bijvoorbeeld /Ticket/:TicketID)."
+msgstr ""
+"Bepaal de route die gemapt moet worden op deze operatie. Variabelen "
+"gemarkeerd met een ':' woden gemapt op de ingevoerde naam en doorgegeven met"
+" de maping (bijvoorbeeld /Ticket/:TicketID)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request methods for Operation"
@@ -3295,7 +3409,9 @@ msgstr "Geldige verzoek methoden voor Operatie"
 msgid ""
 "Limit this Operation to specific request methods. If no method is selected "
 "all requests will be accepted."
-msgstr "Beperk deze operatie tot verschillende verzoek methoden. Als er geen methode is geselecteerd wordt alles geaccepteerd."
+msgstr ""
+"Beperk deze operatie tot verschillende verzoek methoden. Als er geen methode"
+" is geselecteerd wordt alles geaccepteerd."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Maximum message length"
@@ -3309,7 +3425,9 @@ msgstr "Dit veld moet een getal bevatten."
 msgid ""
 "Here you can specify the maximum size (in bytes) of REST messages that OTRS "
 "will process."
-msgstr "Hier kun je het maximum aantal bytes bepalen van REST berichten die OTRS verwerkt."
+msgstr ""
+"Hier kun je het maximum aantal bytes bepalen van REST berichten die OTRS "
+"verwerkt."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Send Keep-Alive"
@@ -3319,7 +3437,9 @@ msgstr "Verstuur Keep-Alive"
 msgid ""
 "This configuration defines if incoming connections should get closed or kept"
 " alive."
-msgstr "Deze configuratie bepaalt of binnenkomende verbindingen worden afgesloten of in leven worden gehouden."
+msgstr ""
+"Deze configuratie bepaalt of binnenkomende verbindingen worden afgesloten of"
+" in leven worden gehouden."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional response headers"
@@ -3469,7 +3589,9 @@ msgstr ""
 msgid ""
 "The full path and name of the certification authority certificate file that "
 "validates SSL certificate."
-msgstr "Het volledige pad en de naam van het CA certificaat dat het SSL certificaat valideert."
+msgstr ""
+"Het volledige pad en de naam van het CA certificaat dat het SSL certificaat "
+"valideert."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem"
@@ -3483,7 +3605,9 @@ msgstr "Certification Authority (CA) directory"
 msgid ""
 "The full path of the certification authority directory where the CA "
 "certificates are stored in the file system."
-msgstr "Het volledige pad van de directory waar de CA-certificaten worden opgeslagen."
+msgstr ""
+"Het volledige pad van de directory waar de CA-certificaten worden "
+"opgeslagen."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/SOAP/CA"
@@ -3498,7 +3622,11 @@ msgid ""
 "The controller that the invoker should send requests to. Variables marked by"
 " a ':' will get replaced by the data value and passed along with the "
 "request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)."
-msgstr "De controller waar de invoker zijn verzoeken naar moet versturen. Variabelen die beginnen met een ':' worden vervangen door de data waarde en doorgegeven met het verzoek. (bijvoorbeeld Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)."
+msgstr ""
+"De controller waar de invoker zijn verzoeken naar moet versturen. Variabelen"
+" die beginnen met een ':' worden vervangen door de data waarde en "
+"doorgegeven met het verzoek. (bijvoorbeeld "
+"Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request command for Invoker"
@@ -3508,7 +3636,9 @@ msgstr "Geldig verzoek commando voor Invoker"
 msgid ""
 "A specific HTTP command to use for the requests with this Invoker "
 "(optional)."
-msgstr "Een specifiek HTTP commando om te gebruiken voor de verzoeken met deze Invoker (optioneel)."
+msgstr ""
+"Een specifiek HTTP commando om te gebruiken voor de verzoeken met deze "
+"Invoker (optioneel)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Default command"
@@ -3592,7 +3722,9 @@ msgstr "URI om SOAP methods een context te geven."
 msgid ""
 "e.g urn:otrs-com:soap:functions or "
 "http://www.otrs.com/GenericInterface/actions"
-msgstr "bijv. urn:otrs-com:soap:functions of http://www.otrs.com/GenericInterface/actions"
+msgstr ""
+"bijv. urn:otrs-com:soap:functions of "
+"http://www.otrs.com/GenericInterface/actions"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name scheme"
@@ -3608,7 +3740,9 @@ msgstr "'FunctionName' is gebruikt als voorbeeld voor invoker/operation name."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "'FreeText' is used as example for actual configured value."
-msgstr "'FreeText' wordt gebruikt als voorbeeld voor eigenlijk geconfigureerde waarde."
+msgstr ""
+"'FreeText' wordt gebruikt als voorbeeld voor eigenlijk geconfigureerde "
+"waarde."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name free text"
@@ -3616,7 +3750,8 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as function wrapper name suffix or replacement."
-msgstr "Tekst die gebruikt moet worden als wrapper naam achtervoegsel of vervanging."
+msgstr ""
+"Tekst die gebruikt moet worden als wrapper naam achtervoegsel of vervanging."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
@@ -3640,7 +3775,9 @@ msgstr "Antwoord naam vrije tekst"
 msgid ""
 "Here you can specify the maximum size (in bytes) of SOAP messages that OTRS "
 "will process."
-msgstr "Hier kunt u de maximale berichtgrootte (in bytes) opgeven van de berichten die OTRS zal verwerken."
+msgstr ""
+"Hier kunt u de maximale berichtgrootte (in bytes) opgeven van de berichten "
+"die OTRS zal verwerken."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Encoding"
@@ -3670,7 +3807,9 @@ msgstr "Element"
 msgid ""
 "Outbound sort order for xml fields (structure starting below function name "
 "wrapper) - see documentation for SOAP transport."
-msgstr "Uitgaande sorteer volgorde voor xml velden (structuur begint onder functie naam warpper) - zie SOAP transport documentatie."
+msgstr ""
+"Uitgaande sorteer volgorde voor xml velden (structuur begint onder functie "
+"naam warpper) - zie SOAP transport documentatie."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add Web Service"
@@ -3767,7 +3906,9 @@ msgstr "Na opslaan blijft u in dit scherm."
 msgid ""
 "If you want to return to overview please click the \"Go to overview\" "
 "button."
-msgstr "Als u terug wilt na het overzicht klik dan op de \"Naar het overzicht\" knop."
+msgstr ""
+"Als u terug wilt na het overzicht klik dan op de \"Naar het overzicht\" "
+"knop."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Web Service List"
@@ -3792,7 +3933,9 @@ msgstr "Debug-niveau"
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "In provider mode, OTRS offers web services which are used by remote systems."
-msgstr "In Provider-modus levert OTRS web services die aangeroepen worden door andere systemen."
+msgstr ""
+"In Provider-modus levert OTRS web services die aangeroepen worden door "
+"andere systemen."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "In requester mode, OTRS uses web services of remote systems."
@@ -3824,13 +3967,17 @@ msgstr ""
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Operations are individual system functions which remote systems can request."
-msgstr "Operaties zijn individuele systeemfuncties die aangeroepen kunnen worden door andere systemen."
+msgstr ""
+"Operaties zijn individuele systeemfuncties die aangeroepen kunnen worden "
+"door andere systemen."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Invokers prepare data for a request to a remote web service, and process its"
 " response data."
-msgstr "Invokers verzamelen data voor een aanroep naar een ander systeem, en om de responsdata van het andere systeem te verwerken."
+msgstr ""
+"Invokers verzamelen data voor een aanroep naar een ander systeem, en om de "
+"responsdata van het andere systeem te verwerken."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Controller"
@@ -3852,7 +3999,9 @@ msgstr "Verwijder deze actie"
 msgid ""
 "At least one %s has a controller that is either not active or not present, "
 "please check the controller registration or delete the %s"
-msgstr "Minimaal één %s heeft een controller die niet aanwezig is of actief is, controleer de controller registratie of verwijder %s"
+msgstr ""
+"Minimaal één %s heeft een controller die niet aanwezig is of actief is, "
+"controleer de controller registratie of verwijder %s"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "History"
@@ -3866,7 +4015,9 @@ msgstr "Ga terug naar webservice"
 msgid ""
 "Here you can view older versions of the current web service's configuration,"
 " export or even restore them."
-msgstr "Hier kunt u oudere versies van de huidige web service-configuratie bekijken, exporteren of terugzetten."
+msgstr ""
+"Hier kunt u oudere versies van de huidige web service-configuratie bekijken,"
+" exporteren of terugzetten."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Configuration History List"
@@ -3921,13 +4072,17 @@ msgstr "Groep toevoegen"
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
-msgstr "Leden van de groep Admin mogen in het administratie gedeelte, leden van de groep Stats hebben toegang tot het statistieken gedeelte."
+msgstr ""
+"Leden van de groep Admin mogen in het administratie gedeelte, leden van de "
+"groep Stats hebben toegang tot het statistieken gedeelte."
 
 #. Template: AdminGroup
 msgid ""
 "Create new groups to handle access permissions for different groups of agent"
 " (e. g. purchasing department, support department, sales department, ...). "
-msgstr "Maak nieuwe groepen aan om tickets te kunnen scheiden en de juiste wachtrijen aan behandelaars te tonen (bijv. support, sales, management)."
+msgstr ""
+"Maak nieuwe groepen aan om tickets te kunnen scheiden en de juiste "
+"wachtrijen aan behandelaars te tonen (bijv. support, sales, management)."
 
 #. Template: AdminGroup
 msgid "It's useful for ASP solutions. "
@@ -4038,7 +4193,8 @@ msgstr "IMAP folder"
 msgid ""
 "Only modify this if you need to fetch mail from a different folder than "
 "INBOX."
-msgstr "Alleen aanpassen als u uit een andere folder dan INBOX mails wilt ophalen."
+msgstr ""
+"Alleen aanpassen als u uit een andere folder dan INBOX mails wilt ophalen."
 
 #. Template: AdminMailAccount
 msgid "Trusted"
@@ -4103,14 +4259,20 @@ msgid ""
 "Here you can upload a configuration file to import Ticket Notifications to "
 "your system. The file needs to be in .yml format as exported by the Ticket "
 "Notification module."
-msgstr "Hier kun je configuratie bestanden uploaden om Ticket Notifications te importeren. Het bestand moet in .yml format zijn zoals geëxporteerd door de Ticket Notificatie module."
+msgstr ""
+"Hier kun je configuratie bestanden uploaden om Ticket Notifications te "
+"importeren. Het bestand moet in .yml format zijn zoals geëxporteerd door de "
+"Ticket Notificatie module."
 
 #. Template: AdminNotificationEvent
 msgid ""
 "Here you can choose which events will trigger this notification. An "
 "additional ticket filter can be applied below to only send for ticket with "
 "certain criteria."
-msgstr "Hier kun je kiezen welke events deze notificatie inschakelen. Een extra ticket filter kan worden toegepast om de notificatie alleen te versturen als het ticket voldoet aan bepaalde criteria."
+msgstr ""
+"Hier kun je kiezen welke events deze notificatie inschakelen. Een extra "
+"ticket filter kan worden toegepast om de notificatie alleen te versturen als"
+" het ticket voldoet aan bepaalde criteria."
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Filter"
@@ -4145,7 +4307,10 @@ msgid ""
 "If ArticleCreate or ArticleSend is used as a trigger event, you need to "
 "specify an article filter as well. Please select at least one of the article"
 " filter fields."
-msgstr "Als ArticleCreate of ArticleSend wordt gebruikt als trigger event, moet je een article filter spcificeren. Selecteer minimaal één van de artikel filter velden."
+msgstr ""
+"Als ArticleCreate of ArticleSend wordt gebruikt als trigger event, moet je "
+"een article filter spcificeren. Selecteer minimaal één van de artikel filter"
+" velden."
 
 #. Template: AdminNotificationEvent
 msgid "Customer visibility"
@@ -4163,7 +4328,9 @@ msgstr "Voeg bijlagen toe aan melding"
 msgid ""
 "Notify user just once per day about a single ticket using a selected "
 "transport."
-msgstr "Verstuur slechts éénmaal per dag over één ticket via de geselecteerde methode"
+msgstr ""
+"Verstuur slechts éénmaal per dag over één ticket via de geselecteerde "
+"methode"
 
 #. Template: AdminNotificationEvent
 msgid "This field is required and must have less than 4000 characters."
@@ -4176,21 +4343,29 @@ msgstr "Meldingen worden verstuurd naar een behandelaar."
 #. Template: AdminNotificationEvent
 msgid ""
 "To get the first 20 character of the subject (of the latest agent article)."
-msgstr "Om de eerste 20 karakters van het onderwerp van de nieuwste behandelaars-interactie te tonen."
+msgstr ""
+"Om de eerste 20 karakters van het onderwerp van de nieuwste behandelaars-"
+"interactie te tonen."
 
 #. Template: AdminNotificationEvent
 msgid "To get the first 5 lines of the body (of the latest agent article)."
-msgstr "Om de eerste vijf regels van de tekst van de nieuwste behandelaars-interactie te tonen."
+msgstr ""
+"Om de eerste vijf regels van de tekst van de nieuwste behandelaars-"
+"interactie te tonen."
 
 #. Template: AdminNotificationEvent
 msgid ""
 "To get the first 20 character of the subject (of the latest customer "
 "article)."
-msgstr "Om de eerste 20 karakters van het onderwerp van de nieuwste klant-interactie te tonen."
+msgstr ""
+"Om de eerste 20 karakters van het onderwerp van de nieuwste klant-interactie"
+" te tonen."
 
 #. Template: AdminNotificationEvent
 msgid "To get the first 5 lines of the body (of the latest customer article)."
-msgstr "Om de eerste vijf regels van de tekst van de nieuwste klant-interactie te tonen."
+msgstr ""
+"Om de eerste vijf regels van de tekst van de nieuwste klant-interactie te "
+"tonen."
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current customer user data"
@@ -4220,7 +4395,9 @@ msgstr "Ticket dynamisch veld voor interne sleutelwaarden"
 msgid ""
 "Ticket dynamic fields display values, useful for Dropdown and Multiselect "
 "fields"
-msgstr "Ticket dynamisch veld weergave waarden, handig voor dropdown en multiselect velden"
+msgstr ""
+"Ticket dynamisch veld weergave waarden, handig voor dropdown en multiselect "
+"velden"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
@@ -4244,7 +4421,9 @@ msgstr "Lees documentatie"
 msgid ""
 "%s makes contact regularly with cloud.otrs.com to check on available updates"
 " and the validity of the underlying contract."
-msgstr "%s maakt regelmatig contact met cloud.otrs.com om te controleren of er updates beschikbaar zijn en of het contract nog geldig is."
+msgstr ""
+"%s maakt regelmatig contact met cloud.otrs.com om te controleren of er "
+"updates beschikbaar zijn en of het contract nog geldig is."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Unauthorized Usage Detected"
@@ -4254,7 +4433,9 @@ msgstr "Ongeauthoriseerd gebruik ontdekt"
 msgid ""
 "This system uses the %s without a proper license! Please make contact with "
 "%s to renew or activate your contract!"
-msgstr "Dit systeem gebruikt %s zonder geldige licentie! Neem contact op met %s om je contract te vernieuwen."
+msgstr ""
+"Dit systeem gebruikt %s zonder geldige licentie! Neem contact op met %s om "
+"je contract te vernieuwen."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s not Correctly Installed"
@@ -4264,7 +4445,9 @@ msgstr "%s is niet correct geïnstalleerd"
 msgid ""
 "Your %s is not correctly installed. Please reinstall it with the button "
 "below."
-msgstr "Jouw %s is op dit moment niet correct geïnstalleerd. Installeer het opnieuw met de knop hieronder."
+msgstr ""
+"Jouw %s is op dit moment niet correct geïnstalleerd. Installeer het opnieuw "
+"met de knop hieronder."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Reinstall %s"
@@ -4273,13 +4456,16 @@ msgstr "Herinstalleer %s"
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "Your %s is not correctly installed, and there is also an update available."
-msgstr "Jouw %s is niet correct geïnstalleerd, en er is ook een update beschikbaar."
+msgstr ""
+"Jouw %s is niet correct geïnstalleerd, en er is ook een update beschikbaar."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "You can either reinstall your current version or perform an update with the "
 "buttons below (update recommended)."
-msgstr "Je kunt de huidige versie opnieuw installeeren of een update uitvoeren met de knoppen hieronder (updaten is aanbevolen)."
+msgstr ""
+"Je kunt de huidige versie opnieuw installeeren of een update uitvoeren met "
+"de knoppen hieronder (updaten is aanbevolen)."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Update %s"
@@ -4330,13 +4516,17 @@ msgstr ""
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
 "Before you can benefit from %s, please contact %s to get your %s contract."
-msgstr "Voordat je de voordelen van %s kunt gebruiken, neem contact op met %s om je %s contract te ontvangen."
+msgstr ""
+"Voordat je de voordelen van %s kunt gebruiken, neem contact op met %s om je "
+"%s contract te ontvangen."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
 "Connection to cloud.otrs.com via HTTPS couldn't be established. Please make "
 "sure that your OTRS can connect to cloud.otrs.com via port 443."
-msgstr "Er kon geen verbinding worden gemaakt met cloud.otrs.com via HTTPS. Controleer of jouw OTRS met cloud.otrs.com kan verbinden via poort 443."
+msgstr ""
+"Er kon geen verbinding worden gemaakt met cloud.otrs.com via HTTPS. "
+"Controleer of jouw OTRS met cloud.otrs.com kan verbinden via poort 443."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Package installation requires patch level update of OTRS."
@@ -4380,13 +4570,16 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "With your existing contract you can only use a small part of the %s."
-msgstr "Met jouw huidige contract kun je slechts een klein deel van %s gebruiken."
+msgstr ""
+"Met jouw huidige contract kun je slechts een klein deel van %s gebruiken."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
 "If you would like to take full advantage of the %s get your contract "
 "upgraded now! Contact %s."
-msgstr "Als je alle voordelen van %s wil gebruiken, moet je je contract upgraden! Neem contact op met %s."
+msgstr ""
+"Als je alle voordelen van %s wil gebruiken, moet je je contract upgraden! "
+"Neem contact op met %s."
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Cancel downgrade and go back"
@@ -4400,7 +4593,9 @@ msgstr "Ga naar OTRS Pakketbeheer"
 msgid ""
 "Sorry, but currently you can't downgrade due to the following packages which"
 " depend on %s:"
-msgstr "Sorry, maar we kunnen nu niet downgraden doordat de volgende pakketten afhankelijk zijn van %s:"
+msgstr ""
+"Sorry, maar we kunnen nu niet downgraden doordat de volgende pakketten "
+"afhankelijk zijn van %s:"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Vendor"
@@ -4493,7 +4688,8 @@ msgstr "PGP sleutel toevoegen"
 
 #. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
-msgstr "Hier kunt u de keyring beheren die is ingesteld in de systeemconfiguratie."
+msgstr ""
+"Hier kunt u de keyring beheren die is ingesteld in de systeemconfiguratie."
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
@@ -4551,7 +4747,9 @@ msgstr "Herinstalleer pakket"
 msgid ""
 "Do you really want to reinstall this package? Any manual changes will be "
 "lost."
-msgstr "Wilt u dit pakket echt herinstalleren? Eventuele handmatige aanpassingen gaan verloren."
+msgstr ""
+"Wilt u dit pakket echt herinstalleren? Eventuele handmatige aanpassingen "
+"gaan verloren."
 
 #. Template: AdminPackageManager
 msgid "Go to updating instructions"
@@ -4627,7 +4825,10 @@ msgid ""
 "Please make sure your database accepts packages over %s MB in size (it "
 "currently only accepts packages up to %s MB). Please adapt the "
 "max_allowed_packet setting of your database in order to avoid errors."
-msgstr "Zorg dat uw database pakketten van groter dan %s MB accepteert. Op dit moment is de maximale grootte %s MB. Pas de waarde voor max_allowed_packet in het mysql configuratiebestand aan om problemen te voorkomen."
+msgstr ""
+"Zorg dat uw database pakketten van groter dan %s MB accepteert. Op dit "
+"moment is de maximale grootte %s MB. Pas de waarde voor max_allowed_packet "
+"in het mysql configuratiebestand aan om problemen te voorkomen."
 
 #. Template: AdminPackageManager
 msgid "Install"
@@ -4693,7 +4894,9 @@ msgstr "Functionaliteit voor alleen %s klanten"
 msgid ""
 "With %s, you can benefit from the following optional features. Please make "
 "contact with %s if you need more information."
-msgstr "Met %s kun je profiteren van de volgende optionele functionaliteit. Neem contact op met %s voor meer informatie."
+msgstr ""
+"Met %s kun je profiteren van de volgende optionele functionaliteit. Neem "
+"contact op met %s voor meer informatie."
 
 #. Template: AdminPackageManager
 msgid "Package Information"
@@ -4871,19 +5074,25 @@ msgstr ""
 msgid ""
 "To dispatch or filter incoming emails based on email headers. Matching using"
 " Regular Expressions is also possible."
-msgstr "Om inkomende e-mails te routeren op basis van e-mail headers. Matching op tekst of met behulp van regular expressions."
+msgstr ""
+"Om inkomende e-mails te routeren op basis van e-mail headers. Matching op "
+"tekst of met behulp van regular expressions."
 
 #. Template: AdminPostMasterFilter
 msgid ""
 "If you want to match only the email address, use "
 "EMAILADDRESS:info@example.com in From, To or Cc."
-msgstr "Als u alleen wilt filteren op het e-mailadres, gebruik dan EMAILADDRESS:info@example.local in Van, Aan of CC."
+msgstr ""
+"Als u alleen wilt filteren op het e-mailadres, gebruik dan "
+"EMAILADDRESS:info@example.local in Van, Aan of CC."
 
 #. Template: AdminPostMasterFilter
 msgid ""
 "If you use Regular Expressions, you also can use the matched value in () as "
 "[***] in the 'Set' action."
-msgstr "Als u regular expressions gebruikt dan kunt u ook de gevonden waarde tussen haakjes () gebruiken als [***] in de 'Set' actie."
+msgstr ""
+"Als u regular expressions gebruikt dan kunt u ook de gevonden waarde tussen "
+"haakjes () gebruiken als [***] in de 'Set' actie."
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -4998,7 +5207,10 @@ msgid ""
 "Here you can upload a configuration file to import a process to your system."
 " The file needs to be in .yml format as exported by process management "
 "module."
-msgstr "Hier kunt u een proces importeren vanuit een configuratiebestand. Het bestand moet in .yml formaat zijn, zoals geëxporteerd door de procesbeheer-module."
+msgstr ""
+"Hier kunt u een proces importeren vanuit een configuratiebestand. Het "
+"bestand moet in .yml formaat zijn, zoals geëxporteerd door de procesbeheer-"
+"module."
 
 #. Template: AdminProcessManagement
 msgid "Upload process configuration"
@@ -5032,14 +5244,19 @@ msgstr ""
 msgid ""
 "To create a new Process you can either import a Process that was exported "
 "from another system or create a complete new one."
-msgstr "Om een nieuw proces aan te maken kunt u een bestand importeren, aangemaakt op een ander systeem, of een compleet nieuw proces aanmaken."
+msgstr ""
+"Om een nieuw proces aan te maken kunt u een bestand importeren, aangemaakt "
+"op een ander systeem, of een compleet nieuw proces aanmaken."
 
 #. Template: AdminProcessManagement
 msgid ""
 "Changes to the Processes here only affect the behavior of the system, if you"
 " synchronize the Process data. By synchronizing the Processes, the newly "
 "made changes will be written to the Configuration."
-msgstr "Wijzigingen aan de processen hebben alleen invloed op het systeem als u de proces-data synchroniseert. Door het synchroniseren van de processen worden de wijzigingen weggeschreven naar de configuratie."
+msgstr ""
+"Wijzigingen aan de processen hebben alleen invloed op het systeem als u de "
+"proces-data synchroniseert. Door het synchroniseren van de processen worden "
+"de wijzigingen weggeschreven naar de configuratie."
 
 #. Template: AdminProcessManagement
 msgid "Processes"
@@ -5072,7 +5289,9 @@ msgstr "Terug"
 #. Template: AdminProcessManagementActivity
 msgid ""
 "Please note, that changing this activity will affect the following processes"
-msgstr "Let op: het wijzigen van deze activiteit heeft invloed op de volgende processen"
+msgstr ""
+"Let op: het wijzigen van deze activiteit heeft invloed op de volgende "
+"processen"
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity"
@@ -5090,12 +5309,16 @@ msgstr "Dialogen"
 msgid ""
 "You can assign Activity Dialogs to this Activity by dragging the elements "
 "with the mouse from the left list to the right list."
-msgstr "U kunt dialogen toevoegen aan deze activiteit door de elementen met de muis van links naar rechts te slepen."
+msgstr ""
+"U kunt dialogen toevoegen aan deze activiteit door de elementen met de muis "
+"van links naar rechts te slepen."
 
 #. Template: AdminProcessManagementActivity
 msgid ""
 "Ordering the elements within the list is also possible by drag 'n' drop."
-msgstr "U kunt de elementen ook van volgorde te wijzigen door ze te slepen met de muis."
+msgstr ""
+"U kunt de elementen ook van volgorde te wijzigen door ze te slepen met de "
+"muis."
 
 #. Template: AdminProcessManagementActivity
 msgid "Filter available Activity Dialogs"
@@ -5121,18 +5344,24 @@ msgstr "Toegewezen dialogen"
 msgid ""
 "Please note that changing this activity dialog will affect the following "
 "activities"
-msgstr "Let op: het wijzigen van deze dialoog heeft invoed op de volgende activiteiten"
+msgstr ""
+"Let op: het wijzigen van deze dialoog heeft invoed op de volgende "
+"activiteiten"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
 "Please note that customer users will not be able to see or use the following"
 " fields: Owner, Responsible, Lock, PendingTime and CustomerID."
-msgstr "Let op: klanten kunnen de volgende velden niet zien of gebruiken: Eigenaar, Verantwoordelijke, Vergrendeling, Wacht tot datum en Klantcode."
+msgstr ""
+"Let op: klanten kunnen de volgende velden niet zien of gebruiken: Eigenaar, "
+"Verantwoordelijke, Vergrendeling, Wacht tot datum en Klantcode."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
 "The Queue field can only be used by customers when creating a new ticket."
-msgstr "Het Wachtrij veld kan alleen gebruikt door klanten wanneer een nieuw ticket wordt aangemaakt."
+msgstr ""
+"Het Wachtrij veld kan alleen gebruikt door klanten wanneer een nieuw ticket "
+"wordt aangemaakt."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Activity Dialog"
@@ -5178,7 +5407,9 @@ msgstr "Tekst op Verstuur-knop"
 msgid ""
 "You can assign Fields to this Activity Dialog by dragging the elements with "
 "the mouse from the left list to the right list."
-msgstr "U kunt velden aan deze dialoog toevoegen door de elementen met de muis van links naar rechts te slepen."
+msgstr ""
+"U kunt velden aan deze dialoog toevoegen door de elementen met de muis van "
+"links naar rechts te slepen."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Filter available fields"
@@ -5224,7 +5455,9 @@ msgstr "Transitie-acties"
 msgid ""
 "You can assign Transition Actions to this Transition by dragging the "
 "elements with the mouse from the left list to the right list."
-msgstr "U kunt transitie-acties aan deze transitie toevoegen door de elementen met de muis van links naar rechts te slepen."
+msgstr ""
+"U kunt transitie-acties aan deze transitie toevoegen door de elementen met "
+"de muis van links naar rechts te slepen."
 
 #. Template: AdminProcessManagementPath
 msgid "Filter available Transition Actions"
@@ -5298,19 +5531,25 @@ msgstr "Beschikbare proces-elementen"
 msgid ""
 "The Elements listed above in this sidebar can be moved to the canvas area on"
 " the right by using drag'n'drop."
-msgstr "De elementen hierboven kunnen verplaatst worden naar de canvas aan de rechterzijde door middel van slepen."
+msgstr ""
+"De elementen hierboven kunnen verplaatst worden naar de canvas aan de "
+"rechterzijde door middel van slepen."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "You can place Activities on the canvas area to assign this Activity to the "
 "Process."
-msgstr "U kunt activiteiten op de canvas plaatsen om ze toe te wijzen aan dit proces."
+msgstr ""
+"U kunt activiteiten op de canvas plaatsen om ze toe te wijzen aan dit "
+"proces."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "To assign an Activity Dialog to an Activity drop the Activity Dialog element"
 " from this sidebar over the Activity placed in the canvas area."
-msgstr "Om een dialoog toe te voegen aan een activiteit sleept u de dialoog uit deze lijst naar de activiteit geplaatst op de canvas."
+msgstr ""
+"Om een dialoog toe te voegen aan een activiteit sleept u de dialoog uit deze"
+" lijst naar de activiteit geplaatst op de canvas."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
@@ -5323,7 +5562,9 @@ msgstr ""
 msgid ""
 "Actions can be assigned to a Transition by dropping the Action Element onto "
 "the label of a Transition."
-msgstr "Acties kunnen gekoppeld worden aan een transitie door het actie-element naar het label van een transitie te slepen."
+msgstr ""
+"Acties kunnen gekoppeld worden aan een transitie door het actie-element naar"
+" het label van een transitie te slepen."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit Process Information"
@@ -5389,20 +5630,27 @@ msgstr "Wilt u deze transitie-actie verwijderen?"
 msgid ""
 "Do you really want to remove this activity from the canvas? This can only be"
 " undone by leaving this screen without saving."
-msgstr "Wilt u deze activiteit van de canvas verwijderen? Dit kan alleen ongedaan worden gemaakt door dit scherm te verlaten zonder opslaan."
+msgstr ""
+"Wilt u deze activiteit van de canvas verwijderen? Dit kan alleen ongedaan "
+"worden gemaakt door dit scherm te verlaten zonder opslaan."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "Do you really want to remove this transition from the canvas? This can only "
 "be undone by leaving this screen without saving."
-msgstr "Wilt u deze transitie van de canvas verwijderen? Dit kan alleen ongedaan worden gemaakt door dit scherm te verlaten zonder opslaan."
+msgstr ""
+"Wilt u deze transitie van de canvas verwijderen? Dit kan alleen ongedaan "
+"worden gemaakt door dit scherm te verlaten zonder opslaan."
 
 #. Template: AdminProcessManagementProcessNew
 msgid ""
 "In this screen, you can create a new process. In order to make the new "
 "process available to users, please make sure to set its state to 'Active' "
 "and synchronize after completing your work."
-msgstr "In dit scherm kunt u een nieuw proces aanmaken. Om het nieuwe proces beschikbaar te maken voor uw gebruikers moet u de status op 'Actief' zetten en vervolgens een synchronisatie uitvoeren."
+msgstr ""
+"In dit scherm kunt u een nieuw proces aanmaken. Om het nieuwe proces "
+"beschikbaar te maken voor uw gebruikers moet u de status op 'Actief' zetten "
+"en vervolgens een synchronisatie uitvoeren."
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "cancel & close"
@@ -5452,7 +5700,9 @@ msgstr "Er zijn geen transitie-acties in dit proces."
 msgid ""
 "Please note that changing this transition will affect the following "
 "processes"
-msgstr "Let op: het wijzigen van deze transitie heeft invloed op de volgende processen"
+msgstr ""
+"Let op: het wijzigen van deze transitie heeft invloed op de volgende "
+"processen"
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition"
@@ -5466,7 +5716,9 @@ msgstr "Naam"
 msgid ""
 "Please note that changing this transition action will affect the following "
 "processes"
-msgstr "Let op: het wijzigen van deze transitie-actie heeft invloed op de volgende processen"
+msgstr ""
+"Let op: het wijzigen van deze transitie-actie heeft invloed op de volgende "
+"processen"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Transition Action"
@@ -5547,7 +5799,11 @@ msgid ""
 "If an agent locks a ticket and does not close it before the unlock timeout "
 "has passed, the ticket will unlock and will become available for other "
 "agents."
-msgstr "Als een ticket vergrendeld is en de behandelaar handelt het ticket niet af voor het verstrijken van de tijdsoverschrijding, wordt het ticket automatisch ontgrendeld en komt deze weer beschikbaar voor andere gebruikers."
+msgstr ""
+"Als een ticket vergrendeld is en de behandelaar handelt het ticket niet af "
+"voor het verstrijken van de tijdsoverschrijding, wordt het ticket "
+"automatisch ontgrendeld en komt deze weer beschikbaar voor andere "
+"gebruikers."
 
 #. Template: AdminQueue
 msgid "Notify by"
@@ -5561,7 +5817,9 @@ msgstr "0 = geen escalatie"
 msgid ""
 "If there is not added a customer contact, either email-external or phone, to"
 " a new ticket before the time defined here expires, the ticket is escalated."
-msgstr "Als er geen klant naam, het externe e-mail of telefoon, bekend is voor de hier ingestelde tijd dan wordt het ticket geëscaleerd."
+msgstr ""
+"Als er geen klant naam, het externe e-mail of telefoon, bekend is voor de "
+"hier ingestelde tijd dan wordt het ticket geëscaleerd."
 
 #. Template: AdminQueue
 msgid ""
@@ -5569,13 +5827,19 @@ msgid ""
 "portal, the escalation update time is reset. If there is no customer "
 "contact, either email-external or phone, added to a ticket before the time "
 "defined here expires, the ticket is escalated."
-msgstr "Als er iets wordt toegevoegd aan het ticket, b.v. een reactie per e-mail of via het web, dan zal de escalatie update tijd worden gereset. Als er geen klantencontact plaatsvindt, per e-mail of telefoon, voor de hier gedefiniëerde tijd, dan wordt het ticket geëscaleerd."
+msgstr ""
+"Als er iets wordt toegevoegd aan het ticket, b.v. een reactie per e-mail of "
+"via het web, dan zal de escalatie update tijd worden gereset. Als er geen "
+"klantencontact plaatsvindt, per e-mail of telefoon, voor de hier "
+"gedefiniëerde tijd, dan wordt het ticket geëscaleerd."
 
 #. Template: AdminQueue
 msgid ""
 "If the ticket is not set to closed before the time defined here expires, the"
 " ticket is escalated."
-msgstr "Als het ticket niet is afgesloten voor de hier gedefiniëerde tijd, dan wordt het ticket geëscaleerd."
+msgstr ""
+"Als het ticket niet is afgesloten voor de hier gedefiniëerde tijd, dan wordt"
+" het ticket geëscaleerd."
 
 #. Template: AdminQueue
 msgid "Follow up Option"
@@ -5585,7 +5849,9 @@ msgstr "Reactie optie"
 msgid ""
 "Specifies if follow up to closed tickets would re-open the ticket, be "
 "rejected or lead to a new ticket."
-msgstr "Bepaalt of reacties op gesloten tickets zorgen voor heropenen voor het ticket, geweigerd wordt, of een nieuw ticket genereert."
+msgstr ""
+"Bepaalt of reacties op gesloten tickets zorgen voor heropenen voor het "
+"ticket, geweigerd wordt, of een nieuw ticket genereert."
 
 #. Template: AdminQueue
 msgid "Ticket lock after a follow up"
@@ -5595,7 +5861,9 @@ msgstr "Ticket wordt vergrendeld na een reactie"
 msgid ""
 "If a ticket is closed and the customer sends a follow up the ticket will be "
 "locked to the old owner."
-msgstr "Als een ticket gesloten is en de klant een reactie stuurt dan wordt het ticket gekoppeld aan de oude eigenaar."
+msgstr ""
+"Als een ticket gesloten is en de klant een reactie stuurt dan wordt het "
+"ticket gekoppeld aan de oude eigenaar."
 
 #. Template: AdminQueue
 msgid "System address"
@@ -5639,7 +5907,9 @@ msgstr "Bewerk automatische antwoorden voor wachtrij"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show queues without auto responses"
-msgstr "Dit filter staat je toe om wachtrijen te zien die geen automatisch antwoord hebben."
+msgstr ""
+"Dit filter staat je toe om wachtrijen te zien die geen automatisch antwoord "
+"hebben."
 
 #. Template: AdminQueueAutoResponse
 msgid "Queues without Auto Responses"
@@ -5733,7 +6003,9 @@ msgstr ""
 msgid ""
 "Please note that you can't register your system if OTRS Daemon is not "
 "running correctly!"
-msgstr "Het is niet mogelijk om je systeem te registreren als OTRS Daemon niet correct is opgestart!"
+msgstr ""
+"Het is niet mogelijk om je systeem te registreren als OTRS Daemon niet "
+"correct is opgestart!"
 
 #. Template: AdminRegistration
 msgid "Instructions"
@@ -5747,7 +6019,9 @@ msgstr ""
 msgid ""
 "Please note that you can't deregister your system if you're using the %s or "
 "having a valid service contract."
-msgstr "Je kunt je systeem niet deregistreren als je het %s gebruikt of wanneer je een geldig service contract hebt."
+msgstr ""
+"Je kunt je systeem niet deregistreren als je het %s gebruikt of wanneer je "
+"een geldig service contract hebt."
 
 #. Template: AdminRegistration
 msgid "OTRS-ID Login"
@@ -5765,7 +6039,9 @@ msgstr "U moet inloggen met uw OTRS-ID om uw systeem te registreren"
 msgid ""
 "Your OTRS-ID is the email address you used to sign up on the OTRS.com "
 "webpage."
-msgstr "Uw OTRS-ID is het emailadres waarmee u zich heeft ingeschreven op de OTRS.com website."
+msgstr ""
+"Uw OTRS-ID is het emailadres waarmee u zich heeft ingeschreven op de "
+"OTRS.com website."
 
 #. Template: AdminRegistration
 msgid "Data Protection"
@@ -5783,7 +6059,9 @@ msgstr "U krijgt bericht over relevante security-releases"
 msgid ""
 "With your system registration we can improve our services for you, because "
 "we have all relevant information available."
-msgstr "Door middel van uw systeemregistratie kunnen wij onze dienstverlening aan u verbeteren, omdat we alle relevante informatie beschikbaar hebben."
+msgstr ""
+"Door middel van uw systeemregistratie kunnen wij onze dienstverlening aan u "
+"verbeteren, omdat we alle relevante informatie beschikbaar hebben."
 
 #. Template: AdminRegistration
 msgid "This is only the beginning!"
@@ -5819,13 +6097,16 @@ msgstr "Welke data wordt verstuurd als ik mij registreer?"
 
 #. Template: AdminRegistration
 msgid "A registered system sends the following data to OTRS Group:"
-msgstr "Een geregistreerd systeem verstuurt de volgende gegevens naar de OTRS Groep:"
+msgstr ""
+"Een geregistreerd systeem verstuurt de volgende gegevens naar de OTRS Groep:"
 
 #. Template: AdminRegistration
 msgid ""
 "Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System"
 " and Perl version."
-msgstr "Fully Qualified Domain Name (FQDN), OTRS-versie, database-versie, gebruikt besturingssysteem en Perl-versie."
+msgstr ""
+"Fully Qualified Domain Name (FQDN), OTRS-versie, database-versie, gebruikt "
+"besturingssysteem en Perl-versie."
 
 #. Template: AdminRegistration
 msgid "Why do I have to provide a description for my system?"
@@ -5839,7 +6120,9 @@ msgstr "Deze beschrijving is optioneel."
 msgid ""
 "The description and system type you specify help you to identify and manage "
 "the details of your registered systems."
-msgstr "De beschrijving en systeem-type die u specificeert helpen u om uw systeem te identificeren en een overzicht te houden van uw geregistreerde systemen."
+msgstr ""
+"De beschrijving en systeem-type die u specificeert helpen u om uw systeem te"
+" identificeren en een overzicht te houden van uw geregistreerde systemen."
 
 #. Template: AdminRegistration
 msgid "How often does my OTRS system send updates?"
@@ -5891,7 +6174,9 @@ msgstr "Volgende"
 msgid ""
 "This data will be frequently transferred to OTRS Group when you register "
 "this system."
-msgstr "Deze gegevens worden op regelmatige basis verstuurd naar de OTRS Groep als u dit systeem registreert."
+msgstr ""
+"Deze gegevens worden op regelmatige basis verstuurd naar de OTRS Groep als u"
+" dit systeem registreert."
 
 #. Template: AdminRegistration
 msgid "Attribute"
@@ -5923,7 +6208,8 @@ msgstr "Registreer"
 
 #. Template: AdminRegistration
 msgid "Continuing with this step will deregister the system from OTRS Group."
-msgstr "Doorgaan met deze stap zal uw systeem deregistreren bij de OTRS Groep."
+msgstr ""
+"Doorgaan met deze stap zal uw systeem deregistreren bij de OTRS Groep."
 
 #. Template: AdminRegistration
 msgid "Deregister"
@@ -5939,17 +6225,23 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "There is no data regularly sent from your system to %s."
-msgstr "Er zijn geen gegevens die regelmatig worden verzonden van jouw systeem naar %s"
+msgstr ""
+"Er zijn geen gegevens die regelmatig worden verzonden van jouw systeem naar "
+"%s"
 
 #. Template: AdminRegistration
 msgid ""
 "The following data is sent at minimum every 3 days from your system to %s."
-msgstr "De volgende gegevens over jouw systeem worden maximaal elke 3 dagen verzonden naar %s"
+msgstr ""
+"De volgende gegevens over jouw systeem worden maximaal elke 3 dagen "
+"verzonden naar %s"
 
 #. Template: AdminRegistration
 msgid ""
 "The data will be transferred in JSON format via a secure https connection."
-msgstr "De gegevens worden verstuurd in JSON format via een beveiligde https verbinding"
+msgstr ""
+"De gegevens worden verstuurd in JSON format via een beveiligde https "
+"verbinding"
 
 #. Template: AdminRegistration
 msgid "System Registration Data"
@@ -5981,7 +6273,9 @@ msgstr ""
 
 #. Template: AdminRole
 msgid "Create a role and put groups in it. Then add the role to the users."
-msgstr "Maak een nieuwe rol en koppel deze aan groepen. Vervolgens kunt u rollen toewijzen aan gebruikers."
+msgstr ""
+"Maak een nieuwe rol en koppel deze aan groepen. Vervolgens kunt u rollen "
+"toewijzen aan gebruikers."
 
 #. Template: AdminRole
 msgid ""
@@ -6009,7 +6303,8 @@ msgstr "Selecteer de rol-groep permissies."
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets"
 " will not be available for the role)."
-msgstr "Als niets is geselecteerd, heeft deze rol geen permissies op deze groep."
+msgstr ""
+"Als niets is geselecteerd, heeft deze rol geen permissies op deze groep."
 
 #. Template: AdminRoleGroup
 msgid "Toggle %s permission for all"
@@ -6037,7 +6332,9 @@ msgstr "notitie"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue."
-msgstr "Permissies om notities aan tickets in de wachtrijen behorende bij deze groep toe te voegen."
+msgstr ""
+"Permissies om notities aan tickets in de wachtrijen behorende bij deze groep"
+" toe te voegen."
 
 #. Template: AdminRoleGroup
 msgid "owner"
@@ -6045,7 +6342,9 @@ msgstr "eigenaar"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to change the owner of tickets in this group/queue."
-msgstr "Permissies om de eigenaar van de tickets in de wachtrijen behorende bij deze groep te wijzigen."
+msgstr ""
+"Permissies om de eigenaar van de tickets in de wachtrijen behorende bij deze"
+" groep te wijzigen."
 
 #. Template: AdminRoleGroup
 msgid "priority"
@@ -6053,7 +6352,9 @@ msgstr "prioriteit"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to change the ticket priority in this group/queue."
-msgstr "Permissies om de prioriteit van een ticket in deze groep/wachtrij te wijzigen."
+msgstr ""
+"Permissies om de prioriteit van een ticket in deze groep/wachtrij te "
+"wijzigen."
 
 #. Template: AdminRoleUser
 msgid "Manage Agent-Role Relations"
@@ -6151,18 +6452,25 @@ msgstr "Filter voor S/MIME certificaten"
 
 #. Template: AdminSMIME
 msgid "To show certificate details click on a certificate icon."
-msgstr "Klik op een certificaat icoon om de details van een certificaat weer te geven."
+msgstr ""
+"Klik op een certificaat icoon om de details van een certificaat weer te "
+"geven."
 
 #. Template: AdminSMIME
 msgid "To manage private certificate relations click on a private key icon."
-msgstr "Om je privé certificaat relaties te beheren, klik je op een privé sleutel icoon."
+msgstr ""
+"Om je privé certificaat relaties te beheren, klik je op een privé sleutel "
+"icoon."
 
 #. Template: AdminSMIME
 msgid ""
 "Here you can add relations to your private certificate, these will be "
 "embedded to the S/MIME signature every time you use this certificate to sign"
 " an email."
-msgstr "Hier kun je relaties toevoegen aan je prive certificaten, deze worden in de S/MIME ondertekening meegezonden wanneer je dit certificaat gebruikt om e-mail te ondertekenen."
+msgstr ""
+"Hier kun je relaties toevoegen aan je prive certificaten, deze worden in de "
+"S/MIME ondertekening meegezonden wanneer je dit certificaat gebruikt om "
+"e-mail te ondertekenen."
 
 #. Template: AdminSMIME
 msgid "See also"
@@ -6270,13 +6578,17 @@ msgstr ""
 msgid ""
 "Secure mode will (normally) be set after the initial installation is "
 "completed."
-msgstr "Secure Mode wordt normaal gesproken geactiveerd na afronding van de installatie."
+msgstr ""
+"Secure Mode wordt normaal gesproken geactiveerd na afronding van de "
+"installatie."
 
 #. Template: AdminSecureMode
 msgid ""
 "If secure mode is not activated, activate it via SysConfig because your "
 "application is already running."
-msgstr "Als Secure Mode nog niet actief is activeer dit via de Systeemconfiguratie omdat de applicatie al draait."
+msgstr ""
+"Als Secure Mode nog niet actief is activeer dit via de Systeemconfiguratie "
+"omdat de applicatie al draait."
 
 #. Template: AdminSelectBox
 msgid "SQL Box"
@@ -6295,12 +6607,17 @@ msgid ""
 "Here you can enter SQL to send it directly to the application database. It "
 "is not possible to change the content of the tables, only select queries are"
 " allowed."
-msgstr "Hier kun je SQL invoeren om direct naar de database te versturen. Het is niet mogelijk om de inhoud van de tabellen aan te passen, alleen select queries zijn toegestaan."
+msgstr ""
+"Hier kun je SQL invoeren om direct naar de database te versturen. Het is "
+"niet mogelijk om de inhoud van de tabellen aan te passen, alleen select "
+"queries zijn toegestaan."
 
 #. Template: AdminSelectBox
 msgid ""
 "Here you can enter SQL to send it directly to the application database."
-msgstr "Hier kunt u SQL statements invoeren die direct door de database worden uitgevoerd."
+msgstr ""
+"Hier kunt u SQL statements invoeren die direct door de database worden "
+"uitgevoerd."
 
 #. Template: AdminSelectBox
 msgid "Options"
@@ -6511,12 +6828,15 @@ msgstr "Schakel Cloud Diensten in"
 msgid ""
 "This data is sent to OTRS Group on a regular basis. To stop sending this "
 "data please update your system registration."
-msgstr "Deze gegevens worden regelmatig verstuurd naar OTRS Group. Om te stoppen met het versturen van deze gegevens moet je je systeem registatie aanpassen."
+msgstr ""
+"Deze gegevens worden regelmatig verstuurd naar OTRS Group. Om te stoppen met"
+" het versturen van deze gegevens moet je je systeem registatie aanpassen."
 
 #. Template: AdminSupportDataCollector
 msgid ""
 "You can manually trigger the Support Data sending by pressing this button:"
-msgstr "Je kunt handmatig de Support Data versturen door op deze knop te sturen:"
+msgstr ""
+"Je kunt handmatig de Support Data versturen door op deze knop te sturen:"
 
 #. Template: AdminSupportDataCollector
 msgid "Send Update"
@@ -6531,7 +6851,11 @@ msgid ""
 "A support bundle (including: system registration information, support data, "
 "a list of installed packages and all locally modified source code files) can"
 " be generated by pressing this button:"
-msgstr "Een support bundel kan gegenereerd worden door op deze knop te drukken (inclusief: systeem registratie informatie, ondersteuningsgegevens, een lijst met geïnstalleerde pakketen en alle lokaal aanepaste bronconde bestanden)."
+msgstr ""
+"Een support bundel kan gegenereerd worden door op deze knop te drukken "
+"(inclusief: systeem registratie informatie, ondersteuningsgegevens, een "
+"lijst met geïnstalleerde pakketen en alle lokaal aanepaste bronconde "
+"bestanden)."
 
 #. Template: AdminSupportDataCollector
 msgid "Generate Support Bundle"
@@ -6553,12 +6877,16 @@ msgstr "Verstur via Email"
 msgid ""
 "The support bundle is too large to send it by email, this option has been "
 "disabled."
-msgstr "De support bundel is te groot om te verstuen per mail, deze optie is niet beschikbaar."
+msgstr ""
+"De support bundel is te groot om te verstuen per mail, deze optie is niet "
+"beschikbaar."
 
 #. Template: AdminSupportDataCollector
 msgid ""
 "The email address for this user is invalid, this option has been disabled."
-msgstr "Het e-mail adres voor deze gebruiker is ongeldig, deze optie is niet beschikbaar."
+msgstr ""
+"Het e-mail adres voor deze gebruiker is ongeldig, deze optie is niet "
+"beschikbaar."
 
 #. Template: AdminSupportDataCollector
 msgid "Sending"
@@ -6566,7 +6894,8 @@ msgstr "Afzender"
 
 #. Template: AdminSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
-msgstr "De support bundel wordt automatisch verzonden naar OTRS Group via e-mail."
+msgstr ""
+"De support bundel wordt automatisch verzonden naar OTRS Group via e-mail."
 
 #. Template: AdminSupportDataCollector
 msgid "Download File"
@@ -6577,7 +6906,10 @@ msgid ""
 "A file containing the support bundle will be downloaded to the local system."
 " Please save the file and send it to the OTRS Group, using an alternate "
 "method."
-msgstr "Een bestand met de support bundel wordt gedownload naar het lokale systeem. Je kunt het opslaan en versturen naar OTRS Group via een alternatieve methode."
+msgstr ""
+"Een bestand met de support bundel wordt gedownload naar het lokale systeem. "
+"Je kunt het opslaan en versturen naar OTRS Group via een alternatieve "
+"methode."
 
 #. Template: AdminSupportDataCollector
 msgid "Error: Support data could not be collected (%s)."
@@ -6615,7 +6947,9 @@ msgstr ""
 msgid ""
 "All incoming email with this address in To or Cc will be dispatched to the "
 "selected queue."
-msgstr "Alle inkomende berichten met dit adres in Aan of CC worden toegewezen aan de geselecteerde wachtrij."
+msgstr ""
+"Alle inkomende berichten met dit adres in Aan of CC worden toegewezen aan de"
+" geselecteerde wachtrij."
 
 #. Template: AdminSystemAddress
 msgid "Email address"
@@ -6631,7 +6965,8 @@ msgstr ""
 
 #. Template: AdminSystemAddress
 msgid "The display name and email address will be shown on mail you send."
-msgstr "De weergegeven naam en het e-mailadres worden gebruikt voor uitgaande mail."
+msgstr ""
+"De weergegeven naam en het e-mailadres worden gebruikt voor uitgaande mail."
 
 #. Template: AdminSystemAddress
 msgid ""
@@ -6859,13 +7194,17 @@ msgstr ""
 msgid ""
 "Schedule a system maintenance period for announcing the Agents and Customers"
 " the system is down for a time period."
-msgstr "Plan een systeem onderhoudsperiode om aan Agents en Klanten aan te kondigen dat het systeem voor een bepaalde periode down is."
+msgstr ""
+"Plan een systeem onderhoudsperiode om aan Agents en Klanten aan te kondigen "
+"dat het systeem voor een bepaalde periode down is."
 
 #. Template: AdminSystemMaintenance
 msgid ""
 "Some time before this system maintenance starts the users will receive a "
 "notification on each screen announcing about this fact."
-msgstr "Een bepaalde tijd voordat het systeem onderhoud begint krijgen de gebruikers een melding op elk scherm waarin het onderhoud wordt aangekondigd."
+msgstr ""
+"Een bepaalde tijd voordat het systeem onderhoud begint krijgen de gebruikers"
+" een melding op elk scherm waarin het onderhoud wordt aangekondigd."
 
 #. Template: AdminSystemMaintenance
 msgid "Stop date"
@@ -6943,7 +7282,9 @@ msgstr "Nieuw sjabloon"
 msgid ""
 "A template is a default text which helps your agents to write faster "
 "tickets, answers or forwards."
-msgstr "Een sjabloon is een standaardtext die uw behandelaars helpt sneller tickets aan te maken of te beantwoorden."
+msgstr ""
+"Een sjabloon is een standaardtext die uw behandelaars helpt sneller tickets "
+"aan te maken of te beantwoorden."
 
 #. Template: AdminTemplate
 msgid "Don't forget to add new templates to queues."
@@ -7485,11 +7826,15 @@ msgstr ""
 msgid ""
 "The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. "
 "ticket escalation triggering, email sending, etc."
-msgstr "De OTRS Daemon is een achtergrondproces dat a synchrone taken uitvoert, dat wil zeggen, escalatie van tickets, gebeurtenissen, emails en dergelijke."
+msgstr ""
+"De OTRS Daemon is een achtergrondproces dat a synchrone taken uitvoert, dat "
+"wil zeggen, escalatie van tickets, gebeurtenissen, emails en dergelijke."
 
 #. Template: AgentDaemonInfo
 msgid "A running OTRS Daemon is mandatory for correct system operation."
-msgstr "Een draaiende OTRS Daemon is vereist voor een correcte werking van het systeem."
+msgstr ""
+"Een draaiende OTRS Daemon is vereist voor een correcte werking van het "
+"systeem."
 
 #. Template: AgentDaemonInfo
 msgid "Starting the OTRS Daemon"
@@ -7500,18 +7845,25 @@ msgid ""
 "Make sure that the file '%s' exists (without .dist extension). This cron job"
 " will check every 5 minutes if the OTRS Daemon is running and start it if "
 "needed."
-msgstr "Zorg er voor dat het bestand '%s' bestaat (zonder .dist extensie). Deze cron taak controleert elke 5 minuten of de OTRS Daemon loopt en start hem als het nodig is."
+msgstr ""
+"Zorg er voor dat het bestand '%s' bestaat (zonder .dist extensie). Deze cron"
+" taak controleert elke 5 minuten of de OTRS Daemon loopt en start hem als "
+"het nodig is."
 
 #. Template: AgentDaemonInfo
 msgid ""
 "Execute '%s start' to make sure the cron jobs of the 'otrs' user are active."
-msgstr "Voer '%s start' uit om ervoor te zorgen dat de cron jobs van de gebruiker 'otrs' actief zijn."
+msgstr ""
+"Voer '%s start' uit om ervoor te zorgen dat de cron jobs van de gebruiker "
+"'otrs' actief zijn."
 
 #. Template: AgentDaemonInfo
 msgid ""
 "After 5 minutes, check that the OTRS Daemon is running in the system "
 "('bin/otrs.Daemon.pl status')."
-msgstr "Controleer na 5 minuten of de OTRS Daemon draait in het systeem ('bin/otrs.Daemon.pl status')."
+msgstr ""
+"Controleer na 5 minuten of de OTRS Daemon draait in het systeem "
+"('bin/otrs.Daemon.pl status')."
 
 #. Template: AgentDashboard
 msgid "Dashboard"
@@ -7657,7 +8009,9 @@ msgstr "Geplaatst %s geleden."
 msgid ""
 "The configuration for this statistic widget contains errors, please review "
 "your settings."
-msgstr "De configuratie voor deze statistieken widget bevat fouten, controleer je instelingen."
+msgstr ""
+"De configuratie voor deze statistieken widget bevat fouten, controleer je "
+"instelingen."
 
 #. Template: AgentDashboardStats
 msgid "Download as SVG file"
@@ -7683,7 +8037,9 @@ msgstr "Download als PDF file"
 msgid ""
 "Please select a valid graph output format in the configuration of this "
 "widget."
-msgstr "Selecteer een geldige grafiek output format in de configuratie van deze widget."
+msgstr ""
+"Selecteer een geldige grafiek output format in de configuratie van deze "
+"widget."
 
 #. Template: AgentDashboardStats
 msgid ""
@@ -7694,7 +8050,9 @@ msgstr "De inhoud van deze rapportage wordt voor u aangemaakt, even geduld."
 msgid ""
 "This statistic can currently not be used because its configuration needs to "
 "be corrected by the statistics administrator."
-msgstr "Deze statistiek kan op dit moment niet worden gebruikt omdat de configuratie gecorrigeerd moet worden door de statistieken administrator. "
+msgstr ""
+"Deze statistiek kan op dit moment niet worden gebruikt omdat de configuratie"
+" gecorrigeerd moet worden door de statistieken administrator. "
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Assigned to customer user"
@@ -7742,7 +8100,9 @@ msgstr "tot"
 
 #. Template: AgentInfo
 msgid "To accept some news, a license or some changes."
-msgstr "Om een tekst te tonen, zoals nieuws of een licentie, die de agent moet accepteren."
+msgstr ""
+"Om een tekst te tonen, zoals nieuws of een licentie, die de agent moet "
+"accepteren."
 
 #. Template: AgentInfo
 msgid "Yes, accepted."
@@ -8133,7 +8493,9 @@ msgstr "Stel betrokken gebruikers op de hoogte"
 msgid ""
 "Here you can select additional agents which should receive a notification "
 "regarding the new article."
-msgstr "Hier kun je extra gebruikers aanvinken die een notificatie zouden moeten krijgen over het nieuwe artikel."
+msgstr ""
+"Hier kun je extra gebruikers aanvinken die een notificatie zouden moeten "
+"krijgen over het nieuwe artikel."
 
 #. Template: AgentTicketActionCommon
 msgid "Text will also be received by"
@@ -8225,7 +8587,8 @@ msgstr ""
 
 #. Template: AgentTicketCompose
 msgid "This address is registered as system address and cannot be used: %s"
-msgstr "Dit adres is geregistreerd als een systee adres en kan niet worden gebruikt."
+msgstr ""
+"Dit adres is geregistreerd als een systee adres en kan niet worden gebruikt."
 
 #. Template: AgentTicketCompose
 msgid "Please include at least one recipient"
@@ -8758,7 +9121,8 @@ msgstr "Volledige artikel tekst"
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
-msgstr "Geen events meer gevonden. Probeer de filter instellingen aan te passen."
+msgstr ""
+"Geen events meer gevonden. Probeer de filter instellingen aan te passen."
 
 #. Template: Chat
 msgid "#%s"
@@ -8786,7 +9150,10 @@ msgstr ""
 msgid ""
 "To open links in the following article, you might need to press Ctrl or Cmd "
 "or Shift key while clicking the link (depending on your browser and OS)."
-msgstr "Om links te openen in het volgende artikel, kan het nodig zijn om de toetsen Ctrl of Cmd of Shift in te druken terwijl je op de link klikt (afhankelijk van jouw browser en besturingssysteem)"
+msgstr ""
+"Om links te openen in het volgende artikel, kan het nodig zijn om de toetsen"
+" Ctrl of Cmd of Shift in te druken terwijl je op de link klikt (afhankelijk "
+"van jouw browser en besturingssysteem)"
 
 #. Template: MIMEBase
 msgid "Close this message"
@@ -9215,7 +9582,9 @@ msgstr "Dynamische velden"
 msgid ""
 "Really a bug? 5 out of 10 bug reports result from a wrong or incomplete "
 "installation of OTRS."
-msgstr "Is dit echt een fout? 5 van de 10 error reports zijn vanwege een kappotte installatie van OTRS"
+msgstr ""
+"Is dit echt een fout? 5 van de 10 error reports zijn vanwege een kappotte "
+"installatie van OTRS"
 
 #. Template: Error
 msgid ""
@@ -9481,7 +9850,9 @@ msgstr "Gebruik een bestaande database voor OTRS"
 msgid ""
 "If you have set a root password for your database, it must be entered here. "
 "If not, leave this field empty."
-msgstr "Als er een root-wachtwoord voor deze database nodig is, vul deze hier in. Anders moet dit veld leeg blijven."
+msgstr ""
+"Als er een root-wachtwoord voor deze database nodig is, vul deze hier in. "
+"Anders moet dit veld leeg blijven."
 
 #. Template: InstallerDBmssql
 msgid "Database name"
@@ -9511,7 +9882,9 @@ msgstr "Nieuw"
 msgid ""
 "A new database user with limited permissions will be created for this OTRS "
 "system."
-msgstr "Een nieuwe database gebruiker met beperkte permissies wordt aangemaakt voor deze OTRS omgeving."
+msgstr ""
+"Een nieuwe database gebruiker met beperkte permissies wordt aangemaakt voor "
+"deze OTRS omgeving."
 
 #. Template: InstallerDBmssql
 msgid "Repeat Password"
@@ -9571,7 +9944,9 @@ msgstr "Systeem identificatie"
 msgid ""
 "The identifier of the system. Each ticket number and each HTTP session ID "
 "contain this number."
-msgstr "De identifier van het systeem. Ieder ticketnummer en elk HTTP sessie ID bevat dit nummer."
+msgstr ""
+"De identifier van het systeem. Ieder ticketnummer en elk HTTP sessie ID "
+"bevat dit nummer."
 
 #. Template: InstallerSystem
 msgid "System FQDN"
@@ -9630,7 +10005,10 @@ msgid ""
 "Email addresses that are manually entered are checked against the MX records"
 " found in DNS. Don't use this option if your DNS is slow or does not resolve"
 " public addresses."
-msgstr "E-mailadressen die handmatig worden ingevoerd worden gecontroleerd met de MX records gevonden in de DNS. Gebruik deze mogelijkheid niet als uw DNS traag is of geen publieke adressen kan herleiden."
+msgstr ""
+"E-mailadressen die handmatig worden ingevoerd worden gecontroleerd met de MX"
+" records gevonden in de DNS. Gebruik deze mogelijkheid niet als uw DNS traag"
+" is of geen publieke adressen kan herleiden."
 
 #. Template: LinkObject
 msgid "Delete link"
@@ -9687,7 +10065,10 @@ msgid ""
 "Sorry, but this feature of OTRS is currently not available for mobile "
 "devices. If you'd like to use it, you can either switch to desktop mode or "
 "use your regular desktop device."
-msgstr "Helaas, maar deze functionaliteit van OTRS is op dit moment niet beschikbaar voor mobiele apparaten. Als je de functionaliteit toch wil gebruiken kun je swichen naar desktop weergave of je desktop device gebruiken."
+msgstr ""
+"Helaas, maar deze functionaliteit van OTRS is op dit moment niet beschikbaar"
+" voor mobiele apparaten. Als je de functionaliteit toch wil gebruiken kun je"
+" swichen naar desktop weergave of je desktop device gebruiken."
 
 #. Template: Motd
 msgid "Message of the Day"
@@ -9788,7 +10169,9 @@ msgstr "Permissies"
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "You can select one or more groups to define access for different agents."
-msgstr "U kunt één of meerdere groepen definiëren die deze rapportage kunnen gebruiken."
+msgstr ""
+"U kunt één of meerdere groepen definiëren die deze rapportage kunnen "
+"gebruiken."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Result formats"
@@ -9800,7 +10183,8 @@ msgstr "Tijdzone"
 
 #. Template: GeneralSpecificationsWidget
 msgid "The selected time periods in the statistic are time zone neutral."
-msgstr "De geselecteerd tijdsperiode in de statistieken zijn tijdzone neutraal."
+msgstr ""
+"De geselecteerd tijdsperiode in de statistieken zijn tijdzone neutraal."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation row"
@@ -9832,13 +10216,17 @@ msgstr ""
 msgid ""
 "Provide the statistic as a widget that agents can activate in their "
 "dashboard."
-msgstr "Maak een dashboard-widget van dit rapport die behandelaars in hun dashboard kunnen activeren."
+msgstr ""
+"Maak een dashboard-widget van dit rapport die behandelaars in hun dashboard "
+"kunnen activeren."
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Please note that enabling the dashboard widget will activate caching for "
 "this statistic in the dashboard."
-msgstr "Inschakelen van de dashboard widget activeert caching voor dit rapport  in het dashboard."
+msgstr ""
+"Inschakelen van de dashboard widget activeert caching voor dit rapport  in "
+"het dashboard."
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
@@ -9864,7 +10252,9 @@ msgstr ""
 msgid ""
 "Please note that the preview uses random data and does not consider data "
 "filters."
-msgstr "De voorbeeldweergave gebruikt willekeurige gegevens en houdt geen rekening met data filters."
+msgstr ""
+"De voorbeeldweergave gebruikt willekeurige gegevens en houdt geen rekening "
+"met data filters."
 
 #. Template: PreviewWidget
 msgid "Configure X-Axis"
@@ -9908,7 +10298,9 @@ msgstr "De historische complete %s en de huidige en aankomende complete %s %s"
 
 #. Template: RestrictionsWidget
 msgid "Do not allow changes to this element when the statistic is generated."
-msgstr "Sta niet toe om dit element te wijzigen wanneer de statistiek wordt gegenereerd."
+msgstr ""
+"Sta niet toe om dit element te wijzigen wanneer de statistiek wordt "
+"gegenereerd."
 
 #. Template: StatsParamsWidget
 msgid "Format"
@@ -9950,19 +10342,25 @@ msgstr "Download PNG"
 msgid ""
 "The selected time period defines the default time frame for this statistic "
 "to collect data from."
-msgstr "De geselecteerde tijdsperiode bepaalt het standaard tijdsvenster voor deze statistiek om gegevens van te verzamelen."
+msgstr ""
+"De geselecteerde tijdsperiode bepaalt het standaard tijdsvenster voor deze "
+"statistiek om gegevens van te verzamelen."
 
 #. Template: XAxisWidget
 msgid ""
 "Defines the time unit that will be used to split the selected time period "
 "into reporting data points."
-msgstr "Bepaalt de tijdseenheid die wordt gebruikt om de geselecteerde periode te splitsen in rapportage data punten."
+msgstr ""
+"Bepaalt de tijdseenheid die wordt gebruikt om de geselecteerde periode te "
+"splitsen in rapportage data punten."
 
 #. Template: YAxisWidget
 msgid ""
 "Please remember that the scale for the Y-axis has to be larger than the "
 "scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year)."
-msgstr "De schaal van de Y-as moet groter zijn dan de schaal voor de X-as (bijvoorbeeld: X-as => Maand, Y-as => Jaar)."
+msgstr ""
+"De schaal van de Y-as moet groter zijn dan de schaal voor de X-as "
+"(bijvoorbeeld: X-as => Maand, Y-as => Jaar)."
 
 #. Template: SettingsList
 msgid "This setting is disabled."
@@ -10382,13 +10780,17 @@ msgstr "Voeg functies toe aan uw systeem door het installeren van pakketten."
 msgid ""
 "ACL information from database is not in sync with the system configuration, "
 "please deploy all ACLs."
-msgstr "De ACL-informatie in de database is niet gesynchroniseerd met het systeem. Activeer alle ACLs."
+msgstr ""
+"De ACL-informatie in de database is niet gesynchroniseerd met het systeem. "
+"Activeer alle ACLs."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
 "ACLs could not be Imported due to a unknown error, please check OTRS logs "
 "for more information"
-msgstr "ACL's kunnen niet worden geïmporteerd vanwege een onbekende fout, kijk in de OTRS loggegevens voor meer informatie."
+msgstr ""
+"ACL's kunnen niet worden geïmporteerd vanwege een onbekende fout, kijk in de"
+" OTRS loggegevens voor meer informatie."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "The following ACLs have been added successfully: %s"
@@ -10402,7 +10804,9 @@ msgstr "De volgende ACLs zijn succesvol bijgewerkt: %s"
 msgid ""
 "There where errors adding/updating the following ACLs: %s. Please check the "
 "log file for more information."
-msgstr "Er zijn fouten opgetreden tijdens het toevoegen/bijwerken van de volgende ACLs: %s. Controleer de log bestanden voor meer informatie."
+msgstr ""
+"Er zijn fouten opgetreden tijdens het toevoegen/bijwerken van de volgende "
+"ACLs: %s. Controleer de log bestanden voor meer informatie."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "This field is required"
@@ -10426,7 +10830,8 @@ msgstr "Er is een fout opgetreden bij het bijwerken van de ACL."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error setting the entity sync status."
-msgstr "Er is een fout opgegeven bij het instellen van de synchronisatiestatus."
+msgstr ""
+"Er is een fout opgegeven bij het instellen van de synchronisatiestatus."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error synchronizing the ACLs."
@@ -10438,7 +10843,8 @@ msgstr "ACL %s kon niet worden verwijderd"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error getting data for ACL with ID %s"
-msgstr "Er is een fout opgetreden met het ophalen van de gegevens voor ACL met ID %s"
+msgstr ""
+"Er is een fout opgetreden met het ophalen van de gegevens voor ACL met ID %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
@@ -10827,7 +11233,8 @@ msgstr ""
 msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for"
 " more details."
-msgstr "Kon dynamische velden niet herstellen, kijk in het logbestand voor details."
+msgstr ""
+"Kon dynamische velden niet herstellen, kijk in het logbestand voor details."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Undefined subaction."
@@ -10957,7 +11364,9 @@ msgstr "Had geen waarden om te controleren"
 msgid ""
 "Please remove the following words because they cannot be used for the ticket"
 " selection:"
-msgstr "Verwijder de volgende woorden omdat ze niet kunnen worden gebruikt voor het selecteren van een ticket:"
+msgstr ""
+"Verwijder de volgende woorden omdat ze niet kunnen worden gebruikt voor het "
+"selecteren van een ticket:"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
 msgid "Need WebserviceID!"
@@ -11159,7 +11568,9 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get registered configuration for action type %s"
-msgstr "Het geregistreerde configuratiebestand voor actie type %s kon niet worden opgehaald"
+msgstr ""
+"Het geregistreerde configuratiebestand voor actie type %s kon niet worden "
+"opgehaald"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get backend for %s %s"
@@ -11167,7 +11578,8 @@ msgstr "Backend voor %s %s kon niet worden opgehaald"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not update configuration data for WebserviceID %s"
-msgstr "Configuratiebestand kon niet worden bijgewerkt voor Webservice met ID %s"
+msgstr ""
+"Configuratiebestand kon niet worden bijgewerkt voor Webservice met ID %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Keep (leave unchanged)"
@@ -11281,7 +11693,9 @@ msgstr "Heb een bestand nodig om te importeren!"
 msgid ""
 "The imported file has not valid YAML content! Please check OTRS log for "
 "details"
-msgstr "Het geïmporteerde bestand is geen geldig YAML bestand! Kijk in het logbestand voor details"
+msgstr ""
+"Het geïmporteerde bestand is geen geldig YAML bestand! Kijk in het "
+"logbestand voor details"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" deleted!"
@@ -11363,7 +11777,9 @@ msgstr "Alle agents die zich hebben ingeschreven op de service"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to both the ticket's queue and service"
-msgstr "Alle agents die zich zowel op de wachtrij, als op de service hebben ingeschreven"
+msgstr ""
+"Alle agents die zich zowel op de wachtrij, als op de service hebben "
+"ingeschreven"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Customer user of the ticket"
@@ -11460,7 +11876,9 @@ msgstr "Pakket heeft lokaal bewerkte bestanden."
 msgid ""
 "Package not verified by the OTRS Group! It is recommended not to use this "
 "package."
-msgstr "Pakket niet geverifieerd door de OTRS Groep! We raden aan dit pakket niet te gebruiken."
+msgstr ""
+"Pakket niet geverifieerd door de OTRS Groep! We raden aan dit pakket niet te"
+" gebruiken."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not Started"
@@ -11528,7 +11946,8 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No packages or no new packages found in selected repository."
-msgstr "Geen pakketten of nieuwe pakketten gevonden in de geselecteerde repository."
+msgstr ""
+"Geen pakketten of nieuwe pakketten gevonden in de geselecteerde repository."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
@@ -11559,7 +11978,9 @@ msgstr "Prioriteit toegevoegd."
 msgid ""
 "Process Management information from database is not in sync with the system "
 "configuration, please synchronize all processes."
-msgstr "Proces informatie uit de database is niet gesynchroniseerd met de systeemconfiguratie. Voer een synchronisatie uit."
+msgstr ""
+"Proces informatie uit de database is niet gesynchroniseerd met de "
+"systeemconfiguratie. Voer een synchronisatie uit."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ExampleProcesses!"
@@ -11640,7 +12061,9 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error generating a new EntityID for this Activity"
-msgstr "Er is een fout opgetreden met het genereren van een nieuwe EntityID voor deze Activiteit"
+msgstr ""
+"Er is een fout opgetreden met het genereren van een nieuwe EntityID voor "
+"deze Activiteit"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error creating the Activity"
@@ -11649,7 +12072,9 @@ msgstr "Er is een fout opgetreden bij het aanmaken van de activiteit"
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid ""
 "There was an error setting the entity sync status for Activity entity: %s"
-msgstr "Er is een fout opgetreden bij het instellen van de synchronisatie status van de activiteit: %s"
+msgstr ""
+"Er is een fout opgetreden bij het instellen van de synchronisatie status van"
+" de activiteit: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Need ActivityID!"
@@ -11679,7 +12104,9 @@ msgstr "ActiviteitDialoog niet gevonden"
 msgid ""
 "ActivityDialog already assigned to Activity. You cannot add an "
 "ActivityDialog twice!"
-msgstr "ActiviteitDialoog al toegewezen aan Activiteit. Je kunt een ActiviteitDialoog niet twee keer toevoegen!"
+msgstr ""
+"ActiviteitDialoog al toegewezen aan Activiteit. Je kunt een "
+"ActiviteitDialoog niet twee keer toevoegen!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Error while saving the Activity to the database!"
@@ -11705,7 +12132,9 @@ msgstr ""
 msgid ""
 "There was an error setting the entity sync status for ActivityDialog entity:"
 " %s"
-msgstr "Er is een fout opgetreden bij het instellen van de synchronisatiestatus van ActiviteitDialoog item: %s"
+msgstr ""
+"Er is een fout opgetreden bij het instellen van de synchronisatiestatus van "
+"ActiviteitDialoog item: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Need ActivityDialogID!"
@@ -11753,7 +12182,9 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error generating a new EntityID for this Transition"
-msgstr "Er is een fout opgetreden bij het genereren van een nieuwe EntiteitID voor deze transitie"
+msgstr ""
+"Er is een fout opgetreden bij het genereren van een nieuwe EntiteitID voor "
+"deze transitie"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error creating the Transition"
@@ -11762,7 +12193,9 @@ msgstr "Er is een fout opgetreden bij het aanmaken van de Transitie"
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid ""
 "There was an error setting the entity sync status for Transition entity: %s"
-msgstr "Er is een fout opgetreden bij het instellen van de syncrhonisatie status van Transiti: %s"
+msgstr ""
+"Er is een fout opgetreden bij het instellen van de syncrhonisatie status van"
+" Transiti: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Need TransitionID!"
@@ -11798,7 +12231,9 @@ msgstr "Minimaal één geldige configuratie parameter is vereist"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error generating a new EntityID for this TransitionAction"
-msgstr "Er is een fout opgetreden bij het genereren van een nieuwe EntiteitID voor deze TransactieActie"
+msgstr ""
+"Er is een fout opgetreden bij het genereren van een nieuwe EntiteitID voor "
+"deze TransactieActie"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error creating the TransitionAction"
@@ -11808,7 +12243,9 @@ msgstr "Er is een fout opgetreden bij het aanmaken van de TransactieActie"
 msgid ""
 "There was an error setting the entity sync status for TransitionAction "
 "entity: %s"
-msgstr "Er is een fout opgetreden bij het instellen van de entiteit synchronisatie status voor de TransactieActie:%s"
+msgstr ""
+"Er is een fout opgetreden bij het instellen van de entiteit synchronisatie "
+"status voor de TransactieActie:%s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Need TransitionActionID!"
@@ -12074,7 +12511,8 @@ msgstr "Begindatum moet vóór de einddatum liggen!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "There was an error creating the System Maintenance"
-msgstr "Er is een fout opgetreden bij het aanmaken van het systeem onderhoudsvenster"
+msgstr ""
+"Er is een fout opgetreden bij het aanmaken van het systeem onderhoudsvenster"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Need SystemMaintenanceID!"
@@ -12102,11 +12540,13 @@ msgstr "Alle sessies zijn beëindigd behalve die van uzelf."
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "There was an error updating the System Maintenance"
-msgstr "Er is een fout opgetreden bij het update van het Systeem Onderhoudsvenster"
+msgstr ""
+"Er is een fout opgetreden bij het update van het Systeem Onderhoudsvenster"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Was not possible to delete the SystemMaintenance entry: %s!"
-msgstr "Het was niet mogelijk om het Systeem Onderhoudsvenster %s te verwijderen!"
+msgstr ""
+"Het was niet mogelijk om het Systeem Onderhoudsvenster %s te verwijderen!"
 
 #. Perl Module: Kernel/Modules/AdminTemplate.pm
 msgid "Template updated!"
@@ -12706,7 +13146,9 @@ msgstr "Geen ActiviteitDialog geconfigureerd voor %s in _RenderAjax!"
 msgid ""
 "Got no Start ActivityEntityID or Start ActivityDialogEntityID for Process: "
 "%s in _GetParam!"
-msgstr "Geen Start ActiviteitEntiteitID of Start ActiviteitDialoogEntiteitID voor Proces: %s in _GetParam!"
+msgstr ""
+"Geen Start ActiviteitEntiteitID of Start ActiviteitDialoogEntiteitID voor "
+"Proces: %s in _GetParam!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get Ticket for TicketID: %s in _GetParam!"
@@ -12716,7 +13158,9 @@ msgstr "Geen Ticket voor TicketID: %s in _GetParam!"
 msgid ""
 "Couldn't determine ActivityEntityID. DynamicField or Config isn't set "
 "properly!"
-msgstr "Kon geen ActiviteitEntiteitID bepalen. Dynamisch veld of Configuratie is niet juist ingesteld!"
+msgstr ""
+"Kon geen ActiviteitEntiteitID bepalen. Dynamisch veld of Configuratie is "
+"niet juist ingesteld!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Process::Default%s Config Value missing!"
@@ -12730,7 +13174,9 @@ msgstr "Heb geen ProcesEntiteitID of TicketID en ActiviteitDialoogEntiteitID!"
 msgid ""
 "Can't get StartActivityDialog and StartActivityDialog for the "
 "ProcessEntityID \"%s\"!"
-msgstr "Verkreeg geen StartActiviteitDialoog en StartActiviteitDialoog voor het ProcesEntiteitID \"%s\"!"
+msgstr ""
+"Verkreeg geen StartActiviteitDialoog en StartActiviteitDialoog voor het "
+"ProcesEntiteitID \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get Ticket \"%s\"!"
@@ -12738,7 +13184,9 @@ msgstr "Kan ticket \"%s\" niet ophalen!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get ProcessEntityID or ActivityEntityID for Ticket \"%s\"!"
-msgstr "Kan ProcesEntiteitID of ActiviteitEntiteitID niet verkrijgen voor ticket \"%s\"!"
+msgstr ""
+"Kan ProcesEntiteitID of ActiviteitEntiteitID niet verkrijgen voor ticket "
+"\"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get Activity configuration for ActivityEntityID \"%s\"!"
@@ -12746,7 +13194,8 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get ActivityDialog configuration for ActivityDialogEntityID \"%s\"!"
-msgstr "Kan ActiviteitDialoog configuratie voor ActiviteitDialoogEntiteitID \"%s\"!"
+msgstr ""
+"Kan ActiviteitDialoog configuratie voor ActiviteitDialoogEntiteitID \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get data for Field \"%s\" of ActivityDialog \"%s\"!"
@@ -12756,7 +13205,9 @@ msgstr "Kan gegevens niet verkrijgen voor veld \"%s\" van ActiviteitDialoog \"%s
 msgid ""
 "PendingTime can just be used if State or StateID is configured for the same "
 "ActivityDialog. ActivityDialog: %s!"
-msgstr "Wacht op tijd kan alleen gebruikt worden wanneer Status of StatusID is geconfigureerd voor dezelfde ActiviteitDialoog. ActiviteitDialoog: %s!"
+msgstr ""
+"Wacht op tijd kan alleen gebruikt worden wanneer Status of StatusID is "
+"geconfigureerd voor dezelfde ActiviteitDialoog. ActiviteitDialoog: %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Pending Date"
@@ -13175,7 +13626,9 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Article could not be opened! Perhaps it is on another article page?"
-msgstr "Het artikel kan niet worden geopend! Mogelijk staat hij op een andere artikelpagina?"
+msgstr ""
+"Het artikel kan niet worden geopend! Mogelijk staat hij op een andere "
+"artikelpagina?"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Show one article"
@@ -13263,7 +13716,9 @@ msgstr "Aangemaakt langer dan ... geleden"
 msgid ""
 "Please remove the following words because they cannot be used for the "
 "search:"
-msgstr "Verwijder de volgende woorden van je zoekactie omdat daar niet op gezocht kan worden:"
+msgstr ""
+"Verwijder de volgende woorden van je zoekactie omdat daar niet op gezocht "
+"kan worden:"
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Can't reopen ticket, not possible in this queue!"
@@ -13861,7 +14316,8 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
 msgid "Enable cloud services to unleash all OTRS features!"
-msgstr "Schakel cloud diensten in om alle OTRS functionaliteit in te schakelen!"
+msgstr ""
+"Schakel cloud diensten in om alle OTRS functionaliteit in te schakelen!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
@@ -13875,13 +14331,17 @@ msgstr ""
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
-msgstr "De licentie voor uw %s verloopt binnenkort. Contacteer %s om deze te hernieuwen!"
+msgstr ""
+"De licentie voor uw %s verloopt binnenkort. Contacteer %s om deze te "
+"hernieuwen!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
-msgstr "Er is een update beschikbaar voor uw %s, maar er is een probleem met de versie van uw framework! Gelieve eerst uw framework te updaten!"
+msgstr ""
+"Er is een update beschikbaar voor uw %s, maar er is een probleem met de "
+"versie van uw framework! Gelieve eerst uw framework te updaten!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
 msgid "Online Agent: %s"
@@ -13960,7 +14420,9 @@ msgstr ""
 msgid ""
 "Please make sure you've chosen at least one transport method for mandatory "
 "notifications."
-msgstr "Zorg ervoor dat je minimaal één transportmethode hebt gekozen voor verplichtte notificaties."
+msgstr ""
+"Zorg ervoor dat je minimaal één transportmethode hebt gekozen voor "
+"verplichtte notificaties."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/AppointmentNotificationEvent.pm
 msgid "Preferences updated successfully!"
@@ -13997,7 +14459,8 @@ msgstr "Geef je nieuwe wachtwoord op."
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
 "Can't update password, your new passwords do not match. Please try again!"
-msgstr "Kan het wachtwoord niet bijwerken, de wachtwoorden komen niet overeen."
+msgstr ""
+"Kan het wachtwoord niet bijwerken, de wachtwoorden komen niet overeen."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
@@ -14007,7 +14470,8 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must be at least %s characters long!"
-msgstr "Kan het wachtwoord niet bijwerken, het moet minstens %s tekens lang zijn."
+msgstr ""
+"Kan het wachtwoord niet bijwerken, het moet minstens %s tekens lang zijn."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
@@ -14017,7 +14481,8 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must contain at least 1 digit!"
-msgstr "Kan het wachtwoord niet bijwerken, het moet minstens 1 cijfer bevatten."
+msgstr ""
+"Kan het wachtwoord niet bijwerken, het moet minstens 1 cijfer bevatten."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must contain at least 2 letter characters!"
@@ -14043,17 +14508,22 @@ msgstr "Nee (niet beschikbaar)"
 msgid ""
 "No past complete or the current+upcoming complete relative time value "
 "selected."
-msgstr "Geen historische volledige of huidige aankomende volledige relatieve tijdswaarden geselecteerd."
+msgstr ""
+"Geen historische volledige of huidige aankomende volledige relatieve "
+"tijdswaarden geselecteerd."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected time period is larger than the allowed time period."
-msgstr "De geselecteerde tijdsperiode is groter dan de toegestane tijdsperiode"
+msgstr ""
+"De geselecteerde tijdsperiode is groter dan de toegestane tijdsperiode"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "No time scale value available for the current selected time scale value on "
 "the X axis."
-msgstr "Er is geen tijdschaal beschikbaar voor de geselecteerde tijdsschaal waarde op de X as."
+msgstr ""
+"Er is geen tijdschaal beschikbaar voor de geselecteerde tijdsschaal waarde "
+"op de X as."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected date is not valid."
@@ -14071,13 +14541,17 @@ msgstr "Er is iets mis met je tijdsselectie."
 msgid ""
 "Please select only one element or allow modification at stat generation "
 "time."
-msgstr "Selecteer minimaal één element of sta toe dat dit kan worden aangepast bij het genereren van de statistiek."
+msgstr ""
+"Selecteer minimaal één element of sta toe dat dit kan worden aangepast bij "
+"het genereren van de statistiek."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "Please select at least one value of this field or allow modification at stat"
 " generation time."
-msgstr "Selecteer minimaal één element of sta toe dat dit kan worden aangepast bij het genereren van de statistiek."
+msgstr ""
+"Selecteer minimaal één element of sta toe dat dit kan worden aangepast bij "
+"het genereren van de statistiek."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select one element for the X-axis."
@@ -14097,7 +14571,9 @@ msgstr "Selecteer minimaal één waarde voor dit veld."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please provide a value or allow modification at stat generation time."
-msgstr "Selecteer minimaal één element of sta toe dat dit kan worden aangepast bij het genereren van de statistiek."
+msgstr ""
+"Selecteer minimaal één element of sta toe dat dit kan worden aangepast bij "
+"het genereren van de statistiek."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select a time scale."
@@ -14124,7 +14600,9 @@ msgstr "halve-jaren"
 msgid ""
 "Please remove the following words because they cannot be used for the ticket"
 " restrictions: %s."
-msgstr "Verwijder de volgende woorden omdat ze niet gebruikt kunnen worden om tickets te beperken: %s"
+msgstr ""
+"Verwijder de volgende woorden omdat ze niet gebruikt kunnen worden om "
+"tickets te beperken: %s"
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Cancel editing and unlock this setting"
@@ -14222,7 +14700,9 @@ msgstr ""
 #. Perl Module: Kernel/System/Auth.pm
 msgid ""
 "It is currently not possible to login due to a scheduled system maintenance."
-msgstr "Het is momenteel niet mogelijk om in te loggen omwille van een gepland systeemonderhoud."
+msgstr ""
+"Het is momenteel niet mogelijk om in te loggen omwille van een gepland "
+"systeemonderhoud."
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
@@ -14379,7 +14859,9 @@ msgstr "Kan repository index document niet verwerken."
 msgid ""
 "No packages for your framework version found in this repository, it only "
 "contains packages for other framework versions."
-msgstr "Geen pakketten gevonden in deze repository voor de huidige framework versie. De repository bevaty alleen pakketten voor andere framework versies."
+msgstr ""
+"Geen pakketten gevonden in deze repository voor de huidige framework versie."
+" De repository bevaty alleen pakketten voor andere framework versies."
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is not installed!"
@@ -14433,7 +14915,8 @@ msgstr "Kan registratieserver niet bereiken. Probeer het later nogmaals."
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "No content received from registration server. Please try again later."
-msgstr "Geen data ontvangen van registratieserver. Probeer het later nogmaals."
+msgstr ""
+"Geen data ontvangen van registratieserver. Probeer het later nogmaals."
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't get Token from sever"
@@ -14445,7 +14928,9 @@ msgstr "Gebruikersnaam en wachtwoord komen niet overeen."
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Problems processing server result. Please try again later."
-msgstr "Problemen met het verwerken van data van registratieserver. Probeer het later nogmaals."
+msgstr ""
+"Problemen met het verwerken van data van registratieserver. Probeer het "
+"later nogmaals."
 
 #. Perl Module: Kernel/System/Stats.pm
 msgid "Sum"
@@ -14809,7 +15294,9 @@ msgstr "Query Cache grootte"
 msgid ""
 "The setting 'query_cache_size' should be used (higher than 10 MB but not "
 "more than 512 MB)."
-msgstr "De instelling 'query_cache_size' gebruikt worden (minimaal 10MB, maar niet meer dan 512 MB)"
+msgstr ""
+"De instelling 'query_cache_size' gebruikt worden (minimaal 10MB, maar niet "
+"meer dan 512 MB)"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
@@ -14825,7 +15312,8 @@ msgstr "Tabel Storage Engine"
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid ""
 "Tables with a different storage engine than the default engine were found."
-msgstr "Er zijn tabellen gevonden die een afwijkende storage engine gebruiken."
+msgstr ""
+"Er zijn tabellen gevonden die een afwijkende storage engine gebruiken."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
@@ -14948,7 +15436,9 @@ msgstr "Systeem Belasting"
 msgid ""
 "The system load should be at maximum the number of CPUs the system has (e.g."
 " a load of 8 or less on a system with 8 CPUs is OK)."
-msgstr "De systeem belasting zou niet meer moeten zijn dan het aantal CPUs dat het systeem heeft (een belasting van 8 of minder voor een systeem met 8 CPU's)."
+msgstr ""
+"De systeem belasting zou niet meer moeten zijn dan het aantal CPUs dat het "
+"systeem heeft (een belasting van 8 of minder voor een systeem met 8 CPU's)."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModules.pm
 msgid "Perl Modules"
@@ -15274,7 +15764,8 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
-msgstr "De gekozen SystemID is ongeldig, er mogen alleen cijfers in voorkomen."
+msgstr ""
+"De gekozen SystemID is ongeldig, er mogen alleen cijfers in voorkomen."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
@@ -15298,7 +15789,10 @@ msgstr "Ticket Index Module"
 msgid ""
 "You have more than 60,000 tickets and should use the StaticDB backend. See "
 "admin manual (Performance Tuning) for more information."
-msgstr "Je hebt meer dan 60.000 tickets en zou een StaticDB backend moeten gebruiken. Zie ook de administrator handleiding (Performance Tuning) voor meer informatie."
+msgstr ""
+"Je hebt meer dan 60.000 tickets en zou een StaticDB backend moeten "
+"gebruiken. Zie ook de administrator handleiding (Performance Tuning) voor "
+"meer informatie."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/InvalidUsersWithLockedTickets.pm
@@ -15313,7 +15807,8 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
 msgid "You should not have more than 8,000 open tickets in your system."
-msgstr "Je zou niet meer dan 8.000 openstaande tickets in je systeem moeten hebben."
+msgstr ""
+"Je zou niet meer dan 8.000 openstaande tickets in je systeem moeten hebben."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
@@ -15340,7 +15835,10 @@ msgid ""
 "Table ticket_lock_index contains orphaned records. Please run "
 "bin/otrs.Console.pl \"Maint::Ticket::QueueIndexCleanup\" to clean the "
 "StaticDB index."
-msgstr "De tabel ticket_lock_index bevat weesreckords. Om sw StaticDB te schonen voert u het volgende script: uit bin/otrs.Console.pl \"Maint::Ticket::QueueIndexCleanup\"."
+msgstr ""
+"De tabel ticket_lock_index bevat weesreckords. Om sw StaticDB te schonen "
+"voert u het volgende script: uit bin/otrs.Console.pl "
+"\"Maint::Ticket::QueueIndexCleanup\"."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
@@ -15482,7 +15980,10 @@ msgid ""
 "Apache::Reload or Apache2::Reload should be used as PerlModule and "
 "PerlInitHandler to prevent web server restarts when installing and upgrading"
 " modules."
-msgstr "Apache::Reload of Apache2::Reload worden gebruikt als PerlModule en PerlInitHandler om te voorkomen dat de webserver herstart wanneer modules worden geïnstalleerd of geupgrade."
+msgstr ""
+"Apache::Reload of Apache2::Reload worden gebruikt als PerlModule en "
+"PerlInitHandler om te voorkomen dat de webserver herstart wanneer modules "
+"worden geïnstalleerd of geupgrade."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
@@ -15494,7 +15995,9 @@ msgstr "Apach2::DBI Gebruik"
 msgid ""
 "Apache2::DBI should be used to get a better performance  with pre-"
 "established database connections."
-msgstr "Gelieve Apache2:DBI te gebruiken om de performantie met vooraf gelegde connecties met databases te verbeteren"
+msgstr ""
+"Gelieve Apache2:DBI te gebruiken om de performantie met vooraf gelegde "
+"connecties met databases te verbeteren"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
@@ -15684,12 +16187,16 @@ msgstr ""
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "This e-mail address already exists. Please log in or reset your password."
-msgstr "Dit e-mail adres bestaat reeds. Gelieve in te loggen of uw wachtwoord te resetten."
+msgstr ""
+"Dit e-mail adres bestaat reeds. Gelieve in te loggen of uw wachtwoord te "
+"resetten."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "This email address is not allowed to register. Please contact support staff."
-msgstr "Het is niet toegestaan om u met dit e-mailadres te registreren. Gelieve contact op te nemen met de Support afdeling."
+msgstr ""
+"Het is niet toegestaan om u met dit e-mailadres te registreren. Gelieve "
+"contact op te nemen met de Support afdeling."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
@@ -15706,7 +16213,9 @@ msgstr ""
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "New account created. Sent login information to %s. Please check your email."
-msgstr "Nieuw account aangemaakt. Login informatie gestuurd aan %s. Controleer uw e-mail."
+msgstr ""
+"Nieuw account aangemaakt. Login informatie gestuurd aan %s. Controleer uw "
+"e-mail."
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -15858,7 +16367,8 @@ msgstr "mogelijk"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Follow-ups for closed tickets are possible. Ticket will be reopened."
-msgstr "Follow-ups voor gesloten ticket zijn mogelijk. Tickets worden heropend."
+msgstr ""
+"Follow-ups voor gesloten ticket zijn mogelijk. Tickets worden heropend."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "reject"
@@ -15868,7 +16378,9 @@ msgstr "afwijzen"
 msgid ""
 "Follow-ups for closed tickets are not possible. No new ticket will be "
 "created."
-msgstr "Follow-ups voor gesloten tickets zijn niet mogelijk. Er wordt geen nieuw ticket aangemaakt."
+msgstr ""
+"Follow-ups voor gesloten tickets zijn niet mogelijk. Er wordt geen nieuw "
+"ticket aangemaakt."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "new ticket"
@@ -15903,7 +16415,9 @@ msgstr "automatisch antwoorden"
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Automatic reply which will be sent out after a new ticket has been created."
-msgstr "Automatisch antwoord welke wordt verstuurd wanneer een nieuw ticket is aangemaakt."
+msgstr ""
+"Automatisch antwoord welke wordt verstuurd wanneer een nieuw ticket is "
+"aangemaakt."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto reject"
@@ -15913,7 +16427,9 @@ msgstr "automatisch weigeren"
 msgid ""
 "Automatic reject which will be sent out after a follow-up has been rejected "
 "(in case queue follow-up option is \"reject\")."
-msgstr "Automatisch antwoord welke wordt verzonden wanneer een follow-up wordt geweigerd (wanneer een follow-up wordt geweigerd)."
+msgstr ""
+"Automatisch antwoord welke wordt verzonden wanneer een follow-up wordt "
+"geweigerd (wanneer een follow-up wordt geweigerd)."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto follow up"
@@ -15923,7 +16439,9 @@ msgstr "automatisch opvolgen"
 msgid ""
 "Automatic confirmation which is sent out after a follow-up has been received"
 " for a ticket (in case queue follow-up option is \"possible\")."
-msgstr "Automatische bevestiging die wordt verstuurd nadat een folluw-up is ontvangen voor een ticket (wanner een follow-up mogelijk is)."
+msgstr ""
+"Automatische bevestiging die wordt verstuurd nadat een folluw-up is "
+"ontvangen voor een ticket (wanner een follow-up mogelijk is)."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto reply/new ticket"
@@ -15934,7 +16452,10 @@ msgid ""
 "Automatic response which will be sent out after a follow-up has been "
 "rejected and a new ticket has been created (in case queue follow-up option "
 "is \"new ticket\")."
-msgstr "Automatisch antwoord welke wordt verstoord nadat een follow-up is afgewezen en een nieuw ticket is aangemaakt (voor het geval dat een follow-up een nieuw ticket is)."
+msgstr ""
+"Automatisch antwoord welke wordt verstoord nadat een follow-up is afgewezen "
+"en een nieuw ticket is aangemaakt (voor het geval dat een follow-up een "
+"nieuw ticket is)."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto remove"
@@ -15942,7 +16463,9 @@ msgstr "automatisch verwijderen"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Auto remove will be sent out after a customer removed the request."
-msgstr "Automatisch verwijderen wordt verstuud wanneer een klant het verzoek heeft verwijderd."
+msgstr ""
+"Automatisch verwijderen wordt verstuud wanneer een klant het verzoek heeft "
+"verwijderd."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "default reply (after new ticket has been created)"
@@ -15950,7 +16473,8 @@ msgstr "standaard antwoord (wanneer een nieuw ticket is aangemaakt)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "default reject (after follow-up and rejected of a closed ticket)"
-msgstr "standaard afwijzing (na follow-up en afwijzing van een gesloten ticket)"
+msgstr ""
+"standaard afwijzing (na follow-up en afwijzing van een gesloten ticket)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "default follow-up (after a ticket follow-up has been added)"
@@ -15960,7 +16484,9 @@ msgstr "standaard follow-up (wanneer een ticket follow-up is toegevoegd)"
 msgid ""
 "default reject/new ticket created (after closed follow-up with new ticket "
 "creation)"
-msgstr "standaard afwijzing/nieuw ticket aangemaakt (na een gesloten follow up en nieuw ticket is aangemaakt)"
+msgstr ""
+"standaard afwijzing/nieuw ticket aangemaakt (na een gesloten follow up en "
+"nieuw ticket is aangemaakt)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Unclassified"
@@ -16132,7 +16658,9 @@ msgstr "Er bestaat al een item met deze naam."
 msgid ""
 "This item still contains sub items. Are you sure you want to remove this "
 "item including its sub items?"
-msgstr "Dit item bevat sub-items. Weet u zeker dat u dit item inclusief subitems wilt verwijderen?"
+msgstr ""
+"Dit item bevat sub-items. Weet u zeker dat u dit item inclusief subitems "
+"wilt verwijderen?"
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "More"
@@ -16168,7 +16696,9 @@ msgstr ""
 msgid ""
 "Do you really want to delete this dynamic field? ALL associated data will be"
 " LOST!"
-msgstr "Wilt u dit veld definitief verwijderen? Alle data in dit veld wordt ook verwijderd!"
+msgstr ""
+"Wilt u dit veld definitief verwijderen? Alle data in dit veld wordt ook "
+"verwijderd!"
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Delete field"
@@ -16273,7 +16803,11 @@ msgid ""
 "appropriate changes in the SysConfig, you will be locked out of the "
 "administrations panel! If this happens, please rename the group back to "
 "admin per SQL statement."
-msgstr "WAARSCHUWING: Als u de naam van de groep 'admin'aanpast voordat u de bijbehorende wijzigingen in de Systeemconfiguratie heeft aangebracht, zult u geen beheer-permissies meer hebben in OTRS. Als dit gebeurt, moet u de naam van de groep aanpassen met een SQL statement."
+msgstr ""
+"WAARSCHUWING: Als u de naam van de groep 'admin'aanpast voordat u de "
+"bijbehorende wijzigingen in de Systeemconfiguratie heeft aangebracht, zult u"
+" geen beheer-permissies meer hebben in OTRS. Als dit gebeurt, moet u de naam"
+" van de groep aanpassen met een SQL statement."
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Delete this Mail Account"
@@ -16351,11 +16885,14 @@ msgstr "Geen transitie-acties toegewezen."
 msgid ""
 "No dialogs assigned yet. Just pick an activity dialog from the list on the "
 "left and drag it here."
-msgstr "Er zijn nog geen dialogen toegewezen. Kies een dialoog uit de lijst en sleep deze hiernaartoe."
+msgstr ""
+"Er zijn nog geen dialogen toegewezen. Kies een dialoog uit de lijst en sleep"
+" deze hiernaartoe."
 
 #. JS File: Core.Agent.Admin.ProcessManagement.Canvas
 msgid "This Activity cannot be deleted because it is the Start Activity."
-msgstr "Deze activiteit kan niet worden verwijderd omdat het de start-activiteit is."
+msgstr ""
+"Deze activiteit kan niet worden verwijderd omdat het de start-activiteit is."
 
 #. JS File: Core.Agent.Admin.ProcessManagement.Canvas
 msgid "Remove the Transition from this Process"
@@ -16365,7 +16902,9 @@ msgstr "Verwijder deze transitie uit dit proces"
 msgid ""
 "As soon as you use this button or link, you will leave this screen and its "
 "current state will be saved automatically. Do you want to continue?"
-msgstr "Als u deze knop of link gebruikt, verlaat u dit scherm en de huidige staat wordt automatisch opgeslagen. Wilt u doorgaan?"
+msgstr ""
+"Als u deze knop of link gebruikt, verlaat u dit scherm en de huidige staat "
+"wordt automatisch opgeslagen. Wilt u doorgaan?"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Delete Entity"
@@ -16373,7 +16912,9 @@ msgstr "Verwijderen"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "This Activity is already used in the Process. You cannot add it twice!"
-msgstr "Deze activiteit wordt al gebruikt in dit proces. U kunt het niet tweemaal gebruiken."
+msgstr ""
+"Deze activiteit wordt al gebruikt in dit proces. U kunt het niet tweemaal "
+"gebruiken."
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Error during AJAX communication"
@@ -16383,17 +16924,23 @@ msgstr ""
 msgid ""
 "An unconnected transition is already placed on the canvas. Please connect "
 "this transition first before placing another transition."
-msgstr "Een niet-verbonden transitie is al op de canvas geplaatst. Verbindt deze transitie alvorens een nieuwe transitie te plaatsen."
+msgstr ""
+"Een niet-verbonden transitie is al op de canvas geplaatst. Verbindt deze "
+"transitie alvorens een nieuwe transitie te plaatsen."
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid ""
 "This Transition is already used for this Activity. You cannot use it twice!"
-msgstr "Deze transitie wordt al gebruikt in deze activiteit. U kunt het niet tweemaal gebruiken."
+msgstr ""
+"Deze transitie wordt al gebruikt in deze activiteit. U kunt het niet "
+"tweemaal gebruiken."
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid ""
 "This TransitionAction is already used in this Path. You cannot use it twice!"
-msgstr "Deze transitie-actie wordt al gebruikt in dit pad. U kunt het niet tweemaal gebruiken."
+msgstr ""
+"Deze transitie-actie wordt al gebruikt in dit pad. U kunt het niet tweemaal "
+"gebruiken."
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Hide EntityIDs"
@@ -16660,7 +17207,9 @@ msgstr "Het wordt verwijderd van dit veld, probeer opnieuw."
 
 #. JS File: Core.Agent.CustomerUserAddressBook
 msgid "Please enter at least one search value or * to find anything."
-msgstr "Geef één of meerdere tekens of een wildcard als * op om een zoekopdracht uit te voeren."
+msgstr ""
+"Geef één of meerdere tekens of een wildcard als * op om een zoekopdracht uit"
+" te voeren."
 
 #. JS File: Core.Agent.Daemon
 msgid "Information about the OTRS Daemon"
@@ -16705,11 +17254,15 @@ msgstr ""
 msgid ""
 "Sorry, but you can't disable all methods for notifications marked as "
 "mandatory."
-msgstr "Helaas, maar je kun niet alle methoden voor notificatie markeren als verplicht."
+msgstr ""
+"Helaas, maar je kun niet alle methoden voor notificatie markeren als "
+"verplicht."
 
 #. JS File: Core.Agent.Preferences
 msgid "Sorry, but you can't disable all methods for this notification."
-msgstr "Helaas is het niet mogelijk om alle methodes voor deze notificatie uit te zetten."
+msgstr ""
+"Helaas is het niet mogelijk om alle methodes voor deze notificatie uit te "
+"zetten."
 
 #. JS File: Core.Agent.Preferences
 msgid ""
@@ -16729,7 +17282,9 @@ msgstr "Omschakelen naar desktop weergave"
 msgid ""
 "Please remove the following words from your search as they cannot be "
 "searched for:"
-msgstr "Verwijder de volgende woorden van je zoekactie omdat daar niet op gezocht kan worden:"
+msgstr ""
+"Verwijder de volgende woorden van je zoekactie omdat daar niet op gezocht "
+"kan worden:"
 
 #. JS File: Core.Agent.SortedTree
 msgid "This element has children elements and can currently not be removed."
@@ -16895,13 +17450,17 @@ msgstr "Verwijder zoekactie"
 #. JS File: Core.UI.Popup
 msgid ""
 "If you now leave this page, all open popup windows will be closed, too!"
-msgstr "Als u deze pagina verlaat worden alle openstaande popup-vensters ook gesloten."
+msgstr ""
+"Als u deze pagina verlaat worden alle openstaande popup-vensters ook "
+"gesloten."
 
 #. JS File: Core.UI.Popup
 msgid ""
 "A popup of this screen is already open. Do you want to close it and load "
 "this one instead?"
-msgstr "Er is al een popup open voor dit ticket. Wilt u deze sluiten en de nieuwe laden?"
+msgstr ""
+"Er is al een popup open voor dit ticket. Wilt u deze sluiten en de nieuwe "
+"laden?"
 
 #. JS File: Core.UI.Popup
 msgid ""
@@ -17044,7 +17603,18 @@ msgid ""
 "Thanks for your help!\n"
 "\n"
 " Your Helpdesk Team\n"
-msgstr "\nBeste Klant,\n\nHelaas konden we geen geldig ticket nummer vinden\nin jouw onderwerp, dus deze e-mail kan niet worden verwerkt.\n\nMaak een nieuw ticket aan via het klant portaal.\n\nBedankt voor je hulp\n\nHet Helpdesk Team\n"
+msgstr ""
+"\n"
+"Beste Klant,\n"
+"\n"
+"Helaas konden we geen geldig ticket nummer vinden\n"
+"in jouw onderwerp, dus deze e-mail kan niet worden verwerkt.\n"
+"\n"
+"Maak een nieuw ticket aan via het klant portaal.\n"
+"\n"
+"Bedankt voor je hulp\n"
+"\n"
+"Het Helpdesk Team\n"
 
 #. SysConfig
 msgid " (work units)"
@@ -17155,7 +17725,10 @@ msgid ""
 "A list of dynamic fields that are merged into the main ticket during a merge"
 " operation. Only dynamic fields that are empty in the main ticket will be "
 "set."
-msgstr "Een lijst met dynamische velden die worden samengevoegd in het hoofdticket gedurende de samenvoeg actie. Alleen lege velden dynamische velden in het main ticket worden gevuld."
+msgstr ""
+"Een lijst met dynamische velden die worden samengevoegd in het hoofdticket "
+"gedurende de samenvoeg actie. Alleen lege velden dynamische velden in het "
+"main ticket worden gevuld."
 
 #. SysConfig
 msgid "A picture"
@@ -17166,7 +17739,10 @@ msgid ""
 "ACL module that allows closing parent tickets only if all its children are "
 "already closed (\"State\" shows which states are not available for the "
 "parent ticket until all child tickets are closed)."
-msgstr "ACL module staat alleen toe dat ouder tickets worden gesloten wanneer alle kinderen zijn gesloten (\"Status\" toont welke statussen niet beschikbaar zijn voor het ouder ticket totdat alle kind tickets zijn gesloten)"
+msgstr ""
+"ACL module staat alleen toe dat ouder tickets worden gesloten wanneer alle "
+"kinderen zijn gesloten (\"Status\" toont welke statussen niet beschikbaar "
+"zijn voor het ouder ticket totdat alle kind tickets zijn gesloten)"
 
 #. SysConfig
 msgid "Access Control Lists (ACL)"
@@ -17179,11 +17755,14 @@ msgstr "AccountedTime"
 #. SysConfig
 msgid ""
 "Activates a blinking mechanism of the queue that contains the oldest ticket."
-msgstr "Activeert een knipper mechanisme van de wachtrij met het oudste ticket."
+msgstr ""
+"Activeert een knipper mechanisme van de wachtrij met het oudste ticket."
 
 #. SysConfig
 msgid "Activates lost password feature for agents, in the agent interface."
-msgstr "Activeert \"wachtwoord vergeten\" functionaliteit voor agents in de agent interface."
+msgstr ""
+"Activeert \"wachtwoord vergeten\" functionaliteit voor agents in de agent "
+"interface."
 
 #. SysConfig
 msgid "Activates lost password feature for customers."
@@ -17197,13 +17776,17 @@ msgstr ""
 msgid ""
 "Activates the article filter in the zoom view to specify which articles "
 "should be shown."
-msgstr "Activeert het artikel filter in de zoom weergave om te bepalen welke artikelen moeten worden weergegeven."
+msgstr ""
+"Activeert het artikel filter in de zoom weergave om te bepalen welke "
+"artikelen moeten worden weergegeven."
 
 #. SysConfig
 msgid ""
 "Activates the available themes on the system. Value 1 means active, 0 means "
 "inactive."
-msgstr "Activeert de beschikbare themas op het systeem. Waarde 1 betekent actief, waarde 0 betekent niet actief."
+msgstr ""
+"Activeert de beschikbare themas op het systeem. Waarde 1 betekent actief, "
+"waarde 0 betekent niet actief."
 
 #. SysConfig
 msgid "Activates the ticket archive system search in the customer interface."
@@ -17214,7 +17797,10 @@ msgid ""
 "Activates the ticket archive system to have a faster system by moving some "
 "tickets out of the daily scope. To search for these tickets, the archive "
 "flag has to be enabled in the ticket search."
-msgstr "Activeert het ticket archief systeem, tickets worden uit de dagelijkse scope gehouden wat het systeem versnelt. Om te zoeken op deze ticket moet dit specifiek worden aangegeven in het zoekscherm."
+msgstr ""
+"Activeert het ticket archief systeem, tickets worden uit de dagelijkse scope"
+" gehouden wat het systeem versnelt. Om te zoeken op deze ticket moet dit "
+"specifiek worden aangegeven in het zoekscherm."
 
 #. SysConfig
 msgid "Activates time accounting."
@@ -17280,14 +17866,19 @@ msgstr ""
 msgid ""
 "Adds a suffix with the actual year and month to the OTRS log file. A logfile"
 " for every month will be created."
-msgstr "Voegt een achtervoegsel met het eigenlijke jaar en maand toe aan het OTRS logbestand. Er wordt een logbestand gemaakt voor elke maand."
+msgstr ""
+"Voegt een achtervoegsel met het eigenlijke jaar en maand toe aan het OTRS "
+"logbestand. Er wordt een logbestand gemaakt voor elke maand."
 
 #. SysConfig
 msgid ""
 "Adds customers email addresses to recipients in the ticket compose screen of"
 " the agent interface. The customers email address won't be added if the "
 "article type is email-internal."
-msgstr "Voeg klant e-mail adressen toe aan de ontvangers in het ticket maak scherm van de agent interface. De adressen worden niet toegevoegd wanneer het artikel van het type email-internal is."
+msgstr ""
+"Voeg klant e-mail adressen toe aan de ontvangers in het ticket maak scherm "
+"van de agent interface. De adressen worden niet toegevoegd wanneer het "
+"artikel van het type email-internal is."
 
 #. SysConfig
 msgid "Adds the one time vacation days for the indicated calendar."
@@ -17398,7 +17989,9 @@ msgstr ""
 msgid ""
 "Agent interface module to check incoming emails in the Ticket-Zoom-View if "
 "the S/MIME-key is available and true."
-msgstr "Agent interface module om binnenkomence emails te controleren in de Ticket-Zoom-Weergave wanneer de S/MIME-sleutel beschikbaar en ingeschakeld is."
+msgstr ""
+"Agent interface module om binnenkomence emails te controleren in de Ticket-"
+"Zoom-Weergave wanneer de S/MIME-sleutel beschikbaar en ingeschakeld is."
 
 #. SysConfig
 msgid ""
@@ -17477,7 +18070,9 @@ msgstr "Alle nieuwe tickets. Aan deze tickets is nog niet gewerkt"
 msgid ""
 "All open tickets, these tickets have already been worked on, but need a "
 "response"
-msgstr "Alle open tickets. Aan deze tickets is al gewerkt, maar moeten nog een antwoord krijgen."
+msgstr ""
+"Alle open tickets. Aan deze tickets is al gewerkt, maar moeten nog een "
+"antwoord krijgen."
 
 #. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
@@ -17486,53 +18081,75 @@ msgstr ""
 #. SysConfig
 msgid ""
 "All tickets with a reminder set where the reminder date has been reached"
-msgstr "Alle tickets met een herinnering waarbij het herinnermoment is bereikt"
+msgstr ""
+"Alle tickets met een herinnering waarbij het herinnermoment is bereikt"
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the close ticket screen of the agent interface. Can "
 "be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr "Staat het toe om notities toe te voegen in het \"sluit ticket\" scherm van de agent interface. Kan worden overschreven door Ticket::Frontend::NeedAccountedTime."
+msgstr ""
+"Staat het toe om notities toe te voegen in het \"sluit ticket\" scherm van "
+"de agent interface. Kan worden overschreven door "
+"Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket free text screen of the agent interface. "
 "Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr "Staat toe om notities toe te voegen in het vrije tekst scherm van de agent interface. Kan worden overschreven door Ticket::Frontend::NeedAccountedTime."
+msgstr ""
+"Staat toe om notities toe te voegen in het vrije tekst scherm van de agent "
+"interface. Kan worden overschreven door Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket note screen of the agent interface. Can be"
 " overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr "Staat het toe om notities toe te voegen in het notitie scherm van de agent interface. Kan worden overschreven door Ticket::Frontend::NeedAccountedTime."
+msgstr ""
+"Staat het toe om notities toe te voegen in het notitie scherm van de agent "
+"interface. Kan worden overschreven door Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket owner screen of a zoomed ticket in the "
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr "Staat het toe om notities toe te voegen in het eigenaar scherm van een bekeken ticket in de agent interface. Kan worden overschreven door Ticket::Frontend::NeedAccountedTime."
+msgstr ""
+"Staat het toe om notities toe te voegen in het eigenaar scherm van een "
+"bekeken ticket in de agent interface. Kan worden overschreven door "
+"Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket pending screen of a zoomed ticket in the "
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr "Staat het toe om notities toe te voegen in het ticket wacht op scherm van een bekeken ticket in de agent interface. Kan worden overschreven door Ticket::Frontend::NeedAccountedTime."
+msgstr ""
+"Staat het toe om notities toe te voegen in het ticket wacht op scherm van "
+"een bekeken ticket in de agent interface. Kan worden overschreven door "
+"Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket priority screen of a zoomed ticket in the "
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr "Staat het toe om notities toe te voegen in het prioriteit scherm van een bekeken ticket in de agent interface. Kan worden overschreven door Ticket::Frontend::NeedAccountedTime."
+msgstr ""
+"Staat het toe om notities toe te voegen in het prioriteit scherm van een "
+"bekeken ticket in de agent interface. Kan worden overschreven door "
+"Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket responsible screen of the agent interface."
 " Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr "Staat het toe om notities toe te voegen in het ticket verantwoodelijke scherm van de agent interface. Kan worden overschreven door Ticket::Frontend::NeedAccountedTime."
+msgstr ""
+"Staat het toe om notities toe te voegen in het ticket verantwoodelijke "
+"scherm van de agent interface. Kan worden overschreven door "
+"Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid "Allows agents to exchange the axis of a stat if they generate one."
-msgstr "Staat agent toe om de as van een statistiek te delen wanneer ze er een gemaakt hebben."
+msgstr ""
+"Staat agent toe om de as van een statistiek te delen wanneer ze er een "
+"gemaakt hebben."
 
 #. SysConfig
 msgid "Allows agents to generate individual-related stats."
@@ -17542,26 +18159,36 @@ msgstr "Staat agent toe om individue gerelateerde statistieken te maken."
 msgid ""
 "Allows choosing between showing the attachments of a ticket in the browser "
 "(inline) or just make them downloadable (attachment)."
-msgstr "Staat het toe om te kiezen tussen het tonen van bijlagen van een ticket in de browser (inline) of hem alleen downloadbaar te maken (attachment)"
+msgstr ""
+"Staat het toe om te kiezen tussen het tonen van bijlagen van een ticket in "
+"de browser (inline) of hem alleen downloadbaar te maken (attachment)"
 
 #. SysConfig
 msgid ""
 "Allows choosing the next compose state for customer tickets in the customer "
 "interface."
-msgstr "Staat het toe om de volgende \"compose\" status voor klant ticket te kiezen in de klant interface."
+msgstr ""
+"Staat het toe om de volgende \"compose\" status voor klant ticket te kiezen "
+"in de klant interface."
 
 #. SysConfig
 msgid ""
 "Allows customers to change the ticket priority in the customer interface."
-msgstr "Staat klanten toe om de prioriteit aan te passen van een ticket in de klant weergave."
+msgstr ""
+"Staat klanten toe om de prioriteit aan te passen van een ticket in de klant "
+"weergave."
 
 #. SysConfig
 msgid "Allows customers to set the ticket SLA in the customer interface."
-msgstr "Staat klanten toe om de SLA van een ticket aan te passen in de klant weergave."
+msgstr ""
+"Staat klanten toe om de SLA van een ticket aan te passen in de klant "
+"weergave."
 
 #. SysConfig
 msgid "Allows customers to set the ticket priority in the customer interface."
-msgstr "Staat klanten toe om de prioriteit van een ticket aan te passen in de klant interface."
+msgstr ""
+"Staat klanten toe om de prioriteit van een ticket aan te passen in de klant "
+"interface."
 
 #. SysConfig
 msgid ""
@@ -17571,7 +18198,8 @@ msgstr ""
 
 #. SysConfig
 msgid "Allows customers to set the ticket service in the customer interface."
-msgstr "Staat klanten toe om de ticket service te kiezen in de klant weergave."
+msgstr ""
+"Staat klanten toe om de ticket service te kiezen in de klant weergave."
 
 #. SysConfig
 msgid ""
@@ -17582,14 +18210,18 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Allows default services to be selected also for non existing customers."
-msgstr "Staat toe om standaard services te selecteren voor niet bestaande klanten."
+msgstr ""
+"Staat toe om standaard services te selecteren voor niet bestaande klanten."
 
 #. SysConfig
 msgid ""
 "Allows defining services and SLAs for tickets (e. g. email, desktop, "
 "network, ...), and escalation attributes for SLAs (if ticket service/SLA "
 "feature is enabled)."
-msgstr "Staat het toe om services en SLA's voor tickets te specificeren (e.g. email, desktop, netwerk, ...), en escalatie attributen voor SLA's (als ticket service/SLA feature is ingeschakeld)."
+msgstr ""
+"Staat het toe om services en SLA's voor tickets te specificeren (e.g. email,"
+" desktop, netwerk, ...), en escalatie attributen voor SLA's (als ticket "
+"service/SLA feature is ingeschakeld)."
 
 #. SysConfig
 msgid ""
@@ -18367,7 +18999,9 @@ msgstr "Aanmaken en beheren van wachtrijen."
 
 #. SysConfig
 msgid "Create and manage responses that are automatically sent."
-msgstr "Aanmaken en beheren van teksten die automatisch naar de klant worden gestuurd."
+msgstr ""
+"Aanmaken en beheren van teksten die automatisch naar de klant worden "
+"gestuurd."
 
 #. SysConfig
 msgid "Create and manage roles."
@@ -21173,7 +21807,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Disables the redirection to the last screen overview / dashboard after a "
-"ticket is created."
+"ticket is closed."
 msgstr ""
 
 #. SysConfig
@@ -21590,7 +22224,9 @@ msgstr "Engels (Verenigde Staten)"
 msgid ""
 "English stop words for fulltext index. These words will be removed from the "
 "search index."
-msgstr "Engelse stopwoorden voor volledige text zoek index. Deze woorden worden verwijderd van de zoek index."
+msgstr ""
+"Engelse stopwoorden voor volledige text zoek index. Deze woorden worden "
+"verwijderd van de zoek index."
 
 #. SysConfig
 msgid "Enroll process for this ticket"
@@ -21598,7 +22234,8 @@ msgstr "Inschrijfproces voor dit ticket"
 
 #. SysConfig
 msgid "Enter your shared secret to enable two factor authentication."
-msgstr "Voer hier je gedeelde sleutel in om twee factor authenticatie te activeren."
+msgstr ""
+"Voer hier je gedeelde sleutel in om twee factor authenticatie te activeren."
 
 #. SysConfig
 msgid "Escalated Tickets"
@@ -21755,13 +22392,19 @@ msgstr ""
 msgid ""
 "Filter for debugging ACLs. Note: More ticket attributes can be added in the "
 "format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>."
-msgstr "Filter voor het debuggen van ACLs. Extra ticket attributen kunnen worden toegevoegd in het format: <OTRS_TICKET_Attribute>, bijvoorbeeld <OTRS_TICKET_Priority>."
+msgstr ""
+"Filter voor het debuggen van ACLs. Extra ticket attributen kunnen worden "
+"toegevoegd in het format: <OTRS_TICKET_Attribute>, bijvoorbeeld "
+"<OTRS_TICKET_Priority>."
 
 #. SysConfig
 msgid ""
 "Filter for debugging Transitions. Note: More filters can be added in the "
 "format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>."
-msgstr "Filter voor het debuggen van Transities. Extra ticket attributen kunnen worden toegevoegd in het format: <OTRS_TICKET_Attribute>, bijvoorbeeld <OTRS_TICKET_Priority>."
+msgstr ""
+"Filter voor het debuggen van Transities. Extra ticket attributen kunnen "
+"worden toegevoegd in het format: <OTRS_TICKET_Attribute>, bijvoorbeeld "
+"<OTRS_TICKET_Priority>."
 
 #. SysConfig
 msgid "Filter incoming emails."
@@ -21834,7 +22477,9 @@ msgstr ""
 
 #. SysConfig
 msgid "Forces to unlock tickets after being moved to another queue."
-msgstr "Dwingt om tickets vrij te geven wanneer ze naar een nieuwe wachtrij worden verplaatst."
+msgstr ""
+"Dwingt om tickets vrij te geven wanneer ze naar een nieuwe wachtrij worden "
+"verplaatst."
 
 #. SysConfig
 msgid "Forwarded to \"%s\"."
@@ -21910,7 +22555,9 @@ msgstr "Volledige waarde"
 
 #. SysConfig
 msgid "Fulltext index regex filters to remove parts of the text."
-msgstr "Volledige tekst reguliere expressie om bepaalde gedeelten van de tekst te verwijderen."
+msgstr ""
+"Volledige tekst reguliere expressie om bepaalde gedeelten van de tekst te "
+"verwijderen."
 
 #. SysConfig
 msgid "Fulltext search"
@@ -22085,31 +22732,41 @@ msgstr "Hongaars"
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a database driver (normally"
 " autodetection is used) can be specified."
-msgstr "Als \"DB\" is geselecteerd voor Customer::AuthModule, kan hier een database driver worden aangegeven (normaal wordt autodetectie gebruikt)."
+msgstr ""
+"Als \"DB\" is geselecteerd voor Customer::AuthModule, kan hier een database "
+"driver worden aangegeven (normaal wordt autodetectie gebruikt)."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a password to connect to "
 "the customer table can be specified."
-msgstr "Als \"DB\" is geselecteerd voor Customer::AuthModule, kan hier een wachtwoord worden aangegeven om mee te verbinden met de klanttabel."
+msgstr ""
+"Als \"DB\" is geselecteerd voor Customer::AuthModule, kan hier een "
+"wachtwoord worden aangegeven om mee te verbinden met de klanttabel."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a username to connect to "
 "the customer table can be specified."
-msgstr "Als \"DB\" is geselecteerd voor Customer::AuthModule, kan hier een gebruikersnaam worden ingevoerd om te verbinden met de klanttabel."
+msgstr ""
+"Als \"DB\" is geselecteerd voor Customer::AuthModule, kan hier een "
+"gebruikersnaam worden ingevoerd om te verbinden met de klanttabel."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the DSN for the connection "
 "to the customer table must be specified."
-msgstr "Als \"DB\" is geselecteerd voor Customer::AuthModule, moet hier de DSN voor de verbinding met de klant worden ingevoerd."
+msgstr ""
+"Als \"DB\" is geselecteerd voor Customer::AuthModule, moet hier de DSN voor "
+"de verbinding met de klant worden ingevoerd."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the column name for the "
 "CustomerPassword in the customer table must be specified."
-msgstr "Als \"DB\" is geselecteerd voor Customer::AuthModule, moet hier de kolomnaam voor het klant wachtwoord worden opgegeven"
+msgstr ""
+"Als \"DB\" is geselecteerd voor Customer::AuthModule, moet hier de kolomnaam"
+" voor het klant wachtwoord worden opgegeven"
 
 #. SysConfig
 msgid ""
@@ -22121,32 +22778,44 @@ msgstr ""
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the name of the column for "
 "the CustomerKey in the customer table must be specified."
-msgstr "Als \"DB\" is geselecteerd voor Customer::AuthModule, moet hier de kolomnaam worden opgegeven van de unieke naam van de klant."
+msgstr ""
+"Als \"DB\" is geselecteerd voor Customer::AuthModule, moet hier de kolomnaam"
+" worden opgegeven van de unieke naam van de klant."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the name of the table where"
 " your customer data should be stored must be specified."
-msgstr "Als \"DB\" is geselecteerd voor Customer::AuthModule, moet hier de tabel met klantgegevens worden opgegeven."
+msgstr ""
+"Als \"DB\" is geselecteerd voor Customer::AuthModule, moet hier de tabel met"
+" klantgegevens worden opgegeven."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for SessionModule, a table in database where session "
 "data will be stored must be specified."
-msgstr "Als \"DB\" is geselecteerd voor Customer::AuthModule, moet hier de table worden opgegeven waar sessiegegevens worden opgeslagen."
+msgstr ""
+"Als \"DB\" is geselecteerd voor Customer::AuthModule, moet hier de table "
+"worden opgegeven waar sessiegegevens worden opgeslagen."
 
 #. SysConfig
 msgid ""
 "If \"FS\" was selected for SessionModule, a directory where the session data"
 " will be stored must be specified."
-msgstr "Als \"FS\" is geselecteerd voor Customer::AuthModule, moet hier een map worden opgegeven waar sessiegegevens worden opgeslagen."
+msgstr ""
+"Als \"FS\" is geselecteerd voor Customer::AuthModule, moet hier een map "
+"worden opgegeven waar sessiegegevens worden opgeslagen."
 
 #. SysConfig
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "(by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove "
 "trailing domains). RegExp-Note, $1 will be the new Login."
-msgstr "Als \"HTTPBasicAuth\" is geselecteerd voor Customer::AuthModule, kun je hier (met behulp van een Reg Exp) gedeelten van REMOTE_USER verwijderen (om domeinen aan het einde te verwijderen). RegExp-opmerking, $1 wordt de nieuwe loginnaam."
+msgstr ""
+"Als \"HTTPBasicAuth\" is geselecteerd voor Customer::AuthModule, kun je hier"
+" (met behulp van een Reg Exp) gedeelten van REMOTE_USER verwijderen (om "
+"domeinen aan het einde te verwijderen). RegExp-opmerking, $1 wordt de nieuwe"
+" loginnaam."
 
 #. SysConfig
 msgid ""
@@ -22160,7 +22829,11 @@ msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule and if you want to add a "
 "suffix to every customer login name, specifiy it here, e. g. you just want "
 "to write the username user but in your LDAP directory exists user@domain."
-msgstr "Als \"LDAP\" is geselecteerd voor Customer::AuthModule en je wil een achtervoegsel toevoegen aan elke klantnaam, kun je dat hier aangeven, bijvoorbeeld wanneer je alleen de gebruikersnaam wil typen en in de LDAP de gebruiker staat als gebruiker@domein."
+msgstr ""
+"Als \"LDAP\" is geselecteerd voor Customer::AuthModule en je wil een "
+"achtervoegsel toevoegen aan elke klantnaam, kun je dat hier aangeven, "
+"bijvoorbeeld wanneer je alleen de gebruikersnaam wil typen en in de LDAP de "
+"gebruiker staat als gebruiker@domein."
 
 #. SysConfig
 msgid ""
@@ -22386,7 +23059,10 @@ msgstr ""
 msgid ""
 "If enabled, the different overviews (Dashboard, LockedView, QueueView) will "
 "automatically refresh after the specified time."
-msgstr "Indien geactiveerd worden de verschillende overzichten (Dashboard, vergrendelde tickets, wachtrijoverzicht) automatisch ververst na de ingestelde tijd."
+msgstr ""
+"Indien geactiveerd worden de verschillende overzichten (Dashboard, "
+"vergrendelde tickets, wachtrijoverzicht) automatisch ververst na de "
+"ingestelde tijd."
 
 #. SysConfig
 msgid ""
@@ -22575,6 +23251,10 @@ msgstr ""
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Korean"
 msgstr ""
 
 #. SysConfig
@@ -22863,7 +23543,9 @@ msgstr "Beheer PGP-sleutels voor encryptie van e-mail."
 
 #. SysConfig
 msgid "Manage POP3 or IMAP accounts to fetch email from."
-msgstr "Beheer POP3 of IMAP accounts om e-mail van op te halen en om te zetten in tickets."
+msgstr ""
+"Beheer POP3 of IMAP accounts om e-mail van op te halen en om te zetten in "
+"tickets."
 
 #. SysConfig
 msgid "Manage S/MIME certificates for email encryption."
@@ -24287,7 +24969,9 @@ msgid ""
 "Select the separator character used in CSV files (stats and searches). If "
 "you don't select a separator here, the default separator for your language "
 "will be used."
-msgstr "Selecteer het scheidingsteken voor CSV bestanden. Als u geen scheidingsteken kiest zal het standaard scheidingsteken voor uw taal gebruikt worden."
+msgstr ""
+"Selecteer het scheidingsteken voor CSV bestanden. Als u geen scheidingsteken"
+" kiest zal het standaard scheidingsteken voor uw taal gebruikt worden."
 
 #. SysConfig
 msgid "Select your frontend Theme."
@@ -24765,7 +25449,9 @@ msgstr ""
 msgid ""
 "Sets the number of lines that are displayed in text messages (e.g. ticket "
 "lines in the QueueZoom)."
-msgstr "Bepaalt het aantal gels dat wordt weergegeven in tekstberichten (zoals het aantal regels in QueueZoom)"
+msgstr ""
+"Bepaalt het aantal gels dat wordt weergegeven in tekstberichten (zoals het "
+"aantal regels in QueueZoom)"
 
 #. SysConfig
 msgid "Sets the options for PGP binary."
@@ -26031,7 +26717,7 @@ msgstr "Rapport#"
 
 #. SysConfig
 msgid "States"
-msgstr "Statussen"
+msgstr "Status"
 
 #. SysConfig
 msgid "Statistic Reports overview."
@@ -26675,13 +27361,16 @@ msgstr ""
 
 #. SysConfig
 msgid "Uses richtext for viewing and editing ticket notification."
-msgstr "Gebruik richtext voor het weergeven en bewerken van ticket notificaties."
+msgstr ""
+"Gebruik richtext voor het weergeven en bewerken van ticket notificaties."
 
 #. SysConfig
 msgid ""
 "Uses richtext for viewing and editing: articles, salutations, signatures, "
 "standard templates, auto responses and notifications."
-msgstr "Gebruik richtext voor het weergeven en bewerken van: artikelen, aanheffen, ondertekeningen, standaard templates, auto antwoorden en notificaties."
+msgstr ""
+"Gebruik richtext voor het weergeven en bewerken van: artikelen, aanheffen, "
+"ondertekeningen, standaard templates, auto antwoorden en notificaties."
 
 #. SysConfig
 msgid "Vietnam"
@@ -26714,12 +27403,16 @@ msgstr "We hebben op dit moment gelpand onderhoud."
 #. SysConfig
 msgid ""
 "We are performing scheduled maintenance. Login is temporarily not available."
-msgstr "Er vindt op dit moment gepland onderhoud plaats. Inloggen is momenteel niet mogelijk."
+msgstr ""
+"Er vindt op dit moment gepland onderhoud plaats. Inloggen is momenteel niet "
+"mogelijk."
 
 #. SysConfig
 msgid ""
 "We are performing scheduled maintenance. We should be back online shortly."
-msgstr "Er vindt op dit moment gepland onderhoud plaats. We zullen snel weer online zijn."
+msgstr ""
+"Er vindt op dit moment gepland onderhoud plaats. We zullen snel weer online "
+"zijn."
 
 #. SysConfig
 msgid "Web Services"
@@ -26740,7 +27433,10 @@ msgid ""
 "When tickets are merged, a note will be added automatically to the ticket "
 "which is no longer active. Here you can define the body of this note (this "
 "text cannot be changed by the agent)."
-msgstr "Wanneer tickets worden samengevoegd, wordt een notitie toegevoegd aan het ticket dat niet meer actief is. Hier kun je de tekst van die notitie toevoegen (deze tekst kan niet worden aangepast door de agent)."
+msgstr ""
+"Wanneer tickets worden samengevoegd, wordt een notitie toegevoegd aan het "
+"ticket dat niet meer actief is. Hier kun je de tekst van die notitie "
+"toevoegen (deze tekst kan niet worden aangepast door de agent)."
 
 #. SysConfig
 msgid ""
@@ -26783,7 +27479,9 @@ msgstr ""
 msgid ""
 "Your email with ticket number \"<OTRS_TICKET>\" is merged to "
 "\"<OTRS_MERGE_TO_TICKET>\"."
-msgstr "Uw e-mail met ticketnummer \"<OTRS_TICKET>\" is samengevoegd met \"<OTRS_MERGE_TO_TICKET>\"."
+msgstr ""
+"Uw e-mail met ticketnummer \"<OTRS_TICKET>\" is samengevoegd met "
+"\"<OTRS_MERGE_TO_TICKET>\"."
 
 #. SysConfig
 msgid ""

@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.667467811158798;
+    $Self->{Completeness}        = 0.66735324407827;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -397,7 +397,7 @@ sub Data {
         'List (only %s shown - more available)' => 'Lista (pokazano tylko %s - jest więcej dostępnych',
         'total' => 'wszystkich',
         'Please enter a search term to look for customers.' => 'Prosimy wprowadź frazę wyszukiwania by odszukać klientów.',
-        'Customer ID' => 'Identyfikator klienta',
+        'Customer ID' => 'Identyfikator Klienta',
         'Please note' => 'Zwróć uwagę',
         'This customer backend is read only!' => 'Ten backend klienta jest tylko do odczytu!',
 
@@ -519,7 +519,7 @@ sub Data {
         'Dynamic Fields List' => 'Lista pól dynamicznych',
         'Dynamic fields per page' => 'Pola dynamiczne na stronę',
         'Label' => 'Etykieta',
-        'Order' => 'Porządek',
+        'Order' => 'Zamówienie',
         'Object' => 'Obiekt',
         'Delete this field' => 'Usuń to pole',
 
@@ -4249,18 +4249,18 @@ sub Data {
         'Escalation Update Time In Effect' => '',
         'Escalation Update Time Stopped' => '',
         'Escalation First Response Time Stopped' => '',
-        'Customer Updated' => 'Klient Zaktualizowany',
+        'Customer Updated' => 'Klient zaktualizowany',
         'Internal Chat' => 'Czat wewnętrzny',
         'Automatic Follow-Up Sent' => '',
         'Note Added' => 'Uwaga Dodana',
-        'Note Added (Customer)' => 'Uwaga Dodana (Klient)',
+        'Note Added (Customer)' => 'Notatka doana (klient)',
         'SMS Added' => '',
         'SMS Added (Customer)' => '',
         'State Updated' => 'Stan Zaktualizowany',
         'Outgoing Answer' => 'Odpowiedź Wychodząca',
         'Service Updated' => 'Usługa Zaktualizowana',
         'Link Added' => '',
-        'Incoming Customer Email' => 'Wiadomość Od Klienta',
+        'Incoming Customer Email' => ' Wiadomość od klienta',
         'Incoming Web Request' => '',
         'Priority Updated' => '',
         'Ticket Unlocked' => '',
@@ -6230,7 +6230,7 @@ Thanks for your help!
         'Customer Companies' => 'Firmy klientów',
         'Customer IDs' => '',
         'Customer Information Center Search.' => '',
-        'Customer Information Center search.' => 'Wyszukiwanie w Centrum informacji o Kliencie',
+        'Customer Information Center search.' => 'Wyszukiwanie w Centrum informacji o Kliencie.',
         'Customer Information Center.' => 'Centrum Informacji o Kliencie',
         'Customer Ticket Print Module.' => '',
         'Customer User Administration' => 'Zarządzanie użytkownikami klientów',
@@ -6258,7 +6258,7 @@ Thanks for your help!
             '',
         'Czech' => 'Czeski',
         'Danish' => 'Duński',
-        'Dashboard overview.' => 'Przegląd pulpitu',
+        'Dashboard overview.' => 'Przegląd pulpitu.',
         'Data used to export the search result in CSV format.' => 'Dane używane przy eksporcie wyników wyszukiwania do formatu CSV.',
         'Date / Time' => 'Data / Czas',
         'Default (Slim)' => '',
@@ -7054,7 +7054,7 @@ Thanks for your help!
         'Disable cloud services' => 'Wyłącz usługi w chmurze',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
-        'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
+        'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
@@ -7482,6 +7482,7 @@ Thanks for your help!
         'Ivory (Slim)' => '',
         'Japanese' => 'Japoński',
         'JavaScript function for the search frontend.' => '',
+        'Korean' => '',
         'Language' => 'Język',
         'Large' => 'Duże',
         'Last Screen Overview' => '',

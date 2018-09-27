@@ -1,13 +1,13 @@
-# 
 # Translators:
-# Mohammed AlGarni <mjalgarni@gmail.com>, 2015
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Mohammed AlGarni <mjalgarni@gmail.com>, 2018
 msgid ""
 msgstr ""
-"Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-09-13 21:46+0000\n"
-"PO-Revision-Date: 2018-09-13 21:49+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: Arabic (Saudi Arabia) (http://www.transifex.com/otrs/OTRS/language/ar_SA/)\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-09-27 16:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Mohammed AlGarni <mjalgarni@gmail.com>, 2018\n"
+"Language-Team: Arabic (Saudi Arabia) (https://www.transifex.com/otrs/teams/23435/ar_SA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -260,7 +260,9 @@ msgid ""
 "Here you can upload a configuration file to import a calendar to your "
 "system. The file needs to be in .yml format as exported by calendar "
 "management module."
-msgstr "هنا يمكنك رفع ملف تهيئة لإستيراد تقويم إلى نظامك. الملف يجب أن يكون إمتداده بتنسيق ( yml ) كما تم تصديره بموديول إدارة التقويم."
+msgstr ""
+"هنا يمكنك رفع ملف تهيئة لإستيراد تقويم إلى نظامك. الملف يجب أن يكون إمتداده "
+"بتنسيق ( yml ) كما تم تصديره بموديول إدارة التقويم."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Overwrite existing entities"
@@ -282,11 +284,14 @@ msgstr "مرشح ( فلتر ) التقاويم"
 msgid ""
 "Depending on the group field, the system will allow users the access to the "
 "calendar according to their permission level."
-msgstr "تبعاً لحقل المجموعة، سوف يسمح النظام للمستخدمين بالوصول إلى التقويم حسب مستوى الأوذونات الخاصة بهم."
+msgstr ""
+"تبعاً لحقل المجموعة، سوف يسمح النظام للمستخدمين بالوصول إلى التقويم حسب "
+"مستوى الأوذونات الخاصة بهم."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read only: users can see and export all appointments in the calendar."
-msgstr "قراءة فقط: المستخدمون يمكنهم مشاهدة واستيراد جميع المواعيد في التقويم."
+msgstr ""
+"قراءة فقط: المستخدمون يمكنهم مشاهدة واستيراد جميع المواعيد في التقويم."
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -7143,7 +7148,9 @@ msgstr "لا"
 msgid ""
 "No calendars found. Please add a calendar first by using Manage Calendars "
 "page."
-msgstr "لم يتم العثور على تقويم. الرجاء إضافة تقويم أولا بإستخدام صفحة إدارة التقويم."
+msgstr ""
+"لم يتم العثور على تقويم. الرجاء إضافة تقويم أولا بإستخدام صفحة إدارة "
+"التقويم."
 
 #. Template: AgentAppointmentCalendarOverview
 msgid "Add new Appointment"
@@ -10372,7 +10379,9 @@ msgstr ""
 msgid ""
 "ACL information from database is not in sync with the system configuration, "
 "please deploy all ACLs."
-msgstr "معلومات ال ACL في قاعدة البيانات غير متزامنة مع إعدادات تكوين النظام. فضلاً قم بتمرير كل ال ACLs."
+msgstr ""
+"معلومات ال ACL في قاعدة البيانات غير متزامنة مع إعدادات تكوين النظام. فضلاً "
+"قم بتمرير كل ال ACLs."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
@@ -13871,7 +13880,9 @@ msgstr "ترخيص %s على وشك الإنتهاء. يُرجى الإتصال 
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
-msgstr "يوجد تحديث ل %s ، ولكن هناك تعارض مع نسخة الفريم وورك خاصتك! فضلاً قم بتحديث الفريم وورك خاصتك!"
+msgstr ""
+"يوجد تحديث ل %s ، ولكن هناك تعارض مع نسخة الفريم وورك خاصتك! فضلاً قم بتحديث"
+" الفريم وورك خاصتك!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
 msgid "Online Agent: %s"
@@ -14212,7 +14223,8 @@ msgstr ""
 #. Perl Module: Kernel/System/Auth.pm
 msgid ""
 "It is currently not possible to login due to a scheduled system maintenance."
-msgstr "لا يمكن تسجيل الدخول في الوقت الحالي نظراً لإجراء الصيانة المجدولة للنظام."
+msgstr ""
+"لا يمكن تسجيل الدخول في الوقت الحالي نظراً لإجراء الصيانة المجدولة للنظام."
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
@@ -14431,7 +14443,8 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Username and password do not match. Please try again."
-msgstr "ليس هناك تطابق بين إسم المستخدم وكلمة المرور. الرجاء المحاولة مرة أخرى."
+msgstr ""
+"ليس هناك تطابق بين إسم المستخدم وكلمة المرور. الرجاء المحاولة مرة أخرى."
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Problems processing server result. Please try again later."
@@ -15643,7 +15656,8 @@ msgstr "الخاصية غير مفعلة!"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Sent password reset instructions. Please check your email."
-msgstr "تم ارسال تعليمات إعادة تعيين كلمة المرور. فضلاً افحص بريدك الإلكتروني."
+msgstr ""
+"تم ارسال تعليمات إعادة تعيين كلمة المرور. فضلاً افحص بريدك الإلكتروني."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Invalid Token!"
@@ -15674,12 +15688,15 @@ msgstr ""
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "This e-mail address already exists. Please log in or reset your password."
-msgstr "عنوان البريد الإلكتروني المدخل موجود بالفعل. فضلاً قم بتسجيل الدخول أو إعادة تعيين كلمة المرور."
+msgstr ""
+"عنوان البريد الإلكتروني المدخل موجود بالفعل. فضلاً قم بتسجيل الدخول أو إعادة"
+" تعيين كلمة المرور."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "This email address is not allowed to register. Please contact support staff."
-msgstr "غير مسموح لعنوان البريد الإلكتروني هذا بالتسجيل. فضلاً اتصل بموظفي الدعم."
+msgstr ""
+"غير مسموح لعنوان البريد الإلكتروني هذا بالتسجيل. فضلاً اتصل بموظفي الدعم."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
@@ -15696,7 +15713,9 @@ msgstr ""
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "New account created. Sent login information to %s. Please check your email."
-msgstr "تم إنشاء حساب جديد. تم ارسال معلومات الدخول إلى %s. فضلاً افحص بريدك الإلكتروني."
+msgstr ""
+"تم إنشاء حساب جديد. تم ارسال معلومات الدخول إلى %s. فضلاً افحص بريدك "
+"الإلكتروني."
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -17232,7 +17251,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Added email. %s"
-msgstr ""
+msgstr "التاريخ::البريد الإلكتروني للعميل"
 
 #. SysConfig
 msgid "Added follow-up to ticket [%s]. %s"
@@ -17240,7 +17259,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Added link to ticket \"%s\"."
-msgstr ""
+msgstr "التاريخ::تمت إضافة رابط للبطاقة"
 
 #. SysConfig
 msgid "Added note (%s)."
@@ -17969,7 +17988,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Changed priority from \"%s\" (%s) to \"%s\" (%s)."
-msgstr ""
+msgstr "التاريخ::تحديث الأولوية"
 
 #. SysConfig
 msgid "Changed queue to \"%s\" (%s) from \"%s\" (%s)."
@@ -21011,7 +21030,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Deleted link to ticket \"%s\"."
-msgstr ""
+msgstr "التاريخ::تمحذف رابط للبطاقة"
 
 #. SysConfig
 msgid ""
@@ -21163,7 +21182,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Disables the redirection to the last screen overview / dashboard after a "
-"ticket is created."
+"ticket is closed."
 msgstr ""
 
 #. SysConfig
@@ -21828,7 +21847,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Forwarded to \"%s\"."
-msgstr ""
+msgstr "التاريخ::تقديم"
 
 #. SysConfig
 msgid "Free Fields"
@@ -22565,6 +22584,10 @@ msgstr ""
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Korean"
 msgstr ""
 
 #. SysConfig

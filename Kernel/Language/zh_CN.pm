@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.998798283261803;
+    $Self->{Completeness}        = 0.999656711294198;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -91,7 +91,7 @@ sub Data {
         'Edit ACL Structure' => '编辑ACL结构',
         'Save ACL' => '保存访问控制列表',
         'Save' => '保存',
-        'or' => '或',
+        'or' => 'or（或）',
         'Save and finish' => '保存并完成',
         'Cancel' => '取消',
         'Do you really want to delete this ACL?' => '您真的想要删除这个ACL吗？',
@@ -188,7 +188,7 @@ sub Data {
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
             '这个信息将会在服务人员偏好设置屏幕作为这个通知的提示信息显示。',
         'Toggle this widget' => '收起/展开小部件',
-        'Events' => '事件',
+        'Events' => 'Events（事件）',
         'Event' => '事件',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
             '在这里你可以选择哪个事件将会触发这个通知，下面的预约过滤器可以选择符合特定条件的预约。',
@@ -198,7 +198,7 @@ sub Data {
         'Location' => '位置',
         'Team' => '团队',
         'Resource' => '资源',
-        'Recipients' => '接收人',
+        'Recipients' => '收件人',
         'Send to' => '发送给',
         'Send to these agents' => '发送给服务人员',
         'Send to all group members (agents only)' => '发送给组的所有成员（仅服务人员）',
@@ -276,7 +276,7 @@ sub Data {
         'Filter for auto responses' => '自动响应过滤器',
         'Response' => '回复内容',
         'Auto response from' => '自动响应的发件人',
-        'Reference' => '相关参考',
+        'Reference' => 'ACL设置参考',
         'To get the first 20 character of the subject.' => '获取主题的前20个字符。',
         'To get the first 5 lines of the email.' => '获取邮件的前五行。',
         'To get the name of the ticket\'s customer user (if given).' => '获取工单的客户用户名字（如果有）。',
@@ -378,7 +378,7 @@ sub Data {
         # Template: AdminCommunicationLogObjectLog
         '#' => '序号',
         'Priority' => '优先级',
-        'Module' => '模块',
+        'Module' => 'Module（模块）',
         'Information' => '信息',
         'No log entries found.' => '没有找到日志条目。',
 
@@ -406,7 +406,7 @@ sub Data {
 
         # Template: AdminCustomerGroup
         'Manage Customer-Group Relations' => '管理客户与组的关系',
-        'Notice' => '注意',
+        'Notice' => 'Notice（注意）',
         'This feature is disabled!' => '该功能已关闭！',
         'Just use this feature if you want to define group permissions for customers.' =>
             '该功能用于为客户定义权限组。',
@@ -428,9 +428,9 @@ sub Data {
         'Toggle %s permission for %s' => '授予/取消 %s 权限给 %s',
         'Customer Default Groups:' => '客户的默认组:',
         'No changes can be made to these groups.' => '不能更改默认组.',
-        'ro' => '只读',
+        'ro' => 'ro（只读）',
         'Read only access to the ticket in this group/queue.' => '对于组/队列中的工单具有 \'只读\'权限。',
-        'rw' => '读写',
+        'rw' => 'rw（读写）',
         'Full read and write access to the tickets in this group/queue.' =>
             '对于组/队列中的工单具有完整的\'读写\'权限。',
 
@@ -476,7 +476,7 @@ sub Data {
         'Change Customer Relations for Customer User' => '修改客户用户和客户的关联',
         'Change Customer User Relations for Customer' => '修改客户关联的用户',
         'Toggle active state for all' => '全部激活/不激活状态',
-        'Active' => '激活',
+        'Active' => 'Active（活动的）',
         'Toggle active state for %s' => '%s 激活/不激活状态',
 
         # Template: AdminCustomerUserGroup
@@ -520,15 +520,15 @@ sub Data {
             '为了增加一个新的字段，从对象列表中选择一个字段类型，对象定义了字段的范围并且不能在创建后修改。',
         'Dynamic Fields List' => '动态字段列表',
         'Dynamic fields per page' => '每页动态字段个数',
-        'Label' => '标记',
-        'Order' => '顺序',
+        'Label' => '标签',
+        'Order' => '订单',
         'Object' => '对象',
         'Delete this field' => '删除这个字段',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => '动态字段',
         'Go back to overview' => '返回概览',
-        'General' => '常规',
+        'General' => '一般',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
             '这个字段是必需的，且它的值只能是字母和数字。',
         'Must be unique and only accept alphabetic and numeric characters.' =>
@@ -576,7 +576,7 @@ sub Data {
         'Here you can restrict the entering of dates of tickets.' => '在这里可以限制输入工单日期。',
 
         # Template: AdminDynamicFieldDropdown
-        'Possible values' => '可选值',
+        'Possible values' => '可能值',
         'Key' => '键',
         'Value' => '值',
         'Remove value' => '删除值',
@@ -677,7 +677,7 @@ sub Data {
         'No create time settings.' => '没有创建时间。',
         'Ticket created' => '工单创建时间',
         'Ticket created between' => '工单创建时间（在...之间）',
-        'and' => '和',
+        'and' => 'and（与）',
         'Last changed times' => '最后修改时间',
         'No last changed time settings.' => '没有最后修改时间设置。',
         'Ticket last changed' => '工单最后修改',
@@ -880,7 +880,7 @@ sub Data {
         'Mapping for incoming response data' => '映射入站请求数据',
         'The response data will be processed by this mapping, to transform it to the kind of data the invoker of OTRS expects.' =>
             '这个映射将对响应数据进行处理，将它转换为OTRS调用程序所期待的数据。',
-        'Asynchronous' => '异步的',
+        'Asynchronous' => '异步',
         'Condition' => '条件',
         'Edit this event' => '编辑这个事件',
         'This invoker will be triggered by the configured events.' => '配置事件将触发这个调用程序。',
@@ -1027,7 +1027,7 @@ sub Data {
             '例如：https://www.otrs.com:10745/api/v1.0 (最后不带斜杠/)',
         'Timeout' => '超时',
         'Timeout value for requests.' => '请求的超时值。',
-        'Authentication' => '身份验证',
+        'Authentication' => 'Authentication（身份验证）',
         'An optional authentication mechanism to access the remote system.' =>
             '用于访问远程系统的可选认证机制。',
         'BasicAuth User' => '基本认证用户',
@@ -1398,7 +1398,7 @@ sub Data {
         'PGP key' => 'PGP密钥',
 
         # Template: AdminPackageManager
-        'Package Manager' => '软件包管理',
+        'Package Manager' => '软件包管理器',
         'Uninstall Package' => '卸载软件包',
         'Uninstall package' => '卸载软件包',
         'Do you really want to uninstall this package?' => '是否确认卸载该软件包?',
@@ -1599,16 +1599,16 @@ sub Data {
         'Assigned Fields' => '分配的字段',
         'Communication Channel' => '通信渠道',
         'Is visible for customer' => '对客户可见',
-        'Display' => '显示',
+        'Display' => 'Display（显示）',
 
         # Template: AdminProcessManagementPath
         'Path' => '路径',
         'Edit this transition' => '编辑这个转换',
-        'Transition Actions' => '转换动作',
+        'Transition Actions' => '转换操作',
         'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
             '用鼠标将左侧列表中的元素拖放到右侧，你可以为这个转换分配转换动作。',
         'Filter available Transition Actions' => '可用转换动作的过滤器',
-        'Available Transition Actions' => '可用的转换动作',
+        'Available Transition Actions' => '可用的转换操作',
         'Create New Transition Action' => '创建新的转换动作',
         'Assigned Transition Actions' => '分配的转换动作',
 
@@ -1850,14 +1850,14 @@ sub Data {
         'Toggle %s permission for all' => '全部授予/取消 %s 权限',
         'move_into' => '转移到',
         'Permissions to move tickets into this group/queue.' => '将工单转移到这个组/队列的权限。',
-        'create' => '创建',
+        'create' => 'create（创建）',
         'Permissions to create tickets in this group/queue.' => '在这个组/队列具有创建工单的权限。',
-        'note' => '备注',
+        'note' => 'note（备注）',
         'Permissions to add notes to tickets in this group/queue.' => '在这个组/队列具有添加备注的权限。',
-        'owner' => '所有者',
+        'owner' => 'owner（所有者）',
         'Permissions to change the owner of tickets in this group/queue.' =>
             '在这个组/队列具有变更工单所有者的权限。',
-        'priority' => '优先级',
+        'priority' => 'priority（优先级）',
         'Permissions to change the ticket priority in this group/queue.' =>
             '在这个组/队列具有更改工单优先级的权限。',
 
@@ -2162,7 +2162,7 @@ sub Data {
         'Delete this entry' => '删除该条目',
         'Do you really want to delete this template?' => '您真的想要删除这个模板吗？',
         'A standard template with this name already exists!' => '模板名称已存在！',
-        'Template' => '模板',
+        'Template' => '模版',
         'Create type templates only supports this smart tags' => '“Create创建”类型的模板只支持以下智能标签',
         'Example template' => '模板样例',
         'The current ticket state is' => '当前工单状态是',
@@ -2358,7 +2358,7 @@ sub Data {
 
         # Template: AgentDashboardCustomerIDList
         'Change Customer Relations' => '变更客户关系',
-        'Open' => '处理中',
+        'Open' => 'Open（处理中）',
         'Closed' => '已关闭',
         '%s open ticket(s) of %s' => '%s个处理中的工单，共%s个',
         '%s closed ticket(s) of %s' => '%s个已关闭的工单，共%s个',
@@ -2958,7 +2958,7 @@ sub Data {
         'Notifications' => '通知',
         'Notifications (OTRS Business Solution™)' => '通知 (OTRS商业版)',
         'Personal preferences' => '个人偏好设置',
-        'Logout' => '退出',
+        'Logout' => '注销',
         'You are logged in as' => '您已登录为',
 
         # Template: Installer
@@ -2969,14 +2969,14 @@ sub Data {
         'General Specifications and Mail Settings' => '一般设定和邮件配置',
         'Finish' => '完成',
         'Welcome to %s' => '欢迎使用%s',
-        'Germany' => '',
+        'Germany' => '德国',
         'Phone' => '电话',
-        'United States' => '',
-        'Mexico' => '',
-        'Hungary' => '',
-        'Brazil' => '',
-        'Singapore' => '',
-        'Hong Kong' => '',
+        'United States' => '美国',
+        'Mexico' => '墨西哥',
+        'Hungary' => '匈牙利',
+        'Brazil' => '巴西',
+        'Singapore' => '新加坡',
+        'Hong Kong' => '香港',
         'Web site' => '网址',
 
         # Template: InstallerConfigureMail
@@ -3008,7 +3008,7 @@ sub Data {
 
         # Template: InstallerDBResult
         'Done' => '完成',
-        'Error' => '错误',
+        'Error' => 'Error（错误）',
         'Database setup successful!' => '数据库设置成功！',
 
         # Template: InstallerDBStart
@@ -3024,7 +3024,7 @@ sub Data {
         'Result of database check' => '数据库检查结果',
         'Database check successful.' => '数据库检查完成。',
         'Database User' => '数据库用户',
-        'New' => '新建',
+        'New' => 'New（新建）',
         'A new database user with limited permissions will be created for this OTRS system.' =>
             '已经为OTRS系统创建了新的数据库普通用户。',
         'Repeat Password' => '重复输入密码',
@@ -3455,8 +3455,8 @@ sub Data {
         'sorted descending' => '降序排序',
         'sorted ascending' => '升序排序',
         'Trace' => '跟踪',
-        'Debug' => '调试',
-        'Info' => '详情',
+        'Debug' => 'Debug（调试）',
+        'Info' => 'Info（信息）',
         'Warn' => '警告',
         'days' => '天',
         'day' => '天',
@@ -3809,7 +3809,7 @@ sub Data {
         'Could not get data for TransitionID %s' => '不能获得TransitionID %s的数据',
         'There was an error updating the Transition' => '更新转换时出现了一个错误',
         'Edit Transition "%s"' => '编辑转换“%s”',
-        'xor' => '异或',
+        'xor' => 'xor（异或）',
         'String' => '字符串',
         'Transition validation module' => '转换验证模块',
 
@@ -4840,9 +4840,9 @@ sub Data {
         'Pending until time' => '挂起待定时间',
         'Close Time' => '关闭时间',
         'Escalation' => '升级',
-        'Escalation - First Response Time' => '升级 - 首次响应时间',
-        'Escalation - Update Time' => '升级 - 更新时间',
-        'Escalation - Solution Time' => '升级 - 解决时间',
+        'Escalation - First Response Time' => '首次响应时间升级',
+        'Escalation - Update Time' => '更新时间升级',
+        'Escalation - Solution Time' => '解决时间升级',
         'Agent/Owner' => '服务人员/所有者',
         'Created by Agent/Owner' => '创建人',
         'Assigned to Customer User Login' => '分配给客户用户登录名',
@@ -5307,31 +5307,31 @@ sub Data {
         'Group for default access.' => '具有默认权限的组。',
         'Group of all administrators.' => '所有管理员的组。',
         'Group for statistics access.' => '具有统计权限的组。',
-        'new' => '新建',
+        'new' => 'new-新建',
         'All new state types (default: viewable).' => '所有新工单的状态类型（默认：可查看）。',
-        'open' => '处理中',
+        'open' => 'open-处理中',
         'All open state types (default: viewable).' => '所有处理中的工单的状态类型（默认：可查看）。',
-        'closed' => '已关闭',
+        'closed' => 'closed-已关闭',
         'All closed state types (default: not viewable).' => '所有已关闭工单的状态类型（默认：不可查看）。',
         'pending reminder' => '挂起提醒',
         'All \'pending reminder\' state types (default: viewable).' => '所有挂起提醒的工单的状态类型（默认：可查看）。',
         'pending auto' => '等待自动',
         'All \'pending auto *\' state types (default: viewable).' => '所有等待自动成功/失败关闭的工单的状态类型（默认：可查看）。',
-        'removed' => '已删除',
+        'removed' => 'removed-已删除',
         'All \'removed\' state types (default: not viewable).' => '所有已移除工单的状态类型（默认：不可查看）。',
-        'merged' => '已合并',
+        'merged' => 'merged-已合并',
         'State type for merged tickets (default: not viewable).' => '合并的工单的状态类型（默认：不可查看）。',
         'New ticket created by customer.' => '客户创建的新工单。',
-        'closed successful' => '成功关闭',
+        'closed successful' => 'closed successful-成功关闭',
         'Ticket is closed successful.' => '工单已经成功关闭。',
-        'closed unsuccessful' => '失败关闭',
+        'closed unsuccessful' => 'closed unsuccessful-失败关闭',
         'Ticket is closed unsuccessful.' => '工单没有成功关闭。',
         'Open tickets.' => '处理工单。',
         'Customer removed ticket.' => '客户移除工单。',
         'Ticket is pending for agent reminder.' => '工单为服务人员提醒而挂起。',
-        'pending auto close+' => '等待自动成功关闭',
+        'pending auto close+' => '挂起等待成功关闭',
         'Ticket is pending for automatic close.' => '工单等待自动关闭而挂起。',
-        'pending auto close-' => '等待自动失败关闭',
+        'pending auto close-' => '挂起等待失败关闭',
         'State for merged tickets.' => '已合并工单的状态。',
         'system standard salutation (en)' => '系统标准问候语（英）',
         'Standard Salutation.' => '标准问候语。',
@@ -5351,19 +5351,19 @@ sub Data {
         'All default incoming tickets.' => '所有默认进入的工单。',
         'All junk tickets.' => '所有的垃圾工单。',
         'All misc tickets.' => '所有的杂项工单。',
-        'auto reply' => '自动回复',
+        'auto reply' => 'auto reply-自动回复',
         'Automatic reply which will be sent out after a new ticket has been created.' =>
             '创建新工单后会发送自动答复。',
-        'auto reject' => '自动拒绝',
+        'auto reject' => 'auto reject 自动拒绝',
         'Automatic reject which will be sent out after a follow-up has been rejected (in case queue follow-up option is "reject").' =>
             '跟进工单被拒绝后会发送自动拒绝（在队列跟进选项设置为“拒绝”时）。',
-        'auto follow up' => '自动跟进',
+        'auto follow up' => 'auto follow up-自动跟进',
         'Automatic confirmation which is sent out after a follow-up has been received for a ticket (in case queue follow-up option is "possible").' =>
             '跟进工单被接受后会发送自动确认（在队列跟进选项设置为“可能”时）。',
-        'auto reply/new ticket' => '自动回复/新建工单',
+        'auto reply/new ticket' => '自动回复/新工单',
         'Automatic response which will be sent out after a follow-up has been rejected and a new ticket has been created (in case queue follow-up option is "new ticket").' =>
             '跟进工单被拒绝并创建新工单后会发送自动响应（在队列跟进选项设置为“新建工单”时）。',
-        'auto remove' => '自动删除',
+        'auto remove' => 'auto remove-自动移除',
         'Auto remove will be sent out after a customer removed the request.' =>
             '客户移除请求后会发送自动移除。',
         'default reply (after new ticket has been created)' => '默认答复（新工单创建后）',
@@ -6263,7 +6263,7 @@ Thanks for your help!
         'Customer user search' => '客户用户搜索',
         'CustomerID search' => '客户ID搜索',
         'CustomerName' => '客户名称',
-        'CustomerUser' => '客户用户',
+        'CustomerUser' => '客户',
         'Customers ↔ Groups' => '客户 ↔ 组',
         'Customizable stop words for fulltext index. These words will be removed from the search index.' =>
             '全文索引可定制的停用词，这些词将从搜索索引中移除。',
@@ -7065,8 +7065,8 @@ Thanks for your help!
         'Disable cloud services' => '禁用云服务',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '禁止发送提醒通知给工单负责人（需要启用Ticket::Responsible设置）。',
-        'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
-            '禁用创建工单后重定向到最近的概览屏幕或仪表板。',
+        'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
+            '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '禁用WEB安装程序(http://yourhost.example.com/otrs/installer.pl)，防止系统被劫持。如果不启用，系统能够被重新安装，当前的基本配置将被安装脚本的预设问题替换。如果启用了，还同时禁用了通用代理、软件包管理和SQL查询窗口。',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
@@ -7493,6 +7493,7 @@ Thanks for your help!
         'Ivory (Slim)' => '象牙白（修身版）',
         'Japanese' => '日语',
         'JavaScript function for the search frontend.' => '搜索界面的JavaScript函数。',
+        'Korean' => '',
         'Language' => '语言',
         'Large' => '详细',
         'Last Screen Overview' => '最近屏幕概览',
@@ -7662,7 +7663,7 @@ Thanks for your help!
             '显示通知和升级信息的模块（ShownMax：显示升级的最大数，EscalationInMinutes：显示将在...分钟内升级的工单，CacheTime：经计算的升级缓冲秒数）',
         'Module to use database filter storage.' => '使用数据库过滤器的模块。',
         'Module used to detect if attachments are present.' => '用于检测是否存在附件的模块。',
-        'Multiselect' => '多选',
+        'Multiselect' => '多选框',
         'My Queues' => '我的队列',
         'My Services' => '我的服务',
         'My Tickets.' => '我的工单。',
@@ -7703,7 +7704,7 @@ Thanks for your help!
             'OTRS能够使用一个或多个只读镜像数据库以扩展操作（如全文搜索或生成统计报表）。您可以在这里指定第一个镜像数据库的DSN（数据源名称）。',
         'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             'OTRS不支持对没有结束日期或没有重复次数的预约做循环处理。在导入过程中，可能有ICS文件包含了此类预约。作为替代，系统将所有的此类预约创建为已过去的预约，然后加上接下来的N个月(默认120个月或10年)的重复预约。',
-        'Open Tickets / Need to be answered' => '正在处理/需要回复的工单',
+        'Open Tickets / Need to be answered' => '处理中/需要回复的工单',
         'Open an external link!' => '打开一个外部链接！',
         'Open tickets (customer user)' => '处理中的工单（客户用户）',
         'Open tickets (customer)' => '处理中的工单（客户）',
@@ -7914,7 +7915,7 @@ Thanks for your help!
             '从归档中恢复一个工单（只针对工单状态变更为任何可处理的状态的事件）。',
         'Retains all services in listings even if they are children of invalid elements.' =>
             '在列表中保留所有的服务，即使他们是无效的子元素。',
-        'Right' => '右',
+        'Right' => '权限',
         'Roles ↔ Groups' => '角色 ↔ 组',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '运行基于文件的自动任务(注意：需要在-configuration-module参数中指定模块名，如"Kernel::System::GenericAgent")。',
@@ -8710,7 +8711,7 @@ Thanks for your help!
         'phone' => '电话',
         'responsible' => '负责人',
         'reverse' => '倒序',
-        'stats' => '统计值',
+        'stats' => 'stats（统计）',
 
     };
 

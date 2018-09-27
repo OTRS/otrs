@@ -1,14 +1,14 @@
-# 
 # Translators:
-# Lauri Jesmin <lauri.jesmin@gmail.com>, 2014
-# Uve Lokk <uvelokk@gmail.com>, 2015-2017
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Uve Lokk <uvelokk@gmail.com>, 2018
+# Lauri Jesmin <lauri.jesmin@gmail.com>, 2018
 msgid ""
 msgstr ""
-"Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-09-13 21:46+0000\n"
-"PO-Revision-Date: 2018-09-13 21:49+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: Estonian (http://www.transifex.com/otrs/OTRS/language/et/)\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-09-27 16:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Lauri Jesmin <lauri.jesmin@gmail.com>, 2018\n"
+"Language-Team: Estonian (https://www.transifex.com/otrs/teams/23435/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -873,7 +873,7 @@ msgstr ""
 
 #. Template: AdminAutoResponse
 msgid "Ticket owner options"
-msgstr ""
+msgstr "Pileti omaniku seaded"
 
 #. Template: AdminAutoResponse
 msgid "Ticket responsible options"
@@ -2380,7 +2380,9 @@ msgstr "CMD"
 msgid ""
 "This command will be executed. ARG[0] will be the ticket number. ARG[1] the "
 "ticket id."
-msgstr "See käsk käivitatakse. ARG[0] on intsidendi number, ARG[1] on intsidendi ID.."
+msgstr ""
+"See käsk käivitatakse. ARG[0] on intsidendi number, ARG[1] on intsidendi "
+"ID.."
 
 #. Template: AdminGenericAgent
 msgid "Delete tickets"
@@ -3912,13 +3914,17 @@ msgstr "Lisa rühm"
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
-msgstr "Rühm \"admin\" on vajalik haldusmoodulisse pääsemiseks ja rühm \"stats\" statistikamoodulisse pääsemiseks."
+msgstr ""
+"Rühm \"admin\" on vajalik haldusmoodulisse pääsemiseks ja rühm \"stats\" "
+"statistikamoodulisse pääsemiseks."
 
 #. Template: AdminGroup
 msgid ""
 "Create new groups to handle access permissions for different groups of agent"
 " (e. g. purchasing department, support department, sales department, ...). "
-msgstr "Loo uued rühmad erinevate töötajate rühmade (näiteks haldusosakond, müügiosakond ..) haldamiseks."
+msgstr ""
+"Loo uued rühmad erinevate töötajate rühmade (näiteks haldusosakond, "
+"müügiosakond ..) haldamiseks."
 
 #. Template: AdminGroup
 msgid "It's useful for ASP solutions. "
@@ -4868,7 +4874,9 @@ msgstr ""
 msgid ""
 "If you want to match only the email address, use "
 "EMAILADDRESS:info@example.com in From, To or Cc."
-msgstr "Kui soovid kontrollida ainult e-postiaadressi, kasuta EMAILADDRESS:info@example.com From, To või CC päistel."
+msgstr ""
+"Kui soovid kontrollida ainult e-postiaadressi, kasuta "
+"EMAILADDRESS:info@example.com From, To või CC päistel."
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -9528,7 +9536,8 @@ msgstr ""
 msgid ""
 "To be able to use OTRS you have to enter the following line in your command "
 "line (Terminal/Shell) as root."
-msgstr "OTRS kasutamiseks peate järgneva käsu sisestama süsteemi root-kasutajana."
+msgstr ""
+"OTRS kasutamiseks peate järgneva käsu sisestama süsteemi root-kasutajana."
 
 #. Template: InstallerFinish
 msgid "Restart your webserver"
@@ -21164,7 +21173,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Disables the redirection to the last screen overview / dashboard after a "
-"ticket is created."
+"ticket is closed."
 msgstr ""
 
 #. SysConfig
@@ -22566,6 +22575,10 @@ msgstr "Jaapani"
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Korean"
 msgstr ""
 
 #. SysConfig
@@ -26022,7 +26035,7 @@ msgstr "Statistika nr."
 
 #. SysConfig
 msgid "States"
-msgstr "Olek"
+msgstr "Seisund"
 
 #. SysConfig
 msgid "Statistic Reports overview."
@@ -26242,7 +26255,8 @@ msgstr "Tekst vastuskirja teemarea alguses, nt. Re, Vs."
 msgid ""
 "The text at the beginning of the subject when an email is forwarded, e.g. "
 "FW, Fwd, or WG."
-msgstr "Tekst teemarea alguses, kui e-kiri on edasi saadetud, nt. Fw, Fwd, Ed."
+msgstr ""
+"Tekst teemarea alguses, kui e-kiri on edasi saadetud, nt. Fw, Fwd, Ed."
 
 #. SysConfig
 msgid "Theme"
@@ -26595,7 +26609,9 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Unlock tickets whenever a note is added and the owner is out of office."
-msgstr "Eemalda lukk juhul kui piletile lisatakse märkus ning pileti omanik on töölt eemal."
+msgstr ""
+"Eemalda lukk juhul kui piletile lisatakse märkus ning pileti omanik on töölt"
+" eemal."
 
 #. SysConfig
 msgid "Unlocked ticket."
@@ -26774,7 +26790,9 @@ msgstr ""
 msgid ""
 "Your email with ticket number \"<OTRS_TICKET>\" is merged to "
 "\"<OTRS_MERGE_TO_TICKET>\"."
-msgstr "Teie kiri intsidendinumbriga \"<OTRS_TICKET>\" ühendati intsidendiga \"<OTRS_MERGE_TO_TICKET>\"."
+msgstr ""
+"Teie kiri intsidendinumbriga \"<OTRS_TICKET>\" ühendati intsidendiga "
+"\"<OTRS_MERGE_TO_TICKET>\"."
 
 #. SysConfig
 msgid ""

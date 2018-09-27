@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.920515021459227;
+    $Self->{Completeness}        = 0.933401991074494;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -68,7 +68,7 @@ sub Data {
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Помните: Эта таблица отображает порядок выполнения ACL. Если вы хотите изменить порядок в котором они исполняются, измените их имена.',
         'ACL name' => 'Имя ACL',
-        'Comment' => 'Комментарий',
+        'Comment' => 'Comment - Комментарий',
         'Validity' => 'Действительность',
         'Export' => 'Экспорт',
         'Copy' => 'Скопировать',
@@ -91,7 +91,7 @@ sub Data {
         'documentation' => 'документации',
         'Show or hide the content' => 'Отобразить или скрыть содержимое',
         'Edit ACL Information' => 'Изменить информацию о ACL',
-        'Name' => 'Имя',
+        'Name' => 'Name - Название',
         'Stop after match' => 'Прекратить проверку после совпадения',
         'Edit ACL Structure' => 'Изменить структуру ACL',
         'Save ACL' => 'Сохранить ACL',
@@ -186,7 +186,7 @@ sub Data {
         'Upload Notification configuration' => 'Загрузить конфигурацию уведомлений',
         'Import Notification configuration' => 'Импортировать настройки Уведомлений',
         'List' => 'Список',
-        'Delete' => 'Удалить',
+        'Delete' => 'Удаление',
         'Delete this notification' => 'Удалить это уведомление',
         'Show in agent preferences' => 'Показать в настройках агента',
         'Agent preferences tooltip' => 'Подсказка в настройках агента',
@@ -198,8 +198,8 @@ sub Data {
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
             'Здесь вы можете выбрать какие события будут включать это уведомление. Дополнительный фильтр может быть применён ниже для их отправки для мероприятий, удовлетворяющих заданному условию.',
         'Appointment Filter' => 'Фильтр мероприятий.',
-        'Type' => 'Тип',
-        'Title' => 'Заголовок',
+        'Type' => 'Type - Тип',
+        'Title' => 'Название',
         'Location' => 'Местоположение',
         'Team' => 'Команда',
         'Resource' => 'Ресурсы',
@@ -249,7 +249,7 @@ sub Data {
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Дополнительный адрес получателя',
-        'This field must have less then 200 characters.' => '',
+        'This field must have less then 200 characters.' => 'Это поле должно содержать менее 200 символов',
         'Article visible for customer' => 'Сообщение видно клиенту ',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Сообщение/Заметка будет создана, если уведомление отправляется клиенту или на дополнительный адрес почты.',
@@ -271,7 +271,7 @@ sub Data {
         'Download file' => 'Скачать файл',
         'Delete this attachment' => 'Удалить это вложение',
         'Do you really want to delete this attachment?' => 'Вы действительно хотите удалить это вложение?',
-        'Attachment' => 'Прикрепленный файл',
+        'Attachment' => 'Прикрепленный файл/Вложение',
 
         # Template: AdminAutoResponse
         'Auto Response Management' => 'Управление автоответами',
@@ -308,7 +308,7 @@ sub Data {
         'Send support data' => 'Выслать данные для технической поддержки',
         'This will allow the system to send additional support data information to OTRS Group.' =>
             'Это позволит системе оправлять дополнительную информацию для поддержки в OTRS Group.',
-        'Update' => 'Обновить',
+        'Update' => 'Обновление',
         'System Registration' => 'Регистрация системы',
         'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
             'Для включения возможности отсылки данных, зарегистрируйте свою систему в OTRS Group или обновите ваши регистрационные данные (убедитесь, что активирована функция \'send support data/послать данные для поддержки\'.)',
@@ -481,7 +481,7 @@ sub Data {
         'Change Customer Relations for Customer User' => 'Изменить связь Компании с Клиентом',
         'Change Customer User Relations for Customer' => 'Изменить связь Клиента с Компанией',
         'Toggle active state for all' => 'Сделать активным для всех',
-        'Active' => 'Активный',
+        'Active' => 'Активно',
         'Toggle active state for %s' => 'Сделать активным для %s',
 
         # Template: AdminCustomerUserGroup
@@ -502,7 +502,7 @@ sub Data {
         'Manage Customer User-Services Relations' => 'Связь Клиентов с Сервисами',
         'Edit default services' => 'Редактировать сервисы по-умолчанию',
         'Filter for Services' => 'Фильтр для Сервисов',
-        'Services' => 'Сервисы',
+        'Services' => 'Services/Сервисы',
 
         # Template: AdminDynamicField
         'Dynamic Fields Management' => 'Управление динамическими полями',
@@ -1009,7 +1009,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'Network Transport' => 'Транспортная Сеть',
-        'Properties' => 'Свойства',
+        'Properties' => 'Properties',
         'Route mapping for Operation' => 'Карта маршрута для выполнения операции',
         'Define the route that should get mapped to this operation. Variables marked by a \':\' will get mapped to the entered name and passed along with the others to the mapping. (e.g. /Ticket/:TicketID).' =>
             'Определите маршрут, который должен сопоставляться этой операции. Переменные, отмеченные \':\', будут сопоставлены введенному имени и передавался вместе с другими для сопоставления. (например, /Ticket/:TicketID).',
@@ -1268,7 +1268,7 @@ sub Data {
             'Здесь вы можете выбрать какие события будут включать это уведомление. Дополнительный фильтр может быть применён ниже для их отправки для заявок, удовлетворяющих заданному условию.',
         'Ticket Filter' => 'Фильтр заявок',
         'Lock' => 'Блокировать',
-        'SLA' => 'Уровень обслуживания',
+        'SLA' => 'SLA',
         'Customer User ID' => 'Customer User ID',
         'Article Filter' => 'Фильтр сообщений',
         'Only for ArticleCreate and ArticleSend event' => 'Только для событий ArticleCreate и ArticleSend',
@@ -1607,7 +1607,7 @@ sub Data {
         'Display' => 'Отобразить',
 
         # Template: AdminProcessManagementPath
-        'Path' => 'Схема',
+        'Path' => 'Путь',
         'Edit this transition' => 'Редактировать этот Переход',
         'Transition Actions' => 'Действия Перехода',
         'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
@@ -1939,7 +1939,7 @@ sub Data {
             'Если безопасный режим не активирован, включите его через SysConfig, поскольку ваше приложение уже запущено.',
 
         # Template: AdminSelectBox
-        'SQL Box' => 'Запрос SQL',
+        'SQL Box' => 'SQL-запросы',
         'Filter for Results' => 'Фильтр для результатов',
         'Filter for results' => 'Фильтр для результатов',
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
@@ -1954,7 +1954,7 @@ sub Data {
             'Отсутствует как минимум один параметр привязки. Пожалуйста, проверьте его.',
         'Result format' => 'Формат вывода',
         'Run Query' => 'Выполнить запрос',
-        '%s Results' => '',
+        '%s Results' => '%s Результаты',
         'Query is executed.' => 'Запрос выполняется.',
 
         # Template: AdminService
@@ -1969,7 +1969,7 @@ sub Data {
 
         # Template: AdminSession
         'Session Management' => 'Управление сеансами',
-        'Detail Session View for %s (%s)' => '',
+        'Detail Session View for %s (%s)' => 'Просмотр сессии для %s (%s)',
         'All sessions' => 'Все сеансы',
         'Agent sessions' => 'Сеансы агента',
         'Customer sessions' => 'Сеансы клиента',
@@ -1982,7 +1982,7 @@ sub Data {
         'Session' => 'Сеанс',
         'User' => 'Пользователь',
         'Kill' => 'Завершить',
-        'Detail View for SessionID: %s - %s' => '',
+        'Detail View for SessionID: %s - %s' => 'Просмотр для SessionID: %s - %s',
 
         # Template: AdminSignature
         'Signature Management' => 'Управление подписями',
@@ -2367,7 +2367,7 @@ sub Data {
         'Closed' => 'Закрытые',
         '%s open ticket(s) of %s' => '%s открытых заявок из %s',
         '%s closed ticket(s) of %s' => '%s закрытых заявок из %s',
-        'Edit customer ID' => '',
+        'Edit customer ID' => 'Редактировать ID клиента',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Эскалированные заявки',
@@ -2414,7 +2414,7 @@ sub Data {
         'Assigned to customer user' => 'Назначить пользователю',
         'Accessible for customer user' => 'Доступно пользователю',
         'My locked tickets' => 'Мои заблокированные заявки',
-        'My watched tickets' => 'Заявки в моем списке наблюдения',
+        'My watched tickets' => 'Мои наблюдаемые заявки',
         'My responsibilities' => 'Заявки, где я ответственный',
         'Tickets in My Queues' => 'Заявки в моих очередях',
         'Tickets in My Services' => 'Заявки в Моих сервисах',
@@ -2452,7 +2452,7 @@ sub Data {
         'Personal Preferences' => 'Персональные настройки',
         'Preferences' => 'Настройки',
         'Please note: you\'re currently editing the preferences of %s.' =>
-            '',
+            'Внимание: вы редактируете настройки %s.',
         'Go back to editing this agent' => 'Возврат к редактированию этого агента',
         'Set up your personal preferences. Save each setting by clicking the checkmark on the right.' =>
             'Установите свои личные настройки. Сохраните каждый параметр поставив  "галочку" в квадратике справа.',
@@ -2710,9 +2710,9 @@ sub Data {
         'Customer ID (complex search)' => 'Customer ID (комплексный поиск)',
         '(e. g. 234*)' => '(Например, 234 *)',
         'Customer ID (exact match)' => 'Customer ID (полное совпадение)',
-        'Assigned to Customer User Login (complex search)' => '',
+        'Assigned to Customer User Login (complex search)' => 'Назначено для пользователя клиента (сложный поиск)',
         '(e. g. U51*)' => '(Например, U51*)',
-        'Assigned to Customer User Login (exact match)' => '',
+        'Assigned to Customer User Login (exact match)' => 'Назначено для учётной записи пользователя (точное совпадение)',
         'Accessible to Customer User Login (exact match)' => '',
         'Created in Queue' => 'Создана в очереди',
         'Lock state' => 'Состояние блокировки',
@@ -2944,7 +2944,7 @@ sub Data {
         'Expand' => 'Развернуть',
 
         # Template: AttachmentList
-        'Click to delete this attachment.' => '',
+        'Click to delete this attachment.' => 'Нажмите для удаления вложения.',
 
         # Template: DraftButtons
         'Update draft' => 'Обновить черновик',
@@ -2974,14 +2974,14 @@ sub Data {
         'General Specifications and Mail Settings' => 'Общие указания и настройки почты',
         'Finish' => 'Закончить',
         'Welcome to %s' => 'Добро пожаловать в %s',
-        'Germany' => '',
+        'Germany' => 'Германия',
         'Phone' => 'Телефон',
-        'United States' => '',
-        'Mexico' => '',
-        'Hungary' => '',
-        'Brazil' => '',
-        'Singapore' => '',
-        'Hong Kong' => '',
+        'United States' => 'США',
+        'Mexico' => 'Мексика',
+        'Hungary' => 'Венгрия',
+        'Brazil' => 'Бразилия',
+        'Singapore' => 'Сингапур',
+        'Hong Kong' => 'Гонконг',
         'Web site' => 'Веб-сайт',
 
         # Template: InstallerConfigureMail
@@ -3249,7 +3249,7 @@ sub Data {
         'User modification' => 'Исправления пользователя',
         'enabled' => 'включено',
         'disabled' => 'отключено',
-        'Setting state' => '',
+        'Setting state' => 'Настройка статуса',
 
         # Template: Actions
         'Edit search' => 'Изменить условия поиска',
@@ -3307,7 +3307,7 @@ sub Data {
         'Loading, please wait...' => 'Подождите, идет загрузка...',
 
         # JS Template: UploadContainer
-        'Click to select a file for upload.' => '',
+        'Click to select a file for upload.' => 'Нажмите, чтобы выбрать файл для загрузки',
         'Click to select files or just drop them here.' => 'Кликните для выбора файлов или просто перетащите их сюда.',
         'Click to select a file or just drop it here.' => 'Кликните для выбора файла или просто перетащите его сюда.',
         'Uploading...' => 'Выгружается...',
@@ -3354,7 +3354,7 @@ sub Data {
         'Zip' => 'Индекс',
         'City' => 'Город',
         'Country' => 'Страна',
-        'Valid' => 'Действительный',
+        'Valid' => 'Valid - действительность',
         'Mr.' => 'Г-н',
         'Mrs.' => 'Г-жа',
         'Address' => 'Адрес',
@@ -3442,8 +3442,8 @@ sub Data {
         'Auto Response added!' => 'Автоответ добавлен!',
 
         # Perl Module: Kernel/Modules/AdminCommunicationLog.pm
-        'Invalid CommunicationID!' => '',
-        'All communications' => '',
+        'Invalid CommunicationID!' => 'Недействительный CommunicationID!',
+        'All communications' => 'Все коммуникации',
         'Last 1 hour' => 'Последний 1 час',
         'Last 3 hours' => 'Последние 3 часа',
         'Last 6 hours' => 'Последние 6 часов',
@@ -3459,7 +3459,7 @@ sub Data {
         'Less than a second' => 'Меньше секунды',
         'sorted descending' => 'отсортировано в порядке убывания',
         'sorted ascending' => 'отсортировано в порядке возрастания',
-        'Trace' => '',
+        'Trace' => 'Трассировка',
         'Debug' => 'Отладка',
         'Info' => 'Информация',
         'Warn' => 'Предупреждение',
@@ -3506,7 +3506,7 @@ sub Data {
         'Objects configuration is not valid' => 'Настройка объектов неверна',
         'Database (%s)' => 'База данных (%s)',
         'Web service (%s)' => 'Веб-сервис (%s)',
-        'Contact with data (%s)' => '',
+        'Contact with data (%s)' => 'Контакт с данными (%s)',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             'Невозможно правильно сбросить очередность Dynamic Field, подробности в логе ошибок.',
 
@@ -3521,7 +3521,7 @@ sub Data {
         'Could not create the new field' => 'Не удалось создать новое поле',
         'Need ID' => 'Требуется ID',
         'Could not get data for dynamic field %s' => 'Невозможно получить данные для динамического поля  %s',
-        'Change %s field' => '',
+        'Change %s field' => 'Изменить поле %s',
         'The name for this field should not change.' => 'Наименование этого поля не должно меняться',
         'Could not update the field %s' => 'Не удалось обновить поле %s',
         'Currently' => 'В настоящий момент',
@@ -3558,17 +3558,17 @@ sub Data {
         'Could not get data for WebserviceID %s' => 'Невозможно получить данные для WebserviceID %s',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
-        'Need communication type!' => '',
+        'Need communication type!' => 'Требуется тип коммуникации!',
         'Communication type needs to be \'Requester\' or \'Provider\'!' =>
-            '',
+            'Тип коммуникации должен быть \'Requester\' или \'Provider\'!',
         'Invalid Subaction!' => 'Недопустимый Subaction!',
-        'Need ErrorHandlingType!' => '',
-        'ErrorHandlingType %s is not registered' => '',
-        'Could not update web service' => '',
-        'Need ErrorHandling' => '',
-        'Could not determine config for error handler %s' => '',
+        'Need ErrorHandlingType!' => 'Требуется ErrorHandlingType!',
+        'ErrorHandlingType %s is not registered' => 'ErrorHandlingType %s незарегистрирован',
+        'Could not update web service' => 'Не удалось обновить веб-сервис',
+        'Need ErrorHandling' => 'Требуется ErrorHandling',
+        'Could not determine config for error handler %s' => 'Не удалось определить конфигурацию для обработчика ошибки %s',
         'Operation deleted' => 'Процесс удален',
-        'Invoker deleted' => '',
+        'Invoker deleted' => 'Invoker удалён',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
         '0 seconds' => '0 секунд',
@@ -3601,11 +3601,11 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
         'Could not determine config for invoker %s' => 'Не удалось определить настройки для Invoker %s',
         'InvokerType %s is not registered' => 'Тип Invoker %s не зарегистрирован',
-        'MappingType %s is not registered' => '',
+        'MappingType %s is not registered' => 'MappingType %s незарегистрирован',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
-        'Need Invoker!' => '',
-        'Need Event!' => '',
+        'Need Invoker!' => 'Требуется Invoker!',
+        'Need Event!' => 'Требуется Event!',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
         'Could not get registered configuration for action type %s' => 'Не возможно зарегистрировать настройки для типа действия %s',
@@ -3619,14 +3619,14 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
         'Could not find required library %s' => 'Не удалось найти библиотеку %s',
-        'Outgoing request data before processing' => '',
-        'Outgoing request data before mapping' => '',
-        'Outgoing request data after mapping' => '',
-        'Incoming response data before mapping' => '',
-        'Outgoing error handler data after error handling' => '',
-        'Incoming request data before mapping' => '',
-        'Incoming request data after mapping' => '',
-        'Outgoing response data before mapping' => '',
+        'Outgoing request data before processing' => 'Данные исходящего запроса перед обработкой',
+        'Outgoing request data before mapping' => 'Данные исходящего запроса перед мапингом',
+        'Outgoing request data after mapping' => 'Данные исходящего запроса после мапинга',
+        'Incoming response data before mapping' => 'Данные входящего ответа перед обработкой',
+        'Outgoing error handler data after error handling' => 'Данные обработчика исходящих ошибок после обработки ошибки',
+        'Incoming request data before mapping' => 'Данные входящего ответа перед мапингом',
+        'Incoming request data after mapping' => 'Данные входящего ответа после мапинга',
+        'Outgoing response data before mapping' => 'Данные исходящего запроса перед мапингом',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Could not determine config for operation %s' => 'Не удалось определить настройки для процесса %s',
@@ -3664,7 +3664,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => 'Учетная запись почты добавлена!',
         'Email account fetch already fetched by another process. Please try again later!' =>
-            '',
+            'Учетная запись электронной почты уже обрабатывается другим процессом. Пожалуйста, повторите попытку позже!',
         'Dispatching by email To: field.' => 'Перенаправление по заголовку To: электронного письма',
         'Dispatching by selected Queue.' => 'Перенаправление по выбранной очереди',
 
@@ -3710,22 +3710,22 @@ sub Data {
         'Package has locally modified files.' => 'Пакет содержит локально изменённые файлы.',
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
             'Пакет не верифицирован OTRS Group! Его использование не рекомендуется.',
-        'Not Started' => '',
+        'Not Started' => 'Не запущено',
         'Updated' => 'Обновлено',
         'Already up-to-date' => 'Уже обновлено',
         'Installed' => 'Установлено',
-        'Not correctly deployed' => '',
+        'Not correctly deployed' => 'Применено некорректно',
         'Package updated correctly' => 'Приложение обновлено корректно',
         'Package was already updated' => 'Приложение уже обновлено',
         'Dependency installed correctly' => 'Зависимость установлена правильно',
-        'The package needs to be reinstalled' => '',
+        'The package needs to be reinstalled' => 'Пакет не может быть переустановлен',
         'The package contains cyclic dependencies' => 'Пакет содержит циклические зависимости',
         'Not found in on-line repositories' => 'Не найдено в онлайн репозиториях',
         'Required version is higher than available' => 'Требуемая версия выше доступной',
-        'Dependencies fail to upgrade or install' => '',
+        'Dependencies fail to upgrade or install' => 'Нарушены зависимости при обновлении или установке',
         'Package could not be installed' => 'Пакет на может быть установлен',
         'Package could not be upgraded' => 'Пакет на может быть обновлен',
-        'Repository List' => '',
+        'Repository List' => 'Список репозиториев',
         'No packages or no new packages found in selected repository.' =>
             'Нет пакетов или новых пакетов в выбранном репозитории.',
         'Package not verified due a communication issue with verification server!' =>
@@ -3906,7 +3906,7 @@ sub Data {
         'The following settings could not be found: %s' => 'Следующий параметр не найден: %s',
         'Import not allowed!' => 'Импорт недопустим!',
         'System Configuration could not be imported due to an unknown error, please check OTRS logs for more information.' =>
-            '',
+            'Системная конфигурация не может быть импортирована из-за неизвестной ошибки. Проверьте, пожалуйста, лог OTRS для детальной инофрмации',
         'Category Search' => 'Поиск категории',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationDeployment.pm
@@ -4320,7 +4320,7 @@ sub Data {
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => 'Требуется ArticleID!',
         'No TicketID for ArticleID (%s)!' => 'Отсутствует TicketID для ArticleID (%s)!',
-        'HTML body attachment is missing!' => '',
+        'HTML body attachment is missing!' => 'Отсутствует тело HTML-вложения!',
 
         # Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
         'FileID and ArticleID are needed!' => 'Требуются FileID и ArticleID!',
@@ -4390,7 +4390,7 @@ sub Data {
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
             'Ошибка: Установите значение параметра  innodb_log_file_size для вашей СУБД по крайней мере %s MB (текущее: %s MB, рекомендуемое: %s MB) Более подробно смотрите в %s.',
         'Wrong database collation (%s is %s, but it needs to be utf8).' =>
-            '',
+            'Неверный collation базы данных (%s - %s, а требуется utf8)',
 
         # Perl Module: Kernel/Modules/PublicCalendar.pm
         'No %s!' => 'Отсутствует %s!',
@@ -4442,7 +4442,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
         'Upgrade to OTRS Business Solution™' => 'Обновление до OTRS Business Solution™',
         'Re-install Package' => 'Переустановить пакет',
-        'Upgrade' => 'Обновить',
+        'Upgrade' => 'Обновление',
         'Re-install' => 'Переустановить ',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
@@ -4522,7 +4522,7 @@ sub Data {
         'This ticket has no title or subject' => 'У этой заявки отсутствует Тема',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketStatsGeneric.pm
-        '7 Day Stats' => 'Статистика за 7 дней',
+        '7 Day Stats' => 'Статистика за неделю (7 дней)',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
         'User set their status to unavailable.' => 'Пользователь установил свое состояние как недоступное.',
@@ -4597,7 +4597,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
         'System maintenance is active!' => 'Система на техническом обслуживании!',
         'A system maintenance period will start at: %s and is expected to stop at: %s' =>
-            '',
+            'Период обслуживания системы: начало в %s, ожидаемое окончание %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
         'OTRS Daemon is not running.' => 'Служба OTRS не запущена',
@@ -4608,7 +4608,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/PackageManagerCheckNotVerifiedPackages.pm
         'The installation of packages which are not verified by the OTRS Group is activated. These packages could threaten your whole system! It is recommended not to use unverified packages.' =>
-            '',
+            'Активирована установка пакетов, которые не верифицированы OTRS Group. Эти пакеты могут влиять на работу вашей системе! Не рекомендуется использовать непроверенные пакеты.',
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationInvalidCheck.pm
         'You have %s invalid setting(s) deployed. Click here to show invalid settings.' =>
@@ -4762,7 +4762,7 @@ sub Data {
         'Send unencrypted notification' => 'Отправить не зашифрованное уведомление',
 
         # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
-        'Configuration Options Reference' => 'Справочник опций конфигурации  ',
+        'Configuration Options Reference' => 'Справочник параметров настройки',
         'This setting can not be changed.' => 'Этот параметр не может быть изменен.',
         'This setting is not active by default.' => 'Этот параметр по-умолчанию не активен.',
         'This setting can not be deactivated.' => 'Этот параметр не может быть отключен.',
@@ -4811,7 +4811,7 @@ sub Data {
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
             '<p>Если вы продолжите установку этого пакета, могут возникнуть следующие проблемы:</p><ul><li>Проблемы безопасности</li><li>Стабильности</li><li>Производительности</li></ul><p>Помните, что возникшие при работе с таким пакетом проблемы не решаются в рамках сервисного контракта OTRS!</p>',
         '<p>The installation of packages which are not verified by the OTRS Group is not possible by default.</p>' =>
-            '',
+            '<p>Установка пакетов, которые не верифицированы OTRS Group, невозможна по умолчанию',
         '<p>You can activate the installation of not verified packages in the <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">System Configuration</a>.</p>' =>
             '<p>Вы можете активировать установку не проверенных пакетов в <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">Системной Конфигурации</a>.</p>',
 
@@ -4894,11 +4894,11 @@ sub Data {
         'Solution Max Working Time (affected by escalation configuration)' =>
             'Максимальное рабочее время решения заявки (учитывая настройки эскалации)',
         'First Response Average (affected by escalation configuration)' =>
-            '',
+            'Среднее значение первого ответа (зависит от конфигурации эскалации)',
         'First Response Min Time (affected by escalation configuration)' =>
-            '',
+            'Минимальное значение первого ответа (зависит от конфигурации эскалации)',
         'First Response Max Time (affected by escalation configuration)' =>
-            '',
+            'Максимальное значение первого ответа (зависит от конфигурации эскалации)',
         'First Response Working Time Average (affected by escalation configuration)' =>
             '',
         'First Response Min Working Time (affected by escalation configuration)' =>
@@ -5047,10 +5047,10 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLogAccountStatus.pm
         'Communication Log Account Status (last 24 hours)' => '',
-        'No connections found.' => '',
+        'No connections found.' => 'Подключения не найдены.',
         'ok' => 'ok',
         'permanent connection errors' => 'постоянные ошибки связи',
-        'intermittent connection errors' => '',
+        'intermittent connection errors' => 'Ошибки прерывания соединения',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
         'Config Settings' => 'Параметры конфигурации',
@@ -5063,7 +5063,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
         'Database Records' => 'Записи базы данных',
-        'Tickets' => 'Заявки',
+        'Tickets' => 'Tickets/Заявки',
         'Ticket History Entries' => 'Записи истории заявки',
         'Articles' => 'Заметки/сообщения',
         'Attachments (DB, Without HTML)' => 'Вложения (DB, без HTML)',
@@ -5176,10 +5176,10 @@ sub Data {
         'Calendar time zone is not set.' => 'Временная зона календаря не установлена.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
-        'UI - Agent Skin Usage' => '',
+        'UI - Agent Skin Usage' => 'UI - Использование скинов агента',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
-        'UI - Agent Theme Usage' => '',
+        'UI - Agent Theme Usage' => 'UI - использование тем агента',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/SpecialStats.pm
         'UI - Special Statistics' => '',
@@ -5378,11 +5378,11 @@ sub Data {
         'default reject/new ticket created (after closed follow-up with new ticket creation)' =>
             'Стандартное сообщение об отказе/создании новой заявки (после закрытия дополнения и создания новой заявки)',
         'Unclassified' => 'Неклассифицировано',
-        '1 very low' => '1 самый низкий',
-        '2 low' => '2 низкий',
-        '3 normal' => '3 обычный',
-        '4 high' => '4 высокий',
-        '5 very high' => '5 безотлагательный',
+        '1 very low' => '1 very low - очень низкая',
+        '2 low' => '2 low - низкая',
+        '3 normal' => '3 normal - нормальная',
+        '4 high' => '4 high - высокая',
+        '5 very high' => '5 very high - очень высокая',
         'unlock' => 'разблокировано',
         'lock' => 'заблокировано',
         'tmp_lock' => 'tmp_lock',
@@ -5475,8 +5475,8 @@ sub Data {
         'Delete conditions' => 'Удалить условия',
 
         # JS File: Core.Agent.Admin.GenericInterfaceMapping
-        'Mapping for Key %s' => '',
-        'Mapping for Key' => '',
+        'Mapping for Key %s' => 'Мапинг для ключа %s',
+        'Mapping for Key' => 'Мапинг для ключа',
         'Delete this Key Mapping' => 'Удалить этот мапинг ключа',
 
         # JS File: Core.Agent.Admin.GenericInterfaceOperation
@@ -5505,9 +5505,9 @@ sub Data {
             'Выполняется процесс обновления пакета, нажмите здесь, чтобы просмотреть информацию о состоянии обновления.',
         'A package upgrade was recently finished. Click here to see the results.' =>
             'Обновление пакета завершено. Нажмите здесь, чтобы посмотреть результаты.',
-        'Update all packages' => '',
+        'Update all packages' => 'Обновить все пакеты',
         'Dismiss' => 'Отклонить',
-        'Update All Packages' => '',
+        'Update All Packages' => 'Обновить все пакеты',
         'Currently not possible' => 'В настоящий момент невозможно',
         'This is currently disabled because of an ongoing package upgrade.' =>
             'В настоящее время это отключено из-за идущего процесса обновления пакета.',
@@ -5711,7 +5711,7 @@ sub Data {
         # JS File: Core.App
         'Error: Browser Check failed!' => 'Ошибка: Проверка браузера/Browser Check не удалась!',
         'Reload page' => 'Перезагрузить страницу',
-        'Reload page (%ss)' => '',
+        'Reload page (%ss)' => 'Обновление страницы (%s сек.)',
 
         # JS File: Core.Debug
         'Namespace %s could not be initialized, because %s could not be found.' =>
@@ -5914,7 +5914,7 @@ Thanks for your help!
         'Agent Name' => 'Имя Агента',
         'Agent Name + FromSeparator + System Address Display Name' => 'Agent Name + FromSeparator + System Address Display Name',
         'Agent Preferences.' => 'Предпочтения агента.',
-        'Agent Statistics.' => '',
+        'Agent Statistics.' => 'Статистика агентов',
         'Agent User Search' => '',
         'Agent User Search.' => '',
         'Agent interface article notification module to check PGP.' => 'Модуль уведомления для проверки PGP в интерфейсе агента.',
@@ -6206,7 +6206,7 @@ Thanks for your help!
             'Управляет удалением флагов просмотра заявок и сообщений при архивирвании заявки.',
         'Converts HTML mails into text messages.' => 'Преобразовать письмо из HTML в текст',
         'Create New process ticket.' => 'Создать новую процессную заявку.',
-        'Create Ticket' => '',
+        'Create Ticket' => 'Создание заявки',
         'Create a new calendar appointment linked to this ticket' => 'Создать новое мероприятие календаря связанное с этой заявкой',
         'Create and manage Service Level Agreements (SLAs).' => 'Создание Соглашений об уровне сервиса (SLA) и управление ими.',
         'Create and manage agents.' => 'Создание агентов и управление ими.',
@@ -7072,7 +7072,7 @@ Thanks for your help!
         'Disable cloud services' => '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
-        'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
+        'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
@@ -7346,8 +7346,8 @@ Thanks for your help!
         'Hebrew' => 'Иврит',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
             '',
-        'High Contrast' => '',
-        'High contrast skin for visually impaired users.' => '',
+        'High Contrast' => 'Высокий контраст',
+        'High contrast skin for visually impaired users.' => 'Высококонтрастная тема оформления для слабовидящих пользователей',
         'Hindi' => 'Хинди',
         'Hungarian' => 'Венгерский',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
@@ -7467,7 +7467,7 @@ Thanks for your help!
         'If this setting is enabled, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
         'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
-            '',
+            'Если вы планируете отсутствовать в офисе, вы можете проинформировать об этом других пользователей, установив точный период отсутствия.',
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Import appointments screen.' => 'Экран импорта мероприятий.',
@@ -7500,6 +7500,7 @@ Thanks for your help!
         'Ivory (Slim)' => 'Ivory (узкая)',
         'Japanese' => 'Японский',
         'JavaScript function for the search frontend.' => 'Функция JavaScript для фронтэнд поиска.',
+        'Korean' => '',
         'Language' => 'Язык',
         'Large' => 'Большой',
         'Last Screen Overview' => '',
@@ -7679,13 +7680,13 @@ Thanks for your help!
             'Имя пользовательского сервиса. Это сервис, выбранный из списка предпочтительных сервисов и он может быть выбран в личных настройках.',
         'NameX' => 'ИмяХ',
         'New Ticket' => 'Новая заявка',
-        'New Tickets' => 'Новые заявки',
+        'New Tickets' => 'Новые Заявки',
         'New Window' => 'Новое окно',
         'New Year\'s Day' => 'Новый Год',
         'New Year\'s Eve' => 'Канун Нового Года',
         'New process ticket' => 'Новая процессная заявка',
         'News about OTRS releases!' => 'Новости о новых релизах OTRS!',
-        'News about OTRS.' => '',
+        'News about OTRS.' => 'Новости о OTRS',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             'Следующее доступное состояние после добавления заметки при регистрации входящего звонка в интерфейсе агента.',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
@@ -7710,8 +7711,8 @@ Thanks for your help!
             'OTRS может использовать одну или более зеркальных БД, в режиме только для чтения, для ресурсоёмких операций, типа полнотекстового поиска или генерации отчетов. Здесь вы можете указать имя/DSN для первой зеркальной БД.',
         'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             '',
-        'Open Tickets / Need to be answered' => 'Открытые заявки (требуется ответить)',
-        'Open an external link!' => '',
+        'Open Tickets / Need to be answered' => 'Открытые Заявки / Ожидают ответа',
+        'Open an external link!' => 'Открыть внешнюю ссылку!',
         'Open tickets (customer user)' => 'Открытые заявки (клиента)',
         'Open tickets (customer)' => 'Открытые заявки (клиента)',
         'Option' => 'Настройка',
@@ -7726,7 +7727,7 @@ Thanks for your help!
         'Other Customers' => '',
         'Out Of Office' => 'Вне офиса',
         'Out Of Office Time' => 'Период отсутствия в офисе',
-        'Out of Office users.' => '',
+        'Out of Office users.' => 'Пользователи за пределами офиса',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             'Переопределяет функции заданные в Kernel::System::Ticket::(имя папки с альтернативными модулями). Применяется для облегчения кастомизации.',
         'Overview Escalated Tickets.' => 'Обзор эскалированных заявок.',
@@ -7961,7 +7962,7 @@ Thanks for your help!
         'Select your frontend Theme.' => 'Тема интерфейса (имя папки с кастомными модулями).',
         'Select your personal time zone. All times will be displayed relative to this time zone.' =>
             '',
-        'Select your preferred layout for the software.' => '',
+        'Select your preferred layout for the software.' => 'Выберите предпочитаемый вами стиль.',
         'Select your preferred theme for OTRS.' => '',
         'Selects the cache backend to use.' => 'Выберите бэкэнд под кэш.',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
@@ -7994,7 +7995,7 @@ Thanks for your help!
         'Service view' => 'Обзор сервисов',
         'ServiceView' => 'ServiceView',
         'Set a new password by filling in your current password and a new one.' =>
-            '',
+            'Измените пароль, указав текущий пароль и новый.',
         'Set sender email addresses for this system.' => 'Задать адрес отправителя для этой системы.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Задает высоту (в пикселах) по умолчанию для inline HTML сообщений в AgentTicketZoom.',
@@ -8008,7 +8009,7 @@ Thanks for your help!
         'Sets if SLA must be selected by the agent.' => 'Задает, что SLA должен быть выбран агентом.',
         'Sets if SLA must be selected by the customer.' => 'Задает, что SLA должен быть выбран клиентом.',
         'Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            'Задает, должна ли быть создана заметка агентом. Может быть перекрыто параметром Ticket::Frontend::NeedAccountedTime.',
+            'Задает, должна ли быть заполнено сообщение агентом. Может быть перекрыто параметром Ticket::Frontend::NeedAccountedTime.',
         'Sets if queue must be selected by the agent.' => '',
         'Sets if service must be selected by the agent.' => 'Задает, что Сервис должен быть выбран агентом.',
         'Sets if service must be selected by the customer.' => 'Задает, что Сервис должен быть выбран клиентом.',
@@ -8497,7 +8498,7 @@ Thanks for your help!
         'System Configuration Group' => '',
         'System Maintenance' => 'Обслуживание системы',
         'Templates ↔ Queues' => '',
-        'Textarea' => 'Поле ввода текста',
+        'Textarea' => 'Textarea/Длинный текст',
         'Thai' => 'Тайский',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             'Внутреннее имя окраса (skin) экрана для интерфейса агента. Доступные варианты заданы в Frontend::Agent::Skins.',
@@ -8648,7 +8649,7 @@ Thanks for your help!
             'Разблокирует заявку всякий раз, когда добавляется новое сообщение к заявке и владелец установил состояние - вне офиса.',
         'Unlocked ticket.' => 'Разблокирована заявка.',
         'Up' => 'Вверх',
-        'Upcoming Events' => 'Ближайшие события',
+        'Upcoming Events' => 'Предстоящие события',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             'Обновляет значение флага "Seen" (прочитано), если каждое сообщение просмотрено или создано новое сообщение.',
         'Update time' => 'Время изменения заявки',
@@ -8714,7 +8715,7 @@ Thanks for your help!
         'normal' => 'обычный',
         'notice' => 'уведомление',
         'pending' => 'в ожидании',
-        'phone' => 'звонок',
+        'phone' => 'телефон',
         'responsible' => 'ответственный',
         'reverse' => 'обратный',
         'stats' => 'отчеты',

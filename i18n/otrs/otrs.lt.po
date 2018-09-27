@@ -1,15 +1,15 @@
-# 
 # Translators:
-# Algis Simas <sadm.algimantas@gmail.com>, 2017
-# Justinas <jusgri@gmail.com>, 2015
-# Mantas Gudas <mgu@nrd.no>, 2014
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Justinas <jusgri@gmail.com>, 2018
+# Algis Simas <sadm.algimantas@gmail.com>, 2018
+# Mantas Gudas <mgu@nrd.no>, 2018
 msgid ""
 msgstr ""
-"Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-09-13 21:46+0000\n"
-"PO-Revision-Date: 2018-09-13 21:49+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: Lithuanian (http://www.transifex.com/otrs/OTRS/language/lt/)\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-09-27 16:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Mantas Gudas <mgu@nrd.no>, 2018\n"
+"Language-Team: Lithuanian (https://www.transifex.com/otrs/teams/23435/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1280,7 +1280,9 @@ msgstr "Ši ypatybė yra išjungta!"
 #. Template: AdminCustomerGroup
 msgid ""
 "Just use this feature if you want to define group permissions for customers."
-msgstr "Šią ypatybę naudokite tik tada jeigu norite klientams apibrėžti grupių leidimus."
+msgstr ""
+"Šią ypatybę naudokite tik tada jeigu norite klientams apibrėžti grupių "
+"leidimus."
 
 #. Template: AdminCustomerGroup
 msgid "Enable it here!"
@@ -1312,7 +1314,9 @@ msgstr "Pasirinkite klientas:grupė leidimus"
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets"
 " will not be available for the customer)."
-msgstr "Jeigu nėra nieko pasirinkta, tai šioje grupėje nėra nustatytų leidimų (klientui triktys bus nepasiekiamos)."
+msgstr ""
+"Jeigu nėra nieko pasirinkta, tai šioje grupėje nėra nustatytų leidimų "
+"(klientui triktys bus nepasiekiamos)."
 
 #. Template: AdminCustomerGroup
 msgid "Search Results"
@@ -1536,7 +1540,9 @@ msgstr ""
 msgid ""
 "You can manage these groups via the configuration setting "
 "\"CustomerGroupAlwaysGroups\"."
-msgstr "Šias grupes galite valdyti per konfigūracijos nustatymą \"CustomerGroupAlwaysGroups\"."
+msgstr ""
+"Šias grupes galite valdyti per konfigūracijos nustatymą "
+"\"CustomerGroupAlwaysGroups\"."
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
@@ -1917,7 +1923,9 @@ msgstr ""
 msgid ""
 "With this module, administrators can send messages to agents, group or role "
 "members."
-msgstr "Šio modulio pagalba administratoriai gali siųsti žinutes agentams, grupėms ar rolių nariams."
+msgstr ""
+"Šio modulio pagalba administratoriai gali siųsti žinutes agentams, grupėms "
+"ar rolių nariams."
 
 #. Template: AdminEmail
 msgid "Create Administrative Message"
@@ -2039,7 +2047,9 @@ msgstr "Šiuo metu ši bendrinio agento (generic agent) užduotis nebus vykdoma.
 msgid ""
 "To enable automatic execution select at least one value from minutes, hours "
 "and days!"
-msgstr "Norėdami įjungti automatinį užduočių paleidimą turite pasirinkti bent vieną reikšmę iš minučių, valandų ir dienų!"
+msgstr ""
+"Norėdami įjungti automatinį užduočių paleidimą turite pasirinkti bent vieną "
+"reikšmę iš minučių, valandų ir dienų!"
 
 #. Template: AdminGenericAgent
 msgid "Event Based Execution (Single Ticket)"
@@ -2381,7 +2391,8 @@ msgstr "CMD"
 msgid ""
 "This command will be executed. ARG[0] will be the ticket number. ARG[1] the "
 "ticket id."
-msgstr "Ši komanda bus įvykdyta. ARG[0] bus trikties numeris, ARG[1] - trikties ID"
+msgstr ""
+"Ši komanda bus įvykdyta. ARG[0] bus trikties numeris, ARG[1] - trikties ID"
 
 #. Template: AdminGenericAgent
 msgid "Delete tickets"
@@ -2391,7 +2402,9 @@ msgstr "Ištrinti triktis"
 msgid ""
 "Warning: All affected tickets will be removed from the database and cannot "
 "be restored!"
-msgstr "ĮSPĖJIMAS: visos paveiktos triktys bus pašalintos iš duomenų bazės ir bus nebe atstatomos."
+msgstr ""
+"ĮSPĖJIMAS: visos paveiktos triktys bus pašalintos iš duomenų bazės ir bus "
+"nebe atstatomos."
 
 #. Template: AdminGenericAgent
 msgid "Execute Custom Module"
@@ -2415,7 +2428,9 @@ msgstr "%s paveiktos triktys! Ką norite daryti?"
 
 #. Template: AdminGenericAgent
 msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
-msgstr "ĮSPĖJIMAS: Pasirinkote IŠTRINTI. Ištrintos triktys bus prarastos visam laikui!"
+msgstr ""
+"ĮSPĖJIMAS: Pasirinkote IŠTRINTI. Ištrintos triktys bus prarastos visam "
+"laikui!"
 
 #. Template: AdminGenericAgent
 msgid ""
@@ -3913,13 +3928,17 @@ msgstr "Pridėti grupę"
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
-msgstr "'admin' grupė yra skirta patekti į administratorių zoną, o 'stats' grupė - į statistikos zoną"
+msgstr ""
+"'admin' grupė yra skirta patekti į administratorių zoną, o 'stats' grupė - į"
+" statistikos zoną"
 
 #. Template: AdminGroup
 msgid ""
 "Create new groups to handle access permissions for different groups of agent"
 " (e. g. purchasing department, support department, sales department, ...). "
-msgstr "Sukurkite naujas grupes skirtingų agentų grupių leidimams suvaldyti (pvz. pirkimų skyrius, palaikymo skyrius, pardavimų skyrius, ...)."
+msgstr ""
+"Sukurkite naujas grupes skirtingų agentų grupių leidimams suvaldyti (pvz. "
+"pirkimų skyrius, palaikymo skyrius, pardavimų skyrius, ...)."
 
 #. Template: AdminGroup
 msgid "It's useful for ASP solutions. "
@@ -4485,7 +4504,9 @@ msgstr "Pridėti PGP raktą"
 
 #. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
-msgstr "Šiuo būdu galite tiesiogiai valdyti SysConfig sukonfigūruotą \"raktų ryšulį\"."
+msgstr ""
+"Šiuo būdu galite tiesiogiai valdyti SysConfig sukonfigūruotą \"raktų "
+"ryšulį\"."
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
@@ -4543,7 +4564,9 @@ msgstr "Iš naujo įdiegti paketą"
 msgid ""
 "Do you really want to reinstall this package? Any manual changes will be "
 "lost."
-msgstr "Ar tikrai norite iš naujo įdiegti šį paketą? Bet kokie atlikti rankiniai pakeitimai bus prarasti."
+msgstr ""
+"Ar tikrai norite iš naujo įdiegti šį paketą? Bet kokie atlikti rankiniai "
+"pakeitimai bus prarasti."
 
 #. Template: AdminPackageManager
 msgid "Go to updating instructions"
@@ -4769,7 +4792,9 @@ msgstr "Ši ypatybę aktyvuota!"
 
 #. Template: AdminPerformanceLog
 msgid "Just use this feature if you want to log each request."
-msgstr "Įjunkite šią ypatybę tik tuo atveju jeigu norite registruoti visas užklausas."
+msgstr ""
+"Įjunkite šią ypatybę tik tuo atveju jeigu norite registruoti visas "
+"užklausas."
 
 #. Template: AdminPerformanceLog
 msgid "Activating this feature might affect your system performance!"
@@ -4863,13 +4888,17 @@ msgstr ""
 msgid ""
 "To dispatch or filter incoming emails based on email headers. Matching using"
 " Regular Expressions is also possible."
-msgstr "Išskirstyti ar filtruoti el. laiškus pagal el. laiškų antraštes. Taip pat galima naudoti ir reguliarias išraiškas"
+msgstr ""
+"Išskirstyti ar filtruoti el. laiškus pagal el. laiškų antraštes. Taip pat "
+"galima naudoti ir reguliarias išraiškas"
 
 #. Template: AdminPostMasterFilter
 msgid ""
 "If you want to match only the email address, use "
 "EMAILADDRESS:info@example.com in From, To or Cc."
-msgstr "Jeigu norite nustatyti atitikmenį tik vienam el. pašto adresui, tai Nuo, Kam ir Cc laukeliuose naudokite EMAILADDRESS:info@example.com."
+msgstr ""
+"Jeigu norite nustatyti atitikmenį tik vienam el. pašto adresui, tai Nuo, Kam"
+" ir Cc laukeliuose naudokite EMAILADDRESS:info@example.com."
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -5539,7 +5568,10 @@ msgid ""
 "If an agent locks a ticket and does not close it before the unlock timeout "
 "has passed, the ticket will unlock and will become available for other "
 "agents."
-msgstr "Jeigu agentas užrakins triktį ir neuždarys jos iki pasibaigs atrakinimo laikas (unlock timeout), tai ji atsirakins ir taps prieinama kitiems agentams."
+msgstr ""
+"Jeigu agentas užrakins triktį ir neuždarys jos iki pasibaigs atrakinimo "
+"laikas (unlock timeout), tai ji atsirakins ir taps prieinama kitiems "
+"agentams."
 
 #. Template: AdminQueue
 msgid "Notify by"
@@ -5553,7 +5585,10 @@ msgstr "0 = neeskaluoti"
 msgid ""
 "If there is not added a customer contact, either email-external or phone, to"
 " a new ticket before the time defined here expires, the ticket is escalated."
-msgstr "Jeigu naujai trikčiai nebus pridėti kliento kontaktai (išorinis el. paštas ar telefono numeris), iki pasibaigiant čia nurodytam laikui, tai triktis bus eskaluota."
+msgstr ""
+"Jeigu naujai trikčiai nebus pridėti kliento kontaktai (išorinis el. paštas "
+"ar telefono numeris), iki pasibaigiant čia nurodytam laikui, tai triktis bus"
+" eskaluota."
 
 #. Template: AdminQueue
 msgid ""
@@ -5561,13 +5596,20 @@ msgid ""
 "portal, the escalation update time is reset. If there is no customer "
 "contact, either email-external or phone, added to a ticket before the time "
 "defined here expires, the ticket is escalated."
-msgstr "Jeigu trikčiai bus pridėtas naujas straipsnis, pvz., atsakymas per išorinį el. paštą arba klientų portalą, tai eskalavimo atnaujinimo laikas yra atstatomas atgal. Jeigu trikčiai nebus pridėti kliento kontaktai (išorinis el. paštas ar telefono numeris), iki pasibaigiant čia nurodytam laikui, tai triktis bus eskaluota."
+msgstr ""
+"Jeigu trikčiai bus pridėtas naujas straipsnis, pvz., atsakymas per išorinį "
+"el. paštą arba klientų portalą, tai eskalavimo atnaujinimo laikas yra "
+"atstatomas atgal. Jeigu trikčiai nebus pridėti kliento kontaktai (išorinis "
+"el. paštas ar telefono numeris), iki pasibaigiant čia nurodytam laikui, tai "
+"triktis bus eskaluota."
 
 #. Template: AdminQueue
 msgid ""
 "If the ticket is not set to closed before the time defined here expires, the"
 " ticket is escalated."
-msgstr "Jeigu triktis nebus ir neuždaryta iki pasibaigs čia nurodytas laikas, tai ji bus eskaluota."
+msgstr ""
+"Jeigu triktis nebus ir neuždaryta iki pasibaigs čia nurodytas laikas, tai ji"
+" bus eskaluota."
 
 #. Template: AdminQueue
 msgid "Follow up Option"
@@ -5577,7 +5619,9 @@ msgstr ""
 msgid ""
 "Specifies if follow up to closed tickets would re-open the ticket, be "
 "rejected or lead to a new ticket."
-msgstr "Nurodo ar tolimesni veiksmai su jau uždaryta triktimi: ją iš naujo atidarytų, atmestų bet kokius tolimesnius veiksmus, sukurtų naują triktį."
+msgstr ""
+"Nurodo ar tolimesni veiksmai su jau uždaryta triktimi: ją iš naujo "
+"atidarytų, atmestų bet kokius tolimesnius veiksmus, sukurtų naują triktį."
 
 #. Template: AdminQueue
 msgid "Ticket lock after a follow up"
@@ -5587,7 +5631,9 @@ msgstr "Užrakinti triktį po bet kokio atsakymo ar kontakto"
 msgid ""
 "If a ticket is closed and the customer sends a follow up the ticket will be "
 "locked to the old owner."
-msgstr "Jeigu triktis yra uždaryta ir klientas vėl ką nors atsiunčia - triktis bus prirakinta prie senojo savininko."
+msgstr ""
+"Jeigu triktis yra uždaryta ir klientas vėl ką nors atsiunčia - triktis bus "
+"prirakinta prie senojo savininko."
 
 #. Template: AdminQueue
 msgid "System address"
@@ -5973,13 +6019,17 @@ msgstr ""
 
 #. Template: AdminRole
 msgid "Create a role and put groups in it. Then add the role to the users."
-msgstr "Sukurkite rolę, o tada įdėkite į ją grupes. Tada priskirkite roles naudotojams."
+msgstr ""
+"Sukurkite rolę, o tada įdėkite į ją grupes. Tada priskirkite roles "
+"naudotojams."
 
 #. Template: AdminRole
 msgid ""
 "There are no roles defined. Please use the 'Add' button to create a new "
 "role."
-msgstr "Nėra apibrėžtų rolių. Prašome paspausti mygtuką \"Pridėti\" naujoms rolės sukurti."
+msgstr ""
+"Nėra apibrėžtų rolių. Prašome paspausti mygtuką \"Pridėti\" naujoms rolės "
+"sukurti."
 
 #. Template: AdminRoleGroup
 msgid "Manage Role-Group Relations"
@@ -6001,7 +6051,9 @@ msgstr "Pasirinkite rolė:grupė leidimus."
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets"
 " will not be available for the role)."
-msgstr "Jeigu nėra nieko pasirinkta, tai šioje grupėje nėra nustatytų leidimų (rolei triktys bus neprieinamos)."
+msgstr ""
+"Jeigu nėra nieko pasirinkta, tai šioje grupėje nėra nustatytų leidimų (rolei"
+" triktys bus neprieinamos)."
 
 #. Template: AdminRoleGroup
 msgid "Toggle %s permission for all"
@@ -6164,11 +6216,15 @@ msgstr "Taip pat žiūrėkite"
 msgid ""
 "In this way you can directly edit the certification and private keys in file"
 " system."
-msgstr "Šiuo būdu galite tiesiogiai redaguoti sertifikatus ir privačius raktus sistemoje."
+msgstr ""
+"Šiuo būdu galite tiesiogiai redaguoti sertifikatus ir privačius raktus "
+"sistemoje."
 
 #. Template: AdminSMIME
 msgid "Hash"
-msgstr "Šiuo būdu galite tiesiogiai redaguoti sertifikatus ir privačius raktus sistemoje."
+msgstr ""
+"Šiuo būdu galite tiesiogiai redaguoti sertifikatus ir privačius raktus "
+"sistemoje."
 
 #. Template: AdminSMIME
 msgid "Create"
@@ -6292,7 +6348,9 @@ msgstr ""
 #. Template: AdminSelectBox
 msgid ""
 "Here you can enter SQL to send it directly to the application database."
-msgstr "Čia galite įvesti ir tiesiogiai programos duomenų bazei nusiųsti SQL užklausas."
+msgstr ""
+"Čia galite įvesti ir tiesiogiai programos duomenų bazei nusiųsti SQL "
+"užklausas."
 
 #. Template: AdminSelectBox
 msgid "Options"
@@ -6607,7 +6665,9 @@ msgstr ""
 msgid ""
 "All incoming email with this address in To or Cc will be dispatched to the "
 "selected queue."
-msgstr "Visas įeinantis el. paštas, su tokiu (nurodytu) el. pašto adresu Kam ir Kopija laukeliuose, bus nukreiptas į pasirinktą eilę."
+msgstr ""
+"Visas įeinantis el. paštas, su tokiu (nurodytu) el. pašto adresu Kam ir "
+"Kopija laukeliuose, bus nukreiptas į pasirinktą eilę."
 
 #. Template: AdminSystemAddress
 msgid "Email address"
@@ -6623,7 +6683,8 @@ msgstr ""
 
 #. Template: AdminSystemAddress
 msgid "The display name and email address will be shown on mail you send."
-msgstr "Rodomas vardas ir el. pašto adresas bus rodomas Jūsų siunčiamuose laiškuose."
+msgstr ""
+"Rodomas vardas ir el. pašto adresas bus rodomas Jūsų siunčiamuose laiškuose."
 
 #. Template: AdminSystemAddress
 msgid ""
@@ -8157,7 +8218,9 @@ msgstr "Jums reikia el. pašto adreso"
 
 #. Template: AgentTicketBounce
 msgid "Need a valid email address or don't use a local email address."
-msgstr "Reikalingas galiojantis el. pašto adresas (arba nenaudokite lokalaus pašto adreso)."
+msgstr ""
+"Reikalingas galiojantis el. pašto adresas (arba nenaudokite lokalaus pašto "
+"adreso)."
 
 #. Template: AgentTicketBounce
 msgid "Next ticket state"
@@ -8973,7 +9036,9 @@ msgstr ""
 #. Template: CustomerLogin
 msgid ""
 "Please see the documentation or ask your admin for further information."
-msgstr "Daugiau informacijos ieškokit dokumentacijoje arba kreipkitės į administratorių."
+msgstr ""
+"Daugiau informacijos ieškokit dokumentacijoje arba kreipkitės į "
+"administratorių."
 
 #. Template: CustomerLogin
 msgid "One moment please, you are being redirected..."
@@ -9073,7 +9138,9 @@ msgstr "Sveiki atvykę!"
 
 #. Template: CustomerTicketOverview
 msgid "Please click the button below to create your first ticket."
-msgstr "Prašome paspausti žemiau esantį mytuką, kad sukurtumėte savo pirmąjį trikties pranešimą."
+msgstr ""
+"Prašome paspausti žemiau esantį mytuką, kad sukurtumėte savo pirmąjį "
+"trikties pranešimą."
 
 #. Template: CustomerTicketOverview
 msgid "Create your first ticket"
@@ -9503,7 +9570,9 @@ msgstr "Naujas"
 msgid ""
 "A new database user with limited permissions will be created for this OTRS "
 "system."
-msgstr "Šiai OTRS sistemai bus sukurtas naujas, apribotas teises turintis, duomenų bazės naudotojas."
+msgstr ""
+"Šiai OTRS sistemai bus sukurtas naujas, apribotas teises turintis, duomenų "
+"bazės naudotojas."
 
 #. Template: InstallerDBmssql
 msgid "Repeat Password"
@@ -9529,7 +9598,9 @@ msgstr ""
 msgid ""
 "To be able to use OTRS you have to enter the following line in your command "
 "line (Terminal/Shell) as root."
-msgstr "Norėdami naudoti OTRS turite root naudotojo teisėmis, komandinėje eilutėje (terminale), įvesti šią komandą."
+msgstr ""
+"Norėdami naudoti OTRS turite root naudotojo teisėmis, komandinėje eilutėje "
+"(terminale), įvesti šią komandą."
 
 #. Template: InstallerFinish
 msgid "Restart your webserver"
@@ -9563,7 +9634,9 @@ msgstr "SystemID"
 msgid ""
 "The identifier of the system. Each ticket number and each HTTP session ID "
 "contain this number."
-msgstr "Sistemos identifikacijos numeris. Šis numeris bus kiekviename trikties numeryje ir kiekviename HTTP sesijos ID"
+msgstr ""
+"Sistemos identifikacijos numeris. Šis numeris bus kiekviename trikties "
+"numeryje ir kiekviename HTTP sesijos ID"
 
 #. Template: InstallerSystem
 msgid "System FQDN"
@@ -9622,7 +9695,10 @@ msgid ""
 "Email addresses that are manually entered are checked against the MX records"
 " found in DNS. Don't use this option if your DNS is slow or does not resolve"
 " public addresses."
-msgstr "Rankiniu būdu įvesti el. pašto adresai yra patikrinami DNS MX sąrašuose. Nenaudokite šios parinkties jeigu Jūsų DNS yra lėtas arba neaptarnauja viešų adresų."
+msgstr ""
+"Rankiniu būdu įvesti el. pašto adresai yra patikrinami DNS MX sąrašuose. "
+"Nenaudokite šios parinkties jeigu Jūsų DNS yra lėtas arba neaptarnauja viešų"
+" adresų."
 
 #. Template: LinkObject
 msgid "Delete link"
@@ -9735,7 +9811,8 @@ msgstr "Failas nerastas!"
 
 #. Template: PictureUpload
 msgid "The file is not an image that can be shown inline!"
-msgstr "Failas nėra paveikslėlis, kurį būtų galima rodyti tiesiogiai (? inline)"
+msgstr ""
+"Failas nėra paveikslėlis, kurį būtų galima rodyti tiesiogiai (? inline)"
 
 #. Template: PreferencesNotificationEvent
 msgid "No user configurable notifications found."
@@ -9780,7 +9857,8 @@ msgstr "Leidimai"
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "You can select one or more groups to define access for different agents."
-msgstr "Skirtingiems agentams apibrėžti galite pasirinkti vieną ar daugiau grupių."
+msgstr ""
+"Skirtingiems agentams apibrėžti galite pasirinkti vieną ar daugiau grupių."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Result formats"
@@ -9834,7 +9912,9 @@ msgstr ""
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
-msgstr "Jei nustatyta negaliojančiu galutiniai naudotojai negalės generuoti šios statistikos."
+msgstr ""
+"Jei nustatyta negaliojančiu galutiniai naudotojai negalės generuoti šios "
+"statistikos."
 
 #. Template: PreviewWidget
 msgid "There are problems in the configuration of this statistic:"
@@ -13989,7 +14069,9 @@ msgstr ""
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
 "Can't update password, your new passwords do not match. Please try again!"
-msgstr "Neįmanoma atnaujinti slaptažodžio, nes nesutampa Jūsų įvesti nauji slaptažodžiai!"
+msgstr ""
+"Neįmanoma atnaujinti slaptažodžio, nes nesutampa Jūsų įvesti nauji "
+"slaptažodžiai!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
@@ -13999,7 +14081,9 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must be at least %s characters long!"
-msgstr "Neįmanoma atnaujinti slaptažodžio. Jis turi būti mažiausiai %s simbolių ilgio."
+msgstr ""
+"Neįmanoma atnaujinti slaptažodžio. Jis turi būti mažiausiai %s simbolių "
+"ilgio."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
@@ -14009,7 +14093,8 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must contain at least 1 digit!"
-msgstr "Neįmanoma atnaujinti slaptažodžio. Slaptažodyje turi būti bent 1 skaitmuo."
+msgstr ""
+"Neįmanoma atnaujinti slaptažodžio. Slaptažodyje turi būti bent 1 skaitmuo."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must contain at least 2 letter characters!"
@@ -14371,7 +14456,9 @@ msgstr "Nepavyko išnagrinėti saugyklos indeksų dokumento."
 msgid ""
 "No packages for your framework version found in this repository, it only "
 "contains packages for other framework versions."
-msgstr "Šioje saugykloje nėra paketų Jūsų naudojamai pagrindo (framework) versijai, yra tik kitoms versijoms."
+msgstr ""
+"Šioje saugykloje nėra paketų Jūsų naudojamai pagrindo (framework) versijai, "
+"yra tik kitoms versijoms."
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is not installed!"
@@ -15623,7 +15710,9 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Login failed! Your user name or password was entered incorrectly."
-msgstr "Prisijungimas nepavyko! Neteisingai įvestas prisijungimo vardas arba slaptažodis."
+msgstr ""
+"Prisijungimas nepavyko! Neteisingai įvestas prisijungimo vardas arba "
+"slaptažodis."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid ""
@@ -15645,7 +15734,9 @@ msgstr "Funkcija/ypatybė neaktyvuota!"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Sent password reset instructions. Please check your email."
-msgstr "Slaptažodžio atstatymo instrukcijos išsiųstos. Prašome pasitikrinti savo el. paštą."
+msgstr ""
+"Slaptažodžio atstatymo instrukcijos išsiųstos. Prašome pasitikrinti savo el."
+" paštą."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Invalid Token!"
@@ -15653,7 +15744,8 @@ msgstr "Negalimas triktis!"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Sent new password to %s. Please check your email."
-msgstr "Naujas slaptažodis išsiųstas į %s. Prašome pasitikrinti savo el. paštą."
+msgstr ""
+"Naujas slaptažodis išsiųstas į %s. Prašome pasitikrinti savo el. paštą."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Error: invalid session."
@@ -15698,7 +15790,9 @@ msgstr ""
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "New account created. Sent login information to %s. Please check your email."
-msgstr "Sukruta nauja paskyra. Prisijungimo informacija išiųsta į %s. Prašome pasitikrinti savo el. paštą."
+msgstr ""
+"Sukruta nauja paskyra. Prisijungimo informacija išiųsta į %s. Prašome "
+"pasitikrinti savo el. paštą."
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -16265,7 +16359,11 @@ msgid ""
 "appropriate changes in the SysConfig, you will be locked out of the "
 "administrations panel! If this happens, please rename the group back to "
 "admin per SQL statement."
-msgstr "ĮSPĖJIMAS: Pervadinant grupę 'admin' prieš atlikant atitinkamus veiksmus 'SysConfig' būsite užrakintas nuo administravimo skydelio! Jei tai atsitiktų, panaudodami SQL užklausą, atkeiskite grupės pavadinimą atgal į 'admin'"
+msgstr ""
+"ĮSPĖJIMAS: Pervadinant grupę 'admin' prieš atlikant atitinkamus veiksmus "
+"'SysConfig' būsite užrakintas nuo administravimo skydelio! Jei tai "
+"atsitiktų, panaudodami SQL užklausą, atkeiskite grupės pavadinimą atgal į "
+"'admin'"
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Delete this Mail Account"
@@ -16822,7 +16920,8 @@ msgstr "El. pašto patikrinimas sėkmingas."
 
 #. JS File: Core.Installer
 msgid "Error in the mail settings. Please correct and try again."
-msgstr "Klaida pašto nustatymuose. Prašome ištaisyti klaidas ir bandyti iš naujo."
+msgstr ""
+"Klaida pašto nustatymuose. Prašome ištaisyti klaidas ir bandyti iš naujo."
 
 #. JS File: Core.SystemConfiguration
 msgid "Open this node in a new window"
@@ -16887,19 +16986,25 @@ msgstr ""
 #. JS File: Core.UI.Popup
 msgid ""
 "If you now leave this page, all open popup windows will be closed, too!"
-msgstr "Jeigu dabar užversite/paliksite šį puslapį, tai visi iššokantys langai taip pat bus užverti!"
+msgstr ""
+"Jeigu dabar užversite/paliksite šį puslapį, tai visi iššokantys langai taip "
+"pat bus užverti!"
 
 #. JS File: Core.UI.Popup
 msgid ""
 "A popup of this screen is already open. Do you want to close it and load "
 "this one instead?"
-msgstr "Šio ekrano iššokantis langas jau yra atvertas. Ar norite jį uždaryti ir vietoj jo užkrauti šį?"
+msgstr ""
+"Šio ekrano iššokantis langas jau yra atvertas. Ar norite jį uždaryti ir "
+"vietoj jo užkrauti šį?"
 
 #. JS File: Core.UI.Popup
 msgid ""
 "Could not open popup window. Please disable any popup blockers for this "
 "application."
-msgstr "Nepavyko atverti iššokančio lango. Prašome išjungti visus iššokančius langus blokuojančias programas."
+msgstr ""
+"Nepavyko atverti iššokančio lango. Prašome išjungti visus iššokančius langus"
+" blokuojančias programas."
 
 #. JS File: Core.UI.Table.Sort
 msgid "Ascending sort applied, "
@@ -17469,7 +17574,9 @@ msgstr "Visos naujos triktys su kuriomis dar nebuvo dirbta"
 msgid ""
 "All open tickets, these tickets have already been worked on, but need a "
 "response"
-msgstr "Visos atviros triktys su kuriomis jau buvo dirbta, bet joms dar reikia atsako"
+msgstr ""
+"Visos atviros triktys su kuriomis jau buvo dirbta, bet joms dar reikia "
+"atsako"
 
 #. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
@@ -17478,7 +17585,9 @@ msgstr ""
 #. SysConfig
 msgid ""
 "All tickets with a reminder set where the reminder date has been reached"
-msgstr "Visos triktys turinčios nustatytus priminimus, kurių priminimo laikai jau atėjo"
+msgstr ""
+"Visos triktys turinčios nustatytus priminimus, kurių priminimo laikai jau "
+"atėjo"
 
 #. SysConfig
 msgid ""
@@ -21165,7 +21274,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Disables the redirection to the last screen overview / dashboard after a "
-"ticket is created."
+"ticket is closed."
 msgstr ""
 
 #. SysConfig
@@ -22567,6 +22676,10 @@ msgstr ""
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Korean"
 msgstr ""
 
 #. SysConfig
@@ -24279,7 +24392,9 @@ msgid ""
 "Select the separator character used in CSV files (stats and searches). If "
 "you don't select a separator here, the default separator for your language "
 "will be used."
-msgstr "Pasirinkite skyriklį, kurį norite naudoti CSV failuose (statistikoje ir paieškoje) arba bus naudojamas standartinis Jūsų kalbos skyriklis."
+msgstr ""
+"Pasirinkite skyriklį, kurį norite naudoti CSV failuose (statistikoje ir "
+"paieškoje) arba bus naudojamas standartinis Jūsų kalbos skyriklis."
 
 #. SysConfig
 msgid "Select your frontend Theme."
@@ -26023,7 +26138,7 @@ msgstr ""
 
 #. SysConfig
 msgid "States"
-msgstr "Būsenos"
+msgstr "Statusas"
 
 #. SysConfig
 msgid "Statistic Reports overview."
@@ -26775,7 +26890,9 @@ msgstr ""
 msgid ""
 "Your email with ticket number \"<OTRS_TICKET>\" is merged to "
 "\"<OTRS_MERGE_TO_TICKET>\"."
-msgstr "Jūsų el. laiškas trikties numeriu \"<OTRS_TICKET>\" yra sujungtas su \"<OTRS_MERGE_TO_TICKET>\"!"
+msgstr ""
+"Jūsų el. laiškas trikties numeriu \"<OTRS_TICKET>\" yra sujungtas su "
+"\"<OTRS_MERGE_TO_TICKET>\"!"
 
 #. SysConfig
 msgid ""

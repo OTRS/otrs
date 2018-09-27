@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.473991416309013;
+    $Self->{Completeness}        = 0.47391005835908;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -7067,7 +7067,7 @@ Het Helpdesk Team
         'Disable cloud services' => '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
-        'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
+        'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
@@ -7495,6 +7495,7 @@ Het Helpdesk Team
         'Ivory (Slim)' => '',
         'Japanese' => '',
         'JavaScript function for the search frontend.' => '',
+        'Korean' => '',
         'Language' => 'Taal',
         'Large' => 'Groot',
         'Last Screen Overview' => '',
@@ -8474,7 +8475,7 @@ Het Helpdesk Team
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
         'Stat#' => 'Rapport#',
-        'States' => 'Statussen',
+        'States' => 'Status',
         'Statistic Reports overview.' => '',
         'Statistics overview.' => '',
         'Status view' => 'Statusoverzicht',

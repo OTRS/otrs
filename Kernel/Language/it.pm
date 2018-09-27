@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.478798283261803;
+    $Self->{Completeness}        = 0.480604188122211;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -182,7 +182,7 @@ sub Data {
         'Overwrite existing notifications?' => 'Vuoi sovrascrivere le notifiche esistenti?',
         'Upload Notification configuration' => 'Carica configurazione delle notifiche',
         'Import Notification configuration' => 'Importa configurazione delle notifiche',
-        'List' => 'Lista',
+        'List' => 'Elenco',
         'Delete' => 'Elimina',
         'Delete this notification' => 'Elimina questa notifica',
         'Show in agent preferences' => 'Mostra nelle preferenze degli operatori',
@@ -203,7 +203,7 @@ sub Data {
         'Recipients' => 'Destinatari',
         'Send to' => 'Invia a',
         'Send to these agents' => 'Invia a questi operatori',
-        'Send to all group members (agents only)' => '',
+        'Send to all group members (agents only)' => 'Invia a tutti i membri del gruppo (solo agenti)',
         'Send to all role members' => 'Invia a tutti i membri del ruolo',
         'Send on out of office' => 'Invia se fuori sede',
         'Also send if the user is currently out of office.' => 'Invia anche se l\'utente è attualmente fuori sede.',
@@ -246,7 +246,7 @@ sub Data {
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Indirizzi email di destinazione aggiuntivi',
-        'This field must have less then 200 characters.' => '',
+        'This field must have less then 200 characters.' => 'Questo campo deve avere meno di 200 caratteri.',
         'Article visible for customer' => 'Articolo visibile al cliente',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             '',
@@ -317,7 +317,7 @@ sub Data {
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'La registrazione del sistema è un servizio di OTRS Group, che fornisce molti vantaggi!',
         'Please note that the use of OTRS cloud services requires the system to be registered.' =>
-            '',
+            'Notare che i servizi sul cloud di OTRS richiedono che il sistema sia registrato.',
         'Register this system' => 'Registra questo sistema',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             'Qui puoi configurare i servizi cloud disponibili che comunicano in modo sicuro con %s.',
@@ -336,11 +336,11 @@ sub Data {
         'If you click on the different entries, you will get redirected to a detailed screen about the message.' =>
             '',
         'Status for: %s' => 'Stato per: %s',
-        'Failing accounts' => '',
-        'Some account problems' => '',
-        'No account problems' => '',
-        'No account activity' => '',
-        'Number of accounts with problems: %s' => '',
+        'Failing accounts' => 'Account con errori',
+        'Some account problems' => 'Qualche problema con gli account.',
+        'No account problems' => 'Nessun problema con gli account.',
+        'No account activity' => 'Nessuna attività degli account.',
+        'Number of accounts with problems: %s' => 'Numero di account con problemi: %s',
         'Number of accounts with warnings: %s' => '',
         'Failing communications' => '',
         'No communication problems' => '',
@@ -360,7 +360,7 @@ sub Data {
         'Account Status' => 'Stato account',
         'Back' => 'Precedente',
         'Filter for accounts' => 'Filtro per gli account',
-        'Filter for log entries' => '',
+        'Filter for log entries' => 'Filtro per il log',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             '',
         'Account status for: %s' => 'Stato account per: %s',
@@ -368,7 +368,7 @@ sub Data {
         'Account' => 'Account',
         'Edit' => 'Modifica',
         'No accounts found.' => 'Nessun account trovato.',
-        'Communication Log Details (%s)' => '',
+        'Communication Log Details (%s)' => 'Dettagli del log di comunicazione (%s)',
         'Direction' => 'Direzione',
         'Start Time' => 'Istante di Inizio',
         'End Time' => 'Orario di termine',
@@ -389,7 +389,7 @@ sub Data {
         'Show only entries with specific priority and higher:' => '',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
-        'Communication Log Details' => '',
+        'Communication Log Details' => 'Dettagli del log di comunicazione',
         'Please select an entry from the list.' => '',
 
         # Template: AdminCustomerCompany
@@ -1433,7 +1433,7 @@ sub Data {
         'Continue' => 'Continua',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             '',
-        'Install' => 'Installa',
+        'Install' => 'Installare',
         'Update repository information' => 'Aggiorna informazioni sui repository',
         'Cloud services are currently disabled.' => '',
         'OTRS Verify™ can not continue!' => 'OTRS Verify™ non può continuare!',
@@ -1480,7 +1480,7 @@ sub Data {
         'Logfile too large!' => 'Log File troppo grande ',
         'The logfile is too large, you need to reset it' => 'Il file di log è troppo grande, è necessario un reset del file',
         'Reset' => 'Ripristina',
-        'Overview' => 'Vista Globale',
+        'Overview' => 'Riepilogo',
         'Interface' => 'Interfaccia',
         'Requests' => 'Richieste',
         'Min Response' => 'Minimo per Risposta',
@@ -4439,7 +4439,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
         'Upgrade to OTRS Business Solution™' => '',
         'Re-install Package' => '',
-        'Upgrade' => 'Aggiorna',
+        'Upgrade' => 'Aggiornare',
         'Re-install' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
@@ -7058,7 +7058,7 @@ Thanks for your help!
         'Disable cloud services' => '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
-        'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
+        'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
@@ -7486,6 +7486,7 @@ Thanks for your help!
         'Ivory (Slim)' => 'Avorio (Sottile)',
         'Japanese' => 'Giapponese',
         'JavaScript function for the search frontend.' => 'Funzione JavaScript per l\'interfaccia di ricerca.',
+        'Korean' => '',
         'Language' => 'Lingua',
         'Large' => 'Grande',
         'Last Screen Overview' => '',
@@ -8465,7 +8466,7 @@ Thanks for your help!
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
         'Stat#' => 'Statistica#',
-        'States' => 'Stati',
+        'States' => 'Stato',
         'Statistic Reports overview.' => '',
         'Statistics overview.' => '',
         'Status view' => 'Vista di stato',

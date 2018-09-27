@@ -1,29 +1,26 @@
-# 
 # Translators:
-# bb16390 <bb16390@gmail.com>, 2014
-# bb16390 <bb16390@gmail.com>, 2014
-# Chenry Lee <chenrylee@qq.com>, 2016
-# Hotellook, 2014
-# Jerry Du <jerry.du@athub.com>, 2016
-# 文浩坚 <never.min@gmail.com>, 2015
-# 文浩坚 <never.min@gmail.com>, 2015
-# pan jia <jia.pan@dian-tong.com>, 2017
-# shizhao <shizhao@gmail.com>, 2015
-# shizhao <shizhao@gmail.com>, 2015
-# Spiros Georgaras <sng@hellug.gr>, 2016
-# Stang . <Cosine02@outlook.com>, 2016
-# 文浩坚 <never.min@gmail.com>, 2015-2016
-# 汇民 王 <whuim@163.com>, 2016-2017
-# 汇民 王 <whuim@qq.com>, 2016-2018
-# 洋 王 <fkaxc2002@gmail.com>, 2017
-# 陈德文 <sggggy@gmail.com>, 2014-2016
+# bb16390 <bb16390@gmail.com>, 2018
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Udo Bretz, 2018
+# 文浩坚 <never.min@gmail.com>, 2018
+# 陈德文 <sggggy@gmail.com>, 2018
+# 汇民 王 <whuim@qq.com>, 2018
+# 汇民 王 <whuim@163.com>, 2018
+# Jerry Du <jerry.du@athub.com>, 2018
+# Chenry Lee <chenrylee@qq.com>, 2018
+# 光中 杨 <yangkwch@163.com>, 2018
+# shizhao <shizhao@gmail.com>, 2018
+# pan jia <jia.pan@dian-tong.com>, 2018
+# 洋 王 <fkaxc2002@gmail.com>, 2018
+# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
+# 张梦 <adoeh@sina.com>, 2018
 msgid ""
 msgstr ""
-"Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-09-13 21:46+0000\n"
-"PO-Revision-Date: 2018-09-13 21:49+0000\n"
-"Last-Translator: 汇民 王 <whuim@qq.com>\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-09-27 16:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: 张梦 <adoeh@sina.com>, 2018\n"
+"Language-Team: Chinese (China) (https://www.transifex.com/otrs/teams/23435/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -169,7 +166,8 @@ msgid ""
 "Set up matching criteria for this ACL. Use 'Properties' to match the current"
 " screen or 'PropertiesDatabase' to match attributes of the current ticket "
 "that are in the database."
-msgstr "为ACL设置匹配条件。'Properties'用于匹配工单在内存中的属性'，而'PropertiesDatabase'用于匹配工单在数据库中的属性。"
+msgstr ""
+"为ACL设置匹配条件。'Properties'用于匹配工单在内存中的属性'，而'PropertiesDatabase'用于匹配工单在数据库中的属性。"
 
 #. Template: AdminACLEdit
 msgid "Change settings"
@@ -219,7 +217,7 @@ msgstr "保存"
 
 #. Template: AdminACLEdit
 msgid "or"
-msgstr "或"
+msgstr "or（或）"
 
 #. Template: AdminACLEdit
 msgid "Save and finish"
@@ -549,7 +547,7 @@ msgstr "收起/展开小部件"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Events"
-msgstr "事件"
+msgstr "Events（事件）"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Event"
@@ -588,7 +586,7 @@ msgstr "资源"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Recipients"
-msgstr "接收人"
+msgstr "收件人"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to"
@@ -864,7 +862,7 @@ msgstr "自动响应的发件人"
 
 #. Template: AdminAutoResponse
 msgid "Reference"
-msgstr "相关参考"
+msgstr "ACL设置参考"
 
 #. Template: AdminAutoResponse
 msgid "To get the first 20 character of the subject."
@@ -1197,7 +1195,7 @@ msgstr "优先级"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "Module"
-msgstr "模块"
+msgstr "Module（模块）"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "Information"
@@ -1285,7 +1283,7 @@ msgstr "管理客户与组的关系"
 
 #. Template: AdminCustomerGroup
 msgid "Notice"
-msgstr "注意"
+msgstr "Notice（注意）"
 
 #. Template: AdminCustomerGroup
 msgid "This feature is disabled!"
@@ -1366,7 +1364,7 @@ msgstr "不能更改默认组."
 
 #. Template: AdminCustomerGroup
 msgid "ro"
-msgstr "只读"
+msgstr "ro（只读）"
 
 #. Template: AdminCustomerGroup
 msgid "Read only access to the ticket in this group/queue."
@@ -1374,7 +1372,7 @@ msgstr "对于组/队列中的工单具有 '只读'权限。"
 
 #. Template: AdminCustomerGroup
 msgid "rw"
-msgstr "读写"
+msgstr "rw（读写）"
 
 #. Template: AdminCustomerGroup
 msgid "Full read and write access to the tickets in this group/queue."
@@ -1494,7 +1492,9 @@ msgid ""
 "permission context. The matrix takes into account all inherited access (e.g."
 " via customer groups). Note: The table does not consider changes made to "
 "this form without submitting it."
-msgstr "上表显示了通过权限上下文为客户用户授予的客户访问权限。 该矩阵考虑了所有继承的访问权限（例如通过客户组）。  注意：此表没有考虑对此表单做了更改但没有提交的内容。"
+msgstr ""
+"上表显示了通过权限上下文为客户用户授予的客户访问权限。 该矩阵考虑了所有继承的访问权限（例如通过客户组）。  "
+"注意：此表没有考虑对此表单做了更改但没有提交的内容。"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Manage Customer User-Customer Relations"
@@ -1522,7 +1522,7 @@ msgstr "全部激活/不激活状态"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Active"
-msgstr "激活"
+msgstr "Active（活动的）"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Toggle active state for %s"
@@ -1652,11 +1652,11 @@ msgstr "每页动态字段个数"
 
 #. Template: AdminDynamicField
 msgid "Label"
-msgstr "标记"
+msgstr "标签"
 
 #. Template: AdminDynamicField
 msgid "Order"
-msgstr "顺序"
+msgstr "订单"
 
 #. Template: AdminDynamicField
 msgid "Object"
@@ -1676,7 +1676,7 @@ msgstr "返回概览"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "General"
-msgstr "常规"
+msgstr "一般"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid ""
@@ -1811,7 +1811,8 @@ msgid ""
 "If filled in, this URL will be used for a preview which is shown when this "
 "link is hovered in ticket zoom. Please note that for this to work, the "
 "regular URL field above needs to be filled in, too."
-msgstr "如果填写了内容，在工单详情屏幕中当鼠标移动到这个URL上方时将显示URL的预览。请注意：要使这个功能生效，还需要上面的常规URL字段也填写好了内容。"
+msgstr ""
+"如果填写了内容，在工单详情屏幕中当鼠标移动到这个URL上方时将显示URL的预览。请注意：要使这个功能生效，还需要上面的常规URL字段也填写好了内容。"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
@@ -1823,7 +1824,7 @@ msgstr "在这里可以限制输入工单日期。"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Possible values"
-msgstr "可选值"
+msgstr "可能值"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Key"
@@ -2177,7 +2178,7 @@ msgstr "工单创建时间（在...之间）"
 
 #. Template: AdminGenericAgent
 msgid "and"
-msgstr "和"
+msgstr "and（与）"
 
 #. Template: AdminGenericAgent
 msgid "Last changed times"
@@ -2733,7 +2734,9 @@ msgid ""
 "at '1 minute' and retry factor at '2', retries would be triggered at 10:01 "
 "(1 minute), 10:03 (2*1=2 minutes), 10:07 (2*2=4 minutes), 10:15 (2*4=8 "
 "minutes), ..."
-msgstr "示例：如果一个请求的初始间隔为“1分钟”、重试因子为“2”，初始触发在10:00，重试将触发在10:01（1分钟），10:03（2 * 1 = 2 分钟），10:07（2 * 2 = 4分钟），10:15（2 * 4 = 8分钟），..."
+msgstr ""
+"示例：如果一个请求的初始间隔为“1分钟”、重试因子为“2”，初始触发在10:00，重试将触发在10:01（1分钟），10:03（2 * 1 = 2 "
+"分钟），10:07（2 * 2 = 4分钟），10:15（2 * 4 = 8分钟），..."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry interval"
@@ -2757,7 +2760,9 @@ msgid ""
 "at '1 minute', retry factor at '2' and maximum interval at '5 minutes', "
 "retries would be triggered at 10:01 (1 minute), 10:03 (2 minutes), 10:07 (4 "
 "minutes), 10:12 (8=>5 minutes), 10:17, ..."
-msgstr "示例：示例：如果一个请求的初始时间间隔为“1分钟”，重试因子为“2”，最大间隔为“5分钟”，初始触发在10:00，重试将触发在10:01（1分钟），10 ：03（2分钟），10:07（4分钟），10:12（8 => 5分钟），10:17，..."
+msgstr ""
+"示例：示例：如果一个请求的初始时间间隔为“1分钟”，重试因子为“2”，最大间隔为“5分钟”，初始触发在10:00，重试将触发在10:01（1分钟），10"
+" ：03（2分钟），10:07（4分钟），10:12（8 => 5分钟），10:17，..."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry count"
@@ -2774,7 +2779,8 @@ msgid ""
 "Example: If a request is initially triggered at 10:00 with initial interval "
 "at '1 minute', retry factor at '2' and maximum retry count at '2', retries "
 "would be triggered at 10:01 and 10:02 only."
-msgstr "示例：如果一个请求的初始时间间隔为“1分钟”，重试因子为“2”，最大重试次数为“2”，初始触发在10:00，将仅在10:01和10:03触发重试。"
+msgstr ""
+"示例：如果一个请求的初始时间间隔为“1分钟”，重试因子为“2”，最大重试次数为“2”，初始触发在10:00，将仅在10:01和10:03触发重试。"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2810,7 +2816,9 @@ msgid ""
 "at '1 minute', retry factor at '2' and maximum retry period at '30 minutes',"
 " retries would be triggered at 10:01, 10:03, 10:07, 10:15 and finally at "
 "10:31=>10:30."
-msgstr "示例：如果一个请求的初始间隔为“1分钟”、重试因子为“2”、最大重试时间为“30分钟”，初始触发在10:00，重试将触发在10:01、10:03、10:07、10:15，最后在10：31 => 10:30触发一次。"
+msgstr ""
+"示例：如果一个请求的初始间隔为“1分钟”、重试因子为“2”、最大重试时间为“30分钟”，初始触发在10:00，重试将触发在10:01、10:03、10:07、10:15，最后在10：31"
+" => 10:30触发一次。"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2875,7 +2883,7 @@ msgstr "这个映射将对响应数据进行处理，将它转换为OTRS调用�
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Asynchronous"
-msgstr "异步的"
+msgstr "异步"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Condition"
@@ -3188,7 +3196,9 @@ msgid ""
 "Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = "
 "'_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into "
 "'_elementname_16'."
-msgstr "示例3：搜索=  '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / 替换= '_\\\\$+{text}_\\\\$+{number}'，可将 '16 elementname'变成'_elementname_16'。"
+msgstr ""
+"示例3：搜索=  '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / 替换= "
+"'_\\\\$+{text}_\\\\$+{number}'，可将 '16 elementname'变成'_elementname_16'。"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "For information about regular expressions in Perl please see here:"
@@ -3357,7 +3367,7 @@ msgstr "请求的超时值。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Authentication"
-msgstr "身份验证"
+msgstr "Authentication（身份验证）"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "An optional authentication mechanism to access the remote system."
@@ -3598,7 +3608,8 @@ msgstr "为SOAP方法指定URI(通用资源标识符), 以便消除二义性。"
 msgid ""
 "e.g urn:otrs-com:soap:functions or "
 "http://www.otrs.com/GenericInterface/actions"
-msgstr "例如：urn:otrs-com:soap:functions或http://www.otrs.com/GenericInterface/actions"
+msgstr ""
+"例如：urn:otrs-com:soap:functions或http://www.otrs.com/GenericInterface/actions"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name scheme"
@@ -4535,7 +4546,7 @@ msgstr "PGP密钥"
 
 #. Template: AdminPackageManager
 msgid "Package Manager"
-msgstr "软件包管理"
+msgstr "软件包管理器"
 
 #. Template: AdminPackageManager
 msgid "Uninstall Package"
@@ -4633,7 +4644,9 @@ msgid ""
 "Please make sure your database accepts packages over %s MB in size (it "
 "currently only accepts packages up to %s MB). Please adapt the "
 "max_allowed_packet setting of your database in order to avoid errors."
-msgstr "请确认你的数据库能够接收大于%s MB的数据包（目前能够接收的最大数据包为%s MB）。为了避免程序报错，请调整数据库max_allowed_packet参数。"
+msgstr ""
+"请确认你的数据库能够接收大于%s MB的数据包（目前能够接收的最大数据包为%s "
+"MB）。为了避免程序报错，请调整数据库max_allowed_packet参数。"
 
 #. Template: AdminPackageManager
 msgid "Install"
@@ -4895,7 +4908,9 @@ msgstr "如果你使用了正则表达式，你可以取出()中匹配的值(需
 msgid ""
 "You can also use named captures %s and use the names in the 'Set' action %s "
 "(e.g. Regexp: %s, Set action: %s). A matched EMAILADDRESS has the name '%s'."
-msgstr "您还可以使用命名捕获%s并在'Set'操作中使用名称%s（例如Regexp：%s，Set 操作：%s）。 匹配到的EMAILADDRESS命名为'%s'。"
+msgstr ""
+"您还可以使用命名捕获%s并在'Set'操作中使用名称%s（例如Regexp：%s，Set 操作：%s）。 "
+"匹配到的EMAILADDRESS命名为'%s'。"
 
 #. Template: AdminPostMasterFilter
 msgid "Delete this filter"
@@ -5133,7 +5148,8 @@ msgstr "请注意，修改这个活动对话框将影响以下活动"
 msgid ""
 "Please note that customer users will not be able to see or use the following"
 " fields: Owner, Responsible, Lock, PendingTime and CustomerID."
-msgstr "请注意，客户并不能看到或使用以下字段：Owner, Responsible, Lock, PendingTime and CustomerID."
+msgstr ""
+"请注意，客户并不能看到或使用以下字段：Owner, Responsible, Lock, PendingTime and CustomerID."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
@@ -5212,7 +5228,7 @@ msgstr "对客户可见"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Display"
-msgstr "显示"
+msgstr "Display（显示）"
 
 #. Template: AdminProcessManagementPath
 msgid "Path"
@@ -5224,7 +5240,7 @@ msgstr "编辑这个转换"
 
 #. Template: AdminProcessManagementPath
 msgid "Transition Actions"
-msgstr "转换动作"
+msgstr "转换操作"
 
 #. Template: AdminProcessManagementPath
 msgid ""
@@ -5238,7 +5254,7 @@ msgstr "可用转换动作的过滤器"
 
 #. Template: AdminProcessManagementPath
 msgid "Available Transition Actions"
-msgstr "可用的转换动作"
+msgstr "可用的转换操作"
 
 #. Template: AdminProcessManagementPath
 msgid "Create New Transition Action"
@@ -5575,7 +5591,9 @@ msgid ""
 "portal, the escalation update time is reset. If there is no customer "
 "contact, either email-external or phone, added to a ticket before the time "
 "defined here expires, the ticket is escalated."
-msgstr "如果有新的信件，例如客户通过门户或邮件发送跟进信件，则升级更新时间重置。 如果在此所定义的时间之前，服务人员没有对新工单添加任何客户联络(无论是外部邮件或电话)，该工单将升级."
+msgstr ""
+"如果有新的信件，例如客户通过门户或邮件发送跟进信件，则升级更新时间重置。 "
+"如果在此所定义的时间之前，服务人员没有对新工单添加任何客户联络(无论是外部邮件或电话)，该工单将升级."
 
 #. Template: AdminQueue
 msgid ""
@@ -6031,7 +6049,7 @@ msgstr "将工单转移到这个组/队列的权限。"
 
 #. Template: AdminRoleGroup
 msgid "create"
-msgstr "创建"
+msgstr "create（创建）"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to create tickets in this group/queue."
@@ -6039,7 +6057,7 @@ msgstr "在这个组/队列具有创建工单的权限。"
 
 #. Template: AdminRoleGroup
 msgid "note"
-msgstr "备注"
+msgstr "note（备注）"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue."
@@ -6047,7 +6065,7 @@ msgstr "在这个组/队列具有添加备注的权限。"
 
 #. Template: AdminRoleGroup
 msgid "owner"
-msgstr "所有者"
+msgstr "owner（所有者）"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to change the owner of tickets in this group/queue."
@@ -6055,7 +6073,7 @@ msgstr "在这个组/队列具有变更工单所有者的权限。"
 
 #. Template: AdminRoleGroup
 msgid "priority"
-msgstr "优先级"
+msgstr "priority（优先级）"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to change the ticket priority in this group/queue."
@@ -6973,7 +6991,7 @@ msgstr "模板名称已存在！"
 
 #. Template: AdminTemplate
 msgid "Template"
-msgstr "模板"
+msgstr "模版"
 
 #. Template: AdminTemplate
 msgid "Create type templates only supports this smart tags"
@@ -7577,7 +7595,7 @@ msgstr "变更客户关系"
 
 #. Template: AgentDashboardCustomerIDList
 msgid "Open"
-msgstr "处理中"
+msgstr "Open（处理中）"
 
 #. Template: AgentDashboardCustomerIDList
 msgid "Closed"
@@ -9289,7 +9307,7 @@ msgstr "个人偏好设置"
 
 #. Template: Header
 msgid "Logout"
-msgstr "退出"
+msgstr "注销"
 
 #. Template: Header
 msgid "You are logged in as"
@@ -9325,7 +9343,7 @@ msgstr "欢迎使用%s"
 
 #. Template: Installer
 msgid "Germany"
-msgstr ""
+msgstr "德国"
 
 #. Template: Installer
 msgid "Phone"
@@ -9333,27 +9351,27 @@ msgstr "电话"
 
 #. Template: Installer
 msgid "United States"
-msgstr ""
+msgstr "美国"
 
 #. Template: Installer
 msgid "Mexico"
-msgstr ""
+msgstr "墨西哥"
 
 #. Template: Installer
 msgid "Hungary"
-msgstr ""
+msgstr "匈牙利"
 
 #. Template: Installer
 msgid "Brazil"
-msgstr ""
+msgstr "巴西"
 
 #. Template: Installer
 msgid "Singapore"
-msgstr ""
+msgstr "新加坡"
 
 #. Template: Installer
 msgid "Hong Kong"
-msgstr ""
+msgstr "香港"
 
 #. Template: Installer
 msgid "Web site"
@@ -9465,7 +9483,7 @@ msgstr "完成"
 
 #. Template: InstallerDBResult
 msgid "Error"
-msgstr "错误"
+msgstr "Error（错误）"
 
 #. Template: InstallerDBResult
 msgid "Database setup successful!"
@@ -9511,7 +9529,7 @@ msgstr "数据库用户"
 
 #. Template: InstallerDBmssql
 msgid "New"
-msgstr "新建"
+msgstr "New（新建）"
 
 #. Template: InstallerDBmssql
 msgid ""
@@ -10695,11 +10713,11 @@ msgstr "跟踪"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Debug"
-msgstr "调试"
+msgstr "Debug（调试）"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Info"
-msgstr "详情"
+msgstr "Info（信息）"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Warn"
@@ -11436,7 +11454,8 @@ msgid ""
 "Sorry, Apache::Reload is needed as PerlModule and PerlInitHandler in Apache "
 "config file. See also scripts/apache2-httpd.include.conf. Alternatively, you"
 " can use the command line tool bin/otrs.Console.pl to install packages!"
-msgstr "抱歉，在Apache配置文件中需要Apache::Reload作为PerlModule和PerlInitHandler。另请查看scripts/apache2-httpd.include.conf。或者您也可以使用命令行工具bin/otrs.Console.pl来安装软件包！"
+msgstr ""
+"抱歉，在Apache配置文件中需要Apache::Reload作为PerlModule和PerlInitHandler。另请查看scripts/apache2-httpd.include.conf。或者您也可以使用命令行工具bin/otrs.Console.pl来安装软件包！"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
@@ -11788,7 +11807,7 @@ msgstr "编辑转换“%s”"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "xor"
-msgstr "异或"
+msgstr "xor（异或）"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "String"
@@ -12843,7 +12862,9 @@ msgid ""
 "Wrong ActivityDialog Field config: %s can't be Display => 1 / Show field "
 "(Please change its configuration to be Display => 0 / Do not show field or "
 "Display => 2 / Show field as mandatory)!"
-msgstr "错误的活动对话框字段配置：%s 不能设置为Display => 1/显示字段（请修改它的配置为Display => 0/不显示字段或Display => 2 /强制显示字段）！"
+msgstr ""
+"错误的活动对话框字段配置：%s 不能设置为Display => 1/显示字段（请修改它的配置为Display => 0/不显示字段或Display =>"
+" 2 /强制显示字段）！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Could not set %s for Ticket with ID \"%s\" in ActivityDialog \"%s\"!"
@@ -13424,14 +13445,16 @@ msgid ""
 "Error: Please make sure your database accepts packages over %s MB in size "
 "(it currently only accepts packages up to %s MB). Please adapt the "
 "max_allowed_packet setting of your database in order to avoid errors."
-msgstr "错误：请确认你的数据库能够接收大于%sMB的数据包（目前能够接收的最大数据包为%sMB）。为了避免程序报错，请调整数据库max_allowed_packet参数。"
+msgstr ""
+"错误：请确认你的数据库能够接收大于%sMB的数据包（目前能够接收的最大数据包为%sMB）。为了避免程序报错，请调整数据库max_allowed_packet参数。"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
 "Error: Please set the value for innodb_log_file_size on your database to at "
 "least %s MB (current: %s MB, recommended: %s MB). For more information, "
 "please have a look at %s."
-msgstr "错误：请设置数据库参数innodb_log_file_size至少为%s MB（当前：%s MB，推荐：%s MB），请参阅 %s 获取更多信息。"
+msgstr ""
+"错误：请设置数据库参数innodb_log_file_size至少为%s MB（当前：%s MB，推荐：%s MB），请参阅 %s 获取更多信息。"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
@@ -14406,7 +14429,8 @@ msgid ""
 "problems</li><li>Performance problems</li></ul><p>Please note that issues "
 "that are caused by working with this package are not covered by OTRS service"
 " contracts.</p>"
-msgstr "<p>如果安装这个扩展包，可能导致以下问题：</p><ul><li>安全问题</li><li>稳定问题</li><li>性能问题</li></ul><p>请注意，使用此软件包所引起的问题不在OTRS服务合同范围内。</p>"
+msgstr ""
+"<p>如果安装这个扩展包，可能导致以下问题：</p><ul><li>安全问题</li><li>稳定问题</li><li>性能问题</li></ul><p>请注意，使用此软件包所引起的问题不在OTRS服务合同范围内。</p>"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
@@ -14419,7 +14443,10 @@ msgid ""
 "<p>You can activate the installation of not verified packages in the <a "
 "href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
 " target=\"_blank\">System Configuration</a>.</p>"
-msgstr "<p>可以在<a href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\" target=\"_blank\">系统配置</a>中激活这些没有通过验证的软件包。</p>"
+msgstr ""
+"<p>可以在<a "
+"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
+" target=\"_blank\">系统配置</a>中激活这些没有通过验证的软件包。</p>"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -14499,15 +14526,15 @@ msgstr "升级"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - First Response Time"
-msgstr "升级 - 首次响应时间"
+msgstr "首次响应时间升级"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - Update Time"
-msgstr "升级 - 更新时间"
+msgstr "更新时间升级"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - Solution Time"
-msgstr "升级 - 解决时间"
+msgstr "解决时间升级"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Agent/Owner"
@@ -14793,7 +14820,9 @@ msgid ""
 "Tables with invalid default values were found. In order to fix it "
 "automatically, please run: bin/otrs.Console.pl Maint::Database::Check "
 "--repair"
-msgstr "找到具有无效的默认值的表。 为了自动修复它，请运行：bin/otrs.Console.pl Maint::Database::Check --repair"
+msgstr ""
+"找到具有无效的默认值的表。 为了自动修复它，请运行：bin/otrs.Console.pl Maint::Database::Check "
+"--repair"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
@@ -15346,7 +15375,9 @@ msgid ""
 "Table ticket_lock_index contains orphaned records. Please run "
 "bin/otrs.Console.pl \"Maint::Ticket::QueueIndexCleanup\" to clean the "
 "StaticDB index."
-msgstr "ticket_lock_index 表中包含孤儿记录。请运行bin/otrs.Console.pl \"Maint::Ticket::QueueIndexCleanup\"清理静态数据库的索引。"
+msgstr ""
+"ticket_lock_index 表中包含孤儿记录。请运行bin/otrs.Console.pl "
+"\"Maint::Ticket::QueueIndexCleanup\"清理静态数据库的索引。"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
@@ -15358,7 +15389,9 @@ msgstr "ticket_index 表中的孤儿记录"
 msgid ""
 "Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl"
 " \"Maint::Ticket::QueueIndexCleanup\" to clean the StaticDB index."
-msgstr "ticket_index表中包含孤儿记录，请运行bin/otrs.Console.pl \"Maint::Ticket::QueueIndexCleanup\"，清理静态数据库的索引。"
+msgstr ""
+"ticket_index表中包含孤儿记录，请运行bin/otrs.Console.pl "
+"\"Maint::Ticket::QueueIndexCleanup\"，清理静态数据库的索引。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Time Settings"
@@ -15488,7 +15521,8 @@ msgid ""
 "Apache::Reload or Apache2::Reload should be used as PerlModule and "
 "PerlInitHandler to prevent web server restarts when installing and upgrading"
 " modules."
-msgstr "Apache::Reload或Apache2::Reload应该被用作PERL模块和PERL初始化处理程序，以防止在安装和升级模块时WEB服务器重启。"
+msgstr ""
+"Apache::Reload或Apache2::Reload应该被用作PERL模块和PERL初始化处理程序，以防止在安装和升级模块时WEB服务器重启。"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
@@ -15736,7 +15770,7 @@ msgstr "具有统计权限的组。"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "new"
-msgstr "新建"
+msgstr "new-新建"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "All new state types (default: viewable)."
@@ -15744,7 +15778,7 @@ msgstr "所有新工单的状态类型（默认：可查看）。"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "open"
-msgstr "处理中"
+msgstr "open-处理中"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "All open state types (default: viewable)."
@@ -15752,7 +15786,7 @@ msgstr "所有处理中的工单的状态类型（默认：可查看）。"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "closed"
-msgstr "已关闭"
+msgstr "closed-已关闭"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "All closed state types (default: not viewable)."
@@ -15776,7 +15810,7 @@ msgstr "所有等待自动成功/失败关闭的工单的状态类型（默认�
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "removed"
-msgstr "已删除"
+msgstr "removed-已删除"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "All 'removed' state types (default: not viewable)."
@@ -15784,7 +15818,7 @@ msgstr "所有已移除工单的状态类型（默认：不可查看）。"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "merged"
-msgstr "已合并"
+msgstr "merged-已合并"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "State type for merged tickets (default: not viewable)."
@@ -15796,7 +15830,7 @@ msgstr "客户创建的新工单。"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "closed successful"
-msgstr "成功关闭"
+msgstr "closed successful-成功关闭"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket is closed successful."
@@ -15804,7 +15838,7 @@ msgstr "工单已经成功关闭。"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "closed unsuccessful"
-msgstr "失败关闭"
+msgstr "closed unsuccessful-失败关闭"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket is closed unsuccessful."
@@ -15824,7 +15858,7 @@ msgstr "工单为服务人员提醒而挂起。"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "pending auto close+"
-msgstr "等待自动成功关闭"
+msgstr "挂起等待成功关闭"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket is pending for automatic close."
@@ -15832,7 +15866,7 @@ msgstr "工单等待自动关闭而挂起。"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "pending auto close-"
-msgstr "等待自动失败关闭"
+msgstr "挂起等待失败关闭"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "State for merged tickets."
@@ -15904,7 +15938,7 @@ msgstr "所有的杂项工单。"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto reply"
-msgstr "自动回复"
+msgstr "auto reply-自动回复"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
@@ -15913,7 +15947,7 @@ msgstr "创建新工单后会发送自动答复。"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto reject"
-msgstr "自动拒绝"
+msgstr "auto reject 自动拒绝"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
@@ -15923,7 +15957,7 @@ msgstr "跟进工单被拒绝后会发送自动拒绝（在队列跟进选项设
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto follow up"
-msgstr "自动跟进"
+msgstr "auto follow up-自动跟进"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
@@ -15933,7 +15967,7 @@ msgstr "跟进工单被接受后会发送自动确认（在队列跟进选项设
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto reply/new ticket"
-msgstr "自动回复/新建工单"
+msgstr "自动回复/新工单"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
@@ -15944,7 +15978,7 @@ msgstr "跟进工单被拒绝并创建新工单后会发送自动响应（在队
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "auto remove"
-msgstr "自动删除"
+msgstr "auto remove-自动移除"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Auto remove will be sent out after a customer removed the request."
@@ -16279,7 +16313,8 @@ msgid ""
 "appropriate changes in the SysConfig, you will be locked out of the "
 "administrations panel! If this happens, please rename the group back to "
 "admin per SQL statement."
-msgstr "警告：当您更改'管理'组的名称时，在SysConfig作出相应的变化之前，你将被管理面板锁住！如果发生这种情况，请用SQL语句把组名改回到'admin'。"
+msgstr ""
+"警告：当您更改'管理'组的名称时，在SysConfig作出相应的变化之前，你将被管理面板锁住！如果发生这种情况，请用SQL语句把组名改回到'admin'。"
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Delete this Mail Account"
@@ -16493,7 +16528,9 @@ msgid ""
 "configuration setting, which makes it impossible to edit it in its current "
 "state. Please wait until the setting has been deployed. If you're unsure "
 "what to do next, please contact your system administrator."
-msgstr "您当前正在查看的条目是尚未部署的配置设置的一部分，这使得无法在当前状态下进行编辑，请等待设置部署后再编辑。 如果您不确定下一步该怎么办，请与系统管理员联系。"
+msgstr ""
+"您当前正在查看的条目是尚未部署的配置设置的一部分，这使得无法在当前状态下进行编辑，请等待设置部署后再编辑。 "
+"如果您不确定下一步该怎么办，请与系统管理员联系。"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Loading..."
@@ -17050,7 +17087,16 @@ msgid ""
 "Thanks for your help!\n"
 "\n"
 " Your Helpdesk Team\n"
-msgstr "\n尊敬的客户，\n\n很不幸我们没有找到你主题中提到的工单号，所以这封邮件无法处理。\n\n请通过客户网页创建一个新的工单。\n\n感谢您的支持！\n您的服务台团队\n"
+msgstr ""
+"\n"
+"尊敬的客户，\n"
+"\n"
+"很不幸我们没有找到你主题中提到的工单号，所以这封邮件无法处理。\n"
+"\n"
+"请通过客户网页创建一个新的工单。\n"
+"\n"
+"感谢您的支持！\n"
+"您的服务台团队\n"
 
 #. SysConfig
 msgid " (work units)"
@@ -17384,21 +17430,24 @@ msgid ""
 "Agent interface module to access CIC search via nav bar. Additional access "
 "control to show or not show this link can be done by using Key \"Group\" and"
 " Content like \"rw:group1;move_into:group2\"."
-msgstr "通过导航栏访问客户信息中心的服务人员界面模块。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+msgstr ""
+"通过导航栏访问客户信息中心的服务人员界面模块。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
 
 #. SysConfig
 msgid ""
 "Agent interface module to access fulltext search via nav bar. Additional "
 "access control to show or not show this link can be done by using Key "
 "\"Group\" and Content like \"rw:group1;move_into:group2\"."
-msgstr "通过导航栏访问全文搜索的服务人员界面模块。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+msgstr ""
+"通过导航栏访问全文搜索的服务人员界面模块。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
 
 #. SysConfig
 msgid ""
 "Agent interface module to access search profiles via nav bar. Additional "
 "access control to show or not show this link can be done by using Key "
 "\"Group\" and Content like \"rw:group1;move_into:group2\"."
-msgstr "通过导航栏访问搜索模板的服务人员界面模块。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+msgstr ""
+"通过导航栏访问搜索模板的服务人员界面模块。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
 
 #. SysConfig
 msgid ""
@@ -17411,7 +17460,8 @@ msgid ""
 "Agent interface notification module to see the number of locked tickets. "
 "Additional access control to show or not show this link can be done by using"
 " Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
-msgstr "查看锁定工单数的服务人员界面通知模块。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+msgstr ""
+"查看锁定工单数的服务人员界面通知模块。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
 
 #. SysConfig
 msgid ""
@@ -17419,21 +17469,24 @@ msgid ""
 " responsible for. Additional access control to show or not show this link "
 "can be done by using Key \"Group\" and Content like "
 "\"rw:group1;move_into:group2\"."
-msgstr "查看服务人员负责工单数的服务人员界面通知模块。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+msgstr ""
+"查看服务人员负责工单数的服务人员界面通知模块。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
 
 #. SysConfig
 msgid ""
 "Agent interface notification module to see the number of tickets in My "
 "Services. Additional access control to show or not show this link can be "
 "done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
-msgstr "查看服务人员所属服务工单数的服务人员界面通知模块。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+msgstr ""
+"查看服务人员所属服务工单数的服务人员界面通知模块。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
 
 #. SysConfig
 msgid ""
 "Agent interface notification module to see the number of watched tickets. "
 "Additional access control to show or not show this link can be done by using"
 " Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
-msgstr "查看服务人员关注工单数的服务人员界面通知模块。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+msgstr ""
+"查看服务人员关注工单数的服务人员界面通知模块。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
 
 #. SysConfig
 msgid ""
@@ -17602,14 +17655,16 @@ msgid ""
 "Allows extended search conditions in ticket search of the agent interface. "
 "With this feature you can search e. g. ticket title with this kind of "
 "conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
-msgstr "允许在服务人员界面搜索工单时扩展搜索条件，通过这个功能您可以按如下条件搜索：带“(*key1*&&*key2*)”或“(*key1*||*key2*)”条件的工单标题。"
+msgstr ""
+"允许在服务人员界面搜索工单时扩展搜索条件，通过这个功能您可以按如下条件搜索：带“(*key1*&&*key2*)”或“(*key1*||*key2*)”条件的工单标题。"
 
 #. SysConfig
 msgid ""
 "Allows extended search conditions in ticket search of the customer "
 "interface. With this feature you can search e. g. ticket title with this "
 "kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
-msgstr "允许在客户界面搜索工单时扩展搜索条件，通过这个功能您可以按如下条件搜索：带“(*key1*&&*key2*)”或“(*key1*||*key2*)”条件的工单标题。"
+msgstr ""
+"允许在客户界面搜索工单时扩展搜索条件，通过这个功能您可以按如下条件搜索：带“(*key1*&&*key2*)”或“(*key1*||*key2*)”条件的工单标题。"
 
 #. SysConfig
 msgid ""
@@ -17826,7 +17881,8 @@ msgid ""
 "ticket responsible feature is enabled). This will only work by manually "
 "actions of the logged in user. It does not work for automated actions e.g. "
 "GenericAgent, Postmaster and GenericInterface."
-msgstr "如果启用了工单负责人功能，自动设置工单所有者为其负责人。这个选项只适用于登录用户的手动操作，不适用于自动操作如自动任务、邮箱管理员过滤和通用接口。"
+msgstr ""
+"如果启用了工单负责人功能，自动设置工单所有者为其负责人。这个选项只适用于登录用户的手动操作，不适用于自动操作如自动任务、邮箱管理员过滤和通用接口。"
 
 #. SysConfig
 msgid ""
@@ -17854,7 +17910,9 @@ msgstr "基于全局富文本设置"
 msgid ""
 "Basic fulltext index settings. Execute \"bin/otrs.Console.pl "
 "Maint::Ticket::FulltextIndexRebuild\" in order to generate a new index."
-msgstr "基本的全文索引设置。执行\"bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild\"以生成一个新索引。"
+msgstr ""
+"基本的全文索引设置。执行\"bin/otrs.Console.pl "
+"Maint::Ticket::FulltextIndexRebuild\"以生成一个新索引。"
 
 #. SysConfig
 msgid ""
@@ -18125,7 +18183,9 @@ msgid ""
 "Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr "可以在服务人员界面工单升级视图中过滤的列。 注意：只允许使用工单属性、动态字段（DynamicField_NameX）和客户属性（例如CustomerUserPhone，CustomerCompanyName，...）。"
+msgstr ""
+"可以在服务人员界面工单升级视图中过滤的列。 "
+"注意：只允许使用工单属性、动态字段（DynamicField_NameX）和客户属性（例如CustomerUserPhone，CustomerCompanyName，...）。"
 
 #. SysConfig
 msgid ""
@@ -18133,14 +18193,18 @@ msgid ""
 "Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr "可以在服务人员界面锁定的工单视图中过滤的列。 注意：只允许使用工单属性、动态字段（DynamicField_NameX）和客户属性（例如CustomerUserPhone，CustomerCompanyName，...）。"
+msgstr ""
+"可以在服务人员界面锁定的工单视图中过滤的列。 "
+"注意：只允许使用工单属性、动态字段（DynamicField_NameX）和客户属性（例如CustomerUserPhone，CustomerCompanyName，...）。"
 
 #. SysConfig
 msgid ""
 "Columns that can be filtered in the queue view of the agent interface. Note:"
 " Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer "
 "attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed."
-msgstr "可以在服务人员界面工单队列视图中过滤的列。 注意：只允许使用工单属性、动态字段（DynamicField_NameX）和客户属性（例如CustomerUserPhone，CustomerCompanyName，...）。"
+msgstr ""
+"可以在服务人员界面工单队列视图中过滤的列。 "
+"注意：只允许使用工单属性、动态字段（DynamicField_NameX）和客户属性（例如CustomerUserPhone，CustomerCompanyName，...）。"
 
 #. SysConfig
 msgid ""
@@ -18148,7 +18212,9 @@ msgid ""
 " Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr "可以在服务人员界面工单负责人视图中过滤的列。 注意：只允许使用工单属性、动态字段（DynamicField_NameX）和客户属性（例如CustomerUserPhone，CustomerCompanyName，...）。"
+msgstr ""
+"可以在服务人员界面工单负责人视图中过滤的列。 "
+"注意：只允许使用工单属性、动态字段（DynamicField_NameX）和客户属性（例如CustomerUserPhone，CustomerCompanyName，...）。"
 
 #. SysConfig
 msgid ""
@@ -18156,7 +18222,9 @@ msgid ""
 "Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr "可以在服务人员界面工单服务视图中过滤的列。 注意：只允许使用工单属性、动态字段（DynamicField_NameX）和客户属性（例如CustomerUserPhone，CustomerCompanyName，...）。"
+msgstr ""
+"可以在服务人员界面工单服务视图中过滤的列。 "
+"注意：只允许使用工单属性、动态字段（DynamicField_NameX）和客户属性（例如CustomerUserPhone，CustomerCompanyName，...）。"
 
 #. SysConfig
 msgid ""
@@ -18164,7 +18232,9 @@ msgid ""
 "Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr "可以在服务人员界面工单状态视图中过滤的列。 注意：只允许使用工单属性、动态字段（DynamicField_NameX）和客户属性（例如CustomerUserPhone，CustomerCompanyName，...）。"
+msgstr ""
+"可以在服务人员界面工单状态视图中过滤的列。 "
+"注意：只允许使用工单属性、动态字段（DynamicField_NameX）和客户属性（例如CustomerUserPhone，CustomerCompanyName，...）。"
 
 #. SysConfig
 msgid ""
@@ -18172,14 +18242,18 @@ msgid ""
 "interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX)"
 " and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) "
 "are allowed."
-msgstr "可以在服务人员界面工单搜索结果视图中过滤的列。 注意：只允许使用工单属性、动态字段（DynamicField_NameX）和客户属性（例如CustomerUserPhone，CustomerCompanyName，...）。"
+msgstr ""
+"可以在服务人员界面工单搜索结果视图中过滤的列。 "
+"注意：只允许使用工单属性、动态字段（DynamicField_NameX）和客户属性（例如CustomerUserPhone，CustomerCompanyName，...）。"
 
 #. SysConfig
 msgid ""
 "Columns that can be filtered in the watch view of the agent interface. Note:"
 " Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer "
 "attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed."
-msgstr "可以在服务人员界面工单关注视图中过滤的列。 注意：只允许使用工单属性、动态字段（DynamicField_NameX）和客户属性（例如CustomerUserPhone，CustomerCompanyName，...）。"
+msgstr ""
+"可以在服务人员界面工单关注视图中过滤的列。 "
+"注意：只允许使用工单属性、动态字段（DynamicField_NameX）和客户属性（例如CustomerUserPhone，CustomerCompanyName，...）。"
 
 #. SysConfig
 msgid "Comment for new history entries in the customer interface."
@@ -18265,7 +18339,9 @@ msgid ""
 "dynamic field which should be used, \"Value\" is the data that will be set, "
 "and \"Event\" defines the trigger event. Please check the developer manual "
 "(http://otrs.github.io/doc/), chapter \"Ticket Event Module\"."
-msgstr "配置默认的TicketDynamicField（工单动态字段）设置，“Name（名称）”定义要使用的动态字段，“Value（值）”是要设置的数值，“Event（事件）”定义触发的事件。请检查开发手册（http://otrs.github.io/doc/）的“Ticket Event Module（工单事件模块）”章节。"
+msgstr ""
+"配置默认的TicketDynamicField（工单动态字段）设置，“Name（名称）”定义要使用的动态字段，“Value（值）”是要设置的数值，“Event（事件）”定义触发的事件。请检查开发手册（http://otrs.github.io/doc/）的“Ticket"
+" Event Module（工单事件模块）”章节。"
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
@@ -18573,7 +18649,7 @@ msgstr "客户名称"
 
 #. SysConfig
 msgid "CustomerUser"
-msgstr "客户用户"
+msgstr "客户"
 
 #. SysConfig
 msgid "Customers ↔ Groups"
@@ -18623,13 +18699,15 @@ msgstr "自动生成的流程实体ID的默认前缀。"
 msgid ""
 "Default data to use on attribute for ticket search screen. Example: "
 "\"TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;\"."
-msgstr "工单搜索屏幕用于搜索属性的默认数据。示例：“TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;”。"
+msgstr ""
+"工单搜索屏幕用于搜索属性的默认数据。示例：“TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;”。"
 
 #. SysConfig
 msgid ""
 "Default data to use on attribute for ticket search screen. Example: "
 "\"TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;\"."
-msgstr "工单搜索屏幕用于搜索属性的默认数据。示例：“TicketCreateTimeStartYear=2015;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2015;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;”。"
+msgstr ""
+"工单搜索屏幕用于搜索属性的默认数据。示例：“TicketCreateTimeStartYear=2015;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2015;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;”。"
 
 #. SysConfig
 msgid ""
@@ -18682,7 +18760,10 @@ msgid ""
 "must have registered the following JS and CSS files: "
 "Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, "
 "Core.Agent.TableFilters.js."
-msgstr "定义链接对象小部件(LinkObject::ViewMode = \\\"complex\\\")设置按钮中的操作。请注意，这些操作必须已经在以下JS和CSS文件中注册：Core.AllocationList.css、Core.UI.AllocationList.js、 Core.UI.Table.Sort.js、Core.Agent.TableFilters.js。"
+msgstr ""
+"定义链接对象小部件(LinkObject::ViewMode = "
+"\\\"complex\\\")设置按钮中的操作。请注意，这些操作必须已经在以下JS和CSS文件中注册：Core.AllocationList.css、Core.UI.AllocationList.js、"
+" Core.UI.Table.Sort.js、Core.Agent.TableFilters.js。"
 
 #. SysConfig
 msgid ""
@@ -18690,7 +18771,8 @@ msgid ""
 "element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
-msgstr "在HTML输出结果中为预定义字符串添加链接的过滤器。图像元素允许两种输入方式：第一种是用图像的名称（例如：faq.png），在这种情况下会使用OTRS的图像路径；第二种是插入图像的链接。"
+msgstr ""
+"在HTML输出结果中为预定义字符串添加链接的过滤器。图像元素允许两种输入方式：第一种是用图像的名称（例如：faq.png），在这种情况下会使用OTRS的图像路径；第二种是插入图像的链接。"
 
 #. SysConfig
 msgid ""
@@ -18703,7 +18785,8 @@ msgid ""
 "they would have precedence over the automatically set values. To use this "
 "mapping, you have to also activate the "
 "Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting."
-msgstr "定义客户用户数据（键）与工单动态字段（值）的映射。目的是在工单动态字段中存储客户用户数据。动态字段必须存在于系统中且启用了AgentTicketFreeText（服务人员工单自由文本），这样才能由服务人员手动设置/更新。动态字段不能在服务人员电话工单、邮件工单和客户工单中启用，否则他们将优先于自动设置值。要使用这些映射，还要激活Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser的设置。"
+msgstr ""
+"定义客户用户数据（键）与工单动态字段（值）的映射。目的是在工单动态字段中存储客户用户数据。动态字段必须存在于系统中且启用了AgentTicketFreeText（服务人员工单自由文本），这样才能由服务人员手动设置/更新。动态字段不能在服务人员电话工单、邮件工单和客户工单中启用，否则他们将优先于自动设置值。要使用这些映射，还要激活Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser的设置。"
 
 #. SysConfig
 msgid ""
@@ -18750,14 +18833,18 @@ msgid ""
 "Define which avatar default image should be used for the article view if no "
 "gravatar is assigned to the mail address. Check "
 "http://gravatar.com/site/implement/images/ for further information."
-msgstr "如果没有分配邮件地址的gravatar（个人全球统一标识），则定义信件视图应该使用哪个头像作为默认图像。 查看 http://gravatar.com/site/implement/images/ 以了解更多信息。"
+msgstr ""
+"如果没有分配邮件地址的gravatar（个人全球统一标识），则定义信件视图应该使用哪个头像作为默认图像。 查看 "
+"http://gravatar.com/site/implement/images/ 以了解更多信息。"
 
 #. SysConfig
 msgid ""
 "Define which avatar default image should be used for the current agent if no"
 " gravatar is assigned to the mail address of the agent. Check "
 "http://gravatar.com/site/implement/images/ for further information."
-msgstr "如果没有分配给服务人员的邮件地址的gravatar（个人全球统一标识），则定义当前服务人员应该使用哪个头像作为默认图像。 查看 http://gravatar.com/site/implement/images/ 以了解更多信息。"
+msgstr ""
+"如果没有分配给服务人员的邮件地址的gravatar（个人全球统一标识），则定义当前服务人员应该使用哪个头像作为默认图像。 查看 "
+"http://gravatar.com/site/implement/images/ 以了解更多信息。"
 
 #. SysConfig
 msgid ""
@@ -18766,21 +18853,27 @@ msgid ""
 "will be displayed instead. Please note that selecting anything other than "
 "'None' will transfer the encrypted email address of the particular user to "
 "an external service."
-msgstr "定义服务人员工单详情中的服务人员头像和的发件人图片使用哪个头像引擎。 如果选择“无”，则用缩写替代。 请注意，选择除“无”之外的任何内容都会将特定用户的加密过的电子邮件地址传输到外部服务。"
+msgstr ""
+"定义服务人员工单详情中的服务人员头像和的发件人图片使用哪个头像引擎。 如果选择“无”，则用缩写替代。 "
+"请注意，选择除“无”之外的任何内容都会将特定用户的加密过的电子邮件地址传输到外部服务。"
 
 #. SysConfig
 msgid ""
 "Define which columns are shown in the linked appointment widget "
 "(LinkObject::ViewMode = \"complex\"). Possible settings: 0 = Disabled, 1 = "
 "Available, 2 = Enabled by default."
-msgstr "定义链接的预约小部件(LinkObject::ViewMode = \"complex\")要显示的列。可用的设置值为：0 = 禁用，1 = 可用， 2 = 默认启用。"
+msgstr ""
+"定义链接的预约小部件(LinkObject::ViewMode = \"complex\")要显示的列。可用的设置值为：0 = 禁用，1 = 可用， 2"
+" = 默认启用。"
 
 #. SysConfig
 msgid ""
 "Define which columns are shown in the linked tickets widget "
 "(LinkObject::ViewMode = \"complex\"). Note: Only Ticket attributes and "
 "Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns."
-msgstr "定义链接的工单小部件中显示哪些列（LinkObject::ViewMode = \"complex\"）。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。"
+msgstr ""
+"定义链接的工单小部件中显示哪些列（LinkObject::ViewMode = \"complex\"）。 "
+"注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。"
 
 #. SysConfig
 msgid ""
@@ -18812,7 +18905,8 @@ msgid ""
 "element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
-msgstr "定义HTML输出结果中在CVE号码后面添加链接的过滤器。图像元素允许两种输入方式：第一种是用图像的名称（如faq.png），在这种情况下会使用OTRS的图像路径；第二种是插入图像的链接。"
+msgstr ""
+"定义HTML输出结果中在CVE号码后面添加链接的过滤器。图像元素允许两种输入方式：第一种是用图像的名称（如faq.png），在这种情况下会使用OTRS的图像路径；第二种是插入图像的链接。"
 
 #. SysConfig
 msgid ""
@@ -18820,7 +18914,8 @@ msgid ""
 " element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
-msgstr "定义HTML输出结果中在微软公告号码后面添加链接的过滤器。图像元素允许两种输入方式：第一种是用图像的名称（如faq.png），在这种情况下会使用OTRS的图像路径；第二种是插入图像的链接。"
+msgstr ""
+"定义HTML输出结果中在微软公告号码后面添加链接的过滤器。图像元素允许两种输入方式：第一种是用图像的名称（如faq.png），在这种情况下会使用OTRS的图像路径；第二种是插入图像的链接。"
 
 #. SysConfig
 msgid ""
@@ -18828,7 +18923,8 @@ msgid ""
 "element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
-msgstr "在HTML输出结果中为预定义字符串添加链接的过滤器。图像元素允许两种输入方式：第一种是用图像的名称（如faq.png），在这种情况下会使用OTRS的图像路径；第二种是插入图像的链接。"
+msgstr ""
+"在HTML输出结果中为预定义字符串添加链接的过滤器。图像元素允许两种输入方式：第一种是用图像的名称（如faq.png），在这种情况下会使用OTRS的图像路径；第二种是插入图像的链接。"
 
 #. SysConfig
 msgid ""
@@ -18836,7 +18932,8 @@ msgid ""
 "element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
-msgstr "定义HTML输出结果中在BUG追踪号码后面添加链接的过滤器。图像元素允许两种输入方式：第一种是用图像的名称（如faq.png），在这种情况下会使用OTRS的图像路径；第二种是插入图像的链接。"
+msgstr ""
+"定义HTML输出结果中在BUG追踪号码后面添加链接的过滤器。图像元素允许两种输入方式：第一种是用图像的名称（如faq.png），在这种情况下会使用OTRS的图像路径；第二种是插入图像的链接。"
 
 #. SysConfig
 msgid ""
@@ -18847,7 +18944,8 @@ msgid ""
 "URL, but also an alternate one. Please note that some websites deny being "
 "displayed within an iframe (e.g. Google) and thus won't work with the "
 "preview mode."
-msgstr "定义一个在服务人员工单详情屏幕从信件文本中搜集CVE编号的过滤器，并在靠近信件的一个自定义区块中显示结果。如果想要在鼠标移到到链接元素上时显示内容预览，就填写URLPreview字段。它可以与URL中的地址相同，也可以是另外一个URL。请注意：一些网站不能在iframe框架中显示（如Google），这样就无法在预览模式中正常显示内容。"
+msgstr ""
+"定义一个在服务人员工单详情屏幕从信件文本中搜集CVE编号的过滤器，并在靠近信件的一个自定义区块中显示结果。如果想要在鼠标移到到链接元素上时显示内容预览，就填写URLPreview字段。它可以与URL中的地址相同，也可以是另外一个URL。请注意：一些网站不能在iframe框架中显示（如Google），这样就无法在预览模式中正常显示内容。"
 
 #. SysConfig
 msgid ""
@@ -18865,7 +18963,8 @@ msgid ""
 "check (if \"CheckEmailAddresses\" is set to \"Yes\"). Please enter a regex "
 "in this field for email addresses, that aren't syntactically valid, but are "
 "necessary for the system (i.e. \"root@localhost\")."
-msgstr "定义一个执行语法检查以排除某些地址的正则表达式（如果参数“检查邮件地址”设置为“是”）。请在这里为语句构成上无效但系统需要的邮件地址输入一个正则表达式（如root@localhost）。"
+msgstr ""
+"定义一个执行语法检查以排除某些地址的正则表达式（如果参数“检查邮件地址”设置为“是”）。请在这里为语句构成上无效但系统需要的邮件地址输入一个正则表达式（如root@localhost）。"
 
 #. SysConfig
 msgid ""
@@ -18926,7 +19025,8 @@ msgid ""
 "password needs to contain at least 2 letter characters (set to 0 or 1). "
 "'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to "
 "control)."
-msgstr "定义在客户偏好设置中这个条目的所有参数。'PasswordRegExp'保证密码不匹配一个正则表达式；'PasswordMinSize'定义密码的最小字符数；如果至少需要2个小写字母和2个大写字母就设置合适的选项为“1”，'PasswordMin2Characters'定义密码如果要包含至少2个字母字符（设置为0或1）；'PasswordNeedDigit'控制是否至少包含1个数字（设置为0或1）。"
+msgstr ""
+"定义在客户偏好设置中这个条目的所有参数。'PasswordRegExp'保证密码不匹配一个正则表达式；'PasswordMinSize'定义密码的最小字符数；如果至少需要2个小写字母和2个大写字母就设置合适的选项为“1”，'PasswordMin2Characters'定义密码如果要包含至少2个字母字符（设置为0或1）；'PasswordNeedDigit'控制是否至少包含1个数字（设置为0或1）。"
 
 #. SysConfig
 msgid "Defines all the parameters for this notification transport."
@@ -18956,7 +19056,9 @@ msgstr "定义客户门户的退出备用URL地址。"
 msgid ""
 "Defines an external link to the database of the customer (e.g. "
 "'http://yourhost/customer.php?CID=[% Data.CustomerID %]' or '')."
-msgstr "定义一个客户数据库的外部链接（例如：'http://yourhost/customer.php?CID=[% Data.CustomerID %]' 或 ''）"
+msgstr ""
+"定义一个客户数据库的外部链接（例如：'http://yourhost/customer.php?CID=[% Data.CustomerID %]' 或"
+" ''）"
 
 #. SysConfig
 msgid ""
@@ -19169,7 +19271,9 @@ msgid ""
 "some functionality will be lost such as system registration, support data "
 "sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS"
 " News and product News dashboard widgets, among others."
-msgstr "定义本系统能否与OTRS集团提供云服务的服务器通信。如果设置为“禁用云服务”，某些功能如系统注册、发送支持数据、升级到OTRS Business Solution™（OTRS商业解决方案）、OTRS Verify™（OTRS验证）、仪表板中的OTRS新闻和产品新闻小部件等将失效。"
+msgstr ""
+"定义本系统能否与OTRS集团提供云服务的服务器通信。如果设置为“禁用云服务”，某些功能如系统注册、发送支持数据、升级到OTRS Business "
+"Solution™（OTRS商业解决方案）、OTRS Verify™（OTRS验证）、仪表板中的OTRS新闻和产品新闻小部件等将失效。"
 
 #. SysConfig
 msgid ""
@@ -19283,7 +19387,8 @@ msgid ""
 "a note must be entered for all ticket actions (no matter if the note itself "
 "is configured as active or is originally mandatory for the individual ticket"
 " action screen)."
-msgstr "定义在服务人员界面工时管理是否是强制的。如果启用了，所有工单操作必须输入一个备注（不管是否启用了工单备注，也不管个别工单操作屏幕本来就是强制的）。"
+msgstr ""
+"定义在服务人员界面工时管理是否是强制的。如果启用了，所有工单操作必须输入一个备注（不管是否启用了工单备注，也不管个别工单操作屏幕本来就是强制的）。"
 
 #. SysConfig
 msgid "Defines if time accounting must be set to all tickets in bulk action."
@@ -19312,14 +19417,16 @@ msgstr "定义将工单作为日历事件显示的队列。"
 msgid ""
 "Defines the HTTP hostname for the support data collection with the public "
 "module 'PublicSupportDataCollector' (e.g. used from the OTRS Daemon)."
-msgstr "使用公共模块 'PublicSupportDataCollector' （如用于OTRS守护进程的模块）定义用于搜集支持数据的HTTP主机名。"
+msgstr ""
+"使用公共模块 'PublicSupportDataCollector' （如用于OTRS守护进程的模块）定义用于搜集支持数据的HTTP主机名。"
 
 #. SysConfig
 msgid ""
 "Defines the IP regular expression for accessing the local repository. You "
 "need to enable this to have access to your local repository and the "
 "package::RepositoryList is required on the remote host."
-msgstr "定义IP正则表达式以访问本地的软件仓库。您需要启用这个设置以访问本地的软件仓库，远程主机上还需要设置package::RepositoryList。"
+msgstr ""
+"定义IP正则表达式以访问本地的软件仓库。您需要启用这个设置以访问本地的软件仓库，远程主机上还需要设置package::RepositoryList。"
 
 #. SysConfig
 msgid ""
@@ -19432,7 +19539,9 @@ msgid ""
 "personal preferences, but will still allow administrators to edit the "
 "settings of another user's behalf. Use 'PreferenceGroup' to control in which"
 " area these settings should be shown in the user interface."
-msgstr "定义在偏好设置中这个条目的配置参数。'PasswordRegExp'保证密码不匹配一个正则表达式；'PasswordMinSize'定义密码的最小字符数；如果至少需要2个小写字母和2个大写字母就设置合适的选项为“1”，'PasswordMin2Characters'定义密码如果要包含至少2个字母字符（设置为0或1）；'PasswordNeedDigit'控制是否至少包含1个数字（设置为0或1）；'PasswordMaxLoginFailed'设置最大登录失败数，一个服务人员在登录失败次数达到这个数后会临时无效。请注意：将'Active（激活）'设置为0只会阻止服务人员根据他们的个人偏好编辑此组的设置，但仍然允许管理员以其他用户的名义编辑其偏好设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
+msgstr ""
+"定义在偏好设置中这个条目的配置参数。'PasswordRegExp'保证密码不匹配一个正则表达式；'PasswordMinSize'定义密码的最小字符数；如果至少需要2个小写字母和2个大写字母就设置合适的选项为“1”，'PasswordMin2Characters'定义密码如果要包含至少2个字母字符（设置为0或1）；'PasswordNeedDigit'控制是否至少包含1个数字（设置为0或1）；'PasswordMaxLoginFailed'设置最大登录失败数，一个服务人员在登录失败次数达到这个数后会临时无效。请注意：将'Active（激活）'设置为0只会阻止服务人员根据他们的个人偏好编辑此组的设置，但仍然允许管理员以其他用户的名义编辑其偏好设置。"
+" 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid ""
@@ -19442,7 +19551,10 @@ msgid ""
 " allow administrators to edit the settings of another user's behalf. Use "
 "'PreferenceGroup' to control in which area these settings should be shown in"
 " the user interface."
-msgstr "定义此条目的配置参数，以显示在偏好设置视图中。 请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
+msgstr ""
+"定义此条目的配置参数，以显示在偏好设置视图中。 "
+"请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 "
+"使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid "Defines the connections for http/ftp, via a proxy."
@@ -19484,7 +19596,8 @@ msgid ""
 "Defines the default front-end (HTML) theme to be used by the agents and "
 "customers. If you like, you can add your own theme. Please refer the "
 "administrator manual located at http://otrs.github.io/doc/."
-msgstr "定义服务人员和客户使用的默认前端主题（HTML）。如果您喜欢，您可以添加您自己的主题。请参考管理员手册http://otrs.github.io/doc/。"
+msgstr ""
+"定义服务人员和客户使用的默认前端主题（HTML）。如果您喜欢，您可以添加您自己的主题。请参考管理员手册http://otrs.github.io/doc/。"
 
 #. SysConfig
 msgid ""
@@ -19692,7 +19805,14 @@ msgid ""
 "'Search_DynamicField_XTimePointFormat=week; "
 "Search_DynamicField_XTimePointStart=Before; "
 "Search_DynamicField_XTimePointValue=7';."
-msgstr "定义工单搜索屏幕中默认显示的工单搜索属性。“键”必须在动态字段名称后加“X”，“值”必须是动态字段类型相关的值，文本：'a text'，下拉菜单：'1'，日期/时间：'Search_DynamicField_XTimeSlotStartYear=1974;Search_DynamicField_XTimeSlotStartMonth=01;Search_DynamicField_XTimeSlotStartDay=26;Search_DynamicField_XTimeSlotStartHour=00;Search_DynamicField_XTimeSlotStartMinute=00;Search_DynamicField_XTimeSlotStartSecond=00;Search_DynamicField_XTimeSlotStopYear=2013; earch_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;'或者'Search_DynamicField_XTimePointFormat=week;Search_DynamicField_XTimePointStart=Before;Search_DynamicField_XTimePointValue=7'。"
+msgstr ""
+"定义工单搜索屏幕中默认显示的工单搜索属性。“键”必须在动态字段名称后加“X”，“值”必须是动态字段类型相关的值，文本：'a "
+"text'，下拉菜单：'1'，日期/时间：'Search_DynamicField_XTimeSlotStartYear=1974;Search_DynamicField_XTimeSlotStartMonth=01;Search_DynamicField_XTimeSlotStartDay=26;Search_DynamicField_XTimeSlotStartHour=00;Search_DynamicField_XTimeSlotStartMinute=00;Search_DynamicField_XTimeSlotStartSecond=00;Search_DynamicField_XTimeSlotStopYear=2013;"
+" earch_DynamicField_XTimeSlotStopMonth=01; "
+"Search_DynamicField_XTimeSlotStopDay=26; "
+"Search_DynamicField_XTimeSlotStopHour=23; "
+"Search_DynamicField_XTimeSlotStopMinute=59; "
+"Search_DynamicField_XTimeSlotStopSecond=59;'或者'Search_DynamicField_XTimePointFormat=week;Search_DynamicField_XTimePointStart=Before;Search_DynamicField_XTimePointValue=7'。"
 
 #. SysConfig
 msgid ""
@@ -19981,7 +20101,9 @@ msgid ""
 "Defines the format of responses in the ticket compose screen of the agent "
 "interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | "
 "html %] is only realname of From)."
-msgstr "定义服务人员界面工单编写屏幕响应的发件人格式（[% Data.OrigFrom | html %]是发件人，[% Data.OrigFromName |html %] 是仅有发件人真实姓名。"
+msgstr ""
+"定义服务人员界面工单编写屏幕响应的发件人格式（[% Data.OrigFrom | html %]是发件人，[% Data.OrigFromName "
+"|html %] 是仅有发件人真实姓名。"
 
 #. SysConfig
 msgid ""
@@ -20221,7 +20343,9 @@ msgid ""
 "as repository, for example: "
 "Key=\"http://example.com/otrs/public.pl?Action=PublicRepository;File=\" and "
 "Content=\"Some Name\"."
-msgstr "定义在线软件仓库列表。另一个用于安装的软件仓库，例如：键=\"http://example.com/otrs/public.pl?Action=PublicRepository;File=\" ，值=\"Some Name\"。"
+msgstr ""
+"定义在线软件仓库列表。另一个用于安装的软件仓库，例如：键=\"http://example.com/otrs/public.pl?Action=PublicRepository;File=\""
+" ，值=\"Some Name\"。"
 
 #. SysConfig
 msgid ""
@@ -20249,7 +20373,8 @@ msgid ""
 "Defines the log module for the system. \"File\" writes all messages in a "
 "given logfile, \"SysLog\" uses the syslog daemon of the system, e.g. "
 "syslogd."
-msgstr "定义系统的日志模块。“File（文件）”将所有消息写入一个指定的日志文件，“SysLog（系统日志）”使用操作系统的syslog守护进程如syslogd。"
+msgstr ""
+"定义系统的日志模块。“File（文件）”将所有消息写入一个指定的日志文件，“SysLog（系统日志）”使用操作系统的syslog守护进程如syslogd。"
 
 #. SysConfig
 msgid ""
@@ -20257,7 +20382,8 @@ msgid ""
 "Warning: Setting this option to a value which is too low could cause many "
 "masks in your OTRS instance to stop working (probably any mask which takes "
 "input from the user)."
-msgstr "定义通过浏览器上传文件的最大尺寸（单位：字节）。警告：这个选项设置过小将使您的OTRS实例出现许多遮罩屏幕导致停止工作（可能是需要用户输入的任何遮罩屏幕）。"
+msgstr ""
+"定义通过浏览器上传文件的最大尺寸（单位：字节）。警告：这个选项设置过小将使您的OTRS实例出现许多遮罩屏幕导致停止工作（可能是需要用户输入的任何遮罩屏幕）。"
 
 #. SysConfig
 msgid "Defines the maximal valid time (in seconds) for a session id."
@@ -20417,7 +20543,8 @@ msgid ""
 "binary of your operating system. Any of the \"SMTP\" mechanisms use a "
 "specified (external) mailserver. \"DoNotSendEmail\" doesn't send emails and "
 "it is useful for test systems."
-msgstr "定义发送邮件的模块。“Sendmail”直接使用操作系统中的Sendmail程序；任何“SMTP”方式使用指定的外部邮件服务器；“DoNotSendEmail（不发送邮件）”不会发送邮件，在测试系统时有用。"
+msgstr ""
+"定义发送邮件的模块。“Sendmail”直接使用操作系统中的Sendmail程序；任何“SMTP”方式使用指定的外部邮件服务器；“DoNotSendEmail（不发送邮件）”不会发送邮件，在测试系统时有用。"
 
 #. SysConfig
 msgid ""
@@ -20581,7 +20708,9 @@ msgid ""
 " indicates the cache expiration period in minutes for the plugin. "
 "\"Mandatory\" determines if the plugin is always shown and can not be "
 "removed by agents."
-msgstr "定义仪表板后端参数。“Cmd”用于指定带有参数的命令。“GROUP（组）”用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
+msgstr ""
+"定义仪表板后端参数。“Cmd”用于指定带有参数的命令。“GROUP（组）”用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
 
 #. SysConfig
 msgid ""
@@ -20591,7 +20720,9 @@ msgid ""
 "needs to enable it manually. \"CacheTTL\" indicates the cache expiration "
 "period in minutes for the plugin. \"Mandatory\" determines if the plugin is "
 "always shown and can not be removed by agents."
-msgstr "定义仪表板后端参数。“GROUP（组）”用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”定义本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
+msgstr ""
+"定义仪表板后端参数。“GROUP（组）”用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”定义本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
 
 #. SysConfig
 msgid ""
@@ -20601,7 +20732,9 @@ msgid ""
 "needs to enable it manually. \"CacheTTLLocal\" defines the cache expiration "
 "period in minutes for the plugin. \"Mandatory\" determines if the plugin is "
 "always shown and can not be removed by agents."
-msgstr "定义仪表板后端参数。“GROUP（组）”用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTLLocal”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
+msgstr ""
+"定义仪表板后端参数。“GROUP（组）”用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTLLocal”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
 
 #. SysConfig
 msgid ""
@@ -20612,7 +20745,9 @@ msgid ""
 "manually. \"CacheTTL\" indicates the cache expiration period in minutes for "
 "the plugin. \"Mandatory\" determines if the plugin is always shown and can "
 "not be removed by agents."
-msgstr "定义仪表板后端参数。“Limit（限制”）定义默认显示的条目数。“GROUP（组）”用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
+msgstr ""
+"定义仪表板后端参数。“Limit（限制”）定义默认显示的条目数。“GROUP（组）”用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
 
 #. SysConfig
 msgid ""
@@ -20623,7 +20758,9 @@ msgid ""
 "manually. \"CacheTTLLocal\" defines the cache expiration period in minutes "
 "for the plugin. \"Mandatory\" determines if the plugin is always shown and "
 "can not be removed by agents."
-msgstr "定义仪表板后端参数。“Limit（限制”）定义默认显示的条目数。“GROUP（组）”用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTLLocal”定义本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
+msgstr ""
+"定义仪表板后端参数。“Limit（限制”）定义默认显示的条目数。“GROUP（组）”用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTLLocal”定义本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
 
 #. SysConfig
 msgid "Defines the password to access the SOAP handle (bin/cgi-bin/rpc.pl)."
@@ -20724,7 +20861,8 @@ msgid ""
 "Defines the recipient target of the tickets (\"Queue\" shows all queues, "
 "\"SystemAddress\" shows only the queues which are assigned to system "
 "addresses) in the customer interface."
-msgstr "定义客户界面工单收件人的目标（“Queue队列”显示所有的队列，“SystemAddress系统邮件地址”只显示分配到系统邮件地址的队列）。"
+msgstr ""
+"定义客户界面工单收件人的目标（“Queue队列”显示所有的队列，“SystemAddress系统邮件地址”只显示分配到系统邮件地址的队列）。"
 
 #. SysConfig
 msgid ""
@@ -20741,7 +20879,9 @@ msgid ""
 "Defines the search parameters for the AgentCustomerUserAddressBook screen. "
 "With the setting 'CustomerTicketTextField' the values for the recipient "
 "field can be specified."
-msgstr "定义AgentCustomerUserAddressBook（服务人员界面客户用户通讯录）屏幕的搜索参数。 使用'CustomerTicketTextField'设置，可以指定收件人字段的值。"
+msgstr ""
+"定义AgentCustomerUserAddressBook（服务人员界面客户用户通讯录）屏幕的搜索参数。 "
+"使用'CustomerTicketTextField'设置，可以指定收件人字段的值。"
 
 #. SysConfig
 msgid "Defines the sender for rejected emails."
@@ -20766,7 +20906,8 @@ msgid ""
 "Permissions must be hard coded to be effective. Please ensure, when adding "
 "any of the afore mentioned permissions, that the \"rw\" permission remains "
 "the last entry."
-msgstr "定义本系统客户可用的标准权限。如果需要更多的权限，您可以在这里输入。权限必须确实硬编码以保证生效。请确保在添加前面任何提到的权限时，“rw（读写）”权限保持为最后一个条目。"
+msgstr ""
+"定义本系统客户可用的标准权限。如果需要更多的权限，您可以在这里输入。权限必须确实硬编码以保证生效。请确保在添加前面任何提到的权限时，“rw（读写）”权限保持为最后一个条目。"
 
 #. SysConfig
 msgid "Defines the standard size of PDF pages."
@@ -20832,7 +20973,8 @@ msgid ""
 "contains this ID. This ensures that only tickets which belong to your system"
 " will be processed as follow-ups (useful when communicating between two "
 "instances of OTRS)."
-msgstr "定义本系统的标识符。每个工单编号和HTTP会话字符串均包含这个ID。这确保只有属于本系统的工单才会被跟进处理（在两套OTRS实例间通信时有用）。"
+msgstr ""
+"定义本系统的标识符。每个工单编号和HTTP会话字符串均包含这个ID。这确保只有属于本系统的工单才会被跟进处理（在两套OTRS实例间通信时有用）。"
 
 #. SysConfig
 msgid ""
@@ -20883,7 +21025,8 @@ msgid ""
 "Defines the timeout (in seconds, minimum is 20 seconds) for the support data"
 " collection with the public module 'PublicSupportDataCollector' (e.g. used "
 "from the OTRS Daemon)."
-msgstr "使用公共模块“PublicSupportDataCollector”（例如用于OTRS守护进程的模块）来定义支持数据收集的超时（以秒为单位，最小为20秒）。"
+msgstr ""
+"使用公共模块“PublicSupportDataCollector”（例如用于OTRS守护进程的模块）来定义支持数据收集的超时（以秒为单位，最小为20秒）。"
 
 #. SysConfig
 msgid "Defines the two-factor module to authenticate agents."
@@ -20903,7 +21046,10 @@ msgid ""
 "This setting is only used as a variable, OTRS_CONFIG_HttpType which is found"
 " in all forms of messaging used by the application, to build links to the "
 "tickets within your system."
-msgstr "定义本系统的WEB服务器使用的协议类型。如果要用HTTPS协议代替明文的HTTP协议，就在这里指定。 因为这个设置并不影响WEB服务器的设置或行为，所以不会改变访问本系统的方式。 如果设置错误，也不会阻止您登录系统。这个设置只是作为一个变量OTRS_CONFIG_HttpType使用，可以在系统使用的所有消息的表单中找到，用来创建在系统内到工单的链接。"
+msgstr ""
+"定义本系统的WEB服务器使用的协议类型。如果要用HTTPS协议代替明文的HTTP协议，就在这里指定。 "
+"因为这个设置并不影响WEB服务器的设置或行为，所以不会改变访问本系统的方式。 "
+"如果设置错误，也不会阻止您登录系统。这个设置只是作为一个变量OTRS_CONFIG_HttpType使用，可以在系统使用的所有消息的表单中找到，用来创建在系统内到工单的链接。"
 
 #. SysConfig
 msgid ""
@@ -20927,7 +21073,9 @@ msgid ""
 "preferences, but will still allow administrators to edit the settings of "
 "another user's behalf. Use 'PreferenceGroup' to control in which area these "
 "settings should be shown in the user interface."
-msgstr "定义用户头像。 请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
+msgstr ""
+"定义用户头像。 请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。"
+" 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid "Defines the valid state types for a ticket."
@@ -20937,7 +21085,9 @@ msgstr "定义一个工单有效的状态类型。"
 msgid ""
 "Defines the valid states for unlocked tickets. To unlock tickets the script "
 "\"bin/otrs.Console.pl Maint::Ticket::UnlockTimeout\" can be used."
-msgstr "定义解锁的工单有效的状态。为解锁工单，可以使用脚本\"bin/otrs.Console.pl Maint::Ticket::UnlockTimeout\"。"
+msgstr ""
+"定义解锁的工单有效的状态。为解锁工单，可以使用脚本\"bin/otrs.Console.pl "
+"Maint::Ticket::UnlockTimeout\"。"
 
 #. SysConfig
 msgid ""
@@ -21111,7 +21261,8 @@ msgid ""
 "Determines the next screen after the ticket is moved. LastScreenOverview "
 "will return the last overview screen (e.g. search results, queueview, "
 "dashboard). TicketZoom will return to the TicketZoom."
-msgstr "确定工单转移队列后的下一个屏幕。LastScreenOverview将返回到最后的概览屏幕（例如：搜索结果、队列视图、仪表板），TicketZoom将返回到工单详情视图。"
+msgstr ""
+"确定工单转移队列后的下一个屏幕。LastScreenOverview将返回到最后的概览屏幕（例如：搜索结果、队列视图、仪表板），TicketZoom将返回到工单详情视图。"
 
 #. SysConfig
 msgid ""
@@ -21126,7 +21277,9 @@ msgid ""
 " Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
 "and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
 "the recipient."
-msgstr "确定服务人员界面电话工单显示为收件人（To:）和邮件工单显示为发件人（From:）的字符串。如果NewQueueSelectionType参数设置为“队列”，\"<Queue>\"显示队列名称，如果NewQueueSelectionType参数设置“系统邮件地址”，\"<Realname> <<Email>>\"显示收件人的名称和邮件地址。"
+msgstr ""
+"确定服务人员界面电话工单显示为收件人（To:）和邮件工单显示为发件人（From:）的字符串。如果NewQueueSelectionType参数设置为“队列”，\"<Queue>\"显示队列名称，如果NewQueueSelectionType参数设置“系统邮件地址”，\"<Realname>"
+" <<Email>>\"显示收件人的名称和邮件地址。"
 
 #. SysConfig
 msgid ""
@@ -21134,7 +21287,9 @@ msgid ""
 "in the customer interface. For Queue as CustomerPanelSelectionType, "
 "\"<Queue>\" shows the names of the queues, and for SystemAddress, "
 "\"<Realname> <<Email>>\" shows the name and email of the recipient."
-msgstr "确定客户界面工单显示为收件人（To:）的字符串。如果NewQueueSelectionType参数设置为“队列”，\"<Queue>\"显示队列名称，如果NewQueueSelectionType参数设置“系统邮件地址”，\"<Realname> <<Email>>\"显示收件人的名称和邮件地址。"
+msgstr ""
+"确定客户界面工单显示为收件人（To:）的字符串。如果NewQueueSelectionType参数设置为“队列”，\"<Queue>\"显示队列名称，如果NewQueueSelectionType参数设置“系统邮件地址”，\"<Realname>"
+" <<Email>>\"显示收件人的名称和邮件地址。"
 
 #. SysConfig
 msgid "Determines the way the linked objects are displayed in each zoom mask."
@@ -21157,14 +21312,18 @@ msgid ""
 "Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
 " script contents. Disabling this HTTP header can be a security issue! Only "
 "disable it, if you know what you are doing!"
-msgstr "禁用HHTP头\"Content-Security-Policy\"以便允许载入扩展的脚本内容。禁用这个HTTP头可能引起安全问题！仅在您知道您在干什么时才禁用它！"
+msgstr ""
+"禁用HHTP头\"Content-Security-"
+"Policy\"以便允许载入扩展的脚本内容。禁用这个HTTP头可能引起安全问题！仅在您知道您在干什么时才禁用它！"
 
 #. SysConfig
 msgid ""
 "Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be "
 "included as an IFrame in other websites. Disabling this HTTP header can be a"
 " security issue! Only disable it, if you know what you are doing!"
-msgstr "禁用HHTP头\"X-Frame-Options: SAMEORIGIN\" 以便允许OTRS可以包含在其它网址的IFrame框架中。禁用这个HTTP头可能有安全问题！仅在您知道您在干什么时才禁用它！"
+msgstr ""
+"禁用HHTP头\"X-Frame-Options: SAMEORIGIN\" "
+"以便允许OTRS可以包含在其它网址的IFrame框架中。禁用这个HTTP头可能有安全问题！仅在您知道您在干什么时才禁用它！"
 
 #. SysConfig
 msgid "Disable cloud services"
@@ -21179,8 +21338,8 @@ msgstr "禁止发送提醒通知给工单负责人（需要启用Ticket::Respons
 #. SysConfig
 msgid ""
 "Disables the redirection to the last screen overview / dashboard after a "
-"ticket is created."
-msgstr "禁用创建工单后重定向到最近的概览屏幕或仪表板。"
+"ticket is closed."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -21189,7 +21348,8 @@ msgid ""
 " reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If enabled, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
-msgstr "禁用WEB安装程序(http://yourhost.example.com/otrs/installer.pl)，防止系统被劫持。如果不启用，系统能够被重新安装，当前的基本配置将被安装脚本的预设问题替换。如果启用了，还同时禁用了通用代理、软件包管理和SQL查询窗口。"
+msgstr ""
+"禁用WEB安装程序(http://yourhost.example.com/otrs/installer.pl)，防止系统被劫持。如果不启用，系统能够被重新安装，当前的基本配置将被安装脚本的预设问题替换。如果启用了，还同时禁用了通用代理、软件包管理和SQL查询窗口。"
 
 #. SysConfig
 msgid ""
@@ -21282,7 +21442,9 @@ msgid ""
 "interface. NOTE. If you want to display these fields also in the ticket zoom"
 " of the customer interface, you have to enable them in "
 "CustomerTicketZoom###DynamicField."
-msgstr "在客户界面的工单消息屏幕中显示的动态字段选项。 注意。 如果要在客户界面的工单详情屏幕中显示这些字段，则必须在CustomerTicketZoom ### DynamicField中启用它们。"
+msgstr ""
+"在客户界面的工单消息屏幕中显示的动态字段选项。 注意。 如果要在客户界面的工单详情屏幕中显示这些字段，则必须在CustomerTicketZoom "
+"### DynamicField中启用它们。"
 
 #. SysConfig
 msgid ""
@@ -21549,7 +21711,8 @@ msgstr "启用或禁用工单关注人功能，以便非所有者或负责人也
 msgid ""
 "Enables performance log (to log the page response time). It will affect the "
 "system performance. Frontend::Module###AdminPerformanceLog must be enabled."
-msgstr "启用性能日志（记录页面响应时间）。这会影响系统性能。必须先启用参数Frontend::Module###AdminPerformanceLog。"
+msgstr ""
+"启用性能日志（记录页面响应时间）。这会影响系统性能。必须先启用参数Frontend::Module###AdminPerformanceLog。"
 
 #. SysConfig
 msgid ""
@@ -21755,19 +21918,22 @@ msgstr "通过代理获取软件包，覆盖“WebUserAgent::Proxy”设置。"
 msgid ""
 "File that is displayed in the Kernel::Modules::AgentInfo module, if located "
 "under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt."
-msgstr "显示在模块Kernel::Modules::AgentInfo中的文件，位于Kernel/Output/HTML/Templates/Standard/AgentInfo.tt。"
+msgstr ""
+"显示在模块Kernel::Modules::AgentInfo中的文件，位于Kernel/Output/HTML/Templates/Standard/AgentInfo.tt。"
 
 #. SysConfig
 msgid ""
 "Filter for debugging ACLs. Note: More ticket attributes can be added in the "
 "format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>."
-msgstr "调试ACL的过滤器。注意：可以按以下格式添加更多的工单属性 <OTRS_TICKET_属性>，例如：<OTRS_TICKET_Priority>。"
+msgstr ""
+"调试ACL的过滤器。注意：可以按以下格式添加更多的工单属性 <OTRS_TICKET_属性>，例如：<OTRS_TICKET_Priority>。"
 
 #. SysConfig
 msgid ""
 "Filter for debugging Transitions. Note: More filters can be added in the "
 "format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>."
-msgstr "调试转换的过滤器。注意：可以按以下格式添加更多的过滤器 <OTRS_TICKET_属性>，例如：<OTRS_TICKET_Priority>。"
+msgstr ""
+"调试转换的过滤器。注意：可以按以下格式添加更多的过滤器 <OTRS_TICKET_属性>，例如：<OTRS_TICKET_Priority>。"
 
 #. SysConfig
 msgid "Filter incoming emails."
@@ -22028,7 +22194,10 @@ msgid ""
 "personal preferences, but will still allow administrators to edit the "
 "settings of another user's behalf. Use 'PreferenceGroup' to control in which"
 " area these settings should be shown in the user interface."
-msgstr "使最终用户能够覆盖转换文件中定义的CSV文件分隔符。 请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
+msgstr ""
+"使最终用户能够覆盖转换文件中定义的CSV文件分隔符。 "
+"请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 "
+"使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid "Global Search Module."
@@ -22069,7 +22238,9 @@ msgid ""
 "article creation, increasing fulltext searches about 50%. To create an "
 "initial index use \"bin/otrs.Console.pl "
 "Maint::Ticket::FulltextIndexRebuild\"."
-msgstr "帮助扩展信件全文搜索（发件人、收件人、抄送、主题和正文搜索）。它将在信件创建后剥离所有信件并建立索引，提升全文搜索50%的效率。可使用命令\"bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild\"来创建初始索引。"
+msgstr ""
+"帮助扩展信件全文搜索（发件人、收件人、抄送、主题和正文搜索）。它将在信件创建后剥离所有信件并建立索引，提升全文搜索50%的效率。可使用命令\"bin/otrs.Console.pl"
+" Maint::Ticket::FulltextIndexRebuild\"来创建初始索引。"
 
 #. SysConfig
 msgid "High Contrast"
@@ -22152,28 +22323,33 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "(by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove "
 "trailing domains). RegExp-Note, $1 will be the new Login."
-msgstr "如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth（HTTP基本认证）”，您可以使用正则表达式剥去REMOTE_USER的部分内容（如剥去尾部的域名）。正则表达式注释：$1将是新的登录名。"
+msgstr ""
+"如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth（HTTP基本认证）”，您可以使用正则表达式剥去REMOTE_USER的部分内容（如剥去尾部的域名）。正则表达式注释：$1将是新的登录名。"
 
 #. SysConfig
 msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\\\user to user)."
-msgstr "如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth（HTTP基本认证）”，您可以指定剥去用户名称的主要部分（例如域名，如从example_domain\\\\user变为user）。"
+msgstr ""
+"如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth（HTTP基本认证）”，您可以指定剥去用户名称的主要部分（例如域名，如从example_domain\\\\user变为user）。"
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule and if you want to add a "
 "suffix to every customer login name, specifiy it here, e. g. you just want "
 "to write the username user but in your LDAP directory exists user@domain."
-msgstr "如果Customer::AuthModule（客户认证模块）选择“LDAP”，并且如果您想给每个客户登录名添加一个前缀，则在这里指定，例如，你只想写入用户名user，但在您的LDAP目录存在user@domain。"
+msgstr ""
+"如果Customer::AuthModule（客户认证模块）选择“LDAP”，并且如果您想给每个客户登录名添加一个前缀，则在这里指定，例如，你只想写入用户名user，但在您的LDAP目录存在user@domain。"
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule and special paramaters are"
 " needed for the Net::LDAP perl module, you can specify them here. See "
 "\"perldoc Net::LDAP\" for more information about the parameters."
-msgstr "如果Customer::AuthModule（客户认证模块）选择“LDAP”，并且perl模块Net::LDAP需要一些特殊参数，您可以在这里指定它们。查阅\"perldoc Net::LDAP\"获取这些参数的更多信息。"
+msgstr ""
+"如果Customer::AuthModule（客户认证模块）选择“LDAP”，并且perl模块Net::LDAP需要一些特殊参数，您可以在这里指定它们。查阅\"perldoc"
+" Net::LDAP\"获取这些参数的更多信息。"
 
 #. SysConfig
 msgid ""
@@ -22181,7 +22357,9 @@ msgid ""
 "anonymous access to the LDAP tree, but you want to search through the data, "
 "you can do this with a user who has access to the LDAP directory. Specify "
 "the password for this special user here."
-msgstr "如果Customer::AuthModule（客户认证模块）选择“LDAP”，并且您的用户只能匿名访问LDAP树，但您想搜索整个LDAP数据， 您可以使用一个有权限访问LDAP的用户来实现，在这里指定这个特殊用户的密码。"
+msgstr ""
+"如果Customer::AuthModule（客户认证模块）选择“LDAP”，并且您的用户只能匿名访问LDAP树，但您想搜索整个LDAP数据， "
+"您可以使用一个有权限访问LDAP的用户来实现，在这里指定这个特殊用户的密码。"
 
 #. SysConfig
 msgid ""
@@ -22189,7 +22367,9 @@ msgid ""
 "anonymous access to the LDAP tree, but you want to search through the data, "
 "you can do this with a user who has access to the LDAP directory. Specify "
 "the username for this special user here."
-msgstr "如果Customer::AuthModule（客户认证模块）选择“LDAP”，并且您的用户只能匿名访问LDAP树，但您想搜索整个LDAP数据， 您可以使用一个有权限访问LDAP的用户来实现，在这里指定这个特殊用户的用户名。"
+msgstr ""
+"如果Customer::AuthModule（客户认证模块）选择“LDAP”，并且您的用户只能匿名访问LDAP树，但您想搜索整个LDAP数据， "
+"您可以使用一个有权限访问LDAP的用户来实现，在这里指定这个特殊用户的用户名。"
 
 #. SysConfig
 msgid ""
@@ -22214,7 +22394,9 @@ msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule, user attributes can be "
 "specified. For LDAP posixGroups use UID, for non LDAP posixGroups use full "
 "user DN."
-msgstr "如果Customer::AuthModule（客户认证模块）选择“LDAP”，可以指定用户属性。对LDAP posixGroups使用UID，对非LDAP posixGroups使用用户DN全称。"
+msgstr ""
+"如果Customer::AuthModule（客户认证模块）选择“LDAP”，可以指定用户属性。对LDAP "
+"posixGroups使用UID，对非LDAP posixGroups使用用户DN全称。"
 
 #. SysConfig
 msgid ""
@@ -22227,7 +22409,8 @@ msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule, you can specify if the "
 "applications will stop if e. g. a connection to a server can't be "
 "established due to network problems."
-msgstr "如果Customer::AuthModule（客户认证模块）选择“LDAP”，您可以指定系统是否要停止的条件（例如由于网络问题无法建立到服务器的连接）。"
+msgstr ""
+"如果Customer::AuthModule（客户认证模块）选择“LDAP”，您可以指定系统是否要停止的条件（例如由于网络问题无法建立到服务器的连接）。"
 
 #. SysConfig
 msgid ""
@@ -22235,13 +22418,16 @@ msgid ""
 " is allowed to authenticate because he is in a posixGroup, e.g. user needs "
 "to be in a group xyz to use OTRS. Specify the group, who may access the "
 "system."
-msgstr "如果Customer::AuthModule（客户认证模块）选择“LDAP”，您可以检查在posixGroup组中的用户是否允许认证，例如：用户需要在组xyz才能使用OTRS。指定这个有权访问系统的组名。"
+msgstr ""
+"如果Customer::AuthModule（客户认证模块）选择“LDAP”，您可以检查在posixGroup组中的用户是否允许认证，例如：用户需要在组xyz才能使用OTRS。指定这个有权访问系统的组名。"
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected, you can add a filter to each LDAP query, e.g. "
 "(mail=*), (objectclass=user) or (!objectclass=computer)."
-msgstr "如果选用了LDAP，您可以为每个LDAP查询添加一个过滤器，例如：(mail=*)、 (objectclass=user) 或 (!objectclass=computer)。"
+msgstr ""
+"如果选用了LDAP，您可以为每个LDAP查询添加一个过滤器，例如：(mail=*)、 (objectclass=user) 或 "
+"(!objectclass=computer)。"
 
 #. SysConfig
 msgid ""
@@ -22260,7 +22446,9 @@ msgid ""
 "If \"Radius\" was selected for Customer::AuthModule, you can specify if the "
 "applications will stop if e. g. a connection to a server can't be "
 "established due to network problems."
-msgstr "如果Customer::AuthModule（客户认证模块）选择“Radius”， 您可以指定系统是否要停止的条件（例如由于网络问题无法建立到服务器的连接）。"
+msgstr ""
+"如果Customer::AuthModule（客户认证模块）选择“Radius”， "
+"您可以指定系统是否要停止的条件（例如由于网络问题无法建立到服务器的连接）。"
 
 #. SysConfig
 msgid ""
@@ -22284,7 +22472,8 @@ msgstr "如果日志模块选用了“SysLog”，可以指定记录日志的字
 msgid ""
 "If \"bcrypt\" was selected for CryptType, use cost specified here for bcrypt"
 " hashing. Currently max. supported cost value is 31."
-msgstr "如果为CryptType(加密类型)选择了“bcrypt”，请使用此处指定的bcrypt哈希cost 值。 目前最大支持的cost 值为31。"
+msgstr ""
+"如果为CryptType(加密类型)选择了“bcrypt”，请使用此处指定的bcrypt哈希cost 值。 目前最大支持的cost 值为31。"
 
 #. SysConfig
 msgid ""
@@ -22353,7 +22542,9 @@ msgid ""
 "If enabled the daemon will use this directory to create its PID files. Note:"
 " Please stop the daemon before any change and use this setting only if "
 "<$OTRSHome>/var/run/ can not be used."
-msgstr "如果启用，守护程序将使用此目录创建其PID文件。 注意：请在任何更改之前停止守护程序，并且只有在不使用<$OTRSHome>/var/run/时才使用此设置。"
+msgstr ""
+"如果启用，守护程序将使用此目录创建其PID文件。 "
+"注意：请在任何更改之前停止守护程序，并且只有在不使用<$OTRSHome>/var/run/时才使用此设置。"
 
 #. SysConfig
 msgid "If enabled, OTRS will deliver all CSS files in minified form."
@@ -22372,7 +22563,8 @@ msgid ""
 "If enabled, the OTRS version tag will be removed from the Webinterface, the "
 "HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this "
 "option, please make sure to delete the cache."
-msgstr "如果启用了此选项，将从WEB界面、HTTP头信息和外发邮件的X-Headers头信息中移除OTRS版本标签。注意：如果你要修改这个选项，请确保清空缓存。"
+msgstr ""
+"如果启用了此选项，将从WEB界面、HTTP头信息和外发邮件的X-Headers头信息中移除OTRS版本标签。注意：如果你要修改这个选项，请确保清空缓存。"
 
 #. SysConfig
 msgid "If enabled, the cache data be held in memory."
@@ -22406,21 +22598,25 @@ msgid ""
 "do so. Note: Notification will not be shown if (1) user has not yet selected"
 " a time zone and (2) OTRSTimeZone and UserDefaultTimeZone do match and (3) "
 "are not set to UTC."
-msgstr "如果启用，那么尚未选择时区的用户将被通知选择时区。 注意：如果（1）用户尚未选择时区，并且（2）OTRSTimeZone和UserDefaultTimeZone相同，（3）未设置为UTC，则不会显示通知。"
+msgstr ""
+"如果启用，那么尚未选择时区的用户将被通知选择时区。 "
+"注意：如果（1）用户尚未选择时区，并且（2）OTRSTimeZone和UserDefaultTimeZone相同，（3）未设置为UTC，则不会显示通知。"
 
 #. SysConfig
 msgid ""
 "If no SendmailNotificationEnvelopeFrom is specified, this setting makes it "
 "possible to use the email's from address instead of an empty envelope sender"
 " (required in certain mail server configurations)."
-msgstr "如果没有指定SendmailNotificationEnvelopeFrom，这个选项可确保使用邮件的发件人地址而不是空白的发件人（在某些邮件服务器的配置中需要此选项）。"
+msgstr ""
+"如果没有指定SendmailNotificationEnvelopeFrom，这个选项可确保使用邮件的发件人地址而不是空白的发件人（在某些邮件服务器的配置中需要此选项）。"
 
 #. SysConfig
 msgid ""
 "If set, this address is used as envelope sender header in outgoing "
 "notifications. If no address is specified, the envelope sender header is "
 "empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set)."
-msgstr "如果设置了此参数，这个地址用于外发通知的信件发件人头信息。如果没有指定地址，则信件发件人头信息为空（除非设置了SendmailNotificationEnvelopeFrom::FallbackToEmailFrom参数）。"
+msgstr ""
+"如果设置了此参数，这个地址用于外发通知的信件发件人头信息。如果没有指定地址，则信件发件人头信息为空（除非设置了SendmailNotificationEnvelopeFrom::FallbackToEmailFrom参数）。"
 
 #. SysConfig
 msgid ""
@@ -22496,7 +22692,9 @@ msgid ""
 "80.000 and 6.000 open tickets are stored in the system). Use the command "
 "\"bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild\" for initial index "
 "creation."
-msgstr "索引加速器：选择您的后端工单视图加速器模块。“RuntimeDB（运行时数据库）”实时生成每个队列视图（工单总数不超过60000个且系统打开的工单不超过6000个时没有性能问题）。“StaticDB（静态数据库）是最强大的模块，它使用额外的类似于视图的工单索引表（工单总数超过80000且系统打开的工单超过6000时推荐使用），使用命令\"bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild\"来初始化索引。"
+msgstr ""
+"索引加速器：选择您的后端工单视图加速器模块。“RuntimeDB（运行时数据库）”实时生成每个队列视图（工单总数不超过60000个且系统打开的工单不超过6000个时没有性能问题）。“StaticDB（静态数据库）是最强大的模块，它使用额外的类似于视图的工单索引表（工单总数超过80000且系统打开的工单超过6000时推荐使用），使用命令\"bin/otrs.Console.pl"
+" Maint::Ticket::QueueIndexRebuild\"来初始化索引。"
 
 #. SysConfig
 msgid ""
@@ -22535,7 +22733,8 @@ msgid ""
 "Key/Content pair to match a domain. The value in \"Key\" should match the "
 "domain, and the value in \"Content\" should be a valid skin on your system. "
 "Please see the example entries for the proper form of the regex."
-msgstr "配置不同皮肤是可能的，例如：区分系统中基于域名的不同服务人员。您可以使用一个正则表达式配置一个键/内容组合来匹配一个域名。“键”应该匹配域名，“值”是一个系统中有效的皮肤。请参照样例条目修改正则表达式的合适格式。"
+msgstr ""
+"配置不同皮肤是可能的，例如：区分系统中基于域名的不同服务人员。您可以使用一个正则表达式配置一个键/内容组合来匹配一个域名。“键”应该匹配域名，“值”是一个系统中有效的皮肤。请参照样例条目修改正则表达式的合适格式。"
 
 #. SysConfig
 msgid ""
@@ -22545,7 +22744,8 @@ msgid ""
 "Key/Content pair to match a domain. The value in \"Key\" should match the "
 "domain, and the value in \"Content\" should be a valid skin on your system. "
 "Please see the example entries for the proper form of the regex."
-msgstr "配置不同皮肤是可能的，例如：区分系统中基于域名的不同客户。您可以使用一个正则表达式配置一个键/内容组合来匹配一个域名。“键”应该匹配域名，“值”是一个系统中有效的皮肤。请参照样例条目修改正则表达式的合适格式。"
+msgstr ""
+"配置不同皮肤是可能的，例如：区分系统中基于域名的不同客户。您可以使用一个正则表达式配置一个键/内容组合来匹配一个域名。“键”应该匹配域名，“值”是一个系统中有效的皮肤。请参照样例条目修改正则表达式的合适格式。"
 
 #. SysConfig
 msgid ""
@@ -22555,7 +22755,8 @@ msgid ""
 "Key/Content pair to match a domain. The value in \"Key\" should match the "
 "domain, and the value in \"Content\" should be a valid theme on your system."
 " Please see the example entries for the proper form of the regex."
-msgstr "配置不同主题是可能的，例如：区分系统中基于域名的不同服务人员和客户。您可以使用一个正则表达式配置一个键/内容组合来匹配一个域名。“键”应该匹配域名，“值”是一个系统中有效的皮肤。请参照样例条目修改正则表达式的合适格式。"
+msgstr ""
+"配置不同主题是可能的，例如：区分系统中基于域名的不同服务人员和客户。您可以使用一个正则表达式配置一个键/内容组合来匹配一个域名。“键”应该匹配域名，“值”是一个系统中有效的皮肤。请参照样例条目修改正则表达式的合适格式。"
 
 #. SysConfig
 msgid "Italian"
@@ -22582,6 +22783,10 @@ msgstr "日语"
 #. SysConfig
 msgid "JavaScript function for the search frontend."
 msgstr "搜索界面的JavaScript函数。"
+
+#. SysConfig
+msgid "Korean"
+msgstr ""
 
 #. SysConfig
 msgid "Language"
@@ -22853,7 +23058,9 @@ msgid ""
 "Makes the session management use html cookies. If html cookies are disabled "
 "or if the client browser disabled html cookies, then the system will work as"
 " usual and append the session id to the links."
-msgstr "让会话管理使用HTML Cookies。如果禁用了html cookies或客户端浏览器禁用了html cookies，系统仍会正常工作，并将会话ID追加到链接地址中。"
+msgstr ""
+"让会话管理使用HTML Cookies。如果禁用了html cookies或客户端浏览器禁用了html "
+"cookies，系统仍会正常工作，并将会话ID追加到链接地址中。"
 
 #. SysConfig
 msgid "Malay"
@@ -23027,7 +23234,9 @@ msgid ""
 "Module to check if arrived emails should be marked as internal (because of "
 "original forwarded internal email). IsVisibleForCustomer and SenderType "
 "define the values for the arrived email/article."
-msgstr "检查邮件是否应该被标记为内部（因为原始转发的内部电子邮件）的模块。 IsVisibleForCustomer（是否对客户可见）和SenderType（发件人类型）定义了到达电子邮件/信件的值。"
+msgstr ""
+"检查邮件是否应该被标记为内部（因为原始转发的内部电子邮件）的模块。 "
+"IsVisibleForCustomer（是否对客户可见）和SenderType（发件人类型）定义了到达电子邮件/信件的值。"
 
 #. SysConfig
 msgid "Module to check the group permissions for customer access to tickets."
@@ -23065,7 +23274,9 @@ msgid ""
 "Module to filter and manipulate incoming messages. Get a 4 digit number to "
 "ticket free text, use regex in Match e. g. From => '(.+?)@.+?', and use () "
 "as [***] in Set =>."
-msgstr "和处理进入消息的模块。工单自定义字段取得4个数字的号码，使用正则表达式匹配，如收件人 =>  '(.+?)@.+?'，在set => 像[***]g一样使用()。"
+msgstr ""
+"和处理进入消息的模块。工单自定义字段取得4个数字的号码，使用正则表达式匹配，如收件人 =>  '(.+?)@.+?'，在set => "
+"像[***]g一样使用()。"
 
 #. SysConfig
 msgid "Module to filter encrypted bodies of incoming messages."
@@ -23140,7 +23351,8 @@ msgid ""
 "Module to show notifications and escalations (ShownMax: max. shown "
 "escalations, EscalationInMinutes: Show ticket which will escalation in, "
 "CacheTime: Cache of calculated escalations in seconds)."
-msgstr "显示通知和升级信息的模块（ShownMax：显示升级的最大数，EscalationInMinutes：显示将在...分钟内升级的工单，CacheTime：经计算的升级缓冲秒数）"
+msgstr ""
+"显示通知和升级信息的模块（ShownMax：显示升级的最大数，EscalationInMinutes：显示将在...分钟内升级的工单，CacheTime：经计算的升级缓冲秒数）"
 
 #. SysConfig
 msgid "Module to use database filter storage."
@@ -23152,7 +23364,7 @@ msgstr "用于检测是否存在附件的模块。"
 
 #. SysConfig
 msgid "Multiselect"
-msgstr "多选"
+msgstr "多选框"
 
 #. SysConfig
 msgid "My Queues"
@@ -23297,11 +23509,12 @@ msgid ""
 "iterations. During import process, it might happen that ICS file contains "
 "such Appointments. Instead, system creates all Appointments in the past, "
 "plus Appointments for the next N months (120 months/10 years by default)."
-msgstr "OTRS不支持对没有结束日期或没有重复次数的预约做循环处理。在导入过程中，可能有ICS文件包含了此类预约。作为替代，系统将所有的此类预约创建为已过去的预约，然后加上接下来的N个月(默认120个月或10年)的重复预约。"
+msgstr ""
+"OTRS不支持对没有结束日期或没有重复次数的预约做循环处理。在导入过程中，可能有ICS文件包含了此类预约。作为替代，系统将所有的此类预约创建为已过去的预约，然后加上接下来的N个月(默认120个月或10年)的重复预约。"
 
 #. SysConfig
 msgid "Open Tickets / Need to be answered"
-msgstr "正在处理/需要回复的工单"
+msgstr "处理中/需要回复的工单"
 
 #. SysConfig
 msgid "Open an external link!"
@@ -23421,7 +23634,9 @@ msgid ""
 "still allow administrators to edit the settings of another user's behalf. "
 "Use 'PreferenceGroup' to control in which area these settings should be "
 "shown in the user interface."
-msgstr "服务人员界面的偏好设置视图中CreateNextMask对象的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
+msgstr ""
+"服务人员界面的偏好设置视图中CreateNextMask对象的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。"
+" 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid ""
@@ -23431,7 +23646,10 @@ msgid ""
 " allow administrators to edit the settings of another user's behalf. Use "
 "'PreferenceGroup' to control in which area these settings should be shown in"
 " the user interface."
-msgstr "服务人员界面的偏好设置视图中CustomQueue 对象的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
+msgstr ""
+"服务人员界面的偏好设置视图中CustomQueue "
+"对象的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 "
+"使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid ""
@@ -23441,7 +23659,10 @@ msgid ""
 " allow administrators to edit the settings of another user's behalf. Use "
 "'PreferenceGroup' to control in which area these settings should be shown in"
 " the user interface."
-msgstr "服务人员界面的偏好设置视图中CustomService 对象的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
+msgstr ""
+"服务人员界面的偏好设置视图中CustomService "
+"对象的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 "
+"使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid ""
@@ -23451,7 +23672,10 @@ msgid ""
 " allow administrators to edit the settings of another user's behalf. Use "
 "'PreferenceGroup' to control in which area these settings should be shown in"
 " the user interface."
-msgstr "服务人员界面的偏好设置视图中RefreshTime （刷新时间）对象的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
+msgstr ""
+"服务人员界面的偏好设置视图中RefreshTime "
+"（刷新时间）对象的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。"
+" 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid ""
@@ -23461,7 +23685,10 @@ msgid ""
 "administrators to edit the settings of another user's behalf. Use "
 "'PreferenceGroup' to control in which area these settings should be shown in"
 " the user interface."
-msgstr "工单概览简洁版式的列过滤器参数。 请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
+msgstr ""
+"工单概览简洁版式的列过滤器参数。 "
+"请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 "
+"使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid ""
@@ -23470,7 +23697,9 @@ msgid ""
 "(e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin is"
 " enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin."
-msgstr "服务人员界面客户单位信息的仪表板后端的参数。“GROUP（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。"
+msgstr ""
+"服务人员界面客户单位信息的仪表板后端的参数。“GROUP（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。"
 
 #. SysConfig
 msgid ""
@@ -23480,7 +23709,9 @@ msgid ""
 "admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin."
-msgstr "服务人员界面客户ID列表概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。"
+msgstr ""
+"服务人员界面客户ID列表概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。"
 
 #. SysConfig
 msgid ""
@@ -23489,7 +23720,9 @@ msgid ""
 "(e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin is"
 " enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin."
-msgstr "服务人员界面客户ID状态小部件的仪表板后端的参数。“GROUP（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTLLocal”表明本插件的缓存过期时间（单位：分钟）。"
+msgstr ""
+"服务人员界面客户ID状态小部件的仪表板后端的参数。“GROUP（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTLLocal”表明本插件的缓存过期时间（单位：分钟）。"
 
 #. SysConfig
 msgid ""
@@ -23498,7 +23731,9 @@ msgid ""
 " g. Group: admin;group1;group2;). \"Default\" determines if the plugin is "
 "enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin."
-msgstr "服务人员界面客户用户信息的仪表板后端的参数。“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。"
+msgstr ""
+"服务人员界面客户用户信息的仪表板后端的参数。“GROUP”（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。"
 
 #. SysConfig
 msgid ""
@@ -23508,7 +23743,9 @@ msgid ""
 "admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin."
-msgstr "服务人员界面客户用户列表视图仪表板后端的参数。“Limit（限制）定义默认显示的条目数。“GROUP（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTLLocal”表明本插件的缓存过期时间（单位：分钟）。"
+msgstr ""
+"服务人员界面客户用户列表视图仪表板后端的参数。“Limit（限制）定义默认显示的条目数。“GROUP（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTLLocal”表明本插件的缓存过期时间（单位：分钟）。"
 
 #. SysConfig
 msgid ""
@@ -23521,7 +23758,10 @@ msgid ""
 "plugin is always shown and can not be removed by agents. Note: Only Ticket "
 "attributes and Dynamic Fields (DynamicField_NameX) are allowed for "
 "DefaultColumns."
-msgstr "服务人员界面新建工单概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。"
+msgstr ""
+"服务人员界面新建工单概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
+" 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。"
 
 #. SysConfig
 msgid ""
@@ -23532,7 +23772,10 @@ msgid ""
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin. Note: Only Ticket attributes and "
 "Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns."
-msgstr "服务人员界面新建工单概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。"
+msgstr ""
+"服务人员界面新建工单概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
+" 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。"
 
 #. SysConfig
 msgid ""
@@ -23547,7 +23790,12 @@ msgid ""
 "\"AccessibleTickets\" determines if the plugin will show only tickets "
 "assigned to a customer user directly (=0) or also all accessible tickets for"
 " this customer (=1)."
-msgstr "服务人员界面新建工单概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。可能的设置：0 = 禁用，1 = 可用，2 = 默认启用。 “AccessibleTickets（可访问的工单）”确定本插件是仅显示直接分配给某个客户用户的工单（= 0），还是显示该客户的所有可访问的工单（= 1）。"
+msgstr ""
+"服务人员界面新建工单概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。"
+" 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。可能的设置：0 = 禁用，1 "
+"= 可用，2 = 默认启用。 “AccessibleTickets（可访问的工单）”确定本插件是仅显示直接分配给某个客户用户的工单（= "
+"0），还是显示该客户的所有可访问的工单（= 1）。"
 
 #. SysConfig
 msgid ""
@@ -23560,7 +23808,10 @@ msgid ""
 "plugin is always shown and can not be removed by agents. Note: Only Ticket "
 "attributes and Dynamic Fields (DynamicField_NameX) are allowed for "
 "DefaultColumns."
-msgstr "服务人员界面处理工单概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。"
+msgstr ""
+"服务人员界面处理工单概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
+" 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。"
 
 #. SysConfig
 msgid ""
@@ -23571,7 +23822,10 @@ msgid ""
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin. Note: Only Ticket attributes and "
 "Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns."
-msgstr "服务人员界面处理工单概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。"
+msgstr ""
+"服务人员界面处理工单概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。"
+" 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。"
 
 #. SysConfig
 msgid ""
@@ -23586,7 +23840,12 @@ msgid ""
 "\"AccessibleTickets\" determines if the plugin will show only tickets "
 "assigned to a customer user directly (=0) or also all accessible tickets for"
 " this customer (=1)."
-msgstr "服务人员界面处理工单概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。可能的设置：0 = 禁用，1 = 可用，2 = 默认启用。 “AccessibleTickets（可访问的工单）”确定本插件是仅显示直接分配给某个客户用户的工单（= 0），还是显示该客户的所有可访问的工单（= 1）。"
+msgstr ""
+"服务人员界面处理工单概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
+" 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。可能的设置：0 = 禁用，1 "
+"= 可用，2 = 默认启用。 “AccessibleTickets（可访问的工单）”确定本插件是仅显示直接分配给某个客户用户的工单（= "
+"0），还是显示该客户的所有可访问的工单（= 1）。"
 
 #. SysConfig
 msgid ""
@@ -23599,7 +23858,9 @@ msgid ""
 " if the user needs to enable it manually. \"CacheTTLLocal\" is the cache "
 "time in minutes for the plugin. \"Mandatory\" determines if the plugin is "
 "always shown and can not be removed by agents."
-msgstr "服务人员界面执行中的队列概览小部件的仪表板后端的参数。“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“QueuePermissionGroup（队列权限组）”不是必需的，只有在启用了权限组且队列属于此权限组时才会显示队列。\"States（状态）\"是状态的列表，该键是小部件中状态的排序顺序。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
+msgstr ""
+"服务人员界面执行中的队列概览小部件的仪表板后端的参数。“GROUP”（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“QueuePermissionGroup（队列权限组）”不是必需的，只有在启用了权限组且队列属于此权限组时才会显示队列。\"States（状态）\"是状态的列表，该键是小部件中状态的排序顺序。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
 
 #. SysConfig
 msgid ""
@@ -23610,7 +23871,9 @@ msgid ""
 "enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin. \"Mandatory\""
 " determines if the plugin is always shown and can not be removed by agents."
-msgstr "服务人员界面执行中的流程工单概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
+msgstr ""
+"服务人员界面执行中的流程工单概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
 
 #. SysConfig
 msgid ""
@@ -23623,7 +23886,10 @@ msgid ""
 "plugin is always shown and can not be removed by agents. Note: Only Ticket "
 "attributes and Dynamic Fields (DynamicField_NameX) are allowed for "
 "DefaultColumns."
-msgstr "服务人员界面工单升级概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。"
+msgstr ""
+"服务人员界面工单升级概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
+" 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。"
 
 #. SysConfig
 msgid ""
@@ -23634,7 +23900,10 @@ msgid ""
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin. Note: Only Ticket attributes and "
 "Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns."
-msgstr "服务人员界面工单升级概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。"
+msgstr ""
+"服务人员界面工单升级概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。"
+" 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。"
 
 #. SysConfig
 msgid ""
@@ -23649,7 +23918,12 @@ msgid ""
 "\"AccessibleTickets\" determines if the plugin will show only tickets "
 "assigned to a customer user directly (=0) or also all accessible tickets for"
 " this customer (=1)."
-msgstr "服务人员界面工单升级概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。可能的设置：0 = 禁用，1 = 可用，2 = 默认启用。 “AccessibleTickets（可访问的工单）”确定本插件是仅显示直接分配给某个客户用户的工单（= 0），还是显示该客户的所有可访问的工单（= 1）。"
+msgstr ""
+"服务人员界面工单升级概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。"
+" 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。可能的设置：0 = 禁用，1 "
+"= 可用，2 = 默认启用。 “AccessibleTickets（可访问的工单）”确定本插件是仅显示直接分配给某个客户用户的工单（= "
+"0），还是显示该客户的所有可访问的工单（= 1）。"
 
 #. SysConfig
 msgid ""
@@ -23660,7 +23934,9 @@ msgid ""
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin. \"Mandatory\" determines if the "
 "plugin is always shown and can not be removed by agents."
-msgstr "服务人员界面工单事件日历的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
+msgstr ""
+"服务人员界面工单事件日历的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
 
 #. SysConfig
 msgid ""
@@ -23673,7 +23949,10 @@ msgid ""
 " determines if the plugin is always shown and can not be removed by agents. "
 "Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are "
 "allowed for DefaultColumns."
-msgstr "服务人员界面工单挂起提醒概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。"
+msgstr ""
+"服务人员界面工单挂起提醒概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
+" 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。"
 
 #. SysConfig
 msgid ""
@@ -23685,7 +23964,10 @@ msgid ""
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin. Note: Only "
 "Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for "
 "DefaultColumns."
-msgstr "服务人员界面工单挂起提醒的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。"
+msgstr ""
+"服务人员界面工单挂起提醒的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。"
+" 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。"
 
 #. SysConfig
 msgid ""
@@ -23700,7 +23982,12 @@ msgid ""
 "by default. \"AccessibleTickets\" determines if the plugin will show only "
 "tickets assigned to a customer user directly (=0) or also all accessible "
 "tickets for this customer (=1)."
-msgstr "服务人员界面工单挂起提醒概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。可能的设置：0 = 禁用，1 = 可用，2 = 默认启用。 “AccessibleTickets（可访问的工单）”确定本插件是仅显示直接分配给某个客户用户的工单（= 0），还是显示该客户的所有可访问的工单（= 1）。"
+msgstr ""
+"服务人员界面工单挂起提醒概览的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
+" 注意：只有工单属性和动态字段（DynamicField_NameX）才允许使用DefaultColumns（默认字段）。可能的设置：0 = 禁用，1 "
+"= 可用，2 = 默认启用。 “AccessibleTickets（可访问的工单）”确定本插件是仅显示直接分配给某个客户用户的工单（= "
+"0），还是显示该客户的所有可访问的工单（= 1）。"
 
 #. SysConfig
 msgid ""
@@ -23711,7 +23998,9 @@ msgid ""
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin. \"Mandatory\" determines if the "
 "plugin is always shown and can not be removed by agents."
-msgstr "服务人员界面工单统计的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
+msgstr ""
+"服务人员界面工单统计的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
 
 #. SysConfig
 msgid ""
@@ -23722,7 +24011,9 @@ msgid ""
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin. \"Mandatory\" determines if the "
 "plugin is always shown and can not be removed by agents."
-msgstr "服务人员界面即将发生的事件小部件的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
+msgstr ""
+"服务人员界面即将发生的事件小部件的仪表板后端的参数。\"Limit（限制）\" 是默认的显示条目数，“GROUP”（组）用于到本插件的访问权限限制（如 "
+"Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。“Mandatory（强制）”确定插件是否始终显示且不能被服务人员移除。"
 
 #. SysConfig
 msgid ""
@@ -23738,7 +24029,9 @@ msgid ""
 "preferences, but will still allow administrators to edit the settings of "
 "another user's behalf. Use 'PreferenceGroup' to control in which area these "
 "settings should be shown in the user interface."
-msgstr "动态字段概览页面（用来显示动态字段）的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
+msgstr ""
+"动态字段概览页面（用来显示动态字段）的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。"
+" 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid ""
@@ -23748,7 +24041,9 @@ msgid ""
 " still allow administrators to edit the settings of another user's behalf. "
 "Use 'PreferenceGroup' to control in which area these settings should be "
 "shown in the user interface."
-msgstr "工单概览基本版式页面（用来显示工单）的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
+msgstr ""
+"工单概览基本版式页面（用来显示工单）的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。"
+" 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid ""
@@ -23758,7 +24053,9 @@ msgid ""
 " still allow administrators to edit the settings of another user's behalf. "
 "Use 'PreferenceGroup' to control in which area these settings should be "
 "shown in the user interface."
-msgstr "工单概览简洁版式页面（用来显示工单）的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
+msgstr ""
+"工单概览简洁版式页面（用来显示工单）的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。"
+" 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid ""
@@ -23768,7 +24065,9 @@ msgid ""
 "but will still allow administrators to edit the settings of another user's "
 "behalf. Use 'PreferenceGroup' to control in which area these settings should"
 " be shown in the user interface."
-msgstr "工单概览预览版式页面（用来显示工单）的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
+msgstr ""
+"工单概览预览版式页面（用来显示工单）的参数。请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。"
+" 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid "Parameters of the example SLA attribute Comment2."
@@ -23938,7 +24237,9 @@ msgstr "产品新闻"
 msgid ""
 "Protection against CSRF (Cross Site Request Forgery) exploits (for more info"
 " see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
-msgstr "针对CSRF（跨站请求伪造）漏洞利用的保护（参阅http://en.wikipedia.org/wiki/Cross-site_request_forgery获取更多信息）。"
+msgstr ""
+"针对CSRF（跨站请求伪造）漏洞利用的保护（参阅http://en.wikipedia.org/wiki/Cross-"
+"site_request_forgery获取更多信息）。"
 
 #. SysConfig
 msgid "Provides a matrix overview of the tickets per state per queue"
@@ -24008,7 +24309,9 @@ msgid ""
 "Renew existing SMIME certificates from customer backend. Note: SMIME and "
 "SMIME::FetchFromCustomer needs to be enabled in SysConfig and customer "
 "backend needs to be configured to fetch UserSMIMECertificate attribute."
-msgstr "从客户后端更新已有的SMIME证书。注意：需要在系统配置中启用SMIME和SMIME::FetchFromCustomer，且客户后端模块需要配置为收取UserSMIMECertificate 属性。"
+msgstr ""
+"从客户后端更新已有的SMIME证书。注意：需要在系统配置中启用SMIME和SMIME::FetchFromCustomer，且客户后端模块需要配置为收取UserSMIMECertificate"
+" 属性。"
 
 #. SysConfig
 msgid ""
@@ -24161,7 +24464,7 @@ msgstr "在列表中保留所有的服务，即使他们是无效的子元素。
 
 #. SysConfig
 msgid "Right"
-msgstr "右"
+msgstr "权限"
 
 #. SysConfig
 msgid "Roles ↔ Groups"
@@ -24171,7 +24474,9 @@ msgstr "角色 ↔ 组"
 msgid ""
 "Run file based generic agent jobs (Note: module name needs to be specified "
 "in -configuration-module param e.g. \"Kernel::System::GenericAgent\")."
-msgstr "运行基于文件的自动任务(注意：需要在-configuration-module参数中指定模块名，如\"Kernel::System::GenericAgent\")。"
+msgstr ""
+"运行基于文件的自动任务(注意：需要在-configuration-"
+"module参数中指定模块名，如\"Kernel::System::GenericAgent\")。"
 
 #. SysConfig
 msgid "Running Process Tickets"
@@ -24195,7 +24500,8 @@ msgid ""
 " such as selection of language and theme via the agent web interface. These "
 "changes are only valid for the current session. It will not be possible for "
 "agents to change their passwords."
-msgstr "以“演示”模式运行系统。如果启用了，服务人员能够修改偏好设置，如通过WEB界面选择语言和主题，这些变更内容只对当前会话有效。服务人员不能修改密码。"
+msgstr ""
+"以“演示”模式运行系统。如果启用了，服务人员能够修改偏好设置，如通过WEB界面选择语言和主题，这些变更内容只对当前会话有效。服务人员不能修改密码。"
 
 #. SysConfig
 msgid "Russian"
@@ -24229,7 +24535,8 @@ msgid ""
 "user. You can switch between the modules even on a system that is already in"
 " production without any loss of data. Note: Searching for attachment names "
 "is not supported when \"FS\" is used."
-msgstr "保存信件的附件。“数据库”在数据库中存储所有数据（不推荐在存储大容量附件时使用）。“文件系统”在文件系统中保存数据；这个选项更快但WEB服务器要以OTRS用户运行。即使是在生产环境您也可以在这两种模式间切换，而不会丢失数据。备注：使用“文件系统”时不能搜索附件名。"
+msgstr ""
+"保存信件的附件。“数据库”在数据库中存储所有数据（不推荐在存储大容量附件时使用）。“文件系统”在文件系统中保存数据；这个选项更快但WEB服务器要以OTRS用户运行。即使是在生产环境您也可以在这两种模式间切换，而不会丢失数据。备注：使用“文件系统”时不能搜索附件名。"
 
 #. SysConfig
 msgid "Schedule a maintenance period."
@@ -24335,7 +24642,13 @@ msgid ""
 " a daily basis. The format looks like "
 "Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, "
 "2002070110101535)."
-msgstr "选择工单编号生成器模块。 使用“AutoIncrement（自动增量）”，系统ID和计数器一起使用“系统ID.计数器”格式（例如1010138,1010139）使用增加工单编号。 使用“Date（日期）”，工单编号将由当前日期、系统ID和计数器生成。 该格式看起来像“年.月.日.系统ID.计数器”（例如200206231010138,200206231010139）。 使用“DateChecksum（日期校验和）”，计数器将作为校验和追加到日期和系统ID的字符串。 校验和将每天轮换。 该格式看起来像“年.月.日.系统ID.计数器.校验和”（例如2002070110101520,2002070110101535）。"
+msgstr ""
+"选择工单编号生成器模块。 "
+"使用“AutoIncrement（自动增量）”，系统ID和计数器一起使用“系统ID.计数器”格式（例如1010138,1010139）使用增加工单编号。"
+" 使用“Date（日期）”，工单编号将由当前日期、系统ID和计数器生成。 "
+"该格式看起来像“年.月.日.系统ID.计数器”（例如200206231010138,200206231010139）。 "
+"使用“DateChecksum（日期校验和）”，计数器将作为校验和追加到日期和系统ID的字符串。 校验和将每天轮换。 "
+"该格式看起来像“年.月.日.系统ID.计数器.校验和”（例如2002070110101520,2002070110101535）。"
 
 #. SysConfig
 msgid "Send new outgoing mail from this ticket"
@@ -24460,7 +24773,9 @@ msgid ""
 "Set the minimum log level. If you select 'error', just errors are logged. "
 "With 'debug' you get all logging messages. The order of log levels is: "
 "'debug', 'info', 'notice' and 'error'."
-msgstr "设置最小日志级别。 如果选择'error'，则只会记录错误。 使用'debug'可以获取所有日志消息。 日志级别的顺序是：'debug'，'info'，'notice'和'error'。"
+msgstr ""
+"设置最小日志级别。 如果选择'error'，则只会记录错误。 使用'debug'可以获取所有日志消息。 "
+"日志级别的顺序是：'debug'，'info'，'notice'和'error'。"
 
 #. SysConfig
 msgid "Set this ticket to pending"
@@ -24529,7 +24844,8 @@ msgid ""
 " ascending order: Expert, Advanced, Beginner. The higher the config level is"
 " (e.g. Beginner is the highest), the less likely is it that the user can "
 "accidentally configure the system in a way that it is not usable any more."
-msgstr "设置系统管理员的配置级别。取决于配置级别，一些系统配置选项不会显示。配置级别递升序次为：专家、高级、新手。更高的配置级别是（例如新手是最高级别），更低级别是管理员在某种程度上只是偶尔配置一下就不再使用了。"
+msgstr ""
+"设置系统管理员的配置级别。取决于配置级别，一些系统配置选项不会显示。配置级别递升序次为：专家、高级、新手。更高的配置级别是（例如新手是最高级别），更低级别是管理员在某种程度上只是偶尔配置一下就不再使用了。"
 
 #. SysConfig
 msgid ""
@@ -24795,7 +25111,8 @@ msgid ""
 "web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias "
 "which is found in all forms of messaging used by the application, to build "
 "links to the tickets within the system."
-msgstr "设置配置的web服务器上脚本目录的前缀，这个设置用于变量OTRS_CONFIG_ScriptAlias，此变量可在系统的所有消息表单中找到，用来在系统内创建到工单的链接。"
+msgstr ""
+"设置配置的web服务器上脚本目录的前缀，这个设置用于变量OTRS_CONFIG_ScriptAlias，此变量可在系统的所有消息表单中找到，用来在系统内创建到工单的链接。"
 
 #. SysConfig
 msgid ""
@@ -25147,7 +25464,8 @@ msgid ""
 "items use for Key \"ClusterName\" and for the Content any name you want to "
 "see in the UI. Use \"ClusterPriority\" to configure the order of a certain "
 "cluster within the toolbar."
-msgstr "在服务人员界面工单详情屏幕，在菜单上显示一个链接，以创建一个日历预约并直接链接到此工单。可通过键“Group”和值如“rw:group1;move_into:group2”进行额外的访问控制，以显示或不显示这个链接。如果要放到菜单组中，使用键“ClusterName”，值可以是界面上能看到的任意名称。使用键“ClusterPriority”来配置菜单组在工具栏中显示的顺序。"
+msgstr ""
+"在服务人员界面工单详情屏幕，在菜单上显示一个链接，以创建一个日历预约并直接链接到此工单。可通过键“Group”和值如“rw:group1;move_into:group2”进行额外的访问控制，以显示或不显示这个链接。如果要放到菜单组中，使用键“ClusterName”，值可以是界面上能看到的任意名称。使用键“ClusterPriority”来配置菜单组在工具栏中显示的顺序。"
 
 #. SysConfig
 msgid ""
@@ -25158,7 +25476,10 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为“关注/取消关注工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr ""
+"在服务人员界面工单详情视图中，为“关注/取消关注工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25169,7 +25490,10 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为“链接工单到另一对象”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr ""
+"在服务人员界面工单详情视图中，为“链接工单到另一对象”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25180,7 +25504,10 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为“合并工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr ""
+"在服务人员界面工单详情视图中，为“合并工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25191,7 +25518,10 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为“访问工单历史”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr ""
+"在服务人员界面工单详情视图中，为“访问工单历史”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25202,7 +25532,10 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为“工单自定义字段”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr ""
+"在服务人员界面工单详情视图中，为“工单自定义字段”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25212,7 +25545,10 @@ msgid ""
 " To cluster menu items use for Key \"ClusterName\" and for the Content any "
 "name you want to see in the UI. Use \"ClusterPriority\" to configure the "
 "order of a certain cluster within the toolbar."
-msgstr "在服务人员界面工单详情视图中，为“添加工单备注”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr ""
+"在服务人员界面工单详情视图中，为“添加工单备注”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25229,7 +25565,10 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为“添加客户来电”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr ""
+"在服务人员界面工单详情视图中，为“添加客户来电”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25240,7 +25579,10 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为“添加致电客户”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr ""
+"在服务人员界面工单详情视图中，为“添加致电客户”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25251,7 +25593,13 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为“修改请求工单的客户”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。在服务人员界面工单详情视图中，为锁定/解锁工单菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr ""
+"在服务人员界面工单详情视图中，为“修改请求工单的客户”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-"
+"杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。在服务人员界面工单详情视图中，为锁定/解锁工单菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25262,7 +25610,10 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为“修改工单所有者”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr ""
+"在服务人员界面工单详情视图中，为“修改工单所有者”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25273,7 +25624,10 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为“修改工单负责人”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr ""
+"在服务人员界面工单详情视图中，为“修改工单负责人”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25290,7 +25644,10 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为“关闭工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr ""
+"在服务人员界面工单详情视图中，为“关闭工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25298,7 +25655,8 @@ msgid ""
 "agent interface. Additional access control to show or not show this link can"
 " be done by using Key \"Group\" and Content like "
 "\"rw:group1;move_into:group2\"."
-msgstr "在服务人员界面所有工单概览视图，为“删除工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+msgstr ""
+"在服务人员界面所有工单概览视图，为“删除工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
 
 #. SysConfig
 msgid ""
@@ -25309,7 +25667,10 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为“删除工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr ""
+"在服务人员界面工单详情视图中，为“删除工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25325,7 +25686,10 @@ msgid ""
 " To cluster menu items use for Key \"ClusterName\" and for the Content any "
 "name you want to see in the UI. Use \"ClusterPriority\" to configure the "
 "order of a certain cluster within the toolbar."
-msgstr "在服务人员界面工单详情视图中，为“返回”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr ""
+"在服务人员界面工单详情视图中，为“返回”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25342,7 +25706,10 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为“锁定/解锁工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr ""
+"在服务人员界面工单详情视图中，为“锁定/解锁工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25359,7 +25726,10 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为“打印工单/信件”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr ""
+"在服务人员界面工单详情视图中，为“打印工单/信件”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25376,7 +25746,10 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为“查看工单优先级”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr ""
+"在服务人员界面工单详情视图中，为“查看工单优先级”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25387,7 +25760,10 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为“发送工单的外发邮件”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr ""
+"在服务人员界面工单详情视图中，为“发送工单的外发邮件”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25395,7 +25771,8 @@ msgid ""
 " the agent interface. Additional access control to show or not show this "
 "link can be done by using Key \"Group\" and Content like "
 "\"rw:group1;move_into:group2\"."
-msgstr "在服务人员界面工单各种概览视图中，为“设置工单为垃圾”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+msgstr ""
+"在服务人员界面工单各种概览视图中，为“设置工单为垃圾”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
 
 #. SysConfig
 msgid ""
@@ -25406,7 +25783,10 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "在服务人员界面工单详情视图中，为“挂起工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr ""
+"在服务人员界面工单详情视图中，为“挂起工单”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25444,7 +25824,10 @@ msgid ""
 " To cluster menu items use for Key \"ClusterName\" and for the Content any "
 "name you want to see in the UI. Use \"ClusterPriority\" to configure the "
 "order of a certain cluster within the toolbar."
-msgstr "在服务人员界面工单详情视图中，为“设置工单为垃圾”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
+msgstr ""
+"在服务人员界面工单详情视图中，为“设置工单为垃圾”菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+" 为了给菜单条目分组，使用键\"ClusterName（菜单组名称）\"，其值可为您想在界面上看到的任何菜单组名称"
+"（系统默认为Miscellaneous-杂项），使用键\"ClusterPriority（菜单组优先级）\"来配置工具栏中菜单组的显示顺序。"
 
 #. SysConfig
 msgid ""
@@ -25500,7 +25883,8 @@ msgid ""
 "Shows a list of all the possible agents (all agents with note permissions on"
 " the queue/ticket) to determine who should be informed about this note, in "
 "the ticket free text screen of the agent interface."
-msgstr "在服务人员界面工单自定义字段屏幕，显示这个工单所有可能的服务人员（需要具有这个队列或工单的备注权限）列表，用于确定谁将收到关于这个备注的通知。"
+msgstr ""
+"在服务人员界面工单自定义字段屏幕，显示这个工单所有可能的服务人员（需要具有这个队列或工单的备注权限）列表，用于确定谁将收到关于这个备注的通知。"
 
 #. SysConfig
 msgid ""
@@ -25542,7 +25926,8 @@ msgid ""
 "Shows a preview of the ticket overview (CustomerInfo => 1 - shows also "
 "Customer-Info, CustomerInfoMaxSize max. size in characters of Customer-"
 "Info)."
-msgstr "显示工单概览的预览（如果参数CustomerInfo值为1，还将显示客户信息，参数CustomerInfoMaxSize定义了显示客户信息的最大字符数）。"
+msgstr ""
+"显示工单概览的预览（如果参数CustomerInfo值为1，还将显示客户信息，参数CustomerInfoMaxSize定义了显示客户信息的最大字符数）。"
 
 #. SysConfig
 msgid ""
@@ -25595,7 +25980,8 @@ msgstr "在服务人员界面电话和邮件工单屏幕显示所有者选择器
 msgid ""
 "Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and "
 "AgentTicketCustomer."
-msgstr "在AgentTicketPhone（服务人员电话工单）、AgentTicketEmail（服务人员邮件工单）和AgentTicketCustomer（服务人员客户工单）模块显示客户历史工单信息。"
+msgstr ""
+"在AgentTicketPhone（服务人员电话工单）、AgentTicketEmail（服务人员邮件工单）和AgentTicketCustomer（服务人员客户工单）模块显示客户历史工单信息。"
 
 #. SysConfig
 msgid ""
@@ -25618,7 +26004,9 @@ msgid ""
 "Shows link to external page in the ticket zoom view of the agent interface. "
 "Additional access control to show or not show this link can be done by using"
 " Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
-msgstr "在服务人员界面的工单详情视图中显示到外部页面的链接。 可以通过使用键“Group”和内容如“rw：group1; move_into：group2”来完成额外的访问控制，以显示或不显示此链接。"
+msgstr ""
+"在服务人员界面的工单详情视图中显示到外部页面的链接。 可以通过使用键“Group”和内容如“rw：group1; "
+"move_into：group2”来完成额外的访问控制，以显示或不显示此链接。"
 
 #. SysConfig
 msgid ""
@@ -25644,7 +26032,9 @@ msgid ""
 "\"Default\" indicates if the plugin is enabled by default or if the user "
 "needs to enable it manually. \"Mandatory\" determines if the plugin is "
 "always shown and can not be removed by agents."
-msgstr "在服务人员仪表板中显示当天的消息（MOTD）。 “组”用于限制对插件的访问（例如，组：admin; group1; group2;）。 “默认”表示插件是默认启用，还是需要用户手动启用插件。 “强制”确定插件是否始终显示，不能被服务人员移除。"
+msgstr ""
+"在服务人员仪表板中显示当天的消息（MOTD）。 “组”用于限制对插件的访问（例如，组：admin; group1; group2;）。 "
+"“默认”表示插件是默认启用，还是需要用户手动启用插件。 “强制”确定插件是否始终显示，不能被服务人员移除。"
 
 #. SysConfig
 msgid "Shows the message of the day on login screen of the agent interface."
@@ -25813,7 +26203,9 @@ msgid ""
 "selected in the queue view and after the tickets are sorted by priority. "
 "Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on "
 "top). Use the QueueID for the key and 0 or 1 for value."
-msgstr "队列视图选择一个队列后按升序或降序排序工单（在工单以优先级排序之后）。值：0 = 升序（最老的在最上面，默认），1 = 降序（最近的在最上面），键为队列ID，值为0或1。"
+msgstr ""
+"队列视图选择一个队列后按升序或降序排序工单（在工单以优先级排序之后）。值：0 = 升序（最老的在最上面，默认），1 = "
+"降序（最近的在最上面），键为队列ID，值为0或1。"
 
 #. SysConfig
 msgid ""
@@ -25821,7 +26213,9 @@ msgid ""
 "selected in the service view and after the tickets are sorted by priority. "
 "Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on "
 "top). Use the ServiceID for the key and 0 or 1 for value."
-msgstr "服务视图选择一个队列后按升序或降序排序工单（在工单以优先级排序之后）。值：0 = 升序（最老的在最上面，默认），1 = 降序（最近的在最上面），键为队列ID，值为0或1。"
+msgstr ""
+"服务视图选择一个队列后按升序或降序排序工单（在工单以优先级排序之后）。值：0 = 升序（最老的在最上面，默认），1 = "
+"降序（最近的在最上面），键为队列ID，值为0或1。"
 
 #. SysConfig
 msgid "Spam"
@@ -25881,7 +26275,8 @@ msgid ""
 "display name for the notification master (i.e. \"OTRS Notifications\" "
 "otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in "
 "your configuation, or choose another email address."
-msgstr "指定系统发送通知的邮件地址。这个邮件地址用来创建通知管理员的完整显示名称（如\"OTRS通知\"otrs@your.example.com），您可以使用配置的变量OTRS_CONFIG_FQDN，或者选择另外的邮件地址。"
+msgstr ""
+"指定系统发送通知的邮件地址。这个邮件地址用来创建通知管理员的完整显示名称（如\"OTRS通知\"otrs@your.example.com），您可以使用配置的变量OTRS_CONFIG_FQDN，或者选择另外的邮件地址。"
 
 #. SysConfig
 msgid ""
@@ -26006,7 +26401,8 @@ msgid ""
 " built-in: note, close, pending, customer, freetext, move, compose, "
 "responsible, forward, and bounce. Make sure that \"rw\" is always the last "
 "registered permission."
-msgstr "系统中服务人员可用的标准权限，如果需要更多的权限，可以在这里输入。权限必须已定义好且有效，一些好的权限已经内置：备注、关闭、挂起、客户、自定义字段、转移、编写、负责人、转发和退回。请确保“rw（读写）始终是注册权限的最后一条。"
+msgstr ""
+"系统中服务人员可用的标准权限，如果需要更多的权限，可以在这里输入。权限必须已定义好且有效，一些好的权限已经内置：备注、关闭、挂起、客户、自定义字段、转移、编写、负责人、转发和退回。请确保“rw（读写）始终是注册权限的最后一条。"
 
 #. SysConfig
 msgid ""
@@ -26162,7 +26558,10 @@ msgid ""
 "Subject' and no ticket number. In the latter case you should verify that the"
 " setting PostMaster::CheckFollowUpModule###0200-References is activated to "
 "recognize followups based on email headers."
-msgstr "邮件主题的格式，“左”代表'[TicketHook#:12345] Some Subject'，“右”代表'Some Subject [TicketHook#:12345]'，“无”代表'Some Subject'（没有工单编号）。如果设置为“无”，您应该验证设置PostMaster::CheckFollowUpModule###0200-References是激活的，以识别邮件标头的跟进。"
+msgstr ""
+"邮件主题的格式，“左”代表'[TicketHook#:12345] Some Subject'，“右”代表'Some Subject "
+"[TicketHook#:12345]'，“无”代表'Some "
+"Subject'（没有工单编号）。如果设置为“无”，您应该验证设置PostMaster::CheckFollowUpModule###0200-References是激活的，以识别邮件标头的跟进。"
 
 #. SysConfig
 msgid "The headline shown in the customer interface."
@@ -26268,7 +26667,8 @@ msgid ""
 "This event module stores attributes from CustomerUser as DynamicFields "
 "tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to"
 " configure the mapping."
-msgstr "这个事件模块将客户用户的属性存储为工单动态字段，如何配置这个映射请查看DynamicFieldFromCustomerUser::Mapping设置。"
+msgstr ""
+"这个事件模块将客户用户的属性存储为工单动态字段，如何配置这个映射请查看DynamicFieldFromCustomerUser::Mapping设置。"
 
 #. SysConfig
 msgid "This is a Description for Comment on Framework."
@@ -26531,7 +26931,8 @@ msgid ""
 "Toolbar Item for a shortcut. Additional access control to show or not show "
 "this link can be done by using Key \"Group\" and Content like "
 "\"rw:group1;move_into:group2\"."
-msgstr "工具栏条目的快捷键。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
+msgstr ""
+"工具栏条目的快捷键。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。"
 
 #. SysConfig
 msgid ""
@@ -26540,7 +26941,10 @@ msgid ""
 "in their personal preferences, but will still allow administrators to edit "
 "the settings of another user's behalf. Use 'PreferenceGroup' to control in "
 "which area these settings should be shown in the user interface."
-msgstr "预约通知的传输选项。 请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
+msgstr ""
+"预约通知的传输选项。 "
+"请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 "
+"使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid ""
@@ -26549,7 +26953,10 @@ msgid ""
 "personal preferences, but will still allow administrators to edit the "
 "settings of another user's behalf. Use 'PreferenceGroup' to control in which"
 " area these settings should be shown in the user interface."
-msgstr "工单通知的传输选项。 请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
+msgstr ""
+"工单通知的传输选项。 "
+"请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 "
+"使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
 #. SysConfig
 msgid "Tree view"
@@ -26597,7 +27004,9 @@ msgid ""
 "handle the file rotation, or choose 'External' to use a 3rd party rotation "
 "mechanism (i.e. logrotate). Note: External rotation mechanism requires its "
 "own and independent configuration."
-msgstr "要使用的守护程序日志循环类型：选择“OTRS”以使OTRS系统处理文件循环，或选择“外部”以使用第三方循环机制（如logrotate）。 注意：外部循环机制需要使用其自身的配置。"
+msgstr ""
+"要使用的守护程序日志循环类型：选择“OTRS”以使OTRS系统处理文件循环，或选择“外部”以使用第三方循环机制（如logrotate）。 "
+"注意：外部循环机制需要使用其自身的配置。"
 
 #. SysConfig
 msgid "Ukrainian"
@@ -26865,4 +27274,4 @@ msgstr "倒序"
 
 #. SysConfig
 msgid "stats"
-msgstr "统计值"
+msgstr "stats（统计）"

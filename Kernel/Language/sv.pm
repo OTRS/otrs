@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.381287553648069;
+    $Self->{Completeness}        = 0.381222107792654;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4272,7 +4272,7 @@ sub Data {
         'Incoming Phone Call' => 'Inkommande telefonsamtal',
         'System Request.' => '',
         'Incoming Follow-Up' => 'Inkommande uppföljning',
-        'Automatic Reply Sent' => 'Automatiskt svar skickades',
+        'Automatic Reply Sent' => 'Automatiskt svar skickat',
         'Automatic Reject Sent' => '',
         'Escalation Solution Time In Effect' => '',
         'Escalation Solution Time Stopped' => '',
@@ -7052,7 +7052,7 @@ Thanks for your help!
         'Disable cloud services' => '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
-        'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
+        'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
@@ -7480,6 +7480,7 @@ Thanks for your help!
         'Ivory (Slim)' => '',
         'Japanese' => 'Japanska',
         'JavaScript function for the search frontend.' => '',
+        'Korean' => '',
         'Language' => 'Språk',
         'Large' => 'Stor',
         'Last Screen Overview' => '',
@@ -8459,7 +8460,7 @@ Thanks for your help!
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
         'Stat#' => 'Rapport#',
-        'States' => 'Statusar',
+        'States' => 'Status',
         'Statistic Reports overview.' => '',
         'Statistics overview.' => '',
         'Status view' => 'Status-vy',

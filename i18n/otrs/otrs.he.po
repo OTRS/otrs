@@ -1,14 +1,14 @@
-# 
 # Translators:
-# Amir Aharoni <amir.aharoni@mail.huji.ac.il>, 2017
-# Idan Cohen <idan2cohen@gmail.com>, 2016
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Idan Cohen <idan2cohen@gmail.com>, 2018
+# Amir Aharoni <amir.aharoni@mail.huji.ac.il>, 2018
 msgid ""
 msgstr ""
-"Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-09-13 21:46+0000\n"
-"PO-Revision-Date: 2018-09-13 21:49+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: Hebrew (http://www.transifex.com/otrs/OTRS/language/he/)\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-09-27 16:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Amir Aharoni <amir.aharoni@mail.huji.ac.il>, 2018\n"
+"Language-Team: Hebrew (https://www.transifex.com/otrs/teams/23435/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1385,7 +1385,8 @@ msgstr "חזרה לתוצאות חיפוש"
 msgid ""
 "Customer user are needed to have a customer history and to login via "
 "customer panel."
-msgstr "משתמשי לקוח נדרשים כדי שתהיה היסטוריית לקוח והתחברות דרך כניסת הלקוחות."
+msgstr ""
+"משתמשי לקוח נדרשים כדי שתהיה היסטוריית לקוח והתחברות דרך כניסת הלקוחות."
 
 #. Template: AdminCustomerUser
 msgid "List (%s total)"
@@ -2878,7 +2879,8 @@ msgstr ""
 msgid ""
 "To add a new event select the event object and event name and click on the "
 "\"+\" button"
-msgstr "להוספת אירוע חדש בחרו את אובייקט האירוע ואת שם האירוע ולחצו על כפתור \"+\""
+msgstr ""
+"להוספת אירוע חדש בחרו את אובייקט האירוע ואת שם האירוע ולחצו על כפתור \"+\""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
@@ -8156,7 +8158,8 @@ msgstr "Sie benötigen eine E-Mail-Adresse"
 
 #. Template: AgentTicketBounce
 msgid "Need a valid email address or don't use a local email address."
-msgstr "Benötige eine gültige E-Mail-Adresse, verwenden Sie keine lokale Adresse."
+msgstr ""
+"Benötige eine gültige E-Mail-Adresse, verwenden Sie keine lokale Adresse."
 
 #. Template: AgentTicketBounce
 msgid "Next ticket state"
@@ -9472,7 +9475,9 @@ msgstr ""
 msgid ""
 "If you have set a root password for your database, it must be entered here. "
 "If not, leave this field empty."
-msgstr "אם קבעתם סיסמת root לבסיס הנתונים שלכם, יש להקלידה כאן. אם לא, השאירו את השדה ריק"
+msgstr ""
+"אם קבעתם סיסמת root לבסיס הנתונים שלכם, יש להקלידה כאן. אם לא, השאירו את "
+"השדה ריק"
 
 #. Template: InstallerDBmssql
 msgid "Database name"
@@ -21164,7 +21169,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Disables the redirection to the last screen overview / dashboard after a "
-"ticket is created."
+"ticket is closed."
 msgstr ""
 
 #. SysConfig
@@ -22566,6 +22571,10 @@ msgstr ""
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Korean"
 msgstr ""
 
 #. SysConfig
@@ -26022,7 +26031,7 @@ msgstr "סטטיטיקה #"
 
 #. SysConfig
 msgid "States"
-msgstr "מצבים"
+msgstr "סטטוס"
 
 #. SysConfig
 msgid "Statistic Reports overview."
@@ -26774,7 +26783,9 @@ msgstr ""
 msgid ""
 "Your email with ticket number \"<OTRS_TICKET>\" is merged to "
 "\"<OTRS_MERGE_TO_TICKET>\"."
-msgstr "הדוא\"ל שלכם עם פניה מספר \"<OTRS_TICKET>\" מוזגה עם פניה \"<OTRS_MERGE_TO_TICKET>\"."
+msgstr ""
+"הדוא\"ל שלכם עם פניה מספר \"<OTRS_TICKET>\" מוזגה עם פניה "
+"\"<OTRS_MERGE_TO_TICKET>\"."
 
 #. SysConfig
 msgid ""

@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.998798283261803;
+    $Self->{Completeness}        = 0.999656711294198;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -798,7 +798,7 @@ sub Data {
         'Error message subject and data (as seen in the debugger error entry) will considered for a match.' =>
             'Naslov i sadržaj poruke o grešci (kako su prikazani u programu za otklanjanje grešaka) koji će biti smatrani kao zadovoljen uslov.',
         'Example: Enter \'^.*401 Unauthorized.*\$\' to handle only authentication related errors.' =>
-            'Primer: unesite \'^.*401 Unauthorized.*\$\' za obradu grešaka samo prilikom autentifikacije.',
+            'Primer: unesite \'^.*401 Unauthorized.*\$\' za obradu samo grešaka u vezi autentikacije.',
         'Error stage filter' => 'Filter greške u odgovarućoj fazi',
         'Only execute error handling module on errors that occur during specific processing stages.' =>
             'Izvrši modul za obradu greške samo ukoliko se dogode tokom odgovarajuće faze u toku zahteva.',
@@ -972,7 +972,7 @@ sub Data {
         'Example 2: Search = \'^\' / Replace = \'_\' turns \'16x16\' into \'_16x16\'.' =>
             'Primer 2: pronađi = \'^\' / zameni = \'_\' pretvara \'16x16\' u \'_16x16\'.',
         'Example 3: Search = \'^(?<number>\d+) (?<text>.+?)\$\' / Replace = \'_\$+{text}_\$+{number}\' turns \'16 elementname\' into \'_elementname_16\'.' =>
-            'Primer 3: pronađi = \'^(?<number>\d+) (?<text>.+?)\$\' / zameni = \'_\$+{text}_\$+{number}\' pretvara \'16 elementname\' u \'_elementname_16\'.',
+            'Primer 3: Search = \'^(?\d+) (?.+?)\$\' / Replace = \'_\$+{text}_\$+{number}\' pretvara \'16 elementname\' u \'_elementname_16\'.',
         'For information about regular expressions in Perl please see here:' =>
             'Za informacije o Perl regularnim izrazima, molimo posetite:',
         'Perl regular expressions tutorial' => 'Priručnih Perl regularnih izraza',
@@ -1207,7 +1207,7 @@ sub Data {
         'It\'s useful for ASP solutions. ' => 'Korisno ASP rešenja.',
 
         # Template: AdminLog
-        'System Log' => 'Sistemski log',
+        'System Log' => 'Sistemski dnevnik',
         'Filter for Log Entries' => 'Filter za log stavke',
         'Here you will find log information about your system.' => 'Ovde ćete naći log informacije o vašem sistemu.',
         'Hide this message' => 'Sakrij ovu poruku',
@@ -1604,11 +1604,11 @@ sub Data {
         # Template: AdminProcessManagementPath
         'Path' => 'Putanja',
         'Edit this transition' => 'Uredite ovu tranziciju',
-        'Transition Actions' => 'Tranzicione aktivnosti',
+        'Transition Actions' => 'Tranzicione akcije',
         'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
             'Možete dodeliti tranzicione aktivnosti u ovoj tranziciji prevlačenjem elemenata mišem iz leve liste u desnu listu.',
         'Filter available Transition Actions' => 'Filtriraj raspoložive tranzicione aktivnosti',
-        'Available Transition Actions' => 'Raspoložive tranzicione aktivnosti',
+        'Available Transition Actions' => 'Raspoložive tranzicione akcije',
         'Create New Transition Action' => 'Kreiraj novu tranzicionu aktivnost',
         'Assigned Transition Actions' => 'Dodeljene tranzicione aktivnosti',
 
@@ -1850,7 +1850,7 @@ sub Data {
         'Toggle %s permission for all' => 'Promeni %s dozvole za sve',
         'move_into' => 'premesti u',
         'Permissions to move tickets into this group/queue.' => 'Dozvole da se tiketi premeste u ovu grupu/red.',
-        'create' => 'kreiranje',
+        'create' => 'kreiraj',
         'Permissions to create tickets in this group/queue.' => 'Dozvola da se tiket kreira u ovu grupu/red.',
         'note' => 'napomena',
         'Permissions to add notes to tickets in this group/queue.' => 'Dozvole za dodavanje napomena na tikete u ovoj grupi/redu.',
@@ -2358,7 +2358,7 @@ sub Data {
 
         # Template: AgentDashboardCustomerIDList
         'Change Customer Relations' => 'Promeni relacije klijenata',
-        'Open' => 'Otvoreni',
+        'Open' => 'Otvoreno',
         'Closed' => 'Zatvoreni',
         '%s open ticket(s) of %s' => '%s otvorenih tiketa od %s',
         '%s closed ticket(s) of %s' => '%s zatvorenih tiketa od %s',
@@ -2969,14 +2969,14 @@ sub Data {
         'General Specifications and Mail Settings' => 'Opšte specifikacije i podešavanje pošte',
         'Finish' => 'Završi',
         'Welcome to %s' => 'Dobrodošli u %s',
-        'Germany' => '',
+        'Germany' => 'Nemačka',
         'Phone' => 'Poziv',
-        'United States' => '',
-        'Mexico' => '',
-        'Hungary' => '',
-        'Brazil' => '',
-        'Singapore' => '',
-        'Hong Kong' => '',
+        'United States' => 'Sjedinjene Američke Države',
+        'Mexico' => 'Meksiko',
+        'Hungary' => 'Mađarska',
+        'Brazil' => 'Brazil',
+        'Singapore' => 'Singapur',
+        'Hong Kong' => 'Hong Kong',
         'Web site' => 'Veb sajt',
 
         # Template: InstallerConfigureMail
@@ -3024,7 +3024,7 @@ sub Data {
         'Result of database check' => 'Rezultat provere baze podataka',
         'Database check successful.' => 'Uspešna provera baze podataka.',
         'Database User' => 'Korisnik baze podataka',
-        'New' => 'Nov',
+        'New' => 'Novo',
         'A new database user with limited permissions will be created for this OTRS system.' =>
             'Novi korisnik baze sa ograničenim pravima će biti kreiran za ovaj OTRS sistem.',
         'Repeat Password' => 'Ponovi lozinku',
@@ -3055,7 +3055,7 @@ sub Data {
             'Sistemski identifikator. Svaki broj tiketa i svaki ID HTTP sesije sadrži ovaj broj.',
         'System FQDN' => 'Sistemski FQDN',
         'Fully qualified domain name of your system.' => 'Pun naziv domena vašeg sistema',
-        'AdminEmail' => 'Imejl administrator',
+        'AdminEmail' => 'Administrativni imejl',
         'Email address of the system administrator.' => 'Imejl adresa sistem administratora.',
         'Organization' => 'Organizacija',
         'Log' => 'Log',
@@ -5551,7 +5551,7 @@ sub Data {
         'Support Data information was successfully sent.' => 'Informacije podržanih podataka su uspešno poslate.',
         'Was not possible to send Support Data information.' => 'Nije moguće poslati informacije podržanih podataka.',
         'Update Result' => 'Rezultat ažuriranja',
-        'Generating...' => 'Generišem...',
+        'Generating...' => 'Generisanje...',
         'It was not possible to generate the Support Bundle.' => 'Nije moguće generisati Paket podrške.',
         'Generate Result' => 'Generiši rezultat',
         'Support Bundle' => 'Paket podrške',
@@ -6080,7 +6080,7 @@ Vaša tehnička podrška
             'Vreme keširanja u sekundama za autentifikaciju klijenta u generičkom interfejsu.',
         'Cache time in seconds for the DB ACL backend.' => 'Vreme keširanja u sekundama za ACL modul baze podataka.',
         'Cache time in seconds for the DB process backend.' => 'Vreme keširanja u sekundama za procesni modul baze podataka.',
-        'Cache time in seconds for the SSL certificate attributes.' => 'Vreme keširanja u sekundama za SSL sertifikovane atribute.',
+        'Cache time in seconds for the SSL certificate attributes.' => 'Vreme keširanja u sekundama za „SSL” sertifikovane atribute.',
         'Cache time in seconds for the ticket process navigation bar output module.' =>
             'Vreme keširanja u sekundama za izlazni modul navigacione trake procesa tiketa.',
         'Cache time in seconds for the web service config backend.' => 'Vreme keširanja u sekundama za veb servis modul konfiguracije.',
@@ -6117,7 +6117,7 @@ Vaša tehnička podrška
         'Checks for communication log entries to be deleted.' => 'Proverava stavke komunikacionog loga za brisanje.',
         'Checks for queued outgoing emails to be sent.' => 'Proverava zakazane imejlove za slanje.',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
-            'Proverava da li je imejl nastavljanje na postojeći tiketa pretragom predmeta važećih brojeva tiketa.',
+            'Proverava da li je imejl nastavljanje na postojeći tiket pretragom predmeta važećih brojeva tiketa.',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             'Proverava SystemID u detekciji broja tiketa za nastavljanja. Ako je isključeno, SystemID će biti promenjen nakon korišćenja sistema.',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
@@ -6185,7 +6185,7 @@ Vaša tehnička podrška
         'Controls how to display the ticket history entries as readable values.' =>
             'Kontroliše način prikaza istorijskih unosa tiketa kao čitljivih vrednosti. ',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
-            'Kontroliše da li se ID klijenta automatski postavlja na adresu pošiljaoca za nepoznate korisnike.',
+            'Kontroliše da li se ID klijenta automatski kopira iz adrese pošiljaoca za nepoznate korisnike.',
         'Controls if CustomerID is read-only in the agent interface.' => 'Kontroliše da li se ID klijenta može samo pregledati u interfejsu operatera.',
         'Controls if customers have the ability to sort their tickets.' =>
             'Kontroliše da li klijenti imaju mogućnost da sortiraju svoje tikete.',
@@ -6252,7 +6252,7 @@ Vaša tehnička podrška
         'Customer User Information Center search.' => 'Pretraga klijent korisničkog informativnog centra.',
         'Customer User Information Center.' => 'Klijent-korisnički informativni centar.',
         'Customer Users ↔ Customers' => 'Klijent korisnici ↔ klijenti',
-        'Customer Users ↔ Groups' => 'Klijent korisnici ↔ grupe',
+        'Customer Users ↔ Groups' => 'Klijenti korisnici ↔ Grupe',
         'Customer Users ↔ Services' => 'Klijent korisnici ↔ servisi',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             'Klijent ikonica koja pokazuje zatvorene tikete ovog klijenta kao info blok. Podešavanje CustomerUserLogin na 1 pretražuje tikete na osnovu korisničkog naziva umesto CustomerID.',
@@ -6346,9 +6346,9 @@ Vaša tehnička podrška
         'Defines a permission context for customer to group assignment.' =>
             'Definiše kontekst dozvola za dodelu klijenata grupama.',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
-            'Definiše regularni izraz koji isključuje neke adrese iz provere sintakse (ako je "CheckEmailAddresses" postavljena na "Da"). Molimo vas unesite regularni izraz u ovo polje za imejl adrese, koji nisu sintaksno ispravne, ali su neophodne za sistem (npr. "root@localhost").',
+            'Definiše regularni izraz koji isključuje neke adrese iz provere sintakse (ako je „CheckEmailAddresses” postavljena na „Da”). Molimo vas unesite regularni izraz u ovo polje za imejl adrese, koje nisu sintaksno ispravne, ali su neophodne za sistem (npr. „root@localhost”).',
         'Defines a regular expression that filters all email addresses that should not be used in the application.' =>
-            'Definiše regularni izraz koji kiltrira sve email adrese koje ne bi smele da se koriste u aplikaciji.',
+            'Definiše regularni izraz koji filtrira sve imejl adrese koje nebi trebalo koristiti u aplikaciji.',
         'Defines a sleep time in microseconds between tickets while they are been processed by a job.' =>
             'Definiše vreme spavanja u mikrosekundama između tiketa dok se obrađuju od strane posla.',
         'Defines a useful module to load specific user options or to display news.' =>
@@ -6432,7 +6432,7 @@ Vaša tehnička podrška
         'Defines if agents should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'Definiše da li će operaterima biti dozvoljena prijava na sistem ukoliko nemaju podešen deljeni tajni ključ i time ne koriste dvofaktorski modul za identifikaciju.',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
-            'Definiše da li će klijentima biti dozvoljena prijava na sistem ukoliko nemaju podešen deljeni tajni ključ i time ne koriste dvofaktorski modul za identifikaciju.',
+            'Definiše da li će klijentima biti dozvoljena prijava na sistem ukoliko nemaju podešen deljeni tajni ključ pa zbog toga ne koriste dvofaktorski modul za identifikaciju.',
         'Defines if the communication between this system and OTRS Group servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others.' =>
             'Definiše da li je moguća komunikacija između ovog sistema i servera OTRS grupe koji obezbeđuju servise u oblaku. Ako je podešeno na \'Onemogući servise u oblaku\' neke funkcionalnosti neće raditi, a to su registracija sistema, slanje podataka podrške, unapređenje na OTRS Business Solution™, OTRS verifikacija, OTRS novosti i novosti o proizvodu u dodacima na kontrolnoj tabli, između ostalih.',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
@@ -6476,7 +6476,7 @@ Vaša tehnička podrška
         'Defines internal communication channel.' => 'Definiše interni komunikacioni kanal.',
         'Defines out of office message template. Two string parameters (%s) available: end date and number of days left.' =>
             'Definiše šablon poruke van kancelarije. Dva parametra znakovnih nizova (%s) su raspoloživa: datum završetka i broj preostalih dana.',
-        'Defines phone communication channel.' => 'Definiše komunikacioni kanal poziva.',
+        'Defines phone communication channel.' => 'Definiše komunikacioni kanal telefona.',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             'Definiše redove koje koriste tiketi za prikazivanje u vidu kalendarskih događaja.',
         'Defines the HTTP hostname for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
@@ -6484,14 +6484,14 @@ Vaša tehnička podrška
         'Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host.' =>
             'Definiše regularni izraz za IP adresu za pristup lokalnom spremištu. Potrebno je da im omogućite pristup vašem lokalnom spremištu i pakovanju: :RepositoryList se zahteva na udaljenom host-u',
         'Defines the PostMaster header to be used on the filter for keeping the current state of the ticket.' =>
-            'Definiše koje PostMaster zaglavlje će biti korišćeno u filteru za čuvanje trenutnog stanja tiketa.',
+            'Definiše koje „PostMaster” zaglavlje će biti korišćeno u filteru za čuvanje trenutnog stanja tiketa.',
         'Defines the URL CSS path.' => 'Definiše URL CSS putanju.',
         'Defines the URL base path of icons, CSS and Java Script.' => 'Definiše URL osnovnu putanju za ikone, CSS i Java Script.',
         'Defines the URL image path of icons for navigation.' => 'Definiše URL putanju do slika za navigacione ikone.',
         'Defines the URL java script path.' => 'Definiše URL putanju java skriptova.',
         'Defines the URL rich text editor path.' => 'Definiše URL Reach Text Editor putanju.',
         'Defines the address of a dedicated DNS server, if necessary, for the "CheckMXRecord" look-ups.' =>
-            'Definiše adrese namenskog DNS servera, ukoliko je potrebno, za "CheckMXRecord" pretrage.',
+            'Definiše adrese namenskog „DNS” servera, ukoliko je potrebno, za „CheckMXRecord” pretrage.',
         'Defines the agent preferences key where the shared secret key is stored.' =>
             'Određuje ključ operaterskih podešavanja gde se smešta deljeni tajni ključ.',
         'Defines the available steps in time selections. Select "Minute" to be able to select all minutes of one hour from 1-59. Select "30 Minutes" to only make full and half hours available.' =>
@@ -6686,7 +6686,7 @@ Vaša tehnička podrška
         'Defines the event object types that will be handled via AdminAppointmentNotificationEvent.' =>
             'Definiše tipove objekta događaja koji će biti procesirani putem AdminAppointmentNotificationEvent.',
         'Defines the fall-back path to open fetchmail binary. Note: The name of the binary needs to be \'fetchmail\', if it is different please use a symbolic link.' =>
-            'Definiše rezervnu putanju za fetchmail program. Napomena: naziv programa mora biti \'fetchmail\', ukoliko je drugačiji molimo koristite simboličku vezu.',
+            'Definiše rezervnu putanju za „fetchmail” program. Napomena: naziv programa mora biti „fetchmail”, ukoliko je drugačiji molimo koristite simboličku vezu.',
         'Defines the filter that processes the text in the articles, in order to highlight URLs.' =>
             'Definiše filter koji obrađuje tekst u člancima, da bi se istakle URL adrese.',
         'Defines the format of responses in the ticket compose screen of the agent interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | html %] is only realname of From).' =>
@@ -6879,7 +6879,7 @@ Vaša tehnička podrška
             'Određuje broj znakova po liniji koji se koriste u slučaju zamene za pregled HTML članka u generatoru šablona za obaveštenja o događajima.',
         'Defines the number of days to keep the daemon log files.' => 'Određuje koliko dana će se čuvati datoteke istorijata rada sistemskog servisa',
         'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
-            'Odeređuje broj naslovnih polja u pristupnim modulima za dodavanje i ažuriranje glavnih imejl filtera. Može ih biti do 99.',
+            'Odeređuje broj polja zaglavlja u pristupnim modulima za dodavanje i ažuriranje glavnih imejl filtera. Može ih biti do 99.',
         'Defines the number of hours a communication will be stored, whichever its status.' =>
             'Definiše koliko će dugo u časovima komunikacija biti čuvana, bez obzira na njen status.',
         'Defines the number of hours a successful communication will be stored.' =>
@@ -6917,7 +6917,7 @@ Vaša tehnička podrška
             'Definiše putanju prikazanog info fajla koji je lociran pod Kernel/Output/HTML/Templates/Standard/CustomerAccept.tt.',
         'Defines the path to PGP binary.' => 'Određuje putanju do PGP aplikacije.',
         'Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = \'/var/lib/wwwrun\';).' =>
-            'Određuje putanju do open ssl aplikacije. Može biti neophodna HOME varijabla ($ENV{HOME} = \'/var/lib/wwwrun\';).',
+            'Određuje putanju do „open ssl” programa. Može biti potrebno HOME Env ($ENV{HOME} = \'/var/lib/wwwrun\';).',
         'Defines the period of time (in minutes) before agent is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
             'Definiše vremenski period (u minutima) posle kog će operater biti označen kao "odsutan" zbog neaktivnosti (npr. u dodatku "Prijavljeni korisnici" ili za ćaskanja).',
         'Defines the period of time (in minutes) before customer is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
@@ -6958,9 +6958,9 @@ Vaša tehnička podrška
             'Određuje predmet za imejl poruke obaveštenja poslata klijentima, sa tokenom o novoj zahtevanoj lozinki.',
         'Defines the subject for rejected emails.' => 'Definiše predmet za odbačene poruke.',
         'Defines the system administrator\'s email address. It will be displayed in the error screens of the application.' =>
-            'Definiše imejl adresu sistem administratora. Ona će biti prikazana na ekranima sa greškom u aplikaciji.',
+            'Definiše imejl adresu sistem administratora. Ona će biti prikazana na ekranima za greške u aplikaciji.',
         'Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS).' =>
-            'Definiše identifikator sistema. Svaki broj tiketa i identifikator  sesije sadrži ovaj ID. Ovo osigurava da će samo tiketi koji pripadaju vašem sistemu biti obrađeni kao operacije praćenja (korisno kada se odvija komunikacija između dve OTRS instance).',
+            'Definiše identifikator sistema. Svaki broj tiketa i niz znakova „http” sesije sadrši ovaj ID. Ovo osigurava da će samo tiketi koji pripadaju vašem sistemu biti obrađeni kao operacije praćenja (korisno kada se odvija komunikacija između dve „OTRS” instance).',
         'Defines the target attribute in the link to external customer database. E.g. \'AsPopup PopupType_TicketAction\'.' =>
             'Određuje ciljni atribut u vezi sa eksternom bazom podataka klijenta. Npr. \'AsPopup PopupType_TicketAction\'.',
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
@@ -6973,7 +6973,7 @@ Vaša tehnička podrška
             'Definiše modul termina tiketa za vreme čekanja.',
         'Defines the ticket fields that are going to be displayed calendar events. The "Key" defines the field or ticket attribute and the "Content" defines the display name.' =>
             'Definiše polja tiketa koja će biti prikazana u kalendaru događaja. "Ključ" definiše polje ili atribut tiketa, a "Sadržaj" definiše prikazan naziv.',
-        'Defines the ticket plugin for calendar appointments.' => 'Definiše tiket modul za kalendarske termine.',
+        'Defines the ticket plugin for calendar appointments.' => 'Definiše dodatni modul tiketa za kalendarske termine.',
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
             'Definiše vremensku zonu naznačenog kalendara, koja kasnije može biti dodeljena određenom redu.',
         'Defines the timeout (in seconds, minimum is 20 seconds) for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
@@ -7067,8 +7067,8 @@ Vaša tehnička podrška
         'Disable cloud services' => 'Onemogući servise u oblaku',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             'Onemogućuje slanje obaveštenja podsetnika odgovornom operateru tiketa (Ticket::Responsible mora biti uključeno).',
-        'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
-            'Onemogućuje preusmeravanje na poslednji ekran pregleda / kontrolnu tablu pošto je tiket kreiran.',
+        'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
+            '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             'Onemogućuje pristup instalacionom ekranu (http://yourhost.example.com/otrs/installer.pl) u svrhu zaštite sistema od nedozvoljenog preuzimanja. Ako je isključeno, sistem može biti ponovo instaliran i trenutna osnovna konfiguracija će biti korišćena da unapred popuni pitanja unutar instalacionog ekrana. Ukoliko nije uključeno, takođe se onemogućuju GenericAgent, PackageManager i SQL Box.',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
@@ -7173,10 +7173,10 @@ Vaša tehnička podrška
             'Uključite ovu opciju ako verujete u sve vaše javne i privatne PGP ključeve, čak i ako nisu potvrđeni pouzdanim potpisom.',
         'Enabled filters.' => 'Omogućeni filteri.',
         'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
-            'Omogućuje PGP podršku. Kada je PGP podrška omogućena za potpisivanje i šifrovanje imejlova, strogo se preporučuje da veb server radi pod OTRS korisnikom. U suprotnom, biće problema sa privilegijama prilikom pristupa .gnupg folderu.',
-        'Enables S/MIME support.' => 'Omogućava S/MIME podršku.',
+            'Obezbeđuje „PGP” podršku. Kada je „PGP” podrška omogućena za potpisivanje i enkriprovanje mejla, strogo se preporučuje da veb server radi kao „OTRS” korisnik. U suprotnom, biće problema sa privilegijama prilikom pristupa „.gnupg” direktorijumu.',
+        'Enables S/MIME support.' => 'Omogućava „S/MIME” podršku.',
         'Enables customers to create their own accounts.' => 'Omogućava klijentima da kreiraju sopstvene naloge.',
-        'Enables fetch S/MIME from CustomerUser backend support.' => 'Omogućava podršku za pribavljanje S/MIME iz izvora klijent korisnika.',
+        'Enables fetch S/MIME from CustomerUser backend support.' => 'Omogućava podršku za pribavljanje „S/MIME” iz podrške pozadinskog sistema klijenta korisnika.',
         'Enables file upload in the package manager frontend.' => 'Omogućava slanje datoteka u upravljaču paketima pristupnog sistema.',
         'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
             'Aktivira ili deaktivira keširanje za šablone. UPOZORENJE: NEMOJTE isključivati keširanje šablona na sistemima u radu jer će to dovesti do ogromnog pada performansi. Ovo podešavanje treba koristiti samo u cilju nalaženja i otklanjanja grešaka!',
@@ -7216,7 +7216,7 @@ Vaša tehnička podrška
         'Event module that updates customer company object name for dynamic fields.' =>
             'Modul događaja koji ažurira naziv klijent firme za dinamička polja.',
         'Event module that updates customer user object name for dynamic fields.' =>
-            'Modul događaja koji ažurira naziv klijent korisnika za dinamička polja.',
+            'Modul događaja koji ažurira naziv objekta klijenta korisnika za dinamička polja.',
         'Event module that updates customer user search profiles if login changes.' =>
             'Modul događaja koji ažurira profile pretrage klijent korisnika ako se promeni prijava.',
         'Event module that updates customer user service membership if login changes.' =>
@@ -7233,8 +7233,8 @@ Vaša tehnička podrška
         'Executes a custom command or module. Note: if module is used, function is required.' =>
             'Izvršava prilagođenu komandu ili modul. Napomena: ako je upotrebljen modul, funkcija je neophodna.',
         'Executes follow-up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
-            'Izvršava provere za nastavak tiketa na In-Reply-To ili References zaglavljima imejla koji nemaju broj tiketa u predmetu.',
-        'Executes follow-up checks on OTRS Header \'X-OTRS-Bounce\'.' => 'Izvršava provere nastavka na OTRS zaglavlju \'X-OTRS-Bounce\'.',
+            'Izvršava provere za nastavak tiketa na „In-Reply-To” ili „References” zaglavljima imejla koji nemaju broj tiketa u predmetu.',
+        'Executes follow-up checks on OTRS Header \'X-OTRS-Bounce\'.' => 'Izvršava provere nastavka na „OTRS” zaglavlju „X-OTRS-Bounce”.',
         'Executes follow-up checks on attachment contents for mails that don\'t have a ticket number in the subject.' =>
             'Izvršava proveru nastavljanja u sadržaju priloga za imejlove koji nemaju broj tiketa u predmetu.',
         'Executes follow-up checks on email body for mails that don\'t have a ticket number in the subject.' =>
@@ -7274,7 +7274,7 @@ Vaša tehnička podrška
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             'Nameće šifriranje odlaznih imejlova (7bit|8bit|quoted-printable|base64).',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
-            'Nameće izbor različitog statusa tiketa (od aktuelnog) posle akcije zaključavanja. Definiše aktuelni status kao ključ, a sledeći status posle zaključavanja kao sadržaj.',
+            'Nameće izbor različitog stanja tiketa (od aktuelnog) posle akcije zaključavanja. Definiše aktuelno stanje kao ključ, a sledeće stanje posle zaključavanja kao sadržaj.',
         'Forces to unlock tickets after being moved to another queue.' =>
             'Prinudno otključava tikete posle premeštanja u drugi red.',
         'Forwarded to "%s".' => 'Prosleđeno "%s".',
@@ -7346,59 +7346,59 @@ Vaša tehnička podrška
         'Hindi' => 'Hindi',
         'Hungarian' => 'Mađarski',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
-            'Ukoliko je izabrano "DB" za Customer::AuthModule, moguće je podesiti drajver baze podataka (obično se koristi automatsko prepoznavanje).',
+            'Ukoliko je izabrano „DB” za „Customer::AuthModule”, moguće je podesiti drajver baze podataka (obično se koristi automatsko prepoznavanje).',
         'If "DB" was selected for Customer::AuthModule, a password to connect to the customer table can be specified.' =>
-            'Ukoliko je izabrano "DB" za Customer::AuthModule, moguće je podesiti lozinku za tabelu korisnika.',
+            'Ukoliko je izabrano „DB” za „Customer::AuthModule”, moguće je podesiti lozinku za tabelu klienata.',
         'If "DB" was selected for Customer::AuthModule, a username to connect to the customer table can be specified.' =>
-            'Ukoliko je izabrano "DB" za Customer::AuthModule, moguće je podesiti korisničko ime za tabelu korisnika.',
+            'Ukoliko je izabrano „DB” za „Customer::AuthModule”, moguće je podesiti korisničko ime za povezivanje sa tabelom klijenata.',
         'If "DB" was selected for Customer::AuthModule, the DSN for the connection to the customer table must be specified.' =>
-            'Ukoliko je izabrano "DB" za Customer::AuthModule, neophodno je podesiti DSN za konekciju ka tabeli korisnika.',
+            'Ukoliko je izabrano „DB” za „Customer::AuthModule”, neophodno je podesiti „DSN” za konekciju ka tabeli klijenata.',
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
-            'Ukoliko je izabrano "DB" za Customer::AuthModule, neophodno je podesiti naziv kolone za CustomerPassword u tabeli korisnika.',
+            'Ukoliko je izabrano „DB” za „Customer::AuthModule”, neophodno je podesiti naziv kolone za „CustomerPassword” u tabeli klijenata.',
         'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.' =>
             'Ukoliko je odabran "DB" za Customer::AuthModule, neophodno je podesiti tip šifrovanja za lozinke.',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
-            'Ukoliko je izabrano "DB" za Customer::AuthModule, neophodno je podesiti naziv kolone za CustomerKey u tabeli korisnika.',
+            'Ukoliko je izabrano „DB” za „Customer::AuthModule”, neophodno je podesiti naziv kolone za „CustomerKey” u tabeli korisnika.',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
-            'Ukoliko je izabrano "DB" za Customer::AuthModule, neophodno je podesiti naziv tabele gde se čuvaju korisnički podaci.',
+            'Ukoliko je izabrano „DB” za „Customer::AuthModule”, neophodno je podesiti naziv tabele gde će podaci o klijentima biti čuvani.',
         'If "DB" was selected for SessionModule, a table in database where session data will be stored must be specified.' =>
             'Ukoliko je izabrano "DB" za SessionModule, neophodno je podesiti naziv tabele gde će se čuvati podaci sesija.',
         'If "FS" was selected for SessionModule, a directory where the session data will be stored must be specified.' =>
             'Ukoliko je izabrano "FS" za SessionModule, neophodno je podesiti naziv direktorijuma gde će se čuvati podaci sesija.',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
-            'Ukoliko je podešen HTTPBasicAuth za Customer::AuthModule, možete podesiti (putem RegExp) uklanjanje delova REMOTE_USER vrednosti (npr. radi uklanjanja dodatnih domena). Napomena: $1 će biti novi Login.',
+            'Ukoliko je podešen „HTTPBasicAuth” za „Customer::AuthModule”, možete podesiti (putem RegExp) uklanjanje delova „REMOTE_USER” vrednosti (npr. radi uklanjanja dodatnih domena). Napomena: $1 će biti nova Prijava.',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
-            'Ukoliko je „HTTPBasicAuth” izabran za „Customer::AuthModule”, možete podesiti uklanjanje početnih delova korisničkih imena (npr. za domene kao „example_domain\user” u „user”).',
+            'Ukoliko je podešen HTTPBasicAuth za Customer::AuthModule, možete podesiti uklanjanje delova korisničkih imena (npr. za domene kao example_domain\user u user).',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' =>
-            'Ukoliko je podešen LDAP za Customer::AuthModule i želite da dodate sufiks svakom korisničkom imenu, definišite ga ovde, npr. želite samo user za korisničko ime, ali u vašem LDAP direktorijumu postoji user@domain.',
+            'Ukoliko je podešen „LDAP” za „Customer::AuthModule” i želite da dodate sufiks svakom korisničkom imenu, definišite ga ovde, npr. želite samo user za korisničko ime, ali u vašem LDAP direktorijumu postoji user@domain.',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
-            'Ukoliko je podešen "LDAP" za Customer::AuthModule i neophodni su specijalni parametri za Net::LDAP perl modul, možete ih podesiti ovde. Pogledajte "perldoc Net::LDAP" za više informacija o parametrima.',
+            'Ukoliko je podešen „LDAP” za „Customer::AuthModule” i neophodni su specijalni parametri za „Net::LDAP” perl modul, možete ih podesiti ovde. Pogledajte „perldoc Net::LDAP” za više informacija o parametrima.',
         'If "LDAP" was selected for Customer::AuthModule and your users have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the password for this special user here.' =>
-            'Ukoliko je podešen LDAP za Customer::AuthModule i vaši korisnici imaju samo anonimni pristup direktorijumu, ali želite da pretražujete podatke, možete podesiti korisnika koji ima pristup LDAP direktorijumu. Lozinku ovog korisnika možete podesiti ovde.',
+            'Ukoliko je podešen „LDAP” za „Customer::AuthModule” i vaši korisnici imaju samo anonimni pristup direktorijumu, ali želite da pretražujete podatke, možete podesiti korisnika koji ima pristup „LDAP” direktorijumu. Lozinku za ovog korisnika možete podesiti ovde.',
         'If "LDAP" was selected for Customer::AuthModule and your users have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the username for this special user here.' =>
-            'Ukoliko je podešen LDAP za Customer::AuthModule i vaši korisnici imaju samo anonimni pristup direktorijumu, ali želite da pretražujete podatke, možete podesiti korisnika koji ima pristup LDAP direktorijumu. Lozinku ovog korisnika možete podesiti ovde.',
+            'Ukoliko je podešen „LDAP” za „Customer::AuthModule” i vaši korisnici imaju samo anonimni pristup direktorijumu, ali želite da pretražujete podatke, možete podesiti korisnika koji ima pristup „LDAP” direktorijumu. Korisničko ime ovog korisnika možete podesiti ovde.',
         'If "LDAP" was selected for Customer::AuthModule, the BaseDN must be specified.' =>
-            'Ukoliko je podešen LDAP za Customer::AuthModule, BaseDN mora biti definisan.',
+            'Ukoliko je podešen „LDAP” za „Customer::AuthModule”, „BaseDN” mora biti definisan.',
         'If "LDAP" was selected for Customer::AuthModule, the LDAP host can be specified.' =>
-            'Ukoliko je podešen LDAP za Customer::AuthModule, adresa LDAP servera mora biti definisana.',
+            'Ukoliko je podešen „LDAP” za „Customer::AuthModule”, adresa „LDAP” servera mora biti navedena.',
         'If "LDAP" was selected for Customer::AuthModule, the user identifier must be specified.' =>
-            'Ukoliko je podešen LDAP za Customer::AuthModule, korisnički identifikator mora biti definisan.',
+            'Ukoliko je podešen „LDAP” za „Customer::AuthModule”, korisnički identifikator mora biti naveden.',
         'If "LDAP" was selected for Customer::AuthModule, user attributes can be specified. For LDAP posixGroups use UID, for non LDAP posixGroups use full user DN.' =>
-            'Ukoliko je podešen LDAP za Customer::AuthModule, korisnički atributi moraju biti definisani. Za LDAP posixGroups koristite UID, za ostale koristite kompletan korisnički DN.',
+            'Ukoliko je podešen „LDAP” za „Customer::AuthModule”, korisnički atributi moraju biti navedeni. Za „LDAP posixGroups” koristite UID, za ostale koristite kompletan korisnički DN.',
         'If "LDAP" was selected for Customer::AuthModule, you can specify access attributes here.' =>
-            'Ukoliko je podešen LDAP za Customer::AuthModule, ovde možete definisati pristupne parametre.',
+            'Ukoliko je podešen „LDAP” za „Customer::AuthModule”, ovde možete definisati pristupne parametre.',
         'If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can\'t be established due to network problems.' =>
-            'Ukoliko je podešen LDAP za Customer::AuthModule, možete definisati da li će aplikacija prestati sa radom ukoliko npr. konekcija sa serverom ne može biti ostvarena zbog problema sa mrežom.',
+            'Ukoliko je podešen „LDAP” za „Customer::AuthModule”, možete definisati da li će aplikacija prestati sa radom ukoliko npr. konekcija sa serverom ne može biti ostvarena zbog problema sa mrežom.',
         'If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use OTRS. Specify the group, who may access the system.' =>
-            'Ukoliko je podešen LDAP za Customer::AuthModule, možete proveriti da li je korisniku omogućena autentikacija ako pripada posixGroup, npr. korisnik mora da pripada grupi xyz da bi mogao da koristi OTRS. Definišite grupu sa pristupom sistemu.',
+            'Ukoliko je podešen „LDAP” za „Customer::AuthModule”, možete proveriti da li je korisniku omogućena autentikacija ako pripada „posixGroup”, npr. korisnik mora da pripada grupi xyz da bi mogao da koristi „OTRS”. Definišite grupu sa pristupom sistemu.',
         'If "LDAP" was selected, you can add a filter to each LDAP query, e.g. (mail=*), (objectclass=user) or (!objectclass=computer).' =>
-            'Ukoliko je podešen LDAP za Customer::AuthModule, možete dodati filter svakom LDAP zahtevu, npr. (mail=*), (objectclass=user) ili (!objectclass=computer).',
+            'Ukoliko je podešen „LDAP” za „Customer::AuthModule”, možete dodati filter svakom „LDAP” zahtevu, npr. (mail=*), (objectclass=user) ili (!objectclass=computer).',
         'If "Radius" was selected for Customer::AuthModule, the password to authenticate to the radius host must be specified.' =>
-            'Ukoliko je podešen Radius za Customer::AuthModule, morate definisati lozinku za pristup Radius serveru.',
+            'Ukoliko je podešen „Radius” za „Customer::AuthModule”, morate definisati lozinku za pristup „Radius” serveru.',
         'If "Radius" was selected for Customer::AuthModule, the radius host must be specified.' =>
-            'Ukoliko je podešen Radius za Customer::AuthModule, adresa Radius servera mora biti definisana.',
+            'Ukoliko je podešen „Radius” za „Customer::AuthModule”, adresa „Radius” servera mora biti definisana.',
         'If "Radius" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can\'t be established due to network problems.' =>
-            'Ukoliko je podešen Radius za Customer::AuthModule, možete definisati da li će aplikacija prestati sa radom ukoliko npr. konekcija sa serverom ne može biti ostvarena zbog problema sa mrežom.',
+            'Ukoliko je podešen „Radius” za „Customer::AuthModule”, možete definisati da li će aplikacija prestati sa radom ukoliko npr. konekcija sa serverom ne može biti ostvarena zbog problema sa mrežom.',
         'If "Sendmail" was selected as SendmailModule, the location of the sendmail binary and the needed options must be specified.' =>
             'Ukoliko je podešen Sendmail za SendmailModule, morate definisati lokaciju aplikacije sendmail i neophodne opcije.',
         'If "SysLog" was selected for LogModule, a special log facility can be specified.' =>
@@ -7406,7 +7406,7 @@ Vaša tehnička podrška
         'If "SysLog" was selected for LogModule, the charset that should be used for logging can be specified.' =>
             'Ukoliko je podešen SysLog za LogModule, može biti definisan karakterset za logovanje.',
         'If "bcrypt" was selected for CryptType, use cost specified here for bcrypt hashing. Currently max. supported cost value is 31.' =>
-            'Ukoliko je podešen "bcrypt" za CryptType, ovde možete definisati "cost" parametar za šifrovanje. Trenutno najviša dozvoljena vrednost je 31.',
+            'Ukoliko je podešen „bcrypt” za „CryptType”, ovde možete definisati „cost" parametar za šifrovanje. Trenutno je najviša podržana vrednost 31.',
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             'Ukoliko je podešen File za LogModule, mora biti definisana lokacija log datoteke. Ukoliko datoteka ne postoji, biće kreirana od strane sistema.',
         'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
@@ -7495,6 +7495,7 @@ Vaša tehnička podrška
         'Ivory (Slim)' => 'Slonovača (uprošćeno)',
         'Japanese' => 'Japanski',
         'JavaScript function for the search frontend.' => 'JavaScript funkcija za modul pretrage.',
+        'Korean' => '',
         'Language' => 'Jezik',
         'Large' => 'Veliko',
         'Last Screen Overview' => 'Pregled poslednjeg ekrana',
@@ -7567,7 +7568,7 @@ Vaša tehnička podrška
         'Main menu item registration.' => 'Registracija stavke glavnog menija.',
         'Main menu registration.' => 'Registracija glavnog menija.',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
-            'Proverava MX zapis imejl adrese pre slanja poruke ili tiketa poziva ili imejl tiketa.',
+            'Proverava „MX” zapis imejl adrese pre slanja poruke ili telefonskih ili imejl tiketa.',
         'Makes the application check the syntax of email addresses.' => 'Primorava aplikaciju da proverava sintaksu imejl aderesa.',
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             'Određuje da li sesije koriste HTML kolačiće. Ukoliko su kolačići isključeni ili klijentski pretraživač ih ne podržava, sistem će raditi uobičajeno i dodavaće ID sesije u svim vezama.',
@@ -7593,7 +7594,7 @@ Vaša tehnička podrška
         'Max size of the subjects in an email reply and in some overview screens.' =>
             'Maksimalna veličina predmeta u imejl odgovoru i nekim ekranima pregleda.',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
-            'Mksimum automatskih imejl odgovora dnevno na sopstvenu adresu (Zaštita od petlje)',
+            'Maksimum automatskih imejl odgovora dnevno na sopstvenu adresu (Zaštita od petlje)',
         'Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).' =>
             'Maksimalni broj automatskih imejl odgovora dnevno na sopstvenu adresu, podesiv po imejl adresi (zaštita od petlje).',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>
@@ -7621,9 +7622,9 @@ Vaša tehnička podrška
         'Miscellaneous' => 'Razno',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             'Modul za izbor primaoca (Za:) u prikazu novog tiketa u interfejsu klijenta.',
-        'Module to check if a incoming e-mail message is bounce.' => 'Modul za proveru da li je dolazna imejl poruka preusmerena.',
+        'Module to check if a incoming e-mail message is bounce.' => 'Modul za proveru da li je dolazna imejl poruka odbijena.',
         'Module to check if arrived emails should be marked as internal (because of original forwarded internal email). IsVisibleForCustomer and SenderType define the values for the arrived email/article.' =>
-            'Modul za proveru da li pristigli imejlovi treba da budu označeni kao interni (na osnovu originalnog prosleđenog internog imejla). IsVisibleForCustomer i SenderType definiišu vrednosti za pristigli imejl/članak.',
+            'Modul za proveru da li pristigli imejlovi treba da budu označeni kao interni (na osnovu originalnog prosleđenog internog imejla). „IsVisibleForCustomer” i „SenderType” definiišu vrednosti za pristigli imejl/članak.',
         'Module to check the group permissions for customer access to tickets.' =>
             'Modul za proveru grupnih dozvola za klijentski pristup tiketima.',
         'Module to check the group permissions for the access to tickets.' =>
@@ -7702,7 +7703,7 @@ Vaša tehnička podrška
         'OTRS Group Services' => 'Servisi OTRS grupe',
         'OTRS News' => 'OTRS novosti',
         'OTRS can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
-            'OTRS može da koristi jednu ili više preslikanih baza podataka za skupe operacije kao što su pretraga teksta ili generisanje statistika. Ovde možete definisati DSN za prvu preslikanu bazu podataka.',
+            '„OTRS” može da koristi jednu ili više preslikanih baza podataka za skupe operacije kao što su pretraga teksta ili generisanje statistika. Ovde možete definisati DSN za prvu preslikanu bazu podataka.',
         'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             'OTRS ne podržava termine koji se ponavljaju bez krajnjeg datuma ili broja iteracija. Prilikom uvoza kalendara, može se dogoditi da ICS datoteka sadrži takve \'beskonačne\' termine. Umesto takvog ponašanja, sistem će kreirati sve termine iz prošlosti, kao i termine za sledeći n broj meseci (podrazumevano 120 meseci/10 godina).',
         'Open Tickets / Need to be answered' => 'Otvoreni tiketi / Potrebno odgovoriti',
@@ -7857,7 +7858,7 @@ Vaša tehnička podrška
             'Prepoznaj da li je tiket nastavak postojećeg tiketa korišćenjem eksternog broja tiketa.',
         'Refresh interval' => 'Interval osvežavanja',
         'Registers a log module, that can be used to log communication related information.' =>
-            'Registruje log modul za logovanje informacija u vezi komunikacija.',
+            'Registruje log modul za čuvanje informacija u vezi komunikacija.',
         'Reminder Tickets' => 'Tiketi podsetnika',
         'Removed subscription for user "%s".' => 'Pretplata za korisnika "%s" je isključena.',
         'Removes old system configuration deployments (Sunday mornings).' =>
@@ -7908,7 +7909,7 @@ Vaša tehnička podrška
         'Resend Ticket Email.' => 'Pošalji ponovo imejl.',
         'Resent email to "%s".' => 'Ponovo poslat imejl na "%s".',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
-            'Resetuje i otključava vlasnika tiketa ako je premešten u drugi red.',
+            'Resetuje i otključava vlasnika ako je tiketa premešten u drugi red.',
         'Resource Overview (OTRS Business Solution™)' => 'Pregled resursa (OTRS Business Solution™)',
         'Responsible Tickets' => 'Odgovorni tiketi',
         'Responsible Tickets.' => 'Odgovorni tiketi.',
@@ -7934,7 +7935,7 @@ Vaša tehnička podrška
         'Salutations' => 'Pozdravi',
         'Sample command output' => 'Primer komandnog izlaza',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
-            'Čuva priloge u člancima. "DB" snima sve priloge u bazi podataka (nepreporučljivo za čuvanje velikih priloga). "FS" snima priloge u sistemu datoteka; ovo je brža opcija, ali veb server mora biti pokrenut pod OTRS sistemskim korisnikom. Dozvoljena je promena module čak i na produkcijskim sistemima bez bilo kakvog gubitka podataka. Napomena: pretraga priloga po nazivu nije moguća kada je "FS" u funkciji.',
+            'Čuva priloge u člancima. „DB” snima sve priloge u bazi podataka (nije preporučljivo za čuvanje velikih priloga). „FS” snima priloge u sistemu datoteka; ovo je brža opcija, ali veb server mora biti pokrenut pod „OTRS” sistemskim korisnikom. Dozvoljena je promena modula čak i na produkcijskim sistemima bez bilo kakvog gubitka podataka. Napomena: pretraga priloga po nazivu nije moguća kada je „FS” u funkciji.',
         'Schedule a maintenance period.' => 'Planiranje perioda održavanja.',
         'Screen after new ticket' => 'Prikaz ekrana posle otvaranja novog tiketa',
         'Search Customer' => 'Traži klijenta',
@@ -8095,7 +8096,7 @@ Vaša tehnička podrška
         'Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime.' =>
             'Postavlja maksimalni broj aktivnih sesija po korisniku u vremenskom rasponu definisanom u SessionMaxIdleTime.',
         'Sets the method PGP will use to sing and encrypt emails. Note Inline method is not compatible with RichText messages.' =>
-            'Definiše metod koji će PGP da koristi prilikom potpisivanja i šifrovanja imejlova. Napomena: metod "neposredno" nije kompatibilan sa RichText porukama.',
+            'Definiše metod koji će „PGP” da koristi prilikom potpisivanja i šifrovanja imejlova. Napomena: metod "neposredno" nije kompatibilan sa „RichText” porukama.',
         'Sets the minimal ticket counter size if "AutoIncrement" was selected as TicketNumberGenerator. Default is 5, this means the counter starts from 10000.' =>
             'Definiše minimalnu veličinu brojača tiketa ukoliko je izabran "AutoIncrement" kao TicketNumberGenerator. Podrazumevano je 5, što znači da brojač počinje od 10000.',
         'Sets the minutes a notification is shown for notice about upcoming system maintenance period.' =>
@@ -8421,10 +8422,10 @@ Vaša tehnička podrška
         'Specifies if an agent should receive email notification of his own actions.' =>
             'Definiše da li operater treba da dobije imejl obaveštenje za svoje akcije.',
         'Specifies the directory to store the data in, if "FS" was selected for ArticleStorage.' =>
-            'Određuje direktorijum za skladištenje podataka ako je "FS" izabran za ArticleStorage.',
-        'Specifies the directory where SSL certificates are stored.' => 'Određuje direktorijum gde se SSL sertifikati skladište.',
+            'Određuje direktorijum za skladištenje podataka ako je "FS" izabran za skladište članaka.',
+        'Specifies the directory where SSL certificates are stored.' => 'Određuje direktorijum gde se „SSL” sertifikati skladište.',
         'Specifies the directory where private SSL certificates are stored.' =>
-            'Određuje direktorijum gde se privatni SSL sertifikati skladište.',
+            'Određuje direktorijum gde se privatni „SSL” sertifikati skladište.',
         'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTRS Notifications" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuation, or choose another email address.' =>
             'Definiše imejl adresu koju će aplikacija koristiti prilikom slanja obaveštenja. Imejl adresa se koristi u nazivu pošiljaoca obaveštenja (npr. "OTRS Notifications" otrs@your.example.com). Možete koristiti promenljivu OTRS_CONFIG_FQDN iz vaše konfiguracije, ili odredite drugu imejl adresu.',
         'Specifies the email addresses to get notification messages from scheduler tasks.' =>
@@ -8450,13 +8451,13 @@ Vaša tehnička podrška
             'Određuje putanju konvertora koji dozvoljava pregled XML datoteka u veb interfe',
         'Specifies the text that should appear in the log file to denote a CGI script entry.' =>
             'Određuje tekst koji treba da se pojavi u log datoteci da označi ulazak CGI skripte.',
-        'Specifies user id of the postmaster data base.' => 'Određuje ID korisnika postmaster baze podataka.',
+        'Specifies user id of the postmaster data base.' => 'Određuje ID korisnika „postmaster” baze podataka.',
         'Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.' =>
-            'Definiše da li će biti pretraženi svi moduli prilikom prikaza priloga. Ovo je neophodno samo na sistemima gde su neki prilozi u sistemu datoteka, a drugi u bazi podataka.',
+            'Definiše da li će biti pregledani svi pozadinski moduli prilikom pretrage priloga. Ovo je neophodno samo na sistemima gde su neki prilozi u sistemu datoteka, a drugi u bazi podataka.',
         'Specifies whether the (MIMEBase) article attachments will be indexed and searchable.' =>
             'Određuje da li će prilozi (MIMEBase) članaka biti indeksirani za pretragu.',
         'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
-            'Navođenje koliko nivoa poddirektorijuma da koristi prilikom kreiranja keš fajlova. To bi trebalo da spreči previše keš fajlova u jednom direktorijumu.',
+            'Navođenje koliko nivoa poddirektorijuma da koristi prilikom kreiranja keš datoteka. To bi trebalo da spreči previše keš datoteka u jednom direktorijumu.',
         'Specify the channel to be used to fetch OTRS Business Solution™ updates. Warning: Development releases might not be complete, your system might experience unrecoverable errors and on extreme cases could become unresponsive!' =>
             'Definiše kanal za ažuriranje OTRS Business Solution™. Upozorenje: beta izdanja mogu biti nekompletna, vaš sistem može dobiti nepopravljive greške i, u ekstremnim slučajevima, prestati da reaguje.',
         'Specify the password to authenticate for the first mirror database.' =>

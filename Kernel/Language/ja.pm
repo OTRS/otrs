@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.759141630901288;
+    $Self->{Completeness}        = 0.759182972880192;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -899,7 +899,7 @@ sub Data {
         'General Settings' => '一般的な設定',
         'Event type' => 'イベントタイプ',
         'Conditions' => '条件',
-        'Conditions can only operate on non-empty fields.' => '',
+        'Conditions can only operate on non-empty fields.' => '条件は空白でないフィールドに対してのみ使用可能です。',
         'Type of Linking between Conditions' => '条件間のリンクのタイプ',
         'Remove this Condition' => 'この条件を削除',
         'Type of Linking' => 'リンクのタイプ',
@@ -1857,7 +1857,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'owner' => '所有者',
         'Permissions to change the owner of tickets in this group/queue.' =>
             'このグループ／キューにチケットへ所有者変更権限を付与',
-        'priority' => '優先度',
+        'priority' => '優先度（priority）',
         'Permissions to change the ticket priority in this group/queue.' =>
             'このグループ／キューにチケットの優先度変更権限を付与',
 
@@ -4254,7 +4254,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Escalation First Response Time Stopped' => 'エスカレーション初回応答期限タイマーが停止されました',
         'Customer Updated' => '顧客が更新されました',
         'Internal Chat' => '内部チャット',
-        'Automatic Follow-Up Sent' => '自動Follow-Up 送信',
+        'Automatic Follow-Up Sent' => '自動フォローアップの送信',
         'Note Added' => '注釈作成済み',
         'Note Added (Customer)' => '注釈作成済み(顧客)',
         'SMS Added' => '追加されたSMS',
@@ -4263,11 +4263,11 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Outgoing Answer' => '回答',
         'Service Updated' => 'サービスが更新されました',
         'Link Added' => 'リンクが追加されました',
-        'Incoming Customer Email' => '顧客からの受信 Email',
+        'Incoming Customer Email' => '顧客からのメール',
         'Incoming Web Request' => '受信Webリクエスト',
         'Priority Updated' => '優先度が更新されました',
         'Ticket Unlocked' => 'チケットのロックが解除されました',
-        'Outgoing Email' => '送信 Email',
+        'Outgoing Email' => '送信メール',
         'Title Updated' => 'タイトルが更新されました',
         'Ticket Merged' => 'チケットが結合されました',
         'Outgoing Phone Call' => '架電',
@@ -4842,7 +4842,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Close Time' => 'クローズ時間',
         'Escalation' => 'エスカレーション',
         'Escalation - First Response Time' => 'エスカレーション - 第1の応答時間',
-        'Escalation - Update Time' => 'エスカレーション - 更新時間',
+        'Escalation - Update Time' => 'エスカレーション - 更新期限',
         'Escalation - Solution Time' => 'エスカレーション - 解決時間',
         'Agent/Owner' => '担当者／所有者',
         'Created by Agent/Owner' => '作成した担当者／所有者',
@@ -7075,7 +7075,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Disable cloud services' => 'クラウドサービスの無効化',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             'チケットの責任者である担当者への、リマインダー通知の送信を無効にします(Ticket::Responsibleが有効にされる必要があります)。',
-        'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
+        'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
@@ -7503,6 +7503,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Ivory (Slim)' => '',
         'Japanese' => '日本語',
         'JavaScript function for the search frontend.' => '',
+        'Korean' => '',
         'Language' => '言語',
         'Large' => '大',
         'Last Screen Overview' => '',

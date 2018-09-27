@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.494248927038627;
+    $Self->{Completeness}        = 0.494164092001373;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -121,7 +121,7 @@ sub Data {
         'Create: users can create and delete appointments in the calendar.' =>
             '',
         'Read/write: users can manage the calendar itself.' => '',
-        'Group' => 'Kikundi',
+        'Group' => 'Kundi',
         'Changed' => 'Ilibadilishwa',
         'Created' => 'Ilitengenezwa',
         'Download' => 'Pakua',
@@ -186,12 +186,12 @@ sub Data {
             '',
         'Toggle this widget' => 'Geuza kifaa hiki',
         'Events' => 'Matukio',
-        'Event' => 'Tukio',
+        'Event' => 'Kitendo',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
             '',
         'Appointment Filter' => '',
         'Type' => 'Aina',
-        'Title' => 'Kichwa cha habari',
+        'Title' => 'Mada',
         'Location' => 'Mahali',
         'Team' => '',
         'Resource' => '',
@@ -224,7 +224,7 @@ sub Data {
             '',
         'Remove Notification Language' => '',
         'Subject' => 'Somo',
-        'Text' => 'Matini',
+        'Text' => 'Nakala',
         'Message body' => '',
         'Add new notification language' => '',
         'Save Changes' => 'Hifadhi mabadiliko',
@@ -427,7 +427,7 @@ sub Data {
         'No changes can be made to these groups.' => 'Hakuna mabadiliko yanayoweza kufanywa katika makundi haya.',
         'ro' => 'ro',
         'Read only access to the ticket in this group/queue.' => 'Ufikivu wa kusoma tu kwenda kwenye tiketi katika kikundi hiki/foleni.',
-        'rw' => 'rw',
+        'rw' => 'soma andikka',
         'Full read and write access to the tickets in this group/queue.' =>
             'Ufikivu wote wa kusoma na kuandika kwenda kwenye tiketi katika kikundi hiki/foleni.',
 
@@ -504,7 +504,7 @@ sub Data {
         'More Business Fields' => '',
         'Would you like to benefit from additional dynamic field types for businesses? Upgrade to %s to get access to the following field types:' =>
             '',
-        'Database' => 'Hifadhi data',
+        'Database' => 'Hifadhidata',
         'Use external databases as configurable data sources for this dynamic field.' =>
             '',
         'Web service' => '',
@@ -523,7 +523,7 @@ sub Data {
         'Delete this field' => 'Futa uga huu',
 
         # Template: AdminDynamicFieldCheckbox
-        'Dynamic Fields' => 'Uga wenye nguvu',
+        'Dynamic Fields' => 'Sehemu zinazobadilika',
         'Go back to overview' => 'Rudi nyuma kwenye mapitio',
         'General' => 'Ujumla',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
@@ -574,7 +574,7 @@ sub Data {
 
         # Template: AdminDynamicFieldDropdown
         'Possible values' => 'Thamani ziwezekanazo',
-        'Key' => 'funguo',
+        'Key' => 'Ufunguo',
         'Value' => 'Thamani',
         'Remove value' => 'Ondoa thamani',
         'Add value' => 'Ongeza thamani',
@@ -748,7 +748,7 @@ sub Data {
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Web Service Management' => 'Usimamizi wa huduma ya wavuti ya kiolesura cha jumla.',
         'Web Service Management' => '',
-        'Debugger' => 'Mweauju',
+        'Debugger' => 'Anaye eua',
         'Go back to web service' => 'Rudi nyuma kwenye huduma za tovuti',
         'Clear' => 'safisha',
         'Do you really want to clear the debug log of this web service?' =>
@@ -1170,7 +1170,7 @@ sub Data {
             'Uendeshaji ni kazi za mfumo binafsi ambao mifumo ya mbali inaweza kuomba.',
         'Invokers prepare data for a request to a remote web service, and process its response data.' =>
             'Vichochezi vinaanda data kwa ajili ya kuomba huduma ya tovuti ya mbali, na ina shughulikia data zake za majibu.',
-        'Controller' => 'mtawala',
+        'Controller' => 'Mdhibiti',
         'Inbound mapping' => 'Kuunganishwa kulikofungwa ndani',
         'Outbound mapping' => 'Kuunganishwa kulikofungwa nje',
         'Delete this action' => 'kufuta hatua hii',
@@ -2155,7 +2155,7 @@ sub Data {
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'Kielezo ni matini chaguo msingi mabayo yanawasaidia mawakala wako kuandika haraka tuketi, kujibu na kupeleka mbele.',
         'Don\'t forget to add new templates to queues.' => 'Usisahau kuongeza vielezo vipya katika foleni.',
-        'Attachments' => 'Viambatanishi',
+        'Attachments' => 'Viambatanisho',
         'Delete this entry' => 'Futa ingizo hili',
         'Do you really want to delete this template?' => 'Kweli uanataka kufuta hiki kiolezo?',
         'A standard template with this name already exists!' => 'Kielezo cha kawaida kwa jina hili tayari kipo!',
@@ -2406,7 +2406,7 @@ sub Data {
         'Assigned to customer user' => '',
         'Accessible for customer user' => '',
         'My locked tickets' => 'Tiketi zangu zilizofungwa',
-        'My watched tickets' => 'Tiketi zangu zilizoangaliwa',
+        'My watched tickets' => 'Tiketi zangu zinazoangaliwa',
         'My responsibilities' => 'Majukumu yangu',
         'Tickets in My Queues' => 'Tiketi katika foleni yangu',
         'Tickets in My Services' => 'Tiketi zilizopo kwenye huduma',
@@ -2955,7 +2955,7 @@ sub Data {
         'Notifications' => 'Taarifa',
         'Notifications (OTRS Business Solution™)' => '',
         'Personal preferences' => '',
-        'Logout' => 'Funga',
+        'Logout' => 'Toka',
         'You are logged in as' => 'Umeingia kama',
 
         # Template: Installer
@@ -3005,7 +3005,7 @@ sub Data {
 
         # Template: InstallerDBResult
         'Done' => 'Maliza',
-        'Error' => 'Kosa',
+        'Error' => 'Kasoro',
         'Database setup successful!' => 'Usanidi wa hifadhi data umefanikiwa!',
 
         # Template: InstallerDBStart
@@ -6496,7 +6496,7 @@ Mfano:
         'Defines the body text for notification mails sent to customers, with token about new requested password.' =>
             '',
         'Defines the body text for rejected emails.' => 'Inafafanua kiini cha matini ya barua pepe zilizokataliwa',
-        'Defines the calendar width in percent. Default is 95%.' => 'Inafafanua upana wa kalenda katika silimia. Chaguo msingi ni 95%.',
+        'Defines the calendar width in percent. Default is 95%.' => 'Inafafanua upana wa kalenda kwa asilimia. Chaguo-msingi ni 95%.',
         'Defines the column to store the keys for the preferences table.' =>
             'Inafafanua safu wima za kuhifadhi vibonye kwa ajili ya jedwali la mapendeleo.',
         'Defines the config options for the autocompletion feature.' => 'Inafafanua michaguo ya usanidi kwa ajili ya kipengele cha ukamilifu otomatiki.',
@@ -7056,7 +7056,7 @@ Mfano:
         'Disable cloud services' => '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
-        'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
+        'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
@@ -7216,7 +7216,7 @@ Mfano:
             'Moduli ya tukio inayosasisha tiketi baada ya usasishaji wa mteja mtumiaji.',
         'Event module that updates tickets after an update of the Customer.' =>
             'Moduli ya tukio inayosasisha tiketi baada ya usasishaji wa mteja.',
-        'Events Ticket Calendar' => 'Kalenda ya tiketi ya matukio',
+        'Events Ticket Calendar' => 'Matukio Tiketi Kalenda',
         'Example package autoload configuration.' => '',
         'Execute SQL statements.' => 'Tekeleza kauli za SQL.',
         'Executes a custom command or module. Note: if module is used, function is required.' =>
@@ -7484,6 +7484,7 @@ Mfano:
         'Ivory (Slim)' => '',
         'Japanese' => '',
         'JavaScript function for the search frontend.' => '',
+        'Korean' => '',
         'Language' => 'Lugha',
         'Large' => 'Kubwa',
         'Last Screen Overview' => '',
@@ -7663,7 +7664,7 @@ Mfano:
             'Jina la huduma maalum. Huduma maalum ni uchaguzi wa huduma wa huduma zako unazozipendelea na zinazeweza kuchaguliwa katika mipangilio ya mapendeleo.',
         'NameX' => 'Jina X',
         'New Ticket' => 'Tiketi mpya',
-        'New Tickets' => 'Tiketi mpya',
+        'New Tickets' => 'Tiketi Mpya',
         'New Window' => '',
         'New Year\'s Day' => 'Siku ya mwaka mpya.',
         'New Year\'s Eve' => 'Usiku wa kuamkia mwaka mpya.',
@@ -7689,12 +7690,12 @@ Mfano:
             'Namba ta tiketi zitakazoonyeshwa katika kila ukurasa wa matokeo ya utafutaji katika kiolesura cha mteja.',
         'Number of tickets to be displayed in each page.' => '',
         'OTRS Group Services' => '',
-        'OTRS News' => 'Habari za OTRS',
+        'OTRS News' => 'OTRS Habari',
         'OTRS can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
         'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             '',
-        'Open Tickets / Need to be answered' => 'Tiketi zilizowazi/ Zinazohitaji kujibiwa',
+        'Open Tickets / Need to be answered' => 'Tiketi Wazi / Zinahitaji kujibiwa',
         'Open an external link!' => '',
         'Open tickets (customer user)' => 'Fungua tiketi (Mtumiaji wa mteja)',
         'Open tickets (customer)' => 'Fungua tiketi (Mteja)',
@@ -7847,7 +7848,7 @@ Mfano:
         'Refresh interval' => 'muda wa kuonyesha',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
-        'Reminder Tickets' => 'Tiketi za kikumbuhso',
+        'Reminder Tickets' => 'Tiketi za kumbukumbu',
         'Removed subscription for user "%s".' => 'Toa kujiunga kwa mtumiaji "%s".',
         'Removes old system configuration deployments (Sunday mornings).' =>
             '',
@@ -8632,7 +8633,7 @@ Mfano:
             'Fungua tiketi kidokezo kinapoongezwa na mmiliki hayupo ofisini.',
         'Unlocked ticket.' => 'Tiketi zilizofunguliwa.',
         'Up' => 'Juu',
-        'Upcoming Events' => 'Tukio lijalo',
+        'Upcoming Events' => 'Matukio Yajayo',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             'Sasisha alama ya tiketi "Imeonekana" kama kila makala imeonekana au makala mpya imetengenezwa. ',
         'Update time' => '',
@@ -8645,7 +8646,7 @@ Mfano:
             '',
         'Use new type of select and autocomplete fields in customer interface, where applicable (InputFields).' =>
             '',
-        'User Profile' => 'Maelezo mafupi ya mtumiaji',
+        'User Profile' => 'Umbo wa Mtumiaji',
         'UserFirstname' => 'Jina la kwanza la mtumiaji',
         'UserLastname' => 'Jina la mwisho la mtumiaji',
         'Users, Groups & Roles' => '',

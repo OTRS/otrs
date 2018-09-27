@@ -1,22 +1,22 @@
-# 
 # Translators:
-# Hisatoshi Onishi <hisatoshi.onishi@gmail.com>, 2015-2018
-# Tomy1984, 2015
-# Kentaro Matsuzaki <kentaro0919@gmail.com>, 2014-2017
-# Kozo Sakurai <sakurai@io-architect.com>, 2014,2017-2018
-# Makoto Miida, 2014
-# Makoto Miida, 2014
-# Norihiro Tanaka <noritnk@kcn.ne.jp>, 2014-2017
-# Takayuki MINATO <turbo@minato.tv>, 2016
-# Tomohisa Hirami <hirami@io-architect.com>, 2016-2017
-# Toshihiro Takehara aka nouphet <nouphet.ratanavong@gmail.com>, 2016
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Kozo Sakurai <sakurai@io-architect.com>, 2018
+# Kentaro Matsuzaki <kentaro0919@gmail.com>, 2018
+# Norihiro Tanaka <noritnk@kcn.ne.jp>, 2018
+# Toshihiro Takehara aka nouphet <nouphet.ratanavong@gmail.com>, 2018
+# Hisatoshi Onishi <hisatoshi.onishi@gmail.com>, 2018
+# Tomy1984, 2018
+# Tomohisa Hirami <hirami@io-architect.com>, 2018
+# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
+# Udo Bretz, 2018
+# Takayuki MINATO <turbo@minato.tv>, 2018
 msgid ""
 msgstr ""
-"Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-09-13 21:46+0000\n"
-"PO-Revision-Date: 2018-09-13 21:49+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: Japanese (http://www.transifex.com/otrs/OTRS/language/ja/)\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-09-27 16:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Takayuki MINATO <turbo@minato.tv>, 2018\n"
+"Language-Team: Japanese (https://www.transifex.com/otrs/teams/23435/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -59,7 +59,8 @@ msgstr "設定のインポート"
 msgid ""
 "Here you can upload a configuration file to import ACLs to your system. The "
 "file needs to be in .yml format as exported by the ACL editor module."
-msgstr "ここにACLをインポートするための設定ファイルをアップロードできます。ファイルはACLエディタモジュールによってエクスポートされるような.ymlフォーマットである必要があります。"
+msgstr ""
+"ここにACLをインポートするための設定ファイルをアップロードできます。ファイルはACLエディタモジュールによってエクスポートされるような.ymlフォーマットである必要があります。"
 
 #. Template: AdminACL
 msgid "This field is required."
@@ -162,7 +163,8 @@ msgid ""
 "Set up matching criteria for this ACL. Use 'Properties' to match the current"
 " screen or 'PropertiesDatabase' to match attributes of the current ticket "
 "that are in the database."
-msgstr "ACLでマッチする対象を指定します。'Properties'の場合現在画面に表示されている値を、'PropertiesDatabase'の場合、DBに保存されている値を使用します。"
+msgstr ""
+"ACLでマッチする対象を指定します。'Properties'の場合現在画面に表示されている値を、'PropertiesDatabase'の場合、DBに保存されている値を使用します。"
 
 #. Template: AdminACLEdit
 msgid "Change settings"
@@ -269,7 +271,8 @@ msgid ""
 "Here you can upload a configuration file to import a calendar to your "
 "system. The file needs to be in .yml format as exported by calendar "
 "management module."
-msgstr "ここでカレンダーの設定ファイルをアップロードすることができます。ファイルはカレンダー管理モジュールがエクスポートした\".yml\"フォーマットである必要があります。"
+msgstr ""
+"ここでカレンダーの設定ファイルをアップロードすることができます。ファイルはカレンダー管理モジュールがエクスポートした\".yml\"フォーマットである必要があります。"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Overwrite existing entities"
@@ -496,7 +499,8 @@ msgid ""
 "Here you can upload a configuration file to import appointment notifications"
 " to your system. The file needs to be in .yml format as exported by the "
 "appointment notification module."
-msgstr "ここでカレンダー通知の設定ファイルをアップロードすることができます。ファイルはカレンダー管理モジュールがエクスポートした\".yml\"フォーマットである必要があります。"
+msgstr ""
+"ここでカレンダー通知の設定ファイルをアップロードすることができます。ファイルはカレンダー管理モジュールがエクスポートした\".yml\"フォーマットである必要があります。"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
@@ -962,7 +966,9 @@ msgid ""
 "To enable data sending, please register your system with OTRS Group or "
 "update your system registration information (make sure to activate the 'send"
 " support data' option.)"
-msgstr "データ送信を有効にするために、OTRS Group へのシステムの登録・更新をお願いします (併せて「サポート情報の送信」のチェックを有効にするのを忘れずに)。"
+msgstr ""
+"データ送信を有効にするために、OTRS Group へのシステムの登録・更新をお願いします "
+"(併せて「サポート情報の送信」のチェックを有効にするのを忘れずに)。"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
@@ -1633,7 +1639,8 @@ msgid ""
 "To add a new field, select the field type from one of the object's list, the"
 " object defines the boundary of the field and it can't be changed after the "
 "field creation."
-msgstr "新しいフィールドを追加するには、オブジェクトのリストの1つからフィールドタイプを選択します。オブジェクトはフィールドの境界を定義し、フィールドの作成後は変更できません。"
+msgstr ""
+"新しいフィールドを追加するには、オブジェクトのリストの1つからフィールドタイプを選択します。オブジェクトはフィールドの境界を定義し、フィールドの作成後は変更できません。"
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields List"
@@ -2726,7 +2733,9 @@ msgid ""
 "at '1 minute' and retry factor at '2', retries would be triggered at 10:01 "
 "(1 minute), 10:03 (2*1=2 minutes), 10:07 (2*2=4 minutes), 10:15 (2*4=8 "
 "minutes), ..."
-msgstr "例: トリガーを 10:00 、インターバルを1分間隔にあらかじめ設定している場合に、リトライファクターを”２”とすると、次の要領でトリガーが機能します。\n10:01(1分後)→10:03(１x２=2分後)→10:07(２x２=4分後)→10:15(４x２=8分後)…※以降、間隔は2倍になります"
+msgstr ""
+"例: トリガーを 10:00 、インターバルを1分間隔にあらかじめ設定している場合に、リトライファクターを”２”とすると、次の要領でトリガーが機能します。\n"
+"10:01(1分後)→10:03(１x２=2分後)→10:07(２x２=4分後)→10:15(４x２=8分後)…※以降、間隔は2倍になります"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry interval"
@@ -2736,7 +2745,8 @@ msgstr "最大リトライ間隔"
 msgid ""
 "If a retry interval factor of '1.5' or '2' is selected, undesirably long "
 "intervals can be prevented by defining the largest interval allowed."
-msgstr "リトライファクターとして\"1.5\"ないし\"2\"が選択されている場合、最大リトライ間隔を別途定義することで、意図せず望ましくない間隔が設定されることを防止できます。"
+msgstr ""
+"リトライファクターとして\"1.5\"ないし\"2\"が選択されている場合、最大リトライ間隔を別途定義することで、意図せず望ましくない間隔が設定されることを防止できます。"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2750,7 +2760,9 @@ msgid ""
 "at '1 minute', retry factor at '2' and maximum interval at '5 minutes', "
 "retries would be triggered at 10:01 (1 minute), 10:03 (2 minutes), 10:07 (4 "
 "minutes), 10:12 (8=>5 minutes), 10:17, ..."
-msgstr "例: トリガーを 10:00 、インターバルを1分間隔にあらかじめ設定している場合に、リトライファクターを”２”、最大リトライ間隔を”5分”とすると、次の要領でトリガーが機能します。\n10:01(1分後)→10:03(2分後)→10:07(4分後)→10:12(8分後⇒5分後に修正)→10:17…"
+msgstr ""
+"例: トリガーを 10:00 、インターバルを1分間隔にあらかじめ設定している場合に、リトライファクターを”２”、最大リトライ間隔を”5分”とすると、次の要領でトリガーが機能します。\n"
+"10:01(1分後)→10:03(2分後)→10:07(4分後)→10:12(8分後⇒5分後に修正)→10:17…"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry count"
@@ -2767,7 +2779,9 @@ msgid ""
 "Example: If a request is initially triggered at 10:00 with initial interval "
 "at '1 minute', retry factor at '2' and maximum retry count at '2', retries "
 "would be triggered at 10:01 and 10:02 only."
-msgstr "例: トリガーを 10:00 、インターバルを1分間隔にあらかじめ設定している場合に、リトライファクターを”２”、最大リトライ回数を”２”とすると、10:01および10:02にリトライ機能が呼び出されます。"
+msgstr ""
+"例: トリガーを 10:00 "
+"、インターバルを1分間隔にあらかじめ設定している場合に、リトライファクターを”２”、最大リトライ回数を”２”とすると、10:01および10:02にリトライ機能が呼び出されます。"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2840,7 +2854,8 @@ msgstr "API実行元のバックエンド"
 msgid ""
 "This OTRS invoker backend module will be called to prepare the data to be "
 "sent to the remote system, and to process its response data."
-msgstr "このOTRSのAPI実行元のバックエンドモジュールは、リモートシステムに送信されるデータを準備し、その応答データを処理するために呼び出されます。"
+msgstr ""
+"このOTRSのAPI実行元のバックエンドモジュールは、リモートシステムに送信されるデータを準備し、その応答データを処理するために呼び出されます。"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for outgoing request data"
@@ -2930,7 +2945,7 @@ msgstr "条件"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Conditions can only operate on non-empty fields."
-msgstr ""
+msgstr "条件は空白でないフィールドに対してのみ使用可能です。"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Type of Linking between Conditions"
@@ -3170,7 +3185,8 @@ msgstr ""
 msgid ""
 "Example 1: Search = '^jira:' / Replace = '' turns 'jira:element' into "
 "'element'."
-msgstr "例1: Search = '^jira:' / Replace = '' turns 'jira:element' into 'element'."
+msgstr ""
+"例1: Search = '^jira:' / Replace = '' turns 'jira:element' into 'element'."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Example 2: Search = '^' / Replace = '_' turns '16x16' into '_16x16'."
@@ -3591,7 +3607,9 @@ msgstr ""
 msgid ""
 "e.g urn:otrs-com:soap:functions or "
 "http://www.otrs.com/GenericInterface/actions"
-msgstr "例… urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions"
+msgstr ""
+"例… urn:otrs-com:soap:functions or "
+"http://www.otrs.com/GenericInterface/actions"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name scheme"
@@ -3926,7 +3944,8 @@ msgstr "管理グループは管理エリアで取得します。統計グルー
 msgid ""
 "Create new groups to handle access permissions for different groups of agent"
 " (e. g. purchasing department, support department, sales department, ...). "
-msgstr "統計グループは統計エリアを取得します。異なるエージェントグループへのアクセス許可を操作するには、グループを新規作成してください。（例：購買部、サポート部、営業部等）"
+msgstr ""
+"統計グループは統計エリアを取得します。異なるエージェントグループへのアクセス許可を操作するには、グループを新規作成してください。（例：購買部、サポート部、営業部等）"
 
 #. Template: AdminGroup
 msgid "It's useful for ASP solutions. "
@@ -4335,7 +4354,9 @@ msgstr ""
 msgid ""
 "Connection to cloud.otrs.com via HTTPS couldn't be established. Please make "
 "sure that your OTRS can connect to cloud.otrs.com via port 443."
-msgstr "cloud.otrs.comへのHTTPSでの接続の確立ができませんでした。\nOTRSが443ポートを用いてcloud.otrs.comに接続できることを確認して下さい。"
+msgstr ""
+"cloud.otrs.comへのHTTPSでの接続の確立ができませんでした。\n"
+"OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認して下さい。"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Package installation requires patch level update of OTRS."
@@ -4997,7 +5018,8 @@ msgid ""
 "Here you can upload a configuration file to import a process to your system."
 " The file needs to be in .yml format as exported by process management "
 "module."
-msgstr "ここでプロセスの設定ファイルをアップロードすることができます。ファイルは.プロセス管理モジュールがエクスポートしたyamlフォーマットである必要があります。"
+msgstr ""
+"ここでプロセスの設定ファイルをアップロードすることができます。ファイルは.プロセス管理モジュールがエクスポートしたyamlフォーマットである必要があります。"
 
 #. Template: AdminProcessManagement
 msgid "Upload process configuration"
@@ -5309,7 +5331,8 @@ msgstr "アクティビティをキャンバスに配置することでアクテ
 msgid ""
 "To assign an Activity Dialog to an Activity drop the Activity Dialog element"
 " from this sidebar over the Activity placed in the canvas area."
-msgstr "アクティビティ・ダイアログをアクティビティに関連付けるには、サイドバーからキャンバス上のアクティビティにドラッグ・アンド・ドロップして下さい。"
+msgstr ""
+"アクティビティ・ダイアログをアクティビティに関連付けるには、サイドバーからキャンバス上のアクティビティにドラッグ・アンド・ドロップして下さい。"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
@@ -5401,7 +5424,8 @@ msgid ""
 "In this screen, you can create a new process. In order to make the new "
 "process available to users, please make sure to set its state to 'Active' "
 "and synchronize after completing your work."
-msgstr "この画面では、新規プロセスを作成することが出来ます。作成したプロセスを使用できるようにするには、ステータスを「有効」にした後に変更を同期してください。"
+msgstr ""
+"この画面では、新規プロセスを作成することが出来ます。作成したプロセスを使用できるようにするには、ステータスを「有効」にした後に変更を同期してください。"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "cancel & close"
@@ -5560,7 +5584,8 @@ msgstr "0 = エスカレーションしない"
 msgid ""
 "If there is not added a customer contact, either email-external or phone, to"
 " a new ticket before the time defined here expires, the ticket is escalated."
-msgstr "ここで定義された時間の前に、新規チケットに顧客連絡先が追加されていないか、メール送信、電話などの連絡を取っていない場合、チケットがエスカレーションされます。"
+msgstr ""
+"ここで定義された時間の前に、新規チケットに顧客連絡先が追加されていないか、メール送信、電話などの連絡を取っていない場合、チケットがエスカレーションされます。"
 
 #. Template: AdminQueue
 msgid ""
@@ -5568,7 +5593,8 @@ msgid ""
 "portal, the escalation update time is reset. If there is no customer "
 "contact, either email-external or phone, added to a ticket before the time "
 "defined here expires, the ticket is escalated."
-msgstr "メールでのフォローアップやカスタマーポータルに追加された記事があれば、エスカレーション更新期限はリセットされます。ここで定義された時間内に顧客からの外部メールや電話の記録が追加されない場合、チケットがエスカレーションされます。"
+msgstr ""
+"メールでのフォローアップやカスタマーポータルに追加された記事があれば、エスカレーション更新期限はリセットされます。ここで定義された時間内に顧客からの外部メールや電話の記録が追加されない場合、チケットがエスカレーションされます。"
 
 #. Template: AdminQueue
 msgid ""
@@ -6048,7 +6074,7 @@ msgstr "このグループ／キューにチケットへ所有者変更権限を
 
 #. Template: AdminRoleGroup
 msgid "priority"
-msgstr "優先度"
+msgstr "優先度（priority）"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to change the ticket priority in this group/queue."
@@ -6530,7 +6556,8 @@ msgid ""
 "A support bundle (including: system registration information, support data, "
 "a list of installed packages and all locally modified source code files) can"
 " be generated by pressing this button:"
-msgstr "このボタンを押すとサポートバンドル(システム登録情報、サポートに必要なデータ、インストールされているパッケージリスト、変更されているソース)が作成されます。"
+msgstr ""
+"このボタンを押すとサポートバンドル(システム登録情報、サポートに必要なデータ、インストールされているパッケージリスト、変更されているソース)が作成されます。"
 
 #. Template: AdminSupportDataCollector
 msgid "Generate Support Bundle"
@@ -6698,7 +6725,8 @@ msgid ""
 "By default, you will only deploy settings which you changed on your own. If "
 "you'd like to deploy settings changed by other users, too, please click the "
 "link on top of the screen to enter the advanced deployment mode."
-msgstr "デフォルトでは、あなた自身が行った変更点のみに対してデプロイを行うことができます。もし、あなたが他のユーザーが行った変更点に対してもデプロイを行いたい場合は、画面上部に表示されているリンクをクリックしてアドバンスド・デプロイメント・モードに切り替えてください。"
+msgstr ""
+"デフォルトでは、あなた自身が行った変更点のみに対してデプロイを行うことができます。もし、あなたが他のユーザーが行った変更点に対してもデプロイを行いたい場合は、画面上部に表示されているリンクをクリックしてアドバンスド・デプロイメント・モードに切り替えてください。"
 
 #. Template: AdminSystemConfigurationDeployment
 msgid ""
@@ -7842,7 +7870,8 @@ msgid ""
 "You can change your avatar image by registering with your email address %s "
 "at %s. Please note that it can take some time until your new avatar becomes "
 "available because of caching."
-msgstr "アバターイメージを変更するには、%sにあなたのメールアドレス(%s)を登録して下さい。キャッシュの影響により新しいアバターが利用可能になるまでには時間がかかることがあります。"
+msgstr ""
+"アバターイメージを変更するには、%sにあなたのメールアドレス(%s)を登録して下さい。キャッシュの影響により新しいアバターが利用可能になるまでには時間がかかることがあります。"
 
 #. Template: AgentPreferences
 msgid "Off"
@@ -8785,7 +8814,8 @@ msgstr ""
 msgid ""
 "To open links in the following article, you might need to press Ctrl or Cmd "
 "or Shift key while clicking the link (depending on your browser and OS)."
-msgstr "次の記事でリンクを開くには、CtrlキーまたはCmdキーまたはShiftキーを押しながらリンクをクリックする必要があります（ブラウザとOSによって異なります）。"
+msgstr ""
+"次の記事でリンクを開くには、CtrlキーまたはCmdキーまたはShiftキーを押しながらリンクをクリックする必要があります（ブラウザとOSによって異なります）。"
 
 #. Template: MIMEBase
 msgid "Close this message"
@@ -9629,7 +9659,8 @@ msgid ""
 "Email addresses that are manually entered are checked against the MX records"
 " found in DNS. Don't use this option if your DNS is slow or does not resolve"
 " public addresses."
-msgstr "入力されたメールアドレスがDNSのMXレコードと照合されます。利用しているDNSが遅い場合、または公開アドレスが解決できない場合はこのオプションを使用しないでください。"
+msgstr ""
+"入力されたメールアドレスがDNSのMXレコードと照合されます。利用しているDNSが遅い場合、または公開アドレスが解決できない場合はこのオプションを使用しないでください。"
 
 #. Template: LinkObject
 msgid "Delete link"
@@ -9825,7 +9856,8 @@ msgstr "キャッシュ結果"
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
 " the same configuration (requires at least one selected time field)."
-msgstr "レポート結果データをキャッシュに保存して、同じ設定で後続のビューで使用するようにしました（少なくとも1つの選択された時間フィールドが必要です）。"
+msgstr ""
+"レポート結果データをキャッシュに保存して、同じ設定で後続のビューで使用するようにしました（少なくとも1つの選択された時間フィールドが必要です）。"
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
@@ -10401,7 +10433,9 @@ msgstr "次のACLは、無事に更新されました。: %s"
 msgid ""
 "There where errors adding/updating the following ACLs: %s. Please check the "
 "log file for more information."
-msgstr "次のACLを追加/更新するときにエラーが発生しました。: %s\n詳細は、ログファイルを参照してください。"
+msgstr ""
+"次のACLを追加/更新するときにエラーが発生しました。: %s\n"
+"詳細は、ログファイルを参照してください。"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "This field is required"
@@ -12988,7 +13022,7 @@ msgstr "内部チャット"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Automatic Follow-Up Sent"
-msgstr "自動Follow-Up 送信"
+msgstr "自動フォローアップの送信"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Note Added"
@@ -13024,7 +13058,7 @@ msgstr "リンクが追加されました"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Customer Email"
-msgstr "顧客からの受信 Email"
+msgstr "顧客からのメール"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Web Request"
@@ -13040,7 +13074,7 @@ msgstr "チケットのロックが解除されました"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Email"
-msgstr "送信 Email"
+msgstr "送信メール"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Title Updated"
@@ -13314,7 +13348,8 @@ msgstr "\"Kernel/Config.pm\" ファイルに書き込み権限がありません
 msgid ""
 "If you want to use the installer, set the Kernel/Config.pm writable for the "
 "webserver user!"
-msgstr "インストーラーをご利用の場合は、”Kernel.Config.pm” ファイルにWebサーバ実行ユーザによる書き込み権限を付与してください！"
+msgstr ""
+"インストーラーをご利用の場合は、”Kernel.Config.pm” ファイルにWebサーバ実行ユーザによる書き込み権限を付与してください！"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Database Selection"
@@ -13424,7 +13459,9 @@ msgid ""
 "Error: Please set the value for innodb_log_file_size on your database to at "
 "least %s MB (current: %s MB, recommended: %s MB). For more information, "
 "please have a look at %s."
-msgstr "innodb_log_file_sizeの設定を少なくとも%s MB以上にしてください(現在: %s MB, 推奨: %s MB)。詳細は%sを参照して下さい。"
+msgstr ""
+"innodb_log_file_sizeの設定を少なくとも%s MB以上にしてください(現在: %s MB, 推奨: %s "
+"MB)。詳細は%sを参照して下さい。"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Wrong database collation (%s is %s, but it needs to be utf8)."
@@ -13880,7 +13917,8 @@ msgstr "あなたの %s のライセンスはもうすぐ失効します。　 %
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
-msgstr " %s のアップデートが利用可能です。しかしあなたのフレームワークのバージョンとコンフリクトしていますので、事前にフレームワークの更新を行ってください。"
+msgstr ""
+" %s のアップデートが利用可能です。しかしあなたのフレームワークのバージョンとコンフリクトしていますので、事前にフレームワークの更新を行ってください。"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
 msgid "Online Agent: %s"
@@ -13953,7 +13991,8 @@ msgstr "システム設定の更新時にエラーが発生しました。"
 msgid ""
 "Don't use the Superuser account to work with %s! Create new Agents and work "
 "with these accounts instead."
-msgstr "%sの利用は、スーパーユーザー・アカウント（UserID 1）を使用しないで下さい！ 新しい担当者を作成し、そのアカウントで作業して下さい。"
+msgstr ""
+"%sの利用は、スーパーユーザー・アカウント（UserID 1）を使用しないで下さい！ 新しい担当者を作成し、そのアカウントで作業して下さい。"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/AppointmentNotificationEvent.pm
 msgid ""
@@ -14378,7 +14417,8 @@ msgstr "リポジトリインデックスドキュメントを解析できませ
 msgid ""
 "No packages for your framework version found in this repository, it only "
 "contains packages for other framework versions."
-msgstr "このリポジトリ中でご利用のフレームワークのバージョンに対するパッケージが見つかりません。他のフレームワークのバージョンに対するパッケージのみ含まれます。"
+msgstr ""
+"このリポジトリ中でご利用のフレームワークのバージョンに対するパッケージが見つかりません。他のフレームワークのバージョンに対するパッケージのみ含まれます。"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is not installed!"
@@ -14399,7 +14439,8 @@ msgid ""
 "problems</li><li>Performance problems</li></ul><p>Please note that issues "
 "that are caused by working with this package are not covered by OTRS service"
 " contracts.</p>"
-msgstr "<p>このパッケージのインストールを継続すると、以下の問題が発生するかもしれません。</p><ul><li>&nbsp;-セキュリティ上の問題</li><li>&nbsp;-安定性の問題</li><li>&nbsp;-パフォーマンスの問題</li></ul><p>このパッケージを動作させることによって引き起こされた問題はOTRSサービス契約の対象外ですのでご注意ください。</p>"
+msgstr ""
+"<p>このパッケージのインストールを継続すると、以下の問題が発生するかもしれません。</p><ul><li>&nbsp;-セキュリティ上の問題</li><li>&nbsp;-安定性の問題</li><li>&nbsp;-パフォーマンスの問題</li></ul><p>このパッケージを動作させることによって引き起こされた問題はOTRSサービス契約の対象外ですのでご注意ください。</p>"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
@@ -14412,7 +14453,10 @@ msgid ""
 "<p>You can activate the installation of not verified packages in the <a "
 "href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
 " target=\"_blank\">System Configuration</a>.</p>"
-msgstr "<p>未認証のインストール済みパッケージは<a href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\" target=\"_blank\">システム設定</a>から有効化することができます。</p>"
+msgstr ""
+"<p>未認証のインストール済みパッケージは<a "
+"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
+" target=\"_blank\">システム設定</a>から有効化することができます。</p>"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -14496,7 +14540,7 @@ msgstr "エスカレーション - 第1の応答時間"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - Update Time"
-msgstr "エスカレーション - 更新時間"
+msgstr "エスカレーション - 更新期限"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - Solution Time"
@@ -14947,7 +14991,8 @@ msgstr "システムロード"
 msgid ""
 "The system load should be at maximum the number of CPUs the system has (e.g."
 " a load of 8 or less on a system with 8 CPUs is OK)."
-msgstr "CPUの最大値はシステムの最大値を超えて読み込むことはできません(例. 8または8以下のCPUを　8 CPUのシステムで読み込むことは可能です)."
+msgstr ""
+"CPUの最大値はシステムの最大値を超えて読み込むことはできません(例. 8または8以下のCPUを　8 CPUのシステムで読み込むことは可能です)."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModules.pm
 msgid "Perl Modules"
@@ -15157,7 +15202,8 @@ msgstr "管理者のデフォルトパスワード"
 msgid ""
 "Security risk: the agent account root@localhost still has the default "
 "password. Please change it or invalidate the account."
-msgstr "セキュリティーリスク: エージェントアカウント root@localhost はいまだにデフォルトパスワードを利用しています、変更を行ってください。"
+msgstr ""
+"セキュリティーリスク: エージェントアカウント root@localhost はいまだにデフォルトパスワードを利用しています、変更を行ってください。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/EmailQueue.pm
 msgid "Email Sending Queue"
@@ -15285,7 +15331,8 @@ msgstr "標準のチケットタイプ"
 msgid ""
 "The configured default ticket type is invalid or missing. Please change the "
 "setting Ticket::Type::Default and select a valid ticket type."
-msgstr "設定された標準のチケットタイプは不正か存在していません。Ticket::Type::Default設定を確認し、正しいチケットタイプを指定してください。"
+msgstr ""
+"設定された標準のチケットタイプは不正か存在していません。Ticket::Type::Default設定を確認し、正しいチケットタイプを指定してください。"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
@@ -15297,7 +15344,8 @@ msgstr "チケットインデクスモジュール"
 msgid ""
 "You have more than 60,000 tickets and should use the StaticDB backend. See "
 "admin manual (Performance Tuning) for more information."
-msgstr "システムにチケットが60,000以上あるため、バックエンドにはStaticDBを利用するべきです。詳細は管理者マニュアル(パフォーマンスチューニング)を参照してください。"
+msgstr ""
+"システムにチケットが60,000以上あるため、バックエンドにはStaticDBを利用するべきです。詳細は管理者マニュアル(パフォーマンスチューニング)を参照してください。"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/InvalidUsersWithLockedTickets.pm
@@ -15339,7 +15387,10 @@ msgid ""
 "Table ticket_lock_index contains orphaned records. Please run "
 "bin/otrs.Console.pl \"Maint::Ticket::QueueIndexCleanup\" to clean the "
 "StaticDB index."
-msgstr "テーブル ticket_lock_indexに孤立したレコードが存在しています。 StaticDBのインデックスを正しくするためにbin/otrs.Console.pl \"Maint::Ticket::QueueIndexCleanup\"を実行してください。"
+msgstr ""
+"テーブル ticket_lock_indexに孤立したレコードが存在しています。 "
+"StaticDBのインデックスを正しくするためにbin/otrs.Console.pl "
+"\"Maint::Ticket::QueueIndexCleanup\"を実行してください。"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
@@ -15351,7 +15402,10 @@ msgstr "ticket_indexテーブルに孤立したレコード"
 msgid ""
 "Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl"
 " \"Maint::Ticket::QueueIndexCleanup\" to clean the StaticDB index."
-msgstr "テーブル ticket_indexに孤立したレコードが存在しています。 StaticDBのインデックスを正しくするためにbin/otrs.Console.pl \"Maint::Ticket::QueueIndexCleanup\" を実行してください。"
+msgstr ""
+"テーブル ticket_indexに孤立したレコードが存在しています。 "
+"StaticDBのインデックスを正しくするためにbin/otrs.Console.pl "
+"\"Maint::Ticket::QueueIndexCleanup\" を実行してください。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Time Settings"
@@ -15481,7 +15535,9 @@ msgid ""
 "Apache::Reload or Apache2::Reload should be used as PerlModule and "
 "PerlInitHandler to prevent web server restarts when installing and upgrading"
 " modules."
-msgstr " PerlModuleとしてApache::Reload あるいは Apache2::Reload が利用され、インストールあるいはモジュールのアップグレード中のWebサーバー再起動を防ぐために、PerlInitHandlerが利用されるべきです"
+msgstr ""
+" PerlModuleとしてApache::Reload あるいは Apache2::Reload "
+"が利用され、インストールあるいはモジュールのアップグレード中のWebサーバー再起動を防ぐために、PerlInitHandlerが利用されるべきです"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
@@ -16272,7 +16328,9 @@ msgid ""
 "appropriate changes in the SysConfig, you will be locked out of the "
 "administrations panel! If this happens, please rename the group back to "
 "admin per SQL statement."
-msgstr "警告: あなたの名前を変更するグループの管理者はシステム設定の中で適切な変更を行う前にあなたの管理者パネルはロックアウトされます。この問題が発生した場合、管理するSQLステートメントごとにグループを元に戻してください"
+msgstr ""
+"警告: "
+"あなたの名前を変更するグループの管理者はシステム設定の中で適切な変更を行う前にあなたの管理者パネルはロックアウトされます。この問題が発生した場合、管理するSQLステートメントごとにグループを元に戻してください"
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Delete this Mail Account"
@@ -16694,7 +16752,8 @@ msgid ""
 "Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause "
 "several issues and we highly recommend you to add an exception for this "
 "domain."
-msgstr "AdBlockやAdBlockPlus等、広告ブロックプラグインが検出されました。これらのプラグインの使用に起因する問題が報告されていますので、このドメインを除外対象にすることを推奨します。"
+msgstr ""
+"AdBlockやAdBlockPlus等、広告ブロックプラグインが検出されました。これらのプラグインの使用に起因する問題が報告されていますので、このドメインを除外対象にすることを推奨します。"
 
 #. JS File: Core.Agent.Login
 msgid "Do not show this warning again."
@@ -16869,7 +16928,7 @@ msgstr ""
 
 #. JS File: Core.UI.InputFields
 msgid "and %s more..."
-msgstr ""
+msgstr "他%sつ"
 
 #. JS File: Core.UI.InputFields
 msgid "Show current selection"
@@ -17043,7 +17102,16 @@ msgid ""
 "Thanks for your help!\n"
 "\n"
 " Your Helpdesk Team\n"
-msgstr "\nお客様\n\n表題に記載ののチケット番号は有効ではございません。\n大変申し訳ありませんが、このメールの処理は行われません。\n\nカスタマーパネルより新たなチケットを作成願います。\n\nヘルプデスク担当\n"
+msgstr ""
+"\n"
+"お客様\n"
+"\n"
+"表題に記載ののチケット番号は有効ではございません。\n"
+"大変申し訳ありませんが、このメールの処理は行われません。\n"
+"\n"
+"カスタマーパネルより新たなチケットを作成願います。\n"
+"\n"
+"ヘルプデスク担当\n"
 
 #. SysConfig
 msgid " (work units)"
@@ -17154,7 +17222,8 @@ msgid ""
 "A list of dynamic fields that are merged into the main ticket during a merge"
 " operation. Only dynamic fields that are empty in the main ticket will be "
 "set."
-msgstr "マージ操作中にメインチケットにマージされるダイナミック・フィールドの一覧。 メインチケットで空のダイナミック・フィールドのみが設定されます。"
+msgstr ""
+"マージ操作中にメインチケットにマージされるダイナミック・フィールドの一覧。 メインチケットで空のダイナミック・フィールドのみが設定されます。"
 
 #. SysConfig
 msgid "A picture"
@@ -17165,7 +17234,8 @@ msgid ""
 "ACL module that allows closing parent tickets only if all its children are "
 "already closed (\"State\" shows which states are not available for the "
 "parent ticket until all child tickets are closed)."
-msgstr "親チケットについて、その全ての子チケットが既にクローズされている場合にのみ、クローズすることを許可するACLモジュールです（“State”は、全ての子チケットがクローズされるまで、親チケットにどの状態が適用不可であるかを示しています）。"
+msgstr ""
+"親チケットについて、その全ての子チケットが既にクローズされている場合にのみ、クローズすることを許可するACLモジュールです（“State”は、全ての子チケットがクローズされるまで、親チケットにどの状態が適用不可であるかを示しています）。"
 
 #. SysConfig
 msgid "Access Control Lists (ACL)"
@@ -17213,7 +17283,8 @@ msgid ""
 "Activates the ticket archive system to have a faster system by moving some "
 "tickets out of the daily scope. To search for these tickets, the archive "
 "flag has to be enabled in the ticket search."
-msgstr "チケット・アーカイブ・システムを有効にすることで、チケットの一部をデイリーの範囲から外し、システムのスピードを速くします。これらのチケットを検索する際には、チケット検索においてアーカイブ・フラッグを有効にする必要があります。"
+msgstr ""
+"チケット・アーカイブ・システムを有効にすることで、チケットの一部をデイリーの範囲から外し、システムのスピードを速くします。これらのチケットを検索する際には、チケット検索においてアーカイブ・フラッグを有効にする必要があります。"
 
 #. SysConfig
 msgid "Activates time accounting."
@@ -17370,7 +17441,9 @@ msgstr "PGPをチェックするための、担当者インタフェースの項
 
 #. SysConfig
 msgid "Agent interface article notification module to check S/MIME."
-msgstr "S/MIME-Keyが利用可能かつtrueである場合、Ticket-Zoom-Viewで受信Eメールをチェックする、担当者インタフェースのモジュールです。"
+msgstr ""
+"S/MIME-Keyが利用可能かつtrueである場合、Ticket-Zoom-"
+"Viewで受信Eメールをチェックする、担当者インタフェースのモジュールです。"
 
 #. SysConfig
 msgid ""
@@ -17397,7 +17470,9 @@ msgstr ""
 msgid ""
 "Agent interface module to check incoming emails in the Ticket-Zoom-View if "
 "the S/MIME-key is available and true."
-msgstr "S/MIME-Keyが利用可能かつtrueである場合、Ticket-Zoom-Viewで受信Eメールをチェックする、担当者インタフェースのモジュールです。"
+msgstr ""
+"S/MIME-Keyが利用可能かつtrueである場合、Ticket-Zoom-"
+"Viewで受信Eメールをチェックする、担当者インタフェースのモジュールです。"
 
 #. SysConfig
 msgid ""
@@ -17419,7 +17494,9 @@ msgid ""
 "Agent interface notification module to see the number of tickets in My "
 "Services. Additional access control to show or not show this link can be "
 "done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
-msgstr "担当者Webインタフェース通知モジュールを使用して、マイサービスのチケット数を確認します。 このリンクを表示するかどうかを示す追加のアクセス制御は、 \"グループ\"キーと \"rw：group1; move_into：group2\"のようなコンテンツを使用して行うことができます。"
+msgstr ""
+"担当者Webインタフェース通知モジュールを使用して、マイサービスのチケット数を確認します。 このリンクを表示するかどうかを示す追加のアクセス制御は、 "
+"\"グループ\"キーと \"rw：group1; move_into：group2\"のようなコンテンツを使用して行うことができます。"
 
 #. SysConfig
 msgid ""
@@ -17588,7 +17665,9 @@ msgid ""
 "Allows defining services and SLAs for tickets (e. g. email, desktop, "
 "network, ...), and escalation attributes for SLAs (if ticket service/SLA "
 "feature is enabled)."
-msgstr "チケットに関するサービスおよびSLA（例：email, desktop, network, ...)、およびSLAのエスカレーション属性を定義することを、許可します（チケット・サービス/SLA機能が有効となっている場合）。"
+msgstr ""
+"チケットに関するサービスおよびSLA（例：email, desktop, network, "
+"...)、およびSLAのエスカレーション属性を定義することを、許可します（チケット・サービス/SLA機能が有効となっている場合）。"
 
 #. SysConfig
 msgid ""
@@ -17871,7 +17950,9 @@ msgstr "一括処理"
 msgid ""
 "CMD example setup. Ignores emails where external CMD returns some output on "
 "STDOUT (email will be piped into STDIN of some.bin)."
-msgstr "CMD例のセットアップです。外部CMDがSTDOUTにおいてアウトプットを戻してくる場合にEメールを無視します（Eメールは、STDIN of some.binへとパイプされます）。"
+msgstr ""
+"CMD例のセットアップです。外部CMDがSTDOUTにおいてアウトプットを戻してくる場合にEメールを無視します（Eメールは、STDIN of "
+"some.binへとパイプされます）。"
 
 #. SysConfig
 msgid "CSV Separator"
@@ -18008,7 +18089,8 @@ msgstr ""
 msgid ""
 "Changes the owner of tickets to everyone (useful for ASP). Normally only "
 "agent with rw permissions in the queue of the ticket will be shown."
-msgstr "全員に対して、チケット所有者の変更を行います（ASPにおいて便利です）。通常は、チケットのキューにおいてrw許可を持つ担当者のみが、表示されます。"
+msgstr ""
+"全員に対して、チケット所有者の変更を行います（ASPにおいて便利です）。通常は、チケットのキューにおいてrw許可を持つ担当者のみが、表示されます。"
 
 #. SysConfig
 msgid "Chat communication channel."
@@ -18683,7 +18765,8 @@ msgid ""
 "element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
-msgstr "定義された文字列（string）の後ろにリンクを追加するhtmlアウトプットのための、フィルタを定義します。エレメント・イメージは、2種類のインプットを許可します。すぐに、イメージの名前です（つまりfaq.png）。この場合、OTRSイメージ・パスが使用されます。2つめの可能性は、イメージにリンクを挿入することです。"
+msgstr ""
+"定義された文字列（string）の後ろにリンクを追加するhtmlアウトプットのための、フィルタを定義します。エレメント・イメージは、2種類のインプットを許可します。すぐに、イメージの名前です（つまりfaq.png）。この場合、OTRSイメージ・パスが使用されます。2つめの可能性は、イメージにリンクを挿入することです。"
 
 #. SysConfig
 msgid ""
@@ -18805,7 +18888,8 @@ msgid ""
 "element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
-msgstr "CVEナンバーの後ろにリンクを追加するhtmlアウトプットのための、フィルタを定義します。エレメント・イメージは、2種類のインプットを許可します。すぐに、イメージの名前です（つまりfaq.png）。この場合、OTRSイメージ・パスが使用されます。2つめの可能性は、イメージにリンクを挿入することです。"
+msgstr ""
+"CVEナンバーの後ろにリンクを追加するhtmlアウトプットのための、フィルタを定義します。エレメント・イメージは、2種類のインプットを許可します。すぐに、イメージの名前です（つまりfaq.png）。この場合、OTRSイメージ・パスが使用されます。2つめの可能性は、イメージにリンクを挿入することです。"
 
 #. SysConfig
 msgid ""
@@ -18813,7 +18897,8 @@ msgid ""
 " element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
-msgstr "MSBulletinナンバーの後ろにリンクを追加するhtmlアウトプットのための、フィルタを定義します。エレメント・イメージは、2種類のインプットを許可します。すぐに、イメージの名前です（つまりfaq.png）。この場合、OTRSイメージ・パスが使用されます。2つめの可能性は、イメージにリンクを挿入することです。"
+msgstr ""
+"MSBulletinナンバーの後ろにリンクを追加するhtmlアウトプットのための、フィルタを定義します。エレメント・イメージは、2種類のインプットを許可します。すぐに、イメージの名前です（つまりfaq.png）。この場合、OTRSイメージ・パスが使用されます。2つめの可能性は、イメージにリンクを挿入することです。"
 
 #. SysConfig
 msgid ""
@@ -18821,7 +18906,8 @@ msgid ""
 "element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
-msgstr "定義された文字列（string）の後ろにリンクを追加するhtmlアウトプットのための、フィルタを定義します。エレメント・イメージは、2種類のインプットを許可します。すぐに、イメージの名前です（つまりfaq.png）。この場合、OTRSイメージ・パスが使用されます。2つめの可能性は、イメージにリンクを挿入することです。"
+msgstr ""
+"定義された文字列（string）の後ろにリンクを追加するhtmlアウトプットのための、フィルタを定義します。エレメント・イメージは、2種類のインプットを許可します。すぐに、イメージの名前です（つまりfaq.png）。この場合、OTRSイメージ・パスが使用されます。2つめの可能性は、イメージにリンクを挿入することです。"
 
 #. SysConfig
 msgid ""
@@ -18829,7 +18915,8 @@ msgid ""
 "element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
-msgstr "バグトラック・ナンバーの後ろにリンクを追加するhtmlアウトプットのための、フィルタを定義します。エレメント・イメージは、2種類のインプットを許可します。すぐに、イメージの名前です（つまりfaq.png）。この場合、OTRSイメージ・パスが使用されます。2つめの可能性は、イメージにリンクを挿入することです。"
+msgstr ""
+"バグトラック・ナンバーの後ろにリンクを追加するhtmlアウトプットのための、フィルタを定義します。エレメント・イメージは、2種類のインプットを許可します。すぐに、イメージの名前です（つまりfaq.png）。この場合、OTRSイメージ・パスが使用されます。2つめの可能性は、イメージにリンクを挿入することです。"
 
 #. SysConfig
 msgid ""
@@ -18858,7 +18945,8 @@ msgid ""
 "check (if \"CheckEmailAddresses\" is set to \"Yes\"). Please enter a regex "
 "in this field for email addresses, that aren't syntactically valid, but are "
 "necessary for the system (i.e. \"root@localhost\")."
-msgstr "一部のアドレスをシンタクスのチェックから除外する、通常の表現を定義します（\"CheckEmailAddresses\"が“Yes”に設定されている場合）。このフィールドに、構文的には有効でないがシステムには必要であるEメールアドレス（例：\"root@localhost\"）に関するregrexを入力してください。"
+msgstr ""
+"一部のアドレスをシンタクスのチェックから除外する、通常の表現を定義します（\"CheckEmailAddresses\"が“Yes”に設定されている場合）。このフィールドに、構文的には有効でないがシステムには必要であるEメールアドレス（例：\"root@localhost\"）に関するregrexを入力してください。"
 
 #. SysConfig
 msgid ""
@@ -19032,7 +19120,8 @@ msgid ""
 "Defines if a ticket lock is required in the close ticket screen of the agent"
 " interface (if the ticket isn't locked yet, the ticket gets locked and the "
 "current agent will be set automatically as its owner)."
-msgstr "担当者インタフェースのクローズ・チケット画面で、チケット・ロックが必要とされるかどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者に設定されます）。"
+msgstr ""
+"担当者インタフェースのクローズ・チケット画面で、チケット・ロックが必要とされるかどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者に設定されます）。"
 
 #. SysConfig
 msgid ""
@@ -19053,28 +19142,32 @@ msgid ""
 "Defines if a ticket lock is required in the ticket bounce screen of the "
 "agent interface (if the ticket isn't locked yet, the ticket gets locked and "
 "the current agent will be set automatically as its owner)."
-msgstr "担当者インタフェースで、チケット・バウンス画面でチケットのロックが要求されるかどうかを定義します（まだチケットがロックされていなければ、チケットはロックされ現在の担当者が自動的に所有者に設定されます）。"
+msgstr ""
+"担当者インタフェースで、チケット・バウンス画面でチケットのロックが要求されるかどうかを定義します（まだチケットがロックされていなければ、チケットはロックされ現在の担当者が自動的に所有者に設定されます）。"
 
 #. SysConfig
 msgid ""
 "Defines if a ticket lock is required in the ticket compose screen of the "
 "agent interface (if the ticket isn't locked yet, the ticket gets locked and "
 "the current agent will be set automatically as its owner)."
-msgstr "担当者インタフェースのチケット構成画面で、チケット・ロックが要求されるかどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
+msgstr ""
+"担当者インタフェースのチケット構成画面で、チケット・ロックが要求されるかどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
 
 #. SysConfig
 msgid ""
 "Defines if a ticket lock is required in the ticket forward screen of the "
 "agent interface (if the ticket isn't locked yet, the ticket gets locked and "
 "the current agent will be set automatically as its owner)."
-msgstr "担当者インタフェースのチケット転送画面で、チケット・ロックが必要とされるかどうかを定義します。（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
+msgstr ""
+"担当者インタフェースのチケット転送画面で、チケット・ロックが必要とされるかどうかを定義します。（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
 
 #. SysConfig
 msgid ""
 "Defines if a ticket lock is required in the ticket free text screen of the "
 "agent interface (if the ticket isn't locked yet, the ticket gets locked and "
 "the current agent will be set automatically as its owner)."
-msgstr "担当者インタフェースのチケット・フリー・テキスト画面で、チケット・ロックが必要であるかどうかを設定します。（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
+msgstr ""
+"担当者インタフェースのチケット・フリー・テキスト画面で、チケット・ロックが必要であるかどうかを設定します。（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
 
 #. SysConfig
 msgid ""
@@ -19088,14 +19181,16 @@ msgid ""
 "Defines if a ticket lock is required in the ticket note screen of the agent "
 "interface (if the ticket isn't locked yet, the ticket gets locked and the "
 "current agent will be set automatically as its owner)."
-msgstr "担当者インタフェースのチケット・メモ画面で、チケット・ロックが必要とされるかどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
+msgstr ""
+"担当者インタフェースのチケット・メモ画面で、チケット・ロックが必要とされるかどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
 
 #. SysConfig
 msgid ""
 "Defines if a ticket lock is required in the ticket owner screen of a zoomed "
 "ticket in the agent interface (if the ticket isn't locked yet, the ticket "
 "gets locked and the current agent will be set automatically as its owner)."
-msgstr "担当者インタフェースのズームされたチケットのチケット所有者画面で、チケット・ロックが必要とされるかどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
+msgstr ""
+"担当者インタフェースのズームされたチケットのチケット所有者画面で、チケット・ロックが必要とされるかどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
 
 #. SysConfig
 msgid ""
@@ -19103,7 +19198,8 @@ msgid ""
 "zoomed ticket in the agent interface (if the ticket isn't locked yet, the "
 "ticket gets locked and the current agent will be set automatically as its "
 "owner)."
-msgstr "担当者インタフェースのズームされたチケットのチケット保留画面で、チケット・ロックが必要とされるかどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
+msgstr ""
+"担当者インタフェースのズームされたチケットのチケット保留画面で、チケット・ロックが必要とされるかどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
 
 #. SysConfig
 msgid ""
@@ -19117,7 +19213,8 @@ msgid ""
 "Defines if a ticket lock is required in the ticket phone outbound screen of "
 "the agent interface (if the ticket isn't locked yet, the ticket gets locked "
 "and the current agent will be set automatically as its owner)."
-msgstr "担当者インタフェースのチケット電話アウトバウンド画面で、チケット・ロックが必要かどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
+msgstr ""
+"担当者インタフェースのチケット電話アウトバウンド画面で、チケット・ロックが必要かどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
 
 #. SysConfig
 msgid ""
@@ -19125,21 +19222,24 @@ msgid ""
 "zoomed ticket in the agent interface (if the ticket isn't locked yet, the "
 "ticket gets locked and the current agent will be set automatically as its "
 "owner)."
-msgstr "担当者インタフェースのズームされたチケットのチケット優先度画面で、チケット・ロックが必要とされるかどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
+msgstr ""
+"担当者インタフェースのズームされたチケットのチケット優先度画面で、チケット・ロックが必要とされるかどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
 
 #. SysConfig
 msgid ""
 "Defines if a ticket lock is required in the ticket responsible screen of the"
 " agent interface (if the ticket isn't locked yet, the ticket gets locked and"
 " the current agent will be set automatically as its owner)."
-msgstr "担当者インタフェースのチケット責任者画面で、チケット・ロックが必要とされるかどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
+msgstr ""
+"担当者インタフェースのチケット責任者画面で、チケット・ロックが必要とされるかどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
 
 #. SysConfig
 msgid ""
 "Defines if a ticket lock is required to change the customer of a ticket in "
 "the agent interface (if the ticket isn't locked yet, the ticket gets locked "
 "and the current agent will be set automatically as its owner)."
-msgstr "担当者インタフェースで、チケットの顧客を変更するためにチケットのロックが必要かどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
+msgstr ""
+"担当者インタフェースで、チケットの顧客を変更するためにチケットのロックが必要かどうかを定義します（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
 
 #. SysConfig
 msgid ""
@@ -19168,7 +19268,8 @@ msgstr ""
 msgid ""
 "Defines if the enhanced mode should be used (enables use of table, replace, "
 "subscript, superscript, paste from word, etc.) in customer interface."
-msgstr "顧客インタフェースで拡張モードを使用すべきかどうかを定義します(これにより、表・置換機能・各種スクリプト・Wordからの貼り付けなどが利用可能になります)。"
+msgstr ""
+"顧客インタフェースで拡張モードを使用すべきかどうかを定義します(これにより、表・置換機能・各種スクリプト・Wordからの貼り付けなどが利用可能になります)。"
 
 #. SysConfig
 msgid ""
@@ -19312,7 +19413,8 @@ msgid ""
 "Defines the IP regular expression for accessing the local repository. You "
 "need to enable this to have access to your local repository and the "
 "package::RepositoryList is required on the remote host."
-msgstr "ローカル・レポジトリにアクセスするための、IPの正規表現を定義します。ローカル・レポジトリにアクセスするために、これを有効にする必要があり、またpackage::RepositoryListはリモート・ホストにおいて必要とされます。"
+msgstr ""
+"ローカル・レポジトリにアクセスするための、IPの正規表現を定義します。ローカル・レポジトリにアクセスするために、これを有効にする必要があり、またpackage::RepositoryListはリモート・ホストにおいて必要とされます。"
 
 #. SysConfig
 msgid ""
@@ -19470,7 +19572,9 @@ msgid ""
 "Defines the default filter fields in the customer user address book search "
 "(CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix "
 "'CustomerCompany_' must be added."
-msgstr "顧客ユーザーのアドレス帳の検索（CustomerUser又はCustomerCompany）のデフォルトのフィルターフィールドを定義します。 CustomerCompanyフィールドには、接頭辞 'CustomerCompany_'を追加する必要があります。"
+msgstr ""
+"顧客ユーザーのアドレス帳の検索（CustomerUser又はCustomerCompany）のデフォルトのフィルターフィールドを定義します。 "
+"CustomerCompanyフィールドには、接頭辞 'CustomerCompany_'を追加する必要があります。"
 
 #. SysConfig
 msgid ""
@@ -19484,7 +19588,8 @@ msgid ""
 "Defines the default front-end language. All the possible values are "
 "determined by the available language files on the system (see the next "
 "setting)."
-msgstr "デフォルトのフロント・エンドの言語を設定します。全ての可能性ある値は、システムの利用可能な言語ファイルによって定義されます（次の設定を参照ください)。."
+msgstr ""
+"デフォルトのフロント・エンドの言語を設定します。全ての可能性ある値は、システムの利用可能な言語ファイルによって定義されます（次の設定を参照ください)。."
 
 #. SysConfig
 msgid "Defines the default history type in the customer interface."
@@ -19571,7 +19676,8 @@ msgstr "担当者インタフェースの外部メール送信画面で、メッ
 msgid ""
 "Defines the default next state of a ticket if it is composed / answered in "
 "the ticket compose screen of the agent interface."
-msgstr "担当者インタフェースのチケット構成画面で、チケットが構成（compose）/回答（answer）された後の、デフォルトの次の状態を定義します。"
+msgstr ""
+"担当者インタフェースのチケット構成画面で、チケットが構成（compose）/回答（answer）された後の、デフォルトの次の状態を定義します。"
 
 #. SysConfig
 msgid ""
@@ -19621,19 +19727,24 @@ msgstr ""
 msgid ""
 "Defines the default selection at the drop down menu for dynamic objects "
 "(Form: Common Specification)."
-msgstr "ダイナミックオブジェクトに関するドロップダウン・メニューにおいて、デフォルトの選択を定義します(Form: Common Specification)。"
+msgstr ""
+"ダイナミックオブジェクトに関するドロップダウン・メニューにおいて、デフォルトの選択を定義します(Form: Common Specification)。"
 
 #. SysConfig
 msgid ""
 "Defines the default selection at the drop down menu for permissions (Form: "
 "Common Specification)."
-msgstr "許可（permission）に関するドロップダウン・メニューにおいて、デフォルトの選択を定義します(Form: Common Specification)。"
+msgstr ""
+"許可（permission）に関するドロップダウン・メニューにおいて、デフォルトの選択を定義します(Form: Common "
+"Specification)。"
 
 #. SysConfig
 msgid ""
 "Defines the default selection at the drop down menu for stats format (Form: "
 "Common Specification). Please insert the format key (see Stats::Format)."
-msgstr "統計フォーマットに関するドロップダウン・メニューにおいて、デフォルトの選択を定義します(Form: Common Specification)。フォーマット・キーを挿入してください（Stats::Formatを確認ください）。"
+msgstr ""
+"統計フォーマットに関するドロップダウン・メニューにおいて、デフォルトの選択を定義します(Form: Common "
+"Specification)。フォーマット・キーを挿入してください（Stats::Formatを確認ください）。"
 
 #. SysConfig
 msgid ""
@@ -19685,7 +19796,17 @@ msgid ""
 "'Search_DynamicField_XTimePointFormat=week; "
 "Search_DynamicField_XTimePointStart=Before; "
 "Search_DynamicField_XTimePointValue=7';."
-msgstr "デフォルトで表示するチケット検索条件を定義します。\nKeyはダイナミック・フィールドの名前（この例の場合は\"X\"）を指定します。\nContentはダイナミック・フィールドの形式によって設定内容が異なります。\n例）\n[テキスト]\n’文字列’ （任意の文字列）\n[ドロップダウン]\n'1' （項目の順番）\n[日時]\n'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;' and or 'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7';"
+msgstr ""
+"デフォルトで表示するチケット検索条件を定義します。\n"
+"Keyはダイナミック・フィールドの名前（この例の場合は\"X\"）を指定します。\n"
+"Contentはダイナミック・フィールドの形式によって設定内容が異なります。\n"
+"例）\n"
+"[テキスト]\n"
+"’文字列’ （任意の文字列）\n"
+"[ドロップダウン]\n"
+"'1' （項目の順番）\n"
+"[日時]\n"
+"'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;' and or 'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7';"
 
 #. SysConfig
 msgid ""
@@ -19814,31 +19935,39 @@ msgstr "担当者インタフェースの電話応答発信画面で、電話メ
 msgid ""
 "Defines the default ticket order (after priority sort) in the escalation "
 "view of the agent interface. Up: oldest on top. Down: latest on top."
-msgstr "担当者インタフェースのエスカレーション・ビューで、デフォルトのチケット順番（優先度ソート後）を定義します。Up:一番古いものをトップに. Down:最新のものをトップに。"
+msgstr ""
+"担当者インタフェースのエスカレーション・ビューで、デフォルトのチケット順番（優先度ソート後）を定義します。Up:一番古いものをトップに. "
+"Down:最新のものをトップに。"
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order (after priority sort) in the status view of"
 " the agent interface. Up: oldest on top. Down: latest on top."
-msgstr "担当者インタフェースのステータスビューで、デフォルトのチケット順番（優先度によるソートの後）を定義します。Up: 最も古いものがトップ. Down: 最新のものがトップ。"
+msgstr ""
+"担当者インタフェースのステータスビューで、デフォルトのチケット順番（優先度によるソートの後）を定義します。Up: 最も古いものがトップ. Down: "
+"最新のものがトップ。"
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order in the responsible view of the agent "
 "interface. Up: oldest on top. Down: latest on top."
-msgstr " 担当者インタフェースの責任ビューで、デフォルトのチケットの順番を定義します。Up: 一番古いものがトップ. Down: 最新のものがトップ。"
+msgstr ""
+" 担当者インタフェースの責任ビューで、デフォルトのチケットの順番を定義します。Up: 一番古いものがトップ. Down: 最新のものがトップ。"
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order in the ticket locked view of the agent "
 "interface. Up: oldest on top. Down: latest on top."
-msgstr "担当者インタフェースのロック済チケット・ビューで、デフォルトのチケットの順番を定義します。Up: 一番古いものがトップ. Down: 最新のものがトップ。"
+msgstr ""
+"担当者インタフェースのロック済チケット・ビューで、デフォルトのチケットの順番を定義します。Up: 一番古いものがトップ. Down: "
+"最新のものがトップ。"
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order in the ticket search result of the agent "
 "interface. Up: oldest on top. Down: latest on top."
-msgstr "担当者インタフェースのチケット検索結果で、デフォルトのチケット順番を定義します。Up: 最も古いものがトップ. Down: 最新のものがトップ。"
+msgstr ""
+"担当者インタフェースのチケット検索結果で、デフォルトのチケット順番を定義します。Up: 最も古いものがトップ. Down: 最新のものがトップ。"
 
 #. SysConfig
 msgid ""
@@ -19850,13 +19979,16 @@ msgstr ""
 msgid ""
 "Defines the default ticket order in the watch view of the agent interface. "
 "Up: oldest on top. Down: latest on top."
-msgstr "担当者インタフェースの監視（watch）ビューで、デフォルトのチケットの順番を定義します。Up: 一番古いものがトップ. Down: 最新のものがトップ。"
+msgstr ""
+"担当者インタフェースの監視（watch）ビューで、デフォルトのチケットの順番を定義します。Up: 一番古いものがトップ. Down: "
+"最新のものがトップ。"
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order of a search result in the customer "
 "interface. Up: oldest on top. Down: latest on top."
-msgstr "顧客インタフェースのチケット検索結果で、デフォルトのチケット順番を定義します。Up: 最も古いものがトップ. Down: 最新のものがトップ。"
+msgstr ""
+"顧客インタフェースのチケット検索結果で、デフォルトのチケット順番を定義します。Up: 最も古いものがトップ. Down: 最新のものがトップ。"
 
 #. SysConfig
 msgid ""
@@ -19920,13 +20052,15 @@ msgstr ""
 msgid ""
 "Defines the default used Frontend-Module if no Action parameter given in the"
 " url on the agent interface."
-msgstr "担当者インタフェースにおいてURLにActionパラメータが与えられない場合、デフォルトで使用されるFrontend-Moduleを定義します。"
+msgstr ""
+"担当者インタフェースにおいてURLにActionパラメータが与えられない場合、デフォルトで使用されるFrontend-Moduleを定義します。"
 
 #. SysConfig
 msgid ""
 "Defines the default used Frontend-Module if no Action parameter given in the"
 " url on the customer interface."
-msgstr "顧客インタフェースのURLに対してActionパラメータが何も与えられない場合の、デフォルトで使用されるFrontend-Moduleを定義します。"
+msgstr ""
+"顧客インタフェースのURLに対してActionパラメータが何も与えられない場合の、デフォルトで使用されるFrontend-Moduleを定義します。"
 
 #. SysConfig
 msgid ""
@@ -19981,14 +20115,16 @@ msgid ""
 "Defines the fully qualified domain name of the system. This setting is used "
 "as a variable, OTRS_CONFIG_FQDN which is found in all forms of messaging "
 "used by the application, to build links to the tickets within your system."
-msgstr "フルに認定されたシステムのドメイン名を定義します。この設定は変数OTRS_CONFIG_FQDNとして使用され、アプリケーションによって使用されるメッセージングの全てのフォームに存在し、ご利用のシステム内のチケットへのリンクを作成することとなります。"
+msgstr ""
+"フルに認定されたシステムのドメイン名を定義します。この設定は変数OTRS_CONFIG_FQDNとして使用され、アプリケーションによって使用されるメッセージングの全てのフォームに存在し、ご利用のシステム内のチケットへのリンクを作成することとなります。"
 
 #. SysConfig
 msgid ""
 "Defines the groups every customer user will be in (if CustomerGroupSupport "
 "is enabled and you don't want to manage every customer user for these "
 "groups)."
-msgstr "全顧客が所属するグループを定義します（CustomerGroupSupportが有効であり、全顧客ユーザをこれらのグループで管理したくない場合）。"
+msgstr ""
+"全顧客が所属するグループを定義します（CustomerGroupSupportが有効であり、全顧客ユーザをこれらのグループで管理したくない場合）。"
 
 #. SysConfig
 msgid ""
@@ -20178,27 +20314,31 @@ msgstr "業務時間とカウントする時間と週の平日数を定義しま
 msgid ""
 "Defines the key to be checked with Kernel::Modules::AgentInfo module. If "
 "this user preferences key is true, the message is accepted by the system."
-msgstr "Kernel::Modules::AgentInfoモジュールによってチェックされるキーを定義します。もし、このユーザ・プレファレンス・キーがtrueである場合、メッセージはシステムにより受諾されます。"
+msgstr ""
+"Kernel::Modules::AgentInfoモジュールによってチェックされるキーを定義します。もし、このユーザ・プレファレンス・キーがtrueである場合、メッセージはシステムにより受諾されます。"
 
 #. SysConfig
 msgid ""
 "Defines the key to check with CustomerAccept. If this user preferences key "
 "is true, then the message is accepted by the system."
-msgstr "CustomerAcceptを用いてキーを定義します。もし、このユーザ・プレファレンスがtrueである場合、メッセージがシステムによって受諾されます。"
+msgstr ""
+"CustomerAcceptを用いてキーを定義します。もし、このユーザ・プレファレンスがtrueである場合、メッセージがシステムによって受諾されます。"
 
 #. SysConfig
 msgid ""
 "Defines the link type 'Normal'. If the source name and the target name "
 "contain the same value, the resulting link is a non-directional one; "
 "otherwise, the result is a directional link."
-msgstr "リンク・タイプ\"ノーマル\"の定義です。もしソース名およびターゲット名が同じ値を含んでいる場合、結果のリンクは非直接リンクになり、そうでない結果は直接リンクになります。"
+msgstr ""
+"リンク・タイプ\"ノーマル\"の定義です。もしソース名およびターゲット名が同じ値を含んでいる場合、結果のリンクは非直接リンクになり、そうでない結果は直接リンクになります。"
 
 #. SysConfig
 msgid ""
 "Defines the link type 'ParentChild'. If the source name and the target name "
 "contain the same value, the resulting link is a non-directional one; "
 "otherwise, the result is a directional link."
-msgstr "リンク・タイプ'ParentChild'の定義です。もしソース名およびターゲット名が同じ値を含んでいる場合、結果のリンクは非直接リンクになり、そうでない結果は直接リンクになります。"
+msgstr ""
+"リンク・タイプ'ParentChild'の定義です。もしソース名およびターゲット名が同じ値を含んでいる場合、結果のリンクは非直接リンクになり、そうでない結果は直接リンクになります。"
 
 #. SysConfig
 msgid ""
@@ -20206,7 +20346,8 @@ msgid ""
 "another. Example: If ticket A is linked per a 'Normal' link with ticket B, "
 "then these tickets could not be additionally linked with link of a "
 "'ParentChild' relationship."
-msgstr "リンク・タイプのグループの定義です。同じグループのリンク・タイプは、お互いにキャンセルするように働きます。もしチケットAがチケットBと共に\"ノーマル\"にリンクされている場合、これらのチケットは'ParentChild'関係のリンクとともに追加的にリンクされることはできません。"
+msgstr ""
+"リンク・タイプのグループの定義です。同じグループのリンク・タイプは、お互いにキャンセルするように働きます。もしチケットAがチケットBと共に\"ノーマル\"にリンクされている場合、これらのチケットは'ParentChild'関係のリンクとともに追加的にリンクされることはできません。"
 
 #. SysConfig
 msgid ""
@@ -20235,14 +20376,17 @@ msgstr ""
 msgid ""
 "Defines the location to get online repository list for additional packages. "
 "The first available result will be used."
-msgstr "追加的パッケージに関して、オンラインのレポジトリー・リストにアクセスするためのロケーションを定義します。1つめの利用可能な結果が使用されます。"
+msgstr ""
+"追加的パッケージに関して、オンラインのレポジトリー・リストにアクセスするためのロケーションを定義します。1つめの利用可能な結果が使用されます。"
 
 #. SysConfig
 msgid ""
 "Defines the log module for the system. \"File\" writes all messages in a "
 "given logfile, \"SysLog\" uses the syslog daemon of the system, e.g. "
 "syslogd."
-msgstr "システムのログ・モジュールを定義します。\"ファイル\"は、与えられたログファイルの全メッセージをライトし、\"SysLog\"はそのシステムのsyslog daemon、つまりsyslogdを使用します。"
+msgstr ""
+"システムのログ・モジュールを定義します。\"ファイル\"は、与えられたログファイルの全メッセージをライトし、\"SysLog\"はそのシステムのsyslog"
+" daemon、つまりsyslogdを使用します。"
 
 #. SysConfig
 msgid ""
@@ -20250,7 +20394,9 @@ msgid ""
 "Warning: Setting this option to a value which is too low could cause many "
 "masks in your OTRS instance to stop working (probably any mask which takes "
 "input from the user)."
-msgstr "ブラウザからOTRSへファイルアップロードする最大サイズ（バイト単位）を定義します。 警告：このオプションを低すぎる値に設定すると、OTRSインスタンス内の多くのインプット機能が機能しなくなる可能性があります。"
+msgstr ""
+"ブラウザからOTRSへファイルアップロードする最大サイズ（バイト単位）を定義します。 "
+"警告：このオプションを低すぎる値に設定すると、OTRSインスタンス内の多くのインプット機能が機能しなくなる可能性があります。"
 
 #. SysConfig
 msgid "Defines the maximal valid time (in seconds) for a session id."
@@ -20374,7 +20520,8 @@ msgstr ""
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "system is used by the admin user (normally you shouldn't work as admin)."
-msgstr "もし、システムがアドミン・ユーザによって使用されている場合、担当者インタフェースにおいて通知を表示させるモジュールを定義します（通常はアドミンとして行動する必要はありません）。"
+msgstr ""
+"もし、システムがアドミン・ユーザによって使用されている場合、担当者インタフェースにおいて通知を表示させるモジュールを定義します（通常はアドミンとして行動する必要はありません）。"
 
 #. SysConfig
 msgid ""
@@ -20410,13 +20557,15 @@ msgid ""
 "binary of your operating system. Any of the \"SMTP\" mechanisms use a "
 "specified (external) mailserver. \"DoNotSendEmail\" doesn't send emails and "
 "it is useful for test systems."
-msgstr "メールを送信するためのモジュールを定義します。\"Sendmail\"は、ご利用のオペレーティング・システムのsendmailバイナリを直接使用します。\"SMTP\"メカニズムのいずれもが、特定された（外部）メール・サーバを使用します。\"DoNotSendEmail\"は、Eメールを送らないもので、システム・テストの際に役立ちます。"
+msgstr ""
+"メールを送信するためのモジュールを定義します。\"Sendmail\"は、ご利用のオペレーティング・システムのsendmailバイナリを直接使用します。\"SMTP\"メカニズムのいずれもが、特定された（外部）メール・サーバを使用します。\"DoNotSendEmail\"は、Eメールを送らないもので、システム・テストの際に役立ちます。"
 
 #. SysConfig
 msgid ""
 "Defines the module used to store the session data. With \"DB\" the frontend "
 "server can be splitted from the db server. \"FS\" is faster."
-msgstr "セッション・データを格納するために使用されるモジュールを定義します。\"DB\"により、フロント・エンドのサーバをdbサーバから分離させることができます。\"FS\"はより速いものです。"
+msgstr ""
+"セッション・データを格納するために使用されるモジュールを定義します。\"DB\"により、フロント・エンドのサーバをdbサーバから分離させることができます。\"FS\"はより速いものです。"
 
 #. SysConfig
 msgid ""
@@ -20682,7 +20831,9 @@ msgstr "PGPバイナリへのパスを定義します。"
 msgid ""
 "Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = "
 "'/var/lib/wwwrun';)."
-msgstr "sslバイナリを開くためのパスを定義します。HOME env ($ENV{HOME} = '/var/lib/wwwrun';).が必要になるかもしれません。"
+msgstr ""
+"sslバイナリを開くためのパスを定義します。HOME env ($ENV{HOME} = "
+"'/var/lib/wwwrun';).が必要になるかもしれません。"
 
 #. SysConfig
 msgid ""
@@ -20759,7 +20910,8 @@ msgid ""
 "Permissions must be hard coded to be effective. Please ensure, when adding "
 "any of the afore mentioned permissions, that the \"rw\" permission remains "
 "the last entry."
-msgstr "アプリケーション内で顧客が利用できる標準の許可を定義します。もし、より多くの許可が必要になった場合、ここに入力してください。許可が効力を持つためには、ハード・コーディングされる必要があります。なお、前述した許可のいずれかを追加する場合、“rw”許可が、最後のエントリとなることを確実にしてください。"
+msgstr ""
+"アプリケーション内で顧客が利用できる標準の許可を定義します。もし、より多くの許可が必要になった場合、ここに入力してください。許可が効力を持つためには、ハード・コーディングされる必要があります。なお、前述した許可のいずれかを追加する場合、“rw”許可が、最後のエントリとなることを確実にしてください。"
 
 #. SysConfig
 msgid "Defines the standard size of PDF pages."
@@ -20825,13 +20977,15 @@ msgid ""
 "contains this ID. This ensures that only tickets which belong to your system"
 " will be processed as follow-ups (useful when communicating between two "
 "instances of OTRS)."
-msgstr "システム識別子を定義します。すべてのチケット番号とHTTPセッションの文字列は、このIDが含まれています。これはをシステムに属している唯一のチケットがフォローアップとして処理されることを確実にします。（2つのOTRSのインスタンス間で通信する場合に便利です）"
+msgstr ""
+"システム識別子を定義します。すべてのチケット番号とHTTPセッションの文字列は、このIDが含まれています。これはをシステムに属している唯一のチケットがフォローアップとして処理されることを確実にします。（2つのOTRSのインスタンス間で通信する場合に便利です）"
 
 #. SysConfig
 msgid ""
 "Defines the target attribute in the link to external customer database. E.g."
 " 'AsPopup PopupType_TicketAction'."
-msgstr "システム識別子を定義します。すべてのチケット番号とHTTPセッションの文字列は、このIDが含まれています。これはをシステムに属している唯一のチケットがフォローアップとして処理されることを確実にします。（2つのOTRSのインスタンス間で通信する場合に便利です）"
+msgstr ""
+"システム識別子を定義します。すべてのチケット番号とHTTPセッションの文字列は、このIDが含まれています。これはをシステムに属している唯一のチケットがフォローアップとして処理されることを確実にします。（2つのOTRSのインスタンス間で通信する場合に便利です）"
 
 #. SysConfig
 msgid ""
@@ -20896,7 +21050,9 @@ msgid ""
 "This setting is only used as a variable, OTRS_CONFIG_HttpType which is found"
 " in all forms of messaging used by the application, to build links to the "
 "tickets within your system."
-msgstr "アプリケーションにサービスを提供するWebサーバが使用するプロトコルの種類を定義します。 HTTPSプロトコルをプレーンHTTPの代わりに使用する場合はここで指定する必要があります。これがないWebサーバの設定や行動に影響を与えるので、アプリケーションへのアクセスの方法を変更しないと、それが間違っている場合、アプリケーションにログインできなくなることがあります。この設定は、システム内でのチケットへのリンクを構成するためにアプリケーションが使用するメッセージングのすべての形態で発見されている変数、OTRS_CONFIG_HttpTypeとして使用されます。"
+msgstr ""
+"アプリケーションにサービスを提供するWebサーバが使用するプロトコルの種類を定義します。 "
+"HTTPSプロトコルをプレーンHTTPの代わりに使用する場合はここで指定する必要があります。これがないWebサーバの設定や行動に影響を与えるので、アプリケーションへのアクセスの方法を変更しないと、それが間違っている場合、アプリケーションにログインできなくなることがあります。この設定は、システム内でのチケットへのリンクを構成するためにアプリケーションが使用するメッセージングのすべての形態で発見されている変数、OTRS_CONFIG_HttpTypeとして使用されます。"
 
 #. SysConfig
 msgid ""
@@ -21057,7 +21213,9 @@ msgid ""
 "Determines if the list of possible queues to move to ticket into should be "
 "displayed in a dropdown list or in a new window in the agent interface. If "
 "\"New Window\" is set you can add a move note to the ticket."
-msgstr "チケットへ移動していくであろう、可能性あるキューのリストが、担当者インタフェースにドロップ・ダウン・リストまたは新規ウィンドウとして表示されるべきかどうかを定義します。\"New Window\"を設定した場合、チケットに移動メモを追加することができます。"
+msgstr ""
+"チケットへ移動していくであろう、可能性あるキューのリストが、担当者インタフェースにドロップ・ダウン・リストまたは新規ウィンドウとして表示されるべきかどうかを定義します。\"New"
+" Window\"を設定した場合、チケットに移動メモを追加することができます。"
 
 #. SysConfig
 msgid "Determines if the statistics module may generate ticket lists."
@@ -21150,14 +21308,19 @@ msgid ""
 "Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
 " script contents. Disabling this HTTP header can be a security issue! Only "
 "disable it, if you know what you are doing!"
-msgstr "HTTPヘッダ\"Content-Security-Policy”を無効化し、外部のスクリプトコンテンツの読み込みを許可します。 このHTTPヘッダを無効にすることにより、セキュリティ上の問題が生じることがあります! 変更内容をよく理解している場合に限り無効化を実行してください!"
+msgstr ""
+"HTTPヘッダ\"Content-Security-Policy”を無効化し、外部のスクリプトコンテンツの読み込みを許可します。 "
+"このHTTPヘッダを無効にすることにより、セキュリティ上の問題が生じることがあります! 変更内容をよく理解している場合に限り無効化を実行してください!"
 
 #. SysConfig
 msgid ""
 "Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be "
 "included as an IFrame in other websites. Disabling this HTTP header can be a"
 " security issue! Only disable it, if you know what you are doing!"
-msgstr "HTTPヘッダ\"X-Frame-Options: SAMEORIGIN”を無効化し、OTRSを外部のWebサイトの一部としてiframeに埋め込むことを許可します。 このHTTPヘッダを無効にすることにより、セキュリティ上の問題が生じることがあります! 変更内容をよく理解している場合に限り無効化を実行してください!"
+msgstr ""
+"HTTPヘッダ\"X-Frame-Options: "
+"SAMEORIGIN”を無効化し、OTRSを外部のWebサイトの一部としてiframeに埋め込むことを許可します。 "
+"このHTTPヘッダを無効にすることにより、セキュリティ上の問題が生じることがあります! 変更内容をよく理解している場合に限り無効化を実行してください!"
 
 #. SysConfig
 msgid "Disable cloud services"
@@ -21167,12 +21330,13 @@ msgstr "クラウドサービスの無効化"
 msgid ""
 "Disables sending reminder notifications to the responsible agent of a ticket"
 " (Ticket::Responsible needs to be enabled)."
-msgstr "チケットの責任者である担当者への、リマインダー通知の送信を無効にします(Ticket::Responsibleが有効にされる必要があります)。"
+msgstr ""
+"チケットの責任者である担当者への、リマインダー通知の送信を無効にします(Ticket::Responsibleが有効にされる必要があります)。"
 
 #. SysConfig
 msgid ""
 "Disables the redirection to the last screen overview / dashboard after a "
-"ticket is created."
+"ticket is closed."
 msgstr ""
 
 #. SysConfig
@@ -21542,7 +21706,8 @@ msgstr "所有者または責任者になること無くチケットのコール
 msgid ""
 "Enables performance log (to log the page response time). It will affect the "
 "system performance. Frontend::Module###AdminPerformanceLog must be enabled."
-msgstr "パフォーマンス・ログを有効にします（ページ・レスポンス・タイムのログを取ります）。システム・パフォーマンスに影響が出ます。Frontend::Module###AdminPerformanceLogを有効とする必要があります。"
+msgstr ""
+"パフォーマンス・ログを有効にします（ページ・レスポンス・タイムのログを取ります）。システム・パフォーマンスに影響が出ます。Frontend::Module###AdminPerformanceLogを有効とする必要があります。"
 
 #. SysConfig
 msgid ""
@@ -21829,7 +21994,8 @@ msgid ""
 "Forces to choose a different ticket state (from current) after lock action. "
 "Define the current state as key, and the next state after lock action as "
 "content."
-msgstr "ロックのアクションの後に、（現状から）異なるチケット状態を強制的に選択します。現在の状態をキーとして定義し、ロック・アクションの後に来る次の状態をコンテンツとして選択してください。"
+msgstr ""
+"ロックのアクションの後に、（現状から）異なるチケット状態を強制的に選択します。現在の状態をキーとして定義し、ロック・アクションの後に来る次の状態をコンテンツとして選択してください。"
 
 #. SysConfig
 msgid "Forces to unlock tickets after being moved to another queue."
@@ -22084,7 +22250,8 @@ msgstr "ハンガリー語"
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a database driver (normally"
 " autodetection is used) can be specified."
-msgstr "もし、Customer::AuthModuleに関して“DB”が選択されていた場合、データベース・ドライバー（通常は自動ディテクションが使用される）を特定できます。"
+msgstr ""
+"もし、Customer::AuthModuleに関して“DB”が選択されていた場合、データベース・ドライバー（通常は自動ディテクションが使用される）を特定できます。"
 
 #. SysConfig
 msgid ""
@@ -22102,13 +22269,15 @@ msgstr "もし、Customer::AuthModuleに関して“DB”が選択されてい�
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the DSN for the connection "
 "to the customer table must be specified."
-msgstr "もし、Customer::AuthModuleに関して“DB”が選択されていた場合、顧客テーブルに対する接続のためのDSNを特定する必要があります。"
+msgstr ""
+"もし、Customer::AuthModuleに関して“DB”が選択されていた場合、顧客テーブルに対する接続のためのDSNを特定する必要があります。"
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the column name for the "
 "CustomerPassword in the customer table must be specified."
-msgstr "もし、Customer::AuthModuleに関して“DB”が選択されていた場合、顧客テーブル内のCustomerPasswordのためのコラム名を特定する必要があります。"
+msgstr ""
+"もし、Customer::AuthModuleに関して“DB”が選択されていた場合、顧客テーブル内のCustomerPasswordのためのコラム名を特定する必要があります。"
 
 #. SysConfig
 msgid ""
@@ -22120,13 +22289,15 @@ msgstr ""
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the name of the column for "
 "the CustomerKey in the customer table must be specified."
-msgstr "もし、Customer::AuthModuleに関して“DB”が選択されていた場合、顧客テーブル内のCustomerKeyのためのコラム名を特定する必要があります。"
+msgstr ""
+"もし、Customer::AuthModuleに関して“DB”が選択されていた場合、顧客テーブル内のCustomerKeyのためのコラム名を特定する必要があります。"
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the name of the table where"
 " your customer data should be stored must be specified."
-msgstr "もし、Customer::AuthModuleに関して“DB”が選択されていた場合、顧客データが格納されるべきテーブル名を特定する必要があります。"
+msgstr ""
+"もし、Customer::AuthModuleに関して“DB”が選択されていた場合、顧客データが格納されるべきテーブル名を特定する必要があります。"
 
 #. SysConfig
 msgid ""
@@ -22145,7 +22316,9 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "(by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove "
 "trailing domains). RegExp-Note, $1 will be the new Login."
-msgstr "Customer::AuthModuleに関して\"HTTPBasicAuth\"が選択されていた場合、（RegExpを使用することで）REMOTE_USERの部分を削除することができます（例：trailing domainsを削除するなど）。RegExp-Note, $1が新しいログインとなります。"
+msgstr ""
+"Customer::AuthModuleに関して\"HTTPBasicAuth\"が選択されていた場合、（RegExpを使用することで）REMOTE_USERの部分を削除することができます（例：trailing"
+" domainsを削除するなど）。RegExp-Note, $1が新しいログインとなります。"
 
 #. SysConfig
 msgid ""
@@ -22159,14 +22332,18 @@ msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule and if you want to add a "
 "suffix to every customer login name, specifiy it here, e. g. you just want "
 "to write the username user but in your LDAP directory exists user@domain."
-msgstr "Customer::AuthModuleに関して“LDAP”が選択されていて、全ての顧客ログイン名にsuffix（後ろに付く接尾辞）を追加したい場合、ここで特定してください。例えば、ユーザ名のみを書いても、ユーザがLDAPディレクトリの中ではuser@domainとして存在するなどです。"
+msgstr ""
+"Customer::AuthModuleに関して“LDAP”が選択されていて、全ての顧客ログイン名にsuffix（後ろに付く接尾辞）を追加したい場合、ここで特定してください。例えば、ユーザ名のみを書いても、ユーザがLDAPディレクトリの中ではuser@domainとして存在するなどです。"
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule and special paramaters are"
 " needed for the Net::LDAP perl module, you can specify them here. See "
 "\"perldoc Net::LDAP\" for more information about the parameters."
-msgstr "Customer::AuthModuleに関して“LDAP”が選択されていて、Net::LDAP perl モジュールに対して特別なパラメータが必要な場合、ここで設定できます。パラメータに関するより詳細な情報は、\"perldoc Net::LDAPを参照ください。"
+msgstr ""
+"Customer::AuthModuleに関して“LDAP”が選択されていて、Net::LDAP perl "
+"モジュールに対して特別なパラメータが必要な場合、ここで設定できます。パラメータに関するより詳細な情報は、\"perldoc "
+"Net::LDAPを参照ください。"
 
 #. SysConfig
 msgid ""
@@ -22174,7 +22351,8 @@ msgid ""
 "anonymous access to the LDAP tree, but you want to search through the data, "
 "you can do this with a user who has access to the LDAP directory. Specify "
 "the password for this special user here."
-msgstr "Customer::AuthModuleに関して“LDAP”が選択されていて、ユーザがLDAPツリーに対して匿名アクセスのみを持っていて、しかしながらデータを検索したいという場合、これをLDAPディレクトリへのアクセスを持つユーザによって行うことができます。この特別なユーザについて、ここでパスワードを設定してください。"
+msgstr ""
+"Customer::AuthModuleに関して“LDAP”が選択されていて、ユーザがLDAPツリーに対して匿名アクセスのみを持っていて、しかしながらデータを検索したいという場合、これをLDAPディレクトリへのアクセスを持つユーザによって行うことができます。この特別なユーザについて、ここでパスワードを設定してください。"
 
 #. SysConfig
 msgid ""
@@ -22182,7 +22360,8 @@ msgid ""
 "anonymous access to the LDAP tree, but you want to search through the data, "
 "you can do this with a user who has access to the LDAP directory. Specify "
 "the username for this special user here."
-msgstr "Customer::AuthModuleに関して“LDAP”が選択されていて、ユーザがLDAPツリーに対して匿名アクセスのみを持っていて、しかしながらデータを検索したいという場合、これをLDAPディレクトリへのアクセスを持つユーザによって行うことができます。この特別なユーザについて、ここでユーザ名を特定してください。"
+msgstr ""
+"Customer::AuthModuleに関して“LDAP”が選択されていて、ユーザがLDAPツリーに対して匿名アクセスのみを持っていて、しかしながらデータを検索したいという場合、これをLDAPディレクトリへのアクセスを持つユーザによって行うことができます。この特別なユーザについて、ここでユーザ名を特定してください。"
 
 #. SysConfig
 msgid ""
@@ -22207,7 +22386,9 @@ msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule, user attributes can be "
 "specified. For LDAP posixGroups use UID, for non LDAP posixGroups use full "
 "user DN."
-msgstr "Customer::AuthModuleに関して、“LDAP”が選択されていた場合、ユーザ属性を特定することができます。LDAPのためにposixGroupはUIDを使用し、non LDAP posixGroupはfull user DNを使用します。"
+msgstr ""
+"Customer::AuthModuleに関して、“LDAP”が選択されていた場合、ユーザ属性を特定することができます。LDAPのためにposixGroupはUIDを使用し、non"
+" LDAP posixGroupはfull user DNを使用します。"
 
 #. SysConfig
 msgid ""
@@ -22220,7 +22401,8 @@ msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule, you can specify if the "
 "applications will stop if e. g. a connection to a server can't be "
 "established due to network problems."
-msgstr "Customer::AuthModuleに関して“LDAP”が選択されている場合に、例えばサーバー接続がネットワークの問題で確立できない際に、アプリケーションを停止させるかどうかを設定できます。"
+msgstr ""
+"Customer::AuthModuleに関して“LDAP”が選択されている場合に、例えばサーバー接続がネットワークの問題で確立できない際に、アプリケーションを停止させるかどうかを設定できます。"
 
 #. SysConfig
 msgid ""
@@ -22228,19 +22410,23 @@ msgid ""
 " is allowed to authenticate because he is in a posixGroup, e.g. user needs "
 "to be in a group xyz to use OTRS. Specify the group, who may access the "
 "system."
-msgstr "Customer::AuthModuleに関して“LDAP”が選択されていた場合、ユーザについて、例えばOTRSを利用するためグループxyzにいる必要がある場合に、posixGroupにいるという理由で認証することを許可されるかどうかを、確認することができます。システムにアクセスする可能性があるグループを特定してください。"
+msgstr ""
+"Customer::AuthModuleに関して“LDAP”が選択されていた場合、ユーザについて、例えばOTRSを利用するためグループxyzにいる必要がある場合に、posixGroupにいるという理由で認証することを許可されるかどうかを、確認することができます。システムにアクセスする可能性があるグループを特定してください。"
 
 #. SysConfig
 msgid ""
 "If \"LDAP\" was selected, you can add a filter to each LDAP query, e.g. "
 "(mail=*), (objectclass=user) or (!objectclass=computer)."
-msgstr "“LDAP”が選択されていた場合、LDAPクエリーそれぞれにフィルタを追加することができます。例えば、(mail=*), (objectclass=user), (!objectclass=computer)などです。"
+msgstr ""
+"“LDAP”が選択されていた場合、LDAPクエリーそれぞれにフィルタを追加することができます。例えば、(mail=*), "
+"(objectclass=user), (!objectclass=computer)などです。"
 
 #. SysConfig
 msgid ""
 "If \"Radius\" was selected for Customer::AuthModule, the password to "
 "authenticate to the radius host must be specified."
-msgstr "Customer::AuthModuleに関して“Radius”が選択されていた場合、radiusホストに対する認証を行うためのパスワードを特定する必要があります。"
+msgstr ""
+"Customer::AuthModuleに関して“Radius”が選択されていた場合、radiusホストに対する認証を行うためのパスワードを特定する必要があります。"
 
 #. SysConfig
 msgid ""
@@ -22253,13 +22439,15 @@ msgid ""
 "If \"Radius\" was selected for Customer::AuthModule, you can specify if the "
 "applications will stop if e. g. a connection to a server can't be "
 "established due to network problems."
-msgstr "Customer::AuthModuleに関して“Radius”が選択されていた場合、例えばサーバー接続がネットワークの問題で確立できない際に、アプリケーションを停止させるかどうかを設定できます。"
+msgstr ""
+"Customer::AuthModuleに関して“Radius”が選択されていた場合、例えばサーバー接続がネットワークの問題で確立できない際に、アプリケーションを停止させるかどうかを設定できます。"
 
 #. SysConfig
 msgid ""
 "If \"Sendmail\" was selected as SendmailModule, the location of the sendmail"
 " binary and the needed options must be specified."
-msgstr "\"Sendmail\"がSendmailモジュールとして選択された場合、sendmailバイナリおよび必要オプションのロケーションが特定されている必要があります。"
+msgstr ""
+"\"Sendmail\"がSendmailモジュールとして選択された場合、sendmailバイナリおよび必要オプションのロケーションが特定されている必要があります。"
 
 #. SysConfig
 msgid ""
@@ -22283,7 +22471,8 @@ msgstr ""
 msgid ""
 "If \"file\" was selected for LogModule, a logfile must be specified. If the "
 "file doesn't exist, it will be created by the system."
-msgstr "もしログ・モジュールに関して\"File\"が選択されていた場合、ログ・ファイルが必ず特定されます。もしファイルが存在しなければ、システムにより作成されます。"
+msgstr ""
+"もしログ・モジュールに関して\"File\"が選択されていた場合、ログ・ファイルが必ず特定されます。もしファイルが存在しなければ、システムにより作成されます。"
 
 #. SysConfig
 msgid ""
@@ -22301,13 +22490,15 @@ msgstr ""
 msgid ""
 "If any of the \"SMTP\" mechanisms was selected as SendmailModule, and "
 "authentication to the mail server is needed, a password must be specified."
-msgstr "\"SMTP\"構造のいずれかがSendmailモジュールとして選択され、かつメール・サーバへの認証が必要な場合、パスワードを特定する必要があります。"
+msgstr ""
+"\"SMTP\"構造のいずれかがSendmailモジュールとして選択され、かつメール・サーバへの認証が必要な場合、パスワードを特定する必要があります。"
 
 #. SysConfig
 msgid ""
 "If any of the \"SMTP\" mechanisms was selected as SendmailModule, and "
 "authentication to the mail server is needed, an username must be specified."
-msgstr "\"SMTP\"構造のいずれかがSendmailモジュールとして選択され、かつメール・サーバへの認証が必要な場合、ユーザ名を特定する必要があります。"
+msgstr ""
+"\"SMTP\"構造のいずれかがSendmailモジュールとして選択され、かつメール・サーバへの認証が必要な場合、ユーザ名を特定する必要があります。"
 
 #. SysConfig
 msgid ""
@@ -22320,7 +22511,8 @@ msgid ""
 "If any of the \"SMTP\" mechanisms was selected as SendmailModule, the port "
 "where your mailserver is listening for incoming connections must be "
 "specified."
-msgstr "\"SMTP\"構造のいずれかがSendmailモジュールとして選択された場合、メール・サーバが受信接続をlistenしている（待っている）ポートが特定されている必要があります。"
+msgstr ""
+"\"SMTP\"構造のいずれかがSendmailモジュールとして選択された場合、メール・サーバが受信接続をlistenしている（待っている）ポートが特定されている必要があります。"
 
 #. SysConfig
 msgid "If enabled debugging information for ACLs is logged."
@@ -22528,7 +22720,8 @@ msgid ""
 "Key/Content pair to match a domain. The value in \"Key\" should match the "
 "domain, and the value in \"Content\" should be a valid skin on your system. "
 "Please see the example entries for the proper form of the regex."
-msgstr "アプリケーション内でドメインごとのベースで使用されている異なる担当者間を区別するためなど、異なるスキンを設定することが可能です。通常の表現（regrex）を使用することで、Key/Contentのペアをドメインにマッチするように設定することが可能です。“Key”の値はドメインにマッチするべきであり、“Content”の値はご利用のシステムの有効なスキンであるべきです。Regrexの適切な形式については、入力例を参照してください。"
+msgstr ""
+"アプリケーション内でドメインごとのベースで使用されている異なる担当者間を区別するためなど、異なるスキンを設定することが可能です。通常の表現（regrex）を使用することで、Key/Contentのペアをドメインにマッチするように設定することが可能です。“Key”の値はドメインにマッチするべきであり、“Content”の値はご利用のシステムの有効なスキンであるべきです。Regrexの適切な形式については、入力例を参照してください。"
 
 #. SysConfig
 msgid ""
@@ -22538,7 +22731,8 @@ msgid ""
 "Key/Content pair to match a domain. The value in \"Key\" should match the "
 "domain, and the value in \"Content\" should be a valid skin on your system. "
 "Please see the example entries for the proper form of the regex."
-msgstr "アプリケーション内でドメインごとのベースで使用される異なる顧客ごとを見分けるため、などの場合、異なるスキンを設定することも可能です。通常の表現を使用することで（regex）、Key/Contentのペアーをドメインにマッチするように設定することが可能です。\"Key\"の中の値はドメインにマッチするべきであり、\"Content\"の中の値はご利用のシステム上の有効なスキンであるべきです。Regrexの適切な形式への入力例をご覧ください。"
+msgstr ""
+"アプリケーション内でドメインごとのベースで使用される異なる顧客ごとを見分けるため、などの場合、異なるスキンを設定することも可能です。通常の表現を使用することで（regex）、Key/Contentのペアーをドメインにマッチするように設定することが可能です。\"Key\"の中の値はドメインにマッチするべきであり、\"Content\"の中の値はご利用のシステム上の有効なスキンであるべきです。Regrexの適切な形式への入力例をご覧ください。"
 
 #. SysConfig
 msgid ""
@@ -22548,7 +22742,10 @@ msgid ""
 "Key/Content pair to match a domain. The value in \"Key\" should match the "
 "domain, and the value in \"Content\" should be a valid theme on your system."
 " Please see the example entries for the proper form of the regex."
-msgstr "異なるテーマを、担当者と顧客の間で異なるように、アプリケーション内でドメインごとの単位で使用されるように、設定することができます。regular expression (regex)を使用することにより、ドメインにマッチするようにKey/Contentを設定することが可能です。“Key”の値はドメインにマッチさせるべきであり、“Content”の値はご利用のシステムで有効なテーマとしてください。regrexの適切な形式のための入力例を確認してください。"
+msgstr ""
+"異なるテーマを、担当者と顧客の間で異なるように、アプリケーション内でドメインごとの単位で使用されるように、設定することができます。regular "
+"expression "
+"(regex)を使用することにより、ドメインにマッチするようにKey/Contentを設定することが可能です。“Key”の値はドメインにマッチさせるべきであり、“Content”の値はご利用のシステムで有効なテーマとしてください。regrexの適切な形式のための入力例を確認してください。"
 
 #. SysConfig
 msgid "Italian"
@@ -22574,6 +22771,10 @@ msgstr "日本語"
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Korean"
 msgstr ""
 
 #. SysConfig
@@ -22846,7 +23047,8 @@ msgid ""
 "Makes the session management use html cookies. If html cookies are disabled "
 "or if the client browser disabled html cookies, then the system will work as"
 " usual and append the session id to the links."
-msgstr "セッション管理に、htmlクッキーを使用させるようにします。htmlクッキーが無効にされている場合、またはクライアント・ブラウザがhtmlクッキーを無効にしている場合、システムは通常どおり動作し、またセッションIDをリンクに付け加えます。"
+msgstr ""
+"セッション管理に、htmlクッキーを使用させるようにします。htmlクッキーが無効にされている場合、またはクライアント・ブラウザがhtmlクッキーを無効にしている場合、システムは通常どおり動作し、またセッションIDをリンクに付け加えます。"
 
 #. SysConfig
 msgid "Malay"
@@ -23051,14 +23253,18 @@ msgstr ""
 msgid ""
 "Module to filter and manipulate incoming messages. Block/ignore all spam "
 "email with From: noreply@ address."
-msgstr "受信メッセージについてフィルターし操作するためのモジュールです。From: noreply@ addressを用いて、全てのスパム・メールをブロック/無視します。"
+msgstr ""
+"受信メッセージについてフィルターし操作するためのモジュールです。From: noreply@ "
+"addressを用いて、全てのスパム・メールをブロック/無視します。"
 
 #. SysConfig
 msgid ""
 "Module to filter and manipulate incoming messages. Get a 4 digit number to "
 "ticket free text, use regex in Match e. g. From => '(.+?)@.+?', and use () "
 "as [***] in Set =>."
-msgstr "受信メッセージについてフィルターし操作するためのモジュールです。チケットのフリーテキストに対して4桁の数字を得て、「Match」において正規表現を使用します。\n（例：From / '(.+?)@.+?'とし、「Set」にて「[***]」として後方参照を使用します。）"
+msgstr ""
+"受信メッセージについてフィルターし操作するためのモジュールです。チケットのフリーテキストに対して4桁の数字を得て、「Match」において正規表現を使用します。\n"
+"（例：From / '(.+?)@.+?'とし、「Set」にて「[***]」として後方参照を使用します。）"
 
 #. SysConfig
 msgid "Module to filter encrypted bodies of incoming messages."
@@ -23133,7 +23339,9 @@ msgid ""
 "Module to show notifications and escalations (ShownMax: max. shown "
 "escalations, EscalationInMinutes: Show ticket which will escalation in, "
 "CacheTime: Cache of calculated escalations in seconds)."
-msgstr "通知とエスカレーションを表示するためのモジュールです(ShownMax: 最大、表示されたエスカレーション、EscalationInMinutes: エスカレートされるチケットを表示、CacheTime: 計算されたエスカレーションのキャッシュ秒数)。"
+msgstr ""
+"通知とエスカレーションを表示するためのモジュールです(ShownMax: 最大、表示されたエスカレーション、EscalationInMinutes: "
+"エスカレートされるチケットを表示、CacheTime: 計算されたエスカレーションのキャッシュ秒数)。"
 
 #. SysConfig
 msgid "Module to use database filter storage."
@@ -23282,7 +23490,9 @@ msgid ""
 "OTRS can use one or more readonly mirror databases for expensive operations "
 "like fulltext search or statistics generation. Here you can specify the DSN "
 "for the first mirror database."
-msgstr "OTRSは、フルテキスト検索や統計生成などの高価な操作に、1つまたは複数の読み取り専用ミラーデータベースを使用できます。 ここでは、最初のミラーデータベースのDSNを指定できます。"
+msgstr ""
+"OTRSは、フルテキスト検索や統計生成などの高価な操作に、1つまたは複数の読み取り専用ミラーデータベースを使用できます。 "
+"ここでは、最初のミラーデータベースのDSNを指定できます。"
 
 #. SysConfig
 msgid ""
@@ -23356,7 +23566,8 @@ msgstr ""
 msgid ""
 "Overloads (redefines) existing functions in Kernel::System::Ticket. Used to "
 "easily add customizations."
-msgstr "Kernel::System::Ticketに既に存在している機能を多重定義（再定義）します。簡単にカスタマイズを追加したい場合に使用されます。"
+msgstr ""
+"Kernel::System::Ticketに既に存在している機能を多重定義（再定義）します。簡単にカスタマイズを追加したい場合に使用されます。"
 
 #. SysConfig
 msgid "Overview Escalated Tickets."
@@ -23787,7 +23998,8 @@ msgstr "親子関係"
 msgid ""
 "Path for the log file (it only applies if \"FS\" was selected for "
 "LoopProtectionModule and it is mandatory)."
-msgstr "ログ・ファイルのパスです（LoopProtectionModuleに関して“FS”が選択されており、それが強制である場合にのみ適用されます）。"
+msgstr ""
+"ログ・ファイルのパスです（LoopProtectionModuleに関して“FS”が選択されており、それが強制である場合にのみ適用されます）。"
 
 #. SysConfig
 msgid "Pending time"
@@ -23931,7 +24143,10 @@ msgstr "製品ニュース"
 msgid ""
 "Protection against CSRF (Cross Site Request Forgery) exploits (for more info"
 " see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
-msgstr "CSRF (Cross Site Request Forgery)攻撃に対するプロテクションです（さらに詳細はhttp://en.wikipedia.org/wiki/Cross-site_request_forgeryを参照ください）。"
+msgstr ""
+"CSRF (Cross Site Request "
+"Forgery)攻撃に対するプロテクションです（さらに詳細はhttp://en.wikipedia.org/wiki/Cross-"
+"site_request_forgeryを参照ください）。"
 
 #. SysConfig
 msgid "Provides a matrix overview of the tickets per state per queue"
@@ -24286,7 +24501,8 @@ msgid ""
 "Select the separator character used in CSV files (stats and searches). If "
 "you don't select a separator here, the default separator for your language "
 "will be used."
-msgstr "CSVファイル（統計と検索）で使用される区切り文字を選択します。ここで区切り文字を選択しない場合、あなたの言語のデフォルトの区切り文字が使用されます。"
+msgstr ""
+"CSVファイル（統計と検索）で使用される区切り文字を選択します。ここで区切り文字を選択しない場合、あなたの言語のデフォルトの区切り文字が使用されます。"
 
 #. SysConfig
 msgid "Select your frontend Theme."
@@ -24314,7 +24530,8 @@ msgstr "使用するキャッシュバックエンドを選択してください
 msgid ""
 "Selects the module to handle uploads via the web interface. \"DB\" stores "
 "all uploads in the database, \"FS\" uses the file system."
-msgstr "ウェブ・インタフェースを通じてアップロードを取り扱うための、モジュールを選択します。\"DB\"は全てのアップロードをデータベースに格納し、\"FS\"はファイル・システムを使用します。"
+msgstr ""
+"ウェブ・インタフェースを通じてアップロードを取り扱うための、モジュールを選択します。\"DB\"は全てのアップロードをデータベースに格納し、\"FS\"はファイル・システムを使用します。"
 
 #. SysConfig
 msgid ""
@@ -24522,7 +24739,10 @@ msgid ""
 " ascending order: Expert, Advanced, Beginner. The higher the config level is"
 " (e.g. Beginner is the highest), the less likely is it that the user can "
 "accidentally configure the system in a way that it is not usable any more."
-msgstr "管理者の設定レベルの設定です。設定レベルに拠り、いくつかのシステム設定オプションは表示されなくなります。設定レベルは昇順です：Expert, Advanced, Beginner。設定レベルが高いほど（Beginnerを最高とします）、ユーザが、システムを二度と使用できなくなるような設定を誤って行うことが、起こりにくくなります。"
+msgstr ""
+"管理者の設定レベルの設定です。設定レベルに拠り、いくつかのシステム設定オプションは表示されなくなります。設定レベルは昇順です：Expert, "
+"Advanced, "
+"Beginner。設定レベルが高いほど（Beginnerを最高とします）、ユーザが、システムを二度と使用できなくなるような設定を誤って行うことが、起こりにくくなります。"
 
 #. SysConfig
 msgid ""
@@ -24788,7 +25008,8 @@ msgid ""
 "web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias "
 "which is found in all forms of messaging used by the application, to build "
 "links to the tickets within the system."
-msgstr "ウェブ・サーバ上に設定されるように、サーバ上のスクリプト・フォルダに対する接頭辞を設定します。この設定は、OTRS_CONFIG_ScriptAlias変数として設定され、これはアプリケーションによって使用されるメッセージングの全フォームに存在し、システム内のチケットへのリンクを作成するために使用されます。"
+msgstr ""
+"ウェブ・サーバ上に設定されるように、サーバ上のスクリプト・フォルダに対する接頭辞を設定します。この設定は、OTRS_CONFIG_ScriptAlias変数として設定され、これはアプリケーションによって使用されるメッセージングの全フォームに存在し、システム内のチケットへのリンクを作成するために使用されます。"
 
 #. SysConfig
 msgid ""
@@ -25291,7 +25512,8 @@ msgid ""
 "agent interface. Additional access control to show or not show this link can"
 " be done by using Key \"Group\" and Content like "
 "\"rw:group1;move_into:group2\"."
-msgstr "担当者インタフェースの全チケット一覧で、チケットを削除するするためのリンクをメニューに表示します。本リンクを表示または非表示にするための追加的アクセス・コントロールについては、“Group”キーおよび\"rw:group1;move_into:group2\"のようなコンテンツを使用することで可能になります。"
+msgstr ""
+"担当者インタフェースの全チケット一覧で、チケットを削除するするためのリンクをメニューに表示します。本リンクを表示または非表示にするための追加的アクセス・コントロールについては、“Group”キーおよび\"rw:group1;move_into:group2\"のようなコンテンツを使用することで可能になります。"
 
 #. SysConfig
 msgid ""
@@ -25486,56 +25708,65 @@ msgid ""
 "Shows a list of all the possible agents (all agents with note permissions on"
 " the queue/ticket) to determine who should be informed about this note, in "
 "the close ticket screen of the agent interface."
-msgstr "担当者インタフェースのクローズ・チケット画面で、可能性ある担当者（キュー/チケットに対してメモの許可を有する全ての担当者）のリストを表示し、そのメモについて誰に通知するべきか決定します。"
+msgstr ""
+"担当者インタフェースのクローズ・チケット画面で、可能性ある担当者（キュー/チケットに対してメモの許可を有する全ての担当者）のリストを表示し、そのメモについて誰に通知するべきか決定します。"
 
 #. SysConfig
 msgid ""
 "Shows a list of all the possible agents (all agents with note permissions on"
 " the queue/ticket) to determine who should be informed about this note, in "
 "the ticket free text screen of the agent interface."
-msgstr "担当者インタフェースのチケット・フリー・テキスト・スクリーンで、可能性ある全ての担当者（キュー/チケットに関してメモ許可を有する全ての担当者）を表示し、そのメモに関して誰に通知するべきかを決定します。"
+msgstr ""
+"担当者インタフェースのチケット・フリー・テキスト・スクリーンで、可能性ある全ての担当者（キュー/チケットに関してメモ許可を有する全ての担当者）を表示し、そのメモに関して誰に通知するべきかを決定します。"
 
 #. SysConfig
 msgid ""
 "Shows a list of all the possible agents (all agents with note permissions on"
 " the queue/ticket) to determine who should be informed about this note, in "
 "the ticket note screen of the agent interface."
-msgstr "担当者インタフェースのチケット・メモ画面で、可能性ある担当者（キュー/チケットに対してメモ許可を持つ全担当者）を表示し、そのメモについて誰に通知するか決定しまう。"
+msgstr ""
+"担当者インタフェースのチケット・メモ画面で、可能性ある担当者（キュー/チケットに対してメモ許可を持つ全担当者）を表示し、そのメモについて誰に通知するか決定しまう。"
 
 #. SysConfig
 msgid ""
 "Shows a list of all the possible agents (all agents with note permissions on"
 " the queue/ticket) to determine who should be informed about this note, in "
 "the ticket owner screen of a zoomed ticket in the agent interface."
-msgstr "担当者インタフェースのズームされたチケットのチケット所有者画面で、全ての可能性ある担当者（キュー/チケットにメモ許可を有する全ての担当者）のリストを表示し、そのメモについて誰に通知するべきかを決定します。"
+msgstr ""
+"担当者インタフェースのズームされたチケットのチケット所有者画面で、全ての可能性ある担当者（キュー/チケットにメモ許可を有する全ての担当者）のリストを表示し、そのメモについて誰に通知するべきかを決定します。"
 
 #. SysConfig
 msgid ""
 "Shows a list of all the possible agents (all agents with note permissions on"
 " the queue/ticket) to determine who should be informed about this note, in "
 "the ticket pending screen of a zoomed ticket in the agent interface."
-msgstr "担当者インタフェースのズームされたチケットのチケット保留画面で、全ての可能性ある担当者（キュー/チケットにメモ許可を有する全ての担当者）のリストを表示し、そのメモについて誰に通知するべきかを決定します。"
+msgstr ""
+"担当者インタフェースのズームされたチケットのチケット保留画面で、全ての可能性ある担当者（キュー/チケットにメモ許可を有する全ての担当者）のリストを表示し、そのメモについて誰に通知するべきかを決定します。"
 
 #. SysConfig
 msgid ""
 "Shows a list of all the possible agents (all agents with note permissions on"
 " the queue/ticket) to determine who should be informed about this note, in "
 "the ticket priority screen of a zoomed ticket in the agent interface."
-msgstr "担当者インタフェースのズームされたチケットのチケット優先度画面で、全ての可能性ある担当者（キュー/チケットにメモ許可を有する全ての担当者）のリストを表示し、そのメモについて誰に通知するべきかを決定します。"
+msgstr ""
+"担当者インタフェースのズームされたチケットのチケット優先度画面で、全ての可能性ある担当者（キュー/チケットにメモ許可を有する全ての担当者）のリストを表示し、そのメモについて誰に通知するべきかを決定します。"
 
 #. SysConfig
 msgid ""
 "Shows a list of all the possible agents (all agents with note permissions on"
 " the queue/ticket) to determine who should be informed about this note, in "
 "the ticket responsible screen of the agent interface."
-msgstr "担当者インタフェースのチケット責任者画面で、全ての可能性ある担当者（キュー/チケットにメモ許可を有する全ての担当者）のリストを表示し、そのメモについて誰に通知するべきかを決定します。"
+msgstr ""
+"担当者インタフェースのチケット責任者画面で、全ての可能性ある担当者（キュー/チケットにメモ許可を有する全ての担当者）のリストを表示し、そのメモについて誰に通知するべきかを決定します。"
 
 #. SysConfig
 msgid ""
 "Shows a preview of the ticket overview (CustomerInfo => 1 - shows also "
 "Customer-Info, CustomerInfoMaxSize max. size in characters of Customer-"
 "Info)."
-msgstr "チケット一覧のプレビューを表示します(CustomerInfo => 1 - 顧客情報も表示しますCustomerInfoMaxSize max ? 顧客情報の文字サイズです)。"
+msgstr ""
+"チケット一覧のプレビューを表示します(CustomerInfo => 1 - 顧客情報も表示しますCustomerInfoMaxSize max ? "
+"顧客情報の文字サイズです)。"
 
 #. SysConfig
 msgid ""
@@ -25588,7 +25819,8 @@ msgstr "担当者インタフェースにおいて、電話およびEメール�
 msgid ""
 "Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and "
 "AgentTicketCustomer."
-msgstr "AgentTicketPhone、AgentTicketEmail、AgentTicketCustomerにおいて、顧客履歴チケットを表示します。"
+msgstr ""
+"AgentTicketPhone、AgentTicketEmail、AgentTicketCustomerにおいて、顧客履歴チケットを表示します。"
 
 #. SysConfig
 msgid ""
@@ -25806,7 +26038,10 @@ msgid ""
 "selected in the queue view and after the tickets are sorted by priority. "
 "Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on "
 "top). Use the QueueID for the key and 0 or 1 for value."
-msgstr "1つのキューがキュー・ビューで選択され、チケットが優先度によってソートされた後に、チケットをソートします（昇順または降順）。Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top)。キーに関してキューIDを使用し、値（value）に関して0または1を使用してください。"
+msgstr ""
+"1つのキューがキュー・ビューで選択され、チケットが優先度によってソートされた後に、チケットをソートします（昇順または降順）。Values: 0 = "
+"ascending (oldest on top, default), 1 = descending (youngest on "
+"top)。キーに関してキューIDを使用し、値（value）に関して0または1を使用してください。"
 
 #. SysConfig
 msgid ""
@@ -25999,7 +26234,10 @@ msgid ""
 " built-in: note, close, pending, customer, freetext, move, compose, "
 "responsible, forward, and bounce. Make sure that \"rw\" is always the last "
 "registered permission."
-msgstr "アプリケーション内で担当者にとって標準的に利用可能な許可です。もし、さらに多くの許可が必要であれば、ここで加えることができます。許可は、効果的になるように設定する必要があります。いくつか他の良い許可も、ビルト・インで提供されています：note, close, pending, customer, freetext, move, compose, responsible, forward, bounce。“rw”は、常に最後の登録許可であることを確認してください。"
+msgstr ""
+"アプリケーション内で担当者にとって標準的に利用可能な許可です。もし、さらに多くの許可が必要であれば、ここで加えることができます。許可は、効果的になるように設定する必要があります。いくつか他の良い許可も、ビルト・インで提供されています：note,"
+" close, pending, customer, freetext, move, compose, responsible, forward, "
+"bounce。“rw”は、常に最後の登録許可であることを確認してください。"
 
 #. SysConfig
 msgid ""
@@ -26108,13 +26346,15 @@ msgstr "タイ"
 msgid ""
 "The agent skin's InternalName which should be used in the agent interface. "
 "Please check the available skins in Frontend::Agent::Skins."
-msgstr "担当者インタフェースで使用されるべき、担当者スキンのインターナル・ネームです。Frontend::Agent::Skinsにおける利用可能なスキンをチェックしてください。"
+msgstr ""
+"担当者インタフェースで使用されるべき、担当者スキンのインターナル・ネームです。Frontend::Agent::Skinsにおける利用可能なスキンをチェックしてください。"
 
 #. SysConfig
 msgid ""
 "The customer skin's InternalName which should be used in the customer "
 "interface. Please check the available skins in Frontend::Customer::Skins."
-msgstr "顧客インタフェースにて使用される顧客スキンのInternalNameです。Frontend::Customer::Skinsにおいて利用可能なスキンをチェックしてください。"
+msgstr ""
+"顧客インタフェースにて使用される顧客スキンのInternalNameです。Frontend::Customer::Skinsにおいて利用可能なスキンをチェックしてください。"
 
 #. SysConfig
 msgid "The daemon registration for the scheduler cron task manager."
@@ -26284,7 +26524,8 @@ msgid ""
 "This module and its PreRun() function will be executed, if defined, for "
 "every request. This module is useful to check some user options or to "
 "display news about new applications."
-msgstr "定義された場合、全てのリクエストに対して、本モジュールおよびそのPreRun()機能が実行されます。本モジュールは、いくつかのユーザ・オプションをチェックするため、または新しいアプリケーションのニュースを表示させるために、役立つものです。"
+msgstr ""
+"定義された場合、全てのリクエストに対して、本モジュールおよびそのPreRun()機能が実行されます。本モジュールは、いくつかのユーザ・オプションをチェックするため、または新しいアプリケーションのニュースを表示させるために、役立つものです。"
 
 #. SysConfig
 msgid "This module is part of the admin area of OTRS."
@@ -26753,7 +26994,8 @@ msgid ""
 "When tickets are merged, the customer can be informed per email by setting "
 "the check box \"Inform Sender\". In this text area, you can define a pre-"
 "formatted text which can later be modified by the agents."
-msgstr "担当者インタフェースでズームされたチケットのチケット結合画面で、チケット・ロックが必要かどうかを定義します。（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
+msgstr ""
+"担当者インタフェースでズームされたチケットのチケット結合画面で、チケット・ロックが必要かどうかを定義します。（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。"
 
 #. SysConfig
 msgid ""
@@ -26776,7 +27018,9 @@ msgstr "はい、アーカイブされたチケットを非表示にします。
 msgid ""
 "Your email with ticket number \"<OTRS_TICKET>\" is bounced to "
 "\"<OTRS_BOUNCE_TO>\". Contact this address for further information."
-msgstr "チケット番号\"<OTRS_TICKET>\" のメールは、\"<OTRS_BOUNCE_TO>\"宛にバウンスされました。詳細は、このアドレスまでお問合せください。"
+msgstr ""
+"チケット番号\"<OTRS_TICKET>\" "
+"のメールは、\"<OTRS_BOUNCE_TO>\"宛にバウンスされました。詳細は、このアドレスまでお問合せください。"
 
 #. SysConfig
 msgid ""

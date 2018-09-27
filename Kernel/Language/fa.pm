@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.705236051502146;
+    $Self->{Completeness}        = 0.705115001716443;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -7066,7 +7066,7 @@ Thanks for your help!
         'Disable cloud services' => '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
-        'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
+        'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
@@ -7494,6 +7494,7 @@ Thanks for your help!
         'Ivory (Slim)' => 'عاج (لاغر)',
         'Japanese' => 'ژاپنی',
         'JavaScript function for the search frontend.' => 'جاوا اسکریپت تابع برای ظاهر جستجو.',
+        'Korean' => '',
         'Language' => 'زبان',
         'Large' => 'بزرگ',
         'Last Screen Overview' => '',
@@ -8473,7 +8474,7 @@ Thanks for your help!
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             'جستجوی کلمات از جسم فعال پس از ماسک لینک شی آغاز شده است.',
         'Stat#' => 'شماره گزارش',
-        'States' => 'وضعیت‌ها',
+        'States' => 'وضعیت',
         'Statistic Reports overview.' => '',
         'Statistics overview.' => '',
         'Status view' => 'نمای وضعیت',

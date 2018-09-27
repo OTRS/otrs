@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.390901287553648;
+    $Self->{Completeness}        = 0.391692413319602;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -246,7 +246,7 @@ sub Data {
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Adresses de courriel supplémentaires pour les destinataires.',
-        'This field must have less then 200 characters.' => '',
+        'This field must have less then 200 characters.' => 'Ce champ doit contenir moins de 200 caractères.',
         'Article visible for customer' => 'Article visible pour le client',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Un article va être créé si la notification est envoyé au client ou à un email additionnel.',
@@ -2287,7 +2287,7 @@ sub Data {
         'Remove entry' => 'Supprimer l\'entrée',
 
         # Template: AgentCustomerInformationCenter
-        'Customer Information Center' => 'Tableau de Bord Client',
+        'Customer Information Center' => 'Centre d\'informations des utilisateurs client et clients',
 
         # Template: AgentCustomerInformationCenterSearch
         'Customer User' => 'Utilisateur client',
@@ -2322,7 +2322,7 @@ sub Data {
         'Change search options' => 'Changer les options de recherche',
 
         # Template: AgentCustomerUserInformationCenter
-        'Customer User Information Center' => '',
+        'Customer User Information Center' => 'Centre d\'informations des utilisateurs client',
 
         # Template: AgentDaemonInfo
         'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
@@ -6239,9 +6239,9 @@ Thanks for your help!
         'Customer Ticket Print Module.' => '',
         'Customer User Administration' => 'Administration des utilisateurs client',
         'Customer User Information' => 'Informations des utilisateurs client',
-        'Customer User Information Center Search.' => '',
-        'Customer User Information Center search.' => '',
-        'Customer User Information Center.' => '',
+        'Customer User Information Center Search.' => 'Rechercher dans le centre d\'informations des utilisateurs client.',
+        'Customer User Information Center search.' => 'Rechercher dans le centre d\'informations des utilisateurs client.',
+        'Customer User Information Center.' => 'Centre d\'informations des utilisateurs client.',
         'Customer Users ↔ Customers' => 'Utilisateurs client ↔ Clients',
         'Customer Users ↔ Groups' => 'Utilisateurs client ↔ Groupes',
         'Customer Users ↔ Services' => 'Utilisateurs client ↔ Services',
@@ -7058,7 +7058,7 @@ Thanks for your help!
         'Disable cloud services' => 'Désactiver les services cloud',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
-        'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
+        'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
@@ -7486,6 +7486,7 @@ Thanks for your help!
         'Ivory (Slim)' => '',
         'Japanese' => 'Japonais',
         'JavaScript function for the search frontend.' => '',
+        'Korean' => '',
         'Language' => 'Langue',
         'Large' => 'Grand',
         'Last Screen Overview' => '',
@@ -8465,7 +8466,7 @@ Thanks for your help!
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
         'Stat#' => 'Stat#',
-        'States' => 'États',
+        'States' => 'État',
         'Statistic Reports overview.' => 'Vue d\'ensemble des rapports de statistiques.',
         'Statistics overview.' => 'Vue d\'ensemble des statistiques.',
         'Status view' => 'Vue par statut',
@@ -8522,7 +8523,7 @@ Thanks for your help!
         'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',
         'The logo shown on top of the login box of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
-            'Le logo affiché sur la page d\'authentification des opérateurs. L\'URL peut faire référence à un fichier situé sur l\'ordinateur, ou à une adresse Web de l\'image.',
+            'Le logo affiché sur la page d\'authentification des opérateurs. L\'URL peut faire référence à un fichier situé sur l\'ordinateur, ou à l\'adresse Web de l\'image.',
         'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
             '',
         'The maximal number of articles shown on a single page in AgentTicketZoom.' =>

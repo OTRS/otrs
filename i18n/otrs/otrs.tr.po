@@ -1,16 +1,16 @@
-# 
 # Translators:
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Sefer <sefersimsek@yahoo.com>, 2018
 # Fikret Kavak <fikretb.kavak@gmail.com>, 2018
-# Kaya Zeren <kayazeren@gmail.com>, 2015
+# Kaya Zeren <kayazeren@gmail.com>, 2018
 # oguzhan ozkan (oozkan) <oguzhanoncuozkan@gmail.com>, 2018
-# Sefer <sefersimsek@yahoo.com>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2018-09-13 21:46+0000\n"
-"PO-Revision-Date: 2018-09-13 21:49+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: Turkish (http://www.transifex.com/otrs/OTRS/language/tr/)\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-09-27 16:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: oguzhan ozkan (oozkan) <oguzhanoncuozkan@gmail.com>, 2018\n"
+"Language-Team: Turkish (https://www.transifex.com/otrs/teams/23435/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -53,7 +53,10 @@ msgstr "Yapılandırmayı İçeri Aktar"
 msgid ""
 "Here you can upload a configuration file to import ACLs to your system. The "
 "file needs to be in .yml format as exported by the ACL editor module."
-msgstr "Burada ACL'leri sisteminize almak için bir yapılandırma dosyası yükleyebilirsiniz. Dosya, ACL düzenleyici modülü tarafından dışa aktarıldığı gibi .yml biçiminde olmalıdır."
+msgstr ""
+"Burada ACL'leri sisteminize almak için bir yapılandırma dosyası "
+"yükleyebilirsiniz. Dosya, ACL düzenleyici modülü tarafından dışa aktarıldığı"
+" gibi .yml biçiminde olmalıdır."
 
 #. Template: AdminACL
 msgid "This field is required."
@@ -79,7 +82,9 @@ msgstr "Açıklama"
 msgid ""
 "To create a new ACL you can either import ACLs which were exported from "
 "another system or create a complete new one."
-msgstr "Yeni bir ACL oluşturmak için, başka bir sistemden dışa aktarılan ACL'leri içe aktarabilir veya tamamen yeni bir tane oluşturabilirsiniz."
+msgstr ""
+"Yeni bir ACL oluşturmak için, başka bir sistemden dışa aktarılan ACL'leri "
+"içe aktarabilir veya tamamen yeni bir tane oluşturabilirsiniz."
 
 #. Template: AdminACL
 msgid ""
@@ -2382,7 +2387,9 @@ msgstr "Komut"
 msgid ""
 "This command will be executed. ARG[0] will be the ticket number. ARG[1] the "
 "ticket id."
-msgstr "Bu komut çalıştırılacak. Par[0] bilet bilet numarası olacak. Par[1] bilet kimliği."
+msgstr ""
+"Bu komut çalıştırılacak. Par[0] bilet bilet numarası olacak. Par[1] bilet "
+"kimliği."
 
 #. Template: AdminGenericAgent
 msgid "Delete tickets"
@@ -3914,7 +3921,9 @@ msgstr ""
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
-msgstr "Yönetim grubu yönetim alanına ve istatistikler grubu istatistik alanına girmek içindir."
+msgstr ""
+"Yönetim grubu yönetim alanına ve istatistikler grubu istatistik alanına "
+"girmek içindir."
 
 #. Template: AdminGroup
 msgid ""
@@ -4486,7 +4495,9 @@ msgstr ""
 
 #. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
-msgstr "Bu şekilde Sistem Yapılandırmasında yapılandırılmış olan anahtar halkasını (keyring) direkt olarak düzenleyebilirsiniz."
+msgstr ""
+"Bu şekilde Sistem Yapılandırmasında yapılandırılmış olan anahtar halkasını "
+"(keyring) direkt olarak düzenleyebilirsiniz."
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
@@ -4544,7 +4555,9 @@ msgstr "Paketi yeniden kur"
 msgid ""
 "Do you really want to reinstall this package? Any manual changes will be "
 "lost."
-msgstr "Gerçekten bu paketi yeniden kurmak istiyormusunuz? El ile yaptığınız tüm değişiklikler kaybolacak."
+msgstr ""
+"Gerçekten bu paketi yeniden kurmak istiyormusunuz? El ile yaptığınız tüm "
+"değişiklikler kaybolacak."
 
 #. Template: AdminPackageManager
 msgid "Go to updating instructions"
@@ -4770,7 +4783,8 @@ msgstr "Bu özellik açık!"
 
 #. Template: AdminPerformanceLog
 msgid "Just use this feature if you want to log each request."
-msgstr "Bu özelliği sadece her isteği günlüğe kaydetmek istiyorsanız kullanın."
+msgstr ""
+"Bu özelliği sadece her isteği günlüğe kaydetmek istiyorsanız kullanın."
 
 #. Template: AdminPerformanceLog
 msgid "Activating this feature might affect your system performance!"
@@ -4870,7 +4884,9 @@ msgstr ""
 msgid ""
 "If you want to match only the email address, use "
 "EMAILADDRESS:info@example.com in From, To or Cc."
-msgstr "Sadece elektronik posta adresine göre eşleştirmek istiyorsanız Kimden, Kime veya Bilgi alanlarında e-posta adresi: bilgi@ornek.com kullanın."
+msgstr ""
+"Sadece elektronik posta adresine göre eşleştirmek istiyorsanız Kimden, Kime "
+"veya Bilgi alanlarında e-posta adresi: bilgi@ornek.com kullanın."
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -5974,13 +5990,17 @@ msgstr ""
 
 #. Template: AdminRole
 msgid "Create a role and put groups in it. Then add the role to the users."
-msgstr "Bir rol oluşturun ve içine gruplardan koyun. Sonra rolu kullanıcılara atayın."
+msgstr ""
+"Bir rol oluşturun ve içine gruplardan koyun. Sonra rolu kullanıcılara "
+"atayın."
 
 #. Template: AdminRole
 msgid ""
 "There are no roles defined. Please use the 'Add' button to create a new "
 "role."
-msgstr "Roller tanımlı değil. Lütfen 'Ekle' butonunu kullananarak yeni bir rol oluşturun"
+msgstr ""
+"Roller tanımlı değil. Lütfen 'Ekle' butonunu kullananarak yeni bir rol "
+"oluşturun"
 
 #. Template: AdminRoleGroup
 msgid "Manage Role-Group Relations"
@@ -6165,7 +6185,9 @@ msgstr "Ayrıca bakınız"
 msgid ""
 "In this way you can directly edit the certification and private keys in file"
 " system."
-msgstr "Buradan dosya sistemindeki sertifikaları ve kişisel anahtarları uğraşmadan düzenleyebilirsiniz."
+msgstr ""
+"Buradan dosya sistemindeki sertifikaları ve kişisel anahtarları uğraşmadan "
+"düzenleyebilirsiniz."
 
 #. Template: AdminSMIME
 msgid "Hash"
@@ -9530,7 +9552,9 @@ msgstr ""
 msgid ""
 "To be able to use OTRS you have to enter the following line in your command "
 "line (Terminal/Shell) as root."
-msgstr "OTRS'yi kullanabilmek için komut satırında (konsol/kabuk/terminal) root kullanıcısı olarak şu satırı girmelisiniz."
+msgstr ""
+"OTRS'yi kullanabilmek için komut satırında (konsol/kabuk/terminal) root "
+"kullanıcısı olarak şu satırı girmelisiniz."
 
 #. Template: InstallerFinish
 msgid "Restart your webserver"
@@ -9781,7 +9805,9 @@ msgstr "İzinler"
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "You can select one or more groups to define access for different agents."
-msgstr "Farklı aracılara erişim tanımlamak için bir yada daha fazla grup seçebilirsiniz."
+msgstr ""
+"Farklı aracılara erişim tanımlamak için bir yada daha fazla grup "
+"seçebilirsiniz."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Result formats"
@@ -9835,7 +9861,8 @@ msgstr ""
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
-msgstr "Eğer geçersiz kullanıcı ayarlarsanız istatistik oluşturamayabilirsiniz."
+msgstr ""
+"Eğer geçersiz kullanıcı ayarlarsanız istatistik oluşturamayabilirsiniz."
 
 #. Template: PreviewWidget
 msgid "There are problems in the configuration of this statistic:"
@@ -15646,7 +15673,8 @@ msgstr "Özellik etkin değil!"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Sent password reset instructions. Please check your email."
-msgstr "Parola sıfırlama talimatları gönderildi. Lütfen e-postanızı kontrol ediniz."
+msgstr ""
+"Parola sıfırlama talimatları gönderildi. Lütfen e-postanızı kontrol ediniz."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Invalid Token!"
@@ -15677,7 +15705,9 @@ msgstr ""
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "This e-mail address already exists. Please log in or reset your password."
-msgstr "Bu e-posta adresi zaten kayıtlı. Lütfen giriş yapın ya da şifrenizi sıfırlayın."
+msgstr ""
+"Bu e-posta adresi zaten kayıtlı. Lütfen giriş yapın ya da şifrenizi "
+"sıfırlayın."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
@@ -15699,7 +15729,9 @@ msgstr ""
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "New account created. Sent login information to %s. Please check your email."
-msgstr "Yeni Hesap eklendi. Giriş bilgileri %s adresine gönderildi. Lütfen e-postanızı kontrol edin."
+msgstr ""
+"Yeni Hesap eklendi. Giriş bilgileri %s adresine gönderildi. Lütfen "
+"e-postanızı kontrol edin."
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -16161,7 +16193,9 @@ msgstr ""
 msgid ""
 "Do you really want to delete this dynamic field? ALL associated data will be"
 " LOST!"
-msgstr "Bu dinamik alanı silmek istediğinizden eminmisiniz? İlgili tüm veriler kaybolacak!"
+msgstr ""
+"Bu dinamik alanı silmek istediğinizden eminmisiniz? İlgili tüm veriler "
+"kaybolacak!"
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Delete field"
@@ -21166,7 +21200,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Disables the redirection to the last screen overview / dashboard after a "
-"ticket is created."
+"ticket is closed."
 msgstr ""
 
 #. SysConfig
@@ -22568,6 +22602,10 @@ msgstr ""
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Korean"
 msgstr ""
 
 #. SysConfig
@@ -26024,7 +26062,7 @@ msgstr "İstatistik numarası"
 
 #. SysConfig
 msgid "States"
-msgstr "Durumlar"
+msgstr "Durum"
 
 #. SysConfig
 msgid "Statistic Reports overview."
@@ -26776,7 +26814,9 @@ msgstr ""
 msgid ""
 "Your email with ticket number \"<OTRS_TICKET>\" is merged to "
 "\"<OTRS_MERGE_TO_TICKET>\"."
-msgstr "\"<OTRS_TICKET>\" bilet numaralı e-postanız \"<OTRS_MERGE_TO_TICKET>\" ile birleştirildi."
+msgstr ""
+"\"<OTRS_TICKET>\" bilet numaralı e-postanız \"<OTRS_MERGE_TO_TICKET>\" ile "
+"birleştirildi."
 
 #. SysConfig
 msgid ""

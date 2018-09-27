@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.710214592274678;
+    $Self->{Completeness}        = 0.71077926536217;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -193,7 +193,7 @@ sub Data {
             'Aqui você pode escolher quais eventos irão acionar essa notificação. Um filtro de compromisso adicional pode ser aplicado abaixo para enviar apenas compromissos com determinados critérios.',
         'Appointment Filter' => 'Filtrar Compromisso',
         'Type' => 'Tipo',
-        'Title' => 'Título',
+        'Title' => 'Titulo',
         'Location' => 'Localização',
         'Team' => 'Time',
         'Resource' => 'Recurso',
@@ -243,7 +243,7 @@ sub Data {
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Caixa de endereço de e-mail adicional',
-        'This field must have less then 200 characters.' => '',
+        'This field must have less then 200 characters.' => 'Este campo precisa ter menos de 200 caracteres.',
         'Article visible for customer' => 'Artigo visível para o cliente',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Um artigo será criado se as notificações são enviadas para o usuário ou para um endereço de e-mail adicional.',
@@ -520,7 +520,7 @@ sub Data {
         'Dynamic Fields List' => 'Lista de Campos Dinâmicos',
         'Dynamic fields per page' => 'Campos dinâmicos por página',
         'Label' => 'Rótulo',
-        'Order' => 'Ordem',
+        'Order' => 'Pedido',
         'Object' => 'Objeto',
         'Delete this field' => 'Remover este campo',
 
@@ -846,7 +846,7 @@ sub Data {
             '',
         'Maximum retry count' => 'Contagem máxima de repetição',
         'Maximum number of retries before a failing request is discarded, not counting the initial request.' =>
-            '',
+            'Número máximo de tentativas antes do descarte de uma requisição falhada, sem contar a requisição inicial',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\', retry factor at \'2\' and maximum retry count at \'2\', retries would be triggered at 10:01 and 10:02 only.' =>
             '',
         'Note: Maximum retry count might not be reached if a maximum retry period is configured as well and reached earlier.' =>
@@ -4756,7 +4756,7 @@ sub Data {
         'Send unencrypted notification' => 'Enviar notificação não-encriptada',
 
         # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
-        'Configuration Options Reference' => 'Referência de opções de configuração',
+        'Configuration Options Reference' => 'Referência de Opções de Configuração',
         'This setting can not be changed.' => 'Esta configuração não pode ser alterada.',
         'This setting is not active by default.' => 'Esta configuração não está ativa por padrão.',
         'This setting can not be deactivated.' => 'Esta configuração não pode ser desativada.',
@@ -7055,7 +7055,7 @@ Thanks for your help!
         'Disable cloud services' => 'Desabilitar serviços de nuvem',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
-        'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
+        'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
@@ -7283,7 +7283,7 @@ Thanks for your help!
         'Frontend module registration (show personal favorites as sub navigation items of \'Admin\').' =>
             '',
         'Frontend module registration for the agent interface.' => '',
-        'Frontend module registration for the customer interface.' => '',
+        'Frontend module registration for the customer interface.' => 'Registro de módulo front-end para a interface de cliente.',
         'Frontend module registration for the public interface.' => 'Frontend de registo do módulo para a interface pública.',
         'Full value' => 'Valor total',
         'Fulltext index regex filters to remove parts of the text.' => '',
@@ -7483,6 +7483,7 @@ Thanks for your help!
         'Ivory (Slim)' => 'Marfim (fino)',
         'Japanese' => 'Japonês',
         'JavaScript function for the search frontend.' => '',
+        'Korean' => '',
         'Language' => 'Idioma',
         'Large' => 'Grande',
         'Last Screen Overview' => '',
@@ -7714,7 +7715,7 @@ Thanks for your help!
             '',
         'Overview Escalated Tickets.' => 'Visão Geral de Chamados Escalados.',
         'Overview Refresh Time' => 'Tempo de Atualização do Painel',
-        'Overview of all Tickets per assigned Queue.' => 'Visão geral dos Chamados por Filas',
+        'Overview of all Tickets per assigned Queue.' => 'Visão geral de todos os Chamados associados as Filas.',
         'Overview of all appointments.' => 'Visão geral de todos os compromissos.',
         'Overview of all escalated tickets.' => 'Revisão de todos os chamados escalados.',
         'Overview of all open Tickets.' => 'Visão Geral de Todos os Chamados Abertos',
@@ -8462,7 +8463,7 @@ Thanks for your help!
         'Starts a wildcard search of the active object after the link object mask is started.' =>
             '',
         'Stat#' => 'Estatística Nº:.',
-        'States' => 'Estados',
+        'States' => 'Estado',
         'Statistic Reports overview.' => 'Visão Geral de Estatísticas',
         'Statistics overview.' => 'Resumo de Estatísticas',
         'Status view' => 'Visão de Estados',
@@ -8602,7 +8603,7 @@ Thanks for your help!
             '',
         'To accept login information, such as an EULA or license.' => '',
         'To download attachments.' => 'Para baixar anexos.',
-        'To view HTML attachments.' => '',
+        'To view HTML attachments.' => 'Para visualizar anexos HTML.',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
