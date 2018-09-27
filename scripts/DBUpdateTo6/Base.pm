@@ -38,7 +38,9 @@ sub new {
 Refreshes the configuration to make sure that a ZZZAAuto.pm is present after the upgrade.
 
     $DBUpdateTo6Object->RebuildConfig(
-        UnitTestMode => 1,      # (optional) Prevent discarding all objects at the end
+        UnitTestMode      => 1,         # (optional) Prevent discarding all objects at the end.
+        CleanUpIfPossible => 1,         # (optional) Removes leftover settings that are not contained in XML files,
+                                        #   but only if all XML files for installed packages are present.
     );
 
 =cut
@@ -49,11 +51,38 @@ sub RebuildConfig {
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
     my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
 
+    my $CleanUp = $Param{CleanUpIfPossible} ? 1 : 0;
+
+    if ($CleanUp) {
+        my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+
+        PACKAGE:
+        for my $Package ( $PackageObject->RepositoryList() ) {
+
+            # Only check the deployment state of the XML configuration files for performance reasons.
+            #   Otherwise, this would be too slow on systems with many packages.
+            $CleanUp = $PackageObject->_ConfigurationFilesDeployCheck(
+                Name    => $Package->{Name}->{Content},
+                Version => $Package->{Version}->{Content},
+            );
+
+            # Stop if any package has its configuration wrong deployed, configuration cleanup should not
+            #   take place in the lines below. Otherwise modified setting values can be lost.
+            if ( !$CleanUp ) {
+                if ($Verbose) {
+                    print "\n    Configuration cleanup was not possible as packages are not correctly deployed!\n";
+                }
+                last PACKAGE;
+            }
+        }
+    }
+
     # Convert XML files to entries in the database
     if (
         !$SysConfigObject->ConfigurationXML2DB(
-            Force  => 1,
-            UserID => 1,
+            Force   => 1,
+            UserID  => 1,
+            CleanUp => $CleanUp,
         )
         )
     {
@@ -86,6 +115,8 @@ sub RebuildConfig {
     if ($Verbose) {
         print "\n    If you see warnings about 'Subroutine Load redefined', that's fine, no need to worry!\n";
     }
+
+    return 1 if $Param{UnitTestMode};
 
     # create common objects with new default config
     $Kernel::OM->ObjectsDiscard();
