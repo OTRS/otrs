@@ -205,7 +205,7 @@ $Selenium->RunTest(
 
             # Check widget title.
             $Self->Is(
-                $Selenium->execute_script("return \$('.ContentColumn .WidgetSimple .Header h2:eq($Count)').text();"),
+                index( $Selenium->get_page_source(), $Title ) > -1,
                 $Title,
                 "$Title widget found on page",
             );
