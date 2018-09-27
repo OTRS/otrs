@@ -346,116 +346,53 @@ sub CheckPreviousRequirement {
         # Define orphaned entries checks, for now all related to the article table.
         my @OrphanedEntryChecks = (
             {
-                Table       => 'article_flag',
-                Description => 'Check for orphaned entries in article_flag table',
-                CheckSQL    => '
-                    SELECT COUNT(article_flag.article_id)
-                    FROM article_flag
-                    WHERE (article_flag.article_id NOT IN (SELECT article.id FROM article))
-                    OR (article_flag.article_id IN (SELECT article.id FROM article WHERE article.ticket_id NOT IN (SELECT ticket.id FROM ticket)))
-                ',
-                DeleteSQL => [
-                    '
-                        DELETE
-                        FROM article_flag
-                        WHERE (article_flag.article_id NOT IN (SELECT article.id FROM article))
-                        OR (article_flag.article_id IN (SELECT article.id FROM article WHERE article.ticket_id NOT IN (SELECT ticket.id FROM ticket)))
-                    ',
-                ],
+                Table          => 'article',
+                Field          => 'ticket_id',
+                ReferenceTable => 'ticket',
+                ReferenceField => 'id',
             },
             {
-                Table       => 'article_attachment',
-                Description => 'Check for orphaned entries in article_attachment table',
-                CheckSQL    => '
-                    SELECT COUNT(article_attachment.article_id)
-                    FROM article_attachment
-                    WHERE (article_attachment.article_id NOT IN (SELECT article.id FROM article))
-                    OR (article_attachment.article_id IN (SELECT article.id FROM article WHERE article.ticket_id NOT IN (SELECT ticket.id FROM ticket)))
-                ',
-                DeleteSQL => [
-                    '
-                        DELETE
-                        FROM article_attachment
-                        WHERE (article_attachment.article_id NOT IN (SELECT article.id FROM article))
-                        OR (article_attachment.article_id IN (SELECT article.id FROM article WHERE article.ticket_id NOT IN (SELECT ticket.id FROM ticket)))
-                    ',
-                ],
+                Table          => 'article_flag',
+                Field          => 'article_id',
+                ReferenceTable => 'article',
+                ReferenceField => 'id',
             },
             {
-                Table       => 'time_accounting',
-                Description => 'Check for orphaned entries in time_accounting table',
-                CheckSQL    => '
-                    SELECT COUNT(time_accounting.article_id)
-                    FROM time_accounting
-                    WHERE (time_accounting.article_id NOT IN (SELECT article.id FROM article))
-                    OR (time_accounting.article_id IN (SELECT article.id FROM article WHERE article.ticket_id NOT IN (SELECT ticket.id FROM ticket)))
-                ',
-                DeleteSQL => [
-                    '
-                        DELETE
-                        FROM time_accounting
-                        WHERE (time_accounting.article_id NOT IN (SELECT article.id FROM article))
-                        OR (time_accounting.article_id IN (SELECT article.id FROM article WHERE article.ticket_id NOT IN (SELECT ticket.id FROM ticket)))
-                    ',
-                ],
+                Table          => 'article_attachment',
+                Field          => 'article_id',
+                ReferenceTable => 'article',
+                ReferenceField => 'id',
             },
             {
-                Table       => 'article_plain',
-                Description => 'Check for orphaned entries in article_plain table',
-                CheckSQL    => '
-                    SELECT COUNT(article_plain.article_id)
-                    FROM article_plain
-                    WHERE (article_plain.article_id NOT IN (SELECT article.id FROM article))
-                    OR (article_plain.article_id IN (SELECT article.id FROM article WHERE article.ticket_id NOT IN (SELECT ticket.id FROM ticket)))
-                ',
-                DeleteSQL => [
-                    '
-                        DELETE
-                        FROM article_plain
-                        WHERE (article_plain.article_id NOT IN (SELECT article.id FROM article))
-                        OR (article_plain.article_id IN (SELECT article.id FROM article WHERE article.ticket_id NOT IN (SELECT ticket.id FROM ticket)))
-                    ',
-                ],
+                Table          => 'time_accounting',
+                Field          => 'article_id',
+                ReferenceTable => 'article',
+                ReferenceField => 'id',
             },
             {
-                Table       => 'ticket_history',
-                Description => 'Check for orphaned entries in ticket_history table',
-                CheckSQL    => '
-                    SELECT COUNT(ticket_history.article_id)
-                    FROM ticket_history
-                    WHERE (ticket_history.article_id <> 0 AND ticket_history.article_id NOT IN (SELECT article.id FROM article))
-                    OR (ticket_history.ticket_id NOT IN (SELECT ticket.id FROM ticket))
-                ',
-                DeleteSQL => [
-                    '
-                        DELETE
-                        FROM ticket_history
-                        WHERE (ticket_history.article_id <> 0 AND ticket_history.article_id NOT IN (SELECT article.id FROM article))
-                        OR (ticket_history.ticket_id NOT IN (SELECT ticket.id FROM ticket))
-                    ',
-                    '
-                        UPDATE ticket_history
-                        SET ticket_history.article_id = NULL
-                        WHERE ticket_history.article_id = 0
-                    ',
-                ],
+                Table          => 'article_plain',
+                Field          => 'article_id',
+                ReferenceTable => 'article',
+                ReferenceField => 'id',
             },
             {
-                Table       => 'article',
-                Description => 'Check for orphaned entries in article table',
-                CheckSQL    => '
-                    SELECT COUNT(article.id)
-                    FROM article
-                    WHERE article.ticket_id
-                    NOT IN (SELECT ticket.id FROM ticket)
-                ',
+                Table => 'ticket_history',
+                CheckSQL =>
+                    'SELECT COUNT(tab.article_id) '
+                    . 'FROM ticket_history tab '
+                    . 'LEFT JOIN article ref ON tab.article_id = ref.id '
+                    . 'WHERE tab.article_id IS NOT NULL '
+                    . 'AND tab.article_id != 0 '
+                    . 'AND ref.id IS NULL',
                 DeleteSQL => [
-                    '
-                        DELETE
-                        FROM article
-                        WHERE article.ticket_id
-                        NOT IN (SELECT ticket.id FROM ticket)
-                    ',
+                    'DELETE tab FROM ticket_history tab '
+                        . 'LEFT JOIN article ref ON tab.article_id = ref.id '
+                        . 'WHERE tab.article_id IS NOT NULL '
+                        . 'AND tab.article_id != 0 '
+                        . 'AND ref.id IS NULL',
+                    'UPDATE ticket_history '
+                        . 'SET article_id = NULL '
+                        . 'WHERE article_id = 0'
                 ],
             },
         );
@@ -468,10 +405,17 @@ sub CheckPreviousRequirement {
         for my $Index ( 0 .. $#OrphanedEntryChecks ) {
             my $OrphanedEntryCheck = $OrphanedEntryChecks[$Index];
 
-            print "        $OrphanedEntryCheck->{Description} ...\n" if $Verbose;
+            print "        Check for orphaned entries in $OrphanedEntryCheck->{Table} table ...\n" if $Verbose;
+
+            my $CheckSQL = $OrphanedEntryCheck->{CheckSQL} ||
+                "SELECT COUNT(tab.$OrphanedEntryCheck->{Field}) "
+                . "FROM $OrphanedEntryCheck->{Table} tab "
+                . "LEFT JOIN $OrphanedEntryCheck->{ReferenceTable} ref ON tab.$OrphanedEntryCheck->{Field} = ref.$OrphanedEntryCheck->{ReferenceField} "
+                . "WHERE tab.$OrphanedEntryCheck->{Field} IS NOT NULL "
+                . "AND ref.$OrphanedEntryCheck->{ReferenceField} IS NULL";
 
             return if !$DBObject->Prepare(
-                SQL => $OrphanedEntryCheck->{CheckSQL},
+                SQL => $CheckSQL,
             );
 
             my $Count = 0;
@@ -485,6 +429,13 @@ sub CheckPreviousRequirement {
             print "\n" if !$Verbose && !$Index;
 
             print "        Found $Count orphaned entries in $OrphanedEntryCheck->{Table} table ...\n";
+
+            my $DeleteSQL = $OrphanedEntryCheck->{DeleteSQL} || [
+                "DELETE tab FROM $OrphanedEntryCheck->{Table} tab "
+                    . "LEFT JOIN $OrphanedEntryCheck->{ReferenceTable} ref ON tab.$OrphanedEntryCheck->{Field} = ref.$OrphanedEntryCheck->{ReferenceField} "
+                    . "WHERE tab.$OrphanedEntryCheck->{Field} IS NOT NULL "
+                    . "AND ref.$OrphanedEntryCheck->{ReferenceField} IS NULL"
+            ];
 
             # Only in interactive mode or if the CleanupOrphanedArticles parameter is active.
             if ( $InteractiveMode || $Param{CommandlineOptions}->{CleanupOrphanedArticles} ) {
@@ -506,7 +457,7 @@ sub CheckPreviousRequirement {
                 if ( $Answer =~ m{^y}i || $Param{CommandlineOptions}->{CleanupOrphanedArticles} ) {
 
                     # Delete the orphaned entries.
-                    for my $SQL ( @{ $OrphanedEntryCheck->{DeleteSQL} } ) {
+                    for my $SQL ( @{$DeleteSQL} ) {
                         return if !$DBObject->Do(
                             SQL => $SQL,
                         );
@@ -514,7 +465,7 @@ sub CheckPreviousRequirement {
 
                     # Now check if no orphaned entries are found anymore.
                     return if !$DBObject->Prepare(
-                        SQL => $OrphanedEntryCheck->{CheckSQL},
+                        SQL => $CheckSQL,
                     );
                     my $Count;
                     while ( my @Row = $DBObject->FetchrowArray() ) {
@@ -533,7 +484,7 @@ sub CheckPreviousRequirement {
 
                 print
                     "        Please delete them manually with the following SQL statements and then run the migration script again:\n";
-                for my $SQL ( @{ $OrphanedEntryCheck->{DeleteSQL} } ) {
+                for my $SQL ( @{$DeleteSQL} ) {
                     print $SQL;
                 }
                 print "\n";
@@ -548,7 +499,7 @@ sub CheckPreviousRequirement {
                 # Show manual instructions and remember to stop later.
                 print
                     "        Please delete them manually with the following SQL statements and then run the migration script again:\n";
-                for my $SQL ( @{ $OrphanedEntryCheck->{DeleteSQL} } ) {
+                for my $SQL ( @{$DeleteSQL} ) {
                     print $SQL;
                 }
                 print "\n";
