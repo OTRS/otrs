@@ -203,7 +203,7 @@ $Selenium->RunTest(
         for my $Title (@Header) {
 
             # Check widget title.
-            $Self->Is(
+            $Self->True(
                 index( $Selenium->get_page_source(), $Title ) > -1,
                 "$Title widget found on page",
             );
