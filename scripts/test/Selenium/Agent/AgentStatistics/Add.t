@@ -270,6 +270,7 @@ $Selenium->RunTest(
 
             # Check Restrictions configuration dialog.
             $Selenium->find_element( ".EditRestrictions", 'css' )->click();
+            sleep 2;
             $Selenium->WaitFor(
                 JavaScript =>
                     'return typeof($) === "function" && $(".Dialog.Modal").length && $("#EditDialog select").length;'
