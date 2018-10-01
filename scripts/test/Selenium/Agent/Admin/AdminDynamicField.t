@@ -235,6 +235,7 @@ $Selenium->RunTest(
                     JavaScript =>
                         "return typeof(\$) === 'function' && \$('#DynamicFieldID_$DynamicFieldID').length == 0;"
                 );
+                $Selenium->VerifiedRefresh();
 
                 # Check if dynamic filed is deleted.
                 $Self->False(
@@ -243,8 +244,6 @@ $Selenium->RunTest(
                     ),
                     "DynamicField ($Type-$ID) $RandomID is deleted",
                 );
-
-                $Selenium->VerifiedRefresh();
             }
 
             # Make sure the cache is correct.
