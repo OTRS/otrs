@@ -231,7 +231,6 @@ $Selenium->RunTest(
 
                 $Selenium->accept_alert();
 
-                $Selenium->WaitFor( JavaScript => "return \$('.Dialog').length;" );
                 $Selenium->WaitFor(
                     JavaScript =>
                         "return typeof(\$) === 'function' && \$('#DynamicFieldID_$DynamicFieldID').length == 0;"
