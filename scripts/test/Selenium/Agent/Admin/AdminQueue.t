@@ -65,7 +65,6 @@ $Selenium->RunTest(
         $Element->send_keys("");
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
-        #$Element->click("button#Submit");
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
@@ -150,7 +149,8 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#GroupID').val('2').change();");
         $Selenium->execute_script("\$('#ValidID').val('2').change();");
         $Selenium->find_element( "#Comment", 'css' )->clear();
-        $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
+        $Selenium->execute_script("\$('#Submit').click();");
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('.DataTable tbody tr td').length" );
 
         # check overview page
         $Self->True(
