@@ -286,6 +286,7 @@ $Selenium->RunTest(
             JavaScript =>
                 "return typeof(\$) === 'function' && \$('a[href*=\"Subaction=TransitionEdit;ID=$TransitionID\"]:visible').length && \$.active == 0"
         );
+        sleep 2;
 
         # Go to edit test Transition screen again.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionEdit;ID=$TransitionID' )]")->click();
