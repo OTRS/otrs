@@ -383,7 +383,7 @@ for my $Test (@Tests) {
         "$Test->{Name} - TicketCreate() successful for Ticket ID $TicketID",
     );
 
-    #  set value of dynamic filed, OldValue is not set on TicketCreate
+    #  set value of dynamic field, OldValue is not set on TicketCreate
     my $Success = $BackendObject->ValueSet(
         DynamicFieldConfig => $Test->{DynamicFieldConfig},
         ObjectID           => $TicketID,
@@ -391,7 +391,7 @@ for my $Test (@Tests) {
         UserID             => $Test->{UserID},
     );
 
-    #  update value of dynamic filed for ticket history to set OldValue
+    #  update value of dynamic field for ticket history to set OldValue
     $Success = $BackendObject->ValueSet(
         DynamicFieldConfig => $Test->{DynamicFieldConfig},
         ObjectID           => $TicketID,

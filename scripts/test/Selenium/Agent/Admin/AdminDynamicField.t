@@ -237,7 +237,7 @@ $Selenium->RunTest(
                 );
                 $Selenium->VerifiedRefresh();
 
-                # Check if dynamic filed is deleted.
+                # Check if dynamic field is deleted.
                 $Self->False(
                     $Selenium->execute_script(
                         "return \$('#DynamicFieldID_$DynamicFieldID').length;"
