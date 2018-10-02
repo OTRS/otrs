@@ -286,6 +286,15 @@ $Selenium->RunTest(
             JavaScript =>
                 "return typeof(\$) === 'function' && \$('a[href*=\"Subaction=TransitionEdit;ID=$TransitionID\"]:visible').length && \$.active == 0"
         );
+
+        $Selenium->find_element( "#TransitionFilter", 'css' )->clear();
+        $Selenium->find_element( "#TransitionFilter", 'css' )->send_keys($TransitionRandom);
+
+        # Wait for filter to kick in.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".OneRow[data-entity*=\'Transition\']:visible").length === 1'
+        );
         sleep 2;
 
         # Go to edit test Transition screen again.
