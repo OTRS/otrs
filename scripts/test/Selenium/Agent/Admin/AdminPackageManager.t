@@ -223,7 +223,6 @@ $Selenium->RunTest(
             BreadcrumbText => 'Install Package:',
         );
         $Selenium->find_element("//button[\@value='Continue'][\@type='submit']")->click();
-        $Selenium->VerifiedRefresh();
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".DataTable").length;' );
         $Self->True(
