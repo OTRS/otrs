@@ -108,17 +108,21 @@ sub PreRun {
     if ( $Options{send} ) {
 
         my $PIDObject = $Kernel::OM->Get('Kernel::System::PID');
+        my $Force     = $Self->GetOption('force');
 
-        my %PID = $PIDObject->PIDGet(
-            Name => 'MaintMailQueueSending',
-        );
+        if ( !$Force ) {
+            my %PID = $PIDObject->PIDGet(
+                Name => 'MaintMailQueueSending',
+            );
 
-        if (%PID) {
-            die "Message sending already in progress! Skipping...\n";
+            if (%PID) {
+                die "Message sending already in progress! Skipping...\n";
+            }
         }
 
         my $Success = $PIDObject->PIDCreate(
-            Name => 'MaintMailQueueSending',
+            Name  => 'MaintMailQueueSending',
+            Force => $Force,
         );
 
         if ( !$Success ) {
