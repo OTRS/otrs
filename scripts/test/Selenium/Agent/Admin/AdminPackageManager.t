@@ -137,7 +137,11 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@value='Install'][\@type='submit']")->VerifiedClick();
         $Selenium->find_element("//button[\@value='Continue'][\@type='submit']")->VerifiedClick();
 
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".DataTable").length;' );
+        sleep 2;
+        $Selenium->WaitFor(
+            Time       => 60,
+            JavaScript => 'return typeof($) === "function" && $(".DataTable").length;'
+        );
         $Self->True(
             $Selenium->find_element(
                 "//a[contains(\@href, \'Subaction=View;Name=Test' )]"
