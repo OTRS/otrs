@@ -194,7 +194,9 @@ $Selenium->RunTest(
             $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
             # Check X-axis configuration dialog.
-            $Selenium->find_element( ".EditXAxis", 'css' )->click();
+            $Selenium->VerifiedRefresh();
+            $Selenium->execute_script('$(".EditXAxis").click();');
+            sleep 2;
             $Selenium->WaitFor(
                 JavaScript =>
                     'return typeof($) === "function" && $(".Dialog.Modal").length && $("#DialogButton1").length;'
@@ -245,7 +247,9 @@ $Selenium->RunTest(
             }
 
             # Check Y-axis configuration dialog.
-            $Selenium->find_element( ".EditYAxis", 'css' )->click();
+            $Selenium->VerifiedRefresh();
+            $Selenium->execute_script('$(".EditYAxis").click();');
+            sleep 2;
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal").length;' );
             $Selenium->WaitFor( JavaScript => 'return $("#EditDialog select").length && $("#DialogButton1").length;' );
 
@@ -269,7 +273,8 @@ $Selenium->RunTest(
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length;' );
 
             # Check Restrictions configuration dialog.
-            $Selenium->find_element( ".EditRestrictions", 'css' )->click();
+            $Selenium->VerifiedRefresh();
+            $Selenium->execute_script('$(".EditRestrictions").click();');
             sleep 2;
             $Selenium->WaitFor(
                 JavaScript =>
