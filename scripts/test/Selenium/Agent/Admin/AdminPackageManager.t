@@ -222,7 +222,8 @@ $Selenium->RunTest(
         $CheckBreadcrumb->(
             BreadcrumbText => 'Install Package:',
         );
-        $Selenium->find_element("//button[\@value='Continue'][\@type='submit']")->click();
+        $Selenium->find_element("//button[\@value='Continue'][\@type='submit']")->VerifiedClick();
+
         sleep 2;
         $Selenium->WaitFor(
             Time       => 60,
