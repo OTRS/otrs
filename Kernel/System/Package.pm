@@ -581,7 +581,7 @@ sub PackageInstall {
     # install database (pre)
     if ( $Structure{DatabaseInstall} && $Structure{DatabaseInstall}->{pre} ) {
 
-        my $DatabaseInstall = $Self->_CheckDBMerged( Database => $Structure{DatabaseInstall}->{pre} );
+        my $DatabaseInstall = $Self->_CheckDBInstalledOrMerged( Database => $Structure{DatabaseInstall}->{pre} );
 
         if ( IsArrayRefWithData($DatabaseInstall) ) {
             $Self->_Database( Database => $DatabaseInstall );
@@ -622,7 +622,7 @@ sub PackageInstall {
     # install database (post)
     if ( $Structure{DatabaseInstall} && $Structure{DatabaseInstall}->{post} ) {
 
-        my $DatabaseInstall = $Self->_CheckDBMerged( Database => $Structure{DatabaseInstall}->{post} );
+        my $DatabaseInstall = $Self->_CheckDBInstalledOrMerged( Database => $Structure{DatabaseInstall}->{post} );
 
         if ( IsArrayRefWithData($DatabaseInstall) ) {
             $Self->_Database( Database => $DatabaseInstall );
@@ -4655,7 +4655,7 @@ sub _MergedPackages {
     return 1;
 }
 
-sub _CheckDBMerged {
+sub _CheckDBInstalledOrMerged {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -4705,7 +4705,11 @@ sub _CheckDBMerged {
             )
             || (
                 defined $Part->{IfNotPackage}
-                && defined $Self->{MergedPackages}->{ $Part->{IfNotPackage} }
+                &&
+                (
+                    defined $Self->{MergedPackages}->{ $Part->{IfNotPackage} }
+                    || $Self->PackageIsInstalled( Name => $Part->{IfNotPackage} )
+                )
             )
             )
         {
