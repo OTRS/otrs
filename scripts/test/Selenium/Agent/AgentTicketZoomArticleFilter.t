@@ -147,7 +147,7 @@ $Selenium->RunTest(
         );
         for my $Article (@FirstArticles) {
             $Self->True(
-                $Selenium->execute_script("return \$('#ArticleTable:contains(\"$Article\")').length"),
+                $Selenium->execute_script("return \$('#ArticleTable:contains(\"$Article\")').length;"),
                 "ZoomExpandSort: reverse - $Article found on first page - article filter off",
             );
         }
@@ -161,7 +161,7 @@ $Selenium->RunTest(
 
         for my $Article (@SecondArticles) {
             $Self->False(
-                $Selenium->execute_script("return \$('#ArticleTable:contains(\"$Article\")').length"),
+                $Selenium->execute_script("return \$('#ArticleTable:contains(\"$Article\")').length;"),
                 "ZoomExpandSort: reverse - $Article not found first on page - article filter off",
             );
         }
@@ -172,13 +172,13 @@ $Selenium->RunTest(
         # Wait for Asynchronous widget and article filter to load.
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('#ArticleTable').length && \$('#SetArticleFilter').length"
+                "return typeof(\$) === 'function' && \$('#ArticleTable').length && \$('#SetArticleFilter').length;"
         );
 
         # Verify there are first 3 created articles on second page.
         for my $Article (@SecondArticles) {
             $Self->True(
-                $Selenium->execute_script("return \$('#ArticleTable:contains(\"$Article\")').length"),
+                $Selenium->execute_script("return \$('#ArticleTable:contains(\"$Article\")').length;"),
                 "ZoomExpandSort: reverse - $Article found on second page - article filter off",
             );
         }
@@ -227,7 +227,7 @@ $Selenium->RunTest(
         my @ArticlesFilterOn = ( 'First Test Article', 'Fourth Test Article' );
         for my $ArticleFilterOn (@ArticlesFilterOn) {
             $Self->True(
-                $Selenium->execute_script("return \$('#ArticleTable:contains(\"$ArticleFilterOn\")').length"),
+                $Selenium->execute_script("return \$('#ArticleTable:contains(\"$ArticleFilterOn\")').length;"),
                 "ZoomExpandSort: reverse - $ArticleFilterOn found on page with original numeration - article filter on",
             );
         }
@@ -242,20 +242,22 @@ $Selenium->RunTest(
         # Refresh screen.
         $Selenium->VerifiedRefresh();
 
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ResetArticleFilter").length;' );
+
         # Reset filter.
         $Selenium->find_element( "#ResetArticleFilter", 'css' )->click();
 
         # Wait until reset filter button has gone.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$("#ResetArticleFilter").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$("#ResetArticleFilter").length;' );
 
         # Click on first page.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".ArticlePages a").length === 2' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".ArticlePages a").length === 2;' );
+        sleep 1;
         $Selenium->find_element("//a[contains(\@href, \'TicketID=$TicketID;ArticlePage=1')]")->VerifiedClick();
-        $Selenium->VerifiedRefresh();
 
         for my $Article (@SecondArticles) {
             $Self->True(
-                index( $Selenium->get_page_source(), $Article ) > -1,
+                $Selenium->execute_script("return \$('#ArticleTable:contains(\"$Article\")').length;"),
                 "ZoomExpandSort: normal - $Article found on first page - article filter off",
             );
         }
@@ -265,7 +267,7 @@ $Selenium->RunTest(
 
         for my $Article (@FirstArticles) {
             $Self->True(
-                index( $Selenium->get_page_source(), $Article ) > -1,
+                $Selenium->execute_script("return \$('#ArticleTable:contains(\"$Article\")').length;"),
                 "ZoomExpandSort: normal - $Article found on second page - article filter off",
             );
         }
@@ -313,7 +315,7 @@ $Selenium->RunTest(
         for my $ArticleType ( sort keys %TestArticles ) {
             $Self->True(
                 $Selenium->execute_script(
-                    "return \$('#ArticleTable:contains(\"$TestArticles{$ArticleType}\")').length"
+                    "return \$('#ArticleTable:contains(\"$TestArticles{$ArticleType}\")').length;"
                 ),
                 "Article type $ArticleType - \"$TestArticles{$ArticleType}\" found on page",
             );
@@ -352,7 +354,7 @@ $Selenium->RunTest(
         for my $ArticleType ( sort keys %TestArticles ) {
             $Self->True(
                 $Selenium->execute_script(
-                    "return \$('#ArticleTable:contains(\"$TestArticles{$ArticleType}\")').length"
+                    "return \$('#ArticleTable:contains(\"$TestArticles{$ArticleType}\")').length;"
                 ),
                 "Article type $ArticleType - \"$TestArticles{$ArticleType}\" found on page",
             );
@@ -405,23 +407,23 @@ $Selenium->RunTest(
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
             $Selenium->WaitFor(
-                JavaScript => "return typeof(\$) === 'function' && \$('#ArticleViewSettings').length && \$.active == 0"
+                JavaScript => "return typeof(\$) === 'function' && \$('#ArticleViewSettings').length && \$.active == 0;"
             );
 
             # Set timeline view.
             $Selenium->find_element( "#ArticleViewSettings", 'css' )->click();
-            $Selenium->WaitFor( JavaScript => 'return $(".Dialog:visible").length && $("#ArticleView").length' );
+            $Selenium->WaitFor( JavaScript => 'return $(".Dialog:visible").length && $("#ArticleView").length;' );
 
             $Selenium->execute_script(
-                "\$('#ArticleView').val('Timeline').trigger('redraw.InputField').trigger('change')"
+                "\$('#ArticleView').val('Timeline').trigger('redraw.InputField').trigger('change');"
             );
 
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog:visible").length' );
-            $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog:visible").length;' );
+            $Selenium->WaitFor( JavaScript => "return \$.active == 0;" );
 
             # Check last created article (PhoneCallCustomer) is shown in timeline view.
             $Self->True(
-                $Selenium->execute_script("return \$('.TimelineView #ArticleID_$NonAddNoteArticleID').length"),
+                $Selenium->execute_script("return \$('.TimelineView #ArticleID_$NonAddNoteArticleID').length;"),
                 "ArticleID $NonAddNoteArticleID is shown in timeline view",
             );
 
@@ -461,11 +463,11 @@ $Selenium->RunTest(
             for my $FilterValue ( sort keys %ArticleFilters ) {
                 $Selenium->find_element( "#SetArticleFilter", 'css' )->click();
                 $Selenium->WaitFor(
-                    JavaScript => 'return $(".Dialog:visible").length && $("#EventTypeFilter").length'
+                    JavaScript => 'return $(".Dialog:visible").length && $("#EventTypeFilter").length;'
                 );
 
                 $Selenium->execute_script(
-                    "\$('#EventTypeFilter').val('$FilterValue').trigger('redraw.InputField').trigger('change')"
+                    "\$('#EventTypeFilter').val('$FilterValue').trigger('redraw.InputField').trigger('change');"
                 );
 
                 $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
@@ -476,7 +478,7 @@ $Selenium->RunTest(
 
                     $Self->Is(
                         $Selenium->execute_script(
-                            "return \$('.TimelineView li.HasArticle:contains(\"$Subject\")').length"
+                            "return \$('.TimelineView li.HasArticle:contains(\"$Subject\")').length;"
                         ),
                         $Value,
                         "Timeline view - Filter '$FilterValue' - Article '$Subject' - $IsShown",
