@@ -13,24 +13,22 @@ use utf8;
 use vars (qw($Self));
 use Kernel::Config;
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper             = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
         my $Home = $Kernel::OM->Get('Kernel::Config')->Get("Home");
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
 
-        # add needed dynamic field, but in wrong format
+        # Add needed dynamic field, but in wrong format.
         my $ID = $DynamicFieldObject->DynamicFieldAdd(
             Name       => 'PreProcApplicationRecorded',
             Label      => 'Days Remaining',
@@ -52,27 +50,26 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get test user ID
+        # Get test user ID.
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to AdminProcessManagement screen
+        # Navigate to AdminProcessManagement screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
 
-        # select Application for leave process
+        # Select Application for leave process.
         $Selenium->execute_script(
             "\$('#ExampleProcess').val('Application_for_leave.yml')" .
                 ".trigger('redraw.InputField').trigger('change');"
         );
 
-        # Import
+        # Import.
         $Selenium->find_element( "#ExampleProcesses button", "css" )->VerifiedClick();
 
-        # check error message
+        # Check error message.
         $Self->True(
             index(
                 $Selenium->get_page_source(),
@@ -81,7 +78,7 @@ $Selenium->RunTest(
             "Error message is shown.",
         );
 
-        # delete wrong dynamic field
+        # Delete wrong dynamic field.
         my $DeleteSuccess = $DynamicFieldObject->DynamicFieldDelete(
             ID      => $ID,
             UserID  => 1,
@@ -94,16 +91,17 @@ $Selenium->RunTest(
 
         # Try to import process once again, but this time it should work.
 
-        # navigate to AdminProcessManagement screen
+        # Navigate to AdminProcessManagement screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
 
-        # select Application for leave process
+        # Select Application for leave process.
         $Selenium->execute_script(
             "\$('#ExampleProcess').val('Application_for_leave.yml')" .
                 ".trigger('redraw.InputField').trigger('change');"
         );
+        sleep 2;
 
-        # Import
+        # Import.
         $Selenium->find_element( "#ExampleProcesses button", "css" )->VerifiedClick();
 
         my $ProcessFound = $Selenium->execute_script(
@@ -115,7 +113,7 @@ $Selenium->RunTest(
             "Application for leave is imported."
         );
 
-        # check imported dynamic fields (from pre .pm file)
+        # Check imported dynamic fields (from pre .pm file).
         my $DynamicFieldList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
             ObjectType => 'Ticket',
             ResultType => 'HASH',
@@ -182,7 +180,7 @@ $Selenium->RunTest(
             }
         }
 
-        # delete wrong dynamic field
+        # Delete wrong dynamic field.
         my $DynamicFieldData = $DynamicFieldObject->DynamicFieldGet(
             Name => 'PreProcApplicationRecorded',
         );
