@@ -151,7 +151,7 @@ $Selenium->RunTest(
 
             # Go to next step of installation (Create Database).
             $Selenium->execute_script("\$('#FormDBSubmit').click();");
-
+            sleep 3;
             $Selenium->WaitFor(
                 Time => 300,
                 JavaScript =>
@@ -173,6 +173,7 @@ $Selenium->RunTest(
 
             # Go to next step of installation (System Settings).
             $Selenium->execute_script("\$('button[type=submit]').click();");
+            sleep 3;
 
             $Selenium->WaitFor(
                 Time => 300,
@@ -189,6 +190,7 @@ $Selenium->RunTest(
 
             # Go to next step of installation (Mail Configuration).
             $Selenium->execute_script("\$('button[type=submit]').click();");
+            sleep 3;
 
             $Selenium->WaitFor(
                 Time => 300,
@@ -209,6 +211,7 @@ $Selenium->RunTest(
 
             # Go to last step of installation.
             $Selenium->execute_script("\$('#ButtonSkipMail').click();");
+            sleep 3;
 
             $Selenium->WaitFor(
                 Time => 300,
