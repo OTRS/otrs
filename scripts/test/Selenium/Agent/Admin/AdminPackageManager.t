@@ -134,10 +134,21 @@ $Selenium->RunTest(
 
         $Selenium->find_element( '#FileUpload', 'css' )->send_keys($Location);
 
-        $Selenium->find_element("//button[\@value='Install'][\@type='submit']")->VerifiedClick();
-        $Selenium->find_element("//button[\@value='Continue'][\@type='submit']")->VerifiedClick();
+        $Selenium->execute_script('$("button[value=\'Install\']").click();');
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
+        sleep 3;
 
-        sleep 2;
+
+        $Selenium->execute_script('$("button[value=\'Continue\']").click();');
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
+        sleep 3;
+
         $Selenium->WaitFor(
             Time       => 60,
             JavaScript => 'return typeof($) === "function" && $(".DataTable").length;'
@@ -147,7 +158,7 @@ $Selenium->RunTest(
                 "//a[contains(\@href, \'Subaction=View;Name=Test' )]"
             )->is_displayed(),
             'Test package is installed'
-        );
+        ) || die;
 
         # Load page with metadata of installed package.
         $Selenium->find_element(
