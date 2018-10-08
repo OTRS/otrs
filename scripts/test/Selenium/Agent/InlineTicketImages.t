@@ -231,6 +231,9 @@ my $CheckTicketReplyOrForward = sub {
     );
 
     # Input required fields and submit compose.
+    if ( $Action eq 'Reply' ) {
+        $Selenium->VerifiedRefresh();
+    }
     $Selenium->execute_script("\$('#submitRichText').click()");
 
     $Selenium->WaitFor( WindowCount => 1 );
