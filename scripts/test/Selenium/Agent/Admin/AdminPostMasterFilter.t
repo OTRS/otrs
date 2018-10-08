@@ -156,13 +156,16 @@ $Selenium->RunTest(
         );
 
         # Check new test PostMasterFilter values.
+        $Selenium->VerifiedRefresh();
         $Selenium->find_element( $PostMasterName, 'link_text' )->VerifiedClick();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#EditName").length;' );
 
         $Self->Is(
             $Selenium->find_element( '#EditName', 'css' )->get_value(),
             $PostMasterName,
             "#EditName stored value",
         );
+
         $Self->Is(
             $Selenium->find_element( '#MatchHeader1', 'css' )->get_value(),
             "Body",
