@@ -177,11 +177,8 @@ $Selenium->RunTest(
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("a.CancelClosePopup:visible").length === 1;'
         );
-
-        $Self->True(
-            $Selenium->find_element( "a.CancelClosePopup", 'css' )->click(),
-            "Pop-up window is found - JS is successful"
-        );
+        $Selenium->VerifiedRefresh();
+        $Selenium->find_element( "a.CancelClosePopup", 'css' )->click();
 
         # Switch window back.
         $Selenium->WaitFor( WindowCount => 1 );
