@@ -143,7 +143,7 @@ $OTRSVersion .= '.x';
 
 my $TestPackage = '<?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
-  <Name>Test</Name>
+  <Name>Test - ' . $RandomNumber . '</Name>
   <Version>0.0.1</Version>
   <Vendor>OTRS AG</Vendor>
   <URL>https://otrs.com/</URL>
