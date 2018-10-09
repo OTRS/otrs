@@ -1,4 +1,5 @@
 #6.0.13 2018-??-??
+ - 2018-10-09 Improved upload cache module.
  - 2018-10-03 Fixed bug#[14107](https://bugs.otrs.org/show_bug.cgi?id=14107) - IfNotPackage property in <Database*> tag is not honored during Package Install for Installed packages.
 
 #6.0.12 2018-10-05

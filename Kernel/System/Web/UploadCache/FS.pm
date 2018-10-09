@@ -51,6 +51,8 @@ sub FormIDRemove {
         return;
     }
 
+    return if !$Self->_FormIDValidate( $Param{FormID} );
+
     my $Directory = $Self->{TempDir} . '/' . $Param{FormID};
 
     if ( !-d $Directory ) {
@@ -94,6 +96,8 @@ sub FormIDAddFile {
             return;
         }
     }
+
+    return if !$Self->_FormIDValidate( $Param{FormID} );
 
     $Param{Content} = '' if !defined( $Param{Content} );
 
@@ -173,6 +177,8 @@ sub FormIDRemoveFile {
         }
     }
 
+    return if !$Self->_FormIDValidate( $Param{FormID} );
+
     my @Index = @{ $Self->FormIDGetAllFilesMeta(%Param) };
 
     # finish if files have been already removed by other process
@@ -222,6 +228,8 @@ sub FormIDGetAllFilesData {
     }
 
     my @Data;
+
+    return \@Data if !$Self->_FormIDValidate( $Param{FormID} );
 
     my $Directory = $Self->{TempDir} . '/' . $Param{FormID};
 
@@ -318,6 +326,8 @@ sub FormIDGetAllFilesMeta {
     }
 
     my @Data;
+
+    return \@Data if !$Self->_FormIDValidate( $Param{FormID} );
 
     my $Directory = $Self->{TempDir} . '/' . $Param{FormID};
 
@@ -443,6 +453,22 @@ sub FormIDCleanUp {
                 next SUBDIR;
             }
         }
+    }
+
+    return 1;
+}
+
+sub _FormIDValidate {
+    my ( $Self, $FormID ) = @_;
+
+    return if !$FormID;
+
+    if ( $FormID !~ m{^ \d+ \. \d+ \. \d+ $}xms ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Invalid FormID!',
+        );
+        return;
     }
 
     return 1;
