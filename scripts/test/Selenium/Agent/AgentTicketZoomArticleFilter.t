@@ -417,6 +417,7 @@ $Selenium->RunTest(
             $Selenium->execute_script(
                 "\$('#ArticleView').val('Timeline').trigger('redraw.InputField').trigger('change');"
             );
+            sleep 2;
 
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog:visible").length;' );
             $Selenium->WaitFor( JavaScript => "return \$.active == 0;" );
