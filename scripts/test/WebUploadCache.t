@@ -19,6 +19,14 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 for my $Module (qw(DB FS)) {
 
     # make sure that the $UploadCacheObject gets recreated for each loop.
@@ -38,6 +46,8 @@ for my $Module (qw(DB FS)) {
         $FormID,
         "#$Module - FormIDCreate()",
     );
+
+    my $InvalidFormID = $Helper->GetRandomID();
 
     # file checks
     for my $File (qw(xls txt doc png pdf)) {
@@ -80,6 +90,22 @@ for my $Module (qw(DB FS)) {
             $Add || '',
             "#$Module - FormIDAddFile() - ." . $File,
         );
+
+        if ( $Module eq 'FS' ) {
+            my $Add = $UploadCacheObject->FormIDAddFile(
+                FormID      => $InvalidFormID,
+                Filename    => 'UploadCache Test1äöüß.' . $File,
+                Content     => $Content,
+                ContentType => 'text/html',
+                ContentID   => $ContentID,
+                Disposition => $Disposition,
+            );
+
+            $Self->False(
+                $Add // 0,
+                "#$Module - FormIDAddFile() - Invalid FormID"
+            );
+        }
 
         my @Data = $UploadCacheObject->FormIDGetAllFilesData(
             FormID => $FormID,
@@ -132,6 +158,19 @@ for my $Module (qw(DB FS)) {
                 "#$Module - FormIDGetAllFilesMeta() - Disposition ." . $File,
             );
         }
+
+        if ( $Module eq 'FS' ) {
+            my $Delete = $UploadCacheObject->FormIDRemoveFile(
+                FormID => $InvalidFormID,
+                FileID => 1,
+            );
+
+            $Self->False(
+                $Delete // 0,
+                "#$Module - FormIDRemoveFile() - Invalid FormID"
+            );
+        }
+
         my $Delete = $UploadCacheObject->FormIDRemoveFile(
             FormID => $FormID,
             FileID => 1,
@@ -178,6 +217,17 @@ for my $Module (qw(DB FS)) {
             "#$Module - FormIDAddFile() - ." . $File,
         );
 
+        if ( $Module eq 'FS' ) {
+            my @Data = $UploadCacheObject->FormIDGetAllFilesData(
+                FormID => $InvalidFormID,
+            );
+
+            $Self->False(
+                @Data // 0,
+                "#$Module - FormIDGetAllFilesData() - Invalid FormID"
+            );
+        }
+
         my @Data = $UploadCacheObject->FormIDGetAllFilesData(
             FormID => $FormID,
         );
@@ -206,6 +256,18 @@ for my $Module (qw(DB FS)) {
                 "#$Module - FormIDGetAllFilesData() - Disposition ." . $File,
             );
         }
+
+        if ( $Module eq 'FS' ) {
+            my @Data = $UploadCacheObject->FormIDGetAllFilesMeta(
+                FormID => $InvalidFormID,
+            );
+
+            $Self->False(
+                @Data // 0,
+                "#$Module - FormIDGetAllFilesMeta() - Invalid FormID"
+            );
+        }
+
         @Data = $UploadCacheObject->FormIDGetAllFilesMeta( FormID => $FormID );
         if (@Data) {
             my %File = %{ $Data[$#Data] };
@@ -235,5 +297,14 @@ for my $Module (qw(DB FS)) {
         $Remove,
         "#$Module - FormIDRemove()",
     );
+
+    if ( $Module eq 'FS' ) {
+        my $Remove = $UploadCacheObject->FormIDRemove( FormID => $InvalidFormID );
+
+        $Self->False(
+            $Remove // 0,
+            "#$Module - FormIDRemove() - Invalid FormID"
+        );
+    }
 }
 1;

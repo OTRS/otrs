@@ -1,4 +1,5 @@
-#4.0.33 20??-??-??
+#4.0.33 2018-??-??
+ - 2018-10-09 Improved upload cache module.
 
 #4.0.32 2018-09-21
  - 2018-09-03 Added improvements to HTML filter.
