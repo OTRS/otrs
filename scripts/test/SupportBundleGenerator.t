@@ -124,9 +124,10 @@ $OTRSVersion =~ s{ (\d+ \. \d+) .+ }{$1}msx;
 # add x as patch level version
 $OTRSVersion .= '.x';
 
-my $TestPackage = '<?xml version="1.0" encoding="utf-8" ?>
+my $RandomNumber = $Helper->GetRandomNumber();
+my $TestPackage  = '<?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
-  <Name>Test</Name>
+  <Name>Test - ' . $RandomNumber . '</Name>
   <Version>0.0.1</Version>
   <Vendor>OTRS AG</Vendor>
   <URL>https://otrs.com/</URL>
