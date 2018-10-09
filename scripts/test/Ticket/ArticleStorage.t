@@ -12,8 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-use Unicode::Normalize;
-
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
@@ -122,11 +120,6 @@ for my $Backend (qw(DB FS)) {
             );
 
             my $TargetFilename = $FileName . $File;
-
-            # Mac OS (HFS+) will store all filenames as NFD internally.
-            if ( $^O eq 'darwin' && $Backend eq 'FS' ) {
-                $TargetFilename = Unicode::Normalize::NFD($TargetFilename);
-            }
 
             $Self->Is(
                 $AttachmentIndex{1}->{Filename},
@@ -238,13 +231,7 @@ for my $Backend (qw(DB FS)) {
     my $TargetFilename = '[Terminology Guide äöß]';
 
     if ( $Backend eq 'FS' ) {
-
         $TargetFilename = '_Terminology_Guide_äöß_';
-
-        # Mac OS (HFS+) will store all filenames as NFD internally.
-        if ( $^O eq 'darwin' ) {
-            $TargetFilename = Unicode::Normalize::NFD($TargetFilename);
-        }
     }
 
     $Self->Is(
