@@ -1,4 +1,5 @@
 #5.0.31 20??-??-??
+ - 2018-10-09 Improved upload cache module.
  - 2018-09-19 Fixed bug#[14072](https://bugs.otrs.org/show_bug.cgi?id=14072) - Type activation warning disappears after new type is added.
 
 #5.0.30 2018-09-21

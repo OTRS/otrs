@@ -54,6 +54,8 @@ sub FormIDRemove {
         return;
     }
 
+    return if !$Self->_FormIDValidate( $Param{FormID} );
+
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
@@ -84,6 +86,8 @@ sub FormIDAddFile {
             return;
         }
     }
+
+    return if !$Self->_FormIDValidate( $Param{FormID} );
 
     # create content id
     my $ContentID = $Param{ContentID};
@@ -144,6 +148,8 @@ sub FormIDRemoveFile {
         }
     }
 
+    return if !$Self->_FormIDValidate( $Param{FormID} );
+
     my @Index = @{ $Self->FormIDGetAllFilesMeta(%Param) };
 
     # finish if files have been already removed by other process
@@ -186,6 +192,10 @@ sub FormIDGetAllFilesData {
         return;
     }
 
+    my @Data;
+
+    return \@Data if !$Self->_FormIDValidate( $Param{FormID} );
+
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
@@ -195,7 +205,6 @@ sub FormIDGetAllFilesData {
     );
 
     my $Counter = 0;
-    my @Data;
 
     FILE:
     for my $File (@List) {
@@ -283,6 +292,10 @@ sub FormIDGetAllFilesMeta {
         return;
     }
 
+    my @Data;
+
+    return \@Data if !$Self->_FormIDValidate( $Param{FormID} );
+
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
@@ -292,7 +305,6 @@ sub FormIDGetAllFilesMeta {
     );
 
     my $Counter = 0;
-    my @Data;
 
     FILE:
     for my $File (@List) {
@@ -385,6 +397,22 @@ sub FormIDCleanUp {
 
     for ( sort keys %RemoveFormIDs ) {
         $Self->FormIDRemove( FormID => $_ );
+    }
+
+    return 1;
+}
+
+sub _FormIDValidate {
+    my ( $Self, $FormID ) = @_;
+
+    return if !$FormID;
+
+    if ( $FormID !~ m{^ \d+ \. \d+ \. \d+ $}xms ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Invalid FormID!',
+        );
+        return;
     }
 
     return 1;
