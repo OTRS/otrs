@@ -40,30 +40,6 @@ $Selenium->RunTest(
         # get process object
         my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
 
-        # get all processes
-        my $ProcessList = $ProcessObject->ProcessListGet(
-            UserID => $TestUserID,
-        );
-        my @DeactivatedProcesses;
-
-        # if there had been some active processes before testing,set them to inactive,
-        for my $Process ( @{$ProcessList} ) {
-            if ( $Process->{State} eq 'Active' ) {
-                $ProcessObject->ProcessUpdate(
-                    ID            => $Process->{ID},
-                    EntityID      => $Process->{EntityID},
-                    Name          => $Process->{Name},
-                    StateEntityID => 'S2',
-                    Layout        => $Process->{Layout},
-                    Config        => $Process->{Config},
-                    UserID        => $TestUserID,
-                );
-
-                # save process because of restoring on the end of test
-                push @DeactivatedProcesses, $Process;
-            }
-        }
-
         # get config object
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -221,6 +197,30 @@ $Selenium->RunTest(
             $Success,
             "Process deleted - $Process->{Name},",
         );
+
+        # get all processes
+        my $ProcessList = $ProcessObject->ProcessListGet(
+            UserID => $TestUserID,
+        );
+        my @DeactivatedProcesses;
+
+        # if there had been some active processes before testing,set them to inactive,
+        for my $Process ( @{$ProcessList} ) {
+            if ( $Process->{State} eq 'Active' ) {
+                $ProcessObject->ProcessUpdate(
+                    ID            => $Process->{ID},
+                    EntityID      => $Process->{EntityID},
+                    Name          => $Process->{Name},
+                    StateEntityID => 'S2',
+                    Layout        => $Process->{Layout},
+                    Config        => $Process->{Config},
+                    UserID        => $TestUserID,
+                );
+
+                # save process because of restoring on the end of test
+                push @DeactivatedProcesses, $Process;
+            }
+        }
 
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
