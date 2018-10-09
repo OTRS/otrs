@@ -4161,17 +4161,31 @@ sub CustomerFooter {
     my $CustomerChatPermission;
     if ( $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::Chat', Silent => 1 ) ) {
 
-        my $CustomerChatConfig  = $ConfigObject->Get('CustomerFrontend::Module')->{'CustomerChat'};
-        my $CustomerGroupObject = $Kernel::OM->Get('Kernel::System::CustomerGroup');
+        my $CustomerChatConfig = $ConfigObject->Get('CustomerFrontend::Module')->{'CustomerChat'} || {};
 
-        GROUP:
-        for my $GroupName ( @{ $CustomerChatConfig->{GroupRo} }, @{ $CustomerChatConfig->{Group} } ) {
-            $CustomerChatPermission = $CustomerGroupObject->PermissionCheck(
-                UserID    => $Self->{UserID},
-                GroupName => $GroupName,
-                Type      => 'ro',
-            );
-            last GROUP if $CustomerChatPermission;
+        if (
+            $Kernel::OM->Get('Kernel::Config')->Get('CustomerGroupSupport')
+            && (
+                IsArrayRefWithData( $CustomerChatConfig->{GroupRo} )
+                || IsArrayRefWithData( $CustomerChatConfig->{Group} )
+            )
+            )
+        {
+
+            my $CustomerGroupObject = $Kernel::OM->Get('Kernel::System::CustomerGroup');
+
+            GROUP:
+            for my $GroupName ( @{ $CustomerChatConfig->{GroupRo} }, @{ $CustomerChatConfig->{Group} } ) {
+                $CustomerChatPermission = $CustomerGroupObject->PermissionCheck(
+                    UserID    => $Self->{UserID},
+                    GroupName => $GroupName,
+                    Type      => 'ro',
+                );
+                last GROUP if $CustomerChatPermission;
+            }
+        }
+        else {
+            $CustomerChatPermission = 1;
         }
     }
 
