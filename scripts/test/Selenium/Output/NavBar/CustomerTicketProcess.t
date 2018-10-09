@@ -36,30 +36,6 @@ $Selenium->RunTest(
             UserLogin => $TestUserLogin,
         );
 
-        # Get all processes.
-        my $ProcessList = $ProcessObject->ProcessListGet(
-            UserID => $TestUserID,
-        );
-        my @DeactivatedProcesses;
-
-        # If there had been some active processes before testing,set them to inactive.
-        for my $Process ( @{$ProcessList} ) {
-            if ( $Process->{State} eq 'Active' ) {
-                $ProcessObject->ProcessUpdate(
-                    ID            => $Process->{ID},
-                    EntityID      => $Process->{EntityID},
-                    Name          => $Process->{Name},
-                    StateEntityID => 'S2',
-                    Layout        => $Process->{Layout},
-                    Config        => $Process->{Config},
-                    UserID        => $TestUserID,
-                );
-
-                # Save process because of restoring on the end of test.
-                push @DeactivatedProcesses, $Process;
-            }
-        }
-
         # Login as test user.
         $Selenium->Login(
             Type     => 'Agent',
@@ -206,6 +182,30 @@ $Selenium->RunTest(
             $Success,
             "Process deleted - $Process->{Name},",
         );
+
+        # Get all processes.
+        my $ProcessList = $ProcessObject->ProcessListGet(
+            UserID => $TestUserID,
+        );
+        my @DeactivatedProcesses;
+
+        # If there had been some active processes before testing,set them to inactive.
+        for my $Process ( @{$ProcessList} ) {
+            if ( $Process->{State} eq 'Active' ) {
+                $ProcessObject->ProcessUpdate(
+                    ID            => $Process->{ID},
+                    EntityID      => $Process->{EntityID},
+                    Name          => $Process->{Name},
+                    StateEntityID => 'S2',
+                    Layout        => $Process->{Layout},
+                    Config        => $Process->{Config},
+                    UserID        => $TestUserID,
+                );
+
+                # Save process because of restoring on the end of test.
+                push @DeactivatedProcesses, $Process;
+            }
+        }
 
         # Log in user in order to sync processes after removing it.
         $Selenium->Login(

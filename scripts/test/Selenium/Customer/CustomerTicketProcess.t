@@ -11,6 +11,7 @@ use warnings;
 use utf8;
 
 use vars (qw($Self));
+use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
@@ -66,16 +67,22 @@ $Selenium->RunTest(
         # Create test DynamicFields.
         for my $DynamicField (@DynamicFields) {
 
-            my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
-                %{$DynamicField},
+            my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
+                Name => $DynamicField->{Name},
             );
 
-            $Self->True(
-                $DynamicFieldID,
-                "Dynamic field $DynamicField->{Name} - ID $DynamicFieldID - created",
-            );
+            if ( !IsHashRefWithData($DynamicFieldGet) ) {
+                my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
+                    %{$DynamicField},
+                );
 
-            push @DynamicFieldIDs, $DynamicFieldID;
+                $Self->True(
+                    $DynamicFieldID,
+                    "Dynamic field $DynamicField->{Name} - ID $DynamicFieldID - created",
+                );
+
+                push @DynamicFieldIDs, $DynamicFieldID;
+            }
         }
 
         my $RandomID = $Helper->GetRandomID();
@@ -343,6 +350,10 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText", 'css' )->send_keys($ContentRandom);
         $Selenium->execute_script("\$('#QueueID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+        $Selenium->execute_script(
+            "\$('#TypeID').val('$Types[1]->{ID}').trigger('redraw.InputField').trigger('change');"
+        );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
         # Hide DnDUpload and show input field.
         $Selenium->execute_script(
@@ -385,8 +396,7 @@ $Selenium->RunTest(
 
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
 
-        sleep 1;
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("div#MainBox").length;' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Activities").length;' );
 
         # Check for inputed values for first step in test Process ticket.
         $Self->True(

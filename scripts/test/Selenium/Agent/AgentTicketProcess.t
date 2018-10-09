@@ -11,6 +11,7 @@ use warnings;
 use utf8;
 
 use vars (qw($Self));
+use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
@@ -85,16 +86,22 @@ $Selenium->RunTest(
         # Create test DynamicFields.
         for my $DynamicField (@DynamicFields) {
 
-            my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
-                %{$DynamicField},
+            my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
+                Name => $DynamicField->{Name},
             );
 
-            $Self->True(
-                $DynamicFieldID,
-                "Dynamic field $DynamicField->{Name} - ID $DynamicFieldID - created",
-            );
+            if ( !IsHashRefWithData($DynamicFieldGet) ) {
+                my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
+                    %{$DynamicField},
+                );
 
-            push @DynamicFieldIDs, $DynamicFieldID;
+                $Self->True(
+                    $DynamicFieldID,
+                    "Dynamic field $DynamicField->{Name} - ID $DynamicFieldID - created",
+                );
+
+                push @DynamicFieldIDs, $DynamicFieldID;
+            }
         }
 
         my $RandomID = $Helper->GetRandomID();

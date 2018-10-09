@@ -397,12 +397,13 @@ $Selenium->RunTest(
         my $CKEditorValue = $Selenium->execute_script(
             "return CKEDITOR.instances.RichText.getData()"
         );
+        sleep 1;
 
         $Self->Is(
             $CKEditorValue,
             $TemplateText,
             "RichText contains the correct value from the selected template",
-        );
+        ) || die;
 
         # Delete template.
         $Success = $StandardTemplateObject->StandardTemplateDelete(
