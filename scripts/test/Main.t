@@ -13,7 +13,6 @@ use utf8;
 use vars (qw($Self));
 
 use File::Path;
-use Unicode::Normalize;
 use JSON::PP;
 
 # get needed objects
@@ -551,13 +550,6 @@ for my $Test (@Tests) {
         Filter    => $Test->{Filter},
         Recursive => $Test->{Recursive},
     );
-
-    # Mac OS will store all filenames as NFD internally.
-    if ( $^O eq 'darwin' ) {
-        for my $Index ( 0 .. $#UnicodeResults ) {
-            $UnicodeResults[$Index] = Unicode::Normalize::NFD( $UnicodeResults[$Index] );
-        }
-    }
 
     $Self->IsDeeply( \@Results, \@UnicodeResults, $Test->{Name} );
 }

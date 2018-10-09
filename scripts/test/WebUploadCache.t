@@ -86,11 +86,6 @@ for my $Module (qw(DB FS)) {
             $Filename = "UploadCache_Test1äöüß.$File";
         }
 
-        # Mac OS (HFS+) will store all filenames as NFD internally.
-        if ( $^O eq 'darwin' && $Module eq 'FS' ) {
-            $Filename = Unicode::Normalize::NFD($Filename);
-        }
-
         $Self->True(
             $Add || '',
             "#$Module - FormIDAddFile() - ." . $File,
@@ -215,11 +210,6 @@ for my $Module (qw(DB FS)) {
         # In filesystem storage filenames will be cleaned up.
         if ( $Module eq 'FS' ) {
             $Filename = "UploadCache_Test1äöüß.$File";
-        }
-
-        # Mac OS (HFS+) will store all filenames as NFD internally.
-        if ( $^O eq 'darwin' && $Module eq 'FS' ) {
-            $Filename = Unicode::Normalize::NFD($Filename);
         }
 
         $Self->True(
