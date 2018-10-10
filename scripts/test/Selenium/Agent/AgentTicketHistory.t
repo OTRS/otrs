@@ -266,6 +266,7 @@ $Selenium->RunTest(
 
         # Wait until page has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length;' );
+        sleep 1;
 
         # Check the history entry for the dynamic field.
         my $PageSource = $Selenium->get_page_source();
