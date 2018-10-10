@@ -427,6 +427,7 @@ $Selenium->RunTest(
         );
 
         # execute test job
+        $Selenium->VerifiedRefresh();
         $Selenium->find_element("//a[contains(\@href, \'Subaction=RunNow' )]")->VerifiedClick();
 
         # run test job again
@@ -442,6 +443,7 @@ $Selenium->RunTest(
         );
 
         # execute test job
+        $Selenium->VerifiedRefresh();
         $Selenium->find_element("//a[contains(\@href, \'Subaction=RunNow' )]")->VerifiedClick();
 
         # set test job to invalid
