@@ -161,6 +161,8 @@ sub Run {
             },
             UserID => 1,
         );
+
+        $TicketObject->EventHandlerTransaction();
     }
 
     $Self->Print("<green>Done.</green>\n");
