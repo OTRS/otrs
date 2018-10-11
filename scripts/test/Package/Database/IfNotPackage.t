@@ -13,11 +13,8 @@ use utf8;
 
 use vars (qw($Self));
 
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
-    },
-);
+# Do not use RestoreDatabae here, in our tests the first contained package remains installed
+#   with this option.
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
@@ -108,9 +105,9 @@ my %Packages = (
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
     <Description Lang="en">OTRS Business Solution. For more information, please have a look at the official documentation at http://otrs.github.io/doc/manual/otrs-business-solution/stable/en/html/.</Description>
     <Framework>$OTRSVersion</Framework>
-    <PackageIsVisible>0</PackageIsVisible>
-    <PackageIsDownloadable>0</PackageIsDownloadable>
-    <PackageIsRemovable>0</PackageIsRemovable>
+    <PackageIsVisible>1</PackageIsVisible>
+    <PackageIsDownloadable>1</PackageIsDownloadable>
+    <PackageIsRemovable>1</PackageIsRemovable>
     <BuildDate>2016-03-04 18:02:26</BuildDate>
     <BuildHost>otrs.master.mandalore.com</BuildHost>
     <DatabaseInstall Type="post" IfNotPackage="Package2$RandomID">
@@ -132,9 +129,9 @@ EOF
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
     <Description Lang="en">OTRS Business Solution. For more information, please have a look at the official documentation at http://otrs.github.io/doc/manual/otrs-business-solution/stable/en/html/.</Description>
     <Framework>$OTRSVersion</Framework>
-    <PackageIsVisible>0</PackageIsVisible>
-    <PackageIsDownloadable>0</PackageIsDownloadable>
-    <PackageIsRemovable>0</PackageIsRemovable>
+    <PackageIsVisible>1</PackageIsVisible>
+    <PackageIsDownloadable>1</PackageIsDownloadable>
+    <PackageIsRemovable>1</PackageIsRemovable>
     <BuildDate>2016-03-04 18:02:26</BuildDate>
     <BuildHost>otrs.master.mandalore.com</BuildHost>
 </otrs_package>
