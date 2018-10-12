@@ -265,7 +265,10 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
 
         # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length;' );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('a[href*=\"AgentTicketZoom;TicketID=$TicketID;ArticleID=$ArticleIDs[1]\"]').length;"
+        );
         sleep 1;
 
         # Check the history entry for the dynamic field.
