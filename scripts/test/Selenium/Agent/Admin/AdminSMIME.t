@@ -128,7 +128,7 @@ $Selenium->RunTest(
         my $Count = 1;
         for my $BreadcrumbText ( 'S/MIME Management', 'Add Certificate' ) {
             $Self->Is(
-                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim();"),
                 $BreadcrumbText,
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
             );
@@ -150,7 +150,7 @@ $Selenium->RunTest(
         $Count = 1;
         for my $BreadcrumbText ( 'S/MIME Management', 'Add Private Key' ) {
             $Self->Is(
-                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim();"),
                 $BreadcrumbText,
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
             );
@@ -192,13 +192,14 @@ $Selenium->RunTest(
                 "Test $TestSMIME SMIME found on table",
             );
 
+            sleep 1;
             $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Type=$TestSMIME;Filename=' )]")->click();
             $Selenium->WaitFor( AlertPresent => 1 );
             $Selenium->accept_alert();
 
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+                    'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
             );
         }
 
