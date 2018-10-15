@@ -360,7 +360,7 @@ sub ArticleCreate {
     # Check if there are additional To's from InvolvedAgent and InformAgent.
     #   See bug#13422 (https://bugs.otrs.org/show_bug.cgi?id=13422).
     if ( $Param{ForceNotificationToUserID} && ref $Param{ForceNotificationToUserID} eq 'ARRAY' ) {
-        my $NewTo;
+        my $NewTo = '';
         USER:
         for my $UserID ( @{ $Param{ForceNotificationToUserID} } ) {
 
