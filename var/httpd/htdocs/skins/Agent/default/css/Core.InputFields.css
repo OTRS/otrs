@@ -95,6 +95,10 @@ div.InputField_InputContainer .InputField_Search {
     margin: 0;
 }
 
+#ContextSettingsDialog div.InputField_InputContainer .InputField_Search {
+    min-width: 0px;
+}
+
 a.InputField_Action {
     position: absolute;
     display: block;
