@@ -1,4 +1,5 @@
 #6.0.13 2018-??-??
+ - 2018-10-16 Fixed bug#[14079](https://bugs.otrs.org/show_bug.cgi?id=14079) - Cancel and Close button are not visible.
  - 2018-10-09 Follow-up fix for bug#[13928](https://bugs.otrs.org/show_bug.cgi?id=13928) - Assigning customer group to chat modules results in constant connection error messages.
  - 2018-10-09 Improved upload cache module.
  - 2018-10-03 Fixed bug#[14107](https://bugs.otrs.org/show_bug.cgi?id=14107) - IfNotPackage property in <Database*> tag is not honored during Package Install for Installed packages.
