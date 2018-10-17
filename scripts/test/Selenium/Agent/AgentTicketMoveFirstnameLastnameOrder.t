@@ -166,7 +166,7 @@ $Selenium->RunTest(
             ),
             1,
             "Sender format is correct - defined in FirstnameLastnameOrder setting",
-        );
+        ) || die;
 
         # Delete test ticket.
         $Success = $TicketObject->TicketDelete(

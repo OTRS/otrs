@@ -671,6 +671,7 @@ $Selenium->RunTest(
 
         # Refresh screen.
         $Selenium->VerifiedRefresh();
+        sleep 2;
 
         my %TicketDataAfterUndo = $TicketObject->TicketGet(
             TicketID => $TicketID,
