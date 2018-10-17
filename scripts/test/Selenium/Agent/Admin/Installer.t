@@ -189,6 +189,10 @@ $Selenium->RunTest(
             );
 
             # Go to next step of installation (Mail Configuration).
+            $Selenium->WaitFor(
+                JavaScript => 'return typeof($) === "function" && $("#CheckMXRecord").length === 1;'
+            );
+            sleep 1;
             $Selenium->execute_script("\$('button[type=submit]').click();");
             sleep 3;
 
