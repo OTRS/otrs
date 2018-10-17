@@ -243,7 +243,7 @@ var Core = Core || {};
                     });
 
                 if (SelectedNode) {
-                    $('#ConfigTree').jstree('select_node', SelectedNode);
+                    $('#ConfigTree').jstree('select_node', Core.App.EscapeHTML(SelectedNode));
                 }
 
                 $('#ConfigTree')
