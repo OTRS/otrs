@@ -151,6 +151,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
         $Selenium->VerifiedRefresh();
+        sleep 1;
 
         # Check if the sender format is correct.
         $Self->Is(
@@ -159,7 +160,7 @@ $Selenium->RunTest(
             ),
             1,
             "Sender format is correct - defined in FirstnameLastnameOrder setting",
-        );
+        ) || die;
 
         # Delete test ticket.
         $Success = $TicketObject->TicketDelete(
