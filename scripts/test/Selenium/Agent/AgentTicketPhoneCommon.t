@@ -222,6 +222,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
         # Verify URL is redirected to AgentTicketZoom, successfully submitted AgentTicketPhoneInbound.
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' &&  \$('#ArticleTree').length;"
+        );
         $Self->True(
             $Selenium->get_current_url() =~ /Action=AgentTicketZoom;TicketID=$TicketID/,
             "Current URL after AgentTicketPhoneInbound 'Submit' button click is correct"
