@@ -152,7 +152,10 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[0] );
         $Selenium->VerifiedRefresh();
 
-        sleep 10;
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#ArticleTable tbody .From a:contains(\"$Lastname, $Firstname ($UserLogin)\")').length;"
+        );
 
         # Check if the sender format is correct.
         $Self->Is(

@@ -119,6 +119,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" &&  $(".DataTable").length;' );
 
         # check class of invalid State in the overview table
         $Self->True(
