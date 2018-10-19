@@ -45,7 +45,7 @@ my %CustomerData = $CustomerUserObject->CustomerUserDataGet(
 );
 
 KEY:
-for my $Key ( sort keys %CustomerData ) {
+for my $Key ( sort keys %CustomerData, 'UserIsGroup[test]' ) {
 
     # Skip some data that comes from default values.
     next KEY if $Key =~ m/Config$/smx;

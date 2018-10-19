@@ -591,6 +591,7 @@ sub SetPreferences {
     );
 
     return 0 if $Blacklisted{ $Param{Key} };
+    return 0 if substr( $Param{Key}, 0, 11 ) eq 'UserIsGroup';
 
     # check if user exists
     my %User = $Self->CustomerUserDataGet( User => $Param{UserID} );

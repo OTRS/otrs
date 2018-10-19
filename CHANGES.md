@@ -1,4 +1,5 @@
 #4.0.33 2018-??-??
+ - 2018-10-19 Follow-up fix for bug#[13978](https://bugs.otrs.org/show_bug.cgi?id=13978) - User and customer preferences may override user data.
  - 2018-10-09 Improved upload cache module.
 
 #4.0.32 2018-09-21
