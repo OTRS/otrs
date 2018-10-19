@@ -55,8 +55,14 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Remove").length' );
 
         # remove selected Ticket sysconfig group
-        $Selenium->find_element( ".Remove", 'css' )->VerifiedClick();
-        sleep 1;
+        sleep 2;
+        $Selenium->execute_script(
+            "\$('#SysConfigGroup').val('').trigger('redraw.InputField').trigger('change');"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".DataTable tbody td").text().trim() === "No data found.";'
+        );
 
         # verify no result are found on after removing sysconfig group
         $Self->Is(
