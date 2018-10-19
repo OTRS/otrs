@@ -147,9 +147,9 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#WidgetArticle.Collapsed .WidgetAction > a').trigger('click');");
         $Selenium->WaitFor( JavaScript => 'return $("#WidgetArticle.Expanded").length;' );
 
-        $Selenium->find_element( "#Subject",        'css' )->send_keys("Subject-QueueMove$RandomID");
-        $Selenium->find_element( "#RichText",       'css' )->send_keys("Body-QueueMove$RandomID");
-        $Selenium->find_element( "#submitRichText", 'css' )->click();
+        $Selenium->find_element( "#Subject",  'css' )->send_keys("Subject-QueueMove$RandomID");
+        $Selenium->find_element( "#RichText", 'css' )->send_keys("Body-QueueMove$RandomID");
+        $Selenium->execute_script('$("#submitRichText").click();');
 
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
