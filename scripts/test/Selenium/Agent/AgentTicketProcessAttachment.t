@@ -155,6 +155,7 @@ $Selenium->RunTest(
         );
 
         $Selenium->find_element( "#Subject", 'css' )->send_keys('Test');
+        sleep 1;
         $Selenium->execute_script(
             q{
                 return CKEDITOR.instances.RichText.setData('This is a test text');

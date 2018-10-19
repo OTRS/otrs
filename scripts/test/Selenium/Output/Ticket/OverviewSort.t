@@ -207,7 +207,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketStatusView");
 
         # Set filter to test CustomerID.
-        $Selenium->find_element("//a[contains(\@title, \'Customer ID, filter not active\' )]")->click();
+        $Selenium->execute_script("\$('.ColumnSettingsTrigger[title*=\"Customer ID\"]').click();");
         $Selenium->WaitFor(
             JavaScript =>
                 "return typeof(\$) === 'function' && \$('.CustomerIDAutoComplete:visible').length;"

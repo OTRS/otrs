@@ -226,7 +226,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerID").val().length' );
 
         # Change focus and verify customer auto complete field.
-        $Selenium->find_element( 'body', 'css' )->click();
+        $Selenium->execute_script("\$(':focus').blur();");
         sleep 1;
         $Self->Is(
             $Selenium->execute_script("return \$('#CustomerAutoComplete').val()"),
