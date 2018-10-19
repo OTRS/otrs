@@ -158,6 +158,7 @@ $Selenium->RunTest(
                     ),
                     "$Action - Upload '$DeleteExtension' file deleted"
                 );
+                sleep 1;
             }
 
             # Limit the max size per file (to 6 KB).
@@ -219,7 +220,7 @@ $Selenium->RunTest(
 
             # Delete Attachment.
             $Selenium->find_element( "(//a[\@class='AttachmentDelete'])[1]", 'xpath' )->click();
-            sleep 1;
+            sleep 2;
 
             $Selenium->WaitFor(
                 JavaScript =>
@@ -244,7 +245,7 @@ $Selenium->RunTest(
                     JavaScript =>
                         "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length"
                 );
-                sleep 1;
+                sleep 2;
 
                 # Check if uploaded.
                 $Self->True(
@@ -327,6 +328,7 @@ $Selenium->RunTest(
                     ),
                     "$Action - Uploaded file 'Main-Test1.$DeleteExtension' deleted"
                 );
+                sleep 1;
             }
         }
     }

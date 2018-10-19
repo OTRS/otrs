@@ -164,12 +164,13 @@ $Selenium->RunTest(
             my $Location = "$Home/scripts/test/sample/Main/Main-Test1.doc";
             $Selenium->find_element( "#FileUpload", 'css' )->clear();
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
+            sleep 2;
 
             $Selenium->WaitFor(
                 JavaScript =>
                     "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === 1"
             );
-            sleep 1;
+            sleep 2;
 
             # Check if uploaded.
             $Self->True(
@@ -181,7 +182,7 @@ $Selenium->RunTest(
 
             # Delete Attachment.
             $Selenium->find_element( "(//a[\@class='AttachmentDelete'])[1]", 'xpath' )->click();
-            sleep 1;
+            sleep 2;
 
             # Wait until attachment is deleted.
             $Selenium->WaitFor(
