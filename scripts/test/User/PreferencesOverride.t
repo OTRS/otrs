@@ -42,7 +42,7 @@ my %UserData = $UserObject->GetUserData(
 );
 
 KEY:
-for my $Key ( sort keys %UserData ) {
+for my $Key ( sort keys %UserData, 'UserIsGroup[test]' ) {
 
     # Skip some data that comes from default values.
     next KEY if $Key =~ m/PageShown$/smx;
@@ -52,6 +52,7 @@ for my $Key ( sort keys %UserData ) {
     # These are actually user preferences.
     next KEY if $Key =~ m/UserEmail$/smx;
     next KEY if $Key =~ m/UserMobile$/smx;
+    next KEY if $Key =~ m/UserCSVSeparator$/smx;
 
     $Self->False(
         $UserObject->SetPreferences(

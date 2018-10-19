@@ -1200,6 +1200,7 @@ sub SetPreferences {
     );
 
     return 0 if $Blacklisted{ $Param{Key} };
+    return 0 if substr( $Param{Key}, 0, 11 ) eq 'UserIsGroup';
 
     # get current setting
     my %User = $Self->GetUserData(
