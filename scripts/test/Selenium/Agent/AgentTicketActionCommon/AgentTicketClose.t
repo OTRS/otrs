@@ -93,22 +93,24 @@ $Selenium->RunTest(
 
         # change ticket state
         $Selenium->execute_script("\$('#NewStateID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
-        $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
-        $Selenium->find_element( "#submitRichText", 'css' )->click();
+        $Selenium->find_element( "#Subject",  'css' )->send_keys('Test');
+        $Selenium->find_element( "#RichText", 'css' )->send_keys('Test');
+        $Selenium->execute_script("\$('#submitRichText').click();");
+        sleep 1;
 
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
         # navigate to AgentTicketHistory of created test ticket
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length' );
 
         # confirm close action
         my $CloseMsg = "Added note (Close)";
         $Self->True(
             index( $Selenium->get_page_source(), $CloseMsg ) > -1,
             "Ticket close action completed",
-        );
+        ) || die;
 
         # delete created test tickets
         my $Success = $TicketObject->TicketDelete(
