@@ -61,7 +61,7 @@ $Selenium->RunTest(
         );
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $(".DataTable tbody td").text().trim() === "No data found.";'
+                'return typeof($) === "function" && $(".DataTable tbody td").text().trim().includes("No data found.");'
         );
 
         # verify no result are found on after removing sysconfig group

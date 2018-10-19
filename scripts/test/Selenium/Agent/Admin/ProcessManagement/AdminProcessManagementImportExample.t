@@ -103,6 +103,10 @@ $Selenium->RunTest(
 
         # Import.
         $Selenium->find_element( "#ExampleProcesses button", "css" )->VerifiedClick();
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".MessageBox.Notice p").text().trim().includes("Application for leave");'
+        );
 
         my $ProcessFound = $Selenium->execute_script(
             "return \$(\".ContentColumn a.AsBlock:contains('Application for leave')\").length;"
