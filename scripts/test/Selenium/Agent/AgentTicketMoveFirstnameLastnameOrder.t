@@ -152,6 +152,8 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[0] );
         $Selenium->VerifiedRefresh();
 
+        sleep 10;
+
         # Check if the sender format is correct.
         $Self->Is(
             $Selenium->execute_script(
