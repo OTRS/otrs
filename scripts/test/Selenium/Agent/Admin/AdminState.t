@@ -125,6 +125,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#ValidID').val('2').change();");
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" &&  $(".DataTable").length;' );
 
         # check overview page
         $Self->True(
