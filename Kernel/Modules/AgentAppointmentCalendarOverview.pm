@@ -187,12 +187,14 @@ sub Run {
             if ( scalar @{$CalendarSelection} ) {
                 if ( grep { $_ == $Calendar->{CalendarID} } @{$CalendarSelection} ) {
                     $Calendar->{Checked} = 'checked="checked" ' if $CurrentCalendar <= $CalendarLimit;
+                    $CurrentCalendar++;
                 }
             }
 
             # check calendar by default if limit is not yet reached
             else {
                 $Calendar->{Checked} = 'checked="checked" ' if $CurrentCalendar <= $CalendarLimit;
+                $CurrentCalendar++;
             }
 
             # get access tokens
@@ -217,8 +219,6 @@ sub Run {
 
             # Define calendar configuration.
             push @CalendarConfig, $Calendar;
-
-            $CurrentCalendar++;
         }
         $LayoutObject->AddJSData(
             Key   => 'CalendarConfig',
