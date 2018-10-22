@@ -82,6 +82,10 @@ my @Tests = (
                 Write => 'Customers',
             },
             {
+                # Remove first item (see https://bugs.otrs.org/show_bug.cgi?id=14137).
+                Click => '.Setting > .Array > .ArrayItem:nth-of-type(1) > .RemoveButton',
+            },
+            {
                 Click => '.Update',
             },
             {
@@ -89,19 +93,6 @@ my @Tests = (
             },
         ],
         ExpectedResult => [
-            {
-                'AccessKey'   => '',
-                'Block'       => '',
-                'Description' => 'Description',
-                "Group"       => [],
-                "GroupRo"     => [],
-                'Link'        => 'Action=AgentTest;Subaction=Test',
-                'LinkOption'  => '',
-                'Name'        => 'Test',
-                'NavBar'      => 'Customers',
-                'Prio'        => '200',
-                'Type'        => '',
-            },
             {
                 'AccessKey'   => '',
                 'Block'       => '',

@@ -631,7 +631,6 @@ var Core = Core || {};
                 Result = Value;
             }
         }
-
         return Result;
     }
 
@@ -1466,47 +1465,78 @@ var Core = Core || {};
                     $(this).attr("data-suffix", ID);
                 }
             }
+
             if (ID.indexOf("_Array") >= 0) {
-                $(this).closest('.Array').find(".ArrayItem").each(function() {
-                    Count = 0;
+                if ($(this).closest('.Array').find(".ArrayItem").length > 0) {
+                    $(this).closest('.Array').find(".ArrayItem").each(function() {
+                        Count = 0;
 
-                    $(this).find(
-                        ".SettingContent input:visible:not(.InputField_Search), " +
-                        ".SettingContent select:visible, .SettingContent select.Modernize, " +
-                        ".SettingContent textarea:visible"
-                    ).each(function() {
-                        var OldID = $(this).attr('id');
+                        $(this).find(
+                            ".SettingContent input:visible:not(.InputField_Search), " +
+                            ".SettingContent select:visible, .SettingContent select.Modernize, " +
+                            ".SettingContent textarea:visible"
+                        ).each(function() {
+                            OldID = $(this).attr('id');
 
-                        ID = OldID;
+                            ID = OldID;
 
-                        while (ID.indexOf("_Array") >= 0) {
-                            SubString = ID.match(/(_Array\d+)/)[1];
-                            ID = ID.replace(SubString, "_PLACEHOLDER" + Count);
-                            Count++;
-                        }
-
-                        $ClosestItem = $(this).closest('.ArrayItem');
-
-                        while (Count > 0) {
-                            Count--;
-
-                            Key = $ClosestItem.index() + 1;
-                            ID = ID.replace("_PLACEHOLDER" + Count, "_Array" + Key);
-                            // update id
-                            $(this).attr('id', ID);
-
-                            $ClosestItem = $ClosestItem.parent().closest(".ArrayItem");
-                        }
-
-                        if (OldID != ID && ValueType) {
-
-                            // Run dedicated CheckID() for this ValueType (in a Core.SystemConfiguration.ValueTypeX.js).
-                            if (window["Core"]["SystemConfiguration"][ValueType]["CheckID"]) {
-                                window["Core"]["SystemConfiguration"][ValueType]["CheckID"]($(this), OldID);
+                            while (ID.indexOf("_Array") >= 0) {
+                                SubString = ID.match(/(_Array\d+)/)[1];
+                                ID = ID.replace(SubString, "_PLACEHOLDER" + Count);
+                                Count++;
                             }
-                        }
+
+                            $ClosestItem = $(this).closest('.ArrayItem');
+
+                            while (Count > 0) {
+                                Count--;
+
+                                Key = $ClosestItem.index() + 1;
+                                ID = ID.replace("_PLACEHOLDER" + Count, "_Array" + Key);
+                                // update id
+                                $(this).attr('id', ID);
+
+                                $ClosestItem = $ClosestItem.parent().closest(".ArrayItem");
+                            }
+
+                            if (OldID != ID && ValueType) {
+
+                                // Run dedicated CheckID() for this ValueType (in a Core.SystemConfiguration.ValueTypeX.js).
+                                if (window["Core"]["SystemConfiguration"][ValueType]["CheckID"]) {
+                                    window["Core"]["SystemConfiguration"][ValueType]["CheckID"]($(this), OldID);
+                                }
+                            }
+                        });
                     });
-                });
+                }
+                else {
+                    // Array is empty, there is just button with data-suffix.
+                    OldID = $(this).closest('.Array').find("button").attr('data-suffix');
+
+                    ID = OldID;
+
+                    while (ID.indexOf("_Array") >= 0) {
+                        SubString = ID.match(/(_Array\d+)/)[1];
+                        ID = ID.replace(SubString, "_PLACEHOLDER" + Count);
+                        Count++;
+                    }
+
+                    $ClosestItem = $(this).closest('.ArrayItem');
+
+                    for (Index = 0; Index < Count; Index++) {
+                        Key = $ClosestItem.index();
+                        if (Key < 0) {
+                            Key = 0;
+                        }
+                        Key++;
+
+                        ID = ID.replace("_PLACEHOLDER" + Index, "_Array" + Key);
+                        // update id
+                        $(this).closest('.Array').find("button").attr('data-suffix', ID);
+
+                        $ClosestItem = $ClosestItem.parent().closest(".ArrayItem");
+                    }
+                }
             }
         });
     }

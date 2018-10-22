@@ -1,4 +1,5 @@
 #6.0.13 2018-??-??
+ - 2018-10-22 Fixed bug#[14137](https://bugs.otrs.org/show_bug.cgi?id=14137) - Error occurs when item is removed from the frontend configuration.
  - 2018-10-11 Fixed bug#[14129](https://bugs.otrs.org/show_bug.cgi?id=14129) - Incorrect handling of RootNavigation in AdminSystemConfiguration.
  - 2018-10-16 Fixed bug#[14079](https://bugs.otrs.org/show_bug.cgi?id=14079) - Cancel and Close button are not visible.
  - 2018-10-09 Follow-up fix for bug#[13928](https://bugs.otrs.org/show_bug.cgi?id=13928) - Assigning customer group to chat modules results in constant connection error messages.
