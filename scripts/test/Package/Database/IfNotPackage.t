@@ -66,21 +66,53 @@ my $TableExists = sub {
 };
 
 my $ExecuteXMLDBString = sub {
+
     my %Param = @_;
+
+    # Check needed stuff.
+    if ( !$Param{XMLString} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need XMLString!",
+        );
+        return;
+    }
 
     my $XMLString = $Param{XMLString};
 
-    my @XMLARRAY = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => $XMLString );
-
+    # Create database specific SQL and PostSQL commands out of XML.
     my @SQL;
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my @SQLPost;
+    my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
+    my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
+
+    my @XMLARRAY = $XMLObject->XMLParse( String => $XMLString );
 
     # Create database specific SQL.
     push @SQL, $DBObject->SQLProcessor(
         Database => \@XMLARRAY,
     );
 
-    return $DBObject->Do( SQL => $SQL[0] );
+    # Create database specific PostSQL.
+    push @SQLPost, $DBObject->SQLProcessorPost();
+
+    # Execute SQL.
+    for my $SQL ( @SQL, @SQLPost ) {
+        my $Success = $DBObject->Do( SQL => $SQL );
+
+        print "\n$SQL\n";
+
+        if ( !$Success ) {
+            print "\n";
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Error during execution of '$SQL'!",
+            );
+            return;
+        }
+    }
+
+    return 1;
 };
 
 # get OTRS Version
@@ -167,7 +199,7 @@ for my $Test (@Tests) {
     $Self->Is(
         $Result,
         $Test->{ExpectedResults},
-        "$Test->{Name} TableExists "
+        "$Test->{Name} TableExists: $Result"
     );
 
     if ($Result) {
