@@ -1,4 +1,5 @@
 #6.0.13 2018-??-??
+ - 2018-10-23 Fixed missing content during package installation with disabled cloud services.
  - 2018-10-22 Fixed bug#[14054](https://bugs.otrs.org/show_bug.cgi?id=14054) - Setting AppointmentCalendar::CalendarLimitOverview not working correctly.
  - 2018-10-22 Fixed bug#[14137](https://bugs.otrs.org/show_bug.cgi?id=14137) - Error occurs when item is removed from the frontend configuration.
  - 2018-10-11 Fixed bug#[14129](https://bugs.otrs.org/show_bug.cgi?id=14129) - Incorrect handling of RootNavigation in AdminSystemConfiguration.
