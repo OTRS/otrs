@@ -46,6 +46,41 @@ $Selenium->RunTest(
             UserLogin => $TestUserLogin,
         );
 
+        # Get all processes.
+        my $ProcessList = $ProcessObject->ProcessListGet(
+            UserID => $TestUserID,
+        );
+
+        my @DeactivatedProcesses;
+        my $ProcessName = "TestProcess";
+        my $TestProcessExists;
+
+        # If there had been some active processes before testing, set them to inactive.
+        PROCESS:
+        for my $Process ( @{$ProcessList} ) {
+            if ( $Process->{State} eq 'Active' ) {
+
+                # Check if active test process already exists.
+                if ( $Process->{Name} eq $ProcessName ) {
+                    $TestProcessExists = 1;
+                    next PROCESS;
+                }
+
+                $ProcessObject->ProcessUpdate(
+                    ID            => $Process->{ID},
+                    EntityID      => $Process->{EntityID},
+                    Name          => $Process->{Name},
+                    StateEntityID => 'S2',
+                    Layout        => $Process->{Layout},
+                    Config        => $Process->{Config},
+                    UserID        => $TestUserID,
+                );
+
+                # Save process because of restoring on the end of test.
+                push @DeactivatedProcesses, $Process;
+            }
+        }
+
         my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal');
 
         # Create test ticket.
@@ -72,31 +107,41 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # Import test selenium process.
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
-        my $Location = $ConfigObject->Get('Home')
-            . "/scripts/test/sample/ProcessManagement/TestProcess.yml";
-        $Selenium->find_element( "#FileUpload",                      'css' )->send_keys($Location);
-        $Selenium->find_element( "#OverwriteExistingEntitiesImport", 'css' )->click();
-        $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && !\$('#OverwriteExistingEntitiesImport:checked').length"
-        );
-        $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->VerifiedClick();
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
+        my $Location;
 
-        # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
-        sleep 1;
+        # Import test process if does not exist in the system.
+        if ( !$TestProcessExists ) {
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
+            $Selenium->WaitFor(
+                JavaScript => "return typeof(\$) === 'function' && \$('#OverwriteExistingEntitiesImport').length;"
+            );
+
+            # Import test Selenium Process.
+            $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/ProcessManagement/TestProcess.yml";
+            $Selenium->find_element( "#FileUpload",                      'css' )->send_keys($Location);
+            $Selenium->find_element( "#OverwriteExistingEntitiesImport", 'css' )->click();
+            $Selenium->WaitFor(
+                JavaScript => "return !\$('#OverwriteExistingEntitiesImport:checked').length;"
+            );
+            $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")
+                ->VerifiedClick();
+            sleep 1;
+            $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
+
+            # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
+            sleep 1;
+        }
 
         # Get process list.
         my $List = $ProcessObject->ProcessList(
-            UseEntities => 1,
-            UserID      => $TestUserID,
+            UseEntities    => 1,
+            StateEntityIDs => ['S1'],
+            UserID         => $TestUserID,
         );
 
         # Get process entity.
         my %ListReverse = reverse %{$List};
-        my $ProcessName = "TestProcess";
 
         my $Process = $ProcessObject->ProcessGet(
             EntityID => $ListReverse{$ProcessName},
@@ -342,6 +387,19 @@ $Selenium->RunTest(
             $Success,
             "Ticket is deleted - ID $TicketID",
         );
+
+        # Restore state of process.
+        for my $Process (@DeactivatedProcesses) {
+            $ProcessObject->ProcessUpdate(
+                ID            => $Process->{ID},
+                EntityID      => $Process->{EntityID},
+                Name          => $Process->{Name},
+                StateEntityID => 'S1',
+                Layout        => $Process->{Layout},
+                Config        => $Process->{Config},
+                UserID        => $TestUserID,
+            );
+        }
 
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 

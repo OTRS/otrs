@@ -48,8 +48,16 @@ $Selenium->RunTest(
         my $TestProcessExists;
 
         # If there had been some active processes before testing, set them to inactive.
+        PROCESS:
         for my $Process ( @{$ProcessList} ) {
             if ( $Process->{State} eq 'Active' ) {
+
+                # Check if active test process already exists.
+                if ( $Process->{Name} eq $ProcessName ) {
+                    $TestProcessExists = 1;
+                    next PROCESS;
+                }
+
                 $ProcessObject->ProcessUpdate(
                     ID            => $Process->{ID},
                     EntityID      => $Process->{EntityID},
@@ -62,11 +70,6 @@ $Selenium->RunTest(
 
                 # Save process because of restoring on the end of test.
                 push @DeactivatedProcesses, $Process;
-            }
-
-            # Check if test process already exists.
-            if ( $Process->{Name} eq $ProcessName ) {
-                $TestProcessExists = 1;
             }
         }
 
@@ -83,16 +86,20 @@ $Selenium->RunTest(
         # Import test process if does not exist in the system.
         if ( !$TestProcessExists ) {
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
-            $Location = $ConfigObject->Get('Home')
-                . "/scripts/test/sample/ProcessManagement/TestProcess.yml";
+            $Selenium->WaitFor(
+                JavaScript => "return typeof(\$) === 'function' && \$('#OverwriteExistingEntitiesImport').length;"
+            );
+
+            # Import test Selenium Process.
+            $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/ProcessManagement/TestProcess.yml";
             $Selenium->find_element( "#FileUpload",                      'css' )->send_keys($Location);
             $Selenium->find_element( "#OverwriteExistingEntitiesImport", 'css' )->click();
             $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function' && !\$('#OverwriteExistingEntitiesImport:checked').length"
+                JavaScript => "return !\$('#OverwriteExistingEntitiesImport:checked').length;"
             );
             $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")
                 ->VerifiedClick();
+            sleep 1;
             $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
             # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
@@ -101,8 +108,9 @@ $Selenium->RunTest(
 
         # Get process list.
         my $List = $ProcessObject->ProcessList(
-            UseEntities => 1,
-            UserID      => $TestUserID,
+            UseEntities    => 1,
+            StateEntityIDs => ['S1'],
+            UserID         => $TestUserID,
         );
 
         # Get process entity.
@@ -122,14 +130,14 @@ $Selenium->RunTest(
         );
 
         # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length;' );
 
         # Hide DnDUpload and show input field.
         $Selenium->execute_script(
-            "\$('.DnDUpload').css('display', 'none')"
+            "\$('.DnDUpload').css('display', 'none');"
         );
         $Selenium->execute_script(
-            "\$('#FileUpload').css('display', 'block')"
+            "\$('#FileUpload').css('display', 'block');"
         );
 
         # Add an attachment.
