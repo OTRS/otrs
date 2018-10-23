@@ -427,13 +427,13 @@ sub Run {
             %GetParam,
             %ACLCompatGetParam,
             TicketID => $Self->{TicketID},
-            QueueID  => $GetParam{DestQueueID} || 1,
+            QueueID  => $GetParam{DestQueueID} || $Ticket{QueueID},
         );
         my $NextPriorities = $Self->_GetPriorities(
             %GetParam,
             %ACLCompatGetParam,
             TicketID => $Self->{TicketID},
-            QueueID  => $GetParam{DestQueueID} || 1,
+            QueueID  => $GetParam{DestQueueID} || $Ticket{QueueID},
         );
 
         # update Dynamc Fields Possible Values via AJAX
@@ -987,7 +987,7 @@ sub Run {
             %GetParam,
             %ACLCompatGetParam,
             TicketID => $Self->{TicketID},
-            QueueID  => $GetParam{DestQueueID} || 1,
+            QueueID  => $GetParam{DestQueueID} || $Ticket{QueueID},
         );
 
         # get next priorities
@@ -995,7 +995,7 @@ sub Run {
             %GetParam,
             %ACLCompatGetParam,
             TicketID => $Self->{TicketID},
-            QueueID  => $GetParam{DestQueueID} || 1,
+            QueueID  => $GetParam{DestQueueID} || $Ticket{QueueID},
         );
 
         # get old owners
