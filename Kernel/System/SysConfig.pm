@@ -2063,8 +2063,8 @@ sub SettingReset {
         Data2 => \$DefaultSetting{EffectiveValue},
     ) || 0;
 
-    $IsModified ||= $ModifiedSetting{IsValid} != $DefaultSetting{IsValid};
-    $IsModified ||= $ModifiedSetting{UserModificationActive} != $DefaultSetting{UserModificationActive};
+    $IsModified ||= $SettingDeployed{IsValid} != $DefaultSetting{IsValid};
+    $IsModified ||= $SettingDeployed{UserModificationActive} != $DefaultSetting{UserModificationActive};
     $ModifiedSetting{IsDirty} = $IsModified ? 1 : 0;
 
     # Copy values from default.
