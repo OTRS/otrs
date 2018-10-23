@@ -9,6 +9,8 @@
 *.swo
 *~
 .profile
+.vstags
+.vscode
 
 # OTRS
 .procmailrc
