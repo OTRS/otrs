@@ -62,7 +62,7 @@
                 <h2><label for="FilterTemplates">[% Translate("Filter for Templates") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterTemplates" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterUser" value="" title="[% Translate("Filter for Templates") | html %]"/>
+                <input type="text" id="FilterTemplates" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterUser" value="" title="[% Translate("Filter for templates") | html %]"/>
             </div>
         </div>
         <div class="WidgetSimple">
@@ -70,7 +70,7 @@
                 <h2><label for="FilterAttachments">[% Translate("Filter for Attachments") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterAttachments" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGroups" value="" title="[% Translate("Filter for Attachments") | html %]" />
+                <input type="text" id="FilterAttachments" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGroups" value="" title="[% Translate("Filter for attachments") | html %]" />
             </div>
         </div>
 

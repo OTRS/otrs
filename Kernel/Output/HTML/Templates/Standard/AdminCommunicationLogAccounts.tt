@@ -34,7 +34,7 @@
                 <a id="OverviewButton" class="CallForAction Fullsize Center Back">
                     <span>
                         <i class="fa fa-caret-left"></i>
-                        [% Translate("Back") | html %]
+                        [% Translate("Back to overview") | html %]
                     </span>
                 </a>
             </div>
@@ -43,7 +43,7 @@
 [% RenderBlockStart("TimeRange") %]
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate("Time range") | html %]</h2>
+                <h2>[% Translate("Time Range") | html %]</h2>
             </div>
             <div class="Content">
                 [% Data.TimeRange %]
@@ -56,16 +56,16 @@
 
         <div class="WidgetSimple">
             <div class="Header">
-                <h2><label for="FilterAccounts">[% Translate("Filter for accounts") | html %]</label></h2>
+                <h2><label for="FilterAccounts">[% Translate("Filter for Accounts") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterAccounts" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterObjectLogEntries" value="" title="[% Translate("Filter for log entries") | html %]">
+                <input type="text" id="FilterAccounts" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterObjectLogEntries" value="" title="[% Translate("Filter for accounts") | html %]">
             </div>
         </div>
 
         <div class="WidgetSimple">
             <div class="Header">
-                <h2><label for="FilterCommunicationLogList">[% Translate("Filter for communications") | html %]</label></h2>
+                <h2><label for="FilterCommunicationLogList">[% Translate("Filter for Communications") | html %]</label></h2>
             </div>
             <div class="Content">
                 <input type="text" id="FilterCommunicationLogList" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterCommunications" value="" title="[% Translate("Filter for communications") | html %]">

@@ -43,7 +43,7 @@
 [% RenderBlockEnd("ActionOverview") %]
 [% RenderBlockStart("ActionAdd") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=AddAction" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add filter") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=AddAction" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add PostMaster Filter") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionAdd") %]
                 </ul>
@@ -54,10 +54,10 @@
 [% RenderBlockStart("Filter") %]
         <div class="WidgetSimple">
             <div class="Header">
-                <h2><label for="FilterPostMasterFilters">[% Translate("Filter for Postmaster Filters") | html %]</label></h2>
+                <h2><label for="FilterPostMasterFilters">[% Translate("Filter for PostMaster Filters") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterPostMasterFilters" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterPostMasterFilters" value="" title="[% Translate("Filter for postmaster filters") | html %]">
+                <input type="text" id="FilterPostMasterFilters" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterPostMasterFilters" value="" title="[% Translate("Filter for PostMaster filters") | html %]">
             </div>
         </div>
 [% RenderBlockEnd("Filter") %]

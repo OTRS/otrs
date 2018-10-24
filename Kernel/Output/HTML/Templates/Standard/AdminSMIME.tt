@@ -75,10 +75,10 @@
                 <ul class="ActionList">
 [% RenderBlockStart("ActionAdd") %]
                     <li>
-                        <a class="CallForAction Fullsize Center" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ShowAddCertificate"><span><i class="fa fa-plus-square"></i> [% Translate("Add certificate") | html %]</span></a>
+                        <a class="CallForAction Fullsize Center" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ShowAddCertificate"><span><i class="fa fa-plus-square"></i> [% Translate("Add Certificate") | html %]</span></a>
                     </li>
                     <li>
-                        <a class="CallForAction Fullsize Center" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ShowAddPrivate"><span><i class="fa fa-plus-square"></i> [% Translate("Add private key") | html %]</span></a>
+                        <a class="CallForAction Fullsize Center" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ShowAddPrivate"><span><i class="fa fa-plus-square"></i> [% Translate("Add Private Key") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionAdd") %]
 [% RenderBlockStart("ActionOverview") %]
@@ -102,7 +102,7 @@
                     <li>
                         <form action="">
                             <fieldset>
-                                <input type="text" id="FilterSMIME" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterSMIME" value="" title="[% Translate("Filter for S/MIME certs") | html %]" />
+                                <input type="text" id="FilterSMIME" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterSMIME" value="" title="[% Translate("Filter for certificates") | html %]" />
                             </fieldset>
                         </form>
                     </li>
@@ -162,7 +162,7 @@
 [% RenderBlockStart("OverviewResult") %]
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate("Results") | html %]</h2>
+                <h2>[% Translate("List") | html %]</h2>
             </div>
             <div class="Content ">
                 <table class="DataTable" id="SMIME">

@@ -46,7 +46,7 @@
 [% RenderBlockEnd("ActionOverview") %]
 [% RenderBlockStart("ActionAdd") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add notification") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add Notification") | html %]</span></a>
                     </li>
                     <li>
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=NotificationExport" class="CallForAction Fullsize Center"><span><i class="fa fa-download"></i>[% Translate("Export Notifications") | html %]</span></a>

@@ -13,7 +13,7 @@ SET OTRSBusinessLinkLabelWithContractLevel = '<strong><a href="#" class="OTRSBus
 
 [% RenderBlockStart("Main") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1 class="InvisibleText">[% Translate("GenericInterface Web Service Management") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Web Service Management") | html %]</h1>
 
     [% BreadcrumbPath = [
             {
@@ -225,7 +225,7 @@ SET OTRSBusinessLinkLabelWithContractLevel = '<strong><a href="#" class="OTRSBus
 [% RenderBlockStart("OverviewHeader") %]
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate("Web Service List") | html %]</h2>
+                <h2>[% Translate("List") | html %]</h2>
             </div>
 [% RenderBlockEnd("OverviewHeader") %]
 [% RenderBlockStart("OverviewResult") %]

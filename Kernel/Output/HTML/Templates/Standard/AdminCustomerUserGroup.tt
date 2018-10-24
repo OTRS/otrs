@@ -113,7 +113,7 @@
                     <li>
                         <form action="">
                             <fieldset>
-                                <input type="text" id="FilterGroups" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGroups" value="" title="[% Translate("Filter for Groups") | html %]" />
+                                <input type="text" id="FilterGroups" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGroups" value="" title="[% Translate("Filter for groups") | html %]" />
                             </fieldset>
                         </form>
                     </li>

@@ -25,7 +25,7 @@
 [% RenderBlockStart("TimeRange") %]
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate("Time range") | html %]</h2>
+                <h2>[% Translate("Time Range") | html %]</h2>
             </div>
             <div class="Content">
                 [% Data.TimeRange %]
@@ -38,7 +38,7 @@
 
         <div class="WidgetSimple">
             <div class="Header">
-                <h2><label for="FilterCommunications">[% Translate("Filter for communications") | html %]</label></h2>
+                <h2><label for="FilterCommunications">[% Translate("Filter for Communications") | html %]</label></h2>
             </div>
             <div class="Content">
                 <input type="text" id="FilterCommunications" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterCommunications" value="" title="[% Translate("Filter for communications") | html %]">

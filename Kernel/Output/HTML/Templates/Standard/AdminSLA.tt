@@ -118,7 +118,7 @@
             [% IF !Data.SLAID %]
                 <h2>[% Translate("Add SLA") | html %]</h2>
             [% ELSE %]
-                <h2>[% Translate("Edit SLA") | html %] : [% Data.Name | html %]</h2>
+                <h2>[% Translate("Edit SLA") | html %]</h2>
             [% END %]
             </div>
             <div class="Content">

@@ -84,7 +84,7 @@
                     <li>
                         <form action="">
                             <fieldset>
-                                <input type="text" placeholder="[% Translate("Just start typing to filter...") | html %]" id="FilterServices" class="FilterBox" name="FilterServices" value="" title="[% Translate("Filter for Services") | html %]" />
+                                <input type="text" placeholder="[% Translate("Just start typing to filter...") | html %]" id="FilterServices" class="FilterBox" name="FilterServices" value="" title="[% Translate("Filter for services") | html %]" />
                             </fieldset>
                         </form>
                     </li>

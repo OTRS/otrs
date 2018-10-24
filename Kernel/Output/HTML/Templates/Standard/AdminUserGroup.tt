@@ -37,10 +37,10 @@
 [% RenderBlockEnd("ActionOverview") %]
 [% RenderBlockStart("NewActions") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=AdminUser;Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add agent") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=AdminUser;Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add Agent") | html %]</span></a>
                     </li>
                     <li>
-                        <a href="[% Env("Baselink") %]Action=AdminGroup;Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add group") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=AdminGroup;Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add Group") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("NewActions") %]
                 </ul>
@@ -54,7 +54,7 @@
                 <h2><label for="FilterUsers">[% Translate("Filter for Agents") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterUsers" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterUser" value="" title="[% Translate("Filter for Agents") | html %]" />
+                <input type="text" id="FilterUsers" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterUser" value="" title="[% Translate("Filter for agents") | html %]" />
             </div>
         </div>
 [% RenderBlockEnd("UserFilter") %]
@@ -64,7 +64,7 @@
                 <h2><label for="FilterGroups">[% Translate("Filter for Groups") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterGroups" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGroups" value=""  title="[% Translate("Filter for Groups") | html %]"/>
+                <input type="text" id="FilterGroups" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGroups" value="" title="[% Translate("Filter for groups") | html %]"/>
             </div>
         </div>
 [% RenderBlockEnd("GroupFilter") %]

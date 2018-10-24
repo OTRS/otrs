@@ -154,7 +154,7 @@ $Selenium->RunTest(
         # check breadcrumb on Add job screen
         my $Count = 1;
         my $IsLinkedBreadcrumbText;
-        for my $BreadcrumbText ( 'Generic Agent', 'Add job' ) {
+        for my $BreadcrumbText ( 'Generic Agent Job Management', 'Add Job' ) {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
                 $BreadcrumbText,
@@ -350,7 +350,7 @@ $Selenium->RunTest(
 
         # check breadcrumb on Edit job screen
         $Count = 1;
-        for my $BreadcrumbText ( 'Generic Agent', 'Edit job: ' . $GenericAgentJob ) {
+        for my $BreadcrumbText ( 'Generic Agent Job Management', 'Edit Job: ' . $GenericAgentJob ) {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
                 $BreadcrumbText,
@@ -397,7 +397,7 @@ $Selenium->RunTest(
 
         # check breadcrumb on Run job screen
         $Count = 1;
-        for my $BreadcrumbText ( 'Generic Agent', 'Run job: ' . $GenericAgentJob ) {
+        for my $BreadcrumbText ( 'Generic Agent Job Management', 'Run Job: ' . $GenericAgentJob ) {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
                 $BreadcrumbText,

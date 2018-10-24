@@ -38,7 +38,7 @@
                 <a id="OverviewButton" class="CallForAction Fullsize Center Back">
                     <span>
                         <i class="fa fa-caret-left"></i>
-                        [% Translate("Back") | html %]
+                        [% Translate("Back to overview") | html %]
                     </span>
                 </a>
             </div>
@@ -46,7 +46,7 @@
 
         <div class="WidgetSimple">
             <div class="Header">
-                <h2><label for="FilterObjectLogEntries">[% Translate("Filter for log entries") | html %]</label></h2>
+                <h2><label for="FilterObjectLogEntries">[% Translate("Filter for Log Entries") | html %]</label></h2>
             </div>
             <div class="Content">
                 <input type="text" id="FilterObjectLogEntries" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterObjectLogEntries" value="" title="[% Translate("Filter for log entries") | html %]">

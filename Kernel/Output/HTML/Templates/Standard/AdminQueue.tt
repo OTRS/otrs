@@ -8,11 +8,11 @@
 
 [% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1 class="InvisibleText">[% Translate("Manage Queues") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Queue Management") | html %]</h1>
 
     [% BreadcrumbPath = [
             {
-                Name => Translate('Manage Queues'),
+                Name => Translate('Queue Management'),
                 Link => Env("Action"),
             },
         ]

@@ -40,15 +40,15 @@
 [% IF Env("Subaction") == "Overview" %]
 [% IF Data.ModulePermissions.AgentAppointmentCalendarOverview %]
                     <li>
-                        <a id="Back" href="[% Env("Baselink") %]Action=AgentAppointmentCalendarOverview" class="CallForAction Fullsize Center" title="[% Translate("Go back") | html %]">
-                            <span><i class="fa fa-caret-left"></i>[% Translate("Go back") | html %]</span>
+                        <a id="Back" href="[% Env("Baselink") %]Action=AgentAppointmentCalendarOverview" class="CallForAction Fullsize Center" title="[% Translate("Go to overview") | html %]">
+                            <span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span>
                         </a>
                     </li>
 [% END %]
 [% ELSIF Env("Subaction") != "" %]
                     <li>
-                        <a id="Back" href="[% Env("Baselink") %]Action=AdminAppointmentCalendarManage" class="CallForAction Fullsize Center" title="[% Translate("Go back") | html %]">
-                            <span><i class="fa fa-caret-left"></i>[% Translate("Go back") | html %]</span>
+                        <a id="Back" href="[% Env("Baselink") %]Action=AdminAppointmentCalendarManage" class="CallForAction Fullsize Center" title="[% Translate("Go to overview") | html %]">
+                            <span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span>
                         </a>
                     </li>
 [% ELSE %]
@@ -115,7 +115,7 @@
 [% RenderBlockStart("CalendarFilter") %]
         <div class="WidgetSimple">
             <div class="Header">
-                <h2><label for="FilterCalendars">[% Translate("Filter for calendars") | html %]</label></h2>
+                <h2><label for="FilterCalendars">[% Translate("Filter for Calendars") | html %]</label></h2>
             </div>
             <div class="Content">
                 <input type="text" id="FilterCalendars" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterCalendars" value="" title="[% Translate("Filter for calendars") | html %]">

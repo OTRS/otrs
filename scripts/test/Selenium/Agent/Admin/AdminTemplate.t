@@ -74,7 +74,7 @@ $Selenium->RunTest(
 
         # Check breadcrumb on Add screen.
         my $Count = 1;
-        for my $BreadcrumbText ( 'Manage Templates', 'Add Template' ) {
+        for my $BreadcrumbText ( 'Template Management', 'Add Template' ) {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
                 $BreadcrumbText,
@@ -135,7 +135,7 @@ $Selenium->RunTest(
 
         # Check breadcrumb on Edit screen.
         $Count = 1;
-        for my $BreadcrumbText ( 'Manage Templates', 'Edit Template: ' . $TemplateRandomID ) {
+        for my $BreadcrumbText ( 'Template Management', 'Edit Template: ' . $TemplateRandomID ) {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
                 $BreadcrumbText,

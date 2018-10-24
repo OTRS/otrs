@@ -44,7 +44,7 @@
 [% RenderBlockStart("ActionAdd") %]
                     <li>
                         <a class="CallForAction Fullsize Center" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Add">
-                            <span><i class="fa fa-plus-square"></i>[% Translate("Add salutation") | html %]</span>
+                            <span><i class="fa fa-plus-square"></i>[% Translate("Add Salutation") | html %]</span>
                         </a>
                     </li>
 [% RenderBlockEnd("ActionAdd") %]

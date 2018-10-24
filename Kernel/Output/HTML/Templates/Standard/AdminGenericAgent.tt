@@ -7,11 +7,11 @@
 # --
 <!-- start form -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1 class="InvisibleText">[% Translate("Generic Agent") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Generic Agent Job Management") | html %]</h1>
 
     [% BreadcrumbPath = [
             {
-                Name => Translate('Generic Agent'),
+                Name => Translate('Generic Agent Job Management'),
                 Link => Env("Action"),
             },
         ]
@@ -20,13 +20,13 @@
     [% SWITCH Data.Subaction %]
         [% CASE 'Update' %]
             [% IF Data.Profile %]
-                [% USE EditJob = String(Translate("Edit job")) %]
+                [% USE EditJob = String(Translate("Edit Job")) %]
                 [% BreadcrumbPath.push({ Name => EditJob.append( ': ', Data.Profile ) }) %]
             [% ELSE %]
-                [% BreadcrumbPath.push({ Name => Translate("Add job"),}) %]
+                [% BreadcrumbPath.push({ Name => Translate("Add Job"),}) %]
             [% END %]
         [% CASE 'Run' %]
-            [% USE RunJob = String(Translate("Run job")) %]
+            [% USE RunJob = String(Translate("Run Job")) %]
             [% BreadcrumbPath.push({ Name => RunJob.append( ': ', Data.Profile ) }) %]
     [% END %]
 
@@ -42,7 +42,7 @@
                 <ul class="ActionList">
 [% RenderBlockStart("ActionAdd") %]
                     <li>
-                        <a class="CallForAction Fullsize Center" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Update"><span><i class="fa fa-plus-square"></i>[% Translate("Add job") | html %]</span></a>
+                        <a class="CallForAction Fullsize Center" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Update"><span><i class="fa fa-plus-square"></i>[% Translate("Add Job") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionAdd") %]
 [% RenderBlockStart("ActionOverview") %]
@@ -57,10 +57,10 @@
 [% RenderBlockStart("Filter") %]
         <div class="WidgetSimple">
             <div class="Header">
-                <h2><label for="FilterGenericAgentJobs">[% Translate("Filter for Generic Agent Jobs") | html %]</label></h2>
+                <h2><label for="FilterGenericAgentJobs">[% Translate("Filter for Jobs") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterGenericAgentJobs" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGenericAgentJobs" value="" title="[% Translate("Filter for generic agent jobs") | html %]">
+                <input type="text" id="FilterGenericAgentJobs" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGenericAgentJobs" value="" title="[% Translate("Filter for jobs") | html %]">
             </div>
         </div>
 [% RenderBlockEnd("Filter") %]
@@ -950,10 +950,10 @@
 
                 <div class="SpacingTop">
                     <a class="CallForAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Update;Profile=[% Data.Name | uri %]">
-                        <span>[% Translate("Edit job") | html %]</span>
+                        <span>[% Translate("Edit Job") | html %]</span>
                     </a>
                     <a class="CallForAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=RunNow;Profile=[% Data.Name | uri %];[% Env("ChallengeTokenParam") | html %]">
-                        <span>[% Translate("Run job") | html %]</span>
+                        <span>[% Translate("Run Job") | html %]</span>
                     </a>
                     [% Translate("or") | html %]
                     <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">

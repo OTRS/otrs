@@ -29,7 +29,7 @@ SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OT
                 <h2><label for="Filter">[% Translate("Filter for Processes") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="Filter" class="W95pc" name="Filter" value="" title="[% Translate("Filter") | html %]" placeholder="[% Translate("Just start typing to filter...") | html %]" />
+                <input type="text" id="Filter" class="W95pc" name="Filter" value="" placeholder="[% Translate("Just start typing to filter...") | html %]" title="[% Translate("Filter for processes") | html %]" />
             </div>
         </div>
         <div class="WidgetSimple">

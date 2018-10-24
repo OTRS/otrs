@@ -36,10 +36,10 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %]Action=AdminRole;Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add role") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=AdminRole;Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add Role") | html %]</span></a>
                     </li>
                     <li>
-                        <a href="[% Env("Baselink") %]Action=AdminGroup;Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add group") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=AdminGroup;Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add Group") | html %]</span></a>
                     </li>
                 </ul>
             </div>
@@ -50,7 +50,7 @@
                 <h2><label for="FilterRoles">[% Translate("Filter for Roles") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterRoles" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterRoles" value="" title="[% Translate("Filter for Roles") | html %]"/>
+                <input type="text" id="FilterRoles" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterRoles" value="" title="[% Translate("Filter for roles") | html %]"/>
             </div>
         </div>
         <div class="WidgetSimple">
@@ -58,7 +58,7 @@
                 <h2><label for="FilterGroups">[% Translate("Filter for Groups") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="FilterGroups" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGroups" value="" title="[% Translate("Filter for Groups") | html %]" />
+                <input type="text" id="FilterGroups" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGroups" value="" title="[% Translate("Filter for groups") | html %]" />
             </div>
         </div>
     </div>
