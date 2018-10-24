@@ -15,12 +15,9 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        my $Helper               = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $ACLObject            = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
-        my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
-        my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
-            ChannelName => 'Email',
-        );
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ACLObject    = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # Set to change queue for ticket in a new window.
         $Helper->ConfigSettingChange(
@@ -96,18 +93,18 @@ EOF
         );
 
         # Create email article.
-        my $ArticleID = $ArticleBackendObject->ArticleCreate(
-            TicketID             => $TicketID,
-            SenderType           => 'customer',
-            IsVisibleForCustomer => 1,
-            From                 => 'Some Customer A <customer-a@example.com>',
-            To                   => 'Some Agent <email@example.com>',
-            Subject              => 'some short description',
-            Body                 => 'the message text',
-            ContentType          => 'text/plain; charset=ISO-8859-15',
-            HistoryType          => 'EmailCustomer',
-            HistoryComment       => 'Customer sent an email',
-            UserID               => 1,
+        my $ArticleID = $TicketObject->ArticleCreate(
+            TicketID       => $TicketID,
+            ArticleType    => 'email-external',
+            SenderType     => 'customer',
+            From           => 'Some Customer A <customer-a@example.com>',
+            To             => 'Some Agent <email@example.com>',
+            Subject        => 'some short description',
+            Body           => 'the message text',
+            ContentType    => 'text/plain; charset=ISO-8859-15',
+            HistoryType    => 'EmailCustomer',
+            HistoryComment => 'Customer sent an email',
+            UserID         => 1,
         );
         $Self->True(
             $TicketID,
