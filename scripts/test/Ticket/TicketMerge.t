@@ -369,8 +369,10 @@ $Self->Is(
 $Helper->FixedTimeAddSeconds(300);
 
 # Create user who will perform merge action.
+my $Language      = 'de';
 my $TestUserLogin = $Helper->TestUserCreate(
-    Groups => ['users'],
+    Groups   => ['users'],
+    Language => $Language,
 );
 my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
     UserLogin => $TestUserLogin,
@@ -411,6 +413,7 @@ $Self->Is(
     TicketID => $TicketIDs[1],
     UserID   => 1,
 );
+
 $Self->Is(
     $MergeTicket{Changed},
     '2017-09-27 10:05:00',
@@ -420,6 +423,31 @@ $Self->Is(
     $MergeTicket{ChangeBy},
     $UserID,
     'After merge MergeTicket ChangeBy correct'
+);
+
+# Check translation of AutomaticMergeText, see more in bug #13967
+my @ArticleBoxUpdate = $ArticleObject->ArticleList(
+    TicketID => $MergeTicket{TicketID},
+);
+my $NewMetaArticle = pop @ArticleBoxUpdate;
+my %Article        = $ArticleBackendObject->ArticleGet( %{$NewMetaArticle} );
+
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::Language' => {
+        UserLanguage => $Language,
+    },
+);
+my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
+
+my $Body = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::AutomaticMergeText');
+$Body = $LanguageObject->Translate($Body);
+$Body =~ s{<OTRS_TICKET>}{$MergeTicket{TicketNumber}}xms;
+$Body =~ s{<OTRS_MERGE_TO_TICKET>}{$MainTicket{TicketNumber}}xms;
+
+$Self->Is(
+    $Body,
+    $Article{Body},
+    'Check article body of merged ticket'
 );
 
 # Linking objects and linking tickets.

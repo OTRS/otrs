@@ -52,6 +52,7 @@ our @ObjectDependencies = (
     'Kernel::System::Type',
     'Kernel::System::User',
     'Kernel::System::Valid',
+    'Kernel::Language',
 );
 
 =head1 NAME
@@ -5968,10 +5969,26 @@ sub TicketMerge {
         DynamicFields => 0,
     );
 
-    # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+    # Set language for AutomaticMergeText, see more in bug #13967
+    my %UserInfo = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
+        UserID => $Param{UserID},
+    );
+    my $Language = $UserInfo{UserLanguage} || $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';
+
+    $Kernel::OM->ObjectsDiscard(
+        Objects => ['Kernel::Language'],
+    );
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::Language' => {
+            UserLanguage => $Language,
+        },
+    );
+    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
+
     my $Body = $ConfigObject->Get('Ticket::Frontend::AutomaticMergeText');
+    $Body = $LanguageObject->Translate($Body);
     $Body =~ s{<OTRS_TICKET>}{$MergeTicket{TicketNumber}}xms;
     $Body =~ s{<OTRS_MERGE_TO_TICKET>}{$MainTicket{TicketNumber}}xms;
 
