@@ -11,6 +11,7 @@ use warnings;
 use utf8;
 
 use vars (qw($Self));
+use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 # Get Selenium object.
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
@@ -39,6 +40,25 @@ $Selenium->RunTest(
             UserLogin => $TestUserLogin,
         );
 
+        my $ACLObject = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
+
+        # Set previous ACLs on invalid.
+        my $ACLList = $ACLObject->ACLList(
+            ValidIDs => ['1'],
+            UserID   => 1,
+        );
+
+        for my $Item ( sort keys %{$ACLList} ) {
+
+            $ACLObject->ACLUpdate(
+                ID   => $Item,
+                Name => $ACLList->{$Item},
+                ,
+                ValidID => 2,
+                UserID  => 1,
+            );
+        }
+
         # Get all processes.
         my $ProcessList = $ProcessObject->ProcessListGet(
             UserID => $TestUserID,
@@ -51,6 +71,7 @@ $Selenium->RunTest(
         # If there had been some active processes before testing, set them to inactive.
         for my $Process ( @{$ProcessList} ) {
             if ( $Process->{State} eq 'Active' ) {
+
                 $ProcessObject->ProcessUpdate(
                     ID            => $Process->{ID},
                     EntityID      => $Process->{EntityID},
@@ -64,11 +85,6 @@ $Selenium->RunTest(
                 # Save process because of restoring on the end of test.
                 push @DeactivatedProcesses, $Process;
             }
-
-            # Check if test process already exists.
-            if ( $Process->{Name} eq $ProcessName ) {
-                $TestProcessExists = 1;
-            }
         }
 
         # Login.
@@ -79,22 +95,28 @@ $Selenium->RunTest(
         );
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        my $Location;
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
 
         # Import test process if does not exist in the system.
-        if ( !$TestProcessExists ) {
-            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
-            $Location = $ConfigObject->Get('Home')
-                . "/scripts/test/sample/ProcessManagement/TestProcess.yml";
-            $Selenium->find_element( "#FileUpload",                      'css' )->send_keys($Location);
-            $Selenium->find_element( "#OverwriteExistingEntitiesImport", 'css' )->VerifiedClick();
-            $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")
-                ->VerifiedClick();
-            $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#OverwriteExistingEntitiesImport').length;"
+        );
 
-            # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
-            sleep 1;
-        }
+        # Import test Selenium Process.
+        my $Location = $ConfigObject->Get('Home')
+            . "/scripts/test/sample/ProcessManagement/AgentTicketProcessStandardTemplates.yml";
+        $Selenium->find_element( "#FileUpload",                      'css' )->send_keys($Location);
+        $Selenium->find_element( "#OverwriteExistingEntitiesImport", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => "return !\$('#OverwriteExistingEntitiesImport:checked').length;"
+        );
+        $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->VerifiedClick();
+        sleep 1;
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
+
+        # We have to allow a 1 second delay for Apache2::Reload to pick up the changed Process cache.
+        sleep 1;
 
         # Get process list.
         my $List = $ProcessObject->ProcessList(
@@ -109,6 +131,12 @@ $Selenium->RunTest(
             EntityID => $ListReverse{$ProcessName},
             UserID   => $TestUserID,
         );
+
+        # Navigate to AdminACL and synchronize ACL's.
+        if ( IsHashRefWithData($ACLList) ) {
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL");
+            $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy')]")->VerifiedClick();
+        }
 
         # Navigate to AgentTicketProcess screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketProcess");
