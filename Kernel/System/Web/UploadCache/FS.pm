@@ -139,6 +139,7 @@ sub FormIDAddFile {
         Content    => \$Param{Content},
         Mode       => 'binmode',
         Permission => '640',
+        NoReplace  => 1,
     );
     return if !$MainObject->FileWrite(
         Directory  => $Directory,
@@ -146,6 +147,7 @@ sub FormIDAddFile {
         Content    => \$Param{ContentType},
         Mode       => 'binmode',
         Permission => '640',
+        NoReplace  => 1,
     );
     return if !$MainObject->FileWrite(
         Directory  => $Directory,
@@ -153,6 +155,7 @@ sub FormIDAddFile {
         Content    => \$ContentID,
         Mode       => 'binmode',
         Permission => '640',
+        NoReplace  => 1,
     );
     return if !$MainObject->FileWrite(
         Directory  => $Directory,
@@ -160,6 +163,7 @@ sub FormIDAddFile {
         Content    => \$Disposition,
         Mode       => 'binmode',
         Permission => '644',
+        NoReplace  => 1,
     );
     return 1;
 }
@@ -199,18 +203,22 @@ sub FormIDRemoveFile {
     $MainObject->FileDelete(
         Directory => $Directory,
         Filename  => "$File{Filename}",
+        NoReplace => 1,
     );
     $MainObject->FileDelete(
         Directory => $Directory,
         Filename  => "$File{Filename}.ContentType",
+        NoReplace => 1,
     );
     $MainObject->FileDelete(
         Directory => $Directory,
         Filename  => "$File{Filename}.ContentID",
+        NoReplace => 1,
     );
     $MainObject->FileDelete(
         Directory => $Directory,
         Filename  => "$File{Filename}.Disposition",
+        NoReplace => 1,
     );
 
     return 1;

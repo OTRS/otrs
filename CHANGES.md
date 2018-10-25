@@ -1,4 +1,5 @@
 #6.0.13 2018-??-??
+ - 2018-10-25 Follow-up fix for bug#[13968](https://bugs.otrs.org/show_bug.cgi?id=13968) - Attachments with spaces in file name does not work properly.
  - 2018-10-23 Fixed bug#[11107](https://bugs.otrs.org/show_bug.cgi?id=11107) - ACL does not work properly in AgentTicketMove screen.
  - 2018-10-23 Fixed bug#[13847](https://bugs.otrs.org/show_bug.cgi?id=13847) - Reset setting in AdminSystemConfiguration does not work correctly.
  - 2018-10-23 Fixed missing content during package installation with disabled cloud services.

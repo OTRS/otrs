@@ -450,6 +450,7 @@ sub FileWrite {
             Filename        => $Param{Filename},
             Type            => $Param{Type} || 'Local',    # Local|Attachment|MD5
             NoFilenameClean => $Param{NoFilenameClean},
+            NoReplace       => $Param{NoReplace},
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
@@ -560,8 +561,9 @@ sub FileDelete {
 
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
-            Filename => $Param{Filename},
-            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            Filename  => $Param{Filename},
+            Type      => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            NoReplace => $Param{NoReplace},
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
