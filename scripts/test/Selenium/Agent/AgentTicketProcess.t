@@ -139,6 +139,23 @@ $Selenium->RunTest(
 
         my $ACLObject = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
 
+        # Set previous ACLs on invalid.
+        my $ACLList = $ACLObject->ACLList(
+            ValidIDs => ['1'],
+            UserID   => 1,
+        );
+
+        for my $Item ( sort keys %{$ACLList} ) {
+
+            $ACLObject->ACLUpdate(
+                ID   => $Item,
+                Name => $ACLList->{$Item},
+                ,
+                ValidID => 2,
+                UserID  => 1,
+            );
+        }
+
         my @ACLs = (
             {
                 Name           => '1-ACL' . $RandomID,
