@@ -5,10 +5,11 @@
 .settings
 .includepath
 .DS_Store
-.vscode/*
 *.swp
 *.swo
 *~
+.vstags
+.vscode
 
 # OTRS
 .procmailrc
