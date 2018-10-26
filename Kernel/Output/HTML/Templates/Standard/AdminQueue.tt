@@ -240,9 +240,14 @@
                         <div class="Clear"></div>
 
 [% RenderBlockStart("OptionalField") %]
-                        <label for="DefaultSignKey">[% Translate("Default sign key") | html %] <em>([% Data.Email | html %])</em>:</label>
+                         <label for="DefaultSignKey">[% Translate("Default sign key") | html %][% IF Data.Email %]<em> ([% Data.Email | html %])</em>[% END %]:</label>
                         <div class="Field">
                             [% Data.DefaultSignKeyOption %]
+                            [% IF !Data.DefaultSignKeyListAvailable %]
+                                <p class="FieldExplanation">
+                                    [% Translate("To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.") | html %]
+                                </p>
+                            [% END %]
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("OptionalField") %]

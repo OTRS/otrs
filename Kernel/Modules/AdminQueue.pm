@@ -12,6 +12,7 @@ package Kernel::Modules::AdminQueue;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(IsHashRefWithData);
 use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
@@ -706,6 +707,7 @@ sub _Edit {
     }
 
     if ( $Param{DefaultSignKeyOption} ) {
+        $Param{DefaultSignKeyListAvailable} = IsHashRefWithData( \%DefaultSignKeyList );
         $LayoutObject->Block(
             Name => 'OptionalField',
             Data => \%Param,
