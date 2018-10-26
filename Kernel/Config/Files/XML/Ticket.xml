@@ -9470,7 +9470,7 @@
                         </Array>
                     </Item>
                     <Item Key="Description" Translatable="1">This module is part of the admin area of OTRS.</Item>
-                    <Item Key="Title" Translatable="1">Auto Responses ↔ Queues</Item>
+                    <Item Key="Title" Translatable="1">Queues ↔ Auto Responses</Item>
                     <Item Key="NavBarName">Admin</Item>
                 </Hash>
             </Item>
@@ -9516,7 +9516,7 @@
                     </Array>
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
-                <Item Key="Name" Translatable="1">Auto Responses ↔ Queues</Item>
+                <Item Key="Name" Translatable="1">Queues ↔ Auto Responses</Item>
                 <Item Key="Block">Ticket</Item>
                 <Item Key="Description" Translatable="1">Link queues to auto responses.</Item>
                 <Item Key="IconBig">fa-reply</Item>
@@ -9610,7 +9610,7 @@
                         </Array>
                     </Item>
                     <Item Key="Description" Translatable="1">This module is part of the admin area of OTRS.</Item>
-                    <Item Key="Title" Translatable="1">Attachments ↔ Templates</Item>
+                    <Item Key="Title" Translatable="1">Templates ↔ Attachments</Item>
                     <Item Key="NavBarName">Admin</Item>
                 </Hash>
             </Item>
@@ -9656,9 +9656,9 @@
                     </Array>
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
-                <Item Key="Name" Translatable="1">Attachments ↔ Templates</Item>
+                <Item Key="Name" Translatable="1">Templates ↔ Attachments</Item>
                 <Item Key="Block">Ticket</Item>
-                <Item Key="Description" Translatable="1">Link attachments to templates.</Item>
+                <Item Key="Description" Translatable="1">Link templates to attachments.</Item>
                 <Item Key="IconBig">fa-paperclip</Item>
                 <Item Key="IconSmall">fa-file-text-o</Item>
             </Hash>

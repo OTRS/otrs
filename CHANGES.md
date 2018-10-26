@@ -1,4 +1,5 @@
 #6.0.13 2018-??-??
+ - 2018-10-26 Fixed bug#[14112](https://bugs.otrs.org/show_bug.cgi?id=14112) - Inconsistent layouts for Attachments-Templates and Auto Responses-Queues screens.
  - 2018-10-26 Fixed bug#[14119](https://bugs.otrs.org/show_bug.cgi?id=14119) - WSDL File is incorrect.
  - 2018-10-25 Fixed bug#[13967](https://bugs.otrs.org/show_bug.cgi?id=13967) - Translation not working in AgentTicketMerge.
  - 2018-10-25 Follow-up fix for bug#[13968](https://bugs.otrs.org/show_bug.cgi?id=13968) - Attachments with spaces in file name does not work properly.
