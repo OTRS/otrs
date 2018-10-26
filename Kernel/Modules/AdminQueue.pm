@@ -789,6 +789,7 @@ sub _Edit {
     );
 
     if ( $Param{DefaultSignKeyOption} ) {
+        $Param{DefaultSignKeyListAvailable} = IsHashRefWithData( \%DefaultSignKeyList );
         $LayoutObject->Block(
             Name => 'OptionalField',
             Data => \%Param,
