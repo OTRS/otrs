@@ -1,4 +1,5 @@
 #6.0.13 2018-??-??
+ - 2018-10-26 Fixed bug#[14119](https://bugs.otrs.org/show_bug.cgi?id=14119) - WSDL File is incorrect.
  - 2018-10-25 Fixed bug#[13967](https://bugs.otrs.org/show_bug.cgi?id=13967) - Translation not working in AgentTicketMerge.
  - 2018-10-25 Follow-up fix for bug#[13968](https://bugs.otrs.org/show_bug.cgi?id=13968) - Attachments with spaces in file name does not work properly.
  - 2018-10-23 Fixed bug#[11107](https://bugs.otrs.org/show_bug.cgi?id=11107) - ACL does not work properly in AgentTicketMove screen.
