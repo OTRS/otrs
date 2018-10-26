@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- nofilter(TidyAll::Plugin::OTRS::XML::WSDL::XSDValidator) -->
 <application xmlns="http://wadl.dev.java.net/2009/02">
   <doc xml:lang="en" title="http://localhost"/>
   <resources base="http://localhost/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnectorREST">
