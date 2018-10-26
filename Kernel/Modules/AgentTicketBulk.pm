@@ -113,7 +113,7 @@ sub Run {
         my @JSONData = (
             {
                 Name       => 'QueueID',
-                Data       => { %QueueList, '' => '-' },
+                Data       => \%QueueList,
                 SelectedID => $GetParam{QueueID},
                 TreeView   => $TreeView,
             },
