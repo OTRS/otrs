@@ -1,4 +1,5 @@
 #5.0.31 20??-??-??
+ - 2018-10-26 Follow-up fix for bug#[14132](https://bugs.otrs.org/show_bug.cgi?id=14132) - After select a sub-queue the queue's field is break in the bulk window.
  - 2018-10-26 Fixed bug#[14132](https://bugs.otrs.org/show_bug.cgi?id=14132) - After select a sub-queue the queue's field is break in the bulk window.
  - 2018-10-26 Fixed bug#[14131](https://bugs.otrs.org/show_bug.cgi?id=14131) - Missing Default Sign key field description in AdminQueue.
  - 2018-10-26 Fixed bug#[14119](https://bugs.otrs.org/show_bug.cgi?id=14119) - WSDL File is incorrect.
