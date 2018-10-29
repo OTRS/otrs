@@ -113,6 +113,23 @@ $Selenium->RunTest(
             );
         }
 
+        # Set previous ACLs on invalid.
+        my $ACLList = $ACLObject->ACLList(
+            ValidIDs => ['1'],
+            UserID   => 1,
+        );
+
+        for my $Item ( sort keys %{$ACLList} ) {
+
+            $ACLObject->ACLUpdate(
+                ID   => $Item,
+                Name => $ACLList->{$Item},
+                ,
+                ValidID => 2,
+                UserID  => 1,
+            );
+        }
+
         # Create test ACL with possible not selection of test queues.
         my $ACLID = $ACLObject->ACLAdd(
             Name           => 'AACL' . $Helper->GetRandomID(),
@@ -280,6 +297,11 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
         $Selenium->execute_script("\$('#DestQueueID').val('4').trigger('redraw.InputField').trigger('change');");
 
+        # Wait for Asynchronous widget to load.
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#TicketInformationWidget').length;"
+        );
+
         # Check that nothing happens, after the queue selection in the dropdown.
         $Self->True(
             index( $Selenium->get_current_url(), "${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID" )
@@ -293,11 +315,14 @@ $Selenium->RunTest(
             ),
             'Misc',
             'The Queue was not changed.',
-        );
+        ) || die;
 
         $Selenium->execute_script("\$('#DestQueueID').val('2').trigger('redraw.InputField').trigger('change');");
 
         # Wait for reload to kick in.
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#TicketInformationWidget').length;"
+        );
         $Selenium->WaitFor(
             JavaScript =>
                 "return typeof(Core) == 'object' && typeof(Core.App) == 'object' && Core.App.PageLoadComplete && \$('p.Value[title=\"Raw\"]').text() === 'Raw';"
@@ -309,7 +334,7 @@ $Selenium->RunTest(
             ),
             'Raw',
             'The Queue was changed.',
-        );
+        ) || die;
 
         # Delete test ACL.
         my $Success = $ACLObject->ACLDelete(
