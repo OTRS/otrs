@@ -299,7 +299,7 @@ $Selenium->RunTest(
 
         # Wait for Asynchronous widget to load.
         $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('#TicketInformationWidget').length;"
+            JavaScript => "return typeof(\$) === 'function' && \$('.SidebarColumn .WidgetSimple').length;"
         );
 
         # Check that nothing happens, after the queue selection in the dropdown.
@@ -321,7 +321,7 @@ $Selenium->RunTest(
 
         # Wait for reload to kick in.
         $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('#TicketInformationWidget').length;"
+            JavaScript => "return typeof(\$) === 'function' && \$('.SidebarColumn .WidgetSimple').length;"
         );
         $Selenium->WaitFor(
             JavaScript =>
