@@ -105,6 +105,10 @@ sub Run {
             Message => 'Index article_data_mime table',
             Module  => 'IndexArticleDataMimeTable',
         },
+        {
+            Message => 'Fix user preference keys',
+            Module  => 'FixUserPreferenceKeys',
+        },
     );
 
     print "\n" if $Verbose;

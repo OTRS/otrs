@@ -1,0 +1,145 @@
+# --
+# Copyright (C) 2001-2018 OTRS AG, https://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+
+package scripts::DBUpdateTo6::UpgradeDatabaseStructure::FixUserPreferenceKeys;    ## no critic
+
+## nofilter(TidyAll::Plugin::OTRS::Migrations::OTRS6::PermissionDataNotInSession)
+
+use strict;
+use warnings;
+
+use parent qw(scripts::DBUpdateTo6::Base);
+
+our @ObjectDependencies = (
+    'Kernel::System::DB',
+    'Kernel::System::Log',
+);
+
+=head1 NAME
+
+scripts::DBUpdateTo6::UpgradeDatabaseStructure::FixUserPreferenceKeys - Make sure that user preferences do not contain
+any blacklisted keys.
+
+=cut
+
+sub Run {
+    my ( $Self, %Param ) = @_;
+
+    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    my %Blacklisted = (
+        UserID         => 1,
+        UserLogin      => 1,
+        UserPw         => 1,
+        UserFirstname  => 1,
+        UserLastname   => 1,
+        UserFullname   => 1,
+        UserTitle      => 1,
+        ChangeTime     => 1,
+        CreateTime     => 1,
+        'UserIsGroup%' => 1,
+        ValidID        => 1,
+    );
+
+    my @Tables = qw(user_preferences customer_preferences);
+    my @AffectedTables;
+
+    TABLE:
+    for my $Table (@Tables) {
+        my $Result = $Self->_BindSQLPreferenceKeys(%Blacklisted);
+        my $SQL    = "SELECT COUNT(*) FROM $Table WHERE $Result->{BindSQL}";
+
+        return if !$DBObject->Prepare(
+            SQL  => $SQL,
+            Bind => $Result->{BindArray},
+        );
+
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            push @AffectedTables, $Table if $Row[0];
+        }
+    }
+
+    if ( !@AffectedTables ) {
+        print "         - Blacklisted keys not found in user preference tables.\n\n" if $Verbose;
+        return 1;
+    }
+
+    TABLE:
+    for my $Table (@Tables) {
+        my $Result = $Self->_BindSQLPreferenceKeys(%Blacklisted);
+        my $SQL    = "DELETE FROM $Table WHERE $Result->{BindSQL}";
+
+        return if !$DBObject->Do(
+            SQL  => $SQL,
+            Bind => $Result->{BindArray},
+        );
+    }
+
+    print "         - Cleaned up found blacklisted keys from user preference tables.\n\n" if $Verbose;
+
+    return 1;
+}
+
+=begin Internal:
+
+=cut
+
+=head2 _BindSQLPreferenceKeys()
+
+Helper method to build bind SQL string and array.
+
+    my $Result = $Self->_BindSQLPreferenceKeys(%Keys);
+
+Returns:
+
+    $Result = {
+        BindSQL   => 'key_1 LIKE ? OR key_2 LIKE ? OR key_3 LIKE ?',
+        BindArray =>  [
+            \'val_1',
+            \'val_2',
+            \'val_3',
+        ],
+    };
+
+=cut
+
+sub _BindSQLPreferenceKeys {
+    my ( $Self, %Keys ) = @_;
+
+    my $BindSQL = '';
+    my @Bind;
+
+    my $Count = 0;
+    for my $Key ( sort keys %Keys ) {
+        $BindSQL .= ' OR ' if $Count;
+        $BindSQL .= 'preferences_key LIKE ?';
+        push @Bind, \$Key;
+        $Count++;
+    }
+
+    return {
+        BindSQL   => $BindSQL,
+        BindArray => \@Bind,
+    };
+}
+
+1;
+
+=end Internal:
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (L<https://otrs.org/>).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see L<https://www.gnu.org/licenses/gpl-3.0.txt>.
+
+=cut
