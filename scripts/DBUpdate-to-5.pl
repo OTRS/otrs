@@ -135,6 +135,10 @@ Please run it as the 'otrs' user or with the help of su:
             Command => \&_FixupDashboardStatsFormats,
         },
         {
+            Message => 'Fix user preference keys',
+            Command => \&_FixUserPreferenceKeys,
+        },
+        {
             Message => 'Uninstall Merged Feature Add-Ons',
             Command => \&_UninstallMergedFeatureAddOns,
         },
@@ -2282,6 +2286,105 @@ sub _FixupDashboardStatsFormats {
     }
 
     return 1;
+}
+
+=item _FixUserPreferenceKeys()
+
+Make sure that user preferences do not contain any blacklisted keys.
+
+    _FixUserPreferenceKeys();
+
+=cut
+
+sub _FixUserPreferenceKeys {
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    my %Blacklisted = (
+        UserID         => 1,
+        UserLogin      => 1,
+        UserPw         => 1,
+        UserFirstname  => 1,
+        UserLastname   => 1,
+        UserFullname   => 1,
+        UserTitle      => 1,
+        ChangeTime     => 1,
+        CreateTime     => 1,
+        'UserIsGroup%' => 1,
+        ValidID        => 1,
+    );
+
+    my @Tables = qw(user_preferences customer_preferences);
+    my @AffectedTables;
+
+    TABLE:
+    for my $Table (@Tables) {
+        my $Result = _BindSQLPreferenceKeys(%Blacklisted);
+        my $SQL    = "SELECT COUNT(*) FROM $Table WHERE $Result->{BindSQL}";
+
+        return if !$DBObject->Prepare(
+            SQL  => $SQL,
+            Bind => $Result->{BindArray},
+        );
+
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            push @AffectedTables, $Table if $Row[0];
+        }
+    }
+
+    return 1 if !@AffectedTables;
+
+    TABLE:
+    for my $Table (@Tables) {
+        my $Result = _BindSQLPreferenceKeys(%Blacklisted);
+        my $SQL    = "DELETE FROM $Table WHERE $Result->{BindSQL}";
+
+        return if !$DBObject->Do(
+            SQL  => $SQL,
+            Bind => $Result->{BindArray},
+        );
+    }
+
+    return 1;
+}
+
+=item _BindSQLPreferenceKeys()
+
+Helper method to build bind SQL string and array.
+
+    my $Result = _BindSQLPreferenceKeys(%Keys);
+
+Returns:
+
+    $Result = {
+        BindSQL   => 'key_1 LIKE ? OR key_2 LIKE ? OR key_3 LIKE ?',
+        BindArray =>  [
+            \'val_1',
+            \'val_2',
+            \'val_3',
+        ],
+    };
+
+=cut
+
+sub _BindSQLPreferenceKeys {
+    my %Keys = @_;
+
+    my $BindSQL = '';
+    my @Bind;
+
+    my $Count = 0;
+    for my $Key ( sort keys %Keys ) {
+        $BindSQL .= ' OR ' if $Count;
+        $BindSQL .= 'preferences_key LIKE ?';
+        push @Bind, \$Key;
+        $Count++;
+    }
+
+    return {
+        BindSQL   => $BindSQL,
+        BindArray => \@Bind,
+    };
 }
 
 =item _UninstallMergedFeatureAddOns()
