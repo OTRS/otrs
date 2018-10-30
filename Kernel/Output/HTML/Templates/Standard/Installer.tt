@@ -80,7 +80,7 @@
                     <p>OTRS Inc.</p>
                     <p>19925 Stevens Creek Blvd.</p>
                     <p>Cupertino, CA 95014-2358</p>
-                    <p>[% Translate("Phone") | html %]: <a href="tel:+14085491717">+1 408 5491717</a></p>
+                    <p>[% Translate("Phone") | html %]: <a href="tel:+16692011411">+1 669 2011 411</a></p>
                 </div>
             </div>
             <div class="Clear"></div>
@@ -129,8 +129,8 @@
                 <div class="Size1of2">
                     <h4>[% Translate("Hong Kong") | html %]</h4>
                     <p>OTRS Asia Ltd.</p>
-                    <p>Three Pacific Place, Level 3, 1 Queen's Road East</p>
-                    <p>Admiralty, Hong Kong</p>
+                    <p>Unit 701 The Workstation, 43 Lyndhurst Terrace</p>
+                    <p>Central Hong Kong</p>
                     <p>[% Translate("Phone") | html %]: <a href="tel:+85258035820">+852 5803 5820</a></p>
                 </div>
             </div>
