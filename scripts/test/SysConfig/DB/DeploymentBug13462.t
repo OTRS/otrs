@@ -149,11 +149,11 @@ for my $TargetUserID ( $TestUserID1, $TestUserID2, $TestUserID3 ) {
 
         $DeploymentIDs{ $Data{DeploymentID} } = 1;
 
-        next CHILDINDEX if !$Data{DeploymetID};
+        next CHILDINDEX if !$Data{DeploymentID};
 
         my $Success = $Kernel::OM->Get('Kernel::System::SysConfig::DB')->DeploymentDelete(
-            TicketID => $Data{TicketID},
-            UserID   => 1,
+            DeploymentID => $Data{DeploymentID},
+            UserID       => 1,
         );
 
         $Self->True(
