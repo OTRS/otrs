@@ -117,7 +117,7 @@ for my $Test (@Tests) {
             = $Kernel::OM->Get('Kernel::Config')->Get('Process::Entity::Prefix')->{ $Test->{Config}->{EntityType} };
 
         my $Match;
-        if ( $EntityID =~ m{\A $Test->{Config}->{EntityType} - [0-9a-f]{32}? \z}smx ) {
+        if ( $EntityID =~ m{\A $Test->{Config}->{EntityType} - [0-9a-f]{32} \z}smx ) {
             $Match = 1;
         }
         $Self->True(
