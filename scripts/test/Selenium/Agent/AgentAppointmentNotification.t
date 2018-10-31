@@ -291,13 +291,13 @@ $Selenium->RunTest(
         for my $Test (@TemplateCreateTests) {
 
             # Create appointment.
-            $Selenium->find_element( ".fc-widget-content td[data-date=\"$DataDate\"]", 'css' )->click();
+            $Selenium->find_elements("//td[contains(\@data-date,'$DataDate')]")->[1]->click();
 
             # Wait until form and overlay has loaded, if neccessary.
             $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length;" );
 
             # Enter some data.
-            $Selenium->find_element( 'Title', 'name' )->send_keys("$Test->{Data}->{Description}");
+            $Selenium->find_element( '#Title', 'css' )->send_keys("$Test->{Data}->{Description}");
             $Selenium->execute_script(
                 "\$('#CalendarID').val("
                     . $Calendar1{CalendarID}
@@ -506,13 +506,13 @@ $Selenium->RunTest(
         for my $Test (@TemplateCustomRelativeCreateTests) {
 
             # Create appointment.
-            $Selenium->find_element( ".fc-widget-content td[data-date=\"$DataDate\"]", 'css' )->click();
+            $Selenium->find_elements("//td[contains(\@data-date,'$DataDate')]")->[1]->click();
 
             # Wait until form and overlay has loaded, if neccessary.
             $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length;" );
 
             # Enter some data.
-            $Selenium->find_element( 'Title', 'name' )->send_keys("$Test->{Data}->{Description}");
+            $Selenium->find_element( '#Title', 'css' )->send_keys("$Test->{Data}->{Description}");
             $Selenium->execute_script(
                 "\$('#CalendarID').val("
                     . $Calendar1{CalendarID}
@@ -757,13 +757,13 @@ $Selenium->RunTest(
         for my $Test (@TemplateCustomDateTimeCreateTests) {
 
             # Create appointment.
-            $Selenium->find_element( ".fc-widget-content td[data-date=\"$DataDate\"]", 'css' )->click();
+            $Selenium->find_elements("//td[contains(\@data-date,'$DataDate')]")->[1]->click();
 
             # Wait until form and overlay has loaded, if neccessary.
             $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length;" );
 
             # Enter some data.
-            $Selenium->find_element( 'Title', 'name' )->send_keys("$Test->{Data}->{Description}");
+            $Selenium->find_element( '#Title', 'css' )->send_keys("$Test->{Data}->{Description}");
             $Selenium->execute_script(
                 "\$('#CalendarID').val("
                     . $Calendar1{CalendarID}
