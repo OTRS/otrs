@@ -2937,6 +2937,7 @@ sub ModifiedSettingGet {
         Type => $CacheType,
         Key  => $CacheKey,
     );
+
     return %{$Cache} if ref $Cache eq 'HASH';
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');

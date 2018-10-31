@@ -349,16 +349,16 @@ sub _TasksGet {
             Module  => 'RebuildConfigCleanup',
         },
         {
-            Message => 'Check SysConfig consistency',
-            Module  => 'SysConfigCheck',
-        },
-        {
             Message => 'Deploy ACLs',
             Module  => 'ACLDeploy',
         },
         {
             Message => 'Deploy processes',
             Module  => 'ProcessDeploy',
+        },
+        {
+            Message => 'Check invalid settings',
+            Module  => 'InvalidSettingsCheck',
         },
     );
 
