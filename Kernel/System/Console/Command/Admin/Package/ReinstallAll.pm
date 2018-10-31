@@ -28,11 +28,20 @@ sub Configure {
         HasValue    => 0,
     );
 
+    $Self->AddOption(
+        Name        => 'hide-deployment-info',
+        Description => 'Hide package and files status (package deployment info).',
+        Required    => 0,
+        HasValue    => 0,
+    );
+
     return;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    my $HideDeploymentInfoOption = $Self->GetOption('hide-deployment-info') || 0;
 
     $Self->Print("<yellow>Reinstalling all OTRS packages that are not correctly deployed...</yellow>\n");
 
@@ -45,6 +54,7 @@ sub Run {
         my $CorrectlyDeployed = $Kernel::OM->Get('Kernel::System::Package')->DeployCheck(
             Name    => $Package->{Name}->{Content},
             Version => $Package->{Version}->{Content},
+            Log     => $HideDeploymentInfoOption ? 0 : 1,
         );
 
         if ( !$CorrectlyDeployed ) {
