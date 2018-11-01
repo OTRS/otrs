@@ -1,4 +1,5 @@
 #6.0.13 2018-??-??
+ - 2018-11-01 Fixed bug#[14140](https://bugs.otrs.org/show_bug.cgi?id=14140) - Missing confirmation dialog when deleting a PGP key.
  - 2018-10-31 Added option to hide deployment info to Admin::Package::ReinstallAll console command.
  - 2018-10-31 Fixed bug#[14154](https://bugs.otrs.org/show_bug.cgi?id=14154) - After migration, configuration deployment does not work due to the invalid setting value.
  - 2018-10-29 Follow-up fix for bug#[13978](https://bugs.otrs.org/show_bug.cgi?id=13978) - User and customer preferences may override user data.

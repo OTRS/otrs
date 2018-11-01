@@ -126,8 +126,7 @@
                 <h2>[% Translate("List") | html %]</h2>
             </div>
             <div class="Content">
-
-                <table class="DataTable">
+                <table class="DataTable" id="PGP">
                     <thead>
                         <tr>
                             <th>[% Translate("Type") | html %]</th>

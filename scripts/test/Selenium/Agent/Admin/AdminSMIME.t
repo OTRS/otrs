@@ -192,14 +192,24 @@ $Selenium->RunTest(
                 "Test $TestSMIME SMIME found on table",
             );
 
-            sleep 1;
             $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Type=$TestSMIME;Filename=' )]")->click();
+            sleep 1;
+
             $Selenium->WaitFor( AlertPresent => 1 );
             $Selenium->accept_alert();
 
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
+                    "return typeof(\$) === 'function' && \$('a[href*=\"Delete;Type=$TestSMIME;Filename=\"]').length == 0;"
+            );
+            $Selenium->VerifiedRefresh();
+
+            # Check if dynamic field is deleted.
+            $Self->False(
+                $Selenium->execute_script(
+                    "return \$('a[href*=\"Delete;Type=$TestSMIME;Filename=\"]').length;"
+                ),
+                "SMIME-$TestSMIME is deleted",
             );
         }
 
