@@ -1,4 +1,6 @@
-#6.0.13 2018-??-??
+#6.0.14 2018-??-??
+
+#6.0.13 2018-11-09
  - 2018-11-01 Updated translations, thanks to all translators.
  - 2018-11-01 Fixed: TicketSolutionResponseTime stats leads to internal server error (bug#14167).
  - 2018-11-01 Fixed bug#[14140](https://bugs.otrs.org/show_bug.cgi?id=14140) - Missing confirmation dialog when deleting a PGP key.
