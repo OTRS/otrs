@@ -118,7 +118,8 @@ $Self->True(
     "SLA $SLAID has been created.",
 );
 
-for my $Item ( 1 .. 5 ) {
+my @TicketIDs;
+for my $Item ( 1 .. 6 ) {
 
     my $TicketID = $TicketObject->TicketCreate(
         Title        => 'Ticket One Title',
@@ -133,11 +134,11 @@ for my $Item ( 1 .. 5 ) {
         OwnerID      => 1,
         UserID       => 1,
     );
-
     $Self->True(
         $TicketID,
-        "TicketCreate() successful for Ticket One ID $TicketID",
+        "TicketCreate() successful for Ticket ID $TicketID",
     );
+    push @TicketIDs, $TicketID;
 
     my $TestFieldConfig = $DynamicFieldObject->DynamicFieldGet(
         ID => $FieldID,
@@ -183,24 +184,36 @@ for my $Item ( 1 .. 5 ) {
 
     $Helper->FixedTimeAddSeconds( $Item * 60 );
 
-    $Success = $TicketObject->TicketStateSet(
-        StateID            => 2,
-        TicketID           => $TicketID,
-        SendNoNotification => 0,
-        UserID             => 1,
-    );
-
-    $Self->True(
-        $Success,
-        "TicketStateSet() successful set state 'close successful' for ticket $TicketID",
-    );
-
+    # Close all ticket's except the last one.
+    if ( $Item != 6 ) {
+        $Success = $TicketObject->TicketStateSet(
+            StateID            => 2,
+            TicketID           => $TicketID,
+            SendNoNotification => 0,
+            UserID             => 1,
+        );
+        $Self->True(
+            $Success,
+            "TicketStateSet() successful set state 'close successful' for ticket $TicketID",
+        );
+    }
 }
+
+# Merge two last created test tickets.
+my $MergeSuccess = $TicketObject->TicketMerge(
+    MainTicketID  => $TicketIDs[4],
+    MergeTicketID => $TicketIDs[5],
+    UserID        => 1,
+);
+$Self->True(
+    $MergeSuccess,
+    "TicketMerge() successful merged TicketID $TicketIDs[4] with TicketID $TicketIDs[5]"
+);
 
 my @Tests = (
     {
         KindsOfReporting => 'SolutionAverageAllOver',
-        ExpectedResult   => '9 m',
+        ExpectedResult   => '8 m',
     },
     {
         KindsOfReporting => 'SolutionMinTimeAllOver',

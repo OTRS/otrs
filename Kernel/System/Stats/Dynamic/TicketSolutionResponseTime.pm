@@ -843,6 +843,9 @@ sub GetStatElement {
             DynamicFields => 0,
         );
 
+        # If ticket does not have closed time, skip to next ticket.
+        next TICKET if !defined $Ticket{Closed};
+
         my $CreatedDateTimeObject = $Kernel::OM->Create(
             'Kernel::System::DateTime',
             ObjectParams => {

@@ -1,4 +1,5 @@
 #6.0.13 2018-??-??
+ - 2018-11-01 Fixed: TicketSolutionResponseTime stats leads to internal server error (bug#14167).
  - 2018-11-01 Fixed bug#[14140](https://bugs.otrs.org/show_bug.cgi?id=14140) - Missing confirmation dialog when deleting a PGP key.
  - 2018-10-31 Added option to hide deployment info to Admin::Package::ReinstallAll console command.
  - 2018-10-31 Fixed bug#[14154](https://bugs.otrs.org/show_bug.cgi?id=14154) - After migration, configuration deployment does not work due to the invalid setting value.
