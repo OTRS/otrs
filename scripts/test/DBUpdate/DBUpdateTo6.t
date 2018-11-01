@@ -96,6 +96,30 @@ for my $Count ( 1 .. 2 ) {
     );
 }
 
+# Cleanup SysConfig cache.
+my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+for my $CacheType (
+    qw(
+    SysConfigDefault
+    SysConfigDefaultListGet
+    SysConfigDefaultList
+    SysConfigDefaultVersion
+    SysConfigDefaultVersionList
+    SysConfigModified
+    SysConfigModifiedList
+    SysConfigModifiedVersion
+    SysConfigModifiedVersionList
+    SysConfigIsDirty
+    SysConfigDeployment
+    )
+    )
+{
+    $CacheObject->CleanUp(
+        Type => $CacheType,
+    );
+}
+
 # Cleanup is done by TmpDatabaseCleanup().
 
 1;
