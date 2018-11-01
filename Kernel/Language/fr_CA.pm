@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.355475454857535;
+    $Self->{Completeness}        = 0.352627962899347;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -105,7 +105,6 @@ sub Data {
         'Calendar Management' => '',
         'Add Calendar' => '',
         'Edit Calendar' => '',
-        'Go back' => '',
         'Calendar Overview' => '',
         'Add new Calendar' => '',
         'Import Appointments' => '',
@@ -115,6 +114,7 @@ sub Data {
         'Overwrite existing entities' => '',
         'Upload calendar configuration' => '',
         'Import Calendar' => '',
+        'Filter for Calendars' => '',
         'Filter for calendars' => '',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             '',
@@ -158,6 +158,7 @@ sub Data {
 
         # Template: AdminAppointmentImport
         'Appointment Import' => '',
+        'Go back' => '',
         'Uploaded file must be in valid iCal format (.ics).' => '',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             '',
@@ -172,7 +173,6 @@ sub Data {
         'Appointment Notification Management' => '',
         'Add Notification' => 'Ajouter une notification',
         'Edit Notification' => 'Éditer une notification',
-        'Add notification' => 'Ajouter une notification',
         'Export Notifications' => '',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',
@@ -324,9 +324,10 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => '',
-        'Time range' => '',
+        'Time Range' => '',
         'Show only communication logs created in specific time range.' =>
             '',
+        'Filter for Communications' => '',
         'Filter for communications' => '',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             '',
@@ -357,9 +358,9 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => '',
-        'Back' => 'Retour',
+        'Back to overview' => '',
+        'Filter for Accounts' => '',
         'Filter for accounts' => '',
-        'Filter for log entries' => '',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             '',
         'Account status for: %s' => '',
@@ -385,6 +386,8 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '',
+        'Filter for Log Entries' => '',
+        'Filter for log entries' => '',
         'Show only entries with specific priority and higher:' => '',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
@@ -489,15 +492,17 @@ sub Data {
             '',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Faites la gestion de ces groupes au moyen',
+        'Filter for groups' => '',
         'Select the customer user - group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             '',
         'Customer User Default Groups:' => '',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Services Relations' => '',
+        'Manage Customer User-Service Relations' => '',
         'Edit default services' => 'Éditer les services par défaut',
         'Filter for Services' => 'Filtre pour les services',
+        'Filter for services' => '',
         'Services' => 'Services',
 
         # Template: AdminDynamicField
@@ -625,12 +630,12 @@ sub Data {
         'Send' => 'Envoyer',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => 'Agent générique',
-        'Edit job' => 'Éditer la tâche',
-        'Add job' => 'Ajouter une tâche',
-        'Run job' => 'Exécuter la tâche',
-        'Filter for Generic Agent Jobs' => '',
-        'Filter for generic agent jobs' => '',
+        'Generic Agent Job Management' => '',
+        'Edit Job' => '',
+        'Add Job' => '',
+        'Run Job' => '',
+        'Filter for Jobs' => '',
+        'Filter for jobs' => '',
         'Last run' => 'Dernière utilisation',
         'Run Now!' => 'Démarrer maintenant',
         'Delete this task' => 'Supprimer cette tâche',
@@ -1155,7 +1160,6 @@ sub Data {
             'Une fois la configuration sauvegardée, vous serez redirigé vers l\'écran de gestion des services Web de l\'interface générique, section « Ajouter ».',
         'If you want to return to overview please click the "Go to overview" button.' =>
             'Si vous souhaitez accéder à l\'écran de visualisation, cliquez sur « Aller à la visualisation ».',
-        'Web Service List' => 'Liste des services Web',
         'Remote system' => 'Système à distance ',
         'Provider transport' => 'Fournisseur de transport',
         'Requester transport' => 'Demandeur de transport',
@@ -1200,7 +1204,6 @@ sub Data {
         'Group Management' => 'Gestion des groupes',
         'Add Group' => 'Ajouter un groupe',
         'Edit Group' => 'Éditer un groupe',
-        'Add group' => 'Ajouter un groupe',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'Le groupe administrateur permet d\'accéder à la zone d\'administration et le groupe statistiques permet d\'accéder à la zone de statistiques.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
@@ -1209,7 +1212,6 @@ sub Data {
 
         # Template: AdminLog
         'System Log' => 'Journal',
-        'Filter for Log Entries' => '',
         'Here you will find log information about your system.' => 'L\'information relative aux ouvertures de sessions dans le système est présentée ici.',
         'Hide this message' => 'Masquer ce message',
         'Recent Log Entries' => 'Ouvertures de sessions récentes',
@@ -1386,11 +1388,9 @@ sub Data {
             '',
         'Configure it here!' => '',
         'Check PGP configuration' => '',
-        'Add PGP key' => 'Ajouter une clé PGP',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'Ainsi, vous pouvez directement éditer le trousseau configuré dans le système de configuration.',
         'Introduction to PGP' => 'Introduction aux clés PGP',
-        'Result' => 'Résultat ',
         'Identifier' => 'Identifiant',
         'Bit' => 'Bit',
         'Fingerprint' => 'Empreinte',
@@ -1495,9 +1495,8 @@ sub Data {
         'PostMaster Filter Management' => 'Gestion des filtres du maître de poste',
         'Add PostMaster Filter' => 'Ajouter un filtre',
         'Edit PostMaster Filter' => 'Éditer ce filtre',
-        'Add filter' => 'Ajouter un filtre',
-        'Filter for Postmaster Filters' => '',
-        'Filter for postmaster filters' => '',
+        'Filter for PostMaster Filters' => '',
+        'Filter for PostMaster filters' => '',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'La présente fonctionnalité permet de distribuer et de filtrer les courriels entrants au moyen de leur en-tête. Elle permet aussi de faire de la correspondance de courriels au moyen d\'expressions courantes. ',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1535,6 +1534,7 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => '',
         'Filter for Processes' => '',
+        'Filter for processes' => '',
         'Create New Process' => '',
         'Deploy All Processes' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
@@ -1693,7 +1693,7 @@ sub Data {
         'Remove this Parameter' => '',
 
         # Template: AdminQueue
-        'Manage Queues' => 'Gestion des files',
+        'Queue Management' => '',
         'Add Queue' => 'Ajouter une file',
         'Edit Queue' => 'Éditer une File',
         'Filter for Queues' => 'Filtre pour les files',
@@ -1725,6 +1725,8 @@ sub Data {
         'System address' => 'Adresse système ',
         'Will be the sender address of this queue for email answers.' => 'Sera l\'adresse d\'expédition des réponses par courriel de cette file.',
         'Default sign key' => 'Clé de signature par défaut',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'Salutation' => 'Formule de salutation ',
         'The salutation for email answers.' => 'La formule de salutation pour les réponses par courriel.',
         'Signature' => 'Signature ',
@@ -1743,6 +1745,7 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
         'Filter for Templates' => '',
+        'Filter for templates' => '',
         'Templates' => '',
 
         # Template: AdminRegistration
@@ -1843,7 +1846,6 @@ sub Data {
 
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => 'Gestion des relations rôle-groupe',
-        'Add role' => 'Ajouter un rôle',
         'Roles' => 'Rôles',
         'Select the role:group permissions.' => 'Sélectionner les permissions des rôles et des groupes.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
@@ -1864,8 +1866,9 @@ sub Data {
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Gestion des relations agent-rôle',
-        'Add agent' => 'Ajouter un agent',
+        'Add Agent' => 'Ajouter un agent',
         'Filter for Agents' => 'Filtre pour les agents',
+        'Filter for agents' => '',
         'Agents' => 'Agents',
         'Manage Role-Agent Relations' => 'Gestion des relations rôle-agent',
 
@@ -1888,10 +1891,8 @@ sub Data {
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             '',
         'Check SMIME configuration' => '',
-        'Add certificate' => 'Ajouter un certificat',
-        'Add private key' => 'Ajouter une clé privée',
         'Filter for Certificates' => '',
-        'Filter for S/MIME certs' => '',
+        'Filter for certificates' => 'Filtres pour les certificats',
         'To show certificate details click on a certificate icon.' => '',
         'To manage private certificate relations click on a private key icon.' =>
             '',
@@ -1910,6 +1911,7 @@ sub Data {
         'Related Certificates for' => 'Certificats associés à',
         'Delete this relation' => 'Supprimer cette relation',
         'Available Certificates' => 'Certificats disponibles',
+        'Filter for S/MIME certs' => '',
         'Relate this certificate' => 'Lie ce certificat',
 
         # Template: AdminSMIMECertRead
@@ -1921,7 +1923,6 @@ sub Data {
         'Salutation Management' => 'Gestion des formules de salutation',
         'Add Salutation' => 'Ajouter une formule de salutation',
         'Edit Salutation' => 'Éditer une formule de salutation',
-        'Add salutation' => 'Ajouter une formule de salutation',
         'Filter for Salutations' => '',
         'Filter for salutations' => '',
         'e. g.' => 'p. ex.',
@@ -1957,8 +1958,6 @@ sub Data {
         'Service Management' => 'Gestion des services',
         'Add Service' => 'Ajouter un service',
         'Edit Service' => 'Éditer le service ',
-        'Add service' => 'Ajouter un service',
-        'Filter for services' => '',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             '',
         'Sub-service of' => 'Sous-service de ',
@@ -1984,7 +1983,6 @@ sub Data {
         'Signature Management' => 'Gestion des signatures',
         'Add Signature' => 'Ajouter une signature',
         'Edit Signature' => 'Éditer une signature',
-        'Add signature' => 'Ajouter une signature',
         'Filter for Signatures' => '',
         'Filter for signatures' => '',
         'Example signature' => 'Exemple de signature',
@@ -2152,10 +2150,9 @@ sub Data {
         'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
-        'Manage Templates' => '',
+        'Template Management' => '',
         'Add Template' => '',
         'Edit Template' => '',
-        'Add template' => '',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             '',
         'Don\'t forget to add new templates to queues.' => '',
@@ -2178,7 +2175,6 @@ sub Data {
         'Type Management' => 'Gestion des types',
         'Add Type' => 'Ajouter un type',
         'Edit Type' => 'Éditer un type',
-        'Add ticket type' => 'Ajouter un type de demande',
         'Filter for Types' => '',
         'Filter for types' => '',
         'A type with this name already exists!' => '',
@@ -2188,7 +2184,6 @@ sub Data {
 
         # Template: AdminUser
         'Agent Management' => 'Gestion des agents',
-        'Add Agent' => 'Ajouter un agent',
         'Edit Agent' => 'Modifier l\'agent',
         'Edit personal preferences for this agent' => '',
         'Agents will be needed to handle tickets.' => 'Les demandes devront être gérées par des agents.',
@@ -2864,6 +2859,7 @@ sub Data {
         'Your 2 Factor Token' => '',
         'Log In' => 'Se connecter',
         'Not yet registered?' => 'Pas encore inscrit?',
+        'Back' => 'Retour',
         'Request New Password' => 'Demander un nouveau mot de passe',
         'Your User Name' => 'Votre nom d\'utilisateur',
         'A new password will be sent to your email address.' => 'Un nouveau mot de passe sera envoyé à votre adresse électronique.',
@@ -5496,6 +5492,9 @@ sub Data {
         'Do you really want to delete this notification language?' => '',
         'Do you really want to delete this notification?' => '',
 
+        # JS File: Core.Agent.Admin.PGP
+        'Do you really want to delete this key?' => '',
+
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
             '',
@@ -6036,8 +6035,6 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => '',
         'ArticleTree' => '',
         'Attachment Name' => '',
-        'Attachments ↔ Templates' => '',
-        'Auto Responses ↔ Queues' => '',
         'Automated line break in text messages after x number of chars.' =>
             'Saut de ligne automatique dans les messages texte tous les x charactères.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -7501,13 +7498,13 @@ Thanks for your help!
         'Link Object.' => '',
         'Link agents to groups.' => 'Lier les agents aux groupes.',
         'Link agents to roles.' => 'Lier les agents aux rôles.',
-        'Link attachments to templates.' => '',
         'Link customer users to customers.' => '',
         'Link customer users to groups.' => '',
         'Link customer users to services.' => '',
         'Link customers to groups.' => '',
         'Link queues to auto responses.' => 'Lier les files aux réponses automatiques.',
         'Link roles to groups.' => 'Lier les rôles aux groupes.',
+        'Link templates to attachments.' => '',
         'Link templates to queues.' => '',
         'Link this ticket to other objects' => 'Lier cette demande à d\'autres objets',
         'Links 2 tickets with a "Normal" type link.' => 'Lier deux demandes d\'un lien « Normal ».',
@@ -7843,6 +7840,7 @@ Thanks for your help!
         'Public Calendar' => '',
         'Public calendar.' => '',
         'Queue view' => 'Vue des files',
+        'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             '',
@@ -8482,6 +8480,7 @@ Thanks for your help!
         'System Configuration Deployment' => '',
         'System Configuration Group' => '',
         'System Maintenance' => '',
+        'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => '',
         'Textarea' => 'Zone de texte',
         'Thai' => '',
@@ -8815,6 +8814,7 @@ Thanks for your help!
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',

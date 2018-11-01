@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.933401991074494;
+    $Self->{Completeness}        = 0.929062177945723;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -109,7 +109,6 @@ sub Data {
         'Calendar Management' => 'Управление календарями',
         'Add Calendar' => 'Добавить календарь',
         'Edit Calendar' => 'Редактировать календарь',
-        'Go back' => 'Назад',
         'Calendar Overview' => 'Обзор календарей',
         'Add new Calendar' => 'Добавить новый календарь',
         'Import Appointments' => 'Импортировать мероприятия',
@@ -119,6 +118,7 @@ sub Data {
         'Overwrite existing entities' => 'Переписывать существующие объекты',
         'Upload calendar configuration' => 'Загрузить конфигурацию календаря',
         'Import Calendar' => 'Импортировать календарь',
+        'Filter for Calendars' => '',
         'Filter for calendars' => 'Фильтр для Календарей',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             'В зависимости от значения в поле group, система предоставляет агентам доступ к календарю в в соответствии с уровнем его полномочий.',
@@ -162,6 +162,7 @@ sub Data {
 
         # Template: AdminAppointmentImport
         'Appointment Import' => 'Импорт мероприятий',
+        'Go back' => 'Назад',
         'Uploaded file must be in valid iCal format (.ics).' => 'Загружаемый файл должен иметь правильный iCal формат (.ics).',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             'Если желаемый календарь отсутствует в списке, убедитесь, что у вас есть хотя бы права на создание - \'create\'.',
@@ -176,7 +177,6 @@ sub Data {
         'Appointment Notification Management' => 'Управление уведомлениями о мероприятиях',
         'Add Notification' => 'Добавить уведомление',
         'Edit Notification' => 'Редактировать уведомления',
-        'Add notification' => 'Добавить уведомление',
         'Export Notifications' => 'Экспорт уведомлений',
         'Filter for Notifications' => 'Фильтр для Уведомлений',
         'Filter for notifications' => 'Фильтр для уведомлений',
@@ -328,9 +328,10 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => 'Журнал сеансов связи',
-        'Time range' => 'Временной интервал',
+        'Time Range' => '',
         'Show only communication logs created in specific time range.' =>
             'Показать записи журнала связи созданные в определенном промежутке времени.',
+        'Filter for Communications' => '',
         'Filter for communications' => 'Фильтр для сеансов',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             'На этом экране вы можете видеть обзор входящих и исходящих сеансах связи.',
@@ -361,9 +362,9 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => 'Статус учетной записи',
-        'Back' => 'Назад',
+        'Back to overview' => '',
+        'Filter for Accounts' => '',
         'Filter for accounts' => 'Фильтр для учетных записей',
-        'Filter for log entries' => 'Фильтр для записей журнала',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             'Вы можете поменять сортировку и порядок колонок, кликнув по заголовку. ',
         'Account status for: %s' => 'Статус учетной записи для: %s',
@@ -389,6 +390,8 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => 'Подробный просмотр для %s сеанс начат в %s',
+        'Filter for Log Entries' => 'Фильтр для записей журнала',
+        'Filter for log entries' => 'Фильтр для записей журнала',
         'Show only entries with specific priority and higher:' => 'Показывать записи только с указанным приоритетом и выше:',
         'Communication Log Overview (%s)' => 'Просмотр журнала сеансов связи для:  (%s)',
         'No communication objects found.' => 'Нет объектов сеансов связи.',
@@ -493,15 +496,17 @@ sub Data {
             'Эти группы автоматически назначаются всем клиентам.',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Этими группами можно управлять в настройке конфигурации "CustomerGroupAlwaysGroups".',
+        'Filter for groups' => '',
         'Select the customer user - group permissions.' => 'Выберите разрешения клиент - группа.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             'Если ничего не выбрано, тогда у клиентов в этой группе не будет прав (заявки будут недоступны клиенту).',
         'Customer User Default Groups:' => 'Клиентские группы по-умолчанию:',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Services Relations' => 'Связь Клиентов с Сервисами',
+        'Manage Customer User-Service Relations' => '',
         'Edit default services' => 'Редактировать сервисы по-умолчанию',
         'Filter for Services' => 'Фильтр для Сервисов',
+        'Filter for services' => 'Фильтр для Сервисов',
         'Services' => 'Services/Сервисы',
 
         # Template: AdminDynamicField
@@ -629,12 +634,12 @@ sub Data {
         'Send' => 'Отправить',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => 'Планировщик задач',
-        'Edit job' => 'Редактировать задание',
-        'Add job' => 'Добавить задание',
-        'Run job' => 'Запустить задание',
-        'Filter for Generic Agent Jobs' => 'Фильтр для заданий Планировщика',
-        'Filter for generic agent jobs' => 'Фильтр для заданий Планировщика',
+        'Generic Agent Job Management' => '',
+        'Edit Job' => '',
+        'Add Job' => '',
+        'Run Job' => '',
+        'Filter for Jobs' => '',
+        'Filter for jobs' => '',
         'Last run' => 'Дата последнего запуска',
         'Run Now!' => 'Выполнить сейчас!',
         'Delete this task' => 'Удалить задачу',
@@ -1159,7 +1164,6 @@ sub Data {
             'После сохранения конфигурации вы вернетесь обратно на экран редактирования',
         'If you want to return to overview please click the "Go to overview" button.' =>
             'Если желаете вернуться к обзору, нажмите кнопку Перейти к обзору.',
-        'Web Service List' => 'Список Веб-сервисов',
         'Remote system' => 'Удаленная система',
         'Provider transport' => 'Транспорт провайдера',
         'Requester transport' => 'Транспорт запрашиваюшего',
@@ -1204,7 +1208,6 @@ sub Data {
         'Group Management' => 'Управление группами',
         'Add Group' => 'Добавить группу',
         'Edit Group' => 'Редактировать группу',
-        'Add group' => 'Добавить группу',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'Группа admin может осуществлять администрирование, а группа stats — просматривать статистику',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
@@ -1213,7 +1216,6 @@ sub Data {
 
         # Template: AdminLog
         'System Log' => 'Системный журнал',
-        'Filter for Log Entries' => 'Фильтр для записей журнала',
         'Here you will find log information about your system.' => 'Здесь вы найдете логи с информацией о вашей системе.',
         'Hide this message' => 'Скрыть это сообщение',
         'Recent Log Entries' => 'Свежие записи в логе',
@@ -1390,11 +1392,9 @@ sub Data {
             'Поддержка PGP включена, но соответствующие настройки содержат ошибки. Проверьте настройки используя кнопку расположенную ниже.',
         'Configure it here!' => 'Выполните настройку здесь!',
         'Check PGP configuration' => 'Проверить настройки PGP ',
-        'Add PGP key' => 'Добавить PGP ключ',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'В данном случае вы можете изменить ключи прямо в конфигурации системы',
         'Introduction to PGP' => 'Введение в PGP',
-        'Result' => 'Результат',
         'Identifier' => 'Идентификатор',
         'Bit' => 'Бит',
         'Fingerprint' => 'Цифровой отпечаток',
@@ -1499,9 +1499,8 @@ sub Data {
         'PostMaster Filter Management' => 'Управление фильтрами PostMaster',
         'Add PostMaster Filter' => 'Добавить фильтр PostMaster-а',
         'Edit PostMaster Filter' => 'Редактировать фильтр PostMaster-а',
-        'Add filter' => 'Добавить фильтр',
-        'Filter for Postmaster Filters' => 'Фильтр для фильтров PostMaster-а',
-        'Filter for postmaster filters' => 'Фильтр для фильтров PostMaster-а',
+        'Filter for PostMaster Filters' => '',
+        'Filter for PostMaster filters' => '',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'Для распределения или фильтрации входящей электронной почты по заголовкам. Возможна также проверка и с использованием регулярных выражений.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1539,6 +1538,7 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => 'Управление Процессами',
         'Filter for Processes' => 'Фильтр для Процессов',
+        'Filter for processes' => '',
         'Create New Process' => 'Создать новый Процесс',
         'Deploy All Processes' => 'Синхронизировать все Процессы',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
@@ -1697,7 +1697,7 @@ sub Data {
         'Remove this Parameter' => 'Удалить этот параметр',
 
         # Template: AdminQueue
-        'Manage Queues' => 'Управление очередями',
+        'Queue Management' => '',
         'Add Queue' => 'Добавить Очередь',
         'Edit Queue' => 'Изменить очередь',
         'Filter for Queues' => 'Фильтр для Очередей',
@@ -1729,6 +1729,8 @@ sub Data {
         'System address' => 'Адрес системы',
         'Will be the sender address of this queue for email answers.' => 'Установка адреса отправителя для ответов в этой очереди.',
         'Default sign key' => 'Ключ подписи по умолчанию',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'Salutation' => 'Приветствие',
         'The salutation for email answers.' => 'Приветствие для писем',
         'Signature' => 'Подпись',
@@ -1747,6 +1749,7 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => 'Управление связями Шаблон - Очередь',
         'Filter for Templates' => 'Фильтр для Шаблонов',
+        'Filter for templates' => '',
         'Templates' => 'Шаблоны',
 
         # Template: AdminRegistration
@@ -1847,7 +1850,6 @@ sub Data {
 
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => 'Связь ролей с группами',
-        'Add role' => 'Добавить роль',
         'Roles' => 'Роли',
         'Select the role:group permissions.' => 'Выберите разрешения роль:группа.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
@@ -1868,8 +1870,9 @@ sub Data {
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Связь агентов с ролями',
-        'Add agent' => 'Добавить агента',
+        'Add Agent' => 'Добавить агента',
         'Filter for Agents' => 'Фильтр для Агентов',
+        'Filter for agents' => '',
         'Agents' => 'Агенты',
         'Manage Role-Agent Relations' => 'Связь ролей с агентами',
 
@@ -1892,10 +1895,8 @@ sub Data {
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             'Поддержка SMIME включена, но соответствующие настройки содержат ошибки. Проверьте настройки используя кнопку расположенную ниже.',
         'Check SMIME configuration' => 'Проверить настройки SMIME ',
-        'Add certificate' => 'Добавить сертификат',
-        'Add private key' => 'Добавить закрытый ключ',
         'Filter for Certificates' => 'Фильтр для сертификатов',
-        'Filter for S/MIME certs' => 'Фильтр для  S/MIME сертификатов',
+        'Filter for certificates' => 'Фильтр для сертификатов',
         'To show certificate details click on a certificate icon.' => 'Для показа подробностей сертификата нажмите на иконку сертификата.',
         'To manage private certificate relations click on a private key icon.' =>
             'Для управления личным сертификатом кликните по значку личного ключа.',
@@ -1914,6 +1915,7 @@ sub Data {
         'Related Certificates for' => 'Связанные сертификаты для',
         'Delete this relation' => 'Удалить эту связь',
         'Available Certificates' => 'Доступные сертификаты',
+        'Filter for S/MIME certs' => 'Фильтр для  S/MIME сертификатов',
         'Relate this certificate' => 'Связать этот сертификат',
 
         # Template: AdminSMIMECertRead
@@ -1925,7 +1927,6 @@ sub Data {
         'Salutation Management' => 'Управление приветствиями',
         'Add Salutation' => 'Добавить приветствие',
         'Edit Salutation' => 'Редактировать приветствие',
-        'Add salutation' => 'Добавить приветствие',
         'Filter for Salutations' => 'Фильтр для Приветствий',
         'Filter for salutations' => 'Фильтр для Приветствий',
         'e. g.' => 'например,',
@@ -1961,8 +1962,6 @@ sub Data {
         'Service Management' => 'Управление сервисами',
         'Add Service' => 'Добавить Сервис',
         'Edit Service' => 'Изменить Сервис',
-        'Add service' => 'Добавить сервис',
-        'Filter for services' => 'Фильтр для Сервисов',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             'Максимальная длина названия сервиса 200 символов (с подсервисами).',
         'Sub-service of' => 'Подсервис сервиса',
@@ -1988,7 +1987,6 @@ sub Data {
         'Signature Management' => 'Управление подписями',
         'Add Signature' => 'Добавить Подпись',
         'Edit Signature' => 'Изменить подпись',
-        'Add signature' => 'Добавить подпись',
         'Filter for Signatures' => 'Фильтр для Подписей',
         'Filter for signatures' => 'Фильтр для Подписей',
         'Example signature' => 'Пример подписи',
@@ -2156,10 +2154,9 @@ sub Data {
         'Kill all Sessions, except for your own' => 'Завершить все сеансы, кроме вашего собственного',
 
         # Template: AdminTemplate
-        'Manage Templates' => 'Управление шаблонами',
+        'Template Management' => '',
         'Add Template' => 'Добавить шаблон',
         'Edit Template' => 'Изменить шаблон',
-        'Add template' => 'Добавить шаблон',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'Шаблон - текст по умолчанию, который помогает Вашим агентам писать более быстрые заявки, ответы или перенаправления.',
         'Don\'t forget to add new templates to queues.' => 'Не забудьте добавить новые шаблоны к очередям',
@@ -2182,7 +2179,6 @@ sub Data {
         'Type Management' => 'Управление типами заявок',
         'Add Type' => 'Добавить тип',
         'Edit Type' => 'Редактировать тип',
-        'Add ticket type' => 'Добавить тип заявки',
         'Filter for Types' => 'Фильтр для Типов',
         'Filter for types' => 'Фильтр для типов',
         'A type with this name already exists!' => 'Тип с таким именем уже существует!',
@@ -2192,7 +2188,6 @@ sub Data {
 
         # Template: AdminUser
         'Agent Management' => 'Управление агентами',
-        'Add Agent' => 'Добавить агента',
         'Edit Agent' => 'Редактирование агента',
         'Edit personal preferences for this agent' => 'Редактировать персональные настройки этого агента',
         'Agents will be needed to handle tickets.' => 'Для обработки заявок потребуются агенты.',
@@ -2868,6 +2863,7 @@ sub Data {
         'Your 2 Factor Token' => 'Ваш 2-факторный токен',
         'Log In' => 'Войти',
         'Not yet registered?' => 'Хотите зарегистрироваться?',
+        'Back' => 'Назад',
         'Request New Password' => 'Запросить новый пароль',
         'Your User Name' => 'Логин',
         'A new password will be sent to your email address.' => 'Новый пароль будет отправлен на ваш адрес электронной почты',
@@ -5500,6 +5496,9 @@ sub Data {
         'Do you really want to delete this notification language?' => 'Вы действительно желаете удалить этот язык для Уведомлений?',
         'Do you really want to delete this notification?' => 'Вы действительно желаете удалить это Уведомление?',
 
+        # JS File: Core.Agent.Admin.PGP
+        'Do you really want to delete this key?' => '',
+
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
             'Выполняется процесс обновления пакета, нажмите здесь, чтобы просмотреть информацию о состоянии обновления.',
@@ -6051,8 +6050,6 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => 'Арабский (Саудовская Аравия)',
         'ArticleTree' => 'Дерево сообщений',
         'Attachment Name' => 'Имя вложения',
-        'Attachments ↔ Templates' => 'Вложения ↔ Шаблоны',
-        'Auto Responses ↔ Queues' => 'Автоответы ↔ Очереди',
         'Automated line break in text messages after x number of chars.' =>
             'Автоматический перевод строки в тексте сообщения после х символов.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -7516,13 +7513,13 @@ Thanks for your help!
         'Link Object.' => 'Связать объект.',
         'Link agents to groups.' => 'Связать агентов с группами.',
         'Link agents to roles.' => 'Связать агентов с ролями.',
-        'Link attachments to templates.' => 'Связать вложения с шаблонами.',
         'Link customer users to customers.' => '',
         'Link customer users to groups.' => '',
         'Link customer users to services.' => '',
         'Link customers to groups.' => '',
         'Link queues to auto responses.' => 'Связать очереди с автоответами.',
         'Link roles to groups.' => 'Связать роли с группами.',
+        'Link templates to attachments.' => '',
         'Link templates to queues.' => 'Связать шаблоны с очередями.',
         'Link this ticket to other objects' => 'Связать эту заявку с другими объектами',
         'Links 2 tickets with a "Normal" type link.' => 'Связывает 2 заявки связью типа "Normal".',
@@ -7858,6 +7855,7 @@ Thanks for your help!
         'Public Calendar' => 'Общедоступный календарь',
         'Public calendar.' => 'Общедоступный календарь.',
         'Queue view' => 'Просмотр очередей',
+        'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Перестраивает индексы заявок для AgentTicketQueue.',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             'Распознает, что ответ/дополнение к существующей заявке использует внешний номер заявки.',
@@ -8497,6 +8495,7 @@ Thanks for your help!
         'System Configuration Deployment' => '',
         'System Configuration Group' => '',
         'System Maintenance' => 'Обслуживание системы',
+        'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => '',
         'Textarea' => 'Textarea/Длинный текст',
         'Thai' => 'Тайский',
@@ -8830,6 +8829,7 @@ Thanks for your help!
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',

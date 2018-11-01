@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.219189838654308;
+    $Self->{Completeness}        = 0.220886293369976;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -98,7 +98,6 @@ sub Data {
         'Calendar Management' => '',
         'Add Calendar' => '',
         'Edit Calendar' => '',
-        'Go back' => '',
         'Calendar Overview' => '',
         'Add new Calendar' => '',
         'Import Appointments' => '',
@@ -108,6 +107,7 @@ sub Data {
         'Overwrite existing entities' => '',
         'Upload calendar configuration' => '',
         'Import Calendar' => '',
+        'Filter for Calendars' => '',
         'Filter for calendars' => '',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             '',
@@ -151,6 +151,7 @@ sub Data {
 
         # Template: AdminAppointmentImport
         'Appointment Import' => '',
+        'Go back' => '',
         'Uploaded file must be in valid iCal format (.ics).' => '',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             '',
@@ -165,22 +166,21 @@ sub Data {
         'Appointment Notification Management' => '',
         'Add Notification' => 'Afegir notificació',
         'Edit Notification' => 'Editar notificació',
-        'Add notification' => 'Afegir notificació',
         'Export Notifications' => '',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
             '',
-        'Overwrite existing notifications?' => '',
-        'Upload Notification configuration' => '',
-        'Import Notification configuration' => '',
+        'Overwrite existing notifications?' => 'Vols sobreescriure les notificacions actuals?',
+        'Upload Notification configuration' => 'Actualitzar configuració de Notificació',
+        'Import Notification configuration' => 'Importar configuració de Notificació',
         'List' => 'Llista',
         'Delete' => 'Esborrar',
         'Delete this notification' => 'Eliminar aquesta notificació',
         'Show in agent preferences' => '',
         'Agent preferences tooltip' => '',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
-            '',
+            'Aquest missatge es mostrarà a la pantalla de preferències d\'agent, en un tooltip per aquesta notificació.',
         'Toggle this widget' => 'Canviar aquest widget',
         'Events' => 'Esdeveniments',
         'Event' => 'Esdeveniment',
@@ -198,7 +198,7 @@ sub Data {
         'Send to all group members (agents only)' => '',
         'Send to all role members' => '',
         'Send on out of office' => '',
-        'Also send if the user is currently out of office.' => '',
+        'Also send if the user is currently out of office.' => 'Enviar també si l\'usuari es fora de l\'oficina.',
         'Once per day' => '',
         'Notify user just once per day about a single appointment using a selected transport.' =>
             '',
@@ -317,9 +317,10 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => '',
-        'Time range' => '',
+        'Time Range' => '',
         'Show only communication logs created in specific time range.' =>
             '',
+        'Filter for Communications' => '',
         'Filter for communications' => '',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             '',
@@ -350,9 +351,9 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => '',
-        'Back' => 'Tornar',
+        'Back to overview' => '',
+        'Filter for Accounts' => '',
         'Filter for accounts' => '',
-        'Filter for log entries' => '',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             '',
         'Account status for: %s' => '',
@@ -378,6 +379,8 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '',
+        'Filter for Log Entries' => '',
+        'Filter for log entries' => '',
         'Show only entries with specific priority and higher:' => '',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
@@ -482,15 +485,17 @@ sub Data {
             '',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Pot administrar aquests grups a través del paràmetre "CustomerGroupAlwaysGroups".',
+        'Filter for groups' => '',
         'Select the customer user - group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             '',
         'Customer User Default Groups:' => '',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Services Relations' => '',
+        'Manage Customer User-Service Relations' => '',
         'Edit default services' => 'Editar serveis predeterminats',
         'Filter for Services' => 'Filtre per al serveis',
+        'Filter for services' => '',
         'Services' => 'Serveis',
 
         # Template: AdminDynamicField
@@ -618,12 +623,12 @@ sub Data {
         'Send' => 'Enviar',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => 'Agent genèric',
-        'Edit job' => 'Editar tasca',
-        'Add job' => 'Afegir tasca',
-        'Run job' => 'Executar tasca',
-        'Filter for Generic Agent Jobs' => '',
-        'Filter for generic agent jobs' => '',
+        'Generic Agent Job Management' => '',
+        'Edit Job' => '',
+        'Add Job' => '',
+        'Run Job' => '',
+        'Filter for Jobs' => '',
+        'Filter for jobs' => '',
         'Last run' => 'Última execució',
         'Run Now!' => 'Executar ara',
         'Delete this task' => 'Eliminar aquesta tasca',
@@ -674,8 +679,8 @@ sub Data {
         'and' => 'i',
         'Last changed times' => '',
         'No last changed time settings.' => '',
-        'Ticket last changed' => '',
-        'Ticket last changed between' => '',
+        'Ticket last changed' => 'Últim canvi de tiquet',
+        'Ticket last changed between' => 'Últim canvi de tiquet entre',
         'Change times' => 'Temps de canvi',
         'No change time settings.' => 'No hi ha ajustos de temps de canvi.',
         'Ticket changed' => 'Tiquet canviat',
@@ -1148,7 +1153,6 @@ sub Data {
             '',
         'If you want to return to overview please click the "Go to overview" button.' =>
             '',
-        'Web Service List' => '',
         'Remote system' => '',
         'Provider transport' => '',
         'Requester transport' => '',
@@ -1193,7 +1197,6 @@ sub Data {
         'Group Management' => 'Administració de grups',
         'Add Group' => 'Afegir grup',
         'Edit Group' => 'Editar grup',
-        'Add group' => 'Afegir grup',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'El grup admin és per a usar l\'àrea d\'administració i el grup stats per a usar l\'àrea estadisticas.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
@@ -1202,7 +1205,6 @@ sub Data {
 
         # Template: AdminLog
         'System Log' => 'Traces del Sistema',
-        'Filter for Log Entries' => '',
         'Here you will find log information about your system.' => 'Aquí trobarà informació de registre sobre el seu sistema.',
         'Hide this message' => '',
         'Recent Log Entries' => '',
@@ -1250,7 +1252,7 @@ sub Data {
         'Set as favorite' => '',
 
         # Template: AdminNotificationEvent
-        'Ticket Notification Management' => '',
+        'Ticket Notification Management' => 'Gestió de notificacions de tickets',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
@@ -1379,11 +1381,9 @@ sub Data {
             '',
         'Configure it here!' => '',
         'Check PGP configuration' => '',
-        'Add PGP key' => 'Afegir clau de PGP',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'D\'aquesta forma pot editar directament l\'anell de Claus configurat en SysConfig',
         'Introduction to PGP' => 'Introducció a PGP',
-        'Result' => 'Resultat',
         'Identifier' => 'Identificador',
         'Bit' => 'Bit',
         'Fingerprint' => 'Empremta digital',
@@ -1488,9 +1488,8 @@ sub Data {
         'PostMaster Filter Management' => 'Gestió del filtre PostMaster',
         'Add PostMaster Filter' => 'Afegir filtre PostMaster',
         'Edit PostMaster Filter' => 'Editar filtre PostMaster',
-        'Add filter' => 'Afegir filtre',
-        'Filter for Postmaster Filters' => '',
-        'Filter for postmaster filters' => '',
+        'Filter for PostMaster Filters' => '',
+        'Filter for PostMaster filters' => '',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'Per enviar o filtrar els missatges entrants basant-se en els encapçalats de correu electrònic. També és possible utilitzar expressions regulars.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1528,6 +1527,7 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => '',
         'Filter for Processes' => '',
+        'Filter for processes' => '',
         'Create New Process' => '',
         'Deploy All Processes' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
@@ -1686,7 +1686,7 @@ sub Data {
         'Remove this Parameter' => '',
 
         # Template: AdminQueue
-        'Manage Queues' => 'Gestionar cues',
+        'Queue Management' => '',
         'Add Queue' => 'Afegir cua',
         'Edit Queue' => 'Editar cua',
         'Filter for Queues' => 'Filtre per cues',
@@ -1718,6 +1718,8 @@ sub Data {
         'System address' => 'Adreça de sistema',
         'Will be the sender address of this queue for email answers.' => 'Serà l\'adreça de l\'emissor en aquesta cua per a respostes per correu.',
         'Default sign key' => 'Clau de signatura predeterminada',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'Salutation' => 'Salutació',
         'The salutation for email answers.' => 'Salutació per a les respostes per correu.',
         'Signature' => 'Signaturas',
@@ -1736,6 +1738,7 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
         'Filter for Templates' => '',
+        'Filter for templates' => '',
         'Templates' => '',
 
         # Template: AdminRegistration
@@ -1836,7 +1839,6 @@ sub Data {
 
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => 'Gestionar relacions Rol-Grup',
-        'Add role' => 'Afegir rol',
         'Roles' => 'Rols',
         'Select the role:group permissions.' => 'Seleccioni els permisos rol:grup.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
@@ -1857,8 +1859,9 @@ sub Data {
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Gestionar relacions Agent-Rol',
-        'Add agent' => 'Afegir agent',
+        'Add Agent' => 'Afegir agent',
         'Filter for Agents' => 'Filtar per agents',
+        'Filter for agents' => '',
         'Agents' => 'Agents',
         'Manage Role-Agent Relations' => 'Gestionar relacions Rol-Agent',
 
@@ -1881,10 +1884,8 @@ sub Data {
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             '',
         'Check SMIME configuration' => '',
-        'Add certificate' => 'Afegir certificat',
-        'Add private key' => 'Afegir clau privada',
         'Filter for Certificates' => '',
-        'Filter for S/MIME certs' => '',
+        'Filter for certificates' => '',
         'To show certificate details click on a certificate icon.' => '',
         'To manage private certificate relations click on a private key icon.' =>
             '',
@@ -1903,6 +1904,7 @@ sub Data {
         'Related Certificates for' => '',
         'Delete this relation' => '',
         'Available Certificates' => '',
+        'Filter for S/MIME certs' => '',
         'Relate this certificate' => '',
 
         # Template: AdminSMIMECertRead
@@ -1914,7 +1916,6 @@ sub Data {
         'Salutation Management' => 'Gestió de salutacions',
         'Add Salutation' => 'Afegir salutació',
         'Edit Salutation' => 'Editar salutació',
-        'Add salutation' => 'Afegir salutació',
         'Filter for Salutations' => '',
         'Filter for salutations' => '',
         'e. g.' => 'p. ex.',
@@ -1950,8 +1951,6 @@ sub Data {
         'Service Management' => 'Gestió de serveis',
         'Add Service' => 'Afegir servei',
         'Edit Service' => 'Editar servei',
-        'Add service' => 'Afegir servei',
-        'Filter for services' => '',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             '',
         'Sub-service of' => 'Sub-servei de',
@@ -1977,7 +1976,6 @@ sub Data {
         'Signature Management' => 'Gestió de signatures',
         'Add Signature' => 'Afegir signatura',
         'Edit Signature' => 'Editar signatura',
-        'Add signature' => 'Afegir signatura',
         'Filter for Signatures' => '',
         'Filter for signatures' => '',
         'Example signature' => 'Exemple signatura',
@@ -2145,10 +2143,9 @@ sub Data {
         'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
-        'Manage Templates' => '',
+        'Template Management' => '',
         'Add Template' => '',
         'Edit Template' => '',
-        'Add template' => '',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             '',
         'Don\'t forget to add new templates to queues.' => '',
@@ -2171,7 +2168,6 @@ sub Data {
         'Type Management' => 'Gestió de tipus',
         'Add Type' => 'Afegir tipus',
         'Edit Type' => 'Editar tipus',
-        'Add ticket type' => 'Afegir tipus de tiquet',
         'Filter for Types' => '',
         'Filter for types' => '',
         'A type with this name already exists!' => '',
@@ -2181,7 +2177,6 @@ sub Data {
 
         # Template: AdminUser
         'Agent Management' => 'Administració d\'agent',
-        'Add Agent' => 'Afegir agent',
         'Edit Agent' => 'Editar agent',
         'Edit personal preferences for this agent' => '',
         'Agents will be needed to handle tickets.' => 'Els agents es necessiten per manejar tiquets.',
@@ -2402,18 +2397,18 @@ sub Data {
         # Template: AgentDashboardTicketGeneric
         'Assigned to customer user' => '',
         'Accessible for customer user' => '',
-        'My locked tickets' => '',
+        'My locked tickets' => 'Els meus tiquets bloquejats',
         'My watched tickets' => '',
         'My responsibilities' => '',
-        'Tickets in My Queues' => '',
-        'Tickets in My Services' => '',
+        'Tickets in My Queues' => 'Tiquets a les meves cues',
+        'Tickets in My Services' => 'Tiquets en els Meus Serveis',
         'Service Time' => 'Temps de servei',
 
         # Template: AgentDashboardTicketQueueOverview
         'Total' => '',
 
         # Template: AgentDashboardUserOnline
-        'out of office' => '',
+        'out of office' => 'fora de l\'oficina',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => '',
@@ -2768,7 +2763,7 @@ sub Data {
         'This message is being processed. Already tried to send %s time(s). Next try will be %s.' =>
             '',
         'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
-            '',
+            'Per obrir els enllaços del següent article, haureu de prémer la tecla Ctrl, Cmd o Shift, mentre feu clic a l\'enllaç (segons el vostre navegador i sistema operatiu).',
         'Close this message' => '',
         'Image' => '',
         'PDF' => '',
@@ -2857,6 +2852,7 @@ sub Data {
         'Your 2 Factor Token' => '',
         'Log In' => 'Entrar',
         'Not yet registered?' => 'Encara no s\'ha registrat?',
+        'Back' => 'Tornar',
         'Request New Password' => 'Sol·licitar una nova contrasenya',
         'Your User Name' => 'El seu nom d\'usuari',
         'A new password will be sent to your email address.' => 'Una nova contrasenya li serà enviada a la seva adreça de correu electrònic.',
@@ -2948,9 +2944,9 @@ sub Data {
             '',
 
         # Template: Header
-        'View notifications' => '',
-        'Notifications' => '',
-        'Notifications (OTRS Business Solution™)' => '',
+        'View notifications' => 'Veure notificacions',
+        'Notifications' => 'Notificacions',
+        'Notifications (OTRS Business Solution™)' => 'Notificacions (OTRS Solucions empresarials)',
         'Personal preferences' => '',
         'Logout' => 'Desconnectar-se',
         'You are logged in as' => 'Està connectat com',
@@ -3111,7 +3107,7 @@ sub Data {
         'The file is not an image that can be shown inline!' => 'L\'arxiu no és una imatge que pugui mostrar-se íntegrament!',
 
         # Template: PreferencesNotificationEvent
-        'No user configurable notifications found.' => '',
+        'No user configurable notifications found.' => 'No s\'han trobat notificacions d\'usuari configurades ',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             '',
 
@@ -3402,11 +3398,11 @@ sub Data {
         'Please check the log for more information.' => '',
 
         # Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
-        'Notification name already exists!' => '',
-        'Notification added!' => '',
+        'Notification name already exists!' => 'Nom de notificació ja existeix !',
+        'Notification added!' => 'Notificació afegida !',
         'There was an error getting data for Notification with ID:%s!' =>
             '',
-        'Unknown Notification %s!' => '',
+        'Unknown Notification %s!' => 'Notificació desconeguda %s !',
         'There was an error creating the Notification' => '',
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
             '',
@@ -5064,7 +5060,7 @@ sub Data {
         'Process Tickets' => '',
         'Months Between First And Last Ticket' => '',
         'Tickets Per Month (avg)' => '',
-        'Open Tickets' => '',
+        'Open Tickets' => 'Tiquets oberts',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
         'Default SOAP Username And Password' => '',
@@ -5320,7 +5316,7 @@ sub Data {
         'Ticket is closed successful.' => '',
         'closed unsuccessful' => 'tancat sense èxit ',
         'Ticket is closed unsuccessful.' => '',
-        'Open tickets.' => '',
+        'Open tickets.' => 'Tiquets oberts.',
         'Customer removed ticket.' => '',
         'Ticket is pending for agent reminder.' => '',
         'pending auto close+' => 'pendent auto close+',
@@ -5488,6 +5484,9 @@ sub Data {
         # JS File: Core.Agent.Admin.NotificationEvent
         'Do you really want to delete this notification language?' => '',
         'Do you really want to delete this notification?' => '',
+
+        # JS File: Core.Agent.Admin.PGP
+        'Do you really want to delete this key?' => '',
 
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
@@ -6029,8 +6028,6 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => '',
         'ArticleTree' => '',
         'Attachment Name' => '',
-        'Attachments ↔ Templates' => '',
-        'Auto Responses ↔ Queues' => '',
         'Automated line break in text messages after x number of chars.' =>
             'Salt de línia automàtic en missatges de text després de x nombre de caràcters.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -6110,9 +6107,9 @@ Thanks for your help!
         'Chinese (Simplified)' => '',
         'Chinese (Traditional)' => '',
         'Choose for which kind of appointment changes you want to receive notifications.' =>
-            '',
+            'Trieu per quin tipus de canvis de cita voleu rebre notificacions.',
         'Choose for which kind of ticket changes you want to receive notifications. Please note that you can\'t completely disable notifications marked as mandatory.' =>
-            '',
+            'Trieu per quin tipus de canvis de tiquets voleu rebre notificacions. Tingueu en compte que no es poden desactivar completament les notificacions marcades com obligatòries. ',
         'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Nit de Nadal',
         'Close this ticket' => 'Tancar aquest tiquet',
@@ -7445,7 +7442,7 @@ Thanks for your help!
         'If this setting is enabled, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
         'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
-            '',
+            'Si teniu previst ser fora de l\'oficina, potser voldríeu informar a altres usuaris les dates exactes de la vostre absència.',
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Import appointments screen.' => '',
@@ -7494,13 +7491,13 @@ Thanks for your help!
         'Link Object.' => '',
         'Link agents to groups.' => '',
         'Link agents to roles.' => '',
-        'Link attachments to templates.' => '',
         'Link customer users to customers.' => '',
         'Link customer users to groups.' => '',
         'Link customer users to services.' => '',
         'Link customers to groups.' => '',
         'Link queues to auto responses.' => '',
         'Link roles to groups.' => '',
+        'Link templates to attachments.' => '',
         'Link templates to queues.' => '',
         'Link this ticket to other objects' => 'Enllaçar aquest tiquet a altres objectes',
         'Links 2 tickets with a "Normal" type link.' => '',
@@ -7703,9 +7700,9 @@ Thanks for your help!
         'Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
             '',
         'Other Customers' => '',
-        'Out Of Office' => '',
+        'Out Of Office' => 'Fora de l\'oficina',
         'Out Of Office Time' => 'Fora de l\'oficina',
-        'Out of Office users.' => '',
+        'Out of Office users.' => 'Usuaris fora de l\'oficina.',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets.' => '',
@@ -7836,6 +7833,7 @@ Thanks for your help!
         'Public Calendar' => '',
         'Public calendar.' => '',
         'Queue view' => '',
+        'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             '',
@@ -8475,6 +8473,7 @@ Thanks for your help!
         'System Configuration Deployment' => '',
         'System Configuration Group' => '',
         'System Maintenance' => '',
+        'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => '',
         'Textarea' => '',
         'Thai' => '',
@@ -8808,6 +8807,7 @@ Thanks for your help!
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',

@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.426536216958462;
+    $Self->{Completeness}        = 0.423222260391618;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -106,7 +106,6 @@ sub Data {
         'Calendar Management' => 'Kalenderadministrasjon',
         'Add Calendar' => 'Legg til kalender',
         'Edit Calendar' => 'Endre kalender',
-        'Go back' => 'Gå tilbake',
         'Calendar Overview' => 'Kalenderoversikt',
         'Add new Calendar' => 'Legg til ny kalender',
         'Import Appointments' => 'Importer avtaler',
@@ -116,6 +115,7 @@ sub Data {
         'Overwrite existing entities' => 'Overskriv eksisterende entiteter',
         'Upload calendar configuration' => 'Last opp kalenderkonfigurasjon',
         'Import Calendar' => 'Importer kalender',
+        'Filter for Calendars' => '',
         'Filter for calendars' => 'Filter for kalendere',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             'Brukere vil få tilgang til kalenderen i henhold til deres rettighetsnivå og gruppefelt.',
@@ -159,6 +159,7 @@ sub Data {
 
         # Template: AdminAppointmentImport
         'Appointment Import' => 'Avtaleimport',
+        'Go back' => 'Gå tilbake',
         'Uploaded file must be in valid iCal format (.ics).' => 'Den opplastede filen må være på gyldig iCal format (.ics).',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             'Hvis den ønskede kalenderen ikke er listet opp her, vær vennlig å huske at du må ha rettigheten \'opprett\' i din profil.',
@@ -173,7 +174,6 @@ sub Data {
         'Appointment Notification Management' => 'Administrer varsler om avtale',
         'Add Notification' => 'Legg til varsling',
         'Edit Notification' => 'Endre varsling',
-        'Add notification' => 'Legg til varsling',
         'Export Notifications' => 'Eksporter varslinger',
         'Filter for Notifications' => 'Filter for varslinger',
         'Filter for notifications' => 'Filter for varslinger',
@@ -325,9 +325,10 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => '',
-        'Time range' => '',
+        'Time Range' => '',
         'Show only communication logs created in specific time range.' =>
             '',
+        'Filter for Communications' => '',
         'Filter for communications' => '',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             '',
@@ -358,9 +359,9 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => '',
-        'Back' => 'Tilbake',
+        'Back to overview' => '',
+        'Filter for Accounts' => '',
         'Filter for accounts' => '',
-        'Filter for log entries' => '',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             '',
         'Account status for: %s' => '',
@@ -386,6 +387,8 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '',
+        'Filter for Log Entries' => '',
+        'Filter for log entries' => '',
         'Show only entries with specific priority and higher:' => '',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
@@ -490,15 +493,17 @@ sub Data {
             '',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Du kan styre disse gruppene gjennom innstillingen "CustomerGroupAlwaysGroups"',
+        'Filter for groups' => '',
         'Select the customer user - group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             '',
         'Customer User Default Groups:' => '',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Services Relations' => '',
+        'Manage Customer User-Service Relations' => '',
         'Edit default services' => 'Endre standardtjenester',
         'Filter for Services' => 'Filter for tjenester',
+        'Filter for services' => '',
         'Services' => 'Tjenester',
 
         # Template: AdminDynamicField
@@ -626,12 +631,12 @@ sub Data {
         'Send' => 'Send',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => 'Generisk agent',
-        'Edit job' => 'Endre jobb',
-        'Add job' => 'Legg til jobb',
-        'Run job' => 'Kjør jobb',
-        'Filter for Generic Agent Jobs' => '',
-        'Filter for generic agent jobs' => '',
+        'Generic Agent Job Management' => '',
+        'Edit Job' => '',
+        'Add Job' => '',
+        'Run Job' => '',
+        'Filter for Jobs' => '',
+        'Filter for jobs' => '',
         'Last run' => 'Sist kjørt',
         'Run Now!' => 'Kjør nå!',
         'Delete this task' => 'Slett denne oppgaven',
@@ -1156,7 +1161,6 @@ sub Data {
             '',
         'If you want to return to overview please click the "Go to overview" button.' =>
             '',
-        'Web Service List' => 'Liste over webtjenester',
         'Remote system' => 'Fjernstyrt system',
         'Provider transport' => '',
         'Requester transport' => '',
@@ -1201,7 +1205,6 @@ sub Data {
         'Group Management' => 'Administrasjon: Grupper',
         'Add Group' => 'Legg til gruppe',
         'Edit Group' => 'Endre gruppe',
-        'Add group' => 'Legg til gruppe',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             '\'admin\'-gruppen gir tilgang til Admin-området, \'stats\'-gruppen til Statistikk-området.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
@@ -1210,7 +1213,6 @@ sub Data {
 
         # Template: AdminLog
         'System Log' => 'Systemlogg',
-        'Filter for Log Entries' => '',
         'Here you will find log information about your system.' => 'Her finner du logg-informasjon fra systemet ditt',
         'Hide this message' => 'Skjul denne meldingen',
         'Recent Log Entries' => 'Siste Loggmeldinger',
@@ -1387,11 +1389,9 @@ sub Data {
             'PGP støtte er aktivert, men konfigurasjonen inneholder feil. Vær vennlig å gå igjennom konfigurasjonen ved å bruke knappen nedenfor.',
         'Configure it here!' => 'Konfigurer den her!',
         'Check PGP configuration' => 'Sjekk PGP konfigurasjon',
-        'Add PGP key' => 'Legg til PGP-nøkkel',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'På denne måten kan du direkte redigere nøkkelringen som er konfigurert i SysConfig',
         'Introduction to PGP' => 'Introduksjon til PGP',
-        'Result' => 'Resultat',
         'Identifier' => 'Nøkkel',
         'Bit' => 'Bit',
         'Fingerprint' => 'Fingeravtrykk',
@@ -1496,9 +1496,8 @@ sub Data {
         'PostMaster Filter Management' => 'Administrasjon: E-postfilter',
         'Add PostMaster Filter' => 'Legg til Postmaster-filter',
         'Edit PostMaster Filter' => 'Endre Postmaster-filter',
-        'Add filter' => 'Legg til filter',
-        'Filter for Postmaster Filters' => '',
-        'Filter for postmaster filters' => '',
+        'Filter for PostMaster Filters' => '',
+        'Filter for PostMaster filters' => '',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'For å behandle eller filtrere innkommende e-poster basert på e-posthoder. Regulære uttrykk kan også brukes.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1536,6 +1535,7 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => 'Prosessoppsett',
         'Filter for Processes' => 'Filter for prosesser',
+        'Filter for processes' => '',
         'Create New Process' => 'Opprett ny prosess',
         'Deploy All Processes' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
@@ -1694,7 +1694,7 @@ sub Data {
         'Remove this Parameter' => 'Fjern dette parameteret',
 
         # Template: AdminQueue
-        'Manage Queues' => 'Kø-administrasjon',
+        'Queue Management' => '',
         'Add Queue' => 'Legg til kø',
         'Edit Queue' => 'Endre kø',
         'Filter for Queues' => 'Filter for køer',
@@ -1726,6 +1726,8 @@ sub Data {
         'System address' => 'Systemadresse',
         'Will be the sender address of this queue for email answers.' => 'Avsenderadresse for e-post i denne køen.',
         'Default sign key' => 'Standard signeringsnøkkel',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'Salutation' => 'Hilsning',
         'The salutation for email answers.' => 'Hilsning for e-postsvar.',
         'Signature' => 'Signatur',
@@ -1744,6 +1746,7 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => 'Koplinger mellom Mal og Kø',
         'Filter for Templates' => 'Filter for Maler',
+        'Filter for templates' => '',
         'Templates' => 'Maler',
 
         # Template: AdminRegistration
@@ -1844,7 +1847,6 @@ sub Data {
 
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => 'Koplinger mellom Rolle og Gruppe',
-        'Add role' => 'Ny rolle',
         'Roles' => 'Roller',
         'Select the role:group permissions.' => 'Velg rolle:gruppe-rettigheter',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
@@ -1865,8 +1867,9 @@ sub Data {
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Koplinger mellom Saksbehandlere og Roller',
-        'Add agent' => 'Legg til saksbehandler',
+        'Add Agent' => 'Legg til Saksbehandler',
         'Filter for Agents' => 'Filter for Saksbehandlere',
+        'Filter for agents' => '',
         'Agents' => 'Saksbehandlere',
         'Manage Role-Agent Relations' => 'Koplinger mellom Rolle og Saksbehandler',
 
@@ -1889,10 +1892,8 @@ sub Data {
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             '',
         'Check SMIME configuration' => '',
-        'Add certificate' => 'Legg til sertifikat',
-        'Add private key' => 'Legg til privat nøkkel',
         'Filter for Certificates' => '',
-        'Filter for S/MIME certs' => 'Filter for S/MIME certifikater',
+        'Filter for certificates' => 'Filter for sertifikater',
         'To show certificate details click on a certificate icon.' => 'For å vise detaljer rundt sertifikatet, trykk på et sertifikat ikon.',
         'To manage private certificate relations click on a private key icon.' =>
             'For å endre private sertifikat relasjoner, trykk på et privat nøkkel ikon.',
@@ -1911,6 +1912,7 @@ sub Data {
         'Related Certificates for' => 'Relaterte sertifikater for',
         'Delete this relation' => 'Fjern denne relasjonen',
         'Available Certificates' => 'Tilgjengelige sertifikater',
+        'Filter for S/MIME certs' => 'Filter for S/MIME certifikater',
         'Relate this certificate' => 'Relater dette sertifikatet',
 
         # Template: AdminSMIMECertRead
@@ -1922,7 +1924,6 @@ sub Data {
         'Salutation Management' => 'Administrasjon: Hilsninger',
         'Add Salutation' => 'Legg til hilsning',
         'Edit Salutation' => 'Endre hilsning',
-        'Add salutation' => 'Legg til hilsning',
         'Filter for Salutations' => '',
         'Filter for salutations' => '',
         'e. g.' => 'f.eks.',
@@ -1958,8 +1959,6 @@ sub Data {
         'Service Management' => 'Administrasjon: Tjenester',
         'Add Service' => 'Legg til Tjeneste',
         'Edit Service' => 'Endre Tjeneste',
-        'Add service' => 'Ny tjeneste',
-        'Filter for services' => '',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             '',
         'Sub-service of' => 'Under-tjeneste av',
@@ -1985,7 +1984,6 @@ sub Data {
         'Signature Management' => 'Administrasjon: Signaturer',
         'Add Signature' => 'Legg til signatur',
         'Edit Signature' => 'Endre Signatur',
-        'Add signature' => 'Ny signatur',
         'Filter for Signatures' => '',
         'Filter for signatures' => '',
         'Example signature' => 'Eksempel på signatur',
@@ -2153,10 +2151,9 @@ sub Data {
         'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
-        'Manage Templates' => 'Mal-administrasjon',
+        'Template Management' => '',
         'Add Template' => 'Legg til Mal',
         'Edit Template' => 'Endre Mal',
-        'Add template' => 'Legg til mal',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             '',
         'Don\'t forget to add new templates to queues.' => '',
@@ -2179,7 +2176,6 @@ sub Data {
         'Type Management' => 'Administrasjon: Typer',
         'Add Type' => 'Legg til sakstype',
         'Edit Type' => 'Endre sakstype',
-        'Add ticket type' => 'Ny sakstype',
         'Filter for Types' => '',
         'Filter for types' => '',
         'A type with this name already exists!' => '',
@@ -2189,7 +2185,6 @@ sub Data {
 
         # Template: AdminUser
         'Agent Management' => 'Saksbehandlere',
-        'Add Agent' => 'Legg til Saksbehandler',
         'Edit Agent' => 'Endre Saksbehandler',
         'Edit personal preferences for this agent' => '',
         'Agents will be needed to handle tickets.' => 'Saksbehandlere trengs for å behandle saker',
@@ -2865,6 +2860,7 @@ sub Data {
         'Your 2 Factor Token' => '',
         'Log In' => 'Logg inn',
         'Not yet registered?' => 'Ikke registrert enda?',
+        'Back' => 'Tilbake',
         'Request New Password' => 'Be om nytt passord',
         'Your User Name' => 'Ditt brukernavn',
         'A new password will be sent to your email address.' => 'Nytt passord vil bli sendt til din e-postadresse',
@@ -5497,6 +5493,9 @@ sub Data {
         'Do you really want to delete this notification language?' => '',
         'Do you really want to delete this notification?' => 'Vil du virkelig slette dette varslet?',
 
+        # JS File: Core.Agent.Admin.PGP
+        'Do you really want to delete this key?' => '',
+
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
             '',
@@ -6037,8 +6036,6 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => 'Arabisk (Saudi Arabia)',
         'ArticleTree' => '',
         'Attachment Name' => 'Vedleggsnavn',
-        'Attachments ↔ Templates' => '',
-        'Auto Responses ↔ Queues' => '',
         'Automated line break in text messages after x number of chars.' =>
             'Automatisk linjeskift i tekstmeldinger etter # antall tegn.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -7502,13 +7499,13 @@ Thanks for your help!
         'Link Object.' => '',
         'Link agents to groups.' => 'Koble saksbehandlere til grupper',
         'Link agents to roles.' => 'Koble saksbehandlere til roller',
-        'Link attachments to templates.' => 'Koble vedlegg til maler',
         'Link customer users to customers.' => '',
         'Link customer users to groups.' => '',
         'Link customer users to services.' => '',
         'Link customers to groups.' => '',
         'Link queues to auto responses.' => 'Koble køer til autosvar',
         'Link roles to groups.' => 'Koble roller til grupper.',
+        'Link templates to attachments.' => '',
         'Link templates to queues.' => 'Koble maler til køer.',
         'Link this ticket to other objects' => 'Koble denne saken til andre objekter',
         'Links 2 tickets with a "Normal" type link.' => 'Koble 2 saker med en "normal" lenke',
@@ -7844,6 +7841,7 @@ Thanks for your help!
         'Public Calendar' => 'Offentlig kalender',
         'Public calendar.' => 'Offentlig kalender.',
         'Queue view' => 'Køvisning',
+        'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             '',
@@ -8483,6 +8481,7 @@ Thanks for your help!
         'System Configuration Deployment' => '',
         'System Configuration Group' => '',
         'System Maintenance' => 'Vedlikehold av systemet',
+        'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => '',
         'Textarea' => 'Tekstareale',
         'Thai' => 'Tailandsk',
@@ -8816,6 +8815,7 @@ Thanks for your help!
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',

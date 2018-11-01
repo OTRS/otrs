@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.494164092001373;
+    $Self->{Completeness}        = 0.490896599106836;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -101,7 +101,6 @@ sub Data {
         'Calendar Management' => '',
         'Add Calendar' => '',
         'Edit Calendar' => '',
-        'Go back' => 'Rudi nyuma',
         'Calendar Overview' => '',
         'Add new Calendar' => '',
         'Import Appointments' => '',
@@ -111,6 +110,7 @@ sub Data {
         'Overwrite existing entities' => 'Andika juu ya vipengele halisi vilivyopo',
         'Upload calendar configuration' => '',
         'Import Calendar' => '',
+        'Filter for Calendars' => '',
         'Filter for calendars' => '',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             '',
@@ -154,6 +154,7 @@ sub Data {
 
         # Template: AdminAppointmentImport
         'Appointment Import' => '',
+        'Go back' => 'Rudi nyuma',
         'Uploaded file must be in valid iCal format (.ics).' => '',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             '',
@@ -168,7 +169,6 @@ sub Data {
         'Appointment Notification Management' => '',
         'Add Notification' => 'Ongeza taarifa',
         'Edit Notification' => 'Hariri taarifa',
-        'Add notification' => 'Ongeza taarifa',
         'Export Notifications' => '',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',
@@ -320,9 +320,10 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => '',
-        'Time range' => '',
+        'Time Range' => '',
         'Show only communication logs created in specific time range.' =>
             '',
+        'Filter for Communications' => '',
         'Filter for communications' => '',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             '',
@@ -353,9 +354,9 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => '',
-        'Back' => 'Nyuma',
+        'Back to overview' => '',
+        'Filter for Accounts' => '',
         'Filter for accounts' => '',
-        'Filter for log entries' => '',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             '',
         'Account status for: %s' => '',
@@ -381,6 +382,8 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '',
+        'Filter for Log Entries' => '',
+        'Filter for log entries' => '',
         'Show only entries with specific priority and higher:' => '',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
@@ -485,15 +488,17 @@ sub Data {
             '',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Unaweza kusimamia makundi haya kwa mpangilio wa usanidi \'\'Kikundicha mteja mara zote Makundi"',
+        'Filter for groups' => '',
         'Select the customer user - group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             '',
         'Customer User Default Groups:' => '',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Services Relations' => '',
+        'Manage Customer User-Service Relations' => '',
         'Edit default services' => 'Hariri huduma chaguo-msingi.',
         'Filter for Services' => 'Chuja kwa jili ya huduma',
+        'Filter for services' => '',
         'Services' => 'Huduma',
 
         # Template: AdminDynamicField
@@ -621,12 +626,12 @@ sub Data {
         'Send' => 'tuma',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => 'Wakala wa jumla',
-        'Edit job' => 'Hariri kazi',
-        'Add job' => 'Ongeza kazi',
-        'Run job' => 'Fanya kazi',
-        'Filter for Generic Agent Jobs' => '',
-        'Filter for generic agent jobs' => '',
+        'Generic Agent Job Management' => '',
+        'Edit Job' => '',
+        'Add Job' => '',
+        'Run Job' => '',
+        'Filter for Jobs' => '',
+        'Filter for jobs' => '',
         'Last run' => 'Mwisho kufanya ',
         'Run Now!' => 'Fanya sasa',
         'Delete this task' => 'Futa kazi hii',
@@ -1151,7 +1156,6 @@ sub Data {
             'Baada ya kuhifadhi usanidi utaelekezwa tena kwenye skrini ya kuhariri.',
         'If you want to return to overview please click the "Go to overview" button.' =>
             'Kama unataka kurudi katika maelezo tafadhali bofya kibonye cha "Rudi kwenye maelezo"',
-        'Web Service List' => 'Orodha ya huduma ya tovuti',
         'Remote system' => 'Mfumo wa mbali',
         'Provider transport' => 'Kutoa usafiri',
         'Requester transport' => 'Usafiri wa muombaji',
@@ -1196,7 +1200,6 @@ sub Data {
         'Group Management' => 'Usimamizi wa kundi',
         'Add Group' => 'Kuongeza kundi',
         'Edit Group' => 'hariri kundi',
-        'Add group' => 'kuongeza kundi',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'Kikundi cha kiongozi kiingie katika eneo la kiongozi na kikundi cha takwimu ili kupata eneo la takwimu.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
@@ -1205,7 +1208,6 @@ sub Data {
 
         # Template: AdminLog
         'System Log' => 'Batli ya mfumo',
-        'Filter for Log Entries' => '',
         'Here you will find log information about your system.' => 'Hapa utakuta taarifa batli kuhusu mfumo wako.',
         'Hide this message' => 'kuficha ujumbe huu',
         'Recent Log Entries' => 'Miingio ya batli ya sasa.',
@@ -1382,11 +1384,9 @@ sub Data {
             '',
         'Configure it here!' => '',
         'Check PGP configuration' => '',
-        'Add PGP key' => 'Ongeza funguo za PGP',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'Kwa njia hii unaweza ukahariri moja kwa moja keyring iliyosanidiwa katika mfumo sanidi.',
         'Introduction to PGP' => 'Utangulizi wa PGP',
-        'Result' => 'Matokeo',
         'Identifier' => 'Kitambulisho',
         'Bit' => 'Biti',
         'Fingerprint' => 'Alama za vidole',
@@ -1491,9 +1491,8 @@ sub Data {
         'PostMaster Filter Management' => 'Usimamizi wa kichuja cha Mkuu wa kuchapisha',
         'Add PostMaster Filter' => 'Ongeza kichuja Mkuu wa kuchapisha ',
         'Edit PostMaster Filter' => 'Hariri Kichuja Mkuu wa kuchapisha',
-        'Add filter' => 'Ongeza Kichuja',
-        'Filter for Postmaster Filters' => '',
-        'Filter for postmaster filters' => '',
+        'Filter for PostMaster Filters' => '',
+        'Filter for PostMaster filters' => '',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'Kutuma au kuchuja barua pepe zinazoingia kulingana na kichwa cha habari za barua pepe. Fananisha kwa kutumia semi za mara kwa mara pia inawezekana.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1531,6 +1530,7 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => 'Usimamizi wa mchakato',
         'Filter for Processes' => 'Chuja kwa aijili ya mchakato',
+        'Filter for processes' => '',
         'Create New Process' => 'Tengeneza Mchakato mpya',
         'Deploy All Processes' => 'Tumia michakato yote',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
@@ -1689,7 +1689,7 @@ sub Data {
         'Remove this Parameter' => 'Ondoa hiki kigezo',
 
         # Template: AdminQueue
-        'Manage Queues' => 'Simamia foleni',
+        'Queue Management' => '',
         'Add Queue' => 'Ongeza Foleni',
         'Edit Queue' => 'Hariri Foleni',
         'Filter for Queues' => 'Chuja kwa ajili ya foleni',
@@ -1721,6 +1721,8 @@ sub Data {
         'System address' => 'Anuani ya mfumo',
         'Will be the sender address of this queue for email answers.' => 'Itakuwa anuani ya mtumaji wa foleni kwa majibu ya barua pepe.',
         'Default sign key' => 'Funguo ya alama chaguo msingi',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'Salutation' => 'Salamu',
         'The salutation for email answers.' => 'Salamu kwa majibu ya barua pepe',
         'Signature' => 'Saini',
@@ -1739,6 +1741,7 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => 'Simamia mahusiano ya kielezo cha foleni.',
         'Filter for Templates' => 'Kichujio cha kielezo',
+        'Filter for templates' => '',
         'Templates' => 'Kielezo',
 
         # Template: AdminRegistration
@@ -1839,7 +1842,6 @@ sub Data {
 
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => 'Simamia mahusiano ya Jukumu-Kikundi',
-        'Add role' => 'Ongeza jukumu',
         'Roles' => 'Majukumu',
         'Select the role:group permissions.' => 'Chagua jukumu: Ruhusa za kikundi',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
@@ -1860,8 +1862,9 @@ sub Data {
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Simamia mahusiano ya Wakala-Jukumu',
-        'Add agent' => 'Oneza wakala',
+        'Add Agent' => 'Oneza wakala',
         'Filter for Agents' => 'Chuja kwa ajili ya wakala',
+        'Filter for agents' => '',
         'Agents' => 'Mawakala',
         'Manage Role-Agent Relations' => 'Simamia mahusiano ya Jukumu-Wakala',
 
@@ -1884,10 +1887,8 @@ sub Data {
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             '',
         'Check SMIME configuration' => '',
-        'Add certificate' => 'Ongeza cheti',
-        'Add private key' => 'Ongeza kibonye binafsi',
         'Filter for Certificates' => '',
-        'Filter for S/MIME certs' => 'Chuja kwa ajili ya vyeti vya S/MIME ',
+        'Filter for certificates' => 'Chuja kwa ajili ya vyeti',
         'To show certificate details click on a certificate icon.' => 'Kuonyesha undani wa vyeti bofya kwenye ikoni ya cheti',
         'To manage private certificate relations click on a private key icon.' =>
             'Kusimamia mahusiano ya cheti binafsi bofya kwenye ikoni ya kibonye binafsi.',
@@ -1906,6 +1907,7 @@ sub Data {
         'Related Certificates for' => 'Vyeti vinavyohusiana ',
         'Delete this relation' => 'Futa huu uhusiano ',
         'Available Certificates' => 'Vyeti vinavyopatikana',
+        'Filter for S/MIME certs' => 'Chuja kwa ajili ya vyeti vya S/MIME ',
         'Relate this certificate' => 'Husisha hiki cheti',
 
         # Template: AdminSMIMECertRead
@@ -1917,7 +1919,6 @@ sub Data {
         'Salutation Management' => 'Usimamizi wa salamu',
         'Add Salutation' => 'Ongeza Salamu',
         'Edit Salutation' => 'Hariri salamu',
-        'Add salutation' => 'Ongeza salamu',
         'Filter for Salutations' => '',
         'Filter for salutations' => '',
         'e. g.' => 'Mfano',
@@ -1953,8 +1954,6 @@ sub Data {
         'Service Management' => 'Usimamizi wa huduma',
         'Add Service' => 'Ongeza Huduma',
         'Edit Service' => 'Hariri huduma',
-        'Add service' => 'Ongeza huhuma',
-        'Filter for services' => '',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             '',
         'Sub-service of' => 'Huduma ya ',
@@ -1980,7 +1979,6 @@ sub Data {
         'Signature Management' => 'Usimamizi wa Saini',
         'Add Signature' => 'Ongeza Saini',
         'Edit Signature' => 'Hariri Saini',
-        'Add signature' => 'Ongeza saini',
         'Filter for Signatures' => '',
         'Filter for signatures' => '',
         'Example signature' => 'Saini ya mfano',
@@ -2148,10 +2146,9 @@ sub Data {
         'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
-        'Manage Templates' => 'Simamia vielezo',
+        'Template Management' => '',
         'Add Template' => 'Ongeza kielezo',
         'Edit Template' => 'Hariri kielezo',
-        'Add template' => 'Ongeza kielezo',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'Kielezo ni matini chaguo msingi mabayo yanawasaidia mawakala wako kuandika haraka tuketi, kujibu na kupeleka mbele.',
         'Don\'t forget to add new templates to queues.' => 'Usisahau kuongeza vielezo vipya katika foleni.',
@@ -2174,7 +2171,6 @@ sub Data {
         'Type Management' => 'Usimamizi wa aina',
         'Add Type' => 'Ongeza aina',
         'Edit Type' => 'Hariri aina',
-        'Add ticket type' => 'Ongeza aina ya tiketi',
         'Filter for Types' => '',
         'Filter for types' => '',
         'A type with this name already exists!' => 'Aina yenye jina hili tayari ipo!',
@@ -2184,7 +2180,6 @@ sub Data {
 
         # Template: AdminUser
         'Agent Management' => 'Usimamizi wa wakala',
-        'Add Agent' => 'Oneza wakala',
         'Edit Agent' => 'Hariri wakala',
         'Edit personal preferences for this agent' => '',
         'Agents will be needed to handle tickets.' => 'Mawakala watahitajika kumud tiketi.',
@@ -2860,6 +2855,7 @@ sub Data {
         'Your 2 Factor Token' => '',
         'Log In' => 'Ingia',
         'Not yet registered?' => 'Bado haujasajiliwa?',
+        'Back' => 'Nyuma',
         'Request New Password' => 'Ombi la neno jipya la siri',
         'Your User Name' => 'Jina lako la mtumiaji',
         'A new password will be sent to your email address.' => 'Neno jipya la siri litatumwa kwenye anwani yako ya barua pepe',
@@ -5492,6 +5488,9 @@ sub Data {
         'Do you really want to delete this notification language?' => '',
         'Do you really want to delete this notification?' => '',
 
+        # JS File: Core.Agent.Admin.PGP
+        'Do you really want to delete this key?' => '',
+
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
             '',
@@ -6032,8 +6031,6 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => '',
         'ArticleTree' => 'Mti wa makala',
         'Attachment Name' => 'Jina la kiambatanishi',
-        'Attachments ↔ Templates' => '',
-        'Auto Responses ↔ Queues' => '',
         'Automated line break in text messages after x number of chars.' =>
             'Kigawa mstari otomatiki katika ujumbe wa maneno baada ya namba x ya herufi.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -7500,13 +7497,13 @@ Mfano:
         'Link Object.' => '',
         'Link agents to groups.' => 'Muuanganishe wakala kwenye makundi.',
         'Link agents to roles.' => 'Muuanganishe wakala kwenye majukumu.',
-        'Link attachments to templates.' => 'Unganisha Viambatanisho kwa Violezo',
         'Link customer users to customers.' => '',
         'Link customer users to groups.' => '',
         'Link customer users to services.' => '',
         'Link customers to groups.' => '',
         'Link queues to auto responses.' => 'Unganisha foleni kwenye majibu ya otomatiki.',
         'Link roles to groups.' => 'Unganisha majukumu kwenye makundi.',
+        'Link templates to attachments.' => '',
         'Link templates to queues.' => 'Unganisha vielezo kwenye foleni.',
         'Link this ticket to other objects' => 'Unganisha tiketi na vipengele vingine',
         'Links 2 tickets with a "Normal" type link.' => 'Inaunganisha tiketi 2 na kiunganishi aina ya "Kawaida".',
@@ -7842,6 +7839,7 @@ Mfano:
         'Public Calendar' => '',
         'Public calendar.' => '',
         'Queue view' => 'Mandhari ya foleni',
+        'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             '',
@@ -8481,6 +8479,7 @@ Mfano:
         'System Configuration Deployment' => '',
         'System Configuration Group' => '',
         'System Maintenance' => 'Matengenezo ya mfumo',
+        'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => '',
         'Textarea' => 'Sehemu ya nakala',
         'Thai' => '',
@@ -8814,6 +8813,7 @@ Mfano:
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',

@@ -1,16 +1,17 @@
 # Translators:
-# OTRS SDN BHD <otrssdnbhd@gmail.com>, 2018
+# Udo Bretz, 2018
+# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
+# Martin Gruner <martin.gruner@otrs.com>, 2018
 # Farhan Rinaldi Gunawan <farhan.rg@gmail.com>, 2018
 # Sofyan Arifin <sofyanarifin39@gmail.com>, 2018
-# Udo Bretz, 2018
-# Martin Gruner <martin.gruner@otrs.com>, 2018
-# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
+# OTRS SDN BHD <otrssdnbhd@gmail.com>, 2018
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-09-27 16:58+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
+"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"PO-Revision-Date: 2018-09-20 13:03+0000\n"
+"Last-Translator: OTRS SDN BHD <otrssdnbhd@gmail.com>, 2018\n"
 "Language-Team: Indonesian (https://www.transifex.com/otrs/teams/23435/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -258,10 +259,6 @@ msgid "Edit Calendar"
 msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
-msgid "Go back"
-msgstr "Pergi kembali"
-
-#. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
 msgstr ""
 
@@ -294,6 +291,10 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
+msgstr ""
+
+#. Template: AdminAppointmentCalendarManage
+msgid "Filter for Calendars"
 msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
@@ -445,6 +446,10 @@ msgid "Appointment Import"
 msgstr ""
 
 #. Template: AdminAppointmentImport
+msgid "Go back"
+msgstr "Pergi kembali"
+
+#. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
 msgstr ""
 
@@ -487,10 +492,6 @@ msgstr "Tambah pemberitahuan"
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
 msgstr "Ubah pemberitahuan"
-
-#. Template: AdminAppointmentNotificationEvent
-msgid "Add notification"
-msgstr "Tambahkan pemberitahuan"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
@@ -1049,11 +1050,15 @@ msgid "Communication Log"
 msgstr ""
 
 #. Template: AdminCommunicationLog
-msgid "Time range"
+msgid "Time Range"
 msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
+msgstr ""
+
+#. Template: AdminCommunicationLog
+msgid "Filter for Communications"
 msgstr ""
 
 #. Template: AdminCommunicationLog
@@ -1163,15 +1168,15 @@ msgid "Account Status"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Back"
-msgstr "Kembali"
-
-#. Template: AdminCommunicationLogAccounts
-msgid "Filter for accounts"
+msgid "Back to overview"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Filter for log entries"
+msgid "Filter for Accounts"
+msgstr ""
+
+#. Template: AdminCommunicationLogAccounts
+msgid "Filter for accounts"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
@@ -1246,6 +1251,14 @@ msgstr ""
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
+msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for Log Entries"
+msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for log entries"
 msgstr ""
 
 #. Template: AdminCommunicationLogZoom
@@ -1600,6 +1613,10 @@ msgstr ""
 "\"CustomerGroupAlwaysGroup\"."
 
 #. Template: AdminCustomerUserGroup
+msgid "Filter for groups"
+msgstr ""
+
+#. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
 msgstr ""
 
@@ -1614,7 +1631,7 @@ msgid "Customer User Default Groups:"
 msgstr ""
 
 #. Template: AdminCustomerUserService
-msgid "Manage Customer User-Services Relations"
+msgid "Manage Customer User-Service Relations"
 msgstr ""
 
 #. Template: AdminCustomerUserService
@@ -1624,6 +1641,10 @@ msgstr "Ubah layanan default"
 #. Template: AdminCustomerUserService
 msgid "Filter for Services"
 msgstr "Saringan untuk layanan"
+
+#. Template: AdminCustomerUserService
+msgid "Filter for services"
+msgstr ""
 
 #. Template: AdminCustomerUserService
 msgid "Services"
@@ -2046,27 +2067,27 @@ msgid "Send"
 msgstr "Kirim"
 
 #. Template: AdminGenericAgent
-msgid "Generic Agent"
-msgstr "Agent umum"
-
-#. Template: AdminGenericAgent
-msgid "Edit job"
-msgstr "Mengubah pekerjaan"
-
-#. Template: AdminGenericAgent
-msgid "Add job"
-msgstr "Tambah pekerjaan"
-
-#. Template: AdminGenericAgent
-msgid "Run job"
-msgstr "Menjalankan pekerjaan"
-
-#. Template: AdminGenericAgent
-msgid "Filter for Generic Agent Jobs"
+msgid "Generic Agent Job Management"
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Filter for generic agent jobs"
+msgid "Edit Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Add Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Run Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Filter for Jobs"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Filter for jobs"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -3920,10 +3941,6 @@ msgstr ""
 "ikhtisar\""
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Web Service List"
-msgstr "Daftar layanan web"
-
-#. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
 msgstr "Sistem remot"
 
@@ -4074,10 +4091,6 @@ msgid "Edit Group"
 msgstr "Ubah kelompok"
 
 #. Template: AdminGroup
-msgid "Add group"
-msgstr "Tambah kelompok"
-
-#. Template: AdminGroup
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
@@ -4100,10 +4113,6 @@ msgstr "Berguna untuk solusi ASP"
 #. Template: AdminLog
 msgid "System Log"
 msgstr "Sistem logaritma"
-
-#. Template: AdminLog
-msgid "Filter for Log Entries"
-msgstr ""
 
 #. Template: AdminLog
 msgid "Here you will find log information about your system."
@@ -4697,10 +4706,6 @@ msgid "Check PGP configuration"
 msgstr "Periksa konfigurasi PGP"
 
 #. Template: AdminPGP
-msgid "Add PGP key"
-msgstr "Tambahkan kunci PGP"
-
-#. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
 msgstr ""
 "Dengan cara ini anda dapat langsung mengedit keyring yang telah "
@@ -4709,10 +4714,6 @@ msgstr ""
 #. Template: AdminPGP
 msgid "Introduction to PGP"
 msgstr "Pengenalan kepada PGP"
-
-#. Template: AdminPGP
-msgid "Result"
-msgstr "Hasil"
 
 #. Template: AdminPGP
 msgid "Identifier"
@@ -5081,15 +5082,11 @@ msgid "Edit PostMaster Filter"
 msgstr "Ubah penyaring PostMaster"
 
 #. Template: AdminPostMasterFilter
-msgid "Add filter"
-msgstr "Tambah saringan"
-
-#. Template: AdminPostMasterFilter
-msgid "Filter for Postmaster Filters"
+msgid "Filter for PostMaster Filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
-msgid "Filter for postmaster filters"
+msgid "Filter for PostMaster filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
@@ -5215,6 +5212,10 @@ msgstr "Proses manajemen"
 #. Template: AdminProcessManagement
 msgid "Filter for Processes"
 msgstr "Menyaring proses"
+
+#. Template: AdminProcessManagement
+msgid "Filter for processes"
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Create New Process"
@@ -5762,8 +5763,8 @@ msgid "Remove this Parameter"
 msgstr "Hapuskan parameter"
 
 #. Template: AdminQueue
-msgid "Manage Queues"
-msgstr "Mengatur queues"
+msgid "Queue Management"
+msgstr ""
 
 #. Template: AdminQueue
 msgid "Add Queue"
@@ -5894,6 +5895,12 @@ msgid "Default sign key"
 msgstr "kunci tanda "
 
 #. Template: AdminQueue
+msgid ""
+"To use a sign key, PGP keys or S/MIME certificates need to be added with "
+"identifiers for selected queue system address."
+msgstr ""
+
+#. Template: AdminQueue
 msgid "Salutation"
 msgstr "Salam Pembuka"
 
@@ -5950,6 +5957,10 @@ msgstr "Mengelola hubungan Template-Queue"
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
 msgstr "Filter untuk sebuah klise"
+
+#. Template: AdminQueueTemplates
+msgid "Filter for templates"
+msgstr ""
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
@@ -6310,10 +6321,6 @@ msgid "Manage Role-Group Relations"
 msgstr "Mengelola hubungan peran didalam grup"
 
 #. Template: AdminRoleGroup
-msgid "Add role"
-msgstr "Tambahkan tugas"
-
-#. Template: AdminRoleGroup
 msgid "Roles"
 msgstr "Peran"
 
@@ -6378,12 +6385,16 @@ msgid "Manage Agent-Role Relations"
 msgstr "Mengelola hubungan Agent-Role"
 
 #. Template: AdminRoleUser
-msgid "Add agent"
+msgid "Add Agent"
 msgstr "Tambahkan agen"
 
 #. Template: AdminRoleUser
 msgid "Filter for Agents"
 msgstr "Filter untuk agen"
+
+#. Template: AdminRoleUser
+msgid "Filter for agents"
+msgstr ""
 
 #. Template: AdminRoleUser
 msgid "Agents"
@@ -6456,20 +6467,12 @@ msgid "Check SMIME configuration"
 msgstr "Periksa konfigurasi SMIME"
 
 #. Template: AdminSMIME
-msgid "Add certificate"
-msgstr "Tambahkan sertifikat"
-
-#. Template: AdminSMIME
-msgid "Add private key"
-msgstr "Tambahkan kunci pribadi"
-
-#. Template: AdminSMIME
 msgid "Filter for Certificates"
 msgstr ""
 
 #. Template: AdminSMIME
-msgid "Filter for S/MIME certs"
-msgstr "Filter untuk sertifikat S/MIME"
+msgid "Filter for certificates"
+msgstr "Filter untuk sertifikat"
 
 #. Template: AdminSMIME
 msgid "To show certificate details click on a certificate icon."
@@ -6543,6 +6546,10 @@ msgid "Available Certificates"
 msgstr "Sertifikat tersedia"
 
 #. Template: AdminSMIME
+msgid "Filter for S/MIME certs"
+msgstr "Filter untuk sertifikat S/MIME"
+
+#. Template: AdminSMIME
 msgid "Relate this certificate"
 msgstr "Sertifikat ini terkait"
 
@@ -6569,10 +6576,6 @@ msgstr "Tambahkan penghargaan"
 #. Template: AdminSalutation
 msgid "Edit Salutation"
 msgstr "Ubah Salutasi"
-
-#. Template: AdminSalutation
-msgid "Add salutation"
-msgstr "Tambahkan penghargaan"
 
 #. Template: AdminSalutation
 msgid "Filter for Salutations"
@@ -6683,14 +6686,6 @@ msgid "Edit Service"
 msgstr "Ubah layanan"
 
 #. Template: AdminService
-msgid "Add service"
-msgstr "Tambahkan layanan"
-
-#. Template: AdminService
-msgid "Filter for services"
-msgstr ""
-
-#. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
 msgstr ""
 
@@ -6769,10 +6764,6 @@ msgstr "Tambahkan Tandatangan"
 #. Template: AdminSignature
 msgid "Edit Signature"
 msgstr "Ubah tandatangan"
-
-#. Template: AdminSignature
-msgid "Add signature"
-msgstr "Tambah tandatangan"
 
 #. Template: AdminSignature
 msgid "Filter for Signatures"
@@ -7280,8 +7271,8 @@ msgid "Kill all Sessions, except for your own"
 msgstr "Padamkan semua sesi, kecuali untuk anda sendiri"
 
 #. Template: AdminTemplate
-msgid "Manage Templates"
-msgstr "Mengatur klise"
+msgid "Template Management"
+msgstr ""
 
 #. Template: AdminTemplate
 msgid "Add Template"
@@ -7290,10 +7281,6 @@ msgstr "Tambahkan template"
 #. Template: AdminTemplate
 msgid "Edit Template"
 msgstr "Ubah template"
-
-#. Template: AdminTemplate
-msgid "Add template"
-msgstr "Tambahkan templat"
 
 #. Template: AdminTemplate
 msgid ""
@@ -7368,10 +7355,6 @@ msgid "Edit Type"
 msgstr "Ubah jenis"
 
 #. Template: AdminType
-msgid "Add ticket type"
-msgstr "Tambahkan jenis tiket"
-
-#. Template: AdminType
 msgid "Filter for Types"
 msgstr ""
 
@@ -7396,10 +7379,6 @@ msgstr ""
 #. Template: AdminUser
 msgid "Agent Management"
 msgstr "Agen manajemen"
-
-#. Template: AdminUser
-msgid "Add Agent"
-msgstr "Tambahkan agen"
 
 #. Template: AdminUser
 msgid "Edit Agent"
@@ -9407,6 +9386,10 @@ msgstr "Masukkan"
 #. Template: CustomerLogin
 msgid "Not yet registered?"
 msgstr "Belum terdaftar?"
+
+#. Template: CustomerLogin
+msgid "Back"
+msgstr "Kembali"
 
 #. Template: CustomerLogin
 msgid "Request New Password"
@@ -16907,6 +16890,10 @@ msgstr "Apakah anda ingin menghapus pemberitahuan bahasa?"
 msgid "Do you really want to delete this notification?"
 msgstr "Apakah anda ingin menghapuskan pemberitahuan?"
 
+#. JS File: Core.Agent.Admin.PGP
+msgid "Do you really want to delete this key?"
+msgstr ""
+
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "There is a package upgrade process running, click here to see status "
@@ -18543,14 +18530,6 @@ msgstr "ArticleTree"
 #. SysConfig
 msgid "Attachment Name"
 msgstr "Lampirkan nama"
-
-#. SysConfig
-msgid "Attachments ↔ Templates"
-msgstr ""
-
-#. SysConfig
-msgid "Auto Responses ↔ Queues"
-msgstr ""
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
@@ -24294,10 +24273,6 @@ msgid "Link agents to roles."
 msgstr "Hubungkan agen ke rol"
 
 #. SysConfig
-msgid "Link attachments to templates."
-msgstr "Link lampiran ke template."
-
-#. SysConfig
 msgid "Link customer users to customers."
 msgstr ""
 
@@ -24320,6 +24295,10 @@ msgstr "Link permintaan otomatis respon"
 #. SysConfig
 msgid "Link roles to groups."
 msgstr "Menghubungkan peran ke kelompok."
+
+#. SysConfig
+msgid "Link templates to attachments."
+msgstr ""
 
 #. SysConfig
 msgid "Link templates to queues."
@@ -25704,6 +25683,10 @@ msgstr ""
 #. SysConfig
 msgid "Queue view"
 msgstr "lihat antrian"
+
+#. SysConfig
+msgid "Queues ↔ Auto Responses"
+msgstr ""
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -28284,6 +28267,10 @@ msgstr ""
 #. SysConfig
 msgid "System Maintenance"
 msgstr "Perbaikan sistem"
+
+#. SysConfig
+msgid "Templates ↔ Attachments"
+msgstr ""
 
 #. SysConfig
 msgid "Templates ↔ Queues"

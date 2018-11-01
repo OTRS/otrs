@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.194473051836595;
+    $Self->{Completeness}        = 0.191514943318447;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -98,7 +98,6 @@ sub Data {
         'Calendar Management' => '',
         'Add Calendar' => '',
         'Edit Calendar' => '',
-        'Go back' => '',
         'Calendar Overview' => '',
         'Add new Calendar' => '',
         'Import Appointments' => '',
@@ -108,6 +107,7 @@ sub Data {
         'Overwrite existing entities' => '',
         'Upload calendar configuration' => '',
         'Import Calendar' => '',
+        'Filter for Calendars' => '',
         'Filter for calendars' => '',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             '',
@@ -151,6 +151,7 @@ sub Data {
 
         # Template: AdminAppointmentImport
         'Appointment Import' => '',
+        'Go back' => '',
         'Uploaded file must be in valid iCal format (.ics).' => '',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             '',
@@ -165,7 +166,6 @@ sub Data {
         'Appointment Notification Management' => '',
         'Add Notification' => 'Pridėti pranešimą',
         'Edit Notification' => 'Redaguoti pranešimus',
-        'Add notification' => 'Pridėti pranešimą',
         'Export Notifications' => '',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',
@@ -317,9 +317,10 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => '',
-        'Time range' => '',
+        'Time Range' => '',
         'Show only communication logs created in specific time range.' =>
             '',
+        'Filter for Communications' => '',
         'Filter for communications' => '',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             '',
@@ -350,9 +351,9 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => '',
-        'Back' => 'Atgal',
+        'Back to overview' => '',
+        'Filter for Accounts' => '',
         'Filter for accounts' => '',
-        'Filter for log entries' => '',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             '',
         'Account status for: %s' => '',
@@ -378,6 +379,8 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '',
+        'Filter for Log Entries' => '',
+        'Filter for log entries' => '',
         'Show only entries with specific priority and higher:' => '',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
@@ -482,15 +485,17 @@ sub Data {
             '',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Šias grupes galite valdyti per konfigūracijos nustatymą "CustomerGroupAlwaysGroups".',
+        'Filter for groups' => '',
         'Select the customer user - group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             '',
         'Customer User Default Groups:' => '',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Services Relations' => '',
+        'Manage Customer User-Service Relations' => '',
         'Edit default services' => 'Redaguoti standartinius servisus',
         'Filter for Services' => 'Filtruoti paslaugas',
+        'Filter for services' => '',
         'Services' => 'Paslaugos',
 
         # Template: AdminDynamicField
@@ -618,12 +623,12 @@ sub Data {
         'Send' => 'Siųsti',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => 'Bendrinis agentas (Generic Agent)',
-        'Edit job' => 'Redaguoti darbą',
-        'Add job' => 'Pridėti agentą',
-        'Run job' => 'Vykdyti darbą',
-        'Filter for Generic Agent Jobs' => '',
-        'Filter for generic agent jobs' => '',
+        'Generic Agent Job Management' => '',
+        'Edit Job' => '',
+        'Add Job' => '',
+        'Run Job' => '',
+        'Filter for Jobs' => '',
+        'Filter for jobs' => '',
         'Last run' => 'Paskutinis paleidimas',
         'Run Now!' => 'Paleisti dabar!',
         'Delete this task' => 'Ištrinti šią užduotį',
@@ -1148,7 +1153,6 @@ sub Data {
             '',
         'If you want to return to overview please click the "Go to overview" button.' =>
             '',
-        'Web Service List' => '',
         'Remote system' => '',
         'Provider transport' => '',
         'Requester transport' => '',
@@ -1193,7 +1197,6 @@ sub Data {
         'Group Management' => 'Grupės valdymas',
         'Add Group' => 'Pridėti grupę',
         'Edit Group' => 'Redaguoti grupę',
-        'Add group' => 'Pridėti grupę',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             '\'admin\' grupė yra skirta patekti į administratorių zoną, o \'stats\' grupė - į statistikos zoną',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
@@ -1202,7 +1205,6 @@ sub Data {
 
         # Template: AdminLog
         'System Log' => 'Sistemos žurnalas',
-        'Filter for Log Entries' => '',
         'Here you will find log information about your system.' => 'Čia rasite žurnalų informaciją apie Jūsų sistemą.',
         'Hide this message' => 'Slėpti šią žinutę',
         'Recent Log Entries' => 'Naujausi žurnalo įrašai',
@@ -1379,11 +1381,9 @@ sub Data {
             '',
         'Configure it here!' => '',
         'Check PGP configuration' => '',
-        'Add PGP key' => 'Pridėti PGP raktą',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'Šiuo būdu galite tiesiogiai valdyti SysConfig sukonfigūruotą "raktų ryšulį".',
         'Introduction to PGP' => 'Įvadas į PGP',
-        'Result' => 'Rezultatas',
         'Identifier' => 'Identifikatorius',
         'Bit' => 'Bitai',
         'Fingerprint' => 'Piršto atspaudas',
@@ -1488,9 +1488,8 @@ sub Data {
         'PostMaster Filter Management' => 'PostMaster filtrų valdymas',
         'Add PostMaster Filter' => 'Pridėti PostMaster filtrą',
         'Edit PostMaster Filter' => 'Redaguoti PostMaster filtrą',
-        'Add filter' => 'Pridėti filtrą',
-        'Filter for Postmaster Filters' => '',
-        'Filter for postmaster filters' => '',
+        'Filter for PostMaster Filters' => '',
+        'Filter for PostMaster filters' => '',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'Išskirstyti ar filtruoti el. laiškus pagal el. laiškų antraštes. Taip pat galima naudoti ir reguliarias išraiškas',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1528,6 +1527,7 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => '',
         'Filter for Processes' => '',
+        'Filter for processes' => '',
         'Create New Process' => '',
         'Deploy All Processes' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
@@ -1686,7 +1686,7 @@ sub Data {
         'Remove this Parameter' => '',
 
         # Template: AdminQueue
-        'Manage Queues' => 'Valdyti eiles',
+        'Queue Management' => '',
         'Add Queue' => 'Pridėto eilę',
         'Edit Queue' => 'Redaguoti eilę',
         'Filter for Queues' => 'Filtruoti eiles',
@@ -1718,6 +1718,8 @@ sub Data {
         'System address' => 'Sistemos adresas',
         'Will be the sender address of this queue for email answers.' => 'Bus šios eilės siunčiamų atsakymų siuntėjo adresas.',
         'Default sign key' => 'Standartinis pasirašymo raktas',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'Salutation' => 'Kreipimosi forma(pasveikinimas)',
         'The salutation for email answers.' => 'Kreipimosi forma el. pašto atsakymuose.',
         'Signature' => 'Parašas',
@@ -1736,6 +1738,7 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
         'Filter for Templates' => '',
+        'Filter for templates' => '',
         'Templates' => '',
 
         # Template: AdminRegistration
@@ -1836,7 +1839,6 @@ sub Data {
 
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => 'Valdyti Rolė-Grupė ryšius',
-        'Add role' => 'Pridėti rolę',
         'Roles' => 'Rolės',
         'Select the role:group permissions.' => 'Pasirinkite rolė:grupė leidimus.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
@@ -1857,8 +1859,9 @@ sub Data {
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Valdyti Agentas-Rolė ryšius',
-        'Add agent' => 'Pridėti agentą',
+        'Add Agent' => 'Pridėti agentą',
         'Filter for Agents' => 'Filtruoti agentus',
+        'Filter for agents' => '',
         'Agents' => 'Agentai',
         'Manage Role-Agent Relations' => 'Valdyti Rolė-Agentas ryšius',
 
@@ -1881,10 +1884,8 @@ sub Data {
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             '',
         'Check SMIME configuration' => '',
-        'Add certificate' => 'Pridėti sertifikatą',
-        'Add private key' => 'Pridėti privatų raktą',
         'Filter for Certificates' => '',
-        'Filter for S/MIME certs' => '',
+        'Filter for certificates' => '',
         'To show certificate details click on a certificate icon.' => '',
         'To manage private certificate relations click on a private key icon.' =>
             '',
@@ -1903,6 +1904,7 @@ sub Data {
         'Related Certificates for' => '',
         'Delete this relation' => '',
         'Available Certificates' => '',
+        'Filter for S/MIME certs' => '',
         'Relate this certificate' => '',
 
         # Template: AdminSMIMECertRead
@@ -1914,7 +1916,6 @@ sub Data {
         'Salutation Management' => 'Kreipinių valdymas',
         'Add Salutation' => 'Pridėti kreipimąsi',
         'Edit Salutation' => 'Redaguoti kreipimąsi',
-        'Add salutation' => 'Pridėti kreipimąsi',
         'Filter for Salutations' => '',
         'Filter for salutations' => '',
         'e. g.' => 'pvz.',
@@ -1950,8 +1951,6 @@ sub Data {
         'Service Management' => 'Paslaugų valdymas',
         'Add Service' => 'Pridėti paslaugą',
         'Edit Service' => 'Redaguoti paslaugą',
-        'Add service' => 'Pridėti paslaugą',
-        'Filter for services' => '',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             '',
         'Sub-service of' => 'Sub-paslauga',
@@ -1977,7 +1976,6 @@ sub Data {
         'Signature Management' => 'Parašų valdymas',
         'Add Signature' => 'Pridėti parašą',
         'Edit Signature' => 'Redaguoti parašą',
-        'Add signature' => 'Pridėti parašą',
         'Filter for Signatures' => '',
         'Filter for signatures' => '',
         'Example signature' => 'Parašo pavyzdys',
@@ -2145,10 +2143,9 @@ sub Data {
         'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
-        'Manage Templates' => '',
+        'Template Management' => '',
         'Add Template' => '',
         'Edit Template' => '',
-        'Add template' => '',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             '',
         'Don\'t forget to add new templates to queues.' => '',
@@ -2171,7 +2168,6 @@ sub Data {
         'Type Management' => 'Tipų valdymas',
         'Add Type' => 'Pridėti tipą',
         'Edit Type' => 'Redaguoti tipą',
-        'Add ticket type' => 'Pridėti trikties tipą',
         'Filter for Types' => '',
         'Filter for types' => '',
         'A type with this name already exists!' => '',
@@ -2181,7 +2177,6 @@ sub Data {
 
         # Template: AdminUser
         'Agent Management' => 'Agentų valdymas',
-        'Add Agent' => 'Pridėti agentą',
         'Edit Agent' => 'Redaguoti agentą',
         'Edit personal preferences for this agent' => '',
         'Agents will be needed to handle tickets.' => 'Agentai bus reikalingi darbui su triktimis ir jų valdymu.',
@@ -2857,6 +2852,7 @@ sub Data {
         'Your 2 Factor Token' => '',
         'Log In' => 'Prisijungti',
         'Not yet registered?' => 'Neregistruotas?',
+        'Back' => 'Atgal',
         'Request New Password' => 'Prašyti naujo slaptažodžio',
         'Your User Name' => 'Jūsų Naudotojo Vardas',
         'A new password will be sent to your email address.' => 'Naujas slaptažodis bus nusiųstas į Jūsų pašto dėžutę.',
@@ -5489,6 +5485,9 @@ sub Data {
         'Do you really want to delete this notification language?' => '',
         'Do you really want to delete this notification?' => '',
 
+        # JS File: Core.Agent.Admin.PGP
+        'Do you really want to delete this key?' => '',
+
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
             '',
@@ -6029,8 +6028,6 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => '',
         'ArticleTree' => '',
         'Attachment Name' => '',
-        'Attachments ↔ Templates' => '',
-        'Auto Responses ↔ Queues' => '',
         'Automated line break in text messages after x number of chars.' =>
             '',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -7494,13 +7491,13 @@ Thanks for your help!
         'Link Object.' => '',
         'Link agents to groups.' => 'Susieti agentus su grupėmis.',
         'Link agents to roles.' => 'Susieti agentus su rolėmis.',
-        'Link attachments to templates.' => '',
         'Link customer users to customers.' => '',
         'Link customer users to groups.' => '',
         'Link customer users to services.' => '',
         'Link customers to groups.' => '',
         'Link queues to auto responses.' => 'Susieti eiles su automatiniais atsakymais.',
         'Link roles to groups.' => 'Susieti roles su grupėmis.',
+        'Link templates to attachments.' => '',
         'Link templates to queues.' => '',
         'Link this ticket to other objects' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
@@ -7836,6 +7833,7 @@ Thanks for your help!
         'Public Calendar' => '',
         'Public calendar.' => '',
         'Queue view' => 'Eilių peržiūra',
+        'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             '',
@@ -8475,6 +8473,7 @@ Thanks for your help!
         'System Configuration Deployment' => '',
         'System Configuration Group' => '',
         'System Maintenance' => '',
+        'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => '',
         'Textarea' => '',
         'Thai' => '',
@@ -8808,6 +8807,7 @@ Thanks for your help!
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',

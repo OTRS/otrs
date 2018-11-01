@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.999828355647099;
+    $Self->{Completeness}        = 0.998969426313981;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -103,7 +103,6 @@ sub Data {
         'Calendar Management' => 'Naptárkezelés',
         'Add Calendar' => 'Naptár hozzáadása',
         'Edit Calendar' => 'Naptár szerkesztése',
-        'Go back' => 'Vissza',
         'Calendar Overview' => 'Naptár áttekintő',
         'Add new Calendar' => 'Új naptár hozzáadása',
         'Import Appointments' => 'Időpontok importálása',
@@ -113,6 +112,7 @@ sub Data {
         'Overwrite existing entities' => 'Meglévő bejegyzések felülírása',
         'Upload calendar configuration' => 'Naptárbeállítás feltöltése',
         'Import Calendar' => 'Naptár importálása',
+        'Filter for Calendars' => 'Szűrő a naptárakhoz',
         'Filter for calendars' => 'Szűrő a naptárakhoz',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             'A csoportmezőtől függően a rendszer a felhasználókat a jogosultsági szintjük alapján fogja engedni hozzáférni a naptárhoz.',
@@ -156,6 +156,7 @@ sub Data {
 
         # Template: AdminAppointmentImport
         'Appointment Import' => 'Időpont importálása',
+        'Go back' => 'Vissza',
         'Uploaded file must be in valid iCal format (.ics).' => 'A feltöltött fájlnak érvényes iCal formátumban (.ics) kell lennie.',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             'Ha a kívánt naptár nincs itt felsorolva, akkor győződjön meg arról, hogy van-e legalább „létrehozás” jogosultsága.',
@@ -170,7 +171,6 @@ sub Data {
         'Appointment Notification Management' => 'Időpont-értesítés kezelés',
         'Add Notification' => 'Értesítés hozzáadása',
         'Edit Notification' => 'Értesítés szerkesztése',
-        'Add notification' => 'Értesítés hozzáadása',
         'Export Notifications' => 'Értesítések exportálása',
         'Filter for Notifications' => 'Szűrő az értesítésekhez',
         'Filter for notifications' => 'Szűrő az értesítésekhez',
@@ -322,9 +322,10 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => 'Kommunikációs napló',
-        'Time range' => 'Időtartomány',
+        'Time Range' => 'Időtartomány',
         'Show only communication logs created in specific time range.' =>
             'Csak azon kommunikációs naplók megjelenítése, amelyek egy adott időtartományban jöttek létre.',
+        'Filter for Communications' => 'Szűrő a kommunikációkhoz',
         'Filter for communications' => 'Szűrő a kommunikációkhoz',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             'Ezen a képernyőn egy áttekintőt láthat a bejövő és kimenő kommunikációkról.',
@@ -355,9 +356,9 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => 'Fiókállapot',
-        'Back' => 'Vissza',
+        'Back to overview' => 'Vissza az áttekintőhöz',
+        'Filter for Accounts' => 'Szűrő a fiókokhoz',
         'Filter for accounts' => 'Szűrő a fiókokhoz',
-        'Filter for log entries' => 'Szűrő a naplóbejegyzésekhez',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             'Megváltoztathatja a rendezést és az oszlopok sorrendjét az oszlopfejlécre kattintva.',
         'Account status for: %s' => 'Fiókállapot ennél: %s',
@@ -383,6 +384,8 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '%s kommunikáció részletes nézete elkezdődött ekkor: %s',
+        'Filter for Log Entries' => 'Szűrő a naplóbejegyzésekhez',
+        'Filter for log entries' => 'Szűrő a naplóbejegyzésekhez',
         'Show only entries with specific priority and higher:' => 'Csak bizonyos vagy magasabb prioritással rendelkező bejegyzések megjelenítése:',
         'Communication Log Overview (%s)' => 'Kommunikációs napló áttekintő (%s)',
         'No communication objects found.' => 'Nem találhatók kommunikációs objektumok.',
@@ -487,15 +490,17 @@ sub Data {
             'Ezek a csoportok automatikusan hozzá vannak rendelve minden ügyfél-felhasználóhoz.',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Ezeket a csoportokat a „CustomerGroupAlwaysGroups” beállításon keresztül kezelheti.',
+        'Filter for groups' => 'Szűrő a csoportokhoz',
         'Select the customer user - group permissions.' => 'Az ügyfél-felhasználó – csoport jogosultságok kiválasztása.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             'Ha semmi sincs kiválasztva, akkor ebben a csoportban nincsenek jogosultságok (a jegyek nem lesznek elérhetők az ügyfél-felhasználónak).',
         'Customer User Default Groups:' => 'Ügyfél-felhasználó alapértelmezett csoportjai:',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Services Relations' => 'Ügyfél-felhasználó–Szolgáltatás kapcsolatok kezelése',
+        'Manage Customer User-Service Relations' => '',
         'Edit default services' => 'Alapértelmezett szolgáltatások szerkesztése',
         'Filter for Services' => 'Szűrő a szolgáltatásokhoz',
+        'Filter for services' => 'Szűrő a szolgáltatásokhoz',
         'Services' => 'Szolgáltatások',
 
         # Template: AdminDynamicField
@@ -623,12 +628,12 @@ sub Data {
         'Send' => 'Küldés',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => 'Általános ügyintéző',
-        'Edit job' => 'Feladat szerkesztése',
-        'Add job' => 'Feladat hozzáadása',
-        'Run job' => 'Feladat futtatása',
-        'Filter for Generic Agent Jobs' => 'Szűrő az általános ügyintéző feladatokhoz',
-        'Filter for generic agent jobs' => 'Szűrő az általános ügyintéző feladatokhoz',
+        'Generic Agent Job Management' => 'Általános ügyintéző feladat kezelés',
+        'Edit Job' => 'Feladat szerkesztése',
+        'Add Job' => 'Feladat hozzáadása',
+        'Run Job' => 'Feladat futtatása',
+        'Filter for Jobs' => 'Szűrő a feladatokhoz',
+        'Filter for jobs' => 'Szűrő a feladatokhoz',
         'Last run' => 'Utolsó futás',
         'Run Now!' => 'Futtatás most!',
         'Delete this task' => 'Feladat törlése',
@@ -1153,7 +1158,6 @@ sub Data {
             'A beállítások mentése után ismét átirányításra kerül a szerkesztő képernyőre.',
         'If you want to return to overview please click the "Go to overview" button.' =>
             'Ha vissza szeretne térni az áttekintőre, kattintson a „Ugrás az áttekintőhöz” gombra.',
-        'Web Service List' => 'Webszolgáltatás lista',
         'Remote system' => 'Távoli rendszer',
         'Provider transport' => 'Szolgáltató átvitel',
         'Requester transport' => 'Kérő átvitel',
@@ -1198,7 +1202,6 @@ sub Data {
         'Group Management' => 'Csoportkezelés',
         'Add Group' => 'Csoport hozzáadása',
         'Edit Group' => 'Csoport szerkesztése',
-        'Add group' => 'Csoport hozzáadása',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'Az admin csoport az adminisztrációs területre, a stats csoport a statisztika területre való bejutáshoz van.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
@@ -1207,7 +1210,6 @@ sub Data {
 
         # Template: AdminLog
         'System Log' => 'Rendszernapló',
-        'Filter for Log Entries' => 'Szűrő a naplóbejegyzésekhez',
         'Here you will find log information about your system.' => 'Itt napló információkat fog találni a rendszeréről.',
         'Hide this message' => 'Üzenet elrejtése',
         'Recent Log Entries' => 'Legutóbbi naplóbejegyzések',
@@ -1384,11 +1386,9 @@ sub Data {
             'A PGP támogatás engedélyezve van, de a hozzá tartozó beállítások hibákat tartalmaznak. Ellenőrizze a beállításokat a lenti gomb használatával.',
         'Configure it here!' => 'Itt állítsa be!',
         'Check PGP configuration' => 'PGP beállítások ellenőrzése',
-        'Add PGP key' => 'PGP kulcs hozzáadása',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'Ezzel a módszerrel közvetlenül szerkesztheti a kulcstartót, amit a rendszer beállításainál beállított.',
         'Introduction to PGP' => 'Bevezetés a PGP-be',
-        'Result' => 'Eredmény',
         'Identifier' => 'Azonosító',
         'Bit' => 'Bit',
         'Fingerprint' => 'Ujjlenyomat',
@@ -1493,9 +1493,8 @@ sub Data {
         'PostMaster Filter Management' => 'Levelezési szűrő kezelés',
         'Add PostMaster Filter' => 'Levelezési szűrő hozzáadása',
         'Edit PostMaster Filter' => 'Levelezési szűrő szerkesztése',
-        'Add filter' => 'Szűrő hozzáadása',
-        'Filter for Postmaster Filters' => 'Szűrő a levelezési szűrőkhöz',
-        'Filter for postmaster filters' => 'Szűrő a levelezési szűrőkhöz',
+        'Filter for PostMaster Filters' => 'Szűrő a levelezési szűrőkhöz',
+        'Filter for PostMaster filters' => 'Szűrő a levelezési szűrőkhöz',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'Az e-mail fejléceken alapuló bejövő e-mailek kézbesítéséhez vagy szűréséhez. A reguláris kifejezések használatával való illesztés szintén lehetséges.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1533,6 +1532,7 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => 'Folyamatkezelés',
         'Filter for Processes' => 'Szűrő a folyamatokhoz',
+        'Filter for processes' => 'Szűrő a folyamatokhoz',
         'Create New Process' => 'Új folyamat létrehozása',
         'Deploy All Processes' => 'Minden folyamat üzembe állítása',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
@@ -1691,7 +1691,7 @@ sub Data {
         'Remove this Parameter' => 'Paraméter eltávolítása',
 
         # Template: AdminQueue
-        'Manage Queues' => 'Várólisták kezelése',
+        'Queue Management' => 'Várólista-kezelés',
         'Add Queue' => 'Várólista hozzáadása',
         'Edit Queue' => 'Várólista szerkesztése',
         'Filter for Queues' => 'Szűrő a várólistákhoz',
@@ -1723,6 +1723,8 @@ sub Data {
         'System address' => 'Rendszercím',
         'Will be the sender address of this queue for email answers.' => 'Lesz-e a várólista feladójának címe a válasz e-mailekhez.',
         'Default sign key' => 'Alapértelmezett aláíró kulcs',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'Salutation' => 'Megszólítás',
         'The salutation for email answers.' => 'A megszólítás a válasz e-mailekhez.',
         'Signature' => 'Aláírás',
@@ -1741,6 +1743,7 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => 'Sablon–Várólista kapcsolatok kezelése',
         'Filter for Templates' => 'Szűrő a sablonokhoz',
+        'Filter for templates' => 'Szűrő a sablonokhoz',
         'Templates' => 'Sablonok',
 
         # Template: AdminRegistration
@@ -1841,7 +1844,6 @@ sub Data {
 
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => 'Szerep–Csoport kapcsolatok kezelése',
-        'Add role' => 'Szerep hozzáadása',
         'Roles' => 'Szerepek',
         'Select the role:group permissions.' => 'A szerep:csoport jogosultságok kiválasztása.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
@@ -1862,8 +1864,9 @@ sub Data {
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Ügyintéző–Szerep kapcsolatok kezelése',
-        'Add agent' => 'Ügyintéző hozzáadása',
+        'Add Agent' => 'Ügyintéző hozzáadása',
         'Filter for Agents' => 'Szűrő az ügyintézőkhöz',
+        'Filter for agents' => 'Szűrő az ügyintézőkhöz',
         'Agents' => 'Ügyintézők',
         'Manage Role-Agent Relations' => 'Szerep–Ügyintéző kapcsolatok kezelése',
 
@@ -1886,10 +1889,8 @@ sub Data {
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             'Az S/MIME támogatás engedélyezve van, de a hozzá tartozó beállítások hibákat tartalmaznak. Ellenőrizze a beállításokat a lenti gomb használatával.',
         'Check SMIME configuration' => 'S/MIME beállítások ellenőrzése',
-        'Add certificate' => 'Tanúsítvány hozzáadása',
-        'Add private key' => 'Személyes kulcs hozzáadása',
         'Filter for Certificates' => 'Szűrő a tanúsítványokhoz',
-        'Filter for S/MIME certs' => 'Szűrő az S/MIME tanúsítványokhoz',
+        'Filter for certificates' => 'Szűrő a tanúsítványokhoz',
         'To show certificate details click on a certificate icon.' => 'A tanúsítvány részleteinek megtekintéséhez kattintson a tanúsítvány ikonra.',
         'To manage private certificate relations click on a private key icon.' =>
             'A személyes tanúsítvány kapcsolatok kezeléséhez kattintson a személyes kulcs ikonra.',
@@ -1908,6 +1909,7 @@ sub Data {
         'Related Certificates for' => 'Kapcsolódó tanúsítványok ehhez',
         'Delete this relation' => 'Kapcsolat törlése',
         'Available Certificates' => 'Elérhető tanúsítványok',
+        'Filter for S/MIME certs' => 'Szűrő az S/MIME tanúsítványokhoz',
         'Relate this certificate' => 'Tanúsítvány összekapcsolása',
 
         # Template: AdminSMIMECertRead
@@ -1919,7 +1921,6 @@ sub Data {
         'Salutation Management' => 'Megszólítás kezelés',
         'Add Salutation' => 'Megszólítás hozzáadása',
         'Edit Salutation' => 'Megszólítás szerkesztése',
-        'Add salutation' => 'Megszólítás hozzáadása',
         'Filter for Salutations' => 'Szűrő a megszólításokhoz',
         'Filter for salutations' => 'Szűrő a megszólításokhoz',
         'e. g.' => 'például',
@@ -1955,8 +1956,6 @@ sub Data {
         'Service Management' => 'Szolgáltatás kezelés',
         'Add Service' => 'Szolgáltatás hozzáadása',
         'Edit Service' => 'Szolgáltatás szerkesztése',
-        'Add service' => 'Szolgáltatás hozzáadása',
-        'Filter for services' => 'Szűrő a szolgáltatásokhoz',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             'A szolgáltatás nevének legnagyobb hossza 200 karakter (alszolgáltatásokkal).',
         'Sub-service of' => 'Részszolgáltatása ennek',
@@ -1982,7 +1981,6 @@ sub Data {
         'Signature Management' => 'Aláírás kezelés',
         'Add Signature' => 'Aláírás hozzáadása',
         'Edit Signature' => 'Aláírás szerkesztése',
-        'Add signature' => 'Aláírás hozzáadása',
         'Filter for Signatures' => 'Szűrő az aláírásokhoz',
         'Filter for signatures' => 'Szűrő az aláírásokhoz',
         'Example signature' => 'Példa aláírás',
@@ -2150,10 +2148,9 @@ sub Data {
         'Kill all Sessions, except for your own' => 'Összes munkamenet kilövése, kivéve az Ön sajátját',
 
         # Template: AdminTemplate
-        'Manage Templates' => 'Sablonok kezelése',
+        'Template Management' => 'Sablonkezelés',
         'Add Template' => 'Sablon hozzáadása',
         'Edit Template' => 'Sablon szerkesztése',
-        'Add template' => 'Sablon hozzáadása',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'A sablon egy olyan alapértelmezett szöveg, amely segít az ügyintézőknek a jegyek, válaszok vagy továbbítások gyorsabb írásában.',
         'Don\'t forget to add new templates to queues.' => 'Ne felejtse el hozzáadni az új sablonokat a várólistákhoz.',
@@ -2176,7 +2173,6 @@ sub Data {
         'Type Management' => 'Típuskezelés',
         'Add Type' => 'Típus hozzáadása',
         'Edit Type' => 'Típus szerkesztése',
-        'Add ticket type' => 'Jegytípus hozzáadása',
         'Filter for Types' => 'Szűrő a típusokhoz',
         'Filter for types' => 'Szűrő a típusokhoz',
         'A type with this name already exists!' => 'Már létezik ilyen nevű típus!',
@@ -2186,7 +2182,6 @@ sub Data {
 
         # Template: AdminUser
         'Agent Management' => 'Ügyintéző-kezelés',
-        'Add Agent' => 'Ügyintéző hozzáadása',
         'Edit Agent' => 'Ügyintéző szerkesztése',
         'Edit personal preferences for this agent' => 'Személyes beállítások szerkesztése ennél az ügyintézőnél',
         'Agents will be needed to handle tickets.' => 'Ügyintézőkre lesz szükség a jegyek kezeléséhez.',
@@ -2862,6 +2857,7 @@ sub Data {
         'Your 2 Factor Token' => 'Az Ön kétlépcsős tokenje',
         'Log In' => 'Bejelentkezés',
         'Not yet registered?' => 'Még nem regisztrált?',
+        'Back' => 'Vissza',
         'Request New Password' => 'Új jelszó kérése',
         'Your User Name' => 'A felhasználóneve',
         'A new password will be sent to your email address.' => 'Az új jelszó el lesz küldve az e-mail címére.',
@@ -5494,6 +5490,9 @@ sub Data {
         'Do you really want to delete this notification language?' => 'Valóban törölni szeretné ezt az értesítési nyelvet?',
         'Do you really want to delete this notification?' => 'Valóban törölni szeretné ezt az értesítést?',
 
+        # JS File: Core.Agent.Admin.PGP
+        'Do you really want to delete this key?' => '',
+
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
             'Egy csomagfrissítési folyamat jelenleg is fut, kattintson ide a frissítési folyamattal kapcsolatos állapotinformációk megtekintéséhez.',
@@ -6045,8 +6044,6 @@ Az Ön segélyszolgálat csapata
         'Arabic (Saudi Arabia)' => 'Arab (Szaúd-Arábia)',
         'ArticleTree' => 'Bejegyzés fa',
         'Attachment Name' => 'Melléklet neve',
-        'Attachments ↔ Templates' => 'Mellékletek ↔ Sablonok',
-        'Auto Responses ↔ Queues' => 'Automatikus válaszok ↔ Várólisták',
         'Automated line break in text messages after x number of chars.' =>
             'Automatikus sortörés a szöveges üzenetekben x karakter után.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -7494,7 +7491,7 @@ Az Ön segélyszolgálat csapata
         'Ivory (Slim)' => 'Elefántcsont (karcsú)',
         'Japanese' => 'Japán',
         'JavaScript function for the search frontend.' => 'JavaScript függvény a keresési előtétprogramhoz.',
-        'Korean' => '',
+        'Korean' => 'Koreai',
         'Language' => 'Nyelv',
         'Large' => 'Nagy',
         'Last Screen Overview' => 'Utolsó képernyő áttekintője',
@@ -7510,13 +7507,13 @@ Az Ön segélyszolgálat csapata
         'Link Object.' => 'Objektum összekapcsolása.',
         'Link agents to groups.' => 'Ügyintézők összekapcsolása csoportokkal.',
         'Link agents to roles.' => 'Ügyintézők összekapcsolása szerepekkel.',
-        'Link attachments to templates.' => 'Mellékletek összekapcsolása sablonokkal.',
         'Link customer users to customers.' => 'Ügyfél-felhasználók összekapcsolása ügyfelekkel.',
         'Link customer users to groups.' => 'Ügyfél-felhasználók összekapcsolása csoportokkal.',
         'Link customer users to services.' => 'Ügyfél-felhasználók összekapcsolása szolgáltatásokkal.',
         'Link customers to groups.' => 'Ügyfelek összekapcsolása csoportokkal.',
         'Link queues to auto responses.' => 'Várólisták összekapcsolása automatikus válaszokkal.',
         'Link roles to groups.' => 'Szerepek összekapcsolása csoportokkal.',
+        'Link templates to attachments.' => '',
         'Link templates to queues.' => 'Sablonok összekapcsolása várólistákkal.',
         'Link this ticket to other objects' => 'Jegy összekapcsolása más objektumokkal',
         'Links 2 tickets with a "Normal" type link.' => 'Összekapcsol 2 jegyet egy „Normál” típusú hivatkozással.',
@@ -7852,6 +7849,7 @@ Az Ön segélyszolgálat csapata
         'Public Calendar' => 'Nyilvános naptár',
         'Public calendar.' => 'Nyilvános naptár.',
         'Queue view' => 'Várólista nézet',
+        'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Az AgentTicketQueue jegyindexének újraépítése.',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             'Annak felismerése, ha a jegy egy külső jegyszámot használó meglévő jegy követője.',
@@ -8491,6 +8489,7 @@ Az Ön segélyszolgálat csapata
         'System Configuration Deployment' => 'Rendszer-konfigurációs üzembe állítás',
         'System Configuration Group' => 'Rendszerbeállítások csoport',
         'System Maintenance' => 'Rendszerkarbantartás',
+        'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => 'Sablonok ↔ Várólisták',
         'Textarea' => 'Szövegdoboz',
         'Thai' => 'Thai',
@@ -8824,6 +8823,7 @@ Az Ön segélyszolgálat csapata
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',

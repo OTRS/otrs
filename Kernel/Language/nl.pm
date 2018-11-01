@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.47391005835908;
+    $Self->{Completeness}        = 0.470628649948471;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -104,7 +104,6 @@ sub Data {
         'Calendar Management' => 'Kalender beheer',
         'Add Calendar' => 'Kalender toevoegen',
         'Edit Calendar' => 'Kalender bewerken',
-        'Go back' => 'Ga terug',
         'Calendar Overview' => 'Kalender overzicht',
         'Add new Calendar' => 'Nieuwe kalender toevoegen',
         'Import Appointments' => 'Afspraken importeren',
@@ -114,6 +113,7 @@ sub Data {
         'Overwrite existing entities' => 'Overschrijf bestaande records',
         'Upload calendar configuration' => 'Upload kalender configuratie',
         'Import Calendar' => 'Importeer kalender',
+        'Filter for Calendars' => '',
         'Filter for calendars' => 'Filter voor kalenders',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             '',
@@ -157,6 +157,7 @@ sub Data {
 
         # Template: AdminAppointmentImport
         'Appointment Import' => '',
+        'Go back' => 'Ga terug',
         'Uploaded file must be in valid iCal format (.ics).' => '',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             '',
@@ -171,7 +172,6 @@ sub Data {
         'Appointment Notification Management' => '',
         'Add Notification' => 'Melding toevoegen',
         'Edit Notification' => 'Bewerk melding',
-        'Add notification' => 'Melding toevoegen',
         'Export Notifications' => 'Meldingen exporteren',
         'Filter for Notifications' => 'Filter voor notificaties',
         'Filter for notifications' => 'Filter voor notificaties',
@@ -323,9 +323,10 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => 'Communicatielog',
-        'Time range' => '',
+        'Time Range' => '',
         'Show only communication logs created in specific time range.' =>
             '',
+        'Filter for Communications' => '',
         'Filter for communications' => 'Filter op communicaties',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             '',
@@ -356,9 +357,9 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => 'Accountstatus',
-        'Back' => 'Terug',
+        'Back to overview' => '',
+        'Filter for Accounts' => '',
         'Filter for accounts' => 'Filter op accounts',
-        'Filter for log entries' => 'Filter op logitems',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             '',
         'Account status for: %s' => 'Accountstatus voor: %s',
@@ -384,6 +385,8 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '',
+        'Filter for Log Entries' => '',
+        'Filter for log entries' => 'Filter op logitems',
         'Show only entries with specific priority and higher:' => '',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
@@ -488,15 +491,17 @@ sub Data {
             '',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'U kunt deze groepen beheren via de optie "CustomerGroupAlwaysGroups".',
+        'Filter for groups' => '',
         'Select the customer user - group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             '',
         'Customer User Default Groups:' => '',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Services Relations' => '',
+        'Manage Customer User-Service Relations' => '',
         'Edit default services' => 'Beheer standaard services',
         'Filter for Services' => 'Filter op services',
+        'Filter for services' => '',
         'Services' => 'Services',
 
         # Template: AdminDynamicField
@@ -624,12 +629,12 @@ sub Data {
         'Send' => 'Verstuur',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => 'Automatische Taken',
-        'Edit job' => 'Bewerk taak',
-        'Add job' => 'Taak toevoegen',
-        'Run job' => 'Voer taak uit',
-        'Filter for Generic Agent Jobs' => '',
-        'Filter for generic agent jobs' => '',
+        'Generic Agent Job Management' => '',
+        'Edit Job' => '',
+        'Add Job' => '',
+        'Run Job' => '',
+        'Filter for Jobs' => '',
+        'Filter for jobs' => '',
         'Last run' => 'Laatst uitgevoerd',
         'Run Now!' => 'Nu uitvoeren',
         'Delete this task' => 'Verwijder deze taak',
@@ -1154,7 +1159,6 @@ sub Data {
             'Na opslaan blijft u in dit scherm.',
         'If you want to return to overview please click the "Go to overview" button.' =>
             'Als u terug wilt na het overzicht klik dan op de "Naar het overzicht" knop.',
-        'Web Service List' => 'Webservice-overzicht',
         'Remote system' => 'Ander systeem',
         'Provider transport' => 'Provider-transport',
         'Requester transport' => 'Requester-transport',
@@ -1199,7 +1203,6 @@ sub Data {
         'Group Management' => 'Groepenbeheer',
         'Add Group' => 'Groep toevoegen',
         'Edit Group' => 'Bewerk groep',
-        'Add group' => 'Groep toevoegen',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'Leden van de groep Admin mogen in het administratie gedeelte, leden van de groep Stats hebben toegang tot het statistieken gedeelte.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
@@ -1208,7 +1211,6 @@ sub Data {
 
         # Template: AdminLog
         'System Log' => 'Logboek',
-        'Filter for Log Entries' => '',
         'Here you will find log information about your system.' => 'Hier is de OTRS log te raadplegen.',
         'Hide this message' => 'Verberg dit paneel',
         'Recent Log Entries' => 'Recente Logboekregels',
@@ -1385,11 +1387,9 @@ sub Data {
             '',
         'Configure it here!' => '',
         'Check PGP configuration' => '',
-        'Add PGP key' => 'PGP sleutel toevoegen',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'Hier kunt u de keyring beheren die is ingesteld in de systeemconfiguratie.',
         'Introduction to PGP' => 'Introductie tot PGP',
-        'Result' => 'Resultaat',
         'Identifier' => 'Identifier',
         'Bit' => 'Bit',
         'Fingerprint' => 'Fingerprint',
@@ -1494,9 +1494,8 @@ sub Data {
         'PostMaster Filter Management' => 'E-mail filterbeheer',
         'Add PostMaster Filter' => 'Nieuw e-mail filter',
         'Edit PostMaster Filter' => 'Bewerk e-mail filter',
-        'Add filter' => 'Nieuw filter',
-        'Filter for Postmaster Filters' => '',
-        'Filter for postmaster filters' => '',
+        'Filter for PostMaster Filters' => '',
+        'Filter for PostMaster filters' => '',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'Om inkomende e-mails te routeren op basis van e-mail headers. Matching op tekst of met behulp van regular expressions.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1534,6 +1533,7 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => 'Procesbeheer',
         'Filter for Processes' => 'Filter op processen',
+        'Filter for processes' => '',
         'Create New Process' => 'Nieuw proces',
         'Deploy All Processes' => 'Deploy alle processen',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
@@ -1692,7 +1692,7 @@ sub Data {
         'Remove this Parameter' => 'Verwijder deze parameter',
 
         # Template: AdminQueue
-        'Manage Queues' => 'Wachtrijenbeheer',
+        'Queue Management' => '',
         'Add Queue' => 'Nieuwe wachtrij',
         'Edit Queue' => 'Bewerk wachtrij',
         'Filter for Queues' => 'Filter op wachtrijen',
@@ -1724,6 +1724,8 @@ sub Data {
         'System address' => 'Systeem adres',
         'Will be the sender address of this queue for email answers.' => 'Is het afzenderadres van deze wachtrij voor antwoorden per e-mail.',
         'Default sign key' => 'Standaard sleutel voor ondertekening.',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'Salutation' => 'Aanhef',
         'The salutation for email answers.' => 'De aanhef voor beantwoording van berichten per e-mail.',
         'Signature' => 'Handtekening',
@@ -1742,6 +1744,7 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => 'Beheer Sjabloon - Wachtrij koppelingen',
         'Filter for Templates' => 'Filter op sjablonen',
+        'Filter for templates' => '',
         'Templates' => 'Sjablonen',
 
         # Template: AdminRegistration
@@ -1842,7 +1845,6 @@ sub Data {
 
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => 'Beheer Rol-Groep koppelingen',
-        'Add role' => 'Nieuwe rol',
         'Roles' => 'Rollen',
         'Select the role:group permissions.' => 'Selecteer de rol-groep permissies.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
@@ -1863,8 +1865,9 @@ sub Data {
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Beheer Behandelaar-Rol koppelingen',
-        'Add agent' => 'Nieuwe behandelaar',
+        'Add Agent' => 'Nieuwe behandelaar',
         'Filter for Agents' => 'Filter op behandelaars',
+        'Filter for agents' => '',
         'Agents' => 'Behandelaars',
         'Manage Role-Agent Relations' => 'Beheer Rol-Behandelaar koppelingen',
 
@@ -1887,10 +1890,8 @@ sub Data {
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             '',
         'Check SMIME configuration' => '',
-        'Add certificate' => 'Nieuw certificaat',
-        'Add private key' => 'Private sleutel toevoegen',
         'Filter for Certificates' => '',
-        'Filter for S/MIME certs' => 'Filter voor S/MIME certificaten',
+        'Filter for certificates' => 'Filter op certificaten',
         'To show certificate details click on a certificate icon.' => 'Klik op een certificaat icoon om de details van een certificaat weer te geven.',
         'To manage private certificate relations click on a private key icon.' =>
             'Om je privé certificaat relaties te beheren, klik je op een privé sleutel icoon.',
@@ -1909,6 +1910,7 @@ sub Data {
         'Related Certificates for' => 'Gekoppelde certificaten voor',
         'Delete this relation' => 'Verwijder deze koppeling',
         'Available Certificates' => 'Beschikbare certificaten',
+        'Filter for S/MIME certs' => 'Filter voor S/MIME certificaten',
         'Relate this certificate' => 'Koppel dit certificaat',
 
         # Template: AdminSMIMECertRead
@@ -1920,7 +1922,6 @@ sub Data {
         'Salutation Management' => 'Beheer aanheffen',
         'Add Salutation' => 'Nieuwe aanhef',
         'Edit Salutation' => 'Bewerk aanhef',
-        'Add salutation' => 'Nieuwe aanhef',
         'Filter for Salutations' => '',
         'Filter for salutations' => '',
         'e. g.' => 'bijv.',
@@ -1956,8 +1957,6 @@ sub Data {
         'Service Management' => 'Service beheer',
         'Add Service' => 'Nieuwe service',
         'Edit Service' => 'Bewerk Service',
-        'Add service' => 'Nieuwe service',
-        'Filter for services' => '',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             '',
         'Sub-service of' => 'Onderdeel van',
@@ -1983,7 +1982,6 @@ sub Data {
         'Signature Management' => 'Handtekening-beheer',
         'Add Signature' => 'Nieuwe handtekening',
         'Edit Signature' => 'Bewerk handtekening',
-        'Add signature' => 'Nieuwe handtekening',
         'Filter for Signatures' => '',
         'Filter for signatures' => '',
         'Example signature' => 'Handtekening-voorbeeld',
@@ -2151,10 +2149,9 @@ sub Data {
         'Kill all Sessions, except for your own' => 'Stop alle sessies, behalve die van jezelf',
 
         # Template: AdminTemplate
-        'Manage Templates' => 'Beheer sjablonen',
+        'Template Management' => '',
         'Add Template' => 'Nieuw sjabloon',
         'Edit Template' => 'Bewerk sjabloon',
-        'Add template' => 'Nieuw sjabloon',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'Een sjabloon is een standaardtext die uw behandelaars helpt sneller tickets aan te maken of te beantwoorden.',
         'Don\'t forget to add new templates to queues.' => 'Vergeet niet de sjablonen aan wachtrijen te koppelen.',
@@ -2177,7 +2174,6 @@ sub Data {
         'Type Management' => 'Type beheer',
         'Add Type' => 'Nieuw type',
         'Edit Type' => 'Bewerk type',
-        'Add ticket type' => 'Nieuw ticket type',
         'Filter for Types' => '',
         'Filter for types' => '',
         'A type with this name already exists!' => 'Er bestaat al een type met deze naam!',
@@ -2187,7 +2183,6 @@ sub Data {
 
         # Template: AdminUser
         'Agent Management' => 'Beheer behandelaars',
-        'Add Agent' => 'Nieuwe behandelaar',
         'Edit Agent' => 'Bewerk behandelaar',
         'Edit personal preferences for this agent' => '',
         'Agents will be needed to handle tickets.' => 'Behandelaar-accounts zijn nodig om te kunnen werken in het systeem.',
@@ -2863,6 +2858,7 @@ sub Data {
         'Your 2 Factor Token' => 'Jouw 2 factor teken',
         'Log In' => 'Inloggen',
         'Not yet registered?' => 'Nog niet geregistreerd?',
+        'Back' => 'Terug',
         'Request New Password' => 'Vraag nieuw wachtwoord aan',
         'Your User Name' => 'Uw gebruikersnaam',
         'A new password will be sent to your email address.' => 'Een nieuw wachtwoord wordt naar uw e-mailadres verzonden.',
@@ -5495,6 +5491,9 @@ sub Data {
         'Do you really want to delete this notification language?' => 'Weet uzeker dat udeze notificatietaal wilt verwijderen?',
         'Do you really want to delete this notification?' => 'Wenst u deze melding te verwijderen?',
 
+        # JS File: Core.Agent.Admin.PGP
+        'Do you really want to delete this key?' => '',
+
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
             '',
@@ -6046,8 +6045,6 @@ Het Helpdesk Team
         'Arabic (Saudi Arabia)' => 'Arabisch (Saudi Arabië)',
         'ArticleTree' => 'Interactie-boom',
         'Attachment Name' => 'Bijlage Naam',
-        'Attachments ↔ Templates' => '',
-        'Auto Responses ↔ Queues' => '',
         'Automated line break in text messages after x number of chars.' =>
             '',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -7511,13 +7508,13 @@ Het Helpdesk Team
         'Link Object.' => '',
         'Link agents to groups.' => 'Koppel gebruikers aan groepen.',
         'Link agents to roles.' => 'Koppel gebruikers aan rollen.',
-        'Link attachments to templates.' => 'Koppel bijlagen aan sjablonen.',
         'Link customer users to customers.' => '',
         'Link customer users to groups.' => '',
         'Link customer users to services.' => '',
         'Link customers to groups.' => '',
         'Link queues to auto responses.' => 'Koppel wachtrijen aan automatische antwoorden.',
         'Link roles to groups.' => 'Koppel rollen aan groepen.',
+        'Link templates to attachments.' => '',
         'Link templates to queues.' => 'Koppel sjablonen aan wachtrijen.',
         'Link this ticket to other objects' => 'Koppel dit ticket aan andere objecten',
         'Links 2 tickets with a "Normal" type link.' => 'Koppelt twee tickets met een "Normaal"-type koppeling.',
@@ -7853,6 +7850,7 @@ Het Helpdesk Team
         'Public Calendar' => '',
         'Public calendar.' => '',
         'Queue view' => 'Wachtrijoverzicht',
+        'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             '',
@@ -8492,6 +8490,7 @@ Het Helpdesk Team
         'System Configuration Deployment' => '',
         'System Configuration Group' => '',
         'System Maintenance' => 'Systeemonderhoud',
+        'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => '',
         'Textarea' => 'Tekstvak',
         'Thai' => '',
@@ -8825,6 +8824,7 @@ Het Helpdesk Team
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',

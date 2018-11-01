@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.344661860624785;
+    $Self->{Completeness}        = 0.341291652353143;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -100,7 +100,6 @@ sub Data {
         'Calendar Management' => '',
         'Add Calendar' => '',
         'Edit Calendar' => '',
-        'Go back' => '返回',
         'Calendar Overview' => '',
         'Add new Calendar' => '',
         'Import Appointments' => '',
@@ -110,6 +109,7 @@ sub Data {
         'Overwrite existing entities' => '',
         'Upload calendar configuration' => '',
         'Import Calendar' => '',
+        'Filter for Calendars' => '',
         'Filter for calendars' => '',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             '',
@@ -153,6 +153,7 @@ sub Data {
 
         # Template: AdminAppointmentImport
         'Appointment Import' => '',
+        'Go back' => '返回',
         'Uploaded file must be in valid iCal format (.ics).' => '',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             '',
@@ -167,7 +168,6 @@ sub Data {
         'Appointment Notification Management' => '預約通知管理',
         'Add Notification' => '添加通知',
         'Edit Notification' => '編輯通知',
-        'Add notification' => '添加通知',
         'Export Notifications' => '導出通知',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',
@@ -319,9 +319,10 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => '',
-        'Time range' => '',
+        'Time Range' => '',
         'Show only communication logs created in specific time range.' =>
             '',
+        'Filter for Communications' => '',
         'Filter for communications' => '',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             '',
@@ -352,9 +353,9 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => '',
-        'Back' => '上一步',
+        'Back to overview' => '',
+        'Filter for Accounts' => '',
         'Filter for accounts' => '',
-        'Filter for log entries' => '',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             '',
         'Account status for: %s' => '',
@@ -380,6 +381,8 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '',
+        'Filter for Log Entries' => '',
+        'Filter for log entries' => '',
         'Show only entries with specific priority and higher:' => '',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
@@ -484,15 +487,17 @@ sub Data {
             '',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             '您可能通過配置参數"CustomerGroupAlwaysGroups"定義默認組。',
+        'Filter for groups' => '',
         'Select the customer user - group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             '',
         'Customer User Default Groups:' => '',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Services Relations' => '',
+        'Manage Customer User-Service Relations' => '',
         'Edit default services' => '修改默認服務',
         'Filter for Services' => '過濾服務',
+        'Filter for services' => '',
         'Services' => '服務',
 
         # Template: AdminDynamicField
@@ -620,12 +625,12 @@ sub Data {
         'Send' => '發送',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => '計劃任務',
-        'Edit job' => '編輯任務',
-        'Add job' => '添加任務',
-        'Run job' => '執行任務',
-        'Filter for Generic Agent Jobs' => '',
-        'Filter for generic agent jobs' => '',
+        'Generic Agent Job Management' => '',
+        'Edit Job' => '',
+        'Add Job' => '',
+        'Run Job' => '',
+        'Filter for Jobs' => '',
+        'Filter for jobs' => '',
         'Last run' => '最後運行',
         'Run Now!' => '現在運行!',
         'Delete this task' => '刪除這個任務',
@@ -1150,7 +1155,6 @@ sub Data {
             '保存配置文件後，頁面將再次轉至編輯頁面。',
         'If you want to return to overview please click the "Go to overview" button.' =>
             '如果您想返回到概況，請點擊"返回概況"按鈕。',
-        'Web Service List' => 'Web服務列表',
         'Remote system' => '遠程系統',
         'Provider transport' => '服務提供方傳輸',
         'Requester transport' => '服務請求方傳輸',
@@ -1195,7 +1199,6 @@ sub Data {
         'Group Management' => '組管理',
         'Add Group' => '添加組',
         'Edit Group' => '編輯組',
-        'Add group' => '添加組',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'admin組允許使用系統管理模塊，stats組允許使用統計模塊。',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
@@ -1204,7 +1207,6 @@ sub Data {
 
         # Template: AdminLog
         'System Log' => '系統日誌',
-        'Filter for Log Entries' => '',
         'Here you will find log information about your system.' => '查看系統日誌信息。',
         'Hide this message' => '隱藏此消息',
         'Recent Log Entries' => '最近的日誌',
@@ -1381,11 +1383,9 @@ sub Data {
             '',
         'Configure it here!' => '',
         'Check PGP configuration' => '',
-        'Add PGP key' => '添加PGP密鑰',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             '通過此模塊可以直接編輯在SysConfig中配置的密鑰環。',
         'Introduction to PGP' => 'PGP介紹',
-        'Result' => '結果',
         'Identifier' => '標識符',
         'Bit' => '位',
         'Fingerprint' => '指紋',
@@ -1490,9 +1490,8 @@ sub Data {
         'PostMaster Filter Management' => '郵件過濾器管理',
         'Add PostMaster Filter' => '添加郵件過濾器',
         'Edit PostMaster Filter' => '編輯郵件過濾器',
-        'Add filter' => '添加過濾器',
-        'Filter for Postmaster Filters' => '',
-        'Filter for postmaster filters' => '',
+        'Filter for PostMaster Filters' => '',
+        'Filter for PostMaster filters' => '',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             '基於郵件頭標記的分派或過濾。可以使用正則表達式進行匹配。',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1530,6 +1529,7 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => '流程管理',
         'Filter for Processes' => '過濾流程',
+        'Filter for processes' => '',
         'Create New Process' => '創建新的流程',
         'Deploy All Processes' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
@@ -1688,7 +1688,7 @@ sub Data {
         'Remove this Parameter' => '刪除這個参數',
 
         # Template: AdminQueue
-        'Manage Queues' => '隊列管理',
+        'Queue Management' => '',
         'Add Queue' => '添加隊列',
         'Edit Queue' => '編輯隊列',
         'Filter for Queues' => '過濾隊列',
@@ -1720,6 +1720,8 @@ sub Data {
         'System address' => '系統郵件地址',
         'Will be the sender address of this queue for email answers.' => '回復郵件的發送地址',
         'Default sign key' => '默認回復簽名',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'Salutation' => '回復抬頭',
         'The salutation for email answers.' => '回復郵件中的抬頭',
         'Signature' => '回復簽名',
@@ -1738,6 +1740,7 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '管理模板與隊列的對應關系',
         'Filter for Templates' => '過濾模板',
+        'Filter for templates' => '',
         'Templates' => '模板',
 
         # Template: AdminRegistration
@@ -1838,7 +1841,6 @@ sub Data {
 
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => '管理角色的組權限',
-        'Add role' => '添加角色',
         'Roles' => '角色',
         'Select the role:group permissions.' => '選擇角色:組權限。',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
@@ -1859,8 +1861,9 @@ sub Data {
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => '定義服務人員的角色',
-        'Add agent' => '添加服務人員',
+        'Add Agent' => '添加服務人員',
         'Filter for Agents' => '查找服務人員',
+        'Filter for agents' => '',
         'Agents' => '服務人員',
         'Manage Role-Agent Relations' => '管理服務人員的角色',
 
@@ -1883,10 +1886,8 @@ sub Data {
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             '',
         'Check SMIME configuration' => '',
-        'Add certificate' => '添加証書',
-        'Add private key' => '添加私匙',
         'Filter for Certificates' => '',
-        'Filter for S/MIME certs' => '',
+        'Filter for certificates' => '過濾証書',
         'To show certificate details click on a certificate icon.' => '',
         'To manage private certificate relations click on a private key icon.' =>
             '',
@@ -1905,6 +1906,7 @@ sub Data {
         'Related Certificates for' => '關聯証書',
         'Delete this relation' => '刪除這個關聯',
         'Available Certificates' => '可選的証書',
+        'Filter for S/MIME certs' => '',
         'Relate this certificate' => '關聯這個証書',
 
         # Template: AdminSMIMECertRead
@@ -1916,7 +1918,6 @@ sub Data {
         'Salutation Management' => '回復抬頭管理',
         'Add Salutation' => '添加回復抬頭',
         'Edit Salutation' => '編輯回復抬頭',
-        'Add salutation' => '添加回復抬頭',
         'Filter for Salutations' => '',
         'Filter for salutations' => '',
         'e. g.' => '例如',
@@ -1952,8 +1953,6 @@ sub Data {
         'Service Management' => '服務管理',
         'Add Service' => '添加服務',
         'Edit Service' => '編輯服務',
-        'Add service' => '添加服務',
-        'Filter for services' => '',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             '',
         'Sub-service of' => '子服務',
@@ -1979,7 +1978,6 @@ sub Data {
         'Signature Management' => '回復簽名管理',
         'Add Signature' => '添加回復簽名',
         'Edit Signature' => '編輯回復簽名',
-        'Add signature' => '添加回復簽名',
         'Filter for Signatures' => '',
         'Filter for signatures' => '',
         'Example signature' => '簽名範例',
@@ -2147,10 +2145,9 @@ sub Data {
         'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
-        'Manage Templates' => '模板管理',
+        'Template Management' => '',
         'Add Template' => '添加模板',
         'Edit Template' => '編輯模板',
-        'Add template' => '添加模板',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             '模板中的正文幫助服務人員快速始建、回復或轉發工單。',
         'Don\'t forget to add new templates to queues.' => '别忘了將新模板指派給隊列',
@@ -2173,7 +2170,6 @@ sub Data {
         'Type Management' => '工單類型管理',
         'Add Type' => '添加工單類型',
         'Edit Type' => '編輯工單類型',
-        'Add ticket type' => '添加工單類型',
         'Filter for Types' => '',
         'Filter for types' => '',
         'A type with this name already exists!' => '',
@@ -2183,7 +2179,6 @@ sub Data {
 
         # Template: AdminUser
         'Agent Management' => '服務人員管理',
-        'Add Agent' => '添加服務人員',
         'Edit Agent' => '編輯服務人員',
         'Edit personal preferences for this agent' => '',
         'Agents will be needed to handle tickets.' => '處理工單是服務人員職責。',
@@ -2860,6 +2855,7 @@ sub Data {
         'Your 2 Factor Token' => '',
         'Log In' => '登錄',
         'Not yet registered?' => '還未註冊?',
+        'Back' => '上一步',
         'Request New Password' => '請求新密碼',
         'Your User Name' => '您的用戶名',
         'A new password will be sent to your email address.' => '新密碼將會發送到您的郵箱中',
@@ -5492,6 +5488,9 @@ sub Data {
         'Do you really want to delete this notification language?' => '您確定要刪除此通知語言？',
         'Do you really want to delete this notification?' => '您確定要刪除此通知？',
 
+        # JS File: Core.Agent.Admin.PGP
+        'Do you really want to delete this key?' => '',
+
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
             '',
@@ -6033,8 +6032,6 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => '',
         'ArticleTree' => '',
         'Attachment Name' => '',
-        'Attachments ↔ Templates' => '',
-        'Auto Responses ↔ Queues' => '',
         'Automated line break in text messages after x number of chars.' =>
             '',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -7498,13 +7495,13 @@ Thanks for your help!
         'Link Object.' => '',
         'Link agents to groups.' => '鏈接服務人員到組.',
         'Link agents to roles.' => '鏈接服務人員到角色.',
-        'Link attachments to templates.' => '鏈接附件至模板',
         'Link customer users to customers.' => '',
         'Link customer users to groups.' => '',
         'Link customer users to services.' => '',
         'Link customers to groups.' => '',
         'Link queues to auto responses.' => '鏈接隊列至自動回復',
         'Link roles to groups.' => '鏈接角色至組',
+        'Link templates to attachments.' => '',
         'Link templates to queues.' => '鏈接模板至隊列',
         'Link this ticket to other objects' => '將工單鏈接至其它對象',
         'Links 2 tickets with a "Normal" type link.' => '',
@@ -7840,6 +7837,7 @@ Thanks for your help!
         'Public Calendar' => '',
         'Public calendar.' => '',
         'Queue view' => '隊列視圖',
+        'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             '',
@@ -8479,6 +8477,7 @@ Thanks for your help!
         'System Configuration Deployment' => '',
         'System Configuration Group' => '',
         'System Maintenance' => '系統維護',
+        'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => '',
         'Textarea' => '文本塊',
         'Thai' => '泰文',
@@ -8812,6 +8811,7 @@ Thanks for your help!
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',

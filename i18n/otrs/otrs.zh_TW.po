@@ -1,17 +1,18 @@
 # Translators:
-# Martin Gruner <martin.gruner@otrs.com>, 2018
 # Udo Bretz, 2018
-# Ann Li <dn.annli@gmail.com>, 2018
-# Sam Chen <silent198214@gmail.com>, 2018
+# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
 # 育彰 楊 <yuchang.yang@grandfortunetech.com>, 2018
 # 邱意展, 2018
-# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
+# Ann Li <dn.annli@gmail.com>, 2018
+# Sam Chen <silent198214@gmail.com>, 2018
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-09-27 16:58+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
+"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"PO-Revision-Date: 2018-09-20 13:03+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>, 2018\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/otrs/teams/23435/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -242,10 +243,6 @@ msgid "Edit Calendar"
 msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
-msgid "Go back"
-msgstr "返回"
-
-#. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
 msgstr ""
 
@@ -278,6 +275,10 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
+msgstr ""
+
+#. Template: AdminAppointmentCalendarManage
+msgid "Filter for Calendars"
 msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
@@ -429,6 +430,10 @@ msgid "Appointment Import"
 msgstr ""
 
 #. Template: AdminAppointmentImport
+msgid "Go back"
+msgstr "返回"
+
+#. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
 msgstr ""
 
@@ -471,10 +476,6 @@ msgstr "添加通知"
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
 msgstr "編輯通知"
-
-#. Template: AdminAppointmentNotificationEvent
-msgid "Add notification"
-msgstr "添加通知"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
@@ -1002,11 +1003,15 @@ msgid "Communication Log"
 msgstr ""
 
 #. Template: AdminCommunicationLog
-msgid "Time range"
+msgid "Time Range"
 msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
+msgstr ""
+
+#. Template: AdminCommunicationLog
+msgid "Filter for Communications"
 msgstr ""
 
 #. Template: AdminCommunicationLog
@@ -1116,15 +1121,15 @@ msgid "Account Status"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Back"
-msgstr "上一步"
-
-#. Template: AdminCommunicationLogAccounts
-msgid "Filter for accounts"
+msgid "Back to overview"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Filter for log entries"
+msgid "Filter for Accounts"
+msgstr ""
+
+#. Template: AdminCommunicationLogAccounts
+msgid "Filter for accounts"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
@@ -1199,6 +1204,14 @@ msgstr ""
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
+msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for Log Entries"
+msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for log entries"
 msgstr ""
 
 #. Template: AdminCommunicationLogZoom
@@ -1543,6 +1556,10 @@ msgid ""
 msgstr "您可能通過配置参數\"CustomerGroupAlwaysGroups\"定義默認組。"
 
 #. Template: AdminCustomerUserGroup
+msgid "Filter for groups"
+msgstr ""
+
+#. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
 msgstr ""
 
@@ -1557,7 +1574,7 @@ msgid "Customer User Default Groups:"
 msgstr ""
 
 #. Template: AdminCustomerUserService
-msgid "Manage Customer User-Services Relations"
+msgid "Manage Customer User-Service Relations"
 msgstr ""
 
 #. Template: AdminCustomerUserService
@@ -1567,6 +1584,10 @@ msgstr "修改默認服務"
 #. Template: AdminCustomerUserService
 msgid "Filter for Services"
 msgstr "過濾服務"
+
+#. Template: AdminCustomerUserService
+msgid "Filter for services"
+msgstr ""
 
 #. Template: AdminCustomerUserService
 msgid "Services"
@@ -1964,27 +1985,27 @@ msgid "Send"
 msgstr "發送"
 
 #. Template: AdminGenericAgent
-msgid "Generic Agent"
-msgstr "計劃任務"
-
-#. Template: AdminGenericAgent
-msgid "Edit job"
-msgstr "編輯任務"
-
-#. Template: AdminGenericAgent
-msgid "Add job"
-msgstr "添加任務"
-
-#. Template: AdminGenericAgent
-msgid "Run job"
-msgstr "執行任務"
-
-#. Template: AdminGenericAgent
-msgid "Filter for Generic Agent Jobs"
+msgid "Generic Agent Job Management"
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Filter for generic agent jobs"
+msgid "Edit Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Add Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Run Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Filter for Jobs"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Filter for jobs"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -3766,10 +3787,6 @@ msgid ""
 msgstr "如果您想返回到概況，請點擊\"返回概況\"按鈕。"
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Web Service List"
-msgstr "Web服務列表"
-
-#. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
 msgstr "遠程系統"
 
@@ -3910,10 +3927,6 @@ msgid "Edit Group"
 msgstr "編輯組"
 
 #. Template: AdminGroup
-msgid "Add group"
-msgstr "添加組"
-
-#. Template: AdminGroup
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
@@ -3932,10 +3945,6 @@ msgstr "這對於ASP解決方案它很有用。"
 #. Template: AdminLog
 msgid "System Log"
 msgstr "系統日誌"
-
-#. Template: AdminLog
-msgid "Filter for Log Entries"
-msgstr ""
 
 #. Template: AdminLog
 msgid "Here you will find log information about your system."
@@ -4484,20 +4493,12 @@ msgid "Check PGP configuration"
 msgstr ""
 
 #. Template: AdminPGP
-msgid "Add PGP key"
-msgstr "添加PGP密鑰"
-
-#. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
 msgstr "通過此模塊可以直接編輯在SysConfig中配置的密鑰環。"
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
 msgstr "PGP介紹"
-
-#. Template: AdminPGP
-msgid "Result"
-msgstr "結果"
 
 #. Template: AdminPGP
 msgid "Identifier"
@@ -4853,15 +4854,11 @@ msgid "Edit PostMaster Filter"
 msgstr "編輯郵件過濾器"
 
 #. Template: AdminPostMasterFilter
-msgid "Add filter"
-msgstr "添加過濾器"
-
-#. Template: AdminPostMasterFilter
-msgid "Filter for Postmaster Filters"
+msgid "Filter for PostMaster Filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
-msgid "Filter for postmaster filters"
+msgid "Filter for PostMaster filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
@@ -4981,6 +4978,10 @@ msgstr "流程管理"
 #. Template: AdminProcessManagement
 msgid "Filter for Processes"
 msgstr "過濾流程"
+
+#. Template: AdminProcessManagement
+msgid "Filter for processes"
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Create New Process"
@@ -5491,8 +5492,8 @@ msgid "Remove this Parameter"
 msgstr "刪除這個参數"
 
 #. Template: AdminQueue
-msgid "Manage Queues"
-msgstr "隊列管理"
+msgid "Queue Management"
+msgstr ""
 
 #. Template: AdminQueue
 msgid "Add Queue"
@@ -5610,6 +5611,12 @@ msgid "Default sign key"
 msgstr "默認回復簽名"
 
 #. Template: AdminQueue
+msgid ""
+"To use a sign key, PGP keys or S/MIME certificates need to be added with "
+"identifiers for selected queue system address."
+msgstr ""
+
+#. Template: AdminQueue
 msgid "Salutation"
 msgstr "回復抬頭"
 
@@ -5664,6 +5671,10 @@ msgstr "管理模板與隊列的對應關系"
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
 msgstr "過濾模板"
+
+#. Template: AdminQueueTemplates
+msgid "Filter for templates"
+msgstr ""
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
@@ -5994,10 +6005,6 @@ msgid "Manage Role-Group Relations"
 msgstr "管理角色的組權限"
 
 #. Template: AdminRoleGroup
-msgid "Add role"
-msgstr "添加角色"
-
-#. Template: AdminRoleGroup
 msgid "Roles"
 msgstr "角色"
 
@@ -6060,12 +6067,16 @@ msgid "Manage Agent-Role Relations"
 msgstr "定義服務人員的角色"
 
 #. Template: AdminRoleUser
-msgid "Add agent"
+msgid "Add Agent"
 msgstr "添加服務人員"
 
 #. Template: AdminRoleUser
 msgid "Filter for Agents"
 msgstr "查找服務人員"
+
+#. Template: AdminRoleUser
+msgid "Filter for agents"
+msgstr ""
 
 #. Template: AdminRoleUser
 msgid "Agents"
@@ -6134,20 +6145,12 @@ msgid "Check SMIME configuration"
 msgstr ""
 
 #. Template: AdminSMIME
-msgid "Add certificate"
-msgstr "添加証書"
-
-#. Template: AdminSMIME
-msgid "Add private key"
-msgstr "添加私匙"
-
-#. Template: AdminSMIME
 msgid "Filter for Certificates"
 msgstr ""
 
 #. Template: AdminSMIME
-msgid "Filter for S/MIME certs"
-msgstr ""
+msgid "Filter for certificates"
+msgstr "過濾証書"
 
 #. Template: AdminSMIME
 msgid "To show certificate details click on a certificate icon."
@@ -6215,6 +6218,10 @@ msgid "Available Certificates"
 msgstr "可選的証書"
 
 #. Template: AdminSMIME
+msgid "Filter for S/MIME certs"
+msgstr ""
+
+#. Template: AdminSMIME
 msgid "Relate this certificate"
 msgstr "關聯這個証書"
 
@@ -6241,10 +6248,6 @@ msgstr "添加回復抬頭"
 #. Template: AdminSalutation
 msgid "Edit Salutation"
 msgstr "編輯回復抬頭"
-
-#. Template: AdminSalutation
-msgid "Add salutation"
-msgstr "添加回復抬頭"
 
 #. Template: AdminSalutation
 msgid "Filter for Salutations"
@@ -6348,14 +6351,6 @@ msgid "Edit Service"
 msgstr "編輯服務"
 
 #. Template: AdminService
-msgid "Add service"
-msgstr "添加服務"
-
-#. Template: AdminService
-msgid "Filter for services"
-msgstr ""
-
-#. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
 msgstr ""
 
@@ -6434,10 +6429,6 @@ msgstr "添加回復簽名"
 #. Template: AdminSignature
 msgid "Edit Signature"
 msgstr "編輯回復簽名"
-
-#. Template: AdminSignature
-msgid "Add signature"
-msgstr "添加回復簽名"
 
 #. Template: AdminSignature
 msgid "Filter for Signatures"
@@ -6924,8 +6915,8 @@ msgid "Kill all Sessions, except for your own"
 msgstr ""
 
 #. Template: AdminTemplate
-msgid "Manage Templates"
-msgstr "模板管理"
+msgid "Template Management"
+msgstr ""
 
 #. Template: AdminTemplate
 msgid "Add Template"
@@ -6934,10 +6925,6 @@ msgstr "添加模板"
 #. Template: AdminTemplate
 msgid "Edit Template"
 msgstr "編輯模板"
-
-#. Template: AdminTemplate
-msgid "Add template"
-msgstr "添加模板"
 
 #. Template: AdminTemplate
 msgid ""
@@ -7010,10 +6997,6 @@ msgid "Edit Type"
 msgstr "編輯工單類型"
 
 #. Template: AdminType
-msgid "Add ticket type"
-msgstr "添加工單類型"
-
-#. Template: AdminType
 msgid "Filter for Types"
 msgstr ""
 
@@ -7038,10 +7021,6 @@ msgstr ""
 #. Template: AdminUser
 msgid "Agent Management"
 msgstr "服務人員管理"
-
-#. Template: AdminUser
-msgid "Add Agent"
-msgstr "添加服務人員"
 
 #. Template: AdminUser
 msgid "Edit Agent"
@@ -9024,6 +9003,10 @@ msgstr "登錄"
 #. Template: CustomerLogin
 msgid "Not yet registered?"
 msgstr "還未註冊?"
+
+#. Template: CustomerLogin
+msgid "Back"
+msgstr "上一步"
 
 #. Template: CustomerLogin
 msgid "Request New Password"
@@ -16294,6 +16277,10 @@ msgstr "您確定要刪除此通知語言？"
 msgid "Do you really want to delete this notification?"
 msgstr "您確定要刪除此通知？"
 
+#. JS File: Core.Agent.Admin.PGP
+msgid "Do you really want to delete this key?"
+msgstr ""
+
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "There is a package upgrade process running, click here to see status "
@@ -17787,14 +17774,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Attachment Name"
-msgstr ""
-
-#. SysConfig
-msgid "Attachments ↔ Templates"
-msgstr ""
-
-#. SysConfig
-msgid "Auto Responses ↔ Queues"
 msgstr ""
 
 #. SysConfig
@@ -22647,10 +22626,6 @@ msgid "Link agents to roles."
 msgstr "鏈接服務人員到角色."
 
 #. SysConfig
-msgid "Link attachments to templates."
-msgstr "鏈接附件至模板"
-
-#. SysConfig
 msgid "Link customer users to customers."
 msgstr ""
 
@@ -22673,6 +22648,10 @@ msgstr "鏈接隊列至自動回復"
 #. SysConfig
 msgid "Link roles to groups."
 msgstr "鏈接角色至組"
+
+#. SysConfig
+msgid "Link templates to attachments."
+msgstr ""
 
 #. SysConfig
 msgid "Link templates to queues."
@@ -23965,6 +23944,10 @@ msgstr ""
 #. SysConfig
 msgid "Queue view"
 msgstr "隊列視圖"
+
+#. SysConfig
+msgid "Queues ↔ Auto Responses"
+msgstr ""
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -26101,6 +26084,10 @@ msgstr ""
 #. SysConfig
 msgid "System Maintenance"
 msgstr "系統維護"
+
+#. SysConfig
+msgid "Templates ↔ Attachments"
+msgstr ""
 
 #. SysConfig
 msgid "Templates ↔ Queues"

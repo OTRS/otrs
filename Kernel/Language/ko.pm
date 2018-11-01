@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.992104359766564;
+    $Self->{Completeness}        = 0.987633115767777;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -98,7 +98,6 @@ sub Data {
         'Calendar Management' => '캘린더 관리',
         'Add Calendar' => '캘린더 추가',
         'Edit Calendar' => '캘린더 수정',
-        'Go back' => '뒤로',
         'Calendar Overview' => '캘린더 개요',
         'Add new Calendar' => '새 캘린더 추가',
         'Import Appointments' => '예약 Import',
@@ -108,6 +107,7 @@ sub Data {
         'Overwrite existing entities' => '덮어쓰시겠습니까?',
         'Upload calendar configuration' => '캘린더 설정 업로드',
         'Import Calendar' => '캘린더 Import',
+        'Filter for Calendars' => '',
         'Filter for calendars' => '캘린터 필터',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             '그룹 필드에 따라 시스템에서 권한 수준에 따라 사용자가 캘린더에 액세스 할 수 있습니다.',
@@ -151,6 +151,7 @@ sub Data {
 
         # Template: AdminAppointmentImport
         'Appointment Import' => '약속 가져오기',
+        'Go back' => '뒤로',
         'Uploaded file must be in valid iCal format (.ics).' => '업로드 된 파일은 유효한 iCal 형식 (.ics)이어야합니다.',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             '원하는 캘린더가 여기에 표시되지 않으면 \'만들기\'권한이 있는지 확인하십시오.',
@@ -165,7 +166,6 @@ sub Data {
         'Appointment Notification Management' => '약속 알림 관리',
         'Add Notification' => '알림 추가',
         'Edit Notification' => '알림 수정',
-        'Add notification' => '알림 추가',
         'Export Notifications' => '알림 Export',
         'Filter for Notifications' => '알림 필터',
         'Filter for notifications' => '알림 필터',
@@ -317,9 +317,10 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => '통신 로그',
-        'Time range' => '시간 범위',
+        'Time Range' => '',
         'Show only communication logs created in specific time range.' =>
             '특정 시간 범위에서 생성 된 통신 로그 만 표시합니다.',
+        'Filter for Communications' => '',
         'Filter for communications' => '통신용 필터',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             '이 화면에서 들어오고 나가는 통신에 대한 개요를 볼 수 있습니다.',
@@ -350,9 +351,9 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => '계정 상태',
-        'Back' => '뒤',
+        'Back to overview' => '',
+        'Filter for Accounts' => '',
         'Filter for accounts' => '계정 필터링',
-        'Filter for log entries' => '로그 항목 필터링',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             '옆 머리글을 클릭하여 해당 열의 정렬 및 순서를 변경할 수 있습니다. ',
         'Account status for: %s' => '다음 계정 상태 : %s',
@@ -378,6 +379,8 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '%s에서 시작된 %s 통신에 대한 상세보기',
+        'Filter for Log Entries' => '로그 항목 필터링',
+        'Filter for log entries' => '로그 항목 필터링',
         'Show only entries with specific priority and higher:' => '특정 우선 순위 이상의 항목만 표시:',
         'Communication Log Overview (%s)' => '통신 로그 개요 (%s)',
         'No communication objects found.' => '통신 개체를 찾을 수 없습니다.',
@@ -482,15 +485,17 @@ sub Data {
             '이 그룹은 모든 고객 사용자에게 자동으로 할당됩니다.',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             '"CustomerGroupAlwaysGroups"구성 설정을 통해 이러한 그룹을 관리 할 수 ​​있습니다.',
+        'Filter for groups' => '',
         'Select the customer user - group permissions.' => '고객 사용자 - 그룹 권한을 선택하십시오.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             '아무 것도 선택하지 않으면이 그룹에 권한이 없습니다 (티켓을 고객 사용자가 사용할 수 없음).',
         'Customer User Default Groups:' => '고객 사용자 기본 그룹 : ',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Services Relations' => '고객 사용자 - 서비스 관계 관리',
+        'Manage Customer User-Service Relations' => '',
         'Edit default services' => '기본 서비스 수정',
         'Filter for Services' => '서비스 필터링',
+        'Filter for services' => '서비스 필터링',
         'Services' => '서비스',
 
         # Template: AdminDynamicField
@@ -618,12 +623,12 @@ sub Data {
         'Send' => '보내다',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => '일반 요원',
-        'Edit job' => '작업 수정',
-        'Add job' => '작업 추가',
-        'Run job' => '작업 실행',
-        'Filter for Generic Agent Jobs' => '일반 에이전트 작업 필터링',
-        'Filter for generic agent jobs' => '일반 에이전트 작업 필터링',
+        'Generic Agent Job Management' => '',
+        'Edit Job' => '',
+        'Add Job' => '',
+        'Run Job' => '',
+        'Filter for Jobs' => '',
+        'Filter for jobs' => '',
         'Last run' => '마지막 실행',
         'Run Now!' => '지금 실행!',
         'Delete this task' => '이 작업 삭제',
@@ -1148,7 +1153,6 @@ sub Data {
             '구성을 저장하면 편집 화면으로 다시 이동합니다.',
         'If you want to return to overview please click the "Go to overview" button.' =>
             '개요로 돌아가려면 \'개요로 이동\'버튼을 클릭하십시오.',
-        'Web Service List' => '웹 서비스 목록',
         'Remote system' => '원격 시스템',
         'Provider transport' => '공급자 전송',
         'Requester transport' => '요청자 전송',
@@ -1193,7 +1197,6 @@ sub Data {
         'Group Management' => '그룹 관리',
         'Add Group' => '그룹 추가',
         'Edit Group' => '그룹 편집',
-        'Add group' => '그룹 추가',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             '관리자 그룹은 관리 영역과 통계 그룹을 가져 와서 통계 영역을 얻는 것입니다.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
@@ -1202,7 +1205,6 @@ sub Data {
 
         # Template: AdminLog
         'System Log' => '시스템 로그',
-        'Filter for Log Entries' => '로그 항목 필터링',
         'Here you will find log information about your system.' => '여기서 시스템에 대한 로그 정보를 찾을 수 있습니다.',
         'Hide this message' => '이 메시지 숨기기',
         'Recent Log Entries' => '최근 로그 항목',
@@ -1379,11 +1381,9 @@ sub Data {
             'PGP 지원이 활성화되었지만 관련 구성에 오류가 있습니다. 아래 단추를 ​​사용하여 구성을 확인하십시오.',
         'Configure it here!' => '여기에서 구성하십시오!',
         'Check PGP configuration' => 'PGP 구성 확인',
-        'Add PGP key' => 'PGP 키 추가',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             '이 방법으로 SysConfig에서 구성된 키 링을 직접 편집 할 수 있습니다.',
         'Introduction to PGP' => 'PGP 소개',
-        'Result' => '결과',
         'Identifier' => '식별자',
         'Bit' => '비트',
         'Fingerprint' => '지문',
@@ -1488,9 +1488,8 @@ sub Data {
         'PostMaster Filter Management' => 'PostMaster 필터 관리',
         'Add PostMaster Filter' => 'PostMaster 필터 추가',
         'Edit PostMaster Filter' => '포스트 마스터 필터 편집',
-        'Add filter' => '필터 추가',
-        'Filter for Postmaster Filters' => '전자 메일 관리자 필터',
-        'Filter for postmaster filters' => '전자 메일 관리자 필터',
+        'Filter for PostMaster Filters' => '',
+        'Filter for PostMaster filters' => '',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             '전자 메일 헤더를 기반으로 수신 전자메일을 발송하거나 필터링합니다. 정규표현식을 사용하여 일치시킬 수도 있습니다.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1528,6 +1527,7 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => '공정 관리',
         'Filter for Processes' => '프로세스 필터링',
+        'Filter for processes' => '',
         'Create New Process' => '새 프로세스 만들기',
         'Deploy All Processes' => '모든 프로세스 배포',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
@@ -1686,7 +1686,7 @@ sub Data {
         'Remove this Parameter' => '이 매개 변수 제거',
 
         # Template: AdminQueue
-        'Manage Queues' => '대기열 관리',
+        'Queue Management' => '',
         'Add Queue' => '대기열 추가',
         'Edit Queue' => '대기열 편집',
         'Filter for Queues' => '대기열 필터링',
@@ -1718,6 +1718,8 @@ sub Data {
         'System address' => '시스템 주소',
         'Will be the sender address of this queue for email answers.' => '전자 메일 응답을 위한 이 큐의 보낸사람 주소가 됩니다.',
         'Default sign key' => '기본 기호 키',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'Salutation' => '인사말',
         'The salutation for email answers.' => '이메일 답변에 대한 인사말.',
         'Signature' => '서명',
@@ -1736,6 +1738,7 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '템플릿 - 대기열 관계 관리',
         'Filter for Templates' => '템플릿 필터링',
+        'Filter for templates' => '',
         'Templates' => '템플릿',
 
         # Template: AdminRegistration
@@ -1836,7 +1839,6 @@ sub Data {
 
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => '역할 그룹 관계 관리',
-        'Add role' => '역할 추가',
         'Roles' => '역할',
         'Select the role:group permissions.' => '역할 : 그룹 권한을 선택 하십시오.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
@@ -1857,8 +1859,9 @@ sub Data {
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => '에이전트 역할 관계 관리',
-        'Add agent' => '에이전트 추가',
+        'Add Agent' => '상담원 추가',
         'Filter for Agents' => '에이전트 필터링',
+        'Filter for agents' => '',
         'Agents' => '에이전트',
         'Manage Role-Agent Relations' => '역할 - 에이전트 관계 관리',
 
@@ -1881,10 +1884,8 @@ sub Data {
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             'SMIME 지원이 활성화되었지만 관련 구성에 오류가 있습니다. 아래 단추를 ​​사용하여 구성을 확인하십시오.',
         'Check SMIME configuration' => 'SMIME 구성 확인',
-        'Add certificate' => '인증서 추가',
-        'Add private key' => '비공개 키 추가',
         'Filter for Certificates' => '인증서 필터링',
-        'Filter for S/MIME certs' => 'S / MIME 인증서 필터링',
+        'Filter for certificates' => '',
         'To show certificate details click on a certificate icon.' => '인증서 세부 사항을 보려면 인증서 아이콘을 클릭 하십시오.',
         'To manage private certificate relations click on a private key icon.' =>
             '개인 인증서 관계를 관리하려면 개인 키 아이콘을 클릭하십시오.',
@@ -1903,6 +1904,7 @@ sub Data {
         'Related Certificates for' => '관련 인증서',
         'Delete this relation' => '이 관계 삭제',
         'Available Certificates' => '사용 가능한 인증서',
+        'Filter for S/MIME certs' => 'S / MIME 인증서 필터링',
         'Relate this certificate' => '이 인증서 연관',
 
         # Template: AdminSMIMECertRead
@@ -1914,7 +1916,6 @@ sub Data {
         'Salutation Management' => '인사말 관리',
         'Add Salutation' => '인사말 추가',
         'Edit Salutation' => '인사말 편집',
-        'Add salutation' => '인사말 추가',
         'Filter for Salutations' => '인사말 필터링',
         'Filter for salutations' => '인사말 필터링',
         'e. g.' => '예를들면',
@@ -1950,8 +1951,6 @@ sub Data {
         'Service Management' => '서비스 관리',
         'Add Service' => '서비스 추가',
         'Edit Service' => '서비스 편집',
-        'Add service' => '서비스 추가',
-        'Filter for services' => '서비스 필터링',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             '서비스 이름의 최대 길이는 200 자 (서브 서비스 포함)입니다.',
         'Sub-service of' => '의 서브 서비스',
@@ -1977,7 +1976,6 @@ sub Data {
         'Signature Management' => '시그니처 관리',
         'Add Signature' => '시그니처 추가',
         'Edit Signature' => '시그니처 편집',
-        'Add signature' => '시그니처 추가',
         'Filter for Signatures' => '시그니처 필터링',
         'Filter for signatures' => '시그니처 필터링',
         'Example signature' => '서명의 예',
@@ -2145,10 +2143,9 @@ sub Data {
         'Kill all Sessions, except for your own' => '자기만의 것을 제외한 모든 세션을 죽이십시오.',
 
         # Template: AdminTemplate
-        'Manage Templates' => '템플릿 관리',
+        'Template Management' => '',
         'Add Template' => '템플릿 추가',
         'Edit Template' => '템플릿 편집',
-        'Add template' => '템플릿 추가',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             '템플릿은 에이전트가 티켓, 응답 또는 전달을 더 빨리 작성할 수 있도록 도와주는 기본 텍스트입니다.',
         'Don\'t forget to add new templates to queues.' => '대기열에 새 템플릿을 추가하는 것을 잊지 마십시오.',
@@ -2171,7 +2168,6 @@ sub Data {
         'Type Management' => '유형 관리',
         'Add Type' => '유형 추가',
         'Edit Type' => '유형 편집',
-        'Add ticket type' => '티켓 종류 추가',
         'Filter for Types' => '유형 필터',
         'Filter for types' => '유형 필터',
         'A type with this name already exists!' => '이 이름을 가진 유형이 이미 존재합니다!',
@@ -2181,7 +2177,6 @@ sub Data {
 
         # Template: AdminUser
         'Agent Management' => '상담원 관리',
-        'Add Agent' => '상담원 추가',
         'Edit Agent' => '상담원 수정',
         'Edit personal preferences for this agent' => '이 상담원의 개인 설정 수정',
         'Agents will be needed to handle tickets.' => '티켓을 처리하려면 상담원이 필요합니다.',
@@ -2857,6 +2852,7 @@ sub Data {
         'Your 2 Factor Token' => '당신의 2 팩터 토큰',
         'Log In' => '로그인',
         'Not yet registered?' => '아직 등록되지 않았습니까?',
+        'Back' => '뒤',
         'Request New Password' => '새 비밀번호 요청',
         'Your User Name' => '사용자 이름',
         'A new password will be sent to your email address.' => '새 비밀번호가 이메일 주소로 전송됩니다.',
@@ -5489,6 +5485,9 @@ sub Data {
         'Do you really want to delete this notification language?' => '이 알림 언어를 정말로 삭제 하시겠습니까?',
         'Do you really want to delete this notification?' => '이 알림을 정말로 삭제 하시겠습니까?',
 
+        # JS File: Core.Agent.Admin.PGP
+        'Do you really want to delete this key?' => '',
+
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
             '패키지 업그레이드 프로세스가 실행 중입니다. 여기를 클릭하면 업그레이드 진행 상태에 대한 상태 정보를 볼 수 있습니다.',
@@ -6040,8 +6039,6 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => '아랍어 (사우디 아라비아)',
         'ArticleTree' => 'ArticleTree',
         'Attachment Name' => '첨부명',
-        'Attachments ↔ Templates' => '첨부 ↔ 템플릿',
-        'Auto Responses ↔ Queues' => '자동 응답 ↔ 대기열',
         'Automated line break in text messages after x number of chars.' =>
             'X 문자 수 후에 문자 메시지의 자동 줄바꿈',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -7505,13 +7502,13 @@ Thanks for your help!
         'Link Object.' => '링크 개체.',
         'Link agents to groups.' => '에이전트를 그룹에 연결하십시오.',
         'Link agents to roles.' => '에이전트를 역할에 연결하십시오.',
-        'Link attachments to templates.' => '첨부 파일을 템플릿에 연결하십시오.',
         'Link customer users to customers.' => '고객 사용자와 고객을 연결하십시오.',
         'Link customer users to groups.' => '고객 사용자를 그룹에 연결하십시오.',
         'Link customer users to services.' => '고객 사용자를 서비스에 연결하십시오.',
         'Link customers to groups.' => '고객을 그룹과 연결하십시오.',
         'Link queues to auto responses.' => '대기열을 자동 응답에 연결합니다.',
         'Link roles to groups.' => '그룹에 역할을 연결하십시오.',
+        'Link templates to attachments.' => '',
         'Link templates to queues.' => '템플리트를 대기열에 링크하십시오.',
         'Link this ticket to other objects' => '이 티켓을 다른 객체에 연결하십시오.',
         'Links 2 tickets with a "Normal" type link.' => '2 개의 티켓을 "일반"유형 링크로 연결합니다.',
@@ -7847,6 +7844,7 @@ Thanks for your help!
         'Public Calendar' => '공개 캘린더',
         'Public calendar.' => '공개 캘린더',
         'Queue view' => '대기열 보기',
+        'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => 'AgentTicketQueue 티켓 색인을 다시 작성하십시오.',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             '티켓이 외부 티켓 번호를 사용하여 기존 티켓의 후속 조치인지 확인하십시오.',
@@ -8486,6 +8484,7 @@ Thanks for your help!
         'System Configuration Deployment' => '시스템 구성 배치',
         'System Configuration Group' => '시스템 구성 그룹',
         'System Maintenance' => '시스템 유지 보수',
+        'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => '템플릿 ↔ 대기열',
         'Textarea' => '텍스트 영역',
         'Thai' => '태국 사람',
@@ -8819,6 +8818,7 @@ Thanks for your help!
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',

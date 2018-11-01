@@ -1,17 +1,18 @@
 # Translators:
-# Martin Gruner <martin.gruner@otrs.com>, 2018
-# Daniel Pogač <dano.pogac@gmail.com>, 2018
-# Adam Sadovsky <sadovsky.adam@gmail.com>, 2018
-# RXD RXD <rxd1978@gmail.com>, 2018
-# Jaroslav Abaffy <jabaffy@unitedclassifieds.sk>, 2018
 # kolegacik <kubice.tom@gmail.com>, 2018
 # Lubos Samel <lsamel@manz.com>, 2018
+# Daniel Pogač <dano.pogac@gmail.com>, 2018
+# Jaroslav Abaffy <jabaffy@unitedclassifieds.sk>, 2018
+# RXD RXD <rxd1978@gmail.com>, 2018
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Adam Sadovsky <sadovsky.adam@gmail.com>, 2018
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-09-27 16:58+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Lubos Samel <lsamel@manz.com>, 2018\n"
+"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"PO-Revision-Date: 2018-09-20 13:03+0000\n"
+"Last-Translator: Adam Sadovsky <sadovsky.adam@gmail.com>, 2018\n"
 "Language-Team: Slovak (Slovakia) (https://www.transifex.com/otrs/teams/23435/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -252,10 +253,6 @@ msgid "Edit Calendar"
 msgstr "Edituj kalendár"
 
 #. Template: AdminAppointmentCalendarManage
-msgid "Go back"
-msgstr "Choď späť"
-
-#. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
 msgstr "Celkový prehľad kalendára"
 
@@ -291,6 +288,10 @@ msgstr "Nahraj konfiguráciu kalendára"
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
 msgstr "Import kalendára"
+
+#. Template: AdminAppointmentCalendarManage
+msgid "Filter for Calendars"
+msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -449,6 +450,10 @@ msgid "Appointment Import"
 msgstr "Import schôdzky"
 
 #. Template: AdminAppointmentImport
+msgid "Go back"
+msgstr "Choď späť"
+
+#. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
 msgstr "Nahrávaný súbor musí byť v platnom iCAL formáte (.ics)."
 
@@ -494,10 +499,6 @@ msgstr "Pridaj notifikáciu"
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
 msgstr "Edituj notifikáciu"
-
-#. Template: AdminAppointmentNotificationEvent
-msgid "Add notification"
-msgstr "Pridaj notifikáciu"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
@@ -1028,11 +1029,15 @@ msgid "Communication Log"
 msgstr "Komunikačný log"
 
 #. Template: AdminCommunicationLog
-msgid "Time range"
-msgstr "Časové rozpätie"
+msgid "Time Range"
+msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
+msgstr ""
+
+#. Template: AdminCommunicationLog
+msgid "Filter for Communications"
 msgstr ""
 
 #. Template: AdminCommunicationLog
@@ -1142,15 +1147,15 @@ msgid "Account Status"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Back"
-msgstr "Späť"
-
-#. Template: AdminCommunicationLogAccounts
-msgid "Filter for accounts"
+msgid "Back to overview"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Filter for log entries"
+msgid "Filter for Accounts"
+msgstr ""
+
+#. Template: AdminCommunicationLogAccounts
+msgid "Filter for accounts"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
@@ -1225,6 +1230,14 @@ msgstr ""
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
+msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for Log Entries"
+msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for log entries"
 msgstr ""
 
 #. Template: AdminCommunicationLogZoom
@@ -1569,6 +1582,10 @@ msgid ""
 msgstr ""
 
 #. Template: AdminCustomerUserGroup
+msgid "Filter for groups"
+msgstr ""
+
+#. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
 msgstr ""
 
@@ -1583,7 +1600,7 @@ msgid "Customer User Default Groups:"
 msgstr ""
 
 #. Template: AdminCustomerUserService
-msgid "Manage Customer User-Services Relations"
+msgid "Manage Customer User-Service Relations"
 msgstr ""
 
 #. Template: AdminCustomerUserService
@@ -1592,6 +1609,10 @@ msgstr ""
 
 #. Template: AdminCustomerUserService
 msgid "Filter for Services"
+msgstr ""
+
+#. Template: AdminCustomerUserService
+msgid "Filter for services"
 msgstr ""
 
 #. Template: AdminCustomerUserService
@@ -1990,27 +2011,27 @@ msgid "Send"
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Generic Agent"
+msgid "Generic Agent Job Management"
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Edit job"
+msgid "Edit Job"
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Add job"
+msgid "Add Job"
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Run job"
+msgid "Run Job"
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Filter for Generic Agent Jobs"
+msgid "Filter for Jobs"
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Filter for generic agent jobs"
+msgid "Filter for jobs"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -3794,10 +3815,6 @@ msgid ""
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Web Service List"
-msgstr ""
-
-#. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
 msgstr ""
 
@@ -3938,10 +3955,6 @@ msgid "Edit Group"
 msgstr ""
 
 #. Template: AdminGroup
-msgid "Add group"
-msgstr ""
-
-#. Template: AdminGroup
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
@@ -3962,10 +3975,6 @@ msgstr ""
 
 #. Template: AdminLog
 msgid "System Log"
-msgstr ""
-
-#. Template: AdminLog
-msgid "Filter for Log Entries"
 msgstr ""
 
 #. Template: AdminLog
@@ -4515,20 +4524,12 @@ msgid "Check PGP configuration"
 msgstr ""
 
 #. Template: AdminPGP
-msgid "Add PGP key"
-msgstr ""
-
-#. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
 msgstr ""
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
 msgstr ""
-
-#. Template: AdminPGP
-msgid "Result"
-msgstr "výsledok"
 
 #. Template: AdminPGP
 msgid "Identifier"
@@ -4883,15 +4884,11 @@ msgid "Edit PostMaster Filter"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
-msgid "Add filter"
+msgid "Filter for PostMaster Filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
-msgid "Filter for Postmaster Filters"
-msgstr ""
-
-#. Template: AdminPostMasterFilter
-msgid "Filter for postmaster filters"
+msgid "Filter for PostMaster filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
@@ -5010,6 +5007,10 @@ msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Filter for Processes"
+msgstr ""
+
+#. Template: AdminProcessManagement
+msgid "Filter for processes"
 msgstr ""
 
 #. Template: AdminProcessManagement
@@ -5520,7 +5521,7 @@ msgid "Remove this Parameter"
 msgstr ""
 
 #. Template: AdminQueue
-msgid "Manage Queues"
+msgid "Queue Management"
 msgstr ""
 
 #. Template: AdminQueue
@@ -5637,6 +5638,12 @@ msgid "Default sign key"
 msgstr ""
 
 #. Template: AdminQueue
+msgid ""
+"To use a sign key, PGP keys or S/MIME certificates need to be added with "
+"identifiers for selected queue system address."
+msgstr ""
+
+#. Template: AdminQueue
 msgid "Salutation"
 msgstr "Oslovenie"
 
@@ -5690,6 +5697,10 @@ msgstr ""
 
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
+msgstr ""
+
+#. Template: AdminQueueTemplates
+msgid "Filter for templates"
 msgstr ""
 
 #. Template: AdminQueueTemplates
@@ -6021,10 +6032,6 @@ msgid "Manage Role-Group Relations"
 msgstr ""
 
 #. Template: AdminRoleGroup
-msgid "Add role"
-msgstr ""
-
-#. Template: AdminRoleGroup
 msgid "Roles"
 msgstr "Funkcie"
 
@@ -6087,11 +6094,15 @@ msgid "Manage Agent-Role Relations"
 msgstr ""
 
 #. Template: AdminRoleUser
-msgid "Add agent"
+msgid "Add Agent"
 msgstr ""
 
 #. Template: AdminRoleUser
 msgid "Filter for Agents"
+msgstr ""
+
+#. Template: AdminRoleUser
+msgid "Filter for agents"
 msgstr ""
 
 #. Template: AdminRoleUser
@@ -6161,19 +6172,11 @@ msgid "Check SMIME configuration"
 msgstr ""
 
 #. Template: AdminSMIME
-msgid "Add certificate"
-msgstr ""
-
-#. Template: AdminSMIME
-msgid "Add private key"
-msgstr ""
-
-#. Template: AdminSMIME
 msgid "Filter for Certificates"
 msgstr ""
 
 #. Template: AdminSMIME
-msgid "Filter for S/MIME certs"
+msgid "Filter for certificates"
 msgstr ""
 
 #. Template: AdminSMIME
@@ -6244,6 +6247,10 @@ msgid "Available Certificates"
 msgstr ""
 
 #. Template: AdminSMIME
+msgid "Filter for S/MIME certs"
+msgstr ""
+
+#. Template: AdminSMIME
 msgid "Relate this certificate"
 msgstr ""
 
@@ -6269,10 +6276,6 @@ msgstr ""
 
 #. Template: AdminSalutation
 msgid "Edit Salutation"
-msgstr ""
-
-#. Template: AdminSalutation
-msgid "Add salutation"
 msgstr ""
 
 #. Template: AdminSalutation
@@ -6377,14 +6380,6 @@ msgid "Edit Service"
 msgstr ""
 
 #. Template: AdminService
-msgid "Add service"
-msgstr ""
-
-#. Template: AdminService
-msgid "Filter for services"
-msgstr ""
-
-#. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
 msgstr ""
 
@@ -6462,10 +6457,6 @@ msgstr ""
 
 #. Template: AdminSignature
 msgid "Edit Signature"
-msgstr ""
-
-#. Template: AdminSignature
-msgid "Add signature"
 msgstr ""
 
 #. Template: AdminSignature
@@ -6953,7 +6944,7 @@ msgid "Kill all Sessions, except for your own"
 msgstr ""
 
 #. Template: AdminTemplate
-msgid "Manage Templates"
+msgid "Template Management"
 msgstr ""
 
 #. Template: AdminTemplate
@@ -6962,10 +6953,6 @@ msgstr ""
 
 #. Template: AdminTemplate
 msgid "Edit Template"
-msgstr ""
-
-#. Template: AdminTemplate
-msgid "Add template"
 msgstr ""
 
 #. Template: AdminTemplate
@@ -7039,10 +7026,6 @@ msgid "Edit Type"
 msgstr ""
 
 #. Template: AdminType
-msgid "Add ticket type"
-msgstr ""
-
-#. Template: AdminType
 msgid "Filter for Types"
 msgstr ""
 
@@ -7066,10 +7049,6 @@ msgstr ""
 
 #. Template: AdminUser
 msgid "Agent Management"
-msgstr ""
-
-#. Template: AdminUser
-msgid "Add Agent"
 msgstr ""
 
 #. Template: AdminUser
@@ -9060,6 +9039,10 @@ msgstr "Prihlásenie"
 #. Template: CustomerLogin
 msgid "Not yet registered?"
 msgstr "Ešte nie ste zaregistrovaný?"
+
+#. Template: CustomerLogin
+msgid "Back"
+msgstr "Späť"
 
 #. Template: CustomerLogin
 msgid "Request New Password"
@@ -16356,6 +16339,10 @@ msgstr ""
 msgid "Do you really want to delete this notification?"
 msgstr ""
 
+#. JS File: Core.Agent.Admin.PGP
+msgid "Do you really want to delete this key?"
+msgstr ""
+
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "There is a package upgrade process running, click here to see status "
@@ -17857,14 +17844,6 @@ msgstr ""
 #. SysConfig
 msgid "Attachment Name"
 msgstr "Meno prílohy"
-
-#. SysConfig
-msgid "Attachments ↔ Templates"
-msgstr ""
-
-#. SysConfig
-msgid "Auto Responses ↔ Queues"
-msgstr ""
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
@@ -22716,10 +22695,6 @@ msgid "Link agents to roles."
 msgstr ""
 
 #. SysConfig
-msgid "Link attachments to templates."
-msgstr ""
-
-#. SysConfig
 msgid "Link customer users to customers."
 msgstr ""
 
@@ -22741,6 +22716,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Link roles to groups."
+msgstr ""
+
+#. SysConfig
+msgid "Link templates to attachments."
 msgstr ""
 
 #. SysConfig
@@ -24033,6 +24012,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Queue view"
+msgstr ""
+
+#. SysConfig
+msgid "Queues ↔ Auto Responses"
 msgstr ""
 
 #. SysConfig
@@ -26172,6 +26155,10 @@ msgstr ""
 #. SysConfig
 msgid "System Maintenance"
 msgstr "Systémová údržba"
+
+#. SysConfig
+msgid "Templates ↔ Attachments"
+msgstr ""
 
 #. SysConfig
 msgid "Templates ↔ Queues"

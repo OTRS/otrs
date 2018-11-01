@@ -1,16 +1,17 @@
 # Translators:
-# Balázs Úr <urbalazs@gmail.com>, 2018
-# Martin Gruner <martin.gruner@otrs.com>, 2018
-# Peter Matyas <mr.peter.matyas@gmail.com>, 2018
 # Udo Bretz, 2018
-# Gergely Baranyai <baranyai.gergely@alohainformatika.hu>, 2018
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
+# Gergely Baranyai <baranyai.gergely@alohainformatika.hu>, 2018
+# Peter Matyas <mr.peter.matyas@gmail.com>, 2018
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Balázs Úr <ur.balazs@fsf.hu>, 2018
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-09-27 16:58+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
+"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"PO-Revision-Date: 2018-09-20 13:03+0000\n"
+"Last-Translator: Balázs Úr <ur.balazs@fsf.hu>, 2018\n"
 "Language-Team: Hungarian (https://www.transifex.com/otrs/teams/23435/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -259,10 +260,6 @@ msgid "Edit Calendar"
 msgstr "Naptár szerkesztése"
 
 #. Template: AdminAppointmentCalendarManage
-msgid "Go back"
-msgstr "Vissza"
-
-#. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
 msgstr "Naptár áttekintő"
 
@@ -298,6 +295,10 @@ msgstr "Naptárbeállítás feltöltése"
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
 msgstr "Naptár importálása"
+
+#. Template: AdminAppointmentCalendarManage
+msgid "Filter for Calendars"
+msgstr "Szűrő a naptárakhoz"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -460,6 +461,10 @@ msgid "Appointment Import"
 msgstr "Időpont importálása"
 
 #. Template: AdminAppointmentImport
+msgid "Go back"
+msgstr "Vissza"
+
+#. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
 msgstr "A feltöltött fájlnak érvényes iCal formátumban (.ics) kell lennie."
 
@@ -506,10 +511,6 @@ msgstr "Értesítés hozzáadása"
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
 msgstr "Értesítés szerkesztése"
-
-#. Template: AdminAppointmentNotificationEvent
-msgid "Add notification"
-msgstr "Értesítés hozzáadása"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
@@ -1077,7 +1078,7 @@ msgid "Communication Log"
 msgstr "Kommunikációs napló"
 
 #. Template: AdminCommunicationLog
-msgid "Time range"
+msgid "Time Range"
 msgstr "Időtartomány"
 
 #. Template: AdminCommunicationLog
@@ -1085,6 +1086,10 @@ msgid "Show only communication logs created in specific time range."
 msgstr ""
 "Csak azon kommunikációs naplók megjelenítése, amelyek egy adott "
 "időtartományban jöttek létre."
+
+#. Template: AdminCommunicationLog
+msgid "Filter for Communications"
+msgstr "Szűrő a kommunikációkhoz"
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
@@ -1198,16 +1203,16 @@ msgid "Account Status"
 msgstr "Fiókállapot"
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Back"
-msgstr "Vissza"
+msgid "Back to overview"
+msgstr "Vissza az áttekintőhöz"
+
+#. Template: AdminCommunicationLogAccounts
+msgid "Filter for Accounts"
+msgstr "Szűrő a fiókokhoz"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
 msgstr "Szűrő a fiókokhoz"
-
-#. Template: AdminCommunicationLogAccounts
-msgid "Filter for log entries"
-msgstr "Szűrő a naplóbejegyzésekhez"
 
 #. Template: AdminCommunicationLogAccounts
 msgid ""
@@ -1284,6 +1289,14 @@ msgstr "Nem találhatók bejegyzések."
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
 msgstr "%s kommunikáció részletes nézete elkezdődött ekkor: %s"
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for Log Entries"
+msgstr "Szűrő a naplóbejegyzésekhez"
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for log entries"
+msgstr "Szűrő a naplóbejegyzésekhez"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Show only entries with specific priority and higher:"
@@ -1658,6 +1671,10 @@ msgstr ""
 "kezelheti."
 
 #. Template: AdminCustomerUserGroup
+msgid "Filter for groups"
+msgstr "Szűrő a csoportokhoz"
+
+#. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
 msgstr "Az ügyfél-felhasználó – csoport jogosultságok kiválasztása."
 
@@ -1674,8 +1691,8 @@ msgid "Customer User Default Groups:"
 msgstr "Ügyfél-felhasználó alapértelmezett csoportjai:"
 
 #. Template: AdminCustomerUserService
-msgid "Manage Customer User-Services Relations"
-msgstr "Ügyfél-felhasználó–Szolgáltatás kapcsolatok kezelése"
+msgid "Manage Customer User-Service Relations"
+msgstr ""
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
@@ -1683,6 +1700,10 @@ msgstr "Alapértelmezett szolgáltatások szerkesztése"
 
 #. Template: AdminCustomerUserService
 msgid "Filter for Services"
+msgstr "Szűrő a szolgáltatásokhoz"
+
+#. Template: AdminCustomerUserService
+msgid "Filter for services"
 msgstr "Szűrő a szolgáltatásokhoz"
 
 #. Template: AdminCustomerUserService
@@ -2114,28 +2135,28 @@ msgid "Send"
 msgstr "Küldés"
 
 #. Template: AdminGenericAgent
-msgid "Generic Agent"
-msgstr "Általános ügyintéző"
+msgid "Generic Agent Job Management"
+msgstr "Általános ügyintéző feladat kezelés"
 
 #. Template: AdminGenericAgent
-msgid "Edit job"
+msgid "Edit Job"
 msgstr "Feladat szerkesztése"
 
 #. Template: AdminGenericAgent
-msgid "Add job"
+msgid "Add Job"
 msgstr "Feladat hozzáadása"
 
 #. Template: AdminGenericAgent
-msgid "Run job"
+msgid "Run Job"
 msgstr "Feladat futtatása"
 
 #. Template: AdminGenericAgent
-msgid "Filter for Generic Agent Jobs"
-msgstr "Szűrő az általános ügyintéző feladatokhoz"
+msgid "Filter for Jobs"
+msgstr "Szűrő a feladatokhoz"
 
 #. Template: AdminGenericAgent
-msgid "Filter for generic agent jobs"
-msgstr "Szűrő az általános ügyintéző feladatokhoz"
+msgid "Filter for jobs"
+msgstr "Szűrő a feladatokhoz"
 
 #. Template: AdminGenericAgent
 msgid "Last run"
@@ -4128,10 +4149,6 @@ msgstr ""
 "áttekintőhöz” gombra."
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Web Service List"
-msgstr "Webszolgáltatás lista"
-
-#. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
 msgstr "Távoli rendszer"
 
@@ -4289,10 +4306,6 @@ msgid "Edit Group"
 msgstr "Csoport szerkesztése"
 
 #. Template: AdminGroup
-msgid "Add group"
-msgstr "Csoport hozzáadása"
-
-#. Template: AdminGroup
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
@@ -4316,10 +4329,6 @@ msgstr "Ez ASP megoldásoknál hasznos. "
 #. Template: AdminLog
 msgid "System Log"
 msgstr "Rendszernapló"
-
-#. Template: AdminLog
-msgid "Filter for Log Entries"
-msgstr "Szűrő a naplóbejegyzésekhez"
 
 #. Template: AdminLog
 msgid "Here you will find log information about your system."
@@ -4928,10 +4937,6 @@ msgid "Check PGP configuration"
 msgstr "PGP beállítások ellenőrzése"
 
 #. Template: AdminPGP
-msgid "Add PGP key"
-msgstr "PGP kulcs hozzáadása"
-
-#. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
 msgstr ""
 "Ezzel a módszerrel közvetlenül szerkesztheti a kulcstartót, amit a rendszer "
@@ -4940,10 +4945,6 @@ msgstr ""
 #. Template: AdminPGP
 msgid "Introduction to PGP"
 msgstr "Bevezetés a PGP-be"
-
-#. Template: AdminPGP
-msgid "Result"
-msgstr "Eredmény"
 
 #. Template: AdminPGP
 msgid "Identifier"
@@ -5315,15 +5316,11 @@ msgid "Edit PostMaster Filter"
 msgstr "Levelezési szűrő szerkesztése"
 
 #. Template: AdminPostMasterFilter
-msgid "Add filter"
-msgstr "Szűrő hozzáadása"
-
-#. Template: AdminPostMasterFilter
-msgid "Filter for Postmaster Filters"
+msgid "Filter for PostMaster Filters"
 msgstr "Szűrő a levelezési szűrőkhöz"
 
 #. Template: AdminPostMasterFilter
-msgid "Filter for postmaster filters"
+msgid "Filter for PostMaster filters"
 msgstr "Szűrő a levelezési szűrőkhöz"
 
 #. Template: AdminPostMasterFilter
@@ -5457,6 +5454,10 @@ msgstr "Folyamatkezelés"
 
 #. Template: AdminProcessManagement
 msgid "Filter for Processes"
+msgstr "Szűrő a folyamatokhoz"
+
+#. Template: AdminProcessManagement
+msgid "Filter for processes"
 msgstr "Szűrő a folyamatokhoz"
 
 #. Template: AdminProcessManagement
@@ -6022,8 +6023,8 @@ msgid "Remove this Parameter"
 msgstr "Paraméter eltávolítása"
 
 #. Template: AdminQueue
-msgid "Manage Queues"
-msgstr "Várólisták kezelése"
+msgid "Queue Management"
+msgstr "Várólista-kezelés"
 
 #. Template: AdminQueue
 msgid "Add Queue"
@@ -6156,6 +6157,12 @@ msgid "Default sign key"
 msgstr "Alapértelmezett aláíró kulcs"
 
 #. Template: AdminQueue
+msgid ""
+"To use a sign key, PGP keys or S/MIME certificates need to be added with "
+"identifiers for selected queue system address."
+msgstr ""
+
+#. Template: AdminQueue
 msgid "Salutation"
 msgstr "Megszólítás"
 
@@ -6212,6 +6219,10 @@ msgstr "Sablon–Várólista kapcsolatok kezelése"
 
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
+msgstr "Szűrő a sablonokhoz"
+
+#. Template: AdminQueueTemplates
+msgid "Filter for templates"
 msgstr "Szűrő a sablonokhoz"
 
 #. Template: AdminQueueTemplates
@@ -6577,10 +6588,6 @@ msgid "Manage Role-Group Relations"
 msgstr "Szerep–Csoport kapcsolatok kezelése"
 
 #. Template: AdminRoleGroup
-msgid "Add role"
-msgstr "Szerep hozzáadása"
-
-#. Template: AdminRoleGroup
 msgid "Roles"
 msgstr "Szerepek"
 
@@ -6652,11 +6659,15 @@ msgid "Manage Agent-Role Relations"
 msgstr "Ügyintéző–Szerep kapcsolatok kezelése"
 
 #. Template: AdminRoleUser
-msgid "Add agent"
+msgid "Add Agent"
 msgstr "Ügyintéző hozzáadása"
 
 #. Template: AdminRoleUser
 msgid "Filter for Agents"
+msgstr "Szűrő az ügyintézőkhöz"
+
+#. Template: AdminRoleUser
+msgid "Filter for agents"
 msgstr "Szűrő az ügyintézőkhöz"
 
 #. Template: AdminRoleUser
@@ -6730,20 +6741,12 @@ msgid "Check SMIME configuration"
 msgstr "S/MIME beállítások ellenőrzése"
 
 #. Template: AdminSMIME
-msgid "Add certificate"
-msgstr "Tanúsítvány hozzáadása"
-
-#. Template: AdminSMIME
-msgid "Add private key"
-msgstr "Személyes kulcs hozzáadása"
-
-#. Template: AdminSMIME
 msgid "Filter for Certificates"
 msgstr "Szűrő a tanúsítványokhoz"
 
 #. Template: AdminSMIME
-msgid "Filter for S/MIME certs"
-msgstr "Szűrő az S/MIME tanúsítványokhoz"
+msgid "Filter for certificates"
+msgstr "Szűrő a tanúsítványokhoz"
 
 #. Template: AdminSMIME
 msgid "To show certificate details click on a certificate icon."
@@ -6819,6 +6822,10 @@ msgid "Available Certificates"
 msgstr "Elérhető tanúsítványok"
 
 #. Template: AdminSMIME
+msgid "Filter for S/MIME certs"
+msgstr "Szűrő az S/MIME tanúsítványokhoz"
+
+#. Template: AdminSMIME
 msgid "Relate this certificate"
 msgstr "Tanúsítvány összekapcsolása"
 
@@ -6845,10 +6852,6 @@ msgstr "Megszólítás hozzáadása"
 #. Template: AdminSalutation
 msgid "Edit Salutation"
 msgstr "Megszólítás szerkesztése"
-
-#. Template: AdminSalutation
-msgid "Add salutation"
-msgstr "Megszólítás hozzáadása"
 
 #. Template: AdminSalutation
 msgid "Filter for Salutations"
@@ -6961,14 +6964,6 @@ msgid "Edit Service"
 msgstr "Szolgáltatás szerkesztése"
 
 #. Template: AdminService
-msgid "Add service"
-msgstr "Szolgáltatás hozzáadása"
-
-#. Template: AdminService
-msgid "Filter for services"
-msgstr "Szűrő a szolgáltatásokhoz"
-
-#. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
 msgstr ""
 "A szolgáltatás nevének legnagyobb hossza 200 karakter (alszolgáltatásokkal)."
@@ -7048,10 +7043,6 @@ msgstr "Aláírás hozzáadása"
 #. Template: AdminSignature
 msgid "Edit Signature"
 msgstr "Aláírás szerkesztése"
-
-#. Template: AdminSignature
-msgid "Add signature"
-msgstr "Aláírás hozzáadása"
 
 #. Template: AdminSignature
 msgid "Filter for Signatures"
@@ -7606,8 +7597,8 @@ msgid "Kill all Sessions, except for your own"
 msgstr "Összes munkamenet kilövése, kivéve az Ön sajátját"
 
 #. Template: AdminTemplate
-msgid "Manage Templates"
-msgstr "Sablonok kezelése"
+msgid "Template Management"
+msgstr "Sablonkezelés"
 
 #. Template: AdminTemplate
 msgid "Add Template"
@@ -7616,10 +7607,6 @@ msgstr "Sablon hozzáadása"
 #. Template: AdminTemplate
 msgid "Edit Template"
 msgstr "Sablon szerkesztése"
-
-#. Template: AdminTemplate
-msgid "Add template"
-msgstr "Sablon hozzáadása"
 
 #. Template: AdminTemplate
 msgid ""
@@ -7696,10 +7683,6 @@ msgid "Edit Type"
 msgstr "Típus szerkesztése"
 
 #. Template: AdminType
-msgid "Add ticket type"
-msgstr "Jegytípus hozzáadása"
-
-#. Template: AdminType
 msgid "Filter for Types"
 msgstr "Szűrő a típusokhoz"
 
@@ -7726,10 +7709,6 @@ msgstr "Ez a típus a következő konfigurációs beállításokban van használ
 #. Template: AdminUser
 msgid "Agent Management"
 msgstr "Ügyintéző-kezelés"
-
-#. Template: AdminUser
-msgid "Add Agent"
-msgstr "Ügyintéző hozzáadása"
 
 #. Template: AdminUser
 msgid "Edit Agent"
@@ -9790,6 +9769,10 @@ msgstr "Bejelentkezés"
 #. Template: CustomerLogin
 msgid "Not yet registered?"
 msgstr "Még nem regisztrált?"
+
+#. Template: CustomerLogin
+msgid "Back"
+msgstr "Vissza"
 
 #. Template: CustomerLogin
 msgid "Request New Password"
@@ -17509,6 +17492,10 @@ msgstr "Valóban törölni szeretné ezt az értesítési nyelvet?"
 msgid "Do you really want to delete this notification?"
 msgstr "Valóban törölni szeretné ezt az értesítést?"
 
+#. JS File: Core.Agent.Admin.PGP
+msgid "Do you really want to delete this key?"
+msgstr ""
+
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "There is a package upgrade process running, click here to see status "
@@ -19247,14 +19234,6 @@ msgstr "Bejegyzés fa"
 #. SysConfig
 msgid "Attachment Name"
 msgstr "Melléklet neve"
-
-#. SysConfig
-msgid "Attachments ↔ Templates"
-msgstr "Mellékletek ↔ Sablonok"
-
-#. SysConfig
-msgid "Auto Responses ↔ Queues"
-msgstr "Automatikus válaszok ↔ Várólisták"
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
@@ -25531,7 +25510,7 @@ msgstr "JavaScript függvény a keresési előtétprogramhoz."
 
 #. SysConfig
 msgid "Korean"
-msgstr ""
+msgstr "Koreai"
 
 #. SysConfig
 msgid "Language"
@@ -25594,10 +25573,6 @@ msgid "Link agents to roles."
 msgstr "Ügyintézők összekapcsolása szerepekkel."
 
 #. SysConfig
-msgid "Link attachments to templates."
-msgstr "Mellékletek összekapcsolása sablonokkal."
-
-#. SysConfig
 msgid "Link customer users to customers."
 msgstr "Ügyfél-felhasználók összekapcsolása ügyfelekkel."
 
@@ -25620,6 +25595,10 @@ msgstr "Várólisták összekapcsolása automatikus válaszokkal."
 #. SysConfig
 msgid "Link roles to groups."
 msgstr "Szerepek összekapcsolása csoportokkal."
+
+#. SysConfig
+msgid "Link templates to attachments."
+msgstr ""
 
 #. SysConfig
 msgid "Link templates to queues."
@@ -27326,6 +27305,10 @@ msgstr "Nyilvános naptár."
 #. SysConfig
 msgid "Queue view"
 msgstr "Várólista nézet"
+
+#. SysConfig
+msgid "Queues ↔ Auto Responses"
+msgstr ""
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -30194,6 +30177,10 @@ msgstr "Rendszerbeállítások csoport"
 #. SysConfig
 msgid "System Maintenance"
 msgstr "Rendszerkarbantartás"
+
+#. SysConfig
+msgid "Templates ↔ Attachments"
+msgstr ""
 
 #. SysConfig
 msgid "Templates ↔ Queues"

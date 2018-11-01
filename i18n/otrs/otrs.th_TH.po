@@ -1,10 +1,11 @@
 # Translators:
 # OTRS SDN BHD <otrssdnbhd@gmail.com>, 2018
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-09-27 16:58+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: OTRS SDN BHD <otrssdnbhd@gmail.com>, 2018\n"
 "Language-Team: Thai (Thailand) (https://www.transifex.com/otrs/teams/23435/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -253,10 +254,6 @@ msgid "Edit Calendar"
 msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
-msgid "Go back"
-msgstr "กลับไป"
-
-#. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
 msgstr ""
 
@@ -289,6 +286,10 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
+msgstr ""
+
+#. Template: AdminAppointmentCalendarManage
+msgid "Filter for Calendars"
 msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
@@ -440,6 +441,10 @@ msgid "Appointment Import"
 msgstr ""
 
 #. Template: AdminAppointmentImport
+msgid "Go back"
+msgstr "กลับไป"
+
+#. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
 msgstr ""
 
@@ -482,10 +487,6 @@ msgstr "เพิ่มการแจ้งเตือน"
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
 msgstr "แก้ไขการแจ้งเตือน"
-
-#. Template: AdminAppointmentNotificationEvent
-msgid "Add notification"
-msgstr "เพิ่มการแจ้งเตือน"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
@@ -1028,11 +1029,15 @@ msgid "Communication Log"
 msgstr ""
 
 #. Template: AdminCommunicationLog
-msgid "Time range"
+msgid "Time Range"
 msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
+msgstr ""
+
+#. Template: AdminCommunicationLog
+msgid "Filter for Communications"
 msgstr ""
 
 #. Template: AdminCommunicationLog
@@ -1142,15 +1147,15 @@ msgid "Account Status"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Back"
-msgstr "กลับไป"
-
-#. Template: AdminCommunicationLogAccounts
-msgid "Filter for accounts"
+msgid "Back to overview"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Filter for log entries"
+msgid "Filter for Accounts"
+msgstr ""
+
+#. Template: AdminCommunicationLogAccounts
+msgid "Filter for accounts"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
@@ -1225,6 +1230,14 @@ msgstr ""
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
+msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for Log Entries"
+msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for log entries"
 msgstr ""
 
 #. Template: AdminCommunicationLogZoom
@@ -1575,6 +1588,10 @@ msgstr ""
 "\"CustomerGroupAlwaysGroups\""
 
 #. Template: AdminCustomerUserGroup
+msgid "Filter for groups"
+msgstr ""
+
+#. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
 msgstr ""
 
@@ -1589,7 +1606,7 @@ msgid "Customer User Default Groups:"
 msgstr ""
 
 #. Template: AdminCustomerUserService
-msgid "Manage Customer User-Services Relations"
+msgid "Manage Customer User-Service Relations"
 msgstr ""
 
 #. Template: AdminCustomerUserService
@@ -1599,6 +1616,10 @@ msgstr "แก้ไขการบริการเริ่มต้น"
 #. Template: AdminCustomerUserService
 msgid "Filter for Services"
 msgstr "ตัวกรองสำหรับการบริการ"
+
+#. Template: AdminCustomerUserService
+msgid "Filter for services"
+msgstr ""
 
 #. Template: AdminCustomerUserService
 msgid "Services"
@@ -2008,27 +2029,27 @@ msgid "Send"
 msgstr "ส่ง"
 
 #. Template: AdminGenericAgent
-msgid "Generic Agent"
-msgstr "เอเย่นต์ทั่วไป"
-
-#. Template: AdminGenericAgent
-msgid "Edit job"
-msgstr "แก้ไขงาน"
-
-#. Template: AdminGenericAgent
-msgid "Add job"
-msgstr "เพิ่มงาน"
-
-#. Template: AdminGenericAgent
-msgid "Run job"
-msgstr "รันงาน"
-
-#. Template: AdminGenericAgent
-msgid "Filter for Generic Agent Jobs"
+msgid "Generic Agent Job Management"
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Filter for generic agent jobs"
+msgid "Edit Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Add Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Run Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Filter for Jobs"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Filter for jobs"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -3854,10 +3875,6 @@ msgid ""
 msgstr "ถ้าคุณต้องการที่จะกลับไปที่ภาพรวมโปรดคลิกที่ปุ่ม \"ไปที่ภาพรวม\""
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Web Service List"
-msgstr "รายการ Web Service"
-
-#. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
 msgstr "ระบบระยะไกล"
 
@@ -4005,10 +4022,6 @@ msgid "Edit Group"
 msgstr "แก้ไขกลุ่ม"
 
 #. Template: AdminGroup
-msgid "Add group"
-msgstr "เพิ่มกลุ่ม"
-
-#. Template: AdminGroup
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
@@ -4030,10 +4043,6 @@ msgstr "ซึ่งจะมีประโยชน์สำหรับกา
 #. Template: AdminLog
 msgid "System Log"
 msgstr "ระบบ Log"
-
-#. Template: AdminLog
-msgid "Filter for Log Entries"
-msgstr ""
 
 #. Template: AdminLog
 msgid "Here you will find log information about your system."
@@ -4609,20 +4618,12 @@ msgid "Check PGP configuration"
 msgstr "ตรวจสอบการตั้งค่า PHP"
 
 #. Template: AdminPGP
-msgid "Add PGP key"
-msgstr "เพิ่มคีย์ PGP"
-
-#. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
 msgstr "ด้วยวิธีนี้คุณสามารถแก้ไขการคีย์การกำหนดค่าใน sysconfigได้โดยตรง"
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
 msgstr "ข้อมูลเบื้องต้นเกี่ยวกับ PGP"
-
-#. Template: AdminPGP
-msgid "Result"
-msgstr "ผลลัพธ์"
 
 #. Template: AdminPGP
 msgid "Identifier"
@@ -4984,15 +4985,11 @@ msgid "Edit PostMaster Filter"
 msgstr "แก้ไขตัวกรอง PostMaster"
 
 #. Template: AdminPostMasterFilter
-msgid "Add filter"
-msgstr "เพิ่มตัวกรอง"
-
-#. Template: AdminPostMasterFilter
-msgid "Filter for Postmaster Filters"
+msgid "Filter for PostMaster Filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
-msgid "Filter for postmaster filters"
+msgid "Filter for PostMaster filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
@@ -5118,6 +5115,10 @@ msgstr "กระบวนการจัดการ"
 #. Template: AdminProcessManagement
 msgid "Filter for Processes"
 msgstr "ตัวกรองสำหรับกระบวนการต่างๆ"
+
+#. Template: AdminProcessManagement
+msgid "Filter for processes"
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Create New Process"
@@ -5649,8 +5650,8 @@ msgid "Remove this Parameter"
 msgstr "ลบพารามิเตอร์นี้"
 
 #. Template: AdminQueue
-msgid "Manage Queues"
-msgstr "จัดการคิว"
+msgid "Queue Management"
+msgstr ""
 
 #. Template: AdminQueue
 msgid "Add Queue"
@@ -5778,6 +5779,12 @@ msgid "Default sign key"
 msgstr "กุญแจเริ่มต้นการเข้าสู่ระบบ"
 
 #. Template: AdminQueue
+msgid ""
+"To use a sign key, PGP keys or S/MIME certificates need to be added with "
+"identifiers for selected queue system address."
+msgstr ""
+
+#. Template: AdminQueue
 msgid "Salutation"
 msgstr "คำขึ้นต้น"
 
@@ -5832,6 +5839,10 @@ msgstr "จัดการความสัมพันธ์ของแม่
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
 msgstr "ตัวกรองสำหรับแม่แบบ"
+
+#. Template: AdminQueueTemplates
+msgid "Filter for templates"
+msgstr ""
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
@@ -6173,10 +6184,6 @@ msgid "Manage Role-Group Relations"
 msgstr "จัดการความสัมพันธ์ของกลุ่มบทบาท"
 
 #. Template: AdminRoleGroup
-msgid "Add role"
-msgstr "เพิ่มบทบาท"
-
-#. Template: AdminRoleGroup
 msgid "Roles"
 msgstr "บทบาท"
 
@@ -6241,12 +6248,16 @@ msgid "Manage Agent-Role Relations"
 msgstr "จัดการความสัมพันธ์ของบทบาทเอเย่นต์"
 
 #. Template: AdminRoleUser
-msgid "Add agent"
+msgid "Add Agent"
 msgstr "เพิ่มเอเย่นต์"
 
 #. Template: AdminRoleUser
 msgid "Filter for Agents"
 msgstr "ตัวกรองสำหรับเอเย่นต์"
+
+#. Template: AdminRoleUser
+msgid "Filter for agents"
+msgstr ""
 
 #. Template: AdminRoleUser
 msgid "Agents"
@@ -6317,20 +6328,12 @@ msgid "Check SMIME configuration"
 msgstr "ตรวจสอบการกำหนดค่า SMIME"
 
 #. Template: AdminSMIME
-msgid "Add certificate"
-msgstr "เพิ่มใบรับรอง"
-
-#. Template: AdminSMIME
-msgid "Add private key"
-msgstr "เพิ่มคีย์ส่วนตัว"
-
-#. Template: AdminSMIME
 msgid "Filter for Certificates"
 msgstr ""
 
 #. Template: AdminSMIME
-msgid "Filter for S/MIME certs"
-msgstr "ตัวกรองสำหรับใบรับรอง S / MIME"
+msgid "Filter for certificates"
+msgstr "ตัวกรองสำหรับใบรับรอง"
 
 #. Template: AdminSMIME
 msgid "To show certificate details click on a certificate icon."
@@ -6401,6 +6404,10 @@ msgid "Available Certificates"
 msgstr "ใบรับรองที่พร้อมใช้งาน"
 
 #. Template: AdminSMIME
+msgid "Filter for S/MIME certs"
+msgstr "ตัวกรองสำหรับใบรับรอง S / MIME"
+
+#. Template: AdminSMIME
 msgid "Relate this certificate"
 msgstr "เกี่ยวข้องกับใบรับรองนี้"
 
@@ -6427,10 +6434,6 @@ msgstr "เพิ่มคำขึ้นต้น"
 #. Template: AdminSalutation
 msgid "Edit Salutation"
 msgstr "แก้ไขคำขึ้นต้น"
-
-#. Template: AdminSalutation
-msgid "Add salutation"
-msgstr "เพิ่มคำขึ้นต้น"
 
 #. Template: AdminSalutation
 msgid "Filter for Salutations"
@@ -6540,14 +6543,6 @@ msgid "Edit Service"
 msgstr "แก้ไขการบริการ"
 
 #. Template: AdminService
-msgid "Add service"
-msgstr "เพิ่มการบริการ"
-
-#. Template: AdminService
-msgid "Filter for services"
-msgstr ""
-
-#. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
 msgstr ""
 
@@ -6626,10 +6621,6 @@ msgstr "เพิ่มลายเซ็น"
 #. Template: AdminSignature
 msgid "Edit Signature"
 msgstr "แก้ไขลายเซ็น"
-
-#. Template: AdminSignature
-msgid "Add signature"
-msgstr "เพิ่มลายเซ็น"
 
 #. Template: AdminSignature
 msgid "Filter for Signatures"
@@ -7128,8 +7119,8 @@ msgid "Kill all Sessions, except for your own"
 msgstr "ทำลายเซสชันทั้งหมดยกเว้นเซสชันของคุณ"
 
 #. Template: AdminTemplate
-msgid "Manage Templates"
-msgstr "จัดการรูปแบบต่างๆ"
+msgid "Template Management"
+msgstr ""
 
 #. Template: AdminTemplate
 msgid "Add Template"
@@ -7138,10 +7129,6 @@ msgstr "เพิ่มแม่แบบ"
 #. Template: AdminTemplate
 msgid "Edit Template"
 msgstr "แก้ไขแม่แบบ"
-
-#. Template: AdminTemplate
-msgid "Add template"
-msgstr "เพิ่มแม่แบบ"
 
 #. Template: AdminTemplate
 msgid ""
@@ -7216,10 +7203,6 @@ msgid "Edit Type"
 msgstr "แก้ไขประเภท"
 
 #. Template: AdminType
-msgid "Add ticket type"
-msgstr "พิ่มประเภทตั๋ว"
-
-#. Template: AdminType
 msgid "Filter for Types"
 msgstr ""
 
@@ -7244,10 +7227,6 @@ msgstr ""
 #. Template: AdminUser
 msgid "Agent Management"
 msgstr "การจัดการเอเย่นต์"
-
-#. Template: AdminUser
-msgid "Add Agent"
-msgstr "เพิ่มเอเย่นต์"
 
 #. Template: AdminUser
 msgid "Edit Agent"
@@ -9240,6 +9219,10 @@ msgstr "เข้าสู่ระบบ"
 #. Template: CustomerLogin
 msgid "Not yet registered?"
 msgstr "ยังไม่ได้ลงทะเบียน?"
+
+#. Template: CustomerLogin
+msgid "Back"
+msgstr "กลับไป"
 
 #. Template: CustomerLogin
 msgid "Request New Password"
@@ -16637,6 +16620,10 @@ msgstr "คุณต้องการที่จะลบภาษาของ
 msgid "Do you really want to delete this notification?"
 msgstr "คุณต้องการที่จะลบการแจ้งเตือนนี้หรือไม่?"
 
+#. JS File: Core.Agent.Admin.PGP
+msgid "Do you really want to delete this key?"
+msgstr ""
+
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "There is a package upgrade process running, click here to see status "
@@ -18213,14 +18200,6 @@ msgstr "ArticleTree"
 #. SysConfig
 msgid "Attachment Name"
 msgstr "ชื่อเอกสารที่แนบมา"
-
-#. SysConfig
-msgid "Attachments ↔ Templates"
-msgstr ""
-
-#. SysConfig
-msgid "Auto Responses ↔ Queues"
-msgstr ""
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
@@ -23646,10 +23625,6 @@ msgid "Link agents to roles."
 msgstr "ลิ้งตัวแทนกับบทบาท"
 
 #. SysConfig
-msgid "Link attachments to templates."
-msgstr "ลิ้งสิ่งที่แนบมาไปยังแม่แบบ"
-
-#. SysConfig
 msgid "Link customer users to customers."
 msgstr ""
 
@@ -23672,6 +23647,10 @@ msgstr "ลิ้งคำสั่งไปยังการตอบอัต
 #. SysConfig
 msgid "Link roles to groups."
 msgstr "ลิ้งบทบาทไปยังกลุ่ม"
+
+#. SysConfig
+msgid "Link templates to attachments."
+msgstr ""
 
 #. SysConfig
 msgid "Link templates to queues."
@@ -24964,6 +24943,10 @@ msgstr ""
 #. SysConfig
 msgid "Queue view"
 msgstr "มุมมองคิว"
+
+#. SysConfig
+msgid "Queues ↔ Auto Responses"
+msgstr ""
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -27102,6 +27085,10 @@ msgstr ""
 
 #. SysConfig
 msgid "System Maintenance"
+msgstr ""
+
+#. SysConfig
+msgid "Templates ↔ Attachments"
 msgstr ""
 
 #. SysConfig

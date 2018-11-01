@@ -1,38 +1,39 @@
 # Translators:
-# Martin Gruner <martin.gruner@otrs.com>, 2018
+# juanman <juanma@gnutn.org.ar>, 2018
+# Nuño López Ansótegui <nuno.lopez@exevi.com>, 2018
+# Aritza Mardaras <amardaras@didaktiker.com>, 2018
+# Iñaki Martínez, 2018
+# Pablo Rojas <pabloroberto27@gmail.com>, 2018
+# David Muñoz <davidkingnt@gmail.com>, 2018
+# Galo Izquierdo <gizquier@hotmail.com>, 2018
+# Emir Nunes, 2018
+# Diego Schneider <diegoschneider.96@gmail.com>, 2018
 # Udo Bretz, 2018
-# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
+# Juan Clavero <juanm.clavero@ibsalut.es>, 2018
+# Alvaro Molina <AlvaroMolinaCL@gmail.com>, 2018
 # Anatoli F. Peña Castillo <djanatoli@gmail.com>, 2018
-# Deiry Arias <mailimarias@gmail.com>, 2018
-# Duilio Poggi Oneto <duiliopoggio@gmail.com>, 2018
+# Luigy, 2018
 # Fr33m4n77 <pabloascencio77@gmail.com>, 2018
 # Deiver Kiel <deikiel@gmail.com>, 2018
-# Arturo Mondelo <arturo.mondelo@hotmail.es>, 2018
 # Alvaro Gajardo, 2018
-# Антон Протченко :3 <a_protchenko@hotmail.com>, 2018
-# David B <link.bigpoint@outlook.com>, 2018
-# Fernando Casal <fernando.casal@serviciomovil.com>, 2018
-# Salvador Rea <salvador_rea@outlook.com>, 2018
-# Luigy, 2018
-# Galo Izquierdo <gizquier@hotmail.com>, 2018
-# Nuño López Ansótegui <nuno.lopez@exevi.com>, 2018
-# Alvaro Molina <AlvaroMolinaCL@gmail.com>, 2018
-# Aritza Mardaras <amardaras@didaktiker.com>, 2018
-# Emir Nunes, 2018
 # Gonzalo Moreu, 2018
-# David Muñoz <davidkingnt@gmail.com>, 2018
-# Juan Clavero <juanm.clavero@ibsalut.es>, 2018
-# Iñaki Martínez, 2018
-# Diego Schneider <diegoschneider.96@gmail.com>, 2018
-# juanman <juanma@gnutn.org.ar>, 2018
-# Pablo Rojas <pabloroberto27@gmail.com>, 2018
-# Alan Sanier <cybarsan@gmail.com>, 2018
+# Fernando Casal <fernando.casal@serviciomovil.com>, 2018
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
+# Deiry Arias <mailimarias@gmail.com>, 2018
+# Duilio Poggi Oneto <duiliopoggio@gmail.com>, 2018
+# Антон Протченко :3 <a_protchenko@hotmail.com>, 2018
+# Salvador Rea <salvador_rea@outlook.com>, 2018
+# Alan Cybar Sanier Quiñónez <cybarsan@gmail.com>, 2018
+# Arturo Mondelo <arturo.mondelo@hotmail.es>, 2018
+# David B <link.bigpoint@outlook.com>, 2018
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-09-27 16:58+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Alan Sanier <cybarsan@gmail.com>, 2018\n"
+"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"PO-Revision-Date: 2018-09-20 13:03+0000\n"
+"Last-Translator: David B <link.bigpoint@outlook.com>, 2018\n"
 "Language-Team: Spanish (https://www.transifex.com/otrs/teams/23435/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -280,10 +281,6 @@ msgid "Edit Calendar"
 msgstr "Editar Calendario"
 
 #. Template: AdminAppointmentCalendarManage
-msgid "Go back"
-msgstr "Regresar"
-
-#. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
 msgstr "Resumen de Calendarios"
 
@@ -320,6 +317,10 @@ msgstr "Cargar configuración de calendario"
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
 msgstr "Importar Calendario"
+
+#. Template: AdminAppointmentCalendarManage
+msgid "Filter for Calendars"
+msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -479,6 +480,10 @@ msgid "Appointment Import"
 msgstr "Importar Cita"
 
 #. Template: AdminAppointmentImport
+msgid "Go back"
+msgstr "Regresar"
+
+#. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
 msgstr "El archivo cargado tiene que estar en un formato iCal válido (.ics)"
 
@@ -525,10 +530,6 @@ msgstr "Agregar Notificación"
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
 msgstr "Editar Notificación"
-
-#. Template: AdminAppointmentNotificationEvent
-msgid "Add notification"
-msgstr "Agregar notificación"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
@@ -1098,14 +1099,18 @@ msgid "Communication Log"
 msgstr "Registro de comunicación"
 
 #. Template: AdminCommunicationLog
-msgid "Time range"
-msgstr "Período de tiempo"
+msgid "Time Range"
+msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
 msgstr ""
 "Muestre solo los registros de comunicación creados en un rango específico de"
 " tiempo"
+
+#. Template: AdminCommunicationLog
+msgid "Filter for Communications"
+msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
@@ -1220,16 +1225,16 @@ msgid "Account Status"
 msgstr "Estado de la cuenta"
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Back"
-msgstr "Atrás"
+msgid "Back to overview"
+msgstr ""
+
+#. Template: AdminCommunicationLogAccounts
+msgid "Filter for Accounts"
+msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
 msgstr "Filtrar para cuentas"
-
-#. Template: AdminCommunicationLogAccounts
-msgid "Filter for log entries"
-msgstr "Filtrar entradas de registro"
 
 #. Template: AdminCommunicationLogAccounts
 msgid ""
@@ -1306,6 +1311,14 @@ msgstr "No se encontraron entradas de registro."
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
 msgstr "Vista detallada de la %s comunicación iniciada en %s"
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for Log Entries"
+msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for log entries"
+msgstr "Filtrar entradas de registro"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Show only entries with specific priority and higher:"
@@ -1683,6 +1696,10 @@ msgstr ""
 "«CustomerGroupAlwaysGroups»."
 
 #. Template: AdminCustomerUserGroup
+msgid "Filter for groups"
+msgstr ""
+
+#. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
 msgstr "Seleccionar los permisos Usuario del Cliente - Grupo."
 
@@ -1699,8 +1716,8 @@ msgid "Customer User Default Groups:"
 msgstr "Grupos del Usuario del Cliente por Defecto:"
 
 #. Template: AdminCustomerUserService
-msgid "Manage Customer User-Services Relations"
-msgstr "Administrar las Relaciones Usuario del Cliente-Servicios"
+msgid "Manage Customer User-Service Relations"
+msgstr ""
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
@@ -1709,6 +1726,10 @@ msgstr "Editar los servicios predeterminados"
 #. Template: AdminCustomerUserService
 msgid "Filter for Services"
 msgstr "Filtro para los servicios"
+
+#. Template: AdminCustomerUserService
+msgid "Filter for services"
+msgstr "Filtrar por servicios"
 
 #. Template: AdminCustomerUserService
 msgid "Services"
@@ -2145,28 +2166,28 @@ msgid "Send"
 msgstr "Enviar"
 
 #. Template: AdminGenericAgent
-msgid "Generic Agent"
-msgstr "Agente genérico"
+msgid "Generic Agent Job Management"
+msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Edit job"
-msgstr "Editar el trabajo"
+msgid "Edit Job"
+msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Add job"
-msgstr "Añadir trabajo"
+msgid "Add Job"
+msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Run job"
-msgstr "Ejecutar el trabajo"
+msgid "Run Job"
+msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Filter for Generic Agent Jobs"
-msgstr "Filtro para Trabajos de Agente genérico"
+msgid "Filter for Jobs"
+msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Filter for generic agent jobs"
-msgstr "Filtro para trabajos de agente genérico"
+msgid "Filter for jobs"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Last run"
@@ -4115,10 +4136,6 @@ msgstr ""
 "Si desea volver al resumen por favor presione el botón \"Volver a resumen\""
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Web Service List"
-msgstr "Lista de Servicios Web"
-
-#. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
 msgstr "Sistema remoto"
 
@@ -4271,10 +4288,6 @@ msgid "Edit Group"
 msgstr "Editar grupo"
 
 #. Template: AdminGroup
-msgid "Add group"
-msgstr "Agregar grupo"
-
-#. Template: AdminGroup
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
@@ -4298,10 +4311,6 @@ msgstr "Es útil para soluciones ASP."
 #. Template: AdminLog
 msgid "System Log"
 msgstr "Registro del sistema"
-
-#. Template: AdminLog
-msgid "Filter for Log Entries"
-msgstr ""
 
 #. Template: AdminLog
 msgid "Here you will find log information about your system."
@@ -4906,10 +4915,6 @@ msgid "Check PGP configuration"
 msgstr "Comprobar la configuración PGP"
 
 #. Template: AdminPGP
-msgid "Add PGP key"
-msgstr "Agregar Clave PGP"
-
-#. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
 msgstr ""
 "De esta forma puede editar directamente el anillo de Claves configurado en "
@@ -4918,10 +4923,6 @@ msgstr ""
 #. Template: AdminPGP
 msgid "Introduction to PGP"
 msgstr "Introducción a PGP"
-
-#. Template: AdminPGP
-msgid "Result"
-msgstr "Resultado"
 
 #. Template: AdminPGP
 msgid "Identifier"
@@ -5292,15 +5293,11 @@ msgid "Edit PostMaster Filter"
 msgstr "Esite Filtro PostMaster"
 
 #. Template: AdminPostMasterFilter
-msgid "Add filter"
-msgstr "Agregar filtro"
-
-#. Template: AdminPostMasterFilter
-msgid "Filter for Postmaster Filters"
+msgid "Filter for PostMaster Filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
-msgid "Filter for postmaster filters"
+msgid "Filter for PostMaster filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
@@ -5428,6 +5425,10 @@ msgstr "Gestión de Procesos"
 #. Template: AdminProcessManagement
 msgid "Filter for Processes"
 msgstr "Filtro para Procesos"
+
+#. Template: AdminProcessManagement
+msgid "Filter for processes"
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Create New Process"
@@ -5987,8 +5988,8 @@ msgid "Remove this Parameter"
 msgstr "Elimine este Parámetro"
 
 #. Template: AdminQueue
-msgid "Manage Queues"
-msgstr "Gestionar las colas"
+msgid "Queue Management"
+msgstr ""
 
 #. Template: AdminQueue
 msgid "Add Queue"
@@ -6121,6 +6122,12 @@ msgid "Default sign key"
 msgstr "Clave de firma por defecto"
 
 #. Template: AdminQueue
+msgid ""
+"To use a sign key, PGP keys or S/MIME certificates need to be added with "
+"identifiers for selected queue system address."
+msgstr ""
+
+#. Template: AdminQueue
 msgid "Salutation"
 msgstr "Saludo"
 
@@ -6175,6 +6182,10 @@ msgstr "Administrar Relaciones Plantilla-Cola"
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
 msgstr "Filtrar por Plantillas"
+
+#. Template: AdminQueueTemplates
+msgid "Filter for templates"
+msgstr ""
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
@@ -6530,10 +6541,6 @@ msgid "Manage Role-Group Relations"
 msgstr "Gestionar las relaciones Rol - Grupo"
 
 #. Template: AdminRoleGroup
-msgid "Add role"
-msgstr "Agregar rol"
-
-#. Template: AdminRoleGroup
 msgid "Roles"
 msgstr "Roles"
 
@@ -6599,12 +6606,16 @@ msgid "Manage Agent-Role Relations"
 msgstr "Gestionar las relaciones Agente - Rol"
 
 #. Template: AdminRoleUser
-msgid "Add agent"
+msgid "Add Agent"
 msgstr "Añadir agente"
 
 #. Template: AdminRoleUser
 msgid "Filter for Agents"
 msgstr "Filtrar por Agentes"
+
+#. Template: AdminRoleUser
+msgid "Filter for agents"
+msgstr "Filtrar por agentes"
 
 #. Template: AdminRoleUser
 msgid "Agents"
@@ -6675,20 +6686,12 @@ msgid "Check SMIME configuration"
 msgstr "Comprueba la configuración de SMIME"
 
 #. Template: AdminSMIME
-msgid "Add certificate"
-msgstr "Añadir certificado"
-
-#. Template: AdminSMIME
-msgid "Add private key"
-msgstr "Añadir clave privada"
-
-#. Template: AdminSMIME
 msgid "Filter for Certificates"
 msgstr "Filtrar por Certificados"
 
 #. Template: AdminSMIME
-msgid "Filter for S/MIME certs"
-msgstr "Filtro para certificados S/MIME"
+msgid "Filter for certificates"
+msgstr "Filtro para certificados"
 
 #. Template: AdminSMIME
 msgid "To show certificate details click on a certificate icon."
@@ -6767,6 +6770,10 @@ msgid "Available Certificates"
 msgstr "Certificados Disponibles"
 
 #. Template: AdminSMIME
+msgid "Filter for S/MIME certs"
+msgstr "Filtro para certificados S/MIME"
+
+#. Template: AdminSMIME
 msgid "Relate this certificate"
 msgstr "Relacionar este certificado"
 
@@ -6793,10 +6800,6 @@ msgstr "Añadir saludo"
 #. Template: AdminSalutation
 msgid "Edit Salutation"
 msgstr "Editar el saludo"
-
-#. Template: AdminSalutation
-msgid "Add salutation"
-msgstr "Añadir saludo"
 
 #. Template: AdminSalutation
 msgid "Filter for Salutations"
@@ -6911,14 +6914,6 @@ msgid "Edit Service"
 msgstr "Editar el servicio"
 
 #. Template: AdminService
-msgid "Add service"
-msgstr "Añadir servicio"
-
-#. Template: AdminService
-msgid "Filter for services"
-msgstr "Filtrar por servicios"
-
-#. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
 msgstr ""
 
@@ -6997,10 +6992,6 @@ msgstr "Añadir firma"
 #. Template: AdminSignature
 msgid "Edit Signature"
 msgstr "Editar la firma"
-
-#. Template: AdminSignature
-msgid "Add signature"
-msgstr "Añadir firma"
 
 #. Template: AdminSignature
 msgid "Filter for Signatures"
@@ -7513,8 +7504,8 @@ msgid "Kill all Sessions, except for your own"
 msgstr "Matar todas las Sesiones, excepto de la suya propia"
 
 #. Template: AdminTemplate
-msgid "Manage Templates"
-msgstr "Gestionar Plantillas"
+msgid "Template Management"
+msgstr ""
 
 #. Template: AdminTemplate
 msgid "Add Template"
@@ -7523,10 +7514,6 @@ msgstr "Agregar Plantilla"
 #. Template: AdminTemplate
 msgid "Edit Template"
 msgstr "Editar Plantilla"
-
-#. Template: AdminTemplate
-msgid "Add template"
-msgstr "Agregar plantilla"
 
 #. Template: AdminTemplate
 msgid ""
@@ -7601,10 +7588,6 @@ msgid "Edit Type"
 msgstr "Editar el tipo"
 
 #. Template: AdminType
-msgid "Add ticket type"
-msgstr "Añadir tipo de ticket"
-
-#. Template: AdminType
 msgid "Filter for Types"
 msgstr ""
 
@@ -7629,10 +7612,6 @@ msgstr ""
 #. Template: AdminUser
 msgid "Agent Management"
 msgstr "Gestión de agentes"
-
-#. Template: AdminUser
-msgid "Add Agent"
-msgstr "Añadir agente"
 
 #. Template: AdminUser
 msgid "Edit Agent"
@@ -9656,6 +9635,10 @@ msgstr "Iniciar sesión"
 #. Template: CustomerLogin
 msgid "Not yet registered?"
 msgstr "¿Todavía no está registrado?"
+
+#. Template: CustomerLogin
+msgid "Back"
+msgstr "Atrás"
 
 #. Template: CustomerLogin
 msgid "Request New Password"
@@ -17272,6 +17255,10 @@ msgstr "¿Realmente desear eliminar este idioma de notificación?"
 msgid "Do you really want to delete this notification?"
 msgstr "¿Realmente desea eliminar esta notificación?"
 
+#. JS File: Core.Agent.Admin.PGP
+msgid "Do you really want to delete this key?"
+msgstr ""
+
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "There is a package upgrade process running, click here to see status "
@@ -18921,14 +18908,6 @@ msgstr "Árbol de Artículos"
 #. SysConfig
 msgid "Attachment Name"
 msgstr "Nombre del archivo adjunto"
-
-#. SysConfig
-msgid "Attachments ↔ Templates"
-msgstr "Archivos adjuntos ↔ Plantillas"
-
-#. SysConfig
-msgid "Auto Responses ↔ Queues"
-msgstr ""
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
@@ -24015,10 +23994,6 @@ msgid "Link agents to roles."
 msgstr "Crea enlace de Agentes a Roles"
 
 #. SysConfig
-msgid "Link attachments to templates."
-msgstr "Crea enlace de Archivo adjuntos a Plantillas."
-
-#. SysConfig
 msgid "Link customer users to customers."
 msgstr ""
 
@@ -24041,6 +24016,10 @@ msgstr "Crea enlace de Colas a Respuestas Automáticas"
 #. SysConfig
 msgid "Link roles to groups."
 msgstr "Crea enlace de Roles a Grupos."
+
+#. SysConfig
+msgid "Link templates to attachments."
+msgstr ""
 
 #. SysConfig
 msgid "Link templates to queues."
@@ -25355,6 +25334,10 @@ msgstr "Calendario público."
 #. SysConfig
 msgid "Queue view"
 msgstr "Vista por colas"
+
+#. SysConfig
+msgid "Queues ↔ Auto Responses"
+msgstr ""
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -27514,6 +27497,10 @@ msgstr ""
 #. SysConfig
 msgid "System Maintenance"
 msgstr "Mantenimiento de Sistema"
+
+#. SysConfig
+msgid "Templates ↔ Attachments"
+msgstr ""
 
 #. SysConfig
 msgid "Templates ↔ Queues"

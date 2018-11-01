@@ -1,13 +1,14 @@
 # Translators:
-# Martin Gruner <martin.gruner@otrs.com>, 2018
 # Idan Cohen <idan2cohen@gmail.com>, 2018
 # Amir Aharoni <amir.aharoni@mail.huji.ac.il>, 2018
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-09-27 16:58+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Amir Aharoni <amir.aharoni@mail.huji.ac.il>, 2018\n"
+"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"PO-Revision-Date: 2018-09-20 13:03+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>, 2018\n"
 "Language-Team: Hebrew (https://www.transifex.com/otrs/teams/23435/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -237,10 +238,6 @@ msgid "Edit Calendar"
 msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
-msgid "Go back"
-msgstr ""
-
-#. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
 msgstr ""
 
@@ -273,6 +270,10 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
+msgstr ""
+
+#. Template: AdminAppointmentCalendarManage
+msgid "Filter for Calendars"
 msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
@@ -424,6 +425,10 @@ msgid "Appointment Import"
 msgstr ""
 
 #. Template: AdminAppointmentImport
+msgid "Go back"
+msgstr ""
+
+#. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
 msgstr ""
 
@@ -466,10 +471,6 @@ msgstr "הוסף התראה"
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
 msgstr "ערוך התראה"
-
-#. Template: AdminAppointmentNotificationEvent
-msgid "Add notification"
-msgstr "הוסף התראה"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
@@ -997,11 +998,15 @@ msgid "Communication Log"
 msgstr ""
 
 #. Template: AdminCommunicationLog
-msgid "Time range"
+msgid "Time Range"
 msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
+msgstr ""
+
+#. Template: AdminCommunicationLog
+msgid "Filter for Communications"
 msgstr ""
 
 #. Template: AdminCommunicationLog
@@ -1111,15 +1116,15 @@ msgid "Account Status"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Back"
-msgstr "אחורה"
-
-#. Template: AdminCommunicationLogAccounts
-msgid "Filter for accounts"
+msgid "Back to overview"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Filter for log entries"
+msgid "Filter for Accounts"
+msgstr ""
+
+#. Template: AdminCommunicationLogAccounts
+msgid "Filter for accounts"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
@@ -1194,6 +1199,14 @@ msgstr ""
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
+msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for Log Entries"
+msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for log entries"
 msgstr ""
 
 #. Template: AdminCommunicationLogZoom
@@ -1539,6 +1552,10 @@ msgid ""
 msgstr "תוכלו לנהל קבוצות אלו דרך הגדרות \"CustomerGroupAlwaysGroups\"."
 
 #. Template: AdminCustomerUserGroup
+msgid "Filter for groups"
+msgstr ""
+
+#. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
 msgstr ""
 
@@ -1553,7 +1570,7 @@ msgid "Customer User Default Groups:"
 msgstr ""
 
 #. Template: AdminCustomerUserService
-msgid "Manage Customer User-Services Relations"
+msgid "Manage Customer User-Service Relations"
 msgstr ""
 
 #. Template: AdminCustomerUserService
@@ -1563,6 +1580,10 @@ msgstr "ערוך שירותי ברירת מחדל"
 #. Template: AdminCustomerUserService
 msgid "Filter for Services"
 msgstr "סנן עבור שירותים"
+
+#. Template: AdminCustomerUserService
+msgid "Filter for services"
+msgstr ""
 
 #. Template: AdminCustomerUserService
 msgid "Services"
@@ -1960,27 +1981,27 @@ msgid "Send"
 msgstr "שלח"
 
 #. Template: AdminGenericAgent
-msgid "Generic Agent"
-msgstr "סוכן גנרי"
-
-#. Template: AdminGenericAgent
-msgid "Edit job"
-msgstr "ערוך עבודה"
-
-#. Template: AdminGenericAgent
-msgid "Add job"
-msgstr "הוסף משימה"
-
-#. Template: AdminGenericAgent
-msgid "Run job"
-msgstr "הרץ עבודה"
-
-#. Template: AdminGenericAgent
-msgid "Filter for Generic Agent Jobs"
+msgid "Generic Agent Job Management"
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Filter for generic agent jobs"
+msgid "Edit Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Add Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Run Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Filter for Jobs"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Filter for jobs"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -3763,10 +3784,6 @@ msgid ""
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Web Service List"
-msgstr ""
-
-#. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
 msgstr "מערכת מרוחקת"
 
@@ -3907,10 +3924,6 @@ msgid "Edit Group"
 msgstr "ערוך קבוצה"
 
 #. Template: AdminGroup
-msgid "Add group"
-msgstr "הוסף קבוצה"
-
-#. Template: AdminGroup
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
@@ -3929,10 +3942,6 @@ msgstr ""
 #. Template: AdminLog
 msgid "System Log"
 msgstr "לוג מערכת"
-
-#. Template: AdminLog
-msgid "Filter for Log Entries"
-msgstr ""
 
 #. Template: AdminLog
 msgid "Here you will find log information about your system."
@@ -4481,20 +4490,12 @@ msgid "Check PGP configuration"
 msgstr ""
 
 #. Template: AdminPGP
-msgid "Add PGP key"
-msgstr "הוסף מפתח PGP"
-
-#. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
 msgstr ""
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
 msgstr "מבוא ל-PGP"
-
-#. Template: AdminPGP
-msgid "Result"
-msgstr "תוצאה"
 
 #. Template: AdminPGP
 msgid "Identifier"
@@ -4849,15 +4850,11 @@ msgid "Edit PostMaster Filter"
 msgstr "ערוך מסנן PostMaster"
 
 #. Template: AdminPostMasterFilter
-msgid "Add filter"
-msgstr "הוסף מסנן"
-
-#. Template: AdminPostMasterFilter
-msgid "Filter for Postmaster Filters"
+msgid "Filter for PostMaster Filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
-msgid "Filter for postmaster filters"
+msgid "Filter for PostMaster filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
@@ -4977,6 +4974,10 @@ msgstr "ניהול תהליכים"
 #. Template: AdminProcessManagement
 msgid "Filter for Processes"
 msgstr "סנן עבור תהליך"
+
+#. Template: AdminProcessManagement
+msgid "Filter for processes"
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Create New Process"
@@ -5486,8 +5487,8 @@ msgid "Remove this Parameter"
 msgstr "הסר פרמטר זה"
 
 #. Template: AdminQueue
-msgid "Manage Queues"
-msgstr "נהל תורות"
+msgid "Queue Management"
+msgstr ""
 
 #. Template: AdminQueue
 msgid "Add Queue"
@@ -5603,6 +5604,12 @@ msgid "Default sign key"
 msgstr ""
 
 #. Template: AdminQueue
+msgid ""
+"To use a sign key, PGP keys or S/MIME certificates need to be added with "
+"identifiers for selected queue system address."
+msgstr ""
+
+#. Template: AdminQueue
 msgid "Salutation"
 msgstr "כינוי כבוד"
 
@@ -5657,6 +5664,10 @@ msgstr "נהל יחסי תבנית-תור"
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
 msgstr "סנן עבור תבניות"
+
+#. Template: AdminQueueTemplates
+msgid "Filter for templates"
+msgstr ""
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
@@ -5987,10 +5998,6 @@ msgid "Manage Role-Group Relations"
 msgstr "נהל יחסי תפקיד-קבוצה"
 
 #. Template: AdminRoleGroup
-msgid "Add role"
-msgstr "הוסף תפקיד"
-
-#. Template: AdminRoleGroup
 msgid "Roles"
 msgstr "תפקידים"
 
@@ -6053,12 +6060,16 @@ msgid "Manage Agent-Role Relations"
 msgstr "נהל יחסי סוכן-תפקיד"
 
 #. Template: AdminRoleUser
-msgid "Add agent"
+msgid "Add Agent"
 msgstr "הוסף סוכן"
 
 #. Template: AdminRoleUser
 msgid "Filter for Agents"
 msgstr "סנן עבור סוכנים"
+
+#. Template: AdminRoleUser
+msgid "Filter for agents"
+msgstr ""
 
 #. Template: AdminRoleUser
 msgid "Agents"
@@ -6127,19 +6138,11 @@ msgid "Check SMIME configuration"
 msgstr ""
 
 #. Template: AdminSMIME
-msgid "Add certificate"
-msgstr ""
-
-#. Template: AdminSMIME
-msgid "Add private key"
-msgstr "הוסף מפתח פרטי"
-
-#. Template: AdminSMIME
 msgid "Filter for Certificates"
 msgstr ""
 
 #. Template: AdminSMIME
-msgid "Filter for S/MIME certs"
+msgid "Filter for certificates"
 msgstr ""
 
 #. Template: AdminSMIME
@@ -6208,6 +6211,10 @@ msgid "Available Certificates"
 msgstr ""
 
 #. Template: AdminSMIME
+msgid "Filter for S/MIME certs"
+msgstr ""
+
+#. Template: AdminSMIME
 msgid "Relate this certificate"
 msgstr ""
 
@@ -6233,10 +6240,6 @@ msgstr ""
 
 #. Template: AdminSalutation
 msgid "Edit Salutation"
-msgstr ""
-
-#. Template: AdminSalutation
-msgid "Add salutation"
 msgstr ""
 
 #. Template: AdminSalutation
@@ -6341,14 +6344,6 @@ msgid "Edit Service"
 msgstr "ערוך שירות"
 
 #. Template: AdminService
-msgid "Add service"
-msgstr "הוסף שירות"
-
-#. Template: AdminService
-msgid "Filter for services"
-msgstr ""
-
-#. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
 msgstr ""
 
@@ -6427,10 +6422,6 @@ msgstr "הוסף חתימה"
 #. Template: AdminSignature
 msgid "Edit Signature"
 msgstr "ערוך חתימה"
-
-#. Template: AdminSignature
-msgid "Add signature"
-msgstr "הוסף חתימה"
 
 #. Template: AdminSignature
 msgid "Filter for Signatures"
@@ -6917,8 +6908,8 @@ msgid "Kill all Sessions, except for your own"
 msgstr ""
 
 #. Template: AdminTemplate
-msgid "Manage Templates"
-msgstr "נהל תבניות"
+msgid "Template Management"
+msgstr ""
 
 #. Template: AdminTemplate
 msgid "Add Template"
@@ -6927,10 +6918,6 @@ msgstr "הוסף תבנית"
 #. Template: AdminTemplate
 msgid "Edit Template"
 msgstr "ערוך תבנית"
-
-#. Template: AdminTemplate
-msgid "Add template"
-msgstr "הוסף תבנית"
 
 #. Template: AdminTemplate
 msgid ""
@@ -7003,10 +6990,6 @@ msgid "Edit Type"
 msgstr "ערוך סוג"
 
 #. Template: AdminType
-msgid "Add ticket type"
-msgstr "הוסף סוג פניה"
-
-#. Template: AdminType
 msgid "Filter for Types"
 msgstr ""
 
@@ -7031,10 +7014,6 @@ msgstr ""
 #. Template: AdminUser
 msgid "Agent Management"
 msgstr "ניהול סוכנים"
-
-#. Template: AdminUser
-msgid "Add Agent"
-msgstr "הוסף סוכן"
 
 #. Template: AdminUser
 msgid "Edit Agent"
@@ -9016,6 +8995,10 @@ msgstr "התחבר"
 #. Template: CustomerLogin
 msgid "Not yet registered?"
 msgstr "עדיין לא נרשמת?"
+
+#. Template: CustomerLogin
+msgid "Back"
+msgstr "אחורה"
 
 #. Template: CustomerLogin
 msgid "Request New Password"
@@ -16287,6 +16270,10 @@ msgstr ""
 msgid "Do you really want to delete this notification?"
 msgstr ""
 
+#. JS File: Core.Agent.Admin.PGP
+msgid "Do you really want to delete this key?"
+msgstr ""
+
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "There is a package upgrade process running, click here to see status "
@@ -17778,14 +17765,6 @@ msgstr "Artikelbaum"
 
 #. SysConfig
 msgid "Attachment Name"
-msgstr ""
-
-#. SysConfig
-msgid "Attachments ↔ Templates"
-msgstr ""
-
-#. SysConfig
-msgid "Auto Responses ↔ Queues"
 msgstr ""
 
 #. SysConfig
@@ -22638,10 +22617,6 @@ msgid "Link agents to roles."
 msgstr "קשר סוכנים לתפקידים."
 
 #. SysConfig
-msgid "Link attachments to templates."
-msgstr "קשר קבצים מצורפים לתבניות."
-
-#. SysConfig
 msgid "Link customer users to customers."
 msgstr ""
 
@@ -22664,6 +22639,10 @@ msgstr "קשר תורים למענים אוטומטיים."
 #. SysConfig
 msgid "Link roles to groups."
 msgstr "קשר תפקידים לקבוצות."
+
+#. SysConfig
+msgid "Link templates to attachments."
+msgstr ""
 
 #. SysConfig
 msgid "Link templates to queues."
@@ -23956,6 +23935,10 @@ msgstr ""
 #. SysConfig
 msgid "Queue view"
 msgstr "תצוגת תורים"
+
+#. SysConfig
+msgid "Queues ↔ Auto Responses"
+msgstr ""
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -26091,6 +26074,10 @@ msgstr ""
 
 #. SysConfig
 msgid "System Maintenance"
+msgstr ""
+
+#. SysConfig
+msgid "Templates ↔ Attachments"
 msgstr ""
 
 #. SysConfig

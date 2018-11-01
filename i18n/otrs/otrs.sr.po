@@ -1,15 +1,16 @@
 # Translators:
+# Udo Bretz, 2018
+# Jaroslav Balaz <balazj315@gmail.com>, 2018
 # Милорад Јовановић <j.milorad@gmail.com>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Dusan Vuckovic, 2018
-# Udo Bretz, 2018
-# Jaroslav Balaz <balazj315@gmail.com>, 2018
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-09-27 16:58+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Jaroslav Balaz <balazj315@gmail.com>, 2018\n"
+"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"PO-Revision-Date: 2018-09-20 13:03+0000\n"
+"Last-Translator: Dusan Vuckovic, 2018\n"
 "Language-Team: Serbian (https://www.transifex.com/otrs/teams/23435/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -255,10 +256,6 @@ msgid "Edit Calendar"
 msgstr "Измени календар"
 
 #. Template: AdminAppointmentCalendarManage
-msgid "Go back"
-msgstr "Иди назад"
-
-#. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
 msgstr "Преглед календара"
 
@@ -295,6 +292,10 @@ msgstr "Учитај конфигурацију календара"
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
 msgstr "Увези календар"
+
+#. Template: AdminAppointmentCalendarManage
+msgid "Filter for Calendars"
+msgstr "Филтер за календаре"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -453,6 +454,10 @@ msgid "Appointment Import"
 msgstr "Увоз термина"
 
 #. Template: AdminAppointmentImport
+msgid "Go back"
+msgstr "Иди назад"
+
+#. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
 msgstr "Послати фајл мора бити у исправном iCal формату (.ics)."
 
@@ -499,10 +504,6 @@ msgstr "Додај Обавештење"
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
 msgstr "Уреди обавештење"
-
-#. Template: AdminAppointmentNotificationEvent
-msgid "Add notification"
-msgstr "Додај обавештење"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
@@ -1065,13 +1066,17 @@ msgid "Communication Log"
 msgstr "Комуникациони лог"
 
 #. Template: AdminCommunicationLog
-msgid "Time range"
+msgid "Time Range"
 msgstr "Временски опсег"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
 msgstr ""
 "Прикажи само комуникационе логове креиране у одређеном временском периоду."
+
+#. Template: AdminCommunicationLog
+msgid "Filter for Communications"
+msgstr "Филтер за комуникације"
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
@@ -1182,16 +1187,16 @@ msgid "Account Status"
 msgstr "Статус налога"
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Back"
-msgstr "Назад"
+msgid "Back to overview"
+msgstr "Иди назад на преглед"
+
+#. Template: AdminCommunicationLogAccounts
+msgid "Filter for Accounts"
+msgstr "Филтер за налоге"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
 msgstr "Филтер за налоге"
-
-#. Template: AdminCommunicationLogAccounts
-msgid "Filter for log entries"
-msgstr "Филтер за лог ставке"
 
 #. Template: AdminCommunicationLogAccounts
 msgid ""
@@ -1266,6 +1271,14 @@ msgstr "Нису пронађене ставке лога."
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
 msgstr "Детаљни приказ за комуникацију %s започету у %s"
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for Log Entries"
+msgstr "Филтер за лог ставке"
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for log entries"
+msgstr "Филтер за лог ставке"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Show only entries with specific priority and higher:"
@@ -1629,6 +1642,10 @@ msgstr ""
 "CustomerGroupAlwaysGroups."
 
 #. Template: AdminCustomerUserGroup
+msgid "Filter for groups"
+msgstr "Филтер за групе"
+
+#. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
 msgstr "Изабери клијент корисник:група дозволе."
 
@@ -1645,8 +1662,8 @@ msgid "Customer User Default Groups:"
 msgstr "Подразумеване групе за клијент корисника:"
 
 #. Template: AdminCustomerUserService
-msgid "Manage Customer User-Services Relations"
-msgstr "Управљање релацијама клијент корисници-сервиси"
+msgid "Manage Customer User-Service Relations"
+msgstr ""
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
@@ -1654,6 +1671,10 @@ msgstr "Уреди подразумеване услуге"
 
 #. Template: AdminCustomerUserService
 msgid "Filter for Services"
+msgstr "Филтер за сервисе"
+
+#. Template: AdminCustomerUserService
+msgid "Filter for services"
 msgstr "Филтер за сервисе"
 
 #. Template: AdminCustomerUserService
@@ -2078,28 +2099,28 @@ msgid "Send"
 msgstr "Шаљи"
 
 #. Template: AdminGenericAgent
-msgid "Generic Agent"
-msgstr "Генерички оператер"
+msgid "Generic Agent Job Management"
+msgstr "Управљање пословима генеричког оператера"
 
 #. Template: AdminGenericAgent
-msgid "Edit job"
+msgid "Edit Job"
 msgstr "Уреди посао"
 
 #. Template: AdminGenericAgent
-msgid "Add job"
+msgid "Add Job"
 msgstr "Додај посао"
 
 #. Template: AdminGenericAgent
-msgid "Run job"
+msgid "Run Job"
 msgstr "Покрени посао"
 
 #. Template: AdminGenericAgent
-msgid "Filter for Generic Agent Jobs"
-msgstr "Филтер за послове генеричког оператера"
+msgid "Filter for Jobs"
+msgstr "Филтер за послове"
 
 #. Template: AdminGenericAgent
-msgid "Filter for generic agent jobs"
-msgstr "Филтер за послове генеричког оператера"
+msgid "Filter for jobs"
+msgstr "Филтер за послове"
 
 #. Template: AdminGenericAgent
 msgid "Last run"
@@ -4051,10 +4072,6 @@ msgstr ""
 "преглед'."
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Web Service List"
-msgstr "Листа веб сервиса"
-
-#. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
 msgstr "Удаљени систем"
 
@@ -4209,10 +4226,6 @@ msgid "Edit Group"
 msgstr "Уреди групу"
 
 #. Template: AdminGroup
-msgid "Add group"
-msgstr "Додај групу"
-
-#. Template: AdminGroup
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
@@ -4235,10 +4248,6 @@ msgstr "Корисно ASP решења."
 #. Template: AdminLog
 msgid "System Log"
 msgstr "Системски дневник"
-
-#. Template: AdminLog
-msgid "Filter for Log Entries"
-msgstr "Филтер за лог ставке"
 
 #. Template: AdminLog
 msgid "Here you will find log information about your system."
@@ -4840,10 +4849,6 @@ msgid "Check PGP configuration"
 msgstr "Провери PGP конфигурацију"
 
 #. Template: AdminPGP
-msgid "Add PGP key"
-msgstr "Додај PGP кључ"
-
-#. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
 msgstr ""
 "На овај начин можете директно уређивати комплет кључева подешен у SysConfig "
@@ -4852,10 +4857,6 @@ msgstr ""
 #. Template: AdminPGP
 msgid "Introduction to PGP"
 msgstr "Увод у PGP"
-
-#. Template: AdminPGP
-msgid "Result"
-msgstr "Резултат"
 
 #. Template: AdminPGP
 msgid "Identifier"
@@ -5226,16 +5227,12 @@ msgid "Edit PostMaster Filter"
 msgstr "Уреди PostMaster филтер"
 
 #. Template: AdminPostMasterFilter
-msgid "Add filter"
-msgstr "Додај филтер"
+msgid "Filter for PostMaster Filters"
+msgstr "Филтер за PostMaster филтере"
 
 #. Template: AdminPostMasterFilter
-msgid "Filter for Postmaster Filters"
-msgstr "Филтер PostMaster филтера"
-
-#. Template: AdminPostMasterFilter
-msgid "Filter for postmaster filters"
-msgstr "Филтер postmaster филтера"
+msgid "Filter for PostMaster filters"
+msgstr "Филтер за PostMaster филтере"
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -5364,6 +5361,10 @@ msgstr "Управљање процесима"
 
 #. Template: AdminProcessManagement
 msgid "Filter for Processes"
+msgstr "Филтер процеса"
+
+#. Template: AdminProcessManagement
+msgid "Filter for processes"
 msgstr "Филтер процеса"
 
 #. Template: AdminProcessManagement
@@ -5923,7 +5924,7 @@ msgid "Remove this Parameter"
 msgstr "Уклони овај параметар"
 
 #. Template: AdminQueue
-msgid "Manage Queues"
+msgid "Queue Management"
 msgstr "Управљање редовима"
 
 #. Template: AdminQueue
@@ -6054,6 +6055,12 @@ msgid "Default sign key"
 msgstr "Подразумевани кључ потписа"
 
 #. Template: AdminQueue
+msgid ""
+"To use a sign key, PGP keys or S/MIME certificates need to be added with "
+"identifiers for selected queue system address."
+msgstr ""
+
+#. Template: AdminQueue
 msgid "Salutation"
 msgstr "Поздрав"
 
@@ -6107,6 +6114,10 @@ msgstr "Управљање односом шаблон-ред"
 
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
+msgstr "Филтер за шаблоне"
+
+#. Template: AdminQueueTemplates
+msgid "Filter for templates"
 msgstr "Филтер за шаблоне"
 
 #. Template: AdminQueueTemplates
@@ -6454,10 +6465,6 @@ msgid "Manage Role-Group Relations"
 msgstr "Управљање везама улога-група"
 
 #. Template: AdminRoleGroup
-msgid "Add role"
-msgstr "Додај улогу"
-
-#. Template: AdminRoleGroup
 msgid "Roles"
 msgstr "Улоге"
 
@@ -6522,11 +6529,15 @@ msgid "Manage Agent-Role Relations"
 msgstr "Управљање везама оператер-улога"
 
 #. Template: AdminRoleUser
-msgid "Add agent"
-msgstr "Додај оператера"
+msgid "Add Agent"
+msgstr "Додај Оператера"
 
 #. Template: AdminRoleUser
 msgid "Filter for Agents"
+msgstr "Филтер за оператере"
+
+#. Template: AdminRoleUser
+msgid "Filter for agents"
 msgstr "Филтер за оператере"
 
 #. Template: AdminRoleUser
@@ -6598,20 +6609,12 @@ msgid "Check SMIME configuration"
 msgstr "Провери SMIME конфигурацију"
 
 #. Template: AdminSMIME
-msgid "Add certificate"
-msgstr "Додај сертификат"
-
-#. Template: AdminSMIME
-msgid "Add private key"
-msgstr "Додај приватни кључ"
-
-#. Template: AdminSMIME
 msgid "Filter for Certificates"
 msgstr "Филтер за сертификате"
 
 #. Template: AdminSMIME
-msgid "Filter for S/MIME certs"
-msgstr "Филтер за S/MIME сертификате"
+msgid "Filter for certificates"
+msgstr "Филтер за сертификате"
 
 #. Template: AdminSMIME
 msgid "To show certificate details click on a certificate icon."
@@ -6684,6 +6687,10 @@ msgid "Available Certificates"
 msgstr "Расположиви сертификати"
 
 #. Template: AdminSMIME
+msgid "Filter for S/MIME certs"
+msgstr "Филтер за S/MIME сертификате"
+
+#. Template: AdminSMIME
 msgid "Relate this certificate"
 msgstr "Повежи овај сертификат"
 
@@ -6710,10 +6717,6 @@ msgstr "Додај Поздрав"
 #. Template: AdminSalutation
 msgid "Edit Salutation"
 msgstr "Уреди Поздрав"
-
-#. Template: AdminSalutation
-msgid "Add salutation"
-msgstr "Додај поздрав"
 
 #. Template: AdminSalutation
 msgid "Filter for Salutations"
@@ -6825,14 +6828,6 @@ msgid "Edit Service"
 msgstr "Уреди услугу"
 
 #. Template: AdminService
-msgid "Add service"
-msgstr "Додај услугу"
-
-#. Template: AdminService
-msgid "Filter for services"
-msgstr "Филтер за сервисе"
-
-#. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
 msgstr "Максимална дужина назива услуге је 200 карактера (са под-услугом)."
 
@@ -6911,10 +6906,6 @@ msgstr "Додај Потпис"
 #. Template: AdminSignature
 msgid "Edit Signature"
 msgstr "Уреди Потпис"
-
-#. Template: AdminSignature
-msgid "Add signature"
-msgstr "Додај потпис"
 
 #. Template: AdminSignature
 msgid "Filter for Signatures"
@@ -7453,7 +7444,7 @@ msgid "Kill all Sessions, except for your own"
 msgstr "Прекини све сесије, осим сопствене"
 
 #. Template: AdminTemplate
-msgid "Manage Templates"
+msgid "Template Management"
 msgstr "Управљање шаблонима"
 
 #. Template: AdminTemplate
@@ -7463,10 +7454,6 @@ msgstr "Додај Шаблон"
 #. Template: AdminTemplate
 msgid "Edit Template"
 msgstr "Уреди Шаблон"
-
-#. Template: AdminTemplate
-msgid "Add template"
-msgstr "Додај шаблон"
 
 #. Template: AdminTemplate
 msgid ""
@@ -7541,10 +7528,6 @@ msgid "Edit Type"
 msgstr "Уреди Тип"
 
 #. Template: AdminType
-msgid "Add ticket type"
-msgstr "Додај тип тикета"
-
-#. Template: AdminType
 msgid "Filter for Types"
 msgstr "Филтер за типове"
 
@@ -7571,10 +7554,6 @@ msgstr "Овај тип се користи у следећим системск
 #. Template: AdminUser
 msgid "Agent Management"
 msgstr "Управљање оператерима"
-
-#. Template: AdminUser
-msgid "Add Agent"
-msgstr "Додај Оператера"
 
 #. Template: AdminUser
 msgid "Edit Agent"
@@ -9618,6 +9597,10 @@ msgstr "Пријављивање"
 #. Template: CustomerLogin
 msgid "Not yet registered?"
 msgstr "Нисте регистровани?"
+
+#. Template: CustomerLogin
+msgid "Back"
+msgstr "Назад"
 
 #. Template: CustomerLogin
 msgid "Request New Password"
@@ -17207,6 +17190,10 @@ msgstr "Да ли стварно желите да избришете овај �
 msgid "Do you really want to delete this notification?"
 msgstr "Да ли стварно желите да обришете ово обавештење?"
 
+#. JS File: Core.Agent.Admin.PGP
+msgid "Do you really want to delete this key?"
+msgstr ""
+
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "There is a package upgrade process running, click here to see status "
@@ -18890,14 +18877,6 @@ msgstr "Чланак у облику дрвета"
 #. SysConfig
 msgid "Attachment Name"
 msgstr "Назив прилога"
-
-#. SysConfig
-msgid "Attachments ↔ Templates"
-msgstr "Прилози ↔ шаблони"
-
-#. SysConfig
-msgid "Auto Responses ↔ Queues"
-msgstr "Аутоматски одговори ↔ редови"
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
@@ -23207,6 +23186,8 @@ msgid ""
 "Disables the redirection to the last screen overview / dashboard after a "
 "ticket is closed."
 msgstr ""
+"Онемогућује преусмеравање на последњи екран прегледа / контролну таблу пошто"
+" је тикет затворен."
 
 #. SysConfig
 msgid ""
@@ -24936,7 +24917,7 @@ msgstr "JavaScript функција за модул претраге."
 
 #. SysConfig
 msgid "Korean"
-msgstr ""
+msgstr "Корејски"
 
 #. SysConfig
 msgid "Language"
@@ -24999,10 +24980,6 @@ msgid "Link agents to roles."
 msgstr "Повежи оператере са улогама."
 
 #. SysConfig
-msgid "Link attachments to templates."
-msgstr "Повежи прилоге са шаблонима"
-
-#. SysConfig
 msgid "Link customer users to customers."
 msgstr "Повежи клијент кориснике са клијентима."
 
@@ -25025,6 +25002,10 @@ msgstr "Повежи редове са аутоматским одговорим
 #. SysConfig
 msgid "Link roles to groups."
 msgstr "Повежи улоге са групама."
+
+#. SysConfig
+msgid "Link templates to attachments."
+msgstr ""
 
 #. SysConfig
 msgid "Link templates to queues."
@@ -26659,6 +26640,10 @@ msgstr "Јавни календар."
 #. SysConfig
 msgid "Queue view"
 msgstr "Преглед реда"
+
+#. SysConfig
+msgid "Queues ↔ Auto Responses"
+msgstr ""
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -29398,6 +29383,10 @@ msgstr "Категорија системске конфигурације"
 #. SysConfig
 msgid "System Maintenance"
 msgstr "Одржавање система"
+
+#. SysConfig
+msgid "Templates ↔ Attachments"
+msgstr ""
 
 #. SysConfig
 msgid "Templates ↔ Queues"

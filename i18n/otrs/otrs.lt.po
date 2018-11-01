@@ -1,14 +1,15 @@
 # Translators:
-# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Mantas Gudas <mgu@nrd.no>, 2018
 # Justinas <jusgri@gmail.com>, 2018
 # Algis Simas <sadm.algimantas@gmail.com>, 2018
-# Mantas Gudas <mgu@nrd.no>, 2018
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-09-27 16:58+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Mantas Gudas <mgu@nrd.no>, 2018\n"
+"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"PO-Revision-Date: 2018-09-20 13:03+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>, 2018\n"
 "Language-Team: Lithuanian (https://www.transifex.com/otrs/teams/23435/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -238,10 +239,6 @@ msgid "Edit Calendar"
 msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
-msgid "Go back"
-msgstr ""
-
-#. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
 msgstr ""
 
@@ -274,6 +271,10 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
+msgstr ""
+
+#. Template: AdminAppointmentCalendarManage
+msgid "Filter for Calendars"
 msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
@@ -425,6 +426,10 @@ msgid "Appointment Import"
 msgstr ""
 
 #. Template: AdminAppointmentImport
+msgid "Go back"
+msgstr ""
+
+#. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
 msgstr ""
 
@@ -467,10 +472,6 @@ msgstr "Pridėti pranešimą"
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
 msgstr "Redaguoti pranešimus"
-
-#. Template: AdminAppointmentNotificationEvent
-msgid "Add notification"
-msgstr "Pridėti pranešimą"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
@@ -998,11 +999,15 @@ msgid "Communication Log"
 msgstr ""
 
 #. Template: AdminCommunicationLog
-msgid "Time range"
+msgid "Time Range"
 msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
+msgstr ""
+
+#. Template: AdminCommunicationLog
+msgid "Filter for Communications"
 msgstr ""
 
 #. Template: AdminCommunicationLog
@@ -1112,15 +1117,15 @@ msgid "Account Status"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Back"
-msgstr "Atgal"
-
-#. Template: AdminCommunicationLogAccounts
-msgid "Filter for accounts"
+msgid "Back to overview"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Filter for log entries"
+msgid "Filter for Accounts"
+msgstr ""
+
+#. Template: AdminCommunicationLogAccounts
+msgid "Filter for accounts"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
@@ -1195,6 +1200,14 @@ msgstr ""
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
+msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for Log Entries"
+msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for log entries"
 msgstr ""
 
 #. Template: AdminCommunicationLogZoom
@@ -1545,6 +1558,10 @@ msgstr ""
 "\"CustomerGroupAlwaysGroups\"."
 
 #. Template: AdminCustomerUserGroup
+msgid "Filter for groups"
+msgstr ""
+
+#. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
 msgstr ""
 
@@ -1559,7 +1576,7 @@ msgid "Customer User Default Groups:"
 msgstr ""
 
 #. Template: AdminCustomerUserService
-msgid "Manage Customer User-Services Relations"
+msgid "Manage Customer User-Service Relations"
 msgstr ""
 
 #. Template: AdminCustomerUserService
@@ -1569,6 +1586,10 @@ msgstr "Redaguoti standartinius servisus"
 #. Template: AdminCustomerUserService
 msgid "Filter for Services"
 msgstr "Filtruoti paslaugas"
+
+#. Template: AdminCustomerUserService
+msgid "Filter for services"
+msgstr ""
 
 #. Template: AdminCustomerUserService
 msgid "Services"
@@ -1968,27 +1989,27 @@ msgid "Send"
 msgstr "Siųsti"
 
 #. Template: AdminGenericAgent
-msgid "Generic Agent"
-msgstr "Bendrinis agentas (Generic Agent)"
-
-#. Template: AdminGenericAgent
-msgid "Edit job"
-msgstr "Redaguoti darbą"
-
-#. Template: AdminGenericAgent
-msgid "Add job"
-msgstr "Pridėti agentą"
-
-#. Template: AdminGenericAgent
-msgid "Run job"
-msgstr "Vykdyti darbą"
-
-#. Template: AdminGenericAgent
-msgid "Filter for Generic Agent Jobs"
+msgid "Generic Agent Job Management"
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Filter for generic agent jobs"
+msgid "Edit Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Add Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Run Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Filter for Jobs"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Filter for jobs"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -3777,10 +3798,6 @@ msgid ""
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Web Service List"
-msgstr ""
-
-#. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
 msgstr ""
 
@@ -3921,10 +3938,6 @@ msgid "Edit Group"
 msgstr "Redaguoti grupę"
 
 #. Template: AdminGroup
-msgid "Add group"
-msgstr "Pridėti grupę"
-
-#. Template: AdminGroup
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
@@ -3947,10 +3960,6 @@ msgstr "Tai yra naudinga ASP sprendimams."
 #. Template: AdminLog
 msgid "System Log"
 msgstr "Sistemos žurnalas"
-
-#. Template: AdminLog
-msgid "Filter for Log Entries"
-msgstr ""
 
 #. Template: AdminLog
 msgid "Here you will find log information about your system."
@@ -4499,10 +4508,6 @@ msgid "Check PGP configuration"
 msgstr ""
 
 #. Template: AdminPGP
-msgid "Add PGP key"
-msgstr "Pridėti PGP raktą"
-
-#. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
 msgstr ""
 "Šiuo būdu galite tiesiogiai valdyti SysConfig sukonfigūruotą \"raktų "
@@ -4511,10 +4516,6 @@ msgstr ""
 #. Template: AdminPGP
 msgid "Introduction to PGP"
 msgstr "Įvadas į PGP"
-
-#. Template: AdminPGP
-msgid "Result"
-msgstr "Rezultatas"
 
 #. Template: AdminPGP
 msgid "Identifier"
@@ -4873,15 +4874,11 @@ msgid "Edit PostMaster Filter"
 msgstr "Redaguoti PostMaster filtrą"
 
 #. Template: AdminPostMasterFilter
-msgid "Add filter"
-msgstr "Pridėti filtrą"
-
-#. Template: AdminPostMasterFilter
-msgid "Filter for Postmaster Filters"
+msgid "Filter for PostMaster Filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
-msgid "Filter for postmaster filters"
+msgid "Filter for PostMaster filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
@@ -5004,6 +5001,10 @@ msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Filter for Processes"
+msgstr ""
+
+#. Template: AdminProcessManagement
+msgid "Filter for processes"
 msgstr ""
 
 #. Template: AdminProcessManagement
@@ -5514,8 +5515,8 @@ msgid "Remove this Parameter"
 msgstr ""
 
 #. Template: AdminQueue
-msgid "Manage Queues"
-msgstr "Valdyti eiles"
+msgid "Queue Management"
+msgstr ""
 
 #. Template: AdminQueue
 msgid "Add Queue"
@@ -5648,6 +5649,12 @@ msgid "Default sign key"
 msgstr "Standartinis pasirašymo raktas"
 
 #. Template: AdminQueue
+msgid ""
+"To use a sign key, PGP keys or S/MIME certificates need to be added with "
+"identifiers for selected queue system address."
+msgstr ""
+
+#. Template: AdminQueue
 msgid "Salutation"
 msgstr "Kreipimosi forma(pasveikinimas)"
 
@@ -5701,6 +5708,10 @@ msgstr ""
 
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
+msgstr ""
+
+#. Template: AdminQueueTemplates
+msgid "Filter for templates"
 msgstr ""
 
 #. Template: AdminQueueTemplates
@@ -6036,10 +6047,6 @@ msgid "Manage Role-Group Relations"
 msgstr "Valdyti Rolė-Grupė ryšius"
 
 #. Template: AdminRoleGroup
-msgid "Add role"
-msgstr "Pridėti rolę"
-
-#. Template: AdminRoleGroup
 msgid "Roles"
 msgstr "Rolės"
 
@@ -6104,12 +6111,16 @@ msgid "Manage Agent-Role Relations"
 msgstr "Valdyti Agentas-Rolė ryšius"
 
 #. Template: AdminRoleUser
-msgid "Add agent"
+msgid "Add Agent"
 msgstr "Pridėti agentą"
 
 #. Template: AdminRoleUser
 msgid "Filter for Agents"
 msgstr "Filtruoti agentus"
+
+#. Template: AdminRoleUser
+msgid "Filter for agents"
+msgstr ""
 
 #. Template: AdminRoleUser
 msgid "Agents"
@@ -6178,19 +6189,11 @@ msgid "Check SMIME configuration"
 msgstr ""
 
 #. Template: AdminSMIME
-msgid "Add certificate"
-msgstr "Pridėti sertifikatą"
-
-#. Template: AdminSMIME
-msgid "Add private key"
-msgstr "Pridėti privatų raktą"
-
-#. Template: AdminSMIME
 msgid "Filter for Certificates"
 msgstr ""
 
 #. Template: AdminSMIME
-msgid "Filter for S/MIME certs"
+msgid "Filter for certificates"
 msgstr ""
 
 #. Template: AdminSMIME
@@ -6263,6 +6266,10 @@ msgid "Available Certificates"
 msgstr ""
 
 #. Template: AdminSMIME
+msgid "Filter for S/MIME certs"
+msgstr ""
+
+#. Template: AdminSMIME
 msgid "Relate this certificate"
 msgstr ""
 
@@ -6289,10 +6296,6 @@ msgstr "Pridėti kreipimąsi"
 #. Template: AdminSalutation
 msgid "Edit Salutation"
 msgstr "Redaguoti kreipimąsi"
-
-#. Template: AdminSalutation
-msgid "Add salutation"
-msgstr "Pridėti kreipimąsi"
 
 #. Template: AdminSalutation
 msgid "Filter for Salutations"
@@ -6398,14 +6401,6 @@ msgid "Edit Service"
 msgstr "Redaguoti paslaugą"
 
 #. Template: AdminService
-msgid "Add service"
-msgstr "Pridėti paslaugą"
-
-#. Template: AdminService
-msgid "Filter for services"
-msgstr ""
-
-#. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
 msgstr ""
 
@@ -6484,10 +6479,6 @@ msgstr "Pridėti parašą"
 #. Template: AdminSignature
 msgid "Edit Signature"
 msgstr "Redaguoti parašą"
-
-#. Template: AdminSignature
-msgid "Add signature"
-msgstr "Pridėti parašą"
 
 #. Template: AdminSignature
 msgid "Filter for Signatures"
@@ -6977,7 +6968,7 @@ msgid "Kill all Sessions, except for your own"
 msgstr ""
 
 #. Template: AdminTemplate
-msgid "Manage Templates"
+msgid "Template Management"
 msgstr ""
 
 #. Template: AdminTemplate
@@ -6986,10 +6977,6 @@ msgstr ""
 
 #. Template: AdminTemplate
 msgid "Edit Template"
-msgstr ""
-
-#. Template: AdminTemplate
-msgid "Add template"
 msgstr ""
 
 #. Template: AdminTemplate
@@ -7063,10 +7050,6 @@ msgid "Edit Type"
 msgstr "Redaguoti tipą"
 
 #. Template: AdminType
-msgid "Add ticket type"
-msgstr "Pridėti trikties tipą"
-
-#. Template: AdminType
 msgid "Filter for Types"
 msgstr ""
 
@@ -7091,10 +7074,6 @@ msgstr ""
 #. Template: AdminUser
 msgid "Agent Management"
 msgstr "Agentų valdymas"
-
-#. Template: AdminUser
-msgid "Add Agent"
-msgstr "Pridėti agentą"
 
 #. Template: AdminUser
 msgid "Edit Agent"
@@ -9079,6 +9058,10 @@ msgstr "Prisijungti"
 #. Template: CustomerLogin
 msgid "Not yet registered?"
 msgstr "Neregistruotas?"
+
+#. Template: CustomerLogin
+msgid "Back"
+msgstr "Atgal"
 
 #. Template: CustomerLogin
 msgid "Request New Password"
@@ -16381,6 +16364,10 @@ msgstr ""
 msgid "Do you really want to delete this notification?"
 msgstr ""
 
+#. JS File: Core.Agent.Admin.PGP
+msgid "Do you really want to delete this key?"
+msgstr ""
+
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "There is a package upgrade process running, click here to see status "
@@ -17883,14 +17870,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Attachment Name"
-msgstr ""
-
-#. SysConfig
-msgid "Attachments ↔ Templates"
-msgstr ""
-
-#. SysConfig
-msgid "Auto Responses ↔ Queues"
 msgstr ""
 
 #. SysConfig
@@ -22743,10 +22722,6 @@ msgid "Link agents to roles."
 msgstr "Susieti agentus su rolėmis."
 
 #. SysConfig
-msgid "Link attachments to templates."
-msgstr ""
-
-#. SysConfig
 msgid "Link customer users to customers."
 msgstr ""
 
@@ -22769,6 +22744,10 @@ msgstr "Susieti eiles su automatiniais atsakymais."
 #. SysConfig
 msgid "Link roles to groups."
 msgstr "Susieti roles su grupėmis."
+
+#. SysConfig
+msgid "Link templates to attachments."
+msgstr ""
 
 #. SysConfig
 msgid "Link templates to queues."
@@ -24061,6 +24040,10 @@ msgstr ""
 #. SysConfig
 msgid "Queue view"
 msgstr "Eilių peržiūra"
+
+#. SysConfig
+msgid "Queues ↔ Auto Responses"
+msgstr ""
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -26198,6 +26181,10 @@ msgstr ""
 
 #. SysConfig
 msgid "System Maintenance"
+msgstr ""
+
+#. SysConfig
+msgid "Templates ↔ Attachments"
 msgstr ""
 
 #. SysConfig

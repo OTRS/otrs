@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.279951939581188;
+    $Self->{Completeness}        = 0.277052559257987;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -100,7 +100,6 @@ sub Data {
         'Calendar Management' => '',
         'Add Calendar' => '',
         'Edit Calendar' => '',
-        'Go back' => '',
         'Calendar Overview' => '',
         'Add new Calendar' => '',
         'Import Appointments' => '',
@@ -110,6 +109,7 @@ sub Data {
         'Overwrite existing entities' => '',
         'Upload calendar configuration' => '',
         'Import Calendar' => '',
+        'Filter for Calendars' => '',
         'Filter for calendars' => '',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             '',
@@ -153,6 +153,7 @@ sub Data {
 
         # Template: AdminAppointmentImport
         'Appointment Import' => '',
+        'Go back' => '',
         'Uploaded file must be in valid iCal format (.ics).' => '',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             '',
@@ -167,7 +168,6 @@ sub Data {
         'Appointment Notification Management' => '',
         'Add Notification' => 'अधिसूचना जोड़ें',
         'Edit Notification' => 'अधिसूचनाएँ संपादित करें',
-        'Add notification' => 'अधिसूचना जोड़ें',
         'Export Notifications' => '',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',
@@ -319,9 +319,10 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => '',
-        'Time range' => '',
+        'Time Range' => '',
         'Show only communication logs created in specific time range.' =>
             '',
+        'Filter for Communications' => '',
         'Filter for communications' => '',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             '',
@@ -352,9 +353,9 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => '',
-        'Back' => 'वापस',
+        'Back to overview' => '',
+        'Filter for Accounts' => '',
         'Filter for accounts' => '',
-        'Filter for log entries' => '',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             '',
         'Account status for: %s' => '',
@@ -380,6 +381,8 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '',
+        'Filter for Log Entries' => '',
+        'Filter for log entries' => '',
         'Show only entries with specific priority and higher:' => '',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
@@ -484,15 +487,17 @@ sub Data {
             '',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'आप विन्यास व्यवस्था "ग्राहक समूह सदैव समूहों" के माध्यम से इन समूहों का प्रबंधन कर सकते हैं।',
+        'Filter for groups' => '',
         'Select the customer user - group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             '',
         'Customer User Default Groups:' => '',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Services Relations' => '',
+        'Manage Customer User-Service Relations' => '',
         'Edit default services' => 'तयशुदा सेवाएं संपादित करें',
         'Filter for Services' => 'सेवाओं के लिए निस्पादक',
+        'Filter for services' => '',
         'Services' => 'सेवाएँ',
 
         # Template: AdminDynamicField
@@ -620,12 +625,12 @@ sub Data {
         'Send' => 'भेजें',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => 'सामान्य प्रतिनिधि',
-        'Edit job' => 'काम संपादित करें',
-        'Add job' => 'काम जोड़ें',
-        'Run job' => 'काम चलाएँ',
-        'Filter for Generic Agent Jobs' => '',
-        'Filter for generic agent jobs' => '',
+        'Generic Agent Job Management' => '',
+        'Edit Job' => '',
+        'Add Job' => '',
+        'Run Job' => '',
+        'Filter for Jobs' => '',
+        'Filter for jobs' => '',
         'Last run' => 'पिछले भागो',
         'Run Now!' => 'अब चलाएँ',
         'Delete this task' => 'इस कार्य को हटाएँ',
@@ -1150,7 +1155,6 @@ sub Data {
             '',
         'If you want to return to overview please click the "Go to overview" button.' =>
             '',
-        'Web Service List' => '',
         'Remote system' => '',
         'Provider transport' => '',
         'Requester transport' => '',
@@ -1195,7 +1199,6 @@ sub Data {
         'Group Management' => 'समूह प्रबंधन',
         'Add Group' => 'समूह जोड़ें',
         'Edit Group' => 'समूह संपादित करें',
-        'Add group' => 'समूह जोड़ें',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'व्यवस्थापक समूह के लिए समूह प्रबंधन के क्षेत्र का प्रयोग है और आँकड़े समूह आँकड़े क्षेत्र को प्राप्त करने के लिए।',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
@@ -1204,7 +1207,6 @@ sub Data {
 
         # Template: AdminLog
         'System Log' => 'प्रणाली अभिलेख ',
-        'Filter for Log Entries' => '',
         'Here you will find log information about your system.' => 'यहाँ पर आपको अपनी प्रणाली के बारे में अभिलेख की जानकारी मिल जाएगी।',
         'Hide this message' => 'इस संदेश को छिपाएँ',
         'Recent Log Entries' => 'ताज़ा अभिलेख प्रविष्टियां',
@@ -1381,11 +1383,9 @@ sub Data {
             '',
         'Configure it here!' => '',
         'Check PGP configuration' => '',
-        'Add PGP key' => 'PGP कुंजी जोड़ें',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'इस तरह आपको सीधे प्रणाली विन्यास में विन्यस्त कुंजीरिंग संपादित कर सकते हैं।',
         'Introduction to PGP' => 'PGP के लिए परिचय',
-        'Result' => 'परिणाम',
         'Identifier' => 'पहचानकर्ता',
         'Bit' => 'थोड़ा',
         'Fingerprint' => 'अंगुली-चिह्न',
@@ -1490,9 +1490,8 @@ sub Data {
         'PostMaster Filter Management' => 'डाकपाल निस्पादक प्रबंधन',
         'Add PostMaster Filter' => 'डाकपाल निस्पादक जोड़ें',
         'Edit PostMaster Filter' => 'डाकपाल निस्पादक को संपादित करें',
-        'Add filter' => 'निस्पादक जोड़ें',
-        'Filter for Postmaster Filters' => '',
-        'Filter for postmaster filters' => '',
+        'Filter for PostMaster Filters' => '',
+        'Filter for PostMaster filters' => '',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             ' ईमेल शीर्षक के आधार पर आने वाली ईमेल को प्रेषण या निस्पादक करने के लिए। नियमित भाव सॆ भी मिलान संभव है।',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1530,6 +1529,7 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => '',
         'Filter for Processes' => '',
+        'Filter for processes' => '',
         'Create New Process' => '',
         'Deploy All Processes' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
@@ -1688,7 +1688,7 @@ sub Data {
         'Remove this Parameter' => '',
 
         # Template: AdminQueue
-        'Manage Queues' => 'श्रेणी का प्रबंधन करें',
+        'Queue Management' => '',
         'Add Queue' => 'श्रेणी जोड़ें',
         'Edit Queue' => 'श्रेणी को संपादित करें',
         'Filter for Queues' => 'श्रेणी के लिए निस्पादक',
@@ -1720,6 +1720,8 @@ sub Data {
         'System address' => 'प्रणाली का पता',
         'Will be the sender address of this queue for email answers.' => 'ईमेल के जवाब के लिए इस श्रेणी में प्रेषक का पता होगा।',
         'Default sign key' => 'तयशुदा हस्ताक्षर कुंजी',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'Salutation' => 'अभिवादन',
         'The salutation for email answers.' => 'ईमेल उत्तर के लिए अभिवादन।',
         'Signature' => 'हस्ताक्षर',
@@ -1738,6 +1740,7 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
         'Filter for Templates' => '',
+        'Filter for templates' => '',
         'Templates' => '',
 
         # Template: AdminRegistration
@@ -1838,7 +1841,6 @@ sub Data {
 
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => 'भूमिका-समूह संबंधों का प्रबंधन करें',
-        'Add role' => 'भूमिका जोड़ें',
         'Roles' => 'भूमिकाएं',
         'Select the role:group permissions.' => 'भूमिका:समूह अनुमतियों का चयन करें',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
@@ -1859,8 +1861,9 @@ sub Data {
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'प्रतिनिधि-भूमिका संबंधों का प्रबंधन करें',
-        'Add agent' => 'प्रतिनिधि जोड़ें',
+        'Add Agent' => 'प्रतिनिधि जोड़ें',
         'Filter for Agents' => 'प्रतिनिधियॊ के लिए निस्पादक',
+        'Filter for agents' => '',
         'Agents' => 'प्रतिनिधियॊ',
         'Manage Role-Agent Relations' => 'भूमिका-प्रतिनिधि संबंधों का प्रबंधन करें',
 
@@ -1883,10 +1886,8 @@ sub Data {
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             '',
         'Check SMIME configuration' => '',
-        'Add certificate' => 'प्रमाणपत्र जोड़ें',
-        'Add private key' => 'निजी कुंजी जोड़ें',
         'Filter for Certificates' => '',
-        'Filter for S/MIME certs' => '',
+        'Filter for certificates' => '',
         'To show certificate details click on a certificate icon.' => '',
         'To manage private certificate relations click on a private key icon.' =>
             '',
@@ -1905,6 +1906,7 @@ sub Data {
         'Related Certificates for' => '',
         'Delete this relation' => '',
         'Available Certificates' => '',
+        'Filter for S/MIME certs' => '',
         'Relate this certificate' => '',
 
         # Template: AdminSMIMECertRead
@@ -1916,7 +1918,6 @@ sub Data {
         'Salutation Management' => 'अभिवादन प्रबंधन',
         'Add Salutation' => 'अभिवादन जोड़ें ',
         'Edit Salutation' => 'अभिवादन संपादित करें',
-        'Add salutation' => 'अभिवादन जोड़ें ',
         'Filter for Salutations' => '',
         'Filter for salutations' => '',
         'e. g.' => 'उदा.',
@@ -1952,8 +1953,6 @@ sub Data {
         'Service Management' => 'सेवा प्रबंधन',
         'Add Service' => 'सेवा जोड़ें ',
         'Edit Service' => 'सेवा संपादित करें',
-        'Add service' => 'सेवा जोड़ें',
-        'Filter for services' => '',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             '',
         'Sub-service of' => 'की उप-सेवा',
@@ -1979,7 +1978,6 @@ sub Data {
         'Signature Management' => 'हस्ताक्षर प्रबंधन',
         'Add Signature' => 'हस्ताक्षर जोड़ें',
         'Edit Signature' => 'हस्ताक्षर संपादित करें',
-        'Add signature' => 'हस्ताक्षर जोड़ें',
         'Filter for Signatures' => '',
         'Filter for signatures' => '',
         'Example signature' => 'हस्ताक्षर के उदाहरण',
@@ -2147,10 +2145,9 @@ sub Data {
         'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
-        'Manage Templates' => '',
+        'Template Management' => '',
         'Add Template' => '',
         'Edit Template' => '',
-        'Add template' => '',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             '',
         'Don\'t forget to add new templates to queues.' => '',
@@ -2173,7 +2170,6 @@ sub Data {
         'Type Management' => 'प्रकार प्रबंधन',
         'Add Type' => 'प्रकार जोड़ें',
         'Edit Type' => 'प्रकार संपादित करें',
-        'Add ticket type' => 'टिकट के प्रकार जोड़ें',
         'Filter for Types' => '',
         'Filter for types' => '',
         'A type with this name already exists!' => '',
@@ -2183,7 +2179,6 @@ sub Data {
 
         # Template: AdminUser
         'Agent Management' => 'प्रतिनिधि प्रबंधन',
-        'Add Agent' => 'प्रतिनिधि जोड़ें',
         'Edit Agent' => 'प्रतिनिधि संपादित करें',
         'Edit personal preferences for this agent' => '',
         'Agents will be needed to handle tickets.' => 'प्रतिनिधियॊ के लिए टिकट संभालना जरूरी हो जाएगा।',
@@ -2859,6 +2854,7 @@ sub Data {
         'Your 2 Factor Token' => '',
         'Log In' => 'प्रवेश',
         'Not yet registered?' => 'अभी तक पंजीकृत नही?',
+        'Back' => 'वापस',
         'Request New Password' => 'नए कूटशब्द के लिए अनुरोध करे',
         'Your User Name' => 'आपका उपयोगकर्ता नाम',
         'A new password will be sent to your email address.' => 'एक नया कूटशब्द आपके ईमेल पते पर भेजा जाएगा।',
@@ -5491,6 +5487,9 @@ sub Data {
         'Do you really want to delete this notification language?' => '',
         'Do you really want to delete this notification?' => '',
 
+        # JS File: Core.Agent.Admin.PGP
+        'Do you really want to delete this key?' => '',
+
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
             '',
@@ -6031,8 +6030,6 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => '',
         'ArticleTree' => '',
         'Attachment Name' => '',
-        'Attachments ↔ Templates' => '',
-        'Auto Responses ↔ Queues' => '',
         'Automated line break in text messages after x number of chars.' =>
             'पाठ संदेशों में स्वचालित पंक्ति विराम अक्षरों की x संख्या के बाद।',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -7496,13 +7493,13 @@ Thanks for your help!
         'Link Object.' => '',
         'Link agents to groups.' => 'प्रतिनिधिओं को समूहों से जोडें।',
         'Link agents to roles.' => 'प्रतिनिधिओं को भूमिकाओं से जोडें।',
-        'Link attachments to templates.' => '',
         'Link customer users to customers.' => '',
         'Link customer users to groups.' => '',
         'Link customer users to services.' => '',
         'Link customers to groups.' => '',
         'Link queues to auto responses.' => 'श्रेणीयों को स्वत प्रतिक्रियाओं से जोडें।',
         'Link roles to groups.' => 'भूमिकाओं को समूहों से जोडें।',
+        'Link templates to attachments.' => '',
         'Link templates to queues.' => '',
         'Link this ticket to other objects' => '',
         'Links 2 tickets with a "Normal" type link.' => '2 टिकटों को "सामान्य"प्रकार के लिंक के साथ जोडें।',
@@ -7838,6 +7835,7 @@ Thanks for your help!
         'Public Calendar' => '',
         'Public calendar.' => '',
         'Queue view' => 'श्रेणी दृश्य',
+        'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             '',
@@ -8477,6 +8475,7 @@ Thanks for your help!
         'System Configuration Deployment' => '',
         'System Configuration Group' => '',
         'System Maintenance' => '',
+        'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => '',
         'Textarea' => '',
         'Thai' => '',
@@ -8810,6 +8809,7 @@ Thanks for your help!
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',

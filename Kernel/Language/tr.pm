@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.197391005835908;
+    $Self->{Completeness}        = 0.195465475781518;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -98,7 +98,6 @@ sub Data {
         'Calendar Management' => 'Takvimleri Yönet',
         'Add Calendar' => 'Takvime Ekle',
         'Edit Calendar' => 'Takvimi Düzenle',
-        'Go back' => 'Geri',
         'Calendar Overview' => 'Takvim Ön İzlemesi',
         'Add new Calendar' => 'Yeni Takvim Ekle',
         'Import Appointments' => 'Atamaları Al',
@@ -108,6 +107,7 @@ sub Data {
         'Overwrite existing entities' => '',
         'Upload calendar configuration' => 'Takvim yapılandırmasını yükle',
         'Import Calendar' => 'Takvimi İçe Aktar',
+        'Filter for Calendars' => '',
         'Filter for calendars' => 'Takvimler için filtre uygula',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             '',
@@ -151,6 +151,7 @@ sub Data {
 
         # Template: AdminAppointmentImport
         'Appointment Import' => 'Atamayı İçeri Aktar',
+        'Go back' => 'Geri',
         'Uploaded file must be in valid iCal format (.ics).' => '',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             '',
@@ -165,7 +166,6 @@ sub Data {
         'Appointment Notification Management' => '',
         'Add Notification' => 'Bildirim ekle',
         'Edit Notification' => 'Bildirim Düzenle',
-        'Add notification' => 'Uyarı Ekle',
         'Export Notifications' => '',
         'Filter for Notifications' => 'Bildirimler İçin Filtreleme',
         'Filter for notifications' => 'Bildirimler için filtreleme',
@@ -317,9 +317,10 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => '',
-        'Time range' => '',
+        'Time Range' => '',
         'Show only communication logs created in specific time range.' =>
             '',
+        'Filter for Communications' => '',
         'Filter for communications' => '',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             '',
@@ -350,9 +351,9 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => '',
-        'Back' => 'Geri',
+        'Back to overview' => '',
+        'Filter for Accounts' => '',
         'Filter for accounts' => '',
-        'Filter for log entries' => '',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             '',
         'Account status for: %s' => '',
@@ -378,6 +379,8 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '',
+        'Filter for Log Entries' => '',
+        'Filter for log entries' => '',
         'Show only entries with specific priority and higher:' => '',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
@@ -482,15 +485,17 @@ sub Data {
             '',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             '',
+        'Filter for groups' => '',
         'Select the customer user - group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             '',
         'Customer User Default Groups:' => '',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Services Relations' => '',
+        'Manage Customer User-Service Relations' => '',
         'Edit default services' => '',
         'Filter for Services' => '',
+        'Filter for services' => '',
         'Services' => 'Servisler',
 
         # Template: AdminDynamicField
@@ -618,12 +623,12 @@ sub Data {
         'Send' => 'Gönder',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => 'Genel Aracı',
-        'Edit job' => 'Görevi düzenle',
-        'Add job' => '',
-        'Run job' => 'Görevi çalıştır',
-        'Filter for Generic Agent Jobs' => '',
-        'Filter for generic agent jobs' => '',
+        'Generic Agent Job Management' => '',
+        'Edit Job' => '',
+        'Add Job' => '',
+        'Run Job' => '',
+        'Filter for Jobs' => '',
+        'Filter for jobs' => '',
         'Last run' => 'Son çalıştırma',
         'Run Now!' => 'Şimdi Çalıştır!',
         'Delete this task' => '',
@@ -1148,7 +1153,6 @@ sub Data {
             '',
         'If you want to return to overview please click the "Go to overview" button.' =>
             '',
-        'Web Service List' => 'Web hizmeti listesi',
         'Remote system' => 'Uzak sistem',
         'Provider transport' => '',
         'Requester transport' => '',
@@ -1193,7 +1197,6 @@ sub Data {
         'Group Management' => 'Grup Yönetimi',
         'Add Group' => 'Grup Ekle',
         'Edit Group' => '',
-        'Add group' => '',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'Yönetim grubu yönetim alanına ve istatistikler grubu istatistik alanına girmek içindir.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
@@ -1202,7 +1205,6 @@ sub Data {
 
         # Template: AdminLog
         'System Log' => 'Sistem Günlüğü',
-        'Filter for Log Entries' => '',
         'Here you will find log information about your system.' => '',
         'Hide this message' => '',
         'Recent Log Entries' => '',
@@ -1379,11 +1381,9 @@ sub Data {
             '',
         'Configure it here!' => '',
         'Check PGP configuration' => '',
-        'Add PGP key' => '',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'Bu şekilde Sistem Yapılandırmasında yapılandırılmış olan anahtar halkasını (keyring) direkt olarak düzenleyebilirsiniz.',
         'Introduction to PGP' => '',
-        'Result' => 'Sonuç',
         'Identifier' => 'Tanımlayıcı',
         'Bit' => 'Bit',
         'Fingerprint' => 'Parmak izi',
@@ -1488,9 +1488,8 @@ sub Data {
         'PostMaster Filter Management' => 'PostMaster Süzgeç Yönetimi',
         'Add PostMaster Filter' => 'PostMaster filtre ekle',
         'Edit PostMaster Filter' => 'PostMaster filtre düzenle',
-        'Add filter' => 'Filtre ekle',
-        'Filter for Postmaster Filters' => '',
-        'Filter for postmaster filters' => '',
+        'Filter for PostMaster Filters' => '',
+        'Filter for PostMaster filters' => '',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             '',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1528,6 +1527,7 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => 'Süreç Yönetimi',
         'Filter for Processes' => 'Süreç filtresi',
+        'Filter for processes' => '',
         'Create New Process' => 'Yeni Süreç Oluştur',
         'Deploy All Processes' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
@@ -1686,7 +1686,7 @@ sub Data {
         'Remove this Parameter' => '',
 
         # Template: AdminQueue
-        'Manage Queues' => '',
+        'Queue Management' => '',
         'Add Queue' => '',
         'Edit Queue' => '',
         'Filter for Queues' => '',
@@ -1718,6 +1718,8 @@ sub Data {
         'System address' => '',
         'Will be the sender address of this queue for email answers.' => 'Elektronik posta yanıtları için bu kuyruğun gönderen adresi olur.',
         'Default sign key' => '',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'Salutation' => 'Selam',
         'The salutation for email answers.' => 'Elektronik posta yanıtları için selamlama.',
         'Signature' => 'İmza',
@@ -1736,6 +1738,7 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
         'Filter for Templates' => '',
+        'Filter for templates' => '',
         'Templates' => '',
 
         # Template: AdminRegistration
@@ -1836,7 +1839,6 @@ sub Data {
 
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => 'Rol-Grup ilişkilerini yönet',
-        'Add role' => 'Rol ekle',
         'Roles' => 'Roller',
         'Select the role:group permissions.' => 'Rol seç:grup yetkileri',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
@@ -1857,8 +1859,9 @@ sub Data {
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => '',
-        'Add agent' => 'Aracı ekle',
+        'Add Agent' => 'Aracı ekle',
         'Filter for Agents' => 'Aracılar için filtre',
+        'Filter for agents' => '',
         'Agents' => 'Aracılar',
         'Manage Role-Agent Relations' => 'Aracı-Rol ilişkisini yönet',
 
@@ -1881,10 +1884,8 @@ sub Data {
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             '',
         'Check SMIME configuration' => '',
-        'Add certificate' => '',
-        'Add private key' => '',
         'Filter for Certificates' => '',
-        'Filter for S/MIME certs' => '',
+        'Filter for certificates' => '',
         'To show certificate details click on a certificate icon.' => '',
         'To manage private certificate relations click on a private key icon.' =>
             '',
@@ -1903,6 +1904,7 @@ sub Data {
         'Related Certificates for' => '',
         'Delete this relation' => '',
         'Available Certificates' => '',
+        'Filter for S/MIME certs' => '',
         'Relate this certificate' => '',
 
         # Template: AdminSMIMECertRead
@@ -1914,7 +1916,6 @@ sub Data {
         'Salutation Management' => 'Selamlama Yönetimi',
         'Add Salutation' => 'Selamlama Ekle',
         'Edit Salutation' => '',
-        'Add salutation' => '',
         'Filter for Salutations' => '',
         'Filter for salutations' => '',
         'e. g.' => '',
@@ -1950,8 +1951,6 @@ sub Data {
         'Service Management' => 'Servis Yönetimi',
         'Add Service' => 'Servis Ekle',
         'Edit Service' => 'Servis Düzenle',
-        'Add service' => 'Servis ekle',
-        'Filter for services' => '',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             '',
         'Sub-service of' => 'Alt servis',
@@ -1977,7 +1976,6 @@ sub Data {
         'Signature Management' => 'İmza Yönetimi',
         'Add Signature' => 'İmza Ekle',
         'Edit Signature' => 'İmza Düzenle',
-        'Add signature' => 'İmza ekle',
         'Filter for Signatures' => '',
         'Filter for signatures' => '',
         'Example signature' => 'Örnek imza',
@@ -2145,10 +2143,9 @@ sub Data {
         'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
-        'Manage Templates' => '',
+        'Template Management' => '',
         'Add Template' => '',
         'Edit Template' => '',
-        'Add template' => '',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             '',
         'Don\'t forget to add new templates to queues.' => '',
@@ -2171,7 +2168,6 @@ sub Data {
         'Type Management' => 'Tip Yönetimi',
         'Add Type' => 'Tip Ekle',
         'Edit Type' => 'Tipi düzenle',
-        'Add ticket type' => 'Bilet tipi ekle',
         'Filter for Types' => '',
         'Filter for types' => '',
         'A type with this name already exists!' => '',
@@ -2181,7 +2177,6 @@ sub Data {
 
         # Template: AdminUser
         'Agent Management' => 'Aracı Yönetimi',
-        'Add Agent' => 'Aracı ekle',
         'Edit Agent' => 'Aracı düzenle',
         'Edit personal preferences for this agent' => '',
         'Agents will be needed to handle tickets.' => 'Aracılar bilet işlemek için gerekli olacaktır.',
@@ -2857,6 +2852,7 @@ sub Data {
         'Your 2 Factor Token' => '',
         'Log In' => 'Giriş',
         'Not yet registered?' => 'Henüz kayıt olmadınız mı?',
+        'Back' => 'Geri',
         'Request New Password' => 'Yeni Parola Talep Et',
         'Your User Name' => 'Kullanıcı Adı',
         'A new password will be sent to your email address.' => '...',
@@ -5489,6 +5485,9 @@ sub Data {
         'Do you really want to delete this notification language?' => '',
         'Do you really want to delete this notification?' => '',
 
+        # JS File: Core.Agent.Admin.PGP
+        'Do you really want to delete this key?' => '',
+
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
             '',
@@ -6029,8 +6028,6 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => '',
         'ArticleTree' => '',
         'Attachment Name' => '',
-        'Attachments ↔ Templates' => '',
-        'Auto Responses ↔ Queues' => '',
         'Automated line break in text messages after x number of chars.' =>
             '',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -7494,13 +7491,13 @@ Thanks for your help!
         'Link Object.' => '',
         'Link agents to groups.' => 'Gruba aracı bağla.',
         'Link agents to roles.' => 'Role aracı bağla.',
-        'Link attachments to templates.' => '',
         'Link customer users to customers.' => '',
         'Link customer users to groups.' => '',
         'Link customer users to services.' => '',
         'Link customers to groups.' => '',
         'Link queues to auto responses.' => 'Otomatik cevaplara kuyruk bağla.',
         'Link roles to groups.' => 'Gruplara rol bağla.',
+        'Link templates to attachments.' => '',
         'Link templates to queues.' => '',
         'Link this ticket to other objects' => 'Bu bileti başka nesnelere bağla',
         'Links 2 tickets with a "Normal" type link.' => '',
@@ -7836,6 +7833,7 @@ Thanks for your help!
         'Public Calendar' => '',
         'Public calendar.' => '',
         'Queue view' => 'Kuyruk görünümü',
+        'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             '',
@@ -8475,6 +8473,7 @@ Thanks for your help!
         'System Configuration Deployment' => '',
         'System Configuration Group' => '',
         'System Maintenance' => '',
+        'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => '',
         'Textarea' => '',
         'Thai' => '',
@@ -8808,6 +8807,7 @@ Thanks for your help!
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',

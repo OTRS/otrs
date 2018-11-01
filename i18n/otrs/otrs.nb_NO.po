@@ -1,20 +1,21 @@
 # Translators:
-# Lars Åge Kamfjord <lars-transifex@kamfjord.org>, 2018
-# Tor Houghton <th-transifex@bogus.net>, 2018
-# Martin Gruner <martin.gruner@otrs.com>, 2018
-# Udo Bretz, 2018
-# LarsMagnusHerland <lars.magnus@herland.priv.no>, 2018
-# Peter Værlien <pvarlien@online.no>, 2018
-# Stein-Aksel Basma <stabasm@hotmail.com>, 2018
-# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
-# Trond Botnen <trond@dataservice.no>, 2018
 # Rolf-Arne Schulze <ras@nisec.no>, 2018
+# Trond Botnen <trond@dataservice.no>, 2018
+# Lars Åge Kamfjord <lars-transifex@kamfjord.org>, 2018
+# Udo Bretz, 2018
+# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
+# Stein-Aksel Basma <stabasm@hotmail.com>, 2018
+# Peter Værlien <pvarlien@online.no>, 2018
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Tor Houghton <th-transifex@bogus.net>, 2018
+# LarsMagnusHerland <lars.magnus@herland.priv.no>, 2018
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-09-27 16:58+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Rolf-Arne Schulze <ras@nisec.no>, 2018\n"
+"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"PO-Revision-Date: 2018-09-20 13:03+0000\n"
+"Last-Translator: LarsMagnusHerland <lars.magnus@herland.priv.no>, 2018\n"
 "Language-Team: Norwegian Bokmål (Norway) (https://www.transifex.com/otrs/teams/23435/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -261,10 +262,6 @@ msgid "Edit Calendar"
 msgstr "Endre kalender"
 
 #. Template: AdminAppointmentCalendarManage
-msgid "Go back"
-msgstr "Gå tilbake"
-
-#. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
 msgstr "Kalenderoversikt"
 
@@ -301,6 +298,10 @@ msgstr "Last opp kalenderkonfigurasjon"
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
 msgstr "Importer kalender"
+
+#. Template: AdminAppointmentCalendarManage
+msgid "Filter for Calendars"
+msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -460,6 +461,10 @@ msgid "Appointment Import"
 msgstr "Avtaleimport"
 
 #. Template: AdminAppointmentImport
+msgid "Go back"
+msgstr "Gå tilbake"
+
+#. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
 msgstr "Den opplastede filen må være på gyldig iCal format (.ics)."
 
@@ -505,10 +510,6 @@ msgstr "Legg til varsling"
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
 msgstr "Endre varsling"
-
-#. Template: AdminAppointmentNotificationEvent
-msgid "Add notification"
-msgstr "Legg til varsling"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
@@ -1046,11 +1047,15 @@ msgid "Communication Log"
 msgstr ""
 
 #. Template: AdminCommunicationLog
-msgid "Time range"
+msgid "Time Range"
 msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
+msgstr ""
+
+#. Template: AdminCommunicationLog
+msgid "Filter for Communications"
 msgstr ""
 
 #. Template: AdminCommunicationLog
@@ -1160,15 +1165,15 @@ msgid "Account Status"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Back"
-msgstr "Tilbake"
-
-#. Template: AdminCommunicationLogAccounts
-msgid "Filter for accounts"
+msgid "Back to overview"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Filter for log entries"
+msgid "Filter for Accounts"
+msgstr ""
+
+#. Template: AdminCommunicationLogAccounts
+msgid "Filter for accounts"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
@@ -1243,6 +1248,14 @@ msgstr ""
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
+msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for Log Entries"
+msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for log entries"
 msgstr ""
 
 #. Template: AdminCommunicationLogZoom
@@ -1596,6 +1609,10 @@ msgstr ""
 "\"CustomerGroupAlwaysGroups\""
 
 #. Template: AdminCustomerUserGroup
+msgid "Filter for groups"
+msgstr ""
+
+#. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
 msgstr ""
 
@@ -1610,7 +1627,7 @@ msgid "Customer User Default Groups:"
 msgstr ""
 
 #. Template: AdminCustomerUserService
-msgid "Manage Customer User-Services Relations"
+msgid "Manage Customer User-Service Relations"
 msgstr ""
 
 #. Template: AdminCustomerUserService
@@ -1620,6 +1637,10 @@ msgstr "Endre standardtjenester"
 #. Template: AdminCustomerUserService
 msgid "Filter for Services"
 msgstr "Filter for tjenester"
+
+#. Template: AdminCustomerUserService
+msgid "Filter for services"
+msgstr ""
 
 #. Template: AdminCustomerUserService
 msgid "Services"
@@ -2022,27 +2043,27 @@ msgid "Send"
 msgstr "Send"
 
 #. Template: AdminGenericAgent
-msgid "Generic Agent"
-msgstr "Generisk agent"
-
-#. Template: AdminGenericAgent
-msgid "Edit job"
-msgstr "Endre jobb"
-
-#. Template: AdminGenericAgent
-msgid "Add job"
-msgstr "Legg til jobb"
-
-#. Template: AdminGenericAgent
-msgid "Run job"
-msgstr "Kjør jobb"
-
-#. Template: AdminGenericAgent
-msgid "Filter for Generic Agent Jobs"
+msgid "Generic Agent Job Management"
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Filter for generic agent jobs"
+msgid "Edit Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Add Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Run Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Filter for Jobs"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Filter for jobs"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -3834,10 +3855,6 @@ msgid ""
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Web Service List"
-msgstr "Liste over webtjenester"
-
-#. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
 msgstr "Fjernstyrt system"
 
@@ -3980,10 +3997,6 @@ msgid "Edit Group"
 msgstr "Endre gruppe"
 
 #. Template: AdminGroup
-msgid "Add group"
-msgstr "Legg til gruppe"
-
-#. Template: AdminGroup
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
@@ -4007,10 +4020,6 @@ msgstr "Det er nyttig for ASP-løsninger"
 #. Template: AdminLog
 msgid "System Log"
 msgstr "Systemlogg"
-
-#. Template: AdminLog
-msgid "Filter for Log Entries"
-msgstr ""
 
 #. Template: AdminLog
 msgid "Here you will find log information about your system."
@@ -4571,10 +4580,6 @@ msgid "Check PGP configuration"
 msgstr "Sjekk PGP konfigurasjon"
 
 #. Template: AdminPGP
-msgid "Add PGP key"
-msgstr "Legg til PGP-nøkkel"
-
-#. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
 msgstr ""
 "På denne måten kan du direkte redigere nøkkelringen som er konfigurert i "
@@ -4583,10 +4588,6 @@ msgstr ""
 #. Template: AdminPGP
 msgid "Introduction to PGP"
 msgstr "Introduksjon til PGP"
-
-#. Template: AdminPGP
-msgid "Result"
-msgstr "Resultat"
 
 #. Template: AdminPGP
 msgid "Identifier"
@@ -4942,15 +4943,11 @@ msgid "Edit PostMaster Filter"
 msgstr "Endre Postmaster-filter"
 
 #. Template: AdminPostMasterFilter
-msgid "Add filter"
-msgstr "Legg til filter"
-
-#. Template: AdminPostMasterFilter
-msgid "Filter for Postmaster Filters"
+msgid "Filter for PostMaster Filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
-msgid "Filter for postmaster filters"
+msgid "Filter for PostMaster filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
@@ -5076,6 +5073,10 @@ msgstr "Prosessoppsett"
 #. Template: AdminProcessManagement
 msgid "Filter for Processes"
 msgstr "Filter for prosesser"
+
+#. Template: AdminProcessManagement
+msgid "Filter for processes"
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Create New Process"
@@ -5589,8 +5590,8 @@ msgid "Remove this Parameter"
 msgstr "Fjern dette parameteret"
 
 #. Template: AdminQueue
-msgid "Manage Queues"
-msgstr "Kø-administrasjon"
+msgid "Queue Management"
+msgstr ""
 
 #. Template: AdminQueue
 msgid "Add Queue"
@@ -5720,6 +5721,12 @@ msgid "Default sign key"
 msgstr "Standard signeringsnøkkel"
 
 #. Template: AdminQueue
+msgid ""
+"To use a sign key, PGP keys or S/MIME certificates need to be added with "
+"identifiers for selected queue system address."
+msgstr ""
+
+#. Template: AdminQueue
 msgid "Salutation"
 msgstr "Hilsning"
 
@@ -5774,6 +5781,10 @@ msgstr "Koplinger mellom Mal og Kø"
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
 msgstr "Filter for Maler"
+
+#. Template: AdminQueueTemplates
+msgid "Filter for templates"
+msgstr ""
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
@@ -6112,10 +6123,6 @@ msgid "Manage Role-Group Relations"
 msgstr "Koplinger mellom Rolle og Gruppe"
 
 #. Template: AdminRoleGroup
-msgid "Add role"
-msgstr "Ny rolle"
-
-#. Template: AdminRoleGroup
 msgid "Roles"
 msgstr "Roller"
 
@@ -6180,12 +6187,16 @@ msgid "Manage Agent-Role Relations"
 msgstr "Koplinger mellom Saksbehandlere og Roller"
 
 #. Template: AdminRoleUser
-msgid "Add agent"
-msgstr "Legg til saksbehandler"
+msgid "Add Agent"
+msgstr "Legg til Saksbehandler"
 
 #. Template: AdminRoleUser
 msgid "Filter for Agents"
 msgstr "Filter for Saksbehandlere"
+
+#. Template: AdminRoleUser
+msgid "Filter for agents"
+msgstr ""
 
 #. Template: AdminRoleUser
 msgid "Agents"
@@ -6254,20 +6265,12 @@ msgid "Check SMIME configuration"
 msgstr ""
 
 #. Template: AdminSMIME
-msgid "Add certificate"
-msgstr "Legg til sertifikat"
-
-#. Template: AdminSMIME
-msgid "Add private key"
-msgstr "Legg til privat nøkkel"
-
-#. Template: AdminSMIME
 msgid "Filter for Certificates"
 msgstr ""
 
 #. Template: AdminSMIME
-msgid "Filter for S/MIME certs"
-msgstr "Filter for S/MIME certifikater"
+msgid "Filter for certificates"
+msgstr "Filter for sertifikater"
 
 #. Template: AdminSMIME
 msgid "To show certificate details click on a certificate icon."
@@ -6338,6 +6341,10 @@ msgid "Available Certificates"
 msgstr "Tilgjengelige sertifikater"
 
 #. Template: AdminSMIME
+msgid "Filter for S/MIME certs"
+msgstr "Filter for S/MIME certifikater"
+
+#. Template: AdminSMIME
 msgid "Relate this certificate"
 msgstr "Relater dette sertifikatet"
 
@@ -6364,10 +6371,6 @@ msgstr "Legg til hilsning"
 #. Template: AdminSalutation
 msgid "Edit Salutation"
 msgstr "Endre hilsning"
-
-#. Template: AdminSalutation
-msgid "Add salutation"
-msgstr "Legg til hilsning"
 
 #. Template: AdminSalutation
 msgid "Filter for Salutations"
@@ -6476,14 +6479,6 @@ msgid "Edit Service"
 msgstr "Endre Tjeneste"
 
 #. Template: AdminService
-msgid "Add service"
-msgstr "Ny tjeneste"
-
-#. Template: AdminService
-msgid "Filter for services"
-msgstr ""
-
-#. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
 msgstr ""
 
@@ -6562,10 +6557,6 @@ msgstr "Legg til signatur"
 #. Template: AdminSignature
 msgid "Edit Signature"
 msgstr "Endre Signatur"
-
-#. Template: AdminSignature
-msgid "Add signature"
-msgstr "Ny signatur"
 
 #. Template: AdminSignature
 msgid "Filter for Signatures"
@@ -7054,8 +7045,8 @@ msgid "Kill all Sessions, except for your own"
 msgstr ""
 
 #. Template: AdminTemplate
-msgid "Manage Templates"
-msgstr "Mal-administrasjon"
+msgid "Template Management"
+msgstr ""
 
 #. Template: AdminTemplate
 msgid "Add Template"
@@ -7064,10 +7055,6 @@ msgstr "Legg til Mal"
 #. Template: AdminTemplate
 msgid "Edit Template"
 msgstr "Endre Mal"
-
-#. Template: AdminTemplate
-msgid "Add template"
-msgstr "Legg til mal"
 
 #. Template: AdminTemplate
 msgid ""
@@ -7140,10 +7127,6 @@ msgid "Edit Type"
 msgstr "Endre sakstype"
 
 #. Template: AdminType
-msgid "Add ticket type"
-msgstr "Ny sakstype"
-
-#. Template: AdminType
 msgid "Filter for Types"
 msgstr ""
 
@@ -7168,10 +7151,6 @@ msgstr ""
 #. Template: AdminUser
 msgid "Agent Management"
 msgstr "Saksbehandlere"
-
-#. Template: AdminUser
-msgid "Add Agent"
-msgstr "Legg til Saksbehandler"
 
 #. Template: AdminUser
 msgid "Edit Agent"
@@ -9156,6 +9135,10 @@ msgstr "Logg inn"
 #. Template: CustomerLogin
 msgid "Not yet registered?"
 msgstr "Ikke registrert enda?"
+
+#. Template: CustomerLogin
+msgid "Back"
+msgstr "Tilbake"
 
 #. Template: CustomerLogin
 msgid "Request New Password"
@@ -16477,6 +16460,10 @@ msgstr ""
 msgid "Do you really want to delete this notification?"
 msgstr "Vil du virkelig slette dette varslet?"
 
+#. JS File: Core.Agent.Admin.PGP
+msgid "Do you really want to delete this key?"
+msgstr ""
+
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "There is a package upgrade process running, click here to see status "
@@ -18007,14 +17994,6 @@ msgstr ""
 #. SysConfig
 msgid "Attachment Name"
 msgstr "Vedleggsnavn"
-
-#. SysConfig
-msgid "Attachments ↔ Templates"
-msgstr ""
-
-#. SysConfig
-msgid "Auto Responses ↔ Queues"
-msgstr ""
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
@@ -23067,10 +23046,6 @@ msgid "Link agents to roles."
 msgstr "Koble saksbehandlere til roller"
 
 #. SysConfig
-msgid "Link attachments to templates."
-msgstr "Koble vedlegg til maler"
-
-#. SysConfig
 msgid "Link customer users to customers."
 msgstr ""
 
@@ -23093,6 +23068,10 @@ msgstr "Koble køer til autosvar"
 #. SysConfig
 msgid "Link roles to groups."
 msgstr "Koble roller til grupper."
+
+#. SysConfig
+msgid "Link templates to attachments."
+msgstr ""
 
 #. SysConfig
 msgid "Link templates to queues."
@@ -24397,6 +24376,10 @@ msgstr "Offentlig kalender."
 #. SysConfig
 msgid "Queue view"
 msgstr "Køvisning"
+
+#. SysConfig
+msgid "Queues ↔ Auto Responses"
+msgstr ""
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -26576,6 +26559,10 @@ msgstr ""
 #. SysConfig
 msgid "System Maintenance"
 msgstr "Vedlikehold av systemet"
+
+#. SysConfig
+msgid "Templates ↔ Attachments"
+msgstr ""
 
 #. SysConfig
 msgid "Templates ↔ Queues"

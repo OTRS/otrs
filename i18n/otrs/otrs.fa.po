@@ -1,16 +1,17 @@
 # Translators:
-# saeedi <mohsen.saeedi@gmail.com>, 2018
-# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
+# MReza Javan <mreza.javan@gmail.com>, 2018
 # Udo Bretz, 2018
 # Hossein Hejazi <hejazi@gmail.com>, 2018
-# MReza Javan <mreza.javan@gmail.com>, 2018
-# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# saeedi <mohsen.saeedi@gmail.com>, 2018
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-09-27 16:58+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
+"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"PO-Revision-Date: 2018-09-20 13:03+0000\n"
+"Last-Translator: saeedi <mohsen.saeedi@gmail.com>, 2018\n"
 "Language-Team: Persian (https://www.transifex.com/otrs/teams/23435/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -258,10 +259,6 @@ msgid "Edit Calendar"
 msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
-msgid "Go back"
-msgstr "برگرد"
-
-#. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
 msgstr ""
 
@@ -294,6 +291,10 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
+msgstr ""
+
+#. Template: AdminAppointmentCalendarManage
+msgid "Filter for Calendars"
 msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
@@ -445,6 +446,10 @@ msgid "Appointment Import"
 msgstr ""
 
 #. Template: AdminAppointmentImport
+msgid "Go back"
+msgstr "برگرد"
+
+#. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
 msgstr ""
 
@@ -487,10 +492,6 @@ msgstr "افزودن اعلان"
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
 msgstr "ویرایش اعلان"
-
-#. Template: AdminAppointmentNotificationEvent
-msgid "Add notification"
-msgstr "افزودن اعلان"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
@@ -1045,11 +1046,15 @@ msgid "Communication Log"
 msgstr ""
 
 #. Template: AdminCommunicationLog
-msgid "Time range"
+msgid "Time Range"
 msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
+msgstr ""
+
+#. Template: AdminCommunicationLog
+msgid "Filter for Communications"
 msgstr ""
 
 #. Template: AdminCommunicationLog
@@ -1159,15 +1164,15 @@ msgid "Account Status"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Back"
-msgstr "بازگشت"
-
-#. Template: AdminCommunicationLogAccounts
-msgid "Filter for accounts"
+msgid "Back to overview"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Filter for log entries"
+msgid "Filter for Accounts"
+msgstr ""
+
+#. Template: AdminCommunicationLogAccounts
+msgid "Filter for accounts"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
@@ -1242,6 +1247,14 @@ msgstr ""
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
+msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for Log Entries"
+msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for log entries"
 msgstr ""
 
 #. Template: AdminCommunicationLogZoom
@@ -1594,6 +1607,10 @@ msgstr ""
 "\"CustomerGroupAlwaysGroups\" مدیریت نمایید."
 
 #. Template: AdminCustomerUserGroup
+msgid "Filter for groups"
+msgstr ""
+
+#. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
 msgstr ""
 
@@ -1608,7 +1625,7 @@ msgid "Customer User Default Groups:"
 msgstr ""
 
 #. Template: AdminCustomerUserService
-msgid "Manage Customer User-Services Relations"
+msgid "Manage Customer User-Service Relations"
 msgstr ""
 
 #. Template: AdminCustomerUserService
@@ -1618,6 +1635,10 @@ msgstr "ویرایش خدمات پیش‌فرض"
 #. Template: AdminCustomerUserService
 msgid "Filter for Services"
 msgstr "فیلتر برای خدمات"
+
+#. Template: AdminCustomerUserService
+msgid "Filter for services"
+msgstr ""
 
 #. Template: AdminCustomerUserService
 msgid "Services"
@@ -2036,27 +2057,27 @@ msgid "Send"
 msgstr "ارسال"
 
 #. Template: AdminGenericAgent
-msgid "Generic Agent"
-msgstr "کارشناس عمومی"
-
-#. Template: AdminGenericAgent
-msgid "Edit job"
-msgstr "ویرایش کار"
-
-#. Template: AdminGenericAgent
-msgid "Add job"
-msgstr "افزودن کار"
-
-#. Template: AdminGenericAgent
-msgid "Run job"
-msgstr "اجرای کار"
-
-#. Template: AdminGenericAgent
-msgid "Filter for Generic Agent Jobs"
+msgid "Generic Agent Job Management"
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Filter for generic agent jobs"
+msgid "Edit Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Add Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Run Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Filter for Jobs"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Filter for jobs"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -3906,10 +3927,6 @@ msgstr ""
 " را فشار دهید."
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Web Service List"
-msgstr "فهرست وب سرویس"
-
-#. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
 msgstr "سیستم از راه دور"
 
@@ -4061,10 +4078,6 @@ msgid "Edit Group"
 msgstr "ویرایش گروه"
 
 #. Template: AdminGroup
-msgid "Add group"
-msgstr "افزودن گروه"
-
-#. Template: AdminGroup
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
@@ -4087,10 +4100,6 @@ msgstr "این برای راه‌حل‌های ASP مفید می‌باشد."
 #. Template: AdminLog
 msgid "System Log"
 msgstr "وقایع ثبت شده سیستم"
-
-#. Template: AdminLog
-msgid "Filter for Log Entries"
-msgstr ""
 
 #. Template: AdminLog
 msgid "Here you will find log information about your system."
@@ -4673,10 +4682,6 @@ msgid "Check PGP configuration"
 msgstr "بررسی پیکربندی PGP"
 
 #. Template: AdminPGP
-msgid "Add PGP key"
-msgstr "افزودن کلید PGP"
-
-#. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
 msgstr ""
 "از این طریق شما می‌توانید مستقیما کلید‌های خود را درسیستم تنظیم نمائید"
@@ -4684,10 +4689,6 @@ msgstr ""
 #. Template: AdminPGP
 msgid "Introduction to PGP"
 msgstr "معرفی به PGP"
-
-#. Template: AdminPGP
-msgid "Result"
-msgstr "نتیجه"
 
 #. Template: AdminPGP
 msgid "Identifier"
@@ -5049,15 +5050,11 @@ msgid "Edit PostMaster Filter"
 msgstr "ویرایش فیلتر پستی"
 
 #. Template: AdminPostMasterFilter
-msgid "Add filter"
-msgstr "افزودن فیلتر"
-
-#. Template: AdminPostMasterFilter
-msgid "Filter for Postmaster Filters"
+msgid "Filter for PostMaster Filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
-msgid "Filter for postmaster filters"
+msgid "Filter for PostMaster filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
@@ -5183,6 +5180,10 @@ msgstr "مدیریت فرآیند"
 #. Template: AdminProcessManagement
 msgid "Filter for Processes"
 msgstr "فیلتر برای پردازش"
+
+#. Template: AdminProcessManagement
+msgid "Filter for processes"
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Create New Process"
@@ -5736,8 +5737,8 @@ msgid "Remove this Parameter"
 msgstr "حذف این پارامتر"
 
 #. Template: AdminQueue
-msgid "Manage Queues"
-msgstr "مدیریت صف‌های درخواست"
+msgid "Queue Management"
+msgstr ""
 
 #. Template: AdminQueue
 msgid "Add Queue"
@@ -5870,6 +5871,12 @@ msgid "Default sign key"
 msgstr "کلید امضای پیش‌فرض"
 
 #. Template: AdminQueue
+msgid ""
+"To use a sign key, PGP keys or S/MIME certificates need to be added with "
+"identifiers for selected queue system address."
+msgstr ""
+
+#. Template: AdminQueue
 msgid "Salutation"
 msgstr "عنوان"
 
@@ -5924,6 +5931,10 @@ msgstr "مدیریت روابط الگو صف"
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
 msgstr "فیلتر برای قالب"
+
+#. Template: AdminQueueTemplates
+msgid "Filter for templates"
+msgstr ""
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
@@ -6270,10 +6281,6 @@ msgid "Manage Role-Group Relations"
 msgstr "مدیریت روابط نقش-گروه"
 
 #. Template: AdminRoleGroup
-msgid "Add role"
-msgstr "افزودن نقش"
-
-#. Template: AdminRoleGroup
 msgid "Roles"
 msgstr "نقش‌ها"
 
@@ -6338,12 +6345,16 @@ msgid "Manage Agent-Role Relations"
 msgstr "مدیریت روابط کارشناس-نقش"
 
 #. Template: AdminRoleUser
-msgid "Add agent"
+msgid "Add Agent"
 msgstr "افزودن کارشناس"
 
 #. Template: AdminRoleUser
 msgid "Filter for Agents"
 msgstr "فیلتر برای کارشناسان"
+
+#. Template: AdminRoleUser
+msgid "Filter for agents"
+msgstr ""
 
 #. Template: AdminRoleUser
 msgid "Agents"
@@ -6416,20 +6427,12 @@ msgid "Check SMIME configuration"
 msgstr "بررسی پیکربندی SMIME"
 
 #. Template: AdminSMIME
-msgid "Add certificate"
-msgstr "افزودن گواهینامه"
-
-#. Template: AdminSMIME
-msgid "Add private key"
-msgstr "افزودن کلید خصوصی"
-
-#. Template: AdminSMIME
 msgid "Filter for Certificates"
 msgstr ""
 
 #. Template: AdminSMIME
-msgid "Filter for S/MIME certs"
-msgstr "فیلتر برای S / MIME گواهیهای"
+msgid "Filter for certificates"
+msgstr "فیلتر برای گواهی"
 
 #. Template: AdminSMIME
 msgid "To show certificate details click on a certificate icon."
@@ -6502,6 +6505,10 @@ msgid "Available Certificates"
 msgstr "گواهینامه ها موجود"
 
 #. Template: AdminSMIME
+msgid "Filter for S/MIME certs"
+msgstr "فیلتر برای S / MIME گواهیهای"
+
+#. Template: AdminSMIME
 msgid "Relate this certificate"
 msgstr "مربوط به این مجوز"
 
@@ -6528,10 +6535,6 @@ msgstr "افزودن عنوان"
 #. Template: AdminSalutation
 msgid "Edit Salutation"
 msgstr "ویرایش عنوان"
-
-#. Template: AdminSalutation
-msgid "Add salutation"
-msgstr "افزودن عنوان"
 
 #. Template: AdminSalutation
 msgid "Filter for Salutations"
@@ -6643,14 +6646,6 @@ msgid "Edit Service"
 msgstr "ویرایش خدمت"
 
 #. Template: AdminService
-msgid "Add service"
-msgstr "افزودن خدمت"
-
-#. Template: AdminService
-msgid "Filter for services"
-msgstr ""
-
-#. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
 msgstr ""
 
@@ -6729,10 +6724,6 @@ msgstr "افزودن امضاء"
 #. Template: AdminSignature
 msgid "Edit Signature"
 msgstr "ویرایش امضاء"
-
-#. Template: AdminSignature
-msgid "Add signature"
-msgstr "افزودن امضاء"
 
 #. Template: AdminSignature
 msgid "Filter for Signatures"
@@ -7238,8 +7229,8 @@ msgid "Kill all Sessions, except for your own"
 msgstr "کشتن تمام جلسات، به جز مال خود را"
 
 #. Template: AdminTemplate
-msgid "Manage Templates"
-msgstr "مدیریت قالب"
+msgid "Template Management"
+msgstr ""
 
 #. Template: AdminTemplate
 msgid "Add Template"
@@ -7248,10 +7239,6 @@ msgstr "افزودن قالب"
 #. Template: AdminTemplate
 msgid "Edit Template"
 msgstr "ویرایش قالب"
-
-#. Template: AdminTemplate
-msgid "Add template"
-msgstr "اضافه کردن قالب"
 
 #. Template: AdminTemplate
 msgid ""
@@ -7326,10 +7313,6 @@ msgid "Edit Type"
 msgstr "ویرایش درخواست"
 
 #. Template: AdminType
-msgid "Add ticket type"
-msgstr "افزودن نوع درخواست"
-
-#. Template: AdminType
 msgid "Filter for Types"
 msgstr ""
 
@@ -7354,10 +7337,6 @@ msgstr ""
 #. Template: AdminUser
 msgid "Agent Management"
 msgstr "مدیریت کارشناس"
-
-#. Template: AdminUser
-msgid "Add Agent"
-msgstr "افزودن کارشناس"
 
 #. Template: AdminUser
 msgid "Edit Agent"
@@ -9360,6 +9339,10 @@ msgstr "ورود"
 #. Template: CustomerLogin
 msgid "Not yet registered?"
 msgstr "هنوز ثبت نام نشده‌اید؟"
+
+#. Template: CustomerLogin
+msgid "Back"
+msgstr "بازگشت"
 
 #. Template: CustomerLogin
 msgid "Request New Password"
@@ -16817,6 +16800,10 @@ msgstr "آیا شما واقعا حذف این زبان اطلاع رسانی ر
 msgid "Do you really want to delete this notification?"
 msgstr "آیا واقعا میخواهید این اطلاعات را حذف کنید؟"
 
+#. JS File: Core.Agent.Admin.PGP
+msgid "Do you really want to delete this key?"
+msgstr ""
+
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "There is a package upgrade process running, click here to see status "
@@ -18440,14 +18427,6 @@ msgstr "ArticleTree"
 #. SysConfig
 msgid "Attachment Name"
 msgstr "نام فایل پیوست"
-
-#. SysConfig
-msgid "Attachments ↔ Templates"
-msgstr ""
-
-#. SysConfig
-msgid "Auto Responses ↔ Queues"
-msgstr ""
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
@@ -24156,10 +24135,6 @@ msgid "Link agents to roles."
 msgstr "برقراری ارتباط بین کارشناسان و نقش‌ها"
 
 #. SysConfig
-msgid "Link attachments to templates."
-msgstr "فایل پیوست لینک به قالب."
-
-#. SysConfig
 msgid "Link customer users to customers."
 msgstr ""
 
@@ -24182,6 +24157,10 @@ msgstr "برقراری ارتباط بین صف‌های درخواست و پا�
 #. SysConfig
 msgid "Link roles to groups."
 msgstr "برقراری ارتباط بین نقش‌ها و گروه‌ها"
+
+#. SysConfig
+msgid "Link templates to attachments."
+msgstr ""
 
 #. SysConfig
 msgid "Link templates to queues."
@@ -25550,6 +25529,10 @@ msgstr ""
 #. SysConfig
 msgid "Queue view"
 msgstr "نمای صف درخواست"
+
+#. SysConfig
+msgid "Queues ↔ Auto Responses"
+msgstr ""
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -28065,6 +28048,10 @@ msgstr ""
 #. SysConfig
 msgid "System Maintenance"
 msgstr "تعمیر و نگهداری سیستم"
+
+#. SysConfig
+msgid "Templates ↔ Attachments"
+msgstr ""
 
 #. SysConfig
 msgid "Templates ↔ Queues"

@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.999656711294198;
+    $Self->{Completeness}        = 0.998969426313981;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -104,7 +104,6 @@ sub Data {
         'Calendar Management' => '日历管理',
         'Add Calendar' => '添加日历',
         'Edit Calendar' => '编辑日历',
-        'Go back' => '返回',
         'Calendar Overview' => '日历概览',
         'Add new Calendar' => '添加新的日历',
         'Import Appointments' => '导入预约',
@@ -114,6 +113,7 @@ sub Data {
         'Overwrite existing entities' => '覆盖现有条目',
         'Upload calendar configuration' => '上传日历配置',
         'Import Calendar' => '导入日历',
+        'Filter for Calendars' => '日历筛选',
         'Filter for calendars' => '日历过滤器',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             '根据组字段，系统通过用户的权限级别来允许用户能够访问的日历。',
@@ -157,6 +157,7 @@ sub Data {
 
         # Template: AdminAppointmentImport
         'Appointment Import' => '预约导入',
+        'Go back' => '返回',
         'Uploaded file must be in valid iCal format (.ics).' => '上传文件必须是有效的iCal格式(.ics)。',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             '如果期望的日历没有在这里，请确保你至少有“创建”权限。',
@@ -171,7 +172,6 @@ sub Data {
         'Appointment Notification Management' => '预约通知管理',
         'Add Notification' => '添加通知',
         'Edit Notification' => '编辑通知',
-        'Add notification' => '添加通知',
         'Export Notifications' => '导出通知',
         'Filter for Notifications' => '通知过滤器',
         'Filter for notifications' => '通知过滤器',
@@ -323,9 +323,10 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => '通信日志',
-        'Time range' => '时间范围',
+        'Time Range' => '时间范围',
         'Show only communication logs created in specific time range.' =>
             '仅显示指定时间范围内创建的通信日志。',
+        'Filter for Communications' => '交互筛选',
         'Filter for communications' => '通信过滤器',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             '在此屏幕中，你可以看到有关传入和外发通信的概览。',
@@ -356,9 +357,9 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => '帐户状态',
-        'Back' => '后退',
+        'Back to overview' => '返回总览界面',
+        'Filter for Accounts' => '账号筛选',
         'Filter for accounts' => '帐户过滤器',
-        'Filter for log entries' => '日志条目过滤器',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             '你可以通过单击列标题来更改列的排序和顺序。',
         'Account status for: %s' => '%s的帐户状态',
@@ -384,6 +385,8 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '通信%s的详情视图开始于%s',
+        'Filter for Log Entries' => '日志条目过滤器',
+        'Filter for log entries' => '日志条目过滤器',
         'Show only entries with specific priority and higher:' => '仅显示具有特定和更高优先级的条目：',
         'Communication Log Overview (%s)' => '通信日志概览（%s）',
         'No communication objects found.' => '没有找到通信目标。',
@@ -488,15 +491,17 @@ sub Data {
             '这些组自动分配给所有的客户用户。',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             '你可能通过配置参数"CustomerGroupAlwaysGroups"定义默认组。',
+        'Filter for groups' => '群组筛选',
         'Select the customer user - group permissions.' => '选择客户用户和组权限。',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             '如果没有选择，就不具备该组的任何权限 (客户用户不能使用工单)。',
         'Customer User Default Groups:' => '客户用户的默认组：',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Services Relations' => '管理客户用户关联的服务',
+        'Manage Customer User-Service Relations' => '',
         'Edit default services' => '修改默认服务',
         'Filter for Services' => '服务过滤器',
+        'Filter for services' => '服务过滤器',
         'Services' => '服务',
 
         # Template: AdminDynamicField
@@ -624,12 +629,12 @@ sub Data {
         'Send' => '发送',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => '自动任务',
-        'Edit job' => '编辑任务',
-        'Add job' => '添加任务',
-        'Run job' => '执行任务',
-        'Filter for Generic Agent Jobs' => '自动任务过滤器',
-        'Filter for generic agent jobs' => '自动任务过滤器',
+        'Generic Agent Job Management' => '自动任务管理',
+        'Edit Job' => '编辑任务',
+        'Add Job' => '添加任务',
+        'Run Job' => '运行任务',
+        'Filter for Jobs' => '任务筛选',
+        'Filter for jobs' => '任务筛选',
         'Last run' => '最后运行',
         'Run Now!' => '现在运行!',
         'Delete this task' => '删除这个任务',
@@ -1154,7 +1159,6 @@ sub Data {
             '保存配置文件后，页面将再次转到编辑页面。',
         'If you want to return to overview please click the "Go to overview" button.' =>
             '如果你想返回到概览，请点击"返回概览"按钮。',
-        'Web Service List' => 'Web服务列表',
         'Remote system' => '远程系统',
         'Provider transport' => '服务提供方传输',
         'Requester transport' => '服务请求方传输',
@@ -1199,7 +1203,6 @@ sub Data {
         'Group Management' => '组管理',
         'Add Group' => '添加组',
         'Edit Group' => '编辑组',
-        'Add group' => '添加组',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'admin组允许使用系统管理模块，stats组允许使用统计模块。',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
@@ -1208,7 +1211,6 @@ sub Data {
 
         # Template: AdminLog
         'System Log' => '系统日志',
-        'Filter for Log Entries' => '日志条目过滤器',
         'Here you will find log information about your system.' => '查看系统日志信息。',
         'Hide this message' => '隐藏此消息',
         'Recent Log Entries' => '最近的日志条目',
@@ -1385,11 +1387,9 @@ sub Data {
             '已启用PGP支持，但是相关的配置包含有错误。请使用下面的按钮检查配置。',
         'Configure it here!' => '在这里配置PGP！',
         'Check PGP configuration' => '检查PGP配置',
-        'Add PGP key' => '添加PGP密钥',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             '通过此模块可以直接编辑在SysConfig中配置的密钥环。',
         'Introduction to PGP' => 'PGP介绍',
-        'Result' => '结果',
         'Identifier' => '标识符',
         'Bit' => '位',
         'Fingerprint' => '指纹',
@@ -1494,9 +1494,8 @@ sub Data {
         'PostMaster Filter Management' => '管理邮箱管理员过滤器',
         'Add PostMaster Filter' => '添加邮箱管理员过滤器',
         'Edit PostMaster Filter' => '编辑邮箱管理员过滤器',
-        'Add filter' => '添加过滤器',
-        'Filter for Postmaster Filters' => '过滤邮箱管理员过滤器',
-        'Filter for postmaster filters' => '过滤邮箱管理员过滤器',
+        'Filter for PostMaster Filters' => '邮箱管理员过滤规则筛选',
+        'Filter for PostMaster filters' => '邮箱管理员过滤规则筛选',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             '基于邮件标头标记的分派或过滤。可以使用正则表达式进行匹配。',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1534,6 +1533,7 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => '流程管理',
         'Filter for Processes' => '流程过滤器',
+        'Filter for processes' => '流程筛选',
         'Create New Process' => '创建新的流程',
         'Deploy All Processes' => '部署所有流程',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
@@ -1692,7 +1692,7 @@ sub Data {
         'Remove this Parameter' => '删除这个参数',
 
         # Template: AdminQueue
-        'Manage Queues' => '队列管理',
+        'Queue Management' => '队列管理',
         'Add Queue' => '添加队列',
         'Edit Queue' => '编辑队列',
         'Filter for Queues' => '队列过滤器',
@@ -1724,6 +1724,8 @@ sub Data {
         'System address' => '系统邮件地址',
         'Will be the sender address of this queue for email answers.' => '将作为邮件答复的队列的发件人地址。',
         'Default sign key' => '默认签名',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'Salutation' => '问候语',
         'The salutation for email answers.' => '回复邮件中的问候语。',
         'Signature' => '签名',
@@ -1742,6 +1744,7 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '管理模板与队列的对应关系',
         'Filter for Templates' => '模板过滤器',
+        'Filter for templates' => '模板筛选',
         'Templates' => '模板',
 
         # Template: AdminRegistration
@@ -1842,7 +1845,6 @@ sub Data {
 
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => '管理角色和组的关系',
-        'Add role' => '添加角色',
         'Roles' => '角色',
         'Select the role:group permissions.' => '选择角色的组权限。',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
@@ -1863,8 +1865,9 @@ sub Data {
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => '管理服务人员与角色的关系',
-        'Add agent' => '添加服务人员',
+        'Add Agent' => '添加服务人员',
         'Filter for Agents' => '服务人员过滤器',
+        'Filter for agents' => '过滤服务人员',
         'Agents' => '服务人员',
         'Manage Role-Agent Relations' => '管理角色与服务人员的关系',
 
@@ -1887,10 +1890,8 @@ sub Data {
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             '已启用SMIME支持，但是相关的配置包含有错误。请使用下面的按钮检查配置。',
         'Check SMIME configuration' => '检查SMIME配置',
-        'Add certificate' => '添加证书',
-        'Add private key' => '添加私匙',
         'Filter for Certificates' => '证书过滤器',
-        'Filter for S/MIME certs' => 'S/MIME证书过滤器',
+        'Filter for certificates' => '证书过滤器',
         'To show certificate details click on a certificate icon.' => '点击证书图标可显示证书详细信息。',
         'To manage private certificate relations click on a private key icon.' =>
             '点击私钥图标可管理私钥证书关系。',
@@ -1909,6 +1910,7 @@ sub Data {
         'Related Certificates for' => '关联证书',
         'Delete this relation' => '删除这个关联',
         'Available Certificates' => '可用的证书',
+        'Filter for S/MIME certs' => 'S/MIME证书过滤器',
         'Relate this certificate' => '关联这个证书',
 
         # Template: AdminSMIMECertRead
@@ -1920,7 +1922,6 @@ sub Data {
         'Salutation Management' => '问候语管理',
         'Add Salutation' => '添加问候语',
         'Edit Salutation' => '编辑问候语',
-        'Add salutation' => '添加问候语',
         'Filter for Salutations' => '问候语过滤器',
         'Filter for salutations' => '问候语过滤器',
         'e. g.' => '例如：',
@@ -1956,8 +1957,6 @@ sub Data {
         'Service Management' => '服务管理',
         'Add Service' => '添加服务',
         'Edit Service' => '编辑服务',
-        'Add service' => '添加服务',
-        'Filter for services' => '服务过滤器',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             '服务名最大长度为200字符(和子服务一致)',
         'Sub-service of' => '上一级服务',
@@ -1983,7 +1982,6 @@ sub Data {
         'Signature Management' => '签名管理',
         'Add Signature' => '添加签名',
         'Edit Signature' => '编辑签名',
-        'Add signature' => '添加签名',
         'Filter for Signatures' => '签名过滤器',
         'Filter for signatures' => '签名过滤器',
         'Example signature' => '签名样例',
@@ -2151,10 +2149,9 @@ sub Data {
         'Kill all Sessions, except for your own' => '杀掉除本会话外的所有会话',
 
         # Template: AdminTemplate
-        'Manage Templates' => '模板管理',
+        'Template Management' => '模板管理',
         'Add Template' => '添加模板',
         'Edit Template' => '编辑模板',
-        'Add template' => '添加模板',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             '模板就是一些能帮助服务人员快速创建、回复或转发工单的默认文本。',
         'Don\'t forget to add new templates to queues.' => '别忘了将新模板分配给队列。',
@@ -2177,7 +2174,6 @@ sub Data {
         'Type Management' => '工单类型管理',
         'Add Type' => '添加工单类型',
         'Edit Type' => '编辑工单类型',
-        'Add ticket type' => '添加工单类型',
         'Filter for Types' => '类型过滤器',
         'Filter for types' => '类型过滤器',
         'A type with this name already exists!' => '类型名字已存在!',
@@ -2187,7 +2183,6 @@ sub Data {
 
         # Template: AdminUser
         'Agent Management' => '服务人员管理',
-        'Add Agent' => '添加服务人员',
         'Edit Agent' => '编辑服务人员',
         'Edit personal preferences for this agent' => '编辑这个服务人员的个人偏好设置',
         'Agents will be needed to handle tickets.' => '处理工单是需要服务人员的。',
@@ -2863,6 +2858,7 @@ sub Data {
         'Your 2 Factor Token' => '你的双因素令牌',
         'Log In' => '登录',
         'Not yet registered?' => '还未注册?',
+        'Back' => '后退',
         'Request New Password' => '请求新密码',
         'Your User Name' => '你的用户名',
         'A new password will be sent to your email address.' => '新密码将会发送到您的邮箱中。',
@@ -5495,6 +5491,9 @@ sub Data {
         'Do you really want to delete this notification language?' => '您真的要删除这个通知语言吗？',
         'Do you really want to delete this notification?' => '您真的想要删除这个通知?',
 
+        # JS File: Core.Agent.Admin.PGP
+        'Do you really want to delete this key?' => '',
+
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
             '有一个程序包升级过程正在运行，点击这里查看有关升级进度的状态信息。',
@@ -6044,8 +6043,6 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => '阿拉伯语（沙特阿拉伯）',
         'ArticleTree' => '信件树',
         'Attachment Name' => '附件名',
-        'Attachments ↔ Templates' => '附件 ↔ 模板',
-        'Auto Responses ↔ Queues' => '自动响应 ↔ 队列',
         'Automated line break in text messages after x number of chars.' =>
             '文本消息中在X个字符后自动换行。',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -7066,7 +7063,7 @@ Thanks for your help!
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '禁止发送提醒通知给工单负责人（需要启用Ticket::Responsible设置）。',
         'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
-            '',
+            '当工单关闭时，取消到最近浏览页/仪表板的重定向。',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '禁用WEB安装程序(http://yourhost.example.com/otrs/installer.pl)，防止系统被劫持。如果不启用，系统能够被重新安装，当前的基本配置将被安装脚本的预设问题替换。如果启用了，还同时禁用了通用代理、软件包管理和SQL查询窗口。',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
@@ -7493,7 +7490,7 @@ Thanks for your help!
         'Ivory (Slim)' => '象牙白（修身版）',
         'Japanese' => '日语',
         'JavaScript function for the search frontend.' => '搜索界面的JavaScript函数。',
-        'Korean' => '',
+        'Korean' => '韩语',
         'Language' => '语言',
         'Large' => '详细',
         'Last Screen Overview' => '最近屏幕概览',
@@ -7509,13 +7506,13 @@ Thanks for your help!
         'Link Object.' => '链接对象。',
         'Link agents to groups.' => '链接服务人员到组。',
         'Link agents to roles.' => '链接服务人员到角色。',
-        'Link attachments to templates.' => '链接附件到模板。',
         'Link customer users to customers.' => '链接客户用户到客户。',
         'Link customer users to groups.' => '链接客户用户到组。',
         'Link customer users to services.' => '链接客户用户到服务。',
         'Link customers to groups.' => '链接客户到组。',
         'Link queues to auto responses.' => '链接队列到自动响应。',
         'Link roles to groups.' => '链接角色到组。',
+        'Link templates to attachments.' => '',
         'Link templates to queues.' => '链接模板到队列。',
         'Link this ticket to other objects' => '将工单链接到其它对象',
         'Links 2 tickets with a "Normal" type link.' => '将2个工单链接为“普通”。',
@@ -7851,6 +7848,7 @@ Thanks for your help!
         'Public Calendar' => '公共日历',
         'Public calendar.' => '公共日历。',
         'Queue view' => '队列视图',
+        'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '为AgentTicketQueue（服务人员工单队列）重建工单索引。',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             '通过外部工单编号识别一个工单是否为已有工单的跟进。',
@@ -8490,6 +8488,7 @@ Thanks for your help!
         'System Configuration Deployment' => '系统配置部署',
         'System Configuration Group' => '系统配置组',
         'System Maintenance' => '系统维护',
+        'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => '模板↔队列',
         'Textarea' => '多行文本',
         'Thai' => '泰国语',
@@ -8823,6 +8822,7 @@ Thanks for your help!
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',

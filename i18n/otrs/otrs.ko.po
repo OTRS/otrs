@@ -1,12 +1,13 @@
 # Translators:
-# 신홍열 <hyshin@shinjjang.com>, 2018
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
+# 신홍열 <hyshin@shinjjang.com>, 2018
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-09-27 16:58+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
+"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"PO-Revision-Date: 2018-09-20 13:03+0000\n"
+"Last-Translator: 신홍열 <hyshin@shinjjang.com>, 2018\n"
 "Language-Team: Korean (https://www.transifex.com/otrs/teams/23435/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -243,10 +244,6 @@ msgid "Edit Calendar"
 msgstr "캘린더 수정"
 
 #. Template: AdminAppointmentCalendarManage
-msgid "Go back"
-msgstr "뒤로"
-
-#. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
 msgstr "캘린더 개요"
 
@@ -281,6 +278,10 @@ msgstr "캘린더 설정 업로드"
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
 msgstr "캘린더 Import"
+
+#. Template: AdminAppointmentCalendarManage
+msgid "Filter for Calendars"
+msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -431,6 +432,10 @@ msgid "Appointment Import"
 msgstr "약속 가져오기"
 
 #. Template: AdminAppointmentImport
+msgid "Go back"
+msgstr "뒤로"
+
+#. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
 msgstr "업로드 된 파일은 유효한 iCal 형식 (.ics)이어야합니다."
 
@@ -473,10 +478,6 @@ msgstr "알림 추가"
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
 msgstr "알림 수정"
-
-#. Template: AdminAppointmentNotificationEvent
-msgid "Add notification"
-msgstr "알림 추가"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
@@ -1010,12 +1011,16 @@ msgid "Communication Log"
 msgstr "통신 로그"
 
 #. Template: AdminCommunicationLog
-msgid "Time range"
-msgstr "시간 범위"
+msgid "Time Range"
+msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
 msgstr "특정 시간 범위에서 생성 된 통신 로그 만 표시합니다."
+
+#. Template: AdminCommunicationLog
+msgid "Filter for Communications"
+msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
@@ -1124,16 +1129,16 @@ msgid "Account Status"
 msgstr "계정 상태"
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Back"
-msgstr "뒤"
+msgid "Back to overview"
+msgstr ""
+
+#. Template: AdminCommunicationLogAccounts
+msgid "Filter for Accounts"
+msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
 msgstr "계정 필터링"
-
-#. Template: AdminCommunicationLogAccounts
-msgid "Filter for log entries"
-msgstr "로그 항목 필터링"
 
 #. Template: AdminCommunicationLogAccounts
 msgid ""
@@ -1208,6 +1213,14 @@ msgstr "로그 항목을 찾을 수 없습니다."
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
 msgstr "%s에서 시작된 %s 통신에 대한 상세보기"
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for Log Entries"
+msgstr "로그 항목 필터링"
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for log entries"
+msgstr "로그 항목 필터링"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Show only entries with specific priority and higher:"
@@ -1555,6 +1568,10 @@ msgid ""
 msgstr "\"CustomerGroupAlwaysGroups\"구성 설정을 통해 이러한 그룹을 관리 할 수 ​​있습니다."
 
 #. Template: AdminCustomerUserGroup
+msgid "Filter for groups"
+msgstr ""
+
+#. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
 msgstr "고객 사용자 - 그룹 권한을 선택하십시오."
 
@@ -1569,8 +1586,8 @@ msgid "Customer User Default Groups:"
 msgstr "고객 사용자 기본 그룹 : "
 
 #. Template: AdminCustomerUserService
-msgid "Manage Customer User-Services Relations"
-msgstr "고객 사용자 - 서비스 관계 관리"
+msgid "Manage Customer User-Service Relations"
+msgstr ""
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
@@ -1578,6 +1595,10 @@ msgstr "기본 서비스 수정"
 
 #. Template: AdminCustomerUserService
 msgid "Filter for Services"
+msgstr "서비스 필터링"
+
+#. Template: AdminCustomerUserService
+msgid "Filter for services"
 msgstr "서비스 필터링"
 
 #. Template: AdminCustomerUserService
@@ -1979,28 +2000,28 @@ msgid "Send"
 msgstr "보내다"
 
 #. Template: AdminGenericAgent
-msgid "Generic Agent"
-msgstr "일반 요원"
+msgid "Generic Agent Job Management"
+msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Edit job"
-msgstr "작업 수정"
+msgid "Edit Job"
+msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Add job"
-msgstr "작업 추가"
+msgid "Add Job"
+msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Run job"
-msgstr "작업 실행"
+msgid "Run Job"
+msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Filter for Generic Agent Jobs"
-msgstr "일반 에이전트 작업 필터링"
+msgid "Filter for Jobs"
+msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Filter for generic agent jobs"
-msgstr "일반 에이전트 작업 필터링"
+msgid "Filter for jobs"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Last run"
@@ -3809,10 +3830,6 @@ msgid ""
 msgstr "개요로 돌아가려면 '개요로 이동'버튼을 클릭하십시오."
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Web Service List"
-msgstr "웹 서비스 목록"
-
-#. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
 msgstr "원격 시스템"
 
@@ -3955,10 +3972,6 @@ msgid "Edit Group"
 msgstr "그룹 편집"
 
 #. Template: AdminGroup
-msgid "Add group"
-msgstr "그룹 추가"
-
-#. Template: AdminGroup
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
@@ -3978,10 +3991,6 @@ msgstr "ASP 솔루션에 유용합니다."
 #. Template: AdminLog
 msgid "System Log"
 msgstr "시스템 로그"
-
-#. Template: AdminLog
-msgid "Filter for Log Entries"
-msgstr "로그 항목 필터링"
 
 #. Template: AdminLog
 msgid "Here you will find log information about your system."
@@ -4539,20 +4548,12 @@ msgid "Check PGP configuration"
 msgstr "PGP 구성 확인"
 
 #. Template: AdminPGP
-msgid "Add PGP key"
-msgstr "PGP 키 추가"
-
-#. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
 msgstr "이 방법으로 SysConfig에서 구성된 키 링을 직접 편집 할 수 있습니다."
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
 msgstr "PGP 소개"
-
-#. Template: AdminPGP
-msgid "Result"
-msgstr "결과"
 
 #. Template: AdminPGP
 msgid "Identifier"
@@ -4909,16 +4910,12 @@ msgid "Edit PostMaster Filter"
 msgstr "포스트 마스터 필터 편집"
 
 #. Template: AdminPostMasterFilter
-msgid "Add filter"
-msgstr "필터 추가"
+msgid "Filter for PostMaster Filters"
+msgstr ""
 
 #. Template: AdminPostMasterFilter
-msgid "Filter for Postmaster Filters"
-msgstr "전자 메일 관리자 필터"
-
-#. Template: AdminPostMasterFilter
-msgid "Filter for postmaster filters"
-msgstr "전자 메일 관리자 필터"
+msgid "Filter for PostMaster filters"
+msgstr ""
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -5040,6 +5037,10 @@ msgstr "공정 관리"
 #. Template: AdminProcessManagement
 msgid "Filter for Processes"
 msgstr "프로세스 필터링"
+
+#. Template: AdminProcessManagement
+msgid "Filter for processes"
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Create New Process"
@@ -5560,8 +5561,8 @@ msgid "Remove this Parameter"
 msgstr "이 매개 변수 제거"
 
 #. Template: AdminQueue
-msgid "Manage Queues"
-msgstr "대기열 관리"
+msgid "Queue Management"
+msgstr ""
 
 #. Template: AdminQueue
 msgid "Add Queue"
@@ -5682,6 +5683,12 @@ msgid "Default sign key"
 msgstr "기본 기호 키"
 
 #. Template: AdminQueue
+msgid ""
+"To use a sign key, PGP keys or S/MIME certificates need to be added with "
+"identifiers for selected queue system address."
+msgstr ""
+
+#. Template: AdminQueue
 msgid "Salutation"
 msgstr "인사말"
 
@@ -5736,6 +5743,10 @@ msgstr "템플릿 - 대기열 관계 관리"
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
 msgstr "템플릿 필터링"
+
+#. Template: AdminQueueTemplates
+msgid "Filter for templates"
+msgstr ""
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
@@ -6066,10 +6077,6 @@ msgid "Manage Role-Group Relations"
 msgstr "역할 그룹 관계 관리"
 
 #. Template: AdminRoleGroup
-msgid "Add role"
-msgstr "역할 추가"
-
-#. Template: AdminRoleGroup
 msgid "Roles"
 msgstr "역할"
 
@@ -6132,12 +6139,16 @@ msgid "Manage Agent-Role Relations"
 msgstr "에이전트 역할 관계 관리"
 
 #. Template: AdminRoleUser
-msgid "Add agent"
-msgstr "에이전트 추가"
+msgid "Add Agent"
+msgstr "상담원 추가"
 
 #. Template: AdminRoleUser
 msgid "Filter for Agents"
 msgstr "에이전트 필터링"
+
+#. Template: AdminRoleUser
+msgid "Filter for agents"
+msgstr ""
 
 #. Template: AdminRoleUser
 msgid "Agents"
@@ -6206,20 +6217,12 @@ msgid "Check SMIME configuration"
 msgstr "SMIME 구성 확인"
 
 #. Template: AdminSMIME
-msgid "Add certificate"
-msgstr "인증서 추가"
-
-#. Template: AdminSMIME
-msgid "Add private key"
-msgstr "비공개 키 추가"
-
-#. Template: AdminSMIME
 msgid "Filter for Certificates"
 msgstr "인증서 필터링"
 
 #. Template: AdminSMIME
-msgid "Filter for S/MIME certs"
-msgstr "S / MIME 인증서 필터링"
+msgid "Filter for certificates"
+msgstr ""
 
 #. Template: AdminSMIME
 msgid "To show certificate details click on a certificate icon."
@@ -6289,6 +6292,10 @@ msgid "Available Certificates"
 msgstr "사용 가능한 인증서"
 
 #. Template: AdminSMIME
+msgid "Filter for S/MIME certs"
+msgstr "S / MIME 인증서 필터링"
+
+#. Template: AdminSMIME
 msgid "Relate this certificate"
 msgstr "이 인증서 연관"
 
@@ -6315,10 +6322,6 @@ msgstr "인사말 추가"
 #. Template: AdminSalutation
 msgid "Edit Salutation"
 msgstr "인사말 편집"
-
-#. Template: AdminSalutation
-msgid "Add salutation"
-msgstr "인사말 추가"
 
 #. Template: AdminSalutation
 msgid "Filter for Salutations"
@@ -6423,14 +6426,6 @@ msgid "Edit Service"
 msgstr "서비스 편집"
 
 #. Template: AdminService
-msgid "Add service"
-msgstr "서비스 추가"
-
-#. Template: AdminService
-msgid "Filter for services"
-msgstr "서비스 필터링"
-
-#. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
 msgstr "서비스 이름의 최대 길이는 200 자 (서브 서비스 포함)입니다."
 
@@ -6509,10 +6504,6 @@ msgstr "시그니처 추가"
 #. Template: AdminSignature
 msgid "Edit Signature"
 msgstr "시그니처 편집"
-
-#. Template: AdminSignature
-msgid "Add signature"
-msgstr "시그니처 추가"
 
 #. Template: AdminSignature
 msgid "Filter for Signatures"
@@ -7007,8 +6998,8 @@ msgid "Kill all Sessions, except for your own"
 msgstr "자기만의 것을 제외한 모든 세션을 죽이십시오."
 
 #. Template: AdminTemplate
-msgid "Manage Templates"
-msgstr "템플릿 관리"
+msgid "Template Management"
+msgstr ""
 
 #. Template: AdminTemplate
 msgid "Add Template"
@@ -7017,10 +7008,6 @@ msgstr "템플릿 추가"
 #. Template: AdminTemplate
 msgid "Edit Template"
 msgstr "템플릿 편집"
-
-#. Template: AdminTemplate
-msgid "Add template"
-msgstr "템플릿 추가"
 
 #. Template: AdminTemplate
 msgid ""
@@ -7093,10 +7080,6 @@ msgid "Edit Type"
 msgstr "유형 편집"
 
 #. Template: AdminType
-msgid "Add ticket type"
-msgstr "티켓 종류 추가"
-
-#. Template: AdminType
 msgid "Filter for Types"
 msgstr "유형 필터"
 
@@ -7121,10 +7104,6 @@ msgstr "이 유형은 다음 구성 설정에서 사용됩니다."
 #. Template: AdminUser
 msgid "Agent Management"
 msgstr "상담원 관리"
-
-#. Template: AdminUser
-msgid "Add Agent"
-msgstr "상담원 추가"
 
 #. Template: AdminUser
 msgid "Edit Agent"
@@ -9114,6 +9093,10 @@ msgstr "로그인"
 #. Template: CustomerLogin
 msgid "Not yet registered?"
 msgstr "아직 등록되지 않았습니까?"
+
+#. Template: CustomerLogin
+msgid "Back"
+msgstr "뒤"
 
 #. Template: CustomerLogin
 msgid "Request New Password"
@@ -16430,6 +16413,10 @@ msgstr "이 알림 언어를 정말로 삭제 하시겠습니까?"
 msgid "Do you really want to delete this notification?"
 msgstr "이 알림을 정말로 삭제 하시겠습니까?"
 
+#. JS File: Core.Agent.Admin.PGP
+msgid "Do you really want to delete this key?"
+msgstr ""
+
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "There is a package upgrade process running, click here to see status "
@@ -17982,14 +17969,6 @@ msgstr "ArticleTree"
 #. SysConfig
 msgid "Attachment Name"
 msgstr "첨부명"
-
-#. SysConfig
-msgid "Attachments ↔ Templates"
-msgstr "첨부 ↔ 템플릿"
-
-#. SysConfig
-msgid "Auto Responses ↔ Queues"
-msgstr "자동 응답 ↔ 대기열"
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
@@ -23221,10 +23200,6 @@ msgid "Link agents to roles."
 msgstr "에이전트를 역할에 연결하십시오."
 
 #. SysConfig
-msgid "Link attachments to templates."
-msgstr "첨부 파일을 템플릿에 연결하십시오."
-
-#. SysConfig
 msgid "Link customer users to customers."
 msgstr "고객 사용자와 고객을 연결하십시오."
 
@@ -23247,6 +23222,10 @@ msgstr "대기열을 자동 응답에 연결합니다."
 #. SysConfig
 msgid "Link roles to groups."
 msgstr "그룹에 역할을 연결하십시오."
+
+#. SysConfig
+msgid "Link templates to attachments."
+msgstr ""
 
 #. SysConfig
 msgid "Link templates to queues."
@@ -24703,6 +24682,10 @@ msgstr "공개 캘린더"
 #. SysConfig
 msgid "Queue view"
 msgstr "대기열 보기"
+
+#. SysConfig
+msgid "Queues ↔ Auto Responses"
+msgstr ""
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -27007,6 +26990,10 @@ msgstr "시스템 구성 그룹"
 #. SysConfig
 msgid "System Maintenance"
 msgstr "시스템 유지 보수"
+
+#. SysConfig
+msgid "Templates ↔ Attachments"
+msgstr ""
 
 #. SysConfig
 msgid "Templates ↔ Queues"

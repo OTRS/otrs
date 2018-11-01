@@ -1,25 +1,26 @@
 # Translators:
-# Martin Gruner <martin.gruner@otrs.com>, 2018
+# Gerald Rook <rook@retail.nl>, 2018
+# Michael Goossens <themastergamernl@gmail.com>, 2018
+# Denis Paciorkowski <inactive+denispaciorkowski@transifex.com>, 2018
+# Tim Janssen <timjanssen88@outlook.com>, 2018
 # Udo Bretz, 2018
-# Niels Dimmers <niels@nielsdimmers.nl>, 2018
+# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
+# Volluta <volluta@tutanota.com>, 2018
+# Sjoerd de Bruin <sjoerddebruin@me.com>, 2018
+# Sander G. <transifex@sander.goudswaard.com>, 2018
 # Peter van Beugen <peter@tda.nl>, 2018
 # David Van Uffelen <inactive+david.vanuffelen@transifex.com>, 2018
-# Volluta <volluta@tutanota.com>, 2018
-# Gerald Rook <rook@retail.nl>, 2018
-# Tim Janssen <timjanssen88@outlook.com>, 2018
-# Zimcke Van de Staey <zimcke.vandestaey@colruytgroup.com>, 2018
-# Sander G. <transifex@sander.goudswaard.com>, 2018
-# Sjoerd de Bruin <sjoerddebruin@me.com>, 2018
-# Michael Goossens <themastergamernl@gmail.com>, 2018
 # Arjo Velderman <anyone0481@gmail.com>, 2018
-# Denis Paciorkowski <inactive+denispaciorkowski@transifex.com>, 2018
-# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
+# Zimcke Van de Staey <zimcke.vandestaey@colruytgroup.com>, 2018
+# Niels Dimmers <niels@nielsdimmers.nl>, 2018
+# Martin Gruner <martin.gruner@otrs.com>, 2018
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-09-27 16:58+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
+"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"PO-Revision-Date: 2018-09-20 13:03+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>, 2018\n"
 "Language-Team: Dutch (https://www.transifex.com/otrs/teams/23435/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -262,10 +263,6 @@ msgid "Edit Calendar"
 msgstr "Kalender bewerken"
 
 #. Template: AdminAppointmentCalendarManage
-msgid "Go back"
-msgstr "Ga terug"
-
-#. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
 msgstr "Kalender overzicht"
 
@@ -299,6 +296,10 @@ msgstr "Upload kalender configuratie"
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
 msgstr "Importeer kalender"
+
+#. Template: AdminAppointmentCalendarManage
+msgid "Filter for Calendars"
+msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -453,6 +454,10 @@ msgid "Appointment Import"
 msgstr ""
 
 #. Template: AdminAppointmentImport
+msgid "Go back"
+msgstr "Ga terug"
+
+#. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
 msgstr ""
 
@@ -495,10 +500,6 @@ msgstr "Melding toevoegen"
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
 msgstr "Bewerk melding"
-
-#. Template: AdminAppointmentNotificationEvent
-msgid "Add notification"
-msgstr "Melding toevoegen"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
@@ -1055,11 +1056,15 @@ msgid "Communication Log"
 msgstr "Communicatielog"
 
 #. Template: AdminCommunicationLog
-msgid "Time range"
+msgid "Time Range"
 msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
+msgstr ""
+
+#. Template: AdminCommunicationLog
+msgid "Filter for Communications"
 msgstr ""
 
 #. Template: AdminCommunicationLog
@@ -1169,16 +1174,16 @@ msgid "Account Status"
 msgstr "Accountstatus"
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Back"
-msgstr "Terug"
+msgid "Back to overview"
+msgstr ""
+
+#. Template: AdminCommunicationLogAccounts
+msgid "Filter for Accounts"
+msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
 msgstr "Filter op accounts"
-
-#. Template: AdminCommunicationLogAccounts
-msgid "Filter for log entries"
-msgstr "Filter op logitems"
 
 #. Template: AdminCommunicationLogAccounts
 msgid ""
@@ -1253,6 +1258,14 @@ msgstr ""
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
 msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for Log Entries"
+msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for log entries"
+msgstr "Filter op logitems"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Show only entries with specific priority and higher:"
@@ -1605,6 +1618,10 @@ msgid ""
 msgstr "U kunt deze groepen beheren via de optie \"CustomerGroupAlwaysGroups\"."
 
 #. Template: AdminCustomerUserGroup
+msgid "Filter for groups"
+msgstr ""
+
+#. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
 msgstr ""
 
@@ -1619,7 +1636,7 @@ msgid "Customer User Default Groups:"
 msgstr ""
 
 #. Template: AdminCustomerUserService
-msgid "Manage Customer User-Services Relations"
+msgid "Manage Customer User-Service Relations"
 msgstr ""
 
 #. Template: AdminCustomerUserService
@@ -1629,6 +1646,10 @@ msgstr "Beheer standaard services"
 #. Template: AdminCustomerUserService
 msgid "Filter for Services"
 msgstr "Filter op services"
+
+#. Template: AdminCustomerUserService
+msgid "Filter for services"
+msgstr ""
 
 #. Template: AdminCustomerUserService
 msgid "Services"
@@ -2044,27 +2065,27 @@ msgid "Send"
 msgstr "Verstuur"
 
 #. Template: AdminGenericAgent
-msgid "Generic Agent"
-msgstr "Automatische Taken"
-
-#. Template: AdminGenericAgent
-msgid "Edit job"
-msgstr "Bewerk taak"
-
-#. Template: AdminGenericAgent
-msgid "Add job"
-msgstr "Taak toevoegen"
-
-#. Template: AdminGenericAgent
-msgid "Run job"
-msgstr "Voer taak uit"
-
-#. Template: AdminGenericAgent
-msgid "Filter for Generic Agent Jobs"
+msgid "Generic Agent Job Management"
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Filter for generic agent jobs"
+msgid "Edit Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Add Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Run Job"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Filter for Jobs"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Filter for jobs"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -3911,10 +3932,6 @@ msgstr ""
 "knop."
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Web Service List"
-msgstr "Webservice-overzicht"
-
-#. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
 msgstr "Ander systeem"
 
@@ -4065,10 +4082,6 @@ msgid "Edit Group"
 msgstr "Bewerk groep"
 
 #. Template: AdminGroup
-msgid "Add group"
-msgstr "Groep toevoegen"
-
-#. Template: AdminGroup
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
@@ -4091,10 +4104,6 @@ msgstr "Bruikbaar voor ASP situaties."
 #. Template: AdminLog
 msgid "System Log"
 msgstr "Logboek"
-
-#. Template: AdminLog
-msgid "Filter for Log Entries"
-msgstr ""
 
 #. Template: AdminLog
 msgid "Here you will find log information about your system."
@@ -4683,10 +4692,6 @@ msgid "Check PGP configuration"
 msgstr ""
 
 #. Template: AdminPGP
-msgid "Add PGP key"
-msgstr "PGP sleutel toevoegen"
-
-#. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
 msgstr ""
 "Hier kunt u de keyring beheren die is ingesteld in de systeemconfiguratie."
@@ -4694,10 +4699,6 @@ msgstr ""
 #. Template: AdminPGP
 msgid "Introduction to PGP"
 msgstr "Introductie tot PGP"
-
-#. Template: AdminPGP
-msgid "Result"
-msgstr "Resultaat"
 
 #. Template: AdminPGP
 msgid "Identifier"
@@ -5059,15 +5060,11 @@ msgid "Edit PostMaster Filter"
 msgstr "Bewerk e-mail filter"
 
 #. Template: AdminPostMasterFilter
-msgid "Add filter"
-msgstr "Nieuw filter"
-
-#. Template: AdminPostMasterFilter
-msgid "Filter for Postmaster Filters"
+msgid "Filter for PostMaster Filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
-msgid "Filter for postmaster filters"
+msgid "Filter for PostMaster filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
@@ -5193,6 +5190,10 @@ msgstr "Procesbeheer"
 #. Template: AdminProcessManagement
 msgid "Filter for Processes"
 msgstr "Filter op processen"
+
+#. Template: AdminProcessManagement
+msgid "Filter for processes"
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Create New Process"
@@ -5745,8 +5746,8 @@ msgid "Remove this Parameter"
 msgstr "Verwijder deze parameter"
 
 #. Template: AdminQueue
-msgid "Manage Queues"
-msgstr "Wachtrijenbeheer"
+msgid "Queue Management"
+msgstr ""
 
 #. Template: AdminQueue
 msgid "Add Queue"
@@ -5878,6 +5879,12 @@ msgid "Default sign key"
 msgstr "Standaard sleutel voor ondertekening."
 
 #. Template: AdminQueue
+msgid ""
+"To use a sign key, PGP keys or S/MIME certificates need to be added with "
+"identifiers for selected queue system address."
+msgstr ""
+
+#. Template: AdminQueue
 msgid "Salutation"
 msgstr "Aanhef"
 
@@ -5934,6 +5941,10 @@ msgstr "Beheer Sjabloon - Wachtrij koppelingen"
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
 msgstr "Filter op sjablonen"
+
+#. Template: AdminQueueTemplates
+msgid "Filter for templates"
+msgstr ""
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
@@ -6288,10 +6299,6 @@ msgid "Manage Role-Group Relations"
 msgstr "Beheer Rol-Groep koppelingen"
 
 #. Template: AdminRoleGroup
-msgid "Add role"
-msgstr "Nieuwe rol"
-
-#. Template: AdminRoleGroup
 msgid "Roles"
 msgstr "Rollen"
 
@@ -6361,12 +6368,16 @@ msgid "Manage Agent-Role Relations"
 msgstr "Beheer Behandelaar-Rol koppelingen"
 
 #. Template: AdminRoleUser
-msgid "Add agent"
+msgid "Add Agent"
 msgstr "Nieuwe behandelaar"
 
 #. Template: AdminRoleUser
 msgid "Filter for Agents"
 msgstr "Filter op behandelaars"
+
+#. Template: AdminRoleUser
+msgid "Filter for agents"
+msgstr ""
 
 #. Template: AdminRoleUser
 msgid "Agents"
@@ -6435,20 +6446,12 @@ msgid "Check SMIME configuration"
 msgstr ""
 
 #. Template: AdminSMIME
-msgid "Add certificate"
-msgstr "Nieuw certificaat"
-
-#. Template: AdminSMIME
-msgid "Add private key"
-msgstr "Private sleutel toevoegen"
-
-#. Template: AdminSMIME
 msgid "Filter for Certificates"
 msgstr ""
 
 #. Template: AdminSMIME
-msgid "Filter for S/MIME certs"
-msgstr "Filter voor S/MIME certificaten"
+msgid "Filter for certificates"
+msgstr "Filter op certificaten"
 
 #. Template: AdminSMIME
 msgid "To show certificate details click on a certificate icon."
@@ -6523,6 +6526,10 @@ msgid "Available Certificates"
 msgstr "Beschikbare certificaten"
 
 #. Template: AdminSMIME
+msgid "Filter for S/MIME certs"
+msgstr "Filter voor S/MIME certificaten"
+
+#. Template: AdminSMIME
 msgid "Relate this certificate"
 msgstr "Koppel dit certificaat"
 
@@ -6549,10 +6556,6 @@ msgstr "Nieuwe aanhef"
 #. Template: AdminSalutation
 msgid "Edit Salutation"
 msgstr "Bewerk aanhef"
-
-#. Template: AdminSalutation
-msgid "Add salutation"
-msgstr "Nieuwe aanhef"
 
 #. Template: AdminSalutation
 msgid "Filter for Salutations"
@@ -6665,14 +6668,6 @@ msgid "Edit Service"
 msgstr "Bewerk Service"
 
 #. Template: AdminService
-msgid "Add service"
-msgstr "Nieuwe service"
-
-#. Template: AdminService
-msgid "Filter for services"
-msgstr ""
-
-#. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
 msgstr ""
 
@@ -6751,10 +6746,6 @@ msgstr "Nieuwe handtekening"
 #. Template: AdminSignature
 msgid "Edit Signature"
 msgstr "Bewerk handtekening"
-
-#. Template: AdminSignature
-msgid "Add signature"
-msgstr "Nieuwe handtekening"
 
 #. Template: AdminSignature
 msgid "Filter for Signatures"
@@ -7263,8 +7254,8 @@ msgid "Kill all Sessions, except for your own"
 msgstr "Stop alle sessies, behalve die van jezelf"
 
 #. Template: AdminTemplate
-msgid "Manage Templates"
-msgstr "Beheer sjablonen"
+msgid "Template Management"
+msgstr ""
 
 #. Template: AdminTemplate
 msgid "Add Template"
@@ -7273,10 +7264,6 @@ msgstr "Nieuw sjabloon"
 #. Template: AdminTemplate
 msgid "Edit Template"
 msgstr "Bewerk sjabloon"
-
-#. Template: AdminTemplate
-msgid "Add template"
-msgstr "Nieuw sjabloon"
 
 #. Template: AdminTemplate
 msgid ""
@@ -7351,10 +7338,6 @@ msgid "Edit Type"
 msgstr "Bewerk type"
 
 #. Template: AdminType
-msgid "Add ticket type"
-msgstr "Nieuw ticket type"
-
-#. Template: AdminType
 msgid "Filter for Types"
 msgstr ""
 
@@ -7379,10 +7362,6 @@ msgstr ""
 #. Template: AdminUser
 msgid "Agent Management"
 msgstr "Beheer behandelaars"
-
-#. Template: AdminUser
-msgid "Add Agent"
-msgstr "Nieuwe behandelaar"
 
 #. Template: AdminUser
 msgid "Edit Agent"
@@ -9389,6 +9368,10 @@ msgstr "Inloggen"
 #. Template: CustomerLogin
 msgid "Not yet registered?"
 msgstr "Nog niet geregistreerd?"
+
+#. Template: CustomerLogin
+msgid "Back"
+msgstr "Terug"
 
 #. Template: CustomerLogin
 msgid "Request New Password"
@@ -16825,6 +16808,10 @@ msgstr "Weet uzeker dat udeze notificatietaal wilt verwijderen?"
 msgid "Do you really want to delete this notification?"
 msgstr "Wenst u deze melding te verwijderen?"
 
+#. JS File: Core.Agent.Admin.PGP
+msgid "Do you really want to delete this key?"
+msgstr ""
+
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "There is a package upgrade process running, click here to see status "
@@ -18415,14 +18402,6 @@ msgstr "Interactie-boom"
 #. SysConfig
 msgid "Attachment Name"
 msgstr "Bijlage Naam"
-
-#. SysConfig
-msgid "Attachments ↔ Templates"
-msgstr ""
-
-#. SysConfig
-msgid "Auto Responses ↔ Queues"
-msgstr ""
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
@@ -23318,10 +23297,6 @@ msgid "Link agents to roles."
 msgstr "Koppel gebruikers aan rollen."
 
 #. SysConfig
-msgid "Link attachments to templates."
-msgstr "Koppel bijlagen aan sjablonen."
-
-#. SysConfig
 msgid "Link customer users to customers."
 msgstr ""
 
@@ -23344,6 +23319,10 @@ msgstr "Koppel wachtrijen aan automatische antwoorden."
 #. SysConfig
 msgid "Link roles to groups."
 msgstr "Koppel rollen aan groepen."
+
+#. SysConfig
+msgid "Link templates to attachments."
+msgstr ""
 
 #. SysConfig
 msgid "Link templates to queues."
@@ -24638,6 +24617,10 @@ msgstr ""
 #. SysConfig
 msgid "Queue view"
 msgstr "Wachtrijoverzicht"
+
+#. SysConfig
+msgid "Queues ↔ Auto Responses"
+msgstr ""
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -26778,6 +26761,10 @@ msgstr ""
 #. SysConfig
 msgid "System Maintenance"
 msgstr "Systeemonderhoud"
+
+#. SysConfig
+msgid "Templates ↔ Attachments"
+msgstr ""
 
 #. SysConfig
 msgid "Templates ↔ Queues"

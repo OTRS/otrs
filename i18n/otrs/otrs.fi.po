@@ -1,16 +1,17 @@
 # Translators:
+# Tukea <nokoa@live.fi>, 2018
+# Matti Ärmänen <matti.armanen@easer.fi>, 2018
+# Harri Mahanen <harri.mahanen@gmail.com>, 2018
+# Markus Hynnä <markus.hynna@mynamaki.fi>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Niko Heikura <niko.heikura@partners.neste.com>, 2018
-# Matti Ärmänen <matti.armanen@easer.fi>, 2018
-# Markus Hynnä <markus.hynna@mynamaki.fi>, 2018
-# Harri Mahanen <harri.mahanen@gmail.com>, 2018
-# Tukea <nokoa@live.fi>, 2018
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-09-27 16:58+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Tukea <nokoa@live.fi>, 2018\n"
+"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"PO-Revision-Date: 2018-09-20 13:03+0000\n"
+"Last-Translator: Niko Heikura <niko.heikura@partners.neste.com>, 2018\n"
 "Language-Team: Finnish (https://www.transifex.com/otrs/teams/23435/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -242,10 +243,6 @@ msgid "Edit Calendar"
 msgstr "Muokkaa kalenteria"
 
 #. Template: AdminAppointmentCalendarManage
-msgid "Go back"
-msgstr "Palaa"
-
-#. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
 msgstr ""
 
@@ -279,6 +276,10 @@ msgstr "Lähetä kalenterikonfiguraatio"
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
 msgstr "Tuo kalenteri"
+
+#. Template: AdminAppointmentCalendarManage
+msgid "Filter for Calendars"
+msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -429,6 +430,10 @@ msgid "Appointment Import"
 msgstr ""
 
 #. Template: AdminAppointmentImport
+msgid "Go back"
+msgstr "Palaa"
+
+#. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
 msgstr ""
 
@@ -471,10 +476,6 @@ msgstr "Lisää ilmoitus"
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
 msgstr "Muokkaa ilmoitusta"
-
-#. Template: AdminAppointmentNotificationEvent
-msgid "Add notification"
-msgstr "Lisää ilmoitus"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
@@ -1002,11 +1003,15 @@ msgid "Communication Log"
 msgstr ""
 
 #. Template: AdminCommunicationLog
-msgid "Time range"
+msgid "Time Range"
 msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
+msgstr ""
+
+#. Template: AdminCommunicationLog
+msgid "Filter for Communications"
 msgstr ""
 
 #. Template: AdminCommunicationLog
@@ -1116,15 +1121,15 @@ msgid "Account Status"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Back"
-msgstr "Edellinen"
-
-#. Template: AdminCommunicationLogAccounts
-msgid "Filter for accounts"
+msgid "Back to overview"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
-msgid "Filter for log entries"
+msgid "Filter for Accounts"
+msgstr ""
+
+#. Template: AdminCommunicationLogAccounts
+msgid "Filter for accounts"
 msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
@@ -1199,6 +1204,14 @@ msgstr ""
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
+msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for Log Entries"
+msgstr ""
+
+#. Template: AdminCommunicationLogZoom
+msgid "Filter for log entries"
 msgstr ""
 
 #. Template: AdminCommunicationLogZoom
@@ -1547,6 +1560,10 @@ msgid ""
 msgstr ""
 
 #. Template: AdminCustomerUserGroup
+msgid "Filter for groups"
+msgstr ""
+
+#. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
 msgstr ""
 
@@ -1561,7 +1578,7 @@ msgid "Customer User Default Groups:"
 msgstr ""
 
 #. Template: AdminCustomerUserService
-msgid "Manage Customer User-Services Relations"
+msgid "Manage Customer User-Service Relations"
 msgstr ""
 
 #. Template: AdminCustomerUserService
@@ -1570,6 +1587,10 @@ msgstr ""
 
 #. Template: AdminCustomerUserService
 msgid "Filter for Services"
+msgstr ""
+
+#. Template: AdminCustomerUserService
+msgid "Filter for services"
 msgstr ""
 
 #. Template: AdminCustomerUserService
@@ -1968,27 +1989,27 @@ msgid "Send"
 msgstr "Lähetä"
 
 #. Template: AdminGenericAgent
-msgid "Generic Agent"
+msgid "Generic Agent Job Management"
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Edit job"
+msgid "Edit Job"
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Add job"
-msgstr "Lisää tehtävä"
-
-#. Template: AdminGenericAgent
-msgid "Run job"
+msgid "Add Job"
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Filter for Generic Agent Jobs"
+msgid "Run Job"
 msgstr ""
 
 #. Template: AdminGenericAgent
-msgid "Filter for generic agent jobs"
+msgid "Filter for Jobs"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Filter for jobs"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -3772,10 +3793,6 @@ msgid ""
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Web Service List"
-msgstr ""
-
-#. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
 msgstr ""
 
@@ -3916,10 +3933,6 @@ msgid "Edit Group"
 msgstr "Muokkaa ryhmää"
 
 #. Template: AdminGroup
-msgid "Add group"
-msgstr "Lisää ryhmä"
-
-#. Template: AdminGroup
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats"
 " area."
@@ -3939,10 +3952,6 @@ msgstr ""
 #. Template: AdminLog
 msgid "System Log"
 msgstr "Järjestelmälogi"
-
-#. Template: AdminLog
-msgid "Filter for Log Entries"
-msgstr ""
 
 #. Template: AdminLog
 msgid "Here you will find log information about your system."
@@ -4491,10 +4500,6 @@ msgid "Check PGP configuration"
 msgstr ""
 
 #. Template: AdminPGP
-msgid "Add PGP key"
-msgstr ""
-
-#. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
 msgstr ""
 "Tällä tavoin voit muokata suoraan SysConfigissa määriteltyä avainrengasta."
@@ -4502,10 +4507,6 @@ msgstr ""
 #. Template: AdminPGP
 msgid "Introduction to PGP"
 msgstr ""
-
-#. Template: AdminPGP
-msgid "Result"
-msgstr "Vastaus"
 
 #. Template: AdminPGP
 msgid "Identifier"
@@ -4863,15 +4864,11 @@ msgid "Edit PostMaster Filter"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
-msgid "Add filter"
+msgid "Filter for PostMaster Filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
-msgid "Filter for Postmaster Filters"
-msgstr ""
-
-#. Template: AdminPostMasterFilter
-msgid "Filter for postmaster filters"
+msgid "Filter for PostMaster filters"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
@@ -4993,6 +4990,10 @@ msgstr "Prosessien hallinta"
 #. Template: AdminProcessManagement
 msgid "Filter for Processes"
 msgstr "Suodata prosessit"
+
+#. Template: AdminProcessManagement
+msgid "Filter for processes"
+msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Create New Process"
@@ -5504,8 +5505,8 @@ msgid "Remove this Parameter"
 msgstr ""
 
 #. Template: AdminQueue
-msgid "Manage Queues"
-msgstr "Hallitse jonoja"
+msgid "Queue Management"
+msgstr ""
 
 #. Template: AdminQueue
 msgid "Add Queue"
@@ -5621,6 +5622,12 @@ msgid "Default sign key"
 msgstr ""
 
 #. Template: AdminQueue
+msgid ""
+"To use a sign key, PGP keys or S/MIME certificates need to be added with "
+"identifiers for selected queue system address."
+msgstr ""
+
+#. Template: AdminQueue
 msgid "Salutation"
 msgstr "Tervehdys"
 
@@ -5674,6 +5681,10 @@ msgstr ""
 
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
+msgstr ""
+
+#. Template: AdminQueueTemplates
+msgid "Filter for templates"
 msgstr ""
 
 #. Template: AdminQueueTemplates
@@ -6006,10 +6017,6 @@ msgid "Manage Role-Group Relations"
 msgstr ""
 
 #. Template: AdminRoleGroup
-msgid "Add role"
-msgstr ""
-
-#. Template: AdminRoleGroup
 msgid "Roles"
 msgstr "Roolit"
 
@@ -6072,11 +6079,15 @@ msgid "Manage Agent-Role Relations"
 msgstr ""
 
 #. Template: AdminRoleUser
-msgid "Add agent"
+msgid "Add Agent"
 msgstr ""
 
 #. Template: AdminRoleUser
 msgid "Filter for Agents"
+msgstr ""
+
+#. Template: AdminRoleUser
+msgid "Filter for agents"
 msgstr ""
 
 #. Template: AdminRoleUser
@@ -6146,19 +6157,11 @@ msgid "Check SMIME configuration"
 msgstr ""
 
 #. Template: AdminSMIME
-msgid "Add certificate"
-msgstr ""
-
-#. Template: AdminSMIME
-msgid "Add private key"
-msgstr ""
-
-#. Template: AdminSMIME
 msgid "Filter for Certificates"
 msgstr ""
 
 #. Template: AdminSMIME
-msgid "Filter for S/MIME certs"
+msgid "Filter for certificates"
 msgstr ""
 
 #. Template: AdminSMIME
@@ -6229,6 +6232,10 @@ msgid "Available Certificates"
 msgstr ""
 
 #. Template: AdminSMIME
+msgid "Filter for S/MIME certs"
+msgstr ""
+
+#. Template: AdminSMIME
 msgid "Relate this certificate"
 msgstr ""
 
@@ -6255,10 +6262,6 @@ msgstr "Lisää tervehdys"
 #. Template: AdminSalutation
 msgid "Edit Salutation"
 msgstr "Muokkaa tervehdystä"
-
-#. Template: AdminSalutation
-msgid "Add salutation"
-msgstr "Lisää tervehdys"
 
 #. Template: AdminSalutation
 msgid "Filter for Salutations"
@@ -6362,14 +6365,6 @@ msgid "Edit Service"
 msgstr "Muokkaa palvelua"
 
 #. Template: AdminService
-msgid "Add service"
-msgstr "Lisää palvelu"
-
-#. Template: AdminService
-msgid "Filter for services"
-msgstr ""
-
-#. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
 msgstr ""
 
@@ -6448,10 +6443,6 @@ msgstr "Lisää allekirjoitus"
 #. Template: AdminSignature
 msgid "Edit Signature"
 msgstr "Muokkaa allekirjoitusta"
-
-#. Template: AdminSignature
-msgid "Add signature"
-msgstr "Lisää allekirjoitus"
 
 #. Template: AdminSignature
 msgid "Filter for Signatures"
@@ -6938,8 +6929,8 @@ msgid "Kill all Sessions, except for your own"
 msgstr ""
 
 #. Template: AdminTemplate
-msgid "Manage Templates"
-msgstr "Hallinnoi pohjia"
+msgid "Template Management"
+msgstr ""
 
 #. Template: AdminTemplate
 msgid "Add Template"
@@ -6947,10 +6938,6 @@ msgstr ""
 
 #. Template: AdminTemplate
 msgid "Edit Template"
-msgstr ""
-
-#. Template: AdminTemplate
-msgid "Add template"
 msgstr ""
 
 #. Template: AdminTemplate
@@ -7024,10 +7011,6 @@ msgid "Edit Type"
 msgstr ""
 
 #. Template: AdminType
-msgid "Add ticket type"
-msgstr ""
-
-#. Template: AdminType
 msgid "Filter for Types"
 msgstr ""
 
@@ -7052,10 +7035,6 @@ msgstr ""
 #. Template: AdminUser
 msgid "Agent Management"
 msgstr "Agenttien hallinta"
-
-#. Template: AdminUser
-msgid "Add Agent"
-msgstr ""
 
 #. Template: AdminUser
 msgid "Edit Agent"
@@ -9037,6 +9016,10 @@ msgstr "Kirjaudu"
 #. Template: CustomerLogin
 msgid "Not yet registered?"
 msgstr "Etkö ole vielä rekisteröitynyt?"
+
+#. Template: CustomerLogin
+msgid "Back"
+msgstr "Edellinen"
 
 #. Template: CustomerLogin
 msgid "Request New Password"
@@ -16320,6 +16303,10 @@ msgstr ""
 msgid "Do you really want to delete this notification?"
 msgstr ""
 
+#. JS File: Core.Agent.Admin.PGP
+msgid "Do you really want to delete this key?"
+msgstr ""
+
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "There is a package upgrade process running, click here to see status "
@@ -17817,14 +17804,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Attachment Name"
-msgstr ""
-
-#. SysConfig
-msgid "Attachments ↔ Templates"
-msgstr ""
-
-#. SysConfig
-msgid "Auto Responses ↔ Queues"
 msgstr ""
 
 #. SysConfig
@@ -22677,10 +22656,6 @@ msgid "Link agents to roles."
 msgstr "Linkitä agentit rooleihin."
 
 #. SysConfig
-msgid "Link attachments to templates."
-msgstr ""
-
-#. SysConfig
 msgid "Link customer users to customers."
 msgstr ""
 
@@ -22703,6 +22678,10 @@ msgstr "Linkitä automaattiset vastaukset jonoihin."
 #. SysConfig
 msgid "Link roles to groups."
 msgstr "Linkitä roolit ryhmiin."
+
+#. SysConfig
+msgid "Link templates to attachments."
+msgstr ""
 
 #. SysConfig
 msgid "Link templates to queues."
@@ -23995,6 +23974,10 @@ msgstr ""
 #. SysConfig
 msgid "Queue view"
 msgstr "Jononäkymä"
+
+#. SysConfig
+msgid "Queues ↔ Auto Responses"
+msgstr ""
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -26130,6 +26113,10 @@ msgstr ""
 
 #. SysConfig
 msgid "System Maintenance"
+msgstr ""
+
+#. SysConfig
+msgid "Templates ↔ Attachments"
 msgstr ""
 
 #. SysConfig

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.69138345348438;
+    $Self->{Completeness}        = 0.688251459979389;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -98,7 +98,6 @@ sub Data {
         'Calendar Management' => '',
         'Add Calendar' => '',
         'Edit Calendar' => '',
-        'Go back' => 'Pergi kembali',
         'Calendar Overview' => '',
         'Add new Calendar' => '',
         'Import Appointments' => '',
@@ -108,6 +107,7 @@ sub Data {
         'Overwrite existing entities' => 'Menimpa entitas yang ada',
         'Upload calendar configuration' => '',
         'Import Calendar' => '',
+        'Filter for Calendars' => '',
         'Filter for calendars' => '',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             '',
@@ -151,6 +151,7 @@ sub Data {
 
         # Template: AdminAppointmentImport
         'Appointment Import' => '',
+        'Go back' => 'Pergi kembali',
         'Uploaded file must be in valid iCal format (.ics).' => '',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             '',
@@ -165,7 +166,6 @@ sub Data {
         'Appointment Notification Management' => '',
         'Add Notification' => 'Tambah pemberitahuan',
         'Edit Notification' => 'Ubah pemberitahuan',
-        'Add notification' => 'Tambahkan pemberitahuan',
         'Export Notifications' => 'Expor pemberitahuan',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',
@@ -317,9 +317,10 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => '',
-        'Time range' => '',
+        'Time Range' => '',
         'Show only communication logs created in specific time range.' =>
             '',
+        'Filter for Communications' => '',
         'Filter for communications' => '',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             '',
@@ -350,9 +351,9 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => '',
-        'Back' => 'Kembali',
+        'Back to overview' => '',
+        'Filter for Accounts' => '',
         'Filter for accounts' => '',
-        'Filter for log entries' => '',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             '',
         'Account status for: %s' => '',
@@ -378,6 +379,8 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '',
+        'Filter for Log Entries' => '',
+        'Filter for log entries' => '',
         'Show only entries with specific priority and higher:' => '',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
@@ -482,15 +485,17 @@ sub Data {
             '',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Anda dapat mengatur grup-grup ini melalui pengaturan konfigurasi "CustomerGroupAlwaysGroup".',
+        'Filter for groups' => '',
         'Select the customer user - group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             '',
         'Customer User Default Groups:' => '',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Services Relations' => '',
+        'Manage Customer User-Service Relations' => '',
         'Edit default services' => 'Ubah layanan default',
         'Filter for Services' => 'Saringan untuk layanan',
+        'Filter for services' => '',
         'Services' => 'Layanan',
 
         # Template: AdminDynamicField
@@ -618,12 +623,12 @@ sub Data {
         'Send' => 'Kirim',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => 'Agent umum',
-        'Edit job' => 'Mengubah pekerjaan',
-        'Add job' => 'Tambah pekerjaan',
-        'Run job' => 'Menjalankan pekerjaan',
-        'Filter for Generic Agent Jobs' => '',
-        'Filter for generic agent jobs' => '',
+        'Generic Agent Job Management' => '',
+        'Edit Job' => '',
+        'Add Job' => '',
+        'Run Job' => '',
+        'Filter for Jobs' => '',
+        'Filter for jobs' => '',
         'Last run' => 'Terakhir dijalankan',
         'Run Now!' => 'Jalankan sekarang!`',
         'Delete this task' => 'Hapus tugas ini',
@@ -1148,7 +1153,6 @@ sub Data {
             'Setelah anda menyimpan konfigurasi, anda akan diarahkan kembali ke layar edit',
         'If you want to return to overview please click the "Go to overview" button.' =>
             'Jika Anda ingin kembali ke ikhtisar silakan tekan tombol"Pergi ke ikhtisar"',
-        'Web Service List' => 'Daftar layanan web',
         'Remote system' => 'Sistem remot',
         'Provider transport' => 'Transpor penyedia',
         'Requester transport' => 'Transpor pemohon',
@@ -1193,7 +1197,6 @@ sub Data {
         'Group Management' => 'Kelompok managemen',
         'Add Group' => 'Tambah kelompok',
         'Edit Group' => 'Ubah kelompok',
-        'Add group' => 'Tambah kelompok',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'Kelompok admin adalah untuk mendapatkan di admin area dan kelompok statistik untuk mendapatkan daerah statistik.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
@@ -1202,7 +1205,6 @@ sub Data {
 
         # Template: AdminLog
         'System Log' => 'Sistem logaritma',
-        'Filter for Log Entries' => '',
         'Here you will find log information about your system.' => 'Disini anda akan menemukan informasi logaritma tentang sistem anda',
         'Hide this message' => 'Sembunyikan pesan',
         'Recent Log Entries' => 'Pemasukan logaritma baru',
@@ -1379,11 +1381,9 @@ sub Data {
             'Dukungan PGP diaktifkan, tetapi konfigurasi yang relevan mengandung kesalahan. Silakan periksa konfigurasi menggunakan tombol di bawah.',
         'Configure it here!' => 'Konfigurasi di sini!',
         'Check PGP configuration' => 'Periksa konfigurasi PGP',
-        'Add PGP key' => 'Tambahkan kunci PGP',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'Dengan cara ini anda dapat langsung mengedit keyring yang telah dikonfigurasi didalam SysConfig.',
         'Introduction to PGP' => 'Pengenalan kepada PGP',
-        'Result' => 'Hasil',
         'Identifier' => 'Pengenalan',
         'Bit' => 'Sedikit',
         'Fingerprint' => 'Sidik jari',
@@ -1488,9 +1488,8 @@ sub Data {
         'PostMaster Filter Management' => 'Manajemen PostMaster Filter',
         'Add PostMaster Filter' => 'Tambah penyaring PostMaster',
         'Edit PostMaster Filter' => 'Ubah penyaring PostMaster',
-        'Add filter' => 'Tambah saringan',
-        'Filter for Postmaster Filters' => '',
-        'Filter for postmaster filters' => '',
+        'Filter for PostMaster Filters' => '',
+        'Filter for PostMaster filters' => '',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'Untuk mengirimkan atau menyaring email yang masuk berdasarkan header email. Kemungkinan dapat menyesuaikan dengan menggunakan Regular Expressions ',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1529,6 +1528,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         # Template: AdminProcessManagement
         'Process Management' => 'Proses manajemen',
         'Filter for Processes' => 'Menyaring proses',
+        'Filter for processes' => '',
         'Create New Process' => 'Membuat proses baru',
         'Deploy All Processes' => 'Menyebarkan semua proses',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
@@ -1687,7 +1687,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Remove this Parameter' => 'Hapuskan parameter',
 
         # Template: AdminQueue
-        'Manage Queues' => 'Mengatur queues',
+        'Queue Management' => '',
         'Add Queue' => 'Tambahkan Queue',
         'Edit Queue' => 'Mengubah Queue',
         'Filter for Queues' => 'Filter untuk Queues',
@@ -1719,6 +1719,8 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'System address' => 'Alamat sistem',
         'Will be the sender address of this queue for email answers.' => 'Akan menjadi alamat pengirim antrian ini untuk jawaban email.',
         'Default sign key' => 'kunci tanda ',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'Salutation' => 'Salam Pembuka',
         'The salutation for email answers.' => 'Penghargaan untuk penjawab email',
         'Signature' => 'Tanda tangan',
@@ -1737,6 +1739,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => 'Mengelola hubungan Template-Queue',
         'Filter for Templates' => 'Filter untuk sebuah klise',
+        'Filter for templates' => '',
         'Templates' => 'Klise',
 
         # Template: AdminRegistration
@@ -1837,7 +1840,6 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
 
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => 'Mengelola hubungan peran didalam grup',
-        'Add role' => 'Tambahkan tugas',
         'Roles' => 'Peran',
         'Select the role:group permissions.' => 'Select the role:group permissions.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
@@ -1858,8 +1860,9 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Mengelola hubungan Agent-Role',
-        'Add agent' => 'Tambahkan agen',
+        'Add Agent' => 'Tambahkan agen',
         'Filter for Agents' => 'Filter untuk agen',
+        'Filter for agents' => '',
         'Agents' => 'Agen',
         'Manage Role-Agent Relations' => 'Mengelola hubungan Role-Agent',
 
@@ -1882,10 +1885,8 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             'Dukungan SMIME diaktifkan, tetapi konfigurasi yang relevan mengandung kesalahan. Silakan periksa konfigurasi menggunakan tombol di bawah.',
         'Check SMIME configuration' => 'Periksa konfigurasi SMIME',
-        'Add certificate' => 'Tambahkan sertifikat',
-        'Add private key' => 'Tambahkan kunci pribadi',
         'Filter for Certificates' => '',
-        'Filter for S/MIME certs' => 'Filter untuk sertifikat S/MIME',
+        'Filter for certificates' => 'Filter untuk sertifikat',
         'To show certificate details click on a certificate icon.' => 'Menampilkan rincian sertifikat dengan mengklik tombol sertifikat',
         'To manage private certificate relations click on a private key icon.' =>
             'Mengelola hubungan sertifikat pribadi dengan mengklik tombol kunci pribadi',
@@ -1904,6 +1905,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Related Certificates for' => 'Sertifikat terkait untuk',
         'Delete this relation' => 'Hapus hubungan ini',
         'Available Certificates' => 'Sertifikat tersedia',
+        'Filter for S/MIME certs' => 'Filter untuk sertifikat S/MIME',
         'Relate this certificate' => 'Sertifikat ini terkait',
 
         # Template: AdminSMIMECertRead
@@ -1915,7 +1917,6 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Salutation Management' => 'Manajemen penghargaan',
         'Add Salutation' => 'Tambahkan penghargaan',
         'Edit Salutation' => 'Ubah Salutasi',
-        'Add salutation' => 'Tambahkan penghargaan',
         'Filter for Salutations' => '',
         'Filter for salutations' => '',
         'e. g.' => 'Contoh',
@@ -1951,8 +1952,6 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Service Management' => 'Manajemen servis',
         'Add Service' => 'Tambahkan Layanan',
         'Edit Service' => 'Ubah layanan',
-        'Add service' => 'Tambahkan layanan',
-        'Filter for services' => '',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             '',
         'Sub-service of' => 'Sub-layanan dari',
@@ -1978,7 +1977,6 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Signature Management' => 'Tandatangan manajemen',
         'Add Signature' => 'Tambahkan Tandatangan',
         'Edit Signature' => 'Ubah tandatangan',
-        'Add signature' => 'Tambah tandatangan',
         'Filter for Signatures' => '',
         'Filter for signatures' => '',
         'Example signature' => 'Contoh tandatangan',
@@ -2146,10 +2144,9 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Kill all Sessions, except for your own' => 'Padamkan semua sesi, kecuali untuk anda sendiri',
 
         # Template: AdminTemplate
-        'Manage Templates' => 'Mengatur klise',
+        'Template Management' => '',
         'Add Template' => 'Tambahkan template',
         'Edit Template' => 'Ubah template',
-        'Add template' => 'Tambahkan templat',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'Template adalah teks default yang membantu agen anda untuk menulis tiket lebih cepat, jawab atau lanjutkan.',
         'Don\'t forget to add new templates to queues.' => 'Jangan lupa untuk menambahkan templat queues',
@@ -2172,7 +2169,6 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Type Management' => 'Jenis manajemen',
         'Add Type' => 'Tambahkan jenis',
         'Edit Type' => 'Ubah jenis',
-        'Add ticket type' => 'Tambahkan jenis tiket',
         'Filter for Types' => '',
         'Filter for types' => '',
         'A type with this name already exists!' => 'Jenis dengan nama ini sudah ada',
@@ -2182,7 +2178,6 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
 
         # Template: AdminUser
         'Agent Management' => 'Agen manajemen',
-        'Add Agent' => 'Tambahkan agen',
         'Edit Agent' => 'Ubah agen',
         'Edit personal preferences for this agent' => '',
         'Agents will be needed to handle tickets.' => 'Agen akan diperlukan untuk menangani tiket',
@@ -2859,6 +2854,7 @@ bin/otrs.Daemon.pl status\').',
         'Your 2 Factor Token' => '2 faktor bukti anda',
         'Log In' => 'Masukkan',
         'Not yet registered?' => 'Belum terdaftar?',
+        'Back' => 'Kembali',
         'Request New Password' => 'Meminta kata sandi baru',
         'Your User Name' => 'Nama pengguna anda',
         'A new password will be sent to your email address.' => 'Kata sandi baru anda akan dihantar ke email anda',
@@ -5491,6 +5487,9 @@ bin/otrs.Daemon.pl status\').',
         'Do you really want to delete this notification language?' => 'Apakah anda ingin menghapus pemberitahuan bahasa?',
         'Do you really want to delete this notification?' => 'Apakah anda ingin menghapuskan pemberitahuan?',
 
+        # JS File: Core.Agent.Admin.PGP
+        'Do you really want to delete this key?' => '',
+
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
             '',
@@ -6042,8 +6041,6 @@ Helpdesk Team Anda
         'Arabic (Saudi Arabia)' => 'Arab (Saudi Arabia)',
         'ArticleTree' => 'ArticleTree',
         'Attachment Name' => 'Lampirkan nama',
-        'Attachments ↔ Templates' => '',
-        'Auto Responses ↔ Queues' => '',
         'Automated line break in text messages after x number of chars.' =>
             'Baris istirahat otomatis dalam pesan teks setelah x jumlah karakter.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -7508,13 +7505,13 @@ Helpdesk Team Anda
         'Link Object.' => 'Hubungkan objek',
         'Link agents to groups.' => 'Hubungkan agen ke grup',
         'Link agents to roles.' => 'Hubungkan agen ke rol',
-        'Link attachments to templates.' => 'Link lampiran ke template.',
         'Link customer users to customers.' => '',
         'Link customer users to groups.' => '',
         'Link customer users to services.' => '',
         'Link customers to groups.' => '',
         'Link queues to auto responses.' => 'Link permintaan otomatis respon',
         'Link roles to groups.' => 'Menghubungkan peran ke kelompok.',
+        'Link templates to attachments.' => '',
         'Link templates to queues.' => 'Link template untuk antrian.',
         'Link this ticket to other objects' => 'Hubungkan tiket ini dengan objek lain',
         'Links 2 tickets with a "Normal" type link.' => 'Link 2 tiket dengan jenis link "Normal"',
@@ -7850,6 +7847,7 @@ Helpdesk Team Anda
         'Public Calendar' => '',
         'Public calendar.' => '',
         'Queue view' => 'lihat antrian',
+        'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Membangun kembali indeks tiket untuk AgentTicketQueue.',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             'Mengakui jika tiket adalah tindak lanjut ke tiket yang ada menggunakan nomor tiket eksternal.',
@@ -8489,6 +8487,7 @@ Helpdesk Team Anda
         'System Configuration Deployment' => '',
         'System Configuration Group' => '',
         'System Maintenance' => 'Perbaikan sistem',
+        'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => '',
         'Textarea' => 'textarea',
         'Thai' => 'Thai',
@@ -8822,6 +8821,7 @@ Helpdesk Team Anda
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',

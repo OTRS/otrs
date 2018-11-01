@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999656711294198;
+    $Self->{Completeness}        = 0.998969426313981;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -98,7 +98,6 @@ sub Data {
         'Calendar Management' => 'Управљање календарима',
         'Add Calendar' => 'Додај календар',
         'Edit Calendar' => 'Измени календар',
-        'Go back' => 'Иди назад',
         'Calendar Overview' => 'Преглед календара',
         'Add new Calendar' => 'Додај нови календар',
         'Import Appointments' => 'Увези термине',
@@ -108,6 +107,7 @@ sub Data {
         'Overwrite existing entities' => 'Напиши преко постојећих ентитета',
         'Upload calendar configuration' => 'Учитај конфигурацију календара',
         'Import Calendar' => 'Увези календар',
+        'Filter for Calendars' => 'Филтер за календаре',
         'Filter for calendars' => 'Филтер за календаре',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             'У зависности од поља групе, систем ће дозволити приступ календару оператерима према њиховом нивоу приступа.',
@@ -151,6 +151,7 @@ sub Data {
 
         # Template: AdminAppointmentImport
         'Appointment Import' => 'Увоз термина',
+        'Go back' => 'Иди назад',
         'Uploaded file must be in valid iCal format (.ics).' => 'Послати фајл мора бити у исправном iCal формату (.ics).',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             'Уколико жељени календар није излистан, проверите да ли имате ниво приступа \'креирање\' за групу календара.',
@@ -165,7 +166,6 @@ sub Data {
         'Appointment Notification Management' => 'Управљање обавештењима о терминима',
         'Add Notification' => 'Додај Обавештење',
         'Edit Notification' => 'Уреди обавештење',
-        'Add notification' => 'Додај обавештење',
         'Export Notifications' => 'Обавештења о извозу',
         'Filter for Notifications' => 'Филтер за обавештења',
         'Filter for notifications' => 'Филтер за обавештења',
@@ -317,9 +317,10 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => 'Комуникациони лог',
-        'Time range' => 'Временски опсег',
+        'Time Range' => 'Временски опсег',
         'Show only communication logs created in specific time range.' =>
             'Прикажи само комуникационе логове креиране у одређеном временском периоду.',
+        'Filter for Communications' => 'Филтер за комуникације',
         'Filter for communications' => 'Филтер за комуникације',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             'У овом екрану можете прегледати све долазне и одлазне комуникације.',
@@ -350,9 +351,9 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => 'Статус налога',
-        'Back' => 'Назад',
+        'Back to overview' => 'Иди назад на преглед',
+        'Filter for Accounts' => 'Филтер за налоге',
         'Filter for accounts' => 'Филтер за налоге',
-        'Filter for log entries' => 'Филтер за лог ставке',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             'Можете изменити редослед сортирања колона кликом на наслове колона.',
         'Account status for: %s' => 'Статус налога за: %s',
@@ -378,6 +379,8 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => 'Детаљни приказ за комуникацију %s започету у %s',
+        'Filter for Log Entries' => 'Филтер за лог ставке',
+        'Filter for log entries' => 'Филтер за лог ставке',
         'Show only entries with specific priority and higher:' => 'Прикажи само ставке са одговарајућим приоритетом и више:',
         'Communication Log Overview (%s)' => 'Преглед комуникационих логова (%s)',
         'No communication objects found.' => 'Нису пронађени комуникациони објекти.',
@@ -482,15 +485,17 @@ sub Data {
             'Ове групе су аутоматски додељене свим клијент корисницима.',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Можете управљати овим групама преко конфигурационих подешавања CustomerGroupAlwaysGroups.',
+        'Filter for groups' => 'Филтер за групе',
         'Select the customer user - group permissions.' => 'Изабери клијент корисник:група дозволе.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             'Ако ништа није изабрано, онда нема дозвола у овој групи (тикети неће бити доступни клијент кориснику).',
         'Customer User Default Groups:' => 'Подразумеване групе за клијент корисника:',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Services Relations' => 'Управљање релацијама клијент корисници-сервиси',
+        'Manage Customer User-Service Relations' => '',
         'Edit default services' => 'Уреди подразумеване услуге',
         'Filter for Services' => 'Филтер за сервисе',
+        'Filter for services' => 'Филтер за сервисе',
         'Services' => 'Услуге',
 
         # Template: AdminDynamicField
@@ -618,12 +623,12 @@ sub Data {
         'Send' => 'Шаљи',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => 'Генерички оператер',
-        'Edit job' => 'Уреди посао',
-        'Add job' => 'Додај посао',
-        'Run job' => 'Покрени посао',
-        'Filter for Generic Agent Jobs' => 'Филтер за послове генеричког оператера',
-        'Filter for generic agent jobs' => 'Филтер за послове генеричког оператера',
+        'Generic Agent Job Management' => 'Управљање пословима генеричког оператера',
+        'Edit Job' => 'Уреди посао',
+        'Add Job' => 'Додај посао',
+        'Run Job' => 'Покрени посао',
+        'Filter for Jobs' => 'Филтер за послове',
+        'Filter for jobs' => 'Филтер за послове',
         'Last run' => 'Последње покретање',
         'Run Now!' => 'Покрени сад!',
         'Delete this task' => 'Обриши овај посао',
@@ -1148,7 +1153,6 @@ sub Data {
             'Након снимања конфигурације бићете поново преусмерени на приказ екрана за уређивање.',
         'If you want to return to overview please click the "Go to overview" button.' =>
             'Ако желите да се вратите на преглед, молимо да кликнете на дугме \'Иди на преглед\'.',
-        'Web Service List' => 'Листа веб сервиса',
         'Remote system' => 'Удаљени систем',
         'Provider transport' => 'Транспорт провајдера',
         'Requester transport' => 'Транспорт потражиоца',
@@ -1193,7 +1197,6 @@ sub Data {
         'Group Management' => 'Управљање групама',
         'Add Group' => 'Додај групу',
         'Edit Group' => 'Уреди групу',
-        'Add group' => 'Додај групу',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             '\'admin\' група служи за приступ администрационом простору, а \'stats\' група статистикама.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
@@ -1202,7 +1205,6 @@ sub Data {
 
         # Template: AdminLog
         'System Log' => 'Системски дневник',
-        'Filter for Log Entries' => 'Филтер за лог ставке',
         'Here you will find log information about your system.' => 'Овде ћете наћи лог информације о вашем систему.',
         'Hide this message' => 'Сакриј ову поруку',
         'Recent Log Entries' => 'Последњи лог уноси',
@@ -1379,11 +1381,9 @@ sub Data {
             'PGP подршка ја омогућена али релевантна конфигурација садржи грешке. Молимо да проверите конфигурацију притиском на дугме испод.',
         'Configure it here!' => 'Подесите то овде!',
         'Check PGP configuration' => 'Провери PGP конфигурацију',
-        'Add PGP key' => 'Додај PGP кључ',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'На овај начин можете директно уређивати комплет кључева подешен у SysConfig (системским конфигурацијама).',
         'Introduction to PGP' => 'Увод у PGP',
-        'Result' => 'Резултат',
         'Identifier' => 'Идентификатор',
         'Bit' => 'Бит',
         'Fingerprint' => 'Отисак',
@@ -1488,9 +1488,8 @@ sub Data {
         'PostMaster Filter Management' => 'Управљање PostMaster филтерима',
         'Add PostMaster Filter' => 'Додај PostMaster филтер',
         'Edit PostMaster Filter' => 'Уреди PostMaster филтер',
-        'Add filter' => 'Додај филтер',
-        'Filter for Postmaster Filters' => 'Филтер PostMaster филтера',
-        'Filter for postmaster filters' => 'Филтер postmaster филтера',
+        'Filter for PostMaster Filters' => 'Филтер за PostMaster филтере',
+        'Filter for PostMaster filters' => 'Филтер за PostMaster филтере',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'Ради отпреме или филтрирања долазних имејлова на основу заглавља. Поклапање помоћу регуларних израза је такође могуће.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1528,6 +1527,7 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => 'Управљање процесима',
         'Filter for Processes' => 'Филтер процеса',
+        'Filter for processes' => 'Филтер процеса',
         'Create New Process' => 'Креирај нови процес',
         'Deploy All Processes' => 'Распореди све процесе',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
@@ -1686,7 +1686,7 @@ sub Data {
         'Remove this Parameter' => 'Уклони овај параметар',
 
         # Template: AdminQueue
-        'Manage Queues' => 'Управљање редовима',
+        'Queue Management' => 'Управљање редовима',
         'Add Queue' => 'Додај Ред',
         'Edit Queue' => 'Уреди Ред',
         'Filter for Queues' => 'Филтер за редове',
@@ -1718,6 +1718,8 @@ sub Data {
         'System address' => 'Системска адреса',
         'Will be the sender address of this queue for email answers.' => 'Биће адреса пошиљаоца за имејл одговоре из овог реда.',
         'Default sign key' => 'Подразумевани кључ потписа',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'Salutation' => 'Поздрав',
         'The salutation for email answers.' => 'Поздрав за имејл одговоре.',
         'Signature' => 'Потпис',
@@ -1736,6 +1738,7 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => 'Управљање односом шаблон-ред',
         'Filter for Templates' => 'Филтер за шаблоне',
+        'Filter for templates' => 'Филтер за шаблоне',
         'Templates' => 'Шаблони',
 
         # Template: AdminRegistration
@@ -1836,7 +1839,6 @@ sub Data {
 
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => 'Управљање везама улога-група',
-        'Add role' => 'Додај улогу',
         'Roles' => 'Улоге',
         'Select the role:group permissions.' => 'Изабери дозволе за улогу:групу',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
@@ -1857,8 +1859,9 @@ sub Data {
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Управљање везама оператер-улога',
-        'Add agent' => 'Додај оператера',
+        'Add Agent' => 'Додај Оператера',
         'Filter for Agents' => 'Филтер за оператере',
+        'Filter for agents' => 'Филтер за оператере',
         'Agents' => 'Оператери',
         'Manage Role-Agent Relations' => 'Управљање релацијама улога-оператер',
 
@@ -1881,10 +1884,8 @@ sub Data {
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             'SMIME подршка ја омогућена али релевантна конфигурација садржи грешке. Молимо да проверите конфигурацију притиском на дугме испод.',
         'Check SMIME configuration' => 'Провери SMIME конфигурацију',
-        'Add certificate' => 'Додај сертификат',
-        'Add private key' => 'Додај приватни кључ',
         'Filter for Certificates' => 'Филтер за сертификате',
-        'Filter for S/MIME certs' => 'Филтер за S/MIME сертификате',
+        'Filter for certificates' => 'Филтер за сертификате',
         'To show certificate details click on a certificate icon.' => 'За приказивање детаља сертификата кликни на иконицу сертификат.',
         'To manage private certificate relations click on a private key icon.' =>
             'За управљање везама приватног сертификата кликните на иконицу приватни кључ.',
@@ -1903,6 +1904,7 @@ sub Data {
         'Related Certificates for' => 'Повезани сертификати за',
         'Delete this relation' => 'Обриши ову везу',
         'Available Certificates' => 'Расположиви сертификати',
+        'Filter for S/MIME certs' => 'Филтер за S/MIME сертификате',
         'Relate this certificate' => 'Повежи овај сертификат',
 
         # Template: AdminSMIMECertRead
@@ -1914,7 +1916,6 @@ sub Data {
         'Salutation Management' => 'Управљање поздравима',
         'Add Salutation' => 'Додај Поздрав',
         'Edit Salutation' => 'Уреди Поздрав',
-        'Add salutation' => 'Додај поздрав',
         'Filter for Salutations' => 'Филтер за поздраве',
         'Filter for salutations' => 'Филтер за поздраве',
         'e. g.' => 'нпр.',
@@ -1950,8 +1951,6 @@ sub Data {
         'Service Management' => 'Управљање услугама',
         'Add Service' => 'Додај услугу',
         'Edit Service' => 'Уреди услугу',
-        'Add service' => 'Додај услугу',
-        'Filter for services' => 'Филтер за сервисе',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             'Максимална дужина назива услуге је 200 карактера (са под-услугом).',
         'Sub-service of' => 'Под-услуга од',
@@ -1977,7 +1976,6 @@ sub Data {
         'Signature Management' => 'Управљање потписима',
         'Add Signature' => 'Додај Потпис',
         'Edit Signature' => 'Уреди Потпис',
-        'Add signature' => 'Додај потпис',
         'Filter for Signatures' => 'Филтер за потписе',
         'Filter for signatures' => 'Филтер за потписе',
         'Example signature' => 'Пример потписа',
@@ -2145,10 +2143,9 @@ sub Data {
         'Kill all Sessions, except for your own' => 'Прекини све сесије, осим сопствене',
 
         # Template: AdminTemplate
-        'Manage Templates' => 'Управљање шаблонима',
+        'Template Management' => 'Управљање шаблонима',
         'Add Template' => 'Додај Шаблон',
         'Edit Template' => 'Уреди Шаблон',
-        'Add template' => 'Додај шаблон',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'Шаблон је подразумевани текст који помаже вашим агентима да брже испишу тикете, одговоре или прослеђене поруке.',
         'Don\'t forget to add new templates to queues.' => 'Не заборавите да додате нови шаблон у реду.',
@@ -2171,7 +2168,6 @@ sub Data {
         'Type Management' => 'Управљање типовима',
         'Add Type' => 'Додај Тип ',
         'Edit Type' => 'Уреди Тип',
-        'Add ticket type' => 'Додај тип тикета',
         'Filter for Types' => 'Филтер за типове',
         'Filter for types' => 'Филтер за типове',
         'A type with this name already exists!' => 'Тип са овим називом већ постоји!',
@@ -2181,7 +2177,6 @@ sub Data {
 
         # Template: AdminUser
         'Agent Management' => 'Управљање оператерима',
-        'Add Agent' => 'Додај Оператера',
         'Edit Agent' => 'Уреди Оператера',
         'Edit personal preferences for this agent' => 'Уредите лична подешавања за овог оператера',
         'Agents will be needed to handle tickets.' => 'Биће потребни оператери за обраду тикета.',
@@ -2857,6 +2852,7 @@ sub Data {
         'Your 2 Factor Token' => 'Ваш двофакторски токен',
         'Log In' => 'Пријављивање',
         'Not yet registered?' => 'Нисте регистровани?',
+        'Back' => 'Назад',
         'Request New Password' => 'Захтев за нову лозинку',
         'Your User Name' => 'Ваше корисничко име',
         'A new password will be sent to your email address.' => 'Нова лозинка ће бити послата на вашу имејл адресу.',
@@ -5489,6 +5485,9 @@ sub Data {
         'Do you really want to delete this notification language?' => 'Да ли стварно желите да избришете овај језик за обавештења?',
         'Do you really want to delete this notification?' => 'Да ли стварно желите да обришете ово обавештење?',
 
+        # JS File: Core.Agent.Admin.PGP
+        'Do you really want to delete this key?' => '',
+
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
             'Ажурирање пакета је у току, кликните овде за статус напредовања.',
@@ -6040,8 +6039,6 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => 'Арапски (Саудијска арабија)',
         'ArticleTree' => 'Чланак у облику дрвета',
         'Attachment Name' => 'Назив прилога',
-        'Attachments ↔ Templates' => 'Прилози ↔ шаблони',
-        'Auto Responses ↔ Queues' => 'Аутоматски одговори ↔ редови',
         'Automated line break in text messages after x number of chars.' =>
             'Аутоматски крај реда у текстуалним порукама после х карактера.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -7062,7 +7059,7 @@ Thanks for your help!
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             'Онемогућује слање обавештења подсетника одговорном оператеру тикета (Ticket::Responsible мора бити укључено).',
         'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
-            '',
+            'Онемогућује преусмеравање на последњи екран прегледа / контролну таблу пошто је тикет затворен.',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If not enabled, the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If enabled, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             'Онемогућује приступ инсталационом екрану (http://yourhost.example.com/otrs/installer.pl) у сврху заштите система од недозвољеног преузимања. Ако је искључено, систем може бити поново инсталиран и тренутна основна конфигурација ће бити коришћена да унапред попуни питања унутар инсталационог екрана. Уколико није укључено, такође се онемогућују GenericAgent, PackageManager и SQL Box.',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
@@ -7489,7 +7486,7 @@ Thanks for your help!
         'Ivory (Slim)' => 'Слоновача (упрошћено)',
         'Japanese' => 'Јапански',
         'JavaScript function for the search frontend.' => 'JavaScript функција за модул претраге.',
-        'Korean' => '',
+        'Korean' => 'Корејски',
         'Language' => 'Језик',
         'Large' => 'Велико',
         'Last Screen Overview' => 'Преглед последњег екрана',
@@ -7505,13 +7502,13 @@ Thanks for your help!
         'Link Object.' => 'Повежи објекат.',
         'Link agents to groups.' => 'Повежи оператере са гупама.',
         'Link agents to roles.' => 'Повежи оператере са улогама.',
-        'Link attachments to templates.' => 'Повежи прилоге са шаблонима',
         'Link customer users to customers.' => 'Повежи клијент кориснике са клијентима.',
         'Link customer users to groups.' => 'Повеђу клијент кориснике са групама.',
         'Link customer users to services.' => 'Повежи клијент кориснике са сервисима.',
         'Link customers to groups.' => 'Повежи клијенте са групама.',
         'Link queues to auto responses.' => 'Повежи редове са аутоматским одговорима.',
         'Link roles to groups.' => 'Повежи улоге са групама.',
+        'Link templates to attachments.' => '',
         'Link templates to queues.' => 'Повежи шаблоне са редовима',
         'Link this ticket to other objects' => 'Увежи овај тикет са другим објектом',
         'Links 2 tickets with a "Normal" type link.' => 'Повезује 2 тикета типом везе "Normal".',
@@ -7847,6 +7844,7 @@ Thanks for your help!
         'Public Calendar' => 'Јавни календар',
         'Public calendar.' => 'Јавни календар.',
         'Queue view' => 'Преглед реда',
+        'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Поново изради индекс тикета за оператерски ред тикета.',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             'Препознај да ли је тикет наставак постојећег тикета коришћењем екстерног броја тикета.',
@@ -8486,6 +8484,7 @@ Thanks for your help!
         'System Configuration Deployment' => 'Распоређивање системске конфигурације',
         'System Configuration Group' => 'Категорија системске конфигурације',
         'System Maintenance' => 'Одржавање система',
+        'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => 'Шаблони ↔ редови',
         'Textarea' => 'Област текста',
         'Thai' => 'Тајландски',
@@ -8819,6 +8818,7 @@ Thanks for your help!
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',

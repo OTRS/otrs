@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.66735324407827;
+    $Self->{Completeness}        = 0.662830642390931;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -101,7 +101,6 @@ sub Data {
         'Calendar Management' => 'Zarządzanie Kalendarzami',
         'Add Calendar' => 'Dodaj Kalendarz',
         'Edit Calendar' => 'Edytuj Kalendarz',
-        'Go back' => 'Wstecz',
         'Calendar Overview' => 'Przegląd Kalendarzy',
         'Add new Calendar' => 'Dodaj nowy Kalendarz',
         'Import Appointments' => 'Zaimportuj Wydarzenia',
@@ -111,6 +110,7 @@ sub Data {
         'Overwrite existing entities' => 'Nadpisać istniejące encje',
         'Upload calendar configuration' => 'Wczytaj konfigurację kalendarza',
         'Import Calendar' => 'Zaimportuj Kalendarz',
+        'Filter for Calendars' => '',
         'Filter for calendars' => 'Filtr dla kalendrzay',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             'W zależności od pola grupy, system udostępni użytkownikom dostęp do kalendarza zgodnie z ich uprawnieniami.',
@@ -154,6 +154,7 @@ sub Data {
 
         # Template: AdminAppointmentImport
         'Appointment Import' => 'Import Wydarzeń',
+        'Go back' => 'Wstecz',
         'Uploaded file must be in valid iCal format (.ics).' => 'Wczytany plik musi posiadać prawidłowy format iCAL (.ics).',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             'Jeśli szukany Kalendarz nie jest tutaj wyświetlony, proszę upewnić się, że posiadasz przy najmniej uprawnienie \'Utwórz\'.',
@@ -168,7 +169,6 @@ sub Data {
         'Appointment Notification Management' => 'Zarządzanie Powiadomieniami Wydarzeń',
         'Add Notification' => 'Dodaj powiadomienie',
         'Edit Notification' => 'Edytuj Powiadomienie',
-        'Add notification' => 'Dodaj powiadomienie',
         'Export Notifications' => 'Eksportuj powiadomienia',
         'Filter for Notifications' => 'Filtr powiadomień',
         'Filter for notifications' => 'Filtr powiadomień',
@@ -320,9 +320,10 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => 'Log komunikacji',
-        'Time range' => 'Zakres czasu',
+        'Time Range' => '',
         'Show only communication logs created in specific time range.' =>
             'Pokaż log komunikacyjny utworzony tylko w określonym zakresie czasu.',
+        'Filter for Communications' => '',
         'Filter for communications' => 'Filtr kanałów komunikacji',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             'Na tym ekranie możesz zobaczyć podsumowanie komunikacji przychodzącej i wychodzącej.',
@@ -353,9 +354,9 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => 'Status konta',
-        'Back' => 'Powrót',
+        'Back to overview' => '',
+        'Filter for Accounts' => '',
         'Filter for accounts' => 'Filtr dla kont',
-        'Filter for log entries' => 'Filtruj pozycje logu',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             'Możesz zmienić kolejność i sortowanie kolumn klikając na nagłówek tabeli.',
         'Account status for: %s' => 'Stan konta dla: 1 %s',
@@ -381,6 +382,8 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => 'Podgląd szczegółów dla %s komunikacja rozpoczęta o %s',
+        'Filter for Log Entries' => 'Filtruj pozycje logu',
+        'Filter for log entries' => 'Filtruj pozycje logu',
         'Show only entries with specific priority and higher:' => 'Pokaż tylko te pozycje logu od określonego priorytetu wzwyż:',
         'Communication Log Overview (%s)' => 'Przegląd Logu Komunikacyjnego (%s)',
         'No communication objects found.' => 'Nie znaleziono obiektów komunikacyjnych.',
@@ -486,15 +489,17 @@ sub Data {
             'Te grupy zostaną automatycznie przypisane do wszystkich użytkowników klienta.',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Możesz zarządzać tymi grupami poprzez parametr "CustomerGroupAlwaysGroups".',
+        'Filter for groups' => '',
         'Select the customer user - group permissions.' => 'Określ uprawnienia użytkownik klienta - grupa.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             '',
         'Customer User Default Groups:' => 'Domyślna Grupa Użytkownika klienta',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Services Relations' => 'Zarządzaj relacjami Użytkownik klienta - Usługi',
+        'Manage Customer User-Service Relations' => '',
         'Edit default services' => 'Edytuj domyślną usługę',
         'Filter for Services' => 'Filtruj usługi',
+        'Filter for services' => 'Filtr usług',
         'Services' => 'Usługi',
 
         # Template: AdminDynamicField
@@ -622,12 +627,12 @@ sub Data {
         'Send' => 'Wyślij',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => 'Agent automatyczny',
-        'Edit job' => 'Edytuj zadanie',
-        'Add job' => 'Dodaj zadanie',
-        'Run job' => 'Wykonaj zadanie',
-        'Filter for Generic Agent Jobs' => 'Filtr zadań agenta automatycznego',
-        'Filter for generic agent jobs' => 'Filtr zadań agenta automatycznego',
+        'Generic Agent Job Management' => '',
+        'Edit Job' => '',
+        'Add Job' => '',
+        'Run Job' => '',
+        'Filter for Jobs' => '',
+        'Filter for jobs' => '',
         'Last run' => 'Ostatnie uruchomienie',
         'Run Now!' => 'Uruchom teraz',
         'Delete this task' => 'Usuń to zadanie',
@@ -1152,7 +1157,6 @@ sub Data {
             'Po zapisaniu konfiguracji będziesz przekierowany ponownie do ekranu edycji.',
         'If you want to return to overview please click the "Go to overview" button.' =>
             'Jeśli chcesz wrócić do przeglądu, kliknij przycisk "Idź do przeglądu".',
-        'Web Service List' => 'Lista Serwisów Sieciowych',
         'Remote system' => 'Zdalny system',
         'Provider transport' => 'Transport serwera',
         'Requester transport' => 'Transport klienta',
@@ -1197,7 +1201,6 @@ sub Data {
         'Group Management' => 'Zarządzanie grupami',
         'Add Group' => 'Dodaj grupę',
         'Edit Group' => 'Edytuj Grupę',
-        'Add group' => 'Dodaj Grupę',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'Grupa Admin posiada prawa do Administracji systemem. Grupa Stats umożliwia przeglądanie statystyk zgłoszeń.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
@@ -1206,7 +1209,6 @@ sub Data {
 
         # Template: AdminLog
         'System Log' => 'Log systemu',
-        'Filter for Log Entries' => 'Filtruj pozycje logu',
         'Here you will find log information about your system.' => 'Tutaj znajdziesz informacje o swoim systemie OTRS',
         'Hide this message' => 'Ukryj tę wiadomość',
         'Recent Log Entries' => 'Ostatnie pozycje loga',
@@ -1383,11 +1385,9 @@ sub Data {
             'Wsparcie dla PGP jest włączone, ale odpowiadająca mu konfiguracja zawiera błędy. Sprawdź proszę konfigurację używając przycisku poniżej.',
         'Configure it here!' => 'Skonfiguruj to tutaj!',
         'Check PGP configuration' => 'Sprawdź konfigurację PGP',
-        'Add PGP key' => 'Dodaj klucz PGP',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'W ten sposób mozesz bezpośrednio edytować plik kluczy skonfigurowany w SysConfig.',
         'Introduction to PGP' => 'Wprowadenie do PGP',
-        'Result' => 'Wynik',
         'Identifier' => 'Identyfikator',
         'Bit' => 'Bit',
         'Fingerprint' => 'Znacznik (fingerprint)',
@@ -1492,9 +1492,8 @@ sub Data {
         'PostMaster Filter Management' => 'Zarządzanie filtrami poczty przychodzącej',
         'Add PostMaster Filter' => 'Dodaj filtr pocztowy',
         'Edit PostMaster Filter' => 'Edytuj filtr pocztowy',
-        'Add filter' => 'Dodaj filtr',
-        'Filter for Postmaster Filters' => 'Filtruj filtry pocztowe',
-        'Filter for postmaster filters' => 'Filtruj filtry pocztowe',
+        'Filter for PostMaster Filters' => '',
+        'Filter for PostMaster filters' => '',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'Aby rozdzielić lub odfiltrować napływające wiadomości e-mail na podstawie nagłówków e-mail. Możliwe dopasowywanie przy użyciu wyrażeń regularnych.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1532,6 +1531,7 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => 'Zarządzanie procesami',
         'Filter for Processes' => 'Filtr procesów',
+        'Filter for processes' => '',
         'Create New Process' => 'Utwórz nowy proces',
         'Deploy All Processes' => 'Wdróż wszystkie procesy',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
@@ -1690,7 +1690,7 @@ sub Data {
         'Remove this Parameter' => 'Usuń ten parametr',
 
         # Template: AdminQueue
-        'Manage Queues' => 'Zarządzaj kolejkami',
+        'Queue Management' => '',
         'Add Queue' => 'Dodaj kolejkę',
         'Edit Queue' => 'Edytuj kolejkę',
         'Filter for Queues' => 'Filtrowanie kolejek',
@@ -1722,6 +1722,8 @@ sub Data {
         'System address' => 'Adres systemowy',
         'Will be the sender address of this queue for email answers.' => 'Będzie adresem nadawcy odpowiedzi e-mailowych wysyłanych z tej kolejki.',
         'Default sign key' => 'Domyślny klucz do podpisywania',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'Salutation' => 'Powitanie',
         'The salutation for email answers.' => 'Powitanie dla odpowiedzi e-mailowych.',
         'Signature' => 'Podpis',
@@ -1740,6 +1742,7 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => 'Zarządzaj relacjami Szablonowo-Kolejkowymi',
         'Filter for Templates' => 'Filtr szalbonów',
+        'Filter for templates' => '',
         'Templates' => 'Szablony',
 
         # Template: AdminRegistration
@@ -1840,7 +1843,6 @@ sub Data {
 
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => 'Zarządzaj relacjami rola-grupa',
-        'Add role' => 'Dodaj rolę',
         'Roles' => 'Role',
         'Select the role:group permissions.' => 'Zaznacz uprawnienia rola:grupa',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
@@ -1861,8 +1863,9 @@ sub Data {
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Zarządzaj relacjami agent-rola',
-        'Add agent' => 'Dodaj agenta',
+        'Add Agent' => 'Dodaj agenta',
         'Filter for Agents' => 'Filtrowanie agentów',
+        'Filter for agents' => '',
         'Agents' => 'Agenci',
         'Manage Role-Agent Relations' => 'Zarządzaj relacjami rola-agent',
 
@@ -1885,10 +1888,8 @@ sub Data {
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             '',
         'Check SMIME configuration' => 'Sprawdź konfigurację SMIME',
-        'Add certificate' => 'Dodaj certyfikat',
-        'Add private key' => 'Dodaj klucz prywatny',
         'Filter for Certificates' => 'Filtr dla Certyfikatów',
-        'Filter for S/MIME certs' => 'Filtruj certyfikaty S/MIME',
+        'Filter for certificates' => 'Filtruj certyfikaty',
         'To show certificate details click on a certificate icon.' => 'Kliknij w ikonę certyfikatu by zobaczyć jego detale.',
         'To manage private certificate relations click on a private key icon.' =>
             'Kliknij w ikonę prywatne by zarządzać relacjami certyfikatu prywatnego.',
@@ -1907,6 +1908,7 @@ sub Data {
         'Related Certificates for' => 'Certyfikaty powiązane dla',
         'Delete this relation' => 'Usuń to powiązanie',
         'Available Certificates' => 'Dostępne certyfikaty',
+        'Filter for S/MIME certs' => 'Filtruj certyfikaty S/MIME',
         'Relate this certificate' => 'Powiąż ten certyfikat',
 
         # Template: AdminSMIMECertRead
@@ -1918,7 +1920,6 @@ sub Data {
         'Salutation Management' => 'Zarządzanie powitaniami',
         'Add Salutation' => 'Dodaj powitanie',
         'Edit Salutation' => 'Edytuj powitanie',
-        'Add salutation' => 'Dodaj powitanie',
         'Filter for Salutations' => '',
         'Filter for salutations' => '',
         'e. g.' => 'np.',
@@ -1954,8 +1955,6 @@ sub Data {
         'Service Management' => 'Konfiguracja usług',
         'Add Service' => 'Dodaj usługę',
         'Edit Service' => 'Edytuj usługę',
-        'Add service' => 'Dodaj usługę',
-        'Filter for services' => 'Filtr usług',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             'Długość nazwy usługi to maksymalnie 200 znaków (razem z podusługą)',
         'Sub-service of' => 'Usługa podrzędna dla',
@@ -1981,7 +1980,6 @@ sub Data {
         'Signature Management' => 'Konfiguracja podpisów',
         'Add Signature' => 'Dodaj podpis',
         'Edit Signature' => 'Edytuj podpis',
-        'Add signature' => 'Dodaj podpis',
         'Filter for Signatures' => 'Filtr dla Podpisów',
         'Filter for signatures' => 'Filtr dla podpisów',
         'Example signature' => 'Przykładowy podpis',
@@ -2149,10 +2147,9 @@ sub Data {
         'Kill all Sessions, except for your own' => 'Zakończ wszystkie sesje z wyjątkiem własnej',
 
         # Template: AdminTemplate
-        'Manage Templates' => 'Zarządzanie szablonami',
+        'Template Management' => '',
         'Add Template' => 'Dodaj szablon',
         'Edit Template' => 'Edytuj szablon',
-        'Add template' => 'Dodaj szablon',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'Szablon jest domyślnym tekstem który pozwala agentom na szybsze wypisywanie zgłoszeń, odpowiedzi i przekazań.',
         'Don\'t forget to add new templates to queues.' => 'Nie zapomnij dodać nowych szablonów do kolejki.',
@@ -2175,7 +2172,6 @@ sub Data {
         'Type Management' => 'Zarządzanie typami',
         'Add Type' => 'Dodaj typ',
         'Edit Type' => 'Edytuj typ zgłoszenia',
-        'Add ticket type' => 'Dodaj typ zgłoszenia',
         'Filter for Types' => '',
         'Filter for types' => '',
         'A type with this name already exists!' => 'Typ o takiej nazwie już istnieje!',
@@ -2185,7 +2181,6 @@ sub Data {
 
         # Template: AdminUser
         'Agent Management' => 'Zarządzanie agentami',
-        'Add Agent' => 'Dodaj agenta',
         'Edit Agent' => 'Edytuj agenta',
         'Edit personal preferences for this agent' => 'Edytuj ustawienia osobiste tego agenta',
         'Agents will be needed to handle tickets.' => 'Agenci są potrzebni do obsługi zgłoszeń.',
@@ -2861,6 +2856,7 @@ sub Data {
         'Your 2 Factor Token' => 'Twój token weryfikacji dwuetapowej',
         'Log In' => 'Zaloguj się',
         'Not yet registered?' => 'Nie jesteś jeszcze zarejetrowanym użytkownikiem?',
+        'Back' => 'Powrót',
         'Request New Password' => 'Prośba o nowe hasło',
         'Your User Name' => 'Nazwa użytkownika',
         'A new password will be sent to your email address.' => 'Nowe hasło będzie wysłane na twój adres e-mail',
@@ -5493,6 +5489,9 @@ sub Data {
         'Do you really want to delete this notification language?' => 'Czy na pewno chcesz usunąć ten język powiadomienia?',
         'Do you really want to delete this notification?' => 'Czy na pewno chcesz usunąć to powiadomienie?',
 
+        # JS File: Core.Agent.Admin.PGP
+        'Do you really want to delete this key?' => '',
+
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
             '',
@@ -6033,8 +6032,6 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => '',
         'ArticleTree' => 'Drzewo z artykułami',
         'Attachment Name' => 'Nazwa załącznika',
-        'Attachments ↔ Templates' => 'Załączniki ↔ Szablony',
-        'Auto Responses ↔ Queues' => 'Automatyczne odpowiedzi ↔ Kolejki',
         'Automated line break in text messages after x number of chars.' =>
             '',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -7498,13 +7495,13 @@ Thanks for your help!
         'Link Object.' => '',
         'Link agents to groups.' => 'Zarządzanie relacjami Agenci <-> Grupy',
         'Link agents to roles.' => 'Zarządzanie relacjami Agenci <-> Role',
-        'Link attachments to templates.' => 'Połącz załączniki z szablonami.',
         'Link customer users to customers.' => '',
         'Link customer users to groups.' => '',
         'Link customer users to services.' => '',
         'Link customers to groups.' => '',
         'Link queues to auto responses.' => 'Połącz kolejki z autoodpowiedziami.',
         'Link roles to groups.' => 'Połącz role z grupami.',
+        'Link templates to attachments.' => '',
         'Link templates to queues.' => 'Połącz szablony do kolejek.',
         'Link this ticket to other objects' => 'Połącz to zgłoszenie z innymi obiektami',
         'Links 2 tickets with a "Normal" type link.' => 'Łączy 2 zgłoszenia z połączeniem "Zwykłym".',
@@ -7840,6 +7837,7 @@ Thanks for your help!
         'Public Calendar' => 'Kalendarz Publiczny',
         'Public calendar.' => 'Kalendarz publiczny.',
         'Queue view' => 'Widok kolejek',
+        'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             '',
@@ -8479,6 +8477,7 @@ Thanks for your help!
         'System Configuration Deployment' => 'Wdrażanie Konfiguracji Systemu',
         'System Configuration Group' => '',
         'System Maintenance' => 'Konserwacja systemu',
+        'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => 'Szablony ↔ Kolejki',
         'Textarea' => 'Pole tekstowe',
         'Thai' => 'Tajski',
@@ -8812,6 +8811,7 @@ Thanks for your help!
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',

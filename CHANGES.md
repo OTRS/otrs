@@ -1,4 +1,5 @@
 #6.0.13 2018-??-??
+ - 2018-11-01 Updated translations, thanks to all translators.
  - 2018-11-01 Fixed: TicketSolutionResponseTime stats leads to internal server error (bug#14167).
  - 2018-11-01 Fixed bug#[14140](https://bugs.otrs.org/show_bug.cgi?id=14140) - Missing confirmation dialog when deleting a PGP key.
  - 2018-10-31 Added option to hide deployment info to Admin::Package::ReinstallAll console command.
@@ -20,7 +21,7 @@
  - 2018-10-16 Fixed bug#[14079](https://bugs.otrs.org/show_bug.cgi?id=14079) - Cancel and Close button are not visible.
  - 2018-10-09 Follow-up fix for bug#[13928](https://bugs.otrs.org/show_bug.cgi?id=13928) - Assigning customer group to chat modules results in constant connection error messages.
  - 2018-10-09 Improved upload cache module.
- - 2018-10-03 Fixed bug#[14107](https://bugs.otrs.org/show_bug.cgi?id=14107) - IfNotPackage property in <Database*> tag is not honored during Package Install for Installed packages.
+ - 2018-10-03 Fixed bug#[14107](https://bugs.otrs.org/show_bug.cgi?id=14107) - IfNotPackage property in <Database\*> tag is not honored during Package Install for Installed packages.
 
 #6.0.12 2018-10-05
  - 2018-09-27 Updated translations, thanks to all translators.

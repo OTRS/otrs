@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.598867147270855;
+    $Self->{Completeness}        = 0.595671590518722;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -98,7 +98,6 @@ sub Data {
         'Calendar Management' => '',
         'Add Calendar' => '',
         'Edit Calendar' => '',
-        'Go back' => 'กลับไป',
         'Calendar Overview' => '',
         'Add new Calendar' => '',
         'Import Appointments' => '',
@@ -108,6 +107,7 @@ sub Data {
         'Overwrite existing entities' => 'เขียนทับแอนตีตี้ที่มีอยู่',
         'Upload calendar configuration' => '',
         'Import Calendar' => '',
+        'Filter for Calendars' => '',
         'Filter for calendars' => '',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             '',
@@ -151,6 +151,7 @@ sub Data {
 
         # Template: AdminAppointmentImport
         'Appointment Import' => '',
+        'Go back' => 'กลับไป',
         'Uploaded file must be in valid iCal format (.ics).' => '',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             '',
@@ -165,7 +166,6 @@ sub Data {
         'Appointment Notification Management' => '',
         'Add Notification' => 'เพิ่มการแจ้งเตือน',
         'Edit Notification' => 'แก้ไขการแจ้งเตือน',
-        'Add notification' => 'เพิ่มการแจ้งเตือน',
         'Export Notifications' => 'ส่งออกการแจ้งเตือน',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',
@@ -317,9 +317,10 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => '',
-        'Time range' => '',
+        'Time Range' => '',
         'Show only communication logs created in specific time range.' =>
             '',
+        'Filter for Communications' => '',
         'Filter for communications' => '',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             '',
@@ -350,9 +351,9 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => '',
-        'Back' => 'กลับไป',
+        'Back to overview' => '',
+        'Filter for Accounts' => '',
         'Filter for accounts' => '',
-        'Filter for log entries' => '',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             '',
         'Account status for: %s' => '',
@@ -378,6 +379,8 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '',
+        'Filter for Log Entries' => '',
+        'Filter for log entries' => '',
         'Show only entries with specific priority and higher:' => '',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
@@ -482,15 +485,17 @@ sub Data {
             '',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'คุณสามารถจัดการกลุ่มคนเหล่านี้ผ่านการตั้งค่าการกำหนดรูปแบบ "CustomerGroupAlwaysGroups"',
+        'Filter for groups' => '',
         'Select the customer user - group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             '',
         'Customer User Default Groups:' => '',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Services Relations' => '',
+        'Manage Customer User-Service Relations' => '',
         'Edit default services' => 'แก้ไขการบริการเริ่มต้น',
         'Filter for Services' => 'ตัวกรองสำหรับการบริการ',
+        'Filter for services' => '',
         'Services' => 'การบริการ',
 
         # Template: AdminDynamicField
@@ -618,12 +623,12 @@ sub Data {
         'Send' => 'ส่ง',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => 'เอเย่นต์ทั่วไป',
-        'Edit job' => 'แก้ไขงาน',
-        'Add job' => 'เพิ่มงาน',
-        'Run job' => 'รันงาน',
-        'Filter for Generic Agent Jobs' => '',
-        'Filter for generic agent jobs' => '',
+        'Generic Agent Job Management' => '',
+        'Edit Job' => '',
+        'Add Job' => '',
+        'Run Job' => '',
+        'Filter for Jobs' => '',
+        'Filter for jobs' => '',
         'Last run' => 'การทำงานที่ผ่านมา',
         'Run Now!' => 'รันตอนนี้!',
         'Delete this task' => 'ลบงานนี้',
@@ -1148,7 +1153,6 @@ sub Data {
             'หลังจากที่คุณบันทึกการตั้งค่าคุณจะถูกเปลี่ยนเส้นทางไปยังหน้าจอการแก้ไขอีกครั้ง',
         'If you want to return to overview please click the "Go to overview" button.' =>
             'ถ้าคุณต้องการที่จะกลับไปที่ภาพรวมโปรดคลิกที่ปุ่ม "ไปที่ภาพรวม"',
-        'Web Service List' => 'รายการ Web Service',
         'Remote system' => 'ระบบระยะไกล',
         'Provider transport' => 'ขนส่งผู้ให้บริการ',
         'Requester transport' => 'การขนส่งผู้ร้องขอ',
@@ -1193,7 +1197,6 @@ sub Data {
         'Group Management' => 'การจัดการกลุ่ม',
         'Add Group' => 'เพิ่มกลุ่ม',
         'Edit Group' => 'แก้ไขกลุ่ม',
-        'Add group' => 'เพิ่มกลุ่ม',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'กลุ่มผู้ดูแลระบบจะได้รับการเข้าไปในพื้นที่ของแอดมินและกลุ่มสถิติจะได้รับพื้นที่สถิติ',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
@@ -1202,7 +1205,6 @@ sub Data {
 
         # Template: AdminLog
         'System Log' => 'ระบบ Log',
-        'Filter for Log Entries' => '',
         'Here you will find log information about your system.' => 'คุณจะพบข้อมูลเกี่ยวกับการเข้าสู่ระบบในระบบของคุณที่นี่',
         'Hide this message' => 'ซ่อนข้อความนี้',
         'Recent Log Entries' => 'รายการการเข้าสู่ระบบล่าสุด',
@@ -1379,11 +1381,9 @@ sub Data {
             'เปิดใช้งานการสนับสนุน PGP แล้วแต่การกำหนดค่าที่เกี่ยวข้องมีข้อผิดพลาด กรุณาตรวจสอบการตั้งค่าโดยใช้ปุ่มด้านล่าง',
         'Configure it here!' => 'กำหนดค่าได้ที่นี่!',
         'Check PGP configuration' => 'ตรวจสอบการตั้งค่า PHP',
-        'Add PGP key' => 'เพิ่มคีย์ PGP',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'ด้วยวิธีนี้คุณสามารถแก้ไขการคีย์การกำหนดค่าใน sysconfigได้โดยตรง',
         'Introduction to PGP' => 'ข้อมูลเบื้องต้นเกี่ยวกับ PGP',
-        'Result' => 'ผลลัพธ์',
         'Identifier' => 'ตัวบ่งชี้',
         'Bit' => 'บิต',
         'Fingerprint' => 'ลายนิ้วมือ',
@@ -1488,9 +1488,8 @@ sub Data {
         'PostMaster Filter Management' => 'การจัดการตัวกรองPostmaster',
         'Add PostMaster Filter' => 'เพิ่มตัวกรอง PostMaster',
         'Edit PostMaster Filter' => 'แก้ไขตัวกรอง PostMaster',
-        'Add filter' => 'เพิ่มตัวกรอง',
-        'Filter for Postmaster Filters' => '',
-        'Filter for postmaster filters' => '',
+        'Filter for PostMaster Filters' => '',
+        'Filter for PostMaster filters' => '',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'เพื่อส่งหรือกรองอีเมลขาเข้าขึ้นอยู่กับหัวข้อของอีเมล นอกจากนี้ยังสามารถจับคู่โดยใช้นิพจน์ปกติ',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1529,6 +1528,7 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => 'กระบวนการจัดการ',
         'Filter for Processes' => 'ตัวกรองสำหรับกระบวนการต่างๆ',
+        'Filter for processes' => '',
         'Create New Process' => 'สร้างการประมวลผลใหม่',
         'Deploy All Processes' => 'ปรับใช้กระบวนการทั้งหมด',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
@@ -1688,7 +1688,7 @@ sub Data {
         'Remove this Parameter' => 'ลบพารามิเตอร์นี้',
 
         # Template: AdminQueue
-        'Manage Queues' => 'จัดการคิว',
+        'Queue Management' => '',
         'Add Queue' => 'เพิ่มคิว',
         'Edit Queue' => 'แก้ไขคิว',
         'Filter for Queues' => 'ตัวกรองสำหรับคิว',
@@ -1720,6 +1720,8 @@ sub Data {
         'System address' => 'ที่อยู่ของระบบ',
         'Will be the sender address of this queue for email answers.' => 'จะเป็นที่อยู่ของผู้ส่งคิวนี้สำหรับอีเมลคำตอบ',
         'Default sign key' => 'กุญแจเริ่มต้นการเข้าสู่ระบบ',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'Salutation' => 'คำขึ้นต้น',
         'The salutation for email answers.' => 'คำขึ้นต้นจดหมายสำหรับอีเมลคำตอบ',
         'Signature' => 'ลายเซ็น',
@@ -1738,6 +1740,7 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => 'จัดการความสัมพันธ์ของแม่แบบคิว',
         'Filter for Templates' => 'ตัวกรองสำหรับแม่แบบ',
+        'Filter for templates' => '',
         'Templates' => 'รูปแบบ',
 
         # Template: AdminRegistration
@@ -1838,7 +1841,6 @@ sub Data {
 
         # Template: AdminRoleGroup
         'Manage Role-Group Relations' => 'จัดการความสัมพันธ์ของกลุ่มบทบาท',
-        'Add role' => 'เพิ่มบทบาท',
         'Roles' => 'บทบาท',
         'Select the role:group permissions.' => 'เลือกบทบาท: สิทธิ์ของกลุ่ม',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
@@ -1859,8 +1861,9 @@ sub Data {
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'จัดการความสัมพันธ์ของบทบาทเอเย่นต์',
-        'Add agent' => 'เพิ่มเอเย่นต์',
+        'Add Agent' => 'เพิ่มเอเย่นต์',
         'Filter for Agents' => 'ตัวกรองสำหรับเอเย่นต์',
+        'Filter for agents' => '',
         'Agents' => 'เอเย่นต์',
         'Manage Role-Agent Relations' => 'จัดการความสัมพันธ์ของเอเย่นต์บทบาท',
 
@@ -1883,10 +1886,8 @@ sub Data {
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             'เปิดใช้งานการสนับสนุน SMIME แล้วแต่การกำหนดค่าที่เกี่ยวข้องมีข้อผิดพลาด กรุณาตรวจสอบการตั้งค่าโดยใช้ปุ่มด้านล่าง',
         'Check SMIME configuration' => 'ตรวจสอบการกำหนดค่า SMIME',
-        'Add certificate' => 'เพิ่มใบรับรอง',
-        'Add private key' => 'เพิ่มคีย์ส่วนตัว',
         'Filter for Certificates' => '',
-        'Filter for S/MIME certs' => 'ตัวกรองสำหรับใบรับรอง S / MIME',
+        'Filter for certificates' => 'ตัวกรองสำหรับใบรับรอง',
         'To show certificate details click on a certificate icon.' => 'หากต้องการแสดงรายละเอียดใบรับรองคลิกที่ไอคอนใบรับรอง',
         'To manage private certificate relations click on a private key icon.' =>
             'ในการจัดการความสัมพันธ์ใบรับรองส่วนตัวคลิกที่ไอคอนรูปกุญแจส่วนตัว',
@@ -1905,6 +1906,7 @@ sub Data {
         'Related Certificates for' => 'ใบรับรองที่เกี่ยวข้องสำหรับ',
         'Delete this relation' => 'ลบความสัมพันธ์นี้',
         'Available Certificates' => 'ใบรับรองที่พร้อมใช้งาน',
+        'Filter for S/MIME certs' => 'ตัวกรองสำหรับใบรับรอง S / MIME',
         'Relate this certificate' => 'เกี่ยวข้องกับใบรับรองนี้',
 
         # Template: AdminSMIMECertRead
@@ -1916,7 +1918,6 @@ sub Data {
         'Salutation Management' => 'การจัดการคำขึ้นต้น',
         'Add Salutation' => 'เพิ่มคำขึ้นต้น',
         'Edit Salutation' => 'แก้ไขคำขึ้นต้น',
-        'Add salutation' => 'เพิ่มคำขึ้นต้น',
         'Filter for Salutations' => '',
         'Filter for salutations' => '',
         'e. g.' => 'ตัวอย่างเช่น',
@@ -1952,8 +1953,6 @@ sub Data {
         'Service Management' => 'การจัดการบริการ',
         'Add Service' => 'เพิ่มการบริการ',
         'Edit Service' => 'แก้ไขการบริการ',
-        'Add service' => 'เพิ่มการบริการ',
-        'Filter for services' => '',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             '',
         'Sub-service of' => 'การบริการย่อยของ',
@@ -1979,7 +1978,6 @@ sub Data {
         'Signature Management' => 'การจัดการลายเซ็น',
         'Add Signature' => 'เพิ่มลายเซ็น',
         'Edit Signature' => 'แก้ไขลายเซ็น',
-        'Add signature' => 'เพิ่มลายเซ็น',
         'Filter for Signatures' => '',
         'Filter for signatures' => '',
         'Example signature' => 'แก้ไขลายเซ็น',
@@ -2148,10 +2146,9 @@ sub Data {
         'Kill all Sessions, except for your own' => 'ทำลายเซสชันทั้งหมดยกเว้นเซสชันของคุณ',
 
         # Template: AdminTemplate
-        'Manage Templates' => 'จัดการรูปแบบต่างๆ',
+        'Template Management' => '',
         'Add Template' => 'เพิ่มแม่แบบ',
         'Edit Template' => 'แก้ไขแม่แบบ',
-        'Add template' => 'เพิ่มแม่แบบ',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'แม่แบบเป็นข้อความเริ่มต้นซึ่งจะช่วยให้เอเย่นต์ของคุณในการเขียนตั๋ว ตอบหรือส่งต่อให้เร็วขึ้น',
         'Don\'t forget to add new templates to queues.' => 'อย่าลืมที่จะเพิ่มแม่แบบใหม่ไปยังคิว',
@@ -2174,7 +2171,6 @@ sub Data {
         'Type Management' => 'ประเภทการจัดการ',
         'Add Type' => 'เพิ่มประเภท',
         'Edit Type' => 'แก้ไขประเภท',
-        'Add ticket type' => 'พิ่มประเภทตั๋ว',
         'Filter for Types' => '',
         'Filter for types' => '',
         'A type with this name already exists!' => 'ประเภทที่ใช้ชื่อนี้มีอยู่แล้ว!',
@@ -2184,7 +2180,6 @@ sub Data {
 
         # Template: AdminUser
         'Agent Management' => 'การจัดการเอเย่นต์',
-        'Add Agent' => 'เพิ่มเอเย่นต์',
         'Edit Agent' => 'แก้ไขเอเย่นต์',
         'Edit personal preferences for this agent' => '',
         'Agents will be needed to handle tickets.' => 'เอเย่นต์จะต้องจัดการกับตั๋ว',
@@ -2860,6 +2855,7 @@ sub Data {
         'Your 2 Factor Token' => '2 ปัจจัยโทเคนของคุณ',
         'Log In' => 'เข้าสู่ระบบ',
         'Not yet registered?' => 'ยังไม่ได้ลงทะเบียน?',
+        'Back' => 'กลับไป',
         'Request New Password' => 'การร้องขอรหัสผ่านใหม่',
         'Your User Name' => 'ชื่อผู้ใช้ของคุณ',
         'A new password will be sent to your email address.' => 'รหัสผ่านใหม่จะถูกส่งไปยังที่อยู่อีเมลของคุณ',
@@ -5492,6 +5488,9 @@ sub Data {
         'Do you really want to delete this notification language?' => 'คุณต้องการที่จะลบภาษาของการแจ้งเตือนนี้หรือไม่?',
         'Do you really want to delete this notification?' => 'คุณต้องการที่จะลบการแจ้งเตือนนี้หรือไม่?',
 
+        # JS File: Core.Agent.Admin.PGP
+        'Do you really want to delete this key?' => '',
+
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
             '',
@@ -6043,8 +6042,6 @@ Thanks for your help!
         'Arabic (Saudi Arabia)' => 'ภาษาอาหรับ (ซาอุดีอาระเบีย)',
         'ArticleTree' => 'ArticleTree',
         'Attachment Name' => 'ชื่อเอกสารที่แนบมา',
-        'Attachments ↔ Templates' => '',
-        'Auto Responses ↔ Queues' => '',
         'Automated line break in text messages after x number of chars.' =>
             'แบ่งบรรทัดอัตโนมัติในข้อความหลังจากจำนวนตัวอักษร  x ',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
@@ -7511,13 +7508,13 @@ Thanks for your help!
         'Link Object.' => 'วัตถุการเชื่อมโยง',
         'Link agents to groups.' => 'ตัวแทนเชื่อมโยงไปยังกลุ่ม',
         'Link agents to roles.' => 'ลิ้งตัวแทนกับบทบาท',
-        'Link attachments to templates.' => 'ลิ้งสิ่งที่แนบมาไปยังแม่แบบ',
         'Link customer users to customers.' => '',
         'Link customer users to groups.' => '',
         'Link customer users to services.' => '',
         'Link customers to groups.' => '',
         'Link queues to auto responses.' => 'ลิ้งคำสั่งไปยังการตอบอัตโนมัติ',
         'Link roles to groups.' => 'ลิ้งบทบาทไปยังกลุ่ม',
+        'Link templates to attachments.' => '',
         'Link templates to queues.' => 'ลิ้งแม่แบบไปยังคิว',
         'Link this ticket to other objects' => 'เชื่อมโยงตั๋วนี้เพื่อออบเจคอื่น ๆ',
         'Links 2 tickets with a "Normal" type link.' => '',
@@ -7853,6 +7850,7 @@ Thanks for your help!
         'Public Calendar' => '',
         'Public calendar.' => '',
         'Queue view' => 'มุมมองคิว',
+        'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             '',
@@ -8492,6 +8490,7 @@ Thanks for your help!
         'System Configuration Deployment' => '',
         'System Configuration Group' => '',
         'System Maintenance' => '',
+        'Templates ↔ Attachments' => '',
         'Templates ↔ Queues' => '',
         'Textarea' => 'Textarea',
         'Thai' => 'ภาษาไทย',
@@ -8825,6 +8824,7 @@ Thanks for your help!
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',
