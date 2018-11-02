@@ -171,7 +171,7 @@ sub _ExecuteComponent {
         if ($TimingEnabled) {
             my $StopTaskTime = Time::HiRes::time();
             my $ExecutionTaskTime = sprintf( "%.6f", $StopTaskTime - $TaskStartTime );
-            print " ($ExecutionTaskTime seconds).";
+            print "        Time taken for task \"$Task->{Message}\": $ExecutionTaskTime seconds\n\n";
         }
 
         if ( !$Success ) {
