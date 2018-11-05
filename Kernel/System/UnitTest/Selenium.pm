@@ -19,6 +19,7 @@ use Time::HiRes();
 use Kernel::Config;
 use Kernel::System::User;
 use Kernel::System::UnitTest::Helper;
+use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -632,6 +633,61 @@ sub DEMOLISH {
     }
 
     return;
+}
+
+=head1 DEPRECATED FUNCTIONS
+
+=head2 WaitForjQueryEventBound()
+
+waits until event handler is bound to the selected C<jQuery> element. Deprecated - it will be removed in the future releases.
+
+    $SeleniumObject->WaitForjQueryEventBound(
+        CSSSelector => 'li > a#Test',       # (required) css selector
+        Event       => 'click',             # (optional) Specify event name. Default 'click'.
+    );
+
+=cut
+
+sub WaitForjQueryEventBound {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    if ( !$Param{CSSSelector} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need CSSSelector!",
+        );
+        return;
+    }
+
+    my $Event = $Param{Event} || 'click';
+
+    # Wait for jQuery initialization.
+    $Self->WaitFor(
+        JavaScript =>
+            'return Object.keys($("' . $Param{CSSSelector} . '")[0]).length > 0'
+    );
+
+    # Get jQuery object keys.
+    my $Keys = $Self->execute_script(
+        'return Object.keys($("' . $Param{CSSSelector} . '")[0]);'
+    );
+
+    if ( !IsArrayRefWithData($Keys) ) {
+        die "Couldn't determine jQuery object id";
+    }
+
+    my $JQueryObjectID = $Keys->[0];
+
+    # Wait until click event is bound to the element.
+    $Self->WaitFor(
+        JavaScript =>
+            'return $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events
+                && $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events.' . $Event . '
+                && $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events.' . $Event . '.length > 0;',
+    );
+
+    return 1;
 }
 
 1;
