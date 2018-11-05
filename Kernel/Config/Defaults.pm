@@ -1492,6 +1492,9 @@ via the Preferences button after logging in.
         CustomerUserNameFields             => [ 'title', 'first_name', 'last_name' ],
         CustomerUserEmailUniqCheck         => 1,
 
+#        # Configures the character for joining customer user name parts. Join single space if it is not defined.
+#        # CustomerUserNameFieldsJoin => '',
+
 #        # show now own tickets in customer panel, CompanyTickets
 #        CustomerUserExcludePrimaryCustomerID => 0,
 #        # generate auto logins
@@ -1593,6 +1596,8 @@ via the Preferences button after logging in.
 #        CustomerUserSearchListLimit => 250,
 #        CustomerUserPostMasterSearchFields => ['mail'],
 #        CustomerUserNameFields => ['givenname', 'sn'],
+#        # Configures the character for joining customer user name parts. Join single space if it is not defined.
+#        CustomerUserNameFieldsJoin => '',
 #        # show customer user and customer tickets in customer interface
 #        CustomerUserExcludePrimaryCustomerID => 0,
 #        # add a ldap filter for valid users (expert setting)

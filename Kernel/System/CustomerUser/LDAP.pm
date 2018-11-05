@@ -343,7 +343,8 @@ sub CustomerName {
         push @NameParts, $NameParts{$CustomerUserNameField};
     }
 
-    my $Name = join ' ', @NameParts;
+    my $JoinCharacter = $Self->{CustomerUserMap}->{CustomerUserNameFieldsJoin} // ' ';
+    my $Name = join $JoinCharacter, @NameParts;
 
     # cache request
     if ( $Self->{CacheObject} ) {

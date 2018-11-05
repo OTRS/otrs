@@ -12,10 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
-my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -41,23 +39,7 @@ my $UserID     = $UserObject->UserAdd(
 
 $Self->True(
     $UserID,
-    'UserAdd()',
-);
-
-my $CustomerUserLogin = $CustomerUserObject->CustomerUserAdd(
-    Source         => 'CustomerUser',
-    UserFirstname  => 'John',
-    UserLastname   => 'Doe',
-    UserCustomerID => 'johndoe',
-    UserLogin      => $UserRandom,
-    UserEmail      => $UserRandom . '@example.com',
-    ValidID        => 1,
-    UserID         => 1,
-);
-
-$Self->True(
-    $CustomerUserLogin,
-    'CustomerUserAdd()',
+    "UserID $UserID is created",
 );
 
 my %Tests = (
@@ -82,11 +64,6 @@ for my $Order ( sort keys %Tests ) {
         $UserObject->UserName( UserID => $UserID ),
         $Tests{$Order},
         "UserName FirstnameLastnameOrder $Order",
-    );
-    $Self->Is(
-        $CustomerUserObject->CustomerName( UserLogin => $CustomerUserLogin ),
-        $Tests{$Order},
-        "CustomerName FirstnameLastnameOrder $Order",
     );
 }
 

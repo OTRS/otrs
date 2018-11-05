@@ -1,4 +1,5 @@
 #6.0.14 2018-??-??
+ - 2018-11-05 Fixed bug#[14063](https://bugs.otrs.org/show_bug.cgi?id=14063) - CustomerUserNameFields not used.
 
 #6.0.13 2018-11-09
  - 2018-11-01 Updated translations, thanks to all translators.
