@@ -1,4 +1,5 @@
 #6.0.14 2018-??-??
+ - 2018-11-05 Fixed bug#[14201](https://bugs.otrs.org/show_bug.cgi?id=14201) - backup.pl - dump errors are not detected.
  - 2018-11-05 Fixed bug#[14063](https://bugs.otrs.org/show_bug.cgi?id=14063) - CustomerUserNameFields not used.
 
 #6.0.13 2018-11-09

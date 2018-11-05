@@ -231,6 +231,10 @@ else {
 }
 
 # backup database
+my $ErrorIndicationFileName =
+    $Kernel::OM->Get('Kernel::Config')->Get('Home')
+    . '/var/tmp/'
+    . $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString();
 if ( $DB =~ m/mysql/i ) {
     print "Dump $DB data to $Directory/DatabaseBackup.sql.$CompressEXT ... ";
     if ($DatabasePw) {
@@ -238,14 +242,18 @@ if ( $DB =~ m/mysql/i ) {
     }
     if (
         !system(
-            "$DBDump -u $DatabaseUser $DatabasePw -h $DatabaseHost $Database | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
+            "( $DBDump -u $DatabaseUser $DatabasePw -h $DatabaseHost $Database || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
         )
+        && !-f $ErrorIndicationFileName
         )
     {
         print "done\n";
     }
     else {
         print "failed\n";
+        if ( -f $ErrorIndicationFileName ) {
+            unlink $ErrorIndicationFileName;
+        }
         RemoveIncompleteBackup($Directory);
         die "Backup failed\n";
     }
@@ -264,14 +272,18 @@ else {
 
     if (
         !system(
-            "$DBDump $DatabaseHost -U $DatabaseUser $Database | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
+            "( $DBDump $DatabaseHost -U $DatabaseUser $Database || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
         )
+        && !-f $ErrorIndicationFileName
         )
     {
         print "done\n";
     }
     else {
         print "failed\n";
+        if ( -f $ErrorIndicationFileName ) {
+            unlink $ErrorIndicationFileName;
+        }
         RemoveIncompleteBackup($Directory);
         die "Backup failed\n";
     }
