@@ -169,6 +169,9 @@ for my $BaseURL ( sort keys %Frontends ) {
                     );
                 }
                 else {
+
+                    next FRONTEND if $Frontend =~ m/PublicDownloads|PublicURLRedirect/;
+
                     $Self->True(
                         index( $Response->content(), '<meta name="robots" content="index,follow" />' ) > 0,
                         "Module $Frontend sends 'index' robots information.",
