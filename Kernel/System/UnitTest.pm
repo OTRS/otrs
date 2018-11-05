@@ -259,6 +259,8 @@ sub _HandleFile {
     $Self->{TestCountOk}    += $ResultData->{TestOk} // 0;
     $Self->{TestCountNotOk} += $ResultData->{TestNotOk} // 0;
 
+    $Self->{SeleniumBrowser} //= $ResultData->{SeleniumBrowser};
+
     $Self->{NotOkInfo} //= [];
     if ( $ResultData->{NotOkInfo} ) {
 
@@ -327,6 +329,47 @@ sub _SubmitResults {
             }
 
             $ScreenshotCount += $TestScreenshotCount;
+        }
+    }
+
+    # Save Selenium Browser information in Support Data results.
+    if ( IsHashRefWithData( $Self->{SeleniumBrowser} ) ) {
+        push @{ $SupportData{Result} },
+            {
+            Value       => $Self->{SeleniumBrowser}->{browserName} // 'N/A',
+            Label       => 'Browser Name',
+            DisplayPath => 'Selenium Test Environment',
+            Status      => 1,
+            };
+        if ( $Self->{SeleniumBrowser}->{browserName} && $Self->{SeleniumBrowser}->{browserName} eq 'chrome' ) {
+            push @{ $SupportData{Result} },
+                {
+                Value       => $Self->{SeleniumBrowser}->{version} // 'N/A',
+                Label       => 'Browser Version',
+                DisplayPath => 'Selenium Test Environment',
+                Status      => 1,
+                },
+                {
+                Value       => $Self->{SeleniumBrowser}->{chrome}->{chromedriverVersion} // 'N/A',
+                Label       => 'Chrome Driver',
+                DisplayPath => 'Selenium Test Environment',
+                Status      => 1,
+                };
+        }
+        elsif ( $Self->{SeleniumBrowser}->{browserName} && $Self->{SeleniumBrowser}->{browserName} eq 'firefox' ) {
+            push @{ $SupportData{Result} },
+                {
+                Value       => $Self->{SeleniumBrowser}->{browserVersion} // 'N/A',
+                Label       => 'Browser Version',
+                DisplayPath => 'Selenium Test Environment',
+                Status      => 1,
+                },
+                {
+                Value       => $Self->{SeleniumBrowser}->{'moz:geckodriverVersion'} // 'N/A',
+                Label       => 'Gecko Driver',
+                DisplayPath => 'Selenium Test Environment',
+                Status      => 1,
+                };
         }
     }
 

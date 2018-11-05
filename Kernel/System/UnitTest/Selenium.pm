@@ -115,6 +115,8 @@ sub new {
     $Self->{UnitTestDriverObject} = $Param{UnitTestDriverObject};
     $Self->{SeleniumTestsActive}  = 1;
 
+    $Self->{UnitTestDriverObject}->{SeleniumCapabilities} = $Self->get_capabilities();
+
     #$Self->debug_on();
 
     # set screen size from config or use defauls
