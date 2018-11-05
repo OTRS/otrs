@@ -107,7 +107,7 @@ $Selenium->RunTest(
         );
 
         # Close note window.
-        $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
+        $Selenium->close();
         $Selenium->WaitFor( WindowCount => 1 );
 
         # Switch window back to agent ticket zoom view of created test ticket.
