@@ -342,14 +342,14 @@ my @Tests = (
                 JqueryClick => '.ArrayItem:nth-of-type(1) .DatepickerIcon',
             },
             {
-                DatepickerDay => 10,
+                DatepickerDay => 24,
             },
             {
                 Select => '.ArrayItem:nth-of-type(1) select:nth-of-type(2)',
             },
             {
                 # Make sure that Datepicker is working (Day is updated).
-                ElementValue => 10,
+                ElementValue => 24,
             },
             {
                 # Discard changes
