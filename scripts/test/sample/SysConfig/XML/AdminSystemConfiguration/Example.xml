@@ -247,7 +247,7 @@
             <Array>
                 <DefaultItem ValueType="Directory">/etc</DefaultItem>
                 <Item>/etc</Item>
-                <Item>/opt</Item>
+                <Item>/var</Item>
             </Array>
         </Value>
     </Setting>
