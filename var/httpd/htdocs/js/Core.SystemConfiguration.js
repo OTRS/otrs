@@ -1644,6 +1644,7 @@ var Core = Core || {};
             Core.Config.Get('CGIHandle'),
             Data,
             function (HTML) {
+                var Counter = 0;
 
                 $(".ContentColumn").html(HTML);
                 TargetNS.Init();
@@ -1673,7 +1674,19 @@ var Core = Core || {};
                 // scroll to top to see all the settings from the current node
                 $('html, body').animate({
                     scrollTop: $('.ContentColumn .WidgetSimple').first().position().top
-                }, 'fast');
+                }, {
+                    duration: 'fast',
+                    always: function () {
+
+                        // This function is called 2 times: one time for html and another for body.
+                        // We want to set the class on element only when both are done.
+                        if (Counter === 1) {
+                            $('ul.SettingsList').addClass('Initialized');
+                        }
+
+                        Counter++;
+                    },
+                });
             }, 'html'
         );
 

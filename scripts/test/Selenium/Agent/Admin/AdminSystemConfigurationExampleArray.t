@@ -322,7 +322,11 @@ my @Tests = (
             },
             {
                 # Wait until screen is loaded.
-                Visible => 'select#ExampleArrayDate_Array1Month',
+                Select => 'select',
+            },
+            {
+                # There is animation running in the AJAX call, which scrolls on top of the page.
+                WaitForJS => 'return $("ul.SettingsList").hasClass("Initialized");',
             },
             {
                 # Scroll to the setting.
@@ -1129,24 +1133,6 @@ $Selenium->RunTest(
 
                     $Selenium->WaitFor(
                         JavaScript => 'return typeof($) === "function" && $("' . "$Prefix $JSValue" . '").length'
-                    );
-
-                    $SelectedItem = $Selenium->find_element( "$Prefix $Value", "css" );
-                }
-                elsif ( $CommandType eq 'Visible' ) {
-
-                    $Selenium->WaitFor(
-                        JavaScript => 'return typeof($) === "function" && $("' . $Prefix
-                            . '").hasClass("HasOverlay") == 0',
-                    );
-
-                    # JS needs more escapes.
-                    my $JSValue = $Value;
-                    $JSValue =~ s{\\}{\\\\}g;
-
-                    $Selenium->WaitFor(
-                        JavaScript => 'return typeof($) === "function" && $("' . "$Prefix $JSValue" . '").length '
-                            . '&& $("' . "$Prefix $JSValue" . '").is(":visible")'
                     );
 
                     $SelectedItem = $Selenium->find_element( "$Prefix $Value", "css" );
