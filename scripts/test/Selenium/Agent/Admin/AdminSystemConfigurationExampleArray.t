@@ -322,7 +322,7 @@ my @Tests = (
             },
             {
                 # Wait until screen is loaded.
-                Select => 'select',
+                Visible => 'select#ExampleArrayDate_Array1Month',
             },
             {
                 # Scroll to the setting.
@@ -342,14 +342,14 @@ my @Tests = (
                 JqueryClick => '.ArrayItem:nth-of-type(1) .DatepickerIcon',
             },
             {
-                DatepickerDay => 24,
+                DatepickerDay => 10,
             },
             {
                 Select => '.ArrayItem:nth-of-type(1) select:nth-of-type(2)',
             },
             {
                 # Make sure that Datepicker is working (Day is updated).
-                ElementValue => 24,
+                ElementValue => 10,
             },
             {
                 # Discard changes
@@ -1128,7 +1128,25 @@ $Selenium->RunTest(
                     $JSValue =~ s{\\}{\\\\}g;
 
                     $Selenium->WaitFor(
-                        JavaScript => 'return typeof($) === "function" && $("' . "$Prefix $JSValue" . '").length',
+                        JavaScript => 'return typeof($) === "function" && $("' . "$Prefix $JSValue" . '").length'
+                    );
+
+                    $SelectedItem = $Selenium->find_element( "$Prefix $Value", "css" );
+                }
+                elsif ( $CommandType eq 'Visible' ) {
+
+                    $Selenium->WaitFor(
+                        JavaScript => 'return typeof($) === "function" && $("' . $Prefix
+                            . '").hasClass("HasOverlay") == 0',
+                    );
+
+                    # JS needs more escapes.
+                    my $JSValue = $Value;
+                    $JSValue =~ s{\\}{\\\\}g;
+
+                    $Selenium->WaitFor(
+                        JavaScript => 'return typeof($) === "function" && $("' . "$Prefix $JSValue" . '").length '
+                            . '&& $("' . "$Prefix $JSValue" . '").is(":visible")'
                     );
 
                     $SelectedItem = $Selenium->find_element( "$Prefix $Value", "css" );
