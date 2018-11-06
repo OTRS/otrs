@@ -23,6 +23,48 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+# create test ticket and article
+my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TicketID = $TicketObject->TicketCreate(
+    Title        => 'Some Ticket_Title',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'closed successful',
+    CustomerNo   => '123465',
+    CustomerUser => 'customer@example.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+$Self->True(
+    $TicketID,
+    'TicketCreate()',
+);
+
+my $ArticleID = $TicketObject->ArticleCreate(
+    TicketID       => $TicketID,
+    ArticleType    => 'note-internal',
+    SenderType     => 'agent',
+    From           => 'Some Agent <email@example.com>',
+    To             => 'Some Customer <customer-a@example.com>',
+    Subject        => 'some short description',
+    Body           => 'the message text',
+    ContentType    => 'text/plain; charset=ISO-8859-15',
+    HistoryType    => 'OwnerUpdate',
+    HistoryComment => 'Some free text!',
+    UserID         => 1,
+    NoAgentNotify => 1,
+);
+$Self->True(
+    $ArticleID,
+    'ArticleCreate()',
+);
+
+# create test user
+my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+my $UserLogin  = $Helper->TestUserCreate();
+my $UserID     = $UserObject->UserLookup( UserLogin => $UserLogin );
+
 =cut
 This test is supposed to verify the solution for bug#9092, which showed
 that on certain versions of MySQL with InnoDB, dropping indices causes
@@ -65,9 +107,9 @@ my @Tests = (
 
     # insert test data
     '<Insert Table="bug9092">
-        <Data Key="article_id">1</Data>
+        <Data Key="article_id">' . $ArticleID . '</Data>
         <Data Key="article_key" Type="Quote">Seen</Data>
-        <Data Key="article_value" Type="Quote">1</Data>
+        <Data Key="article_value" Type="Quote">' . $UserID . '</Data>
         <Data Key="create_time" Type="">current_timestamp</Data>
         <Data Key="create_by">1</Data>
     </Insert>',
