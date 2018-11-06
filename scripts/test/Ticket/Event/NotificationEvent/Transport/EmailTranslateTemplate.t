@@ -49,6 +49,12 @@ $ConfigObject->Set(
     Value => 0,
 );
 
+# Enable banner in mails.
+$ConfigObject->Set(
+    Key   => 'Secure::DisableBanner',
+    Value => '0',
+);
+
 my $TestEmailObject = $Kernel::OM->Get('Kernel::System::Email::Test');
 
 my $Success = $TestEmailObject->CleanUp();
