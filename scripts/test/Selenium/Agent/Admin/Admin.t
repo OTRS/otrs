@@ -62,6 +62,9 @@ $Selenium->RunTest(
         # get script alias
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
+        # get configured agent frontend modules
+        my $FrontendModules = $ConfigObject->Get('Frontend::Module');
+
         # get test data
         my @AdminModules = qw(
             AdminACL
@@ -114,6 +117,9 @@ $Selenium->RunTest(
 
         ADMINMODULE:
         for my $AdminModule (@AdminModules) {
+
+            # skip test for unregistered modules (e.g. OTRS Business)
+            next ADMINMODULE if !$FrontendModules->{$AdminModule};
 
             # navigate to appropriate screen in the test
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=$AdminModule");
