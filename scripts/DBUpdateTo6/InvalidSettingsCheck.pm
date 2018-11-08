@@ -31,6 +31,8 @@ scripts::DBUpdateTo6::InvalidSettingsCheck - Checks for invalid configuration se
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
+
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
     my @InvalidSettings = $SysConfigObject->ConfigurationInvalidList(
@@ -41,46 +43,21 @@ sub Run {
     return 1 if !scalar @InvalidSettings;
 
     my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Config::FixInvalid');
+    my @CommandArgs = ( '--no-ansi', '--skip-missing' );
+
+    if ( !$Verbose ) {
+        push @CommandArgs, '--quiet';
+    }
 
     # This check will occur only if we are in interactive mode.
     if ( $Param{CommandlineOptions}->{NonInteractive} || !is_interactive() ) {
 
         # Try to fix invalid settings automatically. Run in no-ANSI mode for consistent output.
-        $CommandObject->Execute( '--non-interactive', '--no-ansi' );
-    }
-    else {
-        # Try to fix invalid settings manually.
-        $CommandObject->Execute('--no-ansi');
+        push @CommandArgs, '--non-interactive';
     }
 
-    # Check if there are still some invalid settings.
-    @InvalidSettings = $SysConfigObject->ConfigurationInvalidList(
-        Undeployed => 1,    # Check undeployed settings as well.
-        NoCache    => 1,
-    );
-
-    return 1 if !scalar @InvalidSettings;
-
-    print "\n        Migration was OK, however there are some settings with invalid values:";
-
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
-    for my $SettingName (@InvalidSettings) {
-        my %Setting = $SysConfigObject->SettingGet(
-            Name => $SettingName,
-        );
-
-        my $EffectiveValue = $MainObject->Dump(
-            $Setting{EffectiveValue},
-        );
-
-        $EffectiveValue =~ s/\$VAR1 = //;
-
-        print "\n            - $SettingName - $EffectiveValue";
-    }
-
-    print
-        "\n        Please use console command (bin/otrs.Console.pl Admin::Config::Update --help) or GUI to fix them.\n";
+    # Just execute the command.
+    $CommandObject->Execute(@CommandArgs);
 
     return 1;
 }
