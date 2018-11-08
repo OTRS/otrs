@@ -348,11 +348,16 @@ $Selenium->RunTest(
         $Element->is_enabled();
         $Element->is_displayed();
 
-        my $FooterMessage = 'Powered by ' . $ConfigObject->Get('Product');
-        $Self->True(
-            index( $Selenium->get_page_source(), $FooterMessage ) > -1,
-            "$FooterMessage found in footer on page (after attachment upload)",
-        );
+        # Get secure disable banner.
+        my $SecureDisableBanner = $ConfigObject->Get('Secure::DisableBanner');
+
+        if ( !$SecureDisableBanner ) {
+            my $FooterMessage = 'Powered by ' . $ConfigObject->Get('Product');
+            $Self->True(
+                index( $Selenium->get_page_source(), $FooterMessage ) > -1,
+                "$FooterMessage found in footer on page (after attachment upload)",
+            );
+        }
 
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
