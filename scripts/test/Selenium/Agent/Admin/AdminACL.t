@@ -219,7 +219,7 @@ JAVASCRIPT
         );
 
         # type in some text & confirm by pressing 'enter', which should produce a new field
-        $Selenium->find_element( '#ACLMatch .DataItem .NewDataKey', 'css' )->send_keys( '<Test>', "\N{U+E007}" );
+        $Selenium->find_element( '#ACLMatch .DataItem .NewDataKey', 'css' )->send_keys("<Test>\N{U+E007}");
 
         # check if the text was escaped correctly
         $Self->Is(
@@ -251,13 +251,22 @@ JAVASCRIPT
             "\$('#ACLMatch .ItemAdd').val('DynamicField').trigger('redraw.InputField').trigger('change');"
         );
 
+        # Wait until element is shown.
+        $Selenium->WaitFor(
+            JavaScript => "return \$('#ACLMatch .DataItem .NewDataKeyDropdown').length;"
+        );
         $Self->Is(
             $Selenium->execute_script("return \$('#ACLMatch .DataItem .NewDataKeyDropdown').length;"),
             '1',
             'Check for .NewDataKeyDropdown element',
         );
+
+        # Wait until element is shown.
+        $Selenium->WaitFor(
+            JavaScript => "return \$('#ACLMatch .DataItem .AddAll').length;"
+        );
         $Self->Is(
-            $Selenium->find_element( ' #ACLMatch .DataItem .AddAll', 'css' )->is_displayed(),
+            $Selenium->find_element( '#ACLMatch .DataItem .AddAll', 'css' )->is_displayed(),
             '1',
             'Check for .AddAll element',
         );
