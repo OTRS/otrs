@@ -24,6 +24,14 @@ $Selenium->RunTest(
 
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # Change "Move" action to be a link instead of dropdown, since there is an issue to click
+        # on the "Customer" action (dropdown can be on top is some cases).
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::MoveType',
+            Value => 'link',
+        );
+
         my $Language      = 'de';
         my $TestUserLogin = $Helper->TestUserCreate(
             Language => $Language,
