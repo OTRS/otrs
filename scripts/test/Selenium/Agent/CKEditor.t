@@ -106,8 +106,16 @@ $Selenium->RunTest(
 
             $Selenium->execute_script( 'CKEDITOR.instances.RichText.setData("' . $TestCase->{Input} . '");' );
 
-            # we wait a second to make sure the content has been set correctly
-            sleep 1;
+            my $EscapedText = $TestCase->{Expected};
+
+            # Escape some chars for JS usage.
+            $EscapedText =~ s{\n}{\\n}g;
+            $EscapedText =~ s{"}{\\"}g;
+
+            # Wait until CKEditor content is updated.
+            $Selenium->WaitFor(
+                JavaScript => "return CKEDITOR.instances.RichText.getData() === \"$EscapedText\";",
+            );
 
             $Self->Is(
                 $Selenium->execute_script('return CKEDITOR.instances.RichText.getData();'),
