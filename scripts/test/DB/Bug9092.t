@@ -24,8 +24,8 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # create test ticket and article
-my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-my $TicketID = $TicketObject->TicketCreate(
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TicketID     = $TicketObject->TicketCreate(
     Title        => 'Some Ticket_Title',
     Queue        => 'Raw',
     Lock         => 'unlock',
@@ -53,7 +53,7 @@ my $ArticleID = $TicketObject->ArticleCreate(
     HistoryType    => 'OwnerUpdate',
     HistoryComment => 'Some free text!',
     UserID         => 1,
-    NoAgentNotify => 1,
+    NoAgentNotify  => 1,
 );
 $Self->True(
     $ArticleID,
