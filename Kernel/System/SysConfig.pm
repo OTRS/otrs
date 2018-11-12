@@ -339,7 +339,7 @@ sub SettingGet {
 
         my $IsOverridden = DataIsDifferent(
             Data1 => $SettingDeployed{EffectiveValue} // {},
-            Data2 => $LoadedEffectiveValue            // {},
+            Data2 => $LoadedEffectiveValue //            {},
         );
 
         if ($IsOverridden) {
@@ -3035,8 +3035,8 @@ sub ConfigurationListGet {
     my @ConfigurationList = $SysConfigDBObject->DefaultSettingListGet(
         Navigation               => $Param{Navigation},
         UserModificationPossible => $Param{TargetUserID} ? 1 : undef,
-        UserPreferencesGroup => $Param{UserPreferencesGroup} || undef,
-        IsInvisible => $Param{Invisible} ? undef : 0,
+        UserPreferencesGroup     => $Param{UserPreferencesGroup} || undef,
+        IsInvisible              => $Param{Invisible} ? undef : 0,
         %CategoryOptions,
     );
 
@@ -4730,9 +4730,9 @@ sub SettingsSet {
 
     # Deploy successfully updated settings.
     my %DeploymentResult = $Self->ConfigurationDeploy(
-        Comments => $Param{Comments} || '',
-        UserID   => $Param{UserID},
-        Force    => 1,
+        Comments      => $Param{Comments} || '',
+        UserID        => $Param{UserID},
+        Force         => 1,
         DirtySettings => \@DeploySettings,
     );
 
@@ -4784,7 +4784,7 @@ sub OverriddenFileNameGet {
     $EffectiveValue =~ s/\<OTRS_CONFIG_(.+?)\>/$ConfigObject->{$1}/g;
 
     my $IsOverridden = DataIsDifferent(
-        Data1 => $EffectiveValue       // {},
+        Data1 => $EffectiveValue //       {},
         Data2 => $LoadedEffectiveValue // {},
     );
 
@@ -4992,7 +4992,7 @@ sub _IsOverriddenInModule {
             elsif (
                 DataIsDifferent(
                     Data1 => $LoadedEffectiveValue // {},
-                    Data2 => $ConfigFromDB         // {},
+                    Data2 => $ConfigFromDB //         {},
                 )
                 )
             {
@@ -5014,7 +5014,7 @@ sub _IsOverriddenInModule {
             elsif (
                 DataIsDifferent(
                     Data1 => $LoadedEffectiveValue // {},
-                    Data2 => $ConfigFromDB         // {},
+                    Data2 => $ConfigFromDB //         {},
                 )
                 )
             {
