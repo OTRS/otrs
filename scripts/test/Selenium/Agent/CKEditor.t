@@ -95,6 +95,17 @@ $Selenium->RunTest(
             "Successfully sent data to the CKE instance."
         );
 
+        # Wait until CKEditor content is updated.
+        $Selenium->WaitFor(
+            JavaScript => "return CKEDITOR.instances.RichText.getData() === \"This is a test text\";",
+        );
+
+        $Self->Is(
+            $Selenium->execute_script('return CKEDITOR.instances.RichText.getData();'),
+            'This is a test text',
+            'Check plain text content.'
+        );
+
         # now go through the test cases
         for my $TestCase (@TestCasesBasic) {
 
