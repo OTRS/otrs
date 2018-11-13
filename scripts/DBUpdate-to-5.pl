@@ -2301,39 +2301,56 @@ sub _FixUserPreferenceKeys {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     my %Blacklisted = (
-        UserID         => 1,
-        UserLogin      => 1,
-        UserPw         => 1,
-        UserPassword   => 1,
-        UserFirstname  => 1,
-        UserLastname   => 1,
-        UserFullname   => 1,
-        UserStreet     => 1,
-        UserCity       => 1,
-        UserZip        => 1,
-        UserCountry    => 1,
-        UserComment    => 1,
-        UserCustomerID => 1,
-        UserTitle      => 1,
-        UserEmail      => 1,
-        UserPhone      => 1,
-        UserMobile     => 1,
-        UserFax        => 1,
-        UserMailString => 1,
-        ChangeTime     => 1,
-        ChangeBy       => 1,
-        CreateTime     => 1,
-        CreateBy       => 1,
-        'UserIsGroup%' => 1,
-        ValidID        => 1,
+        User => {
+            UserID         => 1,
+            UserLogin      => 1,
+            UserPw         => 1,
+            UserFirstname  => 1,
+            UserLastname   => 1,
+            UserFullname   => 1,
+            UserTitle      => 1,
+            ChangeTime     => 1,
+            CreateTime     => 1,
+            ValidID        => 1,
+            'UserIsGroup%' => 1,
+        },
+        Customer => {
+            UserID         => 1,
+            UserLogin      => 1,
+            UserPassword   => 1,
+            UserFirstname  => 1,
+            UserLastname   => 1,
+            UserFullname   => 1,
+            UserStreet     => 1,
+            UserCity       => 1,
+            UserZip        => 1,
+            UserCountry    => 1,
+            UserComment    => 1,
+            UserCustomerID => 1,
+            UserTitle      => 1,
+            UserEmail      => 1,
+            ChangeTime     => 1,
+            ChangeBy       => 1,
+            CreateTime     => 1,
+            CreateBy       => 1,
+            UserPhone      => 1,
+            UserMobile     => 1,
+            UserFax        => 1,
+            UserMailString => 1,
+            ValidID        => 1,
+            'UserIsGroup%' => 1,
+        },
     );
 
-    my @Tables = qw(user_preferences customer_preferences);
+    my %Tables = (
+        Customer => 'customer_preferences',
+        User     => 'user_preferences',
+    );
     my @AffectedTables;
 
-    TABLE:
-    for my $Table (@Tables) {
-        my $Result = _BindSQLPreferenceKeys(%Blacklisted);
+    for my $UserType ( sort keys %Tables ) {
+        my $Table  = $Tables{$UserType};
+        my $Result = _BindSQLPreferenceKeys( $Blacklisted{$UserType} );
         my $SQL    = "SELECT COUNT(*) FROM $Table WHERE $Result->{BindSQL}";
 
         return if !$DBObject->Prepare(
@@ -2348,9 +2365,9 @@ sub _FixUserPreferenceKeys {
 
     return 1 if !@AffectedTables;
 
-    TABLE:
-    for my $Table (@Tables) {
-        my $Result = _BindSQLPreferenceKeys(%Blacklisted);
+    for my $UserType ( sort keys %Tables ) {
+        my $Table  = $Tables{$UserType};
+        my $Result = _BindSQLPreferenceKeys( $Blacklisted{$UserType} );
         my $SQL    = "DELETE FROM $Table WHERE $Result->{BindSQL}";
 
         return if !$DBObject->Do(
@@ -2366,29 +2383,33 @@ sub _FixUserPreferenceKeys {
 
 Helper method to build bind SQL string and array.
 
-    my $Result = _BindSQLPreferenceKeys(%Keys);
+    my $Result = _BindSQLPreferenceKeys(
+        Key1 => 1,
+        Key2 => 1,
+        Key3 => 1,
+    );
 
 Returns:
 
     $Result = {
-        BindSQL   => 'key_1 LIKE ? OR key_2 LIKE ? OR key_3 LIKE ?',
+        BindSQL   => 'preferences_key LIKE ? OR preferences_key LIKE ? OR preferences_key LIKE ?',
         BindArray =>  [
-            \'val_1',
-            \'val_2',
-            \'val_3',
+            \'Key1',
+            \'Key2',
+            \'Key3',
         ],
     };
 
 =cut
 
 sub _BindSQLPreferenceKeys {
-    my %Keys = @_;
+    my $Keys = shift;
 
     my $BindSQL = '';
     my @Bind;
 
     my $Count = 0;
-    for my $Key ( sort keys %Keys ) {
+    for my $Key ( sort keys %{$Keys} ) {
         $BindSQL .= ' OR ' if $Count;
         $BindSQL .= 'preferences_key LIKE ?';
         push @Bind, \$Key;
