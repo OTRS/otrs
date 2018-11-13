@@ -1,4 +1,5 @@
-#6.0.14 2018-??-??
+#6.0.14 2018-11-14
+ - 2018-11-13 Follow-up fix for bug#[13978](https://bugs.otrs.org/show_bug.cgi?id=13978) - User and customer preferences may override user data.
 
 #6.0.13 2018-11-09
  - 2018-11-01 Updated translations, thanks to all translators.
