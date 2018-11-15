@@ -329,6 +329,14 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#PriorityID').val('4').trigger('redraw.InputField').trigger('change');");
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
+        # Check if form update for Queue is working well.
+        # See bug #14226
+        $Self->Is(
+            $Selenium->execute_script("return \$('#QueueID option:selected').text();"),
+            "-",
+            "On form update - Queue is not selected",
+        );
+
         $Self->Is(
             $Selenium->execute_script("return \$('#TypeID option[value=1]').text();"),
             "Unclassified",

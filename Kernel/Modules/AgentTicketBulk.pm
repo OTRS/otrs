@@ -112,10 +112,11 @@ sub Run {
         );
         my @JSONData = (
             {
-                Name       => 'QueueID',
-                Data       => \%QueueList,
-                SelectedID => $GetParam{QueueID},
-                TreeView   => $TreeView,
+                Name         => 'QueueID',
+                Data         => \%QueueList,
+                SelectedID   => $GetParam{QueueID},
+                TreeView     => $TreeView,
+                PossibleNone => 1,
             },
         );
 
