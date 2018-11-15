@@ -2,13 +2,13 @@ package Sisimai::Rhost;
 use feature ':5.10';
 use strict;
 use warnings;
-use Module::Load '';
 
 my $RhostClass = {
     qr/\Aaspmx[.]l[.]google[.]com\z/                 => 'GoogleApps',
     qr/[.](?:prod|protection)[.]outlook[.]com\z/     => 'ExchangeOnline',
     qr/\A(?:smtp|mailstore1)[.]secureserver[.]net\z/ => 'GoDaddy',
     qr/\b(?:laposte[.]net|orange[.]fr)\z/            => 'FrancePTT',
+    qr/[.](?:ezweb[.]ne[.]jp|au[.]com)\z/            => 'KDDI',
 };
 
 sub list {
@@ -26,7 +26,7 @@ sub match {
     my $rhost = shift // return undef;
     my $host0 = lc $rhost;
     my $match = 0;
-    return $match unless length $rhost;
+    return $match unless $rhost;
 
     for my $e ( keys %$RhostClass ) {
         # Try to match with each key of $RhostClass
@@ -43,9 +43,7 @@ sub get {
     # @return   [String]                The value of bounce reason
     my $class = shift;
     my $argvs = shift // return undef;
-
     return undef unless ref $argvs eq 'Sisimai::Data';
-    return $argvs->reason if length $argvs->reason;
 
     my $reasontext = '';
     my $remotehost = lc $argvs->rhost;
@@ -57,9 +55,10 @@ sub get {
         $rhostclass = __PACKAGE__.'::'.$RhostClass->{ $e };
         last;
     }
+    return undef unless $rhostclass;
 
-    return undef unless length $rhostclass;
-    Module::Load::load($rhostclass);
+    (my $modulepath = $rhostclass) =~ s|::|/|g; 
+    require $modulepath.'.pm';
     $reasontext = $rhostclass->get($argvs);
 
     return $reasontext;

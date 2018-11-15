@@ -31,8 +31,6 @@ sub scan {
     my $mbody = shift // return undef;
     return undef unless index($mhead->{'subject'}, 'Undeliverable Mail: "') == 0;
 
-    require Sisimai::MIME;
-    require Sisimai::String;
     my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
     my @hasdivided = split("\n", $$mbody);
     my $rfc822part = '';    # (String) message/rfc822-headers part
@@ -45,7 +43,7 @@ sub scan {
     my $v = undef;
 
     $boundary00 = Sisimai::MIME->boundary($mhead->{'content-type'});
-    if( length $boundary00 ) {
+    if( $boundary00 ) {
         # Convert to regular expression
         $boundary00 = '--'.$boundary00.'--';
         $MarkingsOf->{'rfc822'} = qr/\A\Q$boundary00\E\z/; 
@@ -95,7 +93,7 @@ sub scan {
             if( $e =~ /\A[ \t]{4}([^ ]+[@][^ ]+)\z/ ) {
                 # The following recipients were affected: 
                 #    dummyuser@blabla.xxxxxxxxxxxx.com
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -111,7 +109,7 @@ sub scan {
                     # 550 5.1.1 User unknown
                     $v->{'diagnosis'} = $e;
 
-                } elsif( length $v->{'diagnosis'} && $endoferror == 0 ) {
+                } elsif( $v->{'diagnosis'} && ! $endoferror ) {
                     # Append error messages
                     $endoferror = 1 if index($e, $StartingOf->{'rcpts'}->[0]) == 0;
                     next if $endoferror;

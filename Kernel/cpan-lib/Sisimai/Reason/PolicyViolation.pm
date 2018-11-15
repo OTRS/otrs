@@ -13,29 +13,26 @@ sub match {
     # @since v4.22.0
     my $class = shift;
     my $argv1 = shift // return undef;
-    my $regex = qr{(?>
-         because[ ]the[ ]recipient[ ]is[ ]not[ ]accepting[ ]mail[ ]with[ ](?:attachments|embedded[ ]images) # AOL Phoenix
-        |closed[ ]mailing[ ]list
-        |denied[ ]by[ ]policy
-        |email[ ](?:
-             not[ ]accepted[ ]for[ ]policy[ ]reasons
-            # http://kb.mimecast.com/Mimecast_Knowledge_Base/Administration_Console/Monitoring/Mimecast_SMTP_Error_Codes#554
-            |rejected[ ]due[ ]to[ ]security[ ]policies
-            )
-        |header[ ](?:are[ ]not[ ]accepted|error)
-        |mail[ ]from[ ].+[ ]rejected[ ]for[ ]policy[ ]reasons
-        |message[ ](?:
-             given[ ]low[ ]priority
-            |not[ ]accepted[ ]for[ ]policy[ ]reasons
-            )
-        |messages[ ]with[ ]multiple[ ]addresses
-        |protocol[ ]violation
-        |the[ ]email[ ]address[ ]used[ ]to[ ]send[ ]your[ ]message[ ]is[ ]not[ ]subscribed[ ]to[ ]this[ ]group
-        |you[ ]have[ ]exceeded[ ]the[ ]the[ ]allowable[ ]number[ ]of[ ]posts[ ]without[ ]solving[ ]a[ ]captcha
-        )
-    }x;
+    my $index = [
+        'because the recipient is not accepting mail with ',    # AOL Phoenix
+        'closed mailing list',
+        'denied by policy',
+        'email not accepted for policy reasons',
+        # http://kb.mimecast.com/Mimecast_Knowledge_Base/Administration_Console/Monitoring/Mimecast_SMTP_Error_Codes#554
+        'email rejected due to security policies',
+        'header are not accepted',
+        'header error',
+        'message given low priority',
+        'message not accepted for policy reasons',
+        'messages with multiple addresses',
+        'rejected for policy reasons',
+        'protocol violation',
+        'the email address used to send your message is not subscribed to this group',
+        'you have exceeded the allowable number of posts without solving a captcha',
+        'you have exceeded the the allowable number of posts without solving a captcha',
+    ];
 
-    return 1 if $argv1 =~ $regex;
+    return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
 }
 
@@ -102,10 +99,11 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2017 azumakuniyuki, All rights reserved.
+Copyright (C) 2017-2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 
 This software is distributed under The BSD 2-Clause License.
 
 =cut
+

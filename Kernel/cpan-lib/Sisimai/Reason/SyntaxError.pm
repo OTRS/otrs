@@ -16,7 +16,6 @@ sub true {
     my $class = shift;
     my $argvs = shift // return undef;
 
-    return undef unless ref $argvs eq 'Sisimai::Data';
     return 1 if $argvs->reason eq 'syntaxerror';
     return 1 if $argvs->replycode =~ /\A[45]0[0-7]\z/;
     return 0;

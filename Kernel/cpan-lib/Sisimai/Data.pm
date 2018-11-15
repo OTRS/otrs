@@ -3,12 +3,7 @@ use feature ':5.10';
 use strict;
 use warnings;
 use Class::Accessor::Lite;
-use Module::Load '';
 use Sisimai::Address;
-use Sisimai::RFC5322;
-use Sisimai::SMTP::Error;
-use Sisimai::SMTP::Reply;
-use Sisimai::SMTP::Status;
 use Sisimai::String;
 use Sisimai::Reason;
 use Sisimai::Rhost;
@@ -77,7 +72,7 @@ sub new {
     };
 
     # Create Sisimai::Time object
-    $thing->{'timestamp'} = localtime Sisimai::Time->new($argvs->{'timestamp'});
+    $thing->{'timestamp'} = gmtime Sisimai::Time->new($argvs->{'timestamp'});
     $thing->{'timezoneoffset'} = $argvs->{'timezoneoffset'} // '+0000';
 
     # Callback method
@@ -107,10 +102,8 @@ sub make {
     return undef unless $argvs->{'data'}->ds;
     return undef unless $argvs->{'data'}->rfc822;
 
-    require Sisimai::SMTP;
     my $delivered1 = $argvs->{'delivered'} // 0;
     my $messageobj = $argvs->{'data'};
-    my $mailheader = $argvs->{'data'}->{'header'};
     my $rfc822data = $messageobj->rfc822;
     my $fieldorder = { 'recipient' => [], 'addresser' => [] };
     my $objectlist = [];
@@ -171,7 +164,7 @@ sub make {
                 # Check each header in message/rfc822 part
                 $h = lc $f;
                 next unless exists $rfc822data->{ $h };
-                next unless length $rfc822data->{ $h };
+                next unless $rfc822data->{ $h };
 
                 $j = Sisimai::Address->find($rfc822data->{ $h }) || [];
                 next unless scalar @$j;
@@ -233,7 +226,7 @@ sub make {
 
         OTHER_TEXT_HEADERS: {
             # Scan "Received:" header of the original message
-            my $recvheader = $mailheader->{'received'} || [];
+            my $recvheader = $argvs->{'data'}->{'header'}->{'received'} || [];
 
             if( scalar @$recvheader ) {
                 # Get localhost and remote host name from Received header.
@@ -247,7 +240,8 @@ sub make {
                 $p->{ $v } =~ s/\r\z//g;    # Remove CR at the end of the value
 
                 # Check space character in each value and get the first element
-                $p->{ $v } = (split(' ', $p->{ $v }, 2))[0] if index($p->{ $v }, ' ') > -1;
+                $p->{ $v } = (split(' ', $p->{ $v }, 2))[0] if rindex($p->{ $v }, ' ') > -1;
+                $p->{ $v } =~ s/[.]\z//;    # Remove "." at the end of the value
             }
 
             # Subject: header of the original message
@@ -256,21 +250,20 @@ sub make {
 
             # The value of "List-Id" header
             $p->{'listid'} =  $rfc822data->{'list-id'} // '';
-            if( length $p->{'listid'} ) {
+            if( $p->{'listid'} ) {
                 # Get the value of List-Id header: "List name <list-id@example.org>"
                 $p->{'listid'} =  $1 if $p->{'listid'} =~ /\A.*([<].+[>]).*\z/;
                 $p->{'listid'} =~ y/<>//d;
                 $p->{'listid'} =~ s/\r\z//g;
-                $p->{'listid'} =  '' if index($p->{'listid'}, ' ') > -1;
+                $p->{'listid'} =  '' if rindex($p->{'listid'}, ' ') > -1;
             }
 
             # The value of "Message-Id" header
             $p->{'messageid'} = $rfc822data->{'message-id'} // '';
-            if( length $p->{'messageid'} ) {
-                # Remove angle brackets
-                $p->{'messageid'} =  $1 if $p->{'messageid'} =~ /\A([^ ]+)[ ].*/;
-                $p->{'messageid'} =~ y/<>//d;
-                $p->{'messageid'} =~ s/\r\z//g;
+            if( $p->{'messageid'} ) {
+                # Leave only string inside of angle brackets(<>)
+                $p->{'messageid'} = $1 if $p->{'messageid'} =~ /\A([^ ]+)[ ].*/;
+                $p->{'messageid'} = $1 if $p->{'messageid'} =~ /[<]([^ ]+?)[>]/;
             }
 
             CHECK_DELIVERY_STATUS_VALUE: {
@@ -278,19 +271,19 @@ sub make {
                 $p->{'diagnosticcode'} =~ s/[ \t.]+$EndOfEmail//;
                 $p->{'diagnosticcode'} =~ s/\r\z//g;
 
-                if( length $p->{'diagnosticcode'} ) {
+                if( $p->{'diagnosticcode'} ) {
                     # Count the number of D.S.N. and SMTP Reply Code
                     my $vs = Sisimai::SMTP::Status->find($p->{'diagnosticcode'});
                     my $vr = Sisimai::SMTP::Reply->find($p->{'diagnosticcode'});
                     my $vm = 0;
 
-                    if( length $vs ) {
+                    if( $vs ) {
                         # How many times does the D.S.N. appeared
                         $vm += 1 while $p->{'diagnosticcode'} =~ /\b\Q$vs\E\b/g;
                         $p->{'deliverystatus'} = $vs if $vs =~ /\A[45][.][1-9][.][1-9]\z/;
                     }
 
-                    if( length $vr ) {
+                    if( $vr ) {
                         # How many times does the SMTP reply code appeared
                         $vm += 1 while $p->{'diagnosticcode'} =~ /\b$vr\b/g;
                         $p->{'replycode'} ||= $vr;
@@ -368,7 +361,7 @@ sub make {
                 $textasargv =~ s/\A[ ]//g;
                 $softorhard =  Sisimai::SMTP::Error->soft_or_hard($o->reason, $textasargv);
 
-                if( length $softorhard ) {
+                if( $softorhard ) {
                     # Returned value is "soft" or "hard"
                     $o->softbounce($softorhard eq 'soft' ? 1 : 0);
 
@@ -391,13 +384,13 @@ sub make {
                 $tmpfailure = defined $getchecked ? ( $getchecked == 1 ? 0 : 1 ) : 0;
                 $pseudocode = Sisimai::SMTP::Status->code($o->reason, $tmpfailure);
 
-                if( length $pseudocode ) {
+                if( $pseudocode ) {
                     # Set the value of "deliverystatus" and "softbounce".
                     $o->deliverystatus($pseudocode);
                     if( $o->softbounce == -1 ) {
                         # Set the value of "softbounce" again when the value is -1
                         $softorhard = Sisimai::SMTP::Error->soft_or_hard($o->reason, $pseudocode);
-                        if( length $softorhard ) {
+                        if( $softorhard ) {
                             # Returned value is "soft" or "hard"
                             $o->softbounce($softorhard eq 'soft' ? 1 : 0);
 
@@ -461,8 +454,9 @@ sub dump {
 
     my $dumpeddata = '';
     my $referclass = 'Sisimai::Data::'.uc($type);
+    my $modulepath = 'Sisimai/Data/'.uc($type).'.pm';
 
-    eval { Module::Load::load $referclass };
+    require $modulepath;
     $dumpeddata = $referclass->dump($self);
 
     return $dumpeddata;
@@ -514,7 +508,7 @@ option to make() method like the following:
 
     my $data = Sisimai::Data->make('data' => $mesg, 'delivered' => 1);
 
-Beggining from v4.19.0, `hook` argument is available to callback user defined
+Beginning from v4.19.0, `hook` argument is available to callback user defined
 method like the following codes:
 
     my $call = sub {
@@ -686,7 +680,7 @@ site L<https://libsisimai.org/en/reason/>.
 
 =head2 C<replycode> (I<Integer>)
 
-C<replyacode> is the value of SMTP reply code picked from the error message or 
+C<replycode> is the value of SMTP reply code picked from the error message or
 the value of Diagnostic-Code: field in a bounce message. The range of values is
 only 4xx or 5xx.
 

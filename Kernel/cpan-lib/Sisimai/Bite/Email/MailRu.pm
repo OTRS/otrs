@@ -15,25 +15,31 @@ my $ReCommands = [
     qr/SMTP error from remote (?:mail server|mailer) after ([A-Za-z]{4})/,
     qr/SMTP error from remote (?:mail server|mailer) after end of ([A-Za-z]{4})/,
 ];
-my $ReFailures = {
-    'expired'     => qr/(?:retry timeout exceeded|No action is required on your part)/,
-    'userunknown' => qr/user not found/,
-    'hostunknown' => qr{(?>
-         all[ ](?:
-             host[ ]address[ ]lookups[ ]failed[ ]permanently
-            |relevant[ ]MX[ ]records[ ]point[ ]to[ ]non[-]existent[ ]hosts
-            )
-        |Unrouteable[ ]address
-        )
-    }x,
-    'mailboxfull' => qr/(?:mailbox is full:?|error: quota exceed)/,
-    'notaccept'   => qr{(?:
-         an[ ]MX[ ]or[ ]SRV[ ]record[ ]indicated[ ]no[ ]SMTP[ ]service
-        |no[ ]host[ ]found[ ]for[ ]existing[ ]SMTP[ ]connection
-        )
-    }x,
-    'systemerror' => qr/(?:delivery to (?:file|pipe) forbidden|local delivery failed)/,
-    'contenterror'=> qr/Too many ["]Received["] headers /,
+my $MessagesOf = {
+    'expired'     => [
+        'retry timeout exceeded',
+        'No action is required on your part',
+    ],
+    'userunknown' => ['user not found'],
+    'hostunknown' => [
+        'all host address lookups failed permanently',
+        'all relevant MX records point to non-existent hosts',
+        'Unrouteable address',
+    ],
+    'mailboxfull' => [
+        'mailbox is full',
+        'error: quota exceed',
+    ],
+    'notaccept'   => [
+        'an MX or SRV record indicated no SMTP service',
+        'no host found for existing SMTP connection',
+    ],
+    'systemerror' => [
+        'delivery to file forbidden',
+        'delivery to pipe forbidden',
+        'local delivery failed',
+    ],
+    'contenterror'=> ['Too many "Received" headers '],
 };
 
 sub headerlist  { return ['X-Failed-Recipients'] }
@@ -57,7 +63,7 @@ sub scan {
 
     # Message-Id: <E1P1YNN-0003AD-Ga@*.mail.ru>
     return undef unless lc($mhead->{'from'}) =~ /[<]?mailer-daemon[@].*mail[.]ru[>]?/;
-    return undef unless substr($mhead->{'message-id'}, -9, 9) eq '.mail.ru>';
+    return undef unless $mhead->{'message-id'} =~ /[.](?:mail[.]ru|smailru[.]net)[>]\z/;
     return undef unless $mhead->{'subject'} =~ qr{(?:
          Mail[ ]delivery[ ]failed(:[ ]returning[ ]message[ ]to[ ]sender)?
         |Warning:[ ]message[ ].+[ ]delayed[ ]+
@@ -132,7 +138,7 @@ sub scan {
 
             if( $e =~ /\A[ \t]+([^ \t]+[@][^ \t]+[.][a-zA-Z]+)\z/ ) {
                 #   kijitora@example.jp
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -178,14 +184,13 @@ sub scan {
         $localhost0 = $1 if $mhead->{'received'}->[-1] =~ /from[ \t]([^ ]+) /;
     }
 
-    require Sisimai::String;
     for my $e ( @$dscontents ) {
-        if( exists $e->{'alterrors'} && length $e->{'alterrors'} ) {
+        if( exists $e->{'alterrors'} && $e->{'alterrors'} ) {
             # Copy alternative error message
             $e->{'diagnosis'} ||= $e->{'alterrors'};
             if( index($e->{'diagnosis'}, '-') == 0 || substr($e->{'diagnosis'}, -2, 2) eq '__' ) {
                 # Override the value of diagnostic code message
-                $e->{'diagnosis'} = $e->{'alterrors'} if length $e->{'alterrors'};
+                $e->{'diagnosis'} = $e->{'alterrors'} if $e->{'alterrors'};
             }
             delete $e->{'alterrors'};
         }
@@ -227,9 +232,9 @@ sub scan {
                     $e->{'reason'} = 'blocked';
 
                 } else {
-                    SESSION: for my $r ( keys %$ReFailures ) {
+                    SESSION: for my $r ( keys %$MessagesOf ) {
                         # Verify each regular expression of session errors
-                        next unless $e->{'diagnosis'} =~ $ReFailures->{ $r };
+                        next unless grep { index($e->{'diagnosis'}, $_) > -1 } @{ $MessagesOf->{ $r } };
                         $e->{'reason'} = $r;
                         last;
                     }

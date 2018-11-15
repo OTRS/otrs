@@ -11,8 +11,8 @@ sub dump {
     #                                   missing
     my $class = shift;
     my $argvs = shift // return undef;
-
     return undef unless ref $argvs eq 'Sisimai::Data';
+
     my $damneddata = undef;
     my $jsonstring = '';
     my $jsonparser = JSON->new;
@@ -69,7 +69,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2016,2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

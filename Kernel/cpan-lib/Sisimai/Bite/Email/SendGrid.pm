@@ -36,7 +36,6 @@ sub scan {
     return undef unless $mhead->{'return-path'} eq '<apps@sendgrid.net>';
     return undef unless $mhead->{'subject'} eq 'Undelivered Mail Returned to Sender';
 
-    require Sisimai::DateTime;
     my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
     my @hasdivided = split("\n", $$mbody);
     my $rfc822part = '';    # (String) message/rfc822-headers part
@@ -94,7 +93,7 @@ sub scan {
 
                 if( $e =~ /\AFinal-Recipient:[ ]*(?:RFC|rfc)822;[ ]*([^ ]+)\z/ ) {
                     # Final-Recipient: RFC822; userunknown@example.jp
-                    if( length $v->{'recipient'} ) {
+                    if( $v->{'recipient'} ) {
                         # There are multiple recipient addresses in the message body.
                         push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                         $v = $dscontents->[-1];
@@ -149,7 +148,7 @@ sub scan {
 
                 } elsif( $e =~ /\AArrival-Date:[ ]*(.+)\z/ ) {
                     # Arrival-Date: Wed, 29 Apr 2009 16:03:18 +0900
-                    next if length $connheader->{'date'};
+                    next if $connheader->{'date'};
                     my $arrivaldate = $1;
 
                     if( $e =~ /\AArrival-Date: (\d{4})[-](\d{2})[-](\d{2}) (\d{2})[-](\d{2})[-](\d{2})\z/ ) {
@@ -170,8 +169,6 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
-    require Sisimai::SMTP::Status;
     for my $e ( @$dscontents ) {
         $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
         # Get the value of SMTP status code as a pseudo D.S.N.
@@ -181,7 +178,7 @@ sub scan {
             # Get the value of D.S.N. from the error message or the value of
             # Diagnostic-Code header.
             my $pseudostatus = Sisimai::SMTP::Status->find($e->{'diagnosis'});
-            $e->{'status'} = $pseudostatus if length $pseudostatus;
+            $e->{'status'} = $pseudostatus if $pseudostatus;
         }
 
         if( $e->{'action'} eq 'expired' ) {
@@ -191,7 +188,7 @@ sub scan {
                 # Set pseudo Status code value if the value of Status is not
                 # defined or 4.0.0 or 5.0.0.
                 my $pseudostatus = Sisimai::SMTP::Status->code('expired');
-                $e->{'status'} = $pseudostatus if length $pseudostatus;
+                $e->{'status'} = $pseudostatus if $pseudostatus;
             }
         }
         $e->{'agent'}     = __PACKAGE__->smtpagent;

@@ -3,10 +3,8 @@ use parent 'Sisimai::Order';
 use feature ':5.10';
 use strict;
 use warnings;
-use Module::Load '';
 use Sisimai::Bite::Email;
 
-my $DefaultOrder = __PACKAGE__->default;
 my $EngineOrder1 = [
     # These modules have many subject patterns or have MIME encoded subjects
     # which is hard to code as regular expression
@@ -83,7 +81,7 @@ my $EngineOrder9 = [
 # header such as X-AWS-Outgoing, X-Yandex-Uniq.
 my $PatternTable = {
     'subject' => {
-        qr/delivery/i => [
+        'delivery' => [
             'Sisimai::Bite::Email::Exim',
             'Sisimai::Bite::Email::Courier',
             'Sisimai::Bite::Email::Google',
@@ -97,7 +95,7 @@ my $PatternTable = {
             'Sisimai::Bite::Email::X3',
             'Sisimai::Bite::Email::X2',
         ],
-        qr/noti(?:ce|fi)/i => [
+        'noti' => [
             'Sisimai::Bite::Email::qmail',
             'Sisimai::Bite::Email::Sendmail',
             'Sisimai::Bite::Email::Google',
@@ -109,7 +107,7 @@ my $PatternTable = {
             'Sisimai::Bite::Email::X3',
             'Sisimai::Bite::Email::mFILTER',
         ],
-        qr/return/i => [
+        'return' => [
             'Sisimai::Bite::Email::Postfix',
             'Sisimai::Bite::Email::Sendmail',
             'Sisimai::Bite::Email::SendGrid',
@@ -119,7 +117,7 @@ my $PatternTable = {
             'Sisimai::Bite::Email::Biglobe', 
             'Sisimai::Bite::Email::V5sendmail',
         ],
-        qr/undeliver/i => [
+        'undeliver' => [
             'Sisimai::Bite::Email::Postfix',
             'Sisimai::Bite::Email::Exchange2007',
             'Sisimai::Bite::Email::Exchange2003',
@@ -130,7 +128,7 @@ my $PatternTable = {
             'Sisimai::Bite::Email::IMailServer',
             'Sisimai::Bite::Email::MailMarshalSMTP',
         ],
-        qr/failure/i => [
+        'failure' => [
             'Sisimai::Bite::Email::qmail',
             'Sisimai::Bite::Email::Domino',
             'Sisimai::Bite::Email::Google',
@@ -140,7 +138,7 @@ my $PatternTable = {
             'Sisimai::Bite::Email::X2',
             'Sisimai::Bite::Email::mFILTER',
         ],
-        qr/warning/i => [
+        'warning' => [
             'Sisimai::Bite::Email::Postfix',
             'Sisimai::Bite::Email::Sendmail',
             'Sisimai::Bite::Email::Exim',
@@ -164,12 +162,7 @@ sub default {
     # Make default order of MTA modules to be loaded
     # @return   [Array] Default order list of MTA modules
     # @since v4.13.1
-    my $class = shift;
-    my $order = [];
-
-    return $DefaultOrder if ref $DefaultOrder eq 'ARRAY';
-    push @$order, map { 'Sisimai::Bite::Email::'.$_ } @{ Sisimai::Bite::Email->index() };
-    return $order;
+    return [map { 'Sisimai::Bite::Email::'.$_ } @{ Sisimai::Bite::Email->index() }];
 }
 
 sub another {
@@ -187,14 +180,14 @@ sub headers {
     # @return   [Hash] Header list to be parsed
     # @since v4.13.1
     my $class = shift;
-    my $order = __PACKAGE__->default;
     my $table = {};
     my $skips = { 'return-path' => 1, 'x-mailer' => 1 };
+    my $order = [map { 'Sisimai::Bite::Email::'.$_ } @{ Sisimai::Bite::Email->heads }];
 
     LOAD_MODULES: for my $e ( @$order ) {
         # Load email headers from each MTA module
-        eval { Module::Load::load $e };
-        next if $@;
+        (my $p = $e) =~ s|::|/|g; 
+        require $p.'.pm';
 
         for my $v ( @{ $e->headerlist } ) {
             # Get header name which required each MTA module
@@ -245,7 +238,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2015-2017 azumakuniyuki, All rights reserved.
+Copyright (C) 2015-2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

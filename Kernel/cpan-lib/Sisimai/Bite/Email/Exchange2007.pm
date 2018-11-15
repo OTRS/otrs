@@ -107,7 +107,7 @@ sub scan {
 
                 if( $e =~ /\A([^ @]+[@][^ @]+)\z/ ) {
                     # kijitora@example.jp
-                    if( length $v->{'recipient'} ) {
+                    if( $v->{'recipient'} ) {
                         # There are multiple recipient addresses in the message body.
                         push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                         $v = $dscontents->[-1];
@@ -124,7 +124,7 @@ sub scan {
                     $v->{'diagnosis'} = $e;
 
                 } else {
-                    if( length $v->{'diagnosis'} && substr($v->{'diagnosis'}, -1, 1) eq '=' ) {
+                    if( $v->{'diagnosis'} && substr($v->{'diagnosis'}, -1, 1) eq '=' ) {
                         # Continued line of error messages
                         substr($v->{'diagnosis'}, -1, 1, $e);
                     }
@@ -135,7 +135,7 @@ sub scan {
                 # Generating server: mta22.neko.example.org
                 if( $e =~ $MarkingsOf->{'rhost'} ) {
                     # Generating server: mta22.neko.example.org
-                    next if length $connheader->{'rhost'};
+                    next if $connheader->{'rhost'};
                     $connheader->{'rhost'} = $1;
                     $connvalues++;
                 }
@@ -144,7 +144,6 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
     for my $e ( @$dscontents ) {
         if( $e->{'diagnosis'} =~ $MarkingsOf->{'error'} ) {
             # #550 5.1.1 RESOLVER.ADR.RecipNotFound; not found ##

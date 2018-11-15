@@ -99,7 +99,7 @@ sub scan {
 
             if( $e =~ /\A([^ ]+)[ ]([^ ]+)[:][ \t]*([^ ]+[@][^ ]+)/ ) {
                 # Unknown user: kijitora@example.com
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -110,7 +110,7 @@ sub scan {
 
             } elsif( $e =~ /\Aundeliverable[ ]+to[ ]+(.+)\z/ ) {
                 # undeliverable to kijitora@example.com
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -121,18 +121,17 @@ sub scan {
             } else {
                 # Other error message text
                 $v->{'alterrors'} //= '';
-                $v->{'alterrors'}  .= ' '.$e if length $v->{'alterrors'};
+                $v->{'alterrors'}  .= ' '.$e if $v->{'alterrors'};
                 $v->{'alterrors'}   = $e if index($e, $StartingOf->{'error'}->[0]) > -1;
             }
         } # End of if: rfc822
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
     for my $e ( @$dscontents ) {
         $e->{'agent'} = __PACKAGE__->smtpagent;
 
-        if( exists $e->{'alterrors'} && length $e->{'alterrors'} ) {
+        if( exists $e->{'alterrors'} && $e->{'alterrors'} ) {
             # Copy alternative error message
             $e->{'diagnosis'} = $e->{'alterrors'}.' '.$e->{'diagnosis'};
             $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});

@@ -84,7 +84,7 @@ sub scan {
 
             if( $e =~ /\A[>]{3}[ \t]+.+[<]([^ ]+?[@][^ ]+?)[>]\z/ ) {
                 # >>> kijitora@example.org <kijitora@example.org>
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -96,7 +96,8 @@ sub scan {
                 #  ----- Transcript of session follows -----
                 # 550 sorry, no mailbox here by that name (#5.1.1 - chkusr)
                 next unless $e =~ /\A[0-9A-Za-z]+/;
-                $v->{'diagnosis'} = $e;
+                next if length $v->{'diagnosis'};
+                $v->{'diagnosis'} ||= $e;
             }
         } # End of if: rfc822
     }

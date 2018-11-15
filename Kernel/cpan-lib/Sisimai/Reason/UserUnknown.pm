@@ -143,11 +143,8 @@ sub true {
     # @see http://www.ietf.org/rfc/rfc2822.txt
     my $class = shift;
     my $argvs = shift // return undef;
-
-    return undef unless ref $argvs eq 'Sisimai::Data';
     return 1 if $argvs->reason eq 'userunknown';
 
-    require Sisimai::SMTP::Status;
     my $diagnostic = lc $argvs->diagnosticcode;
     my $tempreason = Sisimai::SMTP::Status->name($argvs->deliverystatus);
     return 0 if $tempreason eq 'suspend';
@@ -159,19 +156,20 @@ sub true {
         #     Recipient address rejected: User unknown in local recipient table
         my $prematches = [qw|NoRelaying Blocked MailboxFull HasMoved Blocked Rejected|];
         my $matchother = 0;
-        require Module::Load;
+        my $modulepath = '';
 
         for my $e ( @$prematches ) {
             # Check the value of "Diagnostic-Code" with other error patterns.
             my $p = 'Sisimai::Reason::'.$e;
-            Module::Load::load($p);
+            ($modulepath = $p) =~ s|::|/|g; 
+            require $modulepath.'.pm';
 
             next unless $p->match($diagnostic);
             # Match with reason defined in Sisimai::Reason::* except UserUnknown.
             $matchother = 1;
             last;
         }
-        return 1 if $matchother == 0;   # Did not match with other message patterns
+        return 1 if not $matchother;    # Did not match with other message patterns
 
     } elsif( $argvs->smtpcommand eq 'RCPT' ) {
         # When the SMTP command is not "RCPT", the session rejected by other

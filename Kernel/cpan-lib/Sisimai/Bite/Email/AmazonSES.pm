@@ -10,7 +10,7 @@ my $StartingOf = {
     'message' => ['The following message to <', 'An error occurred while trying to deliver the mail '],
     'rfc822'  => ['content-type: message/rfc822'],
 };
-my $ReFailures = { 'expired' => qr/Delivery expired/ };
+my $MessagesOf = { 'expired' => ['Delivery expired'] };
 
 # X-SenderID: Sendmail Sender-ID Filter v1.0.0 nijo.example.jp p7V3i843003008
 # X-Original-To: 000001321defbd2a-788e31c8-2be1-422f-a8d4-cf7765cc9ed7-000000@email-bounces.amazonses.com
@@ -106,7 +106,7 @@ sub scan {
 
                 if( $e =~ /\AFinal-Recipient:[ ]*(?:RFC|rfc)822;[ ]*([^ ]+)\z/ ) {
                     # Final-Recipient: RFC822; userunknown@example.jp
-                    if( length $v->{'recipient'} ) {
+                    if( $v->{'recipient'} ) {
                         # There are multiple recipient addresses in the message body.
                         push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                         $v = $dscontents->[-1];
@@ -161,7 +161,7 @@ sub scan {
                 #
                 if( $e =~ /\AReporting-MTA:[ ]*[DNSdns]+;[ ]*(.+)\z/ ) {
                     # Reporting-MTA: dns; mx.example.jp
-                    next if length $connheader->{'lhost'};
+                    next if $connheader->{'lhost'};
                     $connheader->{'lhost'} = lc $1;
                     $connvalues++;
                 }
@@ -185,8 +185,6 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
-    require Sisimai::SMTP::Status;
     for my $e ( @$dscontents ) {
         # Set default values if each value is empty.
         map { $e->{ $_ } ||= $connheader->{ $_ } || '' } keys %$connheader;
@@ -203,12 +201,12 @@ sub scan {
             # 5.1.0 - Unknown address error 550-'5.7.1 ...
             $errormessage = $1 if $e->{'diagnosis'} =~ /["'](\d[.]\d[.]\d.+)['"]/;
             $pseudostatus = Sisimai::SMTP::Status->find($errormessage);
-            $e->{'status'} = $pseudostatus if length $pseudostatus;
+            $e->{'status'} = $pseudostatus if $pseudostatus;
         }
 
-        SESSION: for my $r ( keys %$ReFailures ) {
+        SESSION: for my $r ( keys %$MessagesOf ) {
             # Verify each regular expression of session errors
-            next unless $e->{'diagnosis'} =~ $ReFailures->{ $r };
+            next unless grep { index($e->{'diagnosis'}, $_) > -1 } @{ $MessagesOf->{ $r } };
             $e->{'reason'} = $r;
             last;
         }

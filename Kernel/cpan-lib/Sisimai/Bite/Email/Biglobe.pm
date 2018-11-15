@@ -10,9 +10,9 @@ my $StartingOf = {
     'rfc822'  => ['Content-Type: message/rfc822'],
     'error'   => ['   ----- Non-delivered information -----'],
 };
-my $ReFailures = {
-    'filtered'    => qr/Mail Delivery Failed[.]+ User unknown/,
-    'mailboxfull' => qr/The number of messages in recipient's mailbox exceeded the local limit[.]/,
+my $MessagesOf = {
+    'filtered'    => ['Mail Delivery Failed... User unknown'],
+    'mailboxfull' => ["The number of messages in recipient's mailbox exceeded the local limit."],
 };
 
 sub description { 'BIGLOBE: http://www.biglobe.ne.jp' }
@@ -36,7 +36,6 @@ sub scan {
     return undef unless $mhead->{'from'} =~ /postmaster[@](?:biglobe|inacatv|tmtv|ttv)[.]ne[.]jp/;
     return undef unless index($mhead->{'subject'}, 'Returned mail:') == 0;
 
-    require Sisimai::Address;
     my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
     my @hasdivided = split("\n", $$mbody);
     my $rfc822part = '';    # (String) message/rfc822-headers part
@@ -97,7 +96,7 @@ sub scan {
             if( $e =~ /\A([^ ]+[@][^ ]+)\z/ ) {
                 #    ----- The following addresses had delivery problems -----
                 # ********@***.biglobe.ne.jp
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -116,14 +115,13 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
     for my $e ( @$dscontents ) {
         $e->{'agent'}     = __PACKAGE__->smtpagent;
         $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
 
-        SESSION: for my $r ( keys %$ReFailures ) {
+        SESSION: for my $r ( keys %$MessagesOf ) {
             # Verify each regular expression of session errors
-            next unless $e->{'diagnosis'} =~ $ReFailures->{ $r };
+            next unless grep { index($e->{'diagnosis'}, $_) > -1 } @{ $MessagesOf->{ $r } };
             $e->{'reason'} = $r;
             last;
         }

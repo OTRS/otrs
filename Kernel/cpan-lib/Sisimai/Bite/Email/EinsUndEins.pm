@@ -10,7 +10,7 @@ my $StartingOf = {
     'rfc822'  => ['--- The header of the original message is following'],
     'error'   => ['For the following reason:'],
 };
-my $ReFailures = { 'mesgtoobig' => qr/Mail size limit exceeded/, };
+my $MessagesOf = { 'mesgtoobig' => ['Mail size limit exceeded'] };
 
 # X-UI-Out-Filterresults: unknown:0;
 # sub headerlist  { return ['X-UI-Out-Filterresults'] }
@@ -88,7 +88,7 @@ sub scan {
 
             if( $e =~ /\A([^ ]+[@][^ ]+)\z/ ) {
                 # general@example.eu
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -102,21 +102,20 @@ sub scan {
 
             } else {
                 # Get error message and append the error message strings
-                $v->{'diagnosis'} .= ' '.$e if length $v->{'diagnosis'};
+                $v->{'diagnosis'} .= ' '.$e if $v->{'diagnosis'};
             }
         } # End of if: rfc822
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
     for my $e ( @$dscontents ) {
         $e->{'agent'}     =  __PACKAGE__->smtpagent;
         $e->{'diagnosis'} =~ s/\A$StartingOf->{'error'}->[0]//g;
         $e->{'diagnosis'} =  Sisimai::String->sweep($e->{'diagnosis'});
 
-        SESSION: for my $r ( keys %$ReFailures ) {
+        SESSION: for my $r ( keys %$MessagesOf ) {
             # Verify each regular expression of session errors
-            next unless $e->{'diagnosis'} =~ $ReFailures->{ $r };
+            next unless grep { index($e->{'diagnosis'}, $_) > -1 } @{ $MessagesOf->{ $r } };
             $e->{'reason'} = $r;
             last;
         }

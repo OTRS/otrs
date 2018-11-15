@@ -99,7 +99,7 @@ sub scan {
 
                 if( $e =~ /\AFinal-Recipient:[ ]*(?:RFC|rfc)822;[ ]*([^ ]+)\z/ ) {
                     # Final-Recipient: RFC822; kijitora@example.jp
-                    if( length $v->{'recipient'} ) {
+                    if( $v->{'recipient'} ) {
                         # There are multiple recipient addresses in the message body.
                         push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                         $v = $dscontents->[-1];
@@ -129,7 +129,7 @@ sub scan {
                 #
                 if( $e =~ /\AReporting-MTA:[ ]*[DNSdns]+;[ ]*(.+)\z/ ) {
                     # Reporting-MTA: dns; mx.example.jp
-                    next if length $connheader->{'lhost'};
+                    next if $connheader->{'lhost'};
                     $connheader->{'lhost'} = lc $1;
                     $connvalues++;
                 }
@@ -142,10 +142,7 @@ sub scan {
             last if index($e, '<!DOCTYPE HTML><html>') == 0;
         } # End of if: rfc822
     }
-
     return undef unless $recipients;
-    require Sisimai::String;
-    require Sisimai::SMTP::Status;
 
     for my $e ( @$dscontents ) {
         # Set default values if each value is empty.
@@ -160,7 +157,7 @@ sub scan {
             # 5.1.0 - Unknown address error 550-'5.7.1 ...
             $errormessage = $1 if $e->{'diagnosis'} =~ /["'](\d[.]\d[.]\d.+)['"]/;
             $pseudostatus = Sisimai::SMTP::Status->find($errormessage);
-            $e->{'status'} = $pseudostatus if length $pseudostatus;
+            $e->{'status'} = $pseudostatus if $pseudostatus;
         }
 
         # 554 4.4.7 Message expired: unable to deliver in 840 minutes.

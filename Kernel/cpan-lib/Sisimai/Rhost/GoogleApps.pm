@@ -110,9 +110,7 @@ sub get {
     # @see      https://support.google.com/a/answer/3726730?hl=en
     my $class = shift;
     my $argvs = shift // return undef;
-
-    return undef unless ref $argvs eq 'Sisimai::Data';
-    return $argvs->reason if length $argvs->reason;
+    return $argvs->reason if $argvs->reason;
 
     my $reasontext = '';
     my $statuscode = $argvs->deliverystatus;
@@ -122,7 +120,7 @@ sub get {
 
     for my $e ( @{ $StatusList->{ $statuscode } } ) {
         # Try to match
-        next unless grep { index($argvs->diagnosticcode, $_) > -1 } @{ $e->{'string'} };
+        next unless grep { rindex($argvs->diagnosticcode, $_) > -1 } @{ $e->{'string'} };
         $reasontext = $e->{'reason'};
         last;
     }

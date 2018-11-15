@@ -7,7 +7,7 @@ use warnings;
 my $Indicators = __PACKAGE__->INDICATORS;
 my $StartingOf = { 'message' => ['This report relates to a message you sent with the following header fields:'] };
 my $MarkingsOf = { 'rfc822'  => qr!\A(?:Content-type:[ \t]*message/rfc822|Return-path:[ \t]*)! };
-my $ReFailures = { 'hostunknown' => qr|Illegal host/domain name found| };
+my $MessagesOf = { 'hostunknown' => ['Illegal host/domain name found'] };
 
 sub description { 'Oracle Communications Messaging Server' }
 sub scan {
@@ -29,11 +29,10 @@ sub scan {
     my $match = 0;
 
     # 'received' => qr/[ ][(]MessagingServer[)][ ]with[ ]/,
-    $match ||= 1 if index($mhead->{'content-type'}, 'Boundary_(ID_') > -1;
+    $match ||= 1 if rindex($mhead->{'content-type'}, 'Boundary_(ID_') > -1;
     $match ||= 1 if index($mhead->{'subject'}, 'Delivery Notification: ') == 0;
     return undef unless $match;
 
-    require Sisimai::Address;
     my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
     my @hasdivided = split("\n", $$mbody);
     my $rfc822part = '';    # (String) message/rfc822-headers part
@@ -97,7 +96,7 @@ sub scan {
 
             if( $e =~ /\A[ \t]+Recipient address:[ \t]*([^ ]+[@][^ ]+)\z/ ) {
                 #   Recipient address: kijitora@example.jp
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -168,14 +167,13 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
     for my $e ( @$dscontents ) {
         $e->{'agent'}     = __PACKAGE__->smtpagent;
         $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
 
-        SESSION: for my $r ( keys %$ReFailures ) {
+        SESSION: for my $r ( keys %$MessagesOf ) {
             # Verify each regular expression of session errors
-            next unless $e->{'diagnosis'} =~ $ReFailures->{ $r };
+            next unless grep { index($e->{'diagnosis'}, $_) > -1 } @{ $MessagesOf->{ $r } };
             $e->{'reason'} = $r;
             last;
         }

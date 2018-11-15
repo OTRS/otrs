@@ -15,39 +15,44 @@ my $ReCommands = [
     qr/SMTP error from remote (?:mail server|mailer) after ([A-Za-z]{4})/,
     qr/SMTP error from remote (?:mail server|mailer) after end of ([A-Za-z]{4})/,
 ];
-my $ReFailures = {
-    'userunknown' => qr/user not found/,
-    'hostunknown' => qr{(?>
-         all[ ](?:
-             host[ ]address[ ]lookups[ ]failed[ ]permanently
-            |relevant[ ]MX[ ]records[ ]point[ ]to[ ]non[-]existent[ ]hosts
-            )
-        |Unrouteable[ ]address
-        )
-    }x,
-    'mailboxfull' => qr/(?:mailbox is full:?|error: quota exceed)/,
-    'notaccept' => qr{(?:
-         an[ ]MX[ ]or[ ]SRV[ ]record[ ]indicated[ ]no[ ]SMTP[ ]service
-        |no[ ]host[ ]found[ ]for[ ]existing[ ]SMTP[ ]connection
-        )
-    }x,
-    'systemerror' => qr{(?>
-         delivery[ ]to[ ](?:file|pipe)[ ]forbidden
-        |local[ ]delivery[ ]failed
-        |LMTP[ ]error[ ]after[ ]
-        )
-    }x,
-    'contenterror'=> qr/Too many ["]Received["] headers/,
+my $MessagesOf = {
+    'userunknown' => ['user not found'],
+    'hostunknown' => [
+        'all host address lookups failed permanently',
+        'all relevant MX records point to non-existent hosts',
+        'Unrouteable address',
+    ],
+    'mailboxfull' => [
+        'mailbox is full',
+        'error: quota exceed',
+    ],
+    'notaccept' => [
+        'an MX or SRV record indicated no SMTP service',
+        'no host found for existing SMTP connection',
+    ],
+    'syntaxerror' => [
+        'angle-brackets nested too deep',
+        'expected word or "<"',
+        'domain missing in source-routed address',
+        'malformed address:',
+    ],
+    'systemerror' => [
+        'delivery to file forbidden',
+        'delivery to pipe forbidden',
+        'local delivery failed',
+        'LMTP error after ',
+    ],
+    'contenterror' => ['Too many "Received" headers'],
 };
-my $ReDelaying = qr{(?:
-     retry[ ]timeout[ ]exceeded
-    |No[ ]action[ ]is[ ]required[ ]on[ ]your[ ]part
-    |retry[ ]time[ ]not[ ]reached[ ]for[ ]any[ ]host[ ]after[ ]a[ ]long[ ]failure[ ]period
-    |all[ ]hosts[ ]have[ ]been[ ]failing[ ]for[ ]a[ ]long[ ]time[ ]and[ ]were[ ]last[ ]tried
-    |Delay[ ]reason:[ ]
-    |Message[ ].+[ ](?:has[ ]been[ ]frozen|was[ ]frozen[ ]on[ ]arrival[ ]by[ ])
-    )
-}x;
+my $DelayedFor = [
+    'retry timeout exceeded',
+    'No action is required on your part',
+    'retry time not reached for any host after a long failure period',
+    'all hosts have been failing for a long time and were last tried',
+    'Delay reason: ',
+    'has been frozen',
+    'was frozen on arrival by ',
+];
 
 # X-MX-Bounce: mta/src/queue/bounce
 # X-MXL-NoteHash: ffffffffffffffff-0000000000000000000000000000000000000000
@@ -142,7 +147,7 @@ sub scan {
                 # recipients.  This is a permanent error.  The following address failed:
                 #
                 #  <kijitora@example.co.jp>: 550 5.1.1 ...
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -166,7 +171,6 @@ sub scan {
         $localhost0 = $1 if $mhead->{'received'}->[-1] =~ /from[ \t]([^ ]+) /;
     }
 
-    require Sisimai::String;
     for my $e ( @$dscontents ) {
         # Set default values if each value is empty.
         $e->{'lhost'} ||= $localhost0;
@@ -207,16 +211,16 @@ sub scan {
 
             } else {
                 # Verify each regular expression of session errors
-                SESSION: for my $r ( keys %$ReFailures ) {
+                SESSION: for my $r ( keys %$MessagesOf ) {
                     # Check each regular expression
-                    next unless $e->{'diagnosis'} =~ $ReFailures->{ $r };
+                    next unless grep { index($e->{'diagnosis'}, $_) > -1 } @{ $MessagesOf->{ $r } };
                     $e->{'reason'} = $r;
                     last;
                 }
 
                 unless( $e->{'reason'} ) {
                     # The reason "expired"
-                    $e->{'reason'} = 'expired' if $e->{'diagnosis'} =~ $ReDelaying;
+                    $e->{'reason'} = 'expired' if grep { index($e->{'diagnosis'}, $_) > -1 } @$DelayedFor;
                 }
             }
         }

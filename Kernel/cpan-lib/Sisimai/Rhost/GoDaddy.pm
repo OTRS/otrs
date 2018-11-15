@@ -43,9 +43,7 @@ sub get {
     # @see      https://www.godaddy.com/help/what-does-my-email-bounceback-mean-3568
     my $class = shift;
     my $argvs = shift // return undef;
-
-    return undef unless ref $argvs eq 'Sisimai::Data';
-    return $argvs->reason if length $argvs->reason;
+    return $argvs->reason if $argvs->reason;
 
     my $statusmesg = $argvs->diagnosticcode;
     my $reasontext = '';
@@ -61,7 +59,7 @@ sub get {
                 $reasontext = $e;
                 last
             }
-            last if length $reasontext;
+            last if $reasontext;
         }
     }
     return $reasontext;
@@ -84,7 +82,7 @@ Sisimai::Rhost::GoDaddy - Detect the bounce reason returned from GoDaddy.
 
 Sisimai::Rhost detects the bounce reason from the content of Sisimai::Data
 object as an argument of get() method when the value of C<rhost> of the object
-is "aspmx.l.google.com". This class is called only Sisimai::Data class.
+end with "secureserver.net". This class is called only Sisimai::Data class.
 
 =head1 CLASS METHODS
 

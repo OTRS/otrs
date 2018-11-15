@@ -9,17 +9,14 @@ my $StartingOf = {
     'message' => ['Your message'],
     'rfc822'  => ['Content-Type: message/delivery-status'],
 };
-my $ReFailures = {
-    'userunknown' => qr{(?>
-         not[ ]listed[ ]in[ ](?:
-             Domino[ ]Directory
-            |public[ ]Name[ ][&][ ]Address[ ]Book
-            )
-        |Domino[ ]ディレクトリには見つかりません
-        )
-    }x,
-    'filtered'    => qr/Cannot route mail to user/,
-    'systemerror' => qr/Several matches found in Domino Directory/x,
+my $MessagesOf = {
+    'userunknown' => [
+        'not listed in Domino Directory',
+        'not listed in public Name & Address Book',
+        'Domino ディレクトリには見つかりません',
+    ],
+    'filtered'    => ['Cannot route mail to user'],
+    'systemerror' => ['Several matches found in Domino Directory'],
 };
 
 sub description { 'IBM Domino Server' }
@@ -52,7 +49,6 @@ sub scan {
     my $v = undef;
     my $p = '';
 
-    require Sisimai::Address;
     for my $e ( @hasdivided ) {
         # Read each line between the start of the message and the start of rfc822 part.
         next unless length $e;
@@ -101,7 +97,7 @@ sub scan {
             $v = $dscontents->[-1];
             if( $e eq 'was not delivered to:' ) {
                 # was not delivered to:
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -132,19 +128,17 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
-    require Sisimai::SMTP::Status;
     for my $e ( @$dscontents ) {
         $e->{'agent'}     = __PACKAGE__->smtpagent;
         $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
         $e->{'recipient'} = Sisimai::Address->s3s4($e->{'recipient'});
 
-        for my $r ( keys %$ReFailures ) {
+        for my $r ( keys %$MessagesOf ) {
             # Check each regular expression of Domino error messages
-            next unless $e->{'diagnosis'} =~ $ReFailures->{ $r };
+            next unless grep { index($e->{'diagnosis'}, $_) > -1 } @{ $MessagesOf->{ $r } };
             $e->{'reason'} = $r;
             my $pseudostatus = Sisimai::SMTP::Status->code($r, 0);
-            $e->{'status'} = $pseudostatus if length $pseudostatus;
+            $e->{'status'} = $pseudostatus if $pseudostatus;
             last;
         }
     }

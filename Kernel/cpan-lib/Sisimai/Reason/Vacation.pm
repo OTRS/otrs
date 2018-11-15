@@ -13,16 +13,14 @@ sub match {
     # @since v4.22.3
     my $class = shift;
     my $argv1 = shift // return undef;
-    my $regex = qr{(?>
-         i[ ]am[ ](?:
-             away[ ](?:on[ ]vacation|until)
-            |out[ ]of[ ]the[ ]office
-            )
-        |i[ ]will[ ]be[ ]traveling[ ]for[ ]work[ ]on
-        )
-    }x;
-    
-    return 1 if $argv1 =~ $regex;
+    my $index = [
+        'i am away on vacation',
+        'i am away until',
+        'i am out of the office',
+        'i will be traveling for work on',
+    ];
+
+    return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
 }
 sub true  { return undef }

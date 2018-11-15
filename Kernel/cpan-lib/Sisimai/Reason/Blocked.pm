@@ -18,8 +18,10 @@ sub match {
         |access[ ]from[ ]ip[ ]address[ ].+[ ]blocked
         |all[ ]mail[ ]servers[ ]must[ ]have[ ]a[ ]ptr[ ]record[ ]with[ ]a[ ]valid[ ]reverse[ ]dns[ ]entry
         |bad[ ]sender[ ]ip[ ]address
+        |banned[ ]sending[ ]ip  # Office365
         |blacklisted[ ]by
         |(?:blocked|refused)[ ]-[ ]see[ ]https?://
+        |blocked[ ]using[ ]
         |can[']t[ ]determine[ ]purported[ ]responsible[ ]address
         |cannot[ ](?:
              find[ ]your[ ]hostname
@@ -54,8 +56,10 @@ sub match {
         |dnsbl:attrbl
         |dynamic/zombied/spam[ ]ips[ ]blocked
         |email[ ]blocked[ ]by[ ](?:.+[.]barracudacentral[.]org|spamhaus)
+        |esmtp[ ]not[ ]accepting[ ]connections  # icloud.com
         |fix[ ]reverse[ ]dns[ ]for[ ].+
         |go[ ]away
+        |helo[ ]command[ ]rejected:
         |host[ ].+[ ]refused[ ]to[ ]talk[ ]to[ ]me:[ ]\d+[ ]blocked
         |hosts[ ]with[ ]dynamic[ ]ip
         |http://(?:
@@ -157,10 +161,7 @@ sub true {
     my $class = shift;
     my $argvs = shift // return undef;
 
-    return undef unless ref $argvs eq 'Sisimai::Data';
     return 1 if $argvs->reason eq 'blocked';
-
-    require Sisimai::SMTP::Status;
     return 1 if Sisimai::SMTP::Status->name($argvs->deliverystatus) eq 'blocked';
     return 1 if __PACKAGE__->match(lc $argvs->diagnosticcode);
 }

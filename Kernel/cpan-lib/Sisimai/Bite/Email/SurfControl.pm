@@ -92,7 +92,7 @@ sub scan {
 
             if( $e =~ /\AAddressed To:[ \t]*([^ ]+?[@][^ ]+?)\z/ ) {
                 # Addressed To: kijitora@example.com
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -137,7 +137,6 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
     for my $e ( @$dscontents ) {
         $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
         $e->{'agent'}     = __PACKAGE__->smtpagent;

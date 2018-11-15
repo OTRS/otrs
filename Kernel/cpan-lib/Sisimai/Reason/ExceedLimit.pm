@@ -13,9 +13,9 @@ sub match {
     # @since v4.0.0
     my $class = shift;
     my $argv1 = shift // return undef;
-    my $regex = qr/message too large/;
+    my $index = ['message too large'];
 
-    return 1 if $argv1 =~ $regex;
+    return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
 }
 
@@ -29,14 +29,12 @@ sub true {
     my $class = shift;
     my $argvs = shift // return undef;
 
-    return undef unless ref $argvs eq 'Sisimai::Data';
     return undef unless $argvs->deliverystatus;
     return 1 if $argvs->reason eq 'exceedlimit';
 
     # Delivery status code points "exceedlimit".
     # Status: 5.2.3
     # Diagnostic-Code: SMTP; 552 5.2.3 Message size exceeds fixed maximum message size
-    require Sisimai::SMTP::Status;
     return 1 if Sisimai::SMTP::Status->name($argvs->deliverystatus) eq 'exceedlimit';
 
     # Check the value of Diagnosic-Code: header with patterns

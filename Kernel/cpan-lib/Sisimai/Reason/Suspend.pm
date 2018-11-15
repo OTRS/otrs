@@ -13,30 +13,23 @@ sub match {
     # @since v4.0.0
     my $class = shift;
     my $argv1 = shift // return undef;
-    my $regex = qr{(?>
-         boite[ ]du[ ]destinataire[ ]archivee.+[a-z]{3}.+420
-        |email[ ]account[ ]that[ ]you[ ]tried[ ]to[ ]reach[ ]is[ ]disabled
-        |invalid/inactive[ ]user
-        # http://service.mail.qq.com/cgi-bin/help?subtype=1&&id=20022&&no=1000742
-        |is[ ]a[ ]deactivated[ ]mailbox
-        |mailbox[ ](?:
-             currently[ ]suspended
-            |unavailable[ ]or[ ]access[ ]denied
-            )
-        |recipient[ ](?:
-             rejected:[ ]temporarily[ ]inactive
-            |suspend[ ]the[ ]service
-            )
-        |sorry[ ]your[ ]message[ ]to[ ].+[ ]cannot[ ]be[ ]delivered[.][ ]this[ ]
-            account[ ]has[ ]been[ ]disabled[ ]or[ ]discontinued
-        |the[ ]domain[ ].+[ ]is[ ]currently[ ]suspended
-        |user[ ].+[ ]temporary[ ]locked
-        |user[ ]suspended   # http://mail.163.com/help/help_spam_16.htm
-        |vdelivermail:[ ]account[ ]is[ ]locked[ ]email[ ]bounced
-        )
-    }x;
+    my $index = [
+        ' is currently suspended',
+        ' temporary locked',
+        'boite du destinataire archivee',
+        'email account that you tried to reach is disabled',
+        'invalid/inactive user',
+        'is a deactivated mailbox', # http://service.mail.qq.com/cgi-bin/help?subtype=1&&id=20022&&no=1000742
+        'mailbox currently suspended',
+        'mailbox unavailable or access denied',
+        'recipient rejected: temporarily inactive',
+        'recipient suspend the service',
+        'this account has been disabled or discontinued',
+        'user suspended',   # http://mail.163.com/help/help_spam_16.htm
+        'vdelivermail: account is locked email bounced',
+    ];
 
-    return 1 if $argv1 =~ $regex;
+    return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
 }
 
@@ -49,8 +42,6 @@ sub true {
     # @see http://www.ietf.org/rfc/rfc2822.txt
     my $class = shift;
     my $argvs = shift // return undef;
-
-    return undef unless ref $argvs eq 'Sisimai::Data';
     return undef unless $argvs->deliverystatus;
 
     return 1 if $argvs->reason eq 'suspend';
@@ -112,3 +103,4 @@ Copyright (C) 2014-2018 azumakuniyuki, All rights reserved.
 This software is distributed under The BSD 2-Clause License.
 
 =cut
+

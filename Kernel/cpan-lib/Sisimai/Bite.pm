@@ -2,7 +2,6 @@ package Sisimai::Bite;
 use feature ':5.10';
 use strict;
 use warnings;
-use Sisimai::RFC5322;
 
 sub DELIVERYSTATUS {
     # Data structure for parsed bounce messages

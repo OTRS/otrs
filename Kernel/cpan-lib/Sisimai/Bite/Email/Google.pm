@@ -18,18 +18,16 @@ my $MarkingsOf = {
     }x,
 };
 
-my $ReFailures = {
-    'expired' => qr{(?:
-         DNS[ ]Error:[ ]Could[ ]not[ ]contact[ ]DNS[ ]servers
-        |Delivery[ ]to[ ]the[ ]following[ ]recipient[ ]has[ ]been[ ]delayed
-        |The[ ]recipient[ ]server[ ]did[ ]not[ ]accept[ ]our[ ]requests[ ]to[ ]connect
-        )
-    }x,
-    'hostunknown' => qr{DNS[ ]Error:[ ](?:
-         Domain[ ]name[ ]not[ ]found
-        |DNS[ ]server[ ]returned[ ]answer[ ]with[ ]no[ ]data
-        )
-    }x,
+my $MessagesOf = {
+    'expired' => [
+        'DNS Error: Could not contact DNS servers',
+        'Delivery to the following recipient has been delayed',
+        'The recipient server did not accept our requests to connect',
+    ],
+    'hostunknown' => [
+        'DNS Error: Domain name not found',
+        'DNS Error: DNS server returned answer with no data',
+    ],
 };
 my $StateTable = {
     # Technical details of permanent failure: 
@@ -171,10 +169,9 @@ sub scan {
     #   The error that the other server returned was:
     #   550 5.1.1 <userunknown@example.jp>... User Unknown
     #
-    return undef unless index($mhead->{'from'}, '<mailer-daemon@googlemail.com>') > -1;
+    return undef unless rindex($mhead->{'from'}, '<mailer-daemon@googlemail.com>') > -1;
     return undef unless index($mhead->{'subject'}, 'Delivery Status Notification') > -1;
 
-    require Sisimai::Address;
     my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
     my @hasdivided = split("\n", $$mbody);
     my $rfc822part = '';    # (String) message/rfc822-headers part
@@ -233,7 +230,7 @@ sub scan {
 
             if( $e =~ /\A[ \t]+([^ ]+[@][^ ]+)\z/ ) {
                 # kijitora@example.jp: 550 5.2.2 <kijitora@example>... Mailbox Full
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -251,8 +248,6 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
-    require Sisimai::SMTP::Status;
     for my $e ( @$dscontents ) {
         $e->{'agent'}     = __PACKAGE__->smtpagent;
         $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
@@ -282,9 +277,9 @@ sub scan {
 
         } else {
             # No state code
-            SESSION: for my $r ( keys %$ReFailures ) {
+            SESSION: for my $r ( keys %$MessagesOf ) {
                 # Verify each regular expression of session errors
-                next unless $e->{'diagnosis'} =~ $ReFailures->{ $r };
+                next unless grep { index($e->{'diagnosis'}, $_) > -1 } @{ $MessagesOf->{ $r } };
                 $e->{'reason'} = $r;
                 last;
             }

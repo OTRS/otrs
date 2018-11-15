@@ -85,7 +85,7 @@ sub scan {
 
             if( $e =~ /\A[<](.+[@].+)[>]:[ \t]*\z/ ) {
                 # <kijitora@example.org>:
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -116,6 +116,9 @@ sub scan {
                             # 550 5.2.2 <mailboxfull@example.jp>... Mailbox Full
                             $v->{'diagnosis'} = $e;
                         }
+                    } else {
+                        # Error message which does not start with 'Remote host said:'
+                        $v->{'diagnosis'} .= ' '.$e;
                     }
                 }
             }
@@ -123,11 +126,11 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
     for my $e ( @$dscontents ) {
         $e->{'diagnosis'} =~ s/\\n/ /g;
         $e->{'diagnosis'} =  Sisimai::String->sweep($e->{'diagnosis'});
         $e->{'agent'}     =  __PACKAGE__->smtpagent;
+        $e->{'command'} ||=  'RCPT' if $e->{'diagnosis'} =~ /[<].+[@].+[>]/;
     }
     $rfc822part = Sisimai::RFC5322->weedout($rfc822list);
     return { 'ds' => $dscontents, 'rfc822' => $$rfc822part };

@@ -6,7 +6,7 @@ use warnings;
 
 my $Indicators = __PACKAGE__->INDICATORS;
 my $StartingOf = {
-    'message' => [' This is an automatically generated Delivery Status Notification'],
+    'message' => ['      This is an automatically generated Delivery Status Notification.'],
     'rfc822'  => ['Content-Type: message/rfc822'],
 };
 
@@ -91,7 +91,7 @@ sub scan {
 
             if( $e =~ /\A[ \t]+[*][ \t]([^ ]+[@][^ ]+)\z/ ) {
                 #   * kijitora@example.com
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -115,8 +115,6 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
-    require Sisimai::SMTP::Status;
     for my $e ( @$dscontents ) {
         $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
         $e->{'status'}    = Sisimai::SMTP::Status->find($e->{'diagnosis'});

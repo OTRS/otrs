@@ -105,7 +105,7 @@ sub scan {
 
                 if( $e =~ /\AFinal-Recipient:[ ]*(?:RFC|rfc)822;[ ]*([^ ]+)\z/ ) {
                     # Final-Recipient: RFC822; userunknown@example.jp
-                    if( length $v->{'recipient'} ) {
+                    if( $v->{'recipient'} ) {
                         # There are multiple recipient addresses in the message body.
                         push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                         $v = $dscontents->[-1];
@@ -168,13 +168,13 @@ sub scan {
 
                 } elsif( $e =~ /\AReporting-MTA:[ ]*(?:DNS|dns);[ ]*(.+)\z/ ) {
                     # Reporting-MTA: dns; mx.example.jp
-                    next if length $connheader->{'rhost'};
+                    next if $connheader->{'rhost'};
                     $connheader->{'rhost'} = lc $1;
                     $connvalues++;
 
                 } elsif( $e =~ /\AReceived-From-MTA:[ ]*(?:DNS|dns);[ ]*(.+)\z/ ) {
                     # Received-From-MTA: DNS; x1x2x3x4.dhcp.example.ne.jp
-                    next if( exists $connheader->{'lhost'} && length $connheader->{'lhost'} );
+                    next if( exists $connheader->{'lhost'} && $connheader->{'lhost'} );
 
                     # The value of "lhost" is optional
                     $connheader->{'lhost'} = lc $1;
@@ -182,7 +182,7 @@ sub scan {
 
                 } elsif( $e =~ /\AArrival-Date:[ ]*(.+)\z/ ) {
                     # Arrival-Date: Wed, 29 Apr 2009 16:03:18 +0900
-                    next if length $connheader->{'date'};
+                    next if $connheader->{'date'};
                     $connheader->{'date'} = $1;
                     $connvalues++;
 
@@ -229,16 +229,15 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
     for my $e ( @$dscontents ) {
         # Set default values if each value is empty.
         map { $e->{ $_ } ||= $connheader->{ $_ } || '' } keys %$connheader;
 
         $e->{'agent'}     = __PACKAGE__->smtpagent;
         $e->{'command'} ||= $commandtxt || '';
-        $e->{'command'} ||= 'EHLO' if length $esmtpreply;
+        $e->{'command'} ||= 'EHLO' if $esmtpreply;
 
-        if( exists $anotherset->{'diagnosis'} && length $anotherset->{'diagnosis'} ) {
+        if( exists $anotherset->{'diagnosis'} && $anotherset->{'diagnosis'} ) {
             # Copy alternative error message
             $e->{'diagnosis'}   = $anotherset->{'diagnosis'} if $e->{'diagnosis'} =~ /\A[ \t]+\z/;
             $e->{'diagnosis'} ||= $anotherset->{'diagnosis'};
@@ -246,7 +245,7 @@ sub scan {
         }
         $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
 
-        if( exists $anotherset->{'status'} && length $anotherset->{'status'} ) {
+        if( exists $anotherset->{'status'} && $anotherset->{'status'} ) {
             # Check alternative status code
             if( ! $e->{'status'} || $e->{'status'} !~ /\A[45][.]\d[.]\d\z/ ) {
                 # Override alternative status code

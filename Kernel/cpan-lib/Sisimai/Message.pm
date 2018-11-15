@@ -2,8 +2,11 @@ package Sisimai::Message;
 use feature ':5.10';
 use strict;
 use warnings;
-use Module::Load '';
 use Class::Accessor::Lite;
+use Sisimai::RFC5322;
+use Sisimai::Address;
+use Sisimai::String;
+use Sisimai::SMTP::Error;
 
 my $rwaccessors = [
     'from',     # [String] UNIX From line
@@ -33,7 +36,7 @@ sub new {
 
     if( $input eq 'email' ) {
         # Sisimai::Message::Email
-        return undef unless length $email;
+        return undef unless $email;
         $child = 'Sisimai::Message::Email';
 
     } elsif( $input eq 'json' ) {
@@ -53,11 +56,8 @@ sub new {
         return undef;
     }
 
-    eval { Module::Load::load $child };
-    if( $@ ) {
-        warn sprintf(" ***warning: Failed to load module: %s", $@);
-        return undef;
-    }
+    (my $modulepath = $child) =~ s|::|/|g; 
+    require $modulepath.'.pm';
 
     my $methodargv = {
         'data'  => $email,
@@ -155,7 +155,7 @@ in the argument of this method as an array reference like following code:
                         'load' => ['Your::Custom::MTA::Module']
                   );
 
-Beggining from v4.19.0, `hook` argument is available to callback user defined
+Beginning from v4.19.0, `hook` argument is available to callback user defined
 method like the following codes:
 
     my $cmethod = sub {

@@ -110,7 +110,7 @@ sub scan {
 
                 if( $e =~ /\AFinal-Recipient:[ ]*(?:RFC|rfc)822;[ ]*(.+)\z/ ) {
                     # Final-Recipient: RFC822; userunknown@example.jp
-                    if( length $v->{'recipient'} ) {
+                    if( $v->{'recipient'} ) {
                         # There are multiple recipient addresses in the message body.
                         push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                         $v = $dscontents->[-1];
@@ -150,7 +150,7 @@ sub scan {
                     $v->{'date'} = $1;
 
                 } else {
-                    if( $e =~ /\ADiagnostic-Code:[ ]*(.+?);[ ]*(.+)\z/ ) {
+                    if( $e =~ /\ADiagnostic-Code:[ ]*(.+?);[ ]*(.*)\z/ ) {
                         # Diagnostic-Code: SMTP; 550 5.1.1 <userunknown@example.jp>... User Unknown
                         $v->{'spec'} = uc $1;
                         $v->{'spec'} = 'SMTP' if $v->{'spec'} eq 'X-POSTFIX';
@@ -230,7 +230,7 @@ sub scan {
 
     unless( $recipients ) {
         # Fallback: set recipient address from error message
-        if( defined $anotherset->{'recipient'} && length $anotherset->{'recipient'} ) {
+        if( defined $anotherset->{'recipient'} && $anotherset->{'recipient'} ) {
             # Set recipient address
             $dscontents->[-1]->{'recipient'} = $anotherset->{'recipient'};
             $recipients++;
@@ -238,14 +238,11 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
-    require Sisimai::SMTP::Reply;
-    require Sisimai::SMTP::Status;
     for my $e ( @$dscontents ) {
         # Set default values if each value is empty.
         map { $e->{ $_ } ||= $connheader->{ $_ } || '' } keys %$connheader;
 
-        if( exists $anotherset->{'diagnosis'} && length $anotherset->{'diagnosis'} ) {
+        if( exists $anotherset->{'diagnosis'} && $anotherset->{'diagnosis'} ) {
             # Copy alternative error message
             $e->{'diagnosis'} ||= $anotherset->{'diagnosis'};
             if( $e->{'diagnosis'} =~ /\A\d+\z/ ) {

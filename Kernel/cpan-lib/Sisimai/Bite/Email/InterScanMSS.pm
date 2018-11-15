@@ -6,7 +6,7 @@ use warnings;
 
 my $Indicators = __PACKAGE__->INDICATORS;
 my $StartingOf = {
-    'message' => ['Content-type: text/plain'],
+    'message' => [''],
     'rfc822'  => ['Content-type: message/rfc822'],
 };
 
@@ -37,7 +37,7 @@ sub scan {
     ];
 
     # 'received' => qr/[ ][(]InterScanMSS[)][ ]with[ ]/,
-    $match ||= 1 if index($mhead->{'from'}, 'InterScan MSS') > -1;
+    $match ||= 1 if index($mhead->{'from'}, '"InterScan MSS"') == 0;
     $match ||= 1 if grep { $mhead->{'subject'} eq $_ } @$tryto;
     return undef unless $match;
 
@@ -91,7 +91,7 @@ sub scan {
                 # Sent <<< RCPT TO:<kijitora@example.co.jp>
                 # Received >>> 550 5.1.1 <kijitora@example.co.jp>... user unknown
                 my $cr = $1;
-                if( length $v->{'recipient'} && $cr ne $v->{'recipient'} ) {
+                if( $v->{'recipient'} && $cr ne $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -123,7 +123,6 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
     for my $e ( @$dscontents ) {
         # Set default values if each value is empty.
         $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});

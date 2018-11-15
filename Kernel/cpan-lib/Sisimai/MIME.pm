@@ -7,11 +7,11 @@ use MIME::QuotedPrint ();
 use Sisimai::String;
 
 my $ReE = {
-    '7bit-encoded' => qr/^content-transfer-encoding:[ ]*7bit$/m,
-    'quoted-print' => qr/^content-transfer-encoding:[ ]*quoted-printable$/m,
-    'some-iso2022' => qr/^content-type:[ ]*.+;[ ]*charset=["']?(iso-2022-[-a-z0-9]+)['"]?/m,
-    'with-charset' => qr/^content[-]type:[ ]*.+[;][ ]*charset=['"]?([-0-9a-z]+)['"]?/,
-    'only-charset' => qr/^[\s\t]+charset=['"]?([-0-9a-z]+)['"]?/,
+    '7bit-encoded' => qr/^content-transfer-encoding:[ ]*7bit/m,
+    'quoted-print' => qr/^content-transfer-encoding:[ ]*quoted-printable/m,
+    'some-iso2022' => qr/^content-type:[ ]*.+;[ ]*charset=["']?(iso-2022-[-a-z0-9]+)['"]?\b/m,
+    'with-charset' => qr/^content[-]type:[ ]*.+[;][ ]*charset=['"]?([-0-9a-z]+)['"]?\b/,
+    'only-charset' => qr/^[\s\t]+charset=['"]?([-0-9a-z]+)['"]?\b/,
     'html-message' => qr|^content-type:[ ]*text/html;|m,
 };
 
@@ -35,7 +35,7 @@ sub is_mimeencoded {
     return undef unless ref $argv1 eq 'SCALAR';
     $$argv1 =~ y/"//d;
 
-    if( index($$argv1, ' ') > -1 ) {
+    if( rindex($$argv1, ' ') > -1 ) {
         # Multiple MIME-Encoded strings in a line
         @piece = split(' ', $$argv1);
     } else {
@@ -62,12 +62,9 @@ sub mimedecode {
 
     my $characterset = '';
     my $encodingname = '';
-    my $mimeencoded0 = '';
     my @decodedtext0 = ();
     my $decodedtext1 = '';
     my $utf8decoded1 = '';
-    my $notmimetext0 = '';
-    my $notmimetext1 = '';
 
     for my $e ( @$argvs ) {
         # Check and decode each element
@@ -79,22 +76,19 @@ sub mimedecode {
             # MIME Encoded string
             if( $e =~ m{\A(.*)=[?]([-_0-9A-Za-z]+)[?]([BbQq])[?](.+)[?]=?(.*)\z} ) {
                 # =?utf-8?B?55m954yr44Gr44KD44KT44GT?=
-                $notmimetext0   = $1;
                 $characterset ||= lc $2;
                 $encodingname ||= uc $3;
-                $mimeencoded0   = $4;
-                $notmimetext1   = $5;
 
-                push @decodedtext0, $notmimetext0;
+                push @decodedtext0, $1;
                 if( $encodingname eq 'Q' ) {
                     # Quoted-Printable
-                    push @decodedtext0, MIME::QuotedPrint::decode($mimeencoded0);
+                    push @decodedtext0, MIME::QuotedPrint::decode($4);
 
                 } elsif( $encodingname eq 'B' ) {
                     # Base64
-                    push @decodedtext0, MIME::Base64::decode($mimeencoded0);
+                    push @decodedtext0, MIME::Base64::decode($4);
                 }
-                push @decodedtext0, $notmimetext1;
+                push @decodedtext0, $5;
             }
         } else {
             push @decodedtext0, $e;
@@ -128,10 +122,10 @@ sub qprintd {
     my $heads = shift // {};
     my $plain = '';
 
-    return undef unless ref $argv1;
-    return undef unless ref $argv1 eq 'SCALAR';
+    return \'' unless ref $argv1;
+    return \'' unless ref $argv1 eq 'SCALAR';
 
-    if( ! exists $heads->{'content-type'} || length($heads->{'content-type'}) == 0 ) {
+    if( ! exists $heads->{'content-type'} || ! $heads->{'content-type'} ) {
         # There is no Content-Type: field
         $plain = MIME::QuotedPrint::decode($$argv1);
         return \$plain;
@@ -139,7 +133,7 @@ sub qprintd {
 
     # Quoted-printable encoded part is the part of the text
     my $boundary00 = __PACKAGE__->boundary($heads->{'content-type'}, 0);
-    if( length($boundary00) == 0 || lc($$argv1) !~ $ReE->{'quoted-print'} ) {
+    if( ! $boundary00 || lc($$argv1) !~ $ReE->{'quoted-print'} ) {
         # There is no boundary string or no
         # Content-Transfer-Encoding: quoted-printable field.
         $plain = MIME::QuotedPrint::decode($$argv1);
@@ -147,14 +141,8 @@ sub qprintd {
     }
 
     my $boundary01 = Sisimai::MIME->boundary($heads->{'content-type'}, 1);
-    my $reboundary = {
-        'begin' => qr/\A\Q$boundary00\E/,
-        'until' => qr/\Q$boundary01\E\z/,
-    };
     my $bodystring = '';
     my $notdecoded = '';
-    my $getencoded = '';
-    my $lowercased = '';
 
     my $encodename = undef;
     my $ctencoding = undef;
@@ -168,12 +156,12 @@ sub qprintd {
         # Content-Transfer-Encoding: quoted-printable
         if( $mimeinside ) {
             # Quoted-Printable encoded text block
-            if( $e =~ $reboundary->{'begin'} ) {
+            if( $e eq $boundary00 ) {
                 # The next boundary string has appeared
                 # --=_gy7C4Gpes0RP4V5Bs9cK4o2Us2ZT57b-3OLnRN+4klS8dTmQ
-                $getencoded  = MIME::QuotedPrint::decode($notdecoded);
-                $getencoded  = Sisimai::String->to_utf8(\$getencoded, $encodename);
-                $bodystring .= $$getencoded;
+                my $hasdecoded = MIME::QuotedPrint::decode($notdecoded);
+                   $hasdecoded = Sisimai::String->to_utf8(\$hasdecoded, $encodename);
+                $bodystring .= $$hasdecoded;
                 $bodystring .= $e . "\n";
 
                 $notdecoded = '';
@@ -186,7 +174,7 @@ sub qprintd {
             }
         } else {
             # NOT Quoted-Printable encoded text block
-            $lowercased = lc $e;
+            my $lowercased = lc $e;
             if( $e =~ /\A[-]{2}[^\s]+[^-]\z/ ) {
                 # Start of the boundary block
                 # --=_gy7C4Gpes0RP4V5Bs9cK4o2Us2ZT57b-3OLnRN+4klS8dTmQ
@@ -194,10 +182,6 @@ sub qprintd {
                     # New boundary string has appeared
                     $boundary00 = $e;
                     $boundary01 = $e . '--';
-                    $reboundary = {
-                        'begin' => qr/\A\Q$boundary00\E/,
-                        'until' => qr/\Q$boundary01\E\z/,
-                    };
                 }
             } elsif( $lowercased =~ $ReE->{'with-charset'} || $lowercased =~ $ReE->{'only-charset'} ) {
                 # Content-Type: text/plain; charset=ISO-2022-JP
@@ -209,7 +193,7 @@ sub qprintd {
                 $ctencoding = $e;
                 $mimeinside = 1 if $encodename;
 
-            } elsif( $e =~ $reboundary->{'until'} ) {
+            } elsif( $e eq $boundary01 ) {
                 # The end of boundary block
                 # --=_gy7C4Gpes0RP4V5Bs9cK4o2Us2ZT57b-3OLnRN+4klS8dTmQ--
                 $mimeinside = 0;
@@ -217,6 +201,8 @@ sub qprintd {
             $bodystring .= $e . "\n";
         }
     }
+
+    $bodystring .= $notdecoded if length $notdecoded;
     return \$bodystring;
 }
 
@@ -228,8 +214,8 @@ sub base64d {
     my $argv1 = shift // return undef;
     my $plain = undef;
 
-    return undef unless ref $argv1;
-    return undef unless ref $argv1 eq 'SCALAR';
+    return \'' unless ref $argv1;
+    return \'' unless ref $argv1 eq 'SCALAR';
 
     # Decode BASE64
     $plain = MIME::Base64::decode($1) if $$argv1 =~ m|([+/=0-9A-Za-z\r\n]+)|;
@@ -253,11 +239,187 @@ sub boundary {
         # Content-Type: multipart/report; report-type=delivery-status;
         #    boundary="n6H9lKZh014511.1247824040/mx.example.jp"
         $value =  $1;
-        $value =~ y/"'//d;
+        $value =~ y/"';\\//d;
         $value =  '--'.$value if $start > -1;
         $value =  $value.'--' if $start >  0;
     }
     return $value;
+}
+
+sub breaksup {
+    # Breaks up each multipart/* block
+    # @param    [String] argv0 Text block of multipart/*
+    # @param    [String] argv1 MIME type of the outside part
+    # @return   [String] Decoded part as a plain text(text part only)
+    my $class = shift;
+    my $argv0 = shift || return undef;
+    my $argv1 = shift || '';
+
+    my $hasflatten = '';    # Message body including only text/plain and message/*
+    my $alsoappend = qr{\A(?:text/rfc822-headers|message/)};
+    my $thisformat = qr/\A(?:Content-Transfer-Encoding:\s*.+\n)?Content-Type:\s*([^ ;]+)/;
+    my $leavesonly = qr{\A(?>
+         text/(?:plain|html|rfc822-headers)
+        |message/(?:x?delivery-status|rfc822|partial|feedback-report)
+        |multipart/(?:report|alternative|mixed|related|partial)
+        )
+    }x;
+    my $mimeformat = $$argv0 =~ $thisformat ? lc($1) : '';
+    my $alternates = index($argv1, 'multipart/alternative') == 0 ? 1 : 0;
+
+    # Sisimai require only MIME types defined in $leavesonly variable
+    return \'' unless $mimeformat =~ $leavesonly;
+    return \'' if $alternates && $mimeformat eq 'text/html';
+
+    my ($upperchunk, $lowerchunk) = split(/^$/m, $$argv0, 2);
+    $upperchunk =~ s/\n/ /g;
+    $upperchunk =~ y/ //s;
+
+    # Content-Description: Undelivered Message
+    # Content-Type: message/rfc822
+    # <EOM>
+    $lowerchunk ||= '';
+
+    if( index($mimeformat, 'multipart/') == 0 ) {
+        # Content-Type: multipart/*
+        my $mpboundary = __PACKAGE__->boundary($upperchunk, 0);
+        my @innerparts = split(/\Q$mpboundary\E\n/, $lowerchunk);
+
+        shift @innerparts unless length $innerparts[0];
+        while( my $e = shift @innerparts ) {
+            # Find internal multipart/* blocks and decode
+            if( $e =~ $thisformat ) {
+                # Found Content-Type field at the first or second line of this
+                # splitted part
+                my $nextformat = lc $1;
+
+                next unless $nextformat =~ $leavesonly;
+                next if $nextformat eq 'text/html';
+
+                $hasflatten .= ${ __PACKAGE__->breaksup(\$e, $mimeformat) };
+
+            } else {
+                # The content of this part is almost '--': a part of boundary
+                # string which is used for splitting multipart/* blocks.
+                $hasflatten .= "\n";
+            }
+        }
+    } else {
+        # Is not "Content-Type: multipart/*"
+        if( $upperchunk =~ /Content-Transfer-Encoding: ([^\s;]+)/ ) {
+            # Content-Transfer-Encoding: quoted-printable|base64|7bit|...
+            my $ctencoding = lc $1;
+            my $getdecoded = '';
+
+            if( $ctencoding eq 'quoted-printable' ) {
+                # Content-Transfer-Encoding: quoted-printable
+                $getdecoded = ${ __PACKAGE__->qprintd(\$lowerchunk) };
+
+            } elsif( $ctencoding eq 'base64' ) {
+                # Content-Transfer-Encoding: base64
+                $getdecoded = ${ __PACKAGE__->base64d(\$lowerchunk) };
+
+            } elsif( $ctencoding eq '7bit' ) {
+                # Content-Transfer-Encoding: 7bit
+                if( lc($upperchunk) =~ $ReE->{'some-iso2022'} ) {
+                    # Content-Type: text/plain; charset=ISO-2022-JP
+                    $getdecoded = ${ Sisimai::String->to_utf8(\$lowerchunk, $1) };
+
+                } else {
+                    # No "charset" parameter in Content-Type: field
+                    $getdecoded = $lowerchunk;
+                }
+            } else {
+                # Content-Transfer-Encoding: 8bit, binary, and so on
+                $getdecoded = $lowerchunk;
+            }
+            $getdecoded =~ s|\r\n|\n|g; # Convert CRLF to LF
+
+            if( $mimeformat =~ $alsoappend ) {
+                # Append field when the value of Content-Type: begins with
+                # message/ or equals text/rfc822-headers.
+                $upperchunk =~ s/Content-Transfer-Encoding:.+\z//;
+                $upperchunk =~ s/[ ]\z//g;
+                $hasflatten .= $upperchunk;
+
+            } elsif( $mimeformat eq 'text/html' ) {
+                # Delete HTML tags inside of text/html part whenever possible
+                $getdecoded = ${ Sisimai::String->to_plain(\$getdecoded) };
+            }
+            $hasflatten .= $getdecoded."\n\n" if length $getdecoded;
+
+        } else {
+            # Content-Type: text/plain OR text/rfc822-headers OR message/*
+            if( index($mimeformat, 'message/') == 0 || $mimeformat eq 'text/rfc822-headers' ) {
+                # Append headers of multipart/* when the value of "Content-Type"
+                # is inlucded in the following MIME types:
+                #  - message/delivery-status
+                #  - message/rfc822
+                #  - text/rfc822-headers
+                $hasflatten .= $upperchunk;
+            }
+            $lowerchunk =~ s/^--\z//m;
+            $lowerchunk .= "\n" unless $lowerchunk =~ /\n\z/;
+            $hasflatten .= $lowerchunk;
+        }
+    }
+    return \$hasflatten;
+}
+
+sub makeflat {
+    # MIME decode entire message body
+    # @param    [String] argv0 Content-Type header
+    # @param    [String] argv1 Entire message body
+    # @return   [String] Decoded message body
+    my $class = shift;
+    my $argv0 = shift // return undef;
+    my $argv1 = shift // return undef;
+
+    my $ehboundary = __PACKAGE__->boundary($argv0, 0);
+    my $mimeformat = $argv0 =~ qr|\A([0-9a-z]+/[^ ;]+)| ? $1 : '';
+    my $bodystring = '';
+
+    return \'' unless index($mimeformat, 'multipart/') > -1;
+    return \'' unless $ehboundary;
+
+    # Some bounce messages include lower-cased "content-type:" field such as
+    #   content-type: message/delivery-status
+    #   content-transfer-encoding: quoted-printable
+    $$argv1 =~ s/[Cc]ontent-[Tt]ype:/Content-Type:/gm;
+    $$argv1 =~ s/[Cc]ontent-[Tt]ransfer-[Ee]ncodeing:/Content-Transfer-Encoding:/gm;
+
+    # 1. Some bounce messages include upper-cased "Content-Transfer-Encoding",
+    #    and "Content-Type" value such as
+    #      - Content-Type: multipart/RELATED;
+    #      - Content-Transfer-Encoding: 7BIT
+    # 2. Unused fields inside of mutipart/* block should be removed
+    $$argv1 =~ s/(Content-[A-Za-z-]+?):[ ]*([^\s]+)/$1.': '.lc($2)/eg;
+    $$argv1 =~ s/^Content-(?:Description|Disposition):.+\n//gm;
+
+    my @multiparts = split(/\Q$ehboundary\E\n/, $$argv1);
+    shift @multiparts unless length $multiparts[0];
+    while( my $e = shift @multiparts ) {
+        # Find internal multipart blocks and decode
+        if( $e =~ /\A(?:Content-[A-Za-z-]+:.+?\r\n)?Content-Type:[ ]*[^\s]+/ ) {
+            # Content-Type: multipart/*
+            $bodystring .= ${ __PACKAGE__->breaksup(\$e, $mimeformat) };
+
+        } else {
+            # Is not multipart/* block
+            $e =~ s|^Content-Transfer-Encoding:.+?\n||sim;
+            $e =~ s|^Content-Type:\s*text/plain.+?\n||sim;
+            $bodystring .= $e;
+        }
+    }
+
+    # Remove entire message body of the original message beginning from
+    # Content-Type: message/rfc822 field so Sisimai does not read the message
+    # body for detecting a bounce reason, for getting email header fields of
+    # the original message.
+    $bodystring =~ s{^(Content-Type:\s*message/(?:rfc822|delivery-status)).+$}{$1}gm;
+    $bodystring =~ s|^\n{2,}|\n|gm;
+
+    return \$bodystring;
 }
 
 1;
@@ -326,6 +488,25 @@ C<boundary()> returns a boundary string from the value of Content-Type header.
 
     print Sisimai::MIME->boundary($r, 0); # --Apple-Mail-1-526612466
     print Sisimai::MIME->boundary($r, 1); # --Apple-Mail-1-526612466--
+
+=head2 C<B<breaksup(I<\String>, I<String>)>>
+
+C<breaksup> is a multipart/* message decoder: Decode quoted-printable, base64,
+and other encoded message part, leave only text/plain, message/*, text/html 
+(only in multipart/alternative), returns string as a reference. This method is
+called from makeflat() and breaksup() itself.
+
+=head2 C<B<makeflat(I<String>, I<\String>)>>
+
+C<makeflat> makes flat multipart/* message: it leaves only text/html, message/*,
+and text/html (Content-Type of upper part is not multipart/alternative) part.
+In other words, this method remove parts which is not needed to parse bounce
+message such as image/*, text/html inside of multipart/alternative.
+
+    my $r = 'multipart/report; ...';    # Content-Type: MIME type, boundary
+    my $b = '...';                      # Multipart message body
+    my $v = Sisimai::MIME->makeflat($r, \$b);   # Returns scalar reference
+    print $$v;                  # Flatten message body
 
 =head1 AUTHOR
 

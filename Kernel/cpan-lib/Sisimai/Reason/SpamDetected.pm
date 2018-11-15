@@ -62,13 +62,14 @@ sub match {
             |filters[ ]rate[ ]at[ ]and[ ]above[ ].+[ ]percent[ ]probability[ ]of[ ]being[ ]spam
             |system[ ]has[ ]detected[ ]that[ ]this[ ]message[ ]is
             )
+        |permanent[ ]failure[ ]for[ ]one[ ]or[ ]more[ ]recipients[ ][(].+:blocked[)]
         |probable[ ]spam
         |reject[ ]bulk[.]advertising
         |reject,.+[ ][-][ ]spam[.][ ]
         |rejected(?:
              :[ ]spamassassin[ ]score[ ]
             |[ ]by[ ].+[ ][(]spam[)]
-            |[ ]due[ ]to[ ]spam[ ]content
+            |[ ]due[ ]to[ ]spam[ ](?:classification|content)
             )
         |rejecting[ ]banned[ ]content 
         |related[ ]to[ ]content[ ]with[ ]spam[-]like[ ]characteristics
@@ -151,11 +152,8 @@ sub true {
     my $class = shift;
     my $argvs = shift // return undef;
 
-    return undef unless ref $argvs eq 'Sisimai::Data';
     return undef unless $argvs->deliverystatus;
     return 1 if $argvs->reason eq 'spamdetected';
-
-    require Sisimai::SMTP::Status;
     return 1 if Sisimai::SMTP::Status->name($argvs->deliverystatus) eq 'spamdetected';
     return 1 if __PACKAGE__->match(lc $argvs->diagnosticcode);
     return 0;

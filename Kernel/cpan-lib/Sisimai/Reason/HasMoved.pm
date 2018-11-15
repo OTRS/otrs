@@ -13,9 +13,9 @@ sub match {
     # @since v4.1.25
     my $class = shift;
     my $argv1 = shift // return undef;
-    my $regex = qr/address .+ has been replaced by /;
+    my $index = [' has been replaced by '];
 
-    return 1 if $argv1 =~ $regex;
+    return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
 }
 
@@ -29,7 +29,6 @@ sub true {
     my $class = shift;
     my $argvs = shift // return undef;
 
-    return undef unless ref $argvs eq 'Sisimai::Data';
     return 1 if $argvs->reason eq 'hasmoved';
     return 1 if __PACKAGE__->match(lc $argvs->diagnosticcode);
     return 0;
@@ -86,7 +85,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2015-2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2015-2016,2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

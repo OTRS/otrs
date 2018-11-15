@@ -83,7 +83,6 @@ sub scan {
     return undef unless $match;
 
     require Sisimai::Bite::Email;
-    require Sisimai::Address;
     my $dscontents = [Sisimai::Bite::Email->DELIVERYSTATUS];
     my @hasdivided = split("\n", $$mbody);
     my $rfc822part = '';    # (String) message/rfc822-headers part
@@ -116,7 +115,6 @@ sub scan {
     if( $mhead->{'content-type'} ) {
         # Get the boundary string and set regular expression for matching with
         # the boundary string.
-        require Sisimai::MIME;
         my $b0 = Sisimai::MIME->boundary($mhead->{'content-type'}, 0);
         $MarkingsOf->{'boundary'} = qr/\A\Q$b0\E\z/ if length $b0;
     }
@@ -133,7 +131,7 @@ sub scan {
                 last if $blanklines > $countuntil;
                 next;
             }
-            next unless index($e, ' ') > -1;
+            next unless rindex($e, ' ') > -1;
             next if index($e, 'Content-Type') == 0;
             next if index($e, 'Content-Transfer') == 0;
 
@@ -143,7 +141,6 @@ sub scan {
         }
         $v->{'diagnosis'} ||= $mhead->{'subject'};
     }
-    require Sisimai::String;
 
     $v->{'diagnosis'} = Sisimai::String->sweep($v->{'diagnosis'});
     $v->{'reason'}    = 'vacation';

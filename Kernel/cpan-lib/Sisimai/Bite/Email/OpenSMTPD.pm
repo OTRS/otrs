@@ -31,34 +31,36 @@ my $StartingOf = {
     #   bounce.c/337:const char *notice_relay =
     #   bounce.c/338:    "    Your message was relayed to these recipients.\n\n";
     #   bounce.c/339:
-    'message' => [' This is the MAILER-DAEMON, please DO NOT REPLY to this'],
-    'rfc822'  => [' Below is a copy of the original message:'],
+    'message' => ['    This is the MAILER-DAEMON, please DO NOT REPLY to this'],
+    'rfc822'  => ['    Below is a copy of the original message:'],
 };
-my $ReFailures = {
+my $MessagesOf = {
     # smtpd/queue.c:221|  envelope_set_errormsg(&evp, "Envelope expired");
-    'expired'     => qr/Envelope expired/,
-    # smtpd/mta.c:976|  relay->failstr = "Invalid domain name";
-    # smtpd/mta.c:980|  relay->failstr = "Domain does not exist";
-    'hostunknown' => qr/(?:Invalid domain name|Domain does not exist)/,
+    'expired'     => ['Envelope expired'],
+    'hostunknown' => [
+        # smtpd/mta.c:976|  relay->failstr = "Invalid domain name";
+        # smtpd/mta.c:980|  relay->failstr = "Domain does not exist";
+        'Invalid domain name',
+        'Domain does not exist',
+    ],
     # smtp/mta.c:1085|  relay->failstr = "Destination seem to reject all mails";
-    'notaccept'   => qr/Destination seem to reject all mails/,
-    'networkerror'=> qr{(?>
+    'notaccept'   => ['Destination seem to reject all mails'],
+    'networkerror'=> [
         #  smtpd/mta.c:972|  relay->failstr = "Temporary failure in MX lookup";
-         Address[ ]family[ ]mismatch[ ]on[ ]destination[ ]MXs
-        |All[ ]routes[ ]to[ ]destination[ ]blocked
-        |bad[ ]DNS[ ]lookup[ ]error[ ]code
-        |Could[ ]not[ ]retrieve[ ]source[ ]address
-        |Loop[ ]detected
-        |Network[ ]error[ ]on[ ]destination[ ]MXs
-        |No[ ](?>
-             MX[ ]found[ ]for[ ](?:domain|destination)
-            |valid[ ]route[ ]to[ ](?:remote[ ]MX|destination)
-            )
-        |Temporary[ ]failure[ ]in[ ]MX[ ]lookup
-        )
-    }x,
+        'Address family mismatch on destination MXs',
+        'All routes to destination blocked',
+        'bad DNS lookup error code',
+        'Could not retrieve source address',
+        'Loop detected',
+        'Network error on destination MXs',
+        'No MX found for domain',
+        'No MX found for destination',
+        'No valid route to remote MX',
+        'No valid route to destination',
+        'Temporary failure in MX lookup',
+    ],
     # smtpd/mta.c:1013|  relay->failstr = "Could not retrieve credentials";
-    'securityerror' => qr/Could not retrieve credentials/,
+    'securityerror' => ['Could not retrieve credentials'],
 };
 
 sub description { 'OpenSMTPD' }
@@ -79,9 +81,9 @@ sub scan {
     my $mhead = shift // return undef;
     my $mbody = shift // return undef;
 
-    return undef unless index($mhead->{'subject'}, 'Delivery status notification') == 0;
-    return undef unless index($mhead->{'from'}, 'Mailer Daemon <') == 0;
-    return undef unless grep { index($_, ' (OpenSMTPD) with ') > -1 } @{ $mhead->{'received'} };
+    return undef unless index($mhead->{'subject'}, 'Delivery status notification') > -1;
+    return undef unless index($mhead->{'from'}, 'Mailer Daemon <') > -1;
+    return undef unless grep { rindex($_, ' (OpenSMTPD) with ') > -1 } @{ $mhead->{'received'} };
 
     my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
     my @hasdivided = split("\n", $$mbody);
@@ -138,7 +140,7 @@ sub scan {
 
             if( $e =~ /\A([^ ]+?[@][^ ]+?):?[ ](.+)\z/ ) {
                 # kijitora@example.jp: 550 5.2.2 <kijitora@example>... Mailbox Full
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -151,14 +153,13 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
     for my $e ( @$dscontents ) {
         $e->{'agent'}     = __PACKAGE__->smtpagent;
         $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
 
-        SESSION: for my $r ( keys %$ReFailures ) {
+        SESSION: for my $r ( keys %$MessagesOf ) {
             # Verify each regular expression of session errors
-            next unless $e->{'diagnosis'} =~ $ReFailures->{ $r };
+            next unless grep { index($e->{'diagnosis'}, $_) > -1 } @{ $MessagesOf->{ $r } };
             $e->{'reason'} = $r;
             last;
         }

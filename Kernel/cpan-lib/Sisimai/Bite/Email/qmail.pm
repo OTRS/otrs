@@ -48,64 +48,57 @@ my $ReHost = qr{(?:
     |remote[ ]host[ ]([-0-9a-zA-Z.]+[0-9a-zA-Z])[ ]said:
     )
 }x;
-my $ReLDAP = {
-    # qmail-ldap-1.03-20040101.patch:19817 - 19866
-    'suspend'     => qr/Mailaddress is administrative?le?y disabled/,            # 5.2.1
-    'userunknown' => qr/[Ss]orry, no mailbox here by that name/,                 # 5.1.1
-    'exceedlimit' => qr/The message exeeded the maximum size the user accepts/,  # 5.2.3
-    'systemerror' => qr{(?>
-         Automatic[ ]homedir[ ]creator[ ]crashed                    # 4.3.0
-        |Illegal[ ]value[ ]in[ ]LDAP[ ]attribute                    # 5.3.5
-        |LDAP[ ]attribute[ ]is[ ]not[ ]given[ ]but[ ]mandatory      # 5.3.5
-        |Timeout[ ]while[ ]performing[ ]search[ ]on[ ]LDAP[ ]server # 4.4.3
-        |Too[ ]many[ ]results[ ]returned[ ]but[ ]needs[ ]to[ ]be[ ]unique # 5.3.5
-        |Permanent[ ]error[ ]while[ ]executing[ ]qmail[-]forward    # 5.4.4
-        |Temporary[ ](?:
-             error[ ](?:
-                 in[ ]automatic[ ]homedir[ ]creation            # 4.3.0 or 5.3.0
-                |while[ ]executing[ ]qmail[-]forward            # 4.4.4
-                )
-            |failure[ ]in[ ]LDAP[ ]lookup                       # 4.4.3
-            )
-        |Unable[ ]to[ ](?:
-             contact[ ]LDAP[ ]server                            # 4.4.3
-            |login[ ]into[ ]LDAP[ ]server,[ ]bad[ ]credentials  # 4.4.3
-            )
-        )
-    }x,
-};
 
 # qmail-send.c:922| ... (&dline[c],"I'm not going to try again; this message has been in the queue too long.\n")) nomem();
-my $ReDelaying = qr/this message has been in the queue too long[.]\z/;
-my $ReIsOnHold = qr/\A[^ ]+ does not like recipient[.][ \t]+.+this message has been in the queue too long[.]\z/;
-
+my $HasExpired = 'this message has been in the queue too long.';
 # qmail-remote-fallback.patch
 my $ReCommands = qr/Sorry, no SMTP connection got far enough; most progress was ([A-Z]{4}) /;
-my $ReFailures = {
+my $ReIsOnHold = qr/\A[^ ]+ does not like recipient[.][ \t]+.+this message has been in the queue too long[.]\z/;
+my $FailOnLDAP = {
+    # qmail-ldap-1.03-20040101.patch:19817 - 19866
+    'suspend'     => ['Mailaddress is administrative?le?y disabled'],   # 5.2.1
+    'userunknown' => ['Sorry, no mailbox here by that name'],           # 5.1.1
+    'exceedlimit' => ['The message exeeded the maximum size the user accepts'], # 5.2.3
+    'systemerror' => [
+        'Automatic homedir creator crashed',                # 4.3.0
+        'Illegal value in LDAP attribute',                  # 5.3.5
+        'LDAP attribute is not given but mandatory',        # 5.3.5
+        'Timeout while performing search on LDAP server',   # 4.4.3
+        'Too many results returned but needs to be unique', # 5.3.5
+        'Permanent error while executing qmail-forward',    # 5.4.4
+        'Temporary error in automatic homedir creation',    # 4.3.0 or 5.3.0
+        'Temporary error while executing qmail-forward',    # 4.4.4
+        'Temporary failure in LDAP lookup',                 # 4.4.3
+        'Unable to contact LDAP server',                    # 4.4.3
+        'Unable to login into LDAP server, bad credentials',# 4.4.3
+    ],
+};
+my $MessagesOf = {
     # qmail-local.c:589|  strerr_die1x(100,"Sorry, no mailbox here by that name. (#5.1.1)");
     # qmail-remote.c:253|  out("s"); outhost(); out(" does not like recipient.\n");
-    'userunknown' => qr/(?:no mailbox here by that name| does not like recipient[.])/,
+    'userunknown' => [
+        'no mailbox here by that name',
+        'does not like recipient.',
+    ],
     # error_str.c:192|  X(EDQUOT,"disk quota exceeded")
-    'mailboxfull' => qr/disk quota exceeded/,
+    'mailboxfull' => ['disk quota exceeded'],
     # qmail-qmtpd.c:233| ... result = "Dsorry, that message size exceeds my databytes limit (#5.3.4)";
     # qmail-smtpd.c:391| ... out("552 sorry, that message size exceeds my databytes limit (#5.3.4)\r\n"); return;
-    'mesgtoobig'  => qr/Message size exceeds fixed maximum message size:/,
+    'mesgtoobig'  => ['Message size exceeds fixed maximum message size:'],
     # qmail-remote.c:68|  Sorry, I couldn't find any host by that name. (#4.1.2)\n"); zerodie();
     # qmail-remote.c:78|  Sorry, I couldn't find any host named ");
-    'hostunknown' => qr/\ASorry, I couldn't find any host /,
-    'systemfull'  => qr/Requested action not taken: mailbox unavailable [(]not enough free space[)]/,
-    'systemerror' => qr{(?>
-         bad[ ]interpreter:[ ]No[ ]such[ ]file[ ]or[ ]directory
-        |system[ ]error
-        |Unable[ ]to\b
-        )
-    }x,
-    'networkerror'=> qr{Sorry(?:
-         [,][ ]I[ ]wasn[']t[ ]able[ ]to[ ]establish[ ]an[ ]SMTP[ ]connection
-        |[,][ ]I[ ]couldn[']t[ ]find[ ]a[ ]mail[ ]exchanger[ ]or[ ]IP[ ]address
-        |[.][ ]Although[ ]I[']m[ ]listed[ ]as[ ]a[ ]best[-]preference[ ]MX[ ]or[ ]A[ ]for[ ]that[ ]host
-        )
-    }x,
+    'hostunknown' => ["Sorry, I couldn't find any host "],
+    'systemfull'  => ['Requested action not taken: mailbox unavailable (not enough free space)'],
+    'systemerror' => [
+        'bad interpreter: No such file or directory',
+        'system error',
+        'Unable to',
+    ],
+    'networkerror'=> [
+        "Sorry, I wasn't able to establish an SMTP connection",
+        "Sorry, I couldn't find a mail exchanger or IP address",
+        "Sorry. Although I'm listed as a best-preference MX or A for that host",
+    ],
 };
 
 sub description { 'qmail' }
@@ -185,7 +178,7 @@ sub scan {
 
             if( $e =~ /\A(?:To[ ]*:)?[<](.+[@].+)[>]:[ \t]*\z/ ) {
                 # <kijitora@example.jp>:
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -206,8 +199,6 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
-    require Sisimai::SMTP::Status;
     for my $e ( @$dscontents ) {
         $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
 
@@ -243,31 +234,31 @@ sub scan {
                 $e->{'reason'} = 'onhold';
 
             } else {
-                SESSION: for my $r ( keys %$ReFailures ) {
+                SESSION: for my $r ( keys %$MessagesOf ) {
                     # Verify each regular expression of session errors
                     if( $e->{'alterrors'} ) {
                         # Check the value of "alterrors"
-                        next unless $e->{'alterrors'} =~ $ReFailures->{ $r };
+                        next unless grep { index($e->{'alterrors'}, $_) > -1 } @{ $MessagesOf->{ $r } };
                         $e->{'reason'} = $r;
                     }
                     last if $e->{'reason'};
 
-                    next unless $e->{'diagnosis'} =~ $ReFailures->{ $r };
+                    next unless grep { index($e->{'diagnosis'}, $_) > -1 } @{ $MessagesOf->{ $r } };
                     $e->{'reason'} = $r;
                     last;
                 }
 
                 unless( $e->{'reason'} ) {
-                    LDAP: for my $r ( keys %$ReLDAP ) {
+                    LDAP: for my $r ( keys %$FailOnLDAP ) {
                         # Verify each regular expression of LDAP errors
-                        next unless $e->{'diagnosis'} =~ $ReLDAP->{ $r };
+                        next unless grep { index($e->{'diagnosis'}, $_) > -1 } @{ $FailOnLDAP->{ $r } };
                         $e->{'reason'} = $r;
                         last;
                     }
                 }
 
                 unless( $e->{'reason'} ) {
-                    $e->{'reason'} = 'expired' if $e->{'diagnosis'} =~ $ReDelaying;
+                    $e->{'reason'} = 'expired' if index($e->{'diagnosis'}, $HasExpired) > -1;
                 }
             }
         }

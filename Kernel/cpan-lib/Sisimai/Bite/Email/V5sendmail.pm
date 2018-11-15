@@ -69,7 +69,7 @@ sub scan {
         # Read each line between the start of the message and the start of rfc822 part.
         unless( $readcursor ) {
             # Beginning of the bounce message or delivery status part
-            if( index($e, $StartingOf->{'message'}->[0]) > -1 ) {
+            if( rindex($e, $StartingOf->{'message'}->[0]) > -1 ) {
                 $readcursor |= $Indicators->{'deliverystatus'};
                 next;
             }
@@ -107,7 +107,7 @@ sub scan {
 
             if( $e =~ /\A\d{3}[ \t]+[<]([^ ]+[@][^ ]+)[>][.]{3}[ \t]*(.+)\z/ ) {
                 # 550 <kijitora@example.org>... User unknown
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -161,13 +161,12 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
     for my $e ( @$dscontents ) {
         $errorindex++;
         $e->{'agent'}   = __PACKAGE__->smtpagent;
         $e->{'command'} = $commandset[$errorindex] || '';
 
-        if( exists $anotherset->{'diagnosis'} && length $anotherset->{'diagnosis'} ) {
+        if( exists $anotherset->{'diagnosis'} && $anotherset->{'diagnosis'} ) {
             # Copy alternative error message
             $e->{'diagnosis'} ||= $anotherset->{'diagnosis'};
 

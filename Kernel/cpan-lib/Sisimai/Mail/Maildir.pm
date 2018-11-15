@@ -65,7 +65,7 @@ sub read {
 
             # Get inode number of the file
             $self->{'path'} = $emailindir;
-            $emailinode = [stat $emailindir]->[1];
+            $emailinode = $^O eq 'MSWin32' ?  $emailindir : [stat $emailindir]->[1];
             next if exists $self->{'inodes'}->{ $emailinode };
 
             $filehandle = IO::File->new($emailindir, 'r');
@@ -130,7 +130,7 @@ C<file()> returns current file name of the Maildir.
 
     print $maildir->file;
 
-=head2 C<B<files()>>
+=head2 C<B<inodes()>>
 
 C<inodes()> returns i-node list of each email in Maildir.
 

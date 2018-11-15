@@ -96,7 +96,7 @@ sub scan {
             if( $e =~ /\A([^ ]+[@][^ ]+)\z/ ) {
                 # 以下のメールアドレスへの送信に失敗しました。
                 # kijitora@example.jp
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -131,7 +131,6 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
     for my $e ( @$dscontents ) {
         if( scalar @{ $mhead->{'received'} } ) {
             # Get localhost and remote host name from Received header.
@@ -141,7 +140,7 @@ sub scan {
             $e->{'lhost'} ||= shift @{ Sisimai::RFC5322->received($rheads->[0]) };
             while( my $ee = shift @$rhosts ) {
                 # Avoid "... by m-FILTER"
-                next unless index($ee, '.') > -1;
+                next unless rindex($ee, '.') > -1;
                 $e->{'rhost'} = $ee;
             }
         }

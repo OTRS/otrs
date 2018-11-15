@@ -113,9 +113,7 @@ sub get {
     # @see      https://technet.microsoft.com/en-us/library/bb232118
     my $class = shift;
     my $argvs = shift // return undef;
-
-    return undef unless ref $argvs eq 'Sisimai::Data';
-    return $argvs->reason if length $argvs->reason;
+    return $argvs->reason if $argvs->reason;
 
     my $statuscode = $argvs->deliverystatus;
     my $statusmesg = $argvs->diagnosticcode;
@@ -130,10 +128,10 @@ sub get {
             $reasontext = $f->{'reason'};
             last;
         }
-        last if length $reasontext;
+        last if $reasontext;
     }
 
-    if( not length $reasontext ) {
+    if( not $reasontext ) {
         for my $e ( keys %$ReStatuses ) {
             # Try to compare with each string of delivery status codes
             next unless $statuscode =~ $e;
@@ -144,12 +142,12 @@ sub get {
                     $reasontext = $f->{'reason'};
                     last;
                 }
-                last if length $reasontext;
+                last if $reasontext;
             }
-            last if length $reasontext;
+            last if $reasontext;
         }
 
-        if( not length $reasontext ) {
+        if( not $reasontext ) {
             # D.S.N. included in the error message did not matched with any key
             # in $StatusList, $ReStatuses
             for my $e ( keys %$MessagesOf ) {
@@ -159,7 +157,7 @@ sub get {
                     $reasontext = $e;
                     last;
                 }
-                last if length $reasontext;
+                last if $reasontext;
             }
         }
     }

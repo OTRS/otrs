@@ -13,28 +13,22 @@ sub match {
     # @since v4.0.0
     my $class = shift;
     my $argv1 = shift // return undef;
-    my $regex = qr{(?> 
-         as[ ]a[ ]relay
-        |insecure[ ]mail[ ]relay
-        |mail[ ]server[ ]requires[ ]authentication[ ]when[ ]attempting[ ]to[ ]
-            send[ ]to[ ]a[ ]non-local[ ]e-mail[ ]address    # MailEnable 
-        |not[ ](?:
-             allowed[ ]to[ ]relay[ ]through[ ]this[ ]machine
-            |an[ ]open[ ]relay,[ ]so[ ]get[ ]lost
-            )
-        |relay[ ](?:
-             access[ ]denied
-            |denied
-            |not[ ]permitted
-            )
-        |relaying[ ]denied  # Sendmail
-        |that[ ]domain[ ]isn[']t[ ]in[ ]my[ ]list[ ]of[ ]allowed[ ]rcpthost
-        |this[ ]system[ ]is[ ]not[ ]configured[ ]to[ ]relay[ ]mail
-        |unable[ ]to[ ]relay[ ]for
-        )
-    }x;
+    my $index = [
+        'as a relay',
+        'insecure mail relay',
+        'mail server requires authentication when attempting to send to a non-local e-mail address',    # MailEnable 
+        'not allowed to relay through this machine',
+        'not an open relay, so get lost',
+        'relay access denied',
+        'relay denied',
+        'relay not permitted',
+        'relaying denied',  # Sendmail
+        "that domain isn't in my list of allowed rcpthost",
+        'this system is not configured to relay mail',
+        'unable to relay for',
+    ];
 
-    return 1 if $argv1 =~ $regex;
+    return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
 }
 
@@ -48,9 +42,7 @@ sub true {
     my $class = shift;
     my $argvs = shift // return undef;
 
-    return undef unless ref $argvs eq 'Sisimai::Data';
     my $r = $argvs->reason // '';
-
     if( $r ) {
         # Do not overwrite the reason
         return 0 if( $r eq 'securityerror' || $r eq 'systemerror' || $r eq 'undefined' );

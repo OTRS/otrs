@@ -57,57 +57,54 @@ my $ReCommands = [
     qr/LMTP error after ([A-Za-z]{4})/,
     qr/LMTP error after end of ([A-Za-z]{4})/,
 ];
-my $ReFailures = {
+my $MessagesOf = {
     # find exim/ -type f -exec grep 'message = US' {} /dev/null \;
     # route.c:1158|  DEBUG(D_uid) debug_printf("getpwnam() returned NULL (user not found)\n");
-    'userunknown' => qr/user not found/,
+    'userunknown' => ['user not found'],
     # transports/smtp.c:3524|  addr->message = US"all host address lookups failed permanently";
     # routers/dnslookup.c:331|  addr->message = US"all relevant MX records point to non-existent hosts";
     # route.c:1826|  uschar *message = US"Unrouteable address";
-    'hostunknown' => qr{(?>
-         all[ ](?:
-             host[ ]address[ ]lookups[ ]failed[ ]permanently
-            |relevant[ ]MX[ ]records[ ]point[ ]to[ ]non[-]existent[ ]hosts
-            )
-        |Unrouteable[ ]address
-        )
-    }x,
+    'hostunknown' => [
+        'all host address lookups failed permanently',
+        'all relevant MX records point to non-existent hosts',
+        'Unrouteable address',
+    ],
     # transports/appendfile.c:2567|  addr->user_message = US"mailbox is full";
     # transports/appendfile.c:3049|  addr->message = string_sprintf("mailbox is full "
     # transports/appendfile.c:3050|  "(quota exceeded while writing to file %s)", filename);
-    'mailboxfull' => qr/(?:mailbox is full:?|error: quota exceed)/,
+    'mailboxfull' => [
+        'mailbox is full',
+        'error: quota exceed',
+    ],
     # routers/dnslookup.c:328|  addr->message = US"an MX or SRV record indicated no SMTP service";
     # transports/smtp.c:3502|  addr->message = US"no host found for existing SMTP connection";
-    'notaccept' => qr{(?:
-         an[ ]MX[ ]or[ ]SRV[ ]record[ ]indicated[ ]no[ ]SMTP[ ]service
-        |no[ ]host[ ]found[ ]for[ ]existing[ ]SMTP[ ]connection
-        )
-    }x,
+    'notaccept' => [
+        'an MX or SRV record indicated no SMTP service',
+        'no host found for existing SMTP connection',
+    ],
     # parser.c:666| *errorptr = string_sprintf("%s (expected word or \"<\")", *errorptr);
     # parser.c:701| if(bracket_count++ > 5) FAILED(US"angle-brackets nested too deep");
     # parser.c:738| FAILED(US"domain missing in source-routed address");
     # parser.c:747| : string_sprintf("malformed address: %.32s may not follow %.*s",
-    'syntaxerror' => qr{(?:
-         angle-brackets[ ]nested[ ]too[ ]deep
-        |expected[ ]word[ ]or[ ]["]<["]
-        |domain[ ]missing[ ]in[ ]source-routed[ ]address
-        |malformed[ ]address:
-        )
-    }x,
+    'syntaxerror' => [
+        'angle-brackets nested too deep',
+        'expected word or "<"',
+        'domain missing in source-routed address',
+        'malformed address:',
+    ],
     # deliver.c:5614|  addr->message = US"delivery to file forbidden";
     # deliver.c:5624|  addr->message = US"delivery to pipe forbidden";
     # transports/pipe.c:1156|  addr->user_message = US"local delivery failed";
-    'systemerror' => qr{(?>
-         delivery[ ]to[ ](?:file|pipe)[ ]forbidden
-        |local[ ]delivery[ ]failed
-        |LMTP[ ]error[ ]after[ ]
-        )
-    }x,
+    'systemerror' => [
+        'delivery to file forbidden',
+        'delivery to pipe forbidden',
+        'local delivery failed',
+        'LMTP error after ',
+    ],
     # deliver.c:5425|  new->message = US"Too many \"Received\" headers - suspected mail loop";
-    'contenterror' => qr/Too many ["]Received["] headers/,
+    'contenterror' => ['Too many "Received" headers'],
 };
-
-my $ReDelaying = qr{(?:
+my $DelayedFor = [
     # retry.c:902|  addr->message = (addr->message == NULL)? US"retry timeout exceeded" :
     # deliver.c:7475|  "No action is required on your part. Delivery attempts will continue for\n"
     # smtp.c:3508|  US"retry time not reached for any host after a long failure period" :
@@ -117,14 +114,14 @@ my $ReDelaying = qr{(?:
     # deliver.c:7586|  "Message %s has been frozen%s.\nThe sender is <%s>.\n", message_id,
     # receive.c:4021|  moan_tell_someone(freeze_tell, NULL, US"Message frozen on arrival",
     # receive.c:4022|  "Message %s was frozen on arrival by %s.\nThe sender is <%s>.\n",
-     retry[ ]timeout[ ]exceeded
-    |No[ ]action[ ]is[ ]required[ ]on[ ]your[ ]part
-    |retry[ ]time[ ]not[ ]reached[ ]for[ ]any[ ]host[ ]after[ ]a[ ]long[ ]failure[ ]period
-    |all[ ]hosts[ ]have[ ]been[ ]failing[ ]for[ ]a[ ]long[ ]time[ ]and[ ]were[ ]last[ ]tried
-    |Delay[ ]reason:[ ]
-    |Message[ ].+[ ](?:has[ ]been[ ]frozen|was[ ]frozen[ ]on[ ]arrival[ ]by[ ])
-    )
-}x;
+    'retry timeout exceeded',
+    'No action is required on your part',
+    'retry time not reached for any host after a long failure period',
+    'all hosts have been failing for a long time and were last tried',
+    'Delay reason: ',
+    'has been frozen',
+    'was frozen on arrival by ',
+];
 
 # X-Failed-Recipients: kijitora@example.ed.jp
 sub headerlist  { return ['X-Failed-Recipients'] }
@@ -160,7 +157,6 @@ sub scan {
         )
     }x;
 
-    require Sisimai::String;
     my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
     my @hasdivided = split("\n", $$mbody);
     my $rfc822part = '';    # (String) message/rfc822-headers part
@@ -178,7 +174,6 @@ sub scan {
     if( $mhead->{'content-type'} ) {
         # Get the boundary string and set regular expression for matching with
         # the boundary string.
-        require Sisimai::MIME;
         $boundary00 = Sisimai::MIME->boundary($mhead->{'content-type'});
     }
 
@@ -238,7 +233,7 @@ sub scan {
                 #     (generated from kijitora@example.jp)
                 my $r = $1;
 
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -275,7 +270,7 @@ sub scan {
                     $v->{'alterrors'} .= $e.' ';
 
                 } else {
-                    if( length $boundary00 ) {
+                    if( $boundary00 ) {
                         # --NNNNNNNNNN-eximdsn-MMMMMMMMMM
                         # Content-type: message/delivery-status
                         # ...
@@ -299,7 +294,7 @@ sub scan {
                         } elsif( $e =~ /\AFinal-Recipient:[ ]*(?:RFC|rfc)822;[ ]*(.+)\z/ ) {
                             # Final-Recipient: rfc822;|/bin/echo "Some pipe output"
                             my $c = $1;
-                            $v->{'spec'} ||= index($c, '@') > -1 ? 'SMTP' : 'X-UNIX';
+                            $v->{'spec'} ||= rindex($c, '@') > -1 ? 'SMTP' : 'X-UNIX';
 
                         } else {
                             # Error message ?
@@ -339,7 +334,7 @@ sub scan {
         for my $q ( @$dscontents ) {
             # Replace the recipient address with the value of "alias"
             next unless $q->{'alias'};
-            if( length($q->{'recipient'}) == 0 || index($q->{'recipient'}, '@') == -1 ) {
+            if( ! $q->{'recipient'} || rindex($q->{'recipient'}, '@') == -1 ) {
                 # The value of "recipient" is empty or does not include "@"
                 $q->{'recipient'} = $q->{'alias'};
             }
@@ -368,8 +363,6 @@ sub scan {
         $localhost0 = $1 if $mhead->{'received'}->[-1] =~ /from[ \t]([^ ]+) /;
     }
 
-    require Sisimai::SMTP::Reply;
-    require Sisimai::SMTP::Status;
     for my $e ( @$dscontents ) {
         # Set default values if each value is empty.
         $e->{'agent'}   = __PACKAGE__->smtpagent;
@@ -400,13 +393,13 @@ sub scan {
             }
         }
 
-        if( exists $e->{'alterrors'} && length $e->{'alterrors'} ) {
+        if( exists $e->{'alterrors'} && $e->{'alterrors'} ) {
             # Copy alternative error message
             $e->{'diagnosis'} ||= $e->{'alterrors'};
 
             if( index($e->{'diagnosis'}, '-') == 0 || substr($e->{'diagnosis'}, -2, 2) eq '__' ) {
                 # Override the value of diagnostic code message
-                $e->{'diagnosis'} = $e->{'alterrors'} if length $e->{'alterrors'};
+                $e->{'diagnosis'} = $e->{'alterrors'} if $e->{'alterrors'};
 
             } else {
                 # Check the both value and try to match 
@@ -460,16 +453,16 @@ sub scan {
 
             } else {
                 # Verify each regular expression of session errors
-                SESSION: for my $r ( keys %$ReFailures ) {
+                SESSION: for my $r ( keys %$MessagesOf ) {
                     # Check each regular expression
-                    next unless $e->{'diagnosis'} =~ $ReFailures->{ $r };
+                    next unless grep { index($e->{'diagnosis'}, $_) > -1 } @{ $MessagesOf->{ $r } };
                     $e->{'reason'} = $r;
                     last;
                 }
 
                 unless( $e->{'reason'} ) {
                     # The reason "expired"
-                    $e->{'reason'} = 'expired' if $e->{'diagnosis'} =~ $ReDelaying;
+                    $e->{'reason'} = 'expired' if grep { index($e->{'diagnosis'}, $_) > -1 } @$DelayedFor;
                 }
             }
         }
@@ -492,8 +485,8 @@ sub scan {
 
             FIND_CODE: while(1) {
                 # "Status:" field did not exist in the bounce message
-                last if length $sv;
-                last unless length $rv;
+                last if $sv;
+                last unless $rv;
 
                 # Check SMTP reply code
                 # Generate pseudo DSN code from SMTP reply code
@@ -509,9 +502,9 @@ sub scan {
                 last;
             }
 
-            $s1  = substr($sv, 0, 1) if length $sv;
+            $s1  = substr($sv, 0, 1) if $sv;
             $v1  = $s1 + $r1;
-            $v1 += substr($e->{'status'}, 0, 1) if length $e->{'status'};
+            $v1 += substr($e->{'status'}, 0, 1) if $e->{'status'};
 
             if( $v1 > 0 ) {
                 # Status or SMTP reply code exists

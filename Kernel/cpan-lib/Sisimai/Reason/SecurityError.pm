@@ -14,25 +14,26 @@ sub match {
     my $class = shift;
     my $argv1 = shift // return undef;
     my $regex = qr{(?>
-         Account[ ]not[ ]subscribed[ ]to[ ]SES
+         account[ ]not[ ]subscribed[ ]to[ ]ses
         |authentication[ ](?:
-             Credentials Invalid
+             credentials invalid
             |failure
             |failed;[ ]server[ ].+[ ]said:  # Postfix
             |required
             |turned[ ]on[ ]in[ ]your[ ]email[ ]client
             )
-        |Authentification[ ]requise.+[A-Z]{3}.+402
-        |\d+[ ]denied[ ]\[[a-z]+\][ ].+[(]Mode:[ ].+[)]
-        |Codes?[ ]d'?[ ]*authentification[ ]invalide.+[A-Z]{3}.+305
+        |authentification[ ]requise.+[a-z]{3}.+402
+        |\d+[ ]denied[ ]\[[a-z]+\][ ].+[(]mode:[ ].+[)]
+        |codes?[ ]d'?[ ]*authentification[ ]invalide.+[a-z]{3}.+305
         |domain[ ].+[ ]is[ ]a[ ]dead[ ]domain
-        |Executable[ ]files[ ]are[ ]not[ ]allowed[ ]in[ ]compressed[ ]files
+        |executable[ ]files[ ]are[ ]not[ ]allowed[ ]in[ ]compressed[ ]files
         |insecure[ ]mail[ ]relay
-        |Recipient[ ]address[ ]rejected:[ ]Access[ ]denied
+        |recipient[ ]address[ ]rejected:[ ]access[ ]denied
         |sorry,[ ]you[ ]don'?t[ ]authenticate[ ]or[ ]the[ ]domain[ ]isn'?t[ ]in[ ]
                 my[ ]list[ ]of[ ]allowed[ ]rcpthosts
-        |TLS[ ]required[ ]but[ ]not[ ]supported # SendGrid:the recipient mailserver does not support TLS or have a valid certificate
-        |User[ ].+[ ]is[ ]not[ ]authorized[ ]to[ ]perform[ ]ses:SendRawEmail[ ]on[ ]resource
+        |tls[ ]required[ ]but[ ]not[ ]supported # SendGrid:the recipient mailserver does not support TLS or have a valid certificate
+        |unauthenticated[ ]senders[ ]not[ ]allowed
+        |user[ ].+[ ]is[ ]not[ ]authorized[ ]to[ ]perform[ ]ses:sendrawemail[ ]on[ ]resource
         |you[ ]are[ ]not[ ]authorized[ ]to[ ]send[ ]mail,[ ]authentication[ ]is[ ]required
         |verification[ ]failure
         )
@@ -106,7 +107,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2017 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

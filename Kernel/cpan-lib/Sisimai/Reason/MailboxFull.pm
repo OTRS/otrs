@@ -13,73 +13,54 @@ sub match {
     # @since v4.0.0
     my $class = shift;
     my $argv1 = shift // return undef;
-    my $regex = qr{(?>
-         account[ ]disabled[ ]temporarly[ ]for[ ]exceeding[ ]receiving[ ]limits
-        |account[ ]is[ ](?:
-             exceeding[ ]their[ ]quota
-            |over[ ]quota
-            |temporarily[ ]over[ ]quota
-            )
-        |boite[ ]du[ ]destinataire[ ]pleine.+[a-z]{3}.+417
-        |delivery[ ]failed:[ ]over[ ]quota
-        |disc[ ]quota[ ]exceeded
-        |does[ ]not[ ]have[ ]enough[ ]space
-        |exceeded[ ]storage[ ]allocation
-        |exceeding[ ]its[ ]mailbox[ ]quota
-        |full[ ]mailbox
-        |is[ ]over[ ](?:
-             disk[ ]quota
-            |quota[ ]temporarily
-            )
-        |mail[ ](?:
-             file[ ]size[ ]exceeds[ ]the[ ]maximum[ ]size[ ]allowed[ ]for[ ]mail[ ]delivery
-            |quota[ ]exceeded
-            )
-        |mailbox[ ](?:
-             exceeded[ ]the[ ]local[ ]limit
-            |full
-            |has[ ]exceeded[ ]its[ ]disk[ ]space[ ]limit
-            |is[ ]full
-            |over[ ]quota
-            |quota[ ]usage[ ]exceeded
-            |size[ ]limit[ ]exceeded
-            )
-        |maildir[ ](?:
-             delivery[ ]failed:[ ](?:user|domain)disk[ ]quota[ ]?.*[ ]exceeded
-            |over[ ]quota
-            )
-        |mailfolder[ ]is[ ]full
-        |not[ ]enough[ ]storage[ ]space[ ]in
-        |over[ ]the[ ]allowed[ ]quota
-        |quota[ ](?:
-             exceeded
-            |violation[ ]for
-            )
-        |recipient[ ](?:
-             reached[ ]disk[ ]quota
-            |rejected:[ ]mailbox[ ]would[ ]exceed[ ]maximum[ ]allowed[ ]storage
-            )
-        |the[ ](?:
-             recipient[ ]mailbox[ ]has[ ]exceeded[ ]its[ ]disk[ ]space[ ]limit
-            |user[']s[ ]space[ ]has[ ]been[ ]used[ ]up
-            |user[ ]you[ ]are[ ]trying[ ]to[ ]reach[ ]is[ ]over[ ]quota
-            )
-        |too[ ]much[ ]mail[ ]data   # @docomo.ne.jp
-        |user[ ](?:
-             has[ ](?:
-                 exceeded[ ]quota,[ ]bouncing[ ]mail
-                |too[ ]many[ ]messages[ ]on[ ]the[ ]server
-                )
-            |is[ ]over[ ](?:the[ ])?quota
-            |over[ ]quota
-            |over[ ]quota[.][ ][(][#]5[.]1[.]1[)]   # qmail-toaster
-            )
-        |was[ ]automatically[ ]rejected:[ ]quota[ ]exceeded
-        |would[ ]be[ ]over[ ]the[ ]allowed[ ]quota
-        )
-    }x;
+    my $index = [
+        'account disabled temporarly for exceeding receiving limits',
+        'account is exceeding their quota',
+        'account is over quota',
+        'account is temporarily over quota',
+        'boite du destinataire pleine',
+        'delivery failed: over quota',
+        'disc quota exceeded',
+        'does not have enough space',
+        'exceeded storage allocation',
+        'exceeding its mailbox quota',
+        'full mailbox',
+        'is over disk quota',
+        'is over quota temporarily',
+        'mail file size exceeds the maximum size allowed for mail delivery',
+        'mail quota exceeded',
+        'mailbox exceeded the local limit',
+        'mailbox full',
+        'mailbox has exceeded its disk space limit',
+        'mailbox is full',
+        'mailbox over quota',
+        'mailbox quota usage exceeded',
+        'mailbox size limit exceeded',
+        'maildir over quota',
+        'maildir delivery failed: userdisk quota ',
+        'maildir delivery failed: domaindisk quota ',
+        'mailfolder is full',
+        'not enough storage space in',
+        'over the allowed quota',
+        'quota exceeded',
+        'quota violation for',
+        'recipient reached disk quota',
+        'recipient rejected: mailbox would exceed maximum allowed storage',
+        'the recipient mailbox has exceeded its disk space limit',
+        "the user's space has been used up",
+        'the user you are trying to reach is over quota',
+        'too much mail data',   # @docomo.ne.jp
+        'user has exceeded quota, bouncing mail',
+        'user has too many messages on the server',
+        'user is over quota',
+        'user is over the quota',
+        'user over quota',
+        'user over quota. (#5.1.1)',    # qmail-toaster
+        'was automatically rejected: quota exceeded',
+        'would be over the allowed quota',
+    ];
 
-    return 1 if $argv1 =~ $regex;
+    return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
 }
 
@@ -93,14 +74,12 @@ sub true {
     my $class = shift;
     my $argvs = shift // return undef;
 
-    return undef unless ref $argvs eq 'Sisimai::Data';
     return undef unless $argvs->deliverystatus;
     return 1 if $argvs->reason eq 'mailboxfull';
 
     # Delivery status code points "mailboxfull".
     # Status: 4.2.2
     # Diagnostic-Code: SMTP; 450 4.2.2 <***@example.jp>... Mailbox Full
-    require Sisimai::SMTP::Status;
     return 1 if Sisimai::SMTP::Status->name($argvs->deliverystatus) eq 'mailboxfull';
 
     # Check the value of Diagnosic-Code: header with patterns
@@ -167,3 +146,4 @@ Copyright (C) 2014-2018 azumakuniyuki, All rights reserved.
 This software is distributed under The BSD 2-Clause License.
 
 =cut
+

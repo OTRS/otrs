@@ -9,7 +9,7 @@ my $StartingOf = {
     # apache-james-2.3.2/src/java/org/apache/james/transport/mailets/
     #   AbstractNotify.java|124:  out.println("Error message below:");
     #   AbstractNotify.java|128:  out.println("Message details:");
-    'message' => ['Content-Disposition: inline'],
+    'message' => [''],
     'rfc822'  => ['Content-Type: message/rfc822'],
     'error'   => ['Error message below:'],
 };
@@ -37,8 +37,8 @@ sub scan {
     # 'received'   => qr/JAMES SMTP Server/,
     # 'message-id' => qr/\d+[.]JavaMail[.].+[@]/,
     $match ||= 1 if $mhead->{'subject'} eq '[BOUNCE]';
-    $match ||= 1 if defined $mhead->{'message-id'} && index($mhead->{'message-id'}, '.JavaMail.') > -1;
-    $match ||= 1 if grep { index($_, 'JAMES SMTP Server') > -1 } @{ $mhead->{'received'} };
+    $match ||= 1 if defined $mhead->{'message-id'} && rindex($mhead->{'message-id'}, '.JavaMail.') > -1;
+    $match ||= 1 if grep { rindex($_, 'JAMES SMTP Server') > -1 } @{ $mhead->{'received'} };
     return undef unless $match;
 
     my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
@@ -50,7 +50,7 @@ sub scan {
     my $recipients = 0;     # (Integer) The number of 'Final-Recipient' header
     my $diagnostic = '';    # (String) Alternative diagnostic message
     my $subjecttxt = undef; # (String) Alternative Subject text
-    my $gotmessage = -1;    # (Integer) Flag for error message
+    my $gotmessage = 0;     # (Integer) Flag for error message
     my $v = undef;
 
     for my $e ( @hasdivided ) {
@@ -98,7 +98,7 @@ sub scan {
 
             if( $e =~ /\A[ ][ ]RCPT[ ]TO:[ ]([^ ]+[@][^ ]+)\z/ ) {
                 #   RCPT TO: kijitora@example.org
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -135,6 +135,7 @@ sub scan {
                     # Error message below:
                     # 550 - Requested action not taken: no such user here
                     $v->{'diagnosis'} = $e if $e eq $StartingOf->{'error'}->[0];
+                    $v->{'diagnosis'} .= ' '.$e unless $gotmessage;
                 }
             }
         } # End of if: rfc822
@@ -147,7 +148,6 @@ sub scan {
         push @$rfc822list, 'Subject: '.$subjecttxt;
     }
 
-    require Sisimai::String;
     for my $e ( @$dscontents ) {
         $e->{'agent'}     = __PACKAGE__->smtpagent;
         $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'} || $diagnostic);

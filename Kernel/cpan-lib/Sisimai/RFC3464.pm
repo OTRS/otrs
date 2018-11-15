@@ -3,7 +3,6 @@ use feature ':5.10';
 use strict;
 use warnings;
 use Sisimai::Bite::Email;
-use Sisimai::RFC5322;
 
 # http://tools.ietf.org/html/rfc3464
 my $Indicators = Sisimai::Bite::Email->INDICATORS;
@@ -11,7 +10,7 @@ my $MarkingsOf = {
     'command' => qr/[ ](RCPT|MAIL|DATA)[ ]+command\b/,
     'message' => qr{\A(?>
          content-type:[ ]*(?:
-              message/delivery-status
+              message/x?delivery-status
              |message/disposition-notification
              |text/plain;[ ]charset=
              )
@@ -51,8 +50,6 @@ sub scan {
     return undef unless ref $mbody eq 'SCALAR';
 
     require Sisimai::MDA;
-    require Sisimai::Address;
-
     my $dscontents = [Sisimai::Bite::Email->DELIVERYSTATUS];
     my @hasdivided = split("\n", $$mbody);
     my $scannedset = Sisimai::MDA->scan($mhead, $mbody);
@@ -61,6 +58,7 @@ sub scan {
     my $blanklines = 0;     # (Integer) The number of blank lines
     my $readcursor = 0;     # (Integer) Points the current cursor position
     my $recipients = 0;     # (Integer) The number of 'Final-Recipient' header
+    my $itisbounce = 0;     # (Integer) Flag for that an email is a bounce
     my $connheader = {
         'date'    => '',    # The value of Arrival-Date header
         'rhost'   => '',    # The value of Reporting-MTA header
@@ -127,22 +125,20 @@ sub scan {
                 my $x = $v->{'recipienet'} || '';
                 my $y = Sisimai::Address->s3s4($1);
 
-                if( length $x && $x ne $y ) {
+                if( $x && $x ne $y ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, Sisimai::Bite::Email->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
                 }
                 $v->{'recipient'} = $y;
                 $recipients++;
+                $itisbounce ||= 1;
 
             } elsif( $e =~ /\AX-Actual-Recipient:[ ]*(?:RFC|rfc)822;[ ]*([^ ]+)\z/ ) {
-                # X-Actual-Recipient: 
-                if( $1 =~ /[ \t]+/ ) {
-                    # X-Actual-Recipient: RFC822; |IFS=' ' && exec procmail -f- || exit 75 ...
-                } else {
-                    # X-Actual-Recipient: rfc822; kijitora@neko.example.jp
-                    $v->{'alias'} = $1;
-                }
+                # X-Actual-Recipient: RFC822; |IFS=' ' && exec procmail -f- || exit 75 ...
+                # X-Actual-Recipient: rfc822; kijitora@neko.example.jp
+                $v->{'alias'} = $1 unless $1 =~ /[ \t]+/;
+
             } elsif( $e =~ /\AAction:[ ]*(.+)\z/ ) {
                 # 2.3.3 Action field
                 #   The Action field indicates the action performed by the Reporting-MTA
@@ -395,7 +391,7 @@ sub scan {
                 my $y = Sisimai::Address->s3s4($1);
                 next unless Sisimai::RFC5322->is_emailaddress($y);
 
-                if( length $x && $x ne $y ) {
+                if( $x && $x ne $y ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, Sisimai::Bite::Email->DELIVERYSTATUS;
                     $b = $dscontents->[-1];
@@ -403,6 +399,7 @@ sub scan {
                 $b->{'recipient'} = $y;
                 $b->{'agent'} = __PACKAGE__->smtpagent.'::Fallback';
                 $recipients++;
+                $itisbounce ||= 1;
 
             } elsif( $e =~ /[(](?:expanded|generated)[ ]from:?[ ]([^@]+[@][^@]+)[)]/ ) {
                 # (expanded from: neko@example.jp)
@@ -411,6 +408,7 @@ sub scan {
             $b->{'diagnosis'} .= ' '.$e;
         }
     }
+    return undef unless $itisbounce;
 
     unless( $recipients ) {
         # Try to get a recipient address from email headers
@@ -431,18 +429,16 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
-    require Sisimai::SMTP::Status;
     for my $e ( @$dscontents ) {
         # Set default values if each value is empty.
         map { $e->{ $_ } ||= $connheader->{ $_ } || '' } keys %$connheader;
 
-        if( exists $e->{'alterrors'} && length $e->{'alterrors'} ) {
+        if( exists $e->{'alterrors'} && $e->{'alterrors'} ) {
             # Copy alternative error message
             $e->{'diagnosis'} ||= $e->{'alterrors'};
             if( index($e->{'diagnosis'}, '-') == 0 || substr($e->{'diagnosis'}, -2, 2) eq '__') {
                 # Override the value of diagnostic code message
-                $e->{'diagnosis'} = $e->{'alterrors'} if length $e->{'alterrors'};
+                $e->{'diagnosis'} = $e->{'alterrors'} if $e->{'alterrors'};
             }
             delete $e->{'alterrors'};
         }
@@ -452,7 +448,7 @@ sub scan {
             # Make bounce data by the values returned from Sisimai::MDA->scan()
             $e->{'agent'}     = $scannedset->{'mda'} || __PACKAGE__->smtpagent;
             $e->{'reason'}    = $scannedset->{'reason'} || 'undefined';
-            $e->{'diagnosis'} = $scannedset->{'message'} if length $scannedset->{'message'};
+            $e->{'diagnosis'} = $scannedset->{'message'} if $scannedset->{'message'};
             $e->{'command'}   = '';
         } else {
             # Set the value of smtpagent

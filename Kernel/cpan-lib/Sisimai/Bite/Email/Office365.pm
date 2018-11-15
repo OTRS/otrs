@@ -20,11 +20,15 @@ my $MarkingsOf = {
 my $StatusList = {
     # https://support.office.com/en-us/article/Email-non-delivery-reports-in-Office-365-51daa6b9-2e35-49c4-a0c9-df85bf8533c3
     qr/\A4[.]4[.]7\z/        => 'expired',
+    qr/\A4[.]4[.]312\z/      => 'networkerror',
+    qr/\A4[.]4[.]316\z/      => 'expired',
     qr/\A4[.]7[.]26\z/       => 'securityerror',
     qr/\A4[.]7[.][56]\d\d\z/ => 'blocked',
     qr/\A4[.]7[.]8[5-9]\d\z/ => 'blocked',
     qr/\A5[.]4[.]1\z/        => 'norelaying',
     qr/\A5[.]4[.]6\z/        => 'networkerror',
+    qr/\A5[.]4[.]312\z/      => 'networkerror',
+    qr/\A5[.]4[.]316\z/      => 'expired',
     qr/\A5[.]6[.]11\z/       => 'contenterror',
     qr/\A5[.]7[.]1\z/        => 'rejected',
     qr/\A5[.]7[.]1[23]\z/    => 'rejected',
@@ -42,6 +46,9 @@ my $StatusList = {
     qr/\A5[.]7[.]60[6-9]\z/  => 'blocked',
     qr/\A5[.]7[.]6[1-4]\d\z/ => 'blocked',
     qr/\A5[.]7[.]7[0-4]\d\z/ => 'toomanyconn',
+};
+my $ReCommands = {
+    'RCPT' => qr/unknown recipient or mailbox unavailable ->.+[<]?.+[@].+[.][a-zA-Z]+[>]?/,
 };
 
 sub headerlist  { 
@@ -142,14 +149,14 @@ sub scan {
             next unless length $e;
 
             # kijitora@example.com<mailto:kijitora@example.com>
-            # The email address wasn=92t found at the destination domain. It might be mis=
-            # spelled or it might not exist any longer. Try retyping the address and rese=
-            # nding the message.
+            # The email address wasn't found at the destination domain. It might
+            # be misspelled or it might not exist any longer. Try retyping the
+            # address and resending the message.
             $v = $dscontents->[-1];
 
             if( $e =~ /\A.+[@].+[<]mailto:(.+[@].+)[>]\z/ ) {
                 # kijitora@example.com<mailto:kijitora@example.com>
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -188,7 +195,7 @@ sub scan {
 
                     } elsif( $e =~ /\AArrival-Date:[ ]*(.+)\z/ ) {
                         # Arrival-Date: Wed, 29 Apr 2009 16:03:18 +0900
-                        next if length $connheader->{'date'};
+                        next if $connheader->{'date'};
                         $connheader->{'date'} = $1;
 
                     } else {
@@ -217,8 +224,6 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
-    require Sisimai::SMTP::Status;
     for my $e ( @$dscontents ) {
         # Set default values if each value is empty.
         map { $e->{ $_ } ||= $connheader->{ $_ } || '' } keys %$connheader;
@@ -226,11 +231,19 @@ sub scan {
         $e->{'agent'}     = __PACKAGE__->smtpagent;
         $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
 
-        if( length($e->{'status'}) == 0 || substr($e->{'status'}, -4, 4) eq '.0.0' ) {
+        if( ! $e->{'status'} || substr($e->{'status'}, -4, 4) eq '.0.0' ) {
             # There is no value of Status header or the value is 5.0.0, 4.0.0
             my $r = Sisimai::SMTP::Status->find($e->{'diagnosis'});
-            $e->{'status'} = $r if length $r;
+            $e->{'status'} = $r if $r;
         }
+
+        for my $p ( keys %$ReCommands ) {
+            # Try to match with regular expressions defined in ReCommands
+            next unless $e->{'diagnosis'} =~ $ReCommands->{ $p };
+            $e->{'command'} = $p;
+            last;
+        }
+
         next unless $e->{'status'};
 
         # Find the error code from $StatusList

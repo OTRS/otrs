@@ -3,13 +3,12 @@ use feature ':5.10';
 use strict;
 use warnings;
 use version;
-use Module::Load '';
 
-our $VERSION = version->declare('v4.22.4');
+our $VERSION = version->declare('v4.24.1');
 our $PATCHLV = 0;
 sub version { return $VERSION.($PATCHLV > 0 ? 'p'.$PATCHLV : '') }
-sub sysname { 'bouncehammer'  }
-sub libname { 'Sisimai'       }
+sub sysname { 'bouncehammer' }
+sub libname { 'Sisimai'      }
 
 sub make {
     # Wrapper method for parsing mailbox or Maildir/
@@ -27,9 +26,6 @@ sub make {
     my $argv0 = shift // return undef;
     die ' ***error: wrong number of arguments' if scalar @_ % 2;
 
-    require Sisimai::Data;
-    require Sisimai::Message;
-
     my $argv1 = { @_ };
     my $input = $argv1->{'input'} || undef;
     my $field = $argv1->{'field'} || [];
@@ -38,8 +34,9 @@ sub make {
     unless( $input ) {
         # "input" did not specified, try to detect automatically.
         my $rtype = ref $argv0;
-        if( length $rtype == 0 ) {
-            # The argument may be a path to email
+        if( ! $rtype || $rtype eq 'SCALAR' ) {
+            # The argument may be a path to email OR a scalar reference to an
+            # email text
             $input = 'email';
 
         } elsif( $rtype eq 'ARRAY' || $rtype eq 'HASH' ) {
@@ -52,6 +49,9 @@ sub make {
     my $delivered1 = { 'delivered' => $argv1->{'delivered'} // 0 };
     my $hookmethod = $argv1->{'hook'} || undef;
     my $bouncedata = [];
+
+    require Sisimai::Data;
+    require Sisimai::Message;
 
     if( $input eq 'email' ) {
         # Path to mailbox or Maildir/, or STDIN: 'input' => 'email'
@@ -123,6 +123,7 @@ sub dump {
     my $nyaan = __PACKAGE__->make($argv0, %$argv1) // [];
 
     # Dump as JSON
+    require Module::Load;
     Module::Load::load('JSON', '-convert_blessed_universally');
     my $jsonparser = JSON->new->allow_blessed->convert_blessed;
     my $jsonstring = $jsonparser->encode($nyaan);
@@ -137,17 +138,20 @@ sub engine {
     my $class = shift;
     my $names = [qw|Bite::Email Bite::JSON ARF RFC3464 RFC3834|];
     my $table = {};
+    my $loads = '';
 
     while( my $e = shift @$names ) {
         my $r = 'Sisimai::'.$e;
-        Module::Load::load $r;
+        ($loads = $r) =~ s|::|/|g; 
+        require $loads.'.pm';
 
         if( $e eq 'Bite::Email' || $e eq 'Bite::JSON' ) {
             # Sisimai::Bite::Email or Sisimai::Bite::JSON
             for my $ee ( @{ $r->index } ) {
                 # Load and get the value of "description" from each module
                 my $rr = 'Sisimai::'.$e.'::'.$ee;
-                Module::Load::load $rr;
+                ($loads = $rr) =~ s|::|/|g; 
+                require $loads.'.pm';
                 $table->{ $rr } = $rr->description;
             }
         } else {
@@ -166,6 +170,7 @@ sub reason {
 
     require Sisimai::Reason;
     my $names = Sisimai::Reason->index;
+    my $loads = '';
 
     # These reasons are not included in the results of Sisimai::Reason->index
     push @$names, (qw|Delivered Feedback Undefined Vacation|);
@@ -173,7 +178,8 @@ sub reason {
     while( my $e = shift @$names ) {
         # Call ->description() method of Sisimai::Reason::*
         my $r = 'Sisimai::Reason::'.$e;
-        Module::Load::load $r;
+        ($loads = $r) =~ s|::|/|g; 
+        require $loads.'.pm';
         $table->{ $e } = $r->description;
     }
     return $table;
@@ -205,21 +211,21 @@ Sisimai - Mail Analyzing Interface for bounce mails.
 
 =head1 DESCRIPTION
 
-Sisimai is the system formerly known as C<bounceHammer> 4, is a Perl module for
-analyzing bounce mails and generate structured data in a JSON format (YAML is 
-also available if "YAML" module is installed on your system) from parsed bounce
-messages. C<Sisimai> is a coined word: Sisi (the number 4 is pronounced "Si" in
+C<Sisimai> is a Mail Analyzing Interface for email bounce, is a Perl module to
+parse RFC5322 bounce mails and generating structured data as JSON from parsed
+results. C<Sisimai> is a coined word: Sisi (the number 4 is pronounced "Si" in
 Japanese) and MAI (acronym of "Mail Analyzing Interface").
 
 =head1 BASIC USAGE
 
-=head2 C<B<make(I<'/path/to/mbox'>, I<delivered => 1>)>>
+=head2 C<B<make(I<'/path/to/mbox'>)>>
 
 C<make> method provides feature for getting parsed data from bounced email 
 messages like following.
 
     use Sisimai;
-    my $v = Sisimai->make('/path/to/mbox'); # or Path to Maildir
+    my $v = Sisimai->make('/path/to/mbox'); # or Path to Maildir/
+    #  $v = Sisimai->make(\'From Mailer-Daemon ...'); 
 
     if( defined $v ) {
         for my $e ( @$v ) {
@@ -251,7 +257,7 @@ option to make() method like the following:
 
     my $v = Sisimai->make('/path/to/mbox', 'delivered' => 1);
 
-=head2 C<B<dump(I<'/path/to/mbox'>, I<delivered => 1>)>>
+=head2 C<B<dump(I<'/path/to/mbox'>)>>
 
 C<dump> method provides feature to get parsed data from bounced email as JSON.
 
@@ -272,6 +278,7 @@ of dump() and make() method like following command:
 
 Beginning from v4.19.0, `hook` argument is available to callback user defined
 method like the following codes:
+
     my $cmethod = sub {
         my $argv = shift;
         my $data = {

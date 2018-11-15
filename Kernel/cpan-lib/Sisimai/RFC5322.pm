@@ -37,14 +37,8 @@ my $HEADERTABLE = {
     'subject'   => ['Subject'],
     'listid'    => ['List-Id'],
     'date'      => [qw|Date Posted-Date Posted Resent-Date|],
-    'addresser' => [qw|
-        From Return-Path Reply-To Errors-To Reverse-Path X-Postfix-Sender
-        Envelope-From X-Envelope-From
-    |],
-    'recipient' => [qw|
-        To Delivered-To Forward-Path Envelope-To X-Envelope-To Resent-To
-        Apparently-To
-    |],
+    'addresser' => [qw|From Return-Path Reply-To Errors-To Reverse-Path X-Postfix-Sender Envelope-From X-Envelope-From|],
+    'recipient' => [qw|To Delivered-To Forward-Path Envelope-To X-Envelope-To Resent-To Apparently-To|],
 };
 
 BUILD_FLATTEN_RFC822HEADER_LIST: {
@@ -94,7 +88,7 @@ sub is_domainpart {
     my $dpart = shift // return 0;
 
     return 0 if $dpart =~ /(?:[\x00-\x1f]|\x1f)/;
-    return 0 if index($dpart, '@') > -1;
+    return 0 if rindex($dpart, '@') > -1;
     return 1 if $dpart =~ $Re->{'domain'};
     return 0;
 }
@@ -170,12 +164,12 @@ sub received {
 
         while( my $e = shift @namelist ) {
             # 1. Hostname takes priority over all other IP addresses
-            next unless index($e, '.') > -1;
+            next unless rindex($e, '.') > -1;
             $hostname = $e;
             last;
         }
 
-        if( length($hostname) == 0 ) {
+        unless( $hostname ) {
             # 2. Use IP address as a remote host name
             for my $e ( @addrlist ) {
                 # Skip if the address is a private address
@@ -213,7 +207,7 @@ sub weedout {
 
     for my $e ( @$argv1 ) {
         # After "message/rfc822"
-        if( $e =~ /\A([-0-9A-Za-z]+?)[:][ ]*.+/ ) {
+        if( $e =~ /\A([-0-9A-Za-z]+?)[:][ ]*.*/ ) {
             # Get required headers
             my $lhs = lc $1;
             $previousfn = '';

@@ -3,7 +3,6 @@ use feature ':5.10';
 use strict;
 use warnings;
 use Sisimai::Bite::Email;
-use Sisimai::RFC5322;
 
 # http://tools.ietf.org/html/rfc5965
 # http://en.wikipedia.org/wiki/Feedback_loop_(email)
@@ -50,9 +49,9 @@ sub is_arf {
         # Amazon SES Complaints bounces
         my $title = 'complaint about message from ';
         my $mfrom = qr{(?:
-             staff[@]hotmail[.]com\z
-            |complaints[@]email-abuse[.]amazonses[.]com\z
-            )
+             staff[@]hotmail[.]com
+            |complaints[@]email-abuse[.]amazonses[.]com
+            )\z
         }x;
         if( $heads->{'from'} =~ $mfrom && index($heads->{'subject'}, $title) > -1) {
             # From: staff@hotmail.com
@@ -81,7 +80,6 @@ sub scan {
     my $mbody = shift // return undef;
     return undef unless is_arf(undef, $mhead);
 
-    require Sisimai::Address;
     my $dscontents = [Sisimai::Bite::Email->DELIVERYSTATUS];
     my @hasdivided = split("\n", $$mbody);
     my $rfc822part = '';    # (String) message/rfc822-headers part
@@ -196,7 +194,7 @@ sub scan {
                 # number of times as appropriate:
                 # Original-Rcpt-To: <user@example.com>
                 # Redacted-Address: localpart@
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, Sisimai::Bite::Email->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -268,7 +266,7 @@ sub scan {
 
     unless( $rfc822part =~ /\bFrom: [^ ]+[@][^ ]+\b/ ) {
         # There is no "From:" header in the original message
-        if( length $commondata->{'from'} ) {
+        if( $commondata->{'from'} ) {
             # Append the value of "Original-Mail-From" value as a sender address.
             $rfc822part .= 'From: '.$commondata->{'from'}."\n";
         }
@@ -296,7 +294,7 @@ sub scan {
 
         unless( $e->{'rhost'} ) {
             # Get the remote IP address from the message body
-            if( length $commondata->{'rhost'} ) {
+            if( $commondata->{'rhost'} ) {
                 # The value of "Reporting-MTA" header
                 $e->{'rhost'} = $commondata->{'rhost'};
 

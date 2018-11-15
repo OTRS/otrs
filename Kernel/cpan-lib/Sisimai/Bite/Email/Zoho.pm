@@ -9,7 +9,7 @@ my $StartingOf = {
     'message' => ['This message was created automatically by mail delivery'],
     'rfc822'  => ['from mail.zoho.com by mx.zohomail.com'],
 };
-my $ReFailures = { 'expired' => qr/Host not reachable/ };
+my $MessagesOf = { 'expired' => ['Host not reachable'] };
 
 # X-ZohoMail: Si CHF_MF_NL SS_10 UW48 UB48 FMWL UW48 UB48 SGR3_1_09124_42
 # X-Zoho-Virus-Status: 2
@@ -60,7 +60,7 @@ sub scan {
 
         unless( $readcursor & $Indicators->{'message-rfc822'} ) {
             # Beginning of the original message part
-            if( index($e, $StartingOf->{'rfc822'}->[0]) > -1 ) {
+            if( rindex($e, $StartingOf->{'rfc822'}->[0]) > -1 ) {
                 $readcursor |= $Indicators->{'message-rfc822'};
                 next;
             }
@@ -95,7 +95,7 @@ sub scan {
 
             if( $e =~ /\A([^ ]+[@][^ ]+)[ \t]+(.+)\z/ ) {
                 # kijitora@example.co.jp Invalid Address, ERROR_CODE :550, ERROR_CODE :5.1.=
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -113,7 +113,7 @@ sub scan {
             } elsif( $e =~ /\A\[Status: .+[<]([^ ]+[@][^ ]+)[>],/ ) {
                 # Expired
                 # [Status: Error, Address: <kijitora@6kaku.example.co.jp>, ResponseCode 421, , Host not reachable.]
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -131,15 +131,14 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
     for my $e ( @$dscontents ) {
         $e->{'agent'}     =  __PACKAGE__->smtpagent;
         $e->{'diagnosis'} =~ s/\\n/ /g;
         $e->{'diagnosis'} =  Sisimai::String->sweep($e->{'diagnosis'});
 
-        SESSION: for my $r ( keys %$ReFailures ) {
+        SESSION: for my $r ( keys %$MessagesOf ) {
             # Verify each regular expression of session errors
-            next unless $e->{'diagnosis'} =~ $ReFailures->{ $r };
+            next unless grep { index($e->{'diagnosis'}, $_) > -1 } @{ $MessagesOf->{ $r } };
             $e->{'reason'} = $r;
             last;
         }

@@ -9,9 +9,9 @@ my $StartingOf = {
     'message' => ['Content-Type: message/delivery-status'],
     'rfc822'  => ['Content-Type: message/rfc822'],
 };
-my $ReFailures = {
-    'hostunknown' => qr/Host or domain name not found/,
-    'notaccept'   => qr/type=MX: Malformed or unexpected name server reply/,
+my $MessagesOf = {
+    'hostunknown' => ['Host or domain name not found'],
+    'notaccept'   => ['type=MX: Malformed or unexpected name server reply'],
 };
 
 # X-AOL-IP: 192.0.2.135
@@ -105,7 +105,7 @@ sub scan {
 
                 if( $e =~ /\AFinal-Recipient:[ ]*(?:RFC|rfc)822;[ ]*([^ ]+)\z/ ) {
                     # Final-Recipient: RFC822; userunknown@example.jp
-                    if( length $v->{'recipient'} ) {
+                    if( $v->{'recipient'} ) {
                         # There are multiple recipient addresses in the message body.
                         push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                         $v = $dscontents->[-1];
@@ -148,13 +148,13 @@ sub scan {
                 # Arrival-Date: Fri, 21 Nov 2014 17:14:34 -0500 (EST)
                 if( $e =~ /\AReporting-MTA:[ ]*(?:DNS|dns);[ ]*(.+)\z/ ) {
                     # Reporting-MTA: dns; mx.example.jp
-                    next if length $connheader->{'lhost'};
+                    next if $connheader->{'lhost'};
                     $connheader->{'lhost'} = lc $1;
                     $connvalues++;
 
                 } elsif( $e =~ /\AArrival-Date:[ ]*(.+)\z/ ) {
                     # Arrival-Date: Wed, 29 Apr 2009 16:03:18 +0900
-                    next if length $connheader->{'date'};
+                    next if $connheader->{'date'};
                     $connheader->{'date'} = $1;
                     $connvalues++;
                 }
@@ -166,7 +166,6 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
     for my $e ( @$dscontents ) {
         # Set default values if each value is empty.
         map { $e->{ $_ } ||= $connheader->{ $_ } || '' } keys %$connheader;
@@ -175,9 +174,9 @@ sub scan {
         $e->{'diagnosis'} =~ s/\\n/ /g;
         $e->{'diagnosis'} =  Sisimai::String->sweep($e->{'diagnosis'});
 
-        SESSION: for my $r ( keys %$ReFailures ) {
+        SESSION: for my $r ( keys %$MessagesOf ) {
             # Verify each regular expression of session errors
-            next unless $e->{'diagnosis'} =~ $ReFailures->{ $r };
+            next unless grep { index($e->{'diagnosis'}, $_) > -1 } @{ $MessagesOf->{ $r } };
             $e->{'reason'} = $r;
             last;
         }

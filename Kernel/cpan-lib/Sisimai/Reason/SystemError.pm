@@ -13,36 +13,27 @@ sub match {
     # @since v4.0.0
     my $class = shift;
     my $argv1 = shift // return undef;
-    my $regex = qr{(?>
-         can[']t[ ]create[ ]user[ ]output[ ]file
-        |could[ ]not[ ]load[ ]drd[ ]for[ ]domain
-        |internal[ ](?:
-             error[ ]reading[ ]data                             # Microsoft
-            |server[ ]error:[ ]operation[ ]now[ ]in[ ]progress  # Microsoft
-            )
-        |interrupted[ ]system[ ]call
-        |it[ ](?:
-             encountered[ ]an[ ]error[ ]while[ ]being[ ]processed
-            |would[ ]create[ ]a[ ]mail[ ]loop
-            )
-        |local[ ](?:
-             configuration[ ]error
-            |error[ ]in[ ]processing
-            )
-        |loop[ ]was[ ]found[ ]in[ ]the[ ]mail[ ]exchanger
-        |mail[ ](?:
-             for[ ].+[ ]loops[ ]back[ ]to[ ]myself
-            |system[ ]configuration[ ]error
-            )
-        |server[ ]configuration[ ]error
-        |service[ ]currently[ ]unavailable
-        |system[ ]config[ ]error
-        |temporary[ ]local[ ]problem
-        |timeout[ ]waiting[ ]for[ ]input
-        )
-    }x;
+    my $index = [
+        "can't create user output file",
+        'could not load drd for domain',
+        'internal error reading data',  # Microsoft
+        'internal server error: operation now in progress', # Microsoft
+        'interrupted system call',
+        'it encountered an error while being processed',
+        'it would create a mail loop',
+        'local configuration error',
+        'local error in processing',
+        'loop was found in the mail exchanger',
+        'loops back to myself',
+        'mail system configuration error',
+        'server configuration error',
+        'service currently unavailable',
+        'system config error',
+        'temporary local problem',
+        'timeout waiting for input',
+    ];
 
-    return 1 if $argv1 =~ $regex;
+    return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
 }
 
@@ -106,10 +97,11 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2017 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 
 This software is distributed under The BSD 2-Clause License.
 
 =cut
+

@@ -11,10 +11,10 @@ my $MarkingsOf = {
     'html'    => qr{\AContent-Type:[ ]*text/html;[ ]*charset=['"]?(?:UTF|utf)[-]8['"]?\z},
     'rfc822'  => qr{\AContent-Type:[ ]*(?:message/rfc822|text/rfc822-headers)\z},
 };
-my $ErrorMayBe = {
-    'userunknown'  => qr/because the address couldn't be found/,
-    'notaccept'    => qr/Null MX/,
-    'networkerror' => qr/DNS type .+ lookup of .+ responded with code NXDOMAIN/
+my $MessagesOf = {
+    'userunknown'  => ["because the address couldn't be found. Check for typos or unnecessary spaces and try again."],
+    'notaccept'    => ['Null MX'],
+    'networkerror' => [' responded with code NXDOMAIN'],
 };
 
 sub headerlist  { return ['X-Gm-Message-State'] }
@@ -36,7 +36,7 @@ sub scan {
     my $mhead = shift // return undef;
     my $mbody = shift // return undef;
 
-    return undef unless index($mhead->{'from'}, '<mailer-daemon@googlemail.com>') > -1;
+    return undef unless rindex($mhead->{'from'}, '<mailer-daemon@googlemail.com>') > -1;
     return undef unless index($mhead->{'subject'}, 'Delivery Status Notification') > -1;
     return undef unless $mhead->{'x-gm-message-state'};
 
@@ -98,7 +98,7 @@ sub scan {
 
                 if( $e =~ /\AFinal-Recipient:[ ]*(?:RFC|rfc)822;[ ]*([^ ]+)\z/ ) {
                     # Final-Recipient: rfc822; kijitora@example.de
-                    if( length $v->{'recipient'} ) {
+                    if( $v->{'recipient'} ) {
                         # There are multiple recipient addresses in the message body.
                         push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                         $v = $dscontents->[-1];
@@ -131,7 +131,7 @@ sub scan {
 
                     } else {
                         # Append error messages continued from the previous line
-                        if( $endoferror == 0 && length $v->{'diagnosis'} ) {
+                        if( ! $endoferror && $v->{'diagnosis'} ) {
                             $endoferror ||= 1 if $e eq '';
                             $endoferror ||= 1 if index($e, '--') == 0;
 
@@ -148,13 +148,13 @@ sub scan {
                 # X-Original-Message-ID: <06C1ED5C-7E02-4036-AEE1-AA448067FB2C@example.jp>
                 if( $e =~ /\AReporting-MTA:[ ]*(?:DNS|dns);[ ]*(.+)\z/ ) {
                     # Reporting-MTA: dns; googlemail.com
-                    next if length $connheader->{'lhost'};
+                    next if $connheader->{'lhost'};
                     $connheader->{'lhost'} = lc $1;
                     $connvalues++;
 
                 } elsif( $e =~ /\AArrival-Date:[ ]*(.+)\z/ ) {
                     # Arrival-Date: Wed, 29 Apr 2009 16:03:18 +0900
-                    next if length $connheader->{'date'};
+                    next if $connheader->{'date'};
                     $connheader->{'date'} = $1;
                     $connvalues++;
 
@@ -174,9 +174,10 @@ sub scan {
                         # 550 #5.1.0 Address rejected.
                         next if $e =~ $MarkingsOf->{'html'};
 
-                        if( length $anotherset->{'diagnosis'} ) {
+                        if( $anotherset->{'diagnosis'} ) {
                             # Continued error messages from the previous line like
                             # "550 #5.1.0 Address rejected."
+                            next if $e =~ /\AContent-Type:/;
                             next if $emptylines > 5;
                             unless( length $e ) {
                                 # Count and next()
@@ -201,14 +202,11 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
-    require Sisimai::SMTP::Reply;
-    require Sisimai::SMTP::Status;
     for my $e ( @$dscontents ) {
         # Set default values if each value is empty.
         map { $e->{ $_ } ||= $connheader->{ $_ } || '' } keys %$connheader;
 
-        if( exists $anotherset->{'diagnosis'} && length $anotherset->{'diagnosis'} ) {
+        if( exists $anotherset->{'diagnosis'} && $anotherset->{'diagnosis'} ) {
             # Copy alternative error message
             $e->{'diagnosis'} ||= $anotherset->{'diagnosis'};
             if( $e->{'diagnosis'} =~ /\A\d+\z/ ) {
@@ -247,9 +245,9 @@ sub scan {
         $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
         $e->{'agent'}     = __PACKAGE__->smtpagent;
 
-        for my $q ( keys %$ErrorMayBe ) {
+        for my $q ( keys %$MessagesOf ) {
             # Guess an reason of the bounce
-            next unless $e->{'diagnosis'} =~ $ErrorMayBe->{ $q };
+            next unless grep { index($e->{'diagnosis'}, $_) > -1 } @{ $MessagesOf->{ $q } };
             $e->{'reason'} = $q;
             last;
         }

@@ -44,7 +44,7 @@ sub read {
 
         while( my $r = <$readhandle> ) {
             # Read an email from the mailbox file
-            last if( length $readbuffer && substr($r, 0, 5) eq 'From ' );
+            last if( $readbuffer && substr($r, 0, 5) eq 'From ' );
             $readbuffer .= $r;
         }
     };
@@ -84,15 +84,15 @@ C<new()> is a constructor of Sisimai::Mail::STDIN
 
 =head2 C<B<path()>>
 
-C<path()> returns "undef"
+C<path()> returns "<STDIN>"
 
-    print $mailbox->path;   # undef
+    print $mailbox->path;   # "<STDIN>"
 
 =head2 C<B<name()>>
 
-C<name()> returns "undef"
+C<name()> returns "<STDIN>"
 
-    print $mailbox->name;   # undef
+    print $mailbox->name;   # "<STDIN>"
 
 =head2 C<B<size()>>
 

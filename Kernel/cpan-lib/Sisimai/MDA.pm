@@ -19,63 +19,61 @@ my $MarkingsOf = {
                      Your[ ]message[ ]to[ ].+[ ]was[ ]automatically[ ]rejected:\z
                     |(?:mail[.]local|procmail|maildrop|vdelivermail|vdeliver):[ ]
                     )
-                  }x,
+                 }x,
 };
 
 # dovecot/src/deliver/mail-send.c:94
-my $ReFailures = {
+my $MessagesOf = {
     'dovecot' => {
-        'userunknown' => qr/\Amailbox doesn't exist: /,
-        'mailboxfull' => qr{\A(?:
-             quota[ ]exceeded # Dovecot 1.2 dovecot/src/plugins/quota/quota.c
-            |quota[ ]exceeded[ ][(]mailbox[ ]for[ ]user[ ]is[ ]full[)]  # dovecot/src/plugins/quota/quota.c
-            |not[ ]enough[ ]disk[ ]space
-            )
-        }x,
+        'userunknown' => ["mailbox doesn't exist: "],
+        'mailboxfull' => [
+            'quota exceeded',   # Dovecot 1.2 dovecot/src/plugins/quota/quota.c
+            'quota exceeded (mailbox for user is full)',    # dovecot/src/plugins/quota/quota.c
+            'not enough disk space',
+        ],
     },
     'mail.local' => {
-        'userunknown' => qr{[:][ ](?:
-             unknown[ ]user[:]
-            |user[ ]unknown
-            |invalid[ ]mailbox[ ]path
-            |user[ ]missing[ ]home[ ]directory
-            )
-        }x,
-        'mailboxfull' => qr{(?:
-             disc[ ]quota[ ]exceeded
-            |mailbox[ ]full[ ]or[ ]quota[ ]exceeded
-            )
-        }x,
-        'systemerror' => qr/temporary file write error/,
+        'userunknown' => [
+            ': unknown user:',
+            ': user unknown',
+            ': invalid mailbox path',
+            ': user missing home directory',
+        ],
+        'mailboxfull' => [
+            'disc quota exceeded',
+            'mailbox full or quota exceeded',
+        ],
+        'systemerror' => ['temporary file write error'],
     },
     'procmail' => {
-        'mailboxfull' => qr/quota exceeded while writing/,
-        'systemfull'  => qr/no space left to finish writing/,
+        'mailboxfull' => ['quota exceeded while writing'],
+        'systemfull'  => ['no space left to finish writing'],
     },
     'maildrop' => {
-        'userunknown' => qr{(?:
-             invalid[ ]user[ ]specified[.]
-            |cannot[ ]find[ ]system[ ]user
-            )
-        }x,
-        'mailboxfull' => qr/maildir over quota[.]\z/,
+        'userunknown' => [
+            'invalid user specified.',
+            'cannot find system user',
+        ],
+        'mailboxfull' => ['maildir over quota.'],
     },
     'vpopmail' => {
-        'userunknown' => qr/sorry, no mailbox here by that name[.]/,
-        'filtered'    => qr{(?:
-             account[ ]is[ ]locked[ ]email[ ]bounced
-            |user[ ]does[ ]not[ ]exist,[ ]but[ ]will[ ]deliver[ ]to[ ]
-            )
-        }x,
-        'mailboxfull' => qr/(?:domain|user) is over quota/,
+        'userunknown' => ['sorry, no mailbox here by that name.'],
+        'filtered'    => [
+            'account is locked email bounced',
+            'user does not exist, but will deliver to '
+        ],
+        'mailboxfull' => [
+            'domain is over quota',
+            'user is over quota',
+        ],
     },
     'vmailmgr' => {
-        'userunknown' => qr{(?>
-             invalid[ ]or[ ]unknown[ ](?:base[ ]user[ ]or[ ]domain|virtual[ ]user)
-            |user[ ]name[ ]does[ ]not[ ]refer[ ]to[ ]a[ ]virtual[ ]user/
-            )
-        }x,
-        'mailboxfull' => qr/delivery failed due to system quota violation/,
+        'userunknown' => [
+            'invalid or unknown base user or domain',
+            'invalid or unknown virtual user',
+            'user name does not refer to a virtual user'
+        ],
+        'mailboxfull' => ['delivery failed due to system quota violation'],
     },
 };
 
@@ -98,7 +96,7 @@ sub scan {
     return undef unless ref($mhead) eq 'HASH';
     return undef unless lc($mhead->{'from'}) =~ /\A(?:mail delivery subsystem|mailer-daemon|postmaster)/;
     return undef unless ref($mbody) eq 'SCALAR';
-    return undef unless length $$mbody;
+    return undef unless $$mbody;
 
     my $agentname0 = '';    # [String] MDA name
     my $reasonname = '';    # [String] Error reason
@@ -128,11 +126,12 @@ sub scan {
     return undef unless $agentname0;
     return undef unless scalar @linebuffer;
 
-    for my $e ( keys %{ $ReFailures->{ $agentname0 } } ) {
+    for my $e ( keys %{ $MessagesOf->{ $agentname0 } } ) {
         # Detect an error reason from message patterns of the MDA.
         for my $f ( @linebuffer ) {
-            # Try to match with each regular expression
-            next unless lc($f) =~ $ReFailures->{ $agentname0 }->{ $e };
+            # Whether the error message include each message defined in $MessagesOf
+            my $g = lc $f;
+            next unless grep { index($g, $_) > -1 } @{ $MessagesOf->{ $agentname0 }->{ $e } };
             $reasonname = $e;
             $bouncemesg = $f;
             last;

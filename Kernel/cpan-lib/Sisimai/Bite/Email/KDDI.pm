@@ -13,10 +13,10 @@ my $MarkingsOf = {
         )
     /x,
 };
-my $ReFailures = {
-    'mailboxfull' => qr/As their mailbox is full/,
-    'norelaying'  => qr/Due to the following SMTP relay error/,
-    'hostunknown' => qr/As the remote domain doesnt exist/,
+my $MessagesOf = {
+    'mailboxfull' => ['As their mailbox is full'],
+    'norelaying'  => ['Due to the following SMTP relay error'],
+    'hostunknown' => ['As the remote domain doesnt exist'],
 };
 
 sub description { 'au by KDDI: http://www.au.kddi.com' }
@@ -41,11 +41,10 @@ sub scan {
     # 'message-id' => qr/[@].+[.]ezweb[.]ne[.]jp[>]\z/,
     $match ||= 1 if $mhead->{'from'} =~ /no-reply[@].+[.]dion[.]ne[.]jp/;
     $match ||= 1 if $mhead->{'reply-to'} && $mhead->{'reply-to'} eq 'no-reply@app.auone-net.jp';
-    $match ||= 1 if grep { index($_, 'ezweb.ne.jp (') > -1 } @{ $mhead->{'received'} };
+    $match ||= 1 if grep { rindex($_, 'ezweb.ne.jp (') > -1 } @{ $mhead->{'received'} };
+    $match ||= 1 if grep { rindex($_, '.au.com (') > -1 } @{ $mhead->{'received'} };
     return undef unless $match;
 
-    require Sisimai::String;
-    require Sisimai::Address;
     my $dscontents = [__PACKAGE__->DELIVERYSTATUS];
     my @hasdivided = split("\n", $$mbody);
     my $rfc822part = '';    # (String) message/rfc822-headers part
@@ -92,7 +91,7 @@ sub scan {
                 # Your mail sent on: Thu, 29 Apr 2010 11:04:47 +0900 
                 #     Could not be delivered to: <******@**.***.**>
                 #     As their mailbox is full.
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -132,9 +131,9 @@ sub scan {
 
             } else {
                 # SMTP command is not RCPT
-                SESSION: for my $r ( keys %$ReFailures ) {
+                SESSION: for my $r ( keys %$MessagesOf ) {
                     # Verify each regular expression of session errors
-                    next unless $e->{'diagnosis'} =~ $ReFailures->{ $r };
+                    next unless grep { index($e->{'diagnosis'}, $_) > -1 } @{ $MessagesOf->{ $r } };
                     $e->{'reason'} = $r;
                     last;
                 }

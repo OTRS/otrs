@@ -30,15 +30,14 @@ sub scan {
     my $match = 0;
     my $plain = '';
 
-    require Sisimai::MIME;
-    $match++ if defined $mhead->{'to'} && index($mhead->{'to'}, 'NotificationRecipients') > -1;
-    if( index($mhead->{'from'}, 'TWFpbCBEZWxpdmVyeSBTdWJzeXN0ZW0') > -1 ) {
+    $match++ if defined $mhead->{'to'} && rindex($mhead->{'to'}, 'NotificationRecipients') > -1;
+    if( rindex($mhead->{'from'}, 'TWFpbCBEZWxpdmVyeSBTdWJzeXN0ZW0') > -1 ) {
         # From: "=?iso-2022-jp?B?TWFpbCBEZWxpdmVyeSBTdWJzeXN0ZW0=?=" <...>
         #       Mail Delivery Subsystem
         for my $f ( split(' ', $mhead->{'from'}) ) {
             # Check each element of From: header
             next unless Sisimai::MIME->is_mimeencoded(\$f);
-            $match++ if index(Sisimai::MIME->mimedecode([$f]), 'Mail Delivery Subsystem') > -1;
+            $match++ if rindex(Sisimai::MIME->mimedecode([$f]), 'Mail Delivery Subsystem') > -1;
             last;
         }
     }
@@ -46,7 +45,7 @@ sub scan {
     if( Sisimai::MIME->is_mimeencoded(\$mhead->{'subject'}) ) {
         # Subject: =?iso-2022-jp?B?UmV0dXJuZWQgbWFpbDogVXNlciB1bmtub3du?=
         $plain = Sisimai::MIME->mimedecode([$mhead->{'subject'}]);
-        $match++ if index($plain, 'Mail Delivery Subsystem') > -1;
+        $match++ if rindex($plain, 'Mail Delivery Subsystem') > -1;
     }
     return undef if $match < 2;
 
@@ -85,7 +84,7 @@ sub scan {
 
             if( $e =~ /\AFinal-Recipient:[ ]*(?:RFC|rfc)822;[ ]*([^ ]+)\z/ ) {
                 # Final-Recipient: RFC822; kijitora@example.jp
-                if( length $v->{'recipient'} ) {
+                if( $v->{'recipient'} ) {
                     # There are multiple recipient addresses in the message body.
                     push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                     $v = $dscontents->[-1];
@@ -150,7 +149,6 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
     for my $e ( @$dscontents ) {
         $e->{'diagnosis'} ||= Sisimai::String->sweep($e->{'diagnosis'});
         $e->{'agent'}       = __PACKAGE__->smtpagent;

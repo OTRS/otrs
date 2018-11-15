@@ -13,13 +13,12 @@ sub match {
     # @since v4.0.0
     my $class = shift;
     my $argv1 = shift // return undef;
-    my $regex = qr{(?:
-         mail[ ]system[ ]full
-        |requested[ ]mail[ ]action[ ]aborted:[ ]exceeded[ ]storage[ ]allocation # MS Exchange
-        )
-    }x;
+    my $index = [
+        'mail system full',
+        'requested mail action aborted: exceeded storage allocation',   # MS Exchange
+    ];
 
-    return 1 if $argv1 =~ $regex;
+    return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
 }
 
@@ -80,7 +79,7 @@ azumakuniyuki
 
 =head1 COPYRIGHT
 
-Copyright (C) 2014-2016 azumakuniyuki, All rights reserved.
+Copyright (C) 2014-2016,2018 azumakuniyuki, All rights reserved.
 
 =head1 LICENSE
 

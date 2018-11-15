@@ -13,59 +13,53 @@ sub match {
     # @since v4.0.0
     my $class = shift;
     my $argv1 = shift // return undef;
-    my $isnot = qr{(?:
-         5[.]1[.]0[ ]address
-        |recipient[ ]address
-        |sender[ ]ip[ ]address
-        )[ ]rejected
-    }x;
-    my $regex = qr{(?>
-         [<][>][ ]invalid[ ]sender
-        |address[ ]rejected
-        |administrative[ ]prohibition
-        |batv[ ](?:
-             failed[ ]to[ ]verify   # SoniWall
-            |validation[ ]failure   # SoniWall
-            )
-        |backscatter[ ]protection[ ]detected[ ]an[ ]invalid[ ]or[ ]expired[ ]email[ ]address    # MDaemon
-        |bogus[ ]mail[ ]from        # IMail - block empty sender
-        |connections[ ]not[ ]accepted[ ]from[ ]servers[ ]without[ ]a[ ]valid[ ]sender[ ]domain
-        |denied[ ]\[bouncedeny\]    # McAfee
-        |delivery[ ]not[ ]authorized,[ ]message[ ]refused
-        |does[ ]not[ ]exist[ ]e2110
-        |domain[ ]of[ ]sender[ ]address[ ].+[ ]does[ ]not[ ]exist
-        |emetteur[ ]invalide.+[a-z]{3}.+(?:403|405|415)
-        |empty[ ]envelope[ ]senders[ ]not[ ]allowed
-        |error:[ ]no[ ]third-party[ ]dsns               # SpamWall - block empty sender
-        |from:[ ]domain[ ]is[ ]invalid[.][ ]please[ ]provide[ ]a[ ]valid[ ]from:
-        |fully[ ]qualified[ ]email[ ]address[ ]required # McAfee
-        |invalid[ ]domain,[ ]see[ ][<]url:.+[>]
-        |mail[ ]from[ ]not[ ]owned[ ]by[ ]user.+[a-z]{3}.+421
-        |message[ ]rejected:[ ]email[ ]address[ ]is[ ]not[ ]verified
-        |mx[ ]records[ ]for[ ].+[ ]violate[ ]section[ ].+
-        |null[ ]sender[ ]is[ ]not[ ]allowed
-        |recipient[ ]not[ ]accepted[.][ ][(]batv:[ ]no[ ]tag
-        |returned[ ]mail[ ]not[ ]accepted[ ]here
-        |rfc[ ]1035[ ]violation:[ ]recursive[ ]cname[ ]records[ ]for
-        |rule[ ]imposed[ ]mailbox[ ]access[ ]for        # MailMarshal
-        |sender[ ](?:
-             email[ ]address[ ]rejected
-            |is[ ]spammer
-            |not[ ]pre[-]approved
-            |rejected
-            |domain[ ]is[ ]empty
-            |verify[ ]failed        # Exim callout
-            )
-        |syntax[ ]error:[ ]empty[ ]email[ ]address
-        |the[ ]message[ ]has[ ]been[ ]rejected[ ]by[ ]batv[ ]defense
-        |transaction[ ]failed[ ]unsigned[ ]dsn[ ]for
-        |unroutable[ ]sender[ ]address
-        |you[ ]are[ ]sending[ ]to[/]from[ ]an[ ]address[ ]that[ ]has[ ]been[ ]blacklisted
-        )
-    }x;
+    my $isnot = [
+        '5.1.0 address rejected',
+        'recipient address rejected',
+        'sender ip address rejected',
+    ];
+    my $index = [
+        '<> invalid sender',
+        'address rejected',
+        'administrative prohibition',
+        'batv failed to verify',    # SoniWall
+        'batv validation failure',  # SoniWall
+        'backscatter protection detected an invalid or expired email address',  # MDaemon
+        'bogus mail from',          # IMail - block empty sender
+        'connections not accepted from servers without a valid sender domain',
+        'denied [bouncedeny]',      # McAfee
+        'delivery not authorized, message refused',
+        'does not exist e2110',
+        'domain of sender address ',
+        'emetteur invalide',
+        'empty envelope senders not allowed',
+        'error: no third-party dsns',   # SpamWall - block empty sender
+        'from: domain is invalid. please provide a valid from:',
+        'fully qualified email address required',   # McAfee
+        'invalid domain, see <url:',
+        'mail from not owned by user',
+        'message rejected: email address is not verified',
+        'mx records for ',
+        'null sender is not allowed',
+        'recipient not accepted. (batv: no tag',
+        'returned mail not accepted here',
+        'rfc 1035 violation: recursive cname records for',
+        'rule imposed mailbox access for',  # MailMarshal
+        'sender email address rejected',
+        'sender is spammer',
+        'sender not pre-approved',
+        'sender rejected',
+        'sender domain is empty',
+        'sender verify failed', # Exim callout
+        'syntax error: empty email address',
+        'the message has been rejected by batv defense',
+        'transaction failed unsigned dsn for',
+        'unroutable sender address',
+        'you are sending to/from an address that has been blacklisted',
+    ];
 
-    return 0 if $argv1 =~ $isnot;
-    return 1 if $argv1 =~ $regex;
+    return 0 if grep { rindex($argv1, $_) > -1 } @$isnot;
+    return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
 }
 
@@ -78,9 +72,6 @@ sub true {
     # @see http://www.ietf.org/rfc/rfc2822.txt
     my $class = shift;
     my $argvs = shift // return undef;
-
-    return undef unless ref $argvs eq 'Sisimai::Data';
-    require Sisimai::SMTP::Status;
 
     my $tempreason = Sisimai::SMTP::Status->name($argvs->deliverystatus) || 'undefined';
     my $diagnostic = lc $argvs->diagnosticcode;
@@ -167,3 +158,4 @@ Copyright (C) 2014-2018 azumakuniyuki, All rights reserved.
 This software is distributed under The BSD 2-Clause License.
 
 =cut
+

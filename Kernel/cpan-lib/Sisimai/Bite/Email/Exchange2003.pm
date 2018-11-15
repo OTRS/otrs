@@ -84,7 +84,7 @@ sub scan {
         last unless scalar @{ $mhead->{'received'} };
         for my $e ( @{ $mhead->{'received'} } ) {
             # Received: by ***.**.** with Internet Mail Service (5.5.2657.72)
-            next unless index($e, ' with Internet Mail Service (') > -1;
+            next unless rindex($e, ' with Internet Mail Service (') > -1;
             $match = 1;
             last(EXCHANGE_OR_NOT);
         }
@@ -159,7 +159,7 @@ sub scan {
                     $e =~ /\A[ \t]*.+(?:SMTP|smtp)=([^ ]+[@][^ ]+) on[ \t]*.*\z/ ) {
                     # kijitora@example.co.jp on Thu, 29 Apr 2007 16:51:51 -0500
                     #   kijitora@example.com on 4/29/99 9:19:59 AM
-                    if( length $v->{'recipient'} ) {
+                    if( $v->{'recipient'} ) {
                         # There are multiple recipient addresses in the message body.
                         push @$dscontents, __PACKAGE__->DELIVERYSTATUS;
                         $v = $dscontents->[-1];
@@ -194,7 +194,7 @@ sub scan {
                 #
                 if( $e =~ /\A[ \t]+To:[ \t]+(.+)\z/ ) {
                     #  To:      shironeko@example.jp
-                    next if length $connheader->{'to'};
+                    next if $connheader->{'to'};
                     $connheader->{'to'} = $1;
                     $connvalues++;
 
@@ -208,7 +208,7 @@ sub scan {
                          $e =~ m|\A[ \t]+Sent:[ \t]+(\d+[/]\d+[/]\d+[ \t]+\d+:\d+:\d+[ \t].+)|) {
                     #  Sent:    Thu, 29 Apr 2010 18:14:35 +0000
                     #  Sent:    4/29/99 9:19:59 AM
-                    next if length $connheader->{'date'};
+                    next if $connheader->{'date'};
                     $connheader->{'date'} = $1;
                     $connvalues++;
                 }
@@ -217,8 +217,6 @@ sub scan {
     }
     return undef unless $recipients;
 
-    require Sisimai::String;
-    require Sisimai::SMTP::Status;
     for my $e ( @$dscontents ) {
         $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
 
@@ -233,7 +231,7 @@ sub scan {
                 next unless grep { $capturedcode eq $_ } @{ $ErrorCodes->{ $r } };
                 $e->{'reason'} = $r;
                 $pseudostatus = Sisimai::SMTP::Status->code($r);
-                $e->{'status'} = $pseudostatus if length $pseudostatus;
+                $e->{'status'} = $pseudostatus if $pseudostatus;
                 last;
             }
             $e->{'diagnosis'} = $errormessage;
@@ -241,7 +239,7 @@ sub scan {
 
         unless( $e->{'reason'} ) {
             # Could not detect the reason from the value of "diagnosis".
-            if( exists $e->{'alterrors'} && length $e->{'alterrors'} ) {
+            if( exists $e->{'alterrors'} && $e->{'alterrors'} ) {
                 # Copy alternative error message
                 $e->{'diagnosis'} = $e->{'alterrors'}.' '.$e->{'diagnosis'};
                 $e->{'diagnosis'} = Sisimai::String->sweep($e->{'diagnosis'});
@@ -252,7 +250,7 @@ sub scan {
         delete $e->{'msexch'};
     }
 
-    if( scalar(@$rfc822list) == 0 ) {
+    unless( @$rfc822list ) {
         # When original message does not included in the bounce message
         push @$rfc822list, 'From: '.$connheader->{'to'};
         push @$rfc822list, 'Date: '.$connheader->{'date'};

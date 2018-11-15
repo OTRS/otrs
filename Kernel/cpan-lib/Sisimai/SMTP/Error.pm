@@ -46,11 +46,11 @@ sub is_permanent {
     } else {
         # Check with regular expression
         my $v = lc $argv1;
-        if( index($v, 'temporar') > -1 || index($v, 'persistent') > -1 ) {
+        if( rindex($v, 'temporar') > -1 || rindex($v, 'persistent') > -1 ) {
             # Temporary failure
             $getchecked = 0;
 
-        } elsif( index($v, 'permanent') > -1 ) {
+        } elsif( rindex($v, 'permanent') > -1 ) {
             # Permanently failure
             $getchecked = 1;
 
@@ -85,20 +85,12 @@ sub soft_or_hard {
         $softorhard = '';
 
     } elsif( $argv1 eq 'onhold' || $argv1 eq 'undefined' ) {
-        # Check with the value of D.S.N. in $argv2
-        $getchecked = $class->is_permanent($argv2);
+        # It should be "soft" when a reason is "onhold" or "undefined"
+        $softorhard = 'soft';
 
-        if( defined $getchecked ) {
-            # The value is 0 or 1
-            $softorhard = $getchecked == 1 ? 'hard' : 'soft';
-
-        } else {
-            # The value is not defined (returned undef)
-            $softorhard = '';
-        }
     } elsif( $argv1 eq 'notaccept' ) {
         # NotAccept: 5xx => hard bounce, 4xx => soft bounce
-        if( length $argv2 ) {
+        if( $argv2 ) {
             # Get D.S.N. or SMTP reply code from The 2nd argument string
             $statuscode   = Sisimai::SMTP::Status->find($argv2);
             $statuscode ||= Sisimai::SMTP::Reply->find($argv2);

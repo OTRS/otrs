@@ -254,34 +254,6 @@ sub hourname {
     return $HourName->{ $value };
 }
 
-sub o2d {
-    # Convert from date offset to date string
-    # @param    [Integer] argv1 Offset of the timezone
-    # @param    [String]  argv2 Delimiter character: default is '-'
-    # @return   [String]        Date string
-    # @example  Get the value of n days before(today is 2015/11/04)
-    #   o2d(1)      #=> 2015-11-03
-    #   o2d(2,'/')  #=> 2015/11/02
-    my $class = shift;
-    my $argv1 = shift // 0;
-    my $argv2 = shift // '-';
-    my $piece = new Time::Piece;
-    my $epoch = 0;
-
-    return $piece->ymd($argv2) unless $argv1 =~ /\A[-]?\d+\z/;
-
-    $epoch = $piece->epoch - $argv1 * 86400;
-    if( $epoch < 0 ) {
-        # Negative value
-        $epoch = 0;
-
-    } elsif( $epoch >= 2 ** 31 ) {
-        # See http://en.wikipedia.org/wiki/Year_2038_problem
-        $epoch = 2 ** 31 - 1;
-    }
-    return Time::Piece->new($epoch)->ymd($argv2);
-}
-
 sub parse {
     # Parse date string; strptime() wrapper
     # @param    [String] argv1  Date string

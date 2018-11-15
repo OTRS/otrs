@@ -13,31 +13,24 @@ sub match {
     # @since v4.0.0
     my $class = shift;
     my $argv1 = shift // return undef;
-    my $regex = qr{(?>
-         domain[ ](?:
-             does[ ]not[ ]exist
-            |is[ ]not[ ]reachable
-            |must[ ]exist
-            )
-        |host[ ](?:
-             or[ ]domain[ ]name[ ]not[ ]found
-            |unknown
-            |unreachable
-            )
-        |mail[ ]domain[ ]mentioned[ ]in[ ]email[ ]address[ ]is[ ]unknown
-        |name[ ]or[ ]service[ ]not[ ]known
-        |no[ ]such[ ]domain
-        |recipient[ ](?:
-             address[ ]rejected:[ ]unknown[ ]domain[ ]name
-            |domain[ ]must[ ]exist
-            )
-        |the[ ]account[ ]or[ ]domain[ ]may[ ]not[ ]exist
-        |unknown[ ]host
-        |unrouteable[ ]address
-        )
-    }x;
+    my $index = [
+        'domain does not exist',
+        'domain is not reachable',
+        'domain must exist',
+        'host or domain name not found',
+        'host unknown',
+        'host unreachable',
+        'mail domain mentioned in email address is unknown',
+        'name or service not known',
+        'no such domain',
+        'recipient address rejected: unknown domain name',
+        'recipient domain must exist',
+        'the account or domain may not exist',
+        'unknown host',
+        'unrouteable address',
+    ];
 
-    return 1 if $argv1 =~ $regex;
+    return 1 if grep { rindex($argv1, $_) > -1 } @$index;
     return 0;
 }
 
@@ -50,11 +43,8 @@ sub true {
     # @see http://www.ietf.org/rfc/rfc2822.txt
     my $class = shift;
     my $argvs = shift // return undef;
-
-    return undef unless ref $argvs eq 'Sisimai::Data';
     return 1 if $argvs->reason eq 'hostunknown';
 
-    require Sisimai::SMTP::Status;
     my $statuscode = $argvs->deliverystatus // '';
     my $diagnostic = lc $argvs->diagnosticcode // '';
 
