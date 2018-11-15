@@ -664,6 +664,10 @@ ul.WidgetTooltip li a:hover i {
     text-align: center;
 }
 
+#SystemMaintenanceForm .CallForAction.LittleSpacingTop.Fullsize.Center {
+    width: 248px;
+}
+
 .CallForAction.Fullsize + .FieldExplanation {
     border: 1px solid #ddd;
     padding: 5px;

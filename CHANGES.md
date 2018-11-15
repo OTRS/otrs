@@ -1,4 +1,5 @@
 #6.0.15 2018-??-??
+ - 2018-11-15 Fixed bug#[14209](https://bugs.otrs.org/show_bug.cgi?id=14209) - System maintenance 'Kill all Sessions, except for your own' button is too big and aligned right.
  - 2018-11-15 Fixed bug#[14226](https://bugs.otrs.org/show_bug.cgi?id=14226) - It is not possible to deselect queue in AgentTicketBulk after AJAX update.
  - 2018-11-15 Fixed bug#[14195](https://bugs.otrs.org/show_bug.cgi?id=14195) - False positive in Bounce Detection if eml attachment present.
  - 2018-11-08 Follow-up fix for bug#[14154](https://bugs.otrs.org/show_bug.cgi?id=14154) - After migration, configuration deployment does not work due to the invalid setting value.
