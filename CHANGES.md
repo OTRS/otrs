@@ -1,5 +1,7 @@
-#5.0.32 2018-11-14
+#5.0.33 20??-??-??
  - 2018-11-15 Fixed bug#[14226](https://bugs.otrs.org/show_bug.cgi?id=14226) - It is not possible to deselect queue in AgentTicketBulk after AJAX update.
+
+#5.0.32 2018-11-14
  - 2018-11-13 Follow-up fix for bug#[13978](https://bugs.otrs.org/show_bug.cgi?id=13978) - User and customer preferences may override user data.
 
 #5.0.31 2018-11-09
