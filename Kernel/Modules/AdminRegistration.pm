@@ -249,7 +249,8 @@ sub Run {
             TemplateFile => 'AdminRegistration',
             Data         => {
                 %Param,
-                OTRSSTORMIsInstalled => $OTRSBusinessObject->OTRSSTORMIsInstalled(),
+                OTRSSTORMIsInstalled   => $OTRSBusinessObject->OTRSSTORMIsInstalled(),
+                OTRSCONTROLIsInstalled => $OTRSBusinessObject->OTRSCONTROLIsInstalled(),
             },
         );
         $Output .= $LayoutObject->Footer();

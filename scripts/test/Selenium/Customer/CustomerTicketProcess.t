@@ -377,10 +377,14 @@ $Selenium->RunTest(
 
         my $OTRSBusinessIsInstalled = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled();
         my $OTRSSTORMIsInstalled    = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSSTORMIsInstalled();
+        my $OTRSCONTROLIsInstalled  = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSCONTROLIsInstalled();
 
         my $FooterMessage;
         if ($OTRSSTORMIsInstalled) {
             $FooterMessage = 'STORM powered by OTRS';
+        }
+        elsif ($OTRSCONTROLIsInstalled) {
+            $FooterMessage = 'CONTROL powered by OTRS';
         }
         elsif ($OTRSBusinessIsInstalled) {
             $FooterMessage = 'Powered by OTRS Business Solution';

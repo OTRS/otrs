@@ -32,12 +32,18 @@ sub Run {
     my $OTRSBusinessObject = $Kernel::OM->Get('Kernel::System::OTRSBusiness');
 
     # get config options
-    my $Group             = $Param{Config}->{Group} || 'admin';
-    my $IsInstalled       = $OTRSBusinessObject->OTRSBusinessIsInstalled();
-    my $OTRSBusinessLabel = $OTRSBusinessObject->OTRSSTORMIsInstalled()
-        ?
-        '<b>STORM powered by OTRS</b>™'
-        : '<b>OTRS Business Solution</b>™';
+    my $Group = $Param{Config}->{Group} || 'admin';
+    my $IsInstalled = $OTRSBusinessObject->OTRSBusinessIsInstalled();
+    my $OTRSBusinessLabel;
+    if ( $OTRSBusinessObject->OTRSSTORMIsInstalled() ) {
+        $OTRSBusinessLabel = '<b>STORM powered by OTRS</b>™';
+    }
+    elsif ( $OTRSBusinessObject->OTRSCONTROLIsInstalled() ) {
+        $OTRSBusinessLabel = '<b>CONTROL powered by OTRS</b>™';
+    }
+    else {
+        $OTRSBusinessLabel = '<b>OTRS Business Solution</b>™';
+    }
 
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');

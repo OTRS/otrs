@@ -45,9 +45,10 @@ $Selenium->RunTest(
         $Selenium->delete_all_cookies();
 
         # Check Secure::DisableBanner functionality.
-        my $Product        = $Kernel::OM->Get('Kernel::Config')->Get('Product');
-        my $Version        = $Kernel::OM->Get('Kernel::Config')->Get('Version');
-        my $STORMInstalled = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSSTORMIsInstalled();
+        my $Product          = $Kernel::OM->Get('Kernel::Config')->Get('Product');
+        my $Version          = $Kernel::OM->Get('Kernel::Config')->Get('Version');
+        my $STORMInstalled   = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSSTORMIsInstalled();
+        my $CONTROLInstalled = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSCONTROLIsInstalled();
 
         for my $Disabled ( reverse 0 .. 1 ) {
             $Helper->ConfigSettingChange(
@@ -71,6 +72,19 @@ $Selenium->RunTest(
                         'Footer banner hidden',
                     );
                 }
+                elsif ($CONTROLInstalled) {
+
+                    my $CONTROLFooter = 0;
+
+                    if ( $Selenium->get_page_source() =~ m{ ^ [ ]+ CONTROL \s powered }xms ) {
+                        $CONTROLFooter = 1;
+                    }
+
+                    $Self->False(
+                        $CONTROLFooter,
+                        'Footer banner hidden',
+                    );
+                }
                 else {
                     $Self->False(
                         index( $Selenium->get_page_source(), 'Powered' ) > -1,
@@ -90,6 +104,19 @@ $Selenium->RunTest(
 
                     $Self->True(
                         $STORMFooter,
+                        'Footer banner hidden',
+                    );
+                }
+                elsif ($CONTROLInstalled) {
+
+                    my $CONTROLFooter = 0;
+
+                    if ( $Selenium->get_page_source() =~ m{ ^ [ ]+ CONTROL \s powered }xms ) {
+                        $CONTROLFooter = 1;
+                    }
+
+                    $Self->True(
+                        $CONTROLFooter,
                         'Footer banner hidden',
                     );
                 }

@@ -151,6 +151,43 @@ sub OTRSSTORMIsInstalled {
     return $IsInstalled;
 }
 
+=head2 OTRSCONTROLIsInstalled()
+
+checks if OTRSControl is installed in the current system.
+That does not necessarily mean that it is also active, for
+example if the package is only on the database but not on
+the file system.
+
+=cut
+
+sub OTRSCONTROLIsInstalled {
+    my ( $Self, %Param ) = @_;
+
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    # as the check for installed packages can be
+    # very expensive, we want to use caching here
+    my $Cache = $CacheObject->Get(
+        Type => $Self->{CacheType},
+        TTL  => $Self->{CacheTTL},
+        Key  => 'OTRSCONTROLIsInstalled',
+    );
+
+    return $Cache if defined $Cache;
+
+    my $IsInstalled = $Self->_GetCONTROLPackageFromRepository() ? 1 : 0;
+
+    # set cache
+    $CacheObject->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
+        Key   => 'OTRSCONTROLIsInstalled',
+        Value => $IsInstalled,
+    );
+
+    return $IsInstalled;
+}
+
 =head2 OTRSBusinessIsAvailable()
 
 checks with C<cloud.otrs.com> if OTRSBusiness is available for the current framework.
@@ -1028,6 +1065,23 @@ sub _GetSTORMPackageFromRepository {
     for my $Package (@RepositoryList) {
 
         return $Package if $Package->{Name} eq 'OTRSSTORM';
+    }
+
+    return;
+}
+
+sub _GetCONTROLPackageFromRepository {
+    my ( $Self, %Param ) = @_;
+
+    my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+
+    my @RepositoryList = $PackageObject->RepositoryList(
+        Result => 'short',
+    );
+
+    for my $Package (@RepositoryList) {
+
+        return $Package if $Package->{Name} eq 'OTRSCONTROL';
     }
 
     return;

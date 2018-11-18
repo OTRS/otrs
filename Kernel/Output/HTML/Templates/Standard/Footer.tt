@@ -12,6 +12,8 @@
         <span></span>
         [% IF Data.OTRSSTORMIsInstalled %]
             [% Translate("%s powered by %s™", "STORM", "OTRS") | html %]
+        [% ELSIF Data.OTRSCONTROLIsInstalled %]
+            [% Translate("%s powered by %s™", "CONTROL", "OTRS") | html %]
         [% ELSIF Data.OTRSBusinessIsInstalled %]
             [% Translate("Powered by %s™", "OTRS Business Solution") | html %]
         [% ELSE %]
