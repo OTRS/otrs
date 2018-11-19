@@ -279,7 +279,7 @@ $Selenium->RunTest(
         );
 
         # Close popup.
-        $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
+        $Selenium->close();
         $Selenium->WaitFor( WindowCount => 1 );
 
         # Delete created test tickets.
