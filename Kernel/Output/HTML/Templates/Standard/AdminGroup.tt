@@ -61,14 +61,8 @@ Core.Agent.Admin.Group = (function (TargetNS) {
             <div class='Content'>
                 <ul class="ActionList">
 [% RenderBlockStart("ActionAdd") %]
-                    <li>
-                        <form action="[% Env("CGIHandle") %]" method="post">
-                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
-                            <input type="hidden" name="Subaction" value="Add"/>
-                            <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Add") | html %]">
-                                <span><i class="fa fa-plus-square"></i>[% Translate("Add group") | html %]</span>
-                            </button>
-                        </form>
+                     <li>
+                        <a href="[% Env("Baselink") %]Action=AdminGroup;Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add Group") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionAdd") %]
 

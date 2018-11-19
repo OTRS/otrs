@@ -1,4 +1,5 @@
 #5.0.33 20??-??-??
+ - 2018-11-19 Fixed bug#[14148](https://bugs.otrs.org/show_bug.cgi?id=14148) - Superfluous filter boxes and "Add Group" form in Group Management screen.
  - 2018-11-15 Fixed bug#[14226](https://bugs.otrs.org/show_bug.cgi?id=14226) - It is not possible to deselect queue in AgentTicketBulk after AJAX update.
 
 #5.0.32 2018-11-14
