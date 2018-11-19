@@ -460,9 +460,24 @@ $Selenium->RunTest(
             "There is a class 'Invalid' for test generic job",
         );
 
-        # delete test job
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Profile=$GenericAgentJob\' )]")
-            ->VerifiedClick();
+        # Delete test job confirmation dialog. See bug#14197.
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Profile=$GenericAgentJob\' )]")->click();
+        $Selenium->WaitFor( AlertPresent => 1 );
+        $Selenium->accept_alert();
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('table tbody tr td:contains($GenericAgentJob)').length == 0;"
+        );
+        $Selenium->VerifiedRefresh();
+
+        # Check if GenericAgentJob is deleted.
+        $Self->False(
+            $Selenium->execute_script(
+                "return \$('table tbody tr td:contains($GenericAgentJob)').length"
+            ),
+            "GenericAgentJob $GenericAgentJob is no found on page",
+        );
 
         # delete created test dynamic fields
         my $Success;

@@ -102,7 +102,7 @@
                             <td>[% Data.ScheduleLastRun | Localize("TimeLong") %]</td>
                             <td>[% Translate(Data.ShownValid) | html %]</td>
                             <td class="Center">
-                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;Profile=[% Data.Name | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this task") | html %]">
+                                <a class="TrashCan" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;Profile=[% Data.Name | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this task") | html %]">
                                     <i class="fa fa-trash-o"></i> [% Translate("Delete") | html %]
                                 </a>
                             </td>

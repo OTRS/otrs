@@ -99,6 +99,13 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
             return false;
         });
 
+        $('#GenericAgentJobs a.TrashCan').on('click', function () {
+            if (window.confirm(Core.Language.Translate('Do you really want to delete this generic agent job?'))) {
+                return true;
+            }
+            return false;
+        });
+
         $('#TicketEvent').on('change', function (){
             if ($('#EventType').val() !== null) {
                 TargetNS.AddEvent($('#EventType').val());
