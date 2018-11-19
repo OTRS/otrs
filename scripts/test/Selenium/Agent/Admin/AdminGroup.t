@@ -52,8 +52,21 @@ $Selenium->RunTest(
             "Breadcrumb is found on Overview screen.",
         );
 
-        # Click 'Add group' link.
-        $Selenium->find_element("//button[\@value='Add'][\@type='submit']")->VerifiedClick();
+        # Filter for Groups are shown on wrong screens. See bug#14148.
+        # Check that filter is included on page.
+        $Self->True(
+            $Selenium->execute_script("return \$('#FilterGroups').length === 1;"),
+            "Filter is shown on page"
+        );
+
+        # Click 'Add group' link, it should not be a form link.
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminGroup;Subaction=Add' )]")->VerifiedClick();
+
+        # Check that filter is not included on page.
+        $Self->True(
+            $Selenium->execute_script("return \$('#FilterGroups').length === 0;"),
+            "Filter is not on page"
+        );
 
         # Check add page.
         my $Element = $Selenium->find_element( "#GroupName", 'css' );
@@ -98,7 +111,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
         # After add group followed screen is AddUserGroup(Subaction=Group),
-        # there is posible to set permission for added group.
+        # there is possible to set permission for added group.
         $Self->True(
             index( $Selenium->get_page_source(), $GroupName ) > -1,
             "$GroupName found on page",
@@ -158,6 +171,12 @@ $Selenium->RunTest(
         # We should now see a dialog telling us changing the admin group name has some implications.
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length'
+        );
+
+        # Check that filter is not included on page.
+        $Self->True(
+            $Selenium->execute_script("return \$('#FilterGroups').length === 0;"),
+            "Filter is not on page"
         );
 
         # Cancel the action & go back to the overview.

@@ -38,14 +38,8 @@
             <div class='Content'>
                 <ul class="ActionList">
 [% RenderBlockStart("ActionAdd") %]
-                    <li>
-                        <form action="[% Env("CGIHandle") %]" method="post">
-                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
-                            <input type="hidden" name="Subaction" value="Add"/>
-                            <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Add") | html %]">
-                                <span><i class="fa fa-plus-square"></i>[% Translate("Add Group") | html %]</span>
-                            </button>
-                        </form>
+                     <li>
+                        <a href="[% Env("Baselink") %]Action=AdminGroup;Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add Group") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionAdd") %]
 
@@ -58,7 +52,7 @@
             </div>
         </div>
 [% RenderBlockEnd("ActionList") %]
-
+[% RenderBlockStart("Filter") %]
         <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="FilterGroups">[% Translate("Filter for Groups") | html %]</label></h2>
@@ -67,7 +61,7 @@
                 <input type="text" id="FilterGroups" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterGroups" value="" title="[% Translate("Filter for groups") | html %]">
             </div>
         </div>
-
+[% RenderBlockEnd("Filter") %]
         <div class="WidgetSimple">
             <div class="Header">
                 <h2>[% Translate("Hint") | html %]</h2>
