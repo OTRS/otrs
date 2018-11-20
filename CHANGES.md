@@ -1,4 +1,5 @@
 #6.0.15 2018-??-??
+ - 2018-11-20 Fixed bug#[13444](https://bugs.otrs.org/show_bug.cgi?id=13444) - DynamicField Dropdown values are not verified if submitted via web service.
  - 2018-11-19 Fixed bug#[14148](https://bugs.otrs.org/show_bug.cgi?id=14148) - Superfluous filter boxes and "Add Group" form in Group Management screen.
  - 2018-11-19 Fixed bug#[14114](https://bugs.otrs.org/show_bug.cgi?id=14114) - Dynamic field of type database cannot be saved via a web service.
  - 2018-11-19 Fixed bug#[14197](https://bugs.otrs.org/show_bug.cgi?id=14197) - Missing confirmation dialog when deleting a generic agent job.
