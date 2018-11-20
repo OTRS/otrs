@@ -82,25 +82,6 @@ sub ValueSet {
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
-    # Check for valid possible values list.
-    if ( !IsHashRefWithData( $Param{DynamicFieldConfig}->{Config}->{PossibleValues} ) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need PossibleValues in DynamicFieldConfig!",
-        );
-        return;
-    }
-
-    # Check if value parameter exists in possible values config.
-    if (
-        defined $Param{Value}
-        && length $Param{Value}
-        && !grep { $_ eq $Param{Value} } keys %{ $Param{DynamicFieldConfig}->{Config}->{PossibleValues} }
-        )
-    {
-        return;
-    }
-
     my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueValidate(
         Value => {
             ValueText => $Param{Value},
