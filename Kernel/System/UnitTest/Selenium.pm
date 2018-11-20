@@ -679,7 +679,19 @@ sub WaitForjQueryEventBound {
         die "Couldn't determine jQuery object id";
     }
 
-    my $JQueryObjectID = $Keys->[0];
+    my $JQueryObjectID;
+
+    KEY:
+    for my $Key ( @{$Keys} ) {
+        if ( $Key =~ m{^jQuery\d+$} ) {
+            $JQueryObjectID = $Key;
+            last KEY;
+        }
+    }
+
+    if ( !$JQueryObjectID ) {
+        die "Couldn't determine jQuery object id";
+    }
 
     # Wait until click event is bound to the element.
     $Self->WaitFor(
