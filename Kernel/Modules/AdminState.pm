@@ -317,7 +317,7 @@ sub _Overview {
         # get valid list
         my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
 
-        for my $ListKey ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+        for my $ListKey ( sort { lc $List{$a} cmp lc $List{$b} } keys %List ) {
 
             my %Data = $StateObject->StateGet( ID => $ListKey );
             $LayoutObject->Block(
