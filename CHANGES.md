@@ -1,4 +1,5 @@
 #6.0.15 2018-??-??
+ - 2018-11-20 Fixed bug#[14237](https://bugs.otrs.org/show_bug.cgi?id=14237) - Sorting of state menu entries is different then order in state overview screen.
  - 2018-11-19 Fixed bug#[14148](https://bugs.otrs.org/show_bug.cgi?id=14148) - Superfluous filter boxes and "Add Group" form in Group Management screen.
  - 2018-11-19 Fixed bug#[14197](https://bugs.otrs.org/show_bug.cgi?id=14197) - Missing confirmation dialog when deleting a generic agent job.
  - 2018-11-15 Fixed bug#[14209](https://bugs.otrs.org/show_bug.cgi?id=14209) - System maintenance 'Kill all Sessions, except for your own' button is too big and aligned right.

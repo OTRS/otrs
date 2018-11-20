@@ -30,7 +30,8 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        my $ScriptAlias  = $ConfigObject->Get('ScriptAlias');
 
         # Navigate to AdminState screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminState");
@@ -85,34 +86,72 @@ $Selenium->RunTest(
         );
 
         # Create a real test state.
-        my $RandomID = "State" . $Helper->GetRandomID();
+        my $RandomState = "New State " . $Helper->GetRandomID();
 
-        $Selenium->find_element( "#Name", 'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#Name", 'css' )->send_keys($RandomState);
         $Selenium->execute_script("\$('#TypeID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test state');
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
+        my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+        my $StateIDNew  = $StateObject->StateLookup(
+            State => 'new',
+        );
+        my $StateIDClose = $StateObject->StateLookup(
+            State => 'closed successful',
+        );
+        my $StateIDTest = $StateObject->StateLookup(
+            State => $RandomState,
+        );
+
+        my $StateLink = "/${ScriptAlias}index.pl?Action=AdminState;Subaction=Change;ID=";
+
         # Check overview page.
-        $Self->True(
-            index( $Selenium->get_page_source(), 'closed successful' ) > -1,
-            'closed successful found on page',
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('a[href=\"${StateLink}$StateIDClose\"]').text();"
+            ),
+            'closed successful',
+            "State 'closed successful' found on page",
         );
-        $Self->True(
-            index( $Selenium->get_page_source(), $RandomID ) > -1,
-            "$RandomID found on page",
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('a[href=\"${StateLink}$StateIDNew\"]').text();"
+            ),
+            'new',
+            "State 'new' found on page",
         );
-        $Selenium->find_element( "table",             'css' );
-        $Selenium->find_element( "table thead tr th", 'css' );
-        $Selenium->find_element( "table tbody tr td", 'css' );
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('a[href=\"${StateLink}$StateIDTest\"]').text();"
+            ),
+            $RandomState,
+            "State '$RandomState' found on page",
+        );
 
-        # Go to new state again.
-        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
+        my $IndexNewState =
+            $Selenium->execute_script(
+            "return \$('.DataTable tr:visible').index(\$('a[href=\"${StateLink}$StateIDNew\"]').closest('tr'))"
+            );
+        my $IndexTestState =
+            $Selenium->execute_script(
+            "return \$('.DataTable tr:visible').index(\$('a[href=\"${StateLink}$StateIDTest\"]').closest('tr'))"
+            );
 
-        # Check new state values.
+        # Check sorting in state overview table..
+        $Self->True(
+            $IndexNewState < $IndexTestState,
+            "Order of states in the table is well.",
+        );
+
+        # Go to test state again.
+        $Selenium->find_element( $RandomState, 'link_text' )->VerifiedClick();
+
+        # Check test state values.
         $Self->Is(
             $Selenium->find_element( '#Name', 'css' )->get_value(),
-            $RandomID,
+            $RandomState,
             "#Name stored value",
         );
         $Self->Is(
@@ -133,7 +172,7 @@ $Selenium->RunTest(
 
         # Check breadcrumb on Edit screen.
         $Count = 1;
-        for my $BreadcrumbText ( 'State Management', 'Edit State: ' . $RandomID ) {
+        for my $BreadcrumbText ( 'State Management', 'Edit State: ' . $RandomState ) {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
                 $BreadcrumbText,
@@ -149,34 +188,23 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
-        # Check class of invalid State in the overview table.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" &&  $(".DataTable").length;' );
+
+        # Check class of invalid state in the overview table.
         $Self->True(
             $Selenium->execute_script(
-                "return \$('tr.Invalid td a:contains($RandomID)').length"
+                "return \$('tr.Invalid td a:contains($RandomState)').length"
             ),
             "There is a class 'Invalid' for test State",
         );
 
-        # Check overview page.
-        $Self->True(
-            index( $Selenium->get_page_source(), 'closed successful' ) > -1,
-            'closed successful found on page',
-        );
-        $Self->True(
-            index( $Selenium->get_page_source(), $RandomID ) > -1,
-            "$RandomID found on page",
-        );
-        $Selenium->find_element( "table",             'css' );
-        $Selenium->find_element( "table thead tr th", 'css' );
-        $Selenium->find_element( "table tbody tr td", 'css' );
+        # Go to test state again.
+        $Selenium->find_element( $RandomState, 'link_text' )->VerifiedClick();
 
-        # Go to new state again.
-        $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
-
-        # Check new state values.
+        # Check updated test state values.
         $Self->Is(
             $Selenium->find_element( '#Name', 'css' )->get_value(),
-            $RandomID,
+            $RandomState,
             "#Name updated value",
         );
         $Self->Is(
@@ -195,17 +223,14 @@ $Selenium->RunTest(
             "#Comment updated value",
         );
 
-        # Since there are no tickets that rely on our test state, we can remove them again
+        # Since there are no tickets that rely on our test state, we can remove them again.
         # from the DB.
-        my $StateID = $Kernel::OM->Get('Kernel::System::State')->StateLookup(
-            State => $RandomID,
-        );
         my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
-            SQL => "DELETE FROM ticket_state WHERE id = $StateID",
+            SQL => "DELETE FROM ticket_state WHERE id = $StateIDTest",
         );
         $Self->True(
             $Success,
-            "StateDelete - $RandomID",
+            "StateDelete - $RandomState",
         );
 
         # Make sure the cache is correct.
