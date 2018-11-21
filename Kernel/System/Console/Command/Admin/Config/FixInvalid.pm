@@ -86,7 +86,7 @@ sub Run {
 
             # Skip settings that are not related to the Entities.
             if ( !$Setting{XMLContentRaw} =~ m{ValueType="Entity"} ) {
-                $Self->PrintError("$SettingName is not an entity value type!");
+                $Self->PrintWarning("$SettingName is not an entity value type, skipping...");
                 push @NotFixedSettings, $SettingName;
                 next SETTING;
             }
@@ -97,7 +97,7 @@ sub Run {
 
             # Skip settings without ValueEntityType.
             if ( !$EntityType ) {
-                $Self->PrintError("System was unable to determine ValueEntityType for $SettingName!");
+                $Self->PrintWarning("System was unable to determine ValueEntityType for $SettingName, skipping...");
                 push @NotFixedSettings, $SettingName;
                 next SETTING;
             }
@@ -109,7 +109,7 @@ sub Run {
             );
 
             if ( !$Loaded ) {
-                $Self->PrintError("Kernel::System::SysConfig::ValueType::Entity::$EntityType not found!");
+                $Self->PrintWarning("Kernel::System::SysConfig::ValueType::Entity::$EntityType not found, skipping...");
                 push @NotFixedSettings, $SettingName;
                 next SETTING;
             }
@@ -119,7 +119,7 @@ sub Run {
             my @List = $Object->EntityValueList();
 
             if ( !scalar @List ) {
-                $Self->PrintError("$EntityType list is empty!");
+                $Self->PrintWarning("$EntityType list is empty, skipping...");
                 push @NotFixedSettings, $SettingName;
                 next SETTING;
             }
@@ -163,7 +163,7 @@ sub Run {
                 UserID => 1,
             );
             if ( !$ExclusiveLockGUID ) {
-                $Self->PrintError("System was not able to lock the setting $SettingName!");
+                $Self->PrintWarning("System was not able to lock the setting $SettingName, skipping...");
                 push @NotFixedSettings, $SettingName;
                 next SETTING;
             }
@@ -177,13 +177,13 @@ sub Run {
             );
 
             if ( !$Update{Success} ) {
-                $Self->PrintError("System was not able to update the setting $SettingName!");
+                $Self->PrintWarning("System was not able to update the setting $SettingName, skipping...");
                 push @NotFixedSettings, $SettingName;
                 next SETTING;
             }
 
             if ($NonInteractive) {
-                $Self->Print("<green>Auto-corrected setting:</green> $SettingName");
+                $Self->Print("<green>Auto-corrected setting:</green> $SettingName\n");
             }
 
             push @FixedSettings, $SettingName;
@@ -208,19 +208,23 @@ sub Run {
         }
 
         if ( scalar @NotFixedSettings ) {
-            $Self->PrintError(
-                "Following settings were not fixed:\n"
+            $Self->Print(
+                "\nFollowing settings were not fixed:\n"
                     . join( ",\n", map {"  - $_"} @NotFixedSettings ) . "\n"
-                    . "\nPlease use console command (bin/otrs.Console.pl Admin::Config::Update --help) or GUI to fix them.\n"
+                    . "\nPlease use console command (bin/otrs.Console.pl Admin::Config::Update --help) or GUI to fix them.\n\n"
             );
-
-            return $Self->ExitCodeError();
         }
     }
 
-    $Self->Print("<green>Done.</green>\n");
+    $Self->Print("<green>Done.</green>\n") if !$NonInteractive;
 
     return $Self->ExitCodeOk();
+}
+
+sub PrintWarning {
+    my ( $Self, $Message ) = @_;
+
+    return $Self->Print("<yellow>Warning: $Message</yellow>\n");
 }
 
 1;

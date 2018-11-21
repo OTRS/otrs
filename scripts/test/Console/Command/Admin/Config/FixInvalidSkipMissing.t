@@ -122,14 +122,14 @@ $Self->True(
     $Result,
     'Found invalid settings'
 );
-$Self->True(
+$Self->False(
     $ExitCode,
-    'Exit code error'
+    'Exit code OK'
 );
 $Self->True(
     (
         $Result
-            =~ m{Following settings were not fixed:.*?UnitTest::DummyModule::$RandomID.*Please use console command \(bin/otrs\.Console\.pl Admin::Config::Update --help\) or GUI to fix them\.}ms
+            =~ m{Following settings were not fixed:.*UnitTest::DummyModule::$RandomID.*Please use console command \(bin/otrs\.Console\.pl Admin::Config::Update --help\) or GUI to fix them\.}ms
     ) // 0,
     'Check expected command output'
 );

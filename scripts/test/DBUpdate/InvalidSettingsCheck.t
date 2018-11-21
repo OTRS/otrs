@@ -27,7 +27,6 @@ my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 my $DBUpdateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::InvalidSettingsCheck');
 
 # Set one setting to the invalid value.
-
 my $SettingName = 'Ticket::Frontend::AgentTicketPhone###Priority';
 
 # Get Setting.

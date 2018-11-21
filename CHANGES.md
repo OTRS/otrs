@@ -1,4 +1,5 @@
 #6.0.15 2018-??-??
+ - 2018-11-21 Follow-up fix for bug#[14154](https://bugs.otrs.org/show_bug.cgi?id=14154) - After migration, configuration deployment does not work due to the invalid setting value.
  - 2018-11-21 Fixed bug#[14229](https://bugs.otrs.org/show_bug.cgi?id=14229) - Transition Action  fails to transfer line breaks of content in dynamic field textarea.
  - 2018-11-20 Fixed bug#[14237](https://bugs.otrs.org/show_bug.cgi?id=14237) - Sorting of state menu entries is different then order in state overview screen.
  - 2018-11-19 Fixed bug#[14148](https://bugs.otrs.org/show_bug.cgi?id=14148) - Superfluous filter boxes and "Add Group" form in Group Management screen.
