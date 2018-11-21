@@ -21,6 +21,7 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
     'Kernel::System::User',
+    'Kernel::System::HTMLUtils',
 );
 
 =head1 NAME
@@ -111,6 +112,18 @@ sub Run {
 
     # Override UserID if specified as a parameter in the TA config.
     $Param{UserID} = $Self->_OverrideUserID(%Param);
+
+    # Convert DynamicField value to HTML string, see bug#14229.
+    my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
+    if ( $Param{Config}->{Body} =~ /OTRS_TICKET_DynamicField_/ ) {
+        for my $Match ( sort keys %{ $Param{Ticket} } ) {
+            if ( $Match =~ /DynamicField_/ && $Param{Ticket}->{$Match} ) {
+                $Param{Ticket}->{$Match} = $HTMLUtilsObject->ToHTML(
+                    String => $Param{Ticket}->{$Match},
+                );
+            }
+        }
+    }
 
     # Use ticket attributes if needed.
     $Self->_ReplaceTicketAttributes(%Param);

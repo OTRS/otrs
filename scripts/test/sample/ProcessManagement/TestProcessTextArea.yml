@@ -1,0 +1,245 @@
+---
+Activities:
+  Activity-50235d211de0ea1d0d218f06254dc644:
+    ActivityDialogs:
+    - ActivityDialog-24f90970400e3c2fc976eaf0f1e08b31
+    ChangeTime: 2018-11-20 14:45:58
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-24f90970400e3c2fc976eaf0f1e08b31
+    CreateTime: 2018-11-20 14:45:58
+    EntityID: Activity-50235d211de0ea1d0d218f06254dc644
+    ID: '1'
+    Name: Shipping
+  Activity-91bb50fff304574fdcf9e84b63242f7a:
+    ActivityDialogs: []
+    ChangeTime: 2018-11-20 14:45:58
+    Config:
+      ActivityDialog: {}
+    CreateTime: 2018-11-20 14:45:58
+    EntityID: Activity-91bb50fff304574fdcf9e84b63242f7a
+    ID: '2'
+    Name: Ordering complete
+  Activity-e2cd48a1807511cbe1b8cef2e750a9de:
+    ActivityDialogs:
+    - ActivityDialog-ff3961b48b8966e39ff950e9f40148cf
+    ChangeTime: 2018-11-20 14:45:58
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-ff3961b48b8966e39ff950e9f40148cf
+    CreateTime: 2018-11-20 14:45:58
+    EntityID: Activity-e2cd48a1807511cbe1b8cef2e750a9de
+    ID: '3'
+    Name: Start order
+ActivityDialogs:
+  ActivityDialog-24f90970400e3c2fc976eaf0f1e08b31:
+    ChangeTime: 2018-11-20 14:45:58
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Completed
+      FieldOrder:
+      - Priority
+      - Article
+      Fields:
+        Article:
+          Config:
+            ArticleType: phone
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        Priority:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+      Interface:
+      - AgentInterface
+      - CustomerInterface
+      Permission: ''
+      RequiredLock: '0'
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2018-11-20 14:45:58
+    EntityID: ActivityDialog-24f90970400e3c2fc976eaf0f1e08b31
+    ID: '1'
+    Name: Completed
+  ActivityDialog-ff3961b48b8966e39ff950e9f40148cf:
+    ChangeTime: 2018-11-20 14:56:19
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Make order
+      FieldOrder:
+      - Queue
+      - Article
+      - Title
+      - DynamicField_TestTextArea
+      Fields:
+        Article:
+          Config:
+            ArticleType: note-internal
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_TestTextArea:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        Queue:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        Title:
+          DefaultValue: Test Process Title Default
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+      Interface:
+      - AgentInterface
+      - CustomerInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2018-11-20 14:45:58
+    EntityID: ActivityDialog-ff3961b48b8966e39ff950e9f40148cf
+    ID: '2'
+    Name: Make order
+Process:
+  Activities:
+  - Activity-50235d211de0ea1d0d218f06254dc644
+  - Activity-91bb50fff304574fdcf9e84b63242f7a
+  - Activity-e2cd48a1807511cbe1b8cef2e750a9de
+  ChangeTime: 2018-11-20 15:17:26
+  Config:
+    Description: Customer selenium ticket process
+    Path:
+      Activity-50235d211de0ea1d0d218f06254dc644:
+        Transition-4165f99bd46906d549505dadc1efe495:
+          ActivityEntityID: Activity-91bb50fff304574fdcf9e84b63242f7a
+          TransitionAction:
+          - TransitionAction-9c130d0106d6318ec0323c61a5a198a1
+      Activity-91bb50fff304574fdcf9e84b63242f7a: {}
+      Activity-e2cd48a1807511cbe1b8cef2e750a9de:
+        Transition-2d886a49632568780415849f4e5d39df:
+          ActivityEntityID: Activity-50235d211de0ea1d0d218f06254dc644
+          TransitionAction:
+          - TransitionAction-13679d73996d4d7480e64af4d13eb3e2
+        Transition-8237fe4f3b9e165e823e5b882f85d12f:
+          ActivityEntityID: Activity-91bb50fff304574fdcf9e84b63242f7a
+          TransitionAction:
+          - TransitionAction-9b0fa5403f24ad1e4de1f3c231053786
+    StartActivity: Activity-e2cd48a1807511cbe1b8cef2e750a9de
+    StartActivityDialog: ActivityDialog-ff3961b48b8966e39ff950e9f40148cf
+  CreateTime: 2018-11-20 14:45:58
+  EntityID: Process-f8194a25ab0ccddefeb4240c281c1f56
+  ID: '1'
+  Layout:
+    Activity-50235d211de0ea1d0d218f06254dc644:
+      left: '708'
+      top: '17'
+    Activity-91bb50fff304574fdcf9e84b63242f7a:
+      left: '1256'
+      top: '230'
+    Activity-e2cd48a1807511cbe1b8cef2e750a9de:
+      left: '407'
+      top: '202'
+  Name: TestProcessTextArea
+  State: Active
+  StateEntityID: S1
+  TransitionActions:
+  - TransitionAction-9c130d0106d6318ec0323c61a5a198a1
+  - TransitionAction-13679d73996d4d7480e64af4d13eb3e2
+  - TransitionAction-9b0fa5403f24ad1e4de1f3c231053786
+  Transitions:
+  - Transition-4165f99bd46906d549505dadc1efe495
+  - Transition-2d886a49632568780415849f4e5d39df
+  - Transition-8237fe4f3b9e165e823e5b882f85d12f
+TransitionActions:
+  TransitionAction-13679d73996d4d7480e64af4d13eb3e2:
+    ChangeTime: 2018-11-20 15:17:06
+    Config:
+      Config:
+        Body: <div style="font-family:arial;"> <OTRS_TICKET_DynamicField_TestTextArea>
+          <br></div>
+        CommunicationChannel: Email
+        ContentType: text/html; charset=UTF-8
+        HistoryComment: This is the history comment
+        HistoryType: Addnote
+        IsVisibleForCustomer: '1'
+        SenderType: customer
+        Subject: This is the subject
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate
+    CreateTime: 2018-11-20 14:45:58
+    EntityID: TransitionAction-13679d73996d4d7480e64af4d13eb3e2
+    ID: '1'
+    Name: Go to processing
+  TransitionAction-9b0fa5403f24ad1e4de1f3c231053786:
+    ChangeTime: 2018-11-20 14:45:58
+    Config:
+      Config:
+        State: closed unsuccessful
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketStateSet
+    CreateTime: 2018-11-20 14:45:58
+    EntityID: TransitionAction-9b0fa5403f24ad1e4de1f3c231053786
+    ID: '2'
+    Name: Completede unsuccessful
+  TransitionAction-9c130d0106d6318ec0323c61a5a198a1:
+    ChangeTime: 2018-11-20 14:45:58
+    Config:
+      Config:
+        State: closed successful
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketStateSet
+    CreateTime: 2018-11-20 14:45:58
+    EntityID: TransitionAction-9c130d0106d6318ec0323c61a5a198a1
+    ID: '3'
+    Name: Completede successful
+Transitions:
+  Transition-2d886a49632568780415849f4e5d39df:
+    ChangeTime: 2018-11-20 14:45:58
+    Config:
+      Condition:
+        '1':
+          Fields:
+            Queue:
+              Match: Raw
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2018-11-20 14:45:58
+    EntityID: Transition-2d886a49632568780415849f4e5d39df
+    ID: '1'
+    Name: Approved
+  Transition-4165f99bd46906d549505dadc1efe495:
+    ChangeTime: 2018-11-20 14:45:58
+    Config:
+      Condition:
+        '1':
+          Fields:
+            Priority:
+              Match: 5 very high
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2018-11-20 14:45:58
+    EntityID: Transition-4165f99bd46906d549505dadc1efe495
+    ID: '2'
+    Name: Completed
+  Transition-8237fe4f3b9e165e823e5b882f85d12f:
+    ChangeTime: 2018-11-20 14:45:58
+    Config:
+      Condition:
+        '1':
+          Fields:
+            Queue:
+              Match: Junk
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2018-11-20 14:45:58
+    EntityID: Transition-8237fe4f3b9e165e823e5b882f85d12f
+    ID: '3'
+    Name: Denied
