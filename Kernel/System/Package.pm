@@ -645,6 +645,7 @@ sub PackageInstall {
             'SysConfigDefaultList',
             'SysConfigDefault',
             'SysConfigPersistent',
+            'SysConfigModifiedList',
         ],
     );
     $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();
@@ -750,6 +751,7 @@ sub PackageReinstall {
             'SysConfigDefaultList',
             'SysConfigDefault',
             'SysConfigPersistent',
+            'SysConfigModifiedList',
         ],
     );
     $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();
@@ -1179,6 +1181,7 @@ sub PackageUpgrade {
             'SysConfigDefaultList',
             'SysConfigDefault',
             'SysConfigPersistent',
+            'SysConfigModifiedList',
         ],
     );
     $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();
@@ -1290,6 +1293,7 @@ sub PackageUninstall {
             'SysConfigDefaultList',
             'SysConfigDefault',
             'SysConfigPersistent',
+            'SysConfigModifiedList',
         ],
     );
     $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();
@@ -4488,6 +4492,7 @@ sub _PackageUninstallMerged {
             'SysConfigDefaultList',
             'SysConfigDefault',
             'SysConfigPersistent',
+            'SysConfigModifiedList',
         ],
     );
     $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();
