@@ -155,7 +155,10 @@ $Selenium->RunTest(
 
         # Wait until form has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("button[value=Submit]").length;' );
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+        $Selenium->execute_script("\$('button[value=Submit]').click();");
+        $Selenium->WaitFor(
+            JavaScript => "return \$('.ArticleID').length;"
+        );
 
         my $ArticleID = $Selenium->execute_script(
             "return \$('.Subject:contains(\"This is the subject\")').closest('tr').find('.ArticleID').val();"
