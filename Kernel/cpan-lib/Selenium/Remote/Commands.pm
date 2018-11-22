@@ -1,5 +1,5 @@
 package Selenium::Remote::Commands;
-$Selenium::Remote::Commands::VERSION = '1.29';
+$Selenium::Remote::Commands::VERSION = '1.30';
 use strict;
 use warnings;
 
@@ -520,7 +520,7 @@ Selenium::Remote::Commands - Implement commands for Selenium::Remote::Driver for
 
 =head1 VERSION
 
-version 1.29
+version 1.30
 
 =head1 DESCRIPTION
 
@@ -546,7 +546,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
+https://github.com/teodesian/Selenium-Remote-Driver/issues
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired

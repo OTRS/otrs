@@ -1,5 +1,5 @@
 package Selenium::Remote::Driver;
-$Selenium::Remote::Driver::VERSION = '1.29';
+$Selenium::Remote::Driver::VERSION = '1.30';
 use strict;
 use warnings;
 
@@ -1032,8 +1032,6 @@ sub available_engines {
 sub switch_to_frame {
     my ( $self, $id ) = @_;
 
-    return $self->switch_to_parent_frame() if ($self->{is_wd3} && !defined($id));
-
     my $json_null = JSON::null;
     my $params;
     $id = ( defined $id ) ? $id : $json_null;
@@ -1347,8 +1345,8 @@ sub _build_find_params {
     # geckodriver doesn't accept name as a valid selector
     if ($self->isa('Selenium::Firefox') && $using eq 'name') {
         return {
-            using => 'css',
-            value => '[name=$query]'
+            using => 'css selector',
+            value => qq{[name="$query"]}
         };
     }
     else {
@@ -1747,7 +1745,7 @@ Selenium::Remote::Driver - Perl Client for Selenium Remote Driver
 
 =head1 VERSION
 
-version 1.29
+version 1.30
 
 =head1 SYNOPSIS
 
@@ -1783,9 +1781,10 @@ the Selenium Server (Selenium Server is a Java application).
 
 As of v0.25, it's possible to use this module without a standalone
 server - that is, you would not need the JRE or the JDK to run your
-Selenium tests. See L<Selenium::Chrome>, L<Selenium::PhantomJS>, and
-L<Selenium::Firefox> for details. If you'd like additional browsers
-besides these, give us a holler over in
+Selenium tests. See L<Selenium::Chrome>, L<Selenium::PhantomJS>,
+L<Selenium::Edge>, L<Selenium::InternetExplorer>,and L<Selenium::Firefox>
+for details. If you'd like additional browsers besides these,
+give us a holler over in
 L<Github|https://github.com/teodesian/Selenium-Remote-Driver/issues>.
 
 =head2 Remote Driver Response
@@ -1970,7 +1969,7 @@ Desired capabilities - HASH - Following options are accepted:
 
 =item B<accept_ssl_certs>   - <boolean>  - whether SSL certs should be accepted, default is true.
 
-=item B<firefox_profile>    - Profile    - Use Selenium::Firefox::Profile to create a Firefox profile for the browser to use.  Optionally can pass a base64'd zip data of a profile directory if you don't like Selenium::Firefox::Profile.
+=item B<firefox_profile>    - Profile    - Use Selenium::Firefox::Profile to create a Firefox profile for the browser to use.
 
 =item B<javascript>         - <boolean> - Whether or not to use Javascript.  You probably won't disable this, as you would be using L<WWW::Mechanize> instead.  Default: True
 
@@ -2033,6 +2032,8 @@ not part of the browser-related desired capabilities.
 =item B<socksVersion>       - <int>    - OPTIONAL, ignored if proxyType is not 'manual'. WebDriver 3 only.
 
 =item B<noProxy>            - <ARRAY>  - OPTIONAL, list of URLs to bypass the proxy for. WebDriver3 only.
+
+=item B<firefox_profile>    - <string> - Base64 encoded ZIP file of a firefox profile directory, for use when you don't want/need Selenium::Firefox::Profile.
 
 =back
 
@@ -3520,7 +3521,7 @@ L<Wight|Wight>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
+https://github.com/teodesian/Selenium-Remote-Driver/issues
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired
