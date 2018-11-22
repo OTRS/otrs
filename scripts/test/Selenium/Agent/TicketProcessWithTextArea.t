@@ -157,7 +157,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("button[value=Submit]").length;' );
         $Selenium->execute_script("\$('button[value=Submit]').click();");
         $Selenium->WaitFor(
-            JavaScript => "return \$('.ArticleID').length;"
+            JavaScript => "return typeof(\$) === 'function' && \$('.ArticleID').length;"
         );
 
         my $ArticleID = $Selenium->execute_script(
