@@ -358,6 +358,25 @@ $Self->True(
     'TicketSearch() (HASH:TicketID as ARRAYREF)',
 );
 
+my $ErrorOutput = '';
+
+{
+    local *STDERR;
+    open STDERR, ">>", \$ErrorOutput;
+
+    %TicketIDs = $TicketObject->TicketSearch(
+        TicketID => [],
+        UserID   => 1,
+    );
+}
+
+# Verify that search does not fail SQL syntax check when an empty array reference is passed for the TicketID param.
+#   Please see bug#14227 for more information.
+$Self->False(
+    ( $ErrorOutput =~ m{you have an error in your sql syntax}i ) // 1,
+    'TicketSearch() (HASH:TicketID as an empty ARRAYREF)'
+);
+
 my $Count = $TicketObject->TicketSearch(
     Result       => 'COUNT',
     TicketNumber => $Ticket{TicketNumber},

@@ -11,7 +11,7 @@ package Kernel::System::Ticket::TicketSearch;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsArrayRefWithData);
+use Kernel::System::VariableCheck qw(IsArrayRefWithData IsStringWithData);
 
 our $ObjectManagerDisabled = 1;
 
@@ -523,7 +523,7 @@ sub TicketSearch {
 
     # Limit the search to just one (or a list) TicketID (used by the GenericAgent
     #   to filter for events on single tickets with the job's ticket filter).
-    if ( $Param{TicketID} ) {
+    if ( IsStringWithData( $Param{TicketID} ) || IsArrayRefWithData( $Param{TicketID} ) ) {
 
         my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
             Key       => 'st.id',
