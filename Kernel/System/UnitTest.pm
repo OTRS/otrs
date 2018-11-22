@@ -332,40 +332,52 @@ sub _SubmitResults {
         }
     }
 
-    # Save Selenium Browser information in Support Data results.
-    if ( IsHashRefWithData( $Self->{SeleniumBrowser} ) ) {
+    # Save Selenium Data information in Support Data results.
+    if ( IsHashRefWithData( $Self->{SeleniumData} ) ) {
         push @{ $SupportData{Result} },
             {
-            Value       => $Self->{SeleniumBrowser}->{browserName} // 'N/A',
+            Value       => $Self->{SeleniumData}->{build}->{version} // 'N/A',
+            Label       => 'Selenium Server',
+            DisplayPath => 'Selenium Test Environment',
+            Status      => 1,
+            },
+            {
+            Value       => $Self->{SeleniumData}->{java}->{version} // 'N/A',
+            Label       => 'Java',
+            DisplayPath => 'Selenium Test Environment',
+            Status      => 1,
+            },
+            {
+            Value       => $Self->{SeleniumData}->{browserName} // 'N/A',
             Label       => 'Browser Name',
             DisplayPath => 'Selenium Test Environment',
             Status      => 1,
             };
-        if ( $Self->{SeleniumBrowser}->{browserName} && $Self->{SeleniumBrowser}->{browserName} eq 'chrome' ) {
+        if ( $Self->{SeleniumData}->{browserName} && $Self->{SeleniumData}->{browserName} eq 'chrome' ) {
             push @{ $SupportData{Result} },
                 {
-                Value       => $Self->{SeleniumBrowser}->{version} // 'N/A',
+                Value       => $Self->{SeleniumData}->{version} // 'N/A',
                 Label       => 'Browser Version',
                 DisplayPath => 'Selenium Test Environment',
                 Status      => 1,
                 },
                 {
-                Value       => $Self->{SeleniumBrowser}->{chrome}->{chromedriverVersion} // 'N/A',
+                Value       => $Self->{SeleniumData}->{chrome}->{chromedriverVersion} // 'N/A',
                 Label       => 'Chrome Driver',
                 DisplayPath => 'Selenium Test Environment',
                 Status      => 1,
                 };
         }
-        elsif ( $Self->{SeleniumBrowser}->{browserName} && $Self->{SeleniumBrowser}->{browserName} eq 'firefox' ) {
+        elsif ( $Self->{SeleniumData}->{browserName} && $Self->{SeleniumData}->{browserName} eq 'firefox' ) {
             push @{ $SupportData{Result} },
                 {
-                Value       => $Self->{SeleniumBrowser}->{browserVersion} // 'N/A',
+                Value       => $Self->{SeleniumData}->{browserVersion} // 'N/A',
                 Label       => 'Browser Version',
                 DisplayPath => 'Selenium Test Environment',
                 Status      => 1,
                 },
                 {
-                Value       => $Self->{SeleniumBrowser}->{'moz:geckodriverVersion'} // 'N/A',
+                Value       => $Self->{SeleniumData}->{'moz:geckodriverVersion'} // 'N/A',
                 Label       => 'Gecko Driver',
                 DisplayPath => 'Selenium Test Environment',
                 Status      => 1,

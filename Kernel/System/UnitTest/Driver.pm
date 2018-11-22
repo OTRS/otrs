@@ -149,8 +149,8 @@ sub Run {
     # Use non-overridden time() function.
     $Self->{ResultData}->{Duration} = CORE::time - $FileStartTime;    ## no critic
 
-    if ( $Self->{SeleniumCapabilities} ) {
-        $Self->{ResultData}->{SeleniumBrowser} = $Self->{SeleniumCapabilities};
+    if ( $Self->{SeleniumData} ) {
+        $Self->{ResultData}->{SeleniumData} = $Self->{SeleniumData};
     }
 
     print { $Self->{OriginalSTDOUT} } "\n";

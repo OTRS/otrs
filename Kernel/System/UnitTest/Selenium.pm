@@ -115,7 +115,7 @@ sub new {
     $Self->{UnitTestDriverObject} = $Param{UnitTestDriverObject};
     $Self->{SeleniumTestsActive}  = 1;
 
-    $Self->{UnitTestDriverObject}->{SeleniumCapabilities} = $Self->get_capabilities();
+    $Self->{UnitTestDriverObject}->{SeleniumData} = { %{ $Self->get_capabilities() }, %{ $Self->status() } };
 
     #$Self->debug_on();
 
