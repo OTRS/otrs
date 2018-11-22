@@ -1,5 +1,5 @@
 package Selenium::Remote::Finders;
-$Selenium::Remote::Finders::VERSION = '1.29';
+$Selenium::Remote::Finders::VERSION = '1.30';
 use strict;
 use warnings;
 
@@ -41,7 +41,7 @@ Selenium::Remote::Finders - Handle construction of generic parameter finders
 
 =head1 VERSION
 
-version 1.29
+version 1.30
 
 =head1 DESCRIPTION
 
@@ -66,7 +66,7 @@ L<Selenium::Remote::Driver|Selenium::Remote::Driver>
 =head1 BUGS
 
 Please report any bugs or feature requests on the bugtracker website
-L<https://github.com/teodesian/Selenium-Remote-Driver/issues>
+https://github.com/teodesian/Selenium-Remote-Driver/issues
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired
