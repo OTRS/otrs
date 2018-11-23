@@ -259,7 +259,7 @@ sub _HandleFile {
     $Self->{TestCountOk}    += $ResultData->{TestOk} // 0;
     $Self->{TestCountNotOk} += $ResultData->{TestNotOk} // 0;
 
-    $Self->{SeleniumBrowser} //= $ResultData->{SeleniumBrowser};
+    $Self->{SeleniumData} //= $ResultData->{SeleniumData};
 
     $Self->{NotOkInfo} //= [];
     if ( $ResultData->{NotOkInfo} ) {
