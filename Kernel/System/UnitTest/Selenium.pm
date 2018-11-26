@@ -690,7 +690,7 @@ sub WaitForjQueryEventBound {
     }
 
     if ( !$JQueryObjectID ) {
-        die "Couldn't determine jQuery object id";
+        die "Couldn't determine jQuery object id.";
     }
 
     # Wait until click event is bound to the element.
@@ -702,6 +702,42 @@ sub WaitForjQueryEventBound {
     );
 
     return 1;
+}
+
+
+=head2 InputFieldValueSet()
+
+sets modernized input field value.
+
+    $SeleniumObject->InputFieldValueSet(
+        Element => 'css-selector',              # (required) css selector
+        Value   => 3,                           # (optional) Value
+    );
+
+=cut
+
+sub InputFieldValueSet {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    if ( !$Param{Element} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Element!",
+        );
+        die 'Missing Element.';
+    }
+    my $Value = $Param{Value} || '';
+
+    # Set selected value.
+    $Self->execute_script(
+        "\$('$Param{Element}').val('$Value').trigger('redraw.InputField').trigger('change');"
+    );
+
+    # Wait until selection tree is closed.
+    $Self->WaitFor(
+        ElementMissing => [ '.jstree-anchor', 'css' ],
+    );
 }
 
 1;
