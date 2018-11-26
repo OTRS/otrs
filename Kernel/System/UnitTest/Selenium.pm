@@ -704,7 +704,6 @@ sub WaitForjQueryEventBound {
     return 1;
 }
 
-
 =head2 InputFieldValueSet()
 
 sets modernized input field value.
@@ -727,17 +726,25 @@ sub InputFieldValueSet {
         );
         die 'Missing Element.';
     }
-    my $Value = $Param{Value} || '';
+    my $Value = $Param{Value} // '';
+
+    if ( $Value !~ m{^\[} && $Value !~ m{^".*"$} ) {
+
+        # Quote text of Value is not array and if not already quoted.
+        $Value = "\"$Value\"";
+    }
 
     # Set selected value.
     $Self->execute_script(
-        "\$('$Param{Element}').val('$Value').trigger('redraw.InputField').trigger('change');"
+        "\$('$Param{Element}').val($Value).trigger('redraw.InputField').trigger('change');"
     );
 
     # Wait until selection tree is closed.
     $Self->WaitFor(
         ElementMissing => [ '.jstree-anchor', 'css' ],
     );
+
+    return 1;
 }
 
 1;
