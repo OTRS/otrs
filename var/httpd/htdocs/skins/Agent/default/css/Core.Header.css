@@ -434,14 +434,17 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
 }
 
 #Navigation > li > a:after {
-    width: 0px;
+    width: 100%;
     height: 3px;
     position: absolute;
     bottom: 0px;
     left: 0px;
     background: #f92;
     content: "";
-    transition: width ease 0.3s;
+    transform: scale(0, 1);
+    transform-origin: 0;
+    transition: transform 300ms ease;
+    will-change: transform;
 }
 
 #Navigation > li > a#GlobalSearchNav {
@@ -482,7 +485,7 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
 #Navigation > li > a:active:after,
 #Navigation > li > a:focus:after,
 #Navigation > li.Selected > a:after {
-    width: 100%;
+    transform: scale(1, 1);
 }
 
 #Navigation > .Selected {
