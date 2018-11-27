@@ -368,11 +368,15 @@ wait with increasing sleep intervals until the given condition is true or the wa
 Exactly one condition (JavaScript or WindowCount) must be specified.
 
     my $Success = $SeleniumObject->WaitFor(
-        JavaScript   => 'return $(".someclass").length',   # Javascript code that checks condition
-        AlertPresent => 1,                                 # Wait until an alert, confirm or prompt dialog is present
-        WindowCount  => 2,                                 # Wait until this many windows are open
-        Callback     => sub { ... }                        # Wait until function returns true
-        Time         => 20,                                # optional, wait time in seconds (default 20)
+        AlertPresent   => 1,                                 # Wait until an alert, confirm or prompt dialog is present
+        Callback       => sub { ... }                        # Wait until function returns true
+        ElementExists  => 'xpath-selector'                   # Wait until an element is present
+        ElementExists  => ['css-selector', 'css'],
+        ElementMissing => 'xpath-selector',                  # Wait until an element is not present
+        ElementMissing => ['css-selector', 'css'],
+        JavaScript     => 'return $(".someclass").length',   # Javascript code that checks condition
+        WindowCount    => 2,                                 # Wait until this many windows are open
+        Time           => 20,                                # optional, wait time in seconds (default 20)
     );
 
 =cut
@@ -380,8 +384,16 @@ Exactly one condition (JavaScript or WindowCount) must be specified.
 sub WaitFor {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Param{JavaScript} && !$Param{WindowCount} && !$Param{AlertPresent} && !$Param{Callback} ) {
-        die "Need JavaScript, WindowCount or AlertPresent.";
+    if (
+        !$Param{JavaScript}
+        && !$Param{WindowCount}
+        && !$Param{AlertPresent}
+        && !$Param{Callback}
+        && !$Param{ElementExists}
+        && !$Param{ElementMissing}
+        )
+    {
+        die "Need JavaScript, WindowCount, ElementExists, ElementMissing or AlertPresent.";
     }
 
     local $Self->{SuppressCommandRecording} = 1;
@@ -389,6 +401,7 @@ sub WaitFor {
     $Param{Time} //= 20;
     my $WaitedSeconds = 0;
     my $Interval      = 0.1;
+    my $WaitSeconds   = 0.5;
 
     while ( $WaitedSeconds <= $Param{Time} ) {
         if ( $Param{JavaScript} ) {
@@ -404,6 +417,22 @@ sub WaitFor {
         }
         elsif ( $Param{Callback} ) {
             return 1 if $Param{Callback}->();
+        }
+        elsif ( $Param{ElementExists} ) {
+            my @Arguments
+                = ref( $Param{ElementExists} ) eq 'ARRAY' ? @{ $Param{ElementExists} } : $Param{ElementExists};
+            if ( eval { $Self->find_element(@Arguments) } ) {
+                Time::HiRes::sleep($WaitSeconds);
+                return 1;
+            }
+        }
+        elsif ( $Param{ElementMissing} ) {
+            my @Arguments
+                = ref( $Param{ElementMissing} ) eq 'ARRAY' ? @{ $Param{ElementMissing} } : $Param{ElementMissing};
+            if ( !eval { $Self->find_element(@Arguments) } ) {
+                Time::HiRes::sleep($WaitSeconds);
+                return 1;
+            }
         }
         Time::HiRes::sleep($Interval);
         $WaitedSeconds += $Interval;
