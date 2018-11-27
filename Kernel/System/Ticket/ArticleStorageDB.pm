@@ -248,7 +248,7 @@ sub ArticleWriteAttachment {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Content Filename ContentType ArticleID UserID)) {
+    for (qw(Filename ContentType ArticleID UserID)) {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',

@@ -697,7 +697,6 @@ sub PartsAttachments {
                 Priority => 'notice',
                 Message  => "Totally empty attachment part ($PartCounter)",
             );
-            return;
         }
     }
 
