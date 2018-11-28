@@ -1,4 +1,6 @@
 #5.0.33 20??-??-??
+ - 2018-11-28 Fixed bug#[13444](https://bugs.otrs.org/show_bug.cgi?id=13444) - DynamicField Dropdown values are not verified if submitted via web service.
+ - 2018-11-28 Fixed bug#[14114](https://bugs.otrs.org/show_bug.cgi?id=14114) - Dynamic field of type database cannot be saved via a web service.
  - 2018-11-27 Fixed bug#[14246](https://bugs.otrs.org/show_bug.cgi?id=14246) - Attachments with 0 byte do not show up.
  - 2018-11-20 Fixed bug#[14237](https://bugs.otrs.org/show_bug.cgi?id=14237) - Sorting of state menu entries is different then order in state overview screen.
  - 2018-11-19 Fixed bug#[14148](https://bugs.otrs.org/show_bug.cgi?id=14148) - Superfluous filter boxes and "Add Group" form in Group Management screen.
