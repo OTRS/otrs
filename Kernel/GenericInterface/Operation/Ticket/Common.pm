@@ -1120,44 +1120,7 @@ sub ValidateDynamicFieldValue {
         UserID             => 1,
     );
 
-    return if !$ValueType;
-
-    # Check if value parameter exists in config of possible values, for example for dropdown/multi-select fields.
-    #   Please see bug#13444 for more information.
-    if (
-        defined $Param{Value}
-        && length $Param{Value}
-        && (
-            IsArrayRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} )
-            || IsHashRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} )
-        )
-        )
-    {
-        my @Values;
-        if ( ref $Param{Value} eq 'ARRAY' ) {
-            @Values = @{ $Param{Value} };
-        }
-        else {
-            push @Values, $Param{Value};
-        }
-
-        if ( IsArrayRefWithData( $DynamicFieldConfig->{Config}->{PossibleValues} ) ) {
-            for my $Value (@Values) {
-                if ( !grep { $_ eq $Value } @{ $DynamicFieldConfig->{Config}->{PossibleValues} } ) {
-                    return;
-                }
-            }
-        }
-        else {
-            for my $Value (@Values) {
-                if ( !grep { $_ eq $Value } keys %{ $DynamicFieldConfig->{Config}->{PossibleValues} } ) {
-                    return;
-                }
-            }
-        }
-    }
-
-    return 1;
+    return $ValueType;
 }
 
 =head2 ValidateDynamicFieldObjectType()

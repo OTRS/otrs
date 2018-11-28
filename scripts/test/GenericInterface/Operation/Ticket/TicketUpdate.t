@@ -100,11 +100,11 @@ my %DynamicFieldDropdownConfig = (
     Label      => 'Description',
     ValidID    => 1,
     Config     => {
-        PossibleValues => [
+        PossibleValues => {
             1 => 'One',
             2 => 'Two',
             3 => 'Three',
-        ],
+        },
     },
 );
 my $FieldDropdownID = $DynamicFieldObject->DynamicFieldAdd(
@@ -129,11 +129,11 @@ my %DynamicFieldMultiselectConfig = (
     Label      => 'Multiselect label',
     ValidID    => 1,
     Config     => {
-        PossibleValues => [
+        PossibleValues => {
             1 => 'Value9ßüß',
             2 => 'DifferentValue',
             3 => '1234567',
-        ],
+        },
     },
 );
 my $FieldMultiselectID = $DynamicFieldObject->DynamicFieldAdd(

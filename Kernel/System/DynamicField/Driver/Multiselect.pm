@@ -206,7 +206,16 @@ sub ValueIsDifferent {
 sub ValueValidate {
     my ( $Self, %Param ) = @_;
 
-    # check value
+    # Check for valid possible values list.
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig}->{Config}->{PossibleValues} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need PossibleValues in DynamicFieldConfig!",
+        );
+        return;
+    }
+
+    # Check value.
     my @Values;
     if ( IsArrayRefWithData( $Param{Value} ) ) {
         @Values = @{ $Param{Value} };
@@ -215,11 +224,20 @@ sub ValueValidate {
         @Values = ( $Param{Value} );
     }
 
-    # get dynamic field value object
     my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
 
     my $Success;
     for my $Item (@Values) {
+
+        # Check if item exists in possible values config.
+        if (
+            defined $Item
+            && length $Item
+            && !grep { $_ eq $Item } keys %{ $Param{DynamicFieldConfig}->{Config}->{PossibleValues} }
+            )
+        {
+            return;
+        }
 
         $Success = $DynamicFieldValueObject->ValueValidate(
             Value => {
