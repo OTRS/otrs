@@ -53,8 +53,9 @@ $Selenium->RunTest(
         for my $Type (qw(Ticket Article)) {
 
             my $ObjectType = $Type . "DynamicField";
-            $Selenium->execute_script(
-                "\$('#$ObjectType').val('Multiselect').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => "#$ObjectType",
+                Value   => 'Multiselect',
             );
 
             for my $ID (
@@ -125,8 +126,9 @@ $Selenium->RunTest(
             $Selenium->find_element( "#Value_3", 'css' )->send_keys("Value3");
 
             # Select default value.
-            $Selenium->execute_script(
-                "\$('#DefaultValue').val('Key3').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#DefaultValue',
+                Value   => 'Key3',
             );
 
             # Verify default value.
@@ -148,8 +150,9 @@ $Selenium->RunTest(
             );
 
             # Select both possible values as default values to make sure that more than one can be selected.
-            $Selenium->execute_script(
-                "\$('#DefaultValue').val(['Key1', 'Key2']).trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#DefaultValue',
+                Value   => "['Key1', 'Key2']",
             );
 
             # Submit form.
@@ -174,9 +177,18 @@ $Selenium->RunTest(
             );
 
             # Edit test DynamicFieldMultiselect possible none, default value, treeview and set it to invalid.
-            $Selenium->execute_script("\$('#PossibleNone').val('1').trigger('redraw.InputField').trigger('change');");
-            $Selenium->execute_script("\$('#TreeView').val('1').trigger('redraw.InputField').trigger('change');");
-            $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+            $Selenium->InputFieldValueSet(
+                Element => '#PossibleNone',
+                Value   => 1,
+            );
+            $Selenium->InputFieldValueSet(
+                Element => '#TreeView',
+                Value   => 1,
+            );
+            $Selenium->InputFieldValueSet(
+                Element => '#ValidID',
+                Value   => 2,
+            );
             $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
             # Check new and edited DynamicFieldMultiselect values.

@@ -654,9 +654,10 @@ my @Tests = (
             },
             {
                 # Select 2 low
-                JS => "\$('.WidgetSimple[data-name=\"ExampleHashEntity1\"] "
-                    . " select').val('2 low')"
-                    . ".trigger('redraw.InputField').trigger('change');",
+                InputFieldValueSet => {
+                    Element => '.WidgetSimple[data-name=\"ExampleHashEntity1\"] select',
+                    Value   => '2 low',
+                },
             },
             {
                 # Wait until option is selected.
@@ -721,9 +722,10 @@ my @Tests = (
             },
             {
                 # Select 2 low
-                JS => "\$('.WidgetSimple[data-name=\"ExampleHashEntity2\"] "
-                    . " select').val('2 low')"
-                    . ".trigger('redraw.InputField').trigger('change');",
+                InputFieldValueSet => {
+                    Element => '.WidgetSimple[data-name=\"ExampleHashEntity2\"] select',
+                    Value   => '2 low',
+                },
             },
             {
                 # Wait until option is selected.
@@ -1052,9 +1054,10 @@ my @Tests = (
             },
             {
                 # Select Kernel::System::Log::File
-                JS => "\$('.WidgetSimple[data-name=\"ExampleHashPerlModule1\"] "
-                    . " select').val('Kernel::System::Log::File')"
-                    . ".trigger('redraw.InputField').trigger('change');",
+                InputFieldValueSet => {
+                    Element => '.WidgetSimple[data-name=\"ExampleHashPerlModule1\"] select',
+                    Value   => 'Kernel::System::Log::File',
+                },
             },
             {
                 # Wait until option is selected.
@@ -1119,9 +1122,10 @@ my @Tests = (
             },
             {
                 # Select 2 low
-                JS => "\$('.WidgetSimple[data-name=\"ExampleHashPerlModule2\"] "
-                    . " select').val('Kernel::System::Log::File')"
-                    . ".trigger('redraw.InputField').trigger('change');",
+                InputFieldValueSet => {
+                    Element => '.WidgetSimple[data-name=\"ExampleHashPerlModule2\"] select',
+                    Value   => 'Kernel::System::Log::File',
+                },
             },
             {
                 # Wait until option is selected.
@@ -1186,9 +1190,10 @@ my @Tests = (
             },
             {
                 # Select female.
-                JS => "\$('.WidgetSimple[data-name=\"ExampleHashSelect1\"] "
-                    . " select').val('female')"
-                    . ".trigger('redraw.InputField').trigger('change');",
+                InputFieldValueSet => {
+                    Element => '.WidgetSimple[data-name=\"ExampleHashSelect1\"] select',
+                    Value   => 'female',
+                },
             },
             {
                 # Wait until option is selected.
@@ -1247,9 +1252,10 @@ my @Tests = (
             },
             {
                 # Select male.
-                JS => "\$('.WidgetSimple[data-name=\"ExampleHashSelect2\"] "
-                    . " select').val('male')"
-                    . ".trigger('redraw.InputField').trigger('change');",
+                InputFieldValueSet => {
+                    Element => '.WidgetSimple[data-name=\"ExampleHashSelect2\"] select',
+                    Value   => 'male',
+                },
             },
             {
                 # Wait until option is selected.
@@ -1431,9 +1437,10 @@ my @Tests = (
             },
             {
                 # Select UTC
-                JS => "\$('.WidgetSimple[data-name=\"ExampleHashTimeZone1\"] "
-                    . " select').val('UTC')"
-                    . ".trigger('redraw.InputField').trigger('change');",
+                InputFieldValueSet => {
+                    Element => '.WidgetSimple[data-name=\"ExampleHashTimeZone1\"] select',
+                    Value   => 'UTC',
+                },
             },
             {
                 # Wait until option is selected.
@@ -1502,9 +1509,10 @@ my @Tests = (
             },
             {
                 # Select Europe/Berlin
-                JS => "\$('.WidgetSimple[data-name=\"ExampleHashTimeZone2\"] "
-                    . " select').val('Europe/Berlin')"
-                    . ".trigger('redraw.InputField').trigger('change');",
+                InputFieldValueSet => {
+                    Element => '.WidgetSimple[data-name=\"ExampleHashTimeZone2\"] select',
+                    Value   => 'Europe/Berlin',
+                },
             },
             {
                 # Wait until option is selected.
@@ -1763,6 +1771,19 @@ $Selenium->RunTest(
 
                     $Selenium->execute_script(
                         $Command->{JS},
+                    );
+                }
+                elsif ( $CommandType eq 'InputFieldValueSet' ) {
+
+                    # Wait for any tasks to complete.
+                    $Selenium->WaitFor(
+                        JavaScript => 'return typeof($) === "function" && $("' . $Prefix
+                            . '").hasClass("HasOverlay") == 0',
+                    );
+
+                    $Selenium->InputFieldValueSet(
+                        Element => $Value->{Element},
+                        Value   => $Value->{Value},
                     );
                 }
                 elsif ( $CommandType eq 'WaitForJS' ) {

@@ -302,8 +302,9 @@ $Selenium->RunTest(
                 );
 
                 if ( $AutoCompleteExpected{$AutocompleteInput}->{SelectAssigendCustomerID} ) {
-                    $Selenium->execute_script(
-                        "\$('#SelectionCustomerIDAssigned').val('$AutoCompleteExpected{$AutocompleteInput}->{SelectAssigendCustomerID}').trigger('redraw.InputField').trigger('change');"
+                    $Selenium->InputFieldValueSet(
+                        Element => '#SelectionCustomerIDAssigned',
+                        Value   => $AutoCompleteExpected{$AutocompleteInput}->{SelectAssigendCustomerID},
                     );
                 }
                 elsif ( $AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID} ) {

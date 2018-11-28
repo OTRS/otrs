@@ -62,7 +62,10 @@ $Selenium->RunTest(
         );
 
         # add test queue to 'My Queues' preference
-        $Selenium->execute_script("\$('#QueueID').val('$QueueID').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#QueueID',
+            Value   => $QueueID,
+        );
 
         # save the setting, wait for the ajax call to finish and check if success sign is shown
         $Selenium->execute_script(

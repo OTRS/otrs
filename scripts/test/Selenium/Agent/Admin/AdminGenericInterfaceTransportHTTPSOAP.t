@@ -66,13 +66,15 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, 'WebserviceID=$WebserviceID')]")->VerifiedClick();
 
         # Select 'HTTP::SOAP' as provider network transport.
-        $Selenium->execute_script(
-            "\$('#ProviderTransportList').val('HTTP::SOAP').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ProviderTransportList',
+            Value   => 'HTTP::SOAP',
         );
 
         # Select 'HTTP::SOAP' as requester network transport.
-        $Selenium->execute_script(
-            "\$('#RequesterTransportList').val('HTTP::SOAP').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#RequesterTransportList',
+            Value   => 'HTTP::SOAP',
         );
 
         # Click on 'Save'.
@@ -114,8 +116,9 @@ $Selenium->RunTest(
             );
 
             my $OptionField = $Field . 'NameScheme';
-            $Selenium->execute_script(
-                "\$('#$OptionField').val('Append').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => "#$OptionField",
+                Value   => 'Append',
             );
 
             $Self->True(
@@ -289,8 +292,9 @@ $Selenium->RunTest(
         );
 
         # Change SOAP action field to No.
-        $Selenium->execute_script(
-            "\$('#SOAPAction').val('No').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#SOAPAction',
+            Value   => 'No',
         );
 
         # Verify certain fields are Hidden with default options,
@@ -350,8 +354,9 @@ $Selenium->RunTest(
 
             # Change field to trigger JS (if necessary).
             if ( $Field->{OptionValuePre} ) {
-                $Selenium->execute_script(
-                    "\$('#$Field->{OptionField}').val('$Field->{OptionValuePre}').trigger('redraw.InputField').trigger('change');"
+                $Selenium->InputFieldValueSet(
+                    Element => "#$Field->{OptionField}",
+                    Value   => $Field->{OptionValuePre},
                 );
                 $Selenium->WaitFor(
                     JavaScript =>
@@ -368,8 +373,9 @@ $Selenium->RunTest(
             );
 
             # Change field to trigger JS.
-            $Selenium->execute_script(
-                "\$('#$Field->{OptionField}').val('$Field->{OptionValue}').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => "#$Field->{OptionField}",
+                Value   => $Field->{OptionValue},
             );
 
             $Selenium->WaitFor(

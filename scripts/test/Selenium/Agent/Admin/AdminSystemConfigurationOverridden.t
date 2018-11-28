@@ -192,9 +192,10 @@ $Selenium->RunTest(
             );
 
             # Update setting and save.
-            $Selenium->execute_script(
-                '$("#Ticket\\\\:\\\\:Frontend\\\\:\\\\:AgentTicketEscalationView\\\\#\\\\#\\\\#Order\\\\:\\\\:Default")
-                    .val("Down").trigger("redraw.InputField").trigger("change");'
+            $Selenium->InputFieldValueSet(
+                Element =>
+                    '#Ticket\\\\:\\\\:Frontend\\\\:\\\\:AgentTicketEscalationView\\\\#\\\\#\\\\#Order\\\\:\\\\:Default',
+                Value => 'Down',
             );
 
             $Selenium->execute_script("\$('.SettingsList li:nth-child(1) .SettingUpdateBox .Update').trigger('click')");

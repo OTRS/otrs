@@ -139,17 +139,18 @@ $Selenium->RunTest(
         );
 
         # Change it to Process.
-        $Selenium->execute_script(
-            "\$('#SplitSelection').val('ProcessTicket').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#SplitSelection',
+            Value   => 'ProcessTicket',
         );
-
         $Selenium->WaitFor(
             JavaScript => 'return $("#ProcessEntityID").length'
         );
 
         # Change it to Process EntityID.
-        $Selenium->execute_script(
-            "\$('#ProcessEntityID').val('$Process->{EntityID}').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ProcessEntityID',
+            Value   => $Process->{EntityID},
         );
         $Selenium->find_element( '#SplitSubmit', 'css' )->VerifiedClick();
 

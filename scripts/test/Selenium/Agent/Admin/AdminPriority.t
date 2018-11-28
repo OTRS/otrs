@@ -93,7 +93,10 @@ $Selenium->RunTest(
         my $RandomID = "Priority" . $Helper->GetRandomID();
 
         $Selenium->find_element( "#Name", 'css' )->send_keys($RandomID);
-        $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 1,
+        );
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         $Selenium->find_element( "table",             'css' );
@@ -136,7 +139,10 @@ $Selenium->RunTest(
         }
 
         # Set test priority to invalid.
-        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 2,
+        );
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         $Selenium->WaitFor(

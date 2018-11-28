@@ -137,7 +137,10 @@ $Selenium->RunTest(
                 JavaScript =>
                     "return typeof(\$) === 'function' && \$('#ValidID').length && \$('#RemoteSystem').length"
             );
-            $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+            $Selenium->InputFieldValueSet(
+                Element => '#ValidID',
+                Value   => 2,
+            );
             $Selenium->find_element( "#RemoteSystem", 'css' )->send_keys('Test remote system');
 
             # Check breadcrumb on Edit screen.

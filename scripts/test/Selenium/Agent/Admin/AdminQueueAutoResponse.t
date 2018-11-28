@@ -224,8 +224,9 @@ $Selenium->RunTest(
             );
 
             # change auto response relation for test queue
-            $Selenium->execute_script(
-                "\$('#IDs_$Test->{TypeID}').val('$AutoResponseIDs[$Index]->{ID}').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => "#IDs_$Test->{TypeID}",
+                Value   => $AutoResponseIDs[$Index]->{ID},
             );
             $Index++;
         }

@@ -234,8 +234,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#EditDialog a.RemoveButton i", 'css' )->click();
         $Selenium->WaitFor( JavaScript => "return \$('.Dialog.Modal #EditDialog .TableLike.Add:visible').length;" );
 
-        $Selenium->execute_script(
-            "\$('#EditDialog select').val('XAxisServiceIDs').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#EditDialog select',
+            Value   => 'XAxisServiceIDs',
         );
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
         $Selenium->WaitFor( JavaScript => "return !\$('.Dialog.Modal').length;" );
@@ -249,8 +250,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#EditDialog a.RemoveButton i", 'css' )->click();
         $Selenium->WaitFor( JavaScript => "return \$('.Dialog.Modal #EditDialog .TableLike.Add:visible').length;" );
 
-        $Selenium->execute_script(
-            "\$('#EditDialog select').val('YAxisSLAIDs').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#EditDialog select',
+            Value   => 'YAxisSLAIDs',
         );
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
         $Selenium->WaitFor( JavaScript => "return !\$('.Dialog.Modal').length;" );
@@ -259,16 +261,18 @@ $Selenium->RunTest(
         $Selenium->find_element( ".EditRestrictions", 'css' )->click();
         $Selenium->WaitFor( JavaScript => "return \$('.Dialog.Modal').length;" );
 
-        $Selenium->execute_script(
-            "\$('#EditDialog select').val('RestrictionsQueueIDs').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#EditDialog select',
+            Value   => 'RestrictionsQueueIDs',
         );
 
         # Wait for load selected Restriction - QueueIDs.
         $Selenium->WaitFor( JavaScript => 'return $("#RestrictionsQueueIDs").length;' );
 
         # Add restriction per Queue - Junk.
-        $Selenium->execute_script(
-            "\$('#EditDialog #RestrictionsQueueIDs').val('3').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#EditDialog #RestrictionsQueueIDs',
+            Value   => 3,
         );
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
         $Selenium->WaitFor( JavaScript => "return !\$('.Dialog.Modal').length;" );

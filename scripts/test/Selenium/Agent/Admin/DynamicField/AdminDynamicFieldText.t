@@ -53,7 +53,10 @@ $Selenium->RunTest(
         for my $Type (qw(Ticket Article)) {
 
             my $ObjectType = $Type . "DynamicField";
-            $Selenium->execute_script("\$('#$ObjectType').val('Text').trigger('redraw.InputField').trigger('change');");
+            $Selenium->InputFieldValueSet(
+                Element => "#$ObjectType",
+                Value   => 'Text',
+            );
 
             for my $ID (
                 qw(Name Label FieldOrder DefaultValue Link AddRegEx ValidID)
@@ -130,7 +133,10 @@ $Selenium->RunTest(
             $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
             $Selenium->find_element( "#DefaultValue", 'css' )->send_keys("Default");
-            $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+            $Selenium->InputFieldValueSet(
+                Element => '#ValidID',
+                Value   => 2,
+            );
             $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
             # Check new and edited DynamicFieldText values.

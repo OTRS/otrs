@@ -143,7 +143,10 @@ $Selenium->RunTest(
 
         # Set process to inactive.
         $Selenium->find_element( $ProcessRandom, 'link_text' )->VerifiedClick();
-        $Selenium->execute_script("\$('#StateEntityID').val('S2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#StateEntityID',
+            Value   => 'S2',
+        );
         $Selenium->execute_script("\$('#Submit').click()");
 
         # Test search filter.

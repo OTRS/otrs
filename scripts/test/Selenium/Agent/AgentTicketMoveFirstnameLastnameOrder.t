@@ -139,10 +139,13 @@ $Selenium->RunTest(
         # Wait until page has loaded.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#DestQueueID").length;' );
 
-        sleep 2;
+        sleep 1;
 
         # Change ticket queue.
-        $Selenium->execute_script("\$('#DestQueueID').val('4').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#DestQueueID',
+            Value   => 4,
+        );
 
         $Selenium->execute_script("\$('#WidgetArticle.Collapsed .WidgetAction > a').trigger('click');");
         $Selenium->WaitFor( JavaScript => 'return $("#WidgetArticle.Expanded").length;' );

@@ -173,8 +173,9 @@ $Selenium->RunTest(
             0,
             "AJAX Loader for '$DFName' does not exist",
         );
-        $Selenium->execute_script(
-            "\$('#ComposeStateID').val('$StateID').trigger('redraw.InputField').trigger('change')"
+        $Selenium->InputFieldValueSet(
+            Element => '#ComposeStateID',
+            Value   => $StateID,
         );
 
         # wait for appearance of ajax update field

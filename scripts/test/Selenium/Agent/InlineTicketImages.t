@@ -190,8 +190,9 @@ my $CheckTicketReplyOrForward = sub {
     $Selenium->VerifiedGet( "${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=" . $TicketID );
 
     if ( $Action eq 'Reply' ) {
-        $Selenium->execute_script(
-            "\$('form[title=\"Reply\"] select[id^=\"ResponseID\"]').val('1').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => "form[title=\"Reply\"] select[id^=\"ResponseID\"]",
+            Value   => 1,
         );
     }
     else {    # Forward

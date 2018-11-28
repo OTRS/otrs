@@ -128,8 +128,9 @@ $Selenium->RunTest(
         for my $Language (@Languages) {
 
             # change AgentPreference language
-            $Selenium->execute_script(
-                "\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#UserLanguage',
+                Value   => $Language,
             );
             $Selenium->execute_script(
                 "\$('#UserLanguage').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
@@ -413,7 +414,10 @@ JAVASCRIPT
         );
 
         # edit some of checked stored values
-        $Selenium->execute_script("\$('#UserSkin').val('ivory').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#UserSkin',
+            Value   => 'ivory',
+        );
         $Selenium->execute_script(
             "\$('#UserSkin').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
         );
@@ -527,8 +531,9 @@ JAVASCRIPT
             my $CategoriesVisible = $Selenium->execute_script("return \$('#Category:visible').length;");
 
             if ($CategoriesVisible) {
-                $Selenium->execute_script(
-                    "\$('#Category').val('OTRS').trigger('redraw.InputField').trigger('change');"
+                $Selenium->InputFieldValueSet(
+                    Element => '#Category',
+                    Value   => 'OTRS',
                 );
             }
 

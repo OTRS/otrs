@@ -80,8 +80,9 @@ $Selenium->RunTest(
         my $CalendarName2 = "Calendar $RandomID 2";
         $Selenium->find_element( '.SidebarColumn ul.ActionList a#Add',   'css' )->VerifiedClick();
         $Selenium->find_element( 'form#CalendarFrom input#CalendarName', 'css' )->send_keys($CalendarName1);
-        $Selenium->execute_script(
-            "\$('#GroupID').val($GroupID).trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#GroupID',
+            Value   => $GroupID,
         );
         $Selenium->find_element( 'form#CalendarFrom button#Submit', 'css' )->VerifiedClick();
 
@@ -115,8 +116,9 @@ $Selenium->RunTest(
         # Let's try to add calendar with same name.
         $Selenium->find_element( '.SidebarColumn ul.ActionList a#Add',   'css' )->VerifiedClick();
         $Selenium->find_element( 'form#CalendarFrom input#CalendarName', 'css' )->send_keys($CalendarName1);
-        $Selenium->execute_script(
-            "\$('#GroupID').val($GroupID).trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#GroupID',
+            Value   => $GroupID,
         );
         $Selenium->find_element( 'form#CalendarFrom button#Submit', 'css' )->VerifiedClick();
 
@@ -133,7 +135,10 @@ $Selenium->RunTest(
         $Selenium->find_element( 'form#CalendarFrom input#CalendarName', 'css' )->send_keys($CalendarName2);
 
         # Set it to invalid.
-        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 2,
+        );
 
         # Add ticket appointment rule.
         $Selenium->execute_script(
@@ -145,13 +150,15 @@ $Selenium->RunTest(
 
         $Selenium->find_element( '#AddRuleButton', 'css' )->click();
         $Selenium->WaitFor( JavaScript => "return \$('#QueueID_1').length" );
-        $Selenium->execute_script(
-            "\$('#QueueID_1').val('$QueueID').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#QueueID_1',
+            Value   => $QueueID,
         );
 
         # Add title as search parameter.
-        $Selenium->execute_script(
-            "\$('#SearchParams').val('Title').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#SearchParams',
+            Value   => 'Title',
         );
         $Selenium->find_element( '.AddButton', 'css' )->click();
         $Selenium->WaitFor(
@@ -206,8 +213,9 @@ $Selenium->RunTest(
         $Selenium->find_element( $CalendarName2, 'link_text' )->VerifiedClick();
 
         # Set it to invalid-temporarily.
-        $Selenium->execute_script(
-            "\$('#ValidID').val(3).trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 3,
         );
 
         # Verify rule has been stored properly.

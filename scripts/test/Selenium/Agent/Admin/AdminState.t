@@ -89,8 +89,14 @@ $Selenium->RunTest(
         my $RandomState = "New State " . $Helper->GetRandomID();
 
         $Selenium->find_element( "#Name", 'css' )->send_keys($RandomState);
-        $Selenium->execute_script("\$('#TypeID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#TypeID',
+            Value   => 1,
+        );
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 1,
+        );
         $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test state');
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
@@ -183,8 +189,14 @@ $Selenium->RunTest(
         }
 
         # Set test state to invalid.
-        $Selenium->execute_script("\$('#TypeID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#TypeID',
+            Value   => 2,
+        );
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 2,
+        );
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 

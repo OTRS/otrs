@@ -53,8 +53,9 @@ $Selenium->RunTest(
         for my $Type (qw(Ticket Article)) {
 
             my $ObjectType = $Type . "DynamicField";
-            $Selenium->execute_script(
-                "\$('#$ObjectType').val('Checkbox').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => "#$ObjectType",
+                Value   => 'Checkbox',
             );
 
             for my $ID (
@@ -97,8 +98,14 @@ $Selenium->RunTest(
             # Edit test DynamicFieldCheckbox default value and set it to invalid.
             $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
-            $Selenium->execute_script("\$('#DefaultValue').val('1').trigger('redraw.InputField').trigger('change');");
-            $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+            $Selenium->InputFieldValueSet(
+                Element => '#DefaultValue',
+                Value   => 1,
+            );
+            $Selenium->InputFieldValueSet(
+                Element => '#ValidID',
+                Value   => 2,
+            );
 
             # Edit name to trigger JS and verify warning is visible.
             my $EditName = $RandomID . 'edit';

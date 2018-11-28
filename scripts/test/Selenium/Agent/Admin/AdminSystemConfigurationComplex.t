@@ -257,10 +257,11 @@ my @Tests = (
             },
             {
                 # Select Kernel::System::Log::File
-                JS => "\$('.WidgetSimple[data-name=\"ExampleAoASelect\"] "
-                    . ".Setting > .Array > .ArrayItem:nth-of-type(4) .ArrayItem:nth-of-type(1) "
-                    . " select').val('option-1')"
-                    . ".trigger('redraw.InputField').trigger('change');",
+                InputFieldValueSet => {
+                    Element => '.WidgetSimple[data-name="ExampleAoASelect"] .Setting > '
+                        . '.Array > .ArrayItem:nth-of-type(4) .ArrayItem:nth-of-type(1) select',
+                    Value => 'option-1',
+                },
             },
             {
                 JqueryClick => '.Setting > .Array > .ArrayItem:nth-of-type(2) > .RemoveButton',
@@ -595,11 +596,12 @@ my @Tests = (
                 Select => '.Setting > .Array > .ArrayItem:nth-of-type(4) .HashItem:nth-of-type(1) select',
             },
             {
-                # Select Kernel::System::Log::File
-                JS => "\$('.WidgetSimple[data-name=\"ExampleAoHSelect\"] "
-                    . ".Setting > .Array > .ArrayItem:nth-of-type(4) .HashItem:nth-of-type(1) "
-                    . " select').val('option-1')"
-                    . ".trigger('redraw.InputField').trigger('change');",
+                # Select option-1.
+                InputFieldValueSet => {
+                    Element => '.WidgetSimple[data-name="ExampleAoHSelect"] .Setting > '
+                        . '.Array > .ArrayItem:nth-of-type(4) .HashItem:nth-of-type(1) select',
+                    Value => 'option-1',
+                },
             },
             {
                 JqueryClick => '.Setting > .Array > .ArrayItem:nth-of-type(2) > .RemoveButton',
@@ -938,10 +940,11 @@ my @Tests = (
             },
             {
                 # Select Kernel::System::Log::File
-                JS => "\$('.WidgetSimple[data-name=\"ExampleHoASelect\"] "
-                    . ".Setting > .Hash > .HashItem:nth-of-type(3) .ArrayItem:nth-of-type(1) "
-                    . " select').val('option-1')"
-                    . ".trigger('redraw.InputField').trigger('change');",
+                InputFieldValueSet => {
+                    Element => '.WidgetSimple[data-name="ExampleHoASelect"] .Setting > '
+                        . '.Hash > .HashItem:nth-of-type(3) .ArrayItem:nth-of-type(1) select',
+                    Value => 'option-1',
+                },
             },
             {
                 JqueryClick => '.Setting > .Hash > .HashItem:nth-of-type(2) > .RemoveButton',
@@ -1283,10 +1286,11 @@ my @Tests = (
             },
             {
                 # Select Kernel::System::Log::File
-                JS => "\$('.WidgetSimple[data-name=\"ExampleHoHSelect\"] "
-                    . ".Setting > .Hash > .HashItem:nth-of-type(3) .HashItem:nth-of-type(1) .SettingContent "
-                    . " select').val('option-1')"
-                    . ".trigger('redraw.InputField').trigger('change');",
+                InputFieldValueSet => {
+                    Element => '.WidgetSimple[data-name="ExampleHoHSelect"] .Setting > '
+                        . '.Hash > .HashItem:nth-of-type(3) .HashItem:nth-of-type(1) .SettingContent select',
+                    Value => 'option-1',
+                },
             },
             {
                 JqueryClick => '.Setting > .Hash > .HashItem:nth-of-type(2) > .RemoveButton',
@@ -1538,6 +1542,19 @@ $Selenium->RunTest(
 
                     $Selenium->execute_script(
                         $Command->{JS},
+                    );
+                }
+                elsif ( $CommandType eq 'InputFieldValueSet' ) {
+
+                    # Wait for any tasks to complete.
+                    $Selenium->WaitFor(
+                        JavaScript => 'return typeof($) === "function" && $("' . $Prefix
+                            . '").hasClass("HasOverlay") == 0',
+                    );
+
+                    $Selenium->InputFieldValueSet(
+                        Element => $Value->{Element},
+                        Value   => $Value->{Value},
                     );
                 }
                 elsif ( $CommandType eq 'WaitForJS' ) {

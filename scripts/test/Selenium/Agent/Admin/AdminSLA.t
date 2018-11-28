@@ -134,7 +134,10 @@ $Selenium->RunTest(
 
         # Remove test SLA comment and set it to invalid.
         $Selenium->find_element( "#Comment", 'css' )->clear();
-        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 2,
+        );
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # Check class of invalid SLA in the overview table.

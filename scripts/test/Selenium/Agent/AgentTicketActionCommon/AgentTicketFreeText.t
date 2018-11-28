@@ -343,8 +343,9 @@ $Selenium->RunTest(
 
             next FREETEXTFIELDS if $FieldID eq 'SLAID';
 
-            $Selenium->execute_script(
-                "\$('#$FieldID').val('$SetFreeTextFields{$FieldID}').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => "#$FieldID",
+                Value   => $SetFreeTextFields{$FieldID},
             );
 
             # Wait for AJAX to finish.
@@ -352,8 +353,9 @@ $Selenium->RunTest(
 
             if ( $FieldID eq 'ServiceID' ) {
 
-                $Selenium->execute_script(
-                    "\$('#SLAID').val('$SetFreeTextFields{SLAID}').trigger('redraw.InputField').trigger('change');"
+                $Selenium->InputFieldValueSet(
+                    Element => "#SLAID",
+                    Value   => $SetFreeTextFields{SLAID},
                 );
 
                 # Wait for AJAX to finish.
@@ -418,8 +420,9 @@ $Selenium->RunTest(
                     $ExpectedErrorFieldID = $FieldID;
                 }
 
-                $Selenium->execute_script(
-                    "\$('#$FieldID').val('$Test->{$FieldID}').trigger('redraw.InputField').trigger('change');"
+                $Selenium->InputFieldValueSet(
+                    Element => "#$FieldID",
+                    Value   => $Test->{$FieldID},
                 );
 
                 # Wait for AJAX to finish.

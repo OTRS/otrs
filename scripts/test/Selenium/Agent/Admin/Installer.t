@@ -105,7 +105,10 @@ $Selenium->RunTest(
                 ->VerifiedClick();
 
             # Set database type.
-            $Selenium->execute_script("\$('#DBType').val('$DBType').trigger('redraw.InputField').trigger('change');");
+            $Selenium->InputFieldValueSet(
+                Element => '#DBType',
+                Value   => $DBType,
+            );
 
             # Choose to use existing database for OTRS.
             if ( $DBType ne 'oracle' ) {

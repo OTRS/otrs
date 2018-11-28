@@ -770,7 +770,7 @@ sub InputFieldValueSet {
 
     # Wait until selection tree is closed.
     $Self->WaitFor(
-        ElementMissing => [ '.jstree-anchor', 'css' ],
+        ElementMissing => [ '.InputField_ListContainer', 'css' ],
     );
 
     return 1;

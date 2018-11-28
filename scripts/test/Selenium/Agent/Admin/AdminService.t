@@ -162,9 +162,15 @@ $Selenium->RunTest(
         push @ServiceIDs, $ServiceID2;
 
         # Edit second test Service.
-        $Selenium->execute_script("\$('#ParentID').val('$ServiceID').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ParentID',
+            Value   => $ServiceID,
+        );
         $Selenium->find_element( "#Comment", 'css' )->clear();
-        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 2,
+        );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # Check class of invalid Service in the overview table.
@@ -194,7 +200,10 @@ $Selenium->RunTest(
             2,
             "#ValidID updated value",
         );
-        $Selenium->execute_script("\$('#ParentID').val('').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ParentID',
+            Value   => '',
+        );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # Create third test Service.
@@ -205,7 +214,10 @@ $Selenium->RunTest(
             .= $ServiceRandomID3 . $ServiceRandomID3 . $ServiceRandomID3 . $ServiceRandomID3 . $ServiceRandomID3;
 
         $Selenium->find_element( "#Name", 'css' )->send_keys($ServiceRandomID3);
-        $Selenium->execute_script("\$('#ParentID').val('$ServiceID').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ParentID',
+            Value   => $ServiceID,
+        );
 
         $Selenium->find_element( "#Comment", 'css' )->send_keys($ServiceComment);
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();

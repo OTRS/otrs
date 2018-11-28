@@ -106,7 +106,10 @@ $Selenium->RunTest(
         # Create a real test group.
         my $GroupName = 'TestGroup' . $Helper->GetRandomID();
         $Selenium->find_element( "#GroupName", 'css' )->send_keys($GroupName);
-        $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 1,
+        );
         $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test group');
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
@@ -220,7 +223,10 @@ $Selenium->RunTest(
         }
 
         # Set test group to invalid.
-        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 2,
+        );
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 

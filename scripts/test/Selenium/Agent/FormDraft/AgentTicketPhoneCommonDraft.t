@@ -165,8 +165,9 @@ $Selenium->RunTest(
             for my $Field ( sort keys %{ $Test->{Fields} } ) {
 
                 if ( $Test->{Fields}->{$Field}->{Type} eq 'DropDown' ) {
-                    $Selenium->execute_script(
-                        "\$('#$Test->{Fields}->{$Field}->{ID}').val('$Test->{Fields}->{$Field}->{Value}').trigger('redraw.InputField').trigger('change');"
+                    $Selenium->InputFieldValueSet(
+                        Element => "#$Test->{Fields}->{$Field}->{ID}",
+                        Value   => $Test->{Fields}->{$Field}->{Value},
                     );
                 }
                 elsif ( $Test->{Fields}->{$Field}->{Type} eq 'Attachment' ) {
@@ -290,8 +291,9 @@ $Selenium->RunTest(
                         "Initial FormDraft value for $Test->{Module} field $FieldValue is correct"
                     );
 
-                    $Selenium->execute_script(
-                        "\$('#$Test->{Fields}->{$FieldValue}->{ID}').val('$Test->{Fields}->{$FieldValue}->{Update}').trigger('redraw.InputField').trigger('change');"
+                    $Selenium->InputFieldValueSet(
+                        Element => "#$Test->{Fields}->{$FieldValue}->{ID}",
+                        Value   => $Test->{Fields}->{$FieldValue}->{Update},
                     );
                 }
                 elsif ( $Test->{Fields}->{$FieldValue}->{Type} eq 'Attachment' ) {

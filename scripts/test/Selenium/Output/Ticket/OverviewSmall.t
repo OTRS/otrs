@@ -145,8 +145,9 @@ $Selenium->RunTest(
             JavaScript =>
                 "return typeof(\$) === 'function' && \$('#ColumnFilterQueue option[value=\"$QueueID\"]').length;"
         );
-        $Selenium->execute_script(
-            "\$('#ColumnFilterQueue').val('$QueueID').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ColumnFilterQueue',
+            Value   => $QueueID,
         );
         $Selenium->WaitFor(
             JavaScript => "return typeof(\$) === 'function' && \$('li.ContextSettings.RemoveFilters').length"
@@ -158,8 +159,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor(
             JavaScript => 'return $(".Dialog.Modal #UserTicketOverviewSmallPageShown").length'
         );
-        $Selenium->execute_script(
-            "\$('#UserTicketOverviewSmallPageShown').val('10').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#UserTicketOverviewSmallPageShown',
+            Value   => 10,
         );
 
         # TODO: remove limitation to firefox.

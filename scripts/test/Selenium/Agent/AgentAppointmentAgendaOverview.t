@@ -108,10 +108,9 @@ $Selenium->RunTest(
                 );
             }
         }
-        $Selenium->execute_script(
-            "\$('#CalendarID').val("
-                . $Calendars[0]->{CalendarID}
-                . ").trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#CalendarID',
+            Value   => $Calendars[0]->{CalendarID},
         );
 
         # Click on Save.
@@ -138,10 +137,9 @@ $Selenium->RunTest(
                 );
             }
         }
-        $Selenium->execute_script(
-            "\$('#CalendarID').val("
-                . $Calendars[1]->{CalendarID}
-                . ").trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#CalendarID',
+            Value   => $Calendars[1]->{CalendarID},
         );
 
         # Click on Save.
@@ -168,16 +166,17 @@ $Selenium->RunTest(
                 );
             }
         }
-        $Selenium->execute_script(
-            "\$('#CalendarID').val("
-                . $Calendars[2]->{CalendarID}
-                . ").trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#CalendarID',
+            Value   => $Calendars[2]->{CalendarID},
         );
-        $Selenium->execute_script(
-            "\$('#RecurrenceType').val('Daily').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#RecurrenceType',
+            Value   => 'Daily',
         );
-        $Selenium->execute_script(
-            "\$('#RecurrenceLimit').val('2').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#RecurrenceLimit',
+            Value   => '2',
         );
         $Selenium->find_element( 'RecurrenceCount', 'name' )->send_keys($RecurrenceCount);
 

@@ -58,9 +58,9 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
 
         # Select Application for leave process.
-        $Selenium->execute_script(
-            "\$('#ExampleProcess').val('Application_for_leave.yml')" .
-                ".trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ExampleProcess',
+            Value   => 'Application_for_leave.yml'
         );
         $Selenium->find_element( "#ExampleProcesses button", "css" )->VerifiedClick();
 
@@ -89,9 +89,9 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
 
         # Select Application for leave process.
-        $Selenium->execute_script(
-            "\$('#ExampleProcess').val('Application_for_leave.yml')" .
-                ".trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ExampleProcess',
+            Value   => 'Application_for_leave.yml'
         );
 
         $Selenium->find_element( "#ExampleProcesses button", "css" )->VerifiedClick();

@@ -157,7 +157,10 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText", 'css' )->clear();
         $Selenium->find_element( "#RichText", 'css' )->send_keys($EditSignatureRichText);
         $Selenium->find_element( "#Comment",  'css' )->clear();
-        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 2,
+        );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # Check is there notification after service is updated.

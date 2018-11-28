@@ -125,8 +125,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor(
             JavaScript => "return \$('input[value=$TicketIDs[1]][type=checkbox]:checked').length;"
         );
-        $Selenium->execute_script(
-            "\$('#TypeIdentifier').val('ParentChild::Target').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#TypeIdentifier',
+            Value   => 'ParentChild::Target',
         );
         $Selenium->find_element("//button[\@type='submit'][\@name='AddLinks']")->click();
 
@@ -140,8 +141,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor(
             JavaScript => "return \$('input[value=$TicketIDs[2]][type=checkbox]:checked').length;"
         );
-        $Selenium->execute_script(
-            "\$('#TypeIdentifier').val('Normal::Source').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#TypeIdentifier',
+            Value   => 'Normal::Source',
         );
         $Selenium->find_element("//button[\@type='submit'][\@name='AddLinks']")->VerifiedClick();
 
@@ -544,8 +546,9 @@ $Selenium->RunTest(
         );
 
         # Click on the Archive search drop-down.
-        $Selenium->execute_script(
-            "\$('#SEARCH\\\\:\\\\:ArchiveID').val('ArchivedTickets').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#SEARCH\\\\:\\\\:ArchiveID',
+            Value   => 'ArchivedTickets',
         );
 
         $Selenium->find_element( "#SubmitSearch", "css" )->VerifiedClick();
@@ -627,18 +630,19 @@ $Selenium->RunTest(
         sleep 1;
 
         # Select 'Appointment' as link type.
-        $Selenium->execute_script(
-            "\$('#TargetIdentifier').val('Appointment').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#TargetIdentifier',
+            Value   => 'Appointment',
         );
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#SEARCH\\\\:\\\\:AppointmentCalendarID").length;'
         );
 
         # Select created Calendar as filer.
-        $Selenium->execute_script(
-            "\$('#SEARCH\\\\:\\\\:AppointmentCalendarID').val('$Calendar{CalendarID}').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#SEARCH\\\\:\\\\:AppointmentCalendarID',
+            Value   => $Calendar{CalendarID},
         );
-        sleep 1;
         $Selenium->find_element( '#SubmitSearch', 'css' )->VerifiedClick();
 
         # Link created test appointment.

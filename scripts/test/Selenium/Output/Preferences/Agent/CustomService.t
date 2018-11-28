@@ -125,8 +125,9 @@ $Selenium->RunTest(
         );
 
         # add child service to 'My Services' preference
-        $Selenium->execute_script(
-            "\$('#ServiceID').val('$ServiceIDs[1]').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ServiceID',
+            Value   => $ServiceIDs[1],
         );
 
         # save the setting, wait for the ajax call to finish and check if success sign is shown

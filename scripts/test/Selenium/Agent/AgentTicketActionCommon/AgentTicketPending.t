@@ -120,7 +120,10 @@ $Selenium->RunTest(
         );
 
         # Change ticket to pending state.
-        $Selenium->execute_script("\$('#NewStateID').val('6').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#NewStateID',
+            Value   => 6,
+        );
         $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
         $Selenium->find_element( "#submitRichText", 'css' )->click();

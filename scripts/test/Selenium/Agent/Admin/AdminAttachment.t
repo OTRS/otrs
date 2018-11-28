@@ -84,7 +84,10 @@ $Selenium->RunTest(
             $Attachments{$File} = $AttachmentName;
 
             $Selenium->find_element( "#Name", 'css' )->send_keys($AttachmentName);
-            $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change')");
+            $Selenium->InputFieldValueSet(
+                Element => '#ValidID',
+                Value   => 1,
+            );
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
             $Selenium->find_element( "#Submit",     'css' )->VerifiedClick();
 
@@ -120,7 +123,10 @@ $Selenium->RunTest(
                 );
             }
 
-            $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+            $Selenium->InputFieldValueSet(
+                Element => '#ValidID',
+                Value   => 2,
+            );
             $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test attachment');
             $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 

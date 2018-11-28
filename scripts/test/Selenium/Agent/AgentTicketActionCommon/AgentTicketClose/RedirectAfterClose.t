@@ -123,7 +123,10 @@ $Selenium->RunTest(
             }
 
             # Change ticket state.
-            $Selenium->execute_script("\$('#NewStateID').val('2').trigger('redraw.InputField').trigger('change');");
+            $Selenium->InputFieldValueSet(
+                Element => '#NewStateID',
+                Value   => 2,
+            );
             $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
             $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
             $Selenium->find_element( "#submitRichText", 'css' )->click();

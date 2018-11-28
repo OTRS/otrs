@@ -373,11 +373,12 @@ EOF
             "There is only one entry in the service selection",
         );
 
-        sleep 1;
+        Time::HiRes::sleep(0.5);
 
         # Set test service and trigger AJAX refresh.
-        $Selenium->execute_script(
-            "\$('#ServiceID').val('$Services[0]').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ServiceID',
+            Value   => $Services[0],
         );
         $Selenium->WaitFor(
             JavaScript =>
@@ -403,7 +404,10 @@ EOF
         );
 
         # Trigger ACL on priority change.
-        $Selenium->execute_script("\$('#NewPriorityID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => "#NewPriorityID",
+            Value   => 2,
+        );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
         $Self->False(
@@ -443,11 +447,12 @@ EOF
             'There is only one entry in the service selection'
         );
 
-        sleep 1;
+        Time::HiRes::sleep(0.5);
 
         # Set test service and trigger AJAX refresh.
-        $Selenium->execute_script(
-            "\$('#ServiceID').val('$Services[0]').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ServiceID',
+            Value   => $Services[0],
         );
         $Selenium->WaitFor(
             JavaScript =>
@@ -503,8 +508,9 @@ EOF
         );
 
         # De-select the dynamic field value for the first field.
-        $Selenium->execute_script(
-            "\$('#DynamicField_Field$RandomID').val('').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => "#DynamicField_Field$RandomID",
+            Value   => '',
         );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
@@ -541,11 +547,12 @@ EOF
             "State 'closed successful' not available in new state selection before DF update"
         );
 
-        sleep 1;
+        Time::HiRes::sleep(0.5);
 
         # Set dynamic field value to non-zero, and wait for AJAX to complete.
-        $Selenium->execute_script(
-            "\$('#DynamicField_Field$RandomID').val('1').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => "#DynamicField_Field$RandomID",
+            Value   => 1,
         );
         $Selenium->WaitFor(
             JavaScript =>
@@ -558,8 +565,9 @@ EOF
         );
 
         # Close the ticket.
-        $Selenium->execute_script(
-            "\$('#NewStateID').val('2').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => "#NewStateID",
+            Value   => 2,
         );
         $Selenium->find_element( '#Subject',        'css' )->send_keys('Close');
         $Selenium->find_element( '#RichText',       'css' )->send_keys('Closing...');

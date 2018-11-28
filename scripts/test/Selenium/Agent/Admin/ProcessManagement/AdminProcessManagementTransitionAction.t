@@ -89,8 +89,9 @@ $Selenium->RunTest(
         my $TransitionActionValue  = "Value" . $Helper->GetRandomID();
 
         $Selenium->find_element( "#Name", 'css' )->send_keys($TransitionActionRandom);
-        $Selenium->execute_script(
-            "\$('#Module').val('$TransitionActionModule').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#Module',
+            Value   => $TransitionActionModule,
         );
         $Selenium->find_element(".//*[\@id='ConfigKey[1]']")->send_keys($TransitionActionKey);
         $Selenium->find_element(".//*[\@id='ConfigValue[1]']")->send_keys($TransitionActionValue);

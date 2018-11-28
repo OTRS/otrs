@@ -107,8 +107,9 @@ $Selenium->RunTest(
         # update generic preferences
         for my $Test (@Tests) {
 
-            $Selenium->execute_script(
-                "\$('#$Test->{ID}').val('$Test->{Value}').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => "#$Test->{ID}",
+                Value   => $Test->{Value},
             );
 
             # save the setting, wait for the ajax call to finish and check if success sign is shown

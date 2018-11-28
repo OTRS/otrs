@@ -298,14 +298,14 @@ $Selenium->RunTest(
 
             # Enter some data.
             $Selenium->find_element( '#Title', 'css' )->send_keys("$Test->{Data}->{Description}");
-            $Selenium->execute_script(
-                "\$('#CalendarID').val("
-                    . $Calendar1{CalendarID}
-                    . ").trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#CalendarID',
+                Value   => $Calendar1{CalendarID},
             );
 
-            $Selenium->execute_script(
-                "\$('#NotificationTemplate').val('$Test->{Data}->{NotificationTemplate}').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#NotificationTemplate',
+                Value   => $Test->{Data}->{NotificationTemplate},
             );
 
             # Click on Save.
@@ -513,15 +513,15 @@ $Selenium->RunTest(
 
             # Enter some data.
             $Selenium->find_element( '#Title', 'css' )->send_keys("$Test->{Data}->{Description}");
-            $Selenium->execute_script(
-                "\$('#CalendarID').val("
-                    . $Calendar1{CalendarID}
-                    . ").trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#CalendarID',
+                Value   => $Calendar1{CalendarID},
             );
 
             # Select custom template.
-            $Selenium->execute_script(
-                "\$('#NotificationTemplate').val('$Test->{Data}->{NotificationTemplate}').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#NotificationTemplate',
+                Value   => $Test->{Data}->{NotificationTemplate},
             );
 
             # Activate the relative notifications.
@@ -533,13 +533,15 @@ $Selenium->RunTest(
             );
 
             # Fill out the custom unit field.
-            $Selenium->execute_script(
-                "\$('#NotificationCustomRelativeUnit').val('$Test->{Data}->{NotificationCustomRelativeUnit}').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#NotificationCustomRelativeUnit',
+                Value   => $Test->{Data}->{NotificationCustomRelativeUnit},
             );
 
             # Fill out the custom unit point of time field.
-            $Selenium->execute_script(
-                "\$('#NotificationCustomRelativePointOfTime').val('$Test->{Data}->{NotificationCustomRelativePointOfTime}').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#NotificationCustomRelativePointOfTime',
+                Value   => $Test->{Data}->{NotificationCustomRelativePointOfTime},
             );
 
             # Click on Save.
@@ -764,15 +766,15 @@ $Selenium->RunTest(
 
             # Enter some data.
             $Selenium->find_element( '#Title', 'css' )->send_keys("$Test->{Data}->{Description}");
-            $Selenium->execute_script(
-                "\$('#CalendarID').val("
-                    . $Calendar1{CalendarID}
-                    . ").trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#CalendarID',
+                Value   => $Calendar1{CalendarID},
             );
 
             # Select custom template.
-            $Selenium->execute_script(
-                "\$('#NotificationTemplate').val('$Test->{Data}->{NotificationTemplate}').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#NotificationTemplate',
+                Value   => $Test->{Data}->{NotificationTemplate},
             );
 
             # Activate the relative notifications.
@@ -780,28 +782,33 @@ $Selenium->RunTest(
             $Selenium->WaitFor( JavaScript => "return \$('#NotificationCustomDateTimeInput:checked').length;" );
 
             # Select day.
-            $Selenium->execute_script(
-                "\$('#NotificationCustomDateTimeDay').val('$Test->{Data}->{DateTimeDay}').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#NotificationCustomDateTimeDay',
+                Value   => $Test->{Data}->{DateTimeDay},
             );
 
             # Select month.
-            $Selenium->execute_script(
-                "\$('#NotificationCustomDateTimeMonth').val('$Test->{Data}->{DateTimeMonth}').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#NotificationCustomDateTimeMonth',
+                Value   => $Test->{Data}->{DateTimeMonth},
             );
 
             # Select year.
-            $Selenium->execute_script(
-                "\$('#NotificationCustomDateTimeYear').val('$Test->{Data}->{DateTimeYear}').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#NotificationCustomDateTimeYear',
+                Value   => $Test->{Data}->{DateTimeYear},
             );
 
             # Select hour.
-            $Selenium->execute_script(
-                "\$('#NotificationCustomDateTimeHour').val('$Test->{Data}->{DateTimeHour}').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#NotificationCustomDateTimeHour',
+                Value   => $Test->{Data}->{DateTimeHour},
             );
 
             # Select minute.
-            $Selenium->execute_script(
-                "\$('#NotificationCustomDateTimeMinute').val('$Test->{Data}->{DateTimeMinute}').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#NotificationCustomDateTimeMinute',
+                Value   => $Test->{Data}->{DateTimeMinute},
             );
 
             # Click on Save.

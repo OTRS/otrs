@@ -121,8 +121,9 @@ $Selenium->RunTest(
             my $ID    = $FormDraftCase->{Fields}->{$Field}->{ID};
             my $Value = $FormDraftCase->{Fields}->{$Field}->{Value};
 
-            $Selenium->execute_script(
-                "\$('#$ID').val('$Value').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => "#$ID",
+                Value   => $Value,
             );
             $Selenium->WaitFor(
                 JavaScript =>
@@ -175,8 +176,9 @@ $Selenium->RunTest(
                 JavaScript =>
                     "return typeof(\$) === 'function' && \$('#$ID').length"
             );
-            $Selenium->execute_script(
-                "\$('#$ID').val('$Value').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => "#$ID",
+                Value   => $Value,
             );
             $Selenium->WaitFor(
                 JavaScript =>
@@ -279,8 +281,9 @@ $Selenium->RunTest(
                 "Initial FormDraft value for $FormDraftCase->{Module} field $FieldValue is correct - $Value"
             );
 
-            $Selenium->execute_script(
-                "\$('#$ID').val('$Update').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => "#$ID",
+                Value   => $Update,
             );
             $Selenium->WaitFor(
                 JavaScript =>

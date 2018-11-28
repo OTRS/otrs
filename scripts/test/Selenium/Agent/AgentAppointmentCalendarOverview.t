@@ -248,10 +248,9 @@ $Selenium->RunTest(
         # Enter some data.
         $Selenium->find_element( "#Title",    'css' )->send_keys('Appointment 1');
         $Selenium->find_element( "#Location", 'css' )->send_keys('Straubing');
-        $Selenium->execute_script(
-            "\$('#CalendarID').val("
-                . $Calendar1{CalendarID}
-                . ").trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#CalendarID',
+            Value   => $Calendar1{CalendarID},
         );
         $Selenium->find_element( '#EndHour',     'css' )->send_keys('18');
         $Selenium->find_element( '.PluginField', 'css' )->send_keys($TicketNumber);
@@ -351,10 +350,9 @@ $Selenium->RunTest(
 
         # Enter some data.
         $Selenium->find_element( 'Title', 'name' )->send_keys('Appointment 2');
-        $Selenium->execute_script(
-            "\$('#CalendarID').val("
-                . $Calendar2{CalendarID}
-                . ").trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#CalendarID',
+            Value   => $Calendar2{CalendarID},
         );
 
         $Selenium->find_element( '#AllDay', 'css' )->click();
@@ -403,14 +401,14 @@ $Selenium->RunTest(
 
         # Enter some data.
         $Selenium->find_element( 'Title', 'name' )->send_keys('Appointment 3');
-        $Selenium->execute_script(
-            "\$('#CalendarID').val("
-                . $Calendar3{CalendarID}
-                . ").trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#CalendarID',
+            Value   => $Calendar3{CalendarID},
         );
         $Selenium->find_element( 'EndHour', 'name' )->send_keys('18');
-        $Selenium->execute_script(
-            "\$('#RecurrenceType').val('Daily').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#RecurrenceType',
+            Value   => 'Daily',
         );
 
         # Click on Save.

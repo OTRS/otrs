@@ -67,13 +67,15 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, 'WebserviceID=$WebserviceID')]")->VerifiedClick();
 
         # Select 'HTTP::REST' as provider network transport.
-        $Selenium->execute_script(
-            "\$('#ProviderTransportList').val('HTTP::REST').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ProviderTransportList',
+            Value   => 'HTTP::REST',
         );
 
         # Select 'HTTP::REST' as requester network transport.
-        $Selenium->execute_script(
-            "\$('#RequesterTransportList').val('HTTP::REST').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#RequesterTransportList',
+            Value   => 'HTTP::REST',
         );
 
         # Click on 'Save'.
@@ -98,7 +100,10 @@ $Selenium->RunTest(
         );
 
         $Selenium->find_element( "#MaxLength", 'css' )->send_keys('1000');
-        $Selenium->execute_script("\$('#KeepAlive').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#KeepAlive',
+            Value   => 1,
+        );
 
         # Add one additional response header line.
         $Selenium->find_element( "#AddValue", 'css' )->click();
@@ -227,8 +232,9 @@ $Selenium->RunTest(
 
             # Change field to trigger JS (if necessary).
             if ( $Field->{OptionValuePre} ) {
-                $Selenium->execute_script(
-                    "\$('#$Field->{OptionField}').val('$Field->{OptionValuePre}').trigger('redraw.InputField').trigger('change');"
+                $Selenium->InputFieldValueSet(
+                    Element => "#$Field->{OptionField}",
+                    Value   => $Field->{OptionValuePre},
                 );
             }
 
@@ -242,8 +248,9 @@ $Selenium->RunTest(
             );
 
             # Change field to trigger JS.
-            $Selenium->execute_script(
-                "\$('#$Field->{OptionField}').val('$Field->{OptionValue}').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => "#$Field->{OptionField}",
+                Value   => $Field->{OptionValue},
             );
 
             # Verify JS removed Hidden class, fields are shown.

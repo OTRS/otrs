@@ -178,8 +178,9 @@ $Selenium->RunTest(
         );
 
         # Change ticket user owner.
-        $Selenium->execute_script(
-            "\$('#NewOwnerID').val('$UserID[1]').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#NewOwnerID',
+            Value   => $UserID[1],
         );
 
         $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');

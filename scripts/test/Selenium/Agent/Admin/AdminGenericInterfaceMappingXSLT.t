@@ -96,8 +96,9 @@ $Selenium->RunTest(
         );
 
         # Select 'Ticket::TicketCreate' as option.
-        $Selenium->execute_script(
-            "\$('#OperationList').val('Ticket::TicketCreate').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#OperationList',
+            Value   => 'Ticket::TicketCreate',
         );
 
         # Wait for page to load if necessary.
@@ -107,13 +108,15 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Operation", 'css' )->send_keys('SeleniumOperation');
 
         # Select XSLT mapping for inbound data.
-        $Selenium->execute_script(
-            "\$('#MappingInbound').val('XSLT').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#MappingInbound',
+            Value   => 'XSLT',
         );
 
         # Set include ticket data to Yes.
-        $Selenium->execute_script(
-            "\$('#IncludeTicketData').val('1').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#IncludeTicketData',
+            Value   => 1,
         );
 
         # Submit operation.
@@ -261,8 +264,9 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#PostValue_1').val('$PostValue');");
 
         # Add data include configuration.
-        $Selenium->execute_script(
-            "\$('#DataInclude').val('ProviderRequestInput').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#DataInclude',
+            Value   => 'ProviderRequestInput',
         );
 
         # Click on 'Save and finish' test JS redirection.

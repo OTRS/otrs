@@ -86,9 +86,13 @@ $Selenium->RunTest(
 
         # Create real test template.
         my $TemplateRandomID = "Template" . $Helper->GetRandomID();
+
         $Selenium->find_element( "#Name",    'css' )->send_keys($TemplateRandomID);
         $Selenium->find_element( "#Comment", 'css' )->send_keys("Selenium template test");
-        $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 1,
+        );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # Check overview screen for test template.
@@ -147,8 +151,24 @@ $Selenium->RunTest(
 
         # Edit test template.
         $Selenium->find_element( "#Comment", 'css' )->clear();
-        $Selenium->execute_script("\$('#TemplateType').val('Create').trigger('redraw.InputField').trigger('change');");
-        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+
+        $Selenium->InputFieldValueSet(
+            Element => '#TemplateType',
+            Value   => 'Create',
+        );
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 2,
+        );
+        $Selenium->InputFieldValueSet(
+            Element => '#TemplateType',
+            Value   => 'Create',
+        );
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 2,
+        );
+
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # Check is there notification after template is updated.

@@ -405,8 +405,9 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # Click on reply.
-        $Selenium->execute_script(
-            "\$('#ResponseID$ArticleID').val('$TemplateID').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => "#ResponseID$ArticleID",
+            Value   => $TemplateID,
         );
 
         # Switch to compose window.
@@ -637,8 +638,9 @@ $Selenium->RunTest(
         );
 
         # Click on reply.
-        $Selenium->execute_script(
-            "\$('#ResponseID$ArticleID').val('$TemplateID').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => "#ResponseID$ArticleID",
+            Value   => $TemplateID,
         );
 
         # Switch to compose window.

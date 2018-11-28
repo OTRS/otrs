@@ -323,10 +323,10 @@ $Selenium->RunTest(
         my $CalendarName = "Calendar $RandomID";
         $Selenium->find_element( '.SidebarColumn ul.ActionList a#Add',   'css' )->VerifiedClick();
         $Selenium->find_element( 'form#CalendarFrom input#CalendarName', 'css' )->send_keys($CalendarName);
-        $Selenium->execute_script(
-            "\$('#GroupID').val($GroupID).trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#GroupID',
+            Value   => $GroupID,
         );
-
         $Selenium->find_element( 'form#CalendarFrom button#Submit', 'css' )->VerifiedClick();
 
         # Get calendar ID.
@@ -497,30 +497,34 @@ $Selenium->RunTest(
 
             # Set start date module.
             if ( $Test->{Config}->{StartDate} ) {
-                $Selenium->execute_script(
-                    "\$('#StartDate_1').val('$Test->{Config}->{StartDate}').trigger('redraw.InputField').trigger('change');"
+                $Selenium->InputFieldValueSet(
+                    Element => '#StartDate_1',
+                    Value   => $Test->{Config}->{StartDate},
                 );
             }
 
             # Set end date module.
             if ( $Test->{Config}->{EndDate} ) {
-                $Selenium->execute_script(
-                    "\$('#EndDate_1').val('$Test->{Config}->{EndDate}').trigger('redraw.InputField').trigger('change');"
+                $Selenium->InputFieldValueSet(
+                    Element => '#EndDate_1',
+                    Value   => $Test->{Config}->{EndDate},
                 );
             }
 
             # Set a queue.
             if ( $Test->{Config}->{QueueID} ) {
-                $Selenium->execute_script(
-                    "\$('#QueueID_1').val('$Test->{Config}->{QueueID}').trigger('redraw.InputField').trigger('change');"
+                $Selenium->InputFieldValueSet(
+                    Element => '#QueueID_1',
+                    Value   => $Test->{Config}->{QueueID},
                 );
             }
 
             # Add ticket search parameters.
             if ( $Test->{Config}->{SearchParams} ) {
                 for my $SearchParam ( sort keys %{ $Test->{Config}->{SearchParams} || {} } ) {
-                    $Selenium->execute_script(
-                        "\$('#SearchParams').val('$SearchParam').trigger('redraw.InputField').trigger('change');"
+                    $Selenium->InputFieldValueSet(
+                        Element => '#SearchParams',
+                        Value   => $SearchParam,
                     );
                     $Selenium->find_element( '.AddButton', 'css' )->click();
                     $Selenium->WaitFor( JavaScript => "return \$('#SearchParam_1_$SearchParam').length" );

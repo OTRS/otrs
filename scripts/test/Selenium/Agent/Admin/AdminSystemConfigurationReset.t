@@ -54,9 +54,9 @@ $Selenium->RunTest(
         );
 
         # Change dropdown value do 'Down'.
-        $Selenium->execute_script(
-            "\$('.SettingContent select').val('Down')"
-                . ".trigger('redraw.InputField').trigger('change');",
+        $Selenium->InputFieldValueSet(
+            Element => '.SettingContent select',
+            Value   => 'Down',
         );
 
         # Save.
@@ -187,9 +187,9 @@ $Selenium->RunTest(
             );
 
             # Reset locally.
-            $Selenium->execute_script(
-                "\$('#ResetOptions').val(['reset-locally'])"
-                    . ".trigger('redraw.InputField').trigger('change');",
+            $Selenium->InputFieldValueSet(
+                Element => '#ResetOptions',
+                Value   => "['reset-locally']",
             );
 
             # Confirm.

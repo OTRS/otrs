@@ -365,14 +365,20 @@ EOF
         $CheckFieldOptions->( Restricted => {} );
 
         # Set open state and trigger AJAX refresh.
-        $Selenium->execute_script("\$('#StateID').val('4').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#StateID',
+            Value   => 4,
+        );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
         # Check field restrictions
         $CheckFieldOptions->( Restricted => { TypeID => 1 } );
 
         # Set another state and trigger AJAX refresh.
-        $Selenium->execute_script("\$('#StateID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#StateID',
+            Value   => 2,
+        );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
         # Check field restrictions
@@ -380,14 +386,20 @@ EOF
 
         # Type
         # Set test 2 type and trigger AJAX refresh.
-        $Selenium->execute_script("\$('#TypeID').val('$TypeID2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#TypeID',
+            Value   => $TypeID2,
+        );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
         # Check field restrictions
         $CheckFieldOptions->( Restricted => { QueueID => 1 } );
 
         # Set another type and trigger AJAX refresh.
-        $Selenium->execute_script("\$('#TypeID').val('$TypeID1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#TypeID',
+            Value   => $TypeID1,
+        );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
         # Check field restrictions
@@ -395,14 +407,20 @@ EOF
 
         # Queue
         # Set Misc queue and trigger AJAX refresh.
-        $Selenium->execute_script("\$('#QueueID').val('4').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#QueueID',
+            Value   => 4,
+        );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
         # Check field restrictions
         $CheckFieldOptions->( Restricted => { OwnerID => 1 } );
 
         # Set another queue and trigger AJAX refresh.
-        $Selenium->execute_script("\$('#QueueID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#QueueID',
+            Value   => 1,
+        );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
         # Check field restrictions
@@ -410,14 +428,20 @@ EOF
 
         # Owner
         # Set test 2 owner and trigger AJAX refresh.
-        $Selenium->execute_script("\$('#OwnerID').val('$UserID2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#OwnerID',
+            Value   => $UserID2,
+        );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
         # Check field restrictions
         $CheckFieldOptions->( Restricted => { ResponsibleID => 1 } );
 
         # Set another owner and trigger AJAX refresh.
-        $Selenium->execute_script("\$('#OwnerID').val('$UserID1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#OwnerID',
+            Value   => $UserID1,
+        );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
         # Check field restrictions
@@ -425,8 +449,9 @@ EOF
 
         # Responsible
         # Set test 2 responsible and trigger AJAX refresh.
-        $Selenium->execute_script(
-            "\$('#ResponsibleID').val('$UserID2').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ResponsibleID',
+            Value   => $UserID2,
         );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
@@ -434,8 +459,9 @@ EOF
         $CheckFieldOptions->( Restricted => { PriorityID => 1 } );
 
         # Set another responsible and trigger AJAX refresh.
-        $Selenium->execute_script(
-            "\$('#ResponsibleID').val('$UserID1').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ResponsibleID',
+            Value   => $UserID1,
         );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
@@ -444,14 +470,20 @@ EOF
 
         # Priority
         # Set priority 2 and trigger AJAX refresh.
-        $Selenium->execute_script("\$('#PriorityID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#PriorityID',
+            Value   => 2,
+        );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
         # Check field restrictions
         $CheckFieldOptions->( Restricted => { StateID => 1 } );
 
         # Set another priority and trigger AJAX refresh.
-        $Selenium->execute_script("\$('#PriorityID').val('3').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#PriorityID',
+            Value   => 3,
+        );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
         # Check field restrictions

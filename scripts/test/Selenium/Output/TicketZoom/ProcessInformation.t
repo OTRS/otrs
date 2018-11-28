@@ -112,8 +112,9 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketProcess");
 
         # select test process
-        $Selenium->execute_script(
-            "\$('#ProcessEntityID').val('$ListReverse{$ProcessName}').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ProcessEntityID',
+            Value   => $ListReverse{$ProcessName},
         );
 
         # wait until page has loaded, if necessary
@@ -121,7 +122,10 @@ $Selenium->RunTest(
 
         # input process ticket subject and body
         my $SubjectRand = 'ProcessSubject-' . $Helper->GetRandomID();
-        $Selenium->execute_script("\$('#QueueID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#QueueID',
+            Value   => 2,
+        );
         $Selenium->find_element( "#Subject",  'css' )->send_keys($SubjectRand);
         $Selenium->find_element( "#RichText", 'css' )->send_keys('Test Process Body');
 
@@ -201,7 +205,10 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#NewPriorityID").length' );
 
         # select '5 very high' priority to trigger next stage in process
-        $Selenium->execute_script("\$('#NewPriorityID').val('5').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#NewPriorityID',
+            Value   => '5',
+        );
 
         $Selenium->find_element( "#Subject",  'css' )->send_keys('TestSubject');
         $Selenium->find_element( "#RichText", 'css' )->send_keys('TestBody');

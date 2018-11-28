@@ -183,8 +183,9 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
 
         # Change test user time zone preference to Europe/Berlin.
-        $Selenium->execute_script(
-            "\$('#UserTimeZone').val('Europe/Berlin').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#UserTimeZone',
+            Value   => 'Europe/Berlin',
         );
         $Selenium->execute_script(
             "\$('#UserTimeZone').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
@@ -219,8 +220,9 @@ $Selenium->RunTest(
         }
 
         # Add search filter by ticket number and run it.
-        $Selenium->execute_script(
-            "\$('#Attribute').val('TicketNumber').trigger('redraw.InputField').trigger('change');",
+        $Selenium->InputFieldValueSet(
+            Element => '#Attribute',
+            Value   => 'TicketNumber',
         );
         $Selenium->find_element( 'TicketNumber',      'name' )->send_keys($TicketNumber);
         $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
@@ -344,8 +346,9 @@ $Selenium->RunTest(
         $Selenium->accept_alert();
 
         # Add Subject field and try searching subject with 'stop word' search.
-        $Selenium->execute_script(
-            "\$('#Attribute').val('MIMEBase_Subject').trigger('redraw.InputField').trigger('change');",
+        $Selenium->InputFieldValueSet(
+            Element => '#Attribute',
+            Value   => 'MIMEBase_Subject',
         );
         $Selenium->WaitFor(
             JavaScript => "return \$('#SearchInsert input[name=MIMEBase_Subject]').length"
@@ -394,8 +397,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
         # Add search filter by ticket create time and run it (May 4th).
-        $Selenium->execute_script(
-            "\$('#Attribute').val('TicketCreateTimeSlot').trigger('redraw.InputField').trigger('change');",
+        $Selenium->InputFieldValueSet(
+            Element => '#Attribute',
+            Value   => 'TicketCreateTimeSlot',
         );
         for my $Field (qw(Start Stop)) {
             $Selenium->execute_script("\$('#TicketCreateTime${Field}Day:eq(0)').val('4');");
@@ -421,8 +425,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
         # Add search filter by ticket create time and run it (May 5th).
-        $Selenium->execute_script(
-            "\$('#Attribute').val('TicketCreateTimeSlot').trigger('redraw.InputField').trigger('change');",
+        $Selenium->InputFieldValueSet(
+            Element => '#Attribute',
+            Value   => 'TicketCreateTimeSlot',
         );
         for my $Field (qw(Start Stop)) {
             $Selenium->execute_script("\$('#TicketCreateTime${Field}Day:eq(0)').val('5');");
@@ -444,8 +449,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
         # Add search filter by ticket create time and set it to invalid date (April 31st).
-        $Selenium->execute_script(
-            "\$('#Attribute').val('TicketCreateTimeSlot').trigger('redraw.InputField').trigger('change');",
+        $Selenium->InputFieldValueSet(
+            Element => '#Attribute',
+            Value   => 'TicketCreateTimeSlot',
         );
         $Selenium->execute_script("\$('#TicketCreateTimeStartDay:eq(0)').val('31');");
         $Selenium->execute_script("\$('#TicketCreateTimeStartMonth:eq(0)').val('4');");
@@ -499,8 +505,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
         # Add search filter by priority and run it.
-        $Selenium->execute_script(
-            "\$('#Attribute').val('PriorityIDs').trigger('redraw.InputField').trigger('change');",
+        $Selenium->InputFieldValueSet(
+            Element => '#Attribute',
+            Value   => 'PriorityIDs',
         );
         $Selenium->find_element( '#PriorityIDs_Search', 'css' )->click();
 
@@ -526,8 +533,9 @@ $Selenium->RunTest(
         for my $DynamicFieldType (qw(Date DateTime)) {
 
             # Add the date dynamic field, to check if the correct years are selectable (bug#12678).
-            $Selenium->execute_script(
-                "\$('#Attribute').val('Search_DynamicField_$DynamicFields{$DynamicFieldType}->{Name}TimeSlot').trigger('redraw.InputField').trigger('change');",
+            $Selenium->InputFieldValueSet(
+                Element => '#Attribute',
+                Value   => "Search_DynamicField_$DynamicFields{$DynamicFieldType}->{Name}TimeSlot",
             );
 
             for my $DatePart (qw(StartYear StartMonth StartDay StopYear StopMonth StopDay)) {
@@ -598,8 +606,9 @@ $Selenium->RunTest(
         my $TextFieldID = 'Search_DynamicField_' . $DynamicFields{Text}->{Name};
 
         # Add search filter by text dynamic field and run it.
-        $Selenium->execute_script(
-            "\$('#Attribute').val('$TextFieldID').trigger('redraw.InputField').trigger('change');",
+        $Selenium->InputFieldValueSet(
+            Element => '#Attribute',
+            Value   => $TextFieldID,
         );
         $Selenium->WaitFor(
             JavaScript => "return typeof(\$) === 'function' && \$('#SearchInsert #$TextFieldID').length"
@@ -663,8 +672,9 @@ $Selenium->RunTest(
 
         # Change test user language preference to Deutsch (de).
         my $Language = 'de';
-        $Selenium->execute_script(
-            "\$('#UserLanguage').val('de').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#UserLanguage',
+            Value   => 'de',
         );
         $Selenium->execute_script(
             "\$('#UserLanguage').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
@@ -689,8 +699,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
         # Select 'Body' field in search.
-        $Selenium->execute_script(
-            "\$('#Attribute').val('MIMEBase_Body').trigger('redraw.InputField').trigger('change');",
+        $Selenium->InputFieldValueSet(
+            Element => '#Attribute',
+            Value   => 'MIMEBase_Body',
         );
         $Selenium->WaitFor(
             JavaScript => "return \$('#SearchInsert input[name=MIMEBase_Body]').length"

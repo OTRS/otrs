@@ -184,8 +184,9 @@ $Selenium->RunTest(
                 if ( $Screen eq 'Email' ) {
 
                     # Change it to Email.
-                    $Selenium->execute_script(
-                        "\$('#SplitSelection').val('EmailTicket').trigger('redraw.InputField').trigger('change');"
+                    $Selenium->InputFieldValueSet(
+                        Element => '#SplitSelection',
+                        Value   => 'EmailTicket',
                     );
                 }
 

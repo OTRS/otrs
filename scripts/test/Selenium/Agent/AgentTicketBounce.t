@@ -181,7 +181,10 @@ EMAIL
 
         # Bounce ticket to another test email.
         $Selenium->find_element( "#BounceTo", 'css' )->send_keys("test\@localhost.com");
-        $Selenium->execute_script("\$('#BounceStateID').val('4').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#BounceStateID',
+            Value   => 4,
+        );
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         $Selenium->WaitFor( WindowCount => 1 );

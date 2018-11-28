@@ -57,8 +57,9 @@ $Selenium->RunTest(
         # update generic preferences
         for my $Test (@Tests) {
 
-            $Selenium->execute_script(
-                "\$('#$Test->{ID}').val('$Test->{Value}').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => "#$Test->{ID}",
+                Value   => $Test->{Value},
             );
             $Selenium->find_element( "#$Test->{ID}", 'css' )->VerifiedClick();
 

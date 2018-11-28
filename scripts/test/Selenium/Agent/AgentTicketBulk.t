@@ -341,7 +341,10 @@ $Selenium->RunTest(
             "On load - Ticket type is not translated",
         );
 
-        $Selenium->execute_script("\$('#PriorityID').val('4').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#PriorityID',
+            Value   => 4,
+        );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
         # Check if form update for Queue is working well.
@@ -438,9 +441,15 @@ $Selenium->RunTest(
         );
 
         # Change state and priority in bulk action for test tickets.
-        $Selenium->execute_script("\$('#PriorityID').val('4').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#PriorityID',
+            Value   => 4,
+        );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
-        $Selenium->execute_script("\$('#StateID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#StateID',
+            Value   => 2,
+        );
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
         $Selenium->find_element( "#submitRichText", 'css' )->click();
@@ -522,13 +531,14 @@ $Selenium->RunTest(
                 Value => $ConfigValue,
             );
 
-            sleep 2;
+            sleep 1;
 
             for my $Test (@Tests) {
 
                 # Select queue.
-                $Selenium->execute_script(
-                    "\$('#QueueID').val('$Test->{SelectedQueueID}').trigger('redraw.InputField').trigger('change');"
+                $Selenium->InputFieldValueSet(
+                    Element => '#QueueID',
+                    Value   => $Test->{SelectedQueueID},
                 );
 
                 # Wait for AJAX finish.

@@ -188,33 +188,36 @@ $Selenium->RunTest(
             $Selenium->find_element( "#Title", 'css' )->send_keys( $StatsData->{Title} );
             my $Description = 'Description ' . $StatsData->{Title};
             $Selenium->find_element( "#Description", 'css' )->send_keys($Description);
-            $Selenium->execute_script(
-                "\$('#ObjectModule').val('$StatsData->{Object}').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#ObjectModule',
+                Value   => $StatsData->{Object},
             );
             $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
 
             # Check X-axis configuration dialog.
             $Selenium->VerifiedRefresh();
             $Selenium->execute_script('$(".EditXAxis").click();');
-            sleep 2;
             $Selenium->WaitFor(
                 JavaScript =>
                     'return typeof($) === "function" && $(".Dialog.Modal").length && $("#DialogButton1").length;'
             );
 
             if ( $StatsData->{Object} ne 'Kernel::System::Stats::Dynamic::TicketList' ) {
-                $Selenium->execute_script(
-                    "\$('#EditDialog select').val('$StatsData->{XAxis}').trigger('redraw.InputField').trigger('change');"
+                $Selenium->InputFieldValueSet(
+                    Element => '#EditDialog select',
+                    Value   => $StatsData->{XAxis},
                 );
 
                 # Set invalid date for CreateTime (31.06.).
                 # See bug #13938 (https://bugs.otrs.org/show_bug.cgi?id=13938).
                 if ( $StatsData->{XAxis} eq 'XAxisCreateTime' ) {
-                    $Selenium->execute_script(
-                        "\$('#XAxisCreateTimeStopMonth').val('6').trigger('redraw.InputField').trigger('change');"
+                    $Selenium->InputFieldValueSet(
+                        Element => '#XAxisCreateTimeStopMonth',
+                        Value   => 6,
                     );
-                    $Selenium->execute_script(
-                        "\$('#XAxisCreateTimeStopDay').val('31').trigger('redraw.InputField').trigger('change');"
+                    $Selenium->InputFieldValueSet(
+                        Element => '#XAxisCreateTimeStopDay',
+                        Value   => 31,
                     );
                 }
             }
@@ -235,11 +238,13 @@ $Selenium->RunTest(
                         'return typeof($) === "function" && $(".Dialog.Modal").length && $("#DialogButton1").length;'
                 );
 
-                $Selenium->execute_script(
-                    "\$('#XAxisCreateTimeStopMonth').val('12').trigger('redraw.InputField').trigger('change');"
+                $Selenium->InputFieldValueSet(
+                    Element => '#XAxisCreateTimeStopMonth',
+                    Value   => 12,
                 );
-                $Selenium->execute_script(
-                    "\$('#XAxisCreateTimeStopDay').val('31').trigger('redraw.InputField').trigger('change');"
+                $Selenium->InputFieldValueSet(
+                    Element => '#XAxisCreateTimeStopDay',
+                    Value   => 31,
                 );
 
                 $Selenium->find_element( "#DialogButton1", 'css' )->click();
@@ -249,12 +254,13 @@ $Selenium->RunTest(
             # Check Y-axis configuration dialog.
             $Selenium->VerifiedRefresh();
             $Selenium->execute_script('$(".EditYAxis").click();');
-            sleep 2;
+
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal").length;' );
             $Selenium->WaitFor( JavaScript => 'return $("#EditDialog select").length && $("#DialogButton1").length;' );
 
-            $Selenium->execute_script(
-                "\$('#EditDialog select').val('$StatsData->{YAxis}').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#EditDialog select',
+                Value   => $StatsData->{YAxis},
             );
 
             if ( $StatsData->{Object} eq 'Kernel::System::Stats::Dynamic::TicketList' ) {
@@ -265,8 +271,9 @@ $Selenium->RunTest(
                 );
 
                 # Select order by option.
-                $Selenium->execute_script(
-                    "\$('#EditDialog #$StatsData->{YAxis}').val('$StatsData->{OrderBy}').trigger('redraw.InputField').trigger('change');"
+                $Selenium->InputFieldValueSet(
+                    Element => "#EditDialog #$StatsData->{YAxis}",
+                    Value   => $StatsData->{OrderBy},
                 );
             }
             $Selenium->find_element( "#DialogButton1", 'css' )->click();
@@ -275,14 +282,14 @@ $Selenium->RunTest(
             # Check Restrictions configuration dialog.
             $Selenium->VerifiedRefresh();
             $Selenium->execute_script('$(".EditRestrictions").click();');
-            sleep 2;
             $Selenium->WaitFor(
                 JavaScript =>
                     'return typeof($) === "function" && $(".Dialog.Modal").length && $("#EditDialog select").length;'
             );
 
-            $Selenium->execute_script(
-                "\$('#EditDialog select option[value=\"$StatsData->{RestrictionID}\"]').prop('selected', true).trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#EditDialog select',
+                Value   => $StatsData->{RestrictionID},
             );
 
             # Wait for load selected Restriction.
@@ -291,9 +298,11 @@ $Selenium->RunTest(
             );
 
             # Add restriction.
-            $Selenium->execute_script(
-                "\$('#EditDialog #$StatsData->{RestrictionID} option[value=\"$StatsData->{Restrictionvalue}\"]').prop('selected', true).trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => "#EditDialog #$StatsData->{RestrictionID}",
+                Value   => $StatsData->{Restrictionvalue},
             );
+
             $Selenium->find_element( "#DialogButton1", 'css' )->click();
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length;' );
 

@@ -130,7 +130,10 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Name",     'css' )->send_keys($SysAddRandom);
         $Selenium->find_element( "#Realname", 'css' )->send_keys($SysAddRandom);
-        $Selenium->execute_script("\$('#QueueID').val('$QueueID').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#QueueID',
+            Value   => $QueueID,
+        );
         $Selenium->find_element( "#Comment", 'css' )->send_keys($SysAddComment);
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
@@ -145,7 +148,10 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Name",     'css' )->send_keys($SysAddRandom);
         $Selenium->find_element( "#Realname", 'css' )->send_keys($SysAddRandom);
-        $Selenium->execute_script("\$('#QueueID').val('$QueueID').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#QueueID',
+            Value   => $QueueID,
+        );
         $Selenium->find_element( "#Comment", 'css' )->send_keys($SysAddComment);
         $Selenium->find_element( "#Submit",  'css' )->click();
 
@@ -263,7 +269,10 @@ $Selenium->RunTest(
 
         # Edit test SystemAddress and set it to invalid.
         $Selenium->find_element( "#Realname", 'css' )->send_keys(" Edited");
-        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 2,
+        );
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 

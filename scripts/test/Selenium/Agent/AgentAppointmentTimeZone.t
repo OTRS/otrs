@@ -94,10 +94,9 @@ $Selenium->RunTest(
 
         # Enter some data, and put end hour to 18h for nice long appointment.
         $Selenium->find_element( 'Title', 'name' )->send_keys('Time Zone Appointment');
-        $Selenium->execute_script(
-            "\$('#CalendarID').val("
-                . $Calendar{CalendarID}
-                . ").trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#CalendarID',
+            Value   => $Calendar{CalendarID},
         );
         $Selenium->find_element( 'EndHour', 'name' )->send_keys('18');
 

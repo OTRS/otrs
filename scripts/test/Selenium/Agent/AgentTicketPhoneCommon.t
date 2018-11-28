@@ -148,13 +148,15 @@ $Selenium->RunTest(
             # Either clear next state field value or explicitly set it in order to test if ticket
             #   state will remain open (see bug#12516 for more information).
             if ( $Action->{EmptyState} ) {
-                $Selenium->execute_script(
-                    "\$('#NextStateID').val('').trigger('redraw.InputField').trigger('change');"
+                $Selenium->InputFieldValueSet(
+                    Element => '#NextStateID',
+                    Value   => '',
                 );
             }
             else {
-                $Selenium->execute_script(
-                    "\$('#NextStateID').val('4').trigger('redraw.InputField').trigger('change');"
+                $Selenium->InputFieldValueSet(
+                    Element => '#NextStateID',
+                    Value   => 4,
                 );
             }
 
@@ -197,8 +199,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText", 'css' )->send_keys("RichText Test");
 
         # Set next ticket state to pending reminder.
-        $Selenium->execute_script(
-            "\$('#NextStateID').val('6').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#NextStateID',
+            Value   => 6,
         );
 
         $Selenium->find_element( "#submitRichText", 'css' )->click();
@@ -211,8 +214,9 @@ $Selenium->RunTest(
         );
 
         # Set next ticket state to open.
-        $Selenium->execute_script(
-            "\$('#NextStateID').val('4').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#NextStateID',
+            Value   => 4,
         );
 
         $Selenium->WaitFor(

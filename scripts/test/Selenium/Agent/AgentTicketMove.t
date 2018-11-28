@@ -212,7 +212,10 @@ $Selenium->RunTest(
         }
 
         # Change ticket queue.
-        $Selenium->execute_script("\$('#DestQueueID').val('4').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#DestQueueID',
+            Value   => 4,
+        );
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         # Return back to zoom view and click on history and switch to its view.
@@ -295,7 +298,10 @@ $Selenium->RunTest(
 
         # Reload the page, to get the new sys config option.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
-        $Selenium->execute_script("\$('#DestQueueID').val('4').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#DestQueueID',
+            Value   => 4,
+        );
 
         # Wait for Asynchronous widget to load.
         $Selenium->WaitFor(
@@ -317,7 +323,10 @@ $Selenium->RunTest(
             'The Queue was not changed.',
         ) || die;
 
-        $Selenium->execute_script("\$('#DestQueueID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#DestQueueID',
+            Value   => 2,
+        );
 
         # Wait for reload to kick in.
         $Selenium->WaitFor(

@@ -108,7 +108,10 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment",        'css' )->send_keys('Selenium Test ACL');
         $Selenium->find_element( "#Description",    'css' )->send_keys('Selenium Test ACL');
         $Selenium->find_element( "#StopAfterMatch", 'css' )->click();
-        $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 1,
+        );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # check breadcrumb on Edit screen
@@ -172,6 +175,11 @@ $Selenium->RunTest(
             "\$('#ACLMatch').siblings('.ItemAddLevel1').val('Properties').trigger('redraw.InputField').trigger('change');"
         );
 
+        # Wait until selection tree is closed.
+        $Selenium->WaitFor(
+            ElementMissing => [ '.InputField_ListContainer', 'css' ],
+        );
+
         # after clicking an ItemAddLevel1 element, there should be now a new .ItemAdd element
         $Self->Is(
             $Selenium->find_element( '#ACLMatch #Properties_Search', 'css' )->is_displayed(),
@@ -200,6 +208,11 @@ JAVASCRIPT
             "\$('#ACLMatch').siblings('.ItemAddLevel1').val('Properties').trigger('redraw.InputField').trigger('change');"
         );
 
+        # Wait until selection tree is closed.
+        $Selenium->WaitFor(
+            ElementMissing => [ '.InputField_ListContainer', 'css' ],
+        );
+
         $Self->Is(
             $Selenium->execute_script("return window.getLastAlert()"),
             $LanguageObject->Translate('An item with this name is already present.'),
@@ -207,8 +220,9 @@ JAVASCRIPT
         );
 
         # now lets add the CustomerUser element on level 2
-        $Selenium->execute_script(
-            "\$('#ACLMatch .ItemAdd').val('CustomerUser').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ACLMatch .ItemAdd',
+            Value   => 'CustomerUser',
         );
 
         # now there should be a new .DataItem element with an input element
@@ -247,8 +261,9 @@ JAVASCRIPT
 
         # now lets add the DynamicField element on level 2, which should create a new modernize
         # element containing dynamic fields and an 'Add all' button
-        $Selenium->execute_script(
-            "\$('#ACLMatch .ItemAdd').val('DynamicField').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ACLMatch .ItemAdd',
+            Value   => 'DynamicField',
         );
 
         # Wait until element is shown.
@@ -288,7 +303,10 @@ JAVASCRIPT
         }
 
         # set ACL to invalid
-        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change')");
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 2,
+        );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # navigate to 'Create new ACL' screen
@@ -296,7 +314,10 @@ JAVASCRIPT
 
         # add new ACL
         $Selenium->execute_script("\$('#Name').val('$TestACLNames[1]')");
-        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change')");
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 2,
+        );
         $Selenium->find_element( '#Name', 'css' )->send_keys("\N{U+E007}");
 
         # wait until the new for has been loaded and the "normal" Save button shows up

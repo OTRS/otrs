@@ -383,8 +383,9 @@ $Selenium->RunTest(
         );
 
         # Select the created template.
-        $Selenium->execute_script(
-            "\$('#StandardTemplateID').val('$TemplateID').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#StandardTemplateID',
+            Value   => $TemplateID,
         );
 
         # Wait a short time and for the spinner to disappear.

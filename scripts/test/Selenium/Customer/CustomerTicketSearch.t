@@ -236,8 +236,14 @@ $Selenium->RunTest(
         # input more search filters, result should be 'No data found'
         $Selenium->find_element( "#TicketNumber", 'css' )->clear();
         $Selenium->find_element( "#TicketNumber", 'css' )->send_keys("123456789012345");
-        $Selenium->execute_script("\$('#StateIDs').val([1, 4]).trigger('redraw.InputField').trigger('change');");
-        $Selenium->execute_script("\$('#PriorityIDs').val([2, 3]).trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#StateIDs',
+            Value   => "[1, 4]",
+        );
+        $Selenium->InputFieldValueSet(
+            Element => '#PriorityIDs',
+            Value   => "[2, 3]",
+        );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # check for expected result

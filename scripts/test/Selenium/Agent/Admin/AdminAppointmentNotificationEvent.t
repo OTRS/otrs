@@ -100,8 +100,9 @@ $Selenium->RunTest(
         my $NotifEventText     = 'Selenium NotificationEvent test';
         $Selenium->find_element( '#Name',    'css' )->send_keys($NotifEventRandomID);
         $Selenium->find_element( '#Comment', 'css' )->send_keys($NotifEventText);
-        $Selenium->execute_script(
-            "\$('#Events').val('AppointmentNotification').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#Events',
+            Value   => 'AppointmentNotification',
         );
         $Selenium->find_element( '#en_Subject', 'css' )->send_keys($NotifEventText);
         $Selenium->find_element( '#en_Body',    'css' )->send_keys($NotifEventText);
@@ -199,7 +200,10 @@ $Selenium->RunTest(
         $Selenium->find_element( "#en_Body",    'css' )->send_keys($EditNotifEventText);
         $Selenium->find_element( "#en_Subject", 'css' )->clear();
         $Selenium->find_element( "#en_Subject", 'css' )->send_keys($EditNotifEventText);
-        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 2,
+        );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # check is there notification 'Notification updated!' after notification is added

@@ -162,8 +162,10 @@ $Selenium->RunTest(
         );
 
         # Exchange axis and check if it works.
-        $Selenium->execute_script("\$('#ExchangeAxis').val('1').trigger('redraw.InputField').trigger('change');");
-        sleep 1;
+        $Selenium->InputFieldValueSet(
+            Element => '#ExchangeAxis',
+            Value   => '1',
+        );
         $Selenium->execute_script( "\$('#Dashboard$StatsWidgetID" . "_submit').trigger('click');" );
         sleep 1;
 

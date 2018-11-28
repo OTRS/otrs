@@ -91,8 +91,9 @@ $Selenium->RunTest(
             JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').val() === '$SearchProfileName'"
         );
 
-        $Selenium->execute_script(
-            "\$('#Attribute').val('TicketNumber').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#Attribute',
+            Value   => 'TicketNumber',
         );
         $Selenium->WaitFor(
             JavaScript =>
@@ -119,8 +120,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#ToolBarSearchProfile').length" );
 
         # Click on test search profile.
-        $Selenium->execute_script(
-            "\$('#ToolBarSearchProfile').val('SeleniumTest').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ToolBarSearchProfile',
+            Value   => 'SeleniumTest',
         );
         $Selenium->WaitFor(
             JavaScript =>

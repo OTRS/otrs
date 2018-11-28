@@ -147,8 +147,9 @@ $Selenium->RunTest(
         };
 
         # Click on reply.
-        $Selenium->execute_script(
-            "\$('select[name=\"ResponseID\"]').val('1').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => 'select[name=\"ResponseID\"]',
+            Value   => 1,
         );
 
         $Selenium->WaitFor( WindowCount => 2 );
@@ -229,8 +230,9 @@ $Selenium->RunTest(
         );
 
         # Click on reply.
-        $Selenium->execute_script(
-            "\$('select[name=\"ResponseID\"]').val('1').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => 'select[name=\"ResponseID\"]',
+            Value   => 1,
         );
 
         $Selenium->WaitFor( WindowCount => 2 );

@@ -221,8 +221,9 @@ $Selenium->RunTest(
         );
 
         # Sort by ticket number.
-        $Selenium->execute_script(
-            "\$('#SortBy').val('TicketNumber|Up').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#SortBy',
+            Value   => 'TicketNumber|Up',
         );
 
         # Wait for page reload after changing sort param.
@@ -238,8 +239,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor(
             JavaScript => 'return $(".Dialog.Modal #UserTicketOverviewPreviewPageShown").length'
         );
-        $Selenium->execute_script(
-            "\$('#UserTicketOverviewPreviewPageShown').val('10').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#UserTicketOverviewPreviewPageShown',
+            Value   => '10',
         );
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
         $Selenium->WaitFor(
@@ -317,8 +319,9 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$QueueID;View=");
 
         # Sort by ticket number.
-        $Selenium->execute_script(
-            "\$('#SortBy').val('TicketNumber|Up').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#SortBy',
+            Value   => 'TicketNumber|Up',
         );
 
         # Wait for page reload after changing sort param.

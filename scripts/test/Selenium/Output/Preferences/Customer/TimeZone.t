@@ -39,8 +39,9 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerPreferences");
 
         # change test customer user time zone preference to Europe/Berlin
-        $Selenium->execute_script(
-            "\$('#UserTimeZone').val('Europe/Berlin').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#UserTimeZone',
+            Value   => 'Europe/Berlin',
         );
         $Selenium->find_element( "#UserTimeZoneUpdate", 'css' )->VerifiedClick();
 

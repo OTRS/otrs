@@ -642,8 +642,9 @@ $Selenium->RunTest(
 
                     for my $FieldName ( @{ $SubTest->{SearchFieldsAdd} } ) {
 
-                        $Selenium->execute_script(
-                            "\$('#Attribute').val('$FieldName').trigger('redraw.InputField').trigger('change');",
+                        $Selenium->InputFieldValueSet(
+                            Element => '#Attribute',
+                            Value   => $FieldName,
                         );
 
                         my $Element = $Selenium->find_element( $FieldName, 'name' );
@@ -667,13 +668,15 @@ $Selenium->RunTest(
                                 Data => $SubTest->{SearchParameter}->{Selection}->{$FieldName},
                             );
 
-                            $Selenium->execute_script(
-                                "\$('select[name=\"$FieldName\"]').val($ValuesString).trigger('redraw.InputField').trigger('change');",
+                            $Selenium->InputFieldValueSet(
+                                Element => "select[name=\"$FieldName\"]",
+                                Value   => $ValuesString,
                             );
                         }
                         else {
-                            $Selenium->execute_script(
-                                "\$('select[name=\"$FieldName\"]').val('$SubTest->{SearchParameter}->{Selection}->{$FieldName}').trigger('redraw.InputField').trigger('change');",
+                            $Selenium->InputFieldValueSet(
+                                Element => "select[name=\"$FieldName\"]",
+                                Value   => $SubTest->{SearchParameter}->{Selection}->{$FieldName},
                             );
                         }
                     }
@@ -803,8 +806,9 @@ $Selenium->RunTest(
 
                     for my $FieldName ( @{ $SubTest->{SearchFieldsChange} } ) {
 
-                        $Selenium->execute_script(
-                            "\$('#Attribute').val('$FieldName').trigger('redraw.InputField').trigger('change');",
+                        $Selenium->InputFieldValueSet(
+                            Element => '#Attribute',
+                            Value   => $FieldName,
                         );
 
                         my $Element = $Selenium->find_element( $FieldName, 'name' );
@@ -828,13 +832,15 @@ $Selenium->RunTest(
                                 Data => $SubTest->{SearchParameterChange}->{Selection}->{$FieldName},
                             );
 
-                            $Selenium->execute_script(
-                                "\$('select[name=\"$FieldName\"]').val($ValuesString).trigger('redraw.InputField').trigger('change');",
+                            $Selenium->InputFieldValueSet(
+                                Element => "select[name=\"$FieldName\"]",
+                                Value   => $ValuesString,
                             );
                         }
                         else {
-                            $Selenium->execute_script(
-                                "\$('select[name=\"$FieldName\"]').val('$SubTest->{SearchParameterChange}->{Selection}->{$FieldName}').trigger('redraw.InputField').trigger('change');",
+                            $Selenium->InputFieldValueSet(
+                                Element => "select[name=\"$FieldName\"]",
+                                Value   => $SubTest->{SearchParameterChange}->{Selection}->{$FieldName},
                             );
                         }
                     }

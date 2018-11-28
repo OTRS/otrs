@@ -121,8 +121,9 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # Click on Reply, we should try to send an email first.
-        $Selenium->execute_script(
-            "\$('#ResponseID$ArticleID').val('1').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => "#ResponseID$ArticleID",
+            Value   => 1,
         );
 
         # Switch to compose window.

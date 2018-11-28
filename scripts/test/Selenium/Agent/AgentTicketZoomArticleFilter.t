@@ -201,12 +201,14 @@ $Selenium->RunTest(
         );
 
         # Select phone backend and customer as article sender type for article filter.
-        $Selenium->execute_script(
-            "\$('#CommunicationChannelFilter').val('$CommunicationChannel{ChannelID}').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#CommunicationChannelFilter',
+            Value   => $CommunicationChannel{ChannelID},
         );
 
-        $Selenium->execute_script(
-            "\$('#ArticleSenderTypeFilter').val('$CustomerSenderTypeID').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ArticleSenderTypeFilter',
+            Value   => $CustomerSenderTypeID,
         );
 
         # Close dropdown menu.
@@ -295,8 +297,9 @@ $Selenium->RunTest(
             SenderType => 'agent',
         );
 
-        $Selenium->execute_script(
-            "\$('#ArticleSenderTypeFilter').val([$AgentSenderTypeID, $CustomerSenderTypeID]).trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ArticleSenderTypeFilter',
+            Value   => "[$AgentSenderTypeID, $CustomerSenderTypeID]",
         );
 
         $Selenium->find_element("//button[\@id='DialogButton1']")->click();
@@ -333,8 +336,9 @@ $Selenium->RunTest(
             SenderType => 'system',
         );
 
-        $Selenium->execute_script(
-            "\$('#ArticleSenderTypeFilter').val([$AgentSenderTypeID, $CustomerSenderTypeID, $SystemSenderTypeID]).trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ArticleSenderTypeFilter',
+            Value   => "[$AgentSenderTypeID, $CustomerSenderTypeID, $SystemSenderTypeID]",
         );
 
         $Selenium->find_element("//button[\@id='DialogButton1']")->click();
@@ -414,10 +418,10 @@ $Selenium->RunTest(
             $Selenium->find_element( "#ArticleViewSettings", 'css' )->click();
             $Selenium->WaitFor( JavaScript => 'return $(".Dialog:visible").length && $("#ArticleView").length;' );
 
-            $Selenium->execute_script(
-                "\$('#ArticleView').val('Timeline').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#ArticleView',
+                Value   => 'Timeline',
             );
-            sleep 2;
 
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog:visible").length;' );
             $Selenium->WaitFor( JavaScript => "return \$.active == 0;" );
@@ -467,8 +471,9 @@ $Selenium->RunTest(
                     JavaScript => 'return $(".Dialog:visible").length && $("#EventTypeFilter").length;'
                 );
 
-                $Selenium->execute_script(
-                    "\$('#EventTypeFilter').val('$FilterValue').trigger('redraw.InputField').trigger('change');"
+                $Selenium->InputFieldValueSet(
+                    Element => '#EventTypeFilter',
+                    Value   => $FilterValue,
                 );
 
                 $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();

@@ -76,8 +76,9 @@ $Selenium->RunTest(
 
         # Select web service.
         $Selenium->find_element("//a[contains(\@href, 'WebserviceID=$WebserviceID')]")->VerifiedClick();
-        $Selenium->execute_script(
-            "\$('#RequesterTransportList').val('HTTP::REST').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#RequesterTransportList',
+            Value   => 'HTTP::REST',
         );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
@@ -85,8 +86,9 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, 'WebserviceID=$WebserviceID')]")->VerifiedClick();
 
         # Select Test::TestSimple invoker from list.
-        $Selenium->execute_script(
-            "\$('#InvokerList').val('Test::TestSimple').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#InvokerList',
+            Value   => 'Test::TestSimple',
         );
         $Selenium->WaitFor(
             JavaScript => "return typeof(\$) === 'function' && \$('#Invoker').length === 1"
@@ -117,10 +119,10 @@ $Selenium->RunTest(
         );
 
         # Set select Add Event Trigger to Queue.
-        $Selenium->execute_script(
-            "\$('#EventType').val('Queue').trigger('redraw.InputField').trigger('change')"
+        $Selenium->InputFieldValueSet(
+            Element => '#EventType',
+            Value   => 'Queue',
         );
-        sleep 1;
 
         # Add a new event to event triggers.
         my $Count = 0;

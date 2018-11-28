@@ -161,8 +161,9 @@ $Selenium->RunTest(
         # Navigate to AgentTicketProcess screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketProcess");
 
-        $Selenium->execute_script(
-            "\$('#ProcessEntityID').val('$ListReverse{$ProcessName}').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ProcessEntityID',
+            Value   => $ListReverse{$ProcessName},
         );
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('[type=submit]').length;" );
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->send_keys($TestCustomerUserLogin);

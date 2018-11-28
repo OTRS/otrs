@@ -112,15 +112,18 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
         $Selenium->find_element( "#Title",       'css' )->send_keys("$AppointmentName");
         $Selenium->find_element( "#Description", 'css' )->send_keys('Test repeating appointment');
-        $Selenium->execute_script(
-            "\$('#CalendarID').val($CalendarID).trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#CalendarID',
+            Value   => $CalendarID
         );
-        $Selenium->execute_script(
-            "\$('#RecurrenceType').val('Daily').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#RecurrenceType',
+            Value   => 'Daily',
         );
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#RecurrenceLimit').length" );
-        $Selenium->execute_script(
-            "\$('#RecurrenceLimit').val('2').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#RecurrenceLimit',
+            Value   => 2,
         );
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#RecurrenceCount').length" );
         $Selenium->find_element( "#RecurrenceCount", 'css' )->send_keys('3');

@@ -117,7 +117,10 @@ $Selenium->RunTest(
         # Create a real test role.
         my $RandomID = 'TestRole' . $Helper->GetRandomID();
         $Selenium->find_element( "#Name", 'css' )->send_keys($RandomID);
-        $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 1,
+        );
         $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test role');
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
@@ -173,7 +176,10 @@ $Selenium->RunTest(
         }
 
         # Set test role to invalid.
-        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 2,
+        );
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 

@@ -144,13 +144,15 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserLastname",  'css' )->send_keys($RandomID);
         $Selenium->find_element( "#UserLogin",     'css' )->send_keys($RandomID);
         $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $RandomID . "\@localhost.com" );
-        $Selenium->execute_script(
-            "\$('#UserCustomerID').val('$RandomID').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#UserCustomerID',
+            Value   => $RandomID,
         );
 
         # Change one preference entry, to check if preferences fields exists on the page.
-        $Selenium->execute_script(
-            "\$('#UserTimeZone').val('Europe/Berlin').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#UserTimeZone',
+            Value   => 'Europe/Berlin',
         );
 
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
@@ -282,7 +284,10 @@ $Selenium->RunTest(
         }
 
         # Set test customer user to invalid.
-        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 2,
+        );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # Check is there notification after customer user is updated.
@@ -324,8 +329,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserLastname",  'css' )->send_keys($RandomID3);
         $Selenium->find_element( "#UserLogin",     'css' )->send_keys($RandomID3);
         $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $RandomID3 . "\@localhost.com" );
-        $Selenium->execute_script(
-            "\$('#UserCustomerID').val('$RandomID').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#UserCustomerID',
+            Value   => $RandomID,
         );
         $Selenium->execute_script("\$('#Submit').click();");
 
@@ -443,13 +449,17 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserFirstname", 'css' )->send_keys($RandomID4);
         $Selenium->find_element( "#UserLastname",  'css' )->send_keys($RandomID4);
         $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $RandomID4 . "\@localhost.com" );
-        $Selenium->execute_script(
-            "\$('#UserCustomerID').val('$RandomID').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#UserCustomerID',
+            Value   => $RandomID,
         );
 
         my $DynamicFieldValue = 'DF' . $RandomID4;
         $Selenium->find_element( "#DynamicField_$DynamicFieldName", 'css' )->send_keys($DynamicFieldValue);
-        $Selenium->find_element( "#Submit",                         'css' )->VerifiedClick();
+        $Selenium->execute_script(
+            "\$('#Submit')[0].scrollIntoView(true);",
+        );
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # Verify there was no error when creating Customer User with AutoLoginCreation and DynamicField.
         $Self->Is(
@@ -475,7 +485,10 @@ $Selenium->RunTest(
 
         # Edit DynamicField value.
         $Selenium->find_element( "#DynamicField_$DynamicFieldName", 'css' )->send_keys('-edit');
-        $Selenium->find_element( "#Submit",                         'css' )->VerifiedClick();
+        $Selenium->execute_script(
+            "\$('#Submit')[0].scrollIntoView(true);",
+        );
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # Search by latest created Customer User.
         $Selenium->find_element( "#Search",           'css' )->clear();

@@ -76,12 +76,22 @@ $Selenium->RunTest(
 
         # add real test mail account
         my $RandomID = "EmailAccount" . $Helper->GetRandomID();
-        $Selenium->execute_script("\$('#TypeAdd').val('IMAP').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#TypeAdd',
+            Value   => 'IMAP',
+        );
         $Selenium->find_element( "#LoginAdd",    'css' )->send_keys($RandomID);
         $Selenium->find_element( "#PasswordAdd", 'css' )->send_keys("SomePassword");
         $Selenium->find_element( "#HostAdd",     'css' )->send_keys("pop3.example.com");
-        $Selenium->execute_script("\$('#Trusted').val('0').trigger('redraw.InputField').trigger('change');");
-        $Selenium->execute_script("\$('#DispatchingBy').val('Queue').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#Trusted',
+            Value   => 0,
+        );
+        $Selenium->InputFieldValueSet(
+            Element => '#DispatchingBy',
+            Value   => 'Queue',
+        );
+
         $Selenium->find_element( "#Comment", 'css' )->send_keys("Selenium test AdminMailAccount");
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
@@ -177,7 +187,10 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#HostEdit", 'css' )->clear();
         $Selenium->find_element( "#HostEdit", 'css' )->send_keys("pop3edit.example.com");
-        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => '2',
+        );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # check class of invalid EmailAccount in the overview table
@@ -254,8 +267,13 @@ $Selenium->RunTest(
             my $FieldID = $Test->{FieldID};
             my $ForAttr = $Test->{ForAttr};
 
-            $Selenium->execute_script(
-                "\$('#$FieldID').val('$Test->{Selected}').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => "#$FieldID",
+                Value   => $Test->{Selected},
+            );
+            $Selenium->InputFieldValueSet(
+                Element => "#$FieldID",
+                Value   => $Test->{Selected},
             );
 
             $Self->Is(

@@ -125,8 +125,9 @@ $Selenium->RunTest(
             $Selenium->find_element( "#Value_3", 'css' )->send_keys("Value3");
 
             # Select default value.
-            $Selenium->execute_script(
-                "\$('#DefaultValue').val('Key3').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#DefaultValue',
+                Value   => 'Key3',
             );
 
             # Verify default value.
@@ -159,12 +160,22 @@ $Selenium->RunTest(
             # Edit test DynamicFieldDropdown possible none, treeview, default value and set it to invalid.
             $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
-            $Selenium->execute_script(
-                "\$('#DefaultValue').val('Key1').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#DefaultValue',
+                Value   => 'Key1',
             );
-            $Selenium->execute_script("\$('#PossibleNone').val('1').trigger('redraw.InputField').trigger('change');");
-            $Selenium->execute_script("\$('#TreeView').val('1').trigger('redraw.InputField').trigger('change');");
-            $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+            $Selenium->InputFieldValueSet(
+                Element => '#PossibleNone',
+                Value   => 1,
+            );
+            $Selenium->InputFieldValueSet(
+                Element => '#TreeView',
+                Value   => 1,
+            );
+            $Selenium->InputFieldValueSet(
+                Element => '#ValidID',
+                Value   => 2,
+            );
             $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
             # Check new and edited DynamicFieldDropdown values.

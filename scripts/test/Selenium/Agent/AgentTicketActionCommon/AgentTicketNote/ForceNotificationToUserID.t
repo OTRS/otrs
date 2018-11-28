@@ -201,11 +201,13 @@ $Selenium->RunTest(
         }
 
         # Change ticket user owner.
-        $Selenium->execute_script(
-            "\$('#InvolvedUserID').val('$UserID[2]').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#InvolvedUserID',
+            Value   => $UserID[2],
         );
-        $Selenium->execute_script(
-            "\$('#InformUserID').val('$UserID[1]').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#InformUserID',
+            Value   => $UserID[1],
         );
         $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');

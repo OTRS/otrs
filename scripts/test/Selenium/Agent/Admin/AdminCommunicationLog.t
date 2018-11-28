@@ -451,7 +451,10 @@ $Selenium->RunTest(
         );
 
         # Limit log level to 'Error' only.
-        $Selenium->execute_script("\$('#PriorityFilter').val('Error').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#PriorityFilter',
+            Value   => 'Error',
+        );
 
         # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(

@@ -191,7 +191,10 @@ $Selenium->RunTest(
         }
 
         # Change filter type to Requester.
-        $Selenium->execute_script("\$('#FilterType').val('Requester').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#FilterType',
+            Value   => 'Requester',
+        );
 
         # Click on 'Refresh' button and test JS GetRequestList function, expecting no result to find.
         $Selenium->find_element( "#FilterRefresh", 'css' )->click();

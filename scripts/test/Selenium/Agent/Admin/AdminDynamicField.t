@@ -128,8 +128,9 @@ $Selenium->RunTest(
 
                 # Create a real test DynamicField.
                 my $RandomID = $Helper->GetRandomID();
-                $Selenium->execute_script(
-                    "\$('#$ObjectType').val('$ID').trigger('redraw.InputField').trigger('change');"
+                $Selenium->InputFieldValueSet(
+                    Element => "#$ObjectType",
+                    Value   => $ID,
                 );
 
                 # Wait until page has finished loading.
@@ -155,7 +156,10 @@ $Selenium->RunTest(
 
                 $Selenium->find_element( "#Name",  'css' )->send_keys($RandomID);
                 $Selenium->find_element( "#Label", 'css' )->send_keys($RandomID);
-                $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
+                $Selenium->InputFieldValueSet(
+                    Element => '#ValidID',
+                    Value   => 1,
+                );
                 $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
                 # Check if test DynamicField show on AdminDynamicField screen.
@@ -177,7 +181,10 @@ $Selenium->RunTest(
 
                 $Selenium->find_element( "#Label", 'css' )->clear();
                 $Selenium->find_element( "#Label", 'css' )->send_keys( $RandomID . "-update" );
-                $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+                $Selenium->InputFieldValueSet(
+                    Element => '#ValidID',
+                    Value   => 2,
+                );
                 $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
                 # Check class of invalid DynamicField in the overview table.
@@ -286,9 +293,11 @@ $Selenium->RunTest(
         $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $("#AdminDynamicFieldsOverviewPageShown").length;'
         );
-        $Selenium->execute_script(
-            "\$('#AdminDynamicFieldsOverviewPageShown').val('10').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#AdminDynamicFieldsOverviewPageShown',
+            Value   => 10,
         );
+
         $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
 
         # Get list of all dynamic fields for define MaxFieldOrder default value.
@@ -298,8 +307,9 @@ $Selenium->RunTest(
         my $MaxFieldOrder = scalar @{$DynamicFieldsList} + 1;
 
         # Click to create 'Text' type ticket dynamic field from the first page.
-        $Selenium->execute_script(
-            "\$('#TicketDynamicField').val('Text').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#TicketDynamicField',
+            Value   => 'Text',
         );
 
         # Wait until page has finished loading.
@@ -319,8 +329,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#AdminDynamicFieldPage2", 'css' )->VerifiedClick();
 
         # Click to create 'Text' type ticket dynamic field from the second page.
-        $Selenium->execute_script(
-            "\$('#TicketDynamicField').val('Text').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#TicketDynamicField',
+            Value   => 'Text',
         );
 
         # Wait until page has finished loading.

@@ -124,9 +124,18 @@ $Selenium->RunTest(
             $Selenium->find_element( "#Name",     'css' )->send_keys($AutoResponseName);
             $Selenium->find_element( "#Subject",  'css' )->send_keys($AutoResponseName);
             $Selenium->find_element( "#RichText", 'css' )->send_keys($Text);
-            $Selenium->execute_script("\$('#TypeID').val('1').trigger('redraw.InputField').trigger('change');");
-            $Selenium->execute_script("\$('#AddressID').val('1').trigger('redraw.InputField').trigger('change');");
-            $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
+            $Selenium->InputFieldValueSet(
+                Element => '#TypeID',
+                Value   => 1,
+            );
+            $Selenium->InputFieldValueSet(
+                Element => '#AddressID',
+                Value   => 1,
+            );
+            $Selenium->InputFieldValueSet(
+                Element => '#ValidID',
+                Value   => 1,
+            );
             $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
             # Check if test auto response show on AdminAutoResponse screen.
@@ -171,7 +180,10 @@ $Selenium->RunTest(
         $AutoResponseNames[0] = 'Update' . $AutoResponseNames[0];
         $Selenium->find_element( "#Name", 'css' )->clear();
         $Selenium->find_element( "#Name", 'css' )->send_keys( $AutoResponseNames[0] );
-        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 2,
+        );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # Check if edited auto response show on AdminAutoResponse.

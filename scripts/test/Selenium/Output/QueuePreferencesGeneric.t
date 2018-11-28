@@ -77,12 +77,30 @@ $Selenium->RunTest(
         my $TestComment     = 'QueuePreferences Comment2';
 
         $Selenium->find_element( "#Name", 'css' )->send_keys($RandomQueueName);
-        $Selenium->execute_script("\$('#GroupID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->execute_script("\$('#FollowUpID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->execute_script("\$('#SalutationID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->execute_script("\$('#SystemAddressID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->execute_script("\$('#SignatureID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#GroupID',
+            Value   => '1',
+        );
+        $Selenium->InputFieldValueSet(
+            Element => '#FollowUpID',
+            Value   => '1',
+        );
+        $Selenium->InputFieldValueSet(
+            Element => '#SalutationID',
+            Value   => '1',
+        );
+        $Selenium->InputFieldValueSet(
+            Element => '#SystemAddressID',
+            Value   => '1',
+        );
+        $Selenium->InputFieldValueSet(
+            Element => '#SignatureID',
+            Value   => '1',
+        );
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => '1',
+        );
 
         # Set included queue attribute Comment2.
         $Selenium->find_element( "#Comment2", 'css' )->send_keys($TestComment);

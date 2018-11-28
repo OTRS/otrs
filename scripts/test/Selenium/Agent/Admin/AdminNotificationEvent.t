@@ -113,9 +113,13 @@ $Selenium->RunTest(
         my $NotifEventText     = 'Selenium NotificationEvent test';
         $Selenium->find_element( '#Name',    'css' )->send_keys($NotifEventRandomID);
         $Selenium->find_element( '#Comment', 'css' )->send_keys($NotifEventText);
-        $Selenium->execute_script("\$('#Events').val('ArticleCreate').trigger('redraw.InputField').trigger('change');");
-        $Selenium->execute_script(
-            "\$('#ArticleIsVisibleForCustomer').val('1').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#Events',
+            Value   => 'ArticleCreate',
+        );
+        $Selenium->InputFieldValueSet(
+            Element => '#ArticleIsVisibleForCustomer',
+            Value   => 1,
         );
         $Selenium->find_element( '#MIMEBase_Subject', 'css' )->send_keys($NotifEventText);
         $Selenium->find_element( '#en_Subject',       'css' )->send_keys($NotifEventText);
@@ -269,12 +273,16 @@ $Selenium->RunTest(
         $Selenium->find_element( "#en_Body",    'css' )->send_keys($EditNotifEventText);
         $Selenium->find_element( "#en_Subject", 'css' )->clear();
         $Selenium->find_element( "#en_Subject", 'css' )->send_keys($EditNotifEventText);
-        $Selenium->execute_script(
-            "\$('#ArticleIsVisibleForCustomer').val('0').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#ArticleIsVisibleForCustomer',
+            Value   => 0,
         );
         $Selenium->find_element( "#MIMEBase_Subject", 'css' )->clear();
         $Selenium->find_element( "#MIMEBase_Body",    'css' )->send_keys($EditNotifEventText);
-        $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->InputFieldValueSet(
+            Element => '#ValidID',
+            Value   => 2,
+        );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # Check is there notification 'Notification updated!' after notification is added.
@@ -377,8 +385,9 @@ $Selenium->RunTest(
         for my $Lang (@Languages) {
 
             # Add new notification text.
-            $Selenium->execute_script(
-                "\$('#Language').val('$Lang->{LangCode}').trigger('redraw.InputField').trigger('change');"
+            $Selenium->InputFieldValueSet(
+                Element => '#Language',
+                Value   => $Lang->{LangCode},
             );
 
             $Self->IsNot(

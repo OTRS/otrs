@@ -45,8 +45,9 @@ $Selenium->RunTest(
 
         # Change test user time zone preference to -5 hours. Displayed out of office date values
         #   should not be converted to local time zone, see bug#12471.
-        $Selenium->execute_script(
-            "\$('#UserTimeZone').val('Pacific/Easter').trigger('redraw.InputField').trigger('change');"
+        $Selenium->InputFieldValueSet(
+            Element => '#UserTimeZone',
+            Value   => 'Pacific/Easter',
         );
         $Selenium->execute_script(
             "\$('#UserTimeZone').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
