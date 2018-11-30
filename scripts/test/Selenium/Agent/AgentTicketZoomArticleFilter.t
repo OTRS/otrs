@@ -423,14 +423,14 @@ $Selenium->RunTest(
                 Value   => 'Timeline',
             );
 
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog:visible").length;' );
-            $Selenium->WaitFor( JavaScript => "return \$.active == 0;" );
+            $Selenium->WaitFor( JavaScript =>
+                    "return typeof(\$) === 'function' && \$('.TimelineView #ArticleID_$NonAddNoteArticleID').length;" );
 
             # Check last created article (PhoneCallCustomer) is shown in timeline view.
             $Self->True(
                 $Selenium->execute_script("return \$('.TimelineView #ArticleID_$NonAddNoteArticleID').length;"),
                 "ArticleID $NonAddNoteArticleID is shown in timeline view",
-            );
+            ) || die;
 
             # Define article appearances depending on filter.
             my %ArticleFilters = (
