@@ -423,8 +423,10 @@ $Selenium->RunTest(
                 Value   => 'Timeline',
             );
 
-            $Selenium->WaitFor( JavaScript =>
-                    "return typeof(\$) === 'function' && \$('.TimelineView #ArticleID_$NonAddNoteArticleID').length;" );
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('.TimelineView #ArticleID_$NonAddNoteArticleID').length;"
+            );
 
             # Check last created article (PhoneCallCustomer) is shown in timeline view.
             $Self->True(
