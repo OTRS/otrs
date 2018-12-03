@@ -395,64 +395,28 @@ my @Tests = (
         Success => 0,
     },
     {
-        Name   => 'Wrong Value Dropdown',
+        Name   => 'Long Value Dropdown',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Dropdown},
-            Value              => 'Value 1',
-            UserID             => $UserID,
-        },
-        Success => 0,
-    },
-    {
-        Name   => 'Value Dropdown',
-        Config => {
-            DynamicFieldConfig => $DynamicFieldConfigs{Dropdown},
-            Value              => '1',
+            Value              => 'Looooooooooooooooooooooooooooong',
             UserID             => $UserID,
         },
         Success => 1,
-    },
-    {
-        Name   => 'Wrong Single Value Multiselect',
-        Config => {
-            DynamicFieldConfig => $DynamicFieldConfigs{Multiselect},
-            Value              => 'Value 1',
-            UserID             => $UserID,
-        },
-        Success => 0,
     },
     {
         Name   => 'Single Value Multiselect',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Multiselect},
-            Value              => ['1'],
+            Value              => 'Value1',
             UserID             => $UserID,
         },
         Success => 1,
     },
     {
-        Name   => 'Wrong Single Value Multiselect',
-        Config => {
-            DynamicFieldConfig => $DynamicFieldConfigs{Multiselect},
-            Value              => [ '1', 'Value 2' ],
-            UserID             => $UserID,
-        },
-        Success => 0,
-    },
-    {
-        Name   => 'Wrong Multiple Values Multiselect',
-        Config => {
-            DynamicFieldConfig => $DynamicFieldConfigs{Multiselect},
-            Value              => [ 'Value 1', 'Value 2' ],
-            UserID             => $UserID,
-        },
-        Success => 0,
-    },
-    {
         Name   => 'Multiple Values Multiselect',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Multiselect},
-            Value              => [ '1', '2' ],
+            Value              => [ 'Value1', 'Value2' ],
             UserID             => $UserID,
         },
         Success => 1,

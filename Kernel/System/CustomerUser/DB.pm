@@ -693,6 +693,22 @@ sub CustomerSearchDetail {
                 # Check search attribute, we do not need to search for '*'.
                 next TEXT if $Text =~ /^\%{1,3}$/;
 
+                my $ValidateSuccess = $DynamicFieldBackendObject->ValueValidate(
+                    DynamicFieldConfig => $DynamicField,
+                    Value              => $Text,
+                    UserID             => $Param{UserID} || 1,
+                );
+                if ( !$ValidateSuccess ) {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => "Search not executed due to invalid value '"
+                            . $Text
+                            . "' on field '"
+                            . $DynamicField->{Name} . "'!",
+                    );
+                    return;
+                }
+
                 if ($Counter) {
                     $SQLDynamicFieldWhereSub .= ' OR ';
                 }
