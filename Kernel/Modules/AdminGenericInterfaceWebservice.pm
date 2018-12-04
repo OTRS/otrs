@@ -1027,7 +1027,7 @@ sub _ShowEdit {
         $GITransports{$Transport} = $GITransportConfig->{$Transport}->{ConfigDialog};
     }
 
-    # Get operations data.
+    # Get operation data.
     my %GIOperations;
     my $GIOperationConfig = $ConfigObject->Get('GenericInterface::Operation::Module');
     OPERATION:
@@ -1036,7 +1036,7 @@ sub _ShowEdit {
         $GIOperations{$Operation} = $GIOperationConfig->{$Operation}->{ConfigDialog};
     }
 
-    # Get operations data.
+    # Get invoker data.
     my %GIInvokers;
     my $GIInvokerConfig = $ConfigObject->Get('GenericInterface::Invoker::Module');
     INVOKER:
