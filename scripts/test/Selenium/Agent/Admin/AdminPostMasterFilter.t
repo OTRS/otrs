@@ -295,8 +295,12 @@ $Selenium->RunTest(
             "$PostMasterName2 second PostMasterFilter found on page",
         );
 
+        $Selenium->VerifiedRefresh();
+
         # Click to edit second PostMasterFilter.
         $Selenium->find_element( $PostMasterName2, 'link_text' )->VerifiedClick();
+
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#EditName").length;' );
 
         # Try to change name as first PostMasterFilter, verify duplication error.
         $Selenium->find_element( "#EditName", 'css' )->clear();
