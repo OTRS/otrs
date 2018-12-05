@@ -2548,7 +2548,7 @@ sub _NormalizePrivateSecretFiles {
 
         # all private secret files has different content, just log this as a waring and continue to
         # the next wrong private secret file
-        $Details . "  The private secret file $File has information not stored in any other"
+        $Details .= "  The private secret file $File has information not stored in any other"
             . " private secret file for hash $Hash\n"
             . "    The file will not be deleted... <red>Warning</red>\n";
         next FILENAME;
