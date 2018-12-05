@@ -154,17 +154,24 @@ sub Map {
 
     # Prepare style sheet.
     my $LibXSLT = XML::LibXSLT->new();
+
+    # Remove template line breaks and white spaces to plain text lines on the fly, see bug# 14106.
+    my $Template =
+        $Config->{Template}
+        =~ s{ > [ \t\n]+ (?= [^< \t\n] ) }{>}xmsgr
+        =~ s{ (?<! [> \t\n] ) [ \t\n]+ < }{<}xmsgr;
+
     my ( $StyleDoc, $StyleSheet );
     eval {
         $StyleDoc = XML::LibXML->load_xml(
-            string   => $Config->{Template},
+            string   => $Template,
             no_cdata => 1,
         );
     };
     if ( !$StyleDoc ) {
         return $Self->{DebuggerObject}->Error(
             Summary => 'Could not load configured XSLT template',
-            Data    => $Config->{Template},
+            Data    => $Template,
         );
     }
     eval {

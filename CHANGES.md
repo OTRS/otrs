@@ -1,4 +1,5 @@
 #6.0.15 2018-??-??
+ - 2018-12-05 Fixed bug#[14106](https://bugs.otrs.org/show_bug.cgi?id=14106) - XSLT Editor breaks.
  - 2018-11-27 Use scale in transforamtion for Notification item on hover, thanks to Andrew Bone (PR#1958).
  - 2018-11-27 Fixed bug#[13829](https://bugs.otrs.org/show_bug.cgi?id=13829) - Internal server error when Z time is used in RSS-Feed.
  - 2018-11-22 Fixed bug#[14227](https://bugs.otrs.org/show_bug.cgi?id=14227) - Passing an empty arrayref in 'TicketID' to ticket-search, results in invalid SQL statement.

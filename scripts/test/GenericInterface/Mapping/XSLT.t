@@ -178,6 +178,30 @@ my @MappingTests = (
         ResultSuccess => 1,
         ConfigSuccess => 1,
     },
+
+    {
+        Name   => 'Test simple overwrite (whitespaces trimmed)',
+        Config => {
+            Template => '<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:output method="xml" encoding="utf-8" indent="yes"/>
+<xsl:template match="/RootElement">
+<NewRootElement><NewKey>
+        NewValue
+</NewKey></NewRootElement>
+</xsl:template>
+</xsl:stylesheet>',
+        },
+        Data => {
+            Key => 'Value',
+        },
+        ResultData => {
+            NewKey => 'NewValue',
+        },
+        ResultSuccess => 1,
+        ConfigSuccess => 1,
+    },
+
     {
         Name   => 'Test replacement with custom functions',
         Config => {
