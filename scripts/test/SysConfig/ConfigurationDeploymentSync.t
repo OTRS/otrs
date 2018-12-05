@@ -46,10 +46,10 @@ my $UpdateFile = sub {
     my $Content = ${ $ContentSCALARRef || \'' };
 
     if ( defined $Param{Value} ) {
-        $Content =~ s{ ({'CurrentDeploymentID'} [ ] = [ ] ')\d+(') }{$1$Param{Value}$2}msx;
+        $Content =~ s{ (\{'CurrentDeploymentID'\} [ ] = [ ] ')\d+(') }{$1$Param{Value}$2}msx;
     }
     if ( defined $Param{Remove} ) {
-        $Content =~ s{ ({'CurrentDeploymentID)('})  }{$1Invalid$2}msx;
+        $Content =~ s{ (\{'CurrentDeploymentID)('\})  }{$1Invalid$2}msx;
     }
 
     my $FileLocation = $MainObject->FileWrite(
@@ -80,7 +80,7 @@ my $ReadDeploymentID = sub {
     my $Content = ${$ContentSCALARRef};
 
     my $CurrentDeploymentID;
-    if ( $Content =~ m{ {'CurrentDeploymentID'} [ ] = [ ] '(-?\d+)' }msx ) {
+    if ( $Content =~ m{ \{'CurrentDeploymentID'\} [ ] = [ ] '(-?\d+)' }msx ) {
         $CurrentDeploymentID = $1;
     }
 
