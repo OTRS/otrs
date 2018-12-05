@@ -7,6 +7,17 @@
 # --
 
 <div id="Footer" class="ARIARoleContentinfo">
+
+[% IF(Data.FooterLinks) %]
+    <ul class="FooterLinks">
+        [% FOREACH Link IN Data.FooterLinks %]
+            <li>
+                <a href="[% Link.Target %]" target="_blank">[% Link.Description | html %]</a>
+            </li>
+        [% END %]
+    </ul>
+[% END %]
+
 [% IF !Config("Secure::DisableBanner") %]
     <a href="[% IF !Data.IsLoginPage %]https://www.otrs.com[% ELSE %]https://www.otrs.com/otrs-business-solution-managed/[% END %]" title="[% Config("Product") | html %][% IF !Data.IsLoginPage %] [% Config("Version") | html %][% END %]" target="_blank">
         [% Translate("Powered by") | html %] [% Config("Product") | html %]

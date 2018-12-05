@@ -7,6 +7,17 @@
 # --
 
 <div id="Footer" class="ARIARoleContentinfo">
+
+[% IF(Data.FooterLinks) %]
+    <ul class="FooterLinks">
+        [% FOREACH Link IN Data.FooterLinks %]
+            <li>
+                <a href="[% Link.Target %]" target="_blank">[% Link.Description | html %]</a>
+            </li>
+        [% END %]
+    </ul>
+[% END %]
+
     <div class="Clear"></div>
 </div>
 

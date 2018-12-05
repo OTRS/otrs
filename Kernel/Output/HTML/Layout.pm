@@ -3561,6 +3561,23 @@ sub CustomerLogin {
         }
     }
 
+    # Display footer links.
+    my $FooterLinks = $ConfigObject->Get('PublicFrontend::FooterLinks');
+    if ( IsHashRefWithData($FooterLinks) ) {
+
+        my @FooterLinks;
+
+        for my $Link ( sort keys %{$FooterLinks} ) {
+
+            push @FooterLinks, {
+                Description => $FooterLinks->{$Link},
+                Target      => $Link,
+            };
+        }
+
+        $Param{FooterLinks} = \@FooterLinks;
+    }
+
     # create & return output
     $Output .= $Self->Output(
         TemplateFile => 'CustomerLogin',
@@ -3767,10 +3784,27 @@ sub CustomerFooter {
             || $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'UnitTestMode' ) // 0;
     }
 
+    # Display footer links.
+    my $FooterLinks = $ConfigObject->Get('PublicFrontend::FooterLinks');
+    if ( IsHashRefWithData($FooterLinks) ) {
+
+        my @FooterLinks;
+
+        for my $Link ( sort keys %{$FooterLinks} ) {
+
+            push @FooterLinks, {
+                Description => $FooterLinks->{$Link},
+                Target      => $Link,
+            };
+        }
+
+        $Param{FooterLinks} = \@FooterLinks;
+    }
+
     # create & return output
     return $Self->Output(
         TemplateFile => "CustomerFooter$Type",
-        Data         => \%Param
+        Data         => \%Param,
     );
 }
 
