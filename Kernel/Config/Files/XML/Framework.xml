@@ -7208,6 +7208,15 @@ via the Preferences button after logging in.
             <Item ValueType="String" ValueRegex="">AdminInit</Item>
         </Value>
     </Setting>
+    <Setting Name="PublicFrontend::FooterLinks" Required="0" Valid="0">
+        <Description Translatable="1">Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.</Description>
+        <Navigation>Frontend::Public</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="https://www.otrs.com">OTRS Homepage</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="PublicFrontend::CommonParam###Action" Required="1" Valid="1">
         <Description Translatable="1">Defines the default value for the action parameter for the public frontend. The action parameter is used in the scripts of the system.</Description>
         <Navigation>Frontend::Public</Navigation>

@@ -319,6 +319,31 @@ textarea.cke_dialog_ui_input_textarea:focus {
     opacity: 1;
 }
 
+#Footer ul.FooterLinks {
+    float: none;
+    margin-bottom: 8px;
+    width: 100%;
+}
+
+#Footer ul.FooterLinks li {
+    float: none;
+    display: inline-block;
+    padding: 0;
+}
+
+#Footer ul.FooterLinks li::after {
+    content: '|';
+}
+
+#Footer ul.FooterLinks li:last-child::after {
+    content: '';
+}
+
+#Footer ul.FooterLinks li a {
+    margin: 8px 0 7px 0;
+    padding-left: 0;
+}
+
 /**
  * @subsection  Clear
  */
