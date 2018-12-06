@@ -1,4 +1,5 @@
 #6.0.15 2018-??-??
+ - 2018-12-06 Updated translations, thanks to all translators.
  - 2018-12-05 Added possibility to display links in footer section of customer and public interface.
  - 2018-12-05 Fixed bug#[14106](https://bugs.otrs.org/show_bug.cgi?id=14106) - XSLT Editor breaks.
  - 2018-11-27 Use scale in transforamtion for Notification item on hover, thanks to Andrew Bone (PR#1958).

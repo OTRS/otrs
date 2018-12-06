@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"POT-Creation-Date: 2018-12-06 17:43+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: 신홍열 <hyshin@shinjjang.com>, 2018\n"
 "Language-Team: Korean (https://www.transifex.com/otrs/teams/23435/ko/)\n"
@@ -16303,6 +16303,10 @@ msgid "Remove selection"
 msgstr "선택 항목 삭제"
 
 #. JS File: Core.Agent.Admin.GenericAgent
+msgid "Do you really want to delete this generic agent job?"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericAgent
 msgid "Delete this Event Trigger"
 msgstr "이 이벤트 트리거 삭제"
 
@@ -21181,6 +21185,13 @@ msgid ""
 "Defines the shown columns and the position in the "
 "AgentCustomerUserAddressBook result screen."
 msgstr "AgentCustomerUserAddressBook 결과 화면에 표시된 열과 위치를 정의합니다."
+
+#. SysConfig
+msgid ""
+"Defines the shown links in the footer area of the customer and public "
+"interface of this OTRS system. The value in \"Key\" is the external URL, the"
+" value in \"Content\" is the shown label."
+msgstr ""
 
 #. SysConfig
 msgid ""

@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.998969426313981;
+    $Self->{Completeness}        = 0.999656593406593;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -497,7 +497,7 @@ sub Data {
         'Customer User Default Groups:' => 'Ügyfél-felhasználó alapértelmezett csoportjai:',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Service Relations' => '',
+        'Manage Customer User-Service Relations' => 'Ügyfél-felhasználó–Szolgáltatás kapcsolatok kezelése',
         'Edit default services' => 'Alapértelmezett szolgáltatások szerkesztése',
         'Filter for Services' => 'Szűrő a szolgáltatásokhoz',
         'Filter for services' => 'Szűrő a szolgáltatásokhoz',
@@ -1724,7 +1724,7 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => 'Lesz-e a várólista feladójának címe a válasz e-mailekhez.',
         'Default sign key' => 'Alapértelmezett aláíró kulcs',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
-            '',
+            'Egy aláíró kulcs használatához azonosítókkal rendelkező PGP kulcsokat vagy S/MIME tanúsítványokat kell hozzáadni a kiválasztott várólista rendszercíméhez.',
         'Salutation' => 'Megszólítás',
         'The salutation for email answers.' => 'A megszólítás a válasz e-mailekhez.',
         'Signature' => 'Aláírás',
@@ -3507,7 +3507,7 @@ sub Data {
         'The field does not contain only ASCII letters and numbers.' => 'Ez a mező nem csak ASCII betűket és számokat tartalmaz.',
         'There is another field with the same name.' => 'Már létezik egy ugyanilyen nevű mező.',
         'The field must be numeric.' => 'Ez a mező csak számot tartalmazhat.',
-        'Need ValidID' => 'Érvényes-azonosító szükséges',
+        'Need ValidID' => 'Érvényesség-azonosító szükséges',
         'Could not create the new field' => 'Nem sikerült létrehozni az új mezőt',
         'Need ID' => 'Azonosító szükséges',
         'Could not get data for dynamic field %s' => 'Nem sikerült lekérni az adatokat a dinamikus mezőhöz: %s',
@@ -5439,6 +5439,7 @@ sub Data {
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove selection' => 'Kijelölés eltávolítása',
+        'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => 'Esemény-aktiváló törlése',
         'Duplicate event.' => 'Esemény kettőzése.',
         'This event is already attached to the job, Please use a different one.' =>
@@ -5491,7 +5492,7 @@ sub Data {
         'Do you really want to delete this notification?' => 'Valóban törölni szeretné ezt az értesítést?',
 
         # JS File: Core.Agent.Admin.PGP
-        'Do you really want to delete this key?' => '',
+        'Do you really want to delete this key?' => 'Valóban törölni szeretné ezt a kulcsot?',
 
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
@@ -6935,6 +6936,8 @@ Az Ön segélyszolgálat csapata
             'Egy elválasztót határoz meg az ügyintézők valódi neve és a megadott várólista e-mail címek között.',
         'Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen.' =>
             'Meghatározza a megjelenített oszlopokat és a pozíciót az ügyintézői ügyfél-felhasználó címjegyzék eredményei képernyőn.',
+        'Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
+            '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             'Meghatározza az ügyfeleknek elérhető szabványos jogosultságokat az alkalmazáson belül. Ha több jogosultság szükséges, akkor itt adhatja meg azokat. A jogosultságoknak szerepelniük kell a forráskódban, hogy hatályban lévők legyenek. Győződjön meg arról, hogy bármely fent említett jogosultság hozzáadásakor az „rw” jogosultság legyen az utolsó bejegyzés.',
         'Defines the standard size of PDF pages.' => 'Meghatározza a PDF oldalak szabványos méretét.',
@@ -7513,7 +7516,7 @@ Az Ön segélyszolgálat csapata
         'Link customers to groups.' => 'Ügyfelek összekapcsolása csoportokkal.',
         'Link queues to auto responses.' => 'Várólisták összekapcsolása automatikus válaszokkal.',
         'Link roles to groups.' => 'Szerepek összekapcsolása csoportokkal.',
-        'Link templates to attachments.' => '',
+        'Link templates to attachments.' => 'Sablonok összekapcsolása mellékletekkel.',
         'Link templates to queues.' => 'Sablonok összekapcsolása várólistákkal.',
         'Link this ticket to other objects' => 'Jegy összekapcsolása más objektumokkal',
         'Links 2 tickets with a "Normal" type link.' => 'Összekapcsol 2 jegyet egy „Normál” típusú hivatkozással.',
@@ -7849,7 +7852,7 @@ Az Ön segélyszolgálat csapata
         'Public Calendar' => 'Nyilvános naptár',
         'Public calendar.' => 'Nyilvános naptár.',
         'Queue view' => 'Várólista nézet',
-        'Queues ↔ Auto Responses' => '',
+        'Queues ↔ Auto Responses' => 'Várólisták ↔ Automatikus válaszok',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Az AgentTicketQueue jegyindexének újraépítése.',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             'Annak felismerése, ha a jegy egy külső jegyszámot használó meglévő jegy követője.',
@@ -8489,7 +8492,7 @@ Az Ön segélyszolgálat csapata
         'System Configuration Deployment' => 'Rendszer-konfigurációs üzembe állítás',
         'System Configuration Group' => 'Rendszerbeállítások csoport',
         'System Maintenance' => 'Rendszerkarbantartás',
-        'Templates ↔ Attachments' => '',
+        'Templates ↔ Attachments' => 'Sablonok ↔ Mellékletek',
         'Templates ↔ Queues' => 'Sablonok ↔ Várólisták',
         'Textarea' => 'Szövegdoboz',
         'Thai' => 'Thai',
@@ -8823,6 +8826,7 @@ Az Ön segélyszolgálat csapata
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this generic agent job?',
         'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',

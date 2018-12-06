@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-11-01 23:11+0000\n"
+"POT-Creation-Date: 2018-12-06 17:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15103,6 +15103,10 @@ msgid "Remove selection"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericAgent
+msgid "Do you really want to delete this generic agent job?"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericAgent
 msgid "Delete this Event Trigger"
 msgstr ""
 
@@ -18687,6 +18691,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in \"Key\" is the external URL, the value in \"Content\" is the shown label."
 msgstr ""
 
 #. SysConfig

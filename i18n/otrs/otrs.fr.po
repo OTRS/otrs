@@ -25,13 +25,14 @@
 # lulu chillou <chillou2000@yahoo.fr>, 2018
 # cdelasalle <carole.delasalle@interieur.gouv.fr>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
+# Tangi Midy <midy.tangi@gmail.com>, 2018
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"POT-Creation-Date: 2018-12-06 17:43+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>, 2018\n"
+"Last-Translator: Tangi Midy <midy.tangi@gmail.com>, 2018\n"
 "Language-Team: French (https://www.transifex.com/otrs/teams/23435/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5474,7 +5475,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Is visible for customer"
-msgstr ""
+msgstr "Est visible par le client"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Display"
@@ -16618,6 +16619,10 @@ msgid "Remove selection"
 msgstr "Supprimer la sélection"
 
 #. JS File: Core.Agent.Admin.GenericAgent
+msgid "Do you really want to delete this generic agent job?"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericAgent
 msgid "Delete this Event Trigger"
 msgstr ""
 
@@ -17205,11 +17210,11 @@ msgstr ""
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "Add new draft"
-msgstr ""
+msgstr "Nouveau brouillon"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "Delete draft"
-msgstr ""
+msgstr "Supprimer le brouillon"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "There are no more drafts available."
@@ -21250,6 +21255,13 @@ msgstr ""
 msgid ""
 "Defines the shown columns and the position in the "
 "AgentCustomerUserAddressBook result screen."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines the shown links in the footer area of the customer and public "
+"interface of this OTRS system. The value in \"Key\" is the external URL, the"
+" value in \"Content\" is the shown label."
 msgstr ""
 
 #. SysConfig

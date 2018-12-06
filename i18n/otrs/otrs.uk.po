@@ -13,7 +13,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"POT-Creation-Date: 2018-12-06 17:43+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Олексій Ворошило <john.silver.heart@gmail.com>, 2018\n"
 "Language-Team: Ukrainian (https://www.transifex.com/otrs/teams/23435/uk/)\n"
@@ -16784,6 +16784,10 @@ msgid "Remove selection"
 msgstr "Вилучити обране"
 
 #. JS File: Core.Agent.Admin.GenericAgent
+msgid "Do you really want to delete this generic agent job?"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericAgent
 msgid "Delete this Event Trigger"
 msgstr "Вилучити цей тригер події"
 
@@ -21388,6 +21392,13 @@ msgstr ""
 msgid ""
 "Defines the shown columns and the position in the "
 "AgentCustomerUserAddressBook result screen."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines the shown links in the footer area of the customer and public "
+"interface of this OTRS system. The value in \"Key\" is the external URL, the"
+" value in \"Content\" is the shown label."
 msgstr ""
 
 #. SysConfig

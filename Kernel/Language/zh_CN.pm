@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.998969426313981;
+    $Self->{Completeness}        = 0.999656593406593;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -498,7 +498,7 @@ sub Data {
         'Customer User Default Groups:' => '客户用户的默认组：',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Service Relations' => '',
+        'Manage Customer User-Service Relations' => '管理客户-服务之间的联系',
         'Edit default services' => '修改默认服务',
         'Filter for Services' => '服务过滤器',
         'Filter for services' => '服务过滤器',
@@ -1725,7 +1725,7 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => '将作为邮件答复的队列的发件人地址。',
         'Default sign key' => '默认签名',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
-            '',
+            'PGP密钥或者S/MIME证书需要被添加标识符到选定的队列系统电子邮件地址，以便使用。',
         'Salutation' => '问候语',
         'The salutation for email answers.' => '回复邮件中的问候语。',
         'Signature' => '签名',
@@ -5440,6 +5440,7 @@ sub Data {
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove selection' => '删除选择',
+        'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => '删除这个事件触发器',
         'Duplicate event.' => '复制事件。',
         'This event is already attached to the job, Please use a different one.' =>
@@ -5492,7 +5493,7 @@ sub Data {
         'Do you really want to delete this notification?' => '您真的想要删除这个通知?',
 
         # JS File: Core.Agent.Admin.PGP
-        'Do you really want to delete this key?' => '',
+        'Do you really want to delete this key?' => '您真的要删除该键吗？',
 
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
@@ -6934,6 +6935,8 @@ Thanks for your help!
             '定义服务人员真实姓名和给定队列邮件地址之间的分隔符。',
         'Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen.' =>
             '定义在服务人员界面客户用户通讯录搜索结果屏幕中显示的列和位置。',
+        'Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
+            '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             '定义本系统客户可用的标准权限。如果需要更多的权限，您可以在这里输入。权限必须确实硬编码以保证生效。请确保在添加前面任何提到的权限时，“rw（读写）”权限保持为最后一个条目。',
         'Defines the standard size of PDF pages.' => '定义PDF页面的标准尺寸。',
@@ -7512,7 +7515,7 @@ Thanks for your help!
         'Link customers to groups.' => '链接客户到组。',
         'Link queues to auto responses.' => '链接队列到自动响应。',
         'Link roles to groups.' => '链接角色到组。',
-        'Link templates to attachments.' => '',
+        'Link templates to attachments.' => '连接模板到附件。',
         'Link templates to queues.' => '链接模板到队列。',
         'Link this ticket to other objects' => '将工单链接到其它对象',
         'Links 2 tickets with a "Normal" type link.' => '将2个工单链接为“普通”。',
@@ -7848,7 +7851,7 @@ Thanks for your help!
         'Public Calendar' => '公共日历',
         'Public calendar.' => '公共日历。',
         'Queue view' => '队列视图',
-        'Queues ↔ Auto Responses' => '',
+        'Queues ↔ Auto Responses' => '队列 ↔ 自动回复',
         'Rebuild the ticket index for AgentTicketQueue.' => '为AgentTicketQueue（服务人员工单队列）重建工单索引。',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             '通过外部工单编号识别一个工单是否为已有工单的跟进。',
@@ -8488,7 +8491,7 @@ Thanks for your help!
         'System Configuration Deployment' => '系统配置部署',
         'System Configuration Group' => '系统配置组',
         'System Maintenance' => '系统维护',
-        'Templates ↔ Attachments' => '',
+        'Templates ↔ Attachments' => '模板 ↔ 附件',
         'Templates ↔ Queues' => '模板↔队列',
         'Textarea' => '多行文本',
         'Thai' => '泰国语',
@@ -8822,6 +8825,7 @@ Thanks for your help!
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this generic agent job?',
         'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',

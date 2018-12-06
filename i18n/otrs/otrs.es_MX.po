@@ -2,8 +2,8 @@
 # Udo Bretz, 2018
 # Lennin Escudero <lescudero@gbnetworks.mx>, 2018
 # Martin Quispe <martin.qcm@gmail.com>, 2018
-# Ivan Miron <ivan.miron@gmail.com>, 2018
 # Franco Victorio <victorio.franco@gmail.com>, 2018
+# Ivan Miron <ivan.miron@gmail.com>, 2018
 # Alvaro Molina <AlvaroMolinaCL@gmail.com>, 2018
 # Armando Rios <armando.rios@otrs.com>, 2018
 # Ignacio Torres Soto <ignacio.torres@oasys.com.mx>, 2018
@@ -11,17 +11,18 @@
 # Carlos Javier García Cárdenas <carlos.garcia@otrs.com>, 2018
 # FCRUZ <francisco.cruz@otrs.com>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
-# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
 # Emir Nunes, 2018
 # Luis Armando Medina <lamedina@gmail.com>, 2018
 # Luis Medina <luis.medina@sacc.com.mx>, 2018
+# Carlos Vázquez <carlos.vazquez@oslc.com.mx>, 2018
+# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"POT-Creation-Date: 2018-12-06 17:43+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Luis Medina <luis.medina@sacc.com.mx>, 2018\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
 "Language-Team: Spanish (Mexico) (https://www.transifex.com/otrs/teams/23435/es_MX/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -309,7 +310,7 @@ msgstr "Importar Calendario"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for Calendars"
-msgstr ""
+msgstr "Filtro para Calendarios"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -430,11 +431,11 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Queues"
-msgstr "Filas"
+msgstr "Colas"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Please select a valid queue."
-msgstr "Poor favor seleccione una fila válida"
+msgstr "Poor favor seleccione una cola válida"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Search attributes"
@@ -642,7 +643,7 @@ msgstr "Enviar a estos agentes."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all group members (agents only)"
-msgstr ""
+msgstr "Enviar a todos los miembros del grupo (solo agentes)"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
@@ -801,7 +802,7 @@ msgstr "Direcciones de correo electrónico adicionales para el destinatario"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "This field must have less then 200 characters."
-msgstr ""
+msgstr "Este campo debe contener menos de 200 caracteres."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
@@ -884,19 +885,19 @@ msgstr "Administración de Respuestas Automáticas"
 
 #. Template: AdminAutoResponse
 msgid "Add Auto Response"
-msgstr "Agregar Auto Respuesta"
+msgstr "Agregar Respuesta Automática"
 
 #. Template: AdminAutoResponse
 msgid "Edit Auto Response"
-msgstr "Modificar Auto Respuesta"
+msgstr "Modificar Respuesta Automática"
 
 #. Template: AdminAutoResponse
 msgid "Filter for Auto Responses"
-msgstr "Filtro para Auto Respuestas"
+msgstr "Filtro para Respuestas Automáticas"
 
 #. Template: AdminAutoResponse
 msgid "Filter for auto responses"
-msgstr "Filtro para auto respuestas"
+msgstr "Filtro para respuestas automáticas"
 
 #. Template: AdminAutoResponse
 msgid "Response"
@@ -904,7 +905,7 @@ msgstr "Respuesta"
 
 #. Template: AdminAutoResponse
 msgid "Auto response from"
-msgstr "Auto respuesta de"
+msgstr "Respuesta automática de"
 
 #. Template: AdminAutoResponse
 msgid "Reference"
@@ -1076,7 +1077,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Time Range"
-msgstr ""
+msgstr "Rango de Tiempo"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
@@ -1084,7 +1085,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Filter for Communications"
-msgstr ""
+msgstr "Filtro para Comunicaciones"
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
@@ -1110,11 +1111,11 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Status for: %s"
-msgstr ""
+msgstr "Estado de: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing accounts"
-msgstr ""
+msgstr "Cuentas con fallos"
 
 #. Template: AdminCommunicationLog
 msgid "Some account problems"
@@ -1182,27 +1183,27 @@ msgstr "Entradas por página"
 
 #. Template: AdminCommunicationLog
 msgid "No communications found."
-msgstr ""
+msgstr "No se encontraron comunicaciones."
 
 #. Template: AdminCommunicationLog
 msgid "%s s"
-msgstr ""
+msgstr "%s s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account Status"
-msgstr ""
+msgstr "Estado de la Cuenta"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Back to overview"
-msgstr ""
+msgstr "Regresar a la vista general"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for Accounts"
-msgstr ""
+msgstr "Filtro para Acciones"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
-msgstr ""
+msgstr "Filtro para cuentas"
 
 #. Template: AdminCommunicationLogAccounts
 msgid ""
@@ -1212,7 +1213,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account status for: %s"
-msgstr ""
+msgstr "Estado de la cuenta para: %s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Status"
@@ -1220,7 +1221,7 @@ msgstr "Estado"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account"
-msgstr ""
+msgstr "Cuenta"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Edit"
@@ -1228,7 +1229,7 @@ msgstr "Editar"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "No accounts found."
-msgstr ""
+msgstr "No se encontraron cuentas."
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Communication Log Details (%s)"
@@ -1252,11 +1253,11 @@ msgstr ""
 
 #. Template: AdminCommunicationLogCommunications
 msgid "Duration"
-msgstr ""
+msgstr "Duración"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "Priority"
@@ -1288,7 +1289,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLogZoom
 msgid "Show only entries with specific priority and higher:"
-msgstr ""
+msgstr "Mostrar solo entradas con un prioridad en específico y mas altas:"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Communication Log Overview (%s)"
@@ -1296,7 +1297,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLogZoom
 msgid "No communication objects found."
-msgstr ""
+msgstr "No se encontraron objetos de comunicacion. "
 
 #. Template: AdminCommunicationLogZoom
 msgid "Communication Log Details"
@@ -1348,7 +1349,7 @@ msgstr "ID del Cliente"
 
 #. Template: AdminCustomerCompany
 msgid "Please note"
-msgstr ""
+msgstr "Por favor tome en cuenta"
 
 #. Template: AdminCustomerCompany
 msgid "This customer backend is read only!"
@@ -1449,7 +1450,7 @@ msgstr "ro"
 
 #. Template: AdminCustomerGroup
 msgid "Read only access to the ticket in this group/queue."
-msgstr "Acceso de sólo lectura a los tickets de este grupo/fila."
+msgstr "Acceso de sólo lectura a los tickets de este grupo/cola."
 
 #. Template: AdminCustomerGroup
 msgid "rw"
@@ -1458,7 +1459,7 @@ msgstr "rw"
 #. Template: AdminCustomerGroup
 msgid "Full read and write access to the tickets in this group/queue."
 msgstr ""
-"Acceso completo de lectura y escritura a los tickets de este grupo/fila."
+"Acceso completo de lectura y escritura a los tickets de este grupo/cola."
 
 #. Template: AdminCustomerUser
 msgid "Customer User Management"
@@ -1486,7 +1487,7 @@ msgstr ""
 
 #. Template: AdminCustomerUser
 msgid "List (%s total)"
-msgstr ""
+msgstr "Lista (%s total)"
 
 #. Template: AdminCustomerUser
 msgid "Username"
@@ -1542,19 +1543,19 @@ msgstr "La sintáxis de esta dirección de correo electrónico es incorrecta."
 
 #. Template: AdminCustomerUser
 msgid "This CustomerID is invalid."
-msgstr ""
+msgstr "El CustomerID es inválido."
 
 #. Template: AdminCustomerUser
 msgid "Effective Permissions for Customer User"
-msgstr ""
+msgstr "Permisos Efectivos para el Usuario Cliente"
 
 #. Template: AdminCustomerUser
 msgid "Group Permissions"
-msgstr ""
+msgstr "Permisos de Grupo"
 
 #. Template: AdminCustomerUser
 msgid "This customer user has no group permissions."
-msgstr ""
+msgstr "Este usuario cliente no tiene permisos grupales."
 
 #. Template: AdminCustomerUser
 msgid ""
@@ -1566,7 +1567,7 @@ msgstr ""
 
 #. Template: AdminCustomerUser
 msgid "Customer Access"
-msgstr ""
+msgstr "Acceso a Clientes"
 
 #. Template: AdminCustomerUser
 msgid "Customer"
@@ -1574,7 +1575,7 @@ msgstr "Cliente"
 
 #. Template: AdminCustomerUser
 msgid "This customer user has no customer access."
-msgstr ""
+msgstr "Este usuario cliente no tiene acceso a los clientes"
 
 #. Template: AdminCustomerUser
 msgid ""
@@ -1586,11 +1587,11 @@ msgstr ""
 
 #. Template: AdminCustomerUserCustomer
 msgid "Manage Customer User-Customer Relations"
-msgstr ""
+msgstr "Gestionar Relaciones Cliente Usuario-Cliente"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Select the customer user:customer relations."
-msgstr ""
+msgstr "Seleccionar las relaciones cliente usuario:cliente."
 
 #. Template: AdminCustomerUserCustomer
 msgid "Customer Users"
@@ -1598,11 +1599,11 @@ msgstr "Clientes"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer Relations for Customer User"
-msgstr ""
+msgstr "Cambiar la Relaciones Cliente Usuario Cliente"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer User Relations for Customer"
-msgstr ""
+msgstr "Cambiar la Relaciones Usuario Cliente para el Cliente."
 
 #. Template: AdminCustomerUserCustomer
 msgid "Toggle active state for all"
@@ -1618,7 +1619,7 @@ msgstr "Habilitar estado activo para %s"
 
 #. Template: AdminCustomerUserGroup
 msgid "Manage Customer User-Group Relations"
-msgstr ""
+msgstr "Gestionar Relaciones Cliente Usuario-Cliente"
 
 #. Template: AdminCustomerUserGroup
 msgid ""
@@ -1644,7 +1645,7 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Filter for groups"
-msgstr ""
+msgstr "Filtro para grupos"
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
@@ -1674,7 +1675,7 @@ msgstr "Filtro para Servicios"
 
 #. Template: AdminCustomerUserService
 msgid "Filter for services"
-msgstr ""
+msgstr "Filtro para servicios"
 
 #. Template: AdminCustomerUserService
 msgid "Services"
@@ -1690,11 +1691,11 @@ msgstr "Agregar nuevo campo para el objeto"
 
 #. Template: AdminDynamicField
 msgid "Filter for Dynamic Fields"
-msgstr ""
+msgstr "Filtro para Campos Dinámcos"
 
 #. Template: AdminDynamicField
 msgid "Filter for dynamic fields"
-msgstr ""
+msgstr "Filtro para campos dinámicos"
 
 #. Template: AdminDynamicField
 msgid "More Business Fields"
@@ -1717,7 +1718,7 @@ msgstr ""
 
 #. Template: AdminDynamicField
 msgid "Web service"
-msgstr ""
+msgstr "Servicio web"
 
 #. Template: AdminDynamicField
 msgid ""
@@ -1727,7 +1728,7 @@ msgstr ""
 
 #. Template: AdminDynamicField
 msgid "Contact with data"
-msgstr ""
+msgstr "Contacto con datos"
 
 #. Template: AdminDynamicField
 msgid "This feature allows to add (multiple) contacts with data to tickets."
@@ -2045,7 +2046,7 @@ msgstr "Agregar RedEx"
 
 #. Template: AdminEmail
 msgid "Admin Message"
-msgstr ""
+msgstr "Mensaje del Administrador"
 
 #. Template: AdminEmail
 msgid ""
@@ -2101,23 +2102,23 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Edit Job"
-msgstr ""
+msgstr "Editar tarea"
 
 #. Template: AdminGenericAgent
 msgid "Add Job"
-msgstr ""
+msgstr "Agregar Tarea"
 
 #. Template: AdminGenericAgent
 msgid "Run Job"
-msgstr ""
+msgstr "Ejecutar Tarea"
 
 #. Template: AdminGenericAgent
 msgid "Filter for Jobs"
-msgstr ""
+msgstr "Filtro para Tareas"
 
 #. Template: AdminGenericAgent
 msgid "Filter for jobs"
-msgstr ""
+msgstr "Filtro para tareas"
 
 #. Template: AdminGenericAgent
 msgid "Last run"
@@ -2267,7 +2268,7 @@ msgstr "Acuerdo de Nivel de Servicio"
 
 #. Template: AdminGenericAgent
 msgid "Queue"
-msgstr "Fila"
+msgstr "Cola"
 
 #. Template: AdminGenericAgent
 msgid "State"
@@ -2447,7 +2448,7 @@ msgstr "Establecer prioridad nueva"
 
 #. Template: AdminGenericAgent
 msgid "Set new queue"
-msgstr "Establecer fila nueva"
+msgstr "Establecer cola nueva"
 
 #. Template: AdminGenericAgent
 msgid "Set new state"
@@ -2503,7 +2504,7 @@ msgstr "Añadir Nota"
 
 #. Template: AdminGenericAgent
 msgid "Visible for customer"
-msgstr ""
+msgstr "Visible para el cliente"
 
 #. Template: AdminGenericAgent
 msgid "Time units"
@@ -2587,7 +2588,7 @@ msgstr "GenericInterface de Gestión del Servicio Web "
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Service Management"
-msgstr ""
+msgstr "Gestión de Servicios Web"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Debugger"
@@ -2673,7 +2674,7 @@ msgstr "Todos los datos de la configuración se perderán."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "General options"
-msgstr ""
+msgstr "Opciones generales"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
@@ -2696,7 +2697,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Processing options"
-msgstr ""
+msgstr "Procesando opciones"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Configure filters to control error handling module execution."
@@ -2710,7 +2711,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Operation filter"
-msgstr ""
+msgstr "Filtro de operaciones"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only execute error handling module for selected operations."
@@ -2725,7 +2726,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Invoker filter"
-msgstr ""
+msgstr "Filtro para invocador"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only execute error handling module for selected invokers."
@@ -2771,7 +2772,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error code"
-msgstr ""
+msgstr "Código de error"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error identifier for this error handling module."
@@ -2785,7 +2786,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message"
-msgstr ""
+msgstr "Mensaje de error"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error explanation for this error handling module."
@@ -2835,7 +2836,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Schedule retry"
-msgstr ""
+msgstr "Agendar reintento"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Should requests causing an error be triggered again at a later time?"
@@ -2875,7 +2876,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry interval"
-msgstr ""
+msgstr "Intervalo máximo de reintento"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2899,7 +2900,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry count"
-msgstr ""
+msgstr "Conteo máximo de reintentos"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2926,7 +2927,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry period"
-msgstr ""
+msgstr "Periodo máximo de reintentas"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2958,11 +2959,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add Invoker"
-msgstr ""
+msgstr "Agregar Invocador"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Edit Invoker"
-msgstr ""
+msgstr "Editar Invocador"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Do you really want to delete this invoker?"
@@ -3027,7 +3028,7 @@ msgstr "Condición"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Edit this event"
-msgstr ""
+msgstr "Editar este evento"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
@@ -3046,7 +3047,7 @@ msgid ""
 "Asynchronous event triggers are handled by the OTRS Scheduler Daemon in "
 "background (recommended)."
 msgstr ""
-"Los disparadores de evento asíncronos son manejados por el Daemon "
+"Los disparadores de evento asíncronos son manejados por el Demonio "
 "Planificador de OTRS en segundo plano (recomendado)."
 
 #. Template: AdminGenericInterfaceInvokerDefault
@@ -3067,19 +3068,19 @@ msgstr "Regresar a"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Delete all conditions"
-msgstr ""
+msgstr "Eliminar todas las condiciones"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Do you really want to delete all the conditions for this event?"
-msgstr ""
+msgstr "¿Realmente desea eliminar todas las condiciones para este evento?"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "General Settings"
-msgstr ""
+msgstr "Opciones Generales"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Event type"
-msgstr ""
+msgstr "Tipo de evento"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Conditions"
@@ -3095,7 +3096,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Remove this Condition"
-msgstr ""
+msgstr "Remover esta Condición"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Type of Linking"
@@ -3147,43 +3148,43 @@ msgstr "Nueva llave de mapa"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Add key mapping"
-msgstr ""
+msgstr "Añadir mapeo de llaves"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping for Key "
-msgstr ""
+msgstr "Mapeo para la llave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove key mapping"
-msgstr ""
+msgstr "Remover mapeo de llave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Key mapping"
-msgstr ""
+msgstr "Mapeo de llave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map key"
-msgstr ""
+msgstr "Mapear llave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "matching the"
-msgstr ""
+msgstr "que coincide con"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "to new key"
-msgstr ""
+msgstr "a la nueva llave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Value mapping"
-msgstr ""
+msgstr "Mapeo de valor"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map value"
-msgstr ""
+msgstr "Mapeo de valor"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "to new value"
-msgstr ""
+msgstr "al nuevo valor"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove value mapping"
@@ -3203,55 +3204,55 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "General Shortcuts"
-msgstr ""
+msgstr "Atajos Generales"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "MacOS Shortcuts"
-msgstr ""
+msgstr "Atajos MacOS"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Comment code"
-msgstr ""
+msgstr "Comentar código"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Uncomment code"
-msgstr ""
+msgstr "Descomentar código"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Auto format code"
-msgstr ""
+msgstr "Auto formato para el código"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Expand/Collapse code block"
-msgstr ""
+msgstr "Expandir/Colapsar bloque de código"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find"
-msgstr ""
+msgstr "Buscar"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find next"
-msgstr ""
+msgstr "Buscar siguiente"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find previous"
-msgstr ""
+msgstr "Buscar hacia atrás"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find and replace"
-msgstr ""
+msgstr "Buscar y reemplazar"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find and replace all"
-msgstr ""
+msgstr "Buscar y reemplazar todo"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT Mapping"
-msgstr ""
+msgstr "Mapeo XSLT"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT stylesheet"
-msgstr ""
+msgstr "Hoja de estilos XSLT"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "The entered data is not a valid XSLT style sheet."
@@ -3293,19 +3294,19 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Regular expressions"
-msgstr ""
+msgstr "Expresiones regulares"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Replace"
-msgstr ""
+msgstr "Reemplazar"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Remove regex"
-msgstr ""
+msgstr "Remover expresión regular"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Add regex"
-msgstr ""
+msgstr "Añadir expresión regular"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "These filters can be used to transform keys using regular expressions."
@@ -3366,11 +3367,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add Operation"
-msgstr ""
+msgstr "Añadir Operación"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Edit Operation"
-msgstr ""
+msgstr "Editar Operación"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Do you really want to delete this operation?"
@@ -3418,7 +3419,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Include Ticket Data"
-msgstr ""
+msgstr "Incluir Datos del Ticket"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Include ticket data in response."
@@ -3426,7 +3427,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Network Transport"
-msgstr ""
+msgstr "Transporte de Red"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Properties"
@@ -3519,7 +3520,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "BasicAuth User"
-msgstr ""
+msgstr "Usuario para BasicAuth"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The user name to be used to access the remote system."
@@ -3527,7 +3528,7 @@ msgstr "El nombre de usuario para ser usado al acceder al sistema remoto."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "BasicAuth Password"
-msgstr ""
+msgstr "Contraseña para BasicAuth"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password for the privileged user."
@@ -3535,7 +3536,7 @@ msgstr "La contraseña para el usuario con privilegios."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Use Proxy Options"
-msgstr ""
+msgstr "Utilizar Opciones de Proxy"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Show or hide Proxy options to connect to the remote system."
@@ -3571,7 +3572,7 @@ msgstr "La contraseña para el usuario proxy"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Skip Proxy"
-msgstr ""
+msgstr "Saltar Proxy"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Skip proxy servers that might be configured globally?"
@@ -3588,7 +3589,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate"
-msgstr ""
+msgstr "Certificado del Cliente "
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -3602,7 +3603,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key"
-msgstr ""
+msgstr "Certificado Llave del Cliente"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -3616,7 +3617,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key Password"
-msgstr ""
+msgstr "Contraseña para el Certificado Llave del Cliente"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password to open the SSL certificate if the key is encrypted."
@@ -3624,7 +3625,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certification Authority (CA) Certificate"
-msgstr ""
+msgstr "Certificado de la Autoridad certificadora (CA)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -4132,11 +4133,11 @@ msgstr "Agregar Dirección de Correo"
 
 #. Template: AdminMailAccount
 msgid "Edit Mail Account for host"
-msgstr ""
+msgstr "Editar Cuenta de Correo para el host"
 
 #. Template: AdminMailAccount
 msgid "and user account"
-msgstr ""
+msgstr "y agregar cuenta de usuario"
 
 #. Template: AdminMailAccount
 msgid "Filter for Mail Accounts"
@@ -4229,7 +4230,7 @@ msgstr "Filtro"
 
 #. Template: AdminNavigationBar
 msgid "Favorites"
-msgstr ""
+msgstr "Favoritos"
 
 #. Template: AdminNavigationBar
 msgid ""
@@ -4239,7 +4240,7 @@ msgstr ""
 
 #. Template: AdminNavigationBar
 msgid "Links"
-msgstr ""
+msgstr "Vínculos"
 
 #. Template: AdminNavigationBar
 msgid "View the admin manual on Github"
@@ -4247,7 +4248,7 @@ msgstr ""
 
 #. Template: AdminNavigationBar
 msgid "No Matches"
-msgstr ""
+msgstr "No hay coincidencias"
 
 #. Template: AdminNavigationBar
 msgid "Sorry, your search didn't match any items."
@@ -4255,7 +4256,7 @@ msgstr ""
 
 #. Template: AdminNavigationBar
 msgid "Set as favorite"
-msgstr ""
+msgstr "Fijar como favorito"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Notification Management"
@@ -4312,11 +4313,11 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Customer visibility"
-msgstr ""
+msgstr "Visibilidad del cliente"
 
 #. Template: AdminNotificationEvent
 msgid "Communication channel"
-msgstr ""
+msgstr "Canal de comunicaciones"
 
 #. Template: AdminNotificationEvent
 msgid "Include attachments to notification"
@@ -4381,7 +4382,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the ticket data"
-msgstr ""
+msgstr "Atributos de los datos del ticket"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket dynamic fields internal key values"
@@ -4401,7 +4402,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
-msgstr ""
+msgstr "Administrar %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to ((OTRS)) Community Edition"
@@ -4482,7 +4483,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Go to the OTRS customer portal"
-msgstr ""
+msgstr "Ir al portal de clientes de OTRS"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "%s will be available soon. Please check again in a few days."
@@ -4652,11 +4653,11 @@ msgstr ""
 
 #. Template: AdminPGP
 msgid "Configure it here!"
-msgstr ""
+msgstr "¡Configurelo aquí! "
 
 #. Template: AdminPGP
 msgid "Check PGP configuration"
-msgstr ""
+msgstr "Revisar configuración de PGP"
 
 #. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
@@ -4698,7 +4699,7 @@ msgstr "Gestor de paquetes"
 
 #. Template: AdminPackageManager
 msgid "Uninstall Package"
-msgstr ""
+msgstr "Desinstalar Paquete"
 
 #. Template: AdminPackageManager
 msgid "Uninstall package"
@@ -4722,11 +4723,11 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "Go to updating instructions"
-msgstr ""
+msgstr "Ir a las instrucciones de actualización"
 
 #. Template: AdminPackageManager
 msgid "package information"
-msgstr ""
+msgstr "información de paquete"
 
 #. Template: AdminPackageManager
 msgid "Package installation requires a patch level update of OTRS."
@@ -4783,7 +4784,7 @@ msgstr "Instalar Paquete"
 
 #. Template: AdminPackageManager
 msgid "Update Package"
-msgstr ""
+msgstr "Actualizar Paquete"
 
 #. Template: AdminPackageManager
 msgid "Continue"
@@ -4810,15 +4811,15 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "OTRS Verify™ can not continue!"
-msgstr ""
+msgstr "¡OTRS Verity™ no puede continuar!"
 
 #. Template: AdminPackageManager
 msgid "Enable cloud services"
-msgstr ""
+msgstr "Habilitar servicios en la nube"
 
 #. Template: AdminPackageManager
 msgid "Update all installed packages"
-msgstr ""
+msgstr "Actualizar todos los paquetes instalados"
 
 #. Template: AdminPackageManager
 msgid "Online Repository"
@@ -4838,7 +4839,7 @@ msgstr "Repositorio Local"
 
 #. Template: AdminPackageManager
 msgid "This package is verified by OTRSverify (tm)"
-msgstr ""
+msgstr "Este paquete esta verificado por OTRSVerify (tm)"
 
 #. Template: AdminPackageManager
 msgid "Uninstall"
@@ -4865,7 +4866,7 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "Package Information"
-msgstr ""
+msgstr "Información del Paquete"
 
 #. Template: AdminPackageManager
 msgid "Download package"
@@ -4909,11 +4910,11 @@ msgstr "Tamaño"
 
 #. Template: AdminPackageManager
 msgid "Primary Key"
-msgstr ""
+msgstr "Llave Primaria"
 
 #. Template: AdminPackageManager
 msgid "Auto Increment"
-msgstr ""
+msgstr "Auto Incremento"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -4921,7 +4922,7 @@ msgstr "SQL"
 
 #. Template: AdminPackageManager
 msgid "File Differences for File %s"
-msgstr ""
+msgstr "Diferencias de Archivo para el Archivo %s"
 
 #. Template: AdminPackageManager
 msgid "File differences for file %s"
@@ -5025,11 +5026,11 @@ msgstr "Modificar Filtro de Administración de Correo"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter for PostMaster Filters"
-msgstr ""
+msgstr "Filtro para Filtros de PostMaster"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter for PostMaster filters"
-msgstr ""
+msgstr "Filtro apra filtros de PostMaster"
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -5072,7 +5073,7 @@ msgstr ""
 
 #. Template: AdminPostMasterFilter
 msgid "A postmaster filter with this name already exists!"
-msgstr ""
+msgstr "¡Ya existe un filtro de postmaster con este nombre!"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter Condition"
@@ -5084,11 +5085,11 @@ msgstr "Condición AND"
 
 #. Template: AdminPostMasterFilter
 msgid "Search header field"
-msgstr ""
+msgstr "Buscar campo de encabezado"
 
 #. Template: AdminPostMasterFilter
 msgid "for value"
-msgstr ""
+msgstr "para el valor"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a valid regular expression or a literal word."
@@ -5109,7 +5110,7 @@ msgstr "Establecer encabezado del Email"
 
 #. Template: AdminPostMasterFilter
 msgid "with value"
-msgstr ""
+msgstr "con el valor"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a literal word."
@@ -5133,11 +5134,11 @@ msgstr "Modificar Prioridad"
 
 #. Template: AdminPriority
 msgid "Filter for Priorities"
-msgstr ""
+msgstr "Filtro para Prioridades"
 
 #. Template: AdminPriority
 msgid "Filter for priorities"
-msgstr ""
+msgstr "Filtro para prioridades"
 
 #. Template: AdminPriority
 msgid ""
@@ -5159,7 +5160,7 @@ msgstr "Filtro por Proceso"
 
 #. Template: AdminProcessManagement
 msgid "Filter for processes"
-msgstr ""
+msgstr "Filtro para procesos"
 
 #. Template: AdminProcessManagement
 msgid "Create New Process"
@@ -5189,7 +5190,7 @@ msgstr "Importar configuración de proceso"
 
 #. Template: AdminProcessManagement
 msgid "Ready2Adopt Processes"
-msgstr ""
+msgstr "Procesos Ready2Adopt"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -5205,7 +5206,7 @@ msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Import Ready2Adopt process"
-msgstr ""
+msgstr "Importar procesos Ready2Adopt"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -5316,6 +5317,8 @@ msgstr ""
 msgid ""
 "The Queue field can only be used by customers when creating a new ticket."
 msgstr ""
+"El campo de Cola solo puede ser utilizado por los clientes al crear un nuevo"
+" ticket."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Activity Dialog"
@@ -5373,7 +5376,7 @@ msgstr "Campos Disponibles"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Name: %s"
-msgstr ""
+msgstr "Number: %s"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Assigned Fields"
@@ -5381,7 +5384,7 @@ msgstr "Campos Asignados"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Communication Channel"
-msgstr ""
+msgstr "Canal de Comunicacion"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Is visible for customer"
@@ -5591,7 +5594,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "cancel & close"
-msgstr ""
+msgstr "cancelar y cerrar"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Start Activity"
@@ -5679,27 +5682,27 @@ msgstr "Eliminar este Parámetro"
 
 #. Template: AdminQueue
 msgid "Queue Management"
-msgstr ""
+msgstr "Gestión de Colas"
 
 #. Template: AdminQueue
 msgid "Add Queue"
-msgstr "Agregar Fila"
+msgstr "Agregar Cola"
 
 #. Template: AdminQueue
 msgid "Edit Queue"
-msgstr "Modificar Fila"
+msgstr "Modificar Cola"
 
 #. Template: AdminQueue
 msgid "Filter for Queues"
-msgstr "Filtro para Filas"
+msgstr "Filtro para Colas"
 
 #. Template: AdminQueue
 msgid "Filter for queues"
-msgstr ""
+msgstr "Filtro para colas"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
-msgstr "¡Ya existe una fila con este nombre!"
+msgstr "¡Ya existe una cola con este nombre!"
 
 #. Template: AdminQueue
 msgid ""
@@ -5709,7 +5712,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid "Sub-queue of"
-msgstr "Subfila de"
+msgstr "Subcola de"
 
 #. Template: AdminQueue
 msgid "Unlock timeout"
@@ -5805,7 +5808,7 @@ msgstr "Dirección del Sistema"
 
 #. Template: AdminQueue
 msgid "Will be the sender address of this queue for email answers."
-msgstr "Será la dirección del emisor en esta fila para respuestas por correo."
+msgstr "Será la dirección del emisor en esta cola para respuestas por correo."
 
 #. Template: AdminQueue
 msgid "Default sign key"
@@ -5839,27 +5842,27 @@ msgstr ""
 
 #. Template: AdminQueueAutoResponse
 msgid "Manage Queue-Auto Response Relations"
-msgstr "Administrar Relaciones Fila-Auto Respuesta"
+msgstr "Administrar Relaciones Cola-Respuesta Automática"
 
 #. Template: AdminQueueAutoResponse
 msgid "Change Auto Response Relations for Queue"
-msgstr "Modificar Relaciones de Auto Respuesta para las Filas"
+msgstr "Modificar las Relaciones de Respuesta Automática para la Cola"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show queues without auto responses"
-msgstr ""
+msgstr "Este filtro le permite mostrar las colas sin respuestas automáticas"
 
 #. Template: AdminQueueAutoResponse
 msgid "Queues without Auto Responses"
-msgstr ""
+msgstr "Colas sin Respuestas Automáticas"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show all queues"
-msgstr ""
+msgstr "Este filtro le permite mostrar todas las colas"
 
 #. Template: AdminQueueAutoResponse
 msgid "Show All Queues"
-msgstr ""
+msgstr "Mostrar todas las Colas"
 
 #. Template: AdminQueueAutoResponse
 msgid "Auto Responses"
@@ -5867,7 +5870,7 @@ msgstr "Respuestas Automáticas"
 
 #. Template: AdminQueueTemplates
 msgid "Manage Template-Queue Relations"
-msgstr ""
+msgstr "Administrar Relaciones Plantilla-Cola"
 
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
@@ -5875,7 +5878,7 @@ msgstr "Filtrar por Plantillas"
 
 #. Template: AdminQueueTemplates
 msgid "Filter for templates"
-msgstr ""
+msgstr "Filtro para plantillas"
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
@@ -5946,8 +5949,8 @@ msgid ""
 "Please note that you can't register your system if OTRS Daemon is not "
 "running correctly!"
 msgstr ""
-"Tenga en cuenta que no puede registrar su sistema si el Daemon OTRS no está "
-"funcionando correctamente!"
+"Tenga en cuenta que no puede registrar su sistema si el Demonio de OTRS no "
+"está funcionando correctamente!"
 
 #. Template: AdminRegistration
 msgid "Instructions"
@@ -6240,7 +6243,7 @@ msgstr "mover_a"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to move tickets into this group/queue."
-msgstr "Permiso para mover tickets a este grupo/fila"
+msgstr "Permiso para mover tickets a este grupo/cola"
 
 #. Template: AdminRoleGroup
 msgid "create"
@@ -6248,7 +6251,7 @@ msgstr "crear"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to create tickets in this group/queue."
-msgstr "Permiso para crear tickets en este grupo/fila"
+msgstr "Permiso para crear tickets en este grupo/cola"
 
 #. Template: AdminRoleGroup
 msgid "note"
@@ -6256,7 +6259,7 @@ msgstr "nota"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue."
-msgstr "Permisos para añadir notas a los tickets de este/a grupo/fila"
+msgstr "Permisos para añadir notas a los tickets de este/a grupo/cola"
 
 #. Template: AdminRoleGroup
 msgid "owner"
@@ -6265,7 +6268,7 @@ msgstr "propietario"
 #. Template: AdminRoleGroup
 msgid "Permissions to change the owner of tickets in this group/queue."
 msgstr ""
-"Permisos para modificar el propietario de los tickets en este/a grupo/fila."
+"Permisos para modificar el propietario de los tickets en este/a grupo/cola."
 
 #. Template: AdminRoleGroup
 msgid "priority"
@@ -6273,7 +6276,7 @@ msgstr "prioridad"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to change the ticket priority in this group/queue."
-msgstr "Permiso para cambiar la prioridad del ticket en este grupo/fila"
+msgstr "Permiso para cambiar la prioridad del ticket en este grupo/cola"
 
 #. Template: AdminRoleUser
 msgid "Manage Agent-Role Relations"
@@ -6836,7 +6839,7 @@ msgid ""
 "selected queue."
 msgstr ""
 "Todos los correos electrónicos entrantes con esta dirección en Para o Cc "
-"serán enviados a la fila seleccionada."
+"serán enviados a la cola seleccionada."
 
 #. Template: AdminSystemAddress
 msgid "Email address"
@@ -7166,7 +7169,7 @@ msgstr ""
 
 #. Template: AdminTemplate
 msgid "Don't forget to add new templates to queues."
-msgstr "No olvide agregar las plantillas nuevas a las filas de espera"
+msgstr "No olvide agregar las plantillas nuevas a las colas de espera"
 
 #. Template: AdminTemplate
 msgid "Attachments"
@@ -7705,12 +7708,12 @@ msgstr ""
 #. Template: AgentDaemonInfo
 msgid "A running OTRS Daemon is mandatory for correct system operation."
 msgstr ""
-"Es indispensable que el Daemon OTRS esté ejecutándose para que el sistema "
-"opere correctamente."
+"Es indispensable que el Demonio de OTRS esté ejecutándose para que el "
+"sistema opere correctamente."
 
 #. Template: AgentDaemonInfo
 msgid "Starting the OTRS Daemon"
-msgstr "Iniciando el Daemon OTRS"
+msgstr "Iniciando el Demonio de OTRS"
 
 #. Template: AgentDaemonInfo
 msgid ""
@@ -7937,7 +7940,7 @@ msgstr "Mis responsabilidades"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Queues"
-msgstr "Tickets en Mis Filas de Espera"
+msgstr "Tickets en Mis Colas de Espera"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
@@ -8100,7 +8103,7 @@ msgstr ""
 
 #. Template: AgentPreferencesOverview
 msgid "Did you know?"
-msgstr ""
+msgstr "¿Sabía qué?"
 
 #. Template: AgentPreferencesOverview
 msgid ""
@@ -8288,7 +8291,7 @@ msgstr "Configuraciones de Ticket"
 
 #. Template: AgentTicketActionCommon
 msgid "Queue invalid."
-msgstr ""
+msgstr "Cola Inválida."
 
 #. Template: AgentTicketActionCommon
 msgid "Service invalid."
@@ -8515,7 +8518,7 @@ msgstr "Plantilla de Ejemplo"
 
 #. Template: AgentTicketEmail
 msgid "From queue"
-msgstr "De la fila"
+msgstr "De la cola"
 
 #. Template: AgentTicketEmail
 msgid "To customer user"
@@ -8632,7 +8635,7 @@ msgstr ""
 
 #. Template: AgentTicketMove
 msgid "New Queue"
-msgstr "Fila nueva"
+msgstr "Cola nueva"
 
 #. Template: AgentTicketMove
 msgid "Move"
@@ -8668,11 +8671,11 @@ msgstr "Tiempo para Solución"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Move ticket to a different queue"
-msgstr "Mover ticket a una fila diferente"
+msgstr "Mover ticket a una cola diferente"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Change queue"
-msgstr "Modificar fila"
+msgstr "Modificar cola"
 
 #. Template: AgentTicketOverviewNavBar
 msgid "Remove active filters for this screen."
@@ -8712,7 +8715,7 @@ msgstr "Por favor, Incluya al menos un cliente para el ticket"
 
 #. Template: AgentTicketPhone
 msgid "To queue"
-msgstr "Para la fila de espera"
+msgstr "Para la cola de espera"
 
 #. Template: AgentTicketPhone
 msgid "Chat protocol"
@@ -8788,7 +8791,7 @@ msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Created in Queue"
-msgstr "Creado en Fila"
+msgstr "Creado en la Cola"
 
 #. Template: AgentTicketSearch
 msgid "Lock state"
@@ -8892,7 +8895,7 @@ msgstr "por"
 
 #. Template: AgentTicketZoom
 msgid "Change Queue"
-msgstr "Cambiar Fila"
+msgstr "Cambiar Cola"
 
 #. Template: AgentTicketZoom
 msgid "There are no dialogs available at this point in the process."
@@ -8964,7 +8967,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "This message has been queued for sending."
-msgstr ""
+msgstr "Este mensaje ha sido puesto en cola para ser enviado."
 
 #. Template: AgentTicketZoom
 msgid "Resize"
@@ -9022,7 +9025,7 @@ msgstr "Cerrar este mensaje"
 
 #. Template: MIMEBase
 msgid "Image"
-msgstr ""
+msgstr "Imágen"
 
 #. Template: MIMEBase
 msgid "PDF"
@@ -9113,11 +9116,11 @@ msgstr "regresar a la página anterior"
 
 #. Template: CustomerAccept
 msgid "Dear Customer,"
-msgstr ""
+msgstr "Estimado Cliente,"
 
 #. Template: CustomerAccept
 msgid "thank you for using our services."
-msgstr ""
+msgstr "gracias por usar nuestros servicios."
 
 #. Template: CustomerAccept
 msgid "Yes, I accepted your license."
@@ -9478,11 +9481,11 @@ msgstr ""
 
 #. Template: DraftButtons
 msgid "Update draft"
-msgstr ""
+msgstr "Actualizar borrador"
 
 #. Template: DraftButtons
 msgid "Save as new draft"
-msgstr ""
+msgstr "Guardar como nuevo borrador"
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\"."
@@ -10194,11 +10197,11 @@ msgstr "Escala"
 
 #. Template: StatsParamsWidget
 msgid "show more"
-msgstr ""
+msgstr "mostrar más"
 
 #. Template: StatsParamsWidget
 msgid "show less"
-msgstr ""
+msgstr "mostrar menos"
 
 #. Template: D3
 msgid "Download SVG"
@@ -10367,7 +10370,7 @@ msgstr ""
 
 #. Template: Actions
 msgid "Edit search"
-msgstr ""
+msgstr "Editar búsqueda"
 
 #. Template: Actions
 msgid "Go back to admin: "
@@ -10670,7 +10673,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "This field is required"
-msgstr ""
+msgstr "Esta campo es requerido"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error creating the ACL"
@@ -10877,7 +10880,7 @@ msgstr "¡Archivo adjunto añadido!"
 
 #. Perl Module: Kernel/Modules/AdminAutoResponse.pm
 msgid "Auto Response added!"
-msgstr ""
+msgstr "¡Respuesta Automática agregada!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid CommunicationID!"
@@ -10889,23 +10892,23 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 1 hour"
-msgstr ""
+msgstr "Última hora"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 3 hours"
-msgstr ""
+msgstr "Últimas 3 horas"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 6 hours"
-msgstr ""
+msgstr "Últimas 6 horas"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 12 hours"
-msgstr ""
+msgstr "Últimas 12 horas"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 24 hours"
-msgstr ""
+msgstr "Últimas 24 horas"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last week"
@@ -10937,7 +10940,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Less than a second"
-msgstr ""
+msgstr "Menos de un segundo"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "sorted descending"
@@ -11077,11 +11080,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Database (%s)"
-msgstr ""
+msgstr "Base de datos (%s)"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Web service (%s)"
-msgstr ""
+msgstr "Servicio web (%s)"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Contact with data (%s)"
@@ -11267,7 +11270,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Operation deleted"
-msgstr ""
+msgstr "Operación eliminada"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Invoker deleted"
@@ -11276,47 +11279,47 @@ msgstr ""
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "0 seconds"
-msgstr ""
+msgstr "0 segundos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "15 seconds"
-msgstr ""
+msgstr "15 segundos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "30 seconds"
-msgstr ""
+msgstr "30 segundos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "45 seconds"
-msgstr ""
+msgstr "45 segundos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 minute"
-msgstr ""
+msgstr "1 minuto"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 minutes"
-msgstr ""
+msgstr "2 minutos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 minutes"
-msgstr ""
+msgstr "3 minutos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 minutes"
-msgstr ""
+msgstr "4 minutos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "5 minutes"
-msgstr ""
+msgstr "5 minutos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
@@ -11331,77 +11334,77 @@ msgstr "15 minutos"
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "30 minutes"
-msgstr ""
+msgstr "30 minutos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 hour"
-msgstr ""
+msgstr "1 hora"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 hours"
-msgstr ""
+msgstr "2 horas"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 hours"
-msgstr ""
+msgstr "3 horas"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 hours"
-msgstr ""
+msgstr "4 horas"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "5 hours"
-msgstr ""
+msgstr "5 horas"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "6 hours"
-msgstr ""
+msgstr "6 horas"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "12 hours"
-msgstr ""
+msgstr "12 horas"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "18 hours"
-msgstr ""
+msgstr "18 horas"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 day"
-msgstr ""
+msgstr "1 día"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 days"
-msgstr ""
+msgstr "2 días"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 days"
-msgstr ""
+msgstr "3 días"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 days"
-msgstr ""
+msgstr "4 días"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "6 days"
-msgstr ""
+msgstr "6 días"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 week"
-msgstr ""
+msgstr "1 semana"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Could not determine config for invoker %s"
@@ -11597,7 +11600,7 @@ msgstr "Despachar por el campo Para: del correo electrónico."
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by selected Queue."
-msgstr "Despachar por la fila seleccionada."
+msgstr "Despachar por la cola seleccionada."
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who created the ticket"
@@ -11621,7 +11624,7 @@ msgstr "Todos los agentes con permisos de escritura para el ticket"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to the ticket's queue"
-msgstr "Todos los agentes suscritos a la fila de espera del ticket"
+msgstr "Todos los agentes suscritos a la cola de espera del ticket"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to the ticket's service"
@@ -11630,7 +11633,7 @@ msgstr "Todos los agentes suscritos al servicio del ticket"
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to both the ticket's queue and service"
 msgstr ""
-"Todos los agentes suscritos tanto a la fila de espera, como al servicio del "
+"Todos los agentes suscritos tanto a la cola de espera, como al servicio del "
 "ticket"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
@@ -12023,7 +12026,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
 msgid "Edit Path"
-msgstr ""
+msgstr "Editar Ruta"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error generating a new EntityID for this Transition"
@@ -12106,11 +12109,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Queue updated!"
-msgstr "¡Fila actualizada!"
+msgstr "¡Cola actualizada!"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Don't use :: in queue name!"
-msgstr ""
+msgstr "¡No use :: en el nombre de la cola!"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Click back and change it!"
@@ -12122,23 +12125,23 @@ msgstr "-ninguno-"
 
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
-msgstr ""
+msgstr "Colas ( sin respuestas automáticas )"
 
 #. Perl Module: Kernel/Modules/AdminQueueTemplates.pm
 msgid "Change Queue Relations for Template"
-msgstr ""
+msgstr "Modificar las relaciones de Cola para la Plantilla"
 
 #. Perl Module: Kernel/Modules/AdminQueueTemplates.pm
 msgid "Change Template Relations for Queue"
-msgstr ""
+msgstr "Modificar las relaciones de Plantilla para la Cola"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Production"
-msgstr ""
+msgstr "Producción"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Test"
-msgstr ""
+msgstr "Prueba"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Training"
@@ -12166,7 +12169,7 @@ msgstr "Modificar Relaciones de Rol para los Grupos"
 
 #. Perl Module: Kernel/Modules/AdminRoleUser.pm
 msgid "Role"
-msgstr ""
+msgstr "Rol"
 
 #. Perl Module: Kernel/Modules/AdminRoleUser.pm
 msgid "Change Role Relations for Agent"
@@ -13390,7 +13393,7 @@ msgstr "Chat Externo"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Queue Changed"
-msgstr ""
+msgstr "Cola Modificada"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Notification Was Sent"
@@ -13612,7 +13615,7 @@ msgstr "Introduzca la contraseña para el usuario de base de datos."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Database %s"
-msgstr ""
+msgstr "Base de datos %s"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure MySQL"
@@ -14111,7 +14114,7 @@ msgstr "Enlazado como"
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Search Result"
-msgstr ""
+msgstr "Resultados de Búsqueda"
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Linked"
@@ -14198,7 +14201,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTRS Daemon is not running."
-msgstr "El Daemon OTRS no está en ejecución."
+msgstr "El Demonio de OTRS no está en ejecución."
 
 #. Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
 msgid "You have Out of Office enabled, would you like to disable it?"
@@ -15367,17 +15370,17 @@ msgstr "No es posible determinar el valor"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
 msgid "Daemon"
-msgstr "Daemon"
+msgstr "Demonio"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
 msgid "Daemon is running."
-msgstr ""
+msgstr "Demonio en ejecución."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
 msgid "Daemon is not running."
-msgstr "El daemon no está en ejecución."
+msgstr "El demonio no está en ejecución."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -15573,7 +15576,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageList.pm
 msgid "Package List"
-msgstr ""
+msgstr "Lista de Paquetes"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/SessionConfigSettings.pm
@@ -16475,11 +16478,11 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid "Delete this Attachment"
-msgstr ""
+msgstr "Eliminar este Archivo Adjunto"
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid "Deleting attachment..."
-msgstr ""
+msgstr "Eliminando archivo adjunto..."
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid ""
@@ -16489,7 +16492,7 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid "Attachment was deleted successfully."
-msgstr ""
+msgstr "El archivo adjunto fue eliminado satisfactoriamente."
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid ""
@@ -16510,6 +16513,10 @@ msgstr "Eliminando el campo y su información. Esto puede tomar un tiempo..."
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove selection"
 msgstr "Quitar selección"
+
+#. JS File: Core.Agent.Admin.GenericAgent
+msgid "Do you really want to delete this generic agent job?"
+msgstr ""
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Delete this Event Trigger"
@@ -16664,6 +16671,8 @@ msgstr ""
 msgid ""
 "This option is currently disabled because the OTRS Daemon is not running."
 msgstr ""
+"Esta opción se encuentra actualmente deshabilitada debido a que el Demonio "
+"de OTRS no está en ejecución."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Are you sure you want to update all installed packages?"
@@ -17006,7 +17015,7 @@ msgstr "Introduzca al menos un valor a buscar, o * para buscar todo."
 
 #. JS File: Core.Agent.Daemon
 msgid "Information about the OTRS Daemon"
-msgstr "Información acerca del Daemon de OTRS"
+msgstr "Información acerca del Demonio de OTRS"
 
 #. JS File: Core.Agent.Dashboard
 msgid "Please check the fields marked as red for valid inputs."
@@ -17290,7 +17299,7 @@ msgstr ""
 
 #. JS File: Core.UI.Table
 msgid "Remove the filter"
-msgstr ""
+msgstr "Eliminar el filtro"
 
 #. JS File: Core.UI.TreeSelection
 msgid "There are currently no elements available to select from."
@@ -17475,7 +17484,7 @@ msgstr ""
 
 #. SysConfig
 msgid "2 Minutes"
-msgstr ""
+msgstr "2 Minutos"
 
 #. SysConfig
 msgid "200 (Advanced)"
@@ -17483,7 +17492,7 @@ msgstr ""
 
 #. SysConfig
 msgid "30 Minutes"
-msgstr ""
+msgstr "30 Minutos"
 
 #. SysConfig
 msgid "300 (Beginner)"
@@ -17821,11 +17830,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Agents ↔ Groups"
-msgstr ""
+msgstr "Agentes ↔ Grupos"
 
 #. SysConfig
 msgid "Agents ↔ Roles"
-msgstr ""
+msgstr "Agentes ↔ Roles"
 
 #. SysConfig
 msgid "All CustomerIDs of a customer user."
@@ -21591,6 +21600,13 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Defines the shown links in the footer area of the customer and public "
+"interface of this OTRS system. The value in \"Key\" is the external URL, the"
+" value in \"Content\" is the shown label."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines the standard permissions available for customers within the "
 "application. If more permissions are needed, you can enter them here. "
 "Permissions must be hard coded to be effective. Please ensure, when adding "
@@ -22627,11 +22643,11 @@ msgstr ""
 
 #. SysConfig
 msgid "External"
-msgstr ""
+msgstr "Externo"
 
 #. SysConfig
 msgid "External Link"
-msgstr ""
+msgstr "Liga externa"
 
 #. SysConfig
 msgid "Fetch emails via fetchmail (using SSL)."
@@ -23685,7 +23701,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Link queues to auto responses."
-msgstr "Vincular filas de espera con auto-respuestas."
+msgstr "Vincular colas de espera con respuestas automáticas."
 
 #. SysConfig
 msgid "Link roles to groups."
@@ -24406,7 +24422,7 @@ msgstr "Tickets Abiertos (Cliente)"
 
 #. SysConfig
 msgid "Option"
-msgstr ""
+msgstr "Opción"
 
 #. SysConfig
 msgid ""
@@ -25062,7 +25078,7 @@ msgstr "Vista de Filas"
 
 #. SysConfig
 msgid "Queues ↔ Auto Responses"
-msgstr ""
+msgstr "Colas ↔ Respuestas Automáticas"
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -26905,7 +26921,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Shows all both ro and rw queues in the queue view."
-msgstr "Muestra las filas ro y rw en la vista de filas."
+msgstr "Muestra las colas ro y rw en la vista de colas."
 
 #. SysConfig
 msgid "Shows all both ro and rw tickets in the service view."
@@ -27207,10 +27223,10 @@ msgid ""
 "top). Use the QueueID for the key and 0 or 1 for value."
 msgstr ""
 "Ordena los tickets (ascendente o descendentemente), luego de haberse "
-"ordenado por prioridad, cuando una sola fila se selecciona en la vista de "
-"filas. Values: 0 = ascendente (por defecto, más antiguo arriba), 1 = "
-"descendente (más reciente arriba). Use el identificador de la fila como Key "
-"y 0 ó 1 como Valor."
+"ordenado por prioridad, cuando una sola cola se selecciona en la vista de "
+"colas. Values: 0 = ascendente (por defecto, más antiguo arriba), 1 = "
+"descendente (más reciente arriba). Use el identificador de la cola como "
+"Llave y 0 ó 1 como Valor."
 
 #. SysConfig
 msgid ""
@@ -27535,7 +27551,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Templates ↔ Queues"
-msgstr ""
+msgstr "Plantillas ↔ Colas"
 
 #. SysConfig
 msgid "Textarea"
@@ -27883,7 +27899,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Queue Overview"
-msgstr "Vista general por fila"
+msgstr "Vista general por cola"
 
 #. SysConfig
 msgid "Ticket Responsible."
@@ -28280,11 +28296,11 @@ msgstr "Adjuntar Archivo"
 
 #. SysConfig
 msgid "bounce"
-msgstr ""
+msgstr "rebotar"
 
 #. SysConfig
 msgid "compose"
-msgstr ""
+msgstr "redactar"
 
 #. SysConfig
 msgid "debug"
@@ -28296,7 +28312,7 @@ msgstr "Error"
 
 #. SysConfig
 msgid "forward"
-msgstr ""
+msgstr "reenviar"
 
 #. SysConfig
 msgid "info"
@@ -28316,7 +28332,7 @@ msgstr "Aviso"
 
 #. SysConfig
 msgid "pending"
-msgstr ""
+msgstr "pendiente"
 
 #. SysConfig
 msgid "phone"

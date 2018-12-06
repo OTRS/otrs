@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.770353830298866;
+    $Self->{Completeness}        = 0.828983516483517;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -497,7 +497,7 @@ sub Data {
         'Customer User Default Groups:' => 'Grupos padrão para usuários clientes:',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Service Relations' => '',
+        'Manage Customer User-Service Relations' => 'Gerenciar Relacionamentos Usuário Cliente-Serviço',
         'Edit default services' => 'Alterar Serviços Padrão',
         'Filter for Services' => 'Filtrar por Serviços',
         'Filter for services' => 'Filtrar por Serviço',
@@ -811,7 +811,7 @@ sub Data {
         'Error code' => 'Código de erro',
         'An error identifier for this error handling module.' => 'Um identificador de erro para este módulo de tratamento de erros.',
         'This identifier will be available in XSLT-Mapping and shown in debugger output.' =>
-            '',
+            'Este identificador estará disponível no mapeamento XSLT (XSLT-Mapping) e será mostrado na console de debug',
         'Error message' => 'Mensagem de erro',
         'An error explanation for this error handling module.' => 'Uma explicação de erro para este módulo de tratamento de erros.',
         'This message will be available in XSLT-Mapping and shown in debugger output.' =>
@@ -954,7 +954,7 @@ sub Data {
         'Here you can add or modify your XSLT mapping code.' => '',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
             '',
-        'Data includes' => '',
+        'Data includes' => 'Dados incluem',
         'Select one or more sets of data that were created at earlier request/response stages to be included in mappable data.' =>
             'Selecione um ou mais conjuntos de dados que foram criados em estágios anteriores de solicitação/resposta para serem incluídos nos dados mapeáveis.',
         'These sets will appear in the data structure at \'/DataInclude/<DataSetName>\' (see debugger output of actual requests for details).' =>
@@ -972,11 +972,11 @@ sub Data {
         'Use cases are e.g. removing key prefixes that are undesired or correcting keys that are invalid as XML element names.' =>
             'Casos de uso são, por exemplo, na remoção de prefixos de chave que são indesejáveis ou na correção de chaves que são inválidas como nomes de elementos XML.',
         'Example 1: Search = \'^jira:\' / Replace = \'\' turns \'jira:element\' into \'element\'.' =>
-            '',
+            'Exemplo 1: Pesquisar = \'^jira:\' / Susbtituir = \'\' transforma \'jira:element\' em \'element\'.',
         'Example 2: Search = \'^\' / Replace = \'_\' turns \'16x16\' into \'_16x16\'.' =>
-            '',
+            'Exemplo 2: Pesquisar = \'^\' / Substituir = \'_\' torna \'16x16\' em \'_16x16\'.',
         'Example 3: Search = \'^(?<number>\d+) (?<text>.+?)\$\' / Replace = \'_\$+{text}_\$+{number}\' turns \'16 elementname\' into \'_elementname_16\'.' =>
-            '',
+            'Exemplo 3: Pesquisar = \'^(?<number>\d+) (?<text>.+?)\$\' / Substituir = \'_\$+{text}_\$+{number}\' torna \'16 elementname\' em \'_elementname_16\'.',
         'For information about regular expressions in Perl please see here:' =>
             'Para informações sobre expressões regulares em Perl, por favor, veja aqui:',
         'Perl regular expressions tutorial' => 'Tutorial de Expressões Regulares Perl',
@@ -1054,11 +1054,11 @@ sub Data {
         'Client Certificate' => 'Certificado do Cliente',
         'The full path and name of the SSL client certificate file (must be in PEM, DER or PKCS#12 format).' =>
             '',
-        'e.g. /opt/otrs/var/certificates/SOAP/certificate.pem' => '',
+        'e.g. /opt/otrs/var/certificates/SOAP/certificate.pem' => 'ex. /opt/otrs/var/certificates/SOAP/certificate.pem',
         'Client Certificate Key' => 'Chave do Certificado do Cliente',
         'The full path and name of the SSL client certificate key file (if not already included in certificate file).' =>
             'O caminho completo e o nome do arquivo de chave do certificado de cliente SSL (se ainda não estiver incluído no arquivo de certificado).',
-        'e.g. /opt/otrs/var/certificates/SOAP/key.pem' => '',
+        'e.g. /opt/otrs/var/certificates/SOAP/key.pem' => 'ex. /opt/otrs/var/certificates/SOAP/key.pem',
         'Client Certificate Key Password' => 'Senha da Chave de Certificado do Cliente',
         'The password to open the SSL certificate if the key is encrypted.' =>
             'A senha para abrir o certificado SSL se a chave está encriptada.',
@@ -1080,7 +1080,7 @@ sub Data {
         'The default HTTP command to use for the requests.' => 'O comando HTTP padrão para usar para as requisições.',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
-        'e.g. https://local.otrs.com:8000/Webservice/Example' => '',
+        'e.g. https://local.otrs.com:8000/Webservice/Example' => 'ex. https://local.otrs.com:8000/Webservice/Example',
         'Set SOAPAction' => 'Configurar SOAPAction',
         'Set to "Yes" in order to send a filled SOAPAction header.' => 'Defina para "Sim" em ordem para enviar um cabeçalho SOAPAction preenchido.',
         'Set to "No" in order to send an empty SOAPAction header.' => 'Defina para "Não" em ordem para enviar um cabeçalho SOAPAction vazio.',
@@ -1493,8 +1493,8 @@ sub Data {
         'PostMaster Filter Management' => 'Gerenciamento de Filtros (Postmaster)',
         'Add PostMaster Filter' => 'Adicionar Filtro PostMaster',
         'Edit PostMaster Filter' => 'Alterar Filtro PostMaster',
-        'Filter for PostMaster Filters' => '',
-        'Filter for PostMaster filters' => '',
+        'Filter for PostMaster Filters' => 'Filtrar por Filtros PostMaster',
+        'Filter for PostMaster filters' => 'Filtrar por filtros PostMaster',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'Para encaminhamento ou filtragem de e-mails recebidos com base em cabeçalhos de e-mail. O casamento usando expressões regulares também é possível.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1532,7 +1532,7 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => 'Gerenciamento de Processos',
         'Filter for Processes' => 'Filtrar por Processos',
-        'Filter for processes' => '',
+        'Filter for processes' => 'Filtrar por processos',
         'Create New Process' => 'Criar Novo Processo',
         'Deploy All Processes' => 'Implantar todos os processos',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
@@ -1691,7 +1691,7 @@ sub Data {
         'Remove this Parameter' => 'Remover Este Parâmetro',
 
         # Template: AdminQueue
-        'Queue Management' => '',
+        'Queue Management' => 'Gerenciamento de Fila',
         'Add Queue' => 'Adicionar Filas',
         'Edit Queue' => 'Alterar Filas',
         'Filter for Queues' => 'Filtrar por Filas',
@@ -1997,7 +1997,7 @@ sub Data {
             'Este estado faz parte de um item da Configuração do Sistema. É necessário confirmar a atualização desta configuração para referenciar um novo tipo.',
         'State type' => 'Tipo de Estado',
         'It\'s not possible to invalidate this entry because there is no other merge states in system!' =>
-            '',
+            'Não é possível invalidar esta entrada porque não existe nenhum outro estado de agrupamento no sistema!',
         'This state is used in the following config settings:' => 'Este estato é utilizado nas seguintes configurações:',
 
         # Template: AdminSupportDataCollector
@@ -2056,25 +2056,25 @@ sub Data {
             'Descubra como utilizar a configuração do sistema ao ler %s.',
         'Search in all settings...' => 'Pesquisar em todas as configurações...',
         'There are currently no settings available. Please make sure to run \'otrs.Console.pl Maint::Config::Rebuild\' before using the software.' =>
-            '',
+            'Nenhuma definição disponível. Por favor, certifique-se de executar \'otrs.Console.pl Maint::Config::Rebuild\' antes de utilizar o software.',
 
         # Template: AdminSystemConfigurationDeployment
         'Changes Deployment' => 'Implementar Mudanças',
         'Help' => 'Ajuda',
         'This is an overview of all settings which will be part of the deployment if you start it now. You can compare each setting to its former state by clicking the icon on the top right.' =>
-            '',
+            'Esta é uma visão geral de todas definições que serão parte da implantação se você iniciar agora. Você pode comparar cada definição ao seu estado anterior ao clicar no ícone no canto superior direito.',
         'To exclude certain settings from a deployment, click the checkbox on the header bar of a setting.' =>
             'Para excluir certas configurações de um desenvolvimento, clique na caixa de seleção na barra de cabeçalho de uma configuração.',
         'By default, you will only deploy settings which you changed on your own. If you\'d like to deploy settings changed by other users, too, please click the link on top of the screen to enter the advanced deployment mode.' =>
-            '',
+            'Por padrão, você irá implantar definições que você mesmo alterou. Se você desejar implantar alterações feitas por outros usuários também, por favor clique no link no topo da tela para abrir o módulo de implantação avançada.',
         'A deployment has just been restored, which means that all affected setting have been reverted to the state from the selected deployment.' =>
-            '',
+            'Uma implantação acabou de ser restaurada, o que significa que todas as definições afetadas foram revertidas ao estado que tinham na implantação selecionada.',
         'Please review the changed settings and deploy afterwards.' => 'Por favor reveja as mudanças de configurações e depois implemente-as.',
         'An empty list of changes means that there are no differences between the restored and the current state of the affected settings.' =>
-            '',
+            'Uma lista vazia de mudanças significa que não tem diferença entre os estados atual e restaurado das definições afetadas.',
         'Changes Overview' => 'Visão geral de mudanças',
         'There are %s changed settings which will be deployed in this run.' =>
-            '',
+            'Existem %s definições alteradas que serão implantadas nesta execução.',
         'Switch to basic mode to deploy settings only changed by you.' =>
             'Mude para o modo básico para implantar configurações alteradas apenas por você',
         'You have %s changed settings which will be deployed in this run.' =>
@@ -2083,17 +2083,17 @@ sub Data {
             'Mude para o modo avançado para implementar configurações modificadas por outros usuários, também.',
         'There are no settings to be deployed.' => 'Não há configurações para serem implementadas.',
         'Switch to advanced mode to see deployable settings changed by other users.' =>
-            '',
+            'Mude para o modo avançado para visualizar as definições implantáveis alteradas por outros usuários.',
         'Deploy selected changes' => 'Implementar alterações selecionadas.',
 
         # Template: AdminSystemConfigurationGroup
         'This group doesn\'t contain any settings. Please try navigating to one of its sub groups.' =>
-            '',
+            'Este grupo não contém definições. Por favor, tente navegar para um de seus subgrupos.',
 
         # Template: AdminSystemConfigurationImportExport
         'Import & Export' => 'Importar e Exportar',
         'Upload a file to be imported to your system (.yml format as exported from the System Configuration module).' =>
-            '',
+            'Carregar o arquivo a ser importado para seu sistema (formato .yml como exportado do módulo Configuração do Sistema).',
         'Upload system configuration' => 'Carregar configuração de sistema',
         'Import system configuration' => 'Importar configuração do sistema',
         'Download current configuration settings of your system in a .yml file.' =>
@@ -2106,11 +2106,11 @@ sub Data {
         'Search for category' => 'Buscar por categoria',
         'Settings I\'m currently editing' => 'Configurações que estou editando no momento',
         'Your search for "%s" in category "%s" did not return any results.' =>
-            '',
-        'Your search for "%s" in category "%s" returned one result.' => '',
-        'Your search for "%s" in category "%s" returned %s results.' => '',
+            'Sua pesquisa por "%s" na categoria "%s" não retornou resultados.',
+        'Your search for "%s" in category "%s" returned one result.' => 'Sua pesquisa por "%s" na categoria "%s" retornou um resultado.',
+        'Your search for "%s" in category "%s" returned %s results.' => 'Sua pesquisa por "%s" na categoria "%s" retornou %s resultados.',
         'You\'re currently not editing any settings.' => 'No momento você não está editando nenhuma configuração.',
-        'You\'re currently editing %s setting(s).' => '',
+        'You\'re currently editing %s setting(s).' => 'Você está editando %s definição(ões) atualmente.',
 
         # Template: AdminSystemConfigurationSearchDialog
         'Category' => 'Categoria',
@@ -2119,7 +2119,7 @@ sub Data {
         # Template: AdminSystemConfigurationView
         'View a custom List of Settings' => 'Visualizar uma lista customizada de configurações',
         'View single Setting: %s' => 'Ver apenas a Definição: %s',
-        'Go back to Deployment Details' => '',
+        'Go back to Deployment Details' => 'Retornar para Detalhes de Implantação',
 
         # Template: AdminSystemMaintenance
         'System Maintenance Management' => 'Gerenciamento de Manutenção do Sistema',
@@ -2177,7 +2177,7 @@ sub Data {
         'Filter for types' => 'Filtrar por Tipo',
         'A type with this name already exists!' => 'Um tipo com esse nome já existe!',
         'This type is present in a SysConfig setting, confirmation for updating settings to point to the new type is needed!' =>
-            '',
+            'Este tipo está presente em uma definição da Configuração do Sistema. Confirmação para atualizar definições para apontar para este novo tipo é necessária!',
         'This type is used in the following config settings:' => 'Este tipo é utilizado nas seguintes definições de configuração:',
 
         # Template: AdminUser
@@ -2292,7 +2292,7 @@ sub Data {
 
         # Template: AgentCustomerUserAddressBook
         'Customer User Address Book' => 'Caderno de Endereços do Usuário Cliente',
-        'Search for recipients and add the results as \'%s\'.' => '',
+        'Search for recipients and add the results as \'%s\'.' => 'Pesquisar por destinatários e adicione os resultados como \'%s\'.',
         'Search template' => 'Modelo de Busca',
         'Create Template' => 'Criar Modelo',
         'Create New' => 'Criar Novo',
@@ -2470,7 +2470,7 @@ sub Data {
             'Escolha entre os grupos à direita para encontrar as definições que você deseja alterar.',
         'Did you know?' => 'Você sabia?',
         'You can change your avatar by registering with your email address %s on %s' =>
-            '',
+            'Você pode alterar seu avatar ao registrar seu endereço de e-mail %s em %s',
 
         # Template: AgentSplitSelection
         'Target' => 'Alvo',
@@ -2581,7 +2581,7 @@ sub Data {
             'Esse endereço está registrado como endereço do sistema e não pode ser usado: %s',
         'Please include at least one recipient' => 'Por favor, inclua pelo menos um destinatário',
         'Select one or more recipients from the customer user address book.' =>
-            '',
+            'Selecione um ou mais destinatários do caderno de endereço do usuário cliente.',
         'Customer user address book' => 'Caderno de endereços do Usuário Cliente',
         'Remove Ticket Customer' => 'Remover Cliente do Chamado',
         'Please remove this entry and enter a new one with the correct value.' =>
@@ -2637,8 +2637,8 @@ sub Data {
         'You need to use a ticket number!' => 'Você deve utilizar um número de chamado!',
         'A valid ticket number is required.' => 'Um número de chamado válido é obrigatório.',
         'Try typing part of the ticket number or title in order to search by it.' =>
-            '',
-        'Limit the search to tickets with same Customer ID (%s).' => '',
+            'Tente digitar uma parte do número do ticket ou do título de forma a pesquisar por ele.',
+        'Limit the search to tickets with same Customer ID (%s).' => 'Limitar a pesquisa por tickets com o mesmo ID de Cliente (%s).',
         'Inform Sender' => 'Informar Remetente',
         'Need a valid email address.' => 'É necessário um endereço de e-mail válido.',
 
@@ -2696,9 +2696,9 @@ sub Data {
         'Profile link' => 'Linkar Modelo',
         'Output' => 'Saída',
         'Fulltext' => 'Texto Completo',
-        'Customer ID (complex search)' => '',
+        'Customer ID (complex search)' => 'ID de Cliente (pesquisa complexa)',
         '(e. g. 234*)' => '(ex.: 234*)',
-        'Customer ID (exact match)' => '',
+        'Customer ID (exact match)' => 'ID de Cliente (correspondência exata)',
         'Assigned to Customer User Login (complex search)' => '',
         '(e. g. U51*)' => '(ex.: U51*)',
         'Assigned to Customer User Login (exact match)' => '',
@@ -2766,7 +2766,7 @@ sub Data {
 
         # Template: MIMEBase
         'This message is being processed. Already tried to send %s time(s). Next try will be %s.' =>
-            '',
+            'Esta mensagem está sendo processada. Já foi(ram) feita(s) %s tentativa(s) de envio. Próxima tentativa será %s.',
         'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             'Para abrir links no artigo seguinte, talvez você precise pressionar Ctrl, Cmd ou Shift enquanto clica no link (dependendo do seu navegador ou sistema operacional).',
         'Close this message' => 'Fechar esta mensagem',
@@ -2800,7 +2800,7 @@ sub Data {
         'Load blocked content.' => 'Carregar conteúdo bloqueado.',
 
         # Template: Breadcrumb
-        'Home' => '',
+        'Home' => 'Início',
         'Back to admin overview' => 'Retornar para a visão geral da administração',
 
         # Template: CloudServicesDisabled
@@ -2815,7 +2815,7 @@ sub Data {
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
-            '',
+            'Este ID de cliente não é alterável. Nenhum outro ID de cliente pode ser atribuído a este ticket.',
         'First select a customer user, then you can select a customer ID to assign to this ticket.' =>
             'Primeiro selecione um usuário cliente, então você poderá selecionar uma ID de cliente para atribuir a este ticket.',
         'Select a customer ID to assign to this ticket.' => 'Selecione uma ID de cliente para atribuir a este ticket.',
@@ -2840,11 +2840,11 @@ sub Data {
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript não habilitado ou não é suportado.',
         'In order to experience this software, you\'ll need to enable JavaScript in your browser.' =>
-            '',
+            'Para utilizar este software, você precisa ativar JavaScript em seu navegador.',
         'Browser Warning' => 'Aviso de Navegador',
         'The browser you are using is too old.' => 'O navegador que você está usando é muito antigo.',
         'This software runs with a huge lists of browsers, please upgrade to one of these.' =>
-            '',
+            'Este software roda com uma lista imensa de navegadores. Por favor, atualize para um deles.',
         'Please see the documentation or ask your admin for further information.' =>
             'Por favor, consulte a documentação ou pergunte ao seu administrador para mais informações.',
         'One moment please, you are being redirected...' => 'Um momento por favor, você está sendo redirecionado...',
@@ -3083,7 +3083,7 @@ sub Data {
             'Uma prévia deste site não pode ser fornecida porque ele não é permitido ser embutido.',
 
         # Template: MobileNotAvailableWidget
-        'Feature not Available' => '',
+        'Feature not Available' => 'Funcionalidade não Disponível',
         'Sorry, but this feature of OTRS is currently not available for mobile devices. If you\'d like to use it, you can either switch to desktop mode or use your regular desktop device.' =>
             'Desculpe mas esse recurso do OTRS não está disponível para dispositivos móveis. Se você quer utilizá-lo, você pode mudar para o modo de Desktop ou usar seu computador.',
 
@@ -3157,7 +3157,7 @@ sub Data {
         'There are problems in the configuration of this statistic:' => 'Existem problemas na configuração desta estatística:',
         'You may now configure the X-axis of your statistic.' => 'Você pode agora configurar o eixo X da sua estatística.',
         'This statistic does not provide preview data.' => 'Esta estatística não oferece pré-visualização de dados.',
-        'Preview format' => '',
+        'Preview format' => 'Formato de visão prévia',
         'Please note that the preview uses random data and does not consider data filters.' =>
             'Por favor, note que a visualização usa dados aleatórios e não considera os filtros de dados.',
         'Configure X-Axis' => 'Configure o eixo X',
@@ -3202,67 +3202,67 @@ sub Data {
 
         # Template: SettingsList
         'This setting is disabled.' => 'Esta definição está desativada.',
-        'This setting is fixed but not deployed yet!' => '',
+        'This setting is fixed but not deployed yet!' => 'Esta definição está fixa mas não foi implantada ainda!',
         'This setting is currently being overridden in %s and can\'t thus be changed here!' =>
             '',
         '%s (%s) is currently working on this setting.' => '',
         'Toggle advanced options for this setting' => '',
-        'Disable this setting, so it is no longer effective' => '',
+        'Disable this setting, so it is no longer effective' => 'Desative esta definição para que ela deixa de ser efetiva',
         'Disable' => 'Desabilitar',
-        'Enable this setting, so it becomes effective' => '',
+        'Enable this setting, so it becomes effective' => 'Ative esta definição para que ele se torne efetiva',
         'Enable' => 'Habilitar',
-        'Reset this setting to its default state' => '',
+        'Reset this setting to its default state' => 'Redefinir esta definição para seu estado padrão',
         'Reset setting' => 'Redefinir definição',
         'Allow users to adapt this setting from within their personal preferences' =>
-            '',
+            'Permitir que usuários ajustem esta definição de dentro de suas preferências pessoais',
         'Allow users to update' => 'Permitir que usuários atualizem',
         'Do not longer allow users to adapt this setting from within their personal preferences' =>
-            '',
+            'Não permitir mais que usuários ajustem esta definição em suas preferências pessoais',
         'Forbid users to update' => 'Proibir que usuários atualizem',
         'Show user specific changes for this setting' => 'Mostrar alterações específicas de usuários para esta configuração',
         'Show user settings' => 'Mostrar configurações de usuário',
         'Copy a direct link to this setting to your clipboard' => '',
-        'Copy direct link' => '',
-        'Remove this setting from your favorites setting' => '',
+        'Copy direct link' => 'Copiar link direto',
+        'Remove this setting from your favorites setting' => 'Remover esta definição de suas definições favoritas',
         'Remove from favourites' => 'Remover dos favoritos',
-        'Add this setting to your favorites' => '',
+        'Add this setting to your favorites' => 'Adicione essa definição às suas favoritas',
         'Add to favourites' => 'Adicionar aos favoritos',
-        'Cancel editing this setting' => '',
-        'Save changes on this setting' => '',
-        'Edit this setting' => '',
-        'Enable this setting' => '',
+        'Cancel editing this setting' => 'Cancele a edição desta definição',
+        'Save changes on this setting' => 'Salvar mudanças nesta definição',
+        'Edit this setting' => 'Editar esta definição',
+        'Enable this setting' => 'Ativar esta definição',
         'This group doesn\'t contain any settings. Please try navigating to one of its sub groups or another group.' =>
-            '',
+            'Este grupo não contém definições. Por favor, tente navegar para um de seus subgrupos ou para outro grupo.',
 
         # Template: SettingsListCompare
         'Now' => 'Agora',
-        'User modification' => '',
+        'User modification' => 'Modificação de usuário',
         'enabled' => 'ativado',
         'disabled' => 'desativado',
         'Setting state' => 'Estado da definição',
 
         # Template: Actions
-        'Edit search' => '',
+        'Edit search' => 'Editar pesquisa',
         'Go back to admin: ' => 'Voltar para administração:',
         'Deployment' => 'Implantação',
-        'My favourite settings' => '',
-        'Invalid settings' => '',
+        'My favourite settings' => 'Minhas definições favoritas',
+        'Invalid settings' => 'Definições inválidas',
 
         # Template: DynamicActions
         'Filter visible settings...' => 'Configurações do filtro de visibilidade...',
         'Enable edit mode for all settings' => 'Habilitar modo de edição para todas as configurações',
-        'Save all edited settings' => '',
-        'Cancel editing for all settings' => '',
+        'Save all edited settings' => 'Salvar todas definições editadas',
+        'Cancel editing for all settings' => 'Cancelar a edição de todas definições.',
         'All actions from this widget apply to the visible settings on the right only.' =>
             '',
 
         # Template: Help
-        'Currently edited by me.' => '',
-        'Modified but not yet deployed.' => '',
-        'Currently edited by another user.' => '',
-        'Different from its default value.' => '',
-        'Save current setting.' => '',
-        'Cancel editing current setting.' => '',
+        'Currently edited by me.' => 'Sendo editado por mim.',
+        'Modified but not yet deployed.' => 'Alterado, mas ainda não implantado.',
+        'Currently edited by another user.' => 'Sendo editada por um outro usuário.',
+        'Different from its default value.' => 'Diferente do valor padrão.',
+        'Save current setting.' => 'Salvar a definição atual.',
+        'Cancel editing current setting.' => 'Cancelar a edição da definição atual.',
 
         # Template: Navigation
         'Navigation' => 'Navegação',
@@ -3297,7 +3297,7 @@ sub Data {
         'Loading, please wait...' => 'Carregando, por favor aguarde...',
 
         # JS Template: UploadContainer
-        'Click to select a file for upload.' => '',
+        'Click to select a file for upload.' => 'Clique para selecionar um arquivo para carregar.',
         'Click to select files or just drop them here.' => 'Clique para selecionar os arquivos ou apenas arraste-os aqui.',
         'Click to select a file or just drop it here.' => 'Clique para selecionar o arquivo ou arraste-o aqui.',
         'Uploading...' => 'Carregando...',
@@ -3323,14 +3323,14 @@ sub Data {
         'Try again' => 'Tente novamente',
 
         # JS Template: DialogReset
-        'Reset options' => '',
-        'Reset setting on global level.' => '',
-        'Reset globally' => '',
+        'Reset options' => 'Opções de redefinição',
+        'Reset setting on global level.' => 'Redefinir definição a nível global.',
+        'Reset globally' => 'Redefinir globalmente',
         'Remove all user changes.' => 'Remover todas mudanças de usuário',
-        'Reset locally' => '',
+        'Reset locally' => 'Redefinir localmente',
         'user(s) have modified this setting.' => 'usuário(s) modificou esta configuração.',
         'Do you really want to reset this setting to it\'s default value?' =>
-            '',
+            'Você realmente quer redefinir essa definição para seu valor padrão?',
 
         # JS Template: HelpDialog
         'You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built.' =>
@@ -3432,7 +3432,7 @@ sub Data {
         'Auto Response added!' => '',
 
         # Perl Module: Kernel/Modules/AdminCommunicationLog.pm
-        'Invalid CommunicationID!' => '',
+        'Invalid CommunicationID!' => 'ID de Comunicação Inválido!',
         'All communications' => 'Todas comunicações',
         'Last 1 hour' => 'Última 1 hora',
         'Last 3 hours' => 'Últimas 3 horas',
@@ -3441,7 +3441,7 @@ sub Data {
         'Last 24 hours' => 'Últimas 24 horas',
         'Last week' => 'Última semana',
         'Last month' => 'Último mes',
-        'Invalid StartTime: %s!' => '',
+        'Invalid StartTime: %s!' => 'Horário de Início Inválido: %s!',
         'Successful' => 'Com êxito',
         'Processing' => 'Processando',
         'Failed' => 'Falhou',
@@ -3469,7 +3469,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminCustomerGroup.pm
         'No configuration for \'CustomerGroupPermissionContext\' found!' =>
-            '',
+            'Nenhuma configuração encontrada para \'CustomerGroupPermissionContext\'!',
         'Please check system configuration.' => 'Favor verificar a configuração do sistema.',
         'Invalid permission context configuration:' => '',
 
@@ -3625,7 +3625,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
         'Need valid Subaction!' => '',
         'This field should be an integer.' => '',
-        'File or Directory not found.' => '',
+        'File or Directory not found.' => 'Arquivo ou Diretório não encontrado.',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
         'There is another web service with the same name.' => 'Há outro web service com o mesmo nome.',
@@ -3909,10 +3909,10 @@ sub Data {
             '',
         'Missing setting name!' => 'Falta nome da definição!',
         'Missing ResetOptions!' => '',
-        'Setting is locked by another user!' => '',
-        'System was not able to lock the setting!' => '',
-        'System was not able to reset the setting!' => '',
-        'System was unable to update setting!' => '',
+        'Setting is locked by another user!' => 'Definição está bloqueada por um outro usuário!',
+        'System was not able to lock the setting!' => 'O sistema não conseguiu bloquear a definição!',
+        'System was not able to reset the setting!' => 'O sistema não conseguiu redefinir a definição!',
+        'System was unable to update setting!' => 'O sistema não conseguiu atualizar a definição!',
         'Missing setting name.' => 'Falta nome de definição.',
         'Setting not found.' => 'Configuração não encontrada.',
         'Missing Settings!' => 'Faltam Definições!',
@@ -4021,7 +4021,7 @@ sub Data {
         'Updated user preferences' => 'Preferências de usuário atualizadas',
         'System was unable to deploy your changes.' => 'Sistema não conseguiu implantar suas mudanças.',
         'Setting not found!' => 'Configuração não encontrada!',
-        'System was unable to reset the setting!' => '',
+        'System was unable to reset the setting!' => 'O sistema não conseguiu redefinir a definição!',
 
         # Perl Module: Kernel/Modules/AgentSplitSelection.pm
         'Process ticket' => 'Ticket de Processo',
@@ -4606,7 +4606,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationIsDirtyCheck.pm
         'You have undeployed settings, would you like to deploy them?' =>
-            '',
+            'Você tem definições que não foram implantadas. Gostaria de implantá-las?',
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationOutOfSyncCheck.pm
         'The configuration is being updated, please be patient...' => '',
@@ -4682,8 +4682,8 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/SysConfig.pm
         'Cancel editing and unlock this setting' => '',
-        'Reset this setting to its default value.' => '',
-        'Unable to load %s!' => '',
+        'Reset this setting to its default value.' => 'Redefinir esta definição ao seu valor padrão.',
+        'Unable to load %s!' => 'Incapaz de carregar %s!',
         'Content' => 'Conteúdo',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
@@ -4722,7 +4722,7 @@ sub Data {
 
         # Perl Module: Kernel/System/ACL/DB/ACL.pm
         'Couldn\'t read ACL configuration file. Please make sure the file is valid.' =>
-            '',
+            'Não foi possível ler o arquivo de configuração ACL. Por favor, certifique-se de que o arquivo é válido.',
 
         # Perl Module: Kernel/System/Auth.pm
         'It is currently not possible to login due to a scheduled system maintenance.' =>
@@ -4733,7 +4733,7 @@ sub Data {
             'Você excedeu o número de agentes concorrentes - contactar sales@otrs.com.',
         'Please note that the session limit is almost reached.' => 'Por favor note que o limite da sessão está quase alcançado.',
         'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!' =>
-            '',
+            'Login recusado! Você excedeu  o número máximo de Agentes concorrentes! Entre em contato com sales@otrs.com imediatamente!',
         'Session limit reached! Please try again later.' => 'Limite de sessão atingido! Por favor, tente novamente em alguns minutos.',
         'Session per user limit reached!' => 'Limite de sessão por usuário atingido!',
 
@@ -5231,7 +5231,7 @@ sub Data {
         'Missing key %s!' => 'Falta chave %s!',
         'Invalid setting: %s' => 'Definição inválida: %s',
         'Could not combine settings values into a perl hash.' => '',
-        'Can not lock the deployment for UserID \'%s\'!' => '',
+        'Can not lock the deployment for UserID \'%s\'!' => 'Não é possível bloquear a implantação para o ID de Usuário \'%s\'!',
         'All Settings' => 'Todas as configurações',
 
         # Perl Module: Kernel/System/SysConfig/BaseValueType.pm
@@ -5262,15 +5262,15 @@ sub Data {
         'Reset of unlock time.' => 'Redefinir horário de desbloqueio.',
 
         # Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
-        'Chat Participant' => '',
-        'Chat Message Text' => '',
+        'Chat Participant' => 'Participante de Chat',
+        'Chat Message Text' => 'Mensagem de Texto de Chat',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Login failed! Your user name or password was entered incorrectly.' =>
             'Autenticação falhou! Nome de usuário ou senha foram digitados incorretamente.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             'Autenticação realizada com sucesso, mas não foi encontrado registro deste usuário no banco de dados. Entre em contato com o administrador, por favor.',
-        'Can`t remove SessionID.' => '',
+        'Can`t remove SessionID.' => 'Não é possível remover o ID de Sessão.',
         'Logout successful.' => 'Logout com sucesso.',
         'Feature not active!' => 'Funcionalidade não inativa!',
         'Sent password reset instructions. Please check your email.' => 'Enviadas instruções para redefinição de senha. Por favor, verifique seu e-mail.',
@@ -5283,7 +5283,7 @@ sub Data {
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
             'Autenticação realizada com sucesso, mas não foi encontrado registro deste cliente no backend. Entre em contato com o administrador, por favor.',
         'Reset password unsuccessful. Please contact the administrator.' =>
-            '',
+            'Redefinição de senha sem êxito. Por favor, entre em contato com o administrador.',
         'This e-mail address already exists. Please log in or reset your password.' =>
             'Este endereço de e-mail já existe. Por favor, faça login ou redefina sua senha',
         'This email address is not allowed to register. Please contact support staff.' =>
@@ -5439,6 +5439,7 @@ sub Data {
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove selection' => 'Remover tradução',
+        'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => 'Excluir este disparador de evento',
         'Duplicate event.' => 'Duplicar evento.',
         'This event is already attached to the job, Please use a different one.' =>
@@ -5565,20 +5566,20 @@ sub Data {
         'Save and update automatically' => 'Salvar e atualizar automaticamente',
         'Don\'t save, update manually' => 'Não salvar, atualizar manualmente',
         'The item you\'re currently viewing is part of a not-yet-deployed configuration setting, which makes it impossible to edit it in its current state. Please wait until the setting has been deployed. If you\'re unsure what to do next, please contact your system administrator.' =>
-            '',
+            'O item que você está visualizando atualmente é parte de uma configuração de uma definição que ainda não foi implantada, o que torna impossível editar em seu estado atual. Por favor, espere até que esta definição seja implantada. Se você estiver inseguro com o que fazer, por favor, entre em contato com o administrador do sistema.',
 
         # JS File: Core.Agent.Admin.SystemConfiguration
         'Loading...' => 'Carregando...',
-        'Search the System Configuration' => '',
-        'Please enter at least one search word to find anything.' => '',
+        'Search the System Configuration' => 'Pesquisar a Configuração do Sistema',
+        'Please enter at least one search word to find anything.' => 'Por favor, digite ao menos uma palavra de pesquisa para encontrar algo.',
         'Unfortunately deploying is currently not possible, maybe because another agent is already deploying. Please try again later.' =>
-            '',
+            'Infelizmente, implantação não é possível no momento possivelmente porque outro agente esta realizando uma implantação. Por favor, tente novamente mais tarde.',
         'Deploy' => 'Implantar',
         'The deployment is already running.' => 'A implantação já está em execução.',
         'Deployment successful. You\'re being redirected...' => 'Implantação bem sucedida. Você está sendo redirecionado...',
         'There was an error. Please save all settings you are editing and check the logs for more information.' =>
             'Ocorreu um erro. Favor salvar todas definições que você está editando e verifique os logs para mais informações.',
-        'Reset option is required!' => '',
+        'Reset option is required!' => 'Opção de redefinição é necessária!',
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?' =>
             'Ao restaurar esta implantação, todas as definições serão revertidas para o valor que tinham no momento da implantação. Você realmente deseja continuar?',
         'Keys with values can\'t be renamed. Please remove this key/value pair instead and re-add it afterwards.' =>
@@ -5640,7 +5641,7 @@ sub Data {
 
         # JS File: Core.Agent.LinkObject.SearchForm
         'Please wait...' => 'Por favor aguarde...',
-        'Searching for linkable objects. This may take a while...' => '',
+        'Searching for linkable objects. This may take a while...' => 'Pesquisando por objetos associáveis. Isso pode levar algum tempo...',
 
         # JS File: Core.Agent.LinkObject
         'Do you really want to delete this link?' => 'Você realmente quer excluir esta associação?',
@@ -5685,7 +5686,7 @@ sub Data {
         # JS File: Core.Agent.TicketFormDraft
         'Add new draft' => 'Adicionar novo rascunho',
         'Delete draft' => 'Remover rascunho',
-        'There are no more drafts available.' => '',
+        'There are no more drafts available.' => 'Mais nenhum rascunho disponível.',
         'It was not possible to delete this draft.' => 'Não foi possível excluir este rascunho.',
 
         # JS File: Core.Agent.TicketZoom
@@ -5702,9 +5703,9 @@ sub Data {
         'Switch to mobile mode' => 'Trocar para modo móvel',
 
         # JS File: Core.App
-        'Error: Browser Check failed!' => '',
+        'Error: Browser Check failed!' => 'Erro: Falha ao Verificar Navegador!',
         'Reload page' => 'Atualizar página',
-        'Reload page (%ss)' => '',
+        'Reload page (%ss)' => 'Recarregar página (%ss)',
 
         # JS File: Core.Debug
         'Namespace %s could not be initialized, because %s could not be found.' =>
@@ -5752,13 +5753,13 @@ sub Data {
             'Não foi possível abrir a janela popup. Desative os bloqueadores de popup para esta aplicação.',
 
         # JS File: Core.UI.Table.Sort
-        'Ascending sort applied, ' => '',
-        'Descending sort applied, ' => '',
-        'No sort applied, ' => '',
-        'sorting is disabled' => '',
-        'activate to apply an ascending sort' => '',
-        'activate to apply a descending sort' => '',
-        'activate to remove the sort' => '',
+        'Ascending sort applied, ' => 'Ordenamento ascendente aplicado.',
+        'Descending sort applied, ' => 'Ordenamento descendente aplicado.',
+        'No sort applied, ' => 'Nenhum ordenamento aplicado,',
+        'sorting is disabled' => 'ordenamento está desabilitado',
+        'activate to apply an ascending sort' => 'ative para aplicar um ordenamento ascendente',
+        'activate to apply a descending sort' => 'ative para aplicar um ordenamento descendente',
+        'activate to remove the sort' => 'ative para remover o ordenamento',
 
         # JS File: Core.UI.Table
         'Remove the filter' => 'Remover o filtro',
@@ -5767,16 +5768,16 @@ sub Data {
         'There are currently no elements available to select from.' => 'Não há elementos disponíveis atualmente para seleção.',
 
         # JS File: Core.UI
-        'Please only select one file for upload.' => '',
-        'Sorry, you can only upload one file here.' => '',
-        'Sorry, you can only upload %s files.' => '',
-        'Please only select at most %s files for upload.' => '',
-        'The following files are not allowed to be uploaded: %s' => '',
+        'Please only select one file for upload.' => 'Por favor, selecione apenas um arquivo para carregar.',
+        'Sorry, you can only upload one file here.' => 'Desculpe, você só pode carregar um arquivo aqui.',
+        'Sorry, you can only upload %s files.' => 'Desculpe, você só pode carregar %s arquivos.',
+        'Please only select at most %s files for upload.' => 'Por favor, selecione no máximo %s arquivos para carregar.',
+        'The following files are not allowed to be uploaded: %s' => 'O carregamento dos seguintes arquivos não está autorizado: %s',
         'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s' =>
-            '',
+            'Os seguintes arquivos excedem o tamanho máximo permitido de %s por aquivo e não foram carregados: %s',
         'The following files were already uploaded and have not been uploaded again: %s' =>
-            '',
-        'No space left for the following files: %s' => '',
+            'Os seguintes arquivos já tinham sido carregados e não foram carregados novamente: %s',
+        'No space left for the following files: %s' => 'Não sobrou espaço para os seguintes arquivos: %s',
         'Available space %s of %s.' => 'Espaço disponível %s de %s.',
         'Upload information' => 'Atualizar informação',
         'An unknown error occurred when deleting the attachment. Please try again. If the error persists, please contact your system administrator.' =>
@@ -5786,7 +5787,7 @@ sub Data {
         'yes' => 'sim',
         'no' => 'não',
         'This is %s' => 'Isto é %s',
-        'Complex %s with %s arguments' => '',
+        'Complex %s with %s arguments' => '%s complexo com %s argumentos',
 
         # JS File: OTRSLineChart
         'No Data Available.' => 'Nenhum dado disponível.',
@@ -5822,16 +5823,16 @@ Thanks for your help!
         '(UserLogin) Firstname Lastname' => '(Login) Nome Sobrenome',
         '(UserLogin) Lastname Firstname' => '',
         '(UserLogin) Lastname, Firstname' => '(Login) Sobrenome, Nome',
-        '*** out of office until %s (%s d left) ***' => '',
+        '*** out of office until %s (%s d left) ***' => '*** ausente até %s (restam %s dias) ***',
         '0 - Disabled' => '0 - Desabilitado',
         '1 - Available' => '1 - Disponível',
         '1 - Enabled' => '1 - Habilitado',
         '10 Minutes' => '10 Minutos',
         '100 (Expert)' => '100 (Especialista)',
         '15 Minutes' => '15 Minutos',
-        '2 - Enabled and required' => '',
-        '2 - Enabled and shown by default' => '',
-        '2 - Enabled by default' => '',
+        '2 - Enabled and required' => '2 - Ativado e mandatório',
+        '2 - Enabled and shown by default' => '2 - Ativado e apresentado como padrão',
+        '2 - Enabled by default' => '2 - Ativado por padrão',
         '2 Minutes' => '2 Minutos',
         '200 (Advanced)' => '200 (Avançado)',
         '30 Minutes' => '30 Minutos',
@@ -5840,7 +5841,7 @@ Thanks for your help!
         'A TicketWatcher Module.' => 'Um Módulo de Observação de Ticket.',
         'A Website' => 'Um website',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
-            '',
+            'Uma lista de campos dinâmicos que são agrupados no ticket principal durante uma operação de agrupamento. Somente campos dinâmicos vazios no ticket principal serão definidos.',
         'A picture' => 'Uma figura',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'Módulo ACL que permite fechar os chamados-pais somente se todos os seus filhos já estejam fechados ("Estado" mostra quais estados não estão disponíveis para o chamado-pai até que todos os chamados-filhos estejam fechados).',
@@ -5874,11 +5875,11 @@ Thanks for your help!
         'Added phone call to customer.' => 'Telefonema para cliente adicionado.',
         'Added subscription for user "%s".' => 'Adicionada assinatura para o usuário "%s".',
         'Added system request (%s).' => 'Adicionada solicitação de sistema (%s).',
-        'Added web request from customer.' => '',
+        'Added web request from customer.' => 'Solicitação web de cliente adicionada.',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
             'Adiciona um sufixo com o ano e mês reais do arquivo de eventos do OTRS. Um arquivo de eventos para cada mês será criado.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
-            '',
+            'Adiciona endereços de e-mail de clientes para destinatários na tela de composição da interface de agente. Os endereços de e-mail de clientes não serão adicionados se o tipo de artigo for email-internal.',
         'Adds the one time vacation days for the indicated calendar.' => '',
         'Adds the one time vacation days.' => '',
         'Adds the permanent vacation days for the indicated calendar.' =>
@@ -5887,7 +5888,7 @@ Thanks for your help!
         'Admin' => 'Administração',
         'Admin Area.' => 'Área Admin.',
         'Admin Notification' => 'Notificação Administrativa',
-        'Admin area navigation for the agent interface.' => '',
+        'Admin area navigation for the agent interface.' => 'Navegação da área de administração para a interface de agente.',
         'Admin modules overview.' => 'Visão geral dos módulos de administração.',
         'Admin.' => 'Administração.',
         'Administration' => 'Administração',
@@ -5907,17 +5908,17 @@ Thanks for your help!
         'Agent interface module to access fulltext search via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Agent interface module to access search profiles via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Módulo da interface de agente para acessar perfis de pesquisa via a barra de navegação. Controle de acesso adicional para mostrar esse link ou não pode ser feito utilizando Chave "Group" e Conteúdo como "rw:group1;move_inte:group2".',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Módulo de interface de atendente para verificar a recepção de e-mails na tela de detalhes do chamados se a chave S/MIME está disponível e é válida.',
         'Agent interface notification module to see the number of locked tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Módulo de notificação da interface de agente para visualizar o número de tickets bloqueados. Controle de acesso adicional para mostrar ou não este link pode ser feito ao utilizar a Chave "Group" e Conteúdo com "rw:group1;move_into:group2".',
         'Agent interface notification module to see the number of tickets an agent is responsible for. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Módulo de notificação da interface de agente para visualizar o número de tickets que um agente é responsável por. Controle de acesso adicional para mostrar ou não este link pode ser feito ao utilizar a Chave "Group" e Conteúdo com "rw:group1;move_into:group2".',
         'Agent interface notification module to see the number of tickets in My Services. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Módulo de notificação da interface de agente para visualizar o número de tickets em Meus Serviços. Controle de acesso adicional para mostrar ou não este link pode ser feito ao utilizar a Chave "Group" e Conteúdo com "rw:group1;move_into:group2".',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Módulo de notificação da interface de agente para visualizar o número de tickets observados. Controle de acesso adicional para mostrar ou não este link pode ser feito ao utilizar a Chave "Group" e Conteúdo com "rw:group1;move_into:group2".',
         'AgentTicketZoom widget that displays a table of objects linked to the ticket.' =>
             '',
         'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
@@ -5938,19 +5939,19 @@ Thanks for your help!
         'All tickets with a reminder set where the reminder date has been reached' =>
             'Todos os chamados com lembrete cujas datas de lembrete expiraram',
         'Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'Permite adicionar notas na tela de ticket fechado da interface de agente. Pode ser sobrescrito por Ticket::Frontend::NeedAccountedTime.',
         'Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
             '',
         'Allows adding notes in the ticket note screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'Permite adicionar notas na tela de notas da interface de agente. Pode ser sobrescrito por Ticket::Frontend::NeedAccountedTime.',
         'Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'Permite adicionar notas na tela de proprietário de ticket da interface de agente. Pode ser sobrescrito por Ticket::Frontend::NeedAccountedTime.',
         'Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'Permite adicionar notas na tela de ticket pendentes da interface de agente. Pode ser sobrescrito por Ticket::Frontend::NeedAccountedTime.',
         'Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'Permite adicionar notas na tela de prioridade de ticket da interface de agente. Pode ser sobrescrito por Ticket::Frontend::NeedAccountedTime.',
         'Allows adding notes in the ticket responsible screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'Permite adicionar notas na tela de responsável por ticket da interface de agente. Pode ser sobrescrito por Ticket::Frontend::NeedAccountedTime.',
         'Allows agents to exchange the axis of a stat if they generate one.' =>
             'Permite que atendentes troquem o eixo de uma estatística durante a geração de uma.',
         'Allows agents to generate individual-related stats.' => 'Permite que atendentes gerem estatística individualmente relacionadas.',
@@ -5965,11 +5966,11 @@ Thanks for your help!
         'Allows customers to set the ticket priority in the customer interface.' =>
             'Permite que os clientes configurem a prioridade do chamado na interface de cliente.',
         'Allows customers to set the ticket queue in the customer interface. If this is not enabled, QueueDefault should be configured.' =>
-            '',
+            'Permite clientes definir a fila do ticket na interface do cliente. Se não for ativado, QueueDefault deve ser configurado.',
         'Allows customers to set the ticket service in the customer interface.' =>
             'Permite que os clientes configurem o serviço do chamado na interface de cliente.',
         'Allows customers to set the ticket type in the customer interface. If this is not enabled, TicketTypeDefault should be configured.' =>
-            '',
+            'Permite clientes definir o tipo de ticket na interface de cliente. Se não for ativado, TicketTypeDefault deve ser configurado.',
         'Allows default services to be selected also for non existing customers.' =>
             'Permite selecionar serviços padrão para clientes não existentes.',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
@@ -5990,31 +5991,31 @@ Thanks for your help!
         'Allows the administrators to login as other users, via the users administration panel.' =>
             'Permite que administradores personifiquem (se loguem como) outros usuários, através do painel de administração de usuários.',
         'Allows to save current work as draft in the close ticket screen of the agent interface.' =>
-            '',
+            'Permite salvar o trabalho corrente na tela de ticket fechado da interface de agente.',
         'Allows to save current work as draft in the email outbound screen of the agent interface.' =>
-            '',
+            'Permite salvar o trabalho corrente como rascunho na tela de envio de e-mail da interface de agente.',
         'Allows to save current work as draft in the ticket compose screen of the agent interface.' =>
-            '',
+            'Permite salvar o trabalho corrente como rascunho na tela de composição de ticket da interface de agente.',
         'Allows to save current work as draft in the ticket forward screen of the agent interface.' =>
-            '',
+            'Permite salvar o trabalho corrente como rascunho na tela de encaminhamento de e-mail da interface de agente.',
         'Allows to save current work as draft in the ticket free text screen of the agent interface.' =>
             '',
         'Allows to save current work as draft in the ticket move screen of the agent interface.' =>
-            '',
+            'Permite salvar o trabalho corrente como rascunho na tela de mover ticket da interface de agente.',
         'Allows to save current work as draft in the ticket note screen of the agent interface.' =>
-            '',
+            'Permite salvar o trabalho corrente como rascunho na tela de nota de ticket da interface de agente.',
         'Allows to save current work as draft in the ticket owner screen of the agent interface.' =>
-            '',
+            'Permite salvar o trabalho corrente como rascunho na tela de proprietário de ticket da interface de agente.',
         'Allows to save current work as draft in the ticket pending screen of the agent interface.' =>
-            '',
+            'Permite salvar o trabalho corrente como rascunho na tela de ticket pendente da interface de agente.',
         'Allows to save current work as draft in the ticket phone inbound screen of the agent interface.' =>
-            '',
+            'Permite salvar o trabalho corrente como rascunho na tela de telefonema recebido da interface de agente.',
         'Allows to save current work as draft in the ticket phone outbound screen of the agent interface.' =>
-            '',
+            'Permite salvar o trabalho corrente como rascunho na tela de telefonema realizado da interface de agente.',
         'Allows to save current work as draft in the ticket priority screen of the agent interface.' =>
-            '',
+            'Permite salvar o trabalho corrente como rascunho na tela de prioridade de ticket da interface de agente.',
         'Allows to save current work as draft in the ticket responsible screen of the agent interface.' =>
-            '',
+            'Permite salvar o trabalho corrente como rascunho na tela de responsável por ticket da interface de agente.',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             'Permite definir um novo estado de chamado na tela de movimentação de chamado da interface de atendente.',
         'Always show RichText if available' => 'Sempre exibir RichText se disponível',
@@ -6038,7 +6039,7 @@ Thanks for your help!
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
             'Automaticamente alterar o estado de um ticket com um proprietário inválido quando ele for desbloqueado. Mapeia de um tipo de estado para um novo estato de ticket.',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
-            '',
+            'Define e proprietário como e bloqueia o ticket para o Agente atual após abrir a tela de mover na interface de agente.',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
             'Automaticamente bloquear e definir o proprietário para o atendente atual após selecionar uma ação em massa.',
         'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled). This will only work by manually actions of the logged in user. It does not work for automated actions e.g. GenericAgent, Postmaster and GenericInterface.' =>
@@ -6060,9 +6061,9 @@ Thanks for your help!
             'Configuração de exemplo CMD. Ignora e-mails nos quais o CMD externo retorna alguma saída em STDOUT (e-mail será canalizado para STDIN de algum.bin).',
         'CSV Separator' => 'Separador CSV',
         'Cache time in seconds for agent authentication in the GenericInterface.' =>
-            '',
+            'Tempo de cache em segundos para autenticação de agentes na Interface Genérica.',
         'Cache time in seconds for customer authentication in the GenericInterface.' =>
-            '',
+            'Tempo de cache em segundos para autenticação de clientes na Interface Genérica.',
         'Cache time in seconds for the DB ACL backend.' => '',
         'Cache time in seconds for the DB process backend.' => '',
         'Cache time in seconds for the SSL certificate attributes.' => '',
@@ -6095,10 +6096,10 @@ Thanks for your help!
         'Changed type from "%s" (%s) to "%s" (%s).' => 'Alterado tipo de "%s" (%s) para "%s" (%s).',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             'Altera o proprietário de chamados para todos (útil para ASP). Normalmente, apenas atendentes com permissões rw na fila do chamado serão mostrados.',
-        'Chat communication channel.' => '',
+        'Chat communication channel.' => 'Canal de comunicação de chat.',
         'Checkbox' => 'Checkbox',
         'Checks for articles that needs to be updated in the article search index.' =>
-            '',
+            'Verifica artigos que precisam ser atualizados no índice de pesquisa de artigo.',
         'Checks for communication log entries to be deleted.' => 'Verifica entradas do log de comunicação a serem excluídas.',
         'Checks for queued outgoing emails to be sent.' => 'Verifica e-mails enfileirados para envio a serem enviados.',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
@@ -6138,7 +6139,7 @@ Thanks for your help!
         'Columns that can be filtered in the status view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
         'Columns that can be filtered in the ticket search result view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
-            '',
+            'Colunas que pode ser filtradas na visão de resultado de pesquisa de ticket da interface de agente. Observação: Somente atributos de Ticket, Campos Dinâmicos (DynamicField_NameX) e atributos de Cliente (por exemplo, Telefone de Usuário Cliente, Nome de Empresa Cliente, ...) são permitidos.',
         'Columns that can be filtered in the watch view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
         'Comment for new history entries in the customer interface.' => 'Comentário para novas entradas de histórico na interface de cliente.',
@@ -6211,9 +6212,9 @@ Thanks for your help!
         'Create and manage web services.' => 'Criar e gerenciar web services.',
         'Create new Ticket.' => 'Criar novo Ticket.',
         'Create new appointment.' => 'Criar novo compromisso.',
-        'Create new email ticket and send this out (outbound).' => '',
+        'Create new email ticket and send this out (outbound).' => 'Criar um novo ticket de e-mail e enviar (enviado).',
         'Create new email ticket.' => 'Criar novo ticket de e-mail.',
-        'Create new phone ticket (inbound).' => '',
+        'Create new phone ticket (inbound).' => 'Criar um novo ticket de telefonema (recebido).',
         'Create new phone ticket.' => 'Criar novo ticket de telefone.',
         'Create new process ticket.' => 'Criar novo ticket de processo.',
         'Create tickets.' => 'Criar tickets.',
@@ -6227,14 +6228,14 @@ Thanks for your help!
         'Customer Administration' => 'Administração de Cliente',
         'Customer Companies' => 'Empresas de Clientes',
         'Customer IDs' => 'IDs de Cliente',
-        'Customer Information Center Search.' => '',
-        'Customer Information Center search.' => '',
+        'Customer Information Center Search.' => 'Pesquisa do Centro de Informações do Cliente',
+        'Customer Information Center search.' => 'Pesquisa do Centro de Informações do Cliente.',
         'Customer Information Center.' => 'Centro de Informações do Cliente.',
         'Customer Ticket Print Module.' => '',
         'Customer User Administration' => 'Administração de Usuário Cliente',
         'Customer User Information' => 'Informações de Usuário Cliente',
-        'Customer User Information Center Search.' => '',
-        'Customer User Information Center search.' => '',
+        'Customer User Information Center Search.' => 'Pesquisa do Centro de Informações do Usuário Cliente.',
+        'Customer User Information Center search.' => 'Pesquisa do Centro de Informações do Usuário Cliente.',
         'Customer User Information Center.' => 'Centro de Informações do Usuário Cliente.',
         'Customer Users ↔ Customers' => 'Usuário Cliente ↔ Clientes',
         'Customer Users ↔ Groups' => 'Usuário Cliente ↔ Grupos',
@@ -6264,9 +6265,9 @@ Thanks for your help!
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Prefixos de entidade de Gerenciamento de Processos padrão para IDs de entidade que são automaticamente gerados.',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
-            '',
+            'Dados padrão para serem utilizados em atributo da tela de pesquisa de ticket. Por Exemplo: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
-            '',
+            'Dados padrão para serem utilizados em atributo da tela de pesquisa de ticket. Por Exemplo: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".',
         'Default display type for recipient (To,Cc) names in AgentTicketZoom and CustomerTicketZoom.' =>
             '',
         'Default display type for sender (From) names in AgentTicketZoom and CustomerTicketZoom.' =>
@@ -6340,9 +6341,9 @@ Thanks for your help!
             'Define um módulo útil para carregar opções específicas de usuário ou para exibir notícias.',
         'Defines all the X-headers that should be scanned.' => 'Define todos os X-headers que devem ser verificados.',
         'Defines all the languages that are available to the application. Specify only English names of languages here.' =>
-            '',
+            'Definir todos idiomas que devem estar disponíveis para a aplicação. Especificar aqui apenas nomes de idiomas em Inglês.',
         'Defines all the languages that are available to the application. Specify only native names of languages here.' =>
-            '',
+            'Definir todos idiomas que devem estar disponíveis para a aplicação. Especificar aqui apenas nomes de idiomas em forma nativa.',
         'Defines all the parameters for the RefreshTime object in the customer preferences of the customer interface.' =>
             'Define todos os parâmetros para o objeto RefreshTime das preferências de cliente da interface de cliente.',
         'Defines all the parameters for the ShownTickets object in the customer preferences of the customer interface.' =>
@@ -6363,13 +6364,13 @@ Thanks for your help!
             'Define um ícone com link para a página com mapa do google da localização atual na tela de edição de compromisso.',
         'Defines an overview module to show the address book view of a customer user list.' =>
             'Define um módulo de visão geral para mostrar a visão de caderno de endereço de uma lista de usuário cliente.',
-        'Defines available article actions for Chat articles.' => '',
+        'Defines available article actions for Chat articles.' => 'Define as ações de artigo disponíveis para artigos de Chat.',
         'Defines available article actions for Email articles.' => 'Define ações de artigo disponíveis para artigos de E-mail.',
         'Defines available article actions for Internal articles.' => 'Define ações de artigo disponíveis para artigos Internos.',
         'Defines available article actions for Phone articles.' => 'Define ações de artigo disponíveis para artigos de Telefonema.',
         'Defines available article actions for invalid articles.' => 'Define ações de artigo disponíveis para artigos inválidos.',
         'Defines available groups for the admin overview screen.' => 'Define grupos disponíveis para a tela de visão geral de Administração.',
-        'Defines chat communication channel.' => '',
+        'Defines chat communication channel.' => 'Define o canal de comunicação de chat.',
         'Defines default headers for outgoing emails.' => '',
         'Defines email communication channel.' => 'Define canal de comunicação do e-mail.',
         'Defines from which ticket attributes the agent can select the result order.' =>
@@ -6497,7 +6498,7 @@ Thanks for your help!
             '',
         'Defines the config options for the autocompletion feature.' => 'Define as opções de configuração para o recurso de preenchimento automático.',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
-            '',
+            'Define os parâmetros de configuração deste item para visualização na visão de preferências.',
         'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
         'Defines the config parameters of this item, to be shown in the preferences view. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
@@ -6513,7 +6514,7 @@ Thanks for your help!
         'Defines the default body of a note in the ticket free text screen of the agent interface.' =>
             '',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
-            '',
+            'Define os campos de filtro padrão na pesquisa de caderno de endereço de usuário cliente  (Usuário Cliente ou Empresa Cliente). Para campos de Empresa Cliente um prefixo \'CustomerCompany_\' deve ser adicionado.',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://otrs.github.io/doc/.' =>
             '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
@@ -6561,7 +6562,7 @@ Thanks for your help!
         'Defines the default queue for new customer tickets in the customer interface.' =>
             '',
         'Defines the default queue for new tickets in the agent interface.' =>
-            '',
+            'Define a fila padrão para tickets novos na interface de agente.',
         'Defines the default selection at the drop down menu for dynamic objects (Form: Common Specification).' =>
             '',
         'Defines the default selection at the drop down menu for permissions (Form: Common Specification).' =>
@@ -6575,19 +6576,19 @@ Thanks for your help!
         'Defines the default sender type for tickets in the ticket zoom screen of the customer interface.' =>
             '',
         'Defines the default shown ticket search attribute for ticket search screen (AllTickets/ArchivedTickets/NotArchivedTickets).' =>
-            '',
+            'Define o atributo de pesquisa de ticket padrão na tela de pesquisa de ticket (Todos Tickets/Tickets Arquivados/Tickets Não Arquivados).',
         'Defines the default shown ticket search attribute for ticket search screen.' =>
-            '',
+            'Define o atributo de pesquisa de ticket padrão mostrado na tela de pesquisa de ticket. ',
         'Defines the default shown ticket search attribute for ticket search screen. Example: "Key" must have the name of the Dynamic Field in this case \'X\', "Content" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;\' and or \'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7\';.' =>
-            '',
+            'Define o atributo de pesquisa de ticket padrão mostrado na tela de pesquisa de ticket.  Por exemplo: "Chave" tem que ter o nome do Campo Dinâmico, neste caso \'X\', "Conteúdo" deve ter o valor do Campo Dinâmico baseado no tipo de Campo Dinâmico, Texto: \'a text\', Caixa de Seleção: \'1\', Data/Hora: \'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;\' e/ou \'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7\';.',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
-            '',
+            'Define o critério padrão de ordenamento para todas filas apresentadas na visão de filas.',
         'Defines the default sort criteria for all services displayed in the service view.' =>
-            '',
+            'Define o critério padrão de ordenamento para todos serviços apresentados na visão de serviços.',
         'Defines the default sort order for all queues in the queue view, after priority sort.' =>
             'Define a ordem de classificação padrão para todas as filas na visão de filas, após a classificação por prioridade.',
         'Defines the default sort order for all services in the service view, after priority sort.' =>
-            '',
+            'Define o critério padrão de ordenamento para todos serviços apresentados na visão de serviços, após o ordenamento por prioridade.',
         'Defines the default state of new customer tickets in the customer interface.' =>
             'Define o estado padrão de novos chamados de cliente na interface de cliente.',
         'Defines the default state of new tickets.' => 'Define o estado padrão de novos chamados.',
@@ -6604,17 +6605,17 @@ Thanks for your help!
         'Defines the default ticket attribute for ticket sorting in the escalation view of the agent interface.' =>
             '',
         'Defines the default ticket attribute for ticket sorting in the locked ticket view of the agent interface.' =>
-            '',
+            'Define o atributo de ticket padrão para ordenamento de ticket na visão de ticket bloqueado da interface de agente.',
         'Defines the default ticket attribute for ticket sorting in the responsible view of the agent interface.' =>
-            '',
+            'Define o atributo de ticket padrão para ordenamento de ticket na visão de responsável por ticket da interface de agente.',
         'Defines the default ticket attribute for ticket sorting in the status view of the agent interface.' =>
-            '',
+            'Define o atributo de ticket padrão para ordenamento de ticket na visão de estado da interface de agente.',
         'Defines the default ticket attribute for ticket sorting in the watch view of the agent interface.' =>
-            '',
+            'Define o atributo de ticket padrão para ordenamento de ticket na visão de observação da interface de agente.',
         'Defines the default ticket attribute for ticket sorting of the ticket search result of the agent interface.' =>
-            '',
+            'Define o atributo de pesquisa de ticket padrão para ordenamento na tela de resultado de pesquisa de ticket da interface de agente. ',
         'Defines the default ticket attribute for ticket sorting of the ticket search result of this operation.' =>
-            '',
+            'Define o atributo de ticket padrão para classificação na tela de resultado de pesquisa de ticket resultante desta operação. ',
         'Defines the default ticket bounced notification for customer/sender in the ticket bounce screen of the agent interface.' =>
             '',
         'Defines the default ticket next state after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -6624,15 +6625,15 @@ Thanks for your help!
         'Defines the default ticket order (after priority sort) in the escalation view of the agent interface. Up: oldest on top. Down: latest on top.' =>
             '',
         'Defines the default ticket order (after priority sort) in the status view of the agent interface. Up: oldest on top. Down: latest on top.' =>
-            '',
+            'Define o ordenamento de ticket padrão (após ordenamento por prioridade) na visão de estado da interface de agente. Sobe: mais antigos no topo. Desce: mais recentes no topo.',
         'Defines the default ticket order in the responsible view of the agent interface. Up: oldest on top. Down: latest on top.' =>
             '',
         'Defines the default ticket order in the ticket locked view of the agent interface. Up: oldest on top. Down: latest on top.' =>
             '',
         'Defines the default ticket order in the ticket search result of the agent interface. Up: oldest on top. Down: latest on top.' =>
-            '',
+            'Define a ordem padrão de tickets no resultado da pesquisa de ticket na interface de agente. Sobe: mais antigo no topo. Desce: mais recente no topo.',
         'Defines the default ticket order in the ticket search result of the this operation. Up: oldest on top. Down: latest on top.' =>
-            '',
+            'Define a ordem padrão de tickets no resultado da pesquisa de ticket desta operação. Sobe: mais antigo no topo. Desce: mais recente no topo.',
         'Defines the default ticket order in the watch view of the agent interface. Up: oldest on top. Down: latest on top.' =>
             '',
         'Defines the default ticket order of a search result in the customer interface. Up: oldest on top. Down: latest on top.' =>
@@ -6807,9 +6808,9 @@ Thanks for your help!
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             '',
         'Defines the module to display a notification in the agent interface, if there are invalid sysconfig settings deployed.' =>
-            '',
+            'Define o módulo para mostrar a notificação na interface de agente se houver uma definição de configuração de sistema inválida implantada.',
         'Defines the module to display a notification in the agent interface, if there are modified sysconfig settings that are not deployed yet.' =>
-            '',
+            'Define o módulo para mostrar a notificação na interface de agente se houverem definições de configuração de sistema alteradas não implantadas no momento.',
         'Defines the module to display a notification in the customer interface, if the customer is logged in while having system maintenance active.' =>
             '',
         'Defines the module to display a notification in the customer interface, if the customer user has not yet selected a time zone.' =>
@@ -6904,9 +6905,9 @@ Thanks for your help!
         'Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = \'/var/lib/wwwrun\';).' =>
             '',
         'Defines the period of time (in minutes) before agent is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
-            '',
+            'Define o período de tempo (em minutos) antes que o agente é marcado como "ausente" devido a inatividade (por exemplo, no widget de "Usuários Logados" ou para o chat).',
         'Defines the period of time (in minutes) before customer is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
-            '',
+            'Define o período de tempo (em minutos) antes que o cliente é marcado como "ausente" devido a inatividade (por exemplo, no widget de "Usuários Logados" ou para o chat).',
         'Defines the postmaster default queue.' => 'Define a fila padrão do postmaster.',
         'Defines the priority in which the information is logged and presented.' =>
             'Define a prioridade em que as informações são registradas e apresentadas.',
@@ -6916,14 +6917,16 @@ Thanks for your help!
             '',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
             '',
-        'Defines the search limit for the stats.' => '',
+        'Defines the search limit for the stats.' => 'Define o limite de pesquisa para as estatísticas.',
         'Defines the search parameters for the AgentCustomerUserAddressBook screen. With the setting \'CustomerTicketTextField\' the values for the recipient field can be specified.' =>
-            '',
+            'Define os parâmetros de pesquisa da tela AgentCustomerUserAddressBook. Com a definição \'CustomerTicketTextField\' os valores para o campo de destinatário podem ser especificados.',
         'Defines the sender for rejected emails.' => 'Define o remetente de e-mails rejeitados.',
         'Defines the separator between the agents real name and the given queue email address.' =>
             '',
         'Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen.' =>
             'Define as colunas mostradas e suas posições na tela de resultado AgentCustomerUserAddressBook.',
+        'Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
+            '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             'Define as permissões padrão disponíveis para clientes dentro da aplicação. Se mais permissões são necessárias, você pode adicioná-las aqui. Permissões devem ser codificadas para serem efetivas. Por favor, assegure-se que, ao adicionar permissões que não as mencionadas, a permissão "rw" seja a última entrada.',
         'Defines the standard size of PDF pages.' => 'Define o tamanho padrão de páginas PDF.',
@@ -6990,11 +6993,11 @@ Thanks for your help!
         'Defines which article sender types should be shown in the preview of a ticket.' =>
             '',
         'Defines which items are available for \'Action\' in third level of the ACL structure.' =>
-            '',
+            'Define quais itens estão disponíveis em \'Ação\' no terceiro nível da estrutura de ACL.',
         'Defines which items are available in first level of the ACL structure.' =>
-            '',
+            'Define quais itens estão disponíveis no primeiro nível da estrutura de ACL.',
         'Defines which items are available in second level of the ACL structure.' =>
-            '',
+            'Define quais itens estão disponíveis em \'Ação\' no segundo nível da estrutura de ACL.',
         'Defines which states should be set automatically (Content), after the pending time of state (Key) has been reached.' =>
             '',
         'Defines, which tickets of which ticket state types should not be listed in linked ticket lists.' =>
@@ -7003,7 +7006,7 @@ Thanks for your help!
         'Delete expired loader cache weekly (Sunday mornings).' => '',
         'Delete expired sessions.' => 'Excluir sessões expiradas',
         'Delete expired ticket draft entries.' => 'Excluir entradas de rascunho de ticket expiradas.',
-        'Delete expired upload cache hourly.' => '',
+        'Delete expired upload cache hourly.' => 'Excluir cache de carregamento expirado de hora em hora.',
         'Delete this ticket' => 'Apagar este chamado',
         'Deleted link to ticket "%s".' => 'Associações do chamado excluídas "%s".',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
@@ -7032,7 +7035,7 @@ Thanks for your help!
         'Determines the next screen after the follow-up screen of a zoomed ticket in the customer interface.' =>
             '',
         'Determines the next screen after the ticket is moved. LastScreenOverview will return the last overview screen (e.g. search results, queueview, dashboard). TicketZoom will return to the TicketZoom.' =>
-            '',
+            'Determina a próxima tela após um ticket ser movido. LastScreenOverview vai retornar para a última tela de visão geral (por exemplo, resultados de pesquisa, visão de filas, painel). TicketZoom irá retornar para o Zoom do Ticket.',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'Determina os estados possíveis para tickets pendentes que mudaram de estado após atingirem o limite de tempo.',
         'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the recipient.' =>
@@ -7072,12 +7075,12 @@ Thanks for your help!
         'Dynamic Fields Checkbox Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => '',
         'Dynamic Fields Drop-down Backend GUI' => '',
-        'Dynamic Fields GUI' => '',
+        'Dynamic Fields GUI' => 'GUI de Campos Dinâmicos',
         'Dynamic Fields Multiselect Backend GUI' => '',
         'Dynamic Fields Overview Limit' => 'Limite da Visualização de Campos Dinâmicos',
         'Dynamic Fields Text Backend GUI' => '',
         'Dynamic Fields used to export the search result in CSV format.' =>
-            '',
+            'Campos Dinâmicos utilizados para exportar os resultados de pesquisa em formato CSV.',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
             '',
         'Dynamic fields limit per page for Dynamic Fields Overview.' => '',
@@ -7086,73 +7089,73 @@ Thanks for your help!
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface.' =>
             '',
         'Dynamic fields shown in the email outbound screen of the agent interface.' =>
-            '',
+            'Campos dinâmicos exibidos na tela de envio de e-mail da interface de agente.',
         'Dynamic fields shown in the process widget in ticket zoom screen of the agent interface.' =>
             '',
         'Dynamic fields shown in the sidebar of the ticket zoom screen of the agent interface.' =>
-            '',
+            'Campos dinâmicos exibidos na barra lateral da tela de zoom de ticket da interface de agente.',
         'Dynamic fields shown in the ticket close screen of the agent interface.' =>
-            '',
+            'Campos dinâmicos exibidos na tela de envio de fechamento de ticket da interface de agente.',
         'Dynamic fields shown in the ticket compose screen of the agent interface.' =>
-            '',
+            'Campos dinâmicos exibidos na tela de composição de ticket da interface de agente.',
         'Dynamic fields shown in the ticket email screen of the agent interface.' =>
-            '',
+            'Campos dinâmicos exibidos na tela de ticket de e-mail da interface de agente.',
         'Dynamic fields shown in the ticket forward screen of the agent interface.' =>
-            '',
+            'Campos dinâmicos exibidos na tela de encaminhamento de ticket da interface de agente.',
         'Dynamic fields shown in the ticket free text screen of the agent interface.' =>
             '',
         'Dynamic fields shown in the ticket medium format overview screen of the agent interface.' =>
-            '',
+            'Campos dinâmicos exibidos na tela de visão geral de ticket formato médio da interface de agente.',
         'Dynamic fields shown in the ticket move screen of the agent interface.' =>
-            '',
+            'Campos dinâmicos exibidos na tela de mover ticket da interface de agente.',
         'Dynamic fields shown in the ticket note screen of the agent interface.' =>
-            '',
+            'Campos dinâmicos exibidos na tela de nota de ticket da interface de agente.',
         'Dynamic fields shown in the ticket overview screen of the customer interface.' =>
             '',
         'Dynamic fields shown in the ticket owner screen of the agent interface.' =>
-            '',
+            'Campos dinâmicos exibidos na tela de proprietário de ticket da interface de agente.',
         'Dynamic fields shown in the ticket pending screen of the agent interface.' =>
-            '',
+            'Campos dinâmicos exibidos na tela de ticket pendente da interface de agente.',
         'Dynamic fields shown in the ticket phone inbound screen of the agent interface.' =>
-            '',
+            'Campos dinâmicos exibidos na tela de ticket de telefonema recebido da interface de agente.',
         'Dynamic fields shown in the ticket phone outbound screen of the agent interface.' =>
-            '',
+            'Campos dinâmicos exibidos na tela de ticket de telefonema realizado da interface de agente.',
         'Dynamic fields shown in the ticket phone screen of the agent interface.' =>
-            '',
+            'Campos dinâmicos exibidos na tela de ticket de telefonema da interface de agente.',
         'Dynamic fields shown in the ticket preview format overview screen of the agent interface.' =>
             '',
         'Dynamic fields shown in the ticket print screen of the agent interface.' =>
-            '',
+            'Campos dinâmicos exibidos na tela de impressão de ticket da interface de agente.',
         'Dynamic fields shown in the ticket print screen of the customer interface.' =>
             '',
         'Dynamic fields shown in the ticket priority screen of the agent interface.' =>
-            '',
+            'Campos dinâmicos exibidos na tela de prioridade de ticket da interface de agente.',
         'Dynamic fields shown in the ticket responsible screen of the agent interface.' =>
-            '',
+            'Campos dinâmicos exibidos na tela de responsável por ticket da interface de agente.',
         'Dynamic fields shown in the ticket search overview results screen of the customer interface.' =>
             '',
         'Dynamic fields shown in the ticket search screen of the agent interface.' =>
-            '',
+            'Campos dinâmicos mostrados na tela de pesquisa de ticket da interface de agente.',
         'Dynamic fields shown in the ticket search screen of the customer interface.' =>
             '',
         'Dynamic fields shown in the ticket small format overview screen of the agent interface.' =>
-            '',
+            'Campos dinâmicos exibidos na tela de visão geral de ticket formato pequeno da interface de agente.',
         'Dynamic fields shown in the ticket zoom screen of the customer interface.' =>
             '',
         'DynamicField' => 'CampoDinâmico',
         'DynamicField backend registration.' => '',
-        'DynamicField object registration.' => '',
+        'DynamicField object registration.' => 'Registro de objeto de Campo Dinâmico.',
         'DynamicField_%s' => 'DynamicField_%s',
         'E-Mail Outbound' => 'E-mail de Saída',
-        'Edit Customer Companies.' => '',
-        'Edit Customer Users.' => '',
+        'Edit Customer Companies.' => 'Editar Empresas Clientes.',
+        'Edit Customer Users.' => 'Editar Usuários Clientes.',
         'Edit appointment' => 'Editar compromisso',
         'Edit customer company' => 'Editar empresa de cliente',
         'Email Addresses' => 'Endereços de E-mail',
-        'Email Outbound' => '',
+        'Email Outbound' => 'E-mail Enviado',
         'Email Resend' => 'Reenviar e-mail',
-        'Email communication channel.' => '',
-        'Enable highlighting queues based on ticket age.' => '',
+        'Email communication channel.' => 'Canal de comunicação de e-mail',
+        'Enable highlighting queues based on ticket age.' => 'Ativar o realce de filas baseado na idade do ticket',
         'Enable keep-alive connection header for SOAP responses.' => '',
         'Enable this if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
@@ -7167,7 +7170,7 @@ Thanks for your help!
             '',
         'Enables or disables the debug mode over frontend interface.' => '',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
-            '',
+            'Ativa ou desativa a funcionalidade de observador de ticket, para acompanhar tickets sem ser proprietário nem responsável.',
         'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>
             '',
         'Enables the minimal ticket counter size (if "Date" was selected as TicketNumberGenerator).' =>
@@ -7178,8 +7181,8 @@ Thanks for your help!
             '',
         'Enables ticket responsible feature, to keep track of a specific ticket.' =>
             '',
-        'Enables ticket type feature.' => '',
-        'Enables ticket watcher feature only for the listed groups.' => '',
+        'Enables ticket type feature.' => 'Ativa a funcionalidade de tipo de ticket.',
+        'Enables ticket watcher feature only for the listed groups.' => 'Ativa a funcionalidade de observação de ticket apenas para os grupos listados.',
         'English (Canada)' => 'Inglês (Canadá)',
         'English (United Kingdom)' => 'Inglês (Reino Unido)',
         'English (United States)' => 'Inglês (Estados Unidos)',
@@ -7203,7 +7206,7 @@ Thanks for your help!
         'Event module that updates customer user object name for dynamic fields.' =>
             'Módulo de evento que atualiza o nome do objeto usuário cliente para campos dinâmicos.',
         'Event module that updates customer user search profiles if login changes.' =>
-            '',
+            'Módulo de evento que atualiza os perfis de pesquisa de usuário cliente se o login for alterado.',
         'Event module that updates customer user service membership if login changes.' =>
             '',
         'Event module that updates customer users after an update of the Customer.' =>
@@ -7213,7 +7216,7 @@ Thanks for your help!
         'Event module that updates tickets after an update of the Customer.' =>
             'Módulo de evento que atualiza tickets após uma atualização de Cliente.',
         'Events Ticket Calendar' => 'Calendário de Eventos de Chamado',
-        'Example package autoload configuration.' => '',
+        'Example package autoload configuration.' => 'Exemplo de configuração de autocarregamento de pacote.',
         'Execute SQL statements.' => 'Executar consultas SQL.',
         'Executes a custom command or module. Note: if module is used, function is required.' =>
             '',
@@ -7227,12 +7230,12 @@ Thanks for your help!
         'Executes follow-up checks on the raw source email for mails that don\'t have a ticket number in the subject.' =>
             '',
         'Exports the whole article tree in search result (it can affect the system performance).' =>
-            '',
+            'Exporta toda a arvore de artigos no resultado de pesquisa (pode afetar a performance de sistema).',
         'External' => 'Externo',
         'External Link' => 'Link Externo',
         'Fetch emails via fetchmail (using SSL).' => '',
-        'Fetch emails via fetchmail.' => '',
-        'Fetch incoming emails from configured mail accounts.' => '',
+        'Fetch emails via fetchmail.' => 'Coletar e-mails via fetchmail.',
+        'Fetch incoming emails from configured mail accounts.' => 'Coletar e-mails recebidos das contas de e-mail configuradas.',
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
             '',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt.' =>
@@ -7257,9 +7260,9 @@ Thanks for your help!
         'Force the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
             '',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
-            '',
+            'Força a codificação de e-mails enviados (7bit|8bit|quoted-printable|base64).',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
-            '',
+            'Força a escolha de um estado de ticket diferente (do atual) após ação de bloqueio. Defina o estado atual como chave e o próximo estado após a ação de bloqueio como conteúdo.',
         'Forces to unlock tickets after being moved to another queue.' =>
             'Força o desbloqueio de chamados após serem movidos para outra fila.',
         'Forwarded to "%s".' => 'Encaminhado para "%s".',
@@ -7331,25 +7334,25 @@ Thanks for your help!
         'Hindi' => 'Hindu',
         'Hungarian' => 'Húngaro',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
-            '',
+            'Se "DB" foi selecionado para Customer::AuthModule, um driver de banco de dados (normalmente autodetecção é utilizada) pode ser especificado.',
         'If "DB" was selected for Customer::AuthModule, a password to connect to the customer table can be specified.' =>
-            '',
+            'Se "DB" foi selecionado para Customer::AuthModule, uma senha para conectar com a tabela de clientes pode ser especificada.',
         'If "DB" was selected for Customer::AuthModule, a username to connect to the customer table can be specified.' =>
-            '',
+            'Se "DB" foi selecionado para Customer::AuthModule, um nome de usuário para conectar com a tabela de clientes pode ser especificada.',
         'If "DB" was selected for Customer::AuthModule, the DSN for the connection to the customer table must be specified.' =>
-            '',
+            'Se "DB" foi selecionado para Customer::AuthModule, o DSN para conectar com a tabela de clientes deve ser especificado.',
         'If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.' =>
-            '',
+            'Se "DB" foi selecionado para Customer::AuthModule, o nome da coluna da Senha de Cliente na tabela do cliente deve ser especificada.',
         'If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.' =>
-            '',
+            'Se "DB" foi selecionado para Customer::AuthModule, o tipo de criptografia para senhas deve ser especificado.',
         'If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.' =>
-            '',
+            'Se "DB" foi selecionado para Customer::AuthModule, o nome da coluna da Chave de Cliente na tabela do cliente deve ser especificado.',
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
-            '',
+            'Se "DB" foi selecionado para Customer::AuthModule, o nome da tabela onde os dados de cliente serão armazenados deve ser especificado.',
         'If "DB" was selected for SessionModule, a table in database where session data will be stored must be specified.' =>
-            '',
+            'Se "DB" foi selecionado para SessionModule, o nome da tabela do banco de dados onde os dados serão armazenados deve ser especificado.',
         'If "FS" was selected for SessionModule, a directory where the session data will be stored must be specified.' =>
-            '',
+            'Se "FS" foi selecionado para SessionModule, o diretório onde os dados de sessão serão armazenados deve ser especificado.',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
             '',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
@@ -7359,9 +7362,9 @@ Thanks for your help!
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
             'Se "LDAP" foi selecionado para Customer::AuthModule e parâmetros especiais são necessários para o módulo perl Net::LDAP, estes podem ser especificados aqui. Veja "perldoc Net::LDAP" para mais informações sobre os parâmetros.',
         'If "LDAP" was selected for Customer::AuthModule and your users have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the password for this special user here.' =>
-            '',
+            'Se "LDAP" foi selecionado para Customer::AuthModule e seus usuários têm apenas acesso anônimo para a árvore do LDAP, mas você quer pesquisar os dados, você pode fazer isso com um usuário que tem acesso ao diretório LDAP. Especifique aqui a senha deste usuário especial.',
         'If "LDAP" was selected for Customer::AuthModule and your users have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the username for this special user here.' =>
-            '',
+            'Se "LDAP" foi selecionado para Customer::AuthModule e seus usuários têm apenas acesso anônimo para a árvore do LDAP, mas você quer pesquisar os dados, você pode fazer isso com um usuário que tem acesso ao diretório LDAP. Especifique aqui o nome deste usuário especial.',
         'If "LDAP" was selected for Customer::AuthModule, the BaseDN must be specified.' =>
             'Se "LDAP" foi selecionado para Customer::AuthModule, BaseDN precisa ser especificado.',
         'If "LDAP" was selected for Customer::AuthModule, the LDAP host can be specified.' =>
@@ -7385,7 +7388,7 @@ Thanks for your help!
         'If "Radius" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can\'t be established due to network problems.' =>
             '',
         'If "Sendmail" was selected as SendmailModule, the location of the sendmail binary and the needed options must be specified.' =>
-            '',
+            'Se "Sendmail" foi selecionado como SendmailModule, o local do binário de sendmail e as opções necessárias precisam ser especificados.',
         'If "SysLog" was selected for LogModule, a special log facility can be specified.' =>
             '',
         'If "SysLog" was selected for LogModule, the charset that should be used for logging can be specified.' =>
@@ -7395,9 +7398,9 @@ Thanks for your help!
         'If "file" was selected for LogModule, a logfile must be specified. If the file doesn\'t exist, it will be created by the system.' =>
             '',
         'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
-            '',
+            'Se ativo, nenhuma expressão regular pode coincidir com o e-mail do usuário para permitir o registro.',
         'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
-            '',
+            'Se ativo, uma expressão regular deve coincidir com o e-mail do usuário para permitir o registro.',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, a password must be specified.' =>
             'Se algum dos mecanismos "SMTP" foi selecionado como SendmailModule, e autenticação no servidor de e-mails é necessária, uma senha precisa ser especificada.',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, an username must be specified.' =>
@@ -7422,7 +7425,7 @@ Thanks for your help!
             'Se ativo, chamados por fone  e chamados por e-mail serão abertos em uma nova janela.',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
             '',
-        'If enabled, the cache data be held in memory.' => '',
+        'If enabled, the cache data be held in memory.' => 'Se ativado, os dados de cache serão mantidos na memória.',
         'If enabled, the cache data will be stored in cache backend.' => '',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             '',
@@ -7447,7 +7450,7 @@ Thanks for your help!
         'If this setting is enabled, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             'Se esta definição estiver ativa, modificações locais não serão marcadas como erros no gerenciamento de pacotes e no coletor de dados de suporte.',
         'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
-            '',
+            'Se você for ficar ausente, você pode desejar informar os outros usuários ao definir as datas exatas de sua ausência.',
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Import appointments screen.' => 'Tela de importação de compromissos',
@@ -7455,7 +7458,7 @@ Thanks for your help!
             'Incluir tickets de subfilas como padrão quando selecionar uma fila.',
         'Include unknown customers in ticket filter.' => 'Incluir clientes desconhecidos no filtro de ticket.',
         'Includes article create times in the ticket search of the agent interface.' =>
-            '',
+            'Inclui horários de criação de artigos na pesquisa de ticket da interface de agente.',
         'Incoming Phone Call.' => 'Telefonema Recebido.',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
@@ -7502,25 +7505,25 @@ Thanks for your help!
         'Link customers to groups.' => 'Associar clientes a grupos.',
         'Link queues to auto responses.' => 'Associar filas a respostas.',
         'Link roles to groups.' => 'Associar papéis a grupos.',
-        'Link templates to attachments.' => '',
+        'Link templates to attachments.' => 'Associa modelos com anexos.',
         'Link templates to queues.' => 'Associar modelos a filas.',
         'Link this ticket to other objects' => 'Vincular este chamado a outros objetos',
         'Links 2 tickets with a "Normal" type link.' => 'Associa 2 chamados com um link do tipo "Normal".',
         'Links 2 tickets with a "ParentChild" type link.' => 'Associa 2 chamados com um link do tipo "Pai-Filho".',
         'Links appointments and tickets with a "Normal" type link.' => 'Associar compromissos e chamados como uma tipo "Normal".',
         'List of CSS files to always be loaded for the agent interface.' =>
-            '',
+            'Lista de arquivos CSS que sempre serão carregados na interface de agente.',
         'List of CSS files to always be loaded for the customer interface.' =>
             '',
         'List of JS files to always be loaded for the agent interface.' =>
-            '',
+            'Lista de arquivos JS que sempre serão carregados na interface de agente.',
         'List of JS files to always be loaded for the customer interface.' =>
             '',
         'List of all CustomerCompany events to be displayed in the GUI.' =>
-            '',
+            'Lista de todos eventos de Empresa Cliente que serão apresentados na GUI.',
         'List of all CustomerUser events to be displayed in the GUI.' => 'Lista de todos os eventos CustomerUser a serem exibidos na interface.',
         'List of all DynamicField events to be displayed in the GUI.' => 'Lista de todos eventos de Campos Dinâmicos a serem exibidos no GUI.',
-        'List of all LinkObject events to be displayed in the GUI.' => '',
+        'List of all LinkObject events to be displayed in the GUI.' => 'Lista de todos eventos LinkObject que serão apresentados na GUI.',
         'List of all Package events to be displayed in the GUI.' => 'Lista de todos eventos de Pacote a serem exibidos no GUI.',
         'List of all appointment events to be displayed in the GUI.' => 'Lista de todos os eventos de compromisso que serão exibido na GUI.',
         'List of all article events to be displayed in the GUI.' => 'Lista de todos eventos de artigo a serem exibidos no GUI.',
@@ -7530,9 +7533,9 @@ Thanks for your help!
         'List of colors in hexadecimal RGB which will be available for selection during calendar creation. Make sure the colors are dark enough so white text can be overlayed on them.' =>
             'Lista de cores em RGB hexadecimal que estarão disponíveis para seleção durante a criação do calendário. Certifique-se de as cores são escuras o suficiente, texto brancas podem ser sobrepostos. ',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
-            '',
+            'Lista de Modelos Padrão que serão designados automaticamente a novas Filas quando criadas.',
         'List of responsive CSS files to always be loaded for the agent interface.' =>
-            '',
+            'Lista de arquivos responsivos CSS que sempre são carregados na interface de agente.',
         'List of responsive CSS files to always be loaded for the customer interface.' =>
             '',
         'List view' => 'Visão de lista',
@@ -7547,11 +7550,11 @@ Thanks for your help!
         'Logged-In Users' => 'Usuário logados',
         'Logout of customer panel.' => 'Logout do painel de clientes.',
         'Look into a ticket!' => 'Examinar em detalhes o conteúdo de um chamado!',
-        'Loop protection: no auto-response sent to "%s".' => '',
+        'Loop protection: no auto-response sent to "%s".' => 'Proteção anti-loop: nenhuma resposta automática enviada para "%s".',
         'Mail Accounts' => 'Contas de E-mail',
         'MailQueue configuration settings.' => 'Definições de configuração de Fila de E-mail.',
-        'Main menu item registration.' => '',
-        'Main menu registration.' => '',
+        'Main menu item registration.' => 'Registro de item de menu principal.',
+        'Main menu registration.' => 'Registro do menu principal.',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
             '',
         'Makes the application check the syntax of email addresses.' => '',
@@ -7562,7 +7565,7 @@ Thanks for your help!
         'Manage PGP keys for email encryption.' => 'Gerenciar chaves PGP para encriptação de e-mail.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Gerenciar contas POP3 e IMAP para buscar e-mails.',
         'Manage S/MIME certificates for email encryption.' => 'Gerenciar certificados S/MIME para encriptação de e-mail.',
-        'Manage System Configuration Deployments.' => '',
+        'Manage System Configuration Deployments.' => 'Gerenciar Implantações de Configuração de Sistema',
         'Manage different calendars.' => 'Gerenciar calendário diferentes.',
         'Manage existing sessions.' => 'Gerenciar sessões existentes.',
         'Manage support data.' => 'Gerenciar dados de suporte.',
@@ -7571,34 +7574,34 @@ Thanks for your help!
         'Mark as Spam!' => 'Marque como Spam',
         'Mark this ticket as junk!' => 'Marcar este chamado como lixo!',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
-            '',
+            'Tamanho máximo (em caracteres) da tabela de informações do cliente (telefone e e-mail) na tela de composição.',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
-            '',
+            'Tamanho máximo (em linhas) da caixa de agentes informados na interface de agente.',
         'Max size (in rows) of the involved agents box in the agent interface.' =>
-            '',
+            'Tamanho máximo (em linhas) da caixa de agentes envolvidos na interface de agente.',
         'Max size of the subjects in an email reply and in some overview screens.' =>
-            '',
+            'Tamanho máximo dos assuntos em uma resposta de e-mails e em algumas telas de visão geral.',
         'Maximal auto email responses to own email-address a day (Loop-Protection).' =>
             '',
         'Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).' =>
             '',
         'Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).' =>
-            '',
+            'Tamanho máximo em KBytes dos e-mails que podem ser coletados via POP3/POP3S/IMAP/IMAPS (KBytes).',
         'Maximum Number of a calendar shown in a dropdown.' => '',
         'Maximum length (in characters) of the dynamic field in the article of the ticket zoom view.' =>
-            '',
+            'Tamanho máximo (em caracteres) do campo dinâmico no artigo na visão de zoom de ticket.',
         'Maximum length (in characters) of the dynamic field in the sidebar of the ticket zoom view.' =>
-            '',
+            'Tamanho máximo (em caracteres) do campo dinâmico na barra lateral na visão de zoom de ticket.',
         'Maximum number of active calendars in overview screens. Please note that large number of active calendars can have a performance impact on your server by making too much simultaneous calls.' =>
             'Número máximo de calendário ativos nas visões gerais. Por favor, note que um numero grande de calendário ativos você poderá ter impactos na performance do servidor devido a muitas chamadas simultâneas.',
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
-            '',
+            'Número máximo de tickets a serem exibidos no resultado de uma pesquisa na interface de agente.',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
             '',
         'Maximum number of tickets to be displayed in the result of this operation.' =>
-            '',
+            'Número máxiom de tickets a serem apresentados como resultado desta operação.',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
-            '',
+            'Tamanho máximo (em caracteres) da tabela de informação de cliente na visão de zoom de ticket.',
         'Medium' => 'Médio',
         'Merge this ticket and all articles into another ticket' => 'Agrupar esse ticket e todos artigos com um outro ticket',
         'Merged Ticket (%s/%s) to (%s/%s).' => 'Ticket Agrupado (%s/%s) com (%s/%s).',
@@ -7624,7 +7627,7 @@ Thanks for your help!
             '',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' =>
             '',
-        'Module to filter encrypted bodies of incoming messages.' => '',
+        'Module to filter encrypted bodies of incoming messages.' => 'Módulo para filtrar corpos criptografados de mensagens recebidas.',
         'Module to generate accounted time ticket statistics.' => '',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' =>
             '',
@@ -7658,7 +7661,7 @@ Thanks for your help!
             '',
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
             '',
-        'NameX' => '',
+        'NameX' => 'NomeX',
         'New Ticket' => 'Novo Chamado',
         'New Tickets' => 'Chamados Novos',
         'New Window' => 'Nova Janela',
@@ -7668,9 +7671,9 @@ Thanks for your help!
         'News about OTRS releases!' => 'Notícias sobre lançamentos OTRS!',
         'News about OTRS.' => 'Notícias sobre OTRS.',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
-            '',
+            'Próximos estados de ticket possíveis após adicionar uma nota de telefonema na tela de telefonema recebido da interface de agente.',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
-            '',
+            'Próximos estados de ticket possíveis após adicionar uma nota de telefonema na tela de ticket de telefonema realizado da interface de agente.',
         'None' => 'Nenhum',
         'Norwegian' => 'Norueguês',
         'Notification Settings' => 'Configurações de notificação',
@@ -7681,7 +7684,7 @@ Thanks for your help!
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
-            '',
+            'Número de tickets a serem exibidos em cada página de resultado de pesquisa na interface de agente.',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
         'Number of tickets to be displayed in each page.' => 'Número de tickets que serão exibidos por página.',
@@ -7690,7 +7693,7 @@ Thanks for your help!
         'OTRS can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
         'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
-            '',
+            'OTRS não suporta Agendamentos recorrentes sem uma data de término ou um número de iterações. Durante o processo de importação, pode ocorrer que o arquivo ICS não contenha esses Agendamentos. Ao invés disso, o sistema cria Agendamentos no passado mais Agendamentos para os próximos N meses (120 meses/10 anos por padrão).',
         'Open Tickets / Need to be answered' => 'Chamados Abertos / Precisam ser Respondidos',
         'Open an external link!' => 'Abra um link externo!',
         'Open tickets (customer user)' => 'Chamados abertos (usuário cliente)',
@@ -7787,25 +7790,25 @@ Thanks for your help!
             '',
         'Parameters for the pages (in which the tickets are shown) of the ticket preview overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
-        'Parameters of the example SLA attribute Comment2.' => '',
-        'Parameters of the example queue attribute Comment2.' => '',
-        'Parameters of the example service attribute Comment2.' => '',
+        'Parameters of the example SLA attribute Comment2.' => 'Parâmetros do atributo SLA de exemplo Comentário2.',
+        'Parameters of the example queue attribute Comment2.' => 'Parâmetros do atributo fila de exemplo Comentário2.',
+        'Parameters of the example service attribute Comment2.' => 'Parâmetros do atributo de serviço de exemplo Comentário2.',
         'Parent' => 'Pai',
         'ParentChild' => 'Pai e Filho',
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
-            '',
+            'Caminho para o arquivo de log (aplica apenas se "FS" foi selecionado para LoopProtectionModule e é mandatório).',
         'Pending time' => 'Data de pendência',
         'People' => 'Pessoas',
         'Performs the configured action for each event (as an Invoker) for each configured web service.' =>
             '',
-        'Permitted width for compose email windows.' => '',
-        'Permitted width for compose note windows.' => '',
+        'Permitted width for compose email windows.' => 'Largura permitida para janelas de composição de e-mail.',
+        'Permitted width for compose note windows.' => 'Largura permitida para janelas de composição de nota.',
         'Persian' => 'Persa',
         'Phone Call Inbound' => 'Chamada Telefônica Recebida',
         'Phone Call Outbound' => 'Chamada Telefônica Realizada',
         'Phone Call.' => 'Telefonema.',
         'Phone call' => 'Chamada telefônica',
-        'Phone communication channel.' => '',
+        'Phone communication channel.' => 'Canal de Comunicação de Telefonema.',
         'Phone-Ticket' => 'Chamado Fone',
         'Picture Upload' => 'Upload de Imagem',
         'Picture upload module.' => 'Módulo de upload de imagem.',
@@ -7838,7 +7841,7 @@ Thanks for your help!
         'Public Calendar' => 'Calendário público',
         'Public calendar.' => 'Calendário público',
         'Queue view' => 'Visão de Filas',
-        'Queues ↔ Auto Responses' => '',
+        'Queues ↔ Auto Responses' => 'Filas ↔ Respostas Automáticas',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Reconstruir o índice de tickets para AgentTicketQueue.',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             '',
@@ -7848,14 +7851,14 @@ Thanks for your help!
         'Reminder Tickets' => 'Chamados com Lembrete',
         'Removed subscription for user "%s".' => 'Removida assinatura para o usuário "%s".',
         'Removes old system configuration deployments (Sunday mornings).' =>
-            '',
-        'Removes old ticket number counters (each 10 minutes).' => '',
+            'Remove implantações de configuração de sistema antigas (manhãs de Domingo).',
+        'Removes old ticket number counters (each 10 minutes).' => 'Remove contadores de número de ticket antigos (a cada 10 minutos).',
         'Removes the ticket watcher information when a ticket is archived.' =>
             'Remove a informação de monitoramento quando o chamado é arquivado.',
         'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be enabled in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
-            '',
+            'Substitui o remetente original pelo endereço de e-mail do cliente atual ao compor uma resposta na tela de composição de ticket da interface de agente.',
         'Reports' => 'Relatórios',
         'Reports (OTRS Business Solution™)' => 'Relatórios (OTRS Business Solution™)',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
@@ -7865,13 +7868,13 @@ Thanks for your help!
         'Required permissions to use the close ticket screen in the agent interface.' =>
             'Permissões necessárias para utilizar a janela de fechamento de ticket na interface de agente.',
         'Required permissions to use the email outbound screen in the agent interface.' =>
-            '',
+            'Permissões necessárias para utilização da tela de envio de e-mail na interface de agente.',
         'Required permissions to use the email resend screen in the agent interface.' =>
             'Permissões necessárias para utilizar a tela de reenvio de e-mail na interface de agente.',
         'Required permissions to use the ticket bounce screen in the agent interface.' =>
             '',
         'Required permissions to use the ticket compose screen in the agent interface.' =>
-            '',
+            'Permissões necessárias para utilização da tela de composição de ticket na interface de agente.',
         'Required permissions to use the ticket forward screen in the agent interface.' =>
             'Permissões necessárias para utilizar a tela de encaminhamento na interface de agente.',
         'Required permissions to use the ticket free text screen in the agent interface.' =>
@@ -7900,7 +7903,7 @@ Thanks for your help!
         'Responsible Tickets' => 'Tickets de sua Responsabilidade',
         'Responsible Tickets.' => 'Tickets de sua Responsabilidade.',
         'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
-            '',
+            'Recupera um ticket do arquivo (somente se o evento é uma mudança de estado para qualquer estado aberto disponível).',
         'Retains all services in listings even if they are children of invalid elements.' =>
             '',
         'Right' => 'Direita',
@@ -7913,7 +7916,7 @@ Thanks for your help!
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
         'Runs the system in "Demo" mode. If enabled, agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
-            '',
+            'Executa o sistema na versão "Demo". Se ativado, agentes podem alterar permissões, como a seleção de língua e tema, através da interface web de agente. Essas mudanças só ficam válidas durante a sessão atual. Não será possível aos agentes alterar suas senhas.',
         'Russian' => 'Russo',
         'S/MIME Certificates' => 'Certificados S/MIME',
         'SMS' => 'SMS',
@@ -7921,7 +7924,7 @@ Thanks for your help!
         'Salutations' => 'Saudações',
         'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
-            '',
+            'Salva os anexos de artigos. "DB" armazena todos os dados no banco de dados (não recomendado para armazenar anexos grandes). "FS" armazenao os dados no filesystem; isto é mais rápido, mas o servidor web tem que rodar através do usuário OTRS. Você pode alterar entre módulos sem perder dados mesmo quando um sistema já estiver em produção. Observação: Buscar nomes de anexos não é suportado quando "FS" é utilizado.',
         'Schedule a maintenance period.' => 'Agendar um período de manutenção',
         'Screen after new ticket' => 'Tela Após Novo Chamado',
         'Search Customer' => 'Procurar cliente',
@@ -7943,8 +7946,8 @@ Thanks for your help!
         'Select your frontend Theme.' => 'Selecione seu tema de interface.',
         'Select your personal time zone. All times will be displayed relative to this time zone.' =>
             'Selecione seu fuso horário pessoal. Todos os horários serão exibidos conforme este fuso horário.',
-        'Select your preferred layout for the software.' => '',
-        'Select your preferred theme for OTRS.' => '',
+        'Select your preferred layout for the software.' => 'Selecione seu layout preferido para o software.',
+        'Select your preferred theme for OTRS.' => 'Selecione seu tema preferido do OTRS.',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             '',
@@ -7952,26 +7955,26 @@ Thanks for your help!
             '',
         'Send new outgoing mail from this ticket' => 'Enviar novo e-mail de saída deste chamado',
         'Send notifications to users.' => 'Enviar notificações para usuários.',
-        'Sender type for new tickets from the customer inteface.' => '',
+        'Sender type for new tickets from the customer inteface.' => 'Tipo de remetente para novos tickets da interface de cliente.',
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
             'Enviar notificação de atendente sobre revisões apenas para o proprietário, se o chamado estiver desbloqueado (o padrão é enviar a notificação para todos os atendentes).',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             '',
-        'Sends customer notifications just to the mapped customer.' => '',
-        'Sends registration information to OTRS group.' => '',
+        'Sends customer notifications just to the mapped customer.' => 'Envia notificações de cliente somente para os clientes mapeados.',
+        'Sends registration information to OTRS group.' => 'Envia informações de registro para o Grupo OTRS.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
-            '',
+            'Envia notificações de lembrete de ticket desbloqueado após atingir a data de lembrete (enviado apenas para o proprietário do ticket).',
         'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
-            '',
-        'Sent "%s" notification to "%s" via "%s".' => '',
+            'Envia as notificações que estão configuradas na interface de administração em "Notificações de Ticket".',
+        'Sent "%s" notification to "%s" via "%s".' => 'Enviada a notificação "%s" para "%s" via "%s".',
         'Sent auto follow-up to "%s".' => '',
         'Sent auto reject to "%s".' => '',
         'Sent auto reply to "%s".' => '',
         'Sent email to "%s".' => 'E-mail enviado para "%s".',
         'Sent email to customer.' => 'E-mail enviado para o cliente.',
         'Sent notification to "%s".' => 'Notificação enviada para "%s".',
-        'Serbian Cyrillic' => '',
-        'Serbian Latin' => '',
+        'Serbian Cyrillic' => 'Sérvio Cirílico',
+        'Serbian Latin' => 'Sérvio Latim',
         'Service Level Agreements' => 'Acordos de Nível de Serviço',
         'Service view' => 'Visão de serviços',
         'ServiceView' => 'Visão de Serviço',
@@ -7981,7 +7984,7 @@ Thanks for your help!
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
         'Set the limit of tickets that will be executed on a single genericagent job execution.' =>
-            '',
+            'Define o limite de tickets que serão executados em uma única execução de job do Agente Genérico.',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
         'Set the minimum log level. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages. The order of log levels is: \'debug\', \'info\', \'notice\' and \'error\'.' =>
@@ -7998,7 +8001,7 @@ Thanks for your help!
         'Sets if ticket owner must be selected by the agent.' => 'Define se o proprietário do ticket deve ser selecionado pelo agente.',
         'Sets if ticket responsible must be selected by the agent.' => 'Define se o responsável por um ticket deve ser selecionado pelo agente.',
         'Sets the PendingTime of a ticket to 0 if the state is changed to a non-pending state.' =>
-            '',
+            'Define o Tempo de Pendente de um ticket para 0 se o estado mudar para um estado que não é pendente.',
         'Sets the age in minutes (first level) for highlighting queues that contain untouched tickets.' =>
             '',
         'Sets the age in minutes (second level) for highlighting queues that contain untouched tickets.' =>
@@ -8006,7 +8009,7 @@ Thanks for your help!
         'Sets the configuration level of the administrator. Depending on the config level, some sysconfig options will be not shown. The config levels are in in ascending order: Expert, Advanced, Beginner. The higher the config level is (e.g. Beginner is the highest), the less likely is it that the user can accidentally configure the system in a way that it is not usable any more.' =>
             '',
         'Sets the count of articles visible in preview mode of ticket overviews.' =>
-            '',
+            'Define o número de artigos visíveis no modo de visão prévia de visões gerais de ticket.',
         'Sets the default article customer visibility for new email tickets in the agent interface.' =>
             '',
         'Sets the default article customer visibility for new phone tickets in the agent interface.' =>
@@ -8028,9 +8031,9 @@ Thanks for your help!
         'Sets the default error message for the login screen on Agent and Customer interface, it\'s shown when a running system maintenance period is active.' =>
             '',
         'Sets the default link type of split tickets in the agent interface.' =>
-            '',
+            'Define o tipo de associação padrão de tickets divididos na interface de agente.',
         'Sets the default link type of splitted tickets in the agent interface.' =>
-            '',
+            'Define o tipo de associação padrão de tickets divididos na interface de agente.',
         'Sets the default message for the login screen on Agent and Customer interface, it\'s shown when a running system maintenance period is active.' =>
             '',
         'Sets the default message for the notification is shown on a running system maintenance period.' =>
@@ -8070,9 +8073,9 @@ Thanks for your help!
         'Sets the default text for new email tickets in the agent interface.' =>
             '',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
-            '',
+            'Define o tempo de inatividade (em segundos) que deve transcorrer até que a sessão seja encerrada e o usuários seja deslogado.',
         'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents.' =>
-            '',
+            'Define o número máximo de agentes ativos no intervalo de tempo definido em SessionMaxIdleTime antes que um alerta fique visível para os agentes logados.',
         'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime.' =>
             'Define o número máximo de agentes ativos dentro do período de tempo registrado em SessionMaxIdleTime.',
         'Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime.' =>
@@ -8200,15 +8203,15 @@ Thanks for your help!
         'Show a responsible selection in phone and email tickets in the agent interface.' =>
             '',
         'Show article as rich text even if rich text writing is disabled.' =>
-            '',
+            'Mostrar artigo como rich text mesmo quando escrita em rich text estiver desativada.',
         'Show command line output.' => '',
-        'Show queues even when only locked tickets are in.' => '',
+        'Show queues even when only locked tickets are in.' => 'Mostrar filas mesmo quando apenas contiverem tickets bloqueados.',
         'Show the current owner in the customer interface.' => '',
         'Show the current queue in the customer interface.' => '',
         'Show the history for this ticket' => 'Mostrar o histórico deste chamado',
         'Show the ticket history' => 'Mostrar histórico do chamado',
         'Shows a count of attachments in the ticket zoom, if the article has attachments.' =>
-            '',
+            'Mostra o número de anexos no zoom de ticket, se o artigo contiver anexos.',
         'Shows a link in the menu for creating a calendar appointment linked to the ticket directly from the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             'Mostra um link no menu para criar um compromisso de calendário vinculado ao chamado na visão ticket zoom na interface do atendente. Controle de acesso adicional para mostrar ou não o vínculo pode ser feito usando a chave "Group" e o conteúdo como "rw:group1;move_into:group2". Para agrupar itens de menu use a chave "ClusterName" e para o conteúdo qualquer nome que deseje ver na interface do usuário. Use "ClusterPriority" para configurar a ordem de um determinado conjunto dentro do toolbar.',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -8224,7 +8227,7 @@ Thanks for your help!
         'Shows a link in the menu to add a note in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
         'Shows a link in the menu to add a note to a ticket in every ticket overview of the agent interface.' =>
-            '',
+            'Mostra um link no menu para adicionar uma nota em um ticket em todas visões gerais de ticket da interface de agente.',
         'Shows a link in the menu to add a phone call inbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
         'Shows a link in the menu to add a phone call outbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -8236,7 +8239,7 @@ Thanks for your help!
         'Shows a link in the menu to change the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
         'Shows a link in the menu to close a ticket in every ticket overview of the agent interface.' =>
-            '',
+            'Mostra um link no menu para fechar um ticket em todas visões gerais de ticket da interface de agente.',
         'Shows a link in the menu to close a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
         'Shows a link in the menu to delete a ticket in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -8244,19 +8247,19 @@ Thanks for your help!
         'Shows a link in the menu to delete a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
         'Shows a link in the menu to enroll a ticket into a process in the ticket zoom view of the agent interface.' =>
-            '',
+            'Mostra um link no menu para registrar um ticket a um processo na visão de zoom do ticket na interface de agente.',
         'Shows a link in the menu to go back in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
         'Shows a link in the menu to lock / unlock a ticket in the ticket overviews of the agent interface.' =>
-            '',
+            'Mostra um link no menu para bloquear / desbloquear um ticket em todas visões gerais de ticket da interface de agente.',
         'Shows a link in the menu to lock/unlock tickets in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
         'Shows a link in the menu to move a ticket in every ticket overview of the agent interface.' =>
-            '',
+            'Mostra um link no menu para mover um ticket em todas visões gerais de ticket da interface de agente.',
         'Shows a link in the menu to print a ticket or an article in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
         'Shows a link in the menu to see the history of a ticket in every ticket overview of the agent interface.' =>
-            '',
+            'Mostra um link no menu para visualizar o histórico de um ticket em todas visões gerais de ticket da interface de agente.',
         'Shows a link in the menu to see the priority of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
         'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -8266,9 +8269,9 @@ Thanks for your help!
         'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
         'Shows a link in the menu to set the priority of a ticket in every ticket overview of the agent interface.' =>
-            '',
+            'Mostra um link no menu para definir a prioridade de um ticket em todas visões gerais de ticket da interface de agente.',
         'Shows a link in the menu to zoom a ticket in the ticket overviews of the agent interface.' =>
-            '',
+            'Mostra um link no menu para dar zoom em um ticket em todas visões gerais de ticket da interface de agente.',
         'Shows a link to access article attachments via a html online viewer in the zoom view of the article in the agent interface.' =>
             'Mostra um link para acessar os anexos do artigo via visualizador html integrado na visão de detalhe do artigo da interface de atendente.',
         'Shows a link to download article attachments in the zoom view of the article in the agent interface.' =>
@@ -8332,27 +8335,27 @@ Thanks for your help!
         'Shows link to external page in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Shows the articles sorted normally or in reverse, under ticket zoom in the agent interface.' =>
-            '',
+            'Mostra os artigos ordenados normalmente ou em reverso no zoom de ticket da interface de agente.',
         'Shows the customer user information (phone and email) in the compose screen.' =>
-            '',
+            'Mostra informações do usuário cliente (telefone e e-mail) na tela de composição.',
         'Shows the enabled ticket attributes in the customer interface (0 = Disabled and 1 = Enabled).' =>
             '',
         'Shows the message of the day (MOTD) in the agent dashboard. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
-            '',
+            'Mostra a mensagem do dia na tela de login da interface de agente.',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
-            '',
+            'Mostra o histórico de ticket (em ordem reversa) na interface de agente.',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
-            '',
+            'Mostra as opções de prioridade de ticket na tela de fechamento de ticket na interface de agente.',
         'Shows the ticket priority options in the move ticket screen of the agent interface.' =>
-            '',
+            'Mostra as opções de prioridade de ticket na tela de mover ticket na interface de agente.',
         'Shows the ticket priority options in the ticket bulk screen of the agent interface.' =>
             '',
         'Shows the ticket priority options in the ticket free text screen of the agent interface.' =>
             '',
         'Shows the ticket priority options in the ticket note screen of the agent interface.' =>
-            '',
+            'Mostra as opções de prioridade de ticket na tela de nota de ticket na interface de agente.',
         'Shows the ticket priority options in the ticket owner screen of a zoomed ticket in the agent interface.' =>
             '',
         'Shows the ticket priority options in the ticket pending screen of a zoomed ticket in the agent interface.' =>
@@ -8360,13 +8363,13 @@ Thanks for your help!
         'Shows the ticket priority options in the ticket priority screen of a zoomed ticket in the agent interface.' =>
             '',
         'Shows the ticket priority options in the ticket responsible screen of the agent interface.' =>
-            '',
+            'Mostra as opções de prioridade de ticket na tela de responsável por um ticket na interface de agente.',
         'Shows the title field in the close ticket screen of the agent interface.' =>
-            '',
+            'Mostra o campo título de ticket na tela de fechamento de ticket na interface de agente.',
         'Shows the title field in the ticket free text screen of the agent interface.' =>
             '',
         'Shows the title field in the ticket note screen of the agent interface.' =>
-            '',
+            'Mostra o campo título de ticket na tela de nota de ticket na interface de agente.',
         'Shows the title field in the ticket owner screen of a zoomed ticket in the agent interface.' =>
             '',
         'Shows the title field in the ticket pending screen of a zoomed ticket in the agent interface.' =>
@@ -8374,7 +8377,7 @@ Thanks for your help!
         'Shows the title field in the ticket priority screen of a zoomed ticket in the agent interface.' =>
             '',
         'Shows the title field in the ticket responsible screen of the agent interface.' =>
-            '',
+            'Mostra o campo título de ticket na tela de proprietário por um ticket na interface de agente.',
         'Shows time in long format (days, hours, minutes), if enabled; or in short format (days, hours), if not enabled.' =>
             'Mostra tempo em formato longo (dias, horas, minutos), se ativado; ou em formato curto (dias, horas), se desativado.',
         'Shows time use complete description (days, hours, minutes), if enabled; or just first letter (d, h, m), if not enabled.' =>
@@ -8392,9 +8395,9 @@ Thanks for your help!
         'Some description!' => 'Uma descrição!',
         'Some picture description!' => 'Uma descrição de imagem!',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
-            '',
+            'Ordena os tickets (ascendente ou descendente) quando uma fila tiver sido selecionada na visão de fila e após os tickets terem sido ordenados por prioridade. Valores: 0 = ascendente (mais antigos no topo, padrão), 1 = descendente (mais recentes no topo). Utilize o ID de Fila para a chave e 0 ou 1 para o valor.',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.' =>
-            '',
+            'Ordena os tickets (ascendente ou descendente) quando uma fila tiver sido selecionada na visão de serviço e após os tickets terem sido ordenados por prioridade. Valores: 0 = ascendente (mais antigos no topo, padrão), 1 = descendente (mais recentes no topo). Utilize o ID de Fila para a chave e 0 ou 1 para o valor.',
         'Spam' => 'Spam',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' =>
             '',
@@ -8441,7 +8444,7 @@ Thanks for your help!
         'Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.' =>
             '',
         'Specifies whether the (MIMEBase) article attachments will be indexed and searchable.' =>
-            '',
+            'Especifica se os anexos de artigo (MIMEBase) serão indexados e pesquisáveis.',
         'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
             '',
         'Specify the channel to be used to fetch OTRS Business Solution™ updates. Warning: Development releases might not be complete, your system might experience unrecoverable errors and on extreme cases could become unresponsive!' =>
@@ -8478,7 +8481,7 @@ Thanks for your help!
         'System Configuration Deployment' => 'Implantação de Configuração do Sistema',
         'System Configuration Group' => 'Grupo de Configuração do Sistema',
         'System Maintenance' => 'Manutenção do Sistema',
-        'Templates ↔ Attachments' => '',
+        'Templates ↔ Attachments' => 'Modelos ↔ Anexos',
         'Templates ↔ Queues' => 'Modelos ↔ Filas',
         'Textarea' => 'Área de texto',
         'Thai' => 'Thailandês',
@@ -8525,11 +8528,11 @@ Thanks for your help!
         'The maximal number of articles shown on a single page in AgentTicketZoom.' =>
             'O número máximo de artigos exibidos em uma única página em AgentTicketZoom.',
         'The maximum number of mails fetched at once before reconnecting to the server.' =>
-            '',
+            'O número máximo de e-mails capturados por vez antes de reconectar com o servidor.',
         'The secret you supplied is invalid. The secret must only contain letters (A-Z, uppercase) and numbers (2-7) and must consist of 16 characters.' =>
             '',
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' =>
-            '',
+            'O texto no começo do assunto de uma resposta de e-mail, por exemplo, RE, AW, ou AS.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             '',
         'Theme' => 'Tema',
@@ -8608,7 +8611,7 @@ Thanks for your help!
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Transport selection for appointment notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
-            '',
+            'Seleção de transporte para notificações de compromisso. Observação: definindo \'Ativo\' para 0 só irá prevenir agentes de editar definições deste grupo em suas preferências pessoais, mas ainda permitirá que administradores editem a definição em nome de outro usuário. Utilize \'Grupo de Preferênacia\' para controlar qual áres estas definições devem ser exibidas na interface de usuário.',
         'Transport selection for ticket notifications. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
         'Tree view' => 'Visão de árvore',
@@ -8812,6 +8815,7 @@ Thanks for your help!
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this generic agent job?',
         'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',

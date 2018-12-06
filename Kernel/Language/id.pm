@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.688251459979389;
+    $Self->{Completeness}        = 0.68801510989011;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -5436,6 +5436,7 @@ bin/otrs.Daemon.pl status\').',
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove selection' => 'Hapus pilihan',
+        'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => 'Hapus pemicu event ini',
         'Duplicate event.' => 'Event duplikat',
         'This event is already attached to the job, Please use a different one.' =>
@@ -6932,6 +6933,8 @@ Helpdesk Team Anda
         'Defines the separator between the agents real name and the given queue email address.' =>
             'Mendefinisikan pemisah antara agen nama asli dan alamat email antrian diberikan.',
         'Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen.' =>
+            '',
+        'Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
             '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             'Mendefinisikan hak akses standar yang tersedia untuk pelanggan dalam aplikasi. Jika lebih banyak izin yang diperlukan, Anda dapat memasukkan mereka di sini. Izin harus sulit kode untuk menjadi efektif. Pastikan, saat menambahkan salah satu izin tersebut, bahwa "rw" izin tetap entri terakhir.',
@@ -8821,6 +8824,7 @@ Helpdesk Team Anda
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this generic agent job?',
         'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',

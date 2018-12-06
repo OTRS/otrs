@@ -47,13 +47,14 @@
 # Gilberto Luna <gibajp@yahoo.com>, 2018
 # Murilo Moreira de Oliveira <murilo.moreira@gmail.com>, 2018
 # Ricardo von Staa <ricardo.von.staa@otrs.com>, 2018
+# Daniel Bastos <daniel@viperit.com.br>, 2018
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"POT-Creation-Date: 2018-12-06 17:43+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Ricardo von Staa <ricardo.von.staa@otrs.com>, 2018\n"
+"Last-Translator: Daniel Bastos <daniel@viperit.com.br>, 2018\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/otrs/teams/23435/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1724,7 +1725,7 @@ msgstr "Grupos padrão para usuários clientes:"
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer User-Service Relations"
-msgstr ""
+msgstr "Gerenciar Relacionamentos Usuário Cliente-Serviço"
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
@@ -2882,6 +2883,8 @@ msgid ""
 "This identifier will be available in XSLT-Mapping and shown in debugger "
 "output."
 msgstr ""
+"Este identificador estará disponível no mapeamento XSLT (XSLT-Mapping) e "
+"será mostrado na console de debug"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message"
@@ -3405,7 +3408,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data includes"
-msgstr ""
+msgstr "Dados incluem"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
@@ -3471,10 +3474,13 @@ msgid ""
 "Example 1: Search = '^jira:' / Replace = '' turns 'jira:element' into "
 "'element'."
 msgstr ""
+"Exemplo 1: Pesquisar = '^jira:' / Susbtituir = '' transforma 'jira:element' "
+"em 'element'."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Example 2: Search = '^' / Replace = '_' turns '16x16' into '_16x16'."
 msgstr ""
+"Exemplo 2: Pesquisar = '^' / Substituir = '_' torna '16x16' em '_16x16'."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
@@ -3482,6 +3488,8 @@ msgid ""
 "'_\\\\$+{text}_\\\\$+{number}' turns '16 elementname' into "
 "'_elementname_16'."
 msgstr ""
+"Exemplo 3: Pesquisar = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Substituir ="
+" '_\\\\$+{text}_\\\\$+{number}' torna '16 elementname' em '_elementname_16'."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "For information about regular expressions in Perl please see here:"
@@ -3757,7 +3765,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/SOAP/certificate.pem"
-msgstr ""
+msgstr "ex. /opt/otrs/var/certificates/SOAP/certificate.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key"
@@ -3773,7 +3781,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/SOAP/key.pem"
-msgstr ""
+msgstr "ex. /opt/otrs/var/certificates/SOAP/key.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key Password"
@@ -3852,7 +3860,7 @@ msgstr "O comando HTTP padrão para usar para as requisições."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. https://local.otrs.com:8000/Webservice/Example"
-msgstr ""
+msgstr "ex. https://local.otrs.com:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set SOAPAction"
@@ -5289,11 +5297,11 @@ msgstr "Alterar Filtro PostMaster"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter for PostMaster Filters"
-msgstr ""
+msgstr "Filtrar por Filtros PostMaster"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter for PostMaster filters"
-msgstr ""
+msgstr "Filtrar por filtros PostMaster"
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -5425,7 +5433,7 @@ msgstr "Filtrar por Processos"
 
 #. Template: AdminProcessManagement
 msgid "Filter for processes"
-msgstr ""
+msgstr "Filtrar por processos"
 
 #. Template: AdminProcessManagement
 msgid "Create New Process"
@@ -5979,7 +5987,7 @@ msgstr "Remover Este Parâmetro"
 
 #. Template: AdminQueue
 msgid "Queue Management"
-msgstr ""
+msgstr "Gerenciamento de Fila"
 
 #. Template: AdminQueue
 msgid "Add Queue"
@@ -7037,6 +7045,8 @@ msgid ""
 "It's not possible to invalidate this entry because there is no other merge "
 "states in system!"
 msgstr ""
+"Não é possível invalidar esta entrada porque não existe nenhum outro estado "
+"de agrupamento no sistema!"
 
 #. Template: AdminState
 msgid "This state is used in the following config settings:"
@@ -7242,6 +7252,8 @@ msgid ""
 "There are currently no settings available. Please make sure to run "
 "'otrs.Console.pl Maint::Config::Rebuild' before using the software."
 msgstr ""
+"Nenhuma definição disponível. Por favor, certifique-se de executar "
+"'otrs.Console.pl Maint::Config::Rebuild' antes de utilizar o software."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Changes Deployment"
@@ -7257,6 +7269,9 @@ msgid ""
 "you start it now. You can compare each setting to its former state by "
 "clicking the icon on the top right."
 msgstr ""
+"Esta é uma visão geral de todas definições que serão parte da implantação se"
+" você iniciar agora. Você pode comparar cada definição ao seu estado "
+"anterior ao clicar no ícone no canto superior direito."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid ""
@@ -7272,12 +7287,18 @@ msgid ""
 "you'd like to deploy settings changed by other users, too, please click the "
 "link on top of the screen to enter the advanced deployment mode."
 msgstr ""
+"Por padrão, você irá implantar definições que você mesmo alterou. Se você "
+"desejar implantar alterações feitas por outros usuários também, por favor "
+"clique no link no topo da tela para abrir o módulo de implantação avançada."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid ""
 "A deployment has just been restored, which means that all affected setting "
 "have been reverted to the state from the selected deployment."
 msgstr ""
+"Uma implantação acabou de ser restaurada, o que significa que todas as "
+"definições afetadas foram revertidas ao estado que tinham na implantação "
+"selecionada."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Please review the changed settings and deploy afterwards."
@@ -7288,6 +7309,8 @@ msgid ""
 "An empty list of changes means that there are no differences between the "
 "restored and the current state of the affected settings."
 msgstr ""
+"Uma lista vazia de mudanças significa que não tem diferença entre os estados"
+" atual e restaurado das definições afetadas."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Changes Overview"
@@ -7295,7 +7318,7 @@ msgstr "Visão geral de mudanças"
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "There are %s changed settings which will be deployed in this run."
-msgstr ""
+msgstr "Existem %s definições alteradas que serão implantadas nesta execução."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Switch to basic mode to deploy settings only changed by you."
@@ -7324,6 +7347,8 @@ msgstr "Não há configurações para serem implementadas."
 msgid ""
 "Switch to advanced mode to see deployable settings changed by other users."
 msgstr ""
+"Mude para o modo avançado para visualizar as definições implantáveis "
+"alteradas por outros usuários."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Deploy selected changes"
@@ -7334,6 +7359,8 @@ msgid ""
 "This group doesn't contain any settings. Please try navigating to one of its"
 " sub groups."
 msgstr ""
+"Este grupo não contém definições. Por favor, tente navegar para um de seus "
+"subgrupos."
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Import & Export"
@@ -7344,6 +7371,8 @@ msgid ""
 "Upload a file to be imported to your system (.yml format as exported from "
 "the System Configuration module)."
 msgstr ""
+"Carregar o arquivo a ser importado para seu sistema (formato .yml como "
+"exportado do módulo Configuração do Sistema)."
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Upload system configuration"
@@ -7380,15 +7409,15 @@ msgstr "Configurações que estou editando no momento"
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Your search for \"%s\" in category \"%s\" did not return any results."
-msgstr ""
+msgstr "Sua pesquisa por \"%s\" na categoria \"%s\" não retornou resultados."
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Your search for \"%s\" in category \"%s\" returned one result."
-msgstr ""
+msgstr "Sua pesquisa por \"%s\" na categoria \"%s\" retornou um resultado."
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Your search for \"%s\" in category \"%s\" returned %s results."
-msgstr ""
+msgstr "Sua pesquisa por \"%s\" na categoria \"%s\" retornou %s resultados."
 
 #. Template: AdminSystemConfigurationSearch
 msgid "You're currently not editing any settings."
@@ -7396,7 +7425,7 @@ msgstr "No momento você não está editando nenhuma configuração."
 
 #. Template: AdminSystemConfigurationSearch
 msgid "You're currently editing %s setting(s)."
-msgstr ""
+msgstr "Você está editando %s definição(ões) atualmente."
 
 #. Template: AdminSystemConfigurationSearchDialog
 msgid "Category"
@@ -7416,7 +7445,7 @@ msgstr "Ver apenas a Definição: %s"
 
 #. Template: AdminSystemConfigurationView
 msgid "Go back to Deployment Details"
-msgstr ""
+msgstr "Retornar para Detalhes de Implantação"
 
 #. Template: AdminSystemMaintenance
 msgid "System Maintenance Management"
@@ -7607,6 +7636,9 @@ msgid ""
 "This type is present in a SysConfig setting, confirmation for updating "
 "settings to point to the new type is needed!"
 msgstr ""
+"Este tipo está presente em uma definição da Configuração do Sistema. "
+"Confirmação para atualizar definições para apontar para este novo tipo é "
+"necessária!"
 
 #. Template: AdminType
 msgid "This type is used in the following config settings:"
@@ -7994,7 +8026,7 @@ msgstr "Caderno de Endereços do Usuário Cliente"
 
 #. Template: AgentCustomerUserAddressBook
 msgid "Search for recipients and add the results as '%s'."
-msgstr ""
+msgstr "Pesquisar por destinatários e adicione os resultados como '%s'."
 
 #. Template: AgentCustomerUserAddressBook
 msgid "Search template"
@@ -8493,6 +8525,7 @@ msgstr "Você sabia?"
 msgid ""
 "You can change your avatar by registering with your email address %s on %s"
 msgstr ""
+"Você pode alterar seu avatar ao registrar seu endereço de e-mail %s em %s"
 
 #. Template: AgentSplitSelection
 msgid "Target"
@@ -8847,6 +8880,8 @@ msgstr "Por favor, inclua pelo menos um destinatário"
 #. Template: AgentTicketCompose
 msgid "Select one or more recipients from the customer user address book."
 msgstr ""
+"Selecione um ou mais destinatários do caderno de endereço do usuário "
+"cliente."
 
 #. Template: AgentTicketCompose
 msgid "Customer user address book"
@@ -9000,10 +9035,12 @@ msgstr "Um número de chamado válido é obrigatório."
 msgid ""
 "Try typing part of the ticket number or title in order to search by it."
 msgstr ""
+"Tente digitar uma parte do número do ticket ou do título de forma a "
+"pesquisar por ele."
 
 #. Template: AgentTicketMerge
 msgid "Limit the search to tickets with same Customer ID (%s)."
-msgstr ""
+msgstr "Limitar a pesquisa por tickets com o mesmo ID de Cliente (%s)."
 
 #. Template: AgentTicketMerge
 msgid "Inform Sender"
@@ -9147,7 +9184,7 @@ msgstr "Texto Completo"
 
 #. Template: AgentTicketSearch
 msgid "Customer ID (complex search)"
-msgstr ""
+msgstr "ID de Cliente (pesquisa complexa)"
 
 #. Template: AgentTicketSearch
 msgid "(e. g. 234*)"
@@ -9155,7 +9192,7 @@ msgstr "(ex.: 234*)"
 
 #. Template: AgentTicketSearch
 msgid "Customer ID (exact match)"
-msgstr ""
+msgstr "ID de Cliente (correspondência exata)"
 
 #. Template: AgentTicketSearch
 msgid "Assigned to Customer User Login (complex search)"
@@ -9396,6 +9433,8 @@ msgid ""
 "This message is being processed. Already tried to send %s time(s). Next try "
 "will be %s."
 msgstr ""
+"Esta mensagem está sendo processada. Já foi(ram) feita(s) %s tentativa(s) de"
+" envio. Próxima tentativa será %s."
 
 #. Template: MIMEBase
 msgid ""
@@ -9485,7 +9524,7 @@ msgstr "Carregar conteúdo bloqueado."
 
 #. Template: Breadcrumb
 msgid "Home"
-msgstr ""
+msgstr "Início"
 
 #. Template: Breadcrumb
 msgid "Back to admin overview"
@@ -9520,6 +9559,8 @@ msgid ""
 "The customer ID is not changeable, no other customer ID can be assigned to "
 "this ticket."
 msgstr ""
+"Este ID de cliente não é alterável. Nenhum outro ID de cliente pode ser "
+"atribuído a este ticket."
 
 #. Template: TicketCustomerIDSelection
 msgid ""
@@ -9589,6 +9630,8 @@ msgid ""
 "In order to experience this software, you'll need to enable JavaScript in "
 "your browser."
 msgstr ""
+"Para utilizar este software, você precisa ativar JavaScript em seu "
+"navegador."
 
 #. Template: CustomerLogin
 msgid "Browser Warning"
@@ -9603,6 +9646,8 @@ msgid ""
 "This software runs with a huge lists of browsers, please upgrade to one of "
 "these."
 msgstr ""
+"Este software roda com uma lista imensa de navegadores. Por favor, atualize "
+"para um deles."
 
 #. Template: CustomerLogin
 msgid ""
@@ -10333,7 +10378,7 @@ msgstr ""
 
 #. Template: MobileNotAvailableWidget
 msgid "Feature not Available"
-msgstr ""
+msgstr "Funcionalidade não Disponível"
 
 #. Template: MobileNotAvailableWidget
 msgid ""
@@ -10530,7 +10575,7 @@ msgstr "Esta estatística não oferece pré-visualização de dados."
 
 #. Template: PreviewWidget
 msgid "Preview format"
-msgstr ""
+msgstr "Formato de visão prévia"
 
 #. Template: PreviewWidget
 msgid ""
@@ -10652,7 +10697,7 @@ msgstr "Esta definição está desativada."
 
 #. Template: SettingsList
 msgid "This setting is fixed but not deployed yet!"
-msgstr ""
+msgstr "Esta definição está fixa mas não foi implantada ainda!"
 
 #. Template: SettingsList
 msgid ""
@@ -10670,7 +10715,7 @@ msgstr ""
 
 #. Template: SettingsList
 msgid "Disable this setting, so it is no longer effective"
-msgstr ""
+msgstr "Desative esta definição para que ela deixa de ser efetiva"
 
 #. Template: SettingsList
 msgid "Disable"
@@ -10678,7 +10723,7 @@ msgstr "Desabilitar"
 
 #. Template: SettingsList
 msgid "Enable this setting, so it becomes effective"
-msgstr ""
+msgstr "Ative esta definição para que ele se torne efetiva"
 
 #. Template: SettingsList
 msgid "Enable"
@@ -10686,7 +10731,7 @@ msgstr "Habilitar"
 
 #. Template: SettingsList
 msgid "Reset this setting to its default state"
-msgstr ""
+msgstr "Redefinir esta definição para seu estado padrão"
 
 #. Template: SettingsList
 msgid "Reset setting"
@@ -10696,6 +10741,8 @@ msgstr "Redefinir definição"
 msgid ""
 "Allow users to adapt this setting from within their personal preferences"
 msgstr ""
+"Permitir que usuários ajustem esta definição de dentro de suas preferências "
+"pessoais"
 
 #. Template: SettingsList
 msgid "Allow users to update"
@@ -10706,6 +10753,8 @@ msgid ""
 "Do not longer allow users to adapt this setting from within their personal "
 "preferences"
 msgstr ""
+"Não permitir mais que usuários ajustem esta definição em suas preferências "
+"pessoais"
 
 #. Template: SettingsList
 msgid "Forbid users to update"
@@ -10725,11 +10774,11 @@ msgstr ""
 
 #. Template: SettingsList
 msgid "Copy direct link"
-msgstr ""
+msgstr "Copiar link direto"
 
 #. Template: SettingsList
 msgid "Remove this setting from your favorites setting"
-msgstr ""
+msgstr "Remover esta definição de suas definições favoritas"
 
 #. Template: SettingsList
 msgid "Remove from favourites"
@@ -10737,7 +10786,7 @@ msgstr "Remover dos favoritos"
 
 #. Template: SettingsList
 msgid "Add this setting to your favorites"
-msgstr ""
+msgstr "Adicione essa definição às suas favoritas"
 
 #. Template: SettingsList
 msgid "Add to favourites"
@@ -10745,25 +10794,27 @@ msgstr "Adicionar aos favoritos"
 
 #. Template: SettingsList
 msgid "Cancel editing this setting"
-msgstr ""
+msgstr "Cancele a edição desta definição"
 
 #. Template: SettingsList
 msgid "Save changes on this setting"
-msgstr ""
+msgstr "Salvar mudanças nesta definição"
 
 #. Template: SettingsList
 msgid "Edit this setting"
-msgstr ""
+msgstr "Editar esta definição"
 
 #. Template: SettingsList
 msgid "Enable this setting"
-msgstr ""
+msgstr "Ativar esta definição"
 
 #. Template: SettingsList
 msgid ""
 "This group doesn't contain any settings. Please try navigating to one of its"
 " sub groups or another group."
 msgstr ""
+"Este grupo não contém definições. Por favor, tente navegar para um de seus "
+"subgrupos ou para outro grupo."
 
 #. Template: SettingsListCompare
 msgid "Now"
@@ -10771,7 +10822,7 @@ msgstr "Agora"
 
 #. Template: SettingsListCompare
 msgid "User modification"
-msgstr ""
+msgstr "Modificação de usuário"
 
 #. Template: SettingsListCompare
 msgid "enabled"
@@ -10787,7 +10838,7 @@ msgstr "Estado da definição"
 
 #. Template: Actions
 msgid "Edit search"
-msgstr ""
+msgstr "Editar pesquisa"
 
 #. Template: Actions
 msgid "Go back to admin: "
@@ -10799,11 +10850,11 @@ msgstr "Implantação"
 
 #. Template: Actions
 msgid "My favourite settings"
-msgstr ""
+msgstr "Minhas definições favoritas"
 
 #. Template: Actions
 msgid "Invalid settings"
-msgstr ""
+msgstr "Definições inválidas"
 
 #. Template: DynamicActions
 msgid "Filter visible settings..."
@@ -10815,11 +10866,11 @@ msgstr "Habilitar modo de edição para todas as configurações"
 
 #. Template: DynamicActions
 msgid "Save all edited settings"
-msgstr ""
+msgstr "Salvar todas definições editadas"
 
 #. Template: DynamicActions
 msgid "Cancel editing for all settings"
-msgstr ""
+msgstr "Cancelar a edição de todas definições."
 
 #. Template: DynamicActions
 msgid ""
@@ -10829,27 +10880,27 @@ msgstr ""
 
 #. Template: Help
 msgid "Currently edited by me."
-msgstr ""
+msgstr "Sendo editado por mim."
 
 #. Template: Help
 msgid "Modified but not yet deployed."
-msgstr ""
+msgstr "Alterado, mas ainda não implantado."
 
 #. Template: Help
 msgid "Currently edited by another user."
-msgstr ""
+msgstr "Sendo editada por um outro usuário."
 
 #. Template: Help
 msgid "Different from its default value."
-msgstr ""
+msgstr "Diferente do valor padrão."
 
 #. Template: Help
 msgid "Save current setting."
-msgstr ""
+msgstr "Salvar a definição atual."
 
 #. Template: Help
 msgid "Cancel editing current setting."
-msgstr ""
+msgstr "Cancelar a edição da definição atual."
 
 #. Template: Navigation
 msgid "Navigation"
@@ -10909,7 +10960,7 @@ msgstr "Carregando, por favor aguarde..."
 
 #. JS Template: UploadContainer
 msgid "Click to select a file for upload."
-msgstr ""
+msgstr "Clique para selecionar um arquivo para carregar."
 
 #. JS Template: UploadContainer
 msgid "Click to select files or just drop them here."
@@ -10973,15 +11024,15 @@ msgstr "Tente novamente"
 
 #. JS Template: DialogReset
 msgid "Reset options"
-msgstr ""
+msgstr "Opções de redefinição"
 
 #. JS Template: DialogReset
 msgid "Reset setting on global level."
-msgstr ""
+msgstr "Redefinir definição a nível global."
 
 #. JS Template: DialogReset
 msgid "Reset globally"
-msgstr ""
+msgstr "Redefinir globalmente"
 
 #. JS Template: DialogReset
 msgid "Remove all user changes."
@@ -10989,7 +11040,7 @@ msgstr "Remover todas mudanças de usuário"
 
 #. JS Template: DialogReset
 msgid "Reset locally"
-msgstr ""
+msgstr "Redefinir localmente"
 
 #. JS Template: DialogReset
 msgid "user(s) have modified this setting."
@@ -10997,7 +11048,7 @@ msgstr "usuário(s) modificou esta configuração."
 
 #. JS Template: DialogReset
 msgid "Do you really want to reset this setting to it's default value?"
-msgstr ""
+msgstr "Você realmente quer redefinir essa definição para seu valor padrão?"
 
 #. JS Template: HelpDialog
 msgid ""
@@ -11319,7 +11370,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid CommunicationID!"
-msgstr ""
+msgstr "ID de Comunicação Inválido!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "All communications"
@@ -11355,7 +11406,7 @@ msgstr "Último mes"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid StartTime: %s!"
-msgstr ""
+msgstr "Horário de Início Inválido: %s!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Successful"
@@ -11448,6 +11499,7 @@ msgstr "Empresa de cliente adicionada!"
 #. Perl Module: Kernel/Modules/AdminCustomerGroup.pm
 msgid "No configuration for 'CustomerGroupPermissionContext' found!"
 msgstr ""
+"Nenhuma configuração encontrada para 'CustomerGroupPermissionContext'!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerGroup.pm
 msgid "Please check system configuration."
@@ -11950,7 +12002,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
 msgid "File or Directory not found."
-msgstr ""
+msgstr "Arquivo ou Diretório não encontrado."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "There is another web service with the same name."
@@ -12794,19 +12846,19 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Setting is locked by another user!"
-msgstr ""
+msgstr "Definição está bloqueada por um outro usuário!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "System was not able to lock the setting!"
-msgstr ""
+msgstr "O sistema não conseguiu bloquear a definição!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "System was not able to reset the setting!"
-msgstr ""
+msgstr "O sistema não conseguiu redefinir a definição!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "System was unable to update setting!"
-msgstr ""
+msgstr "O sistema não conseguiu atualizar a definição!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing setting name."
@@ -13122,7 +13174,7 @@ msgstr "Configuração não encontrada!"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to reset the setting!"
-msgstr ""
+msgstr "O sistema não conseguiu redefinir a definição!"
 
 #. Perl Module: Kernel/Modules/AgentSplitSelection.pm
 msgid "Process ticket"
@@ -14754,6 +14806,7 @@ msgstr ""
 #. Kernel/Output/HTML/Notification/SystemConfigurationIsDirtyCheck.pm
 msgid "You have undeployed settings, would you like to deploy them?"
 msgstr ""
+"Você tem definições que não foram implantadas. Gostaria de implantá-las?"
 
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/SystemConfigurationOutOfSyncCheck.pm
@@ -14968,11 +15021,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Reset this setting to its default value."
-msgstr ""
+msgstr "Redefinir esta definição ao seu valor padrão."
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Unable to load %s!"
-msgstr ""
+msgstr "Incapaz de carregar %s!"
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Content"
@@ -15054,6 +15107,8 @@ msgstr "Campos Dinâmicos de Chamado"
 msgid ""
 "Couldn't read ACL configuration file. Please make sure the file is valid."
 msgstr ""
+"Não foi possível ler o arquivo de configuração ACL. Por favor, certifique-se"
+" de que o arquivo é válido."
 
 #. Perl Module: Kernel/System/Auth.pm
 msgid ""
@@ -15075,6 +15130,8 @@ msgid ""
 "Login rejected! You have exceeded the maximum number of concurrent Agents! "
 "Contact sales@otrs.com immediately!"
 msgstr ""
+"Login recusado! Você excedeu  o número máximo de Agentes concorrentes! Entre"
+" em contato com sales@otrs.com imediatamente!"
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Session limit reached! Please try again later."
@@ -16455,7 +16512,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Can not lock the deployment for UserID '%s'!"
-msgstr ""
+msgstr "Não é possível bloquear a implantação para o ID de Usuário '%s'!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "All Settings"
@@ -16504,11 +16561,11 @@ msgstr "Redefinir horário de desbloqueio."
 
 #. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
 msgid "Chat Participant"
-msgstr ""
+msgstr "Participante de Chat"
 
 #. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
 msgid "Chat Message Text"
-msgstr ""
+msgstr "Mensagem de Texto de Chat"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Login failed! Your user name or password was entered incorrectly."
@@ -16526,7 +16583,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Can`t remove SessionID."
-msgstr ""
+msgstr "Não é possível remover o ID de Sessão."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Logout successful."
@@ -16569,6 +16626,8 @@ msgstr ""
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Reset password unsuccessful. Please contact the administrator."
 msgstr ""
+"Redefinição de senha sem êxito. Por favor, entre em contato com o "
+"administrador."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
@@ -17094,6 +17153,10 @@ msgid "Remove selection"
 msgstr "Remover tradução"
 
 #. JS File: Core.Agent.Admin.GenericAgent
+msgid "Do you really want to delete this generic agent job?"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericAgent
 msgid "Delete this Event Trigger"
 msgstr "Excluir este disparador de evento"
 
@@ -17434,6 +17497,11 @@ msgid ""
 "state. Please wait until the setting has been deployed. If you're unsure "
 "what to do next, please contact your system administrator."
 msgstr ""
+"O item que você está visualizando atualmente é parte de uma configuração de "
+"uma definição que ainda não foi implantada, o que torna impossível editar em"
+" seu estado atual. Por favor, espere até que esta definição seja implantada."
+" Se você estiver inseguro com o que fazer, por favor, entre em contato com o"
+" administrador do sistema."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Loading..."
@@ -17441,17 +17509,21 @@ msgstr "Carregando..."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Search the System Configuration"
-msgstr ""
+msgstr "Pesquisar a Configuração do Sistema"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Please enter at least one search word to find anything."
 msgstr ""
+"Por favor, digite ao menos uma palavra de pesquisa para encontrar algo."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid ""
 "Unfortunately deploying is currently not possible, maybe because another "
 "agent is already deploying. Please try again later."
 msgstr ""
+"Infelizmente, implantação não é possível no momento possivelmente porque "
+"outro agente esta realizando uma implantação. Por favor, tente novamente "
+"mais tarde."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Deploy"
@@ -17475,7 +17547,7 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Reset option is required!"
-msgstr ""
+msgstr "Opção de redefinição é necessária!"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid ""
@@ -17641,7 +17713,7 @@ msgstr "Por favor aguarde..."
 
 #. JS File: Core.Agent.LinkObject.SearchForm
 msgid "Searching for linkable objects. This may take a while..."
-msgstr ""
+msgstr "Pesquisando por objetos associáveis. Isso pode levar algum tempo..."
 
 #. JS File: Core.Agent.LinkObject
 msgid "Do you really want to delete this link?"
@@ -17731,7 +17803,7 @@ msgstr "Remover rascunho"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "There are no more drafts available."
-msgstr ""
+msgstr "Mais nenhum rascunho disponível."
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "It was not possible to delete this draft."
@@ -17767,7 +17839,7 @@ msgstr "Trocar para modo móvel"
 
 #. JS File: Core.App
 msgid "Error: Browser Check failed!"
-msgstr ""
+msgstr "Erro: Falha ao Verificar Navegador!"
 
 #. JS File: Core.App
 msgid "Reload page"
@@ -17775,7 +17847,7 @@ msgstr "Atualizar página"
 
 #. JS File: Core.App
 msgid "Reload page (%ss)"
-msgstr ""
+msgstr "Recarregar página (%ss)"
 
 #. JS File: Core.Debug
 msgid "Namespace %s could not be initialized, because %s could not be found."
@@ -17885,31 +17957,31 @@ msgstr ""
 
 #. JS File: Core.UI.Table.Sort
 msgid "Ascending sort applied, "
-msgstr ""
+msgstr "Ordenamento ascendente aplicado."
 
 #. JS File: Core.UI.Table.Sort
 msgid "Descending sort applied, "
-msgstr ""
+msgstr "Ordenamento descendente aplicado."
 
 #. JS File: Core.UI.Table.Sort
 msgid "No sort applied, "
-msgstr ""
+msgstr "Nenhum ordenamento aplicado,"
 
 #. JS File: Core.UI.Table.Sort
 msgid "sorting is disabled"
-msgstr ""
+msgstr "ordenamento está desabilitado"
 
 #. JS File: Core.UI.Table.Sort
 msgid "activate to apply an ascending sort"
-msgstr ""
+msgstr "ative para aplicar um ordenamento ascendente"
 
 #. JS File: Core.UI.Table.Sort
 msgid "activate to apply a descending sort"
-msgstr ""
+msgstr "ative para aplicar um ordenamento descendente"
 
 #. JS File: Core.UI.Table.Sort
 msgid "activate to remove the sort"
-msgstr ""
+msgstr "ative para remover o ordenamento"
 
 #. JS File: Core.UI.Table
 msgid "Remove the filter"
@@ -17921,39 +17993,43 @@ msgstr "Não há elementos disponíveis atualmente para seleção."
 
 #. JS File: Core.UI
 msgid "Please only select one file for upload."
-msgstr ""
+msgstr "Por favor, selecione apenas um arquivo para carregar."
 
 #. JS File: Core.UI
 msgid "Sorry, you can only upload one file here."
-msgstr ""
+msgstr "Desculpe, você só pode carregar um arquivo aqui."
 
 #. JS File: Core.UI
 msgid "Sorry, you can only upload %s files."
-msgstr ""
+msgstr "Desculpe, você só pode carregar %s arquivos."
 
 #. JS File: Core.UI
 msgid "Please only select at most %s files for upload."
-msgstr ""
+msgstr "Por favor, selecione no máximo %s arquivos para carregar."
 
 #. JS File: Core.UI
 msgid "The following files are not allowed to be uploaded: %s"
-msgstr ""
+msgstr "O carregamento dos seguintes arquivos não está autorizado: %s"
 
 #. JS File: Core.UI
 msgid ""
 "The following files exceed the maximum allowed size per file of %s and were "
 "not uploaded: %s"
 msgstr ""
+"Os seguintes arquivos excedem o tamanho máximo permitido de %s por aquivo e "
+"não foram carregados: %s"
 
 #. JS File: Core.UI
 msgid ""
 "The following files were already uploaded and have not been uploaded again: "
 "%s"
 msgstr ""
+"Os seguintes arquivos já tinham sido carregados e não foram carregados "
+"novamente: %s"
 
 #. JS File: Core.UI
 msgid "No space left for the following files: %s"
-msgstr ""
+msgstr "Não sobrou espaço para os seguintes arquivos: %s"
 
 #. JS File: Core.UI
 msgid "Available space %s of %s."
@@ -17985,7 +18061,7 @@ msgstr "Isto é %s"
 
 #. JS File: Core.Language.UnitTest
 msgid "Complex %s with %s arguments"
-msgstr ""
+msgstr "%s complexo com %s argumentos"
 
 #. JS File: OTRSLineChart
 msgid "No Data Available."
@@ -18060,7 +18136,7 @@ msgstr "(Login) Sobrenome, Nome"
 
 #. SysConfig
 msgid "*** out of office until %s (%s d left) ***"
-msgstr ""
+msgstr "*** ausente até %s (restam %s dias) ***"
 
 #. SysConfig
 msgid "0 - Disabled"
@@ -18088,15 +18164,15 @@ msgstr "15 Minutos"
 
 #. SysConfig
 msgid "2 - Enabled and required"
-msgstr ""
+msgstr "2 - Ativado e mandatório"
 
 #. SysConfig
 msgid "2 - Enabled and shown by default"
-msgstr ""
+msgstr "2 - Ativado e apresentado como padrão"
 
 #. SysConfig
 msgid "2 - Enabled by default"
-msgstr ""
+msgstr "2 - Ativado por padrão"
 
 #. SysConfig
 msgid "2 Minutes"
@@ -18132,6 +18208,9 @@ msgid ""
 " operation. Only dynamic fields that are empty in the main ticket will be "
 "set."
 msgstr ""
+"Uma lista de campos dinâmicos que são agrupados no ticket principal durante "
+"uma operação de agrupamento. Somente campos dinâmicos vazios no ticket "
+"principal serão definidos."
 
 #. SysConfig
 msgid "A picture"
@@ -18267,7 +18346,7 @@ msgstr "Adicionada solicitação de sistema (%s)."
 
 #. SysConfig
 msgid "Added web request from customer."
-msgstr ""
+msgstr "Solicitação web de cliente adicionada."
 
 #. SysConfig
 msgid ""
@@ -18283,6 +18362,9 @@ msgid ""
 " the agent interface. The customers email address won't be added if the "
 "article type is email-internal."
 msgstr ""
+"Adiciona endereços de e-mail de clientes para destinatários na tela de "
+"composição da interface de agente. Os endereços de e-mail de clientes não "
+"serão adicionados se o tipo de artigo for email-internal."
 
 #. SysConfig
 msgid "Adds the one time vacation days for the indicated calendar."
@@ -18314,7 +18396,7 @@ msgstr "Notificação Administrativa"
 
 #. SysConfig
 msgid "Admin area navigation for the agent interface."
-msgstr ""
+msgstr "Navegação da área de administração para a interface de agente."
 
 #. SysConfig
 msgid "Admin modules overview."
@@ -18395,6 +18477,10 @@ msgid ""
 "access control to show or not show this link can be done by using Key "
 "\"Group\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
+"Módulo da interface de agente para acessar perfis de pesquisa via a barra de"
+" navegação. Controle de acesso adicional para mostrar esse link ou não pode "
+"ser feito utilizando Chave \"Group\" e Conteúdo como "
+"\"rw:group1;move_inte:group2\"."
 
 #. SysConfig
 msgid ""
@@ -18410,6 +18496,10 @@ msgid ""
 "Additional access control to show or not show this link can be done by using"
 " Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
+"Módulo de notificação da interface de agente para visualizar o número de "
+"tickets bloqueados. Controle de acesso adicional para mostrar ou não este "
+"link pode ser feito ao utilizar a Chave \"Group\" e Conteúdo com "
+"\"rw:group1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
@@ -18418,6 +18508,10 @@ msgid ""
 "can be done by using Key \"Group\" and Content like "
 "\"rw:group1;move_into:group2\"."
 msgstr ""
+"Módulo de notificação da interface de agente para visualizar o número de "
+"tickets que um agente é responsável por. Controle de acesso adicional para "
+"mostrar ou não este link pode ser feito ao utilizar a Chave \"Group\" e "
+"Conteúdo com \"rw:group1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
@@ -18425,6 +18519,10 @@ msgid ""
 "Services. Additional access control to show or not show this link can be "
 "done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
+"Módulo de notificação da interface de agente para visualizar o número de "
+"tickets em Meus Serviços. Controle de acesso adicional para mostrar ou não "
+"este link pode ser feito ao utilizar a Chave \"Group\" e Conteúdo com "
+"\"rw:group1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
@@ -18432,6 +18530,10 @@ msgid ""
 "Additional access control to show or not show this link can be done by using"
 " Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
+"Módulo de notificação da interface de agente para visualizar o número de "
+"tickets observados. Controle de acesso adicional para mostrar ou não este "
+"link pode ser feito ao utilizar a Chave \"Group\" e Conteúdo com "
+"\"rw:group1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
@@ -18499,6 +18601,8 @@ msgid ""
 "Allows adding notes in the close ticket screen of the agent interface. Can "
 "be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
+"Permite adicionar notas na tela de ticket fechado da interface de agente. "
+"Pode ser sobrescrito por Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
@@ -18511,30 +18615,40 @@ msgid ""
 "Allows adding notes in the ticket note screen of the agent interface. Can be"
 " overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
+"Permite adicionar notas na tela de notas da interface de agente. Pode ser "
+"sobrescrito por Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket owner screen of a zoomed ticket in the "
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
+"Permite adicionar notas na tela de proprietário de ticket da interface de "
+"agente. Pode ser sobrescrito por Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket pending screen of a zoomed ticket in the "
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
+"Permite adicionar notas na tela de ticket pendentes da interface de agente. "
+"Pode ser sobrescrito por Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket priority screen of a zoomed ticket in the "
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
+"Permite adicionar notas na tela de prioridade de ticket da interface de "
+"agente. Pode ser sobrescrito por Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket responsible screen of the agent interface."
 " Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
+"Permite adicionar notas na tela de responsável por ticket da interface de "
+"agente. Pode ser sobrescrito por Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid "Allows agents to exchange the axis of a stat if they generate one."
@@ -18586,6 +18700,8 @@ msgid ""
 "Allows customers to set the ticket queue in the customer interface. If this "
 "is not enabled, QueueDefault should be configured."
 msgstr ""
+"Permite clientes definir a fila do ticket na interface do cliente. Se não "
+"for ativado, QueueDefault deve ser configurado."
 
 #. SysConfig
 msgid "Allows customers to set the ticket service in the customer interface."
@@ -18598,6 +18714,8 @@ msgid ""
 "Allows customers to set the ticket type in the customer interface. If this "
 "is not enabled, TicketTypeDefault should be configured."
 msgstr ""
+"Permite clientes definir o tipo de ticket na interface de cliente. Se não "
+"for ativado, TicketTypeDefault deve ser configurado."
 
 #. SysConfig
 msgid ""
@@ -18676,24 +18794,32 @@ msgid ""
 "Allows to save current work as draft in the close ticket screen of the agent"
 " interface."
 msgstr ""
+"Permite salvar o trabalho corrente na tela de ticket fechado da interface de"
+" agente."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the email outbound screen of the "
 "agent interface."
 msgstr ""
+"Permite salvar o trabalho corrente como rascunho na tela de envio de e-mail "
+"da interface de agente."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket compose screen of the "
 "agent interface."
 msgstr ""
+"Permite salvar o trabalho corrente como rascunho na tela de composição de "
+"ticket da interface de agente."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket forward screen of the "
 "agent interface."
 msgstr ""
+"Permite salvar o trabalho corrente como rascunho na tela de encaminhamento "
+"de e-mail da interface de agente."
 
 #. SysConfig
 msgid ""
@@ -18706,48 +18832,64 @@ msgid ""
 "Allows to save current work as draft in the ticket move screen of the agent "
 "interface."
 msgstr ""
+"Permite salvar o trabalho corrente como rascunho na tela de mover ticket da "
+"interface de agente."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket note screen of the agent "
 "interface."
 msgstr ""
+"Permite salvar o trabalho corrente como rascunho na tela de nota de ticket "
+"da interface de agente."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket owner screen of the agent"
 " interface."
 msgstr ""
+"Permite salvar o trabalho corrente como rascunho na tela de proprietário de "
+"ticket da interface de agente."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket pending screen of the "
 "agent interface."
 msgstr ""
+"Permite salvar o trabalho corrente como rascunho na tela de ticket pendente "
+"da interface de agente."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket phone inbound screen of "
 "the agent interface."
 msgstr ""
+"Permite salvar o trabalho corrente como rascunho na tela de telefonema "
+"recebido da interface de agente."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket phone outbound screen of "
 "the agent interface."
 msgstr ""
+"Permite salvar o trabalho corrente como rascunho na tela de telefonema "
+"realizado da interface de agente."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket priority screen of the "
 "agent interface."
 msgstr ""
+"Permite salvar o trabalho corrente como rascunho na tela de prioridade de "
+"ticket da interface de agente."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket responsible screen of the"
 " agent interface."
 msgstr ""
+"Permite salvar o trabalho corrente como rascunho na tela de responsável por "
+"ticket da interface de agente."
 
 #. SysConfig
 msgid ""
@@ -18841,6 +18983,8 @@ msgid ""
 "Automatically lock and set owner to current Agent after opening the move "
 "ticket screen of the agent interface."
 msgstr ""
+"Define e proprietário como e bloqueia o ticket para o Agente atual após "
+"abrir a tela de mover na interface de agente."
 
 #. SysConfig
 msgid ""
@@ -18924,11 +19068,15 @@ msgstr "Separador CSV"
 msgid ""
 "Cache time in seconds for agent authentication in the GenericInterface."
 msgstr ""
+"Tempo de cache em segundos para autenticação de agentes na Interface "
+"Genérica."
 
 #. SysConfig
 msgid ""
 "Cache time in seconds for customer authentication in the GenericInterface."
 msgstr ""
+"Tempo de cache em segundos para autenticação de clientes na Interface "
+"Genérica."
 
 #. SysConfig
 msgid "Cache time in seconds for the DB ACL backend."
@@ -19057,7 +19205,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Chat communication channel."
-msgstr ""
+msgstr "Canal de comunicação de chat."
 
 #. SysConfig
 msgid "Checkbox"
@@ -19067,6 +19215,8 @@ msgstr "Checkbox"
 msgid ""
 "Checks for articles that needs to be updated in the article search index."
 msgstr ""
+"Verifica artigos que precisam ser atualizados no índice de pesquisa de "
+"artigo."
 
 #. SysConfig
 msgid "Checks for communication log entries to be deleted."
@@ -19216,6 +19366,10 @@ msgid ""
 " and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) "
 "are allowed."
 msgstr ""
+"Colunas que pode ser filtradas na visão de resultado de pesquisa de ticket "
+"da interface de agente. Observação: Somente atributos de Ticket, Campos "
+"Dinâmicos (DynamicField_NameX) e atributos de Cliente (por exemplo, Telefone"
+" de Usuário Cliente, Nome de Empresa Cliente, ...) são permitidos."
 
 #. SysConfig
 msgid ""
@@ -19481,7 +19635,7 @@ msgstr "Criar novo compromisso."
 
 #. SysConfig
 msgid "Create new email ticket and send this out (outbound)."
-msgstr ""
+msgstr "Criar um novo ticket de e-mail e enviar (enviado)."
 
 #. SysConfig
 msgid "Create new email ticket."
@@ -19489,7 +19643,7 @@ msgstr "Criar novo ticket de e-mail."
 
 #. SysConfig
 msgid "Create new phone ticket (inbound)."
-msgstr ""
+msgstr "Criar um novo ticket de telefonema (recebido)."
 
 #. SysConfig
 msgid "Create new phone ticket."
@@ -19539,11 +19693,11 @@ msgstr "IDs de Cliente"
 
 #. SysConfig
 msgid "Customer Information Center Search."
-msgstr ""
+msgstr "Pesquisa do Centro de Informações do Cliente"
 
 #. SysConfig
 msgid "Customer Information Center search."
-msgstr ""
+msgstr "Pesquisa do Centro de Informações do Cliente."
 
 #. SysConfig
 msgid "Customer Information Center."
@@ -19563,11 +19717,11 @@ msgstr "Informações de Usuário Cliente"
 
 #. SysConfig
 msgid "Customer User Information Center Search."
-msgstr ""
+msgstr "Pesquisa do Centro de Informações do Usuário Cliente."
 
 #. SysConfig
 msgid "Customer User Information Center search."
-msgstr ""
+msgstr "Pesquisa do Centro de Informações do Usuário Cliente."
 
 #. SysConfig
 msgid "Customer User Information Center."
@@ -19683,12 +19837,18 @@ msgid ""
 "Default data to use on attribute for ticket search screen. Example: "
 "\"TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;\"."
 msgstr ""
+"Dados padrão para serem utilizados em atributo da tela de pesquisa de "
+"ticket. Por Exemplo: "
+"\"TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;\"."
 
 #. SysConfig
 msgid ""
 "Default data to use on attribute for ticket search screen. Example: "
 "\"TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;\"."
 msgstr ""
+"Dados padrão para serem utilizados em atributo da tela de pesquisa de "
+"ticket. Por Exemplo: "
+"\"TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;\"."
 
 #. SysConfig
 msgid ""
@@ -19996,12 +20156,16 @@ msgid ""
 "Defines all the languages that are available to the application. Specify "
 "only English names of languages here."
 msgstr ""
+"Definir todos idiomas que devem estar disponíveis para a aplicação. "
+"Especificar aqui apenas nomes de idiomas em Inglês."
 
 #. SysConfig
 msgid ""
 "Defines all the languages that are available to the application. Specify "
 "only native names of languages here."
 msgstr ""
+"Definir todos idiomas que devem estar disponíveis para a aplicação. "
+"Especificar aqui apenas nomes de idiomas em forma nativa."
 
 #. SysConfig
 msgid ""
@@ -20086,7 +20250,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines available article actions for Chat articles."
-msgstr ""
+msgstr "Define as ações de artigo disponíveis para artigos de Chat."
 
 #. SysConfig
 msgid "Defines available article actions for Email articles."
@@ -20111,7 +20275,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines chat communication channel."
-msgstr ""
+msgstr "Define o canal de comunicação de chat."
 
 #. SysConfig
 msgid "Defines default headers for outgoing emails."
@@ -20607,6 +20771,8 @@ msgid ""
 "Defines the config parameters of this item, to be shown in the preferences "
 "view."
 msgstr ""
+"Define os parâmetros de configuração deste item para visualização na visão "
+"de preferências."
 
 #. SysConfig
 msgid ""
@@ -20669,6 +20835,9 @@ msgid ""
 "(CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix "
 "'CustomerCompany_' must be added."
 msgstr ""
+"Define os campos de filtro padrão na pesquisa de caderno de endereço de "
+"usuário cliente  (Usuário Cliente ou Empresa Cliente). Para campos de "
+"Empresa Cliente um prefixo 'CustomerCompany_' deve ser adicionado."
 
 #. SysConfig
 msgid ""
@@ -20815,7 +20984,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the default queue for new tickets in the agent interface."
-msgstr ""
+msgstr "Define a fila padrão para tickets novos na interface de agente."
 
 #. SysConfig
 msgid ""
@@ -20858,11 +21027,15 @@ msgid ""
 "Defines the default shown ticket search attribute for ticket search screen "
 "(AllTickets/ArchivedTickets/NotArchivedTickets)."
 msgstr ""
+"Define o atributo de pesquisa de ticket padrão na tela de pesquisa de ticket"
+" (Todos Tickets/Tickets Arquivados/Tickets Não Arquivados)."
 
 #. SysConfig
 msgid ""
 "Defines the default shown ticket search attribute for ticket search screen."
 msgstr ""
+"Define o atributo de pesquisa de ticket padrão mostrado na tela de pesquisa "
+"de ticket. "
 
 #. SysConfig
 msgid ""
@@ -20886,18 +21059,41 @@ msgid ""
 "Search_DynamicField_XTimePointStart=Before; "
 "Search_DynamicField_XTimePointValue=7';."
 msgstr ""
+"Define o atributo de pesquisa de ticket padrão mostrado na tela de pesquisa "
+"de ticket.  Por exemplo: \"Chave\" tem que ter o nome do Campo Dinâmico, "
+"neste caso 'X', \"Conteúdo\" deve ter o valor do Campo Dinâmico baseado no "
+"tipo de Campo Dinâmico, Texto: 'a text', Caixa de Seleção: '1', Data/Hora: "
+"'Search_DynamicField_XTimeSlotStartYear=1974; "
+"Search_DynamicField_XTimeSlotStartMonth=01; "
+"Search_DynamicField_XTimeSlotStartDay=26; "
+"Search_DynamicField_XTimeSlotStartHour=00; "
+"Search_DynamicField_XTimeSlotStartMinute=00; "
+"Search_DynamicField_XTimeSlotStartSecond=00; "
+"Search_DynamicField_XTimeSlotStopYear=2013; "
+"Search_DynamicField_XTimeSlotStopMonth=01; "
+"Search_DynamicField_XTimeSlotStopDay=26; "
+"Search_DynamicField_XTimeSlotStopHour=23; "
+"Search_DynamicField_XTimeSlotStopMinute=59; "
+"Search_DynamicField_XTimeSlotStopSecond=59;' e/ou "
+"'Search_DynamicField_XTimePointFormat=week; "
+"Search_DynamicField_XTimePointStart=Before; "
+"Search_DynamicField_XTimePointValue=7';."
 
 #. SysConfig
 msgid ""
 "Defines the default sort criteria for all queues displayed in the queue "
 "view."
 msgstr ""
+"Define o critério padrão de ordenamento para todas filas apresentadas na "
+"visão de filas."
 
 #. SysConfig
 msgid ""
 "Defines the default sort criteria for all services displayed in the service "
 "view."
 msgstr ""
+"Define o critério padrão de ordenamento para todos serviços apresentados na "
+"visão de serviços."
 
 #. SysConfig
 msgid ""
@@ -20912,6 +21108,8 @@ msgid ""
 "Defines the default sort order for all services in the service view, after "
 "priority sort."
 msgstr ""
+"Define o critério padrão de ordenamento para todos serviços apresentados na "
+"visão de serviços, após o ordenamento por prioridade."
 
 #. SysConfig
 msgid ""
@@ -20964,36 +21162,48 @@ msgid ""
 "Defines the default ticket attribute for ticket sorting in the locked ticket"
 " view of the agent interface."
 msgstr ""
+"Define o atributo de ticket padrão para ordenamento de ticket na visão de "
+"ticket bloqueado da interface de agente."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket attribute for ticket sorting in the responsible "
 "view of the agent interface."
 msgstr ""
+"Define o atributo de ticket padrão para ordenamento de ticket na visão de "
+"responsável por ticket da interface de agente."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket attribute for ticket sorting in the status view "
 "of the agent interface."
 msgstr ""
+"Define o atributo de ticket padrão para ordenamento de ticket na visão de "
+"estado da interface de agente."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket attribute for ticket sorting in the watch view of"
 " the agent interface."
 msgstr ""
+"Define o atributo de ticket padrão para ordenamento de ticket na visão de "
+"observação da interface de agente."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket attribute for ticket sorting of the ticket search"
 " result of the agent interface."
 msgstr ""
+"Define o atributo de pesquisa de ticket padrão para ordenamento na tela de "
+"resultado de pesquisa de ticket da interface de agente. "
 
 #. SysConfig
 msgid ""
 "Defines the default ticket attribute for ticket sorting of the ticket search"
 " result of this operation."
 msgstr ""
+"Define o atributo de ticket padrão para classificação na tela de resultado "
+"de pesquisa de ticket resultante desta operação. "
 
 #. SysConfig
 msgid ""
@@ -21024,6 +21234,9 @@ msgid ""
 "Defines the default ticket order (after priority sort) in the status view of"
 " the agent interface. Up: oldest on top. Down: latest on top."
 msgstr ""
+"Define o ordenamento de ticket padrão (após ordenamento por prioridade) na "
+"visão de estado da interface de agente. Sobe: mais antigos no topo. Desce: "
+"mais recentes no topo."
 
 #. SysConfig
 msgid ""
@@ -21042,12 +21255,16 @@ msgid ""
 "Defines the default ticket order in the ticket search result of the agent "
 "interface. Up: oldest on top. Down: latest on top."
 msgstr ""
+"Define a ordem padrão de tickets no resultado da pesquisa de ticket na "
+"interface de agente. Sobe: mais antigo no topo. Desce: mais recente no topo."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order in the ticket search result of the this "
 "operation. Up: oldest on top. Down: latest on top."
 msgstr ""
+"Define a ordem padrão de tickets no resultado da pesquisa de ticket desta "
+"operação. Sobe: mais antigo no topo. Desce: mais recente no topo."
 
 #. SysConfig
 msgid ""
@@ -21613,12 +21830,17 @@ msgid ""
 "Defines the module to display a notification in the agent interface, if "
 "there are invalid sysconfig settings deployed."
 msgstr ""
+"Define o módulo para mostrar a notificação na interface de agente se houver "
+"uma definição de configuração de sistema inválida implantada."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if "
 "there are modified sysconfig settings that are not deployed yet."
 msgstr ""
+"Define o módulo para mostrar a notificação na interface de agente se "
+"houverem definições de configuração de sistema alteradas não implantadas no "
+"momento."
 
 #. SysConfig
 msgid ""
@@ -21931,6 +22153,9 @@ msgid ""
 "Defines the period of time (in minutes) before agent is marked as \"away\" "
 "due to inactivity (e.g. in the \"Logged-In Users\" widget or for the chat)."
 msgstr ""
+"Define o período de tempo (em minutos) antes que o agente é marcado como "
+"\"ausente\" devido a inatividade (por exemplo, no widget de \"Usuários "
+"Logados\" ou para o chat)."
 
 #. SysConfig
 msgid ""
@@ -21938,6 +22163,9 @@ msgid ""
 "\"away\" due to inactivity (e.g. in the \"Logged-In Users\" widget or for "
 "the chat)."
 msgstr ""
+"Define o período de tempo (em minutos) antes que o cliente é marcado como "
+"\"ausente\" devido a inatividade (por exemplo, no widget de \"Usuários "
+"Logados\" ou para o chat)."
 
 #. SysConfig
 msgid "Defines the postmaster default queue."
@@ -21970,7 +22198,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the search limit for the stats."
-msgstr ""
+msgstr "Define o limite de pesquisa para as estatísticas."
 
 #. SysConfig
 msgid ""
@@ -21978,6 +22206,9 @@ msgid ""
 "With the setting 'CustomerTicketTextField' the values for the recipient "
 "field can be specified."
 msgstr ""
+"Define os parâmetros de pesquisa da tela AgentCustomerUserAddressBook. Com a"
+" definição 'CustomerTicketTextField' os valores para o campo de destinatário"
+" podem ser especificados."
 
 #. SysConfig
 msgid "Defines the sender for rejected emails."
@@ -21996,6 +22227,13 @@ msgid ""
 msgstr ""
 "Define as colunas mostradas e suas posições na tela de resultado "
 "AgentCustomerUserAddressBook."
+
+#. SysConfig
+msgid ""
+"Defines the shown links in the footer area of the customer and public "
+"interface of this OTRS system. The value in \"Key\" is the external URL, the"
+" value in \"Content\" is the shown label."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -22238,15 +22476,20 @@ msgid ""
 "Defines which items are available for 'Action' in third level of the ACL "
 "structure."
 msgstr ""
+"Define quais itens estão disponíveis em 'Ação' no terceiro nível da "
+"estrutura de ACL."
 
 #. SysConfig
 msgid "Defines which items are available in first level of the ACL structure."
 msgstr ""
+"Define quais itens estão disponíveis no primeiro nível da estrutura de ACL."
 
 #. SysConfig
 msgid ""
 "Defines which items are available in second level of the ACL structure."
 msgstr ""
+"Define quais itens estão disponíveis em 'Ação' no segundo nível da estrutura"
+" de ACL."
 
 #. SysConfig
 msgid ""
@@ -22278,7 +22521,7 @@ msgstr "Excluir entradas de rascunho de ticket expiradas."
 
 #. SysConfig
 msgid "Delete expired upload cache hourly."
-msgstr ""
+msgstr "Excluir cache de carregamento expirado de hora em hora."
 
 #. SysConfig
 msgid "Delete this ticket"
@@ -22373,6 +22616,10 @@ msgid ""
 "will return the last overview screen (e.g. search results, queueview, "
 "dashboard). TicketZoom will return to the TicketZoom."
 msgstr ""
+"Determina a próxima tela após um ticket ser movido. LastScreenOverview vai "
+"retornar para a última tela de visão geral (por exemplo, resultados de "
+"pesquisa, visão de filas, painel). TicketZoom irá retornar para o Zoom do "
+"Ticket."
 
 #. SysConfig
 msgid ""
@@ -22514,7 +22761,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Dynamic Fields GUI"
-msgstr ""
+msgstr "GUI de Campos Dinâmicos"
 
 #. SysConfig
 msgid "Dynamic Fields Multiselect Backend GUI"
@@ -22531,6 +22778,8 @@ msgstr ""
 #. SysConfig
 msgid "Dynamic Fields used to export the search result in CSV format."
 msgstr ""
+"Campos Dinâmicos utilizados para exportar os resultados de pesquisa em "
+"formato CSV."
 
 #. SysConfig
 msgid ""
@@ -22561,6 +22810,7 @@ msgstr ""
 msgid ""
 "Dynamic fields shown in the email outbound screen of the agent interface."
 msgstr ""
+"Campos dinâmicos exibidos na tela de envio de e-mail da interface de agente."
 
 #. SysConfig
 msgid ""
@@ -22573,26 +22823,36 @@ msgid ""
 "Dynamic fields shown in the sidebar of the ticket zoom screen of the agent "
 "interface."
 msgstr ""
+"Campos dinâmicos exibidos na barra lateral da tela de zoom de ticket da "
+"interface de agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket close screen of the agent interface."
 msgstr ""
+"Campos dinâmicos exibidos na tela de envio de fechamento de ticket da "
+"interface de agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket compose screen of the agent interface."
 msgstr ""
+"Campos dinâmicos exibidos na tela de composição de ticket da interface de "
+"agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket email screen of the agent interface."
 msgstr ""
+"Campos dinâmicos exibidos na tela de ticket de e-mail da interface de "
+"agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket forward screen of the agent interface."
 msgstr ""
+"Campos dinâmicos exibidos na tela de encaminhamento de ticket da interface "
+"de agente."
 
 #. SysConfig
 msgid ""
@@ -22604,14 +22864,18 @@ msgid ""
 "Dynamic fields shown in the ticket medium format overview screen of the "
 "agent interface."
 msgstr ""
+"Campos dinâmicos exibidos na tela de visão geral de ticket formato médio da "
+"interface de agente."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket move screen of the agent interface."
 msgstr ""
+"Campos dinâmicos exibidos na tela de mover ticket da interface de agente."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket note screen of the agent interface."
 msgstr ""
+"Campos dinâmicos exibidos na tela de nota de ticket da interface de agente."
 
 #. SysConfig
 msgid ""
@@ -22623,28 +22887,37 @@ msgstr ""
 msgid ""
 "Dynamic fields shown in the ticket owner screen of the agent interface."
 msgstr ""
+"Campos dinâmicos exibidos na tela de proprietário de ticket da interface de "
+"agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket pending screen of the agent interface."
 msgstr ""
+"Campos dinâmicos exibidos na tela de ticket pendente da interface de agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket phone inbound screen of the agent "
 "interface."
 msgstr ""
+"Campos dinâmicos exibidos na tela de ticket de telefonema recebido da "
+"interface de agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket phone outbound screen of the agent "
 "interface."
 msgstr ""
+"Campos dinâmicos exibidos na tela de ticket de telefonema realizado da "
+"interface de agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket phone screen of the agent interface."
 msgstr ""
+"Campos dinâmicos exibidos na tela de ticket de telefonema da interface de "
+"agente."
 
 #. SysConfig
 msgid ""
@@ -22656,6 +22929,8 @@ msgstr ""
 msgid ""
 "Dynamic fields shown in the ticket print screen of the agent interface."
 msgstr ""
+"Campos dinâmicos exibidos na tela de impressão de ticket da interface de "
+"agente."
 
 #. SysConfig
 msgid ""
@@ -22666,12 +22941,16 @@ msgstr ""
 msgid ""
 "Dynamic fields shown in the ticket priority screen of the agent interface."
 msgstr ""
+"Campos dinâmicos exibidos na tela de prioridade de ticket da interface de "
+"agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket responsible screen of the agent "
 "interface."
 msgstr ""
+"Campos dinâmicos exibidos na tela de responsável por ticket da interface de "
+"agente."
 
 #. SysConfig
 msgid ""
@@ -22683,6 +22962,8 @@ msgstr ""
 msgid ""
 "Dynamic fields shown in the ticket search screen of the agent interface."
 msgstr ""
+"Campos dinâmicos mostrados na tela de pesquisa de ticket da interface de "
+"agente."
 
 #. SysConfig
 msgid ""
@@ -22694,6 +22975,8 @@ msgid ""
 "Dynamic fields shown in the ticket small format overview screen of the agent"
 " interface."
 msgstr ""
+"Campos dinâmicos exibidos na tela de visão geral de ticket formato pequeno "
+"da interface de agente."
 
 #. SysConfig
 msgid ""
@@ -22710,7 +22993,7 @@ msgstr ""
 
 #. SysConfig
 msgid "DynamicField object registration."
-msgstr ""
+msgstr "Registro de objeto de Campo Dinâmico."
 
 #. SysConfig
 msgid "DynamicField_%s"
@@ -22722,11 +23005,11 @@ msgstr "E-mail de Saída"
 
 #. SysConfig
 msgid "Edit Customer Companies."
-msgstr ""
+msgstr "Editar Empresas Clientes."
 
 #. SysConfig
 msgid "Edit Customer Users."
-msgstr ""
+msgstr "Editar Usuários Clientes."
 
 #. SysConfig
 msgid "Edit appointment"
@@ -22742,7 +23025,7 @@ msgstr "Endereços de E-mail"
 
 #. SysConfig
 msgid "Email Outbound"
-msgstr ""
+msgstr "E-mail Enviado"
 
 #. SysConfig
 msgid "Email Resend"
@@ -22750,11 +23033,11 @@ msgstr "Reenviar e-mail"
 
 #. SysConfig
 msgid "Email communication channel."
-msgstr ""
+msgstr "Canal de comunicação de e-mail"
 
 #. SysConfig
 msgid "Enable highlighting queues based on ticket age."
-msgstr ""
+msgstr "Ativar o realce de filas baseado na idade do ticket"
 
 #. SysConfig
 msgid "Enable keep-alive connection header for SOAP responses."
@@ -22811,6 +23094,8 @@ msgid ""
 "Enables or disables the ticket watcher feature, to keep track of tickets "
 "without being the owner nor the responsible."
 msgstr ""
+"Ativa ou desativa a funcionalidade de observador de ticket, para acompanhar "
+"tickets sem ser proprietário nem responsável."
 
 #. SysConfig
 msgid ""
@@ -22841,11 +23126,13 @@ msgstr ""
 
 #. SysConfig
 msgid "Enables ticket type feature."
-msgstr ""
+msgstr "Ativa a funcionalidade de tipo de ticket."
 
 #. SysConfig
 msgid "Enables ticket watcher feature only for the listed groups."
 msgstr ""
+"Ativa a funcionalidade de observação de ticket apenas para os grupos "
+"listados."
 
 #. SysConfig
 msgid "English (Canada)"
@@ -22927,6 +23214,8 @@ msgstr ""
 msgid ""
 "Event module that updates customer user search profiles if login changes."
 msgstr ""
+"Módulo de evento que atualiza os perfis de pesquisa de usuário cliente se o "
+"login for alterado."
 
 #. SysConfig
 msgid ""
@@ -22958,7 +23247,7 @@ msgstr "Calendário de Eventos de Chamado"
 
 #. SysConfig
 msgid "Example package autoload configuration."
-msgstr ""
+msgstr "Exemplo de configuração de autocarregamento de pacote."
 
 #. SysConfig
 msgid "Execute SQL statements."
@@ -23003,6 +23292,8 @@ msgid ""
 "Exports the whole article tree in search result (it can affect the system "
 "performance)."
 msgstr ""
+"Exporta toda a arvore de artigos no resultado de pesquisa (pode afetar a "
+"performance de sistema)."
 
 #. SysConfig
 msgid "External"
@@ -23018,11 +23309,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Fetch emails via fetchmail."
-msgstr ""
+msgstr "Coletar e-mails via fetchmail."
 
 #. SysConfig
 msgid "Fetch incoming emails from configured mail accounts."
-msgstr ""
+msgstr "Coletar e-mails recebidos das contas de e-mail configuradas."
 
 #. SysConfig
 msgid "Fetches packages via proxy. Overwrites \"WebUserAgent::Proxy\"."
@@ -23107,6 +23398,7 @@ msgstr ""
 msgid ""
 "Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64)."
 msgstr ""
+"Força a codificação de e-mails enviados (7bit|8bit|quoted-printable|base64)."
 
 #. SysConfig
 msgid ""
@@ -23114,6 +23406,9 @@ msgid ""
 "Define the current state as key, and the next state after lock action as "
 "content."
 msgstr ""
+"Força a escolha de um estado de ticket diferente (do atual) após ação de "
+"bloqueio. Defina o estado atual como chave e o próximo estado após a ação de"
+" bloqueio como conteúdo."
 
 #. SysConfig
 msgid "Forces to unlock tickets after being moved to another queue."
@@ -23371,60 +23666,80 @@ msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a database driver (normally"
 " autodetection is used) can be specified."
 msgstr ""
+"Se \"DB\" foi selecionado para Customer::AuthModule, um driver de banco de "
+"dados (normalmente autodetecção é utilizada) pode ser especificado."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a password to connect to "
 "the customer table can be specified."
 msgstr ""
+"Se \"DB\" foi selecionado para Customer::AuthModule, uma senha para conectar"
+" com a tabela de clientes pode ser especificada."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a username to connect to "
 "the customer table can be specified."
 msgstr ""
+"Se \"DB\" foi selecionado para Customer::AuthModule, um nome de usuário para"
+" conectar com a tabela de clientes pode ser especificada."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the DSN for the connection "
 "to the customer table must be specified."
 msgstr ""
+"Se \"DB\" foi selecionado para Customer::AuthModule, o DSN para conectar com"
+" a tabela de clientes deve ser especificado."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the column name for the "
 "CustomerPassword in the customer table must be specified."
 msgstr ""
+"Se \"DB\" foi selecionado para Customer::AuthModule, o nome da coluna da "
+"Senha de Cliente na tabela do cliente deve ser especificada."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the encryption type of "
 "passwords must be specified."
 msgstr ""
+"Se \"DB\" foi selecionado para Customer::AuthModule, o tipo de criptografia "
+"para senhas deve ser especificado."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the name of the column for "
 "the CustomerKey in the customer table must be specified."
 msgstr ""
+"Se \"DB\" foi selecionado para Customer::AuthModule, o nome da coluna da "
+"Chave de Cliente na tabela do cliente deve ser especificado."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the name of the table where"
 " your customer data should be stored must be specified."
 msgstr ""
+"Se \"DB\" foi selecionado para Customer::AuthModule, o nome da tabela onde "
+"os dados de cliente serão armazenados deve ser especificado."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for SessionModule, a table in database where session "
 "data will be stored must be specified."
 msgstr ""
+"Se \"DB\" foi selecionado para SessionModule, o nome da tabela do banco de "
+"dados onde os dados serão armazenados deve ser especificado."
 
 #. SysConfig
 msgid ""
 "If \"FS\" was selected for SessionModule, a directory where the session data"
 " will be stored must be specified."
 msgstr ""
+"Se \"FS\" foi selecionado para SessionModule, o diretório onde os dados de "
+"sessão serão armazenados deve ser especificado."
 
 #. SysConfig
 msgid ""
@@ -23464,6 +23779,10 @@ msgid ""
 "you can do this with a user who has access to the LDAP directory. Specify "
 "the password for this special user here."
 msgstr ""
+"Se \"LDAP\" foi selecionado para Customer::AuthModule e seus usuários têm "
+"apenas acesso anônimo para a árvore do LDAP, mas você quer pesquisar os "
+"dados, você pode fazer isso com um usuário que tem acesso ao diretório LDAP."
+" Especifique aqui a senha deste usuário especial."
 
 #. SysConfig
 msgid ""
@@ -23472,6 +23791,10 @@ msgid ""
 "you can do this with a user who has access to the LDAP directory. Specify "
 "the username for this special user here."
 msgstr ""
+"Se \"LDAP\" foi selecionado para Customer::AuthModule e seus usuários têm "
+"apenas acesso anônimo para a árvore do LDAP, mas você quer pesquisar os "
+"dados, você pode fazer isso com um usuário que tem acesso ao diretório LDAP."
+" Especifique aqui o nome deste usuário especial."
 
 #. SysConfig
 msgid ""
@@ -23557,6 +23880,8 @@ msgid ""
 "If \"Sendmail\" was selected as SendmailModule, the location of the sendmail"
 " binary and the needed options must be specified."
 msgstr ""
+"Se \"Sendmail\" foi selecionado como SendmailModule, o local do binário de "
+"sendmail e as opções necessárias precisam ser especificados."
 
 #. SysConfig
 msgid ""
@@ -23587,12 +23912,16 @@ msgid ""
 "If active, none of the regular expressions may match the user's email "
 "address to allow registration."
 msgstr ""
+"Se ativo, nenhuma expressão regular pode coincidir com o e-mail do usuário "
+"para permitir o registro."
 
 #. SysConfig
 msgid ""
 "If active, one of the regular expressions has to match the user's email "
 "address to allow registration."
 msgstr ""
+"Se ativo, uma expressão regular deve coincidir com o e-mail do usuário para "
+"permitir o registro."
 
 #. SysConfig
 msgid ""
@@ -23671,7 +24000,7 @@ msgstr ""
 
 #. SysConfig
 msgid "If enabled, the cache data be held in memory."
-msgstr ""
+msgstr "Se ativado, os dados de cache serão mantidos na memória."
 
 #. SysConfig
 msgid "If enabled, the cache data will be stored in cache backend."
@@ -23760,6 +24089,8 @@ msgid ""
 "If you're going to be out of office, you may wish to let other users know by"
 " setting the exact dates of your absence."
 msgstr ""
+"Se você for ficar ausente, você pode desejar informar os outros usuários ao "
+"definir as datas exatas de sua ausência."
 
 #. SysConfig
 msgid ""
@@ -23784,6 +24115,8 @@ msgstr "Incluir clientes desconhecidos no filtro de ticket."
 msgid ""
 "Includes article create times in the ticket search of the agent interface."
 msgstr ""
+"Inclui horários de criação de artigos na pesquisa de ticket da interface de "
+"agente."
 
 #. SysConfig
 msgid "Incoming Phone Call."
@@ -23976,7 +24309,7 @@ msgstr "Associar papéis a grupos."
 
 #. SysConfig
 msgid "Link templates to attachments."
-msgstr ""
+msgstr "Associa modelos com anexos."
 
 #. SysConfig
 msgid "Link templates to queues."
@@ -24001,6 +24334,7 @@ msgstr "Associar compromissos e chamados como uma tipo \"Normal\"."
 #. SysConfig
 msgid "List of CSS files to always be loaded for the agent interface."
 msgstr ""
+"Lista de arquivos CSS que sempre serão carregados na interface de agente."
 
 #. SysConfig
 msgid "List of CSS files to always be loaded for the customer interface."
@@ -24009,6 +24343,7 @@ msgstr ""
 #. SysConfig
 msgid "List of JS files to always be loaded for the agent interface."
 msgstr ""
+"Lista de arquivos JS que sempre serão carregados na interface de agente."
 
 #. SysConfig
 msgid "List of JS files to always be loaded for the customer interface."
@@ -24017,6 +24352,7 @@ msgstr ""
 #. SysConfig
 msgid "List of all CustomerCompany events to be displayed in the GUI."
 msgstr ""
+"Lista de todos eventos de Empresa Cliente que serão apresentados na GUI."
 
 #. SysConfig
 msgid "List of all CustomerUser events to be displayed in the GUI."
@@ -24028,7 +24364,7 @@ msgstr "Lista de todos eventos de Campos Dinâmicos a serem exibidos no GUI."
 
 #. SysConfig
 msgid "List of all LinkObject events to be displayed in the GUI."
-msgstr ""
+msgstr "Lista de todos eventos LinkObject que serão apresentados na GUI."
 
 #. SysConfig
 msgid "List of all Package events to be displayed in the GUI."
@@ -24069,11 +24405,15 @@ msgid ""
 "List of default Standard Templates which are assigned automatically to new "
 "Queues upon creation."
 msgstr ""
+"Lista de Modelos Padrão que serão designados automaticamente a novas Filas "
+"quando criadas."
 
 #. SysConfig
 msgid ""
 "List of responsive CSS files to always be loaded for the agent interface."
 msgstr ""
+"Lista de arquivos responsivos CSS que sempre são carregados na interface de "
+"agente."
 
 #. SysConfig
 msgid ""
@@ -24130,7 +24470,7 @@ msgstr "Examinar em detalhes o conteúdo de um chamado!"
 
 #. SysConfig
 msgid "Loop protection: no auto-response sent to \"%s\"."
-msgstr ""
+msgstr "Proteção anti-loop: nenhuma resposta automática enviada para \"%s\"."
 
 #. SysConfig
 msgid "Mail Accounts"
@@ -24142,11 +24482,11 @@ msgstr "Definições de configuração de Fila de E-mail."
 
 #. SysConfig
 msgid "Main menu item registration."
-msgstr ""
+msgstr "Registro de item de menu principal."
 
 #. SysConfig
 msgid "Main menu registration."
-msgstr ""
+msgstr "Registro do menu principal."
 
 #. SysConfig
 msgid ""
@@ -24187,7 +24527,7 @@ msgstr "Gerenciar certificados S/MIME para encriptação de e-mail."
 
 #. SysConfig
 msgid "Manage System Configuration Deployments."
-msgstr ""
+msgstr "Gerenciar Implantações de Configuração de Sistema"
 
 #. SysConfig
 msgid "Manage different calendars."
@@ -24223,19 +24563,27 @@ msgid ""
 "Max size (in characters) of the customer information table (phone and email)"
 " in the compose screen."
 msgstr ""
+"Tamanho máximo (em caracteres) da tabela de informações do cliente (telefone"
+" e e-mail) na tela de composição."
 
 #. SysConfig
 msgid "Max size (in rows) of the informed agents box in the agent interface."
 msgstr ""
+"Tamanho máximo (em linhas) da caixa de agentes informados na interface de "
+"agente."
 
 #. SysConfig
 msgid "Max size (in rows) of the involved agents box in the agent interface."
 msgstr ""
+"Tamanho máximo (em linhas) da caixa de agentes envolvidos na interface de "
+"agente."
 
 #. SysConfig
 msgid ""
 "Max size of the subjects in an email reply and in some overview screens."
 msgstr ""
+"Tamanho máximo dos assuntos em uma resposta de e-mails e em algumas telas de"
+" visão geral."
 
 #. SysConfig
 msgid ""
@@ -24253,6 +24601,8 @@ msgid ""
 "Maximal size in KBytes for mails that can be fetched via "
 "POP3/POP3S/IMAP/IMAPS (KBytes)."
 msgstr ""
+"Tamanho máximo em KBytes dos e-mails que podem ser coletados via "
+"POP3/POP3S/IMAP/IMAPS (KBytes)."
 
 #. SysConfig
 msgid "Maximum Number of a calendar shown in a dropdown."
@@ -24263,12 +24613,16 @@ msgid ""
 "Maximum length (in characters) of the dynamic field in the article of the "
 "ticket zoom view."
 msgstr ""
+"Tamanho máximo (em caracteres) do campo dinâmico no artigo na visão de zoom "
+"de ticket."
 
 #. SysConfig
 msgid ""
 "Maximum length (in characters) of the dynamic field in the sidebar of the "
 "ticket zoom view."
 msgstr ""
+"Tamanho máximo (em caracteres) do campo dinâmico na barra lateral na visão "
+"de zoom de ticket."
 
 #. SysConfig
 msgid ""
@@ -24285,6 +24639,8 @@ msgid ""
 "Maximum number of tickets to be displayed in the result of a search in the "
 "agent interface."
 msgstr ""
+"Número máximo de tickets a serem exibidos no resultado de uma pesquisa na "
+"interface de agente."
 
 #. SysConfig
 msgid ""
@@ -24296,12 +24652,15 @@ msgstr ""
 msgid ""
 "Maximum number of tickets to be displayed in the result of this operation."
 msgstr ""
+"Número máxiom de tickets a serem apresentados como resultado desta operação."
 
 #. SysConfig
 msgid ""
 "Maximum size (in characters) of the customer information table in the ticket"
 " zoom view."
 msgstr ""
+"Tamanho máximo (em caracteres) da tabela de informação de cliente na visão "
+"de zoom de ticket."
 
 #. SysConfig
 msgid "Medium"
@@ -24385,7 +24744,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Module to filter encrypted bodies of incoming messages."
-msgstr ""
+msgstr "Módulo para filtrar corpos criptografados de mensagens recebidas."
 
 #. SysConfig
 msgid "Module to generate accounted time ticket statistics."
@@ -24504,7 +24863,7 @@ msgstr ""
 
 #. SysConfig
 msgid "NameX"
-msgstr ""
+msgstr "NomeX"
 
 #. SysConfig
 msgid "New Ticket"
@@ -24543,12 +24902,16 @@ msgid ""
 "Next possible ticket states after adding a phone note in the ticket phone "
 "inbound screen of the agent interface."
 msgstr ""
+"Próximos estados de ticket possíveis após adicionar uma nota de telefonema "
+"na tela de telefonema recebido da interface de agente."
 
 #. SysConfig
 msgid ""
 "Next possible ticket states after adding a phone note in the ticket phone "
 "outbound screen of the agent interface."
 msgstr ""
+"Próximos estados de ticket possíveis após adicionar uma nota de telefonema "
+"na tela de ticket de telefonema realizado da interface de agente."
 
 #. SysConfig
 msgid "None"
@@ -24589,6 +24952,8 @@ msgid ""
 "Number of tickets to be displayed in each page of a search result in the "
 "agent interface."
 msgstr ""
+"Número de tickets a serem exibidos em cada página de resultado de pesquisa "
+"na interface de agente."
 
 #. SysConfig
 msgid ""
@@ -24622,6 +24987,11 @@ msgid ""
 "such Appointments. Instead, system creates all Appointments in the past, "
 "plus Appointments for the next N months (120 months/10 years by default)."
 msgstr ""
+"OTRS não suporta Agendamentos recorrentes sem uma data de término ou um "
+"número de iterações. Durante o processo de importação, pode ocorrer que o "
+"arquivo ICS não contenha esses Agendamentos. Ao invés disso, o sistema cria "
+"Agendamentos no passado mais Agendamentos para os próximos N meses (120 "
+"meses/10 anos por padrão)."
 
 #. SysConfig
 msgid "Open Tickets / Need to be answered"
@@ -25096,15 +25466,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Parameters of the example SLA attribute Comment2."
-msgstr ""
+msgstr "Parâmetros do atributo SLA de exemplo Comentário2."
 
 #. SysConfig
 msgid "Parameters of the example queue attribute Comment2."
-msgstr ""
+msgstr "Parâmetros do atributo fila de exemplo Comentário2."
 
 #. SysConfig
 msgid "Parameters of the example service attribute Comment2."
-msgstr ""
+msgstr "Parâmetros do atributo de serviço de exemplo Comentário2."
 
 #. SysConfig
 msgid "Parent"
@@ -25119,6 +25489,8 @@ msgid ""
 "Path for the log file (it only applies if \"FS\" was selected for "
 "LoopProtectionModule and it is mandatory)."
 msgstr ""
+"Caminho para o arquivo de log (aplica apenas se \"FS\" foi selecionado para "
+"LoopProtectionModule e é mandatório)."
 
 #. SysConfig
 msgid "Pending time"
@@ -25136,11 +25508,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Permitted width for compose email windows."
-msgstr ""
+msgstr "Largura permitida para janelas de composição de e-mail."
 
 #. SysConfig
 msgid "Permitted width for compose note windows."
-msgstr ""
+msgstr "Largura permitida para janelas de composição de nota."
 
 #. SysConfig
 msgid "Persian"
@@ -25164,7 +25536,7 @@ msgstr "Chamada telefônica"
 
 #. SysConfig
 msgid "Phone communication channel."
-msgstr ""
+msgstr "Canal de Comunicação de Telefonema."
 
 #. SysConfig
 msgid "Phone-Ticket"
@@ -25292,7 +25664,7 @@ msgstr "Visão de Filas"
 
 #. SysConfig
 msgid "Queues ↔ Auto Responses"
-msgstr ""
+msgstr "Filas ↔ Respostas Automáticas"
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -25325,10 +25697,11 @@ msgstr "Removida assinatura para o usuário \"%s\"."
 #. SysConfig
 msgid "Removes old system configuration deployments (Sunday mornings)."
 msgstr ""
+"Remove implantações de configuração de sistema antigas (manhãs de Domingo)."
 
 #. SysConfig
 msgid "Removes old ticket number counters (each 10 minutes)."
-msgstr ""
+msgstr "Remove contadores de número de ticket antigos (a cada 10 minutos)."
 
 #. SysConfig
 msgid "Removes the ticket watcher information when a ticket is archived."
@@ -25346,6 +25719,8 @@ msgid ""
 "Replaces the original sender with current customer's email address on "
 "compose answer in the ticket compose screen of the agent interface."
 msgstr ""
+"Substitui o remetente original pelo endereço de e-mail do cliente atual ao "
+"compor uma resposta na tela de composição de ticket da interface de agente."
 
 #. SysConfig
 msgid "Reports"
@@ -25381,6 +25756,8 @@ msgid ""
 "Required permissions to use the email outbound screen in the agent "
 "interface."
 msgstr ""
+"Permissões necessárias para utilização da tela de envio de e-mail na "
+"interface de agente."
 
 #. SysConfig
 msgid ""
@@ -25399,6 +25776,8 @@ msgid ""
 "Required permissions to use the ticket compose screen in the agent "
 "interface."
 msgstr ""
+"Permissões necessárias para utilização da tela de composição de ticket na "
+"interface de agente."
 
 #. SysConfig
 msgid ""
@@ -25503,6 +25882,8 @@ msgid ""
 "Restores a ticket from the archive (only if the event is a state change to "
 "any open available state)."
 msgstr ""
+"Recupera um ticket do arquivo (somente se o evento é uma mudança de estado "
+"para qualquer estado aberto disponível)."
 
 #. SysConfig
 msgid ""
@@ -25547,6 +25928,10 @@ msgid ""
 "changes are only valid for the current session. It will not be possible for "
 "agents to change their passwords."
 msgstr ""
+"Executa o sistema na versão \"Demo\". Se ativado, agentes podem alterar "
+"permissões, como a seleção de língua e tema, através da interface web de "
+"agente. Essas mudanças só ficam válidas durante a sessão atual. Não será "
+"possível aos agentes alterar suas senhas."
 
 #. SysConfig
 msgid "Russian"
@@ -25581,6 +25966,12 @@ msgid ""
 " production without any loss of data. Note: Searching for attachment names "
 "is not supported when \"FS\" is used."
 msgstr ""
+"Salva os anexos de artigos. \"DB\" armazena todos os dados no banco de dados"
+" (não recomendado para armazenar anexos grandes). \"FS\" armazenao os dados "
+"no filesystem; isto é mais rápido, mas o servidor web tem que rodar através "
+"do usuário OTRS. Você pode alterar entre módulos sem perder dados mesmo "
+"quando um sistema já estiver em produção. Observação: Buscar nomes de anexos"
+" não é suportado quando \"FS\" é utilizado."
 
 #. SysConfig
 msgid "Schedule a maintenance period."
@@ -25666,11 +26057,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Select your preferred layout for the software."
-msgstr ""
+msgstr "Selecione seu layout preferido para o software."
 
 #. SysConfig
 msgid "Select your preferred theme for OTRS."
-msgstr ""
+msgstr "Selecione seu tema preferido do OTRS."
 
 #. SysConfig
 msgid "Selects the cache backend to use."
@@ -25706,7 +26097,7 @@ msgstr "Enviar notificações para usuários."
 
 #. SysConfig
 msgid "Sender type for new tickets from the customer inteface."
-msgstr ""
+msgstr "Tipo de remetente para novos tickets da interface de cliente."
 
 #. SysConfig
 msgid ""
@@ -25725,27 +26116,31 @@ msgstr ""
 
 #. SysConfig
 msgid "Sends customer notifications just to the mapped customer."
-msgstr ""
+msgstr "Envia notificações de cliente somente para os clientes mapeados."
 
 #. SysConfig
 msgid "Sends registration information to OTRS group."
-msgstr ""
+msgstr "Envia informações de registro para o Grupo OTRS."
 
 #. SysConfig
 msgid ""
 "Sends reminder notifications of unlocked ticket after reaching the reminder "
 "date (only sent to ticket owner)."
 msgstr ""
+"Envia notificações de lembrete de ticket desbloqueado após atingir a data de"
+" lembrete (enviado apenas para o proprietário do ticket)."
 
 #. SysConfig
 msgid ""
 "Sends the notifications which are configured in the admin interface under "
 "\"Ticket Notifications\"."
 msgstr ""
+"Envia as notificações que estão configuradas na interface de administração "
+"em \"Notificações de Ticket\"."
 
 #. SysConfig
 msgid "Sent \"%s\" notification to \"%s\" via \"%s\"."
-msgstr ""
+msgstr "Enviada a notificação \"%s\" para \"%s\" via \"%s\"."
 
 #. SysConfig
 msgid "Sent auto follow-up to \"%s\"."
@@ -25773,11 +26168,11 @@ msgstr "Notificação enviada para \"%s\"."
 
 #. SysConfig
 msgid "Serbian Cyrillic"
-msgstr ""
+msgstr "Sérvio Cirílico"
 
 #. SysConfig
 msgid "Serbian Latin"
-msgstr ""
+msgstr "Sérvio Latim"
 
 #. SysConfig
 msgid "Service Level Agreements"
@@ -25810,6 +26205,8 @@ msgid ""
 "Set the limit of tickets that will be executed on a single genericagent job "
 "execution."
 msgstr ""
+"Define o limite de tickets que serão executados em uma única execução de job"
+" do Agente Genérico."
 
 #. SysConfig
 msgid ""
@@ -25872,6 +26269,8 @@ msgid ""
 "Sets the PendingTime of a ticket to 0 if the state is changed to a non-"
 "pending state."
 msgstr ""
+"Define o Tempo de Pendente de um ticket para 0 se o estado mudar para um "
+"estado que não é pendente."
 
 #. SysConfig
 msgid ""
@@ -25898,6 +26297,8 @@ msgstr ""
 msgid ""
 "Sets the count of articles visible in preview mode of ticket overviews."
 msgstr ""
+"Define o número de artigos visíveis no modo de visão prévia de visões gerais"
+" de ticket."
 
 #. SysConfig
 msgid ""
@@ -25962,10 +26363,14 @@ msgstr ""
 #. SysConfig
 msgid "Sets the default link type of split tickets in the agent interface."
 msgstr ""
+"Define o tipo de associação padrão de tickets divididos na interface de "
+"agente."
 
 #. SysConfig
 msgid "Sets the default link type of splitted tickets in the agent interface."
 msgstr ""
+"Define o tipo de associação padrão de tickets divididos na interface de "
+"agente."
 
 #. SysConfig
 msgid ""
@@ -26079,6 +26484,8 @@ msgid ""
 "Sets the inactivity time (in seconds) to pass before a session is killed and"
 " a user is logged out."
 msgstr ""
+"Define o tempo de inatividade (em segundos) que deve transcorrer até que a "
+"sessão seja encerrada e o usuários seja deslogado."
 
 #. SysConfig
 msgid ""
@@ -26086,6 +26493,9 @@ msgid ""
 "SessionMaxIdleTime before a prior warning will be visible for the logged in "
 "agents."
 msgstr ""
+"Define o número máximo de agentes ativos no intervalo de tempo definido em "
+"SessionMaxIdleTime antes que um alerta fique visível para os agentes "
+"logados."
 
 #. SysConfig
 msgid ""
@@ -26487,6 +26897,8 @@ msgstr ""
 #. SysConfig
 msgid "Show article as rich text even if rich text writing is disabled."
 msgstr ""
+"Mostrar artigo como rich text mesmo quando escrita em rich text estiver "
+"desativada."
 
 #. SysConfig
 msgid "Show command line output."
@@ -26494,7 +26906,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Show queues even when only locked tickets are in."
-msgstr ""
+msgstr "Mostrar filas mesmo quando apenas contiverem tickets bloqueados."
 
 #. SysConfig
 msgid "Show the current owner in the customer interface."
@@ -26517,6 +26929,7 @@ msgid ""
 "Shows a count of attachments in the ticket zoom, if the article has "
 "attachments."
 msgstr ""
+"Mostra o número de anexos no zoom de ticket, se o artigo contiver anexos."
 
 #. SysConfig
 msgid ""
@@ -26606,6 +27019,8 @@ msgid ""
 "Shows a link in the menu to add a note to a ticket in every ticket overview "
 "of the agent interface."
 msgstr ""
+"Mostra um link no menu para adicionar uma nota em um ticket em todas visões "
+"gerais de ticket da interface de agente."
 
 #. SysConfig
 msgid ""
@@ -26667,6 +27082,8 @@ msgid ""
 "Shows a link in the menu to close a ticket in every ticket overview of the "
 "agent interface."
 msgstr ""
+"Mostra um link no menu para fechar um ticket em todas visões gerais de "
+"ticket da interface de agente."
 
 #. SysConfig
 msgid ""
@@ -26703,6 +27120,8 @@ msgid ""
 "Shows a link in the menu to enroll a ticket into a process in the ticket "
 "zoom view of the agent interface."
 msgstr ""
+"Mostra um link no menu para registrar um ticket a um processo na visão de "
+"zoom do ticket na interface de agente."
 
 #. SysConfig
 msgid ""
@@ -26719,6 +27138,8 @@ msgid ""
 "Shows a link in the menu to lock / unlock a ticket in the ticket overviews "
 "of the agent interface."
 msgstr ""
+"Mostra um link no menu para bloquear / desbloquear um ticket em todas visões"
+" gerais de ticket da interface de agente."
 
 #. SysConfig
 msgid ""
@@ -26736,6 +27157,8 @@ msgid ""
 "Shows a link in the menu to move a ticket in every ticket overview of the "
 "agent interface."
 msgstr ""
+"Mostra um link no menu para mover um ticket em todas visões gerais de ticket"
+" da interface de agente."
 
 #. SysConfig
 msgid ""
@@ -26753,6 +27176,8 @@ msgid ""
 "Shows a link in the menu to see the history of a ticket in every ticket "
 "overview of the agent interface."
 msgstr ""
+"Mostra um link no menu para visualizar o histórico de um ticket em todas "
+"visões gerais de ticket da interface de agente."
 
 #. SysConfig
 msgid ""
@@ -26800,12 +27225,16 @@ msgid ""
 "Shows a link in the menu to set the priority of a ticket in every ticket "
 "overview of the agent interface."
 msgstr ""
+"Mostra um link no menu para definir a prioridade de um ticket em todas "
+"visões gerais de ticket da interface de agente."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to zoom a ticket in the ticket overviews of the "
 "agent interface."
 msgstr ""
+"Mostra um link no menu para dar zoom em um ticket em todas visões gerais de "
+"ticket da interface de agente."
 
 #. SysConfig
 msgid ""
@@ -27018,11 +27447,15 @@ msgid ""
 "Shows the articles sorted normally or in reverse, under ticket zoom in the "
 "agent interface."
 msgstr ""
+"Mostra os artigos ordenados normalmente ou em reverso no zoom de ticket da "
+"interface de agente."
 
 #. SysConfig
 msgid ""
 "Shows the customer user information (phone and email) in the compose screen."
 msgstr ""
+"Mostra informações do usuário cliente (telefone e e-mail) na tela de "
+"composição."
 
 #. SysConfig
 msgid ""
@@ -27041,23 +27474,28 @@ msgstr ""
 
 #. SysConfig
 msgid "Shows the message of the day on login screen of the agent interface."
-msgstr ""
+msgstr "Mostra a mensagem do dia na tela de login da interface de agente."
 
 #. SysConfig
 msgid "Shows the ticket history (reverse ordered) in the agent interface."
 msgstr ""
+"Mostra o histórico de ticket (em ordem reversa) na interface de agente."
 
 #. SysConfig
 msgid ""
 "Shows the ticket priority options in the close ticket screen of the agent "
 "interface."
 msgstr ""
+"Mostra as opções de prioridade de ticket na tela de fechamento de ticket na "
+"interface de agente."
 
 #. SysConfig
 msgid ""
 "Shows the ticket priority options in the move ticket screen of the agent "
 "interface."
 msgstr ""
+"Mostra as opções de prioridade de ticket na tela de mover ticket na "
+"interface de agente."
 
 #. SysConfig
 msgid ""
@@ -27076,6 +27514,8 @@ msgid ""
 "Shows the ticket priority options in the ticket note screen of the agent "
 "interface."
 msgstr ""
+"Mostra as opções de prioridade de ticket na tela de nota de ticket na "
+"interface de agente."
 
 #. SysConfig
 msgid ""
@@ -27100,11 +27540,15 @@ msgid ""
 "Shows the ticket priority options in the ticket responsible screen of the "
 "agent interface."
 msgstr ""
+"Mostra as opções de prioridade de ticket na tela de responsável por um "
+"ticket na interface de agente."
 
 #. SysConfig
 msgid ""
 "Shows the title field in the close ticket screen of the agent interface."
 msgstr ""
+"Mostra o campo título de ticket na tela de fechamento de ticket na interface"
+" de agente."
 
 #. SysConfig
 msgid ""
@@ -27115,6 +27559,8 @@ msgstr ""
 msgid ""
 "Shows the title field in the ticket note screen of the agent interface."
 msgstr ""
+"Mostra o campo título de ticket na tela de nota de ticket na interface de "
+"agente."
 
 #. SysConfig
 msgid ""
@@ -27139,6 +27585,8 @@ msgid ""
 "Shows the title field in the ticket responsible screen of the agent "
 "interface."
 msgstr ""
+"Mostra o campo título de ticket na tela de proprietário por um ticket na "
+"interface de agente."
 
 #. SysConfig
 msgid ""
@@ -27209,6 +27657,11 @@ msgid ""
 "Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on "
 "top). Use the QueueID for the key and 0 or 1 for value."
 msgstr ""
+"Ordena os tickets (ascendente ou descendente) quando uma fila tiver sido "
+"selecionada na visão de fila e após os tickets terem sido ordenados por "
+"prioridade. Valores: 0 = ascendente (mais antigos no topo, padrão), 1 = "
+"descendente (mais recentes no topo). Utilize o ID de Fila para a chave e 0 "
+"ou 1 para o valor."
 
 #. SysConfig
 msgid ""
@@ -27217,6 +27670,11 @@ msgid ""
 "Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on "
 "top). Use the ServiceID for the key and 0 or 1 for value."
 msgstr ""
+"Ordena os tickets (ascendente ou descendente) quando uma fila tiver sido "
+"selecionada na visão de serviço e após os tickets terem sido ordenados por "
+"prioridade. Valores: 0 = ascendente (mais antigos no topo, padrão), 1 = "
+"descendente (mais recentes no topo). Utilize o ID de Fila para a chave e 0 "
+"ou 1 para o valor."
 
 #. SysConfig
 msgid "Spam"
@@ -27370,6 +27828,7 @@ msgid ""
 "Specifies whether the (MIMEBase) article attachments will be indexed and "
 "searchable."
 msgstr ""
+"Especifica se os anexos de artigo (MIMEBase) serão indexados e pesquisáveis."
 
 #. SysConfig
 msgid ""
@@ -27507,7 +27966,7 @@ msgstr "Manutenção do Sistema"
 
 #. SysConfig
 msgid "Templates ↔ Attachments"
-msgstr ""
+msgstr "Modelos ↔ Anexos"
 
 #. SysConfig
 msgid "Templates ↔ Queues"
@@ -27655,6 +28114,8 @@ msgid ""
 "The maximum number of mails fetched at once before reconnecting to the "
 "server."
 msgstr ""
+"O número máximo de e-mails capturados por vez antes de reconectar com o "
+"servidor."
 
 #. SysConfig
 msgid ""
@@ -27667,6 +28128,8 @@ msgid ""
 "The text at the beginning of the subject in an email reply, e.g. RE, AW, or "
 "AS."
 msgstr ""
+"O texto no começo do assunto de uma resposta de e-mail, por exemplo, RE, AW,"
+" ou AS."
 
 #. SysConfig
 msgid ""
@@ -27967,6 +28430,12 @@ msgid ""
 "the settings of another user's behalf. Use 'PreferenceGroup' to control in "
 "which area these settings should be shown in the user interface."
 msgstr ""
+"Seleção de transporte para notificações de compromisso. Observação: "
+"definindo 'Ativo' para 0 só irá prevenir agentes de editar definições deste "
+"grupo em suas preferências pessoais, mas ainda permitirá que administradores"
+" editem a definição em nome de outro usuário. Utilize 'Grupo de "
+"Preferênacia' para controlar qual áres estas definições devem ser exibidas "
+"na interface de usuário."
 
 #. SysConfig
 msgid ""
