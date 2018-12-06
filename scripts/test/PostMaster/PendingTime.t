@@ -79,7 +79,7 @@ my @Tests = (
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     String => '2021-01-01 00:00:00',
-                    }
+                }
             )->ToEpoch(),
         },
         CheckFollowUp => {
@@ -87,7 +87,7 @@ my @Tests = (
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     String => '2022-01-01 00:00:00',
-                    }
+                }
             )->ToEpoch(),
         },
     },

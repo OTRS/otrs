@@ -854,9 +854,9 @@ for my $Test (@Tests) {
                                 'ValueRegex' => '.*',
                                 'ValueType'  => 'String',
                             }
-                            ]
+                        ]
                     }
-                    ]
+                ]
             },
         },
     },

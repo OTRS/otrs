@@ -87,7 +87,7 @@ sub Run {
     my %GetParam;
 
     # get config data
-    my $StartHit = int( $ParamObject->GetParam( Param => 'StartHit' ) || 1 );
+    my $StartHit    = int( $ParamObject->GetParam( Param => 'StartHit' ) || 1 );
     my $SearchLimit = $ConfigObject->Get('Ticket::CustomerTicketSearch::SearchLimit')
         || 200;
     my $SearchPageShown = $ConfigObject->Get('Ticket::CustomerTicketSearch::SearchPageShown') || 40;
@@ -100,7 +100,7 @@ sub Run {
 
     # get search profile object
     my $SearchProfileObject = $Kernel::OM->Get('Kernel::System::SearchProfile');
-    my $TakeLastSearch = $ParamObject->GetParam( Param => 'TakeLastSearch' ) || '';
+    my $TakeLastSearch      = $ParamObject->GetParam( Param => 'TakeLastSearch' ) || '';
 
     # collect all searchable article field definitions and add the fields to the attributes array
     my %ArticleSearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchableFieldsList();
@@ -739,7 +739,7 @@ sub Run {
                 'ticket_search_%s',
                 $CurSystemDateTimeObject->Format(
                     Format => '%Y-%m-%d_%H-%M'
-                    )
+                )
             );
 
             # get CSV object
@@ -833,7 +833,7 @@ sub Run {
                 if ( !%Article ) {
                     %Data = %Ticket;
                     $Data{Subject} = $Ticket{Title} || $LayoutObject->{LanguageObject}->Translate('Untitled');
-                    $Data{From} = '--';
+                    $Data{From}    = '--';
                 }
                 else {
                     %Data = ( %Ticket, %Article );
@@ -868,7 +868,7 @@ sub Run {
                 $UserInfo{CustomerName} = '(' . $UserInfo{CustomerName} . ')'
                     if ( $UserInfo{CustomerName} );
 
-                my %Info = ( %Data, %UserInfo );
+                my %Info    = ( %Data, %UserInfo );
                 my $Created = $LayoutObject->{LanguageObject}->FormatTimeString(
                     $Data{CreateTime} // $Data{Created},
                     'DateFormat',
@@ -1199,7 +1199,7 @@ sub Run {
                     if ( !%Article ) {
                         %Data = %Ticket;
                         $Data{Subject} = $Ticket{Title} || $LayoutObject->{LanguageObject}->Translate('Untitled');
-                        $Data{Body} = $LayoutObject->{LanguageObject}->Translate(
+                        $Data{Body}    = $LayoutObject->{LanguageObject}->Translate(
                             'This item has no articles yet.'
                         );
                     }

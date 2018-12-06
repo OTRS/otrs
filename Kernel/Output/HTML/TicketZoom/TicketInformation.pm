@@ -211,7 +211,7 @@ sub Run {
 
     my %OnlineData;
     if ($EnableChat) {
-        my $VideoChatEnabled = 0;
+        my $VideoChatEnabled     = 0;
         my $VideoChatAgentsGroup = $ConfigObject->Get('ChatEngine::PermissionGroup::VideoChatAgents') || 'users';
         my $VideoChatAgentsGroupPermission = $Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
             UserID    => $Self->{UserID},
@@ -313,7 +313,7 @@ sub Run {
 
     # set display options
     $Param{WidgetTitle} = Translatable('Ticket Information');
-    $Param{Hook} = $ConfigObject->Get('Ticket::Hook') || 'Ticket#';
+    $Param{Hook}        = $ConfigObject->Get('Ticket::Hook') || 'Ticket#';
 
     # check if ticket is normal or process ticket
     my $IsProcessTicket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCheckForProcessType(

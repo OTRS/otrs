@@ -774,7 +774,7 @@ sub LogCleanup {
     }
 
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-    my $Success = $DateTimeObject->Set( String => $Param{CreatedAtOrBefore} );
+    my $Success        = $DateTimeObject->Set( String => $Param{CreatedAtOrBefore} );
     if ( !$Success ) {
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(

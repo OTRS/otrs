@@ -250,7 +250,7 @@ sub SettingRender {
         && $Param{Item}->[0]->{ValueEntityType}
         )
     {
-        $EntityType = $Param{Item}->[0]->{ValueEntityType};
+        $EntityType    = $Param{Item}->[0]->{ValueEntityType};
         $EntitySubType = $Param{Item}->[0]->{ValueEntitySubType} || '';
     }
     elsif (
@@ -258,11 +258,11 @@ sub SettingRender {
         && $Value->[0]->{Item}->[0]->{ValueEntityType}
         )
     {
-        $EntityType = $Value->[0]->{Item}->[0]->{ValueEntityType};
+        $EntityType    = $Value->[0]->{Item}->[0]->{ValueEntityType};
         $EntitySubType = $Value->[0]->{Item}->[0]->{ValueEntitySubType} || '';
     }
     elsif ( $Value->[0]->{Array} ) {
-        $EntityType = $Value->[0]->{Array}->[0]->{DefaultItem}->[0]->{ValueEntityType};
+        $EntityType    = $Value->[0]->{Array}->[0]->{DefaultItem}->[0]->{ValueEntityType};
         $EntitySubType = $Value->[0]->{Array}->[0]->{DefaultItem}->[0]->{ValueEntitySubType} || '';
     }
     elsif ( $Value->[0]->{Hash} ) {
@@ -273,7 +273,7 @@ sub SettingRender {
         {
 
             # take ValueEntityType from DefaultItem
-            $EntityType = $Value->[0]->{Hash}->[0]->{DefaultItem}->[0]->{ValueEntityType};
+            $EntityType    = $Value->[0]->{Hash}->[0]->{DefaultItem}->[0]->{ValueEntityType};
             $EntitySubType = $Value->[0]->{Hash}->[0]->{DefaultItem}->[0]->{ValueEntitySubType} || '';
         }
         else {

@@ -102,7 +102,7 @@ sub Fetch {
             Direction   => 'Incoming',
             AccountType => $Param{Type},
             AccountID   => $Param{ID},
-            }
+        }
     );
 
     $CommunicationLogObject->ObjectLogStart(
@@ -270,7 +270,7 @@ sub Fetch {
     }
     else {
 
-        my $MessageList = $POPOperation->( 'list', );
+        my $MessageList  = $POPOperation->( 'list', );
         my $MessageCount = $NOM eq '0E0' ? 0 : $NOM;
 
         $CommunicationLogObject->ObjectLog(
@@ -331,7 +331,7 @@ sub Fetch {
 
                 # convert size to KB, log error
                 my $MessageSizeKB = int( $MessageList->{$Messageno} / (1024) );
-                my $ErrorMessage = "$AuthType: Can't fetch email $NOM from $Param{Login}/$Param{Host}. "
+                my $ErrorMessage  = "$AuthType: Can't fetch email $NOM from $Param{Login}/$Param{Host}. "
                     . "Email too big ($MessageSizeKB KB - max $MaxEmailSize KB)!";
 
                 $CommunicationLogObject->ObjectLog(

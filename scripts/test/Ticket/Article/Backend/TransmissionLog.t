@@ -106,7 +106,7 @@ $Self->True(
     'TransmissionLogObject create()'
 );
 
-my $Object = $TransmissionLogObject->ArticleGetTransmissionError( ArticleID => $ArticleID );
+my $Object  = $TransmissionLogObject->ArticleGetTransmissionError( ArticleID => $ArticleID );
 my $Success = IsHashRefWithData($Object);
 $Self->True(
     $Success,

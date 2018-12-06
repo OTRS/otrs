@@ -339,7 +339,7 @@ sub SettingGet {
 
         my $IsOverridden = DataIsDifferent(
             Data1 => $SettingDeployed{EffectiveValue} // {},
-            Data2 => $LoadedEffectiveValue //            {},
+            Data2 => $LoadedEffectiveValue            // {},
         );
 
         if ($IsOverridden) {
@@ -1486,7 +1486,7 @@ sub SettingEffectiveValueCheck {
     );
 
     my %Parameters = %{ $Param{Parameters} || {} };
-    my $Value = $Param{XMLContentParsed}->{Value};
+    my $Value      = $Param{XMLContentParsed}->{Value};
 
     if ( $Value->[0]->{Item} || $Value->[0]->{ValueType} ) {
 
@@ -2826,7 +2826,7 @@ sub ConfigurationNavigationTree {
     my @SettingsRaw = $SysConfigDBObject->DefaultSettingListGet(
         %CategoryOptions,
         UserModificationActive => $Param{UserModificationActive} || undef,
-        IsValid => $Param{IsValid},
+        IsValid                => $Param{IsValid},
     );
 
     # For AgentPreference take into account which settings are Forbidden to update by user or disabled when counting
@@ -3781,7 +3781,7 @@ sub ConfigurationDeployCleanup {
 
     my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
-    my @List = $SysConfigDBObject->DeploymentListGet();
+    my @List    = $SysConfigDBObject->DeploymentListGet();
     my @ListIDs = map { $_->{DeploymentID} } @List;
 
     my $RemainingDeploments = $Kernel::OM->Get('Kernel::Config')->Get('SystemConfiguration::MaximumDeployments') // 20;
@@ -4784,7 +4784,7 @@ sub OverriddenFileNameGet {
     $EffectiveValue =~ s/\<OTRS_CONFIG_(.+?)\>/$ConfigObject->{$1}/g;
 
     my $IsOverridden = DataIsDifferent(
-        Data1 => $EffectiveValue //       {},
+        Data1 => $EffectiveValue       // {},
         Data2 => $LoadedEffectiveValue // {},
     );
 
@@ -4992,7 +4992,7 @@ sub _IsOverriddenInModule {
             elsif (
                 DataIsDifferent(
                     Data1 => $LoadedEffectiveValue // {},
-                    Data2 => $ConfigFromDB //         {},
+                    Data2 => $ConfigFromDB         // {},
                 )
                 )
             {
@@ -5014,7 +5014,7 @@ sub _IsOverriddenInModule {
             elsif (
                 DataIsDifferent(
                     Data1 => $LoadedEffectiveValue // {},
-                    Data2 => $ConfigFromDB //         {},
+                    Data2 => $ConfigFromDB         // {},
                 )
                 )
             {
@@ -5315,7 +5315,7 @@ sub _NavigationTree {
     # Check if it's deeper tree.
     if ( scalar @{ $Param{Array} } > 1 ) {
         my @SubArray = splice( @{ $Param{Array} }, 1 );
-        my %Hash = $Self->_NavigationTree(
+        my %Hash     = $Self->_NavigationTree(
             Tree  => $Result{ $Param{Array}->[0] }->{Subitems},
             Array => \@SubArray,
         );

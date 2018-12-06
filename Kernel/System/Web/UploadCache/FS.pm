@@ -102,7 +102,7 @@ sub FormIDAddFile {
     $Param{Content} = '' if !defined( $Param{Content} );
 
     # create content id
-    my $ContentID = $Param{ContentID};
+    my $ContentID   = $Param{ContentID};
     my $Disposition = $Param{Disposition} || '';
     if ( !$ContentID && lc $Disposition eq 'inline' ) {
 

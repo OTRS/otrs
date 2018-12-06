@@ -152,7 +152,7 @@ sub Run {
         $ConfigChange = 1;
     }
 
-    my $ConfigDirectory = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files';
+    my $ConfigDirectory        = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files';
     my %KnownConfigFilesMD5Sum = %{ $Self->{ConfigFilesMD5Sum} // {} };
     my @ChangedFiles;
 

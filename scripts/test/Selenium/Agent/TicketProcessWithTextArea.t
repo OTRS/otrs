@@ -165,7 +165,7 @@ $Selenium->RunTest(
             "return \$('.Subject:contains(\"This is the subject\")').closest('tr').find('.ArticleID').val();"
         );
 
-        my @Ticket = split( 'TicketID=', $Selenium->get_current_url() );
+        my @Ticket   = split( 'TicketID=', $Selenium->get_current_url() );
         my $TicketID = $Ticket[1];
 
         my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(

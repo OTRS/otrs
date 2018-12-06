@@ -440,7 +440,7 @@ sub ProviderGenerateResponse {
     if ($SOAPResult) {
         push @CallData, $SOAPResult;
     }
-    my $Serialized = SOAP::Serializer->autotype(0)->default_ns( $Config->{NameSpace} )->envelope(@CallData);
+    my $Serialized      = SOAP::Serializer->autotype(0)->default_ns( $Config->{NameSpace} )->envelope(@CallData);
     my $SerializedFault = $@ || '';
     if ($SerializedFault) {
         return $Self->_Output(
@@ -1002,7 +1002,7 @@ sub _Output {
 
     # Set keep-alive.
     my $ConfigKeepAlive = $Kernel::OM->Get('Kernel::Config')->Get('SOAP::Keep-Alive');
-    my $Connection = $ConfigKeepAlive ? 'Keep-Alive' : 'close';
+    my $Connection      = $ConfigKeepAlive ? 'Keep-Alive' : 'close';
 
     # Prepare additional headers.
     my $AdditionalHeaderStrg = '';

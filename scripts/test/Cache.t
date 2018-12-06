@@ -539,7 +539,7 @@ for my $ModuleFile (@BackendModuleFiles) {
         for my $TestFile (@TestFiles) {
 
             my @FileParts = split '/', $TestFile;
-            my $FileName = $FileParts[-1];
+            my $FileName  = $FileParts[-1];
 
             # read content of the testfile
             my $FileContent = $MainObject->FileRead(

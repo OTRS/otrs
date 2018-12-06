@@ -353,7 +353,7 @@ EOF
         pop @{ $LayoutObject->{_JSOnDocumentComplete} };
 
         if ( !$HasDatepicker ) {
-            my $VacationDays = $LayoutObject->DatepickerGetVacationDays();
+            my $VacationDays  = $LayoutObject->DatepickerGetVacationDays();
             my $TextDirection = $LanguageObject->{TextDirection} || '';
 
             my $JSONString = $Kernel::OM->Get('Kernel::System::JSON')->Encode(

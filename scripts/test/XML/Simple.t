@@ -223,11 +223,11 @@ my @Tests = (
                                                                     'Key'     => 'NavBar',
                                                                     'content' => 'Ticket'
                                                                 }
-                                                                ]
+                                                            ]
                                                         }
                                                     ],
                                                 },
-                                                ]
+                                            ]
                                         },
                                     ],
                                     'Key' => 'NavBar',
@@ -299,10 +299,10 @@ my @Tests = (
                                                     'Key'     => 'NavBar',
                                                     'content' => 'Ticket'
                                                 }
-                                                ]
-                                            }
+                                            ]
+                                        }
                                     },
-                                    ]
+                                ]
                             },
                             'Key' => 'NavBar',
                         },
@@ -372,8 +372,8 @@ my @Tests = (
                                                 'Key'     => 'NavBar',
                                                 'content' => 'Ticket'
                                             }
-                                            ]
-                                        }
+                                        ]
+                                    }
                                 },
                             },
                             'Key' => 'NavBar',
@@ -443,8 +443,8 @@ my @Tests = (
                                                     'Key'     => 'NavBar',
                                                     'content' => 'Ticket'
                                                 }
-                                                ]
-                                            }
+                                            ]
+                                        }
                                     },
                                 },
                                 'Key' => 'NavBar',
@@ -514,8 +514,8 @@ my @Tests = (
                                                 'Key'     => 'NavBar',
                                                 'Valueß' => 'Ticket'
                                             }
-                                            ]
-                                        }
+                                        ]
+                                    }
                                 },
                             },
                             'Key' => 'NavBar',
@@ -582,7 +582,7 @@ my @Tests = (
                                         'Key'     => 'NavBar',
                                         'content' => 'Ticket'
                                     }
-                                    ]
+                                ]
                             },
                         },
                         'Key' => 'NavBar',
@@ -647,7 +647,7 @@ my @Tests = (
                                             'NavBar' => {
                                                 'content' => 'Ticket'
                                             },
-                                            }
+                                        }
                                     },
                                 },
                             },
@@ -717,8 +717,8 @@ my @Tests = (
                                                 'Key'          => 'NavBar',
                                                 'ValueContent' => 'Ticket'            # There are more than 1 attributes
                                             }
-                                            ]
-                                        }
+                                        ]
+                                    }
                                 },
                             },
                             'Key' => 'NavBar',

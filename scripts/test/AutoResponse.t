@@ -162,14 +162,14 @@ for my $TypeID ( sort keys %AutoResponseType ) {
     }
 
     my %AutoResponseList = $AutoResponseObject->AutoResponseList( Valid => 0 );
-    my $List = grep { $_ eq $AutoResponseID } keys %AutoResponseList;
+    my $List             = grep { $_ eq $AutoResponseID } keys %AutoResponseList;
     $Self->True(
         $List,
         'AutoResponseList() - test Auto Response is in the list.',
     );
 
     %AutoResponseList = $AutoResponseObject->AutoResponseList( Valid => 1 );
-    $List = grep { $_ eq $AutoResponseID } keys %AutoResponseList;
+    $List             = grep { $_ eq $AutoResponseID } keys %AutoResponseList;
     $Self->True(
         $List,
         'AutoResponseList() - test Auto Response is in the list.',
@@ -355,7 +355,7 @@ for my $TypeID ( sort keys %AutoResponseType ) {
     }
 
     %AutoResponseList = $AutoResponseObject->AutoResponseList( Valid => 1 );
-    $List = grep { $_ eq $AutoResponseID } keys %AutoResponseList;
+    $List             = grep { $_ eq $AutoResponseID } keys %AutoResponseList;
     $Self->False(
         $List,
         'AutoResponseList() - test Auto Response is not in the list of valid Auto Responses.',

@@ -90,7 +90,7 @@ sub Run {
         'Kernel::System::DateTime',
         ObjectParams => {
             String => $CurrentUpdateTime,
-            }
+        }
     );
 
     # return success if the next update is schedule in or less than 1 hour

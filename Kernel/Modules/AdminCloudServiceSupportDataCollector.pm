@@ -107,7 +107,7 @@ sub Run {
                 Name => 'SendingEdit',
                 Data => {
                     %Param,
-                    }
+                }
             );
 
         }

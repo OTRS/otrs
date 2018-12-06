@@ -500,7 +500,7 @@ sub _InitSlaveDB {
             DSN      => $ConfigObject->Get('Core::MirrorDB::DSN'),
             User     => $ConfigObject->Get('Core::MirrorDB::User'),
             Password => $ConfigObject->Get('Core::MirrorDB::Password'),
-            }
+        }
     );
 
     return $Self->{SlaveDBObject} if !%SlaveConfiguration;
@@ -954,7 +954,7 @@ sub SQLProcessor {
         my @Database = @{
             $Kernel::OM->Get('Kernel::System::Storable')->Clone(
                 Data => $Param{Database},
-                )
+            )
         };
 
         my @Table;

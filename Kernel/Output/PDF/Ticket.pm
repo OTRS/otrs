@@ -622,7 +622,7 @@ sub _PDFOutputLinkedObjects {
     for my $LinkTypeLinkDirection ( sort { lc $a cmp lc $b } keys %{ $Param{LinkData} } ) {
 
         # Investigate link type name.
-        my @LinkData = split q{::}, $LinkTypeLinkDirection;
+        my @LinkData     = split q{::}, $LinkTypeLinkDirection;
         my $LinkTypeName = $TypeList{ $LinkData[0] }->{ $LinkData[1] . 'Name' };
         $LinkTypeName = $LayoutObject->{LanguageObject}->Translate($LinkTypeName);
 
@@ -1012,7 +1012,7 @@ sub _PDFOutputArticles {
         }
         my $Attachments;
         for my $FileID ( sort keys %AtmIndex ) {
-            my %File = %{ $AtmIndex{$FileID} };
+            my %File     = %{ $AtmIndex{$FileID} };
             my $Filesize = $LayoutObject->HumanReadableDataSize( Size => $File{FilesizeRaw} );
             $Attachments .= $File{Filename} . ' (' . $Filesize . ")\n";
         }

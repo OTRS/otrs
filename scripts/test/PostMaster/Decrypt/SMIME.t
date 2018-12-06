@@ -275,8 +275,8 @@ $ConfigObject->Set(
         },
         '000-MatchDBSource' => {
             'Module' => 'Kernel::System::PostMaster::Filter::MatchDBSource',
-            }
         }
+    }
 );
 
 my $CommunicationLogObject = $Kernel::OM->Create(

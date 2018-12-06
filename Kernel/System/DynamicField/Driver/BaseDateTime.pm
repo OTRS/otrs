@@ -986,7 +986,7 @@ sub SearchFieldParameterBuild {
                     'Kernel::System::DateTime',
                     ObjectParams => {
                         Epoch => $Now - $DiffTimeSeconds,
-                        }
+                    }
                 );
 
                 # only search dates in the past (before the time stamp)
@@ -1002,7 +1002,7 @@ sub SearchFieldParameterBuild {
                     'Kernel::System::DateTime',
                     ObjectParams => {
                         Epoch => $Now - $DiffTimeSeconds,
-                        }
+                    }
                 );
 
                 # search dates in the past (after the time stamp and up to now)
@@ -1019,7 +1019,7 @@ sub SearchFieldParameterBuild {
                     'Kernel::System::DateTime',
                     ObjectParams => {
                         Epoch => $Now + $DiffTimeSeconds,
-                        }
+                    }
                 );
 
                 # search dates in the future (after now and up to the time stamp)
@@ -1036,7 +1036,7 @@ sub SearchFieldParameterBuild {
                     'Kernel::System::DateTime',
                     ObjectParams => {
                         Epoch => $Now + $DiffTimeSeconds,
-                        }
+                    }
                 );
 
                 # only search dates in the future (after the time stamp)

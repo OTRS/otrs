@@ -409,7 +409,7 @@ my @Tests = (
                 TicketNumber => $Ticket{TicketNumber},
                 Ticket       => {
                     Title => $Ticket{Title},
-                    }
+                }
             },
         },
         ExpectedReturnLocalData => {
@@ -419,7 +419,7 @@ my @Tests = (
                 TicketNumber => $Ticket{TicketNumber},
                 Ticket       => {
                     Title => $Ticket{Title},
-                    }
+                }
             },
         },
         Operation => 'TicketUpdate',

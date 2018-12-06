@@ -183,7 +183,7 @@ my %ReferenceCustomerUserSearchFields = (
 
 my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
-my @CustomerUserSearchFields = $CustomerUserObject->CustomerUserSearchFields();
+my @CustomerUserSearchFields       = $CustomerUserObject->CustomerUserSearchFields();
 my %LookupCustomerUserSearchFields = map { $_->{Name} => $_ } @CustomerUserSearchFields;
 
 for my $FieldName ( sort keys %ReferenceCustomerUserSearchFields ) {
@@ -858,7 +858,7 @@ for my $Test (@SearchTests) {
 
         # check if all ids that belongs to this searchtest are returned
         my @ReferenceCustomerUserLogins = keys %{ $CustomerLoginForSearchTest{$TestCount} };
-        my %ReturnedCustomerUserIDs = map { $_ => 1 } @{$CustomerUserIDs};
+        my %ReturnedCustomerUserIDs     = map { $_ => 1 } @{$CustomerUserIDs};
         for my $CustomerUserLogin (@ReferenceCustomerUserLogins) {
             $Self->True(
                 $ReturnedCustomerUserIDs{$CustomerUserLogin},

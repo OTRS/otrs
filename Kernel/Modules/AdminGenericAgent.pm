@@ -1307,7 +1307,7 @@ sub _MaskRun {
 
     # perform ticket search
     my $GenericAgentTicketSearch = $ConfigObject->Get("Ticket::GenericAgentTicketSearch") || {};
-    my $Counter = $TicketObject->TicketSearch(
+    my $Counter                  = $TicketObject->TicketSearch(
         Result          => 'COUNT',
         SortBy          => 'Age',
         OrderBy         => 'Down',

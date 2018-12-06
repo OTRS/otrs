@@ -77,7 +77,7 @@ sub Run {
                     'Kernel::System::DateTime',
                     ObjectParams => {
                         String => $FormDraft->{ChangeTime},
-                        }
+                    }
                 );
                 my $FormDraftSystemTime = $FormDraftSystemTimeObject->ToEpoch();
                 next DRAFT if $FormDraftSystemTime > $ExpiryTargetTimeByObjectType{ $FormDraft->{ObjectType} };

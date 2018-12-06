@@ -108,7 +108,7 @@ sub Run {
         sprintf(
             "<yellow>Response time:</yellow> %s second(s)\n\n",
             $TimeDiff,
-            )
+        )
     );
 
     # dump the request response

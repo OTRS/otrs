@@ -351,7 +351,7 @@ sub Run {
         Data => {
             CalendarWidth => $ConfigObject->{DashboardEventsTicketCalendar}->{CalendarWidth}
                 || 95,
-            }
+        }
     );
 
     # send data to JS

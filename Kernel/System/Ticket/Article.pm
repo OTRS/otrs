@@ -768,7 +768,7 @@ sub ArticleSearchIndexRebuildFlagSet {
         return;
     }
 
-    $Param{All} //= 0;
+    $Param{All}        //= 0;
     $Param{ArticleIDs} //= [];
     $Param{Value} = $Param{Value} ? 1 : 0;
 

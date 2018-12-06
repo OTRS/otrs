@@ -184,7 +184,7 @@ $Selenium->RunTest(
                 NewOwnerID       => 'OwnerMandatory',
                 NewResponsibleID => 'ResponsibleMandatory',
                 NewStateID       => 'StateMandatory',
-                }
+            }
         );
 
         my @Tests = (

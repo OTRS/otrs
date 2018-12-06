@@ -698,7 +698,7 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        my $FormID = $ParamObject->GetParam( Param => 'FormID' ) || '';
+        my $FormID      = $ParamObject->GetParam( Param => 'FormID' ) || '';
         my %UploadStuff = $ParamObject->GetUploadAll(
             Param  => 'FileUpload',
             Source => 'string',
@@ -1253,7 +1253,7 @@ sub _Edit {
     );
 
     my @CommunicationChannelList = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelList();
-    my %CommunicationChannels = map { $_->{ChannelID} => $_->{DisplayName} } @CommunicationChannelList;
+    my %CommunicationChannels    = map { $_->{ChannelID} => $_->{DisplayName} } @CommunicationChannelList;
 
     $Param{ArticleCommunicationChannelStrg} = $LayoutObject->BuildSelection(
         Data        => \%CommunicationChannels,

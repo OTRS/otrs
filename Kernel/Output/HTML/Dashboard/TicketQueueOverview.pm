@@ -54,7 +54,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $LimitGroup = $Self->{Config}->{QueuePermissionGroup} || 0;
-    my $CacheKey = 'User' . '-' . $Self->{UserID} . '-' . $LimitGroup;
+    my $CacheKey   = 'User' . '-' . $Self->{UserID} . '-' . $LimitGroup;
 
     # get cache object
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
@@ -201,7 +201,7 @@ sub Run {
             Data => {
                 QueueID   => $QueueToID{$Queue},
                 QueueName => $Queue,
-                }
+            }
         );
 
         # iterate over states
@@ -258,7 +258,7 @@ sub Run {
             Name => 'ContentLargeTicketQueueOverviewNone',
             Data => {
                 ColumnCount => ( scalar keys %ConfiguredStates ) + 2,
-                }
+            }
         );
     }
 

@@ -96,7 +96,7 @@ sub CustomerUserAddressBookListShow {
     }
 
     # set page limit and build page nav
-    my $Limit = $Param{Limit} || 20_000;
+    my $Limit   = $Param{Limit} || 20_000;
     my %PageNav = $Self->PageNavBar(
         Limit     => $Limit,
         StartHit  => $StartHit,

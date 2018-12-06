@@ -263,7 +263,7 @@ sub Check {
                 # made if sender and signer addresses does not match
 
                 # get original sender from email
-                my @OrigEmail = map {"$_\n"} split( /\n/, $Message );
+                my @OrigEmail        = map {"$_\n"} split( /\n/, $Message );
                 my $ParserObjectOrig = Kernel::System::EmailParser->new(
                     Email => \@OrigEmail,
                 );
@@ -375,7 +375,7 @@ sub Check {
                 # made if sender and signer addresses does not match
 
                 # get original sender from email
-                my @OrigEmail = map {"$_\n"} split( /\n/, $Message );
+                my @OrigEmail        = map {"$_\n"} split( /\n/, $Message );
                 my $ParserObjectOrig = Kernel::System::EmailParser->new(
                     Email => \@OrigEmail,
                 );

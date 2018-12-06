@@ -77,7 +77,7 @@ sub new {
     # Turn on special cache used for speeding up article storage methods in huge systems with many
     #   nodes and slow FS access. It will be used only in environments with configured Memcached
     #   backend (see config above).
-    $Self->{ArticleStorageCache} = 1;
+    $Self->{ArticleStorageCache}    = 1;
     $Self->{ArticleStorageCacheTTL} = $ConfigObject->Get('Cache::ArticleStorageCache::TTL') || 60 * 60 * 24;
 
     return $Self;
@@ -745,7 +745,7 @@ sub ArticleAttachment {
     my $ContentPath = $Self->_ArticleContentPathGet(
         ArticleID => $Param{ArticleID},
     );
-    my %Data = %{ $Index{ $Param{FileID} } // {} };
+    my %Data    = %{ $Index{ $Param{FileID} } // {} };
     my $Counter = 0;
 
     # get main object

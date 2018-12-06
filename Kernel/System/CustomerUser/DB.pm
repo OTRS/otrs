@@ -238,7 +238,7 @@ sub CustomerName {
     }
 
     my $JoinCharacter = $Self->{CustomerUserMap}->{CustomerUserNameFieldsJoin} // ' ';
-    my $Name = join $JoinCharacter, @NameParts;
+    my $Name          = join $JoinCharacter, @NameParts;
 
     # cache request
     if ( $Self->{CacheObject} ) {
@@ -1668,7 +1668,7 @@ sub SetPassword {
     my ( $Self, %Param ) = @_;
 
     my $Login = $Param{UserLogin};
-    my $Pw = $Param{PW} || '';
+    my $Pw    = $Param{PW} || '';
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {

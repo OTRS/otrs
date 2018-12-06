@@ -99,7 +99,7 @@ test %s';
 
         my ( $Seconds, $MSeconds ) = Time::HiRes::gettimeofday();
         my $Email = sprintf $Self->{Email}, $Seconds, $MSeconds, "$Seconds-$MSeconds";
-        my @Lines = split "\n", $Email;
+        my @Lines = split "\n",             $Email;
 
         return wantarray ? @Lines : \@Lines;
     }
@@ -146,7 +146,7 @@ sub Configure {
 sub Run {
     my ( $Self, %Param, ) = @_;
 
-    my $CreatePMAccts = $Self->GetOption('create-postmaster-accounts');
+    my $CreatePMAccts    = $Self->GetOption('create-postmaster-accounts');
     my $PerCommunication = $Self->GetOption('per-communication') || 20;
 
     $Kernel::OM->Get('Kernel::Config')->Set(
@@ -206,7 +206,7 @@ sub _CreatePMAccounts {
                 Binds   => [
                     $Account{Login},
                     $Account{Host},
-                    ]
+                ]
             );
         }
 
@@ -337,7 +337,7 @@ sub _Log {
     my ( $Self, %Param, ) = @_;
 
     my $Message = $Param{Message};
-    my @Binds = @{ $Param{Binds} || [] };
+    my @Binds   = @{ $Param{Binds} || [] };
 
     $Message = sprintf $Message, @Binds;
 

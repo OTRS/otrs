@@ -297,7 +297,7 @@ my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
         Name   => 'with invalid seconds',
         Params => {
             Seconds => 'invalid',
-            }
+        }
     },
     {
         Name   => 'with valid minutes and invalid days',

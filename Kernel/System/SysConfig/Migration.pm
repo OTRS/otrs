@@ -375,7 +375,7 @@ sub MigrateXMLStructure {
                 if ( $Setting =~ m{<SubGroup>(.*?)</SubGroup>} ) {
                     my $NavigationStr = $NavigationLookup{$1} || $1;
                     $NavigationStr .= "::MainMenu";
-                    $Navigation .= sprintf( "\n%-*s%s", 8, "", "<Navigation>$NavigationStr</Navigation>" );
+                    $Navigation    .= sprintf( "\n%-*s%s", 8, "", "<Navigation>$NavigationStr</Navigation>" );
                 }
 
                 $Navigation .= sprintf( "\n%-*s%s", 8,  "", "<Value>" );
@@ -565,7 +565,7 @@ sub MigrateXMLStructure {
                     if ( $Setting =~ m{<SubGroup>(.*?)</SubGroup>} ) {
                         my $NavigationStr = $NavigationLookup{$1} || $1;
                         $NavigationStr .= "::MainMenu";
-                        $Navigation .= sprintf( "\n%-*s%s", 8, "", "<Navigation>$NavigationStr</Navigation>" );
+                        $Navigation    .= sprintf( "\n%-*s%s", 8, "", "<Navigation>$NavigationStr</Navigation>" );
                     }
 
                     $Navigation .= sprintf( "\n%-*s%s", 8,  "", "<Value>" );
@@ -598,7 +598,7 @@ sub MigrateXMLStructure {
                 if ( $Setting =~ m{<SubGroup>(.*?)</SubGroup>} ) {
                     my $NavigationStr = $NavigationLookup{$1} || $1;
 
-                    $NavigationStr .= '::AdminOverview';
+                    $NavigationStr    .= '::AdminOverview';
                     $NavigationModule .= sprintf( "\n%-*s%s", 8, "", "<Navigation>$NavigationStr</Navigation>" );
                 }
 
@@ -985,7 +985,7 @@ sub MigrateXMLStructure {
         }
 
         # get the needed ArticleTypeMapping from a YML file
-        my $TaskConfig = $Self->GetTaskConfig( Module => 'MigrateArticleData' );
+        my $TaskConfig         = $Self->GetTaskConfig( Module => 'MigrateArticleData' );
         my %ArticleTypeMapping = %{ $TaskConfig->{ArticleTypeMapping} };
 
         # Migrate Postmaster settings for
@@ -1016,7 +1016,7 @@ sub MigrateXMLStructure {
         my @NavigationValues = $Setting =~ m{<Navigation>(.*?)</Navigation>}g;
         if ( scalar @NavigationValues ) {
             my $NavigationValue = $NavigationValues[0];
-            my $NavigationStr = $NavigationLookup{$NavigationValue} || $NavigationValue;
+            my $NavigationStr   = $NavigationLookup{$NavigationValue} || $NavigationValue;
 
             if (
                 scalar @NavigationValues < 2
@@ -1024,7 +1024,7 @@ sub MigrateXMLStructure {
                     'Frontend::Admin::ModuleRegistration',
                     'Frontend::Agent::ModuleRegistration',
                     'Frontend::Customer::ModuleRegistration',
-                    )
+                )
                 )
             {
                 $Setting =~ s{<Navigation>.*?</Navigation>}{<Navigation>$NavigationStr</Navigation>}gsmx;
@@ -1649,7 +1649,7 @@ sub MigrateConfigEffectiveValues {
     }
 
     # get the needed ArticleTypeMapping from a YML file (needed for Postmaster filter settings later)
-    my $TaskConfig = $Self->GetTaskConfig( Module => 'MigrateArticleData' );
+    my $TaskConfig         = $Self->GetTaskConfig( Module => 'MigrateArticleData' );
     my %ArticleTypeMapping = %{ $TaskConfig->{ArticleTypeMapping} };
 
     # build a lookup hash of all given package settings
@@ -1676,7 +1676,7 @@ sub MigrateConfigEffectiveValues {
             $AdditionalMapping{$OldName} = $NewName;
         }
 
-        %{ $Param{PackageLookupNewConfigName} } = (  %{ $Param{PackageLookupNewConfigName} }, %AdditionalMapping );
+        %{ $Param{PackageLookupNewConfigName} } = ( %{ $Param{PackageLookupNewConfigName} }, %AdditionalMapping );
     }
 
     SETTINGNAME:
@@ -1705,12 +1705,15 @@ sub MigrateConfigEffectiveValues {
         if ( $SettingsWithSubLevelsOTRS6{$SettingName} ) {
             $CheckSubLevels = 1;
         }
-        elsif ( $Param{PackageLookupNewConfigName} && $Param{PackageLookupNewConfigName}->{$SettingName} && $SettingsWithSubLevelsOTRS6{ $Param{PackageLookupNewConfigName}->{$SettingName} } ) {
+        elsif ($Param{PackageLookupNewConfigName}
+            && $Param{PackageLookupNewConfigName}->{$SettingName}
+            && $SettingsWithSubLevelsOTRS6{ $Param{PackageLookupNewConfigName}->{$SettingName} } )
+        {
             $CheckSubLevels = 1;
         }
 
         # check if this OTRS5 setting has subhashes in the name
-        if ( $CheckSubLevels ) {
+        if ($CheckSubLevels) {
 
             SETTINGKEYFIRSTLEVEL:
             for my $SettingKeyFirstLevel ( sort keys %{ $OTRS5Config{$SettingName} } ) {
@@ -2752,7 +2755,7 @@ sub _MigrateFrontendModuleSetting {
         #
         $Param{FrontendSettingName} =~ s{Frontend::Module}{Frontend::Navigation}gsmx;
 
-        my $Search = $Param{FrontendSettingName} . '###' . $Param{FrontendModuleName} . '###';
+        my $Search       = $Param{FrontendSettingName} . '###' . $Param{FrontendModuleName} . '###';
         my @SearchResult = grep { $_->{Name} =~ m{$Search} } @DefaultSettings;
 
         if ( scalar @SearchResult == 1 ) {
@@ -2813,7 +2816,7 @@ sub _MigrateFrontendModuleSetting {
         #
         $Param{FrontendSettingName} =~ s{Frontend::Module}{Frontend::Navigation}gsmx;
 
-        my $Search = $Param{FrontendSettingName} . '###' . $Param{FrontendModuleName} . '###';
+        my $Search       = $Param{FrontendSettingName} . '###' . $Param{FrontendModuleName} . '###';
         my @SearchResult = grep { $_->{Name} =~ m{$Search} } @DefaultSettings;
 
         NAVBARSETTING:

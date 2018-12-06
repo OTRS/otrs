@@ -94,7 +94,7 @@ my %TestActivityDialogs = (
     },
 );
 
-$ConfigObject->{Process} = \%TestProcesses;
+$ConfigObject->{Process}                   = \%TestProcesses;
 $ConfigObject->{'Process::ActivityDialog'} = \%TestActivityDialogs;
 
 my $RandomID = $Helper->GetRandomID();

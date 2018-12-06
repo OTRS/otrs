@@ -64,7 +64,7 @@ $Selenium->RunTest(
                     $Selenium->get_page_source(),
                     $LanguageObject->Translate(
                         "There are no roles defined. Please use the 'Add' button to create a new role."
-                        )
+                    )
                 ) > -1,
                 "There are no roles defined.",
             );

@@ -478,7 +478,7 @@ sub _RecoverCommunicationObject {
     my $ErrorMessage          = "Could not restore the communication with %s '%s'!";
 
     if ( $Param{CommunicationID} ) {
-        $ErrorMessage = sprintf $ErrorMessage, 'CommunicationID', $Param{CommunicationID};
+        $ErrorMessage      = sprintf $ErrorMessage, 'CommunicationID', $Param{CommunicationID};
         $CommunicationData = $CommunicationDBObject->CommunicationGet(
             CommunicationID => $Param{CommunicationID},
         );

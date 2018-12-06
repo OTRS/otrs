@@ -115,7 +115,7 @@ sub Run {
 
             # get user data
             my %UserData = $UserObject->GetUserData( UserID => $Self->{CurrentUserID} );
-            my $Module = $Preferences{$Group}->{Module};
+            my $Module   = $Preferences{$Group}->{Module};
             if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
                 return $LayoutObject->FatalError();
             }
@@ -204,7 +204,7 @@ sub Run {
 
             # get user data
             my %UserData = $UserObject->GetUserData( UserID => $Self->{CurrentUserID} );
-            my $Module = $Preferences{$Group}->{Module};
+            my $Module   = $Preferences{$Group}->{Module};
             if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
                 return $LayoutObject->FatalError();
             }
@@ -264,7 +264,7 @@ sub Run {
 
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-        my $SettingName = $ParamObject->GetParam( Param => 'SettingName' ) || '';
+        my $SettingName        = $ParamObject->GetParam( Param => 'SettingName' ) || '';
         my $EffectiveValueJSON = $ParamObject->GetParam( Param => 'EffectiveValue' );
 
         my $EffectiveValue;
@@ -396,7 +396,7 @@ sub Run {
         $LayoutObject->ChallengeTokenCheck();
 
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-        my $RootNavigation = $ParamObject->GetParam( Param => 'RootNavigation' ) || '';
+        my $RootNavigation  = $ParamObject->GetParam( Param => 'RootNavigation' ) || '';
 
         my @SettingList = $SysConfigObject->ConfigurationListGet(
             TargetUserID    => $Self->{CurrentUserID},
@@ -516,9 +516,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'AJAXNavigationTree' ) {
 
-        my $Category               = $ParamObject->GetParam( Param => 'Category' )               || '';
+        my $Category = $ParamObject->GetParam( Param => 'Category' ) || '';
         my $UserModificationActive = $ParamObject->GetParam( Param => 'UserModificationActive' ) || '0';
-        my $IsValid                = $ParamObject->GetParam( Param => 'IsValid' ) // undef;
+        my $IsValid = $ParamObject->GetParam( Param => 'IsValid' ) // undef;
 
         my %Tree = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationNavigationTree(
             Action                 => 'AgentPreferences',

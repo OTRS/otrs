@@ -182,7 +182,7 @@ sub TicketAcceleratorUpdateOnQueueUpdate {
 
     # Updated ticket_index for all sub queue names when parent name is changed.
     #   See bug#13570 for more information.
-    my %AllQueue = $Kernel::OM->Get('Kernel::System::Queue')->QueueList( Valid => 0 );
+    my %AllQueue    = $Kernel::OM->Get('Kernel::System::Queue')->QueueList( Valid => 0 );
     my @ParentQueue = split( /::/, $Param{OldQueueName} );
 
     for my $QueueID ( sort keys %AllQueue ) {
@@ -522,7 +522,7 @@ sub TicketAcceleratorIndex {
                 },
             );
 
-            my $Delta = $TicketCreatedDTObj->Delta( DateTimeObject => $CurrentDateTimeObject );
+            my $Delta  = $TicketCreatedDTObj->Delta( DateTimeObject => $CurrentDateTimeObject );
             my $MaxAge = $Delta->{AbsoluteSeconds};
             $QueueData->{MaxAge} = $MaxAge if $MaxAge > $QueueData->{MaxAge};
 

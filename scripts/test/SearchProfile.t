@@ -35,7 +35,7 @@ $ConfigObject->Set(
 );
 
 # create test user
-my $Login = $Helper->TestUserCreate();
+my $Login  = $Helper->TestUserCreate();
 my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup( UserLogin => $Login );
 
 my $RandomID = $Helper->GetRandomID();
@@ -346,14 +346,14 @@ my %CustomerSearches      = (
             PriorityIDs => [ 2, 4 ],
             StateIDs    => [ 1, 3, 5 ],
             Body => 'asdf',
-            }
+        }
     },
     Second => {
         Search => {
             CustomerID => 'asdf',
             StateIDs   => [1],
-            }
         }
+    }
 
 );
 

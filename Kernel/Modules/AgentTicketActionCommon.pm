@@ -1989,7 +1989,7 @@ sub _Mask {
             %ShownUsers = %AllGroupsMembers;
         }
         else {
-            my $GID = $QueueObject->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+            my $GID        = $QueueObject->GetQueueGroupID( QueueID => $Ticket{QueueID} );
             my %MemberList = $GroupObject->PermissionGroupGet(
                 GroupID => $GID,
                 Type    => 'owner',
@@ -2096,7 +2096,7 @@ sub _Mask {
             %ShownUsers = %AllGroupsMembers;
         }
         else {
-            my $GID = $QueueObject->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+            my $GID        = $QueueObject->GetQueueGroupID( QueueID => $Ticket{QueueID} );
             my %MemberList = $GroupObject->PermissionGroupGet(
                 GroupID => $GID,
                 Type    => 'responsible',
@@ -2323,7 +2323,7 @@ sub _Mask {
             Type  => 'Long',
             Valid => 1,
         );
-        my $GID = $QueueObject->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+        my $GID        = $QueueObject->GetQueueGroupID( QueueID => $Ticket{QueueID} );
         my %MemberList = $GroupObject->PermissionGroupGet(
             GroupID => $GID,
             Type    => 'note',
@@ -2918,7 +2918,7 @@ sub _GetQuotedReplyBody {
         if ( $Param{Body} ) {
             $Param{Body} =~ s/\t/ /g;
             my $Quote = $LayoutObject->Ascii2Html(
-                Text => $ConfigObject->Get('Ticket::Frontend::Quote') || '',
+                Text           => $ConfigObject->Get('Ticket::Frontend::Quote') || '',
                 HTMLResultMode => 1,
             );
             if ($Quote) {

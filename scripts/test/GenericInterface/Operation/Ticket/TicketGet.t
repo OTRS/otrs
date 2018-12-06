@@ -1144,7 +1144,7 @@ my @Tests = (
                 Error => {
                     ErrorCode    => 'TicketGet.MissingParameter',
                     ErrorMessage => 'TicketGet: TicketID parameter is missing!'
-                    }
+                }
             },
             Success => 1
         },
@@ -1153,7 +1153,7 @@ my @Tests = (
                 Error => {
                     ErrorCode    => 'TicketGet.MissingParameter',
                     ErrorMessage => 'TicketGet: TicketID parameter is missing!'
-                    }
+                }
             },
             Success => 1
         },
@@ -1171,7 +1171,7 @@ my @Tests = (
                     ErrorCode => 'TicketGet.AccessDenied',
                     ErrorMessage =>
                         'TicketGet: User does not have access to the ticket!'
-                    }
+                }
             },
             Success => 1
         },
@@ -1181,7 +1181,7 @@ my @Tests = (
                     ErrorCode => 'TicketGet.AccessDenied',
                     ErrorMessage =>
                         'TicketGet: User does not have access to the ticket!'
-                    }
+                }
             },
             Success => 1
         },
@@ -1354,7 +1354,7 @@ my @Tests = (
                         (
                             %TicketEntryFour,
                             Article => \@ArticleWithoutAttachments,
-                            )
+                        )
                     },
                 ],
             },
@@ -1387,7 +1387,7 @@ my @Tests = (
                         (
                             %TicketEntryFour,
                             Article => [ $ArticleWithoutAttachments[-1], $ArticleWithoutAttachments[-2] ],
-                            )
+                        )
                     },
                 ],
             },
@@ -1420,7 +1420,7 @@ my @Tests = (
                         (
                             %TicketEntryFour,
                             Article => [ $ArticleWithoutAttachments[0], $ArticleWithoutAttachments[1] ],
-                            )
+                        )
                     },
                 ],
             },
@@ -1452,7 +1452,7 @@ my @Tests = (
                         (
                             %TicketEntryFour,
                             Article => \@ArticleBox,
-                            )
+                        )
                     },
                 ],
             },
@@ -1485,7 +1485,7 @@ my @Tests = (
                         (
                             %TicketEntryFour,
                             Article => \@ArticleBoxAttachmentsWithoutContent,
-                            )
+                        )
                     },
                 ],
             },
@@ -1518,7 +1518,7 @@ my @Tests = (
                         (
                             %TicketEntryFourDF,
                             Article => \@ArticleBoxDF,
-                            )
+                        )
                     },
                 ],
             },
@@ -1553,7 +1553,7 @@ my @Tests = (
                         (
                             %TicketEntryFour,
                             Article => \@ArticleBox,
-                            )
+                        )
                     },
                 ],
             },
@@ -1589,7 +1589,7 @@ my @Tests = (
                         (
                             %TicketEntryFour,
                             Article => \@ArticleBoxAttachmentsWithoutContent,
-                            )
+                        )
                     },
                 ],
             },
@@ -1614,7 +1614,7 @@ my @Tests = (
                     ErrorCode => 'TicketGet.AccessDenied',
                     ErrorMessage =>
                         'TicketGet: User does not have access to the ticket!'
-                    }
+                }
             },
             Success => 1
         },
@@ -1624,7 +1624,7 @@ my @Tests = (
                     ErrorCode => 'TicketGet.AccessDenied',
                     ErrorMessage =>
                         'TicketGet: User does not have access to the ticket!'
-                    }
+                }
             },
             Success => 1
         },
@@ -1684,7 +1684,7 @@ my @Tests = (
                     ErrorCode => 'TicketGet.AccessDenied',
                     ErrorMessage =>
                         'TicketGet: User does not have access to the ticket!'
-                    }
+                }
             },
             Success => 1
         },
@@ -1694,7 +1694,7 @@ my @Tests = (
                     ErrorCode => 'TicketGet.AccessDenied',
                     ErrorMessage =>
                         'TicketGet: User does not have access to the ticket!'
-                    }
+                }
             },
             Success => 1
         },
@@ -1824,7 +1824,7 @@ my @Tests = (
                         (
                             %TicketEntryFive,
                             Article => \@ArticleWithHTMLBody,
-                            )
+                        )
                     },
                 ],
             },

@@ -103,7 +103,7 @@ $Self->Is(
 );
 
 # Get new tables list.
-@Tables = $DBObject->ListTables();
+@Tables        = $DBObject->ListTables();
 %CurrentTables = map { lc($_) => 1 } @Tables;
 
 # New tables might exist in database.

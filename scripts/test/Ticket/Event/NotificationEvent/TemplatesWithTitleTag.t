@@ -29,7 +29,7 @@ for my $Template (@Templates) {
     my $Contents = ${
         $MainObject->FileRead(
             Location => $Template,
-            )
+        )
     };
     my $TagFound = $Contents =~ /<title>.*<\/title>/is;
     $Self->False(

@@ -114,7 +114,7 @@ sub Run {
                         'Kernel::System::DateTime',
                         ObjectParams => {
                             Epoch => $Data{UserSessionStart},
-                            }
+                        }
                     )->ToString();
                     $Data{$Key} = "$TimeStamp / $Age h ";
                 }
@@ -210,7 +210,7 @@ sub Run {
             Data => {
                 Counter => $Counter,
                 %MetaData
-                }
+            }
         );
 
         # generate output
@@ -221,7 +221,7 @@ sub Run {
             Data         => {
                 Counter => $Counter,
                 %MetaData
-                }
+            }
         );
         $Output .= $LayoutObject->Footer();
         return $Output;

@@ -116,7 +116,7 @@ sub _MigrateArticleTypeToIsVisibleForCustomer {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # get the needed ArticleTypeMapping from a YML file
-    my $TaskConfig = $Self->GetTaskConfig( Module => 'MigrateArticleData' );
+    my $TaskConfig         = $Self->GetTaskConfig( Module => 'MigrateArticleData' );
     my %ArticleTypeMapping = %{ $TaskConfig->{ArticleTypeMapping} };
 
     GABTABLE:

@@ -27,7 +27,7 @@ my $UserObject        = $Kernel::OM->Get('Kernel::System::User');
 
 # create test user
 my $UserLogin = $Helper->TestUserCreate();
-my $UserID = $UserObject->UserLookup( UserLogin => $UserLogin );
+my $UserID    = $UserObject->UserLookup( UserLogin => $UserLogin );
 
 $Self->True(
     $UserID,
@@ -362,7 +362,7 @@ my @Result = (
         'Recurring'   => undef,
         'ResourceID'  => [
             0,
-            ]
+        ]
     },
     {
         'StartTime'  => '2016-09-12 11:15:00',
@@ -1090,7 +1090,7 @@ my @Result = (
         'Recurring'   => undef,
         'ResourceID'  => [
             0,
-            ]
+        ]
     },
     {
         'TeamID'      => [],
@@ -1300,7 +1300,7 @@ my @Result = (
         'Recurring'   => undef,
         'ResourceID'  => [
             0,
-            ]
+        ]
     },
     {
         'Location'    => undef,

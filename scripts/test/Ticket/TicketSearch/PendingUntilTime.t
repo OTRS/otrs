@@ -226,7 +226,7 @@ for my $Test (@Tests) {
             'Kernel::System::DateTime',
             ObjectParams => {
                 String => $Test->{TimeStamp},
-                }
+            }
         )->ToEpoch();
         $Helper->FixedTimeSet($SystemTime);
     }

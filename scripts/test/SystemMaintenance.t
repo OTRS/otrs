@@ -267,7 +267,7 @@ for my $Test (@Tests) {
             'Kernel::System::DateTime',
             ObjectParams => {
                 String => $Test->{Add}->{$Date},
-                }
+            }
         );
         if ($DateTimeObject) {
             $ConvertionResult = $DateTimeObject->ToEpoch();
@@ -553,7 +553,7 @@ for my $Test (@Tests) {
             'Kernel::System::DateTime',
             ObjectParams => {
                 String => $Test->{$Date},
-                }
+            }
         )->ToEpoch();
         $Test->{$Date} = $ConvertionResult || $Test->{$Date};
     }
@@ -571,7 +571,7 @@ for my $Test (@Tests) {
             'Kernel::System::DateTime',
             ObjectParams => {
                 String => $Test->{FixedTimeSet}
-                }
+            }
         )->ToEpoch(),
     );
 

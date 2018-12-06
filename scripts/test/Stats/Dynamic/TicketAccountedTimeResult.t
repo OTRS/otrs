@@ -161,7 +161,7 @@ for my $Ticket (@Tickets) {
         'Kernel::System::DateTime',
         ObjectParams => {
             String => $Ticket->{TimeStamp},
-            }
+        }
     )->ToEpoch();
 
     # set the fixed time
@@ -377,7 +377,7 @@ for my $Test (@Tests) {
         'Kernel::System::DateTime',
         ObjectParams => {
             String => $Test->{TimeStamp},
-            }
+        }
     )->ToEpoch();
     $Helper->FixedTimeSet($SystemTime);
 

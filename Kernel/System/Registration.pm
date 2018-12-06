@@ -736,7 +736,7 @@ sub RegistrationUpdateSend {
     }
     elsif ( !$OperationResult->{Success} ) {
 
-        my $Reason = $OperationResult->{ErrorMessage} || $OperationResult->{Data}->{Reason} || '';
+        my $Reason  = $OperationResult->{ErrorMessage} || $OperationResult->{Data}->{Reason} || '';
         my $Message = "RegistrationUpdate - Can not update system $Reason";
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -965,7 +965,7 @@ sub Deregister {
     }
     elsif ( !$OperationResult->{Success} ) {
 
-        my $Reason = $OperationResult->{ErrorMessage} || $OperationResult->{Data}->{Reason} || '';
+        my $Reason  = $OperationResult->{ErrorMessage} || $OperationResult->{Data}->{Reason} || '';
         my $Message = "Deregistration - Can not deregister system: $Reason";
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',

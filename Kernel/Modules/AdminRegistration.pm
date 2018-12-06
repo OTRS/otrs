@@ -332,7 +332,7 @@ sub Run {
             Data => {
                 %Param,
                 Subaction => $Self->{Subaction},
-                }
+            }
         );
 
         $LayoutObject->Block(
@@ -416,7 +416,7 @@ sub Run {
             Data => {
                 %Param,
                 Subaction => $Self->{Subaction},
-                }
+            }
         );
 
         my %RegistrationData = $RegistrationObject->RegistrationDataGet();
@@ -606,7 +606,7 @@ sub _SentDataOverview {
         Data => {
             %Param,
             Subaction => 'SentDataOverview',
-            }
+        }
     );
 
     $LayoutObject->Block( Name => 'ActionList' );

@@ -1731,8 +1731,8 @@ Lorem ipsum...
                 '2016' => {
                     '0' => {
                         '1' => 'Test'
-                        }
                     }
+                }
             },
         },
         ExpectedResult => {
@@ -1772,8 +1772,8 @@ Lorem ipsum...
                 '2016' => {
                     '13' => {
                         '1' => 'Test'
-                        }
                     }
+                }
             },
         },
         ExpectedResult => {

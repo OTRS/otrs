@@ -133,7 +133,7 @@ sub LinkList {
             LinkID   => $LinkKeyList{$_}->{TicketID},
             LinkName => $LinkKeyList{$_}->{TicketNumber} . ' ' . $LinkKeyList{$_}->{Title},
             LinkURL  => sprintf( $Param{PluginURL}, $LinkKeyList{$_}->{TicketID} ),
-            }
+        }
     } keys %LinkKeyList;
 
     return \%Result;

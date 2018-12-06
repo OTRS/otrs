@@ -256,13 +256,13 @@ sub _Fetch {
     my $MessagesWithError    = 0;
 
     # read folder from MailAccount configuration
-    my $IMAPFolder = $Param{IMAPFolder} || 'INBOX';
+    my $IMAPFolder       = $Param{IMAPFolder} || 'INBOX';
     my $NumberOfMessages = 0;
     my $Messages;
 
     eval {
         $IMAPOperation->( 'select', $IMAPFolder, ) || die "Could not select: $@\n";
-        $Messages = $IMAPOperation->( 'messages', ) || die "Could not retrieve messages : $@\n";
+        $Messages         = $IMAPOperation->( 'messages', ) || die "Could not retrieve messages : $@\n";
         $NumberOfMessages = scalar @{$Messages};
 
         if ($CMD) {

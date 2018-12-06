@@ -98,7 +98,7 @@ sub Run {
         # build selection string
         for my $QueueID ( sort keys %NewTos ) {
             my %QueueData = $QueueObject->QueueGet( ID => $QueueID );
-            my $String = $ConfigObject->Get('CustomerPanelSelectionString')
+            my $String    = $ConfigObject->Get('CustomerPanelSelectionString')
                 || '<Realname> <<Email>> - Queue: <Queue>';
             $String =~ s/<Queue>/$QueueData{Name}/g;
             $String =~ s/<QueueComment>/$QueueData{Comment}/g;

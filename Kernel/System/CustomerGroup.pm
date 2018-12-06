@@ -369,7 +369,7 @@ sub GroupMemberList {
         && $Kernel::OM->Get('Kernel::Config')->Get('CustomerGroupAlwaysGroups')
         )
     {
-        my %Groups = $Kernel::OM->Get('Kernel::System::Group')->GroupList( Valid => 1 );
+        my %Groups        = $Kernel::OM->Get('Kernel::System::Group')->GroupList( Valid => 1 );
         my %GroupsReverse = reverse %Groups;
         ALWAYSGROUP:
         for my $AlwaysGroup ( @{ $Kernel::OM->Get('Kernel::Config')->Get('CustomerGroupAlwaysGroups') } ) {
@@ -684,7 +684,7 @@ sub GroupCustomerList {
         && $Kernel::OM->Get('Kernel::Config')->Get('CustomerGroupCompanyAlwaysGroups')
         )
     {
-        my %Groups = $Kernel::OM->Get('Kernel::System::Group')->GroupList( Valid => 1 );
+        my %Groups        = $Kernel::OM->Get('Kernel::System::Group')->GroupList( Valid => 1 );
         my %GroupsReverse = reverse %Groups;
         ALWAYSGROUP:
         for my $AlwaysGroup ( @{ $Kernel::OM->Get('Kernel::Config')->Get('CustomerGroupCompanyAlwaysGroups') } ) {

@@ -102,7 +102,7 @@ sub Run {
         $LayoutObject->ChallengeTokenCheck();
 
         # get user data
-        my $UserID = $ParamObject->GetParam( Param => 'ID' ) || '';
+        my $UserID   = $ParamObject->GetParam( Param => 'ID' ) || '';
         my %UserData = $CustomerUserObject->CustomerUserDataGet(
             User  => $UserID,
             Valid => 1,
@@ -820,7 +820,7 @@ sub Run {
         );
 
         my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
-        my $Output = $NavBar;
+        my $Output       = $NavBar;
         $Output .= $LayoutObject->Notify( Info => Translatable('Customer user updated!') )
             if ( $Notification && $Notification eq 'Update' );
 

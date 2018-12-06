@@ -523,7 +523,7 @@ sub _ShowEdit {
                 Name => 'EditWarning',
                 Data => {
                     ProcessList => join( ', ', @{$AffectedProcesses} ),
-                    }
+                }
             );
         }
 
@@ -695,7 +695,7 @@ sub _PopupResponse {
             Value => {
                 ConfigJSON => $Param{ConfigJSON},
                 %{ $Param{Screen} },
-                }
+            }
         );
     }
     elsif ( $Param{ClosePopup} && $Param{ClosePopup} eq 1 ) {
@@ -705,7 +705,7 @@ sub _PopupResponse {
             Key   => 'ClosePopup',
             Value => {
                 ConfigJSON => $Param{ConfigJSON},
-                }
+            }
         );
     }
 

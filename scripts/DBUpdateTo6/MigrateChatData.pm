@@ -29,7 +29,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
+    my $Verbose  = $Param{CommandlineOptions}->{Verbose} || 0;
 
     my $TableExists = $Self->TableExists(
         Table => 'article_data_otrs_chat',

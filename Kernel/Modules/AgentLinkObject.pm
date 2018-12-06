@@ -818,7 +818,7 @@ sub Run {
             TargetObjectStrg   => $TargetObjectStrg,
             ActiveTab          => $ActiveTab,
             ManageTabDisabled  => $ManageTabDisabled,
-            }
+        }
     );
 
     $Output .= $LayoutObject->Footer( Type => 'Small' );

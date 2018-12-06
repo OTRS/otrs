@@ -43,7 +43,7 @@ while ( my $WebRequest = CGI::Fast->new() ) {
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Web::Request' => {
             WebRequest => $WebRequest,
-            }
+        }
     );
     my $Provider = Kernel::GenericInterface::Provider->new();
 

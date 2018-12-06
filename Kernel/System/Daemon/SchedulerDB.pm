@@ -2342,7 +2342,7 @@ sub RecurrentTaskWorkerInfoSet {
         return;
     }
 
-    my $LastWorkerStatus = $Param{LastWorkerStatus} ? 1 : 0;
+    my $LastWorkerStatus      = $Param{LastWorkerStatus} ? 1 : 0;
     my $LastWorkerRunningTime = $Param{LastWorkerRunningTime} // 0;
 
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(

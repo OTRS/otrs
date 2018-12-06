@@ -751,7 +751,7 @@ sub ValidatePendingTime {
         ObjectParams => {
             %{ $Param{PendingTime} },
             Second => 0,
-            }
+        }
     );
     return if !$PendingTime;
 

@@ -74,7 +74,7 @@ if ( !-e $Home . '/ARCHIVE' ) {
 }
 else {
     $ArchiveExists = 1;
-    $Success = rename( "ARCHIVE", "ARCHIVE" . $RandomNumber );
+    $Success       = rename( "ARCHIVE", "ARCHIVE" . $RandomNumber );
     $Self->True(
         $Success,
         "Found ARCHIVE file in a system, creating copy to restore it on the end of unit test."

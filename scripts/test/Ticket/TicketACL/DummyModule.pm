@@ -53,7 +53,7 @@ sub Run {
         PossibleNot => {
             Ticket => {
                 State => ['open'],
-                }
+            }
         },
     };
 

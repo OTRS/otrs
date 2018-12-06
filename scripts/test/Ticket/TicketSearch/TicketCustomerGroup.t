@@ -225,7 +225,7 @@ my @Tests = (
                         ro => 1,
                     },
                 },
-                }
+            }
         },
         Search => {
             CustomerUserLoginRaw => $CustomerUserIDs[1],
@@ -279,7 +279,7 @@ my @Tests = (
                 Permission => {
                     ro => 1,
                 },
-                }
+            }
         },
         Search => {
             CustomerUserLoginRaw => $CustomerUserIDs[0],
@@ -309,7 +309,7 @@ my @Tests = (
                 Permission => {
                     ro => 1,
                 },
-                }
+            }
         },
         ChangeCompany => {
             CustomerUserID => $CustomerUserIDs[2],
@@ -331,7 +331,7 @@ my @Tests = (
                 Permission => {
                     ro => 1,
                 },
-                }
+            }
         },
         Search => {
             CustomerUserID => $CustomerUserIDs[2],

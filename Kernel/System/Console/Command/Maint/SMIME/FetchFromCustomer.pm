@@ -246,7 +246,7 @@ sub Run {
             %CustomerUsers,
             $CustomerUserObject->CustomerSearch(
                 PostMasterSearch => '*',
-                )
+            )
         );
         if ( $DetailLevel ne 'Details' ) {
             $Self->Print("<yellow>$Count) Get all users to check them...</yellow>\n");

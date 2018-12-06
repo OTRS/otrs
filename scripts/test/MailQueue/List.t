@@ -60,7 +60,7 @@ my $CreateTestData = sub {
         'Recipient::mailqueue.test2@otrs.com' => {
             %ElementData,
             Recipient => 'mailqueue.test2@otrs.com',
-            }
+        }
     );
 
     for my $Key ( sort keys %Elements ) {

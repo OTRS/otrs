@@ -72,7 +72,7 @@ my @Tests = (
                 },
                 Key4 => {
                     Bar => [ "f", "o", "o" ]
-                    }
+                }
             },
         ],
         Result =>
@@ -95,7 +95,7 @@ my @Tests = (
                 },
                 Key4 => {
                     Bar => [ "f", "o", "o" ],
-                    }
+                }
             },
         ],
         Params => {
@@ -198,7 +198,7 @@ for my $Test (@Tests) {
                 },
                 Key4 => {
                     Bar => [ "f", "o", "o" ]
-                    }
+                }
             },
         ],
         InputDecode =>
@@ -249,7 +249,7 @@ for my $Test (@Tests) {
                 },
                 Key4 => {
                     Bar => [ 0, "o", 1 ]
-                    }
+                }
             },
         ],
         InputDecode =>

@@ -516,7 +516,7 @@ $Selenium->RunTest(
             'Kernel::System::DateTime',
             ObjectParams => {
                 Epoch => $CreatedTicketData{RealTillTimeNotUsed},
-                }
+            }
         )->ToString();
 
         $RealTillTimeNotUsed = $LanguageObject->FormatTimeString(

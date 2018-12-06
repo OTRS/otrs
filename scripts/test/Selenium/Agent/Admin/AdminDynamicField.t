@@ -123,7 +123,7 @@ $Selenium->RunTest(
                 )
             {
                 my $ObjectType = $Type . "DynamicField";
-                my $Element = $Selenium->find_element( "#$ObjectType option[value=$ID]", 'css' );
+                my $Element    = $Selenium->find_element( "#$ObjectType option[value=$ID]", 'css' );
                 $Element->is_enabled();
 
                 # Create a real test DynamicField.

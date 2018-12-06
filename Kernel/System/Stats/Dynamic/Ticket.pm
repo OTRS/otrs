@@ -118,7 +118,7 @@ sub GetObjectAttributes {
     );
 
     # get current time to fix bug#3830
-    my $Date = $Kernel::OM->Create('Kernel::System::DateTime')->Format( Format => '%Y-%m-%d' );
+    my $Date  = $Kernel::OM->Create('Kernel::System::DateTime')->Format( Format => '%Y-%m-%d' );
     my $Today = sprintf "%s 23:59:59", $Date;
 
     my @ObjectAttributes = (

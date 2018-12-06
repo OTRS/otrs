@@ -62,7 +62,7 @@ my $CheckBreadcrumb = sub {
     my %Param = @_;
 
     my $BreadcrumbText = $Param{BreadcrumbText} || '';
-    my $Count = 1;
+    my $Count          = 1;
 
     for my $BreadcrumbText ( 'Package Manager', "$BreadcrumbText Test" ) {
         $Self->Is(

@@ -27,7 +27,7 @@ sub Run {
     my $Self = shift;
 
     my $Version = sprintf "%vd", $^V;
-    my $OS = $^O;
+    my $OS      = $^O;
 
     $Self->AddResultInformation(
         Label => Translatable('Perl Version'),

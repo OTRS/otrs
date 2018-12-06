@@ -2688,7 +2688,7 @@ $Self->True(
         SuccessMatch     => 1,
         ReturnActionData => {
             1 => 'AgentTicketPrint',
-            }
+        }
     },
 
     # user based tests
@@ -3935,7 +3935,7 @@ my %TestModifiers = (
             Name => 'ACL User Role -  2 role check [regexp]unittest2',
             Role => ["[regexp]unittest2"]
         },
-        ]
+    ]
 );
 
 my $NumberOfTests = $#TestsNormal;
@@ -4166,7 +4166,7 @@ my @TestsNot = (
             Name => 'ACL User Role -  2 role check [Notregexp]unittest2',
             Role => ["[Notregexp]unittest2"]
         },
-        ]
+    ]
 );
 
 $NumberOfTests = $#TestsNot;

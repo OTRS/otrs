@@ -687,7 +687,7 @@ my @Tests = (
                 Provider => {
                     Transport => {
                         Type => 'HTTP::Test'
-                        }
+                    }
                 },
                 Requester => 'String',
             },
@@ -722,7 +722,7 @@ my @Tests = (
                 Provider => {
                     Transport => {
                         Type => 'HTTP::Test'
-                        }
+                    }
                 },
                 Requester => {},
             },
@@ -757,7 +757,7 @@ my @Tests = (
                 Provider => {
                     Transport => {
                         Type => 'HTTP::Test'
-                        }
+                    }
                 },
                 Requester => {
                     Transport => undef,
@@ -795,7 +795,7 @@ my @Tests = (
                 Provider => {
                     Transport => {
                         Type => 'HTTP::Test'
-                        }
+                    }
                 },
                 Requester => {
                     Transport => 'string',
@@ -832,7 +832,7 @@ my @Tests = (
                 Provider => {
                     Transport => {
                         Type => 'HTTP::Test'
-                        }
+                    }
                 },
                 Requester => {
                     Transport => {},
@@ -857,7 +857,7 @@ my @Tests = (
                 Provider => {
                     Transport => {
                         Type => 'HTTP::Test'
-                        }
+                    }
                 },
                 Requester => {
                     Transport => {
@@ -901,7 +901,7 @@ my @Tests = (
                 Provider => {
                     Transport => {
                         Type => 'HTTP::Test'
-                        }
+                    }
                 },
                 Requester => {
                     Transport => {
@@ -951,7 +951,7 @@ my @Tests = (
                 Provider => {
                     Transport => {
                         Type => 'HTTP::Test'
-                        }
+                    }
                 },
                 Requester => {
                     Transport => {
@@ -984,7 +984,7 @@ my @Tests = (
                 Provider => {
                     Transport => {
                         Type => 'HTTP::Test'
-                        }
+                    }
                 },
                 Requester => {
                     Transport => {

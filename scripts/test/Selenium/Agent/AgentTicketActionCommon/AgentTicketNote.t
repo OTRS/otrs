@@ -337,7 +337,7 @@ $Selenium->RunTest(
         );
 
         my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
-        my $QueueID = $QueueObject->QueueLookup( Queue => 'Raw' );
+        my $QueueID     = $QueueObject->QueueLookup( Queue => 'Raw' );
 
         # Assign the template to our queue.
         my $Success = $QueueObject->QueueStandardTemplateMemberAdd(

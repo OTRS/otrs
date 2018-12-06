@@ -43,7 +43,7 @@ $Selenium->RunTest(
             "Ticket is created - $TicketID",
         );
 
-        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
         my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
 
         # Create test email article, invisible for customer.
@@ -172,7 +172,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerID").val().length;' );
         $Selenium->find_element( ".Primary.CallForAction", 'css' )->VerifiedClick();
 
-        my @Ticket = split( 'TicketID=', $Selenium->get_current_url() );
+        my @Ticket          = split( 'TicketID=', $Selenium->get_current_url() );
         my $TicketIDProcess = $Ticket[1];
 
         # Navigate to zoom view and create note visible for customer.

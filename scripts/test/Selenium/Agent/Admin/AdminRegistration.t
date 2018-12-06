@@ -77,7 +77,7 @@ $Selenium->RunTest(
                         Data         => {
                             Auth   => 'invalid',
                             Reason => 'Wrong OTRSID or Password',
-                            }
+                        }
                     },
                 ],
             },

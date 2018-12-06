@@ -972,7 +972,7 @@ sub Run {
                 'ticket_search_%s',
                 $CurDateTimeObject->Format(
                     Format => '%Y-%m-%d_%H-%M'
-                    )
+                )
             );
 
             # get CSV object
@@ -1065,7 +1065,7 @@ sub Run {
 
                     # Set missing information.
                     $Data{Subject} = $Data{Title} || Translatable('Untitled');
-                    $Data{From} = '--';
+                    $Data{From}    = '--';
                 }
                 else {
                     %Data = ( %Ticket, %Article );
@@ -1100,7 +1100,7 @@ sub Run {
                 $UserInfo{CustomerName} = '(' . $UserInfo{CustomerName} . ')'
                     if ( $UserInfo{CustomerName} );
 
-                my %Info = ( %Data, %UserInfo );
+                my %Info    = ( %Data, %UserInfo );
                 my $Created = $LayoutObject->{LanguageObject}->FormatTimeString(
                     $Data{CreateTime} // $Data{Created},
                     'DateFormat',
@@ -1264,7 +1264,7 @@ sub Run {
                 'ticket_search_%s.pdf',
                 $CurDateTimeObject->Format(
                     Format => '%Y-%m-%d_%H-%M'
-                    )
+                )
             );
 
             my $PDFString = $PDFObject->DocumentOutput();
@@ -1420,7 +1420,7 @@ sub Run {
         );
     }
     elsif ( $Self->{Subaction} eq 'AJAX' ) {
-        my $Profile = $ParamObject->GetParam( Param => 'Profile' ) || '';
+        my $Profile     = $ParamObject->GetParam( Param => 'Profile' ) || '';
         my $EmptySearch = $ParamObject->GetParam( Param => 'EmptySearch' );
         if ( !$Profile ) {
             $EmptySearch = 1;

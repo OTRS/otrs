@@ -252,7 +252,7 @@ sub GetUserData {
             'Kernel::System::DateTime',
             ObjectParams => {
                 Epoch => $Preferences{UserLastLogin}
-                }
+            }
         );
 
         $Preferences{UserLastLoginTimestamp} = $UserLastLoginTimeObj->ToString();
@@ -605,7 +605,7 @@ sub UserUpdate {
 
     # TODO Not needed to delete the cache if ValidID or Name was not changed
 
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+    my $CacheObject            = $Kernel::OM->Get('Kernel::System::Cache');
     my $SystemPermissionConfig = $Kernel::OM->Get('Kernel::Config')->Get('System::Permission') || [];
 
     for my $Type ( @{$SystemPermissionConfig}, 'rw' ) {
@@ -778,7 +778,7 @@ sub SetPassword {
         return;
     }
 
-    my $Pw = $Param{PW} || '';
+    my $Pw        = $Param{PW} || '';
     my $CryptedPw = '';
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -1085,7 +1085,7 @@ sub UserList {
 
     # check cache
     my $CacheKey = join '::', 'UserList', $Type, $Valid, $FirstnameLastNameOrder, $NoOutOfOffice;
-    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+    my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type => $Self->{CacheType},
         Key  => $CacheKey,
     );

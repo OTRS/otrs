@@ -145,7 +145,7 @@ my @Tests = (
             'image2.png' => 1,
             'image3.png' => 1,
             'some.html'  => 1,
-            }
+        }
     },
     {
         Config => {
@@ -159,7 +159,7 @@ my @Tests = (
         Attachment         => {
             'image4.png' => 1,
             'some.html'  => 1,
-            }
+        }
     },
     {
         Config => {
@@ -172,7 +172,7 @@ my @Tests = (
         AttachmentsInclude => 0,
         Attachment         => {
             'image.png' => 1,
-            }
+        }
     },
     {
         Config => {

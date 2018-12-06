@@ -221,8 +221,8 @@ my $CheckForCommunicationLog = sub {
         reverse @{
             $CommunicationLogDBObj->ObjectLogList(
                 CommunicationID => $ComLogLookupInfo->{CommunicationID},
-                )
-            }
+            )
+        }
     ];
 
     my $CommunicationLogConnection
@@ -260,7 +260,7 @@ my $CheckForQueueNotifications = sub {
 
     # Get all the queue items that aren't related to an article.
     my $MailQueueItems = $MailQueueObject->List();
-    my @Notifications = grep { !$_->{ArticleID} } @$MailQueueItems;
+    my @Notifications  = grep { !$_->{ArticleID} } @$MailQueueItems;
 
     $Self->True(
         scalar @Notifications,
@@ -461,7 +461,7 @@ for my $Test (@Tests) {
     local $FakeSMTPEnv{'connect'} = $TestFakeSMTPEnv{'connect'};
 
     # SMTP permanent / temporary label.
-    my $FakeSMTPCode = $Test->{FakeSMTPEnv}->{'code'};
+    my $FakeSMTPCode  = $Test->{FakeSMTPEnv}->{'code'};
     my $SMTPErrorType = $FakeSMTPCode && $FakeSMTPCode =~ m/^5/i ? 'permanent' : 'temporary';
 
     # Build the full test base name.
@@ -544,7 +544,7 @@ for my $Test (@Tests) {
     }
 
     for my $Attempt ( 1 .. $Attempts ) {
-        my $AttemptBaseMessage = sprintf $TestBaseMessage, $Attempt;
+        my $AttemptBaseMessage            = sprintf $TestBaseMessage, $Attempt;
         my $AttemptCommunicationLogStatus = $Test->{CommunicationLogStatus};
         if ( $AttemptCommunicationLogStatus->{$Attempt} ) {
             $AttemptCommunicationLogStatus = $AttemptCommunicationLogStatus->{$Attempt};

@@ -173,7 +173,7 @@ $Selenium->RunTest(
         for my $DynamicFieldType ( sort keys %DynamicFieldValues, sort keys %DynamicFieldDateValues ) {
 
             my $FieldName = $DynamicFields{$DynamicFieldType}->{Name};
-            my $Value = $DynamicFieldValues{$DynamicFieldType} || $DynamicFieldDateValues{$DynamicFieldType};
+            my $Value     = $DynamicFieldValues{$DynamicFieldType} || $DynamicFieldDateValues{$DynamicFieldType};
 
             # Set the value from the dynamic field.
             my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(

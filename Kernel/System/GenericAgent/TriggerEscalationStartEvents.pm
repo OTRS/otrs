@@ -61,7 +61,7 @@ sub Run {
         'Kernel::System::DateTime',
         ObjectParams => {
             Epoch => $StopDateTimeObject->ToEpoch() - ( 10 * 60 ),
-            }
+        }
     );
 
     my $CountedTime = $StartDateTimeObject->Delta(

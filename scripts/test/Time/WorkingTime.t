@@ -18,7 +18,7 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 my %WorkingHours;
 for my $Day (qw(Mon Tue Wed Thu Fri Sat Sun)) {
-    $WorkingHours{MonToSun}->{'0To23'}->{$Day} = [ 0 .. 23 ];
+    $WorkingHours{MonToSun}->{'0To23'}->{$Day}        = [ 0 .. 23 ];
     $WorkingHours{MonToSun}->{'8To12_14To17'}->{$Day} = [ 8 .. 12, 14 .. 17 ];
 }
 for my $Day (qw(Mon Tue Wed Thu Fri)) {

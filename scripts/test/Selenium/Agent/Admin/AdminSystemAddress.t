@@ -19,7 +19,7 @@ my $CheckBreadcrumb = sub {
     my %Param = @_;
 
     my $BreadcrumbText = $Param{BreadcrumbText} || '';
-    my $Count = 1;
+    my $Count          = 1;
 
     for my $BreadcrumbText ( 'System Email Addresses Management', $BreadcrumbText ) {
         $Self->Is(

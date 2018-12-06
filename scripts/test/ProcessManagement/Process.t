@@ -149,7 +149,7 @@ my @Tests = (
             ProcessEntityID => 'unknown123',
             Message         => 'ProcessGet() (No Config)',
             TestType        => 'False',
-            }
+        }
     },
 
     # Get on no ProcessEntityID
@@ -187,7 +187,7 @@ my @Tests = (
             ProcessEntityID => 'unknown' . $RandomID,
             Message         => 'ProcessGet() (unknown ProcessEntityID)',
             TestType        => 'False',
-            }
+        }
     },
 
     {
@@ -223,7 +223,7 @@ my @Tests = (
             },
             Message  => 'ProcessGet() (No ProcessEntityID)',
             TestType => 'False',
-            }
+        }
     },
 
     # Get on invalid ProcessEntityID
@@ -261,7 +261,7 @@ my @Tests = (
             ProcessEntityID => 'unknown123',
             Message         => 'ProcessGet() (unknown ProcessEntityID)',
             TestType        => 'False',
-            }
+        }
     },
 
     # Get on valid ProcessEntityID
@@ -403,7 +403,7 @@ my @Tests = (
             ProcessState    => [ 'Active', 'FadeAway', 'Inactive' ],
             Message         => 'ProcessList() (invalid Config)',
             TestType        => 'False',
-            }
+        }
     },
 
     # List on valid Config, missing ProcessState
@@ -581,7 +581,7 @@ my @Tests = (
                         SubmitAdviceText => 'NOTE: If you submit the form ...',
                         SubmitButtonText => 'Make an inquiry',
                     },
-                    }
+                }
             },
             ProcessEntityID => 'P1',
             ProcessState    => ['Active'],
@@ -646,7 +646,7 @@ my @Tests = (
                         SubmitAdviceText => 'NOTE: If you submit the form ...',
                         SubmitButtonText => 'Make an inquiry',
                     },
-                    }
+                }
             },
             ProcessEntityID => 'P1',
             ProcessState    => ['Active'],
@@ -748,7 +748,7 @@ my @Tests = (
             UserID           => 1,
             Message          => 'ProcessTransition() (missing ProcessEntityID)',
             TestType         => 'False',
-            }
+        }
     },
 
     # Transition on missing ActivityEntityID
@@ -764,7 +764,7 @@ my @Tests = (
             UserID           => 1,
             Message          => 'ProcessTransition() (missing ActivityDialogEntityID)',
             TestType         => 'False',
-            }
+        }
     },
 
     # Transition on missing TicketID
@@ -780,7 +780,7 @@ my @Tests = (
             UserID           => 1,
             Message          => 'ProcessTransition() (missing TicketID)',
             TestType         => 'False',
-            }
+        }
     },
 
     # Transition on missing UserID
@@ -796,7 +796,7 @@ my @Tests = (
             UserID           => undef,
             Message          => 'ProcessTransition() (missing UserID)',
             TestType         => 'False',
-            }
+        }
     },
 
     # Transition on invalid TicketID
@@ -812,7 +812,7 @@ my @Tests = (
             UserID           => 1,
             Message          => 'ProcessTransition() (invalid TicketID)',
             TestType         => 'False',
-            }
+        }
     },
 
     # Transition on invalid Process Configuration
@@ -831,7 +831,7 @@ my @Tests = (
                         StartActivityDialog => 'AD1',
                         Path                => {
                         },
-                        }
+                    }
                 },
             },
             ProcessEntityID  => 'P1',
@@ -840,7 +840,7 @@ my @Tests = (
             UserID           => 1,
             Message          => 'ProcessTransition() (invalid Process Configuration)',
             TestType         => 'False',
-            }
+        }
     },
 
     # Transition on missing Activitsets in Process->Path
@@ -874,7 +874,7 @@ my @Tests = (
             Message          => 'ProcessTransition() (missing required Activity in Path Config)',
             TestType         => 'False',
             Debug            => 1,
-            }
+        }
     },
 
     # Transition on no matching Transition
@@ -942,7 +942,7 @@ my @Tests = (
             Message          => 'ProcessTransition() (no matching Transition)',
             TestType         => 'False',
             Debug            => 1,
-            }
+        }
     },
 
     # Transition on matching Transition Check Only
@@ -1175,7 +1175,7 @@ my @Tests = (
             CheckOnly        => 0,
             Message          => 'ProcessTransition() (matching Transition change ActivityEntityID)',
             TestType         => 'True',
-            }
+        }
     },
 
     # ProcessTicketActivitySet on no ActivityEntityID
@@ -1201,7 +1201,7 @@ my @Tests = (
                                 'T3' => 'A4',
                             },
                         },
-                        }
+                    }
                 },
                 'Process::Activity' => {
                     'A1' => {
@@ -1224,7 +1224,7 @@ my @Tests = (
             Message =>
                 'ProcessTicketActivitySet() (Set ActivityEntityID on Ticket with no ActivityEntityID)',
             TestType => 'False',
-            }
+        }
     },
 
     # ProcessTicketActivitySet on no ProcessEntityID
@@ -1250,7 +1250,7 @@ my @Tests = (
                                 'T3' => 'A4',
                             },
                         },
-                        }
+                    }
                 },
                 'Process::Activity' => {
                     'A1' => {
@@ -1273,7 +1273,7 @@ my @Tests = (
             Message =>
                 'ProcessTicketActivitySet() (Set ActivityEntityID on Ticket with no ProcessEntityID)',
             TestType => 'False',
-            }
+        }
     },
 
     # ProcessTicketActivitySet on no TicketID
@@ -1299,7 +1299,7 @@ my @Tests = (
                                 'T3' => 'A4',
                             },
                         },
-                        }
+                    }
                 },
                 'Process::Activity' => {
                     'A1' => {
@@ -1322,7 +1322,7 @@ my @Tests = (
             Message =>
                 'ProcessTicketActivitySet() (Set ActivityEntityID on Ticket with no TicketID)',
             TestType => 'False',
-            }
+        }
     },
 
     # ProcessTicketActivitySet on invalid ActivityEntityID
@@ -1348,7 +1348,7 @@ my @Tests = (
                                 'T3' => 'A4',
                             },
                         },
-                        }
+                    }
                 },
                 'Process::Activity' => {
                     'A1' => {
@@ -1371,7 +1371,7 @@ my @Tests = (
             Message =>
                 'ProcessTicketActivitySet() (Set ActivityEntityID on Ticket with invalid ActivityEntityID)',
             TestType => 'False',
-            }
+        }
     },
 
     # ProcessTicketActivitySet on invalid ProcessEntityID
@@ -1426,7 +1426,7 @@ my @Tests = (
             Message =>
                 'ProcessTicketActivitySet() (Set ActivityEntityID on Ticket with invalid ProcessEntityID)',
             TestType => 'False',
-            }
+        }
     },
 
     # ProcessTicketActivitySet on valid Config
@@ -1481,7 +1481,7 @@ my @Tests = (
             Message =>
                 'ProcessTicketActivitySet() (Set ActivityEntityID on Ticket with valid Config)',
             TestType => 'True',
-            }
+        }
     },
 
     # ProcessTicketProcessSet on invalid Config
@@ -1750,7 +1750,7 @@ my @Tests = (
             Message =>
                 'ProcessTransition() (matching Transition change ActivityEntityID and Action Queue Move to Misc)',
             TestType => 'True',
-            }
+        }
     },
 
     # Transition + QueueMove TransitionAction on matching Transition change ActivityEntityID on Ticket 1
@@ -1825,8 +1825,8 @@ my @Tests = (
                                 'T4' => {
                                     ActivityEntityID => 'A1',
                                     TransitionAction => ['TA3'],
-                                    }
                                 }
+                            }
                         },
                     },
                 },
@@ -1914,7 +1914,7 @@ my @Tests = (
             Message =>
                 'ProcessTransition() (matching Transition change ActivityEntityID and TransitionAction Queue Move to Raw)',
             TestType => 'True',
-            }
+        }
     },
 
  # Transition + TicketServiceSet + TicketSLASet TransitionAction on matching Transition change Service and SLA on Ticket

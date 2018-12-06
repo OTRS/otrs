@@ -34,7 +34,7 @@ sub CheckPreviousRequirement {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # Check if configuration was already made.
-    my $OTRSTimeZone        = $ConfigObject->Get('OTRSTimeZone') // '';
+    my $OTRSTimeZone        = $ConfigObject->Get('OTRSTimeZone')        // '';
     my $UserDefaultTimeZone = $ConfigObject->Get('UserDefaultTimeZone') // '';
     if ( $OTRSTimeZone && $UserDefaultTimeZone ) {
         return 1;
@@ -73,7 +73,7 @@ sub CheckPreviousRequirement {
     #
 
     # Show suggestions for time zone
-    my %TimeZones = map { $_ => 1 } @{ $DateTimeObject->TimeZoneList() };
+    my %TimeZones        = map { $_ => 1 } @{ $DateTimeObject->TimeZoneList() };
     my $TimeZoneByOffset = $DateTimeObject->TimeZoneByOffsetList();
     if ( exists $TimeZoneByOffset->{$TimeOffset} ) {
         print

@@ -27,7 +27,7 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $TicketID = $Self->{TicketID};
+    my $TicketID  = $Self->{TicketID};
     my $ArticleID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ArticleID' );
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');

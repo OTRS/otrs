@@ -20,7 +20,7 @@ my $CheckBredcrumb = sub {
     my %Param = @_;
 
     my $BreadcrumbText = $Param{BreadcrumbText} || '';
-    my $Count = 1;
+    my $Count          = 1;
 
     for my $BreadcrumbText ( 'System Maintenance Management', $BreadcrumbText ) {
         $Self->Is(
@@ -230,7 +230,7 @@ $Selenium->RunTest(
         );
 
         # Get test system maintenance start and end time as formated string.
-        my $LayoutObject = Kernel::Output::HTML::Layout->new( UserTimeZone => $UserTimeZone );
+        my $LayoutObject    = Kernel::Output::HTML::Layout->new( UserTimeZone => $UserTimeZone );
         my $StartTimeString = $LayoutObject->{LanguageObject}->FormatTimeString(
             $DTStartObj->ToString(),
             'DateFormat',

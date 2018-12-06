@@ -43,7 +43,7 @@ sub CheckPreviousRequirement {
     my ( $Self, %Param ) = @_;
 
     my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
-    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    my $Home    = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
     my $PerlBinary = $^X;
     my $ScriptPath = "$Home/bin/otrs.CheckModules.pl";

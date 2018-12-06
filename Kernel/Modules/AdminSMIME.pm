@@ -134,7 +134,7 @@ sub Run {
         # remove certificate and private key if exists
         else {
             my $Certificate = $SMIMEObject->CertificateGet( Filename => $Filename );
-            my %Attributes = $SMIMEObject->CertificateAttributes(
+            my %Attributes  = $SMIMEObject->CertificateAttributes(
                 Certificate => $Certificate,
             );
 

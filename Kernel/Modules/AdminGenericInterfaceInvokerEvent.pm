@@ -498,7 +498,7 @@ sub _GetParams {
     my $GetParam;
 
     # Get parameters from web browser.
-    $GetParam->{Name} = $ParamObject->GetParam( Param => 'Name' ) || '';
+    $GetParam->{Name}            = $ParamObject->GetParam( Param => 'Name' ) || '';
     $GetParam->{ConditionConfig} = $ParamObject->GetParam( Param => 'ConditionConfig' )
         || '';
 

@@ -232,7 +232,7 @@ sub Run {
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     String => $Param{Config}->{PendingTime}
-                    }
+                }
             );
             my $TimeStamp = $DateTimeObject->ToString();
 

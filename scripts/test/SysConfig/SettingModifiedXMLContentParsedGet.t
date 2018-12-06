@@ -527,7 +527,7 @@ my @Tests = (
                                             },
                                         ],
                                     }
-                                    ]
+                                ]
                             },
                             {
                                 'Key'  => 'Priorities',
@@ -2597,7 +2597,7 @@ my @Tests = (
                         },
                     ],
                 },
-                }
+            }
         },
         ExpectedValue => [
             {

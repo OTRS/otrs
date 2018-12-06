@@ -32,7 +32,7 @@ sub Run {
     my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
 
     # get the needed ArticleTypeMapping from a YML file
-    my $TaskConfig = $Self->GetTaskConfig( Module => 'MigrateArticleData' );
+    my $TaskConfig         = $Self->GetTaskConfig( Module => 'MigrateArticleData' );
     my %ArticleTypeMapping = %{ $TaskConfig->{ArticleTypeMapping} };
 
     PMTABLE:

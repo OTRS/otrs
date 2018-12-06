@@ -436,7 +436,7 @@ sub WaitFor {
         }
         Time::HiRes::sleep($Interval);
         $WaitedSeconds += $Interval;
-        $Interval += 0.1;
+        $Interval      += 0.1;
     }
 
     my $Argument = '';

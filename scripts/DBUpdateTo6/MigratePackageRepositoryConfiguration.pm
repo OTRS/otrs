@@ -40,7 +40,7 @@ sub Run {
     return 1 if !%RepositoryList;
 
     my @FrameworkVersionParts = split /\./, $ConfigObject->Get('Version');
-    my $FrameworkVersion = $FrameworkVersionParts[0];
+    my $FrameworkVersion      = $FrameworkVersionParts[0];
 
     my $CurrentITSMRepository = "http://ftp.otrs.org/pub/otrs/itsm/packages$FrameworkVersion/";
 

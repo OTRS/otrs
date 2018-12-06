@@ -204,11 +204,11 @@ sub Sync {
     my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
     # get system groups and create lookup
-    my %SystemGroups = $GroupObject->GroupList( Valid => 1 );
+    my %SystemGroups       = $GroupObject->GroupList( Valid => 1 );
     my %SystemGroupsByName = reverse %SystemGroups;
 
     # get system roles and create lookup
-    my %SystemRoles = $GroupObject->RoleList( Valid => 1 );
+    my %SystemRoles       = $GroupObject->RoleList( Valid => 1 );
     my %SystemRolesByName = reverse %SystemRoles;
 
     # sync user from ldap

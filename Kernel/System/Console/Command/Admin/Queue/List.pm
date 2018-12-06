@@ -46,7 +46,7 @@ sub Run {
     my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
     my %ValidList   = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
 
-    my $Valid = !$Self->GetOption('all');
+    my $Valid  = !$Self->GetOption('all');
     my %Queues = $QueueObject->QueueList( Valid => $Valid );
 
     if ( $Self->GetOption('verbose') ) {

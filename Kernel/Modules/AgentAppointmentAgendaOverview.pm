@@ -39,7 +39,7 @@ sub Run {
         UserID => $Self->{UserID},
     );
     my $LastFilterKey = 'UserLastFilter-' . $Self->{View};
-    my $LastFilter = $Preferences{$LastFilterKey} || 'Week';
+    my $LastFilter    = $Preferences{$LastFilterKey} || 'Week';
 
     my %Filters = (
         Month => {

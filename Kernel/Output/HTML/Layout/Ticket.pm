@@ -161,7 +161,7 @@ sub AgentCustomerViewTable {
                 }
 
                 $Record{Value} = join ', ', @RenderedValues;
-                $Record{Key} = $DynamicFieldConfig->{Label};
+                $Record{Key}   = $DynamicFieldConfig->{Label};
             }
 
             if (
@@ -205,7 +205,7 @@ sub AgentCustomerViewTable {
                 my $CompanyValidID = $Param{Data}->{CustomerCompanyValidID};
 
                 if ($CompanyValidID) {
-                    my @ValidIDs = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
+                    my @ValidIDs       = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
                     my $CompanyIsValid = grep { $CompanyValidID == $_ } @ValidIDs;
 
                     if ( !$CompanyIsValid ) {
@@ -422,7 +422,7 @@ sub AgentQueueListOption {
         # transform data from Hash in Array because of ordering in frontend by Queue name
         # it was a problem with name like '(some_queue)'
         # see bug#10621 http://bugs.otrs.org/show_bug.cgi?id=10621
-        my %QueueDataHash = %{ $Param{Data} || {} };
+        my %QueueDataHash  = %{ $Param{Data} || {} };
         my @QueueDataArray = map {
             {
                 Key   => $_,
@@ -771,7 +771,7 @@ sub TicketListShow {
     }
 
     # build nav bar
-    my $Limit = $Param{Limit} || 20_000;
+    my $Limit   = $Param{Limit} || 20_000;
     my %PageNav = $Self->PageNavBar(
         Limit     => $Limit,
         StartHit  => $StartHit,

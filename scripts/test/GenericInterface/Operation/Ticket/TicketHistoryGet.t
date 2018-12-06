@@ -270,7 +270,7 @@ my @Tests = (
                 Error => {
                     ErrorCode    => 'TicketHistoryGet.MissingParameter',
                     ErrorMessage => 'TicketHistoryGet: TicketID parameter is missing!'
-                    }
+                }
             },
             Success => 1
         },
@@ -279,7 +279,7 @@ my @Tests = (
                 Error => {
                     ErrorCode    => 'TicketHistoryGet.MissingParameter',
                     ErrorMessage => 'TicketHistoryGet: TicketID parameter is missing!'
-                    }
+                }
             },
             Success => 1
         },
@@ -297,7 +297,7 @@ my @Tests = (
                     ErrorCode => 'TicketHistoryGet.AccessDenied',
                     ErrorMessage =>
                         'TicketHistoryGet: User does not have access to the ticket NotTicketID!'
-                    }
+                }
             },
             Success => 1
         },
@@ -307,7 +307,7 @@ my @Tests = (
                     ErrorCode => 'TicketHistoryGet.AccessDenied',
                     ErrorMessage =>
                         'TicketHistoryGet: User does not have access to the ticket NotTicketID!'
-                    }
+                }
             },
             Success => 1
         },

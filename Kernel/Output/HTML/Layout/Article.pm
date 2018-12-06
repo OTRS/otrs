@@ -272,7 +272,7 @@ sub ArticleQuote {
                 ArticleID        => $Param{ArticleID},
                 ExcludePlainText => 1,
                 ExcludeHTMLBody  => 1,
-                )
+            )
         };
 
         # Check if there is HTML body attachment.
@@ -491,7 +491,7 @@ sub ArticleQuote {
     else {
         $Article{Body} = $Self->WrapPlainText(
             MaxCharacters => $ConfigObject->Get('Ticket::Frontend::TextAreaEmail') || 82,
-            PlainText => $Article{Body},
+            PlainText     => $Article{Body},
         );
     }
 

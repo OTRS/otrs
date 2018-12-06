@@ -30,7 +30,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
+    my $Verbose  = $Param{CommandlineOptions}->{Verbose} || 0;
 
     my $MigrationStatus = $Self->_CheckMigrationIsDone();
 
