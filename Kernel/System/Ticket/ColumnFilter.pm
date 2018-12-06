@@ -140,7 +140,7 @@ sub StateFilterValuesGet {
         return;
     }
 
-    my @TicketIDs = @{ $Param{TicketIDs} };
+    my @TicketIDs      = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
     return if !$Self->{DBObject}->Prepare(
@@ -202,7 +202,7 @@ sub QueueFilterValuesGet {
         return;
     }
 
-    my @TicketIDs = @{ $Param{TicketIDs} };
+    my @TicketIDs      = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
     return if !$Self->{DBObject}->Prepare(
@@ -262,7 +262,7 @@ sub PriorityFilterValuesGet {
         return;
     }
 
-    my @TicketIDs = @{ $Param{TicketIDs} };
+    my @TicketIDs      = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
     return if !$Self->{DBObject}->Prepare(
@@ -322,7 +322,7 @@ sub TypeFilterValuesGet {
         return;
     }
 
-    my @TicketIDs = @{ $Param{TicketIDs} };
+    my @TicketIDs      = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
     return if !$Self->{DBObject}->Prepare(
@@ -383,7 +383,7 @@ sub LockFilterValuesGet {
         return;
     }
 
-    my @TicketIDs = @{ $Param{TicketIDs} };
+    my @TicketIDs      = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
     return if !$Self->{DBObject}->Prepare(
@@ -443,7 +443,7 @@ sub ServiceFilterValuesGet {
         return;
     }
 
-    my @TicketIDs = @{ $Param{TicketIDs} };
+    my @TicketIDs      = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
     return if !$Self->{DBObject}->Prepare(
@@ -503,7 +503,7 @@ sub SLAFilterValuesGet {
         return;
     }
 
-    my @TicketIDs = @{ $Param{TicketIDs} };
+    my @TicketIDs      = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
     return if !$Self->{DBObject}->Prepare(
@@ -559,7 +559,7 @@ sub CustomerFilterValuesGet {
         return;
     }
 
-    my @TicketIDs = @{ $Param{TicketIDs} };
+    my @TicketIDs      = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
     return if !$Self->{DBObject}->Prepare(
@@ -615,7 +615,7 @@ sub CustomerUserIDFilterValuesGet {
         return;
     }
 
-    my @TicketIDs = @{ $Param{TicketIDs} };
+    my @TicketIDs      = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
     return if !$Self->{DBObject}->Prepare(
@@ -675,7 +675,7 @@ sub OwnerFilterValuesGet {
         return;
     }
 
-    my @TicketIDs = @{ $Param{TicketIDs} };
+    my @TicketIDs      = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
     return if !$Self->{DBObject}->Prepare(
@@ -748,7 +748,7 @@ sub ResponsibleFilterValuesGet {
         return;
     }
 
-    my @TicketIDs = @{ $Param{TicketIDs} };
+    my @TicketIDs      = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
     return if !$Self->{DBObject}->Prepare(
@@ -823,7 +823,7 @@ sub DynamicFieldFilterValuesGet {
         return;
     }
 
-    my @TicketIDs = @{ $Param{TicketIDs} };
+    my @TicketIDs      = @{ $Param{TicketIDs} };
     my $TicketIDString = join ', ', sort @TicketIDs;
 
     my $ValueType = 'value_text';

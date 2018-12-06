@@ -404,9 +404,9 @@ sub TaskUpdate {
     );
 
     # update task definition
-    $Task{Type}    = $Param{Type} // $Task{Type};
+    $Task{Type}    = $Param{Type}    // $Task{Type};
     $Task{DueTime} = $Param{DueTime} // $Task{DueTime};
-    $Task{Data}    = $Data // $Task{Data};
+    $Task{Data}    = $Data           // $Task{Data};
 
     # sql
     return if !$Self->{DBObject}->Do(

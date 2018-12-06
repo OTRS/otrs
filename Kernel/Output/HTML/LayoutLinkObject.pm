@@ -460,7 +460,7 @@ sub LinkObjectTableCreateSimple {
         }
 
         # investigate link type name
-        my @LinkData = split q{::}, $LinkTypeLinkDirection;
+        my @LinkData     = split q{::}, $LinkTypeLinkDirection;
         my $LinkTypeName = $TypeList{ $LinkData[0] }->{ $LinkData[1] . 'Name' };
 
         # output the type block

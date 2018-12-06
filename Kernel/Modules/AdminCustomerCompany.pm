@@ -46,7 +46,7 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $CustomerID = $Self->{ParamObject}->GetParam( Param => 'CustomerID' ) || '';
-        my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
+        my %Data       = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
             CustomerID => $CustomerID,
         );
         $Data{CustomerCompanyID} = $CustomerID;
@@ -492,7 +492,7 @@ sub _Overview {
         Name => 'ActionSearch',
         Data => {
             Nav => $Param{Nav},
-            }
+        }
     );
 
     # get writable data sources

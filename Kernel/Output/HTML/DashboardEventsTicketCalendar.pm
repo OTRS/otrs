@@ -299,7 +299,7 @@ sub Run {
         Data => {
             CalendarWidth => $Self->{ConfigObject}->{DashboardEventsTicketCalendar}->{CalendarWidth}
                 || 95,
-            }
+        }
     );
 
     my $Content = $Self->{LayoutObject}->Output(

@@ -67,7 +67,7 @@ my $StartTime = time();
 # --------------------------------------------------------------------#
 
 # check the header
-my $Header = $LayoutObject->Header( Title => 'HeaderTest' );
+my $Header     = $LayoutObject->Header( Title => 'HeaderTest' );
 my $HeaderFlag = 1;
 if (
     $Header =~ m{ \$ (QData|LQData|Data|Env|QEnv|Config|Include) }msx

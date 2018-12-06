@@ -193,7 +193,7 @@ sub SystemDataGet {
 
     # check cache
     my $CacheKey = 'SystemDataGet::' . $Param{Key};
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     return $Cache if $Cache;
 
     return if !$Self->{DBObject}->Prepare(
@@ -253,7 +253,7 @@ sub SystemDataGroupGet {
 
     # check cache
     my $CacheKey = 'SystemDataGetGroup::' . $Param{Group};
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     return %{$Cache} if $Cache;
 
     # get like escape string needed for some databases (e.g. oracle)

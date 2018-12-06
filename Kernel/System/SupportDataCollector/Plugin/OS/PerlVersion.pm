@@ -21,7 +21,7 @@ sub Run {
     my $Self = shift;
 
     my $Version = sprintf "%vd", $^V;
-    my $OS = $^O;
+    my $OS      = $^O;
 
     # ActivePerl detection
     if ( $^O =~ /win32/i ) {

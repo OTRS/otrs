@@ -1756,7 +1756,7 @@ my $StringNoXML = 'Not a valid structure
 for a package file.';
 
 my $ResultStructure = 1;
-my %StructureFail = $PackageObject->PackageParse( String => $StringNoXML );
+my %StructureFail   = $PackageObject->PackageParse( String => $StringNoXML );
 $ResultStructure = 0 if !IsHashRefWithData( \%StructureFail );
 $Self->Is(
     $ResultStructure,

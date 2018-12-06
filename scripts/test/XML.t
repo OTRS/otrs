@@ -422,7 +422,7 @@ $Self->True(
             {
                 "[%]{'Contact'}[%]{'role'}" => 'admin',
             }
-            ]
+        ]
     );
     $Self->True(
         scalar @Keys == 1 && $Keys[0] eq '123',
@@ -435,7 +435,7 @@ $Self->True(
             {
                 "[%]{'Contact'}[%]{'role'}" => 'superuser',
             },
-            ]
+        ]
     );
     $Self->False(
         scalar @Keys,
@@ -449,7 +449,7 @@ $Self->True(
                 "[%]{'Contact'}[%]{'role'}" => 'superuser',
                 "[%]{'Contact'}[%]{'role'}" => 'admin',
             },
-            ]
+        ]
     );
     $Self->True(
         scalar @Keys == 1 && $Keys[0] eq '123',
@@ -465,7 +465,7 @@ $Self->True(
             {
                 "[%]{'Contact'}[%]{'role'}" => 'admin',
             },
-            ]
+        ]
     );
     $Self->False(
         scalar @Keys,

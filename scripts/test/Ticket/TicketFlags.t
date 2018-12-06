@@ -227,7 +227,7 @@ $Self->True(
 my @UserIDs;
 for ( 1 .. 2 ) {
     my $UserLogin = $HelperObject->TestUserCreate();
-    my $UserID = $UserObject->UserLookup( UserLogin => $UserLogin );
+    my $UserID    = $UserObject->UserLookup( UserLogin => $UserLogin );
     push @UserIDs, $UserID;
 }
 

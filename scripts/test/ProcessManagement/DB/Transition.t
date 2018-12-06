@@ -649,7 +649,7 @@ for my $Test (@Tests) {
 
     # get the old Transition (if any)
     my $OldTransition = $TransitionObject->TransitionGet(
-        ID => $Test->{Config}->{ID} || 0,
+        ID     => $Test->{Config}->{ID} || 0,
         UserID => $Test->{Config}->{UserID},
     );
 

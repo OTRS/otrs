@@ -461,7 +461,7 @@ sub Register {
 
     # calculate due date for next update, fall back to 24h
     my $NextUpdateSeconds = int $ResponseData->{NextUpdate} || ( 3600 * 24 );
-    my $DueTime = $Self->{TimeObject}->SystemTime2TimeStamp(
+    my $DueTime           = $Self->{TimeObject}->SystemTime2TimeStamp(
         SystemTime => $Self->{TimeObject}->SystemTime() + $NextUpdateSeconds,
     );
 
@@ -738,7 +738,7 @@ sub RegistrationUpdateSend {
         }
     }
 
-    $Result{Success} = 1;
+    $Result{Success}      = 1;
     $Result{ReScheduleIn} = $ResponseData->{NextUpdate} // ( 3600 * 7 * 24 );
 
     return %Result;

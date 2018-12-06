@@ -1481,7 +1481,7 @@ sub _Replace {
         use POSIX qw(strftime);
         $Tag = $Start . 'OTRS_EMAIL_DATE';
         if ( $Param{Text} =~ /$Tag\[(.+?)\]$End/g ) {
-            my $TimeZone = $1;
+            my $TimeZone  = $1;
             my $EmailDate = strftime( '%A, %B %e, %Y at %T ', localtime );    ## no critic
             $EmailDate .= "($TimeZone)";
             $Param{Text} =~ s/$Tag\[.+?\]$End/$EmailDate/g;

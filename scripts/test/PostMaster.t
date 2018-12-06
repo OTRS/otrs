@@ -977,7 +977,7 @@ for my $DynamicFieldID (@DynamicfieldIDs) {
 }
 
 # test X-OTRS-(Owner|Responsible)
-my $Login = $HelperObject->TestUserCreate();
+my $Login  = $HelperObject->TestUserCreate();
 my $UserID = $UserObject->UserLookup( UserLogin => $Login );
 
 my %OwnerResponsibleTests = (

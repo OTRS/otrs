@@ -127,7 +127,7 @@ sub Auth {
             $Self->{EncodeObject}->EncodeOutput( \$Salt );
 
             $CryptedPw = unix_md5_crypt( $Pw, $Salt );
-            $Method = 'unix_md5_crypt';
+            $Method    = 'unix_md5_crypt';
         }
 
         # sha256 pw
@@ -201,7 +201,7 @@ sub Auth {
         $Self->{EncodeObject}->EncodeOutput( \$Pw );
         $Self->{EncodeObject}->EncodeOutput( \$Salt );
         $CryptedPw = crypt( $Pw, $Salt );
-        $Method = 'crypt';
+        $Method    = 'crypt';
     }
 
     # just in case for debug!

@@ -519,7 +519,7 @@ sub StateList {
 
     # check cache
     my $CacheKey = 'StateList::' . $Valid;
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     return %{$Cache} if $Cache;
 
     # sql
@@ -640,7 +640,7 @@ sub StateTypeList {
 
     # check cache
     my $CacheKey = 'StateTypeList';
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     return %{$Cache} if $Cache;
 
     # sql

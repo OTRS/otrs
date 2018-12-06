@@ -103,7 +103,7 @@ sub new {
     # create additional objects
     $Self->{TaskManagerObject} = Kernel::System::Scheduler::TaskManager->new( %{$Self} );
 
-    $Self->{PIDObject} = Kernel::System::PID->new( %{$Self} );
+    $Self->{PIDObject}     = Kernel::System::PID->new( %{$Self} );
     $Self->{PIDUpdateTime} = $Self->{ConfigObject}->Get('Scheduler::PIDUpdateTime') || 60;
 
     $Self->{RegistrationObject} = Kernel::System::Registration->new( %{$Self} );
@@ -345,7 +345,7 @@ sub _SanityCheckSystemRegistration {
     my %RegistrationData = $Self->{RegistrationObject}->RegistrationDataGet();
 
     # get all tasks
-    my @TaskList = $Self->{TaskManagerObject}->TaskList();
+    my @TaskList                   = $Self->{TaskManagerObject}->TaskList();
     my @RegistrationUpdateTaskList = grep { $_->{Type} eq 'RegistrationUpdate' } @TaskList;
 
     # Registered system, must have RegistrationUpdate task.

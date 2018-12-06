@@ -136,7 +136,7 @@ my $CheckProcess = sub {
     # check process start activity and start activity dialog
     for my $PartName (qw(Activity ActivityDialog)) {
         my $OriginalPartEntityID = $ProcessData->{Process}->{Config}->{"Start$PartName"} || '';
-        my $PartObject = $ActivityObject;
+        my $PartObject           = $ActivityObject;
         if ( $PartName eq 'ActivityDialog' ) {
             $PartObject = $ActivityDialogObject;
         }

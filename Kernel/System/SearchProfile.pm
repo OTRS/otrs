@@ -189,7 +189,7 @@ sub SearchProfileGet {
 
     # check the cache
     my $CacheKey = $Login . '::' . $Param{Name};
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     return %{$Cache} if $Cache;
 
     # get search profile

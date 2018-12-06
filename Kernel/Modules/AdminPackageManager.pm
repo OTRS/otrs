@@ -99,7 +99,7 @@ sub Run {
             return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
         }
         my %Structure = $Self->{PackageObject}->PackageParse( String => $Package );
-        my $File = '';
+        my $File      = '';
         if ( ref $Structure{Filelist} eq 'ARRAY' ) {
             for my $Hash ( @{ $Structure{Filelist} } ) {
                 if ( $Hash->{Location} eq $Location ) {
@@ -480,7 +480,7 @@ sub Run {
     # view remote package
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'ViewRemote' ) {
-        my $File = $Self->{ParamObject}->GetParam( Param => 'File' ) || '';
+        my $File     = $Self->{ParamObject}->GetParam( Param => 'File' ) || '';
         my $Location = $Self->{ParamObject}->GetParam( Param => 'Location' );
         my %Frontend;
 
@@ -1102,7 +1102,7 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        my $FormID = $Self->{ParamObject}->GetParam( Param => 'FormID' ) || '';
+        my $FormID      = $Self->{ParamObject}->GetParam( Param => 'FormID' ) || '';
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
             Param => 'FileUpload',
         );

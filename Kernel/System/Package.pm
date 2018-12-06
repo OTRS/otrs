@@ -1586,7 +1586,7 @@ sub PackageVerify {
         Data => {
             Action  => 'PublicPackageVerification',
             Package => $Name . '::' . $Sum,
-            }
+        }
     );
     return 'verified' if !$Response{Status};
     return 'verified' if $Response{Status} ne '200 OK';
@@ -1713,7 +1713,7 @@ sub PackageVerifyAll {
         Data => [
             Action => 'PublicPackageVerification',
             @PackagesToVerify
-            ]
+        ]
     );
 
     return %Result if !$Response{Status};
@@ -1805,7 +1805,7 @@ build an opm package
 sub PackageBuild {
     my ( $Self, %Param ) = @_;
 
-    my $XML = '';
+    my $XML  = '';
     my $Home = $Param{Home} || $Self->{ConfigObject}->Get('Home');
 
     # check needed stuff

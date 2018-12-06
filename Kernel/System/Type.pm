@@ -205,7 +205,7 @@ sub TypeGet {
 
     # check cache
     my $CacheKey = 'TypeGet::ID::' . $Param{ID};
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     return %{$Cache} if $Cache;
 
     # ask the database
@@ -313,7 +313,7 @@ sub TypeList {
 
     # check cache
     my $CacheKey = "TypeList::Valid::$Valid";
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     return %{$Cache} if $Cache;
 
     # create the valid list

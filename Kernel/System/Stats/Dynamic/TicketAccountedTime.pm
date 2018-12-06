@@ -1102,7 +1102,7 @@ sub _ReportingValues {
 
     if ( $SelectedKindsOfReporting{TicketAverage} ) {
         my $NumberOfTickets = scalar keys %TicketID;
-        my $Average = $NumberOfTickets ? $Time / $NumberOfTickets : 0;
+        my $Average         = $NumberOfTickets ? $Time / $NumberOfTickets : 0;
         $Reporting{TicketAverage} = sprintf( "%.2f", $Average );
     }
     if ( $SelectedKindsOfReporting{TicketMinTime} ) {
@@ -1116,7 +1116,7 @@ sub _ReportingValues {
     }
     if ( $SelectedKindsOfReporting{ArticleAverage} ) {
         my $NumberOfArticles = scalar keys %ArticleID;
-        my $Average = $NumberOfArticles ? $Time / $NumberOfArticles : 0;
+        my $Average          = $NumberOfArticles ? $Time / $NumberOfArticles : 0;
         $Reporting{ArticleAverage} = sprintf( "%.2f", $Average );
     }
     if ( $SelectedKindsOfReporting{ArticleMinTime} ) {

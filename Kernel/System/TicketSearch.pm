@@ -615,7 +615,7 @@ sub TicketSearch {
             UserID => $Param{UserID} || 1,
         );
         my @StateTypes = map { $StateTypeList{$_} } @{ $Param{StateTypeIDs} };
-        my @StateIDs = $Self->{StateObject}->StateGetStatesByType(
+        my @StateIDs   = $Self->{StateObject}->StateGetStatesByType(
             StateType => \@StateTypes,
             Result    => 'ID',
         );

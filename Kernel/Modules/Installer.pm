@@ -257,7 +257,7 @@ sub Run {
                 Item         => 'Database Selection',
                 Step         => $StepCounter,
                 SelectDBType => $Param{SelectDBType},
-                }
+            }
         );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'Installer',
@@ -361,7 +361,7 @@ sub Run {
                 Data         => {
                     Item => 'Configure MySQL',
                     Step => $StepCounter,
-                    }
+                }
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -407,7 +407,7 @@ sub Run {
                     Item        => 'Configure Microsoft SQL Server',
                     Step        => $StepCounter,
                     InstallType => $DBInstallType,
-                    }
+                }
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -450,7 +450,7 @@ sub Run {
                 Data         => {
                     Item => 'Configure PostgreSQL',
                     Step => $StepCounter,
-                    }
+                }
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -475,7 +475,7 @@ sub Run {
                 Data         => {
                     Item => 'Configure Oracle',
                     Step => $StepCounter,
-                    }
+                }
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;

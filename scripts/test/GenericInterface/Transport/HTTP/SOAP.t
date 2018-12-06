@@ -187,7 +187,7 @@ my @Tests = (
                                 ValueMapDefault => {
                                     MapType => 'Keep',
                                 },
-                                }
+                            }
                         },
                         Type => 'Test::Test',
                     },
@@ -273,7 +273,7 @@ my @Tests = (
                                 ValueMapDefault => {
                                     MapType => 'Keep',
                                 },
-                                }
+                            }
                         },
                         Type => 'Test::Test',
                     },
@@ -401,7 +401,7 @@ my @Tests = (
                                 ValueMapDefault => {
                                     MapType => 'Keep',
                                 },
-                                }
+                            }
                         },
                         Type => 'Test::Test',
                     },

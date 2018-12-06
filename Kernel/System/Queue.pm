@@ -596,7 +596,7 @@ sub GetAllCustomQueues {
 
     # check cache
     my $CacheKey = 'GetAllCustomQueues::' . $Param{UserID};
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     return @{$Cache} if $Cache;
 
     # search all custom queues
@@ -1311,7 +1311,7 @@ sub QueuePreferencesSet {
     my ( $Self, %Param ) = @_;
 
     # delete cache
-    my $Name = $Self->QueueLookup( QueueID => $Param{QueueID} );
+    my $Name      = $Self->QueueLookup( QueueID => $Param{QueueID} );
     my @CacheKeys = (
         'QueueGetID::' . $Param{QueueID},
         'QueueGetName::' . $Name,

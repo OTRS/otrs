@@ -185,7 +185,7 @@ sub Run {
     # generate pdf output
     if ( $Self->{PDFObject} ) {
         my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');
-        my $Time = $Self->{LayoutObject}->Output( Template => '$Env{"Time"}' );
+        my $Time      = $Self->{LayoutObject}->Output( Template => '$Env{"Time"}' );
         my %Page;
 
         # get maximum number of pages
@@ -609,7 +609,7 @@ sub _PDFOutputLinkedObjects {
     for my $LinkTypeLinkDirection ( sort { lc $a cmp lc $b } keys %{ $Param{LinkData} } ) {
 
         # investigate link type name
-        my @LinkData = split q{::}, $LinkTypeLinkDirection;
+        my @LinkData     = split q{::}, $LinkTypeLinkDirection;
         my $LinkTypeName = $TypeList{ $LinkData[0] }->{ $LinkData[1] . 'Name' };
         $LinkTypeName = $Self->{LayoutObject}->{LanguageObject}->Get($LinkTypeName);
 
@@ -1256,7 +1256,7 @@ sub _HTMLMask {
 
     # build article stuff
     my $SelectedArticleID = $Param{ArticleID} || '';
-    my @ArticleBox = @{ $Param{ArticleBox} };
+    my @ArticleBox        = @{ $Param{ArticleBox} };
 
     # get last customer article
     for my $ArticleTmp (@ArticleBox) {

@@ -1160,7 +1160,7 @@ sub _OutputActivityDialog {
             Data => {
                 Name => $Self->{LayoutObject}->{LanguageObject}->Get( $ActivityDialog->{Name} )
                     || '',
-                }
+            }
         );
     }
     elsif ( $Self->{IsMainWindow} && IsHashRefWithData( \%Error ) ) {
@@ -2019,7 +2019,7 @@ sub _RenderArticle {
             Type  => 'Long',
             Valid => 1,
         );
-        my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{Ticket}->{QueueID} );
+        my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{Ticket}->{QueueID} );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
             GroupID => $GID,
             Type    => 'note',
@@ -3460,7 +3460,7 @@ sub _StoreActivityDialog {
         }
 
         if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
-            my $DynamicFieldName = $1;
+            my $DynamicFieldName   = $1;
             my $DynamicFieldConfig = ( grep { $_->{Name} eq $DynamicFieldName } @{ $Self->{DynamicField} } )[0];
 
             my $Success = $Self->{BackendObject}->ValueSet(

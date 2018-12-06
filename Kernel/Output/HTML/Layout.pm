@@ -138,7 +138,7 @@ sub new {
     #   is none yet.
     if ( !$Self->{UserLanguage} ) {
         my @BrowserLanguages = split /\s*,\s*/, $Self->{Lang} || $ENV{HTTP_ACCEPT_LANGUAGE} || '';
-        my %Data = %{ $Self->{ConfigObject}->Get('DefaultUsedLanguages') };
+        my %Data             = %{ $Self->{ConfigObject}->Get('DefaultUsedLanguages') };
         LANGUAGE:
         for my $BrowserLang (@BrowserLanguages) {
             for my $Language ( reverse sort keys %Data ) {
@@ -997,7 +997,7 @@ sub Redirect {
     #  o http://bugs.otrs.org/show_bug.cgi?id=9835
     #  o http://support.microsoft.com/default.aspx?scid=kb;en-us;221154
     if ( $ENV{SERVER_SOFTWARE} =~ /^microsoft\-iis\/6/i ) {
-        my $Host = $ENV{HTTP_HOST} || $Self->{ConfigObject}->Get('FQDN');
+        my $Host     = $ENV{HTTP_HOST} || $Self->{ConfigObject}->Get('FQDN');
         my $HttpType = $Self->{ConfigObject}->Get('HttpType');
         $Param{Redirect} = $HttpType . '://' . $Host . $Param{Redirect};
     }
@@ -3374,7 +3374,7 @@ sub BuildDateSelection {
                     defined( $Param{ $Prefix . 'Minute' } )
                     ? int( $Param{ $Prefix . 'Minute' } )
                     : $m
-                    )
+                )
                 ) . "\"/>";
         }
     }
@@ -4296,7 +4296,7 @@ sub RichTextDocumentServe {
 
             # replace charset in content
             $Param{Data}->{ContentType} =~ s/\Q$Charset\E/utf-8/gi;
-            $Param{Data}->{Content} =~ s/(charset=("|'|))\Q$Charset\E/$1utf-8/gi;
+            $Param{Data}->{Content}     =~ s/(charset=("|'|))\Q$Charset\E/$1utf-8/gi;
         }
     }
 
@@ -4569,7 +4569,7 @@ sub _BlockTemplatesReplace {
 
     for ( my $Layer = $#$BlocksByLayer; $Layer >= 0; $Layer-- ) {
         my $Blocks = $BlocksByLayer->[$Layer];
-        my $Names = join '|', map { quotemeta $_ } @$Blocks;
+        my $Names  = join '|', map { quotemeta $_ } @$Blocks;
         $$TemplateString =~ s{
             <!--[ ]?dtl:block:($Names)[ ]?-->(.+?)<!--[ ]?dtl:block:\1[ ]?-->
         }

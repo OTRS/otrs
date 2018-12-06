@@ -731,7 +731,7 @@ sub SetPassword {
         return;
     }
 
-    my $Pw = $Param{PW} || '';
+    my $Pw        = $Param{PW} || '';
     my $CryptedPw = '';
 
     # get crypt type
@@ -866,7 +866,7 @@ sub UserLookup {
 
         # check cache
         my $CacheKey = 'UserLookup::ID::' . $Param{UserLogin};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         return $Cache if $Cache;
 
         # build sql query
@@ -906,7 +906,7 @@ sub UserLookup {
 
         # check cache
         my $CacheKey = 'UserLookup::Login::' . $Param{UserID};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         return $Cache if $Cache;
 
         # build sql query
@@ -1135,7 +1135,7 @@ sub SetPreferences {
     my $FirstnameLastNameOrder = $Self->{ConfigObject}->Get('FirstnameLastnameOrder') || 0;
 
     # create cachekey
-    my $Login = $Self->UserLookup( UserID => $Param{UserID} );
+    my $Login     = $Self->UserLookup( UserID => $Param{UserID} );
     my @CacheKeys = (
         'GetUserData::User::' . $Login . '::0::' . $FirstnameLastNameOrder . '::0',
         'GetUserData::User::' . $Login . '::0::' . $FirstnameLastNameOrder . '::1',

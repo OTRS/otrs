@@ -618,7 +618,7 @@ sub Run {
 
                     # set missing information
                     $Data{Subject} = $Data{Title} || 'Untitled';
-                    $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Get(
+                    $Data{Body}    = $Self->{LayoutObject}->{LanguageObject}->Get(
                         'This item has no articles yet.'
                     );
                     $Data{From} = '--';
@@ -778,7 +778,7 @@ sub Run {
 
                     # set missing information
                     $Data{Subject} = $Data{Title} || 'Untitled';
-                    $Data{From} = '--';
+                    $Data{From}    = '--';
                 }
 
                 # customer info
@@ -817,7 +817,7 @@ sub Run {
                     if ( $UserInfo{CustomerName} );
 
                 if ( $Self->{PDFObject} ) {
-                    my %Info = ( %Data, %UserInfo );
+                    my %Info    = ( %Data, %UserInfo );
                     my $Created = $Self->{LayoutObject}->Output(
                         Template => '$TimeLong{"$Data{"Created"}"}',
                         Data     => \%Data,
@@ -1120,7 +1120,7 @@ sub Run {
         );
     }
     elsif ( $Self->{Subaction} eq 'AJAX' ) {
-        my $Profile = $Self->{ParamObject}->GetParam( Param => 'Profile' ) || '';
+        my $Profile     = $Self->{ParamObject}->GetParam( Param => 'Profile' ) || '';
         my $EmptySearch = $Self->{ParamObject}->GetParam( Param => 'EmptySearch' );
         if ( !$Profile ) {
             $EmptySearch = 1;

@@ -356,7 +356,7 @@ sub _Show {
     my @ArticleBody = $Self->{TicketObject}->ArticleGet(
         %ArticleGetParams,
     );
-    my %Article = %{ $ArticleBody[0] || {} };
+    my %Article      = %{ $ArticleBody[0] || {} };
     my $ArticleCount = scalar @ArticleBody;
 
     my %Ticket = $Self->{TicketObject}->TicketGet(

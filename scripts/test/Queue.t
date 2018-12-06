@@ -265,7 +265,7 @@ $Self->IsDeeply(
 
 # check cache
 my $CacheKey = "StandardTemplates::1::0";
-my $Cache = $QueueObject->{CacheInternalObject}->Get( Key => $CacheKey );
+my $Cache    = $QueueObject->{CacheInternalObject}->Get( Key => $CacheKey );
 $Self->IsDeeply(
     \%Templates,
     $Cache,
@@ -295,7 +295,7 @@ $Self->IsDeeply(
 
 # check cache
 $CacheKey = "StandardTemplates::1::1";
-$Cache = $QueueObject->{CacheInternalObject}->Get( Key => $CacheKey );
+$Cache    = $QueueObject->{CacheInternalObject}->Get( Key => $CacheKey );
 $Self->IsDeeply(
     \%TemplatesByType,
     $Cache,

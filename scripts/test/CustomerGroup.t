@@ -190,7 +190,7 @@ for my $Test (@Tests) {
 
             # check cache internal is empty
             my $CacheKey = "GroupMemberList::" . $Permission . "::ID::UserID::$Test->{Config}->{UID}";
-            my $Cache = $CustomerGroupObject->{CacheInternalObject}->Get( Key => $CacheKey );
+            my $Cache    = $CustomerGroupObject->{CacheInternalObject}->Get( Key => $CacheKey );
 
             $Self->Is(
                 $Cache,
@@ -293,7 +293,7 @@ my $ResetMembership = sub {
 
         # check cache internal is empty
         my $CacheKey = "GroupMemberList::" . $Permission . "::ID::UserID::$Param{UID}";
-        my $Cache = $CustomerGroupObject->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $CustomerGroupObject->{CacheInternalObject}->Get( Key => $CacheKey );
 
         $Self->Is(
             $Cache,

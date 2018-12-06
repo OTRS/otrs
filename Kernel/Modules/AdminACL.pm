@@ -76,7 +76,7 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        my $FormID = $Self->{ParamObject}->GetParam( Param => 'FormID' ) || '';
+        my $FormID      = $Self->{ParamObject}->GetParam( Param => 'FormID' ) || '';
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
             Param  => 'FileUpload',
             Source => 'string',

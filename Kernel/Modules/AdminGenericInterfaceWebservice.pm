@@ -864,7 +864,7 @@ sub _ShowEdit {
             %GeneralData,
             DebugThresholdStrg => $DebugThresholdStrg,
             ValidtyStrg        => $ValidtyStrg,
-            }
+        }
     );
 
     if ( $Param{Action} eq 'Change' ) {
@@ -968,7 +968,7 @@ sub _ShowEdit {
                 ActionType        => $CommTypeConfig{$CommunicationType}->{ActionType},
                 ControllersStrg   => $ControllersStrg,
                 ActionsTitle      => $CommTypeConfig{$CommunicationType}->{ActionsTitle},
-                }
+            }
         );
 
         $Self->{LayoutObject}->Block(
@@ -986,7 +986,7 @@ sub _ShowEdit {
                 Name => 'DetailsTransportPropertiesButton',
                 Data => {
                     CommunicationType => $CommunicationType,
-                    }
+                }
             );
         }
 
@@ -1108,7 +1108,7 @@ sub _OutputGIConfig {
             TransportConfig => $TransportConfig,
             OperationConfig => $OpertaionConfig,
             InvokerConfig   => $InvokerConfig,
-            }
+        }
     );
 }
 

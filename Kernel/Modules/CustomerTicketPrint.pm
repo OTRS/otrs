@@ -85,7 +85,7 @@ sub Run {
         DynamicFields => 0,
     );
     my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList( Type => 'Customer' );
-    my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
+    my @ArticleBox           = $Self->{TicketObject}->ArticleContentIndex(
         TicketID                   => $Self->{TicketID},
         ArticleType                => \@CustomerArticleTypes,
         StripPlainBodyAsAttachment => 1,
@@ -124,7 +124,7 @@ sub Run {
     # generate pdf output
     if ( $Self->{PDFObject} ) {
         my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');
-        my $Time = $Self->{LayoutObject}->Output( Template => '$Env{"Time"}' );
+        my $Time      = $Self->{LayoutObject}->Output( Template => '$Env{"Time"}' );
         my %Page;
 
         # get maximum number of pages
@@ -1004,7 +1004,7 @@ sub _HTMLMask {
 
     # build article stuff
     my $SelectedArticleID = $Param{ArticleID} || '';
-    my @ArticleBox = @{ $Param{ArticleBox} };
+    my @ArticleBox        = @{ $Param{ArticleBox} };
 
     # get last customer article
     for my $ArticleTmp (@ArticleBox) {

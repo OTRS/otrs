@@ -267,7 +267,7 @@ sub ServiceListGet {
 
     # check cached results
     my $CacheKey = 'Cache::ServiceListGet::Valid::' . $Param{Valid};
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     return $Cache if defined $Cache;
 
     # create SQL query
@@ -406,7 +406,7 @@ sub ServiceGet {
 
     # check cached results
     my $CacheKey = 'Cache::ServiceGet::' . $Param{ServiceID};
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     return %{$Cache} if ref $Cache eq 'HASH';
 
     # get service from db
@@ -503,7 +503,7 @@ sub ServiceLookup {
 
         # check cache
         my $CacheKey = 'Cache::ServiceLookup::ID::' . $Param{ServiceID};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         return $Cache if defined $Cache;
 
         # lookup
@@ -529,7 +529,7 @@ sub ServiceLookup {
 
         # check cache
         my $CacheKey = 'Cache::ServiceLookup::Name::' . $Param{Name};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         return $Cache if defined $Cache;
 
         # lookup
@@ -1153,7 +1153,7 @@ sub ServiceParentsGet {
 
     # read cache
     my $CacheKey = 'ServiceParentsGet::' . $Param{ServiceID};
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     return $Cache if ref $Cache;
 
     # get the list of services

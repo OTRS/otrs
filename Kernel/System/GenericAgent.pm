@@ -116,7 +116,7 @@ sub new {
         Result    => 'HASH',
     );
 
-    $Self->{PendingStateList} = \%PendingStates || {};
+    $Self->{PendingStateList}  = \%PendingStates || {};
     $Self->{CurrentSystemTime} = $Self->{TimeObject}->SystemTime();
 
     # get the dynamic fields for ticket object

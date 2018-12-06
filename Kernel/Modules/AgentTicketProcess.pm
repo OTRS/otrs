@@ -1332,7 +1332,7 @@ sub _OutputActivityDialog {
             Data => {
                 Name => $Self->{LayoutObject}->{LanguageObject}->Get( $ActivityDialog->{Name} )
                     || '',
-                }
+            }
         );
     }
     elsif ( $Self->{IsMainWindow} && ( IsHashRefWithData( \%Error ) || $Param{IsUpload} ) ) {
@@ -2483,7 +2483,7 @@ sub _RenderArticle {
             Type  => 'Long',
             Valid => 1,
         );
-        my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{Ticket}->{QueueID} );
+        my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{Ticket}->{QueueID} );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
             GroupID => $GID,
             Type    => 'note',
@@ -4426,7 +4426,7 @@ sub _StoreActivityDialog {
         }
 
         if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
-            my $DynamicFieldName = $1;
+            my $DynamicFieldName   = $1;
             my $DynamicFieldConfig = ( grep { $_->{Name} eq $DynamicFieldName } @{ $Self->{DynamicField} } )[0];
 
             my $Success = $Self->{BackendObject}->ValueSet(
@@ -5100,7 +5100,7 @@ sub _GetResponsibles {
     # if we are updating a ticket show the full list of possible responsibles
     if ( $Param{TicketID} ) {
         if ( $Param{QueueID} && !$Param{AllUsers} ) {
-            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+            my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
                 Type    => 'responsible',
@@ -5117,7 +5117,7 @@ sub _GetResponsibles {
         # the StartActivityDialog does not provide a TicketID and it could be that also there
         # is no QueueID information. Get the default QueueID for this matters.
         if ( !$Param{QueueID} ) {
-            my $Queue = $Self->{ConfigObject}->Get("Process::DefaultQueue");
+            my $Queue   = $Self->{ConfigObject}->Get("Process::DefaultQueue");
             my $QueueID = $Self->{QueueObject}->QueueLookup( Queue => $Queue );
             if ($QueueID) {
                 $Param{QueueID} = $QueueID;
@@ -5147,7 +5147,7 @@ sub _GetResponsibles {
 
         # show all users who are rw in the queue group
         elsif ( $Param{QueueID} ) {
-            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+            my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
                 Type    => 'responsible',
@@ -5188,7 +5188,7 @@ sub _GetOwners {
     # if we are updating a ticket show the full list of posible owners
     if ( $Param{TicketID} ) {
         if ( $Param{QueueID} && !$Param{AllUsers} ) {
-            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+            my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
                 Type    => 'owner',
@@ -5205,7 +5205,7 @@ sub _GetOwners {
         # the StartActivityDialog does not provide a TicketID and it could be that also there
         # is no QueueID information. Get the default QueueID for this matters.
         if ( !$Param{QueueID} ) {
-            my $Queue = $Self->{ConfigObject}->Get("Process::DefaultQueue");
+            my $Queue   = $Self->{ConfigObject}->Get("Process::DefaultQueue");
             my $QueueID = $Self->{QueueObject}->QueueLookup( Queue => $Queue );
             if ($QueueID) {
                 $Param{QueueID} = $QueueID;
@@ -5235,7 +5235,7 @@ sub _GetOwners {
 
         # show all users who are rw in the queue group
         elsif ( $Param{QueueID} ) {
-            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+            my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
                 Type    => 'owner',
