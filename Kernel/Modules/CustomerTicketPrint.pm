@@ -74,7 +74,7 @@ sub Run {
     # get content
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
     my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList( Type => 'Customer' );
-    my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
+    my @ArticleBox           = $Self->{TicketObject}->ArticleContentIndex(
         TicketID                   => $Self->{TicketID},
         ArticleType                => \@CustomerArticleTypes,
         StripPlainBodyAsAttachment => 1,
@@ -531,7 +531,7 @@ sub _PDFOutputTicketFreeTime {
         next if !$Self->{Config}->{AttributesView}->{ 'TicketFreeTime' . $Number };
 
         my $TicketFreeTimeKey = $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Number ) || '';
-        my $TicketFreeTime = $Ticket{"TicketFreeTime$Number"};
+        my $TicketFreeTime    = $Ticket{"TicketFreeTime$Number"};
 
         $TableParam{CellData}[$Row][0]{Content}
             = $Self->{LayoutObject}->{LanguageObject}->Get($TicketFreeTimeKey) . ':';
@@ -1024,7 +1024,7 @@ sub _HTMLMask {
 
     # build article stuff
     my $SelectedArticleID = $Param{ArticleID} || '';
-    my @ArticleBox = @{ $Param{ArticleBox} };
+    my @ArticleBox        = @{ $Param{ArticleBox} };
 
     # get last customer article
     for my $ArticleTmp (@ArticleBox) {

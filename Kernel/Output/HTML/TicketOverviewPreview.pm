@@ -233,7 +233,7 @@ sub _Show {
         Order    => 'DESC',
         Limit    => 5,
     );
-    my %Article = %{ $ArticleBody[0] || {} };
+    my %Article      = %{ $ArticleBody[0] || {} };
     my $ArticleCount = scalar @ArticleBody;
 
     # user info

@@ -133,7 +133,7 @@ sub new {
     # get use language (from browser) if no language is there!
     if ( !$Self->{UserLanguage} ) {
         my $BrowserLang = $Self->{Lang} || $ENV{HTTP_ACCEPT_LANGUAGE} || '';
-        my %Data = %{ $Self->{ConfigObject}->Get('DefaultUsedLanguages') };
+        my %Data        = %{ $Self->{ConfigObject}->Get('DefaultUsedLanguages') };
         LANGUAGE:
         for my $Language ( reverse sort keys %Data ) {
 
@@ -889,7 +889,7 @@ sub Redirect {
     #  o http://bugs.otrs.org/show_bug.cgi?id=2230
     #  o http://support.microsoft.com/default.aspx?scid=kb;en-us;221154
     if ( $ENV{SERVER_SOFTWARE} =~ /^microsoft\-iis/i ) {
-        my $Host = $ENV{HTTP_HOST} || $Self->{ConfigObject}->Get('FQDN');
+        my $Host     = $ENV{HTTP_HOST} || $Self->{ConfigObject}->Get('FQDN');
         my $HttpType = $Self->{ConfigObject}->Get('HttpType');
         $Param{Redirect} = $HttpType . '://' . $Host . '/' . $Param{Redirect};
     }
@@ -3051,7 +3051,7 @@ sub BuildDateSelection {
                     defined( $Param{ $Prefix . 'Minute' } )
                     ? int( $Param{ $Prefix . 'Minute' } )
                     : $m
-                    )
+                )
                 ) . "\"/>";
         }
     }
@@ -3925,7 +3925,7 @@ sub RichTextDocumentServe {
             );
 
             # replace charset in content
-            $Param{Data}->{Content} =~ s/$Charset/utf-8/gi;
+            $Param{Data}->{Content}     =~ s/$Charset/utf-8/gi;
             $Param{Data}->{ContentType} =~ s/$Charset/utf-8/gi;
         }
     }

@@ -59,7 +59,7 @@ sub Run {
 
         # get user data
         my %UserData = $Self->{UserObject}->CustomerUserDataGet( User => $Self->{UserLogin} );
-        my $Module = $Preferences{$Group}->{Module};
+        my $Module   = $Preferences{$Group}->{Module};
         if ( !$Self->{MainObject}->Require($Module) ) {
             return $Self->{LayoutObject}->FatalError();
         }

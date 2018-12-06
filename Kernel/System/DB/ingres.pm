@@ -230,7 +230,7 @@ sub TableCreate {
             @Return,
             $Self->SequenceCreate(
                 Name => $_,
-                )
+            )
         );
     }
 
@@ -256,7 +256,7 @@ sub TableCreate {
                 TableName => $TableName,
                 Name      => $Name,
                 Data      => $Index{$Name},
-                )
+            )
         );
     }
 
@@ -279,7 +279,7 @@ sub TableCreate {
                     Local            => $Array[$_]->{Local},
                     ForeignTableName => $ForeignKey,
                     Foreign          => $Array[$_]->{Foreign},
-                    )
+                )
             );
         }
     }

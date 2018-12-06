@@ -231,7 +231,7 @@ $Self->Is(
     "#5 GetCharset()",
 );
 @Attachments = $EmailParserObject->GetAttachments();
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
+$MD5         = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
 $Self->Is(
     $MD5,
     '0596f2939525c6bd50fc2b649e40fbb6',
@@ -288,7 +288,7 @@ $Self->Is(
     "#6 GetCharset()",
 );
 @Attachments = $EmailParserObject->GetAttachments();
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
+$MD5         = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
 $Self->Is(
     $MD5,
     '5ee767f3b68f24a9213e0bef82dc53e5',
@@ -346,7 +346,7 @@ $Self->Is(
     "#7 GetCharset()",
 );
 @Attachments = $EmailParserObject->GetAttachments();
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
+$MD5         = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
 $Self->Is(
     $MD5,
     '5ee767f3b68f24a9213e0bef82dc53e5',
@@ -400,7 +400,7 @@ $Self->Is(
 
 my $Body = $EmailParserObject->GetMessageBody();
 @Attachments = $EmailParserObject->GetAttachments();
-$MD5 = $Self->{MainObject}->MD5sum( String => $Body ) || '';
+$MD5         = $Self->{MainObject}->MD5sum( String => $Body ) || '';
 
 $Self->Is(
     $MD5,
@@ -432,7 +432,7 @@ $Self->Is(
 );
 
 @Attachments = $EmailParserObject->GetAttachments();
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[0]->{Content} ) || '';
+$MD5         = $Self->{MainObject}->MD5sum( String => $Attachments[0]->{Content} ) || '';
 
 $Self->Is(
     $MD5,
@@ -476,7 +476,7 @@ $Self->Is(
 );
 
 @Attachments = $EmailParserObject->GetAttachments();
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[0]->{Content} ) || '';
+$MD5         = $Self->{MainObject}->MD5sum( String => $Attachments[0]->{Content} ) || '';
 $Self->Is(
     $MD5,
     '7ddc731e5a3e76cd27d4b1e0628468b1',
@@ -570,7 +570,7 @@ $Self->Is(
 );
 
 @Attachments = $EmailParserObject->GetAttachments();
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
+$MD5         = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
 $Self->Is(
     $MD5,
     'ecfbec2030e6bf91cc97ed22f7c6551a',
@@ -721,7 +721,7 @@ $Self->Is(
 );
 
 @Attachments = $EmailParserObject->GetAttachments();
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
+$MD5         = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
 $Self->Is(
     $MD5,
     'e86c2c15e59fc1e1695f890ff102b06c',

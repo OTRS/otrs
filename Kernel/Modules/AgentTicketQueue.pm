@@ -74,13 +74,13 @@ sub Run {
 
     my $SortBy = $Self->{Config}->{'SortBy::Default'} || 'Age';
     if ( $Self->{ParamObject}->GetParam( Param => 'SortBy' ) ) {
-        $SortBy = $Self->{ParamObject}->GetParam( Param => 'SortBy' );
+        $SortBy      = $Self->{ParamObject}->GetParam( Param => 'SortBy' );
         $SortDefault = 0;
     }
 
     my $OrderBy;
     if ( $Self->{ParamObject}->GetParam( Param => 'OrderBy' ) ) {
-        $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' );
+        $OrderBy     = $Self->{ParamObject}->GetParam( Param => 'OrderBy' );
         $SortDefault = 0;
     }
 
@@ -369,9 +369,9 @@ sub _MaskQueueView {
             $Counter{$CustomQueue} = $Counter{ $Queue{Queue} };
             $Queue{Queue} = $CustomQueue;
         }
-        my @QueueName = split /::/, $Queue{Queue};
+        my @QueueName      = split /::/, $Queue{Queue};
         my $ShortQueueName = $QueueName[-1];
-        $Queue{MaxAge} = $Queue{MaxAge} / 60;
+        $Queue{MaxAge}  = $Queue{MaxAge} / 60;
         $Queue{QueueID} = 0 if ( !$Queue{QueueID} );
 
         $QueueStrg

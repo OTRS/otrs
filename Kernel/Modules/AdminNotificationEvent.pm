@@ -55,7 +55,7 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{NotificationEventObject}->NotificationGet( ID => $ID );
+        my %Data   = $Self->{NotificationEventObject}->NotificationGet( ID => $ID );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
@@ -93,12 +93,12 @@ sub Run {
 
         # get free field params
         for my $Count ( 1 .. 16 ) {
-            my $Key = "TicketFreeKey$Count";
+            my $Key  = "TicketFreeKey$Count";
             my @Keys = $Self->{ParamObject}->GetArray( Param => $Key );
             if (@Keys) {
                 $GetParam{Data}->{$Key} = \@Keys;
             }
-            my $Value = "TicketFreeText$Count";
+            my $Value  = "TicketFreeText$Count";
             my @Values = $Self->{ParamObject}->GetArray( Param => $Value );
             if (@Values) {
                 $GetParam{Data}->{$Value} = \@Values;
@@ -192,12 +192,12 @@ sub Run {
 
         # get free field params
         for my $Count ( 1 .. 16 ) {
-            my $Key = "TicketFreeKey$Count";
+            my $Key  = "TicketFreeKey$Count";
             my @Keys = $Self->{ParamObject}->GetArray( Param => $Key );
             if (@Keys) {
                 $GetParam{Data}->{$Key} = \@Keys;
             }
-            my $Value = "TicketFreeText$Count";
+            my $Value  = "TicketFreeText$Count";
             my @Values = $Self->{ParamObject}->GetArray( Param => $Value );
             if (@Values) {
                 $GetParam{Data}->{$Value} = \@Values;

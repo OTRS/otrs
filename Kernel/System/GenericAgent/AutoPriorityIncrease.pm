@@ -53,7 +53,7 @@ sub Run {
     $Param{New}->{TimeInterval} = $Param{New}->{TimeInterval} * 60;
 
     # get ticket data
-    my %Ticket = $Self->{TicketObject}->TicketGet(%Param);
+    my %Ticket       = $Self->{TicketObject}->TicketGet(%Param);
     my @HistoryLines = $Self->{TicketObject}->HistoryGet( %Param, UserID => 1 );
 
     # find latest auto priority update

@@ -308,7 +308,7 @@ sub Run {
                 QueueID => $Self->{QueueID} || 1,
             );
             my $SLAs = $Self->_GetSLAs(
-                QueueID => $Self->{QueueID} || 1,
+                QueueID  => $Self->{QueueID} || 1,
                 Services => $Services,
                 %GetParam,
             );
@@ -351,7 +351,7 @@ sub Run {
             ($QueueID) = split( /\|\|/, $Dest );
         }
         my $Signature = $Self->_GetSignature( QueueID => $QueueID || 1 );
-        my $MimeType = 'text/plain';
+        my $MimeType  = 'text/plain';
         if ( $Self->{LayoutObject}->{BrowserRichText} ) {
             $MimeType  = 'text/html';
             $Signature = $Self->{LayoutObject}->RichTextDocumentComplete(
@@ -396,7 +396,7 @@ sub Run {
             || $Self->{ParamObject}->GetParam( Param => 'PreSelectedCustomerUser' )
             || $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' )
             || '';
-        my $CustomerID = $Self->{ParamObject}->GetParam( Param => 'CustomerID' ) || '';
+        my $CustomerID           = $Self->{ParamObject}->GetParam( Param => 'CustomerID' ) || '';
         my $SelectedCustomerUser = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' )
             || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam( Param => 'ExpandCustomerName' )
@@ -756,7 +756,7 @@ sub Run {
                 QueueID        => $NewQueueID   || 1,
             );
             my $SLAs = $Self->_GetSLAs(
-                QueueID => $NewQueueID || 1,
+                QueueID  => $NewQueueID || 1,
                 Services => $Services,
                 %GetParam,
             );
@@ -1076,7 +1076,7 @@ sub Run {
         );
     }
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
-        my $Dest = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
+        my $Dest         = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
         my $CustomerUser = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' );
 
         # get From based on selected queue
@@ -1336,7 +1336,7 @@ sub _GetUsers {
 
     # show all users who are rw in the queue group
     elsif ( $Param{QueueID} ) {
-        my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+        my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
             GroupID => $GID,
             Type    => 'rw',

@@ -308,7 +308,7 @@ foreach my $TicketID (@TicketIDs) {
 
 sub RandomFreeText {
     my $Count = shift || return;
-    my $Name = int( rand(500) );
+    my $Name  = int( rand(500) );
     if ( $Count == 1 ) {
         return (
             Key   => 'TicketKey1',
@@ -431,7 +431,7 @@ sub QueueGet {
 }
 
 sub QueueCreate {
-    my $Count = shift || return;
+    my $Count    = shift || return;
     my @QueueIDs = ();
     foreach ( 1 .. $Count ) {
         my $Name = 'fill-up-queue' . int( rand(100_000_000) );
@@ -462,7 +462,7 @@ sub QueueCreate {
 
 sub GroupGet {
     my @GroupIDs = ();
-    my %Groups = $CommonObject{GroupObject}->GroupList( Valid => 1 );
+    my %Groups   = $CommonObject{GroupObject}->GroupList( Valid => 1 );
     foreach ( keys %Groups ) {
         push @GroupIDs, $_;
     }
@@ -470,7 +470,7 @@ sub GroupGet {
 }
 
 sub GroupCreate {
-    my $Count = shift || return;
+    my $Count    = shift || return;
     my @GroupIDs = ();
     foreach ( 1 .. $Count ) {
         my $Name = 'fill-up-group' . int( rand(100_000_000) );
@@ -515,7 +515,7 @@ sub UserGet {
 }
 
 sub UserCreate {
-    my $Count = shift || return;
+    my $Count   = shift || return;
     my @UserIDs = ();
     foreach ( 1 .. $Count ) {
         my $Name = 'fill-up-user' . int( rand(100_000_000) );

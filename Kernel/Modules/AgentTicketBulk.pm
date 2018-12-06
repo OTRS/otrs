@@ -337,7 +337,7 @@ sub Run {
                     State    => $GetParam{'State'},
                     UserID   => $Self->{UserID},
                 );
-                my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+                my %Ticket    = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
                 my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
                     ID => $Ticket{StateID},
                 );
@@ -529,7 +529,7 @@ sub _Mask {
 
     # build ArticleTypeID string
     my %DefaultNoteTypes = %{ $Self->{Config}->{ArticleTypes} };
-    my %NoteTypes = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
+    my %NoteTypes        = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
     for my $KeyNoteType ( keys %NoteTypes ) {
         if ( !$DefaultNoteTypes{ $NoteTypes{$KeyNoteType} } ) {
             delete $NoteTypes{$KeyNoteType};
@@ -615,7 +615,7 @@ sub _Mask {
             my %AllGroupsMembersNew;
             for my $TicketID ( @{ $Param{TicketIDs} } ) {
                 my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
-                my $GroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+                my $GroupID     = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
                 my %GroupMember = $Self->{GroupObject}->GroupMemberList(
                     GroupID => $GroupID,
                     Type    => 'rw',
@@ -656,7 +656,7 @@ sub _Mask {
             my %AllGroupsMembersNew;
             for my $TicketID ( @{ $Param{TicketIDs} } ) {
                 my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
-                my $GroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+                my $GroupID     = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
                 my %GroupMember = $Self->{GroupObject}->GroupMemberList(
                     GroupID => $GroupID,
                     Type    => 'rw',

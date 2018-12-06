@@ -270,7 +270,7 @@ sub Run {
                     Name => 'OverviewNavBarPageFlagEmpty',
                     Data => {
                         Name => $Item,
-                        }
+                    }
                 );
             }
             else {

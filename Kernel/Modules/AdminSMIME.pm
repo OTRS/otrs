@@ -72,7 +72,7 @@ sub Run {
         # remove certificate and private key if exists
         else {
             my $Certificate = $Self->{CryptObject}->CertificateGet( Hash => $Hash );
-            my %Attributes = $Self->{CryptObject}->CertificateAttributes(
+            my %Attributes  = $Self->{CryptObject}->CertificateAttributes(
                 Certificate => $Certificate,
             );
             $Message = $Self->{CryptObject}->CertificateRemove( Hash => $Hash );

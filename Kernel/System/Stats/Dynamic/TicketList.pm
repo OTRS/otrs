@@ -569,7 +569,7 @@ sub GetObjectAttributes {
 
 sub GetStatTable {
     my ( $Self, %Param ) = @_;
-    my %TicketAttributes = map { $_ => 1 } @{ $Param{XValue}{SelectedValues} };
+    my %TicketAttributes    = map { $_ => 1 } @{ $Param{XValue}{SelectedValues} };
     my $SortedAttributesRef = $Self->_SortedAttributes();
 
     # check if a enumeration is requested
@@ -583,8 +583,8 @@ sub GetStatTable {
     my $OrderRef = first { $_->{Element} eq 'OrderBy' } @{ $Param{ValueSeries} };
     my $OrderBy = $OrderRef ? $OrderRef->{SelectedValues}[0] : 'Age';
     my $SortRef = first { $_->{Element} eq 'SortSequence' } @{ $Param{ValueSeries} };
-    my $Sort = $SortRef ? $SortRef->{SelectedValues}[0] : 'Down';
-    my $Limit = $Param{Restrictions}{Limit};
+    my $Sort    = $SortRef ? $SortRef->{SelectedValues}[0] : 'Down';
+    my $Limit   = $Param{Restrictions}{Limit};
 
     # check if we can use the sort and order function of TicketSearch
     my $OrderByIsValueOfTicketSearchSort = $Self->_OrderByIsValueOfTicketSearchSort(

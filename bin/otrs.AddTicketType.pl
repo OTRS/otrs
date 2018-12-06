@@ -61,7 +61,7 @@ $Param{UserID} = '1';
 
 # Validrecord
 $Param{ValidID} = '1';
-$Param{Name} = $opts{n} || '';
+$Param{Name}    = $opts{n} || '';
 
 if ( my $RID = $CommonObject{TypeObject}->TypeAdd(%Param) ) {
     print "Ticket type '$opts{n}' added. Type id is '$RID'\n";

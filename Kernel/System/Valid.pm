@@ -103,7 +103,7 @@ sub ValidList {
 
     # read cache
     my $CacheKey = 'ValidList';
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     return %{$Cache} if $Cache;
 
     # get list from database
@@ -212,7 +212,7 @@ sub ValidIDsGet {
 
     # read cache
     my $CacheKey = 'ValidIDsGet';
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     return @{$Cache} if $Cache;
 
     # get valid ids

@@ -236,7 +236,7 @@ sub _MaskUpdate {
     for my $ConfigHeader ( @{ $Self->{ConfigObject}->Get('PostmasterX-Header') } ) {
         $Header{$ConfigHeader} = $ConfigHeader;
     }
-    $Header{''} = '-';
+    $Header{''}   = '-';
     $Header{Body} = 'Body';
 
     # otrs header

@@ -110,7 +110,7 @@ sub Run {
     }
 
     # set free article text
-    my @Values = ( 'X-OTRS-FollowUp-ArticleKey', 'X-OTRS-FollowUp-ArticleValue' );
+    my @Values     = ( 'X-OTRS-FollowUp-ArticleKey', 'X-OTRS-FollowUp-ArticleValue' );
     my $CounterTmp = 0;
     while ( $CounterTmp <= 3 ) {
         $CounterTmp++;

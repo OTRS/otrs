@@ -229,7 +229,7 @@ sub Check {
 
                 # parse the decrypted email body
                 my $ParserObject = Kernel::System::EmailParser->new( %{$Self}, Email => $EmailContent );
-                my $Body = $ParserObject->GetMessageBody();
+                my $Body         = $ParserObject->GetMessageBody();
 
                 # updated article body
                 $Self->{TicketObject}->ArticleUpdate(

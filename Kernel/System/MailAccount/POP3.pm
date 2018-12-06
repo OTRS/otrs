@@ -210,7 +210,7 @@ sub Fetch {
                     my @Return = $PostMasterObject->Run( QueueID => $Param{QueueID} || 0 );
                     if ( !$Return[0] ) {
                         my $Lines = $PopObject->get($Messageno);
-                        my $File = $Self->_ProcessFailed( Email => $Lines );
+                        my $File  = $Self->_ProcessFailed( Email => $Lines );
                         $Self->{LogObject}->Log(
                             Priority => 'error',
                             Message  => "$AuthType: Can't process mail, see log sub system ("

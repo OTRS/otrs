@@ -138,7 +138,7 @@ sub Run {
             # if more the one customer user exists, show list
             # and clean CustomerID
             else {
-                $Param{CustomerID} = '';
+                $Param{CustomerID}            = '';
                 $Param{"CustomerUserOptions"} = \%CustomerUserList;
             }
             return $Self->Form(%Param);

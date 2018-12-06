@@ -50,7 +50,7 @@ sub Run {
     # check if bussines hours is, then send escalation info
     my $CountedTime = $Self->{TimeObject}->WorkingTime(
         StartTime => $Self->{TimeObject}->SystemTime() - ( 10 * 60 ),
-        StopTime => $Self->{TimeObject}->SystemTime(),
+        StopTime  => $Self->{TimeObject}->SystemTime(),
     );
     if ( !$CountedTime ) {
         if ( $Self->{Debug} ) {

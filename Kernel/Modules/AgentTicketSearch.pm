@@ -853,7 +853,7 @@ sub Run {
                     if ( $UserInfo{CustomerName} );
 
                 if ( $Self->{PDFObject} ) {
-                    my %Info = ( %Data, %UserInfo );
+                    my %Info    = ( %Data, %UserInfo );
                     my $Created = $Self->{LayoutObject}->Output(
                         Template => '$TimeLong{"$Data{"Created"}"}',
                         Data     => \%Data,
@@ -1126,7 +1126,7 @@ sub Run {
         );
     }
     elsif ( $Self->{Subaction} eq 'AJAX' ) {
-        my $Profile = $Self->{ParamObject}->GetParam( Param => 'Profile' ) || '';
+        my $Profile     = $Self->{ParamObject}->GetParam( Param => 'Profile' ) || '';
         my $EmptySearch = $Self->{ParamObject}->GetParam( Param => 'EmptySearch' );
         if ( !$Profile ) {
             $EmptySearch = 1;

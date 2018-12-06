@@ -46,7 +46,7 @@ sub Run {
     # update/close item
     if ( $Self->{Subaction} eq 'UpdateRemove' ) {
         my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
-        my $Key = 'UserDashboard' . $Name;
+        my $Key  = 'UserDashboard' . $Name;
 
         # update ssession
         $Self->{SessionObject}->UpdateSessionID(
@@ -258,7 +258,7 @@ sub Run {
         # check permissions
         if ( $Config->{$Name}->{Group} ) {
             my $PermissionOK = 0;
-            my @Groups = split /;/, $Config->{$Name}->{Group};
+            my @Groups       = split /;/, $Config->{$Name}->{Group};
             GROUP:
             for my $Group (@Groups) {
                 my $Permission = 'UserIsGroup[' . $Group . ']';
@@ -405,7 +405,7 @@ sub _Element {
     # check permissions
     if ( $Configs->{$Name}->{Group} ) {
         my $PermissionOK = 0;
-        my @Groups = split /;/, $Configs->{$Name}->{Group};
+        my @Groups       = split /;/, $Configs->{$Name}->{Group};
         GROUP:
         for my $Group (@Groups) {
             my $Permission = 'UserIsGroup[' . $Group . ']';
@@ -467,7 +467,7 @@ sub _Element {
     my $CacheUsed = 1;
     if ( !defined $Content ) {
         $CacheUsed = 0;
-        $Content = $Object->Run( AJAX => $Param{AJAX} );
+        $Content   = $Object->Run( AJAX => $Param{AJAX} );
     }
 
     # check if content should be shown

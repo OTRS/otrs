@@ -173,7 +173,7 @@ sub Run {
                 Item         => 'Create Database',
                 Step         => '2/4',
                 SelectDBType => $Param{SelectDBType},
-                }
+            }
         );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'Installer',
@@ -585,7 +585,7 @@ sub Run {
                 Data         => {
                     Item => 'Drop Database',
                     Step => '4/4',
-                    }
+                }
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;

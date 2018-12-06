@@ -96,7 +96,7 @@ my @Tests = (
             'utf-8'       => 'text/html; charset="utf-8"',
             'dos'         => 'text/html; charset="dos"',
             'cp121'       => 'text/html; charset="cp121"',
-            }
+        }
     },
     {
         Name => 'Text/plain email.',
@@ -141,7 +141,7 @@ my @Tests = (
             'utf-8'       => 'text/html; charset="utf-8"',
             'dos'         => 'text/html; charset="dos"',
             'cp121'       => 'text/html; charset="cp121"',
-            }
+        }
     }
 
 );

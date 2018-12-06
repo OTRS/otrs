@@ -27,7 +27,7 @@ sub new {
     }
 
     # get current filter
-    my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
+    my $Name           = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
     my $PreferencesKey = 'UserDashboardTicketGenericFilter' . $Self->{Name};
     if ( $Self->{Name} eq $Name ) {
         $Self->{Filter} = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || '';
@@ -150,7 +150,7 @@ sub Run {
     %TicketSearch = (
         %TicketSearch,
         Permission => $Self->{Config}->{Permission} || 'ro',
-        UserID => $Self->{UserID},
+        UserID     => $Self->{UserID},
     );
 
     # define filter attributes

@@ -166,7 +166,7 @@ my ( $s, $m, $h, $D, $M, $Y ) =
     );
 
 my %GetParam = ();
-my $Stat = $CommonObject{StatsObject}->StatsGet( StatID => $StatID );
+my $Stat     = $CommonObject{StatsObject}->StatsGet( StatID => $StatID );
 
 if ( $Stat->{StatType} eq 'static' ) {
     $GetParam{Year}  = $Y;
@@ -213,7 +213,7 @@ my @StatArray = @{
     $CommonObject{StatsObject}->StatsRun(
         StatID   => $StatID,
         GetParam => \%GetParam,
-        )
+    )
 };
 
 # generate output

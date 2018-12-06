@@ -453,7 +453,7 @@ sub CacheDelete {
     }
 
     # now go through the cache folders and delete all .js and .css files
-    my @FileTypes = ( "*.js", "*.css" );
+    my @FileTypes    = ( "*.js", "*.css" );
     my $TotalCounter = 0;
     FOLDERTODELETE:
     for my $FolderToDelete (@CacheFoldersList) {

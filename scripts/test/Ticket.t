@@ -50,7 +50,7 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
         );
 
         # check GetTNByString
-        my $Tn = $TicketObject->TicketCreateNumber() || 'NONE!!!';
+        my $Tn     = $TicketObject->TicketCreateNumber() || 'NONE!!!';
         my $String = 'Re: ' . $TicketObject->TicketSubjectBuild(
             TicketNumber => $Tn,
             Subject      => 'Some Test',
@@ -3303,7 +3303,7 @@ for my $Backend (qw(DB FS)) {
 }
 
 my $TicketSearchTicketNumber = substr $Ticket{TicketNumber}, 0, 10;
-my %TicketIDs = $TicketObject->TicketSearch(
+my %TicketIDs                = $TicketObject->TicketSearch(
 
     # result (required)
     Result => 'HASH',

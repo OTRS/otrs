@@ -249,7 +249,7 @@ sub Auth {
             }
             if ( %User && $PasswordMaxLoginFailed && $Count >= $PasswordMaxLoginFailed ) {
                 my $ValidID = $Self->{ValidObject}->ValidLookup( Valid => 'invalid-temporarily' );
-                my $Update = $Self->{UserObject}->UserUpdate(
+                my $Update  = $Self->{UserObject}->UserUpdate(
                     %User,
                     ValidID      => $ValidID,
                     ChangeUserID => 1,

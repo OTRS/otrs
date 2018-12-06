@@ -172,7 +172,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     %{$Self},
                     ConfigObject => $ConfigObject,
                 );
-                my %Ticket = $TicketObject->TicketGet( TicketID => $Return[1] );
+                my %Ticket     = $TicketObject->TicketGet( TicketID => $Return[1] );
                 my @ArticleIDs = $TicketObject->ArticleIndex(
                     TicketID => $Return[1],
                 );

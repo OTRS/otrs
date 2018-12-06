@@ -808,7 +808,7 @@ sub Run {
             if ( $Data{Body} ) {
                 $Data{Body} =~ s/\t/ /g;
                 my $Quote = $Self->{LayoutObject}->Ascii2Html(
-                    Text => $Self->{ConfigObject}->Get('Ticket::Frontend::Quote') || '',
+                    Text           => $Self->{ConfigObject}->Get('Ticket::Frontend::Quote') || '',
                     HTMLResultMode => 1,
                 );
                 if ($Quote) {

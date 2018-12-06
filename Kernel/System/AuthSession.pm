@@ -244,7 +244,7 @@ sub GetExpiredSessionIDs {
         my $ValidTime      = ( ( $SessionData{UserSessionStart} || 0 ) + $MaxSessionTime )
             - $Self->{TimeObject}->SystemTime();
         my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
-        my $ValidIdleTime = ( ( $SessionData{UserLastRequest} || 0 ) + $MaxSessionIdleTime )
+        my $ValidIdleTime      = ( ( $SessionData{UserLastRequest} || 0 ) + $MaxSessionIdleTime )
             - $Self->{TimeObject}->SystemTime();
 
         # delete invalid session time

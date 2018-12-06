@@ -136,7 +136,7 @@ sub LockViewableLock {
 
     # check cache
     my $CacheKey = 'LockViewableLock::' . $Param{Type};
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     return @{$Cache} if $Cache;
 
     # sql
@@ -200,7 +200,7 @@ sub LockLookup {
 
     # check cache
     my $CacheKey = 'Lookup::' . $Param{$Key};
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     return $Cache if $Cache;
 
     # db query
@@ -272,7 +272,7 @@ sub LockList {
 
     # check cache
     my $CacheKey = 'LockList';
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     return %{$Cache} if $Cache;
 
     # sql

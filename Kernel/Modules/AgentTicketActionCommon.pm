@@ -193,7 +193,7 @@ sub Run {
 
         # set additional params
         $GetParam{ $FreeTimePrefix . 'Optional' } = 1;
-        $GetParam{ $FreeTimePrefix . 'Used' } = $GetParam{ $FreeTimePrefix . 'Used' } || 0;
+        $GetParam{ $FreeTimePrefix . 'Used' }     = $GetParam{ $FreeTimePrefix . 'Used' } || 0;
         if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) ) {
             $GetParam{ $FreeTimePrefix . 'Optional' } = 0;
             $GetParam{ $FreeTimePrefix . 'Used' }     = 1;
@@ -652,7 +652,7 @@ sub Run {
                 );
             }
 
-            my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
+            my $From          = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
             my @NotifyUserIDs = ( @{ $Self->{InformUserID} }, @{ $Self->{InvolvedUserID} } );
             $ArticleID = $Self->{TicketObject}->ArticleCreate(
                 TicketID                        => $Self->{TicketID},
@@ -1052,7 +1052,7 @@ sub _Mask {
             %ShownUsers = %AllGroupsMembers;
         }
         else {
-            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+            my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
                 Type    => 'owner',
@@ -1127,7 +1127,7 @@ sub _Mask {
             %ShownUsers = %AllGroupsMembers;
         }
         else {
-            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+            my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
                 Type    => 'responsible',
@@ -1254,7 +1254,7 @@ sub _Mask {
                 Type  => 'Long',
                 Valid => 1,
             );
-            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+            my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
                 Type    => 'note',
@@ -1337,7 +1337,7 @@ sub _Mask {
 
         # get possible notes
         my %DefaultNoteTypes = %{ $Self->{Config}->{ArticleTypes} };
-        my %NoteTypes = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
+        my %NoteTypes        = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
         for my $KeyNoteType ( keys %NoteTypes ) {
             if ( !$DefaultNoteTypes{ $NoteTypes{$KeyNoteType} } ) {
                 delete $NoteTypes{$KeyNoteType};

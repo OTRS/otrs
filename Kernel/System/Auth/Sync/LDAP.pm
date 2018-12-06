@@ -30,7 +30,7 @@ sub new {
 
     # get ldap preferences
     $Self->{Count} = $Param{Count} || '';
-    $Self->{Die} = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::Die' . $Param{Count} );
+    $Self->{Die}   = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::Die' . $Param{Count} );
     if ( $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::Host' . $Param{Count} ) ) {
         $Self->{Host} = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::Host' . $Param{Count} );
     }

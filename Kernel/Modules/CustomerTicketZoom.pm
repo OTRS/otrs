@@ -97,7 +97,7 @@ sub Run {
 
     # get all article of this ticket
     my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList( Type => 'Customer' );
-    my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
+    my @ArticleBox           = $Self->{TicketObject}->ArticleContentIndex(
         TicketID                   => $Self->{TicketID},
         ArticleType                => \@CustomerArticleTypes,
         StripPlainBodyAsAttachment => $StripPlainBodyAsAttachment,
@@ -279,7 +279,7 @@ sub Run {
 
             # set state
             my %NextStateData = $Self->{StateObject}->StateGet( ID => $GetParam{StateID} );
-            my $NextState = $NextStateData{Name}
+            my $NextState     = $NextStateData{Name}
                 || $Self->{Config}->{StateDefault}
                 || 'open';
             $Self->{TicketObject}->StateSet(

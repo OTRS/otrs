@@ -93,7 +93,7 @@ sub Run {
             return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
         }
         my %Structure = $Self->{PackageObject}->PackageParse( String => $Package );
-        my $File = '';
+        my $File      = '';
         if ( !$Location ) {
 
         }
@@ -456,7 +456,7 @@ sub Run {
     # view remote package
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'ViewRemote' ) {
-        my $File = $Self->{ParamObject}->GetParam( Param => 'File' ) || '';
+        my $File     = $Self->{ParamObject}->GetParam( Param => 'File' ) || '';
         my $Location = $Self->{ParamObject}->GetParam( Param => 'Location' );
         my %Frontend;
 
@@ -1042,7 +1042,7 @@ sub Run {
     # install package
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'InstallUpload' ) {
-        my $FormID = $Self->{ParamObject}->GetParam( Param => 'FormID' ) || '';
+        my $FormID      = $Self->{ParamObject}->GetParam( Param => 'FormID' ) || '';
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
             Param  => 'FileUpload',
             Source => 'string',

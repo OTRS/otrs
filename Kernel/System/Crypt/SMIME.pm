@@ -427,7 +427,7 @@ sub CertificateSearch {
     for (@Hash) {
         my $Certificate = $Self->CertificateGet( Hash => $_ );
         my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate );
-        my $Hit = 0;
+        my $Hit        = 0;
         if ($Search) {
             for ( keys %Attributes ) {
                 if ( eval { $Attributes{$_} =~ /\Q$Search\E/i } ) {
@@ -510,7 +510,7 @@ sub CertificateGet {
         );
         return;
     }
-    my $File = "$Self->{CertPath}/$Param{Hash}.0";
+    my $File           = "$Self->{CertPath}/$Param{Hash}.0";
     my $CertificateRef = $Self->{MainObject}->FileRead( Location => $File );
 
     return if !$CertificateRef;
@@ -624,7 +624,7 @@ sub PrivateSearch {
     for (@Hash) {
         my $Certificate = $Self->CertificateGet( Hash => $_ );
         my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate );
-        my $Hit = 0;
+        my $Hit        = 0;
         if ($Search) {
             for ( keys %Attributes ) {
                 if ( $Attributes{$_} =~ /\Q$Search\E/i ) {
@@ -979,7 +979,7 @@ sub _FetchAttributesFromCert {
     }
 
     # prepare attributes data for use
-    $AttributesRef->{Issuer} =~ s{=}{= }xmsg;
+    $AttributesRef->{Issuer}  =~ s{=}{= }xmsg;
     $AttributesRef->{Subject} =~ s{\/}{ }xmsg;
     $AttributesRef->{Subject} =~ s{=}{= }xmsg;
 

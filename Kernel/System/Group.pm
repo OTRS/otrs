@@ -358,7 +358,7 @@ the result looks like
 sub GroupList {
     my ( $Self, %Param ) = @_;
 
-    my $Valid = $Param{Valid} || 0;
+    my $Valid  = $Param{Valid} || 0;
     my %Groups = $Self->{DBObject}->GetTableData(
         What  => 'id, name',
         Table => 'groups',

@@ -84,7 +84,7 @@ sub new {
     }
 
     $Self->{Timeout} = $Param{Timeout} || $Self->{ConfigObject}->Get('WebUserAgent::Timeout') || 15;
-    $Self->{Proxy} = $Param{Proxy} || $Self->{ConfigObject}->Get('WebUserAgent::Proxy');
+    $Self->{Proxy}   = $Param{Proxy}   || $Self->{ConfigObject}->Get('WebUserAgent::Proxy');
 
     return $Self;
 }

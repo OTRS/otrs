@@ -56,7 +56,7 @@ if ( !$ARGV[0] ) {
 }
 
 my $TicketID = shift;
-my %Ticket = $CommonObject{TicketObject}->TicketGet( TicketID => $TicketID );
+my %Ticket   = $CommonObject{TicketObject}->TicketGet( TicketID => $TicketID );
 if ( !%Ticket ) {
     exit 1;
 }

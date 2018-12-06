@@ -103,7 +103,7 @@ sub Run {
         Data         => {
             Text => $Plain,
             %Article,
-            }
+        }
     );
     $Output .= $Self->{LayoutObject}->Footer(
         Type => 'Small',

@@ -72,7 +72,7 @@ $som = $RPC->Dispatch(
 );
 die $som->fault->{faultstring} if $som->fault;
 my $Feedback = $som->result;
-my $Message = $Feedback ? 'was successful' : 'was not successful';
+my $Message  = $Feedback ? 'was successful' : 'was not successful';
 print "NOTICE: Delete Ticket with ID $TicketID $Message\n";
 
 # check if the customer exits

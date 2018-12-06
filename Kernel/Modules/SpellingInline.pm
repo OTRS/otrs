@@ -41,7 +41,7 @@ sub Run {
     # inline spell checker of richt text
 
     my $JSData = '';
-    my @Text = $Self->{ParamObject}->GetArray( Param => 'textinputs[]' );
+    my @Text   = $Self->{ParamObject}->GetArray( Param => 'textinputs[]' );
 
     my $TextAll = '';
     for ( my $i = 0; $i <= $#Text; $i++ ) {

@@ -576,7 +576,7 @@ sub MaskAgentZoom {
 
     # get MoveQueuesStrg
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i ) {
-        $MoveQueues{0} = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Move') . ' -';
+        $MoveQueues{0}         = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Move') . ' -';
         $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
             Name => 'DestQueueID',
             Data => \%MoveQueues,

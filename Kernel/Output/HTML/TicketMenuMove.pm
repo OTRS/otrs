@@ -76,7 +76,7 @@ sub Run {
             Action   => $Self->{LayoutObject}->{Action},
             Type     => 'move_into',
         );
-        $MoveQueues{0} = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Move') . ' -';
+        $MoveQueues{0}         = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Move') . ' -';
         $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
             Name => 'DestQueueID',
             Data => \%MoveQueues,

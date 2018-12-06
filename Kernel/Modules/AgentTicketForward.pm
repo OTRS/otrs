@@ -792,7 +792,7 @@ sub SendEmail {
     if (%Error) {
 
         my $QueueID = $Self->{TicketObject}->TicketQueueID( TicketID => $Self->{TicketID} );
-        my $Output = $Self->{LayoutObject}->Header(
+        my $Output  = $Self->{LayoutObject}->Header(
             Value => $TicketNumber,
             Type  => 'Small',
         );

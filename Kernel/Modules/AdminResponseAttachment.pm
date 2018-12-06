@@ -44,7 +44,7 @@ sub Run {
     if ( $Self->{Subaction} eq 'Response' ) {
 
         # get response data
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        my $ID                   = $Self->{ParamObject}->GetParam( Param => 'ID' );
         my %StandardResponseData = $Self->{StandardResponseObject}->StandardResponseGet(
             ID => $ID,
         );

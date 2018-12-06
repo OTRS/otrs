@@ -65,7 +65,7 @@ $Self->Is(
 );
 
 my %SalutationList = $SalutationObject->SalutationList( Valid => 0 );
-my $Hit = 0;
+my $Hit            = 0;
 for ( sort keys %SalutationList ) {
     if ( $_ eq $SalutationID ) {
         $Hit = 1;

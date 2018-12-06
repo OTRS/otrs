@@ -60,7 +60,7 @@ sub Run {
         # get default signing key
         if ( $Param{QueueID} ) {
             my $QueueObject = Kernel::System::Queue->new( %{$Self} );
-            my %Queue = $QueueObject->QueueGet( ID => $Param{QueueID} );
+            my %Queue       = $QueueObject->QueueGet( ID => $Param{QueueID} );
             $Param{SignKeyID} = $Queue{DefaultSignKey} || '';
         }
     }
