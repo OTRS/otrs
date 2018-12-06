@@ -173,7 +173,7 @@ sub TicketAcceleratorUpdateOnQueueUpdate {
 
     # Updated ticket_index for all sub queue names when parent name is changed.
     # See bug#13570 (https://bugs.otrs.org/show_bug.cgi?id=13570).
-    my %AllQueue = $Kernel::OM->Get('Kernel::System::Queue')->QueueList( Valid => 0 );
+    my %AllQueue    = $Kernel::OM->Get('Kernel::System::Queue')->QueueList( Valid => 0 );
     my @ParentQueue = split( /::/, $Param{OldQueueName} );
 
     for my $QueueID ( sort keys %AllQueue ) {

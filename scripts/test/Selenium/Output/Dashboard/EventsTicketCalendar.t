@@ -48,7 +48,7 @@ $Selenium->RunTest(
             Value => {
                 %EventsTicketCalendarSysConfig,
                 Default => 1,
-                }
+            }
         );
 
         # create test user and login

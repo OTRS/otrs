@@ -1016,7 +1016,7 @@ sub _SendRecipientNotification {
             my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
                 SystemTime => $TimeObject->TimeStamp2SystemTime(
                     String => $LastNotificationHistory->{CreateTime},
-                    )
+                )
             );
 
             # get current date

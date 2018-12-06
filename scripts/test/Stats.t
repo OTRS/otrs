@@ -394,7 +394,7 @@ if ( !open $Filehandle, '<', $Path ) {    ## no critic
     );
 }
 
-my @Lines = <$Filehandle>;
+my @Lines         = <$Filehandle>;
 my $ImportContent = join '', @Lines;
 
 close $Filehandle;
@@ -473,7 +473,7 @@ $Self->False(
 
 # check the imported stat
 my $Stat4 = $StatsObject->StatsGet( StatID => $StatID );
-my $Home = $ConfigObject->Get('Home');
+my $Home  = $ConfigObject->Get('Home');
 my ( $Result, $ExitCode );
 {
     local *STDOUT;

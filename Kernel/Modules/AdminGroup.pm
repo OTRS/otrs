@@ -42,7 +42,7 @@ sub Run {
         my $ID = $ParamObject->GetParam( Param => 'ID' )
             || $ParamObject->GetParam( Param => 'GroupID' )
             || '';
-        my %Data = $GroupObject->GroupGet( ID => $ID );
+        my %Data   = $GroupObject->GroupGet( ID => $ID );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Self->_Edit(

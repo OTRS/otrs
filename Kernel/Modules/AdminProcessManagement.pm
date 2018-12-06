@@ -152,7 +152,7 @@ sub Run {
             $Content = ${ $Content || \'' };
         }
         else {
-            my $FormID = $ParamObject->GetParam( Param => 'FormID' ) || '';
+            my $FormID      = $ParamObject->GetParam( Param => 'FormID' ) || '';
             my %UploadStuff = $ParamObject->GetUploadAll(
                 Param => 'FileUpload',
             );
@@ -343,7 +343,7 @@ sub Run {
                             @{
                                 $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}
                                     ->{Config}->{Interface}
-                                }
+                            }
                         ),
                         %{ $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID} },
                     },
@@ -678,7 +678,7 @@ sub Run {
                         @{
                             $ProcessData->{Process}->{Config}->{Path}->{$Activity}->{$Transition}
                                 ->{TransitionAction}
-                            }
+                        }
                     );
                     if ($TransitionActionString) {
                         $TransitionActionString = '(' . $TransitionActionString . ')';
@@ -761,7 +761,7 @@ sub Run {
         }
 
         # check if Inactive state estity exists
-        my $StateList = $StateObject->StateList( UserID => $Self->{UserID} );
+        my $StateList   = $StateObject->StateList( UserID => $Self->{UserID} );
         my %StateLookup = reverse %{$StateList};
 
         my $StateEntityID = $StateLookup{'Inactive'};
@@ -1672,7 +1672,7 @@ sub _ShowOverview {
                 Data => {
                     %{$ProcessData},
                     Description => $ProcessData->{Config}->{Description},
-                    }
+                }
             );
         }
     }

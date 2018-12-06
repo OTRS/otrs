@@ -63,7 +63,7 @@ sub ArticleStorageInit {
     return 1 if $CacheModule ne 'Kernel::System::Cache::MemcachedFast';
     return 1 if !$ConfigObject->Get('Cache::ArticleStorageCache');
 
-    $Self->{ArticleStorageCache} = 1;
+    $Self->{ArticleStorageCache}    = 1;
     $Self->{ArticleStorageCacheTTL} = $ConfigObject->Get('Cache::ArticleStorageCache::TTL') || 60 * 60 * 24;
 
     return 1;
@@ -168,7 +168,7 @@ sub ArticleDeletePlain {
 
     # delete from fs
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
-    my $File = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt";
+    my $File        = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt";
     if ( -f $File ) {
         if ( !unlink $File ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -216,7 +216,7 @@ sub ArticleDeleteAttachment {
 
     # delete from fs
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
-    my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
+    my $Path        = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
 
     if ( -e $Path ) {
 
@@ -280,7 +280,7 @@ sub ArticleWritePlain {
 
     # define path
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
-    my $Path = $Self->{ArticleDataDir} . '/' . $ContentPath . '/' . $Param{ArticleID};
+    my $Path        = $Self->{ArticleDataDir} . '/' . $ContentPath . '/' . $Param{ArticleID};
 
     # debug
     if ( $Self->{Debug} > 1 ) {
@@ -1122,7 +1122,7 @@ sub _ArticleDeleteDirectory {
 
     # delete directory from fs
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
-    my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
+    my $Path        = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
     if ( -d $Path ) {
         if ( !rmdir($Path) ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(

@@ -610,7 +610,7 @@ sub GeneralSpecificationsWidget {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # In case of page reload because of errors
-    my %Errors   = %{ $Param{Errors} //   {} };
+    my %Errors   = %{ $Param{Errors}   // {} };
     my %GetParam = %{ $Param{GetParam} // {} };
 
     my $Stat;
@@ -1472,7 +1472,7 @@ sub StatsResultRender {
     my ( $Self, %Param ) = @_;
 
     my @StatArray = @{ $Param{StatArray} // [] };
-    my $Stat = $Param{Stat};
+    my $Stat      = $Param{Stat};
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');

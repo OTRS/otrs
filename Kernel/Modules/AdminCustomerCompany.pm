@@ -47,7 +47,7 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $CustomerID = $ParamObject->GetParam( Param => 'CustomerID' ) || '';
-        my %Data = $CustomerCompanyObject->CustomerCompanyGet(
+        my %Data       = $CustomerCompanyObject->CustomerCompanyGet(
             CustomerID => $CustomerID,
         );
         $Data{CustomerCompanyID} = $CustomerID;

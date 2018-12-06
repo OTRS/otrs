@@ -597,7 +597,7 @@ for my $Test (@Tests) {
 
     # get the old TransitionAction (if any)
     my $OldTransitionAction = $TransitionActionObject->TransitionActionGet(
-        ID => $Test->{Config}->{ID} || 0,
+        ID     => $Test->{Config}->{ID} || 0,
         UserID => $Test->{Config}->{UserID},
     );
 

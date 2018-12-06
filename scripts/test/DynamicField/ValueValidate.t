@@ -619,8 +619,8 @@ my @Tests = (
                     /\s/,
                     $TimeObject->SystemTime2TimeStamp(
                         SystemTime => $TimeObject->SystemTime() + 259200,
-                        )
                     )
+                )
             )[0]
                 . " 00:00:00",
             UserID => $UserID,
@@ -636,8 +636,8 @@ my @Tests = (
                     /\s/,
                     $TimeObject->SystemTime2TimeStamp(
                         SystemTime => $TimeObject->SystemTime() - 259200,
-                        )
                     )
+                )
             )[0]
                 . " 00:00:00",
             UserID => $UserID,
@@ -653,8 +653,8 @@ my @Tests = (
                     /\s/,
                     $TimeObject->SystemTime2TimeStamp(
                         SystemTime => $TimeObject->SystemTime(),
-                        )
                     )
+                )
             )[0]
                 . " 00:00:00",
             UserID => $UserID,
@@ -670,8 +670,8 @@ my @Tests = (
                     /\s/,
                     $TimeObject->SystemTime2TimeStamp(
                         SystemTime => $TimeObject->SystemTime() + 259200,
-                        )
                     )
+                )
             )[0]
                 . " 00:00:00",
             UserID => $UserID,
@@ -687,8 +687,8 @@ my @Tests = (
                     /\s/,
                     $TimeObject->SystemTime2TimeStamp(
                         SystemTime => $TimeObject->SystemTime(),
-                        )
                     )
+                )
             )[0]
                 . " 00:00:00",
             UserID => $UserID,
@@ -704,8 +704,8 @@ my @Tests = (
                     /\s/,
                     $TimeObject->SystemTime2TimeStamp(
                         SystemTime => $TimeObject->SystemTime() - 259200,
-                        )
                     )
+                )
             )[0]
                 . " 00:00:00",
             UserID => $UserID,

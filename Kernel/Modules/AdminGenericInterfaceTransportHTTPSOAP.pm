@@ -331,7 +331,7 @@ sub _ShowEdit {
     for my $Type (qw(Request Response)) {
         my $TypeDefault = $Type eq 'Request' ? 'Plain' : 'Response';
         my $SelectedID = $TransportConfig->{ $Type . 'NameScheme' } || $TypeDefault;
-        my %Data = (
+        my %Data       = (
             'Plain'   => "<FunctionName>DATA</FunctionName>",
             $Type     => "<FunctionName${Type}>DATA</FunctionName${Type}>",
             'Append'  => "<FunctionNameFreeText>DATA</FunctionNameFreeText>",

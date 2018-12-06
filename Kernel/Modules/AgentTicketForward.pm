@@ -914,7 +914,7 @@ sub SendEmail {
     if (%Error) {
 
         my $QueueID = $TicketObject->TicketQueueID( TicketID => $Self->{TicketID} );
-        my $Output = $LayoutObject->Header(
+        my $Output  = $LayoutObject->Header(
             Type      => 'Small',
             BodyClass => 'Popup',
         );

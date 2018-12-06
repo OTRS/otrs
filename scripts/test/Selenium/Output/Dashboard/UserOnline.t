@@ -40,7 +40,7 @@ $Selenium->RunTest(
             Value => {
                 %UserOnlineSysConfig,
                 Default => 1,
-                }
+            }
         );
 
         # create test customer user and login

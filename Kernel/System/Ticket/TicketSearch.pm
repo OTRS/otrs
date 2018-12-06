@@ -736,7 +736,7 @@ sub TicketSearch {
             UserID => $Param{UserID} || 1,
         );
         my @StateTypes = map { $StateTypeList{$_} } @{ $Param{StateTypeIDs} };
-        my @StateIDs = $StateObject->StateGetStatesByType(
+        my @StateIDs   = $StateObject->StateGetStatesByType(
             StateType => \@StateTypes,
             Result    => 'ID',
         );
@@ -2495,7 +2495,7 @@ sub TicketCountByAttribute {
 
     # Get count from database.
     my $TicketIDString = join ',', ('?') x scalar @BindTicketIDs;
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $DBObject       = $Kernel::OM->Get('Kernel::System::DB');
     return if !$DBObject->Prepare(
         SQL =>
             'SELECT COUNT(*), ' . $DatabaseColumn

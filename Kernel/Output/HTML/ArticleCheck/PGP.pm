@@ -64,7 +64,7 @@ sub Check {
 
     # get needed objects
     my $TicketObject = $Param{TicketObject} || $Kernel::OM->Get('Kernel::System::Ticket');
-    my $PGPObject = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
+    my $PGPObject    = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
 
     # check inline pgp crypt
     if ( $Param{Article}->{Body} =~ /\A[\s\n]*^-----BEGIN PGP MESSAGE-----/m ) {

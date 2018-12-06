@@ -51,7 +51,7 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
         );
 
         # check GetTNByString
-        my $Tn = $TicketObject->TicketCreateNumber() || 'NONE!!!';
+        my $Tn     = $TicketObject->TicketCreateNumber() || 'NONE!!!';
         my $String = 'Re: ' . $TicketObject->TicketSubjectBuild(
             TicketNumber => $Tn,
             Subject      => 'Some Test',

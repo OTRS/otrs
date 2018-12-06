@@ -97,7 +97,7 @@ sub Run {
             );
         }
         my %Structure = $PackageObject->PackageParse( String => $Package );
-        my $File = '';
+        my $File      = '';
         if ( ref $Structure{Filelist} eq 'ARRAY' ) {
             for my $Hash ( @{ $Structure{Filelist} } ) {
                 if ( $Hash->{Location} eq $Location ) {
@@ -544,7 +544,7 @@ sub Run {
     # view remote package
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'ViewRemote' ) {
-        my $File = $ParamObject->GetParam( Param => 'File' ) || '';
+        my $File     = $ParamObject->GetParam( Param => 'File' ) || '';
         my $Location = $ParamObject->GetParam( Param => 'Location' );
         my %Frontend;
 
@@ -1216,7 +1216,7 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        my $FormID = $ParamObject->GetParam( Param => 'FormID' ) || '';
+        my $FormID      = $ParamObject->GetParam( Param => 'FormID' ) || '';
         my %UploadStuff = $ParamObject->GetUploadAll(
             Param => 'FileUpload',
         );

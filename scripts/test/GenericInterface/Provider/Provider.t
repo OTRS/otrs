@@ -47,7 +47,7 @@ my @Tests = (
                             Type   => 'Test',
                             Config => {
                                 TestOption => 'ToUpper',
-                                }
+                            }
                         },
                         MappingOutbound => {
                             Type => 'Test',

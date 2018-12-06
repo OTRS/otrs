@@ -209,7 +209,7 @@ $Selenium->RunTest(
 
         # Get test ticket ID.
         my @TicketZoomUrl = split( 'Action=AgentTicketZoom;TicketID=', $Url );
-        my $TicketID = $TicketZoomUrl[1];
+        my $TicketID      = $TicketZoomUrl[1];
 
         my $TransitionObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
         my $ActivityObject          = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');

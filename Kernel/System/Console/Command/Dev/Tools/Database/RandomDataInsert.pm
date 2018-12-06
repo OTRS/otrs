@@ -401,7 +401,7 @@ sub QueueGet {
 }
 
 sub QueueCreate {
-    my $Count = shift || return;
+    my $Count    = shift || return;
     my @GroupIDs = @{ shift() };
 
     my @QueueIDs;
@@ -488,7 +488,7 @@ sub UserGet {
 }
 
 sub UserCreate {
-    my $Count = shift || return;
+    my $Count    = shift || return;
     my @GroupIDs = @{ shift() };
 
     my @UserIDs;

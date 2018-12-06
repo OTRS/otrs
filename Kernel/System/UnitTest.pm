@@ -48,7 +48,7 @@ sub new {
     bless( $Self, $Type );
 
     $Self->{Debug} = $Param{Debug} || 0;
-    $Self->{ANSI} = $Param{ANSI};
+    $Self->{ANSI}  = $Param{ANSI};
 
     return $Self;
 }
@@ -211,7 +211,7 @@ sub _HandleFile {
     }
 
     $Self->{ResultData}->{ $Param{File} } = $ResultData;
-    $Self->{TestCountOk}    += $ResultData->{TestOk} // 0;
+    $Self->{TestCountOk}    += $ResultData->{TestOk}    // 0;
     $Self->{TestCountNotOk} += $ResultData->{TestNotOk} // 0;
 
     $Self->{NotOkInfo} //= [];
@@ -240,8 +240,8 @@ sub _SubmitResults {
 
     my %SubmitData = (
         Auth     => $Param{SubmitAuth} // '',
-        JobID    => $Param{JobID} // '',
-        Scenario => $Param{Scenario} // '',
+        JobID    => $Param{JobID}      // '',
+        Scenario => $Param{Scenario}   // '',
         Meta     => {
             StartTime => $Param{StartTime},
             Duration  => $Param{Duration},

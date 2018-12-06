@@ -68,7 +68,7 @@ for my $GroupName ( sort keys %GroupIDByGroupName ) {
 # try to fetch data of existing groups
 for my $GroupName ( sort keys %GroupIDByGroupName ) {
     my $GroupID = $GroupIDByGroupName{$GroupName};
-    my %Group = $GroupObject->GroupGet( ID => $GroupID );
+    my %Group   = $GroupObject->GroupGet( ID => $GroupID );
 
     $Self->Is(
         $Group{Name},

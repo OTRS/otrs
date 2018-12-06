@@ -53,7 +53,7 @@ sub PreRun {
 
     # check queue
     $Self->{QueueName} = $Self->GetOption('queue-name');
-    $Self->{QueueID} = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => $Self->{QueueName} );
+    $Self->{QueueID}   = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => $Self->{QueueName} );
     if ( !$Self->{QueueID} ) {
         die "Queue '$Self->{QueueName}' does not exist.\n";
     }

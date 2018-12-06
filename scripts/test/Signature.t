@@ -77,7 +77,7 @@ $Self->Is(
 );
 
 my %SignatureList = $SignatureObject->SignatureList( Valid => 0 );
-my $Hit = 0;
+my $Hit           = 0;
 for ( sort keys %SignatureList ) {
     if ( $_ eq $SignatureID ) {
         $Hit = 1;

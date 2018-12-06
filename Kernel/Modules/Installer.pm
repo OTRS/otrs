@@ -254,7 +254,7 @@ sub Run {
                 Item         => Translatable('Database Selection'),
                 Step         => $StepCounter,
                 SelectDBType => $Param{SelectDBType},
-                }
+            }
         );
         $Output .= $LayoutObject->Output(
             TemplateFile => 'Installer',
@@ -358,7 +358,7 @@ sub Run {
                 Data         => {
                     Item => Translatable('Configure MySQL'),
                     Step => $StepCounter,
-                    }
+                }
             );
             $Output .= $LayoutObject->Footer();
             return $Output;
@@ -402,7 +402,7 @@ sub Run {
                     Item        => 'Configure Microsoft SQL Server',
                     Step        => $StepCounter,
                     InstallType => $DBInstallType,
-                    }
+                }
             );
             $Output .= $LayoutObject->Footer();
             return $Output;
@@ -444,7 +444,7 @@ sub Run {
                 Data         => {
                     Item => Translatable('Configure PostgreSQL'),
                     Step => $StepCounter,
-                    }
+                }
             );
             $Output .= $LayoutObject->Footer();
             return $Output;
@@ -469,7 +469,7 @@ sub Run {
                 Data         => {
                     Item => Translatable('Configure Oracle'),
                     Step => $StepCounter,
-                    }
+                }
             );
             $Output .= $LayoutObject->Footer();
             return $Output;
@@ -981,7 +981,7 @@ sub Run {
 
         # set a generated password for the 'root@localhost' account
         my $UserObject = $Kernel::OM->Get('Kernel::System::User');
-        my $Password = $UserObject->GenerateRandomPassword( Size => 16 );
+        my $Password   = $UserObject->GenerateRandomPassword( Size => 16 );
         $UserObject->SetPassword(
             UserLogin => 'root@localhost',
             PW        => $Password,

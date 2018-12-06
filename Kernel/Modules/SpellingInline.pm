@@ -29,14 +29,14 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get params
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ParamObject   = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $SpellLanguage = $ParamObject->GetParam( Param => 'SpellLanguage' )
         || $Self->{UserSpellDict}
         || $Kernel::OM->Get('Kernel::Config')->Get('SpellCheckerDictDefault');
 
     # inline spell checker of rich text
     my $JSData = '';
-    my @Text = $ParamObject->GetArray( Param => 'textinputs[]' );
+    my @Text   = $ParamObject->GetArray( Param => 'textinputs[]' );
 
     my $TextAll      = '';
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');

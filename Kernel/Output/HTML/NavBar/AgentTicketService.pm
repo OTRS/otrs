@@ -43,7 +43,7 @@ sub Run {
 
     # frontend module is enabled but not ticket service, then remove the menu entry
     my $NavBarName = $Config->{NavBarName};
-    my $Priority = sprintf( "%07d", $Config->{NavBar}->[0]->{Prio} );
+    my $Priority   = sprintf( "%07d", $Config->{NavBar}->[0]->{Prio} );
 
     my %Return = %{ $Param{NavBar}->{Sub} };
 

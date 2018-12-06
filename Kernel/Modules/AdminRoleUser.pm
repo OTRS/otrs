@@ -270,7 +270,7 @@ sub _Overview {
 
     # get user list
     my $UserObject = $Kernel::OM->Get('Kernel::System::User');
-    my %UserData = $UserObject->UserList( Valid => 1 );
+    my %UserData   = $UserObject->UserList( Valid => 1 );
 
     # get user name
     USERID:

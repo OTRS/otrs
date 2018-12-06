@@ -65,7 +65,7 @@ sub Run {
         # get default signing key
         if ( $Param{QueueID} ) {
             my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
-            my %Queue = $QueueObject->QueueGet( ID => $Param{QueueID} );
+            my %Queue       = $QueueObject->QueueGet( ID => $Param{QueueID} );
             $Param{SignKeyID} = $Queue{DefaultSignKey} || '';
         }
     }
@@ -177,7 +177,7 @@ sub GetParamAJAX {
     # get default signing key
     if ( $Param{QueueID} ) {
         my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
-        my %Queue = $QueueObject->QueueGet( ID => $Param{QueueID} );
+        my %Queue       = $QueueObject->QueueGet( ID => $Param{QueueID} );
         $Result{SignKeyID} = $Queue{DefaultSignKey} || '';
     }
 

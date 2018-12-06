@@ -78,7 +78,7 @@ if ( !$QueueIDExist ) {
     );
 }
 
-my %Queue = $QueueObject->QueueGet( Name => $QueueBefore );
+my %Queue   = $QueueObject->QueueGet( Name => $QueueBefore );
 my $QueueID = $Queue{QueueID};
 
 my @TicketIDs;
@@ -132,7 +132,7 @@ my %IndexAfter = $TicketObject->TicketAcceleratorIndex(
 );
 $Self->Is(
     $IndexBefore{AllTickets} // 0,
-    $IndexAfter{AllTickets} // 1,
+    $IndexAfter{AllTickets}  // 1,
     "$Module TicketAcceleratorIndex() - AllTickets",
 );
 
@@ -141,7 +141,7 @@ my ($ItemAfter)  = grep { $_->{Queue} eq 'CustomQueue' } @{ $IndexAfter{Queues} 
 
 $Self->Is(
     $ItemBefore->{Count} // 0,
-    $ItemAfter->{Count} // 1,
+    $ItemAfter->{Count}  // 1,
     "$Module TicketAcceleratorIndex() for Queue: $QueueAfterName - Count",
 );
 

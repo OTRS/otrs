@@ -93,7 +93,7 @@ $Self->IsNot(
 );
 
 my @AddedActivities = ( $AcitivityID1, $AcitivityID2, $AcitivityID3 );
-my $ActivityList = $ActivityObject->ActivityList(
+my $ActivityList    = $ActivityObject->ActivityList(
     UseEntities => 1,
     UserID      => $UserID,
 );
@@ -243,7 +243,7 @@ my @Tests = (
                 Description => 'a Description',
                 Path        => {
                     $ActivityEntityID1 => {},
-                    }
+                }
             },
             UserID => $UserID,
         },
@@ -275,7 +275,7 @@ my @Tests = (
                 Path        => {
                     $ActivityEntityID1 => {},
                     $ActivityEntityID2 => {},
-                    }
+                }
             },
             UserID => $UserID,
         },
@@ -294,7 +294,7 @@ my @Tests = (
                     $ActivityEntityID1 => {},
                     $ActivityEntityID2 => {},
                     $ActivityEntityID3 => {},
-                    }
+                }
             },
             UserID => $UserID,
         },
@@ -313,7 +313,7 @@ my @Tests = (
                     $ActivityEntityID1 => {},
                     $ActivityEntityID2 => {},
                     $ActivityEntityID3 => {},
-                    }
+                }
             },
             UserID => $UserID,
         },
@@ -844,7 +844,7 @@ for my $Test (@Tests) {
 
     # get the old process (if any)
     my $OldProcess = $ProcessObject->ProcessGet(
-        ID => $Test->{Config}->{ID} || 0,
+        ID     => $Test->{Config}->{ID} || 0,
         UserID => $Test->{Config}->{UserID},
     );
 
