@@ -71,7 +71,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             UserType                 => 'User',
             SomeComplexData          => {                     # verify that complex data can be stored too
                 'CaseSensitive' => 1,
-                }
+            }
         );
 
         my $SessionID = $SessionObject->CreateSessionID(%NewSessionData);

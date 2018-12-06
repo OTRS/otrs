@@ -250,7 +250,7 @@ if ( !open $Filehandle, '<', $Path ) {    ## no critic
     );
 }
 
-my @Lines = <$Filehandle>;
+my @Lines         = <$Filehandle>;
 my $ImportContent = join '', @Lines;
 
 close $Filehandle;
@@ -314,7 +314,7 @@ $Self->True(
 return 1 if !$MainObject->Require( 'GD::Graph', Silent => 1 );
 
 # check the graph GD functionality
-my $HeadArrayRef = [ 'State', 'Administration', 'Alarm', 'Sum' ];
+my $HeadArrayRef  = [ 'State', 'Administration', 'Alarm', 'Sum' ];
 my $StatsArrayRef = [
     [ 'closed successful',   7,  2, 4,  13 ],
     [ 'closed unsuccessful', 6,  3, 9,  18 ],

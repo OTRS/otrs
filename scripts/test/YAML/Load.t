@@ -62,7 +62,7 @@ my @Tests = (
                 },
                 Key4 => {
                     Bar => [ "f", "o", "o" ]
-                    }
+                }
             },
         ],
         Result =>
@@ -146,7 +146,7 @@ for my $Test (@Tests) {
                 },
                 Key4 => {
                     Bar => [ "f", "o", "o" ]
-                    }
+                }
             },
         ],
         InputLoad =>

@@ -216,7 +216,7 @@ sub Run {
         if (
             $Self->{LastScreenOverview}
             && $Self->{LastScreenOverview} !~ /Action=AgentTicketPhone/
-            && $Self->{RequestedURL} !~ /Action=AgentTicketPhone.*LinkTicketID=/
+            && $Self->{RequestedURL}       !~ /Action=AgentTicketPhone.*LinkTicketID=/
             )
         {
             $Self->{SessionObject}->UpdateSessionID(
@@ -616,7 +616,7 @@ sub Run {
                 %ACLCompatGetParam,
                 %SplitTicketParam,
                 CustomerUserID => $CustomerData{UserLogin} || '',
-                QueueID => $Self->{QueueID},
+                QueueID        => $Self->{QueueID},
             ),
             From         => $Article{From},
             Subject      => $Subject,
@@ -655,7 +655,7 @@ sub Run {
             || '';
         my $SelectedCustomerUser = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' )
             || '';
-        my $CustomerID = $Self->{ParamObject}->GetParam( Param => 'CustomerID' ) || '';
+        my $CustomerID         = $Self->{ParamObject}->GetParam( Param => 'CustomerID' ) || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam( Param => 'ExpandCustomerName' )
             || 0;
         my %FromExternalCustomer;
@@ -1021,20 +1021,20 @@ sub Run {
                     %GetParam,
                     %ACLCompatGetParam,
                     CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
-                    QueueID => $NewQueueID || 1,
+                    QueueID        => $NewQueueID   || 1,
                 ),
                 NextState  => $NextState,
                 Priorities => $Self->_GetPriorities(
                     %GetParam,
                     %ACLCompatGetParam,
                     CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
-                    QueueID => $NewQueueID || 1,
+                    QueueID        => $NewQueueID   || 1,
                 ),
                 Types => $Self->_GetTypes(
                     %GetParam,
                     %ACLCompatGetParam,
                     CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
-                    QueueID => $NewQueueID || 1,
+                    QueueID        => $NewQueueID   || 1,
                 ),
                 Services     => $Services,
                 SLAs         => $SLAs,
@@ -1336,7 +1336,7 @@ sub Run {
             %GetParam,
             %ACLCompatGetParam,
             CustomerUserID => $CustomerUser || '',
-            QueueID => $QueueID,
+            QueueID        => $QueueID,
         );
 
         my $NewTos;
@@ -1560,7 +1560,7 @@ sub _GetUsers {
 
     # show all users who are owner or rw in the queue group
     elsif ( $Param{QueueID} ) {
-        my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+        my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
             GroupID => $GID,
             Type    => 'owner',
@@ -1620,7 +1620,7 @@ sub _GetResponsibles {
 
     # show all users who are responsible or rw in the queue group
     elsif ( $Param{QueueID} ) {
-        my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+        my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
             GroupID => $GID,
             Type    => 'responsible',

@@ -39,7 +39,7 @@ my $TicketObject = Kernel::System::Ticket->new(
 );
 my $ParamObject = Kernel::System::Web::Request->new(
     %{$Self},
-    WebRequest => $Param{WebRequest} || 0,
+    WebRequest   => $Param{WebRequest} || 0,
     ConfigObject => $ConfigObject,
 );
 my $UploadCacheObject = Kernel::System::Web::UploadCache->new(
@@ -182,7 +182,7 @@ my @Tests = (
             'image2.png' => 1,
             'image3.png' => 1,
             'some.html'  => 1,
-            }
+        }
     },
     {
         Config => {
@@ -196,7 +196,7 @@ my @Tests = (
         Attachment         => {
             'image4.png' => 1,
             'some.html'  => 1,
-            }
+        }
     },
     {
         Config => {
@@ -209,7 +209,7 @@ my @Tests = (
         AttachmentsInclude => 0,
         Attachment         => {
             'image.png' => 1,
-            }
+        }
     },
     {
         Config => {

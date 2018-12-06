@@ -575,7 +575,7 @@ sub _ShowEdit {
                 Name => 'EditWarning',
                 Data => {
                     ProcessList => join( ', ', @{$AffectedProcesses} ),
-                    }
+                }
             );
         }
     }
@@ -641,7 +641,7 @@ sub _GetParams {
     my $GetParam;
 
     # get parameters from web browser
-    $GetParam->{Name} = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
+    $GetParam->{Name}            = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
     $GetParam->{ConditionConfig} = $Self->{ParamObject}->GetParam( Param => 'ConditionConfig' )
         || '';
 

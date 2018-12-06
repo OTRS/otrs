@@ -740,7 +740,7 @@ sub _OutputActivityDialog {
             Data => {
                 Name => $Self->{LayoutObject}->{LanguageObject}->Get( $ActivityDialog->{Name} )
                     || '',
-                }
+            }
         );
     }
 
@@ -1378,7 +1378,7 @@ sub _StoreActivityDialog {
         }
 
         if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
-            my $DynamicFieldName = $1;
+            my $DynamicFieldName   = $1;
             my $DynamicFieldConfig = ( grep { $_->{Name} eq $DynamicFieldName } @{ $Self->{DynamicField} } )[0];
 
             my $Success = $Self->{BackendObject}->ValueSet(

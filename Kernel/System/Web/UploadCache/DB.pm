@@ -80,7 +80,7 @@ sub FormIDAddFile {
     }
 
     # create content id
-    my $ContentID = $Param{ContentID};
+    my $ContentID   = $Param{ContentID};
     my $Disposition = $Param{Disposition} || '';
     if ( !$ContentID && lc $Disposition eq 'inline' ) {
         my $Random = rand 999999;

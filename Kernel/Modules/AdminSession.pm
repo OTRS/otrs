@@ -196,7 +196,7 @@ sub Run {
             Data => {
                 Counter => $Counter,
                 %MetaData
-                }
+            }
         );
 
         # generate output
@@ -207,7 +207,7 @@ sub Run {
             Data         => {
                 Counter => $Counter,
                 %MetaData
-                }
+            }
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;

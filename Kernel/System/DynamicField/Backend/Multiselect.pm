@@ -324,7 +324,7 @@ EOF
     if ( $Param{ServerError} ) {
 
         my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
-        my $DivID = $FieldName . 'ServerError';
+        my $DivID        = $FieldName . 'ServerError';
 
         # for server side validation
         $HTMLString .= <<"EOF";
@@ -528,7 +528,7 @@ sub DisplayValueRender {
         if ( $ValueMaxChars ne '' ) {
 
             $ShowValueEllipsis = 1 if ( length $ReadableValue > $ValueMaxChars );
-            $ReadableValue = substr $ReadableValue, 0, $ValueMaxChars;
+            $ReadableValue     = substr $ReadableValue, 0, $ValueMaxChars;
 
             # decrease the max parameter
             $ValueMaxChars = $ValueMaxChars - $ReadableLength;
@@ -539,7 +539,7 @@ sub DisplayValueRender {
         if ( $TitleMaxChars ne '' ) {
 
             $ShowTitleEllipsis = 1 if ( length $ReadableTitle > $ValueMaxChars );
-            $ReadableTitle = substr $ReadableTitle, 0, $TitleMaxChars;
+            $ReadableTitle     = substr $ReadableTitle, 0, $TitleMaxChars;
 
             # decrease the max parameter
             $TitleMaxChars = $TitleMaxChars - $ReadableLength;

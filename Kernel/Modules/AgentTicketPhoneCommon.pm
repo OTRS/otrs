@@ -873,7 +873,7 @@ sub _GetUsers {
 
     # show all users who are rw in the queue group
     elsif ( $Param{QueueID} ) {
-        my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+        my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
             GroupID => $GID,
             Type    => 'rw',
@@ -930,7 +930,7 @@ sub _GetTos {
         # build selection string
         for my $KeyNewTo ( sort keys %NewTos ) {
             my %QueueData = $Self->{QueueObject}->QueueGet( ID => $KeyNewTo );
-            my $Srting = $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionString')
+            my $Srting    = $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionString')
                 || '<Realname> <<Email>> - Queue: <Queue>';
             $Srting =~ s/<Queue>/$QueueData{Name}/g;
             $Srting =~ s/<QueueComment>/$QueueData{Comment}/g;

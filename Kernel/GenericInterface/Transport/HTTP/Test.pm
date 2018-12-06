@@ -223,7 +223,7 @@ sub RequesterPerformRequest {
         testhttp => 'Kernel::GenericInterface::Transport::HTTP::Test::CustomHTTPProtocol'
     );
     my $UserAgent = LWP::UserAgent->new();
-    my $Response = $UserAgent->post( 'testhttp://localhost.local/', Content => $Param{Data} );
+    my $Response  = $UserAgent->post( 'testhttp://localhost.local/', Content => $Param{Data} );
 
     return {
         Success => 1,

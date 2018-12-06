@@ -280,7 +280,7 @@ sub Run {
 
     # all needed variables
     $Self->{SearchLimit} = $Self->{Config}->{SearchLimit} || 500;
-    $Self->{SortBy} = $Param{Data}->{SortBy}
+    $Self->{SortBy}      = $Param{Data}->{SortBy}
         || $Self->{Config}->{'SortBy::Default'}
         || 'Age';
     $Self->{OrderBy} = $Param{Data}->{OrderBy}

@@ -198,11 +198,11 @@ sub Sync {
         map { $_ => 0 } @{ $Self->{ConfigObject}->Get('System::Permission') };
 
     # get system groups and create lookup
-    my %SystemGroups = $Self->{GroupObject}->GroupList( Valid => 1 );
+    my %SystemGroups       = $Self->{GroupObject}->GroupList( Valid => 1 );
     my %SystemGroupsByName = reverse %SystemGroups;
 
     # get system roles and create lookup
-    my %SystemRoles = $Self->{GroupObject}->RoleList( Valid => 1 );
+    my %SystemRoles       = $Self->{GroupObject}->RoleList( Valid => 1 );
     my %SystemRolesByName = reverse %SystemRoles;
 
     # sync user from ldap

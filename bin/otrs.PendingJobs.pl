@@ -172,7 +172,7 @@ if (@PendingReminderStateIDs) {
         # check if it is during business hours, then send reminder
         my $CountedTime = $CommonObject{TimeObject}->WorkingTime(
             StartTime => $CommonObject{TimeObject}->SystemTime() - ( 30 * 60 ),
-            StopTime => $CommonObject{TimeObject}->SystemTime(),
+            StopTime  => $CommonObject{TimeObject}->SystemTime(),
         );
 
         # error handling

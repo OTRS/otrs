@@ -521,7 +521,7 @@ my $ProcessConfigSub = sub {
                         },
                     },
                 },
-                }
+            }
             },
         'Process::Transition' => {
             'T1' => {
@@ -579,7 +579,7 @@ my $ProcessConfigSub = sub {
                 ActivityDialog => {
                     1 => 'AD1',
                 },
-                }
+            }
             },
         'Process::ActivityDialog' => {
             'AD1' => {
@@ -1081,7 +1081,7 @@ for my $Fieldname ( sort keys %NewDynamicFields ) {
 }
 
 $ActivityDialogsArray = [ 'AD3', 'AD5', 'AD6' ];
-@ActivityDialogs = $TicketObject->TicketAclActivityDialogData(
+@ActivityDialogs      = $TicketObject->TicketAclActivityDialogData(
     ActivityDialogs => $ActivityDialogsArray,
 );
 

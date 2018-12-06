@@ -1119,7 +1119,7 @@ sub AgentMove {
                     ? 'Validate_Required'
                     : ''
                 ),
-                }
+            }
         );
     }
 
@@ -1244,7 +1244,7 @@ sub _GetUsers {
 
     # show all users who are rw in the queue group
     elsif ( $Param{QueueID} ) {
-        my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+        my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
             GroupID => $GID,
             Type    => 'owner',

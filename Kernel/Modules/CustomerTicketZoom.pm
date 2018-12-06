@@ -151,7 +151,7 @@ sub Run {
 
     # get all articles of this ticket
     my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList( Type => 'Customer' );
-    my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
+    my @ArticleBox           = $Self->{TicketObject}->ArticleContentIndex(
         TicketID                   => $Self->{TicketID},
         ArticleType                => \@CustomerArticleTypes,
         StripPlainBodyAsAttachment => $StripPlainBodyAsAttachment,
@@ -212,13 +212,13 @@ sub Run {
             %GetParam,
             %ACLCompatGetParam,
             CustomerUserID => $CustomerUser || '',
-            TicketID => $Self->{TicketID},
+            TicketID       => $Self->{TicketID},
         );
         my $NextStates = $Self->_GetNextStates(
             %GetParam,
             %ACLCompatGetParam,
             CustomerUserID => $CustomerUser || '',
-            TicketID => $Self->{TicketID},
+            TicketID       => $Self->{TicketID},
         );
 
         # update Dynamic Fields Possible Values via AJAX

@@ -525,7 +525,7 @@ sub _ShowEdit {
                 Name => 'EditWarning',
                 Data => {
                     ProcessList => join( ', ', @{$AffectedProcesses} ),
-                    }
+                }
             );
         }
 

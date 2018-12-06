@@ -717,7 +717,7 @@ sub _ShowScreen {
             PossibleNoneStrg       => $PossibleNoneStrg,
             TranslatableValuesStrg => $TranslatableValuesStrg,
             ReadonlyInternalField  => $ReadonlyInternalField,
-            }
+        }
     );
 
     $Output .= $Self->{LayoutObject}->Footer();

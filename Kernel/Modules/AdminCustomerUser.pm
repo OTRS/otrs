@@ -101,7 +101,7 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # get user data
-        my $UserID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+        my $UserID   = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
         my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
             User  => $UserID,
             Valid => 1,
@@ -232,7 +232,7 @@ sub Run {
 
         # get user data
         my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $User );
-        my $Output = $NavBar;
+        my $Output   = $NavBar;
         $Output .= $Self->_Edit(
             Nav    => $Nav,
             Action => 'Change',
@@ -697,7 +697,7 @@ sub _Overview {
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewResultRow',
                     Data => {
-                        Valid => $ValidList{ $UserData{ValidID} || '' } || '-',
+                        Valid  => $ValidList{ $UserData{ValidID} || '' } || '-',
                         Search => $Param{Search},
                         %UserData,
                     },

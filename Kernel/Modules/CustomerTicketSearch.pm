@@ -80,7 +80,7 @@ sub Run {
     my $Output;
 
     # get config data
-    $Self->{StartHit} = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
+    $Self->{StartHit}    = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
     $Self->{SearchLimit} = $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::SearchLimit')
         || 200;
     $Self->{SearchPageShown} = $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::SearchPageShown') || 40;
@@ -456,7 +456,7 @@ sub Run {
                     );
                     %Data = %Ticket;
                     $Data{Subject} = $Ticket{Title} || 'Untitled';
-                    $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Get(
+                    $Data{Body}    = $Self->{LayoutObject}->{LanguageObject}->Get(
                         'This item has no articles yet.'
                     );
                 }
@@ -602,7 +602,7 @@ sub Run {
                     );
                     %Article = %Ticket;
                     $Article{Subject} = $Ticket{Title} || 'Untitled';
-                    $Article{Body} = $Self->{LayoutObject}->{LanguageObject}->Get(
+                    $Article{Body}    = $Self->{LayoutObject}->{LanguageObject}->Get(
                         'This item has no articles yet.'
                     );
                 }
@@ -778,7 +778,7 @@ sub Run {
                     if ( !%Article ) {
                         %Article = %Ticket;
                         $Article{Subject} = $Ticket{Title} || 'Untitled';
-                        $Article{Body} = $Self->{LayoutObject}->{LanguageObject}->Get(
+                        $Article{Body}    = $Self->{LayoutObject}->{LanguageObject}->Get(
                             'This item has no articles yet.'
                         );
                     }

@@ -250,7 +250,7 @@ sub _Fetch {
                         # Net::POP3::SSLWrapper is not working with gmail, so we switched to
                         # Mail::POP3Client temporally
                         # my $Lines = $PopObject->get($Messageno);
-                        my $Line = $PopObject->HeadAndBody($Messageno);
+                        my $Line  = $PopObject->HeadAndBody($Messageno);
                         my @Lines = split( /\n/, $Line );
                         for my $LineItem (@Lines) {
                             $LineItem .= "\n";

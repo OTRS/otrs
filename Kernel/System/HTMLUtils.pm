@@ -478,7 +478,7 @@ sub ToAscii {
                 diams    => chr(9830),
                 )
             : ()
-            )
+        )
     );
 
     # encode html entities like "&#8211;"

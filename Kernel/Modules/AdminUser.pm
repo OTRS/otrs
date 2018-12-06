@@ -52,7 +52,7 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        my $UserID = $Self->{ParamObject}->GetParam( Param => 'UserID' ) || '';
+        my $UserID   = $Self->{ParamObject}->GetParam( Param => 'UserID' ) || '';
         my %UserData = $Self->{UserObject}->GetUserData(
             UserID        => $UserID,
             NoOutOfOffice => 1,

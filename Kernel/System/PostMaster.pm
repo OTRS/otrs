@@ -462,7 +462,7 @@ sub CheckFollowUp {
     my ( $Self, %Param ) = @_;
 
     my $Subject = $Param{Subject} || '';
-    my $Tn = $Self->{TicketObject}->GetTNByString($Subject);
+    my $Tn      = $Self->{TicketObject}->GetTNByString($Subject);
 
     if ($Tn) {
         my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
@@ -670,7 +670,7 @@ sub GetEmailParams {
 
     # get content type
     $GetParam{'Content-Type'} = $Self->{ParserObject}->GetReturnContentType();
-    $GetParam{Charset} = $Self->{ParserObject}->GetReturnCharset();
+    $GetParam{Charset}        = $Self->{ParserObject}->GetReturnCharset();
 
     # get attachments
     my @Attachments = $Self->{ParserObject}->GetAttachments();

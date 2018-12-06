@@ -142,7 +142,7 @@ sub _Fetch {
     my $IMAPFolder = $Param{IMAPFolder} || 'INBOX';
 
     my $IMAPObject = $Connect{IMAPObject};
-    my $NOM = $IMAPObject->select($IMAPFolder) || 0;
+    my $NOM        = $IMAPObject->select($IMAPFolder) || 0;
 
     # fetch messages
     if ( !$NOM ) {

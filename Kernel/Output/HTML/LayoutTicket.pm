@@ -649,7 +649,7 @@ sub ArticleQuote {
     else {
         $Article{Body} = $Self->WrapPlainText(
             MaxCharacters => $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaEmail') || 82,
-            PlainText => $Article{Body},
+            PlainText     => $Article{Body},
         );
     }
 
@@ -796,7 +796,7 @@ sub TicketListShow {
     }
 
     # build nav bar
-    my $Limit = $Param{Limit} || 20_000;
+    my $Limit   = $Param{Limit} || 20_000;
     my %PageNav = $Env->{LayoutObject}->PageNavBar(
         Limit     => $Limit,
         StartHit  => $StartHit,

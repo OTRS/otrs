@@ -280,7 +280,7 @@ sub PossibleLinkList {
 
     # get possible link list
     my $PossibleLinkListRef = $Self->{ConfigObject}->Get('LinkObject::PossibleLink') || {};
-    my %PossibleLinkList = %{$PossibleLinkListRef};
+    my %PossibleLinkList    = %{$PossibleLinkListRef};
 
     # prepare the possible link list
     POSSIBLELINK:
@@ -1046,7 +1046,7 @@ sub LinkList {
 
     # prepare SQL statement
     my $TypeSQL = '';
-    my @Bind = ( \$ObjectID, \$Param{Key}, \$StateID );
+    my @Bind    = ( \$ObjectID, \$Param{Key}, \$StateID );
 
     # add type id to SQL statement
     if ( $Param{Type} ) {
@@ -1519,7 +1519,7 @@ sub ObjectLookup {
 
         # check cache
         my $CacheKey = 'ObjectLookup::ObjectID::' . $Param{ObjectID};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         return $Cache if $Cache;
 
         # ask the database
@@ -1559,7 +1559,7 @@ sub ObjectLookup {
 
         # check cache
         my $CacheKey = 'ObjectLookup::Name::' . $Param{Name};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         return $Cache if $Cache;
 
         # investigate the object id
@@ -1660,7 +1660,7 @@ sub TypeLookup {
 
         # check cache
         my $CacheKey = 'TypeLookup::TypeID::' . $Param{TypeID};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         return $Cache if $Cache;
 
         # ask the database
@@ -1702,7 +1702,7 @@ sub TypeLookup {
 
         # check cache
         my $CacheKey = 'TypeLookup::Name::' . $Param{Name};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         return $Cache if $Cache;
 
         # investigate the type id
@@ -1903,7 +1903,7 @@ sub TypeList {
 
     # get type list
     my $TypeListRef = $Self->{ConfigObject}->Get('LinkObject::Type') || {};
-    my %TypeList = %{$TypeListRef};
+    my %TypeList    = %{$TypeListRef};
 
     # prepare the type list
     TYPE:
@@ -1975,7 +1975,7 @@ sub TypeGroupList {
 
     # get possible type groups
     my $TypeGroupListRef = $Self->{ConfigObject}->Get('LinkObject::TypeGroup') || {};
-    my %TypeGroupList = %{$TypeGroupListRef};
+    my %TypeGroupList    = %{$TypeGroupListRef};
 
     # prepare the possible link list
     TYPEGROUP:
@@ -2131,7 +2131,7 @@ sub StateLookup {
 
         # check cache
         my $CacheKey = 'StateLookup::StateID::' . $Param{StateID};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         return $Cache if $Cache;
 
         # ask the database
@@ -2171,7 +2171,7 @@ sub StateLookup {
 
         # check cache
         my $CacheKey = 'StateLookup::Name::' . $Param{Name};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         return $Cache if $Cache;
 
         # ask the database

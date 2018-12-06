@@ -97,7 +97,7 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        my $FormID = $Self->{ParamObject}->GetParam( Param => 'FormID' ) || '';
+        my $FormID      = $Self->{ParamObject}->GetParam( Param => 'FormID' ) || '';
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
             Param  => 'FileUpload',
             Source => 'string',
@@ -258,7 +258,7 @@ sub Run {
                             @{
                                 $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}
                                     ->{Config}->{Interface}
-                                }
+                            }
                         ),
                         %{ $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID} },
                     },
@@ -536,7 +536,7 @@ sub Run {
                         @{
                             $ProcessData->{Process}->{Config}->{Path}->{$Activity}->{$Transition}
                                 ->{TransitionAction}
-                            }
+                        }
                     );
                     if ($TransitionActionString) {
                         $TransitionActionString = '(' . $TransitionActionString . ')';
@@ -619,7 +619,7 @@ sub Run {
         }
 
         # check if Inactive state estity exists
-        my $StateList = $Self->{StateObject}->StateList( UserID => $Self->{UserID} );
+        my $StateList   = $Self->{StateObject}->StateList( UserID => $Self->{UserID} );
         my %StateLookup = reverse %{$StateList};
 
         my $StateEntityID = $StateLookup{'Inactive'};
@@ -1478,7 +1478,7 @@ sub _ShowOverview {
                 Data => {
                     %{$ProcessData},
                     Description => $ProcessData->{Config}->{Description},
-                    }
+                }
             );
         }
     }

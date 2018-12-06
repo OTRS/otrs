@@ -893,7 +893,7 @@ sub Run {
         # save EditXaxis
         elsif ( $Param{Home} eq 'EditXaxis' ) {
             my $Stat = $Self->{StatsObject}->StatsGet( StatID => $Param{StatID} );
-            $Param{Select} = $Self->{ParamObject}->GetParam( Param => 'Select' );
+            $Param{Select}  = $Self->{ParamObject}->GetParam( Param => 'Select' );
             $Data{StatType} = $Stat->{StatType};
 
             for my $ObjectAttribute ( @{ $Stat->{UseAsXvalue} } ) {
@@ -995,7 +995,7 @@ sub Run {
 
         # save EditValueSeries
         elsif ( $Param{Home} eq 'EditValueSeries' ) {
-            my $Stat = $Self->{StatsObject}->StatsGet( StatID => $Param{StatID} );
+            my $Stat  = $Self->{StatsObject}->StatsGet( StatID => $Param{StatID} );
             my $Index = 0;
             $Data{StatType} = $Stat->{StatType};
             for my $ObjectAttribute ( @{ $Stat->{UseAsValueSeries} } ) {
@@ -1011,7 +1011,7 @@ sub Run {
                 $Data{UseAsValueSeries}[$Index]{Selected}       = 1;
 
                 my $FixedElement = 'Fixed' . $ObjectAttribute->{Element};
-                my $Fixed = $Self->{ParamObject}->GetParam( Param => $FixedElement );
+                my $Fixed        = $Self->{ParamObject}->GetParam( Param => $FixedElement );
                 $Data{UseAsValueSeries}[$Index]{Fixed} = $Fixed ? 1 : 0;
 
                 # Check if Time was selected
@@ -1087,7 +1087,7 @@ sub Run {
                                     defined(
                                         $Self->{ParamObject}->GetParam(
                                             Param => "$Element$Limit$Unit"
-                                            )
+                                        )
                                     )
                                     )
                                 {
@@ -1225,7 +1225,7 @@ sub Run {
                         Data => {
                             Name      => 'Dynamic-Object',
                             StateType => 'dynamic',
-                            }
+                        }
                     );
                 }
 
@@ -1236,7 +1236,7 @@ sub Run {
                         Data => {
                             Name      => 'Dynamic-Object',
                             StateType => 'dynamic',
-                            }
+                        }
                     );
                 }
 
@@ -1283,7 +1283,7 @@ sub Run {
                         Data => {
                             Name      => 'Static-File',
                             StateType => 'static',
-                            }
+                        }
                     );
                 }
 
@@ -1380,7 +1380,7 @@ sub Run {
                     1 => 'Yes'
                 },
                 SelectedID => $Stat->{$Key} || 0,
-                Name => $Key,
+                Name       => $Key,
             );
         }
 
@@ -1904,7 +1904,7 @@ sub Run {
                                                     Param => $Use
                                                         . $Element->{Element}
                                                         . "$Limit$Unit"
-                                                    )
+                                                )
                                             )
                                             )
                                         {
@@ -1982,12 +1982,12 @@ sub Run {
                                 $TimePeriod           = (
                                     $Self->{TimeObject}->TimeStamp2SystemTime(
                                         String => $Element->{TimeStop}
-                                        )
+                                    )
                                     )
                                     - (
                                     $Self->{TimeObject}->TimeStamp2SystemTime(
                                         String => $Element->{TimeStart}
-                                        )
+                                    )
                                     );
                             }
                             else {
@@ -2088,7 +2088,7 @@ sub Run {
             $Self->{StatsObject}->StatsRun(
                 StatID   => $Param{StatID},
                 GetParam => \%GetParam,
-                )
+            )
         };
 
         # exchange axis if selected

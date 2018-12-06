@@ -719,7 +719,7 @@ sub _ShowEdit {
                 Name => 'EditWarning',
                 Data => {
                     ActivityList => join( ', ', @{$AffectedActivities} ),
-                    }
+                }
             );
         }
 

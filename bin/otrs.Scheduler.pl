@@ -290,7 +290,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         }
 
         # delete old log files
-        my $DaysToKeep = $CommonObject{ConfigObject}->Get('Scheduler::Log::DaysToKeep') || 10;
+        my $DaysToKeep           = $CommonObject{ConfigObject}->Get('Scheduler::Log::DaysToKeep') || 10;
         my $DaysToKeepSystemTime = $CommonObject{TimeObject}->SystemTime() - $DaysToKeep * 24 * 60 * 60;
 
         my @LogFiles = glob("$LogPath/*.log");

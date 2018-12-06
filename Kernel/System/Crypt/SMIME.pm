@@ -199,7 +199,7 @@ sub Decrypt {
     }
 
     my $Certificate = $Self->CertificateGet(%Param);
-    my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate );
+    my %Attributes  = $Self->CertificateAttributes( Certificate => $Certificate );
     my ( $Private, $Secret ) = $Self->PrivateGet(%Attributes);
 
     my ( $FHPrivate, $PrivateKeyFile ) = $Self->{FileTempObject}->TempFile();
@@ -300,7 +300,7 @@ sub Sign {
     }
 
     my $Certificate = $Self->CertificateGet(%Param);
-    my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate );
+    my %Attributes  = $Self->CertificateAttributes( Certificate => $Certificate );
     my ( $Private, $Secret ) = $Self->PrivateGet(%Attributes);
 
     # get the related certificates
@@ -535,7 +535,7 @@ sub CertificateSearch {
 
     for my $Filename (@CertList) {
         my $Certificate = $Self->CertificateGet( Filename => $Filename );
-        my %Attributes = $Self->CertificateAttributes(
+        my %Attributes  = $Self->CertificateAttributes(
             Certificate => $Certificate,
         );
         my $Hit = 0;
@@ -685,7 +685,7 @@ sub CertificateGet {
         return if !$Param{Filename};
     }
 
-    my $File = "$Self->{CertPath}/$Param{Filename}";
+    my $File           = "$Self->{CertPath}/$Param{Filename}";
     my $CertificateRef = $Self->{MainObject}->FileRead( Location => $File );
 
     return if !$CertificateRef;
@@ -1767,7 +1767,7 @@ sub _FetchAttributesFromCert {
     }
 
     # prepare attributes data for use
-    $AttributesRef->{Issuer} =~ s{=}{= }xmsg  if $AttributesRef->{Issuer};
+    $AttributesRef->{Issuer}  =~ s{=}{= }xmsg if $AttributesRef->{Issuer};
     $AttributesRef->{Subject} =~ s{\/}{ }xmsg if $AttributesRef->{Subject};
     $AttributesRef->{Subject} =~ s{=}{= }xmsg if $AttributesRef->{Subject};
 

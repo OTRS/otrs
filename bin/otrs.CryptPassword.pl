@@ -40,7 +40,7 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     ConfigObject => $CommonObject{ConfigObject},
 );
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject} = Kernel::System::DB->new( %CommonObject, AutoConnectNo => 1 );
+$CommonObject{DBObject}   = Kernel::System::DB->new( %CommonObject, AutoConnectNo => 1 );
 
 # check args
 my $Password = shift;

@@ -27,7 +27,7 @@ sub new {
     }
 
     # get current starthit and preferences
-    my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
+    my $Name           = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
     my $PreferencesKey = 'UserDashboardUserOutOfOffice' . $Self->{Name};
 
     $Self->{PrefKey} = 'UserDashboardPref' . $Self->{Name} . '-Shown';

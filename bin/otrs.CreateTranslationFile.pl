@@ -132,7 +132,7 @@ my $BreakLineAfterChars = 60;
     my %Summary;
     for my $Language ( sort keys %Stats ) {
         $Summary{$Language}->{Translated} = scalar grep {$_} values %{ $Stats{$Language} };
-        $Summary{$Language}->{Total} = scalar values %{ $Stats{$Language} };
+        $Summary{$Language}->{Total}      = scalar values %{ $Stats{$Language} };
     }
 
     print "\n\nTranslation statistics:\n";
@@ -412,7 +412,7 @@ sub HandleLanguage {
 
             my $Translation = $LanguageObject->{Translation}->{$Key};
             $Translation =~ s/'/\\'/g;
-            $Key =~ s/'/\\'/g;
+            $Key         =~ s/'/\\'/g;
 
             # if a string was previously in a DTL, but has not yet been translated,
             # there's no need to preserve it in the translation file.

@@ -880,7 +880,7 @@ for my $Character (@SpecialCharacters) {
     }
 
     # select like value
-    $NameB = $DBObject->Quote( $Character, 'Like' );
+    $NameB  = $DBObject->Quote( $Character, 'Like' );
     $Result = $DBObject->Prepare(
         SQL   => "SELECT name_b FROM test_d WHERE name_b LIKE '$NameB'",
         Limit => 1,
@@ -913,7 +913,7 @@ for my $Character (@SpecialCharacters) {
 
     # select like value (with space)
     my $NameB = $DBObject->Quote( 'otrs test', 'Like' );
-    my $SQL = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$NameB'";
+    my $SQL   = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$NameB'";
 
     my $Result = $DBObject->Prepare(
         SQL   => $SQL,
@@ -935,7 +935,7 @@ for my $Character (@SpecialCharacters) {
 
     # select like value (with underscore)
     $NameB = $DBObject->Quote( 'otrs_test', 'Like' );
-    $SQL = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$NameB'";
+    $SQL   = "SELECT COUNT(name_b) FROM test_d WHERE name_b LIKE '$NameB'";
 
     # proof of concept that oracle needs special treatment
     # with underscores in LIKE argument, it always needs the ESCAPE parameter

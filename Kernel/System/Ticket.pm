@@ -370,7 +370,7 @@ sub TicketCreate {
 
     # set default values if no values are specified
     my $ValidID = $Param{ValidID} || 1;
-    my $Age = $Self->{TimeObject}->SystemTime();
+    my $Age     = $Self->{TimeObject}->SystemTime();
 
     my $ArchiveFlag = 0;
     if ( $Param{ArchiveFlag} && $Param{ArchiveFlag} eq 'y' ) {
@@ -3676,7 +3676,7 @@ sub TicketLockSet {
         );
 
         # check if the current user is the current owner, if not send a notify
-        my $To = '';
+        my $To           = '';
         my $Notification = defined $Param{Notification} ? $Param{Notification} : 1;
         if (
             !$Param{SendNoNotification}
@@ -5034,7 +5034,7 @@ sub HistoryTicketGet {
             if ( $Row[0] =~ /^\%\%FieldName\%\%(.+?)\%\%Value\%\%(?:(.+?))?$/ ) {
 
                 my $FieldName = $1;
-                my $Value = $2 || '';
+                my $Value     = $2 || '';
                 $Ticket{$FieldName} = $Value;
 
                 # Backward compatibility for TicketFreeText and TicketFreeTime
@@ -6135,7 +6135,7 @@ sub TicketFlagGet {
 
         # check cache
         my $CacheKey = 'TicketFlagGet::' . $Param{TicketID} . '::' . $Param{UserID};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         return %{$Cache} if $Cache;
 
         my %Flag;

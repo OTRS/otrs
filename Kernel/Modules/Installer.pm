@@ -206,7 +206,7 @@ sub Run {
                 Item         => 'Create Database',
                 Step         => '2/5',
                 SelectDBType => $Param{SelectDBType},
-                }
+            }
         );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'Installer',
@@ -634,7 +634,7 @@ sub Run {
                     Data => {
                         Message => $Self->{LayoutObject}->{LanguageObject}->Get(
                             'Database deleted.'
-                            )
+                        )
                     },
                 );
                 $Self->{LayoutObject}->Block(
@@ -647,7 +647,7 @@ sub Run {
                 Data         => {
                     Item => 'Drop Database',
                     Step => '4/5',
-                    }
+                }
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -1086,7 +1086,7 @@ sub ConnectToDB {
     my ( $Self, %Param ) = @_;
 
     my %DB;
-    $DB{User} = $Self->{ParamObject}->GetParam( Param => 'DBUser' ) || '';
+    $DB{User}     = $Self->{ParamObject}->GetParam( Param => 'DBUser' ) || '';
     $DB{Password} = $Self->{ParamObject}->GetParam( Param => 'DBPassword' )
         || '';
     $DB{DatabaseHost} = $Self->{ParamObject}->GetParam( Param => 'DBHost' )

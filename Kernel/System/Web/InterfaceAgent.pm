@@ -200,7 +200,7 @@ sub Run {
 
         # get params
         my $PostUser = $Self->{ParamObject}->GetParam( Param => 'User' ) || '';
-        my $PostPw = $Self->{ParamObject}->GetParam(
+        my $PostPw   = $Self->{ParamObject}->GetParam(
             Param => 'Password',
             Raw   => 1
         ) || '';

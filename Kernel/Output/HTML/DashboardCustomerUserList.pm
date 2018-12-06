@@ -31,7 +31,7 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
 
     # get current filter
-    my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
+    my $Name           = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
     my $PreferencesKey = 'UserDashboardCustomerUserListFilter' . $Self->{Name};
 
     $Self->{PrefKey} = 'UserDashboardPref' . $Self->{Name} . '-Shown';

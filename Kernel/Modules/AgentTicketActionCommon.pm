@@ -671,7 +671,7 @@ sub Run {
                 );
             }
 
-            my $From = "\"$Self->{UserFirstname} $Self->{UserLastname}\" <$Self->{UserEmail}>";
+            my $From          = "\"$Self->{UserFirstname} $Self->{UserLastname}\" <$Self->{UserEmail}>";
             my @NotifyUserIDs = ( @{ $Self->{InformUserID} }, @{ $Self->{InvolvedUserID} } );
             $ArticleID = $Self->{TicketObject}->ArticleCreate(
                 TicketID                        => $Self->{TicketID},
@@ -820,7 +820,7 @@ sub Run {
         );
     }
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
-        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
+        my %Ticket       = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
         my $CustomerUser = $Ticket{CustomerUserID};
 
         my $ServiceID;
@@ -890,7 +890,7 @@ sub Run {
         my $NextStates = $Self->_GetNextStates(
             %GetParam,
             CustomerUserID => $CustomerUser || '',
-            QueueID => $QueueID,
+            QueueID        => $QueueID,
         );
 
         # update Dynamic Fields Possible Values via AJAX
@@ -1268,7 +1268,7 @@ sub _Mask {
             %ShownUsers = %AllGroupsMembers;
         }
         else {
-            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+            my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
                 Type    => 'owner',
@@ -1341,7 +1341,7 @@ sub _Mask {
             %ShownUsers = %AllGroupsMembers;
         }
         else {
-            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+            my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
                 Type    => 'responsible',
@@ -1481,7 +1481,7 @@ sub _Mask {
                 Type  => 'Long',
                 Valid => 1,
             );
-            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+            my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
                 Type    => 'note',
@@ -1576,7 +1576,7 @@ sub _Mask {
         # get possible notes
         if ( $Self->{Config}->{ArticleTypes} ) {
             my %DefaultNoteTypes = %{ $Self->{Config}->{ArticleTypes} };
-            my %NoteTypes = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
+            my %NoteTypes        = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
             for my $KeyNoteType ( sort keys %NoteTypes ) {
                 if ( !$DefaultNoteTypes{ $NoteTypes{$KeyNoteType} } ) {
                     delete $NoteTypes{$KeyNoteType};

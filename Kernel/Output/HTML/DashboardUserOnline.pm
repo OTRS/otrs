@@ -31,7 +31,7 @@ sub new {
     $Self->{SessionObject} = Kernel::System::AuthSession->new(%Param);
 
     # get current filter
-    my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
+    my $Name           = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
     my $PreferencesKey = 'UserDashboardUserOnlineFilter' . $Self->{Name};
     if ( $Self->{Name} eq $Name ) {
         $Self->{Filter} = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || '';
