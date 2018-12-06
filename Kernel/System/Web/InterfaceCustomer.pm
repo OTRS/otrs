@@ -211,7 +211,7 @@ sub Run {
 
         # get params
         my $PostUser = $ParamObject->GetParam( Param => 'User' ) || '';
-        my $PostPw = $ParamObject->GetParam(
+        my $PostPw   = $ParamObject->GetParam(
             Param => 'Password',
             Raw   => 1
         ) || '';
@@ -583,7 +583,7 @@ sub Run {
         my %UserData = $UserObject->CustomerUserDataGet( User => $User );
 
         # verify customer user is valid when requesting password reset
-        my @ValidIDs = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
+        my @ValidIDs    = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
         my $UserIsValid = grep { $UserData{ValidID} && $UserData{ValidID} == $_ } @ValidIDs;
         if ( !$UserData{UserID} || !$UserIsValid ) {
 
@@ -975,7 +975,7 @@ sub Run {
                         ),
                     },
                     %Param,
-                    }
+                }
             );
 
             $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Output::HTML::Layout'] );

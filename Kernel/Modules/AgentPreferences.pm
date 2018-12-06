@@ -100,7 +100,7 @@ sub Run {
 
             # get user data
             my %UserData = $UserObject->GetUserData( UserID => $Self->{UserID} );
-            my $Module = $Preferences{$Group}->{Module};
+            my $Module   = $Preferences{$Group}->{Module};
             if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
                 return $LayoutObject->FatalError();
             }

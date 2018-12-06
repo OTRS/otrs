@@ -325,7 +325,7 @@ for my $Test (@SoapTests) {
     if ($SOAPResult) {
         push @CallData, $SOAPResult;
     }
-    my $Content = SOAP::Serializer->autotype(0)->envelope(@CallData);
+    my $Content         = SOAP::Serializer->autotype(0)->envelope(@CallData);
     my $SerializedFault = $@ || '';
     $Self->Is(
         $SerializedFault,
@@ -452,7 +452,7 @@ for my $Test (@SoapTests) {
 
     # deserialize with SOAP::Lite
     my $SOAPObject = eval { SOAP::Deserializer->deserialize($Content); };
-    my $SOAPError = $@;
+    my $SOAPError  = $@;
 
     $Self->Is(
         $SOAPError,

@@ -95,7 +95,7 @@ sub Run {
         $LayoutObject->ChallengeTokenCheck();
 
         # get user data
-        my $UserID = $ParamObject->GetParam( Param => 'ID' ) || '';
+        my $UserID   = $ParamObject->GetParam( Param => 'ID' ) || '';
         my %UserData = $CustomerUserObject->CustomerUserDataGet(
             User  => $UserID,
             Valid => 1,
@@ -238,7 +238,7 @@ sub Run {
 
         # get user data
         my %UserData = $CustomerUserObject->CustomerUserDataGet( User => $User );
-        my $Output = $NavBar;
+        my $Output   = $NavBar;
         $Output .= $Self->_Edit(
             Nav    => $Nav,
             Action => 'Change',

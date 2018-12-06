@@ -759,7 +759,7 @@ sub Run {
                 my $TemplateGeneratorObject = $Kernel::OM->ObjectParamAdd(
                     'Kernel::System::TemplateGenerator' => {
                         CustomerUserObject => $CustomerUserObject,
-                        }
+                    }
                 );
 
                 $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
@@ -1081,7 +1081,7 @@ sub _Mask {
 
     # build ArticleTypeID string
     my %DefaultNoteTypes = %{ $Config->{ArticleTypes} };
-    my %NoteTypes = $TicketObject->ArticleTypeList( Result => 'HASH' );
+    my %NoteTypes        = $TicketObject->ArticleTypeList( Result => 'HASH' );
     for my $KeyNoteType ( sort keys %NoteTypes ) {
         if ( !$DefaultNoteTypes{ $NoteTypes{$KeyNoteType} } ) {
             delete $NoteTypes{$KeyNoteType};
@@ -1484,7 +1484,7 @@ sub _GetOwners {
         my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
         for my $QueueID (@QueueIDs) {
-            my $GroupID = $QueueObject->GetQueueGroupID( QueueID => $QueueID );
+            my $GroupID     = $QueueObject->GetQueueGroupID( QueueID => $QueueID );
             my %GroupMember = $GroupObject->PermissionGroupGet(
                 GroupID => $GroupID,
                 Type    => 'owner',
@@ -1550,7 +1550,7 @@ sub _GetResponsibles {
         my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
         for my $QueueID (@QueueIDs) {
-            my $GroupID = $QueueObject->GetQueueGroupID( QueueID => $QueueID );
+            my $GroupID     = $QueueObject->GetQueueGroupID( QueueID => $QueueID );
             my %GroupMember = $GroupObject->PermissionGroupGet(
                 GroupID => $GroupID,
                 Type    => 'responsible',

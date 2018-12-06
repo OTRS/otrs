@@ -639,13 +639,13 @@ sub _CheckCertificateList {
     my ( $Self, %Param ) = @_;
 
     my @CertList = @{ $Param{CertificateList} };
-    my $Search = $Param{Search} || '';
+    my $Search   = $Param{Search} || '';
 
     my @Result;
 
     for my $Filename (@CertList) {
         my $Certificate = $Self->CertificateGet( Filename => $Filename );
-        my %Attributes = $Self->CertificateAttributes(
+        my %Attributes  = $Self->CertificateAttributes(
             Certificate => $Certificate,
             Filename    => $Filename,
         );
@@ -994,7 +994,7 @@ sub CertificateGet {
         return if !$Param{Filename};
     }
 
-    my $File = "$Self->{CertPath}/$Param{Filename}";
+    my $File           = "$Self->{CertPath}/$Param{Filename}";
     my $CertificateRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead( Location => $File );
 
     return if !$CertificateRef;
@@ -1273,7 +1273,7 @@ sub PrivateSearch {
 
     for my $File (@Certificates) {
         my $Certificate = $Self->CertificateGet( Filename => $File );
-        my %Attributes = $Self->CertificateAttributes(
+        my %Attributes  = $Self->CertificateAttributes(
             Certificate => $Certificate,
             Filename    => $File,
         );

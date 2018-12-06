@@ -87,7 +87,7 @@ sub Run {
     my %GetParam;
 
     # get config data
-    my $StartHit = int( $ParamObject->GetParam( Param => 'StartHit' ) || 1 );
+    my $StartHit    = int( $ParamObject->GetParam( Param => 'StartHit' ) || 1 );
     my $SearchLimit = $ConfigObject->Get('Ticket::CustomerTicketSearch::SearchLimit')
         || 200;
     my $SearchPageShown = $ConfigObject->Get('Ticket::CustomerTicketSearch::SearchPageShown') || 40;
@@ -100,7 +100,7 @@ sub Run {
 
     # get search profile object
     my $SearchProfileObject = $Kernel::OM->Get('Kernel::System::SearchProfile');
-    my $TakeLastSearch = $ParamObject->GetParam( Param => 'TakeLastSearch' ) || '';
+    my $TakeLastSearch      = $ParamObject->GetParam( Param => 'TakeLastSearch' ) || '';
 
     # load profiles string params (press load profile)
     if ( ( $Self->{Subaction} eq 'LoadProfile' && $Profile ) || $TakeLastSearch ) {
@@ -557,7 +557,7 @@ sub Run {
                     );
                     %Data = %Ticket;
                     $Data{Subject} = $Ticket{Title} || 'Untitled';
-                    $Data{Body} = $LayoutObject->{LanguageObject}->Translate(
+                    $Data{Body}    = $LayoutObject->{LanguageObject}->Translate(
                         'This item has no articles yet.'
                     );
                     $Data{From} = '--';
@@ -746,7 +746,7 @@ sub Run {
 
                     # set missing information
                     $Data{Subject} = $Data{Title} || 'Untitled';
-                    $Data{From} = '--';
+                    $Data{From}    = '--';
                 }
 
                 # customer info
@@ -778,7 +778,7 @@ sub Run {
                 $UserInfo{CustomerName} = '(' . $UserInfo{CustomerName} . ')'
                     if ( $UserInfo{CustomerName} );
 
-                my %Info = ( %Data, %UserInfo );
+                my %Info    = ( %Data, %UserInfo );
                 my $Created = $LayoutObject->{LanguageObject}->FormatTimeString(
                     $Data{Created},
                     'DateFormat',
@@ -1078,7 +1078,7 @@ sub Run {
                     if ( !%Article ) {
                         %Article = %Ticket;
                         $Article{Subject} = $Ticket{Title} || 'Untitled';
-                        $Article{Body} = $LayoutObject->{LanguageObject}->Translate(
+                        $Article{Body}    = $LayoutObject->{LanguageObject}->Translate(
                             'This item has no articles yet.'
                         );
                     }

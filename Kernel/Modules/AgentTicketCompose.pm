@@ -1207,7 +1207,7 @@ sub Run {
             if ( $Data{Body} ) {
                 $Data{Body} =~ s/\t/ /g;
                 my $Quote = $LayoutObject->Ascii2Html(
-                    Text => $ConfigObject->Get('Ticket::Frontend::Quote') || '',
+                    Text           => $ConfigObject->Get('Ticket::Frontend::Quote') || '',
                     HTMLResultMode => 1,
                 );
                 if ($Quote) {

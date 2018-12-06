@@ -250,7 +250,7 @@ sub _ShowEdit {
         %Error = %{ $Param{WebserviceData}->{Error} };
     }
 
-    $Param{Template} = $MappingConfig->{Template};
+    $Param{Template}      = $MappingConfig->{Template};
     $Param{TemplateError} = $Error{Template} || '';
 
     $Output .= $LayoutObject->Output(

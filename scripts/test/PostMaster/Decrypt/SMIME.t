@@ -269,8 +269,8 @@ $ConfigObject->Set(
         },
         '000-MatchDBSource' => {
             'Module' => 'Kernel::System::PostMaster::Filter::MatchDBSource',
-            }
         }
+    }
 );
 
 my $PostMasterObject = Kernel::System::PostMaster->new(

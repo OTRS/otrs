@@ -36,7 +36,7 @@ sub Run {
         || $Kernel::OM->Get('Kernel::Config')->Get('SpellCheckerDictDefault');
 
     # get params
-    $Param{Body} = $ParamObject->GetParam( Param => 'Body' );
+    $Param{Body}  = $ParamObject->GetParam( Param => 'Body' );
     $Param{Field} = $ParamObject->GetParam( Param => 'Field' ) || 'Body';
 
     # get and replace all wrong words

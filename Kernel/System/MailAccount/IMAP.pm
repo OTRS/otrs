@@ -220,7 +220,7 @@ sub _Fetch {
                     my @Return = $PostMasterObject->Run( QueueID => $Param{QueueID} || 0 );
                     if ( !$Return[0] ) {
                         my $Lines = $IMAPObject->get($Messageno);
-                        my $File = $Self->_ProcessFailed( Email => $Lines );
+                        my $File  = $Self->_ProcessFailed( Email => $Lines );
                         $Kernel::OM->Get('Kernel::System::Log')->Log(
                             Priority => 'error',
                             Message  => "$AuthType: Can't process mail, see log sub system ("

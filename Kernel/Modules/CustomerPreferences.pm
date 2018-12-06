@@ -58,7 +58,7 @@ sub Run {
 
         # get user data
         my %UserData = $UserObject->CustomerUserDataGet( User => $Self->{UserLogin} );
-        my $Module = $Preferences{$Group}->{Module};
+        my $Module   = $Preferences{$Group}->{Module};
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
             return $LayoutObject->FatalError();
         }

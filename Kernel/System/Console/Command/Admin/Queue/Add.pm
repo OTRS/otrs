@@ -103,7 +103,7 @@ sub Run {
     $Self->Print("<yellow>Adding a new queue...</yellow>\n");
 
     # check group
-    my $Group = $Self->GetOption('group');
+    my $Group   = $Self->GetOption('group');
     my $GroupID = $Kernel::OM->Get('Kernel::System::Group')->GroupLookup( Group => $Group );
     if ( !$GroupID ) {
         $Self->PrintError("Found no GroupID for $Group\n");

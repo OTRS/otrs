@@ -147,7 +147,7 @@ sub Run {
 
         }
         else {
-            %QueueData = $QueueObject->QueueList( Valid => 1 );
+            %QueueData   = $QueueObject->QueueList( Valid => 1 );
             $QueueHeader = Translatable('Queues');
         }
 

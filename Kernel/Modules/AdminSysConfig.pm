@@ -711,7 +711,7 @@ sub Run {
                 for my $Index ( 1 .. $#{ $ItemHash{Setting}->[1]->{TimeWorkingHours}->[1]->{Day} } )
                 {
                     my $Weekday = $ItemHash{Setting}->[1]->{TimeWorkingHours}->[1]->{Day}->[$Index]->{Name};
-                    my @Hours = $ParamObject->GetArray( Param => $_ . $Weekday . '[]' );
+                    my @Hours   = $ParamObject->GetArray( Param => $_ . $Weekday . '[]' );
                     $Content{$Weekday} = \@Hours;
                 }
 

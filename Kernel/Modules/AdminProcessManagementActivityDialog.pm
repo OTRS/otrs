@@ -772,7 +772,7 @@ sub _ShowEdit {
                 Name => 'EditWarning',
                 Data => {
                     ActivityList => join( ', ', @{$AffectedActivities} ),
-                    }
+                }
             );
         }
 
@@ -965,7 +965,7 @@ sub _GetParams {
         $GetParam->{$ParamName} = $ParamObject->GetParam( Param => $ParamName ) || '';
     }
 
-    my $Fields = $ParamObject->GetParam( Param => 'Fields' ) || '';
+    my $Fields     = $ParamObject->GetParam( Param => 'Fields' ) || '';
     my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
 
     if ($Fields) {

@@ -61,7 +61,7 @@ sub Run {
 
     # get queue id and name
     my $QueueID = $Param{QueueID} || die "need QueueID!";
-    my $Queue = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup(
+    my $Queue   = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup(
         QueueID => $QueueID,
     );
 

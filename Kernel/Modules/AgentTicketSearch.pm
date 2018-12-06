@@ -667,7 +667,7 @@ sub Run {
 
                     # set missing information
                     $Data{Subject} = $Data{Title} || Translatable('Untitled');
-                    $Data{Body} = $LayoutObject->{LanguageObject}->Translate(
+                    $Data{Body}    = $LayoutObject->{LanguageObject}->Translate(
                         'This item has no articles yet.'
                     );
                     $Data{From} = '--';
@@ -865,7 +865,7 @@ sub Run {
 
                     # set missing information
                     $Data{Subject} = $Data{Title} || Translatable('Untitled');
-                    $Data{From} = '--';
+                    $Data{From}    = '--';
                 }
 
                 # customer info
@@ -897,7 +897,7 @@ sub Run {
                 $UserInfo{CustomerName} = '(' . $UserInfo{CustomerName} . ')'
                     if ( $UserInfo{CustomerName} );
 
-                my %Info = ( %Data, %UserInfo );
+                my %Info    = ( %Data, %UserInfo );
                 my $Created = $LayoutObject->{LanguageObject}->FormatTimeString(
                     $Data{Created},
                     'DateFormat',
@@ -1216,7 +1216,7 @@ sub Run {
         );
     }
     elsif ( $Self->{Subaction} eq 'AJAX' ) {
-        my $Profile = $ParamObject->GetParam( Param => 'Profile' ) || '';
+        my $Profile     = $ParamObject->GetParam( Param => 'Profile' ) || '';
         my $EmptySearch = $ParamObject->GetParam( Param => 'EmptySearch' );
         if ( !$Profile ) {
             $EmptySearch = 1;

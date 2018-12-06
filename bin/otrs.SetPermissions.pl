@@ -203,7 +203,7 @@ sub SetFilePermissions {
         for my $ProtectedRegex (@ProtectedFiles) {
             if ( $RelativeFile =~ $ProtectedRegex ) {
                 $TargetPermission = -d $File ? 0750 : 0640;
-                $TargetGroupID = $AdminGroupID;
+                $TargetGroupID    = $AdminGroupID;
                 last PROTECTED_REGEX;
             }
         }

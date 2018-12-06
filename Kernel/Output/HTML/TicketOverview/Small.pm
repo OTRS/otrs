@@ -680,7 +680,7 @@ sub Run {
                     Name => 'OverviewNavBarPageFlagEmpty',
                     Data => {
                         Name => $Item,
-                        }
+                    }
                 );
             }
             else {
@@ -1523,7 +1523,7 @@ sub Run {
                 elsif ( $TicketColumn eq 'EscalationResponseTime' ) {
                     $BlockType = 'Escalation';
                     $DataValue = $LayoutObject->CustomerAgeInHours(
-                        Age => $Article{FirstResponseTime} || 0,
+                        Age   => $Article{FirstResponseTime} || 0,
                         Space => ' ',
                     );
                     if (
@@ -1537,7 +1537,7 @@ sub Run {
                 elsif ( $TicketColumn eq 'EscalationUpdateTime' ) {
                     $BlockType = 'Escalation';
                     $DataValue = $LayoutObject->CustomerAgeInHours(
-                        Age => $Article{UpdateTime} || 0,
+                        Age   => $Article{UpdateTime} || 0,
                         Space => ' ',
                     );
                     if ( defined $Article{UpdateTime} && $Article{UpdateTime} < 60 * 60 * 1 ) {

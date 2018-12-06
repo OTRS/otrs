@@ -424,7 +424,7 @@ sub _DatabaseRead {
     if ($ArrayRef) {
         for ( @{$ArrayRef} ) {
             my $Line = $_;
-            my @Row = split( /::/, $Line );
+            my @Row  = split( /::/, $Line );
             push( @Data, \@Row );
         }
     }

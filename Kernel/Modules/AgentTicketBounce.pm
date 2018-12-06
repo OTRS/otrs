@@ -49,7 +49,7 @@ sub Run {
 
     # get ticket data
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-    my %Ticket = $TicketObject->TicketGet( TicketID => $Self->{TicketID} );
+    my %Ticket       = $TicketObject->TicketGet( TicketID => $Self->{TicketID} );
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -431,7 +431,7 @@ $Param{Signature}";
                 $Param{Body} =~ s/&lt;OTRS_BOUNCE_TO&gt;/&amp;lt;OTRS_BOUNCE_TO&amp;gt;/gi;
             }
 
-            $Param{InformationFormat} = $Param{Body};
+            $Param{InformationFormat}   = $Param{Body};
             $Param{InformSenderChecked} = $Param{InformSender} ? 'checked="checked"' : '';
 
             my $Output = $LayoutObject->Header(

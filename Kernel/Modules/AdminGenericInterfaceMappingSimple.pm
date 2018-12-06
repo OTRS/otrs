@@ -483,7 +483,7 @@ sub _ShowEdit {
 
         for my $ValueIndex ( 1 .. $MappingConfig->{ 'ValueCounter' . $KeyIndex } ) {
             my $ValueMapTypeStrgError = $Error{ 'ValueMapTypeStrg' . $KeyIndex . '_' . $ValueIndex } || '';
-            my $ValueMapTypeStrg = $LayoutObject->BuildSelection(
+            my $ValueMapTypeStrg      = $LayoutObject->BuildSelection(
                 Data => [
                     {
                         Key   => 'ValueMapExact',

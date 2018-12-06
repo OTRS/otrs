@@ -56,7 +56,7 @@ $Selenium->RunTest(
         );
 
         my $Content = ${$ContentRef};
-        my $MD5 = $MainObject->MD5sum( String => \$Content );
+        my $MD5     = $MainObject->MD5sum( String => \$Content );
 
         my $AttachmentRandomID = "attachment" . $Helper->GetRandomID();
         my $AttachmentID       = $StdAttachmentObject->StdAttachmentAdd(

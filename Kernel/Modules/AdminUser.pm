@@ -54,7 +54,7 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        my $UserID = $ParamObject->GetParam( Param => 'UserID' ) || '';
+        my $UserID   = $ParamObject->GetParam( Param => 'UserID' ) || '';
         my %UserData = $UserObject->GetUserData(
             UserID        => $UserID,
             NoOutOfOffice => 1,
@@ -115,7 +115,7 @@ sub Run {
                 },
                 SessionID   => $NewSessionID,
                 SessionName => $ConfigObject->Get('SessionName'),
-                }
+            }
         );
 
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Output::HTML::Layout'] );
@@ -198,7 +198,7 @@ sub Run {
             UserID    => $GetParam{UserID}
         );
         if ($UserLoginExists) {
-            $Errors{UserLoginExists} = 1;
+            $Errors{UserLoginExists}    = 1;
             $Errors{'UserLoginInvalid'} = 'ServerError';
         }
 
@@ -362,7 +362,7 @@ sub Run {
         # check if a user with this login (username) already exits
         my $UserLoginExists = $UserObject->UserLoginExistsCheck( UserLogin => $GetParam{UserLogin} );
         if ($UserLoginExists) {
-            $Errors{UserLoginExists} = 1;
+            $Errors{UserLoginExists}    = 1;
             $Errors{'UserLoginInvalid'} = 'ServerError';
         }
 

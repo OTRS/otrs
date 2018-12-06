@@ -269,7 +269,7 @@ sub Get {
     my @Dyn;
     if ( $What && $What =~ /^(.+?)",\s{0,1}"(.*?)$/ ) {
         $What = $1;
-        @Dyn = split( /",\s{0,1}"/, $2 );
+        @Dyn  = split( /",\s{0,1}"/, $2 );
     }
 
     # check wanted param and returns the

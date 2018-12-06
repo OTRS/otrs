@@ -471,7 +471,7 @@ $Selenium->RunTest(
                     $UserIDs[0] => 1,
                     $UserIDs[1] => 1,
                     $UserIDs[2] => 0,
-                    }
+                }
             },
             {
                 SelectedQueueID => $QueueIDs[1],
@@ -479,7 +479,7 @@ $Selenium->RunTest(
                     $UserIDs[0] => 0,
                     $UserIDs[1] => 0,
                     $UserIDs[2] => 1,
-                    }
+                }
             }
         );
 

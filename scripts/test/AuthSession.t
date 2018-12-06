@@ -146,7 +146,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             "Initial session data",
         );
 
-        my @Sessions = $SessionObject->GetAllSessionIDs();
+        my @Sessions    = $SessionObject->GetAllSessionIDs();
         my %SessionList = map { $_ => 1 } @Sessions;
         $Self->True(
             $SessionList{$SessionID},

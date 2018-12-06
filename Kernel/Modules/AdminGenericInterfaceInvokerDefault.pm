@@ -549,7 +549,7 @@ sub _ShowScreen {
             Data => {
                 %Param,
                 %TemplateData,
-                }
+            }
         );
     }
 

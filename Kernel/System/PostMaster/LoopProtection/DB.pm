@@ -68,7 +68,7 @@ sub Check {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    my $To = $Param{To} || return;
+    my $To    = $Param{To} || return;
     my $Count = 0;
 
     # check existing logfile

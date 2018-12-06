@@ -312,7 +312,7 @@ sub Run {
         return $ErrorReturn;
     }
 
-    my $DataIn = $FunctionResult->{Data};
+    my $DataIn      = $FunctionResult->{Data};
     my $SizeExeeded = $FunctionResult->{SizeExeeded} || 0;
 
     if ($SizeExeeded) {

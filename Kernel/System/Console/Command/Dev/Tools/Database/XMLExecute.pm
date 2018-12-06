@@ -63,7 +63,7 @@ sub Run {
         return $Self->ExitCodeError();
     }
     my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => $XML );
-    my @SQL = $Kernel::OM->Get('Kernel::System::DB')->SQLProcessor(
+    my @SQL      = $Kernel::OM->Get('Kernel::System::DB')->SQLProcessor(
         Database => \@XMLArray,
     );
     if ( !@SQL ) {

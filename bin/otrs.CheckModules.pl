@@ -681,7 +681,7 @@ sub _PackageList {
     for my $Module ( @{$PackageList} ) {
 
         my $Required = $Module->{Required};
-        my $Version = Kernel::System::Environment->ModuleVersionGet( Module => $Module->{Module} );
+        my $Version  = Kernel::System::Environment->ModuleVersionGet( Module => $Module->{Module} );
         if ( !$Version ) {
             my %InstallCommand = _GetInstallCommand($Module);
 

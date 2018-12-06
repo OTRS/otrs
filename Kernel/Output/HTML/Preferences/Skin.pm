@@ -41,7 +41,7 @@ sub Param {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my $PossibleSkins = $ConfigObject->Get('Loader::Agent::Skin') || {};
-    my $Home = $ConfigObject->Get('Home');
+    my $Home          = $ConfigObject->Get('Home');
     my %ActiveSkins;
 
     # prepare the list of active skins

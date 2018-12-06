@@ -213,8 +213,8 @@ $ConfigObject->Set(
         },
         '000-MatchDBSource' => {
             'Module' => 'Kernel::System::PostMaster::Filter::MatchDBSource',
-            }
         }
+    }
 );
 
 my @Return = $PostMasterObject->Run( Queue => '' );
@@ -285,8 +285,8 @@ $ConfigObject->Set(
         },
         '000-MatchDBSource' => {
             'Module' => 'Kernel::System::PostMaster::Filter::MatchDBSource',
-            }
         }
+    }
 );
 
 my @ReturnEncrypted = $PostMasterObject->Run( Queue => '' );

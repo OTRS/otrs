@@ -317,13 +317,13 @@ sub Run {
 
     # get personal page shown count
     my $PageShownPreferencesKey = 'UserTicketOverview' . $View . 'PageShown';
-    my $PageShown = $Self->{$PageShownPreferencesKey} || 10;
+    my $PageShown               = $Self->{$PageShownPreferencesKey} || 10;
 
     # do shown tickets lookup
     my $Limit = 10_000;
 
     my $ElementChanged = $ParamObject->GetParam( Param => 'ElementChanged' ) || '';
-    my $HeaderColumn = $ElementChanged;
+    my $HeaderColumn   = $ElementChanged;
     $HeaderColumn =~ s{\A ColumnFilter }{}msxg;
 
     # get data (viewable tickets...)
@@ -502,7 +502,7 @@ sub Run {
     $Data{TicketsShown} = $Count || 0;
 
     # Get ticket count for all services.
-    my @ServiceIDs = sort { $AllServices{$a} cmp $AllServices{$b} } keys %AllServices;
+    my @ServiceIDs           = sort { $AllServices{$a} cmp $AllServices{$b} } keys %AllServices;
     my @AllServicesTicketIDs = $TicketObject->TicketSearch(
         LockIDs    => \@ViewableLockIDs,
         StateIDs   => \@ViewableStateIDs,
@@ -676,7 +676,7 @@ sub _MaskServiceView {
             $Counter{$CustomService} = $Counter{ $Service{Service} };
             $Service{Service} = $CustomService;
         }
-        my @ServiceName = split /::/, $Service{Service};
+        my @ServiceName      = split /::/, $Service{Service};
         my $ShortServiceName = $ServiceName[-1];
         $Service{ServiceID} = 0 if ( !$Service{ServiceID} );
 

@@ -630,7 +630,7 @@ my @ArticleBoxDF = $TicketObject->ArticleGet(
     DynamicFields => 1,
 );
 
-my $CustomerArticleTypes = [ $TicketObject->ArticleTypeList( Type => 'Customer' ) ];
+my $CustomerArticleTypes   = [ $TicketObject->ArticleTypeList( Type => 'Customer' ) ];
 my @ArticleBoxTypeCustomer = $TicketObject->ArticleGet(
     TicketID    => $TicketID4,
     UserID      => 1,
@@ -1088,7 +1088,7 @@ my @Tests = (
                 Error => {
                     ErrorCode    => 'TicketGet.MissingParameter',
                     ErrorMessage => 'TicketGet: TicketID parameter is missing!'
-                    }
+                }
             },
             Success => 1
         },
@@ -1097,7 +1097,7 @@ my @Tests = (
                 Error => {
                     ErrorCode    => 'TicketGet.MissingParameter',
                     ErrorMessage => 'TicketGet: TicketID parameter is missing!'
-                    }
+                }
             },
             Success => 1
         },
@@ -1115,7 +1115,7 @@ my @Tests = (
                     ErrorCode => 'TicketGet.AccessDenied',
                     ErrorMessage =>
                         'TicketGet: User does not have access to the ticket!'
-                    }
+                }
             },
             Success => 1
         },
@@ -1125,7 +1125,7 @@ my @Tests = (
                     ErrorCode => 'TicketGet.AccessDenied',
                     ErrorMessage =>
                         'TicketGet: User does not have access to the ticket!'
-                    }
+                }
             },
             Success => 1
         },
@@ -1298,7 +1298,7 @@ my @Tests = (
                         (
                             %TicketEntryFour,
                             Article => \@ArticleWithoutAttachments,
-                            )
+                        )
                     },
                 ],
             },
@@ -1330,7 +1330,7 @@ my @Tests = (
                         (
                             %TicketEntryFour,
                             Article => \@ArticleBox,
-                            )
+                        )
                     },
                 ],
             },
@@ -1363,7 +1363,7 @@ my @Tests = (
                         (
                             %TicketEntryFourDF,
                             Article => \@ArticleBoxDF,
-                            )
+                        )
                     },
                 ],
             },
@@ -1399,7 +1399,7 @@ my @Tests = (
                         (
                             %TicketEntryFour,
                             Article => \@ArticleBox,
-                            )
+                        )
                     },
                 ],
             },
@@ -1424,7 +1424,7 @@ my @Tests = (
                     ErrorCode => 'TicketGet.AccessDenied',
                     ErrorMessage =>
                         'TicketGet: User does not have access to the ticket!'
-                    }
+                }
             },
             Success => 1
         },
@@ -1434,7 +1434,7 @@ my @Tests = (
                     ErrorCode => 'TicketGet.AccessDenied',
                     ErrorMessage =>
                         'TicketGet: User does not have access to the ticket!'
-                    }
+                }
             },
             Success => 1
         },
@@ -1494,7 +1494,7 @@ my @Tests = (
                     ErrorCode => 'TicketGet.AccessDenied',
                     ErrorMessage =>
                         'TicketGet: User does not have access to the ticket!'
-                    }
+                }
             },
             Success => 1
         },
@@ -1504,7 +1504,7 @@ my @Tests = (
                     ErrorCode => 'TicketGet.AccessDenied',
                     ErrorMessage =>
                         'TicketGet: User does not have access to the ticket!'
-                    }
+                }
             },
             Success => 1
         },
@@ -1634,7 +1634,7 @@ my @Tests = (
                         (
                             %TicketEntryFive,
                             Article => \@ArticleWithHTMLBody,
-                            )
+                        )
                     },
                 ],
             },

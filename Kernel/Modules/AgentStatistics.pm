@@ -543,7 +543,7 @@ sub EditAction {
             $Data{UseAsValueSeries}[$Index]{Selected}       = 1;
 
             my $FixedElement = 'Fixed' . $Element;
-            my $Fixed = $ParamObject->GetParam( Param => $FixedElement );
+            my $Fixed        = $ParamObject->GetParam( Param => $FixedElement );
             $Data{UseAsValueSeries}[$Index]{Fixed} = $Fixed ? 1 : 0;
 
             # Check if Time was selected
@@ -779,7 +779,7 @@ sub AddScreen {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # In case of page reload because of errors
-    my %Errors   = %{ $Param{Errors} //   {} };
+    my %Errors   = %{ $Param{Errors}   // {} };
     my %GetParam = %{ $Param{GetParam} // {} };
 
     my %Frontend;

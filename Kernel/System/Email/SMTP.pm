@@ -178,7 +178,7 @@ sub Send {
 
         while ( my $DataLength = length $Data ) {
             my $TmpChunkSize = ( $ChunkSize > $DataLength ) ? $DataLength : $ChunkSize;
-            my $Chunk = substr $Data, 0, $TmpChunkSize;
+            my $Chunk        = substr $Data, 0, $TmpChunkSize;
 
             $SMTP->datasend($Chunk) || die "error sending data chunk";
 
