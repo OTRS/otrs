@@ -77,7 +77,7 @@ sub Run {
 
         # generate content based on xml file
         my $XMLObject = Kernel::System::XML->new( %{$Self} );
-        my @Data = $XMLObject->XMLParse2XMLHash( String => ${ $Response{Content} } );
+        my @Data      = $XMLObject->XMLParse2XMLHash( String => ${ $Response{Content} } );
 
         # set error message if unable to parse xml file
         if ( !@Data ) {

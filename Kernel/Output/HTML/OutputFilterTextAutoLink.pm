@@ -102,7 +102,7 @@ sub Post {
                 next DATA if !$URLRef->{URL} || !$URLRef->{Image} || !$URLRef->{Target};
 
                 my $KeywordQuote = $Self->{LayoutObject}->Ascii2Html( Text => $Keyword );
-                my $URL = $URLRef->{URL};
+                my $URL          = $URLRef->{URL};
 
                 # replace the whole keyword
                 my $KeywordLinkEncode = $Self->{LayoutObject}->LinkEncode($Keyword);

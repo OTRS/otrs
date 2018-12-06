@@ -26,7 +26,7 @@ my $RandomID = int rand 1_000_000_000;
 #   A search will be executed in all fields at once (causing a JOIN for each
 #   field, so be careful with this number.
 
-my $FieldCount = 5;                     # Limit to 5 because of the UT servers.
+my $FieldCount  = 5;                    # Limit to 5 because of the UT servers.
 my @SearchSteps = ( 1, 2, 3, 4, 5 );    # Steps at which to check search performance
 
 my $ConfigObject = Kernel::Config->new();

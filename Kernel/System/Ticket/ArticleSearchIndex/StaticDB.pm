@@ -246,7 +246,7 @@ sub _ArticleIndexString {
         }
     }
 
-    my $Config = $Self->{ConfigObject}->Get('Ticket::SearchIndex::Attribute');
+    my $Config       = $Self->{ConfigObject}->Get('Ticket::SearchIndex::Attribute');
     my $WordCountMax = $Config->{WordCountMax} || 1000;
 
     # get words (use eval to prevend exits on damaged utf8 signs)

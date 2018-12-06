@@ -266,7 +266,7 @@ EOF
     if ( $Param{ServerError} ) {
 
         my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
-        my $DivID = $FieldName . 'ServerError';
+        my $DivID        = $FieldName . 'ServerError';
 
         # for server side validation
         $HTMLString .= <<"EOF";

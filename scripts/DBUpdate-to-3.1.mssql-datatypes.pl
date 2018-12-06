@@ -255,7 +255,7 @@ sub _CreateFile {
     my ( $CommonObject, %Param ) = @_;
 
     my $Location = $CommonObject->{ConfigObject}->Get('Home') . '/scripts/database/update';
-    my $Content = join( "\n", @{ $Param{Data} } );
+    my $Content  = join( "\n", @{ $Param{Data} } );
 
     my $File = $CommonObject->{MainObject}->FileWrite(
         Directory  => $Location,

@@ -289,7 +289,7 @@ sub FixedTimeSet {
     my ( $Self, $TimeToSave ) = @_;
 
     $TimeToSave = CORE::time() if ( !defined $TimeToSave );
-    $FixedTime = $TimeToSave;
+    $FixedTime  = $TimeToSave;
 
     # This is needed to reload objects that directly use the time functions
     #   to get a hold of the overrides.

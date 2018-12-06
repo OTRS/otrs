@@ -181,7 +181,7 @@ sub Run {
         my ( $NewQueueID, $To ) = split( /\|\|/, $Dest );
         if ( !$To ) {
             $NewQueueID = $Self->{ParamObject}->GetParam( Param => 'NewQueueID' ) || '';
-            $To = 'System';
+            $To         = 'System';
         }
 
         # fallback, if no destination is given
@@ -629,7 +629,7 @@ sub _MaskNew {
             Data => {
                 %Param,
                 TypeIDInvalid => $Param{Errors}->{TypeIDInvalid},
-                }
+            }
         );
     }
 

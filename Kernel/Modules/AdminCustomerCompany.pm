@@ -46,7 +46,7 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $CustomerID = $Self->{ParamObject}->GetParam( Param => 'CustomerID' ) || '';
-        my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
+        my %Data       = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
             CustomerID => $CustomerID,
         );
         my $Output = $Self->{LayoutObject}->Header();
@@ -429,7 +429,7 @@ sub _Overview {
         Name => 'ActionSearch',
         Data => {
             Nav => $Param{Nav},
-            }
+        }
     );
     $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
 

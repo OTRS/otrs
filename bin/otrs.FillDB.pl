@@ -567,7 +567,7 @@ sub GroupGet {
     my $CommonObjects = shift;
 
     my @GroupIDs = ();
-    my %Groups = $CommonObjects->{GroupObject}->GroupList( Valid => 1 );
+    my %Groups   = $CommonObjects->{GroupObject}->GroupList( Valid => 1 );
     foreach ( keys %Groups ) {
         push @GroupIDs, $_;
     }
@@ -576,7 +576,7 @@ sub GroupGet {
 
 sub GroupCreate {
     my $CommonObjects = shift;
-    my $Count = shift || return;
+    my $Count         = shift || return;
 
     my @GroupIDs = ();
     foreach ( 1 .. $Count ) {
@@ -682,7 +682,7 @@ sub UserCreate {
 
 sub CustomerCreate {
     my $CommonObjects = shift;
-    my $Count = shift || return;
+    my $Count         = shift || return;
 
     foreach ( 1 .. $Count ) {
         my $Name      = 'fill-up-user' . int( rand(100_000_000) );

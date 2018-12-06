@@ -112,7 +112,7 @@ sub new {
     # charset settings
     my $DatabasePreferences = $Self->{ConfigObject}->Get('CustomerCompany')->{Params} || {};
     $Self->{SourceCharset} = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{SourceCharset} || '';
-    $Self->{DestCharset} = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{DestCharset}
+    $Self->{DestCharset}   = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{DestCharset}
         || '';
     $Self->{CharsetConvertForce} = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{CharsetConvertForce} || '';
     if ( $Self->{SourceCharset} !~ /utf(-8|8)/i ) {

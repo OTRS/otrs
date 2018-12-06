@@ -62,7 +62,7 @@ $Self->Is(
 );
 
 my %SystemAddressList = $SystemAddressObject->SystemAddressList( Valid => 0 );
-my $Hit = 0;
+my $Hit               = 0;
 for ( sort keys %SystemAddressList ) {
     if ( $_ eq $SystemAddressID ) {
         $Hit = 1;

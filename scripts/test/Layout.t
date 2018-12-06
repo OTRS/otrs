@@ -67,7 +67,7 @@ my $StartTime = time();
 # --------------------------------------------------------------------#
 
 # check the header
-my $Header = $LayoutObject->Header( Title => 'HeaderTest' );
+my $Header     = $LayoutObject->Header( Title => 'HeaderTest' );
 my $HeaderFlag = 1;
 if (
     $Header =~ m{ \$ (QData|LQData|Data|Env|QEnv|Config|Include) }msx
@@ -759,7 +759,7 @@ for my $Test (@Tests) {
         Result => {
             Content =>
                 '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123">',
-            }
+        }
     },
     {
         Name => 'RichTextDocumentServe() ',
@@ -777,7 +777,7 @@ for my $Test (@Tests) {
         Result => {
             Content =>
                 '<img border="0" src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123">',
-            }
+        }
     },
     {
         Name => 'RichTextDocumentServe() ',
@@ -795,7 +795,7 @@ for my $Test (@Tests) {
         Result => {
             Content =>
                 "<img border=\"0\" \nsrc=\"No-\$ENV{\"SCRIPT_NAME\"}?Action=SomeAction;FileID=0;;SessionID=123\">",
-            }
+        }
     },
     {
         Name => 'RichTextDocumentServe() ',
@@ -813,7 +813,7 @@ for my $Test (@Tests) {
         Result => {
             Content =>
                 '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123">',
-            }
+        }
     },
     {
         Name => 'RichTextDocumentServe() ',
@@ -831,7 +831,7 @@ for my $Test (@Tests) {
         Result => {
             Content =>
                 '<img src="No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123" />',
-            }
+        }
     },
     {
         Name => 'RichTextDocumentServe() ',
@@ -849,7 +849,7 @@ for my $Test (@Tests) {
         Result => {
             Content =>
                 '<img src=\'No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123\' />',
-            }
+        }
     },
     {
         Name => 'RichTextDocumentServe() ',
@@ -867,7 +867,7 @@ for my $Test (@Tests) {
         Result => {
             Content =>
                 '<img src=\'No-$ENV{"SCRIPT_NAME"}?Action=SomeAction;FileID=0;;SessionID=123\' />',
-            }
+        }
     },
 );
 

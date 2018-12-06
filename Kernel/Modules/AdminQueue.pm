@@ -162,7 +162,7 @@ sub Run {
             if ($QueueUpdate) {
 
                 # update preferences
-                my %QueueData = $Self->{QueueObject}->QueueGet( ID => $GetParam{QueueID} );
+                my %QueueData   = $Self->{QueueObject}->QueueGet( ID => $GetParam{QueueID} );
                 my %Preferences = ();
                 if ( $Self->{ConfigObject}->Get('QueuePreferences') ) {
                     %Preferences = %{ $Self->{ConfigObject}->Get('QueuePreferences') };
@@ -318,7 +318,7 @@ sub Run {
             if ($Id) {
 
                 # update preferences
-                my %QueueData = $Self->{QueueObject}->QueueGet( ID => $Id );
+                my %QueueData   = $Self->{QueueObject}->QueueGet( ID => $Id );
                 my %Preferences = ();
                 if ( $Self->{ConfigObject}->Get('QueuePreferences') ) {
                     %Preferences = %{ $Self->{ConfigObject}->Get('QueuePreferences') };
@@ -441,7 +441,7 @@ sub _Edit {
         $Param{Name} = $Queue[$#Queue];
     }
 
-    my %Data = $Self->{QueueObject}->QueueList( Valid => 0 );
+    my %Data      = $Self->{QueueObject}->QueueList( Valid => 0 );
     my $QueueName = '';
     for my $Key ( keys %Data ) {
         if ( $Param{QueueID} && $Param{QueueID} eq $Key ) {

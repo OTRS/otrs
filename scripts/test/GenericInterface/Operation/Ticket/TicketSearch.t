@@ -1323,7 +1323,7 @@ for my $Test (@Tests) {
         Data         => {
             SessionID => $NewSessionID,
             %{ $Test->{RequestData} },
-            }
+        }
     );
 
     # check result

@@ -108,7 +108,7 @@ my $CheckAction = sub {
             print "Waiting at most $Param{SleepAfterAction} s until scheduler gets a new PID\n";
             ACTIVESLEEP:
             for my $Seconds ( 1 .. $Param{SleepAfterAction} ) {
-                my %IntPIDInfo = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
+                my %IntPIDInfo    = $PIDObject->PIDGet( Name => 'otrs.Scheduler' );
                 my $IntStateAfter = `$Scheduler -a status`;
                 if (
                     ( $IntPIDInfo{PID} || 0 ) ne ( $PIDInfoBefore{PID} || 0 )

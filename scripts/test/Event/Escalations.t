@@ -109,12 +109,12 @@ for my $Hours ( sort keys %WorkingHours ) {
         time(),
         int( rand 1_000_000 );
     my $StartingSystemTime = $TimeObject->SystemTime();
-    my $StartingTimeStamp = $TimeObject->SystemTime2TimeStamp( SystemTime => $StartingSystemTime );
+    my $StartingTimeStamp  = $TimeObject->SystemTime2TimeStamp( SystemTime => $StartingSystemTime );
 
     # set schedule on each day
     my %Week;
     my @WindowTime = split( ',', $WorkingHours{$Hours} );
-    my @Days = qw(Sun Mon Tue Wed Thu Fri Sat);
+    my @Days       = qw(Sun Mon Tue Wed Thu Fri Sat);
     for my $Day (@Days) {
         $Week{$Day} = \@WindowTime;
     }

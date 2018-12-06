@@ -59,7 +59,7 @@ sub SendEmail {
 sub Check {
     my ( $Self, %Param ) = @_;
 
-    my $To = $Param{To} || return;
+    my $To    = $Param{To} || return;
     my $Count = 0;
 
     # check existing logfile

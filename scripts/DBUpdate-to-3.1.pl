@@ -1988,7 +1988,7 @@ sub _MigratePostMasterConfiguration {
 
     # Post Master configuration
     my $ExistingSetting = $CommonObject->{ConfigObject}->Get('PostmasterX-Header');
-    my @ValuesToSet = @{ $ExistingSetting || [] };
+    my @ValuesToSet     = @{ $ExistingSetting || [] };
 
     if ( scalar @ValuesToSet ) {
 

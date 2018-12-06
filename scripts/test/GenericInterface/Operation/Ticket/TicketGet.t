@@ -817,7 +817,7 @@ my @Tests = (
                 Error => {
                     ErrorCode    => 'TicketGet.MissingParameter',
                     ErrorMessage => 'TicketGet: TicketID parameter is missing!'
-                    }
+                }
             },
             Success => 1
         },
@@ -826,7 +826,7 @@ my @Tests = (
                 Error => {
                     ErrorCode    => 'TicketGet.MissingParameter',
                     ErrorMessage => 'TicketGet: TicketID parameter is missing!'
-                    }
+                }
             },
             Success => 1
         },
@@ -844,7 +844,7 @@ my @Tests = (
                     ErrorCode => 'TicketGet.AccessDenied',
                     ErrorMessage =>
                         'TicketGet: User does not have access to the ticket!'
-                    }
+                }
             },
             Success => 1
         },
@@ -854,7 +854,7 @@ my @Tests = (
                     ErrorCode => 'TicketGet.AccessDenied',
                     ErrorMessage =>
                         'TicketGet: User does not have access to the ticket!'
-                    }
+                }
             },
             Success => 1
         },
@@ -1163,7 +1163,7 @@ my @Tests = (
                     ErrorCode => 'TicketGet.AccessDenied',
                     ErrorMessage =>
                         'TicketGet: User does not have access to the ticket!'
-                    }
+                }
             },
             Success => 1
         },
@@ -1173,7 +1173,7 @@ my @Tests = (
                     ErrorCode => 'TicketGet.AccessDenied',
                     ErrorMessage =>
                         'TicketGet: User does not have access to the ticket!'
-                    }
+                }
             },
             Success => 1
         },
@@ -1231,7 +1231,7 @@ my @Tests = (
                     ErrorCode => 'TicketGet.AccessDenied',
                     ErrorMessage =>
                         'TicketGet: User does not have access to the ticket!'
-                    }
+                }
             },
             Success => 1
         },
@@ -1241,7 +1241,7 @@ my @Tests = (
                     ErrorCode => 'TicketGet.AccessDenied',
                     ErrorMessage =>
                         'TicketGet: User does not have access to the ticket!'
-                    }
+                }
             },
             Success => 1
         },

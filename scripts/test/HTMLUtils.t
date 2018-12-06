@@ -333,7 +333,7 @@ bgColor=#ffffff>
 for my $Test (@Tests) {
 
     # these 2 lines are for Windows check-out
-    $Test->{Input} =~ s{\r\n}{\n}smxg;
+    $Test->{Input}  =~ s{\r\n}{\n}smxg;
     $Test->{Result} =~ s{\r\n}{\n}smxg;
     my $Ascii = $HTMLUtilsObject->DocumentStrip(
         String => $Test->{Input},
@@ -1367,14 +1367,14 @@ my $InlineImage
             Success     => 1,
             Body        => qr|^$|,
             Attachments => [],
-            }
+        }
     },
     {
         Name   => 'no body',
         Body   => undef,
         Result => {
             Success => 0,
-            }
+        }
     },
     {
         Name   => 'single image',
@@ -1387,7 +1387,7 @@ my $InlineImage
                     ContentType => qr|^image/gif;|,
                 }
             ],
-            }
+        }
     },
     {
         Name   => 'two images',
@@ -1404,7 +1404,7 @@ my $InlineImage
                     ContentType => qr|^image/gif;|,
                 }
             ],
-            }
+        }
     },
     {
         Name   => 'two images, only one embedded',
@@ -1418,7 +1418,7 @@ my $InlineImage
                     ContentType => qr|^image/gif;|,
                 },
             ],
-            }
+        }
     },
     {
         Name => 'Win7 snipping tool',
@@ -1433,7 +1433,7 @@ my $InlineImage
                     ContentType => qr|^image/png;|,
                 },
             ],
-            }
+        }
     },
 );
 

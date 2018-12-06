@@ -133,7 +133,7 @@ sub Write {
     );
 
     my $DataDir = '';
-    my @Dirs = $Self->_SplitDir( Filename => $MD5 );
+    my @Dirs    = $Self->_SplitDir( Filename => $MD5 );
     for my $Dir (@Dirs) {
         $DataDir .= '/' . $Dir;
         next if -e $Self->{DataDir} . $DataDir;

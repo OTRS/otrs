@@ -697,7 +697,7 @@ sub _Mask {
 
     # build ArticleTypeID string
     my %DefaultNoteTypes = %{ $Self->{Config}->{ArticleTypes} };
-    my %NoteTypes = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
+    my %NoteTypes        = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
     for my $KeyNoteType ( keys %NoteTypes ) {
         if ( !$DefaultNoteTypes{ $NoteTypes{$KeyNoteType} } ) {
             delete $NoteTypes{$KeyNoteType};
@@ -807,7 +807,7 @@ sub _Mask {
                     TicketID      => $TicketID,
                     DynamicFields => 0,
                 );
-                my $GroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+                my $GroupID     = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
                 my %GroupMember = $Self->{GroupObject}->GroupMemberList(
                     GroupID => $GroupID,
                     Type    => 'rw',
@@ -849,7 +849,7 @@ sub _Mask {
                     TicketID      => $TicketID,
                     DynamicFields => 0,
                 );
-                my $GroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+                my $GroupID     = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
                 my %GroupMember = $Self->{GroupObject}->GroupMemberList(
                     GroupID => $GroupID,
                     Type    => 'rw',
@@ -1004,7 +1004,7 @@ sub _Mask {
             Name => 'ParentReload',
             Data => {
                 URL => $Self->{LastScreenOverview},
-                }
+            }
         );
     }
 

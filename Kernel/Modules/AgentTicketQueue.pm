@@ -370,9 +370,9 @@ sub _MaskQueueView {
             $Counter{$CustomQueue} = $Counter{ $Queue{Queue} };
             $Queue{Queue} = $CustomQueue;
         }
-        my @QueueName = split /::/, $Queue{Queue};
+        my @QueueName      = split /::/, $Queue{Queue};
         my $ShortQueueName = $QueueName[-1];
-        $Queue{MaxAge} = $Queue{MaxAge} / 60;
+        $Queue{MaxAge}  = $Queue{MaxAge} / 60;
         $Queue{QueueID} = 0 if ( !$Queue{QueueID} );
 
         $QueueStrg

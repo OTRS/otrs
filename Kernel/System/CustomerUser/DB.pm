@@ -825,7 +825,7 @@ sub SetPassword {
     my ( $Self, %Param ) = @_;
 
     my $Login = $Param{UserLogin};
-    my $Pw = $Param{PW} || '';
+    my $Pw    = $Param{PW} || '';
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {

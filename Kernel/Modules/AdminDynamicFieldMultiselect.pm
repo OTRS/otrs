@@ -139,7 +139,7 @@ sub _AddAction {
             $Self->{DynamicFieldObject}->DynamicFieldList(
                 Valid      => 0,
                 ResultType => 'HASH',
-                )
+            )
         };
 
         %DynamicFieldsList = reverse %DynamicFieldsList;
@@ -357,7 +357,7 @@ sub _ChangeAction {
             $Self->{DynamicFieldObject}->DynamicFieldList(
                 Valid      => 0,
                 ResultType => 'HASH',
-                )
+            )
         };
 
         %DynamicFieldsList = reverse %DynamicFieldsList;
@@ -691,7 +691,7 @@ sub _ShowScreen {
             DefaultValueStrg       => $DefaultValueStrg,
             PossibleNoneStrg       => $PossibleNoneStrg,
             TranslatableValuesStrg => $TranslatableValuesStrg,
-            }
+        }
     );
 
     $Output .= $Self->{LayoutObject}->Footer();

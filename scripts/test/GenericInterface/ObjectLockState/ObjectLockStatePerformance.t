@@ -30,7 +30,7 @@ my $ObjectLockStateObject = Kernel::System::GenericInterface::ObjectLockState->n
 my $RandomNumber     = int rand 10000000;
 my $CustomObjectType = "TestObject$RandomNumber";
 
-my $TimeLimit = $Self->{ConfigObject}->Get('GenericInterface::ObjectLockState::TimeLimit') || '0.5';
+my $TimeLimit     = $Self->{ConfigObject}->Get('GenericInterface::ObjectLockState::TimeLimit') || '0.5';
 my $TestDataCount = 10_000;
 
 # add config

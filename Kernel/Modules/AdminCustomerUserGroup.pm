@@ -344,7 +344,7 @@ sub _Change {
         Name => 'ActionOverview',
         Data => {
             CustomerUserSearch => $Param{CustomerUserSearch},
-            }
+        }
     );
 
     if ( $NeType eq 'CustomerUser' ) {

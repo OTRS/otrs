@@ -32,7 +32,7 @@ sub new {
 sub Param {
     my ( $Self, %Param ) = @_;
     my $PossibleSkins = $Self->{ConfigObject}->Get('Loader::Agent::Skin') || {};
-    my $Home = $Self->{ConfigObject}->Get('Home');
+    my $Home          = $Self->{ConfigObject}->Get('Home');
     my %ActiveSkins;
 
     # prepare the list of active skins

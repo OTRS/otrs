@@ -546,7 +546,7 @@ sub _Check {
         }
     }
     else {
-        my $Comment = $Module->{Comment} || '';
+        my $Comment  = $Module->{Comment} || '';
         my $Required = $Module->{Required};
         if ($Required) {
             $Required = 'Required - use "perl -MCPAN -e shell;"';

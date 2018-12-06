@@ -804,7 +804,7 @@ sub Bounce {
     }
 
     # split body && header
-    my @EmailPlain = split( /\n/, $Param{Email} );
+    my @EmailPlain  = split( /\n/, $Param{Email} );
     my $EmailObject = new Mail::Internet( \@EmailPlain );
 
     # get sender

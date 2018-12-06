@@ -679,7 +679,7 @@ sub SetPassword {
         return;
     }
 
-    my $Pw = $Param{PW} || '';
+    my $Pw        = $Param{PW} || '';
     my $CryptedPw = '';
 
     # get crypt type
@@ -806,7 +806,7 @@ sub UserLookup {
 
         # check cache
         my $CacheKey = 'UserLookup::ID::' . $Param{UserLogin};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         return $Cache if $Cache;
 
         # build sql query
@@ -846,7 +846,7 @@ sub UserLookup {
 
         # check cache
         my $CacheKey = 'UserLookup::Login::' . $Param{UserID};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         return $Cache if $Cache;
 
         # build sql query
@@ -930,7 +930,7 @@ sub UserList {
 
     # check cache
     my $CacheKey = 'UserList::' . $Type . '::' . $Param{Valid};
-    my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+    my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
     return %{$Cache} if $Cache;
 
     if ( $Type eq 'Short' ) {
@@ -1044,7 +1044,7 @@ sub SetPreferences {
     return 1 if exists $User{ $Param{Key} } && $User{ $Param{Key} } eq $Param{Value};
 
     # delete cache
-    my $Login = $Self->UserLookup( UserID => $Param{UserID} );
+    my $Login     = $Self->UserLookup( UserID => $Param{UserID} );
     my @CacheKeys = (
         'GetUserData::User::' . $Login . '::0::0',
         'GetUserData::User::' . $Login . '::0::1',

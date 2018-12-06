@@ -3879,7 +3879,7 @@ sub TicketLockSet {
         );
 
         # check if the current user is the current owner, if not send a notify
-        my $To = '';
+        my $To           = '';
         my $Notification = defined $Param{Notification} ? $Param{Notification} : 1;
         if (
             !$Param{SendNoNotification}
@@ -6213,7 +6213,7 @@ sub TicketFlagGet {
 
         # check cache
         my $CacheKey = 'TicketFlagGet::' . $Param{TicketID} . '::' . $Param{UserID};
-        my $Cache = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
+        my $Cache    = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
         return %{$Cache} if $Cache;
 
         my %Flag;

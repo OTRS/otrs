@@ -141,7 +141,7 @@ sub _Fetch {
     my $IMAPFolder = $Param{IMAPFolder} || 'INBOX';
 
     my $IMAPObject = $Connect{IMAPObject};
-    my $NOM = $IMAPObject->select($IMAPFolder) || 0;
+    my $NOM        = $IMAPObject->select($IMAPFolder) || 0;
 
     # fetch messages
     if ( !$NOM ) {
@@ -215,7 +215,7 @@ sub _Fetch {
                     my @Return = $PostMasterObject->Run( QueueID => $Param{QueueID} || 0 );
                     if ( !$Return[0] ) {
                         my $Lines = $IMAPObject->get($Messageno);
-                        my $File = $Self->_ProcessFailed( Email => $Lines );
+                        my $File  = $Self->_ProcessFailed( Email => $Lines );
                         $Self->{LogObject}->Log(
                             Priority => 'error',
                             Message  => "$AuthType: Can't process mail, see log sub system ("

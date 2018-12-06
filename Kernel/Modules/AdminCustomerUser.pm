@@ -120,7 +120,7 @@ sub Run {
 
         # get user data
         my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $User );
-        my $Output = $NavBar;
+        my $Output   = $NavBar;
         $Output .= $Self->_Edit(
             Nav    => $Nav,
             Action => 'Change',
@@ -573,7 +573,7 @@ sub _Overview {
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewResultRow',
                     Data => {
-                        Valid => $ValidList{ $UserData{ValidID} || '' } || '-',
+                        Valid  => $ValidList{ $UserData{ValidID} || '' } || '-',
                         Search => $Param{Search},
                         %UserData,
                     },

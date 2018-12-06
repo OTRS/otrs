@@ -104,7 +104,7 @@ sub new {
     # create aditional objects
     $Self->{TaskManagerObject} = Kernel::System::Scheduler::TaskManager->new( %{$Self} );
 
-    $Self->{PIDObject} = Kernel::System::PID->new( %{$Self} );
+    $Self->{PIDObject}     = Kernel::System::PID->new( %{$Self} );
     $Self->{PIDUpdateTime} = $Self->{ConfigObject}->Get('Scheduler::PIDUpdateTime') || 60;
 
     return $Self;
