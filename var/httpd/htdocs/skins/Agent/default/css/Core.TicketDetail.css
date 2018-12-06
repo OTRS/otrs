@@ -274,11 +274,6 @@ div.Headline .Flag {
    position: relative;
 }
 
-#ArticleItems .ArticleHTML,
-#ArticleItems .ArticleBody {
-    overflow: auto;
-}
-
 #ArticleItems .Incoming .ArticleMailContentHTMLWrapper,
 #ArticleItems .Incoming .ArticleHTML,
 #ArticleItems .Incoming .ArticleBody {

@@ -1,4 +1,5 @@
 #6.0.16 ????-??-??
+ - 2018-12-06 Fixed bug#[14165](https://bugs.otrs.org/show_bug.cgi?id=14165) - Article's style of plain text is wrong in AgentTicketZoom.
 
 #6.0.15 2018-12-14
  - 2018-12-05 Added possibility to display links in footer section of customer and public interface.
