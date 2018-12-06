@@ -31,7 +31,7 @@ sub new {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # get current start-hit and preferences
-    my $Name = $ParamObject->GetParam( Param => 'Name' ) || '';
+    my $Name           = $ParamObject->GetParam( Param => 'Name' ) || '';
     my $PreferencesKey = 'UserDashboardUserOutOfOffice' . $Self->{Name};
 
     $Self->{PrefKey} = 'UserDashboardPref' . $Self->{Name} . '-Shown';

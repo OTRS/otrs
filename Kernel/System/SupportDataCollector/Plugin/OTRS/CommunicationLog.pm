@@ -29,7 +29,7 @@ sub Run {
     my $Self = shift;
 
     my $CommunicationLogDBObj = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
-    my @CommunicationList = @{ $CommunicationLogDBObj->CommunicationList() || [] };
+    my @CommunicationList     = @{ $CommunicationLogDBObj->CommunicationList() || [] };
 
     my %CommunicationData = (
         All        => 0,

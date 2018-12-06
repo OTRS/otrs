@@ -1326,7 +1326,7 @@ sub MaskAgentZoom {
 
     # get MoveQueuesStrg
     if ( $ConfigObject->Get('Ticket::Frontend::MoveType') =~ /^form$/i ) {
-        $MoveQueues{0} = '- ' . $LayoutObject->{LanguageObject}->Translate('Move') . ' -';
+        $MoveQueues{0}         = '- ' . $LayoutObject->{LanguageObject}->Translate('Move') . ' -';
         $Param{MoveQueuesStrg} = $LayoutObject->AgentQueueListOption(
             Name           => 'DestQueueID',
             Data           => \%MoveQueues,
@@ -2698,7 +2698,7 @@ sub _ArticleTree {
 
                 # Modify plain text and body to avoid '</script>' tag issue (see bug#14023).
                 $Item->{ArticleData}->{ArticlePlain} =~ s{</script>}{<###/script>}xmsg;
-                $Item->{ArticleData}->{Body} =~ s{</script>}{<###/script>}xmsg;
+                $Item->{ArticleData}->{Body}         =~ s{</script>}{<###/script>}xmsg;
 
                 my %ArticleFlagsAll = $ArticleObject->ArticleFlagGet(
                     ArticleID => $Item->{ArticleID},

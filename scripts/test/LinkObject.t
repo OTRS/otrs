@@ -2996,7 +2996,7 @@ for my $ObjectCount ( 0 .. 49 ) {
         $MainObject->GenerateRandomString(
             Length     => 1,
             Dictionary => [ 0 .. 1 ],
-            )
+        )
     );
     my $Object = $ObjectNames[$ObjectCount];
     TYPE:
@@ -3007,7 +3007,7 @@ for my $ObjectCount ( 0 .. 49 ) {
             $MainObject->GenerateRandomString(
                 Length     => 1,
                 Dictionary => [ 0 .. 1 ],
-                )
+            )
         );
 
         my $Type = $TypeNames[$TypeCount];
@@ -3016,7 +3016,7 @@ for my $ObjectCount ( 0 .. 49 ) {
                 $MainObject->GenerateRandomString(
                     Length     => 1,
                     Dictionary => [ 0 .. 1 ],
-                    )
+                )
             );
         }
         my $Pointed = $TypePointedLookup{$Type};
@@ -3056,7 +3056,7 @@ for my $ObjectCount ( 0 .. 49 ) {
                 $MainObject->GenerateRandomString(
                     Length     => 1,
                     Dictionary => [ 0 .. 49 ],
-                    )
+                )
             );
             $Count > 0;
             --$Count
@@ -3072,7 +3072,7 @@ for my $ObjectCount ( 0 .. 49 ) {
                 $MainObject->GenerateRandomString(
                     Length     => 1,
                     Dictionary => [ 0 .. 1 ],
-                    )
+                )
             );
             if ($SwitchSourceTarget) {
                 $SQLFirst          = $SQLTarget;

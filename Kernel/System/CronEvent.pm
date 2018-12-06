@@ -372,7 +372,7 @@ sub _Init {
     my ( $Min, $Hour, $DayMonth, $Month, $DayWeek ) = split ' ', $Param{Schedule};
     if ( IsPositiveInteger($DayMonth) && IsPositiveInteger($Month) ) {
 
-        my @MonthLastDay = ( 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 );
+        my @MonthLastDay   = ( 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 );
         my $LastDayOfMonth = $MonthLastDay[ $Month - 1 ];
 
         if ( $DayMonth > $LastDayOfMonth ) {

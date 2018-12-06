@@ -754,7 +754,7 @@ sub TicketSearch {
             UserID => $Param{UserID} || 1,
         );
         my @StateTypes = map { $StateTypeList{$_} } @{ $Param{StateTypeIDs} };
-        my @StateIDs = $StateObject->StateGetStatesByType(
+        my @StateIDs   = $StateObject->StateGetStatesByType(
             StateType => \@StateTypes,
             Result    => 'ID',
         );
@@ -1609,7 +1609,7 @@ sub TicketSearch {
                     Hour   => $4,
                     Minute => $5,
                     Second => $6,
-                    }
+                }
             );
 
             if ( !$SystemTime ) {
@@ -1652,7 +1652,7 @@ sub TicketSearch {
                     Hour   => $4,
                     Minute => $5,
                     Second => $6,
-                    }
+                }
             );
             if ( !$SystemTime ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1749,7 +1749,7 @@ sub TicketSearch {
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     String => $Param{ $Key . 'OlderDate' },
-                    }
+                }
             );
 
             if ( !$Time ) {
@@ -1790,7 +1790,7 @@ sub TicketSearch {
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     String => $Param{ $Key . 'NewerDate' },
-                    }
+                }
             );
             if ( !$Time ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1857,7 +1857,7 @@ sub TicketSearch {
             'Kernel::System::DateTime',
             ObjectParams => {
                 String => $Param{TicketChangeTimeOlderDate},
-                }
+            }
         );
 
         if ( !$Time ) {
@@ -1898,7 +1898,7 @@ sub TicketSearch {
             'Kernel::System::DateTime',
             ObjectParams => {
                 String => $Param{TicketChangeTimeNewerDate},
-                }
+            }
         );
 
         if ( !$Time ) {
@@ -1969,7 +1969,7 @@ sub TicketSearch {
             'Kernel::System::DateTime',
             ObjectParams => {
                 String => $Param{TicketLastChangeTimeOlderDate},
-                }
+            }
         );
 
         if ( !$Time ) {
@@ -2005,7 +2005,7 @@ sub TicketSearch {
             'Kernel::System::DateTime',
             ObjectParams => {
                 String => $Param{TicketLastChangeTimeNewerDate},
-                }
+            }
         );
 
         if ( !$Time ) {
@@ -2076,7 +2076,7 @@ sub TicketSearch {
             'Kernel::System::DateTime',
             ObjectParams => {
                 String => $Param{TicketCloseTimeOlderDate},
-                }
+            }
         );
 
         if ( !$Time ) {
@@ -2133,7 +2133,7 @@ sub TicketSearch {
             'Kernel::System::DateTime',
             ObjectParams => {
                 String => $Param{TicketCloseTimeNewerDate},
-                }
+            }
         );
 
         if ( !$Time ) {
@@ -2235,7 +2235,7 @@ sub TicketSearch {
             'Kernel::System::DateTime',
             ObjectParams => {
                 String => $Param{TicketPendingTimeOlderDate},
-                }
+            }
         );
 
         if ( !$TimeStamp ) {
@@ -2270,7 +2270,7 @@ sub TicketSearch {
             'Kernel::System::DateTime',
             ObjectParams => {
                 String => $Param{TicketPendingTimeNewerDate},
-                }
+            }
         );
 
         if ( !$TimeStamp ) {
@@ -2440,7 +2440,7 @@ sub TicketSearch {
                     # For PostgreSQL and Oracle transform selected 0 values to NULL and use 'NULLS LAST'
                     #   in the end of SQL query.
                     $SQLSelect .= ', ' . $SortOptions{ $SortByArray[$Count] } . ' AS order_value ';
-                    $SQLExt .= ' order_value ';
+                    $SQLExt    .= ' order_value ';
                 }
             }
             else {
@@ -2643,7 +2643,7 @@ sub TicketCountByAttribute {
 
     # Get count from database.
     my $TicketIDString = join ',', ('?') x scalar @BindTicketIDs;
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $DBObject       = $Kernel::OM->Get('Kernel::System::DB');
     return if !$DBObject->Prepare(
         SQL =>
             'SELECT COUNT(*), ' . $DatabaseColumn

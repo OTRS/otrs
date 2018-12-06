@@ -81,7 +81,7 @@ $Selenium->RunTest(
             my $QueueName = 'Queue' . $Helper->GetRandomID();
             if ( $Item == 3 ) {
                 $QueueName = 'Delete';
-                $QueueID = $QueueObject->QueueLookup( Queue => $QueueName );
+                $QueueID   = $QueueObject->QueueLookup( Queue => $QueueName );
             }
             if ( !defined $QueueID ) {
                 $QueueID = $QueueObject->QueueAdd(

@@ -94,7 +94,7 @@ sub Run {
 
         # get user data
         my $ID = $ParamObject->GetParam( Param => 'ID' );
-        my %CustomerCompany = $CustomerCompanyObject->CustomerCompanyGet( CustomerID => $ID );
+        my %CustomerCompany     = $CustomerCompanyObject->CustomerCompanyGet( CustomerID => $ID );
         my $CustomerCompanyName = $CustomerCompany{CustomerCompanyName};
 
         # get group data

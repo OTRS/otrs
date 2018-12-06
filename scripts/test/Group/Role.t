@@ -69,7 +69,7 @@ for my $RoleName ( sort keys %RoleIDByRoleName ) {
 # try to fetch data of existing roles
 for my $RoleName ( sort keys %RoleIDByRoleName ) {
     my $RoleID = $RoleIDByRoleName{$RoleName};
-    my %Role = $GroupObject->RoleGet( ID => $RoleID );
+    my %Role   = $GroupObject->RoleGet( ID => $RoleID );
 
     $Self->Is(
         $Role{Name},

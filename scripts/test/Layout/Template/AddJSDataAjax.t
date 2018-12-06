@@ -31,7 +31,7 @@ Core.Config.AddConfig({"Key1":"Value1"});
             'Key1' => {
                 '1' => '2',
                 '3' => '4'
-                }
+            }
         },
         Result => '
 <script type="text/javascript">//<![CDATA[

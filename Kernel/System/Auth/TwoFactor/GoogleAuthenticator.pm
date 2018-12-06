@@ -47,7 +47,7 @@ sub Auth {
         }
     }
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
     my $SecretPreferencesKey = $ConfigObject->Get("AuthTwoFactorModule$Self->{Count}::SecretPreferencesKey") || '';
     if ( !$SecretPreferencesKey ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -146,12 +146,12 @@ sub _GenerateOTP {
     # encrypt timestamp with secret
     my $PackedTimeStamp = pack 'H*', $PaddedTimeStamp;
     my $Base32Secret = $Self->_DecodeBase32( Secret => $Param{Secret} );
-    my $HMAC = hmac_hex( $PackedTimeStamp, $Base32Secret, \&sha1 );
+    my $HMAC         = hmac_hex( $PackedTimeStamp, $Base32Secret, \&sha1 );
 
     # now treat hmac to get 6 numerical digits
 
     # Use 4 last bits as offset, then truncate to 4 bytes starting at the offset and remove most significant bit
-    my $Offset = hex( substr( $HMAC, -1 ) );
+    my $Offset        = hex( substr( $HMAC, -1 ) );
     my $TruncatedHMAC = hex( substr( $HMAC, $Offset * 2, 8 ) ) & 0x7fffffff;
 
     # use last 6 digits (modulo 1.000.000) as token

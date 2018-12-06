@@ -163,8 +163,8 @@ my $CheckEmailContentDisposition = sub {
     my $Body = $Email->{Message}->{Body};
 
     # Search for the image content-type and then get the content-disposition.
-    my $Pos = index $Body, 'Content-Type: image/png;';
-    my $Substr = substr $Body, $Pos;
+    my $Pos                  = index $Body, 'Content-Type: image/png;';
+    my $Substr               = substr $Body, $Pos;
     my ($ContentDisposition) = ( $Substr =~ m/Content-Disposition: (\w+);/i );
 
     $Self->Is(

@@ -189,7 +189,7 @@ my @Tests = (
                 },
                 AgentLoginLogo123 => {
                     EffectiveValue => 'Test Modified URL',
-                    }
+                }
             },
         },
         Config => {

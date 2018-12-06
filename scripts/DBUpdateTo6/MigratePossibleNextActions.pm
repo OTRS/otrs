@@ -28,7 +28,7 @@ sub Run {
 
     my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
 
-    my $SettingName = 'PossibleNextActions';
+    my $SettingName         = 'PossibleNextActions';
     my $PossibleNextActions = $Kernel::OM->Get('Kernel::Config')->Get($SettingName) || {};
 
     # create a lookup array to no not modify the looping variable

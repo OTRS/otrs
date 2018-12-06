@@ -38,7 +38,7 @@ sub Run {
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
-        my $ID = $ParamObject->GetParam( Param => 'ID' ) || '';
+        my $ID   = $ParamObject->GetParam( Param => 'ID' ) || '';
         my %Data = $SignatureObject->SignatureGet(
             ID => $ID,
         );

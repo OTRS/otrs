@@ -350,7 +350,7 @@ sub Run {
     # Extend the data include payload.
     $DataInclude{RequesterResponseInput} = $FunctionResult->{Data};
 
-    my $DataIn = $FunctionResult->{Data};
+    my $DataIn      = $FunctionResult->{Data};
     my $SizeExeeded = $FunctionResult->{SizeExeeded} || 0;
 
     if ($SizeExeeded) {

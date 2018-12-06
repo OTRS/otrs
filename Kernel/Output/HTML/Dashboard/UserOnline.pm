@@ -31,7 +31,7 @@ sub new {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # get current filter
-    my $Name = $ParamObject->GetParam( Param => 'Name' ) || '';
+    my $Name           = $ParamObject->GetParam( Param => 'Name' ) || '';
     my $PreferencesKey = 'UserDashboardUserOnlineFilter' . $Self->{Name};
     if ( $Self->{Name} eq $Name ) {
         $Self->{Filter} = $ParamObject->GetParam( Param => 'Filter' ) || '';
@@ -198,7 +198,7 @@ sub Run {
             || $Online->{UserData}->{ $Data{UserType} }->{ $Data{UserID} }->{UserLastRequest} < $Data{UserLastRequest}
             )
         {
-            $Online->{User}->{ $Data{UserType} }->{ $Data{UserID} } = $Data{$SortBy};
+            $Online->{User}->{ $Data{UserType} }->{ $Data{UserID} }     = $Data{$SortBy};
             $Online->{UserData}->{ $Data{UserType} }->{ $Data{UserID} } = { %Data, %AgentData };
         }
     }

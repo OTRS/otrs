@@ -562,7 +562,7 @@ sub Run {
         }
 
         # Add ActivityDialog to Dialog
-        my @Keys = sort { $a <=> $b } keys %{ $ActivityData->{Config}->{ActivityDialog} };
+        my @Keys   = sort { $a <=> $b } keys %{ $ActivityData->{Config}->{ActivityDialog} };
         my $NewKey = 1;
         if (@Keys) {
             my $LastKey = pop @Keys;
@@ -802,7 +802,7 @@ sub _ShowEdit {
                 Name => 'EditWarning',
                 Data => {
                     ProcessList => join( ', ', @{$AffectedProcesses} ),
-                    }
+                }
             );
         }
 
@@ -970,7 +970,7 @@ sub _PopupResponse {
             Value => {
                 ConfigJSON => $Param{ConfigJSON},
                 %{ $Param{Screen} },
-                }
+            }
         );
     }
     elsif ( $Param{ClosePopup} && $Param{ClosePopup} eq 1 ) {
@@ -980,7 +980,7 @@ sub _PopupResponse {
             Key   => 'ClosePopup',
             Value => {
                 ConfigJSON => $Param{ConfigJSON},
-                }
+            }
         );
     }
 

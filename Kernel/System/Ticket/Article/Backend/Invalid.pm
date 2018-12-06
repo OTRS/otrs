@@ -156,7 +156,7 @@ sub ArticleDelete {
     if ( ref $CommunicationChannel{ChannelData} eq 'HASH' ) {
         %ChannelData = %{ $CommunicationChannel{ChannelData} };
     }
-    my @ArticleDataTables = @{ $ChannelData{ArticleDataTables} // [] };
+    my @ArticleDataTables         = @{ $ChannelData{ArticleDataTables} // [] };
     my $ArticleDataArticleIDField = $ChannelData{ArticleDataArticleIDField};
 
     # Delete depending Article data.

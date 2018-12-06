@@ -230,7 +230,7 @@ sub Run {
 sub _AttributesGet {
     my ( $Self, %Param ) = @_;
 
-    my @AttributeArray = split ';', $Param{Attributes};
+    my @AttributeArray  = split ';', $Param{Attributes};
     my $CustomerCompany = $Param{CustomerCompany};
     my @Map;
 

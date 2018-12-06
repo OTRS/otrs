@@ -68,7 +68,7 @@ $Selenium->RunTest(
             "Ticket ID $TicketID is created",
         );
 
-        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
         my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Phone' );
 
         # Create test email Article.

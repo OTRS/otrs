@@ -222,7 +222,7 @@ sub Run {
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     Epoch => $SystemMaintenanceData->{$Key},
-                    }
+                }
             );
             $SystemMaintenanceData->{ $Key . 'TimeStamp' } =
                 $DateTimeObject ? $DateTimeObject->ToString() : undef;

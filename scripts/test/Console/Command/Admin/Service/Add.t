@@ -85,7 +85,7 @@ $Self->Is(
 );
 
 # Parent (two levels) and child same name.
-$ExitCode = $CommandObject->Execute( '--name', $ParentServiceName, '--parent-name', $ServiceName );
+$ExitCode    = $CommandObject->Execute( '--name', $ParentServiceName, '--parent-name', $ServiceName );
 $ServiceName = $ServiceName . '::' . $ParentServiceName;
 $Self->Is(
     $ExitCode,

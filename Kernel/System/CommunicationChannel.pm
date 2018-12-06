@@ -517,7 +517,7 @@ sub ChannelSync {
 
     # Get channel registration data.
     my $ChannelRegistration = $Kernel::OM->Get('Kernel::Config')->Get('CommunicationChannel');
-    my %ChannelsRegistered = map { $_ => 1 } keys %{ $ChannelRegistration // {} };
+    my %ChannelsRegistered  = map { $_ => 1 } keys %{ $ChannelRegistration // {} };
 
     # Merge the already known and registered channels.
     %CommunicationChannels = (
@@ -786,7 +786,7 @@ sub ChannelDrop {
     # Drop article storage tables.
     if (@TablesToDrop) {
         my $TableList = join ', ', @TablesToDrop;
-        my $DBType = $DBObject->{'DB::Type'};
+        my $DBType    = $DBObject->{'DB::Type'};
 
         if ( $DBType eq 'mysql' ) {
 

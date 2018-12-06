@@ -672,7 +672,7 @@ for my $Test (@Tests) {
         Objects => [ 'Kernel::System::OTRSBusiness', 'Kernel::System::Package' ],
     );
 
-    $Test->{OTRSBusinessOptions}->{OTRSBusinessIsInstalled} // 0;
+    $Test->{OTRSBusinessOptions}->{OTRSBusinessIsInstalled}  // 0;
     $Test->{OTRSBusinessOptions}->{OTRSBusinessIsUpdateable} // 0;
 
     no warnings 'once';    ## no critic

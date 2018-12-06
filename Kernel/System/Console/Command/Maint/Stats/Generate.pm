@@ -144,7 +144,7 @@ sub PreRun {
 
     # if params have been passed, we build up a body containing the configured params
     # which is then used as default
-    $Self->{Params} = $Self->GetOption('params');
+    $Self->{Params}   = $Self->GetOption('params');
     $Self->{MailBody} = $Self->GetOption('mail-body') || '';
     if ( !$Self->{MailBody} && $Self->{Params} ) {
         $Self->{MailBody} .= "Stats with following options:\n\n";
@@ -257,7 +257,7 @@ sub Run {
             StatID   => $Self->{StatID},
             GetParam => \%GetParam,
             UserID   => 1,
-            )
+        )
     };
 
     # generate output

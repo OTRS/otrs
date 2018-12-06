@@ -32,7 +32,7 @@ sub Run {
     my $OTRSBusinessObject = $Kernel::OM->Get('Kernel::System::OTRSBusiness');
 
     # get config options
-    my $Group = $Param{Config}->{Group} || 'admin';
+    my $Group       = $Param{Config}->{Group} || 'admin';
     my $IsInstalled = $OTRSBusinessObject->OTRSBusinessIsInstalled();
     my $OTRSBusinessLabel;
     if ( $OTRSBusinessObject->OTRSSTORMIsInstalled() ) {

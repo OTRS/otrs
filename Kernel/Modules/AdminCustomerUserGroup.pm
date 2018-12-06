@@ -566,7 +566,7 @@ sub _Overview {
         Data => {
             %Param,
             OverviewLink => $Self->{Action},
-            }
+        }
     );
 
     $LayoutObject->Block( Name => 'ActionList' );

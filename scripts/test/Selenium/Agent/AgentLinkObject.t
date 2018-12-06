@@ -204,7 +204,7 @@ $Selenium->RunTest(
 
         # Ticket::SubjectSize is set to 60 at the beginning of test.
         my $ShortTitle = substr( $LongTicketTitle, 0, 57 ) . "...";
-        my $Success = $TicketObject->TicketTitleUpdate(
+        my $Success    = $TicketObject->TicketTitleUpdate(
             Title    => $LongTicketTitle,
             TicketID => $TicketIDs[1],
             UserID   => 1,

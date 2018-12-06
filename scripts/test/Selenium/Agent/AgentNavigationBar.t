@@ -61,7 +61,7 @@ $Selenium->RunTest(
                 TargetOffset => {
                     X => 0,
                     Y => 0,
-                    }
+                }
             );
 
             # Wait for the success arrow to show up.

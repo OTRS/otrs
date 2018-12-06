@@ -107,7 +107,7 @@ sub Run {
 
         # get customer data
         my $ID = $ParamObject->GetParam( Param => 'ID' );
-        my %CustomerCompany = $CustomerCompanyObject->CustomerCompanyGet( CustomerID => $ID );
+        my %CustomerCompany     = $CustomerCompanyObject->CustomerCompanyGet( CustomerID => $ID );
         my $CustomerCompanyName = $CustomerCompany{CustomerCompanyName};
 
         # search customer user

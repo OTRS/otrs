@@ -123,7 +123,7 @@ sub Write {
     );
 
     my $DataDir = '';
-    my @Dirs = $Self->_SplitDir( Filename => $MD5 );
+    my @Dirs    = $Self->_SplitDir( Filename => $MD5 );
 
     DIRECTORY:
     for my $Dir (@Dirs) {

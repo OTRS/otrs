@@ -348,7 +348,7 @@ sub ObjectInstanceRegister {
         $Self->_DieWithError( Error => 'Need $Param{Package} is already registered.' );
     }
 
-    $Self->{Objects}->{ $Param{Package} } = $Param{Object};
+    $Self->{Objects}->{ $Param{Package} }            = $Param{Object};
     $Self->{ObjectDependencies}->{ $Param{Package} } = $Param{Dependencies} // [];
 
     return 1;

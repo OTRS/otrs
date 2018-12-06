@@ -25,8 +25,8 @@ $ConfigObject->Set(
     Value => {
         '0400-Attachments' => {
             Module => 'Kernel::System::PostMaster::FollowUpCheck::Attachments',
-            }
         }
+    }
 );
 
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');

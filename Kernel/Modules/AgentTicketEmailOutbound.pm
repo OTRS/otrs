@@ -136,7 +136,7 @@ sub Run {
         my $NextStates = $Self->_GetNextStates(
             %GetParam,
             CustomerUserID => $CustomerUser || '',
-            QueueID => $QueueID,
+            QueueID        => $QueueID,
         );
 
         # update Dynamic Fields Possible Values via AJAX
@@ -1268,7 +1268,7 @@ sub SendEmail {
     if (%Error) {
 
         my $QueueID = $TicketObject->TicketQueueID( TicketID => $Self->{TicketID} );
-        my $Output = $LayoutObject->Header(
+        my $Output  = $LayoutObject->Header(
             Type      => 'Small',
             BodyClass => 'Popup',
         );
@@ -1360,7 +1360,7 @@ sub SendEmail {
     }
 
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-    my $ArticleID = $ArticleObject->BackendForChannel( ChannelName => 'Email' )->ArticleSend(
+    my $ArticleID     = $ArticleObject->BackendForChannel( ChannelName => 'Email' )->ArticleSend(
         SenderType           => 'agent',
         IsVisibleForCustomer => $GetParam{IsVisibleForCustomer} // 0,
         TicketID             => $Self->{TicketID},

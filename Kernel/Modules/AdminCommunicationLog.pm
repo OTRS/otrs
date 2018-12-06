@@ -314,7 +314,7 @@ sub _ShowOverview {
     }
 
     # Build nav bar.
-    my $Limit = $Param{Limit} || 20_000;
+    my $Limit   = $Param{Limit} || 20_000;
     my %PageNav = $LayoutObject->PageNavBar(
         Limit     => $Limit,
         StartHit  => $Param{StartHit},
@@ -853,7 +853,7 @@ sub _GetCommunicationLog {
     }
 
     # Build nav bar.
-    my $Limit = $Param{Limit} || 20_000;
+    my $Limit   = $Param{Limit} || 20_000;
     my %PageNav = $LayoutObject->PageNavBar(
         Limit     => $Limit,
         StartHit  => $Param{StartHit},

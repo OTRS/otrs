@@ -222,7 +222,7 @@ my @Tests = (
             FieldType  => 'Dropdown',
             Config     => {
                 PossibleValues => '',
-                }
+            }
         },
         ObjectID  => $TicketID,
         Value     => 'a text',
@@ -254,7 +254,7 @@ my @Tests = (
             FieldType  => 'Multiselect',
             Config     => {
                 PossibleValues => '',
-                }
+            }
         },
         ObjectID  => $TicketID,
         Value     => 'a text',

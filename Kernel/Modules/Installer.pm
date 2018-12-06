@@ -946,7 +946,7 @@ sub Run {
 
         # Set a generated password for the 'root@localhost' account.
         my $UserObject = $Kernel::OM->Get('Kernel::System::User');
-        my $Password = $UserObject->GenerateRandomPassword( Size => 16 );
+        my $Password   = $UserObject->GenerateRandomPassword( Size => 16 );
         $UserObject->SetPassword(
             UserLogin => 'root@localhost',
             PW        => $Password,

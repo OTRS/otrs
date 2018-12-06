@@ -709,7 +709,7 @@ for my $Test (@Tests) {
 
     # get the old ActivityDialog (if any)
     my $OldActivityDialog = $ActivityDialogObject->ActivityDialogGet(
-        ID => $Test->{Config}->{ID} || 0,
+        ID     => $Test->{Config}->{ID} || 0,
         UserID => $Test->{Config}->{UserID},
     );
 

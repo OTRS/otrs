@@ -54,7 +54,7 @@ my $RandomID = $Helper->GetRandomID();
 
 # Create test user.
 my $TestUserLogin = $Helper->TestUserCreate();
-my $TestUserID = $UserObject->UserLookup( UserLogin => $TestUserLogin );
+my $TestUserID    = $UserObject->UserLookup( UserLogin => $TestUserLogin );
 
 # Add offending keys with corresponding values to preferences of the test user.
 my %UserTestKeys = (

@@ -468,7 +468,7 @@ sub ProcessTransition {
             $ActivityObject->ActivityGet(
                 Interface        => 'all',
                 ActivityEntityID => $Transitions{$TransitionEntityID}->{ActivityEntityID}
-                )
+            )
         )
         )
     {

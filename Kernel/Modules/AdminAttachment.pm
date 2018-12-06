@@ -36,7 +36,7 @@ sub Run {
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
-        my $ID = $ParamObject->GetParam( Param => 'ID' ) || '';
+        my $ID   = $ParamObject->GetParam( Param => 'ID' ) || '';
         my %Data = $StdAttachmentObject->StdAttachmentGet(
             ID => $ID,
         );
@@ -223,7 +223,7 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        my $ID = $ParamObject->GetParam( Param => 'ID' );
+        my $ID     = $ParamObject->GetParam( Param => 'ID' );
         my $Delete = $StdAttachmentObject->StdAttachmentDelete(
             ID => $ID,
         );

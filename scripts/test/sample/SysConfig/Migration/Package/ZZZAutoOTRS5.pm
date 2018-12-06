@@ -24,7 +24,7 @@ sub Load {
             'JavaScript' => [
                 'Core.UI.AllocationList.js',
                 'Core.Agent.TableFilters.js'
-                ]
+            ]
         },
         'NavBar' => [
             {
@@ -64,7 +64,7 @@ sub Load {
                 'Core.Agent.CustomerSearch.js',
                 'Core.Agent.TicketAction.js',
                 'Core.Agent.TicketProcess.js'
-                ]
+            ]
         },
         'NavBar' => [
             {

@@ -414,7 +414,7 @@ for my $Test (@Tests) {
         my %BuildSelectionParams = %{ $Test->{Config} };
         if ($DateTimeAsParams) {
             my $DateTimeValues = $DateTimeObject->Get();
-            my $Prefix = $BuildSelectionParams{Prefix} || '';
+            my $Prefix         = $BuildSelectionParams{Prefix} || '';
             $BuildSelectionParams{ $Prefix . 'Year' }   = $DateTimeValues->{Year};
             $BuildSelectionParams{ $Prefix . 'Month' }  = $DateTimeValues->{Month};
             $BuildSelectionParams{ $Prefix . 'Day' }    = $DateTimeValues->{Day};

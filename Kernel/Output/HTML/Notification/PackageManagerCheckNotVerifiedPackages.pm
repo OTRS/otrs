@@ -28,7 +28,7 @@ sub Run {
     return '' if !$PackageAllowNotVerifiedPackages;
 
     # Check permissions.
-    my $Group = $Param{Config}->{Group} || 'admin';
+    my $Group         = $Param{Config}->{Group} || 'admin';
     my $HasPermission = $Kernel::OM->Get('Kernel::System::Group')->PermissionCheck(
         UserID    => $Self->{UserID},
         GroupName => $Group,

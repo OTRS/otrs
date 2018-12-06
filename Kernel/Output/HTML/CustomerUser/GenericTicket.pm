@@ -76,7 +76,7 @@ sub Run {
 
     # get all attributes
     my %TicketSearch = ();
-    my @Params = split /;/, $Param{Config}->{Attributes};
+    my @Params       = split /;/, $Param{Config}->{Attributes};
     STRING:
     for my $String (@Params) {
         next STRING if !$String;
@@ -88,7 +88,7 @@ sub Run {
             my $Object = $Lookup{$Key}->{Object}->new( %{$Self} );
             my $Method = $Lookup{$Key}->{Method};
             $Value = $Object->$Method( $Lookup{$Key}->{Input} => $Value );
-            $Key = $Lookup{$Key}->{Return};
+            $Key   = $Lookup{$Key}->{Return};
         }
 
         # build link and search attributes

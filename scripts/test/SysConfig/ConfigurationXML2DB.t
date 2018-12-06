@@ -287,7 +287,7 @@ my @Tests = (
                                 },
                             ],
                         },
-                        ]
+                    ]
                 },
                 'XMLContentRaw' =>
                     "<Setting Name=\"DashboardBackend###0100-TicketPendingReminder\" Required=\"0\" Valid=\"1\">

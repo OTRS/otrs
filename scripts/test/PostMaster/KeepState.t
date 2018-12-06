@@ -50,7 +50,7 @@ my %MainTicket = $TicketObject->TicketGet(
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # get current XHeaders
-my @XHeaders = @{ $ConfigObject->Get('PostmasterX-Header') };
+my @XHeaders        = @{ $ConfigObject->Get('PostmasterX-Header') };
 my $KeepStateHeader = $ConfigObject->Get('KeepStateHeader') || 'X-OTRS-FollowUp-State-Keep';
 
 # make sure Keep state header is not in this list

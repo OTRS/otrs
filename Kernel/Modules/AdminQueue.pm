@@ -38,7 +38,7 @@ sub Run {
     );
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $QueueID = $ParamObject->GetParam( Param => 'QueueID' ) || '';
+    my $QueueID     = $ParamObject->GetParam( Param => 'QueueID' ) || '';
 
     my @Params = (
         qw(
@@ -168,7 +168,7 @@ sub Run {
             ID   => $GetParam{QueueID}
         );
         if ($NameExists) {
-            $Errors{NameExists} = 1;
+            $Errors{NameExists}    = 1;
             $Errors{'NameInvalid'} = 'ServerError';
         }
 
@@ -438,7 +438,7 @@ sub Run {
         # check if a queue exist with this name
         my $NameExists = $QueueObject->NameExistsCheck( Name => $GetParam{Name} );
         if ($NameExists) {
-            $Errors{NameExists} = 1;
+            $Errors{NameExists}    = 1;
             $Errors{'NameInvalid'} = 'ServerError';
         }
 
@@ -579,7 +579,7 @@ sub _Edit {
         Data => {
             $Kernel::OM->Get('Kernel::System::Group')->GroupList(
                 Valid => 1,
-                )
+            )
         },
         Translation => 0,
         Name        => 'GroupID',
@@ -600,7 +600,7 @@ sub _Edit {
     }
 
     my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
-    my %Data = $QueueObject->QueueList( Valid => 0 );
+    my %Data        = $QueueObject->QueueList( Valid => 0 );
 
     my $QueueName = '';
     if ( $Param{QueueID} ) {

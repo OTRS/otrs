@@ -214,7 +214,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
         my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Phone' );
 
         # Create test email Article.

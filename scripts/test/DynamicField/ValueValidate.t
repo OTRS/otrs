@@ -631,8 +631,8 @@ my @Tests = (
                     /\s/,
                     $CurrentSystemTime2Timestamp->(
                         Yield => sub { shift->Add( Seconds => 259200 ); },
-                        )
                     )
+                )
                 )[0]
                 . " 00:00:00",
             UserID => $UserID,
@@ -649,8 +649,8 @@ my @Tests = (
                     /\s/,
                     $CurrentSystemTime2Timestamp->(
                         Yield => sub { shift->Subtract( Seconds => 259200 ); },
-                        )
                     )
+                )
                 )[0]
                 . " 00:00:00",
             UserID => $UserID,
@@ -666,7 +666,7 @@ my @Tests = (
                 split(
                     /\s/,
                     $CurrentSystemTime2Timestamp->()
-                    )
+                )
                 )[0]
                 . " 00:00:00",
             UserID => $UserID,
@@ -683,8 +683,8 @@ my @Tests = (
                     /\s/,
                     $CurrentSystemTime2Timestamp->(
                         Yield => sub { shift->Add( Seconds => 259200 ); },
-                        )
                     )
+                )
                 )[0]
                 . " 00:00:00",
             UserID => $UserID,
@@ -700,7 +700,7 @@ my @Tests = (
                 split(
                     /\s/,
                     $CurrentSystemTime2Timestamp->()
-                    )
+                )
                 )[0]
                 . " 00:00:00",
             UserID => $UserID,
@@ -717,8 +717,8 @@ my @Tests = (
                     /\s/,
                     $CurrentSystemTime2Timestamp->(
                         Yield => sub { shift->Subtract( Seconds => 259200 ); },
-                        )
                     )
+                )
                 )[0]
                 . " 00:00:00",
             UserID => $UserID,

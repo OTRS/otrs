@@ -44,7 +44,7 @@ sub Configure {
 sub PreRun {
     my ( $Self, %Param ) = @_;
 
-    my @TicketIDs     = @{ $Self->GetOption('ticket-id') //     [] };
+    my @TicketIDs     = @{ $Self->GetOption('ticket-id')     // [] };
     my @TicketNumbers = @{ $Self->GetOption('ticket-number') // [] };
 
     if ( !@TicketIDs && !@TicketNumbers ) {
@@ -59,7 +59,7 @@ sub Run {
 
     $Self->Print("<yellow>Deleting tickets...</yellow>\n");
 
-    my @TicketIDs     = @{ $Self->GetOption('ticket-id') //     [] };
+    my @TicketIDs     = @{ $Self->GetOption('ticket-id')     // [] };
     my @TicketNumbers = @{ $Self->GetOption('ticket-number') // [] };
 
     my @DeleteTicketIDs;

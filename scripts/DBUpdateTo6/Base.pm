@@ -49,7 +49,7 @@ sub RebuildConfig {
     my ( $Self, %Param ) = @_;
 
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
+    my $Verbose         = $Param{CommandlineOptions}->{Verbose} || 0;
 
     my $CleanUp = $Param{CleanUpIfPossible} ? 1 : 0;
 

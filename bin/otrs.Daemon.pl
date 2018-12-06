@@ -61,7 +61,7 @@ if ( $NodeID !~ m{ \A \d+ \z }xms && $NodeID > 0 && $NodeID < 1000 ) {
 }
 
 # get pid directory
-my $PIDDir = $ConfigObject->Get('Daemon::PID::Path') || $ConfigObject->Get('Home') . '/var/run/';
+my $PIDDir  = $ConfigObject->Get('Daemon::PID::Path') || $ConfigObject->Get('Home') . '/var/run/';
 my $PIDFile = $PIDDir . "Daemon-NodeID-$NodeID.pid";
 my $PIDFH;
 
@@ -204,7 +204,7 @@ sub Start {
 
     my $DaemonChecker = 1;
     my $DaemonSuspend;
-    local $SIG{INT} = sub { $DaemonChecker = 0; $DaemonSuspend = 0; };
+    local $SIG{INT}  = sub { $DaemonChecker = 0; $DaemonSuspend  = 0; };
     local $SIG{TERM} = sub { $DaemonChecker = 0; $DaemonStopWait = 5; $DaemonSuspend = 0; };
     local $SIG{CHLD} = "IGNORE";
     local $SIG{HUP}  = sub {
@@ -524,7 +524,7 @@ sub _LogFilesSet {
     return 1 if $RotationType ne 'otrs';
 
     # remove not needed log files if OTRS rotation is enabled
-    my $DaysToKeep = $ConfigObject->Get('Daemon::Log::DaysToKeep') || 1;
+    my $DaysToKeep     = $ConfigObject->Get('Daemon::Log::DaysToKeep') || 1;
     my $DaysToKeepTime = $SystemTime - $DaysToKeep * 24 * 60 * 60;
 
     my @LogFiles = glob "$LogDir/*.log";

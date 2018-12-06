@@ -64,7 +64,7 @@ sub Run {
     }
     elsif ( $Param{GetParam}->{'Content-Type'} =~ /application\/(x-pkcs7|pkcs7)-mime/i ) {
         $EncryptionMethod = 'SMIME';
-        $ContentType = $Param{GetParam}->{'Content-Type'} || '';
+        $ContentType      = $Param{GetParam}->{'Content-Type'} || '';
     }
     else {
         CONTENT:
@@ -255,7 +255,7 @@ sub _DecryptSMIME {
     $DecryptBody = $ParserObject->GetMessageBody();
 
     if ( $Param{JobConfig}->{StoreDecryptedBody} ) {
-        $Param{GetParam}->{Body} = $DecryptBody;
+        $Param{GetParam}->{Body}           = $DecryptBody;
         $Param{GetParam}->{'Content-Type'} = 'text/html';
     }
 

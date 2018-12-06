@@ -577,7 +577,7 @@ sub Run {
         );
     }
 
-    my $CacheKey = join '-', $Self->{Name}, $Self->{Action}, $Self->{PageShown}, $Self->{StartHit}, $Self->{UserID};
+    my $CacheKey     = join '-', $Self->{Name}, $Self->{Action}, $Self->{PageShown}, $Self->{StartHit}, $Self->{UserID};
     my $CacheColumns = join(
         ',',
         map { $_ . '=>' . $Self->{GetColumnFilterSelect}->{$_} } sort keys %{ $Self->{GetColumnFilterSelect} }
@@ -1033,7 +1033,7 @@ sub Run {
     $LayoutObject->AddJSData(
         Key   => 'InitContainerDashboard' . $Self->{Name},
         Value => {
-            SortBy => $Self->{SortBy} || 'Age',
+            SortBy  => $Self->{SortBy} || 'Age',
             OrderBy => $TicketSearch{OrderBy},
         },
     );
@@ -2435,7 +2435,7 @@ sub _SearchParamsGet {
         %TicketSearch,
         %DynamicFieldsParameters,
         Permission => $Self->{Config}->{Permission} || 'ro',
-        UserID => $Self->{UserID},
+        UserID     => $Self->{UserID},
     );
 
     # CustomerInformationCenter shows data per CustomerID
@@ -2490,7 +2490,7 @@ sub _SearchParamsGet {
         },
         Responsible => {
             ResponsibleIDs => $TicketSearch{ResponsibleIDs} // [ $Self->{UserID}, ],
-            LockIDs => $TicketSearch{LockIDs} // undef,
+            LockIDs        => $TicketSearch{LockIDs}        // undef,
         },
         MyQueues => {
             QueueIDs => \@MyQueues,
@@ -2503,7 +2503,7 @@ sub _SearchParamsGet {
         },
         All => {
             OwnerIDs => $TicketSearch{OwnerIDs} // undef,
-            LockIDs  => $TicketSearch{LockIDs} // undef,
+            LockIDs  => $TicketSearch{LockIDs}  // undef,
         },
     );
 

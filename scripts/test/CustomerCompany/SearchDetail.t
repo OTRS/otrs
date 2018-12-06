@@ -186,7 +186,7 @@ my %ReferenceCustomerCompanySearchFields = (
 
 my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
 
-my @CustomerCompanySearchFields = $CustomerCompanyObject->CustomerCompanySearchFields();
+my @CustomerCompanySearchFields       = $CustomerCompanyObject->CustomerCompanySearchFields();
 my %LookupCustomerCompanySearchFields = map { $_->{Name} => $_ } @CustomerCompanySearchFields;
 
 for my $FieldName ( sort keys %ReferenceCustomerCompanySearchFields ) {
@@ -790,7 +790,7 @@ for my $Test (@SearchTests) {
 
         # check if all ids that belongs to this searchtest are returned
         my @ReferenceCustomerCompanyIDs = keys %{ $CustomerCompanyiesForSearchTest{$TestCount} };
-        my %ReturnedCustomerCompanyIDs = map { $_ => 1 } @{$CustomerCompanyIDs};
+        my %ReturnedCustomerCompanyIDs  = map { $_ => 1 } @{$CustomerCompanyIDs};
         for my $CustomerCompany (@ReferenceCustomerCompanyIDs) {
             $Self->True(
                 $ReturnedCustomerCompanyIDs{$CustomerCompany},

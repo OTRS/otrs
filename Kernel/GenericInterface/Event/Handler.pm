@@ -68,7 +68,7 @@ sub Run {
     my $RequesterObject  = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
     my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
 
-    my %WebserviceList = %{ $WebserviceObject->WebserviceList( Valid => 1 ) };
+    my %WebserviceList   = %{ $WebserviceObject->WebserviceList( Valid => 1 ) };
     my %RegisteredEvents = $Kernel::OM->Get('Kernel::System::Event')->EventList();
 
     # Loop over web services.

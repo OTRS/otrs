@@ -61,7 +61,7 @@ for my $TestCommunication (@Communications) {
             'Kernel::System::DateTime',
             ObjectParams => {
                 String => $TestCommunication->{Date}
-                }
+            }
         );
         $HelperObject->FixedTimeSet($TestDateTimeObject);
     }
@@ -71,7 +71,7 @@ for my $TestCommunication (@Communications) {
         ObjectParams => {
             Transport => $TestCommunication->{Transport},
             Direction => $TestCommunication->{Direction},
-            }
+        }
     );
 
     if ( $TestCommunication->{Status} ) {

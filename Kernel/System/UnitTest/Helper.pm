@@ -142,7 +142,7 @@ my %GetRandomNumberPrevious;
 sub GetRandomNumber {
 
     my $PIDReversed = reverse $$;
-    my $PID = reverse sprintf '%.6d', $PIDReversed;
+    my $PID         = reverse sprintf '%.6d', $PIDReversed;
 
     my $Prefix = $PID . substr time(), -5, 5;
 
@@ -709,7 +709,7 @@ use warnings;
 sub CustomCodeActivate {
     my ( $Self, %Param ) = @_;
 
-    my $Code = $Param{Code};
+    my $Code       = $Param{Code};
     my $Identifier = $Param{Identifier} || $Self->GetRandomNumber();
 
     die "Need 'Code'" if !defined $Code;
@@ -984,7 +984,7 @@ sub TestDatabaseCleanup {
 
     if ( scalar @Tables ) {
         my $TableList = join ', ', sort @Tables;
-        my $DBType = $DBObject->{'DB::Type'};
+        my $DBType    = $DBObject->{'DB::Type'};
 
         if ( $DBType eq 'mysql' ) {
 

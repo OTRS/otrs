@@ -206,7 +206,7 @@ $Selenium->RunTest(
 
         # Get test ticket ID.
         my @TicketZoomUrl = split( 'Action=AgentTicketZoom;TicketID=', $Url );
-        my $TicketID = $TicketZoomUrl[1];
+        my $TicketID      = $TicketZoomUrl[1];
 
         # Verify article attachment is created.
         $Self->True(

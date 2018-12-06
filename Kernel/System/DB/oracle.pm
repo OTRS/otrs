@@ -927,7 +927,7 @@ sub UniqueCreate {
             $CreateUniqueSQL .= ', ';
         }
         $CreateUniqueSQL .= $Array[$_]->{Name};
-        $Name .= '_' . $Array[$_]->{Name};
+        $Name            .= '_' . $Array[$_]->{Name};
     }
     $CreateUniqueSQL .= ')';
 

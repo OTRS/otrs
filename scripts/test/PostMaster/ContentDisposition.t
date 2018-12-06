@@ -138,7 +138,7 @@ my @Tests = (
 
 my @AddedTicketIDs;
 
-my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
 
 for my $Test (@Tests) {

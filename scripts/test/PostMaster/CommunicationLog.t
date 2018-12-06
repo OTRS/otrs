@@ -72,7 +72,7 @@ package FakeClient {    ## no critic
 
         my $Filename = $FakeClientEnv{'emails'}->{$Idx};
 
-        my $FH = IO::File->new( $Filename, 'r', );
+        my $FH    = IO::File->new( $Filename, 'r', );
         my @Lines = <$FH>;
 
         return wantarray ? @Lines : \@Lines;

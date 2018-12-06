@@ -28,7 +28,7 @@ $Selenium->RunTest(
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     String => '2014-12-12 00:00:00'
-                    }
+                }
             )->ToEpoch(),
         );
 

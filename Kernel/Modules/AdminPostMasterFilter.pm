@@ -312,7 +312,7 @@ sub _MaskUpdate {
     }
 
     my %Header = map { $_ => $_ } @Headers;
-    $Header{''} = '-';
+    $Header{''}   = '-';
     $Header{Body} = 'Body';
 
     # otrs header

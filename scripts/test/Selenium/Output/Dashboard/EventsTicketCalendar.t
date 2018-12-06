@@ -45,7 +45,7 @@ $Selenium->RunTest(
             Value => {
                 %{ $EventsTicketCalendarSysConfig{EffectiveValue} },
                 Default => 1,
-                }
+            }
         );
 
         # create test user and login
@@ -130,7 +130,7 @@ $Selenium->RunTest(
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     Epoch => $DateTimeObject->ToEpoch() + 60 * 60,
-                    }
+                }
             )->ToString(),
         );
 

@@ -117,7 +117,7 @@ sub Run {
             'Kernel::System::DateTime',
             ObjectParams => {
                 String => $Data->{CreateTime},
-                }
+            }
         )->ToEpoch();
 
         my $IsNewWidget;

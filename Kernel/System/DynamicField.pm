@@ -1232,7 +1232,7 @@ sub ObjectMappingGet {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # Get configuration for this object type
-    my $Config = $ConfigObject->Get("DynamicFields::ObjectType") || {};
+    my $Config           = $ConfigObject->Get("DynamicFields::ObjectType") || {};
     my $ObjecTypesConfig = $Config->{ $Param{ObjectType} };
 
     if ( !IsHashRefWithData($ObjecTypesConfig) ) {
@@ -1345,7 +1345,7 @@ sub ObjectMappingCreate {
     }
 
     # Get configuration for this object type
-    my $Config = $Kernel::OM->Get('Kernel::Config')->Get("DynamicFields::ObjectType") || {};
+    my $Config           = $Kernel::OM->Get('Kernel::Config')->Get("DynamicFields::ObjectType") || {};
     my $ObjecTypesConfig = $Config->{ $Param{ObjectType} };
 
     if ( !IsHashRefWithData($ObjecTypesConfig) ) {
@@ -1431,7 +1431,7 @@ sub ObjectMappingNameChange {
     }
 
     # Get configuration for this object type
-    my $Config = $Kernel::OM->Get('Kernel::Config')->Get("DynamicFields::ObjectType") || {};
+    my $Config           = $Kernel::OM->Get('Kernel::Config')->Get("DynamicFields::ObjectType") || {};
     my $ObjecTypesConfig = $Config->{ $Param{ObjectType} };
 
     if ( !IsHashRefWithData($ObjecTypesConfig) ) {

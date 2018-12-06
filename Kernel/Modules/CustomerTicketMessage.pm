@@ -247,7 +247,7 @@ sub Run {
     }
     elsif ( $Self->{Subaction} eq 'StoreNew' ) {
 
-        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
         my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
 
         my $NextScreen = $Config->{NextScreenAfterNewTicket};
@@ -258,7 +258,7 @@ sub Run {
         my ( $NewQueueID, $To ) = split( /\|\|/, $Dest );
         if ( !$To ) {
             $NewQueueID = $ParamObject->GetParam( Param => 'NewQueueID' ) || '';
-            $To = 'System';
+            $To         = 'System';
         }
 
         # fallback, if no destination is given
@@ -1136,7 +1136,7 @@ sub _MaskNew {
             Data => {
                 %Param,
                 TypeIDInvalid => $Param{Errors}->{TypeIDInvalid},
-                }
+            }
         );
     }
 
@@ -1203,7 +1203,7 @@ sub _MaskNew {
                 Data => {
                     SLAMandatory => $Config->{SLAMandatory} || 0,
                     %Param,
-                    }
+                }
             );
         }
     }

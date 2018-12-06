@@ -481,7 +481,7 @@ $Selenium->RunTest(
                 $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
 
                 for my $Subject ( sort keys %{ $ArticleFilters{$FilterValue} } ) {
-                    my $Value = $ArticleFilters{$FilterValue}->{$Subject};
+                    my $Value   = $ArticleFilters{$FilterValue}->{$Subject};
                     my $IsShown = $Value ? 'shown' : 'not shown';
 
                     $Self->Is(

@@ -396,7 +396,7 @@ $Selenium->RunTest(
                 "Draft for $Test->{Module} $Title is found",
             );
 
-            my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+            my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
             my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Phone' );
 
             # Create test Article to trigger that draft is outdated.

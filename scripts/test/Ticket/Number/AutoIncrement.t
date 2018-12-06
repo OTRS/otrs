@@ -201,7 +201,7 @@ while ( my @Data = $DBObject->FetchrowArray() ) {
 
 # Set the expected value
 my $MinSize = $ConfigObject->Get('Ticket::NumberGenerator::AutoIncrement::MinCounterSize');
-$Counter = sprintf "%.*u", $MinSize, $Counter;
+$Counter       = sprintf "%.*u", $MinSize, $Counter;
 $ExpectedValue = $SystemID . $Counter;
 
 $Self->Is(

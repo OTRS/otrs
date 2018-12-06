@@ -187,7 +187,7 @@ sub FormDraftGet {
 
         if ( $Param{GetContent} ) {
 
-            my $RawContent = $Row[9] // {};
+            my $RawContent      = $Row[9] // {};
             my $StorableContent = $RawContent;
 
             if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {

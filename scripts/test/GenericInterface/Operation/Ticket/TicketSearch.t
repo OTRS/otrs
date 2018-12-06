@@ -548,7 +548,7 @@ $Self->True(
     "TicketCreate() successful for Ticket Four ID $TicketID4",
 );
 
-my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
 
 # first article
@@ -2016,7 +2016,7 @@ for my $Test (@Tests) {
             SessionID => $NewSessionID,
             TicketID  => [ $TicketID1, $TicketID2, $TicketID3, $TicketID4 ],
             %{ $Test->{RequestData} },
-            }
+        }
     );
 
     # check result

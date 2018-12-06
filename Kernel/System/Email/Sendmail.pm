@@ -75,7 +75,7 @@ sub Send {
             $ToString .= ', ';
         }
         $ToString .= $To;
-        $Arg .= ' ' . quotemeta($To);
+        $Arg      .= ' ' . quotemeta($To);
     }
 
     $Param{CommunicationLogObject}->ObjectLog(

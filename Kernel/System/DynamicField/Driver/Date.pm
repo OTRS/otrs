@@ -1085,7 +1085,7 @@ sub SearchFieldParameterBuild {
                     'Kernel::System::DateTime',
                     ObjectParams => {
                         Epoch => $Now - $DiffTimeSeconds,
-                        }
+                    }
                 );
 
                 # only search dates in the past (before the time stamp)
@@ -1103,7 +1103,7 @@ sub SearchFieldParameterBuild {
                     'Kernel::System::DateTime',
                     ObjectParams => {
                         Epoch => $Now - $DiffTimeSeconds,
-                        }
+                    }
                 );
 
                 my $YearMonthDay = $DateTimeObjectLast->Format( Format => '%Y-%m-%d' );
@@ -1135,7 +1135,7 @@ sub SearchFieldParameterBuild {
                     'Kernel::System::DateTime',
                     ObjectParams => {
                         Epoch => $Now + $DiffTimeSeconds,
-                        }
+                    }
                 );
 
                 $YearMonthDay = $DateTimeObjectNext->Format( Format => '%Y-%m-%d' );
@@ -1151,7 +1151,7 @@ sub SearchFieldParameterBuild {
                     'Kernel::System::DateTime',
                     ObjectParams => {
                         Epoch => $Now + $DiffTimeSeconds,
-                        }
+                    }
                 );
 
                 my $YearMonthDay = $DateTimeObjectAfter->Format( Format => '%Y-%m-%d' );
@@ -1230,7 +1230,7 @@ sub StatsSearchFieldParameterBuild {
         'Kernel::System::DateTime',
         ObjectParams => {
             String => $Value
-            }
+        }
     );
 
     my $ToReturn = $DateTimeObject->Format( Format => '%Y-%m-%d' );

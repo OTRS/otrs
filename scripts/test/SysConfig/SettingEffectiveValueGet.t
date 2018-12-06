@@ -34,7 +34,7 @@ my @Tests = (
                         }
                     ],
                 }
-                ]
+            ]
         },
         ExpectedValue => 'Unicode string ßå∂čćžšđ'
     },
@@ -51,7 +51,7 @@ my @Tests = (
                         }
                     ],
                 }
-                ]
+            ]
         },
         ExpectedValue => '0'
     },
@@ -67,7 +67,7 @@ my @Tests = (
                         }
                     ],
                 }
-                ]
+            ]
         },
         ExpectedValue => 'Unicode string ßå∂čćžšđ'
     },
@@ -84,7 +84,7 @@ my @Tests = (
                         }
                     ],
                 }
-                ]
+            ]
         },
         ExpectedValue => undef,
     },

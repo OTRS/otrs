@@ -61,7 +61,7 @@ sub Run {
     }
 
     $Param{GetParam}->{'X-OTRS-AttachmentExists'} = ( $AttachmentCount ? 'yes' : 'no' );
-    $Param{GetParam}->{'X-OTRS-AttachmentCount'} = $AttachmentCount;
+    $Param{GetParam}->{'X-OTRS-AttachmentCount'}  = $AttachmentCount;
 
     return 1;
 }

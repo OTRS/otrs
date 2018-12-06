@@ -73,7 +73,7 @@ sub PreRun {
     my ( $Self, %Param ) = @_;
 
     # check if all groups exist
-    my @Groups = @{ $Self->GetOption('group') // [] };
+    my @Groups    = @{ $Self->GetOption('group') // [] };
     my %GroupList = reverse $Kernel::OM->Get('Kernel::System::Group')->GroupList();
 
     GROUP:

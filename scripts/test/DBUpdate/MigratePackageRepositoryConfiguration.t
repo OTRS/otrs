@@ -21,7 +21,7 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my @FrameworkVersionParts = split /\./, $Kernel::OM->Get('Kernel::Config')->Get('Version');
-my $FrameworkVersion = $FrameworkVersionParts[0];
+my $FrameworkVersion      = $FrameworkVersionParts[0];
 
 my @Tests = (
     {

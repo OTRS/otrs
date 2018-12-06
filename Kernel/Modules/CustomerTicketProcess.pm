@@ -3328,7 +3328,7 @@ sub _StoreActivityDialog {
                 }
 
                 if ( $ValidationResult->{ServerError} ) {
-                    $Error{ $DynamicFieldConfig->{Name} } = 1;
+                    $Error{ $DynamicFieldConfig->{Name} }        = 1;
                     $ErrorMessage{ $DynamicFieldConfig->{Name} } = $ValidationResult->{ErrorMessage} || '';
                 }
 
@@ -3695,7 +3695,7 @@ sub _StoreActivityDialog {
         }
 
         if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
-            my $DynamicFieldName = $1;
+            my $DynamicFieldName   = $1;
             my $DynamicFieldConfig = ( grep { $_->{Name} eq $DynamicFieldName } @{$DynamicField} )[0];
 
             if ( !IsHashRefWithData($DynamicFieldConfig) ) {

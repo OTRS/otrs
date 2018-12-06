@@ -30,7 +30,7 @@ sub Run {
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $Output      = '';
-    $Param{ID} = $ParamObject->GetParam( Param => 'ID' ) || '';
+    $Param{ID}     = $ParamObject->GetParam( Param => 'ID' ) || '';
     $Param{Action} = $ParamObject->GetParam( Param => 'Action' )
         || 'AdminQueueAutoResponse';
     $Param{Filter} = $ParamObject->GetParam( Param => 'Filter' ) || '';
@@ -162,7 +162,7 @@ sub Run {
 
         }
         else {
-            %QueueData = $QueueObject->QueueList( Valid => 1 );
+            %QueueData   = $QueueObject->QueueList( Valid => 1 );
             $QueueHeader = Translatable('Queues');
         }
 

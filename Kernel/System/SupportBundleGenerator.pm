@@ -219,7 +219,7 @@ sub Generate {
     }
 
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-    my $Filename = "SupportBundle_" . $DateTimeObject->Format( Format => "%Y-%m-%d_%H-%M" );
+    my $Filename       = "SupportBundle_" . $DateTimeObject->Format( Format => "%Y-%m-%d_%H-%M" );
 
     # add files to the tar archive
     my $Archive   = $TempDir . '/' . $Filename;

@@ -56,7 +56,7 @@ $Self->True(
     "TicketCreate()",
 );
 
-my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
 
 my $ArticleID = $ArticleBackendObject->ArticleCreate(

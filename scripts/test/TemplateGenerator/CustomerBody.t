@@ -164,7 +164,7 @@ my $PostMasterObject = Kernel::System::PostMaster->new(
     Email                  => $GenerateEmail->( %EmailData, ),
 );
 
-my @Return = $PostMasterObject->Run( Queue => $QueueNameRand );
+my @Return   = $PostMasterObject->Run( Queue => $QueueNameRand );
 my $TicketID = $Return[1];
 
 $CommunicationLogObject->ObjectLogStop(

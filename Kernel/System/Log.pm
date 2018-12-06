@@ -168,8 +168,8 @@ sub Log {
 
     return 1 if $PriorityNum < $Self->{MinimumLevelNum};
 
-    my $Message = $Param{MSG} || $Param{Message} || '???';
-    my $Caller = $Param{Caller} || 0;
+    my $Message = $Param{MSG}    || $Param{Message} || '???';
+    my $Caller  = $Param{Caller} || 0;
 
     # returns the context of the current subroutine and sub-subroutine!
     my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller( $Caller + 0 );

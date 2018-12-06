@@ -295,7 +295,7 @@ $ArticleObject->ArticleSearchIndexBuild(
 );
 
 my $TicketSearchTicketNumber = substr $Ticket{TicketNumber}, 0, 10;
-my %TicketIDs = $TicketObject->TicketSearch(
+my %TicketIDs                = $TicketObject->TicketSearch(
     Result       => 'HASH',
     Limit        => 100,
     TicketNumber => [ $TicketSearchTicketNumber . '%', '%not exisiting%' ],
@@ -1986,7 +1986,7 @@ my $PendingUntilTime = $Kernel::OM->Create(
         Hour   => '22',
         Minute => '05',
         Second => '00',
-        }
+    }
 )->ToEpoch();
 
 $PendingUntilTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch() - $PendingUntilTime;
@@ -2043,7 +2043,7 @@ $PendingUntilTime = $Kernel::OM->Create(
     'Kernel::System::DateTime',
     ObjectParams => {
         String => '2003-09-14 22:05:00',
-        }
+    }
 )->ToEpoch();
 
 $PendingUntilTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch() - $PendingUntilTime;

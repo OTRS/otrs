@@ -233,7 +233,7 @@ sub Run {
 
                 my $Success = $Self->_SendRecipientNotification(
                     AppointmentID => $Appointment{AppointmentID} || '',
-                    CalendarID => $Calendar{CalendarID} || $Appointment{CalendarID} || '',
+                    CalendarID    => $Calendar{CalendarID}       || $Appointment{CalendarID} || '',
                     Notification          => $Bundle->{Notification},
                     CustomerMessageParams => $Param{Data}->{CustomerMessageParams} || {},
                     Recipient             => $Bundle->{Recipient},
@@ -269,7 +269,7 @@ sub Run {
 
                 my $Success = $Self->_SendRecipientNotification(
                     AppointmentID => $Appointment{AppointmentID} || '',
-                    CalendarID => $Calendar{CalendarID} || $Appointment{CalendarID} || '',
+                    CalendarID    => $Calendar{CalendarID}       || $Appointment{CalendarID} || '',
                     Notification          => \%ReplacedNotification,
                     CustomerMessageParams => $Param{Data}->{CustomerMessageParams} || {},
                     Recipient             => $Recipient,
@@ -433,7 +433,7 @@ sub _RecipientsGet {
                     # get calendar information
                     my %Calendar = $CalendarObject->CalendarGet(
                         CalendarID => $Appointment{CalendarID} || $Param{Calendar}->{CalendarID},
-                        UserID => 1,
+                        UserID     => 1,
                     );
 
                     # get a list of read access users for the related calendar
@@ -455,7 +455,7 @@ sub _RecipientsGet {
                     # get calendar information
                     my %Calendar = $CalendarObject->CalendarGet(
                         CalendarID => $Appointment{CalendarID} || $Param{Calendar}->{CalendarID},
-                        UserID => 1,
+                        UserID     => 1,
                     );
 
                     # get a list of read access users for the related calendar

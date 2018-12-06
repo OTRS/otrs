@@ -225,7 +225,7 @@ sub PossibleLinkList {
 
     # get possible link list
     my $PossibleLinkListRef = $ConfigObject->Get('LinkObject::PossibleLink') || {};
-    my %PossibleLinkList = %{$PossibleLinkListRef};
+    my %PossibleLinkList    = %{$PossibleLinkListRef};
 
     # prepare the possible link list
     POSSIBLELINK:
@@ -1888,7 +1888,7 @@ sub TypeList {
 
     # get type list
     my $TypeListRef = $Kernel::OM->Get('Kernel::Config')->Get('LinkObject::Type') || {};
-    my %TypeList = %{$TypeListRef};
+    my %TypeList    = %{$TypeListRef};
 
     # get check item object
     my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
@@ -1952,7 +1952,7 @@ sub TypeGroupList {
 
     # get possible type groups
     my $TypeGroupListRef = $Kernel::OM->Get('Kernel::Config')->Get('LinkObject::TypeGroup') || {};
-    my %TypeGroupList = %{$TypeGroupListRef};
+    my %TypeGroupList    = %{$TypeGroupListRef};
 
     # get check item object
     my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
@@ -2412,7 +2412,7 @@ sub _LinkListRaw {
 
         # prepare SQL statement
         my $TypeSQL = '';
-        my @Bind = ( \$Param{ObjectID}, \$Param{StateID} );
+        my @Bind    = ( \$Param{ObjectID}, \$Param{StateID} );
 
         # get fields based on type
         my $SQL;

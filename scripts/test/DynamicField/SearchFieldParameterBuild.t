@@ -60,7 +60,7 @@ for my $Process ( sort keys %ProcessLookup ) {
             Description => 'a Description',
             Path        => {
                 $ActivityEntityID => {},
-                }
+            }
         },
         UserID => $UserID,
     );

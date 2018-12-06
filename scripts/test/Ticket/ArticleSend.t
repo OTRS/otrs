@@ -180,7 +180,7 @@ for my $Test (@ArticleTests) {
     );
 
     # Force email queue handling for this object
-    my $Item = $MailQueueObj->Get( ArticleID => $ArticleID );
+    my $Item   = $MailQueueObj->Get( ArticleID => $ArticleID );
     my $Result = $MailQueueObj->Send( %{$Item} );
 
     # check that email was sent

@@ -161,7 +161,7 @@ sub _AddAction {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ParamObject       = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $ErrorHandlingType = $ParamObject->GetParam( Param => 'ErrorHandlingType' );
     if ( !IsStringWithData($ErrorHandlingType) ) {
         return $LayoutObject->ErrorScreen(

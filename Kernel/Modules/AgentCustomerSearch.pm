@@ -40,7 +40,7 @@ sub Run {
     $Self->{Config} = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
     my $AutoCompleteConfig = $ConfigObject->Get('AutoComplete::Agent')->{CustomerSearch};
-    my $MaxResults = int( $ParamObject->GetParam( Param => 'MaxResults' ) || 0 )
+    my $MaxResults         = int( $ParamObject->GetParam( Param => 'MaxResults' ) || 0 )
         || $AutoCompleteConfig->{MaxResultsDisplayed}
         || 20;
     my $IncludeUnknownTicketCustomers = int( $ParamObject->GetParam( Param => 'IncludeUnknownTicketCustomers' ) || 0 );

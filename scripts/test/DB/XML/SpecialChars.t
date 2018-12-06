@@ -187,7 +187,7 @@ for my $Character (@SpecialCharacters) {
     );
 
     # select like value (with underscore)
-    $Character = 'otrs_test';
+    $Character     = 'otrs_test';
     $CharacterLike = $DBObject->Quote( $Character, 'Like' );
 
     # proof of concept that oracle needs special treatment

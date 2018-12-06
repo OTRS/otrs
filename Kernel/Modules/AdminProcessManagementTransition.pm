@@ -588,7 +588,7 @@ sub _ShowEdit {
                 Name => 'EditWarning',
                 Data => {
                     ProcessList => join( ', ', @{$AffectedProcesses} ),
-                    }
+                }
             );
         }
     }
@@ -664,7 +664,7 @@ sub _GetParams {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # get parameters from web browser
-    $GetParam->{Name} = $ParamObject->GetParam( Param => 'Name' ) || '';
+    $GetParam->{Name}            = $ParamObject->GetParam( Param => 'Name' ) || '';
     $GetParam->{ConditionConfig} = $ParamObject->GetParam( Param => 'ConditionConfig' )
         || '';
 
@@ -752,7 +752,7 @@ sub _PopupResponse {
             Value => {
                 ConfigJSON => $Param{ConfigJSON},
                 %{ $Param{Screen} },
-                }
+            }
         );
     }
     elsif ( $Param{ClosePopup} && $Param{ClosePopup} eq 1 ) {
@@ -762,7 +762,7 @@ sub _PopupResponse {
             Key   => 'ClosePopup',
             Value => {
                 ConfigJSON => $Param{ConfigJSON},
-                }
+            }
         );
     }
 

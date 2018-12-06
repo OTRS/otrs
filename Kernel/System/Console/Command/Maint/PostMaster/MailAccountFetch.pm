@@ -92,7 +92,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $MailAccountObject = $Kernel::OM->Get('Kernel::System::MailAccount');
-    my %List = $MailAccountObject->MailAccountList( Valid => 1 );
+    my %List              = $MailAccountObject->MailAccountList( Valid => 1 );
 
     my $Debug         = $Self->GetOption('debug');
     my $Timeout       = $Self->GetOption('timeout') || 600;

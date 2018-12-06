@@ -74,7 +74,7 @@ sub Run {
         $Collator->cmp(
             $LayoutObject->{LanguageObject}->Translate( $a->{Name} ),
             $LayoutObject->{LanguageObject}->Translate( $b->{Name} )
-            )
+        )
     } @Favourites;
 
     if (@Favourites) {

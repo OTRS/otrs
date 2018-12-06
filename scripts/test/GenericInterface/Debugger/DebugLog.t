@@ -466,7 +466,7 @@ for my $Test (@Tests) {
 
 # check if search contains exactly communication ids
 my %DebugLogIDCheck = map { $_ => 1 } @DebugLogIDs;
-my $AllEntries = $DebugLogObject->LogSearch(
+my $AllEntries      = $DebugLogObject->LogSearch(
     WebserviceID => $WebserviceID,
 );
 for my $Entry ( @{$AllEntries} ) {

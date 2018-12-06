@@ -46,10 +46,10 @@ $Self->True(
 my $SmallEmail     = ( 'x' x 900 ) . '@localunittest.com';
 my $SmallReference = "<$SmallEmail>";
 
-my $MediumEmail = join( ',', ( ($SmallEmail) x 20 ) );
+my $MediumEmail     = join( ',', ( ($SmallEmail) x 20 ) );
 my $MediumReference = $SmallReference x 20;
 
-my $LargeEmail = join( ',', ( ($SmallEmail) x 200 ) );
+my $LargeEmail     = join( ',', ( ($SmallEmail) x 200 ) );
 my $LargeReference = $SmallReference x 200;
 
 my @ArticleTests = (

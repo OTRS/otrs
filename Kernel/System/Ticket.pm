@@ -2436,7 +2436,7 @@ sub TicketEscalationDateCalculation {
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     Epoch => $Ticket{$Key}
-                    }
+                }
             );
 
             my $DeltaObj = $DateTimeObject->Delta(
@@ -2468,7 +2468,7 @@ sub TicketEscalationDateCalculation {
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     Epoch => $Ticket{$Key}
-                    }
+                }
             );
 
             my $DeltaObj = $StartTimeObj->Delta(
@@ -2490,7 +2490,7 @@ sub TicketEscalationDateCalculation {
             'Kernel::System::DateTime',
             ObjectParams => {
                 Epoch => $Ticket{$Key}
-                }
+            }
         );
 
         $Data{ $Map{$Key} . 'TimeDestinationTime' } = $Ticket{$Key};
@@ -2641,7 +2641,7 @@ sub TicketEscalationIndexBuild {
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     String => $Ticket{Created},
-                    }
+                }
             );
 
             $DateTimeObject->Add(
@@ -2745,7 +2745,7 @@ sub TicketEscalationIndexBuild {
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     String => $LastSenderTime,
-                    }
+                }
             );
 
             $DateTimeObject->Add(
@@ -2814,7 +2814,7 @@ sub TicketEscalationIndexBuild {
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     String => $Ticket{Created},
-                    }
+                }
             );
 
             $DateTimeObject->Add(
@@ -3627,7 +3627,7 @@ sub TicketPendingTimeSet {
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     String => $Param{String}
-                    }
+                }
             );
             return if ( !$DateTimeObject );
 
@@ -3662,7 +3662,7 @@ sub TicketPendingTimeSet {
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     String => "$Param{Year}-$Param{Month}-$Param{Day} $Param{Hour}:$Param{Minute}:00",
-                    }
+                }
             );
             return if !$DateTimeObject;
             $Time = $DateTimeObject->ToEpoch();
@@ -5146,7 +5146,7 @@ sub HistoryTicketStatusGet {
         'Kernel::System::DateTime',
         ObjectParams => {
             String => "$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 00:00:00",
-            }
+        }
     );
     $StopDateTimeObject->Add( Hours => 24 );
     my $StopDateTimeString = $StopDateTimeObject->Format( Format => '%Y-%m-%d 00:00:00' );
@@ -5375,7 +5375,7 @@ sub HistoryTicketGet {
             if ( $Row[0] =~ /^\%\%FieldName\%\%(.+?)\%\%Value\%\%(.*?)(?:\%\%|$)/ ) {
 
                 my $FieldName = $1;
-                my $Value = $2 || '';
+                my $Value     = $2 || '';
                 $Ticket{$FieldName} = $Value;
 
                 # Backward compatibility for TicketFreeText and TicketFreeTime
@@ -7669,7 +7669,7 @@ sub _TicketGetFirstResponse {
             'Kernel::System::DateTime',
             ObjectParams => {
                 String => $Param{Ticket}->{Created},
-                }
+            }
         );
 
         my $FirstResponseTimeObj = $DateTimeObject->Clone();
@@ -7770,14 +7770,14 @@ sub _TicketGetClosed {
         'Kernel::System::DateTime',
         ObjectParams => {
             String => $Param{Ticket}->{Created},
-            }
+        }
     );
 
     my $SolutionTimeObj = $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {
             String => $Data{Closed},
-            }
+        }
     );
 
     my $DeltaObj = $DateTimeObject->Delta(

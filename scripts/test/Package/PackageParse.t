@@ -83,7 +83,7 @@ for a package file.',
 for my $Test (@Tests) {
 
     my $ResultStructure = 1;
-    my %Structure = $PackageObject->PackageParse( String => $Test->{String} );
+    my %Structure       = $PackageObject->PackageParse( String => $Test->{String} );
     $ResultStructure = 0 if !IsHashRefWithData( \%Structure );
 
     $Self->Is(

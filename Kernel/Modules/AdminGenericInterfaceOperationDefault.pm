@@ -516,7 +516,7 @@ sub _ShowScreen {
     );
 
     # Handle mapping.
-    my $MappingModules = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Mapping::Module') || {};
+    my $MappingModules    = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Mapping::Module') || {};
     my @MappingModuleList = sort keys %{$MappingModules};
     DIRECTION:
     for my $Direction (qw(MappingInbound MappingOutbound)) {

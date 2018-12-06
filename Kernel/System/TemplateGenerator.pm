@@ -134,7 +134,7 @@ sub Salutation {
     my @ListOfUnSupportedTag = qw(OTRS_AGENT_SUBJECT OTRS_AGENT_BODY OTRS_CUSTOMER_BODY OTRS_CUSTOMER_SUBJECT);
 
     my $SalutationText = $Self->_RemoveUnSupportedTag(
-        Text => $Salutation{Text} || '',
+        Text                 => $Salutation{Text} || '',
         ListOfUnSupportedTag => \@ListOfUnSupportedTag,
     );
 
@@ -243,7 +243,7 @@ sub Signature {
     my @ListOfUnSupportedTag = qw(OTRS_AGENT_SUBJECT OTRS_AGENT_BODY OTRS_CUSTOMER_BODY OTRS_CUSTOMER_SUBJECT);
 
     my $SignatureText = $Self->_RemoveUnSupportedTag(
-        Text => $Signature{Text} || '',
+        Text                 => $Signature{Text} || '',
         ListOfUnSupportedTag => \@ListOfUnSupportedTag,
     );
 
@@ -439,7 +439,7 @@ sub Template {
     my @ListOfUnSupportedTag = qw(OTRS_AGENT_SUBJECT OTRS_AGENT_BODY OTRS_CUSTOMER_BODY OTRS_CUSTOMER_SUBJECT);
 
     my $TemplateText = $Self->_RemoveUnSupportedTag(
-        Text => $Template{Template} || '',
+        Text                 => $Template{Template} || '',
         ListOfUnSupportedTag => \@ListOfUnSupportedTag,
     );
 
@@ -1040,7 +1040,7 @@ sub NotificationEvent {
 
         next KEY if !$Param{CustomerMessageParams}->{$Key};
 
-        $Notification{Body} =~ s/${Start}OTRS_CUSTOMER_DATA_$Key${End}/$Param{CustomerMessageParams}->{$Key}/gi;
+        $Notification{Body}    =~ s/${Start}OTRS_CUSTOMER_DATA_$Key${End}/$Param{CustomerMessageParams}->{$Key}/gi;
         $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$Key>/$Param{CustomerMessageParams}->{$Key}{$Key}/gi;
     }
 
@@ -1188,7 +1188,7 @@ sub _Replace {
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     Epoch => $Ticket{$UnixFormatTime},
-                    }
+                }
             )->ToString();
         }
     }

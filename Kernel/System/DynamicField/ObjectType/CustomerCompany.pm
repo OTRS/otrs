@@ -157,7 +157,7 @@ sub ObjectDataGet {
     }
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $CustomerID = $ParamObject->GetParam( Param => 'CustomerID' ) || $ParamObject->GetParam( Param => 'ID' ) || '';
+    my $CustomerID  = $ParamObject->GetParam( Param => 'CustomerID' ) || $ParamObject->GetParam( Param => 'ID' ) || '';
 
     my $ObjectID;
 

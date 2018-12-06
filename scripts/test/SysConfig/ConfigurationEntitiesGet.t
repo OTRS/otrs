@@ -149,7 +149,7 @@ my @Tests2 = (
                 ],
                 'closed' => [
                     'Ticket::Frontend::AgentTicketPriority###StateDefault',
-                    ]
+                ]
             },
             'StateßČĆ£øπ∂' => {
                 'openßČĆ£øπ∂' => [
@@ -210,7 +210,7 @@ my @Tests3 = (
                 ],
                 'reopened' => [
                     'Ticket::Frontend::AgentTicketPriority###StateDefault',
-                    ]
+                ]
             },
             'Type' => {
                 '123' => [

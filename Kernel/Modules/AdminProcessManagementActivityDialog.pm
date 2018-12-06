@@ -769,7 +769,7 @@ sub _ShowEdit {
                 Name => 'EditWarning',
                 Data => {
                     ActivityList => join( ', ', @{$AffectedActivities} ),
-                    }
+                }
             );
         }
 
@@ -961,7 +961,7 @@ sub _GetParams {
         $GetParam->{$ParamName} = $ParamObject->GetParam( Param => $ParamName ) || '';
     }
 
-    my $Fields = $ParamObject->GetParam( Param => 'Fields' ) || '';
+    my $Fields     = $ParamObject->GetParam( Param => 'Fields' ) || '';
     my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
 
     if ($Fields) {
@@ -1061,7 +1061,7 @@ sub _PopupResponse {
             Value => {
                 ConfigJSON => $Param{ConfigJSON},
                 %{ $Param{Screen} },
-                }
+            }
         );
     }
     elsif ( $Param{ClosePopup} && $Param{ClosePopup} eq 1 ) {
@@ -1071,7 +1071,7 @@ sub _PopupResponse {
             Key   => 'ClosePopup',
             Value => {
                 ConfigJSON => $Param{ConfigJSON},
-                }
+            }
         );
     }
 

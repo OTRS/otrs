@@ -280,7 +280,7 @@ my ( undef, undef, @Records ) = @{
         StatID   => $TicketClosedCreatedInQueueStatID,
         GetParam => $Stat,
         UserID   => 1,
-        )
+    )
 };
 
 # Check that all closed tickets are in the report.

@@ -277,7 +277,7 @@ my $TestForceNewTicket = sub {
 
     # Change the config of the 'Raw' queue to create a new ticket in case of follow-up.
     my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
-    my %Queue = $QueueObject->QueueGet( Name => 'Raw' );
+    my %Queue       = $QueueObject->QueueGet( Name => 'Raw' );
     $Result = $QueueObject->QueueUpdate(
         %Queue,
         FollowUpID => 3,

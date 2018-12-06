@@ -149,7 +149,7 @@ sub Create {
     }
 
     # Recipient can be a Scalar or ArrayRef
-    my $Recipient = $Param{Recipient} // [];
+    my $Recipient    = $Param{Recipient} // [];
     my $RecipientRef = ref $Recipient;
 
     if ( !$RecipientRef ) {
@@ -1130,7 +1130,7 @@ sub _SendEventNotification {
     }
 
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-    my $TicketID = $ArticleObject->TicketIDLookup( ArticleID => $Param{ArticleID} );
+    my $TicketID      = $ArticleObject->TicketIDLookup( ArticleID => $Param{ArticleID} );
 
     my $PostMasterUserID = $Kernel::OM->Get('Kernel::Config')->Get('PostmasterUserID') || 1;
 

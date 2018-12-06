@@ -257,12 +257,12 @@ sub Run {
         my $Priorities = $Self->_GetPriorities(
             %GetParam,
             CustomerUserID => $CustomerUser || '',
-            TicketID => $Self->{TicketID},
+            TicketID       => $Self->{TicketID},
         );
         my $NextStates = $Self->_GetNextStates(
             %GetParam,
             CustomerUserID => $CustomerUser || '',
-            TicketID => $Self->{TicketID},
+            TicketID       => $Self->{TicketID},
         );
 
         # update Dynamic Fields Possible Values via AJAX
@@ -1029,7 +1029,7 @@ sub _Mask {
             Data => {
                 Valid => $Type{ValidID},
                 %Param,
-                }
+            }
         );
     }
 

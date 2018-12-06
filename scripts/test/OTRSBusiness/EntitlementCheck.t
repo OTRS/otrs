@@ -211,7 +211,7 @@ for my $Test (@Tests) {
         'Kernel::System::DateTime',
         ObjectParams => {
             String => $Test->{CurrentTime},
-            }
+        }
     );
     my $SystemTime = $DateTimeObject->ToEpoch();
 

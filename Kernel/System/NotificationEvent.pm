@@ -698,7 +698,7 @@ sub NotificationEventCheck {
     my $DBObject    = $Kernel::OM->Get('Kernel::System::DB');
     my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
 
-    my @ValidIDs = $ValidObject->ValidIDsGet();
+    my @ValidIDs      = $ValidObject->ValidIDsGet();
     my $ValidIDString = join ', ', @ValidIDs;
 
     $DBObject->Prepare(

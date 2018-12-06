@@ -294,13 +294,13 @@ sub Run {
 
     # get personal page shown count
     my $PageShownPreferencesKey = 'UserTicketOverview' . $View . 'PageShown';
-    my $PageShown = $Self->{$PageShownPreferencesKey} || 10;
+    my $PageShown               = $Self->{$PageShownPreferencesKey} || 10;
 
     # do shown tickets lookup
     my $Limit = 10_000;
 
     my $ElementChanged = $ParamObject->GetParam( Param => 'ElementChanged' ) || '';
-    my $HeaderColumn = $ElementChanged;
+    my $HeaderColumn   = $ElementChanged;
     $HeaderColumn =~ s{\A ColumnFilter }{}msxg;
 
     # get data (viewable tickets...)
@@ -634,9 +634,9 @@ sub _MaskQueueView {
             $Totals{$CustomQueue}  = $Totals{ $Queue{Queue} };
             $Queue{Queue}          = $CustomQueue;
         }
-        my @QueueName = split /::/, $Queue{Queue};
+        my @QueueName      = split /::/, $Queue{Queue};
         my $ShortQueueName = $QueueName[-1];
-        $Queue{MaxAge} = $Queue{MaxAge} / 60;
+        $Queue{MaxAge}  = $Queue{MaxAge} / 60;
         $Queue{QueueID} = 0 if ( !$Queue{QueueID} );
 
         # skip empty Queues (or only locked tickets)

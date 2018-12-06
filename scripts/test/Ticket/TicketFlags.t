@@ -210,7 +210,7 @@ for my $SearchTest (@SearchTests) {
 my @UserIDs;
 for ( 1 .. 2 ) {
     my $UserLogin = $Helper->TestUserCreate();
-    my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup( UserLogin => $UserLogin );
+    my $UserID    = $Kernel::OM->Get('Kernel::System::User')->UserLookup( UserLogin => $UserLogin );
     push @UserIDs, $UserID;
 }
 
@@ -405,7 +405,7 @@ $TicketObject->TicketFlagSet(
             NotTicketFlag    => {
                 JustOne => 999,
             },
-            }
+        }
     },
     {
         Name     => 'NotTicketFlag ignores flags with different value',

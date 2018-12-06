@@ -236,11 +236,11 @@ sub Run {
     }
 
     # do shown tickets lookup
-    my $Limit = $ParamObject->GetParam( Param => 'Limit' ) || 2000;
+    my $Limit         = $ParamObject->GetParam( Param => 'Limit' ) || 2000;
     my $OriginalLimit = 10_000;
 
     my $ElementChanged = $ParamObject->GetParam( Param => 'ElementChanged' ) || '';
-    my $HeaderColumn = $ElementChanged;
+    my $HeaderColumn   = $ElementChanged;
     $HeaderColumn =~ s{\A ColumnFilter }{}msxg;
     my @OriginalViewableTickets;
     my @ViewableTickets;
