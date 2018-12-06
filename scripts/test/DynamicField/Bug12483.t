@@ -50,7 +50,7 @@ my @Tests = (
                 DefaultValue   => '',
                 PossibleValues => undef,
             },
-            }
+        }
     },
 );
 

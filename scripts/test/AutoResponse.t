@@ -141,7 +141,7 @@ $Self->Is(
 );
 
 my %AutoResponseList = $AutoResponseObject->AutoResponseList( Valid => 0 );
-my $Hit = 0;
+my $Hit              = 0;
 for ( sort keys %AutoResponseList ) {
     if ( $_ eq $AutoResponseID ) {
         $Hit = 1;

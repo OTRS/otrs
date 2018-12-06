@@ -97,7 +97,7 @@ my %TestActivityDialogs = (
     },
 );
 
-$ConfigObject->{Process} = \%TestProcesses;
+$ConfigObject->{Process}                   = \%TestProcesses;
 $ConfigObject->{'Process::ActivityDialog'} = \%TestActivityDialogs;
 
 # create empty object holders, the following tests requires to set ACLs on the fly and will need to

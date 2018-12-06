@@ -524,7 +524,7 @@ sub Run {
                 QueueID => $Self->{QueueID} || 1,
             );
             my $SLAs = $Self->_GetSLAs(
-                QueueID => $Self->{QueueID} || 1,
+                QueueID  => $Self->{QueueID} || 1,
                 Services => $Services,
                 %GetParam,
                 %ACLCompatGetParam,
@@ -593,7 +593,7 @@ sub Run {
     # deliver signature
     elsif ( $Self->{Subaction} eq 'Signature' ) {
         my $CustomerUser = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' ) || '';
-        my $QueueID = $Self->{ParamObject}->GetParam( Param => 'QueueID' );
+        my $QueueID      = $Self->{ParamObject}->GetParam( Param => 'QueueID' );
         if ( !$QueueID ) {
             my $Dest = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
             ($QueueID) = split( /\|\|/, $Dest );
@@ -668,7 +668,7 @@ sub Run {
             || $Self->{ParamObject}->GetParam( Param => 'PreSelectedCustomerUser' )
             || $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' )
             || '';
-        my $CustomerID = $Self->{ParamObject}->GetParam( Param => 'CustomerID' ) || '';
+        my $CustomerID           = $Self->{ParamObject}->GetParam( Param => 'CustomerID' ) || '';
         my $SelectedCustomerUser = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' )
             || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam( Param => 'ExpandCustomerName' )
@@ -1138,7 +1138,7 @@ sub Run {
             my $SLAs = $Self->_GetSLAs(
                 %GetParam,
                 %ACLCompatGetParam,
-                QueueID => $NewQueueID || 1,
+                QueueID  => $NewQueueID || 1,
                 Services => $Services,
             );
 
@@ -1471,7 +1471,7 @@ sub Run {
             %GetParam,
             %ACLCompatGetParam,
             CustomerUserID => $CustomerUser || '',
-            QueueID => $QueueID,
+            QueueID        => $QueueID,
         );
 
         my $NewTos;
@@ -1871,7 +1871,7 @@ sub _GetUsers {
 
     # show all users who are owner or rw in the queue group
     elsif ( $Param{QueueID} ) {
-        my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+        my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
             GroupID => $GID,
             Type    => 'owner',
@@ -1932,7 +1932,7 @@ sub _GetResponsibles {
 
     # show all users who are responsible or rw in the queue group
     elsif ( $Param{QueueID} ) {
-        my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+        my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
             GroupID => $GID,
             Type    => 'responsible',

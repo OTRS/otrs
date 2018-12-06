@@ -183,7 +183,7 @@ sub new {
     }
 
     # get current filter
-    my $Name = $ParamObject->GetParam( Param => 'Name' ) || '';
+    my $Name           = $ParamObject->GetParam( Param => 'Name' ) || '';
     my $PreferencesKey = 'UserDashboardTicketGenericFilter' . $Self->{Name};
     if ( $Self->{Name} eq $Name ) {
         $Self->{Filter} = $ParamObject->GetParam( Param => 'Filter' ) || '';
@@ -1517,7 +1517,7 @@ sub Run {
                 elsif ( $Column eq 'EscalationSolutionTime' ) {
                     $BlockType = 'Escalation';
                     $DataValue = $LayoutObject->CustomerAgeInHours(
-                        Age => $Ticket{SolutionTime} || 0,
+                        Age   => $Ticket{SolutionTime} || 0,
                         Space => ' ',
                     );
                     if ( defined $Ticket{SolutionTime} && $Ticket{SolutionTime} < 60 * 60 * 1 ) {
@@ -1527,7 +1527,7 @@ sub Run {
                 elsif ( $Column eq 'EscalationResponseTime' ) {
                     $BlockType = 'Escalation';
                     $DataValue = $LayoutObject->CustomerAgeInHours(
-                        Age => $Ticket{FirstResponseTime} || 0,
+                        Age   => $Ticket{FirstResponseTime} || 0,
                         Space => ' ',
                     );
                     if (
@@ -1541,7 +1541,7 @@ sub Run {
                 elsif ( $Column eq 'EscalationUpdateTime' ) {
                     $BlockType = 'Escalation';
                     $DataValue = $LayoutObject->CustomerAgeInHours(
-                        Age => $Ticket{UpdateTime} || 0,
+                        Age   => $Ticket{UpdateTime} || 0,
                         Space => ' ',
                     );
                     if ( defined $Ticket{UpdateTime} && $Ticket{UpdateTime} < 60 * 60 * 1 ) {
@@ -2167,7 +2167,7 @@ sub _SearchParamsGet {
         %TicketSearch,
         %DynamicFieldsParameters,
         Permission => $Self->{Config}->{Permission} || 'ro',
-        UserID => $Self->{UserID},
+        UserID     => $Self->{UserID},
     );
 
     # CustomerInformationCenter shows data per CustomerID
@@ -2217,7 +2217,7 @@ sub _SearchParamsGet {
         },
         Responsible => {
             ResponsibleIDs => $TicketSearch{ResponsibleIDs} // [ $Self->{UserID}, ],
-            LockIDs => $TicketSearch{LockIDs} // undef,
+            LockIDs        => $TicketSearch{LockIDs}        // undef,
         },
         MyQueues => {
             QueueIDs => \@MyQueues,
@@ -2230,7 +2230,7 @@ sub _SearchParamsGet {
         },
         All => {
             OwnerIDs => $TicketSearch{OwnerIDs} // undef,
-            LockIDs  => $TicketSearch{LockIDs} // undef,
+            LockIDs  => $TicketSearch{LockIDs}  // undef,
         },
     );
 

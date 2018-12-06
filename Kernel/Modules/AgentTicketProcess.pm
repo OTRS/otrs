@@ -1372,7 +1372,7 @@ sub _OutputActivityDialog {
                 Name =>
                     $Self->{LayoutObject}->{LanguageObject}->Translate( $ActivityDialog->{Name} )
                     || '',
-                }
+            }
         );
     }
     elsif (
@@ -2574,7 +2574,7 @@ sub _RenderArticle {
             Type  => 'Long',
             Valid => 1,
         );
-        my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{Ticket}->{QueueID} );
+        my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{Ticket}->{QueueID} );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
             GroupID => $GID,
             Type    => 'note',
@@ -4715,7 +4715,7 @@ sub _StoreActivityDialog {
         }
 
         if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
-            my $DynamicFieldName = $1;
+            my $DynamicFieldName   = $1;
             my $DynamicFieldConfig = ( grep { $_->{Name} eq $DynamicFieldName } @{ $Self->{DynamicField} } )[0];
 
             if ( !IsHashRefWithData($DynamicFieldConfig) ) {
@@ -5455,13 +5455,13 @@ sub _GetResponsibles {
     );
 
     # Get available permissions and set permission group type accordingly.
-    my $ConfigPermissions = $Self->{ConfigObject}->Get('System::Permission');
+    my $ConfigPermissions   = $Self->{ConfigObject}->Get('System::Permission');
     my $PermissionGroupType = ( grep { $_ eq 'responsible' } @{$ConfigPermissions} ) ? 'responsible' : 'rw';
 
     # if we are updating a ticket show the full list of possible responsibles
     if ( $Param{TicketID} ) {
         if ( $Param{QueueID} && !$Param{AllUsers} ) {
-            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+            my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
                 Type    => $PermissionGroupType,
@@ -5478,7 +5478,7 @@ sub _GetResponsibles {
         # the StartActivityDialog does not provide a TicketID and it could be that also there
         # is no QueueID information. Get the default QueueID for this matters.
         if ( !$Param{QueueID} ) {
-            my $Queue = $Self->{ConfigObject}->Get("Process::DefaultQueue");
+            my $Queue   = $Self->{ConfigObject}->Get("Process::DefaultQueue");
             my $QueueID = $Self->{QueueObject}->QueueLookup( Queue => $Queue );
             if ($QueueID) {
                 $Param{QueueID} = $QueueID;
@@ -5508,7 +5508,7 @@ sub _GetResponsibles {
 
         # show all subscribed users who have the appropriate permission in the queue group
         elsif ( $Param{QueueID} ) {
-            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+            my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
                 Type    => $PermissionGroupType,
@@ -5548,13 +5548,13 @@ sub _GetOwners {
     );
 
     # Get available permissions and set permission group type accordingly.
-    my $ConfigPermissions = $Self->{ConfigObject}->Get('System::Permission');
+    my $ConfigPermissions   = $Self->{ConfigObject}->Get('System::Permission');
     my $PermissionGroupType = ( grep { $_ eq 'owner' } @{$ConfigPermissions} ) ? 'owner' : 'rw';
 
     # if we are updating a ticket show the full list of possible owners
     if ( $Param{TicketID} ) {
         if ( $Param{QueueID} && !$Param{AllUsers} ) {
-            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+            my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
                 Type    => $PermissionGroupType,
@@ -5571,7 +5571,7 @@ sub _GetOwners {
         # the StartActivityDialog does not provide a TicketID and it could be that also there
         # is no QueueID information. Get the default QueueID for this matters.
         if ( !$Param{QueueID} ) {
-            my $Queue = $Self->{ConfigObject}->Get("Process::DefaultQueue");
+            my $Queue   = $Self->{ConfigObject}->Get("Process::DefaultQueue");
             my $QueueID = $Self->{QueueObject}->QueueLookup( Queue => $Queue );
             if ($QueueID) {
                 $Param{QueueID} = $QueueID;
@@ -5601,7 +5601,7 @@ sub _GetOwners {
 
         # show all subscribed users who have the appropriate permission in the queue group
         elsif ( $Param{QueueID} ) {
-            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
+            my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
                 Type    => $PermissionGroupType,

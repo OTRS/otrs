@@ -52,7 +52,7 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        my $UserID = $Self->{ParamObject}->GetParam( Param => 'UserID' ) || '';
+        my $UserID   = $Self->{ParamObject}->GetParam( Param => 'UserID' ) || '';
         my %UserData = $Self->{UserObject}->GetUserData(
             UserID        => $UserID,
             NoOutOfOffice => 1,
@@ -189,7 +189,7 @@ sub Run {
             UserID    => $GetParam{UserID}
         );
         if ($UserLoginExists) {
-            $Errors{UserLoginExists} = 1;
+            $Errors{UserLoginExists}    = 1;
             $Errors{'UserLoginInvalid'} = 'ServerError';
         }
 
@@ -344,7 +344,7 @@ sub Run {
         # check if a user with this login (username) already exits
         my $UserLoginExists = $Self->{UserObject}->UserLoginExistsCheck( UserLogin => $GetParam{UserLogin} );
         if ($UserLoginExists) {
-            $Errors{UserLoginExists} = 1;
+            $Errors{UserLoginExists}    = 1;
             $Errors{'UserLoginInvalid'} = 'ServerError';
         }
 

@@ -88,7 +88,7 @@ sub Run {
 
         if ( length $ServiceName > 200 ) {
             $Error{'NameInvalid'} = 'ServerError';
-            $Error{LongName} = 1;
+            $Error{LongName}      = 1;
         }
 
         if ( !%Error ) {

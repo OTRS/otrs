@@ -65,7 +65,7 @@ sub Run {
             %Set = %{ $Config{Set} };
         }
         my $StopAfterMatch = $Config{StopAfterMatch} || 0;
-        my $Prefix = '';
+        my $Prefix         = '';
         if ( $Config{Name} ) {
             $Prefix = "Filter: '$Config{Name}' ";
         }

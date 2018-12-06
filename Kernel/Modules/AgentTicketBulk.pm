@@ -928,7 +928,7 @@ sub _Mask {
 
     # build ArticleTypeID string
     my %DefaultNoteTypes = %{ $Self->{Config}->{ArticleTypes} };
-    my %NoteTypes = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
+    my %NoteTypes        = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
     for my $KeyNoteType ( sort keys %NoteTypes ) {
         if ( !$DefaultNoteTypes{ $NoteTypes{$KeyNoteType} } ) {
             delete $NoteTypes{$KeyNoteType};
@@ -1290,7 +1290,7 @@ sub _GetOwners {
         }
 
         for my $QueueID (@QueueIDs) {
-            my $GroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $QueueID );
+            my $GroupID     = $Self->{QueueObject}->GetQueueGroupID( QueueID => $QueueID );
             my %GroupMember = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GroupID,
                 Type    => 'owner',
@@ -1352,7 +1352,7 @@ sub _GetResponsibles {
         }
 
         for my $QueueID (@QueueIDs) {
-            my $GroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $QueueID );
+            my $GroupID     = $Self->{QueueObject}->GetQueueGroupID( QueueID => $QueueID );
             my %GroupMember = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GroupID,
                 Type    => 'responsible',

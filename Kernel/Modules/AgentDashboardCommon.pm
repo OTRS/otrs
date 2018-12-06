@@ -161,7 +161,7 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
-        my $Key = $UserSettingsKey . $Name;
+        my $Key  = $UserSettingsKey . $Name;
 
         # update ssession
         $Self->{SessionObject}->UpdateSessionID(
@@ -497,7 +497,7 @@ sub Run {
         # check permissions
         if ( $Config->{$Name}->{Group} ) {
             my $PermissionOK = 0;
-            my @Groups = split /;/, $Config->{$Name}->{Group};
+            my @Groups       = split /;/, $Config->{$Name}->{Group};
             GROUP:
             for my $Group (@Groups) {
                 my $Permission = 'UserIsGroupRo[' . $Group . ']';
@@ -750,7 +750,7 @@ sub _Element {
     # check permissions
     if ( $Configs->{$Name}->{Group} ) {
         my $PermissionOK = 0;
-        my @Groups = split /;/, $Configs->{$Name}->{Group};
+        my @Groups       = split /;/, $Configs->{$Name}->{Group};
         GROUP:
         for my $Group (@Groups) {
             my $Permission = 'UserIsGroupRo[' . $Group . ']';

@@ -185,7 +185,7 @@ sub Output {
         {
             Data   => $Param{Data} // {},
             global => {
-                BlockData => $Self->{BlockData} // [],
+                BlockData      => $Self->{BlockData}     // [],
                 KeepScriptTags => $Param{KeepScriptTags} // 0,
             },
         },

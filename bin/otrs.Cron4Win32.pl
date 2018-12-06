@@ -30,7 +30,7 @@ use lib dirname($RealBin) . '/Custom';
 my $CronTabFile = "";
 
 my $OTRSHome = dirname($RealBin);
-my $CronDir = File::Spec->catfile( $OTRSHome, 'var/cron' );
+my $CronDir  = File::Spec->catfile( $OTRSHome, 'var/cron' );
 
 # if $CronTabFile is not set by windows installer, for instance
 # with a manual installation, require an argument for the location

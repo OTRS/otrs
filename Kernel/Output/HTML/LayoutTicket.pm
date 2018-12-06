@@ -272,7 +272,7 @@ sub AgentQueueListOption {
         # transform data from Hash in Array because of ordering in frontend by Queue name
         # it was a problem with name like '(some_queue)'
         # see bug#10621 http://bugs.otrs.org/show_bug.cgi?id=10621
-        my %QueueDataHash = %{ $Param{Data} || {} };
+        my %QueueDataHash  = %{ $Param{Data} || {} };
         my @QueueDataArray = map {
             {
                 Key   => $_,
@@ -743,7 +743,7 @@ sub ArticleQuote {
     else {
         $Article{Body} = $Self->WrapPlainText(
             MaxCharacters => $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaEmail') || 82,
-            PlainText => $Article{Body},
+            PlainText     => $Article{Body},
         );
     }
 
@@ -906,7 +906,7 @@ sub TicketListShow {
     }
 
     # build nav bar
-    my $Limit = $Param{Limit} || 20_000;
+    my $Limit   = $Param{Limit} || 20_000;
     my %PageNav = $Env->{LayoutObject}->PageNavBar(
         Limit     => $Limit,
         StartHit  => $StartHit,

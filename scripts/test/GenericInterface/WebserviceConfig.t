@@ -276,7 +276,7 @@ for my $Test (@Tests) {
 
 # List
 my @WebserviceMatch;
-my @WebserviceList = `$WebserviceConfig -a list`;
+my @WebserviceList      = `$WebserviceConfig -a list`;
 my $WebserviceIDsString = join( '|', @WebserviceIDs );
 for my $Row (@WebserviceList) {
     my ( $Key, $Value ) = split( ':', $Row );

@@ -470,7 +470,7 @@ sub Register {
 
     # calculate due date for next update, fall back to 24h
     my $NextUpdateSeconds = int $ResponseData->{NextUpdate} || ( 3600 * 24 );
-    my $DueTime = $TimeObject->SystemTime2TimeStamp(
+    my $DueTime           = $TimeObject->SystemTime2TimeStamp(
         SystemTime => $TimeObject->SystemTime() + $NextUpdateSeconds,
     );
 
@@ -766,7 +766,7 @@ sub RegistrationUpdateSend {
     }
     elsif ( !$OperationResult->{Success} ) {
 
-        my $Reason = $OperationResult->{ErrorMessage} || $OperationResult->{Data}->{Reason} || '';
+        my $Reason  = $OperationResult->{ErrorMessage} || $OperationResult->{Data}->{Reason} || '';
         my $Message = "RegistrationUpdate - Can not update system $Reason";
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -1041,7 +1041,7 @@ sub Deregister {
     }
     elsif ( !$OperationResult->{Success} ) {
 
-        my $Reason = $OperationResult->{ErrorMessage} || $OperationResult->{Data}->{Reason} || '';
+        my $Reason  = $OperationResult->{ErrorMessage} || $OperationResult->{Data}->{Reason} || '';
         my $Message = "Deregistration - Can not deregister system: $Reason";
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',

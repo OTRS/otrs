@@ -74,7 +74,7 @@ sub new {
         || '';
     $Self->{SearchUserPw} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::SearchUserPw' . $Param{Count} )
         || '';
-    $Self->{GroupDN} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::GroupDN' . $Param{Count} ) || '';
+    $Self->{GroupDN}    = $ConfigObject->Get( 'Customer::AuthModule::LDAP::GroupDN' . $Param{Count} ) || '';
     $Self->{AccessAttr} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::AccessAttr' . $Param{Count} )
         || '';
     $Self->{UserAttr} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::UserAttr' . $Param{Count} )

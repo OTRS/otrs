@@ -246,7 +246,7 @@ sub Check {
 
                 # parse the decrypted email body
                 my $ParserObject = Kernel::System::EmailParser->new( %{$Self}, Email => $EmailContent );
-                my $Body = $ParserObject->GetMessageBody();
+                my $Body         = $ParserObject->GetMessageBody();
 
                 # from RFC 3850
                 # 3.  Using Distinguished Names for Internet Mail
@@ -269,7 +269,7 @@ sub Check {
                 # made if sender and signer addresses does not match
 
                 # get original sender from email
-                my @OrigEmail = map {"$_\n"} split( /\n/, $Message );
+                my @OrigEmail        = map {"$_\n"} split( /\n/, $Message );
                 my $ParserObjectOrig = Kernel::System::EmailParser->new(
                     %{$Self},
                     Email => \@OrigEmail,
@@ -386,7 +386,7 @@ sub Check {
                 # made if sender and signer addresses does not match
 
                 # get original sender from email
-                my @OrigEmail = map {"$_\n"} split( /\n/, $Message );
+                my @OrigEmail        = map {"$_\n"} split( /\n/, $Message );
                 my $ParserObjectOrig = Kernel::System::EmailParser->new(
                     %{$Self},
                     Email => \@OrigEmail,

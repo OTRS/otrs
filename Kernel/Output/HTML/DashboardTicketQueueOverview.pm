@@ -54,7 +54,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $LimitGroup = $Self->{Config}->{QueuePermissionGroup} || 0;
-    my $CacheKey = 'User' . '-' . $Self->{UserID} . '-' . $LimitGroup;
+    my $CacheKey   = 'User' . '-' . $Self->{UserID} . '-' . $LimitGroup;
 
     my $Content = $Self->{CacheObject}->Get(
         Type => 'DashboardQueueOverview',
@@ -182,7 +182,7 @@ sub Run {
             Name => 'ContentLargeTicketQueueOverviewQueueName',
             Data => {
                 QueueName => $Queue,
-                }
+            }
         );
 
         # iterate over states
@@ -239,7 +239,7 @@ sub Run {
             Name => 'ContentLargeTicketQueueOverviewNone',
             Data => {
                 ColumnCount => ( scalar keys %ConfiguredStates ) + 2,
-                }
+            }
         );
     }
 

@@ -339,7 +339,7 @@ sub _ServiceStart {
     }
 
     # delete old log files
-    my $DaysToKeep = $ConfigObject->Get('Scheduler::Log::DaysToKeep') || 10;
+    my $DaysToKeep           = $ConfigObject->Get('Scheduler::Log::DaysToKeep') || 10;
     my $DaysToKeepSystemTime = $TimeObject->SystemTime() - $DaysToKeep * 24 * 60 * 60;
 
     my @LogFiles = glob("$LogPath/*.log");

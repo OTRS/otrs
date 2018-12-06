@@ -87,7 +87,7 @@ my @Tests = (
         Result    => {
             'fooResponse' => {
                 'bar' => 'abcd'
-                }
+            }
         },
     },
     {
@@ -98,7 +98,7 @@ my @Tests = (
         Result    => {
             'fooResponse' => {
                 'bar' => 'äöüß€ис'
-                }
+            }
         },
     },
     {
@@ -181,13 +181,13 @@ my @Tests = (
                                     'color' => [
                                         'Red',
                                         'Blue'
-                                        ]
+                                    ]
                                 },
                                 {
                                     'color' => [
                                         'Red',
                                         'Green'
-                                        ]
+                                    ]
                                 }
                             ],
                         },
@@ -200,7 +200,7 @@ my @Tests = (
                                         'Red',
                                         'Navy',
                                         'Green'
-                                        ]
+                                    ]
                                 },
                                 {
                                     'color' => [
@@ -208,19 +208,19 @@ my @Tests = (
                                         'Navy',
                                         'Green',
                                         'Black'
-                                        ]
+                                    ]
                                 },
                                 {
                                     'color' => [
                                         'Navy',
                                         'Black'
-                                        ]
+                                    ]
                                 },
                                 {
                                     'color' => [
                                         'Green',
                                         'Black'
-                                        ]
+                                    ]
                                 }
                             ],
                         },

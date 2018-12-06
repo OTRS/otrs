@@ -277,7 +277,7 @@ sub _DynamicFieldsListShow {
     }
 
     # build nav bar
-    my $Limit = $Param{Limit} || 20_000;
+    my $Limit   = $Param{Limit} || 20_000;
     my %PageNav = $Self->{LayoutObject}->PageNavBar(
         Limit     => $Limit,
         StartHit  => $StartHit,

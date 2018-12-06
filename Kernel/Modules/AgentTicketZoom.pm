@@ -387,7 +387,7 @@ sub Run {
 
     # article update
     elsif ( $Self->{Subaction} eq 'ArticleUpdate' ) {
-        my $Count = $Self->{ParamObject}->GetParam( Param => 'Count' );
+        my $Count   = $Self->{ParamObject}->GetParam( Param => 'Count' );
         my %Article = $Self->{TicketObject}->ArticleGet(
             ArticleID     => $Self->{ArticleID},
             DynamicFields => 0,
@@ -887,7 +887,7 @@ sub MaskAgentZoom {
 
     # set display options
     $Param{WidgetTitle} = 'Ticket Information';
-    $Param{Hook} = $Self->{ConfigObject}->Get('Ticket::Hook') || 'Ticket#';
+    $Param{Hook}        = $Self->{ConfigObject}->Get('Ticket::Hook') || 'Ticket#';
 
     # check if ticket is normal or process ticket
     my $IsProcessTicket = $Self->{TicketObject}->TicketCheckForProcessType(
@@ -1017,7 +1017,7 @@ sub MaskAgentZoom {
 
     # get MoveQueuesStrg
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i ) {
-        $MoveQueues{0} = '- ' . $Self->{LayoutObject}->{LanguageObject}->Translate('Move') . ' -';
+        $MoveQueues{0}         = '- ' . $Self->{LayoutObject}->{LanguageObject}->Translate('Move') . ' -';
         $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
             Name           => 'DestQueueID',
             Data           => \%MoveQueues,
@@ -2490,7 +2490,7 @@ sub _ArticleTree {
                     ArticleID => $ArticleID,
                     TicketID  => $Self->{TicketID},
                     MenuItems => \@MenuItems,
-                    }
+                }
             );
 
             # show attachments box
@@ -2505,7 +2505,7 @@ sub _ArticleTree {
                     Data => {
                         ArticleID   => $ArticleID,
                         Attachments => $ArticleAttachments,
-                        }
+                    }
                 );
             }
         }

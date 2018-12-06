@@ -44,7 +44,7 @@ sub Run {
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+        my $ID   = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
         my %Data = $Self->{StandardTemplateObject}->StandardTemplateGet(
             ID => $ID,
         );
@@ -111,7 +111,7 @@ sub Run {
         );
 
         if ($NameExists) {
-            $Errors{NameExists} = 1;
+            $Errors{NameExists}    = 1;
             $Errors{'NameInvalid'} = 'ServerError';
         }
 
@@ -231,7 +231,7 @@ sub Run {
         # check if a standard template exists with this name
         my $NameExists = $Self->{StandardTemplateObject}->NameExistsCheck( Name => $GetParam{Name} );
         if ($NameExists) {
-            $Errors{NameExists} = 1;
+            $Errors{NameExists}    = 1;
             $Errors{'NameInvalid'} = 'ServerError';
         }
 

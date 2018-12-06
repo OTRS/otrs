@@ -127,7 +127,7 @@ my $BreakLineAfterChars = 60;
     my %Summary;
     for my $Language ( sort keys %Stats ) {
         $Summary{$Language}->{Translated} = scalar grep {$_} values %{ $Stats{$Language} };
-        $Summary{$Language}->{Total} = scalar values %{ $Stats{$Language} };
+        $Summary{$Language}->{Total}      = scalar values %{ $Stats{$Language} };
     }
 
     print "\n\nTranslation statistics:\n";

@@ -214,7 +214,7 @@ $Self->True(
 my @UserIDs;
 for ( 1 .. 2 ) {
     my $UserLogin = $HelperObject->TestUserCreate();
-    my $UserID = $UserObject->UserLookup( UserLogin => $UserLogin );
+    my $UserID    = $UserObject->UserLookup( UserLogin => $UserLogin );
     push @UserIDs, $UserID;
 }
 
@@ -408,7 +408,7 @@ $TicketObject->TicketFlagSet(
             NotTicketFlag    => {
                 JustOne => 999,
             },
-            }
+        }
     },
     {
         Name     => 'NotTicketFlag ignores flags with different value',

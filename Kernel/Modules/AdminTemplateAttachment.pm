@@ -44,7 +44,7 @@ sub Run {
     if ( $Self->{Subaction} eq 'Template' ) {
 
         # get template data
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        my $ID                   = $Self->{ParamObject}->GetParam( Param => 'ID' );
         my %StandardTemplateData = $Self->{StandardTemplateObject}->StandardTemplateGet(
             ID => $ID,
         );

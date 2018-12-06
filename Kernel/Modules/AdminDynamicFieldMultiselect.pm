@@ -763,7 +763,7 @@ sub _ShowScreen {
             TreeViewStrg           => $TreeViewStrg,
             TranslatableValuesStrg => $TranslatableValuesStrg,
             ReadonlyInternalField  => $ReadonlyInternalField,
-            }
+        }
     );
 
     $Output .= $Self->{LayoutObject}->Footer();

@@ -634,7 +634,7 @@ sub _PDFOutputLinkedObjects {
     for my $LinkTypeLinkDirection ( sort { lc $a cmp lc $b } keys %{ $Param{LinkData} } ) {
 
         # investigate link type name
-        my @LinkData = split q{::}, $LinkTypeLinkDirection;
+        my @LinkData     = split q{::}, $LinkTypeLinkDirection;
         my $LinkTypeName = $TypeList{ $LinkData[0] }->{ $LinkData[1] . 'Name' };
         $LinkTypeName = $Self->{LayoutObject}->{LanguageObject}->Translate($LinkTypeName);
 
@@ -1324,7 +1324,7 @@ sub _HTMLMask {
 
     # build article stuff
     my $SelectedArticleID = $Param{ArticleID} || '';
-    my @ArticleBox = @{ $Param{ArticleBox} };
+    my @ArticleBox        = @{ $Param{ArticleBox} };
 
     # get last customer article
     for my $ArticleTmp (@ArticleBox) {

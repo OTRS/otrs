@@ -78,7 +78,7 @@ my @Queries = (
             Some6 => 0,
             Some7 => 0,
             Some8 => 0,
-            }
+        }
     },
     {
         Query  => 'john+smith',

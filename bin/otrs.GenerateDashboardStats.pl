@@ -90,7 +90,7 @@ sub Run {
         print "Stat $Stat{StatNumber}: $Stat{Title}\n";
 
         # now find out all users which have this statistic enabled in their dashboard
-        my $DashboardActiveSetting = 'UserDashboard' . ( 1000 + $StatID ) . "-Stats";
+        my $DashboardActiveSetting   = 'UserDashboard' . ( 1000 + $StatID ) . "-Stats";
         my %UsersWithActivatedWidget = $Kernel::OM->Get('Kernel::System::User')->SearchPreferences(
             Key   => $DashboardActiveSetting,
             Value => 1,

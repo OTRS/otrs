@@ -48,7 +48,7 @@ my @DynamicFieldsToAdd = (
             PossibleValues => {
                 1 => 'A',
                 2 => 'B',
-                }
+            }
         },
         Reorder => 0,
         ValidID => 1,

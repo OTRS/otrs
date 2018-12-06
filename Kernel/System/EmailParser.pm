@@ -788,7 +788,7 @@ sub PartsAttachments {
         )
     {
         # Is it a plain or HTML body?
-        my $MimeType = $PartData{ContentType} =~ /text\/html/i ? 'text/html' : 'text/plain';
+        my $MimeType       = $PartData{ContentType} =~ /text\/html/i ? 'text/html' : 'text/plain';
         my $TargetMimeType = $MimeType;
 
         my $BodyAttachmentKey = "MultipartMixedBodyAttachment$MimeType";

@@ -1673,7 +1673,7 @@ sub _Mask {
             %ShownUsers = %AllGroupsMembers;
         }
         else {
-            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+            my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
                 Type    => 'owner',
@@ -1755,7 +1755,7 @@ sub _Mask {
             %ShownUsers = %AllGroupsMembers;
         }
         else {
-            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+            my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
                 Type    => 'responsible',
@@ -1964,7 +1964,7 @@ sub _Mask {
             Type  => 'Long',
             Valid => 1,
         );
-        my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+        my $GID        = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
             GroupID => $GID,
             Type    => 'note',
@@ -2259,7 +2259,7 @@ sub _Mask {
         # get possible notes
         if ( $Self->{Config}->{ArticleTypes} ) {
             my %DefaultNoteTypes = %{ $Self->{Config}->{ArticleTypes} };
-            my %NoteTypes = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
+            my %NoteTypes        = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
             for my $KeyNoteType ( sort keys %NoteTypes ) {
                 if ( !$DefaultNoteTypes{ $NoteTypes{$KeyNoteType} } ) {
                     delete $NoteTypes{$KeyNoteType};
@@ -2546,7 +2546,7 @@ sub _GetQuotedReplyBody {
         if ( $Param{Body} ) {
             $Param{Body} =~ s/\t/ /g;
             my $Quote = $Self->{LayoutObject}->Ascii2Html(
-                Text => $Self->{ConfigObject}->Get('Ticket::Frontend::Quote') || '',
+                Text           => $Self->{ConfigObject}->Get('Ticket::Frontend::Quote') || '',
                 HTMLResultMode => 1,
             );
             if ($Quote) {

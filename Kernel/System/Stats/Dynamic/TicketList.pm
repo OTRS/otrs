@@ -128,7 +128,7 @@ sub GetObjectAttributes {
     );
 
     my %TicketAttributes = %{ $Self->_TicketAttributes() };
-    my %OrderBy = map { $_ => $TicketAttributes{$_} } grep { $_ ne 'Number' } keys %TicketAttributes;
+    my %OrderBy          = map { $_ => $TicketAttributes{$_} } grep { $_ ne 'Number' } keys %TicketAttributes;
 
     # get dynamic field backend object
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
@@ -763,7 +763,7 @@ sub GetObjectAttributes {
 
 sub GetStatTable {
     my ( $Self, %Param ) = @_;
-    my %TicketAttributes = map { $_ => 1 } @{ $Param{XValue}{SelectedValues} };
+    my %TicketAttributes    = map { $_ => 1 } @{ $Param{XValue}{SelectedValues} };
     my $SortedAttributesRef = $Self->_SortedAttributes();
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -779,8 +779,8 @@ sub GetStatTable {
     my $OrderRef = first { $_->{Element} eq 'OrderBy' } @{ $Param{ValueSeries} };
     my $OrderBy = $OrderRef ? $OrderRef->{SelectedValues}[0] : 'Age';
     my $SortRef = first { $_->{Element} eq 'SortSequence' } @{ $Param{ValueSeries} };
-    my $Sort = $SortRef ? $SortRef->{SelectedValues}[0] : 'Down';
-    my $Limit = $Param{Restrictions}{Limit};
+    my $Sort    = $SortRef ? $SortRef->{SelectedValues}[0] : 'Down';
+    my $Limit   = $Param{Restrictions}{Limit};
 
     # check if we can use the sort and order function of TicketSearch
     my $OrderByIsValueOfTicketSearchSort = $Self->_OrderByIsValueOfTicketSearchSort(
@@ -940,7 +940,7 @@ sub GetStatTable {
             Limit                    => 100_000_000,
         );
         %OlderTicketsExclude = map { $_ => 1 } @OldToExclude;
-        $UnixTimeStart = $TimeObject->TimeStamp2SystemTime(
+        $UnixTimeStart       = $TimeObject->TimeStamp2SystemTime(
             String => $Param{Restrictions}->{HistoricTimeRangeTimeNewerDate}
         );
     }
@@ -959,7 +959,7 @@ sub GetStatTable {
             Limit                     => 100_000_000,
         );
         %NewerTicketsExclude = map { $_ => 1 } @NewToExclude;
-        $UnixTimeEnd = $TimeObject->TimeStamp2SystemTime(
+        $UnixTimeEnd         = $TimeObject->TimeStamp2SystemTime(
             String => $Param{Restrictions}->{HistoricTimeRangeTimeOlderDate}
         );
     }

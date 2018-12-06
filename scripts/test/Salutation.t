@@ -67,7 +67,7 @@ $Self->Is(
 );
 
 my %SalutationList = $SalutationObject->SalutationList( Valid => 0 );
-my $Hit = 0;
+my $Hit            = 0;
 for ( sort keys %SalutationList ) {
     if ( $_ eq $SalutationID ) {
         $Hit = 1;
@@ -79,7 +79,7 @@ $Self->True(
 );
 
 %SalutationList = $SalutationObject->SalutationList( Valid => 1 );
-$Hit = 0;
+$Hit            = 0;
 for ( sort keys %SalutationList ) {
     if ( $_ eq $SalutationID ) {
         $Hit = 1;
@@ -133,7 +133,7 @@ $Self->Is(
 );
 
 %SalutationList = $SalutationObject->SalutationList( Valid => 0 );
-$Hit = 0;
+$Hit            = 0;
 for ( sort keys %SalutationList ) {
     if ( $_ eq $SalutationID ) {
         $Hit = 1;
@@ -145,7 +145,7 @@ $Self->True(
 );
 
 %SalutationList = $SalutationObject->SalutationList( Valid => 1 );
-$Hit = 0;
+$Hit            = 0;
 for ( sort keys %SalutationList ) {
     if ( $_ eq $SalutationID ) {
         $Hit = 1;

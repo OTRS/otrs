@@ -182,7 +182,7 @@ my $DFSetSuccess = $DynamicFieldBackendObject->ValueSet(
                 2 => 'B',
                 3 => 'C',
             },
-            }
+        }
     },
     ObjectID => $TicketID,
     Value    => [ 1, 2 ],

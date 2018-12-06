@@ -53,7 +53,7 @@ $Self->True(
 );
 
 my $QueueBefore = 'Unittest-' . $HelperObject->GetRandomID();
-my %Queue = $QueueObject->QueueGet( Name => $QueueBefore );
+my %Queue       = $QueueObject->QueueGet( Name => $QueueBefore );
 
 # Create test queue if raw queue does not exist.
 my $QueueID;
@@ -75,7 +75,7 @@ if ( !%Queue ) {
         "Queue:\'$QueueBefore\' is created new for testing.",
     );
 
-    %Queue = $QueueObject->QueueGet( Name => $QueueBefore );
+    %Queue   = $QueueObject->QueueGet( Name => $QueueBefore );
     $QueueID = $Queue{QueueID};
 }
 
@@ -168,7 +168,7 @@ my %IndexAfter = $TicketObject->TicketAcceleratorIndex(
 );
 $Self->Is(
     $IndexBefore{AllTickets} // 0,
-    $IndexAfter{AllTickets} // 1,
+    $IndexAfter{AllTickets}  // 1,
     "$Module TicketAcceleratorIndex() - AllTickets",
 );
 
@@ -177,7 +177,7 @@ my ($ItemAfter)  = grep { $_->{Queue} eq $QueueAfter } @{ $IndexAfter{Queues} };
 
 $Self->Is(
     $ItemBefore->{Count} // 0,
-    $ItemAfter->{Count} // 1,
+    $ItemAfter->{Count}  // 1,
     "$Module TicketAcceleratorIndex() for Queue: $QueueAfter - Count",
 );
 

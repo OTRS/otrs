@@ -29,7 +29,7 @@ $Selenium->RunTest(
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 0,
-                }
+            }
         );
 
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');

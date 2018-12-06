@@ -254,7 +254,7 @@ sub Run {
     else {
         $Self->_Overview();
 
-        my $Ok = $Self->{ParamObject}->GetParam( Param => 'Ok' );
+        my $Ok     = $Self->{ParamObject}->GetParam( Param => 'Ok' );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         if ($Ok) {

@@ -95,12 +95,12 @@ for my $Hours ( sort keys %WorkingHours ) {
         time(),
         int( rand 1_000_000 );
     my $StartingSystemTime = $TimeObject->SystemTime();
-    my $StartingTimeStamp = $TimeObject->SystemTime2TimeStamp( SystemTime => $StartingSystemTime );
+    my $StartingTimeStamp  = $TimeObject->SystemTime2TimeStamp( SystemTime => $StartingSystemTime );
 
     # set schedule on each day
     my %Week;
     my @WindowTime = split( ',', $WorkingHours{$Hours} );
-    my @Days = qw(Sun Mon Tue Wed Thu Fri Sat);
+    my @Days       = qw(Sun Mon Tue Wed Thu Fri Sat);
     for my $Day (@Days) {
         $Week{$Day} = \@WindowTime;
     }
@@ -448,7 +448,7 @@ for my $Hours ( sort keys %WorkingHours ) {
 # Add case when escalation time is greater than rest of working day time.
 # Escalation destination times must be moved to the next working day (see bug#11243).
 my @TimeWorkingHours = ( '9', '10', '11', '12', '13', '14', '15', '16', '17' );
-my @Days = qw(Mon Tue Wed Thu Fri);
+my @Days             = qw(Mon Tue Wed Thu Fri);
 my %Week;
 
 for my $Day (@Days) {

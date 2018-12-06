@@ -289,7 +289,7 @@ sub UninstallScreen {
             Name => 'DowngradeNotPossible',
             Data => {
                 Packages => $Dependencies,
-                }
+            }
         );
     }
     else {

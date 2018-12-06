@@ -2011,7 +2011,7 @@ sub StatsRun {
     # TODO: remove this code for OTRS5, it is kept here for backards compatibility only
     $Self->{DBSlaveObject} = $Kernel::OM->Get('Kernel::System::DB');
 
-    my $Stat = $Self->StatsGet( StatID => $Param{StatID} );
+    my $Stat     = $Self->StatsGet( StatID => $Param{StatID} );
     my %GetParam = %{ $Param{GetParam} };
     my @Result;
 
@@ -2274,7 +2274,7 @@ sub _StatsParamsGenerate {
                                                 $Use
                                                     . $Element->{Element}
                                                     . "$Limit$Unit"
-                                                }
+                                            }
                                         )
                                         )
                                     {
@@ -2362,12 +2362,12 @@ sub _StatsParamsGenerate {
                             $TimePeriod           = (
                                 $TimeObject->TimeStamp2SystemTime(
                                     String => $Element->{TimeStop}
-                                    )
+                                )
                                 )
                                 - (
                                 $TimeObject->TimeStamp2SystemTime(
                                     String => $Element->{TimeStart}
-                                    )
+                                )
                                 );
                         }
                         else {
@@ -3040,7 +3040,7 @@ sub _GenerateDynamicStats {
                     sprintf(
                         "%02d:%02d:%02d-%02d:%02d:%02d",
                         $Hour, $Minute, $Second, $ToHour, $ToMinute, $ToSecond
-                        )
+                    )
                 );
             }
             elsif ( $Element->{SelectedValues}[0] eq 'Minute' ) {
@@ -3053,7 +3053,7 @@ sub _GenerateDynamicStats {
                     sprintf(
                         "%02d:%02d:%02d-%02d:%02d:%02d",
                         $Hour, $Minute, $Second, $ToHour, $ToMinute, $ToSecond
-                        )
+                    )
                 );
             }
             elsif ( $Element->{SelectedValues}[0] eq 'Hour' ) {
@@ -3066,7 +3066,7 @@ sub _GenerateDynamicStats {
                     sprintf(
                         "%02d:%02d:%02d-%02d:%02d:%02d",
                         $Hour, $Minute, $Second, $ToHour, $ToMinute, $ToSecond
-                        )
+                    )
                 );
             }
             elsif ( $Element->{SelectedValues}[0] eq 'Day' ) {
@@ -3085,7 +3085,7 @@ sub _GenerateDynamicStats {
                         sprintf(
                             "%02d.%02d.%04d - %02d.%02d.%04d",
                             $Day, $Month, $Year, $ToDay, $ToMonth, $ToYear
-                            )
+                        )
                     );
                 }
             }
@@ -3123,7 +3123,7 @@ sub _GenerateDynamicStats {
                         sprintf(
                             "%02d.%02d.%04d - %02d.%02d.%04d",
                             $Day, $Month, $Year, $ToDay, $ToMonth, $ToYear
-                            )
+                        )
                     );
                 }
             }
@@ -3142,7 +3142,7 @@ sub _GenerateDynamicStats {
                         sprintf(
                             "%02d.%02d.%04d - %02d.%02d.%04d",
                             $Day, $Month, $Year, $ToDay, $ToMonth, $ToYear
-                            )
+                        )
                     );
                 }
             }
@@ -3426,7 +3426,7 @@ sub _GenerateDynamicStats {
                     sprintf(
                         "%04d-%02d-%02d %02d:00:00 - %02d:59:59",
                         $VSYear, $VSMonth, $VSDay, $VSHour, $ToHour
-                        )
+                    )
                     } = {
                     $Ref1->{Values}{TimeStop}  => $TimeStop,
                     $Ref1->{Values}{TimeStart} => $TimeStart
@@ -3460,7 +3460,7 @@ sub _GenerateDynamicStats {
                     sprintf(
                         "%04d-%02d-%02d %02d:%02d:00 - %02d:%02d:59",
                         $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $ToHour, $ToMinute
-                        )
+                    )
                     } = {
                     $Ref1->{Values}{TimeStop}  => $TimeStop,
                     $Ref1->{Values}{TimeStart} => $TimeStart

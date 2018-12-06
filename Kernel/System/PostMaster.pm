@@ -479,7 +479,7 @@ sub CheckFollowUp {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     my $Subject = $Param{Subject} || '';
-    my $Tn = $TicketObject->GetTNByString($Subject);
+    my $Tn      = $TicketObject->GetTNByString($Subject);
 
     if ($Tn) {
 
@@ -727,7 +727,7 @@ sub GetEmailParams {
 
     # get content type
     $GetParam{'Content-Type'} = $Self->{ParserObject}->GetReturnContentType();
-    $GetParam{Charset} = $Self->{ParserObject}->GetReturnCharset();
+    $GetParam{Charset}        = $Self->{ParserObject}->GetReturnCharset();
 
     # get attachments
     my @Attachments = $Self->{ParserObject}->GetAttachments();

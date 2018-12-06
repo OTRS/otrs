@@ -168,7 +168,7 @@ for my $Backend (qw( FS DB )) {
 
         # find
         my @List = $VirtualFSObject->Find( Filename => $Test->{Find} );
-        my $Hit = 0;
+        my $Hit  = 0;
         for (@List) {
             if ( $_ eq $Test->{Filename} ) {
                 $Hit = 1;
@@ -181,7 +181,7 @@ for my $Backend (qw( FS DB )) {
 
         # find not
         @List = $VirtualFSObject->Find( Filename => $Test->{FindNot} );
-        $Hit = 0;
+        $Hit  = 0;
         for (@List) {
             if ( $_ eq $Test->{Filename} ) {
                 $Hit = 1;
@@ -194,7 +194,7 @@ for my $Backend (qw( FS DB )) {
 
         # find preferences
         @List = $VirtualFSObject->Find( Preferences => $Test->{FindPreferences} );
-        $Hit = 0;
+        $Hit  = 0;
         for (@List) {
             if ( $_ eq $Test->{Filename} ) {
                 $Hit = 1;
@@ -207,7 +207,7 @@ for my $Backend (qw( FS DB )) {
 
         # find not preferences
         @List = $VirtualFSObject->Find( Preferences => $Test->{FindNotPreferences} );
-        $Hit = 0;
+        $Hit  = 0;
         for (@List) {
             if ( $_ eq $Test->{Filename} ) {
                 $Hit = 1;

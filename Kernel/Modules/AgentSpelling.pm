@@ -39,7 +39,7 @@ sub Run {
         || $Self->{ConfigObject}->Get('SpellCheckerDictDefault');
 
     # get params
-    $Param{Body} = $Self->{ParamObject}->GetParam( Param => 'Body' );
+    $Param{Body}  = $Self->{ParamObject}->GetParam( Param => 'Body' );
     $Param{Field} = $Self->{ParamObject}->GetParam( Param => 'Field' ) || 'Body';
 
     # get and replace all wrong words

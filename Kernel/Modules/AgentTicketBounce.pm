@@ -407,7 +407,7 @@ $Param{Signature}";
                 $Param{Body} =~ s/&lt;OTRS_BOUNCE_TO&gt;/&amp;lt;OTRS_BOUNCE_TO&amp;gt;/gi;
             }
 
-            $Param{InformationFormat} = $Param{Body};
+            $Param{InformationFormat}   = $Param{Body};
             $Param{InformSenderChecked} = $Param{InformSender} ? 'checked="checked"' : '';
 
             my $Output = $Self->{LayoutObject}->Header(

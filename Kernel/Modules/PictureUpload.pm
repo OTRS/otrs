@@ -38,7 +38,7 @@ sub Run {
     my $Charset = $Self->{LayoutObject}->{UserCharset};
 
     # get params
-    my $FormID = $Self->{ParamObject}->GetParam( Param => 'FormID' );
+    my $FormID          = $Self->{ParamObject}->GetParam( Param => 'FormID' );
     my $CKEditorFuncNum = $Self->{ParamObject}->GetParam( Param => 'CKEditorFuncNum' ) || 0;
 
     # return if no form id exists

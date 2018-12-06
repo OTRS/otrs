@@ -266,7 +266,7 @@ sub _Start {
         }
 
         # delete old log files
-        my $DaysToKeep = $Kernel::OM->Get('Kernel::Config')->Get('Scheduler::Log::DaysToKeep') || 10;
+        my $DaysToKeep           = $Kernel::OM->Get('Kernel::Config')->Get('Scheduler::Log::DaysToKeep') || 10;
         my $DaysToKeepSystemTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime() - $DaysToKeep * 24 * 60 * 60;
 
         my @LogFiles = glob("$LogPath/*.log");

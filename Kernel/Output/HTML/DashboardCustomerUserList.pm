@@ -29,7 +29,7 @@ sub new {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # get current filter
-    my $Name = $ParamObject->GetParam( Param => 'Name' ) || '';
+    my $Name           = $ParamObject->GetParam( Param => 'Name' ) || '';
     my $PreferencesKey = 'UserDashboardCustomerUserListFilter' . $Self->{Name};
 
     $Self->{PrefKey} = 'UserDashboardPref' . $Self->{Name} . '-Shown';

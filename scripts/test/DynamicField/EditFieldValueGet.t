@@ -724,7 +724,7 @@ my @Tests = (
         ExpectedResults => {
             FieldValue => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
             UsedValue  => 1,
-            }
+        }
     },
     {
         Name   => 'Checkbox: empty template and UTF8 ParamObject (ValueStructure)',

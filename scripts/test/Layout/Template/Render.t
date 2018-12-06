@@ -350,7 +350,7 @@ console.log(22);
 <form action="#"><input type="hidden" name="ChallengeToken" value="TestToken"/></form>',
         Env => {
             UserChallengeToken => 'TestToken',
-            }
+        }
     },
     {
         Name     => 'Form with SessionID (no cookie) and ChallengeToken',
@@ -363,7 +363,7 @@ console.log(22);
             SessionID          => '123',
             SessionName        => 'SID',
             SessionIDCookie    => 0,
-            }
+        }
     },
     {
         Name     => 'Form with SessionID (with cookie) and ChallengeToken',
@@ -376,7 +376,7 @@ console.log(22);
             SessionID          => '123',
             SessionName        => 'Session',
             SessionIDCookie    => 1,
-            }
+        }
     },
     {
         Name     => 'Link with SessionID (no cookie)',
@@ -389,7 +389,7 @@ console.log(22);
             SessionID          => '123',
             SessionName        => 'SID',
             SessionIDCookie    => 0,
-            }
+        }
     },
     {
         Name     => 'Link with SessionID (with cookie)',
@@ -402,7 +402,7 @@ console.log(22);
             SessionID          => '123',
             SessionName        => 'Session',
             SessionIDCookie    => 1,
-            }
+        }
     },
 
 );

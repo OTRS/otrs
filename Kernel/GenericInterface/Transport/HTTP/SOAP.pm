@@ -475,7 +475,7 @@ sub RequesterPerformRequest {
             && $Config->{Authentication}->{Type} eq 'BasicAuth'
             )
         {
-            my $User = $Config->{Authentication}->{User};
+            my $User     = $Config->{Authentication}->{User};
             my $Password = $Config->{Authentication}->{Password} || '';
 
             # Prepare user credentials for inclusion as request header instead of adding it to the URL. This prevents
@@ -825,7 +825,7 @@ sub _Output {
 
     # set keep-alive
     my $ConfigKeepAlive = $Kernel::OM->Get('Kernel::Config')->Get('SOAP::Keep-Alive');
-    my $Connection = $ConfigKeepAlive ? 'Keep-Alive' : 'close';
+    my $Connection      = $ConfigKeepAlive ? 'Keep-Alive' : 'close';
 
     # in the constructor of this module STDIN and STDOUT are set to binmode without any additional
     # layer (according to the documentation this is the same as set :raw). Previous solutions for

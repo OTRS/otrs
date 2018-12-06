@@ -173,7 +173,7 @@ sub Run {
             ID   => $GetParam{QueueID}
         );
         if ($NameExists) {
-            $Errors{NameExists} = 1;
+            $Errors{NameExists}    = 1;
             $Errors{'NameInvalid'} = 'ServerError';
         }
 
@@ -357,7 +357,7 @@ sub Run {
         # check if a queue exist with this name
         my $NameExists = $Self->{QueueObject}->NameExistsCheck( Name => $GetParam{Name} );
         if ($NameExists) {
-            $Errors{NameExists} = 1;
+            $Errors{NameExists}    = 1;
             $Errors{'NameInvalid'} = 'ServerError';
         }
 

@@ -57,7 +57,7 @@ sub Send {
             $ToString .= ', ';
         }
         $ToString .= $To;
-        $Arg .= ' ' . quotemeta($To);
+        $Arg      .= ' ' . quotemeta($To);
     }
 
     # check availability

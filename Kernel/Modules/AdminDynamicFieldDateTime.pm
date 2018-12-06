@@ -134,7 +134,7 @@ sub _AddAction {
             $Self->{DynamicFieldObject}->DynamicFieldList(
                 Valid      => 0,
                 ResultType => 'HASH',
-                )
+            )
         };
 
         %DynamicFieldsList = reverse %DynamicFieldsList;
@@ -333,7 +333,7 @@ sub _ChangeAction {
             $Self->{DynamicFieldObject}->DynamicFieldList(
                 Valid      => 0,
                 ResultType => 'HASH',
-                )
+            )
         };
 
         %DynamicFieldsList = reverse %DynamicFieldsList;
@@ -615,7 +615,7 @@ sub _ShowScreen {
             YearsInPast           => $YearsInPast,
             ReadonlyInternalField => $ReadonlyInternalField,
             Link                  => $Link,
-            }
+        }
     );
 
     $Output .= $Self->{LayoutObject}->Footer();

@@ -37,7 +37,7 @@ sub new {
 sub Param {
     my ( $Self, %Param ) = @_;
 
-    my @Params = ();
+    my @Params   = ();
     my $GetParam = $Self->{ParamObject}->GetParam( Param => $Self->{ConfigItem}->{PrefKey} );
     if ( !defined($GetParam) ) {
         $GetParam = defined( $Param{ServiceData}->{ $Self->{ConfigItem}->{PrefKey} } )

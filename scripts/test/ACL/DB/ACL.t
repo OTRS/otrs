@@ -389,7 +389,7 @@ for my $Test (@Tests) {
 
     # get the old ACL (if any)
     my $OldACL = $ACLObject->ACLGet(
-        ID => $Test->{Config}->{ID} || 0,
+        ID     => $Test->{Config}->{ID} || 0,
         UserID => $Test->{Config}->{UserID},
     );
 

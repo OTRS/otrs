@@ -40,7 +40,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $AutoCompleteConfig = $Self->{ConfigObject}->Get('AutoComplete::Agent')->{CustomerSearch};
-    my $MaxResults = $AutoCompleteConfig->{MaxResultsDisplayed} || 20;
+    my $MaxResults         = $AutoCompleteConfig->{MaxResultsDisplayed} || 20;
     my $IncludeUnknownTicketCustomers
         = int( $Self->{ParamObject}->GetParam( Param => 'IncludeUnknownTicketCustomers' ) || 0 );
     my $SearchTerm = $Self->{ParamObject}->GetParam( Param => 'Term' ) || '';

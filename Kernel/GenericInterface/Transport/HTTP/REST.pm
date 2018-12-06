@@ -471,7 +471,7 @@ sub RequesterPerformRequest {
             && $Config->{Authentication}->{Type} eq 'BasicAuth'
             )
         {
-            my $User = $Config->{Authentication}->{User};
+            my $User     = $Config->{Authentication}->{User};
             my $Password = $Config->{Authentication}->{Password} || '';
 
             if ( IsStringWithData($User) ) {

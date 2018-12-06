@@ -123,7 +123,7 @@ sub Run {
 
             # search with user permissions
             Permission => $Self->{Config}->{Permission} || 'ro',
-            UserID => $Self->{UserID},
+            UserID     => $Self->{UserID},
         );
         if ( $CountCreated && $CountCreated > $Max ) {
             $Max = $CountCreated;
@@ -146,7 +146,7 @@ sub Run {
 
             # search with user permissions
             Permission => $Self->{Config}->{Permission} || 'ro',
-            UserID => $Self->{UserID},
+            UserID     => $Self->{UserID},
         );
         if ( $CountClosed && $CountClosed > $Max ) {
             $Max = $CountClosed;

@@ -108,7 +108,7 @@ sub ArticleCreate {
     # get time object
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
-    my $ValidID = $Param{ValidID} || 1;
+    my $ValidID      = $Param{ValidID} || 1;
     my $IncomingTime = $TimeObject->SystemTime();
 
     # create ArticleContentPath
@@ -1842,7 +1842,7 @@ sub ArticleGet {
         $Ticket{QueueID}        = $Row[12];
         $Ticket{AgeTimeUnix}    = $TimeObject->SystemTime()
             - $TimeObject->TimeStamp2SystemTime( String => $Row[13] );
-        $Ticket{Created} = $TimeObject->SystemTime2TimeStamp( SystemTime => $Ticket{CreateTimeUnix} );
+        $Ticket{Created}   = $TimeObject->SystemTime2TimeStamp( SystemTime => $Ticket{CreateTimeUnix} );
         $Data{ContentType} = $Row[14];
 
         $Data{CreatedBy}           = $Row[15];
@@ -2987,12 +2987,12 @@ sub SendCustomerNotification {
     }
 
     # replace config options
-    $Notification{Body} =~ s{<OTRS_CONFIG_(.+?)>}{$ConfigObject->Get($1)}egx;
+    $Notification{Body}    =~ s{<OTRS_CONFIG_(.+?)>}{$ConfigObject->Get($1)}egx;
     $Notification{Subject} =~ s{<OTRS_CONFIG_(.+?)>}{$ConfigObject->Get($1)}egx;
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_CONFIG_.+?>/-/gi;
-    $Notification{Body} =~ s/<OTRS_CONFIG_.+?>/-/gi;
+    $Notification{Body}    =~ s/<OTRS_CONFIG_.+?>/-/gi;
 
     # COMPAT
     $Notification{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/gi;
@@ -3008,7 +3008,7 @@ sub SendCustomerNotification {
     );
     for ( sort keys %Ticket ) {
         if ( defined $Ticket{$_} ) {
-            $Notification{Body} =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
+            $Notification{Body}    =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
         }
     }
@@ -3018,20 +3018,20 @@ sub SendCustomerNotification {
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_TICKET_.+?>/-/gi;
-    $Notification{Body} =~ s/<OTRS_TICKET_.+?>/-/gi;
+    $Notification{Body}    =~ s/<OTRS_TICKET_.+?>/-/gi;
 
     # get current user data
     my %CurrentPreferences = $UserObject->GetUserData( UserID => $Param{UserID} );
     for ( sort keys %CurrentPreferences ) {
         if ( $CurrentPreferences{$_} ) {
-            $Notification{Body} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
+            $Notification{Body}    =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
         }
     }
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_CURRENT_.+?>/-/gi;
-    $Notification{Body} =~ s/<OTRS_CURRENT_.+?>/-/gi;
+    $Notification{Body}    =~ s/<OTRS_CURRENT_.+?>/-/gi;
 
     # get owner data
     my %OwnerPreferences = $UserObject->GetUserData(
@@ -3039,14 +3039,14 @@ sub SendCustomerNotification {
     );
     for ( sort keys %OwnerPreferences ) {
         if ( $OwnerPreferences{$_} ) {
-            $Notification{Body} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
+            $Notification{Body}    =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
         }
     }
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_OWNER_.+?>/-/gi;
-    $Notification{Body} =~ s/<OTRS_OWNER_.+?>/-/gi;
+    $Notification{Body}    =~ s/<OTRS_OWNER_.+?>/-/gi;
 
     # get responsible data
     my %ResponsiblePreferences = $UserObject->GetUserData(
@@ -3054,20 +3054,20 @@ sub SendCustomerNotification {
     );
     for ( sort keys %ResponsiblePreferences ) {
         if ( $ResponsiblePreferences{$_} ) {
-            $Notification{Body} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
+            $Notification{Body}    =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
         }
     }
 
     # cleanup
     $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
-    $Notification{Body} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
+    $Notification{Body}    =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
 
     # get ref of email params
     my %GetParam = %{ $Param{CustomerMessageParams} };
     for ( sort keys %GetParam ) {
         if ( $GetParam{$_} ) {
-            $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
+            $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
         }
     }
@@ -3081,14 +3081,14 @@ sub SendCustomerNotification {
         # replace customer stuff with tags
         for ( sort keys %CustomerUser ) {
             if ( $CustomerUser{$_} ) {
-                $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
+                $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
                 $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
             }
         }
     }
 
     # cleanup all not needed <OTRS_CUSTOMER_DATA_ tags
-    $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
+    $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
     $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
 
     # format body
@@ -3097,7 +3097,7 @@ sub SendCustomerNotification {
     }
     for ( sort keys %Article ) {
         if ( $Article{$_} ) {
-            $Notification{Body} =~ s/<OTRS_CUSTOMER_$_>/$Article{$_}/gi;
+            $Notification{Body}    =~ s/<OTRS_CUSTOMER_$_>/$Article{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_CUSTOMER_$_>/$Article{$_}/gi;
         }
     }
@@ -3109,7 +3109,7 @@ sub SendCustomerNotification {
     );
     if ( $Notification{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/ ) {
         my $SubjectChar = $1;
-        $Article{Subject} =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+        $Article{Subject}      =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
         $Notification{Subject} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$Article{Subject}/g;
     }
     $Notification{Subject} = $Self->TicketSubjectBuild(
@@ -3135,7 +3135,7 @@ sub SendCustomerNotification {
     }
 
     # cleanup all not needed <OTRS_CUSTOMER_ tags
-    $Notification{Body} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
+    $Notification{Body}    =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
     $Notification{Subject} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
 
     # send notify

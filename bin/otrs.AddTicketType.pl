@@ -55,7 +55,7 @@ $Param{UserID} = '1';
 
 # Validrecord
 $Param{ValidID} = '1';
-$Param{Name} = $Options{n} || '';
+$Param{Name}    = $Options{n} || '';
 
 if ( my $RID = $Kernel::OM->Get('Kernel::System::Type')->TypeAdd(%Param) ) {
     print "Ticket type '$Options{n}' added. Type id is '$RID'\n";

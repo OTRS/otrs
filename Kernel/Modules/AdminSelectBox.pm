@@ -231,7 +231,7 @@ sub Run {
                     Type => 'Error',
                     What => 'Message',
                 );
-                $Errors{ErrorType} = ( $Errors{ErrorMessage} =~ /bind/i ) ? 'BindParam' : 'SQLSyntax';
+                $Errors{ErrorType}  = ( $Errors{ErrorMessage} =~ /bind/i ) ? 'BindParam' : 'SQLSyntax';
                 $Errors{SQLInvalid} = 'ServerError';
             }
         }

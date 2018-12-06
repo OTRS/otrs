@@ -752,7 +752,7 @@ sub Send {
     # set envelope sender for autoresponses and notifications
     if ( $Param{Loop} ) {
         my $NotificationEnvelopeFrom = $ConfigObject->Get('SendmailNotificationEnvelopeFrom') || '';
-        my $NotificationFallback = $ConfigObject->Get('SendmailNotificationEnvelopeFrom::FallbackToEmailFrom');
+        my $NotificationFallback     = $ConfigObject->Get('SendmailNotificationEnvelopeFrom::FallbackToEmailFrom');
         if ( $NotificationEnvelopeFrom || !$NotificationFallback ) {
             $RealFrom = $NotificationEnvelopeFrom;
         }
@@ -839,7 +839,7 @@ sub Bounce {
     my $MessageID = $Param{'Message-ID'} || $Self->_MessageIDCreate();
 
     # split body && header
-    my @EmailPlain = split( /\n/, $Param{Email} );
+    my @EmailPlain  = split( /\n/, $Param{Email} );
     my $EmailObject = Mail::Internet->new( \@EmailPlain );
 
     # get sender

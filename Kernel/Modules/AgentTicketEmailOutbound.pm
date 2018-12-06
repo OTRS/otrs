@@ -162,7 +162,7 @@ sub Run {
         my $NextStates = $Self->_GetNextStates(
             %GetParam,
             CustomerUserID => $CustomerUser || '',
-            QueueID => $QueueID,
+            QueueID        => $QueueID,
         );
 
         # update Dynamic Fields Possible Values via AJAX
@@ -1019,7 +1019,7 @@ sub SendEmail {
     if (%Error) {
 
         my $QueueID = $Self->{TicketObject}->TicketQueueID( TicketID => $Self->{TicketID} );
-        my $Output = $Self->{LayoutObject}->Header(
+        my $Output  = $Self->{LayoutObject}->Header(
             Type      => 'Small',
             BodyClass => 'Popup',
         );

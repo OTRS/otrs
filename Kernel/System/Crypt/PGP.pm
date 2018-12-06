@@ -148,7 +148,7 @@ sub Decrypt {
     close $FH;
 
     my %PasswordHash = %{ $Kernel::OM->Get('Kernel::Config')->Get('PGP::Key::Password') };
-    my @Keys = $Self->_CryptedWithKey( File => $Filename );
+    my @Keys         = $Self->_CryptedWithKey( File => $Filename );
     my %Return;
 
     KEY:
@@ -664,7 +664,7 @@ returns public key in ascii
 sub PublicKeyGet {
     my ( $Self, %Param ) = @_;
 
-    my $QuotedKey = $Self->_QuoteShellArgument( $Param{Key} ) || '';
+    my $QuotedKey  = $Self->_QuoteShellArgument( $Param{Key} ) || '';
     my $LogMessage = qx{$Self->{GPGBin} --export --armor $QuotedKey 2>&1};
     my $PublicKey;
     if ( $LogMessage =~ /nothing exported/i ) {
@@ -1028,7 +1028,7 @@ sub _ParseGPGKeyList {
         # individual fields are separated by a colon (':') - for a detailed description,
         # see the file doc/DETAILS in the gpg source distribution.
         my @Fields = split ':', $Line;
-        my $Type = $Fields[0];
+        my $Type   = $Fields[0];
 
         # 'sec' or 'pub' indicate the start of a info block for a specific key
         if ( $Type eq 'sec' || $Type eq 'pub' ) {
@@ -1078,7 +1078,7 @@ sub _ParseGPGKeyList {
             $Key{Bit} = $Fields[2];
 
             # only use last 8 chars of key-ID in order to be compatible with previous parser
-            $Key{Key} = substr( $Fields[4], -8, 8 );
+            $Key{Key}     = substr( $Fields[4], -8, 8 );
             $Key{Created} = $Fields[5];
         }
         elsif ( $Type eq 'sub' ) {
@@ -1154,7 +1154,7 @@ sub _CryptedWithKey {
     my @Keys;
     for my $Line (@GPGOutputLines) {
         if ( $Line =~ m{\sID\s((0x)?([0-9A-F]{8}){1,2})}i ) {
-            my $KeyID = $1;
+            my $KeyID  = $1;
             my @Result = $Self->PrivateKeySearch( Search => $KeyID );
             if (@Result) {
                 push( @Keys, ( $Result[-1]->{Key} || $KeyID ) );

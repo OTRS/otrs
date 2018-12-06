@@ -271,7 +271,7 @@ sub Run {
                     Data => {
                         %SLAData,
                         Service => $ServiceList[0] || '-',
-                        Valid => $ValidList{ $SLAData{ValidID} },
+                        Valid   => $ValidList{ $SLAData{ValidID} },
                     },
                 );
 

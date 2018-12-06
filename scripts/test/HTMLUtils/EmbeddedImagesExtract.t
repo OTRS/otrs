@@ -29,14 +29,14 @@ my @Tests = (
             Success     => 1,
             Body        => qr|^$|,
             Attachments => [],
-            }
+        }
     },
     {
         Name   => 'no body',
         Body   => undef,
         Result => {
             Success => 0,
-            }
+        }
     },
     {
         Name   => 'single image',
@@ -49,7 +49,7 @@ my @Tests = (
                     ContentType => qr|^image/gif;|,
                 }
             ],
-            }
+        }
     },
     {
         Name   => 'two images',
@@ -66,7 +66,7 @@ my @Tests = (
                     ContentType => qr|^image/gif;|,
                 }
             ],
-            }
+        }
     },
     {
         Name   => 'two images, only one embedded',
@@ -80,7 +80,7 @@ my @Tests = (
                     ContentType => qr|^image/gif;|,
                 },
             ],
-            }
+        }
     },
     {
         Name => 'Win7 snipping tool',
@@ -95,7 +95,7 @@ my @Tests = (
                     ContentType => qr|^image/png;|,
                 },
             ],
-            }
+        }
     },
 );
 
