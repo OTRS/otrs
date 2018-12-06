@@ -431,11 +431,11 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Queues"
-msgstr "Colas"
+msgstr "Filas"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Please select a valid queue."
-msgstr "Poor favor seleccione una cola válida"
+msgstr "Poor favor seleccione una fila válida"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Search attributes"
@@ -1450,7 +1450,7 @@ msgstr "ro"
 
 #. Template: AdminCustomerGroup
 msgid "Read only access to the ticket in this group/queue."
-msgstr "Acceso de sólo lectura a los tickets de este grupo/cola."
+msgstr "Acceso de sólo lectura a los tickets de este grupo/fila."
 
 #. Template: AdminCustomerGroup
 msgid "rw"
@@ -1459,7 +1459,7 @@ msgstr "rw"
 #. Template: AdminCustomerGroup
 msgid "Full read and write access to the tickets in this group/queue."
 msgstr ""
-"Acceso completo de lectura y escritura a los tickets de este grupo/cola."
+"Acceso completo de lectura y escritura a los tickets de este grupo/fila."
 
 #. Template: AdminCustomerUser
 msgid "Customer User Management"
@@ -2268,7 +2268,7 @@ msgstr "Acuerdo de Nivel de Servicio"
 
 #. Template: AdminGenericAgent
 msgid "Queue"
-msgstr "Cola"
+msgstr "Fila"
 
 #. Template: AdminGenericAgent
 msgid "State"
@@ -2448,7 +2448,7 @@ msgstr "Establecer prioridad nueva"
 
 #. Template: AdminGenericAgent
 msgid "Set new queue"
-msgstr "Establecer cola nueva"
+msgstr "Establecer fila nueva"
 
 #. Template: AdminGenericAgent
 msgid "Set new state"
@@ -5317,7 +5317,7 @@ msgstr ""
 msgid ""
 "The Queue field can only be used by customers when creating a new ticket."
 msgstr ""
-"El campo de Cola solo puede ser utilizado por los clientes al crear un nuevo"
+"El campo de Fila solo puede ser utilizado por los clientes al crear un nuevo"
 " ticket."
 
 #. Template: AdminProcessManagementActivityDialog
@@ -5682,27 +5682,27 @@ msgstr "Eliminar este Parámetro"
 
 #. Template: AdminQueue
 msgid "Queue Management"
-msgstr "Gestión de Colas"
+msgstr "Gestión de Filas"
 
 #. Template: AdminQueue
 msgid "Add Queue"
-msgstr "Agregar Cola"
+msgstr "Agregar Fila"
 
 #. Template: AdminQueue
 msgid "Edit Queue"
-msgstr "Modificar Cola"
+msgstr "Modificar Fila"
 
 #. Template: AdminQueue
 msgid "Filter for Queues"
-msgstr "Filtro para Colas"
+msgstr "Filtro para Filas"
 
 #. Template: AdminQueue
 msgid "Filter for queues"
-msgstr "Filtro para colas"
+msgstr "Filtro para filas"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
-msgstr "¡Ya existe una cola con este nombre!"
+msgstr "¡Ya existe una fila con este nombre!"
 
 #. Template: AdminQueue
 msgid ""
@@ -5712,7 +5712,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid "Sub-queue of"
-msgstr "Subcola de"
+msgstr "Sub-fila de"
 
 #. Template: AdminQueue
 msgid "Unlock timeout"
@@ -5808,7 +5808,7 @@ msgstr "Dirección del Sistema"
 
 #. Template: AdminQueue
 msgid "Will be the sender address of this queue for email answers."
-msgstr "Será la dirección del emisor en esta cola para respuestas por correo."
+msgstr "Será la dirección del emisor en esta fila para respuestas por correo."
 
 #. Template: AdminQueue
 msgid "Default sign key"
@@ -5842,27 +5842,27 @@ msgstr ""
 
 #. Template: AdminQueueAutoResponse
 msgid "Manage Queue-Auto Response Relations"
-msgstr "Administrar Relaciones Cola-Respuesta Automática"
+msgstr "Administrar Relaciones Fila-Respuesta Automática"
 
 #. Template: AdminQueueAutoResponse
 msgid "Change Auto Response Relations for Queue"
-msgstr "Modificar las Relaciones de Respuesta Automática para la Cola"
+msgstr "Modificar las Relaciones de Respuesta Automática para la Fila"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show queues without auto responses"
-msgstr "Este filtro le permite mostrar las colas sin respuestas automáticas"
+msgstr "Este filtro le permite mostrar las filas sin respuestas automáticas"
 
 #. Template: AdminQueueAutoResponse
 msgid "Queues without Auto Responses"
-msgstr "Colas sin Respuestas Automáticas"
+msgstr "Filas sin Respuestas Automáticas"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show all queues"
-msgstr "Este filtro le permite mostrar todas las colas"
+msgstr "Este filtro le permite mostrar todas las filas"
 
 #. Template: AdminQueueAutoResponse
 msgid "Show All Queues"
-msgstr "Mostrar todas las Colas"
+msgstr "Mostrar todas las Filas"
 
 #. Template: AdminQueueAutoResponse
 msgid "Auto Responses"
@@ -5870,7 +5870,7 @@ msgstr "Respuestas Automáticas"
 
 #. Template: AdminQueueTemplates
 msgid "Manage Template-Queue Relations"
-msgstr "Administrar Relaciones Plantilla-Cola"
+msgstr "Administrar Relaciones Plantilla-Fila"
 
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
@@ -6243,7 +6243,7 @@ msgstr "mover_a"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to move tickets into this group/queue."
-msgstr "Permiso para mover tickets a este grupo/cola"
+msgstr "Permiso para mover tickets a este grupo/fila"
 
 #. Template: AdminRoleGroup
 msgid "create"
@@ -6251,7 +6251,7 @@ msgstr "crear"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to create tickets in this group/queue."
-msgstr "Permiso para crear tickets en este grupo/cola"
+msgstr "Permiso para crear tickets en este grupo/fila"
 
 #. Template: AdminRoleGroup
 msgid "note"
@@ -6259,7 +6259,7 @@ msgstr "nota"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue."
-msgstr "Permisos para añadir notas a los tickets de este/a grupo/cola"
+msgstr "Permisos para añadir notas a los tickets de este/a grupo/fila"
 
 #. Template: AdminRoleGroup
 msgid "owner"
@@ -6268,7 +6268,7 @@ msgstr "propietario"
 #. Template: AdminRoleGroup
 msgid "Permissions to change the owner of tickets in this group/queue."
 msgstr ""
-"Permisos para modificar el propietario de los tickets en este/a grupo/cola."
+"Permisos para modificar el propietario de los tickets en este/a grupo/fila."
 
 #. Template: AdminRoleGroup
 msgid "priority"
@@ -6276,7 +6276,7 @@ msgstr "prioridad"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to change the ticket priority in this group/queue."
-msgstr "Permiso para cambiar la prioridad del ticket en este grupo/cola"
+msgstr "Permiso para cambiar la prioridad del ticket en este grupo/fila"
 
 #. Template: AdminRoleUser
 msgid "Manage Agent-Role Relations"
@@ -6839,7 +6839,7 @@ msgid ""
 "selected queue."
 msgstr ""
 "Todos los correos electrónicos entrantes con esta dirección en Para o Cc "
-"serán enviados a la cola seleccionada."
+"serán enviados a la fila seleccionada."
 
 #. Template: AdminSystemAddress
 msgid "Email address"
@@ -7169,7 +7169,7 @@ msgstr ""
 
 #. Template: AdminTemplate
 msgid "Don't forget to add new templates to queues."
-msgstr "No olvide agregar las plantillas nuevas a las colas de espera"
+msgstr "No olvide agregar las plantillas nuevas a las filas de espera"
 
 #. Template: AdminTemplate
 msgid "Attachments"
@@ -7940,7 +7940,7 @@ msgstr "Mis responsabilidades"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Queues"
-msgstr "Tickets en Mis Colas de Espera"
+msgstr "Tickets en Mis Filas"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
@@ -8291,7 +8291,7 @@ msgstr "Configuraciones de Ticket"
 
 #. Template: AgentTicketActionCommon
 msgid "Queue invalid."
-msgstr "Cola Inválida."
+msgstr "Fila Inválida."
 
 #. Template: AgentTicketActionCommon
 msgid "Service invalid."
@@ -8518,7 +8518,7 @@ msgstr "Plantilla de Ejemplo"
 
 #. Template: AgentTicketEmail
 msgid "From queue"
-msgstr "De la cola"
+msgstr "De la fila"
 
 #. Template: AgentTicketEmail
 msgid "To customer user"
@@ -8635,7 +8635,7 @@ msgstr ""
 
 #. Template: AgentTicketMove
 msgid "New Queue"
-msgstr "Cola nueva"
+msgstr "Fila Nueva"
 
 #. Template: AgentTicketMove
 msgid "Move"
@@ -8671,11 +8671,11 @@ msgstr "Tiempo para Solución"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Move ticket to a different queue"
-msgstr "Mover ticket a una cola diferente"
+msgstr "Mover ticket a una fila diferente"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Change queue"
-msgstr "Modificar cola"
+msgstr "Modificar fila"
 
 #. Template: AgentTicketOverviewNavBar
 msgid "Remove active filters for this screen."
@@ -8715,7 +8715,7 @@ msgstr "Por favor, Incluya al menos un cliente para el ticket"
 
 #. Template: AgentTicketPhone
 msgid "To queue"
-msgstr "Para la cola de espera"
+msgstr "Para la fila"
 
 #. Template: AgentTicketPhone
 msgid "Chat protocol"
@@ -8791,7 +8791,7 @@ msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Created in Queue"
-msgstr "Creado en la Cola"
+msgstr "Creado en la Fila"
 
 #. Template: AgentTicketSearch
 msgid "Lock state"
@@ -8895,7 +8895,7 @@ msgstr "por"
 
 #. Template: AgentTicketZoom
 msgid "Change Queue"
-msgstr "Cambiar Cola"
+msgstr "Cambiar Fila"
 
 #. Template: AgentTicketZoom
 msgid "There are no dialogs available at this point in the process."
@@ -8967,7 +8967,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "This message has been queued for sending."
-msgstr "Este mensaje ha sido puesto en cola para ser enviado."
+msgstr "Este mensaje ha sido puesto en fila para ser enviado."
 
 #. Template: AgentTicketZoom
 msgid "Resize"
@@ -11600,7 +11600,7 @@ msgstr "Despachar por el campo Para: del correo electrónico."
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by selected Queue."
-msgstr "Despachar por la cola seleccionada."
+msgstr "Despachar por la fila seleccionada."
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who created the ticket"
@@ -11624,7 +11624,7 @@ msgstr "Todos los agentes con permisos de escritura para el ticket"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to the ticket's queue"
-msgstr "Todos los agentes suscritos a la cola de espera del ticket"
+msgstr "Todos los agentes suscritos a la fila de espera del ticket"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to the ticket's service"
@@ -11633,8 +11633,7 @@ msgstr "Todos los agentes suscritos al servicio del ticket"
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to both the ticket's queue and service"
 msgstr ""
-"Todos los agentes suscritos tanto a la cola de espera, como al servicio del "
-"ticket"
+"Todos los agentes suscritos tanto a la fila, como al servicio del ticket"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Customer user of the ticket"
@@ -12109,11 +12108,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Queue updated!"
-msgstr "¡Cola actualizada!"
+msgstr "¡Fila actualizada!"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Don't use :: in queue name!"
-msgstr "¡No use :: en el nombre de la cola!"
+msgstr "¡No use :: en el nombre de la fila!"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Click back and change it!"
@@ -12125,15 +12124,15 @@ msgstr "-ninguno-"
 
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
-msgstr "Colas ( sin respuestas automáticas )"
+msgstr "Filas ( sin respuestas automáticas )"
 
 #. Perl Module: Kernel/Modules/AdminQueueTemplates.pm
 msgid "Change Queue Relations for Template"
-msgstr "Modificar las relaciones de Cola para la Plantilla"
+msgstr "Modificar las relaciones de Fila para la Plantilla"
 
 #. Perl Module: Kernel/Modules/AdminQueueTemplates.pm
 msgid "Change Template Relations for Queue"
-msgstr "Modificar las relaciones de Plantilla para la Cola"
+msgstr "Modificar las relaciones de Plantilla para la Fila"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Production"
@@ -13137,11 +13136,11 @@ msgstr "Tickets disponibles"
 
 #. Perl Module: Kernel/Modules/AgentTicketQueue.pm
 msgid "including subqueues"
-msgstr "incluir subsecuencias"
+msgstr "incluir subfilas"
 
 #. Perl Module: Kernel/Modules/AgentTicketQueue.pm
 msgid "excluding subqueues"
-msgstr "excluir subsecuencias"
+msgstr "excluir subfilas"
 
 #. Perl Module: Kernel/Modules/AgentTicketQueue.pm
 msgid "QueueView"
@@ -13393,7 +13392,7 @@ msgstr "Chat Externo"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Queue Changed"
-msgstr "Cola Modificada"
+msgstr "Fila Modificada"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Notification Was Sent"
@@ -16210,7 +16209,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Postmaster queue."
-msgstr "Cola Postmaster."
+msgstr "Fila Postmaster."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "All default incoming tickets."
@@ -23701,7 +23700,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Link queues to auto responses."
-msgstr "Vincular colas de espera con respuestas automáticas."
+msgstr "Vincular filas de espera con respuestas automáticas."
 
 #. SysConfig
 msgid "Link roles to groups."
@@ -25078,7 +25077,7 @@ msgstr "Vista de Filas"
 
 #. SysConfig
 msgid "Queues ↔ Auto Responses"
-msgstr "Colas ↔ Respuestas Automáticas"
+msgstr "Filas ↔ Respuestas Automáticas"
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -26921,7 +26920,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Shows all both ro and rw queues in the queue view."
-msgstr "Muestra las colas ro y rw en la vista de colas."
+msgstr "Muestra las filas ro y rw en la vista de filas."
 
 #. SysConfig
 msgid "Shows all both ro and rw tickets in the service view."
@@ -27223,9 +27222,9 @@ msgid ""
 "top). Use the QueueID for the key and 0 or 1 for value."
 msgstr ""
 "Ordena los tickets (ascendente o descendentemente), luego de haberse "
-"ordenado por prioridad, cuando una sola cola se selecciona en la vista de "
-"colas. Values: 0 = ascendente (por defecto, más antiguo arriba), 1 = "
-"descendente (más reciente arriba). Use el identificador de la cola como "
+"ordenado por prioridad, cuando una sola fila se selecciona en la vista de "
+"filas. Values: 0 = ascendente (por defecto, más antiguo arriba), 1 = "
+"descendente (más reciente arriba). Use el identificador de la fila como "
 "Llave y 0 ó 1 como Valor."
 
 #. SysConfig
@@ -27551,7 +27550,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Templates ↔ Queues"
-msgstr "Plantillas ↔ Colas"
+msgstr "Plantillas ↔ Filas"
 
 #. SysConfig
 msgid "Textarea"
@@ -27899,7 +27898,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Queue Overview"
-msgstr "Vista general por cola"
+msgstr "Vista general por fila"
 
 #. SysConfig
 msgid "Ticket Responsible."

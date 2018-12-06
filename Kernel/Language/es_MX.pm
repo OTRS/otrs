@@ -139,8 +139,8 @@ sub Data {
         'End date' => 'Fecha de término',
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
             'Use las opciones mostradas abajo para acortar las citas de tickets serán creadas automáticamente.',
-        'Queues' => 'Colas',
-        'Please select a valid queue.' => 'Poor favor seleccione una cola válida',
+        'Queues' => 'Filas',
+        'Please select a valid queue.' => 'Poor favor seleccione una fila válida',
         'Search attributes' => 'Atributos de búsqueda',
         'Add entry' => 'Añadir entrada',
         'Add' => 'Añadir',
@@ -426,10 +426,10 @@ sub Data {
         'Customer Default Groups:' => 'Grupos por defecto de los clientes:',
         'No changes can be made to these groups.' => 'Estos grupos no se pueden modificar.',
         'ro' => 'ro',
-        'Read only access to the ticket in this group/queue.' => 'Acceso de sólo lectura a los tickets de este grupo/cola.',
+        'Read only access to the ticket in this group/queue.' => 'Acceso de sólo lectura a los tickets de este grupo/fila.',
         'rw' => 'rw',
         'Full read and write access to the tickets in this group/queue.' =>
-            'Acceso completo de lectura y escritura a los tickets de este grupo/cola.',
+            'Acceso completo de lectura y escritura a los tickets de este grupo/fila.',
 
         # Template: AdminCustomerUser
         'Customer User Management' => 'Gestión de Usuarios del Cliente',
@@ -666,7 +666,7 @@ sub Data {
         'Cc' => 'Copia ',
         'Service' => 'Servicio',
         'Service Level Agreement' => 'Acuerdo de Nivel de Servicio',
-        'Queue' => 'Cola',
+        'Queue' => 'Fila',
         'State' => 'Estado',
         'Agent' => 'Agente',
         'Owner' => 'Propietario',
@@ -711,7 +711,7 @@ sub Data {
         'Set new service' => 'Establecer servicio nuevo',
         'Set new Service Level Agreement' => 'Establecer Acuerdo de Nivel de Servicio nuevo',
         'Set new priority' => 'Establecer prioridad nueva',
-        'Set new queue' => 'Establecer cola nueva',
+        'Set new queue' => 'Establecer fila nueva',
         'Set new state' => 'Establecer estado nuevo',
         'Pending date' => 'Fecha pendiente',
         'Set new agent' => 'Establecer agente nuevo',
@@ -1574,7 +1574,7 @@ sub Data {
         'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
             '',
         'The Queue field can only be used by customers when creating a new ticket.' =>
-            'El campo de Cola solo puede ser utilizado por los clientes al crear un nuevo ticket.',
+            'El campo de Fila solo puede ser utilizado por los clientes al crear un nuevo ticket.',
         'Activity Dialog' => 'Diálogo de Actividad',
         'Activity dialog Name' => 'Nombre del diálogo de actividad',
         'Available in' => 'Disponible en',
@@ -1686,15 +1686,15 @@ sub Data {
         'Remove this Parameter' => 'Eliminar este Parámetro',
 
         # Template: AdminQueue
-        'Queue Management' => 'Gestión de Colas',
-        'Add Queue' => 'Agregar Cola',
-        'Edit Queue' => 'Modificar Cola',
-        'Filter for Queues' => 'Filtro para Colas',
-        'Filter for queues' => 'Filtro para colas',
-        'A queue with this name already exists!' => '¡Ya existe una cola con este nombre!',
+        'Queue Management' => 'Gestión de Filas',
+        'Add Queue' => 'Agregar Fila',
+        'Edit Queue' => 'Modificar Fila',
+        'Filter for Queues' => 'Filtro para Filas',
+        'Filter for queues' => 'Filtro para filas',
+        'A queue with this name already exists!' => '¡Ya existe una fila con este nombre!',
         'This queue is present in a SysConfig setting, confirmation for updating settings to point to the new queue is needed!' =>
             '',
-        'Sub-queue of' => 'Subcola de',
+        'Sub-queue of' => 'Sub-fila de',
         'Unlock timeout' => 'Tiempo para desbloqueo automático',
         '0 = no unlock' => '0 = sin desbloqueo',
         'hours' => 'horas',
@@ -1716,7 +1716,7 @@ sub Data {
         'If a ticket is closed and the customer sends a follow up the ticket will be locked to the old owner.' =>
             'Si un ticket está cerrado y el cliente le da seguimiento, el ticket se bloqueará para el antigüo propietario.',
         'System address' => 'Dirección del Sistema',
-        'Will be the sender address of this queue for email answers.' => 'Será la dirección del emisor en esta cola para respuestas por correo.',
+        'Will be the sender address of this queue for email answers.' => 'Será la dirección del emisor en esta fila para respuestas por correo.',
         'Default sign key' => 'Llave de firma por defecto',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             '',
@@ -1727,16 +1727,16 @@ sub Data {
         'This queue is used in the following config settings:' => '',
 
         # Template: AdminQueueAutoResponse
-        'Manage Queue-Auto Response Relations' => 'Administrar Relaciones Cola-Respuesta Automática',
-        'Change Auto Response Relations for Queue' => 'Modificar las Relaciones de Respuesta Automática para la Cola',
-        'This filter allow you to show queues without auto responses' => 'Este filtro le permite mostrar las colas sin respuestas automáticas',
-        'Queues without Auto Responses' => 'Colas sin Respuestas Automáticas',
-        'This filter allow you to show all queues' => 'Este filtro le permite mostrar todas las colas',
-        'Show All Queues' => 'Mostrar todas las Colas',
+        'Manage Queue-Auto Response Relations' => 'Administrar Relaciones Fila-Respuesta Automática',
+        'Change Auto Response Relations for Queue' => 'Modificar las Relaciones de Respuesta Automática para la Fila',
+        'This filter allow you to show queues without auto responses' => 'Este filtro le permite mostrar las filas sin respuestas automáticas',
+        'Queues without Auto Responses' => 'Filas sin Respuestas Automáticas',
+        'This filter allow you to show all queues' => 'Este filtro le permite mostrar todas las filas',
+        'Show All Queues' => 'Mostrar todas las Filas',
         'Auto Responses' => 'Respuestas Automáticas',
 
         # Template: AdminQueueTemplates
-        'Manage Template-Queue Relations' => 'Administrar Relaciones Plantilla-Cola',
+        'Manage Template-Queue Relations' => 'Administrar Relaciones Plantilla-Fila',
         'Filter for Templates' => 'Filtrar por Plantillas',
         'Filter for templates' => 'Filtro para plantillas',
         'Templates' => 'Plantillas',
@@ -1845,17 +1845,17 @@ sub Data {
             'Si nada se selecciona, no habrá permisos para este grupo y los tickets no estarán disponibles para el rol.',
         'Toggle %s permission for all' => 'Activar permiso %s para todos',
         'move_into' => 'mover_a',
-        'Permissions to move tickets into this group/queue.' => 'Permiso para mover tickets a este grupo/cola',
+        'Permissions to move tickets into this group/queue.' => 'Permiso para mover tickets a este grupo/fila',
         'create' => 'crear',
-        'Permissions to create tickets in this group/queue.' => 'Permiso para crear tickets en este grupo/cola',
+        'Permissions to create tickets in this group/queue.' => 'Permiso para crear tickets en este grupo/fila',
         'note' => 'nota',
-        'Permissions to add notes to tickets in this group/queue.' => 'Permisos para añadir notas a los tickets de este/a grupo/cola',
+        'Permissions to add notes to tickets in this group/queue.' => 'Permisos para añadir notas a los tickets de este/a grupo/fila',
         'owner' => 'propietario',
         'Permissions to change the owner of tickets in this group/queue.' =>
-            'Permisos para modificar el propietario de los tickets en este/a grupo/cola.',
+            'Permisos para modificar el propietario de los tickets en este/a grupo/fila.',
         'priority' => 'prioridad',
         'Permissions to change the ticket priority in this group/queue.' =>
-            'Permiso para cambiar la prioridad del ticket en este grupo/cola',
+            'Permiso para cambiar la prioridad del ticket en este grupo/fila',
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Administrar Relaciones Agente-Rol',
@@ -2031,7 +2031,7 @@ sub Data {
         'Filter for System Addresses' => '',
         'Filter for system addresses' => '',
         'All incoming email with this address in To or Cc will be dispatched to the selected queue.' =>
-            'Todos los correos electrónicos entrantes con esta dirección en Para o Cc serán enviados a la cola seleccionada.',
+            'Todos los correos electrónicos entrantes con esta dirección en Para o Cc serán enviados a la fila seleccionada.',
         'Email address' => 'Dirección de correo electrónico',
         'Display name' => 'Nombre mostrado',
         'This email address is already used as system email address.' => '',
@@ -2148,7 +2148,7 @@ sub Data {
         'Edit Template' => 'Editar Plantilla',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             '',
-        'Don\'t forget to add new templates to queues.' => 'No olvide agregar las plantillas nuevas a las colas de espera',
+        'Don\'t forget to add new templates to queues.' => 'No olvide agregar las plantillas nuevas a las filas de espera',
         'Attachments' => 'Anexos',
         'Delete this entry' => 'Eliminar esta entrada',
         'Do you really want to delete this template?' => '',
@@ -2400,7 +2400,7 @@ sub Data {
         'My locked tickets' => 'Mis tickets bloqueados',
         'My watched tickets' => 'Mis tickes en seguimiento',
         'My responsibilities' => 'Mis responsabilidades',
-        'Tickets in My Queues' => 'Tickets en Mis Colas de Espera',
+        'Tickets in My Queues' => 'Tickets en Mis Filas',
         'Tickets in My Services' => 'Tickets en Mis Servicios',
         'Service Time' => 'Tiempo de Servicio',
 
@@ -2525,7 +2525,7 @@ sub Data {
         'The ticket has been locked' => 'El ticket ha sido bloqueado',
         'Undo & close' => 'Deshacer cambios y cerrar',
         'Ticket Settings' => 'Configuraciones de Ticket',
-        'Queue invalid.' => 'Cola Inválida.',
+        'Queue invalid.' => 'Fila Inválida.',
         'Service invalid.' => 'Servicio inválido.',
         'SLA invalid.' => '',
         'New Owner' => 'Propietario nuevo',
@@ -2595,7 +2595,7 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Crear un Ticket nuevo de Correo Electrónico',
         'Example Template' => 'Plantilla de Ejemplo',
-        'From queue' => 'De la cola',
+        'From queue' => 'De la fila',
         'To customer user' => 'Al usuario del cliente',
         'Please include at least one customer user for the ticket.' => 'Por favor, incluya en el ticket al menos un usuario del cliente.',
         'Select this customer as the main customer.' => 'Seleccionar a este cliente como el cliente principal.',
@@ -2639,7 +2639,7 @@ sub Data {
 
         # Template: AgentTicketMove
         'Move %s%s%s' => '',
-        'New Queue' => 'Cola nueva',
+        'New Queue' => 'Fila Nueva',
         'Move' => 'Mover',
 
         # Template: AgentTicketOverviewMedium
@@ -2650,8 +2650,8 @@ sub Data {
         'First Response Time' => 'Tiempo para Primera Respuesta',
         'Update Time' => 'Tiempo para Actualización',
         'Solution Time' => 'Tiempo para Solución',
-        'Move ticket to a different queue' => 'Mover ticket a una cola diferente',
-        'Change queue' => 'Modificar cola',
+        'Move ticket to a different queue' => 'Mover ticket a una fila diferente',
+        'Change queue' => 'Modificar fila',
 
         # Template: AgentTicketOverviewNavBar
         'Remove active filters for this screen.' => 'Eliminar los filtros activos para esta pantalla.',
@@ -2669,7 +2669,7 @@ sub Data {
         'Save Chat Into New Phone Ticket' => 'Guardar Chat En Nuevo Ticket Telefónico',
         'Create New Phone Ticket' => 'Crear un Ticket Telefónico Nuevo',
         'Please include at least one customer for the ticket.' => 'Por favor, Incluya al menos un cliente para el ticket',
-        'To queue' => 'Para la cola de espera',
+        'To queue' => 'Para la fila',
         'Chat protocol' => 'Protocolo de Chat',
         'The chat will be appended as a separate article.' => 'El chat se agregará como un artículo separado.',
 
@@ -2698,7 +2698,7 @@ sub Data {
         '(e. g. U51*)' => '',
         'Assigned to Customer User Login (exact match)' => '',
         'Accessible to Customer User Login (exact match)' => '',
-        'Created in Queue' => 'Creado en la Cola',
+        'Created in Queue' => 'Creado en la Fila',
         'Lock state' => 'Estado de bloqueo',
         'Watcher' => 'Observador',
         'Article Create Time (before/after)' => 'Hora de Creación del Artículo (antes/después)',
@@ -2726,7 +2726,7 @@ sub Data {
         'Save as default' => 'Guardar como predeterminado',
         'Drafts' => '',
         'by' => 'por',
-        'Change Queue' => 'Cambiar Cola',
+        'Change Queue' => 'Cambiar Fila',
         'There are no dialogs available at this point in the process.' =>
             'No hay diálogos disponibles en este punto del proceso.',
         'This item has no articles yet.' => 'Este ítem todavía no tiene ningún artículo.',
@@ -2745,7 +2745,7 @@ sub Data {
         'Outgoing message' => 'Mensaje saliente',
         'Internal message' => 'Mensaje interno',
         'Sending of this message has failed.' => '',
-        'This message has been queued for sending.' => 'Este mensaje ha sido puesto en cola para ser enviado.',
+        'This message has been queued for sending.' => 'Este mensaje ha sido puesto en fila para ser enviado.',
         'Resize' => 'Cambiar el tamaño',
         'Mark this article as read' => 'Marcar este artículo como leído',
         'Show Full Text' => 'Mostrar Texto Completo',
@@ -3651,7 +3651,7 @@ sub Data {
         'Email account fetch already fetched by another process. Please try again later!' =>
             '',
         'Dispatching by email To: field.' => 'Despachar por el campo Para: del correo electrónico.',
-        'Dispatching by selected Queue.' => 'Despachar por la cola seleccionada.',
+        'Dispatching by selected Queue.' => 'Despachar por la fila seleccionada.',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
         'Agent who created the ticket' => '',
@@ -3659,10 +3659,10 @@ sub Data {
         'Agent who is responsible for the ticket' => 'El agente responsable por el ticket',
         'All agents watching the ticket' => 'Agentes dando seguimiento al ticket',
         'All agents with write permission for the ticket' => 'Todos los agentes con permisos de escritura para el ticket',
-        'All agents subscribed to the ticket\'s queue' => 'Todos los agentes suscritos a la cola de espera del ticket',
+        'All agents subscribed to the ticket\'s queue' => 'Todos los agentes suscritos a la fila de espera del ticket',
         'All agents subscribed to the ticket\'s service' => 'Todos los agentes suscritos al servicio del ticket',
         'All agents subscribed to both the ticket\'s queue and service' =>
-            'Todos los agentes suscritos tanto a la cola de espera, como al servicio del ticket',
+            'Todos los agentes suscritos tanto a la fila, como al servicio del ticket',
         'Customer user of the ticket' => '',
         'All recipients of the first article' => '',
         'All recipients of the last article' => '',
@@ -3817,17 +3817,17 @@ sub Data {
         'Error: Not all keys seem to have values or vice versa.' => '',
 
         # Perl Module: Kernel/Modules/AdminQueue.pm
-        'Queue updated!' => '¡Cola actualizada!',
-        'Don\'t use :: in queue name!' => '¡No use :: en el nombre de la cola!',
+        'Queue updated!' => '¡Fila actualizada!',
+        'Don\'t use :: in queue name!' => '¡No use :: en el nombre de la fila!',
         'Click back and change it!' => '',
         '-none-' => '-ninguno-',
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
-        'Queues ( without auto responses )' => 'Colas ( sin respuestas automáticas )',
+        'Queues ( without auto responses )' => 'Filas ( sin respuestas automáticas )',
 
         # Perl Module: Kernel/Modules/AdminQueueTemplates.pm
-        'Change Queue Relations for Template' => 'Modificar las relaciones de Cola para la Plantilla',
-        'Change Template Relations for Queue' => 'Modificar las relaciones de Plantilla para la Cola',
+        'Change Queue Relations for Template' => 'Modificar las relaciones de Fila para la Plantilla',
+        'Change Template Relations for Queue' => 'Modificar las relaciones de Plantilla para la Fila',
 
         # Perl Module: Kernel/Modules/AdminRegistration.pm
         'Production' => 'Producción',
@@ -4196,8 +4196,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketQueue.pm
         'Available tickets' => 'Tickets disponibles',
-        'including subqueues' => 'incluir subsecuencias',
-        'excluding subqueues' => 'excluir subsecuencias',
+        'including subqueues' => 'incluir subfilas',
+        'excluding subqueues' => 'excluir subfilas',
         'QueueView' => 'Ver la fila',
 
         # Perl Module: Kernel/Modules/AgentTicketResponsibleView.pm
@@ -4274,7 +4274,7 @@ sub Data {
         'Escalation Response Time Stopped' => '',
         'SLA Updated' => 'SLA Actualizado',
         'External Chat' => 'Chat Externo',
-        'Queue Changed' => 'Cola Modificada',
+        'Queue Changed' => 'Fila Modificada',
         'Notification Was Sent' => '',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state.' =>
             '',
@@ -5337,7 +5337,7 @@ sub Data {
         'new ticket' => 'nuevo ticket',
         'Follow-ups for closed tickets are not possible. A new ticket will be created.' =>
             '',
-        'Postmaster queue.' => 'Cola Postmaster.',
+        'Postmaster queue.' => 'Fila Postmaster.',
         'All default incoming tickets.' => 'Todo los tickers entrantes predeterminados.',
         'All junk tickets.' => 'Todo los tickets basura.',
         'All misc tickets.' => 'Todos los tickets misceláneos.',
@@ -7498,7 +7498,7 @@ Thanks for your help!
         'Link customer users to groups.' => '',
         'Link customer users to services.' => '',
         'Link customers to groups.' => '',
-        'Link queues to auto responses.' => 'Vincular colas de espera con respuestas automáticas.',
+        'Link queues to auto responses.' => 'Vincular filas de espera con respuestas automáticas.',
         'Link roles to groups.' => 'Vincular roles con grupos.',
         'Link templates to attachments.' => '',
         'Link templates to queues.' => 'Vincular plantillas con filas de espera.',
@@ -7836,7 +7836,7 @@ Thanks for your help!
         'Public Calendar' => 'Calendario Púplico',
         'Public calendar.' => 'Calendario público.',
         'Queue view' => 'Vista de Filas',
-        'Queues ↔ Auto Responses' => 'Colas ↔ Respuestas Automáticas',
+        'Queues ↔ Auto Responses' => 'Filas ↔ Respuestas Automáticas',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             '',
@@ -8306,7 +8306,7 @@ Thanks for your help!
             'Muestra una vista previa de la vista de resumen de los tickets (CustomerInfo => 1 - muestra también la información del cliente y CustomerInfoMaxSize define el tamaño máximo, en caracteres, de dicha información).',
         'Shows a teaser link in the menu for the ticket attachment view of OTRS Business Solution™.' =>
             '',
-        'Shows all both ro and rw queues in the queue view.' => 'Muestra las colas ro y rw en la vista de colas.',
+        'Shows all both ro and rw queues in the queue view.' => 'Muestra las filas ro y rw en la vista de filas.',
         'Shows all both ro and rw tickets in the service view.' => '',
         'Shows all open tickets (even if they are locked) in the escalation view of the agent interface.' =>
             'Muestra todos los tickets abiertos (inclusive si están bloqueados), en la vista de escaladas, de la interfaz del agente.',
@@ -8390,7 +8390,7 @@ Thanks for your help!
         'Some description!' => '',
         'Some picture description!' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
-            'Ordena los tickets (ascendente o descendentemente), luego de haberse ordenado por prioridad, cuando una sola cola se selecciona en la vista de colas. Values: 0 = ascendente (por defecto, más antiguo arriba), 1 = descendente (más reciente arriba). Use el identificador de la cola como Llave y 0 ó 1 como Valor.',
+            'Ordena los tickets (ascendente o descendentemente), luego de haberse ordenado por prioridad, cuando una sola fila se selecciona en la vista de filas. Values: 0 = ascendente (por defecto, más antiguo arriba), 1 = descendente (más reciente arriba). Use el identificador de la fila como Llave y 0 ó 1 como Valor.',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.' =>
             '',
         'Spam' => '',
@@ -8477,7 +8477,7 @@ Thanks for your help!
         'System Configuration Group' => '',
         'System Maintenance' => 'Mantenimiento del Sistema',
         'Templates ↔ Attachments' => '',
-        'Templates ↔ Queues' => 'Plantillas ↔ Colas',
+        'Templates ↔ Queues' => 'Plantillas ↔ Filas',
         'Textarea' => 'Área de Texto',
         'Thai' => 'Tailandés',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
@@ -8577,7 +8577,7 @@ Thanks for your help!
         'Ticket Pending.' => '',
         'Ticket Print.' => '',
         'Ticket Priority.' => '',
-        'Ticket Queue Overview' => 'Vista general por cola',
+        'Ticket Queue Overview' => 'Vista general por fila',
         'Ticket Responsible.' => '',
         'Ticket Watcher' => '',
         'Ticket Zoom' => '',

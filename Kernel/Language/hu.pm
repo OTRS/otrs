@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.999656593406593;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5439,7 +5439,7 @@ sub Data {
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove selection' => 'Kijelölés eltávolítása',
-        'Do you really want to delete this generic agent job?' => '',
+        'Do you really want to delete this generic agent job?' => 'Valóban törölni szeretné ezt az általános ügyintéző feladatot?',
         'Delete this Event Trigger' => 'Esemény-aktiváló törlése',
         'Duplicate event.' => 'Esemény kettőzése.',
         'This event is already attached to the job, Please use a different one.' =>
@@ -6937,7 +6937,7 @@ Az Ön segélyszolgálat csapata
         'Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen.' =>
             'Meghatározza a megjelenített oszlopokat és a pozíciót az ügyintézői ügyfél-felhasználó címjegyzék eredményei képernyőn.',
         'Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
-            '',
+            'Meghatározza ennek az OTRS rendszernek az ügyfél- és nyilvános felületének láblécterületén megjelenített hivatkozásokat. A „Kulcs” mezőben lévő érték a külső URL, a „Tartalom” mezőben lévő érték a megjelenített címke.',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             'Meghatározza az ügyfeleknek elérhető szabványos jogosultságokat az alkalmazáson belül. Ha több jogosultság szükséges, akkor itt adhatja meg azokat. A jogosultságoknak szerepelniük kell a forráskódban, hogy hatályban lévők legyenek. Győződjön meg arról, hogy bármely fent említett jogosultság hozzáadásakor az „rw” jogosultság legyen az utolsó bejegyzés.',
         'Defines the standard size of PDF pages.' => 'Meghatározza a PDF oldalak szabványos méretét.',

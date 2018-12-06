@@ -17380,7 +17380,7 @@ msgstr "Kijelölés eltávolítása"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Do you really want to delete this generic agent job?"
-msgstr ""
+msgstr "Valóban törölni szeretné ezt az általános ügyintéző feladatot?"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Delete this Event Trigger"
@@ -23158,6 +23158,9 @@ msgid ""
 "interface of this OTRS system. The value in \"Key\" is the external URL, the"
 " value in \"Content\" is the shown label."
 msgstr ""
+"Meghatározza ennek az OTRS rendszernek az ügyfél- és nyilvános felületének "
+"láblécterületén megjelenített hivatkozásokat. A „Kulcs” mezőben lévő érték a"
+" külső URL, a „Tartalom” mezőben lévő érték a megjelenített címke."
 
 #. SysConfig
 msgid ""
