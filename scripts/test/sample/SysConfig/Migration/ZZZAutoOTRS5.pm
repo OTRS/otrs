@@ -869,6 +869,10 @@ $Self->{'PostMaster::CheckFollowUpModule'}->{'0100-Subject'} =  {
   'X-OTRS-FollowUp-ArticleType' => 'email-external'
 };
 
+$Self->{'Ticket::Frontend::AgentTicketQueue'}->{'HighlightAge1'} = '1234';
+
+$Self->{'Test'}->{'HighlightAge2'} = '5678';
+
 }
 
 1;

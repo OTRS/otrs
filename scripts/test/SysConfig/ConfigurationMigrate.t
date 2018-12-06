@@ -134,9 +134,11 @@ my $Success = $Kernel::OM->Get('Kernel::System::SysConfig::Migration')->MigrateC
     FilePath        => $TestLocation,
     PackageSettings => [
         'SessionAgentOnlineThreshold',
+        'Ticket::Frontend::AgentTicketQueue###HighlightAge2',
     ],
     PackageLookupNewConfigName => {
-        'SessionAgentOnlineThreshold' => 'ChatEngine::AgentOnlineThreshold'
+        'ChatEngine::AgentOnlineThreshold' => 'SessionAgentOnlineThreshold',
+        'Test###HighlightAge2'             => 'Ticket::Frontend::AgentTicketQueue###HighlightAge2',
     },
     ReturnMigratedSettingsCounts => 1,
 );
@@ -194,7 +196,7 @@ if ( ref $Success eq 'HASH' ) {
         {
             Name        => 'AllSettingsCount',
             IsValue     => $AllSettingsCount,
-            ShouldValue => 50,
+            ShouldValue => 52,
         },
         {
             Name        => 'DisabledSettingsCount',
@@ -204,7 +206,7 @@ if ( ref $Success eq 'HASH' ) {
         {
             Name        => 'MissingSettings',
             IsValue     => scalar @MissingSettings,
-            ShouldValue => 2,
+            ShouldValue => 3,
         },
         {
             Name        => 'UnsuccessfullSettings',
@@ -255,6 +257,20 @@ my @Tests = (
         OldName  => 'CustomerCompany::EventModulePost###110-UpdateTickets',
         NewName  => 'CustomerCompany::EventModulePost###2300-UpdateTickets',
     },
+
+    {
+        TestType       => 'EffectiveValue',
+        Name           => 'Effective Value',
+        Key            => 'Ticket::Frontend::AgentTicketQueue###HighlightAge1',
+        EffectiveValue => '1234',
+    },
+    {
+        TestType       => 'EffectiveValue',
+        Name           => 'Effective Value',
+        Key            => 'Ticket::Frontend::AgentTicketQueue###HighlightAge2',
+        EffectiveValue => '5678',
+    },
+
     {
         TestType => 'Disabled',
         Name     => 'Disabled Setting',

@@ -1625,8 +1625,8 @@ sub MigrateConfigEffectiveValues {
     # my @SearchResult = grep /###/, sort values %DefaultSettings;
     my @SearchResult = grep { $_->{Name} =~ m{###} } @DefaultSettings;
 
-    # find all the setting which have sublevels and store them in a hash
-    my %SettingsWithSubLevels;
+    # find all the setting which have sublevels and store them in a hash for OTRS 6
+    my %SettingsWithSubLevelsOTRS6;
     for my $Setting (@SearchResult) {
 
         my @SettingNameParts = split /###/, $Setting->{Name};
@@ -1638,13 +1638,13 @@ sub MigrateConfigEffectiveValues {
             @SettingNameParts
 
             # Skip any setting with more than one sub-levels in hash key (unsupported in OTRS 5).
-            && !defined $SettingsWithSubLevels{$FirstLevelKey}->{ $SettingNameParts[0] }
+            && !defined $SettingsWithSubLevelsOTRS6{$FirstLevelKey}->{ $SettingNameParts[0] }
             )
         {
-            $SettingsWithSubLevels{$FirstLevelKey}->{ $SettingNameParts[0] }->{$LastLevelKey} = 1;
+            $SettingsWithSubLevelsOTRS6{$FirstLevelKey}->{ $SettingNameParts[0] }->{$LastLevelKey} = 1;
         }
         else {
-            $SettingsWithSubLevels{$FirstLevelKey}->{$LastLevelKey} = 1;
+            $SettingsWithSubLevelsOTRS6{$FirstLevelKey}->{$LastLevelKey} = 1;
         }
     }
 
@@ -1663,6 +1663,21 @@ sub MigrateConfigEffectiveValues {
 
     # to store unsuccessfull settings which could not be migrated
     my @UnsuccessfullSettings;
+
+    # Add an additional mapping for 2-Level settings, which have a renamed first part.
+    if ( $Param{PackageLookupNewConfigName} ) {
+
+        my %AdditionalMapping;
+        for my $OldName ( sort keys %{ $Param{PackageLookupNewConfigName} } ) {
+            my $NewName = $Param{PackageLookupNewConfigName}->{$OldName};
+
+            $OldName =~ s{#.*\z}{}ms;
+            $NewName =~ s{#.*\z}{}ms;
+            $AdditionalMapping{$OldName} = $NewName;
+        }
+
+        %{ $Param{PackageLookupNewConfigName} } = (  %{ $Param{PackageLookupNewConfigName} }, %AdditionalMapping );
+    }
 
     SETTINGNAME:
     for my $SettingName ( sort keys %OTRS5Config ) {
@@ -1686,8 +1701,16 @@ sub MigrateConfigEffectiveValues {
         next SETTINGNAME if $SettingName eq 'Ticket::StorageModule::CheckAllBackends';
         next SETTINGNAME if $SettingName eq 'ArticleDir';
 
+        my $CheckSubLevels;
+        if ( $SettingsWithSubLevelsOTRS6{$SettingName} ) {
+            $CheckSubLevels = 1;
+        }
+        elsif ( $Param{PackageLookupNewConfigName} && $Param{PackageLookupNewConfigName}->{$SettingName} && $SettingsWithSubLevelsOTRS6{ $Param{PackageLookupNewConfigName}->{$SettingName} } ) {
+            $CheckSubLevels = 1;
+        }
+
         # check if this OTRS5 setting has subhashes in the name
-        if ( $SettingsWithSubLevels{$SettingName} ) {
+        if ( $CheckSubLevels ) {
 
             SETTINGKEYFIRSTLEVEL:
             for my $SettingKeyFirstLevel ( sort keys %{ $OTRS5Config{$SettingName} } ) {
@@ -1695,8 +1718,8 @@ sub MigrateConfigEffectiveValues {
                 # there is a second level
                 # example: Ticket::Frontend::AgentTicketZoom###Widgets###0100-TicketInformation
                 if (
-                    $SettingsWithSubLevels{$SettingName}->{$SettingKeyFirstLevel}
-                    && IsHashRefWithData( $SettingsWithSubLevels{$SettingName}->{$SettingKeyFirstLevel} )
+                    $SettingsWithSubLevelsOTRS6{$SettingName}->{$SettingKeyFirstLevel}
+                    && IsHashRefWithData( $SettingsWithSubLevelsOTRS6{$SettingName}->{$SettingKeyFirstLevel} )
                     && IsHashRefWithData( $OTRS5Config{$SettingName}->{$SettingKeyFirstLevel} )
                     )
                 {
