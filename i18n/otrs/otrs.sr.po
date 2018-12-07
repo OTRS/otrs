@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"POT-Creation-Date: 2018-12-06 17:43+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Dusan Vuckovic, 2018\n"
 "Language-Team: Serbian (https://www.transifex.com/otrs/teams/23435/sr/)\n"
@@ -1663,7 +1663,7 @@ msgstr "Подразумеване групе за клијент корисни
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer User-Service Relations"
-msgstr ""
+msgstr "Управљање релацијама клијент корисници-сервиси"
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
@@ -6059,6 +6059,8 @@ msgid ""
 "To use a sign key, PGP keys or S/MIME certificates need to be added with "
 "identifiers for selected queue system address."
 msgstr ""
+"За коришћење својства потписивања, PGP кључеви или S/MIME сертификати "
+"идентитета морају бити додати за системску адресу одабраног реда."
 
 #. Template: AdminQueue
 msgid "Salutation"
@@ -17077,6 +17079,10 @@ msgid "Remove selection"
 msgstr "Уклони избор"
 
 #. JS File: Core.Agent.Admin.GenericAgent
+msgid "Do you really want to delete this generic agent job?"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericAgent
 msgid "Delete this Event Trigger"
 msgstr "Obriši ovaj okidač događaja"
 
@@ -17192,7 +17198,7 @@ msgstr "Да ли стварно желите да обришете ово об�
 
 #. JS File: Core.Agent.Admin.PGP
 msgid "Do you really want to delete this key?"
-msgstr ""
+msgstr "Да ли заиста желите да обришете овај кључ?"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
@@ -22654,6 +22660,13 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Defines the shown links in the footer area of the customer and public "
+"interface of this OTRS system. The value in \"Key\" is the external URL, the"
+" value in \"Content\" is the shown label."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines the standard permissions available for customers within the "
 "application. If more permissions are needed, you can enter them here. "
 "Permissions must be hard coded to be effective. Please ensure, when adding "
@@ -25005,7 +25018,7 @@ msgstr "Повежи улоге са групама."
 
 #. SysConfig
 msgid "Link templates to attachments."
-msgstr ""
+msgstr "Повезивање шаблона са прилозима."
 
 #. SysConfig
 msgid "Link templates to queues."
@@ -26643,7 +26656,7 @@ msgstr "Преглед реда"
 
 #. SysConfig
 msgid "Queues ↔ Auto Responses"
-msgstr ""
+msgstr "Редови ↔ аутоматски одговори"
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -29386,7 +29399,7 @@ msgstr "Одржавање система"
 
 #. SysConfig
 msgid "Templates ↔ Attachments"
-msgstr ""
+msgstr "Шаблони ↔ прилози"
 
 #. SysConfig
 msgid "Templates ↔ Queues"

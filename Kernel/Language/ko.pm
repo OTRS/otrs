@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.987633115767777;
+    $Self->{Completeness}        = 0.987293956043956;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -5434,6 +5434,7 @@ sub Data {
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove selection' => '선택 항목 삭제',
+        'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => '이 이벤트 트리거 삭제',
         'Duplicate event.' => '중복 이벤트.',
         'This event is already attached to the job, Please use a different one.' =>
@@ -6930,6 +6931,8 @@ Thanks for your help!
             '에이전트 실명과 주어진 대기열 전자메일 주소 사이의 구분 기호를 정의합니다.',
         'Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen.' =>
             'AgentCustomerUserAddressBook 결과 화면에 표시된 열과 위치를 정의합니다.',
+        'Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
+            '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             '응용 프로그램 내에서 고객이 사용할 수있는 표준 사용 권한을 정의합니다. 더 많은 권한이 필요하면 여기에 입력 할 수 있습니다. 사용 권한은 효과적 이도록 하드 코딩해야합니다. 앞서 언급 한 권한 중 하나를 추가 할 때 "rw"권한이 마지막 항목으로 남아 있는지 확인하십시오.',
         'Defines the standard size of PDF pages.' => 'PDF 페이지의 표준 크기를 정의합니다.',
@@ -8818,6 +8821,7 @@ Thanks for your help!
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this generic agent job?',
         'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',

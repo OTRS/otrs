@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.767433871521814;
+    $Self->{Completeness}        = 0.76717032967033;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5441,6 +5441,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove selection' => '選択項目を削除',
+        'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => 'このイベントトリガーを削除',
         'Duplicate event.' => 'イベントを複製',
         'This event is already attached to the job, Please use a different one.' =>
@@ -6943,6 +6944,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Defines the separator between the agents real name and the given queue email address.' =>
             '担当者の実名と与えられたキューのEメールアドレスに間に置く分離を定義します。',
         'Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen.' =>
+            '',
+        'Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
             '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             'アプリケーション内で顧客が利用できる標準の許可を定義します。もし、より多くの許可が必要になった場合、ここに入力してください。許可が効力を持つためには、ハード・コーディングされる必要があります。なお、前述した許可のいずれかを追加する場合、“rw”許可が、最後のエントリとなることを確実にしてください。',
@@ -8833,6 +8836,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this generic agent job?',
         'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',

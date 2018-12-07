@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.998969426313981;
+    $Self->{Completeness}        = 0.999656593406593;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -492,7 +492,7 @@ sub Data {
         'Customer User Default Groups:' => 'Подразумеване групе за клијент корисника:',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Service Relations' => '',
+        'Manage Customer User-Service Relations' => 'Управљање релацијама клијент корисници-сервиси',
         'Edit default services' => 'Уреди подразумеване услуге',
         'Filter for Services' => 'Филтер за сервисе',
         'Filter for services' => 'Филтер за сервисе',
@@ -1719,7 +1719,7 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => 'Биће адреса пошиљаоца за имејл одговоре из овог реда.',
         'Default sign key' => 'Подразумевани кључ потписа',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
-            '',
+            'За коришћење својства потписивања, PGP кључеви или S/MIME сертификати идентитета морају бити додати за системску адресу одабраног реда.',
         'Salutation' => 'Поздрав',
         'The salutation for email answers.' => 'Поздрав за имејл одговоре.',
         'Signature' => 'Потпис',
@@ -5434,6 +5434,7 @@ sub Data {
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove selection' => 'Уклони избор',
+        'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => 'Obriši ovaj okidač događaja',
         'Duplicate event.' => 'Направи дупликат догађаја.',
         'This event is already attached to the job, Please use a different one.' =>
@@ -5486,7 +5487,7 @@ sub Data {
         'Do you really want to delete this notification?' => 'Да ли стварно желите да обришете ово обавештење?',
 
         # JS File: Core.Agent.Admin.PGP
-        'Do you really want to delete this key?' => '',
+        'Do you really want to delete this key?' => 'Да ли заиста желите да обришете овај кључ?',
 
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
@@ -6930,6 +6931,8 @@ Thanks for your help!
             'Одређује сепаратор између правог имена оператера и емаил адресе додељене реду.',
         'Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen.' =>
             'Дефинише приказане колоне и њихов редослед у екрану резултата претраге адресара клијент корисника.',
+        'Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
+            '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             'Одређује стандардне дозволе расположиве за кориснике у апликацији. Уколико је потребно више дозвола, можете их унети овде. Да би биле ефективне, дозволе морају бити непроменљиве. Молимо проверите када додајете било коју од горе наведених дозвола, да "rw" дозвола остане последња.',
         'Defines the standard size of PDF pages.' => 'Дефинише стандардну величину PDF страница.',
@@ -7508,7 +7511,7 @@ Thanks for your help!
         'Link customers to groups.' => 'Повежи клијенте са групама.',
         'Link queues to auto responses.' => 'Повежи редове са аутоматским одговорима.',
         'Link roles to groups.' => 'Повежи улоге са групама.',
-        'Link templates to attachments.' => '',
+        'Link templates to attachments.' => 'Повезивање шаблона са прилозима.',
         'Link templates to queues.' => 'Повежи шаблоне са редовима',
         'Link this ticket to other objects' => 'Увежи овај тикет са другим објектом',
         'Links 2 tickets with a "Normal" type link.' => 'Повезује 2 тикета типом везе "Normal".',
@@ -7844,7 +7847,7 @@ Thanks for your help!
         'Public Calendar' => 'Јавни календар',
         'Public calendar.' => 'Јавни календар.',
         'Queue view' => 'Преглед реда',
-        'Queues ↔ Auto Responses' => '',
+        'Queues ↔ Auto Responses' => 'Редови ↔ аутоматски одговори',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Поново изради индекс тикета за оператерски ред тикета.',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
             'Препознај да ли је тикет наставак постојећег тикета коришћењем екстерног броја тикета.',
@@ -8484,7 +8487,7 @@ Thanks for your help!
         'System Configuration Deployment' => 'Распоређивање системске конфигурације',
         'System Configuration Group' => 'Категорија системске конфигурације',
         'System Maintenance' => 'Одржавање система',
-        'Templates ↔ Attachments' => '',
+        'Templates ↔ Attachments' => 'Шаблони ↔ прилози',
         'Templates ↔ Queues' => 'Шаблони ↔ редови',
         'Textarea' => 'Област текста',
         'Thai' => 'Тајландски',
@@ -8818,6 +8821,7 @@ Thanks for your help!
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this generic agent job?',
         'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',

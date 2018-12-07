@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.595671590518722;
+    $Self->{Completeness}        = 0.595467032967033;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -5437,6 +5437,7 @@ sub Data {
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove selection' => 'ลบการคัดเลือก',
+        'Do you really want to delete this generic agent job?' => '',
         'Delete this Event Trigger' => 'ลบกระตุ้นกิจกรรมนี้',
         'Duplicate event.' => 'กิจกรรมที่ซ้ำกัน',
         'This event is already attached to the job, Please use a different one.' =>
@@ -6935,6 +6936,8 @@ Thanks for your help!
         'Defines the separator between the agents real name and the given queue email address.' =>
             'กำหนดตัวคั่นระหว่างชื่อจริงของเอเย่นต์และที่อยู่อีเมลคิวที่กำหนด',
         'Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen.' =>
+            '',
+        'Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
             '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             'กำหนดสิทธิ์มาตรฐานสามารถใช้ได้สำหรับลูกค้าภายในแอพพลิเคชันหากจำเป็นต้องใช้สิทธิ์มากขึ้นคุณสามารถป้อนข้อมูลที่นี่ การกำหนดสิทธิ์จะต้องเป็นรหัสที่ยากที่มีประสิทธิภาพ โปรดตรวจสอบเมื่อเพิ่มสิทธิ์ที่กล่าวถึงข้างต้น, "RW" ยังคงเป็นรายการสุดท้ายที่จะได้รับอนุญาต ',
@@ -8824,6 +8827,7 @@ Thanks for your help!
         'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
+        'Do you really want to delete this generic agent job?',
         'Do you really want to delete this key?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',

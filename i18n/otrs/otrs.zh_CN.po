@@ -19,7 +19,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-11-01 22:41+0000\n"
+"POT-Creation-Date: 2018-12-06 17:43+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Bob Tao <bob.tao@otrs.com>, 2018\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/otrs/teams/23435/zh_CN/)\n"
@@ -1586,7 +1586,7 @@ msgstr "客户用户的默认组："
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer User-Service Relations"
-msgstr ""
+msgstr "管理客户-服务之间的联系"
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
@@ -5639,7 +5639,7 @@ msgstr "默认签名"
 msgid ""
 "To use a sign key, PGP keys or S/MIME certificates need to be added with "
 "identifiers for selected queue system address."
-msgstr ""
+msgstr "PGP密钥或者S/MIME证书需要被添加标识符到选定的队列系统电子邮件地址，以便使用。"
 
 #. Template: AdminQueue
 msgid "Salutation"
@@ -16207,6 +16207,10 @@ msgid "Remove selection"
 msgstr "删除选择"
 
 #. JS File: Core.Agent.Admin.GenericAgent
+msgid "Do you really want to delete this generic agent job?"
+msgstr ""
+
+#. JS File: Core.Agent.Admin.GenericAgent
 msgid "Delete this Event Trigger"
 msgstr "删除这个事件触发器"
 
@@ -16318,7 +16322,7 @@ msgstr "您真的想要删除这个通知?"
 
 #. JS File: Core.Agent.Admin.PGP
 msgid "Do you really want to delete this key?"
-msgstr ""
+msgstr "您真的要删除该键吗？"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
@@ -20881,6 +20885,13 @@ msgstr "定义在服务人员界面客户用户通讯录搜索结果屏幕中显
 
 #. SysConfig
 msgid ""
+"Defines the shown links in the footer area of the customer and public "
+"interface of this OTRS system. The value in \"Key\" is the external URL, the"
+" value in \"Content\" is the shown label."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines the standard permissions available for customers within the "
 "application. If more permissions are needed, you can enter them here. "
 "Permissions must be hard coded to be effective. Please ensure, when adding "
@@ -22854,7 +22865,7 @@ msgstr "链接角色到组。"
 
 #. SysConfig
 msgid "Link templates to attachments."
-msgstr ""
+msgstr "连接模板到附件。"
 
 #. SysConfig
 msgid "Link templates to queues."
@@ -24246,7 +24257,7 @@ msgstr "队列视图"
 
 #. SysConfig
 msgid "Queues ↔ Auto Responses"
-msgstr ""
+msgstr "队列 ↔ 自动回复"
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -26481,7 +26492,7 @@ msgstr "系统维护"
 
 #. SysConfig
 msgid "Templates ↔ Attachments"
-msgstr ""
+msgstr "模板 ↔ 附件"
 
 #. SysConfig
 msgid "Templates ↔ Queues"
