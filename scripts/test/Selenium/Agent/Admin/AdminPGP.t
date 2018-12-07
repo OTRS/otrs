@@ -182,7 +182,7 @@ $Selenium->RunTest(
                         );
                         $Selenium->VerifiedRefresh();
 
-                        # Check if dynamic field is deleted.
+                        # Check if PGP key is deleted.
                         $Self->False(
                             $Selenium->execute_script(
                                 "return \$('a[href*=\"Delete;Type=$Type;Key=$Key->{FingerprintShort}\"]').length;"
