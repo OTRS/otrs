@@ -17,43 +17,51 @@ use Kernel::Config::Files::ZZZAAuto;
 
 =head1 SYNOPSIS
 
-This test verifies that the settings defined in Defaults.pm
-match those in ZZZAAuto.pm (XML default config cache).
+This test verifies that the settings defined in Defaults.pm match those in ZZZAAuto.pm (XML default config cache).
 
-This test will only operate if no custom/unkown configuration
-files are installed, because these might alter the default settings
-and cause wrong test failures.
+This test will only operate if no custom/unknown configuration files are present, because these might alter the default
+settings and cause unexpected test failures.
 
 =cut
 
-# Get list of installed config XML files
-my $Directory   = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/Kernel/Config/Files/XML";
-my @ConfigFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-    Directory => $Directory,
-    Filter    => "*.xml",
-);
+my $ChecksumFileNotPresent = sub {
+    $Self->False(
+        1,
+        'Default configuration unit test requires the checksum file (ARCHIVE) to be present and valid. Please first call the following command to create it: bin/otrs.CheckSum.pl -a create'
+    );
+    return 1;
+};
 
-my %AllowedConfigFiles = (
-    'Calendar.xml'          => 1,
-    'CloudServices.xml'     => 1,
-    'Daemon.xml'            => 1,
-    'Framework.xml'         => 1,
-    'Fred.xml'              => 1,
-    'GenericInterface.xml'  => 1,
-    'OTRSCodePolicy.xml'    => 1,
-    'ProcessManagement.xml' => 1,
-    'Support.xml'           => 1,
-    'Ticket.xml'            => 1,
+my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+
+# Checksum file content as an array ref.
+my $ChecksumFileArrayRef = $MainObject->FileRead(
+    Location        => "$Home/ARCHIVE",
+    Mode            => 'utf8',
+    Type            => 'Local',
+    Result          => 'ARRAY',
+    DisableWarnings => 1,
+);
+return $ChecksumFileNotPresent->() if !$ChecksumFileArrayRef || !@{$ChecksumFileArrayRef};
+
+# Get list of present config XML files.
+my $Directory   = "$Home/Kernel/Config/Files/XML";
+my @ConfigFiles = $MainObject->DirectoryRead(
+    Directory => $Directory,
+    Filter    => '*.xml',
 );
 
 for my $ConfigFile (@ConfigFiles) {
 
-    $ConfigFile =~ s{^.*/([^/]+.xml)$}{$1}xmsg;
+    $ConfigFile =~ s{^${Home}/(.*/[^/]+.xml)$}{$1}xmsg;
 
-    if ( !$AllowedConfigFiles{$ConfigFile} ) {
-
-        print "You have custom configuration files installed ($ConfigFile). Skipping this test.\n";
-
+    if ( !grep { $_ =~ $ConfigFile } @{$ChecksumFileArrayRef} ) {
+        $Self->False(
+            0,
+            "Custom configuration file found ($ConfigFile), skipping test..."
+        );
         return 1;
     }
 }
