@@ -1,3 +1,5 @@
+#5.0.34 2018-??-??
+
 #5.0.33 2018-12-14
  - 2018-12-05 Added possibility to display links in footer section of customer and public interface.
  - 2018-11-27 Fixed bug#[14246](https://bugs.otrs.org/show_bug.cgi?id=14246) - Attachments with 0 byte do not show up.
