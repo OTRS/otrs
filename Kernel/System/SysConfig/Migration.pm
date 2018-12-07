@@ -1705,9 +1705,11 @@ sub MigrateConfigEffectiveValues {
         if ( $SettingsWithSubLevelsOTRS6{$SettingName} ) {
             $CheckSubLevels = 1;
         }
-        elsif ($Param{PackageLookupNewConfigName}
+        elsif (
+            $Param{PackageLookupNewConfigName}
             && $Param{PackageLookupNewConfigName}->{$SettingName}
-            && $SettingsWithSubLevelsOTRS6{ $Param{PackageLookupNewConfigName}->{$SettingName} } )
+            && $SettingsWithSubLevelsOTRS6{ $Param{PackageLookupNewConfigName}->{$SettingName} }
+            )
         {
             $CheckSubLevels = 1;
         }

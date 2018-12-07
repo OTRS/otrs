@@ -38,13 +38,13 @@ return $ChecksumFileNotPresent->() if !$ChecksumFileArrayRef || !@{$ChecksumFile
 
 my $ChecksumFileSize = -s $ChecksumFile;
 $Self->True(
-    $ChecksumFileSize && $ChecksumFileSize > 2 ** 10 && $ChecksumFileSize < 2 ** 20,
+    $ChecksumFileSize && $ChecksumFileSize > 2**10 && $ChecksumFileSize < 2**20,
     'Checksum file size in expected range (> 1KB && < 1MB)'
 );
 
 # Verify MD5 digests for the first 100 entries in the checksum file.
 INDEX:
-for my $Index (0..99) {
+for my $Index ( 0 .. 99 ) {
     last INDEX if !defined $ChecksumFileArrayRef->[$Index];
 
     my @Entry = split '::', $ChecksumFileArrayRef->[$Index];
