@@ -349,7 +349,7 @@
                                     <div class="Field">
                                         <input id="BasicAuthPassword" class="W50pc [% Data.BasicAuthPasswordValidateRequired | html %] [% Data.BasicAuthPasswordServerError | html %]" type="password" maxlength="250" value="[% Data.BasicAuthPassword | html %]" name="BasicAuthPassword"/>
                                         <div id="BasicAuthPasswordError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                                        <div id="BasicAuthPasswordServerError" class="TooltipErrorMessage"><p>[% Translate(Data.WSDLFileServerErrorMessage) | html %]</p></div>
+                                        <div id="BasicAuthPasswordServerError" class="TooltipErrorMessage"><p>[% Translate(Data.BasicAuthPasswordServerErrorMessage) | html %]</p></div>
                                         <p class="FieldExplanation">
                                             [% Translate("The password for the privileged user.") | html %]
                                         </p>
