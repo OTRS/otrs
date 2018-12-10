@@ -1,4 +1,5 @@
 #6.0.16 ????-??-??
+ - 2018-12-10 Fixed bug#[14262](https://bugs.otrs.org/show_bug.cgi?id=14262) - Untranslated string and wrong charset in package manager notification.
  - 2018-12-06 Fixed bug#[14282](https://bugs.otrs.org/show_bug.cgi?id=14282) - After upgrading from OTRS 5 to 6 some the values of some renamed package settings are not preserved.
  - 2018-12-06 Fixed bug#[14165](https://bugs.otrs.org/show_bug.cgi?id=14165) - Article's style of plain text is wrong in AgentTicketZoom.
 

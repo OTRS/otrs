@@ -1573,19 +1573,14 @@ sub Run {
         );
         if ( !@List ) {
             $OutputNotify .= $LayoutObject->Notify(
-                Priority => 'Error',
+                Priority => 'Warning',
+                Info     => Translatable('No packages found in selected repository. Please check log for more info!'),
+                Link     => $LayoutObject->{Baselink} . 'Action=AdminLog',
             );
-            if ( !$OutputNotify ) {
-                $OutputNotify .= $LayoutObject->Notify(
-                    Priority => 'Info',
-                    Info     => Translatable('No packages or no new packages found in selected repository.'),
-                );
-            }
             $LayoutObject->Block(
                 Name => 'NoDataFoundMsg',
                 Data => {},
             );
-
         }
 
         for my $Data (@List) {

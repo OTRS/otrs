@@ -307,6 +307,37 @@ $Selenium->RunTest(
             'Info for incompatible package is shown'
         );
 
+        # Set default repository list.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Package::RepositoryList',
+            Value => {
+                'ftp://ftp.example.com/pub/otrs/misc/packages/' => '[Example] ftp://ftp.example.com/'
+            },
+        );
+
+        # Allow web server to pick up the changed SysConfig.
+        sleep 1;
+
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AdminPackageManager;"
+        );
+        $Selenium->InputFieldValueSet(
+            Element => '#Soruce',
+            Value   => 'ftp://ftp.example.com/pub/otrs/misc/packages/',
+        );
+        $Selenium->find_element("//button[\@name=\'GetRepositoryList']")->click();
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
+
+        # Check that there is a notification about no packages.
+        my $Notification = 'No packages found in selected repository. Please check log for more info!';
+        $Self->True(
+            $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
+            "$Notification - notification is found."
+        );
     }
 );
 
