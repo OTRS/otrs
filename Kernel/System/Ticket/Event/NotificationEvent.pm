@@ -74,6 +74,11 @@ sub Run {
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
+    # Loop protection: prevent from running if ArticleSend has already triggered for certain ticket.
+    if ( $Param{Event} eq 'ArticleSend' ) {
+        return if $TicketObject->{'_NotificationEvent::ArticleSend'}->{ $Param{Data}->{TicketID} }++;
+    }
+
     # return if no notification is active
     return 1 if $TicketObject->{SendNoNotification};
 
@@ -1087,7 +1092,7 @@ sub _RecipientsGet {
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     String => $Start,
-                }
+                    }
             );
             my $End = sprintf(
                 "%04d-%02d-%02d 23:59:59",
@@ -1098,7 +1103,7 @@ sub _RecipientsGet {
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     String => $End,
-                }
+                    }
             );
 
             next RECIPIENT if $TimeStart < $DateTimeObject && $TimeEnd > $DateTimeObject;
