@@ -216,9 +216,12 @@ $Selenium->RunTest(
                 CSSSelector => '#ButtonSkipMail',
             );
 
+            $Selenium->WaitForjQueryEventBound(
+                CSSSelector => '#ButtonSkipMail',
+            );
+
             # Go to last step of installation.
-            $Selenium->execute_script("\$('#ButtonSkipMail').click();");
-            sleep 3;
+            $Selenium->find_element( '#ButtonSkipMail', 'css' )->VerifiedClick();
 
             $Selenium->WaitFor(
                 Time => 300,
