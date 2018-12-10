@@ -212,8 +212,8 @@ $Selenium->RunTest(
                 'Loaded 3/4 screen - Mail Configuration'
             );
 
-            $Selenium->WaitFor(
-                JavaScript => 'return typeof($) === "function" && $("#ButtonSkipMail").length === 1;'
+            $Selenium->WaitForjQueryEventBound(
+                CSSSelector => '#ButtonSkipMail',
             );
 
             # Go to last step of installation.
