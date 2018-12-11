@@ -1,4 +1,5 @@
 #6.0.16 ????-??-??
+ - 2018-12-11 Fixed bug#[14259](https://bugs.otrs.org/show_bug.cgi?id=14259) - Config Rebuild locking issue on cluster nodes.
  - 2018-12-10 Fixed bug#[14221](https://bugs.otrs.org/show_bug.cgi?id=14221) - Ticket notification with ArticleSend event leads into deep recursion.
  - 2018-12-10 Fixed bug#[14262](https://bugs.otrs.org/show_bug.cgi?id=14262) - Untranslated string and wrong charset in package manager notification.
  - 2018-12-06 Fixed bug#[14282](https://bugs.otrs.org/show_bug.cgi?id=14282) - After upgrading from OTRS 5 to 6 some the values of some renamed package settings are not preserved.
