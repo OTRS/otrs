@@ -761,9 +761,10 @@ sub AutoResponse {
             From => $Param{OrigHeader}->{To},
             To   => $Param{OrigHeader}->{From},
         },
-        TicketData => \%Ticket,
-        UserID     => $Param{UserID},
-        Language   => $Language,
+        TicketData      => \%Ticket,
+        UserID          => $Param{UserID},
+        Language        => $Language,
+        AddTimezoneInfo => 1,
     );
     $AutoResponse{Subject} = $Self->_Replace(
         RichText => 0,
@@ -773,9 +774,10 @@ sub AutoResponse {
             From => $Param{OrigHeader}->{To},
             To   => $Param{OrigHeader}->{From},
         },
-        TicketData => \%Ticket,
-        UserID     => $Param{UserID},
-        Language   => $Language,
+        TicketData      => \%Ticket,
+        UserID          => $Param{UserID},
+        Language        => $Language,
+        AddTimezoneInfo => 1,
     );
 
     $AutoResponse{Subject} = $TicketObject->TicketSubjectBuild(
@@ -1177,6 +1179,22 @@ sub _Replace {
         %Ticket = %{ $Param{TicketData} };
     }
 
+    # Determine customer user's timezone if needed (if comes from AutoResponse function).
+    my $CustomerUserTimeZone;
+    if ( $Param{AddTimezoneInfo} ) {
+        $CustomerUserTimeZone = $Kernel::OM->Create('Kernel::System::DateTime')->OTRSTimeZoneGet();
+
+        if ( $Ticket{CustomerUserID} ) {
+            my %UserPreferences = $Kernel::OM->Get('Kernel::System::CustomerUser')->GetPreferences(
+                UserID => $Ticket{CustomerUserID},
+            );
+
+            if ( $UserPreferences{UserTimeZone} ) {
+                $CustomerUserTimeZone = $UserPreferences{UserTimeZone};
+            }
+        }
+    }
+
     # Replace Unix time format tags.
     # If language is defined, they will be converted into a correct format in below IF statement.
     for my $UnixFormatTime (
@@ -1212,11 +1230,31 @@ sub _Replace {
             next ATTRIBUTE if !$Ticket{$Attribute};
 
             if ( $Ticket{$Attribute} =~ m{\A(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d):(\d\d):(\d\d)\z}xi ) {
+
+                # Change time to customer user's timezone if exists (if comes from AutoResponse function)
+                # and later append timezone information.
+                # For more information, see bug#13865 (https://bugs.otrs.org/show_bug.cgi?id=13865).
+                if ($CustomerUserTimeZone) {
+                    my $DateTimeObject = $Kernel::OM->Create(
+                        'Kernel::System::DateTime',
+                        ObjectParams => {
+                            String => $Ticket{$Attribute},
+                        },
+                    );
+                    $DateTimeObject->ToTimeZone( TimeZone => $CustomerUserTimeZone );
+                    $Ticket{$Attribute} = $DateTimeObject->ToString();
+                }
+
                 $Ticket{$Attribute} = $LanguageObject->FormatTimeString(
                     $Ticket{$Attribute},
                     'DateFormat',
                     'NoSeconds',
                 );
+
+                # Append timezone information if needed.
+                if ($CustomerUserTimeZone) {
+                    $Ticket{$Attribute} .= " ($CustomerUserTimeZone)";
+                }
             }
         }
 
@@ -1478,6 +1516,25 @@ sub _Replace {
             );
         }
 
+        my $DateTimeObject;
+
+        # Change DateTime DF value for ticket if tag comes from auto response.
+        if (
+            defined $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+            && $DynamicFieldConfig->{FieldType} eq 'DateTime'
+            && $CustomerUserTimeZone
+            )
+        {
+            $DateTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+                },
+            );
+            $DateTimeObject->ToTimeZone( TimeZone => $CustomerUserTimeZone );
+            $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $DateTimeObject->ToString();
+        }
+
         # get the display value for each dynamic field
         my $DisplayValue = $DynamicFieldBackendObject->ValueLookup(
             DynamicFieldConfig => $DynamicFieldConfig,
@@ -1495,6 +1552,18 @@ sub _Replace {
         if ($DisplayValueStrg) {
             $DynamicFieldDisplayValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} . '_Value' }
                 = $DisplayValueStrg->{Value};
+
+            # Add timezone info if tag comes from auto response.
+            if (
+                defined $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                && length $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                && $DynamicFieldConfig->{FieldType} eq 'DateTime'
+                && $CustomerUserTimeZone
+                )
+            {
+                $DynamicFieldDisplayValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} . '_Value' }
+                    .= " ($CustomerUserTimeZone)";
+            }
         }
 
         # get the readable value (key) for each dynamic field
@@ -1506,6 +1575,17 @@ sub _Replace {
         # replace ticket content with the value from ReadableValueRender (if any)
         if ( IsHashRefWithData($ValueStrg) ) {
             $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $ValueStrg->{Value};
+
+            # Add timezone info if tag comes from auto response.
+            if (
+                defined $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                && length $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
+                && $DynamicFieldConfig->{FieldType} eq 'DateTime'
+                && $CustomerUserTimeZone
+                )
+            {
+                $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } .= " ($CustomerUserTimeZone)";
+            }
         }
     }
 

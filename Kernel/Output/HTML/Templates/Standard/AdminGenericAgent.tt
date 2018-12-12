@@ -191,6 +191,9 @@
                                     </td>
                                 </tbody>
                             </table>
+                            <p class="FieldExplanation">
+                                [% Translate("Automatic execution values are in the system timezone.") | html %]
+                            </p>
 [% RenderBlockStart("JobScheduleWarning") %]
                             <p class="Error SpacingTop">
                                 [% Translate("Currently this generic agent job will not run automatically.") | html %]
