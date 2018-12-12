@@ -45,7 +45,11 @@ sub Run {
 
     # Uninstall feature add-ons that were merged, keeping the DB structures intact.
     for my $PackageName (
-        qw( OTRSAppointmentCalendar OTRSTicketNumberCounterDatabase OTRSAdvancedTicketSplit OTRSGenericInterfaceInvokerEventFilter)
+        qw( OTRSAppointmentCalendar
+        OTRSTicketNumberCounterDatabase
+        OTRSAdvancedTicketSplit
+        OTRSGenericInterfaceInvokerEventFilter
+        OTRSPostMasterKeepState )
         )
     {
         my $Success = $PackageObject->_PackageUninstallMerged(
