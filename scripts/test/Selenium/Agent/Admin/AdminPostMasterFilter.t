@@ -298,7 +298,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedRefresh();
 
         # Click to edit second PostMasterFilter.
-        $Selenium->find_element( $PostMasterName2, 'link_text' )->VerifiedClick();
+        $Selenium->execute_script("\$('a[href*=\"Subaction=Update;Name=$PostMasterName2\"]')[0].click();");
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#EditName").length;' );
 
@@ -340,9 +340,7 @@ $Selenium->RunTest(
         );
 
         # Delete second PostMasterFilter.
-        $Selenium->find_element(
-            "//a[contains(\@data-query-string, \'Subaction=Delete;Name=$PostMasterName3' )]"
-        )->click();
+        $Selenium->execute_script("\$('a[data-query-string*=\"Subaction=Delete;Name=$PostMasterName3\"]')[0].click();");
 
         # Wait for dialog to appears.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#DialogButton1").length;' );
