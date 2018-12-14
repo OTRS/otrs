@@ -826,6 +826,70 @@ sub ValueValidate {
     return $Self->{$DynamicFieldBackend}->ValueValidate(%Param);
 }
 
+=head2 FieldValueValidate()
+
+Validates a dynamic field possible value.
+
+    my $Success = $BackendObject->FieldValueValidate(
+        DynamicFieldConfig => $DynamicFieldConfig,      # Complete config of the DynamicField.
+        Value              => $Value,                   # Value to validate from possible options.
+        UserID             => 1,
+    );
+
+=cut
+
+sub FieldValueValidate {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(DynamicFieldConfig UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+            return;
+        }
+    }
+
+    # Check DynamicFieldConfig (general).
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # Check DynamicFieldConfig (internally).
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!",
+            );
+            return;
+        }
+    }
+
+    # Set the DynamicField specific backend.
+    my $DynamicFieldBackend = 'DynamicField' . $Param{DynamicFieldConfig}->{FieldType} . 'Object';
+
+    if ( !$Self->{$DynamicFieldBackend} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Backend $Param{DynamicFieldConfig}->{FieldType} is invalid!"
+        );
+        return;
+    }
+
+    # Call FieldValueValidate on the specific backend if it is available.
+    if ( $Self->{$DynamicFieldBackend}->can('FieldValueValidate') ) {
+        return $Self->{$DynamicFieldBackend}->FieldValueValidate(%Param);
+    }
+
+    return $Self->{$DynamicFieldBackend}->ValueValidate(%Param);
+}
+
 =head2 ValueGet()
 
 get a dynamic field value.

@@ -1,4 +1,5 @@
 #6.0.16 ????-??-??
+ - 2018-12-14 Fixed bug#[13444](https://bugs.otrs.org/show_bug.cgi?id=13444) - DynamicField Dropdown values are not verified if submitted via web service.
  - 2018-12-12 Fixed bug#[14216](https://bugs.otrs.org/show_bug.cgi?id=14216) - Update Script to OTRS 6 is not cleaning OTRSPostMasterKeepState.
  - 2018-12-12 Fixed bug#[13865](https://bugs.otrs.org/show_bug.cgi?id=13865) - Timezone not respected in Generic Agent, Reports and Autoreply.
  - 2018-12-12 Fixed bug#[14105](http://bugs.otrs.org/show_bug.cgi?id=14105) - SMIME signed messages cause a lot of database errors on customer ticket zoom, thanks to Renee Bäcker.
