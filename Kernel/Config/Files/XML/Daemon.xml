@@ -143,7 +143,7 @@
             </Item>
         </Value>
     </Setting>
-    <Setting Name="Daemon::SchedulerTaskWorker::NotificationRecipientEmail" Required="1" Valid="1">
+    <Setting Name="Daemon::SchedulerTaskWorker::NotificationRecipientEmail" Required="0" Valid="1">
         <Description Translatable="1">Specifies the email addresses to get notification messages from scheduler tasks.</Description>
         <Navigation>Daemon::SchedulerTaskWorker</Navigation>
         <Value>

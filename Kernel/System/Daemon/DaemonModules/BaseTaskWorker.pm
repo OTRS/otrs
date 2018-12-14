@@ -35,9 +35,9 @@ Creates a system error message and sends an email with the error messages form a
 
     my $Success = $TaskWorkerObject->_HandleError(
         TaskName     => 'some name',
-        TaksTye      => 'some type',
+        TaskType      => 'some type',
         LogMessage   => 'some message',       # message to set in the OTRS error log
-        ErrorMessage => 'some message',       # message to be sent ad a body of the email, usually contains
+        ErrorMessage => 'some message',       # message to be sent as a body of the email, usually contains
                                               #     all messages from STDERR including tracebacks
     );
 
