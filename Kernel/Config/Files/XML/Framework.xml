@@ -3270,7 +3270,7 @@ You can log in via the following URL:
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="PreferenceGroup">UserProfile</Item>
                 <Item Key="Label" Translatable="1">Google Authenticator</Item>
-                <Item Key="Desc" Translatable="1">Enter your shared secret to enable two factor authentication.</Item>
+                <Item Key="Desc" Translatable="1">Enter your shared secret to enable two factor authentication. WARNING: Make sure that you add the shared secret to your generator application and the application works well. Otherwise you will be not able to login anymore without the two factor token.</Item>
                 <Item Key="Key" Translatable="1">Shared Secret</Item>
                 <Item Key="Block">Input</Item>
                 <Item Key="PrefKey">UserGoogleAuthenticatorSecretKey</Item>
@@ -4031,7 +4031,7 @@ via the Preferences button after logging in.
                 <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Google Authenticator</Item>
                 <Item Key="Key" Translatable="1">Shared Secret</Item>
-                <Item Key="Desc" Translatable="1">Enter your shared secret to enable two factor authentication.</Item>
+                <Item Key="Desc" Translatable="1">Enter your shared secret to enable two factor authentication. WARNING: Make sure that you add the shared secret to your generator application and the application works well. Otherwise you will be not able to login anymore without the two factor token.</Item>
                 <Item Key="Block">Input</Item>
                 <Item Key="PrefKey">UserGoogleAuthenticatorSecretKey</Item>
                 <Item Key="ValidateRegex">^([A-Z2-7]{16}|)$</Item>
@@ -4634,6 +4634,7 @@ via the Preferences button after logging in.
                         <Item>Core.UI.AllocationList.js</Item>
                         <Item>Core.Agent.TableFilters.js</Item>
                         <Item>Core.Agent.Preferences.js</Item>
+                        <Item>Core.Agent.SharedSecretGenerator.js</Item>
                         <Item>Core.SystemConfiguration.js</Item>
                         <Item>Core.SystemConfiguration.Date.js</Item>
                     </Array>

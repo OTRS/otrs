@@ -1,4 +1,5 @@
 #6.0.16 ????-??-??
+ - 2018-12-14 Added button which generates shared secret key for two factor authentication (agent interface).
  - 2018-12-14 Fixed bug#[13444](https://bugs.otrs.org/show_bug.cgi?id=13444) - DynamicField Dropdown values are not verified if submitted via web service.
  - 2018-12-12 Fixed bug#[14216](https://bugs.otrs.org/show_bug.cgi?id=14216) - Update Script to OTRS 6 is not cleaning OTRSPostMasterKeepState.
  - 2018-12-12 Fixed bug#[13865](https://bugs.otrs.org/show_bug.cgi?id=13865) - Timezone not respected in Generic Agent, Reports and Autoreply.
