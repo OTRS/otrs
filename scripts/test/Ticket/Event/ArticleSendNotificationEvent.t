@@ -108,7 +108,7 @@ my $Result = $TicketNoficationEventObject->Run(
     Data  => {
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
-        }
+    }
 );
 
 # Verify the notification is sent successfully.
@@ -130,7 +130,7 @@ $Result = $TicketNoficationEventObject->Run(
     Data  => {
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
-        }
+    }
 );
 
 # Verify the loop protection stopped loop successfully.

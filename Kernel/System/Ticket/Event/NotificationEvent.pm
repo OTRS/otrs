@@ -1092,7 +1092,7 @@ sub _RecipientsGet {
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     String => $Start,
-                    }
+                }
             );
             my $End = sprintf(
                 "%04d-%02d-%02d 23:59:59",
@@ -1103,7 +1103,7 @@ sub _RecipientsGet {
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     String => $End,
-                    }
+                }
             );
 
             next RECIPIENT if $TimeStart < $DateTimeObject && $TimeEnd > $DateTimeObject;
