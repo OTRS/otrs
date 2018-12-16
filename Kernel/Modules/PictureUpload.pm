@@ -65,6 +65,26 @@ sub Run {
         for my $Attachment (@AttachmentData) {
             next ATTACHMENT if !$Attachment->{ContentID};
             next ATTACHMENT if $Attachment->{ContentID} ne $ContentID;
+
+            if (
+                $Attachment->{Filename} !~ /\.(png|gif|jpg|jpeg|bmp)$/i
+                || substr( $Attachment->{ContentType}, 0, 6 ) ne 'image/'
+                )
+            {
+                $LayoutObject->Block(
+                    Name => 'ErrorNoImageFile',
+                    Data => {
+                        CKEditorFuncNum => $CKEditorFuncNum,
+                    },
+                );
+                return $LayoutObject->Attachment(
+                    ContentType => 'text/html; charset=' . $Charset,
+                    Content     => $LayoutObject->Output( TemplateFile => 'PictureUpload' ),
+                    Type        => 'inline',
+                    NoCache     => 1,
+                );
+            }
+
             return $LayoutObject->Attachment(
                 Type => 'inline',
                 %{$Attachment},
@@ -94,7 +114,7 @@ sub Run {
     }
 
     # return error if file is not possible to show inline
-    if ( $File{Filename} !~ /\.(png|gif|jpg|jpeg|bmp)$/i ) {
+    if ( $File{Filename} !~ /\.(png|gif|jpg|jpeg|bmp)$/i || substr( $File{ContentType}, 0, 6 ) ne 'image/' ) {
         $LayoutObject->Block(
             Name => 'ErrorNoImageFile',
             Data => {

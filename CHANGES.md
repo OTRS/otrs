@@ -1,4 +1,5 @@
 #5.0.34 ????-??-??
+ - 2018-12-16 Fixed bug#[14305](https://bugs.otrs.org/show_bug.cgi?id=14305) - Incorrect handling of content-type in PictureUpload.
 
 #5.0.33 2018-12-14
  - 2018-12-05 Added possibility to display links in footer section of customer and public interface.
