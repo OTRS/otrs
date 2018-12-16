@@ -1,4 +1,5 @@
 #6.0.16 ????-??-??
+ - 2018-12-16 Fixed bug#[14305](https://bugs.otrs.org/show_bug.cgi?id=14305) - Incorrect handling of content-type in PictureUpload.
  - 2018-12-14 Set NotificationRecipientEmail setting as non-required, thanks to Yuri Myasoedov (PR#1960).
  - 2018-12-14 Added button which generates shared secret key for two factor authentication (agent interface).
  - 2018-12-14 Fixed bug#[13444](https://bugs.otrs.org/show_bug.cgi?id=13444) - DynamicField Dropdown values are not verified if submitted via web service.
