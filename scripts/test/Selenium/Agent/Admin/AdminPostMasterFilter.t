@@ -298,7 +298,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedRefresh();
 
         # Click to edit second PostMasterFilter.
-        $Selenium->execute_script("\$('a[href*=\"Subaction=Update;Name=$PostMasterName2\"]')[0].click();");
+        $Selenium->find_element( $PostMasterName2, 'link_text' )->VerifiedClick();
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#EditName").length;' );
 
@@ -340,10 +340,15 @@ $Selenium->RunTest(
         );
 
         # Delete second PostMasterFilter.
-        $Selenium->execute_script("\$('a[data-query-string*=\"Subaction=Delete;Name=$PostMasterName3\"]')[0].click();");
+        $Selenium->find_element(
+            "//a[contains(\@data-query-string, \'Subaction=Delete;Name=$PostMasterName3' )]"
+        )->click();
 
         # Wait for dialog to appears.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#DialogButton1").length;' );
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '#DialogButton1',
+            Event       => 'click',
+        );
 
         # Verify delete dialog message.
         my $DeleteMessage = $LanguageObject->Translate("Do you really want to delete this postmaster filter?");
@@ -356,7 +361,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
 
         # Wait for the dialog to disappear.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;' );
+        $Selenium->WaitFor(
+            ElementMissing => [ '.Dialog', 'css' ],
+        );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#PostMasterFilters").length > 0;' );
 
         # Check if second PostMasterFilter is deleted.
@@ -371,13 +378,18 @@ $Selenium->RunTest(
         )->click();
 
         # Wait for dialog to appears.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;' );
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '#DialogButton1',
+            Event       => 'click',
+        );
 
         # Confirm delete action.
         $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
 
         # Wait for the dialog to disappear.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;' );
+        $Selenium->WaitFor(
+            ElementMissing => [ '.Dialog', 'css' ],
+        );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#PostMasterFilters").length > 0;' );
 
         # Check if first postmaster filter is deleted.
