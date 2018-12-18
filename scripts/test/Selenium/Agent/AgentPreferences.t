@@ -110,6 +110,10 @@ $Selenium->RunTest(
             qw(CurPw NewPw NewPw1 UserTimeZone_Search UserLanguage_Search OutOfOfficeOn OutOfOfficeOff UserGoogleAuthenticatorSecretKey GenerateUserGoogleAuthenticatorSecretKey)
             )
         {
+
+            # Scroll to element view if necessary.
+            $Selenium->execute_script("\$('#$ID')[0].scrollIntoView(true);");
+
             my $Element = $Selenium->find_element( "#$ID", 'css' );
 
             $Self->True(
