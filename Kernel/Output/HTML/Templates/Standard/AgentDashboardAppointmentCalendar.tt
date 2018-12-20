@@ -52,7 +52,7 @@
 [% RenderBlockEnd("ContentSmallAppointmentRow") %]
 [% RenderBlockStart("ContentSmallAppointmentNone") %]
         <tr>
-            <td>
+            <td colspan="3">
                 [% Translate("none") | html %]
             </td>
         </tr>
