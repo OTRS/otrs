@@ -41,8 +41,8 @@ sub Option {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # Get config object.
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # Check if PGP and SMIME are disabled.
     return if !$ConfigObject->Get('PGP') && !$ConfigObject->Get('SMIME');
@@ -51,10 +51,28 @@ sub Run {
 
     # Sender with unique key won't be displayed in the selection
     my $UniqueSignKeyIDsToRemove = $Self->_GetUniqueSignKeyIDsToRemove(%Param);
+    my $InvalidMessage           = '';
+    my $Class                    = '';
     if ( IsArrayRefWithData($UniqueSignKeyIDsToRemove) ) {
         for my $UniqueSignKeyIDToRemove ( @{$UniqueSignKeyIDsToRemove} ) {
+            if ( $KeyList{$UniqueSignKeyIDToRemove} =~ m/WARNING: EXPIRED KEY.*\[\d.*\](.*)/ ) {
+                $InvalidMessage .= $LayoutObject->{LanguageObject}->Translate(
+                    "Cannot use expired signing key: '%s'. ", $1
+                );
+                $Self->{Error}->{InvalidKey} = 1;
+                $Class .= ' ServerError';
+            }
+            elsif ( $KeyList{$UniqueSignKeyIDToRemove} =~ m/WARNING: REVOKED KEY.*\[\d.*\](.*)/ ) {
+                $InvalidMessage .= $LayoutObject->{LanguageObject}->Translate(
+                    "Cannot use revoked signing key: '%s'. ", $1
+                );
+                $Self->{Error}->{InvalidKey} = 1;
+                $Class .= ' ServerError';
+            }
+
             delete $KeyList{$UniqueSignKeyIDToRemove};
         }
+
     }
 
     # Add signing options.
@@ -71,11 +89,6 @@ sub Run {
             $Param{SignKeyID} = $Self->_PickSignKeyID(%Param) || '';
         }
     }
-
-    # Get layout object.
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $InvalidMessage;
-    my $Class = '';
 
     if (
         $Param{StoreNew}
@@ -98,6 +111,27 @@ sub Run {
                 );
             }
             $Self->{Error}->{SignMissingKey} = 1;
+            $Class .= ' ServerError';
+        }
+    }
+
+    # Check if selected signing keys are expired.
+    if ( defined $Param{SignKeyID} && !$Self->{Error}->{InvalidKey} ) {
+        my ( $Type, $Key ) = split /::/, $Param{SignKeyID};
+
+        if ( $KeyList{ $Param{SignKeyID} } =~ m/WARNING: EXPIRED KEY.*\[\d.*\](.*)/ ) {
+            $InvalidMessage .= $LayoutObject->{LanguageObject}->Translate(
+                "Cannot use expired signing key: '%s'. ",
+                join ', ', $1
+            );
+            $Self->{Error}->{InvalidKey} = 1;
+            $Class .= ' ServerError';
+        }
+        elsif ( $KeyList{ $Param{SignKeyID} } =~ m/WARNING: REVOKED KEY.*\[\d.*\](.*)/ ) {
+            $InvalidMessage .= $LayoutObject->{LanguageObject}->Translate(
+                "Cannot use revoked signing key: '%s'. ", $1
+            );
+            $Self->{Error}->{InvalidKey} = 1;
             $Class .= ' ServerError';
         }
     }
@@ -174,7 +208,16 @@ sub Data {
                     $Expires = "[$DataRef->{Expires}]";
                 }
 
-                $KeyList{"PGP::$DataRef->{Key}"} = "PGP: $DataRef->{Key} $Expires $DataRef->{Identifier}";
+                my $Status = '';
+                $Status = '[' . $DataRef->{Status} . ']';
+                if ( $DataRef->{Status} eq 'expired' ) {
+                    $Status = '[WARNING: EXPIRED KEY]';
+                }
+                elsif ( $DataRef->{Status} eq 'revoked' ) {
+                    $Status = '[WARNING: REVOKED KEY]';
+                }
+
+                $KeyList{"PGP::$DataRef->{Key}"} = "PGP: $Status $DataRef->{Key} $Expires $DataRef->{Identifier}";
             }
         }
     }

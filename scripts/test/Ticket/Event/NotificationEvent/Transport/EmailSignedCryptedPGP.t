@@ -162,6 +162,28 @@ if ( !$PGPObject ) {
     return;
 }
 
+# Cleanup previus test data.
+my $Search = 'unittest';
+my @Keys   = $PGPObject->PrivateKeySearch(
+    Search => $Search,
+);
+
+for my $PGPKey (@Keys) {
+    $PGPObject->SecretKeyDelete(
+        Key => $PGPKey->{Key},
+    );
+}
+
+@Keys = $PGPObject->PublicKeySearch(
+    Search => $Search,
+);
+
+for my $PGPKey (@Keys) {
+    $PGPObject->PublicKeyDelete(
+        Key => $PGPKey->{Key},
+    );
+}
+
 # make some preparations
 my %Search = (
     1 => 'unittest@example.com',
@@ -245,19 +267,32 @@ for my $Item ( sort keys %Check ) {
     );
 }
 
-# add system address
-my $SystemAddressID = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressAdd(
-    Name     => 'unittest3@example.com',
-    Realname => 'unit test',
-    ValidID  => 1,
-    QueueID  => 1,
-    Comment  => 'Some Comment',
-    UserID   => 1,
+my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
+my %List                = $SystemAddressObject->SystemAddressList(
+    Valid => 0,
 );
-$Self->True(
-    $SystemAddressID,
-    'SystemAddressAdd()',
-);
+
+my $SystemAddressEmail = 'unittest3@example.com';
+my $SystemAddressID;
+if ( !grep { $_ =~ m/^$SystemAddressEmail$/ } values %List ) {
+
+    $SystemAddressID = $SystemAddressObject->SystemAddressAdd(
+        Name     => $SystemAddressEmail,
+        Realname => 'unit test',
+        ValidID  => 1,
+        QueueID  => 1,
+        Comment  => 'Some Comment',
+        UserID   => 1,
+    );
+    $Self->True(
+        $SystemAddressID,
+        'SystemAddressAdd()',
+    );
+}
+else {
+    %List            = reverse %List;
+    $SystemAddressID = $List{$SystemAddressEmail};
+}
 
 my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
 
