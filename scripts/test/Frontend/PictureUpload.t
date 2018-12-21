@@ -139,8 +139,10 @@ $UploadCacheObject->FormIDAddFile(
 
 $Response = $UserAgent->get("${BaseURL}Action=PictureUpload;FormID=$FormID;ContentID=$ContentID");
 $Self->True(
-    index( $Response->content(),
-        q|CKEDITOR.tools.callFunction(0, '', "The file is not an image that can be shown inline!"| ) > -1,
+    index(
+        $Response->content(),
+        q|CKEDITOR.tools.callFunction(0, '', "The file is not an image that can be shown inline!"|
+    ) > -1,
     'Response check for CKEditor error handler',
 );
 
