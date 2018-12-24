@@ -1,4 +1,5 @@
 #6.0.16 ????-??-??
+ - 2018-12-24 Fixed bug#[14286](https://bugs.otrs.org/show_bug.cgi?id=14286) - Months are missing below the charts in reports.
  - 2018-12-21 Fixed bug#[14245](https://bugs.otrs.org/show_bug.cgi?id=14245) - Expired PGP Keys are not shown.
  - 2018-12-20 Fixed bug#[14311](https://bugs.otrs.org/show_bug.cgi?id=14311) - Appointment widget has wrong colspan if no appointment present.
  - 2018-12-19 Fixed bug#[14157](https://bugs.otrs.org/show_bug.cgi?id=14157) - Edit ACL Screen, Syntax error unrecognised expression '#'.
