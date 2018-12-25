@@ -536,8 +536,8 @@ sub StateLookup {
     # check needed stuff
     if ( !$Param{State} && !$Param{StateID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
-            State   => 'error',
-            Message => 'Need State or StateID!'
+            Priority => 'error',
+            Message  => 'Need State or StateID!'
         );
         return;
     }
