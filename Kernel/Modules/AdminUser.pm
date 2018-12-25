@@ -55,13 +55,14 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        my $UserID   = $ParamObject->GetParam( Param => 'UserID' ) || '';
+        my $UserID = $ParamObject->GetParam( Param => 'UserID' ) || '';
         my %UserData = $UserObject->GetUserData(
             UserID        => $UserID,
             NoOutOfOffice => 1,
         );
 
-        my $NewSessionID = $Kernel::OM->Get('Kernel::System::AuthSession')->CreateSessionID(
+        my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+        my $NewSessionID  = $SessionObject->CreateSessionID(
             %UserData,
             UserLastRequest => $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch(),
             UserType        => 'User',
@@ -96,7 +97,7 @@ sub Run {
                 },
                 SessionID   => $NewSessionID,
                 SessionName => $ConfigObject->Get('SessionName'),
-            }
+                }
         );
 
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Output::HTML::Layout'] );
@@ -106,6 +107,11 @@ sub Run {
         $LogObject->Log(
             Priority => 'notice',
             Message  => "Switched to User ($Self->{UserLogin} -=> $UserData{UserLogin})",
+        );
+
+        # Delete old session, see bug#14322 (https://bugs.otrs.org/show_bug.cgi?id=14322);
+        $SessionObject->RemoveSessionID(
+            SessionID => $LayoutObject->{SessionID}
         );
 
         # redirect with new session id
@@ -181,7 +187,7 @@ sub Run {
             UserID    => $GetParam{UserID}
         );
         if ($UserLoginExists) {
-            $Errors{UserLoginExists}    = 1;
+            $Errors{UserLoginExists} = 1;
             $Errors{'UserLoginInvalid'} = 'ServerError';
         }
 
@@ -304,7 +310,7 @@ sub Run {
         # check if a user with this login (username) already exits
         my $UserLoginExists = $UserObject->UserLoginExistsCheck( UserLogin => $GetParam{UserLogin} );
         if ($UserLoginExists) {
-            $Errors{UserLoginExists}    = 1;
+            $Errors{UserLoginExists} = 1;
             $Errors{'UserLoginInvalid'} = 'ServerError';
         }
 
