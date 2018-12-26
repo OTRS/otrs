@@ -45,6 +45,10 @@ $Selenium->RunTest(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
 
+        my $TestUserOwner = $Helper->TestUserCreate(
+            Groups => [ 'admin', 'users' ],
+        ) || die "Did not get test user";
+
         # Get test user ID.
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
@@ -520,11 +524,145 @@ $Selenium->RunTest(
         @TicketID = split( 'TicketID=', $Selenium->get_current_url() );
         push @DeleteTicketIDs, $TicketID[1];
 
+        # Check if NotificationOwnerUpdate is trigger for owner update on AgentTicketProcess. See bug#13930.
+        # Add NotificationEvent.
+        my $NotificationEventObject = $Kernel::OM->Get('Kernel::System::NotificationEvent');
+        my $NotificationName        = "OwnerUpdate$RandomID";
+        my $NotificationID          = $NotificationEventObject->NotificationAdd(
+            Name => $NotificationName,
+            Data => {
+                Events     => ['NotificationOwnerUpdate'],
+                Recipients => ['AgentOwner'],
+                Transports => ['Email'],
+            },
+            Message => {
+                en => {
+                    Subject     => 'JobName',
+                    Body        => 'JobName',
+                    ContentType => 'text/plain',
+                },
+                de => {
+                    Subject     => 'JobName',
+                    Body        => 'JobName',
+                    ContentType => 'text/plain',
+                },
+            },
+            ValidID => 1,
+            UserID  => 1,
+        );
+        $Self->True(
+            $NotificationID,
+            "NotificationID $NotificationID is created",
+        );
+
+        my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
+        $List = $ActivityDialogObject->ActivityDialogListGet(
+            UserID => 1,
+        );
+
+        my %Test;
+        for my $Item ( @{$List} ) {
+            if ( $Item->{Name} eq 'Make order' ) {
+                %Test = (
+                    EntityID => $Item->{EntityID},
+                    ID       => $Item->{ID},
+                    Name     => $Item->{Name},
+                );
+            }
+        }
+
+        # Add owner to activity dialog.
+        my $Success = $ActivityDialogObject->ActivityDialogUpdate(
+            %Test,
+            UserID => 1,
+            Config => {
+                DescriptionLong  => '',
+                DescriptionShort => 'Make order',
+                FieldOrder       => [
+                    'Article',
+                    'Owner',
+                ],
+                Fields => {
+                    Article => {
+                        DefaultValue     => '',
+                        DescriptionLong  => '',
+                        DescriptionShort => '',
+                        Display          => 1,
+                    },
+                    Owner => {
+                        DefaultValue     => '',
+                        DescriptionLong  => '',
+                        DescriptionShort => '',
+                        Display          => 1,
+                    },
+                },
+                Interface => [
+                    'AgentInterface',
+                    'CustomerInterface'
+                ],
+                Permission       => '',
+                RequiredLock     => 0,
+                SubmitAdviceText => '',
+                SubmitButtonText => ''
+            },
+
+        );
+        $Self->True(
+            $Success,
+            "Activity Dialog Update is successful",
+        );
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement;Subaction=ProcessSync");
+
+        # Navigate to AgentTicketProcess screen.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketProcess");
+
+        $Selenium->InputFieldValueSet(
+            Element => '#ProcessEntityID',
+            Value   => $ListReverse{$ProcessName},
+        );
+
+        $Selenium->find_element( "#Subject",              'css' )->send_keys($SubjectRandom);
+        $Selenium->find_element( "#RichText",             'css' )->send_keys($ContentRandom);
+        $Selenium->find_element( "#OwnerSelectionGetAll", 'css' )->click();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
+
+        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+        my $TestUserOwnwerID = $UserObject->UserLookup( UserLogin => $TestUserOwner );
+
+        $Selenium->InputFieldValueSet(
+            Element => '#OwnerID',
+            Value   => $TestUserOwnwerID,
+        );
+
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+
+        my @TicketOwnerID = split( 'TicketID=', $Selenium->get_current_url() );
+        push @DeleteTicketIDs, $TicketOwnerID[1];
+
+        # Go to ticket history.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketOwnerID[1]");
+
+        # Check if ticket history has notification send.
+        my $OwnerMsg = 'Sent "'
+            . $NotificationName
+            . '" notification to "'
+            . $TestUserOwner
+            . '" via "Email". (SendAgentNotification)';
+        $Self->True(
+            index( $Selenium->get_page_source(), $OwnerMsg ) > -1,
+            "Ticket owner notification action completed",
+        );
+
+        # Delete notification.
+        $NotificationEventObject->NotificationDelete(
+            ID     => $NotificationID,
+            UserID => 1,
+        );
+
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        my $Success;
         for my $TicketID (@DeleteTicketIDs) {
-
             $Success = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
                 UserID   => $TestUserID,
@@ -545,8 +683,9 @@ $Selenium->RunTest(
         }
 
         # Clean up activities.
-        my $ActivityObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
-        my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
+        my $ActivityObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
+
+        # my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
         for my $Item ( @{ $Process->{Activities} } ) {
             my $Activity = $ActivityObject->ActivityGet(
                 EntityID            => $Item,
