@@ -40,6 +40,20 @@ $Selenium->RunTest(
             Value => 1
         );
 
+        # Disable CheckEmailAddresses feature.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'CheckEmailAddresses',
+            Value => 0
+        );
+
+        # Disable CheckMXRecord feature.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'CheckMXRecord',
+            Value => 0
+        );
+
         # Create test user.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
@@ -627,7 +641,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#OwnerSelectionGetAll", 'css' )->click();
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
-        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+        my $UserObject       = $Kernel::OM->Get('Kernel::System::User');
         my $TestUserOwnwerID = $UserObject->UserLookup( UserLogin => $TestUserOwner );
 
         $Selenium->InputFieldValueSet(
@@ -685,7 +699,6 @@ $Selenium->RunTest(
         # Clean up activities.
         my $ActivityObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
 
-        # my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
         for my $Item ( @{ $Process->{Activities} } ) {
             my $Activity = $ActivityObject->ActivityGet(
                 EntityID            => $Item,
