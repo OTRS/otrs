@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# Copyright (C) 2001-2018 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ $CommonObject{DBObject}   = Kernel::System::DB->new( %CommonObject, AutoConnectN
 my $Password = shift;
 print
     "bin/otrs.CryptPassword.pl - to crypt database password for Kernel/Config.pm\n";
-print "Copyright (C) 2001-2018 OTRS AG, https://otrs.com/\n";
+print "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n";
 
 if ( !$Password ) {
     print STDERR "Usage: bin/otrs.CryptPassword.pl NEWPW\n";
