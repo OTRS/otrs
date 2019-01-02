@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2018 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -503,7 +503,7 @@ exit 1;
 # Internal
 sub _Help {
     print "otrs.Scheduler.pl - OTRS Scheduler Daemon\n";
-    print "Copyright (C) 2001-2018 OTRS AG, https://otrs.com/\n";
+    print "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n";
     print "Usage: otrs.Scheduler.pl -a <ACTION> (start|stop|status) [-f (force)]\n";
 
     # Not documented!

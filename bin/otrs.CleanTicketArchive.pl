@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2018 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 
 # print header
 print STDOUT "otrs.CleanTicketArchive.pl - clean ticket archive flag\n";
-print STDOUT "Copyright (C) 2001-2018 OTRS AG, https://otrs.com/\n";
+print STDOUT "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n";
 
 # check if archive system is activated
 if ( !$CommonObject{ConfigObject}->Get('Ticket::ArchiveSystem') ) {

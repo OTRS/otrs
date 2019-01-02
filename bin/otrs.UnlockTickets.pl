@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2018 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -65,7 +65,7 @@ my @ViewableLockIDs = $CommonObject{LockObject}->LockViewableLock( Type => 'ID' 
 # check args
 my $Command = shift || '--help';
 print "otrs.UnlockTickets.pl - unlock tickets\n";
-print "Copyright (C) 2001-2018 OTRS AG, https://otrs.com/\n";
+print "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n";
 
 # unlock all tickets
 if ( $Command eq '--all' ) {
