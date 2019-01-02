@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# Copyright (C) 2001-2018 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ my %Opts = ();
 getopt( 'hton', \%Opts );
 if ( $Opts{'h'} ) {
     print "xml2sql.pl - xml2sql\n";
-    print "Copyright (C) 2001-2018 OTRS AG, https://otrs.com/\n";
+    print "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n";
     print "usage: xml2sql.pl -t <DATABASE_TYPE> (or 'all') ";
     print "[-o <OUTPUTDIR> -n <NAME> -s <SPLIT_FILES>]\n";
     exit 1;

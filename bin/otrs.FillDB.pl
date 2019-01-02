@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# Copyright (C) 2001-2018 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -67,7 +67,7 @@ my %Opts = ();
 getopt( 'hqugtr', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.FillDB.pl - OTRS fill db with data\n";
-    print "Copyright (C) 2001-2018 OTRS AG, https://otrs.com/\n";
+    print "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n";
     print
         "usage: otrsFillDB.pl -q <COUNTOFQUEUES> -t <COUNTOFTICKET> -u <COUNTOFUSERS> -g <COUNTOFGROUPS> -r <REALLYDOTHIS>\n";
     exit 1;

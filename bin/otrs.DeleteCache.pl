@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# Copyright (C) 2001-2018 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ GetOptions(
 
 if ( $Opts{h} ) {
     print "otrs.DeleteCache.pl - delete OTRS cache\n";
-    print "Copyright (C) 2001-2018 OTRS AG, https://otrs.com/\n";
+    print "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n";
     print "usage: otrs.DeleteCache.pl [--expired]\n";
     exit 1;
 }
