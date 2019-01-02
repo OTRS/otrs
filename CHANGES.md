@@ -1,4 +1,5 @@
 #6.0.16 ????-??-??
+ - 2018-12-26 Improved performance of the FileStorable cache module by 30%, thanks to Yuri Myasoedov (PR#[1961](https://github.com/OTRS/otrs/pull/1961)).
  - 2018-12-26 Fixed bug#[13930](https://bugs.otrs.org/show_bug.cgi?id=13930) - NotificationOwnerUpdate and TicketOwnerUpdate will not be triggered when a Owner is set in a new process ticket.
  - 2018-12-25 Fixed bug#[14322](https://bugs.otrs.org/show_bug.cgi?id=14322) - Old session is not deleted on SwitchToUser.
  - 2018-12-24 Fixed bug#[14286](https://bugs.otrs.org/show_bug.cgi?id=14286) - Months are missing below the charts in reports.
