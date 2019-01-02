@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2018 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ getopts( 'hg:n:s:S:c:t:r:u:l:C:', \%Opts );
 
 if ( $Opts{h} ) {
     print STDOUT "otrs.AddQueue.pl - add new queue\n";
-    print STDOUT "Copyright (C) 2001-2018 OTRS AG, https://otrs.com/\n";
+    print STDOUT "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n";
     print STDOUT "usage: otrs.AddQueue.pl -n <NAME> -g <GROUP> [-s <SYSTEMADDRESSID> -S \n";
     print STDOUT
         "<SYSTEMADDRESS> -c <COMMENT> -t <UnlockTimeout> -r <FirstResponseTime> -u <UpdateTime> \n";

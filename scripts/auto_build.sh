@@ -1,7 +1,7 @@
 #!/bin/sh
 # --
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
-# Copyright (C) 2001-2018 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 # --
 
 echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm"
-echo "Copyright (C) 2001-2018 OTRS AG, https://otrs.com/\n";
+echo "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n";
 
 PATH_TO_CVS_SRC=$1
 PRODUCT=OTRS
