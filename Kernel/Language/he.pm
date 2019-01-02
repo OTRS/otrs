@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2018 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
 # Copyright (C) 2014 Amir Elion <amir.elion@gmail.com>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

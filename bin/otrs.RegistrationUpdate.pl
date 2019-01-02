@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2018 OTRS AG, https://otrs.com/
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
 # --
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use Kernel::System::ObjectManager;
 use Kernel::System::Registration;
 
 print "otrs.RegistrationUpdate.pl - send system registration update\n";
-print "Copyright (C) 2001-2018 OTRS AG, https://otrs.com/\n";
+print "Copyright (C) 2001-2019 OTRS AG, https://otrs.com/\n";
 
 # create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
