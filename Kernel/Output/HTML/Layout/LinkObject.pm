@@ -413,7 +413,7 @@ sub LinkObjectTableCreateComplex {
             Name => 'TableComplexBlock',
             Data => {
                 BlockDescription => $BlockDescription,
-                Blockname        => $Block->{Blockname} || '',
+                Blockname        => $Block->{Blockname} . ' (' . scalar @{ $Block->{ItemList} } . ')',
                 Name             => $Block->{Blockname},
                 NameForm         => $Block->{Blockname},
                 AJAX             => $Param{AJAX},

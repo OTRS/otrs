@@ -195,7 +195,7 @@ $Selenium->RunTest(
         # Verify 'Linked Object' widget is in the main column with complex view.
         $Self->Is(
             $Selenium->find_element( '.ContentColumn #WidgetTicket .Header>h2', 'css' )->get_text(),
-            'Linked: Ticket',
+            'Linked: Ticket (2)',
             'Linked Objects widget is positioned in the main column with complex view',
         );
 
