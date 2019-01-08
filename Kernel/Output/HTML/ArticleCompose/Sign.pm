@@ -55,14 +55,14 @@ sub Run {
     my $Class                    = '';
     if ( IsArrayRefWithData($UniqueSignKeyIDsToRemove) ) {
         for my $UniqueSignKeyIDToRemove ( @{$UniqueSignKeyIDsToRemove} ) {
-            if ( $KeyList{$UniqueSignKeyIDToRemove} =~ m/WARNING: EXPIRED KEY.*\[\d.*\](.*)/ ) {
+            if ( $KeyList{$UniqueSignKeyIDToRemove} =~ m/WARNING: EXPIRED KEY].*\] (.*)/ ) {
                 $InvalidMessage .= $LayoutObject->{LanguageObject}->Translate(
                     "Cannot use expired signing key: '%s'. ", $1
                 );
                 $Self->{Error}->{InvalidKey} = 1;
                 $Class .= ' ServerError';
             }
-            elsif ( $KeyList{$UniqueSignKeyIDToRemove} =~ m/WARNING: REVOKED KEY.*\[\d.*\](.*)/ ) {
+            elsif ( $KeyList{$UniqueSignKeyIDToRemove} =~ m/WARNING: REVOKED KEY].*\] (.*)/ ) {
                 $InvalidMessage .= $LayoutObject->{LanguageObject}->Translate(
                     "Cannot use revoked signing key: '%s'. ", $1
                 );
@@ -119,7 +119,7 @@ sub Run {
     if ( defined $Param{SignKeyID} && !$Self->{Error}->{InvalidKey} ) {
         my ( $Type, $Key ) = split /::/, $Param{SignKeyID};
 
-        if ( $KeyList{ $Param{SignKeyID} } =~ m/WARNING: EXPIRED KEY.*\[\d.*\](.*)/ ) {
+        if ( $KeyList{ $Param{SignKeyID} } =~ m/WARNING: EXPIRED KEY].*] (.*)/ ) {
             $InvalidMessage .= $LayoutObject->{LanguageObject}->Translate(
                 "Cannot use expired signing key: '%s'. ",
                 join ', ', $1
@@ -127,7 +127,7 @@ sub Run {
             $Self->{Error}->{InvalidKey} = 1;
             $Class .= ' ServerError';
         }
-        elsif ( $KeyList{ $Param{SignKeyID} } =~ m/WARNING: REVOKED KEY.*\[\d.*\](.*)/ ) {
+        elsif ( $KeyList{ $Param{SignKeyID} } =~ m/WARNING: REVOKED KEY].*\] (.*)/ ) {
             $InvalidMessage .= $LayoutObject->{LanguageObject}->Translate(
                 "Cannot use revoked signing key: '%s'. ", $1
             );
@@ -233,8 +233,47 @@ sub Data {
             Search => $SearchAddress[0]->address(),
         );
         for my $DataRef (@PrivateKeys) {
-            $KeyList{"SMIME::$DataRef->{Filename}"}
-                = "SMIME: $DataRef->{Filename} [$DataRef->{EndDate}] $DataRef->{Email}";
+            my $Expired = '';
+            my $EndDate = '';
+            if ( $DataRef->{EndDate} ) {
+                $EndDate = "[$DataRef->{EndDate}]";
+
+                # EndDate is in this fomrmatat: May 12 23:50:40 2018 GMT
+                # It is transformed in supported format for DateTimeObject: 2018-05-12T23:50:40GMT
+                $DataRef->{EndDate} =~ /(\w+)\s(\d\d)\s(\d\d:\d\d:\d\d)\s(\d\d\d\d)\s(\w+)/;
+
+                my %Month = (
+                    Jan => '01',
+                    Feb => '02',
+                    Mar => '03',
+                    Apr => '04',
+                    May => '05',
+                    Jun => '06',
+                    Jul => '07',
+                    Aug => '08',
+                    Sep => '09',
+                    Oct => '10',
+                    Nov => '11',
+                    Dec => '12',
+                );
+
+                my $EndDateTimeObject = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        String => "$4-$Month{$1}-$2T$3$5",
+                    },
+                );
+                my $CurrentTimeObject = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                );
+
+                # Check if key is expired.
+                if ( $EndDateTimeObject->Compare( DateTimeObject => $CurrentTimeObject ) == -1 ) {
+                    $Expired = ' [WARNING: EXPIRED KEY]';
+                }
+            }
+
+            $KeyList{"SMIME::$DataRef->{Filename}"} = "SMIME:$Expired $DataRef->{Filename} $EndDate $DataRef->{Email}";
         }
     }
 
