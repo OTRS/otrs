@@ -764,7 +764,9 @@ sub AutoResponse {
         TicketData      => \%Ticket,
         UserID          => $Param{UserID},
         Language        => $Language,
-        AddTimezoneInfo => 1,
+        AddTimezoneInfo => {
+            AutoResponse => 1,
+        },
     );
     $AutoResponse{Subject} = $Self->_Replace(
         RichText => 0,
@@ -777,7 +779,9 @@ sub AutoResponse {
         TicketData      => \%Ticket,
         UserID          => $Param{UserID},
         Language        => $Language,
-        AddTimezoneInfo => 1,
+        AddTimezoneInfo => {
+            AutoResponse => 1,
+        },
     );
 
     $AutoResponse{Subject} = $TicketObject->TicketSubjectBuild(
@@ -1071,25 +1075,31 @@ sub NotificationEvent {
 
     # replace place holder stuff
     $Notification{Body} = $Self->_Replace(
-        RichText   => $Self->{RichText},
-        Text       => $Notification{Body},
-        Recipient  => $Param{Recipient},
-        Data       => $Param{CustomerMessageParams},
-        DataAgent  => \%AgentArticle,
-        TicketData => $Param{TicketData},
-        UserID     => $Param{UserID},
-        Language   => $Language,
+        RichText        => $Self->{RichText},
+        Text            => $Notification{Body},
+        Recipient       => $Param{Recipient},
+        Data            => $Param{CustomerMessageParams},
+        DataAgent       => \%AgentArticle,
+        TicketData      => $Param{TicketData},
+        UserID          => $Param{UserID},
+        Language        => $Language,
+        AddTimezoneInfo => {
+            NotificationEvent => 1,
+        },
     );
 
     $Notification{Subject} = $Self->_Replace(
-        RichText   => 0,
-        Text       => $Notification{Subject},
-        Recipient  => $Param{Recipient},
-        Data       => $Param{CustomerMessageParams},
-        DataAgent  => \%AgentArticle,
-        TicketData => $Param{TicketData},
-        UserID     => $Param{UserID},
-        Language   => $Language,
+        RichText        => 0,
+        Text            => $Notification{Subject},
+        Recipient       => $Param{Recipient},
+        Data            => $Param{CustomerMessageParams},
+        DataAgent       => \%AgentArticle,
+        TicketData      => $Param{TicketData},
+        UserID          => $Param{UserID},
+        Language        => $Language,
+        AddTimezoneInfo => {
+            NotificationEvent => 1,
+        },
     );
 
     # Keep the "original" (unmodified) subject and body for later use.
@@ -1179,19 +1189,36 @@ sub _Replace {
         %Ticket = %{ $Param{TicketData} };
     }
 
-    # Determine customer user's timezone if needed (if comes from AutoResponse function).
-    my $CustomerUserTimeZone;
+    # Determine recipient's timezone if needed.
+    my $RecipientTimeZone;
     if ( $Param{AddTimezoneInfo} ) {
-        $CustomerUserTimeZone = $Kernel::OM->Create('Kernel::System::DateTime')->OTRSTimeZoneGet();
+        $RecipientTimeZone = $Kernel::OM->Create('Kernel::System::DateTime')->OTRSTimeZoneGet();
 
-        if ( $Ticket{CustomerUserID} ) {
-            my %UserPreferences = $Kernel::OM->Get('Kernel::System::CustomerUser')->GetPreferences(
+        my %UserPreferences;
+
+        if ( $Param{AddTimezoneInfo}->{NotificationEvent} && $Param{Recipient}->{Type} eq 'Agent' ) {
+            %UserPreferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+                UserID => $Param{Recipient}->{UserID},
+            );
+        }
+        elsif (
+            $Param{AddTimezoneInfo}->{NotificationEvent}
+            && $Param{Recipient}->{Type} eq 'Customer'
+            && $Param{Recipient}->{UserID}
+            )
+        {
+            %UserPreferences = $Kernel::OM->Get('Kernel::System::CustomerUser')->GetPreferences(
+                UserID => $Param{Recipient}->{UserID},
+            );
+        }
+        elsif ( $Param{AddTimezoneInfo}->{AutoResponse} && $Ticket{CustomerUserID} ) {
+            %UserPreferences = $Kernel::OM->Get('Kernel::System::CustomerUser')->GetPreferences(
                 UserID => $Ticket{CustomerUserID},
             );
+        }
 
-            if ( $UserPreferences{UserTimeZone} ) {
-                $CustomerUserTimeZone = $UserPreferences{UserTimeZone};
-            }
+        if ( $UserPreferences{UserTimeZone} ) {
+            $RecipientTimeZone = $UserPreferences{UserTimeZone};
         }
     }
 
@@ -1206,7 +1233,7 @@ sub _Replace {
                 'Kernel::System::DateTime',
                 ObjectParams => {
                     Epoch => $Ticket{$UnixFormatTime},
-                }
+                },
             )->ToString();
         }
     }
@@ -1231,17 +1258,19 @@ sub _Replace {
 
             if ( $Ticket{$Attribute} =~ m{\A(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d):(\d\d):(\d\d)\z}xi ) {
 
-                # Change time to customer user's timezone if exists (if comes from AutoResponse function)
+                # Change time to recipient's timezone if needed
                 # and later append timezone information.
-                # For more information, see bug#13865 (https://bugs.otrs.org/show_bug.cgi?id=13865).
-                if ($CustomerUserTimeZone) {
+                # For more information,
+                # see bug#13865 (https://bugs.otrs.org/show_bug.cgi?id=13865)
+                # and bug#14270 (https://bugs.otrs.org/show_bug.cgi?id=14270).
+                if ($RecipientTimeZone) {
                     my $DateTimeObject = $Kernel::OM->Create(
                         'Kernel::System::DateTime',
                         ObjectParams => {
                             String => $Ticket{$Attribute},
                         },
                     );
-                    $DateTimeObject->ToTimeZone( TimeZone => $CustomerUserTimeZone );
+                    $DateTimeObject->ToTimeZone( TimeZone => $RecipientTimeZone );
                     $Ticket{$Attribute} = $DateTimeObject->ToString();
                 }
 
@@ -1252,8 +1281,8 @@ sub _Replace {
                 );
 
                 # Append timezone information if needed.
-                if ($CustomerUserTimeZone) {
-                    $Ticket{$Attribute} .= " ($CustomerUserTimeZone)";
+                if ($RecipientTimeZone) {
+                    $Ticket{$Attribute} .= " ($RecipientTimeZone)";
                 }
             }
         }
@@ -1518,11 +1547,11 @@ sub _Replace {
 
         my $DateTimeObject;
 
-        # Change DateTime DF value for ticket if tag comes from auto response.
+        # Change DateTime DF value for ticket if needed.
         if (
             defined $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
             && $DynamicFieldConfig->{FieldType} eq 'DateTime'
-            && $CustomerUserTimeZone
+            && $RecipientTimeZone
             )
         {
             $DateTimeObject = $Kernel::OM->Create(
@@ -1531,7 +1560,7 @@ sub _Replace {
                     String => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
                 },
             );
-            $DateTimeObject->ToTimeZone( TimeZone => $CustomerUserTimeZone );
+            $DateTimeObject->ToTimeZone( TimeZone => $RecipientTimeZone );
             $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $DateTimeObject->ToString();
         }
 
@@ -1553,16 +1582,16 @@ sub _Replace {
             $DynamicFieldDisplayValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} . '_Value' }
                 = $DisplayValueStrg->{Value};
 
-            # Add timezone info if tag comes from auto response.
+            # Add timezone info if needed.
             if (
                 defined $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
                 && length $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
                 && $DynamicFieldConfig->{FieldType} eq 'DateTime'
-                && $CustomerUserTimeZone
+                && $RecipientTimeZone
                 )
             {
                 $DynamicFieldDisplayValues{ 'DynamicField_' . $DynamicFieldConfig->{Name} . '_Value' }
-                    .= " ($CustomerUserTimeZone)";
+                    .= " ($RecipientTimeZone)";
             }
         }
 
@@ -1576,15 +1605,15 @@ sub _Replace {
         if ( IsHashRefWithData($ValueStrg) ) {
             $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $ValueStrg->{Value};
 
-            # Add timezone info if tag comes from auto response.
+            # Add timezone info if needed.
             if (
                 defined $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
                 && length $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
                 && $DynamicFieldConfig->{FieldType} eq 'DateTime'
-                && $CustomerUserTimeZone
+                && $RecipientTimeZone
                 )
             {
-                $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } .= " ($CustomerUserTimeZone)";
+                $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} } .= " ($RecipientTimeZone)";
             }
         }
     }
