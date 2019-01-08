@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-06-02 20:46+0000\n"
+"POT-Creation-Date: 2019-01-08 11:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4071,6 +4071,10 @@ msgid "Add Note"
 msgstr ""
 
 #. Template: AdminGenericAgent
+msgid "This field must have less then 200 characters."
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Time units"
 msgstr ""
 
@@ -5039,7 +5043,7 @@ msgid "Group Management"
 msgstr ""
 
 #. Template: AdminGroup
-msgid "Add group"
+msgid "Add Group"
 msgstr ""
 
 #. Template: AdminGroup
@@ -5056,10 +5060,6 @@ msgstr ""
 
 #. Template: AdminGroup
 msgid "total"
-msgstr ""
-
-#. Template: AdminGroup
-msgid "Add Group"
 msgstr ""
 
 #. Template: AdminGroup
@@ -5767,7 +5767,7 @@ msgid "Do you really want to reinstall this package? Any manual changes will be 
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Go to upgrading instructions"
+msgid "Go to updating instructions"
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -5811,7 +5811,7 @@ msgid "How can I do a patch level update if I don’t have a contract?"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Please find all relevant information within the upgrading instructions at %s."
+msgid "Please find all relevant information within the updating instructions at %s."
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -6772,6 +6772,10 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid "Default sign key"
+msgstr ""
+
+#. Template: AdminQueue
+msgid "To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address."
 msgstr ""
 
 #. Template: AdminQueue
@@ -8112,6 +8116,10 @@ msgstr ""
 
 #. Template: AdminUserGroup
 msgid "Manage Agent-Group Relations"
+msgstr ""
+
+#. Template: AdminUserGroup
+msgid "Add group"
 msgstr ""
 
 #. Template: AdminUserGroup
@@ -9948,6 +9956,34 @@ msgstr ""
 
 #. Template: Installer
 msgid "Welcome to %s"
+msgstr ""
+
+#. Template: Installer
+msgid "Germany"
+msgstr ""
+
+#. Template: Installer
+msgid "United States"
+msgstr ""
+
+#. Template: Installer
+msgid "Mexico"
+msgstr ""
+
+#. Template: Installer
+msgid "Hungary"
+msgstr ""
+
+#. Template: Installer
+msgid "Brazil"
+msgstr ""
+
+#. Template: Installer
+msgid "Singapore"
+msgstr ""
+
+#. Template: Installer
+msgid "Hong Kong"
 msgstr ""
 
 #. Template: Installer
@@ -12186,10 +12222,6 @@ msgstr ""
 msgid "Company Tickets"
 msgstr ""
 
-#. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
-msgid "Untitled!"
-msgstr ""
-
 #. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
 msgid "Please remove the following words because they cannot be used for the search:"
 msgstr ""
@@ -13104,14 +13136,6 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultUser.pm
 msgid "Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account."
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ErrorLog.pm
-msgid "Error Log"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ErrorLog.pm
-msgid "There are error reports in your system log."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
@@ -16006,6 +16030,10 @@ msgid "Defines the separator between the agents real name and the given queue em
 msgstr ""
 
 #. SysConfig
+msgid "Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in \"Key\" is the external URL, the value in \"Content\" is the shown label."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the \"rw\" permission remains the last entry."
 msgstr ""
 
@@ -18862,6 +18890,26 @@ msgid "Shows a link in the menu to add a note to a ticket in every ticket overvi
 msgstr ""
 
 #. SysConfig
+msgid "Shows a link in the menu to add a phone call inbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\". To cluster menu items use for Key \"ClusterName\" and for the Content any name you want to see in the UI. Use \"ClusterPriority\" to configure the order of a certain cluster within the toolbar."
+msgstr ""
+
+#. SysConfig
+msgid "Shows a link in the menu to add a phone call outbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\". To cluster menu items use for Key \"ClusterName\" and for the Content any name you want to see in the UI. Use \"ClusterPriority\" to configure the order of a certain cluster within the toolbar."
+msgstr ""
+
+#. SysConfig
+msgid "Shows a link in the menu to change the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\". To cluster menu items use for Key \"ClusterName\" and for the Content any name you want to see in the UI. Use \"ClusterPriority\" to configure the order of a certain cluster within the toolbar."
+msgstr ""
+
+#. SysConfig
+msgid "Shows a link in the menu to change the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\". To cluster menu items use for Key \"ClusterName\" and for the Content any name you want to see in the UI. Use \"ClusterPriority\" to configure the order of a certain cluster within the toolbar."
+msgstr ""
+
+#. SysConfig
+msgid "Shows a link in the menu to change the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\". To cluster menu items use for Key \"ClusterName\" and for the Content any name you want to see in the UI. Use \"ClusterPriority\" to configure the order of a certain cluster within the toolbar."
+msgstr ""
+
+#. SysConfig
 msgid "Shows a link in the menu to close a ticket in every ticket overview of the agent interface."
 msgstr ""
 
@@ -18902,23 +18950,11 @@ msgid "Shows a link in the menu to print a ticket or an article in the ticket zo
 msgstr ""
 
 #. SysConfig
-msgid "Shows a link in the menu to see the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\". To cluster menu items use for Key \"ClusterName\" and for the Content any name you want to see in the UI. Use \"ClusterPriority\" to configure the order of a certain cluster within the toolbar."
-msgstr ""
-
-#. SysConfig
 msgid "Shows a link in the menu to see the history of a ticket in every ticket overview of the agent interface."
 msgstr ""
 
 #. SysConfig
-msgid "Shows a link in the menu to see the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\". To cluster menu items use for Key \"ClusterName\" and for the Content any name you want to see in the UI. Use \"ClusterPriority\" to configure the order of a certain cluster within the toolbar."
-msgstr ""
-
-#. SysConfig
 msgid "Shows a link in the menu to see the priority of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\". To cluster menu items use for Key \"ClusterName\" and for the Content any name you want to see in the UI. Use \"ClusterPriority\" to configure the order of a certain cluster within the toolbar."
-msgstr ""
-
-#. SysConfig
-msgid "Shows a link in the menu to see the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\". To cluster menu items use for Key \"ClusterName\" and for the Content any name you want to see in the UI. Use \"ClusterPriority\" to configure the order of a certain cluster within the toolbar."
 msgstr ""
 
 #. SysConfig

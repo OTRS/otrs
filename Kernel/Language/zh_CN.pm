@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.998593247588424;
+    $Self->{Completeness}        = 0.992389345083116;
 
     # csv separator
     $Self->{Separator} = '';
@@ -827,7 +827,6 @@ sub Data {
         'Edit ACL information' => '编辑ACL信息',
         'Stop after match' => '匹配后停止',
         'Edit ACL structure' => '编辑ACL结构',
-        'Save settings' => '保存设置',
         'Save ACL' => '保存访问控制列表',
         'Save' => '保存',
         'or' => '或',
@@ -1188,6 +1187,7 @@ sub Data {
         'New Dynamic Field Values' => '指定动态字段值',
         'Archive selected tickets' => '归档选中的工单',
         'Add Note' => '添加备注',
+        'This field must have less then 200 characters.' => '',
         'Time units' => '时间单元',
         'Execute Ticket Commands' => '执行工单指令',
         'Send agent/customer notifications on changes' => '给服务人员/客户发送通知',
@@ -1265,6 +1265,8 @@ sub Data {
             '同步的事件触发器则是在web请求期间直接处理的。',
         'Save and continue' => '保存并继续',
         'Delete this Invoker' => '删除这个调用程序',
+        'It is not possible to add a new event trigger because the event is not set.' =>
+            '',
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => 'Web服务 %s 的通用接口简单映射',
@@ -1500,14 +1502,13 @@ sub Data {
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
             '警告：当您更改\'管理\'组的名称时，在SysConfig作出相应的变化之前，你将被管理面板锁住！如果发生这种情况，请用SQL语句把组名改回到\'admin\'',
         'Group Management' => '组管理',
-        'Add group' => '添加组',
+        'Add Group' => '添加组',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'admin组允许使用系统管理模块，stats组允许使用统计模块。',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
             '若要为不同的服务人员分配不同的访问权限，应创建新的组。(例如，采购部、支持部、销售部、...)',
         'It\'s useful for ASP solutions. ' => '这对于ASP解决方案它很有用。',
         'total' => '总共',
-        'Add Group' => '添加组',
         'Edit Group' => '编辑组',
 
         # Template: AdminLog
@@ -1575,7 +1576,7 @@ sub Data {
         'Recipients' => '接收人',
         'Send to' => '发送给',
         'Send to these agents' => '发送给服务人员',
-        'Send to all group members' => '发送给组的所有成员',
+        'Send to all group members (agents only)' => '',
         'Send to all role members' => '发送给角色的所有成员',
         'Send on out of office' => '不在办公室也发送',
         'Also send if the user is currently out of office.' => '用户设置了不在办公室时仍然发送。',
@@ -1643,7 +1644,7 @@ sub Data {
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => '管理 %s',
         'Go to the OTRS customer portal' => '访问OTRS客户门户',
-        'Downgrade to OTRS Free' => '降级到免费版本',
+        'Downgrade to ((OTRS)) Community Edition' => '',
         'Read documentation' => '阅读文档',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
             '%s 定期连接到cloud.otrs.com检查可用更新，并验证合同的有效性。',
@@ -1685,8 +1686,8 @@ sub Data {
         '%s will be available soon. Please check again in a few days.' =>
             '%s 很快就可用了，请过几天再检查一次。',
         'Please have a look at %s for more information.' => '有关更多信息,请查看 %s。',
-        'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            'OTRS免费版本是所有功能的基础，继续升级到%s 前请先注册！',
+        'Your ((OTRS)) Community Edition is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
+            '',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
             '在从%s 受益之前，请先联系%s 以获得%s 合同。',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
@@ -1707,8 +1708,8 @@ sub Data {
         'Vendor' => '提供者',
         'Please uninstall the packages first using the package manager and try again.' =>
             '请在软件包管理模块中先删除这些软件包，然后再试一次。',
-        'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
-            '你打算降级到OTRS免费版本，以下功能特性和相关数据将全部丢失：',
+        'You are about to downgrade to ((OTRS)) Community Edition and will lose the following features and all data related to these:' =>
+            '',
         'Chat' => '聊天',
         'Report Generator' => '报表生成器',
         'Timeline view in ticket zoom' => '以时间轴视图展开工单',
@@ -1748,7 +1749,7 @@ sub Data {
         'Reinstall package' => '重新安装软件包',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             '您真的想要重新安装该软包吗? 所有该模块的手工设置将丢失.',
-        'Go to upgrading instructions' => '转到升级说明',
+        'Go to updating instructions' => '',
         'package information' => '软件包信息',
         'Package installation requires a patch level update of OTRS.' => '安装软件包需要将OTRS补丁级别更新',
         'Package update requires a patch level update of OTRS.' => '升级软件包需要将OTRS补丁级别更新',
@@ -1765,8 +1766,8 @@ sub Data {
             '你将收到所有其他有关OTRS问题的更新',
         'How can I do a patch level update if I don’t have a contract?' =>
             '如果没有合约，我怎么更新补丁级别？',
-        'Please find all relevant information within the upgrading instructions at %s.' =>
-            '请在升级说明%s中找到所有相关信息。',
+        'Please find all relevant information within the updating instructions at %s.' =>
+            '',
         'In case you would have further questions we would be glad to answer them.' =>
             '如果您还有其它问题，我们非常愿意答复您。',
         'Continue' => '继续',
@@ -2079,6 +2080,8 @@ sub Data {
         'System address' => '系统邮件地址',
         'Will be the sender address of this queue for email answers.' => '回复邮件的发送地址',
         'Default sign key' => '默认签名',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'The salutation for email answers.' => '回复邮件中的问候语。',
         'The signature for email answers.' => '回复邮件中的签名。',
 
@@ -2335,6 +2338,8 @@ sub Data {
         'Add State' => '添加工单状态',
         'Edit State' => '编辑工单状态',
         'State type' => '工单状态类型',
+        'It\'s not possible to invalidate this entry because there is no other merge states in system!' =>
+            '',
 
         # Template: AdminSupportDataCollector
         'Sending support data to OTRS Group is not possible!' => '不能将支持数据发送给OTRS集团！',
@@ -2457,6 +2462,7 @@ sub Data {
         'Edit System Maintenance Information' => '编辑系统维护信息',
         'Date invalid!' => '日期无效!',
         'Login message' => '登录消息',
+        'This field must have less then 250 characters.' => '',
         'Show login message' => '显示登录消息',
         'Notify message' => '通知消息',
         'Manage Sessions' => '管理会话',
@@ -2513,6 +2519,7 @@ sub Data {
 
         # Template: AdminUserGroup
         'Manage Agent-Group Relations' => '管理服务人员的组权限',
+        'Add group' => '添加组',
         'Change Group Relations for Agent' => '修改此服务人员的组权限',
         'Change Agent Relations for Group' => '为此组选择服务人员的权限',
 
@@ -2561,6 +2568,7 @@ sub Data {
         'in' => '之内',
 
         # Template: AgentDashboardCommon
+        'Save settings' => '保存设置',
         'Close this widget' => '关闭这个小部件',
         'Available Columns' => '可用的字段',
         'Visible Columns (order by drag & drop)' => '显示的字段(可通过拖放调整顺序)',
@@ -2643,8 +2651,8 @@ sub Data {
 
         # Template: AgentOTRSBusinessBlockScreen
         'Unauthorized usage of %s detected' => '检测到未经授权的使用 %s',
-        'If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.' =>
-            '如果决定降级到OTRS免费版本，会丢失%s相关的所有数据库表及其数据。',
+        'If you decide to downgrade to ((OTRS)) Community Edition, you will lose all database tables and data related to %s.' =>
+            '',
 
         # Template: AgentPreferences
         'Edit your preferences' => '编辑个人设置',
@@ -3153,6 +3161,13 @@ sub Data {
         'General Specifications and Mail Settings' => '一般设定和邮件配置',
         'Finish' => '完成',
         'Welcome to %s' => '欢迎使用%s',
+        'Germany' => '',
+        'United States' => '',
+        'Mexico' => '',
+        'Hungary' => '',
+        'Brazil' => '',
+        'Singapore' => '',
+        'Hong Kong' => '',
         'Web site' => '网址',
         'Mail check successful.' => '邮件配置检查成功完成。',
         'Error in the mail settings. Please correct and try again.' => '邮件设置错误, 请修改后再试一次。',
@@ -3521,6 +3536,10 @@ sub Data {
         'Got no WebserviceHistoryID!' => '没有 WebserviceHistoryID ！',
         'Could not get history data for WebserviceHistoryID %s' => '不能获取WebserviceHistoryID为%s的历史数据',
 
+        # Perl Module: Kernel/Modules/AdminMailAccount.pm
+        'Email account fetch already fetched by another process. Please try again later!' =>
+            '',
+
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
         'Notification updated!' => '通知已更新！',
         'Notification added!' => '通知已添加！',
@@ -3707,6 +3726,7 @@ sub Data {
         'Import not allowed!' => '不允许导入！',
         'Need File!' => '需要文件！',
         'Can\'t write ConfigItem!' => '不能写入配置条目！',
+        '-new-' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
         'Start date shouldn\'t be defined after Stop date!' => '开始日期不能在结束日期之后！',
@@ -3976,7 +3996,6 @@ sub Data {
         'Need CustomerID!' => '需要客户联系人ID！',
         'My Tickets' => '我的工单',
         'Company Tickets' => '单位工单',
-        'Untitled!' => '未命名！',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Please remove the following words because they cannot be used for the search:' =>
@@ -4367,6 +4386,7 @@ sub Data {
         'Process Tickets' => '流程工单',
         'Months Between First And Last Ticket' => '最早和最后工单的月数',
         'Tickets Per Month (avg)' => '平均每月工单数',
+        'Open Tickets' => '处理中的工单',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
         'Default SOAP Username And Password' => '默认的SOAP用户名和密码',
@@ -4377,10 +4397,6 @@ sub Data {
         'Default Admin Password' => '默认的系统管理员密码',
         'Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account.' =>
             '安全风险：服务人员帐户root@localhost还在使用默认密码。请修改密码或禁用此帐户。',
-
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ErrorLog.pm
-        'Error Log' => '错误日志',
-        'There are error reports in your system log.' => '这是你系统日志中的错误报告.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
         'FQDN (domain name)' => '正式域名',
@@ -4432,7 +4448,6 @@ sub Data {
         'There are invalid users with locked tickets.' => '出现了有锁定的工单的无效用户。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
-        'Open Tickets' => '处理中的工单',
         'You should not have more than 8,000 open tickets in your system.' =>
             '您的系统不能有超过8000个处理中的工单。',
 
@@ -4920,6 +4935,7 @@ Thanks for your help!
             '控制工单和信件归档后的可见标志是否被移除。',
         'Converts HTML mails into text messages.' => '将HTML邮件转换为文本信息。',
         'Create New process ticket.' => '创建新的流程工单。',
+        'Create Ticket' => '',
         'Create and manage Service Level Agreements (SLAs).' => '创建和管理服务品质协议(SLA)。',
         'Create and manage agents.' => '创建和管理服务人员。',
         'Create and manage attachments.' => '创建和管理附件。',
@@ -5587,6 +5603,8 @@ Thanks for your help!
         'Defines the sender for rejected emails.' => '定义拒绝邮件的发件人。',
         'Defines the separator between the agents real name and the given queue email address.' =>
             '定义服务人员真实姓名和给定队列邮件地址之间的分隔符。',
+        'Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
+            '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             '定义本系统客户可用的标准权限。如果需要更多的权限，您可以在这里输入。权限必须确实硬编码以保证生效。请确保在添加前面任何提到的权限时，“rw（读写）”权限保持为最后一个条目。',
         'Defines the standard size of PDF pages.' => '定义PDF页面的标准尺寸。',
@@ -5910,6 +5928,7 @@ Thanks for your help!
             '前端模块注册（如果没有可用流程，禁用工单流程窗口）。',
         'Frontend module registration for the agent interface.' => '服务人员界面的前端模块注册。',
         'Frontend module registration for the customer interface.' => '客户界面的前端模块注册。',
+        'Frontend module registration for the public interface.' => '',
         'Frontend theme' => '前端界面主题',
         'Frontend theme.' => '前端界面主题。',
         'Full value' => '全值',
@@ -6466,8 +6485,8 @@ Thanks for your help!
         'Sends registration information to OTRS group.' => '发送注册信息到OTRS集团。',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             '在到达提醒时间后发送解锁工单的提醒通知（只发送给工单所有者）。',
-        'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
-            '发送在系统管理界面“通知（事件）”中配置好的通知。',
+        'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
+            '',
         'Serbian Cyrillic' => '塞尔维亚西里尔语',
         'Serbian Latin' => '塞尔维亚拉丁语',
         'Service view' => '服务视图',
@@ -6720,6 +6739,16 @@ Thanks for your help!
             '在服务人员界面工单详情视图中，为添加工单备注菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键"ClusterName（菜单组名称）"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键"ClusterPriority（菜单组优先级）"来配置工具栏中菜单组的显示顺序。',
         'Shows a link in the menu to add a note to a ticket in every ticket overview of the agent interface.' =>
             '在服务人员界面所有工单概览视图，为添加工单备注菜单显示一个链接。',
+        'Shows a link in the menu to add a phone call inbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to add a phone call outbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
         'Shows a link in the menu to close a ticket in every ticket overview of the agent interface.' =>
             '在服务人员界面所有工单概览视图，为关闭工单菜单显示一个链接。',
         'Shows a link in the menu to close a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -6740,16 +6769,10 @@ Thanks for your help!
             '在服务人员界面所有工单概览视图，为转移工单菜单显示一个链接。',
         'Shows a link in the menu to print a ticket or an article in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '在服务人员界面工单详情视图中，为打印工单/信件菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键"ClusterName（菜单组名称）"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键"ClusterPriority（菜单组优先级）"来配置工具栏中菜单组的显示顺序。',
-        'Shows a link in the menu to see the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '在服务人员界面工单详情视图中，为查看请求工单的客户菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键"ClusterName（菜单组名称）"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键"ClusterPriority（菜单组优先级）"来配置工具栏中菜单组的显示顺序。在服务人员界面工单详情视图中，为锁定/解锁工单菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键"ClusterName（菜单组名称）"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键"ClusterPriority（菜单组优先级）"来配置工具栏中菜单组的显示顺序。',
         'Shows a link in the menu to see the history of a ticket in every ticket overview of the agent interface.' =>
             '在服务人员界面所有工单概览视图，为查看工单历史菜单显示一个链接。',
-        'Shows a link in the menu to see the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '在服务人员界面工单详情视图中，为查看工单所有者菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键"ClusterName（菜单组名称）"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键"ClusterPriority（菜单组优先级）"来配置工具栏中菜单组的显示顺序。',
         'Shows a link in the menu to see the priority of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '在服务人员界面工单详情视图中，为查看工单优先级菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键"ClusterName（菜单组名称）"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键"ClusterPriority（菜单组优先级）"来配置工具栏中菜单组的显示顺序。',
-        'Shows a link in the menu to see the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '在服务人员界面工单详情视图中，为查看工单负责人菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键"ClusterName（菜单组名称）"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键"ClusterPriority（菜单组优先级）"来配置工具栏中菜单组的显示顺序。',
         'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '在服务人员界面工单详情视图中，为发送工单的外发邮件菜单显示一个链接。可以通过使用键“Group（组）”和值如“rw:group1;move_into:group2”来实现显示/不显示这个链接的额外访问控制。 为了给菜单条目分组，使用键"ClusterName（菜单组名称）"，其值可为您想在界面上看到的任何菜单组名称（系统默认为Miscellaneous-杂项），使用键"ClusterPriority（菜单组优先级）"来配置工具栏中菜单组的显示顺序。',
         'Shows a link in the menu to set a ticket as junk in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -7052,6 +7075,7 @@ Thanks for your help!
         'Ticket Queue Overview' => '工单队列概览',
         'Ticket Responsible.' => '工单负责人。',
         'Ticket Watcher' => '工单关注人',
+        'Ticket Zoom' => '',
         'Ticket Zoom.' => '工单详情。',
         'Ticket bulk module.' => '工单批量操作模块。',
         'Ticket event module that triggers the escalation stop events.' =>

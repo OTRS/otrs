@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.738745980707395;
+    $Self->{Completeness}        = 0.73482876026437;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -825,7 +825,6 @@ sub Data {
         'Edit ACL information' => 'ACLの情報を編集',
         'Stop after match' => '一致後に停止',
         'Edit ACL structure' => 'ACLの構造を編集',
-        'Save settings' => '設定を保存',
         'Save ACL' => 'ACLの保存',
         'Save' => '保存',
         'or' => 'または',
@@ -1186,6 +1185,7 @@ sub Data {
         'New Dynamic Field Values' => 'ダイナミック・フィールドの値を設定',
         'Archive selected tickets' => '書庫の選択済みチケット',
         'Add Note' => 'メモを追加',
+        'This field must have less then 200 characters.' => '',
         'Time units' => '時間の単位',
         'Execute Ticket Commands' => 'チケットコマンドを実行',
         'Send agent/customer notifications on changes' => '変更を担当者／顧客に通知する',
@@ -1263,6 +1263,8 @@ sub Data {
             '同期型イベントトリガーは直接Web画面上のリクエストから実行されます。',
         'Save and continue' => '保存して継続',
         'Delete this Invoker' => 'この呼び出し元を削除',
+        'It is not possible to add a new event trigger because the event is not set.' =>
+            '',
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => 'ウェブ・サービス %s 向けの簡易マッピング',
@@ -1498,14 +1500,13 @@ sub Data {
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
             '警告: あなたの名前を変更するグループの管理者はシステム設定の中で適切な変更を行う前にあなたの管理者パネルはロックアウトされます。この問題が発生した場合、管理するSQLステートメントごとにグループを元に戻してください',
         'Group Management' => 'グループ管理',
-        'Add group' => 'グループ追加',
+        'Add Group' => 'グループ追加',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             '管理グループは管理エリアで取得します。統計グループは統計エリアを取得します',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
             '統計グループは統計エリアを取得します。異なるエージェントグループへのアクセス許可を操作するには、グループを新規作成してください。（例：購買部、サポート部、営業部等）',
         'It\'s useful for ASP solutions. ' => 'ASPソリューションが便利です',
         'total' => '合計',
-        'Add Group' => 'グループ追加',
         'Edit Group' => 'グループ編集',
 
         # Template: AdminLog
@@ -1573,7 +1574,7 @@ sub Data {
         'Recipients' => '受信者',
         'Send to' => '送信先',
         'Send to these agents' => 'これらの担当者に送信',
-        'Send to all group members' => 'グループの全てのメンバーに送信',
+        'Send to all group members (agents only)' => '',
         'Send to all role members' => 'ロールの全てのメンバーに送付',
         'Send on out of office' => '外出中の担当者に送信',
         'Also send if the user is currently out of office.' => '現在外出中のユーザーにも送付する。',
@@ -1641,7 +1642,7 @@ sub Data {
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => '%s を管理',
         'Go to the OTRS customer portal' => '',
-        'Downgrade to OTRS Free' => 'フリー版OTRSへのダウングレード',
+        'Downgrade to ((OTRS)) Community Edition' => '',
         'Read documentation' => 'ドキュメントを参照',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
             '',
@@ -1683,8 +1684,8 @@ sub Data {
         '%s will be available soon. Please check again in a few days.' =>
             '%sはもうすぐ有効になります。数日後に確認してください。',
         'Please have a look at %s for more information.' => '詳細については%sを参照してください。',
-        'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            'もし%sのすべての機能を使用したいのであれば契約をアップグレードする必要があります！ 現在の契約: %s',
+        'Your ((OTRS)) Community Edition is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
+            '',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
             '',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
@@ -1706,8 +1707,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Vendor' => 'ベンダー',
         'Please uninstall the packages first using the package manager and try again.' =>
             'パッケージマネージャでパッケージを削除して再度実行して下さい。',
-        'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
-            'OTRS Freeにダウングレードすることで以下の機能と関連するデータは使用できなくなります:',
+        'You are about to downgrade to ((OTRS)) Community Edition and will lose the following features and all data related to these:' =>
+            '',
         'Chat' => 'チャット',
         'Report Generator' => 'レポート・ジェネレーター',
         'Timeline view in ticket zoom' => 'チケット・ズームにおけるタイムライン',
@@ -1747,7 +1748,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Reinstall package' => 'パッケージを再インストール',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'このパッケージを本当に再インストールしますか？ 全ての手動変更点は失われます。',
-        'Go to upgrading instructions' => '',
+        'Go to updating instructions' => '',
         'package information' => '',
         'Package installation requires a patch level update of OTRS.' => '',
         'Package update requires a patch level update of OTRS.' => '',
@@ -1764,7 +1765,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
         'How can I do a patch level update if I don’t have a contract?' =>
             '',
-        'Please find all relevant information within the upgrading instructions at %s.' =>
+        'Please find all relevant information within the updating instructions at %s.' =>
             '',
         'In case you would have further questions we would be glad to answer them.' =>
             '',
@@ -2078,6 +2079,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'System address' => 'システムアドレス',
         'Will be the sender address of this queue for email answers.' => 'このキューでのメール回答はこの送信者アドレスになります。',
         'Default sign key' => '既定のサインキー',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'The salutation for email answers.' => 'メール回答の挨拶文',
         'The signature for email answers.' => 'メール回答の署名',
 
@@ -2334,6 +2337,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Add State' => '状態を追加',
         'Edit State' => '状態を編集',
         'State type' => '状態のタイプ',
+        'It\'s not possible to invalidate this entry because there is no other merge states in system!' =>
+            '',
 
         # Template: AdminSupportDataCollector
         'Sending support data to OTRS Group is not possible!' => 'OTRS Group へのサポートデータの送信ができません！',
@@ -2456,6 +2461,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Edit System Maintenance Information' => '',
         'Date invalid!' => '日時が無効です。',
         'Login message' => 'ログインメッセージ',
+        'This field must have less then 250 characters.' => '',
         'Show login message' => 'ログインメッセージを表示',
         'Notify message' => '通知メッセージ',
         'Manage Sessions' => 'セッションの管理',
@@ -2512,6 +2518,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Template: AdminUserGroup
         'Manage Agent-Group Relations' => '担当者 - グループの関連性の管理',
+        'Add group' => 'グループ追加',
         'Change Group Relations for Agent' => '担当者に対するグループの関連性を変更',
         'Change Agent Relations for Group' => 'グループに対する担当者の関連性を変更',
 
@@ -2560,6 +2567,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'in' => '＞',
 
         # Template: AgentDashboardCommon
+        'Save settings' => '設定を保存',
         'Close this widget' => 'このウィジェットを閉じる',
         'Available Columns' => '利用可能な列',
         'Visible Columns (order by drag & drop)' => '表示する列 (ドラッグ&ドロップで並び替えできます)',
@@ -2642,7 +2650,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Template: AgentOTRSBusinessBlockScreen
         'Unauthorized usage of %s detected' => '',
-        'If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.' =>
+        'If you decide to downgrade to ((OTRS)) Community Edition, you will lose all database tables and data related to %s.' =>
             '',
 
         # Template: AgentPreferences
@@ -3152,6 +3160,13 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'General Specifications and Mail Settings' => '共通仕様とメール設定',
         'Finish' => '完了',
         'Welcome to %s' => '%s にようこそ',
+        'Germany' => '',
+        'United States' => '',
+        'Mexico' => '',
+        'Hungary' => '',
+        'Brazil' => '',
+        'Singapore' => '',
+        'Hong Kong' => '',
         'Web site' => 'Webサイト',
         'Mail check successful.' => 'メールチェックに成功しました。',
         'Error in the mail settings. Please correct and try again.' => 'メール設定中にエラーが発生しました。再設定してください。',
@@ -3521,6 +3536,10 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Got no WebserviceHistoryID!' => '',
         'Could not get history data for WebserviceHistoryID %s' => '',
 
+        # Perl Module: Kernel/Modules/AdminMailAccount.pm
+        'Email account fetch already fetched by another process. Please try again later!' =>
+            '',
+
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
         'Notification updated!' => '',
         'Notification added!' => '',
@@ -3707,6 +3726,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Import not allowed!' => '',
         'Need File!' => 'ファイルが必要です！',
         'Can\'t write ConfigItem!' => '',
+        '-new-' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
         'Start date shouldn\'t be defined after Stop date!' => '',
@@ -3976,7 +3996,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Need CustomerID!' => '顧客IDの入力が必要です！',
         'My Tickets' => '担当チケット',
         'Company Tickets' => '企業チケット',
-        'Untitled!' => '',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Please remove the following words because they cannot be used for the search:' =>
@@ -4367,6 +4386,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Process Tickets' => 'プロセス・チケット',
         'Months Between First And Last Ticket' => '最初と最後のチケットとの間には月間',
         'Tickets Per Month (avg)' => '月毎のチケット数(平均)',
+        'Open Tickets' => '対応中チケット',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
         'Default SOAP Username And Password' => 'デフォルトのSOAPユーザ名とパスワード',
@@ -4377,10 +4397,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Default Admin Password' => '管理者のデフォルトパスワード',
         'Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account.' =>
             'セキュリティーリスク: エージェントアカウント root@localhost はいまだにデフォルトパスワードを利用しています、変更を行ってください。',
-
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ErrorLog.pm
-        'Error Log' => 'エラーログ',
-        'There are error reports in your system log.' => 'システムログにエラーが出力されています。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
         'FQDN (domain name)' => 'FQDN (ドメインネーム)',
@@ -4432,7 +4448,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'There are invalid users with locked tickets.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
-        'Open Tickets' => '対応中チケット',
         'You should not have more than 8,000 open tickets in your system.' =>
             'システム内にチケットが 8,000以上オープンにしないでください',
 
@@ -4928,6 +4943,7 @@ Thanks for your help!
             '',
         'Converts HTML mails into text messages.' => 'HTMLメールをテキストメッセージに変換',
         'Create New process ticket.' => 'プロセスチケットを作成',
+        'Create Ticket' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'サービスレベル契約 (SLA) の作成と管理',
         'Create and manage agents.' => '担当者の作成と管理',
         'Create and manage attachments.' => '添付ファイルの作成と管理',
@@ -5604,6 +5620,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Defines the sender for rejected emails.' => '',
         'Defines the separator between the agents real name and the given queue email address.' =>
             '担当者の実名と与えられたキューのEメールアドレスに間に置く分離を定義します。',
+        'Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
+            '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             'アプリケーション内で顧客が利用できる標準の許可を定義します。もし、より多くの許可が必要になった場合、ここに入力してください。許可が効力を持つためには、ハード・コーディングされる必要があります。なお、前述した許可のいずれかを追加する場合、“rw”許可が、最後のエントリとなることを確実にしてください。',
         'Defines the standard size of PDF pages.' => 'PDFページの標準サイズを定義します。',
@@ -5930,6 +5948,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             'フロントエンド・モジュールの登録 (プロセスが利用可能ではない場合、チケット・プロセス画面リンクは無効)。',
         'Frontend module registration for the agent interface.' => '担当者インタフェースに関するフロントエンド・モジュールの登録です。',
         'Frontend module registration for the customer interface.' => '担当者インタフェースに関するフロントエンド・モジュールの登録です。',
+        'Frontend module registration for the public interface.' => '',
         'Frontend theme' => 'フロントエンドのテーマ',
         'Frontend theme.' => '',
         'Full value' => '',
@@ -6487,8 +6506,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Sends registration information to OTRS group.' => '',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'リマインダ日付を迎えたら、アンロック・チケットのリマインダ通知を送信します（チケット所有者だけに送信されます）。',
-        'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
-            '管理インタフェースの"Notfication (Event)"の下で設定された通知を送信します。',
+        'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
+            '',
         'Serbian Cyrillic' => 'セルビア語（キリル文字）',
         'Serbian Latin' => 'セルビア語（ラテン文字）',
         'Service view' => 'サービス・ビュー',
@@ -6741,6 +6760,16 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '',
         'Shows a link in the menu to add a note to a ticket in every ticket overview of the agent interface.' =>
             '担当者インタフェースの全チケット一覧で、チケットにメモを追加するためのリンクをメニューに表示します。',
+        'Shows a link in the menu to add a phone call inbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to add a phone call outbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
         'Shows a link in the menu to close a ticket in every ticket overview of the agent interface.' =>
             '担当者インタフェースの全チケット一覧で、チケットをクローズするためのリンクをメニューに表示します。',
         'Shows a link in the menu to close a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -6761,15 +6790,9 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '担当者インタフェースの全チケット一覧で、チケットを移動するためのリンクをメニューに表示します。',
         'Shows a link in the menu to print a ticket or an article in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
-        'Shows a link in the menu to see the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
         'Shows a link in the menu to see the history of a ticket in every ticket overview of the agent interface.' =>
             '担当者インタフェースの全チケット一覧で、チケットのチケット履歴を確認するためのリンクをメニューに表示します。',
-        'Shows a link in the menu to see the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
         'Shows a link in the menu to see the priority of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
-        'Shows a link in the menu to see the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
         'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             '',
@@ -7073,6 +7096,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Ticket Queue Overview' => 'チケット・キュー一覧',
         'Ticket Responsible.' => 'チケット責任者',
         'Ticket Watcher' => 'チケット監視者',
+        'Ticket Zoom' => '',
         'Ticket Zoom.' => 'チケット・ズーム',
         'Ticket bulk module.' => '',
         'Ticket event module that triggers the escalation stop events.' =>

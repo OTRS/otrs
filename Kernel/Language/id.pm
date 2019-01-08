@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.952572347266881;
+    $Self->{Completeness}        = 0.946925695974364;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -821,7 +821,6 @@ sub Data {
         'Edit ACL information' => 'Ubah informasi ACL',
         'Stop after match' => 'Berhenti setelah cocok',
         'Edit ACL structure' => 'Ubah struktur ACL',
-        'Save settings' => 'Simpan pengubahan',
         'Save ACL' => '',
         'Save' => 'Simpan',
         'or' => 'atau',
@@ -1182,6 +1181,7 @@ sub Data {
         'New Dynamic Field Values' => 'Nilai bidang dinamis baru',
         'Archive selected tickets' => 'Arsipkan tiket yang dipilih.',
         'Add Note' => 'Tambahkan catatan',
+        'This field must have less then 200 characters.' => '',
         'Time units' => 'Unit waktu',
         'Execute Ticket Commands' => 'Eksekusikan perintah tiket.',
         'Send agent/customer notifications on changes' => 'Kirim notifikasi agen/pelanggan saat pengubahan',
@@ -1259,6 +1259,8 @@ sub Data {
             'Sinkron pemicu akan diproses langsung selama permintaan web.',
         'Save and continue' => 'Simpan dan lanjutkan',
         'Delete this Invoker' => 'Hapus invoker',
+        'It is not possible to add a new event trigger because the event is not set.' =>
+            '',
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => 'Pemetaan Generik Antarmuka sederhana untuk Web Service %s',
@@ -1494,14 +1496,13 @@ sub Data {
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
             'PERINGATAN: Bila anda mengubah nama grup \'admin\', sebelum membuat perubahan yang sesuai dalam sysconfig, Anda akan terkunci keluar dari panel administrasi! Jika hal ini terjadi, silakan mengubah nama grup kembali ke admin per pernyataan SQL',
         'Group Management' => 'Kelompok managemen',
-        'Add group' => 'Tambah kelompok',
+        'Add Group' => 'Tambah kelompok',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'Kelompok admin adalah untuk mendapatkan di admin area dan kelompok statistik untuk mendapatkan daerah statistik.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
             'Membuat grup baru untuk menangani akses berbagai kelompok agen (misalnya Departemen pembelian, departemen dukungan, departemen penjualan, ...).',
         'It\'s useful for ASP solutions. ' => 'Berguna untuk solusi ASP',
         'total' => 'Total',
-        'Add Group' => 'Tambah kelompok',
         'Edit Group' => 'Ubah kelompok',
 
         # Template: AdminLog
@@ -1569,7 +1570,7 @@ sub Data {
         'Recipients' => 'Penerima',
         'Send to' => 'Kirimkan ke',
         'Send to these agents' => 'Kirimkan ke beberapa agen',
-        'Send to all group members' => 'Kirimkan ke semua kelompok anggota',
+        'Send to all group members (agents only)' => '',
         'Send to all role members' => 'Kirimkan ke semua tugas anggota',
         'Send on out of office' => 'Kirimkan selain ke kantor',
         'Also send if the user is currently out of office.' => 'Tetap kirimkan jika pengguna sedang berada diluar kantor',
@@ -1637,7 +1638,7 @@ sub Data {
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Mengatur %s',
         'Go to the OTRS customer portal' => '',
-        'Downgrade to OTRS Free' => 'Menurunkan OTRS gratis',
+        'Downgrade to ((OTRS)) Community Edition' => '',
         'Read documentation' => 'Baca dokumentasi',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
             '%s membuat kontak secara teratur dengan cloud.otrs.com untuk memeriksa update yang tersedia dan keabsahan kontrak.',
@@ -1679,8 +1680,8 @@ sub Data {
         '%s will be available soon. Please check again in a few days.' =>
             '%s akan segera tersedia. Silahkan periksa lagi dalam beberapa hari.',
         'Please have a look at %s for more information.' => 'Silahkan dilihat di %s untuk informasi selanjutnya.',
-        'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            'OTRS gratis anda merupakan dasar untuk semua tindakan yang akan dilakukan. Silahkan daftar terlebih dahulu sebelum anda melanjutkan proses upgrade dari%s!',
+        'Your ((OTRS)) Community Edition is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
+            '',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
             'Sebelum anda bisa mendapatkan keuntungan dari %s, silahkan hubungi %s untuk mendapatkan kontrak %s anda.',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
@@ -1701,8 +1702,8 @@ sub Data {
         'Vendor' => 'Vendor',
         'Please uninstall the packages first using the package manager and try again.' =>
             'Silahkan uninstall paket pertama yang menggunakan paket manajer dan coba lagi',
-        'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
-            'Anda akan downgrade ke OTRS gratis dan akan kehilangan fitur berikut serta semua data yang terkait dengan ini:',
+        'You are about to downgrade to ((OTRS)) Community Edition and will lose the following features and all data related to these:' =>
+            '',
         'Chat' => 'Obrolan',
         'Report Generator' => 'Laporan generator',
         'Timeline view in ticket zoom' => 'Paparan garis waktu didalam tiket gratis',
@@ -1742,7 +1743,7 @@ sub Data {
         'Reinstall package' => 'Instal ulang paket',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Apakah anda ingin menginstal ulang paket ini? Semua perubahan manual akan hilang.',
-        'Go to upgrading instructions' => 'Pergi ke perintah pembaruan',
+        'Go to updating instructions' => '',
         'package information' => 'informasi paket',
         'Package installation requires a patch level update of OTRS.' => '',
         'Package update requires a patch level update of OTRS.' => '',
@@ -1759,7 +1760,7 @@ sub Data {
             '',
         'How can I do a patch level update if I don’t have a contract?' =>
             '',
-        'Please find all relevant information within the upgrading instructions at %s.' =>
+        'Please find all relevant information within the updating instructions at %s.' =>
             '',
         'In case you would have further questions we would be glad to answer them.' =>
             'Dalam hal ini anda akan memiliki pertanyaan lebih lanjut, dan kami akan menjawab mereka dengan senang hati',
@@ -2074,6 +2075,8 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'System address' => 'Alamat sistem',
         'Will be the sender address of this queue for email answers.' => 'Akan menjadi alamat pengirim antrian ini untuk jawaban email.',
         'Default sign key' => 'kunci tanda ',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'The salutation for email answers.' => 'Penghargaan untuk penjawab email',
         'The signature for email answers.' => 'Tandatangan untuk penjawab email',
 
@@ -2330,6 +2333,8 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Add State' => 'Tambahkan Pilihan',
         'Edit State' => 'Ubah Pilihan',
         'State type' => 'Jenis pilihan',
+        'It\'s not possible to invalidate this entry because there is no other merge states in system!' =>
+            '',
 
         # Template: AdminSupportDataCollector
         'Sending support data to OTRS Group is not possible!' => 'Mengirimkan dukungan data ke dalam grup OTRS tidak didapati',
@@ -2452,6 +2457,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Edit System Maintenance Information' => '',
         'Date invalid!' => 'Tanggal tidak sah',
         'Login message' => 'Masukkan surat',
+        'This field must have less then 250 characters.' => '',
         'Show login message' => 'Tampilkan surat',
         'Notify message' => 'Beritahu surat',
         'Manage Sessions' => 'Mengatur sesi',
@@ -2508,6 +2514,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
 
         # Template: AdminUserGroup
         'Manage Agent-Group Relations' => 'Mengatur hubungan Grup-Agen ',
+        'Add group' => 'Tambah kelompok',
         'Change Group Relations for Agent' => 'Ubah hubungan grup ke agen',
         'Change Agent Relations for Group' => 'Ubah hubungan agen ke grup',
 
@@ -2557,6 +2564,7 @@ bin/otrs.Daemon.pl status\').',
         'in' => 'Masuk',
 
         # Template: AgentDashboardCommon
+        'Save settings' => 'Simpan pengubahan',
         'Close this widget' => 'Tutup widget',
         'Available Columns' => 'Kolom tersedia',
         'Visible Columns (order by drag & drop)' => 'Kolom yang terlihat (order dengan drag & drop)',
@@ -2639,7 +2647,7 @@ bin/otrs.Daemon.pl status\').',
 
         # Template: AgentOTRSBusinessBlockScreen
         'Unauthorized usage of %s detected' => '',
-        'If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.' =>
+        'If you decide to downgrade to ((OTRS)) Community Edition, you will lose all database tables and data related to %s.' =>
             '',
 
         # Template: AgentPreferences
@@ -3149,6 +3157,13 @@ bin/otrs.Daemon.pl status\').',
         'General Specifications and Mail Settings' => 'Spesifikasi umum dan Pengaturan Surat',
         'Finish' => 'Selesei',
         'Welcome to %s' => 'Selamat datang di %s',
+        'Germany' => '',
+        'United States' => '',
+        'Mexico' => '',
+        'Hungary' => '',
+        'Brazil' => '',
+        'Singapore' => '',
+        'Hong Kong' => '',
         'Web site' => 'Website',
         'Mail check successful.' => 'Pemeriksaan surat berhasil',
         'Error in the mail settings. Please correct and try again.' => 'Kesalahan di dalam pengaturan surat. Tolong betulkan dan coba lagi',
@@ -3517,6 +3532,10 @@ bin/otrs.Daemon.pl status\').',
         'Got no WebserviceHistoryID!' => 'Tidak dapat WebserviceHistoryID!',
         'Could not get history data for WebserviceHistoryID %s' => 'tidak bisa mendapatkan data sejarah untuk layanan Web History ID %s',
 
+        # Perl Module: Kernel/Modules/AdminMailAccount.pm
+        'Email account fetch already fetched by another process. Please try again later!' =>
+            '',
+
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
         'Notification updated!' => 'Pemberitahuan diperbarui!',
         'Notification added!' => 'Pemberitahuan ditambahkan!',
@@ -3703,6 +3722,7 @@ bin/otrs.Daemon.pl status\').',
         'Import not allowed!' => 'Impor tidak diperbolehkan!',
         'Need File!' => 'Membutuhkan File!',
         'Can\'t write ConfigItem!' => 'Tidak bisa menulis ConfigItem!',
+        '-new-' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
         'Start date shouldn\'t be defined after Stop date!' => 'Tanggal mulai tidak boleh didefinisikan setelah tanggal Berhenti!',
@@ -3972,7 +3992,6 @@ bin/otrs.Daemon.pl status\').',
         'Need CustomerID!' => 'Perlu CustomerID!',
         'My Tickets' => 'Tiket saya',
         'Company Tickets' => 'Tiket perusahaan',
-        'Untitled!' => 'Tanpa judul!',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Please remove the following words because they cannot be used for the search:' =>
@@ -4363,6 +4382,7 @@ bin/otrs.Daemon.pl status\').',
         'Process Tickets' => '',
         'Months Between First And Last Ticket' => 'Bulan diantara Pertama Dan Tiket terakhir',
         'Tickets Per Month (avg)' => 'Tiket Per Bulan (avg)',
+        'Open Tickets' => 'Buka tiket',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
         'Default SOAP Username And Password' => 'Standar SOAP Username dan Password',
@@ -4373,10 +4393,6 @@ bin/otrs.Daemon.pl status\').',
         'Default Admin Password' => 'Katasandi admin default',
         'Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account.' =>
             'Risiko keamanan: akun agen root@localhost masih memiliki katasandi yang default. Ubah atau membatalkan account.',
-
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ErrorLog.pm
-        'Error Log' => 'Kesalahan Log',
-        'There are error reports in your system log.' => 'Ada laporan kesalahan dalam log sistem Anda.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
         'FQDN (domain name)' => 'FQDN (domain name)',
@@ -4428,7 +4444,6 @@ bin/otrs.Daemon.pl status\').',
         'There are invalid users with locked tickets.' => 'Ada pengguna yang tidak valid dengan tiket terkunci.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
-        'Open Tickets' => 'Buka tiket',
         'You should not have more than 8,000 open tickets in your system.' =>
             'Anda tidak harus memiliki lebih dari 8.000 tiket yang terbuka di sistem Anda.',
 
@@ -4919,6 +4934,7 @@ Helpdesk Team Anda
             'Kontrol jika bendera tiket dan artikel dilihat dikeluarkan ketika tiket diarsipkan.',
         'Converts HTML mails into text messages.' => 'Mengkonversi mail HTML dalam pesan teks.',
         'Create New process ticket.' => 'Membuat tiket proses Baru.',
+        'Create Ticket' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'Membuat dan mengelola Service Level Agreements (SLA).',
         'Create and manage agents.' => 'Membuat dan mengelola agen.',
         'Create and manage attachments.' => 'Membuat dan mengelola lampiran.',
@@ -5587,6 +5603,8 @@ Helpdesk Team Anda
         'Defines the sender for rejected emails.' => 'Mendefinisikan pengirim bahwa email telah ditolak.',
         'Defines the separator between the agents real name and the given queue email address.' =>
             'Mendefinisikan pemisah antara agen nama asli dan alamat email antrian diberikan.',
+        'Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
+            '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             'Mendefinisikan hak akses standar yang tersedia untuk pelanggan dalam aplikasi. Jika lebih banyak izin yang diperlukan, Anda dapat memasukkan mereka di sini. Izin harus sulit kode untuk menjadi efektif. Pastikan, saat menambahkan salah satu izin tersebut, bahwa "rw" izin tetap entri terakhir.',
         'Defines the standard size of PDF pages.' => 'Mendefinisikan ukuran standar halaman PDF.',
@@ -5910,6 +5928,7 @@ Helpdesk Team Anda
             'pendaftaran modul antarmuka (proses tiket dinonaktifkan layar jika tidak ada proses yang tersedia).',
         'Frontend module registration for the agent interface.' => 'Frontend pendaftaran modul untuk antarmuka agen.',
         'Frontend module registration for the customer interface.' => 'Frontend pendaftaran modul untuk antarmuka pelanggan.',
+        'Frontend module registration for the public interface.' => '',
         'Frontend theme' => 'tema frontend',
         'Frontend theme.' => '',
         'Full value' => 'nilai penuh',
@@ -6466,8 +6485,8 @@ Helpdesk Team Anda
         'Sends registration information to OTRS group.' => 'Mengirimkan informasi pendaftaran untuk kelompok OTRS.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'Mengirimkan pemberitahuan amaran terkunci tiket setelah mencapai tanggal yang ditetapkan (hanya dikirim ke pemilik tiket).',
-        'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
-            'Mengirimkan pemberitahuan yang dikonfigurasi dalam antarmuka admin di bawah "Pemberitahuan (Event)".',
+        'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
+            '',
         'Serbian Cyrillic' => 'Cyrillic Serbia',
         'Serbian Latin' => 'Serbia Latin',
         'Service view' => 'lihat layanan',
@@ -6720,6 +6739,16 @@ Helpdesk Team Anda
             'Menunjukkan link dalam menu untuk menambahkan catatan dalam tampilan zoom tiket dari antarmuka agen. kontrol akses tambahan untuk menampilkan atau tidak menampilkan link ini dapat dilakukan dengan menggunakan Key "Group" dan konten seperti "rw:group1;move_into:group2". Cluster item menu digunakan untuk Key "CLUSTERNAME" dan untuk Konten nama apapun yang ingin Anda lihat di UI. Gunakan "ClusterPriority" untuk mengkonfigurasi urutan cluster tertentu dalam toolbar.',
         'Shows a link in the menu to add a note to a ticket in every ticket overview of the agent interface.' =>
             'Menunjukkan link dalam menu untuk menambahkan catatan untuk tiket di setiap gambaran tiket dari antarmuka agen.',
+        'Shows a link in the menu to add a phone call inbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to add a phone call outbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
         'Shows a link in the menu to close a ticket in every ticket overview of the agent interface.' =>
             'Menunjukkan link dalam menu untuk menutup tiket di setiap gambaran tiket dari antarmuka agen.',
         'Shows a link in the menu to close a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -6740,16 +6769,10 @@ Helpdesk Team Anda
             'Menunjukkan link dalam menu untuk bergerak tiket di setiap gambaran tiket dari antarmuka agen.',
         'Shows a link in the menu to print a ticket or an article in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             'Menunjukkan link dalam menu untuk mencetak tiket atau artikel dalam tampilan zoom tiket dari antarmuka agen. kontrol akses tambahan untuk menampilkan atau tidak menampilkan link ini dapat dilakukan dengan menggunakan Key "Group" dan konten seperti "rw:group1;move_into:group2". Cluster item menu digunakan untuk Key "ClusterName" dan untuk Konten nama apapun yang ingin Anda lihat di UI. Menggunakan "ClusterPriority" to configure the order of a certain cluster within the toolbar.',
-        'Shows a link in the menu to see the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            'Menunjukkan link dalam menu untuk melihat pelanggan yang meminta tiket pada tampilan zoom tiket dari antarmuka agen. kontrol akses tambahan untuk menampilkan atau tidak menampilkan link ini dapat dilakukan dengan menggunakan Key "Group" dan konten seperti "rw:group1;move_into:group2". Cluster item menu digunakan untuk Key "ClusterName" dan untuk Konten nama apapun yang ingin Anda lihat di AS. Menggunakan "ClusterPriority" untuk mengkonfigurasi urutan cluster tertentu dalam toolbar.',
         'Shows a link in the menu to see the history of a ticket in every ticket overview of the agent interface.' =>
             'Menunjukkan link dalam menu untuk melihat sejarah tiket di setiap gambaran tiket dari antarmuka agen.',
-        'Shows a link in the menu to see the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            'Menunjukkan link dalam menu untuk melihat pemilik tiket dalam tampilan zoom tiket dari antarmuka agen. kontrol akses tambahan untuk menampilkan atau tidak menampilkan link ini dapat dilakukan dengan menggunakan Key "Group" dan konten seperti "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" dan untuk Konten nama apapun yang ingin Anda lihat di UI. Menggunakan "ClusterPriority" untuk mengkonfigurasi urutan cluster tertentu dalam toolbar.',
         'Shows a link in the menu to see the priority of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             'Menunjukkan link dalam menu untuk melihat prioritas tiket dalam tampilan zoom tiket dari antarmuka agen. kontrol akses tambahan untuk menampilkan atau tidak menampilkan link ini dapat dilakukan dengan menggunakan Key "Group" dan konten seperti "rw:group1;move_into:group2".  Cluster item menu digunakan untuk Key "ClusterName" dan untuk Konten nama apapun yang ingin Anda lihat di UI. Menggunakan "ClusterPriority" untuk mengkonfigurasi urutan cluster tertentu dalam toolbar.',
-        'Shows a link in the menu to see the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            'Menunjukkan link dalam menu untuk melihat agen yang bertanggung jawab dari tiket dalam tampilan zoom tiket dari antarmuka agen. kontrol akses tambahan untuk menampilkan atau tidak menampilkan link ini dapat dilakukan dengan menggunakan Key "Group" dan konten seperti "rw:group1;move_into:group2". Cluster item menu digunakan untuk Key "ClusterName" dan untuk Konten nama apapun yang ingin Anda lihat di UI. Menggunakan "ClusterPriority" untuk mengkonfigurasi urutan cluster tertentu dalam toolbar.',
         'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             'Menunjukkan link dalam menu untuk mengirim email keluar dalam tampilan zoom tiket dari antarmuka agen. kontrol akses tambahan untuk menampilkan atau tidak menampilkan link ini dapat dilakukan dengan menggunakan Key "Group" dan konten seperti "rw:group1;move_into:group2". Cluster item menu digunakan untuk Key "ClusterName" dan untuk Konten nama apapun yang ingin Anda lihat di UI. Menggunakan "ClusterPriority" untuk mengkonfigurasi urutan cluster tertentu dalam toolbar.',
         'Shows a link in the menu to set a ticket as junk in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -7052,6 +7075,7 @@ Helpdesk Team Anda
         'Ticket Queue Overview' => 'Antrian tiket keseluruhan',
         'Ticket Responsible.' => 'Penanggung jawab tiket',
         'Ticket Watcher' => 'Watcher tiket',
+        'Ticket Zoom' => '',
         'Ticket Zoom.' => 'Tiket Zoom.',
         'Ticket bulk module.' => 'Tiket massal modulus.',
         'Ticket event module that triggers the escalation stop events.' =>

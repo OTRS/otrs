@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.973673633440514;
+    $Self->{Completeness}        = 0.967955137192069;
 
     # csv separator
     $Self->{Separator} = '';
@@ -826,7 +826,6 @@ sub Data {
         'Edit ACL information' => 'ویرایش اطلاعات ACL',
         'Stop after match' => 'توقف بعد از تطبیق',
         'Edit ACL structure' => 'ساختار ویرایش ACL',
-        'Save settings' => 'ذخیره تنظیمات',
         'Save ACL' => 'ذخیره ACL',
         'Save' => 'ذخیره',
         'or' => 'یا',
@@ -1187,6 +1186,7 @@ sub Data {
         'New Dynamic Field Values' => 'مقادیر جدید پویا درست',
         'Archive selected tickets' => 'آرشیو درخواست‌های انتخاب شده',
         'Add Note' => 'افزودن یادداشت',
+        'This field must have less then 200 characters.' => '',
         'Time units' => 'واحد زمان',
         'Execute Ticket Commands' => 'اجرای دستورات درخواست ',
         'Send agent/customer notifications on changes' => 'آگاه کردن کارشناس/مشتری به هنگام ایجاد تغییرات',
@@ -1264,6 +1264,8 @@ sub Data {
             'باعث رویداد همزمان می تواند به طور مستقیم در طول درخواست وب پردازش شده است.',
         'Save and continue' => 'ذخیره و ادامه',
         'Delete this Invoker' => 'حذف این Invoker',
+        'It is not possible to add a new event trigger because the event is not set.' =>
+            '',
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => 'GenericInterface نقشه برداری ساده برای وب سرویس %s',
@@ -1499,14 +1501,13 @@ sub Data {
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
             'هشدار: اگر قبل از اعمال تغییرات مناسب در SysConfig نام گروه admin را تغییر دهید، دسترسی‌تان به بخش مدیریت سیستم از بین می‌رود! اگر چنین اتفاقی افتاد، نام آن را از طریق SQL دوباره به admin تغییر دهید.',
         'Group Management' => 'مدیریت گروه‌ها',
-        'Add group' => 'افزودن گروه',
+        'Add Group' => 'ایجاد گروه',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'گروه admin برای دسترسی به بخش مدیریت سیستم و گروه stats برای دسترسی به بخش گزارشات است.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
             'گروه‌های جدید بسازید تا دسترسی‌ها را برای گروه‌های مختلف کارشناسان مدیریت کنید (مثال: بخش خرید، بخش پشتیبانی، بخش فروش و ...)',
         'It\'s useful for ASP solutions. ' => 'این برای راه‌حل‌های ASP مفید می‌باشد.',
         'total' => 'مجموع',
-        'Add Group' => 'ایجاد گروه',
         'Edit Group' => 'ویرایش گروه',
 
         # Template: AdminLog
@@ -1574,7 +1575,7 @@ sub Data {
         'Recipients' => 'دریافت کنندگان',
         'Send to' => 'فرستادن به',
         'Send to these agents' => 'ارسال به این عوامل',
-        'Send to all group members' => 'ارسال به تمام اعضای گروه',
+        'Send to all group members (agents only)' => '',
         'Send to all role members' => 'ارسال به تمام نقشهای اعضا',
         'Send on out of office' => 'ارسال در خارج از دفتر',
         'Also send if the user is currently out of office.' => 'همچنین ارسال در صورتی که کاربر در حال حاضر خارج از دفتر.',
@@ -1642,7 +1643,7 @@ sub Data {
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'مدیریت %s',
         'Go to the OTRS customer portal' => '',
-        'Downgrade to OTRS Free' => 'کاهش دادن به OTRS رایگان',
+        'Downgrade to ((OTRS)) Community Edition' => '',
         'Read documentation' => 'خواندن اسناد',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
             '%s باعث می شود تماس به طور منظم با cloud.otrs.com برای بررسی در دسترس به روز رسانی و اعتبار قرارداد زمینه ای است.',
@@ -1684,8 +1685,8 @@ sub Data {
         '%s will be available soon. Please check again in a few days.' =>
             '%s به زودی در دسترس خواهد بود. لطفا پس از چند روز دوباره بررسی کنید.',
         'Please have a look at %s for more information.' => 'لطفا نگاهی داشته باشید به  %s برای اطلاعات بیشتر.',
-        'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            'OTRS رایگان خود را پایه ای برای تمام اقدامات آینده است. لطفا ابتدا ثبت نام کنید تا با روند ارتقاء ادامه %s !',
+        'Your ((OTRS)) Community Edition is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
+            '',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
             'قبل از اینکه شما می توانید از آن بهره مند %s ، لطفا با %s به خود %s قرارداد.',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
@@ -1706,8 +1707,8 @@ sub Data {
         'Vendor' => 'عرضه‌کننده',
         'Please uninstall the packages first using the package manager and try again.' =>
             'لطفا ابتدا با استفاده از بسته های مدیر بسته حذف و دوباره امتحان کنید.',
-        'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
-            'شما در حال جمع و جور کردن به OTRS رایگان هستند و ویژگی های زیر است و تمام اطلاعات مربوط به این از دست دادن:',
+        'You are about to downgrade to ((OTRS)) Community Edition and will lose the following features and all data related to these:' =>
+            '',
         'Chat' => 'گپ',
         'Report Generator' => 'گزارش ژنراتور',
         'Timeline view in ticket zoom' => 'نمایش جدول زمانی در زوم بلیط',
@@ -1747,7 +1748,7 @@ sub Data {
         'Reinstall package' => 'نصب مجدد بسته',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'آیا واقعا می‌خواهید این بسته را مجددا نصب نمایید؟ تمام تغییرات دستی از بین خواهد رفت.',
-        'Go to upgrading instructions' => '',
+        'Go to updating instructions' => '',
         'package information' => '',
         'Package installation requires a patch level update of OTRS.' => '',
         'Package update requires a patch level update of OTRS.' => '',
@@ -1764,7 +1765,7 @@ sub Data {
             '',
         'How can I do a patch level update if I don’t have a contract?' =>
             '',
-        'Please find all relevant information within the upgrading instructions at %s.' =>
+        'Please find all relevant information within the updating instructions at %s.' =>
             '',
         'In case you would have further questions we would be glad to answer them.' =>
             'در مورد شما می سوال بیشتر دارند ما خوشحال خواهد بود به آنها پاسخ دهد.',
@@ -2078,6 +2079,8 @@ sub Data {
         'System address' => 'آدرس سیستم',
         'Will be the sender address of this queue for email answers.' => 'آدرس ارسال کننده این لیست برای پاسخ به ایمیل استفاده خواهد شد.',
         'Default sign key' => 'کلید امضای پیش‌فرض',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'The salutation for email answers.' => 'عنوان برای پاسخ‌های ایمیلی',
         'The signature for email answers.' => 'یامضاء برای پاسخ‌های ایمیل ',
 
@@ -2334,6 +2337,8 @@ sub Data {
         'Add State' => 'افزودن وضعیت',
         'Edit State' => 'ویرایش وضعیت',
         'State type' => 'نوع وضعیت',
+        'It\'s not possible to invalidate this entry because there is no other merge states in system!' =>
+            '',
 
         # Template: AdminSupportDataCollector
         'Sending support data to OTRS Group is not possible!' => 'ارسال اطلاعات پشتیبانی به OTRS گروه ممکن نیست!',
@@ -2456,6 +2461,7 @@ sub Data {
         'Edit System Maintenance Information' => '',
         'Date invalid!' => 'تاریخ نامعتبر!',
         'Login message' => 'پیام ورود',
+        'This field must have less then 250 characters.' => '',
         'Show login message' => 'پیام ورود نمایش',
         'Notify message' => 'اعلام کردن پیام',
         'Manage Sessions' => 'مدیریت جلسات',
@@ -2512,6 +2518,7 @@ sub Data {
 
         # Template: AdminUserGroup
         'Manage Agent-Group Relations' => 'مدیریت روابط کارشناس-گروه',
+        'Add group' => 'افزودن گروه',
         'Change Group Relations for Agent' => 'تغییر روابط گروه برای کارشناس',
         'Change Agent Relations for Group' => 'تغییر روابط کارشناس برای گروه',
 
@@ -2560,6 +2567,7 @@ sub Data {
         'in' => 'در',
 
         # Template: AgentDashboardCommon
+        'Save settings' => 'ذخیره تنظیمات',
         'Close this widget' => 'بستن این ویجت',
         'Available Columns' => 'ستون در دسترس',
         'Visible Columns (order by drag & drop)' => 'ستون قابل مشاهده است (سفارش با کشیدن و رها کردن)',
@@ -2642,8 +2650,8 @@ sub Data {
 
         # Template: AgentOTRSBusinessBlockScreen
         'Unauthorized usage of %s detected' => 'استفاده غیر مجاز از %s شناسایی',
-        'If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.' =>
-            'اگر شما تصمیم به جمع و جور کردن به OTRS رایگان، شما تمام جداول پایگاه داده و داده های مربوط به از دست دادن %s .',
+        'If you decide to downgrade to ((OTRS)) Community Edition, you will lose all database tables and data related to %s.' =>
+            '',
 
         # Template: AgentPreferences
         'Edit your preferences' => 'تنظیمات شخصی خودتان را ویرایش نمایید',
@@ -3152,6 +3160,13 @@ sub Data {
         'General Specifications and Mail Settings' => 'مشخصات عمومی و تنظیمات ایمیل',
         'Finish' => 'پایان',
         'Welcome to %s' => 'خوش آمدید به %s',
+        'Germany' => '',
+        'United States' => '',
+        'Mexico' => '',
+        'Hungary' => '',
+        'Brazil' => '',
+        'Singapore' => '',
+        'Hong Kong' => '',
         'Web site' => 'وب سایت',
         'Mail check successful.' => 'کنترل تنظیمات ایمیل موفقیت‌آمیز بود.',
         'Error in the mail settings. Please correct and try again.' => 'خطا در تنظیمات ایمیل. لطفا تصحیح نموده و مجددا تلاش نمایید.',
@@ -3520,6 +3535,10 @@ sub Data {
         'Got no WebserviceHistoryID!' => 'کردم هیچ WebserviceHistoryID!',
         'Could not get history data for WebserviceHistoryID %s' => 'می تواند داده های تاریخ برای WebserviceHistoryID نیست %s',
 
+        # Perl Module: Kernel/Modules/AdminMailAccount.pm
+        'Email account fetch already fetched by another process. Please try again later!' =>
+            '',
+
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
         'Notification updated!' => 'اطلاع رسانی به روز شده!',
         'Notification added!' => 'اطلاع رسانی اضافه شده است!',
@@ -3706,6 +3725,7 @@ sub Data {
         'Import not allowed!' => 'دریافت مجاز نیست!',
         'Need File!' => 'نیاز فایل!',
         'Can\'t write ConfigItem!' => 'نمی توانید ConfigItem بنویسید !',
+        '-new-' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
         'Start date shouldn\'t be defined after Stop date!' => 'نباید تاریخ شروع  پس از تاریخ توقف تعریف  شود!',
@@ -3975,7 +3995,6 @@ sub Data {
         'Need CustomerID!' => 'نیاز CustomerID!',
         'My Tickets' => 'درخواست‌های من',
         'Company Tickets' => 'درخواست‌های سازمانی/شرکتی',
-        'Untitled!' => 's',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Please remove the following words because they cannot be used for the search:' =>
@@ -4366,6 +4385,7 @@ sub Data {
         'Process Tickets' => 'بلیط روند',
         'Months Between First And Last Ticket' => 'ماهها از اولین تا  آخرین درخواست',
         'Tickets Per Month (avg)' => 'درخواست در هر ماه (AVG)',
+        'Open Tickets' => 'درخواست باز',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
         'Default SOAP Username And Password' => 'به طور پیش فرض SOAP نام کاربری و رمز',
@@ -4376,10 +4396,6 @@ sub Data {
         'Default Admin Password' => 'به طور پیش فرض کلمه عبور کاربر admin',
         'Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account.' =>
             'خطر امنیتی: حساب عامل ریشه @ localhost را هنوز رمز عبور به طور پیش فرض. لطفا آن را تغییر دهید و یا از درجه اعتبار ساقط حساب.',
-
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ErrorLog.pm
-        'Error Log' => 'ورود به خطا',
-        'There are error reports in your system log.' => 'گزارش خطا در ورود به سیستم شما وجود دارد.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
         'FQDN (domain name)' => 'FQDN (نام دامنه)',
@@ -4431,7 +4447,6 @@ sub Data {
         'There are invalid users with locked tickets.' => 'کاربران نامعتبر با درخواست قفل شده وجود دارد.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
-        'Open Tickets' => 'درخواست باز',
         'You should not have more than 8,000 open tickets in your system.' =>
             'نباید بیش از 8000 درخواست باز در سیستم شما وجود داشته باشد.',
 
@@ -4921,6 +4936,7 @@ Thanks for your help!
             'کنترل اگر پرچم درخواست و مقاله دیده شود آنها حذف می شوند زمانیکه یک بلیط بایگانی شده است.',
         'Converts HTML mails into text messages.' => 'تبدیل ایمیل های HTML و به پیام های متنی.',
         'Create New process ticket.' => 'ساختن درخواست روند جدید.',
+        'Create Ticket' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'ساخت و مدیریت توافقات سطح سرویس (SLA)',
         'Create and manage agents.' => 'ساخت و مدیریت کارشناسان',
         'Create and manage attachments.' => 'ساخت و مدیریت پیوست‌ها',
@@ -5588,6 +5604,8 @@ Thanks for your help!
         'Defines the sender for rejected emails.' => 'تعریف می کند که فرستنده ایمیل را رد کرد.',
         'Defines the separator between the agents real name and the given queue email address.' =>
             'تعریف می کند که جدا کننده بین عوامل نام واقعی و با توجه به آدرس ایمیل صف.',
+        'Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
+            '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             'تعریف می کند که مجوز استاندارد برای مشتریان داخل نرم افزار. اگر مجوزهای بیشتری مورد نیاز است، شما می توانید آنها را در اینجا وارد کنید. مجوز باید سخت کدگذاری موثر باشد. لطفا اطمینان حاصل شود، در هنگام اضافه کردن هر یک از مجوز مزبور، که \ "RW " اجازه آخرین ورود باقی مانده است.',
         'Defines the standard size of PDF pages.' => ' اندازه استاندارد برای صفحات PDF. تعریف می کند ',
@@ -5911,6 +5929,7 @@ Thanks for your help!
             'ثبت نام ماژول ظاهر (فرآیندهای بلیط غیر فعال کردن صفحه نمایش اگر هیچ فرایند در دسترس).',
         'Frontend module registration for the agent interface.' => 'ظاهر ثبت نام ماژول برای رابط عامل.',
         'Frontend module registration for the customer interface.' => 'ظاهر ثبت نام ماژول برای رابط مشتری.',
+        'Frontend module registration for the public interface.' => '',
         'Frontend theme' => 'طرح زمینه واسط',
         'Frontend theme.' => '',
         'Full value' => 'ارزش کامل',
@@ -6467,8 +6486,8 @@ Thanks for your help!
         'Sends registration information to OTRS group.' => 'ارسال اطلاعات ثبت نام به گروه OTRS.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'می فرستد اطلاعیه یادآور بلیط قفل پس از رسیدن به تاریخ یادآوری (فقط به صاحب بلیط ارسال).',
-        'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
-            'می فرستد اطلاعیه که در رابط مدیریت تحت \ پیکربندی "اعلان (رویداد) ".',
+        'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
+            '',
         'Serbian Cyrillic' => 'سیریلیک صربستان',
         'Serbian Latin' => 'صربی لاتین',
         'Service view' => 'نمای سرویس',
@@ -6721,6 +6740,16 @@ Thanks for your help!
             'یک لینک در منوی نشان می دهد به اضافه کردن یک یادداشت در نظر زوم بلیط رابط عامل. کنترل دسترسی اضافی برای نشان دادن یا این لینک نشان می دهد را نمی توان با استفاده از کلید \ "گروه " و محتوا مانند \ ":؛: GROUP2 \ move_into GROUP1 RW" انجام می شود. به خوشه آیتم های منو برای کلید \ "CLUSTERNAME " و برای محتوای هر نام شما می خواهید برای دیدن در UI استفاده کنید. استفاده از \ "ClusterPriority " برای پیکربندی سفارش از یک خوشه خاص در نوار ابزار.',
         'Shows a link in the menu to add a note to a ticket in every ticket overview of the agent interface.' =>
             'نشان می دهد یک لینک در منو به اضافه کردن یک یادداشت یک بلیط به در هر مروری بلیط رابط عامل.',
+        'Shows a link in the menu to add a phone call inbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to add a phone call outbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
         'Shows a link in the menu to close a ticket in every ticket overview of the agent interface.' =>
             'یک لینک در منوی نشان می دهد برای بستن یک بلیط در هر مروری بلیط رابط عامل.',
         'Shows a link in the menu to close a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -6741,16 +6770,10 @@ Thanks for your help!
             'یک لینک در منوی نشان می دهد به حرکت یک بلیط در هر مروری بلیط رابط عامل.',
         'Shows a link in the menu to print a ticket or an article in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             'نشان می دهد یک لینک در منو به چاپ یک بلیط یا یک مقاله در نظر زوم بلیط رابط عامل. کنترل دسترسی اضافی برای نشان دادن یا این لینک نشان می دهد را نمی توان با استفاده از کلید \ "گروه " و محتوا مانند \ ":؛: GROUP2 \ move_into GROUP1 RW" انجام می شود. به خوشه آیتم های منو برای کلید \ "CLUSTERNAME " و برای محتوای هر نام شما می خواهید برای دیدن در UI استفاده کنید. استفاده از \ "ClusterPriority " برای پیکربندی سفارش از یک خوشه خاص در نوار ابزار.',
-        'Shows a link in the menu to see the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            'یک لینک در منوی نشان می دهد برای دیدن مشتری که بلیط در نظر زوم بلیط رابط عامل درخواست شده است. کنترل دسترسی اضافی برای نشان دادن یا این لینک نشان می دهد را نمی توان با استفاده از کلید \ "گروه " و محتوا مانند \ ":؛: GROUP2 \ move_into GROUP1 RW" انجام می شود. به خوشه آیتم های منو برای کلید \ "CLUSTERNAME " و برای محتوای هر نام شما می خواهید برای دیدن در UI استفاده کنید. استفاده از \ "ClusterPriority " برای پیکربندی سفارش از یک خوشه خاص در نوار ابزار.',
         'Shows a link in the menu to see the history of a ticket in every ticket overview of the agent interface.' =>
             'یک لینک در منوی نشان می دهد برای دیدن تاریخ یک بلیط در هر مروری بلیط رابط عامل.',
-        'Shows a link in the menu to see the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            'یک لینک در منوی نشان می دهد برای دیدن صاحب یک بلیط در نظر زوم بلیط رابط عامل. کنترل دسترسی اضافی برای نشان دادن یا این لینک نشان می دهد را نمی توان با استفاده از کلید \ "گروه " و محتوا مانند \ ":؛: GROUP2 \ move_into GROUP1 RW" انجام می شود. به خوشه آیتم های منو برای کلید \ "CLUSTERNAME " و برای محتوای هر نام شما می خواهید برای دیدن در UI استفاده کنید. استفاده از \ "ClusterPriority " برای پیکربندی سفارش از یک خوشه خاص در نوار ابزار.',
         'Shows a link in the menu to see the priority of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             'یک لینک در منوی نشان می دهد برای دیدن اولویت یک بلیط در نظر زوم بلیط رابط عامل. کنترل دسترسی اضافی برای نشان دادن یا این لینک نشان می دهد را نمی توان با استفاده از کلید \ "گروه " و محتوا مانند \ ":؛: GROUP2 \ move_into GROUP1 RW" انجام می شود. به خوشه آیتم های منو برای کلید \ "CLUSTERNAME " و برای محتوای هر نام شما می خواهید برای دیدن در UI استفاده کنید. استفاده از \ "ClusterPriority " برای پیکربندی سفارش از یک خوشه خاص در نوار ابزار.',
-        'Shows a link in the menu to see the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            'یک لینک در منوی نشان می دهد برای دیدن عامل مسئول یک بلیط در نظر زوم بلیط رابط عامل. کنترل دسترسی اضافی برای نشان دادن یا این لینک نشان می دهد را نمی توان با استفاده از کلید \ "گروه " و محتوا مانند \ ":؛: GROUP2 \ move_into GROUP1 RW" انجام می شود. به خوشه آیتم های منو برای کلید \ "CLUSTERNAME " و برای محتوای هر نام شما می خواهید برای دیدن در UI استفاده کنید. استفاده از \ "ClusterPriority " برای پیکربندی سفارش از یک خوشه خاص در نوار ابزار.',
         'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             'یک لینک در منوی نشان می دهد به ارسال یک ایمیل عازم ناحیه دور دست در نظر زوم بلیط رابط عامل. کنترل دسترسی اضافی برای نشان دادن یا این لینک نشان می دهد را نمی توان با استفاده از کلید \ "گروه " و محتوا مانند \ ":؛: GROUP2 \ move_into GROUP1 RW" انجام می شود. به خوشه آیتم های منو برای کلید \ "CLUSTERNAME " و برای محتوای هر نام شما می خواهید برای دیدن در UI استفاده کنید. استفاده از \ "ClusterPriority " برای پیکربندی سفارش از یک خوشه خاص در نوار ابزار.',
         'Shows a link in the menu to set a ticket as junk in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -7053,6 +7076,7 @@ Thanks for your help!
         'Ticket Queue Overview' => 'بررسی اجمالی صف درخواست',
         'Ticket Responsible.' => 'درخواست به عهده دارد.',
         'Ticket Watcher' => 'نگهبان درخواست',
+        'Ticket Zoom' => '',
         'Ticket Zoom.' => 'درخواست زوم.',
         'Ticket bulk module.' => 'درخواست ماژول انبوه ',
         'Ticket event module that triggers the escalation stop events.' =>

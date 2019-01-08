@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.949959807073955;
+    $Self->{Completeness}        = 0.944522331263769;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -824,7 +824,6 @@ sub Data {
         'Edit ACL information' => 'Edit ACL information',
         'Stop after match' => 'Stop after match',
         'Edit ACL structure' => 'Edit ACL structure',
-        'Save settings' => 'Save settings',
         'Save ACL' => '',
         'Save' => 'Save',
         'or' => 'or',
@@ -1185,6 +1184,7 @@ sub Data {
         'New Dynamic Field Values' => 'New Dynamic Field Values',
         'Archive selected tickets' => 'Archive selected tickets',
         'Add Note' => 'Add Note',
+        'This field must have less then 200 characters.' => '',
         'Time units' => 'Time units',
         'Execute Ticket Commands' => 'Execute Ticket Commands',
         'Send agent/customer notifications on changes' => 'Send agent/customer notifications on changes',
@@ -1262,6 +1262,8 @@ sub Data {
             'Synchronous event triggers would be processed directly during the web request.',
         'Save and continue' => 'Save and continue',
         'Delete this Invoker' => 'Delete this Invoker',
+        'It is not possible to add a new event trigger because the event is not set.' =>
+            '',
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => 'GenericInterface Mapping Simple for Web Service %s',
@@ -1497,14 +1499,13 @@ sub Data {
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
             'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.',
         'Group Management' => 'Group Management',
-        'Add group' => 'Add group',
+        'Add Group' => 'Add Group',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'The admin group is to get in the admin area and the stats group to get stats area.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
             'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ',
         'It\'s useful for ASP solutions. ' => 'It\'s useful for ASP solutions. ',
         'total' => 'total',
-        'Add Group' => 'Add Group',
         'Edit Group' => 'Edit Group',
 
         # Template: AdminLog
@@ -1572,7 +1573,7 @@ sub Data {
         'Recipients' => 'Recipients',
         'Send to' => 'Send to',
         'Send to these agents' => 'Send to these agents',
-        'Send to all group members' => 'Send to all group members',
+        'Send to all group members (agents only)' => '',
         'Send to all role members' => 'Send to all role members',
         'Send on out of office' => 'Send on out of office',
         'Also send if the user is currently out of office.' => 'Also send if the user is currently out of office.',
@@ -1640,7 +1641,7 @@ sub Data {
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Manage %s',
         'Go to the OTRS customer portal' => '',
-        'Downgrade to OTRS Free' => 'Downgrade to OTRS Free',
+        'Downgrade to ((OTRS)) Community Edition' => '',
         'Read documentation' => 'Read documentation',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
             '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.',
@@ -1682,8 +1683,8 @@ sub Data {
         '%s will be available soon. Please check again in a few days.' =>
             '%s will be available soon. Please check again in a few days.',
         'Please have a look at %s for more information.' => 'Please have a look at %s for more information.',
-        'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s.',
+        'Your ((OTRS)) Community Edition is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
+            '',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
             'Before you can benefit from %s, please contact %s to get your %s contract.',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
@@ -1704,8 +1705,8 @@ sub Data {
         'Vendor' => 'Vendor',
         'Please uninstall the packages first using the package manager and try again.' =>
             'Please uninstall the packages first using the package manager and try again.',
-        'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
-            'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:',
+        'You are about to downgrade to ((OTRS)) Community Edition and will lose the following features and all data related to these:' =>
+            '',
         'Chat' => 'Chat',
         'Report Generator' => 'Report Generator',
         'Timeline view in ticket zoom' => 'Timeline view in ticket zoom',
@@ -1745,7 +1746,7 @@ sub Data {
         'Reinstall package' => 'Reinstall package',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Do you really want to reinstall this package? Any manual changes will be lost.',
-        'Go to upgrading instructions' => '',
+        'Go to updating instructions' => '',
         'package information' => '',
         'Package installation requires a patch level update of OTRS.' => '',
         'Package update requires a patch level update of OTRS.' => '',
@@ -1762,7 +1763,7 @@ sub Data {
             '',
         'How can I do a patch level update if I don’t have a contract?' =>
             '',
-        'Please find all relevant information within the upgrading instructions at %s.' =>
+        'Please find all relevant information within the updating instructions at %s.' =>
             '',
         'In case you would have further questions we would be glad to answer them.' =>
             'In case you would have further questions we would be glad to answer them.',
@@ -2076,6 +2077,8 @@ sub Data {
         'System address' => 'System address',
         'Will be the sender address of this queue for email answers.' => 'Will be the sender address of this queue for email answers.',
         'Default sign key' => 'Default sign key',
+        'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
+            '',
         'The salutation for email answers.' => 'The salutation for email answers.',
         'The signature for email answers.' => 'The signature for email answers.',
 
@@ -2332,6 +2335,8 @@ sub Data {
         'Add State' => 'Add State',
         'Edit State' => 'Edit State',
         'State type' => 'State type',
+        'It\'s not possible to invalidate this entry because there is no other merge states in system!' =>
+            '',
 
         # Template: AdminSupportDataCollector
         'Sending support data to OTRS Group is not possible!' => 'Sending support data to OTRS Group is not possible!',
@@ -2454,6 +2459,7 @@ sub Data {
         'Edit System Maintenance Information' => '',
         'Date invalid!' => 'Date invalid!',
         'Login message' => 'Login message',
+        'This field must have less then 250 characters.' => '',
         'Show login message' => 'Show login message',
         'Notify message' => 'Notify message',
         'Manage Sessions' => 'Manage Sessions',
@@ -2510,6 +2516,7 @@ sub Data {
 
         # Template: AdminUserGroup
         'Manage Agent-Group Relations' => 'Manage Agent-Group Relations',
+        'Add group' => 'Add group',
         'Change Group Relations for Agent' => 'Change Group Relations for Agent',
         'Change Agent Relations for Group' => 'Change Agent Relations for Group',
 
@@ -2558,6 +2565,7 @@ sub Data {
         'in' => 'in',
 
         # Template: AgentDashboardCommon
+        'Save settings' => 'Save settings',
         'Close this widget' => 'Close this widget',
         'Available Columns' => 'Available Columns',
         'Visible Columns (order by drag & drop)' => 'Visible Columns (order by drag & drop)',
@@ -2640,7 +2648,7 @@ sub Data {
 
         # Template: AgentOTRSBusinessBlockScreen
         'Unauthorized usage of %s detected' => '',
-        'If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.' =>
+        'If you decide to downgrade to ((OTRS)) Community Edition, you will lose all database tables and data related to %s.' =>
             '',
 
         # Template: AgentPreferences
@@ -3150,6 +3158,13 @@ sub Data {
         'General Specifications and Mail Settings' => 'General Specifications and Mail Settings',
         'Finish' => 'Finish',
         'Welcome to %s' => 'Welcome to %s',
+        'Germany' => '',
+        'United States' => '',
+        'Mexico' => '',
+        'Hungary' => '',
+        'Brazil' => '',
+        'Singapore' => '',
+        'Hong Kong' => '',
         'Web site' => 'Web site',
         'Mail check successful.' => 'Mail check successful.',
         'Error in the mail settings. Please correct and try again.' => 'Error in the mail settings. Please correct and try again.',
@@ -3518,6 +3533,10 @@ sub Data {
         'Got no WebserviceHistoryID!' => 'Got no WebserviceHistoryID!',
         'Could not get history data for WebserviceHistoryID %s' => 'Could not get history data for WebserviceHistoryID %s',
 
+        # Perl Module: Kernel/Modules/AdminMailAccount.pm
+        'Email account fetch already fetched by another process. Please try again later!' =>
+            '',
+
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
         'Notification updated!' => 'Notification updated!',
         'Notification added!' => 'Notification added!',
@@ -3704,6 +3723,7 @@ sub Data {
         'Import not allowed!' => 'Import not allowed!',
         'Need File!' => 'Need File!',
         'Can\'t write ConfigItem!' => 'Can\'t write ConfigItem!',
+        '-new-' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
         'Start date shouldn\'t be defined after Stop date!' => 'Start date shouldn\'t be defined after Stop date!',
@@ -3973,7 +3993,6 @@ sub Data {
         'Need CustomerID!' => 'Need CustomerID!',
         'My Tickets' => 'My Tickets',
         'Company Tickets' => 'Company Tickets',
-        'Untitled!' => 'Untitled!',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Please remove the following words because they cannot be used for the search:' =>
@@ -4364,6 +4383,7 @@ sub Data {
         'Process Tickets' => '',
         'Months Between First And Last Ticket' => 'Months Between First And Last Ticket',
         'Tickets Per Month (avg)' => 'Tickets Per Month (avg)',
+        'Open Tickets' => 'Open Tickets',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
         'Default SOAP Username And Password' => 'Default SOAP Username And Password',
@@ -4374,10 +4394,6 @@ sub Data {
         'Default Admin Password' => 'Default Admin Password',
         'Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account.' =>
             'Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account.',
-
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ErrorLog.pm
-        'Error Log' => 'Error Log',
-        'There are error reports in your system log.' => 'There are error reports in your system log.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
         'FQDN (domain name)' => 'FQDN (domain name)',
@@ -4429,7 +4445,6 @@ sub Data {
         'There are invalid users with locked tickets.' => 'There are invalid users with locked tickets.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
-        'Open Tickets' => 'Open Tickets',
         'You should not have more than 8,000 open tickets in your system.' =>
             'You should not have more than 8,000 open tickets in your system.',
 
@@ -4919,6 +4934,7 @@ Thanks for your help!
             'Controls if the ticket and article seen flags are removed when a ticket is archived.',
         'Converts HTML mails into text messages.' => 'Converts HTML mails into text messages.',
         'Create New process ticket.' => 'Create New process ticket.',
+        'Create Ticket' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'Create and manage Service Level Agreements (SLAs).',
         'Create and manage agents.' => 'Create and manage agents.',
         'Create and manage attachments.' => 'Create and manage attachments.',
@@ -5586,6 +5602,8 @@ Thanks for your help!
         'Defines the sender for rejected emails.' => 'Defines the sender for rejected emails.',
         'Defines the separator between the agents real name and the given queue email address.' =>
             'Defines the separator between the agents real name and the given queue email address.',
+        'Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
+            '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.',
         'Defines the standard size of PDF pages.' => 'Defines the standard size of PDF pages.',
@@ -5909,6 +5927,7 @@ Thanks for your help!
             'Frontend module registration (disable ticket processes screen if no process available).',
         'Frontend module registration for the agent interface.' => 'Frontend module registration for the agent interface.',
         'Frontend module registration for the customer interface.' => 'Frontend module registration for the customer interface.',
+        'Frontend module registration for the public interface.' => '',
         'Frontend theme' => 'Frontend theme',
         'Frontend theme.' => '',
         'Full value' => 'Full value',
@@ -6465,8 +6484,8 @@ Thanks for your help!
         'Sends registration information to OTRS group.' => 'Sends registration information to OTRS group.',
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).',
-        'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
-            'Sends the notifications which are configured in the admin interface under "Notfication (Event)".',
+        'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
+            '',
         'Serbian Cyrillic' => 'Serbian Cyrillic',
         'Serbian Latin' => 'Serbian Latin',
         'Service view' => 'Service view',
@@ -6719,6 +6738,16 @@ Thanks for your help!
             'Shows a link in the menu to add a note in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.',
         'Shows a link in the menu to add a note to a ticket in every ticket overview of the agent interface.' =>
             'Shows a link in the menu to add a note to a ticket in every ticket overview of the agent interface.',
+        'Shows a link in the menu to add a phone call inbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to add a phone call outbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
+        'Shows a link in the menu to change the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
+            '',
         'Shows a link in the menu to close a ticket in every ticket overview of the agent interface.' =>
             'Shows a link in the menu to close a ticket in every ticket overview of the agent interface.',
         'Shows a link in the menu to close a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -6739,16 +6768,10 @@ Thanks for your help!
             'Shows a link in the menu to move a ticket in every ticket overview of the agent interface.',
         'Shows a link in the menu to print a ticket or an article in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             'Shows a link in the menu to print a ticket or an article in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.',
-        'Shows a link in the menu to see the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            'Shows a link in the menu to see the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.',
         'Shows a link in the menu to see the history of a ticket in every ticket overview of the agent interface.' =>
             'Shows a link in the menu to see the history of a ticket in every ticket overview of the agent interface.',
-        'Shows a link in the menu to see the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            'Shows a link in the menu to see the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.',
         'Shows a link in the menu to see the priority of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             'Shows a link in the menu to see the priority of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.',
-        'Shows a link in the menu to see the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            'Shows a link in the menu to see the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.',
         'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
             'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.',
         'Shows a link in the menu to set a ticket as junk in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -7051,6 +7074,7 @@ Thanks for your help!
         'Ticket Queue Overview' => 'Ticket Queue Overview',
         'Ticket Responsible.' => 'Ticket Responsible.',
         'Ticket Watcher' => 'Ticket Watcher',
+        'Ticket Zoom' => '',
         'Ticket Zoom.' => 'Ticket Zoom.',
         'Ticket bulk module.' => 'Ticket bulk module.',
         'Ticket event module that triggers the escalation stop events.' =>
