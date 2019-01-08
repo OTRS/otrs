@@ -20,6 +20,8 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
     'Kernel::System::User',
     'Kernel::System::HTMLUtils',
 );
@@ -113,11 +115,28 @@ sub Run {
     # Override UserID if specified as a parameter in the TA config.
     $Param{UserID} = $Self->_OverrideUserID(%Param);
 
+    my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
     # Convert DynamicField value to HTML string, see bug#14229.
     my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
     if ( $Param{Config}->{Body} =~ /OTRS_TICKET_DynamicField_/ ) {
+        MATCH:
         for my $Match ( sort keys %{ $Param{Ticket} } ) {
-            if ( $Match =~ /DynamicField_/ && $Param{Ticket}->{$Match} ) {
+            if ( $Match =~ m/DynamicField_(.*)/ && $Param{Ticket}->{$Match} ) {
+
+                my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+                    Name => $1,
+                );
+
+                # Check if there is HTML content.
+                my $IsHTMLContent = $DynamicFieldBackendObject->HasBehavior(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    Behavior           => 'IsHTMLContent',
+                );
+
+                # Avoid duble conversion to HTML for dynamic fields with HTML content.
+                next MATCH if $IsHTMLContent;
                 $Param{Ticket}->{$Match} = $HTMLUtilsObject->ToHTML(
                     String => $Param{Ticket}->{$Match},
                 );

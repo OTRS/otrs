@@ -2137,6 +2137,8 @@ checks if the dynamic field as an specified behavior
                                                          # 'IsCustomerInterfaceCapable' to make
                                                          #     the field usable in the customer
                                                          #     interface
+                                                         # 'IsHTMLContent' to indicate that there is                                                        # 'IsCustomerInterfaceCapable' to make
+                                                         #     HTML content (avoid duble cnversion to HTML)
     );
 
     Returns:
