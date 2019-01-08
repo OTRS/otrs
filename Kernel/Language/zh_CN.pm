@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.999656593406593;
+    $Self->{Completeness}        = 0.998627787307033;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -647,6 +647,7 @@ sub Data {
         'Schedule minutes' => '计划的分钟',
         'Schedule hours' => '计划的小时',
         'Schedule days' => '计划的天',
+        'Automatic execution values are in the system timezone.' => '',
         'Currently this generic agent job will not run automatically.' =>
             '目前这个自动任务不会自动运行。',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
@@ -3717,8 +3718,8 @@ sub Data {
         'Package could not be installed' => '软件包无法安装',
         'Package could not be upgraded' => '软件包无法更新',
         'Repository List' => '软件仓库列表',
-        'No packages or no new packages found in selected repository.' =>
-            '选择的软件仓库中没有软件包或没有新的软件包。',
+        'No packages found in selected repository. Please check log for more info!' =>
+            '',
         'Package not verified due a communication issue with verification server!' =>
             '不能验证软件包，因为与验证服务器无法正常通信！',
         'Can\'t connect to OTRS Feature Add-on list server!' => '不能连接到OTRS附加功能列表服务器！',
@@ -4453,6 +4454,10 @@ sub Data {
             '没有加密密钥可用于地址：\'%s\'。',
         'There are no selected encryption keys for the addresses: \'%s\'. ' =>
             '地址：\'%s\'没有选择加密密钥。',
+        'Cannot use expired encryption keys for the addresses: \'%s\'. ' =>
+            '',
+        'Cannot use revoked encryption keys for the addresses: \'%s\'. ' =>
+            '',
         'Encrypt' => '加密',
         'Keys/certificates will only be shown for recipients with more than one key/certificate. The first found key/certificate will be pre-selected. Please make sure to select the correct one.' =>
             '密钥/证书只会显示给具有多个密钥/证书的收件人，找到的第一个密钥/证书将被预选，请确保选择了正确的密钥/证书。',
@@ -4467,6 +4472,8 @@ sub Data {
         'SMIME encrypt' => 'SMIME加密',
 
         # Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
+        'Cannot use expired signing key: \'%s\'. ' => '',
+        'Cannot use revoked signing key: \'%s\'. ' => '',
         'There are no signing keys available for the addresses \'%s\'.' =>
             '没有签名密钥可用于地址：\'%s\'。',
         'There are no selected signing keys for the addresses \'%s\'.' =>
@@ -5440,7 +5447,7 @@ sub Data {
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove selection' => '删除选择',
-        'Do you really want to delete this generic agent job?' => '',
+        'Do you really want to delete this generic agent job?' => '您真的想要删除这个自动任务吗？',
         'Delete this Event Trigger' => '删除这个事件触发器',
         'Duplicate event.' => '复制事件。',
         'This event is already attached to the job, Please use a different one.' =>
@@ -5668,6 +5675,9 @@ sub Data {
         # JS File: Core.Agent.Search
         'Please remove the following words from your search as they cannot be searched for:' =>
             '请移除以下不能用于搜索的词语：',
+
+        # JS File: Core.Agent.SharedSecretGenerator
+        'Generate' => '',
 
         # JS File: Core.Agent.SortedTree
         'This element has children elements and can currently not be removed.' =>
@@ -6936,7 +6946,7 @@ Thanks for your help!
         'Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen.' =>
             '定义在服务人员界面客户用户通讯录搜索结果屏幕中显示的列和位置。',
         'Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
-            '',
+            '定义OTRS系统的客户和公共界面中页脚区域显示的链接。 “Key（键）”中的值是外部网址，“Content（内容）”中的值是显示的文字。',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             '定义本系统客户可用的标准权限。如果需要更多的权限，您可以在这里输入。权限必须确实硬编码以保证生效。请确保在添加前面任何提到的权限时，“rw（读写）”权限保持为最后一个条目。',
         'Defines the standard size of PDF pages.' => '定义PDF页面的标准尺寸。',
@@ -7199,8 +7209,8 @@ Thanks for your help!
         'English stop words for fulltext index. These words will be removed from the search index.' =>
             '全文索引的英语停止词，这些词将从搜索索引中移除。',
         'Enroll process for this ticket' => '这个工单的注册过程',
-        'Enter your shared secret to enable two factor authentication.' =>
-            '输入你的共享密钥以启用双因素身份验证。',
+        'Enter your shared secret to enable two factor authentication. WARNING: Make sure that you add the shared secret to your generator application and the application works well. Otherwise you will be not able to login anymore without the two factor token.' =>
+            '',
         'Escalated Tickets' => '升级的工单',
         'Escalation view' => '升级视图',
         'EscalationTime' => '升级时间',
@@ -8858,6 +8868,7 @@ Thanks for your help!
         'Fr',
         'Fri',
         'Friday',
+        'Generate',
         'Generate Result',
         'Generating...',
         'Grouped',

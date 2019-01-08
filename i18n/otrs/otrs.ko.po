@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-12-06 17:43+0000\n"
+"POT-Creation-Date: 2019-01-08 15:00+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: 신홍열 <hyshin@shinjjang.com>, 2018\n"
 "Language-Team: Korean (https://www.transifex.com/otrs/teams/23435/ko/)\n"
@@ -2070,6 +2070,10 @@ msgstr "시간 계획"
 #. Template: AdminGenericAgent
 msgid "Schedule days"
 msgstr "하루 일정"
+
+#. Template: AdminGenericAgent
+msgid "Automatic execution values are in the system timezone."
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
@@ -11610,8 +11614,9 @@ msgid "Repository List"
 msgstr "저장소 목록"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
-msgid "No packages or no new packages found in selected repository."
-msgstr "선택한 저장소에 패키지가 없거나 새로운 패키지가 없습니다."
+msgid ""
+"No packages found in selected repository. Please check log for more info!"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
@@ -13680,6 +13685,14 @@ msgid "There are no selected encryption keys for the addresses: '%s'. "
 msgstr "주소에 대해 선택된 암호화 키가 없습니다 : '%s'."
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
+msgid "Cannot use expired encryption keys for the addresses: '%s'. "
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
+msgid "Cannot use revoked encryption keys for the addresses: '%s'. "
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Encrypt"
 msgstr "암호화"
 
@@ -13719,6 +13732,14 @@ msgstr "SMIME 서명 및 암호화"
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "SMIME encrypt"
 msgstr "SMIME 암호화"
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
+msgid "Cannot use expired signing key: '%s'. "
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
+msgid "Cannot use revoked signing key: '%s'. "
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "There are no signing keys available for the addresses '%s'."
@@ -16865,6 +16886,10 @@ msgid ""
 "Please remove the following words from your search as they cannot be "
 "searched for:"
 msgstr "검색할 수 없으므로 다음 단어를 검색에서 제거하십시오."
+
+#. JS File: Core.Agent.SharedSecretGenerator
+msgid "Generate"
+msgstr ""
 
 #. JS File: Core.Agent.SortedTree
 msgid "This element has children elements and can currently not be removed."
@@ -22087,8 +22112,12 @@ msgid "Enroll process for this ticket"
 msgstr "이 티켓에 대한 프로세스 등록"
 
 #. SysConfig
-msgid "Enter your shared secret to enable two factor authentication."
-msgstr "공유 인증을 입력하면 두가지 요소 인증을 사용할 수 있습니다."
+msgid ""
+"Enter your shared secret to enable two factor authentication. WARNING: Make "
+"sure that you add the shared secret to your generator application and the "
+"application works well. Otherwise you will be not able to login anymore "
+"without the two factor token."
+msgstr ""
 
 #. SysConfig
 msgid "Escalated Tickets"

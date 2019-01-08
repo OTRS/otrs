@@ -1,4 +1,5 @@
 #6.0.16 ????-??-??
+ - 2019-01-08 Updated translations, thanks to all translators.
  - 2019-01-08 Fixed bug#[14270](https://bugs.otrs.org/show_bug.cgi?id=14270) - Escalation Notification is shown wrong.
  - 2019-01-08 Fixed bug#[14229](https://bugs.otrs.org/show_bug.cgi?id=14229) - Transition Action fails to transfer line breaks of content in dynamic field textarea.
  - 2019-01-07 Add total count of links to "complex" link table, thanks to Frennkie (PR#[1893](https://github.com/OTRS/otrs/pull/1893)).

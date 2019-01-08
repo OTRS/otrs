@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999656593406593;
+    $Self->{Completeness}        = 0.998627787307033;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -641,6 +641,7 @@ sub Data {
         'Schedule minutes' => 'Планирано минута',
         'Schedule hours' => 'Планирано сати',
         'Schedule days' => 'Планирано дана',
+        'Automatic execution values are in the system timezone.' => '',
         'Currently this generic agent job will not run automatically.' =>
             'Тренутно овај посао генерички оператера неће бити извршен аутоматски.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
@@ -3711,8 +3712,8 @@ sub Data {
         'Package could not be installed' => 'Пакет није могао бити инсталиран',
         'Package could not be upgraded' => 'Пакет није могао бити ажуриран',
         'Repository List' => 'Листа спремишта',
-        'No packages or no new packages found in selected repository.' =>
-            'У изабраном спремишту нема пакета или нема нових пакета.',
+        'No packages found in selected repository. Please check log for more info!' =>
+            '',
         'Package not verified due a communication issue with verification server!' =>
             'Пакет није верификован због комуникацијског проблема са верификационим сервером!',
         'Can\'t connect to OTRS Feature Add-on list server!' => 'Није могуће повезати се са OTRS Feature Add-on сервером!',
@@ -4447,6 +4448,10 @@ sub Data {
             'Нису пронађени кључеви за шифровање за адресу: \'%s\'.',
         'There are no selected encryption keys for the addresses: \'%s\'. ' =>
             'Нису одабрани кључеви за шифровање за адресу: \'%s\'.',
+        'Cannot use expired encryption keys for the addresses: \'%s\'. ' =>
+            '',
+        'Cannot use revoked encryption keys for the addresses: \'%s\'. ' =>
+            '',
         'Encrypt' => 'Шифровање',
         'Keys/certificates will only be shown for recipients with more than one key/certificate. The first found key/certificate will be pre-selected. Please make sure to select the correct one.' =>
             'Кључеви/сертификати ће бити приказани само за примаоце са више од једног кључева/сертификата. Први пронађени кључ/сертификат ће бити аутоматски одабран. Молимо проверите да ли је одабран исправан.',
@@ -4461,6 +4466,8 @@ sub Data {
         'SMIME encrypt' => 'SMIME шифровање',
 
         # Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
+        'Cannot use expired signing key: \'%s\'. ' => '',
+        'Cannot use revoked signing key: \'%s\'. ' => '',
         'There are no signing keys available for the addresses \'%s\'.' =>
             'Нема кључева за потписивање за адресе \'%s\'.',
         'There are no selected signing keys for the addresses \'%s\'.' =>
@@ -5434,7 +5441,7 @@ sub Data {
 
         # JS File: Core.Agent.Admin.GenericAgent
         'Remove selection' => 'Уклони избор',
-        'Do you really want to delete this generic agent job?' => '',
+        'Do you really want to delete this generic agent job?' => 'Да ли стварно желите да обришете овај посао генеричког оператера?',
         'Delete this Event Trigger' => 'Obriši ovaj okidač događaja',
         'Duplicate event.' => 'Направи дупликат догађаја.',
         'This event is already attached to the job, Please use a different one.' =>
@@ -5662,6 +5669,9 @@ sub Data {
         # JS File: Core.Agent.Search
         'Please remove the following words from your search as they cannot be searched for:' =>
             'Молимо да уклоните следеће речи из ваше претраге јер се не могу тражити:',
+
+        # JS File: Core.Agent.SharedSecretGenerator
+        'Generate' => '',
 
         # JS File: Core.Agent.SortedTree
         'This element has children elements and can currently not be removed.' =>
@@ -6932,7 +6942,7 @@ Thanks for your help!
         'Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen.' =>
             'Дефинише приказане колоне и њихов редослед у екрану резултата претраге адресара клијент корисника.',
         'Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
-            '',
+            'Одређује приказане везе у доњем делу клијентског и јавног интерфејса овог OTRS система. Вредност поља "Key" је екстерна адреса (URL), а вредност поља "Content" је приказан назив.',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             'Одређује стандардне дозволе расположиве за кориснике у апликацији. Уколико је потребно више дозвола, можете их унети овде. Да би биле ефективне, дозволе морају бити непроменљиве. Молимо проверите када додајете било коју од горе наведених дозвола, да "rw" дозвола остане последња.',
         'Defines the standard size of PDF pages.' => 'Дефинише стандардну величину PDF страница.',
@@ -7195,8 +7205,8 @@ Thanks for your help!
         'English stop words for fulltext index. These words will be removed from the search index.' =>
             'Енглеске зауставне речи за индекс претраге комплетног текста. Ове речи ће бити уклоњене из индекса претраге.',
         'Enroll process for this ticket' => 'Упиши процес за овај тикет',
-        'Enter your shared secret to enable two factor authentication.' =>
-            'Унесите свој дељени тајни кључ за двофакторски модул за идентификацију.',
+        'Enter your shared secret to enable two factor authentication. WARNING: Make sure that you add the shared secret to your generator application and the application works well. Otherwise you will be not able to login anymore without the two factor token.' =>
+            '',
         'Escalated Tickets' => 'Ескалирани тикети',
         'Escalation view' => 'Преглед ескалација',
         'EscalationTime' => 'Време ескалације',
@@ -8854,6 +8864,7 @@ Thanks for your help!
         'Fr',
         'Fri',
         'Friday',
+        'Generate',
         'Generate Result',
         'Generating...',
         'Grouped',

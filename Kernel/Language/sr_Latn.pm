@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999656593406593;
+    $Self->{Completeness}        = 0.998284734133791;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -647,6 +647,7 @@ sub Data {
         'Schedule minutes' => 'Planirano minuta',
         'Schedule hours' => 'Planirano sati',
         'Schedule days' => 'Planirano dana',
+        'Automatic execution values are in the system timezone.' => '',
         'Currently this generic agent job will not run automatically.' =>
             'Trenutno ovaj posao generički operatera neće biti izvršen automatski.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
@@ -3717,8 +3718,8 @@ sub Data {
         'Package could not be installed' => 'Paket nije mogao biti instaliran',
         'Package could not be upgraded' => 'Paket nije mogao biti ažuriran',
         'Repository List' => 'Lista spremišta',
-        'No packages or no new packages found in selected repository.' =>
-            'U izabranom spremištu nema paketa ili nema novih paketa.',
+        'No packages found in selected repository. Please check log for more info!' =>
+            '',
         'Package not verified due a communication issue with verification server!' =>
             'Paket nije verifikovan zbog komunikacijskog problema sa verifikacionim serverom!',
         'Can\'t connect to OTRS Feature Add-on list server!' => 'Nije moguće povezati se sa OTRS Feature Add-on serverom!',
@@ -4453,6 +4454,10 @@ sub Data {
             'Nisu pronađeni ključevi za šifrovanje za adresu: \'%s\'.',
         'There are no selected encryption keys for the addresses: \'%s\'. ' =>
             'Nisu odabrani ključevi za šifrovanje za adresu: \'%s\'.',
+        'Cannot use expired encryption keys for the addresses: \'%s\'. ' =>
+            '',
+        'Cannot use revoked encryption keys for the addresses: \'%s\'. ' =>
+            '',
         'Encrypt' => 'Šifrovanje',
         'Keys/certificates will only be shown for recipients with more than one key/certificate. The first found key/certificate will be pre-selected. Please make sure to select the correct one.' =>
             'Ključevi/sertifikati će biti prikazani samo za primaoce sa više od jednog ključeva/sertifikata. Prvi pronađeni ključ/sertifikat će biti automatski odabran. Molimo proverite da li je odabran ispravan.',
@@ -4467,6 +4472,8 @@ sub Data {
         'SMIME encrypt' => 'SMIME šifrovanje',
 
         # Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
+        'Cannot use expired signing key: \'%s\'. ' => '',
+        'Cannot use revoked signing key: \'%s\'. ' => '',
         'There are no signing keys available for the addresses \'%s\'.' =>
             'Nema ključeva za potpisivanje za adrese \'%s\'.',
         'There are no selected signing keys for the addresses \'%s\'.' =>
@@ -5668,6 +5675,9 @@ sub Data {
         # JS File: Core.Agent.Search
         'Please remove the following words from your search as they cannot be searched for:' =>
             'Molimo da uklonite sledeće reči iz vaše pretrage jer se ne mogu tražiti:',
+
+        # JS File: Core.Agent.SharedSecretGenerator
+        'Generate' => '',
 
         # JS File: Core.Agent.SortedTree
         'This element has children elements and can currently not be removed.' =>
@@ -7201,8 +7211,8 @@ Vaša tehnička podrška
         'English stop words for fulltext index. These words will be removed from the search index.' =>
             'Engleske zaustavne reči za indeks pretrage kompletnog teksta. Ove reči će biti uklonjene iz indeksa pretrage.',
         'Enroll process for this ticket' => 'Upiši proces za ovaj tiket',
-        'Enter your shared secret to enable two factor authentication.' =>
-            'Unesite svoj deljeni tajni ključ za dvofaktorski modul za identifikaciju.',
+        'Enter your shared secret to enable two factor authentication. WARNING: Make sure that you add the shared secret to your generator application and the application works well. Otherwise you will be not able to login anymore without the two factor token.' =>
+            '',
         'Escalated Tickets' => 'Eskalirani tiketi',
         'Escalation view' => 'Pregled eskalacija',
         'EscalationTime' => 'Vreme eskalacije',
@@ -8860,6 +8870,7 @@ Vaša tehnička podrška
         'Fr',
         'Fri',
         'Friday',
+        'Generate',
         'Generate Result',
         'Generating...',
         'Grouped',

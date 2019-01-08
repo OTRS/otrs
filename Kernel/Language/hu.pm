@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 1;
+    $Self->{Completeness}        = 0.998627787307033;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -646,6 +646,7 @@ sub Data {
         'Schedule minutes' => 'Perc ütemezése',
         'Schedule hours' => 'Óra ütemezése',
         'Schedule days' => 'Nap ütemezése',
+        'Automatic execution values are in the system timezone.' => '',
         'Currently this generic agent job will not run automatically.' =>
             'Jelenleg ez az általános ügyintéző feladat nem fut le automatikusan.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
@@ -3716,8 +3717,8 @@ sub Data {
         'Package could not be installed' => 'A csomagot nem sikerült telepíteni',
         'Package could not be upgraded' => 'A csomagot nem sikerült frissíteni',
         'Repository List' => 'Tárolólista',
-        'No packages or no new packages found in selected repository.' =>
-            'Nincsenek csomagok vagy nem találhatók új csomagok a kijelölt tárolóban.',
+        'No packages found in selected repository. Please check log for more info!' =>
+            '',
         'Package not verified due a communication issue with verification server!' =>
             'A csomag nincs ellenőrizve az ellenőrző-kiszolgálóval történő kommunikációs hiba miatt!',
         'Can\'t connect to OTRS Feature Add-on list server!' => 'Nem lehet kapcsolódni az OTRS szolgáltatáskiegészítő lista kiszolgálójához!',
@@ -4452,6 +4453,10 @@ sub Data {
             'Nincsenek elérhető titkosító kulcsok a címekhez: „%s”. ',
         'There are no selected encryption keys for the addresses: \'%s\'. ' =>
             'Nincsenek kiválasztott titkosító kulcsok a címekhez: „%s”. ',
+        'Cannot use expired encryption keys for the addresses: \'%s\'. ' =>
+            '',
+        'Cannot use revoked encryption keys for the addresses: \'%s\'. ' =>
+            '',
         'Encrypt' => 'Titkosítás',
         'Keys/certificates will only be shown for recipients with more than one key/certificate. The first found key/certificate will be pre-selected. Please make sure to select the correct one.' =>
             'A kulcsok vagy tanúsítványok csak olyan címzetteknél fognak megjelenni, akiknek egynél több kulcsuk vagy tanúsítványuk van. Az első megtalált kulcs vagy tanúsítvány előre ki lesz választva. Győződjön meg arról, hogy a helyeset válassza ki.',
@@ -4466,6 +4471,8 @@ sub Data {
         'SMIME encrypt' => 'S/MIME titkosítás',
 
         # Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
+        'Cannot use expired signing key: \'%s\'. ' => '',
+        'Cannot use revoked signing key: \'%s\'. ' => '',
         'There are no signing keys available for the addresses \'%s\'.' =>
             'Nincsenek elérhető aláíró kulcsok a címekhez: „%s”.',
         'There are no selected signing keys for the addresses \'%s\'.' =>
@@ -5667,6 +5674,9 @@ sub Data {
         # JS File: Core.Agent.Search
         'Please remove the following words from your search as they cannot be searched for:' =>
             'Távolítsa el a következő szavakat a keresésből, mivel azokra nem lehet rákeresni:',
+
+        # JS File: Core.Agent.SharedSecretGenerator
+        'Generate' => '',
 
         # JS File: Core.Agent.SortedTree
         'This element has children elements and can currently not be removed.' =>
@@ -7200,8 +7210,8 @@ Az Ön segélyszolgálat csapata
         'English stop words for fulltext index. These words will be removed from the search index.' =>
             'Angol kiszűrendő szavak a szabad-szavas indexnél. Ezek a szavak el lesznek távolítva a keresési indexből.',
         'Enroll process for this ticket' => 'Folyamat besorolása ehhez a jegyhez',
-        'Enter your shared secret to enable two factor authentication.' =>
-            'Adja meg a megosztott titkot a kétlépcsős hitelesítés engedélyezéséhez.',
+        'Enter your shared secret to enable two factor authentication. WARNING: Make sure that you add the shared secret to your generator application and the application works well. Otherwise you will be not able to login anymore without the two factor token.' =>
+            '',
         'Escalated Tickets' => 'Eszkalált jegyek',
         'Escalation view' => 'Eszkalációs nézet',
         'EscalationTime' => 'Eszkalációs idő',
@@ -8859,6 +8869,7 @@ Az Ön segélyszolgálat csapata
         'Fr',
         'Fri',
         'Friday',
+        'Generate',
         'Generate Result',
         'Generating...',
         'Grouped',

@@ -12,7 +12,6 @@
 # Juan Clavero <juanm.clavero@ibsalut.es>, 2018
 # Alvaro Molina <AlvaroMolinaCL@gmail.com>, 2018
 # Anatoli F. Peña Castillo <djanatoli@gmail.com>, 2018
-# Luigy, 2018
 # Fr33m4n77 <pabloascencio77@gmail.com>, 2018
 # Deiver Kiel <deikiel@gmail.com>, 2018
 # Alvaro Gajardo, 2018
@@ -27,13 +26,14 @@
 # Alan Cybar Sanier Quiñónez <cybarsan@gmail.com>, 2018
 # Arturo Mondelo <arturo.mondelo@hotmail.es>, 2018
 # David B <link.bigpoint@outlook.com>, 2018
+# Luigy, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-12-06 17:43+0000\n"
+"POT-Creation-Date: 2019-01-08 15:00+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: David B <link.bigpoint@outlook.com>, 2018\n"
+"Last-Translator: Luigy, 2019\n"
 "Language-Team: Spanish (https://www.transifex.com/otrs/teams/23435/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -320,7 +320,7 @@ msgstr "Importar Calendario"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for Calendars"
-msgstr ""
+msgstr "Filtro para Calendarios"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -1100,7 +1100,7 @@ msgstr "Registro de comunicación"
 
 #. Template: AdminCommunicationLog
 msgid "Time Range"
-msgstr ""
+msgstr "Período de tiempo"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
@@ -1110,7 +1110,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Filter for Communications"
-msgstr ""
+msgstr "Filtro para comunicaciones"
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
@@ -1226,11 +1226,11 @@ msgstr "Estado de la cuenta"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Back to overview"
-msgstr ""
+msgstr "Volver a la visión general"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for Accounts"
-msgstr ""
+msgstr "Filtrar por cuentas"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
@@ -1314,7 +1314,7 @@ msgstr "Vista detallada de la %s comunicación iniciada en %s"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Filter for Log Entries"
-msgstr ""
+msgstr "Filtrar por entradas de log"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Filter for log entries"
@@ -1697,7 +1697,7 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Filter for groups"
-msgstr ""
+msgstr "Filtrar por grupos"
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
@@ -1717,7 +1717,7 @@ msgstr "Grupos del Usuario del Cliente por Defecto:"
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer User-Service Relations"
-msgstr ""
+msgstr "Administrar relaciones usuario-servicio del cliente "
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
@@ -2167,27 +2167,27 @@ msgstr "Enviar"
 
 #. Template: AdminGenericAgent
 msgid "Generic Agent Job Management"
-msgstr ""
+msgstr "Gestión de trabajos del agente"
 
 #. Template: AdminGenericAgent
 msgid "Edit Job"
-msgstr ""
+msgstr "Editar trabajo"
 
 #. Template: AdminGenericAgent
 msgid "Add Job"
-msgstr ""
+msgstr "Añadir trabajo"
 
 #. Template: AdminGenericAgent
 msgid "Run Job"
-msgstr ""
+msgstr "Ejecutar trabajo"
 
 #. Template: AdminGenericAgent
 msgid "Filter for Jobs"
-msgstr ""
+msgstr "Filtro por trabajos"
 
 #. Template: AdminGenericAgent
 msgid "Filter for jobs"
-msgstr ""
+msgstr "Filtro por trabajos"
 
 #. Template: AdminGenericAgent
 msgid "Last run"
@@ -2236,6 +2236,10 @@ msgstr "Horas para planificación"
 #. Template: AdminGenericAgent
 msgid "Schedule days"
 msgstr "Días para la planificación"
+
+#. Template: AdminGenericAgent
+msgid "Automatic execution values are in the system timezone."
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
@@ -3403,11 +3407,11 @@ msgstr "Buscar y reemplazar todo"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT Mapping"
-msgstr ""
+msgstr "Mapeo XSLT"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT stylesheet"
-msgstr ""
+msgstr "hoja de estilos XSLT"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "The entered data is not a valid XSLT style sheet."
@@ -3415,13 +3419,16 @@ msgstr "Los datos introducidos no son un formato de hoja XSLT válido"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Here you can add or modify your XSLT mapping code."
-msgstr ""
+msgstr "Aquí puede añadir o midificar su código de mapeo"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "The editing field allows you to use different functions like automatic "
 "formatting, window resize as well as tag- and bracket-completion."
 msgstr ""
+"El campo de edición le permite usar diferentes funciones como el formato "
+"automático, reescalado de ventanas así como completado de marcas y "
+"corchetes."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data includes"
@@ -3432,20 +3439,26 @@ msgid ""
 "Select one or more sets of data that were created at earlier "
 "request/response stages to be included in mappable data."
 msgstr ""
+"Seleccione uno o más conjuntos de datos que se crearon en las etapas de "
+"solicitud / respuesta anteriores para incluirlos en los datos asignables."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "These sets will appear in the data structure at '/DataInclude/<DataSetName>'"
 " (see debugger output of actual requests for details)."
 msgstr ""
+"Estos conjuntos aparecerán en la estructura de datos en '/ "
+"DataInclude/<DataSetName>' (vea la salida del depurador de las solicitudes "
+"actuales para obtener más detalles)."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data key regex filters (before mapping)"
-msgstr ""
+msgstr "Filtros de expresiones regulares por clave de datos (antes del mapeo)"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data key regex filters (after mapping)"
 msgstr ""
+"Filtros de expresiones regulares por clave de datos (después del mapeo)"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Regular expressions"
@@ -12226,9 +12239,9 @@ msgid "Repository List"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
-msgid "No packages or no new packages found in selected repository."
+msgid ""
+"No packages found in selected repository. Please check log for more info!"
 msgstr ""
-"No hay paquetes ó ningún paquete encontrado en el repositorio seleccionado."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
@@ -14386,6 +14399,14 @@ msgid "There are no selected encryption keys for the addresses: '%s'. "
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
+msgid "Cannot use expired encryption keys for the addresses: '%s'. "
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
+msgid "Cannot use revoked encryption keys for the addresses: '%s'. "
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Encrypt"
 msgstr ""
 
@@ -14422,6 +14443,14 @@ msgstr "firma y cifrado SMIME"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "SMIME encrypt"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
+msgid "Cannot use expired signing key: '%s'. "
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
+msgid "Cannot use revoked signing key: '%s'. "
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
@@ -17724,6 +17753,10 @@ msgid ""
 msgstr ""
 "Por favor elimine las siguientes palabras de su búsqueda pues ellas no "
 "pueden ser buscadas por:"
+
+#. JS File: Core.Agent.SharedSecretGenerator
+msgid "Generate"
+msgstr ""
 
 #. JS File: Core.Agent.SortedTree
 msgid "This element has children elements and can currently not be removed."
@@ -22949,10 +22982,12 @@ msgid "Enroll process for this ticket"
 msgstr ""
 
 #. SysConfig
-msgid "Enter your shared secret to enable two factor authentication."
+msgid ""
+"Enter your shared secret to enable two factor authentication. WARNING: Make "
+"sure that you add the shared secret to your generator application and the "
+"application works well. Otherwise you will be not able to login anymore "
+"without the two factor token."
 msgstr ""
-"Ingrese su secreto compartido para habilitar la autenticación de dos "
-"factores."
 
 #. SysConfig
 msgid "Escalated Tickets"

@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.674107142857143;
+    $Self->{Completeness}        = 0.676843910806175;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -112,7 +112,7 @@ sub Data {
         'Overwrite existing entities' => 'Sobrescribir entidades existentes',
         'Upload calendar configuration' => 'Cargar configuración de calendario',
         'Import Calendar' => 'Importar Calendario',
-        'Filter for Calendars' => '',
+        'Filter for Calendars' => 'Filtro para Calendarios',
         'Filter for calendars' => 'Filtro para Calendarios',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             'Dependiendo del campo de grupo, el sistema permite el acceso a usuarios al calendario de acuerdo a sus niveles de permisos.',
@@ -322,10 +322,10 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => 'Registro de comunicación',
-        'Time Range' => '',
+        'Time Range' => 'Período de tiempo',
         'Show only communication logs created in specific time range.' =>
             'Muestre solo los registros de comunicación creados en un rango específico de tiempo',
-        'Filter for Communications' => '',
+        'Filter for Communications' => 'Filtro para comunicaciones',
         'Filter for communications' => 'Filtro para comunicaciones',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             'En esta pantalla usted puede ver un resumen acerca de las comunicaciones entrantes y salientes',
@@ -356,8 +356,8 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => 'Estado de la cuenta',
-        'Back to overview' => '',
-        'Filter for Accounts' => '',
+        'Back to overview' => 'Volver a la visión general',
+        'Filter for Accounts' => 'Filtrar por cuentas',
         'Filter for accounts' => 'Filtrar para cuentas',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             'Puede cambiar el orden de esas columnas haciendo clic en el encabezado de columna.',
@@ -384,7 +384,7 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => 'Vista detallada de la %s comunicación iniciada en %s',
-        'Filter for Log Entries' => '',
+        'Filter for Log Entries' => 'Filtrar por entradas de log',
         'Filter for log entries' => 'Filtrar entradas de registro',
         'Show only entries with specific priority and higher:' => 'Mostrar solo entradas de prioridad específica ó más alta:',
         'Communication Log Overview (%s)' => 'La Visión General del Registro de Comunicación (%s)',
@@ -490,14 +490,14 @@ sub Data {
             'Éstos grupos son automaticamente asignados a todos los usuarios del cliente.',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Puede gestionar estos grupos mediante el ajuste de configuración «CustomerGroupAlwaysGroups».',
-        'Filter for groups' => '',
+        'Filter for groups' => 'Filtrar por grupos',
         'Select the customer user - group permissions.' => 'Seleccionar los permisos Usuario del Cliente - Grupo.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             'Sí no está seleccionado nada, entónces no habrá permisos en éste grupo (tickets no serán disponibles para el usuario del cliente).',
         'Customer User Default Groups:' => 'Grupos del Usuario del Cliente por Defecto:',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Service Relations' => '',
+        'Manage Customer User-Service Relations' => 'Administrar relaciones usuario-servicio del cliente ',
         'Edit default services' => 'Editar los servicios predeterminados',
         'Filter for Services' => 'Filtro para los servicios',
         'Filter for services' => 'Filtrar por servicios',
@@ -628,12 +628,12 @@ sub Data {
         'Send' => 'Enviar',
 
         # Template: AdminGenericAgent
-        'Generic Agent Job Management' => '',
-        'Edit Job' => '',
-        'Add Job' => '',
-        'Run Job' => '',
-        'Filter for Jobs' => '',
-        'Filter for jobs' => '',
+        'Generic Agent Job Management' => 'Gestión de trabajos del agente',
+        'Edit Job' => 'Editar trabajo',
+        'Add Job' => 'Añadir trabajo',
+        'Run Job' => 'Ejecutar trabajo',
+        'Filter for Jobs' => 'Filtro por trabajos',
+        'Filter for jobs' => 'Filtro por trabajos',
         'Last run' => 'Última ejecución',
         'Run Now!' => '¡Ejecutar ahora!',
         'Delete this task' => 'Borrar esta tarea',
@@ -646,6 +646,7 @@ sub Data {
         'Schedule minutes' => 'Minutos para la planificación',
         'Schedule hours' => 'Horas para planificación',
         'Schedule days' => 'Días para la planificación',
+        'Automatic execution values are in the system timezone.' => '',
         'Currently this generic agent job will not run automatically.' =>
             'Actualmente este trabajo de agente genérico no se ejecutará automáticamente.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
@@ -948,19 +949,19 @@ sub Data {
         'Find previous' => 'Buscar anterior',
         'Find and replace' => 'Buscar y reemplazar',
         'Find and replace all' => 'Buscar y reemplazar todo',
-        'XSLT Mapping' => '',
-        'XSLT stylesheet' => '',
+        'XSLT Mapping' => 'Mapeo XSLT',
+        'XSLT stylesheet' => 'hoja de estilos XSLT',
         'The entered data is not a valid XSLT style sheet.' => 'Los datos introducidos no son un formato de hoja XSLT válido',
-        'Here you can add or modify your XSLT mapping code.' => '',
+        'Here you can add or modify your XSLT mapping code.' => 'Aquí puede añadir o midificar su código de mapeo',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
-            '',
+            'El campo de edición le permite usar diferentes funciones como el formato automático, reescalado de ventanas así como completado de marcas y corchetes.',
         'Data includes' => 'Datos incluidos',
         'Select one or more sets of data that were created at earlier request/response stages to be included in mappable data.' =>
-            '',
+            'Seleccione uno o más conjuntos de datos que se crearon en las etapas de solicitud / respuesta anteriores para incluirlos en los datos asignables.',
         'These sets will appear in the data structure at \'/DataInclude/<DataSetName>\' (see debugger output of actual requests for details).' =>
-            '',
-        'Data key regex filters (before mapping)' => '',
-        'Data key regex filters (after mapping)' => '',
+            'Estos conjuntos aparecerán en la estructura de datos en \'/ DataInclude/<DataSetName>\' (vea la salida del depurador de las solicitudes actuales para obtener más detalles).',
+        'Data key regex filters (before mapping)' => 'Filtros de expresiones regulares por clave de datos (antes del mapeo)',
+        'Data key regex filters (after mapping)' => 'Filtros de expresiones regulares por clave de datos (después del mapeo)',
         'Regular expressions' => 'Expresiones Regulares',
         'Replace' => 'Reemplazar',
         'Remove regex' => 'Remover regex',
@@ -3716,8 +3717,8 @@ sub Data {
         'Package could not be installed' => '',
         'Package could not be upgraded' => '',
         'Repository List' => '',
-        'No packages or no new packages found in selected repository.' =>
-            'No hay paquetes ó ningún paquete encontrado en el repositorio seleccionado.',
+        'No packages found in selected repository. Please check log for more info!' =>
+            '',
         'Package not verified due a communication issue with verification server!' =>
             'Paquete no verificado debido a problema en la comunicación con el servidor de verificación!',
         'Can\'t connect to OTRS Feature Add-on list server!' => 'No se pudo conectarse con el servidor de la lista de Funciones de los Complementos  de OTRS!',
@@ -4452,6 +4453,10 @@ sub Data {
             '',
         'There are no selected encryption keys for the addresses: \'%s\'. ' =>
             '',
+        'Cannot use expired encryption keys for the addresses: \'%s\'. ' =>
+            '',
+        'Cannot use revoked encryption keys for the addresses: \'%s\'. ' =>
+            '',
         'Encrypt' => '',
         'Keys/certificates will only be shown for recipients with more than one key/certificate. The first found key/certificate will be pre-selected. Please make sure to select the correct one.' =>
             '',
@@ -4466,6 +4471,8 @@ sub Data {
         'SMIME encrypt' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
+        'Cannot use expired signing key: \'%s\'. ' => '',
+        'Cannot use revoked signing key: \'%s\'. ' => '',
         'There are no signing keys available for the addresses \'%s\'.' =>
             '',
         'There are no selected signing keys for the addresses \'%s\'.' =>
@@ -5668,6 +5675,9 @@ sub Data {
         # JS File: Core.Agent.Search
         'Please remove the following words from your search as they cannot be searched for:' =>
             'Por favor elimine las siguientes palabras de su búsqueda pues ellas no pueden ser buscadas por:',
+
+        # JS File: Core.Agent.SharedSecretGenerator
+        'Generate' => '',
 
         # JS File: Core.Agent.SortedTree
         'This element has children elements and can currently not be removed.' =>
@@ -7207,8 +7217,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'English stop words for fulltext index. These words will be removed from the search index.' =>
             'Palabras vacías en ingles para el índice de texto completo. Estas palabras serán eliminadas del índice de búsqueda.',
         'Enroll process for this ticket' => '',
-        'Enter your shared secret to enable two factor authentication.' =>
-            'Ingrese su secreto compartido para habilitar la autenticación de dos factores.',
+        'Enter your shared secret to enable two factor authentication. WARNING: Make sure that you add the shared secret to your generator application and the application works well. Otherwise you will be not able to login anymore without the two factor token.' =>
+            '',
         'Escalated Tickets' => 'Tickets Escalados',
         'Escalation view' => 'Vista de escaladas',
         'EscalationTime' => 'Tiempo para escalada',
@@ -8866,6 +8876,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Fr',
         'Fri',
         'Friday',
+        'Generate',
         'Generate Result',
         'Generating...',
         'Grouped',

@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.701751373626374;
+    $Self->{Completeness}        = 0.700686106346484;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -646,6 +646,7 @@ sub Data {
         'Schedule minutes' => 'زمانبندی دقایق',
         'Schedule hours' => 'زمانبندی ساعات',
         'Schedule days' => 'زمانبندی روزها',
+        'Automatic execution values are in the system timezone.' => '',
         'Currently this generic agent job will not run automatically.' =>
             'این کار اتوماتیک در حال حاضر به طور خودکار انجام نخواهد شد',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
@@ -3716,8 +3717,8 @@ sub Data {
         'Package could not be installed' => '',
         'Package could not be upgraded' => '',
         'Repository List' => '',
-        'No packages or no new packages found in selected repository.' =>
-            'هیچ بسته و یا بدون بسته های جدید در مخزن انتخاب شده است.',
+        'No packages found in selected repository. Please check log for more info!' =>
+            '',
         'Package not verified due a communication issue with verification server!' =>
             'بسته بندی با توجه به یک موضوع ارتباط با سرور تأیید، تأیید نمی کند!',
         'Can\'t connect to OTRS Feature Add-on list server!' => 'نمی توانید به OTRS ویژگی اضافه کردن در لیست سرور اتصال!',
@@ -4452,6 +4453,10 @@ sub Data {
             '',
         'There are no selected encryption keys for the addresses: \'%s\'. ' =>
             '',
+        'Cannot use expired encryption keys for the addresses: \'%s\'. ' =>
+            '',
+        'Cannot use revoked encryption keys for the addresses: \'%s\'. ' =>
+            '',
         'Encrypt' => '',
         'Keys/certificates will only be shown for recipients with more than one key/certificate. The first found key/certificate will be pre-selected. Please make sure to select the correct one.' =>
             '',
@@ -4466,6 +4471,8 @@ sub Data {
         'SMIME encrypt' => '',
 
         # Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
+        'Cannot use expired signing key: \'%s\'. ' => '',
+        'Cannot use revoked signing key: \'%s\'. ' => '',
         'There are no signing keys available for the addresses \'%s\'.' =>
             '',
         'There are no selected signing keys for the addresses \'%s\'.' =>
@@ -5667,6 +5674,9 @@ sub Data {
         # JS File: Core.Agent.Search
         'Please remove the following words from your search as they cannot be searched for:' =>
             'لطفا کلمات زیر از جستجوی خود را حذف به آنها می تواند قابل جستجو نیستند:',
+
+        # JS File: Core.Agent.SharedSecretGenerator
+        'Generate' => '',
 
         # JS File: Core.Agent.SortedTree
         'This element has children elements and can currently not be removed.' =>
@@ -7200,8 +7210,8 @@ Thanks for your help!
         'English stop words for fulltext index. These words will be removed from the search index.' =>
             'کلمات توقف انگلیسی برای شاخص متن. این کلمات از صفحه اول جستجو حذف خواهند شد.',
         'Enroll process for this ticket' => 'ثبت نام فرآیند  این درخواست برای',
-        'Enter your shared secret to enable two factor authentication.' =>
-            'راز مشترک خود را وارد کنید برای فعال کردن دو فاکتور تأیید هویت.',
+        'Enter your shared secret to enable two factor authentication. WARNING: Make sure that you add the shared secret to your generator application and the application works well. Otherwise you will be not able to login anymore without the two factor token.' =>
+            '',
         'Escalated Tickets' => 'درخواست های خیلی مهم',
         'Escalation view' => 'نمای درخواست‌های خیلی مهم',
         'EscalationTime' => 'EscalationTime',
@@ -8859,6 +8869,7 @@ Thanks for your help!
         'Fr',
         'Fri',
         'Friday',
+        'Generate',
         'Generate Result',
         'Generating...',
         'Grouped',

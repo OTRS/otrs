@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.993131868131868;
+    $Self->{Completeness}        = 0.992109777015437;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -641,6 +641,7 @@ sub Data {
         'Schedule minutes' => 'Ausführen zu Minute(n)',
         'Schedule hours' => 'Ausführen zu Stunde(n)',
         'Schedule days' => 'Ausführen an Tag(en)',
+        'Automatic execution values are in the system timezone.' => '',
         'Currently this generic agent job will not run automatically.' =>
             'Derzeit würde dieser GenericAgent-Job nicht automatisch ausgeführt werden.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
@@ -1488,8 +1489,8 @@ sub Data {
         'PostMaster Filter Management' => 'PostMaster-Filter-Verwaltung',
         'Add PostMaster Filter' => 'PostMaster-Filter hinzufügen',
         'Edit PostMaster Filter' => 'PostMaster-Filter bearbeiten',
-        'Filter for PostMaster Filters' => '',
-        'Filter for PostMaster filters' => '',
+        'Filter for PostMaster Filters' => 'Nach PostMaster Filtern suchen',
+        'Filter for PostMaster filters' => 'Nach PostMaster Filtern suchen',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'Einkommende Mails anhand von E-Mail-Kopfzeilen verteilen oder filtern. Für die Suche können auch reguläre Ausdrücke benutzt werden.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -3711,8 +3712,8 @@ sub Data {
         'Package could not be installed' => 'Paket konnte nicht installiert werden',
         'Package could not be upgraded' => 'Paket konnte nicht aktualisiert werden',
         'Repository List' => 'Repository-Liste',
-        'No packages or no new packages found in selected repository.' =>
-            'Keine (neuen) Pakete im ausgewählten Verzeichnis gefunden.',
+        'No packages found in selected repository. Please check log for more info!' =>
+            '',
         'Package not verified due a communication issue with verification server!' =>
             'Paket nicht verifiziert aufgrund eines Kommunikationsproblems mit dem Verifikationsserver!',
         'Can\'t connect to OTRS Feature Add-on list server!' => 'Kann nicht zum OTRS Feature-Addon-Listenserver verbinden!',
@@ -4447,6 +4448,10 @@ sub Data {
             'Es stehen keine Schlüssel zur Verfügung für die Adressen: \'%s\'.',
         'There are no selected encryption keys for the addresses: \'%s\'. ' =>
             'Es sind keine Schlüssel ausgewählt für die Adressen: \'%s\'.',
+        'Cannot use expired encryption keys for the addresses: \'%s\'. ' =>
+            '',
+        'Cannot use revoked encryption keys for the addresses: \'%s\'. ' =>
+            '',
         'Encrypt' => 'Verschlüsseln',
         'Keys/certificates will only be shown for recipients with more than one key/certificate. The first found key/certificate will be pre-selected. Please make sure to select the correct one.' =>
             'Schlüssel/Zertifikate werden nur für Empfänger mit mehr als einem Schlüssel/Zertifikat angezeigt. Die erste gefundene Schlüssel/Zertifikat-Kombination wird vorausgewählt. Bitte stellen Sie sicher, die korrekte Kombination auszuwählen.',
@@ -4461,6 +4466,8 @@ sub Data {
         'SMIME encrypt' => 'SMIME-Verschlüsselung',
 
         # Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
+        'Cannot use expired signing key: \'%s\'. ' => '',
+        'Cannot use revoked signing key: \'%s\'. ' => '',
         'There are no signing keys available for the addresses \'%s\'.' =>
             'Es stehen keine Signierungs-Schlüssel zur Verfügung für die Adressen: \'%s\'.',
         'There are no selected signing keys for the addresses \'%s\'.' =>
@@ -5662,6 +5669,9 @@ sub Data {
         # JS File: Core.Agent.Search
         'Please remove the following words from your search as they cannot be searched for:' =>
             'Bitte entfernen Sie die folgenden Wörter aus Ihrer Suche, da nach ihnen nicht gesucht werden kann:',
+
+        # JS File: Core.Agent.SharedSecretGenerator
+        'Generate' => '',
 
         # JS File: Core.Agent.SortedTree
         'This element has children elements and can currently not be removed.' =>
@@ -7194,8 +7204,8 @@ Ihr Helpdesk-Team
         'English stop words for fulltext index. These words will be removed from the search index.' =>
             'Englische Stopworte für den Volltext-Index. Diese Worte werden aus dem Index entfernt.',
         'Enroll process for this ticket' => 'Startet einen Prozess für dieses Ticket',
-        'Enter your shared secret to enable two factor authentication.' =>
-            'Geben Sie Ihr Shared Secret für die Zweifaktor-Authentifizierung ein.',
+        'Enter your shared secret to enable two factor authentication. WARNING: Make sure that you add the shared secret to your generator application and the application works well. Otherwise you will be not able to login anymore without the two factor token.' =>
+            '',
         'Escalated Tickets' => 'Eskalierte Tickets',
         'Escalation view' => 'Ansicht nach Eskalationen',
         'EscalationTime' => 'Eskalationszeit',
@@ -8853,6 +8863,7 @@ Ihr Helpdesk-Team
         'Fr',
         'Fri',
         'Friday',
+        'Generate',
         'Generate Result',
         'Generating...',
         'Grouped',

@@ -42,13 +42,14 @@
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Marc A. Bonsels, 2018
 # nilsleideck <nils.leideck@leidex.net>, 2018
+# Dont want to enter <matthias.terlinde@t-systems.com>, 2018
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-12-06 17:43+0000\n"
+"POT-Creation-Date: 2019-01-08 15:00+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: nilsleideck <nils.leideck@leidex.net>, 2018\n"
+"Last-Translator: Dont want to enter <matthias.terlinde@t-systems.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/otrs/teams/23435/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2245,6 +2246,10 @@ msgstr "Ausführen zu Stunde(n)"
 #. Template: AdminGenericAgent
 msgid "Schedule days"
 msgstr "Ausführen an Tag(en)"
+
+#. Template: AdminGenericAgent
+msgid "Automatic execution values are in the system timezone."
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
@@ -5375,11 +5380,11 @@ msgstr "PostMaster-Filter bearbeiten"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter for PostMaster Filters"
-msgstr ""
+msgstr "Nach PostMaster Filtern suchen"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter for PostMaster filters"
-msgstr ""
+msgstr "Nach PostMaster Filtern suchen"
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -12440,8 +12445,9 @@ msgid "Repository List"
 msgstr "Repository-Liste"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
-msgid "No packages or no new packages found in selected repository."
-msgstr "Keine (neuen) Pakete im ausgewählten Verzeichnis gefunden."
+msgid ""
+"No packages found in selected repository. Please check log for more info!"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
@@ -14589,6 +14595,14 @@ msgid "There are no selected encryption keys for the addresses: '%s'. "
 msgstr "Es sind keine Schlüssel ausgewählt für die Adressen: '%s'."
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
+msgid "Cannot use expired encryption keys for the addresses: '%s'. "
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
+msgid "Cannot use revoked encryption keys for the addresses: '%s'. "
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Encrypt"
 msgstr "Verschlüsseln"
 
@@ -14630,6 +14644,14 @@ msgstr "SMIME-Signierung und -Verschlüsselung"
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "SMIME encrypt"
 msgstr "SMIME-Verschlüsselung"
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
+msgid "Cannot use expired signing key: '%s'. "
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
+msgid "Cannot use revoked signing key: '%s'. "
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "There are no signing keys available for the addresses '%s'."
@@ -18055,6 +18077,10 @@ msgid ""
 msgstr ""
 "Bitte entfernen Sie die folgenden Wörter aus Ihrer Suche, da nach ihnen "
 "nicht gesucht werden kann:"
+
+#. JS File: Core.Agent.SharedSecretGenerator
+msgid "Generate"
+msgstr ""
 
 #. JS File: Core.Agent.SortedTree
 msgid "This element has children elements and can currently not be removed."
@@ -24243,8 +24269,12 @@ msgid "Enroll process for this ticket"
 msgstr "Startet einen Prozess für dieses Ticket"
 
 #. SysConfig
-msgid "Enter your shared secret to enable two factor authentication."
-msgstr "Geben Sie Ihr Shared Secret für die Zweifaktor-Authentifizierung ein."
+msgid ""
+"Enter your shared secret to enable two factor authentication. WARNING: Make "
+"sure that you add the shared secret to your generator application and the "
+"application works well. Otherwise you will be not able to login anymore "
+"without the two factor token."
+msgstr ""
 
 #. SysConfig
 msgid "Escalated Tickets"

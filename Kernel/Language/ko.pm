@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.987293956043956;
+    $Self->{Completeness}        = 0.985934819897084;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -641,6 +641,7 @@ sub Data {
         'Schedule minutes' => '분 일정',
         'Schedule hours' => '시간 계획',
         'Schedule days' => '하루 일정',
+        'Automatic execution values are in the system timezone.' => '',
         'Currently this generic agent job will not run automatically.' =>
             '현재 이 일반 에이전트 작업은 자동으로 실행되지 않습니다.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
@@ -3711,8 +3712,8 @@ sub Data {
         'Package could not be installed' => '패키지를 설치할 수 없습니다.',
         'Package could not be upgraded' => '패키지를 업그레이드 할 수 없습니다.',
         'Repository List' => '저장소 목록',
-        'No packages or no new packages found in selected repository.' =>
-            '선택한 저장소에 패키지가 없거나 새로운 패키지가 없습니다.',
+        'No packages found in selected repository. Please check log for more info!' =>
+            '',
         'Package not verified due a communication issue with verification server!' =>
             '확인 서버와의 통신 문제로 인해 패키지가 확인되지 않았습니다!',
         'Can\'t connect to OTRS Feature Add-on list server!' => 'OTRS 기능 추가 기능 목록 서버에 연결할 수 없습니다!',
@@ -4447,6 +4448,10 @@ sub Data {
             '주소에 사용할 수있는 암호화 키가 없습니다 \'%s\'.',
         'There are no selected encryption keys for the addresses: \'%s\'. ' =>
             '주소에 대해 선택된 암호화 키가 없습니다 : \'%s\'.',
+        'Cannot use expired encryption keys for the addresses: \'%s\'. ' =>
+            '',
+        'Cannot use revoked encryption keys for the addresses: \'%s\'. ' =>
+            '',
         'Encrypt' => '암호화',
         'Keys/certificates will only be shown for recipients with more than one key/certificate. The first found key/certificate will be pre-selected. Please make sure to select the correct one.' =>
             '키 / 인증서는 둘 이상의 키 / 인증서가있는 수신자에 대해서만 표시됩니다. 처음 발견 된 키 / 인증서가 사전 선택됩니다. 올바른 것을 선택하십시오.',
@@ -4461,6 +4466,8 @@ sub Data {
         'SMIME encrypt' => 'SMIME 암호화',
 
         # Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
+        'Cannot use expired signing key: \'%s\'. ' => '',
+        'Cannot use revoked signing key: \'%s\'. ' => '',
         'There are no signing keys available for the addresses \'%s\'.' =>
             '\'%s\'주소에 사용할 수있는 서명 키가 없습니다.',
         'There are no selected signing keys for the addresses \'%s\'.' =>
@@ -5662,6 +5669,9 @@ sub Data {
         # JS File: Core.Agent.Search
         'Please remove the following words from your search as they cannot be searched for:' =>
             '검색할 수 없으므로 다음 단어를 검색에서 제거하십시오.',
+
+        # JS File: Core.Agent.SharedSecretGenerator
+        'Generate' => '',
 
         # JS File: Core.Agent.SortedTree
         'This element has children elements and can currently not be removed.' =>
@@ -7195,8 +7205,8 @@ Thanks for your help!
         'English stop words for fulltext index. These words will be removed from the search index.' =>
             '전체 텍스트 색인에 대한 영어 중지 단어. 이 단어는 검색 색인에서 제거됩니다.',
         'Enroll process for this ticket' => '이 티켓에 대한 프로세스 등록',
-        'Enter your shared secret to enable two factor authentication.' =>
-            '공유 인증을 입력하면 두가지 요소 인증을 사용할 수 있습니다.',
+        'Enter your shared secret to enable two factor authentication. WARNING: Make sure that you add the shared secret to your generator application and the application works well. Otherwise you will be not able to login anymore without the two factor token.' =>
+            '',
         'Escalated Tickets' => 'Escalated 티켓',
         'Escalation view' => 'Escalation 뷰',
         'EscalationTime' => '에스컬레이션 시간',
@@ -8854,6 +8864,7 @@ Thanks for your help!
         'Fr',
         'Fri',
         'Friday',
+        'Generate',
         'Generate Result',
         'Generating...',
         'Grouped',

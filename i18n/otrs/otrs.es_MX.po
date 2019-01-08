@@ -14,15 +14,15 @@
 # Emir Nunes, 2018
 # Luis Armando Medina <lamedina@gmail.com>, 2018
 # Luis Medina <luis.medina@sacc.com.mx>, 2018
-# Carlos Vázquez <carlos.vazquez@oslc.com.mx>, 2018
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
+# Carlos Vázquez <carlos.vazquez@oslc.com.mx>, 2018
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-12-06 17:43+0000\n"
+"POT-Creation-Date: 2019-01-08 15:00+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018\n"
+"Last-Translator: Carlos Vázquez <carlos.vazquez@oslc.com.mx>, 2018\n"
 "Language-Team: Spanish (Mexico) (https://www.transifex.com/otrs/teams/23435/es_MX/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -921,7 +921,7 @@ msgstr "Para obtener las primeras 5 líneas del correo."
 
 #. Template: AdminAutoResponse
 msgid "To get the name of the ticket's customer user (if given)."
-msgstr ""
+msgstr "Para obtener el nombre del usuario del cliente (si se asignó)."
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -1495,7 +1495,7 @@ msgstr "Nombre de Usuario"
 
 #. Template: AdminCustomerUser
 msgid "Email"
-msgstr "Correo"
+msgstr "Correo electrónico"
 
 #. Template: AdminCustomerUser
 msgid "Last Login"
@@ -1503,7 +1503,7 @@ msgstr "Último inicio de sesión"
 
 #. Template: AdminCustomerUser
 msgid "Login as"
-msgstr "Conectarse como"
+msgstr "Iniciar sesión como"
 
 #. Template: AdminCustomerUser
 msgid "Switch to customer"
@@ -1595,7 +1595,7 @@ msgstr "Seleccionar las relaciones cliente usuario:cliente."
 
 #. Template: AdminCustomerUserCustomer
 msgid "Customer Users"
-msgstr "Clientes"
+msgstr "Usuarios del Cliente"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer Relations for Customer User"
@@ -1619,7 +1619,7 @@ msgstr "Habilitar estado activo para %s"
 
 #. Template: AdminCustomerUserGroup
 msgid "Manage Customer User-Group Relations"
-msgstr "Gestionar Relaciones Cliente Usuario-Cliente"
+msgstr "Gestionar Relaciones Usuario de Cliente-Relaciones de Grupo"
 
 #. Template: AdminCustomerUserGroup
 msgid ""
@@ -1629,7 +1629,7 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Edit Customer User Default Groups"
-msgstr ""
+msgstr "Editar Grupos Predeterminados del Usuario del Cliente"
 
 #. Template: AdminCustomerUserGroup
 msgid "These groups are automatically assigned to all customer users."
@@ -2167,6 +2167,10 @@ msgstr "Fijar horas"
 #. Template: AdminGenericAgent
 msgid "Schedule days"
 msgstr "Fijar días"
+
+#. Template: AdminGenericAgent
+msgid "Automatic execution values are in the system timezone."
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
@@ -6198,7 +6202,7 @@ msgstr "Filtro para Roles"
 
 #. Template: AdminRole
 msgid "Filter for roles"
-msgstr ""
+msgstr "Filtro por roles"
 
 #. Template: AdminRole
 msgid "Create a role and put groups in it. Then add the role to the users."
@@ -6625,11 +6629,11 @@ msgstr "Terminar esta sesión"
 
 #. Template: AdminSession
 msgid "Filter for Sessions"
-msgstr ""
+msgstr "Filtrar por Sesiones"
 
 #. Template: AdminSession
 msgid "Filter for sessions"
-msgstr ""
+msgstr "Filtrar por sesiones"
 
 #. Template: AdminSession
 msgid "Session"
@@ -7263,7 +7267,7 @@ msgstr "Modificar Agente"
 
 #. Template: AdminUser
 msgid "Edit personal preferences for this agent"
-msgstr ""
+msgstr "Modifica las preferencias personales para este agente"
 
 #. Template: AdminUser
 msgid "Agents will be needed to handle tickets."
@@ -7609,7 +7613,7 @@ msgstr "Centro de Información de Clientes"
 
 #. Template: AgentCustomerInformationCenterSearch
 msgid "Customer User"
-msgstr "Cliente"
+msgstr "Usuario del Cliente"
 
 #. Template: AgentCustomerTableView
 msgid "Note: Customer is invalid!"
@@ -7629,7 +7633,7 @@ msgstr ""
 
 #. Template: AgentCustomerUserAddressBook
 msgid "Customer User Address Book"
-msgstr ""
+msgstr "Libreta de Direcciones del Usuario del Cliente"
 
 #. Template: AgentCustomerUserAddressBook
 msgid "Search for recipients and add the results as '%s'."
@@ -7683,11 +7687,11 @@ msgstr ""
 
 #. Template: AgentCustomerUserAddressBookOverview
 msgid "Select this customer user"
-msgstr ""
+msgstr "Selecciona el usuario del cliente"
 
 #. Template: AgentCustomerUserAddressBookOverview
 msgid "Add selected customer user to"
-msgstr ""
+msgstr "Agregar el usuario del cliente seleccionado a"
 
 #. Template: AgentCustomerUserAddressBookOverviewNavBar
 msgid "Change search options"
@@ -7695,7 +7699,7 @@ msgstr "Cambiar opciones de búsqueda"
 
 #. Template: AgentCustomerUserInformationCenter
 msgid "Customer User Information Center"
-msgstr ""
+msgstr "Centro de Información de Usuario del Cliente"
 
 #. Template: AgentDaemonInfo
 msgid ""
@@ -7831,11 +7835,11 @@ msgstr "Tickets Archivados"
 
 #. Template: AgentDashboardCustomerUserInformation
 msgid "Note: Customer User is invalid!"
-msgstr ""
+msgstr "Nota: ¡Usuario del Cliente inválido!"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Customer user information"
-msgstr ""
+msgstr "Información del usuario del cliente"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Phone ticket"
@@ -7920,11 +7924,11 @@ msgstr ""
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Assigned to customer user"
-msgstr ""
+msgstr "Asignado al usuario del cliente"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Accessible for customer user"
-msgstr ""
+msgstr "Accesible para el usuario del cliente"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My locked tickets"
@@ -8012,7 +8016,7 @@ msgstr "Modificar mis preferencias"
 
 #. Template: AgentPreferences
 msgid "Personal Preferences"
-msgstr ""
+msgstr "Preferencias Personales"
 
 #. Template: AgentPreferences
 msgid "Preferences"
@@ -8031,6 +8035,8 @@ msgid ""
 "Set up your personal preferences. Save each setting by clicking the "
 "checkmark on the right."
 msgstr ""
+"Configure sus preferencias personales. Guarde cada configuración haciendo "
+"click en los cuadros de selección a la derecha."
 
 #. Template: AgentPreferences
 msgid ""
@@ -8463,10 +8469,12 @@ msgstr "Incluya al menos un destinatario"
 #. Template: AgentTicketCompose
 msgid "Select one or more recipients from the customer user address book."
 msgstr ""
+"Seleccione uno o mas destinatarios de la libreta de direcciones del usuario "
+"del cliente."
 
 #. Template: AgentTicketCompose
 msgid "Customer user address book"
-msgstr ""
+msgstr "Libreta de direcciones del usuario del cliente"
 
 #. Template: AgentTicketCompose
 msgid "Remove Ticket Customer"
@@ -8887,7 +8895,7 @@ msgstr "Guardar como predeterminado"
 
 #. Template: AgentTicketZoom
 msgid "Drafts"
-msgstr ""
+msgstr "Borradores"
 
 #. Template: AgentTicketZoom
 msgid "by"
@@ -8911,7 +8919,7 @@ msgstr "Vista de Linea Temporal del Ticket"
 
 #. Template: AgentTicketZoom
 msgid "Article Overview - %s Article(s)"
-msgstr ""
+msgstr "Resumen del Artículo - %s Artículo(s)"
 
 #. Template: AgentTicketZoom
 msgid "Page %s"
@@ -9018,6 +9026,9 @@ msgid ""
 "To open links in the following article, you might need to press Ctrl or Cmd "
 "or Shift key while clicking the link (depending on your browser and OS)."
 msgstr ""
+"Para abrir los enlaces en el siguiente artículo, es posible que usted tenga "
+"que pulsar Ctrl o Cmd o la tecla Mayús mientras hace click en el enlace "
+"(dependiendo de su navegador y sistema operativo)."
 
 #. Template: MIMEBase
 msgid "Close this message"
@@ -9308,7 +9319,7 @@ msgstr "Modificar preferencias presonales"
 
 #. Template: CustomerNavigationBar
 msgid "Logout %s"
-msgstr ""
+msgstr "Cerrar Sesión %s"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -9381,7 +9392,7 @@ msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Save Search as Template?"
-msgstr ""
+msgstr "¿Guardar Búsqueda como Plantilla?"
 
 #. Template: CustomerTicketSearch
 msgid "Save as Template?"
@@ -9485,7 +9496,7 @@ msgstr "Actualizar borrador"
 
 #. Template: DraftButtons
 msgid "Save as new draft"
-msgstr "Guardar como nuevo borrador"
+msgstr "Guardar como borrador"
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\"."
@@ -9519,7 +9530,7 @@ msgstr ""
 
 #. Template: Header
 msgid "Personal preferences"
-msgstr ""
+msgstr "Preferencias personales"
 
 #. Template: Header
 msgid "Logout"
@@ -10992,7 +11003,7 @@ msgstr "segundo"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company updated!"
-msgstr "¡La compañía del cliente se actualizó!"
+msgstr "¡La empresa del cliente se actualizó!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Dynamic field %s not found!"
@@ -11004,11 +11015,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer Company %s already exists!"
-msgstr ""
+msgstr "¡La empresa cliente %s ya existe!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company added!"
-msgstr "¡Se agregó la compañía del cliente!"
+msgstr "¡Se agregó la empresa del cliente!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerGroup.pm
 msgid "No configuration for 'CustomerGroupPermissionContext' found!"
@@ -11040,7 +11051,7 @@ msgstr "Cliente %s añadido"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Customer user updated!"
-msgstr ""
+msgstr "¡Usuario del cliente actualizado!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Same Customer"
@@ -11637,7 +11648,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Customer user of the ticket"
-msgstr ""
+msgstr "Usuario del cliente del ticket"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All recipients of the first article"
@@ -11799,7 +11810,8 @@ msgid "Repository List"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
-msgid "No packages or no new packages found in selected repository."
+msgid ""
+"No packages found in selected repository. Please check log for more info!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -12594,7 +12606,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Customer User Name"
-msgstr ""
+msgstr "Nombre de Usuario del Cliente"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Need SourceObject and SourceKey!"
@@ -13520,7 +13532,7 @@ msgstr "Mis Tickets"
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Company Tickets"
-msgstr "Tickets de la Compañía"
+msgstr "Tickets de la Empresa"
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Untitled!"
@@ -13860,6 +13872,14 @@ msgid "There are no selected encryption keys for the addresses: '%s'. "
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
+msgid "Cannot use expired encryption keys for the addresses: '%s'. "
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
+msgid "Cannot use revoked encryption keys for the addresses: '%s'. "
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Encrypt"
 msgstr ""
 
@@ -13896,6 +13916,14 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "SMIME encrypt"
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
+msgid "Cannot use expired signing key: '%s'. "
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
+msgid "Cannot use revoked signing key: '%s'. "
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
@@ -14616,11 +14644,13 @@ msgstr ""
 
 #. Perl Module: Kernel/System/CustomerUser.pm
 msgid "Customer user \"%s\" already exists."
-msgstr ""
+msgstr "El usuario del cliente \"%s\" ya existe."
 
 #. Perl Module: Kernel/System/CustomerUser/DB.pm
 msgid "This email address is already in use for another customer user."
 msgstr ""
+"Esta cuenta de correo electrónico se encuentra actualmente en uso por otro "
+"usuario del cliente."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseDateTime.pm
 msgid "before/after"
@@ -16022,7 +16052,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Customer user can't be added!"
-msgstr ""
+msgstr "¡El usuario del cliente no puede ser agregado!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Can't send account info!"
@@ -17083,6 +17113,10 @@ msgstr ""
 "Por favor elimine las siguientes palabras a buscar pues estas no pueden ser "
 "buscadas por:"
 
+#. JS File: Core.Agent.SharedSecretGenerator
+msgid "Generate"
+msgstr ""
+
 #. JS File: Core.Agent.SortedTree
 msgid "This element has children elements and can currently not be removed."
 msgstr ""
@@ -17109,11 +17143,11 @@ msgstr ""
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "Add new draft"
-msgstr ""
+msgstr "Agregar borrador"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "Delete draft"
-msgstr ""
+msgstr "Eliminar borrador"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "There are no more drafts available."
@@ -17153,7 +17187,7 @@ msgstr "Cambiar a modo móvil"
 
 #. JS File: Core.App
 msgid "Error: Browser Check failed!"
-msgstr ""
+msgstr "Error: !Fallo la comprobación del navegador!"
 
 #. JS File: Core.App
 msgid "Reload page"
@@ -17557,7 +17591,7 @@ msgstr "Activa la función de contraseña perdida para clientes."
 
 #. SysConfig
 msgid "Activates support for customer and customer user groups."
-msgstr ""
+msgstr "Activa el soporte para el cliente y grupos de usuarios del cliente."
 
 #. SysConfig
 msgid ""
@@ -18038,6 +18072,8 @@ msgid ""
 "Allows the administrators to login as other customers, via the customer user"
 " administration panel."
 msgstr ""
+"Permite a los administradores iniciar sesión como otros clientes a través "
+"del panel de administración de usuario de cliente"
 
 #. SysConfig
 msgid ""
@@ -18625,15 +18661,17 @@ msgstr ""
 
 #. SysConfig
 msgid "Company Status"
-msgstr "Estado de la Compañía"
+msgstr "Estado de la Empresa"
 
 #. SysConfig
 msgid "Company Tickets."
-msgstr ""
+msgstr "Tickets de la Empresa"
 
 #. SysConfig
 msgid "Company name which will be included in outgoing emails as an X-Header."
 msgstr ""
+"Nombre de la empresa que se incluirá en los correos electrónicos salientes "
+"como un X-Header."
 
 #. SysConfig
 msgid "Compat module for AgentZoom to AgentTicketZoom."
@@ -18767,7 +18805,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Create and manage customer users."
-msgstr "Crear y gestionar usuarios de clientes."
+msgstr "Crear y gestionar usuarios de cliente."
 
 #. SysConfig
 msgid "Create and manage customers."
@@ -18913,35 +18951,35 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer User Administration"
-msgstr ""
+msgstr "Administración de Usuario del Cliente"
 
 #. SysConfig
 msgid "Customer User Information"
-msgstr ""
+msgstr "Centro de Información de Usuario del Cliente"
 
 #. SysConfig
 msgid "Customer User Information Center Search."
-msgstr ""
+msgstr "Búsqueda del Centro de Información del Usuario del Cliente."
 
 #. SysConfig
 msgid "Customer User Information Center search."
-msgstr ""
+msgstr "Búsqueda del centro de información del Usuario del Cliente."
 
 #. SysConfig
 msgid "Customer User Information Center."
-msgstr ""
+msgstr "Centro de Información de Usuario del cliente."
 
 #. SysConfig
 msgid "Customer Users ↔ Customers"
-msgstr ""
+msgstr "Usuarios del Cliente ↔ Clientes"
 
 #. SysConfig
 msgid "Customer Users ↔ Groups"
-msgstr ""
+msgstr "Usuarios del Cliente ↔ Grupos"
 
 #. SysConfig
 msgid "Customer Users ↔ Services"
-msgstr ""
+msgstr "Usuarios del Cliente ↔ Servicios"
 
 #. SysConfig
 msgid ""
@@ -18975,7 +19013,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer user search"
-msgstr ""
+msgstr "Búsqueda de usuario del cliente"
 
 #. SysConfig
 msgid "CustomerID search"
@@ -22357,7 +22395,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Edit Customer Users."
-msgstr ""
+msgstr "Editar Usuarios del Cliente."
 
 #. SysConfig
 msgid "Edit appointment"
@@ -22365,7 +22403,7 @@ msgstr "Editar cita"
 
 #. SysConfig
 msgid "Edit customer company"
-msgstr "Editar compañía del cliente"
+msgstr "Editar empresa del cliente"
 
 #. SysConfig
 msgid "Email Addresses"
@@ -22514,7 +22552,11 @@ msgid "Enroll process for this ticket"
 msgstr ""
 
 #. SysConfig
-msgid "Enter your shared secret to enable two factor authentication."
+msgid ""
+"Enter your shared secret to enable two factor authentication. WARNING: Make "
+"sure that you add the shared secret to your generator application and the "
+"application works well. Otherwise you will be not able to login anymore "
+"without the two factor token."
 msgstr ""
 
 #. SysConfig
@@ -23684,15 +23726,15 @@ msgstr "Vincular agentes con roles."
 
 #. SysConfig
 msgid "Link customer users to customers."
-msgstr ""
+msgstr "Liga los usuarios del cliente a clientes."
 
 #. SysConfig
 msgid "Link customer users to groups."
-msgstr ""
+msgstr "Liga los usuarios del cliente a grupos."
 
 #. SysConfig
 msgid "Link customer users to services."
-msgstr ""
+msgstr "Liga los usuarios del cliente a servicios."
 
 #. SysConfig
 msgid "Link customers to groups."
@@ -24085,7 +24127,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Varios"
 
 #. SysConfig
 msgid ""
@@ -24481,7 +24523,7 @@ msgstr "Tiempo de actualización de la vista general"
 
 #. SysConfig
 msgid "Overview of all Tickets per assigned Queue."
-msgstr ""
+msgstr "Resúmen de todos los tickets por Cola asignada."
 
 #. SysConfig
 msgid "Overview of all appointments."
@@ -25037,7 +25079,7 @@ msgstr "ProcessID"
 
 #. SysConfig
 msgid "Processes & Automation"
-msgstr ""
+msgstr "Procesos y Automatización"
 
 #. SysConfig
 msgid "Product News"
@@ -25426,14 +25468,18 @@ msgstr "Segunda Fila de Espera"
 msgid ""
 "Select after which period ticket overviews should refresh automatically."
 msgstr ""
+"Seleccione después de que periodo las vistas generales de tickets deberán "
+"actualizarse automáticamente."
 
 #. SysConfig
 msgid "Select how many tickets should be shown in overviews by default."
 msgstr ""
+"Seleccione cuántos tickets deben mostrarse en las vistas generales de forma "
+"predeterminada."
 
 #. SysConfig
 msgid "Select the main interface language."
-msgstr ""
+msgstr "Seleccione el idioma de la interfaz principal."
 
 #. SysConfig
 msgid ""
@@ -25454,6 +25500,8 @@ msgid ""
 "Select your personal time zone. All times will be displayed relative to this"
 " time zone."
 msgstr ""
+"Seleccione su zona horaria personal. Todas las horas se mostrarán en "
+"relación con esta zona horaria."
 
 #. SysConfig
 msgid "Select your preferred layout for the software."
@@ -25595,6 +25643,8 @@ msgstr ""
 #. SysConfig
 msgid "Set a new password by filling in your current password and a new one."
 msgstr ""
+"Establezca una nueva contraseña introduciendo su contraseña actual y una "
+"nueva."
 
 #. SysConfig
 msgid "Set sender email addresses for this system."
@@ -26405,7 +26455,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Show the current queue in the customer interface."
-msgstr ""
+msgstr "Muestra la cola actual en la interfaz del cliente."
 
 #. SysConfig
 msgid "Show the history for this ticket"
@@ -28153,7 +28203,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Users, Groups & Roles"
-msgstr "Usuarios, Grupos & Roles"
+msgstr "Usuarios, Grupos y Roles"
 
 #. SysConfig
 msgid "Uses richtext for viewing and editing ticket notification."

@@ -12,16 +12,16 @@
 # 陈德文 <sggggy@gmail.com>, 2018
 # 张梦 <adoeh@sina.com>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
-# 汇民 王 <whuim@qq.com>, 2018
 # 汇民 王 <whuim@163.com>, 2018
 # Bob Tao <bob.tao@otrs.com>, 2018
+# 汇民 王 <whuim@qq.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-12-06 17:43+0000\n"
+"POT-Creation-Date: 2019-01-08 15:00+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Bob Tao <bob.tao@otrs.com>, 2018\n"
+"Last-Translator: 汇民 王 <whuim@qq.com>, 2019\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/otrs/teams/23435/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2067,6 +2067,10 @@ msgstr "计划的小时"
 #. Template: AdminGenericAgent
 msgid "Schedule days"
 msgstr "计划的天"
+
+#. Template: AdminGenericAgent
+msgid "Automatic execution values are in the system timezone."
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
@@ -11536,8 +11540,9 @@ msgid "Repository List"
 msgstr "软件仓库列表"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
-msgid "No packages or no new packages found in selected repository."
-msgstr "选择的软件仓库中没有软件包或没有新的软件包。"
+msgid ""
+"No packages found in selected repository. Please check log for more info!"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
@@ -13593,6 +13598,14 @@ msgid "There are no selected encryption keys for the addresses: '%s'. "
 msgstr "地址：'%s'没有选择加密密钥。"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
+msgid "Cannot use expired encryption keys for the addresses: '%s'. "
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
+msgid "Cannot use revoked encryption keys for the addresses: '%s'. "
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Encrypt"
 msgstr "加密"
 
@@ -13630,6 +13643,14 @@ msgstr "SMIME签名和加密"
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "SMIME encrypt"
 msgstr "SMIME加密"
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
+msgid "Cannot use expired signing key: '%s'. "
+msgstr ""
+
+#. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
+msgid "Cannot use revoked signing key: '%s'. "
+msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "There are no signing keys available for the addresses '%s'."
@@ -16208,7 +16229,7 @@ msgstr "删除选择"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Do you really want to delete this generic agent job?"
-msgstr ""
+msgstr "您真的想要删除这个自动任务吗？"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Delete this Event Trigger"
@@ -16765,6 +16786,10 @@ msgid ""
 "Please remove the following words from your search as they cannot be "
 "searched for:"
 msgstr "请移除以下不能用于搜索的词语："
+
+#. JS File: Core.Agent.SharedSecretGenerator
+msgid "Generate"
+msgstr ""
 
 #. JS File: Core.Agent.SortedTree
 msgid "This element has children elements and can currently not be removed."
@@ -20888,7 +20913,7 @@ msgid ""
 "Defines the shown links in the footer area of the customer and public "
 "interface of this OTRS system. The value in \"Key\" is the external URL, the"
 " value in \"Content\" is the shown label."
-msgstr ""
+msgstr "定义OTRS系统的客户和公共界面中页脚区域显示的链接。 “Key（键）”中的值是外部网址，“Content（内容）”中的值是显示的文字。"
 
 #. SysConfig
 msgid ""
@@ -21757,8 +21782,12 @@ msgid "Enroll process for this ticket"
 msgstr "这个工单的注册过程"
 
 #. SysConfig
-msgid "Enter your shared secret to enable two factor authentication."
-msgstr "输入你的共享密钥以启用双因素身份验证。"
+msgid ""
+"Enter your shared secret to enable two factor authentication. WARNING: Make "
+"sure that you add the shared secret to your generator application and the "
+"application works well. Otherwise you will be not able to login anymore "
+"without the two factor token."
+msgstr ""
 
 #. SysConfig
 msgid "Escalated Tickets"
