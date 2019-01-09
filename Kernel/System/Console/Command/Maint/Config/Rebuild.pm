@@ -31,6 +31,15 @@ sub Configure {
         HasValue    => 0,
     );
 
+    $Self->AddOption(
+        Name        => 'time',
+        Description => "Specify how many seconds should this instance wait to unlock PID if there is another " .
+            "instance of this command running at the same time (in cluster environment). Default: 120.",
+        Required   => 0,
+        HasValue   => 1,
+        ValueRegex => qr/^\d+$/smx,
+    );
+
     return;
 }
 
@@ -38,6 +47,8 @@ sub PreRun {
     my ( $Self, %Param ) = @_;
 
     my $PIDObject = $Kernel::OM->Get('Kernel::System::PID');
+
+    my $Time = $Self->GetOption('time') || 120;
 
     my $Locked;
     my $WaitedSeconds = 0;
@@ -47,7 +58,7 @@ sub PreRun {
     # Make sure that only one rebuild config command is running at the same time. Wait up to 2 minutes
     #    until other instances are done (see https://bugs.otrs.org/show_bug.cgi?id=14259).
     PID:
-    while ( $WaitedSeconds <= 120 ) {
+    while ( $WaitedSeconds <= $Time ) {
         my %PID = $PIDObject->PIDGet(
             Name => 'RebuildConfig',
         );

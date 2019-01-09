@@ -35,7 +35,11 @@ for my $ChildIndex ( 1 .. $ChildCount ) {
         # Destroy objects.
         $Kernel::OM->ObjectsDiscard();
 
-        my $ExitCode = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Config::Rebuild')->Execute();
+        my $ExitCode = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Config::Rebuild')->Execute(
+
+            # Increase the waiting time (unlock the PID).
+            '--time', '180',
+        );
 
         $Kernel::OM->Get('Kernel::System::Cache')->Set(
             Type  => $CacheType,
@@ -95,6 +99,7 @@ for my $ChildIndex ( 1 .. $ChildCount ) {
         "RebuildConfig from child $ChildIndex exit correctly",
     );
 }
+
 $CacheObject->CleanUp(
     Type => $CacheType,
 );
