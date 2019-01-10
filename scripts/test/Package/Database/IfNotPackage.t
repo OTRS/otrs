@@ -135,7 +135,7 @@ my %Packages = (
     <Vendor>OTRS AG</Vendor>
     <URL>https://otrs.com/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
-    <Description Lang="en">OTRS Business Solution. For more information, please have a look at the official documentation at http://otrs.github.io/doc/manual/otrs-business-solution/stable/en/html/.</Description>
+    <Description Lang="en">OTRS Business Solution. For more information, please have a look at the official documentation at https://doc.otrs.com/doc/manual/otrs-business-solution/stable/en/html/.</Description>
     <Framework>$OTRSVersion</Framework>
     <PackageIsVisible>1</PackageIsVisible>
     <PackageIsDownloadable>1</PackageIsDownloadable>
@@ -159,7 +159,7 @@ EOF
     <Vendor>OTRS AG</Vendor>
     <URL>https://otrs.com/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
-    <Description Lang="en">OTRS Business Solution. For more information, please have a look at the official documentation at http://otrs.github.io/doc/manual/otrs-business-solution/stable/en/html/.</Description>
+    <Description Lang="en">OTRS Business Solution. For more information, please have a look at the official documentation at https://doc.otrs.com/doc/manual/otrs-business-solution/stable/en/html/.</Description>
     <Framework>$OTRSVersion</Framework>
     <PackageIsVisible>1</PackageIsVisible>
     <PackageIsDownloadable>1</PackageIsDownloadable>

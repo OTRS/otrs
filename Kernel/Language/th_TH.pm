@@ -6185,8 +6185,8 @@ Thanks for your help!
         'Configure which screen should be shown after a new ticket has been created.' =>
             'กำหนดค่าว่าหน้าจอใดควรจะแสดงหลังจากที่ตั๋วใหม่ถูกสร้างขึ้น',
         'Configure your own log text for PGP.' => 'กำหนดค่าข้อความบันทึกของคุณสำหรับ PGP',
-        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://otrs.github.io/doc/), chapter "Ticket Event Module".' =>
-            'กำหนดค่าค่าเริ่มต้นของการตั้งค่า TicketDynamicField "ชื่อ" จะกำหนดฟิลด์แบบไดนามิกที่จะนำมาใช้ "ค่า" เป็นข้อมูลที่จะถูกตั้งค่าและ "กิจกรรม" จะกำหนดตัวกระตุ้นกิจกรรม กรุณาตรวจสอบคู่มือการพัฒนา (http://otrs.github.io/doc/) บท "Ticket Event Module".',
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otrs.com/doc/), chapter "Ticket Event Module".' =>
+            'กำหนดค่าค่าเริ่มต้นของการตั้งค่า TicketDynamicField "ชื่อ" จะกำหนดฟิลด์แบบไดนามิกที่จะนำมาใช้ "ค่า" เป็นข้อมูลที่จะถูกตั้งค่าและ "กิจกรรม" จะกำหนดตัวกระตุ้นกิจกรรม กรุณาตรวจสอบคู่มือการพัฒนา (https://doc.otrs.com/doc/) บท "Ticket Event Module".',
         'Controls how to display the ticket history entries as readable values.' =>
             'ควบคุมวิธีการแสดงรายการประวัติตั๋วเป็นค่าที่สามารถอ่าน',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -6536,8 +6536,8 @@ Thanks for your help!
             'กำหนดเนื้อเรื่องเริ่มต้นของโน้ตในหน้าจอตั๋วข้อความฟรีในอินเตอร์เฟซของเอเย่นต์',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             '',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://otrs.github.io/doc/.' =>
-            'กำหนดธีม front-end เริ่มต้น (HTML)ที่จะใช้โดยตัวแทนและลูกค้า ถ้าคุณชอบคุณสามารถเพิ่มธีมของคุณเอง โปรดดูคู่มือการดูแลระบบที่ตั้งอยู่ที่ http://otrs.github.io/doc/',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otrs.com/doc/.' =>
+            'กำหนดธีม front-end เริ่มต้น (HTML)ที่จะใช้โดยตัวแทนและลูกค้า ถ้าคุณชอบคุณสามารถเพิ่มธีมของคุณเอง โปรดดูคู่มือการดูแลระบบที่ตั้งอยู่ที่ https://doc.otrs.com/doc/',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'กำหนดภาษา front-end เริ่มต้น ทุกค่าที่เป็นไปจะถูกกำหนดโดยไฟล์ภาษาที่มีอยู่ในระบบ (กรุณาดูการตั้งค่าถัดไป)',
         'Defines the default history type in the customer interface.' => 'กำหนดประเภทเริ่มต้นของประวัติในอินเตอร์เฟสลูกค้า',

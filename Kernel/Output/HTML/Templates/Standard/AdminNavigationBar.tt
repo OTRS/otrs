@@ -50,7 +50,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="http://otrs.github.io/doc/manual/admin/[% Data.ManualVersion | uri %].0/en/html/index.html" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-book"></i>[% Translate("View the admin manual on Github") | html %]</span></a>
+                        <a href="https://doc.otrs.com/doc/manual/admin/[% Data.ManualVersion | uri %].0/en/html/index.html" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-book"></i>[% Translate("View the admin manual on Github") | html %]</span></a>
                     </li>
                 </ul>
             </div>

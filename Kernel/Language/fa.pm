@@ -6187,8 +6187,8 @@ Thanks for your help!
         'Configure which screen should be shown after a new ticket has been created.' =>
             'پیکربندی که صفحه نمایش باید نشان داده شود پس از یک درخواست جدید ایجاد شده است.',
         'Configure your own log text for PGP.' => 'پیکربندی متن ورود به سیستم خود  برای PGP.',
-        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://otrs.github.io/doc/), chapter "Ticket Event Module".' =>
-            'پیکربندی تنظیمات پیش فرض TicketDynamicField. \ "نام " تعریف می کند زمینه پویا است که باید مورد استفاده قرار گیرد، \ "ارزش " داده است که تعیین خواهد شد، و \ "رویداد " رویداد ماشه تعریف می کند. لطفا کتابچه راهنمای توسعه (http://otrs.github.io/doc/)، فصل \ "بلیط رویداد ماژول " تیک بزنید.',
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otrs.com/doc/), chapter "Ticket Event Module".' =>
+            'پیکربندی تنظیمات پیش فرض TicketDynamicField. \ "نام " تعریف می کند زمینه پویا است که باید مورد استفاده قرار گیرد، \ "ارزش " داده است که تعیین خواهد شد، و \ "رویداد " رویداد ماشه تعریف می کند. لطفا کتابچه راهنمای توسعه (https://doc.otrs.com/doc/)، فصل \ "بلیط رویداد ماژول " تیک بزنید.',
         'Controls how to display the ticket history entries as readable values.' =>
             'کنترل نحوه نمایش نوشته های تاریخ بلیط به عنوان ارزش های قابل خواندن است.',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -6536,8 +6536,8 @@ Thanks for your help!
             'تعریف می کند که بدن به طور پیش فرض از توجه داشته باشید در بلیط صفحه نمایش های متنی رایگان از رابط عامل.',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             '',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://otrs.github.io/doc/.' =>
-            'تعریف می کند که تم پیش فرض جلویی (HTML) به توسط عوامل و مشتریان استفاده می شود. اگر دوست دارید، شما می توانید موضوع خود را اضافه کنید. لطفا کتابچه راهنمای کاربر مدیر واقع در http://otrs.github.io/doc/ مراجعه کنید.',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otrs.com/doc/.' =>
+            'تعریف می کند که تم پیش فرض جلویی (HTML) به توسط عوامل و مشتریان استفاده می شود. اگر دوست دارید، شما می توانید موضوع خود را اضافه کنید. لطفا کتابچه راهنمای کاربر مدیر واقع در https://doc.otrs.com/doc/ مراجعه کنید.',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'زبان پیش فرض جلویی تعریف می کند. همه مقادیر ممکن توسط فایل های زبان موجود بر روی سیستم (تنظیمات بعدی را ببینید) تعیین می شود.',
         'Defines the default history type in the customer interface.' => 'تعریف می کند که به طور پیش فرض نوع تاریخ در رابط مشتری.',

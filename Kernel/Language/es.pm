@@ -6194,8 +6194,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Configura que pantalla debe ser mostrada después de que un nuevo ticket haya sido creado.',
         'Configure your own log text for PGP.' => 'Configure su propio texto de registro de PGP.',
-        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://otrs.github.io/doc/), chapter "Ticket Event Module".' =>
-            'Configura un ajuste por defecto de CampoDinamicoTicket. "Nombre" define el campo dinámico que debe ser usado, "Valor" es el dato que será establecido, y "Evento" define el disparador del evento. Por favor compruebe el manual del desarrollador (http://otrs.github.io/doc/), capítulo "Módulo Evento Ticket".',
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otrs.com/doc/), chapter "Ticket Event Module".' =>
+            'Configura un ajuste por defecto de CampoDinamicoTicket. "Nombre" define el campo dinámico que debe ser usado, "Valor" es el dato que será establecido, y "Evento" define el disparador del evento. Por favor compruebe el manual del desarrollador (https://doc.otrs.com/doc/), capítulo "Módulo Evento Ticket".',
         'Controls how to display the ticket history entries as readable values.' =>
             'Controla cómo mostrar el historial de entradas como valores legibles.',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -6543,7 +6543,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             '',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://otrs.github.io/doc/.' =>
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otrs.com/doc/.' =>
             '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             '',

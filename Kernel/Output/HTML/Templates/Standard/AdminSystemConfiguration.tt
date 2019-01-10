@@ -8,7 +8,7 @@
 
 [%
     SET DocumentationLinkText  = Translate('online administrator documentation');
-    SET DocumentationLink      = "<a href='http://otrs.github.io/doc/manual/admin/" _ Data.ManualVersion _ ".0/en/html/configuration.html#sysconfig' target='_blank'>" _ DocumentationLinkText.html() _ "</a>";
+    SET DocumentationLink      = "<a href='https://doc.otrs.com/doc/manual/admin/" _ Data.ManualVersion _ ".0/en/html/configuration.html#sysconfig' target='_blank'>" _ DocumentationLinkText.html() _ "</a>";
 %]
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">

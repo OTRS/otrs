@@ -72,7 +72,7 @@
                     [% Translate("Attention") | html %]: [% Translate("Please also update the states in SysConfig where needed.") | html %]
                 </p>
                 <p class="FieldExplanation">
-                    [% Translate("See also") | html %]: <a href="http://otrs.github.io/doc" target="_blank">http://otrs.github.io/doc</a>
+                    [% Translate("See also") | html %]: <a href="https://doc.otrs.com/doc" target="_blank">https://doc.otrs.com/doc</a>
                 </p>
             </div>
         </div>

@@ -6182,8 +6182,8 @@ Thanks for your help!
         'Configure which screen should be shown after a new ticket has been created.' =>
             '새 티켓이 작성된 후 표시할 화면을 구성하십시오.',
         'Configure your own log text for PGP.' => 'PGP에 대한 자체 로그 텍스트를 구성하십시오.',
-        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://otrs.github.io/doc/), chapter "Ticket Event Module".' =>
-            '기본 TicketDynamicField 설정을 구성합니다. "Name"은 사용할 동적 필드를 정의하고, "Value"는 설정할 데이터이고 "Event"는 트리거 이벤트를 정의합니다. 개발자 설명서 (http://otrs.github.io/doc/), "Ticket Event Module"장을 확인하십시오.',
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otrs.com/doc/), chapter "Ticket Event Module".' =>
+            '기본 TicketDynamicField 설정을 구성합니다. "Name"은 사용할 동적 필드를 정의하고, "Value"는 설정할 데이터이고 "Event"는 트리거 이벤트를 정의합니다. 개발자 설명서 (https://doc.otrs.com/doc/), "Ticket Event Module"장을 확인하십시오.',
         'Controls how to display the ticket history entries as readable values.' =>
             '티켓 기록 항목을 읽을 수 있는 값으로 표시하는 방법을 제어합니다.',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -6531,8 +6531,8 @@ Thanks for your help!
             '에이전트 인터페이스의 티켓 비어있는 텍스트 화면에서 노트의 기본 본문을 정의합니다.',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             '고객 사용자 주소록 검색 (CustomerUser 또는 CustomerCompany)의 기본 필터 필드를 정의합니다. CustomerCompany 필드의 경우 접두사 \'CustomerCompany_\'를 추가해야합니다.',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://otrs.github.io/doc/.' =>
-            '에이전트 및 고객이 사용할 기본 프런트 엔드 (HTML) 테마를 정의합니다. 원한다면 자신 만의 테마를 추가 할 수 있습니다. http://otrs.github.io/doc/ 에있는 관리자 설명서를 참조하십시오.',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otrs.com/doc/.' =>
+            '에이전트 및 고객이 사용할 기본 프런트 엔드 (HTML) 테마를 정의합니다. 원한다면 자신 만의 테마를 추가 할 수 있습니다. https://doc.otrs.com/doc/ 에있는 관리자 설명서를 참조하십시오.',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             '기본 프런트 엔드 언어를 정의합니다. 가능한 모든 값은 시스템에서 사용 가능한 언어 파일에 의해 결정됩니다 (다음 설정 참조).',
         'Defines the default history type in the customer interface.' => '고객 인터페이스에서 기본 기록 유형을 정의합니다.',

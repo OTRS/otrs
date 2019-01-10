@@ -6184,8 +6184,8 @@ Helpdesk Team Anda
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Konfigurasi yang layar harus ditampilkan setelah tiket baru telah dibuat.',
         'Configure your own log text for PGP.' => 'Mengkonfigurasi teks log Anda sendiri untuk PGP.',
-        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://otrs.github.io/doc/), chapter "Ticket Event Module".' =>
-            'Mengkonfigurasi TicketDynamicField pengaturan default. "Nama" mendefinisikan bidang yang dinamis yang harus digunakan, "Value" adalah data yang akan ditetapkan, dan "Event" mendefinisikan acara pemicu. Silakan periksa pengembang user (http://otrs.github.io/doc/), bab "Ticket acara Modul".',
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otrs.com/doc/), chapter "Ticket Event Module".' =>
+            'Mengkonfigurasi TicketDynamicField pengaturan default. "Nama" mendefinisikan bidang yang dinamis yang harus digunakan, "Value" adalah data yang akan ditetapkan, dan "Event" mendefinisikan acara pemicu. Silakan periksa pengembang user (https://doc.otrs.com/doc/), bab "Ticket acara Modul".',
         'Controls how to display the ticket history entries as readable values.' =>
             'Kontrol bagaimana menampilkan entri sejarah tiket sebagai nilai-nilai yang dapat dibaca.',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -6533,8 +6533,8 @@ Helpdesk Team Anda
             'Mendefinisikan tubuh default catatan dalam tiket layar teks bebas dari antarmuka agen.',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             '',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://otrs.github.io/doc/.' =>
-            'Mendefinisikan default front-end (HTML) tema yang akan digunakan oleh agen dan pelanggan. Jika Anda suka, Anda dapat menambahkan tema Anda sendiri. Silahkan lihat manual administrator yang terletak di http://otrs.github.io/doc/.',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otrs.com/doc/.' =>
+            'Mendefinisikan default front-end (HTML) tema yang akan digunakan oleh agen dan pelanggan. Jika Anda suka, Anda dapat menambahkan tema Anda sendiri. Silahkan lihat manual administrator yang terletak di https://doc.otrs.com/doc/.',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'Mendefinisikan bahasa default front-end. Semua nilai yang mungkin ditentukan oleh file bahasa yang tersedia pada sistem (lihat pengaturan berikutnya).',
         'Defines the default history type in the customer interface.' => 'Mendefinisikan jenis sejarah default dalam antarmuka pelanggan.',

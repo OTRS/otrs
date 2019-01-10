@@ -6188,8 +6188,8 @@ Vaša tehnička podrška
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Konfiguriše koji ekran bi trebalo prikazati nakon kreiranja novog tiketa.',
         'Configure your own log text for PGP.' => 'Konfiguriši sopstveni log tekst za PGP.',
-        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://otrs.github.io/doc/), chapter "Ticket Event Module".' =>
-            'Konfiguriše podrazumevana podešavanja dinamičkog polja tiketa. "Name" definiše dinamičko polje koje će biti korišćeno, "Value" je podatak koji će biti podešen, a "Event" definiše okidač događaja. Molimo konsultujte uputstvo za programere (http://otrs.github.io/doc/), poglavlje "Modul događaja tiketa".',
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otrs.com/doc/), chapter "Ticket Event Module".' =>
+            'Konfiguriše podrazumevana podešavanja dinamičkog polja tiketa. "Name" definiše dinamičko polje koje će biti korišćeno, "Value" je podatak koji će biti podešen, a "Event" definiše okidač događaja. Molimo konsultujte uputstvo za programere (https://doc.otrs.com/doc/), poglavlje "Modul događaja tiketa".',
         'Controls how to display the ticket history entries as readable values.' =>
             'Kontroliše način prikaza istorijskih unosa tiketa kao čitljivih vrednosti. ',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -6537,8 +6537,8 @@ Vaša tehnička podrška
             'Definiše telo napomene na prikazu ekrana slobodnog teksta tiketa u interfejsu operatera.',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             'Definiše podrazumevana filter polja u pretrazi adresara klijent korisnika (CustomerUser ili CustomerCompany). Za CustomerCompany polja, morate dodati prefiks \'CustomerCompany_\'.',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://otrs.github.io/doc/.' =>
-            'Definiše podrazumevanu korisničku (HTML) temu za operatere i klijente. Ukoliko želite, možete dodati sopstvenu temu. Molimo konsultujte uputstvo za administratore na http://otrs.github.io/doc/.',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otrs.com/doc/.' =>
+            'Definiše podrazumevanu korisničku (HTML) temu za operatere i klijente. Ukoliko želite, možete dodati sopstvenu temu. Molimo konsultujte uputstvo za administratore na https://doc.otrs.com/doc/.',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'Definiše podrazumevani jezik glavnog korisničkog dela. Sve moguće vrednosti su određene u raspoloživim jezičkim datotekama u sistemu (pogledajte sledeća podešavanja).',
         'Defines the default history type in the customer interface.' => 'Određuje podrazumevani tip istorije u interfejsu klijenta.',

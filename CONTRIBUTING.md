@@ -1,1 +1,1 @@
-Please see [the instructions at otrs.github.io](https://otrs.github.io/).
+Please see [the instructions at doc.otrs.com](https://doc.otrs.com/).

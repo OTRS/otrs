@@ -239,7 +239,7 @@
         </Value>
     </Setting>
     <Setting Name="DefaultTheme" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://otrs.github.io/doc/.</Description>
+        <Description Translatable="1">Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otrs.com/doc/.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">Standard</Item>

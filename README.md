@@ -9,7 +9,7 @@ GNU General Public License (GPL) and tested on various Linux platforms.
 Do you receive many e-mails and want to answer them with a team of agents? You're going to love OTRS!
 
 You can find a list of features in the
-[online documentation](http://otrs.github.io/doc/manual/admin/6.0/en/html/otrs.html#features-of-otrs).
+[online documentation](https://doc.otrs.com/doc/manual/admin/6.0/en/html/otrs.html#features-of-otrs).
 
 
 License
@@ -20,7 +20,7 @@ accompanying [COPYING](COPYING) file for more details.
 
 Documentation
 =============
-You can find documentation [online](http://doc.otrs.com/). The source code of OTRS and its public extension
+You can find documentation [online](https://doc.otrs.com/). The source code of OTRS and its public extension
 modules is available on [github](https://github.com/OTRS).
 
 

@@ -6181,8 +6181,8 @@ Ihr Helpdesk-Team
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Konfigurieren Sie, welche Oberfläche angezeigt werden soll, nachdem ein neues Ticket erstellt wurde.',
         'Configure your own log text for PGP.' => 'Konfigurieren Sie Ihren eigenen Log-Text für PGP.',
-        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://otrs.github.io/doc/), chapter "Ticket Event Module".' =>
-            'Konfiguriert eine Standardeinstellung für ein dynamisches Ticketfeld. "Name" beschreibt das dynamische Feld, das genutzt werden soll, "Value" die Daten, mit denen das Feld befüllt werden soll. "Event" enthält das auslösende Ereignis. Weitere Informationen finden Sie im Entwicklerhandbuch (http://otrs.github.io/doc/) im Kapitel "Ticket-Eventmodule".',
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otrs.com/doc/), chapter "Ticket Event Module".' =>
+            'Konfiguriert eine Standardeinstellung für ein dynamisches Ticketfeld. "Name" beschreibt das dynamische Feld, das genutzt werden soll, "Value" die Daten, mit denen das Feld befüllt werden soll. "Event" enthält das auslösende Ereignis. Weitere Informationen finden Sie im Entwicklerhandbuch (https://doc.otrs.com/doc/) im Kapitel "Ticket-Eventmodule".',
         'Controls how to display the ticket history entries as readable values.' =>
             'Kontrolliert wie die Ticket-Historie in lesbaren Werten dargestellt wird.',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -6530,8 +6530,8 @@ Ihr Helpdesk-Team
             'Definiert den Standard-Inhalt einer Notiz in der TicketFreeText-Oberfläche im Agenten-Interface.',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             'Definiert die Standard-Filterfelder in der Kundenbenutzer-Adressbuch-Suche (Kundenbenutzer oder Kundenfirma). Für Kundenfirma-Felder muss ein Präfix \'CustomerCompany_\' hinzugefügt werden.',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://otrs.github.io/doc/.' =>
-            'Steuert das standardmäßig verwendete Theme (HTML) für das Frontend für Agenten und Kunden. Hinweis: Sie können Ihre eigenen Themes hinzufügen und verwenden (siehe http://otrs.github.io/doc/).',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otrs.com/doc/.' =>
+            'Steuert das standardmäßig verwendete Theme (HTML) für das Frontend für Agenten und Kunden. Hinweis: Sie können Ihre eigenen Themes hinzufügen und verwenden (siehe https://doc.otrs.com/doc/).',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'Definiert die Standard-Frontend-Sprache. Die möglichen Werte werden durch die verfügbaren Sprachdateien auf dem System bestimmt (siehe nächste Einstellung).',
         'Defines the default history type in the customer interface.' => 'Definiert den Standard-Historientyp im Kunden-Interface.',

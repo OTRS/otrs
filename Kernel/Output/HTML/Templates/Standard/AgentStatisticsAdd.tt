@@ -21,7 +21,7 @@
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
                     <li>
-                        <a href="http://otrs.github.io/doc/manual/admin/[% Data.ManualVersion | uri %].0/en/html/statistics-module.html" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-book"></i>[% Translate("Read more about statistics in OTRS") | html %]</span></a>
+                        <a href="https://doc.otrs.com/doc/manual/admin/[% Data.ManualVersion | uri %].0/en/html/statistics-module.html" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-book"></i>[% Translate("Read more about statistics in OTRS") | html %]</span></a>
                     </li>
                 </ul>
             </div>

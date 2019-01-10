@@ -6186,8 +6186,8 @@ Thanks for your help!
         'Configure which screen should be shown after a new ticket has been created.' =>
             '配置创建新工单后显示的界面。',
         'Configure your own log text for PGP.' => '配置您自己的PGP日志文本。',
-        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://otrs.github.io/doc/), chapter "Ticket Event Module".' =>
-            '配置默认的TicketDynamicField（工单动态字段）设置，“Name（名称）”定义要使用的动态字段，“Value（值）”是要设置的数值，“Event（事件）”定义触发的事件。请检查开发手册（http://otrs.github.io/doc/）的“Ticket Event Module（工单事件模块）”章节。',
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otrs.com/doc/), chapter "Ticket Event Module".' =>
+            '配置默认的TicketDynamicField（工单动态字段）设置，“Name（名称）”定义要使用的动态字段，“Value（值）”是要设置的数值，“Event（事件）”定义触发的事件。请检查开发手册（https://doc.otrs.com/doc/）的“Ticket Event Module（工单事件模块）”章节。',
         'Controls how to display the ticket history entries as readable values.' =>
             '控制如何显示工单历史条目为可读值。',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -6535,8 +6535,8 @@ Thanks for your help!
             '定义服务人员界面工单自定义字段界面的默认备注正文。',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             '定义客户用户通讯录搜索（客户用户或客户单位）中的默认过滤器字段。 对于客户单位字段，必须添加一个前缀“CustomerCompany_”。',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://otrs.github.io/doc/.' =>
-            '定义服务人员和客户使用的默认前端主题（HTML）。如果您喜欢，您可以添加您自己的主题。请参考管理员手册http://otrs.github.io/doc/。',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otrs.com/doc/.' =>
+            '定义服务人员和客户使用的默认前端主题（HTML）。如果您喜欢，您可以添加您自己的主题。请参考管理员手册https://doc.otrs.com/doc/。',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             '定义默认的前端语言。所有可能的值由系统中可用的语言文件确定（查看下一个设置）。',
         'Defines the default history type in the customer interface.' => '定义客户界面中的默认历史类型。',
