@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.996595233326657;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1187,7 +1187,7 @@ sub Data {
         'New Dynamic Field Values' => 'Új dinamikus mező értékek',
         'Archive selected tickets' => 'Kijelölt jegyek archiválása',
         'Add Note' => 'Jegyzet hozzáadása',
-        'This field must have less then 200 characters.' => '',
+        'This field must have less then 200 characters.' => 'Ennek a mezőnek rövidebbnek kell lennie 200 karakternél.',
         'Time units' => 'Időegységek',
         'Execute Ticket Commands' => 'Jegyparancsok végrehajtása',
         'Send agent/customer notifications on changes' => 'Ügyintéző/ügyfél értesítések küldése módosításkor',
@@ -1749,7 +1749,7 @@ sub Data {
         'Reinstall package' => 'Csomag újratelepítése',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Valóban újra szeretné telepíteni ezt a csomagot? Minden kézi változtatás el fog veszni.',
-        'Go to updating instructions' => '',
+        'Go to updating instructions' => 'Ugrás a frissítési utasításokhoz',
         'package information' => 'csomaginformációk',
         'Package installation requires a patch level update of OTRS.' => 'A csomagtelepítés az OTRS hibajavító szintű frissítését igényli.',
         'Package update requires a patch level update of OTRS.' => 'A csomagfrissítés az OTRS hibajavító szintű frissítését igényli.',
@@ -1767,7 +1767,7 @@ sub Data {
         'How can I do a patch level update if I don’t have a contract?' =>
             'Hogyan végezhetek hibajavító szintű frissítést, ha nincs szerződésem?',
         'Please find all relevant information within the updating instructions at %s.' =>
-            '',
+            'Nézze meg az összes fontos információt a frissítési utasításokban itt: %s.',
         'In case you would have further questions we would be glad to answer them.' =>
             'Abban az esetben, ha további kérdései vannak, szívesen megválaszoljuk azokat.',
         'Continue' => 'Folytatás',
@@ -2081,7 +2081,7 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => 'Lesz-e a várólista feladójának címe a válasz e-mailekhez.',
         'Default sign key' => 'Alapértelmezett aláíró kulcs',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
-            '',
+            'Egy aláíró kulcs használatához azonosítókkal rendelkező PGP kulcsokat vagy S/MIME tanúsítványokat kell hozzáadni a kiválasztott várólista rendszercíméhez.',
         'The salutation for email answers.' => 'A megszólítás a válasz e-mailekhez.',
         'The signature for email answers.' => 'Az aláírás a válasz e-mailekhez.',
 
@@ -3161,13 +3161,13 @@ sub Data {
         'General Specifications and Mail Settings' => 'Általános specifikációk és levelezési beállítások',
         'Finish' => 'Befejezés',
         'Welcome to %s' => 'Üdvözli a(z) %s',
-        'Germany' => '',
-        'United States' => '',
-        'Mexico' => '',
-        'Hungary' => '',
-        'Brazil' => '',
-        'Singapore' => '',
-        'Hong Kong' => '',
+        'Germany' => 'Németország',
+        'United States' => 'Egyesült Államok',
+        'Mexico' => 'Mexikó',
+        'Hungary' => 'Magyarország',
+        'Brazil' => 'Brazília',
+        'Singapore' => 'Szingapúr',
+        'Hong Kong' => 'Hongkong',
         'Web site' => 'Weboldal',
         'Mail check successful.' => 'Levélellenőrzés sikeres.',
         'Error in the mail settings. Please correct and try again.' => 'Hiba van a levélbeállításokban. Javítsa és próbálja újra.',
@@ -5606,7 +5606,7 @@ Az Ön segélyszolgálat csapata
         'Defines the separator between the agents real name and the given queue email address.' =>
             'Egy elválasztót határoz meg az ügyintézők valódi neve és a megadott várólista e-mail címek között.',
         'Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
-            '',
+            'Meghatározza ennek az OTRS rendszernek az ügyfél- és nyilvános felületének láblécterületén megjelenített hivatkozásokat. A „Kulcs” mezőben lévő érték a külső URL, a „Tartalom” mezőben lévő érték a megjelenített címke.',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
             'Meghatározza az ügyfeleknek elérhető szabványos jogosultságokat az alkalmazáson belül. Ha több jogosultság szükséges, akkor itt adhatja meg azokat. A jogosultságoknak szerepelniük kell a forráskódban, hogy hatályban lévők legyenek. Győződjön meg arról, hogy bármely fent említett jogosultság hozzáadásakor az „rw” jogosultság legyen az utolsó bejegyzés.',
         'Defines the standard size of PDF pages.' => 'Meghatározza a PDF oldalak szabványos méretét.',
@@ -6742,15 +6742,15 @@ Az Ön segélyszolgálat csapata
         'Shows a link in the menu to add a note to a ticket in every ticket overview of the agent interface.' =>
             'Egy hivatkozást jelenít meg a menüben egy jegyhez történő jegyzet hozzáadásához az ügyintézői felület összes jegyáttekintőjében.',
         'Shows a link in the menu to add a phone call inbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Egy hivatkozást jelenít meg a menüben egy bejövő telefonhívás hozzáadásához az ügyintézői felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt sorrendjének beállításához az eszköztáron belül.',
         'Shows a link in the menu to add a phone call outbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Egy hivatkozást jelenít meg a menüben egy kimenő telefonhívás hozzáadásához az ügyintézői felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt sorrendjének beállításához az eszköztáron belül.',
         'Shows a link in the menu to change the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Egy hivatkozást jelenít meg a menüben az ügyintézői felület jegynagyítás nézetében annak az ügyfélnek a megváltoztatásához, aki a jegyet kérte. Ezen hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt sorrendjének beállításához az eszköztáron belül.',
         'Shows a link in the menu to change the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Egy hivatkozást jelenít meg a menüben egy jegy tulajdonosának megváltoztatásához az ügyintézői felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt sorrendjének beállításához az eszköztáron belül.',
         'Shows a link in the menu to change the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Egy hivatkozást jelenít meg a menüben egy jegy felelős ügyintézőjének megváltoztatásához az ügyintézői felület jegynagyítás nézetében. Ezen hivatkozás megjelenítéséhez vagy meg nem jelenítéséhez további hozzáférési vezérlőt lehet készíteni a „Group” kulcs és az „rw:csoport1;move_into:csoport2” tartalomhoz hasonló használatával. A menüpontok csoportokba rendezéséhez használja a „ClusterName” kulcsot bármilyen olyan tartalommal, amelyet a felhasználói felületen látni szeretne. Használja a „ClusterPriority” kulcsot egy bizonyos fürt sorrendjének beállításához az eszköztáron belül.',
         'Shows a link in the menu to close a ticket in every ticket overview of the agent interface.' =>
             'Egy hivatkozást jelenít meg a menüben egy jegylezárásához az ügyintézői felület összes jegyáttekintőjében.',
         'Shows a link in the menu to close a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
