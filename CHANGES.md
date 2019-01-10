@@ -1,4 +1,6 @@
-#5.0.34 ????-??-??
+#5.0.35 ????-??-??
+
+#5.0.34 2019-01-11
  - 2019-01-08 Synchronized translation files.
  - 2018-12-18 Fixed bug#[14114](https://bugs.otrs.org/show_bug.cgi?id=14114) - Dynamic field of type database cannot be saved via a web service.
  - 2018-12-16 Fixed bug#[14305](https://bugs.otrs.org/show_bug.cgi?id=14305) - Incorrect handling of content-type in PictureUpload.
