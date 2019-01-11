@@ -631,7 +631,7 @@ sub _DieWithError {
         );
     }
 
-    Carp::croak $Param{Error}; # This will die().
+    Carp::croak $Param{Error};    # This will die().
 }
 
 sub DESTROY {
