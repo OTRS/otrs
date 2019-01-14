@@ -35,11 +35,9 @@ for my $ChildIndex ( 1 .. $ChildCount ) {
         # Destroy objects.
         $Kernel::OM->ObjectsDiscard();
 
-        my $ExitCode = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Config::Rebuild')->Execute(
-
-            # Increase the waiting time (unlock the PID).
-            '--time', '180',
-        );
+        # Execute console command.
+        `bin/otrs.Console.pl Maint::Config::Rebuild --time 180`;
+        my $ExitCode = $? >> 8;
 
         $Kernel::OM->Get('Kernel::System::Cache')->Set(
             Type  => $CacheType,
@@ -94,7 +92,7 @@ for my $ChildIndex ( 1 .. $ChildCount ) {
     my %Data = %{ $ChildData{$ChildIndex} };
 
     $Self->Is(
-        $ChildData{$ChildIndex}->{ExitCode},
+        $Data{ExitCode},
         0,
         "RebuildConfig from child $ChildIndex exit correctly",
     );
