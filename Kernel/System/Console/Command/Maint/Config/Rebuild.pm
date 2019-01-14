@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use parent qw(Kernel::System::Console::BaseCommand);
+use Time::HiRes qw(sleep);
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',
