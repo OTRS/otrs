@@ -108,7 +108,7 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 bcrypt)) {
 
     # Workaround for crypt tests on OTRS 5 with very new systems: crypt() does not work there as hashing algorithm
     #   as the db column is not long enough - skip crypt in this case.
-    if ( $CryptType eq 'crypt' && length crypt( 1, 1 ) > 64 ) {
+    if ( $CryptType eq 'crypt' && length crypt( 'a' x 64, 'a' x 64 ) > 64 ) {
         next CRYPT_TYPE;
     }
 
