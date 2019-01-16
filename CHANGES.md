@@ -1,5 +1,4 @@
 #6.0.17 ????-??-??
- - 2019-01-15 Add nested group support for LDAP user/group sync, thanks to Frank Wall (PR#[1952](https://github.com/OTRS/otrs/pull/1952)).
 
 #6.0.16 2019-01-18
  - 2019-01-08 Updated translations, thanks to all translators.
