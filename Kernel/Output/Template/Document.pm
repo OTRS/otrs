@@ -237,7 +237,7 @@ sub _InstallOTRSExtensions {
 
                 # Escape closing script tags in the JSON content as they will confuse the
                 #   browser's parser.
-                $JSONString =~ s{</script}{<\\/script}smxg;
+                $JSONString =~ s{ </(?<ScriptTag>script)}{<\\/$+{ScriptTag}}ismxg;
 
                 $output .= "Core.Config.AddConfig($JSONString);\n";
             }

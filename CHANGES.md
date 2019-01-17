@@ -1,4 +1,5 @@
 #6.0.17 ????-??-??
+ - 2019-01-17 Further improved handling of JSData in templates.
 
 #6.0.16 2019-01-18
  - 2019-01-08 Updated translations, thanks to all translators.
