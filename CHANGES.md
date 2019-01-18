@@ -1,4 +1,5 @@
 #6.0.17 ????-??-??
+ - 2019-01-18 Fixed bug#[14145](https://bugs.otrs.org/show_bug.cgi?id=14145) - s/mime shows first line of encoded message and cert information in <OTRS_CUSTOMER_EMAIL>.
  - 2019-01-17 Further improved handling of JSData in templates.
 
 #6.0.16 2019-01-18

@@ -293,9 +293,10 @@ sub ArticleCreate {
         push @{ $Param{Attachment} }, $Attach;
 
         # set ASCII body
-        $Param{MimeType}    = 'text/plain';
-        $Param{ContentType} = 'text/plain';
-        $Param{Body}        = '- no text message => see attachment -';
+        $Param{MimeType}           = 'text/plain';
+        $Param{ContentType}        = 'text/plain';
+        $Param{Body}               = '- no text message => see attachment -';
+        $Param{OrigHeader}->{Body} = $Param{Body};
     }
 
     # fix some bad stuff from some browsers (Opera)!
