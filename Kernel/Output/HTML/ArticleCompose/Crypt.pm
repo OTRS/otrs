@@ -55,7 +55,10 @@ sub Run {
     my $InvalidMessage = '';
     my $Class          = '';
     if ( IsArrayRefWithData($UniqueEncryptKeyIDsToRemove) ) {
+        UNIQUEKEY:
         for my $UniqueEncryptKeyIDToRemove ( @{$UniqueEncryptKeyIDsToRemove} ) {
+
+            next UNIQUEKEY if !defined $KeyList{$UniqueEncryptKeyIDToRemove};
 
             if ( $KeyList{$UniqueEncryptKeyIDToRemove} =~ m/WARNING: EXPIRED KEY/ ) {
                 my ( $Type, $Key, $Identifier ) = split /::/, $UniqueEncryptKeyIDToRemove;
@@ -127,6 +130,8 @@ sub Run {
         ENCRYPTKEYID:
         for my $EncryptKey ( @{ $Param{CryptKeyID} } ) {
             my ( $Type, $Key, $Identifier ) = split /::/, $EncryptKey;
+
+            next ENCRYPTKEYID if !defined $KeyList{$EncryptKey};
 
             if ( $KeyList{$EncryptKey} =~ m/WARNING: EXPIRED KEY/ ) {
                 push @ExpiredIdentifiers, $Identifier;
@@ -281,36 +286,36 @@ sub Data {
 
                     # EndDate is in this fomrmatat: May 12 23:50:40 2018 GMT
                     # It is transformed in supported format for DateTimeObject: 2018-05-12T23:50:40GMT
-                    $DataRef->{EndDate} =~ /(\w+)\s(\d\d)\s(\d\d:\d\d:\d\d)\s(\d\d\d\d)\s(\w+)/;
+                    if ( $DataRef->{EndDate} =~ /(\w+)\s(\d\d)\s(\d\d:\d\d:\d\d)\s(\d\d\d\d)\s(\w+)/ ) {
+                        my %Month = (
+                            Jan => '01',
+                            Feb => '02',
+                            Mar => '03',
+                            Apr => '04',
+                            May => '05',
+                            Jun => '06',
+                            Jul => '07',
+                            Aug => '08',
+                            Sep => '09',
+                            Oct => '10',
+                            Nov => '11',
+                            Dec => '12',
+                        );
 
-                    my %Month = (
-                        Jan => '01',
-                        Feb => '02',
-                        Mar => '03',
-                        Apr => '04',
-                        May => '05',
-                        Jun => '06',
-                        Jul => '07',
-                        Aug => '08',
-                        Sep => '09',
-                        Oct => '10',
-                        Nov => '11',
-                        Dec => '12',
-                    );
+                        my $EndDateTimeObject = $Kernel::OM->Create(
+                            'Kernel::System::DateTime',
+                            ObjectParams => {
+                                String => "$4-" . $Month{$1} . "-$2" . "T$3" . $4,
+                            },
+                        );
+                        my $CurrentTimeObject = $Kernel::OM->Create(
+                            'Kernel::System::DateTime',
+                        );
 
-                    my $EndDateTimeObject = $Kernel::OM->Create(
-                        'Kernel::System::DateTime',
-                        ObjectParams => {
-                            String => "$4-$Month{$1}-$2T$3$5",
-                        },
-                    );
-                    my $CurrentTimeObject = $Kernel::OM->Create(
-                        'Kernel::System::DateTime',
-                    );
-
-                    # Check if key is expired.
-                    if ( $EndDateTimeObject->Compare( DateTimeObject => $CurrentTimeObject ) == -1 ) {
-                        $Expired = ' [WARNING: EXPIRED KEY]';
+                        # Check if key is expired.
+                        if ( $EndDateTimeObject->Compare( DateTimeObject => $CurrentTimeObject ) == -1 ) {
+                            $Expired = ' [WARNING: EXPIRED KEY]';
+                        }
                     }
                 }
 
