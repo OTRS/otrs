@@ -51,7 +51,7 @@ $Self->True(
     "DynamicFieldAdd() successful for Field $FieldName",
 );
 
-my $ExternalTicketID = '13579' . $RandomID;
+my $ExternalTicketID = $Helper->GetRandomNumber();
 
 # filter test
 my @Tests = (
@@ -332,6 +332,84 @@ This is an update to incident ' . $ExternalTicketID . ' by mail',
         },
         NewTicket => 2,
     },
+
+    # See bug#14363 - The regex in ExternalTicketnumberRecognitaion does not match
+    # The first capturing group from the 'NumberRegExp' expression will be used as the ticket number value.
+    {
+        Name =>
+            '#9 - Bug#14363 - more capturing group in the NumberRegExp expression',
+        Email => 'From: Sender <sender@example.com>
+To: Some Name <recipient@example.com>
+Subject: An incident subject
+
+This is an update to incident ' . $ExternalTicketID . ' by mail',
+        JobConfig => {
+            DynamicFieldName  => $FieldName,
+            FromAddressRegExp => '\\s*@example.com',
+            Module            => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
+            Name              => 'Some Description',
+
+            NumberRegExp         => 'Some test (\\d.*) by mail|update to incident (\\d.*) by mail',
+            SearchInBody         => '1',
+            SearchInSubject      => '0',
+            SenderType           => 'system',
+            IsVisibleForCustomer => 1,
+            TicketStateTypes     => 'new;open',
+        },
+        NewTicket => 1,
+    },
+    {
+        Name =>
+            '#10 - Bug#14363 - only one capturing group in regex - match in the body',
+        Email => 'From: Sender <sender@example.com>
+To: Some Name <recipient@example.com>
+Subject: An incident subject
+
+This is an update to incident ' . $ExternalTicketID . ' by mail',
+        Check => {
+            "DynamicField_$FieldName" => $ExternalTicketID,
+        },
+        JobConfig => {
+            DynamicFieldName  => $FieldName,
+            FromAddressRegExp => '\\s*@example.com',
+            Module            => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
+            Name              => 'Some Description',
+
+            NumberRegExp         => '(?:Some test\\s|update to incident\\s)(\\d.*) by mail',
+            SearchInBody         => '1',
+            SearchInSubject      => '0',
+            SenderType           => 'system',
+            IsVisibleForCustomer => 1,
+            TicketStateTypes     => 'new;open',
+        },
+        NewTicket => 2,
+    },
+    {
+        Name =>
+            '#11 - Bug#14363 - only one capturing group in regex - match in the subject',
+        Email => 'From: Sender <sender@example.com>
+To: Some Name <recipient@example.com>
+Subject: An incident subject ' . $ExternalTicketID . '
+
+This is an update to incident by mail',
+        Check => {
+            "DynamicField_$FieldName" => $ExternalTicketID,
+        },
+        JobConfig => {
+            DynamicFieldName  => $FieldName,
+            FromAddressRegExp => '\\s*@example.com',
+            Module            => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
+            Name              => 'Some Description',
+
+            NumberRegExp         => '(?:Some test\\s|incident subject\\s)(\\d.*)',
+            SearchInBody         => '0',
+            SearchInSubject      => '1',
+            SenderType           => 'system',
+            IsVisibleForCustomer => 1,
+            TicketStateTypes     => 'new;open',
+        },
+        NewTicket => 2,
+    },
 );
 
 for my $Test (@Tests) {
@@ -380,11 +458,11 @@ for my $Test (@Tests) {
     $Self->Is(
         $Return[0] || 0,
         $Test->{NewTicket},
-        "#Filter Run() - NewTicket",
+        "$Test->{Name}: Filter Run() - NewTicket",
     );
     $Self->True(
         $Return[1] || 0,
-        "#Filter  Run() - NewTicket/TicketID",
+        "$Test->{Name}: Filter  Run() - NewTicket/TicketID",
     );
     my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Return[1],
@@ -395,7 +473,7 @@ for my $Test (@Tests) {
         $Self->Is(
             $Ticket{$Key},
             $Test->{Check}->{$Key},
-            "#Filter Run() - $Key",
+            "$Test->{Name}: Filter Run() - $Key",
         );
     }
 }
