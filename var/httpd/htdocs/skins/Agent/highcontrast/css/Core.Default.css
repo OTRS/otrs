@@ -259,4 +259,8 @@ fieldset.TableLike > .Row > label {
     border-left: 15px solid blue;
 }
 
+.AlreadyDisabled div.InputField_Selection div.Text {
+    background: #adadad;
+}
+
 } /* end @media */
