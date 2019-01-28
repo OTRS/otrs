@@ -12,8 +12,37 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+
+my $Hex2RGB = sub {
+    my ( $Color, $Alpha ) = @_;
+
+    return if $Color !~ /#[A-F0-9]{3,6}/i;
+
+    # Get RGB values.
+    my @Channels;
+    my $RGBHex = substr( $Color, 1 );
+
+    # Six character hexadecimal string (eg. #FFFFFF).
+    if ( length $RGBHex == 6 ) {
+        $Channels[0] = hex substr( $RGBHex, 0, 2 );
+        $Channels[1] = hex substr( $RGBHex, 2, 2 );
+        $Channels[2] = hex substr( $RGBHex, 4, 2 );
+    }
+
+    # Three character hexadecimal string (eg. #FFF).
+    elsif ( length $RGBHex == 3 ) {
+        $Channels[0] = hex( substr( $RGBHex, 0, 1 ) . substr( $RGBHex, 0, 1 ) );
+        $Channels[1] = hex( substr( $RGBHex, 1, 1 ) . substr( $RGBHex, 1, 1 ) );
+        $Channels[2] = hex( substr( $RGBHex, 2, 1 ) . substr( $RGBHex, 1, 1 ) );
+    }
+
+    else { return; }
+
+    return sprintf( 'rgba(%s, %s, %s, %s)', @Channels, $Alpha ) if defined $Alpha;
+
+    return sprintf( 'rgb(%s, %s, %s)', @Channels );
+};
 
 $Selenium->RunTest(
     sub {
@@ -40,7 +69,7 @@ $Selenium->RunTest(
             Value => $DefaultCustomerUser,
         );
 
-        # make sure we start with RuntimeDB search
+        # Make sure we start with RuntimeDB search.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Hook',
@@ -59,12 +88,31 @@ $Selenium->RunTest(
             Value => 1,
         );
 
-        # create and login test user
+        # Create and login test user.
         my $Language      = 'de';
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups   => [ 'admin', 'users' ],
             Language => $Language,
         ) || die "Did not get test user";
+
+        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
+        # Get UserID for later manipulation of preferences.
+        my $UserID = $UserObject->UserLookup(
+            UserLogin => $TestUserLogin,
+        );
+
+        # Set High Contrast skin.
+        # See for more information bug#14370.
+        my $Success = $UserObject->SetPreferences(
+            Key    => 'UserSkin',
+            Value  => 'highcontrast',
+            UserID => $UserID,
+        );
+        $Self->True(
+            $Success,
+            "High Contrast skin is set.",
+        );
 
         $Selenium->Login(
             Type     => 'Agent',
@@ -72,23 +120,22 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # Get language object.
         my $LanguageObject = Kernel::Language->new(
             UserLanguage => $Language,
         );
 
-        # create test customer
+        # Create test customer.
         my $TestCustomerUser = $Helper->TestCustomerUserCreate(
         ) || die "Did not get test customer user";
 
-        # get test customer user ID
+        # Get test customer user ID.
         my %TestCustomerUserID = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
             User => $TestCustomerUser,
         );
 
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # create test ticket
+        # Create test ticket.
         my $TitleRandom  = "Title" . $Helper->GetRandomID();
         my $TicketNumber = $TicketObject->TicketCreateNumber();
         my $TicketID     = $TicketObject->TicketCreate(
@@ -112,7 +159,7 @@ $Selenium->RunTest(
             ChannelName => 'Phone',
         );
 
-        # create two ticket articles
+        # Create two ticket articles.
         my @ArticleIDs;
         for my $ArticleCreate ( 1 .. 2 ) {
             my $SenderType = 'agent';
@@ -138,11 +185,51 @@ $Selenium->RunTest(
             push @ArticleIDs, $ArticleID;
         }
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to AgentTicketZoom for test created ticket
+        # Navigate to AgentTicketZoom for test created ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+
+        my @Test = (
+            {
+                Name     => 'Header color',
+                Color    => '#fff',
+                Selector => '.UseArticleColors #ArticleTable thead a',
+            },
+            {
+                Name     => "Article color",
+                Color    => '#000',
+                Selector => '.UseArticleColors #ArticleTable tbody a',
+            }
+
+        );
+
+        # Check color of data in article table High Contrast skin.
+        # See for more information bug#14370.
+        for my $Item (@Test) {
+            my $Element = $Selenium->find_element( $Item->{Selector}, 'css' );
+
+            my $Color = $Item->{Color};
+            if ( $Selenium->{browser_name} eq 'chrome' ) {
+                $Self->Is(
+                    $Element->get_css_attribute('color') // '',
+                    $Hex2RGB->( $Color, 1 ),
+                    "$Item->{Name} is correct - $Item->{Color}"
+                );
+            }
+            else {
+                $Self->Is(
+                    $Element->get_css_attribute('color') // '',
+                    $Hex2RGB->($Color),
+                    "$Item->{Name} is correct - $Item->{Color}"
+                );
+            }
+        }
+        $Selenium->execute_script('window.Continue = false;');
+        $Selenium->WaitFor(
+            JavaScript => 'return window.Continue;',
+            Time       => 600,
+        );
 
         $Self->Is(
             $Selenium->execute_script("return \$('.Headline h1').text().trim();"),
@@ -150,7 +237,7 @@ $Selenium->RunTest(
             "Ticket::Hook and Ticket::HookDivider found, check ticket title headline",
         );
 
-        # check page
+        # Check page.
         for my $Action (
             qw( AgentTicketLock AgentTicketHistory AgentTicketPrint AgentTicketPriority
             AgentTicketFreeText AgentLinkObject AgentTicketOwner AgentTicketCustomer AgentTicketNote
@@ -179,7 +266,7 @@ $Selenium->RunTest(
             );
         }
 
-        # verify article order in zoom screen
+        # Verify article order in zoom screen.
         $Self->Is(
             $Selenium->execute_script(
                 "return \$(\$('table tbody tr')[0]).attr('id')"
@@ -249,8 +336,8 @@ $Selenium->RunTest(
         # close note pop-up window
         $Selenium->close();
 
-        # clean up test data from the DB
-        my $Success = $TicketObject->TicketDelete(
+        # Clean up test data from the DB.
+        $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => 1,
         );
@@ -268,7 +355,7 @@ $Selenium->RunTest(
             "Ticket is deleted - ID $TicketID"
         );
 
-        # make sure the cache is correct
+        # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
 
     }
