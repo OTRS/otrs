@@ -225,11 +225,6 @@ $Selenium->RunTest(
                 );
             }
         }
-        $Selenium->execute_script('window.Continue = false;');
-        $Selenium->WaitFor(
-            JavaScript => 'return window.Continue;',
-            Time       => 600,
-        );
 
         $Self->Is(
             $Selenium->execute_script("return \$('.Headline h1').text().trim();"),
