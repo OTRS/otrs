@@ -207,19 +207,19 @@ $Selenium->RunTest(
         # Check color of data in article table High Contrast skin.
         # See for more information bug#14370.
         for my $Item (@Test) {
-            my $Element = $Selenium->find_element( $Item->{Selector}, 'css' );
+            my @Element = $Selenium->find_elements( $Item->{Selector}, 'css' );
 
             my $Color = $Item->{Color};
             if ( $Selenium->{browser_name} eq 'chrome' ) {
                 $Self->Is(
-                    $Element->get_css_attribute('color') // '',
+                    $Element[4]->get_css_attribute('color') // '',
                     $Hex2RGB->( $Color, 1 ),
                     "$Item->{Name} is correct - $Item->{Color}"
                 );
             }
             else {
                 $Self->Is(
-                    $Element->get_css_attribute('color') // '',
+                    $Element[4]->get_css_attribute('color') // '',
                     $Hex2RGB->($Color),
                     "$Item->{Name} is correct - $Item->{Color}"
                 );
