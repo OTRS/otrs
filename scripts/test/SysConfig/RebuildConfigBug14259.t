@@ -26,6 +26,11 @@ for my $ChildIndex ( 1 .. $ChildCount ) {
     # Disconnect database before fork.
     $DBObject->Disconnect();
 
+    # WORKAROUND: When forking on fast systems, Maint::Config::Rebuild fails due to the issue in PIDCreate().
+    # Sometimes it can happen that there are 2 processes with same name at the same time (usually on Postgres).
+    # It should be fixed in the next major release (requires DB modification).
+    Time::HiRes::sleep(0.1);
+
     # Create a fork of the current process
     #   parent gets the PID of the child
     #   child gets PID = 0
