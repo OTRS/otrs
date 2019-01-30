@@ -363,6 +363,12 @@ sub _NotificationFilter {
                     }
                 }
             }
+            elsif ( $Key eq 'Title' || $Key eq 'Location' ) {
+                if ( defined $Param{Appointment}->{$Key} && $Param{Appointment}->{$Key} =~ m/$Value/i ) {
+                    $Match = 1;
+                    last VALUE;
+                }
+            }
             else {
 
                 if ( defined $Param{Appointment}->{$Key} && $Value eq $Param{Appointment}->{$Key} ) {

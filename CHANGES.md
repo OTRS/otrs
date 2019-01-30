@@ -1,4 +1,5 @@
 #6.0.17 ????-??-??
+ - 2019-01-30 Fixed bug#[14329](https://bugs.otrs.org/show_bug.cgi?id=14329) - AppointmentNotification partial title filter.
  - 2019-01-28 Fixed bug#[14370](https://bugs.otrs.org/show_bug.cgi?id=14370) - Article Overview not readable (white text on white ground) with High Contrast Skin.
  - 2019-01-23 Fixed bug#[14363](https://bugs.otrs.org/show_bug.cgi?id=14363) - The regex in ExternalTicketnumberRecognitaion does not match.
  - 2019-01-18 Fixed bug#[14145](https://bugs.otrs.org/show_bug.cgi?id=14145) - s/mime shows first line of encoded message and cert information in <OTRS_CUSTOMER_EMAIL>.
