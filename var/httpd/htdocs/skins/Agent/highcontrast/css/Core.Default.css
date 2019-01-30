@@ -154,6 +154,11 @@ body #ConfigTree .jstree-wholerow-hovered {
     color: #fff !important;
 }
 
+.DataTable tbody tr.system:hover td ,
+.DataTable tbody tr.system:hover td *{
+    color: #000 !important;
+}
+
 .CallForAction,
 .cke_dialog_footer_buttons a.cke_dialog_ui_button {
     background: #000;
