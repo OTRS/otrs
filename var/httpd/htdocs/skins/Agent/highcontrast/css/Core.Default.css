@@ -40,10 +40,14 @@ div.DnDUpload {
 .WidgetSimple > .Header h3,
 .DataTable thead th a,
 .DataTable thead .SortAscendingLarge a,
-.DataTable thead .SortDescendingLarge a,
-.TableSmall thead .SortAscendingLarge a,
-.TableSmall thead .SortDescendingLarge a  {
+.DataTable thead .SortDescendingLarge a {
     color: #fff;
+}
+
+
+.TableSmall thead .SortAscendingLarge a,
+.TableSmall thead .SortDescendingLarge a {
+    color: #000;
 }
 
 .WidgetAction.Toggle i,
