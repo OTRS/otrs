@@ -225,11 +225,12 @@ $Selenium->RunTest(
             BreadcrumbText => 'Install Package:',
         );
 
-        $Selenium->find_element("//button[\@value='Continue'][\@type='submit']")->VerifiedClick();
+        $Selenium->execute_script('window.Core.App.PageLoadComplete = false;');
+        $Selenium->find_element("//button[\@value='Continue'][\@type='submit']")->click();
         $Selenium->WaitFor(
             Time => 120,
             JavaScript =>
-                'return typeof($) == "function" && !$("button[value=\'Continue\']").length;'
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
         );
 
         $PackageCheck = $PackageObject->PackageIsInstalled(
