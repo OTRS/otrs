@@ -932,7 +932,7 @@ sub ValueGet {
     {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Either ObjectID or ObjectName hast tob be given!"
+            Message  => "Either ObjectID or ObjectName hast to be given!"
         );
         return;
     }
