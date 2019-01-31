@@ -12,21 +12,10 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-# disable rich text editor
+# Set Default Language.
 my $Success = $ConfigObject->Set(
-    Key   => 'Frontend::RichText',
-    Value => 0,
-);
-$Self->True(
-    $Success,
-    "Disable RichText with true",
-);
-
-# set Default Language
-$Success = $ConfigObject->Set(
     Key   => 'DefaultLanguage',
     Value => 'en',
 );
@@ -35,7 +24,6 @@ $Self->True(
     "Set default language to English",
 );
 
-# get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase  => 1,
@@ -44,10 +32,9 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# get ticket object
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-# create test ticket
+# Create test ticket.
 my $TicketNumber = $TicketObject->TicketCreateNumber();
 my $TicketID     = $TicketObject->TicketCreate(
     TN           => $TicketNumber,
@@ -66,17 +53,58 @@ $Self->True(
     "Ticket is created - TicketID $TicketID",
 );
 
+my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+    ChannelName => 'Phone',
+);
+
+my $ArticleID = $ArticleBackendObject->ArticleCreate(
+    TicketID             => $TicketID,
+    IsVisibleForCustomer => 0,
+    SenderType           => 'agent',
+    From                 => 'Some Agent <otrs@example.com>',
+    To                   => 'Suplier<suplier@example.com>',
+    Subject              => 'Email for suplier',
+    Body                 => "Line1\nLine2\nLine3",
+    Charset              => 'utf8',
+    MimeType             => 'text/plain',
+    HistoryType          => 'OwnerUpdate',
+    HistoryComment       => 'Some free text!',
+    UserID               => 1,
+);
+$Self->True(
+    $ArticleID,
+    "ArticleID $ArticleID is created"
+);
+
+# Get ticket and article data for tests.
+my %TicketData = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+    TicketID      => $TicketID,
+    DynamicFields => 1,
+);
+my %ArticleData = $ArticleBackendObject->ArticleGet(
+    TicketID  => $TicketID,
+    ArticleID => $ArticleID,
+);
+my %Data = ( %TicketData, %ArticleData );
+
 my @Tests = (
     {
         Name           => 'Test supported tag - <OTRS_CONFIG_ScriptAlias>',
         TemplateText   => 'Thank you for your email. <OTRS_CONFIG_ScriptAlias>',
         ExpectedResult => 'Thank you for your email. ' . $ConfigObject->Get('ScriptAlias'),
-        ,
     },
     {
         Name           => 'Test unsupported tags',
         TemplateText   => 'Test: <OTRS_AGENT_SUBJECT> <OTRS_AGENT_BODY> <OTRS_CUSTOMER_BODY> <OTRS_CUSTOMER_SUBJECT>',
         ExpectedResult => 'Test: - - - -',
+    },
+    {
+        Name => 'Test unsupported tags with [n]',
+        TemplateText =>
+            'Test: <OTRS_AGENT_SUBJECT[2]> <OTRS_AGENT_BODY[2]> <OTRS_CUSTOMER_BODY[2]> <OTRS_CUSTOMER_SUBJECT[2]>',
+        ExpectedResult => 'Test: - - - -',
+        TicketID       => $TicketID,
+        Data           => \%Data,
     },
     {
         Name => 'Test supported tags - <OTRS_TICKET_*> without TicketID',
@@ -93,13 +121,12 @@ my @Tests = (
     },
 );
 
-# get needed objects
 my $StandardTemplateObject  = $Kernel::OM->Get('Kernel::System::StandardTemplate');
 my $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
 
 for my $Test (@Tests) {
 
-    # create standard template
+    # Create standard template.
     my $TemplateID = $StandardTemplateObject->StandardTemplateAdd(
         Name         => $Helper->GetRandomID() . '-StandardTemplate',
         Template     => $Test->{TemplateText},
@@ -116,10 +143,11 @@ for my $Test (@Tests) {
     my $Template = $TemplateGeneratorObject->Template(
         TemplateID => $TemplateID,
         TicketID   => $Test->{TicketID} // '',
+        Data       => $Test->{Data} // {},
         UserID     => 1,
     );
 
-    # check template text
+    # Check template text.
     $Self->Is(
         $Template,
         $Test->{ExpectedResult},
