@@ -4720,6 +4720,7 @@ sub _StoreActivityDialog {
     my @Notify;
 
     my $NewTicketID;
+    my $NewOwnerID;
     if ( !$TicketID ) {
 
         $ProcessEntityID = $Param{GetParam}->{ProcessEntityID};
@@ -4778,10 +4779,12 @@ sub _StoreActivityDialog {
 
             $TicketParam{UserID} = $Self->{UserID};
 
-            if ( !$TicketParam{OwnerID} ) {
-
-                $TicketParam{OwnerID} = $Param{GetParam}->{OwnerID} || 1;
+            if ( $TicketParam{OwnerID} ) {
+                $NewOwnerID = $TicketParam{OwnerID};
             }
+
+            # Set OwnerID to 1 on TicketCreate. This will be updated later on, so events can be triggered.
+            $TicketParam{OwnerID} = 1;
 
             # if StartActivityDialog does not provide a ticket title set a default value
             if ( !$TicketParam{Title} ) {
@@ -4799,7 +4802,6 @@ sub _StoreActivityDialog {
             }
 
             # create a new ticket
-            $TicketParam{OwnerID} = 1;
             $TicketID = $TicketObject->TicketCreate(%TicketParam);
 
             if ( !$TicketID ) {
@@ -5501,18 +5503,11 @@ sub _StoreActivityDialog {
         );
     }
 
-    if ( $Param{GetParam}->{OwnerID} ) {
+    if ($NewOwnerID) {
         $TicketObject->TicketOwnerSet(
             TicketID  => $TicketID,
-            NewUserID => $Param{GetParam}->{OwnerID},
+            NewUserID => $NewOwnerID,
             UserID    => $Self->{UserID},
-        );
-
-        # set lock
-        $TicketObject->TicketLockSet(
-            TicketID => $TicketID,
-            Lock     => 'lock',
-            UserID   => $Self->{UserID},
         );
     }
 

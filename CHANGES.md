@@ -1,4 +1,5 @@
 #6.0.17 ????-??-??
+ - 2019-02-01 Fixed bug#[14373](https://bugs.otrs.org/show_bug.cgi?id=14373) - Ticket lock is set even there is no owner set in activity dialog.
  - 2019-01-31 Follow-up fix for bug#[10825](https://bugs.otrs.org/show_bug.cgi?id=10825) - <OTRS_CUSTOMER_Body>  in  Reply-Template.
  - 2019-01-30 Fixed bug#[14329](https://bugs.otrs.org/show_bug.cgi?id=14329) - AppointmentNotification partial title filter.
  - 2019-01-28 Fixed bug#[14370](https://bugs.otrs.org/show_bug.cgi?id=14370) - Article Overview not readable (white text on white ground) with High Contrast Skin.

@@ -654,6 +654,19 @@ $Selenium->RunTest(
         my @TicketOwnerID = split( 'TicketID=', $Selenium->get_current_url() );
         push @DeleteTicketIDs, $TicketOwnerID[1];
 
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+        # Check if created process ticket is locked.
+        my %Ticket = $TicketObject->TicketGet(
+            TicketID => $TicketOwnerID[1],
+        );
+
+        $Self->Is(
+            $Ticket{Lock},
+            'unlock',
+            "TicketID $TicketOwnerID[1] is unlocked",
+        );
+
         # Go to ticket history.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketOwnerID[1]");
 
@@ -673,8 +686,6 @@ $Selenium->RunTest(
             ID     => $NotificationID,
             UserID => 1,
         );
-
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         for my $TicketID (@DeleteTicketIDs) {
             $Success = $TicketObject->TicketDelete(
