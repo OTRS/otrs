@@ -259,20 +259,23 @@ sub Data {
                         Dec => '12',
                     );
 
-                    my $EndDateTimeObject = $Kernel::OM->Create(
-                        'Kernel::System::DateTime',
-                        ObjectParams => {
-                            String => "$4-" . $Month{$1} . "-$2" . "T$3" . $4,
-                        },
-                    );
-                    my $CurrentTimeObject = $Kernel::OM->Create(
-                        'Kernel::System::DateTime',
-                    );
+                    if ( defined $1 && defined $2 && defined $3 && defined $4 && defined $5 ) {
+                        my $EndDateTimeObject = $Kernel::OM->Create(
+                            'Kernel::System::DateTime',
+                            ObjectParams => {
+                                String => "$4-" . $Month{$1} . "-$2" . "T$3" . $5,
+                            },
+                        );
+                        my $CurrentTimeObject = $Kernel::OM->Create(
+                            'Kernel::System::DateTime',
+                        );
 
-                    # Check if key is expired.
-                    if ( $EndDateTimeObject->Compare( DateTimeObject => $CurrentTimeObject ) == -1 ) {
-                        $Expired = ' [WARNING: EXPIRED KEY]';
+                        # Check if key is expired.
+                        if ( $EndDateTimeObject->Compare( DateTimeObject => $CurrentTimeObject ) == -1 ) {
+                            $Expired = ' [WARNING: EXPIRED KEY]';
+                        }
                     }
+
                 }
             }
 
