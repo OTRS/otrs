@@ -1239,25 +1239,29 @@ Returns Arrayref of Hashes.
 sub GetConnectionsObjectsAndCommunications {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Param{ObjectLogStartDate} ) {
+    if ( !defined $Param{ObjectLogStartDate} ) {
         return $Self->_LogError("Need ObjectLogStartDate!");
     }
-
-    my $DateTimeObject = $Kernel::OM->Create(
-        'Kernel::System::DateTime',
-        ObjectParams => {
-            String => $Param{ObjectLogStartDate},
-        },
-    );
-
-    return if !$DateTimeObject;
 
     my $SQL = "SELECT c.id, clo.status, c.account_type, c.account_id, c.transport
     FROM communication_log_object clo
     JOIN communication_log c on c.id = clo.communication_id
-    WHERE clo.object_type = 'Connection' AND clo.start_time >= ?";
+    WHERE clo.object_type = 'Connection'";
 
-    my @Binds = ( \$Param{ObjectLogStartDate} );
+    my @Binds;
+    if ( $Param{ObjectLogStartDate} ) {
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Param{ObjectLogStartDate},
+            },
+        );
+
+        return if !$DateTimeObject;
+
+        $SQL .= "AND clo.start_time >= ?";
+        push @Binds, \$Param{ObjectLogStartDate};
+    }
 
     # Add Status where clause if there is a given valid status.
     if ( $Param{Status} ) {

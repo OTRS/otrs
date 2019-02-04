@@ -80,6 +80,9 @@ sub Run {
             Message => $LayoutObject->{LanguageObject}->Translate( 'Invalid StartTime: %s!', $GetParam{StartTime} ),
         );
     }
+    elsif ( $GetParam{StartTime} == 0 ) {
+        $GetParam{DateTime} = $GetParam{StartTime};
+    }
     else {
         my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
         my $ValidDate      = $DateTimeObject->Subtract(

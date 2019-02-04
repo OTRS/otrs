@@ -213,6 +213,12 @@ $Selenium->RunTest(
         # Navigate to AdminCommunicationLog screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminCommunicationLog");
 
+        # Set Time Range to 'All Communication', see bug#14379
+        $Selenium->InputFieldValueSet(
+            Element => '#TimeRange',
+            Value   => '0',
+        );
+
         # Verify status widgets show successful accounts and failed communications.
         $Self->Is(
             $Selenium->execute_script(
