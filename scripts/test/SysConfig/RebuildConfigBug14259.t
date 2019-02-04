@@ -36,7 +36,7 @@ for my $ChildIndex ( 1 .. $ChildCount ) {
         $Kernel::OM->ObjectsDiscard();
 
         # Execute console command.
-        `bin/otrs.Console.pl Maint::Config::Rebuild --time 180`;
+        `$^X bin/otrs.Console.pl Maint::Config::Rebuild --time 180`;
         my $ExitCode = $? >> 8;
 
         $Kernel::OM->Get('Kernel::System::Cache')->Set(
