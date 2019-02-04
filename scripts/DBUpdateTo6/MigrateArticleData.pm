@@ -344,15 +344,10 @@ sub CheckPreviousRequirement {
     if ($OrphanedArticleCheck) {
 
         # Define orphaned entries checks, for now all related to the article table.
+        #   Check in correct order to prevent dependency issues.
         my @OrphanedEntryChecks = (
             {
-                Table          => 'article',
-                Field          => 'ticket_id',
-                ReferenceTable => 'ticket',
-                ReferenceField => 'id',
-            },
-            {
-                Table          => 'article_flag',
+                Table          => 'time_accounting',
                 Field          => 'article_id',
                 ReferenceTable => 'article',
                 ReferenceField => 'id',
@@ -364,7 +359,7 @@ sub CheckPreviousRequirement {
                 ReferenceField => 'id',
             },
             {
-                Table          => 'time_accounting',
+                Table          => 'article_flag',
                 Field          => 'article_id',
                 ReferenceTable => 'article',
                 ReferenceField => 'id',
@@ -392,7 +387,46 @@ sub CheckPreviousRequirement {
                         . 'AND ref.id IS NULL',
                     'UPDATE ticket_history '
                         . 'SET article_id = NULL '
-                        . 'WHERE article_id = 0'
+                        . 'WHERE article_id = 0',
+                ],
+            },
+            {
+                Table          => 'article',
+                Field          => 'ticket_id',
+                ReferenceTable => 'ticket',
+                ReferenceField => 'id',
+                DeleteSQL      => [
+
+                    # If articles are to be deleted, delete all dependent data from other tables first.
+                    'DELETE sub FROM article tab '
+                        . 'LEFT JOIN ticket ref ON tab.ticket_id = ref.id '
+                        . 'LEFT JOIN article_flag sub ON tab.id = sub.article_id '
+                        . 'WHERE tab.ticket_id IS NOT NULL '
+                        . 'AND ref.id IS NULL',
+                    'DELETE sub FROM article tab '
+                        . 'LEFT JOIN ticket ref ON tab.ticket_id = ref.id '
+                        . 'LEFT JOIN article_attachment sub ON tab.id = sub.article_id '
+                        . 'WHERE tab.ticket_id IS NOT NULL '
+                        . 'AND ref.id IS NULL',
+                    'DELETE sub FROM article tab '
+                        . 'LEFT JOIN ticket ref ON tab.ticket_id = ref.id '
+                        . 'LEFT JOIN time_accounting sub ON tab.id = sub.article_id '
+                        . 'WHERE tab.ticket_id IS NOT NULL '
+                        . 'AND ref.id IS NULL',
+                    'DELETE sub FROM article tab '
+                        . 'LEFT JOIN ticket ref ON tab.ticket_id = ref.id '
+                        . 'LEFT JOIN article_plain sub ON tab.id = sub.article_id '
+                        . 'WHERE tab.ticket_id IS NOT NULL '
+                        . 'AND ref.id IS NULL',
+                    'DELETE sub FROM article tab '
+                        . 'LEFT JOIN ticket ref ON tab.ticket_id = ref.id '
+                        . 'LEFT JOIN ticket_history sub ON tab.id = sub.article_id '
+                        . 'WHERE tab.ticket_id IS NOT NULL '
+                        . 'AND ref.id IS NULL',
+                    'DELETE tab FROM article tab '
+                        . 'LEFT JOIN ticket ref ON tab.ticket_id = ref.id '
+                        . 'WHERE tab.ticket_id IS NOT NULL '
+                        . 'AND ref.id IS NULL',
                 ],
             },
         );
@@ -485,7 +519,7 @@ sub CheckPreviousRequirement {
                 print
                     "        Please delete them manually with the following SQL statements and then run the migration script again:\n";
                 for my $SQL ( @{$DeleteSQL} ) {
-                    print $SQL;
+                    print $SQL . ";\n";
                 }
                 print "\n";
 
