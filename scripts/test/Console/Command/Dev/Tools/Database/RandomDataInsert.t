@@ -37,7 +37,7 @@ $ExitCode = $CommandObject->Execute( '--generate-tickets', 1 );
 $Self->Is(
     $ExitCode,
     0,
-    "Ticket created",
+    "Ticket successfully created",
 );
 
 # cleanup cache is done by RestoreDatabase

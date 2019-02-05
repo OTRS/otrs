@@ -17,6 +17,7 @@ use parent qw(Kernel::System::Console::BaseCommand);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Cache',
     'Kernel::System::CustomerUser',
     'Kernel::System::CustomerCompany',
     'Kernel::System::DB',
@@ -105,6 +106,12 @@ sub Run {
     $Kernel::OM->Get('Kernel::Config')->Set(
         Key   => 'CheckEmailAddresses',
         Value => 0,
+    );
+
+    # Turn off persistent cache to speed up the inserts.
+    $Kernel::OM->Get('Kernel::System::Cache')->Configure(
+        CacheInMemory  => 1,
+        CacheInBackend => 0,
     );
 
     # Refresh common objects after a certain number of loop iterations.
