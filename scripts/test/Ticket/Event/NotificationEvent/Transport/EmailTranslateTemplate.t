@@ -39,7 +39,7 @@ my $SendEmails = sub {
     my @ToReturn;
     for my $Item (@$Items) {
         $MailQueueObj->Send( %{$Item} );
-        push @ToReturn, $Item->{Message};
+        push @ToReturn, $Item;
     }
 
     # Clean the mail queue.
@@ -221,47 +221,33 @@ $EventNotificationEventObject->Run(
     Config => {},
     UserID => 1,
 );
-$SendEmails->();
+my @Emails = $SendEmails->();
 
-my $Emails = $TestEmailObject->EmailsGet();
-
-# Verify notification translation.
-my @Tests = (
-    {
-        Recipient => 'Customer',
-        Language  => 'es',
-    },
-    {
-        Recipient => 'Agent',
-        Language  => 'en',
-    },
-    {
-        Recipient => 'Agent',
-        Language  => 'de',
-    },
+my %Recipients = (
+    "$UserLogin\@localunittest.com"    => 'en',
+    "$CustomerUser\@localunittest.com" => 'es',
+    "$UserLoginDE\@localunittest.com"  => 'de',
 );
 
-my $Count = 0;
-for my $Test (@Tests) {
+for my $Email (@Emails) {
 
+    my $Language       = $Recipients{ $Email->{Recipient}[0] };
     my $LanguageObject = Kernel::Language->new(
-        UserLanguage => $Test->{Language},
+        UserLanguage => $Language,
     );
 
     # Verify 'Alert' and 'Powered by' are translated in different recipient languages.
     my $Alert = $LanguageObject->Translate('Alert');
     $Self->True(
-        index( ${ $Emails->[$Count]->{Body} }, $Alert ) > -1,
-        "$Test->{Recipient} - $Test->{Language} - $Alert - 'Alert' is translated in notification",
+        index( $Email->{Message}->{Body}, $Alert ) > -1,
+        "'Alert' is translated in notification: $Language -> $Alert ",
     );
 
     my $PoweredBy = $LanguageObject->Translate('Powered by');
     $Self->True(
-        index( ${ $Emails->[$Count]->{Body} }, $PoweredBy ) > -1,
-        "$Test->{Recipient} - $Test->{Language} - $PoweredBy - 'Powered by' is translated in notificiation",
+        index( $Email->{Message}->{Body}, $PoweredBy ) > -1,
+        "'Powered by' is translated in notificiation: $Language - $PoweredBy",
     );
-
-    $Count++;
 }
 
 $TestEmailObject->CleanUp();
