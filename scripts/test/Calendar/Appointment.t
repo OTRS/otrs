@@ -42,10 +42,9 @@ $Self->True(
 );
 
 # Create test user and add it to the test group.
-my $UserLogin = $Helper->TestUserCreate(
+my ( $UserLogin, $UserID ) = $Helper->TestUserCreate(
     Groups => [$GroupName],
 );
-my $UserID = $UserObject->UserLookup( UserLogin => $UserLogin );
 
 $Self->True(
     $UserID,

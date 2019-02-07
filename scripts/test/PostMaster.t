@@ -1548,8 +1548,7 @@ for my $DynamicFieldID (@DynamicfieldIDs) {
 }
 
 # test X-OTRS-(Owner|Responsible)
-my $Login  = $Helper->TestUserCreate();
-my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup( UserLogin => $Login );
+my ( $Login, $UserID ) = $Helper->TestUserCreate();
 
 my %OwnerResponsibleTests = (
     Owner => {

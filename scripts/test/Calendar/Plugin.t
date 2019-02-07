@@ -114,10 +114,9 @@ if ($PluginKeyTicket) {
     );
 
     # create test user
-    my $UserLogin = $Helper->TestUserCreate(
+    my ( $UserLogin, $UserID ) = $Helper->TestUserCreate(
         Groups => [ 'users', $GroupName ],
     );
-    my $UserID = $UserObject->UserLookup( UserLogin => $UserLogin );
 
     $Self->True(
         $UserID,

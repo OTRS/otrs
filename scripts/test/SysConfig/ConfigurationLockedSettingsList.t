@@ -20,12 +20,12 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 
-my $HelperObject      = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
 my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
 
-my $RandomID    = $HelperObject->GetRandomID();
+my $RandomID    = $Helper->GetRandomID();
 my $SettingName = "Test$RandomID-";
 my $UserID      = 1;
 my @SettingDirtyNames;
@@ -144,10 +144,7 @@ for my $Index ( 1 .. 3 ) {
 }
 
 # set user details
-my $UserLogin  = $HelperObject->TestUserCreate();
-my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-    UserLogin => $UserLogin,
-);
+my ( $UserLogin, $TestUserID ) = $Helper->TestUserCreate();
 
 $Self->True(
     $TestUserID,

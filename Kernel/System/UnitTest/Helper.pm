@@ -165,15 +165,15 @@ the login name of the new user, the password is the same.
 sub TestUserCreate {
     my ( $Self, %Param ) = @_;
 
-    # disable email checks to create new user
+    # Disable email checks to create new user.
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     local $ConfigObject->{CheckEmailAddresses} = 0;
 
-    # create test user
+    # Create test user.
     my $TestUserID;
     my $TestUserLogin;
     COUNT:
-    for my $Count ( 1 .. 10 ) {
+    for ( 1 .. 10 ) {
 
         $TestUserLogin = $Self->GetRandomID();
 
@@ -200,11 +200,10 @@ sub TestUserCreate {
 
     $Self->{UnitTestDriverObject}->True( 1, "Created test user $TestUserID" );
 
-    # Add user to groups
+    # Add user to groups.
     GROUP_NAME:
     for my $GroupName ( @{ $Param{Groups} || [] } ) {
 
-        # get group object
         my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
         my $GroupID = $GroupObject->GroupLookup( Group => $GroupName );
@@ -227,7 +226,7 @@ sub TestUserCreate {
         $Self->{UnitTestDriverObject}->True( 1, "Added test user $TestUserLogin to group $GroupName" );
     }
 
-    # set user language
+    # Set user language.
     my $UserLanguage = $Param{Language} || 'en';
     $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
         UserID => $TestUserID,
@@ -236,7 +235,7 @@ sub TestUserCreate {
     );
     $Self->{UnitTestDriverObject}->True( 1, "Set user UserLanguage to $UserLanguage" );
 
-    return $TestUserLogin;
+    return wantarray ? ( $TestUserLogin, $TestUserID ) : $TestUserLogin;
 }
 
 =head2 TestCustomerUserCreate()
@@ -254,14 +253,14 @@ the login name of the new customer user, the password is the same.
 sub TestCustomerUserCreate {
     my ( $Self, %Param ) = @_;
 
-    # disable email checks to create new user
+    # Disable email checks to create new user.
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     local $ConfigObject->{CheckEmailAddresses} = 0;
 
-    # create test user
+    # Create test user.
     my $TestUser;
     COUNT:
-    for my $Count ( 1 .. 10 ) {
+    for ( 1 .. 10 ) {
 
         my $TestUserLogin = $Self->GetRandomID();
 
@@ -289,7 +288,7 @@ sub TestCustomerUserCreate {
 
     $Self->{UnitTestDriverObject}->True( 1, "Created test customer user $TestUser" );
 
-    # set customer user language
+    # Set customer user language.
     my $UserLanguage = $Param{Language} || 'en';
     $Kernel::OM->Get('Kernel::System::CustomerUser')->SetPreferences(
         UserID => $TestUser,

@@ -35,8 +35,7 @@ $ConfigObject->Set(
 );
 
 # create test user
-my $Login  = $Helper->TestUserCreate();
-my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup( UserLogin => $Login );
+my ( $Login, $UserID ) = $Helper->TestUserCreate();
 
 my $RandomID = $Helper->GetRandomID();
 

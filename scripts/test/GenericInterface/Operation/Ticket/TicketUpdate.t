@@ -1074,11 +1074,8 @@ $ConfigObject->Set(
     Value => 1,
 );
 
-my $UserLoginOutOfOffice = $Helper->TestUserCreate(
+my ( $UserLoginOutOfOffice, $UserIDOutOfOffice ) = $Helper->TestUserCreate(
     Groups => ['users'],
-);
-my $UserIDOutOfOffice = $UserObject->UserLookup(
-    UserLogin => $UserLoginOutOfOffice,
 );
 my $UserIDNoOutOfOffice = $UserObject->UserLookup(
     UserLogin => $UserLogin,

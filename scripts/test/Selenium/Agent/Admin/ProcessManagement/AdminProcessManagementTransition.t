@@ -20,12 +20,8 @@ $Selenium->RunTest(
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # Create test user.
-        my $TestUserLogin = $Helper->TestUserCreate(
+        my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate(
             Groups => ['admin'],
-        ) || die "Did not get test user";
-
-        my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-            UserLogin => $TestUserLogin,
         );
 
         my $ProcessRandom    = 'Process' . $Helper->GetRandomID();

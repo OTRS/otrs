@@ -20,12 +20,8 @@ $Kernel::OM->ObjectParamAdd(
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-my $TestUserLogin = $HelperObject->TestUserCreate(
+my ( $TestUserLogin, $UserID ) = $HelperObject->TestUserCreate(
     Groups => ['users'],
-);
-
-my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-    UserLogin => $TestUserLogin,
 );
 $Self->True(
     $UserID,

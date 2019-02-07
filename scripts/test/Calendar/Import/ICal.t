@@ -26,8 +26,7 @@ my $GroupObject       = $Kernel::OM->Get('Kernel::System::Group');
 my $UserObject        = $Kernel::OM->Get('Kernel::System::User');
 
 # create test user
-my $UserLogin = $Helper->TestUserCreate();
-my $UserID    = $UserObject->UserLookup( UserLogin => $UserLogin );
+my ( $UserLogin, $UserID ) = $Helper->TestUserCreate();
 
 $Self->True(
     $UserID,

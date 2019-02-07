@@ -131,10 +131,9 @@ my $EmailObject              = $Kernel::OM->Get('Kernel::System::Email');
 my $MailQueueObject          = $Kernel::OM->Get('Kernel::System::MailQueue');
 my $MailQueueItemMaxAttempts = $Kernel::OM->Get('Kernel::Config')->Get('MailQueue')->{ItemMaxAttempts};
 
-my $UserLogin = $HelperObject->TestUserCreate(
+my ( $UserLogin, $UserID ) = $HelperObject->TestUserCreate(
     Groups => [ 'admin', 'users' ],
 );
-my $UserID = $UserObject->UserLookup( UserLogin => $UserLogin );
 
 my $SendEmail = sub {
     my %Param = @_;

@@ -22,11 +22,8 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $RandomID = $Helper->GetRandomID();
 
-my $TestUserLogin = $Helper->TestUserCreate(
+my ( $TestUserLogin, $UserID ) = $Helper->TestUserCreate(
     Groups => [ 'admin', 'users', ],
-);
-my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-    UserLogin => $TestUserLogin,
 );
 
 my %Calendar = $Kernel::OM->Get('Kernel::System::Calendar')->CalendarCreate(

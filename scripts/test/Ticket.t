@@ -129,12 +129,8 @@ $Self->Is(
     'Ticket created as closed as Close Time = Creation Time',
 );
 
-my $TestUserLogin = $Helper->TestUserCreate(
+my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate(
     Groups => [ 'users', ],
-);
-
-my $TestUserID = $UserObject->UserLookup(
-    UserLogin => $TestUserLogin,
 );
 
 my $TicketIDCreatedBy = $TicketObject->TicketCreate(

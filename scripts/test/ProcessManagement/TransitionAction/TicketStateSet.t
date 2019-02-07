@@ -26,10 +26,7 @@ my $ModuleName = 'TicketStateSet';
 my $RandomID   = $Helper->GetRandomID();
 
 # set user details
-my $TestUserLogin = $Helper->TestUserCreate();
-my $TestUserID    = $UserObject->UserLookup(
-    UserLogin => $TestUserLogin,
-);
+my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate();
 
 #
 # Create a test ticket

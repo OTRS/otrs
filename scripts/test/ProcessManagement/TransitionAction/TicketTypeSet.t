@@ -40,10 +40,7 @@ my $ModuleName = 'TicketTypeSet';
 my $RandomID   = $Helper->GetRandomID();
 
 # set user details
-my $TestUserLogin = $Helper->TestUserCreate();
-my $TestUserID    = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-    UserLogin => $TestUserLogin,
-);
+my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate();
 
 my @TypeID;
 my @TypeName;

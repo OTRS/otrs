@@ -20,12 +20,8 @@ $Selenium->RunTest(
 
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        my $TestUserLogin = $Helper->TestUserCreate(
+        my ( $TestUserLogin, $UserID ) = $Helper->TestUserCreate(
             Groups => ['admin'],
-        ) || die "Did not get test user";
-
-        my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-            UserLogin => $TestUserLogin,
         );
 
         $Selenium->Login(

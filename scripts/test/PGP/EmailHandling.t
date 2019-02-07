@@ -35,12 +35,8 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $TestUserLogin = $Helper->TestUserCreate(
+my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate(
     Groups => [ 'admin', 'users' ],
-);
-
-my $TestUserID = $UserObject->UserLookup(
-    UserLogin => $TestUserLogin,
 );
 
 # Disable email addresses checking.

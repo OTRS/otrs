@@ -42,12 +42,8 @@ my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
 %ValidList = reverse %ValidList;
 
 # set user options
-my $UserLogin = $Helper->TestUserCreate(
+my ( $UserLogin, $UserID ) = $Helper->TestUserCreate(
     Groups => ['admin'],
-) || die "Did not get test user";
-
-my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-    UserLogin => $UserLogin,
 );
 
 my $RandomID = $Helper->GetRandomID();

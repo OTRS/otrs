@@ -209,8 +209,7 @@ for my $SearchTest (@SearchTests) {
 # create 2 new users
 my @UserIDs;
 for ( 1 .. 2 ) {
-    my $UserLogin = $Helper->TestUserCreate();
-    my $UserID    = $Kernel::OM->Get('Kernel::System::User')->UserLookup( UserLogin => $UserLogin );
+    my ( $UserLogin, $UserID ) = $Helper->TestUserCreate();
     push @UserIDs, $UserID;
 }
 

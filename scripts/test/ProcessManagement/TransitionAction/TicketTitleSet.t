@@ -31,10 +31,7 @@ my $ModuleName = 'TicketTitleSet';
 my $RandomID   = $Helper->GetRandomID();
 
 # Set user details.
-my $TestUserLogin = $Helper->TestUserCreate();
-my $TestUserID    = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-    UserLogin => $TestUserLogin,
-);
+my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate();
 
 # Create a test ticket.
 my $TicketID = $TicketObject->TicketCreate(

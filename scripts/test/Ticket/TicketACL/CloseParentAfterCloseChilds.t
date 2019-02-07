@@ -46,10 +46,7 @@ $ConfigObject->Set(
 
 my $RandomID = $Helper->GetRandomID();
 
-my $TestUserLogin = $Helper->TestUserCreate();
-my $TestUserID    = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-    UserLogin => $TestUserLogin,
-);
+my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate();
 
 # get ticket object
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');

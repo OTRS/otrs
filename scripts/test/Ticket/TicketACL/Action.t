@@ -25,12 +25,8 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # set user options
-my $UserLogin = $Helper->TestUserCreate(
+my ( $UserLogin, $UserID ) = $Helper->TestUserCreate(
     Groups => ['admin'],
-) || die "Did not get test user";
-
-my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-    UserLogin => $UserLogin,
 );
 
 my $ExecuteTests = sub {

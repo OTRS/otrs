@@ -32,11 +32,8 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $RandomID = $Helper->GetRandomID();
 
 # set user details
-my $UserLogin    = $Helper->TestUserCreate();
+my ( $UserLogin, $UserID ) = $Helper->TestUserCreate();
 my $UserPassword = $UserLogin;
-my $UserID       = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-    UserLogin => $UserLogin,
-);
 
 # set customer user details
 my $CustomerUserLogin    = $Helper->TestCustomerUserCreate();
@@ -67,7 +64,7 @@ my $WebserviceID = $WebserviceObject->WebserviceAdd(
         },
     },
     ValidID => 1,
-    UserID  => 1,
+    UserID  => $UserID,
 );
 $Self->True(
     $WebserviceID,
@@ -135,7 +132,7 @@ my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
     Name    => $WebserviceName,
     Config  => $WebserviceConfig,
     ValidID => 1,
-    UserID  => 1,
+    UserID  => $UserID,
 );
 $Self->True(
     $WebserviceUpdate,
@@ -440,7 +437,7 @@ for my $Test (@Tests) {
 # clean up web service
 my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
-    UserID => 1,
+    UserID => $UserID,
 );
 $Self->True(
     $WebserviceDelete,

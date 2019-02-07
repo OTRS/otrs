@@ -21,7 +21,7 @@ $Kernel::OM->ObjectParamAdd(
         RestoreDatabase => 1,
     },
 );
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -77,7 +77,7 @@ my @DefaultSettingAddParams = $SysConfigXMLObject->SettingListParse(
 my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
 # Add default setting s
-my $SettingName1      = 'ProductName ' . $HelperObject->GetRandomNumber() . 1;
+my $SettingName1      = 'ProductName ' . $Helper->GetRandomNumber() . 1;
 my $DefaultSettingID1 = $SysConfigDBObject->DefaultSettingAdd(
     Name                     => $SettingName1,
     Description              => 'Defines the name of the application ...',
@@ -96,7 +96,7 @@ my $DefaultSettingID1 = $SysConfigDBObject->DefaultSettingAdd(
     UserID                   => 1,
 );
 
-my $SettingName2      = 'ProductName ' . $HelperObject->GetRandomNumber() . 2;
+my $SettingName2      = 'ProductName ' . $Helper->GetRandomNumber() . 2;
 my $DefaultSettingID2 = $SysConfigDBObject->DefaultSettingAdd(
     Name                     => $SettingName2,
     Description              => 'Defines the name of the application ...',
@@ -115,7 +115,7 @@ my $DefaultSettingID2 = $SysConfigDBObject->DefaultSettingAdd(
     UserID                   => 1,
 );
 
-my $SettingName3      = 'ProductName ' . $HelperObject->GetRandomNumber() . 3;
+my $SettingName3      = 'ProductName ' . $Helper->GetRandomNumber() . 3;
 my $DefaultSettingID3 = $SysConfigDBObject->DefaultSettingAdd(
     Name                     => $SettingName3,
     Description              => 'Defines the name of the application ...',
@@ -134,7 +134,7 @@ my $DefaultSettingID3 = $SysConfigDBObject->DefaultSettingAdd(
     UserID                   => 1,
 );
 
-my $SettingName4      = 'ProductName ' . $HelperObject->GetRandomNumber() . 4;
+my $SettingName4      = 'ProductName ' . $Helper->GetRandomNumber() . 4;
 my $DefaultSettingID4 = $SysConfigDBObject->DefaultSettingAdd(
     Name                     => $SettingName4,
     Description              => 'Defines the name of the application ...',
@@ -193,10 +193,7 @@ my $ModifiedID2 = $SysConfigDBObject->ModifiedSettingAdd(
     UserID            => 1,
 );
 
-my $TestUserLogin = $HelperObject->TestUserCreate();
-my $UserID        = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-    UserLogin => $TestUserLogin,
-);
+my ( $TestUserLogin, $UserID ) = $Helper->TestUserCreate();
 
 my $ExclusiveLockGUID2 = $SysConfigDBObject->DefaultSettingLock(
     DefaultID => $DefaultSettingID3,

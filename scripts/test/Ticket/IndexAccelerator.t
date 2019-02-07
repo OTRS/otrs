@@ -30,11 +30,8 @@ my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->
     ChannelName => 'Internal',
 );
 
-my $TestUserLogin = $Helper->TestUserCreate(
+my ( $TestUserLogin, $UserID ) = $Helper->TestUserCreate(
     Groups => [ 'admin', 'users', ],
-);
-my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-    UserLogin => $TestUserLogin,
 );
 
 my @TicketIDs;

@@ -58,12 +58,8 @@ $Self->False(
     'TicketGet() (Title) is empty',
 );
 
-my $TestUserLogin = $Helper->TestUserCreate(
+my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate(
     Groups => [ 'users', ],
-);
-
-my $TestUserID = $UserObject->UserLookup(
-    UserLogin => $TestUserLogin,
 );
 
 my $TicketIDCreatedBy = $TicketObject->TicketCreate(

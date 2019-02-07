@@ -130,11 +130,8 @@ $Selenium->RunTest(
         my $UserID1    = $UserObject->UserLookup(
             UserLogin => $TestUserLogin1,
         );
-        my $TestUserLogin2 = $Helper->TestUserCreate(
+        my ( $TestUserLogin2, $UserID2 ) = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
-        ) || die "Did not get test user";
-        my $UserID2 = $UserObject->UserLookup(
-            UserLogin => $TestUserLogin2,
         );
 
         # Create new ticket types

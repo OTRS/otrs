@@ -35,10 +35,7 @@ my $UserID     = 1;
 my $ModuleName = 'TicketArticleCreate';
 
 # set user details
-my $TestUserLogin = $Helper->TestUserCreate();
-my $TestUserID    = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-    UserLogin => $TestUserLogin,
-);
+my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate();
 
 # get ticket object
 my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');

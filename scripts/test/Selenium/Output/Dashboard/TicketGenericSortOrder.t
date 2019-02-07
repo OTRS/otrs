@@ -72,12 +72,8 @@ $Selenium->RunTest(
         );
 
         # Create test user.
-        my $TestUserLogin = $Helper->TestUserCreate(
+        my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
-        ) || die "Did not get test user";
-
-        my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-            UserLogin => $TestUserLogin,
         );
 
         # Create test queue.

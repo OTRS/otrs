@@ -27,8 +27,7 @@ my $UserObject  = $Kernel::OM->Get('Kernel::System::User');
 # create test users
 my %UserIDByUserLogin;
 for my $UserCount ( 0 .. 2 ) {
-    my $UserLogin = $Helper->TestUserCreate();
-    my $UserID    = $UserObject->UserLookup( UserLogin => $UserLogin );
+    my ( $UserLogin, $UserID ) = $Helper->TestUserCreate();
 
     $UserIDByUserLogin{$UserLogin} = $UserID;
 }

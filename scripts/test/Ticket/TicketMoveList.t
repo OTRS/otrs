@@ -88,11 +88,8 @@ $Self->IsNot(
 );
 
 # Create new users.
-my $TestUserLogin = $HelperObject->TestUserCreate(
+my ( $TestUserLogin, $TestUserID ) = $HelperObject->TestUserCreate(
     Groups => [ 'admin', 'users' ],
-);
-my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-    UserLogin => $TestUserLogin,
 );
 
 my $TestCustomerUserLogin = $HelperObject->TestCustomerUserCreate();

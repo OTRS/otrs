@@ -38,12 +38,8 @@ $Selenium->RunTest(
         );
 
         # Create test user.
-        my $TestUserLogin = $Helper->TestUserCreate(
+        my ( $TestUserLogin, $UserID ) = $Helper->TestUserCreate(
             Groups => [ 'users', $GroupName ],
-        ) || die 'Did not get test user';
-
-        my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-            UserLogin => $TestUserLogin,
         );
 
         # Create test calendars.

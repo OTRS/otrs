@@ -63,8 +63,7 @@ $Self->True(
 
 # create test user
 my $UserObject = $Kernel::OM->Get('Kernel::System::User');
-my $UserLogin  = $Helper->TestUserCreate();
-my $UserID     = $UserObject->UserLookup( UserLogin => $UserLogin );
+my ( $UserLogin, $UserID ) = $Helper->TestUserCreate();
 
 =cut
 This test is supposed to verify the solution for bug#9092, which showed

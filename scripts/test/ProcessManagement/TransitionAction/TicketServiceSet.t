@@ -37,10 +37,7 @@ my $RandomID   = $Helper->GetRandomID();
 my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate();
 
 # set user details
-my $TestUserLogin = $Helper->TestUserCreate();
-my $TestUserID    = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-    UserLogin => $TestUserLogin,
-);
+my ( $TestUserLogin, $TestUserID ) = $Helper->TestUserCreate();
 
 #
 # Create new services
