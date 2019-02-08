@@ -1892,6 +1892,9 @@ sub Ascii2Html {
     if ( $Param{HTMLResultMode} ) {
         ${$Text} =~ s/\n/<br\/>\n/g;
         ${$Text} =~ s/  /&nbsp;&nbsp;/g;
+
+        # Convert the space at the beginning of the line (see bug#14346 - https://bugs.otrs.org/show_bug.cgi?id=14346).
+        ${$Text} =~ s/\n /\n&nbsp;/g;
     }
 
     if ( $Param{Type} && $Param{Type} eq 'JSText' ) {

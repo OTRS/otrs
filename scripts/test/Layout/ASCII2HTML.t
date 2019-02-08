@@ -286,6 +286,12 @@ my @Tests = (
             "<a href=\"http://wwww.exaple.com?Action=ActionName#position(12)\" target=\"_blank\" " .
             "title=\"http://wwww.exaple.com?Action=ActionName#position(12)\">http://wwww.exaple.com?Action=ActionName#position(12)</a>",
     },
+    {
+        Name   => 'Ascii2Html() - #30',
+        String => '
+ ',
+        Result => "<br/>\n&nbsp;",
+    },
 );
 
 for my $Test (@Tests) {
