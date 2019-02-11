@@ -112,9 +112,13 @@ sub Load {
             Priority => 'error',
             Message  => 'Loading the YAML string failed: ' . $@,
         );
+        my $DumpString = $Param{Data};
+        if ( length $DumpString > 1000 ) {
+            $DumpString = substr( $DumpString, 0, 1000 ) . '[...]';
+        }
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'YAML data was: "' . $Param{Data} . '"',
+            Message  => 'YAML data was: "' . $DumpString . '"',
         );
 
         # if used implementation is pure perl YAML there is nothing to do, but exit with error
