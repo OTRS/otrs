@@ -33,55 +33,95 @@ $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
     Value => 0,
 );
-
-my $TicketID = $TicketObject->TicketCreate(
-    Title        => 'Ticket Title ' . $RandomID,
-    Queue        => 'Raw',
-    Lock         => 'unlock',
-    Priority     => '3 normal',
-    State        => 'new',
-    CustomerID   => '123465' . $RandomID,
-    CustomerUser => 'customerOne@example.com',
-    OwnerID      => 1,
-    UserID       => 1,
-);
-$Self->True(
-    $TicketID,
-    "TicketCreate() successful for Ticket ID $TicketID."
+$Helper->ConfigSettingChange(
+    Valid => 0,
+    Key   => 'Ticket::EventModulePost###1000-IndexManagement',
+    Value => {},
 );
 
-my %TicketEntry = $TicketObject->TicketGet(
-    TicketID      => $TicketID,
-    DynamicFields => 0,
-    UserID        => 1,
+my %ArticleTemplate = (
+    From    => 'Agent Some Agent Some Agent <email@example.com>',
+    To      => 'Customer A <customer-a@example.com>',
+    Cc      => 'Customer B <customer-b@example.com>',
+    Bcc     => 'Customer C <customer-c@example.com>',
+    Subject => 'Ticket Article ',
+    Body    => 'Text Body Title äöüßÄÖÜ€ис',
 );
 
-$Self->True(
-    IsHashRefWithData( \%TicketEntry ),
-    "TicketGet() successful for Local TicketGet ID $TicketID."
+my @Tickets;
+
+for my $Counter ( 0 .. 9 ) {
+
+    my $TicketID = $TicketObject->TicketCreate(
+        Title        => 'Ticket Title ',
+        Queue        => 'Raw',
+        Lock         => 'unlock',
+        Priority     => '3 normal',
+        State        => 'new',
+        CustomerID   => '123465',
+        CustomerUser => 'customerOne@example.com',
+        OwnerID      => 1,
+        UserID       => 1,
+    );
+    $Self->True(
+        $TicketID,
+        "TicketCreate() successful for Ticket ID $TicketID."
+    );
+
+    my %TicketEntry = $TicketObject->TicketGet(
+        TicketID      => $TicketID,
+        DynamicFields => 0,
+        UserID        => 1,
+    );
+
+    $Self->True(
+        IsHashRefWithData( \%TicketEntry ),
+        "TicketGet() successful for Ticket ID $TicketID."
+    );
+
+    my $ArticleID = $ArticleBackendObject->ArticleCreate(
+        %ArticleTemplate,
+        TicketID             => $TicketID,
+        SenderType           => 'agent',
+        IsVisibleForCustomer => 1,
+        ReplyTo              => 'Customer B <customer-b@example.com>',
+        Subject              => 'Ticket Article ' . $RandomID . $Counter,
+        ContentType          => 'text/plain; charset=ISO-8859-15',
+        HistoryType          => 'OwnerUpdate',
+        HistoryComment       => 'first article',
+        UserID               => 1,
+        NoAgentNotify        => 1,
+    );
+
+    $Self->True(
+        $ArticleID,
+        "ArticleCreate() successful for Article ID $ArticleID."
+    );
+
+    push @Tickets, {
+        TicketID  => $TicketID,
+        ArticleID => $ArticleID,
+    };
+}
+
+# Set all articles to be re-indexed
+$Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchIndexRebuildFlagSet(
+    All   => 1,
+    Value => 1,
 );
 
-my $ArticleID = $ArticleBackendObject->ArticleCreate(
-    TicketID             => $TicketID,
-    SenderType           => 'agent',
-    IsVisibleForCustomer => 1,
-    From                 => 'Agent Some Agent Some Agent <email@example.com>',
-    To                   => 'Customer A <customer-a@example.com>',
-    Cc                   => 'Customer B <customer-b@example.com>',
-    Bcc                  => 'Customer C <customer-c@example.com>',
-    ReplyTo              => 'Customer B <customer-b@example.com>',
-    Subject              => 'Ticket Article ' . $RandomID,
-    Body                 => 'A text for the body, Title äöüßÄÖÜ€ис',
-    ContentType          => 'text/plain; charset=ISO-8859-15',
-    HistoryType          => 'OwnerUpdate',
-    HistoryComment       => 'first article',
-    UserID               => 1,
-    NoAgentNotify        => 1,
+# Empty the search index. This is needed as article only have a flag to be re-indexed
+my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+return if !$DBObject->Do(
+    SQL => 'DELETE FROM article_search_index',
 );
 
-$Self->True(
-    $ArticleID,
-    'Article created.'
+# Remove DB object to make sure it does not interfere with the console command.
+$Kernel::OM->ObjectsDiscard(
+    Objects => [
+        'Kernel::System::DB',
+    ],
+    ForcePackageReload => 0,
 );
 
 my $ExitCode = $CommandObject->Execute();
@@ -93,48 +133,96 @@ $Self->Is(
     'Maint::Ticket::FulltextIndexRebuildWorker exit code'
 );
 
-for my $StorageBackend (qw(ArticleStorageDB ArticleStorageFS)) {
+# Create DBObject again as we remove it before
+$DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # For the search it is enough to change the config, the TicketObject does not
-    #   have to be recreated to use the different base class.
-    $ConfigObject->Set(
-        Key   => 'Ticket::Article::Backend::MIMEBase::ArticleStorage',
-        Value => "Kernel::System::Ticket::Article::Backend::MIMEBase::$StorageBackend",
-    );
+for my $Counter ( 0 .. 9 ) {
 
-    my @FoundTicketIDs = $TicketObject->TicketSearch(
-        Result              => 'ARRAY',
-        Limit               => 1,
-        ConditionInline     => 0,
-        ContentSearchPrefix => '*',
-        ContentSearchSuffix => '*',
-        FullTextIndex       => 1,
-        Fulltext            => $RandomID,
-        UserID              => 1,
-    );
+    for my $ArticleKey (qw( MIMEBase_From MIMEBase_To MIMEBase_Cc MIMEBase_Bcc MIMEBase_Subject MIMEBase_Body)) {
 
-    $Self->Is(
-        scalar @FoundTicketIDs,
-        1,
-        "TicketSearch() $StorageBackend - Result count.",
-    );
+        # Check that the article search index table has been populated
+        return if !$DBObject->Prepare(
+            SQL => '
+                SELECT article_value FROM article_search_index
+                WHERE
+                    ticket_id = ?
+                    AND article_id = ?
+                    AND article_key = ?
+              ORDER BY ticket_id DESC',
+            Bind => [
+                \$Tickets[$Counter]->{TicketID},
+                \$Tickets[$Counter]->{ArticleID},
+                \$ArticleKey,
+            ],
+        );
 
-    $Self->Is(
-        $FoundTicketIDs[0],
-        $TicketID,
-        "TicketSearch() $StorageBackend - Found TicketID equal to created TicketID.",
-    );
+        my $Value;
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            $Value = $Row[0];
+        }
+
+        my $TemplateKey = $ArticleKey;
+        $TemplateKey =~ s{MIMEBase_}{};
+
+        my $ExpectedValue = lc $ArticleTemplate{$TemplateKey};
+        if ( $TemplateKey eq 'Subject' ) {
+            $ExpectedValue = lc 'Ticket Article ' . $RandomID . $Counter;
+        }
+
+        $Self->Is(
+            $Value,
+            $ExpectedValue,
+            "ArticleSeachIndex for Article $Tickets[$Counter]->{ArticleID} $ArticleKey value"
+        );
+    }
+
+    for my $StorageBackend (qw(ArticleStorageDB ArticleStorageFS)) {
+
+        # For the search it is enough to change the config, the TicketObject does not
+        #   have to be recreated to use the different base class.
+        $ConfigObject->Set(
+            Key   => 'Ticket::Article::Backend::MIMEBase::ArticleStorage',
+            Value => "Kernel::System::Ticket::Article::Backend::MIMEBase::$StorageBackend",
+        );
+
+        my @FoundTicketIDs = $TicketObject->TicketSearch(
+            Result              => 'ARRAY',
+            Limit               => 1,
+            ConditionInline     => 0,
+            ContentSearchPrefix => '*',
+            ContentSearchSuffix => '*',
+            FullTextIndex       => 1,
+            Fulltext            => $RandomID . $Counter,
+            UserID              => 1,
+        );
+
+        $Self->Is(
+            scalar @FoundTicketIDs,
+            1,
+            "TicketSearch() $StorageBackend - Result count.",
+        );
+
+        $Self->Is(
+            $FoundTicketIDs[0],
+            $Tickets[$Counter]->{TicketID},
+            "TicketSearch() $StorageBackend - Found TicketID equal to created TicketID.",
+        );
+    }
 }
 
-my $Success = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => 1,
-);
+for my $Ticket (@Tickets) {
 
-$Self->True(
-    $Success,
-    "Ticket with id '$TicketID' deleted."
-);
+    my $TicketID = $Ticket->{TicketID};
+    my $Success  = $TicketObject->TicketDelete(
+        TicketID => $TicketID,
+        UserID   => 1,
+    );
+
+    $Self->True(
+        $Success,
+        "Ticket with id '$TicketID' deleted."
+    );
+}
 
 # Cleanup cache is done by RestoreDatabase
 

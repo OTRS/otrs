@@ -21,6 +21,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::PID',
     'Kernel::System::Ticket',
@@ -118,6 +119,8 @@ sub ArticleIndexRebuild {
     my ( $Self, %Param ) = @_;
 
     my @ArticleIDs = keys %{ $Param{ArticleTicketIDs} };
+
+    $Kernel::OM->Get('Kernel::System::DB')->Disconnect();
 
     # Destroy objects for the child processes.
     $Kernel::OM->ObjectsDiscard(
