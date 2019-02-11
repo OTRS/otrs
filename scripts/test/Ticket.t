@@ -2813,4 +2813,15 @@ for my $Test (@Tests) {
     );
 }
 
+# Test TicketCountByAttribute() function with more then 1000 entries.
+@TicketIDs   = ( @TicketIDs, 100 .. 1100 );
+$TicketCount = $TicketObject->TicketCountByAttribute(
+    Attribute => 'Service',
+    TicketIDs => \@TicketIDs,
+);
+$Self->True(
+    IsHashRefWithData($TicketCount),
+    "TicketCountByAttribute() for more then 1000 entries correct"
+);
+
 1;

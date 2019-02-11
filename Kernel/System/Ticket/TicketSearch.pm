@@ -2641,14 +2641,30 @@ sub TicketCountByAttribute {
     }
     my $AttributeType = %AttributeValueLookup ? 'Value' : 'ID';
 
+    # Split IN statement with more than 900 elements in more statements combined with OR
+    # because Oracle doesn't support more than 1000 elements in one IN statement.
+    my @TicketIDs = @BindTicketIDs;
+    my @SQLStrings;
+    while ( scalar @TicketIDs ) {
+
+        # Remove section in the array.
+        my @TicketIDsPart = splice @TicketIDs, 0, 2;
+
+        my $TicketIDString = join ',', ('?') x scalar @TicketIDsPart;
+
+        # Add new statement.
+        push @SQLStrings, "id IN ($TicketIDString)";
+    }
+
+    my $SQLString = join ' OR ', @SQLStrings;
+
     # Get count from database.
-    my $TicketIDString = join ',', ('?') x scalar @BindTicketIDs;
-    my $DBObject       = $Kernel::OM->Get('Kernel::System::DB');
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
     return if !$DBObject->Prepare(
         SQL =>
             'SELECT COUNT(*), ' . $DatabaseColumn
             . ' FROM ticket'
-            . ' WHERE id IN (' . $TicketIDString . ')'
+            . ' WHERE ' . $SQLString
             . ' AND ' . $DatabaseColumn . ' IS NOT NULL'
             . ' GROUP BY ' . $DatabaseColumn,
         Bind  => \@BindTicketIDs,
