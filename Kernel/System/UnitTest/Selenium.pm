@@ -111,10 +111,33 @@ sub new {
     $Kernel::OM->Get('Kernel::System::Main')->Require('Kernel::System::UnitTest::Selenium::WebElement')
         || die "Could not load Kernel::System::UnitTest::Selenium::WebElement";
 
-    my $Self = $Class->SUPER::new(
-        webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
-        %SeleniumTestsConfig
-    );
+    my $Self;
+
+    # TEMPORARY WORKAROUND FOR GECKODRIVER BUG https://github.com/mozilla/geckodriver/issues/1470:
+    #   If marionette handshake fails, wait and try again. Can be removed after the bug is fixed
+    #   in a new geckodriver version.
+    eval {
+        $Self = $Class->SUPER::new(
+            webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
+            %SeleniumTestsConfig
+        );
+    };
+    if ($@) {
+        my $Exception = $@;
+
+        # Only handle this specific geckodriver exception.
+        die $Exception if $Exception !~ m{Socket timeout reading Marionette handshake data};
+
+        # Sleep and try again, bail out if it fails a second time.
+        #   A long sleep of 10 seconds is acceptable here, as it occurs only very rarely.
+        sleep 10;
+
+        $Self = $Class->SUPER::new(
+            webelement_class => 'Kernel::System::UnitTest::Selenium::WebElement',
+            %SeleniumTestsConfig
+        );
+    }
+
     $Self->{UnitTestDriverObject} = $Param{UnitTestDriverObject};
     $Self->{SeleniumTestsActive}  = 1;
 
