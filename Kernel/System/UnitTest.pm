@@ -259,10 +259,10 @@ sub _SubmitResults {
     *STDOUT->flush();
     *STDERR->flush();
 
-    # Limit attachment sizes to 2MB in total.
+    # Limit attachment sizes to 20MB in total.
     my @AttachmentPath  = split( /:/, $Param{AttachmentPath} || '' );
     my $AttachmentCount = scalar @AttachmentPath;
-    my $AttachmentsSize = 1024 * 1024 * 2;
+    my $AttachmentsSize = 1024 * 1024 * 20;
 
     ATTACHMENT_PATH:
     for my $AttachmentPath (@AttachmentPath) {
