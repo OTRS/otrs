@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-01-08 15:00+0000\n"
+"POT-Creation-Date: 2019-02-13 21:57+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: saeedi <mohsen.saeedi@gmail.com>, 2018\n"
 "Language-Team: Persian (https://www.transifex.com/otrs/teams/23435/fa/)\n"
@@ -18949,10 +18949,6 @@ msgid ""
 "and \"Event\" defines the trigger event. Please check the developer manual "
 "(https://doc.otrs.com/doc/), chapter \"Ticket Event Module\"."
 msgstr ""
-"پیکربندی تنظیمات پیش فرض TicketDynamicField. \\ \"نام \" تعریف می کند زمینه "
-"پویا است که باید مورد استفاده قرار گیرد، \\ \"ارزش \" داده است که تعیین "
-"خواهد شد، و \\ \"رویداد \" رویداد ماشه تعریف می کند. لطفا کتابچه راهنمای "
-"توسعه (https://doc.otrs.com/doc/)، فصل \\ \"بلیط رویداد ماژول \" تیک بزنید."
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
@@ -20364,9 +20360,6 @@ msgid ""
 "customers. If you like, you can add your own theme. Please refer the "
 "administrator manual located at https://doc.otrs.com/doc/."
 msgstr ""
-"تعریف می کند که تم پیش فرض جلویی (HTML) به توسط عوامل و مشتریان استفاده می "
-"شود. اگر دوست دارید، شما می توانید موضوع خود را اضافه کنید. لطفا کتابچه "
-"راهنمای کاربر مدیر واقع در https://doc.otrs.com/doc/ مراجعه کنید."
 
 #. SysConfig
 msgid ""
@@ -25580,11 +25573,9 @@ msgstr "بازسازی شاخص بلیط برای AgentTicketQueue."
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external"
-" ticket number."
+"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
+"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
 msgstr ""
-"تشخیص اگر یک بلیط یک پیگیری بلیط های موجود برای استفاده از تعداد بلیط های "
-"خارجی است."
 
 #. SysConfig
 msgid "Refresh interval"

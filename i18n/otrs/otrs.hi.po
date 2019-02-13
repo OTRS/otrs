@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-01-08 15:00+0000\n"
+"POT-Creation-Date: 2019-02-13 21:57+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>, 2018\n"
 "Language-Team: Hindi (https://www.transifex.com/otrs/teams/23435/hi/)\n"
@@ -24672,8 +24672,8 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external"
-" ticket number."
+"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
+"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
 msgstr ""
 
 #. SysConfig

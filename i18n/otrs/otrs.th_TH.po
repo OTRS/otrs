@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-01-08 15:00+0000\n"
+"POT-Creation-Date: 2019-02-13 21:57+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: OTRS SDN BHD <otrssdnbhd@gmail.com>, 2018\n"
 "Language-Team: Thai (Thailand) (https://www.transifex.com/otrs/teams/23435/th_TH/)\n"
@@ -18716,10 +18716,6 @@ msgid ""
 "and \"Event\" defines the trigger event. Please check the developer manual "
 "(https://doc.otrs.com/doc/), chapter \"Ticket Event Module\"."
 msgstr ""
-"กำหนดค่าค่าเริ่มต้นของการตั้งค่า TicketDynamicField \"ชื่อ\" "
-"จะกำหนดฟิลด์แบบไดนามิกที่จะนำมาใช้ \"ค่า\" เป็นข้อมูลที่จะถูกตั้งค่าและ "
-"\"กิจกรรม\" จะกำหนดตัวกระตุ้นกิจกรรม กรุณาตรวจสอบคู่มือการพัฒนา "
-"(https://doc.otrs.com/doc/) บท \"Ticket Event Module\"."
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
@@ -20083,9 +20079,6 @@ msgid ""
 "customers. If you like, you can add your own theme. Please refer the "
 "administrator manual located at https://doc.otrs.com/doc/."
 msgstr ""
-"กำหนดธีม front-end เริ่มต้น (HTML)ที่จะใช้โดยตัวแทนและลูกค้า "
-"ถ้าคุณชอบคุณสามารถเพิ่มธีมของคุณเอง โปรดดูคู่มือการดูแลระบบที่ตั้งอยู่ที่ "
-"https://doc.otrs.com/doc/"
 
 #. SysConfig
 msgid ""
@@ -24994,8 +24987,8 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external"
-" ticket number."
+"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
+"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
 msgstr ""
 
 #. SysConfig

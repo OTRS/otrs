@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.241509433962264;
+    $Self->{Completeness}        = 0.244082332761578;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -45,10 +45,11 @@ sub Data {
         'Deploy ACLs' => 'הפעל ACLs',
         'Export ACLs' => 'ייצא ACLs',
         'Filter for ACLs' => 'מסנן עבור ACLs',
-        'Just start typing to filter...' => '',
-        'Configuration Import' => '',
+        'Just start typing to filter...' => 'בשביל סינון, התחיל לכתוב...',
+        'Configuration Import' => 'הגדרות ייבוא',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            '',
+            'כאן אפשר להעלות את קובץ ההגדות מ- ACLs למערכת.
+הקבצים צריכים להיות בפורמט yml. אשר ייצאו דרך מודול  ACL editor.',
         'This field is required.' => 'זהו שדה נדרש.',
         'Overwrite existing ACLs?' => 'לדרוס ACL קיימים?',
         'Upload ACL configuration' => 'העלה הגדרות ACL',
@@ -61,7 +62,7 @@ sub Data {
         'ACLs' => 'ACLs',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
-        'ACL name' => '',
+        'ACL name' => 'שם ACL',
         'Comment' => 'הערה',
         'Validity' => 'תקפות',
         'Export' => 'ייצא',
@@ -71,7 +72,7 @@ sub Data {
 
         # Template: AdminACLEdit
         'Edit ACL %s' => 'ערוך ACL %s',
-        'Edit ACL' => '',
+        'Edit ACL' => 'ערוך ACL %s',
         'Go to overview' => 'עבור למבט-על',
         'Delete ACL' => 'מחק ACL',
         'Delete Invalid ACL' => 'מחק ACL לא חוקי',
@@ -88,7 +89,7 @@ sub Data {
         'Name' => 'שם',
         'Stop after match' => 'עצור לאחר ההתאמה',
         'Edit ACL Structure' => '',
-        'Save ACL' => '',
+        'Save ACL' => 'שמור ACL',
         'Save' => 'שמור',
         'or' => 'או',
         'Save and finish' => 'שמור וסיים',
@@ -100,19 +101,19 @@ sub Data {
             '',
 
         # Template: AdminAppointmentCalendarManage
-        'Calendar Management' => '',
-        'Add Calendar' => '',
-        'Edit Calendar' => '',
-        'Calendar Overview' => '',
-        'Add new Calendar' => '',
-        'Import Appointments' => '',
-        'Calendar Import' => '',
+        'Calendar Management' => 'ניהול יומן',
+        'Add Calendar' => 'הוסף יומן',
+        'Edit Calendar' => 'ערוך יומן',
+        'Calendar Overview' => 'דרוס יומן',
+        'Add new Calendar' => 'הוסף יומן חדש',
+        'Import Appointments' => 'ייבא פגישה',
+        'Calendar Import' => 'ייבוא יומן',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
             '',
         'Overwrite existing entities' => '',
         'Upload calendar configuration' => '',
-        'Import Calendar' => '',
-        'Filter for Calendars' => '',
+        'Import Calendar' => 'ייבא יומן',
+        'Filter for Calendars' => 'סינון עבור יומנים',
         'Filter for calendars' => '',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             '',
@@ -7853,8 +7854,8 @@ Thanks for your help!
         'Queue view' => 'תצוגת תורים',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
-            '',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
+        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
         'Refresh interval' => 'לרענן כל',
         'Registers a log module, that can be used to log communication related information.' =>
             '',

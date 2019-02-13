@@ -3,14 +3,14 @@
 # Jaroslav Balaz <balazj315@gmail.com>, 2018
 # Милорад Јовановић <j.milorad@gmail.com>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
-# Dusan Vuckovic, 2018
+# Dusan Vuckovic, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-01-08 15:00+0000\n"
+"POT-Creation-Date: 2019-02-13 21:57+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Dusan Vuckovic, 2018\n"
+"Last-Translator: Dusan Vuckovic, 2019\n"
 "Language-Team: Serbian (https://www.transifex.com/otrs/teams/23435/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2172,7 +2172,7 @@ msgstr "Планирано дана"
 
 #. Template: AdminGenericAgent
 msgid "Automatic execution values are in the system timezone."
-msgstr ""
+msgstr "Времена аутоматског извршавања су у системској временској зони."
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
@@ -12197,6 +12197,7 @@ msgstr "Листа спремишта"
 msgid ""
 "No packages found in selected repository. Please check log for more info!"
 msgstr ""
+"У изабраном спремишту нема пакета. Молимо проверите лог за више информација."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
@@ -14321,11 +14322,11 @@ msgstr "Нису одабрани кључеви за шифровање за а
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Cannot use expired encryption keys for the addresses: '%s'. "
-msgstr ""
+msgstr "Није могуће користити истекао кључ за шифровање за адресе: '%s'."
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Cannot use revoked encryption keys for the addresses: '%s'. "
-msgstr ""
+msgstr "Није могуће користити повучен кључ за шифровање за адресе: '%s'."
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Encrypt"
@@ -14371,11 +14372,11 @@ msgstr "SMIME шифровање"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "Cannot use expired signing key: '%s'. "
-msgstr ""
+msgstr "Није могуће користити истекао кључ за потписивање: '%s'."
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "Cannot use revoked signing key: '%s'. "
-msgstr ""
+msgstr "Није могуће користити повучен кључ за потписивање: '%s'."
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "There are no signing keys available for the addresses '%s'."
@@ -17706,7 +17707,7 @@ msgstr ""
 
 #. JS File: Core.Agent.SharedSecretGenerator
 msgid "Generate"
-msgstr ""
+msgstr "Генериши"
 
 #. JS File: Core.Agent.SortedTree
 msgid "This element has children elements and can currently not be removed."
@@ -19446,11 +19447,6 @@ msgid ""
 "and \"Event\" defines the trigger event. Please check the developer manual "
 "(https://doc.otrs.com/doc/), chapter \"Ticket Event Module\"."
 msgstr ""
-"Конфигурише подразумевана подешавања динамичког поља тикета. \"Name\" "
-"дефинише динамичко поље које ће бити коришћено, \"Value\" је податак који ће"
-" бити подешен, а \"Event\" дефинише окидач догађаја. Молимо консултујте "
-"упутство за програмере (https://doc.otrs.com/doc/), поглавље \"Модул "
-"догађаја тикета\"."
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
@@ -20975,9 +20971,6 @@ msgid ""
 "customers. If you like, you can add your own theme. Please refer the "
 "administrator manual located at https://doc.otrs.com/doc/."
 msgstr ""
-"Дефинише подразумевану корисничку (HTML) тему за оператере и клијенте. "
-"Уколико желите, можете додати сопствену тему. Молимо консултујте упутство за"
-" администраторе на https://doc.otrs.com/doc/."
 
 #. SysConfig
 msgid ""
@@ -23741,6 +23734,11 @@ msgid ""
 "application works well. Otherwise you will be not able to login anymore "
 "without the two factor token."
 msgstr ""
+"Унесите свој дељени тајни кључ за двофакторски модул за идентификацију. "
+"УПОЗОРЕЊЕ: обратите пажњу да морате правилно унети тајни кључ у вашу "
+"апликацију за идентификацију и да апликација функционише исправно. У "
+"супротном, нећете бити у могућности да се пријавите у систем без "
+"двофакторског токена."
 
 #. SysConfig
 msgid "Escalated Tickets"
@@ -26695,11 +26693,9 @@ msgstr "Поново изради индекс тикета за операте�
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external"
-" ticket number."
+"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
+"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
 msgstr ""
-"Препознај да ли је тикет наставак постојећег тикета коришћењем екстерног "
-"броја тикета."
 
 #. SysConfig
 msgid "Refresh interval"

@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.497770154373928;
+    $Self->{Completeness}        = 0.497941680960549;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2763,7 +2763,7 @@ sub Data {
         # Template: Chat
         '#%s' => '',
         'via %s' => '',
-        'by %s' => '',
+        'by %s' => 'door %s',
         'Toggle article details' => '',
 
         # Template: MIMEBase
@@ -2855,7 +2855,7 @@ sub Data {
         'Your user name' => 'Uw gebruikersnaam',
         'Your password' => 'Uw wachtwoord',
         'Forgot password?' => 'Wachtwoord vergeten?',
-        '2 Factor Token' => '2 factor eken',
+        '2 Factor Token' => '2 stappen code',
         'Your 2 Factor Token' => 'Uw 2 stappen code',
         'Log In' => 'Inloggen',
         'Not yet registered?' => 'Nog niet geregistreerd?',
@@ -7865,8 +7865,8 @@ Het Helpdesk Team
         'Queue view' => 'Wachtrijoverzicht',
         'Queues ↔ Auto Responses' => 'Wachtrijen ↔ Automatische antwoorden',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
-            '',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
+        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
         'Refresh interval' => 'Interval',
         'Registers a log module, that can be used to log communication related information.' =>
             '',

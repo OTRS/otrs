@@ -4,14 +4,14 @@
 # Gergely Baranyai <baranyai.gergely@alohainformatika.hu>, 2018
 # Peter Matyas <mr.peter.matyas@gmail.com>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
-# Balázs Úr <ur.balazs@fsf.hu>, 2018
+# Balázs Úr <ur.balazs@fsf.hu>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-01-08 15:00+0000\n"
+"POT-Creation-Date: 2019-02-13 21:57+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Balázs Úr <ur.balazs@fsf.hu>, 2018\n"
+"Last-Translator: Balázs Úr <ur.balazs@fsf.hu>, 2019\n"
 "Language-Team: Hungarian (https://www.transifex.com/otrs/teams/23435/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2208,7 +2208,7 @@ msgstr "Nap ütemezése"
 
 #. Template: AdminGenericAgent
 msgid "Automatic execution values are in the system timezone."
-msgstr ""
+msgstr "Az automatikus végrehajtás értékei a rendszer időzónában vannak."
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
@@ -12402,6 +12402,8 @@ msgstr "Tárolólista"
 msgid ""
 "No packages found in selected repository. Please check log for more info!"
 msgstr ""
+"Nem találhatók csomagok a kijelölt tárolóban. További információkért nézze "
+"meg a naplót!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
@@ -14571,11 +14573,11 @@ msgstr "Nincsenek kiválasztott titkosító kulcsok a címekhez: „%s”. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Cannot use expired encryption keys for the addresses: '%s'. "
-msgstr ""
+msgstr "Nem lehet lejárt titkosítási kulcsot használni a címekhez: „%s”. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Cannot use revoked encryption keys for the addresses: '%s'. "
-msgstr ""
+msgstr "Nem lehet visszavont titkosítási kulcsot használni a címekhez: „%s”. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Encrypt"
@@ -14622,11 +14624,11 @@ msgstr "S/MIME titkosítás"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "Cannot use expired signing key: '%s'. "
-msgstr ""
+msgstr "Nem lehet lejárt aláíró kulcsot használni: „%s”. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "Cannot use revoked signing key: '%s'. "
-msgstr ""
+msgstr "Nem lehet visszavont aláíró kulcsot használni: „%s”. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "There are no signing keys available for the addresses '%s'."
@@ -16157,7 +16159,7 @@ msgstr "időszakos kommunikációs hibák"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
 msgid "Config Settings"
-msgstr "Beállítások konfigurálása"
+msgstr "Konfigurációs beállítások"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigSettings.pm
@@ -16467,7 +16469,7 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
 msgid "Orphaned Records In ticket_lock_index Table"
-msgstr "Elárvult rekordok a ticket_lock_index táblában"
+msgstr "Árva rekordok a ticket_lock_index táblában"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
@@ -16476,14 +16478,14 @@ msgid ""
 "bin/otrs.Console.pl \"Maint::Ticket::QueueIndexCleanup\" to clean the "
 "StaticDB index."
 msgstr ""
-"A ticket_lock_index tábla elárvult rekordokat tartalmaz. Futtassa a "
+"A ticket_lock_index tábla árva rekordokat tartalmaz. Futtassa a "
 "bin/otrs.Console.pl \"Maint::Ticket::QueueIndexCleanup\" parancsot a "
 "StaticDB index tisztításához."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
 msgid "Orphaned Records In ticket_index Table"
-msgstr "Elárvult rekordok a ticket_index táblában"
+msgstr "Árva rekordok a ticket_index táblában"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
@@ -16491,7 +16493,7 @@ msgid ""
 "Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl"
 " \"Maint::Ticket::QueueIndexCleanup\" to clean the StaticDB index."
 msgstr ""
-"A ticket_index tábla elárvult rekordokat tartalmaz. Futtassa a "
+"A ticket_index tábla árva rekordokat tartalmaz. Futtassa a "
 "bin/otrs.Console.pl \"Maint::Ticket::QueueIndexCleanup\" parancsot a "
 "StaticDB index tisztításához."
 
@@ -18024,7 +18026,7 @@ msgstr ""
 
 #. JS File: Core.Agent.SharedSecretGenerator
 msgid "Generate"
-msgstr ""
+msgstr "Előállítás"
 
 #. JS File: Core.Agent.SortedTree
 msgid "This element has children elements and can currently not be removed."
@@ -19820,10 +19822,6 @@ msgid ""
 "and \"Event\" defines the trigger event. Please check the developer manual "
 "(https://doc.otrs.com/doc/), chapter \"Ticket Event Module\"."
 msgstr ""
-"Beállítja az alapértelmezett jegy dinamikus mező beállítást. A „Name” a "
-"használandó dinamikus mezőt, a „Value” a beállítandó adatokat, illetve az "
-"„Event” az aktiváló eseményt határozza meg. Nézze meg a fejlesztői kézikönyv"
-" (https://doc.otrs.com/doc/) „Jegyesemény modul” fejezetét."
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
@@ -21420,10 +21418,6 @@ msgid ""
 "customers. If you like, you can add your own theme. Please refer the "
 "administrator manual located at https://doc.otrs.com/doc/."
 msgstr ""
-"Meghatározza az ügyintézők és az ügyfelek által használt alapértelmezett "
-"előtétprogram (HTML) témáját. Ha szeretné, hozzáadhatja a saját témáját. "
-"Nézze meg a https://doc.otrs.com/doc/ címen elérhető adminisztrátori "
-"kézikönyvet."
 
 #. SysConfig
 msgid ""
@@ -24283,6 +24277,10 @@ msgid ""
 "application works well. Otherwise you will be not able to login anymore "
 "without the two factor token."
 msgstr ""
+"Adja meg a megosztott titkot a kétlépcsős hitelesítés engedélyezéséhez. "
+"FIGYELMEZTETÉS: Győződjön meg arról, hogy hozzáadta-e a megosztott titkot az"
+" előállító alkalmazásához és az alkalmazás helyesen működik-e. Egyébként nem"
+" lesz képes többé bejelentkezni a kétlépcsős token nélkül."
 
 #. SysConfig
 msgid "Escalated Tickets"
@@ -27360,11 +27358,9 @@ msgstr "Az AgentTicketQueue jegyindexének újraépítése."
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external"
-" ticket number."
+"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
+"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
 msgstr ""
-"Annak felismerése, ha a jegy egy külső jegyszámot használó meglévő jegy "
-"követője."
 
 #. SysConfig
 msgid "Refresh interval"

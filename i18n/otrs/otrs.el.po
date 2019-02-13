@@ -1,17 +1,17 @@
 # Translators:
 # KOSTAS PETRIDIS <kpetridis@cteam.gr>, 2018
-# Korina Lampridou <korina@it.auth.gr>, 2018
 # Alexandros Kosiaris <akosiaris@gmail.com>, 2018
 # Krikor Maroukian <krikor.maroukian@gmail.com>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Angelos Chraniotis <chraniotis@gmail.com>, 2018
+# Korina Lampridou <korina@it.auth.gr>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-01-08 15:00+0000\n"
+"POT-Creation-Date: 2019-02-13 21:57+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Angelos Chraniotis <chraniotis@gmail.com>, 2018\n"
+"Last-Translator: Korina Lampridou <korina@it.auth.gr>, 2019\n"
 "Language-Team: Greek (https://www.transifex.com/otrs/teams/23435/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,11 +45,11 @@ msgstr "Φίλτρο για τα ACL"
 
 #. Template: AdminACL
 msgid "Just start typing to filter..."
-msgstr ""
+msgstr "Απλά αρχίστε να πληκτρολογείτε για φιλτράρισμα.."
 
 #. Template: AdminACL
 msgid "Configuration Import"
-msgstr ""
+msgstr "Εισαγωγή αρχείου παραμετροποίησης"
 
 #. Template: AdminACL
 msgid ""
@@ -162,7 +162,7 @@ msgstr "Διαγραφή μη έγκυρων ACL"
 
 #. Template: AdminACLEdit
 msgid "Match settings"
-msgstr ""
+msgstr "Ταίριασμα ρυθμίσεων"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -173,7 +173,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Change settings"
-msgstr ""
+msgstr "Αλλαγή ρυθμίσεων"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -183,11 +183,11 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Check the official"
-msgstr ""
+msgstr "Ελέγξτε το επίσημο"
 
 #. Template: AdminACLEdit
 msgid "documentation"
-msgstr ""
+msgstr "τεκμηρίωση"
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -195,7 +195,7 @@ msgstr "Εμφάνιση ή απόκρυψη περιεχομένου"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "Επεξεργασία πληροφοριών ACL"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -203,15 +203,15 @@ msgstr "Όνομα"
 
 #. Template: AdminACLEdit
 msgid "Stop after match"
-msgstr ""
+msgstr "Σταμάτα μετά το ταίριασμα"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
+msgstr "Επεξεργασία δομής ACL"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
-msgstr ""
+msgstr "Αποθήκευση ACL"
 
 #. Template: AdminACLEdit
 msgid "Save"
@@ -24064,8 +24064,8 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external"
-" ticket number."
+"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
+"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
 msgstr ""
 
 #. SysConfig

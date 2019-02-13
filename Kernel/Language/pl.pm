@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.661921097770154;
+    $Self->{Completeness}        = 0.664493996569468;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -110,8 +110,8 @@ sub Data {
         'Overwrite existing entities' => 'Nadpisać istniejące encje',
         'Upload calendar configuration' => 'Wczytaj konfigurację kalendarza',
         'Import Calendar' => 'Zaimportuj Kalendarz',
-        'Filter for Calendars' => '',
-        'Filter for calendars' => 'Filtr dla kalendrzay',
+        'Filter for Calendars' => 'Filtr dla Kalendarzy',
+        'Filter for calendars' => 'Filtr dla kalendarzy',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             'W zależności od pola grupy, system udostępni użytkownikom dostęp do kalendarza zgodnie z ich uprawnieniami.',
         'Read only: users can see and export all appointments in the calendar.' =>
@@ -213,7 +213,7 @@ sub Data {
         'At least one method is needed per notification.' => 'Wymagana jest przynajmniej jedna metoda na powiadomienie.',
         'Active by default in agent preferences' => 'Domyślnie aktywne w ustawieniach agenta',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
-            '',
+            'Wartość domyślna ustawienia odbioru tego powiadomienia dla agenta, który nie określił jeszcze tej wartości w swoich preferencjach. Jeśli pole jest zaznaczone, powiadomienie będzie do takich agentów wysyłane.',
         'This feature is currently not available.' => 'Ta funkcja jest obecnie niedostępna.',
         'Upgrade to %s' => 'Zaktualizuj do %s',
         'Please activate this transport in order to use it.' => 'Aktywuj ten sposób transportu aby go użyć.',
@@ -320,10 +320,10 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => 'Log komunikacji',
-        'Time Range' => '',
+        'Time Range' => 'Zakres czasu',
         'Show only communication logs created in specific time range.' =>
             'Pokaż log komunikacyjny utworzony tylko w określonym zakresie czasu.',
-        'Filter for Communications' => '',
+        'Filter for Communications' => 'Filtr kanałów komunikacji',
         'Filter for communications' => 'Filtr kanałów komunikacji',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             'Na tym ekranie możesz zobaczyć podsumowanie komunikacji przychodzącej i wychodzącej.',
@@ -354,8 +354,8 @@ sub Data {
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => 'Status konta',
-        'Back to overview' => '',
-        'Filter for Accounts' => '',
+        'Back to overview' => 'Powrót do przeglądu',
+        'Filter for Accounts' => 'Filtr dla Kont',
         'Filter for accounts' => 'Filtr dla kont',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             'Możesz zmienić kolejność i sortowanie kolumn klikając na nagłówek tabeli.',
@@ -489,7 +489,7 @@ sub Data {
             'Te grupy zostaną automatycznie przypisane do wszystkich użytkowników klienta.',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Możesz zarządzać tymi grupami poprzez parametr "CustomerGroupAlwaysGroups".',
-        'Filter for groups' => '',
+        'Filter for groups' => 'Filtr dla grup.',
         'Select the customer user - group permissions.' => 'Określ uprawnienia użytkownik klienta - grupa.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             '',
@@ -628,11 +628,11 @@ sub Data {
 
         # Template: AdminGenericAgent
         'Generic Agent Job Management' => '',
-        'Edit Job' => '',
-        'Add Job' => '',
-        'Run Job' => '',
-        'Filter for Jobs' => '',
-        'Filter for jobs' => '',
+        'Edit Job' => 'Edytuj Zadanie',
+        'Add Job' => 'Dodaj Zadanie',
+        'Run Job' => 'Wykonaj Zadanie',
+        'Filter for Jobs' => 'Filtr Zadań',
+        'Filter for jobs' => 'Filtr zadań',
         'Last run' => 'Ostatnie uruchomienie',
         'Run Now!' => 'Uruchom teraz',
         'Delete this task' => 'Usuń to zadanie',
@@ -645,7 +645,7 @@ sub Data {
         'Schedule minutes' => 'Ustal minuty',
         'Schedule hours' => 'Ustal godziny',
         'Schedule days' => 'Ustal dni',
-        'Automatic execution values are in the system timezone.' => '',
+        'Automatic execution values are in the system timezone.' => 'Wartości automatycznego wykonania są określone dla strefy czasowej systemu.',
         'Currently this generic agent job will not run automatically.' =>
             'Zadanie nie zostanie uruchomione automatycznie.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
@@ -7542,7 +7542,7 @@ Thanks for your help!
         'List of colors in hexadecimal RGB which will be available for selection during calendar creation. Make sure the colors are dark enough so white text can be overlayed on them.' =>
             '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
-            '',
+            'Lista predefiniowanych szablonów standardowych, które są przypisywane automatycznie do nowych kolejek po utworzeniu.',
         'List of responsive CSS files to always be loaded for the agent interface.' =>
             '',
         'List of responsive CSS files to always be loaded for the customer interface.' =>
@@ -7570,7 +7570,7 @@ Thanks for your help!
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             '',
         'Malay' => 'Malajski',
-        'Manage OTRS Group cloud services.' => '',
+        'Manage OTRS Group cloud services.' => 'Zarządzaj usługami chmurowymi OTRS Group.',
         'Manage PGP keys for email encryption.' => 'Zarządzanie kluczami PGP do szyfrowania poczty.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Ustawienia konto pocztowych POP3 i IMAP, z których pobierana jest poczta przychodząca do systemu',
         'Manage S/MIME certificates for email encryption.' => 'Zarządzanie certyfikatami S/MIME służącymi do szyfrowania poczty wychodzącej',
@@ -7852,8 +7852,8 @@ Thanks for your help!
         'Queue view' => 'Widok kolejek',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
-            '',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
+        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
         'Refresh interval' => 'Interwał odświeżania',
         'Registers a log module, that can be used to log communication related information.' =>
             '',

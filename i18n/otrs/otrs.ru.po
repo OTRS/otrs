@@ -30,13 +30,15 @@
 # Rasim Kalimullin <neutrino.vm@gmail.com>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Sergey Nikitin <nikitin.sergey.v@gmail.com>, 2018
+# toshkov, 2019
+# Yuri Myasoedov <omerta13@yandex.ru>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-01-08 15:00+0000\n"
+"POT-Creation-Date: 2019-02-13 21:57+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Sergey Nikitin <nikitin.sergey.v@gmail.com>, 2018\n"
+"Last-Translator: Yuri Myasoedov <omerta13@yandex.ru>, 2019\n"
 "Language-Team: Russian (https://www.transifex.com/otrs/teams/23435/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,7 +64,7 @@ msgstr "Синхронизировать ACL"
 
 #. Template: AdminACL
 msgid "Export ACLs"
-msgstr "Экспорт  ACL"
+msgstr "Экспортировать  ACL"
 
 #. Template: AdminACL
 msgid "Filter for ACLs"
@@ -150,7 +152,7 @@ msgstr "Действительность"
 
 #. Template: AdminACL
 msgid "Export"
-msgstr "Экспорт"
+msgstr "Экспортировать"
 
 #. Template: AdminACL
 msgid "Copy"
@@ -166,7 +168,7 @@ msgstr "Совпадений не найдено."
 
 #. Template: AdminACLEdit
 msgid "Edit ACL %s"
-msgstr "Редактировать ACL %s"
+msgstr "Изменить ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
@@ -228,7 +230,7 @@ msgstr "Изменить информацию о ACL"
 
 #. Template: AdminACLEdit
 msgid "Name"
-msgstr "Name - Название"
+msgstr "Название"
 
 #. Template: AdminACLEdit
 msgid "Stop after match"
@@ -280,7 +282,7 @@ msgstr "Добавить календарь"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Edit Calendar"
-msgstr "Редактировать календарь"
+msgstr "Изменить календарь"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
@@ -296,7 +298,7 @@ msgstr "Импортировать мероприятия"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Import"
-msgstr "Импорт календаря"
+msgstr "Импортировать календарь"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -322,11 +324,11 @@ msgstr "Импортировать календарь"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for Calendars"
-msgstr "Фильтр Календарей"
+msgstr "Фильтр календарей"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
-msgstr "Фильтр для Календарей"
+msgstr "Фильтр для календарей"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -357,7 +359,7 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read/write: users can manage the calendar itself."
-msgstr "Запись/чтение: пользователи имеют полное управление календарем."
+msgstr "Чтение/запись: пользователи могут полностью управлять календарём."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Group"
@@ -533,7 +535,7 @@ msgstr "Добавить уведомление"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
-msgstr "Редактировать уведомления"
+msgstr "Изменить уведомление"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
@@ -541,7 +543,7 @@ msgstr "Экспорт уведомлений"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for Notifications"
-msgstr "Фильтр для Уведомлений"
+msgstr "Фильтр для уведомлений"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for notifications"
@@ -567,7 +569,7 @@ msgstr "Загрузить конфигурацию уведомлений"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Import Notification configuration"
-msgstr "Импортировать настройки Уведомлений"
+msgstr "Импортировать настройки уведомлений"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "List"
@@ -625,7 +627,7 @@ msgstr "Фильтр мероприятий."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Type"
-msgstr "Type - Тип"
+msgstr "Тип"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Title"
@@ -665,7 +667,7 @@ msgstr "Отправить всем членам роли"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send on out of office"
-msgstr "Отправить для отсутствующих/out of office"
+msgstr "Отправить для отсутствующих на месте"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Also send if the user is currently out of office."
@@ -784,7 +786,7 @@ msgstr "Справка по тэгам"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notifications are sent to an agent."
-msgstr "Уведомления направляются к агенту."
+msgstr "Уведомления отправляются агенту."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "You can use the following tags"
@@ -991,7 +993,7 @@ msgstr "Пример ответа"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Cloud Service Management"
-msgstr "Управление Облаком"
+msgstr "Управление облачным сервисом"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support Data Collector"
@@ -6163,7 +6165,7 @@ msgstr "Фильтр для Шаблонов"
 
 #. Template: AdminQueueTemplates
 msgid "Filter for templates"
-msgstr ""
+msgstr "Фильтр для шаблонов"
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
@@ -6598,7 +6600,7 @@ msgstr "Фильтр для Агентов"
 
 #. Template: AdminRoleUser
 msgid "Filter for agents"
-msgstr ""
+msgstr "Фильтр для агентов"
 
 #. Template: AdminRoleUser
 msgid "Agents"
@@ -15977,7 +15979,7 @@ msgstr "Записи базы данных"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "Tickets"
-msgstr "Tickets/Заявки"
+msgstr "Заявки"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -19536,11 +19538,6 @@ msgid ""
 "and \"Event\" defines the trigger event. Please check the developer manual "
 "(https://doc.otrs.com/doc/), chapter \"Ticket Event Module\"."
 msgstr ""
-"Задает настройки TicketDynamicField по умолчанию. \"Name/Имя\" задает поле, "
-"которое будет использоваться, \"Value/Значение\" - данные которые будут "
-"заданы и \"Event/Событие\" определяет событие триггера. Подробнее, смотрите "
-"в руководстве разработчика (https://doc.otrs.com/doc/), раздел \"Ticket "
-"Event Module\"."
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
@@ -21023,10 +21020,6 @@ msgid ""
 "customers. If you like, you can add your own theme. Please refer the "
 "administrator manual located at https://doc.otrs.com/doc/."
 msgstr ""
-"Задает имя темы (HTML theme - имя папки для альтернативных модулей), которая"
-" будет использоваться в интерфейсах агентов и клиентов. По желанию, вы "
-"можете добавить свою собственную тему. Подробности в руководстве "
-"администратора https://doc.otrs.com/doc/."
 
 #. SysConfig
 msgid ""
@@ -25607,7 +25600,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Number of tickets to be displayed in each page."
-msgstr ""
+msgstr "Количество заявок, отображаемых на каждой странице."
 
 #. SysConfig
 msgid "OTRS Group Services"
@@ -26499,11 +26492,9 @@ msgstr "Перестраивает индексы заявок для AgentTicke
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external"
-" ticket number."
+"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
+"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
 msgstr ""
-"Распознает, что ответ/дополнение к существующей заявке использует внешний "
-"номер заявки."
 
 #. SysConfig
 msgid "Refresh interval"

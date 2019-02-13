@@ -1,14 +1,14 @@
 # Translators:
-# Idan Cohen <idan2cohen@gmail.com>, 2018
 # Amir Aharoni <amir.aharoni@mail.huji.ac.il>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
+# Idan Cohen <idan2cohen@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-01-08 15:00+0000\n"
+"POT-Creation-Date: 2019-02-13 21:57+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>, 2018\n"
+"Last-Translator: Idan Cohen <idan2cohen@gmail.com>, 2019\n"
 "Language-Team: Hebrew (https://www.transifex.com/otrs/teams/23435/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,17 +42,19 @@ msgstr "מסנן עבור ACLs"
 
 #. Template: AdminACL
 msgid "Just start typing to filter..."
-msgstr ""
+msgstr "בשביל סינון, התחיל לכתוב..."
 
 #. Template: AdminACL
 msgid "Configuration Import"
-msgstr ""
+msgstr "הגדרות ייבוא"
 
 #. Template: AdminACL
 msgid ""
 "Here you can upload a configuration file to import ACLs to your system. The "
 "file needs to be in .yml format as exported by the ACL editor module."
 msgstr ""
+"כאן אפשר להעלות את קובץ ההגדות מ- ACLs למערכת.\n"
+"הקבצים צריכים להיות בפורמט yml. אשר ייצאו דרך מודול  ACL editor."
 
 #. Template: AdminACL
 msgid "This field is required."
@@ -100,7 +102,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "ACL name"
-msgstr ""
+msgstr "שם ACL"
 
 #. Template: AdminACL
 msgid "Comment"
@@ -132,7 +134,7 @@ msgstr "ערוך ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
-msgstr ""
+msgstr "ערוך ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -197,7 +199,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
-msgstr ""
+msgstr "שמור ACL"
 
 #. Template: AdminACLEdit
 msgid "Save"
@@ -227,31 +229,31 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Management"
-msgstr ""
+msgstr "ניהול יומן"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Calendar"
-msgstr ""
+msgstr "הוסף יומן"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Edit Calendar"
-msgstr ""
+msgstr "ערוך יומן"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
-msgstr ""
+msgstr "דרוס יומן"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add new Calendar"
-msgstr ""
+msgstr "הוסף יומן חדש"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Appointments"
-msgstr ""
+msgstr "ייבא פגישה"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Import"
-msgstr ""
+msgstr "ייבוא יומן"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -270,11 +272,11 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
-msgstr ""
+msgstr "ייבא יומן"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for Calendars"
-msgstr ""
+msgstr "סינון עבור יומנים"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -23986,8 +23988,8 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external"
-" ticket number."
+"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
+"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
 msgstr ""
 
 #. SysConfig

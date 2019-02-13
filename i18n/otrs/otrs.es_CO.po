@@ -4,13 +4,14 @@
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2018
 # Emir Nunes, 2018
+# Andres David Lozano <andresdl@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-01-08 15:00+0000\n"
+"POT-Creation-Date: 2019-02-13 21:57+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Emir Nunes, 2018\n"
+"Last-Translator: Andres David Lozano <andresdl@gmail.com>, 2019\n"
 "Language-Team: Spanish (Colombia) (https://www.transifex.com/otrs/teams/23435/es_CO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,11 +45,11 @@ msgstr "Filtro para ACLs"
 
 #. Template: AdminACL
 msgid "Just start typing to filter..."
-msgstr ""
+msgstr "Solo empieza a escribir para filtrar..."
 
 #. Template: AdminACL
 msgid "Configuration Import"
-msgstr ""
+msgstr "Importe de Configuración"
 
 #. Template: AdminACL
 msgid ""
@@ -102,7 +103,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "ACL name"
-msgstr ""
+msgstr "Nombre del ACL"
 
 #. Template: AdminACL
 msgid "Comment"
@@ -134,7 +135,7 @@ msgstr "Editar ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
-msgstr ""
+msgstr "Editar ACL"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -161,7 +162,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Change settings"
-msgstr ""
+msgstr "Cambiar Configuración"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -175,7 +176,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "documentation"
-msgstr ""
+msgstr "documentación"
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -183,7 +184,7 @@ msgstr "Mostrar u ocultar el contenido"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "Editar Información del ACL"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -195,11 +196,11 @@ msgstr "Parar al coincidir"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
+msgstr "Editar Estructura de ACL"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
-msgstr ""
+msgstr "Guardar ACL"
 
 #. Template: AdminACLEdit
 msgid "Save"
@@ -211,7 +212,7 @@ msgstr "o"
 
 #. Template: AdminACLEdit
 msgid "Save and finish"
-msgstr ""
+msgstr "Guarda y finalizar"
 
 #. Template: AdminACLEdit
 msgid "Cancel"
@@ -219,7 +220,7 @@ msgstr "Cancelar"
 
 #. Template: AdminACLEdit
 msgid "Do you really want to delete this ACL?"
-msgstr ""
+msgstr "¿Realmente deseas eliminar este ACL?"
 
 #. Template: AdminACLNew
 msgid ""
@@ -384,7 +385,7 @@ msgstr "Quitar"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Start date"
-msgstr ""
+msgstr "Fecha de Inicio"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "End date"
@@ -440,7 +441,7 @@ msgstr "Importar Cita"
 
 #. Template: AdminAppointmentImport
 msgid "Go back"
-msgstr ""
+msgstr "Ir atrás"
 
 #. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
@@ -492,7 +493,7 @@ msgstr "Modificar Notificación"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
-msgstr ""
+msgstr "Exportar Notificaciones"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for Notifications"
@@ -514,15 +515,15 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
-msgstr ""
+msgstr "¿Sobrescribir notificaciones existentes?"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upload Notification configuration"
-msgstr ""
+msgstr "Subir configuración de Notificaciones"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Import Notification configuration"
-msgstr ""
+msgstr "Importar configuración de Notificaciones"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "List"
@@ -538,7 +539,7 @@ msgstr "Eliminar esta notificación"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Show in agent preferences"
-msgstr ""
+msgstr "Mostrar en preferencias del agente"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Agent preferences tooltip"
@@ -602,11 +603,11 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to"
-msgstr ""
+msgstr "Enviar a"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to these agents"
-msgstr ""
+msgstr "Enviar a estos agentes"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all group members (agents only)"
@@ -614,11 +615,11 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
-msgstr ""
+msgstr "Enviar a todos los miembros del rol"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send on out of office"
-msgstr ""
+msgstr "Enviar un fuera de oficina"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Also send if the user is currently out of office."
@@ -626,7 +627,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Once per day"
-msgstr ""
+msgstr "Una vez por dia"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -638,7 +639,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Methods"
-msgstr ""
+msgstr "Métodos de Notificación"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -648,7 +649,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Enable this notification method"
-msgstr ""
+msgstr "Habilitar éste método de notificación"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Transport"
@@ -660,7 +661,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Active by default in agent preferences"
-msgstr ""
+msgstr "Activo por defecto en las preferencias del agente"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -671,7 +672,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "This feature is currently not available."
-msgstr ""
+msgstr "Ésta característica no está disponible"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upgrade to %s"
@@ -683,15 +684,15 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No data found"
-msgstr ""
+msgstr "No hay datos encontrados"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No notification method found."
-msgstr ""
+msgstr "No se encontraron métodos de notificación"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Text"
-msgstr ""
+msgstr "Texto de la Notificación"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -713,7 +714,7 @@ msgstr "Texto"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Message body"
-msgstr ""
+msgstr "Cuerpo del mensaje"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add new notification language"
@@ -761,7 +762,7 @@ msgstr "Opciones de configuración"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Example notification"
-msgstr ""
+msgstr "Ejemplo de notificación"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
@@ -24943,8 +24944,8 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external"
-" ticket number."
+"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
+"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
 msgstr ""
 
 #. SysConfig

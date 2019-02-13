@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.940480274442539;
+    $Self->{Completeness}        = 0.94082332761578;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -49,7 +49,7 @@ sub Data {
         'Actions' => 'Действия',
         'Create New ACL' => 'Создать новый ACL',
         'Deploy ACLs' => 'Синхронизировать ACL',
-        'Export ACLs' => 'Экспорт  ACL',
+        'Export ACLs' => 'Экспортировать  ACL',
         'Filter for ACLs' => 'Фильтр для ACL',
         'Just start typing to filter...' => 'Начните вводить символы для фильтрации...',
         'Configuration Import' => 'Импорт конфигурации',
@@ -70,13 +70,13 @@ sub Data {
         'ACL name' => 'Имя ACL',
         'Comment' => 'Комментарий',
         'Validity' => 'Действительность',
-        'Export' => 'Экспорт',
+        'Export' => 'Экспортировать',
         'Copy' => 'Скопировать',
         'No data found.' => 'Данные не найдены.',
         'No matches found.' => 'Совпадений не найдено.',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => 'Редактировать ACL %s',
+        'Edit ACL %s' => 'Изменить ACL %s',
         'Edit ACL' => 'Изменить ACL',
         'Go to overview' => 'Перейти к обзору',
         'Delete ACL' => 'Удалить ACL',
@@ -91,7 +91,7 @@ sub Data {
         'documentation' => 'документации',
         'Show or hide the content' => 'Отобразить или скрыть содержимое',
         'Edit ACL Information' => 'Изменить информацию о ACL',
-        'Name' => 'Name - Название',
+        'Name' => 'Название',
         'Stop after match' => 'Прекратить проверку после совпадения',
         'Edit ACL Structure' => 'Изменить структуру ACL',
         'Save ACL' => 'Сохранить ACL',
@@ -108,18 +108,18 @@ sub Data {
         # Template: AdminAppointmentCalendarManage
         'Calendar Management' => 'Управление календарями',
         'Add Calendar' => 'Добавить календарь',
-        'Edit Calendar' => 'Редактировать календарь',
+        'Edit Calendar' => 'Изменить календарь',
         'Calendar Overview' => 'Обзор календарей',
         'Add new Calendar' => 'Добавить новый календарь',
         'Import Appointments' => 'Импортировать мероприятия',
-        'Calendar Import' => 'Импорт календаря',
+        'Calendar Import' => 'Импортировать календарь',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
             'Здесь вы можете загрузить файл конфигурации для импорта календаря в вашу систему. Файл должен быть в формате .yml файл экспорта из модуля управления календарями.',
         'Overwrite existing entities' => 'Переписывать существующие объекты',
         'Upload calendar configuration' => 'Загрузить конфигурацию календаря',
         'Import Calendar' => 'Импортировать календарь',
-        'Filter for Calendars' => 'Фильтр Календарей',
-        'Filter for calendars' => 'Фильтр для Календарей',
+        'Filter for Calendars' => 'Фильтр календарей',
+        'Filter for calendars' => 'Фильтр для календарей',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             'В зависимости от значения в поле group, система предоставляет агентам доступ к календарю в в соответствии с уровнем его полномочий.',
         'Read only: users can see and export all appointments in the calendar.' =>
@@ -128,7 +128,7 @@ sub Data {
             'Переместить в: пользователи могут изменять мероприятия в календаре, но без выбора календаря ',
         'Create: users can create and delete appointments in the calendar.' =>
             'Создать: пользователи могут создавать и удалять мероприятия в календаре.',
-        'Read/write: users can manage the calendar itself.' => 'Запись/чтение: пользователи имеют полное управление календарем.',
+        'Read/write: users can manage the calendar itself.' => 'Чтение/запись: пользователи могут полностью управлять календарём.',
         'Group' => 'Группа',
         'Changed' => 'Изменен',
         'Created' => 'Создан/а',
@@ -176,15 +176,15 @@ sub Data {
         # Template: AdminAppointmentNotificationEvent
         'Appointment Notification Management' => 'Управление уведомлениями о мероприятиях',
         'Add Notification' => 'Добавить уведомление',
-        'Edit Notification' => 'Редактировать уведомления',
+        'Edit Notification' => 'Изменить уведомление',
         'Export Notifications' => 'Экспорт уведомлений',
-        'Filter for Notifications' => 'Фильтр для Уведомлений',
+        'Filter for Notifications' => 'Фильтр для уведомлений',
         'Filter for notifications' => 'Фильтр для уведомлений',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
             'Здесь вы можете загрузить конфигурационный файл для импорта уведомлений о мероприятиях в вашу систему. Файл должен быть в формате .yml в котором экспортируются из модуля уведомлений о мероприятиях.',
         'Overwrite existing notifications?' => 'Перезаписать существующие уведомления?',
         'Upload Notification configuration' => 'Загрузить конфигурацию уведомлений',
-        'Import Notification configuration' => 'Импортировать настройки Уведомлений',
+        'Import Notification configuration' => 'Импортировать настройки уведомлений',
         'List' => 'Список',
         'Delete' => 'Удаление',
         'Delete this notification' => 'Удалить это уведомление',
@@ -198,7 +198,7 @@ sub Data {
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
             'Здесь вы можете выбрать какие события будут включать это уведомление. Дополнительный фильтр может быть применён ниже для их отправки для мероприятий, удовлетворяющих заданному условию.',
         'Appointment Filter' => 'Фильтр мероприятий.',
-        'Type' => 'Type - Тип',
+        'Type' => 'Тип',
         'Title' => 'Название',
         'Location' => 'Местоположение',
         'Team' => 'Команда',
@@ -208,7 +208,7 @@ sub Data {
         'Send to these agents' => 'Отправить этим агентам',
         'Send to all group members (agents only)' => 'Отправить всем членам группы (только агенты)',
         'Send to all role members' => 'Отправить всем членам роли',
-        'Send on out of office' => 'Отправить для отсутствующих/out of office',
+        'Send on out of office' => 'Отправить для отсутствующих на месте',
         'Also send if the user is currently out of office.' => 'Также отправить, если пользователь в настоящее время отсутствует на месте.',
         'Once per day' => 'Один раз в день',
         'Notify user just once per day about a single appointment using a selected transport.' =>
@@ -237,7 +237,7 @@ sub Data {
         'Add new notification language' => 'Добавить дополнительный язык для уведомлений',
         'Save Changes' => 'Сохранить изменения',
         'Tag Reference' => 'Справка по тэгам',
-        'Notifications are sent to an agent.' => 'Уведомления направляются к агенту.',
+        'Notifications are sent to an agent.' => 'Уведомления отправляются агенту.',
         'You can use the following tags' => 'Вы можете использовать следующие теги',
         'To get the first 20 character of the appointment title.' => 'Чтобы получить первые 20 символов темы мероприятия.',
         'To get the appointment attribute' => 'Чтобы получить атрибут мероприятия',
@@ -297,7 +297,7 @@ sub Data {
         'Example response' => 'Пример ответа',
 
         # Template: AdminCloudServiceSupportDataCollector
-        'Cloud Service Management' => 'Управление Облаком',
+        'Cloud Service Management' => 'Управление облачным сервисом',
         'Support Data Collector' => 'Сбор данных для поддержки',
         'Support data collector' => 'Сбор данных для поддержки',
         'Hint' => 'Подсказка',
@@ -1750,7 +1750,7 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => 'Управление связями Шаблон - Очередь',
         'Filter for Templates' => 'Фильтр для Шаблонов',
-        'Filter for templates' => '',
+        'Filter for templates' => 'Фильтр для шаблонов',
         'Templates' => 'Шаблоны',
 
         # Template: AdminRegistration
@@ -1873,7 +1873,7 @@ sub Data {
         'Manage Agent-Role Relations' => 'Связь агентов с ролями',
         'Add Agent' => 'Добавить агента',
         'Filter for Agents' => 'Фильтр для Агентов',
-        'Filter for agents' => '',
+        'Filter for agents' => 'Фильтр для агентов',
         'Agents' => 'Агенты',
         'Manage Role-Agent Relations' => 'Связь ролей с агентами',
 
@@ -5066,7 +5066,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
         'Database Records' => 'Записи базы данных',
-        'Tickets' => 'Tickets/Заявки',
+        'Tickets' => 'Заявки',
         'Ticket History Entries' => 'Записи истории заявки',
         'Articles' => 'Заметки/сообщения',
         'Attachments (DB, Without HTML)' => 'Вложения (DB, без HTML)',
@@ -7714,7 +7714,7 @@ Thanks for your help!
             'Количество заявок которое показывается на каждой странице при выводе результатов поиска в интерфейсе агента.',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Количество заявок которое показывается на каждой странице при выводе результатов поиска в интерфейсе клиента.',
-        'Number of tickets to be displayed in each page.' => '',
+        'Number of tickets to be displayed in each page.' => 'Количество заявок, отображаемых на каждой странице.',
         'OTRS Group Services' => '',
         'OTRS News' => 'Новости OTRS',
         'OTRS can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
@@ -7870,8 +7870,8 @@ Thanks for your help!
         'Queue view' => 'Просмотр очередей',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Перестраивает индексы заявок для AgentTicketQueue.',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
-            'Распознает, что ответ/дополнение к существующей заявке использует внешний номер заявки.',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
+        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
         'Refresh interval' => 'Интервал обновления',
         'Registers a log module, that can be used to log communication related information.' =>
             '',

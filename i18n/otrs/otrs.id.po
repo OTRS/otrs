@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-01-08 15:00+0000\n"
+"POT-Creation-Date: 2019-02-13 21:57+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: OTRS SDN BHD <otrssdnbhd@gmail.com>, 2018\n"
 "Language-Team: Indonesian (https://www.transifex.com/otrs/teams/23435/id/)\n"
@@ -19055,11 +19055,6 @@ msgid ""
 "and \"Event\" defines the trigger event. Please check the developer manual "
 "(https://doc.otrs.com/doc/), chapter \"Ticket Event Module\"."
 msgstr ""
-"Mengkonfigurasi TicketDynamicField pengaturan default. \"Nama\" "
-"mendefinisikan bidang yang dinamis yang harus digunakan, \"Value\" adalah "
-"data yang akan ditetapkan, dan \"Event\" mendefinisikan acara pemicu. "
-"Silakan periksa pengembang user (https://doc.otrs.com/doc/), bab \"Ticket "
-"acara Modul\"."
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
@@ -20484,10 +20479,6 @@ msgid ""
 "customers. If you like, you can add your own theme. Please refer the "
 "administrator manual located at https://doc.otrs.com/doc/."
 msgstr ""
-"Mendefinisikan default front-end (HTML) tema yang akan digunakan oleh agen "
-"dan pelanggan. Jika Anda suka, Anda dapat menambahkan tema Anda sendiri. "
-"Silahkan lihat manual administrator yang terletak di "
-"https://doc.otrs.com/doc/."
 
 #. SysConfig
 msgid ""
@@ -25731,11 +25722,9 @@ msgstr "Membangun kembali indeks tiket untuk AgentTicketQueue."
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external"
-" ticket number."
+"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
+"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
 msgstr ""
-"Mengakui jika tiket adalah tindak lanjut ke tiket yang ada menggunakan nomor"
-" tiket eksternal."
 
 #. SysConfig
 msgid "Refresh interval"

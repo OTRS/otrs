@@ -19,7 +19,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-01-08 15:00+0000\n"
+"POT-Creation-Date: 2019-02-13 21:57+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Ton van Boven <info@tonvanboven.nl>, 2019\n"
 "Language-Team: Dutch (https://www.transifex.com/otrs/teams/23435/nl/)\n"
@@ -9137,7 +9137,7 @@ msgstr ""
 
 #. Template: Chat
 msgid "by %s"
-msgstr ""
+msgstr "door %s"
 
 #. Template: Chat
 msgid "Toggle article details"
@@ -9379,7 +9379,7 @@ msgstr "Wachtwoord vergeten?"
 
 #. Template: CustomerLogin
 msgid "2 Factor Token"
-msgstr "2 factor eken"
+msgstr "2 stappen code"
 
 #. Template: CustomerLogin
 msgid "Your 2 Factor Token"
@@ -24734,8 +24734,8 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external"
-" ticket number."
+"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
+"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
 msgstr ""
 
 #. SysConfig

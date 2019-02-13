@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.146998284734134;
+    $Self->{Completeness}        = 0.148713550600343;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -41,8 +41,8 @@ sub Data {
         'Deploy ACLs' => 'Ανάπτυξη των ACL',
         'Export ACLs' => 'Εξαγωγή των ACL',
         'Filter for ACLs' => 'Φίλτρο για τα ACL',
-        'Just start typing to filter...' => '',
-        'Configuration Import' => '',
+        'Just start typing to filter...' => 'Απλά αρχίστε να πληκτρολογείτε για φιλτράρισμα..',
+        'Configuration Import' => 'Εισαγωγή αρχείου παραμετροποίησης',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             'Εδώ μπορείτε να μεταφορτώσετε ένα αρχείο ρυθμίσεων για την των ACL στο σύστημα σας. Το αρχείο θα πρέπει να είναι σε μορφή .yml όπως έχει εξαχθεί από τη μονάδα επεξεργασίας των ACL.',
         'This field is required.' => 'Αυτό το πεδίο είναι απαιτούμενο.',
@@ -71,20 +71,20 @@ sub Data {
         'Go to overview' => 'Μετάβαση στην επισκόπηση',
         'Delete ACL' => 'Διαγραφή ACL',
         'Delete Invalid ACL' => 'Διαγραφή μη έγκυρων ACL',
-        'Match settings' => '',
+        'Match settings' => 'Ταίριασμα ρυθμίσεων',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
-        'Change settings' => '',
+        'Change settings' => 'Αλλαγή ρυθμίσεων',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
-        'Check the official' => '',
-        'documentation' => '',
+        'Check the official' => 'Ελέγξτε το επίσημο',
+        'documentation' => 'τεκμηρίωση',
         'Show or hide the content' => 'Εμφάνιση ή απόκρυψη περιεχομένου',
-        'Edit ACL Information' => '',
+        'Edit ACL Information' => 'Επεξεργασία πληροφοριών ACL',
         'Name' => 'Όνομα',
-        'Stop after match' => '',
-        'Edit ACL Structure' => '',
-        'Save ACL' => '',
+        'Stop after match' => 'Σταμάτα μετά το ταίριασμα',
+        'Edit ACL Structure' => 'Επεξεργασία δομής ACL',
+        'Save ACL' => 'Αποθήκευση ACL',
         'Save' => 'Αποθήκευση',
         'or' => 'ή',
         'Save and finish' => 'Αποθήκευση και τερματισμός',
@@ -7854,8 +7854,8 @@ Thanks for your help!
         'Queue view' => 'Προβολή Ουρών',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
-            '',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
+        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
         'Refresh interval' => '',
         'Registers a log module, that can be used to log communication related information.' =>
             '',

@@ -23,17 +23,17 @@
 # Duilio Poggi Oneto <duiliopoggio@gmail.com>, 2018
 # Антон Протченко :3 <a_protchenko@hotmail.com>, 2018
 # Salvador Rea <salvador_rea@outlook.com>, 2018
-# Alan Cybar Sanier Quiñónez <cybarsan@gmail.com>, 2018
 # Arturo Mondelo <arturo.mondelo@hotmail.es>, 2018
 # David B <link.bigpoint@outlook.com>, 2018
 # Luigy, 2019
+# Alan Cybar Sanier Quiñónez <cybarsan@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-01-08 15:00+0000\n"
+"POT-Creation-Date: 2019-02-13 21:57+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Luigy, 2019\n"
+"Last-Translator: Alan Cybar Sanier Quiñónez <cybarsan@gmail.com>, 2019\n"
 "Language-Team: Spanish (https://www.transifex.com/otrs/teams/23435/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3515,7 +3515,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Perl regular expressions tutorial"
-msgstr ""
+msgstr "Tutorial de expresiones regulares en Perl"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
@@ -3595,15 +3595,15 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Include Ticket Data"
-msgstr ""
+msgstr "Incluir en el Ticket Datos de Entrada "
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Include ticket data in response."
-msgstr ""
+msgstr "Incluir en la respuesta los datos del ticket"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Network Transport"
-msgstr ""
+msgstr "Transporte de Red"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Properties"
@@ -3689,7 +3689,7 @@ msgstr "Se acabó el tiempo"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout value for requests."
-msgstr ""
+msgstr "Valor de tiempo de espera para las solicitudes."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Authentication"
@@ -3698,6 +3698,7 @@ msgstr "Autenticación"
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "An optional authentication mechanism to access the remote system."
 msgstr ""
+"Un mecanismo de autenticación opcional para acceder al sistema remoto."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "BasicAuth User"
@@ -3717,7 +3718,7 @@ msgstr "La contraseña para el usuario con permisos especiales."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Use Proxy Options"
-msgstr ""
+msgstr "Utilizar Opciones de Proxy"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Show or hide Proxy options to connect to the remote system."
@@ -3753,7 +3754,7 @@ msgstr "La contraseña para el usuario de proxy."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Skip Proxy"
-msgstr ""
+msgstr "Saltar Proxy"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Skip proxy servers that might be configured globally?"
@@ -3769,7 +3770,7 @@ msgstr "Muestra u oculta las opciones SSL para conectar al sistema remoto."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate"
-msgstr ""
+msgstr "Certificado de Cliente"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -3783,7 +3784,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key"
-msgstr ""
+msgstr "Clave de Certificado de Cliente"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -3906,11 +3907,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Some web services require a specific construction."
-msgstr ""
+msgstr "Algunos servicios web requieren una construcción específica."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Some web services send a specific construction."
-msgstr ""
+msgstr "Algunos servicios web envían una construcción específica."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction separator"
@@ -4196,7 +4197,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add error handling module"
-msgstr ""
+msgstr "Agregar módulo de manejo de errores"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -4363,7 +4364,7 @@ msgstr ""
 
 #. Template: AdminMailAccount
 msgid "Filter for Mail Accounts"
-msgstr ""
+msgstr "Filtro para Cuenta de Mail"
 
 #. Template: AdminMailAccount
 msgid "Filter for mail accounts"
@@ -11307,7 +11308,7 @@ msgstr "¡Archivo adjunto añadido!"
 
 #. Perl Module: Kernel/Modules/AdminAutoResponse.pm
 msgid "Auto Response added!"
-msgstr ""
+msgstr "Auto Respuesta Añadida!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid CommunicationID!"
@@ -19459,11 +19460,6 @@ msgid ""
 "and \"Event\" defines the trigger event. Please check the developer manual "
 "(https://doc.otrs.com/doc/), chapter \"Ticket Event Module\"."
 msgstr ""
-"Configura un ajuste por defecto de CampoDinamicoTicket. \"Nombre\" define el"
-" campo dinámico que debe ser usado, \"Valor\" es el dato que será "
-"establecido, y \"Evento\" define el disparador del evento. Por favor "
-"compruebe el manual del desarrollador (https://doc.otrs.com/doc/), capítulo"
-" \"Módulo Evento Ticket\"."
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
@@ -25391,8 +25387,8 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external"
-" ticket number."
+"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
+"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
 msgstr ""
 
 #. SysConfig

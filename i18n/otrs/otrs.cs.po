@@ -11,13 +11,14 @@
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # David Šulc <david@sigterm.cz>, 2018
 # M Š <Transifex@sikuda.eu>, 2018
+# Jan Papež <honyczek@centrum.cz>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-01-08 15:00+0000\n"
+"POT-Creation-Date: 2019-02-13 21:57+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: M Š <Transifex@sikuda.eu>, 2018\n"
+"Last-Translator: Jan Papež <honyczek@centrum.cz>, 2019\n"
 "Language-Team: Czech (https://www.transifex.com/otrs/teams/23435/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +28,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "ACL Management"
-msgstr ""
+msgstr "Správa ACL"
 
 #. Template: AdminACL
 msgid "Actions"
@@ -35,19 +36,19 @@ msgstr "Akce"
 
 #. Template: AdminACL
 msgid "Create New ACL"
-msgstr ""
+msgstr "Vytvořit nové ACL"
 
 #. Template: AdminACL
 msgid "Deploy ACLs"
-msgstr ""
+msgstr "Nasadit ACL"
 
 #. Template: AdminACL
 msgid "Export ACLs"
-msgstr ""
+msgstr "Exportovat ACL"
 
 #. Template: AdminACL
 msgid "Filter for ACLs"
-msgstr ""
+msgstr "Filtr pro ACL"
 
 #. Template: AdminACL
 msgid "Just start typing to filter..."
@@ -62,6 +63,9 @@ msgid ""
 "Here you can upload a configuration file to import ACLs to your system. The "
 "file needs to be in .yml format as exported by the ACL editor module."
 msgstr ""
+"Pro import ACL do vašeho systému můžete zde nahrát konfigurační soubor. "
+"Tento soubor musí být ve formátu .yml tak, jak je exportován z modulu "
+"editace ACL."
 
 #. Template: AdminACL
 msgid "This field is required."
@@ -73,11 +77,11 @@ msgstr "Přepsat existující ACL?"
 
 #. Template: AdminACL
 msgid "Upload ACL configuration"
-msgstr ""
+msgstr "Nahrát konfiguraci ACL"
 
 #. Template: AdminACL
 msgid "Import ACL configuration(s)"
-msgstr ""
+msgstr "Importovat konfiguraci ACL"
 
 #. Template: AdminACL
 msgid "Description"
@@ -88,6 +92,8 @@ msgid ""
 "To create a new ACL you can either import ACLs which were exported from "
 "another system or create a complete new one."
 msgstr ""
+"Pro vytvoření nového ACL můžete buď importovat ACL, která byla vytvořena na "
+"jiném systému, nebo vytvořit úplně nové."
 
 #. Template: AdminACL
 msgid ""
@@ -95,10 +101,13 @@ msgid ""
 "deploy the ACL data afterwards. By deploying the ACL data, the newly made "
 "changes will be written to the configuration."
 msgstr ""
+"Zde provedené změny ACL ovlivňují chování systému pouze tehdy, když poté ACL"
+" data nasadíte. Nasazením dat ACL se nově provedené změny zapíšou do "
+"konfigurace."
 
 #. Template: AdminACL
 msgid "ACLs"
-msgstr ""
+msgstr "ACL"
 
 #. Template: AdminACL
 msgid ""
@@ -106,10 +115,13 @@ msgid ""
 "need to change the order in which ACLs are executed, please change the names"
 " of the affected ACLs."
 msgstr ""
+"Poznámka: Tato tabulka představuje pořadí vykonávání ACL. Pokud potřebujete "
+"změnit pořadí, ve kterém jsou ACL vykonávána, změňte prosím názvy daných "
+"ACL."
 
 #. Template: AdminACL
 msgid "ACL name"
-msgstr ""
+msgstr "Název ACL"
 
 #. Template: AdminACL
 msgid "Comment"
@@ -165,6 +177,9 @@ msgid ""
 " screen or 'PropertiesDatabase' to match attributes of the current ticket "
 "that are in the database."
 msgstr ""
+"Nastavit odpovídající kritérium pro toto ACL. Pro srovnání současného "
+"zobrazení použijte 'Vlastnosti' nebo pro srovnání atributů současných tiketů"
+" v databázi použijte 'VlastnostiDatabáze'."
 
 #. Template: AdminACLEdit
 msgid "Change settings"
@@ -190,7 +205,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "Upravit informace ACL"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -202,7 +217,7 @@ msgstr "Stop po shodě"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
+msgstr "Upravit strukturu ACL"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
@@ -233,6 +248,8 @@ msgid ""
 "Create a new ACL by submitting the form data. After creating the ACL, you "
 "will be able to add configuration items in edit mode."
 msgstr ""
+"Vytvořte nové ACL odesláním dat formuláře. Po vytvoření ACL budete moci v "
+"editačním režimu přidávat konfigurační položky."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Management"
@@ -10401,20 +10418,24 @@ msgid ""
 "ACLs could not be Imported due to a unknown error, please check OTRS logs "
 "for more information"
 msgstr ""
+"Z důvodu neznámé chyby ACL nemohly být naimportovány, pro více informací "
+"prosím zkontrolujte logy OTRS"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "The following ACLs have been added successfully: %s"
-msgstr ""
+msgstr "Následující ACL byly přidány úspěšně: %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "The following ACLs have been updated successfully: %s"
-msgstr ""
+msgstr "Následující ACL byly aktualizovány úspěšně: %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
 "There where errors adding/updating the following ACLs: %s. Please check the "
 "log file for more information."
 msgstr ""
+"Během přidávání/aktualizace následujících ACL se objevily chyby: %s. Pro "
+"více informací prosím zkontrolujte log"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "This field is required"
@@ -10422,19 +10443,19 @@ msgstr "Toto pole je požadováno"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error creating the ACL"
-msgstr ""
+msgstr "Při vytvoření ACL se objevila chyba"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Need ACLID!"
-msgstr ""
+msgstr "Je potřeba ACLID!"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Could not get data for ACLID %s"
-msgstr ""
+msgstr "Není možné získat data pro ACLID %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error updating the ACL"
-msgstr ""
+msgstr "Při aktualizaci ACL se objevila chyba"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error setting the entity sync status."
@@ -10442,21 +10463,23 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error synchronizing the ACLs."
-msgstr ""
+msgstr "Při synchronizaci ACL se objevila chyba."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "ACL %s could not be deleted"
-msgstr ""
+msgstr "ACL %s nemohlo být smazáno"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error getting data for ACL with ID %s"
-msgstr ""
+msgstr "Při získávání dat ACL s ID %s se objevila chyba"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
 "Please note that ACL restrictions will be ignored for the Superuser account "
 "(UserID 1)."
 msgstr ""
+"Vezměte na vědomí, že omezení ACL budou pro účet Superuser ignorována "
+"(UserID 1)."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Exact match"
@@ -13366,7 +13389,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure Oracle"
-msgstr ""
+msgstr "Nastavit Oracle"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown database type \"%s\"."
@@ -14257,6 +14280,8 @@ msgstr ""
 msgid ""
 "Couldn't read ACL configuration file. Please make sure the file is valid."
 msgstr ""
+"Není možné přečíst konfigurační soubor ACL. Ujistěte se prosím, že je tento "
+"soubor platný."
 
 #. Perl Module: Kernel/System/Auth.pm
 msgid ""
@@ -17237,10 +17262,13 @@ msgid ""
 "already closed (\"State\" shows which states are not available for the "
 "parent ticket until all child tickets are closed)."
 msgstr ""
+"Modul ACL, který umožňuje uzavření rodičovského tiketu pouze v případě, že "
+"jsou již uzavřeny všechny jeho děti (\"Stav\" ukazuje, které stavy nejsou k "
+"dispozici, dokud nejsou uzavřeny všechny podřízené tickety)."
 
 #. SysConfig
 msgid "Access Control Lists (ACL)"
-msgstr ""
+msgstr "Seznamy řízení přístupu (ACL)"
 
 #. SysConfig
 msgid "AccountedTime"
@@ -17952,7 +17980,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Cache time in seconds for the DB ACL backend."
-msgstr ""
+msgstr "Čas keše v sekundách pro podpůrnou vrstvu DB ACL."
 
 #. SysConfig
 msgid "Cache time in seconds for the DB process backend."
@@ -18295,7 +18323,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Configure and manage ACLs."
-msgstr ""
+msgstr "Konfigurovat a spravovat ACL."
 
 #. SysConfig
 msgid ""
@@ -18667,7 +18695,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Default ACL values for ticket actions."
-msgstr ""
+msgstr "Výchozi hodnoty ACL pro akce tiketů."
 
 #. SysConfig
 msgid ""
@@ -21042,15 +21070,17 @@ msgid ""
 "Defines which items are available for 'Action' in third level of the ACL "
 "structure."
 msgstr ""
+"Definuje, které položky jsou k dispozici pro 'Akci' ve třetí úrovni "
+"struktury ACL."
 
 #. SysConfig
 msgid "Defines which items are available in first level of the ACL structure."
-msgstr ""
+msgstr "Definuje, které položky jsou dostupné v první úrovni struktury ACL."
 
 #. SysConfig
 msgid ""
 "Defines which items are available in second level of the ACL structure."
-msgstr ""
+msgstr "Definuje, které položky jsou dostupné ve druhé úrovni struktury ACL."
 
 #. SysConfig
 msgid ""
@@ -21829,6 +21859,8 @@ msgid ""
 "Filter for debugging ACLs. Note: More ticket attributes can be added in the "
 "format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>."
 msgstr ""
+"Filtr pro ladění ACL. Poznámka: Více atributů tiketů můžete přidat ve "
+"formátu <OTRS_TICKET_Attribute> např. <OTRS_TICKET_Priority>."
 
 #. SysConfig
 msgid ""
@@ -22398,7 +22430,7 @@ msgstr ""
 
 #. SysConfig
 msgid "If enabled debugging information for ACLs is logged."
-msgstr ""
+msgstr "Pokud je zapnuto, jsou logovány ladící informace pro ACL."
 
 #. SysConfig
 msgid "If enabled debugging information for transitions is logged."
@@ -24046,8 +24078,8 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external"
-" ticket number."
+"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
+"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
 msgstr ""
 
 #. SysConfig

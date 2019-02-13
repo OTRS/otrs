@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.700686106346484;
+    $Self->{Completeness}        = 0.700514579759863;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -7864,8 +7864,8 @@ Thanks for your help!
         'Queue view' => 'نمای صف درخواست',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => 'بازسازی شاخص بلیط برای AgentTicketQueue.',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
-            'تشخیص اگر یک بلیط یک پیگیری بلیط های موجود برای استفاده از تعداد بلیط های خارجی است.',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
+        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
         'Refresh interval' => 'بارگذاری مجدد ورودی',
         'Registers a log module, that can be used to log communication related information.' =>
             '',

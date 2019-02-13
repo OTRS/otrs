@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.998627787307033;
+    $Self->{Completeness}        = 0.999828473413379;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -641,7 +641,7 @@ sub Data {
         'Schedule minutes' => 'Планирано минута',
         'Schedule hours' => 'Планирано сати',
         'Schedule days' => 'Планирано дана',
-        'Automatic execution values are in the system timezone.' => '',
+        'Automatic execution values are in the system timezone.' => 'Времена аутоматског извршавања су у системској временској зони.',
         'Currently this generic agent job will not run automatically.' =>
             'Тренутно овај посао генерички оператера неће бити извршен аутоматски.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
@@ -3713,7 +3713,7 @@ sub Data {
         'Package could not be upgraded' => 'Пакет није могао бити ажуриран',
         'Repository List' => 'Листа спремишта',
         'No packages found in selected repository. Please check log for more info!' =>
-            '',
+            'У изабраном спремишту нема пакета. Молимо проверите лог за више информација.',
         'Package not verified due a communication issue with verification server!' =>
             'Пакет није верификован због комуникацијског проблема са верификационим сервером!',
         'Can\'t connect to OTRS Feature Add-on list server!' => 'Није могуће повезати се са OTRS Feature Add-on сервером!',
@@ -4449,9 +4449,9 @@ sub Data {
         'There are no selected encryption keys for the addresses: \'%s\'. ' =>
             'Нису одабрани кључеви за шифровање за адресу: \'%s\'.',
         'Cannot use expired encryption keys for the addresses: \'%s\'. ' =>
-            '',
+            'Није могуће користити истекао кључ за шифровање за адресе: \'%s\'.',
         'Cannot use revoked encryption keys for the addresses: \'%s\'. ' =>
-            '',
+            'Није могуће користити повучен кључ за шифровање за адресе: \'%s\'.',
         'Encrypt' => 'Шифровање',
         'Keys/certificates will only be shown for recipients with more than one key/certificate. The first found key/certificate will be pre-selected. Please make sure to select the correct one.' =>
             'Кључеви/сертификати ће бити приказани само за примаоце са више од једног кључева/сертификата. Први пронађени кључ/сертификат ће бити аутоматски одабран. Молимо проверите да ли је одабран исправан.',
@@ -4466,8 +4466,8 @@ sub Data {
         'SMIME encrypt' => 'SMIME шифровање',
 
         # Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
-        'Cannot use expired signing key: \'%s\'. ' => '',
-        'Cannot use revoked signing key: \'%s\'. ' => '',
+        'Cannot use expired signing key: \'%s\'. ' => 'Није могуће користити истекао кључ за потписивање: \'%s\'.',
+        'Cannot use revoked signing key: \'%s\'. ' => 'Није могуће користити повучен кључ за потписивање: \'%s\'.',
         'There are no signing keys available for the addresses \'%s\'.' =>
             'Нема кључева за потписивање за адресе \'%s\'.',
         'There are no selected signing keys for the addresses \'%s\'.' =>
@@ -5671,7 +5671,7 @@ sub Data {
             'Молимо да уклоните следеће речи из ваше претраге јер се не могу тражити:',
 
         # JS File: Core.Agent.SharedSecretGenerator
-        'Generate' => '',
+        'Generate' => 'Генериши',
 
         # JS File: Core.Agent.SortedTree
         'This element has children elements and can currently not be removed.' =>
@@ -7206,7 +7206,7 @@ Thanks for your help!
             'Енглеске зауставне речи за индекс претраге комплетног текста. Ове речи ће бити уклоњене из индекса претраге.',
         'Enroll process for this ticket' => 'Упиши процес за овај тикет',
         'Enter your shared secret to enable two factor authentication. WARNING: Make sure that you add the shared secret to your generator application and the application works well. Otherwise you will be not able to login anymore without the two factor token.' =>
-            '',
+            'Унесите свој дељени тајни кључ за двофакторски модул за идентификацију. УПОЗОРЕЊЕ: обратите пажњу да морате правилно унети тајни кључ у вашу апликацију за идентификацију и да апликација функционише исправно. У супротном, нећете бити у могућности да се пријавите у систем без двофакторског токена.',
         'Escalated Tickets' => 'Ескалирани тикети',
         'Escalation view' => 'Преглед ескалација',
         'EscalationTime' => 'Време ескалације',
@@ -7859,8 +7859,8 @@ Thanks for your help!
         'Queue view' => 'Преглед реда',
         'Queues ↔ Auto Responses' => 'Редови ↔ аутоматски одговори',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Поново изради индекс тикета за оператерски ред тикета.',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
-            'Препознај да ли је тикет наставак постојећег тикета коришћењем екстерног броја тикета.',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
+        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
         'Refresh interval' => 'Интервал освежавања',
         'Registers a log module, that can be used to log communication related information.' =>
             'Региструје лог модул за чување информација у вези комуникација.',

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.992109777015437;
+    $Self->{Completeness}        = 0.9926243567753;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -317,7 +317,7 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => 'Kommunikationsprotokoll',
-        'Time Range' => '',
+        'Time Range' => 'Zeitbereich',
         'Show only communication logs created in specific time range.' =>
             'Nur Verbindungsprotokolle anzeigen, die in einem bestimmten Zeitraum erfasst wurden.',
         'Filter for Communications' => '',
@@ -485,7 +485,7 @@ sub Data {
             'Allen Kundenbenutzer sind automatisch Mitglied dieser Gruppen.',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Sie können diese Gruppen mit der Konfigurationseinstellung "CustomerGroupAlwaysGroups" bearbeiten.',
-        'Filter for groups' => '',
+        'Filter for groups' => 'Filter für Gruppen',
         'Select the customer user - group permissions.' => 'Wählen sie die Kundenbenutzer-Gruppen-Rechte aus',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
             'Wird nichts ausgewählt, so besitzt diese Gruppe keine Berechtigungen (auf Tickets kann der Kundenbenutzer nicht zugreifen)',
@@ -626,7 +626,7 @@ sub Data {
         'Generic Agent Job Management' => '',
         'Edit Job' => 'Job bearbeiten',
         'Add Job' => 'Job hinzufügen',
-        'Run Job' => '',
+        'Run Job' => 'Job ausführen',
         'Filter for Jobs' => '',
         'Filter for jobs' => '',
         'Last run' => 'Letzte Ausführung',
@@ -1687,7 +1687,7 @@ sub Data {
         'Remove this Parameter' => 'Parameter entfernen',
 
         # Template: AdminQueue
-        'Queue Management' => '',
+        'Queue Management' => 'Queue-Verwaltung',
         'Add Queue' => 'Queue hinzufügen',
         'Edit Queue' => 'Queue bearbeiten',
         'Filter for Queues' => 'Filter für Queues',
@@ -7858,8 +7858,8 @@ Ihr Helpdesk-Team
         'Queue view' => 'Ansicht nach Queues',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Ticket-Index für AgentTicketQueue neu aufbauen.',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
-            'Erkennung anhand einer externen Ticket-Nummer, ob es sich bei einem Ticket um ein Follow-Up zu einem bestehenden Ticket handelt.',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
+        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
         'Refresh interval' => 'Aktualisierungsintervall',
         'Registers a log module, that can be used to log communication related information.' =>
             'Registriert ein Protokoll-Modul, um Informationen zu Verbindungen zu protokollieren.',

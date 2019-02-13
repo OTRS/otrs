@@ -7,22 +7,22 @@
 # Wojciech Kuchta <klapi85@gmail.com>, 2018
 # icetafax <tomasz.matejunas@cortlandplus.pl>, 2018
 # Michał Kiełkowski <michal.kielkowski@lhsystems.com>, 2018
-# Patryk Zera <sanchez@atlasnet.pl>, 2018
 # Mateusz Małek <transifex@mkwm.eu.org>, 2018
 # Przemyslaw Kolba <pkolba@tk.energostal.pl>, 2018
-# Daniel Lisiecki, 2018
 # Jerzy Ruszczak <orcio6@o2.pl>, 2018
 # Adam <reedu@wp.pl>, 2018
 # Kamil Zając <kz@itpartners.com.pl>, 2018
 # Bartosz Huczek <bhuczek@sas24.pl>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
+# Daniel Lisiecki, 2019
+# Patryk Zera <sanchez@atlasnet.pl>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-01-08 15:00+0000\n"
+"POT-Creation-Date: 2019-02-13 21:57+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>, 2018\n"
+"Last-Translator: Patryk Zera <sanchez@atlasnet.pl>, 2019\n"
 "Language-Team: Polish (https://www.transifex.com/otrs/teams/23435/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -308,11 +308,11 @@ msgstr "Zaimportuj Kalendarz"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for Calendars"
-msgstr ""
+msgstr "Filtr dla Kalendarzy"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
-msgstr "Filtr dla kalendrzay"
+msgstr "Filtr dla kalendarzy"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -702,6 +702,9 @@ msgid ""
 "choice for this notification in their preferences yet. If the box is "
 "enabled, the notification will be sent to such agents."
 msgstr ""
+"Wartość domyślna ustawienia odbioru tego powiadomienia dla agenta, który nie"
+" określił jeszcze tej wartości w swoich preferencjach. Jeśli pole jest "
+"zaznaczone, powiadomienie będzie do takich agentów wysyłane."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "This feature is currently not available."
@@ -1077,7 +1080,7 @@ msgstr "Log komunikacji"
 
 #. Template: AdminCommunicationLog
 msgid "Time Range"
-msgstr ""
+msgstr "Zakres czasu"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
@@ -1085,7 +1088,7 @@ msgstr "Pokaż log komunikacyjny utworzony tylko w określonym zakresie czasu."
 
 #. Template: AdminCommunicationLog
 msgid "Filter for Communications"
-msgstr ""
+msgstr "Filtr kanałów komunikacji"
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
@@ -1200,11 +1203,11 @@ msgstr "Status konta"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Back to overview"
-msgstr ""
+msgstr "Powrót do przeglądu"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for Accounts"
-msgstr ""
+msgstr "Filtr dla Kont"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
@@ -1655,7 +1658,7 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Filter for groups"
-msgstr ""
+msgstr "Filtr dla grup."
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
@@ -2112,23 +2115,23 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Edit Job"
-msgstr ""
+msgstr "Edytuj Zadanie"
 
 #. Template: AdminGenericAgent
 msgid "Add Job"
-msgstr ""
+msgstr "Dodaj Zadanie"
 
 #. Template: AdminGenericAgent
 msgid "Run Job"
-msgstr ""
+msgstr "Wykonaj Zadanie"
 
 #. Template: AdminGenericAgent
 msgid "Filter for Jobs"
-msgstr ""
+msgstr "Filtr Zadań"
 
 #. Template: AdminGenericAgent
 msgid "Filter for jobs"
-msgstr ""
+msgstr "Filtr zadań"
 
 #. Template: AdminGenericAgent
 msgid "Last run"
@@ -2181,6 +2184,7 @@ msgstr "Ustal dni"
 #. Template: AdminGenericAgent
 msgid "Automatic execution values are in the system timezone."
 msgstr ""
+"Wartości automatycznego wykonania są określone dla strefy czasowej systemu."
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
@@ -23818,6 +23822,8 @@ msgid ""
 "List of default Standard Templates which are assigned automatically to new "
 "Queues upon creation."
 msgstr ""
+"Lista predefiniowanych szablonów standardowych, które są przypisywane "
+"automatycznie do nowych kolejek po utworzeniu."
 
 #. SysConfig
 msgid ""
@@ -23922,7 +23928,7 @@ msgstr "Malajski"
 
 #. SysConfig
 msgid "Manage OTRS Group cloud services."
-msgstr ""
+msgstr "Zarządzaj usługami chmurowymi OTRS Group."
 
 #. SysConfig
 msgid "Manage PGP keys for email encryption."
@@ -25065,8 +25071,8 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external"
-" ticket number."
+"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
+"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
 msgstr ""
 
 #. SysConfig

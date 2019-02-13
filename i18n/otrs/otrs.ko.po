@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-01-08 15:00+0000\n"
+"POT-Creation-Date: 2019-02-13 21:57+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: 신홍열 <hyshin@shinjjang.com>, 2018\n"
 "Language-Team: Korean (https://www.transifex.com/otrs/teams/23435/ko/)\n"
@@ -18493,9 +18493,6 @@ msgid ""
 "and \"Event\" defines the trigger event. Please check the developer manual "
 "(https://doc.otrs.com/doc/), chapter \"Ticket Event Module\"."
 msgstr ""
-"기본 TicketDynamicField 설정을 구성합니다. \"Name\"은 사용할 동적 필드를 정의하고, \"Value\"는 설정할 "
-"데이터이고 \"Event\"는 트리거 이벤트를 정의합니다. 개발자 설명서 (https://doc.otrs.com/doc/), "
-"\"Ticket Event Module\"장을 확인하십시오."
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
@@ -19840,8 +19837,6 @@ msgid ""
 "customers. If you like, you can add your own theme. Please refer the "
 "administrator manual located at https://doc.otrs.com/doc/."
 msgstr ""
-"에이전트 및 고객이 사용할 기본 프런트 엔드 (HTML) 테마를 정의합니다. 원한다면 자신 만의 테마를 추가 할 수 있습니다. "
-"https://doc.otrs.com/doc/ 에있는 관리자 설명서를 참조하십시오."
 
 #. SysConfig
 msgid ""
@@ -24733,9 +24728,9 @@ msgstr "AgentTicketQueue 티켓 색인을 다시 작성하십시오."
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external"
-" ticket number."
-msgstr "티켓이 외부 티켓 번호를 사용하여 기존 티켓의 후속 조치인지 확인하십시오."
+"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
+"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
+msgstr ""
 
 #. SysConfig
 msgid "Refresh interval"

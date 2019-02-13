@@ -24,7 +24,6 @@
 # Udo Bretz, 2018
 # Patrik Z., 2018
 # Matthias Freitag, 2018
-# Christoph Keßler, 2018
 # Florian Edlhuber <florian.edlhuber@otrs.com>, 2018
 # Tobias Krumholz <krumholt@fh-trier.de>, 2018
 # Rudy R <rudy.rohde@googlemail.com>, 2018
@@ -43,13 +42,14 @@
 # Marc A. Bonsels, 2018
 # nilsleideck <nils.leideck@leidex.net>, 2018
 # Dont want to enter <matthias.terlinde@t-systems.com>, 2018
+# Christoph Keßler, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-01-08 15:00+0000\n"
+"POT-Creation-Date: 2019-02-13 21:57+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Dont want to enter <matthias.terlinde@t-systems.com>, 2018\n"
+"Last-Translator: Christoph Keßler, 2019\n"
 "Language-Team: German (https://www.transifex.com/otrs/teams/23435/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1118,7 +1118,7 @@ msgstr "Kommunikationsprotokoll"
 
 #. Template: AdminCommunicationLog
 msgid "Time Range"
-msgstr ""
+msgstr "Zeitbereich"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
@@ -1706,7 +1706,7 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Filter for groups"
-msgstr ""
+msgstr "Filter für Gruppen"
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
@@ -2189,7 +2189,7 @@ msgstr "Job hinzufügen"
 
 #. Template: AdminGenericAgent
 msgid "Run Job"
-msgstr ""
+msgstr "Job ausführen"
 
 #. Template: AdminGenericAgent
 msgid "Filter for Jobs"
@@ -6086,7 +6086,7 @@ msgstr "Parameter entfernen"
 
 #. Template: AdminQueue
 msgid "Queue Management"
-msgstr ""
+msgstr "Queue-Verwaltung"
 
 #. Template: AdminQueue
 msgid "Add Queue"
@@ -19870,11 +19870,6 @@ msgid ""
 "and \"Event\" defines the trigger event. Please check the developer manual "
 "(https://doc.otrs.com/doc/), chapter \"Ticket Event Module\"."
 msgstr ""
-"Konfiguriert eine Standardeinstellung für ein dynamisches Ticketfeld. "
-"\"Name\" beschreibt das dynamische Feld, das genutzt werden soll, \"Value\" "
-"die Daten, mit denen das Feld befüllt werden soll. \"Event\" enthält das "
-"auslösende Ereignis. Weitere Informationen finden Sie im Entwicklerhandbuch "
-"(https://doc.otrs.com/doc/) im Kapitel \"Ticket-Eventmodule\"."
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
@@ -21445,9 +21440,6 @@ msgid ""
 "customers. If you like, you can add your own theme. Please refer the "
 "administrator manual located at https://doc.otrs.com/doc/."
 msgstr ""
-"Steuert das standardmäßig verwendete Theme (HTML) für das Frontend für "
-"Agenten und Kunden. Hinweis: Sie können Ihre eigenen Themes hinzufügen und "
-"verwenden (siehe https://doc.otrs.com/doc/)."
 
 #. SysConfig
 msgid ""
@@ -27311,11 +27303,9 @@ msgstr "Ticket-Index für AgentTicketQueue neu aufbauen."
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external"
-" ticket number."
+"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
+"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
 msgstr ""
-"Erkennung anhand einer externen Ticket-Nummer, ob es sich bei einem Ticket "
-"um ein Follow-Up zu einem bestehenden Ticket handelt."
 
 #. SysConfig
 msgid "Refresh interval"

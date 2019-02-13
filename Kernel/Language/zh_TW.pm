@@ -7852,8 +7852,8 @@ Thanks for your help!
         'Queue view' => '隊列視圖',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
-            '',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
+        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
         'Refresh interval' => '刷新間隔',
         'Registers a log module, that can be used to log communication related information.' =>
             '',

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.345626072041166;
+    $Self->{Completeness}        = 0.351114922813036;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -40,8 +40,8 @@ sub Data {
         'Deploy ACLs' => 'Desplegar',
         'Export ACLs' => 'Exportar ACLs',
         'Filter for ACLs' => 'Filtro para ACLs',
-        'Just start typing to filter...' => '',
-        'Configuration Import' => '',
+        'Just start typing to filter...' => 'Solo empieza a escribir para filtrar...',
+        'Configuration Import' => 'Importe de Configuración',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             '',
         'This field is required.' => 'Este es un campo obligatorio.',
@@ -56,7 +56,7 @@ sub Data {
         'ACLs' => '',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
-        'ACL name' => '',
+        'ACL name' => 'Nombre del ACL',
         'Comment' => 'Comentario',
         'Validity' => 'Validez',
         'Export' => 'Exportar',
@@ -66,29 +66,29 @@ sub Data {
 
         # Template: AdminACLEdit
         'Edit ACL %s' => 'Editar ACL %s',
-        'Edit ACL' => '',
+        'Edit ACL' => 'Editar ACL',
         'Go to overview' => 'Ir la vista de resumen',
         'Delete ACL' => 'Borrar ACL',
         'Delete Invalid ACL' => 'Borrar ACL inválida',
         'Match settings' => '',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
-        'Change settings' => '',
+        'Change settings' => 'Cambiar Configuración',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
         'Check the official' => '',
-        'documentation' => '',
+        'documentation' => 'documentación',
         'Show or hide the content' => 'Mostrar u ocultar el contenido',
-        'Edit ACL Information' => '',
+        'Edit ACL Information' => 'Editar Información del ACL',
         'Name' => 'Nombre',
         'Stop after match' => 'Parar al coincidir',
-        'Edit ACL Structure' => '',
-        'Save ACL' => '',
+        'Edit ACL Structure' => 'Editar Estructura de ACL',
+        'Save ACL' => 'Guardar ACL',
         'Save' => 'Guardar',
         'or' => 'o',
-        'Save and finish' => '',
+        'Save and finish' => 'Guarda y finalizar',
         'Cancel' => 'Cancelar',
-        'Do you really want to delete this ACL?' => '',
+        'Do you really want to delete this ACL?' => '¿Realmente deseas eliminar este ACL?',
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
@@ -135,7 +135,7 @@ sub Data {
         'Rule' => 'Regla',
         'Remove this entry' => 'Eliminar esta entrada',
         'Remove' => 'Quitar',
-        'Start date' => '',
+        'Start date' => 'Fecha de Inicio',
         'End date' => 'Fecha de término',
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
             'Use las opciones mostradas abajo para acortar las citas de tickets serán creadas automáticamente.',
@@ -151,7 +151,7 @@ sub Data {
 
         # Template: AdminAppointmentImport
         'Appointment Import' => 'Importar Cita',
-        'Go back' => '',
+        'Go back' => 'Ir atrás',
         'Uploaded file must be in valid iCal format (.ics).' => 'El archivo cargado tiene que estar en un formato iCal válido (.ics)',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
             'Si el Calendario deseado no aparece en la lista, por favor asegúrese de que tenga al menos el permiso de "crear"',
@@ -166,18 +166,18 @@ sub Data {
         'Appointment Notification Management' => 'Gestión de Notificaciones de Citas',
         'Add Notification' => 'Agregar Notificación',
         'Edit Notification' => 'Modificar Notificación',
-        'Export Notifications' => '',
+        'Export Notifications' => 'Exportar Notificaciones',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
             'Aquí es posible cargar un archivo de configuración para importar las notificaciones de las citas a su sistema. El archivo necesita estar en el formato .yml como los exportados por el módulo de notificaciones de citas.',
-        'Overwrite existing notifications?' => '',
-        'Upload Notification configuration' => '',
-        'Import Notification configuration' => '',
+        'Overwrite existing notifications?' => '¿Sobrescribir notificaciones existentes?',
+        'Upload Notification configuration' => 'Subir configuración de Notificaciones',
+        'Import Notification configuration' => 'Importar configuración de Notificaciones',
         'List' => 'Listar',
         'Delete' => 'Borrar',
         'Delete this notification' => 'Eliminar esta notificación',
-        'Show in agent preferences' => '',
+        'Show in agent preferences' => 'Mostrar en preferencias del agente',
         'Agent preferences tooltip' => '',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
             '',
@@ -193,36 +193,36 @@ sub Data {
         'Team' => 'Equipo',
         'Resource' => 'Recurso',
         'Recipients' => '',
-        'Send to' => '',
-        'Send to these agents' => '',
+        'Send to' => 'Enviar a',
+        'Send to these agents' => 'Enviar a estos agentes',
         'Send to all group members (agents only)' => '',
-        'Send to all role members' => '',
-        'Send on out of office' => '',
+        'Send to all role members' => 'Enviar a todos los miembros del rol',
+        'Send on out of office' => 'Enviar un fuera de oficina',
         'Also send if the user is currently out of office.' => '',
-        'Once per day' => '',
+        'Once per day' => 'Una vez por dia',
         'Notify user just once per day about a single appointment using a selected transport.' =>
             'Notificar al usuario solo una vez al día acerca de una sola cita usando el transporte seleccionado.',
-        'Notification Methods' => '',
+        'Notification Methods' => 'Métodos de Notificación',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
             '',
-        'Enable this notification method' => '',
+        'Enable this notification method' => 'Habilitar éste método de notificación',
         'Transport' => '',
         'At least one method is needed per notification.' => '',
-        'Active by default in agent preferences' => '',
+        'Active by default in agent preferences' => 'Activo por defecto en las preferencias del agente',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             '',
-        'This feature is currently not available.' => '',
+        'This feature is currently not available.' => 'Ésta característica no está disponible',
         'Upgrade to %s' => '',
         'Please activate this transport in order to use it.' => '',
-        'No data found' => '',
-        'No notification method found.' => '',
-        'Notification Text' => '',
+        'No data found' => 'No hay datos encontrados',
+        'No notification method found.' => 'No se encontraron métodos de notificación',
+        'Notification Text' => 'Texto de la Notificación',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
             '',
         'Remove Notification Language' => '',
         'Subject' => 'Asunto',
         'Text' => 'Texto',
-        'Message body' => '',
+        'Message body' => 'Cuerpo del mensaje',
         'Add new notification language' => '',
         'Save Changes' => 'Guardar Cambios',
         'Tag Reference' => '',
@@ -234,7 +234,7 @@ sub Data {
         'To get the calendar attribute' => 'Para obtener el atributo del calendario',
         'Attributes of the recipient user for the notification' => '',
         'Config options' => 'Opciones de configuración',
-        'Example notification' => '',
+        'Example notification' => 'Ejemplo de notificación',
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => '',
@@ -7848,8 +7848,8 @@ Thanks for your help!
         'Queue view' => 'Vista de Filas',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
-            '',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
+        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
         'Refresh interval' => 'Intervalo de actualización',
         'Registers a log module, that can be used to log communication related information.' =>
             '',

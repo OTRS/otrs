@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.676843910806175;
+    $Self->{Completeness}        = 0.679416809605489;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -980,7 +980,7 @@ sub Data {
             '',
         'For information about regular expressions in Perl please see here:' =>
             '',
-        'Perl regular expressions tutorial' => '',
+        'Perl regular expressions tutorial' => 'Tutorial de expresiones regulares en Perl',
         'If modifiers are desired they have to be specified within the regexes themselves.' =>
             '',
         'Regular expressions defined here will be applied before the XSLT mapping.' =>
@@ -1004,11 +1004,11 @@ sub Data {
         'Mapping for outgoing response data' => 'Asignación de datos de respuesta de salida',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             'Los datos de respuesta serán procesados por esta asignación, para transformar a la clase de datos que el sistema remoto espera.',
-        'Include Ticket Data' => '',
-        'Include ticket data in response.' => '',
+        'Include Ticket Data' => 'Incluir en el Ticket Datos de Entrada ',
+        'Include ticket data in response.' => 'Incluir en la respuesta los datos del ticket',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
-        'Network Transport' => '',
+        'Network Transport' => 'Transporte de Red',
         'Properties' => 'Propiedades',
         'Route mapping for Operation' => 'Asignación de rutas para la Operación',
         'Define the route that should get mapped to this operation. Variables marked by a \':\' will get mapped to the entered name and passed along with the others to the mapping. (e.g. /Ticket/:TicketID).' =>
@@ -1031,15 +1031,15 @@ sub Data {
         'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
             'ej. https://www.otrs.com:10745/api/v1.0 (sin la barra invertida)',
         'Timeout' => 'Se acabó el tiempo',
-        'Timeout value for requests.' => '',
+        'Timeout value for requests.' => 'Valor de tiempo de espera para las solicitudes.',
         'Authentication' => 'Autenticación',
         'An optional authentication mechanism to access the remote system.' =>
-            '',
+            'Un mecanismo de autenticación opcional para acceder al sistema remoto.',
         'BasicAuth User' => '',
         'The user name to be used to access the remote system.' => 'Nombre de usuario a ser usado para acceder al sistema remoto.',
         'BasicAuth Password' => '',
         'The password for the privileged user.' => 'La contraseña para el usuario con permisos especiales.',
-        'Use Proxy Options' => '',
+        'Use Proxy Options' => 'Utilizar Opciones de Proxy',
         'Show or hide Proxy options to connect to the remote system.' => '',
         'Proxy Server' => 'Servidor Proxy',
         'URI of a proxy server to be used (if needed).' => 'URI del servidor proxy a usar (si se requiere).',
@@ -1048,15 +1048,15 @@ sub Data {
         'The user name to be used to access the proxy server.' => 'El nombre de usuario a ser usado para acceder al servidor proxy.',
         'Proxy Password' => 'Contraseña de Proxy',
         'The password for the proxy user.' => 'La contraseña para el usuario de proxy.',
-        'Skip Proxy' => '',
+        'Skip Proxy' => 'Saltar Proxy',
         'Skip proxy servers that might be configured globally?' => '',
         'Use SSL Options' => 'Usar opciones SSL',
         'Show or hide SSL options to connect to the remote system.' => 'Muestra u oculta las opciones SSL para conectar al sistema remoto.',
-        'Client Certificate' => '',
+        'Client Certificate' => 'Certificado de Cliente',
         'The full path and name of the SSL client certificate file (must be in PEM, DER or PKCS#12 format).' =>
             '',
         'e.g. /opt/otrs/var/certificates/SOAP/certificate.pem' => '',
-        'Client Certificate Key' => '',
+        'Client Certificate Key' => 'Clave de Certificado de Cliente',
         'The full path and name of the SSL client certificate key file (if not already included in certificate file).' =>
             '',
         'e.g. /opt/otrs/var/certificates/SOAP/key.pem' => '',
@@ -1091,8 +1091,8 @@ sub Data {
             '',
         'SOAPAction scheme' => '',
         'Select how SOAPAction should be constructed.' => '',
-        'Some web services require a specific construction.' => '',
-        'Some web services send a specific construction.' => '',
+        'Some web services require a specific construction.' => 'Algunos servicios web requieren una construcción específica.',
+        'Some web services send a specific construction.' => 'Algunos servicios web envían una construcción específica.',
         'SOAPAction separator' => 'Separador SOAPAcción',
         'Character to use as separator between name space and SOAP operation.' =>
             '',
@@ -1172,7 +1172,7 @@ sub Data {
         'Error handling modules are used to react in case of errors during the communication. Those modules are executed in a specific order, which can be changed by drag and drop.' =>
             '',
         'Backend' => '',
-        'Add error handling module' => '',
+        'Add error handling module' => 'Agregar módulo de manejo de errores',
         'Operations are individual system functions which remote systems can request.' =>
             'Operaciones son funciones de sistema individuales las cuales los sistemas remotos pueden solicitar.',
         'Invokers prepare data for a request to a remote web service, and process its response data.' =>
@@ -1222,7 +1222,7 @@ sub Data {
         'Add Mail Account' => 'Agregar Cuenta de Correo',
         'Edit Mail Account for host' => '',
         'and user account' => '',
-        'Filter for Mail Accounts' => '',
+        'Filter for Mail Accounts' => 'Filtro para Cuenta de Mail',
         'Filter for mail accounts' => '',
         'All incoming emails with one account will be dispatched in the selected queue.' =>
             '',
@@ -3430,7 +3430,7 @@ sub Data {
         'Attachment added!' => '¡Archivo adjunto añadido!',
 
         # Perl Module: Kernel/Modules/AdminAutoResponse.pm
-        'Auto Response added!' => '',
+        'Auto Response added!' => 'Auto Respuesta Añadida!',
 
         # Perl Module: Kernel/Modules/AdminCommunicationLog.pm
         'Invalid CommunicationID!' => '',
@@ -7871,8 +7871,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Queue view' => 'Vista por colas',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
-            '',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
+        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
         'Refresh interval' => 'Intervalo de actualización',
         'Registers a log module, that can be used to log communication related information.' =>
             '',

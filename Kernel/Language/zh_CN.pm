@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.998627787307033;
+    $Self->{Completeness}        = 0.999828473413379;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -647,7 +647,7 @@ sub Data {
         'Schedule minutes' => '计划的分钟',
         'Schedule hours' => '计划的小时',
         'Schedule days' => '计划的天',
-        'Automatic execution values are in the system timezone.' => '',
+        'Automatic execution values are in the system timezone.' => '自动执行时间在系统时区中的值。',
         'Currently this generic agent job will not run automatically.' =>
             '目前这个自动任务不会自动运行。',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
@@ -3719,7 +3719,7 @@ sub Data {
         'Package could not be upgraded' => '软件包无法更新',
         'Repository List' => '软件仓库列表',
         'No packages found in selected repository. Please check log for more info!' =>
-            '',
+            '在选定的软件仓库中找不到软件包， 请查看日志以获取更多信息！',
         'Package not verified due a communication issue with verification server!' =>
             '不能验证软件包，因为与验证服务器无法正常通信！',
         'Can\'t connect to OTRS Feature Add-on list server!' => '不能连接到OTRS附加功能列表服务器！',
@@ -4455,9 +4455,9 @@ sub Data {
         'There are no selected encryption keys for the addresses: \'%s\'. ' =>
             '地址：\'%s\'没有选择加密密钥。',
         'Cannot use expired encryption keys for the addresses: \'%s\'. ' =>
-            '',
+            '无法为地址：\'%s\'使用过期的加密密钥。',
         'Cannot use revoked encryption keys for the addresses: \'%s\'. ' =>
-            '',
+            '不能为地址：\'%s\'使用已撤销的加密密钥。',
         'Encrypt' => '加密',
         'Keys/certificates will only be shown for recipients with more than one key/certificate. The first found key/certificate will be pre-selected. Please make sure to select the correct one.' =>
             '密钥/证书只会显示给具有多个密钥/证书的收件人，找到的第一个密钥/证书将被预选，请确保选择了正确的密钥/证书。',
@@ -4472,8 +4472,8 @@ sub Data {
         'SMIME encrypt' => 'SMIME加密',
 
         # Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
-        'Cannot use expired signing key: \'%s\'. ' => '',
-        'Cannot use revoked signing key: \'%s\'. ' => '',
+        'Cannot use expired signing key: \'%s\'. ' => '不能使用过期的签名密钥：\'%s\'。',
+        'Cannot use revoked signing key: \'%s\'. ' => '不能使用已撤销的签名密钥：“%s”。',
         'There are no signing keys available for the addresses \'%s\'.' =>
             '没有签名密钥可用于地址：\'%s\'。',
         'There are no selected signing keys for the addresses \'%s\'.' =>
@@ -5677,7 +5677,7 @@ sub Data {
             '请移除以下不能用于搜索的词语：',
 
         # JS File: Core.Agent.SharedSecretGenerator
-        'Generate' => '',
+        'Generate' => '生成',
 
         # JS File: Core.Agent.SortedTree
         'This element has children elements and can currently not be removed.' =>
@@ -7210,7 +7210,7 @@ Thanks for your help!
             '全文索引的英语停止词，这些词将从搜索索引中移除。',
         'Enroll process for this ticket' => '这个工单的注册过程',
         'Enter your shared secret to enable two factor authentication. WARNING: Make sure that you add the shared secret to your generator application and the application works well. Otherwise you will be not able to login anymore without the two factor token.' =>
-            '',
+            '输入您的共享密钥以启用双因素身份验证。 警告：确保将共享密钥添加到生成器应用程序，并且应用程序运行良好。 否则，如果没有双因素令牌，您将无法再登录。',
         'Escalated Tickets' => '升级的工单',
         'Escalation view' => '升级视图',
         'EscalationTime' => '升级时间',
@@ -7863,8 +7863,8 @@ Thanks for your help!
         'Queue view' => '队列视图',
         'Queues ↔ Auto Responses' => '队列 ↔ 自动回复',
         'Rebuild the ticket index for AgentTicketQueue.' => '为AgentTicketQueue（服务人员工单队列）重建工单索引。',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
-            '通过外部工单编号识别一个工单是否为已有工单的跟进。',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
+        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
         'Refresh interval' => '刷新间隔',
         'Registers a log module, that can be used to log communication related information.' =>
             '注册一个日志模块用于记录通信相关信息。',
