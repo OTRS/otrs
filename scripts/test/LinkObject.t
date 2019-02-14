@@ -40,7 +40,7 @@ $ConfigObject->Set(
     Value => 0,
 );
 
-for my $Counter ( 1 .. 2 ) {
+for my $Counter ( 1 .. 3 ) {
 
     # create new users for the tests
     my $UserID = $UserObject->UserAdd(
@@ -54,6 +54,26 @@ for my $Counter ( 1 .. 2 ) {
 
     push @UserIDs, $UserID;
 }
+
+# get group object
+my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+
+my $GroupID = $GroupObject->GroupLookup( Group => 'admin' );
+die "Cannot find group 'admin'" if ( !$GroupID );
+
+$GroupObject->PermissionGroupUserAdd(
+    GID        => $GroupID,
+    UID        => $UserIDs[2],
+    Permission => {
+        ro        => 1,
+        move_into => 1,
+        create    => 1,
+        owner     => 1,
+        priority  => 1,
+        rw        => 1,
+    },
+    UserID => 1,
+) || die "Could not add test user $UserIDs[2] to group 'admin'";
 
 # create needed random type names
 my @TypeNames;
@@ -115,7 +135,7 @@ my $TypeData = [
     {
         SourceData => {
             TypeGet => {
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
         },
     },
@@ -134,7 +154,7 @@ my $TypeData = [
         SourceData => {
             TypeGet => {
                 Name   => $TypeNames[0],
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
         },
         ReferenceData => {
@@ -155,7 +175,7 @@ my $TypeData = [
             },
             TypeGet => {
                 Name   => $TypeNames[3],
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
         },
         ReferenceData => {
@@ -176,7 +196,7 @@ my $TypeData = [
             },
             TypeGet => {
                 Name   => $TypeNames[4],
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
         },
         ReferenceData => {
@@ -196,7 +216,7 @@ my $TypeData = [
             },
             TypeGet => {
                 Name   => " \t \n \r " . $TypeNames[5] . " \t \n \r ",
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
         },
         ReferenceData => {
@@ -208,8 +228,8 @@ my $TypeData = [
                 SourceName => $TypeNames[5] . ' Source',
                 TargetName => $TypeNames[5] . ' Target',
                 Pointed    => 1,
-                CreateBy   => 1,
-                ChangeBy   => 1,
+                CreateBy   => $UserIDs[2],
+                ChangeBy   => $UserIDs[2],
             },
         },
     },
@@ -224,7 +244,7 @@ my $TypeData = [
             },
             TypeGet => {
                 Name   => $TypeNames[51],
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
         },
         ReferenceData => {
@@ -236,8 +256,8 @@ my $TypeData = [
                 SourceName => $TypeNames[51] . ' Source',
                 TargetName => $TypeNames[51] . ' Target',
                 Pointed    => 1,
-                CreateBy   => 1,
-                ChangeBy   => 1,
+                CreateBy   => $UserIDs[2],
+                ChangeBy   => $UserIDs[2],
             },
         },
     },
@@ -252,7 +272,7 @@ my $TypeData = [
             },
             TypeGet => {
                 Name   => $TypeNames[2],
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
         },
         ReferenceData => {
@@ -264,8 +284,8 @@ my $TypeData = [
                 SourceName => $TypeNames[2],
                 TargetName => $TypeNames[2],
                 Pointed    => 0,
-                CreateBy   => 1,
-                ChangeBy   => 1,
+                CreateBy   => $UserIDs[2],
+                ChangeBy   => $UserIDs[2],
             },
         },
     },
@@ -280,7 +300,7 @@ my $TypeData = [
             },
             TypeGet => {
                 Name   => $TypeNames[5],
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
         },
         ReferenceData => {
@@ -292,8 +312,8 @@ my $TypeData = [
                 SourceName => $TypeNames[5] . ' Source',
                 TargetName => $TypeNames[5] . ' Target',
                 Pointed    => 1,
-                CreateBy   => 1,
-                ChangeBy   => 1,
+                CreateBy   => $UserIDs[2],
+                ChangeBy   => $UserIDs[2],
             },
         },
     },
@@ -308,7 +328,7 @@ my $TypeData = [
             },
             TypeGet => {
                 Name   => $TypeNames[6],
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
         },
         ReferenceData => {
@@ -320,8 +340,8 @@ my $TypeData = [
                 SourceName => 'Պ Č Đ' . $TypeNames[6] . ' Source' . ' ŝ Њ Д',
                 TargetName => 'Ճ ζ φ' . $TypeNames[6] . ' Target' . ' Σ Վ έ',
                 Pointed    => 1,
-                CreateBy   => 1,
-                ChangeBy   => 1,
+                CreateBy   => $UserIDs[2],
+                ChangeBy   => $UserIDs[2],
             },
         },
     },
@@ -336,7 +356,7 @@ my $TypeData = [
             },
             TypeGet => {
                 Name   => $TypeNames[7],
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
         },
         ReferenceData => {
@@ -348,8 +368,8 @@ my $TypeData = [
                 SourceName => '[test]%*\\ ' . $TypeNames[7] . ' Source' . ' [test]%*\\',
                 TargetName => '[test]%*\\ ' . $TypeNames[7] . ' Target' . ' [test]%*\\',
                 Pointed    => 1,
-                CreateBy   => 1,
-                ChangeBy   => 1,
+                CreateBy   => $UserIDs[2],
+                ChangeBy   => $UserIDs[2],
             },
         },
     },
@@ -460,7 +480,7 @@ for my $Test ( @{$TypeData} ) {
 
         my $TypeName = $LinkObject->TypeLookup(
             TypeID => $TypeID,
-            UserID => 1,
+            UserID => $UserIDs[2],
         );
 
         $Self->Is(
@@ -504,7 +524,7 @@ for my $Test ( @{$TypeData} ) {
 
         # get type list
         my %TypeList = $LinkObject->TypeList(
-            UserID => 1,
+            UserID => $UserIDs[2],
         );
 
         # extract TypeGet reference data
@@ -571,7 +591,7 @@ for my $Valid ( 0 .. 1 ) {
     # get state list
     my %StateList = $LinkObject->StateList(
         Valid  => $Valid,
-        UserID => 1,
+        UserID => $UserIDs[2],
     );
 
     my $StateCheck = %StateList ? 1 : 0;
@@ -607,7 +627,7 @@ for my $Valid ( 0 .. 1 ) {
         # lookup the state id
         my $LookupStateID = $LinkObject->StateLookup(
             Name   => $StateList{$StateID},
-            UserID => 1,
+            UserID => $UserIDs[2],
         );
 
         # check the lookup state id
@@ -686,7 +706,7 @@ for my $Test ( @{$ObjectData} ) {
     # lookup the object id
     my $ObjectID = $LinkObject->ObjectLookup(
         Name   => $Test->{SourceName},
-        UserID => 1,
+        UserID => $UserIDs[2],
     );
 
     if ( !$Test->{ReferenceName} ) {
@@ -720,7 +740,7 @@ for my $Test ( @{$ObjectData} ) {
     # lookup the object id a second time
     my $ObjectID2 = $LinkObject->ObjectLookup(
         Name   => $Test->{SourceName},
-        UserID => 1,
+        UserID => $UserIDs[2],
     );
 
     # check the lookup object id a second time
@@ -834,7 +854,7 @@ my %PossibleLinksReference = (
 # ------------------------------------------------------------ #
 
 my %PossibleLinkList = $LinkObject->PossibleLinkList(
-    UserID => 1,
+    UserID => $UserIDs[2],
 );
 
 # check setting data
@@ -966,7 +986,7 @@ my $PossibleObjectsReference = [
     # PossibleObjectsList() needs a Object argument (check return false)
     {
         SourceData => {
-            UserID => 1,
+            UserID => $UserIDs[2],
         },
     },
 
@@ -981,7 +1001,7 @@ my $PossibleObjectsReference = [
     {
         SourceData => {
             Object => $ObjectNames[31],
-            UserID => 1,
+            UserID => $UserIDs[2],
         },
     },
 
@@ -989,7 +1009,7 @@ my $PossibleObjectsReference = [
     {
         SourceData => {
             Object => $ObjectNames[0],
-            UserID => 1,
+            UserID => $UserIDs[2],
         },
         ReferenceData => [
             $ObjectNames[0],
@@ -1003,7 +1023,7 @@ my $PossibleObjectsReference = [
     {
         SourceData => {
             Object => $ObjectNames[10],
-            UserID => 1,
+            UserID => $UserIDs[2],
         },
         ReferenceData => [
             $ObjectNames[10],
@@ -1015,7 +1035,7 @@ my $PossibleObjectsReference = [
     {
         SourceData => {
             Object => $ObjectNames[20],
-            UserID => 1,
+            UserID => $UserIDs[2],
         },
         ReferenceData => [
             $ObjectNames[21],
@@ -1026,7 +1046,7 @@ my $PossibleObjectsReference = [
     {
         SourceData => {
             Object => $ObjectNames[30],
-            UserID => 1,
+            UserID => $UserIDs[2],
         },
         ReferenceData => [
             $ObjectNames[30],
@@ -1037,7 +1057,7 @@ my $PossibleObjectsReference = [
     {
         SourceData => {
             Object => $ObjectNames[40],
-            UserID => 1,
+            UserID => $UserIDs[2],
         },
         ReferenceData => [
         ],
@@ -1047,7 +1067,7 @@ my $PossibleObjectsReference = [
     {
         SourceData => {
             Object => $ObjectNames[50],
-            UserID => 1,
+            UserID => $UserIDs[2],
         },
         ReferenceData => [
             $ObjectNames[50],
@@ -1245,7 +1265,7 @@ my $PossibleTypesReference = [
     {
         SourceData => {
             Object => $ObjectNames[31],
-            UserID => 1,
+            UserID => $UserIDs[2],
         },
     },
 
@@ -1472,7 +1492,7 @@ my %TypeGroupReference = (
 
 # get type group list
 my %TypeGroupList = $LinkObject->TypeGroupList(
-    UserID => 1,
+    UserID => $UserIDs[2],
 );
 
 # check if the type group list has same number of entries as the reference list
@@ -1679,7 +1699,7 @@ for my $Test ( @{$PossibleTypeReference} ) {
 
     my $Result = $LinkObject->PossibleType(
         %{ $Test->{SourceData} },
-        UserID => 1,
+        UserID => $UserIDs[2],
     );
 
     # check if ReferenceData is present
@@ -1860,7 +1880,7 @@ my %ObjectID;
 for my $Object (@ObjectNames) {
     $ObjectID{$Object} = $LinkObject->ObjectLookup(
         Name   => $Object,
-        UserID => 1,
+        UserID => $UserIDs[2],
     );
 }
 
@@ -2030,7 +2050,7 @@ my $LinkData = [
                 Key    => '1',
                 Type   => $TypeNames[1],
                 State  => 'Valid',
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
             LinkListReference => {
                 $ObjectNames[1] => {
@@ -2064,7 +2084,7 @@ my $LinkData = [
                 Key    => '1',
                 Type   => $TypeNames[1],
                 State  => 'Valid',
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
             LinkListReference => {
                 $ObjectNames[1] => {
@@ -2130,7 +2150,7 @@ my $LinkData = [
                 Key    => '111',
                 Type   => $TypeNames[60],
                 State  => 'Valid',
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
             LinkListReference => {
                 $ObjectNames[2] => {
@@ -2262,7 +2282,7 @@ my $LinkData = [
                 Key    => 101,
                 Type   => '',
                 State  => 'Valid',
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
             LinkListReference => {
 
@@ -2333,7 +2353,7 @@ my $LinkData = [
                 Key    => '2000',
                 Type   => $TypeNames[60],
                 State  => 'Valid',
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
             LinkListReference => {
                 $ObjectNames[2] => {
@@ -2367,7 +2387,7 @@ my $LinkData = [
                 Key    => '250',
                 Type   => '',
                 State  => 'Valid',
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
             LinkListReference => {
                 $ObjectNames[2] => {
@@ -2417,7 +2437,7 @@ my $LinkData = [
                 Key    => '400',
                 Type   => '',
                 State  => 'Valid',
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
             LinkListReference => {
                 $ObjectNames[2] => {
@@ -2467,7 +2487,7 @@ my $LinkData = [
                 Key    => '555',
                 Type   => '',
                 State  => 'Valid',
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
             LinkListReference => {
                 $ObjectNames[2] => {
@@ -2521,7 +2541,7 @@ my $LinkData = [
                 Key    => '321',
                 Type   => '',
                 State  => 'Valid',
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
             LinkListReference => {
                 $ObjectNames[2] => {
@@ -2566,7 +2586,7 @@ my $LinkData = [
                 Key    => 'DB01::101',
                 Type   => $TypeNames[1],
                 State  => 'Valid',
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
             LinkListReference => {
                 $ObjectNames[1] => {
@@ -2601,7 +2621,7 @@ my $LinkData = [
                 Key    => '321',
                 Type   => '',
                 State  => 'Valid',
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
             LinkListReference => {
                 $ObjectNames[2] => {
@@ -2641,7 +2661,7 @@ my $LinkData = [
                 Key    => 'DB01::101',
                 Type   => '',
                 State  => 'Valid',
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
             LinkListReference => {},
         },
@@ -2677,7 +2697,7 @@ my $LinkData = [
                 Key    => '4100',
                 Type   => '',
                 State  => 'Valid',
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
             LinkListReference => {
                 $ObjectNames[42] => {
@@ -2716,7 +2736,7 @@ my $LinkData = [
                 Key    => '4100',
                 Type   => $TypeNames[7],
                 State  => 'Valid',
-                UserID => 1,
+                UserID => $UserIDs[2],
             },
             LinkListReference => {
                 $ObjectNames[42] => {
@@ -2893,9 +2913,30 @@ $Self->True(
     $LinkObject->LinkDeleteAll(
         Object => $ObjectNames[1],
         Key    => '321',
-        UserID => 1,
+        UserID => $UserIDs[2],
     ),
     "Test $TestCount: LinkDeleteAll() - check success",
+);
+
+#
+# Create a test ticket
+#
+my $TicketID = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCreate(
+    Title         => 'test',
+    QueueID       => 1,
+    Lock          => 'unlock',
+    Priority      => '3 normal',
+    StateID       => 1,
+    TypeID        => 1,
+    OwnerID       => $UserIDs[2],
+    ResponsibleID => $UserIDs[2],
+    UserID        => $UserIDs[2],
+);
+
+# sanity checks
+$Self->True(
+    $TicketID,
+    "TicketCreate() - $TicketID",
 );
 
 #
@@ -2905,14 +2946,14 @@ my @Tests = (
     {
         Name   => 'regular admin access',
         Object => 'Ticket',
-        Key    => 1,
-        UserID => 1,
+        Key    => $TicketID,
+        UserID => $UserIDs[2],
         Result => 1,
     },
     {
         Name   => 'user without permission',
         Object => 'Ticket',
-        Key    => 1,
+        Key    => $TicketID,
         UserID => $UserIDs[0],
         Result => undef,
     },
@@ -2926,7 +2967,7 @@ my @Tests = (
     {
         Name   => 'dummy backend, allow regular user',
         Object => $ObjectNames[0],
-        Key    => 1,
+        Key    => $TicketID,
         UserID => $UserIDs[0],
         Result => 1,
     },

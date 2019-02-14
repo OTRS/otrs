@@ -12,16 +12,15 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -32,19 +31,18 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        # navigate to AdminSysConfig screen
+        # Navigate to AdminSysConfig screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSysConfig");
 
-        # check for AdminSysConfig groups
+        # Check for AdminSysConfig groups.
         for my $SysGroupValues (qw(DynamicFields Framework GenericInterface ProcessManagement Daemon Ticket)) {
             $Selenium->find_element( "#SysConfigGroup option[value='$SysGroupValues']", 'css' );
 
         }
 
-        # select Ticket sysconfig group
+        # Select Ticket sysconfig group.
         $Selenium->execute_script(
             "\$('#SysConfigGroup').val('Ticket').trigger('redraw.InputField').trigger('change');"
         );
@@ -54,7 +52,7 @@ $Selenium->RunTest(
         # Wait for reload to kick in
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Remove").length' );
 
-        # remove selected Ticket sysconfig group
+        # Remove selected Ticket sysconfig group.
         sleep 2;
         $Selenium->execute_script(
             "\$('#SysConfigGroup').val('').trigger('redraw.InputField').trigger('change');"
@@ -64,18 +62,24 @@ $Selenium->RunTest(
                 'return typeof($) === "function" && $(".DataTable tbody td").text().trim().includes("No data found.");'
         );
 
-        # verify no result are found on after removing sysconfig group
+        # Verify no result are found on after removing sysconfig group.
         $Self->Is(
             $Selenium->execute_script("return \$('.DataTable tbody td').text().trim();"),
             'No data found.',
             "No result message is found"
         );
 
-        # check for the import button
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Import')]");
+        # Check for the import button.
+        my $Setting = $ConfigObject->Get(
+            Name => 'ConfigImportAllowed',
+        );
 
-        # test search AdminSysConfig and check for some of the results
-        # e.g Core::PerformanceLog and Core::Ticket
+        if ( defined $Setting && $Setting ) {
+            $Selenium->find_element("//a[contains(\@href, \'Subaction=Import')]");
+        }
+
+        # Test search AdminSysConfig and check for some of the results
+        #   e.g Core::PerformanceLog and Core::Ticket.
         $Selenium->find_element( "#SysConfigSearch", 'css' )->send_keys("admin");
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
@@ -87,12 +91,11 @@ $Selenium->RunTest(
             );
         }
 
-        my $CustomQueue   = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::CustomQueue');
-        my $CustomService = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::CustomService');
-        my $NewArticleIgnoreSystemSender
-            = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::NewArticleIgnoreSystemSender');
+        my $CustomQueue                  = $ConfigObject->Get('Ticket::CustomQueue');
+        my $CustomService                = $ConfigObject->Get('Ticket::CustomService');
+        my $NewArticleIgnoreSystemSender = $ConfigObject->Get('Ticket::NewArticleIgnoreSystemSender');
 
-        # check for some of Core::Ticket default values
+        # Check for some of Core::Ticket default values.
         $Selenium->find_element("//a[contains(\@href, \'SysConfigSubGroup=Core%3A%3ATicket')]")->VerifiedClick();
 
         $Self->Is(
@@ -111,7 +114,7 @@ $Selenium->RunTest(
             "NewArticleIgnoreSystemSender default value is no",
         );
 
-        # edit those values
+        # Edit those values.
         $Selenium->find_element("//input[\@name='Ticket::CustomQueue']")->clear();
         $Selenium->find_element("//input[\@name='Ticket::CustomQueue']")->send_keys("My Queuesedit");
         $Selenium->find_element("//input[\@name='Ticket::CustomService']")->clear();
@@ -121,7 +124,7 @@ $Selenium->RunTest(
         );
         $Selenium->execute_script("\$('button[value=Update').click();");
 
-        # check for edited values
+        # Check for edited values.
         $Self->Is(
             $Selenium->find_element("//input[\@name='Ticket::CustomQueue']")->get_value(),
             "My Queuesedit",
@@ -138,7 +141,7 @@ $Selenium->RunTest(
             "NewArticleIgnoreSystemSender updated value is Yes",
         );
 
-        # restore edited values back to default
+        # Restore edited values back to default.
         for my $ResetDefault (qw(CustomQueue CustomService NewArticleIgnoreSystemSender)) {
             $Selenium->execute_script("\$('button[name=$ResetDefault]').click();");
             sleep 1;

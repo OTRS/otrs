@@ -46,6 +46,19 @@ $Selenium->RunTest(
         my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 
+        my %Setting = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
+            Name => 'Frontend::Module###AdminPackageManager',
+        );
+
+        if ( defined $Setting{Valid} && !$Setting{Valid} ) {
+            $Self->False(
+                $Setting{Valid},
+                'AdminPackageManager is disabled, skip the test'
+            );
+
+            return 1;
+        }
+
         # For test stability check if package is already installed.
         my $PackageCheck = $PackageObject->PackageIsInstalled(
             Name => 'Test',
