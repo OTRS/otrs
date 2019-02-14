@@ -108,7 +108,7 @@ sub Run {
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    # Enable in memory cache, which is normally disabled for commands.
+    # Enable in-memory cache to improve SysConfig performance, which is normally disabled for commands.
     $CacheObject->Configure(
         CacheInMemory => 1,
     );

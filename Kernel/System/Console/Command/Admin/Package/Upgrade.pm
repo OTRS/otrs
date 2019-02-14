@@ -14,6 +14,7 @@ use warnings;
 use parent qw(Kernel::System::Console::BaseCommand Kernel::System::Console::Command::Admin::Package::List);
 
 our @ObjectDependencies = (
+    'Kernel::System::Cache',
     'Kernel::System::Package',
 );
 
@@ -42,6 +43,13 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     $Self->Print("<yellow>Upgrading package...</yellow>\n");
+
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    # Enable in-memory cache to improve SysConfig performance, which is normally disabled for commands.
+    $CacheObject->Configure(
+        CacheInMemory => 1,
+    );
 
     my $FileString = $Self->_PackageContentGet( Location => $Self->GetArgument('location') );
     return $Self->ExitCodeError() if !$FileString;
@@ -93,6 +101,11 @@ sub Run {
             print "+----------------------------------------------------------------------------+\n";
         }
     }
+
+    # Disable in memory cache.
+    $CacheObject->Configure(
+        CacheInMemory => 0,
+    );
 
     $Self->Print("<green>Done.</green>\n");
     return $Self->ExitCodeOk();

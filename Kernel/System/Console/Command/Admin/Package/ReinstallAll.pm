@@ -14,6 +14,7 @@ use warnings;
 use parent qw(Kernel::System::Console::BaseCommand);
 
 our @ObjectDependencies = (
+    'Kernel::System::Cache',
     'Kernel::System::Package',
 );
 
@@ -44,6 +45,13 @@ sub Run {
     my $HideDeploymentInfoOption = $Self->GetOption('hide-deployment-info') || 0;
 
     $Self->Print("<yellow>Reinstalling all OTRS packages that are not correctly deployed...</yellow>\n");
+
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    # Enable in-memory cache to improve SysConfig performance, which is normally disabled for commands.
+    $CacheObject->Configure(
+        CacheInMemory => 1,
+    );
 
     my @ReinstalledPackages;
 
@@ -84,6 +92,12 @@ sub Run {
     else {
         $Self->Print("<green>No packages needed reinstallation.</green>\n");
     }
+
+    # Disable in memory cache.
+    $CacheObject->Configure(
+        CacheInMemory => 0,
+    );
+
     return $Self->ExitCodeOk();
 }
 

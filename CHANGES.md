@@ -1,4 +1,12 @@
 #6.0.17 ????-??-??
+ - 2019-02-14 Improved performance of the following console commands:
+      Admin::Package::Install
+      Admin::Package::Reinstall
+      Admin::Package::ReinstallAll
+      Admin::Package::Uninstall
+      Admin::Package::Upgrade
+      Admin::Package::UpgradeAll
+      Admin::Package::UpgradeAll
  - 2019-02-13 Updated translations, thanks to all translators.
  - 2019-02-11 Fixed bug#[14391](https://bugs.otrs.org/show_bug.cgi?id=14391) - Log spam when autoreply is sent to unknown customer.
  - 2019-02-11 Fixed bug#[14282](https://bugs.otrs.org/show_bug.cgi?id=14282) - After upgrading from OTRS 5 to 6 some the values of some renamed package settings are not preserved.
