@@ -1,4 +1,5 @@
 #6.0.17 ????-??-??
+ - 2019-02-14 Improved SysConfig performance.
  - 2019-02-14 Improved performance of the following console commands:
       Admin::Package::Install
       Admin::Package::Reinstall

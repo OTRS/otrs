@@ -1748,10 +1748,11 @@ sub DefaultSettingLock {
 
         # Set new cache value.
         $CacheObject->Set(
-            Type  => 'SysConfigDefaultListGet',
-            Key   => 'DefaultSettingListGet',
-            Value => $DefaultSettingListGet,
-            TTL   => $Self->{CacheTTL},
+            Type           => 'SysConfigDefaultListGet',
+            Key            => 'DefaultSettingListGet',
+            Value          => $DefaultSettingListGet,
+            TTL            => $Self->{CacheTTL},
+            CacheInBackend => 0,
         );
     }
 
@@ -2064,10 +2065,11 @@ sub DefaultSettingUnlock {
 
         # Set new cache value.
         $CacheObject->Set(
-            Type  => 'SysConfigDefaultListGet',
-            Key   => 'DefaultSettingListGet',
-            Value => $DefaultSettingListGet,
-            TTL   => $Self->{CacheTTL},
+            Type           => 'SysConfigDefaultListGet',
+            Key            => 'DefaultSettingListGet',
+            Value          => $DefaultSettingListGet,
+            TTL            => $Self->{CacheTTL},
+            CacheInBackend => 0,
         );
     }
     $CacheObject->Delete(
@@ -2147,10 +2149,11 @@ sub DefaultSettingDirtyCleanUp {
 
         # Set new cache value.
         $CacheObject->Set(
-            Type  => 'SysConfigDefaultListGet',
-            Key   => 'DefaultSettingListGet',
-            Value => $DefaultSettingListGet,
-            TTL   => $Self->{CacheTTL},
+            Type           => 'SysConfigDefaultListGet',
+            Key            => 'DefaultSettingListGet',
+            Value          => $DefaultSettingListGet,
+            TTL            => $Self->{CacheTTL},
+            CacheInBackend => 0,
         );
     }
 

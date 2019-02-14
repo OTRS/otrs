@@ -2603,17 +2603,20 @@ sub ConfigurationXML2DB {
 
         my %DefaultSettingsAdd;
 
+        # Build setting list hash, to avoid slow grep expressions.
+        my %SettingListLookup = map { $_->{Name} => $_ } @SettingList;
+
         # Create/Update settings in DB.
         SETTING:
         for my $SettingName ( sort keys %Settings ) {
 
-            my @DefaultSetting = grep { $_->{Name} eq $SettingName } @SettingList;
+            my $DefaultSetting = $SettingListLookup{$SettingName};
 
-            if ( @DefaultSetting && IsHashRefWithData( $DefaultSetting[0] ) ) {
+            if ( IsHashRefWithData($DefaultSetting) ) {
 
                 # Compare new Setting XML with the old one (skip if there is no difference).
-                my $Updated = $Settings{$SettingName}->{XMLContentRaw} ne $DefaultSetting[0]->{XMLContentRaw};
-                $Updated ||= $Settings{$SettingName}->{XMLFilename} ne $DefaultSetting[0]->{XMLFilename};
+                my $Updated = $Settings{$SettingName}->{XMLContentRaw} ne $DefaultSetting->{XMLContentRaw};
+                $Updated ||= $Settings{$SettingName}->{XMLFilename} ne $DefaultSetting->{XMLFilename};
 
                 next SETTING if !$Updated;
 
@@ -2628,7 +2631,7 @@ sub ConfigurationXML2DB {
 
                 # Update default setting.
                 my $Success = $SysConfigDBObject->DefaultSettingUpdate(
-                    DefaultID      => $DefaultSetting[0]->{DefaultID},
+                    DefaultID      => $DefaultSetting->{DefaultID},
                     Name           => $Settings{$SettingName}->{XMLContentParsed}->{Name},
                     Description    => $Settings{$SettingName}->{XMLContentParsed}->{Description}->[0]->{Content} || '',
                     Navigation     => $Settings{$SettingName}->{XMLContentParsed}->{Navigation}->[0]->{Content} || '',
