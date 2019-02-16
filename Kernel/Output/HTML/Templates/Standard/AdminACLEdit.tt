@@ -96,7 +96,7 @@
 
                         <label for="Description">[% Translate("Description") | html %]:</label>
                         <div class="Field">
-                            <textarea name="Description" id="Description" class="W50pc [% Data.DescriptionServerError | html %]" rows="5">[% Data.Description | html %]</textarea>
+                            <textarea name="Description" id="Description" class="W50pc [% Data.DescriptionServerError | html %]" rows="5" maxlength="200">[% Data.Description | html %]</textarea>
                         </div>
                         <div class="Clear"></div>
 

@@ -103,10 +103,14 @@ $Selenium->RunTest(
             push @TestACLNames, $TestACLName;
         }
 
+        # Test for Bug#14411, 300 is more than the allowed by the filed (200), exceeding characters
+        #   are just not typed.
+        my $Description = 'a' x 300;
+
         # fill in test data
         $Selenium->find_element( "#Name",           'css' )->send_keys( $TestACLNames[0] );
         $Selenium->find_element( "#Comment",        'css' )->send_keys('Selenium Test ACL');
-        $Selenium->find_element( "#Description",    'css' )->send_keys('Selenium Test ACL');
+        $Selenium->find_element( "#Description",    'css' )->send_keys($Description);
         $Selenium->find_element( "#StopAfterMatch", 'css' )->click();
         $Selenium->InputFieldValueSet(
             Element => '#ValidID',
@@ -154,9 +158,12 @@ $Selenium->RunTest(
             'Selenium Test ACL',
             "#Comment stored value",
         );
+
+        # Test for Bug#14411 (only 200 out of 300 characters should be stored).
+        my $StoredDescription = 'a' x 200;
         $Self->Is(
             $Selenium->find_element( '#Description', 'css' )->get_value(),
-            'Selenium Test ACL',
+            $StoredDescription,
             "#Description stored value",
         );
         $Self->Is(

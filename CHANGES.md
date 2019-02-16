@@ -1,4 +1,5 @@
 #6.0.17 ????-??-??
+ - 2019-02-16 Fixed bug#[14411](https://bugs.otrs.org/show_bug.cgi?id=14411) - ACL description Bug causes error.
  - 2019-02-14 Improved SysConfig performance.
  - 2019-02-14 Improved performance of the following console commands:
       Admin::Package::Install
