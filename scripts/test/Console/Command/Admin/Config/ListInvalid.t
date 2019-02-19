@@ -100,7 +100,7 @@ $Self->Is(
 
 $Self->True(
     $Result
-        =~ m{Following settings have invalid value:.*?Ticket::Frontend::AgentTicketPhone###Priority = '-123 Invalid priority value';}s
+        =~ m{The following settings have an invalid value:.*?Ticket::Frontend::AgentTicketPhone###Priority = '-123 Invalid priority value';}s
     ? 1
     : 0,
     'Check invalid result.'
