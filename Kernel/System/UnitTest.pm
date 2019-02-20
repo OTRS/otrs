@@ -260,7 +260,7 @@ sub _SubmitResults {
     *STDERR->flush();
 
     # Limit attachment sizes to 20MB in total.
-    my $AttachmentCount = scalar grep {-r $_} @{ $Param{AttachmentPath} // [] };
+    my $AttachmentCount = scalar grep { -r $_ } @{ $Param{AttachmentPath} // [] };
     my $AttachmentsSize = 1024 * 1024 * 20;
 
     ATTACHMENT_PATH:
