@@ -109,6 +109,9 @@ sub OSInfoGet {
 
                 $OSName = $DistributionName . ' ' . $DistributionVersion;
             }
+            else {
+                $OSName = 'Unknown version';
+            }
         }
         elsif ( -e "/etc/issue" ) {
 
@@ -140,7 +143,7 @@ sub OSInfoGet {
         $OSName = "$OSMap{$^O} $BSDVersion";
     }
     else {
-        $OSName = "Unknown";
+        $OSName = "Unknown version";
     }
 
     # collect OS data
