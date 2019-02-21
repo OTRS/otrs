@@ -1,4 +1,6 @@
-#6.0.17 ????-??-??
+#6.0.18 ????-??-??
+
+#6.0.17 2019-03-08
  - 2019-02-21 Fixed bug#[14396](https://bugs.otrs.org/show_bug.cgi?id=14396) - Names are not consistent (mixed singular and plural forms).
  - 2019-02-21 Fixed bug#[14287](https://bugs.otrs.org/show_bug.cgi?id=14287) - Show context setting dialog in ticket overview screens does not support columns with brackets.
  - 2019-02-21 Fixed bug#[11932](https://bugs.otrs.org/show_bug.cgi?id=11932) - OTRS does not handle more than 10 S/MIME certificates per user.
