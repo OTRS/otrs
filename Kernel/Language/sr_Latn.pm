@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.998456260720412;
+    $Self->{Completeness}        = 0.999656770207654;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -647,7 +647,7 @@ sub Data {
         'Schedule minutes' => 'Planirano minuta',
         'Schedule hours' => 'Planirano sati',
         'Schedule days' => 'Planirano dana',
-        'Automatic execution values are in the system timezone.' => '',
+        'Automatic execution values are in the system timezone.' => 'Vremena automatskog izvršavanja su u sistemskoj vremenskoj zoni.',
         'Currently this generic agent job will not run automatically.' =>
             'Trenutno ovaj posao generički operatera neće biti izvršen automatski.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
@@ -3321,7 +3321,6 @@ sub Data {
         'Deploying, please wait...' => 'Raspoređivanje u toku, molimo sačekajte...',
         'Preparing to deploy, please wait...' => 'Priprema za raspoređivanje, molimo sačekajte...',
         'Deploy now' => 'Rasporedi sad',
-        'Close' => 'Zatvori',
         'Try again' => 'Pokušajte ponovo',
 
         # JS Template: DialogReset
@@ -3719,7 +3718,7 @@ sub Data {
         'Package could not be upgraded' => 'Paket nije mogao biti ažuriran',
         'Repository List' => 'Lista spremišta',
         'No packages found in selected repository. Please check log for more info!' =>
-            '',
+            'U izabranom spremištu nema paketa. Molimo proverite log za više informacija.',
         'Package not verified due a communication issue with verification server!' =>
             'Paket nije verifikovan zbog komunikacijskog problema sa verifikacionim serverom!',
         'Can\'t connect to OTRS Feature Add-on list server!' => 'Nije moguće povezati se sa OTRS Feature Add-on serverom!',
@@ -4455,9 +4454,9 @@ sub Data {
         'There are no selected encryption keys for the addresses: \'%s\'. ' =>
             'Nisu odabrani ključevi za šifrovanje za adresu: \'%s\'.',
         'Cannot use expired encryption keys for the addresses: \'%s\'. ' =>
-            '',
+            'Nije moguće koristiti istekao ključ za šifrovanje za adrese: \'%s\'.',
         'Cannot use revoked encryption keys for the addresses: \'%s\'. ' =>
-            '',
+            'Nije moguće koristiti povučen ključ za šifrovanje za adrese: \'%s\'.',
         'Encrypt' => 'Šifrovanje',
         'Keys/certificates will only be shown for recipients with more than one key/certificate. The first found key/certificate will be pre-selected. Please make sure to select the correct one.' =>
             'Ključevi/sertifikati će biti prikazani samo za primaoce sa više od jednog ključeva/sertifikata. Prvi pronađeni ključ/sertifikat će biti automatski odabran. Molimo proverite da li je odabran ispravan.',
@@ -4472,8 +4471,8 @@ sub Data {
         'SMIME encrypt' => 'SMIME šifrovanje',
 
         # Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
-        'Cannot use expired signing key: \'%s\'. ' => '',
-        'Cannot use revoked signing key: \'%s\'. ' => '',
+        'Cannot use expired signing key: \'%s\'. ' => 'Nije moguće koristiti istekao ključ za potpisivanje: \'%s\'.',
+        'Cannot use revoked signing key: \'%s\'. ' => 'Nije moguće koristiti povučen ključ za potpisivanje: \'%s\'.',
         'There are no signing keys available for the addresses \'%s\'.' =>
             'Nema ključeva za potpisivanje za adrese \'%s\'.',
         'There are no selected signing keys for the addresses \'%s\'.' =>
@@ -4808,10 +4807,8 @@ sub Data {
         'Can\'t read file!' => 'Nemoguće čitanje datoteke!',
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
             '<p>Ako nastavite sa instalacijom ovog paketa, mogu se javiti sledeći problemi:</p><ul><li>Bezbednosni problemi</li><li>Problemi stabilnosti</li><li>Problemi u performansama</li></ul><p>Napominjemo da problemi nastali usled rada sa ovim paketom nisu pokriveni OTRS servisnim ugovorom.</p>',
-        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default.</p>' =>
-            '<p>Instalacija paketa koji nisu verifikovani od strane OTRS grupe nije podrazumevano omogućena.</p>',
-        '<p>You can activate the installation of not verified packages in the <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">System Configuration</a>.</p>' =>
-            '<p>Možete aktivirati instalaciju neverifikovanih paketa u <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">sistemskoj konfiguraciji</a>.</p>',
+        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -5677,7 +5674,7 @@ sub Data {
             'Molimo da uklonite sledeće reči iz vaše pretrage jer se ne mogu tražiti:',
 
         # JS File: Core.Agent.SharedSecretGenerator
-        'Generate' => '',
+        'Generate' => 'Generiši',
 
         # JS File: Core.Agent.SortedTree
         'This element has children elements and can currently not be removed.' =>
@@ -5954,8 +5951,6 @@ Vaša tehnička podrška
         'All customer users of a CustomerID' => 'Svi klijenti korisnici za CustomerID',
         'All escalated tickets' => 'Svi eskalirani tiketi',
         'All new tickets, these tickets have not been worked on yet' => 'Svi novi tiketi, na njima još nije ništa rađeno',
-        'All open tickets, these tickets have already been worked on, but need a response' =>
-            'Svi otvoreni tiketi, na ovima je već rađeno, ali na njih treba odgovoriti',
         'All open tickets, these tickets have already been worked on.' =>
             'Svi otvoreni tiketi na kojima je već rađeno.',
         'All tickets with a reminder set where the reminder date has been reached' =>
@@ -6140,6 +6135,7 @@ Vaša tehnička podrška
             'Izaberite za kakve promene tiketa želite da primate obaveštenja. Molimo obratite pažnju da ne možete u potpunosti da isključite obaveštenja koja su označena kao obavezna.',
         'Choose which notifications you\'d like to receive.' => 'Izaberite koja obaveštenja želite da primate.',
         'Christmas Eve' => 'Badnje veče',
+        'Close' => 'Zatvori',
         'Close this ticket' => 'Zatvori ovaj tiket',
         'Closed tickets (customer user)' => 'Zatvoreni tiketi (klijent korisnik)',
         'Closed tickets (customer)' => 'Zatvoreni tiketi (klijent)',
@@ -7212,7 +7208,7 @@ Vaša tehnička podrška
             'Engleske zaustavne reči za indeks pretrage kompletnog teksta. Ove reči će biti uklonjene iz indeksa pretrage.',
         'Enroll process for this ticket' => 'Upiši proces za ovaj tiket',
         'Enter your shared secret to enable two factor authentication. WARNING: Make sure that you add the shared secret to your generator application and the application works well. Otherwise you will be not able to login anymore without the two factor token.' =>
-            '',
+            'Unesite svoj deljeni tajni ključ za dvofaktorski modul za identifikaciju. UPOZORENJE: obratite pažnju da morate pravilno uneti tajni ključ u vašu aplikaciju za identifikaciju i da aplikacija funkcioniše ispravno. U suprotnom, nećete biti u mogućnosti da se prijavite u sistem bez dvofaktorskog tokena.',
         'Escalated Tickets' => 'Eskalirani tiketi',
         'Escalation view' => 'Pregled eskalacija',
         'EscalationTime' => 'Vreme eskalacije',
@@ -7716,7 +7712,6 @@ Vaša tehnička podrška
             '„OTRS” može da koristi jednu ili više preslikanih baza podataka za skupe operacije kao što su pretraga teksta ili generisanje statistika. Ovde možete definisati DSN za prvu preslikanu bazu podataka.',
         'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             'OTRS ne podržava termine koji se ponavljaju bez krajnjeg datuma ili broja iteracija. Prilikom uvoza kalendara, može se dogoditi da ICS datoteka sadrži takve \'beskonačne\' termine. Umesto takvog ponašanja, sistem će kreirati sve termine iz prošlosti, kao i termine za sledeći n broj meseci (podrazumevano 120 meseci/10 godina).',
-        'Open Tickets / Need to be answered' => 'Otvoreni tiketi / Potrebno odgovoriti',
         'Open an external link!' => 'Otvori eksternu vezu!',
         'Open tickets (customer user)' => 'Otvoreni tiketi (klijent korisnik)',
         'Open tickets (customer)' => 'Otvoreni tiketi (klijent)',
@@ -7865,8 +7860,8 @@ Vaša tehnička podrška
         'Queue view' => 'Pregled reda',
         'Queues ↔ Auto Responses' => 'Redovi ↔ automatski odgovori',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Ponovo izradi indeks tiketa za operaterski red tiketa.',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
-        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
+            '',
         'Refresh interval' => 'Interval osvežavanja',
         'Registers a log module, that can be used to log communication related information.' =>
             'Registruje log modul za čuvanje informacija u vezi komunikacija.',
@@ -8788,7 +8783,6 @@ Vaša tehnička podrška
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',
-        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',

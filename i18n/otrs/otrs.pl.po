@@ -16,13 +16,14 @@
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Daniel Lisiecki, 2019
 # Patryk Zera <sanchez@atlasnet.pl>, 2019
+# Łukasz Beczek <lukbec+transifex@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-02-13 21:57+0000\n"
+"POT-Creation-Date: 2019-02-21 13:30+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Patryk Zera <sanchez@atlasnet.pl>, 2019\n"
+"Last-Translator: Łukasz Beczek <lukbec+transifex@gmail.com>, 2019\n"
 "Language-Team: Polish (https://www.transifex.com/otrs/teams/23435/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1593,6 +1594,10 @@ msgid ""
 " via customer groups). Note: The table does not consider changes made to "
 "this form without submitting it."
 msgstr ""
+"Tabela powyżej pokazuje przyznany dostęp klienta dla użytkownika klienta "
+"przez kontekst uprawnień. Macierz uwzględnia cały dziedziczny dostęp (na "
+"przykład poprzez grupy klientów). Uwaga: tabela nie uwzględnia zmian "
+"wprowadzonych w tym formularzu bez jego przesyłania."
 
 #. Template: AdminCustomerUserCustomer
 msgid "Manage Customer User-Customer Relations"
@@ -1669,6 +1674,8 @@ msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets"
 " will not be available for the customer user)."
 msgstr ""
+"Jeśli nic nie zostało zaznaczone, wtedy nie ma uprawnień w tej grupie "
+"(zgłoszenia nie będą dostępne dla klienta)."
 
 #. Template: AdminCustomerUserGroup
 msgid "Customer User Default Groups:"
@@ -1676,7 +1683,7 @@ msgstr "Domyślna Grupa Użytkownika klienta"
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer User-Service Relations"
-msgstr ""
+msgstr "Zarządzaj relacjami Użytkownik klienta - Usługi"
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
@@ -1712,13 +1719,15 @@ msgstr "Filtr dla pól dynamicznych"
 
 #. Template: AdminDynamicField
 msgid "More Business Fields"
-msgstr ""
+msgstr "Więcej pól biznesowych"
 
 #. Template: AdminDynamicField
 msgid ""
 "Would you like to benefit from additional dynamic field types for "
 "businesses? Upgrade to %s to get access to the following field types:"
 msgstr ""
+"Czy chcesz korzystać z dodatkowych dynamicznych typów pól dla firm? "
+"Uaktualnij do %s, aby uzyskać dostęp do następujących typów pól:"
 
 #. Template: AdminDynamicField
 msgid "Database"
@@ -1728,6 +1737,8 @@ msgstr "Baza danych"
 msgid ""
 "Use external databases as configurable data sources for this dynamic field."
 msgstr ""
+"Użyj zewnętrznych baz danych jako konfigurowalnych źródeł danych dla tego "
+"dynamicznego pola."
 
 #. Template: AdminDynamicField
 msgid "Web service"
@@ -1743,11 +1754,11 @@ msgstr ""
 
 #. Template: AdminDynamicField
 msgid "Contact with data"
-msgstr ""
+msgstr "Połącz z danymi"
 
 #. Template: AdminDynamicField
 msgid "This feature allows to add (multiple) contacts with data to tickets."
-msgstr ""
+msgstr "Ta funkcja umożliwia dodawanie (wielu) kontaktów z danymi do biletów."
 
 #. Template: AdminDynamicField
 msgid ""
@@ -1835,6 +1846,8 @@ msgid ""
 "Is not possible to invalidate this entry, all config settings have to be "
 "changed beforehand."
 msgstr ""
+"Nie można unieważnić tego wpisu, wszystkie ustawienia konfiguracji muszą "
+"zostać wcześniej zmienione."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field type"
@@ -1855,6 +1868,8 @@ msgstr "To pole jest chronione i nie może być usunięte."
 #. Template: AdminDynamicFieldCheckbox
 msgid "This dynamic field is used in the following config settings:"
 msgstr ""
+"To dynamiczne pole jest używane w następujących ustawieniach "
+"konfiguracji:Pole dynamiczne"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field Settings"
@@ -2111,7 +2126,7 @@ msgstr "Wyślij"
 
 #. Template: AdminGenericAgent
 msgid "Generic Agent Job Management"
-msgstr ""
+msgstr "Zarządzanie zadaniami automatycznymi"
 
 #. Template: AdminGenericAgent
 msgid "Edit Job"
@@ -2200,7 +2215,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Event Based Execution (Single Ticket)"
-msgstr ""
+msgstr "Wykonywanie bazowane na zdarzeniach (pojedyńcze zgłoszenie)"
 
 #. Template: AdminGenericAgent
 msgid "Event Triggers"
@@ -2242,6 +2257,7 @@ msgstr "Dodaj trigger"
 #. Template: AdminGenericAgent
 msgid "To add a new event select the event object and event name"
 msgstr ""
+"Aby dodać nowe wydarzenie, wybierz obiekt zdarzenia i nazwę wydarzenia"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
@@ -2637,7 +2653,7 @@ msgstr "Czas"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Communication ID"
-msgstr ""
+msgstr "Identyfikator komunikacji"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Remote IP"
@@ -2699,6 +2715,7 @@ msgstr "Opcje ogólne"
 msgid ""
 "The name can be used to distinguish different error handling configurations."
 msgstr ""
+"Nazwa może być używana do rozróżniania różnych konfiguracji obsługi błędów."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Please provide a unique name for this web service."
@@ -2713,6 +2730,8 @@ msgid ""
 "This OTRS error handling backend module will be called internally to process"
 " the error handling mechanism."
 msgstr ""
+"Ten moduł zaplecza obsługi błędów OTRS będzie wywoływany wewnętrznie w celu "
+"przetworzenia mechanizmu obsługi błędów."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Processing options"
@@ -2721,12 +2740,15 @@ msgstr "Opcje przetwarzania"
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Configure filters to control error handling module execution."
 msgstr ""
+"Skonfiguruj filtry, aby kontrolować wykonywanie modułu obsługi błędów."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Only requests matching all configured filters (if any) will trigger module "
 "execution."
 msgstr ""
+"Tylko żądania pasujące do wszystkich skonfigurowanych filtrów (jeśli są) "
+"będą pozwalać na wykonanie modułu."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Operation filter"
@@ -2734,7 +2756,7 @@ msgstr "Filtr operacji"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only execute error handling module for selected operations."
-msgstr ""
+msgstr "Wykonuj tylko moduł obsługi błędów dla wybranych operacji."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
@@ -2742,52 +2764,65 @@ msgid ""
 " request data. Filters involving this error stage should not use operation "
 "filter."
 msgstr ""
+"Uwaga: Operacja nieokreślona dla błędów występujących podczas odbierania "
+"przychodzących danych żądania. Filtry z tym stopniem błędu nie powinny "
+"używać filtra operacji."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Invoker filter"
-msgstr ""
+msgstr "FIltr odwołujący"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only execute error handling module for selected invokers."
-msgstr ""
+msgstr "Wykonuj tylko moduł obsługi błędów dla wybranych odwołań."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message content filter"
-msgstr ""
+msgstr "Filtr treści komunikatu o błędzie"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Enter a regular expression to restrict which error messages should cause "
 "error handling module execution."
 msgstr ""
+"Wprowadź wyrażenie regularne, aby ograniczyć, które komunikaty o błędach "
+"powinny spowodować wykonanie modułu obsługi błędów."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Error message subject and data (as seen in the debugger error entry) will "
 "considered for a match."
 msgstr ""
+"Obiekt z komunikatem o błędzie i dane (widoczne w opisie błędu debuggera) "
+"zostaną uwzględnione w dopasowaniu."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
 "related errors."
 msgstr ""
+"Przykład: Wprowadź  '^.*401 Unauthorized.*\\\\$', aby obsłużyć tylko błędy "
+"związane z uwierzytelnianiem."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error stage filter"
-msgstr ""
+msgstr "Filtr fazy błędu"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Only execute error handling module on errors that occur during specific "
 "processing stages."
 msgstr ""
+"Moduł obsługi błędów należy uruchamiać wyłącznie w przypadku błędów, które "
+"występują podczas określonych etapów przetwarzania."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Example: Handle only errors where mapping for outgoing data could not be "
 "applied."
 msgstr ""
+"Przykład: błędy związane z obsługą tylko wtedy, gdy nie można zastosować "
+"mapowania dla danych wychodzących."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error code"
@@ -2795,13 +2830,15 @@ msgstr "Kod błędu"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error identifier for this error handling module."
-msgstr ""
+msgstr "Identyfikator błędu dla tego modułu obsługi błędów."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "This identifier will be available in XSLT-Mapping and shown in debugger "
 "output."
 msgstr ""
+"Ten identyfikator będzie dostępny w XSLT-Mapping i pokazany na wyjściu "
+"debuggera."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message"
@@ -2809,32 +2846,40 @@ msgstr "Komunikat błędu"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error explanation for this error handling module."
-msgstr ""
+msgstr "Objaśnienie błędu dla tego modułu obsługi błędów."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "This message will be available in XSLT-Mapping and shown in debugger output."
 msgstr ""
+"Ta wiadomość będzie dostępna w XSLT-Mapping i pokazana na wyjściu debuggera."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Define if processing should be stopped after module was executed, skipping "
 "all remaining modules or only those of the same backend."
 msgstr ""
+"Zdefiniuj, czy przetwarzanie powinno zostać zatrzymane po wykonaniu modułu, "
+"pomijając wszystkie pozostałe moduły lub tylko te z tego samego zaplecza."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Default behavior is to resume, processing the next module."
 msgstr ""
+"Domyślnym zachowaniem jest wznowienie, przetwarzanie następnego modułu."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "This module allows to configure scheduled retries for failed requests."
 msgstr ""
+"Ten moduł umożliwia skonfigurowanie zaplanowanych ponownych prób dla "
+"nieudanych żądań."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "Default behavior of GenericInterface web services is to send each request "
 "exactly once and not to reschedule after errors."
 msgstr ""
+"Domyślnym zachowaniem usług WWW ogólnego interfejsu jest wysyłanie każdego "
+"żądania dokładnie jeden raz i nieprzekazywanie po błędach."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2842,16 +2887,21 @@ msgid ""
 "individual request, the module executed last is authoritative and determines"
 " if a retry is scheduled."
 msgstr ""
+"Jeśli dla pojedynczego żądania wykonywany jest więcej niż jeden moduł zdolny"
+" do planowania ponownej próby, ostatni wykonany moduł jest autorytatywny i "
+"określa, czy ponowna próba jest zaplanowana."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Request retry options"
-msgstr ""
+msgstr "Poproś o opcje ponowienia"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "Retry options are applied when requests cause error handling module "
 "execution (based on processing options)."
 msgstr ""
+"Opcje ponowienia są stosowane, gdy żądania powodują wykonanie modułu obsługi"
+" błędów (w oparciu o opcje przetwarzania)."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Schedule retry"
@@ -2860,10 +2910,11 @@ msgstr "Zaplanuj powtórzenie"
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Should requests causing an error be triggered again at a later time?"
 msgstr ""
+"Czy żądania powodujące błąd będą uruchamiane ponownie w późniejszym czasie?"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Initial retry interval"
-msgstr ""
+msgstr "Początkowy interwał ponawiania próby"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Interval after which to trigger the first retry."
@@ -2874,10 +2925,12 @@ msgid ""
 "Note: This and all further retry intervals are based on the error handling "
 "module execution time for the initial request."
 msgstr ""
+"Uwaga: Ten i wszystkie kolejne interwały ponowienia są oparte na czasie "
+"wykonania modułu obsługi błędów dla początkowego żądania."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Factor for further retries"
-msgstr ""
+msgstr "Współczynnik dla dalszych prób"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2895,22 +2948,31 @@ msgid ""
 "(1 minute), 10:03 (2*1=2 minutes), 10:07 (2*2=4 minutes), 10:15 (2*4=8 "
 "minutes), ..."
 msgstr ""
+"Przykład: jeśli żądanie jest początkowo uruchamiane o godzinie 10:00 z "
+"początkowym odstępem czasu o wartości: 1 minuta i współczynnikiem "
+"powtórzenia: 2, ponowne próby będą uruchamiane o 10:01 (1 minuta), 10:03 (2 "
+"* 1 = 2 minuty), 10:07 (2 * 2 = 4 minuty), 10:15 (2 * 4 = 8 minut), ..."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry interval"
-msgstr ""
+msgstr "Maksymalny interwał ponawiania prób"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "If a retry interval factor of '1.5' or '2' is selected, undesirably long "
 "intervals can be prevented by defining the largest interval allowed."
 msgstr ""
+"Jeżeli wybrano współczynnik interwału powtórzenia: 1,5 lub 2, można zapobiec"
+" niepożądanym długim interwałom, definiując maksymalny dopuszczalny "
+"przedział czasu."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "Intervals calculated to exceed the maximum retry interval will then "
 "automatically be shortened accordingly."
 msgstr ""
+"Odstępy obliczone w celu przekroczenia maksymalnego interwału ponawiania "
+"będą wówczas automatycznie odpowiednio skracane."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2919,6 +2981,10 @@ msgid ""
 "retries would be triggered at 10:01 (1 minute), 10:03 (2 minutes), 10:07 (4 "
 "minutes), 10:12 (8=>5 minutes), 10:17, ..."
 msgstr ""
+"Przykład: jeśli żądanie jest początkowo uruchamiane o godzinie 10:00 z "
+"początkowym interwałem: 1 minuta, współczynnik ponowienia: 2 i maksymalny "
+"czas: 5 minut, ponowne próby będą uruchamiane o 10:01 (1 minuta), 10:03 (2 "
+"minuty), 10:07 (4 minuty), 10:12 (8 => 5 minut), 10:17, ..."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry count"
@@ -2929,6 +2995,8 @@ msgid ""
 "Maximum number of retries before a failing request is discarded, not "
 "counting the initial request."
 msgstr ""
+"Maksymalna liczba ponownych prób przed odrzuceniem żądania jest odrzucana, "
+"nie licząc początkowego żądania."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2936,16 +3004,22 @@ msgid ""
 "at '1 minute', retry factor at '2' and maximum retry count at '2', retries "
 "would be triggered at 10:01 and 10:02 only."
 msgstr ""
+"Przykład: jeśli żądanie jest początkowo uruchamiane o godzinie 10:00 z "
+"początkowym interwałem: 1 minuta, współczynnik ponów: 2 i maksymalna liczba "
+"ponownych prób: 2, ponowne próby będą uruchamiane tylko o 10:01 i 10:02."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "Note: Maximum retry count might not be reached if a maximum retry period is "
 "configured as well and reached earlier."
 msgstr ""
+"Uwaga: Maksymalna liczba powtórzeń może nie zostać osiągnięta, jeśli "
+"maksymalny czas ponowienia jest również skonfigurowany i osiągnięty "
+"wcześniej."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "This field must be empty or contain a positive number."
-msgstr ""
+msgstr "To pole musi być puste lub zawierać liczbę dodatnią."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry period"
@@ -2957,6 +3031,8 @@ msgid ""
 "discarded (based on the error handling module execution time for the initial"
 " request)."
 msgstr ""
+"Maksymalny czas ponowienia próśb o niepowodzenie przed ich odrzuceniem (w "
+"oparciu o czas wykonania modułu obsługi błędów dla pierwotnego żądania)."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2964,6 +3040,9 @@ msgid ""
 "(according to retry interval calculation) will automatically be triggered at"
 " maximum period exactly."
 msgstr ""
+"Próby, które normalnie byłyby uruchamiane po upływie maksymalnego okresu "
+"(zgodnie z obliczeniem przedziału czasu ponownej próby), będą automatycznie "
+"uruchamiane dokładnie w maksymalnym okresie."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2972,20 +3051,27 @@ msgid ""
 " retries would be triggered at 10:01, 10:03, 10:07, 10:15 and finally at "
 "10:31=>10:30."
 msgstr ""
+"Przykład: jeśli żądanie jest początkowo wyzwalane o godzinie 10:00 z "
+"początkowym interwałem:  minuta, współczynnikiem powtórzenia: 2 i "
+"maksymalnym czasem ponowienia próby po: 30 minutach. Ponowne próby będą "
+"uruchamiane o 10:01, 10:03, 10:07, 10:15 i wreszcie o 10:31 => 10:30."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "Note: Maximum retry period might not be reached if a maximum retry count is "
 "configured as well and reached earlier."
 msgstr ""
+"Uwaga: Maksymalny czas ponowienia może nie zostać osiągnięty, jeśli "
+"maksymalna liczba ponownych prób jest również skonfigurowana i osiągnięta "
+"wcześniej."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add Invoker"
-msgstr ""
+msgstr "Dodaj wywołanie"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Edit Invoker"
-msgstr ""
+msgstr "Edytuj wywołanie"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Do you really want to delete this invoker?"
@@ -3051,7 +3137,7 @@ msgstr "Warunek"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Edit this event"
-msgstr ""
+msgstr "Edytuj to zdarzenie"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
@@ -10660,10 +10746,6 @@ msgid "Deploy now"
 msgstr "Wdróż teraz"
 
 #. JS Template: DialogDeployment
-msgid "Close"
-msgstr "Zamknij"
-
-#. JS Template: DialogDeployment
 msgid "Try again"
 msgstr "Spróbuj ponownie"
 
@@ -14837,14 +14919,9 @@ msgstr ""
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
 "<p>The installation of packages which are not verified by the OTRS Group is "
-"not possible by default.</p>"
-msgstr ""
-
-#. Perl Module: Kernel/System/Package.pm
-msgid ""
-"<p>You can activate the installation of not verified packages in the <a "
-"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
-" target=\"_blank\">System Configuration</a>.</p>"
+"not possible by default. You can activate the installation of not verified "
+"packages via the \"AllowNotVerifiedPackages\" system configuration "
+"setting.</p>"
 msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
@@ -18003,14 +18080,6 @@ msgid "All new tickets, these tickets have not been worked on yet"
 msgstr "Wszystkie nowe zgłoszenia, nie podjęto jeszcze prac w związku z nimi"
 
 #. SysConfig
-msgid ""
-"All open tickets, these tickets have already been worked on, but need a "
-"response"
-msgstr ""
-"Wszystkie otwarte zgłoszenia, były już podjęte prace w związku z nimi ale "
-"obecnie wymagają odpowiedzi"
-
-#. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
 msgstr ""
 
@@ -18665,6 +18734,10 @@ msgstr ""
 #. SysConfig
 msgid "Christmas Eve"
 msgstr "Wigilia Bożego Narodzenia"
+
+#. SysConfig
+msgid "Close"
+msgstr "Zamknij"
 
 #. SysConfig
 msgid "Close this ticket"
@@ -24394,10 +24467,6 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Open Tickets / Need to be answered"
-msgstr "Zgłoszenia otwarte / wymagające odpowiedzi"
-
-#. SysConfig
 msgid "Open an external link!"
 msgstr ""
 
@@ -25071,8 +25140,9 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
-"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
+"Recognize if a ticket is a follow-up to an existing ticket using an external"
+" ticket number. Note: the first capturing group from the 'NumberRegExp' "
+"expression will be used as the ticket number value."
 msgstr ""
 
 #. SysConfig

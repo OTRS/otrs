@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.947169811320755;
+    $Self->{Completeness}        = 0.946970997082547;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3320,7 +3320,6 @@ sub Data {
         'Deploying, please wait...' => 'Implantando, favor esperar...',
         'Preparing to deploy, please wait...' => 'Preparando para implantar, favor esperar...',
         'Deploy now' => 'Implantar agora',
-        'Close' => 'Fechar',
         'Try again' => 'Tente novamente',
 
         # JS Template: DialogReset
@@ -4807,10 +4806,8 @@ sub Data {
         'Can\'t read file!' => 'Não pode ler o arquivo!',
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
             '<p>Se você continuar a instalar este pacote, as seguintes questões podem ocorrer: </p><ul><li>Problemas de segurança</li><li>Problemas de estabilidade</li><li>Problemas de performance</li></ul><p>Observe que questões que são causadas por utilizar este pacote não são cobertas por contratos de serviço OTRS. </p>',
-        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default.</p>' =>
-            '<p>A instalação de pacotes que não são verificados pelo Grupo OTRS não são possíveis por padrão.</p>',
-        '<p>You can activate the installation of not verified packages in the <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">System Configuration</a>.</p>' =>
-            '<p>Você pode ativar a instalação de pacotes não verificados na <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">Configuração do Sistema</a>.</p>',
+        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -5953,8 +5950,6 @@ Obrigado pela ajuda!
         'All customer users of a CustomerID' => 'Todos os usuários clientes de uma CustomerID.',
         'All escalated tickets' => 'Todos os chamados escalados',
         'All new tickets, these tickets have not been worked on yet' => 'Todos os chamados novos, estes chamados não foram trabalhados ainda',
-        'All open tickets, these tickets have already been worked on, but need a response' =>
-            'Todos os chamados abertos, estes chamados já foram trabalhados, mas precisam de uma resposta',
         'All open tickets, these tickets have already been worked on.' =>
             'Todos tickets abertos. Estes tickets já foram trabalhados.',
         'All tickets with a reminder set where the reminder date has been reached' =>
@@ -6139,6 +6134,7 @@ Obrigado pela ajuda!
             'Escolha para quais tipos de mudança de ticket você quer receber notificações. Observe que você não pode desativar completamente notificações marcadas como mandatórias.',
         'Choose which notifications you\'d like to receive.' => 'Escolha as notificações que você gostaria de receber.',
         'Christmas Eve' => 'Véspera de Natal',
+        'Close' => 'Fechar',
         'Close this ticket' => 'Fechar este Chamado',
         'Closed tickets (customer user)' => 'Chamados fechados (usuário cliente)',
         'Closed tickets (customer)' => 'Chamados fechados (cliente)',
@@ -7715,7 +7711,6 @@ Obrigado pela ajuda!
             '',
         'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             'OTRS não suporta Agendamentos recorrentes sem uma data de término ou um número de iterações. Durante o processo de importação, pode ocorrer que o arquivo ICS não contenha esses Agendamentos. Ao invés disso, o sistema cria Agendamentos no passado mais Agendamentos para os próximos N meses (120 meses/10 anos por padrão).',
-        'Open Tickets / Need to be answered' => 'Chamados Abertos / Precisam ser Respondidos',
         'Open an external link!' => 'Abra um link externo!',
         'Open tickets (customer user)' => 'Chamados abertos (usuário cliente)',
         'Open tickets (customer)' => 'Chamados abertos (cliente)',
@@ -7864,8 +7859,8 @@ Obrigado pela ajuda!
         'Queue view' => 'Visão de Filas',
         'Queues ↔ Auto Responses' => 'Filas ↔ Respostas Automáticas',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Reconstruir o índice de tickets para AgentTicketQueue.',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
-        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
+            '',
         'Refresh interval' => 'Intervalo de atualização.',
         'Registers a log module, that can be used to log communication related information.' =>
             'Registra um módulo de log que pode ser utilizado para registrar informações relacionadas com comunicação.',
@@ -8787,7 +8782,6 @@ Obrigado pela ajuda!
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',
-        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',

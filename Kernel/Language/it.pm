@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.500171526586621;
+    $Self->{Completeness}        = 0.500085807448087;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -3323,7 +3323,6 @@ sub Data {
         'Deploying, please wait...' => 'Attivazione in corso, attendere...',
         'Preparing to deploy, please wait...' => 'Preparazione dell\'attivazione, attendere...',
         'Deploy now' => 'Attiva adesso',
-        'Close' => 'Chiudi',
         'Try again' => '',
 
         # JS Template: DialogReset
@@ -4810,9 +4809,7 @@ sub Data {
         'Can\'t read file!' => '',
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
             '',
-        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default.</p>' =>
-            '',
-        '<p>You can activate the installation of not verified packages in the <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">System Configuration</a>.</p>' =>
+        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
             '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
@@ -5945,8 +5942,6 @@ Thanks for your help!
         'All customer users of a CustomerID' => '',
         'All escalated tickets' => 'Tutti i ticket scalati',
         'All new tickets, these tickets have not been worked on yet' => 'Tutti i nuovi ticket, questi ticket devono ancora essere elaborati',
-        'All open tickets, these tickets have already been worked on, but need a response' =>
-            'Tutti i ticket aperti, questi ticket sono in lavorazione ma necessitano di una risposta',
         'All open tickets, these tickets have already been worked on.' =>
             '',
         'All tickets with a reminder set where the reminder date has been reached' =>
@@ -6131,6 +6126,7 @@ Thanks for your help!
             '',
         'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Vigilia di Natale',
+        'Close' => 'Chiudi',
         'Close this ticket' => 'Chiudi questo ticket',
         'Closed tickets (customer user)' => 'Ticket chiusi (utenza cliente)',
         'Closed tickets (customer)' => 'Ticket chiusi (cliente)',
@@ -7707,7 +7703,6 @@ Thanks for your help!
             '',
         'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             '',
-        'Open Tickets / Need to be answered' => 'Ticket aperti / che richiedono risposta',
         'Open an external link!' => '',
         'Open tickets (customer user)' => 'Ticket aperti (utenza cliente)',
         'Open tickets (customer)' => 'Ticket aperti (cliente)',
@@ -7856,8 +7851,8 @@ Thanks for your help!
         'Queue view' => 'Vista per Coda',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
-        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
+            '',
         'Refresh interval' => 'Intervallo di aggiornamento',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
@@ -8783,7 +8778,6 @@ NOTA: i sistemi di terze parti richiedono una configurazione a se.',
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',
-        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',

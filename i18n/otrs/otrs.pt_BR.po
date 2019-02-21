@@ -53,7 +53,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-02-13 21:57+0000\n"
+"POT-Creation-Date: 2019-02-21 13:30+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Ricardo von Staa <ricardo.von.staa@otrs.com>, 2019\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/otrs/teams/23435/pt_BR/)\n"
@@ -11087,10 +11087,6 @@ msgid "Deploy now"
 msgstr "Implantar agora"
 
 #. JS Template: DialogDeployment
-msgid "Close"
-msgstr "Fechar"
-
-#. JS Template: DialogDeployment
 msgid "Try again"
 msgstr "Tente novamente"
 
@@ -15433,20 +15429,10 @@ msgstr ""
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
 "<p>The installation of packages which are not verified by the OTRS Group is "
-"not possible by default.</p>"
+"not possible by default. You can activate the installation of not verified "
+"packages via the \"AllowNotVerifiedPackages\" system configuration "
+"setting.</p>"
 msgstr ""
-"<p>A instalação de pacotes que não são verificados pelo Grupo OTRS não são "
-"possíveis por padrão.</p>"
-
-#. Perl Module: Kernel/System/Package.pm
-msgid ""
-"<p>You can activate the installation of not verified packages in the <a "
-"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
-" target=\"_blank\">System Configuration</a>.</p>"
-msgstr ""
-"<p>Você pode ativar a instalação de pacotes não verificados na <a "
-"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
-" target=\"_blank\">Configuração do Sistema</a>.</p>"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -18766,14 +18752,6 @@ msgid "All new tickets, these tickets have not been worked on yet"
 msgstr "Todos os chamados novos, estes chamados não foram trabalhados ainda"
 
 #. SysConfig
-msgid ""
-"All open tickets, these tickets have already been worked on, but need a "
-"response"
-msgstr ""
-"Todos os chamados abertos, estes chamados já foram trabalhados, mas precisam"
-" de uma resposta"
-
-#. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
 msgstr "Todos tickets abertos. Estes tickets já foram trabalhados."
 
@@ -19495,6 +19473,10 @@ msgstr "Escolha as notificações que você gostaria de receber."
 #. SysConfig
 msgid "Christmas Eve"
 msgstr "Véspera de Natal"
+
+#. SysConfig
+msgid "Close"
+msgstr "Fechar"
 
 #. SysConfig
 msgid "Close this ticket"
@@ -25854,10 +25836,6 @@ msgstr ""
 "meses/10 anos por padrão)."
 
 #. SysConfig
-msgid "Open Tickets / Need to be answered"
-msgstr "Chamados Abertos / Precisam ser Respondidos"
-
-#. SysConfig
 msgid "Open an external link!"
 msgstr "Abra um link externo!"
 
@@ -26784,8 +26762,9 @@ msgstr "Reconstruir o índice de tickets para AgentTicketQueue."
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
-"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
+"Recognize if a ticket is a follow-up to an existing ticket using an external"
+" ticket number. Note: the first capturing group from the 'NumberRegExp' "
+"expression will be used as the ticket number value."
 msgstr ""
 
 #. SysConfig

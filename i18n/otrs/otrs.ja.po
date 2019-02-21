@@ -15,7 +15,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-02-13 21:57+0000\n"
+"POT-Creation-Date: 2019-02-21 13:30+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>, 2018\n"
 "Language-Team: Japanese (https://www.transifex.com/otrs/teams/23435/ja/)\n"
@@ -10303,10 +10303,6 @@ msgid "Deploy now"
 msgstr "今すぐデプロイ"
 
 #. JS Template: DialogDeployment
-msgid "Close"
-msgstr "クローズ"
-
-#. JS Template: DialogDeployment
 msgid "Try again"
 msgstr "再試行する"
 
@@ -14454,18 +14450,10 @@ msgstr ""
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
 "<p>The installation of packages which are not verified by the OTRS Group is "
-"not possible by default.</p>"
+"not possible by default. You can activate the installation of not verified "
+"packages via the \"AllowNotVerifiedPackages\" system configuration "
+"setting.</p>"
 msgstr ""
-
-#. Perl Module: Kernel/System/Package.pm
-msgid ""
-"<p>You can activate the installation of not verified packages in the <a "
-"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
-" target=\"_blank\">System Configuration</a>.</p>"
-msgstr ""
-"<p>未認証のインストール済みパッケージは<a "
-"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
-" target=\"_blank\">システム設定</a>から有効化することができます。</p>"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -17573,12 +17561,6 @@ msgid "All new tickets, these tickets have not been worked on yet"
 msgstr "全新規チケット。まだ着手されていません"
 
 #. SysConfig
-msgid ""
-"All open tickets, these tickets have already been worked on, but need a "
-"response"
-msgstr "全対応中チケット。着手済みだが応答が必要です"
-
-#. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
 msgstr "全対応中チケット。すでに着手済みのものです"
 
@@ -18180,6 +18162,10 @@ msgstr ""
 #. SysConfig
 msgid "Christmas Eve"
 msgstr "クリスマスイブ"
+
+#. SysConfig
+msgid "Close"
+msgstr "クローズ"
 
 #. SysConfig
 msgid "Close this ticket"
@@ -23531,10 +23517,6 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Open Tickets / Need to be answered"
-msgstr "対応中チケット／要対応"
-
-#. SysConfig
 msgid "Open an external link!"
 msgstr "外部リンクを開く！"
 
@@ -24209,8 +24191,9 @@ msgstr "AgentTicketQueueのチケットインデックスを再構築します�
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
-"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
+"Recognize if a ticket is a follow-up to an existing ticket using an external"
+" ticket number. Note: the first capturing group from the 'NumberRegExp' "
+"expression will be used as the ticket number value."
 msgstr ""
 
 #. SysConfig

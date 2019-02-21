@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.679416809605489;
+    $Self->{Completeness}        = 0.679251759052686;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3320,7 +3320,6 @@ sub Data {
         'Deploying, please wait...' => '',
         'Preparing to deploy, please wait...' => '',
         'Deploy now' => '',
-        'Close' => 'Cerrar',
         'Try again' => '',
 
         # JS Template: DialogReset
@@ -4808,9 +4807,7 @@ sub Data {
         'Can\'t read file!' => '¡El archivo no se puede leer!',
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
             '',
-        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default.</p>' =>
-            '<p>La instalación de paquetes que no han sido verificados por el Grupo OTRS no es posible por defecto.</p>',
-        '<p>You can activate the installation of not verified packages in the <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">System Configuration</a>.</p>' =>
+        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
             '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
@@ -5960,8 +5957,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'All customer users of a CustomerID' => 'Todos los clientes de un IDCliente',
         'All escalated tickets' => 'Todos los Tickets escalados',
         'All new tickets, these tickets have not been worked on yet' => 'Todos los Tickets nuevos, todavía no se ha trabajado en estos tickets',
-        'All open tickets, these tickets have already been worked on, but need a response' =>
-            'Todos los Tickets abiertos, ya se ha trabajado en estos tickets, pero necesitan una respuesta',
         'All open tickets, these tickets have already been worked on.' =>
             '',
         'All tickets with a reminder set where the reminder date has been reached' =>
@@ -6146,6 +6141,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Nochebuena',
+        'Close' => 'Cerrar',
         'Close this ticket' => 'Cerrar este ticket',
         'Closed tickets (customer user)' => 'Tickets cerrados (cliente usuario)',
         'Closed tickets (customer)' => 'Tickets cerrados (cliente)',
@@ -7722,7 +7718,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             '',
-        'Open Tickets / Need to be answered' => 'Tickets Abiertos / Necesitan ser respondidos',
         'Open an external link!' => '¡Abrir un enlace externo!',
         'Open tickets (customer user)' => 'Tickets abiertos (usuario cliente)',
         'Open tickets (customer)' => 'Tickets abiertos (cliente)',
@@ -7871,8 +7866,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Queue view' => 'Vista por colas',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
-        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
+            '',
         'Refresh interval' => 'Intervalo de actualización',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
@@ -8794,7 +8789,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',
-        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999828473413379;
+    $Self->{Completeness}        = 0.999828385103827;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3315,7 +3315,6 @@ sub Data {
         'Deploying, please wait...' => 'Распоређивање у току, молимо сачекајте...',
         'Preparing to deploy, please wait...' => 'Припрема за распоређивање, молимо сачекајте...',
         'Deploy now' => 'Распореди сад',
-        'Close' => 'Затвори',
         'Try again' => 'Покушајте поново',
 
         # JS Template: DialogReset
@@ -4802,10 +4801,8 @@ sub Data {
         'Can\'t read file!' => 'Немогуће читање датотеке!',
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
             '<p>Ако наставите са инсталацијом овог пакета, могу се јавити следећи проблеми:</p><ul><li>Безбедносни проблеми</li><li>Проблеми стабилности</li><li>Проблеми у перформансама</li></ul><p>Напомињемо да проблеми настали услед рада са овим пакетом нису покривени OTRS сервисним уговором.</p>',
-        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default.</p>' =>
-            '<p>Инсталација пакета који нису верификовани од стране OTRS групе није подразумевано омогућена.</p>',
-        '<p>You can activate the installation of not verified packages in the <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">System Configuration</a>.</p>' =>
-            '<p>Можете активирати инсталацију неверификованих пакета у <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">системској конфигурацији</a>.</p>',
+        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -5948,8 +5945,6 @@ Thanks for your help!
         'All customer users of a CustomerID' => 'Сви клијенти корисници за CustomerID',
         'All escalated tickets' => 'Сви ескалирани тикети',
         'All new tickets, these tickets have not been worked on yet' => 'Сви нови тикети, на њима још није ништа рађено',
-        'All open tickets, these tickets have already been worked on, but need a response' =>
-            'Сви отворени тикети, на овима је већ рађено, али на њих треба одговорити',
         'All open tickets, these tickets have already been worked on.' =>
             'Сви отворени тикети на којима је већ рађено.',
         'All tickets with a reminder set where the reminder date has been reached' =>
@@ -6134,6 +6129,7 @@ Thanks for your help!
             'Изаберите за какве промене тикета желите да примате обавештења. Молимо обратите пажњу да не можете у потпуности да искључите обавештења која су означена као обавезна.',
         'Choose which notifications you\'d like to receive.' => 'Изаберите која обавештења желите да примате.',
         'Christmas Eve' => 'Бадње вече',
+        'Close' => 'Затвори',
         'Close this ticket' => 'Затвори овај тикет',
         'Closed tickets (customer user)' => 'Затворени тикети (клијент корисник)',
         'Closed tickets (customer)' => 'Затворени тикети (клијент)',
@@ -6183,7 +6179,7 @@ Thanks for your help!
             'Конфигурише који екран би требало приказати након креирања новог тикета.',
         'Configure your own log text for PGP.' => 'Конфигуриши сопствени лог текст за PGP.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otrs.com/doc/), chapter "Ticket Event Module".' =>
-            'Конфигурише подразумевана подешавања динамичког поља тикета. "Name" дефинише динамичко поље које ће бити коришћено, "Value" је податак који ће бити подешен, а "Event" дефинише окидач догађаја. Молимо консултујте упутство за програмере (https://doc.otrs.com/doc/), поглавље "Модул догађаја тикета".',
+            'Конфигурише подразумевану вредност TicketDynamicField подешавања. "Name" дефинише динамичко поље које би се требало користити, "Value је вредност коју треба подесити и "Event" дефинише модул догађаја. Молимо проверите упутство за програмере (https://doc.otrs.com/doc/), поглавље "Ticket Event Module".',
         'Controls how to display the ticket history entries as readable values.' =>
             'Контролише начин приказа историјских уноса тикета као читљивих вредности. ',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -6532,7 +6528,7 @@ Thanks for your help!
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             'Дефинише подразумевана филтер поља у претрази адресара клијент корисника (CustomerUser или CustomerCompany). За CustomerCompany поља, морате додати префикс \'CustomerCompany_\'.',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otrs.com/doc/.' =>
-            'Дефинише подразумевану корисничку (HTML) тему за оператере и клијенте. Уколико желите, можете додати сопствену тему. Молимо консултујте упутство за администраторе на https://doc.otrs.com/doc/.',
+            'Одређује подразумевану тему главног интерфејса (HTML) која ће бити коришћена од стране оператера или клијената. Уколико желите можете додати вашу личну тему. Молимо вас да погледате упутство за администратора, које се налази на https://doc.otrs.com/doc/.',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'Дефинише подразумевани језик главног корисничког дела. Све могуће вредности су одређене у расположивим језичким датотекама у систему (погледајте следећа подешавања).',
         'Defines the default history type in the customer interface.' => 'Одређује подразумевани тип историје у интерфејсу клијента.',
@@ -7710,7 +7706,6 @@ Thanks for your help!
             '„OTRS” може да користи једну или више пресликаних база података за скупе операције као што су претрага текста или генерисање статистика. Овде можете дефинисати DSN за прву пресликану базу података.',
         'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             'OTRS не подржава термине који се понављају без крајњег датума или броја итерација. Приликом увоза календара, може се догодити да ICS датотека садржи такве \'бесконачне\' термине. Уместо таквог понашања, систем ће креирати све термине из прошлости, као и термине за следећи n број месеци (подразумевано 120 месеци/10 година).',
-        'Open Tickets / Need to be answered' => 'Отворени тикети / Потребно одговорити',
         'Open an external link!' => 'Отвори екстерну везу!',
         'Open tickets (customer user)' => 'Отворени тикети (клијент корисник)',
         'Open tickets (customer)' => 'Отворени тикети (клијент)',
@@ -7859,8 +7854,8 @@ Thanks for your help!
         'Queue view' => 'Преглед реда',
         'Queues ↔ Auto Responses' => 'Редови ↔ аутоматски одговори',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Поново изради индекс тикета за оператерски ред тикета.',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
-        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
+            'Препознаје да ли је тикет наставак постојећег тикета коришћењем екстерног броја тикета. Напомена: прва RegEx група из \'NumberRegExp\' израза ће бити искоришћена као вредност броја тикета.',
         'Refresh interval' => 'Интервал освежавања',
         'Registers a log module, that can be used to log communication related information.' =>
             'Региструје лог модул за чување информација у вези комуникација.',
@@ -8782,7 +8777,6 @@ Thanks for your help!
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',
-        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-02-13 22:08+0000\n"
+"POT-Creation-Date: 2019-02-21 14:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -9599,10 +9599,6 @@ msgid "Deploy now"
 msgstr ""
 
 #. JS Template: DialogDeployment
-msgid "Close"
-msgstr ""
-
-#. JS Template: DialogDeployment
 msgid "Try again"
 msgstr ""
 
@@ -13563,11 +13559,7 @@ msgid "<p>If you continue to install this package, the following issues may occu
 msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
-msgid "<p>The installation of packages which are not verified by the OTRS Group is not possible by default.</p>"
-msgstr ""
-
-#. Perl Module: Kernel/System/Package.pm
-msgid "<p>You can activate the installation of not verified packages in the <a href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\" target=\"_blank\">System Configuration</a>.</p>"
+msgid "<p>The installation of packages which are not verified by the OTRS Group is not possible by default. You can activate the installation of not verified packages via the \"AllowNotVerifiedPackages\" system configuration setting.</p>"
 msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
@@ -16318,10 +16310,6 @@ msgid "All new tickets, these tickets have not been worked on yet"
 msgstr ""
 
 #. SysConfig
-msgid "All open tickets, these tickets have already been worked on, but need a response"
-msgstr ""
-
-#. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
 msgstr ""
 
@@ -16807,6 +16795,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Christmas Eve"
+msgstr ""
+
+#. SysConfig
+msgid "Close"
 msgstr ""
 
 #. SysConfig
@@ -20758,10 +20750,6 @@ msgid "OTRS doesn't support recurring Appointments without end date or number of
 msgstr ""
 
 #. SysConfig
-msgid "Open Tickets / Need to be answered"
-msgstr ""
-
-#. SysConfig
 msgid "Open an external link!"
 msgstr ""
 
@@ -21182,8 +21170,7 @@ msgid "Rebuild the ticket index for AgentTicketQueue."
 msgstr ""
 
 #. SysConfig
-msgid "Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
-"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
+msgid "Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
 msgstr ""
 
 #. SysConfig

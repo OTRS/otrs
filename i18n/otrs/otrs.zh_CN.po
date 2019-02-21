@@ -19,7 +19,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-02-13 21:57+0000\n"
+"POT-Creation-Date: 2019-02-21 13:30+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: 汇民 王 <whuim@qq.com>, 2019\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/otrs/teams/23435/zh_CN/)\n"
@@ -10292,10 +10292,6 @@ msgid "Deploy now"
 msgstr "现在部署"
 
 #. JS Template: DialogDeployment
-msgid "Close"
-msgstr "关闭"
-
-#. JS Template: DialogDeployment
 msgid "Try again"
 msgstr "重试"
 
@@ -14440,18 +14436,10 @@ msgstr ""
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
 "<p>The installation of packages which are not verified by the OTRS Group is "
-"not possible by default.</p>"
-msgstr "<p>默认情况下，没有通过OTRS集团验证的软件包无法使用。</p>"
-
-#. Perl Module: Kernel/System/Package.pm
-msgid ""
-"<p>You can activate the installation of not verified packages in the <a "
-"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
-" target=\"_blank\">System Configuration</a>.</p>"
+"not possible by default. You can activate the installation of not verified "
+"packages via the \"AllowNotVerifiedPackages\" system configuration "
+"setting.</p>"
 msgstr ""
-"<p>可以在<a "
-"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
-" target=\"_blank\">系统配置</a>中激活这些没有通过验证的软件包。</p>"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -17550,12 +17538,6 @@ msgid "All new tickets, these tickets have not been worked on yet"
 msgstr "所有新建工单，这些工单目前还没有被处理"
 
 #. SysConfig
-msgid ""
-"All open tickets, these tickets have already been worked on, but need a "
-"response"
-msgstr "所有正在处理中且需要回复的工单"
-
-#. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
 msgstr "所有处理的工单，这些工单已经在处理了。"
 
@@ -18157,6 +18139,10 @@ msgstr "选择您想要接收的通知。"
 #. SysConfig
 msgid "Christmas Eve"
 msgstr "平安夜"
+
+#. SysConfig
+msgid "Close"
+msgstr "关闭"
 
 #. SysConfig
 msgid "Close this ticket"
@@ -23531,10 +23517,6 @@ msgstr ""
 "OTRS不支持对没有结束日期或没有重复次数的预约做循环处理。在导入过程中，可能有ICS文件包含了此类预约。作为替代，系统将所有的此类预约创建为已过去的预约，然后加上接下来的N个月(默认120个月或10年)的重复预约。"
 
 #. SysConfig
-msgid "Open Tickets / Need to be answered"
-msgstr "处理中/需要回复的工单"
-
-#. SysConfig
 msgid "Open an external link!"
 msgstr "打开一个外部链接！"
 
@@ -24292,8 +24274,9 @@ msgstr "为AgentTicketQueue（服务人员工单队列）重建工单索引。"
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
-"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
+"Recognize if a ticket is a follow-up to an existing ticket using an external"
+" ticket number. Note: the first capturing group from the 'NumberRegExp' "
+"expression will be used as the ticket number value."
 msgstr ""
 
 #. SysConfig

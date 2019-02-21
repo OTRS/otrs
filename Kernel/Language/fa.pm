@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.700514579759863;
+    $Self->{Completeness}        = 0.700532006178136;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -3320,7 +3320,6 @@ sub Data {
         'Deploying, please wait...' => '',
         'Preparing to deploy, please wait...' => '',
         'Deploy now' => '',
-        'Close' => 'بستن',
         'Try again' => '',
 
         # JS Template: DialogReset
@@ -4807,9 +4806,7 @@ sub Data {
         'Can\'t read file!' => 'نمی توانید فایل خوانده شده!',
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
             '',
-        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default.</p>' =>
-            '',
-        '<p>You can activate the installation of not verified packages in the <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">System Configuration</a>.</p>' =>
+        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
             '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
@@ -5953,8 +5950,6 @@ Thanks for your help!
         'All customer users of a CustomerID' => 'همه کاربران مشتری از CustomerID',
         'All escalated tickets' => 'تمام درخواست‌هایی که زمان پاسخگویی آن‌ها رو به پایان است',
         'All new tickets, these tickets have not been worked on yet' => 'تمام درخواست‌های جدید، روی این درخواست‌ها هنوز کاری انجام شده',
-        'All open tickets, these tickets have already been worked on, but need a response' =>
-            'تمام درخواست‌های باز، روی این درخواست‌ها کار شده اما به یک مسئول نیاز دارند ',
         'All open tickets, these tickets have already been worked on.' =>
             '',
         'All tickets with a reminder set where the reminder date has been reached' =>
@@ -6139,6 +6134,7 @@ Thanks for your help!
             '',
         'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'شب کریسمس',
+        'Close' => 'بستن',
         'Close this ticket' => 'بستن این درخواست ',
         'Closed tickets (customer user)' => 'درخواست های بسته (کاربران مشتری)',
         'Closed tickets (customer)' => 'درخواست های بسته (مشتری)',
@@ -7715,7 +7711,6 @@ Thanks for your help!
             'OTRS می توانید یک یا چند پایگاه داده آینه فقط خواندنی برای عملیات گران قیمت مانند جستجو و یا آمار نسل متن استفاده کنید. در اینجا شما می توانید DSN برای پایگاه داده آینه اول را مشخص کنید.',
         'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             '',
-        'Open Tickets / Need to be answered' => 'درخواست‌های باز / درخواست‌های نیازمند به پاسخ',
         'Open an external link!' => '',
         'Open tickets (customer user)' => 'درخواست باز (کاربران مشتری)',
         'Open tickets (customer)' => 'درخواست گسترش (مشتری)',
@@ -7864,8 +7859,8 @@ Thanks for your help!
         'Queue view' => 'نمای صف درخواست',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => 'بازسازی شاخص بلیط برای AgentTicketQueue.',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
-        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
+            '',
         'Refresh interval' => 'بارگذاری مجدد ورودی',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
@@ -8787,7 +8782,6 @@ Thanks for your help!
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',
-        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',

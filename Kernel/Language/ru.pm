@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.94082332761578;
+    $Self->{Completeness}        = 0.944053543847606;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -331,7 +331,7 @@ sub Data {
         'Time Range' => 'Временной Интервал',
         'Show only communication logs created in specific time range.' =>
             'Показать записи журнала связи созданные в определенном промежутке времени.',
-        'Filter for Communications' => '',
+        'Filter for Communications' => 'Фильтр по сеансам связи',
         'Filter for communications' => 'Фильтр для сеансов',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             'На этом экране вы можете видеть обзор входящих и исходящих сеансах связи.',
@@ -363,7 +363,7 @@ sub Data {
         # Template: AdminCommunicationLogAccounts
         'Account Status' => 'Статус учетной записи',
         'Back to overview' => 'Назад в обзорный список',
-        'Filter for Accounts' => '',
+        'Filter for Accounts' => 'Фильтр по учетным записям',
         'Filter for accounts' => 'Фильтр для учетных записей',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             'Вы можете поменять сортировку и порядок колонок, кликнув по заголовку. ',
@@ -634,7 +634,7 @@ sub Data {
         'Send' => 'Отправить',
 
         # Template: AdminGenericAgent
-        'Generic Agent Job Management' => '',
+        'Generic Agent Job Management' => 'Управление Заданиями Общего Агента',
         'Edit Job' => 'Редактировать Задание',
         'Add Job' => 'Добавить Задание',
         'Run Job' => 'Выполнить Задание',
@@ -3326,7 +3326,6 @@ sub Data {
         'Deploying, please wait...' => 'Подождите, идет применение...',
         'Preparing to deploy, please wait...' => 'Подождите, идет подготовка к развертыванию...',
         'Deploy now' => 'Применить сейчас',
-        'Close' => 'Закрыть',
         'Try again' => 'Попробуйте еще раз',
 
         # JS Template: DialogReset
@@ -3344,7 +3343,7 @@ sub Data {
             'Вы можете воспользоваться выбором категории для перемещения по дереву навигации только в пределах выбранной категории. Как только вы выберете категорию дерево будет перестроено.',
 
         # Perl Module: Kernel/Config/Defaults.pm
-        'Database Backend' => '',
+        'Database Backend' => 'Бэкенд Базы данных',
         'CustomerIDs' => 'ID компаний',
         'Fax' => 'Факс',
         'Street' => 'Улица',
@@ -4813,10 +4812,8 @@ sub Data {
         'Can\'t read file!' => 'Невозможно прочитать файл!',
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
             '<p>Если вы продолжите установку этого пакета, могут возникнуть следующие проблемы:</p><ul><li>Проблемы безопасности</li><li>Стабильности</li><li>Производительности</li></ul><p>Помните, что возникшие при работе с таким пакетом проблемы не решаются в рамках сервисного контракта OTRS!</p>',
-        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default.</p>' =>
-            '<p>Установка пакетов, которые не верифицированы OTRS Group, невозможна по умолчанию',
-        '<p>You can activate the installation of not verified packages in the <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">System Configuration</a>.</p>' =>
-            '<p>Вы можете активировать установку не проверенных пакетов в <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">Системной Конфигурации</a>.</p>',
+        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -5275,7 +5272,7 @@ sub Data {
         'Reset of unlock time.' => 'Сбросить время разблокировки.',
 
         # Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
-        'Chat Participant' => '',
+        'Chat Participant' => 'Участник чата',
         'Chat Message Text' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
@@ -5505,7 +5502,7 @@ sub Data {
         'Do you really want to delete this notification?' => 'Вы действительно желаете удалить это Уведомление?',
 
         # JS File: Core.Agent.Admin.PGP
-        'Do you really want to delete this key?' => '',
+        'Do you really want to delete this key?' => 'Вы действительно хотите удалить этот ключ?',
 
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
@@ -5682,7 +5679,7 @@ sub Data {
             'Удалите, пожалуйста, следующие слова из поискового запроса, так как поиск по ним невозможен:',
 
         # JS File: Core.Agent.SharedSecretGenerator
-        'Generate' => '',
+        'Generate' => 'Сгенерировать',
 
         # JS File: Core.Agent.SortedTree
         'This element has children elements and can currently not be removed.' =>
@@ -5959,8 +5956,6 @@ Thanks for your help!
         'All customer users of a CustomerID' => 'Все клиенты Компании',
         'All escalated tickets' => 'Все эскалированные заявки',
         'All new tickets, these tickets have not been worked on yet' => 'Все новые заявки; с этими заявками еще никто не работал',
-        'All open tickets, these tickets have already been worked on, but need a response' =>
-            'Все открытые заявки; с этими заявками уже работали, но они нуждаются в ответе',
         'All open tickets, these tickets have already been worked on.' =>
             'Все открытые заявки, это заявки работа с которыми начата.',
         'All tickets with a reminder set where the reminder date has been reached' =>
@@ -6145,6 +6140,7 @@ Thanks for your help!
             'Выберите для какого типа изменений заявок вы будете получать уведомления. Обратите внимание, что нельзя отключить уведомление отмеченное как обязательное.',
         'Choose which notifications you\'d like to receive.' => 'Выберите, какие уведомления Вы хотели бы получать.',
         'Christmas Eve' => 'Сочельник',
+        'Close' => 'Закрыть',
         'Close this ticket' => 'Закрыть эту заявку',
         'Closed tickets (customer user)' => 'Закрытые заявки (клиента)',
         'Closed tickets (customer)' => 'Закрытые заявки (клиента)',
@@ -6172,8 +6168,8 @@ Thanks for your help!
         'Comment for new history entries in the customer interface.' => 'Комметарий для новых записей истории в интерфейсе клиента.',
         'Comment2' => 'Комментарий2',
         'Communication' => 'Взаимодействие',
-        'Communication & Notifications' => '',
-        'Communication Log GUI' => '',
+        'Communication & Notifications' => 'Каналы связи и Уведомления',
+        'Communication Log GUI' => 'Графический интерфейс Журнала сеансов связи',
         'Communication log limit per page for Communication Log Overview.' =>
             '',
         'CommunicationLog Overview Limit' => '',
@@ -7079,7 +7075,7 @@ Thanks for your help!
             'Отключите HTTP заголовок "Content-Security-Policy", чтобы разрешить загрузку содержимого внешних скриптов. Отключение этого HTTP заголовка снижает уровень безопасности! Отключайте только, если вы точно знаете, что делаете!',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'Отключить HTTP-заголовок "X-Frame-Options: SAMEORIGIN", чтобы разрешить встраивать OTRS в IFrame на других сайтах. Отключение этого заголовка может вызвать проблемы с безопасностью! Отключайте только если уверены в своих действиях!',
-        'Disable cloud services' => '',
+        'Disable cloud services' => 'Отключить облачные сервисы',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be enabled).' =>
             '',
         'Disables the redirection to the last screen overview / dashboard after a ticket is closed.' =>
@@ -7180,7 +7176,7 @@ Thanks for your help!
         'Edit customer company' => 'Редактировать компанию клиента',
         'Email Addresses' => 'Адреса email',
         'Email Outbound' => 'Исходящая эл. почта',
-        'Email Resend' => '',
+        'Email Resend' => 'Повторная отправка Письма',
         'Email communication channel.' => '',
         'Enable highlighting queues based on ticket age.' => '',
         'Enable keep-alive connection header for SOAP responses.' => 'Включить заголовок Keep-Alive для SOAP-ответов.',
@@ -7259,7 +7255,7 @@ Thanks for your help!
         'Exports the whole article tree in search result (it can affect the system performance).' =>
             'Экспортирует все дерево сообщений в результат поиска (приводит к снижению производительности).',
         'External' => '',
-        'External Link' => '',
+        'External Link' => 'Внешняя Ссылка',
         'Fetch emails via fetchmail (using SSL).' => 'Получение писем через fetchmail (используя SSL).',
         'Fetch emails via fetchmail.' => 'Получение писем через fetchmail.',
         'Fetch incoming emails from configured mail accounts.' => 'Получение входящих писем от настроенных учетных записей.',
@@ -7721,7 +7717,6 @@ Thanks for your help!
             'OTRS может использовать одну или более зеркальных БД, в режиме только для чтения, для ресурсоёмких операций, типа полнотекстового поиска или генерации отчетов. Здесь вы можете указать имя/DSN для первой зеркальной БД.',
         'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             '',
-        'Open Tickets / Need to be answered' => 'Открытые Заявки / Ожидают ответа',
         'Open an external link!' => 'Открыть внешнюю ссылку!',
         'Open tickets (customer user)' => 'Открытые заявки (клиента)',
         'Open tickets (customer)' => 'Открытые заявки (клиента)',
@@ -7870,8 +7865,8 @@ Thanks for your help!
         'Queue view' => 'Просмотр очередей',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Перестраивает индексы заявок для AgentTicketQueue.',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
-        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
+            '',
         'Refresh interval' => 'Интервал обновления',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
@@ -8492,8 +8487,8 @@ Thanks for your help!
             'Запускает поиск с символами подстановки активного объекта в окне связывания объектов.',
         'Stat#' => 'Отчет#',
         'States' => 'Состояния',
-        'Statistic Reports overview.' => '',
-        'Statistics overview.' => '',
+        'Statistic Reports overview.' => 'Обзор статистических отчетов.',
+        'Statistics overview.' => 'Обзор статистики.',
         'Status view' => 'Просмотр статусов',
         'Stopped response time escalation.' => '',
         'Stopped solution time escalation.' => '',
@@ -8508,8 +8503,8 @@ Thanks for your help!
         'System Configuration Deployment' => '',
         'System Configuration Group' => '',
         'System Maintenance' => 'Обслуживание системы',
-        'Templates ↔ Attachments' => '',
-        'Templates ↔ Queues' => '',
+        'Templates ↔ Attachments' => 'Шаблоны ↔ Вложения',
+        'Templates ↔ Queues' => 'Шаблоны ↔ Очереди',
         'Textarea' => 'Textarea/Длинный текст',
         'Thai' => 'Тайский',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
@@ -8557,7 +8552,7 @@ Thanks for your help!
         'The maximum number of mails fetched at once before reconnecting to the server.' =>
             'Максимальное количество писем, получаемых за одно подключение к серверу.',
         'The secret you supplied is invalid. The secret must only contain letters (A-Z, uppercase) and numbers (2-7) and must consist of 16 characters.' =>
-            '',
+            'Введенный вами секрет не подходит. Секрет может состоять только из: Букв (A-Z, заглавных) и цифр (2-7) и может состоять только из 16 символов.',
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' =>
             'Текст, предшествующий теме в ответе на письмо, например, RE, AW, или AS.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
@@ -8565,8 +8560,8 @@ Thanks for your help!
         'Theme' => 'Тема',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>
             'Этот модуль событий сохраняет атрибуты Клиента как Динамические поля заявок. Пожалуйста, посмотрите DynamicFieldFromCustomerUser::Mapping настройку, чтобы понять как настроить отображение.',
-        'This is a Description for Comment on Framework.' => '',
-        'This is a Description for DynamicField on Framework.' => '',
+        'This is a Description for Comment on Framework.' => 'Это Описание Комментария к Фреймворку',
+        'This is a Description for DynamicField on Framework.' => 'Это Описание Динамических Полей Фреймворка',
         'This is the default orange - black skin for the customer interface.' =>
             'Это стандартная оранжево-черная тема для интерфейса клиента.',
         'This is the default orange - black skin.' => 'Это стандартная оранжево-черная тема.',
@@ -8612,7 +8607,7 @@ Thanks for your help!
         'Ticket Queue Overview' => 'Итоги по очередям',
         'Ticket Responsible.' => 'Ответственность за Заявку',
         'Ticket Watcher' => 'Наблюдающий за заявкой',
-        'Ticket Zoom' => '',
+        'Ticket Zoom' => 'Увеличить Заявку',
         'Ticket Zoom.' => 'Подробности заявки.',
         'Ticket bulk module.' => 'Массовое действие с заявкой.',
         'Ticket event module that triggers the escalation stop events.' =>
@@ -8793,7 +8788,6 @@ Thanks for your help!
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',
-        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',

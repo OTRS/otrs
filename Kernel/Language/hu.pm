@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.999828473413379;
+    $Self->{Completeness}        = 0.999828385103827;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3320,7 +3320,6 @@ sub Data {
         'Deploying, please wait...' => 'Üzembe állítás, kérem várjon…',
         'Preparing to deploy, please wait...' => 'Előkészítés az üzembe állításhoz, kérem várjon…',
         'Deploy now' => 'Üzembe állítás most',
-        'Close' => 'Lezárás',
         'Try again' => 'Próbálja újra',
 
         # JS Template: DialogReset
@@ -4807,10 +4806,8 @@ sub Data {
         'Can\'t read file!' => 'Nem olvasható a fájl!',
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
             '<p>Ha folytatja a csomag telepítését, a következő hibák fordulhatnak elő!</p><ul><li>Biztonsági problémák</li><li>Stabilitási problémák</li><li>Teljesítmény problémák</li></ul><p>Vegye figyelembe, hogy a csomag használata során felmerülő problémákra nem vonatkozik az OTRS szolgáltatási szerződése!</p>',
-        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default.</p>' =>
-            '<p>Alapértelmezetten nem lehetséges azoknak a csomagoknak a telepítése, amelyeket nem ellenőrzött az OTRS csoport.</p>',
-        '<p>You can activate the installation of not verified packages in the <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">System Configuration</a>.</p>' =>
-            '<p>Aktiválhatja a nem ellenőrzött csomagok telepítést a <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">rendszerbeállításokban</a>.</p>',
+        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -5953,8 +5950,6 @@ Az Ön segélyszolgálat csapata
         'All customer users of a CustomerID' => 'Egy ügyfél-azonosító minden ügyfél-felhasználója',
         'All escalated tickets' => 'Minden eszkalált jegy',
         'All new tickets, these tickets have not been worked on yet' => 'Minden új jegy, ezeken a jegyeken még nem dolgoztak',
-        'All open tickets, these tickets have already been worked on, but need a response' =>
-            'Minden nyitott jegy, ezeken a jegyeken már dolgoztak, de válaszra várnak',
         'All open tickets, these tickets have already been worked on.' =>
             'Minden nyitott jegy, ezeken a jegyeken már dolgoztak.',
         'All tickets with a reminder set where the reminder date has been reached' =>
@@ -6139,6 +6134,7 @@ Az Ön segélyszolgálat csapata
             'Annak kiválasztása, hogy mely típusú jegyváltozásokról szeretne értesítéseket kapni. Ne feledje, hogy nem tudja teljesen letiltani a kötelezőként megjelölt értesítéseket.',
         'Choose which notifications you\'d like to receive.' => 'Annak kiválasztása, hogy milyen értesítéseket szeretne kapni.',
         'Christmas Eve' => 'Szenteste',
+        'Close' => 'Lezárás',
         'Close this ticket' => 'Jegy lezárása',
         'Closed tickets (customer user)' => 'Lezárt jegyek (ügyfél-felhasználó)',
         'Closed tickets (customer)' => 'Lezárt jegyek (ügyfél)',
@@ -6188,7 +6184,7 @@ Az Ön segélyszolgálat csapata
             'Annak beállítása, hogy mely képernyő legyen megjelenítve, miután egy új jegyet létrehoztak.',
         'Configure your own log text for PGP.' => 'Saját naplószöveg beállítása a PGP-hez.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otrs.com/doc/), chapter "Ticket Event Module".' =>
-            'Beállítja az alapértelmezett jegy dinamikus mező beállítást. A „Name” a használandó dinamikus mezőt, a „Value” a beállítandó adatokat, illetve az „Event” az aktiváló eseményt határozza meg. Nézze meg a fejlesztői kézikönyv (https://doc.otrs.com/doc/) „Jegyesemény modul” fejezetét.',
+            'Beállítja az alapértelmezett jegy dinamikus mező beállítást. A „Név” a használandó dinamikus mezőt, az „Érték” a beállítandó adatokat, illetve az „Esemény” az aktiváló eseményt határozza meg. Nézze meg a fejlesztői kézikönyv (https://doc.otrs.com/doc/) „Jegyesemény modul” fejezetét.',
         'Controls how to display the ticket history entries as readable values.' =>
             'Azt szabályozza, hogy hogyan jelenjenek meg a jegy előzmény bejegyzések olvasható értékként.',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -7715,7 +7711,6 @@ Az Ön segélyszolgálat csapata
             'Az OTRS képes egy vagy több csak olvasható tükör adatbázist használni az olyan költséges műveleteknél, mint például a szabad-szavas keresés vagy a statisztikák előállítása. Itt adhatja meg a DNS-t az első tükör adatbázishoz.',
         'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             'Az OTRS nem támogatja a befejezési dátum vagy az ismétlések száma nélküli ismétlődő időpontokat. Az importálási folyamat során előfordulhat, hogy az ICS-fájl ilyen időpontokat tartalmaz. Ehelyett a rendszer az összes időpontot a múltban hozza létre, valamint a következő N hónapban (120 hónap/10 év alapértelmezetten).',
-        'Open Tickets / Need to be answered' => 'Nyitott jegyek / Válaszra várnak',
         'Open an external link!' => 'Nyisson meg egy külső hivatkozást!',
         'Open tickets (customer user)' => 'Nyitott jegyek (ügyfél-felhasználó)',
         'Open tickets (customer)' => 'Nyitott jegyek (ügyfél)',
@@ -7864,8 +7859,8 @@ Az Ön segélyszolgálat csapata
         'Queue view' => 'Várólista nézet',
         'Queues ↔ Auto Responses' => 'Várólisták ↔ Automatikus válaszok',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Az AgentTicketQueue jegyindexének újraépítése.',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
-        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
+            'Annak felismerése, ha egy jegy egy külső jegyszámot használó meglévő jegy követője. Megjegyzés: a „NumberRegExp” kifejezés első elfogási csoportja lesz használva a jegyszám értékeként.',
         'Refresh interval' => 'Frissítési időköz',
         'Registers a log module, that can be used to log communication related information.' =>
             'Regisztrál egy naplózó modult, amely a kommunikációval kapcsolatos információk naplózásához használható.',
@@ -8787,7 +8782,6 @@ Az Ön segélyszolgálat csapata
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',
-        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',

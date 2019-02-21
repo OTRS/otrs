@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-02-13 21:57+0000\n"
+"POT-Creation-Date: 2019-02-21 13:30+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Dusan Vuckovic, 2019\n"
 "Language-Team: Serbian (https://www.transifex.com/otrs/teams/23435/sr/)\n"
@@ -10918,10 +10918,6 @@ msgid "Deploy now"
 msgstr "Распореди сад"
 
 #. JS Template: DialogDeployment
-msgid "Close"
-msgstr "Затвори"
-
-#. JS Template: DialogDeployment
 msgid "Try again"
 msgstr "Покушајте поново"
 
@@ -15225,20 +15221,10 @@ msgstr ""
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
 "<p>The installation of packages which are not verified by the OTRS Group is "
-"not possible by default.</p>"
+"not possible by default. You can activate the installation of not verified "
+"packages via the \"AllowNotVerifiedPackages\" system configuration "
+"setting.</p>"
 msgstr ""
-"<p>Инсталација пакета који нису верификовани од стране OTRS групе није "
-"подразумевано омогућена.</p>"
-
-#. Perl Module: Kernel/System/Package.pm
-msgid ""
-"<p>You can activate the installation of not verified packages in the <a "
-"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
-" target=\"_blank\">System Configuration</a>.</p>"
-msgstr ""
-"<p>Можете активирати инсталацију неверификованих пакета у <a "
-"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
-" target=\"_blank\">системској конфигурацији</a>.</p>"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -18522,13 +18508,6 @@ msgid "All new tickets, these tickets have not been worked on yet"
 msgstr "Сви нови тикети, на њима још није ништа рађено"
 
 #. SysConfig
-msgid ""
-"All open tickets, these tickets have already been worked on, but need a "
-"response"
-msgstr ""
-"Сви отворени тикети, на овима је већ рађено, али на њих треба одговорити"
-
-#. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
 msgstr "Сви отворени тикети на којима је већ рађено."
 
@@ -19237,6 +19216,10 @@ msgid "Christmas Eve"
 msgstr "Бадње вече"
 
 #. SysConfig
+msgid "Close"
+msgstr "Затвори"
+
+#. SysConfig
 msgid "Close this ticket"
 msgstr "Затвори овај тикет"
 
@@ -19447,6 +19430,11 @@ msgid ""
 "and \"Event\" defines the trigger event. Please check the developer manual "
 "(https://doc.otrs.com/doc/), chapter \"Ticket Event Module\"."
 msgstr ""
+"Конфигурише подразумевану вредност TicketDynamicField подешавања. \"Name\" "
+"дефинише динамичко поље које би се требало користити, \"Value је вредност "
+"коју треба подесити и \"Event\" дефинише модул догађаја. Молимо проверите "
+"упутство за програмере (https://doc.otrs.com/doc/), поглавље \"Ticket Event "
+"Module\"."
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
@@ -20971,6 +20959,10 @@ msgid ""
 "customers. If you like, you can add your own theme. Please refer the "
 "administrator manual located at https://doc.otrs.com/doc/."
 msgstr ""
+"Одређује подразумевану тему главног интерфејса (HTML) која ће бити коришћена"
+" од стране оператера или клијената. Уколико желите можете додати вашу личну "
+"тему. Молимо вас да погледате упутство за администратора, које се налази на "
+"https://doc.otrs.com/doc/."
 
 #. SysConfig
 msgid ""
@@ -25767,10 +25759,6 @@ msgstr ""
 "120 месеци/10 година)."
 
 #. SysConfig
-msgid "Open Tickets / Need to be answered"
-msgstr "Отворени тикети / Потребно одговорити"
-
-#. SysConfig
 msgid "Open an external link!"
 msgstr "Отвори екстерну везу!"
 
@@ -26693,9 +26681,13 @@ msgstr "Поново изради индекс тикета за операте�
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
-"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
+"Recognize if a ticket is a follow-up to an existing ticket using an external"
+" ticket number. Note: the first capturing group from the 'NumberRegExp' "
+"expression will be used as the ticket number value."
 msgstr ""
+"Препознаје да ли је тикет наставак постојећег тикета коришћењем екстерног "
+"броја тикета. Напомена: прва RegEx група из 'NumberRegExp' израза ће бити "
+"искоришћена као вредност броја тикета."
 
 #. SysConfig
 msgid "Refresh interval"

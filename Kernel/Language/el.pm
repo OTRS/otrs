@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.148713550600343;
+    $Self->{Completeness}        = 0.148446885189634;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3321,7 +3321,6 @@ sub Data {
         'Deploying, please wait...' => '',
         'Preparing to deploy, please wait...' => '',
         'Deploy now' => '',
-        'Close' => 'Κλείσιμο',
         'Try again' => '',
 
         # JS Template: DialogReset
@@ -4808,9 +4807,7 @@ sub Data {
         'Can\'t read file!' => '',
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
             '',
-        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default.</p>' =>
-            '',
-        '<p>You can activate the installation of not verified packages in the <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">System Configuration</a>.</p>' =>
+        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
             '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
@@ -5943,8 +5940,6 @@ Thanks for your help!
         'All customer users of a CustomerID' => '',
         'All escalated tickets' => 'Όλα τα σημαντικότερα δελτία',
         'All new tickets, these tickets have not been worked on yet' => 'Όλα τα νέα δελτία, όσα δεν έχουν ακόμη επεξεργαστεί',
-        'All open tickets, these tickets have already been worked on, but need a response' =>
-            'Όλα τα ανοιχτά δελτία, αυτά τα δελτία έχουν ήδη επεξεργαστεί, αλλά χρειάζονται μια απάντηση.',
         'All open tickets, these tickets have already been worked on.' =>
             '',
         'All tickets with a reminder set where the reminder date has been reached' =>
@@ -6129,6 +6124,7 @@ Thanks for your help!
             '',
         'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Χριστούγεννα',
+        'Close' => 'Κλείσιμο',
         'Close this ticket' => 'Κλείσιμο Δελτίου',
         'Closed tickets (customer user)' => '',
         'Closed tickets (customer)' => '',
@@ -7705,7 +7701,6 @@ Thanks for your help!
             '',
         'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             '',
-        'Open Tickets / Need to be answered' => 'Ανοικτά Δελτία / Απαιτούν απάντηση',
         'Open an external link!' => '',
         'Open tickets (customer user)' => '',
         'Open tickets (customer)' => '',
@@ -7854,8 +7849,8 @@ Thanks for your help!
         'Queue view' => 'Προβολή Ουρών',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
-        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
+            '',
         'Refresh interval' => '',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
@@ -8777,7 +8772,6 @@ Thanks for your help!
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',
-        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',

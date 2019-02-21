@@ -1,5 +1,6 @@
 # Translators:
 # Ricky Kaiser <ricky.kaiser@cape-it.de>, 2018
+# Michael Reuther <michael.reuther@otrs.com>, 2018
 # mainboarder, 2018
 # Dominik <dominik@reichardt-online.it>, 2018
 # Matze208, 2018
@@ -37,19 +38,19 @@
 # zottto <mail@marcnilius.de>, 2018
 # ru_otrs <robert.ullrich@otrs.com>, 2018
 # Marco Buchholz <mabu@debian-admin.de>, 2018
-# Jens Bechtel <jens.bechtel@otrs.com>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Marc A. Bonsels, 2018
 # nilsleideck <nils.leideck@leidex.net>, 2018
 # Dont want to enter <matthias.terlinde@t-systems.com>, 2018
 # Christoph Keßler, 2019
+# Jens Bechtel <jens.bechtel@otrs.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-02-13 21:57+0000\n"
+"POT-Creation-Date: 2019-02-21 13:30+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Christoph Keßler, 2019\n"
+"Last-Translator: Jens Bechtel <jens.bechtel@otrs.com>, 2019\n"
 "Language-Team: German (https://www.transifex.com/otrs/teams/23435/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1726,7 +1727,7 @@ msgstr "Standardgruppen des Kundenbenutzers:"
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer User-Service Relations"
-msgstr ""
+msgstr "Kundenbenutzer-Service-Zuordnungen verwalten"
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
@@ -2177,7 +2178,7 @@ msgstr "Senden"
 
 #. Template: AdminGenericAgent
 msgid "Generic Agent Job Management"
-msgstr ""
+msgstr "Generic Agent-Auftragsverwaltung"
 
 #. Template: AdminGenericAgent
 msgid "Edit Job"
@@ -2193,11 +2194,11 @@ msgstr "Job ausführen"
 
 #. Template: AdminGenericAgent
 msgid "Filter for Jobs"
-msgstr ""
+msgstr "Aufträge filtern"
 
 #. Template: AdminGenericAgent
 msgid "Filter for jobs"
-msgstr ""
+msgstr "Aufträge filtern"
 
 #. Template: AdminGenericAgent
 msgid "Last run"
@@ -5521,7 +5522,7 @@ msgstr "Filter für Prozesse"
 
 #. Template: AdminProcessManagement
 msgid "Filter for processes"
-msgstr ""
+msgstr "Filter für Prozesse"
 
 #. Template: AdminProcessManagement
 msgid "Create New Process"
@@ -6281,7 +6282,7 @@ msgstr "Filter für Vorlagen"
 
 #. Template: AdminQueueTemplates
 msgid "Filter for templates"
-msgstr ""
+msgstr "Filter für Vorlagen"
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
@@ -7650,7 +7651,7 @@ msgstr "Alle Sitzungen außer Ihrer eigenen löschen"
 
 #. Template: AdminTemplate
 msgid "Template Management"
-msgstr ""
+msgstr "Vorlagen-Verwaltung"
 
 #. Template: AdminTemplate
 msgid "Add Template"
@@ -11156,10 +11157,6 @@ msgstr "Inbetriebnahme wird vorbereitet, bitte warten..."
 #. JS Template: DialogDeployment
 msgid "Deploy now"
 msgstr "Jetzt in Betrieb nehmen"
-
-#. JS Template: DialogDeployment
-msgid "Close"
-msgstr "Schließen"
 
 #. JS Template: DialogDeployment
 msgid "Try again"
@@ -15522,20 +15519,10 @@ msgstr ""
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
 "<p>The installation of packages which are not verified by the OTRS Group is "
-"not possible by default.</p>"
+"not possible by default. You can activate the installation of not verified "
+"packages via the \"AllowNotVerifiedPackages\" system configuration "
+"setting.</p>"
 msgstr ""
-"<p>Die Installation von Paketen, die nicht von der OTRS Gruppe verifiziert "
-"worden sind, ist standardmäßig nicht möglich.</p>"
-
-#. Perl Module: Kernel/System/Package.pm
-msgid ""
-"<p>You can activate the installation of not verified packages in the <a "
-"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
-" target=\"_blank\">System Configuration</a>.</p>"
-msgstr ""
-"<p>Sie können die Installation von nicht verifizierten Paketen in der <a "
-"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
-" target=\"_blank\">Systemkonfiguration</a> aktivieren.</p>"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -18924,14 +18911,6 @@ msgid "All new tickets, these tickets have not been worked on yet"
 msgstr "Alle neuen Tickets; an diesen Tickets wurde noch nicht gearbeitet"
 
 #. SysConfig
-msgid ""
-"All open tickets, these tickets have already been worked on, but need a "
-"response"
-msgstr ""
-"Alle offenen Tickets; an diesen Tickets wurde bereits gearbeitet, aber eine "
-"Antwort ist erforderlich"
-
-#. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
 msgstr "Alle offenen Tickets, an denen bereits gearbeitet wurde."
 
@@ -19655,6 +19634,10 @@ msgstr "Legen Sie fest, welche Benachrichtigungen Sie erhalten möchten."
 #. SysConfig
 msgid "Christmas Eve"
 msgstr "Heiligabend"
+
+#. SysConfig
+msgid "Close"
+msgstr "Schließen"
 
 #. SysConfig
 msgid "Close this ticket"
@@ -26378,10 +26361,6 @@ msgstr ""
 "kommenden n Monate (120 Monate / 10 Jahre standardmäßig)."
 
 #. SysConfig
-msgid "Open Tickets / Need to be answered"
-msgstr "Offene Tickets / Beantwortung erforderlich"
-
-#. SysConfig
 msgid "Open an external link!"
 msgstr "Externen Link öffnen"
 
@@ -27263,7 +27242,7 @@ msgid ""
 " see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
 msgstr ""
 "Schutz gegen CSRF-Lücken (Cross Site Request Forgery). Besuchen Sie "
-"http://en.wikipedia.org/wiki/Cross-site_request_forgery für mehr "
+"https://de.wikipedia.org/wiki/Cross-Site-Request-Forgery für mehr "
 "Informationen."
 
 #. SysConfig
@@ -27303,8 +27282,9 @@ msgstr "Ticket-Index für AgentTicketQueue neu aufbauen."
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
-"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
+"Recognize if a ticket is a follow-up to an existing ticket using an external"
+" ticket number. Note: the first capturing group from the 'NumberRegExp' "
+"expression will be used as the ticket number value."
 msgstr ""
 
 #. SysConfig

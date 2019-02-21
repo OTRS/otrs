@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-02-13 21:57+0000\n"
+"POT-Creation-Date: 2019-02-21 13:30+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Balázs Úr <ur.balazs@fsf.hu>, 2019\n"
 "Language-Team: Hungarian (https://www.transifex.com/otrs/teams/23435/hu/)\n"
@@ -11106,10 +11106,6 @@ msgid "Deploy now"
 msgstr "Üzembe állítás most"
 
 #. JS Template: DialogDeployment
-msgid "Close"
-msgstr "Lezárás"
-
-#. JS Template: DialogDeployment
 msgid "Try again"
 msgstr "Próbálja újra"
 
@@ -15481,20 +15477,10 @@ msgstr ""
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
 "<p>The installation of packages which are not verified by the OTRS Group is "
-"not possible by default.</p>"
+"not possible by default. You can activate the installation of not verified "
+"packages via the \"AllowNotVerifiedPackages\" system configuration "
+"setting.</p>"
 msgstr ""
-"<p>Alapértelmezetten nem lehetséges azoknak a csomagoknak a telepítése, "
-"amelyeket nem ellenőrzött az OTRS csoport.</p>"
-
-#. Perl Module: Kernel/System/Package.pm
-msgid ""
-"<p>You can activate the installation of not verified packages in the <a "
-"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
-" target=\"_blank\">System Configuration</a>.</p>"
-msgstr ""
-"<p>Aktiválhatja a nem ellenőrzött csomagok telepítést a <a "
-"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
-" target=\"_blank\">rendszerbeállításokban</a>.</p>"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -18855,13 +18841,6 @@ msgid "All new tickets, these tickets have not been worked on yet"
 msgstr "Minden új jegy, ezeken a jegyeken még nem dolgoztak"
 
 #. SysConfig
-msgid ""
-"All open tickets, these tickets have already been worked on, but need a "
-"response"
-msgstr ""
-"Minden nyitott jegy, ezeken a jegyeken már dolgoztak, de válaszra várnak"
-
-#. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
 msgstr "Minden nyitott jegy, ezeken a jegyeken már dolgoztak."
 
@@ -19608,6 +19587,10 @@ msgid "Christmas Eve"
 msgstr "Szenteste"
 
 #. SysConfig
+msgid "Close"
+msgstr "Lezárás"
+
+#. SysConfig
 msgid "Close this ticket"
 msgstr "Jegy lezárása"
 
@@ -19822,6 +19805,10 @@ msgid ""
 "and \"Event\" defines the trigger event. Please check the developer manual "
 "(https://doc.otrs.com/doc/), chapter \"Ticket Event Module\"."
 msgstr ""
+"Beállítja az alapértelmezett jegy dinamikus mező beállítást. A „Név” a "
+"használandó dinamikus mezőt, az „Érték” a beállítandó adatokat, illetve az "
+"„Esemény” az aktiváló eseményt határozza meg. Nézze meg a fejlesztői "
+"kézikönyv (https://doc.otrs.com/doc/) „Jegyesemény modul” fejezetét."
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
@@ -21418,6 +21405,10 @@ msgid ""
 "customers. If you like, you can add your own theme. Please refer the "
 "administrator manual located at https://doc.otrs.com/doc/."
 msgstr ""
+"Meghatározza az ügyintézők és az ügyfelek által használt alapértelmezett "
+"előtétprogram (HTML) témáját. Ha szeretné, hozzáadhatja a saját témáját. "
+"Nézze meg a https://doc.otrs.com/doc/ címen elérhető adminisztrátori "
+"kézikönyvet."
 
 #. SysConfig
 msgid ""
@@ -26395,10 +26386,6 @@ msgstr ""
 "hónap/10 év alapértelmezetten)."
 
 #. SysConfig
-msgid "Open Tickets / Need to be answered"
-msgstr "Nyitott jegyek / Válaszra várnak"
-
-#. SysConfig
 msgid "Open an external link!"
 msgstr "Nyisson meg egy külső hivatkozást!"
 
@@ -27358,9 +27345,13 @@ msgstr "Az AgentTicketQueue jegyindexének újraépítése."
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
-"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
+"Recognize if a ticket is a follow-up to an existing ticket using an external"
+" ticket number. Note: the first capturing group from the 'NumberRegExp' "
+"expression will be used as the ticket number value."
 msgstr ""
+"Annak felismerése, ha egy jegy egy külső jegyszámot használó meglévő jegy "
+"követője. Megjegyzés: a „NumberRegExp” kifejezés első elfogási csoportja "
+"lesz használva a jegyszám értékeként."
 
 #. SysConfig
 msgid "Refresh interval"

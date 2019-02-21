@@ -32,13 +32,14 @@
 # Sergey Nikitin <nikitin.sergey.v@gmail.com>, 2018
 # toshkov, 2019
 # Yuri Myasoedov <omerta13@yandex.ru>, 2019
+# Александр Федоров <somerandompilotguy45@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-02-13 21:57+0000\n"
+"POT-Creation-Date: 2019-02-21 13:30+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Yuri Myasoedov <omerta13@yandex.ru>, 2019\n"
+"Last-Translator: Александр Федоров <somerandompilotguy45@gmail.com>, 2019\n"
 "Language-Team: Russian (https://www.transifex.com/otrs/teams/23435/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1112,7 +1113,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Filter for Communications"
-msgstr ""
+msgstr "Фильтр по сеансам связи"
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
@@ -1230,7 +1231,7 @@ msgstr "Назад в обзорный список"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for Accounts"
-msgstr ""
+msgstr "Фильтр по учетным записям"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
@@ -2150,7 +2151,7 @@ msgstr "Отправить"
 
 #. Template: AdminGenericAgent
 msgid "Generic Agent Job Management"
-msgstr ""
+msgstr "Управление Заданиями Общего Агента"
 
 #. Template: AdminGenericAgent
 msgid "Edit Job"
@@ -10986,10 +10987,6 @@ msgid "Deploy now"
 msgstr "Применить сейчас"
 
 #. JS Template: DialogDeployment
-msgid "Close"
-msgstr "Закрыть"
-
-#. JS Template: DialogDeployment
 msgid "Try again"
 msgstr "Попробуйте еще раз"
 
@@ -11034,7 +11031,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Database Backend"
-msgstr ""
+msgstr "Бэкенд Базы данных"
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "CustomerIDs"
@@ -15286,20 +15283,10 @@ msgstr ""
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
 "<p>The installation of packages which are not verified by the OTRS Group is "
-"not possible by default.</p>"
+"not possible by default. You can activate the installation of not verified "
+"packages via the \"AllowNotVerifiedPackages\" system configuration "
+"setting.</p>"
 msgstr ""
-"<p>Установка пакетов, которые не верифицированы OTRS Group, невозможна по "
-"умолчанию"
-
-#. Perl Module: Kernel/System/Package.pm
-msgid ""
-"<p>You can activate the installation of not verified packages in the <a "
-"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
-" target=\"_blank\">System Configuration</a>.</p>"
-msgstr ""
-"<p>Вы можете активировать установку не проверенных пакетов в <a "
-"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
-" target=\"_blank\">Системной Конфигурации</a>.</p>"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -16556,7 +16543,7 @@ msgstr "Сбросить время разблокировки."
 
 #. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
 msgid "Chat Participant"
-msgstr ""
+msgstr "Участник чата"
 
 #. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
 msgid "Chat Message Text"
@@ -17284,7 +17271,7 @@ msgstr "Вы действительно желаете удалить это У�
 
 #. JS File: Core.Agent.Admin.PGP
 msgid "Do you really want to delete this key?"
-msgstr ""
+msgstr "Вы действительно хотите удалить этот ключ?"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
@@ -17789,7 +17776,7 @@ msgstr ""
 
 #. JS File: Core.Agent.SharedSecretGenerator
 msgid "Generate"
-msgstr ""
+msgstr "Сгенерировать"
 
 #. JS File: Core.Agent.SortedTree
 msgid "This element has children elements and can currently not be removed."
@@ -18609,14 +18596,6 @@ msgid "All new tickets, these tickets have not been worked on yet"
 msgstr "Все новые заявки; с этими заявками еще никто не работал"
 
 #. SysConfig
-msgid ""
-"All open tickets, these tickets have already been worked on, but need a "
-"response"
-msgstr ""
-"Все открытые заявки; с этими заявками уже работали, но они нуждаются в "
-"ответе"
-
-#. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
 msgstr "Все открытые заявки, это заявки работа с которыми начата."
 
@@ -19325,6 +19304,10 @@ msgid "Christmas Eve"
 msgstr "Сочельник"
 
 #. SysConfig
+msgid "Close"
+msgstr "Закрыть"
+
+#. SysConfig
 msgid "Close this ticket"
 msgstr "Закрыть эту заявку"
 
@@ -19462,11 +19445,11 @@ msgstr "Взаимодействие"
 
 #. SysConfig
 msgid "Communication & Notifications"
-msgstr ""
+msgstr "Каналы связи и Уведомления"
 
 #. SysConfig
 msgid "Communication Log GUI"
-msgstr ""
+msgstr "Графический интерфейс Журнала сеансов связи"
 
 #. SysConfig
 msgid "Communication log limit per page for Communication Log Overview."
@@ -23185,7 +23168,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Disable cloud services"
-msgstr ""
+msgstr "Отключить облачные сервисы"
 
 #. SysConfig
 msgid ""
@@ -23509,7 +23492,7 @@ msgstr "Исходящая эл. почта"
 
 #. SysConfig
 msgid "Email Resend"
-msgstr ""
+msgstr "Повторная отправка Письма"
 
 #. SysConfig
 msgid "Email communication channel."
@@ -23821,7 +23804,7 @@ msgstr ""
 
 #. SysConfig
 msgid "External Link"
-msgstr ""
+msgstr "Внешняя Ссылка"
 
 #. SysConfig
 msgid "Fetch emails via fetchmail (using SSL)."
@@ -25629,10 +25612,6 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Open Tickets / Need to be answered"
-msgstr "Открытые Заявки / Ожидают ответа"
-
-#. SysConfig
 msgid "Open an external link!"
 msgstr "Открыть внешнюю ссылку!"
 
@@ -26492,8 +26471,9 @@ msgstr "Перестраивает индексы заявок для AgentTicke
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
-"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
+"Recognize if a ticket is a follow-up to an existing ticket using an external"
+" ticket number. Note: the first capturing group from the 'NumberRegExp' "
+"expression will be used as the ticket number value."
 msgstr ""
 
 #. SysConfig
@@ -29032,11 +29012,11 @@ msgstr "Состояния"
 
 #. SysConfig
 msgid "Statistic Reports overview."
-msgstr ""
+msgstr "Обзор статистических отчетов."
 
 #. SysConfig
 msgid "Statistics overview."
-msgstr ""
+msgstr "Обзор статистики."
 
 #. SysConfig
 msgid "Status view"
@@ -29092,11 +29072,11 @@ msgstr "Обслуживание системы"
 
 #. SysConfig
 msgid "Templates ↔ Attachments"
-msgstr ""
+msgstr "Шаблоны ↔ Вложения"
 
 #. SysConfig
 msgid "Templates ↔ Queues"
-msgstr ""
+msgstr "Шаблоны ↔ Очереди"
 
 #. SysConfig
 msgid "Textarea"
@@ -29275,6 +29255,8 @@ msgid ""
 "The secret you supplied is invalid. The secret must only contain letters "
 "(A-Z, uppercase) and numbers (2-7) and must consist of 16 characters."
 msgstr ""
+"Введенный вами секрет не подходит. Секрет может состоять только из: Букв "
+"(A-Z, заглавных) и цифр (2-7) и может состоять только из 16 символов."
 
 #. SysConfig
 msgid ""
@@ -29306,11 +29288,11 @@ msgstr ""
 
 #. SysConfig
 msgid "This is a Description for Comment on Framework."
-msgstr ""
+msgstr "Это Описание Комментария к Фреймворку"
 
 #. SysConfig
 msgid "This is a Description for DynamicField on Framework."
-msgstr ""
+msgstr "Это Описание Динамических Полей Фреймворка"
 
 #. SysConfig
 msgid "This is the default orange - black skin for the customer interface."
@@ -29493,7 +29475,7 @@ msgstr "Наблюдающий за заявкой"
 
 #. SysConfig
 msgid "Ticket Zoom"
-msgstr ""
+msgstr "Увеличить Заявку"
 
 #. SysConfig
 msgid "Ticket Zoom."

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-02-13 21:57+0000\n"
+"POT-Creation-Date: 2019-02-21 13:30+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: 신홍열 <hyshin@shinjjang.com>, 2018\n"
 "Language-Team: Korean (https://www.transifex.com/otrs/teams/23435/ko/)\n"
@@ -10363,10 +10363,6 @@ msgid "Deploy now"
 msgstr "지금 배포"
 
 #. JS Template: DialogDeployment
-msgid "Close"
-msgstr "닫기"
-
-#. JS Template: DialogDeployment
 msgid "Try again"
 msgstr "다시 시도하십시오."
 
@@ -14532,14 +14528,9 @@ msgstr ""
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
 "<p>The installation of packages which are not verified by the OTRS Group is "
-"not possible by default.</p>"
-msgstr ""
-
-#. Perl Module: Kernel/System/Package.pm
-msgid ""
-"<p>You can activate the installation of not verified packages in the <a "
-"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
-" target=\"_blank\">System Configuration</a>.</p>"
+"not possible by default. You can activate the installation of not verified "
+"packages via the \"AllowNotVerifiedPackages\" system configuration "
+"setting.</p>"
 msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
@@ -17667,12 +17658,6 @@ msgid "All new tickets, these tickets have not been worked on yet"
 msgstr "모든 새로운 티켓이 그 티켓은 아직 작동하지 않았습니다."
 
 #. SysConfig
-msgid ""
-"All open tickets, these tickets have already been worked on, but need a "
-"response"
-msgstr "열러있는 모든 티켓, 이 티켓은 이미 작업되었지만 응답이 필요합니다."
-
-#. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
 msgstr "열려있는 모든 티켓, 이 티켓들은 이미 작업되었습니다."
 
@@ -18300,6 +18285,10 @@ msgstr "수신할 알림을 선택하십시오."
 #. SysConfig
 msgid "Christmas Eve"
 msgstr "크리스마스 이브"
+
+#. SysConfig
+msgid "Close"
+msgstr "닫기"
 
 #. SysConfig
 msgid "Close this ticket"
@@ -23910,10 +23899,6 @@ msgstr ""
 "수 있습니다. 대신, 시스템은 과거의 모든 약속과 다음 N 개월 (기본적으로 120 개월 / 10 년)의 약속을 작성합니다."
 
 #. SysConfig
-msgid "Open Tickets / Need to be answered"
-msgstr "진행중 티켓 / 답변이 필요함"
-
-#. SysConfig
 msgid "Open an external link!"
 msgstr "외부 링크 열기"
 
@@ -24728,8 +24713,9 @@ msgstr "AgentTicketQueue 티켓 색인을 다시 작성하십시오."
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
-"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
+"Recognize if a ticket is a follow-up to an existing ticket using an external"
+" ticket number. Note: the first capturing group from the 'NumberRegExp' "
+"expression will be used as the ticket number value."
 msgstr ""
 
 #. SysConfig

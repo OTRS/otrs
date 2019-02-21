@@ -31,7 +31,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-02-13 21:57+0000\n"
+"POT-Creation-Date: 2019-02-21 13:30+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Alan Cybar Sanier Quiñónez <cybarsan@gmail.com>, 2019\n"
 "Language-Team: Spanish (https://www.transifex.com/otrs/teams/23435/es/)\n"
@@ -10964,10 +10964,6 @@ msgid "Deploy now"
 msgstr ""
 
 #. JS Template: DialogDeployment
-msgid "Close"
-msgstr "Cerrar"
-
-#. JS Template: DialogDeployment
 msgid "Try again"
 msgstr ""
 
@@ -15282,14 +15278,9 @@ msgstr ""
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
 "<p>The installation of packages which are not verified by the OTRS Group is "
-"not possible by default.</p>"
-msgstr ""
-
-#. Perl Module: Kernel/System/Package.pm
-msgid ""
-"<p>You can activate the installation of not verified packages in the <a "
-"href=\"%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages\""
-" target=\"_blank\">System Configuration</a>.</p>"
+"not possible by default. You can activate the installation of not verified "
+"packages via the \"AllowNotVerifiedPackages\" system configuration "
+"setting.</p>"
 msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
@@ -18571,14 +18562,6 @@ msgid "All new tickets, these tickets have not been worked on yet"
 msgstr "Todos los Tickets nuevos, todavía no se ha trabajado en estos tickets"
 
 #. SysConfig
-msgid ""
-"All open tickets, these tickets have already been worked on, but need a "
-"response"
-msgstr ""
-"Todos los Tickets abiertos, ya se ha trabajado en estos tickets, pero "
-"necesitan una respuesta"
-
-#. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
 msgstr ""
 
@@ -19274,6 +19257,10 @@ msgstr ""
 #. SysConfig
 msgid "Christmas Eve"
 msgstr "Nochebuena"
+
+#. SysConfig
+msgid "Close"
+msgstr "Cerrar"
 
 #. SysConfig
 msgid "Close this ticket"
@@ -24714,10 +24701,6 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Open Tickets / Need to be answered"
-msgstr "Tickets Abiertos / Necesitan ser respondidos"
-
-#. SysConfig
 msgid "Open an external link!"
 msgstr "¡Abrir un enlace externo!"
 
@@ -25387,8 +25370,9 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.\n"
-"        Note: the first capturing group from the 'NumberRegExp' expression will be used as the ticket number value."
+"Recognize if a ticket is a follow-up to an existing ticket using an external"
+" ticket number. Note: the first capturing group from the 'NumberRegExp' "
+"expression will be used as the ticket number value."
 msgstr ""
 
 #. SysConfig

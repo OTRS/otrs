@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.9926243567753;
+    $Self->{Completeness}        = 0.993650248841599;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -492,7 +492,7 @@ sub Data {
         'Customer User Default Groups:' => 'Standardgruppen des Kundenbenutzers:',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Service Relations' => '',
+        'Manage Customer User-Service Relations' => 'Kundenbenutzer-Service-Zuordnungen verwalten',
         'Edit default services' => 'Standardservices bearbeiten',
         'Filter for Services' => 'Filter für Services',
         'Filter for services' => 'Filter für Services',
@@ -623,12 +623,12 @@ sub Data {
         'Send' => 'Senden',
 
         # Template: AdminGenericAgent
-        'Generic Agent Job Management' => '',
+        'Generic Agent Job Management' => 'Generic Agent-Auftragsverwaltung',
         'Edit Job' => 'Job bearbeiten',
         'Add Job' => 'Job hinzufügen',
         'Run Job' => 'Job ausführen',
-        'Filter for Jobs' => '',
-        'Filter for jobs' => '',
+        'Filter for Jobs' => 'Aufträge filtern',
+        'Filter for jobs' => 'Aufträge filtern',
         'Last run' => 'Letzte Ausführung',
         'Run Now!' => 'Jetzt ausführen!',
         'Delete this task' => 'Diesen Job löschen',
@@ -1528,7 +1528,7 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => 'Prozess-Management',
         'Filter for Processes' => 'Filter für Prozesse',
-        'Filter for processes' => '',
+        'Filter for processes' => 'Filter für Prozesse',
         'Create New Process' => 'Neuen Prozess erstellen',
         'Deploy All Processes' => 'Alle Prozesse speichern',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
@@ -1739,7 +1739,7 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => 'Zuordnung von Vorlagen zu Queues verwalten',
         'Filter for Templates' => 'Filter für Vorlagen',
-        'Filter for templates' => '',
+        'Filter for templates' => 'Filter für Vorlagen',
         'Templates' => 'Vorlagen',
 
         # Template: AdminRegistration
@@ -2144,7 +2144,7 @@ sub Data {
         'Kill all Sessions, except for your own' => 'Alle Sitzungen außer Ihrer eigenen löschen',
 
         # Template: AdminTemplate
-        'Template Management' => '',
+        'Template Management' => 'Vorlagen-Verwaltung',
         'Add Template' => 'Vorlage hinzufügen',
         'Edit Template' => 'Vorlage bearbeiten',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
@@ -3315,7 +3315,6 @@ sub Data {
         'Deploying, please wait...' => 'Inbetriebnahme läuft, bitte warten...',
         'Preparing to deploy, please wait...' => 'Inbetriebnahme wird vorbereitet, bitte warten...',
         'Deploy now' => 'Jetzt in Betrieb nehmen',
-        'Close' => 'Schließen',
         'Try again' => 'Nochmals versuchen',
 
         # JS Template: DialogReset
@@ -4802,10 +4801,8 @@ sub Data {
         'Can\'t read file!' => 'Datei kann nicht gelesen werden!',
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
             '<p>Falls Sie dieses Paket installieren, können folgende Probleme auftreten:</p><ul><li>Sicherheitsprobleme</li><li>Stabilitätsprobleme</li><li>Leistungsprobleme</li></ul><p>Bitte beachten Sie, dass von diesem Paket verursachte Probleme nicht durch OTRS-Serviceverträge abgedeckt sind.</p>',
-        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default.</p>' =>
-            '<p>Die Installation von Paketen, die nicht von der OTRS Gruppe verifiziert worden sind, ist standardmäßig nicht möglich.</p>',
-        '<p>You can activate the installation of not verified packages in the <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">System Configuration</a>.</p>' =>
-            '<p>Sie können die Installation von nicht verifizierten Paketen in der <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">Systemkonfiguration</a> aktivieren.</p>',
+        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -5947,8 +5944,6 @@ Ihr Helpdesk-Team
         'All customer users of a CustomerID' => 'Alle Kundenbenutzer einer Kundennummer',
         'All escalated tickets' => 'Alle eskalierten Tickets',
         'All new tickets, these tickets have not been worked on yet' => 'Alle neuen Tickets; an diesen Tickets wurde noch nicht gearbeitet',
-        'All open tickets, these tickets have already been worked on, but need a response' =>
-            'Alle offenen Tickets; an diesen Tickets wurde bereits gearbeitet, aber eine Antwort ist erforderlich',
         'All open tickets, these tickets have already been worked on.' =>
             'Alle offenen Tickets, an denen bereits gearbeitet wurde.',
         'All tickets with a reminder set where the reminder date has been reached' =>
@@ -6133,6 +6128,7 @@ Ihr Helpdesk-Team
             'Legen Sie fest, bei welchen Ticketänderungen Sie benachrichtigt werden möchten. Bitte beachten Sie, dass Sie Benachrichtigungen, die als verpflichtend markiert sind, nicht vollständig abschalten können.',
         'Choose which notifications you\'d like to receive.' => 'Legen Sie fest, welche Benachrichtigungen Sie erhalten möchten.',
         'Christmas Eve' => 'Heiligabend',
+        'Close' => 'Schließen',
         'Close this ticket' => 'Dieses Ticket schließen',
         'Closed tickets (customer user)' => 'Geschlossene Tickets (Kundenbenutzer)',
         'Closed tickets (customer)' => 'Geschlossene Tickets (Kunden)',
@@ -7709,7 +7705,6 @@ Ihr Helpdesk-Team
             'OTRS kann eine oder mehrere Spiegeldatenbanken für aufwändige Operationen wie Volltextsuchen oder Statistikgenerierungen nutzen. Hier können Sie die DSN für die erste Spiegeldatenbank hinterlegen.',
         'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             'OTRS unterstützt keine wiederholenden Termine ohne Enddatum oder Anzahl der Durchläufe. Während des Importierungsprozesses kann es vorkommen, dass die entsprechende ICS-Datei solche Termin enthält. Stattdessen wird das System alle vergangenen Termine erstellen, sowie zusätzlich Termine für die kommenden n Monate (120 Monate / 10 Jahre standardmäßig).',
-        'Open Tickets / Need to be answered' => 'Offene Tickets / Beantwortung erforderlich',
         'Open an external link!' => 'Externen Link öffnen',
         'Open tickets (customer user)' => 'Offene Tickets (Kundenbenutzer)',
         'Open tickets (customer)' => 'Offene Tickets (Kunde)',
@@ -7848,7 +7843,7 @@ Ihr Helpdesk-Team
         'Processes & Automation' => 'Prozesse & Automatisierung',
         'Product News' => 'Produkt-Neuigkeiten',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
-            'Schutz gegen CSRF-Lücken (Cross Site Request Forgery). Besuchen Sie http://en.wikipedia.org/wiki/Cross-site_request_forgery für mehr Informationen.',
+            'Schutz gegen CSRF-Lücken (Cross Site Request Forgery). Besuchen Sie https://de.wikipedia.org/wiki/Cross-Site-Request-Forgery für mehr Informationen.',
         'Provides a matrix overview of the tickets per state per queue' =>
             'Stellt eine Matrix-Übersicht von Tickets pro Status in Queues zur Verfügung.',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>
@@ -7858,8 +7853,8 @@ Ihr Helpdesk-Team
         'Queue view' => 'Ansicht nach Queues',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Ticket-Index für AgentTicketQueue neu aufbauen.',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
-        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
+            '',
         'Refresh interval' => 'Aktualisierungsintervall',
         'Registers a log module, that can be used to log communication related information.' =>
             'Registriert ein Protokoll-Modul, um Informationen zu Verbindungen zu protokollieren.',
@@ -8781,7 +8776,6 @@ Ihr Helpdesk-Team
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',
-        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',

@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.664493996569468;
+    $Self->{Completeness}        = 0.674789771752188;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -468,7 +468,7 @@ sub Data {
         'Customer' => 'Nazwa klienta',
         'This customer user has no customer access.' => 'Ten użytkownik klienta nie ma dostępu jako klient.',
         'Table above shows granted customer access for the customer user by permission context. The matrix takes into account all inherited access (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it.' =>
-            '',
+            'Tabela powyżej pokazuje przyznany dostęp klienta dla użytkownika klienta przez kontekst uprawnień. Macierz uwzględnia cały dziedziczny dostęp (na przykład poprzez grupy klientów). Uwaga: tabela nie uwzględnia zmian wprowadzonych w tym formularzu bez jego przesyłania.',
 
         # Template: AdminCustomerUserCustomer
         'Manage Customer User-Customer Relations' => 'Zarządzaj relacjami Użytkownik klienta - Klient',
@@ -492,11 +492,11 @@ sub Data {
         'Filter for groups' => 'Filtr dla grup.',
         'Select the customer user - group permissions.' => 'Określ uprawnienia użytkownik klienta - grupa.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
-            '',
+            'Jeśli nic nie zostało zaznaczone, wtedy nie ma uprawnień w tej grupie (zgłoszenia nie będą dostępne dla klienta).',
         'Customer User Default Groups:' => 'Domyślna Grupa Użytkownika klienta',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Service Relations' => '',
+        'Manage Customer User-Service Relations' => 'Zarządzaj relacjami Użytkownik klienta - Usługi',
         'Edit default services' => 'Edytuj domyślną usługę',
         'Filter for Services' => 'Filtruj usługi',
         'Filter for services' => 'Filtr usług',
@@ -507,18 +507,18 @@ sub Data {
         'Add new field for object' => 'Dodaj nowej pole do obiektu',
         'Filter for Dynamic Fields' => 'Filtr dla Pól Dynamicznych',
         'Filter for dynamic fields' => 'Filtr dla pól dynamicznych',
-        'More Business Fields' => '',
+        'More Business Fields' => 'Więcej pól biznesowych',
         'Would you like to benefit from additional dynamic field types for businesses? Upgrade to %s to get access to the following field types:' =>
-            '',
+            'Czy chcesz korzystać z dodatkowych dynamicznych typów pól dla firm? Uaktualnij do %s, aby uzyskać dostęp do następujących typów pól:',
         'Database' => 'Baza danych',
         'Use external databases as configurable data sources for this dynamic field.' =>
-            '',
+            'Użyj zewnętrznych baz danych jako konfigurowalnych źródeł danych dla tego dynamicznego pola.',
         'Web service' => 'Serwis sieciowy',
         'External web services can be configured as data sources for this dynamic field.' =>
             'Dla tego pola dynamicznego można skonfigurować jako źródło danych zewnętrzny serwis sieciowy.',
-        'Contact with data' => '',
+        'Contact with data' => 'Połącz z danymi',
         'This feature allows to add (multiple) contacts with data to tickets.' =>
-            '',
+            'Ta funkcja umożliwia dodawanie (wielu) kontaktów z danymi do biletów.',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
             'Aby dodać nowe pole, wybierz typ pola z listy obiektów. Wybrany obiekt definiuje typ pola, który nie będzie mógł być zmieniony po utworzeniu tego pola.',
         'Dynamic Fields List' => 'Lista pól dynamicznych',
@@ -545,13 +545,13 @@ sub Data {
         'This is the order in which this field will be shown on the screens where is active.' =>
             'To jest kolejność zgodnie z którą pole to będzie wyświetlane na ekranach, na których pole to będzie aktywne.',
         'Is not possible to invalidate this entry, all config settings have to be changed beforehand.' =>
-            '',
+            'Nie można unieważnić tego wpisu, wszystkie ustawienia konfiguracji muszą zostać wcześniej zmienione.',
         'Field type' => 'Typ pola',
         'Object type' => 'Typ obiektu',
         'Internal field' => 'Pole wewnętrzne',
         'This field is protected and can\'t be deleted.' => 'To pole jest chronione i nie może być usunięte.',
         'This dynamic field is used in the following config settings:' =>
-            '',
+            'To dynamiczne pole jest używane w następujących ustawieniach konfiguracji:Pole dynamiczne',
         'Field Settings' => 'Ustawienia pola',
         'Default value' => 'Domyślna wartość',
         'This is the default value for this field.' => 'To jest domyślna wartość tego pola.',
@@ -627,7 +627,7 @@ sub Data {
         'Send' => 'Wyślij',
 
         # Template: AdminGenericAgent
-        'Generic Agent Job Management' => '',
+        'Generic Agent Job Management' => 'Zarządzanie zadaniami automatycznymi',
         'Edit Job' => 'Edytuj Zadanie',
         'Add Job' => 'Dodaj Zadanie',
         'Run Job' => 'Wykonaj Zadanie',
@@ -650,7 +650,7 @@ sub Data {
             'Zadanie nie zostanie uruchomione automatycznie.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
             'Aby uruchomić automatyczne wykonywanie zaznacz przynajmniej jedną wartość dla minut, godzin i dni!',
-        'Event Based Execution (Single Ticket)' => '',
+        'Event Based Execution (Single Ticket)' => 'Wykonywanie bazowane na zdarzeniach (pojedyńcze zgłoszenie)',
         'Event Triggers' => 'Triggery',
         'List of all configured events' => 'Lista wszystkich skonfigurowanych zdarzeń',
         'Delete this event' => 'Usuń to zdarzenie',
@@ -660,7 +660,7 @@ sub Data {
             'Jeśli zgłoszenie zostanie wykonane wówczas filtr zgłoszeń zostanie wykonany dla sprawdzenia dopasowania zgłoszenia. Tylko wówczas zadanie jest wykonane na danym zgłoszeniu.',
         'Do you really want to delete this event trigger?' => 'Czy na pewno chcesz usunąć ten trigger?',
         'Add Event Trigger' => 'Dodaj trigger',
-        'To add a new event select the event object and event name' => '',
+        'To add a new event select the event object and event name' => 'Aby dodać nowe wydarzenie, wybierz obiekt zdarzenia i nazwę wydarzenia',
         'Select Tickets' => 'Zaznacz zgłoszenia',
         '(e. g. 10*5155 or 105658*)' => '(np. 10*5155 lub 105658*)',
         '(e. g. 234321)' => '(np. 3242442)',
@@ -762,7 +762,7 @@ sub Data {
             'Czy na pewno chcesz wyczyścić log debug tego serwisu sieciowego?',
         'Request List' => 'Lista żądań',
         'Time' => 'Czas',
-        'Communication ID' => '',
+        'Communication ID' => 'Identyfikator komunikacji',
         'Remote IP' => 'Zdalny IP',
         'Loading' => 'Ładowanie',
         'Select a single request to see its details.' => 'Zaznacz pojedyncze żądanie aby zobaczyć jego szczegóły.',
@@ -780,96 +780,96 @@ sub Data {
         'All configuration data will be lost.' => 'Cała konfiguracja zostanie utracona.',
         'General options' => 'Opcje ogólne',
         'The name can be used to distinguish different error handling configurations.' =>
-            '',
+            'Nazwa może być używana do rozróżniania różnych konfiguracji obsługi błędów.',
         'Please provide a unique name for this web service.' => 'Podaj unikalną nazwę dla tego serwisu sieciowego.',
         'Error handling module backend' => 'Moduł obsługi błędów',
         'This OTRS error handling backend module will be called internally to process the error handling mechanism.' =>
-            '',
+            'Ten moduł zaplecza obsługi błędów OTRS będzie wywoływany wewnętrznie w celu przetworzenia mechanizmu obsługi błędów.',
         'Processing options' => 'Opcje przetwarzania',
         'Configure filters to control error handling module execution.' =>
-            '',
+            'Skonfiguruj filtry, aby kontrolować wykonywanie modułu obsługi błędów.',
         'Only requests matching all configured filters (if any) will trigger module execution.' =>
-            '',
+            'Tylko żądania pasujące do wszystkich skonfigurowanych filtrów (jeśli są) będą pozwalać na wykonanie modułu.',
         'Operation filter' => 'Filtr operacji',
-        'Only execute error handling module for selected operations.' => '',
+        'Only execute error handling module for selected operations.' => 'Wykonuj tylko moduł obsługi błędów dla wybranych operacji.',
         'Note: Operation is undetermined for errors occuring while receiving incoming request data. Filters involving this error stage should not use operation filter.' =>
-            '',
-        'Invoker filter' => '',
-        'Only execute error handling module for selected invokers.' => '',
-        'Error message content filter' => '',
+            'Uwaga: Operacja nieokreślona dla błędów występujących podczas odbierania przychodzących danych żądania. Filtry z tym stopniem błędu nie powinny używać filtra operacji.',
+        'Invoker filter' => 'FIltr odwołujący',
+        'Only execute error handling module for selected invokers.' => 'Wykonuj tylko moduł obsługi błędów dla wybranych odwołań.',
+        'Error message content filter' => 'Filtr treści komunikatu o błędzie',
         'Enter a regular expression to restrict which error messages should cause error handling module execution.' =>
-            '',
+            'Wprowadź wyrażenie regularne, aby ograniczyć, które komunikaty o błędach powinny spowodować wykonanie modułu obsługi błędów.',
         'Error message subject and data (as seen in the debugger error entry) will considered for a match.' =>
-            '',
+            'Obiekt z komunikatem o błędzie i dane (widoczne w opisie błędu debuggera) zostaną uwzględnione w dopasowaniu.',
         'Example: Enter \'^.*401 Unauthorized.*\$\' to handle only authentication related errors.' =>
-            '',
-        'Error stage filter' => '',
+            'Przykład: Wprowadź  \'^.*401 Unauthorized.*\$\', aby obsłużyć tylko błędy związane z uwierzytelnianiem.',
+        'Error stage filter' => 'Filtr fazy błędu',
         'Only execute error handling module on errors that occur during specific processing stages.' =>
-            '',
+            'Moduł obsługi błędów należy uruchamiać wyłącznie w przypadku błędów, które występują podczas określonych etapów przetwarzania.',
         'Example: Handle only errors where mapping for outgoing data could not be applied.' =>
-            '',
+            'Przykład: błędy związane z obsługą tylko wtedy, gdy nie można zastosować mapowania dla danych wychodzących.',
         'Error code' => 'Kod błędu',
-        'An error identifier for this error handling module.' => '',
+        'An error identifier for this error handling module.' => 'Identyfikator błędu dla tego modułu obsługi błędów.',
         'This identifier will be available in XSLT-Mapping and shown in debugger output.' =>
-            '',
+            'Ten identyfikator będzie dostępny w XSLT-Mapping i pokazany na wyjściu debuggera.',
         'Error message' => 'Komunikat błędu',
-        'An error explanation for this error handling module.' => '',
+        'An error explanation for this error handling module.' => 'Objaśnienie błędu dla tego modułu obsługi błędów.',
         'This message will be available in XSLT-Mapping and shown in debugger output.' =>
-            '',
+            'Ta wiadomość będzie dostępna w XSLT-Mapping i pokazana na wyjściu debuggera.',
         'Define if processing should be stopped after module was executed, skipping all remaining modules or only those of the same backend.' =>
-            '',
-        'Default behavior is to resume, processing the next module.' => '',
+            'Zdefiniuj, czy przetwarzanie powinno zostać zatrzymane po wykonaniu modułu, pomijając wszystkie pozostałe moduły lub tylko te z tego samego zaplecza.',
+        'Default behavior is to resume, processing the next module.' => 'Domyślnym zachowaniem jest wznowienie, przetwarzanie następnego modułu.',
 
         # Template: AdminGenericInterfaceErrorHandlingRequestRetry
         'This module allows to configure scheduled retries for failed requests.' =>
-            '',
+            'Ten moduł umożliwia skonfigurowanie zaplanowanych ponownych prób dla nieudanych żądań.',
         'Default behavior of GenericInterface web services is to send each request exactly once and not to reschedule after errors.' =>
-            '',
+            'Domyślnym zachowaniem usług WWW ogólnego interfejsu jest wysyłanie każdego żądania dokładnie jeden raz i nieprzekazywanie po błędach.',
         'If more than one module capable of scheduling a retry is executed for an individual request, the module executed last is authoritative and determines if a retry is scheduled.' =>
-            '',
-        'Request retry options' => '',
+            'Jeśli dla pojedynczego żądania wykonywany jest więcej niż jeden moduł zdolny do planowania ponownej próby, ostatni wykonany moduł jest autorytatywny i określa, czy ponowna próba jest zaplanowana.',
+        'Request retry options' => 'Poproś o opcje ponowienia',
         'Retry options are applied when requests cause error handling module execution (based on processing options).' =>
-            '',
+            'Opcje ponowienia są stosowane, gdy żądania powodują wykonanie modułu obsługi błędów (w oparciu o opcje przetwarzania).',
         'Schedule retry' => 'Zaplanuj powtórzenie',
         'Should requests causing an error be triggered again at a later time?' =>
-            '',
-        'Initial retry interval' => '',
+            'Czy żądania powodujące błąd będą uruchamiane ponownie w późniejszym czasie?',
+        'Initial retry interval' => 'Początkowy interwał ponawiania próby',
         'Interval after which to trigger the first retry.' => 'Czas po którym ma zostać uruchomiona pierwsza powtórka próby.',
         'Note: This and all further retry intervals are based on the error handling module execution time for the initial request.' =>
-            '',
-        'Factor for further retries' => '',
+            'Uwaga: Ten i wszystkie kolejne interwały ponowienia są oparte na czasie wykonania modułu obsługi błędów dla początkowego żądania.',
+        'Factor for further retries' => 'Współczynnik dla dalszych prób',
         'If a request returns an error even after a first retry, define if subsequent retries are triggered using the same interval or in increasing intervals.' =>
             'Jeżeli żądanie zwróci błąd również po pierwszej powtórce próby, określ czy kolejne próby mają być uruchamiane w takich samych interwałach lub coraz większych.',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\' and retry factor at \'2\', retries would be triggered at 10:01 (1 minute), 10:03 (2*1=2 minutes), 10:07 (2*2=4 minutes), 10:15 (2*4=8 minutes), ...' =>
-            '',
-        'Maximum retry interval' => '',
+            'Przykład: jeśli żądanie jest początkowo uruchamiane o godzinie 10:00 z początkowym odstępem czasu o wartości: 1 minuta i współczynnikiem powtórzenia: 2, ponowne próby będą uruchamiane o 10:01 (1 minuta), 10:03 (2 * 1 = 2 minuty), 10:07 (2 * 2 = 4 minuty), 10:15 (2 * 4 = 8 minut), ...',
+        'Maximum retry interval' => 'Maksymalny interwał ponawiania prób',
         'If a retry interval factor of \'1.5\' or \'2\' is selected, undesirably long intervals can be prevented by defining the largest interval allowed.' =>
-            '',
+            'Jeżeli wybrano współczynnik interwału powtórzenia: 1,5 lub 2, można zapobiec niepożądanym długim interwałom, definiując maksymalny dopuszczalny przedział czasu.',
         'Intervals calculated to exceed the maximum retry interval will then automatically be shortened accordingly.' =>
-            '',
+            'Odstępy obliczone w celu przekroczenia maksymalnego interwału ponawiania będą wówczas automatycznie odpowiednio skracane.',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\', retry factor at \'2\' and maximum interval at \'5 minutes\', retries would be triggered at 10:01 (1 minute), 10:03 (2 minutes), 10:07 (4 minutes), 10:12 (8=>5 minutes), 10:17, ...' =>
-            '',
+            'Przykład: jeśli żądanie jest początkowo uruchamiane o godzinie 10:00 z początkowym interwałem: 1 minuta, współczynnik ponowienia: 2 i maksymalny czas: 5 minut, ponowne próby będą uruchamiane o 10:01 (1 minuta), 10:03 (2 minuty), 10:07 (4 minuty), 10:12 (8 => 5 minut), 10:17, ...',
         'Maximum retry count' => 'Maksymalna liczba powtórzeń',
         'Maximum number of retries before a failing request is discarded, not counting the initial request.' =>
-            '',
+            'Maksymalna liczba ponownych prób przed odrzuceniem żądania jest odrzucana, nie licząc początkowego żądania.',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\', retry factor at \'2\' and maximum retry count at \'2\', retries would be triggered at 10:01 and 10:02 only.' =>
-            '',
+            'Przykład: jeśli żądanie jest początkowo uruchamiane o godzinie 10:00 z początkowym interwałem: 1 minuta, współczynnik ponów: 2 i maksymalna liczba ponownych prób: 2, ponowne próby będą uruchamiane tylko o 10:01 i 10:02.',
         'Note: Maximum retry count might not be reached if a maximum retry period is configured as well and reached earlier.' =>
-            '',
-        'This field must be empty or contain a positive number.' => '',
+            'Uwaga: Maksymalna liczba powtórzeń może nie zostać osiągnięta, jeśli maksymalny czas ponowienia jest również skonfigurowany i osiągnięty wcześniej.',
+        'This field must be empty or contain a positive number.' => 'To pole musi być puste lub zawierać liczbę dodatnią.',
         'Maximum retry period' => 'Maksymalny okres powtarzania',
         'Maximum period of time for retries of failing requests before they are discarded (based on the error handling module execution time for the initial request).' =>
-            '',
+            'Maksymalny czas ponowienia próśb o niepowodzenie przed ich odrzuceniem (w oparciu o czas wykonania modułu obsługi błędów dla pierwotnego żądania).',
         'Retries that would normally be triggered after maximum period is elapsed (according to retry interval calculation) will automatically be triggered at maximum period exactly.' =>
-            '',
+            'Próby, które normalnie byłyby uruchamiane po upływie maksymalnego okresu (zgodnie z obliczeniem przedziału czasu ponownej próby), będą automatycznie uruchamiane dokładnie w maksymalnym okresie.',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\', retry factor at \'2\' and maximum retry period at \'30 minutes\', retries would be triggered at 10:01, 10:03, 10:07, 10:15 and finally at 10:31=>10:30.' =>
-            '',
+            'Przykład: jeśli żądanie jest początkowo wyzwalane o godzinie 10:00 z początkowym interwałem:  minuta, współczynnikiem powtórzenia: 2 i maksymalnym czasem ponowienia próby po: 30 minutach. Ponowne próby będą uruchamiane o 10:01, 10:03, 10:07, 10:15 i wreszcie o 10:31 => 10:30.',
         'Note: Maximum retry period might not be reached if a maximum retry count is configured as well and reached earlier.' =>
-            '',
+            'Uwaga: Maksymalny czas ponowienia może nie zostać osiągnięty, jeśli maksymalna liczba ponownych prób jest również skonfigurowana i osiągnięta wcześniej.',
 
         # Template: AdminGenericInterfaceInvokerDefault
-        'Add Invoker' => '',
-        'Edit Invoker' => '',
+        'Add Invoker' => 'Dodaj wywołanie',
+        'Edit Invoker' => 'Edytuj wywołanie',
         'Do you really want to delete this invoker?' => 'Czy na pewno chcesz usunąć ten invoker?',
         'Invoker Details' => 'Szczegóły invokera.',
         'The name is typically used to call up an operation of a remote web service.' =>
@@ -886,7 +886,7 @@ sub Data {
             'Dane z odpowiedzi będą przetworzone przez to mapowanie na dane oczekiwane przez invoker OTRS.',
         'Asynchronous' => 'Asynchroniczny',
         'Condition' => 'Warunek',
-        'Edit this event' => '',
+        'Edit this event' => 'Edytuj to zdarzenie',
         'This invoker will be triggered by the configured events.' => 'Ten invoker będzie wykonany przez skonfigurowane zdarzenia.',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Aby dodać nowe zdarzenie, zaznacz obiekt zdarzenia i nazwę zdarzenia i kliknij przycisk "+"',
@@ -3319,7 +3319,6 @@ sub Data {
         'Deploying, please wait...' => 'Wdrażanie, proszę czekać...',
         'Preparing to deploy, please wait...' => 'Przygotowanie do wdrożenia, proszę czekać...',
         'Deploy now' => 'Wdróż teraz',
-        'Close' => 'Zamknij',
         'Try again' => 'Spróbuj ponownie',
 
         # JS Template: DialogReset
@@ -4806,9 +4805,7 @@ sub Data {
         'Can\'t read file!' => 'Nie można czytać pliku!',
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
             '',
-        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default.</p>' =>
-            '',
-        '<p>You can activate the installation of not verified packages in the <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">System Configuration</a>.</p>' =>
+        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
             '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
@@ -5941,8 +5938,6 @@ Thanks for your help!
         'All customer users of a CustomerID' => 'Wszyscy użytkownicy  z identyfikatorem klienta',
         'All escalated tickets' => 'Wszystkie eskalowane zgłoszenia',
         'All new tickets, these tickets have not been worked on yet' => 'Wszystkie nowe zgłoszenia, nie podjęto jeszcze prac w związku z nimi',
-        'All open tickets, these tickets have already been worked on, but need a response' =>
-            'Wszystkie otwarte zgłoszenia, były już podjęte prace w związku z nimi ale obecnie wymagają odpowiedzi',
         'All open tickets, these tickets have already been worked on.' =>
             '',
         'All tickets with a reminder set where the reminder date has been reached' =>
@@ -6127,6 +6122,7 @@ Thanks for your help!
             'Wybierz, dla jakich rodzajów zmian w zgłoszeniach, chcesz otrzymywać powiadomienia. Zauważ, że nie można całkowicie wyłączyć powiadomień oznaczonych jako obowiązkowe.',
         'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Wigilia Bożego Narodzenia',
+        'Close' => 'Zamknij',
         'Close this ticket' => 'Zamknij to zgłoszenie',
         'Closed tickets (customer user)' => 'Zamknięte zgłoszenia (użytkownik)',
         'Closed tickets (customer)' => 'Zamknięte zgłoszenia (klient)',
@@ -7703,7 +7699,6 @@ Thanks for your help!
             '',
         'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             '',
-        'Open Tickets / Need to be answered' => 'Zgłoszenia otwarte / wymagające odpowiedzi',
         'Open an external link!' => '',
         'Open tickets (customer user)' => 'Otwarte zgłoszenia (użytkownik klienta)',
         'Open tickets (customer)' => 'Otwarte zgłoszenia (klient)',
@@ -7852,8 +7847,8 @@ Thanks for your help!
         'Queue view' => 'Widok kolejek',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
-        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
+            '',
         'Refresh interval' => 'Interwał odświeżania',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
@@ -8775,7 +8770,6 @@ Thanks for your help!
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',
-        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',

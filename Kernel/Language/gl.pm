@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.521440823327616;
+    $Self->{Completeness}        = 0.521366054573537;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3315,7 +3315,6 @@ sub Data {
         'Deploying, please wait...' => '',
         'Preparing to deploy, please wait...' => '',
         'Deploy now' => '',
-        'Close' => 'Pechar',
         'Try again' => '',
 
         # JS Template: DialogReset
@@ -4802,9 +4801,7 @@ sub Data {
         'Can\'t read file!' => '',
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
             '',
-        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default.</p>' =>
-            '',
-        '<p>You can activate the installation of not verified packages in the <a href="%sAction=AdminSystemConfiguration;Subaction=View;Setting=Package%3A%3AAllowNotVerifiedPackages" target="_blank">System Configuration</a>.</p>' =>
+        '<p>The installation of packages which are not verified by the OTRS Group is not possible by default. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
             '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
@@ -5937,8 +5934,6 @@ Thanks for your help!
         'All customer users of a CustomerID' => 'Todos os usuarios clientes dun identificador de cliente',
         'All escalated tickets' => 'Tódolos tickets escalados',
         'All new tickets, these tickets have not been worked on yet' => 'Tódolos novos tickets, nestes tickets aínda non se a estado traballando',
-        'All open tickets, these tickets have already been worked on, but need a response' =>
-            'Tódolos tickets abertos, nestes tickets xa se a estado traballando, pero necesitan unha resposta',
         'All open tickets, these tickets have already been worked on.' =>
             '',
         'All tickets with a reminder set where the reminder date has been reached' =>
@@ -6123,6 +6118,7 @@ Thanks for your help!
             '',
         'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Noiteboa',
+        'Close' => 'Pechar',
         'Close this ticket' => 'Pechar este tícket',
         'Closed tickets (customer user)' => 'Tíckets pechados (usuario cliente)',
         'Closed tickets (customer)' => 'Tíckets pechados (cliente)',
@@ -7699,7 +7695,6 @@ Thanks for your help!
             '',
         'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next N months (120 months/10 years by default).' =>
             '',
-        'Open Tickets / Need to be answered' => 'Tickets abertos / Necesitan ser contestados',
         'Open an external link!' => '',
         'Open tickets (customer user)' => 'Tíckets abertos (usuario cliente)',
         'Open tickets (customer)' => 'Tíckets abertos (cliente)',
@@ -7848,8 +7843,8 @@ Thanks for your help!
         'Queue view' => 'Vista Cola',
         'Queues ↔ Auto Responses' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
-        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.
-        Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' => '',
+        'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
+            '',
         'Refresh interval' => 'Intervalo Recarga',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
@@ -8771,7 +8766,6 @@ Thanks for your help!
         'Click to select a file or just drop it here.',
         'Click to select files or just drop them here.',
         'Clone web service',
-        'Close',
         'Close preview',
         'Close this dialog',
         'Complex %s with %s arguments',
