@@ -1,4 +1,5 @@
 #6.0.17 ????-??-??
+ - 2019-02-21 Fixed bug#[14417](https://bugs.otrs.org/show_bug.cgi?id=14417) - Use of uninitialized value in concatenation.
  - 2019-02-19 Improved console commands Admin::Config::FixInvalid (load setting values from YAML file) and Admin::Config::ListInvalid (export invalid settings to the YAML file).
  - 2019-02-16 Fixed bug#[14411](https://bugs.otrs.org/show_bug.cgi?id=14411) - ACL description Bug causes error.
  - 2019-02-14 Improved SysConfig performance.

@@ -271,8 +271,8 @@ sub Request {
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
         # check cache
-        my $CacheKey = "APIKey::" . $Self->{RegistrationData}->{APIKey} || ''
-            . "::UniqueID::" . $Self->{RegistrationData}->{UniqueID} || '';
+        my $CacheKey = "APIKey::" . ( $Self->{RegistrationData}->{APIKey} || '' )
+            . "::UniqueID::" . ( $Self->{RegistrationData}->{UniqueID} || '' );
         my $CacheContent = $CacheObject->Get(
             Type => 'RequestUniqueIDAuth',
             Key  => $CacheKey,
