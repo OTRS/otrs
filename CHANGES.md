@@ -1,4 +1,5 @@
 #6.0.17 ????-??-??
+ - 2019-02-21 Fixed bug#[14287](https://bugs.otrs.org/show_bug.cgi?id=14287) - Show context setting dialog in ticket overview screens does not support columns with brackets.
  - 2019-02-21 Fixed bug#[11932](https://bugs.otrs.org/show_bug.cgi?id=11932) - OTRS does not handle more than 10 S/MIME certificates per user.
  - 2019-02-21 Fixed bug#[14417](https://bugs.otrs.org/show_bug.cgi?id=14417) - Use of uninitialized value in concatenation.
  - 2019-02-19 Improved console commands Admin::Config::FixInvalid (load setting values from YAML file) and Admin::Config::ListInvalid (export invalid settings to the YAML file).
