@@ -144,7 +144,7 @@ $Selenium->RunTest(
         my $Count = 1;
         my $IsLinkedBreadcrumbText;
         for my $BreadcrumbText (
-            'Manage Templates-Attachments Relations',
+            'Manage Template-Attachment Relations',
             'Change Attachment Relations for Template \'' . $TemplateType . ' - ' . $TemplateRandomID . '\''
             )
         {

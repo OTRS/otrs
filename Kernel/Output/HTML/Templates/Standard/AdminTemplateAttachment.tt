@@ -8,11 +8,11 @@
 
 [% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1 class="InvisibleText">[% Translate("Manage Templates-Attachments Relations") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Manage Template-Attachment Relations") | html %]</h1>
 
     [% BreadcrumbPath = [
             {
-                Name => Translate('Manage Templates-Attachments Relations'),
+                Name => Translate('Manage Template-Attachment Relations'),
                 Link => Env("Action"),
             },
         ]

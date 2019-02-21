@@ -5304,7 +5304,7 @@ via the Preferences button after logging in.
                     </Array>
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
-                <Item Key="Name" Translatable="1">Customer User</Item>
+                <Item Key="Name" Translatable="1">Customer Users</Item>
                 <Item Key="Block">Users</Item>
                 <Item Key="Description" Translatable="1">Create and manage customer users.</Item>
                 <Item Key="IconBig">fa-male</Item>
