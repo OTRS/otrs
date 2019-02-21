@@ -197,7 +197,7 @@ $Selenium->RunTest(
             'Reminder Tickets',
             'Escalated Tickets',
             'New Tickets',
-            'Open Tickets / Need to be answered',
+            'Open Tickets',
         );
 
         my $Count = 0;
