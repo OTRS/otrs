@@ -716,6 +716,11 @@ sub WaitForjQueryEventBound {
 
     my $Event = $Param{Event} || 'click';
 
+    # Wait for element availability.
+    $Self->WaitFor(
+        JavaScript => 'return typeof($) === "function" && $("' . $Param{CSSSelector} . '").length;'
+    );
+
     # Wait for jQuery initialization.
     $Self->WaitFor(
         JavaScript =>
