@@ -13,6 +13,22 @@ use utf8;
 use vars (qw($Self));
 
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+
+my @List = $PackageObject->RepositoryList(
+    Result => 'short',
+);
+my $NumberOfPackagesInstalled = scalar @List;
+
+# Skip the test if there is more then 5 packages instaled.
+# TODO: fix the main issue with "unexpected alert open".
+if ( $NumberOfPackagesInstalled > 5 ) {
+    $Self->True(
+        1,
+        "Found $NumberOfPackagesInstalled packages installed, skipping test..."
+    );
+    return 1;
+}
 
 # make sure to enable cloud services
 $Helper->ConfigSettingChange(
@@ -78,18 +94,7 @@ my $CheckBreadcrumb = sub {
 $Selenium->RunTest(
     sub {
 
-        my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
-
-        my @List = $PackageObject->RepositoryList(
-            Result => 'short',
-        );
-
-        # Skip the test if there is more then 5 packages instaled.
-        # TODO: fix the main issue with "unexpected alert open".
-        if ( scalar @List > 5 ) {
-            return 1;
-        }
+        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # For test stability check if package is already installed.
         my $PackageCheck = $PackageObject->PackageIsInstalled(
