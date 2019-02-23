@@ -12,7 +12,7 @@ use utf8;
 
 use vars (qw($Self));
 
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 
 my @List = $PackageObject->RepositoryList(
