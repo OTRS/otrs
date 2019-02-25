@@ -384,7 +384,7 @@ sub _ShowEdit {
             SelectedID  => $ConditionData->{ConditionLinking},
         );
 
-        my @Conditions = sort keys %{ $ConditionData->{Condition} };
+        my @Conditions = sort { int $a <=> int $b } keys %{ $ConditionData->{Condition} };
 
         for my $Condition (@Conditions) {
 
