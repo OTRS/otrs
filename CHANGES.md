@@ -1,4 +1,5 @@
 #6.0.18 ????-??-??
+ - 2019-02-25 Fixed bug#[14335](https://bugs.otrs.org/show_bug.cgi?id=14335) - Appointment notification event 'AppointmentDelete' does not contain data of deleted Appointment.
 
 #6.0.17 2019-03-08
  - 2019-02-21 Fixed bug#[14396](https://bugs.otrs.org/show_bug.cgi?id=14396) - Names are not consistent (mixed singular and plural forms).

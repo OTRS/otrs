@@ -25,8 +25,69 @@ my $CalendarObject    = $Kernel::OM->Get('Kernel::System::Calendar');
 my $AppointmentObject = $Kernel::OM->Get('Kernel::System::Calendar::Appointment');
 my $GroupObject       = $Kernel::OM->Get('Kernel::System::Group');
 my $UserObject        = $Kernel::OM->Get('Kernel::System::User');
+my $MailQueueObject   = $Kernel::OM->Get('Kernel::System::MailQueue');
 
 my $RandomID = $Helper->GetRandomID();
+
+my %MailQueueCurrentItems = map { $_->{ID} => $_ } @{ $MailQueueObject->List() || [] };
+my $MailQueueClean        = sub {
+    my $Items = $MailQueueObject->List();
+    MAIL_QUEUE_ITEM:
+    for my $Item ( @{$Items} ) {
+        next MAIL_QUEUE_ITEM if $MailQueueCurrentItems{ $Item->{ID} };
+        $MailQueueObject->Delete(
+            ID => $Item->{ID},
+        );
+    }
+
+    return;
+};
+
+my $MailQueueProcess = sub {
+    my %Param = @_;
+
+    my $EmailObject = $Kernel::OM->Get('Kernel::System::Email');
+
+    # Process all items except the ones already present before the tests.
+    my $Items = $MailQueueObject->List();
+    MAIL_QUEUE_ITEM:
+    for my $Item ( @{$Items} ) {
+        next MAIL_QUEUE_ITEM if $MailQueueCurrentItems{ $Item->{ID} };
+        $MailQueueObject->Send( %{$Item} );
+    }
+
+    # Clean any garbage.
+    $MailQueueClean->();
+
+    return;
+};
+
+# Make sure we start with a clean mail queue.
+$MailQueueClean->();
+
+# Do not check RichText.
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'Frontend::RichText',
+    Value => 0,
+);
+
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'AgentSelfNotifyOnAction',
+    Value => 1,
+);
+
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'SendmailModule',
+    Value => 'Kernel::System::Email::Test',
+);
+
+$Helper->ConfigSettingChange(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
 
 # create test group
 my $GroupName = 'test-calendar-group-' . $RandomID;
@@ -49,6 +110,51 @@ my ( $UserLogin, $UserID ) = $Helper->TestUserCreate(
 $Self->True(
     $UserID,
     "Test user $UserID created",
+);
+
+# Create Appointment notification with AppointmentDelete event.
+my $AppointmentName = "AppointmetDelete$RandomID";
+my $NotificationID  = $Kernel::OM->Get('Kernel::System::NotificationEvent')->NotificationAdd(
+    Name       => $AppointmentName,
+    Transports => 'Email',
+    UserID     => $UserID,
+    Data       => {
+        LanguageID => [
+            'en'
+        ],
+        NotificationType => [
+            'Appointment'
+        ],
+        TransportEmailTemplate => [
+            'Alert'
+        ],
+        Transports => [
+            'Email'
+        ],
+        Events => [
+            'AppointmentDelete'
+        ],
+        Recipients => [
+            'AppointmentAgentWritePermissions',
+            'All agents with (at least) read permission for the appointment (calendar)'
+        ],
+
+        AgentEnabledByDefault => [
+            'Email'
+        ],
+    },
+    ValidID => 1,
+    Message => {
+        en => {
+            Body        => 'appointment "&lt;OTRS_APPOINTMENT_TITLE&gt;" has reached its notification time.',
+            Subject     => 'Reminder: <OTRS_APPOINTMENT_TITLE> DELETE',
+            ContentType => 'text/html'
+        }
+    },
+);
+$Self->True(
+    $NotificationID,
+    "Appointment Notification ID $NotificationID is created",
 );
 
 # create test calendar
@@ -1747,6 +1853,7 @@ $Self->True(
 #
 # Tests for AppointmentDelete()
 #
+my $AppointmentDeleteTitle = "Appointment-$RandomID";
 @Tests = (
     {
         Name    => 'AppointmentDelete - No params',
@@ -1771,7 +1878,7 @@ $Self->True(
         Name   => 'AppointmentDelete - All params',
         Create => {
             CalendarID => $Calendar{CalendarID},
-            Title      => "Appointment-$RandomID",
+            Title      => $AppointmentDeleteTitle,
             StartTime  => '2016-02-29 00:00:00',
             EndTime    => '2016-02-29 00:00:00',
             AllDay     => 1,
@@ -1865,6 +1972,27 @@ for my $Test (@Tests) {
         );
     }
 }
+
+# Check if Appointment notification trigerd on event AppointmentDelete contains data.
+# See bug#14335
+my $TestEmailObject = $Kernel::OM->Get('Kernel::System::Email::Test');
+
+# Process mail queue items.
+$MailQueueProcess->();
+
+# Check that emailS was sent.
+my $Emails = $TestEmailObject->EmailsGet();
+
+my $Test = "appointment \"$AppointmentDeleteTitle\" has reached its notification=
+ time.=
+";
+
+# Check if email body data.
+$Self->Is(
+    ${ $Emails->[0]{Body} },
+    $Test,
+    'Sent email contains correct data',
+);
 
 #
 # Tests for _TimeCheck()
