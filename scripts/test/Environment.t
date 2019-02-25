@@ -25,7 +25,7 @@ for my $Attribute (qw(Hostname OS OSName User)) {
 }
 
 $Self->True(
-    $OSInfo{OSName} !~ m{\A Unknown }xms,
+    $OSInfo{OSName} !~ m{\A Unknown version }xms ? 1 : 0,
     "OSInfoGet - OSName is not unknown but '$OSInfo{OSName}'",
 );
 
