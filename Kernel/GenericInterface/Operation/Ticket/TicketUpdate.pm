@@ -2048,8 +2048,32 @@ sub _TicketUpdate {
             $From = $UserData{UserFullname};
         }
 
-        # set Article To
-        my $To = '';
+        # Set Article To, Cc, Bcc.
+        my ( $To, $Cc, $Bcc );
+        if ( $Article->{To} ) {
+            $To = $Article->{To};
+        }
+        if ( $Article->{Cc} ) {
+            $Cc = $Article->{Cc};
+        }
+        if ( $Article->{Bcc} ) {
+            $Bcc = $Article->{Bcc};
+        }
+
+        # Fallback for To
+        if ( !$To && $Article->{CommunicationChannel} eq 'Email' ) {
+
+            # Use data from customer user (if customer user is in database).
+            if ( IsHashRefWithData( \%CustomerUserData ) ) {
+                $To = '"' . $CustomerUserData{UserFullname} . '"'
+                    . ' <' . $CustomerUserData{UserEmail} . '>';
+            }
+
+            # Otherwise use customer user as sent from the request (it should be an email).
+            else {
+                $To = $Ticket->{CustomerUser} // $TicketData{CustomerUserID};
+            }
+        }
 
         if ( !$Article->{CommunicationChannel} ) {
 
@@ -2082,6 +2106,8 @@ sub _TicketUpdate {
             IsVisibleForCustomer => $Article->{IsVisibleForCustomer},
             From                 => $From,
             To                   => $To,
+            Cc                   => $Cc,
+            Bcc                  => $Bcc,
             Subject              => $Article->{Subject},
             Body                 => $Article->{Body},
             MimeType             => $Article->{MimeType} || '',

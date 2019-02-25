@@ -698,7 +698,7 @@ my @Tests = (
                 From                 => 'enjoy@otrs.com',
                 Charset              => 'utf8',
                 MimeType             => 'text/plain',
-                HistoryType          => 'NewTicket',
+                HistoryType          => 'AddNote',
                 HistoryComment       => '%%',
             },
             Attachment => [
@@ -708,6 +708,88 @@ my @Tests = (
                     Filename    => 'test.txt',
                 },
             ],
+        },
+        IncludeTicketData        => 1,
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                TicketID     => $Ticket{TicketID},
+                TicketNumber => $Ticket{TicketNumber},
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                TicketID     => $Ticket{TicketID},
+                TicketNumber => $Ticket{TicketNumber},
+            },
+        },
+        Operation => 'TicketUpdate',
+    },
+    {
+        Name           => 'Add article (with To, Cc and Bcc parameters)',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID => $TicketID1,
+            Ticket   => {
+                Title => 'Updated',
+            },
+            Article => {
+                Subject              => 'Article subject äöüßÄÖÜ€ис',
+                Body                 => 'Article body',
+                AutoResponseType     => 'auto reply',
+                IsVisibleForCustomer => 1,
+                CommunicationChannel => 'Email',
+                SenderType           => 'agent',
+                From                 => 'enjoy@otrs.com',
+                To                   => 'someTo@otrs.com',
+                Cc                   => 'someCc@otrs.com',
+                Bcc                  => 'someBcc@otrs.com',
+                Charset              => 'utf8',
+                MimeType             => 'text/plain',
+                HistoryType          => 'AddNote',
+                HistoryComment       => '%%',
+            },
+        },
+        IncludeTicketData        => 1,
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                TicketID     => $Ticket{TicketID},
+                TicketNumber => $Ticket{TicketNumber},
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                TicketID     => $Ticket{TicketID},
+                TicketNumber => $Ticket{TicketNumber},
+            },
+        },
+        Operation => 'TicketUpdate',
+    },
+    {
+        Name           => 'Add article (with CustomerUser parameter)',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID => $TicketID1,
+            Ticket   => {
+                Title        => 'Updated',
+                CustomerUser => $CustomerUserLogin,
+            },
+            Article => {
+                Subject              => 'Article subject äöüßÄÖÜ€ис',
+                Body                 => 'Article body',
+                AutoResponseType     => 'auto reply',
+                IsVisibleForCustomer => 1,
+                CommunicationChannel => 'Email',
+                SenderType           => 'agent',
+                From                 => 'enjoy@otrs.com',
+                Charset              => 'utf8',
+                MimeType             => 'text/plain',
+                HistoryType          => 'AddNote',
+                HistoryComment       => '%%',
+            },
         },
         IncludeTicketData        => 1,
         ExpectedReturnRemoteData => {
@@ -924,8 +1006,34 @@ for my $Test (@Tests) {
         };
     }
 
+    if ( defined $Test->{RequestData}->{Ticket}->{CustomerUser} ) {
+        $Self->Is(
+            "\"$CustomerUserLogin $CustomerUserLogin\" <$CustomerUserLogin\@localunittest.com>",
+            $RequesterResult->{Data}->{Ticket}->{Article}->{To},
+            "Article parameter To is set well after TicketUpdate()",
+        );
+    }
+
     if ( $Test->{RequestData}->{Article} ) {
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+
+        # Check if parameters To, cc and Bcc set well
+        # See bug#14393 for more information.
+        if (
+            defined $Test->{RequestData}->{Article}->{To}
+            && defined $Test->{RequestData}->{Article}->{Cc}
+            && defined $Test->{RequestData}->{Article}->{Bcc}
+            )
+        {
+
+            for my $Item (qw(To Cc Bcc)) {
+                $Self->Is(
+                    $Test->{RequestData}->{Article}->{$Item},
+                    $RequesterResult->{Data}->{Ticket}->{Article}->{$Item},
+                    "Article parameter $Item is set well after TicketUpdate() - $Test->{RequestData}->{Article}->{$Item}",
+                );
+            }
+        }
 
         # Get latest article data.
         my @ArticleList = $ArticleObject->ArticleList(
