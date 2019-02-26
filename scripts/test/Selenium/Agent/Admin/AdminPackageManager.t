@@ -14,6 +14,10 @@ use vars (qw($Self));
 
 my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+
+# Check if needed frontend module is registered in sysconfig.
+return 1 if $ConfigObject->Get('Frontend::Module')->{AdminPackageManager};
 
 my @List = $PackageObject->RepositoryList(
     Result => 'short',
@@ -164,8 +168,6 @@ $Selenium->RunTest(
             User     => $TestUserLogin,
             Password => $TestUserLogin,
         );
-
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # Get script alias.
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');

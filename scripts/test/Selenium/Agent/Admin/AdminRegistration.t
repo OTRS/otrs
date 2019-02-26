@@ -14,16 +14,20 @@ use vars (qw($Self));
 
 use Kernel::Language;
 
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+# Check if needed frontend module is registered in sysconfig.
+return 1 if $ConfigObject->Get('Frontend::Module')->{AdminPackageManager};
 
 # Fake a running daemon.
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $NodeID       = $ConfigObject->Get('NodeID') || 1;
-my $Running      = $Kernel::OM->Get('Kernel::System::Cache')->Set(
+my $NodeID  = $ConfigObject->Get('NodeID') || 1;
+my $Running = $Kernel::OM->Get('Kernel::System::Cache')->Set(
     Type  => 'DaemonRunning',
     Key   => $NodeID,
     Value => 1,
 );
+
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
