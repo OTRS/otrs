@@ -127,9 +127,6 @@ sub OSInfoGet {
                 $OSName = $Content->[0];
             }
         }
-        else {
-            $OSName = "Unknown version";
-        }
     }
     elsif ( $^O eq 'darwin' ) {
 
@@ -145,14 +142,11 @@ sub OSInfoGet {
 
         $OSName = "$OSMap{$^O} $BSDVersion";
     }
-    else {
-        $OSName = "Unknown";
-    }
 
     # collect OS data
     my %EnvOS = (
         Hostname     => hostname_long(),
-        OSName       => $OSName,
+        OSName       => $OSName || 'Unknown version',
         Distribution => $Distribution,
         User         => $ENV{USER} || $ENV{USERNAME},
         Path         => $ENV{PATH},
