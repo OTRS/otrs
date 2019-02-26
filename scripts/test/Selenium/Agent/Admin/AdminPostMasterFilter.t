@@ -63,7 +63,7 @@ $Selenium->RunTest(
         # Check client side validation.
         $Selenium->find_element( "#EditName", 'css' )->clear();
         $Selenium->execute_script("\$('#Submit').click();");
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#EditName.Error").length' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#EditName.Error").length;' );
 
         $Self->Is(
             $Selenium->execute_script(
@@ -105,7 +105,7 @@ $Selenium->RunTest(
         my $Count                = 1;
         for my $BreadcrumbText ( $SecondBreadcrumbText, $ThirdBreadcrumbText ) {
             $Self->Is(
-                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim();"),
                 $BreadcrumbText,
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
             );
@@ -201,7 +201,7 @@ $Selenium->RunTest(
         $ThirdBreadcrumbText = $LanguageObject->Translate('Edit PostMaster Filter') . ": $PostMasterName";
         for my $BreadcrumbText ( $SecondBreadcrumbText, $ThirdBreadcrumbText ) {
             $Self->Is(
-                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
+                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim();"),
                 $BreadcrumbText,
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
             );
@@ -267,11 +267,16 @@ $Selenium->RunTest(
         $Selenium->find_element( "#SetValue1", 'css' )->send_keys($PostMasterPriority);
         $Selenium->execute_script("\$('#Submit').click();");
 
-        # Wait for dialog to appears.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#DialogButton1").length;' );
+        # Wait for dialog to appears and event to load.
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '#DialogButton1',
+            Event       => 'click',
+        );
 
         # Confirm JS error.
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
+
+        $Selenium->WaitFor( JavaScript => 'return $("#EditName.Error").length;' );
 
         # Verify duplicated name error.
         $Self->Is(
@@ -307,11 +312,16 @@ $Selenium->RunTest(
         $Selenium->find_element( "#EditName", 'css' )->send_keys($PostMasterName);
         $Selenium->execute_script("\$('#Submit').click();");
 
-        # Wait for dialog to appears.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#DialogButton1").length;' );
+        # Wait for dialog to appears and event to load.
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '#DialogButton1',
+            Event       => 'click',
+        );
 
         # Confirm JS error.
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
+
+        $Selenium->WaitFor( JavaScript => 'return $("#EditName.Error").length;' );
 
         # Verify duplicated name error.
         $Self->Is(
@@ -337,6 +347,12 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), $PostMasterName3 ) > -1,
             "$PostMasterName2 edited second PostMasterFilter found on page",
+        );
+
+        # Wait for click event for delete second PostMasterFilter.
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => "a[data-query-string*='Subaction=Delete;Name=$PostMasterName3']",
+            Event       => 'click',
         );
 
         # Delete second PostMasterFilter.
@@ -370,6 +386,12 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), $PostMasterName3 ) == -1,
             "Second PostMasterFilter '$PostMasterName3' is deleted"
+        );
+
+        # Wait for click event for delete first PostMasterFilter.
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => "a[data-query-string*='Subaction=Delete;Name=$PostMasterName']",
+            Event       => 'click',
         );
 
         # Delete first PostMasterFilter.
