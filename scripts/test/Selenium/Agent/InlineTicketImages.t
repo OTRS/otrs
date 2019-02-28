@@ -111,11 +111,20 @@ my $DeleteSampleEmail = sub {
     );
 
     # Delete ticket
-    my $TicketDeleted = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $TicketDeleted = $TicketObject->TicketDelete(
         TicketID => $Data->{TicketID},
         UserID   => 1,
     );
 
+    # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
+    if ( !$TicketDeleted ) {
+        sleep 3;
+        $TicketDeleted = $TicketObject->TicketDelete(
+            TicketID => $Data->{TicketID},
+            UserID   => 1,
+        );
+    }
     $Self->True(
         $TicketDeleted,
         'Ticket deleted.',

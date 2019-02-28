@@ -234,6 +234,14 @@ $Selenium->RunTest(
             UserID   => $TestUserID,
         );
 
+        # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
+        if ( !$Success ) {
+            sleep 3;
+            $Success = $TicketObject->TicketDelete(
+                TicketID => $TicketIDs[0],
+                UserID   => $TestUserID,
+            );
+        }
         $Self->True(
             $Success,
             "Process ticket ID $TicketIDs[0] is deleted",
