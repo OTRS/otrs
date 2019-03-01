@@ -1,4 +1,5 @@
 #6.0.18 ????-??-??
+ - 2019-03-01 Fixed bug#[14405](https://bugs.otrs.org/show_bug.cgi?id=14405) - Customers can't login if DER encoded S/MIME certs are fetched.
  - 2019-02-28 Fixed bug#[14245](https://bugs.otrs.org/show_bug.cgi?id=14245) - Expired PGP and S/MIME keys are not shown.
  - 2019-02-26 Fixed bug#[14337](https://bugs.otrs.org/show_bug.cgi?id=14337) - Registration - Can not register system Need Data OSVersion.
  - 2019-02-25 Fixed bug#[14393](https://bugs.otrs.org/show_bug.cgi?id=14393) - TicketUpdate.pm not setting original "To" value.
