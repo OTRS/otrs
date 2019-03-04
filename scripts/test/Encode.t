@@ -9,6 +9,7 @@
 use strict;
 use warnings;
 use vars (qw($Self));
+use utf8;
 
 use Kernel::Config;
 
@@ -41,39 +42,39 @@ my $EncodeObject = Kernel::System::Encode->new(
         },
         {
             Name          => 'Convert()',
-            Input         => 'abc123äöü',
-            Result        => 'abc123äöü',
+            Input         => 'abc123ï¿½ï¿½ï¿½',
+            Result        => 'abc123ï¿½ï¿½ï¿½',
             InputCharset  => 'utf8',
             ResultCharset => 'utf8',
             UTF8          => 1,
         },
         {
             Name          => 'Convert()',
-            Input         => 'abc123äöü',
-            Result        => 'abc123äöü',
+            Input         => 'abc123ï¿½ï¿½ï¿½',
+            Result        => 'abc123ï¿½ï¿½ï¿½',
             InputCharset  => 'iso-8859-15',
             ResultCharset => 'utf8',
             UTF8          => 1,
         },
         {
             Name          => 'Convert()',
-            Input         => 'abc123äöü',
-            Result        => 'abc123äöü',
+            Input         => 'abc123ï¿½ï¿½ï¿½',
+            Result        => 'abc123ï¿½ï¿½ï¿½',
             InputCharset  => 'utf8',
             ResultCharset => 'utf-8',
             UTF8          => 1,
         },
         {
             Name          => 'Convert()',
-            Input         => 'abc123äöü',
-            Result        => 'abc123äöü',
+            Input         => 'abc123ï¿½ï¿½ï¿½',
+            Result        => 'abc123ï¿½ï¿½ï¿½',
             InputCharset  => 'utf8',
             ResultCharset => 'iso-8859-15',
             UTF8          => 1,
         },
         {
             Name          => 'Convert()',
-            Input         => 'abc123äöü',
+            Input         => 'abc123ï¿½ï¿½ï¿½',
             Result        => 'abc123???',
             InputCharset  => 'utf8',
             ResultCharset => 'iso-8859-1',
