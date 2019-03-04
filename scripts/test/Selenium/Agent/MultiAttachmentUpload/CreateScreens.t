@@ -28,6 +28,17 @@ $Selenium->RunTest(
             Value => '68000'
         );
 
+        # Disable SessionUseCookie. See bug#14432.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'SessionUseCookie',
+            Value => 0,
+        );
+
+        # Get all sessions before login.
+        my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+        my @PreLoginSessions  = $AuthSessionObject->GetAllSessionIDs();
+
         my $Language = 'en';
 
         # Create test user and login.
@@ -50,12 +61,33 @@ $Selenium->RunTest(
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
         my $ScriptAlias  = $ConfigObject->Get('ScriptAlias');
         my $Home         = $ConfigObject->Get('Home');
+        my $SessionName  = $ConfigObject->Get('SessionName');
+        my $SessionToken;
+
+        # Get all session after login.
+        my @PostLoginSessions = $AuthSessionObject->GetAllSessionIDs();
+
+        # If there are no other sessions before login, take token from only available one.
+        if ( !scalar @PreLoginSessions ) {
+            $SessionToken = $PostLoginSessions[0];
+        }
+
+        # If there are more sessions, find current logged one by looking at the difference.
+        else {
+            my %Difference;
+            @Difference{@PostLoginSessions} = @PostLoginSessions;
+            delete @Difference{@PreLoginSessions};
+            $SessionToken = ( keys %Difference )[0];
+        }
 
         # Check screens.
         for my $Action (qw(AgentTicketPhone AgentTicketEmail))
         {
 
-            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=$Action");
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=$Action;$SessionName=$SessionToken");
+            $Selenium->WaitFor(
+                JavaScript => 'return typeof($) === "function" && $(".DnDUpload").length;'
+            );
 
             # Check DnDUpload.
             my $Element = $Selenium->find_element( ".DnDUpload", 'css' );

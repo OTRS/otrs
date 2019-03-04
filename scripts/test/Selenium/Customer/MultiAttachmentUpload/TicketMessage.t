@@ -22,6 +22,17 @@ $Selenium->RunTest(
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+        # Disable SessionUseCookie. See bug#14432.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'SessionUseCookie',
+            Value => 0,
+        );
+
+        # Get all sessions before login.
+        my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+        my @PreLoginSessions  = $AuthSessionObject->GetAllSessionIDs();
+
         my $Language = 'en';
 
         # Create test customer user and login.
@@ -40,10 +51,30 @@ $Selenium->RunTest(
             Password => $TestCustomerUserLogin,
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-        my $Home        = $ConfigObject->Get('Home');
+        my $ScriptAlias              = $ConfigObject->Get('ScriptAlias');
+        my $Home                     = $ConfigObject->Get('Home');
+        my $CustomerPanelSessionName = $ConfigObject->Get('CustomerPanelSessionName');
+        my $CustomerPanelSessionToken;
 
-        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketMessage");
+        # Get all session after login.
+        my @PostLoginSessions = $AuthSessionObject->GetAllSessionIDs();
+
+        # If there are no other sessions before login, take token from only available one.
+        if ( !scalar @PreLoginSessions ) {
+            $CustomerPanelSessionToken = $PostLoginSessions[0];
+        }
+
+        # If there are more sessions, find current logged one by looking at the difference.
+        else {
+            my %Difference;
+            @Difference{@PostLoginSessions} = @PostLoginSessions;
+            delete @Difference{@PreLoginSessions};
+            $CustomerPanelSessionToken = ( keys %Difference )[0];
+        }
+
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}customer.pl?Action=CustomerTicketMessage;$CustomerPanelSessionName=$CustomerPanelSessionToken"
+        );
 
         # Check DnDUpload.
         my $Element = $Selenium->find_element( ".DnDUpload", 'css' );
