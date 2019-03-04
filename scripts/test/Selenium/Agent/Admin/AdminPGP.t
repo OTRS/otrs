@@ -42,7 +42,7 @@ $Selenium->RunTest(
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # Create test PGP path and set it in sysConfig.
-        my $PGPPath = $ConfigObject->Get('Home') . "/var/tmp/pgp";
+        my $PGPPath = $ConfigObject->Get('Home') . "/var/tmp/pgp" . $Helper->GetRandomID();
         mkpath( [$PGPPath], 0, 0770 );    ## no critic
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');

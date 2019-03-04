@@ -36,7 +36,7 @@ $Helper->ConfigSettingChange(
     Value => 0,
 );
 
-my $PGPPath = $ConfigObject->Get('Home') . "/var/tmp/pgp";
+my $PGPPath = $ConfigObject->Get('Home') . "/var/tmp/pgp" . $Helper->GetRandomID();
 mkpath( [$PGPPath], 0, 0770 );    ## no critic
 
 # Enable PGP in config.
