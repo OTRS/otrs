@@ -231,6 +231,11 @@ $Selenium->RunTest(
         # Force sub menus to be visible in order to be able to click one of the links.
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('#nav-Miscellaneous-container').css('visibility') == 'visible' && \$('#nav-Miscellaneous-container').css('height') != '0px';"
+        );
+
         $Selenium->find_element("//*[text()='History']")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
