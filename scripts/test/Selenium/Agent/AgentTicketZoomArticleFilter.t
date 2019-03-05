@@ -411,11 +411,15 @@ $Selenium->RunTest(
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
             $Selenium->WaitFor(
-                JavaScript => "return typeof(\$) === 'function' && \$('#ArticleViewSettings').length && \$.active == 0;"
+                JavaScript => "return typeof(\$) === 'function' && \$.active == 0;"
+            );
+
+            $Selenium->WaitForjQueryEventBound(
+                CSSSelector => "#ArticleViewSettings",
             );
 
             # Set timeline view.
-            $Selenium->find_element( "#ArticleViewSettings", 'css' )->click();
+            $Selenium->execute_script("\$('#ArticleViewSettings').click();");
             $Selenium->WaitFor( JavaScript => 'return $(".Dialog:visible").length && $("#ArticleView").length;' );
 
             $Selenium->InputFieldValueSet(
