@@ -17,7 +17,7 @@ use Kernel::Language;
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # Check if needed frontend module is registered in sysconfig.
-return 1 if $ConfigObject->Get('Frontend::Module')->{AdminRegistration};
+return 1 if !$ConfigObject->Get('Frontend::Module')->{AdminRegistration};
 
 # Fake a running daemon.
 my $NodeID  = $ConfigObject->Get('NodeID') || 1;

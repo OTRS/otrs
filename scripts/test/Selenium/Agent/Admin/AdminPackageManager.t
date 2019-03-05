@@ -17,7 +17,7 @@ my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
 
 # Check if needed frontend module is registered in sysconfig.
-return 1 if $ConfigObject->Get('Frontend::Module')->{AdminPackageManager};
+return 1 if !$ConfigObject->Get('Frontend::Module')->{AdminPackageManager};
 
 my @List = $PackageObject->RepositoryList(
     Result => 'short',
