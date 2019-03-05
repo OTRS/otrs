@@ -27,7 +27,14 @@ $Selenium->RunTest(
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::RichText',
-            Value => 1
+            Value => 1,
+        );
+
+        # do not check RichText enhanced mode
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Frontend::RichText::EnhancedMode',
+            Value => 0,
         );
 
         my $Language      = 'de';
