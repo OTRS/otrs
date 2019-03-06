@@ -1430,7 +1430,7 @@ my @Tests = (
             TicketCreateTimeNewerDate => $Kernel::OM->Create(
                 'Kernel::System::DateTime',
                 ObjectParams => {
-                    Epoch => $StartTime->ToEpoch() + 10,
+                    Epoch => $StartTime->ToEpoch() + 100,
                 },
             )->ToString(),
             SortBy  => 'Ticket',    # force order, because the Age (default) can be the same
