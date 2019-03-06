@@ -140,6 +140,7 @@ for my $TargetUserID ( $TestUserID1, $TestUserID2, $TestUserID3 ) {
     for my $ChildIndex ( 1 .. $ChildCount ) {
 
         my %Data = %{ $ChildData{$ChildIndex} };
+        next CHILDINDEX if !$Data{DeploymentID};
 
         $Self->Is(
             $DeploymentIDs{ $Data{DeploymentID} } || 0,
@@ -148,8 +149,6 @@ for my $TargetUserID ( $TestUserID1, $TestUserID2, $TestUserID3 ) {
         );
 
         $DeploymentIDs{ $Data{DeploymentID} } = 1;
-
-        next CHILDINDEX if !$Data{DeploymentID};
 
         my $Success = $Kernel::OM->Get('Kernel::System::SysConfig::DB')->DeploymentDelete(
             DeploymentID => $Data{DeploymentID},
