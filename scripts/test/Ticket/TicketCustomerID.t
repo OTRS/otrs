@@ -12,11 +12,9 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
 my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
 my $TicketObject          = $Kernel::OM->Get('Kernel::System::Ticket');
 
-# get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase  => 1,
@@ -25,9 +23,11 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+my $RandomID = $Helper->GetRandomID();
+
 my @CustomerCompanyIDs;
 for my $Item ( 1 .. 3 ) {
-    my $CustomerCompany = 'CustomerCompany' . $Helper->GetRandomID();
+    my $CustomerCompany = 'CustomerCompany' . $Item . $RandomID;
     push @CustomerCompanyIDs, $CustomerCompany;
     my $CustomerCompanyID = $CustomerCompanyObject->CustomerCompanyAdd(
         CustomerID             => $CustomerCompany,
