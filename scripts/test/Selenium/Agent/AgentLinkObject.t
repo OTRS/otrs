@@ -565,6 +565,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[0] );
+        $Selenium->VerifiedRefresh();
 
         # Make sure they are really linked.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#WidgetTicket").length;' );
