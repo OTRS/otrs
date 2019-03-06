@@ -228,22 +228,9 @@ $Selenium->RunTest(
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
         );
 
-        # Force sub menus to be visible in order to be able to click one of the links.
-        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
-
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return \$('#nav-Miscellaneous-container').css('visibility') == 'visible' && \$('#nav-Miscellaneous-container').css('height') != '0px';"
-        );
-
-        $Selenium->find_element("//*[text()='History']")->click();
-
-        $Selenium->WaitFor( WindowCount => 2 );
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
-
-        # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length;' );
+        # Navigate to AgentTicketHistory of created test ticket.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('.CancelClosePopup').length;" );
 
         # Confirm ticket move action.
         my $MoveMsg = "Changed queue to \"Misc\" (4) from \"Raw\" (2).";
@@ -252,15 +239,11 @@ $Selenium->RunTest(
             'Ticket move action completed'
         );
 
-        # Click on close window and switch back screen.
-        $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('a[title*=\"Delete this ticket\"]').length;"
+        );
 
-        $Selenium->WaitFor( WindowCount => 1 );
-        $Selenium->switch_to_window( $Handles->[0] );
-
-        # Test bug #11854 ( http://bugs.otrs.org/show_bug.cgi?id=11854 ).
-        # ACL restriction on queue which is destination queue for 'Spam' menu in AgentTicketZoom.
-        # Get error message.
         my $ErrorMessage
             = "This ticket does not exist, or you don't have permissions to access it in its current state.";
 
