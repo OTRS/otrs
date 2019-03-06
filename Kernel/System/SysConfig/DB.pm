@@ -2810,7 +2810,7 @@ sub ModifiedSettingAdd {
     if ( $Param{Name} ne $DefaultSetting{Name} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Name is Invalid!",
+            Message  => "Name doesn't match ('$Param{Name}')! It should be '$DefaultSetting{Name}'.",
         );
 
         return;
