@@ -12,6 +12,11 @@ use utf8;
 
 use vars (qw($Self));
 
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+# Check if needed frontend module is registered in sysconfig.
+return 1 if !$ConfigObject->Get('Frontend::Module')->{AdminSelectBox};
+
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
