@@ -1614,6 +1614,11 @@ $Selenium->RunTest(
 
             my $Prefix = ".WidgetSimple[data-name='$Test->{Name}']";
 
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$(\"$Prefix\").length;"
+            );
+
             $Selenium->execute_script(
                 "\$(\"$Prefix\")[0].scrollIntoView(true);",
             );
@@ -1624,10 +1629,10 @@ $Selenium->RunTest(
 
                 if ( $CommandType eq 'Click' ) {
                     $Selenium->WaitFor(
-                        JavaScript => 'return $("' . "$Prefix $Value" . '").length',
+                        JavaScript => 'return $("' . "$Prefix $Value" . '").length;',
                     );
                     $Selenium->WaitFor(
-                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
+                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0;',
                     );
 
                     # Give JS some time to do the stuff.
@@ -1658,16 +1663,16 @@ $Selenium->RunTest(
                     else {
                         $Selenium->WaitFor(
                             Time       => 120,
-                            JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
+                            JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0;',
                         );
                     }
                 }
                 elsif ( $CommandType eq 'JqueryClick' ) {
                     $Selenium->WaitFor(
-                        JavaScript => 'return $("' . "$Prefix $Value" . '").length',
+                        JavaScript => 'return $("' . "$Prefix $Value" . '").length;',
                     );
                     $Selenium->WaitFor(
-                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
+                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0;',
                     );
 
                     $Selenium->WaitForjQueryEventBound(
@@ -1699,7 +1704,7 @@ $Selenium->RunTest(
                     else {
                         $Selenium->WaitFor(
                             Time       => 120,
-                            JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
+                            JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0;',
                         );
                     }
                 }
@@ -1712,11 +1717,13 @@ $Selenium->RunTest(
 
                     $Selenium->WaitFor(
                         Time       => 120,
-                        JavaScript => 'return typeof($) === "function" && $("' . "$Prefix $Value" . ':visible").length',
+                        JavaScript => 'return typeof($) === "function" && $("'
+                            . "$Prefix $Value"
+                            . ':visible").length;',
                     );
                     $Selenium->WaitFor(
                         Time       => 120,
-                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
+                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0;',
                     );
                 }
                 elsif ( $CommandType eq 'ExpectAlert' ) {
@@ -1738,7 +1745,7 @@ $Selenium->RunTest(
 
                     $Selenium->WaitFor(
                         Time       => 120,
-                        JavaScript => 'return typeof($) === "function" && $("' . "$Prefix $Value" . '").length == 0',
+                        JavaScript => 'return typeof($) === "function" && $("' . "$Prefix $Value" . '").length == 0;',
                     );
                 }
                 elsif ( $CommandType eq 'Select' ) {
@@ -1746,7 +1753,7 @@ $Selenium->RunTest(
                     $Selenium->WaitFor(
                         Time       => 120,
                         JavaScript => 'return typeof($) === "function" && $("' . $Prefix
-                            . '").hasClass("HasOverlay") == 0',
+                            . '").hasClass("HasOverlay") == 0;',
                     );
 
                     # JS needs more escapes.
@@ -1755,7 +1762,7 @@ $Selenium->RunTest(
 
                     $Selenium->WaitFor(
                         Time       => 120,
-                        JavaScript => 'return typeof($) === "function" && $("' . "$Prefix $JSValue" . '").length',
+                        JavaScript => 'return typeof($) === "function" && $("' . "$Prefix $JSValue" . '").length;',
                     );
 
                     $SelectedItem = $Selenium->find_element( "$Prefix $Value", "css" );
@@ -1766,7 +1773,7 @@ $Selenium->RunTest(
                     $Selenium->WaitFor(
                         Time       => 120,
                         JavaScript => 'return typeof($) === "function" && $("' . $Prefix
-                            . '").hasClass("HasOverlay") == 0',
+                            . '").hasClass("HasOverlay") == 0;',
                     );
 
                     $Selenium->execute_script(
@@ -1778,7 +1785,7 @@ $Selenium->RunTest(
                     # Wait for any tasks to complete.
                     $Selenium->WaitFor(
                         JavaScript => 'return typeof($) === "function" && $("' . $Prefix
-                            . '").hasClass("HasOverlay") == 0',
+                            . '").hasClass("HasOverlay") == 0;',
                     );
 
                     $Selenium->InputFieldValueSet(
@@ -1818,13 +1825,13 @@ $Selenium->RunTest(
         );
 
         $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $("#CloudService > i:visible").length',
+            JavaScript => 'return typeof($) === "function" && $("#CloudService > i:visible").length;',
         );
 
-        $Selenium->execute_script("\$('#CloudService > i').trigger('click')");
+        $Selenium->execute_script("\$('#CloudService > i').trigger('click');");
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#ConfigTree ul > li:first > ul > li:first:visible").length',
+                'return typeof($) === "function" && $("#ConfigTree ul > li:first > ul > li:first:visible").length;',
         );
 
         # Check navigation for disabled nodes.
