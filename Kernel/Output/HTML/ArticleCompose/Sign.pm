@@ -394,7 +394,7 @@ sub _PickSignKeyID {
     # Check if signing key is still valid for the selected backend.
     if (
         $Param{SignKeyID}
-        && $KeyList{ $Param{SignKeyID} && $KeyList{ $Param{SignKeyID} } !~ m/WARNING: EXPIRED KEY/ }
+        && $KeyList{ $Param{SignKeyID} } && $KeyList{ $Param{SignKeyID} } !~ m/WARNING: EXPIRED KEY/
         )
     {
         return $Param{SignKeyID};
