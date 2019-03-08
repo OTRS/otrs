@@ -162,6 +162,9 @@ $Selenium->RunTest(
         );
 
         # Close history window.
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '.CancelClosePopup',
+        );
         $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
 
         # Switch window back to agent ticket zoom view of created test ticket.
