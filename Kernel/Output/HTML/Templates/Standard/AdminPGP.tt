@@ -149,7 +149,7 @@
                         </tr>
 [% RenderBlockEnd("NoDataFoundMsg") %]
 [% RenderBlockStart("Row") %]
-                        <tr>
+                        <tr [% IF Data.Status != 'good' %]class="Error"[% END %]>
                             <td>[% Data.Type | html %]</td>
                             <td>[% Data.Status | html %]</td>
                             <td>[% Data.Identifier | truncate(80) | html %]</td>

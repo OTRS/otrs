@@ -656,6 +656,11 @@ sub _Overview {
                 $Attributes->{Type}    = 'Invalid';
                 $Attributes->{Subject} = "The file: '$Attributes->{Filename}' is invalid";
             }
+
+            if ( defined $Attributes->{EndDate} && $SMIMEObject->KeyExpiredCheck( EndDate => $Attributes->{EndDate} ) )
+            {
+                $Attributes->{Expired} = 1;
+            }
             $LayoutObject->Block(
                 Name => 'Row',
                 Data => $Attributes,

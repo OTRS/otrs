@@ -251,8 +251,7 @@ sub Data {
                         $Expires = "[$DataRef->{Expires}]";
                     }
 
-                    my $Status = '';
-                    $Status = '[' . $DataRef->{Status} . ']';
+                    my $Status = '[' . $DataRef->{Status} . ']';
                     if ( $DataRef->{Status} eq 'expired' ) {
                         $Status = '[WARNING: EXPIRED KEY]';
                     }
@@ -280,43 +279,10 @@ sub Data {
             );
             for my $DataRef (@PublicKeys) {
                 my $Expired = '';
-                my $EndDate = '';
-                if ( $DataRef->{EndDate} ) {
-                    $EndDate = "[$DataRef->{EndDate}]";
+                my $EndDate = ( defined $DataRef->{EndDate} ) ? "[$DataRef->{EndDate}]" : '';
 
-                    # EndDate is in this fomrmatat: May 12 23:50:40 2018 GMT
-                    # It is transformed in supported format for DateTimeObject: 2018-05-12T23:50:40GMT
-                    if ( $DataRef->{EndDate} =~ /(\w+)\s(\d\d)\s(\d\d:\d\d:\d\d)\s(\d\d\d\d)\s(\w+)/ ) {
-                        my %Month = (
-                            Jan => '01',
-                            Feb => '02',
-                            Mar => '03',
-                            Apr => '04',
-                            May => '05',
-                            Jun => '06',
-                            Jul => '07',
-                            Aug => '08',
-                            Sep => '09',
-                            Oct => '10',
-                            Nov => '11',
-                            Dec => '12',
-                        );
-
-                        my $EndDateTimeObject = $Kernel::OM->Create(
-                            'Kernel::System::DateTime',
-                            ObjectParams => {
-                                String => "$4-" . $Month{$1} . "-$2" . "T$3" . $4,
-                            },
-                        );
-                        my $CurrentTimeObject = $Kernel::OM->Create(
-                            'Kernel::System::DateTime',
-                        );
-
-                        # Check if key is expired.
-                        if ( $EndDateTimeObject->Compare( DateTimeObject => $CurrentTimeObject ) == -1 ) {
-                            $Expired = ' [WARNING: EXPIRED KEY]';
-                        }
-                    }
+                if ( defined $DataRef->{EndDate} && $SMIMEObject->KeyExpiredCheck( EndDate => $DataRef->{EndDate} ) ) {
+                    $Expired = ' [WARNING: EXPIRED KEY]';
                 }
 
                 $KeyList{"SMIME::$DataRef->{Filename}::$DataRef->{Email}"}
@@ -486,6 +452,8 @@ sub _PickEncryptKeyIDs {
     for my $EncryptKeyID ( @{ $Param{CryptKeyID} } ) {
         next ENCRYPTKEYID if !$EncryptKeyID;
         next ENCRYPTKEYID if !$KeyList{$EncryptKeyID};
+        next ENCRYPTKEYID if $KeyList{$EncryptKeyID} =~ m/WARNING: EXPIRED KEY/;
+        next ENCRYPTKEYID if $KeyList{$EncryptKeyID} =~ m/WARNING: REVOKED KEY/;
 
         $SelectedEncryptKeyIDs{$EncryptKeyID} = 1;
     }
@@ -526,6 +494,7 @@ sub _PickEncryptKeyIDs {
             else {
                 @PublicKeys = $EncryptObject->CertificateSearch(
                     Search => $Address->address(),
+                    Valid  => 1,
                 );
             }
 

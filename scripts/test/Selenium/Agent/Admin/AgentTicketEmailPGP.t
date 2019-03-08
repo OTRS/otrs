@@ -197,9 +197,18 @@ $Selenium->RunTest(
             "return \$('#SignKeyID option:selected').text();"
         );
 
+        $Self->False(
+            index( $Option, 'WARNING: EXPIRED KEY' ) > -1,
+            "Selected signing key is not expired",
+        );
+
+        $Option = $Selenium->execute_script(
+            "return \$('#SignKeyID option:eq(2)').text();"
+        );
+
         $Self->True(
-            $Option =~ m/WARNING: EXPIRED KEY/,
-            "Selected signing key is expired",
+            index( $Option, 'WARNING: EXPIRED KEY' ) > -1,
+            "There is another signing, that is expired",
         );
 
         # Set test PGP in config so we can delete them.

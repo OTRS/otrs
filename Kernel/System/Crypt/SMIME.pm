@@ -640,6 +640,7 @@ search a local certificate
 
     my @Result = $CryptObject->CertificateSearch(
         Search => 'some text to search',
+        Valid  => 1
     );
 
 =cut
@@ -648,6 +649,7 @@ sub CertificateSearch {
     my ( $Self, %Param ) = @_;
 
     my $Search = $Param{Search} || '';
+    $Param{Valid} //= 0;
 
     # 1 - Get certificate list
     my @CertList = $Self->CertificateList();
@@ -658,7 +660,8 @@ sub CertificateSearch {
         # 2 - For the certs in list get its attributes and add them to @Results
         @Result = $Self->_CheckCertificateList(
             CertificateList => \@CertList,
-            Search          => $Search
+            Search          => $Search,
+            Valid           => $Param{Valid},
         );
     }
 
@@ -678,7 +681,8 @@ sub CertificateSearch {
             if (@CertList) {
                 @Result = $Self->_CheckCertificateList(
                     CertificateList => \@CertList,
-                    Search          => $Search
+                    Search          => $Search,
+                    Valid           => $Param{Valid},
                 );
             }
         }
@@ -692,9 +696,11 @@ sub _CheckCertificateList {
 
     my @CertList = @{ $Param{CertificateList} };
     my $Search   = $Param{Search} || '';
+    $Param{Valid} //= 0;
 
     my @Result;
 
+    FILE:
     for my $Filename (@CertList) {
         my $Certificate = $Self->CertificateGet( Filename => $Filename );
         my %Attributes  = $Self->CertificateAttributes(
@@ -718,6 +724,15 @@ sub _CheckCertificateList {
         $Attributes{Filename} = $Filename;
 
         if ($Hit) {
+
+            my $Expired = 0;
+            if ( $Param{Valid} ) {
+                $Expired = $Self->KeyExpiredCheck(
+                    EndDate => $Attributes{EndDate},
+                );
+            }
+
+            next FILE if $Expired;
             push @Result, \%Attributes;
         }
     }
@@ -1312,6 +1327,7 @@ returns private keys
 
     my @Result = $CryptObject->PrivateSearch(
         Search => 'some text to search',
+        Valid  => 1  # optional
     );
 
 =cut
@@ -1320,9 +1336,11 @@ sub PrivateSearch {
     my ( $Self, %Param ) = @_;
 
     my $Search = $Param{Search} || '';
+    $Param{Valid} //= 0;
     my @Result;
     my @Certificates = $Self->CertificateList();
 
+    FILE:
     for my $File (@Certificates) {
         my $Certificate = $Self->CertificateGet( Filename => $File );
         my %Attributes  = $Self->CertificateAttributes(
@@ -1346,10 +1364,86 @@ sub PrivateSearch {
         if ( $Hit && $Attributes{Private} && $Attributes{Private} eq 'Yes' ) {
             $Attributes{Type}     = 'key';
             $Attributes{Filename} = $File;
+
+            my $Expired = 0;
+            if ( $Param{Valid} ) {
+                $Expired = $Self->KeyExpiredCheck(
+                    EndDate => $Attributes{EndDate},
+                );
+            }
+
+            next FILE if $Expired;
             push @Result, \%Attributes;
         }
     }
+
     return @Result;
+}
+
+=head2 KeyExpiredCheck()
+
+returns if SMIME key is expired
+
+    my $Valid = $CryptObject->KeyExpiredCheck(
+        EndDate => 'May 12 23:50:40 2018 GMT',
+    );
+
+=cut
+
+sub KeyExpiredCheck {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{EndDate} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need EndDate!"
+        );
+        return;
+    }
+
+    my %Months = (
+        Jan => '01',
+        Feb => '02',
+        Mar => '03',
+        Apr => '04',
+        May => '05',
+        Jun => '06',
+        Jul => '07',
+        Aug => '08',
+        Sep => '09',
+        Oct => '10',
+        Nov => '11',
+        Dec => '12',
+    );
+
+    # EndDate is in this format: May 12 23:50:40 2018 GMT
+    # It is transformed in supported format for DateTimeObject: 2018-05-12T23:50:40GMT
+    if ( $Param{EndDate} =~ /(.+?)\s(.+?)\s(\d\d:\d\d:\d\d)\s(\d\d\d\d)\s(\w+)/ ) {
+        my $Day   = int($2);
+        my $Month = $Months{$1};
+        my $Year  = $4;
+
+        if ( $Day < 10 ) {
+            $Day = "0$Day";
+        }
+
+        my $EndDateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => "$Year-" . $Month . "-" . $Day . "T$3" . $5,
+            },
+        );
+
+        my $CurrentTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+        );
+
+        # Check if key is expired.
+        if ( $EndDateTimeObject->Compare( DateTimeObject => $CurrentTimeObject ) == -1 ) {
+            return 1;
+        }
+    }
+    return;
 }
 
 =head2 PrivateAdd()
@@ -2308,12 +2402,12 @@ sub _FetchAttributesFromCert {
             $AttributesRef->{$DateType} =~ /(.+?)\s(.+?)\s(\d\d:\d\d:\d\d)\s(\d\d\d\d)/
             )
         {
-            my $Day   = $2;
+            my $Day   = int($2);
             my $Month = '';
             my $Year  = $4;
 
             if ( $Day < 10 ) {
-                $Day = "0" . int($Day);
+                $Day = "0$Day";
             }
 
             MONTH_KEY:

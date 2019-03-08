@@ -11,6 +11,7 @@ use warnings;
 use utf8;
 
 use vars (qw($Self));
+use File::Path qw(mkpath rmtree);
 
 use Kernel::System::EmailParser;
 use Kernel::Output::HTML::ArticleCheck::PGP;
@@ -33,6 +34,23 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 $Helper->ConfigSettingChange(
     Key   => 'CheckEmailAddresses',
     Value => 0,
+);
+
+my $PGPPath = $ConfigObject->Get('Home') . "/var/tmp/pgp";
+mkpath( [$PGPPath], 0, 0770 );    ## no critic
+
+# Enable PGP in config.
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'PGP',
+    Value => 1,
+);
+
+# Set PGP path in config.
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'PGP::Options',
+    Value => "--homedir $PGPPath --batch --no-tty --yes",
 );
 
 my $SendEmails = sub {
@@ -121,6 +139,7 @@ $ConfigObject->Set(
     Value => {
         '04A17B7A' => 'somepass',
         '114D1CB6' => 'somepass',
+        '667B04B9' => 'somepass',
     },
 );
 
@@ -188,6 +207,7 @@ for my $PGPKey (@Keys) {
 my %Search = (
     1 => 'unittest@example.com',
     3 => 'unittest3@example.com',
+    4 => 'pgptest@example.com',
 );
 
 my %Check = (
@@ -212,6 +232,17 @@ my %Check = (
         Expires          => 'never',
         Fingerprint      => '8C99 1F7D CFD0 5245 8DD7  F2E3 EC9A 3128 E023 689E',
         FingerprintShort => '8C991F7DCFD052458DD7F2E3EC9A3128E023689E',
+    },
+    4 => {
+        Type             => 'pub',
+        Identifier       => 'John Smith (Test PGP expired) <pgptest@example.com>',
+        Bit              => '1024',
+        Key              => '60F1602C',
+        KeyPrivate       => '667B04B9',
+        Created          => '2018-12-18',
+        Expires          => '2018-12-19',
+        Fingerprint      => '636A 848B CD5F 5746 43B0  B02A 0AEF 1EDB 60F1 602C',
+        FingerprintShort => '636A848BCD5F574643B0B02A0AEF1EDB60F1602C',
     },
 );
 
@@ -422,7 +453,6 @@ my @Tests = (
         VerifySignature => 0,
         Success         => 1,
     },
-
     {
         Name => 'PGP - send signed',
         Data => {
@@ -467,6 +497,30 @@ my @Tests = (
             EmailMissingCryptingKeys => ['Skip'],
         },
         UseSecondTicket  => 1,
+        VerifyDecryption => 0,
+        Success          => 0,
+    },
+    {
+        Name => 'PGP expired - send uncrypted',
+        Data => {
+            Events                   => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            RecipientEmail           => ['pgptest@example.com'],
+            EmailSecuritySettings    => ['1'],
+            EmailSigningCrypting     => ['PGPCrypt'],
+            EmailMissingCryptingKeys => ['Send'],
+        },
+        VerifyDecryption => 0,
+        Success          => 1,
+    },
+    {
+        Name => 'PGP expired - skip delivery',
+        Data => {
+            Events                   => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            RecipientEmail           => ['pgptest@example.com'],
+            EmailSecuritySettings    => ['1'],
+            EmailSigningCrypting     => ['PGPCrypt'],
+            EmailMissingCryptingKeys => ['Skip'],
+        },
         VerifyDecryption => 0,
         Success          => 0,
     },
@@ -597,6 +651,13 @@ continue {
     $Count++;
     undef $NotificationID;
 }
+
+# Remove test PGP path.
+$Success = rmtree( [$PGPPath] );
+$Self->True(
+    $Success,
+    "Directory deleted - '$PGPPath'",
+);
 
 # cleanup is done by RestoreDatabase.
 

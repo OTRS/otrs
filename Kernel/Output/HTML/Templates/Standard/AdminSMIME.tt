@@ -188,7 +188,7 @@
                         </tr>
 [% RenderBlockEnd("NoDataFoundMsg") %]
 [% RenderBlockStart("Row") %]
-                        <tr>
+                        <tr [% IF Data.Expired %] class="Error" title="Expired"[% END %]>
                             <td>
 
 [% RenderBlockStart("CertificateRelationAdd") %]

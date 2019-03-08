@@ -535,6 +535,58 @@ my @Tests = (
         VerifyDecryption => 0,
         Success          => 0,
     },
+    {
+        Name         => 'SMIME key expired - skip delivery',
+        FixedTimeSet => 1,
+        Data         => {
+            Events                   => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            RecipientEmail           => ['unittest@example.org'],
+            EmailSecuritySettings    => ['1'],
+            EmailSigningCrypting     => ['SMIMECrypt'],
+            EmailMissingCryptingKeys => ['Skip'],
+        },
+        VerifyDecryption => 0,
+        Success          => 0,
+    },
+    {
+        Name         => 'SMIME key expired - send uncrypted',
+        FixedTimeSet => 1,
+        Data         => {
+            Events                   => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            RecipientEmail           => ['unittest@example.org'],
+            EmailSecuritySettings    => ['1'],
+            EmailSigningCrypting     => ['SMIMECrypt'],
+            EmailMissingCryptingKeys => ['Send'],
+        },
+        VerifyDecryption => 0,
+        Success          => 1,
+    },
+    {
+        Name         => 'SMIME key expired - skip delivery',
+        FixedTimeSet => 1,
+        Data         => {
+            Events                   => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            RecipientEmail           => ['unittest@example.org'],
+            EmailSecuritySettings    => ['1'],
+            EmailSigningCrypting     => ['SMIMESignCrypt'],
+            EmailMissingCryptingKeys => ['Skip'],
+        },
+        VerifyDecryption => 0,
+        Success          => 0,
+    },
+    {
+        Name         => 'SMIME key expired - send uncrypted',
+        FixedTimeSet => 1,
+        Data         => {
+            Events                   => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            RecipientEmail           => ['unittest@example.org'],
+            EmailSecuritySettings    => ['1'],
+            EmailSigningCrypting     => ['SMIMESignCrypt'],
+            EmailMissingCryptingKeys => ['Send'],
+        },
+        VerifyDecryption => 0,
+        Success          => 1,
+    },
 
 );
 
@@ -548,6 +600,19 @@ for my $Test (@Tests) {
 
     # add transport setting
     $Test->{Data}->{Transports} = ['Email'];
+
+    if ( $Test->{FixedTimeSet} ) {
+
+        # create isolated time environment during test
+        $Helper->FixedTimeSet(
+            $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => '2026-10-20 00:00:00',
+                },
+            )->ToEpoch()
+        );
+    }
 
     $NotificationID = $NotificationEventObject->NotificationAdd(
         Name    => "JobName$Count-$RandomID",
@@ -599,6 +664,7 @@ for my $Test (@Tests) {
         );
     }
     else {
+
         # sanity check
         $Self->False(
             scalar @{$Emails},
