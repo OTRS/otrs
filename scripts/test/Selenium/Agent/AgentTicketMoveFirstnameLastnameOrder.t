@@ -127,15 +127,7 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
-
-        # Click on 'Move' and switch window.
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMove;TicketID=$TicketID' )]")->click();
-
-        $Selenium->WaitFor( WindowCount => 2 );
-        my $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
-
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketMove;TicketID=$TicketID");
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#DestQueueID').length" );
 
         # Change ticket queue.
@@ -148,14 +140,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText", 'css' )->send_keys("Body-QueueMove$RandomID");
         $Selenium->execute_script('$("#submitRichText").click();');
 
-        $Selenium->WaitFor( WindowCount => 1 );
-        $Selenium->switch_to_window( $Handles->[0] );
-        $Selenium->VerifiedRefresh();
-
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('#ArticleTable tbody .From a:contains(\"$Lastname, $Firstname ($UserLogin)\")').length;"
-        );
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # Check if the sender format is correct.
         $Self->Is(

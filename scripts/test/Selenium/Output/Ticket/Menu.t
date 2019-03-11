@@ -30,6 +30,13 @@ $Selenium->RunTest(
             );
         }
 
+        # Set to change queue for ticket in a new window.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::MoveType',
+            Value => 'link'
+        );
+
         # get menu config params
         my @TicketMenu = (
             {
@@ -179,17 +186,13 @@ $Selenium->RunTest(
         for my $MenuModulePre (@PreMenuModule) {
 
             my $NameForID;
-            if ( $MenuModulePre->{Name} eq 'Move' ) {
-                $NameForID = 'DestQueueID';
-            }
-            else {
-                $NameForID = $MenuModulePre->{Name};
-                $NameForID =~ s/ /-/g if ( $NameForID =~ m/ / );
-            }
+
+            $NameForID = $MenuModulePre->{Name};
+            $NameForID =~ s/ /-/g if ( $NameForID =~ m/ / );
 
             # check pre menu module link
             $Self->True(
-                $Selenium->find_element("//a[contains(\@href, \'Action=$MenuModulePre->{Action}' )]"),
+                $Selenium->find_elements("//a[contains(\@href, \'Action=$MenuModulePre->{Action}' )]")->[0],
                 "Ticket pre menu $MenuModulePre->{Name} is found"
             );
 
