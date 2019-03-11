@@ -497,6 +497,9 @@ $Selenium->RunTest(
         ) || die;
 
         # Select all links.
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '.Tabs div.Active .SelectAll',
+        );
         $Selenium->find_element( ".Tabs div.Active .SelectAll", "css" )->click();
 
         # Make sure it's selected.
