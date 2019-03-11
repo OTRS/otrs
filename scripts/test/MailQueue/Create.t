@@ -17,8 +17,7 @@ $Kernel::OM->ObjectParamAdd(
         RestoreDatabase => 1,
     },
 );
-
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $CreateMailQueueElement = sub {
     my %Param = @_;
@@ -42,13 +41,13 @@ my $CreateMailQueueElement = sub {
 # START THE TESTS
 
 # Ensure check mail addresses is enabled.
-$HelperObject->ConfigSettingChange(
+$Helper->ConfigSettingChange(
     Key   => 'CheckEmailAddresses',
     Value => 1,
 );
 
 # Disable MX record check.
-$HelperObject->ConfigSettingChange(
+$Helper->ConfigSettingChange(
     Key   => 'CheckMXRecord',
     Value => 0,
 );
@@ -106,9 +105,81 @@ $Self->True(
     'Trying to create a queue element with arrayref recipient.',
 );
 
+my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+my $QueueObject          = $Kernel::OM->Get('Kernel::System::Queue');
+my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+    ChannelName => 'Email',
+);
+
+# Create test queue.
+my $QueueName = 'Queue' . $Helper->GetRandomID();
+my $QueueID   = $QueueObject->QueueAdd(
+    Name            => $QueueName,
+    ValidID         => 1,
+    GroupID         => 1,
+    SystemAddressID => 1,
+    FollowUpID      => 1,
+    SalutationID    => 1,
+    SignatureID     => 1,
+    Comment         => 'UnitTest queue',
+    UserID          => 1,
+);
+$Self->True(
+    $QueueID,
+    "Test QueueAdd() - QueueID $QueueID",
+);
+
+# Create test ticket.
+my $TicketID = $TicketObject->TicketCreate(
+    Title        => 'UnitTest ticket one',
+    QueueID      => 1,
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'open',
+    CustomerID   => '12345',
+    CustomerUser => 'test@localunittest.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+$Self->True(
+    $TicketID,
+    "Test TicketCreate() - TicketID $TicketID",
+);
+
+# Create article for test ticket one.
+my $ArticleID = $ArticleBackendObject->ArticleCreate(
+    TicketID             => $TicketID,
+    IsVisibleForCustomer => 1,
+    SenderType           => 'customer',
+    Subject              => 'UnitTest article one',
+    From                 => '"test" <test@localunittest.com>',
+    To                   => $QueueName,
+    Body                 => 'UnitTest body',
+    Charset              => 'utf-8',
+    MimeType             => 'text/plain',
+    HistoryType          => 'PhoneCallCustomer',
+    HistoryComment       => 'Some free text!',
+    UserID               => 1,
+    UnlockOnAway         => 1,
+    AutoResponseType     => 'auto follow up',
+    OrigHeader           => {
+        From    => '"test" <test@localunittest.com>',
+        To      => $QueueName,
+        Subject => 'UnitTest article one',
+        Body    => 'UnitTest body',
+
+    },
+    Queue => $QueueName,
+);
+$Self->True(
+    $ArticleID,
+    "Test  ArticleCreate() - ArticleID $ArticleID",
+);
+
 for my $Idx ( 0 .. 1 ) {
     $Result = $CreateMailQueueElement->(
-        ArticleID => 1,
+        ArticleID => $ArticleID,
         MessageID => 'dummy',
     );
     my $TestType = $Idx ? 'False' : 'True';
@@ -120,7 +191,7 @@ for my $Idx ( 0 .. 1 ) {
 
 # Check if communication-log lookup was created.
 my $Item = $MailQueueObject->Get(
-    ArticleID => 1,
+    ArticleID => $ArticleID,
 );
 my $CommunicationLogDBObj = $Kernel::OM->Get(
     'Kernel::System::CommunicationLog::DB',
@@ -135,6 +206,6 @@ $Self->True(
     'Found communication-log lookup information for the queue element.',
 );
 
-# restore to the previous state is done by RestoreDatabase
+# Restore to the previous state is done by RestoreDatabase.
 
 1;

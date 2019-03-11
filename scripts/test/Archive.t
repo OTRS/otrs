@@ -61,6 +61,14 @@ for my $Index ( 0 .. 99 ) {
         next INDEX;
     }
 
+    if ( $Filename =~ /Cron|CHANGES/ ) {
+        $Self->True(
+            1,
+            "$Filename checksum is skipped",
+        );
+        next INDEX;
+    }
+
     my $Digest = $MainObject->MD5sum(
         Filename => $Filename,
     );
