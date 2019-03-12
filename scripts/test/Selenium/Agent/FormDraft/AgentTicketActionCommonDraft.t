@@ -266,33 +266,7 @@ $Selenium->RunTest(
             # Create Draft name.
             my $Title = $Test->{Module} . 'Draft' . $RandomID;
 
-            # Force sub menus to be visible in order to be able to click one of the links.
-            if ( $Test->{Module} eq 'Note' ) {
-                $Selenium->execute_script(
-                    '$("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
-                );
-                $Selenium->WaitFor( JavaScript => "return \$('#nav-Communication ul').css('opacity') == 1;" );
-            }
-            elsif ( $Test->{Module} eq 'Owner' || $Test->{Module} eq 'Responsible' ) {
-                $Selenium->execute_script(
-                    '$("#nav-People ul").css({ "height": "auto", "opacity": "100" });'
-                );
-                $Selenium->WaitFor( JavaScript => "return \$('#nav-People ul').css('opacity') == 1;" );
-            }
-            elsif ( $Test->{Module} eq 'FreeText' ) {
-                $Selenium->execute_script(
-                    '$("#nav-Miscellaneous ul").css({ "height": "auto", "opacity": "100" });'
-                );
-                $Selenium->WaitFor( JavaScript => "return \$('#nav-Miscellaneous ul').css('opacity') == 1;" );
-            }
-
-            # Click on module and switch window.
-            $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicket$Test->{Module};TicketID=$TicketID' )]")
-                ->click();
-
-            $Selenium->WaitFor( WindowCount => 2 );
-            $Handles = $Selenium->get_window_handles();
-            $Selenium->switch_to_window( $Handles->[1] );
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicket$Test->{Module};TicketID=$TicketID");
 
             # Wait until page has loaded, if necessary.
             $Selenium->WaitFor(
@@ -317,7 +291,6 @@ $Selenium->RunTest(
                 elsif ( $Test->{Fields}->{$Field}->{Type} eq 'Attachment' ) {
 
                     # Make the file upload field visible.
-                    $Selenium->VerifiedRefresh();
                     $Selenium->execute_script(
                         "\$('#FileUpload').css('display', 'block')"
                     );
@@ -381,18 +354,14 @@ $Selenium->RunTest(
                     'return typeof($) === "function" && $("#FormDraftTitle").length && $("#SaveFormDraft").length;'
             );
             $Selenium->find_element( "#FormDraftTitle", 'css' )->send_keys($Title);
-            $Selenium->find_element( "#SaveFormDraft",  'css' )->click();
+            $Selenium->find_element( "#SaveFormDraft",  'css' )->VerifiedClick();
 
-            # Switch back window.
-            $Selenium->WaitFor( WindowCount => 1 );
-            $Selenium->switch_to_window( $Handles->[0] );
-
-            # Refresh screen.
-            $Selenium->VerifiedRefresh();
+            # Navigate to zoom view of created test ticket.
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
             # Verify Draft is created in zoom screen.
             $Self->True(
-                index( $Selenium->get_page_source(), $Title ) > -1,
+                $Selenium->execute_script("return \$('#FormDraftTable a:contains(\"$Title\")').length;"),
                 "Draft for $Test->{Module} $Title is found",
             );
 
@@ -417,9 +386,6 @@ $Selenium->RunTest(
                 $ArticleID,
                 "Article ID $ArticleID is created",
             );
-
-            # Refresh screen.
-            $Selenium->VerifiedRefresh();
 
             # Click on test created Draft and switch window.
             $Selenium->find_element(
@@ -600,7 +566,7 @@ $Selenium->RunTest(
 
             # Verify Draft is updated.
             $Self->True(
-                index( $Selenium->get_page_source(), $Title ) > -1,
+                $Selenium->execute_script("return \$('#FormDraftTable a:contains(\"$Title\")').length;"),
                 "Draft for $Test->{Module} $Title is found",
             );
 
@@ -690,6 +656,9 @@ $Selenium->RunTest(
             $Selenium->WaitFor( WindowCount => 1 );
             $Selenium->switch_to_window( $Handles->[0] );
 
+            # Navigate to zoom view of created test ticket.
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+
             # Delete draft
             $Selenium->find_element( ".FormDraftDelete", 'css' )->click();
             $Selenium->WaitFor(
@@ -710,26 +679,14 @@ $Selenium->RunTest(
         }
 
         # Test for Save the draft without JSON error in window, bug#13556 https://bugs.otrs.org/show_bug.cgi?id=13556.
-        $Selenium->execute_script(
-            '$("#nav-Communication ul").css({ "height": "auto", "opacity": "100" });'
-        );
-        $Selenium->WaitFor( JavaScript => "return \$('#nav-Communication ul').css('opacity') == 1;" );
+        # Navigate to AgentTicketNote screen.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketNote;TicketID=$TicketID");
 
-        # Click on 'Note' and switch window.
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
-
-        $Selenium->WaitFor( WindowCount => 2 );
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
-
-        # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => "#FormDraftSave",
         );
 
         # Save form in Draft.
-        $Selenium->VerifiedRefresh();
         $Selenium->execute_script("\$('#FormDraftSave').click();");
         $Selenium->WaitFor(
             JavaScript =>
