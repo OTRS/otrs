@@ -37,6 +37,13 @@ $Selenium->RunTest(
 
             @TaskList = $SchedulerDBObject->TaskList();
             if (@TaskList) {
+                my $Tasks = $Kernel::OM->Get('Kernel::System::Main')->Dump(
+                    \@TaskList,
+                );
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Tasks running: $Tasks!"
+                );
                 die "Daemon tasks are not finished after $WaitTime seconds!";
             }
         };
