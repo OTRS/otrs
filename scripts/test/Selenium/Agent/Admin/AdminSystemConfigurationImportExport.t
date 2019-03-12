@@ -14,11 +14,18 @@ use vars (qw($Self));
 
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
+if ( !$Kernel::OM->Get('Kernel::Config')->Get('ConfigImportAllowed') ) {
+    $Self->True(
+        1,
+        'Import button is not allowed, skipping test...'
+    );
+    return 1;
+}
+
 $Selenium->RunTest(
     sub {
 
-        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
