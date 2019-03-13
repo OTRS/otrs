@@ -87,6 +87,9 @@ EOF
             Content  => \$UserFileContent,
         );
 
+        # WebPath is different on each system.
+        my $WebPath = $ConfigObject->Get('Frontend::WebPath');
+
         # Login as the first created user.
         $Selenium->Login(
             Type     => 'Agent',
@@ -94,13 +97,8 @@ EOF
             Password => $TestUserLogin1,
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-
-        # Navigate to AgentDashboard screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentDashboard");
-
-        # WebPath is different on each system.
-        my $WebPath = $ConfigObject->Get('Frontend::WebPath');
+        # Wait until all AJAX calls finished.
+        $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
         # Compile the regex for checking if ivory skin file has been included. Some platforms might sort additional
         #   HTML attributes in unexpected order, therefore this check cannot be simple one.
@@ -128,6 +126,9 @@ EOF
             User     => $TestUserLogin2,
             Password => $TestUserLogin2,
         );
+
+        # Wait until all AJAX calls finished.
+        $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
         # Link to ivory skin file shouldn't be present.
         $Self->True(
