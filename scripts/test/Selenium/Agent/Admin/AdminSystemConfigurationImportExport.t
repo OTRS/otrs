@@ -14,14 +14,6 @@ use vars (qw($Self));
 
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
-if ( !$Kernel::OM->Get('Kernel::Config')->Get('ConfigImportAllowed') ) {
-    $Self->True(
-        1,
-        'Import button is not allowed, skipping test...'
-    );
-    return 1;
-}
-
 $Selenium->RunTest(
     sub {
 
@@ -45,33 +37,37 @@ $Selenium->RunTest(
             "${ScriptAlias}index.pl?Action=AdminSystemConfiguration"
         );
 
-        # Click on Import/Export button.
-        $Selenium->find_element( '.fa-exchange', 'css' )->click();
+        if ( $Kernel::OM->Get('Kernel::Config')->Get('ConfigImportAllowed') ) {
 
-        # Make sure that import button is on the page.
-        $Selenium->find_element( '#ImportButton', 'css' );
+            # Click on Import/Export button.
+            $Selenium->find_element( '.fa-exchange', 'css' )->click();
 
-        # Make sure that export button is on the page.
-        $Selenium->find_element( '#ExportButton', 'css' );
+            # Make sure that import button is on the page.
+            $Selenium->find_element( '#ImportButton', 'css' );
 
-        # Disable import.
-        $Helper->ConfigSettingChange(
-            Valid => 1,
-            Key   => 'ConfigImportAllowed',
-            Value => 0,
-        );
+            # Make sure that export button is on the page.
+            $Selenium->find_element( '#ExportButton', 'css' );
 
-        # Refresh the screen.
-        $Selenium->VerifiedRefresh();
+            # Disable import.
+            $Helper->ConfigSettingChange(
+                Valid => 1,
+                Key   => 'ConfigImportAllowed',
+                Value => 0,
+            );
+
+            # Refresh the screen.
+            $Selenium->VerifiedRefresh();
+
+            # Make sure that export button is on the page.
+            $Selenium->find_element( '#ExportButton', 'css' );
+
+        }
 
         # Make sure that import button is not on the page.
         $Self->False(
             $Selenium->execute_script('return $("#ImportButton").length;') // 0,
             'Import button not found'
         );
-
-        # Make sure that export button is on the page.
-        $Selenium->find_element( '#ExportButton', 'css' );
     }
 );
 

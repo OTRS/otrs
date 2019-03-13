@@ -16,9 +16,6 @@ use Kernel::Language;
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-# Check if needed frontend module is registered in sysconfig.
-return 1 if !$ConfigObject->Get('Frontend::Module')->{AdminRegistration};
-
 # Fake a running daemon.
 my $NodeID  = $ConfigObject->Get('NodeID') || 1;
 my $Running = $Kernel::OM->Get('Kernel::System::Cache')->Set(
@@ -60,6 +57,19 @@ $Selenium->RunTest(
 
         # Navigate to AdminRegistration screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminRegistration");
+
+        # Check if needed frontend module is registered in sysconfig.
+        if ( !$ConfigObject->Get('Frontend::Module')->{AdminRegistration} ) {
+            $Self->True(
+                index(
+                    $Selenium->get_page_source(),
+                    'Module Kernel::Modules::AdminRegistration not registered in Kernel/Config.pm!'
+                ) > 0,
+                'Module AdminRegistration is not registered in sysconfig, skipping test...'
+            );
+
+            return 1;
+        }
 
         # Check breadcrumb on Overview screen.
         $Self->Is(

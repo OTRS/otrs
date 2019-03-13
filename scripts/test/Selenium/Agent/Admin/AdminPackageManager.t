@@ -16,17 +16,14 @@ my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
 
-# Check if needed frontend module is registered in sysconfig.
-return 1 if !$ConfigObject->Get('Frontend::Module')->{AdminPackageManager};
-
 my @List = $PackageObject->RepositoryList(
     Result => 'short',
 );
 my $NumberOfPackagesInstalled = scalar @List;
 
-# Skip the test if there is more then 5 packages instaled.
+# Skip the test if there is more then 8 packages instaled (8 becouse of SaaS scenarios).
 # TODO: fix the main issue with "unexpected alert open".
-if ( $NumberOfPackagesInstalled > 5 ) {
+if ( $NumberOfPackagesInstalled > 8 ) {
     $Self->True(
         1,
         "Found $NumberOfPackagesInstalled packages installed, skipping test..."
@@ -174,6 +171,19 @@ $Selenium->RunTest(
 
         # Navigate to AdminPackageManager screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPackageManager");
+
+        # Check if needed frontend module is registered in sysconfig.
+        if ( !$ConfigObject->Get('Frontend::Module')->{AdminPackageManager} ) {
+            $Self->True(
+                index(
+                    $Selenium->get_page_source(),
+                    'Module Kernel::Modules::AdminPackageManager not registered in Kernel/Config.pm!'
+                ) > 0,
+                'Module AdminPackageManager is not registered in sysconfig, skipping test...'
+            );
+
+            return 1;
+        }
 
         # Check breadcrumb on Overview screen.
         $Self->True(
