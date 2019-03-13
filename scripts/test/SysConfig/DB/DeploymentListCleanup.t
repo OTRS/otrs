@@ -125,6 +125,10 @@ my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 for my $Test (@Tests) {
 
     my $DeploymentID = $DeploymentAdd->( %{ $Test->{Add} } );
+    $Self->True(
+        $DeploymentID,
+        "DeploymentID $DeploymentID is added",
+    );
 
     my $Success = $SysConfigDBObject->DeploymentListCleanup();
     $Self->True(
