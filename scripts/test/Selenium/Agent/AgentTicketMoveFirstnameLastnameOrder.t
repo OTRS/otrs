@@ -141,11 +141,15 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#WidgetArticle.Collapsed .WidgetAction > a').trigger('click');");
         $Selenium->WaitFor( JavaScript => 'return $("#WidgetArticle.Expanded").length;' );
 
-        $Selenium->find_element( "#Subject",  'css' )->send_keys("Subject-QueueMove$RandomID");
-        $Selenium->find_element( "#RichText", 'css' )->send_keys("Body-QueueMove$RandomID");
-        $Selenium->execute_script('$("#submitRichText").click();');
+        $Selenium->find_element( "#Subject",        'css' )->send_keys("Subject-QueueMove$RandomID");
+        $Selenium->find_element( "#RichText",       'css' )->send_keys("Body-QueueMove$RandomID");
+        $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+
+        # Wait until page has loaded.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#ArticleTable tbody .Sender a").length;' );
 
         # Check if the sender format is correct.
         $Self->Is(
