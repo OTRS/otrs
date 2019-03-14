@@ -309,7 +309,18 @@ $Selenium->RunTest(
             );
 
             # Click on Save.
+            $Selenium->execute_script(
+                "\$('#EditFormSubmit')[0].scrollIntoView(true);",
+            );
+
+            # Wait for reload to kick in.
+            $Selenium->WaitForjQueryEventBound(
+                CSSSelector => "#EditFormSubmit",
+            );
             $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
+
+            # Wait until all AJAX calls finished.
+            $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
             # Wait for dialog to close and AJAX to finish.
             $Selenium->WaitFor(
