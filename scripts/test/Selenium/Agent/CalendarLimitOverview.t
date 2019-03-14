@@ -84,7 +84,7 @@ $Selenium->RunTest(
                 $Selenium->execute_script("return \$('#Calendar$CalendarID:checked').length;"),
                 $Length,
                 "By default - CalendarID $CalendarID - $Checked",
-            );
+            ) || die;
         }
 
         my @CheckedIndices = ( 1, 2, 5, 8, 11, 12, 14 );
@@ -113,7 +113,7 @@ $Selenium->RunTest(
                 $Selenium->execute_script("return \$('#Calendar$CalendarID:checked').length;"),
                 $Length,
                 "After changes - Calendar $CalendarID - $Checked",
-            );
+            ) || die;
         }
 
         # Cleanup.
