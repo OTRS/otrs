@@ -555,6 +555,8 @@ $Selenium->RunTest(
             $Selenium->find_element( ".CloseDialog", 'css' )->click();
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length;' );
 
+            $Selenium->execute_script("\$('#FormDraftUpdate')[0].scrollIntoView(true);");
+
             $Selenium->find_element( "#FormDraftUpdate", 'css' )->click();
 
             # Switch back window.
