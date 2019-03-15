@@ -587,7 +587,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".UndoClosePopup").length' );
 
         # Click on 'Undo&Close' to close popup and set state and owner to the previous values.
-        $Selenium->execute_script('$(".UndoClosePopup").click();'),
+        $Selenium->execute_script('$(".UndoClosePopup").click();');
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
