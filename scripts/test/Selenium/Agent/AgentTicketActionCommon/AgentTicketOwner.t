@@ -117,26 +117,8 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # Navigate to zoom view of created test ticket.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
-
-        # Wait until page has loaded.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
-
-        # Force sub menus to be visible in order to be able to click one of the links.
-        $Selenium->execute_script("\$('#nav-People ul').css('height', 'auto');");
-        $Selenium->execute_script("\$('#nav-People ul').css('opacity', '1');");
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return \$('#nav-People ul').css('height') !== '0px' && \$('#nav-People ul').css('opacity') == '1';"
-        );
-
-        # Click on 'Owner' and switch window.
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketOwner;TicketID=$TicketID' )]")->click();
-
-        $Selenium->WaitFor( WindowCount => 2 );
-        my $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
+        # Navigate to owner screen of created test ticket.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketOwner;TicketID=$TicketID");
 
         # Wait until page has loaded, if necessary.
         $Selenium->WaitFor(
@@ -185,10 +167,7 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
-        $Selenium->find_element( "#submitRichText", 'css' )->click();
-
-        $Selenium->WaitFor( WindowCount => 1 );
-        $Selenium->switch_to_window( $Handles->[0] );
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
         # Navigate to AgentTicketHistory of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
@@ -207,41 +186,21 @@ $Selenium->RunTest(
             Password => $TestUser[1],
         );
 
-        # Navigate to zoom view of created test ticket.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+        # Navigate to note screen of created test ticket.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketNote;TicketID=$TicketID");
 
-        # Wait until page has loaded.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
-
-        # Force sub menus to be visible in order to be able to click one of the links.
-        $Selenium->execute_script("\$('#nav-Communication ul').css('height', 'auto');");
-        $Selenium->execute_script("\$('#nav-Communication ul').css('opacity', '1');");
         $Selenium->WaitFor(
             JavaScript =>
-                "return \$('#nav-Communication ul').css('height') !== '0px' && \$('#nav-Communication ul').css('opacity') == '1';"
-        );
-
-        # Click on 'Note' and switch window.
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
-
-        $Selenium->WaitFor( WindowCount => 2 );
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
-
-        # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $(".WidgetSimple").length;'
+                'return typeof($) === "function" && $("#Subject").length && $("#RichText").length && $("#submitRichText").length;'
         );
 
         # Create Note article.
         $Selenium->find_element( "#Subject",        'css' )->send_keys('TestSubject');
         $Selenium->find_element( "#RichText",       'css' )->send_keys('TestBody');
-        $Selenium->find_element( "#submitRichText", 'css' )->click();
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
-        # Switch window back to AgentTicketZoom view of created test ticket.
-        $Selenium->WaitFor( WindowCount => 1 );
-        $Selenium->switch_to_window( $Handles->[0] );
+        # Navigate to zoom view of created test ticket.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         $Selenium->WaitFor(
             JavaScript =>
