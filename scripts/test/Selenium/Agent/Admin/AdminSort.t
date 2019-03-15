@@ -42,13 +42,29 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=Admin");
 
         my $NavigationModule = $ConfigObject->Get('Frontend::NavigationModule');
+        my @NavigationCheck;
 
-        my @NavigationCheck = (
-            'Általános ügyintéző',
-            'Dinamikus mezők',
-            'Folyamatkezelés',
-            'Hozzáférés-vezérlési listák (ACL)',
-            'Webszolgáltatások',
+        # Check if needed frontend module is registered in sysconfig.
+        if ( $ConfigObject->Get('Frontend::Module')->{AdminGenericAgent} ) {
+            @NavigationCheck = (
+                'Általános ügyintéző',
+                'Dinamikus mezők',
+                'Folyamatkezelés',
+                'Hozzáférés-vezérlési listák (ACL)',
+                'Webszolgáltatások',
+            );
+        }
+        else {
+            @NavigationCheck = (
+                'Dinamikus mezők',
+                'Folyamatkezelés',
+                'Hozzáférés-vezérlési listák (ACL)',
+                'Webszolgáltatások',
+            );
+        }
+
+        $Selenium->execute_script(
+            "\$('.WidgetSimple:eq(7) ul')[0].scrollIntoView(true);",
         );
 
         # Check if items sort well.
@@ -65,7 +81,7 @@ $Selenium->RunTest(
                 $Navigation[0],
                 $NavigationCheck[$Count],
                 "$NavigationCheck[$Count] - admin navigation item is sorted well",
-            );
+            ) || die;
 
             # Add item to favourite.
             $Selenium->execute_script(

@@ -127,11 +127,23 @@ $Selenium->RunTest(
         ADMINMODULE:
         for my $AdminModule (@AdminModules) {
 
-            # skip test for unregistered modules (e.g. OTRS Business)
-            next ADMINMODULE if !$FrontendModules->{$AdminModule};
-
-            # navigate to appropriate screen in the test
+            # Navigate to appropriate screen in the test
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=$AdminModule");
+
+            # Check if needed frontend module is registered in sysconfig.
+            # Skip test for unregistered modules (e.g. OTRS Business)
+            if ( !$FrontendModules->{$AdminModule} ) {
+
+                next ADMINMODULE if $AdminModule eq 'AdminOTRSBusiness';
+                $Self->True(
+                    index(
+                        $Selenium->get_page_source(),
+                        "Module Kernel::Modules::$AdminModule not registered in Kernel/Config.pm!"
+                    ) > 0,
+                    "Module $AdminModule is not registered in sysconfig, skipping test..."
+                );
+                next ADMINMODULE;
+            }
 
             # Guess if the page content is ok or an error message. Here we
             #   check for the presence of div.SidebarColumn because all Admin
@@ -146,7 +158,7 @@ $Selenium->RunTest(
             $Selenium->find_element( "li#nav-Admin.Selected", 'css' );
         }
 
-        # delete needed test directories
+        # Delete needed test directories.
         for my $Directory ( $CertPath, $PrivatePath ) {
             my $Success = rmtree( [$Directory] );
             $Self->True(

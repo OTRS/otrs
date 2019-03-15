@@ -13,11 +13,7 @@ use utf8;
 use vars (qw($Self));
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-# Check if needed frontend module is registered in sysconfig.
-return 1 if !$ConfigObject->Get('Frontend::Module')->{AdminSelectBox};
-
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
@@ -39,6 +35,19 @@ $Selenium->RunTest(
 
         # Navigate to AdminSelectBox screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSelectBox");
+
+        # Check if needed frontend module is registered in sysconfig.
+        if ( !$ConfigObject->Get('Frontend::Module')->{AdminSelectBox} ) {
+            $Self->True(
+                index(
+                    $Selenium->get_page_source(),
+                    'Module Kernel::Modules::AdminSelectBox not registered in Kernel/Config.pm!'
+                ) > 0,
+                'Module AdminSelectBox is not registered in sysconfig, skipping test...'
+            );
+
+            return 1;
+        }
 
         # Empty SQL statement, check client side validation.
         $Selenium->find_element( "#SQL", 'css' )->clear();
