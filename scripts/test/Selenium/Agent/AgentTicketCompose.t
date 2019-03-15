@@ -587,7 +587,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".UndoClosePopup").length' );
 
         # Click on 'Undo&Close' to close popup and set state and owner to the previous values.
-        $Selenium->find_element( ".UndoClosePopup", 'css' )->click();
+        $Selenium->execute_script('$(".UndoClosePopup").click();'),
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
@@ -607,12 +607,12 @@ $Selenium->RunTest(
             $TicketDataAfterUndo{Lock},
             'unlock',
             "After undo - Ticket lock is still 'unlock'"
-        );
+        ) || die;
         $Self->Is(
             $TicketDataAfterUndo{OwnerID},
             $UserID,
             "After undo - Ticket owner is still test user $UserID"
-        );
+        ) || die;
 
         # delete created test ticket
         $Success = $TicketObject->TicketDelete(
