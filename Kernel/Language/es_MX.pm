@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.575596361764201;
+    $Self->{Completeness}        = 0.576969280933585;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -623,7 +623,7 @@ sub Data {
         'Send' => 'Enviar',
 
         # Template: AdminGenericAgent
-        'Generic Agent Job Management' => '',
+        'Generic Agent Job Management' => 'Gestión de Trabajos para el Agente Genérico',
         'Edit Job' => 'Editar tarea',
         'Add Job' => 'Agregar Tarea',
         'Run Job' => 'Ejecutar Tarea',
@@ -636,7 +636,7 @@ sub Data {
         'Job Settings' => 'Configuraciones de la Tarea',
         'Job name' => 'Nombre de la tarea',
         'The name you entered already exists.' => 'El nombre introdujo ya existe.',
-        'Automatic Execution (Multiple Tickets)' => '',
+        'Automatic Execution (Multiple Tickets)' => 'Ejecución Automática (Múltiples Tickets)',
         'Execution Schedule' => 'Agenda de Ejecución',
         'Schedule minutes' => 'Fijar minutos',
         'Schedule hours' => 'Fijar horas',
@@ -646,7 +646,7 @@ sub Data {
             'Actualmente esta tarea del agente genérico no se ejecutará automáticamente',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
             'Para habilitar la ejecución automática, seleccione al menos un valor de minutos, horas y días.',
-        'Event Based Execution (Single Ticket)' => '',
+        'Event Based Execution (Single Ticket)' => 'Ejecución Basada en Eventos (Ticket Individual)',
         'Event Triggers' => 'Disparadores de Eventos',
         'List of all configured events' => 'Lista de todos los eventos configurados',
         'Delete this event' => 'Eliminar este evento',
@@ -772,7 +772,7 @@ sub Data {
         # Template: AdminGenericInterfaceErrorHandlingDefault
         'Add ErrorHandling' => 'Agregar Manejo de Errores',
         'Edit ErrorHandling' => 'Editar manejo de errores',
-        'Do you really want to delete this error handling module?' => '',
+        'Do you really want to delete this error handling module?' => '¿Realmente quiere remover este módulo de manejo de errores?',
         'All configuration data will be lost.' => 'Todos los datos de la configuración se perderán.',
         'General options' => 'Opciones generales',
         'The name can be used to distinguish different error handling configurations.' =>
@@ -1022,7 +1022,7 @@ sub Data {
         'Add response header' => 'Agregar encabezado de respuesta',
         'Endpoint' => 'Punto final',
         'URI to indicate specific location for accessing a web service.' =>
-            '',
+            'URI para indicar la ubicación específica para acceder a un servicio web.',
         'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
             'ej. https://www.otrs.com:10745/api/v1.0 (sin la barra invertida)',
         'Timeout' => '',
@@ -1050,11 +1050,11 @@ sub Data {
         'Client Certificate' => 'Certificado del Cliente ',
         'The full path and name of the SSL client certificate file (must be in PEM, DER or PKCS#12 format).' =>
             '',
-        'e.g. /opt/otrs/var/certificates/SOAP/certificate.pem' => '',
+        'e.g. /opt/otrs/var/certificates/SOAP/certificate.pem' => 'p.e. /opt/otrs/var/certificates/SOAP/certificate.pem',
         'Client Certificate Key' => 'Certificado Llave del Cliente',
         'The full path and name of the SSL client certificate key file (if not already included in certificate file).' =>
             '',
-        'e.g. /opt/otrs/var/certificates/SOAP/key.pem' => '',
+        'e.g. /opt/otrs/var/certificates/SOAP/key.pem' => 'p.e. /opt/otrs/var/certificates/SOAP/key.pem',
         'Client Certificate Key Password' => 'Contraseña para el Certificado Llave del Cliente',
         'The password to open the SSL certificate if the key is encrypted.' =>
             '',
@@ -1065,7 +1065,7 @@ sub Data {
         'Certification Authority (CA) Directory' => 'Directorio del Certificado de Autorización (CA)',
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             '',
-        'e.g. /opt/otrs/var/certificates/SOAP/CA' => '',
+        'e.g. /opt/otrs/var/certificates/SOAP/CA' => 'p.e. /opt/otrs/var/certificates/SOAP/CA',
         'Controller mapping for Invoker' => 'Mapeo del Controlador para el Invocador',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
             '',
@@ -1076,7 +1076,7 @@ sub Data {
         'The default HTTP command to use for the requests.' => 'El comando HTTP predeterminado para usar con las peticiones.',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
-        'e.g. https://local.otrs.com:8000/Webservice/Example' => '',
+        'e.g. https://local.otrs.com:8000/Webservice/Example' => 'p.e. https://local.otrs.com:8000/Webservice/Example',
         'Set SOAPAction' => '',
         'Set to "Yes" in order to send a filled SOAPAction header.' => '',
         'Set to "No" in order to send an empty SOAPAction header.' => '',
@@ -2161,7 +2161,7 @@ sub Data {
         'Your email address is' => 'Su dirección de correo electrónico es',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => 'Gestionar relaciones  entre Plantillas-Archivos adjuntos.',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => 'Activar para todos',
         'Link %s to selected %s' => 'Vínculo %s a %s seleccionados(as)',
 

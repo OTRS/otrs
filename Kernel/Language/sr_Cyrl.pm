@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999828385103827;
+    $Self->{Completeness}        = 0.999656770207654;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2161,7 +2161,7 @@ sub Data {
         'Your email address is' => 'Ваша имејл адреса је',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => 'Управљање релацијама шаблони-прилози',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => 'Промени стање у активан за све',
         'Link %s to selected %s' => 'Повежи %s са изабраним %s',
 

@@ -2160,7 +2160,7 @@ sub Data {
         'Your email address is' => 'Alamat e-mel anda adalah',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => '',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => 'Togol aktif untuk semua',
         'Link %s to selected %s' => 'Pautan %s terpilih %s',
 

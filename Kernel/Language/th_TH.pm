@@ -2164,7 +2164,7 @@ sub Data {
         'Your email address is' => 'ที่อยู่อีเมลของคุณคือ',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => '',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => 'สลับการใช้งานสำหรับทั้งหมด',
         'Link %s to selected %s' => 'การเชื่อมโยง %s เพื่อเลือก %s',
 

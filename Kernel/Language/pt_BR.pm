@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.946970997082547;
+    $Self->{Completeness}        = 0.946799382186374;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2166,7 +2166,7 @@ sub Data {
         'Your email address is' => 'Seu endereço de e-mail é',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => 'Gerenciar relacionamentos Modelos - Anexos',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => 'Chavear ativado para todos',
         'Link %s to selected %s' => 'Associar %s ao %s selecionado',
 

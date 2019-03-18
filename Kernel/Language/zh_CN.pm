@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.999656770207654;
+    $Self->{Completeness}        = 0.999828385103827;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -144,7 +144,7 @@ sub Data {
         'Start date' => '开始时间',
         'End date' => '结束日期',
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
-            '使用下面的选项来减少自动创建的工单预约。',
+            '使用以下选项缩小能够自动创建工单预约的范围。',
         'Queues' => '队列',
         'Please select a valid queue.' => '请选择一个有效的队列。',
         'Search attributes' => '搜索属性',
@@ -160,7 +160,7 @@ sub Data {
         'Go back' => '返回',
         'Uploaded file must be in valid iCal format (.ics).' => '上传文件必须是有效的iCal格式(.ics)。',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
-            '如果期望的日历没有在这里，请确保你至少有“创建”权限。',
+            '如果此处未列出所需的日历，请确保您至少有“创建”权限。',
         'Upload' => '上传',
         'Update existing appointments?' => '更新已有的预约吗？',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
@@ -2147,7 +2147,7 @@ sub Data {
         'All Sessions' => '所有会话',
         'Agent Sessions' => '服务人员会话',
         'Customer Sessions' => '客户会话',
-        'Kill all Sessions, except for your own' => '杀掉除本会话外的所有会话',
+        'Kill all Sessions, except for your own' => '终止除本会话外的所有会话',
 
         # Template: AdminTemplate
         'Template Management' => '模板管理',
@@ -2167,7 +2167,7 @@ sub Data {
         'Your email address is' => '你的邮件地址是',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => '管理模板和附件的关系',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => '全部激活/不激活',
         'Link %s to selected %s' => '链接 %s 到选中的 %s',
 
@@ -3925,7 +3925,7 @@ sub Data {
         'Could not get data for SystemMaintenanceID %s' => '不能获得SystemMaintenanceID %s的数据',
         'System Maintenance was added successfully!' => '系统维护添加成功！',
         'System Maintenance was updated successfully!' => '系统维护更新成功！',
-        'Session has been killed!' => '会话已经被kill掉！',
+        'Session has been killed!' => '会话已经被终止掉！',
         'All sessions have been killed, except for your own.' => '除了本会话外，所有会话都已经被kill掉。',
         'There was an error updating the System Maintenance' => '更新系统维护时出现了一个错误',
         'Was not possible to delete the SystemMaintenance entry: %s!' => '不能删除系统维护条目：%s！',
@@ -4808,7 +4808,7 @@ sub Data {
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
             '<p>如果安装这个扩展包，可能导致以下问题：</p><ul><li>安全问题</li><li>稳定问题</li><li>性能问题</li></ul><p>请注意，使用此软件包所引起的问题不在OTRS服务合同范围内。</p>',
         '<p>The installation of packages which are not verified by the OTRS Group is not possible by default. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
-            '',
+            '<p>默认情况下，无法安装未经OTRS集团验证的软件包。 您可以通过系统配置设置“AllowNotVerifiedPackages”激活安装未经验证的软件包。</p>',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -6183,7 +6183,7 @@ Thanks for your help!
             '配置创建新工单后显示的界面。',
         'Configure your own log text for PGP.' => '配置您自己的PGP日志文本。',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otrs.com/doc/), chapter "Ticket Event Module".' =>
-            '配置默认的TicketDynamicField（工单动态字段）设置，“Name（名称）”定义要使用的动态字段，“Value（值）”是要设置的数值，“Event（事件）”定义触发的事件。请检查开发手册（https://doc.otrs.com/doc/）的“Ticket Event Module（工单事件模块）”章节。',
+            '配置默认的TicketDynamicField（工单动态字段）设置，“Name（名称）”定义要使用的动态字段，“Value（值）”是要设置的数值，“Event（事件）”定义触发的事件。请检查开发手册 (https://doc.otrs.com/doc/) 的“Ticket Event Module（工单事件模块）”章节。',
         'Controls how to display the ticket history entries as readable values.' =>
             '控制如何显示工单历史条目为可读值。',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -6532,7 +6532,7 @@ Thanks for your help!
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             '定义客户用户通讯录搜索（客户用户或客户单位）中的默认过滤器字段。 对于客户单位字段，必须添加一个前缀“CustomerCompany_”。',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otrs.com/doc/.' =>
-            '定义服务人员和客户使用的默认前端主题（HTML）。如果您喜欢，您可以添加您自己的主题。请参考管理员手册https://doc.otrs.com/doc/。',
+            '定义服务人员和客户使用的默认前端主题（HTML）。如果您喜欢，您可以添加您自己的主题。请参考管理员手册https://doc.otrs.com/doc/ 。',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             '定义默认的前端语言。所有可能的值由系统中可用的语言文件确定（查看下一个设置）。',
         'Defines the default history type in the customer interface.' => '定义客户界面中的默认历史类型。',
@@ -7859,7 +7859,7 @@ Thanks for your help!
         'Queues ↔ Auto Responses' => '队列 ↔ 自动回复',
         'Rebuild the ticket index for AgentTicketQueue.' => '为AgentTicketQueue（服务人员工单队列）重建工单索引。',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
-            '',
+            '通过外部工单编号识别一个工单是否为已有工单的跟进。 注意：“NumberRegExp”表达式中的第一个捕获组将用作工单编号值。',
         'Refresh interval' => '刷新间隔',
         'Registers a log module, that can be used to log communication related information.' =>
             '注册一个日志模块用于记录通信相关信息。',

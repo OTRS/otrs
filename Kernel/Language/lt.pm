@@ -2161,7 +2161,7 @@ sub Data {
         'Your email address is' => 'Jūsų el. pašto adresas yra',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => '',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => 'Perjungti visų aktyvavimą',
         'Link %s to selected %s' => 'Prijungti %s prie pasirinkto %s',
 

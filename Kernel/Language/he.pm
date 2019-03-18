@@ -2167,7 +2167,7 @@ sub Data {
         'Your email address is' => 'כתובת הדוא"ל שלך היא',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => '',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => 'הפוך לפעיל עבור כולם',
         'Link %s to selected %s' => 'קשר %s ל-%s שנבחרו',
 

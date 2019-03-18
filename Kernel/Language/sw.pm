@@ -2164,7 +2164,7 @@ sub Data {
         'Your email address is' => 'Anuani yako ya barua pepe ni',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => '',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => 'Geuza kuwa amilifi kwa wote',
         'Link %s to selected %s' => 'Unganisha %s kwa %s iliyochaguliwa',
 

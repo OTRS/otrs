@@ -2163,7 +2163,7 @@ sub Data {
         'Your email address is' => '您的郵件地址是',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => '',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => '切換激活全部',
         'Link %s to selected %s' => '鏈接%s到選中的%s',
 

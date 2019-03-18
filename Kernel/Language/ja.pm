@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.766088896516218;
+    $Self->{Completeness}        = 0.765917281620045;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2167,7 +2167,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Your email address is' => 'あなたのメールアドレスは',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => 'テンプレート - 添付ファイルの関係を管理',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => '全てを有効に切り替え',
         'Link %s to selected %s' => '%s を選択された %s へリンク',
 

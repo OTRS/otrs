@@ -2166,7 +2166,7 @@ sub Data {
         'Your email address is' => 'آدرس ایمیل شما:',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => '',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => 'اعمال فعال برای همه',
         'Link %s to selected %s' => 'ارتباط %s به %s انتخاب شده',
 

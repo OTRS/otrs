@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.427664321263086;
+    $Self->{Completeness}        = 0.427492706366913;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2169,7 +2169,7 @@ sub Data {
         'Your email address is' => 'Votre e-mail est',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => 'Gérer les relations entre les pièces jointes et les modèles',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => 'Sélectionner actif pour tous',
         'Link %s to selected %s' => 'Lien %s vers sélection %s',
 

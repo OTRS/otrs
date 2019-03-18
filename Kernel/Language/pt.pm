@@ -2162,7 +2162,7 @@ sub Data {
         'Your email address is' => 'O seu email é',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => '',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => 'Ativar para todos',
         'Link %s to selected %s' => 'Ligar %s a item selecionado %s',
 

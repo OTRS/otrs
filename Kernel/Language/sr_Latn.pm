@@ -2167,7 +2167,7 @@ sub Data {
         'Your email address is' => 'Vaša imejl adresa je',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => 'Upravljanje relacijama šabloni-prilozi',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => 'Promeni stanje u aktivan za sve',
         'Link %s to selected %s' => 'Poveži %s sa izabranim %s',
 
@@ -6185,7 +6185,7 @@ Vaša tehnička podrška
             'Konfiguriše koji ekran bi trebalo prikazati nakon kreiranja novog tiketa.',
         'Configure your own log text for PGP.' => 'Konfiguriši sopstveni log tekst za PGP.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otrs.com/doc/), chapter "Ticket Event Module".' =>
-            'Konfiguriše podrazumevana podešavanja dinamičkog polja tiketa. "Name" definiše dinamičko polje koje će biti korišćeno, "Value" je podatak koji će biti podešen, a "Event" definiše okidač događaja. Molimo konsultujte uputstvo za programere (https://doc.otrs.com/doc/), poglavlje "Modul događaja tiketa".',
+            'Konfiguriše podrazumevanu vrednost TicketDynamicField podešavanja. "Name" definiše dinamičko polje koje bi se trebalo koristiti, "Value je vrednost koju treba podesiti i "Event" definiše modul događaja. Molimo proverite uputstvo za programere (https://doc.otrs.com/doc/), poglavlje "Ticket Event Module".',
         'Controls how to display the ticket history entries as readable values.' =>
             'Kontroliše način prikaza istorijskih unosa tiketa kao čitljivih vrednosti. ',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -6534,7 +6534,7 @@ Vaša tehnička podrška
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             'Definiše podrazumevana filter polja u pretrazi adresara klijent korisnika (CustomerUser ili CustomerCompany). Za CustomerCompany polja, morate dodati prefiks \'CustomerCompany_\'.',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otrs.com/doc/.' =>
-            'Definiše podrazumevanu korisničku (HTML) temu za operatere i klijente. Ukoliko želite, možete dodati sopstvenu temu. Molimo konsultujte uputstvo za administratore na https://doc.otrs.com/doc/.',
+            'Određuje podrazumevanu temu glavnog interfejsa (HTML) koja će biti korišćena od strane operatera ili klijenata. Ukoliko želite možete dodati vašu ličnu temu. Molimo vas da pogledate uputstvo za administratora, koje se nalazi na https://doc.otrs.com/doc/.',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'Definiše podrazumevani jezik glavnog korisničkog dela. Sve moguće vrednosti su određene u raspoloživim jezičkim datotekama u sistemu (pogledajte sledeća podešavanja).',
         'Defines the default history type in the customer interface.' => 'Određuje podrazumevani tip istorije u interfejsu klijenta.',
@@ -7861,7 +7861,7 @@ Vaša tehnička podrška
         'Queues ↔ Auto Responses' => 'Redovi ↔ automatski odgovori',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Ponovo izradi indeks tiketa za operaterski red tiketa.',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
-            '',
+            'Prepoznaje da li je tiket nastavak postojećeg tiketa korišćenjem eksternog broja tiketa. Napomena: prva RegEx grupa iz \'NumberRegExp\' izraza će biti iskorišćena kao vrednost broja tiketa.',
         'Refresh interval' => 'Interval osvežavanja',
         'Registers a log module, that can be used to log communication related information.' =>
             'Registruje log modul za čuvanje informacija u vezi komunikacija.',

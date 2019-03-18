@@ -2160,7 +2160,7 @@ sub Data {
         'Your email address is' => '',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => '',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => '',
         'Link %s to selected %s' => '',
 

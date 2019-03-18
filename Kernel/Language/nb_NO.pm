@@ -2169,7 +2169,7 @@ sub Data {
         'Your email address is' => 'Din e-postadresse er',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => '',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => 'Aktiver/Deaktiver alle',
         'Link %s to selected %s' => 'Koble %s til valgt %s',
 

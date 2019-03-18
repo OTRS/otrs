@@ -398,7 +398,7 @@ msgstr "结束日期"
 msgid ""
 "Use options below to narrow down for which tickets appointments will be "
 "automatically created."
-msgstr "使用下面的选项来减少自动创建的工单预约。"
+msgstr "使用以下选项缩小能够自动创建工单预约的范围。"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Queues"
@@ -450,7 +450,7 @@ msgstr "上传文件必须是有效的iCal格式(.ics)。"
 msgid ""
 "If desired Calendar is not listed here, please make sure that you have at "
 "least 'create' permissions."
-msgstr "如果期望的日历没有在这里，请确保你至少有“创建”权限。"
+msgstr "如果此处未列出所需的日历，请确保您至少有“创建”权限。"
 
 #. Template: AdminAppointmentImport
 msgid "Upload"
@@ -6941,7 +6941,7 @@ msgstr "客户会话"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Kill all Sessions, except for your own"
-msgstr "杀掉除本会话外的所有会话"
+msgstr "终止除本会话外的所有会话"
 
 #. Template: AdminTemplate
 msgid "Template Management"
@@ -12104,7 +12104,7 @@ msgstr "系统维护更新成功！"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Session has been killed!"
-msgstr "会话已经被kill掉！"
+msgstr "会话已经被终止掉！"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "All sessions have been killed, except for your own."
@@ -14440,6 +14440,8 @@ msgid ""
 "packages via the \"AllowNotVerifiedPackages\" system configuration "
 "setting.</p>"
 msgstr ""
+"<p>默认情况下，无法安装未经OTRS集团验证的软件包。 "
+"您可以通过系统配置设置“AllowNotVerifiedPackages”激活安装未经验证的软件包。</p>"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -18335,6 +18337,8 @@ msgid ""
 "and \"Event\" defines the trigger event. Please check the developer manual "
 "(https://doc.otrs.com/doc/), chapter \"Ticket Event Module\"."
 msgstr ""
+"配置默认的TicketDynamicField（工单动态字段）设置，“Name（名称）”定义要使用的动态字段，“Value（值）”是要设置的数值，“Event（事件）”定义触发的事件。请检查开发手册"
+" (https://doc.otrs.com/doc/) 的“Ticket Event Module（工单事件模块）”章节。"
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
@@ -19590,6 +19594,8 @@ msgid ""
 "customers. If you like, you can add your own theme. Please refer the "
 "administrator manual located at https://doc.otrs.com/doc/."
 msgstr ""
+"定义服务人员和客户使用的默认前端主题（HTML）。如果您喜欢，您可以添加您自己的主题。请参考管理员手册https://doc.otrs.com/doc/"
+" 。"
 
 #. SysConfig
 msgid ""
@@ -24277,7 +24283,7 @@ msgid ""
 "Recognize if a ticket is a follow-up to an existing ticket using an external"
 " ticket number. Note: the first capturing group from the 'NumberRegExp' "
 "expression will be used as the ticket number value."
-msgstr ""
+msgstr "通过外部工单编号识别一个工单是否为已有工单的跟进。 注意：“NumberRegExp”表达式中的第一个捕获组将用作工单编号值。"
 
 #. SysConfig
 msgid "Refresh interval"

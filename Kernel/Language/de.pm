@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.993650248841599;
+    $Self->{Completeness}        = 0.996052857388021;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -320,7 +320,7 @@ sub Data {
         'Time Range' => 'Zeitbereich',
         'Show only communication logs created in specific time range.' =>
             'Nur Verbindungsprotokolle anzeigen, die in einem bestimmten Zeitraum erfasst wurden.',
-        'Filter for Communications' => '',
+        'Filter for Communications' => 'Filter für Kommunikationen',
         'Filter for communications' => 'Filter für Verbindungen',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             'Dieser Bildschirm zeigt eine Übersicht von eingehender und ausgehender Kommunikation.',
@@ -641,7 +641,7 @@ sub Data {
         'Schedule minutes' => 'Ausführen zu Minute(n)',
         'Schedule hours' => 'Ausführen zu Stunde(n)',
         'Schedule days' => 'Ausführen an Tag(en)',
-        'Automatic execution values are in the system timezone.' => '',
+        'Automatic execution values are in the system timezone.' => 'Die Werte für die automatische Ausführung liegen in der Systemzeitzone.',
         'Currently this generic agent job will not run automatically.' =>
             'Derzeit würde dieser GenericAgent-Job nicht automatisch ausgeführt werden.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
@@ -1720,7 +1720,7 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => 'Absenderadresse für E-Mails aus dieser Queue.',
         'Default sign key' => 'Standardschlüssel zum Signieren',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
-            '',
+            'Um einen Signierschlüssel zu verwenden, müssen PGP-Schlüssel oder S/MIME-Zertifikate mit Identifikatoren für die ausgewählte Systemadresse der Queue hinzugefügt werden.',
         'Salutation' => 'Anrede',
         'The salutation for email answers.' => 'Die Anrede für E-Mail-Antworten.',
         'Signature' => 'Signatur',
@@ -2161,7 +2161,7 @@ sub Data {
         'Your email address is' => 'Ihre E-Mail-Adresse ist',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => 'Beziehungen zwischen Vorlagen und Anlagen verwalten',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => 'Aktiv umschalten für alle',
         'Link %s to selected %s' => '%s zu %s (markiert) verknüpfen',
 
@@ -3712,7 +3712,7 @@ sub Data {
         'Package could not be upgraded' => 'Paket konnte nicht aktualisiert werden',
         'Repository List' => 'Repository-Liste',
         'No packages found in selected repository. Please check log for more info!' =>
-            '',
+            'Keine Pakte im gewählten Verzeichnis gefunden. Bitte prüfen Sie das Systemprotokoll für mehr Informationen!',
         'Package not verified due a communication issue with verification server!' =>
             'Paket nicht verifiziert aufgrund eines Kommunikationsproblems mit dem Verifikationsserver!',
         'Can\'t connect to OTRS Feature Add-on list server!' => 'Kann nicht zum OTRS Feature-Addon-Listenserver verbinden!',
@@ -4448,9 +4448,9 @@ sub Data {
         'There are no selected encryption keys for the addresses: \'%s\'. ' =>
             'Es sind keine Schlüssel ausgewählt für die Adressen: \'%s\'.',
         'Cannot use expired encryption keys for the addresses: \'%s\'. ' =>
-            '',
+            'Kann abgelaufene Schlüssel für folgende Adressen nicht nutzen \'%s\'. ',
         'Cannot use revoked encryption keys for the addresses: \'%s\'. ' =>
-            '',
+            'Kann widerrufene Schlüssel für folgende Adressen nicht nutzen \'%s\'. ',
         'Encrypt' => 'Verschlüsseln',
         'Keys/certificates will only be shown for recipients with more than one key/certificate. The first found key/certificate will be pre-selected. Please make sure to select the correct one.' =>
             'Schlüssel/Zertifikate werden nur für Empfänger mit mehr als einem Schlüssel/Zertifikat angezeigt. Die erste gefundene Schlüssel/Zertifikat-Kombination wird vorausgewählt. Bitte stellen Sie sicher, die korrekte Kombination auszuwählen.',
@@ -4465,8 +4465,8 @@ sub Data {
         'SMIME encrypt' => 'SMIME-Verschlüsselung',
 
         # Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
-        'Cannot use expired signing key: \'%s\'. ' => '',
-        'Cannot use revoked signing key: \'%s\'. ' => '',
+        'Cannot use expired signing key: \'%s\'. ' => 'Kann abgelaufenen Signierschlüssel nicht nutzen: \'%s\'. ',
+        'Cannot use revoked signing key: \'%s\'. ' => 'Kann widerrufenen Signierschlüssel nicht nutzen: \'%s\'.',
         'There are no signing keys available for the addresses \'%s\'.' =>
             'Es stehen keine Signierungs-Schlüssel zur Verfügung für die Adressen: \'%s\'.',
         'There are no selected signing keys for the addresses \'%s\'.' =>
@@ -4802,7 +4802,7 @@ sub Data {
         '<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>' =>
             '<p>Falls Sie dieses Paket installieren, können folgende Probleme auftreten:</p><ul><li>Sicherheitsprobleme</li><li>Stabilitätsprobleme</li><li>Leistungsprobleme</li></ul><p>Bitte beachten Sie, dass von diesem Paket verursachte Probleme nicht durch OTRS-Serviceverträge abgedeckt sind.</p>',
         '<p>The installation of packages which are not verified by the OTRS Group is not possible by default. You can activate the installation of not verified packages via the "AllowNotVerifiedPackages" system configuration setting.</p>' =>
-            '',
+            '<p>Die Installation von Paketen, die nicht von der OTRS Gruppe verifiziert worden sind, ist standardmäßig nicht möglich. Sie können die Installation nicht-verfizierter Pakete über die Systemkonfiguration "AllowNotVerifiedPackages" aktivieren.</p>',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -5491,7 +5491,7 @@ sub Data {
         'Do you really want to delete this notification?' => 'Möchten Sie diese Benachrichtigung wirklich löschen?',
 
         # JS File: Core.Agent.Admin.PGP
-        'Do you really want to delete this key?' => '',
+        'Do you really want to delete this key?' => 'Möchten Sie diesen Schlüssel wirklich löschen?',
 
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
@@ -5668,7 +5668,7 @@ sub Data {
             'Bitte entfernen Sie die folgenden Wörter aus Ihrer Suche, da nach ihnen nicht gesucht werden kann:',
 
         # JS File: Core.Agent.SharedSecretGenerator
-        'Generate' => '',
+        'Generate' => 'Generieren',
 
         # JS File: Core.Agent.SortedTree
         'This element has children elements and can currently not be removed.' =>
@@ -6159,7 +6159,7 @@ Ihr Helpdesk-Team
         'Communication & Notifications' => 'Kommunikation & Benachrichtigungen',
         'Communication Log GUI' => 'Kommunikationsprotokoll Benutzeroberfläche',
         'Communication log limit per page for Communication Log Overview.' =>
-            '',
+            'Limit für Protokolleinträge pro Seite in der Übersicht aller Verbindungsprotokolle.',
         'CommunicationLog Overview Limit' => 'Limit Verbindungsprotokoll-Übersicht',
         'Company Status' => 'Firmenstatus',
         'Company Tickets.' => 'Firmen-Tickets.',
@@ -7516,7 +7516,7 @@ Ihr Helpdesk-Team
         'Link customers to groups.' => 'Kunden zu Gruppen zuordnen.',
         'Link queues to auto responses.' => 'Automatische Antworten zu Queues zuordnen.',
         'Link roles to groups.' => 'Rollen zu Gruppen zuordnen.',
-        'Link templates to attachments.' => '',
+        'Link templates to attachments.' => 'Vorlagen mit Anhängen verknüpfen.',
         'Link templates to queues.' => 'Vorlagen zu Queues zuordnen.',
         'Link this ticket to other objects' => 'Dieses Ticket mit anderen Objekten verknüpfen',
         'Links 2 tickets with a "Normal" type link.' => 'Verknüpft 2 Tickets mit dem Linktyp "Normal".',
@@ -7851,7 +7851,7 @@ Ihr Helpdesk-Team
         'Public Calendar' => 'Öffentlicher Kalender',
         'Public calendar.' => 'Öffentlicher Kalender',
         'Queue view' => 'Ansicht nach Queues',
-        'Queues ↔ Auto Responses' => '',
+        'Queues ↔ Auto Responses' => 'Queues ↔ Automatische Antworten',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Ticket-Index für AgentTicketQueue neu aufbauen.',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
             '',
@@ -8491,7 +8491,7 @@ Ihr Helpdesk-Team
         'System Configuration Deployment' => 'Inbetriebnahme Systemkonfiguration',
         'System Configuration Group' => 'Systemkonfigurations-Gruppe',
         'System Maintenance' => 'Systemwartung',
-        'Templates ↔ Attachments' => '',
+        'Templates ↔ Attachments' => 'Vorlagen ↔ Anhänge',
         'Templates ↔ Queues' => 'Vorlagen ↔ Queues',
         'Textarea' => 'Textfeld',
         'Thai' => 'Thai',

@@ -1,6 +1,5 @@
 # Translators:
 # Ricky Kaiser <ricky.kaiser@cape-it.de>, 2018
-# Michael Reuther <michael.reuther@otrs.com>, 2018
 # mainboarder, 2018
 # Dominik <dominik@reichardt-online.it>, 2018
 # Matze208, 2018
@@ -44,13 +43,14 @@
 # Dont want to enter <matthias.terlinde@t-systems.com>, 2018
 # Christoph Keßler, 2019
 # Jens Bechtel <jens.bechtel@otrs.com>, 2019
+# Michael Reuther <michael.reuther@otrs.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2019-02-21 13:30+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Jens Bechtel <jens.bechtel@otrs.com>, 2019\n"
+"Last-Translator: Michael Reuther <michael.reuther@otrs.com>, 2019\n"
 "Language-Team: German (https://www.transifex.com/otrs/teams/23435/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1129,7 +1129,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Filter for Communications"
-msgstr ""
+msgstr "Filter für Kommunikationen"
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
@@ -2251,6 +2251,7 @@ msgstr "Ausführen an Tag(en)"
 #. Template: AdminGenericAgent
 msgid "Automatic execution values are in the system timezone."
 msgstr ""
+"Die Werte für die automatische Ausführung liegen in der Systemzeitzone."
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
@@ -6222,6 +6223,9 @@ msgid ""
 "To use a sign key, PGP keys or S/MIME certificates need to be added with "
 "identifiers for selected queue system address."
 msgstr ""
+"Um einen Signierschlüssel zu verwenden, müssen PGP-Schlüssel oder S/MIME-"
+"Zertifikate mit Identifikatoren für die ausgewählte Systemadresse der Queue "
+"hinzugefügt werden."
 
 #. Template: AdminQueue
 msgid "Salutation"
@@ -12445,6 +12449,8 @@ msgstr "Repository-Liste"
 msgid ""
 "No packages found in selected repository. Please check log for more info!"
 msgstr ""
+"Keine Pakte im gewählten Verzeichnis gefunden. Bitte prüfen Sie das "
+"Systemprotokoll für mehr Informationen!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
@@ -14593,11 +14599,11 @@ msgstr "Es sind keine Schlüssel ausgewählt für die Adressen: '%s'."
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Cannot use expired encryption keys for the addresses: '%s'. "
-msgstr ""
+msgstr "Kann abgelaufene Schlüssel für folgende Adressen nicht nutzen '%s'. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Cannot use revoked encryption keys for the addresses: '%s'. "
-msgstr ""
+msgstr "Kann widerrufene Schlüssel für folgende Adressen nicht nutzen '%s'. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Encrypt"
@@ -14644,11 +14650,11 @@ msgstr "SMIME-Verschlüsselung"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "Cannot use expired signing key: '%s'. "
-msgstr ""
+msgstr "Kann abgelaufenen Signierschlüssel nicht nutzen: '%s'. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "Cannot use revoked signing key: '%s'. "
-msgstr ""
+msgstr "Kann widerrufenen Signierschlüssel nicht nutzen: '%s'."
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "There are no signing keys available for the addresses '%s'."
@@ -15523,6 +15529,10 @@ msgid ""
 "packages via the \"AllowNotVerifiedPackages\" system configuration "
 "setting.</p>"
 msgstr ""
+"<p>Die Installation von Paketen, die nicht von der OTRS Gruppe verifiziert "
+"worden sind, ist standardmäßig nicht möglich. Sie können die Installation "
+"nicht-verfizierter Pakete über die Systemkonfiguration "
+"\"AllowNotVerifiedPackages\" aktivieren.</p>"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -17559,7 +17569,7 @@ msgstr "Möchten Sie diese Benachrichtigung wirklich löschen?"
 
 #. JS File: Core.Agent.Admin.PGP
 msgid "Do you really want to delete this key?"
-msgstr ""
+msgstr "Möchten Sie diesen Schlüssel wirklich löschen?"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
@@ -18067,7 +18077,7 @@ msgstr ""
 
 #. JS File: Core.Agent.SharedSecretGenerator
 msgid "Generate"
-msgstr ""
+msgstr "Generieren"
 
 #. JS File: Core.Agent.SortedTree
 msgid "This element has children elements and can currently not be removed."
@@ -19784,6 +19794,8 @@ msgstr "Kommunikationsprotokoll Benutzeroberfläche"
 #. SysConfig
 msgid "Communication log limit per page for Communication Log Overview."
 msgstr ""
+"Limit für Protokolleinträge pro Seite in der Übersicht aller "
+"Verbindungsprotokolle."
 
 #. SysConfig
 msgid "CommunicationLog Overview Limit"
@@ -25588,7 +25600,7 @@ msgstr "Rollen zu Gruppen zuordnen."
 
 #. SysConfig
 msgid "Link templates to attachments."
-msgstr ""
+msgstr "Vorlagen mit Anhängen verknüpfen."
 
 #. SysConfig
 msgid "Link templates to queues."
@@ -27274,7 +27286,7 @@ msgstr "Ansicht nach Queues"
 
 #. SysConfig
 msgid "Queues ↔ Auto Responses"
-msgstr ""
+msgstr "Queues ↔ Automatische Antworten"
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -30117,7 +30129,7 @@ msgstr "Systemwartung"
 
 #. SysConfig
 msgid "Templates ↔ Attachments"
-msgstr ""
+msgstr "Vorlagen ↔ Anhänge"
 
 #. SysConfig
 msgid "Templates ↔ Queues"

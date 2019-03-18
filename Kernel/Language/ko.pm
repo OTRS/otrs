@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.985927578513815;
+    $Self->{Completeness}        = 0.985755963617642;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2161,7 +2161,7 @@ sub Data {
         'Your email address is' => '귀하의 이메일 주소 : ',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => '템플릿 관리 - 첨부파일 관계',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => '모든 사용자에게 전환 사용',
         'Link %s to selected %s' => '%s를 선택한 %s에 연결',
 

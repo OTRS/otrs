@@ -2163,7 +2163,7 @@ sub Data {
         'Your email address is' => 'आपका ईमेल पता है',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => '',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => 'सभी के लिए स्विच सक्रिय करें',
         'Link %s to selected %s' => 'लिंक %s को चयनित %s',
 

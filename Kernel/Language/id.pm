@@ -2162,7 +2162,7 @@ EMAILADDRESS:info@example.com dari, kepada atau Cc.',
         'Your email address is' => 'Alamat email anda adalah',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => '',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => 'Beralih aktif untuk semua',
         'Link %s to selected %s' => 'Link ke operator %s',
 

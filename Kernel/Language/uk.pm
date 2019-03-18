@@ -2161,7 +2161,7 @@ sub Data {
         'Your email address is' => 'Ваш email адреса ',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => '',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => 'Увімкнути активність для всіх',
         'Link %s to selected %s' => 'Поєднати %s до вибраного %s',
 

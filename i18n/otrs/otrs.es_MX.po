@@ -12,18 +12,18 @@
 # Emir Nunes, 2018
 # Luis Armando Medina <lamedina@gmail.com>, 2018
 # Luis Medina <luis.medina@sacc.com.mx>, 2018
-# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2019
 # FCRUZ <francisco.cruz@otrs.com>, 2019
 # Aldo Ramírez <t.ramirez1022@gmail.com>, 2019
 # Armando Ríos <armando.rios@otrs.com>, 2019
 # Carlos Vázquez <carlos.vazquez@oslc.com.mx>, 2019
+# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2019-02-21 13:30+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Carlos Vázquez <carlos.vazquez@oslc.com.mx>, 2019\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2019\n"
 "Language-Team: Spanish (Mexico) (https://www.transifex.com/otrs/teams/23435/es_MX/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2138,7 +2138,7 @@ msgstr "Enviar"
 
 #. Template: AdminGenericAgent
 msgid "Generic Agent Job Management"
-msgstr ""
+msgstr "Gestión de Trabajos para el Agente Genérico"
 
 #. Template: AdminGenericAgent
 msgid "Edit Job"
@@ -2190,7 +2190,7 @@ msgstr "El nombre introdujo ya existe."
 
 #. Template: AdminGenericAgent
 msgid "Automatic Execution (Multiple Tickets)"
-msgstr ""
+msgstr "Ejecución Automática (Múltiples Tickets)"
 
 #. Template: AdminGenericAgent
 msgid "Execution Schedule"
@@ -2227,7 +2227,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Event Based Execution (Single Ticket)"
-msgstr ""
+msgstr "Ejecución Basada en Eventos (Ticket Individual)"
 
 #. Template: AdminGenericAgent
 msgid "Event Triggers"
@@ -2710,7 +2710,7 @@ msgstr "Editar manejo de errores"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Do you really want to delete this error handling module?"
-msgstr ""
+msgstr "¿Realmente quiere remover este módulo de manejo de errores?"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "All configuration data will be lost."
@@ -3541,6 +3541,7 @@ msgstr "Punto final"
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "URI to indicate specific location for accessing a web service."
 msgstr ""
+"URI para indicar la ubicación específica para acceder a un servicio web."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)"
@@ -3643,7 +3644,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/SOAP/certificate.pem"
-msgstr ""
+msgstr "p.e. /opt/otrs/var/certificates/SOAP/certificate.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key"
@@ -3657,7 +3658,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/SOAP/key.pem"
-msgstr ""
+msgstr "p.e. /opt/otrs/var/certificates/SOAP/key.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key Password"
@@ -3695,7 +3696,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/SOAP/CA"
-msgstr ""
+msgstr "p.e. /opt/otrs/var/certificates/SOAP/CA"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Controller mapping for Invoker"
@@ -3730,7 +3731,7 @@ msgstr "El comando HTTP predeterminado para usar con las peticiones."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. https://local.otrs.com:8000/Webservice/Example"
-msgstr ""
+msgstr "p.e. https://local.otrs.com:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set SOAPAction"

@@ -2165,7 +2165,7 @@ sub Data {
         'Your email address is' => 'Vaša adresa E-pošte je',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => '',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => 'Promijeni stanje aktivnosti za sve',
         'Link %s to selected %s' => 'Poveži %s sa izabranim %s',
 

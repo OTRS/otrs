@@ -2161,7 +2161,7 @@ sub Data {
         'Your email address is' => 'La vostra adreça de correu electrònic és',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates-Attachments Relations' => '',
+        'Manage Template-Attachment Relations' => '',
         'Toggle active for all' => 'Canviar actiu per a tots',
         'Link %s to selected %s' => 'Enllaçar %s a el %s seleccionat',
 
