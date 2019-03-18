@@ -347,14 +347,20 @@ $Selenium->RunTest(
             }
 
             # Create Draft and submit.
-            sleep 1;
+            $Selenium->WaitForjQueryEventBound(
+                CSSSelector => "#FormDraftSave",
+            );
+
+            # Save form in Draft.
             $Selenium->execute_script("\$('#FormDraftSave').click();");
             $Selenium->WaitFor(
                 JavaScript =>
                     'return typeof($) === "function" && $("#FormDraftTitle").length && $("#SaveFormDraft").length;'
             );
+
             $Selenium->find_element( "#FormDraftTitle", 'css' )->send_keys($Title);
-            $Selenium->find_element( "#SaveFormDraft",  'css' )->VerifiedClick();
+            $Selenium->execute_script("\$('#SaveFormDraft').click();");
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length;' );
 
             # Navigate to zoom view of created test ticket.
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
@@ -531,14 +537,18 @@ $Selenium->RunTest(
             }
 
             # Try to add draft with same name.
-            sleep 1;
+            $Selenium->WaitForjQueryEventBound(
+                CSSSelector => "#FormDraftSave",
+            );
+
             $Selenium->execute_script("\$('#FormDraftSave').click();");
             $Selenium->WaitFor(
                 JavaScript =>
                     'return typeof($) === "function" && $("#FormDraftTitle").length && $("#SaveFormDraft").length;'
             );
+
             $Selenium->find_element( "#FormDraftTitle", 'css' )->send_keys($Title);
-            $Selenium->find_element( "#SaveFormDraft",  'css' )->click();
+            $Selenium->execute_script("\$('#SaveFormDraft').click();");
 
             $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert not found';
 
