@@ -8,9 +8,23 @@
 
 
 <div class="MainBox AriaRoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Statistics Overview") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Statistics Management") | html %]</h1>
 
-    <div class="Clear"></div>
+    [% USE ActionLink = String( 'AgentStatistics' ) %]
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Statistics Management'),
+                Link => ActionLink.append( ';Subaction=Overview' ),
+            },
+            {
+                Name => Translate('Import Statistics'),
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath Type = "Agent" %]
+
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">
@@ -34,7 +48,7 @@
             <div class="Content">
 
                 <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
-                    <input type="hidden" name="Action"    value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="ImportAction"/>
 
                     <fieldset class="TableLike">

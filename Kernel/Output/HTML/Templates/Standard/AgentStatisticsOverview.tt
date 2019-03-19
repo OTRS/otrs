@@ -7,9 +7,20 @@
 # --
 
 <div class="MainBox AriaRoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Statistics Overview") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Statistics Management") | html %]</h1>
 
-    <div class="Clear"></div>
+    [% USE ActionLink = String( 'AgentStatistics' ) %]
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Statistics Management'),
+                Link => ActionLink.append( ';Subaction=Overview' ),
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath Type = "Agent" %]
+
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">
@@ -19,10 +30,10 @@
                 <ul class="ActionList">
                     [% IF Data.AccessRw %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add Statistics") | html %]</span></a>
                     </li>
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Import" class="CallForAction Fullsize Center"><span><i class="fa fa-upload"></i> [% Translate("Import") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Import" class="CallForAction Fullsize Center"><span><i class="fa fa-upload"></i> [% Translate("Import Statistics") | html %]</span></a>
                     </li>
                     [% ELSE %]
 #                   <!-- placeholder action for readonly view -->

@@ -11,7 +11,23 @@
 <div class="MainBox AriaRoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Statistics Overview") | html %]</h1>
 
-    <div class="Clear"></div>
+    <h1 class="InvisibleText">[% Translate("Statistics Management") | html %]</h1>
+
+    [% USE ActionLink = String( 'AgentStatistics' ) %]
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Statistics Management'),
+                Link => ActionLink.append( ';Subaction=Overview' ),
+            },
+            {
+                Name => Translate('View Statistics'),
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath Type = "Agent" %]
+
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">
@@ -24,7 +40,7 @@
                     </li>
                     [% IF Data.AccessRw %]
                         <li>
-                            <a href="[% Env("Baselink") %]Action=AgentStatistics;Subaction=Edit;StatID=[% Data.StatID | uri %]" class="CallForAction Fullsize Center"><span><i class="fa fa-edit"></i>[% Translate("Edit") | html %]</span></a>
+                            <a href="[% Env("Baselink") %]Action=AgentStatistics;Subaction=Edit;StatID=[% Data.StatID | uri %]" class="CallForAction Fullsize Center"><span><i class="fa fa-edit"></i>[% Translate("Edit Statistics") | html %]</span></a>
                         </li>
                     [% END %]
                 </ul>
@@ -79,9 +95,9 @@
 
     <div class="ContentColumn">
         <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate">
-            <input type="hidden" name="Action"    value="[% Env("Action") %]"/>
+            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
             <input type="hidden" name="Subaction" value="Run"/>
-            <input type="hidden" name="StatID"    value="[% Data.StatID | html %]"/>
+            <input type="hidden" name="StatID" value="[% Data.StatID | html %]"/>
 
             <div class="WidgetSimple">
                 <div class="Header">
