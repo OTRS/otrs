@@ -799,9 +799,10 @@ sub XMLParse {
     if ( eval 'require XML::Parser' ) {    ## no critic
         my $Parser = XML::Parser->new(
             Handlers => {
-                Start => sub { $Self->_HS(@_); },
-                End   => sub { $Self->_ES(@_); },
-                Char  => sub { $Self->_CS(@_); },
+                Start     => sub { $Self->_HS(@_); },
+                End       => sub { $Self->_ES(@_); },
+                Char      => sub { $Self->_CS(@_); },
+                ExternEnt => sub { return '' },         # suppress loading of external entities
             },
         );
 
@@ -833,9 +834,10 @@ sub XMLParse {
 
         my $Parser = XML::Parser::Lite->new(
             Handlers => {
-                Start => sub { $Self->_HS(@_); },
-                End   => sub { $Self->_ES(@_); },
-                Char  => sub { $Self->_CS(@_); },
+                Start     => sub { $Self->_HS(@_); },
+                End       => sub { $Self->_ES(@_); },
+                Char      => sub { $Self->_CS(@_); },
+                ExternEnt => sub { return '' },         # suppress loading of external entities
             },
         );
         $Parser->parse( $Param{String} );
