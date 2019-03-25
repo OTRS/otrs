@@ -132,7 +132,7 @@
         <div class="PreviewSettings">
             [% Translate('Preview format:') | html %]
             [% FOREACH Format IN PreviewFormats.sort %]
-            <button class="CallForAction SwitchPreviewFormat" data-format="[% Format %]"><span>[% Translate(FormatConfig.item(Format)) | html %]</span></button>
+            <button class="CallForAction SwitchPreviewFormat" data-format="[% Format | html %]"><span>[% Translate(FormatConfig.item(Format)) | html %]</span></button>
             [% END %]
             <span class="Warning">
                 [% Translate('Please note that the preview uses random data and does not consider data filters.') | html %]
@@ -155,12 +155,12 @@
             $(this).addClass('Active');
             $('.PreviewContent:visible').hide();
             $('svg.PreviewContent').empty();
-            $('#PreviewContent' + FormatCleaned).show();
+            $('#PreviewContent' + Core.App.EscapeSelector(FormatCleaned)).show();
             if (Format.match(/D3/)) {
                 Core.UI.AdvancedChart.Init(
                     Format,
                     [% JSON(Data.PreviewResult) %],
-                    'svg#PreviewContent' + FormatCleaned,
+                    'svg#PreviewContent' + Core.App.EscapeSelector(FormatCleaned),
                     {
                         HideLegend: true
                     }
@@ -199,7 +199,7 @@
             </table>
         </div>
             [% ELSE %]
-        <svg class="PreviewContent PreviewCanvas" id="PreviewContent[% Format.replace('::', '') %]" style="display: none;"></svg>
+        <svg class="PreviewContent PreviewCanvas" id="PreviewContent[% Format.replace('::', '') | html %]" style="display: none;"></svg>
             [% END %]
         [% END %]
     [% END %]

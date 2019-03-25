@@ -135,13 +135,14 @@ $Selenium->RunTest(
                 Restrictionvalue => 'SolutionAverageAllOver',
             },
             {
-                Title            => 'Statistic - TicketList' . $Helper->GetRandomID(),
-                Object           => 'Kernel::System::Stats::Dynamic::TicketList',
-                Type             => 'DynamicList',
-                YAxis            => 'YAxisOrderBy',
-                OrderBy          => 'TicketNumber',
-                RestrictionID    => 'RestrictionsServiceIDs',
-                Restrictionvalue => $ServiceIDs[0],
+                Title              => 'Statistic - TicketList' . $Helper->GetRandomID(),
+                Object             => 'Kernel::System::Stats::Dynamic::TicketList',
+                Type               => 'DynamicList',
+                YAxis              => 'YAxisOrderBy',
+                OrderBy            => 'TicketNumber',
+                RestrictionID      => 'RestrictionsServiceIDs',
+                Restrictionvalue   => $ServiceIDs[0],
+                CheckInvalidFormat => 1,
             },
         );
 
@@ -376,6 +377,58 @@ JAVASCRIPT
                 index( $Selenium->get_page_source(), $StatsData->{Title} ) > -1,
                 "Test statistic is created - $StatsData->{Title} "
             );
+
+            # Check handling of invalid formats in the edit screen.
+            if ( $StatsData->{CheckInvalidFormat} ) {
+                my $Stat = $StatsObject->StatsGet(
+                    StatID => $StatsIDLast,
+                );
+
+                # Prepare stat data for an update.
+                my %Data = (
+                    Title                 => $Stat->{Title},
+                    Description           => $Stat->{Description},
+                    Valid                 => $Stat->{Valid},
+                    TimeZone              => $Stat->{TimeZone},
+                    SumRow                => $Stat->{SumRow},
+                    SumCol                => $Stat->{SumCol},
+                    Cache                 => $Stat->{Cache},
+                    ShowAsDashboardWidget => $Stat->{ShowAsDashboardWidget},
+                    Permission            => $Stat->{Permission},
+                    Format                => [
+
+                        # Invalid format.
+                        'D3::BarChart "><br />',
+                    ],
+                );
+
+                my $Success = $StatsObject->StatsUpdate(
+                    StatID => $StatsIDLast,
+                    Hash   => \%Data,
+                    UserID => 1,
+                );
+                $Self->True(
+                    $Success // 0,
+                    'StatsUpdate() - add invalid format'
+                );
+
+                # Go to the stat edit screen.
+                $Selenium->VerifiedGet(
+                    "${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast"
+                );
+
+                # Check if the button contains expected format attribute value.
+                $Self->Is(
+                    $Selenium->execute_script('return $("button.SwitchPreviewFormat").data("format")') // '',
+                    'D3::BarChart "><br />',
+                    'Preview button format attribute'
+                );
+
+                # Go back to the stats overview screen.
+                $Selenium->VerifiedGet(
+                    "${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview;Direction=DESC;OrderBy=ID;StartHit=1"
+                );
+            }
 
             $Selenium->execute_script($CheckConfirmJS);
 
