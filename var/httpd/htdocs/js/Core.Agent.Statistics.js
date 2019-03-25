@@ -211,12 +211,12 @@ Core.Agent.Statistics = (function (TargetNS) {
             $(this).addClass('Active');
             $('.PreviewContent:visible').hide();
             $('svg.PreviewContent').empty();
-            $('#PreviewContent' + FormatCleaned).show();
+            $('#PreviewContent' + Core.App.EscapeSelector(FormatCleaned)).show();
             if (Format.match(/D3/)) {
                 Core.UI.AdvancedChart.Init(
                     Format,
                     StatsPreviewResult,
-                    'svg#PreviewContent' + FormatCleaned,
+                    'svg#PreviewContent' + Core.App.EscapeSelector(FormatCleaned),
                     {
                         HideLegend: true
                     }

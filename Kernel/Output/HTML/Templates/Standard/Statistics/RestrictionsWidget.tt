@@ -10,7 +10,7 @@
 
 [% RenderBlockStart("Attribute") %]
     <fieldset class="TableLike Element Element[% Data.Element | html %] ElementBlock[% Data.Block | html %]" data-element="[% Data.Element | html %]">
-        <input type="hidden" name="Select[% Data.Element %]" value="1" />
+        <input type="hidden" name="Select[% Data.Element | html %]" value="1" />
         <legend>
         <span>[% Translate(Data.Name) | html %]</span>
         <a class="RemoveButton" href="#"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Delete") | html %]</span></a>
@@ -61,7 +61,7 @@
 [% RenderBlockEnd("Time") %]
         <label></label>
         <div class="Field">
-            <input type="checkbox" name="Fixed[% Data.Element %]" value="1" [% Data.Fixed %]/>
+            <input type="checkbox" name="Fixed[% Data.Element | html %]" value="1" [% Data.Fixed %]/>
             [% Translate("Do not allow changes to this element when the statistic is generated.") | html %]
         </label>
         <div class="Clear"></div>

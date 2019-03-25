@@ -53,7 +53,7 @@
 [% RenderBlockEnd("Time") %]
         <label></label>
         <div class="Field">
-            <input type="checkbox" name="Fixed[% Data.Element %]" value="1" [% Data.Fixed %]/>
+            <input type="checkbox" name="Fixed[% Data.Element | html %]" value="1" [% Data.Fixed %]/>
             [% Translate("Do not allow changes to this element when the statistic is generated.") | html %]
         </div>
         <div class="Clear"></div>
