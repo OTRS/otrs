@@ -1,4 +1,5 @@
 #6.0.18 ????-??-??
+ - 2019-03-26 Fixed bug#[14447](https://bugs.otrs.org/show_bug.cgi?id=14447) - Unnecessary error screen in Bulk action of Queue View.
  - 2019-03-19 Fixed bug#[14462](https://bugs.otrs.org/show_bug.cgi?id=14462) - Missing breadcrumbs in reports and statistics screens.
  - 2019-03-18 Fixed bug#[13540](https://bugs.otrs.org/show_bug.cgi?id=13540) - Not needed time zone output in the ticket list for the configured otrs system time zone.
  - 2019-03-15 Follow-up fix for bug#[14129](https://bugs.otrs.org/show_bug.cgi?id=14129) - Incorrect handling of RootNavigation in AdminSystemConfiguration.

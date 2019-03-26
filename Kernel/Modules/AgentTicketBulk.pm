@@ -291,6 +291,93 @@ sub Run {
         );
     }
 
+    elsif ( $Self->{Subaction} eq 'AJAXIgnoreLockedTicketIDs' ) {
+
+        my @ValidTicketIDs;
+        my @IgnoreLockedTicketIDs;
+        my $TicketIDs = $ParamObject->GetParam( Param => 'TicketIDs' );
+        if ($TicketIDs) {
+            $TicketIDs = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
+                Data => $TicketIDs
+            );
+
+        }
+
+        my $Config        = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
+        my @TicketIDArray = split( /;/, $TicketIDs );
+
+        if ( $Config->{RequiredLock} ) {
+            for my $TicketID (@TicketIDArray) {
+                if ( $TicketObject->TicketLockGet( TicketID => $TicketID ) ) {
+                    my $AccessOk = $TicketObject->OwnerCheck(
+                        TicketID => $TicketID,
+                        OwnerID  => $Self->{UserID},
+                    );
+                    if ($AccessOk) {
+                        push @ValidTicketIDs, $TicketID;
+                    }
+                    else {
+                        push @IgnoreLockedTicketIDs, $TicketID;
+                    }
+                }
+                else {
+                    push @ValidTicketIDs, $TicketID;
+                }
+            }
+        }
+        else {
+            @ValidTicketIDs = @TicketIDArray;
+        }
+
+        my %DialogWarning;
+        my @IgnoreLockedTicketNumber;
+        if ( @IgnoreLockedTicketIDs && !@ValidTicketIDs ) {
+            for my $TicketID (@IgnoreLockedTicketIDs) {
+                my $TicketNumber = $TicketObject->TicketNumberLookup(
+                    TicketID => $TicketID,
+                );
+                push @IgnoreLockedTicketNumber, $TicketNumber;
+
+            }
+
+            if ( $Config->{RequiredLock} ) {
+                if ( scalar @IgnoreLockedTicketNumber > 1 ) {
+                    %DialogWarning = (
+                        Message => $LayoutObject->{LanguageObject}->Translate(
+                            "The following tickets were ignored because they are locked by another agent or you don't have write access to tickets: %s.",
+                            join( ", ", @IgnoreLockedTicketNumber ),
+                        )
+                    );
+                }
+                else {
+                    %DialogWarning = (
+                        Message => $LayoutObject->{LanguageObject}->Translate(
+                            "The following ticket was ignored because it is locked by another agent or you don't have write access to ticket: %s.",
+                            join( ", ", @IgnoreLockedTicketNumber ),
+                        )
+                    );
+                }
+            }
+            else {
+                %DialogWarning = (
+                    Message => Translatable('You need to select at least one ticket.'),
+                );
+            }
+        }
+
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            Content     => $Kernel::OM->Get('Kernel::System::JSON')->Encode(
+                Data => {
+                    Message => $DialogWarning{Message} || '',
+                }
+            ),
+            Type    => 'inline',
+            NoCache => 1,
+        );
+
+    }
+
     if ( !$Self->{Subaction} || $Self->{Subaction} ne 'AJAXRecipientList' ) {
 
         # check if bulk feature is enabled

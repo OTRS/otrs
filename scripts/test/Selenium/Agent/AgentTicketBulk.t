@@ -256,6 +256,8 @@ $Selenium->RunTest(
             },
         );
 
+        my @AdminTicketNumber;
+
         # Create test tickets.
         my @Tickets;
         for my $Test (@Tests) {
@@ -283,6 +285,13 @@ $Selenium->RunTest(
                 OwnerID      => $Test->{OwnerID},
                 Title        => $Test->{TicketTitle},
             );
+
+            if ( $Test->{OwnerID} == 1 && $Test->{QueueID} == 2 ) {
+                push @AdminTicketNumber, {
+                    TicketID     => $TicketID,
+                    TicketNumber => $TicketNumber,
+                };
+            }
 
             push @Tickets, \%Ticket;
         }
@@ -567,6 +576,37 @@ $Selenium->RunTest(
 
         # Close popup.
         $Selenium->close();
+
+        # Check if dialog appears for locked ticket which are owned by another agent. See bug#14447
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketBulk###RequiredLock',
+            Value => 1,
+        );
+
+        $Selenium->WaitFor( WindowCount => 1 );
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[0] );
+
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$QueueRawID;View=Small;Filter=All;;SortBy=Age;OrderBy=Down"
+        );
+
+        $Selenium->find_element("//input[\@value='$AdminTicketNumber[0]->{TicketID}']")->click();
+        $Selenium->find_element( "#BulkAction", 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal #DialogButton1").length'
+        );
+
+        # Check if dialog message contains locked ticket number.
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('.Dialog.Modal .InnerContent:contains(\"$AdminTicketNumber[0]->{TicketNumber}\")').length"
+            ),
+            "Ticket number is found in dialog $AdminTicketNumber[0]->{TicketNumber}",
+        );
+
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
 
         # Clean up test data from the DB.
         for my $Ticket (@Tickets) {
