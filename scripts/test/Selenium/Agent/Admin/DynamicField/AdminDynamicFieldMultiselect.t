@@ -155,6 +155,10 @@ $Selenium->RunTest(
                 Value   => "['Key1', 'Key2']",
             );
 
+            $Selenium->execute_script(
+                "\$('#Submit')[0].scrollIntoView(true);"
+            );
+
             # Submit form.
             $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
@@ -189,6 +193,11 @@ $Selenium->RunTest(
                 Element => '#ValidID',
                 Value   => 2,
             );
+
+            $Selenium->execute_script(
+                "\$('#Submit')[0].scrollIntoView(true);"
+            );
+
             $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
             # Check new and edited DynamicFieldMultiselect values.
