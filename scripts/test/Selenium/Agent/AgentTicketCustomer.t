@@ -163,6 +163,11 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '#CustomerAutoComplete',
+            Event       => 'change',
+        );
+
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->clear();
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->send_keys( $TestCustomers[1] );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
@@ -213,6 +218,11 @@ $Selenium->RunTest(
             $Selenium->execute_script("return \$('#CustomerInfo div.Content').text().trim()"),
             'none',
             "There is no any info in Customer Information widget"
+        );
+
+        $Selenium->WaitForjQueryEventBound(
+            CSSSelector => '#CustomerAutoComplete',
+            Event       => 'change',
         );
 
         # Select new customer and verify customer field value is not cleared after focus lost.
