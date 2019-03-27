@@ -12,13 +12,11 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         my %DynamicFieldsOverviewPageShownSysConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
@@ -28,7 +26,7 @@ $Selenium->RunTest(
         %DynamicFieldsOverviewPageShownSysConfig = map { $_->{Key} => $_->{Content} }
             grep { defined $_->{Key} } @{ $DynamicFieldsOverviewPageShownSysConfig{Setting}->[1]->{Hash}->[1]->{Item} };
 
-        # show more dynamic fields per page as the default value
+        # Show more dynamic fields per page as the default value.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'PreferencesGroups###DynamicFieldsOverviewPageShown',
@@ -38,7 +36,7 @@ $Selenium->RunTest(
             },
         );
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -49,13 +47,12 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to AdminDynamicField screen
+        # Navigate to AdminDynamicField screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
-        # create and edit Ticket and Article DynamicFieldMultiselect
+        # Create and edit Ticket and Article DynamicFieldMultiselect.
         for my $Type (qw(Ticket Article)) {
 
             my $ObjectType = $Type . "DynamicField";
@@ -63,86 +60,91 @@ $Selenium->RunTest(
                 "\$('#$ObjectType').val('Multiselect').trigger('redraw.InputField').trigger('change');"
             );
 
-            # wait until page has finished loading
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
-
             for my $ID (
                 qw(Name Label FieldOrder ValidID DefaultValue AddValue PossibleNone TreeView TranslatableValues)
                 )
             {
+                $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#$ID').length;" );
                 my $Element = $Selenium->find_element( "#$ID", 'css' );
                 $Element->is_enabled();
                 $Element->is_displayed();
             }
 
-            # check client side validation
-            my $Element2 = $Selenium->find_element( "#Name", 'css' );
-            $Element2->send_keys("");
-            $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+            # Check client side validation.
+            $Selenium->find_element( "#Name", 'css' )->send_keys("");
+            $Selenium->find_element("//button[\@type='submit']")->click();
+            $Selenium->WaitFor( JavaScript => 'return $("#Name.Error").length;' );
 
             $Self->Is(
                 $Selenium->execute_script(
-                    "return \$('#Name').hasClass('Error')"
+                    "return \$('#Name').hasClass('Error');"
                 ),
                 '1',
                 'Client side validation correctly detected missing input value',
             );
 
-            # create real text DynamicFieldMultiselect
+            # Create real text DynamicFieldMultiselect.
             my $RandomID = $Helper->GetRandomID();
 
             $Selenium->find_element( "#Name",     'css' )->send_keys($RandomID);
             $Selenium->find_element( "#Label",    'css' )->send_keys($RandomID);
-            $Selenium->find_element( "#AddValue", 'css' )->VerifiedClick();
-            $Selenium->find_element( "#Key_1",    'css' )->send_keys("Key1");
-            $Selenium->find_element( "#Value_1",  'css' )->send_keys("Value1");
+            $Selenium->find_element( "#AddValue", 'css' )->click();
+            $Selenium->WaitFor( JavaScript => 'return $("#Key_1").length && $("#Value_1").length;' );
 
-            # check default value
+            $Selenium->find_element( "#Key_1",   'css' )->send_keys("Key1");
+            $Selenium->find_element( "#Value_1", 'css' )->send_keys("Value1");
+
+            # Check default value.
             $Self->Is(
                 $Selenium->find_element( "#DefaultValue option[value='Key1']", 'css' )->get_value(),
                 'Key1',
                 "Key1 is possible #DefaultValue",
             );
 
-            # add another possible value
-            $Selenium->find_element( "#AddValue", 'css' )->VerifiedClick();
-            $Selenium->find_element( "#Key_2",    'css' )->send_keys("Key2");
-            $Selenium->find_element( "#Value_2",  'css' )->send_keys("Value2");
+            # Add another possible value.
+            $Selenium->find_element( "#AddValue", 'css' )->click();
+            $Selenium->WaitFor( JavaScript => 'return $("#Key_1").length && $("#Value_1").length;' );
 
-            # add another possible value
-            $Selenium->find_element( "#AddValue", 'css' )->VerifiedClick();
+            $Selenium->find_element( "#Key_2",   'css' )->send_keys("Key2");
+            $Selenium->find_element( "#Value_2", 'css' )->send_keys("Value2");
 
-            # submit form, expecting validation check
-            $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+            # Add another possible value.
+            $Selenium->find_element( "#AddValue", 'css' )->click();
+            $Selenium->WaitFor( JavaScript => 'return $("#Key_3").length && $("#Value_3").length;' );
+
+            # Submit form, expecting validation check.
+            $Selenium->find_element("//button[\@type='submit']")->click();
+            $Selenium->WaitFor( JavaScript => 'return $("#Key_3.Error").length;' );
 
             $Self->Is(
                 $Selenium->execute_script(
-                    "return \$('#Key_3').hasClass('Error')"
+                    "return \$('#Key_3').hasClass('Error');"
                 ),
                 '1',
                 'Client side validation correctly detected missing input value for added possible value',
             );
 
-            # input possible value
+            # Input possible value.
             $Selenium->find_element( "#Key_3",   'css' )->send_keys("Key3");
             $Selenium->find_element( "#Value_3", 'css' )->send_keys("Value3");
 
-            # select default value
+            # Select default value.
             $Selenium->execute_script(
                 "\$('#DefaultValue').val('Key3').trigger('redraw.InputField').trigger('change');"
             );
 
-            # verify default value
+            # Verify default value.
             $Self->Is(
                 $Selenium->find_element( "#DefaultValue", 'css' )->get_value(),
                 'Key3',
                 "Key3 is possible #DefaultValue",
             );
 
-            # remove added possible value
-            $Selenium->find_element( "#RemoveValue__3", 'css' )->VerifiedClick();
+            # Remove added possible value.
+            $Selenium->find_element( "#RemoveValue__3", 'css' )->click();
+            $Selenium->WaitFor( JavaScript => 'return !$("#Key_3:visible").length;' );
 
-            # verify default value is changed
+            # Verify default value is changed.
             $Self->Is(
                 $Selenium->find_element( "#DefaultValue", 'css' )->get_value(),
                 '',
@@ -154,19 +156,32 @@ $Selenium->RunTest(
                 "\$('#DefaultValue').val(['Key1', 'Key2']).trigger('redraw.InputField').trigger('change');"
             );
 
-            # submit form
+            # Verify default value.
+            $Self->IsDeeply(
+                $Selenium->execute_script(
+                    "return \$('#DefaultValue').val();"
+                ),
+                [ 'Key1', 'Key2' ],
+                "[ 'Key1', 'Key2' ] is possible #DefaultValue",
+            );
+
+            $Selenium->execute_script(
+                "\$('button[type=submit]')[0].scrollIntoView(true);",
+            );
+
+            # Submit form.
             $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
-            # check for test DynamicFieldMultiselect on AdminDynamicField screen
+            # Check for test DynamicFieldMultiselect on AdminDynamicField screen.
             $Self->True(
                 index( $Selenium->get_page_source(), $RandomID ) > -1,
                 "DynamicFieldMultiselect $RandomID found on table"
             ) || die;
 
-            # click on created dynamic field
+            # Click on created dynamic field.
             $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
-            # check for saved 'defaul values' on creation, expecting both values to be present
+            # Check for saved 'default values' on creation, expecting both values to be present.
             $Self->IsDeeply(
                 $Selenium->execute_script(
                     "return \$('#DefaultValue').val();"
@@ -175,14 +190,26 @@ $Selenium->RunTest(
                 'Found default values after creation',
             );
 
-            # edit test DynamicFieldMultiselect possible none, default value, treeview and set it to invalid
+            # Edit test DynamicFieldMultiselect possible none, default value, treeview and set it to invalid.
             $Selenium->execute_script("\$('#PossibleNone').val('1').trigger('redraw.InputField').trigger('change');");
+            $Selenium->WaitFor( JavaScript => 'return $("#PossibleNone").val() == "1";' );
+
             $Selenium->execute_script("\$('#TreeView').val('1').trigger('redraw.InputField').trigger('change');");
+            $Selenium->WaitFor( JavaScript => 'return $("#TreeView").val() == "1";' );
+
             $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
+            $Selenium->WaitFor( JavaScript => 'return $("#ValidID").val() == "2";' );
+
+            $Selenium->execute_script(
+                "\$('button[type=submit]')[0].scrollIntoView(true);",
+            );
+
             $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
-            # check new and edited DynamicFieldMultiselect values
+            # Check new and edited DynamicFieldMultiselect values.
             $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
+
+            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Name').length;" );
 
             $Self->Is(
                 $Selenium->find_element( '#Name', 'css' )->get_value(),
@@ -230,7 +257,7 @@ $Selenium->RunTest(
                 "#ValidID updated value",
             );
 
-            # delete DynamicFields
+            # Delete DynamicFields.
             my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
             my $DynamicField       = $DynamicFieldObject->DynamicFieldGet(
                 Name => $RandomID,
@@ -239,8 +266,6 @@ $Selenium->RunTest(
                 ID     => $DynamicField->{ID},
                 UserID => 1,
             );
-
-            # sanity check
             $Self->True(
                 $Success,
                 "DynamicFieldDelete() - $RandomID"
@@ -251,7 +276,7 @@ $Selenium->RunTest(
 
         }
 
-        # make sure cache is correct
+        # Make sure cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => "DynamicField" );
 
     }
