@@ -301,7 +301,11 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=${TicketID}");
 
         # Find link to the appointment on page.
-        $Selenium->find_element( '.LinkObjectLink', 'css' )->click();
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('a.LinkObjectLink').length" );
+        $Selenium->execute_script(
+            "\$('.LinkObjectLink')[0].scrollIntoView(true);",
+        );
+        $Selenium->execute_script('$("a.LinkObjectLink")[0].click();');
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
 
         $Self->Is(
