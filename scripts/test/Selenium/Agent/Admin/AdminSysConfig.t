@@ -38,8 +38,11 @@ $Selenium->RunTest(
 
         # Check for AdminSysConfig groups.
         for my $SysGroupValues (qw(DynamicFields Framework GenericInterface ProcessManagement Daemon Ticket)) {
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('#SysConfigGroup option[value=$SysGroupValues]').length;"
+            );
             $Selenium->find_element( "#SysConfigGroup option[value='$SysGroupValues']", 'css' );
-
         }
 
         # Select Ticket sysconfig group.
@@ -47,16 +50,22 @@ $Selenium->RunTest(
             "\$('#SysConfigGroup').val('Ticket').trigger('redraw.InputField').trigger('change');"
         );
 
+        # Wait for reload to kick in.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Remove").length;' );
         sleep 1;
 
-        # Wait for reload to kick in
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Remove").length' );
+        # Wait until all AJAX calls finished.
+        $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
         # Remove selected Ticket sysconfig group.
-        sleep 2;
         $Selenium->execute_script(
             "\$('#SysConfigGroup').val('').trigger('redraw.InputField').trigger('change');"
         );
+        sleep 1;
+
+        # Wait until all AJAX calls finished.
+        $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
+
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $(".DataTable tbody td").text().trim().includes("No data found.");'
@@ -81,9 +90,15 @@ $Selenium->RunTest(
         # Test search AdminSysConfig and check for some of the results
         #   e.g Core::PerformanceLog and Core::Ticket.
         $Selenium->find_element( "#SysConfigSearch", 'css' )->send_keys("admin");
+
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         for my $SysConfSearch (qw(PerformanceLog Ticket)) {
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('a[href*=\"SysConfigSubGroup=Core%3A%3A$SysConfSearch\"]:visible').length;"
+            );
+
             $Self->True(
                 $Selenium->find_element("//a[contains(\@href, \'SysConfigSubGroup=Core%3A%3A$SysConfSearch')]")
                     ->is_displayed(),
@@ -94,6 +109,10 @@ $Selenium->RunTest(
         my $CustomQueue                  = $ConfigObject->Get('Ticket::CustomQueue');
         my $CustomService                = $ConfigObject->Get('Ticket::CustomService');
         my $NewArticleIgnoreSystemSender = $ConfigObject->Get('Ticket::NewArticleIgnoreSystemSender');
+
+        $Selenium->execute_script(
+            "\$('a[href*=\"SysConfigSubGroup=Core%3A%3ATicket\"]')[0].scrollIntoView(true);",
+        );
 
         # Check for some of Core::Ticket default values.
         $Selenium->find_element("//a[contains(\@href, \'SysConfigSubGroup=Core%3A%3ATicket')]")->VerifiedClick();
@@ -122,7 +141,16 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('select[name=\"Ticket\\:\\:NewArticleIgnoreSystemSender\"]').val('1').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->execute_script("\$('button[value=Update').click();");
+
+        $Selenium->execute_script(
+            "\$('button[value=Update]')[0].scrollIntoView(true);",
+        );
+        $Selenium->find_element("//button[\@value='Update']")->VerifiedClick();
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('input[name=\"Ticket::CustomQueue\"]').length;"
+        );
 
         # Check for edited values.
         $Self->Is(
