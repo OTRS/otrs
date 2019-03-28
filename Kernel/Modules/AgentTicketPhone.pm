@@ -405,7 +405,7 @@ sub Run {
             my $CustomerError    = '';
             my $CustomerErrorMsg = 'CustomerGenericServerErrorMsg';
             my $CustomerDisabled = '';
-            my $CustomerSelected = ( $CountFrom eq '1' ? 'checked="checked"' : '' );
+            my $CustomerSelected = $CountFrom eq '1' ? 'checked="checked"' : '';
             my $EmailAddress     = $Email->address();
             if ( !$CheckItemObject->CheckEmail( Address => $EmailAddress ) )
             {
@@ -425,6 +425,11 @@ sub Run {
                 $CountAux         = $CountFrom . 'Error';
             }
 
+            my $Phrase = '';
+            if ( $Email->phrase() ) {
+                $Phrase = $Email->phrase();
+            }
+
             my $CustomerKey = '';
             if (
                 defined $CustomerDataFrom{UserEmail}
@@ -433,10 +438,29 @@ sub Run {
             {
                 $CustomerKey = $Article{CustomerUserID};
             }
+            elsif ($EmailAddress) {
+                my %List = $CustomerUserObject->CustomerSearch(
+                    PostMasterSearch => $EmailAddress,
+                );
+
+                for my $UserLogin ( sort keys %List ) {
+
+                    # Set right one if there is more than one customer user with the same email address.
+                    if ( $Phrase && $List{$UserLogin} =~ /$Phrase/ ) {
+                        $CustomerKey = $UserLogin;
+                    }
+                }
+            }
 
             my $CustomerElement = $EmailAddress;
-            if ( $Email->phrase() ) {
-                $CustomerElement = $Email->phrase() . " <$EmailAddress>";
+            if ($Phrase) {
+                $CustomerElement = $Phrase . " <$EmailAddress>";
+            }
+
+            if ( $CustomerSelected && $CustomerKey ) {
+                %CustomerData = $CustomerUserObject->CustomerUserDataGet(
+                    User => $CustomerKey,
+                );
             }
 
             push @MultipleCustomer, {

@@ -12,7 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
@@ -31,6 +30,10 @@ $Selenium->RunTest(
         $Helper->ConfigSettingChange(
             Key   => 'CheckEmailAddresses',
             Value => 0,
+        );
+
+        my %AgentTicketEmailConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
+            Name => 'Frontend::Module###AgentTicketEmail',
         );
 
         # create test system address
@@ -291,9 +294,6 @@ $Selenium->RunTest(
                     UserID   => 1,
                 );
 
-                $Kernel::OM->Get('Kernel::System::Log')
-                    ->Dumper( 'Debug - ModuleName', 'VariableName', \%SplitTicketData );
-
                 # Check if customer is present.
                 $Self->Is(
                     $SplitTicketData{CustomerID},
@@ -351,6 +351,184 @@ $Selenium->RunTest(
             "Split option for 'Email Ticket' is disabled.",
         );
         $Selenium->find_element( '.Close', 'css' )->click();
+
+        # Check customer information widget (https://bugs.otrs.org/show_bug.cgi?id=14414).
+        # Enable AgentTicketEmail frontend module.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => "Frontend::Module###AgentTicketEmail",
+            Value => $AgentTicketEmailConfig{EffectiveValue},
+        );
+
+        # Create test customer users.
+        my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+        my @TestCustomerUsers;
+        for ( 1 .. 3 ) {
+            my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate(
+                Groups => ['admin'],
+            ) || die 'Did not get test customer user';
+
+            my %TestCustomerUserData = $CustomerUserObject->CustomerUserDataGet(
+                User => $TestCustomerUserLogin,
+            );
+
+            push @TestCustomerUsers, \%TestCustomerUserData;
+        }
+
+        my $TestRandomID = $Helper->GetRandomID();
+
+        # Create test ticket with second customer user.
+        my $TestTicketID = $TicketObject->TicketCreate(
+            Title        => 'Title' . $TestRandomID,
+            Queue        => $Queue,
+            Lock         => 'unlock',
+            Priority     => $Priority,
+            State        => 'new',
+            CustomerID   => $TestCustomerUsers[1]->{CustomerID},
+            CustomerUser => $TestCustomerUsers[1]->{UserLogin},
+            OwnerID      => 1,
+            UserID       => 1,
+        );
+        $Self->True(
+            $TicketID,
+            "TicketID $TicketID is created",
+        );
+        push @AllTicketIDs, $TestTicketID;
+
+        my @TestArticleIDs;
+
+        my $From = $TestCustomerUsers[0]->{UserMailString} . ', ' .
+            $TestCustomerUsers[1]->{UserMailString} . ', ' .
+            $TestCustomerUsers[2]->{UserMailString};
+
+        # Create test articles.
+        for my $Count ( 1 .. 2 ) {
+            my $TestArticleID = $ArticleBackendObject->ArticleCreate(
+                TicketID             => $TestTicketID,
+                IsVisibleForCustomer => 1,
+                SenderType           => 'customer',
+                From                 => $Count == 1 ? $From : $TestCustomerUsers[2]->{UserMailString},
+                To                   => $Queue,
+                Subject              => 'Subject' . $TestRandomID,
+                Body                 => 'Body' . $TestRandomID,
+                Charset              => 'ISO-8859-15',
+                MimeType             => 'text/plain',
+                HistoryType          => 'PhoneCallCustomer',
+                HistoryComment       => 'Selenium testing',
+                UserID               => 1,
+            );
+            $Self->True(
+                $TestArticleID,
+                "TestArticleID $TestArticleID is created",
+            );
+            push @TestArticleIDs, $TestArticleID;
+        }
+
+        @Tests = (
+            {
+                TestArticleID      => $TestArticleIDs[0],
+                CustomerUserOnLoad => $TestCustomerUsers[0],
+                ClickRadioButtons  => 1,
+            },
+            {
+                TestArticleID      => $TestArticleIDs[1],
+                CustomerUserOnLoad => $TestCustomerUsers[2],
+                ClickRadioButtons  => 0,
+            },
+        );
+
+        for my $Test (@Tests) {
+
+            my $TestArticleID      = $Test->{TestArticleID};
+            my $CustomerUserOnLoad = $Test->{CustomerUserOnLoad};
+
+            for my $Target (qw(Phone Email)) {
+
+                # Go to an appropriate split screen.
+                $Selenium->VerifiedGet(
+                    "${ScriptAlias}index.pl?Action=AgentTicket$Target;ArticleID=$TestArticleID;LinkTicketID=$TestTicketID;TicketID=$TestTicketID",
+                );
+
+                # Check if the first radio button is selected.
+                $Self->True(
+                    $Selenium->execute_script(
+                        "return \$('.CustomerKey[value=$CustomerUserOnLoad->{UserLogin}]').siblings('.CustomerTicketRadio').prop('checked') == true;"
+                    ),
+                    "On page load - Customer user '$CustomerUserOnLoad->{UserLogin}' is checked correctly",
+                );
+
+                # Check appropriate customer user data in widget.
+                $Self->Is(
+                    $Selenium->execute_script(
+                        "return \$('label:contains(Firstname)').next().attr('title');"
+                    ),
+                    $CustomerUserOnLoad->{UserFirstname},
+                    "On page load - Firstname '$CustomerUserOnLoad->{UserFirstname}' is found",
+                );
+                $Self->Is(
+                    $Selenium->execute_script(
+                        "return \$('label:contains(Lastname)').next().attr('title');"
+                    ),
+                    $CustomerUserOnLoad->{UserLastname},
+                    "On page load - Lastname '$CustomerUserOnLoad->{UserLastname}' is found",
+                );
+                $Self->Is(
+                    $Selenium->execute_script(
+                        "return \$('label:contains(Username)').next().attr('title');"
+                    ),
+                    $CustomerUserOnLoad->{UserLogin},
+                    "On page load - Username '$CustomerUserOnLoad->{UserLogin}' is found",
+                );
+                $Self->Is(
+                    $Selenium->execute_script(
+                        "return \$('label:contains(Email)').next().attr('title');"
+                    ),
+                    $CustomerUserOnLoad->{UserEmail},
+                    "On page load - Email '$CustomerUserOnLoad->{UserEmail}' is found",
+                );
+
+                # Click on radio buttons and check customer info widget data.
+                if ( $Test->{ClickRadioButtons} ) {
+                    for my $Number ( 0 .. $#TestCustomerUsers ) {
+                        $Selenium->execute_script(
+                            "\$('.CustomerKey[value=$TestCustomerUsers[$Number]->{UserLogin}]').siblings('.CustomerTicketRadio').trigger('click');"
+                        );
+                        $Selenium->WaitFor(
+                            JavaScript =>
+                                "return \$('label:contains(Email)').next().attr('title') === '$TestCustomerUsers[$Number]->{UserEmail}';"
+                        );
+                        $Self->Is(
+                            $Selenium->execute_script(
+                                "return \$('label:contains(Firstname)').next().attr('title');"
+                            ),
+                            $TestCustomerUsers[$Number]->{UserFirstname},
+                            "After radio button click - Firstname '$TestCustomerUsers[$Number]->{UserFirstname}' is found",
+                        );
+                        $Self->Is(
+                            $Selenium->execute_script(
+                                "return \$('label:contains(Lastname)').next().attr('title');"
+                            ),
+                            $TestCustomerUsers[$Number]->{UserLastname},
+                            "After radio button click - Lastname '$TestCustomerUsers[$Number]->{UserLastname}' is found",
+                        );
+                        $Self->Is(
+                            $Selenium->execute_script(
+                                "return \$('label:contains(Username)').next().attr('title');"
+                            ),
+                            $TestCustomerUsers[$Number]->{UserLogin},
+                            "After radio button click - Username '$TestCustomerUsers[$Number]->{UserLogin}' is found",
+                        );
+                        $Self->Is(
+                            $Selenium->execute_script(
+                                "return \$('label:contains(Email)').next().attr('title');"
+                            ),
+                            $TestCustomerUsers[$Number]->{UserEmail},
+                            "After radio button click - Email '$TestCustomerUsers[$Number]->{UserEmail}' is found",
+                        );
+                    }
+                }
+            }
+        }
 
         # Delete test system address.
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
