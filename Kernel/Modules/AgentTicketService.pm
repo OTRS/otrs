@@ -200,6 +200,9 @@ sub Run {
         $Output .= $LayoutObject->NavigationBar();
     }
 
+    # Notify if there are tickets which are not updated.
+    $Output .= $LayoutObject->NotifyNonUpdatedTickets();
+
     # viewable locks
     my @ViewableLockIDs = $Kernel::OM->Get('Kernel::System::Lock')->LockViewableLock( Type => 'ID' );
 

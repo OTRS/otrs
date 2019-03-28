@@ -165,6 +165,9 @@ sub Run {
         $Output .= $LayoutObject->NavigationBar();
     }
 
+    # Notify if there are tickets which are not updated.
+    $Output .= $LayoutObject->NotifyNonUpdatedTickets();
+
     # get locked  viewable tickets...
     my $SortByS = $SortBy;
     if ( $SortByS eq 'CreateTime' ) {

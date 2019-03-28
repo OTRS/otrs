@@ -158,6 +158,9 @@ sub Run {
         $Output .= $LayoutObject->NavigationBar();
     }
 
+    # Notify if there are tickets which are not updated.
+    $Output .= $LayoutObject->NotifyNonUpdatedTickets();
+
     my $CreateEndOfDayDateTimeObject = sub {
         my %Param = @_;
 

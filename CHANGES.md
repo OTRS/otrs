@@ -1,4 +1,5 @@
 #6.0.18 ????-??-??
+ - 2019-03-28 Fixed bug#[14461](https://bugs.otrs.org/show_bug.cgi?id=14461) - Can't deactivate TicketMove via ACL in Bulk-Action.
  - 2019-03-28 Fixed bug#[14414](https://bugs.otrs.org/show_bug.cgi?id=14414) - The customer information widget is not update in the view of new ticket on split.
  - 2019-03-26 Fixed bug#[14447](https://bugs.otrs.org/show_bug.cgi?id=14447) - Unnecessary error screen in Bulk action of Queue View.
  - 2019-03-19 Fixed bug#[14462](https://bugs.otrs.org/show_bug.cgi?id=14462) - Missing breadcrumbs in reports and statistics screens.
