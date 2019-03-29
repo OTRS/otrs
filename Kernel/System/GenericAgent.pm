@@ -1374,7 +1374,10 @@ sub _JobRunTicket {
     }
 
     # run module
-    if ( $Param{Config}->{New}->{Module} ) {
+    my $AllowCustomModuleExecution
+        = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::GenericAgentAllowCustomModuleExecution') || 0;
+
+    if ( $Param{Config}->{New}->{Module} && $AllowCustomModuleExecution ) {
         if ( $Self->{NoticeSTDOUT} ) {
             print "  - Use module ($Param{Config}->{New}->{Module}) for Ticket $Ticket.\n";
         }
@@ -1413,6 +1416,15 @@ sub _JobRunTicket {
             }
         }
     }
+    elsif ( $Param{Config}->{New}->{Module} && !$AllowCustomModuleExecution ) {
+        if ( $Self->{NoticeSTDOUT} ) {
+            print "  - Use module ($Param{Config}->{New}->{Module}) is not allowed by the system configuration.\n";
+        }
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Use module ($Param{Config}->{New}->{Module}) is not allowed by the system configuration.",
+        );
+    }
 
     # set new archive flag
     if (
@@ -1432,7 +1444,10 @@ sub _JobRunTicket {
     }
 
     # cmd
-    if ( $Param{Config}->{New}->{CMD} ) {
+    my $AllowCustomScriptExecution
+        = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::GenericAgentAllowCustomScriptExecution') || 0;
+
+    if ( $Param{Config}->{New}->{CMD} && $AllowCustomScriptExecution ) {
         if ( $Self->{NoticeSTDOUT} ) {
             print "  - Execute '$Param{Config}->{New}->{CMD}' for Ticket $Ticket.\n";
         }
@@ -1448,6 +1463,15 @@ sub _JobRunTicket {
                 Message  => "Command returned a nonzero return code: rc=$?, err=$!",
             );
         }
+    }
+    elsif ( $Param{Config}->{New}->{CMD} && !$AllowCustomScriptExecution ) {
+        if ( $Self->{NoticeSTDOUT} ) {
+            print "  - Execute '$Param{Config}->{New}->{CMD}' is not allowed by the system configuration..\n";
+        }
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Execute '$Param{Config}->{New}->{CMD}' is not allowed by the system configuration..",
+        );
     }
 
     # delete ticket

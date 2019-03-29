@@ -819,6 +819,7 @@
                         </div>
                         <div class="Clear"></div>
 
+[% IF Data.AllowCustomScriptExecution %]
                         <label for="NewCMD">[% Translate("CMD") | html %]:</label>
                         <div class="Field">
                             <input type="text" name="NewCMD" id="NewCMD" value="[% Data.NewCMD | html %]" size="40"/>
@@ -827,6 +828,7 @@
                             </p>
                         </div>
                         <div class="Clear"></div>
+[% END %]
 
                         <label for="NewDelete">[% Translate("Delete tickets") | html %]:</label>
                         <div class="Field">
@@ -840,6 +842,7 @@
                 </div>
             </div>
 
+[% IF Data.AllowCustomModuleExecution %]
             <div class="WidgetSimple SpacingTop Collapsed">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
@@ -905,6 +908,7 @@
                     </fieldset>
                 </div>
             </div>
+[% END %]
 
             <div class="WidgetSimple SpacingTop">
                 <div class="Header">

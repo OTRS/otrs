@@ -788,6 +788,10 @@ sub _MaskUpdate {
         SelectedID => $JobData{NewSendNoNotification} || 0,
         Class      => 'Modernize',
     );
+
+    $JobData{AllowCustomScriptExecution} = $ConfigObject->Get('Ticket::GenericAgentAllowCustomScriptExecution') || 0;
+    $JobData{AllowCustomModuleExecution} = $ConfigObject->Get('Ticket::GenericAgentAllowCustomModuleExecution') || 0;
+
     $LayoutObject->Block(
         Name => 'ActionList',
     );
