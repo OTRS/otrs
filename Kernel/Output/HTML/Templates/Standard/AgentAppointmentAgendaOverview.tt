@@ -153,7 +153,7 @@
 [% RenderBlockStart("AppointmentNoDataRow") %]
         <tbody>
             <tr>
-                <td colspan="7">
+                <td colspan="8">
                     [% Translate("No data found.") | html %]
                 </td>
             </tr>
@@ -162,7 +162,7 @@
 [% RenderBlockStart("CalendarsNotFound") %]
         <tbody>
             <tr>
-                <td colspan="7">
+                <td colspan="8">
                     [% Translate("No calendars found. Please add a calendar first by using Manage Calendars page.") | html %]
                 </td>
             </tr>
