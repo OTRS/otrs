@@ -1,4 +1,5 @@
 #6.0.18 ????-??-??
+ - 2019-03-29 Fixed bug#[14476](https://bugs.otrs.org/show_bug.cgi?id=14476) - Command invalid in 66.1Ticket::SearchIndex::Attribute.
  - 2019-03-29 Fixed bug#[14473](https://bugs.otrs.org/show_bug.cgi?id=14473) - Config Ticket::Frontend::Overview::PreviewArticleSenderTypes does not work.
  - 2019-03-28 Fixed bug#[14461](https://bugs.otrs.org/show_bug.cgi?id=14461) - Can't deactivate TicketMove via ACL in Bulk-Action.
  - 2019-03-28 Fixed bug#[14414](https://bugs.otrs.org/show_bug.cgi?id=14414) - The customer information widget is not update in the view of new ticket on split.

@@ -418,7 +418,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::SearchIndexModule" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".</Description>
+        <Description Translatable="1">Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). It will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild".</Description>
         <Navigation>Core::Ticket::FulltextSearch</Navigation>
         <Value>
             <Item ValueType="PerlModule" ValueFilter="Kernel/System/Ticket/ArticleSearchIndex/*.pm">Kernel::System::Ticket::ArticleSearchIndex::DB</Item>
@@ -446,7 +446,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::SearchIndex::Attribute" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild" in order to generate a new index.</Description>
+        <Description Translatable="1">Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.</Description>
         <Navigation>Core::Ticket::FulltextSearch</Navigation>
         <Value>
             <Hash>
