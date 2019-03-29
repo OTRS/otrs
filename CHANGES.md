@@ -1,4 +1,5 @@
 #6.0.18 ????-??-??
+ - 2019-03-29 Fixed bug#[14474](https://bugs.otrs.org/show_bug.cgi?id=14474) - Some strings are not translated in Support Data Collector.
  - 2019-03-29 Fixed bug#[14436](https://bugs.otrs.org/show_bug.cgi?id=14436) - Merged cells are not fit to agenda overview table.
  - 2019-03-29 Fixed bug#[14476](https://bugs.otrs.org/show_bug.cgi?id=14476) - Command invalid in 66.1Ticket::SearchIndex::Attribute.
  - 2019-03-29 Fixed bug#[14473](https://bugs.otrs.org/show_bug.cgi?id=14473) - Config Ticket::Frontend::Overview::PreviewArticleSenderTypes does not work.

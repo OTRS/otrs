@@ -51,7 +51,7 @@ sub Run {
         $Self->AddResultProblem(
             Label => Translatable('Kernel Version'),
             Value => $KernelVersion,
-            Value => 'Could not determine kernel version.',
+            Value => Translatable('Could not determine kernel version.'),
         );
     }
 
