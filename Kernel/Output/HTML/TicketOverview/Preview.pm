@@ -247,6 +247,22 @@ sub Run {
     my $CounterOnSite = 0;
     my @TicketIDsShown;
 
+    my $ArticleObject             = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $PreviewArticleSenderTypes = $ConfigObject->Get('Ticket::Frontend::Overview::PreviewArticleSenderTypes');
+    my %PreviewArticleSenderTypeIDs;
+    if ( IsHashRefWithData($PreviewArticleSenderTypes) ) {
+
+        KEY:
+        for my $Key ( %{$PreviewArticleSenderTypes} ) {
+            next KEY if !$PreviewArticleSenderTypes->{$Key};
+
+            my $ID = $ArticleObject->ArticleSenderTypeLookup( SenderType => $Key );
+            if ($ID) {
+                $PreviewArticleSenderTypeIDs{$ID} = 1;
+            }
+        }
+    }
+
     # check if there are tickets to show
     if ( scalar @{ $Param{TicketIDs} } ) {
 
@@ -259,11 +275,12 @@ sub Run {
             {
                 push @TicketIDsShown, $TicketID;
                 my $Output = $Self->_Show(
-                    TicketID => $TicketID,
-                    Counter  => $CounterOnSite,
-                    Bulk     => $BulkFeature,
-                    Config   => $Param{Config},
-                    Output   => $Param{Output} || '',
+                    TicketID                    => $TicketID,
+                    Counter                     => $CounterOnSite,
+                    Bulk                        => $BulkFeature,
+                    Config                      => $Param{Config},
+                    Output                      => $Param{Output} || '',
+                    PreviewArticleSenderTypeIDs => \%PreviewArticleSenderTypeIDs,
                 );
                 $CounterOnSite++;
                 if ( !$Param{Output} ) {
@@ -359,7 +376,15 @@ sub _Show {
 
     my @ArticleBody;
     my %Article;
+
+    ARTICLE:
     for my $Article (@Articles) {
+
+        # Check if certain article sender types should be excluded from preview.
+        next ARTICLE
+            if IsHashRefWithData( $Param{PreviewArticleSenderTypeIDs} )
+            && !$Param{PreviewArticleSenderTypeIDs}->{ $Article->{SenderTypeID} };
+
         my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$Article} );
 
         my %ArticleData = $ArticleBackendObject->ArticleGet(

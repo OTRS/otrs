@@ -152,7 +152,10 @@ $Selenium->RunTest(
             }
         );
 
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+            ChannelName => 'Email',
+        );
 
         my $LanguageObject = Kernel::Language->new(
             UserLanguage => $Language,
@@ -183,6 +186,20 @@ $Selenium->RunTest(
 
             push @TicketIDs, $TicketID;
 
+            # Create email article.
+            my $ArticleID = $ArticleBackendObject->ArticleCreate(
+                TicketID             => $TicketID,
+                SenderType           => 'customer',
+                IsVisibleForCustomer => 1,
+                From                 => 'Some Customer A <customer-a@example.com>',
+                To                   => 'Some Agent <email@example.com>',
+                Subject              => 'some short description',
+                Body                 => 'the message text',
+                ContentType          => 'text/plain; charset=ISO-8859-15',
+                HistoryType          => 'EmailCustomer',
+                HistoryComment       => 'Customer sent an email',
+                UserID               => $TestUserID,
+            );
         }
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
@@ -273,6 +290,36 @@ $Selenium->RunTest(
                 }
             }
         }
+
+        # Test bug #14473 (https://bugs.otrs.org/show_bug.cgi?id=14473).
+        # Config 'Ticket::Frontend::Overview::PreviewArticleSenderTypes' does not work.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$Queues[0]->{QueueID};View=Preview;Filter=Unlocked"
+        );
+        $Self->True(
+            $Selenium->execute_script("return \$('.Content .Preview').length;"),
+            "ArtilePreview is found"
+        );
+
+        # Enable config 'Ticket::Frontend::Overview::PreviewArticleSenderTypes' and set value
+        # to not show customer articles in preview mode.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::Overview::PreviewArticleSenderTypes',
+            Value => {
+                agent    => 1,
+                customer => 0,
+                system   => 1,
+            },
+        );
+
+        # Refresh screen.
+        $Selenium->VerifiedRefresh();
+
+        $Self->False(
+            $Selenium->execute_script("return \$('.Content .Preview').length;"),
+            "ArtilePreview is not found for customer sender type."
+        );
 
         # Go to small view for 'Delete' queue.
         # See Bug 13826 - Queue Names are translated (but should not)
