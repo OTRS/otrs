@@ -46,7 +46,7 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'system-address-name',
-        Description => 'Name of the system address which should be assigned to the new queue.',
+        Description => 'System email address which should be assigned to the new queue.',
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,
