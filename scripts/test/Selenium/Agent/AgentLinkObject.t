@@ -198,7 +198,7 @@ $Selenium->RunTest(
         my $Success    = $TicketObject->TicketTitleUpdate(
             Title    => $LongTicketTitle,
             TicketID => $TicketIDs[1],
-            UserID   => 1,
+            UserID   => $TestUserID,
         );
         $Self->True(
             $Success,
@@ -564,11 +564,11 @@ $Selenium->RunTest(
             CalendarName => "Calendar-$RandomID",
             Color        => '#3A87AD',
             GroupID      => 1,
-            UserID       => 1,
+            UserID       => $TestUserID,
         );
         $Self->True(
             $Calendar{CalendarID},
-            "CalendarID $Calendar{CalendarID} is created.   "
+            "CalendarID $Calendar{CalendarID} is created."
         );
 
         # Create Appointment.
@@ -588,7 +588,7 @@ $Selenium->RunTest(
             Location    => 'Straubing',
             StartTime   => $StartTimeObject->ToString(),
             EndTime     => $EndTimeObject->ToString(),
-            UserID      => 1,
+            UserID      => $TestUserID,
             TimezoneID  => 0,
         );
         $Self->True(
@@ -690,7 +690,7 @@ $Selenium->RunTest(
         # Delete created test Appointment.
         $Success = $AppointmentObject->AppointmentDelete(
             AppointmentID => $AppointmentID,
-            UserID        => 1,
+            UserID        => $TestUserID,
         );
         $Self->True(
             $Success,

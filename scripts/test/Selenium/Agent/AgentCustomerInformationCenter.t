@@ -166,6 +166,7 @@ $Selenium->RunTest(
         # Input search parameters for CustomerUser.
         $Selenium->find_element( "#AgentCustomerInformationCenterSearchCustomerUser", 'css' )
             ->send_keys( $RandomID . 'CustomerUser' . '*' );
+        sleep 1;
 
         # Check result of customer user search (there should be 5 matches).
         $Selenium->WaitFor( JavaScript => "return \$('.ui-menu:eq(1) li').length == 5;" );

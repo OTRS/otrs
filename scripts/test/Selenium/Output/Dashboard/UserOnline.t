@@ -110,7 +110,7 @@ $Selenium->RunTest(
                 "return \$('table.DashboardUserOnline span.UserStatusIcon.Inline.Active:visible').length"
             ),
             "$TestCustomerUserLogin - found active status icon",
-        );
+        ) || die;
 
         $Self->Is(
             $Selenium->execute_script(
