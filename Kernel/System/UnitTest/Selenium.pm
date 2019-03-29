@@ -31,6 +31,10 @@ our @ObjectDependencies = (
     'Kernel::System::UnitTest::Helper',
 );
 
+# If a test throws an exception, we'll record it here in a package variable so that we can
+#   take screenshots of *all* Selenium instances that are currently running on shutdown.
+our $TestException;
+
 =head1 NAME
 
 Kernel::System::UnitTest::Selenium - run front end tests
@@ -159,8 +163,7 @@ sub new {
 
 =head2 RunTest()
 
-runs a selenium test if Selenium testing is configured and performs proper
-error handling (calls C<HandleError()> if needed).
+runs a selenium test if Selenium testing is configured.
 
     $SeleniumObject->RunTest( sub { ... } );
 
@@ -177,7 +180,8 @@ sub RunTest {
     eval {
         $Test->();
     };
-    $Self->HandleError($@) if $@;
+
+    $TestException = $@ if $@;
 
     return 1;
 }
@@ -371,8 +375,6 @@ sub Login {
             # try again
             next TRY if $Try < $MaxTries;
 
-            # log error
-            $Self->HandleError($@);
             die "Login failed!";
         }
 
@@ -641,12 +643,17 @@ sub HandleError {
 =head2 DEMOLISH()
 
 override DEMOLISH from L<Selenium::Remote::Driver> (required because this class is managed by L<Moo>).
-Adds a unit test result to indicate the shutdown, and performs some clean-ups.
+Performs proper error handling (calls C<HandleError()> if needed). Adds a unit test result to indicate the shutdown,
+and performs some clean-ups.
 
 =cut
 
 sub DEMOLISH {
     my $Self = shift;
+
+    if ($TestException) {
+        $Self->HandleError($TestException);
+    }
 
     # Could be missing on early die.
     if ( $Self->{UnitTestDriverObject} ) {
