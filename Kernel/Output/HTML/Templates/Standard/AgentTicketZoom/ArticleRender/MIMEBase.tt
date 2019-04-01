@@ -29,7 +29,7 @@
             </div>
         </div>
 
-        <div class="WidgetMenu Hidden">
+        <div class="WidgetMenu [% IF !Config("Ticket::Frontend::ArticleHeadVisibleDefault") %]Hidden[% END %]">
 
             <div class="ArticleMailHeader">
                 <fieldset class="TableLike FixedLabelSmall">

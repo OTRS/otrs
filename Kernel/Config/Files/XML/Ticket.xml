@@ -1569,6 +1569,13 @@
             </Item>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::ArticleHeadVisibleDefault" Required="1" Valid="1">
+        <Description Translatable="1">Shows the article head information in the agent zoom view.</Description>
+        <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::ZoomAttachmentDisplayCount" Required="1" Valid="1">
         <Description Translatable="1">Shows a count of attachments in the ticket zoom, if the article has attachments.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
