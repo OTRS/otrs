@@ -186,12 +186,17 @@ sub Log {
         Line      => $Line1,
     );
 
+    my $DateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime'
+    );
+    my $LogTime = $DateTimeObject->ToCTimeString();
+
     # if error, write it to STDERR
     if ( $Priority =~ /^error/i ) {
 
         ## no critic
         my $Error = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: "
-            . localtime() . "\n\n", $^V;
+            . $LogTime . "\n\n", $^V;
         ## use critic
 
         $Error .= " Message: $Message\n\n";
@@ -252,7 +257,7 @@ sub Log {
 
         $Priority = lc $Priority;
 
-        my $Data   = localtime() . ";;$Priority;;$Self->{LogPrefix};;$Message\n";    ## no critic
+        my $Data   = $LogTime . ";;$Priority;;$Self->{LogPrefix};;$Message\n";    ## no critic
         my $String = $Self->GetLog();
 
         shmwrite( $Self->{IPCSHMKey}, $Data . $String, 0, $Self->{IPCSize} ) || die $!;
