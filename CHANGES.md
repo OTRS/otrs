@@ -1,4 +1,5 @@
 #6.0.18 ????-??-??
+ - 2019-04-01 Fixed bug#[14442](https://bugs.otrs.org/show_bug.cgi?id=14442) - Legacy references to customer interface and public interface.
  - 2019-04-01 Fixed bug#[14345](https://bugs.otrs.org/show_bug.cgi?id=14345) - The timestamp information in the action AdminLog is wrong.
  - 2019-04-01 Fixed bug#[14243](https://bugs.otrs.org/show_bug.cgi?id=14243) - It is possible set system address to invalid even though there is auto response with this address.
  - 2019-03-29 Fixed bug#[14474](https://bugs.otrs.org/show_bug.cgi?id=14474) - Some strings are not translated in Support Data Collector.
