@@ -199,12 +199,18 @@
                             <div id="ValidIDError" class="TooltipErrorMessage">
                                 <p>[% Translate("This field is required.") | html %]</p>
                             </div>
-                            <div id="ValidIDServerError" class="TooltipErrorMessage">
-                                <p>[% Translate("This field is required.") | html %]</p>
-                            </div>
+                            [% IF Data.Errors.SystemAddressIsUsed %]
+                                <div id="ValidIDServerError" class="TooltipErrorMessage">
+                                    <p>[% Translate("This system address cannot be set to invalid.") | html %]</p>
+                                </div>
+                            [% ELSE %]
+                                <div id="ValidIDServerError" class="TooltipErrorMessage">
+                                    <p>[% Translate("This field is required.") | html %]</p>
+                                </div>
+                            [% END %]
                             [% IF Data.SystemAddressIsUsed %]
                                 <p class="FieldExplanation">
-                                    [% Translate("This system address cannot be set to invalid, because it is used in one or more queue(s).") | html %]
+                                    [% Translate("This system address cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).") | html %]
                                 </p>
                             [% END %]
                         </div>

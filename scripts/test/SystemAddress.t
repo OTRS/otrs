@@ -283,6 +283,46 @@ $Self->False(
     "SystemAddressIsUsed() - Correctly detected system address not in use"
 );
 
-# cleanup is done by RestoreDatabase
+my $AutoResponse = $Kernel::OM->Get('Kernel::System::AutoResponse')->AutoResponseAdd(
+    Name        => 'Some::AutoResponse',
+    ValidID     => 1,
+    Subject     => 'Some Subject..',
+    Response    => 'Auto Response Test....',
+    ContentType => 'text/plain',
+    AddressID   => $SystemAddressID2,
+    TypeID      => 1,
+    UserID      => 1,
+);
+
+$Self->True(
+    $AutoResponse,
+    "AutoResponseAdd() - $AutoResponse"
+);
+
+$SystemAddressIsUsed = $SystemAddressObject->SystemAddressIsUsed(
+    SystemAddressID => $SystemAddressID2,
+);
+$Self->True(
+    $SystemAddressIsUsed,
+    "SystemAddressIsUsed() - Correctly detected system address in use after adding auto response"
+);
+
+$SystemAddressUpdate = $SystemAddressObject->SystemAddressUpdate(
+    Name     => '3' . $SystemAddressEmail,
+    Realname => '3' . $SystemAddressRealname,
+    Comment  => 'some comment 1',
+    QueueID  => $QueueID2,
+    ValidID  => 2,
+    ID       => $SystemAddressID2,
+    UserID   => 1,
+);
+$Self->False(
+    $SystemAddressUpdate,
+    "SystemAddressUpdate() -
+        This system address $SystemAddressID2 cannot be set to invalid,
+        because it is used in one or more queue(s) or auto response(s)",
+);
+
+# Cleanup is done by RestoreDatabase.
 
 1;

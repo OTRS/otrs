@@ -220,7 +220,7 @@ update system address with attributes
 sub SystemAddressUpdate {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
+    # Check needed stuff.
     for my $Needed (qw(ID Name ValidID Realname QueueID UserID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -231,7 +231,7 @@ sub SystemAddressUpdate {
         }
     }
 
-    # check if a system address with this name already exists
+    # Check if a system address with this name already exists.
     if (
         $Self->NameExistsCheck(
             ID   => $Param{ID},
@@ -246,7 +246,18 @@ sub SystemAddressUpdate {
         return;
     }
 
-    # update system address
+    # Check if a system address is used in some queue's or auto response's.
+    if ( $Self->SystemAddressIsUsed( SystemAddressID => $Param{ID} ) && $Param{ValidID} > 1 )
+    {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message =>
+                "This system address '$Param{Name}' cannot be set to invalid, because it is used in one or more queue(s) or auto response(s).",
+        );
+        return;
+    }
+
+    # Update system address.
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE system_address SET value0 = ?, value1 = ?, comments = ?, valid_id = ?, '
             . ' change_time = current_timestamp, change_by = ?, queue_id = ? WHERE id = ?',
@@ -525,7 +536,7 @@ sub NameExistsCheck {
 
 =head2 SystemAddressIsUsed()
 
-Return 1 if system address is used in one of the queue's.
+Return 1 if system address is used in one of the queue's or auto response's.
 
     $SytemAddressIsUsed = $SystemAddressObject->SystemAddressIsUsed(
         SystemAddressID => 1,
@@ -549,8 +560,11 @@ sub SystemAddressIsUsed {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     return if !$DBObject->Prepare(
-        SQL   => 'SELECT id FROM queue WHERE system_address_id = ?',
-        Bind  => [ \$Param{SystemAddressID} ],
+        SQL => 'SELECT DISTINCT sa.id FROM system_address sa
+            LEFT JOIN queue q ON q.system_address_id = sa.id
+            LEFT JOIN auto_response ar ON ar.system_address_id = sa.id
+            WHERE q.system_address_id = ? OR ar.system_address_id = ?',
+        Bind  => [ \$Param{SystemAddressID}, \$Param{SystemAddressID} ],
         Limit => 1,
     );
 

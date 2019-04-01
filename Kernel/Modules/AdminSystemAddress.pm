@@ -98,6 +98,15 @@ sub Run {
             $Errors{ErrorType}   = 'AlreadyUsed';
         }
 
+        # Check if system address is used by auto response.
+        my $SystemAddressIsUsed = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsUsed(
+            SystemAddressID => $GetParam{ID},
+        );
+        if ( $SystemAddressIsUsed && $GetParam{ValidID} > 1 ) {
+            $Errors{ValidIDInvalid}      = 'ServerError';
+            $Errors{SystemAddressIsUsed} = 1;
+        }
+
         # if no errors occurred
         if ( !%Errors ) {
 
