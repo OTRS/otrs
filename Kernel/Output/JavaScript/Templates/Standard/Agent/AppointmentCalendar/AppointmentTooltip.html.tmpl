@@ -27,16 +27,16 @@
     <fieldset>
         <legend><span>{{ 'Basic information' | Translate }}</span></legend>
         <label>{{ 'Title' | Translate }}:</label>
-        <p class="Value">{{ CalEvent.title | safe }}</p>
+        <p class="Value">{{ CalEvent.title }}</p>
         <div class="Clear"></div>
     {% if CalEvent.description %}
         <label>{{ 'Description' | Translate }}:</label>
-        <p class="Value">{{ CalEvent.description | safe }}</p>
+        <p class="Value">{{ CalEvent.description }}</p>
         <div class="Clear"></div>
     {% endif %}
     {% if CalEvent.location %}
         <label>{{ 'Location' | Translate }}:</label>
-        <p class="Value">{{ CalEvent.location | safe }}</p>
+        <p class="Value">{{ CalEvent.location }}</p>
         <div class="Clear"></div>
     {% endif %}
         <label>{{ 'Calendar' | Translate }}:</label>
@@ -52,17 +52,17 @@
     <fieldset>
         <legend><span>{{ 'Resource' | Translate }}</span></legend>
         <label>{{ 'Team' | Translate }}:</label>
-        <p class="Value"> {{ CalEvent.teamNames | replace('\\n', '<br>') | safe }}</p>
+        <p class="Value"> {{ CalEvent.teamNames | escape | replace('\\n', '<br>') | safe }}</p>
         <div class="Clear"></div>
     {% if CalEvent.resourceNames %}
         <label>{{ 'Agent' | Translate }}:</label>
-        <p class="Value">{{ CalEvent.resourceNames | replace('\\n', '<br>') | safe }}</p>
+        <p class="Value">{{ CalEvent.resourceNames | escape | replace('\\n', '<br>') | safe }}</p>
         <div class="Clear"></div>
     {% endif %}
     </fieldset>
 {% endif %}
     <fieldset>
-        <legend><span>{{ 'Date/Time' | Translate}}</span></legend>
+        <legend><span>{{ 'Date/Time' | Translate }}</span></legend>
         <label>{{ 'Start date' | Translate }}:</label>
         <p class="Value">{{ CalEvent.startDate }}</p>
         <div class="Clear"></div>
@@ -85,7 +85,7 @@
         <legend><span>{{ 'Link' | Translate }}</span></legend>
     {% for PluginKey, PluginValue in PluginList %}
         <label>{{ PluginValue.PluginName }}:</label>
-        <p class="Value">{{ CalEvent.pluginData[PluginKey] | safe }}</p>
+        <p class="Value">{{ CalEvent.pluginData[PluginKey] | escape | replace('\\n', '<br>') | safe }}</p>
         <div class="Clear"></div>
     {% endfor %}
     </fieldset>

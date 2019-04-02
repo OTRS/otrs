@@ -1376,7 +1376,7 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
 
                             // Overwrite option text, because of wrong html quoting of text content.
                             // (This is needed for IE.)
-                            NewOption.innerHTML = Value;
+                            NewOption.innerHTML = Core.App.EscapeHTML(Value);
 
                             // Restore selection
                             if (SelectedID && SelectedID.indexOf(Index) > -1) {
