@@ -392,8 +392,9 @@ JAVASCRIPT
             ->VerifiedClick();
 
         # Verify there are both copied ACL's.
-        my $Copy = $LanguageObject->Translate('Copy');
-        push @TestACLNames, "$TestACLNames[0] ($Copy) 1", "$TestACLNames[0] ($Copy) 2";
+        push @TestACLNames,
+            $LanguageObject->Translate( '%s (Copy) %s', $TestACLNames[0], 1 ),
+            $LanguageObject->Translate( '%s (Copy) %s', $TestACLNames[0], 2 );
 
         $Self->True(
             index( $Selenium->get_page_source(), $TestACLNames[2] ) > -1,

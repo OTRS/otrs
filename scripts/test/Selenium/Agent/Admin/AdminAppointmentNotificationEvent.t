@@ -19,23 +19,27 @@ $Selenium->RunTest(
 
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # do not check RichText
+        # Do not check RichText.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::RichText',
             Value => 0,
         );
 
-        # enable SMIME due to 'Enable email security' checkbox must be enabled
+        # Enable SMIME due to 'Enable email security' checkbox must be enabled.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'SMIME',
             Value => 1,
         );
 
-        # create test user and login
+        # Defined user language for testing if message is being translated correctly.
+        my $Language = "de";
+
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
-            Groups => ['admin'],
+            Groups   => ['admin'],
+            Language => $Language,
         ) || die "Did not get test user";
 
         $Selenium->Login(
@@ -44,27 +48,31 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
+        my $LanguageObject = Kernel::Language->new(
+            UserLanguage => $Language,
+        );
+
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to AdminNotificationEvent screen
+        # Navigate to AdminNotificationEvent screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAppointmentNotificationEvent");
 
-        # check overview screen
+        # Check overview screen
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
-        # check breadcrumb on Overview screen
+        # Check breadcrumb on Overview screen.
         $Self->True(
             $Selenium->find_element( '.BreadCrumb', 'css' ),
             "Breadcrumb is found on Overview screen.",
         );
 
-        # click "Add notification"
+        # Click "Add notification"
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminAppointmentNotificationEvent;Subaction=Add' )]")
             ->VerifiedClick();
 
-        # check add NotificationEvent screen
+        # Check add NotificationEvent screen.
         for my $ID (
             qw(Name Comment ValidID Events en_Subject en_Body)
             )
@@ -74,9 +82,11 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # check breadcrumb on Add screen
+        # Check breadcrumb on Add screen.
         my $Count = 1;
-        for my $BreadcrumbText ( 'Appointment Notification Management', 'Add Notification' ) {
+        for my $BreadcrumbText ( $LanguageObject->Translate('Appointment Notification Management'),
+            $LanguageObject->Translate('Add Notification') )
+        {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
                 $BreadcrumbText,
@@ -86,16 +96,17 @@ $Selenium->RunTest(
             $Count++;
         }
 
-        # toggle Ticket filter widget
+        # Toggle Ticket filter widget.
+        my $TranslatedAppointmentFilter = $LanguageObject->Translate('Appointment Filter');
         $Selenium->execute_script(
-            "\$('.WidgetSimple.Collapsed:contains(Appointment Filter) .Toggle > a').trigger('click')"
+            "\$('.WidgetSimple.Collapsed:contains($TranslatedAppointmentFilter) .Toggle > a').trigger('click')"
         );
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$('.WidgetSimple.Expanded:contains(Appointment Filter)').length"
+                "return typeof(\$) === 'function' && \$('.WidgetSimple.Expanded:contains($TranslatedAppointmentFilter)').length"
         );
 
-        # create test NotificationEvent
+        # Create test NotificationEvent.
         my $NotifEventRandomID = 'NotificationEvent' . $Helper->GetRandomID();
         my $NotifEventText     = 'Selenium NotificationEvent test';
         $Selenium->find_element( '#Name',    'css' )->send_keys($NotifEventRandomID);
@@ -134,20 +145,20 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
-        # check if test NotificationEvent show on AdminNotificationEvent screen
+        # Check if test NotificationEvent show on AdminNotificationEvent screen.
         $Self->True(
             index( $Selenium->get_page_source(), $NotifEventRandomID ) > -1,
             "$NotifEventRandomID NotificaionEvent found on page",
         );
 
-        # check is there notification 'Notification added!' after notification is added
-        my $Notification = 'Notification added!';
+        # Check is there notification 'Notification added!' after notification is added.
+        my $Notification = $LanguageObject->Translate('Notification added!');
         $Self->True(
             $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
             "$Notification - notification is found."
-        );
+        ) || die;
 
-        # check test NotificationEvent values
+        # Check test NotificationEvent values.
         $Selenium->find_element( $NotifEventRandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
@@ -176,11 +187,11 @@ $Selenium->RunTest(
             "#ValidID stored value",
         );
 
-        # check breadcrumb on Edit screen
+        # Check breadcrumb on Edit screen.
         $Count = 1;
         for my $BreadcrumbText (
-            'Appointment Notification Management',
-            'Edit Notification: ' . $NotifEventRandomID
+            $LanguageObject->Translate('Appointment Notification Management'),
+            $LanguageObject->Translate('Edit Notification') . ": $NotifEventRandomID"
             )
         {
             $Self->Is(
@@ -192,7 +203,7 @@ $Selenium->RunTest(
             $Count++;
         }
 
-        # edit test NotificationEvent and set it to invalid
+        # Edit test NotificationEvent and set it to invalid.
         my $EditNotifEventText = "Selenium edited NotificationEvent test";
 
         $Selenium->find_element( "#Comment",    'css' )->clear();
@@ -206,14 +217,14 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
-        # check is there notification 'Notification updated!' after notification is added
-        $Notification = 'Notification updated!';
+        # Check is there notification 'Notification updated!' after notification is added
+        $Notification = $LanguageObject->Translate('Notification updated!');
         $Self->True(
             $Selenium->execute_script("return \$('.MessageBox.Notice p:contains($Notification)').length"),
             "$Notification - notification is found."
         );
 
-        # check edited NotifcationEvent values
+        # Check edited NotifcationEvent values
         $Selenium->find_element( $NotifEventRandomID, 'link_text' )->VerifiedClick();
 
         $Self->Is(
@@ -271,10 +282,10 @@ $Selenium->RunTest(
             }
         }
 
-        # go back to AdminNotificationEvent overview screen
+        # Go back to AdminNotificationEvent overview screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminAppointmentNotificationEvent");
 
-        # check class of invalid NotificationEvent in the overview table
+        # Check class of invalid NotificationEvent in the overview table
         $Self->True(
             $Selenium->execute_script(
                 "return \$('tr.Invalid td a:contains($NotifEventRandomID)').length"
@@ -282,12 +293,23 @@ $Selenium->RunTest(
             "There is a class 'Invalid' for test NotificationEvent",
         );
 
-        # get NotificationEventID
-        my %NotifEventID = $Kernel::OM->Get('Kernel::System::NotificationEvent')->NotificationGet(
+        my $NotificationEventObject = $Kernel::OM->Get('Kernel::System::NotificationEvent');
+
+        # Get NotificationEventID.
+        my %NotifEventID = $NotificationEventObject->NotificationGet(
             Name => $NotifEventRandomID
         );
 
-        # click on delete icon
+        # Create copy of test Notification.
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=NotificationCopy;ID=$NotifEventID{ID}' )]")
+            ->VerifiedClick();
+        my $TranslatedNotificationCopy = $LanguageObject->Translate( '%s (Copy)', $NotifEventRandomID );
+        $Self->True(
+            $Selenium->find_element("//a[contains(.,'$TranslatedNotificationCopy')]"),
+            "Test NotificationEvent copy is created - $TranslatedNotificationCopy",
+        );
+
+        # Click on delete icon.
         my $CheckConfirmJS = <<"JAVASCRIPT";
 (function () {
     window.confirm = function (message) {
@@ -295,42 +317,61 @@ $Selenium->RunTest(
     };
 }());
 JAVASCRIPT
-        $Selenium->execute_script($CheckConfirmJS);
 
-        # delete test SLA with delete button
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$NotifEventID{ID}' )]")->VerifiedClick();
+        for my $Item ( $TranslatedNotificationCopy, $NotifEventRandomID ) {
+            $Selenium->execute_script($CheckConfirmJS);
 
-        # check if test NotificationEvent is deleted
-        $Self->False(
-            $Selenium->execute_script(
-                "return \$('tr.Invalid td a:contains($NotifEventRandomID)').length"
-            ),
-            "Test NotificationEvent is deleted - $NotifEventRandomID",
-        ) || die;
+            my %NotifEventID = $NotificationEventObject->NotificationGet(
+                Name => $Item
+            );
+
+            # Delete test Notification with delete button.
+            $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$NotifEventID{ID}' )]")
+                ->VerifiedClick();
+
+            # Check if test NotificationEvent is deleted
+            $Self->False(
+                $Selenium->execute_script(
+                    "return \$('tr.Invalid td a:contains($Item)').length"
+                ),
+                "Test NotificationEvent is deleted - $Item",
+            ) || die;
+
+            $Selenium->VerifiedRefresh();
+        }
 
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-        # import existing template without overwrite
+        # Import existing template without overwrite.
         my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/NotificationEvent/Export_Notification_Appointment_reminder_notification.yml";
         $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
 
-        $Selenium->find_element("//button[\@value=\'Upload Notification configuration']")->VerifiedClick();
+        my $TranslatedUploadNotification = $LanguageObject->Translate('Upload Notification configuration');
+        $Selenium->find_element("//button[\@value=\'$TranslatedUploadNotification\']")->VerifiedClick();
 
+        my $TranslatedMessage =
+            $LanguageObject->Translate(
+            'There where errors adding/updating the following Notifications: %s. Please check the log file for more information.',
+            $NotifEventRandomID
+            );
+        $TranslatedMessage = substr( $TranslatedMessage, 0, 30 );
         $Selenium->find_element(
-            "//p[contains(text(), \'There where errors adding/updating the following Notifications')]"
+            "//p[contains(text(),'$TranslatedMessage')]"
         );
 
-        # import existing template with overwrite
+        # Import existing template with overwrite.
         $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/NotificationEvent/Export_Notification_Appointment_reminder_notification.yml";
-        $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
-
+        $Selenium->find_element( "#FileUpload",                     'css' )->send_keys($Location);
         $Selenium->find_element( "#OverwriteExistingNotifications", 'css' )->click();
+        $Selenium->find_element("//button[\@value=\'$TranslatedUploadNotification\']")->VerifiedClick();
 
-        $Selenium->find_element("//button[\@value=\'Upload Notification configuration']")->VerifiedClick();
-
-        $Selenium->find_element("//p[contains(text(), \'The following Notifications have been updated successfully')]");
+        $TranslatedMessage
+            = $LanguageObject->Translate( 'The following Notifications have been updated successfully: %s',
+            $NotifEventRandomID );
+        $TranslatedMessage = substr( $TranslatedMessage, 0, 30 );
+        $Selenium->find_element("//p[contains(text(),'$TranslatedMessage')]");
     }
 );
 

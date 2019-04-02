@@ -517,7 +517,7 @@ sub Run {
 
         # Create new ACL name.
         my $Count   = 1;
-        my $ACLName = "$ACLData->{Name} (" . $LayoutObject->{LanguageObject}->Translate('Copy') . ") $Count";
+        my $ACLName = $LayoutObject->{LanguageObject}->Translate( '%s (Copy) %s', $ACLData->{Name}, $Count );
         while (
             $ACLObject->ACLGet(
                 Name   => $ACLName,
