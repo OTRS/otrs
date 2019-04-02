@@ -61,7 +61,6 @@ sub Dispatch {
     $CommonObject{GroupObject}           = $Kernel::OM->Get('Kernel::System::Group');
     $CommonObject{LinkObject}            = $Kernel::OM->Get('Kernel::System::LinkObject');
     $CommonObject{LogObject}             = $Kernel::OM->Get('Kernel::System::Log');
-    $CommonObject{MainObject}            = $Kernel::OM->Get('Kernel::System::Main');
     $CommonObject{PIDObject}             = $Kernel::OM->Get('Kernel::System::PID');
     $CommonObject{QueueObject}           = $Kernel::OM->Get('Kernel::System::Queue');
     $CommonObject{SessionObject}         = $Kernel::OM->Get('Kernel::System::AuthSession');
@@ -142,7 +141,6 @@ sub DispatchMultipleTicketMethods {
     $CommonObject{GroupObject}           = $Kernel::OM->Get('Kernel::System::Group');
     $CommonObject{LinkObject}            = $Kernel::OM->Get('Kernel::System::LinkObject');
     $CommonObject{LogObject}             = $Kernel::OM->Get('Kernel::System::Log');
-    $CommonObject{MainObject}            = $Kernel::OM->Get('Kernel::System::Main');
     $CommonObject{PIDObject}             = $Kernel::OM->Get('Kernel::System::PID');
     $CommonObject{QueueObject}           = $Kernel::OM->Get('Kernel::System::Queue');
     $CommonObject{SessionObject}         = $Kernel::OM->Get('Kernel::System::AuthSession');
