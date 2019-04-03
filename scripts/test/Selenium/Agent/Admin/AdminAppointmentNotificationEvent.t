@@ -84,8 +84,10 @@ $Selenium->RunTest(
 
         # Check breadcrumb on Add screen.
         my $Count = 1;
-        for my $BreadcrumbText ( $LanguageObject->Translate('Appointment Notification Management'),
-            $LanguageObject->Translate('Add Notification') )
+        for my $BreadcrumbText (
+            $LanguageObject->Translate('Appointment Notification Management'),
+            $LanguageObject->Translate('Add Notification')
+            )
         {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
@@ -303,7 +305,7 @@ $Selenium->RunTest(
         # Create copy of test Notification.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=NotificationCopy;ID=$NotifEventID{ID}' )]")
             ->VerifiedClick();
-        my $TranslatedNotificationCopy = $LanguageObject->Translate( '%s (Copy)', $NotifEventRandomID );
+        my $TranslatedNotificationCopy = $LanguageObject->Translate( '%s (copy)', $NotifEventRandomID );
         $Self->True(
             $Selenium->find_element("//a[contains(.,'$TranslatedNotificationCopy')]"),
             "Test NotificationEvent copy is created - $TranslatedNotificationCopy",
@@ -367,9 +369,10 @@ JAVASCRIPT
         $Selenium->find_element( "#OverwriteExistingNotifications", 'css' )->click();
         $Selenium->find_element("//button[\@value=\'$TranslatedUploadNotification\']")->VerifiedClick();
 
-        $TranslatedMessage
-            = $LanguageObject->Translate( 'The following Notifications have been updated successfully: %s',
-            $NotifEventRandomID );
+        $TranslatedMessage = $LanguageObject->Translate(
+            'The following Notifications have been updated successfully: %s',
+            $NotifEventRandomID
+        );
         $TranslatedMessage = substr( $TranslatedMessage, 0, 30 );
         $Selenium->find_element("//p[contains(text(),'$TranslatedMessage')]");
     }

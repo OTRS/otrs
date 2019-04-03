@@ -726,7 +726,7 @@ sub Run {
         }
 
         # create new process name
-        my $ProcessName = $LayoutObject->{LanguageObject}->Translate( '%s (Copy)', $ProcessData->{Name} );
+        my $ProcessName = $LayoutObject->{LanguageObject}->Translate( '%s (copy)', $ProcessData->{Name} );
 
         # generate entity ID
         my $EntityID = $EntityObject->EntityIDGenerate(

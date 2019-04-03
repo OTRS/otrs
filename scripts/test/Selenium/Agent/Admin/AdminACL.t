@@ -393,8 +393,8 @@ JAVASCRIPT
 
         # Verify there are both copied ACL's.
         push @TestACLNames,
-            $LanguageObject->Translate( '%s (Copy) %s', $TestACLNames[0], 1 ),
-            $LanguageObject->Translate( '%s (Copy) %s', $TestACLNames[0], 2 );
+            $LanguageObject->Translate( '%s (copy) %s', $TestACLNames[0], 1 ),
+            $LanguageObject->Translate( '%s (copy) %s', $TestACLNames[0], 2 );
 
         $Self->True(
             index( $Selenium->get_page_source(), $TestACLNames[2] ) > -1,

@@ -525,7 +525,7 @@ sub Run {
         }
 
         # create new Notification name
-        my $NotificationName = $LayoutObject->{LanguageObject}->Translate( '%s (Copy)', $NotificationData{Name} );
+        my $NotificationName = $LayoutObject->{LanguageObject}->Translate( '%s (copy)', $NotificationData{Name} );
 
         # otherwise save configuration and return to overview screen
         my $NewNotificationID = $NotificationEventObject->NotificationAdd(
