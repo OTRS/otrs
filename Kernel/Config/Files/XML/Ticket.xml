@@ -10405,14 +10405,14 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::GenericAgentAllowCustomScriptExecution" Required="0" Valid="1">
-        <Description Translatable="1">Allows genericagent to execute custom command line scripts".</Description>
+        <Description Translatable="1">Allows generic agent to execute custom command line scripts.</Description>
         <Navigation>Core::Ticket</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::GenericAgentAllowCustomModuleExecution" Required="0" Valid="1">
-        <Description Translatable="1">Allows genericagent to execute custom modules".</Description>
+        <Description Translatable="1">Allows generic agent to execute custom modules.</Description>
         <Navigation>Core::Ticket</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
