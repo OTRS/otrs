@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.456839575405568;
+    $Self->{Completeness}        = 0.462462462462462;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -535,7 +535,7 @@ sub Data {
         'Service' => 'Servicio',
         'Services' => 'Servicios',
         'State' => 'Estado',
-        'States' => 'Estados',
+        'States' => 'Estado',
         'Status' => 'Estado',
         'Statuses' => 'Estados',
         'Ticket Type' => 'Tipo de Ticket',
@@ -799,7 +799,7 @@ sub Data {
         'ACLs' => '',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
-        'ACL name' => '',
+        'ACL name' => 'Nombre del ACL',
         'Validity' => 'Validez',
         'Copy' => 'Copiar',
         'No data found.' => 'No se encontraron datos.',
@@ -812,20 +812,20 @@ sub Data {
         'Match settings' => '',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
-        'Change settings' => '',
+        'Change settings' => 'Cambiar Configuración',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
         'Check the official' => '',
-        'documentation' => '',
+        'documentation' => 'documentación',
         'Show or hide the content' => 'Mostrar u ocultar el contenido',
         'Edit ACL information' => '',
         'Stop after match' => 'Parar al coincidir',
         'Edit ACL structure' => '',
-        'Save ACL' => '',
+        'Save ACL' => 'Guardar ACL',
         'Save' => 'Guardar',
         'or' => 'o',
-        'Save and finish' => '',
-        'Do you really want to delete this ACL?' => '',
+        'Save and finish' => 'Guarda y finalizar',
+        'Do you really want to delete this ACL?' => '¿Realmente deseas eliminar este ACL?',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
             '',
         'An item with this name is already present.' => '',
@@ -943,7 +943,7 @@ sub Data {
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Es posible gestionar estos grupos por medio de la configuración "CustomerGroupAlwaysGroups"',
         'Filter for Groups' => 'Filtro para Grupos',
-        'Just start typing to filter...' => '',
+        'Just start typing to filter...' => 'Solo empieza a escribir para filtrar...',
         'Select the customer:group permissions.' => 'Seleccione los permisos cliente:grupo',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Si nada se selecciona, no habrá permisos para este grupo y los tickets no estarán disponibles para el cliente.',
@@ -1540,18 +1540,18 @@ sub Data {
         # Template: AdminNotificationEvent
         'Ticket Notification Management' => '',
         'Add notification' => 'Agregar notificación',
-        'Export Notifications' => '',
-        'Configuration Import' => '',
+        'Export Notifications' => 'Exportar Notificaciones',
+        'Configuration Import' => 'Importe de Configuración',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
-        'Overwrite existing notifications?' => '',
-        'Upload Notification configuration' => '',
-        'Import Notification configuration' => '',
+        'Overwrite existing notifications?' => '¿Sobrescribir notificaciones existentes?',
+        'Upload Notification configuration' => 'Subir configuración de Notificaciones',
+        'Import Notification configuration' => 'Importar configuración de Notificaciones',
         'Delete this notification' => 'Eliminar esta notificación',
         'Do you really want to delete this notification?' => '',
         'Add Notification' => 'Agregar Notificación',
         'Edit Notification' => 'Modificar Notificación',
-        'Show in agent preferences' => '',
+        'Show in agent preferences' => 'Mostrar en preferencias del agente',
         'Agent preferences tooltip' => '',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
             '',
@@ -1568,32 +1568,32 @@ sub Data {
         'Body match' => 'Coincidencia del cuerpo',
         'Include attachments to notification' => 'Incluir archivos adjuntos en la notificación',
         'Recipients' => '',
-        'Send to' => '',
-        'Send to these agents' => '',
+        'Send to' => 'Enviar a',
+        'Send to these agents' => 'Enviar a estos agentes',
         'Send to all group members (agents only)' => '',
-        'Send to all role members' => '',
-        'Send on out of office' => '',
+        'Send to all role members' => 'Enviar a todos los miembros del rol',
+        'Send on out of office' => 'Enviar un fuera de oficina',
         'Also send if the user is currently out of office.' => '',
-        'Once per day' => '',
+        'Once per day' => 'Una vez por dia',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             '',
-        'Notification Methods' => '',
+        'Notification Methods' => 'Métodos de Notificación',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
             '',
-        'Enable this notification method' => '',
+        'Enable this notification method' => 'Habilitar éste método de notificación',
         'Transport' => '',
         'At least one method is needed per notification.' => '',
-        'Active by default in agent preferences' => '',
+        'Active by default in agent preferences' => 'Activo por defecto en las preferencias del agente',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             '',
-        'This feature is currently not available.' => '',
-        'No data found' => '',
-        'No notification method found.' => '',
-        'Notification Text' => '',
+        'This feature is currently not available.' => 'Ésta característica no está disponible',
+        'No data found' => 'No hay datos encontrados',
+        'No notification method found.' => 'No se encontraron métodos de notificación',
+        'Notification Text' => 'Texto de la Notificación',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
             '',
         'Remove Notification Language' => '',
-        'Message body' => '',
+        'Message body' => 'Cuerpo del mensaje',
         'This field is required and must have less than 4000 characters.' =>
             '',
         'Add new notification language' => '',
@@ -1618,7 +1618,7 @@ sub Data {
         'Ticket dynamic fields internal key values' => '',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
-        'Example notification' => '',
+        'Example notification' => 'Ejemplo de notificación',
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => '',
@@ -2445,7 +2445,7 @@ sub Data {
             '',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
             '',
-        'Start date' => '',
+        'Start date' => 'Fecha de Inicio',
         'Stop date' => '',
         'Delete System Maintenance' => '',
         'Do you really want to delete this scheduled system maintenance?' =>
@@ -3010,7 +3010,7 @@ sub Data {
             'Para utilizar OTRS correctamente, es necesario que habilite JavaScript en su explorador web.',
         'Browser Warning' => 'Advertencia del Explorador',
         'One moment please, you are being redirected...' => '',
-        'Login' => 'Identificador',
+        'Login' => 'Inicio de sesión',
         'User name' => 'Nombre de usuario',
         'Your user name' => 'Su nombre de usuario',
         'Your password' => 'Su contraseña',
@@ -4785,6 +4785,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Permite tener un formato de vista mediana para los tickets (InformaciónCliente => 1 - muestra además la información del cliente).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -5945,7 +5948,7 @@ Thanks for your help!
         'Gives end users the possibility to override the separator character for CSV files, defined in the translation files.' =>
             'Proporciona a los usuarios finales la posibilidad de sobrescribir el caracter de separación de los archivos CSV, definido en los archivos de traducción.',
         'Global Search Module.' => '',
-        'Go back' => '',
+        'Go back' => 'Ir atrás',
         'Google Authenticator' => '',
         'Graph: Bar Chart' => '',
         'Graph: Line Chart' => '',

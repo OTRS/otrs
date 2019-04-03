@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.959943921490086;
+    $Self->{Completeness}        = 0.988588588588589;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -38,7 +38,7 @@ sub Data {
         'no' => 'nein',
         'Off' => 'Aus',
         'off' => 'aus',
-        'On' => 'Ein',
+        'On' => 'Am',
         'on' => 'ein',
         'top' => 'hoch',
         'end' => 'runter',
@@ -277,9 +277,9 @@ sub Data {
         'Dispatching by email To: field.' => 'Verteilung nach To: Feld.',
         'Dispatching by selected Queue.' => 'Verteilung nach ausgewählter Queue.',
         'No entry found!' => 'Kein Eintrag gefunden!',
-        'Session invalid. Please log in again.' => 'Session ungültig. Bitte neu anmelden.',
-        'Session has timed out. Please log in again.' => 'Session abgelaufen. Bitte neu anmelden.',
-        'Session limit reached! Please try again later.' => 'Maximale Anzahl an Sessions erreicht. Bitte versuchen Sie es später noch einmal.',
+        'Session invalid. Please log in again.' => 'Sitzung ungültig. Bitte neu anmelden.',
+        'Session has timed out. Please log in again.' => 'Sitzung abgelaufen. Bitte neu anmelden.',
+        'Session limit reached! Please try again later.' => 'Maximale Anzahl an Sitzungen erreicht. Bitte versuchen Sie es später noch einmal.',
         'No Permission!' => 'Keine Zugriffsrechte!',
         '(Click here to add)' => '(Hier klicken um hinzuzufügen)',
         'Preview' => 'Vorschau',
@@ -295,7 +295,7 @@ sub Data {
         'Customer %s added' => 'Kunde %s hinzugefügt',
         'Role added!' => 'Rolle hinzugefügt!',
         'Role updated!' => 'Rolle aktualisiert!',
-        'Attachment added!' => 'Anlage hinzugefügt!',
+        'Attachment added!' => 'Anhang hinzugefügt!',
         'Attachment updated!' => 'Anlage aktualisiert!',
         'Response added!' => 'Antwort hinzugefügt!',
         'Response updated!' => 'Antwort aktualisiert!',
@@ -312,7 +312,7 @@ sub Data {
         'Note: Company is invalid!' => 'Hinweis: Firma ist ungültig!',
         'Mail account added!' => 'E-Mail-Konto hinzugefügt!',
         'Mail account updated!' => 'E-Mail-Konto aktualisiert!',
-        'System e-mail address added!' => 'E-Mail-Adresse hinzugefügt!',
+        'System e-mail address added!' => 'System-E-Mail-Adresse hinzugefügt!',
         'System e-mail address updated!' => 'E-Mail-Adresse aktualisiert!',
         'Contract' => 'Vertrag',
         'Online Customer: %s' => 'Online-Kunde: %s',
@@ -354,7 +354,7 @@ sub Data {
             'Keine oder keine neuen Pakete im ausgewählten Verzeichnis gefunden.',
         'Edit the system configuration settings.' => 'Systemeinstellungen bearbeiten.',
         'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
-            'Die ACL-Konfiguration ist laut Datenbank nicht synchron mit der System-Konfiguration, bitte ACLs in Betrieb nehmen.',
+            'Die ACL-Konfiguration ist laut Datenbank nicht synchron mit der Systemkonfiguration, bitte ACLs in Betrieb nehmen.',
         'printed at' => 'gedruckt am',
         'Loading...' => 'Laden...',
         'Dear Mr. %s,' => 'Sehr geehrter Herr %s,',
@@ -364,7 +364,7 @@ sub Data {
         'This email address is not allowed to register. Please contact support staff.' =>
             'Diese E-Mail-Adresse darf nicht registriert werden. Bitte wenden Sie sich an die Supportabteilung.',
         'New account created. Sent login information to %s. Please check your email.' =>
-            'Neues Benutzerkonto angelegt. Anmeldedaten wurden an %s gesendet. Bitte prüfen Sie Ihre E-Mail.',
+            'Neues Konto angelegt. Anmeldedaten wurden an %s gesendet. Bitte prüfen Sie Ihre E-Mail.',
         'Please press Back and try again.' => 'Bitte auf Zurück klicken und erneut versuchen.',
         'Sent password reset instructions. Please check your email.' => 'Anweisungen zum Zurücksetzen des Passworts wurden gesendet. Bitte prüfen Sie ihre E-Mail.',
         'Sent new password to %s. Please check your email.' => 'Neues Passwort an %s gesendet. Bitte prüfen Sie Ihre E-Mail.',
@@ -383,7 +383,7 @@ sub Data {
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
             'Die Konfiguration des Prozessmanagements in der Datenbank ist nicht synchron mit der Systemkonfiguration, bitte synchronisieren Sie alle Prozesse.',
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
-            'Paket wurde nicht von der OTRS-Gruppe verifiziert! Es wird empfohlen, dieses Paket nicht zu nutzen.',
+            'Paket wurde nicht von der OTRS Gruppe verifiziert! Es wird empfohlen, dieses Paket nicht zu nutzen.',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '<br>Wenn Sie die Installation dieses Pakets fortführen, können folgende Probleme auftreten!<br><br>&nbsp;-Sicherheitsprobleme<br>&nbsp;-Stabilitätsprobleme<br>&nbsp;-Performanceprobleme<br><br>Bitte beachten Sie, dass Probleme im Zusammenhang mit diesem Paket nicht durch einen OTRS Servicevertrag abgedeckt sind!<br><br>',
         'Mark' => 'Markieren',
@@ -414,7 +414,7 @@ sub Data {
         'Can\'t contact registration server. Please try again later.' => 'Registrierungs-Server konnte nicht erreicht werden. Bitte versuchen Sie es später noch einmal.',
         'No content received from registration server. Please try again later.' =>
             'Registrierungs-Server lieferte keinen Inhalt. Bitte versuchen Sie es später noch einmal.',
-        'Problems processing server result. Please try again later.' => 'Beim Verarbeiten der Serverantwort ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal.',
+        'Problems processing server result. Please try again later.' => 'Beim Verarbeiten der Server-Antwort ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal.',
         'Username and password do not match. Please try again.' => 'Benutzername und Passwort stimmen nicht überein. Bitte versuchen Sie es noch einmal.',
         'The selected process is invalid!' => 'Der ausgewählte Prozess ist ungültig.',
         'Upgrade to %s now!' => 'Jetzt auf %s upgraden!',
@@ -431,7 +431,7 @@ sub Data {
         'There was a problem during the upgrade of %s.' => 'Es gab ein Problem bei der Aktualisierung Ihrer %s.',
         '%s was correctly uninstalled.' => 'Die %s wurde korrekt de-installiert.',
         'There was a problem uninstalling %s.' => 'Es gab ein Problem beim De-Installieren der %s.',
-        'Enable cloud services to unleash all OTRS features!' => 'Aktivieren Sie die Cloud Services, um alle OTRS-Funktionen nutzen zu können!',
+        'Enable cloud services to unleash all OTRS features!' => 'Aktivieren Sie die Cloud-Services, um alle OTRS-Funktionen nutzen zu können!',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Neujahr',
@@ -474,7 +474,7 @@ sub Data {
         'December' => 'Dezember',
 
         # Template: AAAPreferences
-        'Preferences updated successfully!' => 'Benutzereinstellungen erfolgreich aktualisiert!',
+        'Preferences updated successfully!' => 'Einstellungen erfolgreich aktualisiert!',
         'User Profile' => 'Benutzer-Profil',
         'Email Settings' => 'E-Mail-Einstellungen',
         'Other Settings' => 'Andere Einstellungen',
@@ -508,7 +508,7 @@ sub Data {
         'Service View' => 'Ansicht nach Services',
         'Bulk' => 'Sammelaktion',
         'Lock' => 'Sperren',
-        'Unlock' => 'Freigeben',
+        'Unlock' => 'Entsperren',
         'History' => 'Historie',
         'Zoom' => 'Inhalt',
         'Age' => 'Alter',
@@ -555,8 +555,8 @@ sub Data {
         'email' => 'E-Mail',
         'Close' => 'Schließen',
         'Action' => 'Aktion',
-        'Attachment' => 'Anlage',
-        'Attachments' => 'Anlagen',
+        'Attachment' => 'Anhang',
+        'Attachments' => 'Anhänge',
         'This message was written in a character set other than your own.' =>
             'Diese Nachricht wurde in einem Zeichensatz erstellt, der nicht Ihrem eigenen entspricht.',
         'If it is not displayed correctly,' => 'Wenn sie nicht korrekt angezeigt wird,',
@@ -630,12 +630,12 @@ sub Data {
         'Answer' => 'Beantworten',
         'Phone call' => 'Telefonanruf',
         'Ticket "%s" created!' => 'Ticket "%s" erstellt!',
-        'Ticket Number' => 'Ticketnummer',
+        'Ticket Number' => 'Ticket-Nummer',
         'Ticket Object' => 'Ticket-Objekt',
         'No such Ticket Number "%s"! Can\'t link it!' => 'Ticketnummer "%s" nicht gefunden! Ticket konnte nicht verknüpft werden!',
         'You don\'t have write access to this ticket.' => 'Sie haben keinen Schreibzugriff auf dieses Ticket.',
         'Sorry, you need to be the ticket owner to perform this action.' =>
-            'Entschuldigung, Sie müssen Ticketbesitzer sein, um diese Aktion ausführen zu können.',
+            'Entschuldigung, Sie müssen Besitzer des Tickets sein, um diese Aktion ausführen zu können.',
         'Please change the owner first.' => 'Bitte ändern Sie zunächst den Besitzer.',
         'Ticket selected.' => 'Ticket ausgewählt.',
         'Ticket is locked by another agent.' => 'Das Ticket ist für einen anderen Agenten gesperrt.',
@@ -644,7 +644,7 @@ sub Data {
         'Show closed Tickets' => 'Geschlossene Tickets anzeigen',
         'New Article' => 'Neuer Artikel',
         'Unread article(s) available' => 'Ungelesene Artikel verfügbar',
-        'Remove from list of watched tickets' => 'Von der Liste der beobachteten Tickets streichen',
+        'Remove from list of watched tickets' => 'Von der Liste der beobachteten Tickets entfernen',
         'Add to list of watched tickets' => 'Zur Liste der beobachteten Tickets hinzufügen',
         'Email-Ticket' => 'E-Mail-Ticket',
         'Create new Email Ticket' => 'Ein neues E-Mail-Ticket erstellen',
@@ -713,7 +713,7 @@ sub Data {
         'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' =>
             'Sende mir eine Benachrichtigung, wenn ein Kunde eine Rückmeldung gibt und ich der Besitzer des Tickets bin, oder das Ticket nicht gesperrt ist und in einer meiner Queues liegt.',
         'Send ticket follow up notifications' => 'Benachrichtigung bei Rückmeldung verschicken',
-        'Ticket lock timeout notification' => 'Mitteilung bei Überschreiten der Sperrzeit',
+        'Ticket lock timeout notification' => 'Mitteilung bei Überschreiten der Ticket-Sperrzeit',
         'Send me a notification if a ticket is unlocked by the system.' =>
             'Benachrichtigung bei einer System-Freigabe eines Tickets ("unlock")',
         'Send ticket lock timeout notifications' => 'Benachrichtigung bei Ablauf einer Ticket-Sperre',
@@ -787,7 +787,7 @@ sub Data {
         'Export ACLs' => 'ACLs exportieren',
         'Configuration import' => 'Konfiguration importieren',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            'Hier können Sie über eine Konfigurationsdatei ACLs ins System importieren. Diese Datei muss das vom ACL Editor verwendeten .yml Format haben.',
+            'Hier können Sie über eine Konfigurationsdatei ACLs ins System importieren. Diese Datei muss das vom ACL Editor verwendete .yml Format haben.',
         'This field is required.' => 'Dieses Feld wird benötigt.',
         'Overwrite existing ACLs?' => 'Existierende ACLs überschreiben?',
         'Upload ACL configuration' => 'ACL-Konfiguration hochladen',
@@ -795,7 +795,7 @@ sub Data {
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
             'Wenn Sie eine ACL erstellen möchten, können Sie sie von einem anderen System importieren oder eine ganz neue erstellen.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
-            'Änderungen an den ACLs wirken sich erst aus, wenn sie die Konfiguration in Betrieb nehmen. Dabei werden die Änderungen in der Konfiguration gespeichert.',
+            'Änderungen an den ACLs wirken sich erst aus, wenn Sie die Konfiguration in Betrieb nehmen. Dabei werden die Änderungen in der Konfiguration gespeichert.',
         'ACLs' => 'ACLs',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             'Hinweis: Diese Tabelle stellt die Ausführungsreihenfolge der ACLs dar. Wenn Sie die Reihenfolge ändern möchten, ändern Sie bitte die Namen der betroffenen ACLs.',
@@ -812,12 +812,12 @@ sub Data {
         'Match settings' => 'Filterbedingungen',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             'Stellt die Filterbedingungen dieser ACL ein. Verwenden Sie \'Properties\' um den Wert aus dem aktuellen Bildschirm zu prüfen oder \'PropertiesDatabase\' für den Wert des Tickets, wie es in der Datenbank gespeichert ist.',
-        'Change settings' => 'Wertänderungen',
+        'Change settings' => 'Werte ändern',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Stellt die Wertänderungen ein für den Fall, dass die Filterbedingungen zutreffen. Hierbei ist \'Possible\' eine Positivliste und \'PossibleNot\' eine Negativliste.',
         'Check the official' => 'Prüfen Sie die offizielle',
         'documentation' => 'Dokumentation',
-        'Show or hide the content' => 'Inhalt anzeigen oder ausblenden',
+        'Show or hide the content' => 'Inhalt einblenden oder ausblenden',
         'Edit ACL information' => 'ACL-Information bearbeiten',
         'Stop after match' => 'Stoppen nach Treffer',
         'Edit ACL structure' => 'ACL-Struktur bearbeiten',
@@ -834,10 +834,10 @@ sub Data {
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
-            'Neue ACL Erstellen, durch Eingabe der Daten. Nach Anlage der ACL ist es möglich, Konfigurationsparameter im Änderungsmodus einzufügen.',
+            'Neue ACL durch Eingabe der Daten erstellen. Nach Erstellung der ACL ist es möglich, Konfigurationsparameter im Bearbeitungsmodus einzufügen.',
 
         # Template: AdminAttachment
-        'Attachment Management' => 'Anlagenverwaltung',
+        'Attachment Management' => 'Verwaltung von Anhängen',
         'Add attachment' => 'Anlage hinzufügen',
         'List' => 'Liste',
         'Download file' => 'Datei herunterladen',
@@ -854,10 +854,10 @@ sub Data {
         'Response' => 'Antwort',
         'Auto response from' => 'Automatische Antwort von',
         'Reference' => 'Referenz',
-        'You can use the following tags' => 'Die folgenden Tags können benutzt werden',
+        'You can use the following tags' => 'Sie können folgende Tags verwenden',
         'To get the first 20 character of the subject.' => 'Die ersten 20 Zeichen des Betreffs',
         'To get the first 5 lines of the email.' => 'Die ersten fünf Zeilen der Nachricht',
-        'To get the name of the ticket\'s customer user (if given).' => 'Um den Namen des Kunden-Benutzer (falls vorhanden) eines Tickets zu erhalten.',
+        'To get the name of the ticket\'s customer user (if given).' => 'Der Namen des Kundenbenutzers (falls vorhanden) eines Tickets.',
         'To get the article attribute' => 'Die Artikel-Attribute',
         ' e. g.' => 'z. B.',
         'Options of the current customer user data' => 'Attribute des aktuellen Kunden',
@@ -865,14 +865,14 @@ sub Data {
         'Ticket responsible options' => 'Attribute des Ticket-Verantwortlichen',
         'Options of the current user who requested this action' => 'Attribute des aktuellen Benutzers, der die Aktion angefordert hat',
         'Options of the ticket data' => 'Attribute der Ticketdaten',
-        'Options of ticket dynamic fields internal key values' => 'Interne Werte der DynamicFields von Tickets',
+        'Options of ticket dynamic fields internal key values' => 'Interne Werte der Dynamischen Feldern von Tickets',
         'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
-            'Angezeigte Werte der DynamicFields von Tickets, nutzbar mit Dropdown und Multiselect',
-        'Config options' => 'Konfigurationseinstellungen',
+            'Angezeigte Werte der Dynamischen Felder von Tickets, nutzbar mit Dropdown und Multiselect',
+        'Config options' => 'Konfigurationsoptionen',
         'Example response' => 'Beispielantwort',
 
         # Template: AdminCloudServiceSupportDataCollector
-        'Cloud Service Management' => 'Verwaltung von Cloud-Services',
+        'Cloud Service Management' => 'Cloud-Services-Verwaltung',
         'Support Data Collector' => 'Supportdaten-Analyse',
         'Support data collector' => 'Supportdaten-Analyse',
         'Hint' => 'Hinweis',
@@ -909,7 +909,7 @@ sub Data {
         'List (only %s shown - more available)' => 'Liste (nur %s angezeigt - mehr verfügbar)',
         'List (%s total)' => 'Liste (%s insgesamt)',
         'Please enter a search term to look for customers.' => 'Bitte geben Sie einen Suchbegriff ein, um nach Kunden zu suchen.',
-        'Add Customer' => 'Kunden hinzufügen',
+        'Add Customer' => 'Kunde hinzufügen',
 
         # Template: AdminCustomerUser
         'Customer User Management' => 'Kundenbenutzerverwaltung',
@@ -932,11 +932,11 @@ sub Data {
         'The syntax of this email address is incorrect.' => 'Die Syntax dieser E-Mail-Adresse ist fehlerhaft.',
 
         # Template: AdminCustomerUserGroup
-        'Manage Customer-Group Relations' => 'Kunden-Gruppen-Zuordnung verwalten',
+        'Manage Customer-Group Relations' => 'Kunden-Gruppen-Zuordnungen verwalten',
         'Notice' => 'Bemerkung',
-        'This feature is disabled!' => 'Dieses Feature ist inaktiv!',
+        'This feature is disabled!' => 'Diese Funktion ist deaktiviert!',
         'Just use this feature if you want to define group permissions for customers.' =>
-            'Benutzen Sie diese Programmfunktion, wenn Sie Gruppen-Erlaubnisse für Kunden definieren möchten.',
+            'Verwenden Sie diese Funktion, wenn Sie Gruppenberechtigungen für Kunden definieren möchten.',
         'Enable it here!' => 'Hier aktivieren!',
         'Edit Customer Default Groups' => 'Standardgruppen für Kunden bearbeiten',
         'These groups are automatically assigned to all customers.' => 'Diese Gruppen werden allen Kunden automatisch zugewiesen.',
@@ -944,7 +944,7 @@ sub Data {
             'Sie können diese Gruppen mit der Konfigurationseinstellung "CustomerGroupAlwaysGroups" bearbeiten.',
         'Filter for Groups' => 'Filter für Gruppen',
         'Just start typing to filter...' => 'Beginnen Sie mit der Eingabe, um zu filtern...',
-        'Select the customer:group permissions.' => 'Wählen sie die Kunde:Gruppe-Rechte aus',
+        'Select the customer:group permissions.' => 'Wählen Sie die Gruppenberechtigungen für Kunden aus.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Wenn nichts ausgewählt ist, hat der Kunde in dieser Gruppe keine Rechte (und kann nicht auf Tickets zugreifen).',
         'Search Results' => 'Suchergebnisse',
@@ -974,18 +974,18 @@ sub Data {
         'Toggle active state for %s' => 'Aktiv-Status für %s umschalten',
 
         # Template: AdminDynamicField
-        'Dynamic Fields Management' => 'Verwaltung dynamischer Felder',
+        'Dynamic Fields Management' => 'Verwaltung Dynamischer Felder',
         'Add new field for object' => 'Neues Feld hinzufügen für Objekt',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
-            'Um ein neues Feld hinzuzufügen, wählen Sie den Feld-Typ aus der Liste der verfügbaren Typen für das jeweilige Objekt aus. Die Objekt-Auswahl ist bindend und kann nicht nachträglich verändert werden.',
-        'Dynamic Fields List' => 'Liste der dynamischen Felder',
+            'Um ein neues Feld hinzuzufügen, wählen Sie den Typ des Feldes aus der Liste der verfügbaren Typen für das jeweilige Objekt aus. Die Objekt-Auswahl ist bindend und kann nicht nachträglich verändert werden.',
+        'Dynamic Fields List' => 'Dynamische Felder - Liste',
         'Dynamic fields per page' => 'Dynamische Felder pro Seite',
         'Label' => 'Beschriftung',
         'Order' => 'Sortierung',
         'Object' => 'Objekt',
         'Delete this field' => 'Dieses Feld löschen',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
-            'Wollen Sie dieses dynamische Feld wirklich löschen? Alle darin enthaltenen Daten werden GELÖSCHT!',
+            'Wollen Sie dieses Dynamische Feld wirklich löschen? Alle darin enthaltenen Daten werden GELÖSCHT!',
         'Delete field' => 'Feld löschen',
         'Deleting the field and its data. This may take a while...' => 'Lösche das Feld und die zugehörigen Daten. Dies kann etwas dauern...',
 
@@ -1019,16 +1019,16 @@ sub Data {
         'This field must be numeric.' => 'Dieses Feld darf nur Zahlen beinhalten.',
         'The difference from NOW (in seconds) to calculate the field default value (e.g. 3600 or -60).' =>
             'Der Unterschied zu JETZT in Sekunden, mit dem der Standardwert des Feldes berechnet wird (z. B. 3600 oder -60).',
-        'Define years period' => 'Jahresbereich angeben',
+        'Define years period' => 'Jahresbereich definieren',
         'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' =>
-            'Aktivieren Sie diese Funktion, um für die Datumsauswahl einen festen Jahresbereich anzugeben (Jahre in der Vergangenheit und Zukunft).',
+            'Aktivieren Sie diese Funktion, um für die Datumsauswahl einen festen Jahresbereich zu definieren (Jahre in der Vergangenheit und Zukunft).',
         'Years in the past' => 'Jahre in der Vergangenheit',
         'Years in the past to display (default: 5 years).' => 'Jahre in der Vergangenheit, die angezeigt werden (Standard: 5).',
         'Years in the future' => 'Jahre in der Zukunft',
         'Years in the future to display (default: 5 years).' => 'Jahre in der Zukunft, die angezeigt werden (Standard: 5).',
         'Show link' => 'Link anzeigen',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
-            'Hier können Sie einen optionalen Link für die Felddarstellung in Übersichten und Ansichtsseiten angeben.',
+            'Hier können Sie einen optionalen HTTP-Link für den Feldwert in Übersichten und Ansichtsseiten angeben.',
         'Link for preview' => 'Link für Vorschau',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             'Diese URL wird (falls vorhanden) für eine Vorschau verwendet, wenn sich die Maus über diesem Link in der Ticketansicht befindet. Hierfür muss das oben stehende URL-Feld ebenso ausgefüllt werden.',
@@ -1043,12 +1043,12 @@ sub Data {
         'Add value' => 'Wert hinzufügen',
         'Add Value' => 'Wert hinzufügen',
         'Add empty value' => 'Leeren Wert hinzufügen',
-        'Activate this option to create an empty selectable value.' => 'Aktivieren Sie diese Einstellung, um einen leeren Auswahlwert zu erzeugen.',
+        'Activate this option to create an empty selectable value.' => 'Aktivieren Sie diese Option, um einen leeren Auswahlwert zu erzeugen.',
         'Tree View' => 'Baumansicht',
         'Activate this option to display values as a tree.' => 'Aktivieren Sie diese Option um die Werte als Baum anzuzeigen.',
         'Translatable values' => 'Wertübersetzung',
         'If you activate this option the values will be translated to the user defined language.' =>
-            'Wenn Sie diese Einstellung aktivieren, werden die Werte in die Sprache des Benutzers übersetzt.',
+            'Wenn Sie diese Option aktivieren, werden die Werte in die Sprache des Benutzers übersetzt.',
         'Note' => 'Notiz',
         'You need to add the translations manually into the language translation files.' =>
             'Sie müssen die Übersetzungen manuell zu den Übersetzungsdateien hinzufügen.',
@@ -1071,13 +1071,13 @@ sub Data {
         # Template: AdminEmail
         'Admin Notification' => 'Admin-Benachrichtigung',
         'With this module, administrators can send messages to agents, group or role members.' =>
-            'Mit diesem Modul können Administratoren Nachrichten an Agenten, Gruppen oder Rolleninhaber senden.',
-        'Create Administrative Message' => 'Administratorennachricht erzeugen',
+            'Mit diesem Modul können Administratoren Nachrichten an Agenten, Gruppen oder Rollenmitglieder senden.',
+        'Create Administrative Message' => 'Administrator-Nachricht erstellen',
         'Your message was sent to' => 'Ihre Nachricht wurde gesendet an',
         'Send message to users' => 'Nachricht an Benutzer senden',
         'Send message to group members' => 'Nachricht an Gruppenmitglieder senden',
         'Group members need to have permission' => 'Gruppenmitglieder brauchen eine Berechtigung',
-        'Send message to role members' => 'Nachricht an Inhaber von Rollen senden',
+        'Send message to role members' => 'Nachricht an Gruppenmitglieder senden',
         'Also send to customers in groups' => 'Auch an Kunden der Gruppe senden',
         'Body' => 'Text',
         'Send' => 'Senden',
@@ -1087,11 +1087,11 @@ sub Data {
         'Add job' => 'Job hinzufügen',
         'Last run' => 'Letzte Ausführung',
         'Run Now!' => 'Jetzt ausführen!',
-        'Delete this task' => 'Diesen Job löschen',
-        'Run this task' => 'Diesen Job ausführen',
+        'Delete this task' => 'Diesen Auftrag löschen',
+        'Run this task' => 'Diesen Auftrag ausführen',
         'Do you really want to delete this task?' => 'Möchten Sie diese Aufgabe wirklich löschen?',
-        'Job Settings' => 'Jobeinstellungen',
-        'Job name' => 'Jobname',
+        'Job Settings' => 'Auftragseinstellungen',
+        'Job name' => 'Auftragsname',
         'The name you entered already exists.' => 'Der eingegebene Name existiert bereits.',
         'Toggle this widget' => 'Dieses Widget umschalten',
         'Automatic execution (multiple tickets)' => 'Automatische Ausführung (mehrere Tickets)',
@@ -1100,22 +1100,22 @@ sub Data {
         'Schedule hours' => 'Ausführen zu Stunde(n)',
         'Schedule days' => 'Ausführen an Tag(en)',
         'Currently this generic agent job will not run automatically.' =>
-            'Derzeit würde dieser GenericAgent-Job nicht automatisch ausgeführt werden.',
+            'Derzeit würde dieser GenericAgent-Auftrag nicht automatisch ausgeführt werden.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
             'Um ihn automatisch auszuführen, muss mindestens je ein Wert von Minuten, Stunden und Tagen ausgewählt werden!',
         'Event based execution (single ticket)' => 'Event-gesteuerte Ausführung (einzelnes Ticket)',
-        'Event Triggers' => 'Event-Trigger',
-        'List of all configured events' => 'Alle konfigurierten Events anzeigen',
-        'Delete this event' => 'Dieses Event löschen',
+        'Event Triggers' => 'Ereignis-Auslöser',
+        'List of all configured events' => 'Liste aller konfigurierten Ereignisse',
+        'Delete this event' => 'Dieses Ereignis löschen',
         'Additionally or alternatively to a periodic execution, you can define ticket events that will trigger this job.' =>
-            'Zusätzlich oder alternativ zur periodischen Ausführung können Sie Ticket-Events angeben, bei denen dieser Job ausgeführt werden soll.',
+            'Zusätzlich oder alternativ zur periodischen Ausführung können Sie Ticket-Ereignisse angeben, bei denen dieser Auftrag ausgeführt werden soll.',
         'If a ticket event is fired, the ticket filter will be applied to check if the ticket matches. Only then the job is run on that ticket.' =>
-            'Wenn ein Ticket-Event ausgelöst wird, wird zunächst der Ticketfilter angewendet um zu prüfen, ob das Ticket betroffen ist. Erst danach wird der Job ggf. für dieses Ticket ausgeführt.',
-        'Do you really want to delete this event trigger?' => 'Wollen Sie diesen Event-Trigger wirklich löschen?',
-        'Add Event Trigger' => 'Event-Trigger hinzufügen',
+            'Wenn ein Ticket-Ereignis ausgelöst wird, wird zunächst der Ticket-Filter angewendet um zu prüfen, ob das Ticket betroffen ist. Erst danach wird der Auftrag ggf. für dieses Ticket ausgeführt.',
+        'Do you really want to delete this event trigger?' => 'Wollen Sie diesen Ereignis-Auslöser wirklich löschen?',
+        'Add Event Trigger' => 'Ereignis-Auslöser hinzufügen',
         'Add Event' => 'Event hinzufügen',
         'To add a new event select the event object and event name and click on the "+" button' =>
-            'Um einen neuen Event hinzuzufügen, wählen Sie bitte das Objekt und den Eventnamen und klicken Sie auf den "+"-Knopf',
+            'Um einen neues Ereignis hinzuzufügen, wählen Sie bitte das Objekt und den Ereignisnamen und klicken Sie auf den "+"-Schaltfläche',
         'Duplicate event.' => 'Doppeltes Event',
         'This event is already attached to the job, Please use a different one.' =>
             'Dieses Event ist dem Job bereits zugeordnet. Bitte wählen Sie ein anderes aus.',
@@ -1133,16 +1133,16 @@ sub Data {
         'No create time settings.' => 'Keine Erstell-Zeiten',
         'Ticket created' => 'Ticket erstellt',
         'Ticket created between' => 'Ticket erstellt zwischen',
-        'Last changed times' => 'Letzte Änderungszeitpunkte',
-        'No last changed time settings.' => 'Keine Einstellungen für letzte Änderungszeit.',
+        'Last changed times' => 'Letzte Änderungszeiten',
+        'No last changed time settings.' => 'Keine Einstellungen für letzte Änderungszeiten.',
         'Ticket last changed' => 'Ticket zuletzt geändert',
         'Ticket last changed between' => 'Ticket zuletzt geändert zwischen',
-        'Change times' => 'Änderungs-Zeiten',
-        'No change time settings.' => 'Keine Änderungs-Zeiten',
+        'Change times' => 'Änderungszeiten',
+        'No change time settings.' => 'Keine Änderungszeiten',
         'Ticket changed' => 'Ticket geändert',
         'Ticket changed between' => 'Ticket geändert zwischen',
-        'Close times' => 'Schließ-Zeiten',
-        'No close time settings.' => 'Keine Schließ-Zeiten',
+        'Close times' => 'Schließzeiten',
+        'No close time settings.' => 'Keine Schließzeiten',
         'Ticket closed' => 'Ticket geschlossen',
         'Ticket closed between' => 'Ticket geschlossen zwischen',
         'Pending times' => 'Erinnerungszeiten',
@@ -1164,24 +1164,24 @@ sub Data {
         'Ticket solution time reached between' => 'Ticket-Lösungszeit erreicht zwischen',
         'Archive search option' => 'Im Archiv suchen',
         'Update/Add Ticket Attributes' => 'Ticket-Attribute aktualisieren/hinzufügen',
-        'Set new service' => 'Neuen Service setzen',
-        'Set new Service Level Agreement' => 'Neues Service-Level-Abkommen setzen',
-        'Set new priority' => 'Neue Priorität setzen',
+        'Set new service' => 'Neuen Service festlegen',
+        'Set new Service Level Agreement' => 'Neues Service-Level-Abkommen festlegen',
+        'Set new priority' => 'Neue Priorität festlegen',
         'Set new queue' => 'Neue Queue festlegen',
         'Set new state' => 'Neuen Status setzen',
         'Pending date' => 'Warten bis',
-        'Set new agent' => 'Neuen Agenten setzen',
+        'Set new agent' => 'Neuen Agenten festlegen',
         'new owner' => 'Neuer Besitzer',
         'new responsible' => 'Neuer Verantwortlicher',
-        'Set new ticket lock' => 'Neue Ticketsperre setzen',
+        'Set new ticket lock' => 'Neue Ticketsperre festlegen',
         'New customer user' => 'Neuer Kundenbenutzer',
         'New customer ID' => 'Neue Kundennummer',
         'New title' => 'Neuer Titel',
         'New type' => 'Neuer Typ',
-        'New Dynamic Field Values' => 'Neue Werte für dynamische Felder',
+        'New Dynamic Field Values' => 'Neue Werte für Dynamische Felder',
         'Archive selected tickets' => 'Ausgewählte Tickets archivieren',
         'Add Note' => 'Notiz hinzufügen',
-        'This field must have less then 200 characters.' => '',
+        'This field must have less then 200 characters.' => 'Dieses Feld darf nur aus genau oder weniger als 200 Zeichen bestehen.',
         'Time units' => 'Zeiteinheiten',
         'Execute Ticket Commands' => 'Ticket-Befehle ausführen',
         'Send agent/customer notifications on changes' => 'Sende eine Agenten-/Kunden-Benachrichtigung bei Änderungen',
@@ -1200,7 +1200,7 @@ sub Data {
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
             'Warnung: Sie verwenden die Option LÖSCHEN. Alle gelöschten Tickets gehen verloren!',
         'Warning: There are %s tickets affected but only %s may be modified during one job execution!' =>
-            'Warnung: %s Tickets sind betroffen, aber nur %s können während der Ausführung eines Jobs geändert werden!',
+            'Warnung: %s Tickets sind betroffen, aber nur %s können während der Ausführung eines Auftrages geändert werden!',
         'Edit job' => 'Job bearbeiten',
         'Run job' => 'Job ausführen',
         'Affected Tickets' => 'Betroffene Tickets',
@@ -1214,7 +1214,7 @@ sub Data {
         'Clear' => 'Leeren',
         'Do you really want to clear the debug log of this web service?' =>
             'Möchten Sie wirklich das Debug-Log dieses Webservice leeren?',
-        'Request List' => 'Anfrage-Liste',
+        'Request List' => 'Anfrageliste',
         'Time' => 'Zeit',
         'Remote IP' => 'Remote-IP',
         'Loading' => 'Lade...',
@@ -1228,7 +1228,7 @@ sub Data {
         'Request Details' => 'Anfragedetails',
         'An error occurred during communication.' => 'Während der Kommunikation ist ein Fehler aufgetreten.',
         'Show or hide the content.' => 'Inhalt anzeigen oder verbergen.',
-        'Clear debug log' => 'Debug-Log leeren',
+        'Clear debug log' => 'Debug-Protokoll leeren',
 
         # Template: AdminGenericInterfaceInvokerDefault
         'Add new Invoker to Web Service %s' => 'Neuen Invoker zum Webservice %s hinzufügen',
@@ -1252,20 +1252,20 @@ sub Data {
         'The response data will be processed by this mapping, to transform it to the kind of data the invoker of OTRS expects.' =>
             'Die Antwort-Daten des entfernten Systems werden von diesem Mapping verarbeitet, um sie so umzuformen, wie der Invoker von OTRS sie benötigt.',
         'Asynchronous' => 'Asynchron',
-        'This invoker will be triggered by the configured events.' => 'Dieser Invoker wird von den konfigurierten Events ausgelöst.',
+        'This invoker will be triggered by the configured events.' => 'Dieser Invoker wird von den konfigurierten Ereignissen ausgelöst.',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
             'Asynchrone Ereignisauslöser werden vom OTRS Scheduler Daemon im Hintergrund verarbeitet (empfohlen).',
         'Synchronous event triggers would be processed directly during the web request.' =>
-            'Synchrone Event-Trigger werden direkt während des laufenden Web-Requests verarbeitet.',
+            'Synchrone Ereignisauslöser werden direkt während der laufenden Web-Anfrage verarbeitet.',
         'Save and continue' => 'Speichern und weiter',
         'Delete this Invoker' => 'Diesen Invoker löschen',
         'It is not possible to add a new event trigger because the event is not set.' =>
-            '',
+            'Es ist nicht möglich einen neuen Event-Trigger hinzuzufügen, da das Event noch nicht angelegt ist.',
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => 'GenericInterface Simple Mapping für Webservice %s',
         'Go back to' => 'Zurück zu',
-        'Mapping Simple' => 'Simple Mapping',
+        'Mapping Simple' => 'Einfaches Mapping',
         'Default rule for unmapped keys' => 'Standardregel für nicht gemappte Schlüssel',
         'This rule will apply for all keys with no mapping rule.' => 'Diese Regel wird für alle Schlüssel ohne passende Regel angewendet.',
         'Default rule for unmapped values' => 'Standardregel für nicht gemappte Werte',
@@ -1309,7 +1309,7 @@ sub Data {
             'Die Daten der eingehenden Anfrage werden von diesem Mapping verarbeitet, um sie so umzuformen, wie die OTRS-Operation sie benötigt.',
         'Operation backend' => 'Operation-Backend',
         'This OTRS operation backend module will be called internally to process the request, generating data for the response.' =>
-            'Das Operation-Backend-Modul wird intern aufgerufen um die Anfrage zu verarbeiten, und erzeugt dabei Antwortdaten.',
+            'Dieses OTRS-Operation-Backend-Modul wird intern aufgerufen, um die Anforderung zu bearbeiten und Daten für die Antwort zu generieren.',
         'Mapping for outgoing response data' => 'Mapping für ausgehende Antwortdaten',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             'Die Antwortdaten werden von diesem Mapping verarbeitet, um sie so umzuformen, wie das entfernte System die Daten benötigt.',
@@ -1317,14 +1317,14 @@ sub Data {
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'GenericInterface Transport HTTP::REST for Web Service %s' => 'GenericInterface Transport HTTP::REST für Webservice %s',
-        'Network transport' => 'Netzwerk-Transport',
+        'Network transport' => 'Netzwerktransport',
         'Properties' => 'Eigenschaften',
         'Route mapping for Operation' => 'Route-Mapping für Operationen',
         'Define the route that should get mapped to this operation. Variables marked by a \':\' will get mapped to the entered name and passed along with the others to the mapping. (e.g. /Ticket/:TicketID).' =>
-            'Definiert den Weg, der zu der Operation gemappt werden soll. Variablen, die mit einem \':\' markiert sind, werden zu dem eingegeben Namen gemappt und mit den anderen Variablen an die Funktion übergeben. (z.B.: /Ticket/:TicketID)',
-        'Valid request methods for Operation' => 'Gültige Anfrage-Methoden für Operation',
+            'Definiert die Route, die zu der Operation gemappt werden soll. Variablen, die mit einem \':\' markiert sind, werden zu dem eingegeben Namen gemappt und mit den anderen Variablen an die Funktion übergeben. (z.B.: /Ticket/:TicketID)',
+        'Valid request methods for Operation' => 'Gültige Anfragemethoden für Operation',
         'Limit this Operation to specific request methods. If no method is selected all requests will be accepted.' =>
-            'Beschränken Sie diese Operation auf bestimmte Anfrage-Methoden. Wenn keine Methode ausgewählt ist, werden alle Anfragen akzeptiert.',
+            'Beschränken Sie diese Operation auf bestimmte Anfragemethoden. Wenn keine Anfragemethode ausgewählt ist, werden alle Anfragen akzeptiert.',
         'Maximum message length' => 'Maximale Nachrichtenlänge',
         'This field should be an integer number.' => 'Dieses Feld sollte eine Ganzzahl beinhalten.',
         'Here you can specify the maximum size (in bytes) of REST messages that OTRS will process.' =>
@@ -1339,7 +1339,7 @@ sub Data {
         'Controller mapping for Invoker' => 'Controller-Mapping für Invoker',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
             'Der Controller, an den der Invoker Anfragen senden soll. Variablen, die mit einem \':\' markiert sind, werden durch den Datenwert ersetzt und mit dem Request übergeben. (z.B.: /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)',
-        'Valid request command for Invoker' => 'Gültiger Anforderungsbefehl für Invoker',
+        'Valid request command for Invoker' => 'Gültiger Anfragebefehl für Invoker',
         'A specific HTTP command to use for the requests with this Invoker (optional).' =>
             'Ein spezifisches HTTP-Kommando, das für Anfragen mit diesem Invoker zu verwenden ist (optional).',
         'Default command' => 'Standardbefehl',
@@ -1425,7 +1425,7 @@ sub Data {
             'Sortierung für ausgehende XML-Felder (Struktur unterhalb des Funktionsaufrufes) - siehe Dokumentation für SOAP-Transport.',
 
         # Template: AdminGenericInterfaceWebservice
-        'GenericInterface Web Service Management' => 'GenericInterface-Webservice-Verwaltung',
+        'GenericInterface Web Service Management' => 'GenericInterface - Webservice-Verwaltung',
         'Add web service' => 'Webservice hinzufügen',
         'Clone web service' => 'Webservice klonen',
         'The name must be unique.' => 'Der Name muss eindeutig sein.',
@@ -1450,7 +1450,7 @@ sub Data {
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Nach dem Speichern der Konfiguration werden Sie wieder auf den Bearbeitungsbildschirm geleitet.',
         'If you want to return to overview please click the "Go to overview" button.' =>
-            'Wenn Sie zurück zur Übersicht möchten, verwenden Sie bitte den Knopf "Zurück zur Übersicht"',
+            'Wenn Sie zurück zur Übersicht möchten, verwenden Sie bitte die Schaltfläche "Zurück zur Übersicht".',
         'Web Service List' => 'Webservice-Liste',
         'Remote system' => 'Remote-System',
         'Provider transport' => 'Provider-Transport',
@@ -1481,7 +1481,7 @@ sub Data {
         'Go back to Web Service' => 'Zurück zum Webservice',
         'Here you can view older versions of the current web service\'s configuration, export or even restore them.' =>
             'Hier können Sie ältere Versionen der Konfiguration dieses Webservices einsehen, exportieren oder wiederherstellen.',
-        'Configuration History List' => 'Liste der Konfigurations-Historie',
+        'Configuration History List' => 'Liste der Konfigurationshistorie',
         'Version' => 'Version',
         'Create time' => 'Erstellzeit',
         'Select a single configuration version to see its details.' => 'Wählen Sie eine Konfigurationsversion aus, um die Details zu sehen.',
@@ -1495,7 +1495,7 @@ sub Data {
         # Template: AdminGroup
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
             'VORSICHT: Wenn Sie den Namen der \'admin\'-Gruppe ändern ohne zuvor die entsprechenden Anpassungen in der SysConfig getätigt haben, verlieren Sie den Zugang zum Adminbereich! In diesem Fall sollten Sie den Gruppennamen in der Datenbank zurücksetzen.',
-        'Group Management' => 'Gruppen-Verwaltung',
+        'Group Management' => 'Gruppenverwaltung',
         'Add Group' => 'Gruppe hinzufügen',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'Die \'admin\'-Gruppe wird für den Admin-Bereich benötigt, die \'stats\'-Gruppe für den Statistik-Bereich.',
@@ -1518,20 +1518,20 @@ sub Data {
             'Einkommende E-Mails von POP3-Konten werden in die ausgewählte Queue einsortiert!',
         'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' =>
             'Wird dem Konto vertraut, werden die eingehenden X-OTRS Header benutzt! PostMaster Filter werden in jedem Fall verwendet.',
-        'Delete account' => 'E-Mailkonto löschen',
+        'Delete account' => 'E-Mail-Konto löschen',
         'Fetch mail' => 'E-Mails abholen',
-        'Add Mail Account' => 'E-Mailkonto hinzufügen',
+        'Add Mail Account' => 'E-Mail-Konto hinzufügen',
         'Example: mail.example.com' => 'Beispiel: mail.example.com',
         'IMAP Folder' => 'IMAP-Ordner',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
-            'Ändern Sie diese Einstellung nur, wenn die Mails aus einem anderen Ordner als "INBOX" geholt werden sollen.',
+            'Ändern Sie diese Einstellung nur, wenn die E-Mails aus einem anderen Ordner als "INBOX" geholt werden sollen.',
         'Trusted' => 'Vertraut',
         'Dispatching' => 'Verteilung',
-        'Edit Mail Account' => 'E-Mailkonto bearbeiten',
+        'Edit Mail Account' => 'E-Mail-Konto bearbeiten',
 
         # Template: AdminNavigationBar
         'Admin' => 'Admin',
-        'Agent Management' => 'Agenten-Verwaltung',
+        'Agent Management' => 'Agentenverwaltung',
         'Queue Settings' => 'Queue-Einstellungen',
         'Ticket Settings' => 'Ticket-Einstellungen',
         'System Administration' => 'Systemverwaltung',
@@ -1551,39 +1551,39 @@ sub Data {
         'Do you really want to delete this notification?' => 'Möchten Sie diese Benachrichtigung wirklich löschen?',
         'Add Notification' => 'Benachrichtigung hinzufügen',
         'Edit Notification' => 'Benachrichtigung bearbeiten',
-        'Show in agent preferences' => 'In Agenteinstellungen anzeigen',
+        'Show in agent preferences' => 'In Agenten-Einstellungen anzeigen',
         'Agent preferences tooltip' => 'Kurzinfo für die persönlichen Agenten-Einstellungen',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
             'Diese Nachricht wird als Kurzinfo für diese Benachrichtigung im Einstellungsbildschirm der Agenten-Einstellungen angezeigt.',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
             'Hier können Sie auswählen, welche Ereignisse diese Benachrichtigung auslösen. Ein zusätzlicher Ticket-Filter kann weiter unten eingestellt werden, um die Benachrichtigung nur für Tickets mit bestimmten Merkmalen zu versenden.',
-        'Ticket Filter' => 'Ticketfilter',
+        'Ticket Filter' => 'Ticket-Filter',
         'Article Filter' => 'Artikelfilter',
         'Only for ArticleCreate and ArticleSend event' => 'Nur für die Events ArticleCreate und ArticleSend',
         'Article type' => 'Artikeltyp',
         'If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.' =>
             'Wenn ArticleCreate oder ArticleSend aus auslösendes Ereignis verwendet werden, müssen Sie ebenfalls einen Artikelfilter spezifizieren. Bitte wählen Sie mindestens eins der Artikelfilterfelder aus.',
-        'Article sender type' => 'Sender-Typ des Artikels',
+        'Article sender type' => 'Sendertyp des Artikels',
         'Subject match' => 'Suchbegriff im Betreff',
         'Body match' => 'Suchbegriff im Text',
-        'Include attachments to notification' => 'Anlagen an Benachrichtigung anfügen',
+        'Include attachments to notification' => 'Anhänge an Benachrichtigung anfügen',
         'Recipients' => 'Empfänger',
         'Send to' => 'Senden an',
         'Send to these agents' => 'An diese Agenten senden',
-        'Send to all group members (agents only)' => '',
+        'Send to all group members (agents only)' => 'An alle Gruppenmitglieder senden (gilt nur für Agenten)',
         'Send to all role members' => 'An alle Rollenmitglieder senden',
         'Send on out of office' => 'Trotz "nicht im Büro" senden',
         'Also send if the user is currently out of office.' => 'Auch senden, wenn der Benutzer nicht am Arbeitsplatz ist.',
         'Once per day' => 'Einmal pro Tag',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             'Nur einmal am Tag pro Ticket und Benachrichtigungs-Transportmethode versenden.',
-        'Notification Methods' => 'Benachrichtigungsoptionen',
+        'Notification Methods' => 'Benachrichtigungsmethoden',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
-            'Dies sind die verfügbaren Methoden für den Versand der Benachrichtigungen an jeden Empfänger. Bitte wählen Sie mindestens eine Methode aus.',
-        'Enable this notification method' => 'Diese Benachrichtigungsart aktivieren',
+            'Dies sind die verfügbaren Methoden für den Versand der Benachrichtigungen an jeden Empfänger. Bitte wählen Sie unten mindestens eine Methode aus.',
+        'Enable this notification method' => 'Diese Benachrichtigungsmethode aktivieren',
         'Transport' => 'Transport',
         'At least one method is needed per notification.' => 'Mindestens eine Methode ist für jede Benachrichtigung erforderlich.',
-        'Active by default in agent preferences' => 'Standardmäßig aktiv in den Einstellungen des Agenten',
+        'Active by default in agent preferences' => 'Standardmäßig aktiv in den Agenten-Einstellungen.',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             'Das ist der Standardwert für zugewiesene Empfänger-Agenten, die für diese Benachrichtigung in ihren Einstellungen noch keine Auswahl getroffen haben. Wenn das Feld ausgewählt ist, wird die Benachrichtigung solchen Agenten zugestellt.',
         'This feature is currently not available.' => 'Diese Funktion ist derzeit nicht verfügbar.',
@@ -1591,7 +1591,7 @@ sub Data {
         'No notification method found.' => 'Keine Benachrichtigungsmethode gefunden.',
         'Notification Text' => 'Benachrichtigungstext',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
-            'Diese Sprache ist im System nicht verfügbar. Der Benachrichtigungstext kann gelöscht werden, falls er nicht mehr benötigt wird.',
+            'Diese Sprache ist im System nicht verfügbar oder deaktiviert. Der Benachrichtigungstext kann gelöscht werden, falls er nicht mehr benötigt wird.',
         'Remove Notification Language' => 'Benachrichtigungssprache entfernen',
         'Message body' => 'Nachrichteninhalt',
         'This field is required and must have less than 4000 characters.' =>
@@ -1610,14 +1610,14 @@ sub Data {
             'Die ersten fünf Zeilen der Nachricht (des letzten Kunden-Artikels).',
         'Attributes of the current customer user data' => 'Attribute des aktuellen Kundenbenutzer-Datensatzes',
         'Attributes of the current ticket owner user data' => 'Attribute der Nutzerdaten des aktuellen Ticket-Besitzers',
-        'Attributes of the current ticket responsible user data' => 'Attribute der Nutzerdaten des aktuellen Ticket-Verantwortlichem',
+        'Attributes of the current ticket responsible user data' => 'Attribute der Nutzerdaten des aktuellen Ticket-Verantwortlichen',
         'Attributes of the current agent user who requested this action' =>
             'Attribute der Benutzerdaten des Agenten, der die Aktion ausgelöst hat',
         'Attributes of the recipient user for the notification' => 'Attribute der Benutzerdaten des Empfängers der Benachrichtigung',
-        'Attributes of the ticket data' => 'Attribute der Ticketdaten',
-        'Ticket dynamic fields internal key values' => 'Interne Schlüssel der dynamischen Felder des Tickets',
+        'Attributes of the ticket data' => 'Attribute der Ticket-Daten',
+        'Ticket dynamic fields internal key values' => 'Interne Schlüssel der Dynamischen Felder des Tickets',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
-            'Anzeigewerte der dynamischen Felder des Tickets, verwendbar für Auswahlfelder',
+            'Anzeigewerte der Dynamischen Felder des Tickets, verwendbar für Auswahlfelder',
         'Example notification' => 'Beispiel-Benachrichtigung',
 
         # Template: AdminNotificationEventTransportEmailSettings
@@ -1629,7 +1629,7 @@ sub Data {
             'Ein Artikel wird erstellt, wenn die Benachrichtigung an den Kunden oder an eine zusätzliche E-Mail-Adresse versendet wird.',
         'Email template' => 'E-Mail-Vorlage',
         'Use this template to generate the complete email (only for HTML emails).' =>
-            'Benutze diese Vorlage, um die komplette E-Mail zu generieren (nur für HTML-E-Mails).',
+            'Benutzen Sie diese Vorlage, um die komplette E-Mail zu generieren (nur für HTML-E-Mails).',
         'Enable email security' => 'E-Mail-Sicherheit aktivieren',
         'Email security level' => 'E-Mail-Sicherheitsstufe',
         'If signing key/certificate is missing' => 'Wenn Schlüssel/Zertifikat zum Signieren fehlen',
@@ -1720,7 +1720,7 @@ sub Data {
         'Enable PGP support' => 'PGP-Unterstützung aktivieren',
         'Faulty PGP configuration' => 'Fehlerhafte PGP-Konfiguration',
         'PGP support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
-            'PGP-Unterstützung ist aktiviert, aber die Konfiguration ist fehlerhaft. Bitte überprüfen Sie die Konfiguration mit dem untenstehenden Knopf.',
+            'PGP-Unterstützung ist aktiviert, aber die Konfiguration ist fehlerhaft. Bitte überprüfen Sie die Konfiguration mit der untenstehenden Schaltfläche.',
         'Configure it here!' => 'Hier konfigurieren!',
         'Check PGP configuration' => 'PGP-Konfiguration überprüfen',
         'Add PGP key' => 'PGP-Schlüssel hinzufügen',
@@ -1737,31 +1737,31 @@ sub Data {
         'PGP key' => 'PGP-Schlüssel',
 
         # Template: AdminPackageManager
-        'Package Manager' => 'Paket-Verwaltung',
+        'Package Manager' => 'Paketverwaltung',
         'Uninstall package' => 'Paket deinstallieren',
         'Do you really want to uninstall this package?' => 'Soll das Paket wirklich deinstalliert werden?',
         'Reinstall package' => 'Paket erneut installieren',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Möchten Sie dieses Paket wirklich erneut installieren? Alle manuellen Änderungen gehen verloren.',
-        'Go to updating instructions' => '',
+        'Go to updating instructions' => 'Gehe zur Update-Anweisung',
         'package information' => 'Paketinformation',
         'Package installation requires a patch level update of OTRS.' => ' Paketinstallation benötigt ein Patchlevel-Update von OTRS. ',
-        'Package update requires a patch level update of OTRS.' => ' Paketupdate benötigt ein Patchlevel-Update von OTRS. ',
+        'Package update requires a patch level update of OTRS.' => ' Paket-Update benötigt ein Patchlevel-Update von OTRS. ',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
             'Wenn Sie ein OTRS Business Solution™ Kunde sind, erstellen Sie bitte eine Anfrage in unserem Kundenportal.',
         'Please note that your installed OTRS version is %s.' => 'Bitte beachten Sie, dass Ihre installierte OTRS-Version %s ist.',
         'To install this package, you need to update OTRS to version %s or newer.' =>
-            '',
+            'Um dieses Paket zu installieren, müssen Sie zunächst OTRS auf Version %s oder neuer aktualisieren.',
         'This package can only be installed on OTRS version %s or older.' =>
-            '',
+            'Dieses Paket kann nur mit OTRS-Version %s oder älter verwendet werden.',
         'This package can only be installed on OTRS version %s or newer.' =>
-            '',
+            'Dieses Paket kann nur mit OTRS-Version %s oder neuer verwendet werden.',
         'You will receive updates for all other relevant OTRS issues.' =>
-            '',
+            'Sie erhalten Updates für alle anderen relevanten Probleme im Zusammenhang mit OTRS.',
         'How can I do a patch level update if I don’t have a contract?' =>
             'Wie kann ich ein Patchlevel-Update durchführen, wenn ich keinen Vertrag habe?',
         'Please find all relevant information within the updating instructions at %s.' =>
-            '',
+            'Bitte entnehmen Sie alle relevanten Informationen der Update-Anweisung auf %s.',
         'In case you would have further questions we would be glad to answer them.' =>
             'Sollten Sie weitere Fragen haben, freuen wir uns, diese zu beantworten.',
         'Continue' => 'Weiter',
@@ -1789,7 +1789,7 @@ sub Data {
         'Change Log' => 'Änderungsprotokoll',
         'Date' => 'Datum',
         'List of Files' => 'Dateiliste',
-        'Permission' => 'Rechte',
+        'Permission' => 'Berechtigungen',
         'Download' => 'Herunterladen',
         'Download file from package!' => 'Datei aus dem Paket herunterladen!',
         'Required' => 'Benötigt',
@@ -1799,11 +1799,11 @@ sub Data {
         'File differences for file %s' => 'Dateiunterschiede für Datei %s',
 
         # Template: AdminPerformanceLog
-        'Performance Log' => 'Performance Log',
+        'Performance Log' => 'Leistungsprotokoll',
         'This feature is enabled!' => 'Dieses Feature ist aktiv!',
         'Just use this feature if you want to log each request.' => 'Nur aktivieren, wenn jede Anfrage protokolliert werden soll.',
         'Activating this feature might affect your system performance!' =>
-            'Bitte beachten Sie, dass das Aktivieren dieser Funktion Performance-Einbußen zur Folge haben kann.',
+            'Bitte beachten Sie, dass das Aktivieren dieser Funktion Leistungseinbußen zur Folge haben kann.',
         'Disable it here!' => 'Hier deaktivieren!',
         'Logfile too large!' => 'Logdatei zu groß!',
         'The logfile is too large, you need to reset it' => 'Die Logdatei ist zu groß, sie muss zurückgesetzt werden',
@@ -1821,18 +1821,18 @@ sub Data {
         'Average' => 'Durchschnitt',
 
         # Template: AdminPostMasterFilter
-        'PostMaster Filter Management' => 'PostMaster-Filter-Verwaltung',
+        'PostMaster Filter Management' => 'Postmaster-Filter-Verwaltung',
         'Add filter' => 'Filter hinzufügen',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
-            'Einkommende Mails anhand von E-Mail-Kopfzeilen verteilen oder filtern. Für die Suche können auch reguläre Ausdrücke benutzt werden.',
+            'Einkommende E-Mails anhand von E-Mail-Kopfzeilen verteilen oder filtern. Für die Suche können auch reguläre Ausdrücke benutzt werden.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
             'Wenn nur eine E-Mail-Adresse gesucht wird, dann benutzen Sie EMAILADDRESS:info@example.com in From, To oder Cc.',
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             'Wenn Sie reguläre Ausdrücke verwenden, können Sie die gefundenen Werte in () auch als [***] in der Aktion "Setzen" verwenden.',
         'Delete this filter' => 'Diesen Filter löschen',
         'Do you really want to delete this filter?' => 'Möchten Sie diesen Filter wirklich löschen?',
-        'Add PostMaster Filter' => 'PostMaster-Filter hinzufügen',
-        'Edit PostMaster Filter' => 'PostMaster-Filter bearbeiten',
+        'Add PostMaster Filter' => 'Postmaster-Filter hinzufügen',
+        'Edit PostMaster Filter' => 'Postmaster-Filter bearbeiten',
         'A postmaster filter with this name already exists!' => 'Es existiert bereits ein Postmaster Filter mit diesem Namen!',
         'Filter Condition' => 'Filterbedingung',
         'AND Condition' => 'UND-Bedingung',
@@ -1842,7 +1842,7 @@ sub Data {
         'The field needs to be a valid regular expression or a literal word.' =>
             'Dieses Feld sollte einen gültigen regulären Ausdruck oder ein Wort enthalten.',
         'Set Email Headers' => 'E-Mail-Kopfzeilen setzen',
-        'Set email header' => 'Setze E-Mai-Kopfzeile',
+        'Set email header' => 'Setze E-Mail-Kopfzeile',
         'Set value' => 'Setze Wert',
         'The field needs to be a literal word.' => 'Dieses Feld sollte ein Wort enthalten.',
 
@@ -1853,10 +1853,10 @@ sub Data {
         'Edit Priority' => 'Priorität bearbeiten',
 
         # Template: AdminProcessManagement
-        'Process Management' => 'Prozess-Management',
+        'Process Management' => 'Prozessmanagement',
         'Filter for Processes' => 'Filter für Prozesse',
         'Create New Process' => 'Neuen Prozess erstellen',
-        'Deploy All Processes' => 'Alle Prozesse speichern',
+        'Deploy All Processes' => 'Alle Prozesse in Betrieb nehmen',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             'Hier können Sie eine Konfigurationdatei hochladen, um einen Prozess in Ihr System zu importieren. Die Datei muss im YAML-Format vorliegen, so wie sie vom Prozessmanagement auch exportiert wird.',
         'Overwrite existing entities' => 'Bestehende Einträge überschreiben',
@@ -1879,7 +1879,7 @@ sub Data {
         'Copy Process' => 'Prozess kopieren',
 
         # Template: AdminProcessManagementActivity
-        'Cancel & close' => 'Abbrechen und Beenden',
+        'Cancel & close' => 'Abbrechen und Schließen',
         'Go Back' => 'Zurück',
         'Please note, that changing this activity will affect the following processes' =>
             'Achtung: Änderungen an dieser Aktivität werden sich auf folgende Prozesse auswirken',
@@ -1896,7 +1896,7 @@ sub Data {
         'Create New Activity Dialog' => 'Neuen Aktivitäts-Dialog erstellen',
         'Assigned Activity Dialogs' => 'Zugewiesene Aktivitäts-Dialoge',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
-            'Sobald sie den Knopf oder den Link verwenden, verlassen Sie dieses Fenster, und der aktuelle Stand wird automatisch gespeichert. Möchten Sie fortfahren?',
+            'Sobald sie die Schaltfäche oder den Link verwenden, verlassen Sie dieses Fenster, und der aktuelle Stand wird automatisch gespeichert. Möchten Sie fortfahren?',
 
         # Template: AdminProcessManagementActivityDialog
         'Please note that changing this activity dialog will affect the following activities' =>
@@ -1914,7 +1914,7 @@ sub Data {
         'Required Lock' => 'Erforderliche Sperre',
         'The selected required lock does not exist.' => 'Die ausgewählte Sperre existiert nicht.',
         'Submit Advice Text' => 'Hinweistext beim Absenden',
-        'Submit Button Text' => 'Hinweistext für den Absendeknopf',
+        'Submit Button Text' => 'Hinweistext für die Schaltfläche "Absenden"',
         'Fields' => 'Felder',
         'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
             'Sie können diesem Aktivitäts-Dialog Felder zuweisen, indem Sie sie mit der Maus aus der rechten Liste in die linke Liste verschieben.',
@@ -1924,7 +1924,7 @@ sub Data {
         'Assigned Fields' => 'Zugewiesene Felder',
         'ArticleType' => 'Artikeltyp',
         'Display' => 'Anzeige',
-        'Edit Field Details' => 'Feld-Details bearbeiten',
+        'Edit Field Details' => 'Felddetails bearbeiten',
         'Customer interface does not support internal article types.' => 'Die Kundenoberfläche unterstützt keine internen Artikeltypen.',
 
         # Template: AdminProcessManagementPath
@@ -1950,10 +1950,10 @@ sub Data {
 
         # Template: AdminProcessManagementProcessEdit
         'Edit Process' => 'Prozess bearbeiten',
-        'Print process information' => 'Prozess-Informationen drucken',
+        'Print process information' => 'Prozessinformationen drucken',
         'Delete Process' => 'Prozess löschen',
         'Delete Inactive Process' => 'Inaktiven Prozess löschen',
-        'Available Process Elements' => 'Verfügbare Prozess-Elemente',
+        'Available Process Elements' => 'Verfügbare Prozesselemente',
         'The Elements listed above in this sidebar can be moved to the canvas area on the right by using drag\'n\'drop.' =>
             'Die in der Seitenleiste aufgelisteten Elemente können mit der Maus in den Zeichenbereich gezogen werden.',
         'You can place Activities on the canvas area to assign this Activity to the Process.' =>
@@ -1964,13 +1964,13 @@ sub Data {
             'Eine Verbindung zwischen Aktivitäten können Sie erstellen, indem Sie das Übergangselement auf die Start-Aktivität der Verbindung ziehen. Anschließend können Sie das freie Ende des Pfeils zur Ziel-Aktivität ziehen.',
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
             'Aktionen können einem Übergang zugeweisen werden, indem Sie das Aktionselement auf den Namen des Übergangs ziehen.',
-        'Edit Process Information' => 'Prozess-Informationen bearbeiten',
+        'Edit Process Information' => 'Prozessinformationen bearbeiten',
         'Process Name' => 'Prozessname',
         'The selected state does not exist.' => 'Der ausgewählte Status existiert nicht.',
         'Add and Edit Activities, Activity Dialogs and Transitions' => 'Aktivitäten, Aktivitäts-Dialoge und Übergänge hinzufügen und bearbeiten',
         'Show EntityIDs' => 'EntityIDs einblenden',
-        'Extend the width of the Canvas' => 'Die Breite der Zeichenfläche vergrößern',
-        'Extend the height of the Canvas' => 'Die Höhe der Zeichenfläche vergrößern',
+        'Extend the width of the Canvas' => 'Die Breite des Zeichenbereichs vergrößern',
+        'Extend the height of the Canvas' => 'Die Höhe des Zeichenbereichs vergrößern',
         'Remove the Activity from this Process' => 'Aktivität aus diesem Prozess entfernen',
         'Edit this Activity' => 'Diese Aktivität bearbeiten',
         'Save Activities, Activity Dialogs and Transitions' => 'Aktivitäten, Aktivitätsdialoge und Übergänge speichern',
@@ -1980,7 +1980,7 @@ sub Data {
         'Do you really want to delete this Transition?' => 'Möchten Sie diesen Übergang wirklich löschen?',
         'Do you really want to delete this Transition Action?' => 'Möchten Sie diese Übergangs-Aktion wirklich löschen?',
         'Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving.' =>
-            'Möchten Sie diese Aktivität wirklich von der Zeichenfläche entfernen? Das kann nur rückgängig gemacht werden, wenn Sie dieses Fenster ohne Speichern verlassen.',
+            'Möchten Sie diese Aktivität wirklich vom Zeichenbereich entfernen? Das kann nur rückgängig gemacht werden, wenn Sie diese Ansicht ohne Speichern verlassen.',
         'Do you really want to remove this transition from the canvas? This can only be undone by leaving this screen without saving.' =>
             'Möchten Sie diesen Übergang wirklich von der Zeichenfläche entfernen? Das kann nur rückgängig gemacht werden, wenn Sie dieses Fenster ohne Speichern verlassen.',
         'Hide EntityIDs' => 'EntityIDs ausblenden',
@@ -2004,17 +2004,17 @@ sub Data {
 
         # Template: AdminProcessManagementProcessNew
         'In this screen, you can create a new process. In order to make the new process available to users, please make sure to set its state to \'Active\' and synchronize after completing your work.' =>
-            'Hier können Sie einen neuen Prozess erstellen. Um ihn für die Benutzer verfügbar zu machen, sollten Sie seinen Status auf "Aktiv" setzen und als Abschluss Ihrer Arbeit die Synchronisation durchführen.',
+            'Hier können Sie einen neuen Prozess erstellen. Um den Prozess für die Benutzer verfügbar zu machen, sollten Sie den Status auf "Aktiv" setzen und als Abschluss Ihrer Arbeit die Synchronisation durchführen.',
 
         # Template: AdminProcessManagementProcessPrint
-        'cancel & close' => 'Abbrechen & schließen',
-        'Start Activity' => 'Start-Aktivität',
+        'cancel & close' => 'Abbrechen und Schließen',
+        'Start Activity' => 'Startaktivität',
         'Contains %s dialog(s)' => 'Enthält %s Dialog(e)',
         'Assigned dialogs' => 'Zugewiesene Dialoge',
         'Activities are not being used in this process.' => 'In diesem Prozess werden keine Aktivitäten verwendet.',
         'Assigned fields' => 'Zugewiesene Felder',
         'Activity dialogs are not being used in this process.' => 'In diesem Prozess werden keine Aktivitäts-Dialoge verwendet.',
-        'Condition linking' => 'Verknüpfung der Bedingungen',
+        'Condition linking' => 'Bedingungsverknüpfungen',
         'Conditions' => 'Bedingungen',
         'Condition' => 'Bedingung',
         'Transitions are not being used in this process.' => 'In diesem Prozess werden keine Übergänge verwendet.',
@@ -2027,9 +2027,9 @@ sub Data {
         'Transition' => 'Übergang',
         'Transition Name' => 'Name des Übergangs',
         'Conditions can only operate on non-empty fields.' => 'Bedingungen können nur Felder prüfen, die nicht leer sind.',
-        'Type of Linking between Conditions' => 'Verknüpfung zwischen den Bedingungen',
+        'Type of Linking between Conditions' => 'Verknüpfungstyp zwischen den Bedingungen',
         'Remove this Condition' => 'Bedingung entfernen',
-        'Type of Linking' => 'Typ der Verknüpfung',
+        'Type of Linking' => 'Verknüpfungstyp',
         'Add a new Field' => 'Neues Feld hinzufügen',
         'Remove this Field' => 'Feld entfernen',
         'And can\'t be repeated on the same condition.' => 'Und darf sich nicht innerhalb derselben Bedingung wiederholen.',
@@ -2060,22 +2060,22 @@ sub Data {
         'Notify by' => 'Benachrichtigung durch',
         '0 = no escalation' => '0 = keine Eskalation',
         'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' =>
-            'Wenn vor der definierten Zeit keine Kundenreaktion erfolgt (email-external oder phone), eskaliert das Ticket.',
+            'Wenn vor der definierten Zeit keine Kundenreaktion erfolgt (externe E-Mail oder Telefon), eskaliert das Ticket.',
         'If there is an article added, such as a follow-up via email or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated.' =>
             'Wenn ein Artikel vom Kunden hinzugefügt wird, wird die Eskalationszeit zurückgesetzt. Wenn vor der definierten Zeit keine Kundenreaktion erfolgt, eskaliert das Ticket.',
         'If the ticket is not set to closed before the time defined here expires, the ticket is escalated.' =>
             'Wenn ein Ticket nicht vor der definierten Zeit geschlossen wird, eskaliert es.',
         'Follow up Option' => 'Nachfrage-Option',
         'Specifies if follow up to closed tickets would re-open the ticket, be rejected or lead to a new ticket.' =>
-            'Gibt an, ob eine Rückmeldung zu einem geschlossenen Ticket diese Ticket erneut öffnet, abgelehnt wird oder zu einem neuen Ticket führt.',
+            'Gibt an, ob eine Rückmeldung zu einem geschlossenen Ticket dieses Ticket erneut öffnet, abgelehnt wird oder zu einem neuen Ticket führt.',
         'Ticket lock after a follow up' => 'Ticket sperren nach einer Rückmeldung',
         'If a ticket is closed and the customer sends a follow up the ticket will be locked to the old owner.' =>
-            'Wenn ein Ticket geschlossen wird und der Kunde eine Rückmeldung schickt, wird es für den letzten Besitzer gesperrt.',
+            'Wenn ein Ticket geschlossen wird und der Kunde eine Rückmeldung schickt, wird das Ticket für den letzten Besitzer gesperrt.',
         'System address' => 'Systemadresse',
         'Will be the sender address of this queue for email answers.' => 'Absenderadresse für E-Mails aus dieser Queue.',
-        'Default sign key' => 'Standardschlüssel zum Signieren',
+        'Default sign key' => 'Standard-Signierschlüssel',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
-            '',
+            'Um einen Signierschlüssel zu verwenden, müssen PGP-Schlüssel oder S/MIME-Zertifikate mit Identifikatoren für die ausgewählte Systemadresse der Queue hinzugefügt werden.',
         'The salutation for email answers.' => 'Die Anrede für E-Mail-Antworten.',
         'The signature for email answers.' => 'Die Signatur für E-Mail-Antworten.',
 
@@ -2088,7 +2088,7 @@ sub Data {
         'Filter for Queues' => 'Filter für Queues',
         'Filter for Auto Responses' => 'Filter für automatische Antworten',
         'Auto Responses' => 'Automatische Antworten',
-        'Change Auto Response Relations for Queue' => 'Auto-Antwort-Zuordnungen verändern für Queue',
+        'Change Auto Response Relations for Queue' => 'Automatische Antwort-Zuordnungen verändern für Queue',
 
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => 'Zuordnung von Vorlagen zu Queues verwalten',
@@ -2104,9 +2104,9 @@ sub Data {
         'Deregister system' => 'System deregistrieren',
         'Overview of registered systems' => 'Übersicht der registrieren Systeme',
         'This system is registered with OTRS Group.' => 'Dieses System ist bei der OTRS Gruppe registriert.',
-        'System type' => 'System Typ',
+        'System type' => 'Systemtyp',
         'Unique ID' => 'Unique ID',
-        'Last communication with registration server' => 'Letzte Kommunikation mit dem Registrierungsserver',
+        'Last communication with registration server' => 'Letzte Kommunikation mit dem Registrierungs-Server',
         'System registration not possible' => 'Systemregistrierung nicht möglich',
         'Please note that you can\'t register your system if OTRS Daemon is not running correctly!' =>
             'Bitte beachten Sie, dass Sie ihr System nicht registrieren können, wenn der OTRS Daemon nicht läuft!',
@@ -2149,7 +2149,7 @@ sub Data {
         'portal' => 'Portal,',
         'and file a request.' => 'um eine Anfrage zu stellen.',
         'If you deregister your system, you will lose these benefits:' =>
-            'Wenn Sie ihre Systemregistrierung löschen, verlieren Sie folgende Vorteile:',
+            'Wenn Sie Ihr System deregistrieren, verlieren Sie folgende Vorteile:',
         'You need to log in with your OTRS-ID to deregister your system.' =>
             'Um Ihr System zu deregistrieren, loggen Sie sich bitte mit Ihrer OTRS-ID ein.',
         'OTRS-ID' => 'OTRS-ID',
@@ -2163,7 +2163,7 @@ sub Data {
         'FQDN' => 'FQDN',
         'OTRS Version' => 'OTRS-Version',
         'Operating System' => 'Betriebssystem',
-        'Perl Version' => 'Perl Version',
+        'Perl Version' => 'Perl-Version',
         'Optional description of this system.' => 'Optionale Beschreibung für dieses System.',
         'Register' => 'Registrieren',
         'Deregister System' => 'System deregistrieren',
@@ -2174,19 +2174,19 @@ sub Data {
         'Overview of transmitted data' => 'Übersicht der übertragenen Daten',
         'There is no data regularly sent from your system to %s.' => 'Von Ihrem System werden keine Daten regelmäßig an %s übertragen.',
         'The following data is sent at minimum every 3 days from your system to %s.' =>
-            'Folgende Daten werden mindestens alle 3 Tage von Ihrem System an %s übertragen.',
+            'Folgende Daten werden mindestens aller 3 Tage von Ihrem System an %s übertragen.',
         'The data will be transferred in JSON format via a secure https connection.' =>
             'Die Daten werden im JSON-Format über eine sichere https-Verbindung übertragen.',
         'System Registration Data' => 'Daten der Systemregistrierung',
         'Support Data' => 'Supportdaten',
 
         # Template: AdminRole
-        'Role Management' => 'Rollen-Verwaltung',
+        'Role Management' => 'Verwaltung von Rollen',
         'Add role' => 'Rolle hinzufügen',
         'Create a role and put groups in it. Then add the role to the users.' =>
-            'Erstelle eine Rolle und weise Gruppen hinzu. Danach füge Benutzer zu den Rollen hinzu.',
+            'Erstellen Sie Rollen und weisen Sie Gruppen hinzu. Danach fügen Sie Benutzer zu den Rollen hinzu.',
         'There are no roles defined. Please use the \'Add\' button to create a new role.' =>
-            'Bislang sind keine Rollen definiert. Bitte verwenden Sie den Knopf "Hinzufügen", um neue Rollen zu erstellen.',
+            'Bislang sind keine Rollen definiert. Bitte verwenden Sie die Schaltfläche "Rolle hinzufügen", um neue Rollen zu erstellen.',
         'Add Role' => 'Rolle hinzufügen',
         'Edit Role' => 'Rolle bearbeiten',
 
@@ -2197,21 +2197,21 @@ sub Data {
         'Select the role:group permissions.' => 'Wählen Sie die Rolle:Gruppe-Berechtigungen aus.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
             'Wenn nichts ausgewählt ist, hat die Rolle in dieser Gruppe keine Berechtigungen (und kann nicht auf Tickets zugreifen).',
-        'Change Role Relations for Group' => 'Rollen-Zuordnungen ändern für Gruppe',
-        'Change Group Relations for Role' => 'Gruppen-Zuordnungen ändern für Rolle',
+        'Change Role Relations for Group' => 'Rollen-Zuordnungen für Gruppe ändern',
+        'Change Group Relations for Role' => 'Gruppen-Zuordnungen für Rolle ändern',
         'Toggle %s permission for all' => 'Berechtigung %s für alle umschalten',
         'move_into' => 'Verschieben in',
-        'Permissions to move tickets into this group/queue.' => 'Rechte, um Tickets in eine Gruppe/Queue zu verschieben.',
+        'Permissions to move tickets into this group/queue.' => 'Berechtigungen, um Tickets in eine Gruppe/Queue zu verschieben.',
         'create' => 'Erstellen',
-        'Permissions to create tickets in this group/queue.' => 'Rechte, um in einer Gruppe/Queue Tickets zu erstellen.',
+        'Permissions to create tickets in this group/queue.' => 'Berechtigungen, um in einer Gruppe/Queue Tickets zu erstellen.',
         'note' => 'Notiz',
-        'Permissions to add notes to tickets in this group/queue.' => 'Berechtigung zum Hinzufügen von Notizen zu Tickets dieser Gruppe/Queue.',
+        'Permissions to add notes to tickets in this group/queue.' => 'Berechtigungen zum Hinzufügen von Notizen zu Tickets dieser Gruppe/Queue.',
         'owner' => 'Besitzer',
         'Permissions to change the owner of tickets in this group/queue.' =>
-            'Berechtigung zum Ändern des Besitzers von Tickets dieser Gruppe/Queue.',
+            'Berechtigungen zum Ändern des Besitzers von Tickets dieser Gruppe/Queue.',
         'priority' => 'Priorität',
         'Permissions to change the ticket priority in this group/queue.' =>
-            'Rechte, um die Priorität eines Tickets in einer Gruppe/Queue zu ändern.',
+            'Berechtigungen, um die Priorität eines Tickets in einer Gruppe/Queue zu ändern.',
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Zuordnungen von Agenten und Rollen verwalten',
@@ -2219,8 +2219,8 @@ sub Data {
         'Filter for Agents' => 'Filter für Agenten',
         'Agents' => 'Agenten',
         'Manage Role-Agent Relations' => 'Zuordnungen von Agenten und Rollen verwalten',
-        'Change Role Relations for Agent' => 'Rollen-Zuordnungen verändern für Agenten',
-        'Change Agent Relations for Role' => 'Agenten-Zuordnungen verändern für Rolle',
+        'Change Role Relations for Agent' => 'Rollen-Zuordnungen für Agenten ändern',
+        'Change Agent Relations for Role' => 'Agenten-Zuordnungen für Rolle ändern',
 
         # Template: AdminSLA
         'SLA Management' => 'SLA-Verwaltung',
@@ -2230,23 +2230,23 @@ sub Data {
 
         # Template: AdminSMIME
         'S/MIME Management' => 'S/MIME-Verwaltung',
-        'SMIME support is disabled' => 'SMIME-Unterstützung ist deaktiviert',
+        'SMIME support is disabled' => 'S/MIME-Unterstützung ist deaktiviert',
         'To be able to use SMIME in OTRS, you have to enable it first.' =>
-            'Um SMIME in OTRS zu verwenden, müssen Sie es zunächst aktivieren.',
-        'Enable SMIME support' => 'SMIME-Unterstützung aktivieren',
-        'Faulty SMIME configuration' => 'Fehlerhafte SMIME-Konfiguration',
+            'Um S/MIME in OTRS zu verwenden, müssen Sie es zunächst aktivieren.',
+        'Enable SMIME support' => 'S/MIME-Unterstützung aktivieren',
+        'Faulty SMIME configuration' => 'Fehlerhafte S/MIME-Konfiguration',
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
-            'SMIME-Unterstützung ist zwar aktiviert, jedoch fehlerhaft konfiguriert. Bitte prüfen Sie die Konfiguration durch Drücken des nachfolgenden Knopfes.',
-        'Check SMIME configuration' => 'SMIME-Konfiguration prüfen',
+            'S/MIME-Unterstützung ist zwar aktiviert, jedoch fehlerhaft konfiguriert. Bitte prüfen Sie die Konfiguration durch Klicken der nachfolgenden Schaltfläche.',
+        'Check SMIME configuration' => 'S/MIME-Konfiguration prüfen',
         'Add certificate' => 'Zertifikat hinzufügen',
         'Add private key' => 'Privaten Schlüssel hinzufügen',
         'Filter for certificates' => 'Filter für Zertifikate',
         'Filter for S/MIME certs' => 'Filter für S/MIME Zertifikate',
         'To show certificate details click on a certificate icon.' => 'Zertifikatsdetails können Sie mit einem Klick auf das Zertifikats-Icon aufrufen.',
         'To manage private certificate relations click on a private key icon.' =>
-            'Um Zertifikats-Zugehörigkeiten zu verwalten können Sie auf das Icon eines privaten Schlüssels klicken.',
+            'Um Zertifikatszugehörigkeiten zu verwalten können Sie auf das Icon eines privaten Schlüssels klicken.',
         'Here you can add relations to your private certificate, these will be embedded to the S/MIME signature every time you use this certificate to sign an email.' =>
-            'Hier können Sie Beziehungen zu Ihren privaten Zertifikat hinzufügen, diese werden jedes Mal zur  S/MIME-Signatur hinzugefügt, wenn Sie dieses Zertifikat verwenden um eine E-Mail zu signieren.',
+            'Hier können Sie Beziehungen zu Ihrem privaten Zertifikat hinzufügen, diese werden jedes Mal zur S/MIME-Signatur hinzugefügt, wenn Sie dieses Zertifikat verwenden um eine E-Mail zu signieren.',
         'See also' => 'Siehe auch',
         'In this way you can directly edit the certification and private keys in file system.' =>
             'Über diesen Weg können die Zertifikate und privaten Schlüssel im Dateisystem bearbeitet werden.',
@@ -2267,7 +2267,7 @@ sub Data {
         'Certificate details' => 'Zertifikats-Details',
 
         # Template: AdminSalutation
-        'Salutation Management' => 'Anreden-Verwaltung',
+        'Salutation Management' => 'Verwaltung von Anreden',
         'Add salutation' => 'Anrede hinzufügen',
         'Add Salutation' => 'Anrede hinzufügen',
         'Edit Salutation' => 'Anrede bearbeiten',
@@ -2287,14 +2287,14 @@ sub Data {
             'Senden Sie SQL-Befehle direkt an die Anwendungsdatenbank. Es ist nicht möglich, den Inhalt der Tabellen zu ändern, es sind nur SELECT-Abfragen erlaubt.',
         'Here you can enter SQL to send it directly to the application database.' =>
             'Hier können Sie SQL eingeben, das an die Datenbank gesendet wird.',
-        'Only select queries are allowed.' => 'Es sind nur Select Abfragen erlaubt',
+        'Only select queries are allowed.' => 'Es sind nur Select-Abfragen erlaubt',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Die Syntax Ihrer SQL-Abfrage ist fehlerhaft. Bitte prüfen.',
         'There is at least one parameter missing for the binding. Please check it.' =>
             'Es fehlt mindestens ein Parameter für das Binding. Bitte prüfen.',
-        'Result format' => 'Zielformat',
+        'Result format' => 'Ergebnisformat',
         'Run Query' => 'Anfrage ausführen',
-        'Query is executed.' => 'Suchanfrage wird ausgeführt.',
+        'Query is executed.' => 'Anfrage wird ausgeführt.',
 
         # Template: AdminService
         'Service Management' => 'Service-Verwaltung',
@@ -2302,7 +2302,7 @@ sub Data {
         'Add Service' => 'Service hinzufügen',
         'Edit Service' => 'Service bearbeiten',
         'Service name maximum length is 200 characters (with Sub-service).' =>
-            '',
+            'Die maximale Länge für einen Service-Name (inklusive Unter-Services) beträgt 200 Zeichen.',
         'Sub-service of' => 'Unterservice von',
 
         # Template: AdminSession
@@ -2312,28 +2312,28 @@ sub Data {
         'Customer sessions' => 'Kunden-Sitzungen',
         'Unique agents' => 'Eindeutige Agenten',
         'Unique customers' => 'Eindeutige Kunden',
-        'Kill all sessions' => 'Löschen aller Sessions',
-        'Kill this session' => 'Diese Sitzung löschen',
-        'Session' => 'Session',
-        'Kill' => 'Löschen',
+        'Kill all sessions' => 'Alle Sitzungen beenden',
+        'Kill this session' => 'Diese Sitzung beenden',
+        'Session' => 'Sitzung',
+        'Kill' => 'Beenden',
         'Detail View for SessionID' => 'Detailansicht der Sitzungskennung',
 
         # Template: AdminSignature
-        'Signature Management' => 'Signatur-Verwaltung',
+        'Signature Management' => 'Signaturverwaltung',
         'Add signature' => 'Signatur hinzufügen',
         'Add Signature' => 'Signatur hinzufügen',
         'Edit Signature' => 'Signatur bearbeiten',
         'Example signature' => 'Beispiel-Signatur',
 
         # Template: AdminState
-        'State Management' => 'Status-Verwaltung',
+        'State Management' => 'Statusverwaltung',
         'Add state' => 'Status hinzufügen',
         'Please also update the states in SysConfig where needed.' => 'Bitte aktualisieren Sie auch die Status in der SysConfig dort, wo es erforderlich ist.',
         'Add State' => 'Status hinzufügen',
         'Edit State' => 'Status bearbeiten',
-        'State type' => 'Status-Typ',
+        'State type' => 'Statustyp',
         'It\'s not possible to invalidate this entry because there is no other merge states in system!' =>
-            '',
+            'Es ist nicht möglich, diese Eingabe ungültig zu machen, da es keinen anderen Statustyp für "Zusammenfassen" im System gibt!',
 
         # Template: AdminSupportDataCollector
         'Sending support data to OTRS Group is not possible!' => 'Das Senden von Support-Daten an die OTRS-Gruppe ist nicht möglich!',
@@ -2341,35 +2341,35 @@ sub Data {
         'This data is sent to OTRS Group on a regular basis. To stop sending this data please update your system registration.' =>
             'Diese Daten werden regelmäßig an die OTRS Gruppe gesendet. Falls Sie das Senden der Daten beenden möchten, aktualisieren Sie bitte ihre Systemregistrierung.',
         'You can manually trigger the Support Data sending by pressing this button:' =>
-            'Sie können den Versand der Supportdaten manuell auslösen, indem Sie diesen Knopf verwenden:',
+            'Sie können den Versand der Support-Daten manuell auslösen, indem Sie diese Schaltfläche verwenden:',
         'Send Update' => 'Update senden',
         'Sending Update...' => 'Update wird gesendet...',
-        'Support Data information was successfully sent.' => 'Supportdaten wurden erfolgreich gesendet.',
-        'Was not possible to send Support Data information.' => 'Es war nicht möglich, die Supportdaten zu versenden.',
+        'Support Data information was successfully sent.' => 'Support-Daten wurden erfolgreich gesendet.',
+        'Was not possible to send Support Data information.' => 'Es war nicht möglich, die Support-Daten zu versenden.',
         'Update Result' => 'Update-Ergebnis',
         'Currently this data is only shown in this system.' => 'Diese Daten werden derzeit nur in Ihrem System angezeigt.',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
-            'Ein Supportpaket (einschließlich: Systemregistrierungsdaten, Supportdaten, eine Liste der installierten Pakete und aller lokal geänderten Quellcode-Dateien) kann mit diesem Knopf erstellt werden:',
-        'Generate Support Bundle' => 'Supportpaket erstellen',
+            'Ein Support-Paket (einschließlich: Systemregistrierungsdaten, Support-Daten, eine Liste der installierten Pakete und aller lokal geänderten Quellcode-Dateien) kann mit dieser Schaltfläche erstellt werden:',
+        'Generate Support Bundle' => 'Support-Paket erstellen',
         'Generating...' => 'Wird erstellt...',
-        'It was not possible to generate the Support Bundle.' => 'Das Supportpaket konnte nicht erzeugt werden.',
+        'It was not possible to generate the Support Bundle.' => 'Das Support-Paket konnte nicht erzeugt werden.',
         'Generate Result' => 'Ergebnis der Generierung',
-        'Support Bundle' => 'Supportpaket',
-        'The mail could not be sent' => 'Die Mail konnte nicht versendet werden',
+        'Support Bundle' => 'Support-Paket',
+        'The mail could not be sent' => 'Die E-Mail konnte nicht versendet werden',
         'The support bundle has been generated.' => 'Das Supportpaket wurde erstellt.',
         'Please choose one of the following options.' => 'Bitte wählen Sie eine der nachfolgenden Optionen aus.',
         'Send by Email' => 'Per E-Mail senden',
         'The support bundle is too large to send it by email, this option has been disabled.' =>
-            'Das Supportpaket ist zu groß, um es manuell zu versenden. Diese Option wurde deaktiviert.',
+            'Das Support-Paket ist zu groß, um es manuell zu versenden. Diese Option wurde deaktiviert.',
         'The email address for this user is invalid, this option has been disabled.' =>
-            'Die E-Mailadresse für diesen Benutzer ist ungültig, Die Auswahl wurde deaktivert.',
+            'Die E-Mail-Adresse für diesen Benutzer ist ungültig, Die Auswahl wurde deaktiviert.',
         'Sending' => 'Wird gesendet',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
-            'Das Supportpaket wird automatisch per E-Mail zur OTRS Gruppe gesendet.',
+            'Das Support-Paket wird automatisch per E-Mail zur OTRS Gruppe gesendet.',
         'Download File' => 'Datei herunterladen',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTRS Group, using an alternate method.' =>
-            'Das Supportpaket wird als Datei ins lokale Dateisystem heruntergeladen. Bitte speichern Sie die Datei und senden Sie diese auf anderen Wegen an die OTRS Gruppe.',
-        'Error: Support data could not be collected (%s).' => 'Fehler: Supportdaten konnten nicht ermittelt werden (%s).',
+            'Das Support-Paket wird als Datei ins lokale Dateisystem heruntergeladen. Bitte speichern Sie die Datei und senden Sie diese auf anderen Wegen an die OTRS Gruppe.',
+        'Error: Support data could not be collected (%s).' => 'Fehler: Support-Daten konnten nicht ermittelt werden (%s).',
         'Details' => 'Details',
 
         # Template: AdminSysConfig
@@ -2432,11 +2432,11 @@ sub Data {
         'Display name' => 'Anzeigename',
         'Add System Email Address' => 'System-E-Mail-Adresse hinzufügen',
         'Edit System Email Address' => 'System-E-Mail-Adresse bearbeiten',
-        'This email address is already used as system email address.' => 'Diese E-Mail-Adresse wird bereits als System-Adresse verwendet.',
+        'This email address is already used as system email address.' => 'Diese E-Mail-Adresse wird bereits als Systemadresse verwendet.',
         'The display name and email address will be shown on mail you send.' =>
-            'Der Anzeigename und die E-Mail-Adresse werden für die gesendeten Mail verwendet.',
+            'Der Anzeigename und die E-Mail-Adresse werden für die gesendeten E-Mails verwendet.',
         'This system address cannot be set to invalid, because it is used in one or more queue(s).' =>
-            '',
+            'Die Systemadresse kann nicht auf ungültig gesetzt werden, da sie in einer oder mehreren Queues verwendet wird.',
 
         # Template: AdminSystemMaintenance
         'System Maintenance Management' => 'Systemwartungs-Verwaltung',
@@ -2455,22 +2455,22 @@ sub Data {
         'Edit System Maintenance %s' => 'Systemwartung %s bearbeiten',
         'Edit System Maintenance Information' => 'Systemwartungs-Information bearbeiten',
         'Date invalid!' => 'Ungültiges Datum',
-        'Login message' => 'Anmeldungs-Nachricht',
-        'This field must have less then 250 characters.' => '',
-        'Show login message' => 'Anmeldungs-Nachricht anzeigen',
+        'Login message' => 'Nachricht bei Anmeldung',
+        'This field must have less then 250 characters.' => 'Dieses Feld muss weniger als 250 Zeichen lang sein.',
+        'Show login message' => 'Nachricht bei Anmeldung anzeigen',
         'Notify message' => 'Hinweistext',
         'Manage Sessions' => 'Sitzungen verwalten',
         'All Sessions' => 'Alle Sitzungen',
         'Agent Sessions' => 'Agenten-Sitzungen',
         'Customer Sessions' => 'Kunden-Sitzungen',
-        'Kill all Sessions, except for your own' => 'Alle Sitzungen außer Ihrer eigenen löschen',
+        'Kill all Sessions, except for your own' => 'Alle Sitzungen außer Ihrer eigenen beenden',
 
         # Template: AdminTemplate
         'Manage Templates' => 'Vorlagen verwalten',
         'Add template' => 'Vorlage hinzufügen',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'Eine Vorlage ist ein Standardtext, der Ihren Agenten helfen kann, Tickets schneller zu erstellen, beantworten oder weiterzuleiten.',
-        'Don\'t forget to add new templates to queues.' => 'Vergessen Sie nicht, Vorlagen den Queues zuzuordnen.',
+        'Don\'t forget to add new templates to queues.' => 'Vergessen Sie nicht, neue Vorlagen den Queues zuzuordnen.',
         'Do you really want to delete this template?' => 'Möchten Sie diese Vorlage wirklich löschen?',
         'Add Template' => 'Vorlage hinzufügen',
         'Edit Template' => 'Vorlage bearbeiten',
@@ -2482,14 +2482,14 @@ sub Data {
 
         # Template: AdminTemplateAttachment
         'Manage Templates <-> Attachments Relations' => 'Vorlagen-Anhang-Zuordnungen verwalten',
-        'Filter for Attachments' => 'Filter für Anlagen',
+        'Filter for Attachments' => 'Filter für Anhänge',
         'Change Template Relations for Attachment' => 'Vorlagen-Zuordnungen für Anhang verändern',
         'Change Attachment Relations for Template' => 'Anhangs-Zuordnungen für Vorlage verändern',
         'Toggle active for all' => 'Aktiv umschalten für alle',
         'Link %s to selected %s' => '%s zu %s (markiert) verknüpfen',
 
         # Template: AdminType
-        'Type Management' => 'Typ-Verwaltung',
+        'Type Management' => 'Typverwaltung',
         'Add ticket type' => 'Ticket-Typ hinzufügen',
         'Add Type' => 'Typ hinzufügen',
         'Edit Type' => 'Typ bearbeiten',
@@ -2500,7 +2500,7 @@ sub Data {
         'Don\'t forget to add a new agent to groups and/or roles!' => 'Vergessen Sie nicht, einen neuen Agenten zu Gruppen und/oder Rollen hinzuzufügen!',
         'Please enter a search term to look for agents.' => 'Bitte geben Sie einen Suchbegriff ein, um nach Agenten zu suchen.',
         'Last login' => 'Letzte Anmeldung',
-        'Switch to agent' => 'Wechseln zu Agent',
+        'Switch to agent' => 'Zu Agent wechseln',
         'Add Agent' => 'Agent hinzufügen',
         'Edit Agent' => 'Agent bearbeiten',
         'Title or salutation' => 'Titel oder Anrede',
@@ -2514,8 +2514,8 @@ sub Data {
         # Template: AdminUserGroup
         'Manage Agent-Group Relations' => 'Zuordnungen von Agent und Gruppe verwalten',
         'Add group' => 'Gruppe hinzufügen',
-        'Change Group Relations for Agent' => 'Gruppenzuordnungen verwalten für Agenten',
-        'Change Agent Relations for Group' => 'Agentenzuordnungen verwalten für Gruppe',
+        'Change Group Relations for Agent' => 'Gruppen-Zuordnungen für Agenten ändern',
+        'Change Agent Relations for Group' => 'Agenten-Zuordnungen für Gruppe ändern',
 
         # Template: AgentBook
         'Address Book' => 'Adressbuch',
@@ -2533,14 +2533,14 @@ sub Data {
 
         # Template: AgentCustomerSearch
         'Duplicated entry' => 'Doppelter Eintrag',
-        'This address already exists on the address list.' => 'Dieser Eintrag existiert bereits in der Adressliste',
+        'This address already exists on the address list.' => 'Dieser Eintrag existiert bereits in der Adressliste.',
         'It is going to be deleted from the field, please try again.' => 'Er wird aus dem Feld entfernt, bitte versuchen Sie es erneut.',
 
         # Template: AgentCustomerTableView
         'Note: Customer is invalid!' => 'Hinweis: Kunde ist ungültig!',
         'Start chat' => 'Chat starten',
-        'Video call' => 'Video-Anruf',
-        'Audio call' => 'Audio-Anruf',
+        'Video call' => 'Videoanruf',
+        'Audio call' => 'Audioanruf',
 
         # Template: AgentDaemonInfo
         'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
@@ -2565,7 +2565,7 @@ sub Data {
         'Save settings' => 'Einstellungen speichern',
         'Close this widget' => 'Dieses Widget schließen',
         'Available Columns' => 'Verfügbare Spalten',
-        'Visible Columns (order by drag & drop)' => 'Angezeigte Spalten (Ändern durch Ziehen)',
+        'Visible Columns (order by drag & drop)' => 'Angezeigte Spalten (Anordnung ändern durch Ziehen)',
 
         # Template: AgentDashboardCustomerIDStatus
         'Escalated tickets' => 'Eskalierte Tickets',
@@ -2577,7 +2577,7 @@ sub Data {
         'Email ticket' => 'E-Mail-Ticket',
         '%s open ticket(s) of %s' => '%s offene Tickets von %s',
         '%s closed ticket(s) of %s' => '%s geschlossene Tickets von %s',
-        'New phone ticket from %s' => 'Neues Telefonticket von %s',
+        'New phone ticket from %s' => 'Neues Telefon-Ticket von %s',
         'New email ticket to %s' => 'Neues E-Mail-Ticket an %s',
 
         # Template: AgentDashboardProductNotify
@@ -2613,9 +2613,9 @@ sub Data {
         'My locked tickets' => 'Meine gesperrten Tickets',
         'My watched tickets' => 'Meine beobachteten Tickets',
         'My responsibilities' => 'Meine Verantwortlichkeiten',
-        'Tickets in My Queues' => 'Tickets in meinen Queues',
-        'Tickets in My Services' => 'Tickets in Meinen Services',
-        'Service Time' => 'Service Zeit',
+        'Tickets in My Queues' => 'Tickets in "Meine Queues"',
+        'Tickets in My Services' => 'Tickets in "Meinen Services"',
+        'Service Time' => 'Service-Zeit',
         'Remove active filters for this widget.' => 'Aktive Filter für dieses Widget entfernen.',
 
         # Template: AgentDashboardTicketQueueOverview
@@ -2675,7 +2675,7 @@ sub Data {
         # Template: AgentStatisticsEdit
         'Statistics » Edit %s%s — %s' => 'Statistiken » Bearbeiten %s%s — %s',
         'Run now' => 'Jetzt ausführen',
-        'Statistics Preview' => 'Statistik Vorschau',
+        'Statistics Preview' => 'Statistikvorschau',
         'Save statistic' => 'Statistik speichern',
 
         # Template: AgentStatisticsImport
@@ -2714,12 +2714,12 @@ sub Data {
         'All fields marked with an asterisk (*) are mandatory.' => 'Alle mit * gekennzeichneten Felder sind Pflichtfelder.',
         'Service invalid.' => 'Ungültiger Service',
         'New Owner' => 'Neuer Besitzer',
-        'Please set a new owner!' => 'Bitte einen neuen Besitzer angeben',
-        'New Responsible' => 'Wechsel des Verantwortlichen',
+        'Please set a new owner!' => 'Bitte legen Sie einen neuen Besitzer fest.',
+        'New Responsible' => 'Neuer Verantwortlicher',
         'Next state' => 'Nächster Status',
         'For all pending* states.' => 'Für alle warten* Status.',
         'Add Article' => 'Artikel hinzufügen',
-        'Create an Article' => 'Artikel anlegen',
+        'Create an Article' => 'Artikel erstellen',
         'Inform agents' => 'Agenten informieren',
         'Inform involved agents' => 'Involvierte Agenten informieren',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
@@ -2727,18 +2727,18 @@ sub Data {
         'Text will also be received by' => 'Text wird auch gesendet an',
         'Spell check' => 'Rechtschreibprüfung',
         'Text Template' => 'Textvorlage',
-        'Setting a template will overwrite any text or attachment.' => 'Die Auswahl einer Vorlage wird bereits bestehenden Text oder Anlagen löschen.',
+        'Setting a template will overwrite any text or attachment.' => 'Die Auswahl einer Vorlage wird bereits bestehenden Text oder Anhänge löschen.',
         'Note type' => 'Notiztyp',
 
         # Template: AgentTicketBounce
         'Bounce %s%s%s' => '%s%s%s umleiten',
         'Bounce to' => 'Umleiten an',
-        'You need a email address.' => 'Sie benötigen eine E-Mail-Adresse',
+        'You need a email address.' => 'Sie benötigen eine E-Mail-Adresse.',
         'Need a valid email address or don\'t use a local email address.' =>
             'Benötige eine gültige E-Mail-Adresse, verwenden Sie keine lokale Adresse.',
         'Next ticket state' => 'Nächster Status des Tickets',
         'Inform sender' => 'Sender informieren',
-        'Send mail' => 'Mail übermitteln',
+        'Send mail' => 'E-Mail übermitteln',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Ticket Sammelaktion',
@@ -2758,7 +2758,7 @@ sub Data {
         'Please include at least one recipient' => 'Bitte geben sie mindestens einen Empfänger an',
         'Remove Ticket Customer' => 'Ticket-Kunden entfernen',
         'Please remove this entry and enter a new one with the correct value.' =>
-            'Bitte entfernen Sie diesen Eintrag und geben Sie einen gültigen an.',
+            'Bitte entfernen Sie diesen Eintrag und geben Sie einen mit einem gültigen Wert an.',
         'Remove Cc' => 'Cc entfernen',
         'Remove Bcc' => 'Bcc entfernen',
         'Address book' => 'Adressbuch',
@@ -2768,7 +2768,7 @@ sub Data {
         'Change Customer of %s%s%s' => 'Kunde von %s%s%s ändern',
 
         # Template: AgentTicketEmail
-        'Create New Email Ticket' => 'Neues E-Mail-Ticket anlegen',
+        'Create New Email Ticket' => 'Neues E-Mail-Ticket erstellen',
         'Example Template' => 'Beispielvorlage',
         'From queue' => 'Aus Queue',
         'To customer user' => 'An Kundenbenutzer',
@@ -2798,7 +2798,7 @@ sub Data {
 
         # Template: AgentTicketMerge
         'Merge %s%s%s' => '%s%s%s zusammenführen',
-        'Merge Settings' => 'Zusammenführungseinstellungen',
+        'Merge Settings' => 'Einstellungen für Zusammenführung',
         'You need to use a ticket number!' => 'Bitte eine Ticketnummer benutzen!',
         'A valid ticket number is required.' => 'Eine gültige Ticketnummer ist erforderlich.',
         'Need a valid email address.' => 'Benötige gültige E-Mail-Adresse.',
@@ -2809,7 +2809,7 @@ sub Data {
 
         # Template: AgentTicketOverviewMedium
         'Select all' => 'Alle auswählen',
-        'No ticket data found.' => 'Keine Ticketdaten gefunden.',
+        'No ticket data found.' => 'Keine Ticket-Daten gefunden.',
         'Open / Close ticket action menu' => 'Ticket-Aktionsmenü öffnen/schließen',
         'Select this ticket' => 'Dieses Ticket auswählen',
         'First Response Time' => 'Reaktionszeit',
@@ -2819,21 +2819,21 @@ sub Data {
         'Change queue' => 'Queue wechseln',
 
         # Template: AgentTicketOverviewNavBar
-        'Change search options' => 'Such-Optionen ändern',
+        'Change search options' => 'Suchoptionen ändern',
         'Remove active filters for this screen.' => 'Aktive Filter für diesen Bildschirm entfernen.',
         'Tickets per page' => 'Tickets pro Seite',
 
         # Template: AgentTicketOverviewSmall
         'Reset overview' => 'Übersicht zurücksetzen',
-        'Column Filters Form' => 'Spalten-Filter-Formular',
+        'Column Filters Form' => 'Spaltenfilter-Formular',
 
         # Template: AgentTicketPhone
-        'Split Into New Phone Ticket' => 'In ein neues Telefonticket splitten',
-        'Save Chat Into New Phone Ticket' => 'Chat als neues Telefonticket speichern',
-        'Create New Phone Ticket' => 'Neues Telefon-Ticket anlegen',
+        'Split Into New Phone Ticket' => 'In ein neues Telefon-Ticket splitten',
+        'Save Chat Into New Phone Ticket' => 'Chat als neues Telefon-Ticket erstellen',
+        'Create New Phone Ticket' => 'Neues Telefon-Ticket erstellen',
         'Please include at least one customer for the ticket.' => 'Bitte geben Sie mindestens einen Kunden für das Ticket an.',
         'To queue' => 'An Queue',
-        'Chat protocol' => 'Chat Protokoll',
+        'Chat protocol' => 'Chat-Protokoll',
         'The chat will be appended as a separate article.' => 'Der Chat wird als separater Artikel angefügt.',
 
         # Template: AgentTicketPhoneCommon
@@ -2845,7 +2845,7 @@ sub Data {
         'Download this email' => 'Diese E-Mail herunterladen',
 
         # Template: AgentTicketProcess
-        'Create New Process Ticket' => 'Neues Prozessticket',
+        'Create New Process Ticket' => 'Neues Prozess-Ticket',
         'Process' => 'Prozess',
 
         # Template: AgentTicketProcessSmall
@@ -2858,7 +2858,7 @@ sub Data {
         'Profile link' => 'Profil-Link',
         'Save changes in template' => 'Änderungen in der Vorlage speichern',
         'Filters in use' => 'Verwendete Filter',
-        'Additional filters' => 'zusätzliche Filter',
+        'Additional filters' => 'Zusätzliche Filter',
         'Add another attribute' => 'Ein weiteres Attribut hinzufügen',
         'Output' => 'Ausgabe',
         'Fulltext' => 'Volltext',
@@ -2871,7 +2871,7 @@ sub Data {
         'Customer User Login (complex search)' => 'Kundenbenutzer (komplexe Suche)',
         '(e. g. U51*)' => '(z. B. U51*)',
         'Customer User Login (exact match)' => 'Kundenbenutzer (genaue Übereinstimmung)',
-        'Attachment Name' => 'Name der Anlage',
+        'Attachment Name' => 'Name des Anhangs',
         '(e. g. m*file or myfi*)' => '(z.B. m*file oder myfi*)',
         'Created in Queue' => 'Erstellt in Queue',
         'Lock state' => 'Status Sperre',
@@ -2893,13 +2893,13 @@ sub Data {
         'Run search' => 'Suche starten',
 
         # Template: AgentTicketZoom
-        'Article filter' => 'Filter für Beiträge',
+        'Article filter' => 'Artikelfilter',
         'Article Type' => 'Artikel Typ',
-        'Sender Type' => 'Absender Typ',
-        'Save filter settings as default' => 'Filter-Einstellungen als Standard speichern',
-        'Event Type Filter' => 'Ereignistypfilter',
+        'Sender Type' => 'Absendertyp',
+        'Save filter settings as default' => 'Filtereinstellungen als Standard speichern',
+        'Event Type Filter' => 'Ereignistyp-Filter',
         'Event Type' => 'Ereignistyp',
-        'Save as default' => 'Save as default',
+        'Save as default' => 'Als Standard speichern',
         'Archive' => 'Archiv',
         'This ticket is archived.' => 'Dieses Ticket ist archiviert.',
         'Note: Type is invalid!' => 'Hinweis: Typ ist ungültig!',
@@ -2910,20 +2910,20 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             'Für diesen Prozess stehen derzeit keine Dialoge zur Verfügung.',
         'This item has no articles yet.' => 'Dieser Eintrag hat noch keine Artikel',
-        'Ticket Timeline View' => 'Ansicht des Ticket-Verlaufs',
+        'Ticket Timeline View' => 'Ticket-Verlaufsansicht',
         'Article Overview' => 'Artikelübersicht',
         'Article(s)' => 'Beitrag/Beiträge',
         'Page' => 'Seite',
         'Add Filter' => 'Filter hinzufügen',
         'Set' => 'Setzen',
         'Reset Filter' => 'Filter zurücksetzen',
-        'Show one article' => 'Einen Beitrag anzeigen',
-        'Show all articles' => 'Alle Beiträge anzeigen',
-        'Show Ticket Timeline View' => 'Ticket-Verlauf-Ansicht anzeigen',
-        'Unread articles' => 'Ungelesene Beiträge',
+        'Show one article' => 'Einen Artikel anzeigen',
+        'Show all articles' => 'Alle Artikel anzeigen',
+        'Show Ticket Timeline View' => 'Ticket-Verlaufsansicht anzeigen',
+        'Unread articles' => 'Ungelesene Artikel',
         'No.' => 'Nr.',
         'Important' => 'Wichtig',
-        'Unread Article!' => 'Ungelesene Beiträge!',
+        'Unread Article!' => 'Ungelesene Artikel!',
         'Incoming message' => 'Eingehende Nachricht',
         'Outgoing message' => 'Ausgehende Nachricht',
         'Internal message' => 'Interne Nachricht',
@@ -2935,7 +2935,7 @@ sub Data {
             'Keine weiteren Ereignisse gefunden. Versuchen Sie die Filtereinstellungen zu verändern.',
         'by' => 'von',
         'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
-            'Um die Links im folgenden Beitrag zu öffnen, kann es notwendig sein Strg oder Shift zu drücken, während auf den Link geklickt wird (abhängig vom verwendeten Browser und Betriebssystem).',
+            'Um die Links im folgenden Artikel zu öffnen, kann es notwendig sein Strg oder Shift zu drücken, während auf den Link geklickt wird (abhängig vom verwendeten Browser und Betriebssystem).',
         'Close this message' => 'Diese Nachricht schließen',
         'Article could not be opened! Perhaps it is on another article page?' =>
             'Artikel konnte nicht geöffnet werden. Befindet er sich vielleicht auf einer anderen Artikelseite?',
@@ -2950,12 +2950,12 @@ sub Data {
         # Template: CloudServicesDisabled
         'This feature requires cloud services.' => 'Diese Funktion setzt Cloud-Services voraus.',
         'You can' => 'Sie können',
-        'go back to the previous page' => 'zurück zur vorhergehenden Seite',
+        'go back to the previous page' => 'Zurück zur vorhergehenden Seite',
 
         # Template: CustomerAccept
         'Information' => 'Information',
         'Dear Customer,' => 'Lieber Kunde,',
-        'thank you for using our services.' => '',
+        'thank you for using our services.' => 'Danke, dass Sie unsere Services nutzen.',
         'Yes, I accepted your license.' => 'Ja, ich akzeptiere die Lizenz.',
 
         # Template: CustomerError
@@ -2977,13 +2977,13 @@ sub Data {
             'Auf diesem Bildschirm ist bereits ein Popup-Fenster geöffnet. Möchten Sie dieses schließen und dieses stattdessen öffnen?',
         'There are currently no elements available to select from.' => 'Derzeit sind keine Elemente für die Auswahl vorhanden.',
         'Please turn off Compatibility Mode in Internet Explorer!' => 'Bitte schalten Sie den Kompatibilitätsmodus im Internet Explorer aus!',
-        'The browser you are using is too old.' => 'Sie verwenden leider einen (stark) veralteten Browser.',
+        'The browser you are using is too old.' => 'Sie verwenden leider einen (stark) veralteten Webbrowser.',
         'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
             'OTRS funktioniert mit einer großen Auswahl an Browsern, aus denen Sie wählen können. Bitte installieren Sie einen neueren Browser oder upgraden Sie Ihren vorhandenen.',
         'Please see the documentation or ask your admin for further information.' =>
             'Bitte lesen Sie auch die Dokumentation oder fragen Sie Ihren Systemadministrator.',
         'Switch to mobile mode' => 'Zur mobilen Ansicht wechseln',
-        'Switch to desktop mode' => 'Zur Desktopansicht wechseln',
+        'Switch to desktop mode' => 'Zur Desktop-Ansicht wechseln',
         'Not available' => 'Nicht verfügbar',
         'Clear all' => 'Alles löschen',
         'Clear search' => 'Suche löschen',
@@ -3002,7 +3002,7 @@ sub Data {
         'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
             '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
-            'Die Verbindungen wurde nach einer kurzen Unterbrechung wiederhergestellt. Aus diesem Grund könnte es sein das einige Elemente der Seite nicht korrekt funktionieren. Um alle Elemente erneut korrekt nutzen zu können sollten Sie ihre Seite neue laden.',
+            'Die Verbindung wurde nach einer temporären Unterbrechung wiederhergestellt. Möglicherweise funktionieren deshalb einige Elemente der aktuellen Seite nicht (mehr) korrekt. Um alle Elemente wieder wie gewünscht nutzen zu können, sollten Sie die aktuelle Seite neu laden.',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript nicht aktiviert oder nicht unterstützt.',
@@ -3031,7 +3031,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => 'Eingehende Chatanfragen',
-        'Edit personal preferences' => 'Persönliche Einstellungen vornehmen',
+        'Edit personal preferences' => 'Persönliche Einstellungen bearbeiten',
         'Logout %s %s' => '%s %s abmelden',
 
         # Template: CustomerRichTextEditor
@@ -3097,13 +3097,13 @@ sub Data {
         'Th' => 'Do',
         'Fr' => 'Fr',
         'Sa' => 'Sa',
-        'Event Information' => 'Ereignis-Information',
+        'Event Information' => 'Ereignisinformation',
         'Ticket fields' => 'Ticket-Felder',
         'Dynamic fields' => 'Dynamische Felder',
 
         # Template: Datepicker
-        'Invalid date (need a future date)!' => 'Ungültiges Datum (benötige Datum in der Zukunft)!',
-        'Invalid date (need a past date)!' => 'Ungültiges Datum (benötige Datum in der Vergangenheit)!',
+        'Invalid date (need a future date)!' => 'Ungültiges Datum (Benötige Datum in der Zukunft)!',
+        'Invalid date (need a past date)!' => 'Ungültiges Datum (Benötige Datum in der Vergangenheit)!',
         'Previous' => 'Zurück',
         'Open date selection' => 'Datumsauswahl öffnen',
 
@@ -3114,7 +3114,7 @@ sub Data {
         'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
             'Mit der %s übernehmen unsere Experten die korrekte Installation und halten Ihnen mit Support und regelmäßigen Sicherheitsupdates den Rücken frei.',
         'Contact our service team now.' => 'Kontaktieren Sie jetzt unser Service-Team.',
-        'Send a bugreport' => 'einen Fehlerbericht senden',
+        'Send a bugreport' => 'Einen Fehlerbericht senden',
 
         # Template: FooterJS
         'Please enter at least one search value or * to find anything.' =>
@@ -3146,7 +3146,7 @@ sub Data {
         'Find out more about the %s' => 'Erfahren Sie mehr über die %s',
 
         # Template: Header
-        'You are logged in as' => 'Angemeldet als',
+        'You are logged in as' => 'Sie sind angemeldet als',
 
         # Template: Installer
         'JavaScript not available' => 'JavaScript nicht aktiviert oder nicht unterstützt.',
@@ -3258,7 +3258,7 @@ sub Data {
         'Delete links' => 'Verknüpfungen löschen',
 
         # Template: Login
-        'Lost your password?' => 'Passwort verloren?',
+        'Lost your password?' => 'Haben Sie Ihr Passwort vergessen?',
         'Request New Password' => 'Neues Passwort anfordern',
         'Back to login' => 'Zurück zur Anmeldung',
 
@@ -3272,7 +3272,7 @@ sub Data {
         # Template: MobileNotAvailableWidget
         'Feature not available' => 'Funktion nicht verfügbar',
         'Sorry, but this feature of OTRS is currently not available for mobile devices. If you\'d like to use it, you can either switch to desktop mode or use your regular desktop device.' =>
-            'Entschuldigung, aber dieses Feature von OTRS ist derzeit nicht für Mobilgeräte verfügbar. Bitte wechseln sie in die Desktopansicht oder nutzen sie ein normales Desktopgerät, wenn Sie diese Funktion verwenden möchten.',
+            'Entschuldigung, aber dieses Feature von OTRS ist derzeit nicht für Mobilgeräte verfügbar. Bitte wechseln sie in die Desktop-Ansicht oder nutzen sie ein normales Desktop-Gerät, wenn Sie diese Funktion verwenden möchten.',
 
         # Template: Motd
         'Message of the Day' => 'Nachricht des Tages',
@@ -3307,7 +3307,7 @@ sub Data {
             'Entschuldigung, Sie können für diese Benachrichtigung nicht alle Benachrichtigungsmethoden abschalten.',
 
         # Template: ActivityDialogHeader
-        'Process Information' => 'Prozess-Informationen',
+        'Process Information' => 'Prozessinformationen',
         'Dialog' => 'Dialog',
 
         # Template: Article
@@ -3324,7 +3324,7 @@ sub Data {
         'Remove Quote' => 'Zitat entfernen',
 
         # Template: GeneralSpecificationsWidget
-        'Permissions' => 'Rechtevergabe',
+        'Permissions' => 'Berechtigungen',
         'You can select one or more groups to define access for different agents.' =>
             'Sie können eine oder mehrere Gruppen definieren, um Zugriffsrechte für verschiedene Agenten zu vergeben.',
         'Result formats' => 'Ergebnisformate',
@@ -3338,7 +3338,7 @@ sub Data {
             'Eine zusätzliche Spalte mit Summen für alle Datenspalten erzeugen.',
         'Cache results' => 'Ergebnisse cachen',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration (requires at least one selected time field).' =>
-            'Speichert Statistikergebnisse in einem Cache, der bei späterenAufrufen mit derselben Konfiguration verwendet wird. (Benötigt mindestens ein ausgewähltes Zeitfeld)',
+            'Speichert Statistikergebnisse in einem Cache, der bei späteren Aufrufen mit derselben Konfiguration verwendet wird. (Benötigt mindestens ein ausgewähltes Zeitfeld)',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             'Diese Statistik als Dashboard-Widget anbieten, die Agenten in Ihrem Dashboard aktivieren können.',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
@@ -3375,8 +3375,8 @@ sub Data {
         'Configurable params of static stat' => 'Konfigurierbare Parameter der statischen Statistik',
         'No element selected.' => 'Es wurde kein Element ausgewählt.',
         'Scale' => 'Skalierung',
-        'show more' => 'mehr anzeigen',
-        'show less' => 'weniger anzeigen',
+        'show more' => 'Mehr anzeigen',
+        'show less' => 'Weniger anzeigen',
 
         # Template: D3
         'Download SVG' => 'SVG herunterladen',
@@ -3401,26 +3401,26 @@ sub Data {
         'Go back to the previous page' => 'Zurück zur vorhergehenden Seite',
 
         # Perl Module: Kernel/Config/Defaults.pm
-        'Database Backend' => '',
-        'View system log messages.' => 'Systemprotokollnachrichten ansehen.',
+        'Database Backend' => 'Datenbank-Backend',
+        'View system log messages.' => 'Systemprotokoll-Nachrichten ansehen.',
         'Update and extend your system with software packages.' => 'System mit Softwarepaketen aktualisieren und erweitern.',
 
         # Perl Module: Kernel/Modules/AdminACL.pm
         'ACLs could not be Imported due to a unknown error, please check OTRS logs for more information' =>
-            'ACLs konnten aufgrund eines unbekannten Fehlers nicht importiert werden, bitte prüfen Sie das OTRS-Log für mehr Information.',
+            'ACLs konnten aufgrund eines unbekannten Fehlers nicht importiert werden, bitte prüfen Sie das Systemprotokoll für mehr Information.',
         'The following ACLs have been added successfully: %s' => 'Die folgenden ACLs wurden erfolgreich hinzugefügt: %s',
         'The following ACLs have been updated successfully: %s' => 'Die folgenden ACLs wurden erfolgreich aktualisiert: %s',
         'There where errors adding/updating the following ACLs: %s. Please check the log file for more information.' =>
-            'Beim Hinzufügen/Aktualisieren der folgenden ACLs sind Fehler aufgetreten: %s. Bitte prüfen Sie das OTRS-Log für mehr Informationen.',
+            'Beim Hinzufügen/Aktualisieren der folgenden ACLs sind Fehler aufgetreten: %s. Bitte prüfen Sie das Systemprotokoll für mehr Informationen.',
         'This field is required' => 'Dieses Feld wird benötigt',
         'There was an error creating the ACL' => 'Es gab einen Fehler beim Erstellen der ACL',
-        'Need ACLID!' => 'ACLID benötigt!',
-        'Could not get data for ACLID %s' => 'Konnte keine Daten für ACLID %s ermitteln.',
+        'Need ACLID!' => 'ACL-ID benötigt!',
+        'Could not get data for ACLID %s' => 'Konnte keine Daten für ACL-ID %s ermitteln.',
         'There was an error updating the ACL' => 'Beim Aktualisieren der ACL ist ein Fehler aufgetreten',
-        'There was an error setting the entity sync status.' => 'Beim Setzen des Synchronisations-Status des Objekts ist ein Fehler aufgetreten.',
+        'There was an error setting the entity sync status.' => 'Beim Setzen des Synchronisations-Status ist ein Fehler aufgetreten.',
         'There was an error synchronizing the ACLs.' => 'Es gab einen Fehler beim Synchronisieren der ACLs.',
         'ACL %s could not be deleted' => 'ACL %s konnte nicht gelöscht werden',
-        'There was an error getting data for ACL with ID %s' => 'Es gab einen Fehler beim Holen der Daten für die ACL mit der Kennung %s',
+        'There was an error getting data for ACL with ID %s' => 'Es gab einen Fehler beim Holen der Daten für die ACL mit der ID %s',
         'Exact match' => 'Genauer Treffer',
         'Negated exact match' => 'Negierter genauer Treffer',
         'Regular expression' => 'Regulärer Ausdruck',
@@ -3437,20 +3437,20 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
         'Fields configuration is not valid' => 'Felderkonfiguration ist nicht gültig',
-        'Objects configuration is not valid' => 'Die Objekt-Konfiguration ist ungültig',
+        'Objects configuration is not valid' => 'Die Objektkonfiguration ist ungültig',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
-            'Konnte die Reihenfolge der dynamischen Felder nicht zurücksetzen, bitte prüfen Sie das Log für mehr Informationen.',
+            'Konnte die Reihenfolge der Dynamischen Felder nicht zurücksetzen, bitte prüfen Sie das Systemprotokoll für mehr Informationen.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
-        'Undefined subaction.' => 'Unbestimmte Subaktion.',
+        'Undefined subaction.' => 'Unbestimmte Unteraktion.',
         'Need %s' => '%s benötigt',
         'The field does not contain only ASCII letters and numbers.' => 'Dieses Feld enthält nicht nur ASCII-Zeichen.',
         'There is another field with the same name.' => 'Es existiert bereits ein Feld mit demselben Namen.',
         'The field must be numeric.' => 'Das Feld darf nur Zahlen beinhalten.',
         'Need ValidID' => 'Benötige ValidID',
         'Could not create the new field' => 'Konnte das neue Feld nicht anlegen',
-        'Need ID' => 'Kennung benötigt',
-        'Could not get data for dynamic field %s' => 'Konnte keine Daten für das dynamische Feld %s ermitteln.',
+        'Need ID' => 'ID benötigt',
+        'Could not get data for dynamic field %s' => 'Konnte keine Daten für das Dynamische Feld %s ermitteln.',
         'The name for this field should not change.' => 'Der Name dieses Feldes sollte sich nicht ändern.',
         'Could not update the field %s' => 'Das Feld %s konnte nicht aktualisiert werden',
         'Currently' => 'Aktuell',
@@ -3473,7 +3473,7 @@ sub Data {
         'Need Profile!' => 'Benötige Profile!',
         'Got no values to check.' => 'Keine Werte zum Prüfen empfangen.',
         'Please remove the following words because they cannot be used for the ticket selection:' =>
-            'Bitte entfernen Sie die folgenden Worte, da sie nicht für die Ticketauswahl genutzt werden können:',
+            'Bitte entfernen Sie die folgenden Worte, da sie nicht für die Ticket-Auswahl genutzt werden können:',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
         'Need WebserviceID!' => 'Benötige WebserviceID!',
@@ -3482,7 +3482,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
         'Need InvokerType' => 'Benötige InvokerType',
         'Invoker %s is not registered' => 'Invoker %s ist nicht registriert',
-        'InvokerType %s is not registered' => 'InvokerType %s ist nicht registriert',
+        'InvokerType %s is not registered' => 'Invoker-Typ %s ist nicht registriert',
         'Need Invoker' => 'Benötige Invoker',
         'Could not determine config for invoker %s' => 'Konnte Konfiguration für Invoker %s nicht ermitteln',
 
@@ -3502,7 +3502,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
         'Need OperationType' => 'Benötige OperationType',
         'Operation %s is not registered' => 'Operation %s ist nicht registriert',
-        'OperationType %s is not registered' => 'OperationType %s ist nicht registriert',
+        'OperationType %s is not registered' => 'Operation-Typ %s ist nicht registriert',
         'Need Operation' => 'Operation benötigt',
         'Could not determine config for operation %s' => 'Konnte Konfiguration für Operation %s nicht ermitteln',
 
@@ -3514,17 +3514,17 @@ sub Data {
         'There was an error updating the web service.' => 'Beim Aktualisieren des Webservice ist ein Fehler aufgetreten.',
         'Web service "%s" updated!' => 'Web Service "%s" aktualisiert!',
         'There was an error creating the web service.' => 'Beim Erstellen des Webservice ist ein Fehler aufgetreten.',
-        'Web service "%s" created!' => 'Web Service "%s" erstellt!',
+        'Web service "%s" created!' => 'Webservice "%s" erstellt!',
         'Need Name!' => 'Name benötigt!',
-        'Need ExampleWebService!' => 'Benötige ExampleWebService!',
+        'Need ExampleWebService!' => 'Benötige Beispiel-Webservice!',
         'Could not read %s!' => 'Konnte %s nicht lesen!',
         'Need a file to import!' => 'Benötige eine zu importierende Datei!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
-            'Die importierte Datei enthält ungültigen YAML-Inhalt. Bitte prüfen Sie das OTRS-Log für mehr Informationen.',
-        'Web service "%s" deleted!' => 'Web Service "%s" gelöscht!',
+            'Die importierte Datei enthält ungültigen YAML-Inhalt. Bitte prüfen Sie das Systemprotokoll für mehr Informationen.',
+        'Web service "%s" deleted!' => 'Webservice "%s" gelöscht!',
         'New Web service' => 'Neuer Web Service',
         'Operations' => 'Operationen',
-        'Invokers' => '',
+        'Invokers' => 'Invoker',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'Keine WebserviceHistoryID empfangen!',
@@ -3532,7 +3532,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Email account fetch already fetched by another process. Please try again later!' =>
-            '',
+            'Der E-Mail-Kontoabruf wurde bereits von einem anderen Prozess aufgerufen. Bitte versuchen Sie es später erneut!',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
         'Notification updated!' => 'Benachrichtigung aktualisiert!',
@@ -3542,27 +3542,27 @@ sub Data {
         'Unknown Notification %s!' => 'Unbekannte Benachrichtigung %s!',
         'There was an error creating the Notification' => 'Beim Erstellen der Benachrichtigung ist ein Fehler aufgetreten',
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
-            'Benachrichtigungen konnten aufgrund eines unbekannten Fehlers nicht importiert werden. Bitte prüfen Sie das OTRS-Log für mehr Informationen.',
+            'Benachrichtigungen konnten aufgrund eines unbekannten Fehlers nicht importiert werden. Bitte prüfen Sie das Systemprotokoll für mehr Informationen.',
         'The following Notifications have been added successfully: %s' =>
             'Folgende Benachrichtigungen wurden erfolgreich importiert: %s',
         'The following Notifications have been updated successfully: %s' =>
             'Folgende Benachrichtigungen wurden erfolgreich aktualisiert: %s',
         'There where errors adding/updating the following Notifications: %s. Please check the log file for more information.' =>
-            'Beim Hinzufügen/Aktualisieren der folgenden Benachrichtigungen sind Fehler aufgetreten: %s. Bitte prüfen Sie das OTRS-Log für mehr Informationen.',
-        'Agent who owns the ticket' => 'Agent, dem das Ticket gehört',
-        'Agent who is responsible for the ticket' => 'Agent, der für das Ticket verantwortlich ist',
-        'All agents watching the ticket' => 'Alle Agenten beobachten das Ticket',
+            'Beim Hinzufügen/Aktualisieren der folgenden Benachrichtigungen sind Fehler aufgetreten: %s. Bitte prüfen Sie das Systemprotokoll für mehr Informationen.',
+        'Agent who owns the ticket' => 'Agent, der Besitzer des Tickets ist',
+        'Agent who is responsible for the ticket' => 'Agent, der Verantwortlicher für das Ticket ist',
+        'All agents watching the ticket' => 'Alle Agenten, die Beobachter des Tickets sind.',
         'All agents with write permission for the ticket' => 'Alle Agenten mit Schreibberechtigung für das Ticket',
         'All agents subscribed to the ticket\'s queue' => 'Alle Agenten, die die Queue des Tickets abonniert haben',
         'All agents subscribed to the ticket\'s service' => 'Alle Agenten, die den Service des Tickets abonniert haben',
         'All agents subscribed to both the ticket\'s queue and service' =>
             'Alle Agenten, die sowohl Queue als auch Service des Tickets abonniert haben',
         'Customer of the ticket' => 'Kunde des Tickets',
-        'Yes, but require at least one active notification method.' => '',
+        'Yes, but require at least one active notification method.' => 'Ja, aber mindestens eine Benachrichtigungsmethode muss aktiviert sein.',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
-            'Die PGP-Umgebung funktioniert derzeit nicht. Bitte prüfen Sie das Log für mehr Informationen.',
+            'Die PGP-Umgebung funktioniert derzeit nicht. Bitte prüfen Sie das Systemprotokoll für mehr Informationen.',
         'Need param Key to delete!' => 'Benötige Parameter "Key" zum Löschen!',
         'Key %s deleted!' => 'Schlüssel %s gelöscht!',
         'Need param Key to download!' => 'Benötige Parameter "Key" zum herunterladen!',
@@ -3580,7 +3580,7 @@ sub Data {
             'Keine (neuen) Pakete im ausgewählten Verzeichnis gefunden.',
         'Package not verified due a communication issue with verification server!' =>
             'Paket nicht verifiziert aufgrund eines Kommunikationsproblems mit dem Verifikationsserver!',
-        'Can\'t connect to OTRS Feature Add-on list server!' => 'Kann nicht zum OTRS Feature-Addon-Listenserver verbinden!',
+        'Can\'t connect to OTRS Feature Add-on list server!' => 'Kann nicht zum OTRS Feature-Add-on-Listenserver verbinden!',
         'Can\'t get OTRS Feature Add-on list from server!' => 'Kann OTRS Feature-Add-on-Listen nicht vom Server laden!',
         'Can\'t get OTRS Feature Add-on from server!' => 'Kann OTRS Feature-Add-on nicht vom Server laden!',
 
@@ -3588,12 +3588,12 @@ sub Data {
         'No such filter: %s' => 'Kein solcher Filter: %s',
 
         # Perl Module: Kernel/Modules/AdminProcessManagement.pm
-        'Need ExampleProcesses!' => 'Benötige ExampleProcesses!',
+        'Need ExampleProcesses!' => 'Benötige Beispiel-Prozesse!',
         'Need ProcessID!' => 'Benötige ProcessID!',
         'Yes (mandatory)' => 'Ja (erforderlich)',
         'Unknown Process %s!' => 'Unbekannter Prozess %s!',
         'There was an error generating a new EntityID for this Process' =>
-            'Beim Generieren einer EntityID für diesen Prozess ist ein Fehler aufgetreten.',
+            'Beim Generieren einer neuen EntityID für diesen Prozess ist ein Fehler aufgetreten.',
         'The StateEntityID for state Inactive does not exists' => 'Die StateEntityID für den Status "Inaktiv" existiert nicht.',
         'There was an error creating the Process' => 'Beim Erstellen des Prozesses ist ein Fehler aufgetreten.',
         'There was an error setting the entity sync status for Process entity: %s' =>
@@ -3620,26 +3620,26 @@ sub Data {
         'Need ActivityID!' => 'Benötige ActivityID!',
         'Could not get data for ActivityID %s' => 'Konnte Daten für ActivityID %s nicht ermitteln',
         'There was an error updating the Activity' => 'Beim Aktualisieren der Aktivität ist ein Fehler aufgetreten',
-        'Missing Parameter: Need Activity and ActivityDialog!' => 'Fehlende Parameter: Benötige Activity und ActivityDialog!',
-        'Activity not found!' => 'Activität nicht gefunden!',
-        'ActivityDialog not found!' => 'AktivitätsDialog nicht gefunden!',
+        'Missing Parameter: Need Activity and ActivityDialog!' => 'Fehlende Parameter: Benötige Aktivität und Aktivitätsdialog!',
+        'Activity not found!' => 'Aktivität nicht gefunden!',
+        'ActivityDialog not found!' => 'Aktivitätsdialog nicht gefunden!',
         'ActivityDialog already assigned to Activity. You cannot add an ActivityDialog twice!' =>
-            'Aktivitätsdialog wurde der Aktivität bereits zugeordnet. Sie können denselben Dialog nicht mehrfach zuordnen.',
+            'Aktivitätsdialog wurde der Aktivität bereits zugeordnet. Sie können denselben Aktivitätsdialog nicht mehrfach zuordnen.',
         'Error while saving the Activity to the database!' => 'Während des Speicherns der Aktivität ist ein Fehler aufgetreten!',
-        'This subaction is not valid' => 'Diese Aktion ist ungültig',
+        'This subaction is not valid' => 'Diese Unteraktion ist ungültig',
         'Edit Activity "%s"' => 'Aktivität "%s" bearbeiten',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
         'There was an error generating a new EntityID for this ActivityDialog' =>
-            'Beim Generieren einer neuen EntityID für diesen Aktivitäts-Dialog ist ein Fehler aufgetreten.',
-        'There was an error creating the ActivityDialog' => 'Beim Erstellen des Aktivitäts-Dialogs ist ein Fehler aufgetreten.',
+            'Beim Generieren einer neuen EntityID für diesen Aktivitätsdialog ist ein Fehler aufgetreten.',
+        'There was an error creating the ActivityDialog' => 'Beim Erstellen des Aktivitätsdialogs ist ein Fehler aufgetreten.',
         'There was an error setting the entity sync status for ActivityDialog entity: %s' =>
-            'Beim Setzen des Synchronisations-Status für Aktivitäts-Dialog %s ist ein Fehler aufgetreten.',
+            'Beim Setzen des Synchronisations-Status für Aktivitätsdialog %s ist ein Fehler aufgetreten.',
         'Need ActivityDialogID!' => 'Benötige ActivityDialogID!',
         'Could not get data for ActivityDialogID %s' => 'Konnte Daten für ActivityDialogID %s nicht ermitteln',
-        'There was an error updating the ActivityDialog' => 'Beim Aktualisieren des Aktivitäts-Dialogs ist ein Fehler aufgetreten.',
+        'There was an error updating the ActivityDialog' => 'Beim Aktualisieren des Aktivitätsdialogs ist ein Fehler aufgetreten.',
         'Edit Activity Dialog "%s"' => 'AktivitätsDialog "%s" bearbeiten',
-        'Agent Interface' => 'Agenten-Oberfläche',
+        'Agent Interface' => 'Agenten-Interface',
         'Customer Interface' => 'Kunden-Oberfläche',
         'Agent and Customer Interface' => 'Agenten- und Kunden-Oberfläche',
         'Do not show Field' => 'Feld nicht anzeigen',
@@ -3665,7 +3665,7 @@ sub Data {
         'Transition validation module' => 'Transition-Validierungs-Modul',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
-        'At least one valid config parameter is required.' => 'Mindestens ein gültiger Konfigurations-Parameter wird benötigt.',
+        'At least one valid config parameter is required.' => 'Mindestens ein gültiger Konfigurationsparameter wird benötigt.',
         'There was an error generating a new EntityID for this TransitionAction' =>
             'Beim Generieren einer neuen EntityID für diese Transition-Aktion ist ein Fehler aufgetreten.',
         'There was an error creating the TransitionAction' => 'Beim Erstellen der Transition-Aktion ist ein Fehler aufgetreten.',
@@ -3675,7 +3675,7 @@ sub Data {
         'Could not get data for TransitionActionID %s' => 'Konnte Daten für TransitionActionID %s nicht ermitteln',
         'There was an error updating the TransitionAction' => 'Beim Aktualisieren der Transition-Aktion ist ein Fehler aufgetreten.',
         'Edit Transition Action "%s"' => 'Bearbeite Transition-Aktion %s',
-        'Error: Not all keys seem to have values or vice versa.' => 'Fehler: Es scheint, als wären nicht allen Schlüssel auch Werte zugewiesen (oder umgekehrt).',
+        'Error: Not all keys seem to have values or vice versa.' => 'Fehler: Es scheint, als wären nicht allen Schlüsseln auch Werte zugewiesen (oder umgekehrt).',
 
         # Perl Module: Kernel/Modules/AdminQueue.pm
         'Don\'t use :: in queue name!' => 'Bitte nutzen Sie innerhalb eines Queue-Namens nicht "::"!',
@@ -3691,11 +3691,11 @@ sub Data {
         'Development' => 'Entwicklung',
 
         # Perl Module: Kernel/Modules/AdminRoleUser.pm
-        'Role' => '',
+        'Role' => 'Rolle',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
-            'Die S/MIME-Umgebung funktioniert derzeit nicht. Bitte prüfen Sie das Log für mehr Informationen.',
+            'Die S/MIME-Umgebung funktioniert derzeit nicht. Bitte prüfen Sie das Systemprotokoll für mehr Informationen.',
         'Need param Filename to delete!' => 'Benötige Parameter "Filename" zum Löschen!',
         'Need param Filename to download!' => 'Benötige Parameter "Filename" zum Herunterladen!',
         'Needed CertFingerprint and CAFingerprint!' => 'Benötige CertFingerprint und CAFingerprint!',
@@ -3724,14 +3724,14 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
         'Start date shouldn\'t be defined after Stop date!' => 'Das Startdatum sollte nicht nach dem Enddatum liegen!',
-        'There was an error creating the System Maintenance' => 'Beim Erstellen des Wartungszeitraums ist ein Fehler aufgetreten',
+        'There was an error creating the System Maintenance' => 'Beim Erstellen der Systemwartung ist ein Fehler aufgetreten',
         'Need SystemMaintenanceID!' => 'Benötige SystemMaintenanceID!',
         'Could not get data for SystemMaintenanceID %s' => 'Konnte Daten für SystemMaintenanceID %s nicht ermitteln',
         'System Maintenance was saved successfully!' => 'Wartungszeitraum wurde erfolgreich gespeichert!',
         'Session has been killed!' => 'Sitzung wurde beendet!',
-        'All sessions have been killed, except for your own.' => 'Alle Sitzungen wurden gelöscht, außer Ihrer eigenen.',
-        'There was an error updating the System Maintenance' => 'Beim Aktualisieren des Wartungszeitraums ist ein Fehler aufgetreten',
-        'Was not possible to delete the SystemMaintenance entry: %s!' => 'Wartungszeitraum %s konnte nicht gelöscht werden!',
+        'All sessions have been killed, except for your own.' => 'Alle Sitzungen wurden beendet, außer Ihrer eigenen.',
+        'There was an error updating the System Maintenance' => 'Beim Aktualisieren der Systemwartung ist ein Fehler aufgetreten',
+        'Was not possible to delete the SystemMaintenance entry: %s!' => 'Eintrag %s für Systemwartung konnte nicht gelöscht werden!',
 
         # Perl Module: Kernel/Modules/AdminTemplate.pm
         'Template updated!' => 'Vorlage aktualisiert!',
@@ -3747,15 +3747,15 @@ sub Data {
         'Can\'t get element data of %s!' => 'Konnte Daten zu Element %s nicht ermitteln!',
         'Can\'t get filter content data of %s!' => 'Kann Filter-Daten von %s nicht ermitteln!',
         'Customer Company Name' => 'Kundenfirmenname',
-        'Customer User ID' => 'Kundenbenutzerkennung',
+        'Customer User ID' => 'Kundenbenutzer-ID',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => 'Benötige SourceObject und SourceKey!',
         'Please contact the administrator.' => 'Bitte kontaktieren Sie den Administrator.',
         'You need ro permission!' => 'Sie benötigen die ro-Berechtigung!',
-        'Can not delete link with %s!' => 'Kann Link mit %s nicht entfernen.',
+        'Can not delete link with %s!' => 'Kann Verknüpfung mit %s nicht entfernen.',
         'Can not create link with %s! Object already linked as %s.' => 'Kann Verknüpfung zu %s nicht erstellen! Objekt bereits verknüpft als %s.',
-        'Can not create link with %s!' => 'Kann Link mit %s nicht erstellen.',
+        'Can not create link with %s!' => 'Kann Verknüpfung mit %s nicht erstellen.',
         'The object %s cannot link with other object!' => 'Objekt %s kann nicht mit anderen Objekten verknüpft werden!',
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
@@ -3763,7 +3763,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentStatistics.pm
         'Parameter %s is missing.' => 'Parameter %s fehlt.',
-        'Invalid Subaction.' => 'Ungültige Subaktion.',
+        'Invalid Subaction.' => 'Ungültige Unteraktion.',
         'Statistic could not be imported.' => 'Statistik konnte nicht importiert werden.',
         'Please upload a valid statistic file.' => 'Bitte laden Sie eine gültige Statistikdatei hoch.',
         'Export: Need StatID!' => 'Export: Benötige StatID!',
@@ -3786,7 +3786,7 @@ sub Data {
         'Article does not belong to ticket %s!' => 'Artikel gehört nicht zu Ticket %s!',
         'Can\'t bounce email!' => 'Kann E-Mail nicht abweisen!',
         'Can\'t send email!' => 'Kann E-Mail nicht senden!',
-        'Wrong Subaction!' => 'Falsche Subaction!',
+        'Wrong Subaction!' => 'Falsche Unteraktion!',
 
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
         'Can\'t lock Tickets, no TicketIDs are given!' => 'Kann Tickets nicht sperren, keine TicketIDs übermittelt!',
@@ -3797,14 +3797,14 @@ sub Data {
             'Sie haben entweder kein Ticket ausgewählt, oder nur Tickets, die von anderen Agenten gesperrt sind.',
         'You need to select at least one ticket.' => 'Sie müssen mindestens ein Ticket auswählen.',
         'The following tickets were ignored because they are locked by another agent or you don\'t have write access to these tickets: %s.' =>
-            'Die folgenden Tickets wurde ignoriert weil sie für einen anderen Agenten gesperrt sind oder keine Schreibberechtigung für diese Tickets vorliegt: %s.',
+            'Die folgenden Tickets wurden ignoriert, weil sie für einen anderen Agenten gesperrt sind oder keine Schreibberechtigung für diese Tickets vorliegt: %s.',
         'The following tickets were locked: %s.' => 'Die folgenden Tickets wurden gesperrt: %s.',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
         'Can not determine the ArticleType!' => 'Konnte Artikel-Typ nicht bestimmen!',
 
         # Perl Module: Kernel/Modules/AgentTicketEmail.pm
-        'No Subaction!' => 'Keine Subaktion!',
+        'No Subaction!' => 'Keine Unteraktion!',
 
         # Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
         'Got no TicketID!' => 'Keine TicketID empfangen!',
@@ -3814,7 +3814,7 @@ sub Data {
         'Invalid Filter: %s!' => 'Ungültiger Filter: %s!',
 
         # Perl Module: Kernel/Modules/AgentTicketHistory.pm
-        'Can\'t show history, no TicketID is given!' => 'Kann History nicht anzeigen, keine TicketID empfangen!',
+        'Can\'t show history, no TicketID is given!' => 'Kann Historie nicht anzeigen, keine TicketID empfangen!',
 
         # Perl Module: Kernel/Modules/AgentTicketLock.pm
         'Can\'t lock Ticket, no TicketID is given!' => 'Kann Ticket nicht sperren, keine TicketID empfangen!',
@@ -3827,7 +3827,7 @@ sub Data {
         'Can\'t merge ticket with itself!' => 'Kann Ticket nicht mit sich selbst zusammenführen!',
 
         # Perl Module: Kernel/Modules/AgentTicketMove.pm
-        'You need move permissions!' => 'Sie benötigen die move-Berechtigung!',
+        'You need move permissions!' => 'Sie benötigen die "Verschieben"-Berechtigung!',
 
         # Perl Module: Kernel/Modules/AgentTicketPhone.pm
         'Chat is not active.' => 'Der Chat ist nicht aktiv.',
@@ -3849,9 +3849,9 @@ sub Data {
         'Couldn\'t get ActivityDialogEntityID "%s"!' => 'Konnte ActivityDialogEntityID %s nicht ermitteln!',
         'No Process configured!' => 'Kein Prozess konfiguriert!',
         'Process %s is invalid!' => 'Prozess %s ist ungültig!',
-        'Subaction is invalid!' => 'Subaktion ist ungültig!',
+        'Subaction is invalid!' => 'Unteraktion ist ungültig!',
         'Parameter %s is missing in %s.' => 'Parameter %s fehlt in %s.',
-        'No ActivityDialog configured for %s in _RenderAjax!' => 'Kein ActivityDialog für %s in _RenderAjax definiert!',
+        'No ActivityDialog configured for %s in _RenderAjax!' => 'Kein Aktivitätsdialog für %s in _RenderAjax definiert!',
         'Got no Start ActivityEntityID or Start ActivityDialogEntityID for Process: %s in _GetParam!' =>
             'Keine Start-ActivityEntityID oder Start-ActivityDialogEntityID für Process %s in _GetParam empfangen!',
         'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => 'Konnte Ticket für TicketID %s in _GetParam nicht ermitteln!',
@@ -3889,10 +3889,10 @@ sub Data {
         'Invalid TicketID: %s!' => 'Ungültige TicketID: %s!',
         'Missing ActivityEntityID in Ticket %s!' => 'ActivityEntityID fehlt für Ticket %s!',
         'This step does not belong anymore to the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
-            '',
+            'Dieser Schritt gehört nicht mehr der aktuellen Prozess-Aktivität von Ticket \'%s%s%s\'! Ein anderer Anwender hat das Ticket inzwischen verändert. Bitte schließen Sie dieses Fenster und laden Sie das Ticket erneut.',
         'Missing ProcessEntityID in Ticket %s!' => 'ProcessEntityID fehlt für Ticket %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
-            'Konnte Wert des dynamischen Feldes %s für TicketID %s im Aktivitätsdialog "%s" nicht speichern!',
+            'Konnte Wert des Dynamischen Feldes %s für TicketID %s im Aktivitätsdialog "%s" nicht speichern!',
         'Could not set PendingTime for Ticket with ID "%s" in ActivityDialog "%s"!' =>
             'Konnte Wartezeit %s für TicketID %s im Aktivitätsdialog "%s" nicht speichern!',
         'Wrong ActivityDialog Field config: %s can\'t be Display => 1 / Show field (Please change its configuration to be Display => 0 / Do not show field or Display => 2 / Show field as mandatory)!' =>
@@ -3910,13 +3910,13 @@ sub Data {
         'Excel' => 'Excel',
 
         # Perl Module: Kernel/Modules/AgentTicketService.pm
-        'Feature not enabled!' => 'Funktion nicht akiviert!',
+        'Feature not enabled!' => 'Funktion nicht aktiviert!',
 
         # Perl Module: Kernel/Modules/AgentTicketWatcher.pm
         'Feature is not active' => 'Funktion ist nicht aktiv',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
-        'Link Deleted' => 'Link gelöscht',
+        'Link Deleted' => 'Verknüpfung gelöscht',
         'Ticket Locked' => 'Ticket gesperrt',
         'Pending Time Set' => 'Wartezeit gesetzt',
         'Dynamic Field Updated' => 'Dynamisches Feld aktualisiert',
@@ -3934,7 +3934,7 @@ sub Data {
         'State Updated' => 'Status aktualisiert',
         'Outgoing Answer' => 'Ausgehende Antwort',
         'Service Updated' => 'Service aktualisiert',
-        'Link Added' => 'Link hinzugefügt',
+        'Link Added' => 'Verknüpfung hinzugefügt',
         'Incoming Customer Email' => 'Eingehende E-Mail (Kunde)',
         'Incoming Web Request' => 'Eingehende Webanfrage',
         'Priority Updated' => 'Priorität aktualisiert',
@@ -3964,18 +3964,18 @@ sub Data {
             'Entschuldigung, Sie haben keine Berechtigung, auf dieses Ticket in seinem aktuellen Status zuzugreifen.',
         'Can\'t get for ArticleID %s!' => 'Konnte Artikel-ID %s nicht ermitteln!',
         'Article filter settings were saved.' => 'Artikelfilter-Einstellungen wurden gespeichert.',
-        'Event type filter settings were saved.' => 'Eventtypfilter-Einstellungen wurden gespeichert.',
+        'Event type filter settings were saved.' => 'Event-Typ-Filtereinstellungen wurden gespeichert.',
         'Need ArticleID!' => 'Benötige ArticleID!',
         'Invalid ArticleID!' => 'Ungültige ArticleID!',
         'Offline' => 'Offline',
-        'User is currently offline.' => 'Benutzer ist aktuell nicht verfügbar.',
+        'User is currently offline.' => 'Benutzer ist derzeit offline.',
         'User is currently active.' => 'Benutzer ist gerade aktiv.',
         'Away' => 'Abwesend',
         'User was inactive for a while.' => 'Benutzer war für eine Weile inaktiv.',
         'Unavailable' => 'Nicht verfügbar',
         'User set their status to unavailable.' => 'Benutzer hat seinen Status auf "nicht verfügbar" gesetzt.',
         'Fields with no group' => 'Felder ohne Gruppe',
-        'View the source for this Article' => 'Betrachten Sie den Quelltext dieses Artikels',
+        'View the source for this Article' => 'Den Quelltext dieses Artikels anzeigen',
 
         # Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
         'FileID and ArticleID are needed!' => 'FileID und ArticleID werden benötigt!',
@@ -4047,14 +4047,14 @@ sub Data {
         'Successful decryption' => 'Entschlüsseln erfolgreich',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
-        'The start time of a ticket has been set after the end time!' => 'Die Starten-Zeit eines Tickets wurde auf einen Zeitpunkt nach der Ende-Zeit gesetzt!',
+        'The start time of a ticket has been set after the end time!' => 'Die Startzeit eines Tickets wurde auf einen Zeitpunkt nach der Endzeit gesetzt!',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/News.pm
-        'Can\'t connect to OTRS News server!' => 'Kein Verbindungsaufbau zu den OTRS Neuigkeiten möglich!',
+        'Can\'t connect to OTRS News server!' => 'Kein Verbindungsaufbau zum Server mit den OTRS Neuigkeiten möglich!',
         'Can\'t get OTRS News from server!' => 'OTRS Neuigkeiten können nicht vom Server abgerufen werden!',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
-        'Can\'t connect to Product News server!' => 'Kein Verbindungsaufbau zu den Produktneuigkeiten möglich!',
+        'Can\'t connect to Product News server!' => 'Kein Verbindungsaufbau zum Server mit den Produktneuigkeiten möglich!',
         'Can\'t get Product News from server!' => 'Produktneuigkeiten können nicht vom Server abgerufen werden!',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
@@ -4090,7 +4090,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
         'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
-            'Bitte stellen Sie sicher, dass sie für erforderliche Benachrichtigungen mindestens eine Benachrichtigungsmethode ausgewählt haben.',
+            'Bitte stellen Sie sicher, dass Sie für erforderliche Benachrichtigungen mindestens eine Benachrichtigungsmethode ausgewählt haben.',
 
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
         'Please specify an end date that is after the start date.' => 'Bitte geben Sie ein Enddatum an, das nach dem Startdatum liegt.',
@@ -4134,14 +4134,14 @@ sub Data {
 
         # Perl Module: Kernel/System/AuthSession.pm
         'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
-            'Sie haben die Anzahl der concurrent agents überschritten - kontaktieren Sie umgehend sales@otrs.com',
-        'Please note that the session limit is almost reached.' => 'Bitte beachten Sie, dass das Session Limit fast erreicht ist.',
+            'Sie haben die Anzahl der gleichzeitig angemeldeten Agenten überschritten - kontaktieren Sie umgehend sales@otrs.com',
+        'Please note that the session limit is almost reached.' => 'Bitte beachten Sie, dass das Sitzungslimit fast erreicht ist.',
         'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!' =>
             'Anmeldung verweigert! Sie haben die maximale Anzahl an gleichzeitig angemeldeten Agents überschritten! Jetzt sales@otrs.com kontaktieren!',
-        'Session per user limit reached!' => 'Sitzung-pro-Benutzer-Limit erreicht!',
+        'Session per user limit reached!' => 'Das Limit für Sitzungen pro Benutzer wurde erreicht!',
 
         # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
-        'Configuration Options Reference' => 'Referenz der Konfigurationseinstellungen',
+        'Configuration Options Reference' => 'Referenz der Konfigurationsoptionen',
         'This setting can not be changed.' => 'Diese Einstellung kann nicht geändert werden.',
         'This setting is not active by default.' => 'Diese Einstellung ist standardmäßig nicht aktiv.',
         'This setting can not be deactivated.' => 'Diese Einstellung kann nicht deaktiviert werden.',
@@ -4163,7 +4163,7 @@ sub Data {
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
             'Die Benachrichtigungs-Konfigurationsdatei konnte nicht gelesen werden. Bitte prüfen Sie, dass es sich um eine gültige Datei handelt.',
         'Imported notification has body text with more than 4000 characters.' =>
-            '',
+            'Importierte Benachrichtigung hat einen Text mit mehr als 4000 Zeichen.',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'nicht installiert',
@@ -4202,17 +4202,17 @@ sub Data {
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
         'Evaluation by' => 'Auswertung nach',
-        'Ticket/Article Accounted Time' => 'Zeit zugewiesen',
+        'Ticket/Article Accounted Time' => 'Ticket/Artikel - Gebuchte Zeit',
         'Ticket Create Time' => 'Ticket-Erstellzeit',
         'Ticket Close Time' => 'Ticket-Schließzeit',
         'Accounted time by Agent' => 'Zeit zugewiesen von Agent',
         'Total Time' => 'Gesamtzeit',
         'Ticket Average' => 'Durchschnittszeit pro Ticket',
-        'Ticket Min Time' => 'Ticket Minimalzeit',
-        'Ticket Max Time' => 'Ticket Maximalzeit',
+        'Ticket Min Time' => 'Ticket-Minimalzeit',
+        'Ticket Max Time' => 'Ticket-Maximalzeit',
         'Number of Tickets' => 'Anzahl der Tickets',
         'Article Average' => 'Durchschnittszeit pro Artikel',
-        'Article Min Time' => 'Artikel Minimalzeit',
+        'Article Min Time' => 'Artikel-Minimalzeit',
         'Article Max Time' => 'Artikel Maximalzeit',
         'Number of Articles' => 'Anzahl der Artikel',
 
@@ -4223,35 +4223,35 @@ sub Data {
         'Attributes to be printed' => 'Auszugebene Attribute',
         'Sort sequence' => 'Sortierreihenfolge',
         'State Historic' => 'Statuschronik',
-        'State Type Historic' => 'Statustypchronik',
+        'State Type Historic' => 'Statustypen-Historie',
         'Historic Time Range' => 'Historischer Zeitbereich',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => 'Durchschnittliche Lösungszeit',
         'Solution Min Time' => 'Minimale Lösungszeit',
         'Solution Max Time' => 'Maximale Lösungszeit',
-        'Solution Average (affected by escalation configuration)' => 'Durchschnitts-Lösungszeit (wird durch Eskalations-Konfiguration beeinflusst)',
-        'Solution Min Time (affected by escalation configuration)' => 'Minimale Lösungszeit (wird durch Eskalations-Konfiguration beeinflusst)',
-        'Solution Max Time (affected by escalation configuration)' => 'Maximale Lösungszeit (wird durch Eskalations-Konfiguration beeinflusst)',
+        'Solution Average (affected by escalation configuration)' => 'Durchschnitts-Lösungszeit (wird durch Eskalationskonfiguration beeinflusst)',
+        'Solution Min Time (affected by escalation configuration)' => 'Minimale Lösungszeit (wird durch Eskalationskonfiguration beeinflusst)',
+        'Solution Max Time (affected by escalation configuration)' => 'Maximale Lösungszeit (wird durch Eskalationskonfiguration beeinflusst)',
         'Solution Working Time Average (affected by escalation configuration)' =>
-            'Durchschnittliche Lösungs-Arbeitszeit (wird durch Eskalations-Konfiguration beeinflusst)',
+            'Durchschnittliche Lösungs-Arbeitszeit (wird durch Eskalationskonfiguration beeinflusst)',
         'Solution Min Working Time (affected by escalation configuration)' =>
-            'Minimale Lösungs-Arbeitszeit (wird durch Eskalations-Konfiguration beeinflusst)',
+            'Minimale Lösungs-Arbeitszeit (wird durch Eskalationskonfiguration beeinflusst)',
         'Solution Max Working Time (affected by escalation configuration)' =>
-            'Maximale Lösungs-Arbeitszeit (wird durch Eskalations-Konfiguration beeinflusst)',
+            'Maximale Lösungs-Arbeitszeit (wird durch Eskalationskonfiguration beeinflusst)',
         'First Response Average (affected by escalation configuration)' =>
-            'Initiale Reaktion Durchschnitt (betroffen durch die Eskalationskonfigurierung)',
+            'Erstreaktions-Durchschnittszeit (wird durch Eskalationskonfiguration beeinflusst)',
         'First Response Min Time (affected by escalation configuration)' =>
-            'Initiale Reaktion Min Zeit (betroffen durch die Eskalationskonfigurierung)',
+            'Minimale Zeit für Erstreaktion (wird durch Eskalationskonfiguration beeinflusst)',
         'First Response Max Time (affected by escalation configuration)' =>
-            'Initiale Reaktion Max Zeit (betroffen durch die Eskalationskonfigurierung)',
+            'Maximale Zeit für Erstreaktion (wird durch Eskalationskonfiguration beeinflusst)',
         'First Response Working Time Average (affected by escalation configuration)' =>
-            'Initiale Reaktion Durchschnitt Arbeitszeit (betroffen durch die Eskalationskonfigurierung)',
+            'Durchschnittliche Arbeitszeit für Erstreaktion (wird durch Eskalationskonfiguration beeinflusst)',
         'First Response Min Working Time (affected by escalation configuration)' =>
-            'Initiale Reaktion Min Arbeitszeit (betroffen durch die Eskalationskonfigurierung)',
+            'Minimale Arbeitszeit für Erstreaktion (wird durch Eskalationskonfiguration beeinflusst)',
         'First Response Max Working Time (affected by escalation configuration)' =>
-            'Initiale Reaktion Max Arbeitszeit (betroffen durch die Eskalationskonfigurierung)',
-        'Number of Tickets (affected by escalation configuration)' => 'Ticketanzahl (betroffen durch die Eskalationskonfigurierung)',
+            'Maximale Arbeitszeit für Erstreaktion (wird durch Eskalationskonfiguration beeinflusst)',
+        'Number of Tickets (affected by escalation configuration)' => 'Ticket-Anzahl (wird durch Eskalationskonfiguration beeinflusst)',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
         'Days' => 'Tage',
@@ -4260,7 +4260,7 @@ sub Data {
         'Table Presence' => 'Prüfung Tabellenexistenz',
         'Internal Error: Could not open file.' => 'Interner Fehler: Konnte datei nicht öffnen.',
         'Table Check' => 'Prüfung Tabellenstatus',
-        'Internal Error: Could not read file.' => 'Interner Fehler: Konnte datei nicht lesen.',
+        'Internal Error: Could not read file.' => 'Interner Fehler: Konnte Datei nicht lesen.',
         'Tables found which are not present in the database.' => 'In der Datenbank fehlen Tabellen.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
@@ -4273,14 +4273,14 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
         'Client Connection Charset' => 'Zeichensatz der Client-Verbindung',
-        'Setting character_set_client needs to be utf8.' => 'Einstellung character_set_client muss utf8 sein.',
+        'Setting character_set_client needs to be utf8.' => 'Einstellung character_set_client muss \'utf8\' sein.',
         'Server Database Charset' => 'Zeichensatz des Datenbank-Servers',
         'Setting character_set_database needs to be UNICODE or UTF8.' => 'Einstellung character_set_database muss UNICODE oder UTF8 sein.',
         'Table Charset' => 'Zeichensatz der Tabellen',
         'There were tables found which do not have utf8 as charset.' => 'Es wurden Tabellen gefunden, die nicht utf8 als Zeichensatz eingestellt haben.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
-        'InnoDB Log File Size' => 'InnoDB Log Datei Größe',
+        'InnoDB Log File Size' => 'Größe der InnoDB-Log-Datei',
         'The setting innodb_log_file_size must be at least 256 MB.' => 'Die Einstellung innodb_log_file_size muss mindestens 256 MB betragen.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
@@ -4338,12 +4338,12 @@ sub Data {
         'Could not determine distribution.' => 'Konnte Distribution nicht ermitteln.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
-        'Kernel Version' => 'Kernelversion',
+        'Kernel Version' => 'Kernel-Version',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
         'System Load' => 'Systemlast (load)',
         'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).' =>
-            'Die Last sollte die Zahl der Systemprozessoren nicht übersteigen (also wäre eine Last von 8 oder weniger auf einem 8-Core-System in Ordnung).',
+            'Die Systemlast sollte die Zahl der Systemprozessoren nicht übersteigen (bspw. wäre eine Last von 8 oder weniger auf einem 8-Core-System in Ordnung).',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModules.pm
         'Perl Modules' => 'Perlmodule',
@@ -4369,14 +4369,14 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
         'Database Records' => 'Datenbankeinträge',
         'Tickets' => 'Tickets',
-        'Ticket History Entries' => 'Ticket-Historien-Einträge',
+        'Ticket History Entries' => 'Ticket-Historieneinträge',
         'Articles' => 'Artikel',
         'Attachments (DB, Without HTML)' => 'Anhänge (in der Datenbank, ohne HTML)',
         'Customers With At Least One Ticket' => 'Kunden mit wenigstens einem Ticket',
         'Dynamic Field Values' => 'Werte in Dynamischen Feldern',
-        'Invalid Dynamic Fields' => 'Ungültige dynamische Felder',
-        'Invalid Dynamic Field Values' => 'Werte in ungültigen dynamischen Feldern',
-        'GenericInterface Webservices' => 'GenericInterface Webservices',
+        'Invalid Dynamic Fields' => 'Ungültige Dynamische Felder',
+        'Invalid Dynamic Field Values' => 'Werte in ungültigen Dynamischen Feldern',
+        'GenericInterface Webservices' => 'GenericInterface-Webservices',
         'Process Tickets' => 'Prozess-Tickets',
         'Months Between First And Last Ticket' => 'Monate zwischen erstem und letztem Ticket',
         'Tickets Per Month (avg)' => 'Tickets pro Monat (Durchschnitt)',
@@ -4394,22 +4394,22 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
         'FQDN (domain name)' => 'FQDN (Domainname)',
-        'Please configure your FQDN setting.' => 'Bitte konfigurieren Sie ihre FQDN Einstellungen.',
+        'Please configure your FQDN setting.' => 'Bitte konfigurieren Sie ihre FQDN-Einstellungen.',
         'Domain Name' => 'Domainname',
-        'Your FQDN setting is invalid.' => 'Ihre Einstellung FQDN ist ungültig.',
+        'Your FQDN setting is invalid.' => 'Ihre FQDN-Einstellung ist ungültig.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FileSystemWritable.pm
-        'File System Writable' => 'Schreibbarkeit Dateisystem',
+        'File System Writable' => 'Dateisystem-Schreibbarkeit',
         'The file system on your OTRS partition is not writable.' => 'Das Dateisystem auf Ihrer OTRS-Partition ist nicht schreibbar.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
-        'Package Installation Status' => 'Paketinstallationsstatus',
+        'Package Installation Status' => 'Paketinstallations-Status',
         'Some packages have locally modified files.' => 'Einige Pakete enthalten lokal angepasste Dateien.',
         'Some packages are not correctly installed.' => 'Es wurden Pakete gefunden, die nicht korrekt installiert sind.',
-        'Package Verification Status' => 'Status Paketverifikation',
+        'Package Verification Status' => 'Paketverifizierung-Status',
         'Some packages are not verified by the OTRS Group! It is recommended not to use this packages.' =>
             'Einige Pakete wurden nicht von der OTRS Gruppe verifiziert! Es wird empfohlen, diese Pakete nicht zu nutzen.',
-        'Package Framework Version Status' => 'Status Paket-Frameworkversion',
+        'Package Framework Version Status' => 'Status der Paket-Framework-Version',
         'Some packages are not allowed for the current framework version.' =>
             'Einige Pakete sind für die aktuelle Framework-Version nicht geeignet.',
 
@@ -4417,25 +4417,25 @@ sub Data {
         'Package List' => 'Paketliste',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SessionConfigSettings.pm
-        'Session Config Settings' => 'Sitzungskonfigurationseinstellungen',
+        'Session Config Settings' => 'Sitzungskonfigurations-Einstellungen',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SpoolMails.pm
-        'Spooled Emails' => '',
+        'Spooled Emails' => 'Zum Senden anstehende E-Mails',
         'There are emails in var/spool that OTRS could not process.' => 'In var/spool befinden sich Emails, die OTRS nicht verarbeiten konnte.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
-            'Ihre Einstellung SystemID ist ungültig, sie sollte nur Ziffern enthalten.',
+            'Ihre SystemID-Einstellung ist ungültig, sie sollte nur Ziffern enthalten.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/DefaultType.pm
-        'Default Ticket Type' => 'Standard-Ticket-Typ',
+        'Default Ticket Type' => 'Standard Ticket-Typ',
         'The configured default ticket type is invalid or missing. Please change the setting Ticket::Type::Default and select a valid ticket type.' =>
-            'Der konfigurierte Standard-Ticket-Typ fehlt oder ist ungültig. Bitte ändern Sie die Einstellung Ticket::Type::Default und wählen Sie einen gültigen Ticket-Typ.',
+            'Der konfigurierte Standard Ticket-Typ fehlt oder ist ungültig. Bitte ändern Sie die Einstellung Ticket::Type::Default und wählen Sie einen gültigen Ticket-Typ.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/IndexModule.pm
-        'Ticket Index Module' => 'Ticket-Index-Modul',
+        'Ticket Index Module' => 'Ticket-Indexmodul',
         'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
-            'Sie haben mehr als 60.000 Tickets und sollten das StaticDB-Backend verwenden. Bitte schauen Sie im Administratorhandbuch (Performance Tuning) nach.',
+            'Sie haben mehr als 60.000 Tickets und sollten das StaticDB-Backend verwenden. Bitte schauen Sie im Administratorhandbuch (Leistungsverbesserung) nach.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/InvalidUsersWithLockedTickets.pm
         'Invalid Users with Locked Tickets' => 'Ungültige Benutzer mit gesperrten Tickets',
@@ -4446,7 +4446,7 @@ sub Data {
             'Sie sollten nicht mehr als 8.000 offene Tickets im System haben.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
-        'Ticket Search Index Module' => 'Ticket-Suchindex-Modul',
+        'Ticket Search Index Module' => 'Ticket-Suchindexmodul',
         'You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
             'Sie haben mehr als 50.000 Artikel und sollten das StaticDB-Backend verwenden. Bitte schauen Sie im Administratorhandbuch (Performance Tuning) nach.',
 
@@ -4460,7 +4460,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
         'Time Settings' => 'Zeiteinstellungen',
-        'Server time zone' => 'Serverzeitzone',
+        'Server time zone' => 'Server-Zeitzone',
         'Computed server time offset' => 'Berechneter Serverzeitversatz',
         'OTRS TimeZone setting (global time offset)' => 'OTRS-Zeitzoneneinstellung (globaler Zeitversatz)',
         'TimeZone may only be activated for systems running in UTC.' => 'Die TimeZone sollte nur für Systeme aktiviert werden, die auf Basis von UTC laufen.',
@@ -4470,10 +4470,10 @@ sub Data {
         'OTRS TimeZone setting for calendar ' => 'OTRS-Zeitzoneneinstellung für Kalender',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
-        'UI - Agent Skin Usage' => '',
+        'UI - Agent Skin Usage' => 'UI - Nutzung Agenten-Skins',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
-        'UI - Agent Theme Usage' => '',
+        'UI - Agent Theme Usage' => 'UI - Nutzung Agenten-Themes',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
         'Webserver' => 'Webserver',
@@ -4513,8 +4513,8 @@ sub Data {
         'Could not determine webserver version.' => 'Konnte Webserver-Version nicht ermitteln.',
 
         # Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTRS/ConcurrentUsers.pm
-        'Concurrent Users Details' => 'Details der gleichzeitigen Nutzer',
-        'Concurrent Users' => 'Gleichzeitige Nutzer',
+        'Concurrent Users Details' => 'Details der gleichzeitigen Benutzer',
+        'Concurrent Users' => 'Gleichzeitige Benutzer',
 
         # Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
         'Unknown' => 'Unbekannt',
@@ -4528,27 +4528,27 @@ sub Data {
         'PGP sign only' => 'Nur PGP-Signierung',
         'PGP encrypt only' => 'Nur PGP-Verschlüsselung',
         'PGP sign and encrypt' => 'PGP-Signierung und -Verschlüsselung',
-        'SMIME sign only' => 'Nur SMIME-Signierung',
-        'SMIME encrypt only' => 'Nur SMIME-Verschlüsselung',
-        'SMIME sign and encrypt' => 'SMIME-Signierung und -Verschlüsselung',
-        'PGP and SMIME not enabled.' => 'PGP und SMIME sind nicht aktiviert.',
-        'Skip notification delivery' => 'Benachrichtigungs-Zustellung überspringen',
+        'SMIME sign only' => 'Nur S/MIME-Signierung',
+        'SMIME encrypt only' => 'Nur S/MIME-Verschlüsselung',
+        'SMIME sign and encrypt' => 'S/MIME-Signierung und -Verschlüsselung',
+        'PGP and SMIME not enabled.' => 'PGP und S/MIME sind nicht aktiviert.',
+        'Skip notification delivery' => 'Zustellung der Benachrichtigung überspringen',
         'Send unsigned notification' => 'Unsignierte Benachrichtigung senden',
         'Send unencrypted notification' => 'Unverschlüsselte Benachrichtigung senden',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
-            '',
-        'Can`t remove SessionID.' => 'Kann SessionID nicht enfernen',
+            'Authentifizierung erfolgreich, aber in der Datenbank wurde kein Eintrag für den Benutzer gefunden. Bitte kontaktieren Sie Ihren Administrator.',
+        'Can`t remove SessionID.' => 'Kann SessionID nicht entfernen',
         'Logout successful.' => 'Abmeldung erfolgreich.',
-        'Error: invalid session.' => 'Fehler: Ungültige Session.',
+        'Error: invalid session.' => 'Fehler: Ungültige Sitzung.',
         'No Permission to use this frontend module!' => 'Sie haben keine Berechtigung, dieses Modul zu nutzen!',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
             'Authentifizierung erfolgreich, aber im Kunden Backend wurde kein Kunden Eintrag gefunden. Bitte kontaktieren Sie Ihren Administrator.',
         'Reset password unsuccessful. Please contact the administrator.' =>
-            'Zurücksetzen des Kennwort war nicht erfolgreich. Bitte kontaktieren Sie den Administrator!',
+            'Zurücksetzen des Passwort war nicht erfolgreich. Bitte kontaktieren Sie den Administrator!',
         'Added via Customer Panel (%s)' => 'Mittels Kundenbereich hinzugefügt (%s)',
         'Customer user can\'t be added!' => 'Kundenbenutzer kann nicht angelegt werden!',
         'Can\'t send account info!' => 'Kann Zugangsinformation nicht senden!',
@@ -4565,13 +4565,13 @@ sub Data {
         'All closed state types (default: not viewable).' => 'Alle geschlossenen Statustypen (Standard: nicht sichtbar).',
         'All \'pending reminder\' state types (default: viewable).' => 'Alle \'warten auf\'-Statustypen (Standard: sichtbar).',
         'All \'pending auto *\' state types (default: viewable).' => 'Alle \'warten auf automatisch *\'-Statustypen (Standard: sichtbar).',
-        'All \'removed\' state types (default: not viewable).' => 'Alle "entfernten" Statustypen (Standard: nicht sichtbar).',
+        'All \'removed\' state types (default: not viewable).' => 'Alle \'entfernt\'-Statustypen (Standard: nicht sichtbar).',
         'State type for merged tickets (default: not viewable).' => 'Statustyp für zusammengefasste Tickets (Standard: nicht sichtbar).',
         'New ticket created by customer.' => 'Neues Ticket von Kunden erstellt.',
         'Ticket is closed successful.' => 'Ticket erfolgreich geschlossen.',
         'Ticket is closed unsuccessful.' => 'Das Ticket ist erfolglos geschlossen.',
         'Open tickets.' => 'Offene Tickets',
-        'Customer removed ticket.' => 'Kunde entfernte Ticket.',
+        'Customer removed ticket.' => 'Kunde hat Ticket entfernt.',
         'Ticket is pending for agent reminder.' => 'Das Ticket wartet auf Erinnerung für Agenten.',
         'Ticket is pending for automatic close.' => 'Das Ticket wartet auf automatisches schließen.',
         'State for merged tickets.' => 'Status für zusammengefasste Tickets.',
@@ -4581,26 +4581,26 @@ sub Data {
         'Standard Signature.' => 'Standard Signatur',
         'Standard Address.' => 'Standard Adresse',
         'Follow-ups for closed tickets are possible. Ticket will be reopened.' =>
-            'Rückfragen für geschlossene Tickets sind möglich. Tickets werden wiedereröffnet.',
+            'Rückfragen für geschlossene Tickets sind möglich. Tickets werden wieder geöffnet.',
         'Follow-ups for closed tickets are not possible. No new ticket will be created.' =>
             'Rückfragen für geschlossene Tickets sind nicht möglich. Neue Tickets werden nicht erstellt.',
         'new ticket' => 'neues Ticket',
         'Follow-ups for closed tickets are not possible. A new ticket will be created.' =>
-            '',
+            'Rückfragen für geschlossene Tickets sind nicht möglich. Ein neues Ticket wird erstellt.',
         'Postmaster queue.' => 'Postmaster-Queue.',
         'All default incoming tickets.' => 'Alle eingehenden Tickets.',
         'All junk tickets.' => 'Alle Junk-Tickets.',
         'All misc tickets.' => 'Alle Misc-Tickets.',
         'Automatic reply which will be sent out after a new ticket has been created.' =>
-            'Eine Automatische Antwort wird versandt, nachdem ein neues Ticket erstellt wurde.',
+            'Eine automatische Antwort wird versandt, nachdem ein neues Ticket erstellt wurde.',
         'Automatic reject which will be sent out after a follow-up has been rejected (in case queue follow-up option is "reject").' =>
-            'Automatische Ablehnung, die gesendet wird, nachdem eine Rückantwort abgelehnt wurde (falls die Rückantworts-Einstellung der Queue "Ablehnen" ist).',
+            'Automatische Ablehnung, die gesendet wird, nachdem eine Rückantwort abgelehnt wurde (falls die Queue-Einstellung für Rückantworten auf "Ablehnen" gesetzt ist).',
         'Automatic confirmation which is sent out after a follow-up has been received for a ticket (in case queue follow-up option is "possible").' =>
-            'Automatische Bestätigung, die gesendet wird, nachdem eine Rückantwort für ein Ticket empfangen wurde (falls die Rückantworts-Einstellung der Queue "Möglich" ist).',
+            'Automatische Bestätigung, die gesendet wird, nachdem eine Rückantwort für ein Ticket empfangen wurde (falls die Queue-Einstellung für Rückantworten auf "Möglich" gesetzt ist).',
         'Automatic response which will be sent out after a follow-up has been rejected and a new ticket has been created (in case queue follow-up option is "new ticket").' =>
-            'Automatische Antwort, die gesendet wird, nachdem eine Rückantwort abgelehnt und ein neues Ticket erstellt wurde (falls die Rückantworts-Einstellung der Queue "Neues Ticket" ist).',
+            'Automatische Antwort, die gesendet wird, nachdem eine Rückantwort abgelehnt und ein neues Ticket erstellt wurde (falls die Queue-Einstellung für Rückantworten auf "Neues Ticket" gesetzt ist.',
         'Auto remove will be sent out after a customer removed the request.' =>
-            'Auto Remove wird versendet, nachdem der Kundenbenutzer die Anfrage entfernt hat.',
+            '"Automatisches Entfernen" wird versendet, nachdem der Kundenbenutzer die Anfrage entfernt hat.',
         'default reply (after new ticket has been created)' => 'Standardantwort (nachdem ein neues Ticket erstellt wurde)',
         'default reject (after follow-up and rejected of a closed ticket)' =>
             'Standardablehnung (nachdem eine Antwort auf ein geschlossenes Ticket eingegangen und diese abgelehnt wurde)',
@@ -4622,15 +4622,15 @@ sub Data {
             'Sie erhalten eine Benachrichtigung, wenn ein Kunde eine Rückmeldung zu einem Ticket sendet, dessen Besitzer oder Verantwortlicher Sie sind.',
         'You will receive a notification as soon as a ticket owned by you is automatically unlocked.' =>
             'Sie erhalten eine Benachrichtigung, wenn ein Ticket, dessen Besitzer Sie sind, automatisch entsperrt wurde.',
-        'Ticket owner update notification' => 'Benachrichtigung über Änderung des  Ticket Besitzers',
-        'Ticket responsible update notification' => 'Benachrichtigung über Änderung des  Ticket Verantwortlichen',
+        'Ticket owner update notification' => 'Benachrichtigung über Änderung des  Ticket-Besitzers',
+        'Ticket responsible update notification' => 'Benachrichtigung über Änderung des  Ticket-Verantwortlichen',
         'Ticket new note notification' => 'Benachrichtigung über neue Notiz',
         'Ticket queue update notification' => 'Benachrichtigung über Änderung der Queue',
         'You will receive a notification if a ticket is moved into one of your "My Queues".' =>
             'Sie erhalten eine Benachrichtigung, wenn ein Ticket in eine der Queues verschoben wurde, die Sie unter "Meine Queues" ausgewählt haben.',
         'Ticket pending reminder notification (locked)' => 'Benachrichtigung über Erreichen der Erinnerungszeit (gesperrtes Ticket)',
         'Ticket pending reminder notification (unlocked)' => 'Benachrichtigung über Erreichen der Erinnerungszeit (entsperrtes Ticket)',
-        'Ticket escalation notification' => 'Benachrichtigung über erfolgte Ticket Eskalation',
+        'Ticket escalation notification' => 'Benachrichtigung über erfolgte Ticket-Eskalation',
         'Ticket escalation warning notification' => 'Benachrichtigung über baldige Ticket Eskalation',
         'Ticket service update notification' => 'Benachrichtigung über Änderung des Services',
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
@@ -4675,7 +4675,7 @@ Ihr Helpdesk-Team
         'A TicketWatcher Module.' => 'Ein Ticket-Beobachten-Modul.',
         'A Website' => 'Eine Webseite',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
-            'Eine Liste der dynamischen Felder, die während einer Zusammenführung in das Haupt-Ticket ebenfalls zusammengeführt werden. Es werden nur leere dynamische Felder im Haupt-Ticket geändert.',
+            'Eine Liste der Dynamischen Felder, die während einer Zusammenführung in das Haupt-Ticket ebenfalls zusammengeführt werden. Es werden nur leere Dynamische Felder im Haupt-Ticket geändert.',
         'A picture' => 'Ein Bild',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ACL Modul das erlaubt Eltern-Tickets nur dann zu schließen, wenn alle seine Kinder-Tickets geschlossen wurden. ("Status" zeigt welche Status für das Eltern-Ticket nicht verfügbar sind, bis alle Kinder-Tickets geschlossen sind).',
@@ -4684,7 +4684,7 @@ Ihr Helpdesk-Team
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'Aktiviert einen Blinkmechanismus der Queue, die das älteste Ticket enthält.',
         'Activates lost password feature for agents, in the agent interface.' =>
-            'Aktiviert die "Passwort vergessen" Funktion für Agenten in der Agentenoberfläche.',
+            'Aktiviert die "Passwort vergessen" Funktion für Agenten im Agenten-Interface.',
         'Activates lost password feature for customers.' => 'Aktiviert die "Passwort vergessen" Funktion für Kunden.',
         'Activates support for customer groups.' => 'Aktiviert die Unterstützung für Kundengruppen.',
         'Activates the article filter in the zoom view to specify which articles should be shown.' =>
@@ -4751,15 +4751,15 @@ Ihr Helpdesk-Team
         'Agents <-> Roles' => 'Agent <-> Rollen',
         'All customer users of a CustomerID' => 'Alle Kundenbenutzer einer Kundennummer',
         'Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            'Erlaubt in der Agentenoberfläche das Hinzufügen von Notizen im  \'Schließen\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
+            'Erlaubt im Agenten-Interface das Hinzufügen von Notizen im \'Schließen\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            'Erlaubt in der Agentenoberfläche das Hinzufügen von Notizen im \'Freie-Felder\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
+            'Erlaubt im Agenten-Interface das Hinzufügen von Notizen im \'Freie-Felder\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows adding notes in the ticket note screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            'Erlaubt in der Agentenoberfläche das Hinzufügen von Notizen im \'Notiz\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
+            'Erlaubt im Agenten-Interface das Hinzufügen von Notizen im \'Notiz\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
             'Erlaubt in der Agentenoberfläche in einem geöffneten Ticket das Hinzufügen von Notizen im \'Besitzer\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            'Erlaubt in der Agentenoberfläche in einem geöffneten Ticket das Hinzufügen von Notizen im \'Warten\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
+            'Erlaubt im Agenten-Interface in einem geöffneten Ticket das Hinzufügen von Notizen im \'Warten\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
             'Erlaubt in der Agentenoberfläche in einem geöffneten Ticket das Hinzufügen von Notizen im \'Priorität\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows adding notes in the ticket responsible screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
@@ -4768,7 +4768,7 @@ Ihr Helpdesk-Team
             'Erlaubt Agenten die Achsen einer Statistik zu tauschen, wenn sie eine Statistik generieren.',
         'Allows agents to generate individual-related stats.' => 'Erlaubt Agenten eine individuelle Statistik zu generieren.',
         'Allows choosing between showing the attachments of a ticket in the browser (inline) or just make them downloadable (attachment).' =>
-            'Ermöglicht die Wahl zwischen der Anzeige der Anlagen eines Tickets im Browser (Inline) oder einfach nur als Download anbieten (Anhang).',
+            'Ermöglicht die Wahl zwischen der Anzeige der Anhänge eines Tickets im Browser (Inline) oder einfach nur als Download anbieten (Anhang).',
         'Allows choosing the next compose state for customer tickets in the customer interface.' =>
             'Ermöglicht die Wahl des nächsten Verfassen-Status für Kundenticket im Kunden-Interface.',
         'Allows customers to change the ticket priority in the customer interface.' =>
@@ -4795,6 +4795,9 @@ Ihr Helpdesk-Team
             'Erlaubt erweiterte Suchbedingungen in der Ticketsuche im Kundenbereich. Mit dieser Funktion können Sie z.B. Ticket-Titel mit Bedingungen wie "(key1&&key2)" oder "(key1||key2)" suchen.',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'Erlaubt erweiterte Suchbedingungen der generischen Agenten-Schnittstelle. Mit diesem Feature kann man z.B. Ticket-Titel mit Bedingungen wie dieser "(*key1*&&*key2*)" oder "(*key1*||*key2*)" durchsuchen.',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Ermöglicht eine Ticket-Übersicht mit einigen Ticketinformationen  (Customer => 1 - zeigt auch die Kundeninformation).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -4930,10 +4933,10 @@ Ihr Helpdesk-Team
             'Kontrolliert ob die Ticket- und Artikel "Gesehen"-Fähnchen entfernt werden, wenn ein Ticket archiviert wird.',
         'Converts HTML mails into text messages.' => 'Konvertiert HTML E-Mails in Textnachrichten.',
         'Create New process ticket.' => 'Neues Prozess-Ticket erstellen.',
-        'Create Ticket' => '',
+        'Create Ticket' => 'Ticket erstellen',
         'Create and manage Service Level Agreements (SLAs).' => 'Service-Level-Abkommen (SLAs) erzeugen und verwalten.',
         'Create and manage agents.' => 'Agents erzeugen und verwalten.',
-        'Create and manage attachments.' => 'Anlagen erzeugen und verwalten.',
+        'Create and manage attachments.' => 'Anhänge erzeugen und verwalten.',
         'Create and manage customer users.' => 'Kundenbenutzer erzeugen und verwalten.',
         'Create and manage customers.' => 'Kunden erzeugen und verwalten.',
         'Create and manage dynamic fields.' => 'Dynamische Felder erzeugen und verwalten.',
@@ -5179,7 +5182,7 @@ Ihr Helpdesk-Team
             'Definiert die Spalte um die Schlüssel in der Eigenschaften-Tabelle zu speichern',
         'Defines the config options for the autocompletion feature.' => 'Definiert die Konfigurationsoptionen für die Autovervollständigung.',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
-            'Definiert die Konfigurationsparamenter des Items, die in der Eigenschaftenanzeige angezeigt wird.',
+            'Definiert die Konfigurationsparamenter des Eintrages, der in der Benutzereinstellung angezeigt wird.',
         'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached.' =>
             'Legt die Konfigurationsparameter für diesen Eintrag fest, die in der Einstellungsansicht angezeigt werden.
 \'PasswordRegExp\' erlaubt das Prüfen von Passwörtern gegen einen regulären Ausdruck.
@@ -5251,7 +5254,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Defines the default selection at the drop down menu for stats format (Form: Common Specification). Please insert the format key (see Stats::Format).' =>
             'Legt die Standardauswahl im Dropdown-Menü für das Statistik-Format (Form: Gemeinsame Spezifikation) fest. Bitte legen Sie die Formattaste fest (siehe Stats::Format).',
         'Defines the default sender type for phone tickets in the ticket phone inbound screen of the agent interface.' =>
-            'Bestimmt den Standard-Absendertyp für Telefon-Tickets in der Eingehende-Telefon-Tickets-Anzeige in der Agenten-Oberfläche.',
+            'Bestimmt den Standard-Absendertyp für Telefon-Tickets in der Eingehende-Telefon-Tickets-Anzeige im Agenten-Interface.',
         'Defines the default sender type for phone tickets in the ticket phone outbound screen of the agent interface.' =>
             'Bestimmt den Standard-Absendertp für Telefon-Tickets in der Ausgehende-Telefon-Tickets-Anzeige in der Agenten-Oberfläche.',
         'Defines the default sender type for tickets in the ticket zoom screen of the customer interface.' =>
@@ -5397,7 +5400,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Defines the history comment for the email ticket screen action, which gets used for ticket history in the agent interface.' =>
             'Steuert den Historien-Kommentar für Emailtickets im Agentenbereich.',
         'Defines the history comment for the phone ticket screen action, which gets used for ticket history in the agent interface.' =>
-            'Steuert den Historien-Kommentar für Telefonticket im Agentenbereich.',
+            'Steuert den Historien-Kommentar für Telefon-Ticket im Agentenbereich.',
         'Defines the history comment for the ticket free text screen action, which gets used for ticket history.' =>
             'Steuert den Historien-Kommentar für die Freitext-Aktion im Agentenbereich.',
         'Defines the history comment for the ticket note screen action, which gets used for ticket history in the agent interface.' =>
@@ -5469,7 +5472,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Defines the maximal size (in bytes) for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTRS instance to stop working (probably any mask which takes input from the user).' =>
             'Definiert die maximale Größe (in Bytes) für das Hochladen von Dateien mit dem Browser. Achtung: Wenn man die Größe zu klein wählt können viele Eingabemasken in ihrer OTRS-Instanz nicht mehr funktionieren (vermutlich jede Maske die Benutzereingaben erwartet).',
         'Defines the maximal valid time (in seconds) for a session id.' =>
-            'Definiert die maximale Gültigkeitsdauer (in Sekunden) für eine Session-ID.',
+            'Definiert die maximale Gültigkeitsdauer (in Sekunden) für eine Sitzungs-ID.',
         'Defines the maximum number of affected tickets per job.' => 'Definiert the maximale Anzahl der betroffenen Tickets pro Job',
         'Defines the maximum number of pages per PDF file.' => 'Bestimmt die maximale Anzahl an Seiten pro PDF-Datei.',
         'Defines the maximum number of quoted lines to be added to responses.' =>
@@ -5501,7 +5504,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.' =>
             'Definiert das Modul das eine Benachrichtigung im Agenten-Interface anzeigt, wenn ein Agent angemeldet ist, während die Systemwartung aktiv ist.',
         'Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.' =>
-            '',
+            'Definiert das Modul, das eine Benachrichtigung im Agentenbereich anzeigt, wenn das Limit für Agentensitzungen erreicht wurde.',
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             'Legt das Modul fest, das eine Benachrichtigung im Agenten-Bereich anzeigt, wenn das System mit einem Admin-Benutzer genutzt wird (normalerweise sollte im System nicht als Admin-Benutzer gearbeitet werden).',
         'Defines the module to generate code for periodic page reloads.' =>
@@ -5509,7 +5512,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Defines the module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. Any of the "SMTP" mechanisms use a specified (external) mailserver. "DoNotSendEmail" doesn\'t send emails and it is useful for test systems.' =>
             'Legt das Modul zum Versenden von E-Mails fest. "Sendmail" nutzt das Sendmail-Binary Ihres Betriebssystems. Jeder der SMTP-Mechanismen nutzt einen zu definierenden (externen) Mailserver. "DoNotSendEmail" versendet keine E-Mails und ist deshalb nützlich für Testsysteme.',
         'Defines the module used to store the session data. With "DB" the frontend server can be splitted from the db server. "FS" is faster.' =>
-            'Definiert, welches Modul für das Speichern der Session Daten verwendet werden soll. Mit "DB" kann der Anzeige Server getrennt vom DB-Server betrieben werden. "FS" ist schneller.',
+            'Definiert, welches Modul für das Speichern der Sitzungsdaten verwendet werden soll. Mit "DB" kann der Anzeige Server getrennt vom DB-Server betrieben werden. "FS" ist schneller.',
         'Defines the name of the application, shown in the web interface, tabs and title bar of the web browser.' =>
             'Definiert den Namen der Anwendung, die in der Weboberfläche, in Tabs und in der Titelleiste des Webbrowser angezeigt wird.',
         'Defines the name of the column to store the data in the preferences table.' =>
@@ -5605,7 +5608,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Defines the shown links in the footer area of the customer and public interface of this OTRS system. The value in "Key" is the external URL, the value in "Content" is the shown label.' =>
             '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
-            '',
+            'Legt die verfügbaren Standardberechtigungen für Kunden innerhalb der Applikation fest. Werden mehr Berechtigungen benötigt, können sie hier eingegeben werden. Berechtigungen müssen hart-kodiert sein, um Auswirkungen zu haben. Bitte stellen Sie beim Anlegen neuer Berechtigungen sicher, dass "rw" immer der letzte Eintrag bleibt.',
         'Defines the standard size of PDF pages.' => 'Bestimmt die Standardgröße von PDF-Seiten.',
         'Defines the state of a ticket if it gets a follow-up and the ticket was already closed.' =>
             'Definiert den Status eines geschlossenen Tickets, wenn ein Follow-Up eingeht.',
@@ -5631,25 +5634,25 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Defines the target attribute in the link to external customer database. E.g. \'target="cdb"\'.' =>
             'Definiert das \'target\'-Attribut eines Links zu einer externen Kunden-Datenbank. Z.B. \'target="cdb"\'.',
         'Defines the ticket fields that are going to be displayed calendar events. The "Key" defines the field or ticket attribute and the "Content" defines the display name.' =>
-            '',
+            'Legt die Ticket-Attribute fest, die in Kalender-Ereignissen angezeigt werden sollen. "Key" bestimmt das Feld oder Ticket-Attribut, "Content" legt den anzuzeigenden Namen fest.',
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
             'Spezifiziert die Zeitzone des angezeigten Kalenders, welcher später einer bestimmten Queue zugewiesen werden kann.',
         'Defines the timeout (in seconds, minimum is 20 seconds) for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
-            '',
+            'Legt den Timeout in Sekunden für die Sammlung von Supportdaten des öffentlichen Moduls \'PublicSupportDataCollector\' fest, das z. B. vom OTRS Daemon genutzt wird (min. 20 Sekunden).',
         'Defines the two-factor module to authenticate agents.' => 'Definiert das Modul für die Zwei-Faktor-Authentifizierung von Agenten.',
         'Defines the two-factor module to authenticate customers.' => 'Definiert das Modul für die Zwei-Faktor-Authentifizierung von Kunden.',
         'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
-            '',
+            'Legt das Protokoll fest, das zur Auslieferung der Applikation durch den Webserver genutzt werden soll. Wenn https anstelle von http genutzt werden soll, muss dies hier festgelegt werden. Die Einstellung hat keine Auswirkungen auf die Konfiguration des Webservers und verändert nicht, wie auf die Applikation zugegriffen wird. Bei fehlerhafter Konfiguration verhindert die Einstellung nicht die Anmeldung am System. Diese Einstellung wird nur als Variable verwendet (OTRS_CONFIG_HttpType), die in allen Nachrichten-Formularen zur Verfügung steht, um Links auf Tickets in Ihr System zu generieren.',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
-            '',
+            'Legt das genutzte Zeichen für Zitate in Plaintext-E-Mails im Verfassen-Bildschirm des Agentenbereichs fest. Bleibt das Feld leer oder ist die Einstellung nicht aktiviert, wird die ursprüngliche E-Mail nicht zitiert, sondern an die Antwort angehängt.',
         'Defines the user identifier for the customer panel.' => 'Definiert den Benutzer-Identifier für das Kunden-Interface.',
         'Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).' =>
             'Definiert den Benutzernamen um auf die SOAP-Schnittstelle zuzugreifen (bin/cgi-bin/rpc.pl).',
         'Defines the valid state types for a ticket.' => 'Definiert die gültigen Statustypen für ein Ticket.',
         'Defines the valid states for unlocked tickets. To unlock tickets the script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" can be used.' =>
-            '',
+            'Bestimmt gültige Status für entsperrte Tickets. Um Tickets zu entsperren, kann das Script "bin/otrs.Console.pl Maint::Ticket::UnlockTimeout" genutzt werden.',
         'Defines the viewable locks of a ticket. NOTE: When you change this setting, make sure to delete the cache in order to use the new value. Default: unlock, tmp_lock.' =>
-            '',
+            'Bestimmt die sichtbaren Sperrtypen eines Tickets. Hinweis: Bitte stellen Sie sicher, dass Sie bei Veränderung dieser Einstellung den Cache leeren.',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             'Definiert die Breite der RichText-Editor Komponente. Geben Sie einen Zahlen- (Pixel) oder Prozenwert (relativ) an.',
         'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
@@ -5673,19 +5676,19 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Delete expired sessions.' => 'Löscht abgelaufene Benutzersitzungen.',
         'Deleted link to ticket "%s".' => 'Verknüpfung zu "%s" gelöscht.',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
-            'Löscht die Session, wenn die Session-ID mit einer ungültigen IP-Adresse benutzt wird.',
-        'Deletes requested sessions if they have timed out.' => 'Löscht die angefragte Session, wenn ein Timeout vorliegt.',
+            'Löscht die Sitzung, wenn die Sitzungs-ID mit einer ungültigen IP-Adresse benutzt wird.',
+        'Deletes requested sessions if they have timed out.' => 'Löscht die angefragte Sitzung, wenn ein Timeout vorliegt.',
         'Delivers extended debugging information in the frontend in case any AJAX errors occur, if enabled.' =>
             'Liefert erweiterte Debugging-Informationen im Frontend im Fall, dass AJAX-Fehler auftreten, wenn aktiviert.',
         'Deploy and manage OTRS Business Solution™.' => 'Bereitstellung und Verwaltung der OTRS Business Solution ™.',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             'Bestimmt ob die Liste möglicher Queues in die ein Ticket verschoben werden kann als eine DropDown-Liste angezeigt wird oder in einem neuen Fenster. Wenn "Neues Fenster" eingestellt ist, können Sie ein Verschiebe-Notiz zum Ticket hinzufügen.',
         'Determines if the statistics module may generate ticket lists.' =>
-            'Definiert ob das Statistik-Modul Ticketlisten generieren kann',
+            'Definiert, ob das Statistik-Modul Ticket-Listen generieren kann.',
         'Determines the next possible ticket states, after the creation of a new email ticket in the agent interface.' =>
             'Definiert den Nächstmöglichen Ticketstatus, nachdem ein neues E-Mailticket im Agenten-interface erstellt wurde.',
         'Determines the next possible ticket states, after the creation of a new phone ticket in the agent interface.' =>
-            'Definiert den Nächstmöglichen Ticketstatus, nachdem ein neues Telefonticket im Agenten-interface erstellt wurde.',
+            'Definiert den Nächstmöglichen Ticketstatus, nachdem ein neues Telefon-Ticket im Agenten-Interface erstellt wurde.',
         'Determines the next possible ticket states, for process tickets in the agent interface.' =>
             'Definiert den Nächstmöglichen Ticketstatus für Prozesstickets im Agenten-Interface.',
         'Determines the next possible ticket states, for process tickets in the customer interface.' =>
@@ -5693,25 +5696,25 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Determines the next screen after new customer ticket in the customer interface.' =>
             'Definiert den nächsten Bildschirm nach einem Kundenticket im Kunden-Interface.',
         'Determines the next screen after the follow-up screen of a zoomed ticket in the customer interface.' =>
-            '',
+            'Legt den Bildschirm fest, der nach einem Follow-Up aus der Ticket-Detailansicht im Kundenbereich aufgerufen werden soll.',
         'Determines the next screen after the ticket is moved. LastScreenOverview will return the last overview screen (e.g. search results, queueview, dashboard). TicketZoom will return to the TicketZoom.' =>
             'Bestimmt das nächste Fenster nach dem das Ticket verschoben ist. LastScreenOverview wechselt zur letzten Übersichtsseite. TicketZoom wechselt zur Ticket-Detailansicht.',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
             'Bestimmt die möglichen Status eines unerledigten Tickets, das den Status verändert hat nachdem die Zeitbegrenzung erreicht wurde.',
         'Determines the strings that will be shown as recipient (To:) of the phone ticket and as sender (From:) of the email ticket in the agent interface. For Queue as NewQueueSelectionType "<Queue>" shows the names of the queues and for SystemAddress "<Realname> <<Email>>" shows the name and email of the recipient.' =>
-            '',
+            'Bestimmt die Zeichenfolgen, die als Empfänger (An:) eines Telefon-Tickets und als Absender (Von:) eines E-Mail-Tickets im Agenten-Interface angezeigt werden. Für Queue als NewQueueSelectionType zeigt "<Queue>" den Namen der Queue und für SystemAddress zeigt "<Realname> <<Email>>" den Namen und E-Mail-Adresse des Empfängers.',
         'Determines the strings that will be shown as recipient (To:) of the ticket in the customer interface. For Queue as CustomerPanelSelectionType, "<Queue>" shows the names of the queues, and for SystemAddress, "<Realname> <<Email>>" shows the name and email of the recipient.' =>
-            '',
+            'Bestimmt die Zeichenfolgen, die als Empfänger (An:) eines Tickets im Kunden-Interface angezeigt werden. Für Queue als CustomerPanelSelectionType zeigt "<Queue>" den Namen der Queues und für SystemAddress zeigt "<Realname> <<Email>>" den Namen und E-Mail-Adresse des Empfängers.',
         'Determines the way the linked objects are displayed in each zoom mask.' =>
             'Definiert wie Verlinkte-Objekte angezeigt werden in TicketZoom-Masken.',
         'Determines which options will be valid of the recipient (phone ticket) and the sender (email ticket) in the agent interface.' =>
-            '',
+            'Definiert, welche Optionen für den Empfänger (Telefon-Ticket) und den Absender (E-Mail-Ticket) im Agenten-Interface gültig sind.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
-            '',
+            'Definiert, welche Queues für Ticket-Empfänger im Kunden-Interface gültig sind.',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'Wenn HTTP-Header "Content-Security-Policy" ausgeschaltet ist, können externe Scripts geladen werden. Dies stellt eine Sicherheitslücke dar! Daher sollte diese Einstellung nur deaktivieren werden, wenn Sie sich über die Konsequenzen im Klaren sind. ',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
-            '',
+            'Wenn der HTTP-Header "X-Frame-Options: SAMEORIGIN" ausgeschaltet ist, kann OTRS als IFrame in andere Websites integriert werden. Dies stellt eine Sicherheitslücke dar! Daher sollte diese Einstellung nur deaktivieren werden, wenn Sie sich über die Konsequenzen im Klaren sind.',
         'Disable restricted security for IFrames in IE. May be required for SSO to work in IE.' =>
             '',
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
@@ -5722,7 +5725,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
             '',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
             'Zeigt eine Warnung an und verhindert die Suche, wenn Stop-Wörter in der Volltextsuche eingegeben werden.',
-        'Display settings to override defaults for Process Tickets.' => '',
+        'Display settings to override defaults for Process Tickets.' => 'Einstellungen zum Überschreiben der Standardwerte für Prozesstickets anzeigen.',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Zeigt die bisher benötigte Zeit für einen Artikel in der TicketZoomView an.',
         'Dropdown' => 'Einfachauswahl',
@@ -5738,7 +5741,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Dynamic Fields used to export the search result in CSV format.' =>
             'Dynamic Fields welche beim Export des Suchergebnisses im CSV-Format auszugeben sind.',
         'Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: \'Key => My Group\', \'Content: Name_X, NameY\'.' =>
-            '',
+            'Dynamische Feldergruppen für das Prozess-Widget. Der Schlüssel ist der Name der Gruppe, der Wert enthält die Felder, die angezeigt werden sollen. Beispiel: \'Key => Meine Gruppe\', \'Content: NameX, NameY\'.',
         'Dynamic fields limit per page for Dynamic Fields Overview' => '',
         'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
@@ -5799,7 +5802,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Dynamic fields shown in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             'Dynamische Felder die in der "Ticket Zoom" Ansicht in der Kunden-Oberfläche angezeigt werden. Mögliche Einstellungen: 0 = deaktiviert, 1 = aktiviert.',
         'DynamicField' => 'DynamicField',
-        'DynamicField backend registration.' => 'Backend-Registrierung für dynamische Felder.',
+        'DynamicField backend registration.' => 'Backend-Registrierung für Dynamische Felder.',
         'DynamicField object registration.' => 'DynamischesFeld Objektregistrierung.',
         'E-Mail Outbound' => 'Ausgehende E-Mail',
         'Edit Customer Companies.' => 'Kundenfirmen bearbeiten.',
@@ -5815,7 +5818,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
             'Aktiviert PGP-Support. Wenn PGP-Support für das signieren und verschlüsseln von Mails eingeschaltet ist, wird dringend empfohlen, den Webserver unter dem OTRS-Benutzer zu betreiben. Andernfalls werden Probleme mit den Berechtigungen auftreten, wenn auf das .gnupg-Verzeichnis zugegriffen wird.',
         'Enables S/MIME support.' => 'Aktiviert unterstützung für S/MIME.',
         'Enables customers to create their own accounts.' => 'Erlaubt Kunden, eigene Konten anzulegen.',
-        'Enables fetch S/MIME from CustomerUser backend support.' => '',
+        'Enables fetch S/MIME from CustomerUser backend support.' => 'Schaltet S/MIME-Unterstützung für das Anfragen von Kundenbenutzer-Backends ein.',
         'Enables file upload in the package manager frontend.' => 'Erlaubt den Datei-Upload im Paket-Manager.',
         'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
             'Schaltet das Caching von Templates an oder aus. Warnung: Schalten Sie auf Produktivsystemen das Template-Caching nicht ab, da hierdurch massive Performance-Beeinträchtigungen auftreten werden. Diese Einstellung sollte nur zur Fehlerbehebung abgeschaltet werden.',
@@ -5823,7 +5826,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
             'Aktiviert oder deaktiviert das Ticket beobachten-Feature, das das beobachten von Tickets erlaubt, ohne der Besitzer oder Verantwortliche zu sein.',
         'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>
-            'Aktiviert den Performance-Log zum erfassen der Seiten-Antwortzeiten. Diese Einstellung beeinflusst die Gesamtperformance des Systems. Frontend::Module###AdminPerformanceLog muss aktiviert sein.',
+            'Aktiviert das Leistungsprotokoll zum Erfassen der Seiten-Antwortzeiten. Diese Einstellung beeinflusst die Gesamtleistung des Systems. Frontend::Module###AdminPerformanceLog muss aktiviert sein.',
         'Enables spell checker support.' => 'Aktiviert die Unterstützung für die Rechtschreibprüfung.',
         'Enables the minimal ticket counter size (if "Date" was selected as TicketNumberGenerator).' =>
             'Aktiviert die Minimalgröße für Ticketzähler (wenn "Datum" als TicketNumberGenerator ausgewählt ist).',
@@ -5875,15 +5878,15 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Executes a custom command or module. Note: if module is used, function is required.' =>
             'Führt ein benutzerdefiniertes Kommando oder Modul aus. Hinweis: Wird ein Modul benutzt, muss eine Funktion vorhanden sein.',
         'Executes follow-up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
-            '',
+            'Führt Follow-Up-Checks auf In-Reply-To- oder References-Headern von E-Mails aus, deren Betreff keine Ticketnummer enthält.',
         'Executes follow-up checks on attachment contents for mails that don\'t have a ticket number in the subject.' =>
-            '',
+            'Führt Follow-Up-Checks auf Anhänge von E-Mails aus, deren Betreff keine Ticketnummer enthält.',
         'Executes follow-up checks on email body for mails that don\'t have a ticket number in the subject.' =>
-            '',
+            'Führt Follow-Up-Checks auf Texten von E-Mails aus, deren Betreff keine Ticketnummer enthält.',
         'Executes follow-up checks on the raw source email for mails that don\'t have a ticket number in the subject.' =>
-            '',
+            'Führt Follow-Up-Checks auf Quelltexten von E-Mails aus, deren Betreff keine Ticketnummer enthält.',
         'Exports the whole article tree in search result (it can affect the system performance).' =>
-            '',
+            'Exportiert den vollständigen Artikelbaum im Suchergebnis (kann die System-Performance beeinträchtigen).',
         'Fetch emails via fetchmail (using SSL).' => 'Empfängt Emails durch Fetchmail (mit SSL).',
         'Fetch emails via fetchmail.' => 'Empfängt Emails durch Fetchmail.',
         'Fetch incoming emails from configured mail accounts.' => 'Empfängt eingehende Emails von konfigurierten Emailaccounts',
@@ -5918,7 +5921,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
             'Französische Stoppwörter für den Volltext-Index. Diese Wörter werden vom Suchindex entfernt.',
         'Frontend' => 'Oberfläche',
         'Frontend module registration (disable AgentTicketService link if Ticket Service feature is not used).' =>
-            '',
+            'Frontend-Modulregistrierung (AgentTicketService-Link entfernen wenn das Service-Feature nicht aktiv ist).',
         'Frontend module registration (disable company link if no company feature is used).' =>
             'Frontend-Modulregistrierung (Firmen-Link entfernen wenn das Firmen-Feature nicht aktiv ist).',
         'Frontend module registration (disable ticket processes screen if no process available) for Customer.' =>
@@ -5927,7 +5930,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
             'Frontend-Modulregistrierung (verberge Ticket-Prozesse, falls kein Prozess verfügbar ist).',
         'Frontend module registration for the agent interface.' => 'Frontend-Modulregistrierung im Agent-Interface.',
         'Frontend module registration for the customer interface.' => 'Frontend-Modulregistrierung für den Kundenbereich.',
-        'Frontend module registration for the public interface.' => '',
+        'Frontend module registration for the public interface.' => 'Frontendmodul-Registrierung für das Public-Interface.',
         'Frontend theme' => 'Oberflächenachema',
         'Frontend theme.' => 'Oberflächen-Schema ',
         'Full value' => 'Vollständiger Wert',
@@ -5939,11 +5942,11 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Generate dashboard statistics.' => 'Übersichtsseitenstatistiken erzeugen.',
         'Generic Info module.' => 'Generisches Informationsmodul',
         'GenericAgent' => 'GenericAgent',
-        'GenericInterface Debugger GUI' => 'Fehlerbehebungs-GUI für GenericInterface',
-        'GenericInterface Invoker GUI' => 'Invoker-GUI für GenericInterface',
-        'GenericInterface Operation GUI' => 'Operation-GUI für GenericInterface',
-        'GenericInterface TransportHTTPREST GUI' => 'TransportHTTPREST-GUI für GenericInterface',
-        'GenericInterface TransportHTTPSOAP GUI' => 'TransportHTTPSOAP-GUI für GenericInterface',
+        'GenericInterface Debugger GUI' => 'GenericInterface Debugger Benutzeroberfläche',
+        'GenericInterface Invoker GUI' => 'GenericInterface Invoker Benutzeroberfläche',
+        'GenericInterface Operation GUI' => 'GenericInterface Operation Benutzeroberfläche',
+        'GenericInterface TransportHTTPREST GUI' => 'GenericInterface TransportHTTPREST Benutzeroberfläche',
+        'GenericInterface TransportHTTPSOAP GUI' => 'GenericInterface TransportHTTPSOAP Benutzeroberfläche',
         'GenericInterface Web Service GUI' => 'GenericInterface Webservices Benutzeroberfläche',
         'GenericInterface Webservice History GUI' => 'GenericInterface Webservice Verlauf Benutzeroberfläche',
         'GenericInterface Webservice Mapping GUI' => 'Webservice Mapping-GUI für GenericInterface',
@@ -5989,13 +5992,13 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.' =>
             'Wenn "DB" als Customer::AuthModule ausgewählt ist, muss hier der Name der Tabelle, in der Kundendaten gespeichert werden sollen, hinterlegt werden.',
         'If "DB" was selected for SessionModule, a table in database where session data will be stored must be specified.' =>
-            'Wenn "DB" als SessionModule ausgewählt ist, muss hier der Name der Tabelle, in der Sitzungsdaten gespeichert werden sollen, hinterlegt werden.',
+            'Wenn "DB" als Sitzungsmodul ausgewählt ist, muss hier der Name der Tabelle, in der Sitzungsdaten gespeichert werden sollen, hinterlegt werden.',
         'If "FS" was selected for SessionModule, a directory where the session data will be stored must be specified.' =>
             'Wenn "FS" als SessionModule ausgewählt ist, muss hier der Name des Verzeichnisses, in dem Sitzungsdaten gespeichert werden sollen, hinterlegt werden.',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
             'Wenn "HTTPBasicAuth" als Customer::AuthModule ausgewählt ist, kann hier ein regulärer Ausdruck definiert werden, um Teile von REMOTE_USER zu entfernen (z.B. für anhängende Domänen). Hinweis: $1 enthält den neuen Login-Namen.',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
-            'Wenn "HTTPBasicAuth" als Customer::AuthModule ausgewählt ist, können Sie hier angeben, ob führende Teile von Benutzernamen (z.B. zur Umwandlung von Domänen wie "example_domain\user" zu "user").',
+            'Wenn "HTTPBasicAuth" als Customer::AuthModule festgelegt wurde, können Sie festlegen, ob Teile am Anfang des Benutzernamens entfernt werden sollen (z. B. um die Domain aus Nutzernamen wie example_domain\user zu entfernen).',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' =>
             'Wenn "LDAP" als Customer::AuthModule ausgewählt ist und Sie einen Suffix zu jedem Kunden-Loginnamen hinzufügen möchten, können Sie dies hier festlegen (z.B. wenn "benutzername" im LDAP als "benutzername@domain" existiert).',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
@@ -6055,7 +6058,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
             'Aktivieren um die Standard-Ausgabe des Daemons in eine Log-Datei umzuleiten.',
         'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTRSHome>/var/run/ can not be used.' =>
-            '',
+            'Wenn aktiviert, verwendet der Daemon dieses Verzeichnis, um seine PID-Dateien zu erzeugen. Hinweis: Bitte stoppen Sie den Daemon vor der Änderung und nutzen Sie diese Einstellung nur, wenn <$OTRSHome>/var/run/ nicht benutzt werden kann.',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             'Wenn akiviert, liefert OTRS alle CSS-Dateien in minifizierter Form aus. WARNUNG: Das Abschalten dieser Einstellung wird im IE 7 wahrscheinlich Probleme verursachen, weil dieser Browser nicht mehr als 32 CSS-Dateien für eine Seite laden kann.',
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
@@ -6063,7 +6066,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
             'Wenn aktiviert, werden TicketPhone und TicketEmail in neuen Fenstern geöffnet.',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache.' =>
-            '',
+            'Wenn aktiviert, werden OTRS-Versionsinformationen aus der Oberfläche und HTTP-Headern und X-Headern entfernt. Hinweis: Nach Änderung dieser Option muss der Cache gelöscht werden.',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             'Wenn aktiviert, können Kunden nach Tickets mit allen Services suchen (unabhängig davon, welche Services dem jeweiligen Kunden zugewiesen sind).',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
@@ -6071,9 +6074,9 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             'Wenn aktiviert, öffnet sich die erste Ebene des Hauptmenüs beim schon beim Überfahren der Maus (anstelle nur beim Klick).',
         'If no SendmailNotificationEnvelopeFrom is specified, this setting makes it possible to use the email\'s from address instead of an empty envelope sender (required in certain mail server configurations).' =>
-            '',
+            'Wenn SendmailNotificationEnvelopeFrom nicht definiert ist, ermöglicht es diese Einstellung, die Absenderadresse der E-Mail zu nutzen anstatt eines leeren Envelope-Absenders (bei einigen Mail-Server-Konfigurationen erforderlich).',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set).' =>
-            '',
+            'Wenn gesetzt, wird diese Adresse als Envelope-Sender-Header in ausgehenden Benachrichtigungen genutzt. Ist keine Adresse angegeben, bleibt der Header leer (außer SendmailNotificationEnvelopeFrom::FallbackToEmailFrom ist gesetzt).',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             'Wenn gesetzt, wird diese Adresse als Envelope-Sender-Header in ausgehenden Nachrichten (nicht Benachrichtigungen, siehe unten) genutzt. Ist keine Adresse angegeben, entspricht der Envelope-Sender der an der Queue hinterlegten E-Mail-Adresse.',
         'If this option is disabled, articles will not automatically be decrypted and stored in the database. Please note that this also means no decryption will take place and the articles will be shown in ticket zoom in their original (encrypted) form.' =>
@@ -6087,7 +6090,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
             'Informiert andere Benutzer über den genauen Zeitraum ihrer Abwesenheit.',
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
-            '',
+            'System-Artikeltypen (z. B. Auto-Antworten oder E-Mail-Benachrichtigungen) werden in AgentTicketZoom nicht als ungelesene Artikel markiert oder in Large-Übersichten nicht automatisch aufgeklappt.',
         'Include tickets of subqueues per default when selecting a queue.' =>
             'Tickets von Unterqueues automatisch mit einschließen, wenn eine Queue ausgewählt wird.',
         'Include unknown customers in ticket filter.' => 'Unbekannte Kunden in Ticketfiltern mit einschließen.',
@@ -6095,7 +6098,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
             'Schließt Artikel-Erstellzeiten in die Ticketsuche im Agentenbereich mit ein.',
         'Incoming Phone Call.' => 'Eingehender Telefonanruf.',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
-            '',
+            'IndexAccelerator: Auswahl des Backend-Moduls für TicketViewAccelerator. "RuntimeDB" generiert jede Queue-Ansicht  dynamisch aus der Tickettabelle (keine Performance-Probleme bis zu etwa 60.000 Tickets insgesamt und 6.000 offenen Tickets im System). "StaticDB" ist das stärkste Modul, es benutzt zusätzliche Tabelle für den Ticket-Index, die wie eine Übersicht funktioniert (empfohlen bei mehr als 80.000 Tickets insgesamt und 6.000 offenen Tickets im System). Benutzen Sie das Kommando "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" für den initialen Indexaufbau.',
         'Indonesian' => 'Indonesisch',
         'Input' => 'Eingabe',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
@@ -6147,7 +6150,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'List of all DynamicField events to be displayed in the GUI.' => 'Liste aller DynamischesFeld-Ereignisse, welche in der grafischen Benutzeroberfläche angezeigt werden sollen.',
         'List of all Package events to be displayed in the GUI.' => 'Liste aller Paket-Ereignisse, welche in der grafischen Benutzeroberfläche angezeigt werden sollen.',
         'List of all article events to be displayed in the GUI.' => 'Liste aller Artikel-Ereignisse, welche in der grafischen Benutzeroberfläche angezeigt werden sollen.',
-        'List of all queue events to be displayed in the GUI.' => 'Liste alle Queue-Ereignisse, die im GUI angezeigt werden.',
+        'List of all queue events to be displayed in the GUI.' => 'Liste alle Queue-Ereignisse, die in der Benutzeroberfläche angezeigt werden.',
         'List of all ticket events to be displayed in the GUI.' => 'Liste aller Ticket-Ereignisse, welche in der grafischen Benutzeroberfläche angezeigt werden sollen.',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             'Liste der Standardvorlagen, welche neuen Queues nach Erstellung automatisch zugeordnet werden.',
@@ -6172,12 +6175,12 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             'Benutzt für das Session-Management HTML-Cookies. Wenn HTML-Cookies deaktiviert sind oder im Browser HTML-Cookies deaktiviert sind, arbeitet das System wie immer und fügt die Session-ID and Links an.',
         'Malay' => 'Malaysisch',
-        'Manage OTRS Group cloud services.' => 'Verwaltet die Cloud-Services der OTRS Gruppe.',
+        'Manage OTRS Group cloud services.' => 'Cloud-Services der OTRS Gruppe verwalten.',
         'Manage PGP keys for email encryption.' => 'PGP-Schlüssel für E-Mail-Verschlüsselung verwalten.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'POP3- oder IMAP-Konten für das Abholen von E-Mail verwalten.',
         'Manage S/MIME certificates for email encryption.' => 'S/MIME-Zertifikate für E-Mail-Verschlüsselung verwalten.',
         'Manage existing sessions.' => 'Sitzungen verwalten.',
-        'Manage support data.' => 'Verwaltet die Supportdaten.',
+        'Manage support data.' => 'Supportdaten verwalten.',
         'Manage system registration.' => 'Systemregistrierung verwalten.',
         'Manage tasks triggered by event or time based execution.' => 'Verwaltung von event- oder zeitbasierten Aufgaben.',
         'Mark this ticket as junk!' => 'Dieses Ticket als Junk markieren!',
@@ -6195,9 +6198,9 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
             'Maximale Größe in KBytes für E-Mails die via POP3/POP3S/IMAP/IMAPS empfangen werden (in KBytes).',
         'Maximum Number of a calendar shown in a dropdown.' => 'Maximale Anzahl an Kalendern, die in Auswahlmenüs angezeigt werden.',
         'Maximum length (in characters) of the dynamic field in the article of the ticket zoom view.' =>
-            'Maximale Länge (Buchstaben) von dynamischen Felder von Artikeln in der TicketZoom-Übersicht.',
+            'Maximale Länge (Buchstaben) von Dynamischen Felder von Artikeln in der TicketZoom-Übersicht.',
         'Maximum length (in characters) of the dynamic field in the sidebar of the ticket zoom view.' =>
-            'Maximale Länge (Buchstaben) von dynamischen Felder in der Seitenleiste in der TicketZoom-Übersicht.',
+            'Maximale Länge (Buchstaben) von Dynamischen Feldern in der Seitenleiste in der TicketZoom-Übersicht.',
         'Maximum number of tickets to be displayed in the result of a search in the agent interface.' =>
             'Maximale Anzahl von Tickets, die im Suchergebnis des Agenten-Interfaces angezeigt werden sollen.',
         'Maximum number of tickets to be displayed in the result of a search in the customer interface.' =>
@@ -6224,7 +6227,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.' =>
             'Modul zum filtern und bearbeiten von eingehenden Nachrichten. Blockiere/Ignoriere alle Nachrichten mit einer noreply@ Absender-Adresse.',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' =>
-            '',
+            'Modul zum Filtern und Verändern eingehender Nachrichten. Extrahieren Sie beispielsweise eine vierstellige Zahl aus dem Betreff (SomeNumber:1234) und speichern Sie sie in einem Dynamischen Feld, indem Sie in "Match" einen Schlüssel "Subject" mit dem regulären Ausdruck "SomeNumber:(\d\d\d\d)" und in "Set" einen Schlüssel "X-OTRS-DynamicField-Name" mit dem Wert "[***]" anlegen.',
         'Module to filter encrypted bodies of incoming messages.' => 'Modul zum Filtern von verschlüsselten Texten bei eingehenden Nachrichten.',
         'Module to generate accounted time ticket statistics.' => 'Modul zur Generierung von Statistiken  für die benötigte Bearbeitungszeit.',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' =>
@@ -6246,15 +6249,15 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Module to grant access to the owner of a ticket.' => 'Modul zum Gestatten des Zugriffs auf ein Ticket durch den Agenten, der Besitzer des Tickets ist.',
         'Module to grant access to the watcher agents of a ticket.' => 'Modul zum Gestatten des Zugriffs auf ein Ticket durch Agenten, die das Ticket beobachten.',
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' =>
-            '',
-        'Module to use database filter storage.' => '',
+            'Modul für die Anzeige von Benachrichtigungen und Eskalationen (ShownMax: max. angezeigte Eskalationen, EscalationInMinutes: Tickets, die in x Minuten eskalieren, CacheTime: Cache der kalkulierten Eskalationen in Minuten).',
+        'Module to use database filter storage.' => 'Modul zur Nutzung des Datenbank Filter Storage.',
         'Multiselect' => 'Mehrfachauswahl',
         'My Services' => 'Meine Services',
         'My Tickets.' => 'Meine Tickets.',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
-            '',
+            'Bezeichnung Ihrer persönlichen Queuekollektion. "Meine Queues" ist eine Zusammenstellung Ihrer bevorzugten Queues, die in den persönlichen Einstellungen konfiguriert werden kann.',
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
-            '',
+            'Bezeichnung Ihrer persönlichen Servicekollektion. "Meine Services" ist eine Zusammenstellung von bevorzugten Services, die in den persönlichen Einstellungen konfiguriert werden kann.',
         'NameX' => 'NameX',
         'Nederlands' => 'Niederländisch',
         'New Ticket [%s] created (Q=%s;P=%s;S=%s).' => 'Neues Ticket [%s] erstellt (Q=%s;P=%s;S=%s).',
@@ -6301,7 +6304,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Overview of customer tickets.' => 'Übersicht von Kunden-Tickets.',
         'PGP Key Management' => 'PGP-Schlüssel-Verwaltung',
         'Package event module file a scheduler task for update registration.' =>
-            '',
+            'Modul zum automatischen Planen der Aktualisierung der System-Registrierung.',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             'Parameter für das CreateNextMask-Objekt in der Einstellungen-Ansicht des Agentenbereichs.',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>
@@ -6313,7 +6316,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Parameters for the column filters of the small ticket overview.' =>
             'Parameter für die Spaltenfilter der "S"-Variante in Ticketübersichten.',
         'Parameters for the dashboard backend of the customer company information of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
-            '',
+            'Legt die Parameter für das Dashboard-Backend fest. "Group" beschränkt den Zugang zum jeweiligen Dashlet (z. B. Group: admin;group1;group2). "Default" bestimmt, ob das Dashlet standardmäßig aktiv ist oder vom Nutzer manuell aktiviert werden muss. "CacheTTLLocal" bestimmt die Cachingdauer für das Dashlet in Minuten.',
         'Parameters for the dashboard backend of the customer id status widget of the agent interface . "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             'Parameter für das Dashboard-Backend des Kundennummer-Status-Widgets im Agentenbereich. Über "Group" kann der Zugriff auf das Plugin beschränkt werden (z. B. Group: admin;group1;group2;). "Default" gibt an, ob das Plugin standardmäßig aktiviert sein soll oder ob der Nutzer es manuell aktivieren muss. "CacheTTLLocal" bestimmt die Laufzeit des Plugin-Caches in Minuten.',
         'Parameters for the dashboard backend of the customer user list overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
@@ -6363,19 +6366,19 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Polish' => 'Polnisch',
         'Portuguese' => 'Portugiesisch',
         'Portuguese (Brasil)' => 'Portugiesisch (Brasilien)',
-        'PostMaster Filters' => 'PostMaster-Filter',
-        'PostMaster Mail Accounts' => 'PostMaster-E-Mail-Konten',
-        'Process Management Activity Dialog GUI' => 'Prozess-Management Aktivität-Dialog GUI',
-        'Process Management Activity GUI' => 'Prozess-Management-Aktivitäten GUI',
-        'Process Management Path GUI' => 'Prozess-Management-Pfad GUI',
-        'Process Management Transition Action GUI' => 'Prozess-Management Übergangs-Aktionen GUI',
-        'Process Management Transition GUI' => 'Prozess-Management-Übergangs Gui',
+        'PostMaster Filters' => 'Postmaster-Filter',
+        'PostMaster Mail Accounts' => 'Postmaster-E-Mail-Konten',
+        'Process Management Activity Dialog GUI' => 'Prozess-Management Aktivität-Dialog Benutzeroberfläche',
+        'Process Management Activity GUI' => 'Prozess-Management-Aktivitäten Benutzeroberfläche',
+        'Process Management Path GUI' => 'Prozess-Management-Pfad Benutzeroberfläche',
+        'Process Management Transition Action GUI' => 'Prozess-Management Übergangs-Aktionen Benutzeroberfläche',
+        'Process Management Transition GUI' => 'Prozess-Management-Übergangs Benutzeroberfläche',
         'Process Ticket.' => 'Prozess-Ticket.',
         'Process pending tickets.' => 'Abarbeitung wartender Tickets.',
         'Process ticket' => 'Prozess-Ticket',
         'ProcessID' => 'ProcessID',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
-            'Schutz gegen CSRF-Lücken (Cross Site Request Forgery). Besuchen Sie http://en.wikipedia.org/wiki/Cross-site_request_forgery für mehr Informationen.',
+            'Schutz gegen CSRF-Lücken (Cross Site Request Forgery). Besuchen Sie https://de.wikipedia.org/wiki/Cross-Site-Request-Forgery für mehr Informationen.',
         'Provides a matrix overview of the tickets per state per queue.' =>
             'Stellt eine Matrix-Übersicht von Tickets pro Status und pro Queue zur Verfügung.',
         'Queue view' => 'Ansicht nach Queues',
@@ -6389,11 +6392,11 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Renew existing SMIME certificates from customer backend. Note: SMIME and SMIME::FetchFromCustomer needs to be active in SysConfig and customer backend needs to be configured to fetch UserSMIMECertificate attribute.' =>
             'Existierende SMIME-Zertifikate aus dem Kundenbereich erneuern. Hinweis: SMIME und SMIME::FetchFromCustomer müssen aktiv und das Kunden-Backend so konfiguriert sein, dass UserSMIMECertificate-Attribute ermittelt werden.',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
-            '',
+            'Ersetzt den ursprünglichen Absender durch die E-Mail-Adresse des aktuellen Kunden beim Verfassen einer Antwort im Ticket verfassen-Bildschirm des Agentenbereichs.',
         'Reports' => 'Berichte',
         'Reports (OTRS Business Solution™)' => 'Berichte (OTRS Business Solution™)',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
-            '',
+            'Wiederhole die Verarbeitung von E-Mails aus dem Spool-Verzeichnis, die im ersten Durchlauf nicht importiert werden konnten.',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
             'Benötigte Rechte um den Kunden eines Tickets im Agenten-Interface zu ändern.',
         'Required permissions to use the close ticket screen in the agent interface.' =>
@@ -6429,13 +6432,13 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Responsible Tickets' => 'Verantwortliche Tickets',
         'Responsible Tickets.' => 'Verantwortliche Tickets.',
         'Restores a ticket from the archive (only if the event is a state change to any open available state).' =>
-            '',
+            'Stellt ein Ticket aus dem Archiv wieder her (nur, wenn der Status auf einen der verfügbaren offen-Status geändert wird).',
         'Retains all services in listings even if they are children of invalid elements.' =>
             'Behält alle Services in Auflistungen bei, auch, wenn sie Kind-Services von ungültigen Elementen sind.',
         'Right' => 'Rechts',
         'Roles <-> Groups' => 'Rollen <-> Gruppen',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
-            '',
+            'Dateibasierte Generic-Agent-Jobs ausführen (Hinweis: Der Modulname muss im Parameter -configuration-module angegeben sein, z. B. "Kernel::System::GenericAgent").',
         'Running Process Tickets' => 'Aktive Prozesstickets',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
             'Führt eine initiale Wildcard-Suche für bestehende Kundenfirmen aus, wenn auf AdminCustomerCompany zugegriffen wird.',
@@ -6448,7 +6451,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'SMS (Short Message Service)' => 'SMS (Short Message Service)',
         'Sample command output' => 'Beispielhafte Kommando-Ausgabe',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
-            'Speicherung von Artikel-Anlagen. "DB" legt alle Daten in der Datenbank ab (nicht empfohlen für große Anlagen). "FS" legt alle Daten im Dateisystem ab; dies ist schneller, jedoch sollte der Webserver mit dem OTRS-Benutzer betrieben werden. Sie können im laufenden Betrieb ohne Datenverlust zwischen den Modulen wechseln. Bitte beachten Sie, dass das Suchen nach Anlagen für "FS" nicht unterstützt wird.',
+            'Speicherung von Artikel-Ahängen. "DB" legt alle Daten in der Datenbank ab (nicht empfohlen für große Anhänge). "FS" legt alle Daten im Dateisystem ab; dies ist schneller, jedoch sollte der Webserver mit dem OTRS-Benutzer betrieben werden. Sie können im laufenden Betrieb ohne Datenverlust zwischen den Modulen wechseln. Bitte beachten Sie, dass das Suchen nach Anhängen für "FS" nicht unterstützt wird.',
         'Schedule a maintenance period.' => 'Systemwartung planen',
         'Screen' => 'Bildschirm',
         'Search Customer' => 'Kunden suchen',
@@ -6485,13 +6488,13 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             'Sendet eine Erinnerung eines Entsperrten Tickets nachdem das Erinnerungsdatum erreicht wurde. (Nur zum Besitzer des Tickets gesendet).',
         'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
-            '',
+            'Sendet eine Benachrichtigung, welche im Admin-Interface unter "Ticket-Benachrichtigen" eingestellt ist.',
         'Serbian Cyrillic' => 'Kyrillisches Serbisch',
         'Serbian Latin' => 'Lateinisches Serbisch',
         'Service view' => 'Ansicht nach Services',
         'ServiceView' => 'DienstAnsicht',
         'Set a new password by filling in your current password and a new one.' =>
-            '',
+            'Setzen Sie ein neues Passwort, indem Sie Ihr derzeitiges und ein neues Passwort eintragen.',
         'Set sender email addresses for this system.' => 'Absendeadressen für dieses System verwalten.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Definiert Standardhöhe (in Pixel) für Inline_HTML-Feldern in AgentTicketZoom.',
@@ -6500,7 +6503,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Definiert maximale Höhe (in Pixel) für Inline_HTML-Feldern in AgentTicketZoom.',
         'Set the minimum log level. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages. The order of log levels is: \'debug\', \'info\', \'notice\' and \'error\'.' =>
-            '',
+            'Legt die minimale Protokoll-Ebene fest. Wählen Sie "error" aus, werden nur Fehler protokolliert. Mit "debug" erhalten Sie alle Einträge. Die Reihenfolge der Ebenen ist debug, info, notice und error.',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             'Setzen Sie diese Einstellung auf "Ja", wenn Sie allen öffentlichen und privaten PGP-Schlüsseln auch dann vertrauen möchten, wenn diese nicht mit einer vertrauenswürdigen Signatur zertifiziert sind.',
         'Sets if SLA must be selected by the agent.' => 'Gibt an, ob ein SLA durch einen Agenten ausgewählt sein muss.',
@@ -6583,23 +6586,23 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Sets the display order of the different items in the preferences view.' =>
             'Bestimmt die Anzeigereihenfolge der verschiedenen Elemente in den persönlichen Einstellungen für Agenten.',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
-            '',
+            'Legt die Zeit in Sekunden fest, in der ein Nutzer untätig sein darf, bevor seine Sitzung automatisch beendet und der Nutzer ausgeloggt wird.',
         'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents.' =>
-            '',
+            'Legt die maximale Anzahl an aktiven Agenten innerhalb der in SessionMaxIdleTime festgelegten Zeitspanne fest, bevor eine Warnung für eingeloggte Agenten angezeigt wird.',
         'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime.' =>
-            '',
+            'Legt die maximale Anzahl an aktiven Agenten innerhalb der in SessionMaxIdleTime festgelegten Zeitspanne fest.',
         'Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime.' =>
-            '',
+            'Legt die maximale Anzahl an aktiven Kundenbenutzern innerhalb der in SessionMaxIdleTime festgelegten Zeitspanne fest.',
         'Sets the maximum number of active sessions per agent within the timespan defined in SessionMaxIdleTime.' =>
-            '',
+            'Legt die maximale Anzahl an aktiven Sitzungen pro Agent innerhalb der in SessionMaxIdleTime festgelegten Zeitspanne fest.',
         'Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime.' =>
-            '',
+            'Legt die maximale Anzahl an aktiven Sitzungen pro Kundenbenutzer innerhalb der in SessionMaxIdleTime festgelegten Zeitspanne fest.',
         'Sets the minimal ticket counter size if "AutoIncrement" was selected as TicketNumberGenerator. Default is 5, this means the counter starts from 10000.' =>
             'Legt die minimale Größe für den Ticketzähler fest, wenn "AutoIncrement" als TicketNumberGenerator gewählt wurde. Die Standardeinstellung ist 5, was bedeutet, dass der Zähler bei 10000 startet.',
         'Sets the minutes a notification is shown for notice about upcoming system maintenance period.' =>
             'Steuert, wie lange (in Minuten) die Benachrichtigung über eine bevorstehende Wartungsphase angezeigt werden soll.',
         'Sets the number of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).' =>
-            '',
+            'Legt die Anzahl an Zeilen fest, die von Textnachrichten angezeigt werden sollen (z. B. von Tickets in der Queue-Ansicht).',
         'Sets the options for PGP binary.' => 'Legt die Optionen für die PGP-Binärdatei fest.',
         'Sets the order of the different items in the customer preferences view.' =>
             'Bestimmt die Anzeigereihenfolge der verschiedenen Elemente in den persönlichen Einstellungen für Kunden.',
@@ -6607,7 +6610,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Sets the prefered time units (e.g. work units, hours, minutes).' =>
             'Legt die bevorzugten Zeiteinheiten fest (z.B. Arbeitseinheiten, Stunden, Minuten).',
         'Sets the prefix to the scripts folder on the server, as configured on the web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias which is found in all forms of messaging used by the application, to build links to the tickets within the system.' =>
-            '',
+            'Legt den Prefix zum Skripte-Verzeichnis auf dem Server fest, analog zur Konfiguration des Webservers. Diese Einstellung wird als Variable OTRS_CONFIG_ScriptAlias in allen Nachrichten-Formularen innerhalb der Applikation genutzt, um Links zu Tickets in Ihrem System zu generieren.',
         'Sets the queue in the ticket close screen of a zoomed ticket in the agent interface.' =>
             'Setzt die Queue im Schließen-Bildschirm von Tickets im Agentenbereich.',
         'Sets the queue in the ticket free text screen of a zoomed ticket in the agent interface.' =>
@@ -6653,21 +6656,21 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be activated).' =>
             'Setzt den Service im Verantwortlicher-Bildschirm für Tickets im Agentenbereich (Ticket::Service muss aktiviert sein).',
         'Sets the state of a ticket in the close ticket screen of the agent interface.' =>
-            '',
+            'Setzt den Status im Schließen-Bildschirm für Tickets im Agentenbereich.',
         'Sets the state of a ticket in the ticket bulk screen of the agent interface.' =>
-            '',
+            'Setzt den Status im Stapelverarbeitungs-Bildschirm für Tickets im Agentenbereich.',
         'Sets the state of a ticket in the ticket free text screen of the agent interface.' =>
-            '',
+            'Setzt den Status im Freitext-Bildschirm für Tickets im Agentenbereich.',
         'Sets the state of a ticket in the ticket note screen of the agent interface.' =>
-            '',
+            'Setzt den Status im Notiz-Bildschirm für Tickets im Agentenbereich.',
         'Sets the state of a ticket in the ticket responsible screen of the agent interface.' =>
-            '',
+            'Setzt den Status im Verantwortlicher-Bildschirm von Tickets im Agentenbereich.',
         'Sets the state of the ticket in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Setzt den Status im Besitzer-Bildschirm für Tickets im Agentenbereich.',
         'Sets the state of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.' =>
             'Setzt den Status im Wartezeit setzen-Bildschirm für Tickets im Agentenbereich.',
         'Sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Setzt den Status im Priorität-Bildschirm für Tickets im Agentenbereich.',
         'Sets the stats hook.' => 'Steuert den Hook für Statistiken.',
         'Sets the system time zone (required a system with UTC as system time). Otherwise this is a diff time to the local time.' =>
             'Legt die Zeitzone des Systems fest (benötigt ein System mit UTC als Systemzeit). Andernfalls ist dies die Differenzzeit zur lokalen Zeit.',
@@ -6739,15 +6742,15 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Shows a link in the menu to add a note to a ticket in every ticket overview of the agent interface.' =>
             'Zeigt einen Link zum Hinzufügen von Notizen zu Tickets in den Ticketübersichten des Agentenbereichs an.',
         'Shows a link in the menu to add a phone call inbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum Hinzufügen eines eingehenden Telefonanrufs zu einem Ticket im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to add a phone call outbound in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum Hinzufügen eines ausgehenden Telefonanrufs zu einem Ticket im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to change the customer who requested the ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum Ändern des Kunden, der das Ticket eröffnet hat im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to change the owner of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum Ändern des Besitzers eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to change the responsible agent of a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
-            '',
+            'Zeigt einen Link zum Ändern des verantwortlichen Agenten eines Tickets im Ticket-Zoom des Agentenbereichs an. Zusätzliche Zugriffskontrolle auf diesen Link kann durch Angabe von "Group" als Schlüssel und Inhalten wie "rw:group1;move_into:group2" als Wert konfiguriert werden. Um Elemente des Ticketmenüs zu gruppieren, kann "ClusterName" als Schlüssel und ein beliebiger Name als Wert verwendet werden, unter dem diese Gruppe im Benutzer interface angezeigt werden soll. Verwenden Sie "ClusterPriority", um die Anzeigereihenfolge der verschiedenen Gruppen innerhalb des Ticketmenüs zu steuern.',
         'Shows a link in the menu to close a ticket in every ticket overview of the agent interface.' =>
             'Zeigt einen Link zum Schließen von Tickets in den Ticketübersichten des Agentenbereichs an.',
         'Shows a link in the menu to close a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -6818,7 +6821,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket responsible screen of the agent interface.' =>
             'Zeigt in der "Ticket Verantwortlicher" Ansicht der Agenten-Oberfläche eine Liste aller möglichen Agenten (alle Agenten mit Berechtigung für Notizen in diesem Ticket/ dieser Queue) die informiert werden sollen.',
         'Shows a preview of the ticket overview (CustomerInfo => 1 - shows also Customer-Info, CustomerInfoMaxSize max. size in characters of Customer-Info).' =>
-            '',
+            'Ermöglicht eine Ticket-Übersicht mit einigen Ticketinformationen  (Customer => 1 - zeigt auch die Kundeninformation, CustomerInfoMaxSize steuert die maximale Anzahl an Zeichen der Kundeninformation).',
         'Shows a select of ticket attributes to order the queue view ticket list. The possible selections can be configured via \'TicketOverviewMenuSort###SortAttributes\'.' =>
             '',
         'Shows all both ro and rw queues in the queue view.' => 'Zeigt sowohl rw als auch ro Queues in der Queue-Ansicht.',
@@ -6830,53 +6833,53 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Shows all the articles of the ticket (expanded) in the zoom view.' =>
             'Zeigt in der "Ticket Zoom" Ansicht alle Artikel (in der ausgeklappten Ansicht).',
         'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
-            '',
+            'Zeigt alle Kunden-Identifikatoren in einem Mehrfachauswahlfeld (nicht sinnvoll, wenn Sie sehr viele Identifikatoren haben).',
         'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
-            '',
+            'Zeigt alle Kundenbenutzer-Identifikatoren in einem Mehrfachauswahlfeld (nicht sinnvoll, wenn Sie sehr viele Identifikatoren haben).',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'Zeigt eine Besitzerauswahl in Telefon- und E-Mail-Tickets im Agentenbereich an.',
         'Shows colors for different article types in the article table.' =>
             'Zeigt die Farben für die verschiedenen Artikeltypen in der Artikeltabelle an.',
         'Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer.' =>
-            '',
+            'Zeigt die andere Tickets des Kunden in AgentTicketPhone, AgentTicketEmail und AgentTicketCustomer.',
         'Shows either the last customer article\'s subject or the ticket title in the small format overview.' =>
-            '',
+            'Zeigt entweder den Betreff des neusten Kundenartikels oder den Tickettitel in der Kompakt-Ansicht von Ticketübersichten.',
         'Shows existing parent/child queue lists in the system in the form of a tree or a list.' =>
-            '',
+            'Zeigt Queues als Liste oder Baumstruktur (mit Eltern-/Kind-Beziehung) an.',
         'Shows information on how to start OTRS Daemon' => 'Informationen über das Starten des OTRS Daemons anzeigen',
         'Shows the activated ticket attributes in the customer interface (0 = Disabled and 1 = Enabled).' =>
             '',
         'Shows the articles sorted normally or in reverse, under ticket zoom in the agent interface.' =>
-            '',
+            'Legt fest, ob die Liste von Artikeln in der Ticket-Detailansicht normal oder umgekehrt sortiert sein soll.',
         'Shows the customer user information (phone and email) in the compose screen.' =>
-            '',
+            'Zeigt Informationen zum jeweiligen Kundenbenutzer (Telefon und E-Mail) im Verfassen-Bildschirm.',
         'Shows the customer user\'s info in the ticket zoom view.' => '',
         'Shows the message of the day (MOTD) in the agent dashboard. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually.' =>
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
-            '',
+            'Zeigt die Nachricht des Tages (MOTD) im Anmeldebildschirm des Agentenbereichs an.',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
-            '',
+            'Zeigt die Änderungschronik (umgekehrte Reihenfolge) in der Agentenoberfläche an.',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>
-            '',
+            'Zeigt die Auswahl zur Einstellung der Ticket-Priorität im Schließen-Bildschirm im Agentenbereich.',
         'Shows the ticket priority options in the move ticket screen of the agent interface.' =>
-            '',
+            'Zeigt die Auswahl zur Einstellung der Ticket-Priorität im verschieben-Bildschirm des Agentenbereichs.',
         'Shows the ticket priority options in the ticket bulk screen of the agent interface.' =>
-            '',
+            'Zeigt die Auswahl zur Einstellung der Ticket-Priorität im Stapelverarbeitungs-Bildschirm des Agentenbereichs.',
         'Shows the ticket priority options in the ticket free text screen of the agent interface.' =>
-            '',
+            'Zeigt die Auswahl zur Einstellung der Ticket-Priorität im Freitextfelder-Bildschirm des Agentenbereichs.',
         'Shows the ticket priority options in the ticket note screen of the agent interface.' =>
-            '',
+            'Zeigt die Auswahl zur Einstellung der Ticket-Priorität im Notiz hinzufügen-Bildschirm des Agentenbereichs.',
         'Shows the ticket priority options in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Zeigt die Auswahl zur Einstellung der Ticket-Priorität im Besitzer wechseln-Bildschirm des Agentenbereichs.',
         'Shows the ticket priority options in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Zeigt die Auswahl zur Einstellung der Ticket-Priorität im Wartezeit setzen-Bildschirm des Agentenbereichs.',
         'Shows the ticket priority options in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Zeigt die Auswahl zur Einstellung der Ticket-Priorität im Priorität setzen-Bildschirm des Agentenbereichs.',
         'Shows the ticket priority options in the ticket responsible screen of the agent interface.' =>
-            '',
+            'Zeigt die Auswahl zur Einstellung der Ticket-Priorität im Verantwortlicher setzen-Bildschirm des Agentenbereichs.',
         'Shows the title field in the ticket free text screen of the agent interface.' =>
-            '',
+            'Zeigt das Feld zur Eingabe eines Ticket-Titels im Freitextfelder-Bildschirm des Agentenbereichs.',
         'Shows the title fields in the close ticket screen of the agent interface.' =>
             '',
         'Shows the title fields in the ticket note screen of the agent interface.' =>
@@ -6903,9 +6906,9 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Some description!' => 'Eine Beschreibung!',
         'Some picture description!' => 'Eine Bildbeschreibung!',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
-            '',
+            'Steuert die Sortierreihenfolge von Tickets bei Auswahl einer einzelnen Queue in der Queue-Ansicht nach dem Sortieren nach Priorität. Mögliche Werte: 0 = aufsteigend (älteste Tickets zuerst), 1 = absteigend (neuste Tickets zuerst). Tragen Sie die ID der Queue als Schlüssel und 0 oder 1 als Wert ein.',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.' =>
-            '',
+            'Steuert die Sortierreihenfolge von Tickets bei Auswahl eines einzelnen Services in der Service-Ansicht nach dem Sortieren nach Priorität. Mögliche Werte: 0 = aufsteigend (älteste Tickets zuerst), 1 = absteigend (neuste Tickets zuerst). Tragen Sie die ID der Queue als Schlüssel und 0 oder 1 als Wert ein.',
         'Spam' => 'Spam',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' =>
             'Spam Assassin Beispielsetup. Ignoriert E-Mail, die von Spam Assassin markiert wurden.',
@@ -6915,9 +6918,9 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Spanish (Colombia)' => 'Spanisch (Kolumbien)',
         'Spanish (Mexico)' => 'Spanisch (Mexiko)',
         'Spanish stop words for fulltext index. These words will be removed from the search index.' =>
-            '',
+            'Spanische Stoppworte für den Volltext-Index. Diese Worte werden aus dem Suchindex entfernt.',
         'Specifies if an agent should receive email notification of his own actions.' =>
-            '',
+            'Legt fest, ob Agenten Benachrichtigungen erhalten sollen, wenn sie eine Aktion selbst ausgelöst haben.',
         'Specifies the available note types for this ticket mask. If the option is deselected, ArticleTypeDefault is used and the option is removed from the mask.' =>
             '',
         'Specifies the default article type for the ticket compose screen in the agent interface if the article type cannot be automatically detected.' =>
@@ -6932,18 +6935,18 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Specifies the directory where private SSL certificates are stored.' =>
             'Legt das Verzeichnis fest, in welchem die privaten SSL Zertifikate gespeichert sind. ',
         'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTRS Notifications" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuation, or choose another email address.' =>
-            '',
+            'Legt die E-Mail-Adresse fest, die zum Versenden von E-Mails durch die Applikation verwendet werden soll. Die Adresse wird genutzt, um den vollständigen Anzeigenamen des Benachrichtigungs-Masters zu bilden (z. B. "OTRS Notifications otrs@your.example.com). Sie können die OTRS_CONFIG_FQDN-Variable nutzen, die Sie in der Konfiguration festgelegt haben, oder eine andere E-Mail-Adresse wählen.',
         'Specifies the email addresses to get notification messages from scheduler tasks.' =>
             'Legt die Email-Adresse für Benachrichtigungen von Scheduler Tasks fest.',
         'Specifies the group where the user needs rw permissions so that he can access the "SwitchToCustomer" feature.' =>
-            '',
+            'Legt die Gruppe fest, für die ein Agent Schreibrechte besitzen muss, um Zugriff auf die "SwitchToCustomer"-Funktion zu haben.',
         'Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTRS Notifications" otrs@your.example.com).' =>
-            '',
+            'Legt den Namen fest, der beim Versenden von Benachrichtigungen durch die Applikation verwendet werden soll. Der Absendername wird genutzt, um den vollständigen Anzeigenamen des Benachrichtigungs-Masters zu bilden (z. B. "OTRS Notifications otrs@your.example.com).',
         'Specifies the order in which the firstname and the lastname of agents will be displayed.' =>
             'Legt die Reihenfolge fest, in der Vorname und Nachname von Agenten angezeigt wird.',
         'Specifies the path of the file for the logo in the page header (gif|jpg|png, 700 x 100 pixel).' =>
             'Gibt den Pfad für die Datei mit dem Logo in der Kopfzeile der Webseite an. (gif|jpg|pnp, 700 x 100 Pixel).',
-        'Specifies the path of the file for the performance log.' => 'Hinterlegt den Pfad für die Datei des Performance Logs. ',
+        'Specifies the path of the file for the performance log.' => 'Hinterlegt den Pfad für die Datei des Leistungsprotokolls.',
         'Specifies the path to the converter that allows the view of Microsoft Excel files, in the web interface.' =>
             'Gibt den Pfad zu dem Konverter an, welcher das Ansehen von Microsoft Excel Dateien in der Weboberfläche erlaubt. ',
         'Specifies the path to the converter that allows the view of Microsoft Word files, in the web interface.' =>
@@ -6953,26 +6956,26 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Specifies the path to the converter that allows the view of XML files, in the web interface.' =>
             'Gibt den Pfad zu dem Konverter an, welcher das Ansehen von XML Dateien in der Weboberfläche erlaubt. ',
         'Specifies the text that should appear in the log file to denote a CGI script entry.' =>
-            '',
+            'Legt den Text fest, der im Protokoll einen CGI-Skripteintrag kennzeichnen soll.',
         'Specifies user id of the postmaster data base.' => 'Definiert die Benutzer-Id der Postmaster Datenbank.',
         'Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.' =>
-            '',
+            'Legt fest, ob bei der Suche nach Anhängen alle Storage-Backends geprüft werden sollen. Dies wird nur bei Installationen benötigt, bei denen sich Anhänge sowohl im Dateisystem, als auch in der Datenbank befinden.',
         'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
-            '',
+            'Legt fest, wieviele Unterebenen in vom Cache erstellten Verzeichnissen verwendet werden sollen. Dies verhindert, dass innerhalb eines Verzeichnisses zu viele Dateien erstellt werden.',
         'Specify the channel to be used to fetch OTRS Business Solution™ updates. Warning: Development releases might not be complete, your system might experience unrecoverable errors and on extreme cases could become unresponsive!' =>
-            '',
+            'Legt fest, welcher Kanal für Aktualisierungen der OTRS Business Solution™ verwendet werden soll. Warnung: Die Verwendung von Entwicklungs-Versionen führt möglicherweise dazu, dass Ihr System in einen fehlerhaften und/oder unbenutzbaren Zustand gerät.',
         'Specify the password to authenticate for the first mirror database.' =>
-            'Geben Sie das Kennwort für die Authentifikation mit der ersten Spiegeldatenbank an.',
+            'Geben Sie das Passwort für die Authentifikation mit der ersten Spiegeldatenbank an.',
         'Specify the username to authenticate for the first mirror database.' =>
             'Geben Sie den Benutzernamen für die Authentifikation mit der ersten Spiegeldatenbank an.',
         'Spell checker.' => 'Rechtschreibprüfung.',
         'Stable' => 'Stabil',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
-            '',
+            'Innerhalb der Applikation verfügbare Standardberechtigungen für Agenten. Wenn mehr Berechtigungen benötigt werden, können diese hier hinterlegt werden. Berechtigungen müssen definiert werden, um Auswirkungen zu haben. Einige zusätzliche Berechtigungen sind bereits zur Nutzung vorbereitet: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Bitte stellen Sie beim Anlegen neuer Berechtigungen sicher, dass "rw" immer der letzte Eintrag bleibt.',
         'Start number for statistics counting. Every new stat increments this number.' =>
-            '',
+            'Startzahl für das Zählen von Statistiken. Jede neue Statistik erhöht die hier eingestellte Zahl.',
         'Starts a wildcard search of the active object after the link object mask is started.' =>
-            '',
+            'Startet eine Wildcard-Suche innerhalb des aktiven Objekts, nachdem der Verknüpfungs-Bildschirm geöffnet wurde.',
         'Stat#' => 'Statistik Nr.',
         'Status view' => 'Ansicht nach Status',
         'Stores cookies after the browser has been closed.' => 'Speichert Cookies nach dem Schließen des Browsers.',
@@ -6989,25 +6992,25 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Textarea' => 'Textfeld',
         'Thai' => 'Thai',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
-            '',
+            'Der interne Name des Skins, der im Agentenbereich genutzt werden soll. Verfügbare Skins finden Sie unter Frontend::Agent::Skins.',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
-            '',
+            'Der interne Name des Skins, der im Kundenbereich genutzt werden soll. Verfügbare Skins finden Sie unter Frontend::Customer::Skins.',
         'The daemon registration for the scheduler cron task manager.' =>
             'Der Hintergrundprozess für den zeitgesteuerten Aufgabenplaner.',
         'The daemon registration for the scheduler future task manager.' =>
             'Der Hintergrundprozess für die zeitgesteuerte Planung der zukünftigen Aufgaben.',
         'The daemon registration for the scheduler generic agent task manager.' =>
-            '',
-        'The daemon registration for the scheduler task worker.' => '',
+            'Der Hintergrundprozess für den zeitgesteuerten Aufgabenplaner.',
+        'The daemon registration for the scheduler task worker.' => 'Der Hintergrundprozess für die zeitgesteuerte Abarbeitung von Aufgaben.',
         'The divider between TicketHook and ticket number. E.g \': \'.' =>
             'Das Trennzeichen zwischen dem TicketHook und der Ticketnummer z.B. \':\'.',
         'The duration in minutes after emitting an event, in which the new escalation notify and start events are suppressed.' =>
             'Die Zeitspanne in Minuten nach der Erzeugung eines Ereignisses, während der neue Vorwarn- und Start-Ereignisse unterdrückt werden.',
         'The format of the subject. \'Left\' means \'[TicketHook#:12345] Some Subject\', \'Right\' means \'Some Subject [TicketHook#:12345]\', \'None\' means \'Some Subject\' and no ticket number. In the latter case you should verify that the setting PostMaster::CheckFollowUpModule###0200-References is activated to recognize followups based on email headers.' =>
-            '',
+            'Betreffsformat. "Links" führt zu "[TicketHook#:12345] Ein Betreff", "rechts" führt zu "Ein Betreff [TicketHook#:12345]". Bei Auswahl von "keine" enthält der Betreff keine Ticketnummer. In diesem Fall sollten Sie sicherstellen, dass die Einstellung PostMaster::CheckFollowUpModule###0200-References aktiviert ist, damit Folge-E-Mails anhand von E-Mail-Headern erkannt werden.',
         'The headline shown in the customer interface.' => 'Die in der Kundenoberfläche angezeigte Überschrift.',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
-            '',
+            'Erkenner für Tickets, z. B. Ticket#, Anruf#, MeinTicket#.',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
             'Das Logo, das für das Design "default" im Agenten-Interface angezeigt wird. Mehr Informationen finden Sie in der Einstellung "AgentLogo"',
         'The logo shown in the header of the agent interface for the skin "ivory". See "AgentLogo" for further description.' =>
@@ -7023,7 +7026,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'The logo shown on top of the login box of the agent interface. The URL to the image must be relative URL to the skin image directory.' =>
             'Das Logo, das oberhalb der Login-Maske im Agenten-Interface angezeigt wird. Die URL zu dem Bild muss die relative URL zum Designverzeichnis mit dem Bild sein.',
         'The maximal number of articles expanded on a single page in AgentTicketZoom.' =>
-            '',
+            'Maximale Anzahl aufgeklappter Artikel in der Ticket-Detailansicht.',
         'The maximal number of articles shown on a single page in AgentTicketZoom.' =>
             'Die maximale Anzahl von Artikeln, welche auf einer Seite im AgentTicketZoom angezeigt werden.',
         'The maximum number of mails fetched at once before reconnecting to the server.' =>
@@ -7036,15 +7039,15 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
             '',
         'This is a description for TimeZone on Customer side.' => '',
         'This is the default orange - black skin for the customer interface.' =>
-            '',
+            'Der Standard-Skin (grau) für den Kundenbereich.',
         'This is the default orange - black skin.' => 'Dies ist die Standard orange-schwarze Farbgebung.  ',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
-            '',
+            'Die PreRun()-Funktion dieses Moduls wird (wenn aktiviert) bei jeder Anfrage ausgeführt. Es kann z. B. genutzt werden, um Benutzereinstellungen zu prüfen oder Neuigkeiten anzuzeigen.',
         'This module is part of the admin area of OTRS.' => 'Dieses Modul ist ein teil des Admin-Bereiches von OTRS.',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
-            '',
+            'Legt fest, in welchem dynamischen Feld die Aktivitäts-ID im Prozessmanagement gespeichert werden soll.',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
-            '',
+            'Legt fest, in welchem dynamischen Feld die Prozess-ID im Prozessmanagement gespeichert werden soll.',
         'This option defines the process tickets default lock.' => 'Diese Option setzt die Prozess-Ticket Standardsperre.',
         'This option defines the process tickets default priority.' => 'Diese Option setzt die Prozess-Ticket Standardpriorität',
         'This option defines the process tickets default queue.' => 'Diese Option setzt die Prozess-Ticket Standard-Queue.',
@@ -7052,7 +7055,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
             'Diese Option verweigert den Zugriff auf Tickets von anderen Kundenbenutzern mit der selben Kundenfirma.',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
-            '',
+            'Diese Einstellung erlaubt das Überschreiben der eingebauten Länderliste. Durch Nutzung dieser Einstellung können Sie z. B. eine eigene, kürzere Länderliste nutzen, wenn dies für Sie passender ist.',
         'This will allow the system to send text messages via SMS.' => 'Dies erlaubt dem System das Senden von SMS-Nachrichten.',
         'Ticket Close.' => 'Ticket schließen.',
         'Ticket Compose Bounce Email.' => 'E-Mail-Erstellung für Ticket-Umleitung.',
@@ -7074,7 +7077,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Ticket Queue Overview' => 'Ticket-Übersicht nach Queues',
         'Ticket Responsible.' => 'Ticket-Verantwortlicher.',
         'Ticket Watcher' => 'Ticket-Beobachter.',
-        'Ticket Zoom' => '',
+        'Ticket Zoom' => 'Ticket-Zoom',
         'Ticket Zoom.' => 'Ticket-Detailansicht.',
         'Ticket bulk module.' => 'Ticket-Stapelverarbeitung.',
         'Ticket event module that triggers the escalation stop events.' =>
@@ -7095,14 +7098,14 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             'Schaltet die Anzeige der OTRS FeatureAddon-Liste in der Paket-Verwaltung um.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'Symbol in der Toolbar, um schnell zur entsprechenden Funktion zu gelangen. Die Gruppenspezifische Sichtbarkeit dieses Links kann durch Nutzung des Schlüssels "Group" und Inhalten wie "rw:group1;move_into:group2" realisiert werden.',
         'Transport selection for ticket notifications.' => '',
         'Tree view' => 'Baumansicht',
         'Triggers ticket escalation events and notification events for escalation.' =>
-            '',
+            'Löst Ticket-Eskalationsereignisse und Benachrichtigungsereignisse für Eskalationen aus.',
         'Turkish' => 'Türkisch',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
-            '',
+            'Schaltet die SSL-Zertifikatsvalidierung ab, wenn Sie beispielsweise einen HTTPS-Proxy nutzen.',
         'Turns on drag and drop for the main navigation.' => 'Aktiviert Drag und Drop für die Hauptnavigation.',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             '',
@@ -7114,7 +7117,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
             'Geben Sie tickets frei, wenn eine Notiz hinzugefügt wurde und der Besitzer nicht im Büro ist.',
         'Unlocked ticket.' => 'Ticketsperre aufgehoben.',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
-            '',
+            'Aktualisieren des "Gesehen"-Merkmals, wenn jeder Artikel betrachtet oder ein neuer Artikel erstellt wurde.',
         'Updated SLA to %s (ID=%s).' => 'SLA aktualisiert "%s" (ID=%s).',
         'Updated Service to %s (ID=%s).' => 'Service aktualisiert "%s" (ID=%s).',
         'Updated Type to %s (ID=%s).' => 'Typ aktualisiert "%s" (ID=%s).',
@@ -7128,7 +7131,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
             'Nutzen Sie einen neuen Typ von Auswahl- und Autovervollständigen-Feldern in der Agenten-Schnittstelle, wo sie anwendbar sind (InputFields = Eingabefelder).',
         'Use new type of select and autocomplete fields in customer interface, where applicable (InputFields).' =>
-            '',
+            'Nutzung eines modernen Auswahlfeldes mit Autovervollständigung im Kundenbereich (wenn verfügbar).',
         'UserFirstname' => 'Benutzervorname',
         'UserLastname' => 'Benutzernachname',
         'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
@@ -7153,7 +7156,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'Wenn Tickets zusammengefasst werden, kann der Kunde durch Setzen des Kontrollkästchens "Sender informieren" per E-Mail informiert werden. In diesem Bereich können Sie einen vorformatierten Text definieren, der später durch die Agents modifiziert werden kann.',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
-            '',
+            'Legt fest, ob Meta-Informationen aus Artikeln anhand von Filtern, die in Ticket::Frontend::ZoomCollectMetaFilters festgelegt wurden, extrahiert werden sollen.',
         'Yes, but hide archived tickets' => 'Ja, aber archivierte Tickets verstecken',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' =>
             'Ihre E-Mail mit Ticket-Nummer "<OTRS_TICKET>" wurde an "<OTRS_BOUNCE_TO>" umgeleitet. Kontaktieren Sie diese Adresse für weitere Informationen.',

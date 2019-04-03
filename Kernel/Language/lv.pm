@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.248147406368916;
+    $Self->{Completeness}        = 0.249449449449449;
 
     # csv separator
     $Self->{Separator} = '';
@@ -1193,7 +1193,7 @@ sub Data {
         'Execute Custom Module' => '',
         'Param %s key' => '',
         'Param %s value' => '',
-        'Save Changes' => '',
+        'Save Changes' => 'Saglabāt izmaiņas',
         'Results' => 'Rezultāti',
         '%s Tickets affected! What do you want to do?' => '',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1546,10 +1546,10 @@ sub Data {
         'Overwrite existing notifications?' => '',
         'Upload Notification configuration' => '',
         'Import Notification configuration' => '',
-        'Delete this notification' => '',
+        'Delete this notification' => 'Izdzēst šo paziņojumu',
         'Do you really want to delete this notification?' => '',
         'Add Notification' => 'Pievienot paziņojumu',
-        'Edit Notification' => '',
+        'Edit Notification' => 'Labot paziņojumu',
         'Show in agent preferences' => '',
         'Agent preferences tooltip' => '',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
@@ -1586,9 +1586,9 @@ sub Data {
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             '',
         'This feature is currently not available.' => '',
-        'No data found' => '',
+        'No data found' => 'Dati nav atrasti',
         'No notification method found.' => '',
-        'Notification Text' => '',
+        'Notification Text' => 'Paziņojuma teksts',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
             '',
         'Remove Notification Language' => '',
@@ -2444,7 +2444,7 @@ sub Data {
             '',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
             '',
-        'Start date' => '',
+        'Start date' => 'Sākuma datums',
         'Stop date' => '',
         'Delete System Maintenance' => '',
         'Do you really want to delete this scheduled system maintenance?' =>
@@ -4367,7 +4367,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
         'Database Records' => 'Datubāzes ieraksti',
-        'Tickets' => 'Pieteikumu',
+        'Tickets' => 'Pieteikumi',
         'Ticket History Entries' => '',
         'Articles' => '',
         'Attachments (DB, Without HTML)' => 'Pielikumi (DB, bez HTML)',
@@ -4784,6 +4784,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -5944,7 +5947,7 @@ Thanks for your help!
         'Gives end users the possibility to override the separator character for CSV files, defined in the translation files.' =>
             '',
         'Global Search Module.' => '',
-        'Go back' => '',
+        'Go back' => 'Atgriezties',
         'Google Authenticator' => '',
         'Graph: Bar Chart' => '',
         'Graph: Line Chart' => '',

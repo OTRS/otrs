@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.324454235930302;
+    $Self->{Completeness}        = 0.328328328328328;
 
     # csv separator
     $Self->{Separator} = '';
@@ -535,7 +535,7 @@ sub Data {
         'Service' => 'Servei',
         'Services' => 'Serveis',
         'State' => 'Estat',
-        'States' => 'Estats',
+        'States' => 'Estat',
         'Status' => 'Estat',
         'Statuses' => 'Estats',
         'Ticket Type' => 'Tipus de tiquet',
@@ -1135,8 +1135,8 @@ sub Data {
         'Ticket created between' => 'Tiquet creat entre',
         'Last changed times' => '',
         'No last changed time settings.' => '',
-        'Ticket last changed' => '',
-        'Ticket last changed between' => '',
+        'Ticket last changed' => 'Últim canvi de tiquet',
+        'Ticket last changed between' => 'Últim canvi de tiquet entre',
         'Change times' => 'Temps de canvi',
         'No change time settings.' => 'No hi ha ajustos de temps de canvi.',
         'Ticket changed' => 'Tiquet canviat',
@@ -1538,15 +1538,15 @@ sub Data {
         'Online Admin Manual' => '',
 
         # Template: AdminNotificationEvent
-        'Ticket Notification Management' => '',
+        'Ticket Notification Management' => 'Gestió de notificacions de tickets',
         'Add notification' => 'Afegir notificació',
         'Export Notifications' => '',
         'Configuration Import' => '',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
-        'Overwrite existing notifications?' => '',
-        'Upload Notification configuration' => '',
-        'Import Notification configuration' => '',
+        'Overwrite existing notifications?' => 'Vols sobreescriure les notificacions actuals?',
+        'Upload Notification configuration' => 'Actualitzar configuració de Notificació',
+        'Import Notification configuration' => 'Importar configuració de Notificació',
         'Delete this notification' => 'Eliminar aquesta notificació',
         'Do you really want to delete this notification?' => '',
         'Add Notification' => 'Afegir notificació',
@@ -1554,7 +1554,7 @@ sub Data {
         'Show in agent preferences' => '',
         'Agent preferences tooltip' => '',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
-            '',
+            'Aquest missatge es mostrarà a la pantalla de preferències d\'agent, en un tooltip per aquesta notificació.',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
             '',
         'Ticket Filter' => 'Filtre de tiquet',
@@ -1573,7 +1573,7 @@ sub Data {
         'Send to all group members (agents only)' => '',
         'Send to all role members' => '',
         'Send on out of office' => '',
-        'Also send if the user is currently out of office.' => '',
+        'Also send if the user is currently out of office.' => 'Enviar també si l\'usuari es fora de l\'oficina.',
         'Once per day' => '',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             '',
@@ -2610,11 +2610,11 @@ sub Data {
             '',
 
         # Template: AgentDashboardTicketGeneric
-        'My locked tickets' => '',
+        'My locked tickets' => 'Els meus tiquets bloquejats',
         'My watched tickets' => '',
         'My responsibilities' => '',
-        'Tickets in My Queues' => '',
-        'Tickets in My Services' => '',
+        'Tickets in My Queues' => 'Tiquets a les meves cues',
+        'Tickets in My Services' => 'Tiquets en els Meus Serveis',
         'Service Time' => 'Temps de servei',
         'Remove active filters for this widget.' => '',
 
@@ -2622,7 +2622,7 @@ sub Data {
         'Totals' => '',
 
         # Template: AgentDashboardUserOnline
-        'out of office' => '',
+        'out of office' => 'fora de l\'oficina',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => '',
@@ -2935,7 +2935,7 @@ sub Data {
             '',
         'by' => 'per',
         'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
-            '',
+            'Per obrir els enllaços del següent article, haureu de prémer la tecla Ctrl, Cmd o Shift, mentre feu clic a l\'enllaç (segons el vostre navegador i sistema operatiu).',
         'Close this message' => '',
         'Article could not be opened! Perhaps it is on another article page?' =>
             '',
@@ -3296,7 +3296,7 @@ sub Data {
 
         # Template: PreferencesNotificationEvent
         'Notification' => 'Notificacions',
-        'No user configurable notifications found.' => '',
+        'No user configurable notifications found.' => 'No s\'han trobat notificacions d\'usuari configurades ',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
             '',
         'Please note that you can\'t completely disable notifications marked as mandatory.' =>
@@ -3536,10 +3536,10 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
         'Notification updated!' => '',
-        'Notification added!' => '',
+        'Notification added!' => 'Notificació afegida !',
         'There was an error getting data for Notification with ID:%s!' =>
             '',
-        'Unknown Notification %s!' => '',
+        'Unknown Notification %s!' => 'Notificació desconeguda %s !',
         'There was an error creating the Notification' => '',
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
             '',
@@ -4380,7 +4380,7 @@ sub Data {
         'Process Tickets' => '',
         'Months Between First And Last Ticket' => '',
         'Tickets Per Month (avg)' => '',
-        'Open Tickets' => '',
+        'Open Tickets' => 'Tiquets oberts',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
         'Default SOAP Username And Password' => '',
@@ -4570,7 +4570,7 @@ sub Data {
         'New ticket created by customer.' => '',
         'Ticket is closed successful.' => '',
         'Ticket is closed unsuccessful.' => '',
-        'Open tickets.' => '',
+        'Open tickets.' => 'Tiquets oberts.',
         'Customer removed ticket.' => '',
         'Ticket is pending for agent reminder.' => '',
         'Ticket is pending for automatic close.' => '',
@@ -4785,6 +4785,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Permet tenir una visió de format mitjà del tiquet (CustomerInfo => 1 - mostra també la informació del client).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -6071,7 +6074,7 @@ Thanks for your help!
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
         'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
-            '',
+            'Si teniu previst ser fora de l\'oficina, potser voldríeu informar a altres usuaris les dates exactes de la vostre absència.',
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Include tickets of subqueues per default when selecting a queue.' =>
@@ -6276,7 +6279,7 @@ Thanks for your help!
             '',
         'Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
             '',
-        'Out Of Office' => '',
+        'Out Of Office' => 'Fora de l\'oficina',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets.' => '',

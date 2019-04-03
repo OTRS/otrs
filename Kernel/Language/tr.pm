@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.277989184858802;
+    $Self->{Completeness}        = 0.282882882882883;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -535,7 +535,7 @@ sub Data {
         'Service' => 'Servis',
         'Services' => 'Servisler',
         'State' => 'Durum',
-        'States' => 'Durumlar',
+        'States' => 'Durum',
         'Status' => 'Durum',
         'Statuses' => 'Durumlar',
         'Ticket Type' => 'Bilet Tipi',
@@ -777,55 +777,55 @@ sub Data {
         'Sat' => 'Cts',
 
         # Template: AdminACL
-        'ACL Management' => '',
-        'Filter for ACLs' => '',
+        'ACL Management' => 'ACL Yönetimi',
+        'Filter for ACLs' => 'ACL\'leri Filtrele',
         'Filter' => 'Filtre',
         'ACL Name' => '',
         'Actions' => 'Eylemler',
-        'Create New ACL' => '',
-        'Deploy ACLs' => '',
-        'Export ACLs' => '',
+        'Create New ACL' => 'Yeni ACL Oluştur',
+        'Deploy ACLs' => 'ACL\'leri Dağıt',
+        'Export ACLs' => 'ACL\'leri Dışa Aktar',
         'Configuration import' => 'İçeri alma yapılandırması',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            '',
+            'Burada ACL\'leri sisteminize almak için bir yapılandırma dosyası yükleyebilirsiniz. Dosya, ACL düzenleyici modülü tarafından dışa aktarıldığı gibi .yml biçiminde olmalıdır.',
         'This field is required.' => 'Bu alan zorunludur',
-        'Overwrite existing ACLs?' => '',
-        'Upload ACL configuration' => '',
-        'Import ACL configuration(s)' => '',
+        'Overwrite existing ACLs?' => 'Varolan ACL\'lerin üzerine yazılsın mı?',
+        'Upload ACL configuration' => 'Yapılandırmayı karşıya yükle',
+        'Import ACL configuration(s)' => 'ACL yapılandırma(larını) içe aktar',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
-            '',
+            'Yeni bir ACL oluşturmak için, başka bir sistemden dışa aktarılan ACL\'leri içe aktarabilir veya tamamen yeni bir tane oluşturabilirsiniz.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             '',
         'ACLs' => '',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
-        'ACL name' => '',
+        'ACL name' => 'ACL Adı',
         'Validity' => 'Doğrula',
         'Copy' => 'Kopya',
         'No data found.' => 'Veri bulunamadı.',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => '',
+        'Edit ACL %s' => 'ACL Düzenle',
         'Go to overview' => 'Genel Bakışa git',
-        'Delete ACL' => '',
-        'Delete Invalid ACL' => '',
-        'Match settings' => '',
+        'Delete ACL' => 'ACL Sil',
+        'Delete Invalid ACL' => 'Geçersiz ACL\'yi Sil',
+        'Match settings' => 'Eşleşme Ayarları',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
-        'Change settings' => '',
+        'Change settings' => 'Ayarları Değiştir',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
         'Check the official' => '',
-        'documentation' => '',
+        'documentation' => 'Döküman',
         'Show or hide the content' => 'İçeriği göster yada gizle',
         'Edit ACL information' => '',
         'Stop after match' => 'Karşılaşmadan sonra dur',
         'Edit ACL structure' => '',
-        'Save ACL' => '',
+        'Save ACL' => 'ACL\'yi Kaydet',
         'Save' => 'Kaydet',
         'or' => 'veya',
-        'Save and finish' => '',
-        'Do you really want to delete this ACL?' => '',
+        'Save and finish' => 'Kaydet ve bitir',
+        'Do you really want to delete this ACL?' => 'Bu ACL\'yi silmek istediğinizden emin misiniz?',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
             '',
         'An item with this name is already present.' => '',
@@ -943,7 +943,7 @@ sub Data {
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             '',
         'Filter for Groups' => '',
-        'Just start typing to filter...' => '',
+        'Just start typing to filter...' => 'Filtrelemek için yazmaya başlayın...',
         'Select the customer:group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             '',
@@ -1541,7 +1541,7 @@ sub Data {
         'Ticket Notification Management' => '',
         'Add notification' => 'Uyarı Ekle',
         'Export Notifications' => '',
-        'Configuration Import' => '',
+        'Configuration Import' => 'Yapılandırmayı İçeri Aktar',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
         'Overwrite existing notifications?' => '',
@@ -1568,7 +1568,7 @@ sub Data {
         'Body match' => 'Gövde eşleme',
         'Include attachments to notification' => '',
         'Recipients' => '',
-        'Send to' => '',
+        'Send to' => 'Gönderildi',
         'Send to these agents' => '',
         'Send to all group members (agents only)' => '',
         'Send to all role members' => '',
@@ -2445,7 +2445,7 @@ sub Data {
             '',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
             '',
-        'Start date' => '',
+        'Start date' => 'Başlangıç Tarihi',
         'Stop date' => '',
         'Delete System Maintenance' => '',
         'Do you really want to delete this scheduled system maintenance?' =>
@@ -4785,6 +4785,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -5945,7 +5948,7 @@ Thanks for your help!
         'Gives end users the possibility to override the separator character for CSV files, defined in the translation files.' =>
             '',
         'Global Search Module.' => '',
-        'Go back' => '',
+        'Go back' => 'Geri',
         'Google Authenticator' => '',
         'Graph: Bar Chart' => '',
         'Graph: Line Chart' => '',

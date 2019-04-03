@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.300620869216904;
+    $Self->{Completeness}        = 0.31051051051051;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -298,7 +298,7 @@ sub Data {
         'You have Out of Office enabled, would you like to disable it?' =>
             'Máte nastaveno "Mimo kancelář". Přejete si to vypnout?',
         'News about OTRS releases!' => 'Novinky o OTRS verzích!',
-        'Go to dashboard!' => 'Navštivte nástěnku.',
+        'Go to dashboard!' => 'Navštivte nástěnku!',
         'Customer %s added' => 'Zákazník %s přidán',
         'Role added!' => 'Role přidána!',
         'Role updated!' => 'Role aktualizována!',
@@ -542,7 +542,7 @@ sub Data {
         'Service' => 'Služba',
         'Services' => 'Služby',
         'State' => 'Stav',
-        'States' => 'Stavy',
+        'States' => 'Stav',
         'Status' => 'Stav',
         'Statuses' => 'Statusy',
         'Ticket Type' => 'Typ ticketu',
@@ -570,7 +570,7 @@ sub Data {
         'This is a' => 'Toto je',
         'to open it in a new window.' => 'pro otevření v novém okně.',
         'This is a HTML email. Click here to show it.' => 'Toto je HTML email. Pro zobrazení klikněte zde.',
-        'Free Fields' => 'Prázdná pole',
+        'Free Fields' => 'Volná pole',
         'Merge' => 'Sloučit',
         'merged' => 'Sloučeno',
         'closed successful' => 'uzavřeno - vyřešeno',
@@ -634,7 +634,7 @@ sub Data {
         'auto reply' => 'automatická odpověď',
         'auto reply/new ticket' => 'automatická odpověď/nový tiket',
         'Create' => 'Vytvořit',
-        'Answer' => 'Odpověd.',
+        'Answer' => 'Odpověd',
         'Phone call' => 'Telefoní hovor',
         'Ticket "%s" created!' => 'Tiket "%s" vytvořen!',
         'Ticket Number' => 'číslo tiketu',
@@ -784,46 +784,46 @@ sub Data {
         'Sat' => 'So',
 
         # Template: AdminACL
-        'ACL Management' => '',
-        'Filter for ACLs' => '',
+        'ACL Management' => 'Správa ACL',
+        'Filter for ACLs' => 'Filtr pro ACL',
         'Filter' => 'Filtr',
         'ACL Name' => 'ACL pravidlo',
         'Actions' => 'Akce',
-        'Create New ACL' => '',
-        'Deploy ACLs' => '',
-        'Export ACLs' => '',
+        'Create New ACL' => 'Vytvořit nové ACL',
+        'Deploy ACLs' => 'Nasadit ACL',
+        'Export ACLs' => 'Exportovat ACL',
         'Configuration import' => 'Import konfigurace',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            '',
+            'Pro import ACL do vašeho systému můžete zde nahrát konfigurační soubor. Tento soubor musí být ve formátu .yml tak, jak je exportován z modulu editace ACL.',
         'This field is required.' => 'Toto pole musí být vyplněno.',
         'Overwrite existing ACLs?' => 'Přepsat existující ACL?',
-        'Upload ACL configuration' => '',
-        'Import ACL configuration(s)' => '',
+        'Upload ACL configuration' => 'Nahrát konfiguraci ACL',
+        'Import ACL configuration(s)' => 'Importovat konfiguraci ACL',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
-            '',
+            'Pro vytvoření nového ACL můžete buď importovat ACL, která byla vytvořena na jiném systému, nebo vytvořit úplně nové.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
-            '',
-        'ACLs' => '',
+            'Zde provedené změny ACL ovlivňují chování systému pouze tehdy, když poté ACL data nasadíte. Nasazením dat ACL se nově provedené změny zapíšou do konfigurace.',
+        'ACLs' => 'ACL',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
-            '',
-        'ACL name' => '',
+            'Poznámka: Tato tabulka představuje pořadí vykonávání ACL. Pokud potřebujete změnit pořadí, ve kterém jsou ACL vykonávána, změňte prosím názvy daných ACL.',
+        'ACL name' => 'Název ACL',
         'Validity' => 'Platnost',
-        'Copy' => '',
+        'Copy' => 'Kopírovat',
         'No data found.' => 'Data nenalezena.',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => '',
+        'Edit ACL %s' => 'Upravit ACL %s',
         'Go to overview' => 'Přejít na přehled',
-        'Delete ACL' => '',
-        'Delete Invalid ACL' => '',
+        'Delete ACL' => 'Smazat ACL',
+        'Delete Invalid ACL' => 'Smazat neplatná ACL',
         'Match settings' => '',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
-            '',
+            'Nastavit odpovídající kritérium pro toto ACL. Pro srovnání současného zobrazení použijte \'Vlastnosti\' nebo pro srovnání atributů současných tiketů v databázi použijte \'VlastnostiDatabáze\'.',
         'Change settings' => '',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
         'Check the official' => '',
-        'documentation' => '',
+        'documentation' => 'dokumentace',
         'Show or hide the content' => '',
         'Edit ACL information' => '',
         'Stop after match' => 'Stop po shodě',
@@ -841,7 +841,7 @@ sub Data {
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
-            '',
+            'Vytvořte nové ACL odesláním dat formuláře. Po vytvoření ACL budete moci v editačním režimu přidávat konfigurační položky.',
 
         # Template: AdminAttachment
         'Attachment Management' => 'Správa příloh',
@@ -866,7 +866,7 @@ sub Data {
         'To get the first 5 lines of the email.' => 'pro získáni prvních 5ti řádků z emailu',
         'To get the name of the ticket\'s customer user (if given).' => '',
         'To get the article attribute' => 'Získat atributy článku',
-        ' e. g.' => '',
+        ' e. g.' => 'např.',
         'Options of the current customer user data' => '',
         'Ticket owner options' => 'Nastavení vlastníka tiketu',
         'Ticket responsible options' => '',
@@ -2423,8 +2423,8 @@ sub Data {
         'Add NavBar entry' => '',
         'NavBar module' => '',
         'Year' => '',
-        'Month' => '',
-        'Day' => '',
+        'Month' => 'Měsíc',
+        'Day' => 'Den',
         'Invalid year' => '',
         'Invalid month' => '',
         'Invalid day' => '',
@@ -3414,20 +3414,20 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminACL.pm
         'ACLs could not be Imported due to a unknown error, please check OTRS logs for more information' =>
-            '',
-        'The following ACLs have been added successfully: %s' => '',
-        'The following ACLs have been updated successfully: %s' => '',
+            'Z důvodu neznámé chyby ACL nemohly být naimportovány, pro více informací prosím zkontrolujte logy OTRS',
+        'The following ACLs have been added successfully: %s' => 'Následující ACL byly přidány úspěšně: %s',
+        'The following ACLs have been updated successfully: %s' => 'Následující ACL byly aktualizovány úspěšně: %s',
         'There where errors adding/updating the following ACLs: %s. Please check the log file for more information.' =>
-            '',
+            'Během přidávání/aktualizace následujících ACL se objevily chyby: %s. Pro více informací prosím zkontrolujte log',
         'This field is required' => 'Toto pole je požadováno',
-        'There was an error creating the ACL' => '',
-        'Need ACLID!' => '',
-        'Could not get data for ACLID %s' => '',
-        'There was an error updating the ACL' => '',
+        'There was an error creating the ACL' => 'Při vytvoření ACL se objevila chyba',
+        'Need ACLID!' => 'Je potřeba ACLID!',
+        'Could not get data for ACLID %s' => 'Není možné získat data pro ACLID %s',
+        'There was an error updating the ACL' => 'Při aktualizaci ACL se objevila chyba',
         'There was an error setting the entity sync status.' => '',
-        'There was an error synchronizing the ACLs.' => '',
-        'ACL %s could not be deleted' => '',
-        'There was an error getting data for ACL with ID %s' => '',
+        'There was an error synchronizing the ACLs.' => 'Při synchronizaci ACL se objevila chyba.',
+        'ACL %s could not be deleted' => 'ACL %s nemohlo být smazáno',
+        'There was an error getting data for ACL with ID %s' => 'Při získávání dat ACL s ID %s se objevila chyba',
         'Exact match' => '',
         'Negated exact match' => '',
         'Regular expression' => '',
@@ -3646,9 +3646,9 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => '',
         'There was an error updating the ActivityDialog' => '',
         'Edit Activity Dialog "%s"' => '',
-        'Agent Interface' => '',
-        'Customer Interface' => '',
-        'Agent and Customer Interface' => '',
+        'Agent Interface' => 'Rozhraní Řešitele',
+        'Customer Interface' => 'Rozhraní Zákazníka',
+        'Agent and Customer Interface' => 'Rozhraní Řešitele a Zákazníka',
         'Do not show Field' => '',
         'Show Field' => '',
         'Show Field As Mandatory' => '',
@@ -3911,7 +3911,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Untitled' => '',
-        'Customer Name' => '',
+        'Customer Name' => 'Jméno zákazníka',
         'Invalid Users' => '',
         'CSV' => 'CSV',
         'Excel' => 'Excel',
@@ -4022,7 +4022,7 @@ sub Data {
         'Database %s' => '',
         'Configure MySQL' => '',
         'Configure PostgreSQL' => '',
-        'Configure Oracle' => '',
+        'Configure Oracle' => 'Nastavit Oracle',
         'Unknown database type "%s".' => '',
         'Please go back.' => '',
         'Install OTRS - Error' => '',
@@ -4137,7 +4137,7 @@ sub Data {
 
         # Perl Module: Kernel/System/ACL/DB/ACL.pm
         'Couldn\'t read ACL configuration file. Please make sure the file is valid.' =>
-            '',
+            'Není možné přečíst konfigurační soubor ACL. Ujistěte se prosím, že je tento soubor platný.',
 
         # Perl Module: Kernel/System/AuthSession.pm
         'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
@@ -4675,8 +4675,8 @@ Thanks for your help!
             '',
         'A picture' => '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
-            '',
-        'Access Control Lists (ACL)' => '',
+            'Modul ACL, který umožňuje uzavření rodičovského tiketu pouze v případě, že jsou již uzavřeny všechny jeho děti ("Stav" ukazuje, které stavy nejsou k dispozici, dokud nejsou uzavřeny všechny podřízené tickety).',
+        'Access Control Lists (ACL)' => 'Seznamy řízení přístupu (ACL)',
         'AccountedTime' => '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             '',
@@ -4792,6 +4792,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -4839,7 +4842,7 @@ Thanks for your help!
             '',
         'Cache time in seconds for customer authentication in the GenericInterface.' =>
             '',
-        'Cache time in seconds for the DB ACL backend.' => '',
+        'Cache time in seconds for the DB ACL backend.' => 'Čas keše v sekundách pro podpůrnou vrstvu DB ACL.',
         'Cache time in seconds for the DB process backend.' => '',
         'Cache time in seconds for the SSL certificate attributes.' => '',
         'Cache time in seconds for the ticket process navigation bar output module.' =>
@@ -4849,7 +4852,7 @@ Thanks for your help!
         'Change password' => '',
         'Change queue!' => '',
         'Change the customer for this ticket' => 'Změna Zákazníka Tiketu',
-        'Change the free fields for this ticket' => 'Upravit prázdná pole v tomto tiketu',
+        'Change the free fields for this ticket' => 'Upravit volná pole v tomto tiketu',
         'Change the priority for this ticket' => '',
         'Change the responsible for this ticket' => '',
         'Changed priority from "%s" (%s) to "%s" (%s).' => 'Priorita změněna z "%s" (%s) na "%s" (%s).',
@@ -4900,7 +4903,7 @@ Thanks for your help!
         'Compat module for AgentZoom to AgentTicketZoom.' => '',
         'Complex' => '',
         'Configure Processes.' => '',
-        'Configure and manage ACLs.' => '',
+        'Configure and manage ACLs.' => 'Konfigurovat a spravovat ACL.',
         'Configure any additional readonly mirror databases that you want to use.' =>
             '',
         'Configure sending of support data to OTRS Group for improved support.' =>
@@ -4994,7 +4997,7 @@ Thanks for your help!
             '',
         'Default' => '',
         'Default (Slim)' => '',
-        'Default ACL values for ticket actions.' => '',
+        'Default ACL values for ticket actions.' => 'Výchozi hodnoty ACL pro akce tiketů.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             '',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
@@ -5650,11 +5653,11 @@ Thanks for your help!
         'Defines which article sender types should be shown in the preview of a ticket.' =>
             '',
         'Defines which items are available for \'Action\' in third level of the ACL structure.' =>
-            '',
+            'Definuje, které položky jsou k dispozici pro \'Akci\' ve třetí úrovni struktury ACL.',
         'Defines which items are available in first level of the ACL structure.' =>
-            '',
+            'Definuje, které položky jsou dostupné v první úrovni struktury ACL.',
         'Defines which items are available in second level of the ACL structure.' =>
-            '',
+            'Definuje, které položky jsou dostupné ve druhé úrovni struktury ACL.',
         'Defines which states should be set automatically (Content), after the pending time of state (Key) has been reached.' =>
             '',
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
@@ -5885,7 +5888,7 @@ Thanks for your help!
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt.' =>
             '',
         'Filter for debugging ACLs. Note: More ticket attributes can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
-            '',
+            'Filtr pro ladění ACL. Poznámka: Více atributů tiketů můžete přidat ve formátu <OTRS_TICKET_Attribute> např. <OTRS_TICKET_Priority>.',
         'Filter for debugging Transitions. Note: More filters can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
             '',
         'Filter incoming emails.' => '',
@@ -6041,7 +6044,7 @@ Thanks for your help!
             '',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.' =>
             '',
-        'If enabled debugging information for ACLs is logged.' => '',
+        'If enabled debugging information for ACLs is logged.' => 'Pokud je zapnuto, jsou logovány ladící informace pro ACL.',
         'If enabled debugging information for transitions is logged.' => '',
         'If enabled the daemon will redirect the standard error stream to a log file.' =>
             '',

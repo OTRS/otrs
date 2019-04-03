@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.25135189264971;
+    $Self->{Completeness}        = 0.262662662662663;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -168,7 +168,7 @@ sub Data {
         'Updated!' => 'Aktualizované!',
         'submit!' => 'predlož!',
         'submit' => 'predložiť',
-        'Submit' => 'Predloženie',
+        'Submit' => 'Odoslať',
         'change!' => 'Zmeň!',
         'Change' => 'Zmena',
         'change' => 'Zmeniť',
@@ -781,26 +781,26 @@ sub Data {
         'Filter for ACLs' => 'Filter pre ACL',
         'Filter' => 'Filter',
         'ACL Name' => 'Názov ACL',
-        'Actions' => 'Akcia',
+        'Actions' => 'Akcie',
         'Create New ACL' => 'Vytvoriť nové ACL',
-        'Deploy ACLs' => '',
+        'Deploy ACLs' => 'Nasadenie ACLs',
         'Export ACLs' => 'Exportovať ACL',
         'Configuration import' => '',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            '',
+            'Tu môžete nahrať konfiguračný súbor pre import ACLs do systému. Súbor musí byť v .yml fomáte, exportovaný z ACL editor modulu.',
         'This field is required.' => 'Toto pole je povinné.',
-        'Overwrite existing ACLs?' => '',
+        'Overwrite existing ACLs?' => 'Prepísať existujúce ACLs?',
         'Upload ACL configuration' => 'Nahrať ACL konfiguráciu',
         'Import ACL configuration(s)' => 'Importovať ACL konfiguráciu',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
-            '',
+            'Na vytvorenie nových ACL môžete buď importovať ACLs exportované z iného systému alebo vytvoriť úplne nové.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             '',
         'ACLs' => 'ACL',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
         'ACL name' => 'Názov ACL',
-        'Validity' => '',
+        'Validity' => 'platnosť',
         'Copy' => 'Kopírovať',
         'No data found.' => 'Neboli nájdene žiadne dáta.',
 
@@ -809,19 +809,19 @@ sub Data {
         'Go to overview' => 'Prejsť na prehľad',
         'Delete ACL' => 'Zmazať ACL',
         'Delete Invalid ACL' => 'Zmazať chybný ACL',
-        'Match settings' => '',
+        'Match settings' => 'Nastavenie zhody',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
-            '',
+            'Nastav zodpovedajúce kritériá pre toto ACL. Použi "vlastnosti" pre zhodu s momentálnou obrazovkou alebo "vlastnosti databázy" pre zhodu atribútov aktuálneho tiketu, ktorý je v databáze.',
         'Change settings' => 'Zmena nastavenia',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            '',
-        'Check the official' => '',
+            'Nastav, čo chceš zmeniť, ak kritériá pasujú. Mysli na to, že "možné" je "white list" a "nemožné" je "black list".',
+        'Check the official' => 'Skontoroluj oficiálne',
         'documentation' => 'dokumentácia',
-        'Show or hide the content' => '',
+        'Show or hide the content' => 'Zobraziť alebo skryť obsah',
         'Edit ACL information' => '',
-        'Stop after match' => '',
+        'Stop after match' => 'Zastav po zhode',
         'Edit ACL structure' => '',
-        'Save ACL' => '',
+        'Save ACL' => 'Ulož ACL',
         'Save' => 'Uložiť',
         'or' => 'alebo',
         'Save and finish' => 'Uložiť a skončiť',
@@ -834,7 +834,7 @@ sub Data {
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
-            '',
+            'Vytvor nové ACL zaslaním dát z formuláru. Po vytvorení ACL, budete mať možnosť pridať configuračnú položku v editovacom móde.',
 
         # Template: AdminAttachment
         'Attachment Management' => 'riadenie príloh',
@@ -842,7 +842,7 @@ sub Data {
         'List' => 'Zoznam',
         'Download file' => 'Stiahnúť prílohu',
         'Delete this attachment' => 'Vymazať túto prílohu',
-        'Do you really want to delete this attachment?' => '',
+        'Do you really want to delete this attachment?' => 'Chceš skutočne vymazať túto prílohu?',
         'Add Attachment' => 'Pridať prílohu',
         'Edit Attachment' => 'Upraviť prílohu',
 
@@ -861,7 +861,7 @@ sub Data {
         'To get the article attribute' => '',
         ' e. g.' => '',
         'Options of the current customer user data' => '',
-        'Ticket owner options' => '',
+        'Ticket owner options' => 'Možnosti vlastníka tiketu',
         'Ticket responsible options' => '',
         'Options of the current user who requested this action' => '',
         'Options of the ticket data' => '',
@@ -899,7 +899,7 @@ sub Data {
         'Here you can configure available cloud services that communicate securely with %s.' =>
             '',
         'Available Cloud Services' => '',
-        'Upgrade to %s' => '',
+        'Upgrade to %s' => 'Aktualizované na %s',
 
         # Template: AdminCustomerCompany
         'Customer Management' => 'Správa zákazníkov',
@@ -913,7 +913,7 @@ sub Data {
 
         # Template: AdminCustomerUser
         'Customer User Management' => '',
-        'Back to search results' => '',
+        'Back to search results' => 'Späť do výsledkov vyhľadávania',
         'Add customer user' => 'Pridať používateľa',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
             '',
@@ -943,13 +943,13 @@ sub Data {
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             '',
         'Filter for Groups' => 'Filter pre Skupinu',
-        'Just start typing to filter...' => '',
+        'Just start typing to filter...' => 'Začni písať pre filtrovanie...',
         'Select the customer:group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             '',
         'Search Results' => 'Výsledky vyhľadávania',
         'Customers' => 'Zákazníci',
-        'No matches found.' => 'Nebola nájdená zhoda',
+        'No matches found.' => 'Nebola nájdená zhoda.',
         'Groups' => 'Skupiny',
         'Change Group Relations for Customer' => '',
         'Change Customer Relations for Group' => '',
@@ -1194,7 +1194,7 @@ sub Data {
         'Execute Custom Module' => '',
         'Param %s key' => '',
         'Param %s value' => '',
-        'Save Changes' => '',
+        'Save Changes' => 'Ulož zmeny',
         'Results' => '',
         '%s Tickets affected! What do you want to do?' => '',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1540,19 +1540,19 @@ sub Data {
         # Template: AdminNotificationEvent
         'Ticket Notification Management' => '',
         'Add notification' => '',
-        'Export Notifications' => '',
-        'Configuration Import' => '',
+        'Export Notifications' => 'Export notifikácií',
+        'Configuration Import' => 'Import konfigurácie',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
-        'Overwrite existing notifications?' => '',
-        'Upload Notification configuration' => '',
-        'Import Notification configuration' => '',
-        'Delete this notification' => '',
+        'Overwrite existing notifications?' => 'Prepísať existujúce notifikácie?',
+        'Upload Notification configuration' => 'Nahrať konfiguráciu notifikácie',
+        'Import Notification configuration' => 'Import konfigurácie notifikácie',
+        'Delete this notification' => 'Zmazať túto notifikáciu',
         'Do you really want to delete this notification?' => '',
-        'Add Notification' => '',
-        'Edit Notification' => '',
-        'Show in agent preferences' => '',
-        'Agent preferences tooltip' => '',
+        'Add Notification' => 'Pridaj notifikáciu',
+        'Edit Notification' => 'Edituj notifikáciu',
+        'Show in agent preferences' => 'Zobraz v nastaveniach agenta',
+        'Agent preferences tooltip' => 'Nástrojové tipy vlastností agenta ',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
             '',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
@@ -1567,36 +1567,36 @@ sub Data {
         'Subject match' => '',
         'Body match' => '',
         'Include attachments to notification' => '',
-        'Recipients' => '',
-        'Send to' => '',
-        'Send to these agents' => '',
-        'Send to all group members (agents only)' => '',
-        'Send to all role members' => '',
+        'Recipients' => 'Príjemcovia',
+        'Send to' => 'Komu',
+        'Send to these agents' => 'Poslať týmto agentom',
+        'Send to all group members (agents only)' => 'Odoslať všetkým členom skupiny (iba agenti)',
+        'Send to all role members' => 'Poslať všetkým členom role',
         'Send on out of office' => 'Pošli Neprítomnosť v kancelárii',
-        'Also send if the user is currently out of office.' => '',
-        'Once per day' => '',
+        'Also send if the user is currently out of office.' => 'Pošli aj v prípade, že užívateľ je mimo kanceláriu.',
+        'Once per day' => 'Jedenkrát za deň',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             '',
-        'Notification Methods' => '',
+        'Notification Methods' => 'Spôsoby notifikácie',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
             '',
-        'Enable this notification method' => '',
+        'Enable this notification method' => 'Aktivuj túto notifikačnú metódu',
         'Transport' => '',
-        'At least one method is needed per notification.' => '',
-        'Active by default in agent preferences' => '',
+        'At least one method is needed per notification.' => 'Na notifikovanie je potrebná aspoň jedna metóda.',
+        'Active by default in agent preferences' => 'Štandartne aktívny v nastaveniach agenta',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             '',
-        'This feature is currently not available.' => '',
-        'No data found' => '',
-        'No notification method found.' => '',
-        'Notification Text' => '',
+        'This feature is currently not available.' => 'Táto funkcia momentálne nie je k dispozícii.',
+        'No data found' => 'Neboli nájdené žiadne dáta',
+        'No notification method found.' => 'Nebola nájdená notifikačná metóda.',
+        'Notification Text' => 'Text notifikácie',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
             '',
-        'Remove Notification Language' => '',
-        'Message body' => '',
+        'Remove Notification Language' => 'Vymaž jazyk notifikácie',
+        'Message body' => 'Telo správy',
         'This field is required and must have less than 4000 characters.' =>
             '',
-        'Add new notification language' => '',
+        'Add new notification language' => 'Pridaj nový notifikačný jazyk',
         'Do you really want to delete this notification language?' => '',
         'Tag Reference' => '',
         'Notifications are sent to an agent or a customer.' => '',
@@ -1627,11 +1627,11 @@ sub Data {
         'Notification article type' => '',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             '',
-        'Email template' => '',
+        'Email template' => 'Vzor emailu',
         'Use this template to generate the complete email (only for HTML emails).' =>
             '',
-        'Enable email security' => '',
-        'Email security level' => '',
+        'Enable email security' => 'Povoliť zabezpečenie e-mailu',
+        'Email security level' => 'Úroveň zabezpečenia e-mailu',
         'If signing key/certificate is missing' => '',
         'If encryption key/certificate is missing' => '',
 
@@ -1790,7 +1790,7 @@ sub Data {
         'Date' => 'údaje',
         'List of Files' => '',
         'Permission' => 'Povolenie',
-        'Download' => '',
+        'Download' => 'Stiahnuť',
         'Download file from package!' => '',
         'Required' => '',
         'Primary Key' => '',
@@ -1859,7 +1859,7 @@ sub Data {
         'Deploy All Processes' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
+        'Overwrite existing entities' => 'Prepíš existujúce entity',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'Ready-to-run Processes' => '',
@@ -2395,8 +2395,8 @@ sub Data {
         'Error: this directory could not be found.' => '',
         'Error: an invalid value was entered.' => '',
         'Content' => '',
-        'Remove this entry' => '',
-        'Add entry' => '',
+        'Remove this entry' => 'Odstrániť túto položku',
+        'Add entry' => 'Pridať položku',
         'Remove entry' => '',
         'Add new entry' => '',
         'Delete this entry' => '',
@@ -2445,7 +2445,7 @@ sub Data {
             '',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
             '',
-        'Start date' => '',
+        'Start date' => 'Počiatočný dátum',
         'Stop date' => '',
         'Delete System Maintenance' => '',
         'Do you really want to delete this scheduled system maintenance?' =>
@@ -2482,7 +2482,7 @@ sub Data {
 
         # Template: AdminTemplateAttachment
         'Manage Templates <-> Attachments Relations' => '',
-        'Filter for Attachments' => '',
+        'Filter for Attachments' => 'Filter pre prílohy',
         'Change Template Relations for Attachment' => '',
         'Change Attachment Relations for Template' => '',
         'Toggle active for all' => '',
@@ -4785,6 +4785,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -5945,7 +5948,7 @@ Thanks for your help!
         'Gives end users the possibility to override the separator character for CSV files, defined in the translation files.' =>
             '',
         'Global Search Module.' => '',
-        'Go back' => '',
+        'Go back' => 'Choď späť',
         'Google Authenticator' => '',
         'Graph: Bar Chart' => '',
         'Graph: Line Chart' => '',

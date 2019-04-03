@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.535950330462648;
+    $Self->{Completeness}        = 0.537737737737738;
 
     # csv separator
     $Self->{Separator} = '';
@@ -537,7 +537,7 @@ Opdater venligst dit framework først!',
         'Service' => 'Service',
         'Services' => 'Services',
         'State' => 'Tilstand',
-        'States' => 'Tilstande',
+        'States' => 'Status',
         'Status' => 'Status',
         'Statuses' => 'Status',
         'Ticket Type' => 'Sagstype',
@@ -780,7 +780,7 @@ Opdater venligst dit framework først!',
 
         # Template: AdminACL
         'ACL Management' => 'ACL-administration',
-        'Filter for ACLs' => 'Filtrer ACLs',
+        'Filter for ACLs' => 'Filtrer ACL\'er',
         'Filter' => 'Filter',
         'ACL Name' => 'ACL-navn',
         'Actions' => 'Handlinger',
@@ -789,13 +789,13 @@ Opdater venligst dit framework først!',
         'Export ACLs' => 'Eksporter ACL\'er',
         'Configuration import' => 'Konfigurations-import',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            'Her kan du indlæse en konfigurationsfil for at importere ACLs til dit system. Filen skal være eksporteret i .yml format af ACL redigerings modulet.',
+            'Her kan du indlæse en konfigurationsfil for at importere ACL\'er til dit system. Filen skal være eksporteret i .yml format af ACL redigerings modulet.',
         'This field is required.' => 'Dette felt skal udfyldes',
         'Overwrite existing ACLs?' => 'Overskriv eksisterende ACL\'er?',
         'Upload ACL configuration' => 'Upload ACL-konfiguration',
         'Import ACL configuration(s)' => 'Importer ACL-konfiguration(er)',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
-            'For at oprette en ACL kan du enten importere ACLs der er eksporteret fra et andet system eller kreere en helt ny.',
+            'For at oprette en ACL kan du enten importere ACL\'er der er eksporteret fra et andet system eller kreere en helt ny.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             'Ændringer i disse ACL\'er får først indflydelse på systemet hvis du efterfølgende udgiver ACL data. Ved at udgive ACL data skrives ændringerne til konfigurationen.',
         'ACLs' => 'ACL\'er',
@@ -823,7 +823,7 @@ Opdater venligst dit framework først!',
         'Edit ACL information' => 'Rediger ACL-information',
         'Stop after match' => 'Stop, hvis matcher',
         'Edit ACL structure' => 'Rediger ACL-struktur',
-        'Save ACL' => '',
+        'Save ACL' => 'Gem ACL',
         'Save' => 'Gem',
         'or' => 'eller',
         'Save and finish' => 'Gem og afslut',
@@ -908,7 +908,7 @@ Opdater venligst dit framework først!',
         'Wildcards like \'*\' are allowed.' => 'Jokertegn som \'*\' er tilladt.',
         'Add customer' => 'Tilføj kunde',
         'Select' => 'Vælg',
-        'List (only %s shown - more available)' => '',
+        'List (only %s shown - more available)' => 'List (kun %s vist - der er flere)',
         'List (%s total)' => '',
         'Please enter a search term to look for customers.' => 'Angiv søgeord for at lede efter kunder',
         'Add Customer' => 'Tilføj kunde',
@@ -1202,7 +1202,7 @@ Opdater venligst dit framework først!',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
             'Advarsel: Du bruger SLET-muligheden. Alle slettede sager vil gå tabt!',
         'Warning: There are %s tickets affected but only %s may be modified during one job execution!' =>
-            '',
+            'Advarsel: %s sager omfattet, men kun %s må ændres i én job-kørsel!',
         'Edit job' => 'Rediger job',
         'Run job' => 'Kør job',
         'Affected Tickets' => 'Berørte sager',
@@ -1583,12 +1583,12 @@ Opdater venligst dit framework først!',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
             '',
         'Enable this notification method' => 'Aktiver denne beskedafgivelsesmetode',
-        'Transport' => '',
+        'Transport' => 'Transport',
         'At least one method is needed per notification.' => 'Mindst en metode er krævet pr. besked',
         'Active by default in agent preferences' => '',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             '',
-        'This feature is currently not available.' => '',
+        'This feature is currently not available.' => 'Denne funktionalitet er i øjeblikket ikke tilgængelig.',
         'No data found' => 'Ingen data fundet',
         'No notification method found.' => 'Ingen beskedafgivelsesmetode fundet.',
         'Notification Text' => 'Beskedtekst',
@@ -1632,7 +1632,7 @@ Opdater venligst dit framework først!',
         'Email template' => 'Email skabelon',
         'Use this template to generate the complete email (only for HTML emails).' =>
             '',
-        'Enable email security' => '',
+        'Enable email security' => 'Aktiver sikker email',
         'Email security level' => '',
         'If signing key/certificate is missing' => '',
         'If encryption key/certificate is missing' => '',
@@ -4365,7 +4365,7 @@ Opdater venligst dit framework først!',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DaemonRunning.pm
         'Daemon' => 'Tjeneste',
-        'Daemon is running.' => '',
+        'Daemon is running.' => 'Dæmonen kører.',
         'Daemon is not running.' => 'Tjeneste kører ikke.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -4660,7 +4660,7 @@ Thanks for your help!
         '(UserLogin) Firstname Lastname' => '(BrugerLogin) Fornavn Efternavn',
         '(UserLogin) Lastname Firstname' => '(BrugerLogin) Efternavn Fornavn',
         '(UserLogin) Lastname, Firstname' => '(BrugerLogin) Efternavn Fornavn',
-        '*** out of office until %s (%s d left) ***' => '',
+        '*** out of office until %s (%s d left) ***' => '*** ude af kontoret til og med %s (%s dage endnu) ***',
         '100 (Expert)' => '',
         '200 (Advanced)' => '',
         '300 (Beginner)' => '',
@@ -4787,6 +4787,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'Tillader udvidede søgetermer i sagssøgningen i automatisk agent-interfacet. Med denne funktionalitet kan du søge f.eks. "(nøgle1&&nøgle2)" eller "(nøgle1||nøgle2)".',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -5920,7 +5923,7 @@ Thanks for your help!
         'Frontend theme.' => '',
         'Full value' => '',
         'Fulltext index regex filters to remove parts of the text.' => '',
-        'Fulltext search' => '',
+        'Fulltext search' => 'Fritekstsøgning',
         'Galician' => '',
         'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
@@ -6149,7 +6152,7 @@ Thanks for your help!
         'Locked Tickets.' => '',
         'Locked ticket.' => 'Sag trukket.',
         'Log file for the ticket counter.' => 'Log-fil for sagsnummer-tælleren.',
-        'Logged-In Users' => '',
+        'Logged-In Users' => 'Brugere online',
         'Logout of customer panel.' => '',
         'Loop-Protection! No auto-response sent to "%s".' => 'Loop-beskyttelse! Intet autosvar sendt til "%s".',
         'Mail Accounts' => 'Mail Kontoer',

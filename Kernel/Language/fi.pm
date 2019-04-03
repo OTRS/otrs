@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.275585820148207;
+    $Self->{Completeness}        = 0.292492492492492;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -537,7 +537,7 @@ sub Data {
         'Service' => 'Palvelu',
         'Services' => 'Palvelut',
         'State' => 'Tila',
-        'States' => 'Tilat',
+        'States' => 'Tila',
         'Status' => 'Tila',
         'Statuses' => 'Tilat',
         'Ticket Type' => 'Tiketin tyyppi',
@@ -572,7 +572,7 @@ sub Data {
         'closed unsuccessful' => 'Keskeneräinen - Sulje',
         'Locked Tickets Total' => 'Lukittuja tikettejä yhteensä',
         'Locked Tickets Reminder Reached' => 'Lukittujen tikettien huomautusraja saavutettu',
-        'Locked Tickets New' => '',
+        'Locked Tickets New' => 'Uudet lukitut tiketit',
         'Responsible Tickets Total' => 'Vastaava yhteensä tiketissä',
         'Responsible Tickets New' => 'Vastaavana uudessa tiketissä',
         'Responsible Tickets Reminder Reached' => 'Huomautusraja saavutettu tiketeissä joissa vastaavana',
@@ -779,29 +779,29 @@ sub Data {
         'Sat' => 'La',
 
         # Template: AdminACL
-        'ACL Management' => '',
-        'Filter for ACLs' => '',
+        'ACL Management' => 'Pääsylistojen hallinta',
+        'Filter for ACLs' => 'Suodata pääsylistoja',
         'Filter' => 'Suodatin',
         'ACL Name' => '',
         'Actions' => 'Toimenpiteet',
-        'Create New ACL' => '',
-        'Deploy ACLs' => '',
-        'Export ACLs' => '',
+        'Create New ACL' => 'Luo uusi pääsylista',
+        'Deploy ACLs' => 'Ota käyttöön pääsylistat',
+        'Export ACLs' => 'Vie pääsylistat',
         'Configuration import' => 'Asetusten tuonti',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             '',
         'This field is required.' => 'Tämä kenttä on pakollinen.',
-        'Overwrite existing ACLs?' => '',
-        'Upload ACL configuration' => '',
-        'Import ACL configuration(s)' => '',
+        'Overwrite existing ACLs?' => 'Päällekirjoita nykyiset pääsylistat?',
+        'Upload ACL configuration' => 'Lataa järjestelmään pääsylistakonfiguraatio',
+        'Import ACL configuration(s)' => 'Tuo pääsylistojen konfiguraatio(t)',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
-            '',
+            'Luodaksesi uuden pääsylistan voit joko tuoda uuden pääsylistan toisesta järjestelmästä tai muodostaa kokonaan uuden.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             '',
-        'ACLs' => '',
+        'ACLs' => 'Pääsylistat',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
-        'ACL name' => '',
+        'ACL name' => 'Pääsylistan nimi',
         'Validity' => 'Kelpoisuus',
         'Copy' => 'Kopioi',
         'No data found.' => 'Tietoa ei löytynyt.',
@@ -809,25 +809,25 @@ sub Data {
         # Template: AdminACLEdit
         'Edit ACL %s' => '',
         'Go to overview' => 'Mene yleisnäkymään',
-        'Delete ACL' => '',
-        'Delete Invalid ACL' => '',
+        'Delete ACL' => 'Poista pääsylista',
+        'Delete Invalid ACL' => 'Poista virheellinen pääsylista',
         'Match settings' => '',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
-        'Change settings' => '',
+        'Change settings' => 'Muuta asetuksia',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
-        'Check the official' => '',
-        'documentation' => '',
-        'Show or hide the content' => '',
+        'Check the official' => 'Tarkista virallinen',
+        'documentation' => 'dokumentaatio',
+        'Show or hide the content' => 'Näytä tai piilota sisältö',
         'Edit ACL information' => '',
         'Stop after match' => '',
         'Edit ACL structure' => '',
-        'Save ACL' => '',
+        'Save ACL' => 'Tallenna pääsylista',
         'Save' => 'Tallenna',
         'or' => 'tai',
-        'Save and finish' => '',
-        'Do you really want to delete this ACL?' => '',
+        'Save and finish' => 'Tallenna ja lopeta',
+        'Do you really want to delete this ACL?' => 'Haluatko varmasti poistaa pääsylistan?',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
             '',
         'An item with this name is already present.' => '',
@@ -867,14 +867,14 @@ sub Data {
         'Ticket responsible options' => 'Tiketin vastaava-asetukset',
         'Options of the current user who requested this action' => '',
         'Options of the ticket data' => '',
-        'Options of ticket dynamic fields internal key values' => '',
+        'Options of ticket dynamic fields internal key values' => 'Tiketin dynaamisten kenttien sisäisten avainten arvojen asetukset',
         'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
         'Config options' => '',
         'Example response' => 'Esimerkkivastaus',
 
         # Template: AdminCloudServiceSupportDataCollector
-        'Cloud Service Management' => '',
+        'Cloud Service Management' => 'Pilvipalvelujen hallinta',
         'Support Data Collector' => '',
         'Support data collector' => '',
         'Hint' => 'Vinkki',
@@ -909,12 +909,12 @@ sub Data {
         'Add customer' => 'Lisää asiakas',
         'Select' => 'Valitse',
         'List (only %s shown - more available)' => '',
-        'List (%s total)' => '',
+        'List (%s total)' => 'Listaa ( %s yhteensä)',
         'Please enter a search term to look for customers.' => 'Lisää hakutermi etsiäksesi asiakkaita',
         'Add Customer' => 'Lisää asiakas',
 
         # Template: AdminCustomerUser
-        'Customer User Management' => '',
+        'Customer User Management' => 'Asiakas-käyttäjien hallinta',
         'Back to search results' => '',
         'Add customer user' => '',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
@@ -934,7 +934,7 @@ sub Data {
         'The syntax of this email address is incorrect.' => 'Sähköpostiosoitteen muotoilu on virheellinen.',
 
         # Template: AdminCustomerUserGroup
-        'Manage Customer-Group Relations' => '',
+        'Manage Customer-Group Relations' => 'Hallinnoi Asiakas - Ryhmä suhteita',
         'Notice' => 'Huomautus',
         'This feature is disabled!' => 'Tämä ominaisuus on poissa käytöstä!',
         'Just use this feature if you want to define group permissions for customers.' =>
@@ -945,7 +945,7 @@ sub Data {
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             '',
         'Filter for Groups' => '',
-        'Just start typing to filter...' => '',
+        'Just start typing to filter...' => 'Kirjoita suodattaaksesi...',
         'Select the customer:group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             '',
@@ -980,8 +980,8 @@ sub Data {
         'Add new field for object' => '',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
             '',
-        'Dynamic Fields List' => '',
-        'Dynamic fields per page' => '',
+        'Dynamic Fields List' => 'Dynaamisten kenttien lista',
+        'Dynamic fields per page' => 'Dynaamisia kenttiä sivulla',
         'Label' => '',
         'Order' => 'Järjestys',
         'Object' => 'Objekti',
@@ -992,7 +992,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => '',
 
         # Template: AdminDynamicFieldCheckbox
-        'Dynamic Fields' => '',
+        'Dynamic Fields' => 'Dynaamiset kentät',
         'Field' => '',
         'Go back to overview' => '',
         'General' => '',
@@ -1056,7 +1056,7 @@ sub Data {
             '',
 
         # Template: AdminDynamicFieldText
-        'Number of rows' => '',
+        'Number of rows' => 'Rivien määrä',
         'Specify the height (in lines) for this field in the edit mode.' =>
             '',
         'Number of cols' => '',
@@ -1135,13 +1135,13 @@ sub Data {
         'No create time settings.' => 'Ei luontiaikaa asetettu.',
         'Ticket created' => 'Tiketti luotu',
         'Ticket created between' => 'Tiketti luotu välillä',
-        'Last changed times' => '',
+        'Last changed times' => 'Viimeksi muokattu',
         'No last changed time settings.' => '',
-        'Ticket last changed' => '',
+        'Ticket last changed' => 'Tiketti viimeksi muutettu',
         'Ticket last changed between' => '',
         'Change times' => '',
         'No change time settings.' => '',
-        'Ticket changed' => '',
+        'Ticket changed' => 'Tiketti muutettu',
         'Ticket changed between' => '',
         'Close times' => '',
         'No close time settings.' => 'Ei sulkemisaikaa asetettu',
@@ -1169,7 +1169,7 @@ sub Data {
         'Set new service' => '',
         'Set new Service Level Agreement' => '',
         'Set new priority' => '',
-        'Set new queue' => '',
+        'Set new queue' => 'Valitse uusi jono',
         'Set new state' => '',
         'Pending date' => 'Odottaa päivään',
         'Set new agent' => '',
@@ -1196,7 +1196,7 @@ sub Data {
         'Execute Custom Module' => '',
         'Param %s key' => '',
         'Param %s value' => '',
-        'Save Changes' => '',
+        'Save Changes' => 'Tallenna muutokset',
         'Results' => 'Hakutulokset',
         '%s Tickets affected! What do you want to do?' => '',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1487,11 +1487,11 @@ sub Data {
         'Version' => 'Versio',
         'Create time' => '',
         'Select a single configuration version to see its details.' => '',
-        'Export web service configuration' => '',
-        'Restore web service configuration' => '',
+        'Export web service configuration' => 'Tallenna web-palveluiden asetukset',
+        'Restore web service configuration' => 'Palauta web-palveluiden asetukset',
         'Do you really want to restore this version of the web service configuration?' =>
-            '',
-        'Your current web service configuration will be overwritten.' => '',
+            'Haluatko varmasti palauttaa tämän version web-asetuksista?',
+        'Your current web service configuration will be overwritten.' => 'Nykyiset web-asetukset korvataan uusilla.',
         'Restore' => '',
 
         # Template: AdminGroup
@@ -1504,7 +1504,7 @@ sub Data {
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
             '',
         'It\'s useful for ASP solutions. ' => '',
-        'total' => '',
+        'total' => 'yhteensä',
         'Edit Group' => 'Muokkaa ryhmää',
 
         # Template: AdminLog
@@ -1542,17 +1542,17 @@ sub Data {
         # Template: AdminNotificationEvent
         'Ticket Notification Management' => '',
         'Add notification' => '',
-        'Export Notifications' => '',
-        'Configuration Import' => '',
+        'Export Notifications' => 'Vie ilmoitukset',
+        'Configuration Import' => 'Tuo konfiguraatio',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
-        'Overwrite existing notifications?' => '',
-        'Upload Notification configuration' => '',
-        'Import Notification configuration' => '',
-        'Delete this notification' => '',
+        'Overwrite existing notifications?' => 'Päällekirjoita nykyiset ilmoitukset?',
+        'Upload Notification configuration' => 'Lähetä ilmoitusten konfiguraatio',
+        'Import Notification configuration' => 'Tuo ilmoitusten konfiguraatio',
+        'Delete this notification' => 'Poista tämä ilmoitus',
         'Do you really want to delete this notification?' => '',
-        'Add Notification' => '',
-        'Edit Notification' => 'Muokkaa huomautusta',
+        'Add Notification' => 'Lisää ilmoitus',
+        'Edit Notification' => 'Muokkaa ilmoitusta',
         'Show in agent preferences' => '',
         'Agent preferences tooltip' => '',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
@@ -1569,14 +1569,14 @@ sub Data {
         'Subject match' => '',
         'Body match' => '',
         'Include attachments to notification' => '',
-        'Recipients' => '',
-        'Send to' => '',
+        'Recipients' => 'Vastaanottajat',
+        'Send to' => 'Lähetä',
         'Send to these agents' => '',
         'Send to all group members (agents only)' => '',
         'Send to all role members' => '',
         'Send on out of office' => '',
         'Also send if the user is currently out of office.' => '',
-        'Once per day' => '',
+        'Once per day' => 'Päivittäin',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             '',
         'Notification Methods' => '',
@@ -1588,10 +1588,10 @@ sub Data {
         'Active by default in agent preferences' => '',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             '',
-        'This feature is currently not available.' => '',
+        'This feature is currently not available.' => 'Tämä ominaisuus ei ole tällä hetkellä saatavilla.',
         'No data found' => '',
         'No notification method found.' => '',
-        'Notification Text' => '',
+        'Notification Text' => 'Ilmoitusteksti',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
             '',
         'Remove Notification Language' => '',
@@ -1620,7 +1620,7 @@ sub Data {
         'Ticket dynamic fields internal key values' => '',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
-        'Example notification' => '',
+        'Example notification' => 'Ilmoitusesimerkki',
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => '',
@@ -1638,7 +1638,7 @@ sub Data {
         'If encryption key/certificate is missing' => '',
 
         # Template: AdminOTRSBusinessInstalled
-        'Manage %s' => '',
+        'Manage %s' => 'Hallinnoi %s',
         'Go to the OTRS customer portal' => '',
         'Downgrade to ((OTRS)) Community Edition' => '',
         'Read documentation' => '',
@@ -1917,7 +1917,7 @@ sub Data {
         'The selected required lock does not exist.' => '',
         'Submit Advice Text' => '',
         'Submit Button Text' => '',
-        'Fields' => '',
+        'Fields' => 'Kentät',
         'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
             '',
         'Filter available fields' => '',
@@ -2052,7 +2052,7 @@ sub Data {
         'Add queue' => 'Lisää jono',
         'Add Queue' => 'Lisää jono',
         'Edit Queue' => 'Muokkaa jonoa',
-        'A queue with this name already exists!' => '',
+        'A queue with this name already exists!' => 'Jonon nimi on jo käytössä',
         'Sub-queue of' => 'Alijono jonolle',
         'Unlock timeout' => 'Aika lukituksen poistumiseen',
         '0 = no unlock' => '0 = ei lukituksen poistumista',
@@ -2087,7 +2087,7 @@ sub Data {
         'Queues without auto responses' => '',
         'This filter allow you to show all queues' => '',
         'Show all queues' => '',
-        'Filter for Queues' => '',
+        'Filter for Queues' => 'Suodata jonoja',
         'Filter for Auto Responses' => '',
         'Auto Responses' => 'Autom. vastaukset',
         'Change Auto Response Relations for Queue' => '',
@@ -2447,7 +2447,7 @@ sub Data {
             '',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
             '',
-        'Start date' => '',
+        'Start date' => 'Aloituspäivämäärä',
         'Stop date' => '',
         'Delete System Maintenance' => '',
         'Do you really want to delete this scheduled system maintenance?' =>
@@ -2564,7 +2564,7 @@ sub Data {
         'in' => ':',
 
         # Template: AgentDashboardCommon
-        'Save settings' => '',
+        'Save settings' => 'Tallenna asetukset',
         'Close this widget' => '',
         'Available Columns' => '',
         'Visible Columns (order by drag & drop)' => '',
@@ -2813,7 +2813,7 @@ sub Data {
         'Select all' => 'Valitse kaikki',
         'No ticket data found.' => 'Tikettejä ei löytynyt.',
         'Open / Close ticket action menu' => '',
-        'Select this ticket' => '',
+        'Select this ticket' => 'Valitse tämä tiketti',
         'First Response Time' => 'Ensimmäinen vastausaika',
         'Update Time' => 'Päivitysaika',
         'Solution Time' => 'Ratkaisuaika',
@@ -2830,8 +2830,8 @@ sub Data {
         'Column Filters Form' => '',
 
         # Template: AgentTicketPhone
-        'Split Into New Phone Ticket' => '',
-        'Save Chat Into New Phone Ticket' => '',
+        'Split Into New Phone Ticket' => 'Jaa uuteen puhelintikettiin',
+        'Save Chat Into New Phone Ticket' => 'Tallenna keskustelu uutena puhelintikettinä',
         'Create New Phone Ticket' => 'Lisää uusi puhelintiketti',
         'Please include at least one customer for the ticket.' => 'Valitse ainakin yksi asiakas tiketille',
         'To queue' => 'Jonoon',
@@ -3100,8 +3100,8 @@ sub Data {
         'Fr' => 'Pe',
         'Sa' => 'La',
         'Event Information' => '',
-        'Ticket fields' => '',
-        'Dynamic fields' => '',
+        'Ticket fields' => 'Tiketin kentät',
+        'Dynamic fields' => 'Dynaamiset kentät',
 
         # Template: Datepicker
         'Invalid date (need a future date)!' => 'Virheellinen päiväys (päiväys oltava tulevaisuudessa)!',
@@ -3438,7 +3438,7 @@ sub Data {
         'New email ticket' => 'Uusi sähköpostitiketti',
 
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
-        'Fields configuration is not valid' => '',
+        'Fields configuration is not valid' => 'Kenttien konfiguraatio on virheellinen',
         'Objects configuration is not valid' => '',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
             '',
@@ -3470,8 +3470,8 @@ sub Data {
         'Select at least one recipient.' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericAgent.pm
-        'archive tickets' => '',
-        'restore tickets from archive' => '',
+        'archive tickets' => 'arkistoi tiketit',
+        'restore tickets from archive' => 'palauta tiketit arkistosta',
         'Need Profile!' => '',
         'Got no values to check.' => '',
         'Please remove the following words because they cannot be used for the ticket selection:' =>
@@ -3776,7 +3776,7 @@ sub Data {
         'Run: Get no %s!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
-        'No TicketID is given!' => '',
+        'No TicketID is given!' => 'TicketID:tä ei ole annettu!',
         'You need %s permissions!' => '',
         'Could not perform validation on field %s!' => '',
         'No subject' => '',
@@ -3826,7 +3826,7 @@ sub Data {
         'Change the owner!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketMerge.pm
-        'Can\'t merge ticket with itself!' => '',
+        'Can\'t merge ticket with itself!' => 'Tikettiä ei voida yhdistää itsensä kanssa!',
 
         # Perl Module: Kernel/Modules/AgentTicketMove.pm
         'You need move permissions!' => '',
@@ -3843,9 +3843,9 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Modules/AgentTicketPrint.pm
-        'Need TicketID!' => '',
+        'Need TicketID!' => 'Tarvitaan TicketID!',
         'printed by' => 'tulostaja: ',
-        'Ticket Dynamic Fields' => '',
+        'Ticket Dynamic Fields' => 'Tiketin dynaamiset kentät',
 
         # Perl Module: Kernel/Modules/AgentTicketProcess.pm
         'Couldn\'t get ActivityDialogEntityID "%s"!' => '',
@@ -3919,11 +3919,11 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
         'Link Deleted' => '',
-        'Ticket Locked' => '',
+        'Ticket Locked' => 'Tiketti lukittu',
         'Pending Time Set' => '',
         'Dynamic Field Updated' => '',
         'Outgoing Email (internal)' => '',
-        'Ticket Created' => '',
+        'Ticket Created' => 'Tiketti luotu',
         'Type Updated' => '',
         'Escalation Update Time In Effect' => '',
         'Escalation Update Time Stopped' => '',
@@ -3940,10 +3940,10 @@ sub Data {
         'Incoming Customer Email' => '',
         'Incoming Web Request' => '',
         'Priority Updated' => '',
-        'Ticket Unlocked' => '',
+        'Ticket Unlocked' => 'Tiketti avattu',
         'Outgoing Email' => '',
         'Title Updated' => '',
-        'Ticket Merged' => '',
+        'Ticket Merged' => 'Tiketti yhdistetty',
         'Outgoing Phone Call' => '',
         'Forwarded Message' => '',
         'Removed User Subscription' => '',
@@ -3999,7 +3999,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/CustomerTicketZoom.pm
         'Can\'t reopen ticket, not possible in this queue!' => '',
-        'Create a new ticket!' => '',
+        'Create a new ticket!' => 'Luo uusi tiketti!',
 
         # Perl Module: Kernel/Modules/Installer.pm
         'SecureMode active!' => '',
@@ -4381,8 +4381,8 @@ sub Data {
         'GenericInterface Webservices' => '',
         'Process Tickets' => '',
         'Months Between First And Last Ticket' => '',
-        'Tickets Per Month (avg)' => '',
-        'Open Tickets' => '',
+        'Tickets Per Month (avg)' => 'Tikettejä kuukaudessa (keskimäärin)',
+        'Open Tickets' => 'Avoimet tiketit',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
         'Default SOAP Username And Password' => '',
@@ -4569,7 +4569,7 @@ sub Data {
         'All \'pending auto *\' state types (default: viewable).' => '',
         'All \'removed\' state types (default: not viewable).' => '',
         'State type for merged tickets (default: not viewable).' => '',
-        'New ticket created by customer.' => '',
+        'New ticket created by customer.' => 'Asiakkaan luoma uusi tiketti.',
         'Ticket is closed successful.' => '',
         'Ticket is closed unsuccessful.' => '',
         'Open tickets.' => '',
@@ -4586,7 +4586,7 @@ sub Data {
             '',
         'Follow-ups for closed tickets are not possible. No new ticket will be created.' =>
             '',
-        'new ticket' => '',
+        'new ticket' => 'uusi tiketti',
         'Follow-ups for closed tickets are not possible. A new ticket will be created.' =>
             '',
         'Postmaster queue.' => '',
@@ -4603,7 +4603,7 @@ sub Data {
             '',
         'Auto remove will be sent out after a customer removed the request.' =>
             '',
-        'default reply (after new ticket has been created)' => '',
+        'default reply (after new ticket has been created)' => 'vakiovastaus (uuden tiketin luomisen jälkeen)',
         'default reject (after follow-up and rejected of a closed ticket)' =>
             '',
         'default follow-up (after a ticket follow-up has been added)' => '',
@@ -4787,6 +4787,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -4942,7 +4945,7 @@ Thanks for your help!
         'Create and manage ticket states.' => 'Luo ja hallinnoi tikettien tiloja.',
         'Create and manage ticket types.' => 'Luo ja hallinnoi tikettien tyyppejä.',
         'Create and manage web services.' => 'Luo ja hallinnoi verkkopalveluita.',
-        'Create new Ticket.' => '',
+        'Create new Ticket.' => 'Luo uusi tiketti.',
         'Create new email ticket and send this out (outbound).' => '',
         'Create new email ticket.' => '',
         'Create new phone ticket (inbound).' => '',
@@ -5947,7 +5950,7 @@ Thanks for your help!
         'Gives end users the possibility to override the separator character for CSV files, defined in the translation files.' =>
             '',
         'Global Search Module.' => '',
-        'Go back' => '',
+        'Go back' => 'Palaa',
         'Google Authenticator' => '',
         'Graph: Bar Chart' => '',
         'Graph: Line Chart' => '',
@@ -6135,7 +6138,7 @@ Thanks for your help!
         'List of all DynamicField events to be displayed in the GUI.' => '',
         'List of all Package events to be displayed in the GUI.' => '',
         'List of all article events to be displayed in the GUI.' => '',
-        'List of all queue events to be displayed in the GUI.' => '',
+        'List of all queue events to be displayed in the GUI.' => 'Näytä kaikkien jonon tapahtumien lista käyttöliittymässä.',
         'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',

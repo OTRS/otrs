@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.797516523132385;
+    $Self->{Completeness}        = 0.8002002002002;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -540,7 +540,7 @@ sub Data {
         'Service' => 'Servicio',
         'Services' => 'Servicios',
         'State' => 'Estado',
-        'States' => 'Estados',
+        'States' => 'Estado',
         'Status' => 'Estado',
         'Statuses' => 'Estados',
         'Ticket Type' => 'Tipo de Ticket',
@@ -758,7 +758,7 @@ sub Data {
         'Reminder Reached' => 'Recordatorio Alcanzado',
         'Reminder Tickets' => 'Tickets Recordatorio',
         'Escalated Tickets' => 'Tickets Escalados',
-        'New Tickets' => 'Tickets Nuevos ',
+        'New Tickets' => 'Tickets Nuevos',
         'Open Tickets / Need to be answered' => 'Tickets Abiertos / Que necesitan de una respuesta',
         'All open tickets, these tickets have already been worked on, but need a response' =>
             'Todos los Tickets abiertos, ya se ha trabajado en estos tickets, pero necesitan una respuesta',
@@ -810,9 +810,9 @@ sub Data {
         'No data found.' => 'No se encontró ningún dato.',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => 'Editar la ACL %s',
+        'Edit ACL %s' => 'Editar ACL %s',
         'Go to overview' => 'Ir a la vista general',
-        'Delete ACL' => 'Borrar la ACL',
+        'Delete ACL' => 'Borrar ACL',
         'Delete Invalid ACL' => 'Borrar ACL no válida',
         'Match settings' => 'Ajustes de la coincidencia',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
@@ -842,14 +842,14 @@ sub Data {
             'Crear una nueva ACL enviando los datos del formulario. Tras crear la ACL, podrá añadir elementos de configuración en el modo de edición.',
 
         # Template: AdminAttachment
-        'Attachment Management' => 'Gestión de adjuntos',
+        'Attachment Management' => 'Gestión de archivo adjunto',
         'Add attachment' => 'Añadir anexo',
         'List' => 'Lista',
         'Download file' => 'Descargar el archivo',
-        'Delete this attachment' => 'Borrar este adjunto',
+        'Delete this attachment' => 'Borrar este archivo adjunto',
         'Do you really want to delete this attachment?' => '¿Realmente desea eliminar este archivo adjunto?',
-        'Add Attachment' => 'Añadir un adjunto',
-        'Edit Attachment' => 'Editar adjunto',
+        'Add Attachment' => 'Añadir archivo adjunto',
+        'Edit Attachment' => 'Editar Archivo adjunto',
 
         # Template: AdminAutoResponse
         'Auto Response Management' => 'Gestión de respuestas automáticas',
@@ -911,8 +911,8 @@ sub Data {
         'Wildcards like \'*\' are allowed.' => 'Se permiten caracteres comodín como \'*\'.',
         'Add customer' => 'Añadir un cliente',
         'Select' => 'Seleccionar',
-        'List (only %s shown - more available)' => 'Listar (solo %s se muestra - más disponibles)',
-        'List (%s total)' => 'Listar (%s total)',
+        'List (only %s shown - more available)' => 'Lista (solo %s se muestra - más disponibles)',
+        'List (%s total)' => 'Lista (%s total)',
         'Please enter a search term to look for customers.' => 'Introduzca un término de búsqueda para buscar clientes.',
         'Add Customer' => 'Añadir un cliente',
 
@@ -1186,7 +1186,7 @@ sub Data {
         'New Dynamic Field Values' => 'Nuevos valores de campo dinámico',
         'Archive selected tickets' => 'Archivar los tickets seleccionados',
         'Add Note' => 'Añadir una nota',
-        'This field must have less then 200 characters.' => '',
+        'This field must have less then 200 characters.' => 'Este campo debe tener menos de 200 caracteres',
         'Time units' => 'Unidades de tiempo',
         'Execute Ticket Commands' => 'Ejecutar Comandos del Ticket',
         'Send agent/customer notifications on changes' => 'Enviar notificaciones al agente/cliente cuando haya cambios',
@@ -1546,7 +1546,7 @@ sub Data {
         'Ticket Notification Management' => 'Gestión Notificación de Ticket',
         'Add notification' => 'Agregar notificación',
         'Export Notifications' => 'Exportar Notificaciones',
-        'Configuration Import' => 'Configuración Importaciones',
+        'Configuration Import' => 'Importar configuración',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             'Aquí puede cargar un archivo de configuración para importar Notificaciones de Ticket a su sistema. El archivo debe estar en formato .yml como exportados por el módulo de Notificación de Ticket.',
         'Overwrite existing notifications?' => 'Sobrescribir notificaciones existentes?',
@@ -1575,7 +1575,7 @@ sub Data {
         'Recipients' => 'Destinatarios',
         'Send to' => 'Enviar a',
         'Send to these agents' => 'Enviar a estos agentes',
-        'Send to all group members (agents only)' => '',
+        'Send to all group members (agents only)' => 'Enviar a todos los miembros de grupo (solo agentes)',
         'Send to all role members' => 'Enviar a todos los miembros del rol',
         'Send on out of office' => 'Enviar fuera de la oficina',
         'Also send if the user is currently out of office.' => 'También enviar si el usuario está actualmente fuera de la oficina.',
@@ -1600,7 +1600,7 @@ sub Data {
         'Remove Notification Language' => 'Quitar el Idioma de la Notificación',
         'Message body' => 'Cuerpo del Mensaje',
         'This field is required and must have less than 4000 characters.' =>
-            '',
+            'Este campo es requerido y debe tener menos de 4000 caracteres.',
         'Add new notification language' => 'Agregar un nuevo idioma de notificación',
         'Do you really want to delete this notification language?' => '¿Realmente desear eliminar este idioma de notificación?',
         'Tag Reference' => 'Etiqueta de Referencia',
@@ -1748,19 +1748,19 @@ sub Data {
         'Reinstall package' => 'Reinstalar paquete',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             '¿Realmente desea reinstalar este paquete? Se perderá cualquier cambio manual.',
-        'Go to updating instructions' => '',
+        'Go to updating instructions' => 'Ir a instrucciones de actualización',
         'package information' => 'información del paquete',
         'Package installation requires a patch level update of OTRS.' => 'Instalación del paquete requiere un parche de actualización de OTRS. ',
         'Package update requires a patch level update of OTRS.' => 'La actualización del paquete requiere un parche de actualización de OTRS.',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
-            '',
+            'Sí eres el cliente de OTRS Business Solution™, favor visite nuestro portal de clientes y deje su solicitud.',
         'Please note that your installed OTRS version is %s.' => '',
         'To install this package, you need to update OTRS to version %s or newer.' =>
-            '',
+            'Para instalar este paquete necesita actualizar OTRS a la versión %s o posterior',
         'This package can only be installed on OTRS version %s or older.' =>
-            '',
+            'Este paquete sólo puede ser instalado en la versión %s o más antigua del OTRS',
         'This package can only be installed on OTRS version %s or newer.' =>
-            '',
+            'Este paquete sólo puede ser instalado en la versión %s o más nueva del OTRS',
         'You will receive updates for all other relevant OTRS issues.' =>
             '',
         'How can I do a patch level update if I don’t have a contract?' =>
@@ -2488,8 +2488,8 @@ sub Data {
         # Template: AdminTemplateAttachment
         'Manage Templates <-> Attachments Relations' => 'Gestionar Relación Plantillas <-> Archivos adjuntos',
         'Filter for Attachments' => 'Filtro para Archivos adjuntos',
-        'Change Template Relations for Attachment' => 'Cambiar las relaciones de Plantillas del Adunto',
-        'Change Attachment Relations for Template' => 'Cambiar las relaciones de Adjuntos de la Plantilla',
+        'Change Template Relations for Attachment' => 'Cambiar las relaciones de Plantilla para Archivos adjuntos',
+        'Change Attachment Relations for Template' => 'Cambiar las relaciones de Archivos adjuntos para Plantilla',
         'Toggle active for all' => 'Alternar a activo para todos',
         'Link %s to selected %s' => 'Enlaza %s al %s seleccionado',
 
@@ -2554,7 +2554,7 @@ sub Data {
             'Un Daemon funcionando de OTRS es obligatorio para su correcta operación.',
         'Starting the OTRS Daemon' => 'Iniciando el Daemon de OTRS',
         'Make sure that the file \'%s\' exists (without .dist extension). This cron job will check every 5 minutes if the OTRS Daemon is running and start it if needed.' =>
-            'Asegúrese de que el archivo \'%s\' existe (sin la extensión .dist). Este trabajo programado verificará cada 5 minutos si el Daemon de OTRS está corriendo y lo iniciará de ser necesario.',
+            'Asegúrese de que el archivo \'%s\' existe (sin la extensión .dist). Este trabajo programado verificará cada 5 minutos si OTRS Daemon se esta ejecutando y se iniciará de ser necesario.',
         'Execute \'%s start\' to make sure the cron jobs of the \'otrs\' user are active.' =>
             'Ejecute \'%s start\' para asegurarse de que el trabajo programado del usuario \'otrs\' está activo.',
         'After 5 minutes, check that the OTRS Daemon is running in the system (\'bin/otrs.Daemon.pl status\').' =>
@@ -2732,7 +2732,7 @@ sub Data {
         'Text will also be received by' => 'El texto también será recibido también por',
         'Spell check' => 'Verificar la ortografía',
         'Text Template' => 'Plantilla de texto',
-        'Setting a template will overwrite any text or attachment.' => 'Establecer una plantilla sobreescribirá cualquier texto o adjunto.',
+        'Setting a template will overwrite any text or attachment.' => 'Establecer una plantilla sobrescribirá cualquier texto o archivo adjunto.',
         'Note type' => 'Tipo de nota',
 
         # Template: AgentTicketBounce
@@ -2837,7 +2837,7 @@ sub Data {
         'Save Chat Into New Phone Ticket' => 'Guardar Chat En Nuevo Ticket Telefónico',
         'Create New Phone Ticket' => 'Crear un nuevo ticket telefónico',
         'Please include at least one customer for the ticket.' => 'Incluya al menos un cliente para el ticket',
-        'To queue' => 'A la cola',
+        'To queue' => 'En la cola',
         'Chat protocol' => 'Protocolo chat',
         'The chat will be appended as a separate article.' => 'El chat se agregará como un artículo separado.',
 
@@ -2870,9 +2870,9 @@ sub Data {
         'Remove' => 'Eliminar',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Busca en los atributos De, Para, Cc, Asunto y el cuerpo del artículo, ignorando otros atributos con el mismo nombre.',
-        'CustomerID (complex search)' => 'Identificación del cliente (búsqueda compleja)',
+        'CustomerID (complex search)' => 'ID del cliente (búsqueda compleja)',
         '(e. g. 234*)' => '(por ejemplo 234*)',
-        'CustomerID (exact match)' => 'Identificación del cliente (coincidencia exacta)',
+        'CustomerID (exact match)' => 'ID del cliente (coincidencia exacta)',
         'Customer User Login (complex search)' => 'Login de usuario Cliente (busqueda compleja)',
         '(e. g. U51*)' => '(por ejemplo U51*)',
         'Customer User Login (exact match)' => 'Login de usuario Cliente (coincidencia exacta)',
@@ -3696,7 +3696,7 @@ sub Data {
         'Development' => 'Desarrollo',
 
         # Perl Module: Kernel/Modules/AdminRoleUser.pm
-        'Role' => '',
+        'Role' => 'Rol',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -3764,7 +3764,7 @@ sub Data {
         'The object %s cannot link with other object!' => 'El objeto %s no puede vincularse con otro objeto!',
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
-        'Param Group is required!' => 'Se requiere Grupo de parámetros!',
+        'Param Group is required!' => '¡Se requiere Grupo de parámetros!',
 
         # Perl Module: Kernel/Modules/AgentStatistics.pm
         'Parameter %s is missing.' => 'Falta el parámetro %s',
@@ -3926,7 +3926,7 @@ sub Data {
         'Pending Time Set' => 'Establecer el Tiempo Pendiente',
         'Dynamic Field Updated' => 'Campo dinámico actualizado',
         'Outgoing Email (internal)' => 'Correo Saliente (Interno)',
-        'Ticket Created' => 'Ticket Creado',
+        'Ticket Created' => 'Ticket creado',
         'Type Updated' => 'Tipo Actualizado',
         'Escalation Update Time In Effect' => 'Tiempo de Actualización en Escalada en Efecto',
         'Escalation Update Time Stopped' => 'Tiempo de Actualización en Escalada Parado',
@@ -3935,7 +3935,7 @@ sub Data {
         'Internal Chat' => 'Chat interno',
         'Automatic Follow-Up Sent' => 'Seguimiento Automático Enviado',
         'Note Added' => 'Nota añadida',
-        'Note Added (Customer)' => 'Nota añadida (cliente)',
+        'Note Added (Customer)' => 'Nota añadida (Cliente)',
         'State Updated' => 'Estado actualizado',
         'Outgoing Answer' => 'Respuesta Saliente',
         'Service Updated' => 'Servicio actualizado',
@@ -3992,7 +3992,7 @@ sub Data {
         'Check SysConfig setting for %s::TicketTypeDefault.' => 'Revise los ajustes de la Configuración del Sistema para %s::TipodeTicketPredeterminado.',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
-        'Need CustomerID!' => '¡Se necesita la Identificación del cliente!',
+        'Need CustomerID!' => '¡Se necesita la ID del cliente!',
         'My Tickets' => 'Mis Tickets',
         'Company Tickets' => 'Tickets de Empresa',
 
@@ -4528,7 +4528,7 @@ sub Data {
         'Problem' => 'Problema',
 
         # Perl Module: Kernel/System/Ticket.pm
-        'Reset of unlock time.' => 'Reajuste del tiempo desbloqueado.',
+        'Reset of unlock time.' => 'Reajuste del tiempo de desbloqueo.',
 
         # Perl Module: Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
         'PGP sign only' => 'Solo Firma PGP',
@@ -4630,7 +4630,7 @@ sub Data {
             'Recibirá una notificación tan pronto como un ticket del cual seas propietario sea automáticamente desbloqueado.',
         'Ticket owner update notification' => 'Notificación de actualización de propietario de Ticket',
         'Ticket responsible update notification' => 'Notificación de actualización de responsable de Ticket',
-        'Ticket new note notification' => 'Notificación de nueva nota de ticket',
+        'Ticket new note notification' => 'Notificación de nueva nota en ticket',
         'Ticket queue update notification' => 'Notificación de actualización de cola de Ticket',
         'You will receive a notification if a ticket is moved into one of your "My Queues".' =>
             'Recibirá una notificación si un ticket es movido a "Mis colas".',
@@ -4808,6 +4808,9 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             'Permite las condiciones de una búsqueda extendida en la búsqueda del ticket del interfaz del cliente. Con éste función puede buscar por ejemplo, el ticket con tal tipo de condiciones como "(*key1*&&*key2*)" ó "(*key1*||*key2*)".',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'Permite las condiciones de una búsqueda extendida en la búsqueda del ticket del interfaz del agente genérico. Con éste función puede buscar por ejemplo, el ticket con tal tipo de condiciones como "(*key1*&&*key2*)" ó "(*key1*||*key2*)".',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Permite tener un formato medio de la vista general de ticket (InfoCliente => 1 - muestra también la información de cliente).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -4946,7 +4949,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Create Ticket' => '',
         'Create and manage Service Level Agreements (SLAs).' => 'Crea y gestiona Acuerdos de Nivel de Servicio (SLAs).',
         'Create and manage agents.' => 'Crea y gestiona agentes.',
-        'Create and manage attachments.' => 'Crea y gestiona Archivos adjuntos.',
+        'Create and manage attachments.' => 'Crear y gestionar archivos adjuntos.',
         'Create and manage customer users.' => 'Crea y gestiona usuarios clientes.',
         'Create and manage customers.' => 'Crea y gestiona clientes.',
         'Create and manage dynamic fields.' => 'Crea y gestiona campos dinámicos.',
@@ -5936,7 +5939,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
-        'Frontend module registration for the public interface.' => '',
+        'Frontend module registration for the public interface.' => 'Registro de módulo "Frontend" en la interfaz pública.',
         'Frontend theme' => 'Tema de la interfaz',
         'Frontend theme.' => '',
         'Full value' => 'Valor completo',
@@ -6170,7 +6173,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Locked Tickets.' => 'Tickets bloqueados.',
         'Locked ticket.' => 'Ticket bloqueado.',
         'Log file for the ticket counter.' => 'Archivo de registro para el contador de tickets.',
-        'Logged-In Users' => '',
+        'Logged-In Users' => 'Usuarios conectados',
         'Logout of customer panel.' => 'Salir del panel de cliente.',
         'Loop-Protection! No auto-response sent to "%s".' => '¡Protección contra bucles! No se envió respuesta automática a «%s».',
         'Mail Accounts' => 'Cuentas de Correo',
@@ -6216,7 +6219,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
         'Merge this ticket and all articles into another ticket' => '',
-        'Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>.' => 'Combinar Ticket  <OTRS_TICKET> con <OTRS_MERGE_TO_TICKET>.',
+        'Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>.' => 'Fusionar Ticket  <OTRS_TICKET> con <OTRS_MERGE_TO_TICKET>.',
         'Miscellaneous' => 'Misceláneo',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
@@ -6251,7 +6254,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Module to grant access to the agent responsible of a ticket.' =>
             '',
-        'Module to grant access to the creator of a ticket.' => '',
+        'Module to grant access to the creator of a ticket.' => 'Módulo para otorgar acceso al creador de un ticket.',
         'Module to grant access to the owner of a ticket.' => 'Módulo para otorgar acceso al propietario de un ticket.',
         'Module to grant access to the watcher agents of a ticket.' => 'Módulo para otorgar acceso a los agentes observadores de un ticket.',
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' =>
@@ -6304,7 +6307,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Overview Escalated Tickets.' => '',
         'Overview Refresh Time' => 'Tiempo de actualización de la vista general',
-        'Overview of all escalated tickets.' => '',
+        'Overview of all escalated tickets.' => 'Vista general de todos los tickets escalados.',
         'Overview of all open Tickets.' => 'Vista general de todos los Tickets abiertos.',
         'Overview of all open tickets.' => 'Vista general de todos los tickets abiertos.',
         'Overview of customer tickets.' => 'Visión general de los tickets del cliente.',
@@ -6445,7 +6448,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Roles <-> Groups' => 'Roles <-> Grupos',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '',
-        'Running Process Tickets' => 'Corriendo Tickets de Proceso',
+        'Running Process Tickets' => 'Tickets de Proceso en ejecución',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
             '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
@@ -6472,7 +6475,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Select how many tickets should be shown in overviews by default.' =>
             '',
-        'Select the main interface language.' => '',
+        'Select the main interface language.' => 'Selecciona el idioma principal de la interfaz.',
         'Select your default spelling dictionary.' => '',
         'Select your preferred layout for OTRS.' => '',
         'Select your preferred theme for OTRS.' => 'Seleccione su tema preferido para OTRS.',
@@ -6494,7 +6497,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Sends reminder notifications of unlocked ticket after reaching the reminder date (only sent to ticket owner).' =>
             '',
         'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
-            '',
+            'Envía las notificaciones que está configuradas en la interfaz de administración en "Notificaciones de ticket"',
         'Serbian Cyrillic' => 'Serbio Cirílico',
         'Serbian Latin' => 'Serbio (Latino)',
         'Service view' => 'Vista de servicio',

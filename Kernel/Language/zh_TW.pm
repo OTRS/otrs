@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.470258361706389;
+    $Self->{Completeness}        = 0.472272272272272;
 
     # csv separator
     $Self->{Separator} = '';
@@ -244,7 +244,7 @@ sub Data {
             '這個e-mail已存在，請登入系統或更改您的密碼。',
         'Logout' => '退出',
         'Logout successful. Thank you for using %s!' => '成功登出，感謝您使用 %s!',
-        'Feature not active!' => '該功能尚未激活!',
+        'Feature not active!' => '該功能尚未啟用！',
         'Agent updated!' => '服務人員已更新！',
         'Database Selection' => '數據庫選擇',
         'Create Database' => '創建數據庫',
@@ -531,7 +531,7 @@ sub Data {
         'Priority updated!' => '優先級已更新!',
         'Signature added!' => '簽名已添加!',
         'Signature updated!' => '簽名已更新!',
-        'SLA' => 'SLA',
+        'SLA' => '服務級別協議',
         'Service Level Agreement' => '服務水平協議',
         'Service Level Agreements' => '服務水平協議',
         'Service' => '服務',
@@ -844,7 +844,7 @@ sub Data {
         'List' => '列表',
         'Download file' => '下載文件',
         'Delete this attachment' => '刪除附件',
-        'Do you really want to delete this attachment?' => '',
+        'Do you really want to delete this attachment?' => '您確定要刪除此附件？',
         'Add Attachment' => '添加附件',
         'Edit Attachment' => '編輯附件',
 
@@ -972,7 +972,7 @@ sub Data {
         'Allocate Services to Customer' => '為此用戶選擇服務',
         'Allocate Customers to Service' => '選擇使用此服務的用戶',
         'Toggle active state for all' => '切換激活狀態給全部',
-        'Active' => '激活',
+        'Active' => '啟用',
         'Toggle active state for %s' => '切換激活狀態給%s',
 
         # Template: AdminDynamicField
@@ -1023,7 +1023,7 @@ sub Data {
             '用“此刻”的時差(秒)計算默認值(例如，3600或-60)',
         'Define years period' => '定義年期',
         'Activate this feature to define a fixed range of years (in the future and in the past) to be displayed on the year part of the field.' =>
-            '激活此選項來定義固定的年份範圍(過去的和未來的), 用於顯示在此字段的年份中.',
+            '啟用此選項來定義固定的年份範圍 (過去和未來), 用於顯示在此字段的年份中.',
         'Years in the past' => '過去的幾年',
         'Years in the past to display (default: 5 years).' => '顯示過去的幾年 (默認: 5年)',
         'Years in the future' => '未來的幾年',
@@ -2565,7 +2565,7 @@ sub Data {
 
         # Template: AgentDashboardCommon
         'Save settings' => '保存設置',
-        'Close this widget' => '',
+        'Close this widget' => '關閉此工具',
         'Available Columns' => '可選擇的字段',
         'Visible Columns (order by drag & drop)' => '顯示的字段(通過拖拽可調整順序)',
 
@@ -3753,7 +3753,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => '',
-        'Please contact the administrator.' => '',
+        'Please contact the administrator.' => '請聯繫系統管理員',
         'You need ro permission!' => '您需要唯讀權限!',
         'Can not delete link with %s!' => '',
         'Can not create link with %s! Object already linked as %s.' => '',
@@ -3906,7 +3906,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Untitled' => '',
-        'Customer Name' => '',
+        'Customer Name' => '客戶名稱',
         'Invalid Users' => '無效的用戶',
         'CSV' => '',
         'Excel' => '',
@@ -3915,7 +3915,7 @@ sub Data {
         'Feature not enabled!' => '沒有啓用功能!',
 
         # Perl Module: Kernel/Modules/AgentTicketWatcher.pm
-        'Feature is not active' => '功能沒有激活',
+        'Feature is not active' => '功能尚未啟用',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
         'Link Deleted' => '已刪除的連結',
@@ -4296,7 +4296,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
-        'Default Storage Engine' => '',
+        'Default Storage Engine' => ' ',
         'Table Storage Engine' => '',
         'Tables with a different storage engine than the default engine were found.' =>
             '',
@@ -4787,6 +4787,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -5915,7 +5918,7 @@ Thanks for your help!
             '',
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
-        'Frontend module registration for the public interface.' => '',
+        'Frontend module registration for the public interface.' => '公開介面的前台模組登記',
         'Frontend theme' => '介面風格',
         'Frontend theme.' => '',
         'Full value' => '',
@@ -6073,7 +6076,7 @@ Thanks for your help!
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
         'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
-            '',
+            '如果您要離開辦公室，可以設定此選項來告知其他用戶。',
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Include tickets of subqueues per default when selecting a queue.' =>
@@ -6149,7 +6152,7 @@ Thanks for your help!
         'Locked Tickets.' => '',
         'Locked ticket.' => 'Locked ticket.',
         'Log file for the ticket counter.' => '',
-        'Logged-In Users' => '',
+        'Logged-In Users' => '已登入的用戶',
         'Logout of customer panel.' => '',
         'Loop-Protection! No auto-response sent to "%s".' => 'Loop-Protection! No auto-response sent to "%s".',
         'Mail Accounts' => '郵件帳號',
@@ -6278,7 +6281,7 @@ Thanks for your help!
             '',
         'Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
             '',
-        'Out Of Office' => '',
+        'Out Of Office' => '不在辦公室的用戶列表',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets.' => '',
@@ -6424,7 +6427,7 @@ Thanks for your help!
         'Roles <-> Groups' => '角色 <-> 組',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '',
-        'Running Process Tickets' => '',
+        'Running Process Tickets' => '時間緊迫的工單',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
             '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
@@ -6479,7 +6482,7 @@ Thanks for your help!
         'Service view' => '',
         'ServiceView' => '',
         'Set a new password by filling in your current password and a new one.' =>
-            '',
+            '輸入目前密碼來變更密碼',
         'Set sender email addresses for this system.' => '為系統設置發件人的郵件地址.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
@@ -6882,7 +6885,7 @@ Thanks for your help!
         'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
             '',
         'Simple' => '簡易',
-        'Skin' => '皮膚',
+        'Skin' => '主題',
         'Slovak' => '',
         'Slovenian' => '',
         'Software Package Manager.' => '',

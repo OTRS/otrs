@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y - %T';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.316042459443221;
+    $Self->{Completeness}        = 0.316316316316316;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -806,9 +806,9 @@ sub Data {
         'No data found.' => 'Няма намерена информация',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => 'Промени ACL %s',
+        'Edit ACL %s' => 'Редактиране ACL %s',
         'Go to overview' => 'Отидете на преглед',
-        'Delete ACL' => 'Изтрии ACL',
+        'Delete ACL' => 'Изтрий ACL',
         'Delete Invalid ACL' => 'Изтриване на невалиден ACL',
         'Match settings' => 'Настройки на съвпадението',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
@@ -1860,7 +1860,7 @@ sub Data {
         'Deploy All Processes' => '',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
-        'Overwrite existing entities' => '',
+        'Overwrite existing entities' => 'Презаписване съществуващите субекти',
         'Upload process configuration' => '',
         'Import process configuration' => '',
         'Ready-to-run Processes' => '',
@@ -4786,6 +4786,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -5946,7 +5949,7 @@ Thanks for your help!
         'Gives end users the possibility to override the separator character for CSV files, defined in the translation files.' =>
             '',
         'Global Search Module.' => '',
-        'Go back' => '',
+        'Go back' => 'Назад',
         'Google Authenticator' => '',
         'Graph: Bar Chart' => '',
         'Graph: Line Chart' => '',

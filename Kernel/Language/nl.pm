@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.640096134588424;
+    $Self->{Completeness}        = 0.652052052052052;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -246,7 +246,7 @@ sub Data {
             'Inloggen is geslaagd, maar er is geen klantenrecord gevonden in het klantenbeheer. Gelieve uw beheerder te contacteren.',
         'This e-mail address already exists. Please log in or reset your password.' =>
             'Dit e-mail adres bestaat reeds. Gelieve in te loggen of uw wachtwoord te resetten.',
-        'Logout' => 'Uitloggen',
+        'Logout' => 'Afmelden',
         'Logout successful. Thank you for using %s!' => 'U bent afgemeld. Bedankt voor het gebruiken van %s.',
         'Feature not active!' => 'Deze functie is niet actief.',
         'Agent updated!' => 'Behandelaar aangepast.',
@@ -313,8 +313,8 @@ sub Data {
         'Type added!' => 'Type toegevoegd.',
         'Type updated!' => 'Type bijgewerkt',
         'Customer updated!' => 'Klant aangepast.',
-        'Customer company added!' => 'Bedrijf toegevoegd.',
-        'Customer company updated!' => 'Bedrijf bijgewerkt.',
+        'Customer company added!' => 'Bedrijf toegevoegd!',
+        'Customer company updated!' => 'Bedrijf bijgewerkt!',
         'Note: Company is invalid!' => 'Let op: bedrijf is ongeldig!',
         'Mail account added!' => 'E-mailaccount toegevoegd.',
         'Mail account updated!' => 'E-mailaccount bijgewerkt.',
@@ -541,7 +541,7 @@ sub Data {
         'Service' => 'Service',
         'Services' => 'Services',
         'State' => 'Status',
-        'States' => 'Statussen',
+        'States' => 'Status',
         'Status' => 'Status',
         'Statuses' => 'Statussen',
         'Ticket Type' => 'Ticket type',
@@ -827,7 +827,7 @@ sub Data {
         'Edit ACL information' => 'Bewerk ACL-informatie',
         'Stop after match' => 'Stop met filters na match',
         'Edit ACL structure' => 'Bewerk ACL-structuur',
-        'Save ACL' => '',
+        'Save ACL' => 'ACL Opslaan',
         'Save' => 'Opslaan',
         'or' => 'of',
         'Save and finish' => 'Opslaan en voltooien',
@@ -848,7 +848,7 @@ sub Data {
         'List' => 'Overzicht',
         'Download file' => 'Download bijlage',
         'Delete this attachment' => 'Verwijder bijlage',
-        'Do you really want to delete this attachment?' => '',
+        'Do you really want to delete this attachment?' => 'Ben je zeker dat je deze bijlage wil verwijderen?',
         'Add Attachment' => 'Nieuwe bijlage',
         'Edit Attachment' => 'Bijlage bewerken',
 
@@ -863,7 +863,7 @@ sub Data {
         'You can use the following tags' => 'U kunt de volgende tags gebruiken',
         'To get the first 20 character of the subject.' => 'Voor de eerste 20 tekens van het onderwerp.',
         'To get the first 5 lines of the email.' => 'Voor de eerste vijf regels van het e-mail bericht.',
-        'To get the name of the ticket\'s customer user (if given).' => '',
+        'To get the name of the ticket\'s customer user (if given).' => 'Om de naam van de klant te verkrijgen (indien gegeven)',
         'To get the article attribute' => 'Voor de attributen van de interactie',
         ' e. g.' => ' bijv.',
         'Options of the current customer user data' => 'Attributen van de huidige klant',
@@ -908,12 +908,12 @@ sub Data {
         'Upgrade to %s' => 'Upgrade naar %s',
 
         # Template: AdminCustomerCompany
-        'Customer Management' => 'Beheer klanten',
+        'Customer Management' => 'Beheer bedrijven',
         'Wildcards like \'*\' are allowed.' => 'Wildcards zijn toegestaan.',
         'Add customer' => 'Nieuwe klant',
         'Select' => 'Selecteer',
-        'List (only %s shown - more available)' => '',
-        'List (%s total)' => '',
+        'List (only %s shown - more available)' => 'Lijst (slechts %s getoond - meer beschikbaar)',
+        'List (%s total)' => 'Lijst (%s in totaal)',
         'Please enter a search term to look for customers.' => 'Typ om te zoeken naar klanten.',
         'Add Customer' => 'Klant toevoegen',
 
@@ -938,7 +938,7 @@ sub Data {
         'The syntax of this email address is incorrect.' => 'De syntax van dit e-mailadres klopt niet.',
 
         # Template: AdminCustomerUserGroup
-        'Manage Customer-Group Relations' => 'Beheer Klant - Groep koppelingen',
+        'Manage Customer-Group Relations' => 'Beheer Bedrijf - Groep koppelingen',
         'Notice' => 'Notitie',
         'This feature is disabled!' => 'Deze functie is niet geactiveerd.',
         'Just use this feature if you want to define group permissions for customers.' =>
@@ -950,15 +950,15 @@ sub Data {
             'U kunt deze groepen beheren via de optie "CustomerGroupAlwaysGroups".',
         'Filter for Groups' => 'Filter op groepen',
         'Just start typing to filter...' => 'Start met typen om te filteren',
-        'Select the customer:group permissions.' => 'Selecteer de permissies voor klant:groep.',
+        'Select the customer:group permissions.' => 'Selecteer de permissies voor bedrijf:groep.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Als niets geselecteerd is, zijn er geen permissies in deze groep (de klant zal geen tickets kunnen zien).',
         'Search Results' => 'Zoekresultaat',
-        'Customers' => 'Klanten',
+        'Customers' => 'Bedrijven',
         'No matches found.' => 'Niets gevonden.',
         'Groups' => 'Groepen',
-        'Change Group Relations for Customer' => 'Bewerk gekoppelde groepen voor klant',
-        'Change Customer Relations for Group' => 'Bewerk gekoppelde klanten voor groep',
+        'Change Group Relations for Customer' => 'Bewerk gekoppelde groepen voor deze klant',
+        'Change Customer Relations for Group' => 'Bewerk gekoppelde klanten voor deze groep',
         'Toggle %s Permission for all' => '%s permissies aan/uit',
         'Toggle %s permission for %s' => '%s permissies aan/uit voor %s',
         'Customer Default Groups:' => 'Standaard groepen',
@@ -1544,12 +1544,12 @@ sub Data {
         'Online Admin Manual' => 'Online Admin Handleiding',
 
         # Template: AdminNotificationEvent
-        'Ticket Notification Management' => 'Ticket Melding Management',
+        'Ticket Notification Management' => 'Ticket meldingen beheer',
         'Add notification' => 'Melding toevoegen',
         'Export Notifications' => 'Meldingen exporteren',
         'Configuration Import' => 'Configuratie importeren',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
-            'Hier kun je configuratie bestanden uploaden om Ticket Notifications te importeren. Het bestand moet in .yml format zijn zoals geëxporteerd door de Ticket Notificatie module.',
+            'Hier kunt u configuratie bestanden uploaden om Ticket meldingen te importeren. Het bestand moet in .yml format zijn zoals geëxporteerd door de Ticket meldingen module.',
         'Overwrite existing notifications?' => 'Bestaande meldingen overschrijven?',
         'Upload Notification configuration' => 'Upload meldingconfiguratie',
         'Import Notification configuration' => 'Melding configuratie importeren',
@@ -1583,27 +1583,27 @@ sub Data {
         'Once per day' => 'Eén keer per dag',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             'Verstuur slechts éénmaal per dag over één ticket via de geselecteerde methode',
-        'Notification Methods' => 'Notificatie methoden',
+        'Notification Methods' => 'Meldingsmethoden',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
-            'Dit zijn de mogelijke manieren die kunnen worden gebruikt om notificaties te versturen naar elke ontvanger. Selecteer minimaal één methode.',
-        'Enable this notification method' => 'Zet deze notificatie methode aan',
+            'Dit zijn de mogelijke manieren die kunnen worden gebruikt om meldingen te versturen naar elke ontvanger. Selecteer minimaal één methode.',
+        'Enable this notification method' => 'Zet deze meldingen methode aan',
         'Transport' => 'Transport',
-        'At least one method is needed per notification.' => 'Op zijn minst één methode is vereist per notificatie',
+        'At least one method is needed per notification.' => 'Op zijn minst één methode is vereist per melding.',
         'Active by default in agent preferences' => 'Standaard actief in agent voorkeuren',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
-            'Dit is de standaard waarde voor toegewezen ontvangers die geen keuze hebben gemaakt voor deze notificatie in hun voorkeuren. Als deze waarde is aangevinkt, wordt het bericht naar deze agents gestuurd.',
+            'Dit is de standaard waarde voor toegewezen ontvangers die geen keuze hebben gemaakt voor deze melding in hun voorkeuren. Als deze waarde is aangevinkt, wordt het bericht naar deze behandelaars gestuurd.',
         'This feature is currently not available.' => 'Deze feature is niet beschikbaar op het moment.',
         'No data found' => 'Geen data gevonden',
-        'No notification method found.' => 'Geen notificatie methoden gevonden',
-        'Notification Text' => 'Notificatie Tekst',
+        'No notification method found.' => 'Geen meldingen methoden gevonden',
+        'Notification Text' => 'Meldingstekst',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
-            'Deze taal is niet aanwezig of ingeschakeld in het systeem. Deze notificatie tekst kan verwijderd worden wanneer deze niet meer nodig is.',
-        'Remove Notification Language' => 'Verwijder Notificatie Taal',
+            'Deze taal is niet aanwezig of ingeschakeld in het systeem. Deze meldingstekst kan verwijderd worden wanneer deze niet meer nodig is.',
+        'Remove Notification Language' => 'Verwijder de taal voor de meldingen',
         'Message body' => 'Berichttekst',
         'This field is required and must have less than 4000 characters.' =>
             '',
-        'Add new notification language' => 'Voeg nieuwe notificatie taal toe',
-        'Do you really want to delete this notification language?' => 'Weet uzeker dat udeze notificatietaal wilt verwijderen?',
+        'Add new notification language' => 'Voeg nieuwe taal voor meldingen toe',
+        'Do you really want to delete this notification language?' => 'Weet u zeker dat u de taal van deze melding wilt verwijderen?',
         'Tag Reference' => 'Tag verwijzing',
         'Notifications are sent to an agent or a customer.' => 'Meldingen worden verstuurd naar een behandelaar.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
@@ -1619,12 +1619,12 @@ sub Data {
         'Attributes of the current ticket responsible user data' => 'Eigenschappen van de huidige ticket responsible',
         'Attributes of the current agent user who requested this action' =>
             'Eigenschappen van de agent die deze actie uitvoert',
-        'Attributes of the recipient user for the notification' => 'Eigenschappen van de ontvanger van de notificatie',
+        'Attributes of the recipient user for the notification' => 'Eigenschappen van de ontvanger voor deze melding',
         'Attributes of the ticket data' => 'Eigenschappen van de ticket gegevens',
         'Ticket dynamic fields internal key values' => 'Ticket dynamisch veld voor interne sleutelwaarden',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             'Ticket dynamisch veld weergave waarden, handig voor dropdown en multiselect velden',
-        'Example notification' => 'Voorbeeld notificatie',
+        'Example notification' => 'Voorbeeld van de melding',
 
         # Template: AdminNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Aanvullende ontvanger e-mailadres',
@@ -1632,7 +1632,7 @@ sub Data {
             '',
         'Notification article type' => 'Interactiesoort voor melding',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
-            'Wanneer de notificatie wordt verstuurd naar de klant of een extra email adres, wordt een artikel aangemaakt.',
+            'Wanneer de melding wordt verstuurd naar de klant of een extra e-mail adres, wordt een artikel aangemaakt.',
         'Email template' => 'Email sjabloon',
         'Use this template to generate the complete email (only for HTML emails).' =>
             'Gebruik deze template om de complete mail te genereren (alleen voor HTML email).',
@@ -1643,7 +1643,7 @@ sub Data {
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Beheer %s',
-        'Go to the OTRS customer portal' => '',
+        'Go to the OTRS customer portal' => 'Ga naar het OTRS klantenportaal',
         'Downgrade to ((OTRS)) Community Edition' => '',
         'Read documentation' => 'Lees documentatie',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
@@ -1666,7 +1666,7 @@ sub Data {
         'Package installation requires patch level update of OTRS.' => '',
         'Please visit our customer portal and file a request.' => '',
         'Everything else will be done as part of your contract.' => '',
-        'Your installed OTRS version is %s.' => '',
+        'Your installed OTRS version is %s.' => 'Jouw geÏnstalleerde OTRS-versie is %s.',
         'To install the current version of OTRS Business Solution™, you need to update to OTRS %s or higher.' =>
             '',
         'To install the current version of OTRS Business Solution™, the Maximum OTRS Version is %s.' =>
@@ -2446,7 +2446,7 @@ sub Data {
 
         # Template: AdminSystemMaintenance
         'System Maintenance Management' => 'Systeem onderhoudsbeheer.',
-        'Schedule New System Maintenance' => 'Plan een nieuw systeem onderhouds tijdsvak.',
+        'Schedule New System Maintenance' => 'Plan een nieuw systeem onderhoud.',
         'Schedule a system maintenance period for announcing the Agents and Customers the system is down for a time period.' =>
             'Plan een systeem onderhoudsperiode om aan Agents en Klanten aan te kondigen dat het systeem voor een bepaalde periode down is.',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
@@ -2455,7 +2455,7 @@ sub Data {
         'Stop date' => 'Einddatum',
         'Delete System Maintenance' => 'Verwijder Systeemonderhoudstijdsvak.',
         'Do you really want to delete this scheduled system maintenance?' =>
-            'Weet je zeker dat u dit onderhoudstijdsvak wilt verwijderen?',
+            'Weet je zeker dat u dit systeemonderhoud wilt verwijderen?',
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => 'Bewerk onderhoudsvenster %s',
@@ -2620,7 +2620,7 @@ sub Data {
         'My watched tickets' => 'Mijn gevolgde tickets',
         'My responsibilities' => 'Tickets waarvoor ik verantwoordelijk ben',
         'Tickets in My Queues' => 'Tickets in mijn wachtrijen',
-        'Tickets in My Services' => 'Tickets in Mijn Services',
+        'Tickets in My Services' => 'Tickets in mijn services',
         'Service Time' => 'Service tijd',
         'Remove active filters for this widget.' => 'Verwijder actieve filters voor dit widget.',
 
@@ -2690,7 +2690,7 @@ sub Data {
 
         # Template: AgentStatisticsOverview
         'Statistics » Overview' => 'Rapportages » Overzicht',
-        'Statistics' => 'Rapportages',
+        'Statistics' => 'Statistiek',
         'Run' => 'Voer uit',
         'Edit statistic "%s".' => 'Bewerk rapportage "%s".',
         'Export statistic "%s"' => 'Exporteer rapportage "%s"',
@@ -2877,7 +2877,7 @@ sub Data {
         'Customer User Login (complex search)' => '',
         '(e. g. U51*)' => '',
         'Customer User Login (exact match)' => '',
-        'Attachment Name' => 'Bijlage Naam',
+        'Attachment Name' => 'Bijlage naam',
         '(e. g. m*file or myfi*)' => '(b.v. m*bestand of mijnbe*)',
         'Created in Queue' => 'Aangemaakt in wachtrij',
         'Lock state' => 'Vergrendeling',
@@ -3021,8 +3021,8 @@ sub Data {
         'Your user name' => 'Uw gebruikersnaam',
         'Your password' => 'Uw wachtwoord',
         'Forgot password?' => 'Wachtwoord vergeten?',
-        '2 Factor Token' => '2 factor eken',
-        'Your 2 Factor Token' => 'Jouw 2 factor teken',
+        '2 Factor Token' => '2 stappen code',
+        'Your 2 Factor Token' => 'Uw 2 stappen code',
         'Log In' => 'Inloggen',
         'Not yet registered?' => 'Nog niet geregistreerd?',
         'Request new password' => 'Vraag een nieuw wachtwoord aan',
@@ -3037,7 +3037,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => 'Binnenkomende Chat Verzoeken',
-        'Edit personal preferences' => 'Voorkeuren bewerken',
+        'Edit personal preferences' => 'Eigen voorkeuren bewerken',
         'Logout %s %s' => 'Uitloggen %s %s',
 
         # Template: CustomerRichTextEditor
@@ -3055,7 +3055,7 @@ sub Data {
         # Template: CustomerTicketSearch
         'Profile' => 'Sjabloon',
         'e. g. 10*5155 or 105658*' => 'bijv. 2010*5155 of 20100802*',
-        'Customer ID' => 'Klant ID',
+        'Customer ID' => 'Klantcode',
         'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Zoeken in tekst in tickets (bijv. "Jans*en" of "Print*")',
         'Recipient' => 'Geadresseerde',
         'Carbon Copy' => 'CC',
@@ -3116,7 +3116,7 @@ sub Data {
         # Template: Error
         'An error occurred.' => 'Er is een fout opgetreden',
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
-            'Is dit echt een fout? 5 van de 10 error reports zijn vanwege een kappotte installatie van OTRS',
+            'Is dit echt een fout? 5 van de 10 bugrapporten zijn het gevolg van een verkeerde of onvolledige installatie van OTRS.',
         'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
             '',
         'Contact our service team now.' => '',
@@ -3302,9 +3302,9 @@ sub Data {
 
         # Template: PreferencesNotificationEvent
         'Notification' => 'Melding',
-        'No user configurable notifications found.' => 'Door de eindgebruiker instelbare notificaties gevonden.',
+        'No user configurable notifications found.' => 'Door de eindgebruiker instelbare meldingen gevonden.',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
-            'Ontvang berichten voor notificatie \'%s\' via transport methode \'%s\'.',
+            'Ontvang berichten voor meldingen \'%s\' via transport methode \'%s\'.',
         'Please note that you can\'t completely disable notifications marked as mandatory.' =>
             'Let op dat je verplichte notificaties niet volledig uit kun zetten.',
         'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
@@ -3435,7 +3435,7 @@ sub Data {
         'Negated regular expression (ignore case)' => '',
 
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
-        'Customer Company %s already exists!' => 'Klant Bedrijf %s bestaat al!',
+        'Customer Company %s already exists!' => 'Bedrijf %s bestaat al!',
 
         # Perl Module: Kernel/Modules/AdminCustomerUser.pm
         'New phone ticket' => 'Nieuw telefoon-ticket',
@@ -3541,20 +3541,20 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-        'Notification updated!' => '',
-        'Notification added!' => '',
+        'Notification updated!' => 'Melding bijgewerkt!',
+        'Notification added!' => 'Melding toegevoegd!',
         'There was an error getting data for Notification with ID:%s!' =>
-            '',
-        'Unknown Notification %s!' => '',
-        'There was an error creating the Notification' => '',
+            'Er is een fout opgetreden bij het ophalen van de gegevens met ID:%s!',
+        'Unknown Notification %s!' => 'Onbekende melding %s!',
+        'There was an error creating the Notification' => 'Er is een fout opgetreden bij het genereren van de melding',
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
-            '',
+            'Meldingen konden niet worden geïmporteerd vanwege een onbekende fout. Kijk de OTRS logbestanden na voor meer informatie.',
         'The following Notifications have been added successfully: %s' =>
-            '',
+            'De volgende melding is succesvol toegevoegd: %s',
         'The following Notifications have been updated successfully: %s' =>
-            '',
+            'De volgende melding is succesvol bijgewerkt: %s',
         'There where errors adding/updating the following Notifications: %s. Please check the log file for more information.' =>
-            '',
+            'Er zijn fouten opgetreden bij het toevoegen/aanpassen van de volgende melding: %s. Kijk de OTRS logbestanden na voor meer informatie.',
         'Agent who owns the ticket' => 'Eigenaar van het ticket',
         'Agent who is responsible for the ticket' => 'Verantwoordelijke voor het ticket',
         'All agents watching the ticket' => 'Alle agent die het ticket in de gaten houden',
@@ -3564,7 +3564,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             'Alle agents die zich zowel op de wachtrij, als op de service hebben ingeschreven',
         'Customer of the ticket' => 'Klant van het ticket',
-        'Yes, but require at least one active notification method.' => '',
+        'Yes, but require at least one active notification method.' => 'Ja, maar er is minimaal één actieve melding methode nodig.',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -3694,10 +3694,10 @@ sub Data {
         'Production' => 'Produktie',
         'Test' => '',
         'Training' => 'Training',
-        'Development' => '',
+        'Development' => 'Ontwikkeling',
 
         # Perl Module: Kernel/Modules/AdminRoleUser.pm
-        'Role' => '',
+        'Role' => 'Rol',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -3708,19 +3708,19 @@ sub Data {
         'CAFingerprint must be different than CertFingerprint' => 'CAFingerbrint moet anders zijn dan CertFingerprint',
         'Relation exists!' => 'Relatie bestaat al!',
         'Relation added!' => 'Relatie toegevoegd!',
-        'Impossible to add relation!' => '',
+        'Impossible to add relation!' => 'Niet mogelijk de relatie toe te voegen!',
         'Relation doesn\'t exists' => 'Relatie bestaat niet',
         'Relation deleted!' => 'Relatie verwijderd!',
-        'Impossible to delete relation!' => '',
+        'Impossible to delete relation!' => 'Niet mogelijk de relatie te verwijderen!',
         'Certificate %s could not be read!' => 'Certificaat %s kon niet worden gelezen!',
         'Needed Fingerprint' => 'Vingerafdruk is benodigd',
 
         # Perl Module: Kernel/Modules/AdminSalutation.pm
         'Salutation updated!' => '',
-        'Salutation added!' => '',
+        'Salutation added!' => 'Aanhef toegevoegd!',
 
         # Perl Module: Kernel/Modules/AdminSupportDataCollector.pm
-        'File %s could not be read!' => '',
+        'File %s could not be read!' => 'Bestand %skan niet worden gelezen!',
 
         # Perl Module: Kernel/Modules/AdminSysConfig.pm
         'Import not allowed!' => 'Importeren is niet toegestaan!',
@@ -3740,8 +3740,8 @@ sub Data {
         'Was not possible to delete the SystemMaintenance entry: %s!' => 'Het was niet mogelijk om het Systeem Onderhoudsvenster %s te verwijderen!',
 
         # Perl Module: Kernel/Modules/AdminTemplate.pm
-        'Template updated!' => '',
-        'Template added!' => '',
+        'Template updated!' => 'Sjabloon bijgewerkt!',
+        'Template added!' => 'Sjabloon toegevoegd!',
 
         # Perl Module: Kernel/Modules/AdminType.pm
         'Need Type!' => 'Heb Type nodig!',
@@ -3965,7 +3965,7 @@ sub Data {
         'Queue Updated' => '',
         'External Chat' => '',
         'Queue Changed' => '',
-        'Notification Was Sent' => '',
+        'Notification Was Sent' => 'Melding is verstuurd.',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
             'Helaas, je hebt niet voldoende rechten om dit ticket te openen in zijn huidige staat.',
         'Can\'t get for ArticleID %s!' => '',
@@ -4167,9 +4167,9 @@ sub Data {
 
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
-            '',
+            'Niet is staat om het meldingen configuratie bestand te lezen. Zorg ervoor dat het bestand geldig is.',
         'Imported notification has body text with more than 4000 characters.' =>
-            '',
+            'Geïmporteerde melding is een tekst die meer dan 400 karakters bevat.',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '',
@@ -4386,7 +4386,7 @@ sub Data {
         'Process Tickets' => '',
         'Months Between First And Last Ticket' => 'Maanden tussen het eerste en laatste ticket',
         'Tickets Per Month (avg)' => 'Tickets per maand (gemiddeld)',
-        'Open Tickets' => 'Open Tickets',
+        'Open Tickets' => 'Open tickets',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
         'Default SOAP Username And Password' => 'Standaard SOAP gebruikersnaam en wachtwoord',
@@ -4449,7 +4449,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/OpenTickets.pm
         'You should not have more than 8,000 open tickets in your system.' =>
-            'Je zou niet meer dan 8.000 openstaande tickets in je systeem moeten hebben.',
+            'Je zou niet meer dan 8.000 openstaande tickets in uw systeem moeten hebben.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/SearchIndexModule.pm
         'Ticket Search Index Module' => 'Ticket Zoek Indexering Module',
@@ -4538,15 +4538,15 @@ sub Data {
         'SMIME encrypt only' => '',
         'SMIME sign and encrypt' => '',
         'PGP and SMIME not enabled.' => '',
-        'Skip notification delivery' => '',
-        'Send unsigned notification' => '',
-        'Send unencrypted notification' => '',
+        'Skip notification delivery' => 'Sla het afleveren van de melding over',
+        'Send unsigned notification' => 'Stuur een niet-ondertekende melding',
+        'Send unencrypted notification' => 'Stuur een niet-gecodeerde melding',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '',
         'Can`t remove SessionID.' => '',
-        'Logout successful.' => '',
+        'Logout successful.' => 'Afmelden gelukt.',
         'Error: invalid session.' => '',
         'No Permission to use this frontend module!' => '',
 
@@ -4619,28 +4619,28 @@ sub Data {
         'email-notification-int' => 'email-notification-int',
         'Ticket create notification' => 'Melding bij het aanmaken van een ticket',
         'You will receive a notification each time a new ticket is created in one of your "My Queues" or "My Services".' =>
-            '',
+            'U ontvangt een melding telkens wanneer een nieuw ticket wordt aangemaakt in een van uw "Mijn wachtrijen" of "Mijn diensten".',
         'Ticket follow-up notification (unlocked)' => 'Melding bij een nieuwe reactie op een ticket (niet vergrendeld)',
         'You will receive a notification if a customer sends a follow-up to an unlocked ticket which is in your "My Queues" or "My Services".' =>
-            '',
+            'U ontvangt een melding als een klant een reactie stuurt naar een ontgrendeld ticket dat zich in uw "Mijn wachtrijen" of "Mijn diensten" bevindt',
         'Ticket follow-up notification (locked)' => 'Melding bij een nieuwe reactie op een ticket (vergrendeld)',
         'You will receive a notification if a customer sends a follow-up to a locked ticket of which you are the ticket owner or responsible.' =>
-            '',
+            'U ontvangt een melding als een klant een reactie stuurt naar een vergrendeld ticket dat zich in uw "Mijn wachtrijen" of "Mijn diensten" bevindt',
         'You will receive a notification as soon as a ticket owned by you is automatically unlocked.' =>
-            '',
+            'U ontvangt een melding zodra een ticket van u automatisch wordt ontgrendeld.',
         'Ticket owner update notification' => 'Melding bij een nieuwe eigenaar',
         'Ticket responsible update notification' => 'Melding bij een nieuwe verantwoordelijke',
         'Ticket new note notification' => 'Melding bij een nieuwe notitie',
         'Ticket queue update notification' => 'Melding bij het verplaatsen van een ticket',
         'You will receive a notification if a ticket is moved into one of your "My Queues".' =>
-            '',
+            'U ontvangt een melding als een ticket wordt verplaatst naar een van uw "Mijn wachtrijen".',
         'Ticket pending reminder notification (locked)' => 'Melding wanneer een reminder afloopt (vergrendeld)',
         'Ticket pending reminder notification (unlocked)' => 'Melding wanneer een reminder afloopt (niet vergrendeld)',
-        'Ticket escalation notification' => 'Ticket escalatie notificatie',
+        'Ticket escalation notification' => 'Ticket escalatie melding',
         'Ticket escalation warning notification' => 'Ticket escalatie waarschuwing notificatie',
-        'Ticket service update notification' => 'Ticket service update notificatie',
+        'Ticket service update notification' => 'Ticket service update melding',
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
-            '',
+            'U ontvangt een melding als de service van een ticket is gewijzigd in een van uw \'Mijn services\'.',
 
         # SysConfig
         '
@@ -4658,11 +4658,11 @@ Thanks for your help!
 Beste Klant,
 
 Helaas konden we geen geldig ticket nummer vinden
-in jouw onderwerp, dus deze e-mail kan niet worden verwerkt.
+in uw onderwerp, dus deze e-mail kan niet worden verwerkt.
 
 Maak een nieuw ticket aan via het klant portaal.
 
-Bedankt voor je hulp
+Bedankt voor uw belangstelling.
 
 Het Helpdesk Team
 ',
@@ -4802,13 +4802,16 @@ Het Helpdesk Team
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
         'Allows invalid agents to generate individual-related stats.' => '',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
-            '',
+            'Hiermee kunnen beheerders inloggen als andere klanten via het gebruikerspaneel voor klanten.',
         'Allows the administrators to login as other users, via the users administration panel.' =>
             '',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
@@ -4968,13 +4971,13 @@ Het Helpdesk Team
         'Custom RSS Feed' => '',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
-        'Customer Administration' => 'Klantbeheer.',
+        'Customer Administration' => 'Beheer klanten',
         'Customer Information Center Search.' => '',
         'Customer Information Center.' => '',
         'Customer Ticket Print Module.' => '',
         'Customer User <-> Groups' => 'Klanten <-> Groepen',
         'Customer User <-> Services' => 'Klanten <-> Services',
-        'Customer User Administration' => 'Beheren van klanten',
+        'Customer User Administration' => 'Beheer klant gebruikers',
         'Customer Users' => 'Klanten',
         'Customer called us.' => 'Klant heeft gebeld.',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -5076,9 +5079,9 @@ Het Helpdesk Team
             '',
         'Defines all the X-headers that should be scanned.' => '',
         'Defines all the languages that are available to the application. Specify only English names of languages here.' =>
-            '',
+            'Definieert alle talen die beschikbaar zijn voor de toepassing. Geef hier alleen Engelse namen van talen op.',
         'Defines all the languages that are available to the application. Specify only native names of languages here.' =>
-            '',
+            'Definieert alle talen die beschikbaar zijn voor de toepassing. Geef hier alleen de native namen van talen op.',
         'Defines all the parameters for the RefreshTime object in the customer preferences of the customer interface.' =>
             '',
         'Defines all the parameters for the ShownTickets object in the customer preferences of the customer interface.' =>
@@ -5134,11 +5137,11 @@ Het Helpdesk Team
         'Defines if a ticket lock is required to change the customer of a ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '',
         'Defines if agents should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
-            '',
+            'Bepaalt of behandelaars zouden kunnen inloggen als ze geen gedeeld sleutel hebben opgeslagen in hun voorkeuren en daarmee geen gebruik maken van twee stappen authenticatie.',
         'Defines if composed messages have to be spell checked in the agent interface.' =>
             '',
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
-            '',
+            'Bepaalt of klanten zouden kunnen inloggen als ze geen gedeeld sleutel hebben opgeslagen in hun voorkeuren en daarmee geen gebruik maken van twee stappen authenticatie.',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             '',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
@@ -5167,7 +5170,7 @@ Het Helpdesk Team
         'Defines the address of a dedicated DNS server, if necessary, for the "CheckMXRecord" look-ups.' =>
             '',
         'Defines the agent preferences key where the shared secret key is stored.' =>
-            '',
+            'Definieert voor de behandelaar waar de gedeelde sleutel wordt opgeslagen.',
         'Defines the body text for notification mails sent to agents, about new password (after using this link the new password will be sent).' =>
             '',
         'Defines the body text for notification mails sent to agents, with token about new requested password (after using this link the new password will be sent).' =>
@@ -5193,7 +5196,7 @@ Het Helpdesk Team
             '',
         'Defines the connections for http/ftp, via a proxy.' => '',
         'Defines the customer preferences key where the shared secret key is stored.' =>
-            '',
+            'Definieert voor de klanten waar de gedeelde sleutel wordt opgeslagen.',
         'Defines the date input format used in forms (option or input fields).' =>
             '',
         'Defines the default CSS used in rich text editors.' => '',
@@ -5204,7 +5207,7 @@ Het Helpdesk Team
         'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://otrs.github.io/doc/.' =>
             '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
-            '',
+            'Definieert de standaard front-endtaal. Alle mogelijke waarden worden bepaald door de beschikbare taalbestanden op het systeem (zie de volgende instelling).',
         'Defines the default history type in the customer interface.' => '',
         'Defines the default maximum number of X-axis attributes for the time scale.' =>
             '',
@@ -5807,7 +5810,7 @@ Het Helpdesk Team
         'E-Mail Outbound' => '',
         'Edit Customer Companies.' => '',
         'Edit Customer Users.' => '',
-        'Edit customer company' => '',
+        'Edit customer company' => 'Bedrijf aanpassen',
         'Email Addresses' => 'E-mailadressen',
         'Email Outbound' => '',
         'Email sent to "%s".' => 'E-mail verstuurd aan "%s".',
@@ -6088,7 +6091,7 @@ Het Helpdesk Team
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
         'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
-            '',
+            'Als u langere tijd afwezig bent kunt u hier de gebruikers precies laten weten wanneer u afwezig bent.',
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Include tickets of subqueues per default when selecting a queue.' =>
@@ -6103,7 +6106,7 @@ Het Helpdesk Team
         'Input' => '',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '',
-        'Interface language' => 'Taal',
+        'Interface language' => 'Interface taal',
         'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
             '',
         'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
@@ -6126,8 +6129,8 @@ Het Helpdesk Team
         'Left' => '',
         'Link Object' => 'Koppel object',
         'Link Object.' => '',
-        'Link agents to groups.' => 'Koppel gebruikers aan groepen.',
-        'Link agents to roles.' => 'Koppel gebruikers aan rollen.',
+        'Link agents to groups.' => 'Koppel behandelaars aan groepen.',
+        'Link agents to roles.' => 'Koppel behandelaars aan rollen.',
         'Link attachments to templates.' => 'Koppel bijlagen aan sjablonen.',
         'Link customer user to groups.' => 'Koppel klanten aan groepen.',
         'Link customer user to services.' => 'Koppel klanten aan services.',
@@ -6153,7 +6156,7 @@ Het Helpdesk Team
         'List of all queue events to be displayed in the GUI.' => '',
         'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
-            '',
+            'Lijst van standaard sjablonen die automatisch gekoppeld worden bij het aanmaken van een wachtrij.',
         'List of responsive CSS files to always be loaded for the agent interface.' =>
             '',
         'List of responsive CSS files to always be loaded for the customer interface.' =>
@@ -6177,10 +6180,10 @@ Het Helpdesk Team
         'Malay' => '',
         'Manage OTRS Group cloud services.' => '',
         'Manage PGP keys for email encryption.' => 'Beheer PGP-sleutels voor encryptie van e-mail.',
-        'Manage POP3 or IMAP accounts to fetch email from.' => 'Beheer POP3 of IMAP accounts om e-mail van op te halen en om te zetten in tickets.',
+        'Manage POP3 or IMAP accounts to fetch email from.' => 'Beheer POP3 of IMAP accounts om e-mail op te halen en om te zetten naar tickets.',
         'Manage S/MIME certificates for email encryption.' => 'Beheer S/MIME certificaten voor encryptie van e-mail.',
         'Manage existing sessions.' => 'Beheer sessies van klanten en gebruikers.',
-        'Manage support data.' => '',
+        'Manage support data.' => 'Beheer support gegevens.',
         'Manage system registration.' => 'Beheer systeemregistratie.',
         'Manage tasks triggered by event or time based execution.' => 'Beheer van taken op basis van events of tijdschema\'s',
         'Mark this ticket as junk!' => '',
@@ -6282,8 +6285,8 @@ Het Helpdesk Team
         'OTRS can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
         'Old: "%s" New: "%s"' => 'Oud: "%s" Nieuw: "%s"',
-        'Open tickets (customer user)' => '',
-        'Open tickets (customer)' => '',
+        'Open tickets (customer user)' => 'Open tickets (klant gebruiker)',
+        'Open tickets (customer)' => 'Open tickets (klant)',
         'Option' => '',
         'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
             '',
@@ -6300,7 +6303,7 @@ Het Helpdesk Team
         'Overview Refresh Time' => 'Verversingsinterval overzichten',
         'Overview of all escalated tickets.' => '',
         'Overview of all open Tickets.' => 'Overzicht van alle openstaande tickets',
-        'Overview of all open tickets.' => '',
+        'Overview of all open tickets.' => 'Overzicht van alle openstaande tickets.',
         'Overview of customer tickets.' => '',
         'PGP Key Management' => '',
         'Package event module file a scheduler task for update registration.' =>
@@ -6393,8 +6396,8 @@ Het Helpdesk Team
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',
-        'Reports' => '',
-        'Reports (OTRS Business Solution™)' => '',
+        'Reports' => 'Rapporten',
+        'Reports (OTRS Business Solution™)' => 'Rapporten (OTRS Business Solution™)',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
             '',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
@@ -6452,7 +6455,7 @@ Het Helpdesk Team
         'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
-        'Schedule a maintenance period.' => '',
+        'Schedule a maintenance period.' => 'Plan een nieuw systeem onderhoudstijdsvak.',
         'Screen' => '',
         'Search Customer' => 'Klanten zoeken',
         'Search Ticket.' => '',
@@ -6466,7 +6469,7 @@ Het Helpdesk Team
             '',
         'Select how many tickets should be shown in overviews by default.' =>
             '',
-        'Select the main interface language.' => '',
+        'Select the main interface language.' => 'Selecteer uw standaard taal.',
         'Select your default spelling dictionary.' => '',
         'Select your preferred layout for OTRS.' => '',
         'Select your preferred theme for OTRS.' => '',
@@ -6494,7 +6497,7 @@ Het Helpdesk Team
         'Service view' => '',
         'ServiceView' => '',
         'Set a new password by filling in your current password and a new one.' =>
-            '',
+            'oer uw huidige wachtwoord ter verificatie om uw nieuwe wachtwoord vast te kunnen leggen.',
         'Set sender email addresses for this system.' => 'Instellen van e-mailadressen gebruikt voor dit systeem.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
@@ -6713,7 +6716,7 @@ Het Helpdesk Team
             '',
         'Sets the user time zone per user based on java script / browser time zone offset feature at login time.' =>
             '',
-        'Shared Secret' => '',
+        'Shared Secret' => 'Gedeelde sleutel',
         'Should the cache data be held in memory?' => '',
         'Should the cache data be stored in the selected cache backend?' =>
             '',
@@ -6724,7 +6727,7 @@ Het Helpdesk Team
         'Show queues even when only locked tickets are in.' => '',
         'Show the current owner in the customer interface.' => '',
         'Show the current queue in the customer interface.' => '',
-        'Show the history for this ticket' => '',
+        'Show the history for this ticket' => 'Toon de geschiedenis van dit ticket',
         'Shows a count of icons in the ticket zoom, if the article has attachments.' =>
             '',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -6827,7 +6830,7 @@ Het Helpdesk Team
         'Shows all both ro and rw queues in the queue view.' => '',
         'Shows all both ro and rw tickets in the service view.' => '',
         'Shows all open tickets (even if they are locked) in the escalation view of the agent interface.' =>
-            '',
+            'Toont alle geopende tickets (zelfs als deze zijn vergrendeld) in de escalatieweergave van de behandelaar.',
         'Shows all open tickets (even if they are locked) in the status view of the agent interface.' =>
             '',
         'Shows all the articles of the ticket (expanded) in the zoom view.' =>
@@ -7143,7 +7146,7 @@ Het Helpdesk Team
         'View performance benchmark results.' => 'Bekijk resultaten van de performance log.',
         'Watch this ticket' => 'Volg dit ticket',
         'Watched Tickets.' => '',
-        'We are performing scheduled maintenance.' => 'We hebben op dit moment gelpand onderhoud.',
+        'We are performing scheduled maintenance.' => 'Er vindt op dit moment gepland onderhoud plaats.',
         'We are performing scheduled maintenance. Login is temporarily not available.' =>
             'Er vindt op dit moment gepland onderhoud plaats. Inloggen is momenteel niet mogelijk.',
         'We are performing scheduled maintenance. We should be back online shortly.' =>

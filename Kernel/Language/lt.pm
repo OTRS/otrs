@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.284598437812938;
+    $Self->{Completeness}        = 0.287687687687688;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -535,7 +535,7 @@ sub Data {
         'Service' => 'Paslauga',
         'Services' => 'Paslaugos',
         'State' => 'Būsena',
-        'States' => 'Būsenos',
+        'States' => 'Statusas',
         'Status' => 'Statusas',
         'Statuses' => 'Statusai',
         'Ticket Type' => 'Trikties tipas',
@@ -777,21 +777,21 @@ sub Data {
         'Sat' => 'Š',
 
         # Template: AdminACL
-        'ACL Management' => '',
-        'Filter for ACLs' => '',
+        'ACL Management' => 'ACL valdymas',
+        'Filter for ACLs' => 'Filtruoti ACL\'us',
         'Filter' => 'Filtras',
         'ACL Name' => '',
         'Actions' => 'Veiksmai',
-        'Create New ACL' => '',
-        'Deploy ACLs' => '',
-        'Export ACLs' => '',
+        'Create New ACL' => 'Sukurti naują ACL',
+        'Deploy ACLs' => 'Įdiegti ACL\'us',
+        'Export ACLs' => 'Eksportuoti ACL\'us',
         'Configuration import' => '',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             '',
         'This field is required.' => 'Šis laukelis yra būtinas.',
-        'Overwrite existing ACLs?' => '',
-        'Upload ACL configuration' => '',
-        'Import ACL configuration(s)' => '',
+        'Overwrite existing ACLs?' => 'Perrašyti esamas ACL taisykles?',
+        'Upload ACL configuration' => 'Įkelti ACL konfiguraciją',
+        'Import ACL configuration(s)' => 'Importuoti ACL konfiguraciją(-as)',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
             '',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
@@ -799,16 +799,16 @@ sub Data {
         'ACLs' => '',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
-        'ACL name' => '',
-        'Validity' => '',
+        'ACL name' => 'ACL pavadinimas',
+        'Validity' => 'Galiojimas',
         'Copy' => '',
         'No data found.' => 'Nerasta duomenų.',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => '',
+        'Edit ACL %s' => 'Redaguoti ACL',
         'Go to overview' => 'Eiti į peržiūrą',
-        'Delete ACL' => '',
-        'Delete Invalid ACL' => '',
+        'Delete ACL' => 'Ištrinti ACL',
+        'Delete Invalid ACL' => 'Ištrinti negaliojantį ACL',
         'Match settings' => '',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
@@ -943,7 +943,7 @@ sub Data {
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Šias grupes galite valdyti per konfigūracijos nustatymą "CustomerGroupAlwaysGroups".',
         'Filter for Groups' => 'Filtruoti grupes',
-        'Just start typing to filter...' => '',
+        'Just start typing to filter...' => 'Filtruoti, pradėkite rinkti tekstą...',
         'Select the customer:group permissions.' => 'Pasirinkite klientas:grupė leidimus',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Jeigu nėra nieko pasirinkta, tai šioje grupėje nėra nustatytų leidimų (klientui triktys bus nepasiekiamos).',
@@ -1541,7 +1541,7 @@ sub Data {
         'Ticket Notification Management' => '',
         'Add notification' => 'Pridėti pranešimą',
         'Export Notifications' => '',
-        'Configuration Import' => '',
+        'Configuration Import' => 'Konfigūracijos importas',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
         'Overwrite existing notifications?' => '',
@@ -2445,7 +2445,7 @@ sub Data {
             '',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
             '',
-        'Start date' => '',
+        'Start date' => 'Pradžia',
         'Stop date' => '',
         'Delete System Maintenance' => '',
         'Do you really want to delete this scheduled system maintenance?' =>
@@ -4785,6 +4785,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>

@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.500100140196275;
+    $Self->{Completeness}        = 0.4998998998999;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -537,7 +537,7 @@ sub Data {
         'Service' => 'Tjänst',
         'Services' => 'Tjänster',
         'State' => 'Status',
-        'States' => 'Statusar',
+        'States' => 'Status',
         'Status' => 'Status',
         'Statuses' => 'Statusar',
         'Ticket Type' => 'Ärendetyp',
@@ -3951,7 +3951,7 @@ sub Data {
         'Incoming Phone Call' => 'Inkommande telefonsamtal',
         'System Request.' => '',
         'Incoming Follow-Up' => 'Inkommande uppföljning',
-        'Automatic Reply Sent' => 'Automatiskt svar skickades',
+        'Automatic Reply Sent' => 'Automatiskt svar skickat',
         'Automatic Reject Sent' => '',
         'Escalation Solution Time In Effect' => '',
         'Escalation Solution Time Stopped' => '',
@@ -4787,6 +4787,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>

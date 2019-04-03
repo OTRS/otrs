@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.556979771680353;
+    $Self->{Completeness}        = 0.55975975975976;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -544,7 +544,7 @@ sub Data {
         'Service' => 'Tjeneste',
         'Services' => 'Tjenester',
         'State' => 'Status',
-        'States' => 'Statuser',
+        'States' => 'Status',
         'Status' => 'Status',
         'Statuses' => 'Statuser',
         'Ticket Type' => 'Sakstype',
@@ -671,7 +671,7 @@ sub Data {
         'Address %s replaced with registered customer address.' => 'Adressen %s er byttet ut med adressen som er registrert på kunde',
         'Customer user automatically added in Cc.' => 'Kundebrukeren ble automatisk lagt til Kopi-feltet',
         'Overview of all open Tickets' => 'Oversikt over alle tilgjengelige saker',
-        'Locked Tickets' => 'Mine private saker',
+        'Locked Tickets' => 'Mine personlige saker',
         'My Locked Tickets' => 'Mine låste saker',
         'My Watched Tickets' => 'Mine overvåkede saker',
         'My Responsible Tickets' => 'Saker jeg er ansvarlig for',
@@ -796,41 +796,41 @@ sub Data {
         'Export ACLs' => 'Eksporter ACLer',
         'Configuration import' => 'Import av konfigurasjon',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            '',
+            'Her kan du laste opp en konfigurasjonsfil for å importere ACLer til systemet ditt. Filen må være på .yml format som eksportert av ACL editor modulen.',
         'This field is required.' => 'Dette feltet er obligatorisk.',
         'Overwrite existing ACLs?' => 'Overskriv eksisterende ACLer?',
         'Upload ACL configuration' => 'Last opp ACL konfigurasjon',
         'Import ACL configuration(s)' => 'Importer ACL-konfigurasjon(er)',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
-            '',
+            'For å opprette en ny ACL kan du enten importere ACLer som ble eksportert fra et annet system eller opprettet en helt ny ACL.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
-            '',
+            'Endringer i ACLene her påvirker bare systemets oppførsel dersom du distribuerer ACL-dataene etterpå. Ved å distribuere ACL-dataene, vil de nye endringene bli skrevet til konfigurasjonen.',
         'ACLs' => 'ACLer',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
-            '',
+            'Obs! Denne tabellen representerer eksekveringssekvensen på ACL\'ene. Dersom du trenger å endre på sekvensen på hvilke ACL\'er som utføres, vær vennlig å endre navnet på de berørte ACL\'ene.',
         'ACL name' => 'ACL navn',
         'Validity' => 'Gyldighet',
         'Copy' => 'Kopier',
         'No data found.' => 'Ingen data funnet.',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => 'Endre ACL %',
+        'Edit ACL %s' => 'Endre ACL %s',
         'Go to overview' => 'Gå til oversikt',
         'Delete ACL' => 'Slett ACL',
         'Delete Invalid ACL' => 'Slett ugyldig ACL',
         'Match settings' => '',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
-            '',
+            'Opprett matchende kriterier for denne ACL\'en. Benytt \'Egenskaper\' for å matche gjeldende skjerm eller \'EgenskapDatabase\' for å matche attributter i databasen for gjeldende sak.',
         'Change settings' => 'Endre innstillinger',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            '',
-        'Check the official' => '',
+            'Opprett de endringene du ønsker å utføre når kriteriene matcher. Merk at \'Muligens\' er en hviteliste, mens \'MuligensIkke\' er en svarteliste.',
+        'Check the official' => 'Sjekk den offisielle',
         'documentation' => 'dokumentasjon',
         'Show or hide the content' => 'Vis eller skjul innholdet',
         'Edit ACL information' => 'Endre ACL informasjon',
         'Stop after match' => 'Stopp ved treff',
         'Edit ACL structure' => 'Endre ACL struktur',
-        'Save ACL' => '',
+        'Save ACL' => 'Lagre ACL',
         'Save' => 'Lagre',
         'or' => 'eller',
         'Save and finish' => 'Lagre og fullfør',
@@ -843,7 +843,7 @@ sub Data {
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
-            '',
+            'Opprett en ny ACL ved å sende inn skjemaet. Etter at ACL\'en er opprettet vil du kunne legge til konfigurasjonselementer i \'edit\' modus.',
 
         # Template: AdminAttachment
         'Attachment Management' => 'Administrasjon: Vedlegg',
@@ -999,7 +999,7 @@ sub Data {
         'Deleting the field and its data. This may take a while...' => '',
 
         # Template: AdminDynamicFieldCheckbox
-        'Dynamic Fields' => 'Dynamiske felter',
+        'Dynamic Fields' => 'Dynamiske felte',
         'Field' => 'Felt',
         'Go back to overview' => 'Gå tilbake til oversikten',
         'General' => 'Generelt',
@@ -1047,7 +1047,7 @@ sub Data {
         # Template: AdminDynamicFieldDropdown
         'Possible values' => 'Tilgjengelige verdier',
         'Key' => 'Nøkkel',
-        'Value' => 'Innhold',
+        'Value' => 'Verdi',
         'Remove value' => 'Fjern verdi',
         'Add value' => 'Legg til verdi',
         'Add Value' => 'Legg til verdi',
@@ -1549,11 +1549,11 @@ sub Data {
         # Template: AdminNotificationEvent
         'Ticket Notification Management' => '',
         'Add notification' => 'Legg til varsling',
-        'Export Notifications' => '',
-        'Configuration Import' => '',
+        'Export Notifications' => 'Eksporter varslinger',
+        'Configuration Import' => 'Import av konfigurasjon',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
-        'Overwrite existing notifications?' => '',
+        'Overwrite existing notifications?' => 'Overskriv eksisterende varslinger?',
         'Upload Notification configuration' => '',
         'Import Notification configuration' => '',
         'Delete this notification' => 'Slett denne varslingen',
@@ -1590,7 +1590,7 @@ sub Data {
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
             '',
         'Enable this notification method' => '',
-        'Transport' => '',
+        'Transport' => 'Transport',
         'At least one method is needed per notification.' => '',
         'Active by default in agent preferences' => '',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
@@ -1602,7 +1602,7 @@ sub Data {
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
             '',
         'Remove Notification Language' => '',
-        'Message body' => '',
+        'Message body' => 'Meldingstekst',
         'This field is required and must have less than 4000 characters.' =>
             '',
         'Add new notification language' => '',
@@ -2619,7 +2619,7 @@ sub Data {
             '',
 
         # Template: AgentDashboardTicketGeneric
-        'My locked tickets' => 'Mine låste saker',
+        'My locked tickets' => 'Mine saker',
         'My watched tickets' => 'Mine overvåkede saker',
         'My responsibilities' => 'Mine ansvar',
         'Tickets in My Queues' => 'Saker i Min Kø',
@@ -4794,6 +4794,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Tillater å bruke medium saksoversikt (KundeInfo => 1 - viser også kundeinformasjon).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -4857,7 +4860,7 @@ Thanks for your help!
         'Changed priority from "%s" (%s) to "%s" (%s).' => 'Endret prioritet fra «%s» (%s) til «%s» (%s).',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             'Endrer eier på saker til "alle" (brukbart for ASP). Normalt vil kun saksbehandlere med Les/skriv-tilgang til køen bli vist.',
-        'Checkbox' => 'Avkryssingsfelt',
+        'Checkbox' => 'Avkryssningsfelt',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
@@ -5922,7 +5925,7 @@ Thanks for your help!
             '',
         'Frontend module registration for the agent interface.' => 'Registrering av websidemodul i agentdelen.',
         'Frontend module registration for the customer interface.' => '',
-        'Frontend module registration for the public interface.' => '',
+        'Frontend module registration for the public interface.' => 'Modulregistrering for den offentlige delen',
         'Frontend theme' => 'Nettsidetema',
         'Frontend theme.' => '',
         'Full value' => '',

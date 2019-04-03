@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.408972561586221;
+    $Self->{Completeness}        = 0.408808808808809;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -537,7 +537,7 @@ sub Data {
         'Service' => 'सेवा',
         'Services' => 'सेवाएँ',
         'State' => 'अवस्था',
-        'States' => 'अवस्थाएँ',
+        'States' => 'स्तर',
         'Status' => 'स्तर',
         'Statuses' => 'स्तर',
         'Ticket Type' => 'टिकट के प्रकार',
@@ -4787,6 +4787,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'एक मध्यम प्रारूप टिकट अवलोकन होने की अनुमति देता है(ग्राहक जानकारी =>1 - यह भी ग्राहकों की जानकारी दिखाता है)।',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>

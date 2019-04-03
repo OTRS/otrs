@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.35349489284999;
+    $Self->{Completeness}        = 0.354354354354354;
 
     # csv separator
     $Self->{Separator} = '';
@@ -540,7 +540,7 @@ sub Data {
         'Service' => 'שירות',
         'Services' => 'שירותים',
         'State' => 'מצב',
-        'States' => 'מצבים',
+        'States' => 'סטטוס',
         'Status' => 'סטטוס',
         'Statuses' => 'סטטוסים',
         'Ticket Type' => 'סוג פניה',
@@ -792,7 +792,8 @@ sub Data {
         'Export ACLs' => 'ייצא ACLs',
         'Configuration import' => 'הגדרות ייבוא',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            '',
+            'כאן אפשר להעלות את קובץ ההגדות מ- ACLs למערכת.
+הקבצים צריכים להיות בפורמט yml. אשר ייצאו דרך מודול  ACL editor.',
         'This field is required.' => 'זהו שדה נדרש.',
         'Overwrite existing ACLs?' => 'לדרוס ACL קיימים?',
         'Upload ACL configuration' => 'העלה הגדרות ACL',
@@ -804,7 +805,7 @@ sub Data {
         'ACLs' => 'ACLs',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
-        'ACL name' => '',
+        'ACL name' => 'שם ACL',
         'Validity' => 'תקפות',
         'Copy' => 'העתק',
         'No data found.' => 'לא נמצאו נתונים.',
@@ -826,7 +827,7 @@ sub Data {
         'Edit ACL information' => 'ערוך מידע ACL',
         'Stop after match' => 'עצור לאחר ההתאמה',
         'Edit ACL structure' => 'ערוך מבנה ACL',
-        'Save ACL' => '',
+        'Save ACL' => 'שמור ACL',
         'Save' => 'שמור',
         'or' => 'או',
         'Save and finish' => 'שמור וסיים',
@@ -948,7 +949,7 @@ sub Data {
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'תוכלו לנהל קבוצות אלו דרך הגדרות "CustomerGroupAlwaysGroups".',
         'Filter for Groups' => 'סנן לפי קבוצות',
-        'Just start typing to filter...' => '',
+        'Just start typing to filter...' => 'בשביל סינון, התחיל לכתוב...',
         'Select the customer:group permissions.' => 'בחרו את הלקוח:הרשאות קבוצה',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'אם דבר לא נבחר, אז אין הרשאות לקבוצה זו (פניות לא יהיו זמינות ללקוח).',
@@ -1546,7 +1547,7 @@ sub Data {
         'Ticket Notification Management' => '',
         'Add notification' => 'הוסף התראה',
         'Export Notifications' => '',
-        'Configuration Import' => '',
+        'Configuration Import' => 'הגדרות ייבוא',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
         'Overwrite existing notifications?' => '',
@@ -4790,6 +4791,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>

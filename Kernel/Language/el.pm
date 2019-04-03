@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.226917684758662;
+    $Self->{Completeness}        = 0.228428428428428;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -537,7 +537,7 @@ sub Data {
         'Service' => 'Υπηρεσία',
         'Services' => 'Υπηρεσίες',
         'State' => 'Κατάσταση',
-        'States' => 'Καταστάσεις',
+        'States' => 'Κατάσταση',
         'Status' => 'Κατάσταση',
         'Statuses' => 'Καταστάσεις',
         'Ticket Type' => 'Τύπος Δελτίου',
@@ -811,19 +811,19 @@ sub Data {
         'Go to overview' => 'Μετάβαση στην επισκόπηση',
         'Delete ACL' => 'Διαγραφή ACL',
         'Delete Invalid ACL' => 'Διαγραφή μη έγκυρων ACL',
-        'Match settings' => '',
+        'Match settings' => 'Ταίριασμα ρυθμίσεων',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
-        'Change settings' => '',
+        'Change settings' => 'Αλλαγή ρυθμίσεων',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
-        'Check the official' => '',
-        'documentation' => '',
+        'Check the official' => 'Ελέγξτε το επίσημο',
+        'documentation' => 'τεκμηρίωση',
         'Show or hide the content' => 'Εμφάνιση ή απόκρυψη περιεχομένου',
         'Edit ACL information' => '',
-        'Stop after match' => '',
+        'Stop after match' => 'Σταμάτα μετά το ταίριασμα',
         'Edit ACL structure' => '',
-        'Save ACL' => '',
+        'Save ACL' => 'Αποθήκευση ACL',
         'Save' => 'Αποθήκευση',
         'or' => 'ή',
         'Save and finish' => 'Αποθήκευση και τερματισμός',
@@ -945,7 +945,7 @@ sub Data {
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             '',
         'Filter for Groups' => 'Φίλτρο Ομάδων',
-        'Just start typing to filter...' => '',
+        'Just start typing to filter...' => 'Απλά αρχίστε να πληκτρολογείτε για φιλτράρισμα..',
         'Select the customer:group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             '',
@@ -1546,7 +1546,7 @@ sub Data {
         'Ticket Notification Management' => '',
         'Add notification' => '',
         'Export Notifications' => '',
-        'Configuration Import' => '',
+        'Configuration Import' => 'Εισαγωγή αρχείου παραμετροποίησης',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
         'Overwrite existing notifications?' => '',
@@ -4793,6 +4793,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>

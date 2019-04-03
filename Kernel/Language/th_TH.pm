@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.819347085920288;
+    $Self->{Completeness}        = 0.819419419419419;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -4800,6 +4800,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'อนุญาตให้มีรูปแบบภาพรวมของตั๋วขนาดกลาง (customerinfo => 1 - แสดงข้อมูลของลูกค้าอีกด้วย)',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -5933,7 +5936,7 @@ Thanks for your help!
             'การลงทะเบียนโมดูล Frontend (ปิดการใช้งานหน้าจอของกระบวนการของตั๋วหน้าจอหากไม่สามารถใช้กระบวนการได้)',
         'Frontend module registration for the agent interface.' => 'การลงทะเบียนโมดูล Frontend สำหรับอินเตอร์เฟซของเอเย่นต์',
         'Frontend module registration for the customer interface.' => 'การลงทะเบียนโมดูล Frontend สำหรับอินเตอร์เฟซลูกค้า',
-        'Frontend module registration for the public interface.' => '',
+        'Frontend module registration for the public interface.' => 'การลงทะเบียนโมดูล Frontend สำหรับอินเตอร์เฟซสาธารณะ',
         'Frontend theme' => 'ธีม Frontend',
         'Frontend theme.' => '',
         'Full value' => 'ค่าเต็ม',
@@ -7061,7 +7064,7 @@ Thanks for your help!
             '',
         'This will allow the system to send text messages via SMS.' => '',
         'Ticket Close.' => 'ตั๋วปิด',
-        'Ticket Compose Bounce Email.' => '',
+        'Ticket Compose Bounce Email.' => '__',
         'Ticket Compose email Answer.' => '',
         'Ticket Customer.' => 'ตั๋วลูกค้า',
         'Ticket Forward Email.' => '',

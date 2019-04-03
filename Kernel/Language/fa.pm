@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.967955137192069;
+    $Self->{Completeness}        = 0.967567567567568;
 
     # csv separator
     $Self->{Separator} = '';
@@ -540,7 +540,7 @@ sub Data {
         'Service' => 'خدمات',
         'Services' => 'خدمات',
         'State' => 'وضعیت',
-        'States' => 'وضعیت‌ها',
+        'States' => 'وضعیت',
         'Status' => 'وضعیت',
         'Statuses' => 'وضعیت‌ها',
         'Ticket Type' => 'نوع درخواست',
@@ -4801,6 +4801,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'اجازه می دهد تا شرایط جستجو شده در جستجوی بلیط از رابط عامل عمومی است. با این ویژگی شما می توانید به عنوان مثال عنوان بلیط با این نوع از شرایط مانند \ جستجو "(* key1 * && * key2 *) " یا \ "(* key1 * || * key2 *) ".',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'اجازه می دهد تا داشتن یک دید کلی قطع متوسط ​​بلیط (CustomerInfo => 1 - نشان می دهد نیز اطلاعات مربوط به مشتری).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>

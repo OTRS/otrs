@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.515722010815141;
+    $Self->{Completeness}        = 0.515515515515516;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -542,7 +542,7 @@ sub Data {
         'Service' => 'Service ',
         'Services' => 'Services',
         'State' => 'État ',
-        'States' => 'États',
+        'States' => 'État ',
         'Status' => 'État ',
         'Statuses' => 'États',
         'Ticket Type' => 'Type de demande',
@@ -4792,6 +4792,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Permet la visualisation de la demande en format « M » (moyen); les « Renseignements du client » (CustomerInfo => 1) présentent aussi les renseignements relatifs au client.',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>

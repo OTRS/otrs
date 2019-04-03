@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.264570398557981;
+    $Self->{Completeness}        = 0.264664664664665;
 
     # csv separator
     $Self->{Separator} = '';
@@ -535,7 +535,7 @@ sub Data {
         'Service' => 'Teenus',
         'Services' => 'Teenused',
         'State' => 'Olek',
-        'States' => 'Olek',
+        'States' => 'Seisund',
         'Status' => 'Seisund',
         'Statuses' => 'Seisundid',
         'Ticket Type' => 'Intsidendi tüüp',
@@ -861,7 +861,7 @@ sub Data {
         'To get the article attribute' => '',
         ' e. g.' => '',
         'Options of the current customer user data' => '',
-        'Ticket owner options' => '',
+        'Ticket owner options' => 'Pileti omaniku seaded',
         'Ticket responsible options' => '',
         'Options of the current user who requested this action' => '',
         'Options of the ticket data' => '',
@@ -4785,6 +4785,9 @@ Thanks for your help!
             '',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             '',
+        'Allows generic agent to execute custom command line scripts.' =>
+            '',
+        'Allows generic agent to execute custom modules.' => '',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
