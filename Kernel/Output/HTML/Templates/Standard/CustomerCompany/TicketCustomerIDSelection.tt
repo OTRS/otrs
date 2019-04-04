@@ -16,9 +16,9 @@
     <button type="button" id="SelectionCustomerID" class="CallForAction Inline[% IF Readonly || !Data.SelectedCustomerUser %] Disabled[% END %]" title="[% IF Readonly %][% Translate("The customer ID is not changeable, no other customer ID can be assigned to this ticket.") | html %][% ELSIF !Data.SelectedCustomerUser %][% Translate("First select a customer user, then you can select a customer ID to assign to this ticket.") | html %][% ELSE %][% Translate("Select a customer ID to assign to this ticket.") | html %][% END %]" [% IF Readonly || !Data.SelectedCustomerUser %] disabled="disabled"[% END %]>
         <span><i class="fa fa-building-o"></i> [% Translate("Select") | html %]</span>
     </button>
-[% RenderBlockStart("rw:Customer:DescriptionShort") %]
+[% IF Data.DescriptionShort %]
     <div class="FieldExplanation">[% Data.DescriptionShort %]</div>
-[% RenderBlockEnd("rw:Customer:DescriptionShort") %]
+[% END %]
 [% IF !Readonly %]
     <div id="TemplateSelectionCustomerID" class="Hidden">
         <div id="AgentTicketCustomerIDSelection" class="InnerContent WidgetSettingsForm">

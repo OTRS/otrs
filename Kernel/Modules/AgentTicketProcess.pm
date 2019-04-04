@@ -2981,6 +2981,10 @@ sub _RenderCustomer {
         Value => $Param{AJAXUpdatableFields},
     );
 
+    if ( $Param{DescriptionShort} ) {
+        $Data{DescriptionShort} = $Param{DescriptionShort};
+    }
+
     $LayoutObject->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Customer',
         Data => \%Data,
@@ -2991,15 +2995,6 @@ sub _RenderCustomer {
         $LayoutObject->Block(
             Name => 'LabelSpanCustomerUser',
             Data => {},
-        );
-    }
-
-    if ( $Param{DescriptionShort} ) {
-        $LayoutObject->Block(
-            Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Customer:DescriptionShort',
-            Data => {
-                DescriptionShort => $Param{DescriptionShort},
-            },
         );
     }
 
