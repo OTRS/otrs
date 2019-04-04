@@ -36,11 +36,16 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerPreferences");
 
         # change test user language preference to Deutsch
-        $Selenium->execute_script("\$('#UserLanguage').val('de').trigger('redraw.InputField').trigger('change');");
+        my $Language = 'de';
+        $Selenium->execute_script(
+            "\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#UserLanguageUpdate", 'css' )->VerifiedClick();
 
         # check for update preference message on screen
-        my $UpdateMessage = "Benutzereinstellungen erfolgreich aktualisiert!";
+        my $LanguageObject = Kernel::Language->new(
+            UserLanguage => $Language,
+        );
+        my $UpdateMessage = $LanguageObject->Translate('Preferences updated successfully!');
         $Self->True(
             index( $Selenium->get_page_source(), $UpdateMessage ) > -1,
             'Customer preference language - updated'
