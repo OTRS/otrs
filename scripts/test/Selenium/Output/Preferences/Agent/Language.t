@@ -56,7 +56,7 @@ $Selenium->RunTest(
         my $LanguageObject = Kernel::Language->new(
             UserLanguage => $Language,
         );
-        my $UpdateMessage = $LanguageObject->Translate('Einstellungen erfolgreich aktualisiert!');
+        my $UpdateMessage = $LanguageObject->Translate('Preferences updated successfully!');
         $Self->True(
             index( $Selenium->get_page_source(), $UpdateMessage ) > -1,
             'Agent preference language - updated'
