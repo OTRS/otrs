@@ -39,8 +39,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # change test user language preference to German
+        my $Language = 'de';
         $Selenium->execute_script(
-            "\$('#UserLanguage').val('de').trigger('redraw.InputField').trigger('change');"
+            "\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');"
         );
 
         # TODO; It should be improved. There is a problem with redraw InputField
@@ -52,7 +53,10 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # check for update preference message on screen
-        my $UpdateMessage = "Benutzereinstellungen erfolgreich aktualisiert!";
+        my $LanguageObject = Kernel::Language->new(
+            UserLanguage => $Language,
+        );
+        my $UpdateMessage = $LanguageObject->Translate('Einstellungen erfolgreich aktualisiert!');
         $Self->True(
             index( $Selenium->get_page_source(), $UpdateMessage ) > -1,
             'Agent preference language - updated'
