@@ -2,7 +2,6 @@
  - 2019-04-03 Synchronized translation files.
  - 2019-04-02 Improved default configurations and tests.
 
-
 #5.0.34 2019-01-18
  - 2019-01-08 Synchronized translation files.
  - 2018-12-18 Fixed bug#[14114](https://bugs.otrs.org/show_bug.cgi?id=14114) - Dynamic field of type database cannot be saved via a web service.
