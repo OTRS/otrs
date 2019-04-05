@@ -1,6 +1,8 @@
 #5.0.36 ????-??-??
 
 #5.0.35 2019-04-26
+ - 2019-04-03 Synchronized translation files.
+ - 2019-04-02 Improved default configurations and tests.
 
 #5.0.34 2019-01-18
  - 2019-01-08 Synchronized translation files.
